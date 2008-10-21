@@ -45,7 +45,7 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
 
     // overridden
     _isSelectable : function(item) {
-      return item.isEnabled() && item.getLayoutParent() === this._widget.getChildrenContainer();
+      return item.isEnabled() && item.getLayoutParent() === this._getWidget().getChildrenContainer();
     },
 
 
@@ -60,7 +60,7 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
 
     // overridden
     _getDimension : function() {
-      return this._widget.getPaneSize();
+      return this._getWidget().getPaneSize();
     },
 
 
@@ -76,7 +76,7 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
     // overridden
     _getScroll : function()
     {
-      var widget = this._widget;
+      var widget = this._getWidget();
 
       return {
         left : widget.getScrollX(),
@@ -88,7 +88,7 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
     // overridden
     _scrollBy : function(xoff, yoff)
     {
-      var widget = this._widget;
+      var widget = this._getWidget();
 
       widget.scrollByX(xoff);
       widget.scrollByY(yoff);
@@ -117,7 +117,7 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
         throw new Error("Invalid lead item: " + lead);
       }
 
-      var widget = this._widget;
+      var widget = this._getWidget();
       var scrollTop = widget.getScrollY();
       var innerHeight = widget.getInnerSize().height;
       var top, bottom, found;

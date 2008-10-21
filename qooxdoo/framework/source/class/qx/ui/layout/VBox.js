@@ -203,6 +203,7 @@ qx.Class.define("qx.ui.layout.VBox",
     __flexs : null,
     __enableFlex : null,
     __children : null,
+    _invalidChildrenCache : null,
 
 
     /*

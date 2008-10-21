@@ -111,12 +111,9 @@ qx.Class.define("qx.io.remote.Rpc",
       this.setServiceName(serviceName);
     }
 
-    this._previousServerSuffix = null;
-    this._currentServerSuffix = null;
-
     if (qx.core.ServerSettings)
     {
-      this._currentServerSuffix = qx.core.ServerSettings.serverPathSuffix;
+      this.__currentServerSuffix = qx.core.ServerSettings.serverPathSuffix;
     }
   },
 
@@ -336,6 +333,10 @@ qx.Class.define("qx.io.remote.Rpc",
 
   members :
   {
+
+    __previousServerSuffix : null,
+    __currentServerSuffix : null,
+
     /*
     ---------------------------------------------------------------------------
       CORE METHODS
@@ -542,10 +543,10 @@ qx.Class.define("qx.io.remote.Rpc",
             result = eval("(" + result + ")");
             var newSuffix = qx.core.ServerSettings.serverPathSuffix;
 
-            if (self._currentServerSuffix != newSuffix)
+            if (self.__currentServerSuffix != newSuffix)
             {
-              self._previousServerSuffix = self._currentServerSuffix;
-              self._currentServerSuffix = newSuffix;
+              self.__previousServerSuffix = self.__currentServerSuffix;
+              self.__currentServerSuffix = newSuffix;
             }
 
             self.setUrl(self.fixUrl(self.getUrl()));
@@ -599,15 +600,15 @@ qx.Class.define("qx.io.remote.Rpc",
      */
     fixUrl : function(url)
     {
-      if (this._previousServerSuffix == null ||
-          this._currentServerSuffix == null ||
-          this._previousServerSuffix == "" ||
-          this._previousServerSuffix == this._currentServerSuffix)
+      if (this.__previousServerSuffix == null ||
+          this.__currentServerSuffix == null ||
+          this.__previousServerSuffix == "" ||
+          this.__previousServerSuffix == this.__currentServerSuffix)
       {
         return url;
       }
 
-      var index = url.indexOf(this._previousServerSuffix);
+      var index = url.indexOf(this.__previousServerSuffix);
 
       if (index == -1)
       {
@@ -615,8 +616,8 @@ qx.Class.define("qx.io.remote.Rpc",
       }
 
       return (url.substring(0, index) +
-              this._currentServerSuffix +
-              url.substring(index + this._previousServerSuffix.length));
+              this.__currentServerSuffix +
+              url.substring(index + this.__previousServerSuffix.length));
     },
 
 

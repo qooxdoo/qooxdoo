@@ -93,6 +93,9 @@ qx.Class.define("qx.ui.form.DateField",
 
   members :
   {
+
+    __initialAfterOpen : null,
+
     /*
     ---------------------------------------------------------------------------
       PUBLIC METHODS

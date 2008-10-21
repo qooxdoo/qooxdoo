@@ -203,7 +203,7 @@ qx.Class.define("qx.ui.layout.HBox",
     __flexs : null,
     __enableFlex : null,
     __children : null,
-
+    _invalidChildrenCache : null,
 
     /*
     ---------------------------------------------------------------------------

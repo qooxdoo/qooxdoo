@@ -58,6 +58,9 @@ qx.Class.define("qx.theme.manager.Decoration",
 
   members :
   {
+
+    __dynamic : null,
+
     /**
      * Returns the dynamically interpreted result for the incoming value
      *

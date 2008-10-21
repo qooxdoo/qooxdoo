@@ -65,7 +65,7 @@ qx.Class.define("qx.util.AliasManager",
      */
     _preprocess : function(value)
     {
-      var dynamics = this._dynamic;
+      var dynamics = this._getDynamic();
 
       if (dynamics[value] === false)
       {
@@ -104,7 +104,7 @@ qx.Class.define("qx.util.AliasManager",
       this._aliases[alias] = base;
 
       // Localify stores
-      var dynamics = this._dynamic;
+      var dynamics = this._getDynamic();
 
       // Temporary data structure to optimize performance of update
       var paths = {};
@@ -146,11 +146,14 @@ qx.Class.define("qx.util.AliasManager",
     {
       // TODO: Optimize preprocess call, does not really
       // need to be a separate function
+      
+      var dynamic = this._getDynamic();
+      
       if (path !== null) {
         path = this._preprocess(path);
       }
 
-      return this._dynamic[path] || path;
+      return dynamic[path] || path;
     }
   },
 

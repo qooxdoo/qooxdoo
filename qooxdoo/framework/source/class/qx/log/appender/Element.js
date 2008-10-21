@@ -74,6 +74,9 @@ qx.Class.define("qx.log.appender.Element",
 
   members :
   {
+
+    __element : null,
+
     /**
      * Configures the DOM element to use.
      *

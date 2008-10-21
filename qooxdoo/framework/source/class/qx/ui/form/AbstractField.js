@@ -216,7 +216,7 @@ qx.Class.define("qx.ui.form.AbstractField",
 
 
     // default text sizes
-    _textSize :
+    __textSize :
     {
       width : 16,
       height : 16
