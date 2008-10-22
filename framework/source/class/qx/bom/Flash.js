@@ -63,6 +63,12 @@ qx.Class.define("qx.bom.Flash",
 
   statics :
   {
+    /**
+     * Saves the references to the flash objects to delete the flash objects
+     * before the browser is closed. Note: it is only used in IE.
+     */
+    _flashObjects: {},
+    
     /*
     ---------------------------------------------------------------------------
       CREATION
@@ -82,7 +88,7 @@ qx.Class.define("qx.bom.Flash",
      * @param id {String} Id for the flash element
      * @param variables? {Map} Flash variable data (these are available in the movie later)
      * @param params? {Map} Flash parameter data (these are used to configure the movie itself)
-     * @param win {Window} Window to create the element for
+     * @param win? {Window} Window to create the element for
      * @return {void}
      */
     create : function(element, movie, id, variables, params, win)
@@ -148,7 +154,7 @@ qx.Class.define("qx.bom.Flash",
      * 
      * @param element {Element} The DOM element that contain 
      *              the flash object or the flash object self.
-     * @param win {Window} Window to destroy the element for.
+     * @param win? {Window} Window to destroy the element for.
      * @return {void}
      * @signature function(element, win)
      */
@@ -162,6 +168,9 @@ qx.Class.define("qx.bom.Flash",
           this.__destroyObjectInIE(element);
         }
         else {
+          if (!win) {
+            win = windows;
+          }
           win.attachEvent("onload", function() {
             this.__destroyObjectInIE(element);
           });
@@ -212,7 +221,8 @@ qx.Class.define("qx.bom.Flash",
             element[i] = null;
           }
         }
-        element.parentNode.removeChild(element);
+        element.parentNode.removeChild(element);      
+        delete this._flashObjects[element.id];
       },
       
       "default" : null
@@ -225,9 +235,12 @@ qx.Class.define("qx.bom.Flash",
      */
     __fixOutOfMemoryError : function()
     {
-      //TODO: Cleanup flash objects onbeforeunload
-
       // IE Memory Leak Fix
+      for (var key in qx.bom.Flash._flashObjects)
+      {
+        qx.bom.Flash.destroy(qx.bom.Flash._flashObjects[key]);
+      }
+      
       window.__flash_unloadHandler = function() {};
       window.__flash_savedUnloadHandler = function() {};
 
@@ -272,6 +285,8 @@ qx.Class.define("qx.bom.Flash",
         for (var name in attributes) {
           element.firstChild.setAttribute(name, attributes[name]);
         }
+        
+        this._flashObjects[attributes.id] = element.firstChild;
       },
 
       "default" : function(element, attributes, params, win)
