@@ -70,7 +70,28 @@ qx.Class.define("qx.dom.Element",
       return false;
     },
 
-
+    /**
+     * Checks if the <code>element</code> is in the DOM, but note that
+     * the method is very expensive!
+     * 
+     * @param element {Element} The DOM element to check.
+     * @param win {Window} The window to check for.
+     * @return {Boolean} <code>true</code> if the <code>element</code> is in 
+     *          the DOM, <code>false</code> otherwise.
+     */
+    isInDom :function(element, win)
+    {
+      var domElements = win.document.getElementsByTagName(element.nodeName);
+      
+      for (var i = 0; i < domElements.length; i++) 
+      {
+        if (domElements[i] === element) {
+          return true;
+        }
+      }
+      
+      return false;
+    },
 
 
 

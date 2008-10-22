@@ -14,6 +14,7 @@
 
    Authors:
      * Sebastian Werner (wpbasti)
+     * Christian Schmidt (chris_schmidt)
 
    ======================================================================
 
@@ -86,6 +87,22 @@ qx.Class.define("qx.bom.Flash",
      */
     create : function(element, movie, id, variables, params, win)
     {
+      if (!win) {
+        win = window;
+      }
+      
+      //Check parametes and check if element for flash is in DOM, befor call create swf. 
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        qx.core.Assert.assertElement(element, "Invalid parameter 'element'.");
+        qx.core.Assert.assertString(movie, "Invalid parameter 'movie'.");
+        qx.core.Assert.assertString(id, "Invalid parameter 'id'.");        
+        
+        if (!qx.dom.Element.isInDom(element, win)) {
+          qx.log.Logger.warn(this, "The parent DOM element isn't in DOM! The External Interface doesn't work in IE!");
+        }
+      }
+      
       // Generates attributes for flash movie
       var attributes =
       {
@@ -111,44 +128,96 @@ qx.Class.define("qx.bom.Flash",
         }
       }
 
-      if (!win) {
-        win = window;
-      }
-      
-      //Check if frame is in DOM, befor call create swf. 
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (!this.__isInDom(element, win)) {
-          qx.log.Logger.warn(this, "The parent DOM element isn't in DOM! The External Interface doesn't work in IE!");
-        }
-      }
-      
       // Finally create the SWF
       this.__createSwf(element, attributes, params, win);
     },
 
+    
     /**
-     * Checks if the element is in the DOM.
+     * Destroys the flash object from DOM, but not the parent DOM element.
+     *  
+     * Note: Removing the flash object like this: 
+     * <pre>
+     *  var div = qx.bom.Element.create("div");
+     *  document.body.appendChild(div);
+     *  
+     *  var flashObject = qx.bom.Flash.create(div, "Flash.swf", "id");
+     *  div.removeChild(div.firstChild);
+     * </pre>
+     * involve memory leaks in Internet Explorer.
      * 
-     * @param element {Element} The DOM element to check.
-     * @param win {Window} The window to ckeck for.
-     * @return {Boolean} True if the element is in the DOM, false otherwise.
+     * @param element {Element} The DOM element that contain 
+     *              the flash object or the flash object self.
+     * @param win {Window} Window to destroy the element for.
+     * @return {void}
+     * @signature function(element, win)
      */
-    __isInDom :function(element, win)
+    destroy : qx.core.Variant.select("qx.client",
     {
-      var domElements = win.document.getElementsByTagName(element.nodeName);
-      
-      for (var i = 0; i < domElements.length; i++) 
+      "mshtml" : function(element, win)
       {
-        if (domElements[i] === element) {
-          return true;
+        element = this.__getFlashObject(element); 
+        
+        if (element.readyState == 4) {
+          this.__destroyObjectInIE(element);
         }
+        else {
+          win.attachEvent("onload", function() {
+            this.__destroyObjectInIE(element);
+          });
+        }      
+      },
+      
+      "default" : function(element, win) {
+        element = this.__getFlashObject(element); 
+        element.parentNode.removeChild(element);
+      }
+    }),
+    
+    /**
+     * Return the flash object element from DOM node.
+     * 
+     * @param element {Element} The element to look. 
+     * @return {void}
+     */
+    __getFlashObject : function(element)
+    {
+      if (!element) {
+        throw new Error("DOM element is null or undefined!");
       }
       
-      return false;
+      if (element.tagName.toLowerCase() !== "object") {
+        element = element.firstChild;
+      }
+      
+      if (!element || element.tagName.toLowerCase() !== "object") {
+        throw new Error("DOM element has or is not a flash object!");
+      }
+      
+      return element;
     },
     
-
+    /**
+     * Destroy the flash object and remove from DOM, to fix memory leaks.
+     * 
+     * @param element {Element} Flash object element to destroy.
+     * @return {void}
+     * @signature function(element)
+     */
+    __destroyObjectInIE : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" :  function(element) {
+        for (var i in element) {
+          if (typeof element[i] == "function") {
+            element[i] = null;
+          }
+        }
+        element.parentNode.removeChild(element);
+      },
+      
+      "default" : null
+    }),
+    
     /**
      * Internal helper to prevent leaks in IE
      *
@@ -156,7 +225,7 @@ qx.Class.define("qx.bom.Flash",
      */
     __fixOutOfMemoryError : function()
     {
-      //TODO: Improve memory leaks
+      //TODO: Cleanup flash objects onbeforeunload
 
       // IE Memory Leak Fix
       window.__flash_unloadHandler = function() {};
@@ -168,11 +237,13 @@ qx.Class.define("qx.bom.Flash",
 
 
     /**
-     * Creates a DOM element with a flash movie
+     * Creates a DOM element with a flash movie.
      *
      * @param element {Element} DOM element node where the Flash element node will be added.
-     * @param attributes {Map} Flash attribute data
-     * @param params {Map} Flash parameter data
+     * @param attributes {Map} Flash attribute data.
+     * @param params {Map} Flash parameter data.
+     * @param win {Window} Window to create the element for.
+     * @signature function(element, attributes, params, win)
      */
     __createSwf : qx.core.Variant.select("qx.client",
     {
@@ -227,6 +298,12 @@ qx.Class.define("qx.bom.Flash",
     })
   },
 
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+  
   defer : function(statics)
   {
     if (qx.core.Variant.isSet("qx.client", "mshtml")) {
