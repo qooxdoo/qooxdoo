@@ -33,8 +33,10 @@ qx.Class.define("qx.html.Iframe",
   *****************************************************************************
   */
 
-  construct : function() {
+  construct : function(url)
+  {
     this.base(arguments, "iframe");
+    this._setProperty("source", url);
   },
 
 
