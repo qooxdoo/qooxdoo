@@ -73,6 +73,26 @@ qx.Mixin.define("qx.locale.MTranslation",
 
       throw new Error("To enable localization please include qx.locale.Manager into your build!");
     },
+    
+    
+    /**
+     * Translate a message with translation hint
+     * Mark the messages for translation.
+     *
+     * @param hint {String} hint for the translator of the message. Will be included in the .po file.
+     * @param messageId {String} message id (may contain format strings)
+     * @param varargs {Object} variable number of argumes applied to the format string
+     * @return {String} the localized string
+     */
+    trc : function(hint, messageId, varargs)
+    {
+      var nlsManager = qx.locale.Manager;
+      if (nlsManager) {
+        return nlsManager.trc.apply(nlsManager, arguments);
+      }
+
+      throw new Error("To enable localization please include qx.locale.Manager into your build!");
+    },
 
 
     /**
