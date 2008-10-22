@@ -62,6 +62,10 @@ class Locale:
             for location in strings[msgid]["occurrences"]:
                 obj.occurrences.append((re.sub(r'\\', "/", location["file"]), location["line"]))
 
+            # adding a hint/comment if available
+            if "hint" in strings[msgid]:
+                obj.comment = strings[msgid]["hint"]
+
         pot.sort()
 
         return pot
