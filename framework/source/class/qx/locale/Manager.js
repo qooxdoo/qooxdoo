@@ -121,7 +121,7 @@ qx.Class.define("qx.locale.Manager",
     /**
      * Translate a message with translation hint
      *
-     * @param hint {String} hint for the translator of the message. Will be included in the .pot file.
+     * @param hint {String} hint for the translator of the message. Will be included in the .po file.
      * @param messageId {String} message id (may contain format strings)
      * @param varargs {Object} variable number of argumes applied to the format string
      * @return {String} The translated string
