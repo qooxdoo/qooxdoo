@@ -143,33 +143,6 @@ qx.Class.define("testrunner.runner.ProgressBar",
 
   members :
   {
-    /**
-     * For future testing only.
-     *
-     * @internal
-     * @return {void}
-     */
-    showOff : function()
-    {
-      this.debug("Entering showOff...");
-      var r = new qx.util.range.IntegerRange(0, 100, 5);
-      var i;
-
-      function delay()
-      {
-        for (var i=0; i<10000000; i++) {}
-      }
-
-      while ((i = r.next()) != null)
-      {
-        this.debug("Running i: " + i);
-        this.update(String(i) + "%");
-        delay();
-      }
-
-      this.debug("Leaving showOff...");
-    },
-
     // update with increment
     /**
      * TODOC
