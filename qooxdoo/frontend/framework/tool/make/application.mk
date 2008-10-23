@@ -635,13 +635,20 @@ ifndef APPLICATION_ADDITIONAL_BUILD_OPTIONS
 endif
 
 #
-# Additional params to pass to the xgettext call in exec-*-translation.
+# Additional params to pass to the xgettext call in exec-application-translation.
 # e.g. "--sort-by-file" or "--no-location --sort-output"
 #
 ifndef APPLICATION_ADDITIONAL_XGETTEXT_PARAMS
   APPLICATION_ADDITIONAL_XGETTEXT_PARAMS = --sort-by-file --add-comments=TRANSLATION
 endif
 
+#
+# Additional params to pass to the msgmerge call in exec-appliation-translation.
+# e.g. "--no-fuzzy-matching" to disable fuzzy translations
+#
+ifndef APPLICATION_ADDITIONAL_MSGMERGE_PARAMS
+  APPLICATION_ADDITIONAL_MSGMERGE_PARAMS = 
+endif
 
 
 
