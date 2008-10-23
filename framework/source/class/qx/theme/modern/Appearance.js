@@ -352,13 +352,12 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
     "textarea" :
     {
+      include : "textfield",
+
       style : function(states)
       {
         return {
-          decorator : states.focused ? "input-focused" : 
-                      states.disabled ? "input-disabled" : "input",
-          padding   : 4,
-          textColor : states.disabled ? "text-disabled" : "text-input"
+          padding   : 4
         };
       }
     },
