@@ -3,14 +3,6 @@
   text-align: center;
 }
 
-* html #colLeft {
-  height: 1%
-}
-
-* html #colRight {
-  margin-left: 24%
-}
-
 body {
   background-color: #FDFFFA;
   font-family: Tahoma,Verdana,Arial,Helvetica,"Bitstream Vera Sans",sans-serif;
@@ -26,7 +18,7 @@ body {
   background-color: #F1F1F1;
   border: 1px solid #134275;
   float: left;
-  width: 500px;
+  width: 400px;
   xheight : 2000px;
   margin-left: 10px;
   -moz-user-select:none;
@@ -34,11 +26,11 @@ body {
 
 #groupBoxLeft {
   float: left;
-  width: 500px;
+  width: 400px;
 }
 
 #groupBoxRight {
-	width: 500px;
+	width: 400px;
   margin: 0 0 0 100px;
 }
 
@@ -57,7 +49,7 @@ body {
 
 .box {
   border: 1px solid #444;
-  width: 400px;
+  width: 300px;
   height: 100px;
   margin: 10px;
   padding: 10px;
