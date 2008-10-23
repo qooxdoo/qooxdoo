@@ -653,22 +653,13 @@ qx.Class.define("qx.ui.form.Spinner",
           value = this.getMin();
         }
 
-        // this.warn("value: " + value + "   get: " + this.getValue());
-        if (value == this.getValue())
-        {
-          // this.warn("textfield: " + textField.getValue());
-          textField.setValue(value + "");
-        }
-        else
-        {
-          // set the value in the spinner
-          this.setValue(value);
-        }
+        // set the value in the spinner
+        this.setValue(value);
       }
       else
       {
         // otherwise, reset the last valid value
-        textField.setValue(this.__lastValidValue + "");
+        this._applyValue(this.__lastValidValue, undefined);
       }
     },
 
