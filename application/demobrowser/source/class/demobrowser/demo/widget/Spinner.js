@@ -83,7 +83,8 @@ qx.Class.define("demobrowser.demo.widget.Spinner",
     {
       var spinner = new qx.ui.form.Spinner(0, 200, 300);
       spinner.setSingleStep(0.5);
-
+      spinner.setWidth(70);
+      
       // Number format Test
       var nf = new qx.util.format.NumberFormat();
       nf.setMinimumFractionDigits(2);
