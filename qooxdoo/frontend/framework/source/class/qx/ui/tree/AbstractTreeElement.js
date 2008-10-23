@@ -435,10 +435,6 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
      *
      *
      * The method destroyContent is defined in the TreeFolder class.
-     *
-     *
-     * @type member
-     * @return {void}
      */
     destroy : function()
     {
@@ -493,17 +489,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
         parentFolder.remove(this);
       }
       
-      this.setParent(null);
-
-      // delay the dispose until return from current call stack.  if we were
-      // called via an event, e.g. a mouse click, the global queue will be
-      // flushed so we can't yet be disposed.
-      qx.client.Timer.once(function()
-                           {
-                             this.dispose();
-                           },
-                           this,
-                           0);
+      this.base(arguments);
     },
 
 

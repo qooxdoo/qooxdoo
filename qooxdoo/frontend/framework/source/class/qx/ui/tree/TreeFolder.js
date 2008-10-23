@@ -682,9 +682,6 @@ qx.Class.define("qx.ui.tree.TreeFolder",
      * the current items subitems (and the subitems of each
      * subitem) are destroyed going top down the TreeFolder
      * hierarchy. The current item is left as is.
-     *
-     *
-     * @type member
      */
     destroyContent : function()
     {
@@ -765,16 +762,16 @@ qx.Class.define("qx.ui.tree.TreeFolder",
           // remove the item from the containerObject
           this._containerObject.remove(item);
 
+          var createDisposer = function(treeItem) {
+            return function() {
+              treeItem.dispose();
+            }
+          }
+          
           // delay the dispose until return from current call stack.  if we
           // were called via an event, e.g. a mouse click, the global queue
           // will be flushed so we can't yet be disposed.
-          qx.client.Timer.once(function()
-                               {
-                                 item.dispose();
-                                 delete items[i]
-                               },
-                               this,
-                               0);
+          qx.client.Timer.once(createDisposer(item), this, 0);
         }
       }
     },
