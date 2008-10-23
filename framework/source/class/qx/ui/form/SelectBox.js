@@ -287,6 +287,11 @@ qx.Class.define("qx.ui.form.SelectBox",
       }
 
       this.setSelected(children[index]);
+      
+      // stop the propagation
+      // prevent any other widget from receiving this event
+      // e.g. place a selectbox widget inside a scroll container widget
+      e.stopPropagation();
     },
 
 
