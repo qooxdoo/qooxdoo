@@ -130,6 +130,7 @@ def escapeJS(str):
 
 def generate(infile, languageCode, namespace):
     global MESSAGES
+
     if namespace != "": namespace += "."
     if len(languageCode.split("_")) > 1:
     	requireString = "#require(%s%s)" % (namespace, languageCode.split("_")[0])
@@ -180,7 +181,6 @@ qx.locale.Locale.define("%s%s",
     	values = MESSAGES[msg].split("\0");
     	for i in range(len(keys)):
     		normalizedMessages[keys[i]] = values[i]
-
     for msg in normalizedMessages:
     	if msg == "": continue
     	translations.append('  "%s": "%s"' % (escapeJS(msg), escapeJS(normalizedMessages[msg])))
@@ -219,8 +219,8 @@ def make (filename, outdir, namespace):
     lno = 0
     for l in lines:
         lno += 1
-        # If we get a comment line after a msgstr, this is a new entry
-        if l[0] == '#' and section == STR:
+        # If we get a new empty line after a msgstr, this is a new entry
+        if section == STR and (l.startswith('msgid') or l[0] == '#'):
             add(msgid, msgstr, fuzzy)
             section = None
             fuzzy = 0
@@ -252,6 +252,7 @@ def make (filename, outdir, namespace):
                     msgstr += '\0'
                 # Ignore the index - must come in sequence
                 l = l[l.index(']') + 1:]
+
         # Skip empty lines
         l = l.strip()
         if not l:
