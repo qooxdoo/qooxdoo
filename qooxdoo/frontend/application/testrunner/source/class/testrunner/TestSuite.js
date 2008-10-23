@@ -60,30 +60,38 @@ qx.Class.define("testrunner.TestSuite",
      * @param testClassOrNamespace {var} TODOC
      * @return {void}
      */
-    add : function(testClassOrNamespace)
-    {
-      if (typeof (testClassOrNamespace) == "string")
-      {
-        var evalTestClassOrNamespace = eval(testClassOrNamespace);
+     add : function(testClassOrNamespace)
+     {
+       // This try-block is needed to avoid errors (e.g. "too much recursion")
+       try
+       {
+         if (typeof (testClassOrNamespace) == "string")
+         {
+           var evalTestClassOrNamespace = eval(testClassOrNamespace);
 
-        if (!evalTestClassOrNamespace) {
-          this.addFail(testClassOrNamespace, "The class/namespace '" + testClassOrNamespace + "' is undefined!");
-        }
+           if (!evalTestClassOrNamespace) {
+             this.addFail(testClassOrNamespace, "The class/namespace '" + testClassOrNamespace + "' is undefined!");
+           }
 
-        testClassOrNamespace = evalTestClassOrNamespace;
-      }
+           testClassOrNamespace = evalTestClassOrNamespace;
+         }
 
-      if (typeof (testClassOrNamespace) == "function") {
-        this.addTestClass(testClassOrNamespace);
-      } else if (typeof (testClassOrNamespace) == "object") {
-        this.addTestNamespace(testClassOrNamespace);
-      }
-      else
-      {
-        this.addFail("exsitsCheck", "Unkown test class '" + testClassOrNamespace + "'!");
-        return;
-      }
-    },
+         if (typeof (testClassOrNamespace) == "function") {
+           this.addTestClass(testClassOrNamespace);
+         } else if (typeof (testClassOrNamespace) == "object") {
+           this.addTestNamespace(testClassOrNamespace);
+         }
+         else
+         {
+           this.addFail("exsitsCheck", "Unkown test class '" + testClassOrNamespace + "'!");
+           return;
+         }
+       }
+       catch (e)
+       {
+         alert("An error occured while adding test classes/namespaces\nPlease try a different test file.");
+       }
+     },
 
 
     /**
