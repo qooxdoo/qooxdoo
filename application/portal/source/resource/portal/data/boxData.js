@@ -38,7 +38,7 @@ boxData =
       height : "120px",
       
       minWidth : "10px",
-      maxWidth : "500px",
+      maxWidth : "350px",
       minHeight : "10px",
       maxHeight : "700px",
       
@@ -53,11 +53,11 @@ boxData =
       id   : "box1",
       name : "box1",
       
-      width : "400px",
+      width : "300px",
       height : "100px",
       
       minWidth : "10px",
-      maxWidth : "500px",
+      maxWidth : "350px",
       minHeight : "10px",
       maxHeight : "700px",
       
@@ -72,11 +72,11 @@ boxData =
       id   : "box2",
       name : "box2",
       
-      width : "400px",
+      width : "300px",
       height : "100px",
       
       minWidth : "10px",
-      maxWidth : "500px",
+      maxWidth : "350px",
       minHeight : "10px",
       maxHeight : "700px",
       
@@ -91,11 +91,11 @@ boxData =
       id   : "box3",
       name : "box3",
       
-      width : "400px",
+      width : "300px",
       height : "100px",
       
       minWidth : "10px",
-      maxWidth : "500px",
+      maxWidth : "350px",
       minHeight : "10px",
       maxHeight : "700px",
       
@@ -110,11 +110,11 @@ boxData =
       id   : "box4",
       name : "box4",
       
-      width : "400px",
+      width : "300px",
       height : "100px",
       
       minWidth : "10px",
-      maxWidth : "500px",
+      maxWidth : "350px",
       minHeight : "10px",
       maxHeight : "700px",
       
@@ -148,11 +148,11 @@ boxData =
       id   : "box6",
       name : "box6",
       
-      width : "400px",
+      width : "300px",
       height : "100px",
       
       minWidth : "10px",
-      maxWidth : "500px",
+      maxWidth : "350px",
       minHeight : "10px",
       maxHeight : "700px",
       
@@ -167,11 +167,11 @@ boxData =
       id   : "box7",
       name : "box7",
       
-      width : "350px",
+      width : "300px",
       height : "140px",
       
       minWidth : "10px",
-      maxWidth : "500px",
+      maxWidth : "350px",
       minHeight : "10px",
       maxHeight : "700px",
       
