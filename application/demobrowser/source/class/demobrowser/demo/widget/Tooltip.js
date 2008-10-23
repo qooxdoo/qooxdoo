@@ -57,6 +57,9 @@ qx.Class.define("demobrowser.demo.widget.Tooltip",
       var c5 = new qx.ui.form.Button("Short timeout ToolTip");
       container.add(c5);
 
+      var c6 = new qx.ui.form.Button("ToolTip with icon and rich text");
+      container.add(c6);
+      
       var tt1 = new qx.ui.tooltip.ToolTip("Hello World #1");
       c1.setToolTip(tt1);
       c2.setToolTip(tt1);
@@ -70,6 +73,15 @@ qx.Class.define("demobrowser.demo.widget.Tooltip",
       var tt4 = new qx.ui.tooltip.ToolTip("Such a great tooltip with a (show) timeout of 50ms.", "icon/32/actions/help-about.png");
       c5.setToolTip(tt4);
       tt4.setShowTimeout(50);
+      
+      var tt5 = new qx.ui.tooltip.ToolTip("A long label text with auto-wrapping. " 
+          + "This also may contain <b style='color:red'>rich HTML</b> markup "
+          + "and with a (show) timeout of 50ms.",
+          "icon/32/actions/help-about.png");
+      tt5.setWidth(200);
+      tt5.setRich(true);
+      tt5.setShowTimeout(50);
+      c6.setToolTip(tt5);
     }
   }
 });
