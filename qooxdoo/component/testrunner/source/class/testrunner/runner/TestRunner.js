@@ -330,6 +330,7 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       // log appender
       this.logappender = new qx.log.appender.Element();
+
       qx.log.Logger.unregister(this.logappender);
 
       // Directly create DOM element to use
@@ -998,6 +999,9 @@ qx.Class.define("testrunner.runner.TestRunner",
       {
         this.widgets["statuspane.systeminfo"].setContent(this.tr("Ready"));
         this.runbutton.setEnabled(true);
+
+        // Register the native appender again to have the output 
+        iframe.getWindow().qx.log.Logger.register(qx.log.appender.Native);
       }
       else
       {
@@ -1091,13 +1095,16 @@ qx.Class.define("testrunner.runner.TestRunner",
         logger = w.qx.log.Logger;
 
         // Register to flush the log queue into the appender.
-        logger.register(this.logappender)
+        logger.register(this.logappender);
+        logger.register(qx.log.appender.Native);
 
         // Clear buffer
         logger.clear();
 
         // Unregister again, so that the logger can flush again the next time the tab is clicked.
         logger.unregister(this.logappender);
+        logger.unregister(qx.log.appender.Native);
+        
       }
     },
 
