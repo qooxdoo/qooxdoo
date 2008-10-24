@@ -646,7 +646,7 @@ qx.Class.define("qx.ui.component.DateChooser",
       }
 
       // Show the days
-      helpDate = new Date(shownYear, shownMonth, 1);
+      helpDate = new Date(shownYear, shownMonth, 1, 12, 0, 0);
       var nrDaysOfLastMonth = (7 + firstDayOfWeek - startOfWeek) % 7;
       helpDate.setDate(helpDate.getDate() - nrDaysOfLastMonth);
 
