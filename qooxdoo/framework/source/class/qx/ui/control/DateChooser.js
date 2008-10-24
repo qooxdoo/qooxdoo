@@ -453,8 +453,8 @@ qx.Class.define("qx.ui.control.DateChooser",
     */
 
     /**
-     * Hendler which stops the propagation of the click event if
-     * the Navigation bar or kalender headers will be clicked.
+     * Handler which stops the propagation of the click event if
+     * the navigation bar or calendar headers will be clicked.
      *
      * @param e {qx.event.type.Mouse} The mouse up / down event
      */
