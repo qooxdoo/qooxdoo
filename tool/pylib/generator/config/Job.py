@@ -47,28 +47,8 @@ class Job(object):
     def mergeJob(self, sourceJob):
         sData = sourceJob.getData()
         target= self.getData()
-        for key in sData:
-            # merge 'library' key rather than shadowing
-            if key == 'library'and target.has_key(key):
-                target[key] = sData[key] + target[key]
-            
-            # merge 'settings' and 'let' key rather than shadowing
-            # wpbasti: variants listed here, but missing somewhere else. Still missing use and require keys.
-            if (key in ['variants','settings','let']) and target.has_key(key):
-                target[key] = self._mapMerge(sData[key],target[key])
-            if not target.has_key(key):
-                target[key] = sData[key]
 
-
-    def _mapMerge(self, source, target):
-        """merge source map into target, but don't overwrite existing
-           keys in target (unlike .update())"""
-        # wpbasti: Why not just use update() in reversed order (maybe copy target first)???
-        t = target.copy()
-        for (k,v) in source.items():
-            if not t.has_key(k):
-                t[k] = v
-        return t
+        deepJsonMerge(sData, target)
 
 
     def resolveExtend(self, entryTrace=[]):
@@ -124,12 +104,12 @@ class Job(object):
 
 
     def includeGlobalLet(self, additionalLet=None):
-        newlet = self._mapMerge(self.getFeature('let',{}),{}) # init with local let
+        newlet = mapMerge(self.getFeature('let',{}),{}) # init with local let
         if additionalLet:
-            newlet = self._mapMerge(additionalLet, newlet)
+            newlet = mapMerge(additionalLet, newlet)
         global_let = self._config.get('let',False)
         if global_let:
-            newlet = self._mapMerge(global_let, newlet)
+            newlet = mapMerge(global_let, newlet)
 
         if newlet:
             self.setFeature('let', newlet) # set cumulative let value
@@ -245,5 +225,41 @@ class Job(object):
     def removeFeature(self, feature):
         if feature in self._data:
             del self._data[feature]
+
+
+# -- utility functions ---------------------------------------------------------
+
+def deepJsonMerge(source, target):
+    for key in source:
+        if key in target:
+            # merge arrays rather than shadowing
+            if isinstance(source[key], types.ListType):
+                target[key] = listMerge(source[key],target[key])  # why prepend?!
+            
+            # merge dicts rather than shadowing
+            elif isinstance(source[key], types.DictType):
+                target[key] = mapMerge(source[key],target[key])
+            else:
+                target[key] = source[key]
+        else:
+            target[key] = source[key]
+
+
+def mapMerge(source, target):
+    """merge source map into target, but don't overwrite existing
+       keys in target (unlike target.update(source))"""
+    t = source.copy()
+    t.update(target)  # target keys take precedence
+    return t
+
+
+def listMerge(source, target):
+    """merge source list with target list (currently prepend),
+       avoiding duplicates"""
+    t = []
+    for e in source:
+        if not e in target:
+            t.append(e)
+    return t + target
 
 
