@@ -68,31 +68,6 @@ class Generator:
 
 
 
-    def _mergeDicts(self, source1, source2):
-        """(non-destructive) merge source2 map into source1, but don't overwrite
-           existing keys in source1 (unlike source1.update(source2)); on common
-           keys, use .update() on dict values and .extend() on list values"""
-        target = source1.copy()
-
-        for key in source2:
-            if not target.has_key(key):
-                target[key] = source2[key]
-            # dict value: update
-            elif (isinstance(source2[key], types.DictType) and
-                  isinstance(target[key], types.DictType)):
-                target[key].update(source2[key])
-            # list value: append
-            elif (isinstance(source2[key], types.ListType) and
-                  isinstance(target[key], types.ListType)):
-                target[key].extend(source2[key])
-            # leave everything else in target alone
-            else:
-                pass
-
-        return target
-
-
-
     def scanLibrary(self, library):
         self._console.info("Scanning libraries...")
         self._console.indent()
@@ -618,7 +593,6 @@ class Generator:
             # [thron7] means: generate different data structs for locales and translations
             pac_dat = self._locale.generatePackageData(classes, variants, locales) # .po data
             loc_dat = self._locale.getLocalizationData(locales)  # cldr data
-            #packageTranslation.append(self._mergeDicts(pac_dat,loc_dat))
             packageTranslation.extend((pac_dat,loc_dat))
 
             self._console.outdent()
