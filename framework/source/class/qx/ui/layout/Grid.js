@@ -515,7 +515,7 @@ qx.Class.define("qx.ui.layout.Grid",
 
     /**
      * Set the flex value for a grid column.
-     * By default the column flex value is <code>1</code>.
+     * By default the column flex value is <code>0</code>.
      *
      * @param column {Integer} The column index
      * @param flex {Integer} The column's flex value
@@ -544,7 +544,7 @@ qx.Class.define("qx.ui.layout.Grid",
 
     /**
      * Set the flex value for a grid row.
-     * By default the row flex value is <code>1</code>.
+     * By default the row flex value is <code>0</code>.
      *
      * @param row {Integer} The row index
      * @param flex {Integer} The row's flex value
