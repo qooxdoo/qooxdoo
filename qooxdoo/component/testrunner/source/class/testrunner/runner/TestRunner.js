@@ -747,6 +747,9 @@ qx.Class.define("testrunner.runner.TestRunner",
       {
         var testResult = new that.frameWindow.qx.dev.unit.TestResult();
 
+        // Set queue count
+        that.setQueCnt(that.tests.selected_cnt);
+
         // set up event listeners
         testResult.addListener("startTest", function(e)
         {
