@@ -78,11 +78,6 @@ qx.Class.define("qx.ui.window.Window",
     // Update captionbar
     this._updateCaptionBar();
 
-    // Stop typical mouse events
-    this.addListener("mousedown", this._onWindowEventStop);
-    this.addListener("mouseup", this._onWindowEventStop);
-    this.addListener("click", this._onWindowEventStop);
-
     // Activation listener
     this.addListener("mousedown", this._onWindowMouseDown, this, true);
 
