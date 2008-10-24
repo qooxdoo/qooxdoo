@@ -1067,9 +1067,12 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           marginTop : 2,
           marginBottom : 2,
-          padding : (states.pressed || states.checked || states.hovered) && !states.disabled ? 3 : 5,
-          decorator : states.pressed || (states.checked && !states.hovered) ? "toolbar-button-checked" :
-                      states.hovered && !states.disabled ? "toolbar-button-hovered" : undefined
+          padding : (states.pressed || states.checked || states.hovered) && !states.disabled 
+                    || (states.disabled && states.checked) ? 3 : 5,
+          decorator : states.pressed || (states.checked && !states.hovered) || (states.checked && states.disabled) ? 
+                        "toolbar-button-checked" :
+                      states.hovered && !states.disabled ? 
+                        "toolbar-button-hovered" : undefined
         };
       }
     },
