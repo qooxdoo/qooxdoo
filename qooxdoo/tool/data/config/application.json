@@ -18,6 +18,7 @@
     }
   ],
 
+  /*
   "export" :
   [
     "api",
@@ -35,6 +36,7 @@
     "test-source",
     "translation"
   ],
+  */
 
 
 

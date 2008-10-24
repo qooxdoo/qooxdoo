@@ -16,6 +16,7 @@
     "BUILD_PATH"   : "${ROOT}/build"
   },
 
+  /*
   "export" :
   [
     "build",
@@ -30,6 +31,7 @@
     "source",
     "translation"
   ],
+  */
 
 
   "jobs" :
