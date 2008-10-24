@@ -94,8 +94,6 @@ qx.Class.define("qx.ui.form.DateField",
   members :
   {
 
-    __initialAfterOpen : null,
-
     /*
     ---------------------------------------------------------------------------
       PUBLIC METHODS
@@ -316,7 +314,7 @@ qx.Class.define("qx.ui.form.DateField",
       if (popup.isVisible())
       {
 
-        this.__initialAfterOpen = true;
+        this._setInitialAfterOpen(true);
         var chooser = this._getChildControl("list");
         var date = this.getDate();
         chooser.setDate(date);
