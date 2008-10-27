@@ -1041,7 +1041,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "slider/knob" :
     {
-      include : "button",
+      include : "button-frame",
 
       style : function(states)
       {
