@@ -39,12 +39,12 @@
  *   </li>
  *   <li>
  *     When a column is decreased in width, if the total width of all columns
- *     is <i>greater than</i> the table width, no additional column wiidth
- *     changes are made.
+ *     is <i>greater than</i> the table width, no additional column width
+ *     change is made.
  *   </li>
  *   <li>
  *     When a column is decreased in width, if the total width of all columns
- *     is <i>less than</i> the width of the table, the visible column
+ *     is <i>less than</i> the table width, the visible column
  *     immediately to the right of the column which decreased in width has its
  *     width increased to fill the remaining space.
  *   </li>
@@ -75,21 +75,6 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
     this.__layout = new qx.ui.layout.HBox();
     this.__layout.connectToWidget(this);
   },
-
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-    /** {Integer} Minimum column width */
-    MIN_WIDTH : 10
-  },
-
-
 
 
   /*
@@ -327,20 +312,21 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
     // overloaded
     _setNumColumns : function(numColumns)
     {
+      var colData = this.__resizeColumnData;
       // Are there now fewer (or the same number of) columns than there were
       // previously?
-      if (numColumns <= this.__resizeColumnData.length)
+      if (numColumns <= colData.length)
       {
         // Yup.  Delete the extras.
-        this.__resizeColumnData.splice(numColumns, this.__resizeColumnData.length);
+        colData.splice(numColumns, colData.length);
         return;
       }
 
       // There are more columns than there were previously.  Allocate more.
-      for (var i=this.__resizeColumnData.length; i<numColumns; i++)
+      for (var i=colData.length; i<numColumns; i++)
       {
-        this.__resizeColumnData[i] = this.getNewResizeBehaviorColumnData()();
-        this.__resizeColumnData[i].columnNumber = i;
+        colData[i] = this.getNewResizeBehaviorColumnData()();
+        colData[i].columnNumber = i;
       }
     },
 
@@ -378,17 +364,18 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
 
       var visibleColumns = tableColumnModel.getVisibleColumns();
       var visibleColumnsLength = visibleColumns.length;
+      var colData = this.__resizeColumnData;
       var i, l;
 
       // Create an array of the visible columns
       var columns = [ ];
       for (i=0; i<visibleColumnsLength; i++)
       {
-        columns.push(this.__resizeColumnData[visibleColumns[i]]);
+        columns.push(colData[visibleColumns[i]]);
       }
       this.__layoutChildren = columns;
 
-      // Use a horizontal boy layout to determine the available width.
+      // Use a horizontal box layout to determine the available width.
       var width = this._getAvailableWidth(tableColumnModel);
       this.__layout.renderLayout(width, 100);
 
