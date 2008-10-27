@@ -114,7 +114,7 @@ qx.Class.define("qx.ui.form.ComboBox",
     /**
      * Sets the __initialAfterOpen flag
      *
-     * @param {Boolean} flag The flag
+     * @param flag {Boolean} The flag
      */
     _setInitialAfterOpen : function(flag) {
       this.__initialAfterOpen = flag;
