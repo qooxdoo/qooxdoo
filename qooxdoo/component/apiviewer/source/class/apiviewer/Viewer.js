@@ -105,12 +105,18 @@ qx.Class.define("apiviewer.Viewer",
             stack.setSelected(treeWidget);
             stack.show();            
             break;
-          
+
           case "search":
             stack.setSelected(searchWidget);
             stack.show();
+
+            /**
+             * Delay focussing the text field in case it's html element
+             * has no been added to the DOM yet.
+             */
+            qx.lang.Function.delay(this._onShowSearch, 100, this);
             break;
-          
+
           case "legend":
             stack.setSelected(infoWidget);
             stack.show();
@@ -119,7 +125,8 @@ qx.Class.define("apiviewer.Viewer",
           default:
             stack.exclude();
         }
-      });
+      },
+      this);
       
       return stack;
     },
@@ -269,7 +276,15 @@ qx.Class.define("apiviewer.Viewer",
       header.add(version);
 
       return header;
-    }
+    },
+
+    /**
+     * Focusses the search view's text field.
+     */
+    _onShowSearch : function() {
+      this._searchView.sinput.focus();
+    },
+
   },
 
 
