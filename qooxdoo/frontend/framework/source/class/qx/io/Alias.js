@@ -122,8 +122,9 @@ qx.Class.define("qx.io.Alias",
               /*
                * If the resolved URL begins with "./" the final URL has to be 
                * put together using the document.URL property.
+               * IMPORTANT: this is only applicable for the source version
                */
-              else if (resolved.match(/^\.\//) != null)
+              else if (resolved.match(/^\.\//) != null && qx.core.Setting.get("qx.isSource"))
               {
                 resolved  = "/" + value.substring(0, alias.length);
                 urlPrefix = document.URL.substring(0, document.URL.lastIndexOf("/"));
