@@ -132,6 +132,7 @@ qx.Bootstrap.define("qx.bom.client.System",
       "Linux" : "linux",
       "FreeBSD" : "freebsd",
       "NetBSD" : "netbsd",
+      "OpenBSD" : "openbsd",
       "SunOS" : "sunos",
 
       "Symbian System" : "symbian",
