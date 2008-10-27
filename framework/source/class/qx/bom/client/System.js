@@ -93,6 +93,9 @@ qx.Bootstrap.define("qx.bom.client.System",
 
     /** {Boolean} Flag to detect if the client system is NetBSD */
     NETBSD : false,
+    
+    /** {Boolean} Flag to detect if the client system is OpenBSD */
+    OPENBSD : false,
 
     /** {Boolean} Flag to detect if the client system is Mac OS X */
     OSX : false,
