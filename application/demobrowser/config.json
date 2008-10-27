@@ -5,7 +5,16 @@
   [
     {
       "path" : "../../tool/data/config/application.json",
-      "block" : [ "source", "build" ]
+      "block" : 
+      [ 
+        "common",
+        "source", 
+        "source-script", 
+        "build",
+        "build-script",
+        "build-files",
+        "build-resources"
+      ]
     }
   ],
 
