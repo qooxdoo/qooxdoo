@@ -422,12 +422,22 @@ qx.Class.define("qx.ui.form.AbstractField",
     // property apply
     _applyReadOnly : function(value, old)
     {
-      this.getContentElement().setAttribute("readOnly", value);
+      var element = this.getContentElement();
 
-      if (value) {
+      element.setAttribute("readOnly", value);
+
+      // Prevent native focus
+      element.setAttribute("qxKeepFocus", value ? "on" : "off");
+
+      if (value)
+      {
         this.addState("readonly");
-      } else {
+        this.setFocusable(false);
+      }
+      else
+      {
         this.removeState("readonly");
+        this.setFocusable(true);
       }
     }
   }
