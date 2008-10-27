@@ -5,14 +5,23 @@
   [
     {
       "path" : "./api.json",
-      "as"   : "apiconf"
+      "as"   : "apicnf"
     }, 
 
     {
       "path"   : "../../tool/data/config/application.json",
       
       // select everything except 'source' and 'build' which are defined locally
-      "block"  : [ "source", "build" ]
+      "block" : 
+      [ 
+        "common",
+        "source", 
+        "source-script", 
+        "build",
+        "build-script",
+        "build-files",
+        "build-resources"
+      ]
     }
   ],
 
@@ -29,7 +38,7 @@
   {
     "source" :
     {
-      "extend" : [ "apiconf::source" ],
+      "extend" : [ "apicnf::source" ],
 
       "let" :
       {
@@ -39,7 +48,7 @@
 
     "build" : 
     {
-      "extend" : [ "apiconf::build" ],
+      "extend" : [ "apicnf::build" ],
 
       "let" :
       {
