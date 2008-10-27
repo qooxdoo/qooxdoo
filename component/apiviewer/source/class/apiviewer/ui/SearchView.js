@@ -93,31 +93,6 @@ qx.Class.define("apiviewer.ui.SearchView",
 
       // Create the initial data
       var rowData = [];
-/*
-      // table model
-      var tableModel = this._tableModel = new qx.ui.table.model.Simple();
-      tableModel.setColumns([ "", "Results" ]);
-      tableModel.setData(rowData);
-
-
-      // table
-      var table = new qx.ui.table.Table(tableModel);
-      table.setDecorator(null);
-      table.setShowCellFocusIndicator(false);
-      table.setStatusBarVisible(false);
-      table.setColumnVisibilityButtonVisible(false);
-
-      this._selectionModel = table.getSelectionManager().getSelectionModel();
-      this._selectionModel.addListener("changeSelection", this._callDetailFrame, this);
-
-      this._table = table;
-
-      var tcm = table.getTableColumnModel();
-      tcm.setDataCellRenderer(0, new qx.ui.table.cellrenderer.Image());
-      tcm.setColumnWidth(0, 40);
-      tcm.setColumnWidth(1, 400);
-*/
-
 
       // table model
       var tableModel = this._tableModel = new qx.ui.table.model.Simple();
@@ -142,6 +117,7 @@ qx.Class.define("apiviewer.ui.SearchView",
       this._selectionModel = table.getSelectionManager().getSelectionModel();
 
       this._selectionModel.addListener("changeSelection", this._callDetailFrame, this);
+      table.addListener("cellClick", this._onCellClick, this);
 
       this._table = table;
       // resize behavior
@@ -416,10 +392,8 @@ qx.Class.define("apiviewer.ui.SearchView",
 
     /**
      * Display information in the detail frame
-     *
-     * @param sel {SelectionManager} selected item
      */
-    _callDetailFrame : function(sel)
+    _callDetailFrame : function()
     {
       var sel = this._selectionModel.getAnchorSelectionIndex();
       var selected = this._tableModel.getData()[sel];
@@ -480,6 +454,13 @@ qx.Class.define("apiviewer.ui.SearchView",
       }
     },
 
+    /**
+     * Event listener for mouse clicks on search result table cells.
+     * @param e {qx.event.type.Mouse} Click event
+     */
+    _onCellClick : function(e) {
+      this._callDetailFrame();
+    },
 
     _resetElements : function()
     {
