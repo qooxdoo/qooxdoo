@@ -229,6 +229,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
             '<span style="white-space: nowrap;">',
             (typeof iconCode != "undefined" ? iconCode : ""),
             '<a href="' + window.location.protocol, '//',
+            window.location.host,
             window.location.pathname, '#', fullItemName,
             '" onclick="', 'apiviewer.ui.ClassViewer.instance._onSelectItem(\'',
             fullItemName, '\'); return false;"', ' title="',
