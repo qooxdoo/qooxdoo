@@ -283,8 +283,7 @@ qx.Class.define("apiviewer.Viewer",
      */
     _onShowSearch : function() {
       this._searchView.sinput.focus();
-    },
-
+    }
   },
 
 
