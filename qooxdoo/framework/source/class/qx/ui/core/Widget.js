@@ -2924,12 +2924,13 @@ qx.Class.define("qx.ui.core.Widget",
      * Whether the widget is reachable by pressing the TAB key.
      *
      * Normally tests for both, the focusable property and a positive or
-     * undefined tabIndex property.
+     * undefined tabIndex property. The widget must have a DOM element
+     * since only visible widgets are tabable.
      *
      * @return {Boolean} Whether the element is tabable.
      */
     isTabable : function() {
-      return this.isFocusable();
+      return this.getContainerElement().getDomElement() && this.isFocusable();
     },
 
 
