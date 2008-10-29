@@ -27,7 +27,7 @@ qx.Class.define("qx.util.Base64",
     __keystr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
 
     /**
-     * Encode a string using base64 encoding (http://de.wikipedia.org/wiki/Base64).
+     * Encode a string using base64 encoding (http://en.wikipedia.org/wiki/Base64).
      *
      * @param input {String} the input string to encode
      * @return {String} The base64 encoded input string.
