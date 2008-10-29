@@ -73,7 +73,7 @@ qx.Class.define("qx.ui.form.SplitButton",
     }
 
     if (command != null) {
-      this.setCommand(null);
+      this.setCommand(command);
     }
   },
 
