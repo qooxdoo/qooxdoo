@@ -34,8 +34,6 @@
  * document.add(iframe);
  * </pre>
  *
- * This example demonstrates how to create a toolbar and a toolbar buttons.
- * The button will be added to the toolbar in the last line.
  *
  * *External Documentation*
  *
