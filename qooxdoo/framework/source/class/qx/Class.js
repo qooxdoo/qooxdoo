@@ -1578,15 +1578,18 @@ qx.Bootstrap.define("qx.Class",
   defer : function(statics)
   {
     // Binding of already loaded bootstrap classes
-    for (var classname in qx.Bootstrap.$$registry)
+    if (qx.core.Variant.isSet("qx.aspects", "on")) 
     {
-      var statics = qx.Bootstrap.$$registry[classname];
-
-      for (var key in statics)
+      for (var classname in qx.Bootstrap.$$registry)
       {
-        // only functions, no regexps
-        if (statics[key] instanceof Function) {
-          statics[key] = qx.core.Aspect.wrap(classname + "." + key, statics[key], "static");
+        var statics = qx.Bootstrap.$$registry[classname];
+  
+        for (var key in statics)
+        {
+          // only functions, no regexps
+          if (statics[key] instanceof Function) {
+            statics[key] = qx.core.Aspect.wrap(classname + "." + key, statics[key], "static");
+          }
         }
       }
     }
