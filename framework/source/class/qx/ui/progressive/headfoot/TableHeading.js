@@ -45,7 +45,7 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
     this.base(arguments);
 
     // Save the Widths object containing all of our column widths
-    this._columnWidths = columnWidths;
+    this.__columnWidths = columnWidths;
 
     // Get the array of column width data
     var columnData = columnWidths.getData();
@@ -105,9 +105,10 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
   members :
   {
 
+    __columnWidths     : null,
     __bCalculateWidths : null,
-    __labels : null,
-    __layout : null,
+    __labels           : null,
+    __layout           : null,
 
     // overridden
     join : function(progressive)
@@ -124,7 +125,7 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
     {
       if (this.__bCalculateWidths)
       {
-        return this._columnWidths.getData();
+        return this.__columnWidths.getData();
       }
       else
       {
@@ -153,7 +154,7 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
       this.__bCalculateWidths = false;
 
       // Get the column data
-      var columnData = this._columnWidths.getData();
+      var columnData = this.__columnWidths.getData();
 
       // Get the column width data.  For each label...
       for (var i = 0; i < columnData.length; i++)
@@ -167,7 +168,7 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
   destruct : function()
   {
     this._disposeFields(
-      "_columnWidths",
+      "__columnWidths",
       "__bCalculateWidths",
       "__labels");
 
