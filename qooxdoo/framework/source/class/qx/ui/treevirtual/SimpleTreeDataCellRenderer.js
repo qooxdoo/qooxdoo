@@ -34,14 +34,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
   extend : qx.ui.table.cellrenderer.Abstract,
 
 
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
   construct : function()
   {
     this.base(arguments);
@@ -55,27 +47,11 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
   },
 
 
-
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
   statics :
   {
     __icon : { }
   },
 
-
-
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
 
   properties :
   {
@@ -173,6 +149,31 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       return html;
     },
 
+    /**
+     * Add an image to the tree.  This might be a visible icon or it may be
+     * part of the indentation.
+     *
+     * @param imageInfo {Map}
+     *   How to display the image.  It optionally includes any of the
+     *   following:
+     *   <dl>
+     *     <dt>position {Map}</dt>
+     *     <dd>
+     *       If provided, a div is created to hold the image.  The div's top,
+     *       right, bottom, left, width, and/or height may be specified with
+     *       members of this map.  Each is expected to be an integer value.
+     *     </dd>
+     *     <dt>imageWidth, imageHeight</dt>
+     *     <dd>
+     *       The image's width and height.  These are used only if both are
+     *       specified.
+     *     </dd>
+     *   </dl>
+     *
+     * @return {String}
+     *   The html for this image, possibly with a surrounding div (see
+     *   'position', above).
+     */
     _addImage : function(imageInfo)
     {
       var html = [];
@@ -392,7 +393,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
      * @return {String}
      *   The html for the label.
      */
-    _addLabel : function(cellInfo, pos, extraStyle)
+    _addLabel : function(cellInfo, pos)
     {
       var node = cellInfo.value;
 
