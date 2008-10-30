@@ -80,8 +80,10 @@ qx.Class.define("qx.ui.progressive.structure.Default",
   members :
   {
 
+    __header     : null,
+    __footer     : null,
     __nullHeader : null,
-    __header : null,
+    __nullFooter : null,
 
     // overridden
     applyStructure : function(progressive)

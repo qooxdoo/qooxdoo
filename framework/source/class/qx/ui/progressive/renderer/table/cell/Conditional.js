@@ -78,6 +78,13 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
 
   members :
   {
+    __numericAllowed    : null,
+    __betweenAllowed    : null,
+    __conditions        : null,
+    __defaultTextAlign  : null,
+    __defaultColor      : null,
+    __defaultFontStyle  : null,
+    __defaultFontWeight : null,
 
     /**
      * Applies the cell styles to the style map.
