@@ -828,46 +828,6 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
 
 
     /**
-     * TODOC
-     *
-     * @param evt {Event} TODOC
-     * @return {void}
-     */
-    _onkeypress : function(evt)
-    {
-      if (!this.getEnabled())
-      {
-        return;
-      }
-
-      var consumed = false;
-
-      // Handle keys that are independant from the modifiers
-      var identifier = evt.getKeyIdentifier();
-
-      switch(identifier)
-      {
-        // Ignore events we already handled in _onkeydown
-        case "Left":
-        case "Right":
-          consumed = true;
-          break;
-      }
-
-      if (consumed)
-      {
-        evt.preventDefault();
-        evt.stopPropagation();
-      }
-      else
-      {
-        // Let our superclass handle this event
-        this.base(arguments, evt);
-      }
-    },
-
-
-    /**
      * Event handler. Called when the selection has changed.
      *
      * @param evt {Map}
