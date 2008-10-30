@@ -198,6 +198,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
   members :
   {
 
+    __renderer : null,
     __bRendering : null,
     __t1 : null,
     __initialNumElements : null,
