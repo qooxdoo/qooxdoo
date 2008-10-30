@@ -58,8 +58,20 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Icon",
     /**
      * Identify the image to be displayed in the cell.
      *
-     * @return {Object}
-     *   The returned object should contain at least the <i>url</i> field, but
+     * @param cellInfo {Map}
+     *   Information about the cell being renderered, including:
+     *   <ul>
+     *     <li>state</li>
+     *     <li>rowDiv</li>
+     *     <li>stylesheet</li>
+     *     <li>element</li>
+     *     <li>dataIndex</li>
+     *     <li>cellData</li>
+     *     <li>height</li>
+     *   </ul>
+     *
+     * @return {Map}
+     *   The returned map should contain at least the <i>url</i> field, but
      *   may contain any others of these:
      *
      *   <dl>
@@ -170,6 +182,21 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Icon",
 
     /**
      * Obtain the image data (url, tooltip) that's appropriate for this cell
+     *
+     * @param cellInfo {Map}
+     *   Information about the cell being renderered, including:
+     *   <ul>
+     *     <li>state</li>
+     *     <li>rowDiv</li>
+     *     <li>stylesheet</li>
+     *     <li>element</li>
+     *     <li>dataIndex</li>
+     *     <li>cellData</li>
+     *     <li>height</li>
+     *   </ul>
+     *
+     * @return {Map}
+     *   See {@link #_identifyImage}
      */
     __getImageData : function(cellInfo)
     {

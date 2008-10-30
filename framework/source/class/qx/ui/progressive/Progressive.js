@@ -353,6 +353,11 @@ qx.Class.define("qx.ui.progressive.Progressive",
      * Progressive's batch size at the time that rendering began.  That batch
      * size was copied into the {@link qx.ui.progressive.State} object and is
      * used herein.
+     *
+     * @param state {qx.ui.progressive.State}
+     *   The current state of rendering.
+     *
+     * @return {Void}
      */
     __renderElementBatch : function(state)
     {
@@ -437,6 +442,11 @@ qx.Class.define("qx.ui.progressive.Progressive",
 
     /**
      * Event callback for the "dataAvailable" event.
+     *
+     * @param e {qx.ui.event.Data}
+     *   A "dataAvailable" event's data contains the initial number of elements
+     *
+     * @return {Void}
      */
     __dataAvailable : function(e)
     {
