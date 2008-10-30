@@ -141,7 +141,12 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
     // The tree to which this data model is attached
     __tree : null,
 
-    // An empty tree contains only this one node
+    /**
+     * An empty tree contains only this one node
+     *
+     * @return {Map}
+     *   Returns a root node with all relevant fields filled.
+     */
     __getEmptyTree : function()
     {
       return {
@@ -194,6 +199,11 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
 
     /**
      * Set the tree object for which this data model is used.
+     *
+     * @param tree {qx.ui.treevirtual.TreeVirtual}
+     *    The tree used to render the data in this model.
+     *
+     * @return {Void}
      */
     setTree : function(tree)
     {

@@ -17,12 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(treevirtual)
-
-************************************************************************ */
-
 /**
  * The default data cell renderer for a virtual tree (columns other than the
  * tree column)
@@ -59,13 +53,6 @@ qx.Class.define("qx.ui.treevirtual.DefaultDataCellRenderer",
   members :
   {
     // overridden
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param cellInfo {var} TODOC
-     * @return {var} TODOC
-     */
     _getCellStyle : function(cellInfo)
     {
       // Return the style for the div for the cell.  If there's cell-specific
