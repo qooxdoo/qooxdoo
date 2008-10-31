@@ -51,7 +51,7 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
   {
     this.base(arguments);
 
-    this._table = table;
+    this.__table = table;
   },
 
 
@@ -65,6 +65,21 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
 
   members :
   {
+    __table : null,
+    
+
+    /**
+     * Getter for the table being managed
+     *
+     * @return {qx.ui.table.Table}
+     *   Table being managed
+     */
+    getTable : function()
+    {
+      return this.__table;
+    },
+
+
     /**
      * Handles a key down event that moved the focus (E.g. up, down, home,
      *  end, ...).
@@ -216,7 +231,7 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
       }
 
       // Call our local method to toggle the open/close state, if necessary
-      var bNoSelect = handleButtonClick(this._table, index, evt);
+      var bNoSelect = handleButtonClick(this.__table, index, evt);
 
       // If we haven't been told not to do the selection...
       if (!bNoSelect)
@@ -258,6 +273,6 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
 
   destruct : function()
   {
-    this._disposeFields("_table");
+    this._disposeFields("__table");
   }
 });
