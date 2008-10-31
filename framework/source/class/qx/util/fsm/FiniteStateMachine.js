@@ -49,43 +49,43 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
     this.setName(machineName);
 
     // Initialize the states object
-    this._states = {};
+    this.__states = {};
 
     // The first state added will become the start state
-    this._startState = null;
+    this.__startState = null;
 
     // Initialize the saved-states stack
-    this._savedStates = [];
+    this.__savedStates = [];
 
     // Initialize the pending event queue
-    this._eventQueue = [];
+    this.__eventQueue = [];
 
     // Initialize the blocked events queue
-    this._blockedEvents = [];
+    this.__blockedEvents = [];
 
     // Create the friendlyToObject" object.  Each object has as its property
     // name, the friendly name of the object; and as its property value, the
     // object itself.
-    this._friendlyToObject = {};
+    this.__friendlyToObject = {};
 
     // Create the "friendlyToHash" object.  Each object has as its property
     // name, the friendly name of the object; and as its property value, the
     // hash code of the object.
-    this._friendlyToHash = {};
+    this.__friendlyToHash = {};
 
     // Create the "hashToFriendly" object.  Each object has as its property
     // name, the hash code of the object; and as its property value, the
     // friendly name of the object.
-    this._hashToFriendly = {};
+    this.__hashToFriendly = {};
 
     // Friendly names can be added to groups, for easy manipulation of
     // enabling and disabling groups of widgets.  Track which friendly names
     // are in which group.
-    this._groupToFriendly = {};
+    this.__groupToFriendly = {};
 
     // We also need to be able to map back from friendly name to the groups it
     // is in.
-    this._friendlyToGroups = {};
+    this.__friendlyToGroups = {};
   },
 
 
@@ -263,6 +263,19 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
 
   members :
   {
+    __states                     : null,
+    __startState                 : null,
+    __eventQueue                 : null,
+    __blockedEvents              : null,
+    __savedStates                : null,
+    __friendlyToObject           : null,
+    __friendlyToHash             : null,
+    __hashToFriendly             : null,
+    __groupToFriendly            : null,
+    __friendlyToGroups           : null,
+    __bEventProcessingInProgress : false,
+
+
     /**
      * Add a state to the finite state machine.
      *
@@ -288,20 +301,20 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
       var stateName = state.getName();
 
       // Ensure that the state name doesn't already exist
-      if (stateName in this._states)
+      if (stateName in this.__states)
       {
         throw new Error("State " + stateName + " already exists");
       }
 
       // Is this the first state being added?
-      if (this._startState == null)
+      if (this.__startState == null)
       {
         // Yup.  Save this state as the start state.
-        this._startState = stateName;
+        this.__startState = stateName;
       }
 
       // Add the new state object to the finite state machine
-      this._states[stateName] = state;
+      this.__states[stateName] = state;
     },
 
 
@@ -340,10 +353,10 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
       var stateName = state.getName();
 
       // Save the old state object, so we can return it to be disposed
-      var oldState = this._states[stateName];
+      var oldState = this.__states[stateName];
 
       // Replace the old state with the new state object.
-      this._states[stateName] = state;
+      this.__states[stateName] = state;
 
       // Did they request that the old state be disposed?
       if (bDispose)
@@ -375,9 +388,9 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
     addObject : function(friendlyName, obj, groupNames)
     {
       var hash = obj.toHashCode();
-      this._friendlyToHash[friendlyName] = hash;
-      this._hashToFriendly[hash] = friendlyName;
-      this._friendlyToObject[friendlyName] = obj;
+      this.__friendlyToHash[friendlyName] = hash;
+      this.__hashToFriendly[hash] = friendlyName;
+      this.__friendlyToObject[friendlyName] = obj;
 
       // If no groupNames are specified, we're done.
       if (!groupNames)
@@ -399,26 +412,26 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
         var groupName = groupNames[i];
 
         // If the group name doesn't yet exist...
-        if (!this._groupToFriendly[groupName])
+        if (!this.__groupToFriendly[groupName])
         {
           // ... then create it.
-          this._groupToFriendly[groupName] = {};
+          this.__groupToFriendly[groupName] = {};
         }
 
         // Add the friendly name to the list of names in this group
-        this._groupToFriendly[groupName][friendlyName] = true;
+        this.__groupToFriendly[groupName][friendlyName] = true;
 
         // If the friendly name group mapping doesn't yet exist...
-        if (!this._friendlyToGroups[friendlyName])
+        if (!this.__friendlyToGroups[friendlyName])
         {
           // ... then create it.
-          this._friendlyToGroups[friendlyName] = [];
+          this.__friendlyToGroups[friendlyName] = [];
         }
 
         // Append this group name to the list of groups this friendly name is
         // in
-        this._friendlyToGroups[friendlyName] =
-          this._friendlyToGroups[friendlyName].concat(groupNames);
+        this.__friendlyToGroups[friendlyName] =
+          this.__friendlyToGroups[friendlyName].concat(groupNames);
       }
     },
 
@@ -435,23 +448,23 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      */
     removeObject : function(friendlyName)
     {
-      var hash = this._friendlyToHash[friendlyName];
+      var hash = this.__friendlyToHash[friendlyName];
 
       // Delete references to any groupos this friendly name was in
-      if (this._friendlyToGroups[friendlyName])
+      if (this.__friendlyToGroups[friendlyName])
       {
-        for (var groupName in this._friendlyToGroups[friendlyName])
+        for (var groupName in this.__friendlyToGroups[friendlyName])
         {
-          delete this._groupToFriendly[groupName];
+          delete this.__groupToFriendly[groupName];
         }
 
-        delete this._friendlyToGroups[friendlyName];
+        delete this.__friendlyToGroups[friendlyName];
       }
 
       // Delete the friendly name
-      delete this._hashToFriendly[hash];
-      delete this._friendlyToHash[friendlyName];
-      delete this._friendlyToObject[friendlyName];
+      delete this.__hashToFriendly[hash];
+      delete this.__friendlyToHash[friendlyName];
+      delete this.__friendlyToObject[friendlyName];
     },
 
 
@@ -469,7 +482,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      */
     getObject : function(friendlyName)
     {
-      return this._friendlyToObject[friendlyName];
+      return this.__friendlyToObject[friendlyName];
     },
 
 
@@ -487,7 +500,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
     getFriendlyName : function(obj)
     {
       var hash = obj.toHashCode();
-      return hash ? this._hashToFriendly[hash] : null;
+      return hash ? this.__hashToFriendly[hash] : null;
     },
 
 
@@ -507,7 +520,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
     {
       var a = [];
 
-      for (var name in this._groupToFriendly[groupName])
+      for (var name in this.__groupToFriendly[groupName])
       {
         a.push(name);
       }
@@ -523,12 +536,12 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      */
     displayAllObjects : function()
     {
-      for (var friendlyName in this._friendlyToHash)
+      for (var friendlyName in this.__friendlyToHash)
       {
-        var hash = this._friendlyToHash[friendlyName];
+        var hash = this.__friendlyToHash[friendlyName];
         var obj = this.getObject(friendlyName);
         this.debug(friendlyName + " => " + hash);
-        this.debug("  " + hash + " => " + this._hashToFriendly[hash]);
+        this.debug("  " + hash + " => " + this.__hashToFriendly[hash]);
         this.debug("  " +
                    friendlyName + " => " + this.getObject(friendlyName));
         this.debug("  " +
@@ -548,7 +561,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      */
     start : function()
     {
-      var stateName = this._startState;
+      var stateName = this.__startState;
 
       if (stateName == null)
       {
@@ -571,7 +584,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
         this.debug(this.getName() + "#" + stateName + "#actionsBeforeOnentry");
       }
 
-      this._states[stateName].getAutoActionsBeforeOnentry()(this);
+      this.__states[stateName].getAutoActionsBeforeOnentry()(this);
 
       // Run the entry function for the new state, if one is specified
       if (debugFunctions)
@@ -579,7 +592,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
         this.debug(this.getName() + "#" + stateName + "#entry");
       }
 
-      this._states[stateName].getOnentry()(this, null);
+      this.__states[stateName].getOnentry()(this, null);
 
       // Run the actionsAfterOnentry actions for the initial state
       if (debugFunctions)
@@ -587,7 +600,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
         this.debug(this.getName() + "#" + stateName + "#actionsAfterOnentry");
       }
 
-      this._states[stateName].getAutoActionsAfterOnentry()(this);
+      this.__states[stateName].getAutoActionsAfterOnentry()(this);
     },
 
 
@@ -620,7 +633,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
     pushState : function(state)
     {
       // See if there's room on the state stack for a new state
-      if (this._savedStates.length >= this.getMaxSavedStates())
+      if (this.__savedStates.length >= this.getMaxSavedStates())
       {
         // Nope.  Programmer error.
         throw new Error("Saved-state stack is full");
@@ -629,16 +642,16 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
       if (state === true)
       {
         // Push the current state onto the saved-state stack
-        this._savedStates.push(this.getState());
+        this.__savedStates.push(this.getState());
       }
       else if (state)
       {
-        this._savedStates.push(state);
+        this.__savedStates.push(state);
       }
       else
       {
         // Push the previous state onto the saved-state stack
-        this._savedStates.push(this.getPreviousState());
+        this.__savedStates.push(this.getPreviousState());
       }
     },
 
@@ -657,7 +670,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
     {
       // Add this event to the blocked event queue, so it will be passed to the
       // next state upon transition.
-      this._blockedEvents.unshift(event);
+      this.__blockedEvents.unshift(event);
     },
 
 
@@ -681,12 +694,12 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
       if (bAddAtHead)
       {
         // Put event at the head of the queue
-        this._eventQueue.push(event);
+        this.__eventQueue.push(event);
       }
       else
       {
         // Put event at the tail of the queue
-        this._eventQueue.unshift(event);
+        this.__eventQueue.unshift(event);
       }
 
       if (this.getDebugFlags() &
@@ -807,20 +820,20 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
     {
       // eventListener() can potentially be called while we're processing
       // events
-      if (this._eventProcessingInProgress)
+      if (this.__bEventProcessingInProgress)
       {
         // We were processing already, so don't process concurrently.
         return ;
       }
 
       // Track that we're processing events
-      this._eventProcessingInProgress = true;
+      this.__bEventProcessingInProgress = true;
 
       // Process each of the events on the event queue
-      while (this._eventQueue.length > 0)
+      while (this.__eventQueue.length > 0)
       {
         // Pull the next event from the pending event queue
-        var event = this._eventQueue.pop();
+        var event = this.__eventQueue.pop();
 
         // Run the finite state machine with this event
         var bDispose = this.__run(event);
@@ -833,7 +846,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
       }
 
       // We're no longer processing events
-      this._eventProcessingInProgress = false;
+      this.__bEventProcessingInProgress = false;
     },
 
 
@@ -895,7 +908,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
       thisState = this.getState();
 
       // Get the current State object
-      currentState = this._states[thisState];
+      currentState = this.__states[thisState];
 
       // Get a list of the transitions available from this state
       transitions = currentState.transitions;
@@ -972,7 +985,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
                        " blocked.  Re-queuing.");
           }
 
-          this._blockedEvents.unshift(event);
+          this.__blockedEvents.unshift(event);
           return false;
 
         default:
@@ -1031,7 +1044,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
         if (typeof (nextState) == "string")
         {
           // We found a literal state name.  Ensure it exists.
-          if (!nextState in this._states)
+          if (!nextState in this.__states)
           {
             throw new Error("Attempt to transition to nonexistent state " +
                             nextState);
@@ -1053,14 +1066,14 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
 
             case qx.util.fsm.FiniteStateMachine.StateChange.POP_STATE_STACK:
               // Switch to the state at the top of the state stack.
-              if (this._savedStates.length == 0)
+              if (this.__savedStates.length == 0)
               {
                 throw new Error("Attempt to transition to POP_STATE_STACK " +
                                 "while state stack is empty.");
               }
 
               // Pop the state stack to retrieve the state to transition to
-              nextState = this._savedStates.pop();
+              nextState = this.__savedStates.pop();
               this.setNextState(nextState);
               break;
 
@@ -1131,7 +1144,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
         }
 
         // Reset currentState to the new state object
-        currentState = this._states[this.getNextState()];
+        currentState = this.__states[this.getNextState()];
 
         // set previousState and state, and clear nextState, for transition
         this.setPreviousState(thisState);
@@ -1170,10 +1183,10 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
         // Add any blocked events back onto the pending event queue
         var e;
 
-        for (var i=0; i<this._blockedEvents.length; i++)
+        for (var i=0; i<this.__blockedEvents.length; i++)
         {
-          e = this._blockedEvents.pop();
-          this._eventQueue.unshift(e);
+          e = this.__blockedEvents.pop();
+          this.__eventQueue.unshift(e);
         }
 
         if (debugTransitions)
@@ -1209,8 +1222,9 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
 
   destruct : function()
   {
-    this._disposeArray("_eventQueue");
-    this._disposeArray("_blockedEvents");
-    this._disposeFields("_savedStates", "_states");
+    this._disposeArray("__eventQueue");
+    this._disposeArray("__blockedEvents");
+    this._disposeFields("__savedStates",
+                        "__states");
   }
 });
