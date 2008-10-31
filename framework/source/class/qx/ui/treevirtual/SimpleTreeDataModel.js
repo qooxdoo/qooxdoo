@@ -138,9 +138,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
 
   statics :
   {
-    // The tree to which this data model is attached
-    __tree : null,
-
     /**
      * An empty tree contains only this one node
      *
@@ -176,6 +173,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
 
   members :
   {
+    __tree           : null,
     __editableColArr : null,
 
     /** Rows, resorted into tree order as necessary */

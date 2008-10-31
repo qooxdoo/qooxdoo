@@ -38,12 +38,12 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
   {
     this.base(arguments);
 
-    this._am = qx.util.AliasManager.getInstance();
-    this._rm = qx.util.ResourceManager;
-    this._tm = qx.theme.manager.Appearance.getInstance();
+    this.__am = qx.util.AliasManager.getInstance();
+    this.__rm = qx.util.ResourceManager;
+    this.__tm = qx.theme.manager.Appearance.getInstance();
 
     // Base URL used for indentation
-    this.BLANK = this._rm.toUri(this._am.resolve("static/blank.gif"));
+    this.BLANK = this.__rm.toUri(this.__am.resolve("static/blank.gif"));
   },
 
 
@@ -179,7 +179,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       var html = [];
 
       // Resolve the URI
-      var source = this._rm.toUri(this._am.resolve(imageInfo.url));
+      var source = this.__rm.toUri(this.__am.resolve(imageInfo.url));
 
       // If we've been given positioning attributes, enclose image in a div
       if (imageInfo.position)
@@ -347,12 +347,12 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       {
         if (node.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF)
         {
-          var o = this._tm.styleFrom("treevirtual-file");
+          var o = this.__tm.styleFrom("treevirtual-file");
         }
         else
         {
           var states = { opened : node.bOpened };
-          var o = this._tm.styleFrom("treevirtual-folder", states);
+          var o = this.__tm.styleFrom("treevirtual-folder", states);
         }
 
         imageUrl = o.icon;
