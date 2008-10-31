@@ -12,6 +12,7 @@
     "QXTHEME"      : "qx.theme.Modern",
     "QXICONTHEME"  : ["Tango"],
     "QXVERSION"    : "0.8.1-pre",
+    "OPTIMIZE"     : ["basecalls", "variables", "privates", "strings"],
     "LOCALES"      : [ "en" ],
     "BUILD_PATH"   : "${ROOT}/build"
   },
@@ -135,8 +136,8 @@
         "uri"  : "script/${APPLICATION}.js",
         "root" : "${BUILD_PATH}",
         "format" : "on",
-        "locales" : "${LOCALES}",
-        "optimize" : ["basecalls", "variables", "privates", "strings"]
+        "locales"  : "${LOCALES}",
+        "optimize" : "${OPTIMIZE}"
       }
     },
 
