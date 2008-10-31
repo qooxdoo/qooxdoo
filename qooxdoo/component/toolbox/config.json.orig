@@ -1,0 +1,21 @@
+{
+  "name"    : "toolbox",
+
+  "include" :
+  [
+    {
+      "path" : "../../tool/data/config/application.json"
+    }
+  ],
+
+  "let" :
+  {
+    "APPLICATION"  : "toolbox",
+    "QOOXDOO_PATH" : "../../framework",
+    "QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
+    "QXTHEME"      : "qx.theme.Modern",
+    "API_EXCLUDE"  : ["qx.legacy.*"],
+    "LOCALES"      : [ "en" ],
+    "ROOT"         : "."
+  }
+}
