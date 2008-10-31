@@ -1,0 +1,34 @@
+{
+  "info" : 
+  {
+    "name" : "toolbox",
+
+    "summary" : "Qooxdoo Toolbox",
+    "description" : "A toolbox to build qooxdoo applications.",
+    
+    "homepage" : "http://www.qooxdoo.org/",
+
+    "license" : "LGPL/EPL",
+    "authors" : 
+    [
+      {
+        "name" : "Yuecel Beser (ybeser)",
+        "email" : "yuecel.beser@1und1.de"
+      }
+    ],
+
+    "version" : "trunk",
+    "qooxdoo-versions": ["0.8"]
+  },
+  
+  "provides" : 
+  {
+    "namespace"   : "toolbox",
+    "encoding"    : "utf-8",
+    "class"       : "source/class",
+    "resource"    : "source/resource",
+    "translation" : "source/translation",
+    "type"        : "application"
+  }
+}
+
