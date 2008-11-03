@@ -633,8 +633,8 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * If this property if enabled, the widget and all of its child widgets
-     * will never get aktivated. The activation keeps at the currently
-     * activeated widget.
+     * will never get activated. The activation keeps at the currently
+     * activated widget.
      *
      * This is mainly useful for widget authors. Please use with caution!
      */
