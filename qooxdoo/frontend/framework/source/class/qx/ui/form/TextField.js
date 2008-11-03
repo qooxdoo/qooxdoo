@@ -15,6 +15,7 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
+     * Jonathan Rass (jonathan_rass)
 
 ************************************************************************ */
 
@@ -761,6 +762,16 @@ qx.Class.define("qx.ui.form.TextField",
     },
 
 
+    // overridden
+    _visualPropertyCheck : function()
+    {
+      this.base(arguments);
+      if (!this.getVisibility()) {
+        throw new Error(this.classname + ": Element must be visible!");
+      }
+    },
+    
+    
 
 
     /*
