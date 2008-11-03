@@ -20,6 +20,7 @@
 ################################################################################
 
 import os, sys, re, types, string, copy
+import simplejson
 
 #from generator.config.Config import ExtMap
 
@@ -42,6 +43,12 @@ class Job(object):
         self._config = config
 
         console      = console_
+
+
+    def __rrrrrepr__(self):
+        s = '"%s"@(%s)' % (self.name, simplejson.dumps(self.getData(), cls=JobEncoder, 
+                                              ensure_ascii=False, indent=4))
+        return s
 
 
     def mergeJob(self, sourceJob):
@@ -228,6 +235,18 @@ class Job(object):
             del self._data[feature]
 
 
+# -- helper class to serialize Job objects with simplejson ---------------------
+
+class JobEncoder(simplejson.JSONEncoder):
+    
+    def default(self, obj):
+        #if isinstance(obj, generator.config.Job.Job):
+        if isinstance(obj, Job):
+            return obj.getData()
+        return simplejson.JSONEncoder.default(self, obj)
+
+
+
 # -- utility functions ---------------------------------------------------------
 
 def deepJsonMerge(source, target):
@@ -251,7 +270,7 @@ def deepJsonMerge(source, target):
                 deepJsonMerge(source[key], target[key])
                 #target[key] = mapMerge(source[key],target[key])
             else:
-                target[key] = source[key]
+                pass  # leave target key alone
         else:
             target[key] = source[key]
 

@@ -120,11 +120,13 @@ Arguments:
     config.resolveLibs(expandedjobs)
 
     # To see fully expanded config:
-    console.debug(pprint.pformat(config.get(".")))
+    #console.debug(pprint.pformat(config.get(".")))
 
     # Processing jobs...
     for job in expandedjobs:
         console.head("Executing: %s" % job, True)
+        console.debug("Expanded job config:")
+        console.debug(pprint.pformat(config.getJob(job).getData()))
         Generator(config, job, console).run()
 
 
