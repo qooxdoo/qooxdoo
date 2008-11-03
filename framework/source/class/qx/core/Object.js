@@ -150,6 +150,8 @@ qx.Class.define("qx.core.Object",
     */
 
     /**
+     * EXPERIMENTAL - NOT READY FOR PRODUCTION
+     *
      * Returns a clone of this object. Copies over all user configured
      * property values. Do not configure a parent nor apply the appearance
      * styles directly.
@@ -158,10 +160,12 @@ qx.Class.define("qx.core.Object",
      */
     clone : function()
     {
+
       var clazz = this.constructor
       var clone = new clazz;
       var props = qx.Class.getProperties(clazz);
       var user = qx.core.Property.$$store.user;
+      var setter = qx.core.Property.$$method.set;
       var name;
 
       // Iterate through properties
