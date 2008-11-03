@@ -228,16 +228,16 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
   events :
   {
     /** Fired when a tree branch which already has content is opened */
-    "treeOpenWithContent" : "qx.event.type.DataEvent",
+    "treeOpenWithContent" : "qx.event.type.Data",
 
     /** Fired when an empty tree branch is opened */
-    "treeOpenWhileEmpty"  : "qx.event.type.DataEvent",
+    "treeOpenWhileEmpty"  : "qx.event.type.Data",
 
     /** Fired when a tree branch is closed */
-    "treeClose"           : "qx.event.type.DataEvent",
+    "treeClose"           : "qx.event.type.Data",
 
     /** Fired when the selected rows change */
-    "changeSelection"     : "qx.event.type.DataEvent"
+    "changeSelection"     : "qx.event.type.Data"
   },
 
 
