@@ -45,12 +45,6 @@ class Job(object):
         console      = console_
 
 
-    def __rrrrrepr__(self):
-        s = '"%s"@(%s)' % (self.name, simplejson.dumps(self.getData(), cls=JobEncoder, 
-                                              ensure_ascii=False, indent=4))
-        return s
-
-
     def mergeJob(self, sourceJob):
         sData = sourceJob.getData()
         target= self.getData()
@@ -233,18 +227,6 @@ class Job(object):
     def removeFeature(self, feature):
         if feature in self._data:
             del self._data[feature]
-
-
-# -- helper class to serialize Job objects with simplejson ---------------------
-
-class JobEncoder(simplejson.JSONEncoder):
-    
-    def default(self, obj):
-        #if isinstance(obj, generator.config.Job.Job):
-        if isinstance(obj, Job):
-            return obj.getData()
-        return simplejson.JSONEncoder.default(self, obj)
-
 
 
 # -- utility functions ---------------------------------------------------------
