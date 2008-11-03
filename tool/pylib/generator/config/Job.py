@@ -104,6 +104,7 @@ class Job(object):
 
 
     def includeGlobalLet(self, additionalLet=None):
+        #import pydb; pydb.debugger()
         newlet = mapMerge(self.getFeature('let',{}),{}) # init with local let
         if additionalLet:
             newlet = mapMerge(additionalLet, newlet)
@@ -230,15 +231,25 @@ class Job(object):
 # -- utility functions ---------------------------------------------------------
 
 def deepJsonMerge(source, target):
+    if not isinstance(source, types.DictType):
+        raise TypeError, "Wrong argument to deepJsonMerge (must be Dict)"
     for key in source:
         if key in target:
             # merge arrays rather than shadowing
             if isinstance(source[key], types.ListType):
+                # equality problem: in two arbitrary lists, i have no way of telling 
+                # whether any pair of elements is somehow related (e.g. specifies the
+                # same library), and i can't do recursive search here, with some 
+                # similarity reasoning, can i. therefore: non-equal elements are just
+                # considered unrelated.
                 target[key] = listMerge(source[key],target[key])  # why prepend?!
             
             # merge dicts rather than shadowing
             elif isinstance(source[key], types.DictType):
-                target[key] = mapMerge(source[key],target[key])
+                # assuming schema-conformance of target[key] as well
+                # recurse on the sub-dicts
+                deepJsonMerge(source[key], target[key])
+                #target[key] = mapMerge(source[key],target[key])
             else:
                 target[key] = source[key]
         else:
