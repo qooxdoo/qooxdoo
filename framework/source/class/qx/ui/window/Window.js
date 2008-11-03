@@ -37,7 +37,6 @@ qx.Class.define("qx.ui.window.Window",
     qx.ui.core.MRemoteLayoutHandling,
     qx.ui.core.MResizable,
     qx.ui.core.MMovable,
-    qx.ui.core.MBlocker,
     qx.ui.core.MContentPadding
   ],
 
