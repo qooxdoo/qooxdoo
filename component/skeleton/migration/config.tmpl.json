@@ -26,8 +26,8 @@
       "include" : 
       [
         "$${QXTHEME}",
-        "qx.legacy.theme.ClassicRoyale"
-        "$${APPLICATION}.Application",
+        "qx.legacy.theme.ClassicRoyale",
+        "$${APPLICATION}.Application"
       ],
       "settings" :
       {
