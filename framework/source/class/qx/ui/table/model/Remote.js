@@ -310,7 +310,7 @@ qx.Class.define("qx.ui.table.model.Remote",
         lastColumn  : this.getColumnCount() - 1
       };
 
-      this.dispatchEvent(new qx.event.type.DataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data), true);
+      this.fireDataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
     },
 
 
