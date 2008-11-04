@@ -1005,7 +1005,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * Return the formatted label text from the <code>ListItem</code>.
      * The formatter removes the HTML tags <code>&lt;b&gt;</code>, 
      * <code>&lt;/b&gt;</code>, <code>&lt;u&gt;</code>, <code>&lt;/u&gt;</code>,
-     * <code>&lt;i&gt;</code>, <code>&lt;/i&gt;</code> and all HTML embeds
+     * <code>&lt;i&gt;</code>, <code>&lt;/i&gt;</code> and convert all HTML embeds
      * (like: &amp;gt;).
      *  
      * @type member
