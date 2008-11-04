@@ -66,6 +66,19 @@ qx.Class.define("qx.ui.form.ComboBox",
     {
       refine : true,
       init : "combobox"
+    },
+    
+    /** 
+     * Formatter to format <code>TextField</code> value when <code>ListItem</code>
+     * is selected. Uses the default formatter {@link qx.ui.form.ComboBox#__defaultFormat}.
+     */ 
+    format :
+    {
+      check : "Function",
+      init : function(item) {
+        return this.__defaultFormat(item);
+      },
+      nullable : true
     }
   },
 
@@ -271,7 +284,13 @@ qx.Class.define("qx.ui.form.ComboBox",
       // Apply pre-selected item (translate quick selection to real selection)
       if (this.__preSelectedItem)
       {
-        this.setValue(this.__preSelectedItem.getLabel());
+        var label = this.__preSelectedItem.getLabel();
+        
+        if (this.getFormat()!= null) {
+          label = this.getFormat().call(this, this.__preSelectedItem);
+        }
+        
+        this.setValue(label);
         this.__preSelectedItem = null;
       }
     },
@@ -298,7 +317,13 @@ qx.Class.define("qx.ui.form.ComboBox",
         }
         else
         {
-          this.setValue(current[0].getLabel());
+          var label = current[0].getLabel();
+        
+          if (this.getFormat()!= null) {
+            label = this.getFormat().call(this, current[0]);
+          }
+        
+          this.setValue(label);
           this.__preSelectedItem = null;
         }
       }
@@ -365,8 +390,32 @@ qx.Class.define("qx.ui.form.ComboBox",
       this.fireDataEvent("changeValue", value);
     },
 
-
-
+    /*
+    ---------------------------------------------------------------------------
+      FORMAT HANDLING
+    ---------------------------------------------------------------------------
+    */
+    /**
+     * Return the formatted label text from the <code>ListItem</code>.
+     * The formatter removes the HTML tags <code>&lt;b&gt;</code>, 
+     * <code>&lt;/b&gt;</code>, <code>&lt;u&gt;</code>, <code>&lt;/u&gt;</code>,
+     * <code>&lt;i&gt;</code>, <code>&lt;/i&gt;</code> and convert all HTML embeds
+     * (like: &amp;gt;).
+     *  
+     * @type member
+     * @param item {ListItem} The list item to format.
+     * @return {String} The formatted text.
+     */
+    __defaultFormat : function(item)
+    {
+      var valueLabel = item.getLabel();
+      
+      if (item.getRich()) {
+        valueLabel = qx.bom.String.unescape(valueLabel).replace(/(<|<\/)[biu]>/gi, "");
+      }
+      
+      return valueLabel;
+    },
 
     /*
     ---------------------------------------------------------------------------
