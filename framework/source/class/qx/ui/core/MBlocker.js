@@ -121,7 +121,7 @@ qx.Mixin.define("qx.ui.core.MBlocker",
         opacity : this.getBlockerOpacity(),
         backgroundColor : qx.theme.manager.Color.getInstance().resolve(this.getBlockerColor())
       });
-      
+
       // IE needs some extra love here to convince him to
       // block events.
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
@@ -131,7 +131,7 @@ qx.Mixin.define("qx.ui.core.MBlocker",
           backgroundRepeat: "repeat"
         });
       }
-      
+
       return blocker;
     },
 
@@ -154,7 +154,7 @@ qx.Mixin.define("qx.ui.core.MBlocker",
 
 
     /**
-     * Block all event from this widget by placing a transparent overlay widget,
+     * Block all events from this widget by placing a transparent overlay widget,
      * which receives all events, exactly over the widget.
      */
     block : function()

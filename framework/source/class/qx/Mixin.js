@@ -68,7 +68,7 @@ qx.Class.define("qx.Mixin",
      *     <tr><th>include</th><td>Mixin[]</td><td>Array of mixins, which will be merged into the mixin.</td></tr>
      *     <tr><th>statics</th><td>Map</td><td>
      *         Map of statics of the mixin. The statics will not get copied into the target class. They remain
-     *         acceccible from the mixin. This is the same behaviour as statics in interfaces ({@link qx.Interface#define}).
+     *         accessible from the mixin. This is the same behaviour as statics in interfaces ({@link qx.Interface#define}).
      *     </td></tr>
      *     <tr><th>members</th><td>Map</td><td>Map of members of the mixin.</td></tr>
      *     <tr><th>properties</th><td>Map</td><td>Map of property definitions. Format of the map: TODOC</td></tr>
