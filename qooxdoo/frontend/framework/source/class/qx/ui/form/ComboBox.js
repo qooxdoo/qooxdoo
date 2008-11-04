@@ -241,6 +241,19 @@ qx.Class.define("qx.ui.form.ComboBox",
     {
       check : "Integer",
       init : 10
+    },
+    
+    /** 
+     * Formatter to format <code>TextField</code> value when <code>ListItem</code>
+     * is selected. Uses the default formatter {@link qx.ui.form.ComboBox#__defaultFormat}.
+     */ 
+    format :
+    {
+      check : "Function",
+      init : function(item) {
+        return this.__defaultFormat(item);
+      },
+      nullable : true
     }
   },
 
@@ -338,7 +351,13 @@ qx.Class.define("qx.ui.form.ComboBox",
       // only do this if we called setSelected seperatly
       // and not from the property "value".
       if (!this._fromValue) {
-        this.setValue(value ? value.getLabel().toString() : "");
+        var valueLabel = value ? value.getLabel().toString() : "";
+        
+        if (this.getFormat() != null) {
+          valueLabel = this.getFormat().call(this, value);
+        }
+        
+        this.setValue(valueLabel);
       }
 
       // reset manager cache
@@ -975,6 +994,44 @@ qx.Class.define("qx.ui.form.ComboBox",
       this.getField()._visualizeFocus();
       this.getField().selectAll();
       this.addState("focused");
+    },
+    
+    /*
+    ---------------------------------------------------------------------------
+      FORMAT HANDLING
+    ---------------------------------------------------------------------------
+    */
+    /**
+     * Return the formatted label text from the <code>ListItem</code>.
+     * The formatter removes the HTML tags <code>&lt;b&gt;</code>, 
+     * <code>&lt;/b&gt;</code>, <code>&lt;u&gt;</code>, <code>&lt;/u&gt;</code>,
+     * <code>&lt;i&gt;</code>, <code>&lt;/i&gt;</code> and all HTML embeds
+     * (like: &amp;gt;).
+     *  
+     * @type member
+     * @param item {ListItem} The list item to format.
+     * @return {String} The formatted text.
+     */
+    __defaultFormat : function(item)
+    {
+      var valueLabel = item ? item.getLabel().toString() : "";
+      var label = item.getLabelObject();
+        
+      if (label != null) 
+      {
+        var mode = label.getMode();
+          
+        if (mode === "auto") {
+          mode = qx.util.Validation.isValidString(valueLabel) && valueLabel.match(/<.*>/) ? "html" : "text";
+        }
+
+        if (mode === "html")
+        {
+          valueLabel = qx.html.String.unescape(valueLabel).replace(/(<|<\/)[biu]>/gi, "");
+        }
+      }            
+      
+      return valueLabel;
     }
   },
 
