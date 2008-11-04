@@ -73,7 +73,7 @@ qx.Class.define("qx.ui.form.DateField",
       init : "datefield"
     },
 
-    /** The formater, which convertes the selected date to a string. **/
+    /** The formatter, which converts the selected date to a string. **/
     dateFormat :
     {
       check : "qx.util.format.DateFormat",
