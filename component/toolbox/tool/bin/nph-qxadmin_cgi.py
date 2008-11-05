@@ -99,23 +99,35 @@ def dispatch_action(form):
             print "Content-type: text/plain"  
             print
             open_in_browser(form)
-        elif (action == 'make_Pretty'): # get web server's pwd
+        elif (action == 'make_Pretty'): 
             print "Content-type: text/plain"  
             print
             makePretty(form)
-        elif (action == 'validate_Code'): # get web server's pwd
+        elif (action == 'validate_Code'): 
             print "Content-type: text/plain"  
             print
             validateCode(form)
-        elif (action == 'show_Configuration'): # get web server's pwd
+        elif (action == 'show_Configuration'): 
             print "Content-type: text/plain"  
             print
             showConfiguration(form)
-        elif (action == 'generate_Build'): # get web server's pwd
+        elif (action == 'save_Configuration'): 
+            print "Content-type: text/plain"  
+            print
+            saveConfiguration(form)
+        elif (action == 'generate_Build'): 
             print "Content-type: text/plain"  
             print
             generateBuild(form) 
-        elif (action == 'abort_Process'): # get web server's pwd
+        elif (action == 'test_Application'): 
+            print "Content-type: text/plain"  
+            print
+            testApplication(form) 
+        elif (action == 'test_Source'): 
+            print "Content-type: text/plain"  
+            print
+            testSource(form) 
+        elif (action == 'abort_Process'): # TODO TODO TODO TODO TODO 
             print "Content-type: text/plain"  
             print
             print "myProc: " + str(myProc.pid)
@@ -147,9 +159,110 @@ def showConfiguration(form):
     
     list = open(myPath+myName+"\config.json", 'r').readlines()
     input = "".join(list)
+    #input = "{ " + input + " }"
 
     print input
     return input
+
+def saveConfiguration(form):
+    sys.stdout.flush()
+    
+    myName = ""
+    if 'myName' in form:
+        myName = form['myName'].value #Name
+    myPath = ""
+    if 'myPath' in form:
+        myPath = form['myPath'].value #Path
+        if myPath[(len(myPath)-1)] != "\\":
+           myPath = myPath + '\\'
+    changedConfig = ""
+    if 'changedConfig' in form:
+        changedConfig = form['changedConfig'].value #changedConfig
+    
+    uCode = unicode(str(changedConfig))
+    
+    confFile = open(myPath+myName+"\config.json", 'w')
+    confFile.write(uCode)
+
+    
+
+def testApplication(form):
+    sys.stdout.flush()
+    
+    myName = ""
+    if 'myName' in form:
+        myName = form['myName'].value #Name
+    myPath = ""
+    if 'myPath' in form:
+        myPath = form['myPath'].value #Path
+        if myPath[(len(myPath)-1)] != "\\":
+           myPath = myPath + '\\'    
+    
+    if 'cygwin' in form:
+        #print "Content-type: text/plain"
+        #print 'In CYGWIN'
+        parts = form['cygwin'].value.split('\\')
+        pypath = os.path.join(*parts)
+        pypath = os.path.join(pypath,'bin','python.exe')
+        pypath = pypath.replace(':', ':/')
+        pypath = pypath.replace('\\', '/')
+        
+        libraryPath = os.getcwd().replace(":", "").replace("\\", "/").replace(' ', '" "')
+        cmd = pypath +' /cygdrive/'+ 'c/tmp/'+myName+'/./generate.py test'
+    else:
+        makecmd = sys.executable +' ' + myPath+myName+'\\generate.py test' 
+        cmd = makecmd
+    
+    (rcode, output, error) = invoke_piped(cmd)
+    output = output.replace('"', "'")
+
+    result = ' { testApp_state: ' + repr(rcode) + ', testApp_output: "' + output + '", testApp_error: "' + error + '" }'
+    result = result.replace("\n", "<br/>")
+    result = result.replace("\\", "/");
+    result = result.replace("//", "/");
+    print result
+    return result
+
+
+
+def testSource(form):
+    sys.stdout.flush()
+    
+    myName = ""
+    if 'myName' in form:
+        myName = form['myName'].value #Name
+    myPath = ""
+    if 'myPath' in form:
+        myPath = form['myPath'].value #Path
+        if myPath[(len(myPath)-1)] != "\\":
+           myPath = myPath + '\\'    
+    
+    if 'cygwin' in form:
+        #print "Content-type: text/plain"
+        #print 'In CYGWIN'
+        parts = form['cygwin'].value.split('\\')
+        pypath = os.path.join(*parts)
+        pypath = os.path.join(pypath,'bin','python.exe')
+        pypath = pypath.replace(':', ':/')
+        pypath = pypath.replace('\\', '/')
+        
+        libraryPath = os.getcwd().replace(":", "").replace("\\", "/").replace(' ', '" "')
+        cmd = pypath +' /cygdrive/'+ 'c/tmp/'+myName+'/./generate.py test-source'
+    else:
+        makecmd = sys.executable +' ' + myPath+myName+'\\generate.py test-source' 
+        cmd = makecmd
+    
+    (rcode, output, error) = invoke_piped(cmd)
+    output = output.replace('"', "'")
+
+    result = ' { test_state: ' + repr(rcode) + ', test_output: "' + output + '", test_error: "' + error + '" }'
+    result = result.replace("\n", "<br/>")
+    result = result.replace("\\", "/");
+    result = result.replace("//", "/");
+    print result
+    return result
+
+
 
 
 def generateBuild(form):
@@ -181,7 +294,7 @@ def generateBuild(form):
     
     (rcode, output, error) = invoke_piped(cmd)
     output = output.replace('"', "'")
-    #global result
+
     result = ' { build_state: ' + repr(rcode) + ', build_output: "' + output + '", build_error: "' + error + '" }'
     result = result.replace("\n", "<br/>")
     result = result.replace("\\", "/");
@@ -220,7 +333,7 @@ def validateCode(form):
     
     (rcode, output, error) = invoke_piped(cmd)
     output = output.replace('"', "'")
-    #global result
+
     result = ' { val_state: ' + repr(rcode) + ', val_output: "' + output + '", val_error: "' + error + '" }'
     result = result.replace("\n", "<br/>")
     result = result.replace("\\", "/");
@@ -259,7 +372,7 @@ def makePretty(form):
     
     (rcode, output, error) = invoke_piped(cmd)
     output = output.replace('"', "'")
-    #global result
+
     result = ' { pretty_state: ' + repr(rcode) + ', pretty_output: "' + output + '", pretty_error: "' + error + '" }'
     result = result.replace("\n", "<br/>")
     result = result.replace("\\", "/");
@@ -321,7 +434,7 @@ def generateApi(form):
     
     (rcode, output, error) = invoke_piped(cmd)
     output = output.replace('"', "'")
-    #global result
+
     result = ' { api_state: ' + repr(rcode) + ', api_output: "' + output + '", api_error: "' + error + '" }'
     result = result.replace("\n", "<br/>")
     result = result.replace("\\", "/");
@@ -361,7 +474,7 @@ def generateSource(form):
     
     (rcode, output, error) = invoke_piped(cmd)
     output = output.replace('"', "'")
-    #global result
+
     result = '{ gen_state: ' + repr(rcode) + ', gen_output: "' + output + '", gen_error: "' + error + '" }'
     result = result.replace("\n", "<br/>")
     result = result.replace("\\", "/");
@@ -424,8 +537,6 @@ def createNewApplication(form):
     result = result.replace("\n", "<br/>")
     result = result.replace("\\", "/");
     result = result.replace("//", "/");
-    #global state
-    #state = rcode
     print result
     return result
 

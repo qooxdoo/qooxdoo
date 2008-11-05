@@ -44,12 +44,12 @@ rem
   setlocal ENABLEDELAYEDEXPANSION
   set DEBUG=1
   set WebSvrWait=5
-  set websrvPath=component/toolbox/tool/bin/cgiserver.py
+  set websrvPath=/component/toolbox/tool/bin/cgiserver.py   rem component/toolbox/
   set rc=0
   
   set adminHost=127.0.0.1
   set adminPort=8000
-  set adminPath=component/toolbox/source/index.html
+  set adminPath=component/toolbox/source/index.html rem component/toolbox/
   set adminUrl=http://!adminHost!:!adminPort!/!adminPath!
   rem set adminUrl=http://127.0.0.1:8000/tool/buildtool/index.html
   set testUrl=http://127.0.0.1:8000/

@@ -96,37 +96,41 @@ qx.Class.define("toolbox.CreateNewApplication",
       {
         var result = evt.getContent();
         //alert("Create " + result);
-        var receivedState = result.state;
-        if (receivedState == 1 || receivedState == 0) {
-        	if(receivedState == 0){
-        		frame.setHtml(result.output);
-        	  this.setResult(result.output);
-        	  //disables all functions during the progress
-            for (var i = 0; i < windowContent.length; i++) {
-              windowContent[i].setEnabled(true);
-            }
-            loadImage.hide();
-            logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.output)
-        	  if(generate == "true") {
-        	  	loadImage.show();
-        	  	//disables all functions during the progress
+        if(result.state != undefined) {
+          var receivedState = result.state;
+          if (receivedState == 1 || receivedState == 0) {
+          	if(receivedState == 0){
+          		frame.setHtml(result.output);
+          	  this.setResult(result.output);
+          	  //disables all functions during the progress
               for (var i = 0; i < windowContent.length; i++) {
-                windowContent[i].setEnabled(false);
+                windowContent[i].setEnabled(true);
               }
-              req2.setData(generateDat)
-              req2.send();
-        	  }
-        	}
-        	if(receivedState == 1){
-            frame.setHtml('<font color="red">'+result.output + '</font>');
-            this.setResult(result.output);
-            logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">'+ result.output + '</font>')
-            //Enables all functions after receiving results
-            for (var i = 0; i < windowContent.length; i++) {
-              windowContent[i].setEnabled(true);
+              loadImage.hide();
+              logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.output)
+          	  if(generate == "true") {
+          	  	loadImage.show();
+          	  	//disables all functions during the progress
+                for (var i = 0; i < windowContent.length; i++) {
+                  windowContent[i].setEnabled(false);
+                }
+                req2.setData(generateDat)
+                req2.send();
+          	  }
+          	}
+          	if(receivedState == 1){
+              frame.setHtml('<font color="red">'+result.output + '</font>');
+              this.setResult(result.output);
+              logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">'+ result.output + '</font>')
+              //Enables all functions after receiving results
+              for (var i = 0; i < windowContent.length; i++) {
+                windowContent[i].setEnabled(true);
+              }
+              loadImage.hide();
             }
-            loadImage.hide();
           }
+        } else {
+        	logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">'+ result + '</font>')
         }
       },
       this);
