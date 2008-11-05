@@ -1003,10 +1003,9 @@ qx.Class.define("qx.ui.form.ComboBox",
     */
     /**
      * Return the formatted label text from the <code>ListItem</code>.
-     * The formatter removes the HTML tags <code>&lt;b&gt;</code>, 
-     * <code>&lt;/b&gt;</code>, <code>&lt;u&gt;</code>, <code>&lt;/u&gt;</code>,
-     * <code>&lt;i&gt;</code>, <code>&lt;/i&gt;</code> and convert all HTML embeds
-     * (like: &amp;gt;).
+     * The formatter removes all HTML tags and converts all HTML entities
+     * to string characters if the <code>ListItem</code> is identified as
+     * HTML text or the mode is set to <code>"html"</code>.
      *  
      * @type member
      * @param item {ListItem} The list item to format.
@@ -1027,7 +1026,7 @@ qx.Class.define("qx.ui.form.ComboBox",
 
         if (mode === "html")
         {
-          valueLabel = qx.html.String.unescape(valueLabel).replace(/(<|<\/)[biu]>/gi, "");
+          valueLabel = qx.html.String.unescape(valueLabel).replace(/<[^>]+?>/g, "");
         }
       }            
       
