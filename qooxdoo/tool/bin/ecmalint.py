@@ -195,6 +195,13 @@ class Lint:
         return identifier in Lint.KNOWN_IDENTIFIER
 
     def checkUndefinedVariables(self, globals):
+        
+        # check whether this is a qooxdoo class and extract the top level namespace
+        define = treeutil.findQxDefine(self.tree)
+        if define:
+            className = treeutil.selectNode(define, "params/1").get("value")
+            globals.append(className.split(".")[0])        
+        
         globalScope = self.script.getGlobalScope()
         for scope in self.script.iterScopes():
             for use in scope.uses:
