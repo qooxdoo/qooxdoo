@@ -44,12 +44,12 @@ rem
   setlocal ENABLEDELAYEDEXPANSION
   set DEBUG=1
   set WebSvrWait=5
-  set websrvPath=component/toolbox/tool/bin/cgiserver.py   rem component/toolbox/
+  set websrvPath=component/toolbox/tool/bin/cgiserver.py
   set rc=0
   
   set adminHost=127.0.0.1
   set adminPort=8000
-  set adminPath=component/toolbox/source/index.html rem component/toolbox/
+  set adminPath=component/toolbox/build/index.html
   set adminUrl=http://!adminHost!:!adminPort!/!adminPath!
   rem set adminUrl=http://127.0.0.1:8000/tool/buildtool/index.html
   set testUrl=http://127.0.0.1:8000/
@@ -65,7 +65,7 @@ rem
   :: Find native Python installation
   ::---------------------------------------------------------------------------
 
-  echo. Trying to find native Python installation ...
+  echo. Trying to find Native Python installation ...
   
   assoc .py >nul 2>&1
   if %errorlevel%==0 (
@@ -85,12 +85,12 @@ rem
   ::---------------------------------------------------------------------------
 
   echo. Trying to find a Cygwin installation ...
-  echo. ... This may take some moments ...
+  echo. ... this may take a few moments ...
   call :_searchCygwin
   set CygwinPath >nul 2>&1
   if not !errorlevel!==0 (
-    echo. I was unable to locate your cygwin installation.
-    echo. We may be able to start the admin interface, but without cygwin you will
+    echo. I was unable to locate your Cygwin installation.
+    echo. We may be able to start the admin interface, but without Cygwin you will
     echo. not be able run the build commands; shall I continue?
     call :_yesNo
     if !YesNo!==0 (
@@ -101,13 +101,13 @@ rem
     )
     set YesNo=
   ) else (
-    echo. Found cygwin in !CygwinPath!
+    echo. ... Found Cygwin in !CygwinPath! .
     echo.
     set cygwin=1
   )
 
 :: find python
-  :: in cygwin
+  :: in Cygwin
   set CygwinPath >nul 2>&1
   if !errorlevel!==0 (
     if exist !CygwinPath!\bin\python.exe (
@@ -159,6 +159,26 @@ rem
     echo. open the URL %adminUrl%?cygwin=!CgwinPath! in your web browser.
     goto:END
   )
+  
+  :: Skip next section intentionally. 
+  :: TODO: Remove skip and adjust adminPath before release.
+  :: goto:launch
+  
+  if not exist "component\toolbox\build" (
+    echo. Generating toolbox ...
+    echo. ... this may take a few moments ...
+    
+    chdir component\toolbox
+    if %pybin%=="" (
+      generate.py -q build
+    ) else (
+      %pybin% generate.py -q build
+    )
+    
+    echo.
+  )
+
+  :launch
 :: load admin url in browser 
   echo. Launching toolbox in your web browser.
   echo.
@@ -236,7 +256,7 @@ rem
   :: Search filesystem for Cygwin installation
   ::---------------------------------------------------------------------------
 :_searchCygwin
-  rem Trying to locate a cygwin installation on the machine, using bash.exe
+  rem Trying to locate a Cygwin installation on the machine, using bash.exe
   rem as an criterion
   setlocal
   set dir=cygwin
@@ -254,8 +274,8 @@ rem
 
   :: prompt user
   echo.
-  echo. I cannot find a cygwin in the default locations. I can further search for it.
-  echo. Can you provide the path to your cygwin installation? (If not, just hit Return
+  echo. I cannot find a Cygwin in the default locations. I can further search for it.
+  echo. Can you provide the path to your Cygwin installation? (If not, just hit Return
   echo. and I will continue to search).
   call :_readAndCheckCygwin
   set CygwinPath >nul 2>&1
@@ -265,7 +285,7 @@ rem
     goto:f1End
   ) else (
     :: prompt for confirmation before searching
-    echo. Shall I do an exhaustive search for cygwin?
+    echo. Shall I do an exhaustive search for Cygwin?
     call :_yesNo
     if !YesNo!==0 (
       goto:f1End
@@ -293,11 +313,11 @@ rem
 
 :_readAndCheckCygwin
   setlocal
-  set/p cpath=Enter path to cygwin (quote paths with blanks): 
+  set/p cpath=Enter path to Cygwin (quote paths with blanks): 
   if exist %cpath%\bin\bash.exe (
     set myfound=%cpath%
   ) else (
-    echo. Sorry, but this doesn't look like a proper cygwin installation
+    echo. Sorry, but this doesn't look like a proper Cygwin installation
   )
   endlocal & set CygwinPath=%myfound%
   goto:EOF
@@ -327,7 +347,7 @@ rem
   :: find a way to check the web server
   set CygwinPath >nul 2>&1
   if not !errorlevel!==0 (
-    :: no cygwin
+    :: no Cygwin
     set meth=0
   ) else (
     if exist !CygwinPath!\bin\wget.* (
