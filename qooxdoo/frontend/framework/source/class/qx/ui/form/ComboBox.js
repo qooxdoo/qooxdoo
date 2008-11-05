@@ -1026,7 +1026,8 @@ qx.Class.define("qx.ui.form.ComboBox",
 
         if (mode === "html")
         {
-          valueLabel = qx.html.String.unescape(valueLabel).replace(/<[^>]+?>/g, "");
+          valueLabel = valueLabel.replace(/<[^>]+?>/g, "");
+          valueLabel = qx.html.String.unescape(valueLabel);
         }
       }            
       
