@@ -57,6 +57,8 @@
   {
     "api" :
     {
+      "desc"    : "create api doc for the current library",
+
       "extend" : ["apiconf::build"],
 
       "let" :
@@ -78,6 +80,8 @@
 
     "test" :
     {
+      "desc"    : "create a test runner app for unit tests of the current library",
+
       "extend" : ["testrunner::build"],
 
       "let" :
@@ -98,6 +102,8 @@
 
     "test-source" :
     {
+      "desc"    : "create a test runner app for unit tests (source version) of the current library",
+
       "extend" : ["testrunner::build-with-tests-source"],
 
       "let" :

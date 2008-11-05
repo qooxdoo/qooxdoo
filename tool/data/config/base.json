@@ -40,6 +40,8 @@
     // the next one is needed wherever the local lib is to be scanned
     "scan-local-lib" :
     {
+      "desc"    : "scan for classes and resources in the current library",
+
       "library" :
       [
         {
@@ -57,6 +59,8 @@
 
     "common" :
     {
+      "desc"    : "common settings for base.json jobs",
+
       "library" :
       [
         {
@@ -99,6 +103,8 @@
 
     "source-script" :
     {
+      "desc"    : "create includer script of current library",
+
       "extend" : ["common"],
 
       "compile-source" :
@@ -112,6 +118,8 @@
 
     "source" :
     {
+      "desc"    : "create source version of current library",
+
       "run" :
       [
         "source-script"
@@ -122,6 +130,8 @@
 
     "build-script" :
     {
+      "desc"    : "create build script of current library",
+
       "extend" : ["common"],
 
       "variants" :
@@ -144,6 +154,8 @@
 
     "build-files" :
     {
+      "desc"    : "copy files of current library to build dir",
+
       "extend" : ["common"],
 
       "copy-files" :
@@ -160,6 +172,8 @@
 
     "build-resources":
     {
+      "desc"    : "copy necessary resources for current library to build dir",
+
       "extend" : ["common"],
 
       "copy-resources" :
@@ -172,6 +186,8 @@
 
     "build" :
     {
+      "desc"    : "create build version of current library",
+
       "run" :
       [
         "build-resources",
@@ -184,6 +200,8 @@
 
     "translation" :
     {
+      "desc"    : "create .po files for current library",
+
       "extend" : ["common"],
 
       "translate" :
@@ -197,6 +215,8 @@
     // can be used as an 'extend' to activate profiling
     "profiling" :
     {
+      "desc"    : "can be used as an 'extend' for another job to activate profiling",
+
       "variants" :
       {
         "qx.aspects" : ["on"]
@@ -211,6 +231,8 @@
 
     "pretty" :
     {
+      "desc"    : "pretty-formatting of the source code of the current library",
+
       "extend" : [ "scan-local-lib" ],
 
       "include" : [ "=${APPLICATION}.*" ],
@@ -221,6 +243,8 @@
 
     "clean" :
     {
+      "desc"    : "remove local cache and generated .js files (source/build)",
+
       // scan-local-lib is here (like various similar others) only in for the cache setting;
       // can be removed once the forced library scan for each job is disabled
       "extend" : [ "scan-local-lib" ],
@@ -243,6 +267,8 @@
 
     "distclean" :
     {
+      "desc"    : "remove the cache and all generated artefacts of this library (source, build, ...)",
+
       "extend" : [ "scan-local-lib" ],
 
       "clean-files" :
@@ -277,6 +303,8 @@
 
     "lint" :
     {
+      "desc"    : "check the source code of the .js files of the current library",
+
       "extend" : [ "scan-local-lib" ],
 
       "lint-check" :
@@ -288,6 +316,8 @@
 
     "migration" :
     {
+      "desc"    : "migrate the .js files of the current library to the current qooxdoo version",
+
       "extend" : [ "scan-local-lib" ],
 
       "migrate-files" :
@@ -300,6 +330,8 @@
 
     "publish" :
     {
+      "desc"    : "(this is an admin job for the qooxdoo project web site)",
+
       "extend" : [ "scan-local-lib" ],
 
       "shell" :
@@ -311,6 +343,8 @@
 
     "fix" :
     {
+      "desc"    : "normalize whitespace in .js files of the current library (tabs, eol, ...)",
+
       "extend" : [ "scan-local-lib" ],
 
       "fix-files" : {}
