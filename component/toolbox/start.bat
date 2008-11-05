@@ -44,7 +44,7 @@ rem
   setlocal ENABLEDELAYEDEXPANSION
   set DEBUG=1
   set WebSvrWait=5
-  set websrvPath=/component/toolbox/tool/bin/cgiserver.py   rem component/toolbox/
+  set websrvPath=component/toolbox/tool/bin/cgiserver.py   rem component/toolbox/
   set rc=0
   
   set adminHost=127.0.0.1
