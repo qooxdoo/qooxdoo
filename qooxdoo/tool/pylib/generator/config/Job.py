@@ -34,6 +34,10 @@ class Job(object):
     LET_KEY      = "let"
     RESOLVED_KEY = "resolved"
     KEYS_WITH_JOB_REFS = [RUN_KEY, EXTEND_KEY]
+    MACRO_SPANNING_REGEXP = re.compile(r'^\$\{\w+\}$')  # e.g. "${PATH}"
+    JSON_SCALAR_TYPES = (types.StringTypes, types.IntType, types.LongType, types.FloatType,
+                         types.BooleanType, types.NoneType)
+
 
     def __init__(self, name, data, console_, config=None):
         global console
@@ -46,11 +50,25 @@ class Job(object):
 
 
     def mergeJob(self, sourceJob):
+        "merges another job into self"
+
         sData = sourceJob.getData()
         target= self.getData()
 
-        deepJsonMerge(sData, target)
+        self.deepJsonMerge(sData, target)
 
+
+    def mergeValues(self, source, target):
+        '''merges source into target;
+           assumes no JobMergeValue be passed, all macros expanded'''
+
+        if isinstance(target, types.ListType):
+            return self.listMerge(source, target)
+        elif isinstance(target, types.DictType):
+            return self.deepJsonMerge(source, target)
+        else:  # scalar value
+            return target  # first val overrules
+        
 
     def resolveExtend(self, entryTrace=[]):
         # resolve the 'extend' entry of a job
@@ -106,12 +124,12 @@ class Job(object):
 
     def includeGlobalLet(self, additionalLet=None):
         #import pydb; pydb.debugger()
-        newlet = mapMerge(self.getFeature('let',{}),{}) # init with local let
+        newlet = self.mapMerge(self.getFeature('let',{}),{}) # init with local let
         if additionalLet:
-            newlet = mapMerge(additionalLet, newlet)
+            newlet = self.mapMerge(additionalLet, newlet)
         global_let = self._config.get('let',False)
         if global_let:
-            newlet = mapMerge(global_let, newlet)
+            newlet = self.mapMerge(global_let, newlet)
 
         if newlet:
             self.setFeature('let', newlet) # set cumulative let value
@@ -127,11 +145,16 @@ class Job(object):
         if possiblyBin:
             macro = possiblyBin.group(1)
         if macro and (macro in mapbin.keys()):
-            sub = mapbin[macro]
+            replval = mapbin[macro]
+            if isinstance(replval, types.DictType):
+                sub = copy.deepcopy(replval)  # make sure macro values are not affected during value merges later
+            else:
+                sub = replval   # array references are ok for now
         else:
             templ = string.Template(s)
             sub = templ.safe_substitute(mapstr)
         return sub
+
 
     def _expandMacrosInValues(self, data, maps):
         """ apply macro expansion on arbitrary values; takes care of recursive data like
@@ -163,6 +186,13 @@ class Job(object):
                     data[enew] = data[e]
                     del data[e]
                     console.debug("expanding key: %s ==> %s" % (e, enew))
+
+        # JobMergeValues
+        elif isinstance(data, JobMergeValue):
+            # macro-expand and merge further
+            source = self._expandMacrosInValues(data.val1, maps)
+            target = self._expandMacrosInValues(data.val2, maps)
+            result = self.mergeValues(source, target)
 
         # strings
         elif isinstance(data, types.StringTypes):
@@ -229,49 +259,78 @@ class Job(object):
             del self._data[feature]
 
 
-# -- utility functions ---------------------------------------------------------
+    def deepJsonMerge(self, source, target):
 
-def deepJsonMerge(source, target):
-    if not isinstance(source, types.DictType):
-        raise TypeError, "Wrong argument to deepJsonMerge (must be Dict)"
-    for key in source:
-        if key in target:
-            # merge arrays rather than shadowing
-            if isinstance(source[key], types.ListType):
-                # equality problem: in two arbitrary lists, i have no way of telling 
-                # whether any pair of elements is somehow related (e.g. specifies the
-                # same library), and i can't do recursive search here, with some 
-                # similarity reasoning, can i. therefore: non-equal elements are just
-                # considered unrelated.
-                target[key] = listMerge(source[key],target[key])  # why prepend?!
-            
-            # merge dicts rather than shadowing
-            elif isinstance(source[key], types.DictType):
-                # assuming schema-conformance of target[key] as well
-                # recurse on the sub-dicts
-                deepJsonMerge(source[key], target[key])
-                #target[key] = mapMerge(source[key],target[key])
+        def isString(s):
+            return isinstance(s, types.StringTypes)
+        def isSpanningMacro(m):
+            return self.MACRO_SPANNING_REGEXP.search(m)
+
+        # - main ---
+
+        if not isinstance(source, types.DictType):
+            raise TypeError, "Wrong argument to deepJsonMerge (must be Dict)"
+
+        for key in source:
+            if key in target:
+                # merge arrays rather than shadowing
+                if isinstance(source[key], types.ListType):
+                    # equality problem: in two arbitrary lists, i have no way of telling 
+                    # whether any pair of elements is somehow related (e.g. specifies the
+                    # same library), and i can't do recursive search here, with some 
+                    # similarity reasoning, can i. therefore: non-equal elements are just
+                    # considered unrelated.
+                    target[key] = self.listMerge(source[key],target[key])  # why prepend?!
+                
+                # merge dicts rather than shadowing
+                elif isinstance(source[key], types.DictType):
+                    # assuming schema-conformance of target[key] as well
+                    # recurse on the sub-dicts
+                    self.deepJsonMerge(source[key], target[key])
+                    #target[key] = self.mapMerge(source[key],target[key])
+
+                # treat spanning macros (which can represent data structures), and JobMergeValues
+                elif ((isString(source[key]) and isSpanningMacro(source[key])) or
+                      (isString(target[key]) and isSpanningMacro(target[key])) or
+                      isinstance(source[key], JobMergeValue)                   or
+                      isinstance(target[key], JobMergeValue)
+                     ):
+                    # insert an intermediate object, which is resolved when macros are resolved
+                    target[key] = JobMergeValue(source[key], target[key])
+
+                else:
+                    pass  # leave target key alone
             else:
-                pass  # leave target key alone
-        else:
-            target[key] = source[key]
+                target[key] = source[key]
+
+        return target
 
 
-def mapMerge(source, target):
-    """merge source map into target, but don't overwrite existing
-       keys in target (unlike target.update(source))"""
-    t = source.copy()
-    t.update(target)  # target keys take precedence
-    return t
+    def mapMerge(self, source, target):
+        """merge source map into target, but don't overwrite existing
+           keys in target (unlike target.update(source))"""
+        t = source.copy()
+        t.update(target)  # target keys take precedence
+        return t
 
 
-def listMerge(source, target):
-    """merge source list with target list (currently prepend),
-       avoiding duplicates"""
-    t = []
-    for e in source:
-        if not e in target:
-            t.append(e)
-    return t + target
+    def listMerge(self, source, target):
+        """merge source list with target list (currently prepend),
+           avoiding duplicates"""
+        t = []
+        for e in source:
+            if not e in target:
+                t.append(e)
+        return t + target
+
+
+# -- a helper class to represent delayed merge values --------------------------
+
+class JobMergeValue(object):
+
+    def __init__(self, val1, val2):
+        self.val1 = val1
+        self.val2 = val2
+
 
 

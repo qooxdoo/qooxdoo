@@ -75,6 +75,7 @@ class Config:
     NS_SEP            = "/"    # this is to reference jobs from nested configs
     COMPOSED_NAME_SEP = "::"   # this is to construct composed job names
     JOBS_KEY          = "jobs"
+    SHADDOW_PREFIX    = "XXX"
 
     def get(self, key, default=None, confmap=None):
         """Returns a (possibly nested) data element from dict <conf>
@@ -257,26 +258,42 @@ class Config:
             if blockJobsList and extJobEntry in blockJobsList:
                 continue
             newjobname = namepfx + extJobEntry  # create a job name
+            hasClash   = False
             if self.hasJob(newjobname):
-                raise KeyError, "Job already exists: \"%s\"" % newjobname
-            else:
-                # take essentially the external job into the local joblist
-                extJob = extConfig.getJob(extJobEntry)  # fetch this job
-                if not extJob:
-                    raise RuntimeError, "No such job: \"%s\" while including config: \"%s\")" % (extJobEntry, extConfig._fname)
-                newJob = Job(newjobname, {}, self._console, self) # fake as local job, for _includeGlobalLet to run locally
-                newJob.includeGlobalLet()  # have to draw in local let before all the external let's are processed
-                newJob.mergeJob(extJob)    # now merge in the external guy
-                newJob.setConfig(extJob.getConfig()) # retain link to external config
-                # patch job references in 'run', 'extend', ... keys
-                for key in Job.KEYS_WITH_JOB_REFS:
-                    if newJob.hasFeature(key):
-                        newlist = []
-                        oldlist = newJob.getFeature(key)
-                        for jobname in oldlist:
-                            newlist.append(extConfig.getJob(jobname))
-                        newJob.setFeature(key, newlist)
-                self.addJob(newjobname, newJob)         # and add it
+                hasClash = True
+                clashname = newjobname
+                # import external job under different name
+                console.warn("! Shaddowing job \"%s\" with local one" % newjobname)
+                # construct a name prefix
+                extConfigName = extConfig._fname or self.SHADDOW_PREFIX
+                extConfigName = os.path.splitext(os.path.basename(extConfigName))[0]
+                # TODO: this might not be unique enough! (user could use extConfigName in 'as' param for other include)
+                newjobname = extConfigName + self.COMPOSED_NAME_SEP + newjobname
+            # take essentially the external job into the local joblist
+            extJob = extConfig.getJob(extJobEntry)  # fetch this job
+            if not extJob:
+                raise RuntimeError, "No such job: \"%s\" while including config: \"%s\")" % (extJobEntry, extConfig._fname)
+            newJob = Job(newjobname, {}, self._console, self) # fake as local job, for _includeGlobalLet to run locally
+            newJob.includeGlobalLet()  # have to draw in local let before all the external let's are processed
+            newJob.mergeJob(extJob)    # now merge in the external guy
+            newJob.setConfig(extJob.getConfig()) # retain link to external config
+            # patch job references in 'run', 'extend', ... keys
+            for key in Job.KEYS_WITH_JOB_REFS:
+                if newJob.hasFeature(key):
+                    newlist = []
+                    oldlist = newJob.getFeature(key)
+                    for jobname in oldlist:
+                        newlist.append(extConfig.getJob(jobname))
+                    newJob.setFeature(key, newlist)
+            self.addJob(newjobname, newJob)         # and add it
+            if hasClash:
+                # put shaddowed job in the local 'extend'
+                localjob = self.getJob(clashname)
+                extList = localjob.getFeature('extend', [])
+                extList.append(newJob)
+                localjob.setFeature('extend', extList)
+                if not newJob:
+                    raise Error, "unsuitable new job"
         return
 
 
