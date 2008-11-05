@@ -22,8 +22,8 @@
  * <p>
  * Only those  rows are loaded that are near the area the user is currently
  * viewing. If the user scrolls, the rows he will see soon are loaded
- * asynchroniously in the background. All loaded data is managed in a cache that
- * automatically removes the last resently used rows when it gets full.
+ * asynchronously in the background. All loaded data is managed in a cache that
+ * automatically removes the last recently used rows when it gets full.
  * <p>
  * This class is abstract: The actual loading of row data must be done by
  * subclasses.
