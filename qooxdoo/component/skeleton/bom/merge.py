@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 import os
 
-for line in open("compile-bom.js"):
-    split = line.split(";")
-    header = ";".join(split[:4])
-    break
-    
+loader = open("compile-bom.js").read()
+header_end = loader.find("window.qxloader")
+if header_end == -1:
+    raise RuntimeError, "No qxloader found - aborting!"
+header = loader[:header_end]
+
 qx = open("qx-bom.js", "wc")
 qx.write(header)
 
