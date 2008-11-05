@@ -27,11 +27,14 @@ from generator.config.Config import Config, ExtMap
 from generator.runtime.Log import Log
 
 
-def listJobs(console, jobs):
+def listJobs(console, jobs, config):
     console.info("Available jobs:")
     console.indent()
     for job in sorted(jobs):
-        console.info(job)
+        jdesc = config.getJob(job).getFeature("desc", "")
+        if jdesc:
+            jdesc = " \t -- %s" % (jdesc,)
+        console.info(job + jdesc)
     console.outdent()       
 
 
@@ -100,14 +103,14 @@ Arguments:
     # Check jobs
     availableJobs = config.getExportedJobsList()
     if len(options.jobs) == 0:
-        listJobs(console, availableJobs)
+        listJobs(console, availableJobs, config)
         sys.exit(1)
         
     else:
         for job in options.jobs:
             if job not in availableJobs:
                 console.warn("No such job: %s" % job)
-                listJobs(console, availableJobs)
+                listJobs(console, availableJobs, config)
                 sys.exit(1)
 
     # Resolve "extend"- and "run"-Keys
