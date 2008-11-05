@@ -33,6 +33,7 @@ class Job(object):
     RUN_KEY      = "run"
     LET_KEY      = "let"
     RESOLVED_KEY = "resolved"
+    OVERRIDE_KEY = "__override__"
     KEYS_WITH_JOB_REFS = [RUN_KEY, EXTEND_KEY]
     MACRO_SPANNING_REGEXP = re.compile(r'^\$\{\w+\}$')  # e.g. "${PATH}"
     JSON_SCALAR_TYPES = (types.StringTypes, types.IntType, types.LongType, types.FloatType,
@@ -102,11 +103,11 @@ class Job(object):
 
     def resolveMacros(self):
         self.includeGlobalLet() # make sure potential global let is included
-        if self.hasFeature('let'):
+        if self.hasFeature(self.LET_KEY):
             # exand macros in the let
-            letMap = self.getFeature('let')
+            letMap = self.getFeature(self.LET_KEY)
             letMap = self._expandMacrosInLet(letMap)
-            self.setFeature('let', letMap)
+            self.setFeature(self.LET_KEY, letMap)
             
             # separate strings from other values
             letmaps = {}
@@ -124,15 +125,15 @@ class Job(object):
 
     def includeGlobalLet(self, additionalLet=None):
         #import pydb; pydb.debugger()
-        newlet = self.mapMerge(self.getFeature('let',{}),{}) # init with local let
+        newlet = self.mapMerge(self.getFeature(self.LET_KEY,{}),{}) # init with local let
         if additionalLet:
             newlet = self.mapMerge(additionalLet, newlet)
-        global_let = self._config.get('let',False)
+        global_let = self._config.get(self.LET_KEY,False)
         if global_let:
             newlet = self.mapMerge(global_let, newlet)
 
         if newlet:
-            self.setFeature('let', newlet) # set cumulative let value
+            self.setFeature(self.LET_KEY, newlet) # set cumulative let value
 
 
     def _expandString(self, s, mapstr, mapbin):
@@ -266,15 +267,29 @@ class Job(object):
         def isSpanningMacro(m):
             return self.MACRO_SPANNING_REGEXP.search(m)
 
-        # - main ---
-
         if not isinstance(source, types.DictType):
             raise TypeError, "Wrong argument to deepJsonMerge (must be Dict)"
 
+        override_keys = []
+        if self.OVERRIDE_KEY in target:
+            override_keys = target[self.OVERRIDE_KEY]
+            assert isinstance(override_keys, types.ListType)
+
         for key in source:
-            if key in target:
+            if key == self.OVERRIDE_KEY:  # don't touch meta key
+                continue
+
+            elif key in target:  # we have to merge values
+                # skip protected keys
+                if key in override_keys:
+                    continue
+                # treat "let" specially
+                # cruft: this should actually be done in mergeJob(), but it's easier here
+                elif key == self.LET_KEY:
+                    target[key] = self.mapMerge(source[key], target[key])
+
                 # merge arrays rather than shadowing
-                if isinstance(source[key], types.ListType):
+                elif isinstance(source[key], types.ListType):
                     # equality problem: in two arbitrary lists, i have no way of telling 
                     # whether any pair of elements is somehow related (e.g. specifies the
                     # same library), and i can't do recursive search here, with some 
