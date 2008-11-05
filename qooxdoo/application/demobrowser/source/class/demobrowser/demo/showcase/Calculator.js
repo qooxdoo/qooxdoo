@@ -32,11 +32,10 @@ qx.Class.define("demobrowser.demo.showcase.Calculator",
 
 
     /**
-     * This method contains the initial application code and gets called 
+     * This method contains the initial application code and gets called
      * during startup of the application
      *
-     * @type member
-     * @return {void} 
+     * @return {void}
      */
     main : function()
     {
@@ -67,8 +66,7 @@ qx.Class.define("demobrowser.demo.showcase.Calculator",
     /**
      * creates the user interface of the calculator
      *
-     * @type member
-     * @return {void} 
+     * @return {void}
      */
     createCalculator : function()
     {
@@ -574,7 +572,7 @@ qx.Class.define("demobrowser.demo.showcase.Calculator",
 /**
  * This class is responsible for the logic of the calculator.
  *
- * For demonstration purposes the following class is added to the same file as 
+ * For demonstration purposes the following class is added to the same file as
  * the application class. For a regular qooxdoo application each class must live
  * in a file of its own. You may neglect any warnings when generating this demo.
  */
@@ -600,14 +598,13 @@ qx.Class.define("demobrowser.demo.showcase.CalculatorLogic",
     __zeroCounter : 0,
     __isSigned : false,
     __signPressedCounter : 0,
-    
+
 
     /**
      * sets the pressed number into the display.
      *
-     * @type member
      * @param __currentValue {var} Pressed number
-     * @return {void} 
+     * @return {void}
      */
     setCurrentValue : function(__currentValue)
     {
@@ -643,7 +640,7 @@ qx.Class.define("demobrowser.demo.showcase.CalculatorLogic",
      * sets a comma.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     setComma : function() {
       this.__isCommaPressed = true;
@@ -664,8 +661,7 @@ qx.Class.define("demobrowser.demo.showcase.CalculatorLogic",
     /**
      * resets the pressed number.
      *
-     * @type member
-     * @return {void} 
+     * @return {void}
      */
     resetCurrentValue : function() {
       this.__currentValue = null;
@@ -675,8 +671,7 @@ qx.Class.define("demobrowser.demo.showcase.CalculatorLogic",
     /**
      * cleans the display and resets all variables.
      *
-     * @type member
-     * @return {void} 
+     * @return {void}
      */
     cleanDisplay : function()
     {
@@ -697,9 +692,8 @@ qx.Class.define("demobrowser.demo.showcase.CalculatorLogic",
     /**
      * sets the result.
      *
-     * @type member
      * @param __result {var} the calculated result.
-     * @return {void} 
+     * @return {void}
      */
     setResult : function(__result) {
       this.__result = __result;
@@ -720,9 +714,8 @@ qx.Class.define("demobrowser.demo.showcase.CalculatorLogic",
     /**
      * sets the operator.
      *
-     * @type member
      * @param op {var} pressed operator
-     * @return {void} 
+     * @return {void}
      */
     setCurrentOperation : function(op) {
       this.__currentOperation = op;
@@ -743,8 +736,7 @@ qx.Class.define("demobrowser.demo.showcase.CalculatorLogic",
     /**
      * clears the entry.
      *
-     * @type member
-     * @return {void} 
+     * @return {void}
      */
     clearEntry : function()
     {
@@ -771,7 +763,7 @@ qx.Class.define("demobrowser.demo.showcase.CalculatorLogic",
      * sets the sign from plus to minus or the other way round.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     setSign : function()
     {
@@ -804,7 +796,7 @@ qx.Class.define("demobrowser.demo.showcase.CalculatorLogic",
      * deletes the last pressed number.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     deleteNumber : function()
     {
@@ -827,7 +819,7 @@ qx.Class.define("demobrowser.demo.showcase.CalculatorLogic",
       }
 
       var num1 = this.__currentValue % 10;
-      var num2 = num1 / 10;  
+      var num2 = num1 / 10;
       this.__currentValue = this.__currentValue / 10;
       this.__currentValue = this.__currentValue - num2;
 
@@ -851,7 +843,7 @@ qx.Class.define("demobrowser.demo.showcase.CalculatorLogic",
      *
      * @type member
      * @param currentOperation {var} desired operation to compute
-     * @return {void} 
+     * @return {void}
      */
     calculate : function(currentOperation)
     {
@@ -868,7 +860,7 @@ qx.Class.define("demobrowser.demo.showcase.CalculatorLogic",
             if (this.__result == null) {
               this.__result = this.__resultContainer;
             }
-            
+
             if (this.__isSigned) {
               this.__result = this.__resultContainer + this.__currentValue;
             } else {
