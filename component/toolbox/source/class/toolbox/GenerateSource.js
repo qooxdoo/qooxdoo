@@ -81,22 +81,26 @@ qx.Class.define("toolbox.GenerateSource",
         req.addListener("completed", function(evt)
         {
           var result = evt.getContent();
-          alert("GenerateSourceKlasse---> State=" + result.gen_state);
-          var receivedState = result.gen_state;
-          if (receivedState == 1 || receivedState == 0) { 
-            if(receivedState == 0){
-              frame.setHtml(result.gen_output);
-              logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.gen_output)
-              this.setResult(result.gen_output);
-              req.setData(openSource)
-              req.send();
+          if(result.gen_state != undefined) {
+          	var receivedState = result.gen_state;
+            if (receivedState == 1 || receivedState == 0) { 
+              if(receivedState == 0){
+                frame.setHtml(result.gen_output);
+                logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.gen_output)
+                this.setResult(result.gen_output);
+                req.setData(openSource)
+                req.send();
+              }
+              if(receivedState == 1){
+                frame.setHtml('<font color="red">'+result.gen_output + '</font>');
+                logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">'+result.gen_output + '</font>');
+                this.setResult(result.gen_output);
+              } 
             }
-            if(receivedState == 1){
-              frame.setHtml('<font color="red">'+result.gen_output + '</font>');
-              this.setResult(result.gen_output);
-            }
+          } else {
+          	logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">'+result + '</font>');
           }
-          req.resetTimeout();
+         
         },
         this);
   
@@ -104,6 +108,12 @@ qx.Class.define("toolbox.GenerateSource",
           this.error("Failed to post to URL: " + url);
         }, this);
   
+        
+        
+        
+        var progressPopup = new toolbox.ProgressLoader();
+        
+        
         req.send();
     	} else {
     		alert("You don't created an application");

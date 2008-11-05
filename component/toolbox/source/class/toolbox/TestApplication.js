@@ -25,7 +25,7 @@
 /**
  * This is the main application class of your custom application "HelloWorld"
  */
-qx.Class.define("toolbox.GenerateBuild",
+qx.Class.define("toolbox.TestApplication",
 {
   extend : qx.core.Object,
 
@@ -37,7 +37,7 @@ qx.Class.define("toolbox.GenerateBuild",
   construct : function(adminPath, fileName, filePath, logFrame) {
   		this.base(arguments, adminPath, fileName, filePath, logFrame);
   		this.__urlParms = new toolbox.UrlSearchParms();
-  		this.__generateBuild(adminPath, fileName, filePath, logFrame);
+  		this.__testApplication(adminPath, fileName, filePath, logFrame);
   },
 
     /*
@@ -48,14 +48,14 @@ qx.Class.define("toolbox.GenerateBuild",
 
   members :
   {
-    __generateBuild : function(adminPath, fileName, filePath, logFrame) {
+    __testApplication : function(adminPath, fileName, filePath, logFrame) {
     	if (fileName != "" & filePath!=""){
       	var url = adminPath;
         var req = new qx.io.remote.Request(url, "POST", "application/json");
-        var dat = "action=generate_Build";
-        var openBuild = "action=open_In_Browser&location=build";
+        var dat = "action=test_Application";
+        var openSource = "action=open_In_Browser&location=test";
         var createParams = [fileName, filePath];
-        req.setTimeout(600000);
+        req.setTimeout(100000);
         
         // check cygwin path
         if ('cygwin' in this.__urlParms.getParms())
@@ -68,11 +68,11 @@ qx.Class.define("toolbox.GenerateBuild",
         for(var i = 0; i < createParams.length; i++) {
         	if(createParams[i] != "") {
             dat +="&"+params[i]+"=" + createParams[i];
-            openBuild +="&"+params[i]+"=" + createParams[i];
+            openSource +="&"+params[i]+"=" + createParams[i];
         	}
         }
         
-        alert("Parameter " + dat);
+        alert("Parameter Test" + dat);
   
         req.setProhibitCaching(true);
         req.setData(dat);
@@ -81,25 +81,19 @@ qx.Class.define("toolbox.GenerateBuild",
         req.addListener("completed", function(evt)
         {
           var result = evt.getContent();
-          if(result.build_state != undefined) {
-          
-            var receivedState = result.build_state;
-            if (receivedState == 1 || receivedState == 0) { 
-              if(receivedState == 0){
-                alert("Build was created successfully");
-                logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.build_output)
-                this.setResult(result.build_output);
-                req.setData(openBuild)
-                req.send();
-              }
-              if(receivedState == 1){
-                alert("Build failed");
-                logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">'+ result.build_output + '</font>')
-                this.setResult(result.build_output);
-              }
+          var receivedState = result.testApp_state;
+          if (receivedState == 1 || receivedState == 0) { 
+            if(receivedState == 0){
+              logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.testApp_output)
+              this.setResult(result.testApp_output);
+              req.setData(openSource)
+              req.send();
             }
-          } else {
-          	logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">'+ result + '</font>')
+            if(receivedState == 1){
+              frame.setHtml('<font color="red">'+result.testApp_output + '</font>');
+              logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">'+result.testApp_output + '</font>');
+              this.setResult(result.testApp_output);
+            }
           }
           req.resetTimeout();
         },
@@ -108,8 +102,7 @@ qx.Class.define("toolbox.GenerateBuild",
         req.addListener("failed", function(evt) {
           this.error("Failed to post to URL: " + url);
         }, this);
-        
-        
+  
         req.send();
     	} else {
     		alert("You don't created an application");
