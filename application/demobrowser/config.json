@@ -18,6 +18,28 @@
     }
   ],
 
+  "export" :
+  [
+    "api",
+    "build",
+    "build-data",
+    "build-demo-jobs",
+    "build-demos",
+    "build-files",
+    "build-resources",
+    "build-script",
+    "clean",
+    "distclean",
+    "source",
+    "source-data",
+    "source-demo-jobs",
+    "source-demos",
+    "source-script",
+    "test",
+    "test-source",
+    "translation"
+  ],
+
   "let" :
   {
     "APPLICATION"  : "demobrowser",
