@@ -187,6 +187,19 @@ qx.Class.define("toolbox.Toolbox",
       this.widgets["toolbar.validateCodeButton"] = this.validateCodeButton;
       this.validateCodeButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Validates the source")));
 
+      // -- test 
+      this.testButton = new qx.ui.toolbar.Button("Test", "toolbox/image/dialog-apply.png");
+      part2.add(this.testButton);
+      this.widgets["toolbar.testButton"] = this.testButton;
+      this.testButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Tests the application")));
+
+
+      // -- test source
+      this.testSourceButton = new qx.ui.toolbar.Button("Test source", "toolbox/image/check-spelling.png");
+      part2.add(this.testSourceButton);
+      this.widgets["toolbar.testSourceButton"] = this.testSourceButton;
+      this.testSourceButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Tests the source")));
+
       
       toolbar.addSpacer();
 
@@ -209,6 +222,8 @@ qx.Class.define("toolbox.Toolbox",
     	this.widgets["toolbar.makePrettyButton"].addListener("execute", this.__makePretty, this);
     	this.widgets["toolbar.validateCodeButton"].addListener("execute", this.__validateCode, this);
       this.widgets["toolbar.generateBuildButton"].addListener("execute", this.__generateBuild, this);
+      this.widgets["toolbar.testSourceButton"].addListener("execute", this.__testSource, this);
+      this.widgets["toolbar.testButton"].addListener("execute", this.__testApplication, this);
     }, //assignListener
     
 
@@ -237,8 +252,6 @@ qx.Class.define("toolbox.Toolbox",
         minHeight : 100,
         paddingTop : 10
       });
-      
-      //TODO
       //------Embed End--------------------------------------------------------
       
       //------Buttons Start-----------------------------------------------------
@@ -599,12 +612,14 @@ qx.Class.define("toolbox.Toolbox",
                                                       this.__getCurrentFileName(), 
                                                       this.__getCurrentFilePath(),
                                                       this.logFrame);
+      return;
     },
     
     __generateApi : function() {
     	this.__generateAppApi = new toolbox.GenerateApi(this.__adminPath, 
                                                       this.__getCurrentFileName(), 
                                                       this.__getCurrentFilePath());
+      return;                                                
     },
     
     __makePretty : function() {
@@ -612,24 +627,44 @@ qx.Class.define("toolbox.Toolbox",
                                                        this.__getCurrentFileName(), 
                                                        this.__getCurrentFilePath(),
                                                        this.logFrame);
+      return;                                                 
     },
     
     __openConfiguration: function() {
       this.__configuration = new toolbox.Configuration(this.__adminPath, 
                                                        this.__getCurrentFileName(), 
                                                        this.__getCurrentFilePath());
+      return;                                                 
     },
     
      __validateCode: function() {
       this.__validateSourceCode = new toolbox.ValidateCode(this.__adminPath, 
                                                            this.__getCurrentFileName(), 
                                                            this.__getCurrentFilePath());
+      return;                                                     
     },
     
     __abortProcess : function() {
     	this.__abortCurrentProcess = new toolbox.AbortProcess(this.__adminPath, 
                                                             this.__getCurrentFileName(), 
                                                             this.__getCurrentFilePath());
+      return;                                                      
+    },
+    
+    __testSource : function() {
+    	this.__testCurrentSource = new toolbox.TestSource(this.__adminPath, 
+                                                        this.__getCurrentFileName(), 
+                                                        this.__getCurrentFilePath(),
+                                                        this.logFrame);
+    	
+    	return;
+    },
+    
+    __testApplication : function() {
+    	this.__testCurrentApp = new toolbox.TestApplication(this.__adminPath, 
+                                                          this.__getCurrentFileName(), 
+                                                          this.__getCurrentFilePath(),
+                                                          this.logFrame);
     },
     
     
