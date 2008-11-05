@@ -1,5 +1,6 @@
-import os, sys, sha, time, cPickle
+import os, sys, time, cPickle
 from misc import filetool
+from misc.securehash import sha_construct
 
 memcache = {}
 
@@ -16,7 +17,7 @@ class Cache:
             return cacheId
                 
         baseId = splittedId.pop(0)
-        digestId = sha.new("-".join(splittedId)).hexdigest()
+        digestId = sha_construct("-".join(splittedId)).hexdigest()
 
         return "%s-%s" % (baseId, digestId)
         
