@@ -34,6 +34,8 @@
   {
     "common" :
     {
+      "desc"    : "common settings for Demobrowser jobs",
+
       "library" :
       [
         {
@@ -78,6 +80,8 @@
 
     "source-script" :
     {
+      "desc"    : "create includer script of Demobrowser",
+
       "extend" : ["common"],
 
       "compile-source" :
@@ -90,6 +94,8 @@
 
     "source" :
     {
+      "desc"    : "create source version of Demobrowser",
+
       "run" :
       [
         "source-script",
@@ -102,6 +108,8 @@
 
     "source-data" :
     {
+      "desc"    : "creates a Json index of all demos (demodata.js), for Demobrowser's navigation pane",
+
       "extend" : ["common"],
 
       "shell" :
@@ -113,6 +121,8 @@
 
     "source-demo-jobs" :
     {
+      "desc"    : "creates a configuration file (config.demo.json) for the available demos",
+
       "extend" : ["common"],
 
       "shell" :
@@ -124,6 +134,8 @@
 
     "source-demos" :
     {
+      "desc"    : "create source version for each demo",
+
       "extend" : ["common"],
 
       "shell" :
@@ -135,6 +147,8 @@
 
     "build-script" :
     {
+      "desc"    : "create build script of Demobrowser",
+
       "extend" : ["common"],
 
       "compile-dist" :
@@ -149,6 +163,8 @@
 
     "build-files" :
     {
+      "desc"    : "copy files of Demobrowser to build dir",
+
       "extend" : ["common"],
 
       "copy-files" :
@@ -166,6 +182,8 @@
 
     "build-resources":
     {
+      "desc"    : "copy necessary resources for Demobrowser/demos to build dir",
+
       "extend" : ["common"],
 
       "include" :
@@ -185,6 +203,8 @@
 
     "build-data" :
     {
+      "desc"    : "creates a Json index of all demos (demodata.js), for Demobrowser's navigation pane",
+
       "extend" : ["common"],
 
       "shell" :
@@ -196,6 +216,8 @@
 
     "build-demo-jobs" :
     {
+      "desc"    : "creates a configuration file (config.demo.json) for the available demos",
+
       "extend" : ["common"],
 
       "shell" :
@@ -205,9 +227,10 @@
     },
 
 
-    /* generate a build version of the demo apps */
     "build-demos" :
     {
+      "desc"    : "create build version for each demo",
+
       "extend" : ["common"],
 
       "shell" :
@@ -220,9 +243,10 @@
     // putting it all together ...
     "build" :
     {
+      "desc"    : "create build version of Demobrowser",
+
       "run" :
       [
-        /* this all has to be done for the build */
         "build-data",
         "build-demo-jobs",
         "build-resources",
@@ -237,6 +261,8 @@
 
     "debug-dependencies" :
     {
+      "desc"    : "extension job for debugging dependencies",
+
       "extend" : ["common"],
       "include" : ["demobrowser.demo.io.HttpRequest_1"],
       "debug" :
@@ -247,6 +273,8 @@
 
     "debug-privates" :
     {
+      "desc"    : "extension job for debugging privates",
+
       "extend" : ["common"],
       "debug" :
       {
