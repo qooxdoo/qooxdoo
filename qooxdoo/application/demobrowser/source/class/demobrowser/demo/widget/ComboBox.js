@@ -46,6 +46,9 @@ qx.Class.define("demobrowser.demo.widget.ComboBox",
 
       // example 3: wide combo box with a large list
       this._createWideExample();
+      
+      // example 4: combo combo box with HTML (rich) text
+      this._createHtmlExample();
     },
 
 
@@ -133,6 +136,54 @@ qx.Class.define("demobrowser.demo.widget.ComboBox",
       });
     },
 
+    /**
+     * Creates a HTML example.
+     * This means that a combobox will be created and filled with
+     * some text, that contain HTML tags and entities.
+     * 
+     * @return {void}
+     */
+    _createHtmlExample : function()
+    {
+      // create and add the describing label
+      var label = new qx.ui.basic.Label("With HTML (rich) text");
+      label.setFont("bold");
+
+      this.getRoot().add(label,
+      {
+        left : 300,
+        top  : 25
+      });
+
+      // create a combo box
+      var comboBox = new qx.ui.form.ComboBox().set({width: 200});
+
+      var items = ["... &gt; (as literal HTML entity)",
+                   "... &gt; (as Richtext)",
+                   "<b>Bold Text</b>",
+                   "<u>Underlined Text</u>",
+                   "<i>Italic Text</i>",
+                   "HTML entities: &laquo; &lt; &amp; &gt; &raquo;"];
+     
+      // fill the combo box with some stuff             
+      for (var i = 0; i < items.length; i++)
+      {
+        var tempItem = new qx.ui.form.ListItem(items[i]);
+        
+        if (i > 0) {
+          tempItem.setRich(true);
+        }
+        
+        comboBox.add(tempItem);
+      }
+
+      // add the combobox to the documents root
+      this.getRoot().add(comboBox,
+      {
+        left : 300,
+        top  : 40
+      });
+    },
 
     /**
      * TODOC
@@ -169,5 +220,7 @@ qx.Class.define("demobrowser.demo.widget.ComboBox",
         top  : 300
       });
     }
+    
+    
   }
 });
