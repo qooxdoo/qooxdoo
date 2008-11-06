@@ -204,7 +204,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
     {
       var popup = this._getChildControl("popup");
 
-      popup.placeToWidget(this);
+      popup.placeToWidget(this, true);
       popup.show();
     },
 

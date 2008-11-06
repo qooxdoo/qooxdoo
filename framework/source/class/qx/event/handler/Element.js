@@ -161,8 +161,10 @@ qx.Class.define("qx.event.handler.Element",
 
       var eventData = events[eventId];
 
-      qx.event.Registration.fireNonBubblingEvent(eventData.element, eventData.type,
-        qx.event.type.Native, [nativeEvent]);
+      qx.event.Registration.fireNonBubblingEvent(
+        eventData.element, eventData.type,
+        qx.event.type.Native, [nativeEvent]
+      );
     }
   },
 
