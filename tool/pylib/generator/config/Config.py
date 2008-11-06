@@ -277,14 +277,15 @@ class Config:
             newJob.includeGlobalLet()  # have to draw in local let before all the external let's are processed
             newJob.mergeJob(extJob)    # now merge in the external guy
             newJob.setConfig(extJob.getConfig()) # retain link to external config
-            # patch job references in 'run', 'extend', ... keys
-            for key in Job.KEYS_WITH_JOB_REFS:
-                if newJob.hasFeature(key):
-                    newlist = []
-                    oldlist = newJob.getFeature(key)
-                    for jobname in oldlist:
-                        newlist.append(extConfig.getJob(jobname))
-                    newJob.setFeature(key, newlist)
+            if namepfx:  # adapt scoped names; otherwise, delay name resolution until resolveExtendsAndRun()
+                # patch job references in 'run', 'extend', ... keys
+                for key in Job.KEYS_WITH_JOB_REFS:
+                    if newJob.hasFeature(key):
+                        newlist = []
+                        oldlist = newJob.getFeature(key)
+                        for jobname in oldlist:
+                            newlist.append(extConfig.getJob(jobname))
+                        newJob.setFeature(key, newlist)
             self.addJob(newjobname, newJob)         # and add it
             if hasClash:
                 # put shaddowed job in the local 'extend'
