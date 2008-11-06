@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-/*
+/**
  * Timer manipulation for handling multiple timed callbacks with the use of
  * only a single native timer object.
  *
@@ -25,7 +25,9 @@
  * <code><pre>
  *       var timer = qx.util.Timer.getInstance();
  *       
- *       // Start a 5-second recurrent timer
+ *       // Start a 5-second recurrent timer.
+ *       // Note that the first expiration is immediate (first parameter=0)
+ *       // but each subsequent expiration is at 5 second intervals.
  *       timer.start(0,
  *                   function(userData, timerId)
  *                   {
