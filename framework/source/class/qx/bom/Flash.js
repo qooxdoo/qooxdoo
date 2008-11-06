@@ -86,9 +86,9 @@ qx.Class.define("qx.bom.Flash",
      * @param element {Element} Parent DOM element node to add flash movie
      * @param movie {String} URI to the movie
      * @param id {String} Id for the flash element
-     * @param variables? {Map} Flash variable data (these are available in the movie later)
-     * @param params? {Map} Flash parameter data (these are used to configure the movie itself)
-     * @param win? {Window} Window to create the element for
+     * @param variables {Map?null} Flash variable data (these are available in the movie later)
+     * @param params {Map?null} Flash parameter data (these are used to configure the movie itself)
+     * @param win {Window?null} Window to create the element for
      * @return {void}
      */
     create : function(element, movie, id, variables, params, win)
