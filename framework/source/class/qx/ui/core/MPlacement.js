@@ -246,8 +246,11 @@ qx.Mixin.define("qx.ui.core.MPlacement",
         // Remove the listener when the element disappears.
         this.addListener("disappear", function()
         {
-          qx.event.Idle.getInstance().removeListener("interval", this.__updater);
-          this.__updater = null;
+          if (this.__updater)
+          {
+            qx.event.Idle.getInstance().removeListener("interval", this.__updater);
+            this.__updater = null;
+          }
         }, this);
 
       }
@@ -308,8 +311,11 @@ qx.Mixin.define("qx.ui.core.MPlacement",
         // Remove the listener when the element disappears.
         this.addListener("disappear", function()
         {
-          qx.event.Idle.getInstance().removeListener("interval", this.__updater);
-          this.__updater = null;
+          if (this.__updater)
+          {
+            qx.event.Idle.getInstance().removeListener("interval", this.__updater);
+            this.__updater = null;
+          }
         }, this);
       }
 
