@@ -46,12 +46,12 @@ qx.Mixin.define("qx.ui.core.MPlacement",
      * then should be aligned to be left edge:
      *
      * <pre>
-     * |--------|
+     * +--------+
      * | target |
-     * |--------|
-     * |-------------|
+     * +--------+
+     * +-------------+
      * |   widget    |
-     * |-------------|
+     * +-------------+
      * </pre>
      */
     position :
@@ -139,6 +139,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
   {
 
     __resizePlacement : null,
+    __updater : null,
 
     /**
      * Returns the location data like {qx.bom.element.Location#get} does
@@ -228,9 +229,29 @@ qx.Mixin.define("qx.ui.core.MPlacement",
      * location of the widget to align to.
      *
      * @param target {qx.ui.core.Widget} Target coords align coords
+     * @param liveupdate {Boolean} Flag indicating if the position of the
+     * widget should be checked and corrected automatically.
      */
-    placeToWidget : function(target)
+    placeToWidget : function(target, liveupdate)
     {
+      // Use the idle event to make sure that the widget's position gets
+      // updated automatically (e.g. the widget gets scrolled).
+      if (liveupdate)
+      {
+        // Bind target and livupdate to placeToWidget
+        this.__updater = qx.lang.Function.bind(this.placeToWidget, this, target, false);
+
+        qx.event.Idle.getInstance().addListener("interval", this.__updater);
+
+        // Remove the listener when the element disappears.
+        this.addListener("disappear", function()
+        {
+          qx.event.Idle.getInstance().removeListener("interval", this.__updater);
+          this.__updater = null;
+        }, this);
+
+      }
+
       var coords = target.getContainerLocation() || this.getLayoutLocation(target);
       this.__place(coords);
     },
@@ -257,13 +278,14 @@ qx.Mixin.define("qx.ui.core.MPlacement",
       this.__place(coords);
     },
 
-
     /**
      * Places the widget to any (rendered) DOM element.
      *
      * @param elem {Element} DOM element to align to
+     * @param liveupdate {Boolean} Flag indicating if the position of the
+     * widget should be checked and corrected automatically.
      */
-    placeToElement : function(elem)
+    placeToElement : function(elem, liveupdate)
     {
       var location = qx.bom.element.Location.get(elem);
       var coords =
@@ -273,6 +295,23 @@ qx.Mixin.define("qx.ui.core.MPlacement",
         right: location.left + elem.offsetWidth,
         bottom: location.top + elem.offsetHeight
       };
+
+      // Use the idle event to make sure that the widget's position gets
+      // updated automatically (e.g. the widget gets scrolled).
+      if (liveupdate)
+      {
+        // Bind target and livupdate to placeToWidget
+        this.__updater = qx.lang.Function.bind(this.placeToElement, this, elem, false);
+
+        qx.event.Idle.getInstance().addListener("interval", this.__updater);
+
+        // Remove the listener when the element disappears.
+        this.addListener("disappear", function()
+        {
+          qx.event.Idle.getInstance().removeListener("interval", this.__updater);
+          this.__updater = null;
+        }, this);
+      }
 
       this.__place(coords);
     },

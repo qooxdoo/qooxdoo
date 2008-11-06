@@ -78,14 +78,17 @@ qx.Class.define("qx.event.Idle",
 
   members :
   {
-    
+
     __timer : null,
-    
+
     // property apply
     _applyTimeoutInterval : function(value) {
       this.__timer.setInterval(value);
     },
     
+    /*
+     * Fires an "interval" event
+     */
     _onInterval : function() {
       this.fireEvent("interval");
     }
