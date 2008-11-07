@@ -75,7 +75,7 @@ class Config:
     NS_SEP            = "/"    # this is to reference jobs from nested configs
     COMPOSED_NAME_SEP = "::"   # this is to construct composed job names
     JOBS_KEY          = "jobs"
-    SHADDOW_PREFIX    = "XXX"
+    SHADOW_PREFIX     = "XXX"
     OVERRIDE_KEY      = "__override__"
     OVERRIDE_TAG_REGEXP = re.compile(r'^\+(.*)$')  # identify tag ("+") and extract orig. key
 
@@ -293,7 +293,7 @@ class Config:
                 # import external job under different name
                 console.warn("! Shadowing job \"%s\" with local one" % newjobname)
                 # construct a name prefix
-                extConfigName = extConfig._fname or self.SHADDOW_PREFIX
+                extConfigName = extConfig._fname or self.SHADOW_PREFIX
                 extConfigName = os.path.splitext(os.path.basename(extConfigName))[0]
                 # TODO: this might not be unique enough! (user could use extConfigName in 'as' param for other include)
                 newjobname = extConfigName + self.COMPOSED_NAME_SEP + newjobname
@@ -356,7 +356,7 @@ class Config:
             if not job:
                 raise RuntimeError, "No such job: %s" % jobname
             else:
-                job.resolveExtend()
+                job.resolveExtend(cfg=self)
 
 
     ##                                                                              
