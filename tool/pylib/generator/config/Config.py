@@ -76,6 +76,8 @@ class Config:
     COMPOSED_NAME_SEP = "::"   # this is to construct composed job names
     JOBS_KEY          = "jobs"
     SHADDOW_PREFIX    = "XXX"
+    OVERRIDE_KEY      = "__override__"
+    OVERRIDE_TAG_REGEXP = re.compile(r'^\+(.*)$')  # identify tag ("+") and extract orig. key
 
     def get(self, key, default=None, confmap=None):
         """Returns a (possibly nested) data element from dict <conf>
@@ -182,7 +184,8 @@ class Config:
             return default
         
     def getJobsList(self):
-        return self.getJobsMap([]).keys()
+        jM = self.getJobsMap([])
+        return [x for x in jM.keys() if isinstance(jM[x], (types.DictType, Job))]
 
     def getExportedJobsList(self):
         expList = self.get('export', False)  # is there a dedicated list of exported jobs?
@@ -191,6 +194,31 @@ class Config:
         else:
             return self.getJobsList()
 
+
+
+    def fixJobsTags(self):
+        # fix tags within each job
+        jobNames = self.getJobsList()
+        for jobName in jobNames:
+            job = self.getJob(jobName)
+            if not job:
+                raise RuntimeError, "No such job: %s" % jobname
+            else:
+                job.fixNameTags()
+
+        # fix the job names themselves
+        jobsMap = self.getJobsMap()
+        for jobName in jobNames:
+            mo = self.OVERRIDE_TAG_REGEXP.search(jobName)
+            if mo:
+                # remove tag from job name
+                cleankey = mo.group(1)
+                jobsMap[cleankey] = jobsMap[jobName]
+                del jobsMap[jobName]
+                # add to override key
+                if not self.OVERRIDE_KEY in jobsMap:
+                    jobsMap[Job.OVERRIDE_KEY] = []
+                jobsMap[Job.OVERRIDE_KEY].append(cleankey)
 
 
     def resolveIncludes(self, includeTrace=[]):
@@ -263,7 +291,7 @@ class Config:
                 hasClash = True
                 clashname = newjobname
                 # import external job under different name
-                console.warn("! Shaddowing job \"%s\" with local one" % newjobname)
+                console.warn("! Shadowing job \"%s\" with local one" % newjobname)
                 # construct a name prefix
                 extConfigName = extConfig._fname or self.SHADDOW_PREFIX
                 extConfigName = os.path.splitext(os.path.basename(extConfigName))[0]
@@ -288,13 +316,17 @@ class Config:
                         newJob.setFeature(key, newlist)
             self.addJob(newjobname, newJob)         # and add it
             if hasClash:
-                # put shaddowed job in the local 'extend'
-                localjob = self.getJob(clashname)
-                extList = localjob.getFeature('extend', [])
-                extList.append(newJob)
-                localjob.setFeature('extend', extList)
-                if not newJob:
-                    raise Error, "unsuitable new job"
+                # check whether the local job is protected
+                jobMap = self.getJobsMap()
+                if ((self.OVERRIDE_KEY not in jobMap) or
+                    (clashname not in jobMap[self.OVERRIDE_KEY])):
+                    # put shaddowed job in the local 'extend'
+                    localjob = self.getJob(clashname)
+                    extList = localjob.getFeature('extend', [])
+                    extList.append(newJob)
+                    localjob.setFeature('extend', extList)
+                    if not newJob:
+                        raise Error, "unsuitable new job"
         return
 
 
