@@ -265,8 +265,9 @@ qx.Class.define("qx.util.ColorUtil",
      * @param rgb {Array} an array with red, green and blue
      * @return {String} a hex6 string
      */
-    rgbToHexString : function(rgb) {
-      return(
+    rgbToHexString : function(rgb) 
+    {
+      return (
         qx.lang.String.pad(rgb[0].toString(16).toUpperCase(), 2) +
         qx.lang.String.pad(rgb[1].toString(16).toUpperCase(), 2) +
         qx.lang.String.pad(rgb[2].toString(16).toUpperCase(), 2)
@@ -583,13 +584,13 @@ qx.Class.define("qx.util.ColorUtil",
      *
      * @return {String} a valid qooxdoo/CSS rgb color string.
      */
-    randomColor : function() {
+    randomColor : function() 
+    {
       var r = Math.round(Math.random() * 255);
       var g = Math.round(Math.random() * 255);
       var b = Math.round(Math.random() * 255);
+      
       return this.rgbToRgbString([r, g, b]);
     }
-
   }
-
 });
