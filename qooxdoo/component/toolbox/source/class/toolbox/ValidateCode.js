@@ -74,7 +74,7 @@ qx.Class.define("toolbox.ValidateCode",
   
         req.setProhibitCaching(true);
         req.setData(dat);
-        
+        var progressPopup = new toolbox.ProgressLoader();
   
         req.addListener("completed", function(evt)
         {
@@ -86,9 +86,9 @@ qx.Class.define("toolbox.ValidateCode",
             	this.__valFrame = new qx.ui.embed.Html();
             	this.__valFrame.setOverflow("scroll", "scroll");
               this.__valFrame.setHtml(result.val_output);
-              
-              
+               
             	var win = new qx.ui.window.Window("Validation result");
+              win.setModal(true);
               win.setLayout(new qx.ui.layout.VBox);
               win.add(this.__valFrame, { flex : 1 })
               win.setHeight(500);
@@ -103,7 +103,9 @@ qx.Class.define("toolbox.ValidateCode",
               this.setResult(result.val_output);
             }
           }
-          req.resetTimeout();
+          
+          progressPopup.unblock();
+          progressPopup.hidePopup();
         },
         this);
   

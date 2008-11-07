@@ -48,29 +48,35 @@ qx.Class.define("toolbox.ProgressLoader",
   members :
   {
       __createPopup : function() {
-        var popup = new qx.ui.popup.Popup(new qx.ui.layout.Canvas()).set({
+        this.__popup = new qx.ui.popup.Popup(new qx.ui.layout.Canvas()).set({
           backgroundColor: "white",
           padding: [4, 4, 4, 4]
       });
+
+      this.__root = qx.core.Init.getApplication().getRoot();
+      this.__root.setZIndex(99);
+      this.__root.block();
+      this.__root.setBlockerColor("white");
+      this.__root.setBlockerOpacity(0.5);
       
-      
-      //TODO
-      /*
-      var abstractRoot = new qx.ui.root.Abstract();
-      abstractRoot.setZIndex(99);
-      abstractRoot.block();
-      abstractRoot.setBlockerColor("white");
-      abstractRoot.setBlockerOpacity(20);
-      
-      */
-      
-      
-      popup.add(new qx.ui.basic.Atom("Run Forest run!", "toolbox/image/progressLoader.gif"));
-      popup.moveTo(250, 300);
-      popup.setZIndex(100);
-      popup.setAutoHide(false);
-      popup.show();
+
+      this.__popup.add(new qx.ui.basic.Atom("Loading", "toolbox/image/progressLoader.gif"));
+      this.__popup.moveTo(400, 300);
+      this.__popup.setZIndex(100);
+      this.__popup.setAutoHide(false);
+      this.__popup.show();
+    },
+    
+    unblock : function() {
+    	this.__root.unblock();
+    },
+    
+    hidePopup : function() {
+      this.__popup.hide();
     }
+    
+    
+    
     
   }
 });
