@@ -57,6 +57,8 @@ import cgi
 #import cgitb; cgitb.enable()
 
 
+
+
 def invoke_external(cmd):
     import subprocess
     myProc = subprocess.Popen(cmd, shell=True,
@@ -68,16 +70,24 @@ global myProc
 
 def invoke_piped(cmd):
     import subprocess
+    global myProc
     myProc = subprocess.Popen(cmd, shell=True,
                          stdout=subprocess.PIPE,
                          stderr=subprocess.PIPE,
                          universal_newlines=True)
+    
     
     output, errout = myProc.communicate()
     rcode = myProc.returncode
     return (rcode, output, errout)
 
 
+
+def invoke_Background(cmd):
+    import subprocess
+    global myProc
+    myProc = subprocess.Popen(["sleep", "10"]) 
+    return myProc;
 
 
 def dispatch_action(form): 
@@ -95,6 +105,10 @@ def dispatch_action(form):
             print "Content-type: text/plain" 
             print
             generateApi(form)
+        elif (action == 'show_Log'): # generate api
+            print "Content-type: text/html" 
+            print
+            showLogFile()    
         elif (action == 'open_In_Browser'):
             print "Content-type: text/plain"  
             print
@@ -159,7 +173,6 @@ def showConfiguration(form):
     
     list = open(myPath+myName+"\config.json", 'r').readlines()
     input = "".join(list)
-    #input = "{ " + input + " }"
 
     print input
     return input
@@ -370,6 +383,7 @@ def makePretty(form):
         makecmd = sys.executable +' ' + myPath+myName+'\\generate.py pretty' 
         cmd = makecmd
     
+
     (rcode, output, error) = invoke_piped(cmd)
     output = output.replace('"', "'")
 
@@ -397,14 +411,13 @@ def open_in_browser(form):
         location = form['location'].value     
     
     filename = myPath + myName + "/"+location+"/index.html"
-    #os.startfile(filename)
     webbrowser.open_new_tab("file://" + filename)
     
 
 
 
-def generateApi(form):
-    sys.stdout.flush()
+def generateApi(form): 
+    sys.stdout.flush() 
     
     myName = ""
     if 'myName' in form:
@@ -426,19 +439,19 @@ def generateApi(form):
         
         libraryPath = os.getcwd().replace(":", "").replace("\\", "/").replace(' ', '" "')
         cmd = pypath +' /cygdrive/'+ 'c/tmp/'+myName+'/./generate.py api'
-        #cmd = cmd.replace(' ', '" "')
-        #print cmd
     else:
-        makecmd = sys.executable +' ' + myPath+myName+'\\generate.py api' 
+        makecmd = sys.executable +' ' + myPath+myName+'\\generate.py api --logfile=C:\\output.html' 
         cmd = makecmd
+
     
     (rcode, output, error) = invoke_piped(cmd)
     output = output.replace('"', "'")
-
+    
     result = ' { api_state: ' + repr(rcode) + ', api_output: "' + output + '", api_error: "' + error + '" }'
     result = result.replace("\n", "<br/>")
     result = result.replace("\\", "/");
     result = result.replace("//", "/");
+    
     print result
     return result
 
