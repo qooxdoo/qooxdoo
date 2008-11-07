@@ -113,6 +113,9 @@ Arguments:
                 listJobs(console, availableJobs, config)
                 sys.exit(1)
 
+    # Fix the "+key" override tags on feature names for non-merging keys
+    config.fixJobsTags()  # do this in all jobs so we don't have to worry which get run
+
     # Resolve "extend"- and "run"-Keys
     expandedjobs = config.resolveExtendsAndRuns(options.jobs[:])
 
