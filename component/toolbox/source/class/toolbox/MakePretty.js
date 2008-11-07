@@ -74,7 +74,7 @@ qx.Class.define("toolbox.MakePretty",
   
         req.setProhibitCaching(true);
         req.setData(dat);
-        
+        var progressPopup = new toolbox.ProgressLoader();
   
         req.addListener("completed", function(evt)
         {
@@ -90,7 +90,8 @@ qx.Class.define("toolbox.MakePretty",
               this.setResult(result.pretty_output);
             }
           }
-          req.resetTimeout();
+          progressPopup.unblock();
+          progressPopup.hidePopup();
         },
         this);
   

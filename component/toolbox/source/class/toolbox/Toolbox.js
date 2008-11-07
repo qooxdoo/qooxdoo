@@ -275,8 +275,7 @@ qx.Class.define("toolbox.Toolbox",
       /*
        * SINGLE UPLOAD WIDGET 
        */      
-      this.__form = new uploadwidget.UploadForm('uploadFrm').set({paddingTop: 30});//,'/cgi-bin/uploadtest.pl');
-      //this.__form.setParameter('rm','upload');
+      this.__form = new uploadwidget.UploadForm('uploadFrm').set({paddingTop: 30});
       this.__form.setLayout(new qx.ui.layout.Basic);
 
       this.__logText = new uploadwidget.UploadField('uploadfile', 'Browse','toolbox/image/document-save.png');
@@ -618,7 +617,8 @@ qx.Class.define("toolbox.Toolbox",
     __generateApi : function() {
     	this.__generateAppApi = new toolbox.GenerateApi(this.__adminPath, 
                                                       this.__getCurrentFileName(), 
-                                                      this.__getCurrentFilePath());
+                                                      this.__getCurrentFilePath(),
+                                                      this.logFrame);
       return;                                                
     },
     

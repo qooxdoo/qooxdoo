@@ -57,7 +57,7 @@ qx.Class.define("toolbox.Configuration",
         var saveDat = "action=save_Configuration";
         var createParams = [fileName, filePath];
         req.setTimeout(1000000);
-        
+
         // check cygwin path
         if ('cygwin' in this.__urlParms.getParms())
         {
@@ -85,9 +85,6 @@ qx.Class.define("toolbox.Configuration",
           vBoxLayout.setAlignX("right");
           
           var gridLayout = new qx.ui.layout.Grid(5, 5);
-          gridLayout.setColumnFlex(1, 1);
-          gridLayout.setColumnFlex(2, 1);
-          //gridLayout.setRowAlign(10, "right", "middle");
           
           var mainContainer = new qx.ui.container.Composite(gridLayout);
           
@@ -102,10 +99,9 @@ qx.Class.define("toolbox.Configuration",
           this.win.setLayout(vBoxLayout);
           this.win.setAllowGrowY(false);
           this.win.setAllowMaximize(false);
+          this.win.setMinHeight(400);
           
-          try {
-            var resultEval = eval("(" + result + ")");
-            
+         
             //--------Buttons-----------------------------------------------------
             var saveButton = new qx.ui.form.Button("Save", "toolbox/image/media-floppy.png");
             var closeButton = new qx.ui.form.Button("Close", "toolbox/image/dialog-close.png");
@@ -114,19 +110,42 @@ qx.Class.define("toolbox.Configuration",
             //--------Textarea----------------------------------------------------
             var configFrame = new qx.ui.form.TextArea("");
             configFrame.setMinWidth(400);
-            //configFrame.setMinHeight(300);
             configFrame.setWrap(false);
             configFrame.setAllowGrowX(true);
             configFrame.setAllowGrowY(true);
             configFrame.setAllowStretchX(true);
             configFrame.setAllowStretchY(true);
             configFrame.setValue(result);
-  
+            configFrame.setMinHeight(400);
+            
             //--------Textarea----------------------------------------------------
+            
+            
+            
+            
+            //###################################################################
+            //#####################################################################
+            //#####################################################################
+            //#####################################################################
+            
+            var analyzer = new toolbox.JsonAnalyzer();
+            analyzer.analyze(result);
+            alert(analyzer.getWholeContentContainer().toString());
+            alert(analyzer.getKeyContainer().toString());
+
+            //#####################################################################
+            //#####################################################################
+            //#####################################################################
+            //#####################################################################
+       
+            
+            
+            
+            
             
             //--------Checkbox----------------------------------------------------
             var showProfessionalView = new qx.ui.form.CheckBox("");
-            configFrame.exclude();
+            showProfessionalView.setChecked(true);
             
             showProfessionalView.addListener("click", function() {
               if(showProfessionalView.getChecked()){
@@ -135,112 +154,25 @@ qx.Class.define("toolbox.Configuration",
                  configFrame.exclude();
               }
             }, this);
-            
             //--------Checkbox----------------------------------------------------
-  
+
             
             //--------Labels------------------------------------------------------
             var nameLabel = new qx.ui.basic.Label("Name: ");
-            var includePathLabel = new qx.ui.basic.Label("Include path: ");
-            var applicationNameLabel = new qx.ui.basic.Label("APPLICATION: ");
-            var qooxdooPathLabel = new qx.ui.basic.Label("QOOXDOO_PATH: ");
-            var qooxdooUriLabel = new qx.ui.basic.Label("QOOXDOO_URI: ");
-            var qxThemeLabel = new qx.ui.basic.Label("QXTHEME: ");
-            var apiExcludeLabel = new qx.ui.basic.Label("API_EXCLUDE: ");
-            var localesLabel = new qx.ui.basic.Label("LOCALES: ");
-            var rootLabel = new qx.ui.basic.Label("ROOT: ");
             var professionalViewLabel = new qx.ui.basic.Label("Professional view: ");
             //--------Labels------------------------------------------------------
             
             //--------Textfields------------------------------------------------------
-            var nameText = new qx.ui.form.TextField(resultEval.name).set({
-              minWidth : 300
-            });
-            var includePathText = new qx.ui.form.TextField(resultEval.include[0].path).set({
-              minWidth : 300
-            });
-            var applicationNameText = new qx.ui.form.TextField(resultEval.let.APPLICATION).set({
-              minWidth : 300
-            });
-            var qooxdooPathText = new qx.ui.form.TextField(resultEval.let.QOOXDOO_PATH).set({
-              minWidth : 300
-            });
-            var qooxdooUriText = new qx.ui.form.TextField(resultEval.let.QOOXDOO_URI).set({
-              minWidth : 300
-            });
-            var qxThemeText = new qx.ui.form.TextField(resultEval.let.QXTHEME).set({
-              minWidth : 300
-            });
-            var apiExcludeText = new qx.ui.form.TextField("[" + resultEval.let.API_EXCLUDE.toString() + "]").set({
-              minWidth : 300
-            });
-            var localesText = new qx.ui.form.TextField("[" + resultEval.let.LOCALES.toString() + "]").set({
-              minWidth : 300
-            });
-            var rootText = new qx.ui.form.TextField(resultEval.let.ROOT).set({
+            var nameText = new qx.ui.form.TextField().set({
               minWidth : 300
             });
             //--------Textfields--------------------------------------------------
             
-            //--------TextListener------------------------------------------------
-            nameText.addListener("input", function(e) {
-              resultEval.name = nameText.getValue();
-              configFrame.setValue(qx.util.Json.stringify(resultEval, true).toString());
-            }, this);
-            
-            includePathText.addListener("input", function(e) {
-              resultEval.include[0].path = includePathText.getValue();
-              configFrame.setValue(qx.util.Json.stringify(resultEval, true).toString());
-            }, this);
-            
-            applicationNameText.addListener("input", function(e) {
-              resultEval.let.APPLICATION = applicationNameText.getValue();
-              configFrame.setValue(qx.util.Json.stringify(resultEval, true).toString());
-            }, this);
-            
-            qooxdooPathText.addListener("input", function(e) {
-              resultEval.let.QOOXDOO_PATH = qooxdooPathText.getValue();
-              configFrame.setValue(qx.util.Json.stringify(resultEval, true).toString());
-            }, this);
-            
-            qooxdooUriText.addListener("input", function(e) {
-              resultEval.let.QOOXDOO_URI = qooxdooUriText.getValue();
-              configFrame.setValue(qx.util.Json.stringify(resultEval, true).toString());
-            }, this);
-            
-            qxThemeText.addListener("input", function(e) {
-              resultEval.let.QXTHEME = qxThemeText.getValue();
-              configFrame.setValue(qx.util.Json.stringify(resultEval, true).toString());
-            }, this);
-            
-            apiExcludeText.addListener("input", function(e) {
-              resultEval.let.API_EXCLUDE = apiExcludeText.getValue();
-              configFrame.setValue(qx.util.Json.stringify(resultEval, true).toString());
-            }, this);
-            
-            localesText.addListener("input", function(e) {
-              resultEval.let.LOCALES = localesText.getValue();
-              configFrame.setValue(qx.util.Json.stringify(resultEval, true).toString());
-            }, this);
-            
-            rootText.addListener("input", function(e) {
-              resultEval.let.ROOT = rootText.getValue();
-              configFrame.setValue(qx.util.Json.stringify(resultEval, true).toString());
-            }, this);
-            
-            //--------TextListener------------------------------------------------
-            
-            
-            
-            
-            
+
             container.add(closeButton);
             container.add(saveButton);
             
-            
-            
-            
-            
+
             mainContainer.add(nameLabel, {
               row     : 0,
               column  : 0,
@@ -254,143 +186,34 @@ qx.Class.define("toolbox.Configuration",
               rowSpan : 0,
               colSpan : 1
             });
-            
-            mainContainer.add(includePathLabel, {
-              row     : 1,
-              column  : 0,
-              rowSpan : 0,
-              colSpan : 1
-            });
-            
-            mainContainer.add(includePathText, {
-              row     : 1,
-              column  : 1,
-              rowSpan : 0,
-              colSpan : 1
-            });
-            
-            mainContainer.add(applicationNameLabel, {
-              row     : 2,
-              column  : 0,
-              rowSpan : 0,
-              colSpan : 1
-            });
-            
-            mainContainer.add(applicationNameText, {
-              row     : 2,
-              column  : 1,
-              rowSpan : 0,
-              colSpan : 1
-            });
-            
-             mainContainer.add(qooxdooPathLabel, {
-              row     : 3,
-              column  : 0,
-              rowSpan : 0,
-              colSpan : 1
-            });
-            
-            mainContainer.add(qooxdooPathText, {
-              row     : 3,
-              column  : 1,
-              rowSpan : 0,
-              colSpan : 1
-            });
-            
-            mainContainer.add(qooxdooUriLabel, {
-              row     : 4,
-              column  : 0,
-              rowSpan : 0,
-              colSpan : 1
-            });
-            
-            mainContainer.add(qooxdooUriText, {
-              row     : 4,
-              column  : 1,
-              rowSpan : 0,
-              colSpan : 1
-            });
-            
-            mainContainer.add(qxThemeLabel, {
-              row     : 5,
-              column  : 0,
-              rowSpan : 0,
-              colSpan : 1
-            });
-            
-            mainContainer.add(qxThemeText, {
-              row     : 5,
-              column  : 1,
-              rowSpan : 0,
-              colSpan : 1
-            });
-            
-            mainContainer.add(apiExcludeLabel, {
-              row     : 6,
-              column  : 0,
-              rowSpan : 0,
-              colSpan : 1
-            });
-            
-            mainContainer.add(apiExcludeText, {
-              row     : 6,
-              column  : 1,
-              rowSpan : 0,
-              colSpan : 1
-            });
-            
-            mainContainer.add(localesLabel, {
-              row     : 7,
-              column  : 0,
-              rowSpan : 0,
-              colSpan : 1
-            });
-            
-            mainContainer.add(localesText, {
-              row     : 7,
-              column  : 1,
-              rowSpan : 0,
-              colSpan : 1
-            });
-  
-            mainContainer.add(rootLabel, {
-              row     : 8,
-              column  : 0,
-              rowSpan : 0,
-              colSpan : 1
-            });
-            
-            mainContainer.add(rootText, {
-              row     : 8,
-              column  : 1,
-              rowSpan : 0,
-              colSpan : 1
-            });
-  
+
             mainContainer.add(professionalViewLabel, {
-              row     : 9,
+              row     : 1,
               column  : 0,
               rowSpan : 0,
               colSpan : 1
             });
             
             mainContainer.add(showProfessionalView, {
-              row     : 9,
+              row     : 1,
               column  : 1,
               rowSpan : 0,
               colSpan : 1
             });
             
             mainContainer.add(configFrame, {
-              row     : 0,
-              column  : 2,
-              rowSpan : 9,
-              colSpan : 0
+              row     : 2,
+              column  : 0,
+              rowSpan : 0,
+              colSpan : 2
             });
             
             this.win.add(mainContainer);
             this.win.add(container);
             
+            this.win.addListener("close", function() {
+              analyzer.resetAnalyzer();
+            }, this);
             
             closeButton.addListener("execute", function() {
               this.win.close();
@@ -411,14 +234,10 @@ qx.Class.define("toolbox.Configuration",
             
             this.win.open(); 
             this.win.moveTo(200, 100);
-          } catch(err) {
-            alert(err);
-            this.win.close();
-          }
-
           
+
           this.setResult(result);   
-          req.resetTimeout();
+
         },
         this);
         
