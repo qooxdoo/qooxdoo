@@ -34,10 +34,11 @@ class Job(object):
     LET_KEY      = "let"
     RESOLVED_KEY = "resolved"
     OVERRIDE_KEY = "__override__"
-    KEYS_WITH_JOB_REFS = [RUN_KEY, EXTEND_KEY]
+    OVERRIDE_TAG_REGEXP = re.compile(r'^\+(.*)$')  # identify tag ("+") and extract orig. key
+    KEYS_WITH_JOB_REFS  = [RUN_KEY, EXTEND_KEY]
     MACRO_SPANNING_REGEXP = re.compile(r'^\$\{\w+\}$')  # e.g. "${PATH}"
-    JSON_SCALAR_TYPES = (types.StringTypes, types.IntType, types.LongType, types.FloatType,
-                         types.BooleanType, types.NoneType)
+    JSON_SCALAR_TYPES   = (types.StringTypes, types.IntType, types.LongType, types.FloatType,
+                           types.BooleanType, types.NoneType)
 
 
     def __init__(self, name, data, console_, config=None):
@@ -70,6 +71,23 @@ class Job(object):
         else:  # scalar value
             return target  # first val overrules
         
+
+    def fixNameTags(self):
+        
+        visitor = self.getDataVisitor()
+        for map in visitor:
+            for key in map:
+                mo = Job.OVERRIDE_TAG_REGEXP.search(key)
+                if mo:
+                    # remove tag from key
+                    cleankey = mo.group(1)  # pick the original key
+                    map[cleankey] = map[key]
+                    del map[key]
+                    # add to override key
+                    if not Job.OVERRIDE_KEY in map:
+                        map[Job.OVERRIDE_KEY] = []
+                    map[Job.OVERRIDE_KEY].append(cleankey)
+
 
     def resolveExtend(self, entryTrace=[]):
         # resolve the 'extend' entry of a job
@@ -232,6 +250,20 @@ class Job(object):
 
     def getData(self):
         return self._data
+
+    def getDataVisitor(self):
+        data = self.getData()
+        assert isinstance(data, types.DictType)
+
+        def visitor(map):
+            yield map
+            for key in map:
+                if isinstance(map[key], types.DictType):
+                    for map1 in visitor(map[key]):
+                        yield map1
+
+        return visitor(data)
+
 
     def getConfig(self):
         return self._config
