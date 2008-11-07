@@ -23,7 +23,7 @@
  *
  * Use of these timers is via the methods start() and stop().  Examples:
  * <code><pre>
- *       var timer = qx.util.Timer.getInstance();
+ *       var timer = qx.util.TimerManager.getInstance();
  *       
  *       // Start a 5-second recurrent timer.
  *       // Note that the first expiration is immediate (first parameter=0)
@@ -62,7 +62,7 @@
  *                   2000);
  * </pre></code>
  */
-qx.Class.define("qx.util.Timer",
+qx.Class.define("qx.util.TimerManager",
 {
   extend : qx.core.Object,
   type   : "singleton",
@@ -76,62 +76,13 @@ qx.Class.define("qx.util.Timer",
     __timerData  : {},
 
     /** Next timer id value is determined by incrementing this */
-    __timerId    : 0,
-
-    /**
-     * Unit test for this class
-     *
-     * @param context {qx.core.Object}
-     *   Context (this) to use for this.debug() statements
-     *
-     * @return {Void}
-     */
-    unitTest : function(context)
-    {
-      var timer = qx.util.Timer.getInstance();
-      
-      context.debug("Starting test");
-
-      timer.start(0,
-                  function(userData, timerId)
-                  {
-                    this.debug("Recurrent 5-second timer: " + timerId);
-                  },
-                  null,
-                  context,
-                  5000);
-
-      timer.start(1000,
-                  function(userData, timerId)
-                  {
-                    this.debug("One-shot 1-second timer: " + timerId);
-                  });
-
-      timer.start(2000,
-                  function(userData, timerId)
-                  {
-                    this.debug("Recurrent 2-second timer with limit 3:" +
-                               timerId);
-                    if (++userData.count == 3)
-                    {
-                      this.debug("Stopping recurrent 2-second timer");
-                      timer.stop(timerId);
-                    }
-                  },
-                  { count : 0 },
-                  context,
-                  2000);
-    }
+    __timerId    : 0
   },
 
   members :
   {
     /**
      * Start a new timer
-     *
-     * @param initialTime {Integer}
-     *   Milliseconds before the callback function is called the very first
-     *   time.
      *
      * @param callback {Function}
      *   Function to be called upon expiration of the timer.  The function is
@@ -143,34 +94,38 @@ qx.Class.define("qx.util.Timer",
      *       <dd>The timer id, as was returned by the start() method</dd>
      *   </dl>
      *
-     * @param userData {Any}
-     *   Data which is passed to the callback function upon timer expiry
-     *
-     * @param context {qx.core.Object|null}
-     *   Context (this) the callback function is called with.  If not
-     *   provided, this Timer singleton object is used.
-     *
      * @param recurTime {Integer|null}
      *   If null, the timer will not recur.  Once the callback function
      *   returns the first time, the timer will be removed from the timer
      *   queue.  If non-null, upon return from the callback function, the
      *   timer will be reset to this number of milliseconds.
      *
+     * @param context {qx.core.Object|null}
+     *   Context (this) the callback function is called with.  If not
+     *   provided, this Timer singleton object is used.
+     *
+     * @param userData {Any}
+     *   Data which is passed to the callback function upon timer expiry
+     *
+     * @param initialTime {Integer ? 0}
+     *   Milliseconds before the callback function is called the very first
+     *   time.
+     *
      * @return {Integer}
      *   The timer id of this unique timer.  It may be provided to the stop()
      *   method to cancel a timer before expiration.
      */
-    start : function(initialTime, callback, userData, context, recurTime)
+    start : function(callback, recurTime, context, userData, initialTime)
     {
       // Get the expiration time for this timer
-      var expireAt = (new Date()).getTime() + initialTime;
+      var expireAt = (new Date()).getTime() + (initialTime || 0);
 
       // Save the callback, user data, and requested recurrency time as well
       // as the current expiry time
       this.self(arguments).__timerData[++this.self(arguments).__timerId] =
         {
           callback  : callback,
-          userData  : userData,
+          userData  : userData || null,
           expireAt  : expireAt,
           recurTime : recurTime,
           context   : context || this
