@@ -89,9 +89,9 @@ class Job(object):
                     map[Job.OVERRIDE_KEY].append(cleankey)
 
 
-    def resolveExtend(self, entryTrace=[]):
+    def resolveExtend(self, entryTrace=[], cfg=None):
         # resolve the 'extend' entry of a job
-        config = self._config
+        config = cfg or self._config
 
         if self.hasFeature(self.RESOLVED_KEY):
             return
@@ -108,10 +108,13 @@ class Job(object):
                 
                 entryJob = config.getJob(entry)  # getJob() handles string/Job polymorphism of 'entry' and returns Job object
                 if not entryJob:
-                    raise RuntimeError, "No such job: \"%s\" (trace: %s)" % (entry, entryTrace+[self.name])
+                    if config != self._config:  # try own config
+                        entryJob = self._config.getJob(entry)
+                    if not entryJob:
+                        raise RuntimeError, "No such job: \"%s\" (trace: %s)" % (entry, entryTrace+[self.name])
 
                 # make sure this entry job is fully resolved in its context
-                entryJob.resolveExtend(entryTrace + [self.name])
+                entryJob.resolveExtend(entryTrace + [self.name], config)
 
                 # now merge the fully expanded job into the current job
                 self.mergeJob(entryJob)
@@ -362,13 +365,13 @@ class Job(object):
 
 
     def listMerge(self, source, target):
-        """merge source list with target list (currently prepend),
+        """merge source list with target list (currently append),
            avoiding duplicates"""
         t = []
         for e in source:
             if not e in target:
                 t.append(e)
-        return t + target
+        return target + t
 
 
 # -- a helper class to represent delayed merge values --------------------------
