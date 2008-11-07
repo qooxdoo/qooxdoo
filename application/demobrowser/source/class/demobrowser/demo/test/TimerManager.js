@@ -26,29 +26,29 @@ qx.Class.define("demobrowser.demo.test.TimerManager",
     
     startTimers : function()
     {
-      var timer = qx.util.Timer.getInstance();
+      var timer = qx.util.TimerManager.getInstance();
 
       timer.start(
-        0,
         function(userData, timerId) {
           this.__addLog("Recurrent 5-second timer: " + timerId);
         },
-        null,
+        5000,
         this,
-        5000
+        null,
+        0
       );
 
       timer.start(
-        1000,
         function(userData, timerId) {
           this.__addLog("One-shot 1-second timer: " + timerId);
         },
+        0,
+        this,
         null,
-        this
+        1000
       );
 
       timer.start(
-        2000,
         function(userData, timerId)
         {
           this.__addLog("Recurrent 2-second timer with limit 3:" +
@@ -59,8 +59,9 @@ qx.Class.define("demobrowser.demo.test.TimerManager",
             timer.stop(timerId);
           }
         },
-        { count : 0 },
+        2000,
         this,
+        { count : 0 },
         2000
       );
     },
