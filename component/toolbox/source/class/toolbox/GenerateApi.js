@@ -34,10 +34,10 @@ qx.Class.define("toolbox.GenerateApi",
          CONSTRUCTOR
       *****************************************************************************
     */
-  construct : function(adminPath, fileName, filePath) {
-  		this.base(arguments, adminPath, fileName, filePath);
+  construct : function(adminPath, fileName, filePath, logFrame) {
+  		this.base(arguments, adminPath, fileName, filePath, logFrame);
   		this.__urlParms = new toolbox.UrlSearchParms();
-  		this.__generateApi(adminPath, fileName, filePath);
+  		this.__generateApi(adminPath, fileName, filePath, logFrame);
   },
 
     /*
@@ -48,7 +48,7 @@ qx.Class.define("toolbox.GenerateApi",
 
   members :
   {
-    __generateApi : function(adminPath, fileName, filePath) {
+    __generateApi : function(adminPath, fileName, filePath, logFrame) {
     	if (fileName != "" & filePath!=""){
       	var url = adminPath;
         var req = new qx.io.remote.Request(url, "POST", "application/json");
@@ -77,27 +77,39 @@ qx.Class.define("toolbox.GenerateApi",
         req.setProhibitCaching(true);
         req.setData(dat);
         
+        var progressPopup = new toolbox.ProgressLoader();
   
+
+        //NEW END
+        
         req.addListener("completed", function(evt)
         {
           var result = evt.getContent();
+          
+          
           var receivedState = result.api_state;
           if (receivedState == 1 || receivedState == 0) { 
             if(receivedState == 0){
-              alert("API created successfully");
+              logFrame.setHtml(logFrame.getHtml() + " <br> " +result.api_output);
               this.setResult(result.api_output);
               req.setData(openApi)
               req.send();
             }
             if(receivedState == 1){
-              alert("Failed");
+              logFrame.setHtml(logFrame.getHtml() + " <br> " +'<font color="red">'+result.api_output + '</font>');
               this.setResult(result.api_output);
             }
           }
-          req.resetTimeout();
+         
+          progressPopup.unblock();
+          progressPopup.hidePopup();
         },
         this);
   
+        
+        
+        
+        
         req.addListener("failed", function(evt) {
           this.error("Failed to post to URL: " + url);
         }, this);

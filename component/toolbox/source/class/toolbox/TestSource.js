@@ -76,7 +76,7 @@ qx.Class.define("toolbox.TestSource",
   
         req.setProhibitCaching(true);
         req.setData(dat);
-        
+        var progressPopup = new toolbox.ProgressLoader();
   
         req.addListener("completed", function(evt)
         {
@@ -96,7 +96,8 @@ qx.Class.define("toolbox.TestSource",
               this.setResult(result.test_output);
             }
           }
-          req.resetTimeout();
+          progressPopup.unblock();
+          progressPopup.hidePopup();
         },
         this);
   

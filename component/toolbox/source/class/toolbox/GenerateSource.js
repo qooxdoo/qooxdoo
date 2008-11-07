@@ -78,6 +78,8 @@ qx.Class.define("toolbox.GenerateSource",
         req.setData(dat);
         
   
+        var progressPopup = new toolbox.ProgressLoader();
+        
         req.addListener("completed", function(evt)
         {
           var result = evt.getContent();
@@ -100,7 +102,8 @@ qx.Class.define("toolbox.GenerateSource",
           } else {
           	logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">'+result + '</font>');
           }
-         
+         progressPopup.unblock();
+         progressPopup.hidePopup();
         },
         this);
   
@@ -111,7 +114,7 @@ qx.Class.define("toolbox.GenerateSource",
         
         
         
-        var progressPopup = new toolbox.ProgressLoader();
+        //var progressPopup = new toolbox.ProgressLoader();
         
         
         req.send();
