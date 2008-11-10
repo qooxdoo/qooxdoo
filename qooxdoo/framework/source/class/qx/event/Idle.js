@@ -93,5 +93,21 @@ qx.Class.define("qx.event.Idle",
       this.fireEvent("interval");
     }
 
+  },
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    if (this.__timer) {
+      this.__timer.stop();
+    }
+
+    this._disposeFields("__timer");
   }
+  
 });
