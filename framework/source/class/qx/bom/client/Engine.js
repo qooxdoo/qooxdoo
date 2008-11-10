@@ -124,6 +124,11 @@ qx.Bootstrap.define("qx.bom.client.Engine",
         engine = "mshtml";
         version = RegExp.$1;
 
+        // To handle the IE8 in IE7 standard mode as IE7.
+        if (version >= 8 && document.documentMode < 8) {
+          version = "7.0";
+        }
+        
         this.MSHTML = true;
       }
       else
