@@ -76,8 +76,9 @@ class Config:
     COMPOSED_NAME_SEP = "::"   # this is to construct composed job names
     JOBS_KEY          = "jobs"
     SHADOW_PREFIX     = "XXX"
-    OVERRIDE_KEY      = "__override__"
-    OVERRIDE_TAG_REGEXP = re.compile(r'^\+(.*)$')  # identify tag ("+") and extract orig. key
+    OVERRIDE_KEY      = "__override__"    # takes an array of keys to protect on merging
+    OVERRIDE_TAG      = "="    # tag for key names, to protect on merging
+    OVERRIDE_TAG_REGEXP = re.compile(r'^\%s(.*)$' % OVERRIDE_TAG)  # identify tag and extract orig. key
 
     def get(self, key, default=None, confmap=None):
         """Returns a (possibly nested) data element from dict <conf>
@@ -219,6 +220,9 @@ class Config:
                 if not self.OVERRIDE_KEY in jobsMap:
                     jobsMap[Job.OVERRIDE_KEY] = []
                 jobsMap[Job.OVERRIDE_KEY].append(cleankey)
+                # fix Job object property
+                if isinstance(jobsMap[cleankey], Job):
+                    jobsMap[cleankey].name = cleankey
 
 
     def resolveIncludes(self, includeTrace=[]):
