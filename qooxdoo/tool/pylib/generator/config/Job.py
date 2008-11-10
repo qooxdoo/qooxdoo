@@ -34,7 +34,8 @@ class Job(object):
     LET_KEY      = "let"
     RESOLVED_KEY = "resolved"
     OVERRIDE_KEY = "__override__"
-    OVERRIDE_TAG_REGEXP = re.compile(r'^\+(.*)$')  # identify tag ("+") and extract orig. key
+    OVERRIDE_TAG = "="    # tag for key names, to protect on merging
+    OVERRIDE_TAG_REGEXP = re.compile(r'^\%s(.*)$' % OVERRIDE_TAG)  # identify tag and extract orig. key
     KEYS_WITH_JOB_REFS  = [RUN_KEY, EXTEND_KEY]
     MACRO_SPANNING_REGEXP = re.compile(r'^\$\{\w+\}$')  # e.g. "${PATH}"
     JSON_SCALAR_TYPES   = (types.StringTypes, types.IntType, types.LongType, types.FloatType,

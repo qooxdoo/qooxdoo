@@ -100,6 +100,9 @@ Arguments:
     # Resolve "include"-Keys
     config.resolveIncludes()
 
+    # Fix the "+key" override tags on feature names for non-merging keys
+    config.fixJobsTags()  # do this in all jobs so we don't have to worry which get run
+
     # Check jobs
     availableJobs = config.getExportedJobsList()
     if len(options.jobs) == 0:
@@ -112,9 +115,6 @@ Arguments:
                 console.warn("No such job: %s" % job)
                 listJobs(console, availableJobs, config)
                 sys.exit(1)
-
-    # Fix the "+key" override tags on feature names for non-merging keys
-    config.fixJobsTags()  # do this in all jobs so we don't have to worry which get run
 
     # Resolve "extend"- and "run"-Keys
     expandedjobs = config.resolveExtendsAndRuns(options.jobs[:])
