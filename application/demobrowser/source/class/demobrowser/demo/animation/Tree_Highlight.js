@@ -48,8 +48,6 @@ qx.Class.define("demobrowser.demo.animation.Tree_Highlight",
       var tree = this.getTree();
       treeGroup.add(tree, {edge: 0});
 
-
-      //this._container.add(tree);
       this._tree = tree;
 
       this._container.add(this.getCommandFrame());
@@ -336,22 +334,22 @@ qx.Class.define("demobrowser.demo.animation.Tree_Highlight",
       }
 
       var parent = current.getParent();
-
-      var isTopLevel = current.getLevel() == -1;
+      var level = current.getLevel();
+      var isTopLevel = level == -1;
       var isFolder = current instanceof qx.ui.tree.TreeFolder;
       var isLastItem = this._tree.getNextSiblingOf(current) == null;
       var isFirstItem = this._tree.getPreviousSiblingOf(current) == null;
-
+      
       this.btnAddFolder.setEnabled(isFolder);
       this.btnAddFile.setEnabled(isFolder);
-      this.btnAddBefore.setEnabled(true);
-      this.btnAddAfter.setEnabled(true);
-      this.btnAddBegin.setEnabled(true);
+      this.btnAddBefore.setEnabled(!isTopLevel);
+      this.btnAddAfter.setEnabled(!isTopLevel);
+      this.btnAddBegin.setEnabled(!isTopLevel);
       this.btnRemove.setEnabled(!isTopLevel);
       this.btnRemoveAll.setEnabled(true);
       this.mgrShowRootOpen.setEnabled(isFolder);
       this.showOpenButtons[current.getOpenSymbolMode()].setChecked(true);
-      this.btnMoveToParent.setEnabled(!isTopLevel);
+      this.btnMoveToParent.setEnabled(level > 0);
     }
   }
 });
