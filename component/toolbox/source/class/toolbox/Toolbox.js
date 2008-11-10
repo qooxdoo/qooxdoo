@@ -41,6 +41,8 @@ qx.Class.define("toolbox.Toolbox",
   {
     this.base(arguments);
 
+    qx.dev.Debug;
+    
     var layout = new qx.ui.layout.VBox().set({ separator : "separator-vertical" });
 
     this.setLayout(layout);
@@ -749,12 +751,12 @@ qx.Class.define("toolbox.Toolbox",
       // First Page
       var p1 = new qx.ui.container.Composite(layout).set(
       {
-        width           : 700,
+        //width           : 700,
         backgroundColor : "white",
         decorator       : "main"
       });
 
-      pane.add(p1, 0);
+      pane.add(p1, 1);
 
       var caption1 = new qx.ui.basic.Label(this.tr("Toolbox Results")).set(
       {

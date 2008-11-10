@@ -88,7 +88,7 @@ qx.Class.define("toolbox.CreateNewApplication",
       	}
       }
       
-      alert("Parameter " + dat);
+      
       req.setProhibitCaching(true);
       req.setData(dat);
 

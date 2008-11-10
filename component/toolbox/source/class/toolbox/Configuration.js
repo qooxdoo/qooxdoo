@@ -85,21 +85,21 @@ qx.Class.define("toolbox.Configuration",
           vBoxLayout.setAlignX("right");
           
           var gridLayout = new qx.ui.layout.Grid(5, 5);
-          
+          gridLayout.setColumnFlex(2,1);
           var mainContainer = new qx.ui.container.Composite(gridLayout);
           
           
           var container = new qx.ui.container.Composite(new qx.ui.layout.HBox(5)).set({
             allowGrowX: false
           });
-          
-          
+   
           this.win = new qx.ui.window.Window("Configuration");
           this.win.setModal(true);
           this.win.setLayout(vBoxLayout);
           this.win.setAllowGrowY(false);
           this.win.setAllowMaximize(false);
-          this.win.setMinHeight(400);
+          //this.win.setAllowGrowX(true);
+          
           
          
             //--------Buttons-----------------------------------------------------
@@ -117,7 +117,7 @@ qx.Class.define("toolbox.Configuration",
             configFrame.setAllowStretchY(true);
             configFrame.setValue(result);
             configFrame.setMinHeight(400);
-            
+            configFrame.exclude();
             //--------Textarea----------------------------------------------------
             
             
@@ -129,92 +129,58 @@ qx.Class.define("toolbox.Configuration",
             //#####################################################################
             
             var analyzer = new toolbox.JsonAnalyzer();
-            analyzer.analyze(result);
-            alert(analyzer.getWholeContentContainer().toString());
-            alert(analyzer.getKeyContainer().toString());
-
+            result = eval("("+ result +")");
+            analyzer.createJsonTree(result, true);
+            
             //#####################################################################
             //#####################################################################
             //#####################################################################
             //#####################################################################
        
-            
-            
-            
-            
-            
-            //--------Checkbox----------------------------------------------------
-            var showProfessionalView = new qx.ui.form.CheckBox("");
-            showProfessionalView.setChecked(true);
-            
-            showProfessionalView.addListener("click", function() {
-              if(showProfessionalView.getChecked()){
-                 configFrame.show();
-              } else {
-                 configFrame.exclude();
-              }
-            }, this);
-            //--------Checkbox----------------------------------------------------
 
-            
-            //--------Labels------------------------------------------------------
-            var nameLabel = new qx.ui.basic.Label("Name: ");
-            var professionalViewLabel = new qx.ui.basic.Label("Professional view: ");
-            //--------Labels------------------------------------------------------
-            
-            //--------Textfields------------------------------------------------------
-            var nameText = new qx.ui.form.TextField().set({
-              minWidth : 300
-            });
-            //--------Textfields--------------------------------------------------
-            
 
             container.add(closeButton);
             container.add(saveButton);
             
-
-            mainContainer.add(nameLabel, {
+            
+            
+            mainContainer.add(analyzer.getTree(), {
               row     : 0,
               column  : 0,
               rowSpan : 0,
               colSpan : 1
             });
             
-            mainContainer.add(nameText, {
+            mainContainer.add(analyzer.getCommandFrame(analyzer.getTree()), {
               row     : 0,
-              column  : 1,
-              rowSpan : 0,
-              colSpan : 1
-            });
-
-            mainContainer.add(professionalViewLabel, {
-              row     : 1,
-              column  : 0,
-              rowSpan : 0,
-              colSpan : 1
-            });
-            
-            mainContainer.add(showProfessionalView, {
-              row     : 1,
               column  : 1,
               rowSpan : 0,
               colSpan : 1
             });
             
             mainContainer.add(configFrame, {
-              row     : 2,
-              column  : 0,
+              row     : 0,
+              column  : 2,
               rowSpan : 0,
               colSpan : 2
             });
             
             this.win.add(mainContainer);
             this.win.add(container);
+
+
             
-            this.win.addListener("close", function() {
-              analyzer.resetAnalyzer();
+            analyzer.getViewModeSelect().addListener("click", function() {
+              if(analyzer.getViewModeSelect().getChecked()){
+                 configFrame.show();
+              } else {
+                 configFrame.exclude();
+              }
             }, this);
             
+            
+
+
             closeButton.addListener("execute", function() {
               this.win.close();
             }, this);
