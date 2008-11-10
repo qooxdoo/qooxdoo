@@ -68,14 +68,14 @@ qx.Class.define("qx.html.Label",
       var rich = this.__rich;
       var el = qx.bom.Label.create(this._content, rich);
 
-      // Styles must be stored locally to work together with
-      // synchronisation in flush().
-      var styles = qx.bom.Label.getStyles(rich);
-      for (var key in styles) {
-        this.setStyle(key, styles[key]);
-      }
-
       return el;
+    },
+    
+    
+    // overridden
+    // be sure that style attributes are merged and not overwritten
+    _copyData : function(fromMarkup) {
+      return this.base(arguments, true);
     },
 
 
