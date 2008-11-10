@@ -87,15 +87,21 @@ qx.Class.define("demobrowser.demo.bom.Selection",
 
 
 
-      var resultDiv = qx.bom.Element.create("div", { id : "results", style : "width:500px;height:200px;border:1px solid #aaa" });
+      var resultLabel = qx.bom.Element.create("div", { style : "margin: 4px 0px" });
+      resultLabel.innerHTML = "<strong>Results</strong>";
+      
+      var resultDiv = qx.bom.Element.create("div", { id : "results", style : "width:500px;height:200px;" +
+      		                                                                    "border:1px solid darkgrey;" +
+      		                                                                    "background-color: lightgrey" });
+      qx.dom.Element.insertEnd(resultLabel, container);
       qx.dom.Element.insertEnd(resultDiv, container);
 
-      qx.dom.Element.insertEnd(container, document.body);
 
       var textDiv = qx.bom.Element.create("div", { id : "plaintext" });
       textDiv.innerHTML = "this is a test";
 
       qx.dom.Element.insertEnd(textDiv, document.body);
+      qx.dom.Element.insertEnd(container, document.body);
     },
 
     /* ***************************************
