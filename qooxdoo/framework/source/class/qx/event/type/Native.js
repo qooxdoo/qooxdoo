@@ -107,13 +107,23 @@ qx.Class.define("qx.event.type.Native",
     },
     
     
+    /**
+     * Sets the event's return value.
+     *
+     * @param target {Object} Incoming value
+     */
     setReturnValue : function(returnValue) {
       this._returnValue = returnValue;
     },
     
+    /**
+     * Retrieves the event's return value.
+     *
+     * @return {Object} The return value
+     */
     getReturnValue : function() {
       return this._returnValue;
-    }    
+    }
   },
 
 
@@ -126,6 +136,6 @@ qx.Class.define("qx.event.type.Native",
   */
 
   destruct : function() {
-    this._disposeFields("_native");
+    this._disposeFields("_native", "_returnValue");
   }
 });

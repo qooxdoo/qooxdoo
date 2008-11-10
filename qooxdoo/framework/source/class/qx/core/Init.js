@@ -79,10 +79,16 @@ qx.Class.define("qx.core.Init",
     },
 
 
+    /**
+     * Runs before the document is unloaded. Calls the application's close
+     * method to check if the unload process should be stopped.
+     *
+     * @param e {qx.event.type.Native} Incoming beforeunload event.
+     * @return {void}
+     */
     __close : function(e)
     {
       var app = this.__application;
-
       if (app) {
         e.setReturnValue(app.close());
       }
