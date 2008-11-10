@@ -99,6 +99,13 @@ qx.Class.define("qx.application.AbstractGui",
 
 
     // interface method
+    close : function(val)
+    {
+      // empty
+    },
+
+
+    // interface method
     terminate : function()
     {
       // empty

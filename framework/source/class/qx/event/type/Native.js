@@ -69,6 +69,7 @@ qx.Class.define("qx.event.type.Native",
       var clone = this.base(arguments, embryo);
 
       clone._native = this._native;
+      clone._returnValue = this._returnValue;
 
       return clone;
     },
@@ -103,7 +104,16 @@ qx.Class.define("qx.event.type.Native",
      */
     getNativeEvent : function() {
       return this._native;
-    }
+    },
+    
+    
+    setReturnValue : function(returnValue) {
+      this._returnValue = returnValue;
+    },
+    
+    getReturnValue : function() {
+      return this._returnValue;
+    }    
   },
 
 

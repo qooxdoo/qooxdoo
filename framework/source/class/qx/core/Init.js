@@ -79,6 +79,16 @@ qx.Class.define("qx.core.Init",
     },
 
 
+    __close : function(e)
+    {
+      var app = this.__application;
+
+      if (app) {
+        e.setReturnValue(app.close());
+      }
+    },
+
+
     /**
      * Runs when the document is unloaded. Automatically terminates a previously
      * created application instance.
@@ -108,5 +118,6 @@ qx.Class.define("qx.core.Init",
   {
     qx.event.Registration.addListener(window, "ready", statics.__ready, statics);
     qx.event.Registration.addListener(window, "shutdown", statics.__shutdown, statics);
+    qx.event.Registration.addListener(window, "beforeunload", statics.__close, statics);
   }
 });
