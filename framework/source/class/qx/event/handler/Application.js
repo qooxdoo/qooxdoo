@@ -251,6 +251,13 @@ qx.Class.define("qx.event.handler.Application",
     },
 
 
+    /**
+     * Event listener for native beforeunload event
+     *
+     * @param e {Event} Native event object
+     * @return {String?null} If the return value is set, the unload 
+     * process should be stopped
+     */
     _onNativeBeforeUnload : function(e)
     {
       var event = qx.event.Registration.createEvent("beforeunload", qx.event.type.Native, [e, window]);
