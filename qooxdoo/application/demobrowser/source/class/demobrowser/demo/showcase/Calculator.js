@@ -608,11 +608,12 @@ qx.Class.define("demobrowser.demo.showcase.CalculatorLogic",
      */
     setCurrentValue : function(__currentValue)
     {
+    	
       if (this.__isCommaPressed)
       {
         this.__commaDivider *= 10;
         this.__currentValue = this.__currentValue + (__currentValue / this.__commaDivider);
-
+        
         if (__currentValue == 0) {
           this.__zeroCounter++;
         }
@@ -620,8 +621,16 @@ qx.Class.define("demobrowser.demo.showcase.CalculatorLogic",
       else
       {
         this.__isCommaPressed = false;
+        
+        if (this.__currentValue < 0) {
+        	this.__currentValue = this.__currentValue * 10 - __currentValue;
+        } else {
+        
         this.__currentValue = this.__currentValue * 10 + __currentValue;
+        }
+        
       }
+      
     },
 
 
@@ -778,9 +787,9 @@ qx.Class.define("demobrowser.demo.showcase.CalculatorLogic",
       if (this.__currentValue == null) {
         this.__currentValue = this.__result;
       }
-
+      
       this.__currentValue = this.__currentValue * (-1);
-
+      
       if (this.__result == 0) {
         this.__result = this.__currentValue;
       }
