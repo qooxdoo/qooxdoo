@@ -270,6 +270,8 @@ qx.Class.define("qx.bom.element.Attribute",
         element.setAttribute(name, name);
       } else if (value === false || value === null) {
         element.removeAttribute(name);
+      } else if (qx.core.Variant.isSet("qx.client", "mshtml") && name == "style") {
+        element.style.setAttribute("cssText", value);
       } else {
         element.setAttribute(name, value);
       }
