@@ -154,23 +154,7 @@ qx.Class.define("qx.bom.Label",
       else
       {
         var el = win.document.createElement("div");
-        
-        // For Opera "textOverflow" is transformed into "-o-text-overflow"
-        // which has to applied with the full CSS string to make it work
-        if (qx.core.Variant.isSet("qx.client", "opera"))
-        {
-          var styles = qx.bom.element.Style.compile({ whiteSpace: "nowrap",
-                                                      overflow: "hidden",
-                                                      textOverflow: "ellipsis" });
-          
-          qx.bom.element.Style.setCss(el, styles);
-        }
-        else
-        {
-          qx.bom.element.Style.setStyles( el, { whiteSpace: "nowrap",
-                                                overflow: "hidden",
-                                                textOverflow: "ellipsis" });
-        }
+        qx.bom.element.Style.setStyles(el, qx.bom.Label.getStyles(false));
       }
 
       if (content) {
