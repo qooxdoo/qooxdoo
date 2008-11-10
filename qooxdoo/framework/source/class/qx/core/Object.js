@@ -183,6 +183,8 @@ qx.Class.define("qx.core.Object",
 
 
     /**
+     * EXPERIMENTAL - NOT READY FOR PRODUCTION
+     *
      * Returns a json map of the object configuration.
      *
      * @return {Map} The json result
