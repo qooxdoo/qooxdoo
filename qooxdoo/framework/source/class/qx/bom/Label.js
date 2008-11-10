@@ -98,6 +98,43 @@ qx.Class.define("qx.bom.Label",
 
       return this._htmlElement = el;
     },
+    
+
+    /**
+     * Returns a map of all styles which should be applied as
+     * a basic set.
+     *
+     * @param html {Boolean?false} Whether HTML markup should be used.
+     * @return {Map} Initial styles which should be applied to a label element.
+     */
+    __getStyles : function(html)
+    {
+      var styles = {};
+      
+      if (html)
+      {
+        styles.whiteSpace = "normal";
+      }
+      else if (qx.core.Variant.isSet("qx.client", "gecko"))
+      {
+        styles.display = "block";
+      }
+      else
+      {
+        styles.overflow = "hidden";
+        styles.whiteSpace = "nowrap";
+        styles.textOverflow = "ellipsis";
+        
+        // Opera as of 9.2.x only supports -o-text-overflow
+        if (qx.core.Variant.isSet("qx.client", "opera")) {
+          styles.OTextOverflow = "ellipsis";
+        }
+      }
+      
+      styles.userSelect = "none";
+      
+      return styles;
+    },
 
 
     /**
@@ -154,7 +191,7 @@ qx.Class.define("qx.bom.Label",
       else
       {
         var el = win.document.createElement("div");
-        qx.bom.element.Style.setStyles(el, qx.bom.Label.getStyles(false));
+        qx.bom.element.Style.setStyles(el, this.__getStyles(false));
       }
 
       if (content) {
@@ -162,43 +199,6 @@ qx.Class.define("qx.bom.Label",
       }
 
       return el;
-    },
-
-
-    /**
-     * Returns a map of all styles which should be applied as
-     * a basic set.
-     *
-     * @param html {Boolean?false} Whether HTML markup should be used.
-     * @return {Map} Initial styles which should be applied to a label element.
-     */
-    getStyles : function(html)
-    {
-      var styles = {};
-
-      if (html)
-      {
-        styles.whiteSpace = "normal";
-      }
-      else if (qx.core.Variant.isSet("qx.client", "gecko"))
-      {
-        styles.display = "block";
-      }
-      else
-      {
-        styles.overflow = "hidden";
-        styles.whiteSpace = "nowrap";
-        styles.textOverflow = "ellipsis";
-
-        // Opera as of 9.2.x only supports -o-text-overflow
-        if (qx.core.Variant.isSet("qx.client", "opera")) {
-          styles.OTextOverflow = "ellipsis";
-        }
-      }
-
-      styles.userSelect = "none";
-
-      return styles;
     },
 
 
