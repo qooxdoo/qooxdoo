@@ -40,6 +40,17 @@ qx.Interface.define("qx.application.IApplication",
      */
     finalize : function() {},
 
+    /**
+     * Called in the document.beforeunload event of the browser. If the method
+     * returns a string value, the user will be asked by the browser, whether
+     * he really wants to leave the page. The return string will be displayed in
+     * the message box.
+     *
+     * @type member
+     * @return {String?null} message text on unloading the page
+     */
+    close : function() {},
+
 
     /**
      * This method contains the last code which is run inside the page and may contain cleanup code.
