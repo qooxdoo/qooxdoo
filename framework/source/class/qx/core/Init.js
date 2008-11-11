@@ -20,6 +20,7 @@
 /* ************************************************************************
 
 #require(qx.event.handler.Application)
+#require(qx.event.handler.Window)
 #require(qx.event.dispatch.Direct)
 
 ************************************************************************ */

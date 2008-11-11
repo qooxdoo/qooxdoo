@@ -108,18 +108,22 @@ qx.Class.define("qx.event.type.Native",
     
     
     /**
-     * Sets the event's return value.
+     * Sets the event's return value. If the return value is set in a
+     * beforeunload event, the user will be asked by the browser, whether
+     * he really wants to leave the page. The return string will be displayed in
+     * the message box.     
      *
-     * @param target {Object} Incoming value
+     * @param returnValue {String?null} Return value
      */
     setReturnValue : function(returnValue) {
       this._returnValue = returnValue;
     },
-    
+
+
     /**
      * Retrieves the event's return value.
      *
-     * @return {Object} The return value
+     * @return {String?null} The return value
      */
     getReturnValue : function() {
       return this._returnValue;
