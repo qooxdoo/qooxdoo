@@ -52,7 +52,7 @@ qx.Bootstrap.define("qx.bom.client.Platform",
      * Internal initialize helper
      *
      * @return {void}
-     * @throws TODOC
+     * @throws An error if the platform is not detectable
      */
     __init : function()
     {
