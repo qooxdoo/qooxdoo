@@ -157,6 +157,18 @@ qx.Class.define("qx.event.Command",
         event.stopPropagation();
       }
     },
+    
+    
+    /**
+     * Stop event handler
+     * 
+     * @param event {qx.event.type.KeyEvent} The key event object
+     */
+    __stopEvent : function(e)
+    {
+      e.preventDefault();
+      e.stopPropagation();
+    },
 
 
     /*
@@ -171,10 +183,10 @@ qx.Class.define("qx.event.Command",
     {
       if (value) {
         qx.event.Registration.addListener(document.documentElement, "keydown", this.__onKeyPress, this);
-        qx.event.Registration.addListener(document.documentElement, "keypress", this.__onKeyPress, this);
+        qx.event.Registration.addListener(document.documentElement, "keypress", this.__stopEvent, this);
       } else {
         qx.event.Registration.removeListener(document.documentElement, "keydown", this.__onKeyPress, this);
-        qx.event.Registration.removeListener(document.documentElement, "keypress", this.__onKeyPress, this);
+        qx.event.Registration.removeListener(document.documentElement, "keypress", this.__stopEvent, this);
       }
     },
 
