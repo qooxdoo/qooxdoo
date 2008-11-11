@@ -358,10 +358,18 @@ qx.Class.define("qx.ui.table.model.Filtered",
       }
       this.Filters = [];
 
-      this.setData(this._fullArr);
+      this.setData(qx.lang.Array.copy(this._fullArr));
+    },
+  
+  
+    // overridden
+    setData : function(rowArr, clearSorting)
+    {
+      this._fullArr = qx.lang.Array.copy(rowArr);
+      this.Filters = [];
+      this.base(arguments, rowArr, clearSorting);
     }
   },
-
 
   destruct : function()
   {
