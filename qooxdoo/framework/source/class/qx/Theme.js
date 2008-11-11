@@ -318,7 +318,7 @@ qx.Class.define("qx.Theme",
      * @param name {String} The name of the class
      * @param config {Map} Configuration map
      * @return {void}
-     * @throws TODOC
+     * @throws An error if the given config is not valid (e.g. wrong key or wrong key value)
      */
     __validateConfig : qx.core.Variant.select("qx.debug",
     {
