@@ -15,6 +15,7 @@
    Authors:
      * Thomas Herchenroeder (thron7)
      * Fabian Jakobs (fjakobs)
+     * Jonathan Rass (jonathan_rass)
 
 ************************************************************************ */
 
@@ -46,8 +47,21 @@ qx.Class.define("testrunner.runner.TestResultView",
     }, this);
   },
 
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
 
-
+  properties :
+  {
+    // overridden
+    selectable :
+    {
+      refine : true,
+      init : true
+    }
+  },
 
 
   /*
