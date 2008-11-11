@@ -75,7 +75,8 @@ qx.Class.define("qx.event.handler.Window",
       beforeunload : 1,
       unload : 1,
       resize : 1,
-      scroll : 1
+      scroll : 1,
+      beforeshutdown : 1
     },
 
     /** {Integer} Which target check to use */
@@ -191,8 +192,17 @@ qx.Class.define("qx.event.handler.Window",
       //
       // Internet Explorer does not have a target in resize events.
       var target = e.target || e.srcElement;
-      if (target == null || target === win || target === doc || target === html) {
-        qx.event.Registration.fireEvent(this._window, e.type);
+      if (target == null || target === win || target === doc || target === html) 
+      {
+        var event = qx.event.Registration.createEvent(e.type, qx.event.type.Native, [e, win]);
+        qx.event.Registration.dispatchEvent(win, event);
+
+        var result = event.getReturnValue();
+        if (result != null)
+        {
+          e.returnValue = result;
+          return result;
+        }
       }
     }
   },
