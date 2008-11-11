@@ -17,37 +17,40 @@
 
 ************************************************************************ */
 
-/**
+/*
  * Timer manipulation for handling multiple timed callbacks with the use of
  * only a single native timer object.
  *
  * Use of these timers is via the methods start() and stop().  Examples:
  * <code><pre>
  *       var timer = qx.util.TimerManager.getInstance();
- *       
+ *   
  *       // Start a 5-second recurrent timer.
- *       // Note that the first expiration is immediate (first parameter=0)
- *       // but each subsequent expiration is at 5 second intervals.
- *       timer.start(0,
- *                   function(userData, timerId)
+ *       // Note that the first expiration is after 3 seconds
+ *       // (last parameter is 3000) but each subsequent expiration is
+ *       // at 5 second intervals.
+ *       timer.start(function(userData, timerId)
  *                   {
  *                     this.debug("Recurrent 5-second timer: " + timerId);
  *                   },
- *                   null,
+ *                   5000,
  *                   this,
- *                   5000);
+ *                   null,
+ *                   3000);
  *
  *       // Start a 1-second one-shot timer
- *       timer.start(1000,
- *                   function(userData, timerId)
+ *       timer.start(function(userData, timerId)
  *                   {
  *                     this.debug("One-shot 1-second timer: " + timerId);
- *                   });
+ *                   },
+ *                   0,
+ *                   this,
+ *                   null,
+ *                   1000);
  *
  *       // Start a 2-second recurrent timer that stops itself after
  *       // three iterations
- *       timer.start(2000,
- *                   function(userData, timerId)
+ *       timer.start(function(userData, timerId)
  *                   {
  *                     this.debug("Recurrent 2-second timer with limit 3:" +
  *                                timerId);
@@ -57,9 +60,15 @@
  *                       timer.stop(timerId);
  *                     }
  *                   },
- *                   { count : 0 },
+ *                   2000,
  *                   this,
- *                   2000);
+ *                   { count : 0 });
+ *
+ *       // Start an immediate one-shot timer
+ *       timer.start(function(userData, timerId)
+ *                   {
+ *                     this.debug("Immediate one-shot timer: " + timerId);
+ *                   });
  * </pre></code>
  */
 qx.Class.define("qx.util.TimerManager",
