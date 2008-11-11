@@ -202,11 +202,12 @@ qx.Class.define("qx.util.TimerManager",
       // and if not yet ready to fire, be done.  Search the queue for the
       // appropriate place to insert this timer.
       var timerQueue = this.self(arguments).__timerQueue;
+      var timerData = this.self(arguments).__timerData;
       var length = timerQueue.length;
       for (var i = 0; i < length; i++)
       {
         // Have we reached a later time?
-        if (timerQueue[i].expireAt > expireAt)
+        if (timerData[timerQueue[i]].expireAt > expireAt)
         {
           // Yup.  Insert our new timer id before this element.
           timerQueue.splice(i, 0, timerId);
