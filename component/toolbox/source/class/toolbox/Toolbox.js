@@ -798,9 +798,10 @@ qx.Class.define("toolbox.Toolbox",
         padding    : [ 4, 3 ],
         allowGrowX : true,
         allowGrowY : true
-      });
-
+      });    
+      
       pp2.add(caption2);
+
 
       // main output area
       this.logFrame = new qx.ui.embed.Html('');

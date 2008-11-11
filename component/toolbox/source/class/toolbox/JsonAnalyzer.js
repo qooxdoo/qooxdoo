@@ -29,49 +29,62 @@ qx.Class.define("toolbox.JsonAnalyzer",
 { 
 	extend : qx.core.Object,
   
+	construct : function() {
+		this.base(arguments);
+		this.tree = new qx.ui.tree.Tree().set({
+	        minWidth : 300,
+	        minHeight : 200,
+	        allowGrowX : true,
+	        allowGrowY : true,
+	        rootOpenClose: true,
+	        hideRoot: true
+    	});
+	},
+	
+	
   members :
-  {
-
-  	/** indent string for JSON pretty printing */
-    BEAUTIFYING_INDENT : "  ",
-
-    /** new line string for JSON pretty printing */
-    BEAUTIFYING_LINE_END : "\n",
-
-    
+  {    
     
     __map :
     {
-      "function"  : "__convertFunction",
       "boolean"   : "__convertBoolean",
       "number"    : "__convertNumber",
       "string"    : "__convertString",
-      "object"    : "__convertObject",
-      "undefined" : "__convertUndefined"
+      "object"    : "__convertObject"
     },
 
 
-    __convertFunction : function(incoming) {
-    	//alert("Function " + incoming);
-      return String(incoming);
+    __convertBoolean : function(incoming, parent) {
+      parent.add(new qx.ui.tree.TreeFile(incoming.toString()));
     },
 
 
-    __convertBoolean : function(incoming) {
-    	//alert("Boolean " + incoming);
-      return String(incoming);
+    __convertNumber : function(incoming, parent) {
+      var result = isFinite(incoming) ? String(incoming) : "null";
+      parent.add(qx.ui.tree.TreeFile(result));
     },
-
-
-    __convertNumber : function(incoming) {
-    	////alert("Number " + incoming);
-      return isFinite(incoming) ? String(incoming) : "null";
-    },
-
-
-    __convertString : function(incoming)
+    
+    
+    __convertObject : function(incoming, parent)
     {
-    	//alert("String  " + incoming);
+      if (incoming)
+      {
+        // for objects defined in other frames the instanceof check failes.
+        var constructorName = incoming.constructor.name;
+        if (incoming instanceof Array || constructorName == "Array") {
+          return this.__convertArray(incoming, parent);
+        } else if (incoming instanceof Date || constructorName == "Date") {
+          return this.__convertDate(incoming, parent);
+        } else if (incoming instanceof Object || constructorName == "Object") {
+          return this.__convertMap(incoming, parent);
+        }
+      }
+    },
+
+
+    __convertString : function(incoming, parent)
+    {
+    	
       var result;
 
       if (/["\\\x00-\x1f]/.test(incoming)) {
@@ -79,8 +92,8 @@ qx.Class.define("toolbox.JsonAnalyzer",
       } else {
         result = incoming;
       }
-      
-      return '"' + result + '"';
+      //alert("result --->  " + result);
+      parent.add(new qx.ui.tree.TreeFile(result));
     },
 
     __convertStringEscape :
@@ -108,63 +121,27 @@ qx.Class.define("toolbox.JsonAnalyzer",
     },
 
 
-    __convertArray : function(incoming)
+    __convertArray : function(incoming, parent)
     {
-    	//alert("Array  " + incoming);
-      var stringBuilder = [], first = true, func, obj;
-
-      var beautify = qx.util.Json.__beautify;
-      stringBuilder.push("[");
-
-      if (beautify)
-      {
-        qx.util.Json.__indent += qx.util.Json.BEAUTIFYING_INDENT;
-        stringBuilder.push(qx.util.Json.__indent);
-      }
-
       for (var i=0, l=incoming.length; i<l; i++)
-      {
-        obj = incoming[i];
+      {     	
+        obj = incoming[i];       
         func = this.__map[typeof obj];
+        var folder = new qx.ui.tree.TreeFolder(i+"");
+        parent.add(folder);
 
-        if (func)
-        {
-          obj = this[func](obj);
-
-          if (typeof obj == "string")
-          {
-            if (!first)
-            {
-              stringBuilder.push(",");
-
-              if (beautify) {
-                stringBuilder.push(qx.util.Json.__indent);
-              }
-            }
-
-            stringBuilder.push(obj);
-            first = false;
-          }
+        if (func) {
+          this[func](obj, folder);
         }
       }
-
-      if (beautify)
-      {
-        qx.util.Json.__indent = qx.util.Json.__indent.substring(0, qx.util.Json.__indent.length - qx.util.Json.BEAUTIFYING_INDENT.length);
-        stringBuilder.push(qx.util.Json.__indent);
-      }
-
-      stringBuilder.push("]");
-
-      return stringBuilder.join("");
     },
 
 
-    __convertDate : function(incoming)
+    __convertDate : function(incoming, parent)
     {
     	//alert("Date  " + incoming);
       var dateParams = incoming.getUTCFullYear() + "," + incoming.getUTCMonth() + "," + incoming.getUTCDate() + "," + incoming.getUTCHours() + "," + incoming.getUTCMinutes() + "," + incoming.getUTCSeconds() + "," + incoming.getUTCMilliseconds();
-      return "new Date(Date.UTC(" + dateParams + "))";
+      parent.add(new qx.ui.tree.TreeFile("new Date(Date.UTC(" + dateParams + "))"));
     },
 
 
@@ -174,222 +151,165 @@ qx.Class.define("toolbox.JsonAnalyzer",
      * @param incoming {Map} The incoming value
      * @return {String} value converted to a JSON string
      */
-    __convertMap : function(incoming)
+    __convertMap : function(incoming, parent)
     {
-      var stringBuilder = [], first = true, func, obj;
-
-      var beautify = qx.util.Json.__beautify;
-      stringBuilder.push("{");
-
-      if (beautify)
-      {
-        qx.util.Json.__indent += qx.util.Json.BEAUTIFYING_INDENT;
-        stringBuilder.push(qx.util.Json.__indent);
-      }
-
       for (var key in incoming)
       {
-        obj = incoming[key];
+        obj = incoming[key]; 
         func = this.__map[typeof obj];
 
-        if (func)
-        {
-          obj = this[func](obj);
-
-          if (typeof obj == "string")
-          {
-            if (!first)
-            {
-              stringBuilder.push(",");
-
-              if (beautify) {
-                stringBuilder.push(qx.util.Json.__indent);
-              }
-            }
-
-            stringBuilder.push(this.__convertString(key), ":", obj);
-            first = false;
-          }
+        var folder = new qx.ui.tree.TreeFolder(key);
+        parent.add(folder);
+        
+        
+        if (func) {
+          obj = this[func](obj, folder);
         }
       }
-
-      if (beautify)
-      {
-        qx.util.Json.__indent = qx.util.Json.__indent.substring(0, qx.util.Json.__indent.length - qx.util.Json.BEAUTIFYING_INDENT.length);
-        stringBuilder.push(qx.util.Json.__indent);
-      }
-
-      stringBuilder.push("}");
-
-      return stringBuilder.join("");
     },
 
 
-    __convertObject : function(incoming)
+    createJsonTree : function(obj)
     {
-    	//alert("Object " + incoming);
-      if (incoming)
-      {
-        // for objects defined in other frames the instanceof check failes.
-        var constructorName = incoming.constructor.name;
-        if (incoming instanceof Array || constructorName == "Array") {
-          return this.__convertArray(incoming);
-        } else if (incoming instanceof Date || constructorName == "Date") {
-          return this.__convertDate(incoming);
-        } else if (incoming instanceof Object || constructorName == "Object") {
-          return this.__convertMap(incoming);
-        }
-
-        return "";
-      }
-
-      return "null";
-    },
-
-
-    __convertUndefined : function(incoming)
-    {
-    	//alert("Undefined  " + incoming);
-      if (qx.core.Setting.get("qx.jsonEncodeUndefined")) {
-        return "null";
-      }
-    },
-
-
-    createJsonTree : function(obj, beautify)
-    {
-      // Hints for converter process
-      this.__beautify = beautify;
-      this.__indent = this.BEAUTIFYING_LINE_END;
-
+    	//alert("===========================\n" + qx.util.Json.stringify(obj, true).toString());
       // Start convertion
-      var result = this[this.__map[typeof obj]](obj);
-      if (typeof result != "string") {
-        result = null;
-      }
-
-      // Debugging support
-      if (qx.core.Setting.get("qx.jsonDebugging")) {
-        qx.log.Logger.debug(this, "JSON request: " + result);
-      }
-
-      return result;
+      var root = new qx.ui.tree.TreeFolder("config.js");
+      root.setOpen(true);
+      this[this.__map[typeof obj]](obj, root);
+      return root;
     },
 
-    getTree : function()
-    {
-      if (this.tree) {
-        return this.tree;
-      }
-      
-      this.tree = new qx.ui.tree.Tree().set({
-        width : 200,
-        height : 400
-      });
-
-      var root = new qx.ui.tree.TreeFolder("root");
-      root.setOpen(true);
-      this.tree.setRoot(root);
-
-      var te1 = new qx.ui.tree.TreeFolder("Desktop");
-      te1.setOpen(true)
-      root.add(te1);
-
-      var te1_1 = new qx.ui.tree.TreeFolder("Files");
-      var te1_2 = new qx.ui.tree.TreeFolder("Workspace");
-      var te1_3 = new qx.ui.tree.TreeFolder("Network");
-      var te1_4 = new qx.ui.tree.TreeFolder("Trash");
-      te1.add(te1_1, te1_2, te1_3, te1_4);
-
-
-      var te1_2_1 = new qx.ui.tree.TreeFile("Windows (C:)");
-      var te1_2_2 = new qx.ui.tree.TreeFile("Documents (D:)");
-      te1_2.add(te1_2_1, te1_2_2);
-
-
-
-      var te2 = new qx.ui.tree.TreeFolder("Inbox");
-
-      var te2_1 = new qx.ui.tree.TreeFolder("Presets");
-      var te2_2 = new qx.ui.tree.TreeFolder("Sent");
-      var te2_3 = new qx.ui.tree.TreeFolder("Trash");
-
-      for (var i=0; i<30; i++) {
-        te2_3.add(new qx.ui.tree.TreeFile("Junk #" + i));
-      }
-
-      var te2_4 = new qx.ui.tree.TreeFolder("Data");
-      var te2_5 = new qx.ui.tree.TreeFolder("Edit");
-
-      te2.add(te2_1, te2_2, te2_3, te2_4, te2_5);
-
-      root.add(te2);
-
+    getTree : function() {
       return this.tree;
     },
     
     getCommandFrame : function(tree)
     {
+
+    	
+    	
+    	var content = "{";
+      for(var i = 0; i < tree.getItems(true, true).length; i++) {
+          if(tree.getItems(true, true)[i].getLabel().toString() != "undefined") {
+            content += "\n" + tree.getItems(true, true)[i].getLabel();
+          }
+      }
+      content += "}";
+      alert(content); 
+    	
+    	
+    	
+    	
+    	
       var commandFrame = new qx.ui.groupbox.GroupBox("Control");
       var spacerSize = 4;
+  	  var gridLayout = new qx.ui.layout.Grid(5, 3);
+  	  gridLayout.setRowFlex(1, 1);
+  	  gridLayout.setColumnFlex(0, 1);
+      commandFrame.setLayout(gridLayout);
 
-      commandFrame.setLayout(new qx.ui.layout.Grid(5, 3));
+      var container = new qx.ui.container.Composite(new qx.ui.layout.HBox(5)).set({
+            allowGrowX: false
+      });
 
-      var row = 0;
       commandFrame.add(new qx.ui.basic.Label("Selection: ").set({
         paddingTop: 4
-      }), {row: row, column: 0});
+      }, this), {row: 0, column: 0});
 
-      var tCurrentInput = new qx.ui.form.TextField();
+      this.tCurrentInput = new qx.ui.form.TextArea();
 
-      commandFrame.add(tCurrentInput, {row: row++, column: 1});
+      commandFrame.add(this.tCurrentInput, {row: 1, column: 0, rowSpan : 0, colSpan: 2});
 
       tree.addListener("changeSelection", function(e)
       {
-      	alert("---> " + e);
-        if (this.getSelectionMode() === "multi") {
-          tCurrentInput.setValue(e.getData().length + " items");
-        } else {
-          tCurrentInput.setValue(e.getData()[0].getLabel());
-        }
-      });
-
-
-      commandFrame.add(new qx.ui.core.Spacer(spacerSize, spacerSize), {row: row++, column: 0});
-      commandFrame.add(new qx.ui.basic.Label("View mode:"), {row: row, column: 0});
+      	  if(e.getData() != "") {
+            this.tCurrentInput.setValue(e.getData()[0].getLabel());
+      	  }	  
+      }, this);
       
-      this.viewModeSelect = new qx.ui.form.CheckBox("Professional view");
-      commandFrame.add(this.viewModeSelect, {row: row++, column: 1});
-
-
-
-      commandFrame.add(new qx.ui.core.Spacer(spacerSize, spacerSize), {row: row++, column: 0});
-      commandFrame.add(new qx.ui.basic.Label("Root node:"), {row: row, column: 0});
 
       var btnHideRoot = new qx.ui.form.CheckBox("Hide Root Node");
       btnHideRoot.setChecked(tree.getHideRoot());
-      commandFrame.add(btnHideRoot, {row: row++, column: 1});
+      commandFrame.add(btnHideRoot, {row: 2, column: 0});
 
       btnHideRoot.addListener("changeChecked", function(e) {
         tree.setHideRoot(e.getData());
       }, this);
       
-      commandFrame.add(new qx.ui.core.Spacer(spacerSize, spacerSize), {row: row++, column: 0});
-      var vShowItems = new qx.ui.form.Button("Show Items");
-      commandFrame.add(vShowItems, {row: row++, column: 1});
+      
+      commandFrame.add(container, {row: 3, column: 0});
 
+      var btnAddItem = new qx.ui.form.Button("Add folder");
+      btnAddItem.addListener("execute", this.__addFolder, this);
+      container.add(btnAddItem);
+      
+      var btnAddFile = new qx.ui.form.Button("Add file");
+      btnAddFile.addListener("execute", this.__addFile, this);
+      container.add(btnAddFile);
+
+      var btnRemove = new qx.ui.form.Button("Remove tree item");
+      btnRemove.addListener("execute", this.__removeTreeItem, this);
+      container.add(btnRemove);
+
+      var vShowItems = new qx.ui.form.Button("Show Items");
+      container.add(vShowItems);
+
+      
+      
       vShowItems.addListener("execute", function(e) {
-        alert(("" + tree.getItems()).replace(",", "\n", "g"));
-      });
+      	var content = "";
+        ("" + tree.getItems()).replace(",", "\n", "g");
+        for(var i = 0; i < tree.getItems(true, true).length; i++) {
+          if(tree.getItems(true, true)[i].getLabel().toString() != "undefined") {
+            content += "\n" + tree.getItems(true, true)[i].getLabel()
+          }
+        }
+        alert(content);
+      }, this);
       
 
       return commandFrame;
     },
     
-    getViewModeSelect : function(){
-    	return this.viewModeSelect;
-    }
+    __addFolder : function()
+    {
+      var current = this.tree.getSelectedItem();
+      var folder = new qx.ui.tree.TreeFolder(this.tCurrentInput.getValue());
 
+      folder.addListenerOnce("appear", function(){
+        effect = new qx.fx.effect.core.Highlight(folder.getContainerElement().getDomElement());
+        effect.start();
+      }, this);
+
+      current.setOpen(true);
+      current.add(folder);
+    },
+    
+    __addFile : function()
+    {
+      var current = this.tree.getSelectedItem();
+      var file = new qx.ui.tree.TreeFile(this.tCurrentInput.getValue());
+
+      file.addListenerOnce("appear", function(){
+        effect = new qx.fx.effect.core.Highlight(file.getContainerElement().getDomElement());
+        effect.start();
+      }, this);
+
+      current.setOpen(true);
+      current.add(file);
+    },
+    
+    
+    __removeTreeItem : function()
+    {
+      var current = this.tree.getSelectedItem();
+      var parent = current.getParent();
+      if(this.tCurrentInput) {
+        this.tCurrentInput.setValue("");
+      }
+
+      parent.remove(current);
+    }
 
 
   }
