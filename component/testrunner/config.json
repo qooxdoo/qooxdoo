@@ -9,7 +9,17 @@
     
     {
       "path" : "../../tool/data/config/application.json",
-      "block"   : [ "source", "build", "clean" ]
+      "block"   : 
+      [ 
+        "common",
+        "source",
+        "source-script",
+        "build",
+        "build-script",
+        "build-resources",
+        "build-files",
+        "clean" 
+      ]
     }
   ],
 

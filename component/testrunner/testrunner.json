@@ -1,7 +1,7 @@
 {
   "name" : "Testrunner (export) config",
 
-  "export" : [ "source", "build", "clean", "build-with-tests-source" ],
+  //"export" : [ "source", "build", "clean", "build-with-tests-source" ],
 
   "let" :
   {
