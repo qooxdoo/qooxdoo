@@ -51,10 +51,10 @@ qx.Class.define("demobrowser.demo.event.Event_Iframe",
     bindIFrameEvents : function()
     {
       var iframe = window.document.getElementById("iframe");
-      var document = qx.bom.Iframe.getDocument(iframe);
+      var iframeDocument = qx.bom.Iframe.getDocument(iframe);
 
-      this._juhu = document.getElementById("juhu");
-      this._inner = document.getElementById("inner");
+      this._juhu = iframeDocument.getElementById("juhu");
+      this._inner = iframeDocument.getElementById("inner");
 
       qx.event.Registration.addListener(this._juhu, "contextmenu", this._preventDefault, this);
       qx.event.Registration.addListener(this._inner, "click", this._stopPropagation, this);
@@ -62,19 +62,19 @@ qx.Class.define("demobrowser.demo.event.Event_Iframe",
       qx.event.Registration.addListener(this._juhu, "click", this._onclick2, this);
 
       qx.event.Registration.addListener(
-        document.getElementById("input"),
+          iframeDocument.getElementById("input"),
         "keydown",
         this._onkeydown, this
       );
 
       for (var i=1; i<10; i++) {
-        var div = document.getElementById("div"+i);
+        var div = iframeDocument.getElementById("div"+i);
         qx.event.Registration.addListener(div, "click", this._cascadeCapture, this, true);
         qx.event.Registration.addListener(div, "click", this._cascadeBubble, this, false);
       }
 
       qx.event.Registration.addListener(
-        document.getElementById("scroll"),
+        iframeDocument.getElementById("scroll"),
         "scroll",
         this._scroll,
         this
