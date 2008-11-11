@@ -65,8 +65,8 @@
  * as JavaScript.  This means that the returned data has to be valid JavaScript!
  * <p>
  * In order to do that and to link the completion of the script transport to
- * your normal request "completed" event handler, it is best to wrap the
- * returned data in a call to the {@link
+ * your normal request "completed" event handler, it is best that the server wraps
+ * the return data in a call to the {@link
  * qx.io.remote.transport.Script#_requestFinished} static.  Additional to the
  * response data, this method takes a script transport id as a parameter,
  * available to the server side as the "_ScriptTransport_id" request variable.
@@ -79,7 +79,7 @@
  * <pre>
  * "GET /cgi-bin/qxresponse.cgi?_ScriptTransport_id=10&_ScriptTransport_data=action%3Ddoit HTTP/1.1" 200 -
  * </pre>
- * and the string you might return as content may look like this:
+ * and the string you return as the response might look like this:
  * <pre>
  * 'qx.io.remote.ScriptTransport._requestFinished(10, "Thank you for asking");'
  * </pre>
