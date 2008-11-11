@@ -85,7 +85,9 @@ qx.Class.define("toolbox.Configuration",
           vBoxLayout.setAlignX("right");
           
           var gridLayout = new qx.ui.layout.Grid(5, 5);
-          gridLayout.setColumnFlex(2,1);
+          gridLayout.setRowFlex(0, 1);
+          gridLayout.setRowFlex(1, 1);          
+          gridLayout.setColumnFlex(0, 1);
           var mainContainer = new qx.ui.container.Composite(gridLayout);
           
           
@@ -117,7 +119,6 @@ qx.Class.define("toolbox.Configuration",
             configFrame.setAllowStretchY(true);
             configFrame.setValue(result);
             configFrame.setMinHeight(400);
-            configFrame.exclude();
             //--------Textarea----------------------------------------------------
             
             
@@ -130,7 +131,7 @@ qx.Class.define("toolbox.Configuration",
             
             var analyzer = new toolbox.JsonAnalyzer();
             result = eval("("+ result +")");
-            analyzer.createJsonTree(result, true);
+            var root = analyzer.createJsonTree(result);
             
             //#####################################################################
             //#####################################################################
@@ -144,6 +145,25 @@ qx.Class.define("toolbox.Configuration",
             
             
             
+            
+            tabView = new qx.ui.tabview.TabView();
+	        //tabView.setWidth(500);
+	
+	
+	        var page1 = new qx.ui.tabview.Page("JSON-settings", null);
+	        page1.setLayout(new qx.ui.layout.VBox());
+	        page1.add(new qx.ui.basic.Label("JSON-tree"));
+	        tabView.add(page1);
+	
+
+	        var page2 = new qx.ui.tabview.Page("Professional view", null);
+	        page2.setLayout(new qx.ui.layout.VBox());
+	        tabView.add(page2);
+            
+            
+            
+            analyzer.getTree().setRoot(root);
+            
             mainContainer.add(analyzer.getTree(), {
               row     : 0,
               column  : 0,
@@ -151,35 +171,23 @@ qx.Class.define("toolbox.Configuration",
               colSpan : 1
             });
             
+            
             mainContainer.add(analyzer.getCommandFrame(analyzer.getTree()), {
-              row     : 0,
-              column  : 1,
+              row     : 1,
+              column  : 0,
               rowSpan : 0,
               colSpan : 1
             });
             
-            mainContainer.add(configFrame, {
-              row     : 0,
-              column  : 2,
-              rowSpan : 0,
-              colSpan : 2
-            });
             
-            this.win.add(mainContainer);
+            
+
+
+            page1.add(mainContainer);
+            page2.add(configFrame);
+            
+            this.win.add(tabView);
             this.win.add(container);
-
-
-            
-            analyzer.getViewModeSelect().addListener("click", function() {
-              if(analyzer.getViewModeSelect().getChecked()){
-                 configFrame.show();
-              } else {
-                 configFrame.exclude();
-              }
-            }, this);
-            
-            
-
 
             closeButton.addListener("execute", function() {
               this.win.close();
