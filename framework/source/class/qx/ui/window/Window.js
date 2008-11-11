@@ -658,6 +658,11 @@ qx.Class.define("qx.ui.window.Window",
      */
     maximize : function()
     {
+      // If the window is already maximized -> return
+      if (this.hasState("maximized")) {
+        return;
+      }
+      
       // First check if the parent uses a canvas layout
       // Otherwise maximize() is not possible
       var parent = this.getLayoutParent();
@@ -671,8 +676,8 @@ qx.Class.define("qx.ui.window.Window",
         {
           // store current dimension and location
           var props = this.getLayoutProperties();
-          this.__restoredLeft = props.left;
-          this.__restoredTop = props.top;
+          this.__restoredLeft = props.left === undefined ? 0 : props.left;
+          this.__restoredTop = props.top === undefined ? 0 : props.top;
 
           // Update layout properties
           this.setLayoutProperties({
