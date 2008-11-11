@@ -54,6 +54,17 @@ class Config:
         if isinstance(self._data, types.DictType) and self.JOBS_KEY not in self._data:
             self._data[self.JOBS_KEY] = {}
 
+        # expand macros for some top-level keys
+        if self.LET_KEY in self._data:
+            letObj = Let(self._data[self.LET_KEY])  # create a Let object from let map
+            letObj.expandMacrosInLet()              # do self-expansion of macros
+            for key in self._data:
+                if key == self.JOBS_KEY:            # skip 'jobs'; they expand later
+                    continue
+                else:
+                    dat = letObj.expandMacros(self._data[key])
+                    self._data[key] = dat
+
     def __init__data(self, data, path):
         self._data = data
         if path:
@@ -72,9 +83,10 @@ class Config:
         self._fname = os.path.abspath(fname)
         self._dirname = os.path.dirname(self._fname)
 
+    JOBS_KEY          = "jobs"
+    LET_KEY           = "let"
     NS_SEP            = "/"    # this is to reference jobs from nested configs
     COMPOSED_NAME_SEP = "::"   # this is to construct composed job names
-    JOBS_KEY          = "jobs"
     SHADOW_PREFIX     = "XXX"
     OVERRIDE_KEY      = "__override__"    # takes an array of keys to protect on merging
     OVERRIDE_TAG      = "="    # tag for key names, to protect on merging
@@ -599,3 +611,122 @@ class ExtMap(object):
 
     def getData(self):
         return self._data
+
+
+class Let(object):
+
+    def __init__(self, letMap):
+        assert isinstance(letMap, types.DictType)
+        self._data = copy.deepcopy(letMap)
+
+    def expandMacrosInLet(self):
+        # TODO: this code duplicates a lot of Job._expandMacrosInLet
+        """ do macro expansion within the "let" dict;
+            this is a self-modifying operation, tampering self._data"""
+
+        letDict = self._data
+        keys = letDict.keys()
+        for k in keys:
+            kval = letDict[k]
+            
+            # construct a temporary mini-dict of translation maps for the calls to 
+            # expandMacros() further down
+            # wpbasti: Crazy stuff: Could be find some better variable names here. Seems to be optimized for size already ;)
+            if isinstance(kval, types.StringTypes):
+                kdicts = {'str': {k:kval}, 'bin': {}}
+            else:
+                kdicts = {'str': {}, 'bin': {k:kval}}
+                
+            # cycle through other keys of this dict
+            for k1 in keys:
+                if k != k1: # no expansion with itself!
+                    enew = self.expandMacros(letDict[k1], kdicts)
+                    if enew != letDict[k1]:
+                        console.debug("expanding: %s ==> %s" % (k1, str(enew)))
+                        letDict[k1] = enew
+
+        return letDict
+        
+
+    def expandMacros(self, dat, maps=None):
+        # TODO: this code duplicates a lot of Job._expandMacrosInValues
+        """ apply macro expansion on arbitrary values; takes care of recursive data like
+            lists and dicts; only actually applies macros when a string is encountered on 
+            the way (look for calls to _expandString());
+            this is a referential transparent operation, as long as self._data is unaltered"""
+        data = copy.deepcopy(dat) # make sure we return a copy of the argument data
+        
+        maps = maps or self._getLetMaps()
+
+        # arrays
+        if isinstance(data, types.ListType):
+            for e in range(len(data)):
+                enew = self.expandMacros(data[e], maps)
+                if enew != data[e]:
+                    console.debug("expanding: %s ==> %s" % (str(data[e]), str(enew)))
+                    data[e] = enew
+                    
+        # dicts
+        elif isinstance(data, types.DictType):
+            for e in data.keys(): # have to use keys() explicitly since i modify data in place
+                # expand in values
+                enew = self.expandMacros(data[e], maps)
+                if enew != data[e]:
+                    console.debug("expanding: %s ==> %s" % (str(data[e]), str(enew)))
+                    data[e] = enew
+
+                # expand in keys
+                if ((isinstance(e, types.StringTypes) and
+                        e.find(r'${')>-1)):
+                    enew = self._expandString(e, maps['str'], {}) # no bin expand here!
+                    data[enew] = data[e]
+                    del data[e]
+                    console.debug("expanding key: %s ==> %s" % (e, enew))
+
+        # strings
+        elif isinstance(data, types.StringTypes):
+            data = self._expandString(data, maps['str'], maps['bin'])
+
+        # leave everything else alone
+        else:
+            pass
+
+        return data
+
+
+    def _getLetMaps(self, letMap=None):
+        # TODO: this code duplicates code from Job.resolveMacros()
+        '''return the let map as a pair of string - bin maps'''
+        letMap = letMap or self._data
+
+        # separate strings from other values
+        letmaps = {}
+        letmaps['str'] = {}
+        letmaps['bin'] = {}
+        for k in letMap:
+            if isinstance(letMap[k], types.StringTypes):
+                letmaps['str'][k] = letMap[k]
+            else:
+                letmaps['bin'][k] = letMap[k]
+                    
+        return letmaps
+
+    def _expandString(self, s, mapstr, mapbin):
+        assert isinstance(s, types.StringTypes)
+        if s.find(r'${') == -1:  # optimization: no macro -> return
+            return s
+        macro = ""
+        sub   = ""
+        possiblyBin = re.match(r'^\${(.*)}$', s)   # look for '${...}' as a bin replacement
+        if possiblyBin:
+            macro = possiblyBin.group(1)
+        if macro and (macro in mapbin.keys()):
+            replval = mapbin[macro]
+            if isinstance(replval, (types.DictType, types.ListType)):
+                sub = copy.deepcopy(replval)  # make sure macro values are not affected during value merges later
+            else:
+                sub = replval
+        else:
+            templ = string.Template(s)
+            sub = templ.safe_substitute(mapstr)
+        return sub
