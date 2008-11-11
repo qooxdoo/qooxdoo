@@ -65,6 +65,7 @@ qx.Bootstrap.define("qx.bom.client.Multimedia",
 
 
     /**
+     * ** CURRENTLY NOT IMPLEMENTED **
      * Detects if the given plugin is available.
      *
      * @param id {String} Feature-ID. One of quicktime, wmv, divx or silverlight
@@ -73,8 +74,7 @@ qx.Bootstrap.define("qx.bom.client.Multimedia",
      */
     has : function(id, version)
     {
-      // TODO
-
+      
     },
 
 
