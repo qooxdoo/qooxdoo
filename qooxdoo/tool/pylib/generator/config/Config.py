@@ -287,13 +287,23 @@ class Config:
                 self._integrateExternalConfig(econfig, namespace, importList, blockList)
 
 
-    def _integrateExternalConfig(self, extConfig, namespace, importJobsList=None, blockJobsList=None):
+    def _integrateExternalConfig(self, extConfig, namespace, impJobsList=None, blockJobsList=None):
         # jobs of external config are spliced into current job list
         if namespace:
             namepfx = namespace + self.COMPOSED_NAME_SEP # job names will be namespace'd
         else:
             namepfx = ""         # job names will not be namespace'd
 
+        # construct a map of import symbols (better lookup, esp. when aliased)
+        importJobsList = {}
+        if impJobsList:
+            for e in impJobsList:
+                if isinstance(e, types.StringTypes):
+                    importJobsList[e]=None
+                elif isinstance(e, types.DictType):  # {name: <name>, as: <alias>}
+                    importJobsList[e['name']] = {'as': e['as']}
+                else:
+                    raise TypeError, "Illegal import entry: %s (Config: %s)" % (str(e), self._fname)
         # get the list of jobs to import
         extJobsList = extConfig.getExportedJobsList()
         for extJobEntry in extJobsList:
@@ -301,7 +311,11 @@ class Config:
                 continue
             if blockJobsList and extJobEntry in blockJobsList:
                 continue
-            newjobname = namepfx + extJobEntry  # create a job name
+            if (importJobsList and extJobEntry in importJobsList 
+                and isinstance(importJobsList[extJobEntry], types.DictType)):
+                newjobname = namepfx + importJobsList[extJobEntry]['as']
+            else:
+                newjobname = namepfx + extJobEntry  # create a job name
             hasClash   = False
             if self.hasJob(newjobname):
                 hasClash = True
@@ -321,7 +335,7 @@ class Config:
             newJob.includeGlobalLet()  # have to draw in local let before all the external let's are processed
             newJob.mergeJob(extJob)    # now merge in the external guy
             newJob.setConfig(extJob.getConfig()) # retain link to external config
-            if namepfx:  # adapt scoped names; otherwise, delay name resolution until resolveExtendsAndRun()
+            if newjobname != extJobEntry:  # adapt modified names; otherwise, delay name resolution until resolveExtendsAndRun()
                 # patch job references in 'run', 'extend', ... keys
                 for key in Job.KEYS_WITH_JOB_REFS:
                     if newJob.hasFeature(key):
