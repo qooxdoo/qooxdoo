@@ -119,7 +119,8 @@ qx.Class.define("qx.util.TimerManager",
      * @param initialTime {Integer|null}
      *   Milliseconds before the callback function is called the very first
      *   time.  If not specified and recurTime is specified, then recurTime
-     *   will be used as initialTime; other initialTime will default to zero.
+     *   will be used as initialTime; otherwise initialTime will default
+     *   to zero.
      *
      * @return {Integer}
      *   The timer id of this unique timer.  It may be provided to the stop()
