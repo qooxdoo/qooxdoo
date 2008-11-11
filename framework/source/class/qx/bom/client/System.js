@@ -163,7 +163,7 @@ qx.Bootstrap.define("qx.bom.client.System",
      * Internal initialize helper
      *
      * @return {void}
-     * @throws TODOC
+     * @throws An error if the system is not detectable
      */
     __init : function()
     {
