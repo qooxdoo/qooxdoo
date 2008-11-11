@@ -544,7 +544,7 @@ qx.Bootstrap.define("qx.bom.Request",
      * Internal helper to return a new native XMLHttpRequest object suitable for
      * the client.
      *
-     * @return {Object} TODOC
+     * @return {Object} native XMLHttpRequest object (IE uses ActiveX as default if enabled)
      * @signature function()
      */
     __createNative : qx.core.Variant.select("qx.client",
