@@ -214,7 +214,7 @@ qx.Class.define("qx.dom.Hierarchy",
      *
      * @param element {Element} first element
      * @param ancestor {Element} second element
-     * @return {var} TODOC
+     * @return {Boolean} Element is a descendant of ancestor
      */
     isDescendantOf : function(element, ancestor) {
       return this.contains(ancestor, element);
