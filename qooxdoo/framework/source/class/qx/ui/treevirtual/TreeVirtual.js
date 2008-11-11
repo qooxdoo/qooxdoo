@@ -227,16 +227,40 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
 
   events :
   {
-    /** Fired when a tree branch which already has content is opened */
+    /**
+     * Fired when a tree branch which already has content is opened.
+     *
+     * Event data: the node object from the data model (of the node
+     * being opened) as described in
+     * {@link qx.ui.treevirtual.SimpleTreeDataModel}
+     */
     "treeOpenWithContent" : "qx.event.type.Data",
 
-    /** Fired when an empty tree branch is opened */
+    /**
+     * Fired when an empty tree branch is opened.
+     *
+     * Event data: the node object from the data model (of the node
+     * being opened) as described in
+     * {@link qx.ui.treevirtual.SimpleTreeDataModel}
+     */
     "treeOpenWhileEmpty"  : "qx.event.type.Data",
 
-    /** Fired when a tree branch is closed */
+    /**
+     * Fired when a tree branch is closed.
+     *
+     * Event data: the node object from the data model (of the node
+     * being closed) as described in
+     * {@link qx.ui.treevirtual.SimpleTreeDataModel}
+     */
     "treeClose"           : "qx.event.type.Data",
 
-    /** Fired when the selected rows change */
+    /**
+     * Fired when the selected rows change.
+     *
+     * Event data: An array of node objects (the selected rows' nodes)
+     * from the data model.  Each node object is described in
+     * {@link qx.ui.treevirtual.SimpleTreeDataModel}
+     */
     "changeSelection"     : "qx.event.type.Data"
   },
 
