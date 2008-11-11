@@ -33,7 +33,7 @@ qx.Class.define("qx.xml.Element",
      * The subtree rooted by the specified element or document is serialized to a string.
      *
      * @param element {Element | Document} The root of the subtree to be serialized. This could be any node, including a Document.
-     * @return {String} TODOC
+     * @return {String} Serialized subtree
      */
     serialize : function(element)
     {
