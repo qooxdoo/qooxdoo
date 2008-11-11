@@ -80,7 +80,7 @@ qx.Bootstrap.define("qx.xml.Document",
      * The string passed in is parsed into a DOM document.
      *
      * @param str {String} the string to be parsed
-     * @return {Document} TODO: move to create()
+     * @return {Document} XML document with given content
      * @signature function(str)
      */
     fromString : qx.core.Variant.select("qx.client",
