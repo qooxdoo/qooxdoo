@@ -291,10 +291,10 @@ qx.Theme.define("qx.theme.classic.Decoration",
         width : 1,
         style : "solid",
 
-        colorTop    : "#ffffff",
-        colorLeft   : "#ffffff",
-        colorRight  : "#a7a6aa",
-        colorBottom : "#a7a6aa"
+        colorTop    : "white",
+        colorLeft   : "white",
+        colorRight  : "border-dark-shadow",
+        colorBottom : "border-dark-shadow"
       }
     },
 
