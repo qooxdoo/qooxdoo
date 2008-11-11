@@ -107,9 +107,10 @@ qx.Class.define("qx.util.TimerManager",
      * @param userData {Any}
      *   Data which is passed to the callback function upon timer expiry
      *
-     * @param initialTime {Integer ? 0}
+     * @param initialTime {Integer|null}
      *   Milliseconds before the callback function is called the very first
-     *   time.
+     *   time.  If not specified and recurTime is specified, then recurTime
+     *   will be used as initialTime; other initialTime will default to zero.
      *
      * @return {Integer}
      *   The timer id of this unique timer.  It may be provided to the stop()
@@ -118,7 +119,12 @@ qx.Class.define("qx.util.TimerManager",
     start : function(callback, recurTime, context, userData, initialTime)
     {
       // Get the expiration time for this timer
-      var expireAt = (new Date()).getTime() + (initialTime || 0);
+      if (! initialTime)
+      {
+        initialTime = recurTime || 0;
+      }
+
+      var expireAt = (new Date()).getTime() + initialTime;
 
       // Save the callback, user data, and requested recurrency time as well
       // as the current expiry time
