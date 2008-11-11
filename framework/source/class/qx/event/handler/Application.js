@@ -75,8 +75,7 @@ qx.Class.define("qx.event.handler.Application",
     SUPPORTED_TYPES :
     {
       ready : 1,
-      shutdown : 1,
-      beforeunload : 1
+      shutdown : 1
     },
 
 
@@ -181,11 +180,9 @@ qx.Class.define("qx.event.handler.Application",
     {
       this._onNativeLoadWrapped = qx.lang.Function.bind(this._onNativeLoad, this);
       this._onNativeUnloadWrapped = qx.lang.Function.bind(this._onNativeUnload, this);
-      this._onNativeBeforeUnloadWrapped = qx.lang.Function.bind(this._onNativeBeforeUnload, this);
 
       qx.bom.Event.addNativeListener(window, "load", this._onNativeLoadWrapped);
       qx.bom.Event.addNativeListener(window, "unload", this._onNativeUnloadWrapped);
-      qx.bom.Event.addNativeListener(window, "beforeunload", this._onNativeBeforeUnloadWrapped);
     },
 
 
@@ -198,11 +195,9 @@ qx.Class.define("qx.event.handler.Application",
     {
       qx.bom.Event.removeNativeListener(window, "load", this._onNativeLoadWrapped);
       qx.bom.Event.removeNativeListener(window, "unload", this._onNativeUnloadWrapped);
-      qx.bom.Event.removeNativeListener(window, "beforeunload", this._onNativeBeforeUnloadWrapped);
 
       this._onNativeLoadWrapped = null;
       this._onNativeUnloadWrapped = null;
-      this._onNativeBeforeUnloadWrapped = null;
     },
 
 
@@ -247,27 +242,6 @@ qx.Class.define("qx.event.handler.Application",
 
         // Execute registry shutdown
         qx.core.ObjectRegistry.shutdown();
-      }
-    },
-
-
-    /**
-     * Event listener for native beforeunload event
-     *
-     * @param e {Event} Native event object
-     * @return {String?null} If the return value is set, the unload 
-     * process should be stopped
-     */
-    _onNativeBeforeUnload : function(e)
-    {
-      var event = qx.event.Registration.createEvent("beforeunload", qx.event.type.Native, [e, window]);
-      qx.event.Registration.dispatchEvent(window, event);
-      
-      var result = event.getReturnValue();
-      if (result != null)
-      {
-        e.returnValue = result;
-        return result;
       }
     }
 
