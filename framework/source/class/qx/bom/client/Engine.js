@@ -64,7 +64,7 @@ qx.Bootstrap.define("qx.bom.client.Engine",
      * Internal initialize helper
      *
      * @return {void}
-     * @throws TODOC
+     * @throws An error if the version of the browser could not be detected
      */
     __init : function()
     {
