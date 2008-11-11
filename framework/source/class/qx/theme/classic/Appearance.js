@@ -238,9 +238,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function()
       {
         return {
-          backgroundColor : "background",
-          width : 0, // TODO: dimensions are functional in this case!
-          height : 0
+          backgroundColor : "background"
         }
       }
     },
@@ -607,7 +605,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           decorator : "toolbar-part-handle",
           backgroundColor : "background",
-          width     : 4,
+          padding   : [ 0, 1 ],
           margin    : [ 3, 2 ],
           allowGrowY : true
         };
@@ -619,7 +617,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          width     : 1, // TODO: functional?
           margin    : [ 3, 2 ],
           decorator : "toolbar-separator"
         };
@@ -2107,8 +2104,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          // TODO: check this color
-          backgroundColor: "#D6D5D9",
+          backgroundColor: "table-header-border",
           width: 3
         };
       }
