@@ -92,7 +92,7 @@ qx.Bootstrap.define("qx.bom.client.Flash",
     {
       "mshtml" : function()
       {
-        if (window.ActiveXObject) {
+        if (!window.ActiveXObject) {
           return;
         }
 
@@ -102,7 +102,7 @@ qx.Bootstrap.define("qx.bom.client.Flash",
         try {
           var obj = new ActiveXObject("ShockwaveFlash.ShockwaveFlash.7");
         }
-        catch(e)
+        catch(ex)
         {
           try
           {
@@ -110,7 +110,7 @@ qx.Bootstrap.define("qx.bom.client.Flash",
             full = [ 6, 0, 21 ];
             obj.AllowScriptAccess = "always";
           }
-          catch(e)
+          catch(ex)
           {
             if (full[0] == 6) {
               fp6Crash = true;
@@ -121,7 +121,7 @@ qx.Bootstrap.define("qx.bom.client.Flash",
           {
             try {
               obj = new ActiveXObject("ShockwaveFlash.ShockwaveFlash");
-            } catch(e) {}
+            } catch(ex) {}
           }
         }
 
