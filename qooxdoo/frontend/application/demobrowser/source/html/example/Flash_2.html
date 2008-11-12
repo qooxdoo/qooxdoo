@@ -109,7 +109,8 @@
         flashLayout.add(new qx.ui.basic.Label("Flash:"));
         mainLayout.add(flashLayout);
         
-        this.__flash = new qx.ui.embed.Flash("./image/flash/TestFlash.swf")
+        this.__flash = new qx.ui.embed.Flash("./image/flash/TestFlash.swf", "9");
+        this.__flash.setRedirectUrl("http://get.adobe.com/flashplayer/");
         this.__flash.addEventListener("appear", this.__onAppear, this);
         this.__flash.setWidth(400);
         this.__flash.setHeight(300);
