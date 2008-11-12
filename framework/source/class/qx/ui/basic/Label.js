@@ -141,6 +141,12 @@ qx.Class.define("qx.ui.basic.Label",
       refine: true,
       init: "label"
     },
+    
+    selectable :
+    {
+      refine : true,
+      init : false
+    },
 
 
     // overridden
