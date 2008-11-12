@@ -335,7 +335,7 @@ qx.Class.define("qx.bom.History",
           doc.open();
           doc.write(html);
           doc.close();
-        } catch (e) {
+        } catch (ex) {
           return false;
         }
         return true;
