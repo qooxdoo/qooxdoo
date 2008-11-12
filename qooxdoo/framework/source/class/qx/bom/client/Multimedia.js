@@ -19,6 +19,9 @@
 
 /**
  * Contains detection for QuickTime, Windows Media, DivX and Silverlight.
+ * If no version could be detected the version is set to "0" as default.
+ * Be aware of that behaviour if using the {@link #has} method with a minimum 
+ * version as second parameter.
  */
 qx.Bootstrap.define("qx.bom.client.Multimedia",
 {
@@ -65,7 +68,6 @@ qx.Bootstrap.define("qx.bom.client.Multimedia",
 
 
     /**
-     * ** CURRENTLY NOT IMPLEMENTED **
      * Detects if the given plugin is available.
      *
      * @param id {String} Feature-ID. One of quicktime, wmv, divx or silverlight
@@ -74,7 +76,22 @@ qx.Bootstrap.define("qx.bom.client.Multimedia",
      */
     has : function(id, version)
     {
+      // check if the given id is available - otherwise return false
+      if (this.__db[id])
+      {
+        var plugin = this.__db[id];
+        // if plugin is installed - check for version
+        if (plugin.installed)
+        {
+          // if no version given or minimum version check successful
+          if (version == null || (plugin.version >= parseFloat(version)))
+          {
+            return true;
+          }
+        }
+      }
       
+      return false;
     },
 
 
@@ -109,15 +126,36 @@ qx.Bootstrap.define("qx.bom.client.Multimedia",
           switch(id)
           {
             case "quicktime":
+              // no possibility to get the version string
+              entry.version = 0;
               break;
 
             case "wmv":
+              entry.version = obj.versionInfo;
               break;
 
             case "divx":
+              // no possibility to get the version string
+              entry.version = 0;
               break;
 
             case "silverlight":
+              // try to detect the silverlight version
+              try
+              {
+                entry.version = obj.version === undefined ? 0 : obj.version;
+              } 
+              catch(ex)
+              {
+                try
+                {
+                  entry.version = obj.settings.version === undefined ? 0 : obj.settings.version;
+                }
+                catch(ex)
+                {
+                  entry.version = 0;
+                }
+              }
               break;
           }
 
