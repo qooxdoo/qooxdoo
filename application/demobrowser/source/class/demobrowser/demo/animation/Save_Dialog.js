@@ -16,17 +16,45 @@
      * Jonathan Rass (jonathan_rass)
 
 ************************************************************************ */
-
+var e;
 qx.Class.define("demobrowser.demo.animation.Save_Dialog",
 {
   extend : qx.application.Standalone,
 
   members :
   {
+
     __prepareEffects : function()
     {
-      this.__showEffect = new qx.fx.effect.combination.Grow(this.__dialog.getContainerElement().getDomElement());
-      this.__hideEffect = new qx.fx.effect.combination.Shrink(this.__dialog.getContainerElement().getDomElement());
+
+      // Use a different effect for IE to avoid rendering issues
+      if (qx.bom.client.Engine.MSHTML)
+      {
+        this.__showEffect = new qx.fx.effect.core.Fade(
+          this.__dialog.getContainerElement().getDomElement()
+        ).set({
+          from : 0,
+          to : 1
+        });  
+
+        this.__hideEffect = new qx.fx.effect.core.Fade(
+          this.__dialog.getContainerElement().getDomElement()
+        ).set({
+          from : 1,
+          to : 0
+        });
+      }
+      else
+      {
+        this.__showEffect = new qx.fx.effect.combination.Grow(
+          this.__dialog.getContainerElement().getDomElement()
+        );
+
+        this.__hideEffect = new qx.fx.effect.combination.Shrink(
+          this.__dialog.getContainerElement().getDomElement()
+        );
+      }
+
     },
 
 
