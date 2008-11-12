@@ -196,7 +196,10 @@ qx.Class.define("qx.event.Command",
     {
       if (value)
       {
-        this.__modifier = {};
+        this.__modifier = { "Control" : false,
+                            "Shift"   : false,
+                            "Meta"    : false,
+                            "Alt"     : false };
         this.__key = null;
 
         // split string to get each key which must be pressed
@@ -264,10 +267,15 @@ qx.Class.define("qx.event.Command",
       }
 
       // for check special keys
+      // and check if a shortcut is a single char and special keys are pressed
       if (
+        (!this.__modifier.Shift && e.isShiftPressed()) ||
         (this.__modifier.Shift && !e.isShiftPressed()) ||
+        (!this.__modifier.Control && e.isCtrlPressed()) ||
         (this.__modifier.Control && !e.isCtrlPressed()) ||
+        (!this.__modifier.Meta && e.isMetaPressed()) ||
         (this.__modifier.Meta && !e.isMetaPressed()) ||
+        (!this.__modifier.Alt && e.isAltPressed()) ||
         (this.__modifier.Alt && !e.isAltPressed())
       ) {
         return false;
