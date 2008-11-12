@@ -2359,7 +2359,7 @@ qx.Class.define("qx.legacy.ui.core.Widget",
 
           try {
             this._oldParent._getTargetNode().removeChild(elem);
-          } catch(e) {
+          } catch(ex) {
             // ignore exception
           }
 

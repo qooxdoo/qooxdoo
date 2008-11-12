@@ -831,9 +831,9 @@ qx.Class.define("demobrowser.DemoBrowser",
       {
         try{
           var otherSamp = currSamp.getUserData('modelLink').getNextSibling().widgetLinkFull;
-        }catch(e)
+        }catch(ex)
         {
-          this.debug(e)
+          this.debug(ex)
         }
 
         if (otherSamp)
