@@ -31,6 +31,12 @@ qx.Class.define("toolbox.JsonAnalyzer",
   
 	construct : function() {
 		this.base(arguments);
+		
+		this.parentMemory = null;
+		this.selectedValue = null;
+		//this.selectedTreeItem = null;
+		
+		this.jsonObject = null;
 		this.tree = new qx.ui.tree.Tree().set({
 	        minWidth : 300,
 	        minHeight : 200,
@@ -55,13 +61,21 @@ qx.Class.define("toolbox.JsonAnalyzer",
 
 
     __convertBoolean : function(incoming, parent) {
-      parent.add(new qx.ui.tree.TreeFile(incoming.toString()));
+      /*
+      var treeFile = new qx.ui.tree.TreeFile(incoming.toString());
+      parent.add(treeFile);
+      */
+      return incoming;
     },
 
 
     __convertNumber : function(incoming, parent) {
       var result = isFinite(incoming) ? String(incoming) : "null";
-      parent.add(qx.ui.tree.TreeFile(result));
+      /*
+      var treeFile = new qx.ui.tree.TreeFile(result);
+      parent.add(treeFile);
+      */
+      return result;
     },
     
     
@@ -92,8 +106,11 @@ qx.Class.define("toolbox.JsonAnalyzer",
       } else {
         result = incoming;
       }
-      //alert("result --->  " + result);
-      parent.add(new qx.ui.tree.TreeFile(result));
+      /*
+      var treeFile = new qx.ui.tree.TreeFile(result);
+      treeFile.setUserData("json", result.toString());
+      parent.add(treeFile);
+      */
     },
 
     __convertStringEscape :
@@ -127,7 +144,9 @@ qx.Class.define("toolbox.JsonAnalyzer",
       {     	
         obj = incoming[i];       
         func = this.__map[typeof obj];
-        var folder = new qx.ui.tree.TreeFolder(i+"");
+        var folder = new qx.ui.tree.TreeFolder(i+"");        
+        folder.setUserData("json", obj);
+        
         parent.add(folder);
 
         if (func) {
@@ -141,7 +160,11 @@ qx.Class.define("toolbox.JsonAnalyzer",
     {
     	//alert("Date  " + incoming);
       var dateParams = incoming.getUTCFullYear() + "," + incoming.getUTCMonth() + "," + incoming.getUTCDate() + "," + incoming.getUTCHours() + "," + incoming.getUTCMinutes() + "," + incoming.getUTCSeconds() + "," + incoming.getUTCMilliseconds();
-      parent.add(new qx.ui.tree.TreeFile("new Date(Date.UTC(" + dateParams + "))"));
+      /*
+      var treeFile = new qx.ui.tree.TreeFile("new Date(Date.UTC(" + dateParams + "))");
+      parent.add(treeFile);
+      */
+      return dateParams;
     },
 
 
@@ -159,11 +182,12 @@ qx.Class.define("toolbox.JsonAnalyzer",
         func = this.__map[typeof obj];
 
         var folder = new qx.ui.tree.TreeFolder(key);
+        folder.setUserData("json", obj);
         parent.add(folder);
         
         
         if (func) {
-          obj = this[func](obj, folder);
+          this[func](obj, folder);
         }
       }
     },
@@ -171,9 +195,9 @@ qx.Class.define("toolbox.JsonAnalyzer",
 
     createJsonTree : function(obj)
     {
-    	//alert("===========================\n" + qx.util.Json.stringify(obj, true).toString());
       // Start convertion
-      var root = new qx.ui.tree.TreeFolder("config.js");
+    	this.jsonObject = obj;
+      var root = new qx.ui.tree.TreeFolder("root");
       root.setOpen(true);
       this[this.__map[typeof obj]](obj, root);
       return root;
@@ -183,24 +207,54 @@ qx.Class.define("toolbox.JsonAnalyzer",
       return this.tree;
     },
     
-    getCommandFrame : function(tree)
-    {
-
-    	
-    	
-    	var content = "{";
-      for(var i = 0; i < tree.getItems(true, true).length; i++) {
-          if(tree.getItems(true, true)[i].getLabel().toString() != "undefined") {
-            content += "\n" + tree.getItems(true, true)[i].getLabel();
+    updateTextField : function(tree) {  
+    	tree.addListener("changeSelection", function(e)
+        {
+        	this.parentMemory = new Array();
+        	
+	        var treeItem = e.getData()[0];
+	        var json = treeItem.getUserData("json");        
+	        
+	        this.tCurrentInput.setValue(qx.util.Json.stringify(json, true));  	
+	        
+	        
+	        var receivedJsonObject = this.jsonObject;
+	        
+	     
+	        this.parentMemory.push(treeItem.getLabel().toString());
+	        
+	        for(;;) { 
+            treeItem = treeItem.getParent();
+            this.parentMemory.push(treeItem.getLabel().toString());
+            if(treeItem.getLabel().toString() == "root"){
+            	break;
+            }
           }
-      }
-      content += "}";
-      alert(content); 
+	        
+	        this.parentMemory = this.parentMemory.reverse();
+	        this.parentMemory.shift();
+	        
+	        
+	        
+	        //alert("parentMemory ==: " + this.parentMemory.toString() +"\n laenge " + this.parentMemory.length);
+	        
+	        for(var i = 0; i < this.parentMemory.length; i++) {
+	        	receivedJsonObject = receivedJsonObject[this.parentMemory[i]];
+	        }
+	        
+	        this.selectedValue = receivedJsonObject;
+	        //alert("parentMemory ==" + this.parentMemory+"\n--->  " + receivedJsonObject );
+	        
+      	}, this);
     	
     	
-    	
-    	
-    	
+      
+      
+    },
+    
+    
+    getCommandFrame : function(tree)
+    {	
       var commandFrame = new qx.ui.groupbox.GroupBox("Control");
       var spacerSize = 4;
   	  var gridLayout = new qx.ui.layout.Grid(5, 3);
@@ -220,15 +274,20 @@ qx.Class.define("toolbox.JsonAnalyzer",
 
       commandFrame.add(this.tCurrentInput, {row: 1, column: 0, rowSpan : 0, colSpan: 2});
 
+      
+      this.updateTextField(tree);
+      
+      
+      /*
       tree.addListener("changeSelection", function(e)
       {
       	  if(e.getData() != "") {
             this.tCurrentInput.setValue(e.getData()[0].getLabel());
       	  }	  
       }, this);
+      */
       
-
-      var btnHideRoot = new qx.ui.form.CheckBox("Hide Root Node");
+      var btnHideRoot = new qx.ui.form.CheckBox("Hide root node");
       btnHideRoot.setChecked(tree.getHideRoot());
       commandFrame.add(btnHideRoot, {row: 2, column: 0});
 
@@ -242,32 +301,16 @@ qx.Class.define("toolbox.JsonAnalyzer",
       var btnAddItem = new qx.ui.form.Button("Add folder");
       btnAddItem.addListener("execute", this.__addFolder, this);
       container.add(btnAddItem);
-      
-      var btnAddFile = new qx.ui.form.Button("Add file");
-      btnAddFile.addListener("execute", this.__addFile, this);
-      container.add(btnAddFile);
 
       var btnRemove = new qx.ui.form.Button("Remove tree item");
       btnRemove.addListener("execute", this.__removeTreeItem, this);
       container.add(btnRemove);
 
-      var vShowItems = new qx.ui.form.Button("Show Items");
-      container.add(vShowItems);
+      var btnEdit = new qx.ui.form.Button("Edit item");
+      btnEdit.addListener("execute", this.__editTreeItem, this);
+      container.add(btnEdit);
 
       
-      
-      vShowItems.addListener("execute", function(e) {
-      	var content = "";
-        ("" + tree.getItems()).replace(",", "\n", "g");
-        for(var i = 0; i < tree.getItems(true, true).length; i++) {
-          if(tree.getItems(true, true)[i].getLabel().toString() != "undefined") {
-            content += "\n" + tree.getItems(true, true)[i].getLabel()
-          }
-        }
-        alert(content);
-      }, this);
-      
-
       return commandFrame;
     },
     
@@ -275,7 +318,7 @@ qx.Class.define("toolbox.JsonAnalyzer",
     {
       var current = this.tree.getSelectedItem();
       var folder = new qx.ui.tree.TreeFolder(this.tCurrentInput.getValue());
-
+      
       folder.addListenerOnce("appear", function(){
         effect = new qx.fx.effect.core.Highlight(folder.getContainerElement().getDomElement());
         effect.start();
@@ -283,20 +326,6 @@ qx.Class.define("toolbox.JsonAnalyzer",
 
       current.setOpen(true);
       current.add(folder);
-    },
-    
-    __addFile : function()
-    {
-      var current = this.tree.getSelectedItem();
-      var file = new qx.ui.tree.TreeFile(this.tCurrentInput.getValue());
-
-      file.addListenerOnce("appear", function(){
-        effect = new qx.fx.effect.core.Highlight(file.getContainerElement().getDomElement());
-        effect.start();
-      }, this);
-
-      current.setOpen(true);
-      current.add(file);
     },
     
     
@@ -309,9 +338,24 @@ qx.Class.define("toolbox.JsonAnalyzer",
       }
 
       parent.remove(current);
+    },
+    
+    __editTreeItem : function() {
+    	var receivedJsonObject = this.jsonObject;
+    	for(var i = 0; i < this.parentMemory.length; i++) {
+         receivedJsonObject = receivedJsonObject[this.parentMemory[i]];
+      }
+      
+      alert("Vorher  " + receivedJsonObject);
+      
+      //receivedJsonObject = this.tCurrentInput.getValue().toString();
+      
+      //alert("Nachher " + receivedJsonObject);
+      
+      //alert(this.parentMemory.toString());
+      //alert(this.jsonObject);
+      //this.jsonObject = this.tCurrentInput.getValue().toString();
     }
-
-
   }
 
 });

@@ -98,8 +98,8 @@ qx.Class.define("toolbox.Configuration",
           this.win = new qx.ui.window.Window("Configuration");
           this.win.setModal(true);
           this.win.setLayout(vBoxLayout);
-          this.win.setAllowGrowY(false);
-          this.win.setAllowMaximize(false);
+          //this.win.setAllowGrowY(false);
+          //this.win.setAllowMaximize(false);
           //this.win.setAllowGrowX(true);
           
           
@@ -146,9 +146,8 @@ qx.Class.define("toolbox.Configuration",
             
             
             
-            tabView = new qx.ui.tabview.TabView();
-	        //tabView.setWidth(500);
-	
+          tabView = new qx.ui.tabview.TabView();
+	        
 	
 	        var page1 = new qx.ui.tabview.Page("JSON-settings", null);
 	        page1.setLayout(new qx.ui.layout.VBox());
@@ -158,6 +157,7 @@ qx.Class.define("toolbox.Configuration",
 
 	        var page2 = new qx.ui.tabview.Page("Professional view", null);
 	        page2.setLayout(new qx.ui.layout.VBox());
+	        page2.add(new qx.ui.basic.Label("Config.js"));
 	        tabView.add(page2);
             
             
@@ -178,15 +178,12 @@ qx.Class.define("toolbox.Configuration",
               rowSpan : 0,
               colSpan : 1
             });
-            
-            
-            
 
 
             page1.add(mainContainer);
             page2.add(configFrame);
             
-            this.win.add(tabView);
+            this.win.add(tabView, {flex: 1});
             this.win.add(container);
 
             closeButton.addListener("execute", function() {
