@@ -379,7 +379,7 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
           {
             type = selection[i].data.MDragAndDropSupport.type;
           }
-          catch(e){}
+          catch(ex){}
 
           // type is not among the allowed types, do not allow drag
           if ( types.indexOf(type) < 0 ) return false;
@@ -748,7 +748,7 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
           return this.nodeGet(nodeReference).data.MDragAndDropSupport.type;
         }
       }
-      catch(e)
+      catch(ex)
       {
         return null;
       }
@@ -938,7 +938,7 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
              var valueA = eval("nodeA."+prop);
              var valueB = eval("nodeB."+prop);
            }
-           catch(e)
+           catch(ex)
            {
              continue;
            }

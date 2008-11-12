@@ -284,7 +284,7 @@ qx.Class.define("qx.log.appender.Window",
 
       logDocument.open();
       logDocument.write("<html><head><title>" + this._name + "</title></head>"
-        + '<body onload="qx = opener.qx;" onunload="try{qx.log.WindowAppender._registeredAppenders[' + this._id + ']._autoCloseWindow()}catch(e){}">'
+        + '<body onload="qx = opener.qx;" onunload="try{qx.log.WindowAppender._registeredAppenders[' + this._id + ']._autoCloseWindow()}catch(ex){}">'
         + '  <style type="text/css">'
         + '    html, body, input, pre{ font-size: 11px; font-family: Tahoma, sans-serif; line-height : 1 }'
         + '    html, body{ padding: 0; margin: 0; border : 0 none; }'

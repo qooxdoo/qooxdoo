@@ -101,7 +101,7 @@ qx.Class.define("testrunner.test.renderer.Color",
 
       try {
         var c = new Color("activeborder");
-      } catch(e) {
+      } catch(ex) {
         error = true;
       }
 
@@ -111,7 +111,7 @@ qx.Class.define("testrunner.test.renderer.Color",
 
       try {
         var c = new Color("#FFGFF");
-      } catch(e) {
+      } catch(ex) {
         error = true;
       }
 
@@ -121,7 +121,7 @@ qx.Class.define("testrunner.test.renderer.Color",
 
       try {
         var c = new Color("bla");
-      } catch(e) {
+      } catch(ex) {
         error = true;
       }
 
@@ -131,7 +131,7 @@ qx.Class.define("testrunner.test.renderer.Color",
 
       try {
         var c = new Color([ 1, 2 ]);
-      } catch(e) {
+      } catch(ex) {
         error = true;
       }
 
@@ -141,7 +141,7 @@ qx.Class.define("testrunner.test.renderer.Color",
 
       try {
         var c = new Color([ 1, 2, 3, 4 ]);
-      } catch(e) {
+      } catch(ex) {
         error = true;
       }
 
@@ -151,7 +151,7 @@ qx.Class.define("testrunner.test.renderer.Color",
 
       try {
         var c = new Color([ 1, 2, 300 ]);
-      } catch(e) {
+      } catch(ex) {
         error = true;
       }
 

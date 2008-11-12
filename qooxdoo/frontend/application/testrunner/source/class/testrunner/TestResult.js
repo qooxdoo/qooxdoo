@@ -87,14 +87,14 @@ qx.Class.define("testrunner.TestResult",
       try {
         testFunction();
       }
-      catch(e)
+      catch(ex)
       {
         var error = true;
 
-        if (e.classname == "testrunner.AssertionError") {
-          this.__createError("failure", e, test);
+        if (ex.classname == "testrunner.AssertionError") {
+          this.__createError("failure", ex, test);
         } else {
-          this.__createError("error", e, test);
+          this.__createError("error", ex, test);
         }
       }
 

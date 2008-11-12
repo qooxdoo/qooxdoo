@@ -156,7 +156,7 @@ qx.Class.define("qx.ui.embed.Flash",
         try {
           var axo = new ActiveXObject(qx.ui.embed.Flash.ACTIVEXKEY + ".7");
         }
-        catch(e)
+        catch(ex)
         {
           try
           {
@@ -164,7 +164,7 @@ qx.Class.define("qx.ui.embed.Flash",
             vPlayerVersion = new qx.util.Version([ 6, 0, 21 ]);
             axo.AllowScriptAccess = "always"; // throws if player version < 6.0.47 (thanks to Michael Williams @ Adobe for this code)
           }
-          catch(e)
+          catch(ex)
           {
             if (vPlayerVersion.major == 6) {
               return vPlayerVersion;
@@ -173,7 +173,7 @@ qx.Class.define("qx.ui.embed.Flash",
 
           try {
             axo = new ActiveXObject(qx.ui.embed.Flash.ACTIVEXKEY);
-          } catch(e) {}
+          } catch(ex) {}
         }
 
         if (axo != null) {

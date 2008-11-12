@@ -51,8 +51,8 @@ qx.Class.define("testrunner.TestFunction",
 
         try {
             cls[methodName]();
-        } catch (e) {
-            throw e;
+        } catch (ex) {
+            throw ex;
         } finally {
             // tearDown should always be called.
             if (typeof (cls.tearDown) == "function") {

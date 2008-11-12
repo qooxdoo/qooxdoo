@@ -1022,7 +1022,7 @@ qx.Class.define("qx.ui.form.TextField",
         // https://bugzilla.mozilla.org/show_bug.cgi?id=329354
         try {
           this._inputElement.selectionStart = vStart;
-        } catch (e) {}
+        } catch (ex) {}
       },
 
       "default" : function(vStart)
@@ -1077,7 +1077,7 @@ qx.Class.define("qx.ui.form.TextField",
           if (qx.util.Validation.isValidString(el.value)) {
             return el.selectionStart;
           }
-        } catch (e) {
+        } catch (ex) {
           return 0;
         }
       },
@@ -1129,7 +1129,7 @@ qx.Class.define("qx.ui.form.TextField",
           if (qx.util.Validation.isValidString(el.value)) {
             el.selectionEnd = el.selectionStart + vLength;
           }
-        } catch (e) {}
+        } catch (ex) {}
       },
 
       "default" : function(vLength)
@@ -1177,7 +1177,7 @@ qx.Class.define("qx.ui.form.TextField",
         // https://bugzilla.mozilla.org/show_bug.cgi?id=329354
         try {
           return el.selectionEnd - el.selectionStart;
-        } catch (e) {}
+        } catch (ex) {}
       },
 
       "default" : function()
@@ -1248,7 +1248,7 @@ qx.Class.define("qx.ui.form.TextField",
             // apply new value to internal cache
             this.setValue(vValue);
           }
-        } catch (e) {}
+        } catch (ex) {}
       },
 
       "default" : function(vText)
@@ -1358,7 +1358,7 @@ qx.Class.define("qx.ui.form.TextField",
         {
           el.selectionStart = vStart;
           el.selectionEnd = vEnd;
-        } catch (e) {}
+        } catch (ex) {}
       },
 
       "default" : function(vStart, vEnd)

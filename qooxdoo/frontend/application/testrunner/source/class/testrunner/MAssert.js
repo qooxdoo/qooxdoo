@@ -76,8 +76,8 @@ qx.Mixin.define("testrunner.MAssert",
 
       try {
         callback();
-      } catch(e) {
-        error = e;
+      } catch(ex) {
+        error = ex;
       }
 
       if (error == null) {

@@ -2710,7 +2710,7 @@ qx.Class.define("qx.ui.core.Widget",
           this._beforeRemoveDom();
           try {
             this._oldParent._getTargetNode().removeChild(elem);
-          } catch(e) {
+          } catch(ex) {
             // ignore exception
           }
           this._afterRemoveDom();
