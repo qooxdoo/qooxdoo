@@ -376,7 +376,7 @@ qx.Mixin.define("qx.legacy.ui.treevirtual.MDragAndDropSupport",
           {
             type = selection[i].data.MDragAndDropSupport.type;
           }
-          catch(e){}
+          catch(ex){}
 
           // type is not among the allowed types, do not allow drag
           if ( types.indexOf(type) < 0 )
@@ -749,7 +749,7 @@ qx.Mixin.define("qx.legacy.ui.treevirtual.MDragAndDropSupport",
           return this.nodeGet(nodeReference).data.MDragAndDropSupport.type;
         }
       }
-      catch(e)
+      catch(ex)
       {
         return null;
       }

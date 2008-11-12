@@ -137,7 +137,7 @@ qx.Bootstrap.define("qx.bom.Event",
           // this allows us to prevent some key press events in IE and Firefox.
           // See bug #1049
           e.keyCode = 0;
-        } catch(e) {}
+        } catch(ex) {}
       },
 
       "mshtml" : function(e)
@@ -147,7 +147,7 @@ qx.Bootstrap.define("qx.bom.Event",
           // this allows us to prevent some key press events in IE and Firefox.
           // See bug #1049
           e.keyCode = 0;
-        } catch(e) {}
+        } catch(ex) {}
 
         e.returnValue = false;
       },

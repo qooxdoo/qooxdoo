@@ -49,9 +49,9 @@ qx.Class.define("qx.dev.StackTrace",
         {
           throw new Error();
         }
-        catch(e)
+        catch(ex)
         {
-          var errorTrace = this.getStackTraceFromError(e);
+          var errorTrace = this.getStackTraceFromError(ex);
           qx.lang.Array.removeAt(errorTrace, 0);
           var callerTrace = this.getStackTraceFromCaller(arguments);
 
@@ -149,7 +149,7 @@ qx.Class.define("qx.dev.StackTrace",
 
           try {
             fcn = fcn.caller;
-          } catch(e) {
+          } catch(ex) {
             break;
           }
 

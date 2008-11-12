@@ -632,7 +632,7 @@ qx.Class.define("qx.ui.form.Spinner",
         // try to parse the current number using the number format
         try {
           value = this.getNumberFormat().parse(textField.getValue());
-        } catch(e) {
+        } catch(ex) {
           // otherwise, process further
         }
       }
