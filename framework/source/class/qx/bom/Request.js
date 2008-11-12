@@ -652,19 +652,19 @@ qx.Bootstrap.define("qx.bom.Request",
 
       try {
         this.responseText = xmlhttp.responseText;
-      } catch(e) {}
+      } catch(ex) {}
 
       try {
         this.responseXML = this.__getDocument();
-      } catch(e) {}
+      } catch(ex) {}
 
       try {
         this.status = xmlhttp.status;
-      } catch(e) {}
+      } catch(ex) {}
 
       try {
         this.statusText = xmlhttp.statusText;
-      } catch(e) {}
+      } catch(ex) {}
 
       // Kudos do jquery team for this code.
       // IE error sometimes returns 1223 when it should be 204 so treat it as success, see jquery bug #1450

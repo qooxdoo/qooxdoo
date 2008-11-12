@@ -301,8 +301,8 @@ qx.Class.define("qx.core.Assert",
 
       try {
         callback();
-      } catch(e) {
-        error = e;
+      } catch(ex) {
+        error = ex;
       }
 
       if (error == null) {

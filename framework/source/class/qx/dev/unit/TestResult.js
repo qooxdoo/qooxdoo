@@ -94,14 +94,14 @@ qx.Class.define("qx.dev.unit.TestResult",
       try {
         testFunction();
       }
-      catch(e)
+      catch(ex)
       {
         var error = true;
 
-        if (e.classname == "qx.core.AssertionError") {
-          this.__createError("failure", e, test);
+        if (ex.classname == "qx.core.AssertionError") {
+          this.__createError("failure", ex, test);
         } else {
-          this.__createError("error", e, test);
+          this.__createError("error", ex, test);
         }
       }
 

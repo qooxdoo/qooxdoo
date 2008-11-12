@@ -586,7 +586,7 @@ qx.Class.define("qx.legacy.ui.table.pane.Pane",
         var rowElem = tableChildNodes[removeRowBase];
         try {
           tableBody.removeChild(rowElem);
-        } catch(e) {
+        } catch(ex) {
           break;
         }
       }

@@ -179,7 +179,7 @@ qx.Class.define("qx.fx.effect.core.Scale",
 
       try {
         var fontSize = qx.bom.element.Style.get(element, "fontSize");
-      } catch(e) {
+      } catch(ex) {
         if(typeof(fontSize) != "string") {
           fontSize = (qx.bom.client.Engine.MSHTML) ? "12px" : "100%";
         }
