@@ -98,7 +98,7 @@ qx.Class.define("qx.dev.unit.TestSuite",
           return;
         }
       }
-      catch (e)
+      catch (ex)
       {
         alert("An error occured while adding test classes/namespaces\nPlease try a different test file.");
       }

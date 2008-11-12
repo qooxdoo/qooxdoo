@@ -104,9 +104,9 @@ qx.Class.define("qx.dev.StackTrace",
           // force error
           foo.bar();
         }
-        catch (e)
+        catch (ex)
         {
-          var trace = this.getStackTraceFromError(e);
+          var trace = this.getStackTraceFromError(ex);
           qx.lang.Array.removeAt(trace, 0)
           return trace;
         }

@@ -132,7 +132,7 @@ qx.Class.define("qx.ui.form.DateField",
       // return the parsed date
       try {
         return this.getDateFormat().parse(textfieldValue);
-      } catch (e) {
+      } catch (ex) {
         return null;
       }
     },
@@ -159,7 +159,7 @@ qx.Class.define("qx.ui.form.DateField",
         var date = this.getDateFormat().parse(value);
         this._getChildControl("list").setDate(date);
       }
-      catch (e)
+      catch (ex)
       {
         // remove the selection of the date chooser
         this._getChildControl("list").resetDate();
@@ -196,7 +196,7 @@ qx.Class.define("qx.ui.form.DateField",
         var currentDate = old.parse(textfield.getValue());
         textfield.setValue(value.format(currentDate));
       }
-      catch (e) {
+      catch (ex) {
         // do nothing if the former date could not be parsed
       }
     },

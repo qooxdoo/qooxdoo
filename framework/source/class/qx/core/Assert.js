@@ -614,7 +614,7 @@ qx.Class.define("qx.core.Assert",
       {
         var valueRgb = ColorUtil.stringToRgb(value);
       }
-      catch (e)
+      catch (ex)
       {
         this.__assert(
           false,
