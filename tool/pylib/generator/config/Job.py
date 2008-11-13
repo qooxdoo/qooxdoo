@@ -107,12 +107,9 @@ class Job(object):
                 if entry in entryTrace:
                     raise RuntimeError, "Extend entry already seen: %s" % str(entryTrace+[self.name,entry])
                 
-                entryJob = config.getJob(entry)  # getJob() handles string/Job polymorphism of 'entry' and returns Job object
+                entryJob = self._getJob(entry, config)
                 if not entryJob:
-                    if config != self._config:  # try own config
-                        entryJob = self._config.getJob(entry)
-                    if not entryJob:
-                        raise RuntimeError, "No such job: \"%s\" (trace: %s)" % (entry, entryTrace+[self.name])
+                    raise RuntimeError, "No such job: \"%s\" (trace: %s)" % (entry, entryTrace+[self.name])
 
                 # make sure this entry job is fully resolved in its context
                 entryJob.resolveExtend(entryTrace + [self.name], config)
@@ -121,6 +118,68 @@ class Job(object):
                 self.mergeJob(entryJob)
 
         self.setFeature(self.RESOLVED_KEY, True)
+
+
+    ##                                                                              
+    # _resolveRuns -- resolve the 'run' key in jobs
+    #                                                                               
+    # @param     self     (IN) self
+    # @return    joblist  (OUT) list of replacement jobs
+    # @exception RuntimeError  'resolved' key missing in a job
+    #
+    # DESCRIPTION
+    #  The 'run' key of a job is a list of jobs to be run in its place, e.g.
+    #  'run' : ['jobA', 'jobB']. This indicates how the resolution of the key is
+    #  done:
+    #  - for each job in the 'run' list, a new job is created ("synthetic jobs")
+    #  - the original job serves as a template so the new jobs get all the
+    #    settings of the original job (apart from the 'run' key)
+    #  - an 'extend' key is set with the particular subjob as its
+    #    only member (assuming any original 'extend' key has already been
+    #    resolved). - This way all the new jobs can be run as regular jobs,
+    #    essentially performing the task of the referenced subjob.
+    #  - in the list of synthetic jobs is returned
+    #
+    # CAVEAT
+    #  Unlike other 'resolve*' methods in this class (which are self-modifying),
+    #  this one is functional and non-destructive (ok, it objectifies the 'run' list)!
+    ##
+    def resolveRun(self):
+        subJobs = []
+        
+        job     = self
+        if not job.hasFeature("run"):
+            return [job]
+        else:
+            for subjob in job.getFeature("run"):
+                
+                subjobObj = self._getJob(subjob)
+                if not subjobObj:
+                    raise RuntimeError, "No such job: \"%s\"" % subjob
+                # make new job map job::subjob as copy of job, but extend[subjob]
+                newjobname = self.name + self._config.COMPOSED_NAME_SEP + \
+                             subjobObj.name.replace(self._config.NS_SEP, self._config.COMPOSED_NAME_SEP)
+                newjob     = job.clone()
+                newjob.name= newjobname
+                newjob.removeFeature('run')       # remove 'run' key
+                
+                # we assume the initial 'run' job has already been resolved, so
+                # we reset it here and set the 'extend' to the subjob
+                if newjob.hasFeature('resolved'): 
+                    newjob.removeFeature('resolved')
+                else:
+                    raise RuntimeError, "Cannot resolve 'run' key before 'extend' key"
+                newjob.setFeature('extend', [subjobObj]) # extend subjob
+                
+                # add to config
+                self._config.addJob(newjobname, newjob)
+                
+                # add to job list
+                subJobs.append(newjob)
+                
+            job.setFeature('run', subJobs)   # overwrite with list of Jobs (instead of Strings)
+
+        return subJobs
 
 
     def resolveMacros(self):
@@ -157,6 +216,16 @@ class Job(object):
         if newlet:
             self.setFeature(self.LET_KEY, newlet) # set cumulative let value
 
+    
+    def _getJob(self, job, cfg=None):
+        '''search a job in given, then in original config'''
+        config = cfg or self._config
+        entryJob = config.getJob(job)  # Config.getJob() handles string/Job polymorphism of 'entry' and returns Job object
+        if not entryJob:
+            if config != self._config:  # try own config
+                entryJob = self._config.getJob(job)
+
+        return entryJob
 
     def _expandString(self, s, mapstr, mapbin):
         assert isinstance(s, types.StringTypes)
