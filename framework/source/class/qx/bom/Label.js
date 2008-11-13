@@ -132,7 +132,6 @@ qx.Class.define("qx.bom.Label",
       }
       
       styles.userSelect = "none";
-      
       return styles;
     },
 
@@ -166,11 +165,10 @@ qx.Class.define("qx.bom.Label",
         var el = win.document.createElement("div");
         el.useHtml = true;
       }
-
-      // Gecko as of Firefox 2.x and 3.0 does not support ellipsis
-      // for text overflow. We use this feature from XUL instead.
       else if (qx.core.Variant.isSet("qx.client", "gecko"))
       {
+        // Gecko as of Firefox 2.x and 3.0 does not support ellipsis
+        // for text overflow. We use this feature from XUL instead.
         var el = win.document.createElement("div");
         var xulel = win.document.createElementNS("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul", "label");
 

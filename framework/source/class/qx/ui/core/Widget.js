@@ -3006,12 +3006,6 @@ qx.Class.define("qx.ui.core.Widget",
 
       // Apply qooxdoo attribute
       this.__containerElement.setAttribute("qxSelectable", value ? "on" : "off");
-
-      // Webkit, as of Safari 3.0, is the only client who supports
-      // CSS userSelect the right way.
-      if (qx.core.Variant.isSet("qx.client", "webkit")) {
-        this.__containerElement.setStyle("userSelect", value ? "normal" : "none");
-      }
     },
 
 
