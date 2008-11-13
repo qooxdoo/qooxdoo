@@ -1,0 +1,22 @@
+{
+  "name" : "job_extend1/config_2.json",
+
+  "jobs" :
+  {
+    "test" :
+    {
+      "let"      : 
+      { 
+        "N" : {"a" : 1},
+        "N1": {"x" : 9}
+      },
+
+      "test_key" : 
+      {
+        "feature_5" : {"a" : 1}, // feature_5 is in all three configs
+        "feature_6" : "${N}",    // so is feature_5, using macros
+        "feature_9" : "${N1}"    // feature_9 is only in config_[12].json, macro redefined in config.json
+      }
+    }
+  }
+}
