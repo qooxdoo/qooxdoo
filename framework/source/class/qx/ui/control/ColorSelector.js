@@ -992,7 +992,8 @@ qx.Class.define("qx.ui.control.ColorSelector",
       }
 
       try {
-        var rgb = qx.util.ColorUtil.hexStringToRgb("#" + this._hexField.getValue());
+        var hexField = this._getChildControl("hex-field");
+        var rgb = qx.util.ColorUtil.hexStringToRgb("#" + hexField.getValue());
       } catch(ex) {
         return;
       };
