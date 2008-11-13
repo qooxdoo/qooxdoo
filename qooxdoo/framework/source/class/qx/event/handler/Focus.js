@@ -809,11 +809,6 @@ qx.Class.define("qx.event.handler.Focus",
 
         if (!selectable)
         {
-          // The only working way to block selections in Firefox 3.0
-          // Note: Firefox 3.0 do not support the revert of a user-select
-          // property applied to any parent node. It is not possible to have a
-          // userSelect=normal node in a userSelect=none node. This works
-          // in Webkit, but not in Firefox 3.0. Seems to be a bug.
           qx.bom.Event.preventDefault(e);
 
           // Is we have a focusTarget we need to manually focus
