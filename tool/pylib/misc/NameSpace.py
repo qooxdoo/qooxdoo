@@ -19,26 +19,18 @@
 ################################################################################
 
 ##
-#<h2>Module Description</h2>
-#<pre>
 # NAME
-#  module.py -- module short description
-#
-# SYNTAX
-#  module.py --help
-#
-#  or
-#
-#  import module
-#  result = module.func()
+#  NameSpace  -- an empty, extensible class
 #
 # DESCRIPTION
-#  The module module does blah.
+#  Empty mock class; instances of this class are easily extendable, like
+#  c = NameSpace(); c.i = 1
+#  This wouldn't be possible using the build in 'object' class, e.g. 
+#  'c = object(); c.i = 1' would fail with an error.
+#  It is good to create a protected name space, and to have mutable variables,
+#  as you would need e.g. in a nested function.
 #
-# CAVEATS
-#
-# KNOWN ISSUES
-#  There are no known issues.
-#</pre>
 ##
 
+class NameSpace(object):
+    pass
