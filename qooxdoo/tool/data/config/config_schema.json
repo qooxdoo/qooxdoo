@@ -178,6 +178,63 @@
           "compile-dist" :
           {
             "descr" : "Triggers the generation of the build version of the application.",
+            "type"  : "map",
+            "children" :
+            {
+              "file" :
+              {
+                "descr" : "the path to the compile output file, may be relative to config file location",
+                "occurs": "required",
+                "type"  : "string"
+              },
+              "root" :
+              {
+                "descr" : "relative path to the directory containing the app’s HTML",
+                "occurs": "required",
+                "type"  : "string"
+              },
+              "uri"  :
+              {
+                "descr" : "the path to the output file(s), relative to the application’s index.html",
+                "type"  : "string"
+              },
+              "gzip" :
+              {
+                "descr" : "whether to compress output file(s)",
+                "type"  : "boolean"
+              },
+              "optimize":
+              {
+                "descr" : "enable the named optimizations",
+                "type"  : "list",
+                "children" :
+                [
+                  {
+                    "type"  : ["variables", "basecalls", "privates", "strings"],
+                  }
+                ]
+              },
+              "resourceUri" :
+              {
+                "descr" : "relative path from html file to root of resource tree",
+                "type"  : "string"
+              },
+              "locales" :
+              {
+                "descr" : "a list of locales to include (default: ['C'])",
+                "type"  : "list",
+                "children" :
+                [
+                  {
+                    "type" : "string"
+                  }
+                ]
+              }
+              "format"  :
+              {
+                "descr" : "on/off, for simple output formatting (it adds some sensible line breaks to the output code)",
+                "type"  : ["on", "off"]
+            }
           },
     
           "compile-source" :
