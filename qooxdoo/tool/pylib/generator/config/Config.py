@@ -23,8 +23,10 @@
 import os, sys, re, types, string, copy
 import simplejson
 from generator.config.Job import Job
+from generator.config.Manifest import Manifest
 from generator.runtime.ShellCmd import ShellCmd
 from generator.action.ContribLoader import ContribLoader
+from misc.NameSpace import NameSpace
 
 console = None
 
@@ -428,8 +430,11 @@ class Config:
     ##
     # _resolveExtends  -- resolve potential 'extend' keys for list of job names
     #
-    # @param self self
-    # @param jobs    list of job names
+    # @param     self self
+    # @param     jobs    (IN)  list of job names
+    # @return    jobs    (OUT) to have a similar interface as _resolveRuns, 
+    #                    although the list is actually not modified here
+    ##
     def _resolveExtends(self, jobNames):
         for jobName in jobNames:
             job = self.getJob(jobName)
@@ -438,7 +443,7 @@ class Config:
             else:
                 job.resolveExtend(cfg=self)
         
-        return jobNames
+        return jobNames    # return list unchanged
 
 
     ##                                                                              
@@ -576,31 +581,6 @@ class Config:
 
 
 
-# wpbasti: TODO: Put into separate file
-class Manifest(object):
-    def __init__(self, path):
-        mf = open(path)
-        manifest = simplejson.loads(mf.read())
-        mf.close()
-        self._manifest = manifest
-
-    def patchLibEntry(self, libentry):
-        '''Patches a "library" entry with the information from Manifest'''
-        libinfo   = self._manifest['provides']
-        #uriprefix = libentry['uri']
-        uriprefix = ""
-        libentry['class']         = os.path.join(uriprefix,libinfo['class'])
-        libentry['resource']      = os.path.join(uriprefix,libinfo['resource'])
-        libentry['translation']   = os.path.join(uriprefix,libinfo['translation'])
-        libentry['encoding']    = libinfo['encoding']
-        if 'namespace' not in libentry:
-            libentry['namespace']   = libinfo['namespace']
-        libentry['type']        = libinfo['type']
-        libentry['path']        = os.path.dirname(libentry['manifest']) or '.'
-
-        return libentry
-
-
 class ExtMap(object):
     "Map class with path-like accessor"
 
@@ -641,6 +621,7 @@ class ExtMap(object):
 
 
 class Let(object):
+    '''Class representing a map with macros (typically under the 'let' key)'''
 
     def __init__(self, letMap):
         assert isinstance(letMap, types.DictType)
@@ -759,5 +740,3 @@ class Let(object):
         return sub
 
 
-class NameSpace(object):
-    pass
