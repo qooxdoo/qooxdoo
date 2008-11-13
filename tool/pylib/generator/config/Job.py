@@ -319,6 +319,16 @@ class Job(object):
                 # skip protected keys
                 if key in override_keys:
                     continue
+
+                # treat spanning macros (which can represent data structures), and JobMergeValues
+                elif ((isString(source[key]) and isSpanningMacro(source[key])) or
+                      (isString(target[key]) and isSpanningMacro(target[key])) or
+                      isinstance(source[key], JobMergeValue)                   or
+                      isinstance(target[key], JobMergeValue)
+                     ):
+                    # insert an intermediate object, which is resolved when macros are resolved
+                    target[key] = JobMergeValue(source[key], target[key])
+
                 # treat "let" specially
                 # cruft: this should actually be done in mergeJob(), but it's easier here
                 elif key == self.LET_KEY:
@@ -339,15 +349,6 @@ class Job(object):
                     # recurse on the sub-dicts
                     self.deepJsonMerge(source[key], target[key])
                     #target[key] = self.mapMerge(source[key],target[key])
-
-                # treat spanning macros (which can represent data structures), and JobMergeValues
-                elif ((isString(source[key]) and isSpanningMacro(source[key])) or
-                      (isString(target[key]) and isSpanningMacro(target[key])) or
-                      isinstance(source[key], JobMergeValue)                   or
-                      isinstance(target[key], JobMergeValue)
-                     ):
-                    # insert an intermediate object, which is resolved when macros are resolved
-                    target[key] = JobMergeValue(source[key], target[key])
 
                 else:
                     pass  # leave target key alone

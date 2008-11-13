@@ -27,6 +27,11 @@
         "feature_8" : ["a"],      // this mustn't come thru
         "feature_9" : "${M}"      // should become {"a":1, "b":2} eventually
       }
-    }
+    },
+    "run-test1" : // reference a job that will be overridden in upper config
+    {
+      "run" : ["test"]
+    },
+    "run-test2" : // reference a job 
   }
 }

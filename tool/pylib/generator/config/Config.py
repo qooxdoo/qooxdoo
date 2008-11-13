@@ -39,6 +39,8 @@ class Config:
         self._data     = None
         self._fname    = None
         self._shellCmd = ShellCmd()
+        self._includedConfigs = []  # to record included configs
+        self._shadowedJobs    = {}  # to record shadowed jobs, of the form {<shadowed_job_obj>: <shadowing_job_obj>}
 
         console = console_
         
@@ -143,27 +145,18 @@ class Config:
         return True
         
 
-    def getJob(self, job, default=None):
-        ''' takes jobname or job object ref, and returns job object ref or default '''
+    def getJob(self, job, recursive=False, default=None):
+        ''' takes jobname or job object ref, and returns job object ref or default;
+            searches recursively through imported configs'''
 
         if isinstance(job, Job): # you already found it :)
             return job
 
         assert isinstance(job, types.StringTypes)
-        if ~job.find(self.NS_SEP):  # nested job?
-            part, rest = job.split(self.NS_SEP, 1)
-            if part == "." or part == "":
-                return default
-            else:
-                if not 'include' in self._data:
-                    return default
-                for incSpec in self._data['include']:
-                    if (incSpec.has_key('as') and incSpec['as'] == part):
-                        return incSpec['config'].getJob(rest)
-                else:
-                    return default
+
         # local job?
-        elif self._data.has_key(self.JOBS_KEY) and self._data[self.JOBS_KEY].has_key(job):
+        # this also finds imported jobs, namespaced or not
+        if self._data.has_key(self.JOBS_KEY) and self._data[self.JOBS_KEY].has_key(job):
             jobEntry = self._data[self.JOBS_KEY][job]
             if isinstance(jobEntry, Job):
                 # make sure it has link to this config
@@ -175,6 +168,15 @@ class Config:
                 jobObj = Job(job, jobEntry, self._console, self)
                 self._data[self.JOBS_KEY][job] = jobObj # overwrite map with obj
                 return jobObj
+        # blocked job from included config? (important to find required, but blocked jobs (e.g. through 'block' key)
+        elif recursive:
+            if not 'include' in self._data:
+                return default
+            else:
+                for econfig in self._includedConfigs:
+                    jobObj = econfig.getJob(job)
+                    if jobObj:
+                        return jobObj
 
         return default
 
@@ -239,6 +241,7 @@ class Config:
 
     def resolveIncludes(self, includeTrace=[]):
 
+        console.debug("including %s" % (self._fname or "<unknown>",))
         config  = self._data
         jobsmap = self.getJobsMap({})
 
@@ -273,7 +276,6 @@ class Config:
 
                 econfig = Config(self._console, fpath)
                 econfig.resolveIncludes(includeTrace)   # recursive include
-                incspec['config'] = econfig  # save external config for later reference
                 # check include/import
                 if incspec.has_key('import'):
                     importList = incspec['import']
@@ -285,16 +287,20 @@ class Config:
                 else:
                     blockList = None
                 self._integrateExternalConfig(econfig, namespace, importList, blockList)
+                self._includedConfigs.append(econfig)  # save external config for later reference
 
 
     def _integrateExternalConfig(self, extConfig, namespace, impJobsList=None, blockJobsList=None):
-        # jobs of external config are spliced into current job list
+        '''jobs of external config are spliced into current job list'''
         if namespace:
             namepfx = namespace + self.COMPOSED_NAME_SEP # job names will be namespace'd
         else:
             namepfx = ""         # job names will not be namespace'd
 
-        # construct a map of import symbols (better lookup, esp. when aliased)
+        renamedJobs = {}         # map for job renamings - done after all jobs have been imported
+        l           = NameSpace()  # for out-params of nested functions
+
+        # Construct a map of import symbols (better lookup, esp. when aliased)
         importJobsList = {}
         if impJobsList:
             for e in impJobsList:
@@ -304,30 +310,63 @@ class Config:
                     importJobsList[e['name']] = {'as': e['as']}
                 else:
                     raise TypeError, "Illegal import entry: %s (Config: %s)" % (str(e), self._fname)
-        # get the list of jobs to import
-        extJobsList = extConfig.getExportedJobsList()
-        for extJobEntry in extJobsList:
-            if importJobsList and extJobEntry not in importJobsList:
-                continue
-            if blockJobsList and extJobEntry in blockJobsList:
-                continue
+
+        # Some helper functions
+        def createNewJobName():
+            # Construct new job name for the imported job
             if (importJobsList and extJobEntry in importJobsList 
                 and isinstance(importJobsList[extJobEntry], types.DictType)):
                 newjobname = namepfx + importJobsList[extJobEntry]['as']
             else:
                 newjobname = namepfx + extJobEntry  # create a job name
-            hasClash   = False
+            return newjobname
+
+        def clashPrepare(newjobname):
+            '''do some householding and return a new job name'''
+            l.hasClash = True
+            l.clashname = newjobname
+            # import external job under different name
+            console.warn("! Shadowing job \"%s\" with local one" % newjobname)
+            # construct a name prefix
+            extConfigName = extConfig._fname or self.SHADOW_PREFIX
+            extConfigName = os.path.splitext(os.path.basename(extConfigName))[0]
+            # TODO: this might not be unique enough! (user could use extConfigName in 'as' param for other include)
+            newjobname = extConfigName + self.COMPOSED_NAME_SEP + newjobname
+            return newjobname
+
+        def clashProcess():
+            # check whether the local job is protected
+            jobMap = self.getJobsMap()
+            if ((self.OVERRIDE_KEY not in jobMap) or
+                (l.clashname not in jobMap[self.OVERRIDE_KEY])):
+                # put shaddowed job in the local 'extend'
+                if not newJob:
+                    raise Error, "unsuitable new job"
+                localjob = self.getJob(l.clashname)
+                extList = localjob.getFeature('extend', [])
+                extList.append(newJob)
+                localjob.setFeature('extend', extList)
+                # add to config's shadowed list
+                self._shadowedJobs[newJob] = localjob
+
+
+        # Go through the list of jobs to import
+        extJobsList = extConfig.getExportedJobsList()
+        for extJobEntry in extJobsList:
+            # Checks and preparations
+            if importJobsList and extJobEntry not in importJobsList:
+                continue
+            if blockJobsList and extJobEntry in blockJobsList:
+                continue
+            newjobname = createNewJobName()
+            
+            # Check for name clashes
+            l.hasClash   = False
             if self.hasJob(newjobname):
-                hasClash = True
-                clashname = newjobname
-                # import external job under different name
-                console.warn("! Shadowing job \"%s\" with local one" % newjobname)
-                # construct a name prefix
-                extConfigName = extConfig._fname or self.SHADOW_PREFIX
-                extConfigName = os.path.splitext(os.path.basename(extConfigName))[0]
-                # TODO: this might not be unique enough! (user could use extConfigName in 'as' param for other include)
-                newjobname = extConfigName + self.COMPOSED_NAME_SEP + newjobname
-            # take essentially the external job into the local joblist
+                newjobname = clashPrepare(newjobname)
+
+            # Now process the external job
+            #   take essentially the external job into the local joblist
             extJob = extConfig.getJob(extJobEntry)  # fetch this job
             if not extJob:
                 raise RuntimeError, "No such job: \"%s\" while including config: \"%s\")" % (extJobEntry, extConfig._fname)
@@ -336,27 +375,38 @@ class Config:
             newJob.mergeJob(extJob)    # now merge in the external guy
             newJob.setConfig(extJob.getConfig()) # retain link to external config
             if newjobname != extJobEntry:  # adapt modified names; otherwise, delay name resolution until resolveExtendsAndRun()
+                renamedJobs[extJobEntry] = newJob
+            self.addJob(newjobname, newJob)         # and add it
+
+            # Now process a possible name clash
+            if l.hasClash:
+                clashProcess()
+        
+
+        # Fix job references, but only for the jobs from the just imported config
+        #   helper function
+        def patchFeature(job, key):
+            newlist = []
+            oldlist = job.getFeature(key)
+            for jobentry in oldlist:
+                if (isinstance(jobentry, types.StringTypes)
+                    and jobentry in renamedJobs):
+                    newlist.append(renamedJobs[jobentry])
+                else:
+                    newlist.append(jobentry)
+            job.setFeature(key, newlist)
+
+        # go through the current list of jobs again
+        for j in self.getJobsList():  # get all jobs from the current config
+            job = self.getJob(j)
+            if job.getConfig() != extConfig:  # but modify only those from the just imported one
+                continue
+            else:
                 # patch job references in 'run', 'extend', ... keys
                 for key in Job.KEYS_WITH_JOB_REFS:
-                    if newJob.hasFeature(key):
-                        newlist = []
-                        oldlist = newJob.getFeature(key)
-                        for jobname in oldlist:
-                            newlist.append(extConfig.getJob(jobname))
-                        newJob.setFeature(key, newlist)
-            self.addJob(newjobname, newJob)         # and add it
-            if hasClash:
-                # check whether the local job is protected
-                jobMap = self.getJobsMap()
-                if ((self.OVERRIDE_KEY not in jobMap) or
-                    (clashname not in jobMap[self.OVERRIDE_KEY])):
-                    # put shaddowed job in the local 'extend'
-                    localjob = self.getJob(clashname)
-                    extList = localjob.getFeature('extend', [])
-                    extList.append(newJob)
-                    localjob.setFeature('extend', extList)
-                    if not newJob:
-                        raise Error, "unsuitable new job"
+                    if job.hasFeature(key):
+                        patchFeature(job, key)
+        
         return
 
 
@@ -424,7 +474,10 @@ class Config:
                     
                     subjobObj = self.getJob(subjob)
                     if not subjobObj:
-                        raise RuntimeError, "No such job: %s" % subjob
+                        if job._config != self:  # try own config
+                            subjobObj = job._config.getJob(subjob)
+                        if not subjobObj:
+                            raise RuntimeError, "No such job: \"%s\"" % subjob
                     # make new job map job::subjob as copy of job, but extend[subjob]
                     newjobname = jobName + self.COMPOSED_NAME_SEP + \
                                  subjobObj.name.replace(self.NS_SEP, self.COMPOSED_NAME_SEP)
@@ -744,3 +797,7 @@ class Let(object):
             templ = string.Template(s)
             sub = templ.safe_substitute(mapstr)
         return sub
+
+
+class NameSpace(object):
+    pass
