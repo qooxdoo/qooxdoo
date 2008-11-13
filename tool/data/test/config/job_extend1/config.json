@@ -27,6 +27,10 @@
         "=feature_71" : {"a":1}, // blocking by tag
         "feature_8" : ["b"]
         //"feature_9" is intentionally missing
+      },
+      "shell" :
+      {
+        "command" : "echo config.json test job"
       }
     }
   }
