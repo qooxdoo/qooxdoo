@@ -145,7 +145,7 @@ class Config:
         return True
         
 
-    def getJob(self, job, recursive=False, default=None):
+    def getJob(self, job, withIncludes=False, default=None):
         ''' takes jobname or job object ref, and returns job object ref or default;
             searches recursively through imported configs'''
 
@@ -168,8 +168,8 @@ class Config:
                 jobObj = Job(job, jobEntry, self._console, self)
                 self._data[self.JOBS_KEY][job] = jobObj # overwrite map with obj
                 return jobObj
-        # blocked job from included config? (important to find required, but blocked jobs (e.g. through 'block' key)
-        elif recursive:
+        # job from included config? (to find required, but blocked jobs (e.g. through 'block' key)
+        elif withIncludes:
             if not 'include' in self._data:
                 return default
             else:
@@ -418,8 +418,8 @@ class Config:
         # while there are still 'run' jobs or unresolved jobs in the job list...
         while ([x for x in jobList if self.getJob(x).hasFeature('run')] or 
                [y for y in jobList if not self.getJob(y).hasFeature('resolved')]):
-            self._resolveExtends(jobList)
-            self._resolveRuns(jobList)
+            jobList = self._resolveExtends(jobList)
+            jobList = self._resolveRuns(jobList)
 
         console.outdent()
         return jobList
@@ -437,79 +437,39 @@ class Config:
                 raise RuntimeError, "No such job: %s" % jobname
             else:
                 job.resolveExtend(cfg=self)
+        
+        return jobNames
 
 
     ##                                                                              
     # _resolveRuns -- resolve the 'run' key in jobs
     #                                                                               
     # @param     self     (IN) self
-    # @param     jobs     (IN/OUT) list of names of jobs that will be run
-    # @return             None
+    # @param     jobs     (IN) list of names of jobs that might be 'run'-extended
+    # @return    newjobs  (OUT) new list of jobs to run
     # @exception RuntimeError  'resolved' key missing in a job
     #
     # DESCRIPTION
     #  The 'run' key of a job is a list of jobs to be run in its place, e.g.
-    #  'run' : ['jobA', 'jobB']. This indicates how the resolution of the key is
-    #  done:
-    #  - for each job in the 'run' list, a new job is created ("synthetic jobs")
-    #  - the original job serves as a template so the new jobs get all the
-    #    settings of the original job (apart from the 'run' key)
-    #  - an 'extend' key is set with the particular subjob as its
-    #    only member (assuming any original 'extend' key has already been
-    #    resolved). - This way all the new jobs can be run as regular jobs,
-    #    essentially performing the task of the referenced subjob.
-    #  - in the job list, the original job is replaced by the list of new jobs
+    #  'run' : ['jobA', 'jobB']. 
+    #  If a job in the input list has an 'run' key this is done:
+    #  - for each subjob in the 'run' list, a new job is created ("synthetic jobs")
+    #  - the original job serves as a template for the synthetic job
+    #  - the subjob is added to the 'extend' list of the corresponding synthetic job
+    #  - in the result list, the original job is replaced by the list of synthetic jobs
     def _resolveRuns(self, jobNames):
 
-        # this is a bit of weird looping since we are modifying the array
-        # we are interating over
-        i,j = 0, len(jobNames)  # iterate over jobNames, i loop counter, j upper bound
-        while i<j:
-            jobName = jobNames[i]
-            job     = self.getJob(jobName)
-            if job.hasFeature("run"):
-                sublist = []
-                listOfNewJobs = []
-                for subjob in job.getFeature("run"):
-                    
-                    subjobObj = self.getJob(subjob)
-                    if not subjobObj:
-                        if job._config != self:  # try own config
-                            subjobObj = job._config.getJob(subjob)
-                        if not subjobObj:
-                            raise RuntimeError, "No such job: \"%s\"" % subjob
-                    # make new job map job::subjob as copy of job, but extend[subjob]
-                    newjobname = jobName + self.COMPOSED_NAME_SEP + \
-                                 subjobObj.name.replace(self.NS_SEP, self.COMPOSED_NAME_SEP)
-                    newjob     = job.clone()
-                    newjob.name= newjobname
-                    newjob.removeFeature('run')       # remove 'run' key
-                    
-                    # we assume the initial 'run' job has already been resolved, so
-                    # we reset it here and set the 'extend' to the subjob
-                    if newjob.hasFeature('resolved'): 
-                        newjob.removeFeature('resolved')
-                    else:
-                        raise RuntimeError, "Cannot resolve 'run' key before 'extend' key"
-                    newjob.setFeature('extend', [subjobObj]) # extend subjob
-                    
-                    # add to config
-                    self.addJob(newjobname, newjob)
-                    
-                    # add to job list
-                    sublist.append(newjobname)
-                    listOfNewJobs.append(newjob)
-                    
-                job.setFeature('run', listOfNewJobs)   # overwrite with list of Jobs (instead of Strings)
+        newJobList = []
+        for jobName in jobNames:
+            job = self.getJob(jobName)
+            if not job.hasFeature(Job.RUN_KEY):
+                newJobList.append(job)
+            else:
+                sublist = job.resolveRun()
+                newJobList.extend(sublist)
 
-                jobNames[i:i+1] = sublist     # replace old job by subjobs list
-                j               = j + len(sublist) - 1  # correct job list length
+        return newJobList
 
-            # continue with next job
-            # in case we have just expanded a 'run' key, this would go over the newly
-            # added jobs; but since they don't have 'run' keys this doesn't matter
-            # so we just head on
-            i += 1
 
 
     def resolveLibs(self, jobs):
@@ -520,7 +480,7 @@ class Config:
         console.indent()
 
         for job in jobs:
-            if not config.has_key(job):
+            if not self.getJob(job):
                 console.warn("No such job: %s" % job)
                 sys.exit(1)
             else:
