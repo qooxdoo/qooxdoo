@@ -945,12 +945,6 @@ qx.Class.define("qx.event.handler.Focus",
           this.tryActivate(target);
         }
 
-        // Reset user select from mousedown
-        if (this.__lastUserSelectBlocked)
-        {
-          this.__lastUserSelectBlocked.style.MozUserSelect = "";
-          this.__lastUserSelectBlocked = null;
-        }
       },
 
       "webkit|opera" : function(e) {
