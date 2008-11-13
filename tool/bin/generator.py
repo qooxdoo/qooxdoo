@@ -98,7 +98,10 @@ Arguments:
     config = Config(console, options.config)
 
     # Resolve "include"-Keys
+    console.info("Resolving config includes...")
+    console.indent()
     config.resolveIncludes()
+    console.outdent()
 
     # Fix the "+key" override tags on feature names for non-merging keys
     config.fixJobsTags()  # do this in all jobs so we don't have to worry which get run
