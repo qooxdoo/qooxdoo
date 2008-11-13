@@ -219,7 +219,7 @@ class Config:
         for jobName in jobNames:
             job = self.getJob(jobName)
             if not job:
-                raise RuntimeError, "No such job: %s" % jobname
+                raise RuntimeError, "No such job: \"%s\"" % jobname
             else:
                 job.fixNameTags()
 
@@ -439,7 +439,7 @@ class Config:
         for jobName in jobNames:
             job = self.getJob(jobName)
             if not job:
-                raise RuntimeError, "No such job: %s" % jobname
+                raise RuntimeError, "No such job: \"%s\"" % jobname
             else:
                 job.resolveExtend(cfg=self)
         
@@ -486,8 +486,7 @@ class Config:
 
         for job in jobs:
             if not self.getJob(job):
-                console.warn("No such job: %s" % job)
-                sys.exit(1)
+                raise RuntimeError, "No such job: \"%s\"" % job
             else:
                 jobObj = self.getJob(job)
                 if jobObj.hasFeature('library'):

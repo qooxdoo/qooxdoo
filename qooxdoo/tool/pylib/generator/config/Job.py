@@ -77,7 +77,7 @@ class Job(object):
         
         visitor = self.getDataVisitor()
         for map in visitor:
-            for key in map:
+            for key in map.keys():
                 mo = Job.OVERRIDE_TAG_REGEXP.search(key)
                 if mo:
                     # remove tag from key
