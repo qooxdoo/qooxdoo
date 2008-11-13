@@ -1,7 +1,7 @@
 {
   "name"    : "Apiviewer (export) config",
 
-  "export" : ["source", "build"],
+  //"export" : ["source", "build"],
 
   "jobs" :
   {
