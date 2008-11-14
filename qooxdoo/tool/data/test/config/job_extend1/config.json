@@ -22,15 +22,9 @@
         "feature_4" : "on",      // top-level atomic value overriding same in imported feature
         "feature_5" : {"c" : { "d" : 3}}, // adding a nested feature
         "feature_6" : {"c" : { "d" : 3}}, // included configs use macros for this feature
-        "__override__" : ["feature_7", "feature_8"],  // protect feature with complex data value
-        "feature_7" : {"a" : 1},
-        "=feature_71" : {"a":1}, // blocking by tag
-        "feature_8" : ["b"]
+        "=feature_7" : {"a" : 1},
+        "=feature_8" : ["b"]
         //"feature_9" is intentionally missing
-      },
-      "shell" :
-      {
-        "command" : "echo config.json test job"
       }
     }
   }
