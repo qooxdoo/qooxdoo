@@ -151,7 +151,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * @param widget {qx.ui.core.Widget} The widget to check
      */
     isFocusRoot : function(widget) {
-      !!this.__roots[widget.$$hash];
+      return !!this.__roots[widget.$$hash];
     },
 
 
