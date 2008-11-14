@@ -80,6 +80,9 @@ qx.Class.define("qx.ui.window.Window",
     // Activation listener
     this.addListener("mousedown", this._onWindowMouseDown, this, true);
 
+    // Focusout listener
+    this.addListener("focusout", this._onWindowFocusOut, this);
+
     // Automatically add to application root.
     qx.core.Init.getApplication().getRoot().add(this);
 
@@ -865,6 +868,29 @@ qx.Class.define("qx.ui.window.Window",
      */
     _onWindowMouseDown : function(e) {
       this.setActive(true);
+    },
+    
+    
+    /**
+     * Listens to the "focusout" event to deactivate the window (if the 
+     * currently focused widget is not a child of the window)
+     *
+     * @param e {qx.event.type.Focus} focus event
+     * @return {void}
+     */
+    _onWindowFocusOut : function(e) {
+      // only needed for non-modal windows
+      if (this.getModal())
+      {
+        return;
+      }
+      
+      // get the current focused widget and check if it is a child
+      var current = e.getRelatedTarget();      
+      if (current != null && !qx.ui.core.Widget.contains(this, current))
+      {
+        this.setActive(false);
+      }
     },
 
 
