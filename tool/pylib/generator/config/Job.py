@@ -121,7 +121,7 @@ class Job(object):
 
 
     ##                                                                              
-    # _resolveRuns -- resolve the 'run' key in jobs
+    # resolveRun -- resolve the 'run' key in jobs
     #                                                                               
     # @param     self     (IN) self
     # @return    joblist  (OUT) list of replacement jobs
@@ -144,7 +144,8 @@ class Job(object):
     #  Unlike other 'resolve*' methods in this class (which are self-modifying),
     #  this one is functional and non-destructive (ok, it objectifies the 'run' list)!
     ##
-    def resolveRun(self):
+    def resolveRun(self, cfg=None):
+        config = cfg or self._config
         subJobs = []
         
         job     = self
@@ -153,7 +154,7 @@ class Job(object):
         else:
             for subjob in job.getFeature("run"):
                 
-                subjobObj = self._getJob(subjob)
+                subjobObj = self._getJob(subjob, config)
                 if not subjobObj:
                     raise RuntimeError, "No such job: \"%s\"" % subjob
                 # make new job map job::subjob as copy of job, but extend[subjob]

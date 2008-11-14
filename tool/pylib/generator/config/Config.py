@@ -376,7 +376,8 @@ class Config:
             newJob.includeGlobalLet()  # have to draw in local let before all the external let's are processed
             newJob.mergeJob(extJob)    # now merge in the external guy
             newJob.setConfig(extJob.getConfig()) # retain link to external config
-            if newjobname != extJobEntry:  # adapt modified names; otherwise, delay name resolution until resolveExtendsAndRun()
+            if (newjobname != extJobEntry  # adapt modified names; otherwise, delay name resolution until resolveExtendsAndRun()
+                and not l.hasClash):       # don't fix job references if there is shadowing
                 renamedJobs[extJobEntry] = newJob
             self.addJob(newjobname, newJob)         # and add it
 
@@ -470,7 +471,7 @@ class Config:
             if not job.hasFeature(Job.RUN_KEY):
                 newJobList.append(job)
             else:
-                sublist = job.resolveRun()
+                sublist = job.resolveRun(cfg=self)
                 newJobList.extend(sublist)
 
         return newJobList

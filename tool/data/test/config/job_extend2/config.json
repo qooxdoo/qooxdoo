@@ -21,6 +21,16 @@
     {
       "desc"   : "this must use the local common job (config::common)",
       "extend" : ["common"]
+    },
+
+    "ran-job":
+    {
+      "desc"   : "this overrides an imported ran-job",
+      "shell":
+      {
+        "command" : "echo Hello from config::ran-job"
+      }
     }
+    //"run-job" using "ran-job" imported
   }
 }
