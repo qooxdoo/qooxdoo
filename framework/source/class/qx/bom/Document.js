@@ -50,10 +50,10 @@ qx.Class.define("qx.bom.Document",
 
 
     /**
-     * Whether the document is in quirks mode (e.g. non XHTML, HTML4 Strict or missing doctype)
+     * Whether the document is in standard mode (e.g. XHTML, HTML4 Strict or doctype defined)
      *
      * @param win {Window?window} The window to query
-     * @return {Boolean} true when containing document is in quirks mode
+     * @return {Boolean} true when containing document is in standard mode
      */
     isStandardMode : function(win) {
       return (win||window).document.compatMode === "CSS1Compat";
