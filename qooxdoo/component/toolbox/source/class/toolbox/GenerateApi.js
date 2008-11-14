@@ -72,7 +72,7 @@ qx.Class.define("toolbox.GenerateApi",
         	}
         }
         
-        
+        alert("Parameter " + dat);
   
         req.setProhibitCaching(true);
         req.setData(dat);
