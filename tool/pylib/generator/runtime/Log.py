@@ -3,11 +3,11 @@ import sys, codecs
 class Log:
     _indent = 0
     _levels = {
-      "debug" : 10,
-      "info" : 20,
-      "warning" : 30,
-      "error" : 40,
-      "critical" : 50
+      "debug" : 10,         # STDOUT
+      "info" : 20,          # STDOUT
+      "warning" : 30,       # STDERR
+      "error" : 40,         # STDERR
+      "fatal" : 50          # STDERR
     }
 
 
@@ -58,18 +58,23 @@ class Log:
         if self._levels[self._level] < self._levels["info"]:
             feed = True
 
-        # Log file
-        if self.logfile:
-            self.logfile.write(msg + "\n")
-            self.logfile.flush()
-
-        # Standard out
-        if self._levels[level] >= self._levels[self._level]:
-            if feed:
-                print msg
+        # Standard streams
+        if self._levels[level] >= self._levels[self._level]:  # filter msg according to level
+            # select stream
+            if self._levels[level] < self._levels["warning"]:
+                stream = sys.stdout
             else:
-                sys.stdout.write(msg)
-                sys.stdout.flush()
+                stream = sys.stderr
+
+            if feed:
+                msg += '\n'
+            stream.write(msg)
+            stream.flush()
+
+            # Log file
+            if self.logfile:
+                self.logfile.write(msg)
+                self.logfile.flush()
 
 
     def log(self, msg, level="info", feed=True):
@@ -100,13 +105,12 @@ class Log:
         self.write("!!! %s" % msg, "error", feed)
 
 
-    def critical(self, msg, feed=True):
-        self.log(msg, "critical", "critical", feed)
+    def fatal(self, msg, feed=True):
+        self.log(msg, "fatal", "fatal", feed)
 
 
     def progress(self, pos, length):
-        # Ignore in debug mode: There is richer alternative debugging normally
-        if self._levels[self._level] < self._levels["info"]:
+        if self._levels[self._level] > self._levels["info"]:
             return
 
         # starts normally at null, but this is not useful here
