@@ -46,9 +46,17 @@ qx.Class.define("toolbox.Configuration",
       *****************************************************************************
     */
 
+  statics : {
+  	JSON : null
+  },
+  
   members :
   {
     __showConfiguration : function(adminPath, fileName, filePath) {
+    	adminPath = "/component/toolbox/tool/bin/nph-qxadmin_cgi.py";
+    	fileName = "app1";
+    	filePath = "C:\\tmp\\";
+    	
     	if (fileName != "" & filePath!=""){
       	var url = adminPath;
         var req = new qx.io.remote.Request(url, "POST");
@@ -130,7 +138,7 @@ qx.Class.define("toolbox.Configuration",
             //#####################################################################
             
             var analyzer = new toolbox.JsonAnalyzer();
-            result = eval("("+ result +")");
+            toolbox.Configuration.JSON = result = eval("("+ result +")");
             var root = analyzer.createJsonTree(result);
             
             //#####################################################################
@@ -138,7 +146,7 @@ qx.Class.define("toolbox.Configuration",
             //#####################################################################
             //#####################################################################
        
-
+			//alert(qx.util.Json.stringify(analyzer.getModifiedJSON(), true).toString());
 
             container.add(closeButton);
             container.add(saveButton);
@@ -146,12 +154,11 @@ qx.Class.define("toolbox.Configuration",
             
             
             
-          tabView = new qx.ui.tabview.TabView();
+            tabView = new qx.ui.tabview.TabView();
 	        
 	
 	        var page1 = new qx.ui.tabview.Page("JSON-settings", null);
 	        page1.setLayout(new qx.ui.layout.VBox());
-	        page1.add(new qx.ui.basic.Label("JSON-tree"));
 	        tabView.add(page1);
 	
 
@@ -162,9 +169,9 @@ qx.Class.define("toolbox.Configuration",
             
             
             
-            analyzer.getTree().setRoot(root);
+            //analyzer.getTree().setRoot(root);
             
-            mainContainer.add(analyzer.getTree(), {
+            mainContainer.add(analyzer.getTreeGroup(), {
               row     : 0,
               column  : 0,
               rowSpan : 0,
@@ -204,7 +211,7 @@ qx.Class.define("toolbox.Configuration",
             }, this);
             
             this.win.open(); 
-            this.win.moveTo(200, 100);
+            this.win.moveTo(200, 50);
           
 
           this.setResult(result);   

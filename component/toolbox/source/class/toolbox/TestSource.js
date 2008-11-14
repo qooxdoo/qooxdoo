@@ -72,7 +72,7 @@ qx.Class.define("toolbox.TestSource",
         	}
         }
         
-        
+        alert("Parameter Test" + dat);
   
         req.setProhibitCaching(true);
         req.setData(dat);

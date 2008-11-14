@@ -32,12 +32,16 @@ qx.Class.define("toolbox.JsonAnalyzer",
 	construct : function() {
 		this.base(arguments);
 		
-		this.parentMemory = null;
-		this.selectedValue = null;
-		//this.selectedTreeItem = null;
 		
+		this.keyContainer = new Array();
+		this.valueContainer = new Array();
+		this.parentMemory = null;
+		this.treeGroup = new qx.ui.groupbox.GroupBox("JSON-Tree");
+		this.treeGroup.setLayout(new qx.ui.layout.VBox());
 		this.jsonObject = null;
-		this.tree = new qx.ui.tree.Tree().set({
+		
+		
+		this.__tree = new qx.ui.tree.Tree().set({
 	        minWidth : 300,
 	        minHeight : 200,
 	        allowGrowX : true,
@@ -45,6 +49,7 @@ qx.Class.define("toolbox.JsonAnalyzer",
 	        rootOpenClose: true,
 	        hideRoot: true
     	});
+    	
 	},
 	
 	
@@ -106,6 +111,8 @@ qx.Class.define("toolbox.JsonAnalyzer",
       } else {
         result = incoming;
       }
+      this.valueContainer.push(result); 
+      
       /*
       var treeFile = new qx.ui.tree.TreeFile(result);
       treeFile.setUserData("json", result.toString());
@@ -145,7 +152,9 @@ qx.Class.define("toolbox.JsonAnalyzer",
         obj = incoming[i];       
         func = this.__map[typeof obj];
         var folder = new qx.ui.tree.TreeFolder(i+"");        
-        folder.setUserData("json", obj);
+        folder.setUserData("json", {obj: incoming, key: i});
+        
+        //alert("PARENTTTT " + qx.util.Json.stringify(parent, true));
         
         parent.add(folder);
 
@@ -177,12 +186,13 @@ qx.Class.define("toolbox.JsonAnalyzer",
     __convertMap : function(incoming, parent)
     {
       for (var key in incoming)
-      {
+      { 
+      	this.keyContainer.push(key);
         obj = incoming[key]; 
         func = this.__map[typeof obj];
 
         var folder = new qx.ui.tree.TreeFolder(key);
-        folder.setUserData("json", obj);
+        folder.setUserData("json", {obj: incoming, key: key});
         parent.add(folder);
         
         
@@ -192,37 +202,49 @@ qx.Class.define("toolbox.JsonAnalyzer",
       }
     },
 
-
+	removeAllTreeItems : function() {
+	  if(this.__tree.getRoot() != null) {	
+      	this.__tree.getRoot().removeAll();
+      }
+	},
+    
     createJsonTree : function(obj)
     {
       // Start convertion
-    	this.jsonObject = obj;
+      this.jsonObject = obj;
       var root = new qx.ui.tree.TreeFolder("root");
+      root.setUserData("json", {obj: obj, key: null});
       root.setOpen(true);
+      this.__tree.setRoot(root); //set root
       this[this.__map[typeof obj]](obj, root);
       return root;
     },
 
-    getTree : function() {
-      return this.tree;
+	getTreeGroup : function() {
+      this.treeGroup.add(this.__tree, {flex: 1});
+      return this.treeGroup;
     },
     
+    
+    getTree : function() {
+      return this.__tree;
+    },
+
+    
+
     updateTextField : function(tree) {  
+    	this.currentItem = null;
     	tree.addListener("changeSelection", function(e)
         {
-        	this.parentMemory = new Array();
-        	
-	        var treeItem = e.getData()[0];
-	        var json = treeItem.getUserData("json");        
-	        
-	        this.tCurrentInput.setValue(qx.util.Json.stringify(json, true));  	
-	        
-	        
-	        var receivedJsonObject = this.jsonObject;
-	        
-	     
-	        this.parentMemory.push(treeItem.getLabel().toString());
-	        
+      	this.parentMemory = new Array();
+        var treeItem = e.getData()[0];
+        this.currentItem = treeItem;
+        var json = treeItem.getUserData("json");        
+
+        this.tCurrentInput.setValue(qx.util.Json.stringify(json.obj[json.key], true).replace(/\\"/g, '"'));  	
+        this.parentMemory.push(treeItem.getLabel().toString());
+        
+        if(treeItem.getLabel().toString() != "root") {
 	        for(;;) { 
             treeItem = treeItem.getParent();
             this.parentMemory.push(treeItem.getLabel().toString());
@@ -230,31 +252,18 @@ qx.Class.define("toolbox.JsonAnalyzer",
             	break;
             }
           }
-	        
-	        this.parentMemory = this.parentMemory.reverse();
-	        this.parentMemory.shift();
-	        
-	        
-	        
-	        //alert("parentMemory ==: " + this.parentMemory.toString() +"\n laenge " + this.parentMemory.length);
-	        
-	        for(var i = 0; i < this.parentMemory.length; i++) {
-	        	receivedJsonObject = receivedJsonObject[this.parentMemory[i]];
-	        }
-	        
-	        this.selectedValue = receivedJsonObject;
-	        //alert("parentMemory ==" + this.parentMemory+"\n--->  " + receivedJsonObject );
-	        
-      	}, this);
-    	
-    	
-      
+        }
+        this.parentMemory = this.parentMemory.reverse();
+        this.parentMemory.shift(); 
+
+        
+    	}, this);
       
     },
     
     
     getCommandFrame : function(tree)
-    {	
+    {
       var commandFrame = new qx.ui.groupbox.GroupBox("Control");
       var spacerSize = 4;
   	  var gridLayout = new qx.ui.layout.Grid(5, 3);
@@ -270,25 +279,18 @@ qx.Class.define("toolbox.JsonAnalyzer",
         paddingTop: 4
       }, this), {row: 0, column: 0});
 
-      this.tCurrentInput = new qx.ui.form.TextArea();
+      this.tCurrentInput = new qx.ui.form.TextArea().set({
+        minHeight : 120
+      });
 
       commandFrame.add(this.tCurrentInput, {row: 1, column: 0, rowSpan : 0, colSpan: 2});
 
-      
       this.updateTextField(tree);
+
       
-      
-      /*
-      tree.addListener("changeSelection", function(e)
-      {
-      	  if(e.getData() != "") {
-            this.tCurrentInput.setValue(e.getData()[0].getLabel());
-      	  }	  
-      }, this);
-      */
       
       var btnHideRoot = new qx.ui.form.CheckBox("Hide root node");
-      btnHideRoot.setChecked(tree.getHideRoot());
+      btnHideRoot.setChecked(this.__tree.getHideRoot());
       commandFrame.add(btnHideRoot, {row: 2, column: 0});
 
       btnHideRoot.addListener("changeChecked", function(e) {
@@ -316,7 +318,7 @@ qx.Class.define("toolbox.JsonAnalyzer",
     
     __addFolder : function()
     {
-      var current = this.tree.getSelectedItem();
+      var current = this.__tree.getSelectedItem();
       var folder = new qx.ui.tree.TreeFolder(this.tCurrentInput.getValue());
       
       folder.addListenerOnce("appear", function(){
@@ -331,7 +333,7 @@ qx.Class.define("toolbox.JsonAnalyzer",
     
     __removeTreeItem : function()
     {
-      var current = this.tree.getSelectedItem();
+      var current = this.__tree.getSelectedItem();
       var parent = current.getParent();
       if(this.tCurrentInput) {
         this.tCurrentInput.setValue("");
@@ -341,21 +343,35 @@ qx.Class.define("toolbox.JsonAnalyzer",
     },
     
     __editTreeItem : function() {
-    	var receivedJsonObject = this.jsonObject;
-    	for(var i = 0; i < this.parentMemory.length; i++) {
-         receivedJsonObject = receivedJsonObject[this.parentMemory[i]];
-      }
-      
-      alert("Vorher  " + receivedJsonObject);
-      
-      //receivedJsonObject = this.tCurrentInput.getValue().toString();
-      
-      //alert("Nachher " + receivedJsonObject);
-      
-      //alert(this.parentMemory.toString());
-      //alert(this.jsonObject);
-      //this.jsonObject = this.tCurrentInput.getValue().toString();
+      	var obj = this.jsonObject;
+        
+      	for(var i = 0; i < this.parentMemory.length-1; i++) {
+           obj = obj[this.parentMemory[i]];
+        }
+
+        var value = this.tCurrentInput.getValue().toString().replace(/\n/g, '').replace(/\\"/g, '"');
+		
+        var json = this.currentItem.getUserData("json");
+        var parent = qx.util.Json.parse(value);
+        alert("parent " + parent);
+        json.obj[json.key] = parent;
+
+        
+        this.__tree.getSelectedItem().removeAll();
+		
+        this[this.__map[typeof parent]](parent, this.__tree.getSelectedItem()); //this.currentItem
+		
+		
+		//alert(this.__tree.getSelectedItem().getChildren().toString());
+		
+		/*
+		for(var i = 0; i < this.__tree.getSelectedItem().getChildren().length; i++) { // this.__tree.getSelectedItem().getChildren().length; 
+			this.__tree.getSelectedItem().removeAt(i);
+		}
+		alert(qx.util.Json.stringify(toolbox.Configuration.JSON, true));
+  		*/
     }
+    
   }
 
 });

@@ -276,7 +276,7 @@ qx.Class.define("toolbox.Toolbox",
       //--------------------------CONTRIB---------------------------------------
       /*
        * SINGLE UPLOAD WIDGET 
-       */      
+             
       this.__form = new uploadwidget.UploadForm('uploadFrm').set({paddingTop: 30});
       this.__form.setLayout(new qx.ui.layout.Basic);
 
@@ -292,6 +292,7 @@ qx.Class.define("toolbox.Toolbox",
         //var response = this.getIframeHtmlContent();
         //this.debug(response);
       });
+      */
       //-------------------------CONTRIB----------------------------------------
       
       //------Image Start-------------------------------------------------------
@@ -311,7 +312,7 @@ qx.Class.define("toolbox.Toolbox",
         content : 'Output directory:<font color="red">*</font> '
       });
       this.__namespaceLabel = new qx.ui.basic.Label("Namespace: ");
-      this.__logFileLabel = new qx.ui.basic.Label("Logfile: ").set({paddingTop: 30});
+      this.__logFileLabel = new qx.ui.basic.Label("Logfile: ");
       this.__typeLabel = new qx.ui.basic.Label("Type: ");
       this.__generateLabel = new qx.ui.basic.Label("Generate Source: ");
       
@@ -322,21 +323,20 @@ qx.Class.define("toolbox.Toolbox",
       this.__fileNameText = new qx.ui.form.TextField("").set({
         maxLength: 30
       });
+      
       this.__filePathText = new qx.ui.form.TextField("C:\\tmp\\");
       
       this.__namespaceText = new qx.ui.form.TextField("");
       
-      /*
-      this.__logText = new qx.ui.form.TextField("").set({
-        maxLength: 15,
-        width: 300
-      });
-      */
+      
+      this.__logText = new qx.ui.form.TextField("");
+      
+      
       //------Textfield End-----------------------------------------------------
       
       //------Checkbox Start----------------------------------------------------
-      this.__logCheckBox = new qx.ui.form.CheckBox("").set({paddingTop: 25});
-      this.__generateBox = new qx.ui.form.CheckBox("").set({paddingTop: 2});
+      this.__logCheckBox = new qx.ui.form.CheckBox(null);
+      this.__generateBox = new qx.ui.form.CheckBox(null);
       //------Checkbox End------------------------------------------------------
       
       
@@ -366,12 +366,10 @@ qx.Class.define("toolbox.Toolbox",
 
       //Default hide log textfield
       this.__logText.hide();
+                                                                                                                           //this.__form               
+      this.__windowContent = new Array(this.__fileNameText, this.__filePathText, this.__namespaceText, this.__logCheckBox, this.__logText, this.__selectBox, this.__generateBox, this.__createButtonWindow);
       
-      this.__windowContent = new Array(this.__fileNameText, this.__filePathText, this.__namespaceText, this.__logCheckBox, this.__form, this.__selectBox, this.__generateBox, this.__createButtonWindow);
-      
-      
-      
-      
+
       box.add(this.__fileNameLabel, {
         row     : 1,
         column  : 0,
@@ -427,9 +425,9 @@ qx.Class.define("toolbox.Toolbox",
         rowSpan : 0,
         colSpan : 1
       });
-      
-      //box.add(this.__logText, {
-      box.add(this.__form, {
+
+      box.add(this.__logText, {
+      //box.add(this.__form, {
       	row     : 4,
         column  : 2,
         rowSpan : 0,
@@ -492,7 +490,8 @@ qx.Class.define("toolbox.Toolbox",
       this.__namespaceText.addListener("input", this.__checkNamespace, this);
       
       this.__filePathText.addListener("input", this.__checkInput, this);
-      this.__logText.getTextField().addListener("input", this.__checkInput, this);
+      //this.__logText.getTextField().addListener("input", this.__checkInput, this);
+      this.__logText.addListener("input", this.__checkInput, this);
       this.__logCheckBox.addListener("click", this.__checkInput, this);
       this.__fileNameText.addListener("input", this.__copyContent, this);
       this.__generateBox.addListener("click", function(){
@@ -509,6 +508,9 @@ qx.Class.define("toolbox.Toolbox",
       this.__createApplicationWindow.setHeight(410);
       this.__createApplicationWindow.moveTo(100, 100);
       this.__createApplicationWindow.open();
+      
+      this.__fileNameText.focus();
+      
     }, //__createApplicationWindow
     
      __showLogTextField : function(){
@@ -518,7 +520,8 @@ qx.Class.define("toolbox.Toolbox",
     	   this.__logCheckBox.setTextColor("red");
     	 } else {
     	 	 this.__logText.hide();
-    	 	 this.__logText.getTextField().setValue("");
+    	 	 //this.__logText.getTextField().setValue("");
+    	 	 this.__logText.setValue("");
     	 	 this.__logCheckBox.setLabel("");
     	 }
     	 
@@ -533,7 +536,7 @@ qx.Class.define("toolbox.Toolbox",
     		this.__createButtonWindow.setEnabled(true);
     	} else if(this.__fileNameText.getValue().length > 0 
        & this.__filePathText.getValue().length > 0 
-       & this.__logCheckBox.getChecked() & this.__logText.getTextField().getValue().length > 0){
+       & this.__logCheckBox.getChecked() & this.__logText.getValue().length > 0){//this.__logText.getTextField().getValue().length > 0){
     		
     		this.__createButtonWindow.setEnabled(true);
     	} else {
@@ -585,7 +588,9 @@ qx.Class.define("toolbox.Toolbox",
     	this.__setCurrentFileName(this.__fileNameText.getValue()); 
     	this.__setCurrentFilePath(this.__filePathText.getValue());
     	this.__setCurrentNamespace(this.__namespaceText.getValue());
-    	this.__setCurrentLogName(this.__logText.getTextField().getValue());
+    	//this.__setCurrentLogName(this.__logText.getTextField().getValue());
+    	this.__setCurrentLogName(this.__logText.getValue());
+      
     	
     	this.__createApplication = new toolbox.CreateNewApplication(this.__adminPath, 
     	                           this.__getCurrentFileName(), this.__getCurrentFilePath(),
