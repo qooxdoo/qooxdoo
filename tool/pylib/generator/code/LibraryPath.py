@@ -1,6 +1,7 @@
 import os, re, sys
 
 from misc import filetool
+from ecmascript.frontend import lang
 
 class LibraryPath:
     # is called with a "library" entry from the json config
@@ -15,7 +16,7 @@ class LibraryPath:
         self.scan()
 
 
-    _codeExpr = re.compile('qx.(Bootstrap|List|Class|Mixin|Interface|Theme).define\s*\(\s*["\']([\.a-zA-Z0-9_-]+)["\']?', re.M)
+    _codeExpr = re.compile('qx.(Bootstrap|List|Class|Mixin|Interface|Theme).define\s*\(\s*["\'](%s)["\']?' % lang.IDENTIFIER_REGEXP, re.M)
     _ignoredDirectories = [".svn", "CVS"]
     _classFolder = "class"
     _translationFolder = "translation"
