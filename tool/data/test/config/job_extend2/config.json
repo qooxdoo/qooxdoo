@@ -1,5 +1,5 @@
 {
-  "name" : "test job shaddowing over multiple config files",
+  "name" : "test job de-referencing when imported jobs are involved",
 
   "include" : 
   [
@@ -10,28 +10,17 @@
 
   "jobs" :
   {
-    "test" :
+    "common":   // this mustn't be used by using-common2 job
     {
-      "let"      : { "N1" : {"a" : 1}},
-
-      "test_key" : 
+      "shell":
       {
-        "feature_1" : {"a" : 1}, // a map that is incremented during job expansion
-        "feature_2" : "from config.json", // unique top-level atomic feature
-        "feature_3" : ["b"],     // lists are prepended during merge
-        "feature_4" : "on",      // top-level atomic value overriding same in imported feature
-        "feature_5" : {"c" : { "d" : 3}}, // adding a nested feature
-        "feature_6" : {"c" : { "d" : 3}}, // included configs use macros for this feature
-        "__override__" : ["feature_7", "feature_8"],  // protect feature with complex data value
-        "feature_7" : {"a" : 1},
-        "=feature_71" : {"a":1}, // blocking by tag
-        "feature_8" : ["b"]
-        //"feature_9" is intentionally missing
-      },
-      "shell" :
-      {
-        "command" : "echo config.json test job"
+        "command" : "echo Hello from config::common"
       }
+    },
+    "using-common":  // this must use the local common job
+    {
+      "desc"   : "this must use the local common job (config::common)",
+      "extend" : ["common"]
     }
   }
 }
