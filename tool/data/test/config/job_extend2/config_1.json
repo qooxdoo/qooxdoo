@@ -15,5 +15,18 @@
 
   "jobs" :
   {
+    "ran-job":
+    {
+      "desc"   : "job used by run-job",
+      "shell":
+      {
+        "command" : "echo Hello from config_1::ran-job"
+      }
+    },
+    "run-job":
+    {
+      "desc" : "Run this and you should see 'Hello from config::ran-job'",
+      "run" : ["ran-job"]
+    }
   }
 }
