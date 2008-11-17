@@ -23,7 +23,7 @@
  */
 qx.Class.define("qx.core.AssertionError",
 {
-  extend : Error,
+  extend : qx.core.BaseError,
 
 
 
@@ -42,9 +42,6 @@ qx.Class.define("qx.core.AssertionError",
   {
     Error.call(this, failMessage);
 
-    this.__comment = comment || "";
-    this.__msg = failMessage || "";
-
     this.__trace = qx.dev.StackTrace.getStackTrace();
   },
 
@@ -58,39 +55,7 @@ qx.Class.define("qx.core.AssertionError",
 
   members :
   {
-    __comment : null,
-    __msg : null,
     __trace : null,
-
-
-    /**
-     * Comment passed to the assertion call
-     *
-     * @return {String} The comment passed to the assertion call
-     */
-    getComment : function() {
-      return this.__comment;
-    },
-
-
-    /**
-     * Fail message provided by the assertion
-     *
-     * @return {String} Fail message provided by the assertion
-     */
-    message : function() {
-      return this.__msg;
-    },
-
-
-    /**
-     * Get the error message
-     *
-     * @return {String} The error message
-     */
-    toString : function() {
-      return this.__comment + ": " + this.__msg;
-    },
 
 
     /**
