@@ -288,7 +288,7 @@ window.qxloader =
   init : function()
   {
     // first check whether the page is already loaded (IE only)
-    if (this._isMshtml && /complete|interactive/.test(document.readyState)) {
+    if (this._isMshtml && document.readyState == "complete") {
       qxloader._pageLoad();
     }
     else
