@@ -80,12 +80,11 @@ qx.Class.define("qx.ui.form.TextArea",
 
   members :
   {
+
     // overridden
     _createInputElement : function()
     {
-      // TODO08: Overflow for textarea? How to support this? With native scrollbars?
       var input = new qx.html.Input("textarea");
-      input.setStyle("overflow", "hidden");
       return input;
     },
 
