@@ -14,6 +14,7 @@
 
    Authors:
      * Jonathan Rass (jonathan_rass)
+     * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
 
@@ -68,6 +69,18 @@ qx.Class.define("demobrowser.demo.showcase.Browser",
         this.iframe.getWindow().history.forward();
       }, this);
       toolbar.add(btnForward);
+
+      // IE does not allow access to an iframes history object
+      if (qx.bom.client.Engine.MSHTML)
+      {
+        var ttIeNote = new qx.ui.tooltip.ToolTip("This feature is not possible in Internet Explorer!");
+
+        btnForward.setEnabled(false);
+        btnBack.setEnabled(false);
+
+        btnForward.setToolTip(ttIeNote)
+        btnBack.setToolTip(ttIeNote)
+      }
 
       this.txtUrl = new qx.ui.form.TextField().set({
         marginLeft: 1,
