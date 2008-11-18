@@ -103,12 +103,14 @@ qx.Class.define("toolbox.Configuration",
             allowGrowX: false
           });
    
+          var tabButtonContainer = new qx.ui.container.Composite(new qx.ui.layout.HBox(5, "right"));
+   
+          
           this.win = new qx.ui.window.Window("Configuration");
           this.win.setModal(true);
           this.win.setLayout(vBoxLayout);
-          //this.win.setAllowGrowY(false);
-          //this.win.setAllowMaximize(false);
-          //this.win.setAllowGrowX(true);
+          this.win.setMinWidth(380);
+          
           
           
          
@@ -127,6 +129,9 @@ qx.Class.define("toolbox.Configuration",
             configFrame.setAllowStretchY(true);
             configFrame.setValue(result);
             configFrame.setMinHeight(400);
+            
+            
+            
             //--------Textarea----------------------------------------------------
             
             
@@ -156,20 +161,46 @@ qx.Class.define("toolbox.Configuration",
             
             tabView = new qx.ui.tabview.TabView();
 	        
-	
-	        var page1 = new qx.ui.tabview.Page("JSON-settings", null);
+            var page1Name = "JSON-settings";
+			var page2Name = "Professional view";
+            
+			var tabApplyButton = new qx.ui.form.Button("Apply changes", "toolbox/image/dialog-ok.png");
+			var tabRestoreButton = new qx.ui.form.Button("Restore Defaults", "toolbox/image/edit-redo.png");
+			
+			tabApplyButton.addListener("execute", function() {
+				analyzer.createJsonTree(qx.util.Json.parse(configFrame.getValue()));
+			}, this);
+			
+			tabRestoreButton.addListener("execute", function() {
+				configFrame.setValue(qx.util.Json.stringify(result, true));
+			}, this);
+		
+			
+			tabButtonContainer.add(tabApplyButton);
+			tabButtonContainer.add(tabRestoreButton);
+			
+	        var page1 = new qx.ui.tabview.Page(page1Name, null);
 	        page1.setLayout(new qx.ui.layout.VBox());
 	        tabView.add(page1);
 	
-
 	        var page2 = new qx.ui.tabview.Page("Professional view", null);
-	        page2.setLayout(new qx.ui.layout.VBox());
+	        page2.setLayout(new qx.ui.layout.VBox(5));
 	        page2.add(new qx.ui.basic.Label("Config.js"));
 	        tabView.add(page2);
+	        
             
-            
-            
-            //analyzer.getTree().setRoot(root);
+            tabView.addListener("changeSelected", function() {
+            	if(tabView.getSelected().getLabel().toString() == page2Name){
+            		//alert(qx.util.Json.stringify(toolbox.Configuration.JSON, true));
+            		configFrame.setValue(configFrame.getValue());
+            		//analyzer.createJsonTree(qx.util.Json.parse(configFrame.getValue()));
+            	} 
+            	/*
+            	else if (tabView.getSelected().getLabel().toString() == page1Name) {
+            		analyzer.createJsonTree(toolbox.Configuration.JSON);
+            	}
+            	*/
+            }, this);
             
             mainContainer.add(analyzer.getTreeGroup(), {
               row     : 0,
@@ -189,6 +220,8 @@ qx.Class.define("toolbox.Configuration",
 
             page1.add(mainContainer);
             page2.add(configFrame);
+            page2.add(tabButtonContainer);
+	        
             
             this.win.add(tabView, {flex: 1});
             this.win.add(container);
