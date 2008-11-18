@@ -353,6 +353,7 @@ class Config:
 
 
         # Go through the list of jobs to import
+        newList     = []
         extJobsList = extConfig.getExportedJobsList()
         for extJobEntry in extJobsList:
             # Checks and preparations
@@ -380,6 +381,7 @@ class Config:
                 and not l.hasClash):       # don't fix job references if there is shadowing
                 renamedJobs[extJobEntry] = newJob
             self.addJob(newjobname, newJob)         # and add it
+            newList.append(newJob)         # memorize jobs added from extConfig for later
 
             # Now process a possible name clash
             if l.hasClash:
@@ -388,7 +390,7 @@ class Config:
 
         # Fix job references, but only for the jobs from the just imported config
         #   helper function
-        def patchFeature(job, key):
+        def patchFeature(job, key, renamedJobs):
             newlist = []
             oldlist = job.getFeature(key)
             for jobentry in oldlist:
@@ -399,16 +401,12 @@ class Config:
                     newlist.append(jobentry)
             job.setFeature(key, newlist)
 
-        # go through the current list of jobs again
-        for j in self.getJobsList():  # get all jobs from the current config
-            job = self.getJob(j)
-            if job.getConfig() != extConfig:  # but modify only those from the just imported one
-                continue
-            else:
-                # patch job references in 'run', 'extend', ... keys
-                for key in Job.KEYS_WITH_JOB_REFS:
-                    if job.hasFeature(key):
-                        patchFeature(job, key)
+        # go through the list of just added jobs again
+        for job in newList:  # there is no easy way to get newList from other data
+            # patch job references in 'run', 'extend', ... keys
+            for key in Job.KEYS_WITH_JOB_REFS:
+                if job.hasFeature(key):
+                    patchFeature(job, key, renamedJobs)
         
         return
 
