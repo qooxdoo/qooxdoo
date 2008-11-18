@@ -359,7 +359,7 @@ qx.Class.define("qx.ui.decoration.Single",
       }
 
       // Add basic styles
-      styles += "position:absolute;top:0;left:0;";
+      styles += "position:absolute;top:0;left:0;overflow:hidden;";
 
       // Generate markup
       var html = qx.ui.decoration.Util.generateBackgroundMarkup(this.getBackgroundImage(), this.getBackgroundRepeat(), styles);
