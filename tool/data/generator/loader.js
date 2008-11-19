@@ -288,6 +288,9 @@ window.qxloader =
   init : function()
   {
     // first check whether the page is already loaded (IE only)
+    // We have to rely on readyState "complete" since one can *not* be sure
+    // that the body element is present at the readyState "interactive".
+    // Inline applications rely on the presence of the body element at startup.
     if (this._isMshtml && document.readyState == "complete") {
       qxloader._pageLoad();
     }
