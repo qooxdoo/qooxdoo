@@ -249,7 +249,7 @@
           },
 
           // cursor images combined
-          "${RESPATH}/${CLASSIC}/cursors-combined.png":
+          "${RESPATH}/${CLASSIC}/cursors-combined.gif":
           {
             "input"  :
               [
@@ -259,7 +259,7 @@
           },
           
           // window captionbar buttons combined
-          "${RESPATH}/${CLASSIC}/window-captionbar-buttons-combined.png":
+          "${RESPATH}/${CLASSIC}/window-captionbar-buttons-combined.gif":
           {
             "input"  :
               [
@@ -279,11 +279,11 @@
           },
           
           // arrow images
-          "${RESPATH}/${CLASSIC}/arrows-combined.png":
+          "${RESPATH}/${CLASSIC}/arrows-combined.gif":
           {
             "input"  :
               [
-                "${RESPATH}/${CLASSIC}/arrows/*.*"
+                "${RESPATH}/${CLASSIC}/arrows/*.gif"
               ],
              "layout" : "horizontal"
           },
@@ -309,7 +309,7 @@
           },
           
           // menu images
-          "${RESPATH}/${CLASSIC}/menu-combined.png":
+          "${RESPATH}/${CLASSIC}/menu-combined.gif":
           {
             "input"  :
               [
@@ -491,7 +491,7 @@
           },
 
 
-          "${RESPATH}/${MODERN}/cursors-combined.png":
+          "${RESPATH}/${MODERN}/cursors-combined.gif":
           {
             "input"  :
               [
@@ -552,7 +552,7 @@
           },
           
           // menu checkbox and radiobutton
-          "${RESPATH}/${MODERN}/menu-checkradio-combined.png":
+          "${RESPATH}/${MODERN}/menu-checkradio-combined.gif":
           {
             "input"  :
               [
