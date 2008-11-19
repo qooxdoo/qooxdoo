@@ -57,9 +57,9 @@
     },
 
 
-    "common" :
+    "libraries" :
     {
-      "desc"    : "common settings for base.json jobs",
+      "desc" : "includer job, to hold the essential libraries for the compile jobs",
 
       "library" :
       [
@@ -72,7 +72,14 @@
           "manifest" : "${ROOT}/Manifest.json",
           "uri"      : "${APPLICATION_URI}"
         }
-      ],
+      ]
+    },
+
+    "common" :
+    {
+      "desc"    : "common settings for base.json jobs",
+
+      "extend"  : ["libraries"],
 
       "include" :
       [
@@ -215,7 +222,7 @@
     // can be used as an 'extend' to activate profiling
     "profiling" :
     {
-      "desc"    : "can be used as an 'extend' for another job to activate profiling",
+      "desc"    : "includer job, to activate profiling",
 
       "variants" :
       {
