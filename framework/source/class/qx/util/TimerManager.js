@@ -22,54 +22,54 @@
  * only a single native timer object.
  *
  * Use of these timers is via the methods start() and stop().  Examples:
- * <code><pre>
- *       var timer = qx.util.TimerManager.getInstance();
- *   
- *       // Start a 5-second recurrent timer.
- *       // Note that the first expiration is after 3 seconds
- *       // (last parameter is 3000) but each subsequent expiration is
- *       // at 5 second intervals.
- *       timer.start(function(userData, timerId)
- *                   {
- *                     this.debug("Recurrent 5-second timer: " + timerId);
- *                   },
- *                   5000,
- *                   this,
- *                   null,
- *                   3000);
- *
- *       // Start a 1-second one-shot timer
- *       timer.start(function(userData, timerId)
- *                   {
- *                     this.debug("One-shot 1-second timer: " + timerId);
- *                   },
- *                   0,
- *                   this,
- *                   null,
- *                   1000);
- *
- *       // Start a 2-second recurrent timer that stops itself after
- *       // three iterations
- *       timer.start(function(userData, timerId)
- *                   {
- *                     this.debug("Recurrent 2-second timer with limit 3:" +
- *                                timerId);
- *                     if (++userData.count == 3)
- *                     {
- *                       this.debug("Stopping recurrent 2-second timer");
- *                       timer.stop(timerId);
- *                     }
- *                   },
- *                   2000,
- *                   this,
- *                   { count : 0 });
- *
- *       // Start an immediate one-shot timer
- *       timer.start(function(userData, timerId)
- *                   {
- *                     this.debug("Immediate one-shot timer: " + timerId);
- *                   });
- * </pre></code>
+ * <pre class='javascript'>
+ * var timer = qx.util.TimerManager.getInstance();
+ * 
+ * // Start a 5-second recurrent timer.
+ * // Note that the first expiration is after 3 seconds
+ * // (last parameter is 3000) but each subsequent expiration is
+ * // at 5 second intervals.
+ * timer.start(function(userData, timerId)
+ * {
+ *   this.debug("Recurrent 5-second timer: " + timerId);
+ * },
+ * 5000,
+ * this,
+ * null,
+ * 3000);
+ * 
+ * // Start a 1-second one-shot timer
+ * timer.start(function(userData, timerId)
+ * {
+ *   this.debug("One-shot 1-second timer: " + timerId);
+ * },
+ * 0,
+ * this,
+ * null,
+ * 1000);
+ * 
+ * // Start a 2-second recurrent timer that stops itself after
+ * // three iterations
+ * timer.start(function(userData, timerId)
+ * {
+ *   this.debug("Recurrent 2-second timer with limit 3:" +
+ *              timerId);
+ *   if (++userData.count == 3)
+ *   {
+ *     this.debug("Stopping recurrent 2-second timer");
+ *     timer.stop(timerId);
+ *   }
+ * },
+ * 2000,
+ * this,
+ * { count : 0 });
+ * 
+ * // Start an immediate one-shot timer
+ * timer.start(function(userData, timerId)
+ * {
+ *   this.debug("Immediate one-shot timer: " + timerId);
+ * });
+ * </pre>
  */
 qx.Class.define("qx.util.TimerManager",
 {
