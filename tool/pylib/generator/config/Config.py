@@ -314,7 +314,7 @@ class Config:
                     raise TypeError, "Illegal import entry: %s (Config: %s)" % (str(e), self._fname)
 
         # Some helper functions
-        def createNewJobName():
+        def createNewJobName(extJobEntry):
             # Construct new job name for the imported job
             if (importJobsList and extJobEntry in importJobsList 
                 and isinstance(importJobsList[extJobEntry], types.DictType)):
@@ -361,7 +361,7 @@ class Config:
                 continue
             if blockJobsList and extJobEntry in blockJobsList:
                 continue
-            newjobname = createNewJobName()
+            newjobname = createNewJobName(extJobEntry)
             
             # Check for name clashes
             l.hasClash   = False
@@ -376,7 +376,7 @@ class Config:
             newJob = Job(newjobname, {}, self._console, self) # fake as local job, for _includeGlobalLet to run locally
             newJob.includeGlobalLet()  # have to draw in local let before all the external let's are processed
             newJob.mergeJob(extJob)    # now merge in the external guy
-            newJob.setConfig(extJob.getConfig()) # retain link to external config
+            newJob.setConfig(extJob.getConfig()) # retain link to original config
             if (newjobname != extJobEntry  # adapt modified names; otherwise, delay name resolution until resolveExtendsAndRun()
                 and not l.hasClash):       # don't fix job references if there is shadowing
                 renamedJobs[extJobEntry] = newJob
