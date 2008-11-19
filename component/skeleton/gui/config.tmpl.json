@@ -25,13 +25,13 @@
   /*
   "jobs" :
   {
-    "common" : 
+    // Uncomment the following entry to add a contrib or library to your
+    // project; make sure to adapt the path to the Manifest.json and the uri
+    // entry.
+    "libraries" : 
     {
       "library" :
       [
-        // Uncomment the following library entry to add a contrib or library to
-        // your project; make sure to adapt the path to the Manifest.json and
-        // the uri entry.
         {
           "manifest" : "contrib://SkeletonApplication/trunk/Manifest.json",
           "uri"      : "../cache-downloads/SkeletonApplication/trunk"
