@@ -269,11 +269,11 @@
           },
           
           // colorselector images combined
-          "${RESPATH}/${CLASSIC}/colorselector-combined.png":
+          "${RESPATH}/${CLASSIC}/colorselector-combined.gif":
           {
             "input"  :
               [
-                "${RESPATH}/${CLASSIC}/colorselector/*.*"
+                "${RESPATH}/${CLASSIC}/colorselector/*.gif"
               ],
              "layout" : "horizontal"
           },
@@ -572,11 +572,11 @@
           },
 
           // colorselector images
-          "${RESPATH}/${MODERN}/colorselector-combined.png":
+          "${RESPATH}/${MODERN}/colorselector-combined.gif":
           {
             "input"  :
               [
-                "${RESPATH}/${MODERN}/colorselector/*.*"
+                "${RESPATH}/${MODERN}/colorselector/*.gif"
               ],
              "layout" : "horizontal"
           },
