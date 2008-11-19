@@ -51,7 +51,8 @@ qx.Class.define("qx.io.remote.Request",
     this.base(arguments);
 
     this.__requestHeaders = {};
-    this.__parameters = {};
+    this.__urlParameters = {};
+    this.__dataParameters = {};
     this.__formFields = {};
 
     if (vUrl !== undefined) {
@@ -335,7 +336,8 @@ qx.Class.define("qx.io.remote.Request",
   {
 
     __requestHeaders : null,
-    __parameters : null,
+    __urlParameters : null,
+    __dataParameters : null,
     __formFields : null,
     __seqNum : null,
 
@@ -791,48 +793,110 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * Add a parameter to the request.
      *
-     * @param vId {String} String identifier of the parameter to add.
-     * @param vValue {var} Value of parameter. May be a string (for one parameter) or an array of
-     *     strings (for setting multiple parameter values with the same parameter
-     *     name).
+     * @param vId {String}
+     *   String identifier of the parameter to add.
+     *
+     * @param vValue {var}
+     *   Value of parameter. May be a string (for one parameter) or an array
+     *   of strings (for setting multiple parameter values with the same
+     *   parameter name).
+     *
+     * @param bAsData {Boolean | false}
+     *   If <i>false</i>, add the parameter to the URL.  If <i>true</i> then
+     *   instead the parameters added by calls to this method will be combined
+     *   into a string added as the request data, as if the entire set of
+     *   parameters had been pre-build and passed to setData().
+     *
+     * Note: Parameters requested to be sent as data will be silently dropped
+     *       if data is manually added via a call to setData().
+     *
+     * Note: Some transports, e.g. Script, do not support passing parameters
+     *       as data.
+     *
      * @return {void}
      */
-    setParameter : function(vId, vValue) {
-      this.__parameters[vId] = vValue;
+    setParameter : function(vId, vValue, bAsData)
+    {
+      if (bAsData)
+      {
+        this.__dataParameters[vId] = vValue;
+      }
+      else
+      {
+        this.__urlParameters[vId] = vValue;
+      }
     },
 
 
     /**
      * Remove a parameter from the request.
      *
-     * @param vId {String} Identifier of the parameter to remove.
+     * @param vId {String}
+     *   Identifier of the parameter to remove.
+     *
+     * @param bFromData {Boolean}
+     *   If <i>false</i> then remove the parameter of the URL parameter list.
+     *   If <i>true</i> then remove it from the list of parameters to be sent
+     *   as request data.
+     *
      * @return {void}
      */
-    removeParameter : function(vId) {
-      delete this.__parameters[vId];
+    removeParameter : function(vId, bFromData)
+    {
+      if (bFromData)
+      {
+        delete this.__dataParameters[vId];
+      }
+      else
+      {
+        delete this.__urlParameters[vId];
+      }
     },
 
 
     /**
      * Get a parameter in the request.
      *
-     * @param vId {String} Identifier of the parameter to get.
-     * @return {var} TODOC
+     * @param vId {String}
+     *   Identifier of the parameter to get.
+     *
+     * @param bFromData {Boolean}
+     *   If <i>false</i> then retrieve the parameter from the URL parameter
+     *   list. If <i>true</i> then retrieve it from the list of parameters to
+     *   be sent as request data.
+     *
+     * @return {var}
+     *   The requested parameter value
+     *
      */
-    getParameter : function(vId) {
-      return this.__parameters[vId] || null;
+    getParameter : function(vId, bFromData)
+    {
+      if (bFromData)
+      {
+        return this.__dataParameters[vId] || null;
+      }
+      else
+      {
+        return this.__urlParameters[vId] || null;
+      }
     },
 
 
     /**
      * Returns the object containg all parameters for the request.
      *
-     * @return {Object} The returned object has as its property names each of the ids of
-     *     parameters which have been added, and as each property value, the value
-     *     of the property corresponding to that id.
+     * @param bFromData {Boolean}
+     *   If <i>false</i> then retrieve the URL parameter list.
+     *   If <i>true</i> then retrieve the data parameter list.
+     *
+     * @return {Object}
+     *   The returned object has as its property names each of the ids of
+     *   parameters which have been added, and as each property value, the
+     *   value of the property corresponding to that id.
      */
-    getParameters : function() {
-      return this.__parameters;
+    getParameters : function(bFromData)
+    {
+      return (bFromData ? this.__dataParameters : this.__urlParameters);
     },
 
 
@@ -919,6 +983,8 @@ qx.Class.define("qx.io.remote.Request",
   destruct : function()
   {
     this.setTransport(null);
-    this._disposeFields("__requestHeaders", "__parameters", "__formFields");
+    this._disposeFields("__requestHeaders",
+                        "__urlParameters",
+                        "__formFields");
   }
 });
