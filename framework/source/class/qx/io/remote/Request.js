@@ -258,13 +258,28 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * Prohibit request from being cached.
      *
-     * Setting the value to <i>true</i> adds a parameter "nocache" to the request
-     * with a value of the current time. Setting the value to <i>false</i> removes
-     * the parameter.
+     * Setting the value to <i>true</i> adds a parameter "nocache" to the
+     * request URL with a value of the current time, as well as adding request
+     * headers Pragma:no-cache and Cache-Control:no-cache.
+     *
+     * Setting the value to <i>false</i> removes the parameter and request
+     * headers.
+     *
+     * As a special case, this property may be set to the string value
+     * "no-url-params-on-post" which will prevent the nocache parameter from
+     * being added to the URL if the POST method is used but will still add
+     * the Pragma and Cache-Control headers.  This is useful if your backend
+     * does nasty things like mixing parameters specified in the URL into
+     * form fields in the POST request.  (One example of this nasty behavior
+     * is known as "mixed mode" in Oracle, as described here:
+     * http://download.oracle.com/docs/cd/B32110_01/web.1013/b28963/concept.htm#i1005684)
      */
     prohibitCaching :
     {
-      check : "Boolean",
+      check : function(v)
+      {
+        return typeof v == "boolean" || v === "no-url-params-on-post";
+      },
       init : true,
       apply : "_applyProhibitCaching"
     },
@@ -677,25 +692,35 @@ qx.Class.define("qx.io.remote.Request",
      */
     _applyProhibitCaching : function(value, old)
     {
-      if (value)
-      {
-        // This works by making the URL unique on each request.  The actual id,
-        // "nocache" is irrelevant; it's the fact that a (usually) different date
-        // is added to the URL on each request that prevents caching.
-        this.setParameter("nocache", new Date().valueOf());
-
-        // Add the HTTP 1.0 request to avoid use of a cache
-        this.setRequestHeader("Pragma", "no-cache");
-
-        // Add the HTTP 1.1 request to avoid use of a cache
-        this.setRequestHeader("Cache-Control", "no-cache");
-      }
-      else
+      if (! value)
       {
         this.removeParameter("nocache");
         this.removeRequestHeader("Pragma");
         this.removeRequestHeader("Cache-Control");
+        return;
       }
+
+      // If value isn't "no-url-params-on-post" or this isn't a POST request
+      if (value !== "no-url-params-on-post" ||
+          this.getMethod() != qx.net.Http.METHOD_POST)
+      {
+        // ... then add a parameter to the URL to make it unique on each
+        // request.  The actual id, "nocache" is irrelevant; it's the fact
+        // that a (usually) different date is added to the URL on each request
+        // that prevents caching.
+        this.setParameter("nocache", new Date().valueOf());
+      }
+      else
+      {
+        // Otherwise, we don't want the nocache parameer in the URL.
+        this.removeParameter("nocache");
+      }
+
+      // Add the HTTP 1.0 request to avoid use of a cache
+      this.setRequestHeader("Pragma", "no-cache");
+      
+      // Add the HTTP 1.1 request to avoid use of a cache
+      this.setRequestHeader("Cache-Control", "no-cache");
     },
 
 
@@ -712,6 +737,13 @@ qx.Class.define("qx.io.remote.Request",
       } else {
         this.removeRequestHeader("Content-Type");
       }
+
+      // Re-test the prohibit caching property.  We may need to add or remove
+      // the "nocache" parameter.  We explicitly call the _apply method since
+      // it wouldn't be called normally when setting the value to its already
+      // existant value.
+      var prohibitCaching = this.getProhibitCaching();
+      this._applyProhibitCaching(prohibitCaching, prohibitCaching);
     },
 
 
