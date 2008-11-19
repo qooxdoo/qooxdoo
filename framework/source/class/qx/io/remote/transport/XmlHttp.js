@@ -181,9 +181,9 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       this.__localRequest = vLocalRequest;
 
       // --------------------------------------
-      //   Adding parameters
+      //   Adding URL parameters
       // --------------------------------------
-      var vParameters = this.getParameters();
+      var vParameters = this.getParameters(false);
       var vParametersList = [];
 
       for (var vId in vParameters)
@@ -204,6 +204,41 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
 
       if (vParametersList.length > 0) {
         vUrl += (vUrl.indexOf("?") >= 0 ? "&" : "?") + vParametersList.join("&");
+      }
+
+      // --------------------------------------------------------
+      //   Adding data parameters (if no data is already present)
+      // --------------------------------------------------------
+      if (this.getData() === null)
+      {
+        var vParameters = this.getParameters(true);
+        var vParametersList = [];
+
+        for (var vId in vParameters)
+        {
+          var value = vParameters[vId];
+
+          if (value instanceof Array)
+          {
+            for (var i=0; i<value.length; i++)
+            {
+              vParametersList.push(encodeURIComponent(vId) +
+                                   "=" +
+                                   encodeURIComponent(value[i]));
+            }
+          }
+          else
+          {
+            vParametersList.push(encodeURIComponent(vId) +
+                                 "=" +
+                                 encodeURIComponent(value));
+          }
+        }
+
+        if (vParametersList.length > 0)
+        {
+          this.setData(vParametersList.join("&"));
+        }
       }
 
       var encode64 = function(input)
