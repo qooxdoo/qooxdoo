@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-/*
+/**
  * Timer manipulation for handling multiple timed callbacks with the use of
  * only a single native timer object.
  *
