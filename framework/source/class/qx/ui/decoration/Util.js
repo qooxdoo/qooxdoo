@@ -91,6 +91,23 @@ qx.Class.define("qx.ui.decoration.Util",
       else
       {
         if (styles) {
+          if (qx.core.Variant.isSet("qx.client", "mshtml"))
+          {
+            /*
+             * Internet Explorer as of version 6 or version 7 in quirks mode add a
+             * empty string to the "div" node. This behavior produce rendering problems,
+             * because the node has the minimum size of the font, which is sometimes
+             * not desired. To set the "div" node size to the "height: XXXpx"
+             * size and not to the minimum font size, the "overflow:hidden" style
+             * is added.
+             * */
+            if (qx.bom.client.Engine.VERSION < 7 || qx.bom.client.Feature.QUIRKS_MODE)
+            {
+              // Add additionally style
+              styles += "overflow:hidden;";
+            }
+          }
+          
           return '<div style="' + styles + '"></div>';
         } else {
           return "";
