@@ -159,7 +159,7 @@ qx.Class.define("qx.ui.decoration.Uniform",
       }
 
       // Init styles
-      var styles = "position:absolute;top:0;left:0;overflow:hidden;";
+      var styles = "position:absolute;top:0;left:0;";
 
       // Check
       var width = this.getWidth();
