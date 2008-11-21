@@ -88,7 +88,7 @@ qx.Class.define("toolbox.Configuration",
         req.addListener("completed", function(evt)
         {
           var result = evt.getContent();
-          
+          var restoreResult = result;
           var vBoxLayout = new qx.ui.layout.VBox(5);
           vBoxLayout.setAlignX("right");
           
@@ -120,15 +120,15 @@ qx.Class.define("toolbox.Configuration",
             //--------Buttons-----------------------------------------------------
   
             //--------Textarea----------------------------------------------------
-            var configFrame = new qx.ui.form.TextArea("");
-            configFrame.setMinWidth(400);
-            configFrame.setWrap(false);
-            configFrame.setAllowGrowX(true);
-            configFrame.setAllowGrowY(true);
-            configFrame.setAllowStretchX(true);
-            configFrame.setAllowStretchY(true);
-            configFrame.setValue(result);
-            configFrame.setMinHeight(400);
+            this.configFrame = new qx.ui.form.TextArea("");
+            this.configFrame.setMinWidth(400);
+            this.configFrame.setWrap(false);
+            this.configFrame.setAllowGrowX(true);
+            this.configFrame.setAllowGrowY(true);
+            this.configFrame.setAllowStretchX(true);
+            this.configFrame.setAllowStretchY(true);
+            this.configFrame.setValue(result);
+            this.configFrame.setMinHeight(400);
             
             
             
@@ -142,9 +142,9 @@ qx.Class.define("toolbox.Configuration",
             //#####################################################################
             //#####################################################################
             
-            var analyzer = new toolbox.JsonAnalyzer();
+            this.analyzer = new toolbox.JsonAnalyzer();
             toolbox.Configuration.JSON = result = eval("("+ result +")");
-            var root = analyzer.createJsonTree(result);
+            var root = this.analyzer.createJsonTree(result);
             
             //#####################################################################
             //#####################################################################
@@ -167,12 +167,19 @@ qx.Class.define("toolbox.Configuration",
 			var tabApplyButton = new qx.ui.form.Button("Apply changes", "toolbox/image/dialog-ok.png");
 			var tabRestoreButton = new qx.ui.form.Button("Restore Defaults", "toolbox/image/edit-redo.png");
 			
+			this.isApplied = false;
 			tabApplyButton.addListener("execute", function() {
-				analyzer.createJsonTree(qx.util.Json.parse(configFrame.getValue()));
+				var obj = qx.util.Json.parse(this.configFrame.getValue());
+				this.analyzer.createJsonTree(obj);
+				toolbox.Configuration.JSON = obj;
+				this.isApplied = true;
 			}, this);
 			
 			tabRestoreButton.addListener("execute", function() {
-				configFrame.setValue(qx.util.Json.stringify(result, true));
+				if(typeof restoreResult != "object") {
+					restoreResult = qx.util.Json.parse(restoreResult);
+				}
+				this.configFrame.setValue(qx.util.Json.stringify(restoreResult, true));
 			}, this);
 		
 			
@@ -188,21 +195,24 @@ qx.Class.define("toolbox.Configuration",
 	        page2.add(new qx.ui.basic.Label("Config.js"));
 	        tabView.add(page2);
 	        
-            
-            tabView.addListener("changeSelected", function() {
+
+			
+            tabView.addListener("changeSelected", function() {	
             	if(tabView.getSelected().getLabel().toString() == page2Name){
-            		//alert(qx.util.Json.stringify(toolbox.Configuration.JSON, true));
-            		configFrame.setValue(configFrame.getValue());
-            		//analyzer.createJsonTree(qx.util.Json.parse(configFrame.getValue()));
+            		this.configFrame.setValue(qx.util.Json.stringify(toolbox.Configuration.JSON, true));
             	} 
-            	/*
-            	else if (tabView.getSelected().getLabel().toString() == page1Name) {
-            		analyzer.createJsonTree(toolbox.Configuration.JSON);
+            	
+            	else if(tabView.getSelected().getLabel().toString() == page1Name){
+            		if(this.configFrame.getValue().toString() != qx.util.Json.stringify(toolbox.Configuration.JSON, true).toString() & !this.isApplied) {
+						this.openSaveDialog();
+						
+            		} else {this.isApplied = false;}
+            		
             	}
-            	*/
+            	 
             }, this);
             
-            mainContainer.add(analyzer.getTreeGroup(), {
+            mainContainer.add(this.analyzer.getTreeGroup(), {
               row     : 0,
               column  : 0,
               rowSpan : 0,
@@ -210,7 +220,7 @@ qx.Class.define("toolbox.Configuration",
             });
             
             
-            mainContainer.add(analyzer.getCommandFrame(analyzer.getTree()), {
+            mainContainer.add(this.analyzer.getCommandFrame(this.analyzer.getTree()), {
               row     : 1,
               column  : 0,
               rowSpan : 0,
@@ -219,7 +229,7 @@ qx.Class.define("toolbox.Configuration",
 
 
             page1.add(mainContainer);
-            page2.add(configFrame);
+            page2.add(this.configFrame);
             page2.add(tabButtonContainer);
 	        
             
@@ -232,7 +242,7 @@ qx.Class.define("toolbox.Configuration",
             
             saveButton.addListener("execute", function() {
               try{
-                changedConfig = configFrame.getValue();
+                changedConfig = this.configFrame.getValue();
                 qx.util.Json.parse(changedConfig);
                 saveDat += "&changedConfig=" + changedConfig 
                 req2.setData(saveDat);
@@ -269,6 +279,38 @@ qx.Class.define("toolbox.Configuration",
       return;
     },
     
+    openSaveDialog : function() { //TODO
+	    this.__saveDialog = new qx.ui.window.Window("Save changes", null);
+		this.__saveDialog.setLayout(new qx.ui.layout.VBox(5));
+		this.__saveDialog.add(new qx.ui.basic.Label("You changed the JSON-object in the professional view."));
+		this.__saveDialog.add(new qx.ui.basic.Label("Do you want to save the changes?"));
+	    
+	    var container = new qx.ui.container.Composite(new qx.ui.layout.HBox(5, "right"));
+    	
+    	var yesButton = new qx.ui.form.Button("Yes");
+    	var noButton = new qx.ui.form.Button("No");
+    	
+    	noButton.addListener("execute", function() {this.__saveDialog.close();}, this); 
+    	
+    	yesButton.addListener("execute", function() {
+    		this.analyzer.createJsonTree(qx.util.Json.parse(this.configFrame.getValue()));
+			toolbox.Configuration.JSON = qx.util.Json.parse(this.configFrame.getValue());
+			this.__saveDialog.close();
+			this.isApplied = true;
+		}, this); 
+    	
+    	container.add(yesButton);
+    	container.add(noButton);
+    
+		this.__saveDialog.add(container);
+		
+		this.__saveDialog.setAllowMaximize(false);
+		this.__saveDialog.setAllowClose(true);
+		this.__saveDialog.setAllowMinimize(false);
+		this.__saveDialog.setModal(true);
+		this.__saveDialog.open();
+		this.__saveDialog.moveTo(this.win.getBounds()["left"] + 100, this.win.getBounds()["top"] + 50);
+    },
     
     setState : function(state) {
       this.__state = state;
