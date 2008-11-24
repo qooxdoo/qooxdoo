@@ -23,6 +23,7 @@ import re, os, sys, shutil, logging, optparse
 from optparseext import ExtendAction
 from misc import filetool
 from misc import textutil
+from misc.NameSpace import NameSpace
 from ecmascript.frontend import tokenizer
 from ecmascript.frontend import treegenerator
 from ecmascript import compiler
@@ -411,7 +412,7 @@ class Migrator(object):
 
     def main():
 
-        options = ExtMap({})  # extensible object
+        options = NameSpace()  # extensible object
         options.from_version
         options.makefile
         options.migrateHtml
