@@ -15,6 +15,7 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
+     * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
 
@@ -44,7 +45,9 @@
  * <table>
  *   <tr><th>Name</th><th>Type</th><th>Description</th></tr>
  *   <tr><th>check</th><td>Array, String, Function</td><td>
- *     The check is used to validate the incoming value of a property. The check can be:
+ *     The check is used to check the type the incoming value of a property. This will only
+ *     be executed in the source version. The build version will not contain the checks.
+ *     The check can be:
  *     <ul>
  *       <li>a custom check function. The function takes the incoming value as a parameter and must
  *           return a boolean value to indicate whether the values is valid.
@@ -95,6 +98,13 @@
  *     specified if desired.  Alternatively, the transform function may throw
  *     an error if the value passed to it is invalid.
  *   </td></tr>
+ *   <tr><th>validate</th><td>String</td><td>
+ *     On setting of the property value the method of the specified name will
+ *     be called. The signature of the method is <code>function(value)</code>.
+ *     The parameter <code>value</code> is the value passed to the setter.
+ *     If the validation fails, an <code>qx.core.ValidationError</code> should be 
+ *     thrown by the validation function. Otherwise, just do nothing in the function.
+ *   </td></tr> 
  * </table>
  *
  * *Property groups*
@@ -246,7 +256,8 @@ qx.Class.define("qx.core.Property",
       event        : "string",   // String
       check        : null,       // Array, String, Function
       transform    : "string",   // String
-      deferredInit : "boolean"   // Boolean
+      deferredInit : "boolean",  // Boolean
+      validate     : "string"    // String
     },
 
 
@@ -807,6 +818,12 @@ qx.Class.define("qx.core.Property",
         // method should either throw an error or return the new value.
         if (config.transform) {
           code.push('value=this.', config.transform, '(value);');
+        }
+        
+        // Call user-provided validate method, if one is provided.  Validate
+        // method should either throw an error or do nothing.
+        if (config.validate) {
+          code.push(config.validate, '(value);');            
         }
       }
 
