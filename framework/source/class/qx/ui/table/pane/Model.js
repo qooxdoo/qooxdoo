@@ -147,8 +147,10 @@ qx.Class.define("qx.ui.table.pane.Model",
      *
      * @param tableColumnModel {qx.ui.table.columnmodel.Basic} the column model
      */
-    setTableColumnModel : function(tableColumnModel) {
+    setTableColumnModel : function(tableColumnModel)
+    {
       this.__tableColumnModel = tableColumnModel;
+      this.__columnCount = null;
     },
 
 
