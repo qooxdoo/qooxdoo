@@ -22,8 +22,6 @@
 import os, sys, re, types, string, copy
 import simplejson
 
-#from generator.config.Config import ExtMap
-
 console = None
 
 class Job(object):
@@ -354,6 +352,9 @@ class Job(object):
 
     def setFeature(self, feature, value):
         self._data[feature]=value
+
+    def get(self, feature, default=None):
+        return self.getFeature(feature, default)
 
     def getFeature(self, feature, default=None):
         if self._data.has_key(feature):
