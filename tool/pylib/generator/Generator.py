@@ -28,7 +28,7 @@ from ecmascript.frontend import treegenerator, tokenizer
 from ecmascript.backend.optimizer import variableoptimizer
 from ecmascript.backend.optimizer import privateoptimizer
 #from ecmascript.backend.optimizer import protectedoptimizer
-from generator.config.Config import ExtMap
+from generator.config.ExtMap import ExtMap
 from generator.code.DependencyLoader import DependencyLoader
 from generator.code.PartBuilder import PartBuilder
 from generator.code.TreeLoader import TreeLoader
@@ -53,15 +53,14 @@ memcache = {}
 class Generator:
     def __init__(self, config, job, console_):
         global console
-        self._config1   = config
-        self._config    = ExtMap(config.getJob(job).getData()) # this is a kludge!
+        self._config    = config
         self._job       = config.getJob(job)
         self._console   = console_
         self._variants  = {}
         self._settings  = {}
 
-        cache_path      = self._config.get("cache/compile", "cache")
-        cache_path      = self._config1.absPath(cache_path)
+        cache_path      = self._job.get("cache/compile", "cache")
+        cache_path      = self._config.absPath(cache_path)
         self._cache     = Cache(cache_path, self._console)
 
         console = console_
@@ -82,19 +81,7 @@ class Generator:
 
         for entry in library:
             key  = entry["path"]
-            if entry.has_key('uri'):
-                uri = entry['uri']
-            else:
-                uri = None
-            if entry.has_key('class'):
-                clazz = entry['class']
-            else:
-                clazz = None
 
-            luri = os.path.join(uri, clazz)
-            #luri = os.path.join(entry.get("uri"), entry.get("class"))
-            #luri = Path.rel_from_to(self.approot, entry.get("path"))
-            #luri = os.path.join(luri, entry.get("class"))
             if memcache.has_key(key):
                 self._console.debug("Use memory cache for %s" % key)
                 path = memcache[key]
@@ -102,18 +89,11 @@ class Generator:
                 path = LibraryPath(entry, self._console)
 
             namespace = path.getNamespace()
-
             _namespaces.append(namespace)
+
             classes = path.getClasses()
-            # patch uri with current value
-            # TODO: have to patch the 'uri' value of classes, since the same library can
-            # be used by different jobs with different uri (example: testrunner and its tests);
-            # solution: uri shouldn't be used in the LibraryPath object at all, but provided by
-            # the job; all other attribs (namespace, path, encoding, ...) seem to be stable
-            for clazz in classes.values():
-                clazz['uri'] = os.path.join(luri, clazz['relpath'])
-                clazz['uri'] = Path.posifyPath(clazz['uri'])
             _classes.update(classes)
+
             _docs.update(path.getDocs())
             _translations[namespace] = path.getTranslations()
             _libs[namespace] = entry
@@ -193,7 +173,7 @@ class Generator:
     }
 
     def run2(self):
-        config = self._config
+        config = self._job
         job    = config.get(".")
         jobTriggers = self.listJobTriggers()
 
@@ -302,7 +282,7 @@ class Generator:
 
 
     def run1(self):
-        config = self._config
+        config = self._job
         job    = config.get(".")
         jobTriggers = self.listJobTriggers()
 
@@ -325,16 +305,16 @@ class Generator:
 
 
     def run(self):
-        config = self._config
-        job    = config.get(".")
+        config = self._job
+        job    = self._job
 
         require = config.get("require", {})
         use = config.get("use", {})
 
-        self._jobLib         = JobLib(self._config1, self._console)
+        self._jobLib         = JobLib(self._config, self._console)
 
         triggerNameSet = set(self.listJobTriggers().keys())  # list of trigger names
-        jobKeySet      = set(job.keys())
+        jobKeySet      = set(job.getData().keys())
         if jobKeySet.intersection(triggerNameSet) == set(['clean-files']):
             self.runClean()
             return  # cleaning was the only job
@@ -360,8 +340,8 @@ class Generator:
         # Preprocess include/exclude lists
         # This is only the parsing of the config values
         # We only need to call this once on each job
-        smartInclude, explicitInclude = self.getIncludes(self._config.get("include", []))
-        smartExclude, explicitExclude = self.getExcludes(self._config.get("exclude", []))
+        smartInclude, explicitInclude = self.getIncludes(self._job.get("include", []))
+        smartExclude, explicitExclude = self.getExcludes(self._job.get("exclude", []))
 
         # Processing all combinations of variants
         variantData = self.getVariants()  # e.g. {'qx.debug':['on','off'], 'qx.aspects':['on','off']}
@@ -391,12 +371,12 @@ class Generator:
 
 
             # Check for package configuration
-            if self._config.get("packages"):
+            if self._job.get("packages"):
                 # Reading configuration
-                partsCfg = self._config.get("packages/parts", {})
-                collapseCfg = self._config.get("packages/collapse", [])
-                sizeCfg = self._config.get("packages/size", 0)
-                boot = self._config.get("packages/init", "boot")
+                partsCfg = self._job.get("packages/parts", {})
+                collapseCfg = self._job.get("packages/collapse", [])
+                sizeCfg = self._job.get("packages/size", 0)
+                boot = self._job.get("packages/init", "boot")
 
                 # Automatically add boot part to collapse list
                 if boot in partsCfg and not boot in collapseCfg:
@@ -447,7 +427,7 @@ class Generator:
 
 
     def runPrivateDebug(self):
-        if not self._config.get("debug/privates", False):
+        if not self._job.get("debug/privates", False):
             return
 
         self._console.info("Privates debugging...")
@@ -456,16 +436,16 @@ class Generator:
 
 
     def runApiData(self, packages):
-        apiPath = self._config.get("api/path")
+        apiPath = self._job.get("api/path")
         if not apiPath:
             return
 
-        apiPath = self._config1.absPath(apiPath)
+        apiPath = self._config.absPath(apiPath)
 
         self._apiLoader      = ApiLoader(self._classes, self._docs, self._cache, self._console, self._treeLoader)
 
-        smartInclude, explicitInclude = self.getIncludes(self._config.get("include", []))
-        smartExclude, explicitExclude = self.getExcludes(self._config.get("exclude", []))
+        smartInclude, explicitInclude = self.getIncludes(self._job.get("include", []))
+        smartExclude, explicitExclude = self.getExcludes(self._job.get("exclude", []))
 
         classList = self._depLoader.getClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, {})
         packages = [classList]
@@ -478,10 +458,10 @@ class Generator:
 
 
     def runUnusedClasses(self, parts, packages, variants):
-        if not self._config.get("log/classes-unused", False):
+        if not self._job.get("log/classes-unused", False):
             return
 
-        namespaces = self._config.get("log/classes-unused", [])
+        namespaces = self._job.get("log/classes-unused", [])
         
         self._console.info("Find unused classes...");
         self._console.indent()
@@ -515,7 +495,7 @@ class Generator:
 
 
     def runDependencyDebug(self, parts, packages, variants):
-         if not self._config.get("debug/dependencies", False):
+         if not self._job.get("debug/dependencies", False):
             return
 
          self._console.info("Dependency debugging...")
@@ -553,11 +533,11 @@ class Generator:
     # update .po files
     #
     def runUpdateTranslation(self):
-        namespaces = self._config.get("translate/namespaces")
+        namespaces = self._job.get("translate/namespaces")
         if not namespaces:
             return
 
-        locales = self._config.get("translate/locales", None)
+        locales = self._job.get("translate/locales", None)
         self._console.info("Updating translations...")
         self._console.indent()
         for namespace in namespaces:
@@ -611,7 +591,7 @@ class Generator:
 
         generator._console.info("Copying resources...")
         resTargetRoot = generator._config.get("copy-resources/target", "build")
-        resTargetRoot = self._config1.absPath(resTargetRoot)
+        resTargetRoot = self._config.absPath(resTargetRoot)
         libs          = generator._config.get("library", [])
         generator._console.indent()
         # Copy resources
@@ -652,15 +632,15 @@ class Generator:
 
     def runCopyFiles(self):
         # Copy application files
-        if not self._config.get("copy-files/files", False):
+        if not self._job.get("copy-files/files", False):
             return
 
-        appfiles = self._config.get("copy-files/files",[])
+        appfiles = self._job.get("copy-files/files",[])
         if appfiles:
-            buildRoot  = self._config.get("copy-files/target", "build")
-            buildRoot  = self._config1.absPath(buildRoot)
-            sourceRoot = self._config.get("copy-files/source", "source")
-            sourceRoot  = self._config1.absPath(sourceRoot)
+            buildRoot  = self._job.get("copy-files/target", "build")
+            buildRoot  = self._config.absPath(buildRoot)
+            sourceRoot = self._job.get("copy-files/source", "source")
+            sourceRoot  = self._config.absPath(sourceRoot)
             self._console.info("Copying application files...")
             self._console.indent()
             for file in appfiles:
@@ -679,10 +659,10 @@ class Generator:
         # wpbasti:
         # rename trigger from "shell" to "execute-commands"?
         # Should contain a list of commands instead
-        if not self._config.get("shell/command"):
+        if not self._job.get("shell/command"):
             return
 
-        shellcmd = self._config.get("shell/command", "")
+        shellcmd = self._job.get("shell/command", "")
         rc = 0
         self._shellCmd       = ShellCmd()
 
@@ -692,7 +672,7 @@ class Generator:
         #for p in parts:
         #    if p.find(os.sep) > -1:
         #        if not os.path.isabs(p):
-        #            nparts.append(self._config1.absPath(p))
+        #            nparts.append(self._config.absPath(p))
         #            continue
         #    nparts.append(p)
 
@@ -700,46 +680,46 @@ class Generator:
         self._console.info("Executing shell command \"%s\"..." % shellcmd)
         self._console.indent()
 
-        rc = self._shellCmd.execute(shellcmd, self._config1.getConfigDir())
+        rc = self._shellCmd.execute(shellcmd, self._config.getConfigDir())
         if rc != 0:
             raise RuntimeError, "Shell command returned error code: %s" % repr(rc)
         self._console.outdent()
 
 
     def runCompiled(self, parts, packages, boot, variants):
-        if not self._config.get("compile-dist/file"):
+        if not self._job.get("compile-dist/file"):
             return
 
         # Read in base file name
-        filePath = self._config.get("compile-dist/file")
+        filePath = self._job.get("compile-dist/file")
         if variants and False: # TODO: get variant names from config
             filePath = self._makeVariantsName(filePath, variants)
-        filePath = self._config1.absPath(filePath)
+        filePath = self._config.absPath(filePath)
 
         # Read in app root dir
-        if self._config.get("compile-dist/root", False):
-            approot = self._config.get("compile-dist/root")
-        approot = self._config1.absPath(approot)
+        if self._job.get("compile-dist/root", False):
+            approot = self._job.get("compile-dist/root")
+        approot = self._config.absPath(approot)
 
         # Read in relative file name
-        fileUri = self._config.get("compile-dist/uri", filePath)
+        fileUri = self._job.get("compile-dist/uri", filePath)
         # fileUri = Path.rel_from_to(approot, filePath)
 
         # Read in compiler options
-        optimize = self._config.get("compile-dist/optimize", [])
+        optimize = self._job.get("compile-dist/optimize", [])
 
         # Whether the code should be formatted
-        format = self._config.get("compile-dist/format", False)
+        format = self._job.get("compile-dist/format", False)
 
         # Read in settings
         settings = self.getSettings()
 
         # Get resource list
-        buildRoot= self._config.get('compile-dist/target', "build")
-        buildRoot= self._config1.absPath(buildRoot)
-        buildUri = self._config.get('compile-dist/resourceUri', ".")
+        buildRoot= self._job.get('compile-dist/target', "build")
+        buildRoot= self._config.absPath(buildRoot)
+        buildUri = self._job.get('compile-dist/resourceUri', ".")
 
-        libs = self._config.get("library", [])
+        libs = self._job.get("library", [])
         forceUri = Path.rel_from_to(approot, os.path.join(buildRoot, "resource"))
         forceUri = Path.posifyPath(forceUri)
 
@@ -747,7 +727,7 @@ class Generator:
         self._console.info("Generating boot script...")
 
         # Get translation maps
-        locales = self._config.get("compile-dist/locales", [])
+        locales = self._job.get("compile-dist/locales", [])
         translationMaps = self.getTranslationMaps(parts, packages, variants, locales)
 
         # wpbasti: Most of this stuff is identical between source/compile. Put together somewhere else.
@@ -770,7 +750,7 @@ class Generator:
         # Save result file
         filetool.save(resolvedFilePath, bootContent)
 
-        if self._config.get("compile-dist/gzip"):
+        if self._job.get("compile-dist/gzip"):
             filetool.gzip(resolvedFilePath, bootContent)
 
         self._console.debug("Done: %s" % self._computeContentSize(bootContent))
@@ -803,7 +783,7 @@ class Generator:
             # Save result file
             filetool.save(resolvedFilePath, compiledContent)
 
-            if self._config.get("compile-dist/gzip"):
+            if self._job.get("compile-dist/gzip"):
                 filetool.gzip(resolvedFilePath, compiledContent)
 
             self._console.debug("Done: %s" % self._computeContentSize(compiledContent))
@@ -813,44 +793,42 @@ class Generator:
 
 
     def runSource(self, parts, packages, boot, variants):
-        if not self._config.get("compile-source/file"):
+        if not self._job.get("compile-source/file"):
             return
 
         self._console.info("Generate source version...")
         self._console.indent()
 
         # Read in base file name
-        filePath = self._config.get("compile-source/file")
+        filePath = self._job.get("compile-source/file")
         #if variants:
         #    filePath = self._makeVariantsName(filePath, variants)
-        filePath = self._config1.absPath(filePath)
+        filePath = self._config.absPath(filePath)
 
         # Whether the code should be formatted
-        format = self._config.get("compile-source/format", False)
+        format = self._job.get("compile-source/format", False)
 
         # The place where the app HTML ("index.html") lives
-        if self._config.get("compile-source/root", False):
-            self.approot = self._config1.absPath(self._config.get("compile-source/root"))
-            # e.g. for: liburi = Path.rel_from_to(approot, lib['path'])
+        self.approot = self._config.absPath(self._job.get("compile-source/root", None))
 
         # Read in settings
         settings = self.getSettings()
 
         # Get resource list
-        libs = self._config.get("library", [])
+        libs = self._job.get("library", [])
         # patch uri entry
-        for lib in libs:
-            lib['uri'] = Path.rel_from_to(self.approot, lib['path'])
+        #for lib in libs:
+        #    lib['uri'] = Path.rel_from_to(self.approot, lib['path'])
 
         # Get translation maps
-        locales = self._config.get("compile-source/locales", [])
+        locales = self._job.get("compile-source/locales", [])
         translationMaps = self.getTranslationMaps(parts, packages, variants, locales)
 
         # Add data from settings, variants and packages
         sourceBlocks = []
         sourceBlocks.append(self.generateSettingsCode(settings, format))
         sourceBlocks.append(self.generateVariantsCode(variants, format))
-        sourceBlocks.append(self.generateLibInfoCode(self._config.get("library",[]),format))
+        sourceBlocks.append(self.generateLibInfoCode(self._job.get("library",[]),format))
         sourceBlocks.append(self.generateResourceInfoCode(settings, libs, format))
         sourceBlocks.append(self.generateLocalesCode(translationMaps, format))
         sourceBlocks.append(self.generateSourcePackageCode(parts, packages, boot, format))
@@ -870,7 +848,7 @@ class Generator:
         # Save result file
         filetool.save(resolvedFilePath, sourceContent)
 
-        if self._config.get("compile-source/gzip"):
+        if self._job.get("compile-source/gzip"):
             filetool.gzip(resolvedFilePath, sourceContent)
 
         self._console.outdent()
@@ -880,14 +858,14 @@ class Generator:
 
     def runImageSlicing(self):
         """Go through a list of images and slice each one into subimages"""
-        if not self._config.get("slice-images", False):
+        if not self._job.get("slice-images", False):
             return
 
         self._imageClipper   = ImageClipping(self._console, self._cache)
 
-        images = self._config.get("slice-images/images", {})
+        images = self._job.get("slice-images/images", {})
         for image, imgspec in images.iteritems():
-            image = self._config1.absPath(image)
+            image = self._config.absPath(image)
             # wpbasti: Rename: Border => Inset as in qooxdoo JS code
             prefix       = imgspec['prefix']
             border_width = imgspec['border-width']
@@ -897,20 +875,20 @@ class Generator:
     # wpbasti: Contains too much low level code. Separate logic into extra class to keep this method a bit cleaner
     def runImageCombining(self):
         """Go through a list of images and create them as combination of other images"""
-        if not self._config.get("combine-images", False):
+        if not self._job.get("combine-images", False):
             return
 
         self._imageClipper   = ImageClipping(self._console, self._cache)
 
-        images = self._config.get("combine-images/images", {})
+        images = self._job.get("combine-images/images", {})
         for image, imgspec in images.iteritems():
-            image  = self._config1.absPath(image)  # abs output path
+            image  = self._config.absPath(image)  # abs output path
             config = {}
             # abs input paths
             inp    = imgspec['input']
             input  = []
             for f in inp:
-                input.append(self._config1.absPath(f))
+                input.append(self._config.absPath(f))
             layout = imgspec['layout'] == "horizontal"
             # create the combined image
             subconfigs = self._imageClipper.combine(image, input, layout)
@@ -936,12 +914,12 @@ class Generator:
     def runPrettyPrinting(self, classes):
         "Gather all relevant config settings and pass them to the compiler"
 
-        if not isinstance(self._config.get("pretty-print", False), types.DictType):
+        if not isinstance(self._job.get("pretty-print", False), types.DictType):
             return
 
         self._console.info("Pretty-printing code...")
         self._console.indent()
-        ppsettings = ExtMap(self._config.get("pretty-print"))  # get the pretty-print config settings
+        ppsettings = ExtMap(self._job.get("pretty-print"))  # get the pretty-print config settings
 
         # init options
         parser  = optparse.OptionParser()
@@ -977,32 +955,32 @@ class Generator:
 
 
     def runClean(self):
-        if not self._config.get('clean-files', False):
+        if not self._job.get('clean-files', False):
             return
 
         self._console.info("Cleaning up files...")
         self._console.indent()
 
-        self._jobLib.clean(self._config.get('clean-files'))
+        self._jobLib.clean(self._job.get('clean-files'))
 
         self._console.outdent()
 
 
     def runLint(self, classes):
-        if not self._config.get('lint-check', False):
+        if not self._job.get('lint-check', False):
             return
 
         self._console.info("Checking Javascript source code...")
         self._console.indent()
         self._shellCmd  = ShellCmd()
 
-        qxPath = self._config.get('let',{})
+        qxPath = self._job.get('let',{})
         if 'QOOXDOO_PATH' in qxPath:
             qxPath = qxPath['QOOXDOO_PATH']
         else:
             raise RuntimeError, "Need QOOXDOO_PATH setting to run lint command"
         lintCommand = os.path.join(qxPath, os.pardir, 'tool', 'bin', "ecmalint.py")
-        lintsettings = ExtMap(self._config.get('lint-check'))
+        lintsettings = ExtMap(self._job.get('lint-check'))
         allowedGlobals = lintsettings.get('allowed-globals', [])
 
         #self._jobLib.lint(classes)
@@ -1015,16 +993,16 @@ class Generator:
 
 
     def runMigration(self, libs):
-        if not self._config.get('migrate-files', False):
+        if not self._job.get('migrate-files', False):
             return
 
         self._console.info("Migrating Javascript source code to most recent qooxdoo version...")
         self._console.indent()
 
-        migSettings     = self._config.get('migrate-files')
+        migSettings     = self._job.get('migrate-files')
         self._shellCmd  = ShellCmd()
 
-        qxPath      = self._config.get('let',{})['QOOXDOO_PATH']
+        qxPath      = self._job.get('let',{})['QOOXDOO_PATH']
         migratorCmd = os.path.join(qxPath, os.pardir, 'tool', "bin", "migrator.py")
 
         libPaths = []
@@ -1046,12 +1024,12 @@ class Generator:
 
 
     def runFix(self, classes):
-        if not isinstance(self._config.get("fix-files", False), types.DictType):
+        if not isinstance(self._job.get("fix-files", False), types.DictType):
             return
 
         self._console.info("Fixing whitespace in source files...")
         self._console.indent()
-        fixsettings = ExtMap(self._config.get("fix-files"))
+        fixsettings = ExtMap(self._job.get("fix-files"))
 
         self._console.info("Fixing files: ", False)
         numClasses = len(classes)
@@ -1077,7 +1055,7 @@ class Generator:
     def getSettings(self):
         # TODO: Runtime settings support is currently missing
         settings = {}
-        settingsConfig = self._config.get("settings", {})
+        settingsConfig = self._job.get("settings", {})
         settingsRuntime = self._settings
 
         for key in settingsConfig:
@@ -1092,7 +1070,7 @@ class Generator:
     def getVariants(self):
         # TODO: Runtime variants support is currently missing
         variants = {}
-        variantsConfig = self._config.get("variants", {})
+        variantsConfig = self._job.get("variants", {})
         variantsRuntime = self._variants
 
         for key in variantsConfig:
@@ -1332,8 +1310,9 @@ class Generator:
         for packageId, package in enumerate(packages):
             packageUris = []
             for fileId in package:
-                cUri = Path.rel_from_to(self.approot, self._classes[fileId]["uri"])
-                cUri = Path.posifyPath(cUri) 
+                #cUri = Path.rel_from_to(self.approot, self._classes[fileId]["relpath"])
+                lib = self._libs[self._classes[fileId]["namespace"]]
+                cUri = self._computeResourceUri(lib, self._classes[fileId]["relpath"], rType='class', appRoot=self.approot)
                 packageUris.append('"%s"' % cUri)
 
             allUris.append("[" + ",".join(packageUris) + "]")
@@ -1394,7 +1373,7 @@ class Generator:
     ######################################################################
 
     def getIncludes(self, includeCfg):
-        #includeCfg = self._config.get("include", [])
+        #includeCfg = self._job.get("include", [])
 
         # Splitting lists
         self._console.debug("Preparing include configuration...")
@@ -1413,10 +1392,10 @@ class Generator:
             smartInclude = self._expandRegExps(smartInclude)
             explicitInclude = self._expandRegExps(explicitInclude)
 
-        elif self._config.get("packages"):
+        elif self._job.get("packages"):
             # Special part include handling
             self._console.info("Including part classes...")
-            partsCfg = partsCfg = self._config.get("packages/parts", {})
+            partsCfg = partsCfg = self._job.get("packages/parts", {})
             smartInclude = []
             for partId in partsCfg:
                 smartInclude.extend(partsCfg[partId])
@@ -1435,7 +1414,7 @@ class Generator:
 
 
     def getExcludes(self, excludeCfg):
-        #excludeCfg = self._config.get("exclude", [])
+        #excludeCfg = self._job.get("exclude", [])
 
         # Splitting lists
         self._console.debug("Preparing exclude configuration...")
@@ -1529,6 +1508,29 @@ class Generator:
         compressedSize = len(zlib.compress(content, 9))
 
         return "%sKB / %sKB" % (origSize/1024, compressedSize/1024)
+
+
+    def _computeResourceUri(self, lib, resourcePath, rType="class", appRoot=None):
+        '''computes a complete resource URI for the given resource type rType, 
+           from the information given in lib and, if lib doesn't provide a
+           general uri prefix for it, use appRoot and lib path to construct
+           one'''
+        
+        if 'uri' in lib:
+            liburi = lib['uri']
+        elif appRoot:
+            liburi = Path.rel_from_to(self._config.absPath(appRoot), lib['path'])
+        else:
+            raise RuntimeError, "Need either lib['uri'] or appRoot, to calculate final URI"
+
+        if rType in lib:
+            libInternalPath = lib[rType]
+        else:
+            raise RuntimeError, "No such resource type: \"%s\"" % rType
+
+        uri = os.path.join(liburi, libInternalPath, resourcePath)
+        uri = Path.posifyPath(uri)
+        return uri
 
 
     # wpbasti: TODO: Clean up compiler. Maybe split-off pretty-printing. These hard-hacked options, the pure

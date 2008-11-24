@@ -518,10 +518,7 @@ class Config:
                         # absolutize paths (this might not be the best place to do that)
                         for entry in ('path',):
                             lib[entry] = self.absPath(lib[entry])
-                        # patch uri: set it to 'path' here, let Generator.scanLib append suffix for classes
-                        # and correct it in Generator.runSource, which knows the prefix and relativizes the
-                        # result
-                        lib['uri'] = lib['path']
+                        # retain uri setting here
 
         console.outdent()
 
@@ -577,45 +574,6 @@ class Config:
                     os.path.join(self.getConfigDir(), path)))
             return p
 
-
-
-class ExtMap(object):
-    "Map class with path-like accessor"
-
-    def __init__(self, data):
-        assert isinstance(data, types.DictType)
-
-        self._data = data
-
-    def get(self, key, default=None, confmap=None):
-        """Returns a (possibly nested) data element from dict
-        """
-        
-        if confmap:
-            data = confmap
-        else:
-            data = self._data
-            
-        if data.has_key(key):
-            return data[key]
-
-        splits = key.split('/')
-        for part in splits:
-            if part == "." or part == "":
-                pass
-            elif isinstance(data, types.DictType) and data.has_key(part):
-                data = data[part]
-            else:
-                return default
-
-        return data
-
-
-    def extract(self, key):
-        return ExtMap(self.get(key, {}))
-
-    def getData(self):
-        return self._data
 
 
 class Let(object):
