@@ -750,7 +750,7 @@ qx.Class.define("qx.event.handler.EventHandler",
         {
           if (this._mouseIsDown && vDomEvent.button == 0)
           {
-            this._onmouseevent_post(vDomEvent, "mouseup");
+            this._onmouseevent_post(vDomEvent, "mouseup", vDomTarget);
             this._mouseIsDown = false;
           }
         }
@@ -764,13 +764,13 @@ qx.Class.define("qx.event.handler.EventHandler",
 
           // Fix MSHTML Mouseup, should be after a normal click or contextmenu event, like Mozilla does this
           if (vType == "mouseup" && !this._lastMouseDown && ((new Date).valueOf() - this._lastMouseEventDate) < 250) {
-            this._onmouseevent_post(vDomEvent, "mousedown");
+            this._onmouseevent_post(vDomEvent, "mousedown", vDomTarget);
           }
 
           // Fix MSHTML Doubleclick, should be after a normal click event, like Mozilla does this
           else if (vType == "dblclick" && this._lastMouseEventType == "mouseup" && ((new Date).valueOf() - this._lastMouseEventDate) < 250) {
-            this._onmouseevent_post(vDomEvent, "click");
-          }
+            this._onmouseevent_post(vDomEvent, "click", vDomTarget);
+          }   
 
           switch(vType)
           {
