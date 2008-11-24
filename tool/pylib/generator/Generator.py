@@ -696,14 +696,13 @@ class Generator:
             filePath = self._makeVariantsName(filePath, variants)
         filePath = self._config.absPath(filePath)
 
-        # Read in app root dir
-        if self._job.get("compile-dist/root", False):
-            approot = self._job.get("compile-dist/root")
-        approot = self._config.absPath(approot)
+        # The place where the app HTML ("index.html") lives
+        self.approot = self._job.get("compile-dist/root", None)
+        if self.approot:
+            self.approot = self._config.absPath(self.approot)
 
         # Read in relative file name
         fileUri = self._job.get("compile-dist/uri", filePath)
-        # fileUri = Path.rel_from_to(approot, filePath)
 
         # Read in compiler options
         optimize = self._job.get("compile-dist/optimize", [])
@@ -720,7 +719,7 @@ class Generator:
         buildUri = self._job.get('compile-dist/resourceUri', ".")
 
         libs = self._job.get("library", [])
-        forceUri = Path.rel_from_to(approot, os.path.join(buildRoot, "resource"))
+        forceUri = Path.rel_from_to(self.approot, os.path.join(buildRoot, "resource"))
         forceUri = Path.posifyPath(forceUri)
 
         # Generating boot script
@@ -816,9 +815,6 @@ class Generator:
 
         # Get resource list
         libs = self._job.get("library", [])
-        # patch uri entry
-        #for lib in libs:
-        #    lib['uri'] = Path.rel_from_to(self.approot, lib['path'])
 
         # Get translation maps
         locales = self._job.get("compile-source/locales", [])
@@ -1128,7 +1124,7 @@ class Generator:
             if forceUri:
                 liburi = forceUri
             else:
-                liburi = Path.posifyPath(os.path.join(lib['uri'],lib['resource']))
+                liburi = self._computeResourceUri(lib, "", rType="resource", appRoot=self.approot)
                 
             result += '"resourceUri":"%s"' % urllib.quote(liburi)
             
@@ -1204,8 +1200,7 @@ class Generator:
         # main
 
         for lib in libs:
-            #print "ooo lib['uri'] =" + os.path.normpath(Path.rel_from_to(self.approot, lib['path']))
-            libresuri = os.path.join(lib['uri'],lib['resource'])
+            libresuri = self._computeResourceUri(lib, "", rType='resource', appRoot=self.approot)
             resourceList = self._resourceHandler.findAllResources([lib],
                                 self._resourceHandler.filterResourcesByClasslist(self._classList))
             # resourceList = [[file1,uri1],[file2,uri2],...]
