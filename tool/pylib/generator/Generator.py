@@ -1586,17 +1586,14 @@ class _ResourceHandler(object):
         libs.reverse()
 
         for lib in libs:
-            #ns = lib['path']
-            ns = lib['namespace']
-            # path to the lib resource root
-            libpath = os.path.join(lib['path'],lib['resource'])
-            libpath = os.path.normpath(libpath)  # normalize "./..."
+            libPath = LibraryPath(lib, self._genobj._console)
+            ns = libPath.getNamespace()
             # check and populate cache of files on disk (reduce disk I/O)
             cacheId = "resinlib-%s" % ns
             liblist = self._genobj._cache.read(cacheId, dependsOn=None, memory=True)
             if liblist == None:
-                liblist = filetool.find(libpath)  # liblist is a generator, therefore we
-                llist   = []                      # cannot write it out just now
+                liblist = libPath.scanResourcePath() # liblist is a generator, therefore we
+                llist   = []                         # cannot write it out just now
                 inCache = False
             else:
                 inCache = True
@@ -1612,11 +1609,11 @@ class _ResourceHandler(object):
                     # create a pair res = [path, uri] for this resource...
                     res = []
                     rsource = os.path.normpath(rsrc)  # normalize "./..."
-                    relpath = (Path.getCommonPrefix(libpath, rsource))[2]
+                    relpath = (Path.getCommonPrefix(libPath._resourcePath, rsource))[2]
                     if relpath[0] == os.sep:  # normalize "/..."
                         relpath = relpath[1:]
                     res.append(rsource)
-                    res.append(os.path.join(lib['uri'],lib['resource'],relpath))
+                    res.append(self._genobj._computeResourceUri(lib, relpath, rType='resource', appRoot=self._genobj.approot))
                     # ...and add it to the result list
                     result.append(res)
 
