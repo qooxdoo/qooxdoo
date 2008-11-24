@@ -17,16 +17,6 @@
 
 ************************************************************************ */
 
-if (qx.core.Variant.isSet("qx.aspects", "on"))
-{
-  // Inform user
-  qx.log.Logger.debug("Enable bla ...");
-
-  // Add advices for profiling
- // qx.core.Aspect.addAdvice(function(fullName, fcn, type, args) { console.info(fullName, args)}, "before", "*", "qx.ui.core.selection.Abstract.*");
-}
-
-
 /**
  * Generic selection manager to bring rich desktop like selection behavior
  * to widgets and low-level interactive controls.
@@ -1698,7 +1688,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      */
     _fireChange : function(context)
     {
-      this.debug("ABSTRACT: _fireChange");
       if (this.__selectionModified)
       {
         // Store context
@@ -1712,6 +1701,11 @@ qx.Class.define("qx.ui.core.selection.Abstract",
   },
 
 
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
 
   destruct : function()
   {
