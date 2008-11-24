@@ -149,7 +149,7 @@ def find(rootpath, pattern=None):
     alwaysSkip = re.compile(r'(?:\.svn)',re.I)
 
     for (path, dirlist, filelist) in dirwalker:
-        # correct dirlist (only wit 'while' you can change it in place)
+        # correct dirlist (only with 'while' you can change it in place)
         i,j = 0,len(dirlist)
         while i<j:
             if re.search(alwaysSkip, dirlist[i]):

@@ -13,11 +13,29 @@ class LibraryPath:
         self._docs = {}
         self._translations = {}
 
+        self._path = self._config.get("path", "")
+
+        if self._path == "":
+            self._console.error("Missing path information!")
+            sys.exit(1)
+
+        if not os.path.exists(self._path):
+            self._console.error("Path does not exist: %s" % self._path)
+            sys.exit(1)
+
+        self._uri = self._config.get("uri", self._path)
+        self._encoding = self._config.get("encoding", "utf-8")
+
+        self._classPath = os.path.join(self._path, self._config.get("class","source/class"))
+        self._classUri  = os.path.join(self._uri,  self._config.get("class","source/class"))
+
+        self._translationPath = os.path.join(self._path, self._config.get("translation","source/translation"))
+        self._resourcePath    = os.path.join(self._path, self._config.get("resource","source/resource"))
+
+        self._detectNamespace(self._classPath)
 
     _codeExpr = re.compile('qx.(Bootstrap|List|Class|Mixin|Interface|Theme).define\s*\(\s*["\'](%s)["\']?' % lang.IDENTIFIER_REGEXP, re.M)
     _ignoredDirectories = [".svn", "CVS"]
-    _classFolder = "class"
-    _translationFolder = "translation"
     _docFilename = "__init__.js"
 
 
@@ -40,34 +58,12 @@ class LibraryPath:
         return this._resources
 
     def scan(self):
-        path = self._config.get("path", "")
-
-        if path == "":
-            self._console.error("Missing path information!")
-            sys.exit(1)
-
-        if not os.path.exists(path):
-            self._console.error("Path does not exist: %s" % path)
-            sys.exit(1)
-
-        self._console.info("Scanning %s..." % path)
+        self._console.info("Scanning %s..." % self._path)
         self._console.indent()
 
-        uri = self._config.get("uri", path)
-        encoding = self._config.get("encoding", "utf-8")
-
-        # wpbasti: What exactly happens here. How exactly is the overriding?
-        
-        classPath = os.path.join(path, self._config.get("class","source/class"))
-        classUri  = os.path.join(uri,  self._config.get("class","source/class"))
-
-        translationPath = os.path.join(path, self._config.get("translation","source/translation"))
-        resourcePath    = os.path.join(path, self._config.get("resource","source/resource"))
-
-        self._detectNamespace(classPath)
-        self._scanClassPath(classPath, classUri, encoding)
-        self._scanTranslationPath(translationPath)
-        #self.scanResourcePath(resourcePath)
+        self._scanClassPath(self._classPath, self._classUri, self._encoding)
+        self._scanTranslationPath(self._translationPath)
+        #self.scanResourcePath(self._resourcePath)
 
         self._console.outdent()
 
@@ -108,8 +104,12 @@ class LibraryPath:
 
 
 
-    def scanResourcePath(self, path):
-        pass
+    def scanResourcePath(self):
+        # path to the lib resource root
+        libpath = os.path.normpath(self._resourcePath)  # normalize "./..."
+        liblist = filetool.find(libpath)  # liblist is a generator, therefore we
+        return liblist
+
 
 
     def _scanClassPath(self, path, uri, encoding):
