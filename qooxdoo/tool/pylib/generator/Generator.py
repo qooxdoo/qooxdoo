@@ -87,6 +87,7 @@ class Generator:
                 path = memcache[key]
             else:
                 path = LibraryPath(entry, self._console)
+                path.scan()
 
             namespace = path.getNamespace()
             _namespaces.append(namespace)
