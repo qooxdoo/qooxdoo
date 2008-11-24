@@ -2496,6 +2496,10 @@ qx.Class.define("qx.ui.core.Widget",
 
     /** {Boolean} Whether the widget has state changes which are not yet queued */
     $$stateChanges : null,
+    
+    
+    /** {Map} Can be overridden to forward states to the childes. */
+    _forwardStates : null,
 
 
     /**
