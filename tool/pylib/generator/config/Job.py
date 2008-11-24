@@ -22,6 +22,8 @@
 import os, sys, re, types, string, copy
 import simplejson
 
+from generator.config.ExtMap import ExtMap
+
 console = None
 
 class Job(object):
@@ -357,10 +359,8 @@ class Job(object):
         return self.getFeature(feature, default)
 
     def getFeature(self, feature, default=None):
-        if self._data.has_key(feature):
-            return self._data[feature]
-        else:
-            return default
+        dataMap = ExtMap(self._data)
+        return dataMap.get(feature, default)
 
     def removeFeature(self, feature):
         if feature in self._data:
