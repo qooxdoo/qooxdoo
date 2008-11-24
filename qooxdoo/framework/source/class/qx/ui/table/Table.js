@@ -703,6 +703,12 @@ qx.Class.define("qx.ui.table.Table",
       this._updateStatusBar();
 
       this._initColumnMenu();
+      
+      this._updateTableData(
+        0, value.getRowCount(),
+        0, value.getColumnCount()
+      );
+      this._onTableModelMetaDataChanged();
     },
 
 
@@ -1060,20 +1066,40 @@ qx.Class.define("qx.ui.table.Table",
      */
     _onTableModelDataChanged : function(evt)
     {
-      var scrollerArr = this._getPaneScrollerArr();
-
       var data = evt.getData();
-
+      
+      this.__updateTableData(
+        data.firstRow, data.lastRow,
+        data.firstColumn, data.lastColumn,
+        removeStart, removeCount
+      );
+    },
+    
+    /**
+     * To update the table if the table model has changed and remove selection.
+     * 
+     * @param firstRow {Integer} The index of the first row that has changed.
+     * @param lastRow {Integer} The index of the last row that has changed.
+     * @param firstColumn {Integer} The model index of the first column that has changed.
+     * @param lastColumn {Integer} The model index of the last column that has changed.
+     * @param removeStart {Integer ? null} The first index of the interval (including), to remove selection.
+     * @param removeCount {Integer ? null} The count of the interval, to remove selection.
+     * @return {void}
+     */
+    _updateTableData : function(firstRow, lastRow, firstColumn, lastColumn, removeStart, removeCount)
+    {
+      var scrollerArr = this._getPaneScrollerArr();
+       
       // update selection if rows were removed
-      if (data.removeCount) {
-        this.getSelectionModel().removeSelectionInterval(data.removeStart, data.removeStart + data.removeCount);
+      if (removeCount) {
+        this.getSelectionModel().removeSelectionInterval(removeStart, removeStart + removeCount);
       }
 
       for (var i=0; i<scrollerArr.length; i++)
       {
         scrollerArr[i].onTableModelDataChanged(
-          data.firstRow, data.lastRow,
-          data.firstColumn, data.lastColumn
+          firstRow, lastRow,
+          firstColumn, lastColumn
         );
       }
 
@@ -1726,7 +1752,7 @@ qx.Class.define("qx.ui.table.Table",
       {
         var entries = menu.getChildren();
         for (var i=0,l=entries.length; i<l; i++) {
-          entries[i].destroy();
+          entries[0].destroy();
         }
       }
       else

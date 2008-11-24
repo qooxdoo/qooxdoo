@@ -146,7 +146,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
 
     // property modifier
     _applyVisibleRowCount : function(value, old) {
-      this.updateContent();
+      this.updateContent(true);
     },
 
 
@@ -567,8 +567,12 @@ qx.Class.define("qx.ui.table.pane.Pane",
       var rowCount = this.getVisibleRowCount();
       var firstRow = this.getFirstVisibleRow();
 
-
-      var modelRowCount = this.getTable().getTableModel().getRowCount();
+      var tabelModel = this.getTable().getTableModel();
+      var modelRowCount = 0;
+      
+      if (tabelModel != null) {
+        modelRowCount = tabelModel.getRowCount();
+      }
 
       // don't handle this special case here
       if (firstRow + rowCount > modelRowCount) {
@@ -649,7 +653,11 @@ qx.Class.define("qx.ui.table.pane.Pane",
       var firstRow = this.getFirstVisibleRow();
 
       var rowCount = this.getVisibleRowCount();
-      var modelRowCount = tableModel.getRowCount();
+      var modelRowCount = 0;
+      
+      if (tableModel != null) {
+        modelRowCount = tableModel.getRowCount();
+      }
 
       if (firstRow + rowCount > modelRowCount) {
         rowCount = Math.max(0, modelRowCount - firstRow);
