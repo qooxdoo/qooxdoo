@@ -13,8 +13,6 @@ class LibraryPath:
         self._docs = {}
         self._translations = {}
 
-        self.scan()
-
 
     _codeExpr = re.compile('qx.(Bootstrap|List|Class|Mixin|Interface|Theme).define\s*\(\s*["\'](%s)["\']?' % lang.IDENTIFIER_REGEXP, re.M)
     _ignoredDirectories = [".svn", "CVS"]
@@ -38,6 +36,8 @@ class LibraryPath:
     def getNamespace(self):
         return self._namespace
 
+    def getResources(this):
+        return this._resources
 
     def scan(self):
         path = self._config.get("path", "")
@@ -58,17 +58,16 @@ class LibraryPath:
 
         # wpbasti: What exactly happens here. How exactly is the overriding?
         
-        #classPath = os.path.join(path, self._classFolder)
-        classPath = os.path.join(path, self._config.get("class",""))
-        #classUri = uri + "/" + self._classFolder
-        classUri  = os.path.join(uri, self._config.get("class",""))
+        classPath = os.path.join(path, self._config.get("class","source/class"))
+        classUri  = os.path.join(uri,  self._config.get("class","source/class"))
 
-        #translationPath = os.path.join(path, self._translationFolder)
-        translationPath = os.path.join(path, self._config.get("translation",""))
+        translationPath = os.path.join(path, self._config.get("translation","source/translation"))
+        resourcePath    = os.path.join(path, self._config.get("resource","source/resource"))
 
         self._detectNamespace(classPath)
         self._scanClassPath(classPath, classUri, encoding)
         self._scanTranslationPath(translationPath)
+        #self.scanResourcePath(resourcePath)
 
         self._console.outdent()
 
@@ -107,6 +106,10 @@ class LibraryPath:
         self._console.debug("Detected namespace: %s" % ns)
         self._namespace = ns
 
+
+
+    def scanResourcePath(self, path):
+        pass
 
 
     def _scanClassPath(self, path, uri, encoding):
