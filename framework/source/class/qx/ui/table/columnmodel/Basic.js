@@ -155,6 +155,18 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
       }
 
       this.__colToXPosMap = null;
+      
+      for (var col=0; col<colCount; col++)
+      {
+        var data =
+        {
+          col     : col,
+          visible : true
+        };
+
+        this.fireDataEvent("visibilityChangedPre", data);
+        this.fireDataEvent("visibilityChanged", data);
+      }
     },
 
 
@@ -164,7 +176,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * @return {Array} List of all visible columns
      */
     getVisibleColumns : function() {
-      return this.__visibleColumnArr;
+      return this.__visibleColumnArr != null ? this.__visibleColumnArr : [];
     },
 
 
@@ -333,7 +345,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * @return {Integer} the number of visible columns.
      */
     getVisibleColumnCount : function() {
-      return this.__visibleColumnArr.length;
+      return this.__visibleColumnArr != null ? this.__visibleColumnArr.length : 0;
     },
 
 
