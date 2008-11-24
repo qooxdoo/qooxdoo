@@ -23,7 +23,7 @@ import sys, os, optparse, string, types, pprint
 import qxenviron
 from optparseext.ExtendAction import ExtendAction
 from generator.Generator import Generator
-from generator.config.Config import Config, ExtMap
+from generator.config.Config import Config
 from generator.runtime.Log import Log
 
 
