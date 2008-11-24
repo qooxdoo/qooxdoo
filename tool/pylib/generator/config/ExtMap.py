@@ -18,6 +18,8 @@
 #
 ################################################################################
 
+import os, sys, re, types, string, copy
+
 ##
 # Map class with path-like accessor
 ##
