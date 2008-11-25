@@ -237,11 +237,17 @@ qx.Class.define("qx.event.handler.Application",
       {
         this.__isUnloaded = true;
 
-        // Fire user event
-        qx.event.Registration.fireEvent(window, "shutdown");
+        try
+        {
+          // Fire user event
+          qx.event.Registration.fireEvent(window, "shutdown");
+        }
+        finally
+        {
+          // Execute registry shutdown
+          qx.core.ObjectRegistry.shutdown();
+        }
 
-        // Execute registry shutdown
-        qx.core.ObjectRegistry.shutdown();
       }
     }
 
