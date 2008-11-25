@@ -47,12 +47,13 @@ qx.Bootstrap.define("qx.bom.client.Platform",
     /** {Boolean} Flag to detect if the client system is running Unix/Linux/BSD */
     UNIX : false,
 
+    /** {Boolean} Flag to detect if the client system is assumed */
+    UNKNOWN_PLATFORM : false,
 
     /**
      * Internal initialize helper
      *
      * @return {void}
-     * @throws An error if the platform is not detectable
      */
     __init : function()
     {
@@ -81,7 +82,11 @@ qx.Bootstrap.define("qx.bom.client.Platform",
       }
       else
       {
-        throw new Error("Unable to detect platform: " + input);
+        this.UNKNOWN_PLATFORM = true;
+        this.WIN = true;
+        this.NAME = "win";
+        
+        alert("Unable to detect platform: " + input + "! Assumed Windows.");
       }
     }
   },

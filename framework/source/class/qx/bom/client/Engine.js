@@ -58,19 +58,26 @@ qx.Bootstrap.define("qx.bom.client.Engine",
 
     /** {Boolean} Flag to detect if the client is based on the Internet Explorer HTML/JS engine */
     MSHTML : false,
+    
+    /** {Boolean} Flag to detect if the client engine is assumed */
+    UNKNOWN_ENGINE : false,
+    
+    /** {Boolean} Flag to detect if the client engine version is assumed */
+    UNKNOWN_VERSION: false,
 
 
     /**
      * Internal initialize helper
      *
      * @return {void}
-     * @throws An error if the version of the browser could not be detected
      */
     __init : function()
     {
       var engine = "unknown";
       var version = "0.0.0";
       var agent = navigator.userAgent;
+      var unknownEngine = false;
+      var unknownVersion = false;
 
       if (window.opera)
       {
@@ -83,7 +90,11 @@ qx.Bootstrap.define("qx.bom.client.Engine",
         if (/Opera[\s\/]([0-9\.]*)/.test(agent)) {
           version = RegExp.$1.substring(0, 3) + "." + RegExp.$1.substring(3);
         } else {
-          throw new Error("Could not detect Opera version: " + agent + "!");
+          unknownVersion = true;
+          version = "9.6.0";
+          
+          alert("Could not detect Opera version: " + agent 
+            + "! Assumed Opera version 9.6.0");
         }
       }
       else if (navigator.userAgent.indexOf("AppleWebKit/") != -1)
@@ -104,7 +115,11 @@ qx.Bootstrap.define("qx.bom.client.Engine",
         }
         else
         {
-          throw new Error("Could not detect Webkit version: " + agent + "!");
+          unknownVersion = true;
+          version = "525.26";
+          
+          alert("Could not detect Webkit version: " + agent 
+            + "! Assumed Webkit version 525.26 (Safari 3.2).");
         }
       }
       else if (window.controllers && navigator.product === "Gecko")
@@ -116,7 +131,11 @@ qx.Bootstrap.define("qx.bom.client.Engine",
         if (/rv\:([^\);]+)(\)|;)/.test(agent)) {
           version = RegExp.$1;
         } else {
-          throw new Error("Could not detect Gecko version: " + agent + "!");
+          unknownVersion = true;
+          version = "1.9.0.0";
+          
+          alert("Could not detect Gecko version: " + agent 
+            + "! Assumed Gecko version 1.9.0.0 (Firefox 3.0).");
         }
       }
       else if (navigator.cpuClass && /MSIE\s+([^\);]+)(\)|;)/.test(agent))
@@ -133,9 +152,18 @@ qx.Bootstrap.define("qx.bom.client.Engine",
       }
       else
       {
-        throw new Error("Unsupported client: " + agent + "!");
+        unknownEngine = true;
+        unknownVersion = true;
+        version = "1.9.0.0";
+        engine = "gecko";
+        this.GECKO = true;
+        
+        alert("Unsupported client: " + agent 
+          + "! Assumed gecko version 1.9.0.0 (Firefox 3.0).");
       }
 
+      this.UNKNOWN_ENGINE = unknownEngine;
+      this.UNKNOWN_VERSION = unknownVersion;
       this.NAME = engine;
       this.FULLVERSION = version;
       this.VERSION = parseFloat(version);
