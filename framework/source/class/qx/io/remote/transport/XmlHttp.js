@@ -760,9 +760,13 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
           }
 
           try {
-            if (vText && vText.length > 0) {
-              return qx.util.Json.parseQx(vText) || null;
-            } else {
+            if (vText && vText.length > 0)
+            {
+              var ret = qx.util.Json.parseQx(vText);
+              return (ret === 0 ? 0 : (ret || null));
+            }
+            else
+            {
               return null;
             }
           }
@@ -782,9 +786,13 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
           }
 
           try {
-            if(vText && vText.length > 0) {
-              return window.eval(vText) || null;
-            } else {
+            if(vText && vText.length > 0)
+            {
+              var ret = window.eval(vText);
+              return (ret === 0 ? 0 : (ret || null));
+            }
+            else
+            {
               return null;
             }
           } catch(ex) {
@@ -803,7 +811,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
             }
           }
 
-          return vText || null;
+          return (vText === 0 ? 0 : (vText || null));
 
         default:
           this.warn("No valid responseType specified (" + this.getResponseType() + ")!");
