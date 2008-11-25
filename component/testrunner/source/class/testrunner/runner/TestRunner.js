@@ -376,6 +376,7 @@ qx.Class.define("testrunner.runner.TestRunner",
         decorator : null,
         selectionMode : "single"
       });
+      
       this.tree = tree;
       this.widgets["treeview.full"] = tree;
 
@@ -640,6 +641,7 @@ qx.Class.define("testrunner.runner.TestRunner",
           else
           {
             t = new qx.ui.tree.TreeFile(currNode.label);
+            t.addListener("dblclick", that.runTest, that);
           }
 
           // make connections
