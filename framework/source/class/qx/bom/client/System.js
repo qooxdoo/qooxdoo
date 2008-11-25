@@ -114,6 +114,9 @@ qx.Bootstrap.define("qx.bom.client.System",
 
     /** {Boolean} Flag to detect if the client system is an iPhone or iPod touch */
     IPHONE : false,
+    
+    /** {Boolean} Flag to detect if the client system is assumed */
+    UNKNOWN_SYSTEM : false,
 
     /** Maps user agent names to system IDs */
     __ids :
@@ -163,7 +166,6 @@ qx.Bootstrap.define("qx.bom.client.System",
      * Internal initialize helper
      *
      * @return {void}
-     * @throws An error if the system is not detectable
      */
     __init : function()
     {
@@ -177,7 +179,38 @@ qx.Bootstrap.define("qx.bom.client.System",
       var reg = new RegExp("(" + str.join("|").replace(/\./g, "\.") + ")", "g");
 
       if (!reg.test(agent)) {
-        throw new Error("Could not detect system: " + agent);
+        this.UNKNOWN_SYSTEM = true;
+        
+        if(!qx.bom.client.Platform.UNKNOWN_PLATFORM)
+        {
+          if (qx.bom.client.Platform.UNIX)
+          {
+            this.NAME = "linux";
+            this.LINUX = true;
+        
+            alert("Could not detect system: " + agent + "! Assumed Linux.");
+          } else if(qx.bom.client.Platform.MAC)
+          {
+            this.NAME = "osx5";
+            this.OSX = true;
+        
+            alert("Could not detect system: " + agent + "! Assumed Mac OS X 10.5.");
+          } else 
+          {
+            this.NAME = "winxp";
+            this.WINXP = true;
+        
+            alert("Could not detect system: " + agent + "! Assumed Windows XP.");
+          }
+        } else
+        {
+          this.NAME = "winxp";
+          this.WINXP = true;
+        
+          alert("Could not detect system: " + agent + "! Assumed Windows XP.");
+        }
+        
+        return;
       }
 
       if (qx.bom.client.Engine.WEBKIT && RegExp(" Mobile/").test(navigator.userAgent))
