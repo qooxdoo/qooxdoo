@@ -546,7 +546,7 @@ qx.Class.define("qx.ui.window.Window",
 
       if (this.getShowMaximize())
       {
-        if (this.hasState("maximized"))
+        if (this.isMaximized())
         {
           this._showChildControl("restore-button");
           this._excludeChildControl("maximize-button");
@@ -607,10 +607,7 @@ qx.Class.define("qx.ui.window.Window",
 
     /**
      * Opens the window.
-     *
-     * Sets the opener property (if available) and centers
-     * the window if the property {@link #centered} is enabled.
-     *
+     * 
      * @return {void}
      */
     open : function()
@@ -652,19 +649,22 @@ qx.Class.define("qx.ui.window.Window",
         }
       }
 
-      this.warn("Centering depends on parent bounds!");
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        this.warn("Centering depends on parent bounds!");
+      }
     },
 
 
     /**
-     * Maximize the window by setting the property {@link mode} to <code>maximized</code>
+     * Maximize the window.
      *
      * @return {void}
      */
     maximize : function()
     {
       // If the window is already maximized -> return
-      if (this.hasState("maximized")) {
+      if (this.isMaximized()) {
         return;
       }
       
@@ -705,7 +705,7 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /**
-     * Maximize the window by setting the property {@link mode} to <code>minimized</code>
+     * Minimized the window.
      *
      * @return {void}
      */
@@ -720,13 +720,13 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /**
-     * Maximize the window by setting the property {@link mode} to <code>null</code>
+     * Restore the window, if it is maximized.
      *
      * @return {void}
      */
     restore : function()
     {
-      if (!this.hasState("maximized")) {
+      if (!this.isMaximized()) {
         return;
       }
 
@@ -762,7 +762,7 @@ qx.Class.define("qx.ui.window.Window",
      */
     moveTo : function(left, top)
     {
-      if (this.hasState("maximized")) {
+      if (this.isMaximized()) {
         return;
       }
 
@@ -772,6 +772,38 @@ qx.Class.define("qx.ui.window.Window",
       });
     },
 
+    /**
+     * Return <code>true</code> if the window is in maximized state, 
+     * but note that the window in maximized state could also be invisible, this 
+     * is equivalent to minimized. So use the {@link qx.ui.window.Window#getMode}
+     * to get the window mode.
+     * 
+     * @return {Boolean} <code>true</code> if the window is maximized, 
+     *   <code>false</code> otherwise.
+     */
+    isMaximized : function()
+    {
+      return this.hasState("maximized"); 
+    },
+    
+    /**
+     * Return the window mode as <code>String</code>:
+     * <code>"maximized"</code>, <code>"normal"</code> or <code>"minimized"</code>.
+     * 
+     * @return {String} The window mode as <code>String</code> value.
+     */
+    getMode : function()
+    {
+      if(!this.isVisible()) {
+        return "minimized";
+      } else {
+        if(this.isMaximized()) {
+          return "maximized";
+        } else {
+          return "normal";
+        }
+      }
+    },
 
     /*
     ---------------------------------------------------------------------------
@@ -904,7 +936,7 @@ qx.Class.define("qx.ui.window.Window",
     _onCaptionMouseDblClick : function(e)
     {
       if (this.getAllowMaximize()) {
-        this.hasState("maximized") ? this.restore() : this.maximize();
+        this.isMaximized() ? this.restore() : this.maximize();
       }
     },
 
