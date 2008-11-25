@@ -402,7 +402,8 @@ qx.Class.define("qx.io.remote.transport.Script",
               this.debug("Response: " + this._responseContent);
             }
           }
-          return this._responseContent || null;
+          var ret = this._responseContent;
+          return (ret === 0 ? 0 : (ret || null));
 
         default:
           this.warn("No valid responseType specified (" + this.getResponseType() + ")!");
