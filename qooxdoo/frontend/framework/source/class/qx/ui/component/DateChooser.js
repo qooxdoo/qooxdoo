@@ -78,30 +78,35 @@ qx.Class.define("qx.ui.component.DateChooser",
     var monthYearLabel = new qx.ui.basic.Label;
     var nextMonthBt = new qx.ui.toolbar.Button(null, "widget/datechooser/nextMonth.png");
     var nextYearBt = new qx.ui.toolbar.Button(null, "widget/datechooser/nextYear.png");
+    
+    this._lastYearBtToolTip = new qx.ui.popup.ToolTip(this.tr("Last year"));
+    this._lastMonthBtToolTip = new qx.ui.popup.ToolTip(this.tr("Last month"));
+    this._nextMonthBtToolTip = new qx.ui.popup.ToolTip(this.tr("Next month"));
+    this._nextYearBtToolTip = new qx.ui.popup.ToolTip(this.tr("Next year"));
 
     lastYearBt.set(
     {
       show    : 'icon',
-      toolTip : new qx.ui.popup.ToolTip(this.tr("Last year")),
+      toolTip : this._lastYearBtToolTip,
       spacing : 0
     });
 
     lastMonthBt.set(
     {
       show    : 'icon',
-      toolTip : new qx.ui.popup.ToolTip(this.tr("Last month"))
+      toolTip : this._lastMonthBtToolTip
     });
 
     nextMonthBt.set(
     {
       show    : 'icon',
-      toolTip : new qx.ui.popup.ToolTip(this.tr("Next month"))
+      toolTip : this._nextMonthBtToolTip
     });
 
     nextYearBt.set(
     {
       show    : 'icon',
-      toolTip : new qx.ui.popup.ToolTip(this.tr("Next year"))
+      toolTip : this._nextYearBtToolTip
     });
 
     lastYearBt.setAppearance("datechooser-toolbar-button");
@@ -709,6 +714,7 @@ qx.Class.define("qx.ui.component.DateChooser",
   {
     qx.locale.Manager.getInstance().removeEventListener("changeLocale", this._updateDatePane, this);
 
+    this._disposeObjects("_lastYearBtToolTip", "_lastMonthBtToolTip", "_nextMonthBtToolTip", "_nextYearBtToolTip");
     this._disposeObjects("_lastYearBt", "_lastMonthBt", "_nextMonthBt", "_nextYearBt", "_monthYearLabel");
 
     this._disposeObjectDeep("_weekdayLabelArr", 1);
