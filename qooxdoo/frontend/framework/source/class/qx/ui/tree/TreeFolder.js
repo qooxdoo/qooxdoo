@@ -249,25 +249,34 @@ qx.Class.define("qx.ui.tree.TreeFolder",
 
     /**
      * Closes the current folder.
-     *
-     * @type member
-     * @return {void}
      */
     close : function()
     {
+      // never close a hidden root folder
+      var isTree = this instanceof qx.ui.tree.Tree; 
+      if (isTree && this.isHideNode()) {
+        return;
+      }
+      
+      // if the root node does not have a close button don't close the topmost folder
+      var tree = isTree ? this : this.getTree();
+      if (!tree.getRootOpenClose() && (isTree || tree.isHideNode() && this.getParentFolder() == tree)) {
+        return;
+      }          
+      
       // If there are listeners waiting for a treeClose event...
-      if (this.getTree().hasEventListeners("treeClose"))
+      if (tree.hasEventListeners("treeClose"))
       {
         // ... then issue the event
-        this.getTree().dispatchEvent(new qx.event.type.DataEvent("treeClose", this), true);
+        tree.dispatchEvent(new qx.event.type.DataEvent("treeClose", this), true);
       }
 
       // If we get closed and the current selection is inside of this node.
       // set the selection to this folder
       if (this.getOpen())
       {
-        if(qx.lang.Array.contains(this.getItems(true, true), this.getTree().getSelectedElement())) {
-          this.getTree().getManager().setSelectedItem(this);
+        if(qx.lang.Array.contains(this.getItems(true, true), tree.getSelectedElement())) {
+          tree.getManager().setSelectedItem(this);
         }
       }
 
@@ -947,7 +956,18 @@ qx.Class.define("qx.ui.tree.TreeFolder",
         return;
       }
 
-      this.toggle();
+      var vOriginalTarget = e.getOriginalTarget();
+
+      switch(vOriginalTarget)
+      {
+        case this._indentObject:
+        case this._containerObject:
+        case this:
+          break;
+          
+        default:
+          this.toggle();          
+      }
       e.stopPropagation();
     },
 
