@@ -565,6 +565,7 @@ class Config:
 
     def absPath(self, path):
         'Take a path relative to config file location, and return it absolute'
+        assert isinstance(path, types.StringTypes)
         if os.path.isabs(path):
             return path
         elif not self.getConfigDir():
