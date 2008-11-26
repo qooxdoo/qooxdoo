@@ -1,0 +1,19 @@
+{
+  "name" : "job_extend1/config_2.json",
+
+  "jobs" :
+  {
+    "job1" :
+    {
+      "shell" :
+      {
+        "command" : "echo Hello from config2::job1"
+      }
+    },
+    "run-job1":
+    {
+      "desc"   : "this must use the config_2's common job (config2::common)",
+      "run" : ["job1"]
+    }
+  }
+}
