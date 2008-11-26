@@ -4,10 +4,8 @@
   "include" :
   [
     {
-      "path" : "../../tool/data/config/application.json",
-      "as"   : "appconf"
+      "path" : "../../tool/data/config/application.json"
     }
-    
   ],
 
   "let" :
@@ -19,105 +17,5 @@
     "API_EXCLUDE"  : ["qx.legacy.*"],
     "LOCALES"      : [ "en" ],
     "ROOT"         : "."
-  },
-  
-  
-  
-  "jobs" :
-  {
-    "include-contrib" :
-    {
-      "library": 
-      [
-        {
-          "manifest" : "contrib://UploadWidget/trunk/Manifest.json",
-          "uri"      : "../cache-downloads/UploadWidget/trunk"
-        }
-      ]
-    },
-
-    "api" :
-    {
-      "extend" : ["include-contrib", "appconf::api"]
-    },
-
-    "build" :
-    {
-      "extend" : ["include-contrib", "appconf::build"]
-    },
-
-    "clean" :
-    {
-      "extend" : ["include-contrib", "appconf::clean"]
-    },
-
-    "distclean" :
-    {
-      "extend" : ["include-contrib", "appconf::distclean"]
-    },
-
-    "fix" :
-    {
-      "extend" : ["include-contrib", "appconf::fix"]
-    },
-
-    "lint" :
-    {
-      "extend" : ["include-contrib", "appconf::lint"]
-    },
-
-    "migration" :
-    {
-      "extend" : ["appconf::migration"]
-    },
-
-    "pretty" :
-    {
-      "extend" : ["appconf::pretty"]
-    },
-
-    "publish" :
-    {
-      "extend" : ["appconf::publish"]
-    },
-
-    "source" :
-    {
-      "extend" : ["include-contrib", "appconf::source"]
-    },
-
-    "test" :
-    {
-      "extend" : ["appconf::test"]
-    },
-
-    "test-source" :
-    {
-      "extend" : ["appconf::test-source"]
-    },
-
-    "translate" :
-    {
-      "extend" : ["appconf::translate"]
-    }
-
   }
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 }
