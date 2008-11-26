@@ -196,20 +196,41 @@ qx.Class.define("qx.event.Command",
     {
       if (value)
       {
+        // do not allow whitespaces within shortcuts
+        if (value.search(/[\s]+/) != -1)
+        {
+          var msg = "Whitespaces are not allowed within shortcuts";
+          this.error(msg);
+          throw msg;
+        }
+        
         this.__modifier = { "Control" : false,
                             "Shift"   : false,
                             "Meta"    : false,
                             "Alt"     : false };
         this.__key = null;
-
-        // split string to get each key which must be pressed
-        // build a hash with active keys
-        var a = value.split(/[-+\s]+/);
+        
+        // To support shortcuts with "+" and "-" as keys it is necessary
+        // to split the given value in a different way to determine the
+        // several keyIdentifiers
+        var index;
+        var a = [];
+        while (value.length > 0 && index != -1)
+        {
+          // search for delimiters "+" and "-"
+          index = value.search(/[-+]+/);
+          
+          // add identifiers - if only a char is left take this
+          a.push(value.length == 1 ? value : value.substring(0, index));
+          
+          // extract the already detected identifier
+          value = value.substring(index + 1);
+        }
         var al = a.length;
 
         for (var i=0; i<al; i++)
         {
-          var identifier = this.__noramlizeKeyIdentifier(a[i]);
+          var identifier = this.__normalizeKeyIdentifier(a[i]);
 
           switch(identifier)
           {
@@ -330,7 +351,7 @@ qx.Class.define("qx.event.Command",
      * @param keyName {String} name of the key.
      * @return {String} normalized keyIdentifier or "Unidentified" if a conversion was not possible
      */
-    __noramlizeKeyIdentifier : function(keyName)
+    __normalizeKeyIdentifier : function(keyName)
     {
       var KeyHandler = qx.event.handler.Keyboard;
       var keyIdentifier = "Unidentified";
