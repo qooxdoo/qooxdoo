@@ -1,0 +1,79 @@
+{
+  "name" : "test uri handling in compile output",
+
+  "jobs" :
+  {
+    "framework-with-uri" :
+    {
+      "library" :
+      [
+        {
+          "manifest" : "../../../../../framework/Manifest.json",
+          "uri"      : "/qx/installation"
+        }
+      ]
+    },
+    "framework-without-uri" :
+    {
+      "library" :
+      [
+        {
+          "manifest" : "../../../../../framework/Manifest.json"
+        }
+      ]
+    },
+
+    "library-with-uri" :
+    {
+      "library" :
+      [
+        {
+          "manifest" : "./Manifest.json",
+          "uri"      : "/absolute/server/path"
+        }
+      ]
+    },
+    "library-without-uri" :
+    {
+      "library" :
+      [
+        {
+          "manifest" : "./Manifest.json"
+        }
+      ]
+    },
+
+    "source-without-root" :
+    {
+      "extend" : ["framework-with-uri", "library-with-uri"],
+      "compile-source" :
+      {
+        "file" : "./source.js"
+      }
+    },
+    "source-with-root" :
+    {
+      "extend" : ["framework-without-uri", "library-without-uri"],
+      "compile-source" :
+      {
+        "file" : "./source.js",
+        //"root" : "."
+        "root" : "/my/absolute/approot"
+        //"root" : "../../my/relative/approot"
+      }
+    },
+
+    "build-with-root" :
+    {
+      "extend" : ["library-with-uri"]
+    },
+    "build-without-root" :
+    {
+      "extend" : ["library-with-uri"]
+    },
+
+    "test" : 
+    {
+    }
+  }
+}
