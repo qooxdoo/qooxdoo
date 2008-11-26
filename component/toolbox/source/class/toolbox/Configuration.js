@@ -335,9 +335,7 @@ qx.Class.define("toolbox.Configuration",
       this._disposeObjects("this.win", "this.__content", "this.__state");
     }
     
-    
 
-    
     
   }
 });
