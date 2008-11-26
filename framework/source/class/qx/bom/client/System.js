@@ -187,27 +187,22 @@ qx.Bootstrap.define("qx.bom.client.System",
           {
             this.NAME = "linux";
             this.LINUX = true;
-        
-            alert("Could not detect system: " + agent + "! Assumed Linux.");
-          } else if(qx.bom.client.Platform.MAC)
+          } 
+          else if(qx.bom.client.Platform.MAC)
           {
             this.NAME = "osx5";
             this.OSX = true;
-        
-            alert("Could not detect system: " + agent + "! Assumed Mac OS X 10.5.");
-          } else 
+          } 
+          else 
           {
             this.NAME = "winxp";
             this.WINXP = true;
-        
-            alert("Could not detect system: " + agent + "! Assumed Windows XP.");
           }
-        } else
+        } 
+        else
         {
           this.NAME = "winxp";
           this.WINXP = true;
-        
-          alert("Could not detect system: " + agent + "! Assumed Windows XP.");
         }
         
         return;

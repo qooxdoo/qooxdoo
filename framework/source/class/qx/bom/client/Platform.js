@@ -85,8 +85,6 @@ qx.Bootstrap.define("qx.bom.client.Platform",
         this.UNKNOWN_PLATFORM = true;
         this.WIN = true;
         this.NAME = "win";
-        
-        alert("Unable to detect platform: " + input + "! Assumed Windows.");
       }
     }
   },

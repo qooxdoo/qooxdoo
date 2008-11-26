@@ -92,9 +92,6 @@ qx.Bootstrap.define("qx.bom.client.Engine",
         } else {
           unknownVersion = true;
           version = "9.6.0";
-          
-          alert("Could not detect Opera version: " + agent 
-            + "! Assumed Opera version 9.6.0");
         }
       }
       else if (navigator.userAgent.indexOf("AppleWebKit/") != -1)
@@ -117,9 +114,6 @@ qx.Bootstrap.define("qx.bom.client.Engine",
         {
           unknownVersion = true;
           version = "525.26";
-          
-          alert("Could not detect Webkit version: " + agent 
-            + "! Assumed Webkit version 525.26 (Safari 3.2).");
         }
       }
       else if (window.controllers && navigator.product === "Gecko")
@@ -133,9 +127,6 @@ qx.Bootstrap.define("qx.bom.client.Engine",
         } else {
           unknownVersion = true;
           version = "1.9.0.0";
-          
-          alert("Could not detect Gecko version: " + agent 
-            + "! Assumed Gecko version 1.9.0.0 (Firefox 3.0).");
         }
       }
       else if (navigator.cpuClass && /MSIE\s+([^\);]+)(\)|;)/.test(agent))
@@ -152,14 +143,28 @@ qx.Bootstrap.define("qx.bom.client.Engine",
       }
       else
       {
-        unknownEngine = true;
-        unknownVersion = true;
-        version = "1.9.0.0";
-        engine = "gecko";
-        this.GECKO = true;
+        var failFunction = window.qxFail;
+               
+        if (failFunction && typeof failFunction === "function") {
+          var engine = failFunction();
+         
+          if (engine.NAME && engine.FULLVERSION)
+          {
+            engine = engine.NAME;
+            this[engine.toUpperCase()] = true;
+            version = engine.FULLVERSION;
+          }
+        } 
+        else {
+          unknownEngine = true;
+          unknownVersion = true;
+          version = "1.9.0.0";
+          engine = "gecko";
+          this.GECKO = true;
         
-        alert("Unsupported client: " + agent 
-          + "! Assumed gecko version 1.9.0.0 (Firefox 3.0).");
+          alert("Unsupported client: " + agent 
+            + "! Assumed gecko version 1.9.0.0 (Firefox 3.0).");
+        }
       }
 
       this.UNKNOWN_ENGINE = unknownEngine;

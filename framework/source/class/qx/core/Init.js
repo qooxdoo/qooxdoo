@@ -56,6 +56,19 @@ qx.Class.define("qx.core.Init",
      */
     __ready : function()
     {
+      if (qx.bom.client.Engine.UNKNOWN_ENGINE) {
+        qx.log.Logger.warn("Could not detect engine!");
+      }
+      if (qx.bom.client.Engine.UNKNOWN_VERSION) {
+        qx.log.Logger.warn("Could not detect the version of the engine!");
+      }
+      if (qx.bom.client.Platform.UNKNOWN_PLATFORM) {
+        qx.log.Logger.warn("Could not detect platform!");
+      }
+      if (qx.bom.client.System.UNKNOWN_SYSTEM) {
+        qx.log.Logger.warn("Could not detect system!");
+      }
+      
       qx.log.Logger.debug(this, "Load runtime: " + (new Date - qx.Bootstrap.LOADSTART) + "ms");
 
       var app = qx.core.Setting.get("qx.application");
