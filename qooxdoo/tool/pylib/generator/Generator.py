@@ -58,6 +58,7 @@ class Generator:
         self._console   = console_
         self._variants  = {}
         self._settings  = {}
+        self.approot    = None
 
         cache_path      = self._job.get("cache/compile", "cache")
         cache_path      = self._config.absPath(cache_path)
@@ -584,17 +585,15 @@ class Generator:
 
 
     def runResources(self):
-        generator = self
-
         # only run for copy jobs
-        if not generator._config.get("copy-resources", False):
+        if not self._job.get("copy-resources", False):
             return
 
-        generator._console.info("Copying resources...")
-        resTargetRoot = generator._config.get("copy-resources/target", "build")
+        self._console.info("Copying resources...")
+        resTargetRoot = self._job.get("copy-resources/target", "build")
         resTargetRoot = self._config.absPath(resTargetRoot)
-        libs          = generator._config.get("library", [])
-        generator._console.indent()
+        libs          = self._job.get("library", [])
+        self._console.indent()
         # Copy resources
         for lib in libs:
             #libp = LibraryPath(lib,self._console)
@@ -626,9 +625,9 @@ class Generator:
                 resTarget = os.path.join(resTargetRoot, 'resource', relpath)
 
                 # Copy
-                generator._copyResources(res[0], os.path.dirname(resTarget))
+                self._copyResources(res[0], os.path.dirname(resTarget))
 
-        generator._console.outdent()
+        self._console.outdent()
 
 
     def runCopyFiles(self):
