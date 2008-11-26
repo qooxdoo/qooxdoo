@@ -20,9 +20,9 @@
 ************************************************************************ */
 
 /* ************************************************************************
-#asset(qx/icon/${qx.icontheme}/22/actions/media-playback-start.png)
-#asset(qx/icon/${qx.icontheme}/22/actions/view-refresh.png)
-#asset(qx/icon/${qx.icontheme}/22/actions/system-run.png)
+#asset(qx/icon/Tango/22/actions/media-playback-start.png)
+#asset(qx/icon/Tango/22/actions/view-refresh.png)
+#asset(qx/icon/Tango/22/actions/system-run.png)
 ************************************************************************ */
 
 /**
