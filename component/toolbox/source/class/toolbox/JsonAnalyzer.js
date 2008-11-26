@@ -87,10 +87,12 @@ qx.Class.define("toolbox.JsonAnalyzer",
       {
         var constructorName = incoming.constructor.name;
         if (incoming instanceof Array || constructorName == "Array") {
+        	parent.setIcon("toolbox/image/array-properties.png");
           return this.__convertArray(incoming, parent);
         } else if (incoming instanceof Date || constructorName == "Date") {
           return this.__convertDate(incoming, parent);
         } else if (incoming instanceof Object || constructorName == "Object") {
+        	parent.setIcon("toolbox/image/object-properties.png");
           return this.__convertMap(incoming, parent);
         }
       }
@@ -99,8 +101,8 @@ qx.Class.define("toolbox.JsonAnalyzer",
 
     __convertString : function(incoming, parent)
     {
-      parent.setIcon("toolbox/image/document-properties.png");	
-      var result;
+    	parent.setIcon("toolbox/image/document-properties.png");	
+    	var result;
       
       if (/["\\\x00-\x1f]/.test(incoming)) {
         result = incoming.replace(/([\x00-\x1f\\"])/g, qx.util.Json.__convertStringHelper);
@@ -143,7 +145,7 @@ qx.Class.define("toolbox.JsonAnalyzer",
         obj = incoming[i];       
         func = this.__map[typeof obj];
         var folder = new qx.ui.tree.TreeFolder(i+"");
-        folder.setIcon("toolbox/image/document-open.png");
+        folder.setIcon("toolbox/image/array-properties.png");
         folder.setUserData("json", {obj: incoming, key: i});        
         parent.add(folder);
         if (func) {
@@ -220,31 +222,48 @@ qx.Class.define("toolbox.JsonAnalyzer",
     updateTypeLabel : function(tree) {
     	tree.addListener("changeSelection", function(e)
         {
-        	if (this.tCurrentInput.getValue() == "null") {
-	          this.currentTypeAtom.setLabel("");
-	          this.__tree.getContextMenu().getChildren()[0].setEnabled(false);
-	        } else {
-	        	var constructorName = qx.util.Json.parse(this.tCurrentInput.getValue()).constructor.name;
-		        if (qx.util.Json.parse(this.tCurrentInput.getValue()) instanceof Array || constructorName == "Array") {
-		          this.currentTypeAtom.setLabel("array");
-		          this.__tree.getContextMenu().getChildren()[0].setEnabled(true);
-		        } else if (qx.util.Json.parse(this.tCurrentInput.getValue())  instanceof Date || constructorName == "Date") {
-		          this.currentTypeAtom.setLabel("date");
-		          this.__tree.getContextMenu().getChildren()[0].setEnabled(true);
-		        } else if (qx.util.Json.parse(this.tCurrentInput.getValue())  instanceof Object || constructorName == "Object") {
-		          this.currentTypeAtom.setLabel("object");
-		          this.__tree.getContextMenu().getChildren()[0].setEnabled(true);
-		        } else if (typeof qx.util.Json.parse(this.tCurrentInput.getValue()) == "string") {
-		          this.currentTypeAtom.setLabel("string");
-		          this.__tree.getContextMenu().getChildren()[0].setEnabled(false);
-		        } else if (typeof qx.util.Json.parse(this.tCurrentInput.getValue()) == "number") {
-		          this.currentTypeAtom.setLabel("number");
-		          this.__tree.getContextMenu().getChildren()[0].setEnabled(false);
-		        } else if (typeof qx.util.Json.parse(this.tCurrentInput.getValue()) == "boolean") {
-		          this.currentTypeAtom.setLabel("boolean");
-		          this.__tree.getContextMenu().getChildren()[0].setEnabled(false);
-		        } 
-	        }
+        	//
+        		//alert("--> " + this.tCurrentInput.getValue());
+        	if(this.tCurrentInput.getValue() != "") {	
+        		try{
+            	if (this.tCurrentInput.getValue() == "null") {
+    	          this.currentTypeAtom.setLabel("null");
+    	          this.__tree.getContextMenu().getChildren()[0].setEnabled(false);
+    	          this.btnAddItem.setEnabled(false);
+    	        } else {
+    	        	var constructorName = qx.util.Json.parse(this.tCurrentInput.getValue()).constructor.name;
+    		        if (qx.util.Json.parse(this.tCurrentInput.getValue()) instanceof Array || constructorName == "Array") {
+    		          this.currentTypeAtom.setLabel("array");
+    		          this.__tree.getContextMenu().getChildren()[0].setEnabled(true);
+    		          this.btnAddItem.setEnabled(true);
+    		        } else if (qx.util.Json.parse(this.tCurrentInput.getValue())  instanceof Date || constructorName == "Date") {
+    		          this.currentTypeAtom.setLabel("date");
+    		          this.__tree.getContextMenu().getChildren()[0].setEnabled(true);
+    		          this.btnAddItem.setEnabled(true);
+    		        } else if (qx.util.Json.parse(this.tCurrentInput.getValue())  instanceof Object || constructorName == "Object") {
+    		          this.currentTypeAtom.setLabel("object");
+    		          this.__tree.getContextMenu().getChildren()[0].setEnabled(true);
+    		          this.btnAddItem.setEnabled(true);
+    		        } else if (typeof qx.util.Json.parse(this.tCurrentInput.getValue()) == "string") {
+    		          this.currentTypeAtom.setLabel("string");
+    		          this.__tree.getContextMenu().getChildren()[0].setEnabled(false);
+    		          this.btnAddItem.setEnabled(false);
+    		        } else if (typeof qx.util.Json.parse(this.tCurrentInput.getValue()) == "number") {
+    		          this.currentTypeAtom.setLabel("number");
+    		          this.__tree.getContextMenu().getChildren()[0].setEnabled(false);
+    		          this.btnAddItem.setEnabled(false);
+    		        } else if (typeof qx.util.Json.parse(this.tCurrentInput.getValue()) == "boolean") {
+    		          this.currentTypeAtom.setLabel("boolean");
+    		          this.__tree.getContextMenu().getChildren()[0].setEnabled(false);
+    		          this.btnAddItem.setEnabled(false);
+    		        } 
+    	        }
+        		} catch(err) {
+	           	alert(err);
+	          }
+        	}
+	        
+	        
         }, this);
     },
 
@@ -252,9 +271,16 @@ qx.Class.define("toolbox.JsonAnalyzer",
     	this.currentItem = null;
     	tree.addListener("changeSelection", function(e)
         {	
+        	var data = e.getData();
+        	if(data.length === 0)
+        	{
+        		return;
+        	}
+        	
         	this.setEnableAllButtons(true);
 	      	this.parentMemory = new Array();
-	        var treeItem = e.getData()[0];
+	        var treeItem = data[0];
+	        
 	        this.currentItem = treeItem;
 	        var json = treeItem.getUserData("json");  
 	        
@@ -268,12 +294,12 @@ qx.Class.define("toolbox.JsonAnalyzer",
         
 	        if(treeItem.getLabel().toString() != "root") {
 		        for(;;) { 
-		            treeItem = treeItem.getParent();
-		            this.parentMemory.push(treeItem.getLabel().toString());
-		            if(treeItem.getLabel().toString() == "root"){
-		            	break;
-		            }
-	          	}
+	            treeItem = treeItem.getParent();
+	            this.parentMemory.push(treeItem.getLabel().toString());
+	            if(treeItem.getLabel().toString() == "root"){
+	            	break;
+	            }
+	          }
 	        }
 	        this.parentMemory = this.parentMemory.reverse();
 	        this.parentMemory.shift(); 
@@ -751,66 +777,159 @@ qx.Class.define("toolbox.JsonAnalyzer",
     
     __removeChild : function()
     {
-      /*
-      var current = this.__tree.getSelectedItem();
-      var parent = current.getParent();
-      parent.remove(current);
-      */
-      
+    	
       if(this.tCurrentInput) {
         this.tCurrentInput.setValue("");
       }
 
       var json = this.currentItem.getUserData("json");
+      var par = this.currentItem.getParent().getUserData("json");
+      var parMem = this.currentItem.getParent();
       
-      if(this.currentTypeAtom.getLabel().toString() == "array"){
-      	
-      	var par = this.__tree.getSelectedItem().getParent().getUserData("json");
-      	if(par.obj[par.key] instanceof Array) { 
-      		json.obj.pop(json.key);	
+     
+
+
+//-----------------------------------OBJECT-------------------------------------
+      if(this.currentTypeAtom.getLabel().toString() == "object" ||
+         this.currentTypeAtom.getLabel().toString() == "array" ||
+         this.currentTypeAtom.getLabel().toString() == "null" ||
+         typeof json.obj[json.key] == "string" || 
+         typeof json.obj[json.key] == "number" ||
+         typeof json.obj[json.key] == "boolean"){ // Objekt in einem Array
+      	if(par.obj[par.key] instanceof Array) {
+      		for(var i = 0; i < json.obj.length; i++) {
+      			if(i == this.__tree.getSelectedItem().getLabel().toString()) {
+      				json.obj.splice(i, 1);
+      				this[this.__map[typeof json.obj]](json.obj, this.__tree.getSelectedItem().getParent());
+    					  for(var j = 0; j < json.obj.length + 1; j++) {
+    				     	parMem.removeAt(0);
+    				    }
+          			break;
+          	}
+      		}
+      	} else if(par.obj[par.key] instanceof Object) { // Object in einem Object
+      		delete json.obj[json.key];
+	  		  delete json.key;
+	  		  this[this.__map[typeof json.obj]](json.obj, this.__tree.getSelectedItem().getParent());
+      	  for(var j = 0; j < parMem.getItems(true, false).length + 1; j++) { 
+            parMem.removeAt(0);
+          }
       	}
-      	delete json.obj[json.key];
-	  	delete json.key;
+      }
+//-----------------------------------OBJECT-------------------------------------
+//-----------------------------------ARRAY--------------------------------------
+/*
+      else if(this.currentTypeAtom.getLabel().toString() == "array"){ //Array in einem Array
+        if(par.obj[par.key] instanceof Array) {
+          for(var i = 0; i < json.obj.length; i++) {
+            if(i == this.__tree.getSelectedItem().getLabel().toString()) {
+              json.obj.splice(i, 1);
+              this[this.__map[typeof json.obj]](json.obj, this.__tree.getSelectedItem().getParent());
+                for(var j = 0; j < json.obj.length + 1; j++) {
+                  parMem.removeAt(0);
+                }
+                break;
+            }
+          }
+        } else if(par.obj[par.key] instanceof Object) { // Array in einem Object
+          delete json.obj[json.key];
+          delete json.key;
+          this[this.__map[typeof json.obj]](json.obj, this.__tree.getSelectedItem().getParent());
+          for(var j = 0; j < parMem.getItems(true, false).length + 1; j++) { 
+            parMem.removeAt(0);
+          }
+        }
+      }   
+//-----------------------------------ARRAY--------------------------------------      
+      
+      
+
+      
+/* 
+ 
+[
+  [
+    "path"
+  ],
+  [
+    "1"
+  ],
+  [
+    "2"
+  ],
+  [
+    "3"
+  ]
+]
+ 
+*/ 
+ /*
+ 
+ 
+{
+  "alo 0":{
+    "path":"../../qooxdoo-0.8-sdk/tool/data/config/application.json"
+  },
+  "alo 1":{
+    "1":"1"
+  },
+  "alo 2":{
+    "2":"2"
+  },
+  "alo 3":{
+    "3":"3"
+  }
+}
+ 
+
+ 
+ [
+  {
+    "path":"../../qooxdoo-0.8-sdk/tool/data/config/application.json"
+  },
+  {
+    "1":"1"
+  },
+  {
+    "2":"2"
+  },
+  {
+    "3":"3"
+  }
+]
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+------------------------------------------------------------------------------
+      else if(typeof json.obj[json.key] == "string") {
+  		alert("string");
+  		if(par.obj[par.key] instanceof Array) {
+  			json.obj.pop(qx.util.Json.stringify(json.key, true));	
+  		}
+      }
+      
+     
+      
+      
+      //alert("Das ganze  " + qx.util.Json.stringify(toolbox.Configuration.JSON, true));
 	  	
-      } else {
-      	var par = this.__tree.getSelectedItem().getParent().getUserData("json");
-      	if(par.obj[par.key] instanceof Array) { 
-	  		json.obj.splice(json.key, 1); 
-	  	}
-      	delete json.obj[json.key];
-	  	delete json.key;
-      }
       
-      
-      /*
-      else if(this.currentTypeAtom.getLabel().toString() == "string") {
-      	var par = this.__tree.getSelectedItem().getParent().getUserData("json");
-      	if(par.obj[par.key] instanceof Array) { //TODO
-	  		json.obj.splice(json.key, 1); // works
-	  	}
-      	
-      	delete json.obj[json.key];
-	  	delete json.key;
-      } else if(this.currentTypeAtom.getLabel().toString() == "object") {
-      	var par = this.__tree.getSelectedItem().getParent().getUserData("json");
-      	if(par.obj[par.key] instanceof Array) { //TODO
-	  		json.obj.splice(json.key, 1); // works
-	  	}
-      	delete json.obj[json.key];
-	  	delete json.key;
-      }
-      */
-      var current = this.__tree.getSelectedItem();
-      var parent = current.getParent();
-      parent.remove(current);
+     
       	  
-      this[this.__map[typeof json.obj]](json.obj, this.__tree.getSelectedItem()); 
+      //this[this.__map[typeof json.obj]](json.obj, this.__tree.getSelectedItem()); 
       //alert(qx.util.Json.stringify(json.obj, true));
       
 
-      this.parentMemory.splice(json.key, 1);
+      //this.parentMemory.splice(json.key, 1);
               
-        
+       */  
         
     },
     
