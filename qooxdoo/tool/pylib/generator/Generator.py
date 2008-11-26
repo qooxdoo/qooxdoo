@@ -808,7 +808,7 @@ class Generator:
         format = self._job.get("compile-source/format", False)
 
         # The place where the app HTML ("index.html") lives
-        self.approot = self._config.absPath(self._job.get("compile-source/root", None))
+        self.approot = self._config.absPath(self._job.get("compile-source/root", ""))
 
         # Read in settings
         settings = self.getSettings()
@@ -1578,6 +1578,7 @@ class _ResourceHandler(object):
         """Find relevant resources/assets, implementing shaddowing of resources.
            Returns a list of resources, each a pair of [file_path, uri]"""
         result = []
+        ignoredFiles = [r'\.meta$']  # array of regexps
 
         # go through all libs (weighted) and collect necessary resources
         # fallback: take all resources
@@ -1601,6 +1602,9 @@ class _ResourceHandler(object):
             for rsrc in liblist:
                 if not inCache:
                     llist.append(rsrc)
+                # filter out auxiliary files in the file system that are not considered resources
+                if [x for x in map(lambda x: re.search(x, rsrc), ignoredFiles) if x!=None]:
+                    continue
                 # is this file considered necessary?
                 if (filter and not filter(rsrc)):
                     continue

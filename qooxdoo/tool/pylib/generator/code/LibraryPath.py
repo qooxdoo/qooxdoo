@@ -107,7 +107,7 @@ class LibraryPath:
     def scanResourcePath(self):
         # path to the lib resource root
         libpath = os.path.normpath(self._resourcePath)  # normalize "./..."
-        liblist = filetool.find(libpath)  # liblist is a generator, therefore we
+        liblist = filetool.find(libpath)  # liblist is a generator
         return liblist
 
 
