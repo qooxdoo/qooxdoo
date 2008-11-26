@@ -1,0 +1,14 @@
+{
+  "name" : "job_extend2/config_1.json",
+
+  "include" : 
+  [
+    {
+      "path" : "config_2.json"
+    }
+  ],
+
+  "jobs" :
+  {
+  }
+}

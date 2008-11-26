@@ -1,0 +1,19 @@
+{
+  "name" : "test job de-referencing when imported jobs are involved",
+
+  "include" : 
+  [
+    {
+      "path" : "config_1.json",
+      "as"   : "cfg1"
+    }
+  ],
+
+  "jobs" :
+  {
+    "test" : 
+    {
+      "extend" : ["cfg1::run-job1"]
+    }
+  }
+}
