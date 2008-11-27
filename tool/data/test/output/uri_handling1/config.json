@@ -3,6 +3,14 @@
 
   "jobs" :
   {
+    "common" :
+    {
+      "cache" :
+      {
+        "compile" : "../../cache"
+      }
+    },
+
     "framework-with-uri" :
     {
       "library" :
@@ -45,7 +53,7 @@
 
     "source-without-root" :
     {
-      "extend" : ["framework-with-uri", "library-with-uri"],
+      "extend" : ["common", "framework-with-uri", "library-with-uri"],
       "compile-source" :
       {
         "file" : "./source.js"
@@ -53,7 +61,7 @@
     },
     "source-with-root" :
     {
-      "extend" : ["framework-without-uri", "library-without-uri"],
+      "extend" : ["common", "framework-without-uri", "library-without-uri"],
       "compile-source" :
       {
         "file" : "./source.js",
@@ -65,11 +73,11 @@
 
     "build-with-root" :
     {
-      "extend" : ["library-with-uri"]
+      "extend" : ["common", "library-with-uri"]
     },
     "build-without-root" :
     {
-      "extend" : ["library-with-uri"]
+      "extend" : ["common", "library-with-uri"]
     },
 
     "test" : 
