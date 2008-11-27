@@ -295,13 +295,20 @@ class DependencyLoader:
             # warn about instantiations of unknown classes
             ##if not assembledId:
             ##    print assembled
-            if (not assembledId
+            if ((not assembledId
                 and 'parent' in node.__dict__
                 and 'parent' in node.parent.__dict__
                 and 'parent' in node.parent.parent.__dict__
                 and 'parent' in node.parent.parent.parent.__dict__
                 and node.parent.parent.parent.parent.type == 'instantiation'  # we're inside a 'new' expression
-                and node.parent.type == 'operand' # it's the functor
+                and node.parent.type == 'operand' # and it's the class name
+                ) or
+                (not assembledId
+                and 'parent' in node.__dict__
+                and 'parent' in node.parent.__dict__
+                and node.parent.parent.type == 'keyvalue'
+                and node.parent.parent.get('key') == 'extend'        # it's the value of an 'extend' key
+                )
                ):
                 # skip built-in classes (Error, document, RegExp, ...)
                 if (assembled in lang.BUILTIN + ['clazz']
