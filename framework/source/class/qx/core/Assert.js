@@ -309,7 +309,7 @@ qx.Class.define("qx.core.Assert",
         this.__assert(false, msg || "", "The function did not raise an exception!");
       }
 
-      this.__assert(error instanceof exception, msg || "", "The raised exception does not have the expected type!");
+      this.__assert(error instanceof exception, msg || "", "The raised exception does not have the expected type! " + exception);
 
       if (re) {
         this.assertMatch(error.toString(), re, msg);
