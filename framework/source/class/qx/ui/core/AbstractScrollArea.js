@@ -288,6 +288,16 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
      * @return {void}
      */
     scrollToX : function(value) {
+      var bounds = this.getBounds();
+      if (!bounds) {
+        // Scroll area has not yet been rendered
+        this.addListenerOnce("appear", function() 
+        {
+          this.scrollToX(value);
+        }, this);
+        return;
+      }
+      
       this._getChildControl("scrollbar-x").scrollTo(value);
     },
 
@@ -299,6 +309,16 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
      * @return {void}
      */
     scrollByX : function(value) {
+      var bounds = this.getBounds();
+      if (!bounds) {
+        // Scroll area has not yet been rendered
+        this.addListenerOnce("appear", function() 
+        {
+          this.scrollByX(value);
+        }, this);
+        return;
+      }
+      
       this._getChildControl("scrollbar-x").scrollBy(value);
     },
 
@@ -322,6 +342,16 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
      * @return {void}
      */
     scrollToY : function(value) {
+      var bounds = this.getBounds();
+      if (!bounds) {
+        // Scroll area has not yet been rendered
+        this.addListenerOnce("appear", function() 
+        {
+          this.scrollToY(value);
+        }, this);
+        return;
+      }
+      
       this._getChildControl("scrollbar-y").scrollTo(value);
     },
 
@@ -333,6 +363,16 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
      * @return {void}
      */
     scrollByY : function(value) {
+      var bounds = this.getBounds();
+      if (!bounds) {
+        // Scroll area has not yet been rendered
+        this.addListenerOnce("appear", function() 
+        {
+          this.scrollByY(value);
+        }, this);
+        return;
+      }
+      
       this._getChildControl("scrollbar-y").scrollBy(value);
     },
 
