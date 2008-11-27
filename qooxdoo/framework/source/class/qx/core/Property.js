@@ -98,12 +98,21 @@
  *     specified if desired.  Alternatively, the transform function may throw
  *     an error if the value passed to it is invalid.
  *   </td></tr>
- *   <tr><th>validate</th><td>String</td><td>
+ *   <tr><th>validate</th><td>Function, String</td><td>
  *     On setting of the property value the method of the specified name will
  *     be called. The signature of the method is <code>function(value)</code>.
  *     The parameter <code>value</code> is the value passed to the setter.
- *     If the validation fails, an <code>qx.core.ValidationError</code> should be 
- *     thrown by the validation function. Otherwise, just do nothing in the function.
+ *     If the validation fails, an <code>qx.core.ValidationError</code> should 
+ *     be thrown by the validation function. Otherwise, just do nothing in the 
+ *     function.<br>
+ *     If a string is given, the string should hold a reference to either a 
+ *     member method or a static method.<br>
+ *     Member-Method: <code>"this.<i>methodname</i>"</code> for example 
+ *     <code>"this.__validateProperty"</code><br>
+ *     Static-Method: <code>"<i>full qualified name</i>"</code> for example 
+ *     <code>"my.namespace.validator"</code><br>
+ *     There are some default validators in the {@link qx.util.Validate} class. 
+ *     See this documentation for usage examples.
  *   </td></tr> 
  * </table>
  *
@@ -257,7 +266,7 @@ qx.Class.define("qx.core.Property",
       check        : null,       // Array, String, Function
       transform    : "string",   // String
       deferredInit : "boolean",  // Boolean
-      validate     : "string"    // String
+      validate     : null        // String, Function
     },
 
 
@@ -823,7 +832,15 @@ qx.Class.define("qx.core.Property",
         // Call user-provided validate method, if one is provided.  Validate
         // method should either throw an error or do nothing.
         if (config.validate) {
-          code.push(config.validate, '(value);');            
+          // if it is a string
+          if (typeof config.validate === "string") {
+            code.push(config.validate, '(value);');
+          // if its a function otherwise
+          } else if (config.validate instanceof Function) {
+            code.push(clazz.classname, '.$$properties.', name);
+            code.push('.validate.call(this, value);');
+          }
+
         }
       }
 
