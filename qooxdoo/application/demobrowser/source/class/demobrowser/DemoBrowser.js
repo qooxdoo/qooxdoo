@@ -188,6 +188,14 @@ qx.Class.define("demobrowser.DemoBrowser",
       // 
       // this._cmdNamespacePollution = new qx.event.Command("Ctrl+P");
       // this._cmdNamespacePollution.addListener("execute", this.__showPollution, this);
+
+      this._cmdObjectSummary = new qx.event.Command();
+      this._cmdRunSample = new qx.event.Command();
+      this._cmdPrevSample = new qx.event.Command();
+      this._cmdNextSample = new qx.event.Command();
+      this._cmdSampleInOwnWindow = new qx.event.Command();
+      this._cmdDisposeSample = new qx.event.Command();
+      this._cmdNamespacePollution = new qx.event.Command();
     },
 
     __getObjectSummary : function()
