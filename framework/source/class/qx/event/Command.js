@@ -220,8 +220,9 @@ qx.Class.define("qx.event.Command",
           // search for delimiters "+" and "-"
           index = value.search(/[-+]+/);
           
-          // add identifiers - if only a char is left take this
-          a.push(value.length == 1 ? value : value.substring(0, index));
+          // add identifiers - take value if no separator was found or 
+          // only one char is left (second part of shortcut)
+          a.push((value.length == 1 || index == -1) ? value : value.substring(0, index));
           
           // extract the already detected identifier
           value = value.substring(index + 1);
