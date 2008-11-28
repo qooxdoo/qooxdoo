@@ -854,14 +854,14 @@ qx.Class.define("qx.html.Element",
     __generateListenerId : function(type, listener, self, capture)
     {
       var reg = qx.core.ObjectRegistry;
-      var id = "evt-" + type + "-" + reg.toHashCode(listener);
+      var id = "evt\000" + type + "\000" + reg.toHashCode(listener);
 
       if (self) {
-        id += "-" + reg.toHashCode(self);
+        id += "\000" + reg.toHashCode(self);
       }
 
       if (capture) {
-        id += "-capture";
+        id += "\000capture";
       }
 
       return id;
@@ -2385,7 +2385,7 @@ qx.Class.define("qx.html.Element",
           this.assertObject(self, "Invalid context for callback.")
         }
         if (capture !== undefined) {
-          this.assertBoolean(capture, "Invalid capture falg.");
+          this.assertBoolean(capture, "Invalid capture flag.");
         }
       }
 
@@ -2409,9 +2409,30 @@ qx.Class.define("qx.html.Element",
     },
 
 
+    /**
+     * Check if there are one or more listeners for an event type.
+     *
+     * @param type {String} name of the event type
+     * @param capture {Boolean ? false} Whether to check for listeners of
+     *         the bubbling or of the capturing phase.
+     * @return {Boolean} Whether the object has a listener of the given type.
+     */
     hasListener : function(type, capture)
     {
-      throw new Error("hasListener() needs implementation!");
+      if (this.__element) {
+        return qx.event.Registration.hasListener(this.__element, type, capture);
+      }
+
+      for (var key in this.__eventValues)
+      {
+        key = key.split("\000");
+        var isCapture = key[4] == "capture";
+
+        if (capture == isCapture && type == key[1]) {
+          return true;
+        }
+      }
+      return false;
     }
   },
 
