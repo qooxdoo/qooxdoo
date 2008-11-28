@@ -115,6 +115,20 @@
 
       "extend" : ["common"],
 
+      // include all (relevant) sources
+      "include" :     
+      [
+        "${APPLICATION}.*",
+        "qx.*"
+      ],
+      "exclude" :
+      [
+        "qx.legacy.*",
+        "qx.test.*"
+      ],
+      /*
+      */
+
       "compile-source" :
       {
         "file" : "${ROOT}/source/script/${APPLICATION}.js",
