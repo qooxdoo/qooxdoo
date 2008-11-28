@@ -35,7 +35,7 @@ qx.Class.define("qx.test.core.Validation",
           custom : {
               init:  "Some String",
               check: "String",
-              validate: "this.__validateCustom"
+              validate: "__validateCustom"
           },
 
           number : {

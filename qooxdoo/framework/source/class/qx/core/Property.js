@@ -105,12 +105,10 @@
  *     If the validation fails, an <code>qx.core.ValidationError</code> should 
  *     be thrown by the validation function. Otherwise, just do nothing in the 
  *     function.<br>
- *     If a string is given, the string should hold a reference to either a 
- *     member method or a static method.<br>
- *     Member-Method: <code>"this.<i>methodname</i>"</code> for example 
+ *     If a string is given, the string should hold a reference to a member 
+ *     method.<br>
+ *     <code>"<i>methodname</i>"</code> for example 
  *     <code>"this.__validateProperty"</code><br>
- *     Static-Method: <code>"<i>full qualified name</i>"</code> for example 
- *     <code>"my.namespace.validator"</code><br>
  *     There are some default validators in the {@link qx.util.Validate} class. 
  *     See this documentation for usage examples.
  *   </td></tr> 
@@ -834,7 +832,7 @@ qx.Class.define("qx.core.Property",
         if (config.validate) {
           // if it is a string
           if (typeof config.validate === "string") {
-            code.push(config.validate, '(value);');
+            code.push('this.', config.validate, '(value);');
           // if its a function otherwise
           } else if (config.validate instanceof Function) {
             code.push(clazz.classname, '.$$properties.', name);
