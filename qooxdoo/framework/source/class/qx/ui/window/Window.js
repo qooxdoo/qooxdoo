@@ -440,7 +440,7 @@ qx.Class.define("qx.ui.window.Window",
         case "captionbar":
           // captionbar
           var layout = new qx.ui.layout.Grid();
-          layout.setColumnFlex(2, 1);
+          layout.setColumnFlex(1, 1);
           layout.setRowFlex(0, 1);
           control = new qx.ui.container.Composite(layout);
           this._add(control);
@@ -459,12 +459,8 @@ qx.Class.define("qx.ui.window.Window",
 
         case "title":
           control = new qx.ui.basic.Label(this.getCaption());
+          control.setAllowGrowX(true);
           this._getChildControl("captionbar").add(control, {row: 0, column:1});
-          break;
-
-        case "spacer":
-          control = new qx.ui.core.Spacer();
-          this._getChildControl("captionbar").add(control, {row: 0, column:2});
           break;
 
         case "minimize-button":
@@ -472,7 +468,7 @@ qx.Class.define("qx.ui.window.Window",
           control.setFocusable(false);
           control.addListener("execute", this._onMinimizeButtonClick, this);
 
-          this._getChildControl("captionbar").add(control, {row: 0, column:3});
+          this._getChildControl("captionbar").add(control, {row: 0, column:2});
           break;
 
         case "restore-button":
@@ -480,7 +476,7 @@ qx.Class.define("qx.ui.window.Window",
           control.setFocusable(false);
           control.addListener("execute", this._onRestoreButtonClick, this);
 
-          this._getChildControl("captionbar").add(control, {row: 0, column:4});
+          this._getChildControl("captionbar").add(control, {row: 0, column:3});
           break;
 
         case "maximize-button":
@@ -488,7 +484,7 @@ qx.Class.define("qx.ui.window.Window",
           control.setFocusable(false);
           control.addListener("execute", this._onMaximizeButtonClick, this);
 
-          this._getChildControl("captionbar").add(control, {row: 0, column:5});
+          this._getChildControl("captionbar").add(control, {row: 0, column:4});
           break;
 
         case "close-button":
