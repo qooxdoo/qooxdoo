@@ -1632,11 +1632,12 @@ class _ResourceHandler(object):
 
         if not self._resList:
             self._resList = self._getResourcelistFromClasslist(classes)  # get consolidated resource list
+            self._resList = [re.compile(x) for x in self._resList]  # convert to regexp's
+
         def filter(respath):
             respath = Path.posifyPath(respath)
             for res in self._resList:
-                res1 = res
-                mo = re.search(res1, respath)  # this might need a better 'match' algorithm
+                mo = res.search(respath)  # this might need a better 'match' algorithm
                 if mo:
                     return True
             return False
@@ -1698,7 +1699,7 @@ class _ResourceHandler(object):
     # The support for macros, themes, variants and all the types of variables make me somewhat crazy.
     # Makes it complicated for users as well.
     def _expandMacrosInMeta(self, res):
-        themeinfo = self._genobj._config.get('themes',{})
+        themeinfo = self._genobj._job.get('themes',{})
 
         def expMacRec(rsc):
             if rsc.find('${')==-1:
