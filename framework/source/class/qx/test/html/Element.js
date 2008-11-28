@@ -35,8 +35,42 @@ qx.Class.define("qx.test.html.Element",
 
     tearDown : function()
     {
+      qx.html.Element.flush();
       var div = document.getElementById("doc");
       document.body.removeChild(div);
+    },
+
+
+    testHasListenerNoFlush : function()
+    {
+      var listener = function(e) {};
+      var el = new qx.html.Element();
+      el.addListener("click", listener, this);
+      el.addListener("mousedown", listener, this, true);
+
+      this.assertTrue(el.hasListener("click", false));
+      this.assertFalse(el.hasListener("click", true));
+      this.assertTrue(el.hasListener("mousedown", true));
+      this.assertFalse(el.hasListener("mousedown", false));
+
+      el.dispose();
+    },
+
+
+    testHasListenerFlush : function()
+    {
+      var listener = function(e) {};
+      var el = new qx.html.Element();
+      el.addListener("click", listener, this);
+      el.addListener("mousedown", listener, this, true);
+      qx.html.Element.flush();
+
+      this.assertTrue(el.hasListener("click", false));
+      this.assertFalse(el.hasListener("click", true));
+      this.assertTrue(el.hasListener("mousedown", true));
+      this.assertFalse(el.hasListener("mousedown", false));
+
+      el.dispose();
     },
 
 
