@@ -92,8 +92,6 @@ qx.Class.define("toolbox.ValidateCode",
           }
         }
 
-        alert("Parameter VALIDATE " + dat);
-
         req.setProhibitCaching(true);
         req.setData(dat);
         var progressLoader = new toolbox.ProgressLoader();
