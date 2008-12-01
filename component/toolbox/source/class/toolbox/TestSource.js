@@ -95,8 +95,6 @@ qx.Class.define("toolbox.TestSource",
           }
         }
 
-        alert("Parameter Test" + dat);
-
         req.setProhibitCaching(true);
         req.setData(dat);
         var progressLoader = new toolbox.ProgressLoader();
@@ -104,7 +102,6 @@ qx.Class.define("toolbox.TestSource",
         req.addListener("completed", function(evt)
         {
           var result = evt.getContent();
-          alert("GenerateSourceKlasse---> State=" + result.test_state);
           var receivedState = result.test_state;
 
           if (receivedState == 1 || receivedState == 0)

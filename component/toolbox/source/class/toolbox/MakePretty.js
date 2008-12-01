@@ -92,7 +92,6 @@ qx.Class.define("toolbox.MakePretty",
           }
         }
 
-        alert("Parameter Pretty " + dat);
 
         req.setProhibitCaching(true);
         req.setData(dat);
