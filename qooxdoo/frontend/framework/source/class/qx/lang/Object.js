@@ -106,11 +106,10 @@ qx.Class.define("qx.lang.Object",
     /**
      * Get the keys of a map as array as returned by a "for ... in" statement.
      *
-     * TODO: Rename to keys() like in prototype and python
-     *
      * @type static
      * @param map {Object} the map
      * @return {Array} array of the keys of the map
+     * @signature function(map)
      */
     getKeys : qx.core.Variant.select("qx.client",
     {
@@ -224,7 +223,8 @@ qx.Class.define("qx.lang.Object",
      * @return {Object} target with merged values from source
      * @deprecated
      */
-    carefullyMergeWith : function(target, source) {
+    carefullyMergeWith : function(target, source)
+    {
       qx.log.Logger.deprecatedMethodWarning(arguments.callee);
       return qx.lang.Object.mergeWith(target, source, false);
     },
