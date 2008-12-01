@@ -1574,58 +1574,6 @@ class _ResourceHandler(object):
         self._resList = None
 
 
-    def findAllResources1(self, libraries, filter=None):
-        """Find relevant resources/assets, implementing shaddowing of resources.
-           Returns a list of resources, each a pair of [file_path, uri]"""
-        result = []
-        ignoredFiles = [r'\.meta$']  # array of regexps
-
-        # go through all libs (weighted) and collect necessary resources
-        # fallback: take all resources
-        libs = libraries[:]
-        libs.reverse()
-
-        for lib in libs:
-            libPath = LibraryPath(lib, self._genobj._console)
-            ns = libPath.getNamespace()
-            # check and populate cache of files on disk (reduce disk I/O)
-            cacheId = "resinlib-%s" % ns
-            liblist = self._genobj._cache.read(cacheId, dependsOn=None, memory=True)
-            if liblist == None:
-                liblist = libPath.scanResourcePath() # liblist is a generator, therefore we
-                llist   = []                         # cannot write it out just now
-                inCache = False
-            else:
-                inCache = True
-
-            # for each resource path in library
-            for rsrc in liblist:
-                if not inCache:
-                    llist.append(rsrc)
-                # filter out auxiliary files in the file system that are not considered resources
-                if [x for x in map(lambda x: re.search(x, rsrc), ignoredFiles) if x!=None]:
-                    continue
-                # is this file considered necessary?
-                if (filter and not filter(rsrc)):
-                    continue
-                else:
-                    # create a pair res = [path, uri] for this resource...
-                    res = []
-                    rsource = os.path.normpath(rsrc)  # normalize "./..."
-                    relpath = (Path.getCommonPrefix(libPath._resourcePath, rsource))[2]
-                    if relpath[0] == os.sep:  # normalize "/..."
-                        relpath = relpath[1:]
-                    res.append(rsource)
-                    res.append(self._genobj._computeResourceUri(lib, relpath, rType='resource', appRoot=self._genobj.approot))
-                    # ...and add it to the result list
-                    result.append(res)
-
-            if not inCache:
-                    self._genobj._cache.write(cacheId, llist, memory=True, writeToFile=False)
-
-        return result
-
-
     def findAllResources(self, libraries, filter=None):
         """Find relevant resources/assets, implementing shaddowing of resources.
            Returns a list of resources, each a pair of [file_path, uri]"""
