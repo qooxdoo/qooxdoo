@@ -35,32 +35,48 @@ qx.Class.define("toolbox.ProgressLoader",
 {
   extend : qx.core.Object,
 
-    /*
-      *****************************************************************************
-         CONSTRUCTOR
-      *****************************************************************************
-    */
-  construct : function() {
-  		this.base(arguments);
-  		this.__createLoader();
+
+
+
+  /*
+        *****************************************************************************
+           CONSTRUCTOR
+        *****************************************************************************
+      */
+
+  construct : function()
+  {
+    this.base(arguments);
+    this.__createLoader();
   },
 
-    /*
-      *****************************************************************************
-         MEMBERS
-      *****************************************************************************
-    */
+
+
+
+  /*
+        *****************************************************************************
+           MEMBERS
+        *****************************************************************************
+      */
 
   members :
   {
-      __createLoader : function() {
-        this.__loader = new qx.ui.window.Window("Loading").set({
-          backgroundColor: "white",
-          padding: [4, 4, 4, 4],
-          allowMinimize : false,
-          allowMaximize : false
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    __createLoader : function()
+    {
+      this.__loader = new qx.ui.window.Window("Loading").set(
+      {
+        backgroundColor : "white",
+        padding         : [ 4, 4, 4, 4 ],
+        allowMinimize   : false,
+        allowMaximize   : false
       });
-      
+
       this.__loader.setLayout(new qx.ui.layout.Canvas());
 
       this.__root = qx.core.Init.getApplication().getRoot();
@@ -68,27 +84,36 @@ qx.Class.define("toolbox.ProgressLoader",
       this.__root.block();
       this.__root.setBlockerColor("white");
       this.__root.setBlockerOpacity(0.5);
-      
 
       this.__loader.add(new qx.ui.basic.Atom("Loading", "toolbox/image/progressLoader.gif"));
-      this.__loader.moveTo(parseInt(qx.core.Init.getApplication().toolbox.getBounds()["width"]/2) - 150, 
-                                 parseInt(qx.core.Init.getApplication().toolbox.getBounds()["height"]/2) - 50);
+      this.__loader.moveTo(parseInt(qx.core.Init.getApplication().toolbox.getBounds()["width"] / 2) - 150, parseInt(qx.core.Init.getApplication().toolbox.getBounds()["height"] / 2) - 50);
 
       this.__loader.setZIndex(100);
-      //this.__loader.setAutoHide(false);
+
+      // this.__loader.setAutoHide(false);
       this.__loader.show();
     },
-    
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
     unblock : function() {
-    	this.__root.unblock();
+      this.__root.unblock();
     },
-    
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
     hideLoader : function() {
       this.__loader.hide();
     }
-    
-    
-    
-    
   }
 });

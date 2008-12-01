@@ -29,94 +29,139 @@ qx.Class.define("toolbox.AbortProcess",
 {
   extend : qx.core.Object,
 
-    /*
-      *****************************************************************************
-         CONSTRUCTOR
-      *****************************************************************************
-    */
-  construct : function(adminPath, fileName, filePath) {
-  		this.base(arguments, adminPath, fileName, filePath);
-  		this.__urlParms = new toolbox.UrlSearchParms();
-  		this.__abortProcess(adminPath, fileName, filePath);
+
+
+
+  /*
+        *****************************************************************************
+           CONSTRUCTOR
+        *****************************************************************************
+      */
+
+  construct : function(adminPath, fileName, filePath)
+  {
+    this.base(arguments, adminPath, fileName, filePath);
+    this.__urlParms = new toolbox.UrlSearchParms();
+    this.__abortProcess(adminPath, fileName, filePath);
   },
 
-    /*
-      *****************************************************************************
-         MEMBERS
-      *****************************************************************************
-    */
+
+
+
+  /*
+        *****************************************************************************
+           MEMBERS
+        *****************************************************************************
+      */
 
   members :
   {
-    __abortProcess : function(adminPath, fileName, filePath) {
-    	if (fileName != "" & filePath!=""){
-      	var url = adminPath;
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param adminPath {var} TODOC
+     * @param fileName {var} TODOC
+     * @param filePath {var} TODOC
+     * @return {void} 
+     */
+    __abortProcess : function(adminPath, fileName, filePath)
+    {
+      if (fileName != "" & filePath != "")
+      {
+        var url = adminPath;
         var req = new qx.io.remote.Request(url, "POST");
         var dat = "action=abort_Process";
-        var createParams = [fileName, filePath];
+        var createParams = [ fileName, filePath ];
         req.setTimeout(1000000);
-        
+
         // check cygwin path
         if ('cygwin' in this.__urlParms.getParms())
         {
-          var cygParm = 'cygwin'+"="+this.__urlParms.getParms()['cygwin'];
-          dat += "&"+cygParm;
+          var cygParm = 'cygwin' + "=" + this.__urlParms.getParms()['cygwin'];
+          dat += "&" + cygParm;
         }
-        var params = ["myName", "myPath"];
-        
-        for(var i = 0; i < createParams.length; i++) {
-        	if(createParams[i] != "") {
-            dat +="&"+params[i]+"=" + createParams[i];
-        	}
+
+        var params = [ "myName", "myPath" ];
+
+        for (var i=0; i<createParams.length; i++)
+        {
+          if (createParams[i] != "") {
+            dat += "&" + params[i] + "=" + createParams[i];
+          }
         }
-        
+
         alert("abort " + dat);
-  
+
         req.setProhibitCaching(true);
         req.setData(dat);
-        
-  
+
         req.addListener("completed", function(evt)
         {
           var result = evt.getContent();
-          alert("Abort-->" + result)
+          alert("Abort-->" + result);
           req.resetTimeout();
         },
         this);
-  
+
         req.addListener("failed", function(evt) {
           this.error("Failed to post to URL: " + url);
         }, this);
-  
+
         req.send();
-    	} else {
-    		alert("You don't created an application");
-    	}
+      }
+      else
+      {
+        alert("You don't created an application");
+      }
+
       return;
     },
-    
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param state {var} TODOC
+     * @return {void} 
+     */
     setState : function(state) {
       this.__state = state;
-    }, 
+    },
 
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
     getState : function() {
       return this.__state;
     },
-    
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param content {var} TODOC
+     * @return {void} 
+     */
     setResult : function(content) {
       this.__content = content;
-    }, 
+    },
 
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
     getResult : function() {
       return this.__content;
     }
-
-    
-    
-    
-    
-
-    
-    
   }
 });

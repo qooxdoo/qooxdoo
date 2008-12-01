@@ -29,21 +29,22 @@
 qx.Class.define("toolbox.Toolbox",
 {
   extend : qx.ui.container.Composite,
- 
+
+
 
 
   /*
-    *****************************************************************************
-       CONSTRUCTOR
-    *****************************************************************************
-    */
+      *****************************************************************************
+         CONSTRUCTOR
+      *****************************************************************************
+      */
 
   construct : function()
   {
     this.base(arguments);
 
     qx.dev.Debug;
-    
+
     var layout = new qx.ui.layout.VBox().set({ separator : "separator-vertical" });
 
     this.setLayout(layout);
@@ -52,8 +53,7 @@ qx.Class.define("toolbox.Toolbox",
     qx.log.appender.Native;
     qx.log.appender.Console;
 
-    
-    //variables-----------------------------------------------------------------
+    // variables-----------------------------------------------------------------
     this.__currentType = "gui";
     this.__currentFileName = "";
     this.__currentFilePath = "";
@@ -61,10 +61,7 @@ qx.Class.define("toolbox.Toolbox",
     this.__logName = "";
     this.__isEdited = false;
     this.__isGenerateSource = false;
-    
-    
-    
-    
+
     this.widgets = {};
     this.tests = {};
 
@@ -103,34 +100,33 @@ qx.Class.define("toolbox.Toolbox",
     var statuspane = this.__makeStatus();
     this.widgets["statuspane"] = statuspane;
     this.add(statuspane);
-    
-    //assignListener
-    this.__assignListener(); 
-    
-    
+
+    // assignListener
+    this.__assignListener();
   },
-  
+
+
+
 
   /*
-    *****************************************************************************
-       MEMBERS
-    *****************************************************************************
-    */
+      *****************************************************************************
+         MEMBERS
+      *****************************************************************************
+      */
 
   members :
   {
-  	/*
-    ----------------------------------------------------------------------------
-      CONFIG SETTINGS
-    ----------------------------------------------------------------------------
-    */
-  	__adminHost : "127.0.0.1",  
+    /*
+        ----------------------------------------------------------------------------
+          CONFIG SETTINGS
+        ----------------------------------------------------------------------------
+        */
+
+    __adminHost : "127.0.0.1",
     __adminPort : "8000",
     __adminPath : "/component/toolbox/tool/bin/nph-qxadmin_cgi.py",
-    __adminUrl  : "http://"+this.adminHost+":"+this.adminPort+this.adminPath,
-  	
-  	
-  	
+    __adminUrl : "http://" + this.adminHost + ":" + this.adminPort + this.adminPath,
+
     // ------------------------------------------------------------------------
     //   CONSTRUCTOR HELPERS
     // ------------------------------------------------------------------------
@@ -152,13 +148,12 @@ qx.Class.define("toolbox.Toolbox",
       part1.add(this.createButton);
       this.widgets["toolbar.createButton"] = this.createButton;
       this.createButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Creates a new application")));
-      
+
       // -- generate button
       this.generateButton = new qx.ui.toolbar.Button("Generate source", "toolbox/image/system-run.png");
       part1.add(this.generateButton);
       this.widgets["toolbar.generateButton"] = this.generateButton;
       this.generateButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Generates the source of the created application")));
-
 
       // -- generate build button
       this.generateBuildButton = new qx.ui.toolbar.Button("Generate build", "toolbox/image/executable.png");
@@ -166,16 +161,14 @@ qx.Class.define("toolbox.Toolbox",
       this.widgets["toolbar.generateBuildButton"] = this.generateBuildButton;
       this.generateBuildButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Generates the build")));
 
-      
       var part2 = new qx.ui.toolbar.Part();
       toolbar.add(part2);
-      
+
       // -- generate Api
       this.generateApiButton = new qx.ui.toolbar.Button("Generate api", "toolbox/image/help-faq.png");
       part2.add(this.generateApiButton);
       this.widgets["toolbar.generateApiButton"] = this.generateApiButton;
       this.generateApiButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Generates the API of the application")));
-
 
       // -- make pretty
       this.makePrettyButton = new qx.ui.toolbar.Button("Format source", "toolbox/image/format-indent-more.png");
@@ -183,19 +176,17 @@ qx.Class.define("toolbox.Toolbox",
       this.widgets["toolbar.makePrettyButton"] = this.makePrettyButton;
       this.makePrettyButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("makes the source pretty")));
 
-      
       // -- validate code
       this.validateCodeButton = new qx.ui.toolbar.Button("Validate source", "toolbox/image/edit-find.png");
       part2.add(this.validateCodeButton);
       this.widgets["toolbar.validateCodeButton"] = this.validateCodeButton;
       this.validateCodeButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Validates the source")));
 
-      // -- test 
+      // -- test
       this.testButton = new qx.ui.toolbar.Button("Test", "toolbox/image/dialog-apply.png");
       part2.add(this.testButton);
       this.widgets["toolbar.testButton"] = this.testButton;
       this.testButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Tests the application")));
-
 
       // -- test source
       this.testSourceButton = new qx.ui.toolbar.Button("Test source", "toolbox/image/check-spelling.png");
@@ -203,541 +194,710 @@ qx.Class.define("toolbox.Toolbox",
       this.widgets["toolbar.testSourceButton"] = this.testSourceButton;
       this.testSourceButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Tests the source")));
 
-      
       toolbar.addSpacer();
 
       var part3 = new qx.ui.toolbar.Part();
       toolbar.add(part3);
-      
+
       this.configurationButton = new qx.ui.toolbar.Button("Configuration", "toolbox/image/preferences.png");
       part3.add(this.configurationButton);
       this.widgets["toolbar.configurationButton"] = this.configurationButton;
-      this.configurationButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Configuration of the application")));      
-      
+      this.configurationButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Configuration of the application")));
+
       return toolbar;
     },  // makeToolbar
 
-    __assignListener : function() {
-    	this.widgets["toolbar.createButton"].addListener("execute", this.__createApplicationWindow, this);
-    	this.widgets["toolbar.generateButton"].addListener("execute", this.__generateApplication, this);
-    	this.widgets["toolbar.generateApiButton"].addListener("execute", this.__generateApi, this);
-    	this.widgets["toolbar.configurationButton"].addListener("execute", this.__openConfiguration, this);
-    	this.widgets["toolbar.makePrettyButton"].addListener("execute", this.__makePretty, this);
-    	this.widgets["toolbar.validateCodeButton"].addListener("execute", this.__validateCode, this);
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    __assignListener : function()
+    {
+      this.widgets["toolbar.createButton"].addListener("execute", this.__createApplicationWindow, this);
+      this.widgets["toolbar.generateButton"].addListener("execute", this.__generateApplication, this);
+      this.widgets["toolbar.generateApiButton"].addListener("execute", this.__generateApi, this);
+      this.widgets["toolbar.configurationButton"].addListener("execute", this.__openConfiguration, this);
+      this.widgets["toolbar.makePrettyButton"].addListener("execute", this.__makePretty, this);
+      this.widgets["toolbar.validateCodeButton"].addListener("execute", this.__validateCode, this);
       this.widgets["toolbar.generateBuildButton"].addListener("execute", this.__generateBuild, this);
       this.widgets["toolbar.testSourceButton"].addListener("execute", this.__testSource, this);
       this.widgets["toolbar.testButton"].addListener("execute", this.__testApplication, this);
-    }, //assignListener
-    
+    },  // assignListener
 
-    
-    __createApplicationWindow : function() {
 
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    __createApplicationWindow : function()
+    {
       var gridLayout = new qx.ui.layout.Grid(5, 5);
       gridLayout.setColumnFlex(2, 1);
-      
+
       gridLayout.setRowFlex(7, 1);
       gridLayout.setRowAlign(8, "right", "middle");
 
-      this.__container = new qx.ui.container.Composite(new qx.ui.layout.HBox(5)).set({
-        allowGrowX: false
-      });
-      
+      this.__container = new qx.ui.container.Composite(new qx.ui.layout.HBox(5)).set({ allowGrowX : false });
+
       var box = this.__createApplicationWindow = new qx.ui.window.Window("Create application");
       box.setModal(true);
-      
-      this.__createApplicationWindow.setLayout(gridLayout);    
-      //------Embed Start------------------------------------------------------
-      this.__frame = new qx.ui.embed.Html().set({
-        overflowX : "auto",
-        overflowY : "auto",
-        minWidth : 100,
-        minHeight : 100,
+
+      this.__createApplicationWindow.setLayout(gridLayout);
+
+      // ------Embed Start------------------------------------------------------
+      this.__frame = new qx.ui.embed.Html().set(
+      {
+        overflowX  : "auto",
+        overflowY  : "auto",
+        minWidth   : 100,
+        minHeight  : 100,
         paddingTop : 10
       });
-      //------Embed End--------------------------------------------------------
-      
-      //------Buttons Start-----------------------------------------------------
-      //Abort Button
+
+      // ------Embed End--------------------------------------------------------
+      // ------Buttons Start-----------------------------------------------------
+      // Abort Button
       this.__abortButtonWindow = new qx.ui.form.Button("Abort", "toolbox/image/dialog-close.png");
-      this.__abortButtonWindow.addListener("execute", this.__abortNewApplication, this)
-      //Create Button
+      this.__abortButtonWindow.addListener("execute", this.__abortNewApplication, this);
+
+      // Create Button
       this.__createButtonWindow = new qx.ui.form.Button("Create", "toolbox/image/dialog-ok.png");
-      this.__createButtonWindow.addListener("execute", this.__createNewApplication, this)
-      
-      //default value is disabled
+      this.__createButtonWindow.addListener("execute", this.__createNewApplication, this);
+
+      // default value is disabled
       this.__createButtonWindow.setEnabled(false);
-      
-      //------Buttons End-------------------------------------------------------
-      
-      
+
+      // ------Buttons End-------------------------------------------------------
       this.__container.add(this.__abortButtonWindow);
       this.__container.add(this.__createButtonWindow);
 
-      //--------------------------CONTRIB---------------------------------------
+      // --------------------------CONTRIB---------------------------------------
       /*
-       * SINGLE UPLOAD WIDGET 
-             
-      this.__form = new uploadwidget.UploadForm('uploadFrm').set({paddingTop: 30});
-      this.__form.setLayout(new qx.ui.layout.Basic);
-
-      this.__logText = new uploadwidget.UploadField('uploadfile', 'Browse','toolbox/image/document-save.png');
-      this.__form.add(this.__logText, {left:0,top:0});
-
-      this.__logText.getTextField().setWidth(170);
-      this.__logText.getTextField().setAllowGrowX(true);
+             * SINGLE UPLOAD WIDGET 
+                   
+            this.__form = new uploadwidget.UploadForm('uploadFrm').set({paddingTop: 30});
+            this.__form.setLayout(new qx.ui.layout.Basic);
       
-      this.__form.addListener('completed', function(e) {
-        //this.debug('completed');
-        this.__logText.setFieldValue('');
-        //var response = this.getIframeHtmlContent();
-        //this.debug(response);
-      });
-      */
-      //-------------------------CONTRIB----------------------------------------
+            this.__logText = new uploadwidget.UploadField('uploadfile', 'Browse','toolbox/image/document-save.png');
+            this.__form.add(this.__logText, {left:0,top:0});
       
-      //------Image Start-------------------------------------------------------
+            this.__logText.getTextField().setWidth(170);
+            this.__logText.getTextField().setAllowGrowX(true);
+            
+            this.__form.addListener('completed', function(e) {
+              //this.debug('completed');
+              this.__logText.setFieldValue('');
+              //var response = this.getIframeHtmlContent();
+              //this.debug(response);
+            });
+            */
+
+      // -------------------------CONTRIB----------------------------------------
+      // ------Image Start-------------------------------------------------------
       this.__loadImage = new qx.ui.basic.Image('toolbox/image/loading22.gif');
       this.__loadImage.hide();
-      //------Image End---------------------------------------------------------
 
-      
-      
-      //------Labels Start------------------------------------------------------
-      this.__fileNameLabel = new qx.ui.basic.Label("").set({
-      	rich : true,
-      	content : 'Application name:<font color="red">*</font> '
+      // ------Image End---------------------------------------------------------
+      // ------Labels Start------------------------------------------------------
+      this.__fileNameLabel = new qx.ui.basic.Label("").set(
+      {
+        rich    : true,
+        content : 'Application name:<font color="red">*</font> '
       });
-      this.__filePathLabel = new qx.ui.basic.Label("").set({
-      	rich : true,
+
+      this.__filePathLabel = new qx.ui.basic.Label("").set(
+      {
+        rich    : true,
         content : 'Output directory:<font color="red">*</font> '
       });
+
       this.__namespaceLabel = new qx.ui.basic.Label("Namespace: ");
       this.__logFileLabel = new qx.ui.basic.Label("Logfile: ");
       this.__typeLabel = new qx.ui.basic.Label("Type: ");
       this.__generateLabel = new qx.ui.basic.Label("Generate Source: ");
-      
-      //------Labels End--------------------------------------------------------
-      
-      
-      //------Textfield Start---------------------------------------------------
-      this.__fileNameText = new qx.ui.form.TextField("").set({
-        maxLength: 30
-      });
-      
+
+      // ------Labels End--------------------------------------------------------
+      // ------Textfield Start---------------------------------------------------
+      this.__fileNameText = new qx.ui.form.TextField("").set({ maxLength : 30 });
+
       this.__filePathText = new qx.ui.form.TextField("C:\\tmp\\");
-      
+
       this.__namespaceText = new qx.ui.form.TextField("");
-      
-      
+
       this.__logText = new qx.ui.form.TextField("");
-      
-      
-      //------Textfield End-----------------------------------------------------
-      
-      //------Checkbox Start----------------------------------------------------
+
+      // ------Textfield End-----------------------------------------------------
+      // ------Checkbox Start----------------------------------------------------
       this.__logCheckBox = new qx.ui.form.CheckBox(null);
       this.__generateBox = new qx.ui.form.CheckBox(null);
-      //------Checkbox End------------------------------------------------------
-      
-      
-      //------Selectbox Start---------------------------------------------------
-      types = ["GUI (default)", "Bom", "Migration", "With-contrib"];
-      values = ["gui", "bom", "migration", "with-contrib"];
-      
+
+      // ------Checkbox End------------------------------------------------------
+      // ------Selectbox Start---------------------------------------------------
+      types = [ "GUI (default)", "Bom", "Migration", "With-contrib" ];
+      values = [ "gui", "bom", "migration", "with-contrib" ];
+
       this.__selectBox = new qx.ui.form.SelectBox();
-      for (var i=0; i<types.length; i++) {
+
+      for (var i=0; i<types.length; i++)
+      {
         var tempItem = new qx.ui.form.ListItem(types[i], "toolbox/image/engineering.png");
         tempItem.setValue(values[i]);
         this.__selectBox.add(tempItem);
-        //select first item
+
+        // select first item
         if (i == 0) {
           this.__selectBox.setSelected(tempItem);
         }
       }
-      
+
       this.__selectBox.addListener("changeValue", function(e) {
         this.__setCurrentType(this.__selectBox.getValue());
       }, this);
 
-      //------Selectbox End---------------------------------------------------
-      
-      this.__createApplicationWindow.addListener("close", function(){this.__isGenerateSource = false;}, this);
-      
+      // ------Selectbox End---------------------------------------------------
+      this.__createApplicationWindow.addListener("close", function() {
+        this.__isGenerateSource = false;
+      }, this);
 
-      //Default hide log textfield
+      // Default hide log textfield
       this.__logText.hide();
-                                                                                                                           //this.__form               
+
+      // this.__form
       this.__windowContent = new Array(this.__fileNameText, this.__filePathText, this.__namespaceText, this.__logCheckBox, this.__logText, this.__selectBox, this.__generateBox, this.__createButtonWindow);
-      
 
-      box.add(this.__fileNameLabel, {
+      box.add(this.__fileNameLabel,
+      {
         row     : 1,
         column  : 0,
         rowSpan : 0,
         colSpan : 1
       });
-      
-      box.add(this.__fileNameText, {
+
+      box.add(this.__fileNameText,
+      {
         row     : 1,
         column  : 1,
         rowSpan : 0,
         colSpan : 4
       });
-      
-      box.add(this.__filePathLabel, {
+
+      box.add(this.__filePathLabel,
+      {
         row     : 2,
         column  : 0,
         rowSpan : 0,
         colSpan : 1
       });
-      
-      box.add(this.__filePathText, {
+
+      box.add(this.__filePathText,
+      {
         row     : 2,
         column  : 1,
         rowSpan : 0,
         colSpan : 4
       });
-      
-      box.add(this.__namespaceLabel, {
+
+      box.add(this.__namespaceLabel,
+      {
         row     : 3,
         column  : 0,
         rowSpan : 0,
         colSpan : 1
       });
-      
-      box.add(this.__namespaceText, {
+
+      box.add(this.__namespaceText,
+      {
         row     : 3,
         column  : 1,
         rowSpan : 0,
         colSpan : 4
       });
-      
-       box.add(this.__logFileLabel, {
+
+      box.add(this.__logFileLabel,
+      {
         row     : 4,
         column  : 0,
         rowSpan : 0,
         colSpan : 1
       });
-      
-      box.add(this.__logCheckBox, {
+
+      box.add(this.__logCheckBox,
+      {
         row     : 4,
         column  : 1,
         rowSpan : 0,
         colSpan : 1
       });
 
-      box.add(this.__logText, {
-      //box.add(this.__form, {
-      	row     : 4,
+      box.add(this.__logText,
+      {
+        // box.add(this.__form, {
+        row     : 4,
         column  : 2,
         rowSpan : 0,
         colSpan : 3
       });
-      
-      box.add(this.__typeLabel, {
+
+      box.add(this.__typeLabel,
+      {
         row     : 5,
         column  : 0,
         rowSpan : 0,
         colSpan : 1
       });
-      
-      box.add(this.__selectBox, {
+
+      box.add(this.__selectBox,
+      {
         row     : 5,
         column  : 1,
         rowSpan : 0,
         colSpan : 4
       });
-      
-      box.add(this.__generateLabel, {
+
+      box.add(this.__generateLabel,
+      {
         row     : 6,
         column  : 0,
         rowSpan : 0,
         colSpan : 1
       });
-      
-      box.add(this.__generateBox, {
+
+      box.add(this.__generateBox,
+      {
         row     : 6,
         column  : 1,
         rowSpan : 0,
         colSpan : 1
       });
-      
-      
-      box.add(this.__frame, {
+
+      box.add(this.__frame,
+      {
         row     : 7,
         column  : 0,
         rowSpan : 0,
         colSpan : 5
       });
 
-      box.add(this.__loadImage, {
+      box.add(this.__loadImage,
+      {
         row     : 8,
         column  : 0,
         rowSpan : 0,
         colSpan : 1
       });
 
-
-      box.add(this.__container, {
+      box.add(this.__container,
+      {
         row     : 8,
         column  : 1,
         rowSpan : 0,
         colSpan : 3
       });
-      
+
       this.__logCheckBox.addListener("click", this.__showLogTextField, this);
       this.__fileNameText.addListener("input", this.__checkInput, this);
       this.__namespaceText.addListener("input", this.__checkNamespace, this);
-      
+
       this.__filePathText.addListener("input", this.__checkInput, this);
-      //this.__logText.getTextField().addListener("input", this.__checkInput, this);
+
+      // this.__logText.getTextField().addListener("input", this.__checkInput, this);
       this.__logText.addListener("input", this.__checkInput, this);
       this.__logCheckBox.addListener("click", this.__checkInput, this);
       this.__fileNameText.addListener("input", this.__copyContent, this);
-      this.__generateBox.addListener("click", function(){
-        if(this.__generateBox.getChecked()){
-        	 this.__isGenerateSource = true;
-        } else {
-        	 this.__isGenerateSource = false;
-        }
-      	
-      }, this);
 
-      
+      this.__generateBox.addListener("click", function()
+      {
+        if (this.__generateBox.getChecked()) {
+          this.__isGenerateSource = true;
+        } else {
+          this.__isGenerateSource = false;
+        }
+      },
+      this);
+
       this.__createApplicationWindow.setWidth(400);
       this.__createApplicationWindow.setHeight(410);
       this.__createApplicationWindow.moveTo(100, 100);
       this.__createApplicationWindow.open();
-      
+
       this.__fileNameText.focus();
-      
-    }, //__createApplicationWindow
-    
-     __showLogTextField : function(){
-    	 if(this.__logCheckBox.getChecked()) {
-    	   this.__logText.show();
-    	   this.__logCheckBox.setLabel("*");
-    	   this.__logCheckBox.setTextColor("red");
-    	 } else {
-    	 	 this.__logText.hide();
-    	 	 //this.__logText.getTextField().setValue("");
-    	 	 this.__logText.setValue("");
-    	 	 this.__logCheckBox.setLabel("");
-    	 }
-    	 
+    },  // __createApplicationWindow
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    __showLogTextField : function()
+    {
+      if (this.__logCheckBox.getChecked())
+      {
+        this.__logText.show();
+        this.__logCheckBox.setLabel("*");
+        this.__logCheckBox.setTextColor("red");
+      }
+      else
+      {
+        this.__logText.hide();
+
+        // this.__logText.getTextField().setValue("");
+        this.__logText.setValue("");
+        this.__logCheckBox.setLabel("");
+      }
     },
 
-    
-    __checkInput : function() {
-    	if(this.__fileNameText.getValue().length > 0 
-    	 & this.__filePathText.getValue().length > 0 
-    	 & !this.__logCheckBox.getChecked()){
-    		
-    		this.__createButtonWindow.setEnabled(true);
-    	} else if(this.__fileNameText.getValue().length > 0 
-       & this.__filePathText.getValue().length > 0 
-       & this.__logCheckBox.getChecked() & this.__logText.getValue().length > 0){//this.__logText.getTextField().getValue().length > 0){
-    		
-    		this.__createButtonWindow.setEnabled(true);
-    	} else {
-    		this.__createButtonWindow.setEnabled(false);
-    	}	
-    	
-    	for(var i = 0; i < this.__fileNameText.getValue().length; i++) {
-            if(this.__fileNameText.getValue()[i] == "Unidentified" || this.__fileNameText.getValue()[i] == "?"||
-            this.__fileNameText.getValue()[i] == "\""|| this.__fileNameText.getValue()[i] == "/"||
-            this.__fileNameText.getValue()[i] == ":"|| this.__fileNameText.getValue()[i] == "*" || 
-            this.__fileNameText.getValue()[i] == "<" ||this.__fileNameText.getValue()[i] == ">" || 
-            this.__fileNameText.getValue()[i] == "|" || this.__fileNameText.getValue()[i] == "\\"){
-            	alert("Invalid input: " + this.__fileNameText.getValue()[i]);
-            	
-            	var output = this.__fileNameText.getValue();
-            	output = output.replace(this.__fileNameText.getValue()[i], ""); 
-            	this.__fileNameText.setValue(output);
-            }
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    __checkInput : function()
+    {
+      if (this.__fileNameText.getValue().length > 0 & this.__filePathText.getValue().length > 0 & !this.__logCheckBox.getChecked()) {
+        this.__createButtonWindow.setEnabled(true);
+      }
+      else if (this.__fileNameText.getValue().length > 0 & this.__filePathText.getValue().length > 0 & this.__logCheckBox.getChecked() & this.__logText.getValue().length > 0)
+      {  // this.__logText.getTextField().getValue().length > 0){
+        this.__createButtonWindow.setEnabled(true);
+      }
+      else
+      {
+        this.__createButtonWindow.setEnabled(false);
+      }
+
+      for (var i=0; i<this.__fileNameText.getValue().length; i++)
+      {
+        if (this.__fileNameText.getValue()[i] == "Unidentified" || this.__fileNameText.getValue()[i] == "?" || this.__fileNameText.getValue()[i] == "\"" || this.__fileNameText.getValue()[i] == "/" || this.__fileNameText.getValue()[i] == ":" || this.__fileNameText.getValue()[i] == "*" || this.__fileNameText.getValue()[i] == "<" || this.__fileNameText.getValue()[i] == ">" || this.__fileNameText.getValue()[i] == "|" || this.__fileNameText.getValue()[i] == "\\")
+        {
+          alert("Invalid input: " + this.__fileNameText.getValue()[i]);
+
+          var output = this.__fileNameText.getValue();
+          output = output.replace(this.__fileNameText.getValue()[i], "");
+          this.__fileNameText.setValue(output);
+        }
       }
     },
-    
-    __checkNamespace : function() {
-      for(var i = 0; i < this.__namespaceText.getValue().length; i++) {
-            if(this.__namespaceText.getValue()[i] == "Unidentified" || this.__namespaceText.getValue()[i] == "?"||
-               this.__namespaceText.getValue()[i] == "\""|| this.__namespaceText.getValue()[i] == "/"||
-               this.__namespaceText.getValue()[i] == ":"|| this.__namespaceText.getValue()[i] == "*" || 
-               this.__namespaceText.getValue()[i] == "<" ||this.__namespaceText.getValue()[i] == ">" || 
-               this.__namespaceText.getValue()[i] == "|" || this.__namespaceText.getValue()[i] == "\\"){
-               alert("Invalid input: " + this.__namespaceText.getValue()[i]);
-              
-              var output = this.__namespaceText.getValue();
-              output = output.replace(this.__namespaceText.getValue()[i], ""); 
-              this.__namespaceText.setValue(output);
-            }
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    __checkNamespace : function()
+    {
+      for (var i=0; i<this.__namespaceText.getValue().length; i++)
+      {
+        if (this.__namespaceText.getValue()[i] == "Unidentified" || this.__namespaceText.getValue()[i] == "?" || this.__namespaceText.getValue()[i] == "\"" || this.__namespaceText.getValue()[i] == "/" || this.__namespaceText.getValue()[i] == ":" || this.__namespaceText.getValue()[i] == "*" || this.__namespaceText.getValue()[i] == "<" || this.__namespaceText.getValue()[i] == ">" || this.__namespaceText.getValue()[i] == "|" || this.__namespaceText.getValue()[i] == "\\")
+        {
+          alert("Invalid input: " + this.__namespaceText.getValue()[i]);
+
+          var output = this.__namespaceText.getValue();
+          output = output.replace(this.__namespaceText.getValue()[i], "");
+          this.__namespaceText.setValue(output);
+        }
       }
-      
+
       this.__isEdited = true;
     },
-    
-    __copyContent : function() {
-    	if(this.__isEdited == false)
-    	this.__namespaceText.setValue(this.__fileNameText.getValue());
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    __copyContent : function()
+    {
+      if (this.__isEdited == false) this.__namespaceText.setValue(this.__fileNameText.getValue());
     },
-    
-    
-     //creates a new Application
-    __createNewApplication : function() {
-    	this.__loadImage.show();
-    	this.__setCurrentFileName(this.__fileNameText.getValue()); 
-    	this.__setCurrentFilePath(this.__filePathText.getValue());
-    	this.__setCurrentNamespace(this.__namespaceText.getValue());
-    	//this.__setCurrentLogName(this.__logText.getTextField().getValue());
-    	this.__setCurrentLogName(this.__logText.getValue());
-      
-    	
-    	this.__createApplication = new toolbox.CreateNewApplication(this.__adminPath, 
-    	                           this.__getCurrentFileName(), this.__getCurrentFilePath(),
-    	                           this.__getCurrentNamespace(), this.__getCurrentLogName(), 
-    	                           this.__getCurrentType(), this.__isGenerateSource.toString(),
-    	                           this.__loadImage, this.__frame, this.__windowContent, this.logFrame);
+
+    // creates a new Application
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    __createNewApplication : function()
+    {
+      this.__loadImage.show();
+      this.__setCurrentFileName(this.__fileNameText.getValue());
+      this.__setCurrentFilePath(this.__filePathText.getValue());
+      this.__setCurrentNamespace(this.__namespaceText.getValue());
+
+      // this.__setCurrentLogName(this.__logText.getTextField().getValue());
+      this.__setCurrentLogName(this.__logText.getValue());
+
+      this.__createApplication = new toolbox.CreateNewApplication(this.__adminPath, this.__getCurrentFileName(), this.__getCurrentFilePath(), this.__getCurrentNamespace(), this.__getCurrentLogName(), this.__getCurrentType(), this.__isGenerateSource.toString(), this.__loadImage, this.__frame, this.__windowContent, this.logFrame);
 
       return;
     },
-    
-        
-    __generateApplication : function() {
-      this.__generateSource = new toolbox.GenerateSource(this.__adminPath, 
-                                                         this.__getCurrentFileName(), 
-                                                         this.__getCurrentFilePath(),
-                                                         "true", 
-                                                         this.__frame,
-                                                         this.logFrame);
-      
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    __generateApplication : function()
+    {
+      this.__generateSource = new toolbox.GenerateSource(this.__adminPath, this.__getCurrentFileName(), this.__getCurrentFilePath(), "true", this.__frame, this.logFrame);
+
       return;
     },
-    
-    __generateBuild : function() {
-    	this.__generateBuild = new toolbox.GenerateBuild(this.__adminPath, 
-                                                      this.__getCurrentFileName(), 
-                                                      this.__getCurrentFilePath(),
-                                                      this.logFrame);
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    __generateBuild : function()
+    {
+      this.__generateBuild = new toolbox.GenerateBuild(this.__adminPath, this.__getCurrentFileName(), this.__getCurrentFilePath(), this.logFrame);
       return;
     },
-    
-    __generateApi : function() {
-    	this.__generateAppApi = new toolbox.GenerateApi(this.__adminPath, 
-                                                      this.__getCurrentFileName(), 
-                                                      this.__getCurrentFilePath(),
-                                                      this.logFrame);
-      return;                                                
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    __generateApi : function()
+    {
+      this.__generateAppApi = new toolbox.GenerateApi(this.__adminPath, this.__getCurrentFileName(), this.__getCurrentFilePath(), this.logFrame);
+      return;
     },
-    
-    __makePretty : function() {
-    	this.__makeSourcePretty = new toolbox.MakePretty(this.__adminPath, 
-                                                       this.__getCurrentFileName(), 
-                                                       this.__getCurrentFilePath(),
-                                                       this.logFrame);
-      return;                                                 
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    __makePretty : function()
+    {
+      this.__makeSourcePretty = new toolbox.MakePretty(this.__adminPath, this.__getCurrentFileName(), this.__getCurrentFilePath(), this.logFrame);
+      return;
     },
-    
-    __openConfiguration: function() {
-      this.__configuration = new toolbox.Configuration(this.__adminPath, 
-                                                       this.__getCurrentFileName(), 
-                                                       this.__getCurrentFilePath());
-      return;                                                 
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    __openConfiguration : function()
+    {
+      this.__configuration = new toolbox.Configuration(this.__adminPath, this.__getCurrentFileName(), this.__getCurrentFilePath());
+      return;
     },
-    
-     __validateCode: function() {
-      this.__validateSourceCode = new toolbox.ValidateCode(this.__adminPath, 
-                                                           this.__getCurrentFileName(), 
-                                                           this.__getCurrentFilePath());
-      return;                                                     
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    __validateCode : function()
+    {
+      this.__validateSourceCode = new toolbox.ValidateCode(this.__adminPath, this.__getCurrentFileName(), this.__getCurrentFilePath());
+      return;
     },
-    
-    __abortProcess : function() {
-    	this.__abortCurrentProcess = new toolbox.AbortProcess(this.__adminPath, 
-                                                            this.__getCurrentFileName(), 
-                                                            this.__getCurrentFilePath());
-      return;                                                      
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    __abortProcess : function()
+    {
+      this.__abortCurrentProcess = new toolbox.AbortProcess(this.__adminPath, this.__getCurrentFileName(), this.__getCurrentFilePath());
+      return;
     },
-    
-    __testSource : function() {
-    	this.__testCurrentSource = new toolbox.TestSource(this.__adminPath, 
-                                                        this.__getCurrentFileName(), 
-                                                        this.__getCurrentFilePath(),
-                                                        this.logFrame);
-    	
-    	return;
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    __testSource : function()
+    {
+      this.__testCurrentSource = new toolbox.TestSource(this.__adminPath, this.__getCurrentFileName(), this.__getCurrentFilePath(), this.logFrame);
+
+      return;
     },
-    
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
     __testApplication : function() {
-    	this.__testCurrentApp = new toolbox.TestApplication(this.__adminPath, 
-                                                          this.__getCurrentFileName(), 
-                                                          this.__getCurrentFilePath(),
-                                                          this.logFrame);
+      this.__testCurrentApp = new toolbox.TestApplication(this.__adminPath, this.__getCurrentFileName(), this.__getCurrentFilePath(), this.logFrame);
     },
-    
-    
-    __abortNewApplication : function() {
-    	  this.__loadImage.hide();
-    	  this.__isEdited = false;
-    	  this.__isGenerateSource = false;
-    	  this.__abortProcess();
-        this.__createApplicationWindow.close();
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    __abortNewApplication : function()
+    {
+      this.__loadImage.hide();
+      this.__isEdited = false;
+      this.__isGenerateSource = false;
+      this.__abortProcess();
+      this.__createApplicationWindow.close();
 
       return;
     },
+
     // ------------------------------------------------------------------------
     //   SETTER AND GETTER
     // ------------------------------------------------------------------------
-
-    __setCurrentType : function(type){
-    	this.__currentType = type;
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param type {var} TODOC
+     * @return {void} 
+     */
+    __setCurrentType : function(type) {
+      this.__currentType = type;
     },
-    
-    __getCurrentType : function(){
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    __getCurrentType : function() {
       return this.__currentType;
     },
-    
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param name {var} TODOC
+     * @return {void} 
+     */
     __setCurrentFileName : function(name) {
-    	this.__currentFileName = name;
+      this.__currentFileName = name;
     },
-    
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
     __getCurrentFileName : function() {
       return this.__currentFileName;
     },
-    
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param path {var} TODOC
+     * @return {void} 
+     */
     __setCurrentFilePath : function(path) {
       this.__currentFilePath = path;
     },
-    
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
     __getCurrentFilePath : function() {
       return this.__currentFilePath;
     },
-    
-    __setCurrentNamespace : function(nameSpace) {
-    	if(nameSpace != "")
-      this.__nameSpace = nameSpace;
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param nameSpace {var} TODOC
+     * @return {void} 
+     */
+    __setCurrentNamespace : function(nameSpace)
+    {
+      if (nameSpace != "") this.__nameSpace = nameSpace;
     },
-    
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
     __getCurrentNamespace : function() {
       return this.__nameSpace;
     },
-    
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param logName {var} TODOC
+     * @return {void} 
+     */
     __setCurrentLogName : function(logName) {
       this.__logName = logName;
     },
-    
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
     __getCurrentLogName : function() {
       return this.__logName;
     },
-   
-    
-    
-   
-    
-    
-    
-    
-    
+
 
     /**
      * TODOC
@@ -757,7 +917,7 @@ qx.Class.define("toolbox.Toolbox",
       // First Page
       var p1 = new qx.ui.container.Composite(layout).set(
       {
-        //width           : 700,
+        // width           : 700,
         backgroundColor : "white",
         decorator       : "main"
       });
@@ -804,10 +964,9 @@ qx.Class.define("toolbox.Toolbox",
         padding    : [ 4, 3 ],
         allowGrowX : true,
         allowGrowY : true
-      });    
-      
-      pp2.add(caption2);
+      });
 
+      pp2.add(caption2);
 
       // main output area
       this.logFrame = new qx.ui.embed.Html('');
@@ -913,8 +1072,6 @@ qx.Class.define("toolbox.Toolbox",
 
     }  // makeStatus
   },
-  
-  
 
   destruct : function()
   {
