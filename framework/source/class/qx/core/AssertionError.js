@@ -40,8 +40,7 @@ qx.Class.define("qx.core.AssertionError",
    */
   construct : function(comment, failMessage)
   {
-    Error.call(this, failMessage);
-
+    qx.core.BaseError.call(this, comment, failMessage);
     this.__trace = qx.dev.StackTrace.getStackTrace();
   },
 

@@ -336,6 +336,25 @@ qx.Class.define("qx.core.Assert",
 
 
     /**
+     * Assert that both array have identical array items.
+     *
+     * @param expected {Array} The expected array
+     * @found found {Array} The found array
+     * @param msg {String} Message to be shown if the assertion fails.
+     */
+    assertArrayEquals : function(expected, found, msg)
+    {
+      this.assertArray(expected, msg);
+      this.assertArray(found, msg);
+
+      this.assertEquals(expected.length, found.length, msg);
+      for (var i=0; i<expected.length; i++) {
+        this.assertIdentical(expected[i], found[i], msg);
+      }
+    },
+
+
+    /**
      * Assert the the value is a key in the given map.
      *
      * @param value {var} Value to check
