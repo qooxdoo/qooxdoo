@@ -29,118 +29,122 @@ qx.Class.define("toolbox.GenerateBuild",
 {
   extend : qx.core.Object,
 
-    /*
-      *****************************************************************************
-         CONSTRUCTOR
-      *****************************************************************************
-    */
-  construct : function(adminPath, fileName, filePath, logFrame) {
-  		this.base(arguments, adminPath, fileName, filePath, logFrame);
-  		this.__urlParms = new toolbox.UrlSearchParms();
-  		this.__generateBuild(adminPath, fileName, filePath, logFrame);
+
+
+
+  /*
+        *****************************************************************************
+           CONSTRUCTOR
+        *****************************************************************************
+      */
+
+  construct : function(adminPath, fileName, filePath, logFrame)
+  {
+    this.base(arguments, adminPath, fileName, filePath, logFrame);
+    this.__urlParms = new toolbox.UrlSearchParms();
+    this.__generateBuild(adminPath, fileName, filePath, logFrame);
   },
 
-    /*
-      *****************************************************************************
-         MEMBERS
-      *****************************************************************************
-    */
+
+
+
+  /*
+        *****************************************************************************
+           MEMBERS
+        *****************************************************************************
+      */
 
   members :
   {
-    __generateBuild : function(adminPath, fileName, filePath, logFrame) {
-    	if (fileName != "" & filePath!=""){
-      	var url = adminPath;
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param adminPath {var} TODOC
+     * @param fileName {var} TODOC
+     * @param filePath {var} TODOC
+     * @param logFrame {var} TODOC
+     * @return {void} 
+     */
+    __generateBuild : function(adminPath, fileName, filePath, logFrame)
+    {
+      if (fileName != "" & filePath != "")
+      {
+        var url = adminPath;
         var req = new qx.io.remote.Request(url, "POST", "application/json");
         var dat = "action=generate_Build";
         var openBuild = "action=open_In_Browser&location=build";
-        var createParams = [fileName, filePath];
+        var createParams = [ fileName, filePath ];
         req.setTimeout(600000);
-        
+
         // check cygwin path
         if ('cygwin' in this.__urlParms.getParms())
         {
-          var cygParm = 'cygwin'+"="+this.__urlParms.getParms()['cygwin'];
-          dat += "&"+cygParm;
+          var cygParm = 'cygwin' + "=" + this.__urlParms.getParms()['cygwin'];
+          dat += "&" + cygParm;
         }
-        var params = ["myName", "myPath"];
-        
-        for(var i = 0; i < createParams.length; i++) {
-        	if(createParams[i] != "") {
-            dat +="&"+params[i]+"=" + createParams[i];
-            openBuild +="&"+params[i]+"=" + createParams[i];
-        	}
+
+        var params = [ "myName", "myPath" ];
+
+        for (var i=0; i<createParams.length; i++)
+        {
+          if (createParams[i] != "")
+          {
+            dat += "&" + params[i] + "=" + createParams[i];
+            openBuild += "&" + params[i] + "=" + createParams[i];
+          }
         }
-        
-        alert("Parameter " + dat);
-  
+
         req.setProhibitCaching(true);
         req.setData(dat);
         var progressLoader = new toolbox.ProgressLoader();
-  
+
         req.addListener("completed", function(evt)
         {
           var result = evt.getContent();
-          if(result.build_state != undefined) {
-          
+
+          if (result.build_state != undefined)
+          {
             var receivedState = result.build_state;
-            if (receivedState == 1 || receivedState == 0) { 
-              if(receivedState == 0){
-                alert("Build was created successfully");
-                logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.build_output)
-                this.setResult(result.build_output);
-                req.setData(openBuild)
+
+            if (receivedState == 1 || receivedState == 0)
+            {
+              if (receivedState == 0)
+              {
+                logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.build_output);
+                req.setData(openBuild);
                 req.send();
               }
-              if(receivedState == 1){
+
+              if (receivedState == 1)
+              {
                 alert("Build failed");
-                logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">'+ result.build_output + '</font>')
-                this.setResult(result.build_output);
+                logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.build_error + '</font>');
               }
             }
-          } else {
-          	logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">'+ result + '</font>')
+          }
+          else
+          {
+            logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result + '</font>');
           }
 
           progressLoader.unblock();
           progressLoader.hideLoader();
         },
         this);
-  
+
         req.addListener("failed", function(evt) {
           this.error("Failed to post to URL: " + url);
         }, this);
-        
-        
+
         req.send();
-    	} else {
-    		alert("You don't created an application");
-    	}
+      }
+      else
+      {
+        alert("You don't created an application");
+      }
+
       return;
-    },
-    
-    setState : function(state) {
-      this.__state = state;
-    }, 
-
-    getState : function() {
-      return this.__state;
-    },
-    
-    setResult : function(content) {
-      this.__content = content;
-    }, 
-
-    getResult : function() {
-      return this.__content;
     }
-
-    
-    
-    
-    
-
-    
-    
   }
 });
