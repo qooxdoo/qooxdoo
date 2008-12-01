@@ -110,20 +110,21 @@ qx.Bootstrap.define("qx.event.Registration",
      * @param capture {Boolean} Whether to attach the event to the
      *         capturing phase of the bubbling phase of the event. The default is
      *         to attach the event handler to the bubbling phase.
+     * @return {var} An opaque id, which can be used to remove the event listener
+     *         using the {@link #removeListenerById} method.
      */
     addListener : function(target, type, listener, self, capture) {
-      this.getManager(target).addListener(target, type, listener, self, capture);
+      return this.getManager(target).addListener(target, type, listener, self, capture);
     },
 
 
     /**
-     * Remove an event listener from a from DOM node.
+     * Remove an event listener from an event target.
      *
-     * Note: All registered event listeners will automatically be removed from
-     *   the DOM at page unload so it is not necessary to detach events in the
-     *   destructor.
+     * Note: All registered event listeners will automatically at page unload
+     *   so it is not necessary to detach events in the destructor.
      *
-     * @param target {Object} Any valid event target
+     * @param target {Object} The event target
      * @param type {String} Name of the event
      * @param listener {Function} The pointer to the event listener
      * @param self {Object} Reference to the 'this' variable inside
@@ -133,6 +134,18 @@ qx.Bootstrap.define("qx.event.Registration",
      */
     removeListener : function(target, type, listener, self, capture) {
       this.getManager(target).removeListener(target, type, listener, self, capture);
+    },
+
+
+    /**
+     * Removes an event listener from an event target by an id returned by
+     * {@link #addListener}
+     *
+     * @param target {Object} The event target
+     * @param id {var} The id returned by {@link #addListener}
+     */
+    removeListenerById : function(target, id) {
+      this.getManager(target).removeListenerById(target, id);
     },
 
 
