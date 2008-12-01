@@ -72,13 +72,12 @@ qx.Class.define("toolbox.GenerateSource",
         	}
         }
         
-        alert("Parameter " + dat);
   
         req.setProhibitCaching(true);
         req.setData(dat);
         
   
-        var progressPopup = new toolbox.ProgressLoader();
+        var progressloader = new toolbox.ProgressLoader();
         
         req.addListener("completed", function(evt)
         {
@@ -102,8 +101,8 @@ qx.Class.define("toolbox.GenerateSource",
           } else {
           	logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">'+result + '</font>');
           }
-         progressPopup.unblock();
-         progressPopup.hidePopup();
+         progressloader.unblock();
+         progressloader.hideLoader();
         },
         this);
   
@@ -114,7 +113,6 @@ qx.Class.define("toolbox.GenerateSource",
         
         
         
-        //var progressPopup = new toolbox.ProgressLoader();
         
         
         req.send();
