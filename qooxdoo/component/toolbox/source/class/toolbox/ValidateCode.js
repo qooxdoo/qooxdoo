@@ -74,7 +74,7 @@ qx.Class.define("toolbox.ValidateCode",
   
         req.setProhibitCaching(true);
         req.setData(dat);
-        var progressPopup = new toolbox.ProgressLoader();
+        var progressLoader = new toolbox.ProgressLoader();
   
         req.addListener("completed", function(evt)
         {
@@ -104,8 +104,8 @@ qx.Class.define("toolbox.ValidateCode",
             }
           }
           
-          progressPopup.unblock();
-          progressPopup.hidePopup();
+          progressLoader.unblock();
+          progressLoader.hideLoader();
         },
         this);
   

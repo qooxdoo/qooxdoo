@@ -76,7 +76,7 @@ qx.Class.define("toolbox.GenerateBuild",
   
         req.setProhibitCaching(true);
         req.setData(dat);
-        var progressPopup = new toolbox.ProgressLoader();
+        var progressLoader = new toolbox.ProgressLoader();
   
         req.addListener("completed", function(evt)
         {
@@ -102,8 +102,8 @@ qx.Class.define("toolbox.GenerateBuild",
           	logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">'+ result + '</font>')
           }
 
-          progressPopup.unblock();
-          progressPopup.hidePopup();
+          progressLoader.unblock();
+          progressLoader.hideLoader();
         },
         this);
   

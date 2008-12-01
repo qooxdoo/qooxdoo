@@ -22,6 +22,12 @@
 
 ************************************************************************ */
 
+/* ***
+ 
+#asset(toolbox/image/progressLoader.gif)
+ 
+*/
+
 /**
  * This is the main application class of your custom application "HelloWorld"
  */
@@ -36,7 +42,7 @@ qx.Class.define("toolbox.ProgressLoader",
     */
   construct : function() {
   		this.base(arguments);
-  		this.__createPopup();
+  		this.__createLoader();
   },
 
     /*
@@ -47,11 +53,15 @@ qx.Class.define("toolbox.ProgressLoader",
 
   members :
   {
-      __createPopup : function() {
-        this.__popup = new qx.ui.popup.Popup(new qx.ui.layout.Canvas()).set({
+      __createLoader : function() {
+        this.__loader = new qx.ui.window.Window("Loading").set({
           backgroundColor: "white",
-          padding: [4, 4, 4, 4]
+          padding: [4, 4, 4, 4],
+          allowMinimize : false,
+          allowMaximize : false
       });
+      
+      this.__loader.setLayout(new qx.ui.layout.Canvas());
 
       this.__root = qx.core.Init.getApplication().getRoot();
       this.__root.setZIndex(99);
@@ -60,19 +70,21 @@ qx.Class.define("toolbox.ProgressLoader",
       this.__root.setBlockerOpacity(0.5);
       
 
-      this.__popup.add(new qx.ui.basic.Atom("Loading", "toolbox/image/progressLoader.gif"));
-      this.__popup.moveTo(400, 300);
-      this.__popup.setZIndex(100);
-      this.__popup.setAutoHide(false);
-      this.__popup.show();
+      this.__loader.add(new qx.ui.basic.Atom("Loading", "toolbox/image/progressLoader.gif"));
+      this.__loader.moveTo(parseInt(qx.core.Init.getApplication().toolbox.getBounds()["width"]/2) - 150, 
+                                 parseInt(qx.core.Init.getApplication().toolbox.getBounds()["height"]/2) - 50);
+
+      this.__loader.setZIndex(100);
+      //this.__loader.setAutoHide(false);
+      this.__loader.show();
     },
     
     unblock : function() {
     	this.__root.unblock();
     },
     
-    hidePopup : function() {
-      this.__popup.hide();
+    hideLoader : function() {
+      this.__loader.hide();
     }
     
     
