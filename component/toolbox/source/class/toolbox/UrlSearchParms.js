@@ -31,31 +31,33 @@ qx.Class.define("toolbox.UrlSearchParms",
   construct : function()
   {
     this.base(arguments);
-    
+
     this.parms = {};
-      var parmStr = window.location.search; //?cygwin=
-      if (parmStr.length > 0) 
+    var parmStr = window.location.search;  // ?cygwin=
+
+    if (parmStr.length > 0)
+    {
+      parmStr = parmStr.slice(1);  // skip '?'
+      var pairs = parmStr.split('&');
+
+      for (var i=0; i<pairs.length; i++)
       {
-        parmStr=parmStr.slice(1);  // skip '?'
-        var pairs=parmStr.split('&');
-        for (var i=0; i<pairs.length; i++)
-        {
-          var pair = pairs[i].split('=');
-          this.parms[pair[0]] = pair[1];
-        }
+        var pair = pairs[i].split('=');
+        this.parms[pair[0]] = pair[1];
       }
+    }
   },
-  
-  members : {
-  	
-  	getParms : function() {
-  		return this.parms;
-  	}
-  	
-  	
+
+  members :
+  {
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    getParms : function() {
+      return this.parms;
+    }
   }
-  
-
-  
 });
-
