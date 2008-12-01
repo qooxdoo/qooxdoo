@@ -633,13 +633,18 @@ qx.Class.define("qx.ui.core.LayoutItem",
      *
      * @return {Boolean} Whether the item supports height for width
      */
-    _hasHeightForWidth : function() {
+    _hasHeightForWidth : function()
+    {
+      var layout = this._getLayout();
+      if (layout) {
+        return layout.hasHeightForWidth();
+      }
       return false;
     },
 
 
     /**
-     * If a item wants to trade height for width it has to implenet this
+     * If an item wants to trade height for width it has to implement this
      * method and return the preferred height of the item if it is resized to
      * the given width. This function returns <code>null</code> if the item
      * do not support height for width.
@@ -647,7 +652,13 @@ qx.Class.define("qx.ui.core.LayoutItem",
      * @param width {Integer} The computed width
      * @return {Integer} The desired height
      */
-    _getHeightForWidth : function(width) {
+    _getHeightForWidth : function(width)
+    {
+      var layout = this._getLayout();
+      if (layout && layout.hasHeightForWidth()) {
+        return layout.getHeightForWidth(width);
+      }
+
       return null;
     },
 

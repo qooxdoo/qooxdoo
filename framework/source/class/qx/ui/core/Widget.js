@@ -1242,7 +1242,12 @@ qx.Class.define("qx.ui.core.Widget",
       var contentWidth = width - insetX;
 
       // Compute height
-      var contentHeight = this._getContentHeightForWidth(contentWidth);
+      var layout = this._getLayout();
+      if (layout && layout.hasHeightForWidth()) {
+        var contentHeight =  layout.getHeightForWidth(width);
+      } else {
+        contentHeight = this._getContentHeightForWidth(contentWidth);
+      }
 
       // Computed box height
       var height = contentHeight + insetY;
@@ -2496,8 +2501,8 @@ qx.Class.define("qx.ui.core.Widget",
 
     /** {Boolean} Whether the widget has state changes which are not yet queued */
     $$stateChanges : null,
-    
-    
+
+
     /** {Map} Can be overridden to forward states to the childes. */
     _forwardStates : null,
 
