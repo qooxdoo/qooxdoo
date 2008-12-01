@@ -229,6 +229,18 @@ qx.Mixin.define("qx.core.MAssert",
 
 
     /**
+     * Assert that both array have identical array items.
+     *
+     * @param expected {Array} The expected array
+     * @found found {Array} The found array
+     * @param msg {String} Message to be shown if the assertion fails.
+     */
+    assertArrayEquals : function(expected, found, msg) {
+      qx.core.Assert.assertArrayEquals(expected, found, msg);
+    },
+
+
+    /**
      * Assert the the value is a key in the given map.
      *
      * @param value {var} Value to check
