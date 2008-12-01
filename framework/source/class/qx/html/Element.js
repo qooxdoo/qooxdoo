@@ -2305,12 +2305,13 @@ qx.Class.define("qx.html.Element",
      * @param listener {Function} Function to execute on event
      * @param self {Object} Execution context of given function
      * @param capture {Boolean ? false} Whether capturing should be enabled
-     * @return {qx.html.Element} this object (for chaining support)
+     * @return {var} An opaque id, which can be used to remove the event listener
+     *         using the {@link #removeListenerById} method.
      */
     addListener : function(type, listener, self, capture)
     {
       if (this.isDisposed()) {
-        return;
+        return null;
       }
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
@@ -2329,32 +2330,30 @@ qx.Class.define("qx.html.Element",
         }
       }
 
-      if (this.__element)
-      {
-        qx.event.Registration.addListener(this.__element, type, listener, self, capture);
-      }
-      else
-      {
-        if (!this.__eventValues) {
-          this.__eventValues = {};
-        }
-
-        var key = this.__generateListenerId(type, listener, self, capture);
-        if (this.__eventValues[key])
-        {
-          this.warn("A listener of this configuration does already exist!");
-          return false;
-        }
-
-        this.__eventValues[key] = {
-          type : type,
-          listener : listener,
-          self : self,
-          capture : capture
-        };
+      if (this.__element) {
+        return qx.event.Registration.addListener(this.__element, type, listener, self, capture);
       }
 
-      return this;
+      if (!this.__eventValues) {
+        this.__eventValues = {};
+      }
+
+      var key = this.__generateListenerId(type, listener, self, capture);
+      if (this.__eventValues[key])
+      {
+        this.warn("A listener of this configuration does already exist!");
+        return this.__eventValues[key];
+      }
+
+      var entry = {
+        type : type,
+        listener : listener,
+        self : self,
+        capture : capture
+      }
+      this.__eventValues[key] = entry;
+
+      return entry;
     },
 
 
@@ -2406,6 +2405,28 @@ qx.Class.define("qx.html.Element",
       }
 
       return this;
+    },
+
+
+    /**
+     * Removes an event listener from an event target by an id returned by
+     * {@link #addListener}
+     *
+     * @param id {var} The id returned by {@link #addListener}
+     */
+    removeListenerById : function(id)
+    {
+      if (this.__element)
+      {
+        if (id.type) {
+          qx.event.Registration.removeListener(id.type, id.listener, id.self, id.capture);
+        } else {
+          qx.event.Registration.removeListenerById(this.__element, id);
+        }
+        return;
+      }
+
+      this.removeListener(id.type, id.listener, id.self, id.capture);
     },
 
 

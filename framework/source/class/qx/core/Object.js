@@ -347,12 +347,15 @@ qx.Class.define("qx.core.Object",
      * @param capture {Boolean ? false} Whether to attach the event to the
      *         capturing phase of the bubbling phase of the event. The default is
      *         to attach the event handler to the bubbling phase.
+     * @return {var} An opaque id, which can be used to remove the event listener
+     *         using the {@link #removeListenerById} method.
      */
     addListener : function(type, listener, self, capture)
     {
       if (!this.$$disposed) {
-        this.__Registration.addListener(this, type, listener, self, capture);
+        return this.__Registration.addListener(this, type, listener, self, capture);
       }
+      return null;
     },
 
 
@@ -372,10 +375,10 @@ qx.Class.define("qx.core.Object",
       var callback = function(e)
       {
         listener.call(self||this, e);
-        this.removeListener(type, callback, this, capture);
+        this.removeListenerById(id);
       };
 
-      this.addListener(type, callback, this, capture);
+      var id = this.addListener(type, callback, this, capture);
     },
 
 
@@ -394,6 +397,17 @@ qx.Class.define("qx.core.Object",
       if (!this.$$disposed) {
         this.__Registration.removeListener(this, type, listener, self, capture);
       }
+    },
+
+
+    /**
+     * Removes an event listener from an event target by an id returned by
+     * {@link #addListener}
+     *
+     * @param id {var} The id returned by {@link #addListener}
+     */
+    removeListenerById : function(id) {
+      this.__Registration.removeListenerById(this, id);
     },
 
 
