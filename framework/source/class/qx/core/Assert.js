@@ -297,7 +297,7 @@ qx.Class.define("qx.core.Assert",
       var exception = exception || Error;
       var error;
 
-      qx.log.Logger.warn("This exception is expected:");
+      qx.log.Logger.warn("This exception is expected: " + exception.classname);
 
       try {
         callback();
@@ -309,7 +309,8 @@ qx.Class.define("qx.core.Assert",
         this.__assert(false, msg || "", "The function did not raise an exception!");
       }
 
-      this.__assert(error instanceof exception, msg || "", "The raised exception does not have the expected type! " + exception);
+      this.__assert(error instanceof exception, msg || "", 
+        "The raised exception does not have the expected type! " + exception);
 
       if (re) {
         this.assertMatch(error.toString(), re, msg);
