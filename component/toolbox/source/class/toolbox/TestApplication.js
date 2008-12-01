@@ -95,8 +95,6 @@ qx.Class.define("toolbox.TestApplication",
           }
         }
 
-        alert("Parameter Test" + dat);
-
         req.setProhibitCaching(true);
         req.setData(dat);
         var progressLoader = new toolbox.ProgressLoader();
