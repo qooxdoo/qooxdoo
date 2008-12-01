@@ -101,6 +101,32 @@ qx.Class.define("qx.ui.layout.Abstract",
 
 
     /**
+     * Whether the layout manager supports height for width.
+     *
+     * @return {Boolean} Whether the layout manager supports height for width
+     */
+    hasHeightForWidth : function() {
+      return false;
+    },
+
+
+    /**
+     * If layout wants to trade height for width it has to implement this
+     * method and return the preferred height if it is resized to
+     * the given width. This function returns <code>null</code> if the item
+     * do not support height for width.
+     *
+     * @param width {Integer} The computed width
+     * @return {Integer} The desired height
+     */
+    getHeightForWidth : function(width)
+    {
+      this.warn("Missing getHeightForWidth() implementation!");
+      return null;
+    },
+
+
+    /**
      * This computes the size hint of the layout and returns it.
      *
      * @abstract
