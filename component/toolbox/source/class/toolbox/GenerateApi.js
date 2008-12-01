@@ -72,12 +72,11 @@ qx.Class.define("toolbox.GenerateApi",
         	}
         }
         
-        alert("Parameter " + dat);
   
         req.setProhibitCaching(true);
         req.setData(dat);
         
-        var progressPopup = new toolbox.ProgressLoader();
+        var progressLoader = new toolbox.ProgressLoader();
   
 
         //NEW END
@@ -101,8 +100,8 @@ qx.Class.define("toolbox.GenerateApi",
             }
           }
          
-          progressPopup.unblock();
-          progressPopup.hidePopup();
+          progressLoader.unblock();
+          progressLoader.hideLoader();
         },
         this);
   
