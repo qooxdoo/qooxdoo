@@ -333,6 +333,12 @@ qx.Class.define("qx.ui.form.Slider",
      */
     _onMouseDown : function(e)
     {
+      // this can happen if the user releases the button while dragging outside
+      // of the browser viewport
+      if (this.__dragMode) {
+        return;
+      }
+
       var isHorizontal = this.__isHorizontal;
       var knob = this._getChildControl("knob");
 
