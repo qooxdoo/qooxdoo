@@ -74,6 +74,74 @@ qx.Class.define("qx.test.html.Element",
     },
 
 
+    testAddListener : function()
+    {
+      // flush at end
+      var listener = function() {};
+      var el = new qx.html.Element();
+
+      el.addListener("click", listener, this, false);
+      this.assertTrue(el.hasListener("click", false));
+      el.removeListener("click", listener, this, false);
+      this.assertFalse(el.hasListener("click", false));
+      qx.html.Element.flush();
+      el.dispose();
+
+      // flush after create
+      el = new qx.html.Element();
+      qx.html.Element.flush();
+
+      el.addListener("click", listener, this, false);
+      this.assertTrue(el.hasListener("click", false));
+      el.removeListener("click", listener, this, false);
+      this.assertFalse(el.hasListener("click", false));
+      el.dispose();
+
+
+      // flush after add listener
+      var el = new qx.html.Element();
+
+      el.addListener("click", listener, this, false);
+      qx.html.Element.flush();
+
+      this.assertTrue(el.hasListener("click", false));
+      el.removeListener("click", listener, this, false);
+      this.assertFalse(el.hasListener("click", false));
+      el.dispose();
+    },
+
+
+    testRemoveListenerById : function()
+    {
+      // flush at end
+      var el = new qx.html.Element();
+      var id = el.addListener("click", function() {}, this, false);
+      this.assertTrue(el.hasListener("click", false));
+      el.removeListenerById(id);
+      this.assertFalse(el.hasListener("click", false));
+      qx.html.Element.flush();
+      el.dispose();
+
+      // flush after create
+      var el = new qx.html.Element();
+      qx.html.Element.flush();
+      var id = el.addListener("click", function() {}, this, false);
+      this.assertTrue(el.hasListener("click", false));
+      el.removeListenerById(id);
+      this.assertFalse(el.hasListener("click", false));
+      el.dispose();
+
+      // flush after add
+      var el = new qx.html.Element();
+      var id = el.addListener("click", function() {}, this, false);
+      qx.html.Element.flush();
+      this.assertTrue(el.hasListener("click", false));
+      el.removeListenerById(id);
+      this.assertFalse(el.hasListener("click", false));
+      el.dispose();
+    },
+
+
     testBasics : function()
     {
       //

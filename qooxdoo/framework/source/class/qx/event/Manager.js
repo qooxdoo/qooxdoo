@@ -288,7 +288,8 @@ qx.Bootstrap.define("qx.event.Manager",
      * @param capture {Boolean ? false} Whether to attach the event to the
      *         capturing phase of the bubbling phase of the event. The default is
      *         to attach the event handler to the bubbling phase.
-     * @return {void}
+     * @return {var} An opaque id, which can be used to remove the event listener
+     *         using the {@link #removeListenerById} method.
      * @throws an error if the parameters are wrong
      */
     addListener : function(target, type, listener, self, capture)
@@ -303,10 +304,10 @@ qx.Bootstrap.define("qx.event.Manager",
         qx.core.Assert.assertString(type, msg + "Invalid event type.");
         qx.core.Assert.assertFunction(listener, msg + "Invalid callback function");
         if (self !== undefined) {
-          qx.core.Assert.assertObject(self, "Invalid context for callback.")
+          qx.core.Assert.assertObject(self, "Invalid context for callback.");
         }
         if (capture !== undefined) {
-          qx.core.Assert.assertBoolean(capture, "Invalid capture falg.");
+          qx.core.Assert.assertBoolean(capture, "Invalid capture flag.");
         }
       }
 
@@ -332,11 +333,13 @@ qx.Bootstrap.define("qx.event.Manager",
       }
 
       // Append listener to list
-      entryList.push(
-      {
+      var entry = {
         handler : listener,
         context : self
-      });
+      };
+      entryList.push(entry);
+
+      return [entryList, entry, type, capture];
     },
 
 
@@ -516,6 +519,26 @@ qx.Bootstrap.define("qx.event.Manager",
       return false;
     },
 
+
+    /**
+     * Removes an event listener from an event target by an id returned by
+     * {@link #addListener}
+     *
+     * @param target {Object} The event target
+     * @param id {var} The id returned by {@link #addListener}
+     */
+    removeListenerById : function(target, id)
+    {
+      var entryList = id[0];
+      var entry = id[1];
+      var type = id[2];
+      var capture = id[3];
+
+      qx.lang.Array.remove(entryList, entry);
+      if (entryList.length == 0) {
+        this.__unregisterAtHandler(target, type, capture);
+      }
+    },
 
     /**
      * Remove all event listeners, which are attached to the given event target.

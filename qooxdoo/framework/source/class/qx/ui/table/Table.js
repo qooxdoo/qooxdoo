@@ -703,7 +703,7 @@ qx.Class.define("qx.ui.table.Table",
       this._updateStatusBar();
 
       this._initColumnMenu();
-      
+
       this._updateTableData(
         0, value.getRowCount(),
         0, value.getColumnCount()
@@ -1067,17 +1067,17 @@ qx.Class.define("qx.ui.table.Table",
     _onTableModelDataChanged : function(evt)
     {
       var data = evt.getData();
-      
+
       this.__updateTableData(
         data.firstRow, data.lastRow,
         data.firstColumn, data.lastColumn,
         removeStart, removeCount
       );
     },
-    
+
     /**
      * To update the table if the table model has changed and remove selection.
-     * 
+     *
      * @param firstRow {Integer} The index of the first row that has changed.
      * @param lastRow {Integer} The index of the last row that has changed.
      * @param firstColumn {Integer} The model index of the first column that has changed.
@@ -1089,7 +1089,7 @@ qx.Class.define("qx.ui.table.Table",
     _updateTableData : function(firstRow, lastRow, firstColumn, lastColumn, removeStart, removeCount)
     {
       var scrollerArr = this._getPaneScrollerArr();
-       
+
       // update selection if rows were removed
       if (removeCount) {
         this.getSelectionModel().removeSelectionInterval(removeStart, removeStart + removeCount);
@@ -1841,7 +1841,7 @@ qx.Class.define("qx.ui.table.Table",
       }
       else
       {
-        this.base(arguments, type, listener, self, capture);
+        return this.base(arguments, type, listener, self, capture);
       }
     },
 
