@@ -41,7 +41,7 @@ qx.Class.define("qx.test.event.Registration",
       var Reg = qx.event.Registration;
       var mgr = Reg.getManager(target);
 
-      var handler = mgr._findHandler(target, type);
+      var handler = mgr.findHandler(target, type);
       this.assertInstance(handler, qx.test.event.MockHandler);
 
       var fired = [false, false];
@@ -106,7 +106,7 @@ qx.Class.define("qx.test.event.Registration",
       var Reg = qx.event.Registration;
       var mgr = Reg.getManager(target);
 
-      var handler = mgr._findHandler(target, type);
+      var handler = mgr.findHandler(target, type);
 
       var fired = [false, false];
       var listener1 = function(e) { fired[0] = true; };

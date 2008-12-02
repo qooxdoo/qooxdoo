@@ -290,14 +290,14 @@ qx.Class.define("qx.event.handler.Keyboard",
      */
     _initKeyObserver : function()
     {
-      this.__onKeyUpDownWrapper = qx.lang.Function.listener(this._onKeyUpDown, this);
-      this._onKeyPressWrapper = qx.lang.Function.listener(this._onKeyPress, this);
+      this.__onKeyUpDownWrapper = qx.lang.Function.listener(this.onKeyUpDown, this);
+      this.__onKeyPressWrapper = qx.lang.Function.listener(this.onKeyPress, this);
 
       var Event = qx.bom.Event;
 
       Event.addNativeListener(this.__root, "keyup", this.__onKeyUpDownWrapper);
       Event.addNativeListener(this.__root, "keydown", this.__onKeyUpDownWrapper);
-      Event.addNativeListener(this.__root, "keypress", this._onKeyPressWrapper);
+      Event.addNativeListener(this.__root, "keypress", this.__onKeyPressWrapper);
     },
 
 
@@ -313,7 +313,7 @@ qx.Class.define("qx.event.handler.Keyboard",
 
       Event.removeNativeListener(this.__root, "keyup", this.__onKeyUpDownWrapper);
       Event.removeNativeListener(this.__root, "keydown", this.__onKeyUpDownWrapper);
-      Event.removeNativeListener(this.__root, "keypress", this._onKeyPressWrapper);
+      Event.removeNativeListener(this.__root, "keypress", this.__onKeyPressWrapper);
     },
 
 
@@ -330,9 +330,10 @@ qx.Class.define("qx.event.handler.Keyboard",
      * Low level handler for "keyup" and "keydown" events
      *
      * @param domEvent {Event} DOM event object
+     * @internal
      * @signature function(domEvent)
      */
-    _onKeyUpDown : qx.core.Variant.select("qx.client",
+    onKeyUpDown : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(domEvent)
       {
@@ -445,9 +446,10 @@ qx.Class.define("qx.event.handler.Keyboard",
      * Low level key press handler
      *
      * @param domEvent {Event} DOM event object
+     * @internal
      * @signature function(domEvent)
      */
-    _onKeyPress : qx.core.Variant.select("qx.client",
+    onKeyPress : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(domEvent)
       {

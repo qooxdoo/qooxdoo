@@ -75,10 +75,49 @@ qx.Class.define("qx.html.Input",
     ---------------------------------------------------------------------------
     */
 
-    // overridden
-    _createDomElement : function() {
-      return qx.bom.Input.create(this.__type);
-    },
+    /**
+     * @signature function()
+     */
+    _createDomElement : qx.core.Variant.select("qx.client",
+    {
+      "gecko" : function()
+      {
+        // some keys like "up", "down", "pageup", "pagedown" do not bubble a
+        // "keypress" event in Firefox. For this reason we bubble "keypress"
+        // events manually.
+        // https://bugzilla.mozilla.org/show_bug.cgi?id=467513
+        var el = qx.bom.Input.create(this.__type);
+        if (this.__type == "text") {
+          el.addEventListener("keypress", this.__forwardKeyPress, false);
+        }
+        return el;
+      },
+
+      "default" : function() {
+        return qx.bom.Input.create(this.__type);
+      }
+    }),
+
+
+    /**
+     * Forwards the key event directly to the key event handler.
+     *
+     * @param e {Event} DOM key event
+     * @signature function(e)
+     */
+    __forwardKeyPress : qx.core.Variant.select("qx.client",
+    {
+      "gecko" : function(e)
+      {
+        var handler = qx.event.Registration.getManager(e.target).findHandler(e.target, e.type);
+        if (handler.onKeyPress) {
+          handler.onKeyPress(e);
+        }
+        e.stopPropagation();
+      },
+
+      "default" : null
+    }),
 
 
     // overridden
@@ -149,7 +188,7 @@ qx.Class.define("qx.html.Input",
 
 
     /**
-     * Sets the text wrap behaviour of a text area element.
+     * Sets the text wrap behavior of a text area element.
      *
      * This property uses the style property "wrap" (IE) respectively "whiteSpace"
      *
@@ -169,7 +208,7 @@ qx.Class.define("qx.html.Input",
 
 
     /**
-     * Gets the text wrap behaviour of a text area element.
+     * Gets the text wrap behavior of a text area element.
      *
      * This property uses the style property "wrap" (IE) respectively "whiteSpace"
      *
@@ -183,5 +222,23 @@ qx.Class.define("qx.html.Input",
         throw new Error("Text wrapping is only support by textareas!");
       }
     }
-  }
+  },
+
+
+
+  /*
+   *****************************************************************************
+      DESTRUCT
+   *****************************************************************************
+   */
+
+   destruct : function()
+   {
+     if (qx.core.Variant.isSet("qx.client", "gecko"))
+     {
+       if (this.__type == "text" && this.getDomElement()) {
+         this.getDomElement().removeEventListener("keypress", this.__forwardKeyPress, false);
+       }
+     }
+   }
 });
