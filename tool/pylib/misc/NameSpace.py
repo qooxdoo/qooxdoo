@@ -22,15 +22,41 @@
 # NAME
 #  NameSpace  -- an empty, extensible class
 #
+# SYNTAX
+#  from NameSpace import NameSpace
+#  p = NameSpace()
+#  p.name = "foo"
+#  p.opts.basic.log.level = 3
+#  p.opts.advanced.dithering.shaded = True
+#
 # DESCRIPTION
 #  Empty mock class; instances of this class are easily extendable, like
-#  c = NameSpace(); c.i = 1
+#  c = NameSpace()
+#  c.i = 1
 #  This wouldn't be possible using the build in 'object' class, e.g. 
 #  'c = object(); c.i = 1' would fail with an error.
-#  It is good to create a protected name space, and to have mutable variables,
+#  It is good for creating a protected name space with mutable variables,
 #  as you would need e.g. in a nested function.
 #
-##
+#  This class has the additional convenience that deeply nested members of an
+#  instance "spring into life" just by assigning to them. You never have to
+#  construct the intervening levels first. Therefore, NameSpace is also a
+#  convenient data type to represent data in a structured way. There are many
+#  examples of path-like expressions in the computing area:
+#    - /usr/local/bin/python        -- file system paths
+#    - com.sun.java.swing.text.html -- Java classes
+#    - 10.20.40.5                   -- IP addresses
+#
+#  which can be easily instantiated using NameSpace objects (this was inspired
+#  by Rebol's 'path' type). No more "opts['advanced']['dithering']['shaded']"
+#  with dictionaries, or tedious constructor calls for embedded objects.
+##                                                                            
 
 class NameSpace(object):
-    pass
+
+    # this little thing does all the magic of automatically constructing nested
+    # objects
+    def __getattr__(self,name):
+        p = NameSpace()
+        self.__dict__[name] = p
+        return p
