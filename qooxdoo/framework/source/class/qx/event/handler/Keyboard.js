@@ -290,8 +290,8 @@ qx.Class.define("qx.event.handler.Keyboard",
      */
     _initKeyObserver : function()
     {
-      this.__onKeyUpDownWrapper = qx.lang.Function.listener(this.onKeyUpDown, this);
-      this.__onKeyPressWrapper = qx.lang.Function.listener(this.onKeyPress, this);
+      this.__onKeyUpDownWrapper = qx.lang.Function.listener(this.__onKeyUpDown, this);
+      this.__onKeyPressWrapper = qx.lang.Function.listener(this.__onKeyPress, this);
 
       var Event = qx.bom.Event;
 
@@ -333,7 +333,7 @@ qx.Class.define("qx.event.handler.Keyboard",
      * @internal
      * @signature function(domEvent)
      */
-    onKeyUpDown : qx.core.Variant.select("qx.client",
+    __onKeyUpDown : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(domEvent)
       {
@@ -384,6 +384,18 @@ qx.Class.define("qx.event.handler.Keyboard",
         else
         {
           this._idealKeyHandler(keyCode, charCode, type, domEvent);
+        }
+
+        // some keys like "up", "down", "pageup", "pagedown" do not bubble a
+        // "keypress" event in Firefox but as it fires keydown events we
+        // emulate these keypress events
+        // https://bugzilla.mozilla.org/show_bug.cgi?id=467513
+        if (type === "keydown" && (keyCode == 38 || keyCode == 40))
+        {
+          var target = domEvent.target;
+          if (target.nodeType == 1 && target.type == "text" && target.tagName.toLowerCase() === "input") {
+            this._idealKeyHandler(keyCode, charCode, "keypress", domEvent);
+          }
         }
       },
 
@@ -446,10 +458,9 @@ qx.Class.define("qx.event.handler.Keyboard",
      * Low level key press handler
      *
      * @param domEvent {Event} DOM event object
-     * @internal
      * @signature function(domEvent)
      */
-    onKeyPress : qx.core.Variant.select("qx.client",
+    __onKeyPress : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(domEvent)
       {
