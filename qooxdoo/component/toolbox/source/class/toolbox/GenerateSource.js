@@ -116,8 +116,11 @@ qx.Class.define("toolbox.GenerateSource",
               {
                 frame.setHtml(result.gen_output);
                 logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.gen_output);
-                req.setData(openSource);
-                req.send();
+                //req.setData(openSource);
+                //req.send();
+                
+                var openLink = ("/component/toolbox/tool/bin/nph-qxadmin_cgi.py?action=open_In_Browser&location=source&myName="+fileName+"&myPath="+filePath).replace(/\\/g, "/");
+                window.open(openLink);
               }
 
               if (receivedState == 1)
