@@ -151,8 +151,6 @@ qx.Class.define("qx.ui.toolbar.RadioButton",
 
       this.removeState("abandoned");
       this.removeState("pressed");
-
-      e.stopPropagation();
     }
   }
 });

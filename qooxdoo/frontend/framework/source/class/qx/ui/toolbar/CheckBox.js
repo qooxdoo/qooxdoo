@@ -123,8 +123,6 @@ qx.Class.define("qx.ui.toolbar.CheckBox",
 
       this.removeState("abandoned");
       this.removeState("pressed");
-
-      e.stopPropagation();
     }
   }
 });
