@@ -98,12 +98,6 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Icon",
       return ret;
     },
 
-    _getContentHtml : function(cellInfo)
-    {
-      return qx.html.String.escape(this._formatValue(cellInfo.cellData));
-    },
-
-
     // overridden
     _getContentHtml : function(cellInfo)
     {
