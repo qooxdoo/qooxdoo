@@ -49,7 +49,7 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
                        widthBottom : 0
                      });
     this.setBorder(this._border);
-    
+
     this.setPadding(0);
 
     // We also like to show progress as a percentage done string.

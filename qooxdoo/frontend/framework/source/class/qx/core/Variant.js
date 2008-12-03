@@ -139,9 +139,9 @@ qx.Class.define("qx.core.Variant",
      * @return {void}
      */
     __init : function()
-    {           
+    {
       if (window.qxvariants)
-      {        
+      {
         for (var key in qxvariants)
         {
           if (qx.core.Variant.compilerIsSet("qx.debug", "on"))

@@ -142,7 +142,7 @@ qx.Class.define("qx.core.Aspect",
      *     {@link qx.dev.Profile#profileAfter}.
      */
     addAdvice : function(position, type, nameRegExp, fcn)
-    {           
+    {
       if (position != "before" && position != "after") {
         throw new Error("Unknown position: '"+position+"'");
       }

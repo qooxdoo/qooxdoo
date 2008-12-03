@@ -70,7 +70,7 @@ qx.Class.define("qx.ui.progressive.structure.Abstract",
       this.__vBoxLayout.dispose();
       this.__vBoxLayout = null;
     }
-    
+
     this._pane = null;
   }
 });

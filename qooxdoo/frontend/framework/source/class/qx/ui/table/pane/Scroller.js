@@ -1767,7 +1767,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           this._cellEditor.pendingDispose = true;
         }
         else
-        {          
+        {
           this._focusIndicator.removeState("editing");
           this._cellEditor.destroy();
           this._cellEditor = null;

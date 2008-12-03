@@ -211,7 +211,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
 
     // overridden
     render : function(state, element)
-    {  
+    {
       var data = element.data;
       var html = [ ];
       var cellInfo;
@@ -311,7 +311,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
           // Update state for next time
           rendererData.start = (index == 0 ? 1 : 0);
 
-          // Insert our new row before the first child.   
+          // Insert our new row before the first child.
           elem.insertBefore(div, children[0]);
           break;
         }
@@ -347,7 +347,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
          ? 0
          : this._progressive.getInnerWidth()) -
         qx.ui.core.Widget.SCROLLBAR_SIZE;
-      
+
       // Get the style sheet rule name for this row
       var stylesheet = ".qx-progressive-" + this._hash + "-row";
 
@@ -389,7 +389,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
         //
         // Get the width of this column.
         //
-        
+
         // Is this column a flex width?
         if (columnData._computedWidthTypeFlex)
         {

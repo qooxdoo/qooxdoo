@@ -253,17 +253,17 @@ qx.Class.define("qx.ui.tree.TreeFolder",
     close : function()
     {
       // never close a hidden root folder
-      var isTree = this instanceof qx.ui.tree.Tree; 
+      var isTree = this instanceof qx.ui.tree.Tree;
       if (isTree && this.isHideNode()) {
         return;
       }
-      
+
       // if the root node does not have a close button don't close the topmost folder
       var tree = isTree ? this : this.getTree();
       if (!tree.getRootOpenClose() && (isTree || tree.isHideNode() && this.getParentFolder() == tree)) {
         return;
-      }          
-      
+      }
+
       // If there are listeners waiting for a treeClose event...
       if (tree.hasEventListeners("treeClose"))
       {
@@ -776,7 +776,7 @@ qx.Class.define("qx.ui.tree.TreeFolder",
               treeItem.dispose();
             }
           }
-          
+
           // delay the dispose until return from current call stack.  if we
           // were called via an event, e.g. a mouse click, the global queue
           // will be flushed so we can't yet be disposed.
@@ -964,9 +964,9 @@ qx.Class.define("qx.ui.tree.TreeFolder",
         case this._containerObject:
         case this:
           break;
-          
+
         default:
-          this.toggle();          
+          this.toggle();
       }
       e.stopPropagation();
     },

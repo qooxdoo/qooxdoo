@@ -105,8 +105,8 @@ qx.Class.define("qx.ui.table.headerrenderer.Icon",
       }
 
       img.setSource(this.getIconUrl());
-      
-      this.base(arguments, cellInfo, cellWidget);      
+
+      this.base(arguments, cellInfo, cellWidget);
     }
   }
 });

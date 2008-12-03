@@ -107,7 +107,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
      * <dl>
      *   <dt>state</dt>
      *   <dd>
-     *     The state object.  
+     *     The state object.
      *   </dd>
      *
      *   <dt>initial</dt>
@@ -288,7 +288,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
         // Let listeners know we're beginning to render
         this.createDispatchDataEvent("renderStart",
                                      {
-                                       state   : state, 
+                                       state   : state,
                                        initial : this.__initialNumElements
                                      });
 
@@ -310,7 +310,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
                                this.createDispatchDataEvent(
                                  "renderStart",
                                  {
-                                   state   : state, 
+                                   state   : state,
                                    initial : this.__initialNumElements
                                  });
                                this.__renderElementBatch(state);
@@ -417,7 +417,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
                            this, 0);
     },
 
-      
+
     /**
      * Create the array of empty objects for use by the renderers.
      */

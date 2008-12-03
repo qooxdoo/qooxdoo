@@ -97,13 +97,13 @@ qx.Class.define("qx.ui.embed.Flash",
     }
 
     this.setVersion(vVersion != null ? vVersion : qx.ui.embed.Flash.MINREQUIRED);
-    
+
     if (vId != null) {
       this.setId(vId);
     } else {
       this.setId("flash" + this._hashCode);
     }
-    
+
     this.addEventListener("appear", this._onAppear, this);
   },
 
@@ -309,7 +309,7 @@ qx.Class.define("qx.ui.embed.Flash",
      * @return {void}
      */
     _applyElementData : function(el) {
-      // intentionally left empty 
+      // intentionally left empty
       // see Bug: http://bugzilla.qooxdoo.org/show_bug.cgi?id=847
     },
 
@@ -457,7 +457,7 @@ qx.Class.define("qx.ui.embed.Flash",
 
     /**
      * Return the DOM element of the flash file element.
-     * 
+     *
      * @type member
      * @return {Element} the flash DOM element.
      */
@@ -768,12 +768,12 @@ qx.Class.define("qx.ui.embed.Flash",
 
   destruct : function()
   {
-    /* 
+    /*
      * reset innerHTML to be sure that Flash stops
      * this is especially needed for mshtml browsers
-     */ 
+     */
     this.getElement().innerHTML = "";
-    
+
     this._disposeObjects("_version");
     this._disposeFields("_source", "_params", "_variables");
   }

@@ -153,7 +153,7 @@ qx.Class.define("qx.event.handler.FocusHandler",
       if (t1 != t2) {
         return t1 - t2;
       }
-      
+
       var y1 = qx.bom.element.Location.getTop(c1.getElement());
       var y2 = qx.bom.element.Location.getTop(c2.getElement());
 

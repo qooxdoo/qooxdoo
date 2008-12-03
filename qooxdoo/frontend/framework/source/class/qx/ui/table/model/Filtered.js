@@ -289,7 +289,7 @@ qx.Class.define("qx.ui.table.model.Filtered",
         firstColumn : 0,
         lastColumn  : this.getColumnCount() - 1
       };
-      
+
       this.createDispatchDataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
     },
 
@@ -336,9 +336,9 @@ qx.Class.define("qx.ui.table.model.Filtered",
           firstColumn : 0,
           lastColumn  : this.getColumnCount() - 1
         };
-        
+
         this.createDispatchDataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
-      }  
+      }
     },
 
 
@@ -360,8 +360,8 @@ qx.Class.define("qx.ui.table.model.Filtered",
 
       this.setData(qx.lang.Array.copy(this._fullArr));
     },
-  
-  
+
+
     // overridden
     setData : function(rowArr, clearSorting)
     {

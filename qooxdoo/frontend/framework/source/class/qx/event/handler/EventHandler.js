@@ -168,7 +168,7 @@ qx.Class.define("qx.event.handler.EventHandler",
         // See bug #1049
         e.keyCode = 0;
       } catch(ex) {}
-      
+
       vDomEvent.returnValue = false;
     },
 
@@ -471,7 +471,7 @@ qx.Class.define("qx.event.handler.EventHandler",
     removeCommand : function(vCommand)
     {
       delete this._commands[vCommand.toHashCode()];
-      
+
       // reset list if it is empty. This frees some browser memory
       if (qx.lang.Object.isEmpty(this._commands)) {
         this._commands = {};
@@ -770,7 +770,7 @@ qx.Class.define("qx.event.handler.EventHandler",
           // Fix MSHTML Doubleclick, should be after a normal click event, like Mozilla does this
           else if (vType == "dblclick" && this._lastMouseEventType == "mouseup" && ((new Date).valueOf() - this._lastMouseEventDate) < 250) {
             this._onmouseevent_post(vDomEvent, "click", vDomTarget);
-          }   
+          }
 
           switch(vType)
           {

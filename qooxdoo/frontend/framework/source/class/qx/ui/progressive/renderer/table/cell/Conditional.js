@@ -61,13 +61,13 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
         ">=",
         "<="
       ];
-    
+
     this.betweenAllowed =
       [
         "between",
         "!between"
       ];
-    
+
     this.conditions = [ ];
 
     this._defaultTextAlign = align || "";

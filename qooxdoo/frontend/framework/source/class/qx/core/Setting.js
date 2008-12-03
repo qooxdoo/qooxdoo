@@ -134,7 +134,7 @@ qx.Class.define("qx.core.Setting",
 
     /**
      * checks if a setting is set or not
-     * 
+     *
      * @param key {Boolean}
      */
     isSet : function (key)

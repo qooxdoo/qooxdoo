@@ -770,8 +770,8 @@ qx.Class.define("qx.ui.form.TextField",
         throw new Error(this.classname + ": Element must be visible!");
       }
     },
-    
-    
+
+
 
 
     /*
@@ -1067,7 +1067,7 @@ qx.Class.define("qx.ui.form.TextField",
       {
         this._visualPropertyCheck();
         var el = this._inputElement;
-     
+
         // the try catch block is neccesary because FireFox raises an exception
         // if the property "selectionStart" is read while the element or one of
         // its parent elements is invisible

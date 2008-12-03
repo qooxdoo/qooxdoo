@@ -78,7 +78,7 @@ qx.Class.define("qx.ui.component.DateChooser",
     var monthYearLabel = new qx.ui.basic.Label;
     var nextMonthBt = new qx.ui.toolbar.Button(null, "widget/datechooser/nextMonth.png");
     var nextYearBt = new qx.ui.toolbar.Button(null, "widget/datechooser/nextYear.png");
-    
+
     this._lastYearBtToolTip = new qx.ui.popup.ToolTip(this.tr("Last year"));
     this._lastMonthBtToolTip = new qx.ui.popup.ToolTip(this.tr("Last month"));
     this._nextMonthBtToolTip = new qx.ui.popup.ToolTip(this.tr("Next month"));

@@ -352,7 +352,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
         this._applyMaxCacheLines(maxCacheLines);
         this.__rowCache[row] = rowString;
         this.__rowCacheCount += 1;
-      }      
+      }
     },
 
 

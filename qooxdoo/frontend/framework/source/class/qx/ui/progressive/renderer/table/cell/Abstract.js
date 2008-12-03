@@ -98,7 +98,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Abstract",
      *
      * @param cellInfo {Object}
      *   See {@link qx.ui.progressive.renderer.table.cell.Abstract} class
-     *   description for details 
+     *   description for details
      *
      * @return {String}
      *   The style characteristics to be applied to this cell.
@@ -115,7 +115,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Abstract",
      *
      * @param cellInfo {Object}
      *   See {@link qx.ui.progressive.renderer.table.cell.Abstract} class
-     *   description for details 
+     *   description for details
      *
      * @return {String}
      *   The extra attributes to be applied to this cell.
@@ -130,7 +130,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Abstract",
      *
      * @param cellInfo {Object}
      *   See {@link qx.ui.progressive.renderer.table.cell.Abstract} class
-     *   description for details 
+     *   description for details
      *
      * @return {String}
      *   The HTML content to be added to the cell div.
@@ -146,13 +146,13 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Abstract",
      *
      * @param cellInfo {Object}
      *   See {@link qx.ui.progressive.renderer.table.cell.Abstract} class
-     *   description for details 
+     *   description for details
      *
      * @return {String}
      *   The HTML required to create this cell.
      */
     render : function(cellInfo)
-    {  
+    {
       var html = [ ];
       var style = this._getCellStyle(cellInfo);
 

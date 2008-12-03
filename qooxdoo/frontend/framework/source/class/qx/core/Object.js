@@ -60,7 +60,7 @@ qx.Class.define("qx.core.Object",
     {
       // try to get a re-usable key
       this.__dbKey=qx.core.Object.__freeAvailableDbKeys.pop();
-      
+
       if (!this.__dbKey) {
         // no re-usable key found ==> append to registry
         this.__dbKey = qx.core.Object.__db.length;

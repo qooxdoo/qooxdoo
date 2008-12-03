@@ -242,11 +242,11 @@ qx.Class.define("qx.ui.form.ComboBox",
       check : "Integer",
       init : 10
     },
-    
-    /** 
+
+    /**
      * Formatter to format <code>TextField</code> value when <code>ListItem</code>
      * is selected. Uses the default formatter {@link qx.ui.form.ComboBox#__defaultFormat}.
-     */ 
+     */
     format :
     {
       check : "Function",
@@ -352,11 +352,11 @@ qx.Class.define("qx.ui.form.ComboBox",
       // and not from the property "value".
       if (!this._fromValue) {
         var valueLabel = value ? value.getLabel().toString() : "";
-        
+
         if (this.getFormat() != null) {
           valueLabel = this.getFormat().call(this, value);
         }
-        
+
         this.setValue(valueLabel);
       }
 
@@ -914,11 +914,11 @@ qx.Class.define("qx.ui.form.ComboBox",
           }
 
           break;
-          
+
         case "Escape":
-          // stop event to prevent any other widget is reacting on this keypress event 
+          // stop event to prevent any other widget is reacting on this keypress event
           e.stopPropagation();
-          break; 
+          break;
       }
 
       // Default Handling
@@ -995,7 +995,7 @@ qx.Class.define("qx.ui.form.ComboBox",
       this.getField().selectAll();
       this.addState("focused");
     },
-    
+
     /*
     ---------------------------------------------------------------------------
       FORMAT HANDLING
@@ -1006,7 +1006,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * The formatter removes all HTML tags and converts all HTML entities
      * to string characters if the <code>ListItem</code> is identified as
      * HTML text or the mode is set to <code>"html"</code>.
-     *  
+     *
      * @type member
      * @param item {ListItem} The list item to format.
      * @return {String} The formatted text.
@@ -1015,11 +1015,11 @@ qx.Class.define("qx.ui.form.ComboBox",
     {
       var valueLabel = item ? item.getLabel().toString() : "";
       var label = item.getLabelObject();
-        
-      if (label != null) 
+
+      if (label != null)
       {
         var mode = label.getMode();
-          
+
         if (mode === "auto") {
           mode = qx.util.Validation.isValidString(valueLabel) && valueLabel.match(/<.*>/) ? "html" : "text";
         }
@@ -1029,8 +1029,8 @@ qx.Class.define("qx.ui.form.ComboBox",
           valueLabel = valueLabel.replace(/<[^>]+?>/g, "");
           valueLabel = qx.html.String.unescape(valueLabel);
         }
-      }            
-      
+      }
+
       return valueLabel;
     }
   },
@@ -1063,10 +1063,10 @@ qx.Class.define("qx.ui.form.ComboBox",
     vMgr.removeEventListener("changeLocale", this._onlocalechange, this);
 
     this._disposeObjects(
-      "_popup", 
-      "_list", 
-      "_manager", 
-      "_field", 
+      "_popup",
+      "_list",
+      "_manager",
+      "_field",
       "_button",
       "_oldSelected"
     );

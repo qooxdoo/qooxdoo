@@ -57,10 +57,10 @@ qx.Class.define("qx.client.Timer",
     }
 
     this.__oninterval = qx.lang.Function.bind(this._oninterval, this);
-    
+
     //Event instance to dispatch when interval fires
     this.__event = new qx.event.type.Event("interval");
-    
+
   },
 
 

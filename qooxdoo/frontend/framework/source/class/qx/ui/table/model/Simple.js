@@ -403,7 +403,7 @@ qx.Class.define("qx.ui.table.model.Simple",
           firstColumn : 0,
           lastColumn  : this.getColumnCount() - 1
         };
-        
+
         this.createDispatchDataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
       }
 
@@ -519,7 +519,7 @@ qx.Class.define("qx.ui.table.model.Simple",
         firstColumn : 0,
         lastColumn  : this.getColumnCount() - 1,
         removeStart : startIndex,
-        removeCount : howMany        
+        removeCount : howMany
       };
 
       this.createDispatchDataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);

@@ -60,7 +60,7 @@ qx.Class.define("qx.io.Alias",
     /**
      * Define static alias from setting, if the custom staticUri setting is set
      * we use it as alias else we take default resourceUri + /static
-     * 
+     *
      * @type member
      * @return {void}
      */
@@ -97,20 +97,20 @@ qx.Class.define("qx.io.Alias",
 
         if (resolved !== undefined) {
           var urlPrefix = "";
-          
-          /* 
-           * To avoid a "mixed content" warning in IE when the application is 
+
+          /*
+           * To avoid a "mixed content" warning in IE when the application is
            * delivered via HTTPS a prefix has to be added. This will transform the
            * relative URL to an absolute one in IE.
-           * Though this warning is only displayed in conjunction with images which 
-           * are referenced as a CSS "background-image", every resource path is 
-           * changed when the application is served with HTTPS.     
+           * Though this warning is only displayed in conjunction with images which
+           * are referenced as a CSS "background-image", every resource path is
+           * changed when the application is served with HTTPS.
            */
           if (qx.core.Variant.isSet("qx.client", "mshtml"))
           {
             if (window.location.protocol === "https:")
             {
-              /* 
+              /*
                * SPECIAL CASE
                * It is valid to to begin a URL with "//" so this case has to
                * be considered. If the to resolved URL begins with "//" the
@@ -120,7 +120,7 @@ qx.Class.define("qx.io.Alias",
                 urlPrefix = window.location.protocol;
               }
               /*
-               * If the resolved URL begins with "./" the final URL has to be 
+               * If the resolved URL begins with "./" the final URL has to be
                * put together using the document.URL property.
                * IMPORTANT: this is only applicable for the source version
                */
@@ -135,7 +135,7 @@ qx.Class.define("qx.io.Alias",
               }
             }
           }
-          
+
           dynamics[value] = urlPrefix + resolved + value.substring(alias.length);
         }
       }

@@ -1154,10 +1154,10 @@ qx.Class.define("qx.ui.core.Parent",
       {
         delete this._childrenQueue[vChild.toHashCode()];
 
-        if (qx.lang.Object.isEmpty(this._childrenQueue)) 
+        if (qx.lang.Object.isEmpty(this._childrenQueue))
         {
           this._childrenQueue = {};
-          qx.ui.core.Widget.removeFromGlobalLayoutQueue(this);          
+          qx.ui.core.Widget.removeFromGlobalLayoutQueue(this);
         }
       }
     },

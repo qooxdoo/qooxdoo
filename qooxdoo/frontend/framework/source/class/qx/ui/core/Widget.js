@@ -361,7 +361,7 @@ qx.Class.define("qx.ui.core.Widget",
 
         vQueue.splice(0, vLength);
       }
-      
+
       qx.ui.core.Widget._globalWidgetQueue = [];
     },
 
@@ -439,7 +439,7 @@ qx.Class.define("qx.ui.core.Widget",
 
         vQueue.splice(0, vLength);
       }
-      
+
       qx.ui.core.Widget._globalElementQueue = [];
     },
 
@@ -598,7 +598,7 @@ qx.Class.define("qx.ui.core.Widget",
 
         vQueue.splice(0, vLength);
       }
-      
+
       qx.ui.core.Widget._globalJobQueue = [];
     },
 
@@ -676,7 +676,7 @@ qx.Class.define("qx.ui.core.Widget",
 
         vQueue.splice(0, vLength);
       }
-      
+
       qx.ui.core.Widget._globalLayoutQueue = [];
     },
 
@@ -801,7 +801,7 @@ qx.Class.define("qx.ui.core.Widget",
         }
       }
 
-      
+
       // Work on lazy queues: Other widgets
       for (vKey in vLazyQueues)
       {
@@ -878,13 +878,13 @@ qx.Class.define("qx.ui.core.Widget",
         delete vLazyQueues[vKey];
       }
 
-      
+
       // reset queue if it is empty. This frees some browser memory
       if (qx.lang.Object.isEmpty(vLazyQueues)) {
         qx.ui.core.Widget._lazyGlobalDisplayQueues = {};
       }
 
-      
+
       // Reset display queue flag for widgets in fastQueue
       for (var i=0, l=vFastQueue.length; i<l; i++) {
         delete vFastQueue[i]._isInGlobalDisplayQueue;
@@ -925,7 +925,7 @@ qx.Class.define("qx.ui.core.Widget",
         vWidget._isInGlobalDisposeQueue = true;
       }
     },
-   
+
 
     /**
      * TODOC
@@ -965,8 +965,8 @@ qx.Class.define("qx.ui.core.Widget",
         }
 
         vQueue.splice(0, vLength);
-      }     
-      
+      }
+
       qx.ui.core.Widget._globalDisposeQueue = [];
     },
 
@@ -3093,14 +3093,14 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
-     * Removes the widget from its parent and disposes it. 
-     * Use this function to free the widget's allocated memory and its associated 
+     * Removes the widget from its parent and disposes it.
+     * Use this function to free the widget's allocated memory and its associated
      * DOM elements during the runtime of the application.
      */
-    destroy : function () 
+    destroy : function ()
     {
       this.setParent(null);
-      qx.ui.core.Widget.addToGlobalDisposeQueue(this);      
+      qx.ui.core.Widget.addToGlobalDisposeQueue(this);
     },
 
 
@@ -6077,7 +6077,7 @@ qx.Class.define("qx.ui.core.Widget",
       if (old) {
         vMgr.setCaptureWidget(null);
       }
-      
+
       if (value) {
         vMgr.setCaptureWidget(this);
       }
@@ -7467,8 +7467,8 @@ qx.Class.define("qx.ui.core.Widget",
           start = (new Date).valueOf();
           statics.flushGlobalDisposeQueue();
           var vDisposeDuration = (new Date).valueOf() - start;
-          
-          
+
+
           start = (new Date).valueOf();
           statics.flushGlobalDisplayQueue();
           var vDisplayDuration = (new Date).valueOf() - start;

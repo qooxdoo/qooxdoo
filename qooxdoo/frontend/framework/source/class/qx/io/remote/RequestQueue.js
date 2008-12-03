@@ -141,7 +141,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
           var vText =
             this._active.length + "/" +
             (this._queue.length + this._active.length);
-          
+
           this.debug("Progress: " + vText);
           window.status = "Request-Queue Progress: " + vText;
         }
@@ -213,7 +213,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
         returnValue = exc;
       }
 
-      // if we got an exception remove it from the queue by using the failed 
+      // if we got an exception remove it from the queue by using the failed
       // handler
       if (returnValue !== true)
       {

@@ -345,7 +345,7 @@ qx.Class.define("qx.ui.table.Table",
       init : true,
       apply : "_applyStatusBarVisible"
     },
-  
+
   /** The Statusbartext, set it, if you want some more Information */
   additionalStatusBarText :
   {
@@ -699,7 +699,7 @@ qx.Class.define("qx.ui.table.Table",
         this._updateStatusBar();
       }
     },
-  
+
   // property modifier
   /**
      * @type member
@@ -963,14 +963,14 @@ qx.Class.define("qx.ui.table.Table",
     _onTableModelDataChanged : function(evt)
     {
       var scrollerArr = this._getPaneScrollerArr();
-      
+
       var data = evt.getData();
 
       // update selection if rows were removed
       if (data.removeCount) {
         this.getSelectionModel().removeSelectionInterval(data.removeStart, data.removeStart + data.removeCount);
       }
-      
+
       for (var i=0; i<scrollerArr.length; i++) {
         scrollerArr[i]._onTableModelDataChanged(evt);
       }
@@ -1349,7 +1349,7 @@ qx.Class.define("qx.ui.table.Table",
     resetCellFocus : function() {
       this.setFocusedCell(null, null, false);
     },
-    
+
 
     /**
      * Returns the column of the currently focused cell.
@@ -1389,7 +1389,7 @@ qx.Class.define("qx.ui.table.Table",
       if (col === null || row === null) {
         return;
       }
-      
+
       if (deltaX != 0)
       {
         var columnModel = this.getTableColumnModel();
@@ -1617,7 +1617,7 @@ qx.Class.define("qx.ui.table.Table",
         text = this.trn("one of one row", "%1 of %2 rows", rowCount, selectedRowCount, rowCount);
       }
     }
-    
+
     if(this._additionalStatusBarText) {
       if(text) {
         text += this._additionalStatusBarText;

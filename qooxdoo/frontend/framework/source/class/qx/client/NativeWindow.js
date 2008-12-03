@@ -610,7 +610,7 @@ qx.Class.define("qx.client.NativeWindow",
      *
      * @type member
      * @return {void}
-     * 
+     *
      * @deprecated does not show any effect in FF3, IE7 and Safari 3.2.1. http://bugzilla.qooxdoo.org/show_bug.cgi?id=1007
      */
     centerToScreen : function() {
@@ -625,7 +625,7 @@ qx.Class.define("qx.client.NativeWindow",
      *
      * @type member
      * @return {void}
-     * 
+     *
      * @deprecated does not show any effect in FF3, IE7 and Safari 3.2.1. See http://bugzilla.qooxdoo.org/show_bug.cgi?id=1007
      */
     centerToScreenArea : function() {
@@ -640,7 +640,7 @@ qx.Class.define("qx.client.NativeWindow",
      *
      * @type member
      * @return {void}
-     * 
+     *
      * @deprecated does not show any effect in FF3, IE7 and Safari 3.2.1. http://bugzilla.qooxdoo.org/show_bug.cgi?id=1007
      */
     centerToOpener : function() {

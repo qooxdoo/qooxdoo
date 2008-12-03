@@ -390,7 +390,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       {
         columns.push(this._resizeColumnData[visibleColumns[i]]);
       }
-      
+
       // Compute the column widths
       qx.ui.util.column.FlexWidth.compute(columns, width);
 

@@ -45,7 +45,7 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
     this.base(arguments);
 
     this._columnWidths = columnWidths;
-    
+
     this.setHeight(16);
 
     var border = new qx.ui.core.Border(1, "solid", "#eeeeee");
@@ -53,7 +53,7 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
     border.setWidthLeft(0);
     border.setWidthBottom(2);
     border.setColorBottom("#aaaaaa");
-    
+
     // Create a place to put labels
     this._labels = [ ];
 

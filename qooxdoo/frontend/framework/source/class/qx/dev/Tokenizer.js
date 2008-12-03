@@ -193,7 +193,7 @@ qx.Class.define("qx.dev.Tokenizer",
           case "regexp":
             js.add("<span class='regexp'>", htmlValue, "</span>");
             break;
-            
+
           case "ident":
             js.add("<span class='ident'>", htmlValue, "</span>");
             break;

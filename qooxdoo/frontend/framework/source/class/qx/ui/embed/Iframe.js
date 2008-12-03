@@ -357,8 +357,8 @@ qx.Class.define("qx.ui.embed.Iframe",
      */
     block : function()
     {
-      if (this._blockerNode && 
-         (!this._blockerNode.parentElement || 
+      if (this._blockerNode &&
+         (!this._blockerNode.parentElement ||
          (qx.core.Variant.isSet("qx.client", "gecko") && !this._blockerNode.parentNode))) {
         this._getBlockerParent().appendChild(this._blockerNode);
       }
@@ -372,8 +372,8 @@ qx.Class.define("qx.ui.embed.Iframe",
      */
     release : function()
     {
-      if (this._blockerNode && 
-         (this._blockerNode.parentElement || 
+      if (this._blockerNode &&
+         (this._blockerNode.parentElement ||
          (qx.core.Variant.isSet("qx.client", "gecko") && this._blockerNode.parentNode))) {
         this._getBlockerParent().removeChild(this._blockerNode);
       }

@@ -488,7 +488,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
       if (parentFolder) {
         parentFolder.remove(this);
       }
-      
+
       this.base(arguments);
     },
 
