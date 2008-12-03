@@ -118,7 +118,6 @@ qx.Class.define("toolbox.GenerateSource",
               {
                 frame.setHtml(result.gen_output);
                 logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.gen_output);
-                this.setResult(result.gen_output);
                 req.setData(openSource);
                 req.send();
                 
@@ -130,9 +129,8 @@ qx.Class.define("toolbox.GenerateSource",
 
               if (receivedState == 1)
               {
-                frame.setHtml('<font color="red">' + result.gen_output + '</font>');
-                logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.gen_output + '</font>');
-                this.setResult(result.gen_output);
+                frame.setHtml('<font color="red">' + result.gen_error + '</font>');
+                logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.gen_error + '</font>');
               }
             }
           }
@@ -148,6 +146,7 @@ qx.Class.define("toolbox.GenerateSource",
 
         req.addListener("failed", function(evt) {
           this.error("Failed to post to URL: " + url);
+          logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
         }, this);
 
         req.send();
@@ -158,52 +157,6 @@ qx.Class.define("toolbox.GenerateSource",
       }
 
       return;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param state {var} TODOC
-     * @return {void} 
-     */
-    setState : function(state) {
-      this.__state = state;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {var} TODOC
-     */
-    getState : function() {
-      return this.__state;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param content {var} TODOC
-     * @return {void} 
-     */
-    setResult : function(content) {
-      this.__content = content;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {var} TODOC
-     */
-    getResult : function() {
-      return this.__content;
     }
   }
 });

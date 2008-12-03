@@ -114,15 +114,13 @@ qx.Class.define("toolbox.GenerateApi",
             if (receivedState == 0)
             {
               logFrame.setHtml(logFrame.getHtml() + " <br> " + result.api_output);
-              this.setResult(result.api_output);
               req.setData(openApi);
               req.send();
             }
 
             if (receivedState == 1)
             {
-              logFrame.setHtml(logFrame.getHtml() + " <br> " + '<font color="red">' + result.api_output + '</font>');
-              this.setResult(result.api_output);
+              logFrame.setHtml(logFrame.getHtml() + " <br> " + '<font color="red">' + result.api_error + '</font>');
             }
           }
 
@@ -133,6 +131,7 @@ qx.Class.define("toolbox.GenerateApi",
 
         req.addListener("failed", function(evt) {
           this.error("Failed to post to URL: " + url);
+          logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
         }, this);
 
         req.send();
@@ -143,52 +142,6 @@ qx.Class.define("toolbox.GenerateApi",
       }
 
       return;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param state {var} TODOC
-     * @return {void} 
-     */
-    setState : function(state) {
-      this.__state = state;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {var} TODOC
-     */
-    getState : function() {
-      return this.__state;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param content {var} TODOC
-     * @return {void} 
-     */
-    setResult : function(content) {
-      this.__content = content;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {var} TODOC
-     */
-    getResult : function() {
-      return this.__content;
     }
   }
 });
