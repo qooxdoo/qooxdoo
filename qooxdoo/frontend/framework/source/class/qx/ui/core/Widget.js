@@ -3093,7 +3093,9 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
-     * Removes the widget from its parent and disposes it. Use this function if you want to free the widget's during the runtime of the application.
+     * Removes the widget from its parent and disposes it. 
+     * Use this function to free the widget's allocated memory and its associated 
+     * DOM elements during the runtime of the application.
      */
     destroy : function () 
     {
