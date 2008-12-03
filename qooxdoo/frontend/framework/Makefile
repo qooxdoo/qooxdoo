@@ -33,7 +33,7 @@ all:
 	@echo '    Please use the powerful yet easy-to-use "skeletons" as a starting point'
 	@echo "    for your custom application development."
 	@echo
-	@echo "    http://qooxdoo.org/documentation/user_manual/skeleton"
+	@echo "    http://qooxdoo.org/documentation/0.7/skeleton"
 
 source: all
 build: all
