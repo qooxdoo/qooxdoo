@@ -316,9 +316,6 @@ qx.Class.define("qx.ui.form.RepeatButton",
       this.capture();
 
       this.__startInternalTimer();
-
-      // Stop event from further processing
-      e.stopPropagation();
     },
 
 
@@ -346,9 +343,6 @@ qx.Class.define("qx.ui.form.RepeatButton",
       }
 
       this.__stopInternalTimer();
-
-      // Stop event from further processing
-      e.stopPropagation();
     },
 
 

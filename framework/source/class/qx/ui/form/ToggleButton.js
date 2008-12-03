@@ -210,9 +210,6 @@ qx.Class.define("qx.ui.form.ToggleButton",
 
       this.removeState("abandoned");
       this.addState("pressed");
-
-      // Stop event from further processing
-      e.stopPropagation();
     },
 
 
@@ -239,9 +236,6 @@ qx.Class.define("qx.ui.form.ToggleButton",
       }
 
       this.removeState("pressed");
-
-      // Stop event from further processing
-      e.stopPropagation();
     },
 
 
