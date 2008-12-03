@@ -33,10 +33,10 @@ qx.Class.define("toolbox.MakePretty",
 
 
   /*
-        *****************************************************************************
-           CONSTRUCTOR
-        *****************************************************************************
-      */
+          *****************************************************************************
+             CONSTRUCTOR
+          *****************************************************************************
+        */
 
   construct : function(adminPath, fileName, filePath, logFrame)
   {
@@ -49,10 +49,10 @@ qx.Class.define("toolbox.MakePretty",
 
 
   /*
-        *****************************************************************************
-           MEMBERS
-        *****************************************************************************
-      */
+          *****************************************************************************
+             MEMBERS
+          *****************************************************************************
+        */
 
   members :
   {
@@ -92,10 +92,11 @@ qx.Class.define("toolbox.MakePretty",
           }
         }
 
+        alert("Parameter Pretty " + dat);
 
         req.setProhibitCaching(true);
         req.setData(dat);
-        var progressLoader = new toolbox.ProgressLoader();
+        var loader = new toolbox.ProgressLoader();
 
         req.addListener("completed", function(evt)
         {
@@ -104,17 +105,21 @@ qx.Class.define("toolbox.MakePretty",
 
           if (receivedState == 1 || receivedState == 0)
           {
-            if (receivedState == 0) {
+            if (receivedState == 0)
+            {
               logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.pretty_output);
+              this.setResult(result.pretty_output);
             }
 
-            if (receivedState == 1) {
-              logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.pretty_error + '</font>');
+            if (receivedState == 1)
+            {
+              logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.pretty_output + '</font>');
+              this.setResult(result.pretty_output);
             }
           }
 
-          progressLoader.unblock();
-          progressLoader.hideLoader();
+          loader.unblock();
+          loader.hideLoader();
         },
         this);
 
@@ -130,6 +135,52 @@ qx.Class.define("toolbox.MakePretty",
       }
 
       return;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param state {var} TODOC
+     * @return {void} 
+     */
+    setState : function(state) {
+      this.__state = state;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    getState : function() {
+      return this.__state;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param content {var} TODOC
+     * @return {void} 
+     */
+    setResult : function(content) {
+      this.__content = content;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    getResult : function() {
+      return this.__content;
     }
   }
 });

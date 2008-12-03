@@ -19,7 +19,6 @@
 
 /* ************************************************************************
 #asset(toolbox/*)
-#asset(toolbox/image/progressLoader.gif)
 
 ************************************************************************ */
 
@@ -34,10 +33,10 @@ qx.Class.define("toolbox.Toolbox",
 
 
   /*
-      *****************************************************************************
-         CONSTRUCTOR
-      *****************************************************************************
-      */
+        *****************************************************************************
+           CONSTRUCTOR
+        *****************************************************************************
+        */
 
   construct : function()
   {
@@ -109,18 +108,18 @@ qx.Class.define("toolbox.Toolbox",
 
 
   /*
-      *****************************************************************************
-         MEMBERS
-      *****************************************************************************
-      */
+        *****************************************************************************
+           MEMBERS
+        *****************************************************************************
+        */
 
   members :
   {
     /*
-        ----------------------------------------------------------------------------
-          CONFIG SETTINGS
-        ----------------------------------------------------------------------------
-        */
+            ----------------------------------------------------------------------------
+              CONFIG SETTINGS
+            ----------------------------------------------------------------------------
+            */
 
     __adminHost : "127.0.0.1",
     __adminPort : "8000",
@@ -278,24 +277,24 @@ qx.Class.define("toolbox.Toolbox",
 
       // --------------------------CONTRIB---------------------------------------
       /*
-             * SINGLE UPLOAD WIDGET 
-                   
-            this.__form = new uploadwidget.UploadForm('uploadFrm').set({paddingTop: 30});
-            this.__form.setLayout(new qx.ui.layout.Basic);
-      
-            this.__logText = new uploadwidget.UploadField('uploadfile', 'Browse','toolbox/image/document-save.png');
-            this.__form.add(this.__logText, {left:0,top:0});
-      
-            this.__logText.getTextField().setWidth(170);
-            this.__logText.getTextField().setAllowGrowX(true);
+                   * SINGLE UPLOAD WIDGET 
+                         
+                  this.__form = new uploadwidget.UploadForm('uploadFrm').set({paddingTop: 30});
+                  this.__form.setLayout(new qx.ui.layout.Basic);
             
-            this.__form.addListener('completed', function(e) {
-              //this.debug('completed');
-              this.__logText.setFieldValue('');
-              //var response = this.getIframeHtmlContent();
-              //this.debug(response);
-            });
-            */
+                  this.__logText = new uploadwidget.UploadField('uploadfile', 'Browse','toolbox/image/document-save.png');
+                  this.__form.add(this.__logText, {left:0,top:0});
+            
+                  this.__logText.getTextField().setWidth(170);
+                  this.__logText.getTextField().setAllowGrowX(true);
+                  
+                  this.__form.addListener('completed', function(e) {
+                    //this.debug('completed');
+                    this.__logText.setFieldValue('');
+                    //var response = this.getIframeHtmlContent();
+                    //this.debug(response);
+                  });
+                  */
 
       // -------------------------CONTRIB----------------------------------------
       // ------Image Start-------------------------------------------------------
@@ -640,7 +639,7 @@ qx.Class.define("toolbox.Toolbox",
       // this.__setCurrentLogName(this.__logText.getTextField().getValue());
       this.__setCurrentLogName(this.__logText.getValue());
 
-      this.__createApplication = new toolbox.CreateNewApplication(this.__adminPath, this.__getCurrentFileName(), this.__getCurrentFilePath(), this.__getCurrentNamespace(), this.__getCurrentLogName(), this.__getCurrentType(), this.__isGenerateSource.toString(), this.__loadImage, this.__frame, this.__windowContent, this.logFrame);
+      toolbox.Builder.createNewApplication(this.__adminPath, this.__getCurrentFileName(), this.__getCurrentFilePath(), this.__getCurrentNamespace(), this.__getCurrentLogName(), this.__getCurrentType(), this.__isGenerateSource.toString(), this.__loadImage, this.__frame, this.__windowContent, this.logFrame);
 
       return;
     },
@@ -654,7 +653,7 @@ qx.Class.define("toolbox.Toolbox",
      */
     __generateApplication : function()
     {
-      this.__generateSource = new toolbox.GenerateSource(this.__adminPath, this.__getCurrentFileName(), this.__getCurrentFilePath(), "true", this.__frame, this.logFrame);
+      toolbox.Builder.generateSource(this.__adminPath, this.__getCurrentFileName(), this.__getCurrentFilePath(), "true", this.__frame, this.logFrame);
 
       return;
     },
@@ -668,7 +667,7 @@ qx.Class.define("toolbox.Toolbox",
      */
     __generateBuild : function()
     {
-      this.__generateBuild = new toolbox.GenerateBuild(this.__adminPath, this.__getCurrentFileName(), this.__getCurrentFilePath(), this.logFrame);
+      toolbox.Builder.generateBuild(this.__adminPath, this.__getCurrentFileName(), this.__getCurrentFilePath(), this.logFrame);
       return;
     },
 
@@ -681,7 +680,7 @@ qx.Class.define("toolbox.Toolbox",
      */
     __generateApi : function()
     {
-      this.__generateAppApi = new toolbox.GenerateApi(this.__adminPath, this.__getCurrentFileName(), this.__getCurrentFilePath(), this.logFrame);
+      toolbox.Builder.generateApi(this.__adminPath, this.__getCurrentFileName(), this.__getCurrentFilePath(), this.logFrame);
       return;
     },
 
@@ -694,7 +693,7 @@ qx.Class.define("toolbox.Toolbox",
      */
     __makePretty : function()
     {
-      this.__makeSourcePretty = new toolbox.MakePretty(this.__adminPath, this.__getCurrentFileName(), this.__getCurrentFilePath(), this.logFrame);
+      toolbox.Builder.makePretty(this.__adminPath, this.__getCurrentFileName(), this.__getCurrentFilePath(), this.logFrame);
       return;
     },
 
@@ -720,7 +719,7 @@ qx.Class.define("toolbox.Toolbox",
      */
     __validateCode : function()
     {
-      this.__validateSourceCode = new toolbox.ValidateCode(this.__adminPath, this.__getCurrentFileName(), this.__getCurrentFilePath());
+      toolbox.Builder.validateCode(this.__adminPath, this.__getCurrentFileName(), this.__getCurrentFilePath(), this.logFrame);
       return;
     },
 
@@ -746,7 +745,7 @@ qx.Class.define("toolbox.Toolbox",
      */
     __testSource : function()
     {
-      this.__testCurrentSource = new toolbox.TestSource(this.__adminPath, this.__getCurrentFileName(), this.__getCurrentFilePath(), this.logFrame);
+      toolbox.Builder.testSource(this.__adminPath, this.__getCurrentFileName(), this.__getCurrentFilePath(), this.logFrame);
 
       return;
     },
@@ -759,7 +758,7 @@ qx.Class.define("toolbox.Toolbox",
      * @return {void} 
      */
     __testApplication : function() {
-      this.__testCurrentApp = new toolbox.TestApplication(this.__adminPath, this.__getCurrentFileName(), this.__getCurrentFilePath(), this.logFrame);
+      toolbox.Builder.testApplication(this.__adminPath, this.__getCurrentFileName(), this.__getCurrentFilePath(), this.logFrame);
     },
 
 

@@ -33,26 +33,26 @@ qx.Class.define("toolbox.ValidateCode",
 
 
   /*
-        *****************************************************************************
-           CONSTRUCTOR
-        *****************************************************************************
-      */
+          *****************************************************************************
+             CONSTRUCTOR
+          *****************************************************************************
+        */
 
-  construct : function(adminPath, fileName, filePath, logFrame)
+  construct : function(adminPath, fileName, filePath)
   {
-    this.base(arguments, adminPath, fileName, filePath, logFrame);
+    this.base(arguments, adminPath, fileName, filePath);
     this.__urlParms = new toolbox.UrlSearchParms();
-    this.__validateCode(adminPath, fileName, filePath, logFrame);
+    this.__validateCode(adminPath, fileName, filePath);
   },
 
 
 
 
   /*
-        *****************************************************************************
-           MEMBERS
-        *****************************************************************************
-      */
+          *****************************************************************************
+             MEMBERS
+          *****************************************************************************
+        */
 
   members :
   {
@@ -63,10 +63,9 @@ qx.Class.define("toolbox.ValidateCode",
      * @param adminPath {var} TODOC
      * @param fileName {var} TODOC
      * @param filePath {var} TODOC
-     * @param logFrame {var} TODOC
      * @return {void} 
      */
-    __validateCode : function(adminPath, fileName, filePath, logFrame)
+    __validateCode : function(adminPath, fileName, filePath)
     {
       if (fileName != "" & filePath != "")
       {
@@ -92,9 +91,11 @@ qx.Class.define("toolbox.ValidateCode",
           }
         }
 
+        alert("Parameter VALIDATE " + dat);
+
         req.setProhibitCaching(true);
         req.setData(dat);
-        var progressLoader = new toolbox.ProgressLoader();
+        var loader = new toolbox.ProgressLoader();
 
         req.addListener("completed", function(evt)
         {
@@ -117,15 +118,19 @@ qx.Class.define("toolbox.ValidateCode",
               win.setWidth(650);
               win.open();
               win.moveTo(200, 100);
+
+              this.setResult(result.val_output);
             }
 
-            if (receivedState == 1) {
-              logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.val_error + '</font>');
+            if (receivedState == 1)
+            {
+              alert("Validation failed");
+              this.setResult(result.val_output);
             }
           }
 
-          progressLoader.unblock();
-          progressLoader.hideLoader();
+          loader.unblock();
+          loader.hideLoader();
         },
         this);
 
@@ -141,6 +146,52 @@ qx.Class.define("toolbox.ValidateCode",
       }
 
       return;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param state {var} TODOC
+     * @return {void} 
+     */
+    setState : function(state) {
+      this.__state = state;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    getState : function() {
+      return this.__state;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param content {var} TODOC
+     * @return {void} 
+     */
+    setResult : function(content) {
+      this.__content = content;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    getResult : function() {
+      return this.__content;
     }
   }
 });

@@ -933,8 +933,13 @@ qx.Class.define("toolbox.JsonAnalyzer",
     __addChild : function()
     {
       var json = this.__tree.getSelectedItem().getUserData("json");
-      var subTree = json.obj[json.key];
-
+      
+      if(this.__tree.getSelectedItem().getLabel().toString() == "root"){
+      	var subTree = json.obj;
+      } else {
+      	var subTree = json.obj[json.key];
+      }
+      
       if (this.currentTypeAtom.getLabel().toString() == "array")
       {
         if (this.__currentType == "object") {
@@ -1004,7 +1009,12 @@ qx.Class.define("toolbox.JsonAnalyzer",
       var current = this.__tree.getSelectedItem();
       current.removeAll();
 
-      this[this.__map[typeof json2.obj[json2.key]]](json2.obj[json2.key], this.__tree.getSelectedItem());
+      if(this.__tree.getSelectedItem().getLabel().toString() == "root"){
+      	this[this.__map[typeof subTree]](subTree, this.__tree.getSelectedItem());
+      } else {
+      	this[this.__map[typeof json2.obj[json2.key]]](json2.obj[json2.key], this.__tree.getSelectedItem());
+      }
+      
       this.resetAddChildDialog();
       this.childKeyTextfield.setValue("");
       this.childValueTextfield.setValue("");
@@ -1136,6 +1146,7 @@ qx.Class.define("toolbox.JsonAnalyzer",
      */
     __editChild : function()
     {
+     	
       var obj = this.jsonObject;
 
       for (var i=0; i<this.parentMemory.length-1; i++) {
@@ -1151,13 +1162,22 @@ qx.Class.define("toolbox.JsonAnalyzer",
         json.obj[json.key] = parent;
 
         this.__tree.getSelectedItem().removeAll();
-
-        this[this.__map[typeof parent]](parent, this.__tree.getSelectedItem());
+        
+        if(this.__tree.getSelectedItem().getLabel().toString() == "root"){
+          var json = this.__tree.getSelectedItem().getUserData("json");
+          var subTree = json.obj;
+          this.__tree.getSelectedItem().removeAll();
+          this[this.__map[typeof subTree]](subTree, this.__tree.getSelectedItem());
+          alert(qx.util.Json.stringify(subTree, true));
+        } else {
+    	    this[this.__map[typeof parent]](parent, this.__tree.getSelectedItem());
+        }
       }
       catch(err)
       {
         alert(err);
       }
+	  
     }
   }
 });
