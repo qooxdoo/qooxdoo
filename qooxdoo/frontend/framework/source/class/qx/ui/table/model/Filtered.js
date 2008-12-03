@@ -285,7 +285,7 @@ qx.Class.define("qx.ui.table.model.Filtered",
       var data =
       {
         firstRow    : 0,
-        lastRow     : rowArr - 1,
+        lastRow     : rowLength - 1,
         firstColumn : 0,
         lastColumn  : this.getColumnCount() - 1
       };
@@ -332,7 +332,7 @@ qx.Class.define("qx.ui.table.model.Filtered",
         var data =
         {
           firstRow    : 0,
-          lastRow     : rowArr.length - 1,
+          lastRow     : this._rowArr.length - 1,
           firstColumn : 0,
           lastColumn  : this.getColumnCount() - 1
         };
