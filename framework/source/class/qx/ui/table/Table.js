@@ -1068,10 +1068,10 @@ qx.Class.define("qx.ui.table.Table",
     {
       var data = evt.getData();
 
-      this.__updateTableData(
+      this._updateTableData(
         data.firstRow, data.lastRow,
         data.firstColumn, data.lastColumn,
-        removeStart, removeCount
+        data.removeStart, data.removeCount
       );
     },
 
