@@ -327,7 +327,7 @@ qx.Class.define("apiviewer.ui.SearchView",
      * @param spath {String} matched 2nd subexpression from _validateInput
      */
     _searchIndex : function(svalue, spath) {
-      
+
       var sresult = [];
       //Match object
 
@@ -338,7 +338,7 @@ qx.Class.define("apiviewer.ui.SearchView",
       var types = this.apiindex.__types__;
 
       var icon, elemtype, fullname;
-      
+
       for (var key in index) {
         if (mo.test(key))
         {
@@ -352,20 +352,20 @@ qx.Class.define("apiviewer.ui.SearchView",
                 }
               }
             } else {
-              
+
               for (var i=0, l=index[key].length; i<l; i++) {
                 elemtype = types[index[key][i][0]].toUpperCase();
                 fullname = fullNames[index[key][i][1]];
-    
+
                 if (elemtype == "CLASS") {
                   icon = apiviewer.TreeUtil.getIconUrl(apiviewer.dao.Class.getClassByName(fullname));
                 } else {
                   if (elemtype != "PACKAGE") {
                     fullname += key;
                   }
-                  icon = apiviewer.TreeUtil["ICON_" + elemtype];                
+                  icon = apiviewer.TreeUtil["ICON_" + elemtype];
                 }
-                
+
                 sresult.push([icon, fullname]);
               }
             }

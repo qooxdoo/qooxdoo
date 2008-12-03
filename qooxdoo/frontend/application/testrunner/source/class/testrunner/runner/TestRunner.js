@@ -208,7 +208,7 @@ qx.Class.define("testrunner.runner.TestRunner",
      */
     __makeHeader : function()
     {
-      var header = new qx.ui.embed.HtmlEmbed("<h1>" + "<span>" + 
+      var header = new qx.ui.embed.HtmlEmbed("<h1>" + "<span>" +
           qx.core.Setting.get("testrunner.title") + " Test Runner" + "</span>" + "</h1>" + "<div class='version'>qooxdoo " + qx.core.Version.toString() + "</div>");
       header.setHtmlProperty("id", "header");
       header.setStyleProperty("background", "#134275 url(" + qx.io.Alias.getInstance().resolve("testrunner/image/colorstrip.gif") + ") top left repeat-x");
@@ -1222,8 +1222,8 @@ qx.Class.define("testrunner.runner.TestRunner",
       "loader"
     );
   },
-  
-  
+
+
   /*
    *****************************************************************************
       SETTINGS

@@ -297,16 +297,16 @@ qx.Class.define("testrunner.test.Mixin",
       this.assertExceptionDebugOn(function() {
         qx.Class.include(testrunner.Patch1, testrunner.MPatch)
       }, Error, new RegExp('Overwriting member ".*" of Class ".*" is not allowed!'));
-  
+
       qx.Class.patch(testrunner.Patch1, testrunner.MPatch);
       qx.Class.patch(testrunner.Patch2, testrunner.MPatch);
-  
+
       var o = new testrunner.Patch1();
       this.assertEquals("Juhu Kinners", o.sayJuhu());
-  
+
       var o = new testrunner.Patch2();
       this.assertEquals("Huhu Kinners", o.sayJuhu());
-      
+
       // very special case with recursive calls from different classes to
       // the mixin member
       var o = new testrunner.Patch1();
