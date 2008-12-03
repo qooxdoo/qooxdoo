@@ -70,9 +70,11 @@ qx.Class.define("toolbox.ProgressLoader",
         backgroundColor : "white",
         padding         : [ 4, 4, 4, 4 ],
         allowMaximize   : false,
-        allowMinimize   : false
+        allowMinimize   : false,
+        resizable : false
       });
 
+      
       this.__loader.setLayout(new qx.ui.layout.Canvas());
 
       this.__root = qx.core.Init.getApplication().getRoot();
