@@ -69,12 +69,6 @@ qx.Class.define("qx.io.remote.Request",
 
     this.setProhibitCaching(true);
 
-    // Prototype-Style Request Headers
-    // TODO we need a new way to read the version
-    // TODO do we really need these header? (fj)
-    //this.setRequestHeader("X-Requested-With", "qooxdoo");
-    //this.setRequestHeader("X-Qooxdoo-Version", qx.core.Setting.get("qx.version"));
-
     // Get the next sequence number for this request
     this.__seqNum = ++qx.io.remote.Request.__seqNum;
   },
@@ -718,7 +712,7 @@ qx.Class.define("qx.io.remote.Request",
 
       // Add the HTTP 1.0 request to avoid use of a cache
       this.setRequestHeader("Pragma", "no-cache");
-      
+
       // Add the HTTP 1.1 request to avoid use of a cache
       this.setRequestHeader("Cache-Control", "no-cache");
     },
