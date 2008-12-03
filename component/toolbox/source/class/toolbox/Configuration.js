@@ -254,7 +254,6 @@ qx.Class.define("toolbox.Configuration",
           this.win.open();
           this.win.moveTo(200, 50);
 
-          this.setResult(result);
         },
         this);
 
