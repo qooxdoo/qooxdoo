@@ -706,7 +706,7 @@ qx.Class.define("toolbox.Toolbox",
      */
     __openConfiguration : function()
     {
-      this.__configuration = new toolbox.Configuration(this.__adminPath, this.__getCurrentFileName(), this.__getCurrentFilePath());
+      this.__configuration = new toolbox.Configuration(this.__adminPath, this.__getCurrentFileName(), this.__getCurrentFilePath(), this.logFrame);
       return;
     },
 
@@ -732,7 +732,7 @@ qx.Class.define("toolbox.Toolbox",
      */
     __abortProcess : function()
     {
-      this.__abortCurrentProcess = new toolbox.AbortProcess(this.__adminPath, this.__getCurrentFileName(), this.__getCurrentFilePath());
+      this.__abortCurrentProcess = new toolbox.AbortProcess(this.__adminPath, this.__getCurrentFileName(), this.__getCurrentFilePath(), this.logFrame);
       return;
     },
 

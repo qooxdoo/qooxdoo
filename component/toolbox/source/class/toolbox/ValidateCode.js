@@ -65,7 +65,7 @@ qx.Class.define("toolbox.ValidateCode",
      * @param filePath {var} TODOC
      * @return {void} 
      */
-    __validateCode : function(adminPath, fileName, filePath)
+    __validateCode : function(adminPath, fileName, filePath, logFrame)
     {
       if (fileName != "" & filePath != "")
       {
@@ -118,14 +118,12 @@ qx.Class.define("toolbox.ValidateCode",
               win.setWidth(650);
               win.open();
               win.moveTo(200, 100);
-
-              this.setResult(result.val_output);
             }
 
             if (receivedState == 1)
             {
               alert("Validation failed");
-              this.setResult(result.val_output);
+              logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.val_error + '</font>');
             }
           }
 
@@ -136,6 +134,7 @@ qx.Class.define("toolbox.ValidateCode",
 
         req.addListener("failed", function(evt) {
           this.error("Failed to post to URL: " + url);
+          logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
         }, this);
 
         req.send();
@@ -146,52 +145,6 @@ qx.Class.define("toolbox.ValidateCode",
       }
 
       return;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param state {var} TODOC
-     * @return {void} 
-     */
-    setState : function(state) {
-      this.__state = state;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {var} TODOC
-     */
-    getState : function() {
-      return this.__state;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param content {var} TODOC
-     * @return {void} 
-     */
-    setResult : function(content) {
-      this.__content = content;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {var} TODOC
-     */
-    getResult : function() {
-      return this.__content;
     }
   }
 });

@@ -36,7 +36,7 @@
 #
 ##
 
-import sys, os, re, string, subprocess, ctypes
+import sys, os, re, string, subprocess, webbrowser, ctypes
 
 # calculate script path
 scriptDir = os.path.dirname(os.path.abspath(sys.argv[0]))
@@ -97,19 +97,21 @@ def dispatch_action(form):
           print "Content-type: text/plain"
           print
           createNewApplication(form)
-        elif (action == 'generate_Source'): # generate source
+        elif (action == 'generate_Source'): 
             print "Content-type: text/plain"  
             print
             generateSource(form)
-        elif (action == 'generate_Api'): # generate api
+        elif (action == 'generate_Api'): 
             print "Content-type: text/plain" 
             print
             generateApi(form)
-        elif (action == 'show_Log'): # generate api
+        elif (action == 'show_Log'): 
             print "Content-type: text/html" 
             print
             showLogFile()    
         elif (action == 'open_In_Browser'):
+            print "Content-type: text/html" 
+            print
             open_in_browser(form)
         elif (action == 'make_Pretty'): 
             print "Content-type: text/plain"  
@@ -408,16 +410,8 @@ def open_in_browser(form):
     if 'location' in form:
         location = form['location'].value     
     
-    filename = myPath + myName + "/"+location+"/index.html"
-    
-    
-    list = open(filename, 'r').readlines()
-    input = "".join(list)
-    
-    print "Content-type: text/html"
-    print 
-    print input
-    return input
+    filename = "file:///" + myPath + myName + "/"+location+"/index.html"
+    webbrowser.open_new_tab(filename);
 
 
 def generateApi(form): 
