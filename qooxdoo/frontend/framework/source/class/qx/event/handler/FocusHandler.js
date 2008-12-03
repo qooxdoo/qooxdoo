@@ -281,11 +281,9 @@ qx.Class.define("qx.event.handler.FocusHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param parent {var} TODOC
      * @param widget {var} TODOC
      * @param arr {var} TODOC
-     * @return {void}
      */
     _getAllAfter : function(parent, widget, arr)
     {
@@ -297,7 +295,7 @@ qx.Class.define("qx.event.handler.FocusHandler",
       {
         child = children[i];
 
-        if (!(child instanceof qx.ui.core.Parent) && !(child instanceof qx.ui.basic.Terminator)) {
+        if (child.isDisposed() || !(child instanceof qx.ui.core.Parent) && !(child instanceof qx.ui.basic.Terminator)) {
           continue;
         }
 
