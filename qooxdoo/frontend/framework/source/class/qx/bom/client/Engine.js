@@ -96,9 +96,6 @@ qx.Class.define("qx.bom.client.Engine",
         {
           version = RegExp.$1;
 
-          // Webkit adds a plus sign in nightly builds
-          var nightly = version.indexOf("+") != -1;
-
           // We need to filter these invalid characters
           var invalidCharacter = RegExp("[^\\.0-9]").exec(version);
 
