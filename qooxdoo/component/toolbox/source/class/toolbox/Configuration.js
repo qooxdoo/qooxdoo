@@ -33,10 +33,10 @@ qx.Class.define("toolbox.Configuration",
 
 
   /*
-        *****************************************************************************
-           CONSTRUCTOR
-        *****************************************************************************
-      */
+          *****************************************************************************
+             CONSTRUCTOR
+          *****************************************************************************
+        */
 
   construct : function(adminPath, fileName, filePath)
   {
@@ -49,10 +49,10 @@ qx.Class.define("toolbox.Configuration",
 
 
   /*
-        *****************************************************************************
-           MEMBERS
-        *****************************************************************************
-      */
+          *****************************************************************************
+             MEMBERS
+          *****************************************************************************
+        */
 
   statics : { JSON : null },
 
@@ -69,10 +69,8 @@ qx.Class.define("toolbox.Configuration",
      */
     __showConfiguration : function(adminPath, fileName, filePath)
     {
-      adminPath = "/component/toolbox/tool/bin/nph-qxadmin_cgi.py";
-      fileName = "app1";
-      filePath = "C:\\tmp\\";
-
+    	fileName = "app1";
+    	filePath = "C:\\tmp\\";
       if (fileName != "" & filePath != "")
       {
         var url = adminPath;
@@ -142,6 +140,7 @@ qx.Class.define("toolbox.Configuration",
           this.configFrame.setValue(result);
           this.configFrame.setMinHeight(400);
 
+          // --------Textarea----------------------------------------------------
           this.analyzer = new toolbox.JsonAnalyzer();
           toolbox.Configuration.JSON = result = eval("(" + result + ")");
           var root = this.analyzer.createJsonTree(result);

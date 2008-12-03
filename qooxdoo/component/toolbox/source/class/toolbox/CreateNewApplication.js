@@ -33,10 +33,10 @@ qx.Class.define("toolbox.CreateNewApplication",
 
 
   /*
-        *****************************************************************************
-           CONSTRUCTOR
-        *****************************************************************************
-      */
+          *****************************************************************************
+             CONSTRUCTOR
+          *****************************************************************************
+        */
 
   construct : function(adminPath, fileName, filePath, nameSpace, logFileName, type, generate, loadImage, frame, windowContent, logFrame)
   {
@@ -49,10 +49,10 @@ qx.Class.define("toolbox.CreateNewApplication",
 
 
   /*
-        *****************************************************************************
-           MEMBERS
-        *****************************************************************************
-      */
+          *****************************************************************************
+             MEMBERS
+          *****************************************************************************
+        */
 
   members :
   {
@@ -133,6 +133,7 @@ qx.Class.define("toolbox.CreateNewApplication",
             if (receivedState == 0)
             {
               frame.setHtml(result.output);
+              this.setResult(result.output);
 
               // disables all functions during the progress
               for (var i=0; i<windowContent.length; i++) {
@@ -159,7 +160,8 @@ qx.Class.define("toolbox.CreateNewApplication",
             if (receivedState == 1)
             {
               frame.setHtml('<font color="red">' + result.output + '</font>');
-              logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.error + '</font>');
+              this.setResult(result.output);
+              logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.output + '</font>');
 
               // Enables all functions after receiving results
               for (var i=0; i<windowContent.length; i++) {
@@ -209,7 +211,7 @@ qx.Class.define("toolbox.CreateNewApplication",
       req.addListener("failed", function(evt)
       {
         this.error("Failed to post to URL: " + url);
-        logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.error);
+        logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.output);
 
         // Enables all functions after receiving results
         for (var i=0; i<windowContent.length; i++) {
@@ -221,6 +223,52 @@ qx.Class.define("toolbox.CreateNewApplication",
       req.send();
 
       return;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param state {var} TODOC
+     * @return {void} 
+     */
+    setState : function(state) {
+      this.__state = state;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    getState : function() {
+      return this.__state;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param content {var} TODOC
+     * @return {void} 
+     */
+    setResult : function(content) {
+      this.__content = content;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    getResult : function() {
+      return this.__content;
     }
   }
 });

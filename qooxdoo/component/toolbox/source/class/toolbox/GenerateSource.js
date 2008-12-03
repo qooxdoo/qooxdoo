@@ -33,10 +33,10 @@ qx.Class.define("toolbox.GenerateSource",
 
 
   /*
-        *****************************************************************************
-           CONSTRUCTOR
-        *****************************************************************************
-      */
+      *****************************************************************************
+         CONSTRUCTOR
+      *****************************************************************************
+    s */
 
   construct : function(adminPath, fileName, filePath, generate, frame, logFrame)
   {
@@ -49,10 +49,10 @@ qx.Class.define("toolbox.GenerateSource",
 
 
   /*
-        *****************************************************************************
-           MEMBERS
-        *****************************************************************************
-      */
+      *****************************************************************************
+         MEMBERS
+      *****************************************************************************
+    */
 
   members :
   {
@@ -97,10 +97,12 @@ qx.Class.define("toolbox.GenerateSource",
           }
         }
 
+
+
         req.setProhibitCaching(true);
         req.setData(dat);
 
-        var progressloader = new toolbox.ProgressLoader();
+        var loader = new toolbox.ProgressLoader();
 
         req.addListener("completed", function(evt)
         {
@@ -116,17 +118,21 @@ qx.Class.define("toolbox.GenerateSource",
               {
                 frame.setHtml(result.gen_output);
                 logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.gen_output);
-                //req.setData(openSource);
-                //req.send();
+                this.setResult(result.gen_output);
+                req.setData(openSource);
+                req.send();
                 
-                var openLink = ("/component/toolbox/tool/bin/nph-qxadmin_cgi.py?action=open_In_Browser&location=source&myName="+fileName+"&myPath="+filePath).replace(/\\/g, "/");
-                window.open(openLink);
+                //var openLink = ("/component/toolbox/tool/bin/nph-qxadmin_cgi.py?action=open_In_Browser&location=source").replace(/\\/g, "/");
+                //alert(openLink);
+                //window.open(openLink);
+                
               }
 
               if (receivedState == 1)
               {
                 frame.setHtml('<font color="red">' + result.gen_output + '</font>');
-                logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.gen_error + '</font>');
+                logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.gen_output + '</font>');
+                this.setResult(result.gen_output);
               }
             }
           }
@@ -135,8 +141,8 @@ qx.Class.define("toolbox.GenerateSource",
             logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result + '</font>');
           }
 
-          progressloader.unblock();
-          progressloader.hideLoader();
+          loader.unblock();
+          loader.hideLoader();
         },
         this);
 
@@ -152,6 +158,52 @@ qx.Class.define("toolbox.GenerateSource",
       }
 
       return;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param state {var} TODOC
+     * @return {void} 
+     */
+    setState : function(state) {
+      this.__state = state;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    getState : function() {
+      return this.__state;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param content {var} TODOC
+     * @return {void} 
+     */
+    setResult : function(content) {
+      this.__content = content;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    getResult : function() {
+      return this.__content;
     }
   }
 });

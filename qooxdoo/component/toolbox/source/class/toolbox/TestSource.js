@@ -33,10 +33,10 @@ qx.Class.define("toolbox.TestSource",
 
 
   /*
-        *****************************************************************************
-           CONSTRUCTOR
-        *****************************************************************************
-      */
+          *****************************************************************************
+             CONSTRUCTOR
+          *****************************************************************************
+        */
 
   construct : function(adminPath, fileName, filePath, logFrame)
   {
@@ -49,10 +49,10 @@ qx.Class.define("toolbox.TestSource",
 
 
   /*
-        *****************************************************************************
-           MEMBERS
-        *****************************************************************************
-      */
+          *****************************************************************************
+             MEMBERS
+          *****************************************************************************
+        */
 
   members :
   {
@@ -95,13 +95,16 @@ qx.Class.define("toolbox.TestSource",
           }
         }
 
+        alert("Parameter Test" + dat);
+
         req.setProhibitCaching(true);
         req.setData(dat);
-        var progressLoader = new toolbox.ProgressLoader();
+        var loader = new toolbox.ProgressLoader();
 
         req.addListener("completed", function(evt)
         {
           var result = evt.getContent();
+          alert("GenerateSourceKlasse---> State=" + result.test_state);
           var receivedState = result.test_state;
 
           if (receivedState == 1 || receivedState == 0)
@@ -109,6 +112,7 @@ qx.Class.define("toolbox.TestSource",
             if (receivedState == 0)
             {
               logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.test_output);
+              this.setResult(result.test_output);
               req.setData(openSource);
               req.send();
             }
@@ -116,12 +120,13 @@ qx.Class.define("toolbox.TestSource",
             if (receivedState == 1)
             {
               frame.setHtml('<font color="red">' + result.test_output + '</font>');
-              logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.test_error + '</font>');
+              logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.test_output + '</font>');
+              this.setResult(result.test_output);
             }
           }
 
-          progressLoader.unblock();
-          progressLoader.hideLoader();
+          loader.unblock();
+          loader.hideLoader();
         },
         this);
 
@@ -137,6 +142,52 @@ qx.Class.define("toolbox.TestSource",
       }
 
       return;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param state {var} TODOC
+     * @return {void} 
+     */
+    setState : function(state) {
+      this.__state = state;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    getState : function() {
+      return this.__state;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param content {var} TODOC
+     * @return {void} 
+     */
+    setResult : function(content) {
+      this.__content = content;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    getResult : function() {
+      return this.__content;
     }
   }
 });

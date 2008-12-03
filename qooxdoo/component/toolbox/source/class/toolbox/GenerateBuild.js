@@ -33,10 +33,10 @@ qx.Class.define("toolbox.GenerateBuild",
 
 
   /*
-        *****************************************************************************
-           CONSTRUCTOR
-        *****************************************************************************
-      */
+          *****************************************************************************
+             CONSTRUCTOR
+          *****************************************************************************
+        */
 
   construct : function(adminPath, fileName, filePath, logFrame)
   {
@@ -49,10 +49,10 @@ qx.Class.define("toolbox.GenerateBuild",
 
 
   /*
-        *****************************************************************************
-           MEMBERS
-        *****************************************************************************
-      */
+          *****************************************************************************
+             MEMBERS
+          *****************************************************************************
+        */
 
   members :
   {
@@ -97,7 +97,7 @@ qx.Class.define("toolbox.GenerateBuild",
 
         req.setProhibitCaching(true);
         req.setData(dat);
-        var progressLoader = new toolbox.ProgressLoader();
+        var loader = new toolbox.ProgressLoader();
 
         req.addListener("completed", function(evt)
         {
@@ -111,7 +111,9 @@ qx.Class.define("toolbox.GenerateBuild",
             {
               if (receivedState == 0)
               {
+                alert("Build was created successfully");
                 logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.build_output);
+                this.setResult(result.build_output);
                 req.setData(openBuild);
                 req.send();
               }
@@ -119,7 +121,8 @@ qx.Class.define("toolbox.GenerateBuild",
               if (receivedState == 1)
               {
                 alert("Build failed");
-                logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.build_error + '</font>');
+                logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.build_output + '</font>');
+                this.setResult(result.build_output);
               }
             }
           }
@@ -128,8 +131,8 @@ qx.Class.define("toolbox.GenerateBuild",
             logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result + '</font>');
           }
 
-          progressLoader.unblock();
-          progressLoader.hideLoader();
+          loader.unblock();
+          loader.hideLoader();
         },
         this);
 
@@ -145,6 +148,52 @@ qx.Class.define("toolbox.GenerateBuild",
       }
 
       return;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param state {var} TODOC
+     * @return {void} 
+     */
+    setState : function(state) {
+      this.__state = state;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    getState : function() {
+      return this.__state;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param content {var} TODOC
+     * @return {void} 
+     */
+    setResult : function(content) {
+      this.__content = content;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    getResult : function() {
+      return this.__content;
     }
   }
 });
