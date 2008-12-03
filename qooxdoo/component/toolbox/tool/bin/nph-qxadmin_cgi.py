@@ -94,9 +94,9 @@ def dispatch_action(form):
     if 'action' in form:
         action = form['action'].value
         if (action == 'create'):
-          print "Content-type: text/plain"
-          print
-          createNewApplication(form)
+            print "Content-type: text/plain"
+            print
+            createNewApplication(form)
         elif (action == 'generate_Source'): 
             print "Content-type: text/plain"  
             print
@@ -104,11 +104,7 @@ def dispatch_action(form):
         elif (action == 'generate_Api'): 
             print "Content-type: text/plain" 
             print
-            generateApi(form)
-        elif (action == 'show_Log'): 
-            print "Content-type: text/html" 
-            print
-            showLogFile()    
+            generateApi(form)   
         elif (action == 'open_In_Browser'):
             print "Content-type: text/html" 
             print
@@ -168,6 +164,7 @@ def showConfiguration(form):
     myPath = ""
     if 'myPath' in form:
         myPath = form['myPath'].value #Path
+        myPath = myPath.replace(' ', '" "')   
         if myPath[(len(myPath)-1)] != "\\":
            myPath = myPath + '\\'    
     
@@ -186,6 +183,7 @@ def saveConfiguration(form):
     myPath = ""
     if 'myPath' in form:
         myPath = form['myPath'].value #Path
+        myPath = myPath.replace(' ', '" "')   
         if myPath[(len(myPath)-1)] != "\\":
            myPath = myPath + '\\'
     changedConfig = ""
@@ -208,6 +206,7 @@ def testApplication(form):
     myPath = ""
     if 'myPath' in form:
         myPath = form['myPath'].value #Path
+        myPath = myPath.replace(' ', '" "')   
         if myPath[(len(myPath)-1)] != "\\":
            myPath = myPath + '\\'    
     
@@ -247,6 +246,7 @@ def testSource(form):
     myPath = ""
     if 'myPath' in form:
         myPath = form['myPath'].value #Path
+        myPath = myPath.replace(' ', '" "')   
         if myPath[(len(myPath)-1)] != "\\":
            myPath = myPath + '\\'    
     
@@ -287,6 +287,7 @@ def generateBuild(form):
     myPath = ""
     if 'myPath' in form:
         myPath = form['myPath'].value #Path
+        myPath = myPath.replace(' ', '" "')   
         if myPath[(len(myPath)-1)] != "\\":
            myPath = myPath + '\\'    
     
@@ -326,6 +327,7 @@ def validateCode(form):
     myPath = ""
     if 'myPath' in form:
         myPath = form['myPath'].value #Path
+        myPath = myPath.replace(' ', '" "')   
         if myPath[(len(myPath)-1)] != "\\":
            myPath = myPath + '\\'    
     
@@ -365,6 +367,7 @@ def makePretty(form):
     myPath = ""
     if 'myPath' in form:
         myPath = form['myPath'].value #Path
+        myPath = myPath.replace(' ', '" "')   
         if myPath[(len(myPath)-1)] != "\\":
            myPath = myPath + '\\'    
     
@@ -408,11 +411,12 @@ def open_in_browser(form):
         if myPath[(len(myPath)-1)] != "\\":
            myPath = myPath + '\\'
     if 'location' in form:
-        location = form['location'].value     
-    
+        location = form['location'].value 
+            
+    #myPath = myPath.replace(' ', '" "')  this is not needed
     filename = "file:///" + myPath + myName + "/"+location+"/index.html"
     webbrowser.open_new_tab(filename);
-
+    
 
 def generateApi(form): 
     sys.stdout.flush() 
@@ -423,6 +427,7 @@ def generateApi(form):
     myPath = ""
     if 'myPath' in form:
         myPath = form['myPath'].value #Path
+        myPath = myPath.replace(' ', '" "')   
         if myPath[(len(myPath)-1)] != "\\":
            myPath = myPath + '\\'    
     
@@ -464,8 +469,10 @@ def generateSource(form):
     myPath = ""
     if 'myPath' in form:
         myPath = form['myPath'].value #Path
+        myPath = myPath.replace(' ', '" "')   
         if myPath[(len(myPath)-1)] != "\\":
-           myPath = myPath + '\\'    
+           myPath = myPath + '\\' 
+        
     
     if 'cygwin' in form:
         #print "Content-type: text/plain"
@@ -507,6 +514,7 @@ def createNewApplication(form):
         myName = form['myName'].value #Name
     if 'myPath' in form:
         myPath = form['myPath'].value #Path
+        myPath = myPath.replace(' ', '" "')
     if 'myNamespace' in form:
         myNamespace = form['myNamespace'].value #NameSpace
     if 'myLogfile' in form:
