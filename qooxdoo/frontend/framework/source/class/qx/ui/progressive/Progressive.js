@@ -263,8 +263,6 @@ qx.Class.define("qx.ui.progressive.Progressive",
 
       this.__bRendering = true;
 
-      var element;
-      var renderer;
       var state = new qx.ui.progressive.State(
         {
           progressive  : this,
@@ -363,6 +361,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
     {
       var current;
       var element;
+    var renderer;
 
       for (var i = state.getBatchSize(); i > 0; i--)
       {

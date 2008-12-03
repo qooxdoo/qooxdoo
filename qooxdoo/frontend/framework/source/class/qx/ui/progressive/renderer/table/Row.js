@@ -234,7 +234,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
       var div = document.createElement("div");
 
       // For each cell...
-      for (i = 0; i < data.length; i++)
+      for (var i = 0; i < data.length; i++)
       {
         var stylesheet = "qx-progressive-" + this._hash + "-cell-" + i;
 

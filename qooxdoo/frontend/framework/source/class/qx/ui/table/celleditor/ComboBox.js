@@ -141,7 +141,7 @@ qx.Class.define("qx.ui.table.celleditor.ComboBox",
           list.add(item);
 
           if (cellInfo.value == item.getValue()) {
-            var selectedItem = item;
+            selectedItem = item;
           }
         });
 

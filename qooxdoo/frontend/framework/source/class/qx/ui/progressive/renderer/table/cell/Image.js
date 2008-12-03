@@ -77,7 +77,6 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Image",
         imageHeight : this._imageHeight
       };
 
-      var url;
       var height;
 
       // String data is the unresolved url for the image.

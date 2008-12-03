@@ -59,6 +59,7 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
 
     // Get the column width data
     var data = columnWidths.getData();
+    var label;
 
     // For each label...
     for (var i = 0; i < data.length; i++)
@@ -119,7 +120,6 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
 
       // Get the column width data
       var data = this._columnWidths.getData();
-      var label;
       var columnData;
 
       // For each label...
