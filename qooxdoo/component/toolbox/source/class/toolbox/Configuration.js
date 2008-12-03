@@ -67,7 +67,7 @@ qx.Class.define("toolbox.Configuration",
      * @param filePath {var} TODOC
      * @return {void} 
      */
-    __showConfiguration : function(adminPath, fileName, filePath)
+    __showConfiguration : function(adminPath, fileName, filePath, logFrame)
     {
     	fileName = "app1";
     	filePath = "C:\\tmp\\";
@@ -264,6 +264,7 @@ qx.Class.define("toolbox.Configuration",
 
         req.addListener("failed", function(evt) {
           this.error("Failed to post to URL: " + url);
+          logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
         }, this);
 
         req.send();
@@ -284,7 +285,7 @@ qx.Class.define("toolbox.Configuration",
      * @return {void} 
      */
     openSaveDialog : function()
-    {  // TODO
+    {  
       this.__saveDialog = new qx.ui.window.Window("Save changes", null);
       this.__saveDialog.setLayout(new qx.ui.layout.VBox(5));
       this.__saveDialog.add(new qx.ui.basic.Label("You changed the JSON-object in the professional view."));
@@ -319,52 +320,6 @@ qx.Class.define("toolbox.Configuration",
       this.__saveDialog.setModal(true);
       this.__saveDialog.open();
       this.__saveDialog.moveTo(this.win.getBounds()["left"] + 100, this.win.getBounds()["top"] + 50);
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param state {var} TODOC
-     * @return {void} 
-     */
-    setState : function(state) {
-      this.__state = state;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {var} TODOC
-     */
-    getState : function() {
-      return this.__state;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param content {var} TODOC
-     * @return {void} 
-     */
-    setResult : function(content) {
-      this.__content = content;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {var} TODOC
-     */
-    getResult : function() {
-      return this.__content;
     },
 
 

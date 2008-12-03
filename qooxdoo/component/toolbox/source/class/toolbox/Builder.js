@@ -133,8 +133,8 @@ qx.Class.define("toolbox.Builder",
 
             if (receivedState == 1)
             {
-              frame.setHtml('<font color="red">' + result.output + '</font>');
-              logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.output + '</font>');
+              frame.setHtml('<font color="red">' + result.error + '</font>');
+              logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.error + '</font>');
 
               // Enables all functions after receiving results
               for (var i=0; i<windowContent.length; i++) {
@@ -172,7 +172,7 @@ qx.Class.define("toolbox.Builder",
       req2.addListener("failed", function(evt)
       {
         this.error("Failed to post to URL: " + url);
-        logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.output);
+        logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
 
         // Enables all functions after receiving results
         for (var i=0; i<windowContent.length; i++) {
@@ -184,7 +184,7 @@ qx.Class.define("toolbox.Builder",
       req.addListener("failed", function(evt)
       {
         this.error("Failed to post to URL: " + url);
-        logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.output);
+        logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
 
         // Enables all functions after receiving results
         for (var i=0; i<windowContent.length; i++) {
@@ -270,8 +270,8 @@ qx.Class.define("toolbox.Builder",
 
               if (receivedState == 1)
               {
-                frame.setHtml('<font color="red">' + result.gen_output + '</font>');
-                logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.gen_output + '</font>');
+                frame.setHtml('<font color="red">' + result.gen_error + '</font>');
+                logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.gen_error + '</font>');
               }
             }
           }
@@ -287,6 +287,7 @@ qx.Class.define("toolbox.Builder",
 
         req.addListener("failed", function(evt) {
           this.error("Failed to post to URL: " + url);
+          logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
         }, this);
 
         req.send();
@@ -361,7 +362,7 @@ qx.Class.define("toolbox.Builder",
               }
 
               if (receivedState == 1) {
-                logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.build_output + '</font>');
+                logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.build_error + '</font>');
               }
             }
           }
@@ -377,6 +378,7 @@ qx.Class.define("toolbox.Builder",
 
         req.addListener("failed", function(evt) {
           this.error("Failed to post to URL: " + url);
+          logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
         }, this);
 
         req.send();
@@ -461,6 +463,7 @@ qx.Class.define("toolbox.Builder",
 
         req.addListener("failed", function(evt) {
           this.error("Failed to post to URL: " + url);
+          logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
         }, this);
 
         req.send();
@@ -512,7 +515,7 @@ qx.Class.define("toolbox.Builder",
 
         req.setProhibitCaching(true);
         req.setData(dat);
-        var progressPopup = new toolbox.ProgressLoader();
+        var loader = new toolbox.ProgressLoader();
 
         req.addListener("completed", function(evt)
         {
@@ -530,13 +533,14 @@ qx.Class.define("toolbox.Builder",
             }
           }
 
-          progressPopup.unblock();
-          progressPopup.hidePopup();
+          loader.unblock();
+          loader.hideLoader();
         },
         this);
 
         req.addListener("failed", function(evt) {
           this.error("Failed to post to URL: " + url);
+          logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
         }, this);
 
         req.send();
@@ -588,7 +592,7 @@ qx.Class.define("toolbox.Builder",
 
         req.setProhibitCaching(true);
         req.setData(dat);
-        var progressPopup = new toolbox.ProgressLoader();
+        var loader = new toolbox.ProgressLoader();
 
         req.addListener("completed", function(evt)
         {
@@ -618,13 +622,14 @@ qx.Class.define("toolbox.Builder",
             }
           }
 
-          progressPopup.unblock();
-          progressPopup.hidePopup();
+          loader.unblock();
+          loader.hideLoader();
         },
         this);
 
         req.addListener("failed", function(evt) {
           this.error("Failed to post to URL: " + url);
+          logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
         }, this);
 
         req.send();
@@ -679,7 +684,7 @@ qx.Class.define("toolbox.Builder",
 
         req.setProhibitCaching(true);
         req.setData(dat);
-        var progressPopup = new toolbox.ProgressLoader();
+        var loader = new toolbox.ProgressLoader();
 
         req.addListener("completed", function(evt)
         {
@@ -702,13 +707,14 @@ qx.Class.define("toolbox.Builder",
             }
           }
 
-          progressPopup.unblock();
-          progressPopup.hidePopup();
+          loader.unblock();
+          loader.hideLoader();
         },
         this);
 
         req.addListener("failed", function(evt) {
           this.error("Failed to post to URL: " + url);
+          logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
         }, this);
 
         req.send();
@@ -763,7 +769,7 @@ qx.Class.define("toolbox.Builder",
 
         req.setProhibitCaching(true);
         req.setData(dat);
-        var progressPopup = new toolbox.ProgressLoader();
+        var loader = new toolbox.ProgressLoader();
 
         req.addListener("completed", function(evt)
         {
@@ -786,13 +792,14 @@ qx.Class.define("toolbox.Builder",
             }
           }
 
-          progressPopup.unblock();
-          progressPopup.hidePopup();
+          loader.unblock();
+          loader.hideLoader();
         },
         this);
 
         req.addListener("failed", function(evt) {
           this.error("Failed to post to URL: " + url);
+          logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
         }, this);
 
         req.send();
