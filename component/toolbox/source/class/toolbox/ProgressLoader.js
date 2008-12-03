@@ -18,15 +18,9 @@
 ************************************************************************ */
 
 /* ************************************************************************
-#asset(toolbox/*)
+#asset(toolbox/image/progressLoader.gif)
 
 ************************************************************************ */
-
-/* ***
- 
-#asset(toolbox/image/progressLoader.gif)
- 
-*/
 
 /**
  * This is the main application class of your custom application "HelloWorld"
@@ -39,10 +33,10 @@ qx.Class.define("toolbox.ProgressLoader",
 
 
   /*
-        *****************************************************************************
-           CONSTRUCTOR
-        *****************************************************************************
-      */
+          *****************************************************************************
+             CONSTRUCTOR
+          *****************************************************************************
+        */
 
   construct : function()
   {
@@ -54,10 +48,10 @@ qx.Class.define("toolbox.ProgressLoader",
 
 
   /*
-        *****************************************************************************
-           MEMBERS
-        *****************************************************************************
-      */
+          *****************************************************************************
+             MEMBERS
+          *****************************************************************************
+        */
 
   members :
   {
@@ -65,16 +59,18 @@ qx.Class.define("toolbox.ProgressLoader",
      * TODOC
      *
      * @type member
+     * @param icon {var} TODOC
      * @return {void} 
      */
-    __createLoader : function()
+    __createLoader : function(icon)
     {
       this.__loader = new qx.ui.window.Window("Loading").set(
       {
+        // this.__loader = new qx.ui.popup.Popup(new qx.ui.layout.Canvas()).set({
         backgroundColor : "white",
         padding         : [ 4, 4, 4, 4 ],
-        allowMinimize   : false,
-        allowMaximize   : false
+        allowMaximize   : false,
+        allowMinimize   : false
       });
 
       this.__loader.setLayout(new qx.ui.layout.Canvas());
@@ -86,7 +82,7 @@ qx.Class.define("toolbox.ProgressLoader",
       this.__root.setBlockerOpacity(0.5);
 
       this.__loader.add(new qx.ui.basic.Atom("Loading", "toolbox/image/progressLoader.gif"));
-      this.__loader.moveTo(parseInt(qx.core.Init.getApplication().toolbox.getBounds()["width"] / 2) - 150, parseInt(qx.core.Init.getApplication().toolbox.getBounds()["height"] / 2) - 50);
+      this.__loader.moveTo(400, 300);
 
       this.__loader.setZIndex(100);
 
