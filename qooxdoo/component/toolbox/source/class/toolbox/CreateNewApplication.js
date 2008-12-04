@@ -87,7 +87,6 @@ qx.Class.define("toolbox.CreateNewApplication",
       var openGen = "action=open_In_Browser&location=source";
       
       fileName = fileName.replace(/ /g, "_");
-      alert(fileName);
       
       var createParams = [ fileName, filePath, nameSpace, logFileName, type, generate ];
 
