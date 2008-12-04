@@ -1104,6 +1104,9 @@ class Generator:
         result = 'if(!window.qxvariants)qxvariants={};'
 
         for key in variants:
+            if key == "__override__":
+                continue
+ 
             if format:
                 result += "\n"
 
