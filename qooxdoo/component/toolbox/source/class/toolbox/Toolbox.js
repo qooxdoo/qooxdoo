@@ -247,7 +247,7 @@ qx.Class.define("toolbox.Toolbox",
       box.setModal(true);
 
       this.__createApplicationWindow.setLayout(gridLayout);
-
+      
       // ------Embed Start------------------------------------------------------
       this.__frame = new qx.ui.embed.Html().set(
       {
