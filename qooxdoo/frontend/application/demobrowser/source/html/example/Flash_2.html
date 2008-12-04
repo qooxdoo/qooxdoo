@@ -127,17 +127,19 @@
       
       __onAppear : function(e)
       {
-        var timer = new qx.client.Timer(50);
+        var timer = new qx.client.Timer(100);
         var count = 0;
         timer.addEventListener("interval", function() {
           try
           {
             count++;
-            if (count < 20) {
+            if (count < 50) {
               this.__flash.getFlashElement().setup("BasicSample.getCallBackInstance().sendMessage");
               __sendButton.setEnabled(true);
             } else {
-              alert("Couldn't connect to Flash Player! Perhaps an advertising blocker is activated.");
+              alert("Couldn't connect to Flash Player! Please make sure that:\n" 
+                  + "1) no pop-up or advertising blocker is activated.\n"
+                  + "2) this html page is not loaded from the file system, but a webserver.");
             }
             timer.stop();
           } catch(e) {}

@@ -7,6 +7,7 @@
 			private var callBack:String = "";
 			
 			private function init():void {
+        ExternalInterface.marshallExceptions = true;
 				ExternalInterface.addCallback("setup", setup);
 				ExternalInterface.addCallback("sendMessage", sendMessage);
 			}
