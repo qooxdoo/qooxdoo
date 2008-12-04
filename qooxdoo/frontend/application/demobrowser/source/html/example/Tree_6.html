@@ -42,9 +42,9 @@ Additionally, the root node may be hidden. </p>
 
         // A pair of radio buttons comes right after the tree icon
         var rb1 = new qx.ui.form.RadioButton("Yes", "Yes");
-        treeRowStructure.addObject(rb1, true);
+        treeRowStructure.addObject(rb1);
         var rb2 = new qx.ui.form.RadioButton("No", "No");
-        treeRowStructure.addObject(rb2, true);
+        treeRowStructure.addObject(rb2);
         var mgr = new qx.ui.selection.RadioManager("group", [rb1, rb2]);
         mgr.setSelected(rb2);
 
