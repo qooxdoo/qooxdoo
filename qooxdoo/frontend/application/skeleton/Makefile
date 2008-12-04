@@ -63,9 +63,8 @@ APPLICATION_FILES = index.html
 ################################################################################
 
 ifneq ($(QOOXDOO_PATH),PLEASE_DEFINE_QOOXDOO_PATH)
-	include $(QOOXDOO_PATH)/frontend/framework/tool/make/targets.mk
-	include $(QOOXDOO_PATH)/frontend/framework/tool/make/application.mk
+  include $(QOOXDOO_PATH)/frontend/framework/tool/make/targets.mk
+  include $(QOOXDOO_PATH)/frontend/framework/tool/make/application.mk
+else
+  $(error Please configure QOOXDOO_PATH)
 endif
-
-error:
-	@echo "  * Please configure QOOXDOO_PATH"
