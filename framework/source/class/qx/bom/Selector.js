@@ -20,6 +20,8 @@
    This class contains code based on the following work:
 
    * Sizzle
+     Revision: 54ec13e98bdcd8333b297de8a67398c5896e638e
+     From: Wed Dec 3 09:57:12 2008 -0500
      http://ejohn.org
 
      Copyright:
@@ -30,11 +32,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-
-************************************************************************ */
-
 /**
  *
  */
@@ -42,12 +39,12 @@ qx.Class.define("qx.bom.Selector",
 {
   statics :
   {
-    chunker : /((?:\((?:\([^()]+\)|[^()]+)+\)|\[(?:\[[^[\]]+\]|[^[\]]+)+\]|\\.|[^ >+~,(\[]+)+|[>+~])(\s*,\s*)?/g,
-    cache : null,
+    __chunker : /((?:\((?:\([^()]+\)|[^()]+)+\)|\[(?:\[[^[\]]+\]|[^[\]]+)+\]|\\.|[^ >+~,(\[]+)+|[>+~])(\s*,\s*)?/g,
+    __cache : null,
     done : 0,
     
     invalidate : function() {
-      this.cache = {};
+      this.__cache = {};
     },
     
     makeArray : qx.core.Variant.select("qx.client",
@@ -79,8 +76,21 @@ qx.Class.define("qx.bom.Selector",
       	return array;
       }
     }),
+    
+  	query : function(selector, context)
+  	{
+  	  // Use modern selector for documents
+  	  if (document.querySelectorAll && (!context || context.nodeType === 9)) 
+  	  {
+  	    try {
+  	      return this.makeArray((context||document).querySelectorAll(selector));
+  	    } catch(e) {}
+  	  }
+  	  
+  	  return this.__query(selector, context);
+  	},
 
-    query : function(selector, context, results, seed) 
+    __query : function(selector, context, results, seed) 
     {
     	var doCache = !results;
     	results = results || [];
@@ -93,6 +103,7 @@ qx.Class.define("qx.bom.Selector",
     		return results;
     	}
 
+      var cache = this.__cache;
     	if ( cache && context === document && cache[ selector ] ) {
     		results.push.apply( results, cache[ selector ] );
     		return results;
@@ -101,7 +112,8 @@ qx.Class.define("qx.bom.Selector",
     	var parts = [], m, set, checkSet, check, mode, extra;
 	
     	// Reset the position of the chunker regexp (start from head)
-    	chunker.lastIndex = 0;
+      var chunker = this.__chunker;
+      chunker.lastIndex = 0;
 	
     	while ( (m = chunker.exec(selector)) !== null ) {
     		parts.push( m[1] );
@@ -113,12 +125,12 @@ qx.Class.define("qx.bom.Selector",
     	}
 
     	var ret = seed ?
-    		{ expr: parts.pop(), set: makeArray(seed) } :
-    		Sizzle.find( parts.pop(), context );
-    	set = Sizzle.filter( ret.expr, ret.set );
+    		{ expr: parts.pop(), set: this.makeArray(seed) } :
+    		this.find( parts.pop(), context );
+    	set = qx.bom.Selector.filter( ret.expr, ret.set );
 
     	if ( parts.length > 0 ) {
-    		checkSet = makeArray(set);
+    		checkSet = this.makeArray(set);
     	}
 
     	while ( parts.length ) {
@@ -147,7 +159,7 @@ qx.Class.define("qx.bom.Selector",
     		Expr.relative[ cur ]( checkSet, pop );
 
     		if ( later ) {
-    			Sizzle.filter( later, checkSet, true );
+    			qx.bom.Selector.filter( later, checkSet, true );
     		}
     	}
 	
@@ -173,7 +185,7 @@ qx.Class.define("qx.bom.Selector",
     			}
     		}
     	} else {
-    		makeArray( checkSet, results );
+    		this.makeArray( checkSet, results );
     	}
 
     	if ( extra ) {
@@ -194,6 +206,7 @@ qx.Class.define("qx.bom.Selector",
     find : function(expr, context)
     {
     	var set, match;
+    	var Expr = this.selectors;
 
     	if ( !expr ) {
     		return [];
@@ -244,6 +257,7 @@ qx.Class.define("qx.bom.Selector",
     filter : function(expr, set, inplace)
     {
     	var old = expr, result = [], curLoop = set, match;
+    	var Expr = this.selectors;
 
     	while ( expr && set.length ) {
     		for ( var type in Expr.filter ) {
@@ -350,7 +364,7 @@ qx.Class.define("qx.bom.Selector",
     				}
     			}
 
-    			Sizzle.filter( part, checkSet, true );
+    			qx.bom.Selector.filter( part, checkSet, true );
     		},
     		">": function(checkSet, part){
     			if ( typeof part === "string" && !/\W/.test(part) ) {
@@ -375,7 +389,7 @@ qx.Class.define("qx.bom.Selector",
     				}
 
     				if ( typeof part === "string" ) {
-    					Sizzle.filter( part, checkSet, true );
+    					qx.bom.Selector.filter( part, checkSet, true );
     				}
     			}
     		},
@@ -500,7 +514,7 @@ qx.Class.define("qx.bom.Selector",
     			return !elem.firstChild;
     		},
     		has: function(elem, i, match){
-    			return !!Sizzle( match[3], elem ).length;
+    			return !!this(match[3], elem).length;
     		},
     		header: function(elem){
     			return /h\d/i.test( elem.nodeName );
@@ -614,8 +628,8 @@ qx.Class.define("qx.bom.Selector",
     			} else if ( name === "not" ) {
     				var not = match[3];
 
-    				for ( var i = 0, l = not.length; i < l; i++ ) {
-    					if ( Sizzle.filter(not[i], [elem]).length > 0 ) {
+    				for (var i = 0, l = not.length; i < l; i++ ) {
+    					if (qx.bom.Selector.filter(not[i], [elem]).length > 0 ) {
     						return false;
     					}
     				}
@@ -676,7 +690,7 @@ qx.Class.define("qx.bom.Selector",
   {
     if (document.addEventListener && !document.querySelectorAll) 
     {
-      statics.cache = {};
+      statics.__cache = {};
     	document.addEventListener("DOMAttrModified", statics.invalidate, false);
     	document.addEventListener("DOMNodeInserted", statics.invalidate, false);
     	document.addEventListener("DOMNodeRemoved", statics.invalidate, false);
