@@ -266,7 +266,7 @@ qx.Class.define("qx.ui.listview.Header",
         }
 
         // Apply global cursor
-        this.getTopLevelWidget().setGlobalCursor(vResizeCursor ? "e-resize" : null);
+        this.getTopLevelWidget().setGlobalCursor(vResizeCursor ? "col-resize" : null);
 
         // Store data for mousedown
         this._resizeSeparator = vResizeSeparator;
