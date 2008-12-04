@@ -905,7 +905,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         }
       }
 
-      var cursor = useResizeCursor ? "ew-resize" : null;
+      var cursor = useResizeCursor ? "col-resize" : null;
       this.getApplicationRoot().setGlobalCursor(cursor);
       this.setCursor(cursor);
       this.__header.setMouseOverColumn(mouseOverColumn);
