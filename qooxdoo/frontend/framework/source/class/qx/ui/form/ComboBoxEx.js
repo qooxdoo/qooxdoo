@@ -720,6 +720,8 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       if (!p)
       {
         var p = this._popup = new qx.ui.resizer.ResizablePopup;
+
+				p.addEventListener("mousewheel", this.__popupOnMouseWheel, this);
         p.set({
           resizableNorth: false,
           resizableWest : false
@@ -1394,6 +1396,11 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
       {
         this.setSelectedIndex(Math.max(0, this.getSelectedIndex() + (e.getWheelDelta() < 0 ? -1 : 1)));
       }
+
+			// Stop mouse wheel event
+			e.stopPropagation();
+			e.preventDefault();
+
     },
 
 
@@ -1537,6 +1544,19 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
     },
 
 
+    /**
+     * Event handler for mouse wheel events on the popup.
+     *
+     * @type member
+     * @param e {qx.event.type.MouseEvent} The incomding mouse wheel event
+     * @return {void}
+     */
+		__popupOnMouseWheel : function(e)
+		{
+			// Stop mouse wheel event
+			e.stopPropagation();
+			e.preventDefault();
+		},
 
 
     /*
