@@ -111,7 +111,7 @@
 
     "source-script" :
     {
-      "desc"    : "create includer script of current library",
+      "desc"    : "create includer script of current application",
 
       "extend" : ["common"],
 
@@ -140,7 +140,7 @@
 
     "source" :
     {
-      "desc"    : "create source version of current library",
+      "desc"    : "create source version of current application",
 
       "run" :
       [
@@ -152,7 +152,7 @@
 
     "build-script" :
     {
-      "desc"    : "create build script of current library",
+      "desc"    : "create build script of current application",
 
       "extend" : ["common"],
 
@@ -176,7 +176,7 @@
 
     "build-files" :
     {
-      "desc"    : "copy files of current library to build dir",
+      "desc"    : "copy files of current application to build dir",
 
       "extend" : ["common"],
 
@@ -194,7 +194,7 @@
 
     "build-resources":
     {
-      "desc"    : "copy necessary resources for current library to build dir",
+      "desc"    : "copy necessary resources for current application to build dir",
 
       "extend" : ["common"],
 
@@ -208,7 +208,7 @@
 
     "build" :
     {
-      "desc"    : "create build version of current library",
+      "desc"    : "create build version of current application",
 
       "run" :
       [
