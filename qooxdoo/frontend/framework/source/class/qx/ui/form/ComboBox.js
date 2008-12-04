@@ -1014,7 +1014,7 @@ qx.Class.define("qx.ui.form.ComboBox",
     __defaultFormat : function(item)
     {
       var valueLabel = item ? item.getLabel().toString() : "";
-      var label = item.getLabelObject();
+      var label = item ? item.getLabelObject() : null;
 
       if (label != null)
       {
