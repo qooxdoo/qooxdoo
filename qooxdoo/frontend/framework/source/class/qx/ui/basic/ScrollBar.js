@@ -270,6 +270,17 @@ qx.Class.define("qx.ui.basic.ScrollBar",
     _applyEnabled : function(isEnabled)
     {
       this.base(arguments);
+
+			/**
+			 * In Opera for OS X it is not possible to block the scrollbar knob.
+			 * To avoid scrolling set the overflow to hidden.
+			 */
+	    if(qx.core.Variant.isSet("qx.client", "opera") &&  qx.core.Client.runsOnMacintosh())
+			{
+				var overflow = isEnabled ? (this._horizontal ? "scrollX" : "scrollY") : "hidden";
+		    this._scrollBar.setOverflow(overflow);
+			}
+
       this._blocker.setDisplay(!this.getEnabled());
     },
 
