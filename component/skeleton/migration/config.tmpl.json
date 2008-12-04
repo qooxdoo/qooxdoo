@@ -9,6 +9,23 @@
     }
   ],
 
+  "export" :
+  [
+    "api",
+    "build",
+    "clean",
+    "distclean",
+    "fix",
+    "lint",
+    "migration",
+    "pretty",
+    "profiling",
+    "source",
+    "test",
+    "test-source",
+    "translation"
+  ],
+
   "let" :
   {
     "APPLICATION"  : "${Namespace}",
