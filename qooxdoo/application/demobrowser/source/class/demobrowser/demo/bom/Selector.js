@@ -27,7 +27,10 @@ qx.Class.define("demobrowser.demo.bom.Selector",
     {
       this.base(arguments);
 
-      qx.bom.Selector.query("h3");
+      console.debug("BODYs", qx.bom.Selector.query("body"));
+      console.debug("H1s", qx.bom.Selector.query("h1"));
+      console.debug("H2s", qx.bom.Selector.query("h2"));
+      console.debug("H3s", qx.bom.Selector.query("h3"));
     }
   }
 });
