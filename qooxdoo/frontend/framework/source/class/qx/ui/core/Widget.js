@@ -6887,7 +6887,7 @@ qx.Class.define("qx.ui.core.Widget",
               break;
 
             default:
-              cs[i] = es[i];
+              cs[i] = this._styleProperties[i];
               es[i] = "";
           }
         }
