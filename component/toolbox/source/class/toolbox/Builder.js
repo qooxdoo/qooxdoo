@@ -62,6 +62,8 @@ qx.Class.define("toolbox.Builder",
       var openGen = "action=open_In_Browser&location=source";
 
       this.__urlParms = new toolbox.UrlSearchParms();
+      
+      fileName = fileName.replace(/ /g, "_");
       var createParams = [ fileName, filePath, nameSpace, logFileName, type, generate ];
 
       req.setTimeout(100000);
