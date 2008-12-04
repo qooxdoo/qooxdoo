@@ -39,6 +39,9 @@ publish:
 fix:
 	@for APPLICATION in $(APPLICATIONS); do $(MAKE) -s -C $$APPLICATION fix || exit 1; done
 
+lint:
+	@for APPLICATION in $(APPLICATIONS); do $(MAKE) -s -C $$APPLICATION lint || exit 1; done
+
 pretty:
 	@for APPLICATION in $(APPLICATIONS); do $(MAKE) -s -C $$APPLICATION pretty || exit 1;	done
 

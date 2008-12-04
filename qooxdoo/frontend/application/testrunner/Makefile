@@ -17,7 +17,7 @@
 #
 ################################################################################
 
-.PHONY: source build clean distclean api publish fix
+.PHONY: source build clean distclean api publish fix lint
 
 source:
 	@$(MAKE) -s -f Makefile.runner source
@@ -45,6 +45,10 @@ publish:
 fix:
 	@$(MAKE) -s -f Makefile.runner fix
 	@$(MAKE) -s -f Makefile.tests fix
+
+lint:
+	@$(MAKE) -s -f Makefile.runner lint
+	@$(MAKE) -s -f Makefile.tests lint
 
 locales:
 	@$(MAKE) -s -f Makefile.runner locales

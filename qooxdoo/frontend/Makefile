@@ -82,6 +82,9 @@ pretty: framework-pretty
 fix: framework-fix
 	@$(MAKE) -s -C application fix
 
+lint:
+	@$(MAKE) -s -C application lint
+
 publish:
 	@echo "  * Preparing index.html..."
 	@$(CMD_DIR) temp/

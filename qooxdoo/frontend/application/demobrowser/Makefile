@@ -21,7 +21,7 @@
 QOOXDOO_PATH = ../../..
 include $(QOOXDOO_PATH)/frontend/framework/tool/make/framework.mk
 
-.PHONY: source build clean distclean api publish fix
+.PHONY: source build clean distclean api publish fix lint
 
 source:
 	@$(MAKE) -s -f Makefile.demobrowser source
