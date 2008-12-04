@@ -20,10 +20,11 @@
 /**
  * A table model that loads its data from a backend.
  * <p>
- * Only those  rows are loaded that are near the area the user is currently
- * viewing. If the user scrolls, the rows he will see soon are loaded
- * asynchronously in the background. All loaded data is managed in a cache that
- * automatically removes the last recently used rows when it gets full.
+ * Only a subset of the available rows, those which are within or near the
+ * currently visible area, are loaded. If a quick scroll operation occurs,
+ * rows will soon be displayed using asynchronous loading in the background.
+ * All loaded data is managed through a cache which automatically removes
+ * the oldest used rows when it gets full.
  * <p>
  * This class is abstract: The actual loading of row data must be done by
  * subclasses.
@@ -102,7 +103,7 @@ qx.Class.define("qx.ui.table.model.Remote",
 
     /**
      * Whether to clear the cache when some rows are removed.
-     * If false the rows are removed locally in the cache.
+     * If true the rows are removed locally in the cache.
      */
     clearCacheOnRemove :
     {
@@ -560,7 +561,7 @@ qx.Class.define("qx.ui.table.model.Remote",
 
 
     /**
-     * Removes a rows from the model.
+     * Removes a row from the model.
      *
      * @param rowIndex {Integer} the index of the row to remove.
      * @return {void}
