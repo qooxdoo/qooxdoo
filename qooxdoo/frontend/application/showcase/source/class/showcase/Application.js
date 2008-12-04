@@ -1816,6 +1816,8 @@ qx.Class.define("showcase.Application",
 
       vert.add(hor);
       hor.add(tf3, btn3);
+      
+      var centerNotice = new qx.ui.basic.Label("Please Note: Many browsers disallow<br/>moving native windows by default.");      
 
       var btn4 = new qx.ui.form.Button("Center to screen", "icon/16/devices/video-display.png");
       btn4.setWidth("100%");
@@ -1838,7 +1840,7 @@ qx.Class.define("showcase.Application",
         win.centerToOpener();
       });
 
-      vert.add(btn4, btn5, btn6);
+      vert.add(centerNotice, btn4, btn5, btn6);
 
       return main;
     },

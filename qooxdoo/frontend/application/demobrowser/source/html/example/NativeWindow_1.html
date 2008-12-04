@@ -171,29 +171,30 @@
           w1.setHeight(parseInt(tf3.getValue()));
         });
     
-    
+        var centerNotice = new qx.ui.basic.Label("Please Note: Many browsers disallow<br/>moving native windows by default.");
+        centerNotice.setLocation(0,110);
     
         var btn4 = new qx.ui.form.Button("Center to screen", "icon/16/apps/graphics-image-viewer.png");
-        btn4.setLocation(0, 110);
+        btn4.setLocation(0, 140);
         btn4.addEventListener("click", function() {
           w1.centerToScreen()
         });
     
         var btn5 = new qx.ui.form.Button("Center to screen area", "icon/16/apps/graphics-image-viewer.png");
-        btn5.setLocation(0, 140);
+        btn5.setLocation(0, 170);
         btn5.addEventListener("click", function() {
           w1.centerToScreenArea()
         });
     
         var btn6 = new qx.ui.form.Button("Center to opener", "icon/16/apps/graphics-image-viewer.png");
-        btn6.setLocation(0, 170);
+        btn6.setLocation(0, 200);
         btn6.addEventListener("click", function() {
           w1.centerToOpener()
         });
     
     
     
-        fs2.add(tf1, btn1, tf2, btn2, tf3, btn3, btn4, btn5, btn6);
+        fs2.add(tf1, btn1, tf2, btn2, tf3, btn3, centerNotice, btn4, btn5, btn6);
       }
     }
   });
