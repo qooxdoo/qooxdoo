@@ -71,7 +71,9 @@ qx.Class.define("toolbox.ProgressLoader",
         padding         : [ 4, 4, 4, 4 ],
         allowMaximize   : false,
         allowMinimize   : false,
-        resizable : false
+        showMinimize    : false,
+        showMaximize    : false,
+        resizable       : false
       });
 
       
@@ -88,7 +90,6 @@ qx.Class.define("toolbox.ProgressLoader",
 
       this.__loader.setZIndex(100);
 
-      // this.__loader.setAutoHide(false);
       this.__loader.show();
     },
 
