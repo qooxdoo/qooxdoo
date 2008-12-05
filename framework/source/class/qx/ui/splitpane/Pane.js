@@ -19,8 +19,8 @@
 ************************************************************************ */
 
 /**
- * A split panes devides a area into two panes. The ratio between the two
- * panes is controlable by the user using the splitter.
+ * A split panes divides a area into two panes. The ratio between the two
+ * panes is configurable by the user using the splitter.
  */
 qx.Class.define("qx.ui.splitpane.Pane",
 {
@@ -39,7 +39,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
    * Creates a new instance of a SplitPane. It allows the user to dynamically
    * resize the areas dropping the border between.
    *
-   * @param orientation {String} The orientation of the splitpane control.
+   * @param orientation {String} The orientation of the split pane control.
    * Allowed values are "horizontal" (default) and "vertical".
    * This is the same type as used in {@link qx.ui.layout.HBox#orientation}.
    */
