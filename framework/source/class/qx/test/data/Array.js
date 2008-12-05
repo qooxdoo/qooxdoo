@@ -49,15 +49,23 @@ qx.Class.define("qx.test.data.Array",
     },
     
     
-    testGetValueAt: function() {
+    testGetItem: function() {
       // check the getvalue function
-      this.assertEquals("one", this.__a.getValueAt(0), "IndexAt does not work at position 0");
-      this.assertEquals("two", this.__a.getValueAt(1), "IndexAt does not work at position 1");
-      this.assertEquals("three", this.__a.getValueAt(2), "IndexAt does not work at position 2");
+      this.assertEquals("one", this.__a.getItem(0), "IndexAt does not work at position 0");
+      this.assertEquals("two", this.__a.getItem(1), "IndexAt does not work at position 1");
+      this.assertEquals("three", this.__a.getItem(2), "IndexAt does not work at position 2");
       
       // try some wrong inputs
-      this.assertUndefined(this.__a.getValueAt(-1), "There sould be no element at -1");
-      this.assertUndefined(this.__a.getValueAt(3), "There sould be no element at 3");
+      this.assertUndefined(this.__a.getItem(-1), "There sould be no element at -1");
+      this.assertUndefined(this.__a.getItem(3), "There sould be no element at 3");
+    },
+    
+    
+    testSetItem: function() {
+      this.__a.setItem(0, "eins");
+      this.assertEquals("eins", this.__a.getItem(0), "IndexAt does not work at position 0");
+      this.__a.setItem(3, "drei");
+      this.assertEquals("drei", this.__a.getItem(3), "IndexAt does not work at position 0");
     },
     
     
@@ -68,7 +76,7 @@ qx.Class.define("qx.test.data.Array",
     
     testReverse: function() {
       this.__a.reverse();
-      this.assertEquals("one", this.__a.getValueAt(2), "Reverse does not work");
+      this.assertEquals("one", this.__a.getItem(2), "Reverse does not work");
     },
     
     
@@ -92,19 +100,27 @@ qx.Class.define("qx.test.data.Array",
     
     
     testSlice: function() {
-      this.assertEquals("one", this.__a.slice(0, 1).getValueAt(0), "Slice does not work");
-      this.assertEquals("two", this.__a.slice(1, 2).getValueAt(0), "Slice does not work");
-      this.assertEquals("one", this.__a.slice(0, 2).getValueAt(0), "Slice does not work");
-      this.assertEquals("two", this.__a.slice(0, 2).getValueAt(1), "Slice does not work");            
+      this.assertEquals("one", this.__a.slice(0, 1).getItem(0), "Slice does not work");
+      this.assertEquals("two", this.__a.slice(1, 2).getItem(0), "Slice does not work");
+      this.assertEquals("one", this.__a.slice(0, 2).getItem(0), "Slice does not work");
+      this.assertEquals("two", this.__a.slice(0, 2).getItem(1), "Slice does not work");            
     },
     
     
     testPop: function() {
-      this.assertEquals("three", this.__a.pop(), "Pop does not work.");
+      this.assertEquals("three", this.__a.pop(), "Pop does not work.");      
       this.assertEquals(2, this.__a.length, "Wrong length after pop");
       this.assertEquals("two", this.__a.pop(), "Pop does not work.");
       this.assertEquals("one", this.__a.pop(), "Pop does not work.");
       this.assertEquals(0, this.__a.length, "Wrong length after pop");
+      
+      // test for the event
+      var a = new qx.data.Array(1, 2, 3);
+      this.assertEventFired(a, "remove", function () {
+        a.pop();
+      }, function(e) {
+        this.assertEquals(2, e.getData(), "Wrong index in the event.");
+      }, "Remove event not fired!");
     },
     
     
@@ -115,6 +131,14 @@ qx.Class.define("qx.test.data.Array",
       this.__a = new qx.data.Array();
       this.__a.push(1, 2, 3);
       this.assertEquals("1 2 3", this.__a.join(" "), "Multiple push does not work.");
+      
+      // test for the event
+      var a = new qx.data.Array(1, 2, 3);
+      this.assertEventFired(a, "add", function () {
+        a.push(4);
+      }, function(e) {
+        this.assertEquals(3, e.getData(), "Wrong index in the event.");
+      }, "Add event not fired!");      
     },
     
     
@@ -123,6 +147,14 @@ qx.Class.define("qx.test.data.Array",
       this.assertEquals("two three", this.__a.join(" "), "Shift does not work.");
       this.assertEquals("two", this.__a.shift(), "Shift does not work.");
       this.assertEquals(1, this.__a.length, "Shift does not work.");
+      
+      // test for the event
+      var a = new qx.data.Array(1, 2, 3);
+      this.assertEventFired(a, "remove", function () {
+        a.shift();
+      }, function(e) {
+        this.assertEquals(0, e.getData(), "Wrong index in the event.");
+      }, "Remove event not fired!");      
     },
     
     
@@ -131,6 +163,14 @@ qx.Class.define("qx.test.data.Array",
       this.assertEquals("zero one two three", this.__a.join(" "), "Unshift does not work!");
       this.assertEquals(6, this.__a.unshift("-2", "-1"), "Unshift does not return the proper length.");
       this.assertEquals("-2 -1 zero one two three", this.__a.join(" "), "Unshift does not work!");
+      
+      // test for the event
+      var a = new qx.data.Array(1, 2, 3);
+      this.assertEventFired(a, "add", function () {
+        a.unshift(0);
+      }, function(e) {
+        this.assertEquals(0, e.getData(), "Wrong index in the event.");
+      }, "Add event not fired!");      
     },
     
     
@@ -148,6 +188,20 @@ qx.Class.define("qx.test.data.Array",
       this.assertEquals("1 2 c 3 3 4 5", a.join(" "), "Splice does not work");      
       
       this.assertInstance(a.splice(1), qx.data.Array, "Wrong return type");      
+      
+      // test for the event
+      var a = new qx.data.Array(1, 2, 3);
+      this.assertEventFired(a, "remove", function () {
+        a.splice(1, 1);
+      }, function(e) {
+        this.assertEquals(1, e.getData(), "Wrong index in the event.");
+      }, "Remove event not fired!");
+
+      this.assertEventFired(a, "add", function () {
+        a.splice(0, 0, 0);
+      }, function(e) {
+        this.assertEquals(0, e.getData(), "Wrong index in the event.");
+      }, "Add event not fired!");      
     },
     
     

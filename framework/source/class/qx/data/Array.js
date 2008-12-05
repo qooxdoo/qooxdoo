@@ -71,15 +71,20 @@ qx.Class.define("qx.data.Array",
     
     
     pop: function() {
-      var obj = this.__array.pop();
+      var index = this.length - 1;
+      var item = this.__array.pop();
       this.__updateLength();
-      return obj;
+      this.fireDataEvent("remove", index, null);
+      return item;
     },
     
     
     push: function(varargs) {
-      this.__array.push.apply(this.__array, arguments);
-      this.__updateLength();
+      for (var i = 0; i < arguments.length; i++) {
+        this.__array.push(arguments[i]);
+        this.__updateLength();
+        this.fireDataEvent("add", this.length - 1, null);
+      }
       return this.length;
     },
     
@@ -92,6 +97,7 @@ qx.Class.define("qx.data.Array",
     shift: function() {
       var value = this.__array.shift();
       this.__updateLength();
+      this.fireDataEvent("remove", 0, null);      
       return value;
     },
     
@@ -101,10 +107,39 @@ qx.Class.define("qx.data.Array",
     },
     
     
-    splice: function(from, amount) {
-      var newArray = this.__array.splice.apply(this.__array, arguments);
-      this.__updateLength();
-      return new qx.data.Array(newArray);
+    splice: function(varargs) {
+      // get the important arguments
+      var startIndex = arguments[0];
+      var amount = arguments[1];
+      
+      // create a return array
+      var returnArray = new qx.data.Array();
+
+      // get the right end
+      if (arguments.length >= 2) {
+        var end = amount + startIndex;
+      } else {
+        var end = this.__array.length;          
+      }
+      
+      // remove the objects
+      for (var i = startIndex; i < end; i++) {
+        // remove the last element
+        returnArray.push(this.__array.splice(startIndex, 1)[0]);
+        this.fireDataEvent("remove", startIndex, null);        
+      }
+                  
+      // if there are objects which should be added
+      if (arguments.length > 2) {
+        // go threw all objects which should be added
+        for (var i = arguments.length - 1; i >= 2 ; i--) {
+          // add every single object and fire an add event
+          this.__array.splice(startIndex, 0, arguments[i]);
+          this.fireDataEvent("add", startIndex, null);          
+        }
+      }
+            
+      return returnArray;
     },
     
     
@@ -114,20 +149,27 @@ qx.Class.define("qx.data.Array",
     
     
     unshift: function(varargs) {
-      this.__array.unshift.apply(this.__array, arguments);        
-      this.__updateLength();
+      for (var i = arguments.length - 1; i >= 0; i--) {
+        this.__array.unshift(arguments[i])
+        this.__updateLength();
+        this.fireDataEvent("add", 0, null);
+      }
       return this.length;
     },
     
     
-    // return the array
     getArray: function() {
       return this.__array;
     },
     
     
-    getValueAt: function(index) {
+    getItem: function(index) {
       return this.__array[index];
+    },
+    
+    
+    setItem: function(index, item) {
+      this.__array[index] = item;
     },
     
     
