@@ -282,6 +282,35 @@ qx.Class.define("qx.core.Assert",
 
 
     /**
+     * Assert that a event is fired.
+     * 
+     * @param obj {Object} The object on which the event should be fired.
+     * @param event {String} The event which should be fired.
+     * @param invokeFunc {Function} The function which will be invoked and which
+     *   fires the event.
+     * @param listenerFunc {Function} The function which will be invoked in the 
+     *   listener. The function has one parameter called e which is the event.
+     * @param msg {String} Message to be shows if the assertion fails.
+     */
+    assertEventFired : function(obj, event, invonkeFunc, listenerFunc, msg)
+    {
+      var called = false;
+      var listener = function(e) {
+        if (listenerFunc) {
+          listenerFunc.call(obj, e);
+        }
+        called = true;
+      };
+      var id = obj.addListener(event, listener, obj);
+
+      invonkeFunc.call();
+      this.__assert(called === true, msg || "", "Event (" + event + ") not fired.");
+      
+      obj.removeListenerById(id);
+    },
+
+
+    /**
      * Asserts that the callback raises a matching exception.
      *
      * @param callback {Function} function to check
