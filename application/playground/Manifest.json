@@ -1,0 +1,39 @@
+{
+  "info" : 
+  {
+    "name" : "Playground",
+
+    "summary" : "A playground for application coding",
+    "description" : "This application features a code editor and a live preview of the application.",
+    
+    "keywords" : [],
+    "homepage" : "http://demo.qooxdoo.org/current/playground",
+
+    "license" : "LGPL/EPL",
+    "authors" : 
+    [
+      {
+        "name" : "Andreas Ecker (ecker)",
+        "email" : "andreas.ecker@1und1.de"
+      },
+      {
+        "name" : "Yuecel Beser (ybeser)",
+        "email" : "yuecel.beser@1und1.de"
+      }      
+    ],
+
+    "version" : "trunk",
+    "qooxdoo-versions": ["trunk"]
+  },
+  
+  "provides" : 
+  {
+    "namespace"   : "playground",
+    "encoding"    : "utf-8",
+    "class"       : "source/class",
+    "resource"    : "source/resource",
+    "translation" : "source/translation",
+    "type"        : "application"
+  }
+}
+
