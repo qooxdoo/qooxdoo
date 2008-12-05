@@ -97,14 +97,12 @@ qx.Class.define("feedreader.Application",
       // Initialialize date format
       this._dateFormat = new qx.util.format.DateFormat;
 
-      // Add some static feeds
-      this.addFeed("qooxdoo Blog", "http://feeds.feedburner.com/qooxdoo/blog/content");
-      this.addFeed("qooxdoo News", "http://feeds.feedburner.com/qooxdoo/news/content");
-      this.addFeed("Mozilla Developer News", "http://developer.mozilla.org/devnews/index.php/feed/");
+      // Add some static feeds      
+      this.addFeed("qooxdoo News", "http://feedproxy.feedburner.com/qooxdoo/news/content");
       this.addFeed("JScript Team Blog", "http://blogs.msdn.com/jscript/rss.xml");
       this.addFeed("Daring Fireball", "http://daringfireball.net/index.xml");
       this.addFeed("Surfin' Safari", "http://webkit.org/blog/?feed=rss2");
-      this.addFeed("Ajaxian", "http://feeds.feedburner.com/ajaxian");
+      this.addFeed("Ajaxian", "http://feedproxy.feedburner.com/ajaxian");
       this.addFeed("The WHATWG Blog", "http://blog.whatwg.org/feed/");
 
       // Define alias for custom resource path
