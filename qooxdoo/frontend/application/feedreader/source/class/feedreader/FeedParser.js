@@ -135,11 +135,12 @@ qx.Class.define("feedreader.FeedParser",
 
         items.push(
         {
-          title   : entry.title,
-          author  : entry.author.name,
-          date    : date,
-          content : entry.content,
-          link    : entry.href,
+          title : entry.title || entry.summary || null,
+          author : entry.author ? entry.author.name || null : null,
+          date : date,
+          content : entry.content || entry.summary || null,        
+          link   : (entry.link[1]) ? entry.link[1]["@attributes"].href || null : 
+                     (entry.link["@attributes"] ? entry.link["@attributes"].href || null : null),
           id      : i
         });
       }
