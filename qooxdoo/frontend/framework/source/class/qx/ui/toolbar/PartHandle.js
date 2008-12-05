@@ -47,6 +47,8 @@ qx.Class.define("qx.ui.toolbar.PartHandle",
 
     var l = new qx.ui.basic.Terminator;
     l.setAppearance("toolbar-part-handle-line");
+    this.setStyleProperty("fontSize", "0px");
+    this.setStyleProperty("lineHeight", "0px");
     this.add(l);
   },
 

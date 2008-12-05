@@ -47,6 +47,8 @@ qx.Class.define("qx.ui.toolbar.Separator",
 
     var l = new qx.ui.basic.Terminator;
     l.setAppearance("toolbar-separator-line");
+    this.setStyleProperty("fontSize", "0px");
+    this.setStyleProperty("lineHeight", "0px");
     this.add(l);
   },
 
