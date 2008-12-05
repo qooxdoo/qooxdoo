@@ -40,7 +40,6 @@ qx.Class.define("qx.data.SingleValueBinding",
       var listenerIds = [];
       var eventNames = [];
       var source = sourceObject;
-
       
       // go through all property names
       for (var i = 0; i < propertyNames.length; i++) {
@@ -52,10 +51,7 @@ qx.Class.define("qx.data.SingleValueBinding",
         sources[i] = source;
         
         // create a listener
-        var listener = qx.lang.Function.bind(function(index, e) {
-        
-          qx.log.Logger.debug(index + " " + propertyNames[index]);
-          
+        var listener = qx.lang.Function.bind(function(index, e) {          
         
           // delete all listener after the current one
           for (var j = index + 1; j < propertyNames.length; j++) {
@@ -102,8 +98,6 @@ qx.Class.define("qx.data.SingleValueBinding",
         // store the listener for further processing
         listeners.push(listener);
         
-        
-        
         // check for the last property
         if (i == propertyNames.length -1) {
           // bind the property
@@ -111,8 +105,7 @@ qx.Class.define("qx.data.SingleValueBinding",
         } else {
           // add the chaining listener
           listenerIds[i] = source.addListener(eventNames[i], listener);
-        }
-        
+        }  
         
         // get and store the next source
         source = source["get" + qx.lang.String.firstUp(propertyNames[i])]();
@@ -129,6 +122,7 @@ qx.Class.define("qx.data.SingleValueBinding",
       return id;
     },
   
+  
     bindPropertyToProperty : function(sourceObject, sourceProperty, targetObject, targetProperty, options) {    
       var id = this.__bindPropertyToProperty(sourceObject, sourceProperty, targetObject, targetProperty, options);
       // store the binding                                     
@@ -136,9 +130,10 @@ qx.Class.define("qx.data.SingleValueBinding",
       return id;
     },
   
+  
     __bindPropertyToProperty : function(sourceObject, sourceProperty, targetObject, targetProperty, options) {
       // get the event name
-      var changeEventName = qx.data.SingleValueBinding.__getEventForProperty(sourceObject, sourceProperty);
+      var changeEventName = this.__getEventForProperty(sourceObject, sourceProperty);
       
       // get the initial value
       var currentValue = sourceObject["get" + qx.lang.String.firstUp(sourceProperty)]();
@@ -148,7 +143,7 @@ qx.Class.define("qx.data.SingleValueBinding",
       targetObject["set" + qx.lang.String.firstUp(targetProperty)](currentValue);
       
       // delegate to the event binding
-      return qx.data.SingleValueBinding.__bindEventToProperty(sourceObject, changeEventName, 
+      return this.__bindEventToProperty(sourceObject, changeEventName, 
                                                      targetObject, targetProperty, options);
     },
       
@@ -157,7 +152,7 @@ qx.Class.define("qx.data.SingleValueBinding",
       var id = this.__bindEventToProperty(sourceObject, sourceEvent, targetObject, targetProperty, options);
       this.__storeBinding(id, sourceObject, sourceEvent, targetObject, targetProperty);
       return id;
-    }, 
+    },
     
     
     __bindEventToProperty : function(sourceObject, sourceEvent, targetObject, targetProperty, options) {      
@@ -241,7 +236,7 @@ qx.Class.define("qx.data.SingleValueBinding",
           qx.core.Assert.assertNotNull(propertieDefinition, 
             "No property definition available for " + targetProperty);
         }
-        return qx.data.SingleValueBinding.__defaultConvertion(value, propertieDefinition.check);
+        return this.__defaultConvertion(value, propertieDefinition.check);
       }   
     },
 
@@ -325,7 +320,7 @@ qx.Class.define("qx.data.SingleValueBinding",
       var bindings = this.__bindings[object.toHashCode()];
       // remove every binding with the removeBindingFromObject function
       for (var i = bindings.length - 1; i >= 0; i--) {
-        qx.data.SingleValueBinding.removeBindingFromObject(object, bindings[i][0]);
+        this.removeBindingFromObject(object, bindings[i][0]);
       }
     },
 
@@ -344,7 +339,7 @@ qx.Class.define("qx.data.SingleValueBinding",
       // go threw all registerd objects
       for (var hash in this.__bindings) {
         var object = qx.core.ObjectRegistry.fromHashCode(hash);
-        qx.data.SingleValueBinding.removeAllBindingsForObject(object);
+        this.removeAllBindingsForObject(object);
       }
       // reset the bindings map
       this.__bindings = {};
@@ -383,7 +378,7 @@ qx.Class.define("qx.data.SingleValueBinding",
       for (var hash in this.__bindings) {
         var object = qx.core.ObjectRegistry.fromHashCode(hash);
         for (var i = 0; i < this.__bindings[hash].length; i++) {
-          qx.data.SingleValueBinding.showBindingInLog(object, this.__bindings[hash][i][0]);
+          this.showBindingInLog(object, this.__bindings[hash][i][0]);
         }
       }
     }    
