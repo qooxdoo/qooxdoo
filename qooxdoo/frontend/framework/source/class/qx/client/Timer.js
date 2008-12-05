@@ -315,6 +315,6 @@ qx.Class.define("qx.client.Timer",
       window.clearInterval(this.__intervalHandler);
     }
 
-    this._disposeFields("__intervalHandler", "__oninterval");
+    this._disposeFields("__intervalHandler", "__oninterval", "__event");
   }
 });
