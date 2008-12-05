@@ -24,8 +24,8 @@ qx.Mixin.define("qx.data.MBinding",
 {
   members :
   {
-    bind : function(sourceProperty, targetObject, targetProperty, options) {
-      return qx.data.SingleValueBinding.bindPropertyToProperty(this, sourceProperty, targetObject, targetProperty, options);
+    bind : function(sourcePropertyChain, targetObject, targetProperty, options) {
+      return qx.data.SingleValueBinding.bind(this, sourcePropertyChain, targetObject, targetProperty, options);
     },
     
     bindToEvent: function(sourceEvent, targetObject, targetProperty, options){
