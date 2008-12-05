@@ -1,4 +1,5 @@
-Welcome!  :-)
+About
+=====
 
 qooxdoo is one of the most comprehensive and innovative Open Source Ajax 
 frameworks. It is a multipurpose framework that includes support for 
@@ -7,6 +8,7 @@ high-level client-server communication.
 
 
 License
+=======
 
 qooxdoo may be used under the terms of either the GNU Lesser General Public 
 License (LGPL) or the Eclipse Public License (EPL). As a recipient of qooxdoo, 
@@ -17,6 +19,7 @@ obligations that come with it. See the top-level LICENSE file for more details.
 
 
 Framework
+=========
 
 qooxdoo is entirely class-based and tries to leverage the features of 
 object-oriented JavaScript. It is fully based on namespaces and does not 
@@ -33,6 +36,7 @@ to use.
 
 
 GUI Toolkit
+===========
 
 Despite being a pure JavaScript framework, qooxdoo is quite on par with 
 GUI toolkits like Qt or SWT when it comes to advanced yet easy to implement 
@@ -52,6 +56,7 @@ for a full-fledged styling that even supports runtime switching.
 
 
 AJAX
+====
 
 While being a client-side and server-agnostic solution, the qooxdoo project 
 does include complete implementations of RPC servers (currently Java, PHP, Perl) 
@@ -62,15 +67,37 @@ supports event-based programming which greatly simplifies asynchronous
 communication.
 
 
-Learn more
+More Info
+=========
 
 For further information about qooxdoo, please point your browser to
 http://qooxdoo.org/about
 
-For an introduction to qooxdoo application development, please see 
-the instructions in the user manual at
+
+User Manual
+===========
+
+For an introduction to qooxdoo application development see the user manual at
 http://qooxdoo.org/documentation/0.7
-or the step-by-step tutorial at
+
+
+Tutorial
+========
+
+A step-by-step tutorial for a first "Hello World!" application can be found at
 http://qooxdoo.org/documentation/0.7/hello_world_tutorial
 
-Have fun!  ;-)
+
+API Reference
+=============
+
+http://api.qooxdoo.org/0.7.4
+
+
+Release Notes
+=============
+
+http://qooxdoo.org/about/release_notes/0.7.4
+
+
+Enjoy!  ;-)
