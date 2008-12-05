@@ -330,7 +330,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
   {
     // property modifier
     _applyHorizontalScrollBarVisible : function(value, old)
-    {
+    {      
       // Workaround: We can't use setDisplay, because the scroll bar needs its
       //       correct height in order to check its value. When using
       //       setDisplay(false) the height isn't relayouted any more
@@ -369,7 +369,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
        * handling of the ScrollBar widget and the virtual scrollbar (which is part of the
        * Scrollbar widget) is not shown.
        */
-      if (qx.core.Variant.isSet("qx.client", "gecko"))
+      if (qx.core.Variant.isSet("qx.client", "gecko|webkit"))
       {
         this._verScrollBar.setVisibility(value);
       }
