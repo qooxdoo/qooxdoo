@@ -49,13 +49,14 @@
       {
         type          : qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
         parentNodeId  : 0,
+        nodeId        : 1,
         label         : "My Root",
         bSelected     : false,
         bOpened       : true,
         icon          : "icon/16/places/folder.png",
-        iconSelected  : "icon/16/folder_open.png",
+        iconSelected  : "icon/16/places/folder.png",
         labelStyle    : "background-color:red;color:white",
-        children      : [ 2 ]
+        children      : [ 2 ]        
       };
     treeData.push(node);
 
@@ -63,12 +64,13 @@
       {
         type          : qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH,
         parentNodeId  : 1,
+        nodeId        : 2,
         label         : "A sub-folder",
         bSelected     : false,
         bOpened       : true,
         bHideOpenClose: true,
         icon          : "icon/16/places/folder.png",
-        iconSelected  : "icon/16/folder_open.png",
+        iconSelected  : "icon/16/places/folder.png",
         cellStyle     : "background-color:cyan",
         children      : [ 3 ]
       };
@@ -78,6 +80,7 @@
       {
         type          : qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF,
         parentNodeId  : 2,
+        nodeId        : 3,
         label         : "Third-level leaf",
         bSelected     : false,
         bOpened       : false,
