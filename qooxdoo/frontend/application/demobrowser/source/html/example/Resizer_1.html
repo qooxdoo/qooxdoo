@@ -25,7 +25,11 @@
         width: 200,
         height: 100
       });
-      return new qx.ui.resizer.Resizer(tArea);
+
+      var resizer = new qx.ui.resizer.Resizer(tArea);
+	  resizer.setResizable([ false, true, true, false ]);
+
+	  return resizer;
     }
     
     function newHBox() {
@@ -53,7 +57,10 @@
           for (var i = 0; i < 100; i++) {
             list.add(new qx.ui.form.ListItem('Option number '+i));
           }
-          vBox.add(new qx.ui.resizer.Resizer(list));
+          var resizer = new qx.ui.resizer.Resizer(list);
+		  resizer.setResizable([ false, true, true, false ]);
+
+          vBox.add(resizer);
           vBox.set({
             spacing: 10,
             top: 50,
