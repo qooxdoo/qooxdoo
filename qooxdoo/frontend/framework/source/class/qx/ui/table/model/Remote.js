@@ -486,7 +486,7 @@ qx.Class.define("qx.ui.table.model.Remote",
         var data =
         {
           firstRow    : this._firstLoadingBlock * blockSize,
-          lastRow     : (this._firstLoadingBlock + blockCount) * blockSize - 1
+          lastRow     : (this._firstLoadingBlock + blockCount) * blockSize - 1,
           firstColumn : 0,
           lastColumn  : this.getColumnCount() - 1
         };
