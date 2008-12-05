@@ -1292,7 +1292,6 @@ qx.Class.define("showcase.Application",
        var listItems = [ { text : "qooxdoo", value : "http://www.qooxdoo.org" },
                          { text : "Ajaxian", value : "http://www.ajaxian.com" },
                          { text : "Mozilla Developer News", value : "http://developer.mozilla.org/devnews" },
-                         { text : "IE Blog", value : "http://blogs.msdn.com/ie/default.aspx" },
                          { text : "Surfin Safari", value : "http://webkit.org/blog" }];
 
        for (var i=0, j=listItems.length; i<j; i++)
