@@ -5341,7 +5341,7 @@ qx.Class.define("qx.ui.core.Widget",
         }
         else
         {
-          this.removeStyleProperty("outline");
+          this.setStyleProperty("outline", "none");
         }
       }
     }),
