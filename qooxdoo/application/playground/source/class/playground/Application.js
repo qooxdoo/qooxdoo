@@ -438,7 +438,7 @@ qx.Class.define("playground.Application",
     __openApiViewer : function()
     {
       this.widgets["toolbar.apiButton"].addListener("execute", function() {
-        alert("API");
+        window.open("http://demo.qooxdoo.org/current/apiviewer/");
       }, this);
     },
 
@@ -452,7 +452,7 @@ qx.Class.define("playground.Application",
     __openHelpDialog : function()
     {
       this.widgets["toolbar.helpButton"].addListener("execute", function() {
-        alert("HELP");
+        window.open("http://qooxdoo.org/documentation/0.8");
       }, this);
     },
 
