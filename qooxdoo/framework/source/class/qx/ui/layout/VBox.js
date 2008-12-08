@@ -287,7 +287,7 @@ qx.Class.define("qx.ui.layout.VBox",
     {
       "on" : function(item, name, value)
       {
-        this.assert(name === "flex" || name === "height", "The property '"+name+"' is not supported by the box layout!");
+        this.assert(name === "flex" || name === "height", "The property '"+name+"' is not supported by the VBox layout!");
 
         if (name =="height")
         {
