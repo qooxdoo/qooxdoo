@@ -39,10 +39,6 @@
  * there are modifications to the native String in {@link qx.lang.Core} for
  * browsers that do not support certain features.
  *
- * The additions implemented here may be added directly to native String by
- * a setting in {@link qx.lang.Prototypes}. This feature is not enabled by
- * default.
- *
  * The string/array generics introduced in JavaScript 1.6 are supported by
  * {@link qx.lang.Generics}.
  */
