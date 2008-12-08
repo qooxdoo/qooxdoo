@@ -163,7 +163,7 @@ qx.Class.define("qx.ui.root.Inline",
 
       if (dynX)
       {
-        var width = this.__elem.offsetWidth;
+        var width = qx.bom.element.Dimension.getWidth(this.__elem);
         hint.width = width;
         hint.minWidth = width;
         hint.maxWidth = width;
@@ -171,7 +171,7 @@ qx.Class.define("qx.ui.root.Inline",
 
       if (dynY)
       {
-        var height = this.__elem.offsetHeight;
+        var height = qx.bom.element.Dimension.getHeight(this.__elem);
         hint.height = height;
         hint.minHeight = height;
         hint.maxHeight = height;
