@@ -164,7 +164,7 @@ qx.Class.define("toolbox.Toolbox",
       toolbar.add(part2);
 
       // -- generate Api
-      this.generateApiButton = new qx.ui.toolbar.Button("Generate api", "toolbox/image/help-faq.png");
+      this.generateApiButton = new qx.ui.toolbar.Button("Generate api", "toolbox/image/help-contents.png");
       part2.add(this.generateApiButton);
       this.widgets["toolbar.generateApiButton"] = this.generateApiButton;
       this.generateApiButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Generates the API of the application")));
@@ -354,7 +354,7 @@ qx.Class.define("toolbox.Toolbox",
         }
       }
 
-      this.__selectBox.addListener("changeValue", function(e) {
+      this.__selectBox.addListener("changeValue", function() {
         this.__setCurrentType(this.__selectBox.getValue());
       }, this);
 
