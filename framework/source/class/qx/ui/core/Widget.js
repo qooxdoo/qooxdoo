@@ -2678,7 +2678,7 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Renders the appearance using the current widget states.
      *
-     * Used exlusively by {qx.ui.core.queue.Appearance}.
+     * Used exclusively by {qx.ui.core.queue.Appearance}.
      */
     syncAppearance : function()
     {
