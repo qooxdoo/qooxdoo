@@ -45,7 +45,7 @@ qx.Class.define("playground.Application",
   members :
   {
     widgets : {},
-    globaleRoot : "",
+    __playRoot : null,
     currentSelectedButton : "",
     sampleContainer : {},
 
@@ -54,7 +54,6 @@ qx.Class.define("playground.Application",
      * This method contains the initial application code and gets called
      * during startup of the application
      *
-     * @type member
      * @return {void} 
      */
     main : function()
@@ -71,6 +70,8 @@ qx.Class.define("playground.Application",
         // support additional cross-browser console. Press F7 to toggle visibility
         qx.log.appender.Console;
       }
+
+      var self = this;
 
       var doc = this.getRoot();
 
@@ -96,11 +97,6 @@ qx.Class.define("playground.Application",
       var infosplit = new qx.ui.splitpane.Pane("horizontal");
       infosplit.setDecorator(null);
 
-      this.playarea = new qx.ui.container.Scroll();
-
-      var dummy = new qx.ui.core.Widget;
-      this.playarea.add(dummy);
-
       mainContainer.add(mainsplit, { flex : 1 });
 
       mainsplit.add(this.__makeTextArea());
@@ -116,38 +112,34 @@ qx.Class.define("playground.Application",
       infosplit.add(this.stack, 1);
       this.stack.exclude();
 
+      
+      
+      
       qx.html.Element.flush();
-      var rootEl = dummy.getContainerElement().getDomElement();
-      var root = new qx.ui.root.Inline(rootEl);
-      root._setLayout(new qx.ui.layout.Canvas());
+      var playRootEl = this.dummy.getContainerElement().getDomElement();
+      this.__playRoot = new qx.ui.root.Inline(playRootEl);
+      this.__playRoot._setLayout(new qx.ui.layout.Canvas());
 
       this.playarea.addListener("resize", function(e)
       {
         var data = e.getData();
-        root.setMinWidth(data.width);
-        root.setMinHeight(data.height);
+        self.__playRoot.setMinWidth(data.width);
+        self.__playRoot.setMinHeight(data.height);
       });
 
-      this.playApp = this.clone();
-
-      this.playApp.getRoot = function() {
-        return root;
+      this.__playApp = this.clone();
+      this.__playApp.getRoot = function() {
+        return self.__playRoot;
       };
-
-      root.addListener("resize", function(e)
+      
+      this.__playRoot.addListener("resize", function(e)
       {
         var data = e.getData();
-
-        dummy.set(
-        {
-          minWidth  : data.width,
-          minHeight : data.height
-        });
+        self.dummy.setMinWidth(data.width);
+        self.dummy.setMinHeight(data.height);
       });
 
-      this.globaleRoot = root;
-
-      this.__runApplication(root);
+      this.__runApplication(this.__playRoot);
       this.__resetApplication();
       this.__openApiViewer();
       this.__openHelpDialog();
@@ -158,7 +150,6 @@ qx.Class.define("playground.Application",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     __makeLog : function()
@@ -178,17 +169,6 @@ qx.Class.define("playground.Application",
       });
 
       container.add(caption);
-
-      /*
-      this.logArea = new qx.ui.form.TextArea("Logging...");
-
-      this.logArea.set(
-      {
-        wrap     : false,
-        font     : "monospace",
-        readOnly : true
-      });
-*/
 
       this.logArea = new qx.ui.embed.Html('');
       this.logArea.set({
@@ -212,11 +192,7 @@ qx.Class.define("playground.Application",
       this.logArea.addListenerOnce("appear", function(){
         this.logArea.getContentElement().getDomElement().appendChild(this.logelem);
       }, this);
-      
-      
-      
-      
-      
+
       return container;
     },
 
@@ -224,7 +200,6 @@ qx.Class.define("playground.Application",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     __makePlayArea : function()
@@ -245,6 +220,11 @@ qx.Class.define("playground.Application",
 
       container.add(caption);
 
+      this.playarea = new qx.ui.container.Scroll();
+
+      this.dummy = new qx.ui.core.Widget;
+      this.playarea.add(this.dummy);
+
       container.add(this.playarea, { flex : 1 });
 
       return container;
@@ -254,7 +234,6 @@ qx.Class.define("playground.Application",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     __makeTextArea : function()
@@ -280,7 +259,8 @@ qx.Class.define("playground.Application",
       this.textarea.set(
       {
         wrap : false,
-        font : "monospace"
+        font : "monospace",
+        decorator: null
       });
 
       container.add(this.textarea, { flex : 1 });
@@ -292,7 +272,6 @@ qx.Class.define("playground.Application",
     /**
      * TODOC
      *
-     * @type member
      * @param root {var} TODOC
      * @return {void} 
      */
@@ -307,7 +286,6 @@ qx.Class.define("playground.Application",
     /**
      * TODOC
      *
-     * @type member
      * @param root {var} TODOC
      * @return {void} 
      */
@@ -325,7 +303,7 @@ qx.Class.define("playground.Application",
       try
       {
         this.fun = new Function(this.code);
-        this.fun.call(this.playApp);
+        this.fun.call(this.__playApp);
       }
       catch(ex)
       {
@@ -342,7 +320,6 @@ qx.Class.define("playground.Application",
     /**
      * TODOC
      *
-     * @type member
      * @return {void} 
      */
     __resetApplication : function()
@@ -363,7 +340,6 @@ qx.Class.define("playground.Application",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     __getFileMenu : function()
@@ -403,9 +379,7 @@ qx.Class.define("playground.Application",
 
           this.textarea.setValue(currentSource);
 
-          root = this.globaleRoot;
-
-          this.updatePlayground(root);
+          this.updatePlayground(this.__playRoot);
         },
         this);
       }
@@ -415,10 +389,10 @@ qx.Class.define("playground.Application",
 
 
 
+
     /**
      * TODOC
      *
-     * @type member
      * @return {void} 
      */
     __openApiViewer : function()
@@ -432,7 +406,6 @@ qx.Class.define("playground.Application",
     /**
      * TODOC
      *
-     * @type member
      * @return {void} 
      */
     __openHelpDialog : function()
@@ -446,7 +419,6 @@ qx.Class.define("playground.Application",
     /**
      * TODOC
      *
-     * @type member
      * @return {void} 
      */
     __openLog : function()
@@ -469,7 +441,6 @@ qx.Class.define("playground.Application",
     /**
      * TODOC
      *
-     * @type member
      * @return {void} 
      */
     __fetchLog : function()
@@ -494,7 +465,6 @@ qx.Class.define("playground.Application",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     __makeLogView : function()
@@ -524,7 +494,6 @@ qx.Class.define("playground.Application",
     /**
      * creates the application header.
      *
-     * @type member
      * @return {var} header of the application
      */
     __createHeader : function()
@@ -533,7 +502,7 @@ qx.Class.define("playground.Application",
       var header = new qx.ui.container.Composite(layout);
       header.setAppearance("app-header");
 
-      var title = new qx.ui.basic.Label("qooxdoo: Playground");  // muss schoener werden
+      var title = new qx.ui.basic.Label("qooxdoo Playground");
       var version = new qx.ui.basic.Label("qooxdoo " + qx.core.Setting.get("qx.version"));
 
       header.add(title);
@@ -547,7 +516,6 @@ qx.Class.define("playground.Application",
     /**
      * creates the toolbar of the application
      *
-     * @type member
      * @return {var} toolbar of the application
      */
     __makeToolbar : function()
