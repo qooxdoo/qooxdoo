@@ -118,8 +118,8 @@ qx.Class.define("qx.event.handler.ElementResize",
       {
         elements[hash] = {
           element: target,
-          width: target.offsetWidth,
-          height: target.offsetHeight
+          width: qx.bom.element.Dimension.getWidth(target),
+          height: qx.bom.element.Dimension.getHeight(target)
         };
         this.__timer.start();
       }
@@ -151,8 +151,8 @@ qx.Class.define("qx.event.handler.ElementResize",
         var data = elements[key];
 
         var el = data.element;
-        var width = el.offsetWidth;
-        var height = el.offsetHeight;
+        var width = qx.bom.element.Dimension.getWidth(el);
+        var height = qx.bom.element.Dimension.getHeight(el);
 
         if (data.height !== height || data.width !== width)
         {

@@ -71,33 +71,40 @@ qx.Class.define("qx.test.bom.Element",
     },
 
 
-    testFocus : function() {
+    testFocus : function()
+    {
       qx.bom.Element.focus(this._el);
+      this.warn("needs better test!");
     },
 
     testBlur : function()
     {
       qx.bom.Element.blur(this._el);
+      this.warn("needs better test!");
     },
 
     testActivate : function()
     {
       qx.bom.Element.activate(this._el);
+      this.warn("needs better test!");
     },
 
     testDeactivate : function()
     {
       qx.bom.Element.deactivate(this._el);
+      this.warn("needs better test!");
     },
 
     testCapture : function()
     {
       qx.bom.Element.capture(this._el);
+      this.warn("needs better test!");
     },
 
     testReleaseCapture : function()
     {
       qx.bom.Element.releaseCapture(this._el);
+      this.warn("needs better test!");
     }
 
   }
