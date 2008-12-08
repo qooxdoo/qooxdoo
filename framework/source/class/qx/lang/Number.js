@@ -23,9 +23,6 @@
  *
  * The native JavaScript Number is not modified by this class.
  *
- * The additions implemented here may be added directly to the native Number
- * by a setting in {@link qx.lang.Prototypes}. This feature is not enabled by
- * default.
  */
 qx.Bootstrap.define("qx.lang.Number",
 {
@@ -58,11 +55,11 @@ qx.Bootstrap.define("qx.lang.Number",
 
 
     /**
-     * Limit the nuber to a given range
+     * Limit the number to a given range
      *
      * * If the number is greater than the upper bound, the upper bound is returned
      * * If the number is smaller than the lower bound, the lower bound is returned
-     * * If the number is in the range, the number is retuned
+     * * If the number is in the range, the number is returned
      *
      * @param nr {Number} the number to limit
      * @param vmin {Integer} lower bound of the range
