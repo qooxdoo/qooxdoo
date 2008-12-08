@@ -168,11 +168,13 @@ qx.Class.define("testrunner.runner.TestRunner",
       toolbar.add(part1);
 
       // -- run button
-      this.runbutton = new qx.ui.toolbar.Button(null, "icon/22/actions/media-playback-start.png");
+      this.runbutton = new qx.ui.toolbar.Button(this.tr('<b>Run Tests!</b>'), "icon/22/actions/media-playback-start.png");    
+      this.runbutton.setTextColor("#36a618");
+      this.runbutton.setRich(true);
       part1.add(this.runbutton);
 
       // -- reload button
-      this.reloadbutton = new qx.ui.toolbar.Button(null, "icon/22/actions/view-refresh.png");
+      this.reloadbutton = new qx.ui.toolbar.Button(this.tr("Reload"), "icon/22/actions/view-refresh.png");
       part1.add(this.reloadbutton);
       this.reloadbutton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Reload application under test")));
       this.reloadbutton.addListener("execute", this.reloadTestSuite, this);
