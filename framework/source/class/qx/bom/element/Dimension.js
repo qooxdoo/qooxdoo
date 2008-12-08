@@ -97,6 +97,42 @@ qx.Class.define("qx.bom.element.Dimension",
 
 
     /**
+     * Returns the rendered size of the given element.
+     *
+     * @param element {Element} DOM element to query
+     * @return {Map} map containing the height and width  of the element
+     */
+    getSize : qx.core.Variant.select("qx.client",
+    {
+      "gecko" : function(element)
+      {
+        if (element.getBoundingClientRect)
+        {
+          var rect = element.getBoundingClientRect();
+          return {
+            width: Math.round(rect.right) - Math.round(rect.left),
+            height: Math.round(rect.bottom) - Math.round(rect.top)
+          };
+        }
+        else
+        {
+          return {
+            width: element.offsetWidth,
+            height: element.offsetHeight
+          };
+        }
+      },
+
+      "default" : function(element) {
+        return {
+          width: element.offsetWidth,
+          height: element.offsetHeight
+        };
+      }
+    }),
+
+
+    /**
      * Returns the client width of the given element
      * (https://developer.mozilla.org/En/DOM/Element.clientWidth).
      *

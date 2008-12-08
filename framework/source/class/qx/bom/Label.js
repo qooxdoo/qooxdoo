@@ -98,7 +98,7 @@ qx.Class.define("qx.bom.Label",
 
       return this._htmlElement = el;
     },
-    
+
 
     /**
      * Returns a map of all styles which should be applied as
@@ -110,7 +110,7 @@ qx.Class.define("qx.bom.Label",
     __getStyles : function(html)
     {
       var styles = {};
-      
+
       if (html)
       {
         styles.whiteSpace = "normal";
@@ -124,13 +124,13 @@ qx.Class.define("qx.bom.Label",
         styles.overflow = "hidden";
         styles.whiteSpace = "nowrap";
         styles.textOverflow = "ellipsis";
-        
+
         // Opera as of 9.2.x only supports -o-text-overflow
         if (qx.core.Variant.isSet("qx.client", "opera")) {
           styles.OTextOverflow = "ellipsis";
         }
       }
-      
+
       styles.userSelect = "none";
       return styles;
     },
@@ -281,11 +281,7 @@ qx.Class.define("qx.bom.Label",
       // insert content
       element.innerHTML = content;
 
-      // compute size and return
-      return {
-        width : element.clientWidth,
-        height : element.clientHeight
-      };
+      return qx.bom.element.Dimension.getSize(element);
     },
 
 
@@ -320,9 +316,7 @@ qx.Class.define("qx.bom.Label",
         element.textContent = text;
       }
 
-      var width = element.clientWidth;
-      var height = element.clientHeight;
-
+      var size = qx.bom.element.Dimension.getSize(element);
       if (qx.core.Variant.isSet("qx.client", "gecko"))
       {
         // Under Mac at least with Firefox 3.0 alpha 6 and earlier
@@ -330,15 +324,10 @@ qx.Class.define("qx.bom.Label",
         // a size which is a bit to small and results into ellipsis
         // even under the measured size.
         if (qx.bom.client.Platform.MAC) {
-          width++;
+          size.width++;
         }
       }
-
-      // compute size and return
-      return {
-        width : width,
-        height : height
-      };
+      return size;
     }
   }
 });
