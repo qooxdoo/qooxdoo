@@ -14,6 +14,7 @@
 
    Authors:
      * Andreas Ecker (ecker)
+     * Yuecel Beser (ybeser)
 
 ************************************************************************ */
 
@@ -34,17 +35,25 @@ qx.Class.define("playground.Application",
 
 
 
+
   /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
+    *****************************************************************************
+       MEMBERS
+    *****************************************************************************
+    */
 
   members :
   {
+    widgets : {},
+    globaleRoot : "",
+
+
     /**
      * This method contains the initial application code and gets called
      * during startup of the application
+     *
+     * @type member
+     * @return {void} 
      */
     main : function()
     {
@@ -56,70 +65,494 @@ qx.Class.define("playground.Application",
       {
         // support native logging capabilities, e.g. Firebug for Firefox
         qx.log.appender.Native;
+
         // support additional cross-browser console. Press F7 to toggle visibility
         qx.log.appender.Console;
       }
 
       var doc = this.getRoot();
 
-      var pane = new qx.ui.splitpane.Pane("horizontal");
+      // label decorator
+      var deco = new qx.ui.decoration.Background().set({ backgroundColor : "background-medium" });
+      this._labelDeco = deco;
 
-//      var textarea = new qx.ui.form.TextArea('var button1 = new qx.ui.form.Button("First Button", "playground/test.png");\nthis.getRoot().add(button1, {left: 100, top: 50});');
-      var textarea = new qx.ui.form.TextArea('var win = new qx.ui.window.Window("First Window", "icon/16/apps/office-calendar.png");\nwin.open();\nthis.getRoot().add(win, {left:20, top:20});');
-      textarea.set({width: 600, wrap: false, font: "monospace"});
+      // container layout
+      var layout = new qx.ui.layout.VBox();
 
-      var playarea = new qx.ui.container.Scroll;
+      // Main container
+      var mainContainer = new qx.ui.container.Composite(layout);
+      doc.add(mainContainer, { edge : 0 });
+
+      // qooxdoo header
+      mainContainer.add(this.__createHeader(), { flex : 0 });
+
+      // qooxdoo toolbar
+      mainContainer.add(this.__makeToolbar(), { flex : 0 });
+
+      var mainsplit = new qx.ui.splitpane.Pane("horizontal");
+
+      var infosplit = new qx.ui.splitpane.Pane("horizontal");
+      infosplit.setDecorator(null);
+
+      this.playarea = new qx.ui.container.Scroll();
 
       var dummy = new qx.ui.core.Widget;
-      playarea.add(dummy);
+      this.playarea.add(dummy);
 
-      pane.add(textarea, 0);
-      pane.add(playarea, 1);
+      mainContainer.add(mainsplit, { flex : 1 });
 
-      doc.add(pane, {left: 0, top: 60, right:0, bottom:0});
+      mainsplit.add(this.__makeTextArea());
+      mainsplit.add(infosplit, 1);
+      infosplit.add(this.__makePlayArea(), 2);
 
+      var logView = this.__makeLogView();
+
+      this.stack = new qx.ui.container.Stack;
+      this.stack.setDecorator("main");
+      this.stack.add(logView);
+
+      infosplit.add(this.stack, 1);
+      this.stack.exclude();
 
       qx.html.Element.flush();
       var rootEl = dummy.getContainerElement().getDomElement();
       var root = new qx.ui.root.Inline(rootEl);
       root._setLayout(new qx.ui.layout.Canvas());
 
-
-      playarea.addListener("resize", function(e) {
+      this.playarea.addListener("resize", function(e)
+      {
         var data = e.getData();
         root.setMinWidth(data.width);
         root.setMinHeight(data.height);
       });
 
-      var playApp = this.clone();
-      playApp.getRoot = function() { return root; };
+      this.playApp = this.clone();
 
-      root.addListener("resize", function(e) {
+      this.playApp.getRoot = function() {
+        return root;
+      };
+
+      root.addListener("resize", function(e)
+      {
         var data = e.getData();
-        dummy.set({minWidth:data.width, minHeight:data.height});
+
+        dummy.set(
+        {
+          minWidth  : data.width,
+          minHeight : data.height
+        });
       });
 
-      var button1 = new qx.ui.form.Button("Update", "playground/test.png");
-      doc.add(button1, {left: 10, top: 10});
+      this.globaleRoot = root;
 
-      button1.addListener("execute", function(e) {
-        for( var i=0, ch=root.getChildren(), chl=ch.length; i<chl; i++) {
-         if(ch[i]) {
-          ch[i].destroy();
-         }
+      this.__runApplication(root);
+      this.__resetApplication();
+      this.__openConsole();
+      this.__openApiViewer();
+      this.__openHelpDialog();
+      this.__openLog();
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    __makeLog : function()
+    {
+      var layout = new qx.ui.layout.VBox();
+      layout.setSeparator("separator-vertical");
+
+      var container = new qx.ui.container.Composite(layout).set({ decorator : "main" });
+
+      var caption = new qx.ui.basic.Label(this.tr("Log")).set(
+      {
+        font       : "bold",
+        decorator  : this._labelDeco,
+        padding    : 5,
+        allowGrowX : true,
+        allowGrowY : true
+      });
+
+      container.add(caption);
+
+      this.logArea = new qx.ui.form.TextArea("Logging...");
+
+      this.logArea.set(
+      {
+        wrap     : false,
+        font     : "monospace",
+        readOnly : true
+      });
+
+      container.add(this.logArea, { flex : 1 });
+
+      return container;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    __makePlayArea : function()
+    {
+      var layout = new qx.ui.layout.VBox();
+      layout.setSeparator("separator-vertical");
+
+      var container = new qx.ui.container.Composite(layout).set({ decorator : "main" });
+
+      var caption = new qx.ui.basic.Label(this.tr("Play Area")).set(
+      {
+        font       : "bold",
+        decorator  : this._labelDeco,
+        padding    : 5,
+        allowGrowX : true,
+        allowGrowY : true
+      });
+
+      container.add(caption);
+
+      container.add(this.playarea, { flex : 1 });
+
+      return container;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    __makeTextArea : function()
+    {
+      var layout = new qx.ui.layout.VBox();
+      layout.setSeparator("separator-vertical");
+
+      var container = new qx.ui.container.Composite(layout).set({ decorator : "main" });
+
+      var caption = new qx.ui.basic.Label(this.tr("Source Code")).set(
+      {
+        font       : "bold",
+        decorator  : this._labelDeco,
+        padding    : 5,
+        allowGrowX : true,
+        allowGrowY : true
+      });
+
+      container.add(caption);
+
+      this.textarea = new qx.ui.form.TextArea('var win = new qx.ui.window.Window("First Window", "icon/16/apps/office-calendar.png");\nwin.open();\nthis.getRoot().add(win, {left:20, top:20});');
+
+      this.textarea.set(
+      {
+        wrap : false,
+        font : "monospace"
+      });
+
+      container.add(this.textarea, { flex : 1 });
+
+      return container;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param root {var} TODOC
+     * @return {void} 
+     */
+    __runApplication : function(root)
+    {
+      this.widgets["toolbar.runButton"].addListener("execute", function(e)
+      {
+        for (var i=0, ch=root.getChildren(), chl=ch.length; i<chl; i++)
+        {
+          if (ch[i]) {
+            ch[i].destroy();
+          }
         }
 
-        this.code = textarea.getValue();
+        this.code = this.textarea.getValue();
 
-        try {
+        try
+        {
           this.fun = new Function(this.code);
-           this.fun.call(playApp);
-        } catch(ex) {
+          this.fun.call(this.playApp);
+        }
+        catch(ex)
+        {
           this.error(ex);
           alert(this.tr("Sorry, invalid code!") + "\n\n" + ex);
         }
+      },
+      this);
+    },
 
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    __resetApplication : function()
+    {
+      this.widgets["toolbar.resetButton"].addListener("execute", function() {
+        alert("Reset");
       }, this);
+    },
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    __getFileMenu : function()
+    {
+      var menu = new qx.ui.menu.Menu;
+
+      var newButton;  // = {};
+
+      var counter = 0;
+      var elem;
+      var sampleContainer = {};
+
+      while (true)
+      {
+        elem = document.getElementById("qx_sample_" + counter);
+
+        if (elem != null)
+        {
+          sampleContainer[elem.title] = elem.innerHTML;
+          newButton = new qx.ui.menu.Button(elem.title, "icon/16/actions/document-new.png");
+          counter++;
+        }
+        else
+        {
+          break;
+        }
+
+        menu.add(newButton);
+      }
+
+      for (var i=0; i<menu.getChildren().length; i++)
+      {
+        menu.getChildren()[i].addListener("execute", function(e)
+        {
+        	
+        	sampleContainer[menu.getSelectedButton().getLabel().toString()] = sampleContainer[menu.getSelectedButton().getLabel().toString()].replace(/&lt;/g, "<").replace(/&gt;/g, ">");
+        	
+          this.textarea.setValue(sampleContainer[menu.getSelectedButton().getLabel().toString()]);
+
+          root = this.globaleRoot;
+
+          for (var i=0, ch=root.getChildren(), chl=ch.length; i<chl; i++)
+          {
+            if (ch[i]) {
+              ch[i].destroy();
+            }
+          }
+
+          this.code = this.textarea.getValue();
+
+          try
+          {
+            this.fun = new Function(this.code);
+            this.fun.call(this.playApp);
+          }
+          catch(ex)
+          {
+            this.error(ex);
+            alert(this.tr("Sorry, invalid code!") + "\n\n" + ex);
+          }
+        },
+        this);
+      }
+
+      return menu;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    __openConsole : function()
+    {
+      this.widgets["toolbar.consoleButton"].addListener("execute", function() {
+        alert("Console");
+      }, this);
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    __openApiViewer : function()
+    {
+      this.widgets["toolbar.apiButton"].addListener("execute", function() {
+        alert("API");
+      }, this);
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    __openHelpDialog : function()
+    {
+      this.widgets["toolbar.helpButton"].addListener("execute", function() {
+        alert("HELP");
+      }, this);
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    __openLog : function()
+    {
+      this.widgets["toolbar.logCheckButton"].addListener("click", function(E)
+      {
+        var state = this.widgets["toolbar.logCheckButton"].getChecked();
+
+        if (state == true) {
+          this.stack.show();
+        } else {
+          this.stack.exclude();
+        }
+      },
+      this);
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {var} TODOC
+     */
+    __makeLogView : function()
+    {
+      this.f2 = new qx.ui.embed.Html();
+      this.f2.setOverflow("auto", "auto");
+      this.f2.setFont("monospace");
+      this.f2.setBackgroundColor("white");
+
+      // Create appender and unregister from this logger
+      this.logappender = new qx.log.appender.Element();
+      qx.log.Logger.unregister(this.logappender);
+
+      // Directly create DOM element to use
+      var wrap = document.createElement("div");
+      this.logelem = document.createElement("div");
+      this.logelem.style.padding = "8px";
+      this.logappender.setElement(this.logelem);
+      wrap.appendChild(this.logelem);
+
+      this.f2.getContentElement().useElement(wrap);
+
+      return this.f2;
+    },
+
+
+    /**
+     * creates the application header.
+     *
+     * @type member
+     * @return {var} header of the application
+     */
+    __createHeader : function()
+    {
+      var layout = new qx.ui.layout.HBox();
+      var header = new qx.ui.container.Composite(layout);
+      header.setAppearance("app-header");
+
+      var title = new qx.ui.basic.Label("qooxdoo: Playground");  // muss schoener werden
+      var version = new qx.ui.basic.Label("qooxdoo " + qx.core.Setting.get("qx.version"));
+
+      header.add(title);
+      header.add(new qx.ui.core.Spacer, { flex : 1 });
+      header.add(version);
+
+      return header;
+    },
+
+
+    /**
+     * creates the toolbar of the application
+     *
+     * @type member
+     * @return {var} toolbar of the application
+     */
+    __makeToolbar : function()
+    {
+      var toolbar = new qx.ui.toolbar.ToolBar();
+
+      var part1 = new qx.ui.toolbar.Part();
+      toolbar.add(part1);
+
+      var runButton = new qx.ui.toolbar.Button("Run", "playground/image/media-playback-start.png");
+      part1.add(runButton);
+      this.widgets["toolbar.runButton"] = runButton;
+      runButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Runs the created application")));
+
+      var resetButton = new qx.ui.toolbar.Button("Reset", "playground/image/edit-redo.png");
+      part1.add(resetButton);
+      this.widgets["toolbar.resetButton"] = resetButton;
+      resetButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Resets the current application")));
+
+      var selectSampleButton = new qx.ui.toolbar.MenuButton("Samples", "playground/image/document-folder.png");
+      part1.add(selectSampleButton);
+      this.widgets["toolbar.selectSampleButton"] = selectSampleButton;
+      selectSampleButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Selects a demo application")));
+      selectSampleButton.setMenu(this.__getFileMenu());
+
+      toolbar.addSpacer();
+
+      var part2 = new qx.ui.toolbar.Part();
+      toolbar.add(part2);
+
+      var consoleButton = new qx.ui.toolbar.Button("Console", "playground/image/utilities-terminal.png");
+      part2.add(consoleButton);
+      this.widgets["toolbar.consoleButton"] = consoleButton;
+      consoleButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Opens the console")));
+
+      var logCheckButton = new qx.ui.toolbar.CheckBox("Log", "playground/image/utilities-log-viewer.png");
+      part2.add(logCheckButton);
+      this.widgets["toolbar.logCheckButton"] = logCheckButton;
+      logCheckButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Shows the log entries")));
+
+      var apiButton = new qx.ui.toolbar.Button("API Viewer", "playground/image/help-contents.png");
+      part2.add(apiButton);
+      this.widgets["toolbar.apiButton"] = apiButton;
+      apiButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Opens the API Viewer")));
+
+      var helpButton = new qx.ui.toolbar.Button("Help", "playground/image/help-about.png");
+      part2.add(helpButton);
+      this.widgets["toolbar.helpButton"] = helpButton;
+      helpButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Opens the Help dialog")));
+
+      return toolbar;
     }
   }
 });
