@@ -149,7 +149,6 @@ qx.Class.define("playground.Application",
 
       this.__runApplication(root);
       this.__resetApplication();
-      this.__openConsole();
       this.__openApiViewer();
       this.__openHelpDialog();
       this.__openLog();
@@ -415,19 +414,6 @@ qx.Class.define("playground.Application",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void} 
-     */
-    __openConsole : function()
-    {
-      this.widgets["toolbar.consoleButton"].addListener("execute", function() {
-        alert("Console");
-      }, this);
-    },
-
 
     /**
      * TODOC
@@ -591,11 +577,6 @@ qx.Class.define("playground.Application",
 
       var part2 = new qx.ui.toolbar.Part();
       toolbar.add(part2);
-
-      var consoleButton = new qx.ui.toolbar.Button("Console", "playground/image/utilities-terminal.png");
-      part2.add(consoleButton);
-      this.widgets["toolbar.consoleButton"] = consoleButton;
-      consoleButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Opens the console")));
 
       var logCheckButton = new qx.ui.toolbar.CheckBox("Log", "playground/image/utilities-log-viewer.png");
       part2.add(logCheckButton);
