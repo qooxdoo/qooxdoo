@@ -89,7 +89,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean",
       {
         case true:
           imageData.url = this.__iconUrlTrue;
-          imageData.extras = "celldata='1'";
+          imageData.extras = "celldata='1' ";
           break;
 
         case false:
@@ -109,17 +109,61 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean",
           "onclick=\"" +
           "var node = this.attributes.getNamedItem('celldata'); " +
           "var value = node.nodeValue; " +
+          "var src; " +
           "if (value == '0') " +
-          "{" +
-          "  this.src='" + this.__iconUrlTrue + "'; " +
+          "{";
+
+        if (qx.core.Variant.isSet("qx.client", "mshtml") &&
+            /\.png$/i.test(this.__iconUrlTrue))
+        {
+          imageData.extras +=
+            "  this.src='" + this.__imageBlank + "'; " +
+            "  var loader = 'DXImageTransform.Microsoft.AlphaImageLoader'; " +
+            "  var filters = this.filters.item(loader); " +
+            "  filters.src='" + this.__iconUrlTrue + "'; " +
+            "  filters.sizingMethod = 'scale'; ";
+        }
+        else
+        {
+          imageData.extras +=
+            "  this.src='" + this.__iconUrlTrue + "'; ";
+        }
+
+        imageData.extras +=
           "  node.nodeValue='1'; " +
-          "}" +
+          "} " +
           "else " +
-          "{" +
-          "  this.src='" + this.__iconUrlFalse + "'; " +
+          "{";
+
+        if (qx.core.Variant.isSet("qx.client", "mshtml") &&
+            /\.png$/i.test(this.__iconUrlFalse))
+        {
+          imageData.extras +=
+            "  this.src='" + this.__imageBlank + "'; " +
+            "  var loader = 'DXImageTransform.Microsoft.AlphaImageLoader'; " +
+            "  var filters = this.filters.item(loader); " +
+            "  filters.src='" + this.__iconUrlFalse + "'; " +
+            "  filters.sizingMethod = 'scale'; ";
+        }
+        else
+        {
+          imageData.extras +=
+            "  this.src='" + this.__iconUrlFalse + "'; ";
+        }
+
+        imageData.extras +=
           "  node.nodeValue='0'; " +
+          "}";
+
+        imageData.extras +=
+          // IE doesn't allow setNamedItem() if not explicitly an "attribute"
+          "try { " +
+          "  this.attributes.setNamedItem(node); " +
+          "} catch (e) { " +
+          "  var namedItem = document.createAttribute('celldata'); " +
+          "  namedItem.value = node.nodeValue; " +
+          "  this.attributes.setNamedItem(namedItem); " +
           "}" +
-        "this.attributes.setNamedItem(node); " +
           "\"";
       }
 
