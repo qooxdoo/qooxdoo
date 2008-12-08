@@ -117,7 +117,7 @@ qx.Class.define("qx.ui.layout.Canvas",
           edge : 1
         };
 
-        this.assert(layoutProperties[name] == 1, "The property '"+name+"' is not supported by the canvas layout!");
+        this.assert(layoutProperties[name] == 1, "The property '"+name+"' is not supported by the Canvas layout!");
 
         if (name =="width" || name == "height")
         {

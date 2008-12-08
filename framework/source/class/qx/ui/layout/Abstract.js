@@ -140,7 +140,7 @@ qx.Class.define("qx.ui.layout.Abstract",
     /**
      * This method is called, on each child "add" and "remove" action and
      * whenever the layout data of a child is changed. The method should be used
-     * to clear any children relavent chached data.
+     * to clear any children relevant cached data.
      *
      * @return {void}
      */

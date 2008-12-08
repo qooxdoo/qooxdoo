@@ -19,7 +19,7 @@
 ************************************************************************ */
 
 /**
- * The base class of all items, which should be layed out using a layout manager
+ * The base class of all items, which should be laid out using a layout manager
  * {@link qx.ui.layout.Abstract}.
  */
 qx.Class.define("qx.ui.core.LayoutItem",
@@ -44,7 +44,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     */
 
     /**
-     * Sets the user provided minimal width.
+     * The user provided minimal width.
      *
      * Also take a look at the related properties {@link #width} and {@link #maxWidth}.
      */
@@ -59,7 +59,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
 
     /**
-     * Sets the preferred width.
+     * The item's preferred width.
      *
      * The computed width may differ from the given width due to
      * stretching. Also take a look at the related properties
@@ -76,7 +76,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
 
     /**
-     * Sets the user provided maximal width.
+     * The user provided maximal width.
      *
      * Also take a look at the related properties {@link #width} and {@link #minWidth}.
      */
@@ -91,7 +91,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
 
     /**
-     * Sets the user provided minimal height..
+     * The user provided minimal height.
      *
      * Also take a look at the related properties {@link #height} and {@link #maxHeight}.
      */
@@ -106,7 +106,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
 
     /**
-     * Sets the preferred height.
+     * The item's preferred height.
      *
      * The computed height may differ from the given height due to
      * stretching. Also take a look at the related properties
@@ -123,7 +123,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
 
     /**
-     * Sets the user provided maximal height.
+     * The user provided maximum height.
      *
      * Also take a look at the related properties {@link #height} and {@link #minHeight}.
      */
@@ -195,7 +195,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     },
 
 
-    /** Growing and shringking in the vertical direction */
+    /** Growing and shrinking in the vertical direction */
     allowStretchY :
     {
       group : [ "allowGrowY", "allowShrinkY" ],
