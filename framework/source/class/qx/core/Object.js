@@ -369,6 +369,8 @@ qx.Class.define("qx.core.Object",
      * @param capture {Boolean ? false} Whether to attach the event to the
      *         capturing phase of the bubbling phase of the event. The default is
      *         to attach the event handler to the bubbling phase.
+     * @return {var} An opaque id, which can be used to remove the event listener
+     *         using the {@link #removeListenerById} method.
      */
     addListenerOnce : function(type, listener, self, capture)
     {
@@ -379,6 +381,7 @@ qx.Class.define("qx.core.Object",
       };
 
       var id = this.addListener(type, callback, this, capture);
+      return id;
     },
 
 
