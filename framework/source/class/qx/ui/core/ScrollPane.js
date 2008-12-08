@@ -19,7 +19,7 @@
 ************************************************************************ */
 
 /**
- * This class represents a scrollable pane. This means that this widget
+ * This class represents a scroll able pane. This means that this widget
  * may contain content which is bigger than the available (inner)
  * dimensions of this widget. The widget also offer methods to control
  * the scrolling position. It can only have exactly one child.

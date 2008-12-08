@@ -24,6 +24,26 @@
  *
  * Spacers are invisible and very light weight because they don't require any
  * DOM modifications.
+ *
+ * *Example*
+ *
+ * Here is a little example of how to use the widget.
+ *
+ * <pre class='javascript'>
+ *   var container = new qx.ui.container.Composite(new qx.ui.layout.HBox());
+ *   container.add(new qx.ui.core.Widget());
+ *   conainer.add(new qx.ui.core.Spacer(50));
+ *   container.add(new qx.ui.core.Widget());
+ * </pre>
+ *
+ * This example places two widgets and a spacer into a container with a
+ * horizontal box layout. In this scenario the spacer creates an empty area of
+ * 50 pixel width between the two widgets.
+ *
+ * *External Documentation*
+ *
+ * <a href='http://qooxdoo.org/documentation/0.8/widget/Spacer' target='_blank'>
+ * Documentation of this widget in the qooxdoo wiki.</a>
  */
 qx.Class.define("qx.ui.core.Spacer",
 {
