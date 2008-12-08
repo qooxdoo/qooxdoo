@@ -50,7 +50,8 @@ qx.Class.define("demobrowser.demo.table.Table_Events",
         height: 400,
         width: 290,
         showClose: false,
-        showMinimize: false
+        showMinimize: false,
+        contentPadding: 0
       });
       eventsWin.setLayout(new qx.ui.layout.Canvas());
       eventsWin.open();
