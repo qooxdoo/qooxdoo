@@ -33,20 +33,18 @@ qx.Class.define("playground.Application",
 {
   extend : qx.application.Standalone,
 
-
-
-
   /*
-      *****************************************************************************
-         MEMBERS
-      *****************************************************************************
-      */
+     *****************************************************************************
+        MEMBERS
+     *****************************************************************************
+   */
 
   members :
   {
     widgets : {},
     __playRoot : null,
-    currentSelectedButton : "",
+    __playApp : null,
+    __labelDeco : null,
     sampleContainer : {},
 
 
@@ -77,7 +75,7 @@ qx.Class.define("playground.Application",
 
       // label decorator
       var deco = new qx.ui.decoration.Background().set({ backgroundColor : "background-medium" });
-      this._labelDeco = deco;
+      this.__labelDeco = deco;
 
       // container layout
       var layout = new qx.ui.layout.VBox();
@@ -103,18 +101,15 @@ qx.Class.define("playground.Application",
       mainsplit.add(infosplit, 1);
       infosplit.add(this.__makePlayArea(), 2);
 
-      var logView = this.__makeLogView();
+      var log = this.__makeLog();
 
       this.stack = new qx.ui.container.Stack;
       this.stack.setDecorator("main");
-      this.stack.add(logView);
+      this.stack.add(log);
 
       infosplit.add(this.stack, 1);
       this.stack.exclude();
 
-      
-      
-      
       qx.html.Element.flush();
       var playRootEl = this.dummy.getContainerElement().getDomElement();
       this.__playRoot = new qx.ui.root.Inline(playRootEl);
@@ -128,10 +123,11 @@ qx.Class.define("playground.Application",
       });
 
       this.__playApp = this.clone();
+
       this.__playApp.getRoot = function() {
         return self.__playRoot;
       };
-      
+
       this.__playRoot.addListener("resize", function(e)
       {
         var data = e.getData();
@@ -144,56 +140,9 @@ qx.Class.define("playground.Application",
       this.__openApiViewer();
       this.__openHelpDialog();
       this.__openLog();
-    },
 
-
-    /**
-     * TODOC
-     *
-     * @return {var} TODOC
-     */
-    __makeLog : function()
-    {
-      var layout = new qx.ui.layout.VBox();
-      layout.setSeparator("separator-vertical");
-
-      var container = new qx.ui.container.Composite(layout).set({ decorator : "main" });
-
-      var caption = new qx.ui.basic.Label(this.tr("Log")).set(
-      {
-        font       : "bold",
-        decorator  : this._labelDeco,
-        padding    : 5,
-        allowGrowX : true,
-        allowGrowY : true
-      });
-
-      container.add(caption);
-
-      this.logArea = new qx.ui.embed.Html('');
-      this.logArea.set({
-        backgroundColor : "white",
-        overflowY : "scroll"
-      });
-      pp2.add(this.logArea, {flex: 1});
-
-      container.add(this.logArea, { flex : 1 });
-
-      
-      // log appender
-      this.logappender = new qx.log.appender.Element();
-
-      qx.log.Logger.unregister(this.logappender);
-
-      // Directly create DOM element to use
-      this.logelem = document.createElement("DIV");
-      this.logappender.setElement(this.logelem);
-
-      this.logArea.addListenerOnce("appear", function(){
-        this.logArea.getContentElement().getDomElement().appendChild(this.logelem);
-      }, this);
-
-      return container;
+      this.textarea.setValue(this.sampleContainer["Hello World"]);
+      this.updatePlayground(this.__playRoot);
     },
 
 
@@ -209,10 +158,10 @@ qx.Class.define("playground.Application",
 
       var container = new qx.ui.container.Composite(layout).set({ decorator : "main" });
 
-      var caption = new qx.ui.basic.Label(this.tr("Play Area")).set(
+      var caption = new qx.ui.basic.Label(this.tr("Application")).set(
       {
         font       : "bold",
-        decorator  : this._labelDeco,
+        decorator  : this.__labelDeco,
         padding    : 5,
         allowGrowX : true,
         allowGrowY : true
@@ -246,7 +195,7 @@ qx.Class.define("playground.Application",
       var caption = new qx.ui.basic.Label(this.tr("Source Code")).set(
       {
         font       : "bold",
-        decorator  : this._labelDeco,
+        decorator  : this.__labelDeco,
         padding    : 5,
         allowGrowX : true,
         allowGrowY : true
@@ -254,13 +203,13 @@ qx.Class.define("playground.Application",
 
       container.add(caption);
 
-      this.textarea = new qx.ui.form.TextArea(this.sampleContainer[this.currentSelectedButton]);
+      this.textarea = new qx.ui.form.TextArea;
 
       this.textarea.set(
       {
-        wrap : false,
-        font : "monospace",
-        decorator: null
+        wrap      : false,
+        font      : "monospace",
+        decorator : null
       });
 
       container.add(this.textarea, { flex : 1 });
@@ -310,10 +259,8 @@ qx.Class.define("playground.Application",
         this.error(ex);
         alert(this.tr("Sorry, invalid code!") + "\n\n" + ex);
       }
-      
-       this.__fetchLog();
-      
-      
+
+      this.__fetchLog();
     },
 
 
@@ -326,12 +273,17 @@ qx.Class.define("playground.Application",
     {
       this.widgets["toolbar.resetButton"].addListener("execute", function()
       {
-        var currentSource = this.sampleContainer[this.currentSelectedButton];
-        if(currentSource != undefined){
-        currentSource = currentSource.replace(/&lt;/g, "<").replace(/&gt;/g, ">");
+        /* TODO: use radio menu items
+                var currentSource = this.sampleContainer[this.currentSelectedButton];
+                if(currentSource != undefined){
+                currentSource = currentSource.replace(/&lt;/g, "<").replace(/&gt;/g, ">");
+        
+                this.textarea.setValue(currentSource);
+                }
+                */
 
-        this.textarea.setValue(currentSource);
-        }
+        this.textarea.setValue("");
+        this.textarea.focus();
       },
       this);
     },
@@ -348,46 +300,42 @@ qx.Class.define("playground.Application",
 
       var newButton;
 
-      var counter = 0;
-      var elem;
+      var elem = document.getElementsByTagName("DIV");
 
-      while (true)
+      for (var i=0; i<elem.length; i++)
       {
-        elem = document.getElementById("qx_sample_" + counter);
-
-        if (elem != null)
+        if (elem[i].className == "qx_samples")
         {
-          this.sampleContainer[elem.title] = elem.innerHTML;
-          newButton = new qx.ui.menu.Button(elem.title, "icon/16/actions/document-new.png");
-          counter++;
+          this.sampleContainer[elem[i].title] = elem[i].innerHTML;
+          newButton = new qx.ui.menu.Button(elem[i].title, "icon/16/actions/document-new.png");
+          menu.add(newButton);
+
+          newButton.addListener("execute", this.__onSampleChanged, this);
         }
-        else
-        {
-          break;
-        }
-
-        menu.add(newButton);
-      }
-
-      for (var i=0; i<menu.getChildren().length; i++)
-      {
-        menu.getChildren()[i].addListener("execute", function(e)
-        {
-          this.currentSelectedButton = menu.getSelectedButton().getLabel().toString();
-          var currentSource = this.sampleContainer[this.currentSelectedButton];
-          currentSource = currentSource.replace(/&lt;/g, "<").replace(/&gt;/g, ">");
-
-          this.textarea.setValue(currentSource);
-
-          this.updatePlayground(this.__playRoot);
-        },
-        this);
       }
 
       return menu;
     },
 
 
+    /**
+     * TODOC
+     *
+     * @param e {Event} TODOC
+     * @return {var} TODOC
+     */
+    __onSampleChanged : function(e)
+    {
+      var item = e.getTarget();
+
+      var currentSelectedButton = item.getLabel().toString();
+      var currentSource = this.sampleContainer[currentSelectedButton];
+      currentSource = currentSource.replace(/&lt;/g, "<").replace(/&gt;/g, ">");
+
+      this.textarea.setValue(currentSource);
+
+      this.updatePlayground(this.__playRoot);
+    },
 
 
     /**
@@ -398,7 +346,7 @@ qx.Class.define("playground.Application",
     __openApiViewer : function()
     {
       this.widgets["toolbar.apiButton"].addListener("execute", function() {
-        window.open("http://demo.qooxdoo.org/current/apiviewer/");
+        window.open("http://demo.qooxdoo.org/" + qx.core.Setting.get("qx.version") + "/apiviewer/");
       }, this);
     },
 
@@ -410,9 +358,12 @@ qx.Class.define("playground.Application",
      */
     __openHelpDialog : function()
     {
-      this.widgets["toolbar.helpButton"].addListener("execute", function() {
-        window.open("http://qooxdoo.org/documentation/0.8");
-      }, this);
+      this.widgets["toolbar.helpButton"].addListener("execute", function()
+      {
+        var arr = (qx.core.Setting.get("qx.version").split("-")[0]).split(".");
+        window.open("http://qooxdoo.org/documentation/" + arr[0] + "." + arr[1]);
+      },
+      this);
     },
 
 
@@ -432,7 +383,6 @@ qx.Class.define("playground.Application",
         } else {
           this.stack.exclude();
         }
-        
       },
       this);
     },
@@ -445,8 +395,6 @@ qx.Class.define("playground.Application",
      */
     __fetchLog : function()
     {
-      var w = this.playarea.getContentElement().getDomElement();
-
       var logger;
 
       logger = qx.log.Logger;
@@ -467,27 +415,51 @@ qx.Class.define("playground.Application",
      *
      * @return {var} TODOC
      */
-    __makeLogView : function()
+    __makeLog : function()
     {
-      this.f2 = new qx.ui.embed.Html();
-      this.f2.setOverflow("auto", "auto");
-      this.f2.setFont("monospace");
-      this.f2.setBackgroundColor("white");
+      var layout = new qx.ui.layout.VBox();
+      layout.setSeparator("separator-vertical");
 
-      // Create appender and unregister from this logger
+      var container = new qx.ui.container.Composite(layout).set({});
+
+      var caption = new qx.ui.basic.Label(this.tr("Log")).set(
+      {
+        font       : "bold",
+        decorator  : this.__labelDeco,
+        padding    : 5,
+        allowGrowX : true,
+        allowGrowY : true
+      });
+
+      container.add(caption);
+
+      this.logArea = new qx.ui.embed.Html('');
+
+      this.logArea.set(
+      {
+        backgroundColor : "white",
+        overflowY       : "scroll",
+        overflowX       : "auto",
+        font            : "monospace",
+        padding         : 5
+      });
+
+      container.add(this.logArea, { flex : 1 });
+
+      // log appender
       this.logappender = new qx.log.appender.Element();
+
       qx.log.Logger.unregister(this.logappender);
 
       // Directly create DOM element to use
-      var wrap = document.createElement("div");
-      this.logelem = document.createElement("div");
-      this.logelem.style.padding = "8px";
+      this.logelem = document.createElement("DIV");
       this.logappender.setElement(this.logelem);
-      wrap.appendChild(this.logelem);
 
-      this.f2.getContentElement().useElement(wrap);
+      this.logArea.addListenerOnce("appear", function() {
+        this.logArea.getContentElement().getDomElement().appendChild(this.logelem);
+      }, this);
 
-      return this.f2;
+      return container;
     },
 
 
@@ -502,7 +474,7 @@ qx.Class.define("playground.Application",
       var header = new qx.ui.container.Composite(layout);
       header.setAppearance("app-header");
 
-      var title = new qx.ui.basic.Label("qooxdoo Playground");
+      var title = new qx.ui.basic.Label("Playground");
       var version = new qx.ui.basic.Label("qooxdoo " + qx.core.Setting.get("qx.version"));
 
       header.add(title);

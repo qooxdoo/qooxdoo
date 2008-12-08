@@ -12,8 +12,7 @@
 
 <!-- ********************************************************************** -->
 
-<div class="qx_samples" id="qx_sample_0" title="Hello World">
-// Create a button
+<div class="qx_samples" title="Hello World">// Create a button
 var button1 = new qx.ui.form.Button("First Button", "icon/22/apps/internet-web-browser.png");
 
 // Document is the application root
@@ -34,16 +33,14 @@ button1.addListener("execute", function(e) {
 
 <!-- ********************************************************************** -->
 
-<div class="qx_samples" id="qx_sample_1" title="Window">
-var win = new qx.ui.window.Window("First Window");
+<div class="qx_samples" title="Window">var win = new qx.ui.window.Window("First Window");
 win.open();
 this.getRoot().add(win, {left:20, top:20});
 </div>
 
 <!-- ********************************************************************** -->
 
-<div class="qx_samples" id="qx_sample_2" title="Webbrowser">
-surfTo = function(url)
+<div class="qx_samples" title="Webbrowser">this.surfTo = function(url)
 {
   if (url.indexOf("http://") !== 0) {
     url = "http://" + url;
@@ -51,9 +48,9 @@ surfTo = function(url)
   }
 
   this.iframe.setSource(url);
-}
+};
   
-_createBrowser = function()
+this._createBrowser = function()
 {
   var win = new qx.ui.window.Window(
     "Web Browser",
@@ -96,7 +93,7 @@ _createBrowser = function()
 
    this.txtUrl = new qx.ui.form.TextField().set({
      marginLeft: 1,
-     value: "http://web.de",
+     value: "http://qooxdoo.org",
      padding: 2,
      alignY: "middle"
    });
@@ -125,95 +122,94 @@ _createBrowser = function()
    win.add(this.iframe, {flex: 1});
 
   return win;
-}  
+};
 
-this.getRoot().add(_createBrowser(), {left: 40, top: 30});
+this.getRoot().add(this._createBrowser(), {left: 40, top: 30});
 
 </div>
 
 <!-- ********************************************************************** -->
 
-<div class="qx_samples" id="qx_sample_3" title="Dialog">
-var layout = new qx.ui.layout.Grid(9, 5);
-      layout.setColumnAlign(0, "right", "top");
-      layout.setColumnAlign(2, "right", "top");
-      layout.setColumnWidth(1, 160);
-      layout.setColumnWidth(2, 72);
-      layout.setColumnWidth(3, 108);
+<div class="qx_samples" title="Dialog">var layout = new qx.ui.layout.Grid(9, 5);
+layout.setColumnAlign(0, "right", "top");
+layout.setColumnAlign(2, "right", "top");
+layout.setColumnWidth(1, 160);
+layout.setColumnWidth(2, 72);
+layout.setColumnWidth(3, 108);
 
 
-      var container = new qx.ui.tabview.TabView;
-      var page = new qx.ui.tabview.Page("Page");
-      page.setLayout(layout);
-      page.setPadding(10);
-      container.add(page);
+var container = new qx.ui.tabview.TabView;
+var page = new qx.ui.tabview.Page("Page");
+page.setLayout(layout);
+page.setPadding(10);
+container.add(page);
 
-      this.getRoot().add(container, {left:40, top:40});
+this.getRoot().add(container, {left:40, top:40});
 
-      labels = ["First Name", "Last Name", "City", "Country", "Notes"];
-      for (var i=0; i < labels.length; i++) {
-        page.add(new qx.ui.basic.Label(labels[i]).set({
-          allowShrinkX: false,
-          paddingTop: 3
-        }), {row: i, column : 0});
-      }
+labels = ["First Name", "Last Name", "City", "Country", "Notes"];
+for (var i=0; i < labels.length; i++) {
+  page.add(new qx.ui.basic.Label(labels[i]).set({
+    allowShrinkX: false,
+    paddingTop: 3
+  }), {row: i, column : 0});
+}
 
-      inputs = ["John", "Smith", "New York", "USA"];
-      for (var i=0; i < inputs.length; i++) {
-        page.add(new qx.ui.form.TextField(inputs[i]), {row:i, column:1});
-      }
-
-
-      // text area
-      page.add(new qx.ui.form.TextArea().set({
-        height: 250
-      }), {row:4, column:1, colSpan: 3});
+inputs = ["John", "Smith", "New York", "USA"];
+for (var i=0; i < inputs.length; i++) {
+  page.add(new qx.ui.form.TextField(inputs[i]), {row:i, column:1});
+}
 
 
-      // radio buttons
-      page.add(new qx.ui.basic.Label("Sex").set({
-        allowShrinkX: false,
-        paddingTop: 3
-      }), {row:0, column:2});
-
-      var female = new qx.ui.form.RadioButton("female");
-      var male = new qx.ui.form.RadioButton("male");
-
-      var mgr = new qx.ui.form.RadioGroup();
-      mgr.add(female, male);
-
-      page.add(female, {row:0, column:3});
-      page.add(male, {row:1, column:3});
-      male.setChecked(true);
+// text area
+page.add(new qx.ui.form.TextArea().set({
+  height: 250
+}), {row:4, column:1, colSpan: 3});
 
 
-      // check boxes
-      page.add(new qx.ui.basic.Label("Hobbies").set({
-        allowShrinkX: false,
-        paddingTop: 3
-      }), {row:2, column:2});
-      page.add(new qx.ui.form.CheckBox("Reading"), {row:2, column:3});
-      page.add(new qx.ui.form.CheckBox("Swimming").set({
-        enabled: false
-      }), {row:3, column:3});
+// radio buttons
+page.add(new qx.ui.basic.Label("Sex").set({
+  allowShrinkX: false,
+  paddingTop: 3
+}), {row:0, column:2});
+
+var female = new qx.ui.form.RadioButton("female");
+var male = new qx.ui.form.RadioButton("male");
+
+var mgr = new qx.ui.form.RadioGroup();
+mgr.add(female, male);
+
+page.add(female, {row:0, column:3});
+page.add(male, {row:1, column:3});
+male.setChecked(true);
 
 
-      // buttons
-      var paneLayout = new qx.ui.layout.HBox().set({
-        spacing: 4,
-        alignX : "right"
-      });
-      var buttonPane = new qx.ui.container.Composite(paneLayout).set({
-        paddingTop: 11
-      });
-      page.add(buttonPane, {row:5, column: 0, colSpan: 4});
+// check boxes
+page.add(new qx.ui.basic.Label("Hobbies").set({
+  allowShrinkX: false,
+  paddingTop: 3
+}), {row:2, column:2});
+page.add(new qx.ui.form.CheckBox("Reading"), {row:2, column:3});
+page.add(new qx.ui.form.CheckBox("Swimming").set({
+  enabled: false
+}), {row:3, column:3});
 
-      okButton = new qx.ui.form.Button("OK", "icon/22/actions/dialog-apply.png");
-      okButton.addState("default");
-      buttonPane.add(okButton);
 
-      cancelButton = new qx.ui.form.Button("Cancel", "icon/22/actions/dialog-cancel.png");
-      buttonPane.add(cancelButton);
+// buttons
+var paneLayout = new qx.ui.layout.HBox().set({
+  spacing: 4,
+  alignX : "right"
+});
+var buttonPane = new qx.ui.container.Composite(paneLayout).set({
+  paddingTop: 11
+});
+page.add(buttonPane, {row:5, column: 0, colSpan: 4});
+
+okButton = new qx.ui.form.Button("OK", "icon/22/actions/dialog-apply.png");
+okButton.addState("default");
+buttonPane.add(okButton);
+
+cancelButton = new qx.ui.form.Button("Cancel", "icon/22/actions/dialog-cancel.png");
+buttonPane.add(cancelButton);
 
 </div>
 
