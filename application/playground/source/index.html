@@ -10,6 +10,8 @@
 </head>
 <body>
 
+<!-- ********************************************************************** -->
+
 <div class="qx_samples" id="qx_sample_0" title="Hello World">
 // Create a button
 var button1 = new qx.ui.form.Button("First Button", "icon/22/apps/internet-web-browser.png");
@@ -30,12 +32,15 @@ button1.addListener("execute", function(e) {
 });
 </div>
 
+<!-- ********************************************************************** -->
 
 <div class="qx_samples" id="qx_sample_1" title="Window">
 var win = new qx.ui.window.Window("First Window");
 win.open();
 this.getRoot().add(win, {left:20, top:20});
 </div>
+
+<!-- ********************************************************************** -->
 
 <div class="qx_samples" id="qx_sample_2" title="Webbrowser">
 surfTo = function(url)
@@ -126,7 +131,9 @@ this.getRoot().add(_createBrowser(), {left: 40, top: 30});
 
 </div>
 
-<div class="qx_samples" id="qx_sample_3" title="Showcase">
+<!-- ********************************************************************** -->
+
+<div class="qx_samples" id="qx_sample_3" title="Dialog">
 var layout = new qx.ui.layout.Grid(9, 5);
       layout.setColumnAlign(0, "right", "top");
       layout.setColumnAlign(2, "right", "top");
@@ -210,14 +217,7 @@ var layout = new qx.ui.layout.Grid(9, 5);
 
 </div>
 
-
-
-
-
-
-
-
-
+<!-- ********************************************************************** -->
 
   <script type="text/javascript" src="script/playground.js"></script>
 </body>
