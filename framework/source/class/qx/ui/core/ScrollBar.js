@@ -19,7 +19,30 @@
 ************************************************************************ */
 
 /**
- * A scroll bar.
+ * The scroll bar widget, is a special slider, which is used in qooxdoo instead
+ * of the native browser scroll bars.
+ *
+ * Scroll bars are used by the {@link qx.ui.container.Scoll} container. Usually
+ * a scroll bar is not used directly.
+ *
+ * *Example*
+ *
+ * Here is a little example of how to use the widget.
+ *
+ * <pre class='javascript'>
+ *   var scrollBar = new qx.ui.core.ScrollBar("horizontal");
+ *   scrollBar.set({
+ *     maximum: 500
+ *   })
+ *   this.getRoot().add(scrollBar);
+ * </pre>
+ *
+ * This example creates a horizontal scroll bar with a maximum value of 500.
+ *
+ * *External Documentation*
+ *
+ * <a href='http://qooxdoo.org/documentation/0.8/widget/ScrollBar' target='_blank'>
+ * Documentation of this widget in the qooxdoo wiki.</a>
  */
 qx.Class.define("qx.ui.core.ScrollBar",
 {
