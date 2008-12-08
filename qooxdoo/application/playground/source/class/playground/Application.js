@@ -37,15 +37,17 @@ qx.Class.define("playground.Application",
 
 
   /*
-    *****************************************************************************
-       MEMBERS
-    *****************************************************************************
-    */
+      *****************************************************************************
+         MEMBERS
+      *****************************************************************************
+      */
 
   members :
   {
     widgets : {},
     globaleRoot : "",
+    currentSelectedButton : "",
+    sampleContainer : {},
 
 
     /**
@@ -178,6 +180,7 @@ qx.Class.define("playground.Application",
 
       container.add(caption);
 
+      /*
       this.logArea = new qx.ui.form.TextArea("Logging...");
 
       this.logArea.set(
@@ -186,9 +189,35 @@ qx.Class.define("playground.Application",
         font     : "monospace",
         readOnly : true
       });
+*/
+
+      this.logArea = new qx.ui.embed.Html('');
+      this.logArea.set({
+        backgroundColor : "white",
+        overflowY : "scroll"
+      });
+      pp2.add(this.logArea, {flex: 1});
 
       container.add(this.logArea, { flex : 1 });
 
+      
+      // log appender
+      this.logappender = new qx.log.appender.Element();
+
+      qx.log.Logger.unregister(this.logappender);
+
+      // Directly create DOM element to use
+      this.logelem = document.createElement("DIV");
+      this.logappender.setElement(this.logelem);
+
+      this.logArea.addListenerOnce("appear", function(){
+        this.logArea.getContentElement().getDomElement().appendChild(this.logelem);
+      }, this);
+      
+      
+      
+      
+      
       return container;
     },
 
@@ -247,7 +276,7 @@ qx.Class.define("playground.Application",
 
       container.add(caption);
 
-      this.textarea = new qx.ui.form.TextArea('var win = new qx.ui.window.Window("First Window", "icon/16/apps/office-calendar.png");\nwin.open();\nthis.getRoot().add(win, {left:20, top:20});');
+      this.textarea = new qx.ui.form.TextArea(this.sampleContainer[this.currentSelectedButton]);
 
       this.textarea.set(
       {
@@ -270,29 +299,44 @@ qx.Class.define("playground.Application",
      */
     __runApplication : function(root)
     {
-      this.widgets["toolbar.runButton"].addListener("execute", function(e)
+      this.widgets["toolbar.runButton"].addListener("execute", function() {
+        this.updatePlayground(root);
+      }, this);
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param root {var} TODOC
+     * @return {void} 
+     */
+    updatePlayground : function(root)
+    {
+      for (var i=0, ch=root.getChildren(), chl=ch.length; i<chl; i++)
       {
-        for (var i=0, ch=root.getChildren(), chl=ch.length; i<chl; i++)
-        {
-          if (ch[i]) {
-            ch[i].destroy();
-          }
+        if (ch[i]) {
+          ch[i].destroy();
         }
+      }
 
-        this.code = this.textarea.getValue();
+      this.code = this.textarea.getValue();
 
-        try
-        {
-          this.fun = new Function(this.code);
-          this.fun.call(this.playApp);
-        }
-        catch(ex)
-        {
-          this.error(ex);
-          alert(this.tr("Sorry, invalid code!") + "\n\n" + ex);
-        }
-      },
-      this);
+      try
+      {
+        this.fun = new Function(this.code);
+        this.fun.call(this.playApp);
+      }
+      catch(ex)
+      {
+        this.error(ex);
+        alert(this.tr("Sorry, invalid code!") + "\n\n" + ex);
+      }
+      
+       this.__fetchLog();
+      
+      
     },
 
 
@@ -304,10 +348,18 @@ qx.Class.define("playground.Application",
      */
     __resetApplication : function()
     {
-      this.widgets["toolbar.resetButton"].addListener("execute", function() {
-        alert("Reset");
-      }, this);
+      this.widgets["toolbar.resetButton"].addListener("execute", function()
+      {
+        var currentSource = this.sampleContainer[this.currentSelectedButton];
+        if(currentSource != undefined){
+        currentSource = currentSource.replace(/&lt;/g, "<").replace(/&gt;/g, ">");
+
+        this.textarea.setValue(currentSource);
+        }
+      },
+      this);
     },
+
 
     /**
      * TODOC
@@ -319,11 +371,10 @@ qx.Class.define("playground.Application",
     {
       var menu = new qx.ui.menu.Menu;
 
-      var newButton;  // = {};
+      var newButton;
 
       var counter = 0;
       var elem;
-      var sampleContainer = {};
 
       while (true)
       {
@@ -331,7 +382,7 @@ qx.Class.define("playground.Application",
 
         if (elem != null)
         {
-          sampleContainer[elem.title] = elem.innerHTML;
+          this.sampleContainer[elem.title] = elem.innerHTML;
           newButton = new qx.ui.menu.Button(elem.title, "icon/16/actions/document-new.png");
           counter++;
         }
@@ -347,32 +398,15 @@ qx.Class.define("playground.Application",
       {
         menu.getChildren()[i].addListener("execute", function(e)
         {
-        	
-        	sampleContainer[menu.getSelectedButton().getLabel().toString()] = sampleContainer[menu.getSelectedButton().getLabel().toString()].replace(/&lt;/g, "<").replace(/&gt;/g, ">");
-        	
-          this.textarea.setValue(sampleContainer[menu.getSelectedButton().getLabel().toString()]);
+          this.currentSelectedButton = menu.getSelectedButton().getLabel().toString();
+          var currentSource = this.sampleContainer[this.currentSelectedButton];
+          currentSource = currentSource.replace(/&lt;/g, "<").replace(/&gt;/g, ">");
+
+          this.textarea.setValue(currentSource);
 
           root = this.globaleRoot;
 
-          for (var i=0, ch=root.getChildren(), chl=ch.length; i<chl; i++)
-          {
-            if (ch[i]) {
-              ch[i].destroy();
-            }
-          }
-
-          this.code = this.textarea.getValue();
-
-          try
-          {
-            this.fun = new Function(this.code);
-            this.fun.call(this.playApp);
-          }
-          catch(ex)
-          {
-            this.error(ex);
-            alert(this.tr("Sorry, invalid code!") + "\n\n" + ex);
-          }
+          this.updatePlayground(root);
         },
         this);
       }
@@ -440,8 +474,34 @@ qx.Class.define("playground.Application",
         } else {
           this.stack.exclude();
         }
+        
       },
       this);
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    __fetchLog : function()
+    {
+      var w = this.playarea.getContentElement().getDomElement();
+
+      var logger;
+
+      logger = qx.log.Logger;
+
+      // Register to flush the log queue into the appender.
+      logger.register(this.logappender);
+
+      // Clear buffer
+      logger.clear();
+
+      // Unregister again, so that the logger can flush again the next time the tab is clicked.
+      logger.unregister(this.logappender);
     },
 
 
