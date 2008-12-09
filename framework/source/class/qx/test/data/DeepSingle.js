@@ -79,18 +79,22 @@ qx.Class.define("qx.test.data.DeepSingle",
 
     testDepthOf2: function() {      
       // create a hierarchy
+      // a --> b1
       this.__a.setChild(this.__b1);
       
       // create the binding
+      // a --> b1 --> label
       qx.data.SingleValueBinding.bind(this.__a, "child.name", this.__label, "content");
       
       // just set the name of the second component
       this.__b1.setName("B1");
       this.assertEquals("B1", this.__label.getContent(), "Deep binding does not work with updating the first parameter.");      
       // change the second component
+      // a --> b2 --> label
       this.__a.setChild(this.__b2);
       this.assertEquals("b2", this.__label.getContent(), "Deep binding does not work with updating the first parameter.");            
       // check for the null value
+      // a --> null
       this.__a.setChild(null);
       this.assertNull(this.__label.getContent(), "Binding does not work with null.");
     },
