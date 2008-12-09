@@ -27,9 +27,48 @@ qx.Class.define("qx.data.SingleValueBinding",
   
   statics :
   {
-    
+    /* internal reference for all bindings */
     __bindings: {},
   
+    
+    /**
+     * The function is responsible for binding a source objects property to 
+     * a target objects property. Both properties have to have the usual qooxdoo 
+     * getter and setter. The source property also needs to fire change-events
+     * on every change of its value.
+     * Please keep in mind, that this binding is unidirectional. If you need
+     * a binding in both directions, you have to use two of this bindings.
+     * 
+     * It's also possible to bind some hind of a hierarchy as a source. This 
+     * means that you can separate the source properties with a dot and bind 
+     * by that the object referenced to this property chain.
+     * Example with an object 'a' which has object 'b' stored in its 'child' 
+     * property. Object b has a string property named abc:
+     * <code>
+     * qx.data.SingleValueBinding.bind(a, "child.abc", textfield, "value");
+     * </code>
+     *
+     * As you can see in this example, the abc property of a's b will be bound 
+     * to the textfield. If now the value of b changed or even the a will get a 
+     * new b, the binding still shows the right value.
+     * 
+     * @param sourceObject {qx.core.Object} The source of the binding.
+     * @param sourcePropertyChain {String} The property chain which represents 
+     *   the source property.
+     * @param targetObject {qx.core.Object} The object which the source should 
+     *   be bind to.
+     * @param targetProperty {String} The property name of the target object.
+     * @param options {Map} A map containing the options. See 
+     *   {@link #bindEventToProperty} for more information.
+     * 
+     * @return {id} Returns the internal id for that binding. This can be used 
+     *   for referencing the binding or e.g. for removing. This is not an atomic 
+     *   id so you can't you use it as a hash-map index.
+     * 
+     * @throws {qx.core.AssertionError} If the event is no data event or 
+     *   there is no property definition for object and property (source and 
+     *   target).
+     */
     bind: function(sourceObject, sourcePropertyChain, targetObject, targetProperty, options) {
       // get the property names
       var propertyNames = sourcePropertyChain.split(".");
@@ -123,6 +162,30 @@ qx.Class.define("qx.data.SingleValueBinding",
     },
   
   
+  
+    /**
+     * This method binds a source property to a target property. The source 
+     * property needs to be an qooxdoo property and has to have an changeEvent
+     * fired on every change. The change Event has to be an 
+     * {@link qx.event.type.Data} event.
+     * 
+     * @param sourceObject {qx.core.Object} The source of the binding.
+     * @param sourceProperty {String} The source property of the source object.
+     * @param targetObject {qx.core.Object} The object which the source should 
+     *   be bind to.
+     * @param targetProperty {String} The property name of the target object.
+     * @param options {Map} A map containing the options. See 
+     *   {@link #bindEventToProperty} for more information.
+     * 
+     * @return {id} Returns the internal id for that binding. This can be used 
+     *   for referencing the binding or e.g. for removing. This is not an atomic 
+     *   id so you can't you use it as a hash-map index. It's the id which will
+     *   be returned b< the {@link qx.core.Object#addListener} method.
+     * 
+     * @throws {qx.core.AssertionError} If the event is no data event or 
+     *   there is no property definition for object and property (source and 
+     *   target).
+     */
     bindPropertyToProperty : function(sourceObject, sourceProperty, targetObject, targetProperty, options) {    
       var id = this.__bindPropertyToProperty(sourceObject, sourceProperty, targetObject, targetProperty, options);
       // store the binding                                     
@@ -131,6 +194,31 @@ qx.Class.define("qx.data.SingleValueBinding",
     },
   
   
+    /**
+     * Internal helper method which evaluates the change event name and 
+     * delegates the creation of the binding to the 
+     * {@link #__bindEventToProperty} method. This method does not store the 
+     * binding in the internal reference store so it should NOT be used from 
+     * outside this class. For an outside usage, use 
+     * {@link #bindPropertyToProperty}.
+     * 
+     * @param sourceObject {qx.core.Object} The source of the binding.
+     * @param sourceProperty {String} The source property of the source object.
+     * @param targetObject {qx.core.Object} The object which the source should 
+     *   be bind to.
+     * @param targetProperty {String} The property name of the target object.
+     * @param options {Map} A map containing the options. See 
+     *   {@link #bindEventToProperty} for more information.
+     * 
+     * @return {id} Returns the internal id for that binding. This can be used 
+     *   for referencing the binding or e.g. for removing. This is not an atomic 
+     *   id so you can't you use it as a hash-map index. It's the id which will
+     *   be returned b< the {@link qx.core.Object#addListener} method.
+     * 
+     * @throws {qx.core.AssertionError} If the event is no data event or 
+     *   there is no property definition for object and property (source and 
+     *   target).
+     */
     __bindPropertyToProperty : function(sourceObject, sourceProperty, targetObject, targetProperty, options) {
       // get the event name
       var changeEventName = this.__getEventForProperty(sourceObject, sourceProperty);
@@ -148,6 +236,41 @@ qx.Class.define("qx.data.SingleValueBinding",
     },
       
       
+    /**
+     * The method binds a {@link qx.event.type.Data} event to a target property.
+     * This could be necessary for "properties" in the framework which 
+     * are no real properties but do fire an change event. The change event HAS 
+     * to be a data event!
+     * Remember that this binding is one way only!
+     * the common way of binding is to bind one property to another or a 
+     * property chain to another property. To do that, take the {@link #bind}
+     * method.
+     * 
+     * @param sourceObject {qx.core.Object} The source of the binding.
+     * @param sourceEvent {String} The event of the source object which chould 
+     *   be the change event in common but has to be an 
+     *   {@link qx.event.type.Data} event.
+     * @param targetObject {qx.core.Object} The object which the source should 
+     *   be bind to.
+     * @param targetProperty {String} The property name of the target object.
+     * @param options {Map} A map containing the options. 
+     *   <li>converter: A converter function which takes one parameter 
+     *       (the value) and should return the converted value. If no conversion
+     *       has been done, the given value should be returned.</li>
+     *   <li>onSetOk: A callback function can be given here. This method will be 
+     *       called if the set of the value was successful.</li>
+     *   <li>onSetFail: A callback function can be given here. This method will 
+     *       be called if the set of the value fails.</li>
+     * 
+     * @return {id} Returns the internal id for that binding. This can be used 
+     *   for referencing the binding or e.g. for removing. This is not an atomic 
+     *   id so you can't you use it as a hash-map index. It's the id which will
+     *   be returned b< the {@link qx.core.Object#addListener} method.
+     * 
+     * @throws {qx.core.AssertionError} If the event is no data event or 
+     *   there is no property definition for the target object and target 
+     *   property.
+     */
     bindEventToProperty : function(sourceObject, sourceEvent, targetObject, targetProperty, options) {
       var id = this.__bindEventToProperty(sourceObject, sourceEvent, targetObject, targetProperty, options);
       this.__storeBinding(id, sourceObject, sourceEvent, targetObject, targetProperty);
@@ -155,7 +278,34 @@ qx.Class.define("qx.data.SingleValueBinding",
     },
     
     
-    __bindEventToProperty : function(sourceObject, sourceEvent, targetObject, targetProperty, options) {      
+    /**
+     * Internal helper method which is actually doing all bindings. That means 
+     * that an event listener will be added to the source object which listens 
+     * to the given event and invokes an set on the target property on the 
+     * targetObject.
+     * This method does not store the binding in the internal reference store 
+     * so it should NOT be used from outside this class. For an outside usage, 
+     * use {@link #bindEventToProperty}.
+     *  
+     * @param sourceObject {qx.core.Object} The source of the binding.
+     * @param sourceEvent {String} The event of the source object which could 
+     *   be the change event in common but has to be an 
+     *   {@link qx.event.type.Data} event.
+     * @param targetObject {qx.core.Object} The object which the source should 
+     *   be bind to.
+     * @param targetProperty {String} The property name of the target object.
+     * @param options {Map} A map containing the options. See 
+     *   {@link #bindEventToProperty} for more information.
+     * 
+     * @return {id} Returns the internal id for that binding. This can be used 
+     *   for referencing the binding or e.g. for removing. This is not an atomic 
+     *   id so you can't you use it as a hash-map index. It's the id which will
+     *   be returned b< the {@link qx.core.Object#addListener} method.
+     * @throws {qx.core.AssertionError} If the event is no data event or 
+     *   there is no property definition for the target object and target 
+     *   property.
+     */
+    __bindEventToProperty : function(sourceObject, sourceEvent, targetObject, targetProperty, options) {
       // checks
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         // check for the data event
@@ -215,6 +365,17 @@ qx.Class.define("qx.data.SingleValueBinding",
     },
     
     
+    /**
+     * This method stores the given value as a binding in the internal structure
+     * of all bindings.
+     * 
+     * @param id {id} The listener id of the id for a deeper bingin.
+     * @param sourceObject {qx.core.Object} The source Object of the binding.
+     * @param sourceEvent {String} The name of the source event.
+     * @param targetObject {qx.core.Object} The target object.
+     * @param targetProperty {String} The name of the property on the target 
+     *   object.
+     */
     __storeBinding : function(id, sourceObject, sourceEvent, targetObject, targetProperty) {
       // add the listener id to the internal registry
       if (this.__bindings[sourceObject.toHashCode()] === undefined) {
@@ -224,6 +385,24 @@ qx.Class.define("qx.data.SingleValueBinding",
     },
                
  
+    /**
+     * This method takes the given value, checks if the user has given a 
+     * converter and converts the value to its target type. If no converter is 
+     * given by the user, the {@link #__defaultConvertion} will try to convert
+     * the value.
+     * 
+     * @param value {var} The value which possibly should be converted.
+     * @param targetObject {qx.core.Object} The target object.
+     * @param targetProperty {String} The property name of the target object.
+     * @param options {Map} The options map which can includes the converter.
+     *   For a detailed information on the map, take a look at 
+     *   {@link #bindEventToProperty}.
+     * 
+     * @return {var} The converted value. If no conversion has been done, the
+     *   value property will be returned.
+     * @throws {qx.core.AssertionError} If there is no property definition
+     *   of the given target object and target property.
+     */
     __convertValue : function(value, targetObject, targetProperty, options) {
       // do the conversion given by the user
       if (options && options.converter) {
@@ -240,6 +419,18 @@ qx.Class.define("qx.data.SingleValueBinding",
       }   
     },
 
+
+    /**
+     * Helper method which tries to figure out if the given property on the 
+     * given object does have a change event and if returns the name of it.
+     * 
+     * @param sourceObject {qx.core.Object} The object to check.
+     * @param sourceProperty {String} The name of the property.
+     * 
+     * @return {String} The name of the change event. 
+     * @throws {qx.core.AssertionError} If there is no property definition of
+     *   the given object property pair.
+     */
     __getEventForProperty : function(sourceObject, sourceProperty) {
       // get the event name
       var propertieDefinition =  qx.Class.getPropertyDefinition(sourceObject.constructor, sourceProperty);
@@ -253,7 +444,14 @@ qx.Class.define("qx.data.SingleValueBinding",
       return propertieDefinition.event;
     }, 
  
-      
+ 
+    /**
+     * Tries to convert the data to the type given in the targetCheck argument.
+     * 
+     * @param data {var} The data to convert.
+     * @param targetCheck {String} The value of the check property. That usually
+     *   contains the target type.
+     */
     __defaultConvertion : function(data, targetCheck) {
       var dataType = typeof data;
           
@@ -278,6 +476,14 @@ qx.Class.define("qx.data.SingleValueBinding",
     },
       
       
+    /**
+     * Removes the binding with the given id from the given sourceObject. The 
+     * id hast to be the id returned by any of the bind functions.
+     * 
+     * @param sourceObject {qx.core.Object} The source object of the binding.
+     * @param id {id} The id of the binding.
+     * @throws {Error} If the binding could not be found.
+     */
     removeBindingFromObject : function(sourceObject, id) {
       // check for a deep binding
       if (id.type == "deepBinding") {
@@ -308,6 +514,16 @@ qx.Class.define("qx.data.SingleValueBinding",
     },
       
       
+    /**
+     * Removes all bindings for the given object.
+     * 
+     * @param object {qx.core.Object} The object of which the bindings should be
+     *   removed.
+     * @throws {qx.core.AssertionErrro} If the object is not in the internal 
+     *   registry of the bindings.
+     * @throws {Error} If one of the bindings listed internally can not be 
+     *   removed.
+     */
     removeAllBindingsForObject : function(object) {
       // check for the null value
       
@@ -325,6 +541,13 @@ qx.Class.define("qx.data.SingleValueBinding",
     },
 
     
+    /**
+     * Returns an array which lists all bindings. 
+     * 
+     * @return {Array} An array of binding informations. Every binding 
+     *   information is an array itself containing id, sourceObject, sourceEvent,
+     *   targetObject and targetProperty in that order.
+     */
     getAllBindingsForObject : function(object) {
       // create an empty array if no binding exists
       if (this.__bindings[object.toHashCode()] === undefined) {
@@ -335,6 +558,10 @@ qx.Class.define("qx.data.SingleValueBinding",
     },
     
     
+    /**
+     * Removes all binding in the whole application. After that not a single
+     * binding is left.
+     */
     removeAllBindings : function() {
       // go threw all registerd objects
       for (var hash in this.__bindings) {
@@ -346,11 +573,26 @@ qx.Class.define("qx.data.SingleValueBinding",
     },
     
     
+    /**
+     * Returns a map containing for every bound object an array of data binding 
+     * information. The key of the map is the hashcode of the bound objects.
+     * Every binding is represented by an array containing id, sourceObject, 
+     * sourceEvent, targetObject and targetProperty.
+     * 
+     * @return {Map} Map containing all bindings.
+     */
     getAllBindings : function() {
       return this.__bindings;
     },
 
-      
+
+    /**
+     * Debug function which shows some valuable information about the given 
+     * binding in console. For that it uses {@link qx.log.Logger}.
+     * 
+     * @param object {x.core.Object} the source of the binding.
+     * @param id {id} The id of the binding.
+     */
     showBindingInLog : function(object, id) {
       var binding;
       // go threw all bindings of the given object
@@ -373,6 +615,10 @@ qx.Class.define("qx.data.SingleValueBinding",
     },
     
     
+    /**
+     * Debug function which shows all bindings in the log console. To get only 
+     * one binding in the console use {@link #showBindingInLog}
+     */
     showAllBindingsInLog : function() {
       // go threw all objects in the registry
       for (var hash in this.__bindings) {
@@ -381,8 +627,7 @@ qx.Class.define("qx.data.SingleValueBinding",
           this.showBindingInLog(object, this.__bindings[hash][i][0]);
         }
       }
-    }    
-      
+    }
     
   }
 });
