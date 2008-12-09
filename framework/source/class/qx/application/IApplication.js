@@ -46,7 +46,6 @@ qx.Interface.define("qx.application.IApplication",
      * he really wants to leave the page. The return string will be displayed in
      * the message box.
      *
-     * @type member
      * @return {String?null} message text on unloading the page
      */
     close : function() {},

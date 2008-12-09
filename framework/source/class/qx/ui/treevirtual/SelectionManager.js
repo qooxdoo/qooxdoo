@@ -84,7 +84,6 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
      * Handles a key down event that moved the focus (E.g. up, down, home,
      *  end, ...).
      *
-     * @type member
      * @param index {Integer} the index that is currently focused.
      * @param evt {Map} the key event.
      * @return {void}
@@ -119,7 +118,6 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
      * "openCloseClickSelectsRow" property so indicates, call our superclass to
      * handle the actual row selection.
      *
-     * @type member
      * @param index {Integer} the index the event is pointing at.
      * @param evt {Map} the mouse event.
      * @return {void}
