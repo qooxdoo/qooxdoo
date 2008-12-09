@@ -489,8 +489,10 @@ class Config:
             else:
                 jobObj = self.getJob(job)
                 if jobObj.hasFeature('library'):
-                    newlib = jobObj.getFeature('library')
-                    for lib in newlib:
+                    newlib = []
+                    seen   = []
+                    oldlib = jobObj.getFeature('library')
+                    for lib in oldlib:
                         # handle downloads
                         manifest = lib['manifest']
                         manidir = os.path.dirname(manifest)
@@ -506,7 +508,7 @@ class Config:
                                 contribCachePath = self.absPath(contribCachePath)
                             else:
                                 contribCachePath = "cache-downloads"
-                            self._download_contrib(newlib, contrib, contribCachePath)
+                            self._download_contrib(oldlib, contrib, contribCachePath)
                             manifest = os.path.join(contribCachePath, contrib, manifile)
                             lib['manifest'] = manifest  # patch 'manifest' entry to download path
                         else:  # patch the path which is local to the current config
@@ -519,6 +521,12 @@ class Config:
                         for entry in ('path',):
                             lib[entry] = self.absPath(lib[entry])
                         # retain uri setting here
+                        # add to newlib
+                        if lib['namespace'] not in seen:  # enforce uniqueness
+                            seen.append(lib['namespace'])
+                            newlib.append(lib)
+
+                    jobObj.setFeature('library', newlib)
 
         console.outdent()
 
