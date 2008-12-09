@@ -164,7 +164,7 @@ qx.Class.define("qx.bom.element.Background",
 
     /**
      *
-     * @param {Object} url
+     * @param url {Object} The image URL
      */
     __checkImageUrl : qx.core.Variant.select("qx.client",
     {
