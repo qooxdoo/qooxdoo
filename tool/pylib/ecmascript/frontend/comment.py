@@ -645,10 +645,11 @@ def fromFunction(func, assignType, name, alternative, old=[]):
     #
     # add @type
     ##############################################################
-    if assignType != None:
-        s += " * @type %s\n" % assignType
-    else:
-        s += " * @type unknown TODOC\n"
+# TODO: Remove the @type annotation as it conflicts with JSdoc
+#    if assignType != None:
+#        s += " * @type %s\n" % assignType
+#    else:
+#        s += " * @type unknown TODOC\n"
 
 
 
