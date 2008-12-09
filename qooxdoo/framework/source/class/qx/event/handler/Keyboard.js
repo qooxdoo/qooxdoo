@@ -390,7 +390,9 @@ qx.Class.define("qx.event.handler.Keyboard",
         // "keypress" event in Firefox but as it fires keydown events we
         // emulate these keypress events
         // https://bugzilla.mozilla.org/show_bug.cgi?id=467513
-        if (type === "keydown" && (keyCode == 38 || keyCode == 40))
+        if (
+          type === "keydown" &&
+          (keyCode == 33 || keyCode == 34 || keyCode == 38 || keyCode == 40))
         {
           var target = domEvent.target;
           if (target.nodeType == 1 && target.type == "text" && target.tagName.toLowerCase() === "input") {
