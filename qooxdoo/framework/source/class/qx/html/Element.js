@@ -97,11 +97,7 @@ qx.Class.define("qx.html.Element",
 
 
     /** {Map} Map of post actions for elements. The key is the action name. The value the {@link qx.html.Element}. */
-    _actions : {},
-
-
-    /** {Array} A list of all supported (post) actions */
-    _supportedActions : [ "activate", "focus", "capture" ],
+    _actions : [],
 
 
 
@@ -338,25 +334,14 @@ qx.Class.define("qx.html.Element",
 
 
       // Process action list
-      var post = this._actions;
-      var actions = this._supportedActions;
-      var action, element;
-
-      for (var i=0, l=actions.length; i<l; i++)
+      for (var i=0; i<this._actions.length; i++)
       {
-        action = actions[i];
-
-        if (post[action])
-        {
-          element = post[action].__element;
-
-          if (element) {
-            qx.bom.Element[action](element);
-          }
-
-          delete post[action];
-        }
+        var action = this._actions[i];
+        var element = action.element.__element;
+        
+        qx.bom.Element[action.type](element);
       }
+      this._actions = [];
 
 
 
@@ -1864,6 +1849,28 @@ qx.Class.define("qx.html.Element",
     */
 
     /**
+     * Takes the action to process as argument and queues this action if the
+     * underlying DOM element is not yet created.
+     * 
+     * @param action {String} action to queue
+     * @return {void}
+     */
+    __performAction : function(action)
+    {
+      var el = this.__element;
+      if (el) {
+        return qx.bom.Element[action](el);
+      }
+      
+      qx.html.Element._actions.push({
+        type: action,
+        element: this
+      });
+      qx.html.Element._scheduleFlush("element");      
+    },
+    
+    
+    /**
      * Focus this element.
      *
      * If the underlaying DOM element is not yet created, the
@@ -1873,13 +1880,7 @@ qx.Class.define("qx.html.Element",
      */
     focus : function()
     {
-      var el = this.__element;
-      if (el) {
-        return qx.bom.Element.focus(el);
-      }
-
-      qx.html.Element._actions.focus = this;
-      qx.html.Element._scheduleFlush("element");
+      this.__performAction("focus");
     },
 
 
@@ -1890,10 +1891,7 @@ qx.Class.define("qx.html.Element",
      */
     blur : function()
     {
-      var el = this.__element;
-      if (el) {
-        qx.bom.Element.blur(el);
-      }
+      this.__performAction("blur");
     },
 
 
@@ -1904,13 +1902,7 @@ qx.Class.define("qx.html.Element",
      */
     activate : function()
     {
-      var el = this.__element;
-      if (el) {
-        return qx.bom.Element.activate(el);
-      }
-
-      qx.html.Element._actions.activate = this;
-      qx.html.Element._scheduleFlush("element");
+      this.__performAction("activate");
     },
 
 
@@ -1921,10 +1913,7 @@ qx.Class.define("qx.html.Element",
      */
     deactivate : function()
     {
-      var el = this.__element;
-      if (el) {
-        qx.bom.Element.deactivate(el);
-      }
+      this.__performAction("deactivate");
     },
 
 
@@ -1933,13 +1922,7 @@ qx.Class.define("qx.html.Element",
      */
     capture : function()
     {
-      var el = this.__element;
-      if (el) {
-        return qx.bom.Element.capture(el);
-      }
-
-      qx.html.Element._actions.capture = this;
-      qx.html.Element._scheduleFlush("element");
+      this.__performAction("capture");
     },
 
 
@@ -1948,10 +1931,7 @@ qx.Class.define("qx.html.Element",
      */
     releaseCapture : function()
     {
-      var el = this.__element;
-      if (el) {
-        qx.bom.Element.releaseCapture(el);
-      }
+      this.__performAction("releaseCapture");
     },
 
 
