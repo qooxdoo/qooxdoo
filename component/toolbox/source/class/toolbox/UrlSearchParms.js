@@ -53,7 +53,6 @@ qx.Class.define("toolbox.UrlSearchParms",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getParms : function() {

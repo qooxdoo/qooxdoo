@@ -67,7 +67,6 @@ qx.Class.define("toolbox.JsonAnalyzer",
     /**
      * TODOC
      *
-     * @type member
      * @param incoming {var} TODOC
      * @param parent {var} TODOC
      * @return {var} TODOC
@@ -82,7 +81,6 @@ qx.Class.define("toolbox.JsonAnalyzer",
     /**
      * TODOC
      *
-     * @type member
      * @param incoming {var} TODOC
      * @param parent {var} TODOC
      * @return {var} TODOC
@@ -98,7 +96,6 @@ qx.Class.define("toolbox.JsonAnalyzer",
     /**
      * TODOC
      *
-     * @type member
      * @param incoming {var} TODOC
      * @param parent {var} TODOC
      * @return {var} TODOC
@@ -130,7 +127,6 @@ qx.Class.define("toolbox.JsonAnalyzer",
     /**
      * TODOC
      *
-     * @type member
      * @param incoming {var} TODOC
      * @param parent {var} TODOC
      * @return {void} 
@@ -164,7 +160,6 @@ qx.Class.define("toolbox.JsonAnalyzer",
     /**
      * TODOC
      *
-     * @type member
      * @param a {Array} TODOC
      * @param b {var} TODOC
      * @return {var} TODOC
@@ -185,7 +180,6 @@ qx.Class.define("toolbox.JsonAnalyzer",
     /**
      * TODOC
      *
-     * @type member
      * @param incoming {var} TODOC
      * @param parent {var} TODOC
      * @return {void} 
@@ -218,7 +212,6 @@ qx.Class.define("toolbox.JsonAnalyzer",
     /**
      * TODOC
      *
-     * @type member
      * @param incoming {var} TODOC
      * @param parent {var} TODOC
      * @return {var} TODOC
@@ -234,7 +227,6 @@ qx.Class.define("toolbox.JsonAnalyzer",
     /**
      * Converts the incoming value from Map to String.
      *
-     * @type member
      * @param incoming {Map} The incoming value
      * @param parent {var} TODOC
      * @return {String} value converted to a JSON string
@@ -268,7 +260,6 @@ qx.Class.define("toolbox.JsonAnalyzer",
     /**
      * TODOC
      *
-     * @type member
      * @return {void} 
      */
     removeAllTreeItems : function()
@@ -282,7 +273,6 @@ qx.Class.define("toolbox.JsonAnalyzer",
     /**
      * TODOC
      *
-     * @type member
      * @param obj {Object} TODOC
      * @return {var} TODOC
      */
@@ -308,7 +298,6 @@ qx.Class.define("toolbox.JsonAnalyzer",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getTreeGroup : function()
@@ -321,7 +310,6 @@ qx.Class.define("toolbox.JsonAnalyzer",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getTree : function()
@@ -334,7 +322,6 @@ qx.Class.define("toolbox.JsonAnalyzer",
     /**
      * TODOC
      *
-     * @type member
      * @param tree {var} TODOC
      * @return {void} 
      */
@@ -409,7 +396,6 @@ qx.Class.define("toolbox.JsonAnalyzer",
     /**
      * TODOC
      *
-     * @type member
      * @param tree {var} TODOC
      * @return {void} 
      */
@@ -463,7 +449,6 @@ qx.Class.define("toolbox.JsonAnalyzer",
     /**
      * TODOC
      *
-     * @type member
      * @param tree {var} TODOC
      * @return {var} TODOC
      */
@@ -563,7 +548,6 @@ qx.Class.define("toolbox.JsonAnalyzer",
     /**
      * TODOC
      *
-     * @type member
      * @param state {var} TODOC
      * @return {void} 
      */
@@ -578,7 +562,6 @@ qx.Class.define("toolbox.JsonAnalyzer",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     __getContextMenu : function()
@@ -600,7 +583,6 @@ qx.Class.define("toolbox.JsonAnalyzer",
     /**
      * TODOC
      *
-     * @type member
      * @return {void} 
      */
     createChildWindow : function()
@@ -927,7 +909,6 @@ qx.Class.define("toolbox.JsonAnalyzer",
     /**
      * TODOC
      *
-     * @type member
      * @return {void} 
      */
     __addChild : function()
@@ -1025,7 +1006,6 @@ qx.Class.define("toolbox.JsonAnalyzer",
     /**
      * TODOC
      *
-     * @type member
      * @return {void} 
      */
     resetAddChildDialog : function()
@@ -1052,7 +1032,6 @@ qx.Class.define("toolbox.JsonAnalyzer",
     /**
      * TODOC
      *
-     * @type member
      * @return {void} 
      */
     __addChildWindowClose : function()
@@ -1065,7 +1044,6 @@ qx.Class.define("toolbox.JsonAnalyzer",
     /**
      * TODOC
      *
-     * @type member
      * @return {void} 
      */
     __addChildWindow : function()
@@ -1092,7 +1070,6 @@ qx.Class.define("toolbox.JsonAnalyzer",
     /**
      * TODOC
      *
-     * @type member
      * @return {void} 
      */
     __removeChild : function()
@@ -1141,7 +1118,6 @@ qx.Class.define("toolbox.JsonAnalyzer",
     /**
      * TODOC
      *
-     * @type member
      * @return {void} 
      */
     __editChild : function()

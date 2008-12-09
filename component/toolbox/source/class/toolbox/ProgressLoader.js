@@ -58,7 +58,6 @@ qx.Class.define("toolbox.ProgressLoader",
     /**
      * TODOC
      *
-     * @type member
      * @param icon {var} TODOC
      * @return {void} 
      */
@@ -97,7 +96,6 @@ qx.Class.define("toolbox.ProgressLoader",
     /**
      * TODOC
      *
-     * @type member
      * @return {void} 
      */
     unblock : function() {
@@ -108,7 +106,6 @@ qx.Class.define("toolbox.ProgressLoader",
     /**
      * TODOC
      *
-     * @type member
      * @return {void} 
      */
     hideLoader : function() {

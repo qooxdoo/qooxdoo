@@ -45,7 +45,6 @@ qx.Class.define("toolbox.Application",
     /**
      * TODOC
      *
-     * @type member
      * @return {void} 
      */
     main : function()

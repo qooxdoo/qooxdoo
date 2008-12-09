@@ -637,7 +637,6 @@ qx.Class.define("demobrowser.demo.showcase.CalculatorLogic",
     /**
      * returns the counter to regulate the decimal place.
      *
-     * @type member
      * @return __zeroCounter {var} a counter
      */
     getZeroCounter : function() {
@@ -648,7 +647,6 @@ qx.Class.define("demobrowser.demo.showcase.CalculatorLogic",
     /**
      * sets a comma.
      *
-     * @type member
      * @return {void}
      */
     setComma : function() {
@@ -659,7 +657,6 @@ qx.Class.define("demobrowser.demo.showcase.CalculatorLogic",
     /**
      * returns the pressed number.
      *
-     * @type member
      * @return __currentValue is the pressed value
      */
     getCurrentValue : function() {
@@ -712,7 +709,6 @@ qx.Class.define("demobrowser.demo.showcase.CalculatorLogic",
     /**
      * returns the calculated result.
      *
-     * @type member
      * @return __result {var} calculated result.
      */
     getResult : function() {
@@ -734,7 +730,6 @@ qx.Class.define("demobrowser.demo.showcase.CalculatorLogic",
     /**
      * returns the recent pressed operator.
      *
-     * @type member
      * @return __currentOperation {var} recent operator
      */
     getCurrentOperation : function() {
@@ -771,7 +766,6 @@ qx.Class.define("demobrowser.demo.showcase.CalculatorLogic",
     /**
      * sets the sign from plus to minus or the other way round.
      *
-     * @type member
      * @return {void}
      */
     setSign : function()
@@ -804,7 +798,6 @@ qx.Class.define("demobrowser.demo.showcase.CalculatorLogic",
     /**
      * deletes the last pressed number.
      *
-     * @type member
      * @return {void}
      */
     deleteNumber : function()
@@ -850,7 +843,6 @@ qx.Class.define("demobrowser.demo.showcase.CalculatorLogic",
     /**
      * computes the given numbers with the desired operation.
      *
-     * @type member
      * @param currentOperation {var} desired operation to compute
      * @return {void}
      */
