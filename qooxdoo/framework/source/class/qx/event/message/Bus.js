@@ -34,7 +34,6 @@ qx.Class.define("qx.event.message.Bus",
     /**
      * gets the hash map of message subscriptions
      *
-     * @type static
      * @return {Object} TODOC
      */
     getSubscriptions : function() {
@@ -45,7 +44,6 @@ qx.Class.define("qx.event.message.Bus",
     /**
      * subscribes to a message
      *
-     * @type static
      * @param message {String} name of message, can be truncated by *
      * @param subscriber {Function} subscribing callback function
      * @param context {Object} The execution context of the callback (i.e. "this")
@@ -62,7 +60,6 @@ qx.Class.define("qx.event.message.Bus",
      * if you supply the callback function, match only the exact message monitor
      * otherwise match all monitors that have the given message
      *
-     * @type static
      * @param message {String} Name of message, can be truncated by *
      * @param subscriber {Function} Callback Function
      * @param context {Object} execution context
@@ -79,7 +76,6 @@ qx.Class.define("qx.event.message.Bus",
      * remove only this exact subscription
      * otherwise remove all subscriptions
      *
-     * @type static
      * @param message {String} Name of message, can be truncated by *
      * @param subscriber {Function} Callback Function
      * @param context {Object} execution context
@@ -93,7 +89,6 @@ qx.Class.define("qx.event.message.Bus",
     /**
      * dispatch message and call subscribed functions
      *
-     * @type static
      * @param msg {qx.messagebus.Message|String} message which is being dispatched
      * @return {boolean} TODOC
      */

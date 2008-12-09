@@ -400,7 +400,6 @@ qx.Class.define("qx.ui.form.ComboBox",
      * The formatter removes all HTML tags and converts all HTML entities
      * to string characters when the rich property is <code>true</code>.
      *  
-     * @type member
      * @param item {ListItem} The list item to format.
      * @return {String} The formatted text.
      */
