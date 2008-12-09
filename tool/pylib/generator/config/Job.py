@@ -32,6 +32,7 @@ class Job(object):
     EXTEND_KEY   = "extend"
     RUN_KEY      = "run"
     LET_KEY      = "let"
+    LIBRARY_KEY  = "library"
     RESOLVED_KEY = "resolved"
     OVERRIDE_KEY = "__override__"
     OVERRIDE_TAG = "="    # tag for key names, to protect on merging
@@ -405,6 +406,11 @@ class Job(object):
                 elif key == self.LET_KEY:
                     target[key] = self.mapMerge(source[key], target[key])
 
+                # treat "library" specially (must come before ListType check)
+                # i can enforce a uniquness feature here, by looking at the entry's 'name' attr
+                elif key == self.LIBRARY_KEY:
+                    target[key] = self.libraryMerge(source[key], target[key])
+
                 # merge arrays rather than shadowing
                 elif isinstance(source[key], types.ListType):
                     # equality problem: in two arbitrary lists, i have no way of telling 
@@ -412,7 +418,7 @@ class Job(object):
                     # same library), and i can't do recursive search here, with some 
                     # similarity reasoning, can i. therefore: non-equal elements are just
                     # considered unrelated.
-                    target[key] = self.listMerge(source[key],target[key])  # why prepend?!
+                    target[key] = self.listMerge(source[key],target[key])
                 
                 # merge dicts rather than shadowing
                 elif isinstance(source[key], types.DictType):
@@ -445,6 +451,17 @@ class Job(object):
             if not e in target:
                 t.append(e)
         return target + t
+
+
+    def libraryMerge(self, source, target):
+        '''merge library lists enforcing uniqueness by looking at 'name' attribute'''
+        t = []
+        tLibNames = [x['namespace'] for x in target]
+        for e in source:
+            if not e['namespace'] in tLibNames:
+                t.append(e)
+        return target + t
+
 
 
 # -- a helper class to represent delayed merge values --------------------------
