@@ -406,11 +406,6 @@ class Job(object):
                 elif key == self.LET_KEY:
                     target[key] = self.mapMerge(source[key], target[key])
 
-                # treat "library" specially (must come before ListType check)
-                # i can enforce a uniquness feature here, by looking at the entry's 'name' attr
-                elif key == self.LIBRARY_KEY:
-                    target[key] = self.libraryMerge(source[key], target[key])
-
                 # merge arrays rather than shadowing
                 elif isinstance(source[key], types.ListType):
                     # equality problem: in two arbitrary lists, i have no way of telling 
@@ -449,16 +444,6 @@ class Job(object):
         t = []
         for e in source:
             if not e in target:
-                t.append(e)
-        return target + t
-
-
-    def libraryMerge(self, source, target):
-        '''merge library lists enforcing uniqueness by looking at 'name' attribute'''
-        t = []
-        tLibNames = [x['namespace'] for x in target]
-        for e in source:
-            if not e['namespace'] in tLibNames:
                 t.append(e)
         return target + t
 
