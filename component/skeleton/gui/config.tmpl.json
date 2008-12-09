@@ -20,6 +20,7 @@
     "pretty",
     "profiling",
     "source",
+    "source-full",
     "test",
     "test-source",
     "translation"

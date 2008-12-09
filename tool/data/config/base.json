@@ -115,6 +115,32 @@
 
       "extend" : ["common"],
 
+      "compile-source" :
+      {
+        "file" : "${ROOT}/source/script/${APPLICATION}.js",
+        "locales" : "${LOCALES}",
+        "root" : "source"
+      }
+    },
+
+
+    "source" :
+    {
+      "desc"    : "create source version of current application",
+
+      "run" :
+      [
+        "source-script"
+      ]
+    },
+
+
+    "source-full-script" :
+    {
+      "desc"    : "create includer script of current application",
+
+      "extend" : ["common"],
+
       // include all (relevant) sources
       "include" :     
       [
@@ -138,13 +164,13 @@
     },
 
 
-    "source" :
+    "source-full" :
     {
-      "desc"    : "create source version of current application",
+      "desc"    : "create source version of current application, with all classes",
 
       "run" :
       [
-        "source-script"
+        "source-full-script"
       ]
     },
 
