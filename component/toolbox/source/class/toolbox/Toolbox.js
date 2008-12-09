@@ -132,7 +132,6 @@ qx.Class.define("toolbox.Toolbox",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     __makeToolbar : function()
@@ -210,7 +209,6 @@ qx.Class.define("toolbox.Toolbox",
     /**
      * TODOC
      *
-     * @type member
      * @return {void} 
      */
     __assignListener : function()
@@ -230,7 +228,6 @@ qx.Class.define("toolbox.Toolbox",
     /**
      * TODOC
      *
-     * @type member
      * @return {void} 
      */
     __createApplicationWindow : function()
@@ -531,7 +528,6 @@ qx.Class.define("toolbox.Toolbox",
     /**
      * TODOC
      *
-     * @type member
      * @return {void} 
      */
     __showLogTextField : function()
@@ -556,7 +552,6 @@ qx.Class.define("toolbox.Toolbox",
     /**
      * TODOC
      *
-     * @type member
      * @return {void} 
      */
     __checkInput : function()
@@ -590,7 +585,6 @@ qx.Class.define("toolbox.Toolbox",
     /**
      * TODOC
      *
-     * @type member
      * @return {void} 
      */
     __checkNamespace : function()
@@ -614,7 +608,6 @@ qx.Class.define("toolbox.Toolbox",
     /**
      * TODOC
      *
-     * @type member
      * @return {void} 
      */
     __copyContent : function()
@@ -626,7 +619,6 @@ qx.Class.define("toolbox.Toolbox",
     /**
      * TODOC
      *
-     * @type member
      * @return {void} 
      */
     __createNewApplication : function()
@@ -648,7 +640,6 @@ qx.Class.define("toolbox.Toolbox",
     /**
      * TODOC
      *
-     * @type member
      * @return {void} 
      */
     __generateApplication : function()
@@ -662,7 +653,6 @@ qx.Class.define("toolbox.Toolbox",
     /**
      * TODOC
      *
-     * @type member
      * @return {void} 
      */
     __generateBuild : function()
@@ -675,7 +665,6 @@ qx.Class.define("toolbox.Toolbox",
     /**
      * TODOC
      *
-     * @type member
      * @return {void} 
      */
     __generateApi : function()
@@ -688,7 +677,6 @@ qx.Class.define("toolbox.Toolbox",
     /**
      * TODOC
      *
-     * @type member
      * @return {void} 
      */
     __makePretty : function()
@@ -701,7 +689,6 @@ qx.Class.define("toolbox.Toolbox",
     /**
      * TODOC
      *
-     * @type member
      * @return {void} 
      */
     __openConfiguration : function()
@@ -714,7 +701,6 @@ qx.Class.define("toolbox.Toolbox",
     /**
      * TODOC
      *
-     * @type member
      * @return {void} 
      */
     __validateCode : function()
@@ -727,7 +713,6 @@ qx.Class.define("toolbox.Toolbox",
     /**
      * TODOC
      *
-     * @type member
      * @return {void} 
      */
     __abortProcess : function()
@@ -740,7 +725,6 @@ qx.Class.define("toolbox.Toolbox",
     /**
      * TODOC
      *
-     * @type member
      * @return {void} 
      */
     __testSource : function()
@@ -754,7 +738,6 @@ qx.Class.define("toolbox.Toolbox",
     /**
      * TODOC
      *
-     * @type member
      * @return {void} 
      */
     __testApplication : function() {
@@ -765,7 +748,6 @@ qx.Class.define("toolbox.Toolbox",
     /**
      * TODOC
      *
-     * @type member
      * @return {void} 
      */
     __abortNewApplication : function()
@@ -785,7 +767,6 @@ qx.Class.define("toolbox.Toolbox",
     /**
      * TODOC
      *
-     * @type member
      * @param type {var} TODOC
      * @return {void} 
      */
@@ -797,7 +778,6 @@ qx.Class.define("toolbox.Toolbox",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     __getCurrentType : function() {
@@ -808,7 +788,6 @@ qx.Class.define("toolbox.Toolbox",
     /**
      * TODOC
      *
-     * @type member
      * @param name {var} TODOC
      * @return {void} 
      */
@@ -820,7 +799,6 @@ qx.Class.define("toolbox.Toolbox",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     __getCurrentFileName : function() {
@@ -831,7 +809,6 @@ qx.Class.define("toolbox.Toolbox",
     /**
      * TODOC
      *
-     * @type member
      * @param path {var} TODOC
      * @return {void} 
      */
@@ -843,7 +820,6 @@ qx.Class.define("toolbox.Toolbox",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     __getCurrentFilePath : function() {
@@ -854,7 +830,6 @@ qx.Class.define("toolbox.Toolbox",
     /**
      * TODOC
      *
-     * @type member
      * @param nameSpace {var} TODOC
      * @return {void} 
      */
@@ -867,7 +842,6 @@ qx.Class.define("toolbox.Toolbox",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     __getCurrentNamespace : function() {
@@ -878,7 +852,6 @@ qx.Class.define("toolbox.Toolbox",
     /**
      * TODOC
      *
-     * @type member
      * @param logName {var} TODOC
      * @return {void} 
      */
@@ -890,7 +863,6 @@ qx.Class.define("toolbox.Toolbox",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     __getCurrentLogName : function() {
@@ -901,7 +873,6 @@ qx.Class.define("toolbox.Toolbox",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     __makeOutputViews : function()
@@ -988,7 +959,6 @@ qx.Class.define("toolbox.Toolbox",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     __makeLeft : function()
@@ -1020,7 +990,6 @@ qx.Class.define("toolbox.Toolbox",
     /**
      * Creates the application header.
      *
-     * @type member
      * @return {var} TODOC
      */
     __createHeader : function()
@@ -1043,7 +1012,6 @@ qx.Class.define("toolbox.Toolbox",
     /**
      * Statusbalken, unten...
      *
-     * @type member
      * @return {var} TODOC
      */
     __makeStatus : function()

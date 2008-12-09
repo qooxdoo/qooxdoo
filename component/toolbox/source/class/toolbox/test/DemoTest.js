@@ -35,7 +35,6 @@ qx.Class.define("toolbox.test.DemoTest",
     /**
      * Here are some simple tests
      *
-     * @type member
      * @return {void} 
      */
     testSimple : function()
@@ -48,7 +47,6 @@ qx.Class.define("toolbox.test.DemoTest",
     /**
      * Here are some more advanced tests
      *
-     * @type member
      * @return {void} 
      */
     testAdvanced : function()

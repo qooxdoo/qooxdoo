@@ -61,7 +61,6 @@ qx.Class.define("toolbox.Configuration",
     /**
      * TODOC
      *
-     * @type member
      * @param adminPath {var} TODOC
      * @param fileName {var} TODOC
      * @param filePath {var} TODOC
@@ -280,7 +279,6 @@ qx.Class.define("toolbox.Configuration",
     /**
      * TODOC
      *
-     * @type member
      * @return {void} 
      */
     openSaveDialog : function()
@@ -325,7 +323,6 @@ qx.Class.define("toolbox.Configuration",
     /**
      * TODOC
      *
-     * @type member
      * @return {void} 
      */
     destruct : function()
