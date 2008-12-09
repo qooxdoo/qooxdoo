@@ -37,7 +37,7 @@ qx.Class.define("qx.bom.Selection",
      * Returns the native selection object.
      *
      * @signature documentNode {document} Document node to retrieve the connected selection
-     * @param {Object} documentNode
+     * @param documentNode {Object} The document node
      * @return {Selection} native selection object
      */
     getSelectionObject : qx.core.Variant.select("qx.client",
