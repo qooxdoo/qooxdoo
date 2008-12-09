@@ -59,7 +59,6 @@ qx.Class.define("toolbox.TestSource",
     /**
      * TODOC
      *
-     * @type member
      * @param adminPath {var} TODOC
      * @param fileName {var} TODOC
      * @param filePath {var} TODOC

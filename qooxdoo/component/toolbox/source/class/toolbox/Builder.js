@@ -38,7 +38,6 @@ qx.Class.define("toolbox.Builder",
     /**
      * TODOC
      *
-     * @type static
      * @param adminPath {var} TODOC
      * @param fileName {var} TODOC
      * @param filePath {var} TODOC
@@ -203,7 +202,6 @@ qx.Class.define("toolbox.Builder",
     /**
      * TODOC
      *
-     * @type static
      * @param adminPath {var} TODOC
      * @param fileName {var} TODOC
      * @param filePath {var} TODOC
@@ -305,7 +303,6 @@ qx.Class.define("toolbox.Builder",
     /**
      * TODOC
      *
-     * @type static
      * @param adminPath {var} TODOC
      * @param fileName {var} TODOC
      * @param filePath {var} TODOC
@@ -396,7 +393,6 @@ qx.Class.define("toolbox.Builder",
     /**
      * TODOC
      *
-     * @type static
      * @param adminPath {var} TODOC
      * @param fileName {var} TODOC
      * @param filePath {var} TODOC
@@ -481,7 +477,6 @@ qx.Class.define("toolbox.Builder",
     /**
      * TODOC
      *
-     * @type static
      * @param adminPath {var} TODOC
      * @param fileName {var} TODOC
      * @param filePath {var} TODOC
@@ -558,7 +553,6 @@ qx.Class.define("toolbox.Builder",
     /**
      * TODOC
      *
-     * @type static
      * @param adminPath {var} TODOC
      * @param fileName {var} TODOC
      * @param filePath {var} TODOC
@@ -647,7 +641,6 @@ qx.Class.define("toolbox.Builder",
     /**
      * TODOC
      *
-     * @type static
      * @param adminPath {var} TODOC
      * @param fileName {var} TODOC
      * @param filePath {var} TODOC
@@ -732,7 +725,6 @@ qx.Class.define("toolbox.Builder",
     /**
      * TODOC
      *
-     * @type static
      * @param adminPath {var} TODOC
      * @param fileName {var} TODOC
      * @param filePath {var} TODOC
