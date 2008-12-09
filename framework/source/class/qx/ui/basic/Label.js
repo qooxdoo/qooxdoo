@@ -162,8 +162,14 @@ qx.Class.define("qx.ui.basic.Label",
     {
       refine : true,
       init : false
+    },
+    
+    // overridden
+    allowShrinkY :
+    {
+      refine : true,
+      init : false
     }
-
   },
 
 
