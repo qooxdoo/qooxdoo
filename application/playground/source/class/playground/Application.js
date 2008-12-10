@@ -136,12 +136,15 @@ qx.Class.define("playground.Application",
       });
 
       this.__runApplication(this.__playRoot);
-      this.__resetApplication();
+      this.__clearSource();
       this.__openApiViewer();
       this.__openHelpDialog();
       this.__openLog();
 
       this.textarea.setValue(this.sampleContainer["Hello World"]);
+      
+      //this.textarea.setHtml(this.sampleContainer["Hello World"]);
+      
       this.updatePlayground(this.__playRoot);
     },
 
@@ -204,6 +207,8 @@ qx.Class.define("playground.Application",
       container.add(caption);
 
       this.textarea = new qx.ui.form.TextArea;
+      //this.textarea = new qx.ui.embed.Html('');
+
 
       this.textarea.set(
       {
@@ -211,9 +216,52 @@ qx.Class.define("playground.Application",
         font      : "monospace",
         decorator : null
       });
-
+     
+/*
+      this.textarea.set(
+      {
+        backgroundColor : "white",
+        overflowY       : "scroll",
+        overflowX       : "auto",
+        font            : "monospace",
+        padding         : 5
+      });
+*/   
+      
       container.add(this.textarea, { flex : 1 });
+      
+      
+      this.textarea.addListenerOnce("appear", function() {      	
+      	this.editor = this.__addCodeMirror(CodeMirror.replace(this.textarea.getContentElement().getDomElement()), {  
+          content: this.textarea.getValue(),
+          parserfile: ["tokenizejavascript.js", "parsejavascript.js"],
+          stylesheet: "css/jscolors.css",
+          path: "js/",
+          textWrapping: false,
+          continuousScanning: false,
+          width: "100%",
+          height: "2000px",
+          autoMatchParens: true,
+          initCallback : function(){  }
+        });
 
+      	
+      	
+        //**********************************************************************
+        //**********************************************************************
+        // The protector disables the opportunity to edit the editor, therefore it
+        // will removed
+        // This code is a temporary solution, it will removed, if another solution is found
+        var protector = this.textarea.__protectorElement; 
+        protector.getDomElement().parentNode.removeChild(protector.getDomElement());
+        //**********************************************************************
+        //**********************************************************************
+        
+      }, this);
+      
+      
+      
+      
       return container;
     },
 
@@ -246,9 +294,15 @@ qx.Class.define("playground.Application",
           ch[i].destroy();
         }
       }
-
-      this.code = this.textarea.getValue();
-
+      
+      //this.code = this.textarea.getHtml();
+      
+      if(this.editor != undefined){
+      this.code = this.editor.getCode();
+      } else {
+      	this.code = this.textarea.getValue();
+      }
+      
       try
       {
         this.fun = new Function(this.code);
@@ -257,9 +311,10 @@ qx.Class.define("playground.Application",
       catch(ex)
       {
         this.error(ex);
-        alert(this.tr("Sorry, invalid code!") + "\n\n" + ex);
+        this.widgets["toolbar.logCheckButton"].setChecked(true);
+        this.stack.show();
       }
-
+      this.logelem.innerHTML = "";
       this.__fetchLog();
     },
 
@@ -269,21 +324,14 @@ qx.Class.define("playground.Application",
      *
      * @return {void} 
      */
-    __resetApplication : function()
+    __clearSource : function()
     {
-      this.widgets["toolbar.resetButton"].addListener("execute", function()
+      this.widgets["toolbar.clearButton"].addListener("execute", function()
       {
-        /* TODO: use radio menu items
-                var currentSource = this.sampleContainer[this.currentSelectedButton];
-                if(currentSource != undefined){
-                currentSource = currentSource.replace(/&lt;/g, "<").replace(/&gt;/g, ">");
-        
-                this.textarea.setValue(currentSource);
-                }
-                */
-
-        this.textarea.setValue("");
-        this.textarea.focus();
+        //this.textarea.setValue("");
+        //this.textarea.setHtml("");
+        this.editor.setCode("")
+        //this.textarea.focus();
       },
       this);
     },
@@ -300,13 +348,13 @@ qx.Class.define("playground.Application",
 
       var newButton;
 
-      var elem = document.getElementsByTagName("DIV");
-
+      var elem = document.getElementsByTagName("TEXTAREA");
+      
       for (var i=0; i<elem.length; i++)
       {
         if (elem[i].className == "qx_samples")
         {
-          this.sampleContainer[elem[i].title] = elem[i].innerHTML;
+          this.sampleContainer[elem[i].title] = elem[i].value;//elem[i].innerHTML;
           newButton = new qx.ui.menu.Button(elem[i].title, "icon/16/actions/document-new.png");
           menu.add(newButton);
 
@@ -333,7 +381,8 @@ qx.Class.define("playground.Application",
       currentSource = currentSource.replace(/&lt;/g, "<").replace(/&gt;/g, ">");
 
       this.textarea.setValue(currentSource);
-
+      this.editor.setCode(currentSource)
+      //this.textarea.setHtml(currentSource);
       this.updatePlayground(this.__playRoot);
     },
 
@@ -461,7 +510,21 @@ qx.Class.define("playground.Application",
 
       return container;
     },
-
+    
+    
+    __addCodeMirror : function (place, options) {
+      this.home = document.createElement("DIV");
+      if (place.appendChild)
+        place.appendChild(this.home);
+      else
+        place(this.home);
+    
+      this.mirror = new CodeMirror(this.home, options);
+    
+      
+      return this.mirror;
+    },
+    
 
     /**
      * creates the application header.
@@ -502,10 +565,10 @@ qx.Class.define("playground.Application",
       this.widgets["toolbar.runButton"] = runButton;
       runButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Runs the created application")));
 
-      var resetButton = new qx.ui.toolbar.Button("Reset", "playground/image/edit-redo.png");
-      part1.add(resetButton);
-      this.widgets["toolbar.resetButton"] = resetButton;
-      resetButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Resets the current application")));
+      var clearButton = new qx.ui.toolbar.Button("Reset", "playground/image/edit-delete.png");
+      part1.add(clearButton);
+      this.widgets["toolbar.clearButton"] = clearButton;
+      clearButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Deletes the source of the current application")));
 
       var selectSampleButton = new qx.ui.toolbar.MenuButton("Samples", "playground/image/document-folder.png");
       part1.add(selectSampleButton);
