@@ -187,20 +187,23 @@ qx.Class.define("qx.test.data.DeepSingle",
       var a = this.__a;
       var label = this.__label;
       
+      // only in source version
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
         // set a wrong first parameter in the chain
         this.assertException(function() {
           qx.data.SingleValueBinding.bind(a, "chiild.name", label, "content");
         }, qx.core.AssertionError, null, "Wrong property name.");
       
-      // set a wrong second parameter in the chain
-      this.assertException(function() {
-        qx.data.SingleValueBinding.bind(a, "child.naame", label, "content");
-      }, qx.core.AssertionError, null, "Wrong property name.");
+        // set a wrong second parameter in the chain
+        this.assertException(function() {
+          qx.data.SingleValueBinding.bind(a, "child.naame", label, "content");
+        }, qx.core.AssertionError, null, "Wrong property name.");
             
-      // set a complete wrong chain
-      this.assertException(function() {
-        qx.data.SingleValueBinding.bind(a, "affe", label, "content");
-      }, qx.core.AssertionError, null, "Wrong property name.");
+        // set a complete wrong chain
+        this.assertException(function() {
+          qx.data.SingleValueBinding.bind(a, "affe", label, "content");
+        }, qx.core.AssertionError, null, "Wrong property name.");
+      }
     },
     
     
