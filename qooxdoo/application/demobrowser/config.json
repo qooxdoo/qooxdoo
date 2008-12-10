@@ -47,7 +47,7 @@
     "TEST_INCLUDE"   : "${APPLICATION}.*",
     "CACHE"        : "../../cache",
     "QOOXDOO_PATH" : "../../framework",
-    "QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
+    //"QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
     "THEME"        : "demobrowser.Theme",
     "PYTHON"       : "python"
   },
@@ -61,15 +61,13 @@
       "library" :
       [
         {
-          "manifest" : "${QOOXDOO_PATH}/Manifest.json",
-          "uri"      : "${QOOXDOO_URI}"
-          /* mind that the final uri will be computed from this 'uri' + the
-             'class' info from the manifest */
+          "manifest" : "${QOOXDOO_PATH}/Manifest.json" /*,
+          "uri"      : "${QOOXDOO_URI}" */
         },
 
         {
-          "manifest" : "Manifest.json",
-          "uri"      : ".."
+          "manifest" : "Manifest.json" /*,
+          "uri"      : ".." */
         }
       ],
 
