@@ -22,8 +22,6 @@
  */
 qx.Class.define("qx.data.SingleValueBinding", 
 {
-  extend : qx.core.Object,
-  
   
   statics :
   {
@@ -543,6 +541,9 @@ qx.Class.define("qx.data.SingleValueBinding",
     
     /**
      * Returns an array which lists all bindings. 
+     * 
+     * @param object {qx.core.Object} The object of which the bindings should 
+     *   be returned.
      * 
      * @return {Array} An array of binding informations. Every binding 
      *   information is an array itself containing id, sourceObject, sourceEvent,
