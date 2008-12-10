@@ -1858,11 +1858,12 @@ qx.Class.define("qx.html.Element",
     __performAction : function(action)
     {
       var el = this.__element;
-      if (el) {
+      var actions = qx.html.Element._actions;
+      if (el && actions.length == 0) {
         return qx.bom.Element[action](el);
       }
       
-      qx.html.Element._actions.push({
+      actions.push({
         type: action,
         element: this
       });
