@@ -8,13 +8,13 @@
       "library" :
       [
         {
-          "manifest" : "../../framework/Manifest.json",
-          "uri"      : "../../../../../framework"
+          "manifest" : "../../framework/Manifest.json" /*,
+          "uri"      : "../../../../../framework" */
         },
 
         {
-          "manifest" : "Manifest.demo.json",
-          "uri"      : "../../.."
+          "manifest" : "Manifest.demo.json" /*,
+          "uri"      : "../../.."  */
         }
       ],
 
