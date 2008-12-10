@@ -592,6 +592,7 @@ class Generator:
         self._console.info("Copying resources...")
         resTargetRoot = self._job.get("copy-resources/target", "build")
         resTargetRoot = self._config.absPath(resTargetRoot)
+        self.approot  = resTargetRoot  # this is a hack, because resource copying generates uri's
         libs          = self._job.get("library", [])
         self._console.indent()
         # Copy resources
@@ -1596,15 +1597,14 @@ class _ResourceHandler(object):
 
         def resourceValue(r):
             # create a pair res = [path, uri] for this resource...
-            res = []
             rsource = os.path.normpath(r)  # normalize "./..."
             relpath = (Path.getCommonPrefix(libObj._resourcePath, rsource))[2]
             if relpath[0] == os.sep:  # normalize "/..."
                 relpath = relpath[1:]
-            res.append(rsource)
-            res.append(self._genobj._computeResourceUri(lib, relpath, rType='resource', 
+            ruri = (self._genobj._computeResourceUri(lib, relpath, rType='resource', 
                                                         appRoot=self._genobj.approot))
-            return res
+
+            return (resource, ruri)
 
             
         # - Main --------------------------------------------------------------
@@ -1614,7 +1614,7 @@ class _ResourceHandler(object):
         cacheId      = ""  # will be filled in getCache()
         ignoredFiles = [r'\.meta$',]  # files not considered as resources
         libs         = libraries[:]
-        libs.reverse()     # this is to search the 'important' libs first
+        #libs.reverse()     # this is to search the 'important' libs first
 
         # go through all libs (weighted) and collect necessary resources
         for lib in libs:
