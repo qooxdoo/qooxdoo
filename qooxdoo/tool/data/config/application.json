@@ -43,9 +43,7 @@
   "let" :
   {
     "ROOT"         : ".",
-    "APPLICATION_URI" : "..",
     "QOOXDOO_PATH" : "../../framework",
-    //"QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
     "CACHE"        : "cache",
     "QXTHEME"      : "qx.theme.Modern",
     "QXVERSION"    : "0.8.1-pre",
@@ -71,8 +69,7 @@
       "library" :
       [
         {
-          "manifest" : "Manifest.json",
-          "uri"      : "${APPLICATION_URI}"
+          "manifest" : "Manifest.json"
         }
       ]
     },
@@ -94,8 +91,7 @@
       "library" :
       [
         {
-          "manifest" : "Manifest.json",
-          "uri"      : "${APPLICATION_URI}"
+          "manifest" : "Manifest.json"
         }
       ]
     },
@@ -116,8 +112,7 @@
       "library" :
       [
         {
-          "manifest" : "Manifest.json" /*,
-          "uri"      : "${APPLICATION_URI}" */
+          "manifest" : "Manifest.json"
         }
       ]
     }

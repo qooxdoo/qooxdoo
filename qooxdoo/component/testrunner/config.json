@@ -27,7 +27,6 @@
   {
       "APPLICATION"  : "testrunner",
       "CACHE"        : "../../cache",
-      "QOOXDOO_PATH" : "../../framework",
-      "QOOXDOO_URI"  : "../${QOOXDOO_PATH}"
+      "QOOXDOO_PATH" : "../../framework"
   }
 }
