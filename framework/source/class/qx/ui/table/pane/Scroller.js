@@ -613,6 +613,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       // The height has changed -> Update content
       this._updateContent();
       this.__header._updateContent();
+      this.__table._updateScrollBarVisibility();
     },
 
 
@@ -664,11 +665,11 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
       var tableModel = this.getTable().getTableModel();
       var rowCount = 0;
-      
+
       if (tableModel != null) {
         rowCount = tableModel.getRowCount();
       }
-      
+
       if (this.getTable().getKeepFirstVisibleRowComplete()) {
         rowCount += 1;
       }
@@ -1870,7 +1871,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         if(tableModel != null) {
           rowCount = tableModel.getRowCount();
         }
-        
+
         return (row < rowCount) ? row : null;
       }
 
@@ -1975,13 +1976,13 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
       // Get the width and height of the view (without scroll bars)
       var clipperSize = this.__paneClipper.getInnerSize();
-      var viewWidth = clipperSize.width;
+      var viewWidth = clipperSize ? clipperSize.width : 0;
 
       if (this.getVerticalScrollBarVisible()) {
         viewWidth += barWidth;
       }
 
-      var viewHeight = clipperSize.height;
+      var viewHeight = clipperSize ? clipperSize.height : 0;
 
       if (this.getHorizontalScrollBarVisible()) {
         viewHeight += barWidth;
@@ -1992,7 +1993,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       if (tableModel != null) {
         rowCount = tableModel.getRowCount();
       }
-      
+
       // Get the (virtual) width and height of the pane
       var paneWidth = this.getTablePaneModel().getTotalWidth();
       var paneHeight = this.getTable().getRowHeight() * rowCount;
