@@ -40,7 +40,7 @@ class ConsoleLogger:
         pass
 
     def log(self, filename, row, column, msg):
-        print """%s (%s,%s): %s""" % (filename, row, column, msg)
+        print """%s (%s,%s): %s""" % (filename, row, column, msg.encode("ascii", "replace"))
 
 
 class Lint:
