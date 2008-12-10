@@ -66,6 +66,17 @@ qx.Class.define("qx.test.data.Array",
       this.assertEquals("eins", this.__a.getItem(0), "IndexAt does not work at position 0");
       this.__a.setItem(3, "drei");
       this.assertEquals("drei", this.__a.getItem(3), "IndexAt does not work at position 0");
+      
+      // test for the event
+      var a = new qx.data.Array(1, 2, 3);
+      var self = this;
+      this.assertEventFired(a, "change", function () {
+        a.setItem(0, 4);
+      }, function(e) {
+        self.assertEquals(0, e.getData().start, "Wrong start index in the event.");
+        self.assertEquals(0, e.getData().end, "Wrong end index in the event.");
+        self.assertEquals("add", e.getData().type, "Wrong type in the event.");
+      }, "Change event not fired!");      
     },
     
     
@@ -77,6 +88,17 @@ qx.Class.define("qx.test.data.Array",
     testReverse: function() {
       this.__a.reverse();
       this.assertEquals("one", this.__a.getItem(2), "Reverse does not work");
+      
+      // test for the event
+      var a = new qx.data.Array(1, 2, 3);
+      var self = this;
+      this.assertEventFired(a, "change", function () {
+        a.reverse();
+      }, function(e) {
+        self.assertEquals(0, e.getData().start, "Wrong start index in the event.");
+        self.assertEquals(2, e.getData().end, "Wrong end index in the event.");
+        self.assertEquals("order", e.getData().type, "Wrong type in the event.");
+      }, "Change event not fired!");      
     },
     
     
@@ -90,6 +112,17 @@ qx.Class.define("qx.test.data.Array",
         return -1;
       });
       this.assertEquals("three two one", this.__a.join(" "), "Own sort does not work");
+      
+      // test for the event
+      var a = new qx.data.Array(2, 7, 5);
+      var self = this;
+      this.assertEventFired(a, "change", function () {
+        a.sort();
+      }, function(e) {
+        self.assertEquals(0, e.getData().start, "Wrong start index in the event.");
+        self.assertEquals(2, e.getData().end, "Wrong end index in the event.");
+        self.assertEquals("order", e.getData().type, "Wrong type in the event.");
+      }, "Change event not fired!");      
     },
     
     
@@ -116,11 +149,14 @@ qx.Class.define("qx.test.data.Array",
       
       // test for the event
       var a = new qx.data.Array(1, 2, 3);
-      this.assertEventFired(a, "remove", function () {
+      var self = this;
+      this.assertEventFired(a, "change", function () {
         a.pop();
       }, function(e) {
-        this.assertEquals(2, e.getData(), "Wrong index in the event.");
-      }, "Remove event not fired!");
+        self.assertEquals(1, e.getData().start, "Wrong start index in the event.");
+        self.assertEquals(2, e.getData().end, "Wrong end index in the event.");
+        self.assertEquals("remove", e.getData().type, "Wrong type in the event.");
+      }, "Change event not fired!");
     },
     
     
@@ -134,11 +170,14 @@ qx.Class.define("qx.test.data.Array",
       
       // test for the event
       var a = new qx.data.Array(1, 2, 3);
-      this.assertEventFired(a, "add", function () {
+      var self = this;
+      this.assertEventFired(a, "change", function () {
         a.push(4);
       }, function(e) {
-        this.assertEquals(3, e.getData(), "Wrong index in the event.");
-      }, "Add event not fired!");      
+        self.assertEquals(3, e.getData().start, "Wrong start index in the event.");
+        self.assertEquals(3, e.getData().end, "Wrong end index in the event.");
+        self.assertEquals("add", e.getData().type, "Wrong type in the event.");
+      }, "Change event not fired!");
     },
     
     
@@ -150,11 +189,14 @@ qx.Class.define("qx.test.data.Array",
       
       // test for the event
       var a = new qx.data.Array(1, 2, 3);
-      this.assertEventFired(a, "remove", function () {
+      var self = this;
+      this.assertEventFired(a, "change", function () {
         a.shift();
       }, function(e) {
-        this.assertEquals(0, e.getData(), "Wrong index in the event.");
-      }, "Remove event not fired!");      
+        self.assertEquals(0, e.getData().start, "Wrong start index in the event.");
+        self.assertEquals(1, e.getData().end, "Wrong end index in the event.");
+        self.assertEquals("remove", e.getData().type, "Wrong type in the event.");
+      }, "Change event not fired!");    
     },
     
     
@@ -166,11 +208,14 @@ qx.Class.define("qx.test.data.Array",
       
       // test for the event
       var a = new qx.data.Array(1, 2, 3);
-      this.assertEventFired(a, "add", function () {
+      var self = this;
+      this.assertEventFired(a, "change", function () {
         a.unshift(0);
       }, function(e) {
-        this.assertEquals(0, e.getData(), "Wrong index in the event.");
-      }, "Add event not fired!");      
+        self.assertEquals(0, e.getData().start, "Wrong start index in the event.");
+        self.assertEquals(3, e.getData().end, "Wrong end index in the event.");
+        self.assertEquals("add", e.getData().type, "Wrong type in the event.");
+      }, "Change event not fired!");  
     },
     
     
@@ -191,17 +236,24 @@ qx.Class.define("qx.test.data.Array",
       
       // test for the event
       var a = new qx.data.Array(1, 2, 3);
-      this.assertEventFired(a, "remove", function () {
+      var self = this;
+      this.assertEventFired(a, "change", function () {
         a.splice(1, 1);
       }, function(e) {
-        this.assertEquals(1, e.getData(), "Wrong index in the event.");
-      }, "Remove event not fired!");
+        self.assertEquals(1, e.getData().start, "Wrong start index in the event.");
+        self.assertEquals(1, e.getData().end, "Wrong end index in the event.");
+        self.assertEquals("remove", e.getData().type, "Wrong type in the event.");
+      }, "Change event not fired!");
 
-      this.assertEventFired(a, "add", function () {
+      // test for the event
+      var a = new qx.data.Array(1, 2, 3);
+      this.assertEventFired(a, "change", function () {
         a.splice(0, 0, 0);
       }, function(e) {
-        this.assertEquals(0, e.getData(), "Wrong index in the event.");
-      }, "Add event not fired!");      
+        self.assertEquals(0, e.getData().start, "Wrong start index in the event.");
+        self.assertEquals(3, e.getData().end, "Wrong end index in the event.");
+        self.assertEquals("add", e.getData().type, "Wrong type in the event.");
+      }, "Change event not fired!");     
     },
     
     
