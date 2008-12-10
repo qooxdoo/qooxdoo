@@ -80,16 +80,18 @@ qx.Class.define("qx.test.data.Single",
         var a = this.__a;
         var b = this.__b;
 
-        // wrong source
-        this.assertException(function() {
-          qx.data.SingleValueBinding.bindPropertyToProperty(a, "BackgroundColor", b, "backgroundColor");
-        }, qx.core.AssertionError, null, "Not a wrong property name? (source)");
-
-        // wrong target
-        this.assertException(function() {
-          qx.data.SingleValueBinding.bindPropertyToProperty(a, "backgroundColor", b, "affe");
-        }, qx.core.AssertionError, null, "Not a wrong property name? (target)"); 
-
+        // only in source version
+        if (qx.core.Variant.isSet("qx.debug", "on")) {
+          // wrong source
+          this.assertException(function() {
+            qx.data.SingleValueBinding.bindPropertyToProperty(a, "BackgroundColor", b, "backgroundColor");
+          }, qx.core.AssertionError, null, "Not a wrong property name? (source)");
+          
+          // wrong target
+          this.assertException(function() {
+            qx.data.SingleValueBinding.bindPropertyToProperty(a, "backgroundColor", b, "affe");
+          }, qx.core.AssertionError, null, "Not a wrong property name? (target)");          
+        }
       }
     },
     
@@ -100,10 +102,13 @@ qx.Class.define("qx.test.data.Single",
         var a = this.__a;
         var b = this.__b;
       
-        // wrong eventName
-        this.assertException(function() {
-          qx.data.SingleValueBinding.bindEventToProperty(a, "affe", b, "backgroundColor");        
-        }, null, null, "Not a wrong event name? (source)");
+        // only in source version
+        if (qx.core.Variant.isSet("qx.debug", "on")) {
+          // wrong eventName
+          this.assertException(function() {
+            qx.data.SingleValueBinding.bindEventToProperty(a, "affe", b, "backgroundColor");        
+          }, null, null, "Not a wrong event name? (source)");
+        }
       }      
     },
     
@@ -152,11 +157,14 @@ qx.Class.define("qx.test.data.Single",
       var bindings = qx.data.SingleValueBinding.getAllBindingsForObject(this.__a);
       this.assertEquals(0, bindings.length, "Binding still in the registry!");
       
-      // test wrong binding id
-      var a = this.__a;
-      this.assertException(function() {
-        qx.data.SingleValueBinding.removeBindingFromObject(a, null);
-      }, Error, null, "No exception thrown.");   
+      // only in source version
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        // test wrong binding id
+        var a = this.__a;
+        this.assertException(function() {
+          qx.data.SingleValueBinding.removeBindingFromObject(a, null);
+        }, Error, null, "No exception thrown.");   
+      }
     },
     
     
@@ -208,10 +216,14 @@ qx.Class.define("qx.test.data.Single",
       var bindings = qx.data.SingleValueBinding.getAllBindingsForObject(this.__a);
       this.assertEquals(0, bindings.length, "Still bindings there!");
       
-      // test for null object
-      this.assertException(function() {
-        qx.data.SingleValueBinding.removeAllBindingsForObject(null);
-      }, qx.core.AssertionError, null, "Null is not possible!");
+      // only test in the source version
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        // test for null object
+        this.assertException(function() {
+          qx.data.SingleValueBinding.removeAllBindingsForObject(null);
+        }, qx.core.AssertionError, null, "Null is not possible!");
+      }
+      
    },
     
     
