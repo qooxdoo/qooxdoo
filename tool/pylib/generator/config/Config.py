@@ -525,6 +525,8 @@ class Config:
                         if lib['namespace'] not in seen:  # enforce uniqueness
                             seen.append(lib['namespace'])
                             newlib.append(lib)
+                        else:
+                            self._console.info("Skipping duplicate library \"%s\"" % lib['namespace'])
 
                     jobObj.setFeature('library', newlib)
 
