@@ -5,9 +5,7 @@
   "let" :
   {
     "ROOT"         : ".",
-    "APPLICATION_URI" : "..",
     "QOOXDOO_PATH" : "../../framework",
-    //"QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
     "CACHE"        : "cache",
     "QXTHEME"      : "qx.theme.Modern",
     "QXICONTHEME"  : ["Tango"],
@@ -16,23 +14,6 @@
     "LOCALES"      : [ "en" ],
     "BUILD_PATH"   : "${ROOT}/build"
   },
-
-  /*
-  "export" :
-  [
-    "build",
-    "clean",
-    "distclean",
-    "fix",
-    "lint",
-    "migration",
-    "pretty",
-    "profiling",
-    "publish",
-    "source",
-    "translation"
-  ],
-  */
 
 
   "jobs" :
@@ -45,8 +26,7 @@
       "library" :
       [
         {
-          "manifest" : "${ROOT}/Manifest.json",
-          "uri"      : "${APPLICATION_URI}"
+          "manifest" : "${ROOT}/Manifest.json"
         }
       ],
 
@@ -64,13 +44,11 @@
       "library" :
       [
         {
-          "manifest" : "${QOOXDOO_PATH}/Manifest.json" /*,
-          "uri"      : "${QOOXDOO_URI}" */
+          "manifest" : "${QOOXDOO_PATH}/Manifest.json"
         },
 
         {
-          "manifest" : "${ROOT}/Manifest.json" /*,
-          "uri"      : "${APPLICATION_URI}" */
+          "manifest" : "${ROOT}/Manifest.json"
         }
       ]
     },

@@ -1,8 +1,6 @@
 {
   "name"    : "Apiviewer (export) config",
 
-  //"export" : ["source", "build"],
-
   "jobs" :
   {
     "common" :
@@ -13,7 +11,6 @@
         "APIVIEWER"      : "apiviewer",
         "APPLICATION"    : "apiviewer",
         "QOOXDOO_PATH"   : "../../framework",
-        //"QOOXDOO_URI"    : "../${QOOXDOO_PATH}",
         "API_INCLUDE"    : ["*"],
         "API_EXCLUDE"    : [],
         "BUILD_PATH"     : "${APIVIEWER_ROOT}/build",
@@ -23,13 +20,11 @@
       "library" :
       [
         {
-          "manifest" : "${QOOXDOO_PATH}/Manifest.json" /*,
-          "uri"      : "${QOOXDOO_URI}" */
+          "manifest" : "${QOOXDOO_PATH}/Manifest.json"
         },
 
         {
-          "manifest" : "${APIVIEWER_ROOT}/Manifest.json" /*,
-          "uri"      : ".." */
+          "manifest" : "${APIVIEWER_ROOT}/Manifest.json"
         }
       ],
 

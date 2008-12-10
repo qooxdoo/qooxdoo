@@ -6,7 +6,6 @@
   "let" :
   {
     "QOOXDOO_PATH" : "../../framework",
-    //"QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
     "TESTRUNNER_ROOT" : ".",
     "TESTRUNNER"   : "testrunner",
     "TEST_INCLUDE"   : "${APPLICATION}.test.*",
