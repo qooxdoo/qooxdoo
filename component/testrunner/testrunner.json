@@ -6,7 +6,7 @@
   "let" :
   {
     "QOOXDOO_PATH" : "../../framework",
-    "QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
+    //"QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
     "TESTRUNNER_ROOT" : ".",
     "TESTRUNNER"   : "testrunner",
     "TEST_INCLUDE"   : "${APPLICATION}.test.*",
@@ -21,13 +21,11 @@
       "library" :
       [
         {
-          "manifest" : "${QOOXDOO_PATH}/Manifest.json",
-          "uri"      : "${QOOXDOO_URI}"
+          "manifest" : "${QOOXDOO_PATH}/Manifest.json"
         },
 
         {
-          "manifest" : "${TESTRUNNER_ROOT}/Manifest.json",
-          "uri"      : ".."
+          "manifest" : "${TESTRUNNER_ROOT}/Manifest.json"
         }
       ],
 
@@ -71,13 +69,11 @@
       "library" :
       [
         {
-          "manifest" : "${QOOXDOO_PATH}/Manifest.json",
-          "uri"      : "../../${QOOXDOO_PATH}"
+          "manifest" : "${QOOXDOO_PATH}/Manifest.json"
         },
 
         {
-          "manifest" : "${TESTRUNNER_ROOT}/Manifest.json",
-          "uri"      : "../.."
+          "manifest" : "${TESTRUNNER_ROOT}/Manifest.json"
         }
       ],
 
