@@ -15,7 +15,6 @@
   {
     "APPLICATION"  : "qx",
     "QOOXDOO_PATH" : ".",
-    //"QOOXDOO_URI"  : "../../${QOOXDOO_PATH}",
     "API_EXCLUDE"  : ["qx.legacy.*", "qx.test.*"],
     "CACHE"        : "../cache"
   },
@@ -33,8 +32,7 @@
       "library" :
       [
         {
-          "manifest" : "Manifest.json",
-          "uri"      : ".."
+          "manifest" : "Manifest.json"
         }
       ],
 
