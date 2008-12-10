@@ -71,10 +71,9 @@ qx.Class.define("qx.data.Array",
     
     
     pop: function() {
-      var index = this.length - 1;
       var item = this.__array.pop();
       this.__updateLength();
-      this.fireDataEvent("remove", index, null);
+      this.fireDataEvent("change", {start: this.length - 1, end: this.length, type: "remove"}, null);
       return item;
     },
     
@@ -83,7 +82,7 @@ qx.Class.define("qx.data.Array",
       for (var i = 0; i < arguments.length; i++) {
         this.__array.push(arguments[i]);
         this.__updateLength();
-        this.fireDataEvent("add", this.length - 1, null);
+        this.fireDataEvent("change", {start: this.length - 1, end: this.length - 1, type: "add"}, null);
       }
       return this.length;
     },
@@ -91,13 +90,14 @@ qx.Class.define("qx.data.Array",
     
     reverse: function() {
       this.__array.reverse();
+      this.fireDataEvent("change", {start: 0, end: this.length - 1, type: "order"}, null);      
     },
     
     
     shift: function() {
       var value = this.__array.shift();
       this.__updateLength();
-      this.fireDataEvent("remove", 0, null);      
+      this.fireDataEvent("change", {start: 0, end: this.length -1, type: "remove"}, null);      
       return value;
     },
     
@@ -126,7 +126,8 @@ qx.Class.define("qx.data.Array",
       for (var i = startIndex; i < end; i++) {
         // remove the last element
         returnArray.push(this.__array.splice(startIndex, 1)[0]);
-        this.fireDataEvent("remove", startIndex, null);        
+        this.__updateLength();
+        this.fireDataEvent("change", {start: startIndex, end: this.length - 1, type: "remove"}, null);        
       }
                   
       // if there are objects which should be added
@@ -135,7 +136,8 @@ qx.Class.define("qx.data.Array",
         for (var i = arguments.length - 1; i >= 2 ; i--) {
           // add every single object and fire an add event
           this.__array.splice(startIndex, 0, arguments[i]);
-          this.fireDataEvent("add", startIndex, null);          
+          this.__updateLength();
+          this.fireDataEvent("change", {start: startIndex, end: this.length - 1, type: "add"}, null);          
         }
       }
             
@@ -144,7 +146,8 @@ qx.Class.define("qx.data.Array",
     
     
     sort: function(func) {
-      this.__array.sort.apply(this.__array, arguments);        
+      this.__array.sort.apply(this.__array, arguments);   
+      this.fireDataEvent("change", {start: 0, end: this.length - 1, type: "order"}, null);           
     },
     
     
@@ -152,7 +155,7 @@ qx.Class.define("qx.data.Array",
       for (var i = arguments.length - 1; i >= 0; i--) {
         this.__array.unshift(arguments[i])
         this.__updateLength();
-        this.fireDataEvent("add", 0, null);
+        this.fireDataEvent("change", {start: 0, end: this.length - 1, type: "add"}, null);
       }
       return this.length;
     },
@@ -170,6 +173,7 @@ qx.Class.define("qx.data.Array",
     
     setItem: function(index, item) {
       this.__array[index] = item;
+      this.fireDataEvent("change", {start: index, end: index, type: "add"}, null);      
     },
     
     

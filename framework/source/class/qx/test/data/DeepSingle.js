@@ -43,6 +43,11 @@ qx.Class.define("qx.test.data.DeepSingle",
           check : "String",
           init : "Juhu",
           event : "changeName"
+        },
+        
+        array : {
+          init : new qx.data.Array(["one", "two", "three"]),
+          event: "changeArray"
         }
       }
     });       
@@ -63,7 +68,10 @@ qx.Class.define("qx.test.data.DeepSingle",
       this.__b2 = new test.MultiBinding().set({
         name: "b2"
       });
-      this.__label = new qx.ui.basic.Label();      
+      this.__label = new qx.ui.basic.Label();    
+      
+      // remove all bindings
+      qx.data.SingleValueBinding.removeAllBindings();        
     },
 
 
@@ -178,10 +186,11 @@ qx.Class.define("qx.test.data.DeepSingle",
       
       var a = this.__a;
       var label = this.__label;
-      // set a wrong first parameter in the chain
-      this.assertException(function() {
-        qx.data.SingleValueBinding.bind(a, "chiild.name", label, "content");
-      }, qx.core.AssertionError, null, "Wrong property name.");
+      
+        // set a wrong first parameter in the chain
+        this.assertException(function() {
+          qx.data.SingleValueBinding.bind(a, "chiild.name", label, "content");
+        }, qx.core.AssertionError, null, "Wrong property name.");
       
       // set a wrong second parameter in the chain
       this.assertException(function() {
@@ -242,6 +251,29 @@ qx.Class.define("qx.test.data.DeepSingle",
       
       qx.data.SingleValueBinding.removeAllBindings();
       
+    },
+    
+    
+    testArrayBinding : function() {
+      // bind the first element of the array
+      qx.data.SingleValueBinding.bind(this.__a, "array[0]", this.__label, "content");
+      
+      
+      
+      // check the binding
+      this.assertEquals("one", this.__label.getContent(), "Array[0] binding does not work!");
+      // change the value
+      this.__a.getArray().setItem(0, "ONE");
+      this.assertEquals("ONE", this.__label.getContent(), "Array[0] binding does not work!");
+      
+      // // bind the last element
+      // qx.data.SingleValueBinding.bind(this.__a, "array[last]", this.__label, "content");
+      // 
+      // // check the binding
+      // this.assertEquals("one", this.__label.getContent(), "Array[0] binding does not work!");
+      // // change the value
+      // this.__a.getArray()[0] = "ONE";
+      // this.assertEquals("ONE", this.__label.getContent(), "Array[0] binding does not work!");
     }
        
   }

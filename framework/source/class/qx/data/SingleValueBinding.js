@@ -71,6 +71,26 @@ qx.Class.define("qx.data.SingleValueBinding",
       // get the property names
       var propertyNames = sourcePropertyChain.split(".");
       
+      
+      
+      // TODO !!!
+      var inArrayValues = [];
+      // go through all properties
+      for (var i = 0; i < propertyNames.length; i++) {
+        var name = propertyNames[i];
+        if (qx.lang.String.endsWith(name, "]")) {
+          var inArray = name.substring(name.indexOf("[") + 1, name.indexOf("]"));          
+          inArrayValues[i] = inArray;
+          propertyNames[i] = name.substring(0, name.indexOf("["));
+        } else {
+          inArrayValues[i] = "";
+        }
+      }
+      
+      
+      
+      
+      
       // store the stuff needed
       var sources = [];
       var listeners = [];
