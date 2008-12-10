@@ -232,6 +232,10 @@ qx.Class.define("playground.Application",
       
       
       this.textarea.addListenerOnce("appear", function() {      	
+      	
+      	var height = this.textarea.getBounds().height;
+      	var width = this.textarea.getBounds().width;
+      	
       	this.editor = this.__addCodeMirror(CodeMirror.replace(this.textarea.getContentElement().getDomElement()), {  
           content: this.textarea.getValue(),
           parserfile: ["tokenizejavascript.js", "parsejavascript.js"],
@@ -239,13 +243,15 @@ qx.Class.define("playground.Application",
           path: "js/",
           textWrapping: false,
           continuousScanning: false,
-          width: "100%",
-          height: "2000px",
-          autoMatchParens: true,
-          initCallback : function(){  }
+          width: width + "px",
+          height: height + "px",
+          autoMatchParens: true
         });
 
-      	
+      	this.textarea.addListener("resize", function() {
+          this.getContainerElement().getDomElement().childNodes[0].firstChild.style.width = width + "px";
+      	  this.getContainerElement().getDomElement().childNodes[0].firstChild.style.height = height + "px";
+      	}, this.textarea);
       	
         //**********************************************************************
         //**********************************************************************
