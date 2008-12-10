@@ -323,7 +323,8 @@ qx.Class.define("qx.bom.Label",
         // there was an issue that the text size calculation returns
         // a size which is a bit to small and results into ellipsis
         // even under the measured size.
-        if (qx.bom.client.Platform.MAC) {
+        // Linux shows the same bug
+        if (!qx.bom.client.Platform.WIN) {
           size.width++;
         }
       }
