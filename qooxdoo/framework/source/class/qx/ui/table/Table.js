@@ -148,12 +148,10 @@ qx.Class.define("qx.ui.table.Table",
 
     // Create the child widgets
     this.__scrollerParent = new qx.ui.container.Composite(new qx.ui.layout.HBox());
-    this.__statusBar = this._getChildControl("statusbar");
-
     this._add(this.__scrollerParent, {flex: 1});
-    this._add(this.__statusBar);
 
-    this.__columnVisibilityBt = this._getChildControl("column-button");
+    this.initStatusBarVisible();
+    this.initColumnVisibilityButtonVisible();
 
     // Allocate a default data row renderer
     this.setDataRowRenderer(new qx.ui.table.rowrenderer.Default(this));
@@ -596,8 +594,6 @@ qx.Class.define("qx.ui.table.Table",
     __focusedRow : null,
 
     __scrollerParent : null,
-    __statusBar : null,
-    __columnVisibilityBt : null,
 
     __selectionManager : null,
 
@@ -617,12 +613,13 @@ qx.Class.define("qx.ui.table.Table",
           control = new qx.ui.basic.Label().set({
             allowGrowX: true
           });
+          this._add(control);
           break;
 
         case "column-button":
           control = new qx.ui.form.MenuButton().set({
             focusable: false
-          })
+          });
           break;
       }
 
@@ -748,7 +745,11 @@ qx.Class.define("qx.ui.table.Table",
     // property modifier
     _applyStatusBarVisible : function(value, old)
     {
-      this.__statusBar.setVisibility(value ? "visible" : "excluded");;
+      if (value) {
+        this._showChildControl("statusbar");
+      } else {
+        this._excludeChildControl("statusbar");
+      }
 
       if (value) {
         this._updateStatusBar();
@@ -765,8 +766,13 @@ qx.Class.define("qx.ui.table.Table",
 
 
     // property modifier
-    _applyColumnVisibilityButtonVisible : function(value, old) {
-      this.__columnVisibilityBt.setVisibility(value ? "visible" : "excluded");
+    _applyColumnVisibilityButtonVisible : function(value, old)
+    {
+      if (value) {
+        this._showChildControl("column-button");
+      } else {
+        this._excludeChildControl("column-button");
+      }
     },
 
 
@@ -914,8 +920,12 @@ qx.Class.define("qx.ui.table.Table",
         // Set the right header height
         paneScroller.getHeader().setHeight(this.getHeaderCellHeight());
 
-        // Put the __columnVisibilityBt in the top right corner of the last meta column
-        paneScroller.setTopRightWidget(isLast ? this.__columnVisibilityBt : null);
+        // Put the column visibility button in the top right corner of the last meta column
+        paneScroller.setTopRightWidget(isLast ? this._getChildControl("column-button") : null);
+      }
+
+      if (!this.isColumnVisibilityButtonVisible()) {
+        this._excludeChildControl("column-button");
       }
 
       this._updateScrollerWidths();
@@ -1650,7 +1660,7 @@ qx.Class.define("qx.ui.table.Table",
         }
 
         if(text) {
-          this.__statusBar.setContent(text);
+          this._getChildControl("statusbar").setContent(text);
         }
       }
     },
@@ -1747,7 +1757,7 @@ qx.Class.define("qx.ui.table.Table",
       var tableModel = this.getTableModel();
       var columnModel = this.getTableColumnModel();
 
-      var menu = this.__columnVisibilityBt.getMenu();
+      var menu = this._getChildControl("column-button").getMenu();
       if (menu)
       {
         var entries = menu.getChildren();
@@ -1758,7 +1768,7 @@ qx.Class.define("qx.ui.table.Table",
       else
       {
         var menu = new qx.ui.menu.Menu();
-        this.__columnVisibilityBt.setMenu(menu);
+        this._getChildControl("column-button").setMenu(menu);
       }
 
       // Inform listeners who may want to insert menu items at the beginning
@@ -1891,6 +1901,6 @@ qx.Class.define("qx.ui.table.Table",
     }
 
     this._cleanUpMetaColumns(0);
-    this._disposeObjects("__selectionManager", "_columnVisibilityMenu", "_tableModel", "__columnVisibilityBt", "__scrollerParent", "__statusBar");
+    this._disposeObjects("__selectionManager", "_columnVisibilityMenu", "_tableModel", "__scrollerParent");
   }
 });
