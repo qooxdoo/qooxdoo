@@ -4,7 +4,7 @@
   "include" :
   [
     {
-      "path" : "${REL_QOOXDOO_PATH}/tool/data/config/application.json",
+      "path" : "$${QOOXDOO_PATH}/tool/data/config/application.json",
       "as"   : "appconf"
     }
   ],
@@ -30,7 +30,8 @@
   "let" :
   {
     "APPLICATION"  : "${Namespace}",
-    "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}/framework",
+    "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}",
+    "QOOXDOO_FRAMEWORK" : "$${QOOXDOO_PATH}/framework",
     "QXTHEME"      : "qx.theme.Modern",
     "LOCALES"      : [ "en" ],
     "ROOT"         : "."

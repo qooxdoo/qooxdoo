@@ -5,7 +5,7 @@
   "include" :
   [
     {
-      "path" : "../../tool/data/config/application.json"
+      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json"
     }
   ],
 
@@ -13,7 +13,8 @@
   "let" :
   {
     "APPLICATION"  : "portal",
-    "QOOXDOO_PATH" : "../../framework",
+    "QOOXDOO_PATH" : "../..",
+    "QOOXDOO_FRAMEWORK" : "${QOOXDOO_PATH}/framework",
     "TEST_INCLUDE"   : "${APPLICATION}.*",
     "CACHE"        : "../../cache"
   }

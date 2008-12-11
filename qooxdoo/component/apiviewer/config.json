@@ -9,7 +9,7 @@
     }, 
 
     {
-      "path"   : "../../tool/data/config/application.json",
+      "path"   : "${QOOXDOO_PATH}/tool/data/config/application.json",
       
       // select everything except 'source' and 'build' which are defined locally
       "block" : 
@@ -28,7 +28,8 @@
   "let" : 
   {
     "APPLICATION"  : "apiviewer",
-    "QOOXDOO_PATH" : "../../framework",
+    "QOOXDOO_PATH" : "../..",
+    "QOOXDOO_FRAMEWORK" : "${QOOXDOO_PATH}/framework",
     "CACHE"        : "../../cache",
     "TEST_INCLUDE" : "${APPLICATION}.*"
   },

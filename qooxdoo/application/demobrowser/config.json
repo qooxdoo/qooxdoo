@@ -4,7 +4,7 @@
   "include" :
   [
     {
-      "path" : "../../tool/data/config/application.json",
+      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json",
       "block" : 
       [ 
         "common",
@@ -46,7 +46,8 @@
     "API_EXCLUDE"  : ["${APPLICATION}.demo.*"],
     "TEST_INCLUDE"   : "${APPLICATION}.*",
     "CACHE"        : "../../cache",
-    "QOOXDOO_PATH" : "../../framework",
+    "QOOXDOO_PATH" : "../..",
+    "QOOXDOO_FRAMEWORK" : "${QOOXDOO_PATH}/framework",
     "THEME"        : "demobrowser.Theme",
     "PYTHON"       : "python"
   },
@@ -60,7 +61,7 @@
       "library" :
       [
         {
-          "manifest" : "${QOOXDOO_PATH}/Manifest.json"
+          "manifest" : "${QOOXDOO_FRAMEWORK}/Manifest.json"
         },
 
         {
