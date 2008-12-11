@@ -12,7 +12,6 @@
   {
     "APPLICATION"  : "playground",
     "QOOXDOO_PATH" : "../..",
-    "QOOXDOO_FRAMEWORK" : "${QOOXDOO_PATH}/framework",
     "CACHE"        : "../../cache",
     "QXTHEME"      : "qx.theme.Modern",
     "LOCALES"      : [ "en" ],

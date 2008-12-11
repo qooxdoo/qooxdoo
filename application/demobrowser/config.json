@@ -47,7 +47,6 @@
     "TEST_INCLUDE"   : "${APPLICATION}.*",
     "CACHE"        : "../../cache",
     "QOOXDOO_PATH" : "../..",
-    "QOOXDOO_FRAMEWORK" : "${QOOXDOO_PATH}/framework",
     "THEME"        : "demobrowser.Theme",
     "PYTHON"       : "python"
   },
@@ -61,7 +60,7 @@
       "library" :
       [
         {
-          "manifest" : "${QOOXDOO_FRAMEWORK}/Manifest.json"
+          "manifest" : "${QOOXDOO_PATH}/framework/Manifest.json"
         },
 
         {

@@ -26,8 +26,7 @@
   "let" :
   {
       "APPLICATION"  : "testrunner",
-      "CACHE"        : "../../cache",
       "QOOXDOO_PATH" : "../..",
-      "QOOXDOO_FRAMEWORK" : "${QOOXDOO_PATH}/framework"
+      "CACHE"        : "../../cache"
   }
 }

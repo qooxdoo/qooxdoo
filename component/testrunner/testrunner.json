@@ -6,7 +6,6 @@
   "let" :
   {
     "QOOXDOO_PATH" : "../..",
-    "QOOXDOO_FRAMEWORK" : "${QOOXDOO_PATH}/framework",
     "TESTRUNNER_ROOT" : ".",
     "TESTRUNNER"   : "testrunner",
     "TEST_INCLUDE"   : "${APPLICATION}.test.*",
@@ -21,7 +20,7 @@
       "library" :
       [
         {
-          "manifest" : "${QOOXDOO_FRAMEWORK}/Manifest.json"
+          "manifest" : "${QOOXDOO_PATH}/framework/Manifest.json"
         },
 
         {
@@ -68,7 +67,7 @@
       "library" :
       [
         {
-          "manifest" : "${QOOXDOO_FRAMEWORK}/Manifest.json"
+          "manifest" : "${QOOXDOO_PATH}/framework/Manifest.json"
         },
 
         {
@@ -253,7 +252,7 @@
         ],
         "Cleaning up framework" :
         [
-          "${QOOXDOO_FRAMEWORK}/source/translation/messages.pot"
+          "${QOOXDOO_PATH}/framework/source/translation/messages.pot"
         ]
       }
     }
