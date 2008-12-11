@@ -22,15 +22,35 @@
 # This is a stub proxy for the real generator.py
 ##
 
-import sys, os, subprocess
+import sys, os, re, subprocess
 
 CMD_PYTHON = 'python'
 QOOXDOO_PATH = '${REL_QOOXDOO_PATH}'
-REAL_GENERATOR = os.path.normpath(
-                    os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])),
-                                 QOOXDOO_PATH, 'tool', 'bin', 'generator.py'))
-                                 
+
+def getQxPath():
+    path = QOOXDOO_PATH
+    # try updating from config file
+    if os.path.exists('config.json'):
+        # "using QOOXDOO_PATH from config.json"
+        qpathr=re.compile(r'"QOOXDOO_PATH"\s*:\s*"([^"]*)"\s*,')
+        conffile = open('config.json')
+        aconffile = conffile.readlines()
+        for line in aconffile:
+            mo = qpathr.search(line)
+            if mo:
+                path = mo.group(1)
+                break # assume first occurance is ok
+    path = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), path))
+
+    return path
+
 os.chdir(os.path.dirname(os.path.abspath(sys.argv[0])))  # switch to skeleton dir
+qxpath = getQxPath()
+REAL_GENERATOR = os.path.join(qxpath, 'tool', 'bin', 'generator.py')
+
+if not os.path.exists(REAL_GENERATOR):
+    print "Cannot find real generator script under: \"%s\"; aborting" % REAL_GENERATOR
+    sys.exit(1)
 
 argList = []
 argList.append(CMD_PYTHON)
