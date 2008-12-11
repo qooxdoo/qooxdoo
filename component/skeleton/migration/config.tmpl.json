@@ -31,7 +31,6 @@
   {
     "APPLICATION"  : "${Namespace}",
     "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}",
-    "QOOXDOO_FRAMEWORK" : "$${QOOXDOO_PATH}/framework",
     "QXTHEME"      : "qx.theme.Modern",
     "LOCALES"      : [ "en" ],
     "ROOT"         : "."

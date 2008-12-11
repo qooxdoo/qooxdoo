@@ -15,7 +15,6 @@
   {
     "APPLICATION"  : "qx",
     "QOOXDOO_PATH" : "..",
-    "QOOXDOO_FRAMEWORK" : "${QOOXDOO_PATH}/framework",
     "API_EXCLUDE"  : ["qx.legacy.*", "qx.test.*"],
     "CACHE"        : "../cache"
   },

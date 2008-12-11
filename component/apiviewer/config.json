@@ -29,7 +29,6 @@
   {
     "APPLICATION"  : "apiviewer",
     "QOOXDOO_PATH" : "../..",
-    "QOOXDOO_FRAMEWORK" : "${QOOXDOO_PATH}/framework",
     "CACHE"        : "../../cache",
     "TEST_INCLUDE" : "${APPLICATION}.*"
   },
