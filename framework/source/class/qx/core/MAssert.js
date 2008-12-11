@@ -91,6 +91,17 @@ qx.Mixin.define("qx.core.MAssert",
       qx.core.Assert.assertEquals(expected, found, msg);
     },
 
+    /**
+     * Assert that both values are not equal. (Uses the not equality operator
+     * <code>!=</code>.)
+     *
+     * @param expected {var} Reference value
+     * @param found {var} found value
+     * @param msg {String} Message to be shown if the assertion fails.
+     */
+    assertNotEquals : function(expected, found, msg) {
+      qx.core.Assert.assertNotEquals(expected, found, msg);
+    },
 
     /**
      * Assert that both values are identical. (Uses the identity operator

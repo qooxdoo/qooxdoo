@@ -127,6 +127,22 @@ qx.Class.define("qx.core.Assert",
       );
     },
 
+    /**
+     * Assert that both values are not equal. (Uses the not equality operator
+     * <code>!=</code>.)
+     *
+     * @param expected {var} Reference value
+     * @param found {var} found value
+     * @param msg {String} Message to be shown if the assertion fails.
+     */
+    assertNotEquals : function(expected, found, msg)
+    {
+      this.__assert(
+        expected != found,
+        msg || "",
+        "Expected '" + expected + "' to be not equal with '" + found + "'!"
+      );
+    },
 
     /**
      * Assert that both values are identical. (Uses the identity operator
