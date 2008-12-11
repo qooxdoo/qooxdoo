@@ -67,7 +67,10 @@ qx.Class.define("qx.data.SingleValueBinding",
      *   there is no property definition for object and property (source and 
      *   target).
      */
-    bind: function(sourceObject, sourcePropertyChain, targetObject, targetProperty, options) {
+    bind: function(
+      sourceObject, sourcePropertyChain, targetObject, targetProperty, options
+    ) 
+    {
       // get the property names
       var propertyNames = sourcePropertyChain.split(".");
       
@@ -144,7 +147,9 @@ qx.Class.define("qx.data.SingleValueBinding",
             // if its the last property
             if (j == propertyNames.length - 1) {
               // bin the last property to the new target
-              listenerIds[j] = this.__bindPropertyToProperty(source, propertyNames[j], targetObject, targetProperty, options);
+              listenerIds[j] = this.__bindPropertyToProperty(
+                source, propertyNames[j], targetObject, targetProperty, options
+              );
             } else {
               // add a new listener
               listenerIds[j] = source.addListener(eventNames[j], listeners[j]);
@@ -158,7 +163,9 @@ qx.Class.define("qx.data.SingleValueBinding",
         // check for the last property
         if (i == propertyNames.length -1) {
           // bind the property
-          listenerIds[i] = this.__bindPropertyToProperty(source, propertyNames[i], targetObject, targetProperty, options);
+          listenerIds[i] = this.__bindPropertyToProperty(
+            source, propertyNames[i], targetObject, targetProperty, options
+          );
         } else {
           // add the chaining listener
           listenerIds[i] = source.addListener(eventNames[i], listener);
@@ -174,7 +181,9 @@ qx.Class.define("qx.data.SingleValueBinding",
       // create the id map
       var id = {type: "deepBinding", listenerIds: listenerIds, sources: sources};
       // store the bindings
-      this.__storeBinding(id, sourceObject, sourcePropertyChain, targetObject, targetProperty);
+      this.__storeBinding(
+        id, sourceObject, sourcePropertyChain, targetObject, targetProperty
+      );
       
       return id;
     },
@@ -205,9 +214,13 @@ qx.Class.define("qx.data.SingleValueBinding",
      *   target).
      */
     bindPropertyToProperty : function(sourceObject, sourceProperty, targetObject, targetProperty, options) {    
-      var id = this.__bindPropertyToProperty(sourceObject, sourceProperty, targetObject, targetProperty, options);
+      var id = this.__bindPropertyToProperty(
+        sourceObject, sourceProperty, targetObject, targetProperty, options
+      );
       // store the binding                                     
-      this.__storeBinding(id, sourceObject, sourceProperty, targetObject, targetProperty);
+      this.__storeBinding(
+        id, sourceObject, sourceProperty, targetObject, targetProperty
+      );
       return id;
     },
   
@@ -237,7 +250,10 @@ qx.Class.define("qx.data.SingleValueBinding",
      *   there is no property definition for object and property (source and 
      *   target).
      */
-    __bindPropertyToProperty : function(sourceObject, sourceProperty, targetObject, targetProperty, options) {
+    __bindPropertyToProperty : function(
+      sourceObject, sourceProperty, targetObject, targetProperty, options
+    ) 
+    {
       // get the event name
       var changeEventName = this.__getEventForProperty(sourceObject, sourceProperty);
       
@@ -245,12 +261,15 @@ qx.Class.define("qx.data.SingleValueBinding",
       var currentValue = sourceObject["get" + qx.lang.String.firstUp(sourceProperty)]();
       
       // convert the initial value
-      currentValue = this.__convertValue(currentValue, targetObject, targetProperty, options);
+      currentValue = this.__convertValue(
+        currentValue, targetObject, targetProperty, options
+      );
       targetObject["set" + qx.lang.String.firstUp(targetProperty)](currentValue);
       
       // delegate to the event binding
-      return this.__bindEventToProperty(sourceObject, changeEventName, 
-                                                     targetObject, targetProperty, options);
+      return this.__bindEventToProperty(
+        sourceObject, changeEventName, targetObject, targetProperty, options
+      );
     },
       
       
@@ -289,9 +308,16 @@ qx.Class.define("qx.data.SingleValueBinding",
      *   there is no property definition for the target object and target 
      *   property.
      */
-    bindEventToProperty : function(sourceObject, sourceEvent, targetObject, targetProperty, options) {
-      var id = this.__bindEventToProperty(sourceObject, sourceEvent, targetObject, targetProperty, options);
-      this.__storeBinding(id, sourceObject, sourceEvent, targetObject, targetProperty);
+    bindEventToProperty : function(
+      sourceObject, sourceEvent, targetObject, targetProperty, options
+    )
+    {
+      var id = this.__bindEventToProperty(
+        sourceObject, sourceEvent, targetObject, targetProperty, options
+      );
+      this.__storeBinding(
+        id, sourceObject, sourceEvent, targetObject, targetProperty
+      );
       return id;
     },
     
@@ -323,16 +349,27 @@ qx.Class.define("qx.data.SingleValueBinding",
      *   there is no property definition for the target object and target 
      *   property.
      */
-    __bindEventToProperty : function(sourceObject, sourceEvent, targetObject, targetProperty, options) {
+    __bindEventToProperty : function(sourceObject, sourceEvent, targetObject, 
+      targetProperty, options) 
+    {
       // checks
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         // check for the data event
-        var eventType = qx.Class.getEventType(sourceObject.constructor, sourceEvent);  
-        qx.core.Assert.assertEquals("qx.event.type.Data", eventType, sourceEvent + " is not an data (qx.event.type.Data) event on " + sourceObject + ".");  
+        var eventType = qx.Class.getEventType(
+          sourceObject.constructor, sourceEvent
+        );  
+        qx.core.Assert.assertEquals(
+          "qx.event.type.Data", eventType, sourceEvent + 
+          " is not an data (qx.event.type.Data) event on " + sourceObject + "."
+        );  
                 
         // check for the target property
-        var propertieDefinition =  qx.Class.getPropertyDefinition(targetObject.constructor, targetProperty);
-        qx.core.Assert.assertNotNull(propertieDefinition, targetProperty + " does not exist.");      
+        var propertieDefinition =  qx.Class.getPropertyDefinition(
+          targetObject.constructor, targetProperty
+        );
+        qx.core.Assert.assertNotNull(
+          propertieDefinition, targetProperty + " does not exist."
+        );      
       }
 
       var bindListener = function(e) {
@@ -344,8 +381,12 @@ qx.Class.define("qx.data.SingleValueBinding",
           data = options.converter(data);
         } else {
           // try default conversion
-          var propertieDefinition =  qx.Class.getPropertyDefinition(targetObject.constructor, targetProperty);
-          data = qx.data.SingleValueBinding.__defaultConvertion(data, propertieDefinition.check);
+          var propertieDefinition =  qx.Class.getPropertyDefinition(
+            targetObject.constructor, targetProperty
+          );
+          data = qx.data.SingleValueBinding.__defaultConvertion(
+            data, propertieDefinition.check
+          );
         }      
 
         // try to set the value
@@ -394,12 +435,17 @@ qx.Class.define("qx.data.SingleValueBinding",
      * @param targetProperty {String} The name of the property on the target 
      *   object.
      */
-    __storeBinding : function(id, sourceObject, sourceEvent, targetObject, targetProperty) {
+    __storeBinding : function(
+      id, sourceObject, sourceEvent, targetObject, targetProperty
+    ) 
+    {
       // add the listener id to the internal registry
       if (this.__bindings[sourceObject.toHashCode()] === undefined) {
         this.__bindings[sourceObject.toHashCode()] = [];
       }
-      this.__bindings[sourceObject.toHashCode()].push([id, sourceObject, sourceEvent, targetObject, targetProperty]);      
+      this.__bindings[sourceObject.toHashCode()].push(
+        [id, sourceObject, sourceEvent, targetObject, targetProperty]
+      );      
     },
                
  
@@ -427,7 +473,9 @@ qx.Class.define("qx.data.SingleValueBinding",
         return options.converter(value);
       // try default conversion        
       } else {
-        var propertieDefinition = qx.Class.getPropertyDefinition(targetObject.constructor, targetProperty);
+        var propertieDefinition = qx.Class.getPropertyDefinition(
+          targetObject.constructor, targetProperty
+        );
         // check for the existance of the source property
         if (qx.core.Variant.isSet("qx.debug", "on")) {
           qx.core.Assert.assertNotNull(propertieDefinition, 
@@ -451,7 +499,9 @@ qx.Class.define("qx.data.SingleValueBinding",
      */
     __getEventForProperty : function(sourceObject, sourceProperty) {
       // get the event name
-      var propertieDefinition =  qx.Class.getPropertyDefinition(sourceObject.constructor, sourceProperty);
+      var propertieDefinition =  qx.Class.getPropertyDefinition(
+        sourceObject.constructor, sourceProperty
+      );
           
       // check for the existance of the source property
       if (qx.core.Variant.isSet("qx.debug", "on")) {
@@ -480,13 +530,14 @@ qx.Class.define("qx.data.SingleValueBinding",
       }
           
       // to string
-      if ((dataType == "boolean" || dataType == "number") && targetCheck == "String") {
+      if ((dataType == "boolean" || dataType == "number") && 
+        targetCheck == "String") {
         data = data + "";
       }
           
       // to float
       if ((dataType == "number" || dataType == "string") && 
-          (targetCheck == "Number" || targetCheck == "PositiveNumber")) {
+        (targetCheck == "Number" || targetCheck == "PositiveNumber")) {
         data = parseFloat(data);
       }
                 
@@ -629,7 +680,7 @@ qx.Class.define("qx.data.SingleValueBinding",
         var message = "Binding does not exist!"
       } else {
         var message = "Binding from '" + binding[1] + "' (" + binding[2] + 
-                      ") to the object '" + binding[3] + "' ("+ binding[4] + ").";        
+          ") to the object '" + binding[3] + "' ("+ binding[4] + ").";        
       }
 
       qx.log.Logger.debug(message);
