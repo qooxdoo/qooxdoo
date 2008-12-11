@@ -257,7 +257,7 @@ qx.Class.define("qx.test.data.DeepSingle",
     },
     
     
-    testArrayBinding : function() {
+    _testArrayBinding : function() {
       // bind the first element of the array
       qx.data.SingleValueBinding.bind(this.__a, "array[0]", this.__label, "content");
       
