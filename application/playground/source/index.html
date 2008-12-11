@@ -7,12 +7,13 @@
   .qx_samples { display:none }
   </style>
   <script type="text/javascript">if (location.hostname === "demo.qooxdoo.org") document.write('<script src="http://resources.qooxdoo.org/script/analytics.js" type="text/javascript"></scr' + 'ipt>');</script>
+  <script src="js/codemirror.js" type="text/javascript"></script>
 </head>
 <body>
 
 <!-- ********************************************************************** -->
 
-<div class="qx_samples" title="Hello World">// Create a button
+<textarea class="qx_samples" title="Hello World">// Create a button
 var button1 = new qx.ui.form.Button("First Button", "icon/22/apps/internet-web-browser.png");
 
 // Document is the application root
@@ -29,18 +30,18 @@ doc.add(button1,
 button1.addListener("execute", function(e) {
     alert("Hello World!");
 });
-</div>
+</textarea>
 
 <!-- ********************************************************************** -->
 
-<div class="qx_samples" title="Window">var win = new qx.ui.window.Window("First Window");
+<textarea class="qx_samples" title="Window">var win = new qx.ui.window.Window("First Window");
 win.open();
 this.getRoot().add(win, {left:20, top:20});
-</div>
+</textarea>
 
 <!-- ********************************************************************** -->
 
-<div class="qx_samples" title="Webbrowser">this.surfTo = function(url)
+<textarea class="qx_samples" title="Webbrowser">this.surfTo = function(url)
 {
   if (url.indexOf("http://") !== 0) {
     url = "http://" + url;
@@ -126,11 +127,11 @@ this._createBrowser = function()
 
 this.getRoot().add(this._createBrowser(), {left: 40, top: 30});
 
-</div>
+</textarea>
 
 <!-- ********************************************************************** -->
 
-<div class="qx_samples" title="Dialog">var layout = new qx.ui.layout.Grid(9, 5);
+<textarea class="qx_samples" title="Dialog">var layout = new qx.ui.layout.Grid(9, 5);
 layout.setColumnAlign(0, "right", "top");
 layout.setColumnAlign(2, "right", "top");
 layout.setColumnWidth(1, 160);
@@ -211,7 +212,7 @@ buttonPane.add(okButton);
 cancelButton = new qx.ui.form.Button("Cancel", "icon/22/actions/dialog-cancel.png");
 buttonPane.add(cancelButton);
 
-</div>
+</textarea>
 
 <!-- ********************************************************************** -->
 
