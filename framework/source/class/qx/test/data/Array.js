@@ -106,12 +106,9 @@ qx.Class.define("qx.test.data.Array",
       this.__a.sort();
       this.assertEquals("one three two", this.__a.join(" "), "Simple sort does not work");
       this.__a.sort(function(a, b) {
-        if (a == "one") {
-          return 1;
-        }
-        return -1;
+        return a > b ? -1 : 1;
       });
-      this.assertEquals("three two one", this.__a.join(" "), "Own sort does not work");
+      this.assertEquals("two three one", this.__a.join(" "), "Own sort does not work");
       
       // test for the event
       var a = new qx.data.Array(2, 7, 5);
