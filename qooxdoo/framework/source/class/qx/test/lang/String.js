@@ -141,7 +141,7 @@ qx.Class.define("qx.test.lang.String",
           },
 
           setText : function(txt) {
-            this._txt = txt;
+            this.__txt = txt;
           }
         }
       });
