@@ -4,15 +4,15 @@
   "include" :
   [
     {
-      "path" : "../../tool/data/config/application.json"
+      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json"
     }
   ],
 
   "let" :
   {
     "APPLICATION"  : "toolbox",
-    "QOOXDOO_PATH" : "../../framework",
-    "QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
+    "QOOXDOO_PATH" : "../..",
+    "QOOXDOO_FRAMEWORK" : "${QOOXDOO_PATH}/framework",
     "QXTHEME"      : "qx.theme.Modern",
     "API_EXCLUDE"  : ["qx.legacy.*"],
     "LOCALES"      : [ "en" ],

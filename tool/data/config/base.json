@@ -5,7 +5,8 @@
   "let" :
   {
     "ROOT"         : ".",
-    "QOOXDOO_PATH" : "../../framework",
+    "QOOXDOO_PATH" : "../../..",
+    "QOOXDOO_FRAMEWORK" : "${QOOXDOO_PATH}/framework",
     "CACHE"        : "cache",
     "QXTHEME"      : "qx.theme.Modern",
     "QXICONTHEME"  : ["Tango"],
@@ -44,7 +45,7 @@
       "library" :
       [
         {
-          "manifest" : "${QOOXDOO_PATH}/Manifest.json"
+          "manifest" : "${QOOXDOO_FRAMEWORK}/Manifest.json"
         },
 
         {

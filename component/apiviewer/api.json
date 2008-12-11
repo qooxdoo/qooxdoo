@@ -10,7 +10,8 @@
         "APIVIEWER_ROOT" : ".",
         "APIVIEWER"      : "apiviewer",
         "APPLICATION"    : "apiviewer",
-        "QOOXDOO_PATH"   : "../../framework",
+        "QOOXDOO_PATH" : "../..",
+        "QOOXDOO_FRAMEWORK"   : "${QOOXDOO_PATH}/framework",
         "API_INCLUDE"    : ["*"],
         "API_EXCLUDE"    : [],
         "BUILD_PATH"     : "${APIVIEWER_ROOT}/build",
@@ -20,7 +21,7 @@
       "library" :
       [
         {
-          "manifest" : "${QOOXDOO_PATH}/Manifest.json"
+          "manifest" : "${QOOXDOO_FRAMEWORK}/Manifest.json"
         },
 
         {

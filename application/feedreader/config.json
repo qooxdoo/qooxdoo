@@ -4,7 +4,7 @@
   "include" :
   [
     {
-      "path" : "../../tool/data/config/application.json"
+      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json"
     }
   ],
 
@@ -12,7 +12,8 @@
   "let" :
   {
     "APPLICATION"  : "feedreader",
-    "QOOXDOO_PATH" : "../../framework",
+    "QOOXDOO_PATH" : "../..",
+    "QOOXDOO_FRAMEWORK" : "${QOOXDOO_PATH}/framework",
     "CACHE"        : "../../cache",
     "QXTHEME"      : "qx.theme.Modern",
     "LOCALES"      : ["en", "de", "es", "fr", "it", "sv"],

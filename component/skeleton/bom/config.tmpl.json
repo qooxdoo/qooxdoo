@@ -2,7 +2,8 @@
   "let" :
   {
     "APPLICATION"  : "bom",
-    "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}/framework",
+    "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}",
+    "QOOXDOO_FRAMEWORK" : "$${QOOXDOO_PATH}/framework",
     "ROOT"         : "."
   },
 
@@ -20,7 +21,7 @@
       "library" :
       [
         {
-          "manifest" : "${REL_QOOXDOO_PATH}/framework/Manifest.json",
+          "manifest" : "$${QOOXDOO_FRAMEWORK}/Manifest.json",
           "uri" : ".."          
         }
       ],

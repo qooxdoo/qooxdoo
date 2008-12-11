@@ -8,7 +8,7 @@
     },
     
     {
-      "path" : "../../tool/data/config/application.json",
+      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json",
       "block"   : 
       [ 
         "common",
@@ -27,6 +27,7 @@
   {
       "APPLICATION"  : "testrunner",
       "CACHE"        : "../../cache",
-      "QOOXDOO_PATH" : "../../framework"
+      "QOOXDOO_PATH" : "../..",
+      "QOOXDOO_FRAMEWORK" : "${QOOXDOO_PATH}/framework"
   }
 }
