@@ -2,7 +2,7 @@
   "include" :
   [
     {
-      "path" : "../tool/data/config/application.json",
+      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json",
       "as"   : "appconf"
     },
 
@@ -14,7 +14,8 @@
   "let" :
   {
     "APPLICATION"  : "qx",
-    "QOOXDOO_PATH" : ".",
+    "QOOXDOO_PATH" : "..",
+    "QOOXDOO_FRAMEWORK" : "${QOOXDOO_PATH}/framework",
     "API_EXCLUDE"  : ["qx.legacy.*", "qx.test.*"],
     "CACHE"        : "../cache"
   },
