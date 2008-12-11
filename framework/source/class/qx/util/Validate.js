@@ -86,9 +86,11 @@ qx.Class.define("qx.util.Validate",
     checkNumber : function(value) 
     {
       if ((typeof value !== "number" && (!(value instanceof Number))) 
-           || (!(isFinite(value)))) {
-        throw new qx.core.ValidationError("Validation Error: ", value + 
-                                          " is not a Number!");
+        || (!(isFinite(value)))) 
+      {
+        throw new qx.core.ValidationError(
+          "Validation Error: ", value + " is not a Number!"
+        );
       }
     },
     
@@ -116,9 +118,11 @@ qx.Class.define("qx.util.Validate",
     checkEmail : function(value)
     {
       var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-      if (reg.test(value) === false) {
-        throw new qx.core.ValidationError("Validation Error", value + 
-                                          " is not a E-Mail address!");
+      if (reg.test(value) === false) 
+      {
+        throw new qx.core.ValidationError(
+          "Validation Error", value + " is not a E-Mail address!"
+        );
       }
     },
     
@@ -144,9 +148,11 @@ qx.Class.define("qx.util.Validate",
      */
     checkString : function(value)
     {
-      if (typeof value !== "string" && (!(value instanceof String))) {
-        throw new qx.core.ValidationError("Validation Error", value + 
-                                          " is not a String!");        
+      if (typeof value !== "string" && (!(value instanceof String))) 
+      {
+        throw new qx.core.ValidationError(
+          "Validation Error", value + " is not a String!"
+        );        
       }
     },
     
@@ -173,9 +179,11 @@ qx.Class.define("qx.util.Validate",
     checkUrl : function(value) 
     {
       var reg =  /([A-Za-z0-9])+:\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
-      if (reg.test(value) === false) {
-        throw new qx.core.ValidationError("Validation Error", value + 
-                                          " is not an url!");        
+      if (reg.test(value) === false) 
+      {
+        throw new qx.core.ValidationError(
+          "Validation Error", value + " is not an url!"
+        );        
       }
     },
     
@@ -205,8 +213,9 @@ qx.Class.define("qx.util.Validate",
       try {
         qx.util.ColorUtil.stringToRgb(value);
       } catch (e) {
-        throw new qx.core.ValidationError("Validation Error", value + 
-                                          " is not a color! " + e);
+        throw new qx.core.ValidationError(
+          "Validation Error", value + " is not a color! " + e
+        );
       }
     },
     
@@ -227,10 +236,12 @@ qx.Class.define("qx.util.Validate",
     {
       return function(value) 
       {
-        if (value < from || value > to) {
-          throw new qx.core.ValidationError("Validation Error", value + 
-                                            " is not in the range from [" + 
-                                            from + ", " + to + "]!");
+        if (value < from || value > to) 
+        {
+          throw new qx.core.ValidationError(
+            "Validation Error", value + " is not in the range from [" + 
+            from + ", " + to + "]!"
+          );
         }
       }
     },
@@ -248,9 +259,11 @@ qx.Class.define("qx.util.Validate",
     {
       return function(value) 
       {
-        if (array.indexOf(value) === -1) {
-          throw new qx.core.ValidationError("Validation Error", value + 
-                                            " is not in " + array + "!");
+        if (array.indexOf(value) === -1) 
+        {
+          throw new qx.core.ValidationError(
+            "Validation Error", value + " is not in " + array + "!"
+          );
         }
       }
     },
@@ -269,9 +282,11 @@ qx.Class.define("qx.util.Validate",
     {
       return function(value) 
       {
-        if (reg.test(value) === false) {
-          throw new qx.core.ValidationError("Validation Error", value + 
-                                            " does not fit " + reg + ".");        
+        if (reg.test(value) === false) 
+        {
+          throw new qx.core.ValidationError(
+            "Validation Error", value + " does not fit " + reg + "."
+          );
         }        
       }
     }
