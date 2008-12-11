@@ -44,7 +44,6 @@
   {
     "ROOT"         : ".",
     "QOOXDOO_PATH" : "../../..",
-    "QOOXDOO_FRAMEWORK" : "${QOOXDOO_PATH}/framework",
     "CACHE"        : "cache",
     "QXTHEME"      : "qx.theme.Modern",
     "QXVERSION"    : "0.8.1-pre",

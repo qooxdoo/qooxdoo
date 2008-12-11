@@ -12,7 +12,6 @@
   {
     "APPLICATION"  : "toolbox",
     "QOOXDOO_PATH" : "../..",
-    "QOOXDOO_FRAMEWORK" : "${QOOXDOO_PATH}/framework",
     "QXTHEME"      : "qx.theme.Modern",
     "API_EXCLUDE"  : ["qx.legacy.*"],
     "LOCALES"      : [ "en" ],

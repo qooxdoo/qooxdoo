@@ -3,7 +3,6 @@
   {
     "APPLICATION"  : "bom",
     "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}",
-    "QOOXDOO_FRAMEWORK" : "$${QOOXDOO_PATH}/framework",
     "ROOT"         : "."
   },
 
@@ -21,7 +20,7 @@
       "library" :
       [
         {
-          "manifest" : "$${QOOXDOO_FRAMEWORK}/Manifest.json",
+          "manifest" : "$${QOOXDOO_PATH}/framework/Manifest.json",
           "uri" : ".."          
         }
       ],
