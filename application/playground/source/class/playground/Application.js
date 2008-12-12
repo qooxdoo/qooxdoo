@@ -155,9 +155,33 @@ qx.Class.define("playground.Application",
       this.__openApiViewer();
       this.__openHelpDialog();
       this.__openLog();
+      
 
+      // Back button and bookmark support
+      this._history = qx.bom.History.getInstance();
+      
+      this._history.addListener("request", function(e)
+      {
+        var newSample = e.getData();
+        if(this.sampleContainer[state] != undefined){
+         	this.textarea.setValue(this.sampleContainer[newSample]);
+          this.updatePlayground(this.__playRoot);
+          // update state on example change
+          this._history.addToHistory(newSample, newSample);
+        }
+      },
+      this);
+      
       //initializing value of the textarea
-      this.textarea.setValue(this.sampleContainer["Hello World"]);
+      var state = this._history.getState();
+      
+      //checks for the state, if the state contains an example, it will initialize
+      //the application with the selected sample
+      if(this.sampleContainer[state] != undefined){
+        this.textarea.setValue(this.sampleContainer[state !== null ? state : "Hello World"]);
+      } else {
+      	this.textarea.setValue(this.sampleContainer["Hello World"]);
+      }
 
       this.updatePlayground(this.__playRoot);
     },
@@ -428,7 +452,7 @@ qx.Class.define("playground.Application",
     /**
      * initializes the playground with a sample.
      *
-     * @param e {Event} TODOC
+     * @param e {Event} the current target
      * @return {void} 
      */
     __onSampleChanged : function(e)
