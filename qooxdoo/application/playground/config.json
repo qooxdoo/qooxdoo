@@ -39,6 +39,27 @@
       {
         "=qx.debug" : ["on"]
       }
-    }  
+    },
+    
+    "source" :
+    {
+
+      "include" :     
+      [
+        "${APPLICATION}.*",
+        "qx.*"
+      ],
+      "exclude" :
+      [
+        "qx.legacy.*",
+        "qx.test.*"
+      ],
+
+      "variants" :
+      {
+        "=qx.debug" : ["on"]
+      }
+    }    
+    
   }
 }
