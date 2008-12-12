@@ -204,7 +204,7 @@ qx.Class.define("qx.ui.form.Button",
      */
     _onMouseOver : function(e)
     {
-      if (!this.isEnabled() || e.getTarget() !== this) {
+      if (!this.isEnabled() || e.getOriginalTarget() !== this) {
         return;
       }
 
@@ -230,7 +230,7 @@ qx.Class.define("qx.ui.form.Button",
      */
     _onMouseOut : function(e)
     {
-      if (!this.isEnabled() || e.getTarget() !== this) {
+      if (!this.isEnabled() || e.getOriginalTarget() !== this) {
         return;
       }
 

@@ -252,7 +252,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
      */
     _onMouseOver : function(e)
     {
-      if (!this.isEnabled() || e.getTarget() !== this) {
+      if (!this.isEnabled() || e.getOriginalTarget() !== this) {
         return;
       }
 
@@ -279,7 +279,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
      */
     _onMouseOut : function(e)
     {
-      if (!this.isEnabled() || e.getTarget() !== this) {
+      if (!this.isEnabled() || e.getOriginalTarget() !== this) {
         return;
       }
 
