@@ -30,6 +30,7 @@
     "build-script",
     "clean",
     "distclean",
+    "publish",
     "source",
     "source-data",
     "source-demo-jobs",
