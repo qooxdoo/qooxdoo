@@ -207,7 +207,13 @@ class Config:
     def getExportedJobsList(self):
         expList = self.get('export', False)  # is there a dedicated list of exported jobs?
         if isinstance(expList, types.ListType):
-            return expList
+            netList = []
+            for job in expList:
+                if self.getJob(job) == None:
+                    self._console.warn("! Skipping unknown 'export' job: \"%s\"" % job)
+                else:
+                    netList.append(job)
+            return netList
         else:
             return self.getJobsList()
 
