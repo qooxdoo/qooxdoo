@@ -1134,6 +1134,9 @@ class Generator:
             
             # TODO: Add version, svn revision, maybe even authors, but at least homepage link, ...
 
+            if 'version' in lib:
+                result += ',"version":"%s"' % lib['version']
+
             result += '};'
 
         return result

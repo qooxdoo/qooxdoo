@@ -37,17 +37,24 @@ class Manifest(object):
 
     def patchLibEntry(self, libentry):
         '''Patches a "library" entry with the information from Manifest'''
-        libinfo   = self._manifest['provides']
+        libinfo       = self._manifest['info']
+        libprovides   = self._manifest['provides']
         #uriprefix = libentry['uri']
         uriprefix = ""
-        libentry['class']         = os.path.join(uriprefix,libinfo['class'])
-        libentry['resource']      = os.path.join(uriprefix,libinfo['resource'])
-        libentry['translation']   = os.path.join(uriprefix,libinfo['translation'])
-        libentry['encoding']    = libinfo['encoding']
+        libentry['class']         = os.path.join(uriprefix,libprovides['class'])
+        libentry['resource']      = os.path.join(uriprefix,libprovides['resource'])
+        libentry['translation']   = os.path.join(uriprefix,libprovides['translation'])
+        libentry['encoding']    = libprovides['encoding']
         if 'namespace' not in libentry:
-            libentry['namespace']   = libinfo['namespace']
-        libentry['type']        = libinfo['type']
+            libentry['namespace']   = libprovides['namespace']
+        libentry['type']        = libprovides['type']
         libentry['path']        = os.path.dirname(libentry['manifest']) or '.'
+
+        # from the 'info' section
+        if 'version' in libinfo:
+            libentry['version'] = libinfo['version']
+        if 'qooxdoo-versions' in libinfo:
+            libentry['qooxdoo-versions'] = libinfo['qooxdoo-versions']
 
         return libentry
 
