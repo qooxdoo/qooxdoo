@@ -30,7 +30,7 @@
       	"qx.ui.core.Widget" : ["qx.theme.Classic","qx.theme.Modern"]
       },
 
-      "themes" :
+      "asset-let" :
       {
         "qx.icontheme" : ["Oxygen", "Tango"],
         "qx.theme"     : ["Classic", "Modern"]
