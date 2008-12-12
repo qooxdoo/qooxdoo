@@ -277,6 +277,72 @@ win.addListener("keypress", function(e) {
 
 <!-- ********************************************************************** -->
 
+<textarea class="qx_samples" title="Calculator c't">var win = new qx.ui.window.Window("Calculator");
+win.setLayout(new qx.ui.layout.VBox(3));
+win.set({
+  resizable: false,
+  showClose: false,
+  showMinimize: false,
+  showMaximize: false,
+  allowMaximize: false
+});
+this.getRoot().add(win, {left:100, top:50}); 
+win.open();
+
+var display = new qx.ui.basic.Label("0").set({
+  allowGrowX: true,
+  textAlign : "right",
+  font: "bold",
+  decorator: "main",
+  padding: 2  
+});
+win.add(display, {flex:1});
+
+var buttonContainer = new qx.ui.container.Composite();
+var grid = new qx.ui.layout.Grid(3, 3);
+buttonContainer.setLayout(grid);
+win.add(buttonContainer, {flex:6});
+
+var labels = [
+  ["MC", "M+", "M-", "MR"],
+  ["C", "&plusmn;", "&divide;", "*"],
+  ["7", "8", "9", "-"],
+  ["4", "5", "6", "+"],
+  ["1", "2", "3", "="],
+  ["0", null, ",", null]
+]; 
+
+var buttons = {};
+for (var row=0; row<6; row++) {
+  for (var column=0; column<4; column++) {
+    var label = labels[row][column];
+    if (label) {
+      var button = new qx.ui.form.Button(label).set({
+        rich: true
+      });
+      buttonContainer.add(button, {row: row, column: column});
+      buttons[label] = button;
+    }
+  }
+} 
+
+buttons["="].setLayoutProperties({rowSpan: 2});
+buttons["0"].setLayoutProperties({colSpan: 2}); 
+
+for (label in buttons) {
+  buttons[label].addListener("execute", function(e) {
+    var button = e.getTarget();
+    alert("Pressed: " + button.getLabel());
+  }, this);
+}
+
+win.addListener("keypress", function(e) {
+  alert("Key: " + e.getKeyIdentifier());
+}, this);
+</textarea>
+
+<!-- ********************************************************************** -->
+
   <script type="text/javascript" src="script/playground.js"></script>
 </body>
 </html>
