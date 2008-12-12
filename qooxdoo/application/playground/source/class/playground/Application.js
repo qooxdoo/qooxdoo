@@ -231,7 +231,7 @@ qx.Class.define("playground.Application",
       });
 
       container.add(this.textarea, { flex : 1 });
-
+/*
       // this code part uses the Codemirror library to add syntax highlighting
       // to the current textarea
       this.textarea.addListenerOnce("appear", function()
@@ -239,29 +239,51 @@ qx.Class.define("playground.Application",
         var height = this.textarea.getBounds().height;
         var width = this.textarea.getBounds().width;
 
-        this.myEditor = new playground.Editor(this.textarea, width, height);
+//        this.myEditor = new playground.Editor(this.textarea, width, height);
 
+          
+        this.textarea.getContentElement().getDomElement().style.display = "none";
+        
+        this.myEditor = new CodeMirror( this.textarea.getContainerElement().getDomElement(),   {
+      content            : this.textarea.getValue(),
+      parserfile         : [ "tokenizejavascript.js", "parsejavascript.js" ],
+      stylesheet         : "css/jscolors.css",
+      path               : "js/",
+      textWrapping       : false,
+      continuousScanning : false,
+      width              : this.width + "px",
+      height             : this.height + "px",
+      autoMatchParens    : true
+    });
+        
+        this.myEditor.frame.style.width = this.textarea.getBounds().width + "px";
+        this.myEditor.frame.style.height = this.textarea.getBounds().height + "px";
+        
         // to achieve auto-resize, the editor sets the size of the container element
         this.textarea.addListener("resize", function()
         {
-          this.getContainerElement().getDomElement().childNodes[0].firstChild.style.width = width + "px";
-          this.getContainerElement().getDomElement().childNodes[0].firstChild.style.height = height + "px";
+          this.myEditor.frame.style.width = this.textarea.getBounds().width + "px";
+          this.myEditor.frame.style.height = this.textarea.getBounds().height + "px";
+//          this.textarea.getContainerElement().getDomElement().childNodes[0].firstChild.style.width = width + "px";
+//          this.textarea.getContainerElement().getDomElement().childNodes[0].firstChild.style.height = height + "px";
         },
-        this.textarea);
+        this);
 
         // ******************************************************************************
         // ******************************************************************************
         // The protector disables the opportunity to edit the editor, therefore it
         // will removed
         // This code fragment is a temporary solution, it will removed, if another solution is found
-        var protector = this.textarea.__protectorElement;
-        protector.getDomElement().parentNode.removeChild(protector.getDomElement());
+        var protector = this.textarea.getContainerElement().getChildren()[1];
+        if(protector) {
+          protector.getDomElement().parentNode.removeChild(protector.getDomElement());
+        }
       },
 
       // ******************************************************************************
       // ******************************************************************************
       this);
-
+*/
       return container;
     },
 
@@ -412,8 +434,12 @@ qx.Class.define("playground.Application",
       var currentSource = this.sampleContainer[this.currentSelectedButton];
       currentSource = currentSource.replace(/&lt;/g, "<").replace(/&gt;/g, ">");
 
-      this.textarea.setValue(currentSource);
-      this.myEditor.getEditor().setCode(currentSource);
+      if (this.myEditor != undefined) {
+        this.myEditor.getEditor().setCode(currentSource);
+      } else {
+        this.textarea.setValue(currentSource);
+      }
+      
       this.playAreaCaption.setContent(this.currentSelectedButton);
 
       // this.textarea.setHtml(currentSource);
