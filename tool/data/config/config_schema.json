@@ -307,7 +307,7 @@
             "descr" : "Triggers cutting images into regions.",
           },
 
-          "themes" :
+          "asset-let" :
           {
             "descr" : "Defines theme keys that will be replaced in #asset hints in source files. (See special section on the 'themes' key).",
           },

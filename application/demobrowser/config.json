@@ -82,7 +82,7 @@
       },
 
       // the next is in since resource copying is done here for the demos as well
-      "themes" :
+      "asset-let" :
       {
         "qx.icontheme" : ["Tango", "Oxygen"],
         "qx.theme"     : ["Modern"]

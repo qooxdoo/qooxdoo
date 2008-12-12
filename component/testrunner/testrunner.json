@@ -44,7 +44,7 @@
         "testrunner.title" : "${APPLICATION}"
       },
 
-      "themes" :
+      "asset-let" :
       {
         "qx.icontheme" : ["Tango"],
         "qx.theme"     : ["${THEME}"]
