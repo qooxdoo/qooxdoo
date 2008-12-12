@@ -80,24 +80,24 @@
 
     // Do something with all libs
 
-    "source-all" :
+    "source-full" :
     {
       "extend" : ["common"],
 
       "compile-source" :
       {
-        "file" : "source-all.js",
+        "file" : "source-full.js",
         "root" : "."
       }
     },
 
-    "compile-all" :
+    "compile-full" :
     {
       "extend" : ["common"],
 
       "compile-dist" :
       {
-        "file" : "build-all.js",
+        "file" : "build-full.js",
         "root" : "."
       }
     },
