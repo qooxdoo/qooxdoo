@@ -7,7 +7,6 @@
   .qx_samples { display:none }
   </style>
   <script type="text/javascript">if (location.hostname === "demo.qooxdoo.org") document.write('<script src="http://resources.qooxdoo.org/script/analytics.js" type="text/javascript"></scr' + 'ipt>');</script>
-  <script src="js/codemirror.js" type="text/javascript"></script>
 </head>
 <body>
 
@@ -244,7 +243,7 @@ var labels = [
   ["7", "8", "9", "-"],
   ["4", "5", "6", "+"],
   ["1", "2", "3", "="],
-  ["0", null, ",", null]
+  ["0", null, ".", null]
 ]; 
 
 var buttons = {};
@@ -299,12 +298,12 @@ var display = new qx.ui.basic.Label("0").set({
   decorator: "main",
   padding: 2  
 });
-win.add(display, {flex:1});
+win.add(display);
 
 var buttonContainer = new qx.ui.container.Composite();
 var grid = new qx.ui.layout.Grid(3, 3);
 buttonContainer.setLayout(grid);
-win.add(buttonContainer, {flex:6});
+win.add(buttonContainer);
 
 var labels = [
   ["MC", "M+", "M-", "MR"],
@@ -312,7 +311,7 @@ var labels = [
   ["7", "8", "9", "-"],
   ["4", "5", "6", "+"],
   ["1", "2", "3", "="],
-  ["0", null, ",", null]
+  ["0", null, ".", null]
 ]; 
 
 var buttons = {};
@@ -320,9 +319,8 @@ for (var row=0; row<6; row++) {
   for (var column=0; column<4; column++) {
     var label = labels[row][column];
     if (label) {
-      var button = new qx.ui.form.Button(label).set({
-        rich: true
-      });
+      var button = new qx.ui.form.Button(label);
+      button.setRich(true);
       buttonContainer.add(button, {row: row, column: column});
       buttons[label] = button;
     }
