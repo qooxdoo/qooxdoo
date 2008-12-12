@@ -239,8 +239,6 @@ qx.Class.define("playground.Application",
         var height = this.textarea.getBounds().height;
         var width = this.textarea.getBounds().width;
 
-//        this.myEditor = new playground.Editor(this.textarea, width, height);
-
           
         this.textarea.getContentElement().getDomElement().style.display = "none";
         
@@ -315,16 +313,23 @@ qx.Class.define("playground.Application",
       if (this.currentSelectedButton == undefined) {
         this.currentSelectedButton = "Hello World";
       }
-
-      if (this.sampleContainer[this.currentSelectedButton].length == this.myEditor.getEditor().getCode().length)
+      
+      var compareElem1 = document.getElementById("compare_div1");
+      compareElem1.innerHTML = this.sampleContainer[this.currentSelectedButton];
+      
+      var compareElem2 = document.getElementById("compare_div2");
+      //compareElem2.innerHTML = this.myEditor.getEditor().getCode();
+      compareElem2.innerHTML = this.textarea.getValue();
+      
+      if (compareElem1.innerHTML.length == compareElem2.innerHTML.length)
       {
-        if (this.sampleContainer[this.currentSelectedButton] != this.myEditor.getEditor().getCode()) {
-          this.playAreaCaption.setContent("Application");
-        } else {
-          this.playAreaCaption.setContent(this.currentSelectedButton);
-        }
+       if (compareElem1.innerHTML != compareElem2.innerHTML) {
+         this.playAreaCaption.setContent("Application");
+       } else {
+         this.playAreaCaption.setContent(this.currentSelectedButton);
+       }
       }
-      else if (this.sampleContainer[this.currentSelectedButton].length != this.myEditor.getEditor().getCode().length)
+      else if (compareElem1.innerHTML.length != compareElem2.innerHTML.length)
       {
         this.playAreaCaption.setContent("Application");
       }
@@ -343,9 +348,9 @@ qx.Class.define("playground.Application",
       {
         this.updatePlayground(root);
 
-        if (this.myEditor != undefined) {
+        //if (this.myEditor != undefined) {
           this.__isSourceCodeChanged();
-        }
+        //}
       },
       this);
     },
@@ -442,7 +447,6 @@ qx.Class.define("playground.Application",
       
       this.playAreaCaption.setContent(this.currentSelectedButton);
 
-      // this.textarea.setHtml(currentSource);
       this.updatePlayground(this.__playRoot);
     },
 
