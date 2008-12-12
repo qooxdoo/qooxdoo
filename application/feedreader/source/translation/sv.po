@@ -45,7 +45,7 @@ msgstr "Fyll i en titel"
 msgid "Please enter a url."
 msgstr "Fyll i en url."
 
-#: feedreader/view/List.js:45
+#: feedreader/view/List.js:50
 msgid "Posts"
 msgstr "Poster"
 
