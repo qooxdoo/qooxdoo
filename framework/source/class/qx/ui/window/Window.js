@@ -459,6 +459,7 @@ qx.Class.define("qx.ui.window.Window",
 
         case "title":
           control = new qx.ui.basic.Label(this.getCaption());
+          control.setWidth(0);
           control.setAllowGrowX(true);
           this._getChildControl("captionbar").add(control, {row: 0, column:1});
           break;
