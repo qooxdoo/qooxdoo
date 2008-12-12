@@ -45,7 +45,7 @@ msgstr "S'il-vous-plaît, entrez un titre."
 msgid "Please enter a url."
 msgstr "S'il-vous-plaît, entrez une url."
 
-#: feedreader/view/List.js:45
+#: feedreader/view/List.js:50
 msgid "Posts"
 msgstr "Messages"
 
