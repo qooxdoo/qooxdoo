@@ -113,7 +113,7 @@
     },
 
 
-    "source-full-script" :
+    "source-all-script" :
     {
       "desc"    : "create includer script of current application",
 
@@ -142,13 +142,13 @@
     },
 
 
-    "source-full" :
+    "source-all" :
     {
       "desc"    : "create source version of current application, with all classes",
 
       "run" :
       [
-        "source-full-script"
+        "source-all-script"
       ]
     },
 

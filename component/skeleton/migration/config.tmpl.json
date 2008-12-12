@@ -21,7 +21,7 @@
     "pretty",
     "profiling",
     "source",
-    "source-full",
+    "source-all",
     "test",
     "test-source",
     "translation"
