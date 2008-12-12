@@ -1724,7 +1724,7 @@ class _ResourceHandler(object):
     # The support for macros, themes, variants and all the types of variables make me somewhat crazy.
     # Makes it complicated for users as well.
     def _expandMacrosInMeta(self, res):
-        themeinfo = self._genobj._job.get('themes',{})
+        themeinfo = self._genobj._job.get('asset-let',{})
 
         def expMacRec(rsc):
             if rsc.find('${')==-1:

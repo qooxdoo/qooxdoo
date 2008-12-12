@@ -78,7 +78,7 @@
         "qx.application" : "${APPLICATION}.Application"
       },
       
-      "themes" :
+      "asset-let" :
       {
         "qx.icontheme" : "${QXICONTHEME}"
       }
