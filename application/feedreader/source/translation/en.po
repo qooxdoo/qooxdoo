@@ -45,7 +45,7 @@ msgstr ""
 msgid "Please enter a url."
 msgstr ""
 
-#: feedreader/view/List.js:45
+#: feedreader/view/List.js:50
 msgid "Posts"
 msgstr ""
 

@@ -600,12 +600,7 @@ class POFile(_BaseFile):
             e = self.find(entry.msgid)
             if e is None:
                 # entry is not in the po file, we must add it
-                # entry is created with msgid, occurrences and comment
-                self.append(POEntry(
-                    msgid=entry.msgid,
-                    occurrences=entry.occurrences,
-                    comment=entry.comment
-                ))
+                self.append(entry)
             else:
                 # entry found, we update it...
                 e.occurrences = entry.occurrences

@@ -65,6 +65,10 @@ class Locale:
             # adding a hint/comment if available
             if "hint" in strings[msgid]:
                 obj.comment = strings[msgid]["hint"]
+            
+            if "plural" in strings[msgid]:
+                obj.msgid_plural = strings[msgid]["plural"]
+                obj.msgstr_plural[0] = ""
 
         pot.sort()
 
