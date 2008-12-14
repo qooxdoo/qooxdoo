@@ -171,10 +171,10 @@
 
       "compile-dist" :
       {
-        "target" : "build",
-        "file" : "./build/script/${APPLICATION}.js",
-        "uri"  : "script/${APPLICATION}.js",
-        "root" : "build"
+        "paths" :
+        {
+          "file" : "./build/script/${APPLICATION}.js"
+        }
       }
     },
 

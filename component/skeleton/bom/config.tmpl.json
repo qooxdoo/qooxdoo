@@ -47,11 +47,19 @@
 
       "compile-dist" :
       {
-        "file" : "compile-bom.js",
-        "target" : "build",
-        "uri" : ".",
-        "root" : "build",
-        "optimize" : [ "variables", "basecalls", "privates", "strings" ]
+        "paths" :
+        {
+          "file" : "compile-bom.js"
+        },
+        "uris" :
+        {
+          "script"   : ".",
+          "resource" : "."
+        },
+        "code" :
+        {
+          "optimize" : [ "variables", "basecalls", "privates", "strings" ]
+        }
       }
     },
     

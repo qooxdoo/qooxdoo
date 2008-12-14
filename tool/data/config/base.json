@@ -167,13 +167,21 @@
 
       "compile-dist" :
       {
-        "target" : "${BUILD_PATH}",
-        "file" : "${BUILD_PATH}/script/${APPLICATION}.js",
-        "uri"  : "script/${APPLICATION}.js",
-        "root" : "${BUILD_PATH}",
-        "format" : "on",
-        "locales"  : "${LOCALES}",
-        "optimize" : "${OPTIMIZE}"
+        "paths"  :
+        {
+          "file" : "${BUILD_PATH}/script/${APPLICATION}.js"
+        },
+        "uris"   :
+        {
+          "script"   : "script"
+          //,"resource" : "resource"
+        },
+        "code"   :
+        {
+          "format"   : true,
+          "locales"  : "${LOCALES}",
+          "optimize" : "${OPTIMIZE}"
+        }
       }
     },
 
