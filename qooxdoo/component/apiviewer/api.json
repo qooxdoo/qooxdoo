@@ -78,12 +78,15 @@
 
       "compile-dist" :
       {
-        "target" : "${BUILD_PATH}",
-        "file" : "${BUILD_PATH}/script/${APIVIEWER}.js",
-        "format" : false,
-        "optimize" : ["strings", "basecalls", "variables", "privates"],
-        "uri"  : "script/${APIVIEWER}.js",
-        "root" : "${BUILD_PATH}"
+        "paths" :
+        {
+          "file" : "${BUILD_PATH}/script/${APIVIEWER}.js"
+        },
+        "code" :
+        {
+          "format"   : false,
+          "optimize" : ["strings", "basecalls", "variables", "privates"]
+        }
       }
     },
 

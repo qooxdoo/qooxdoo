@@ -613,7 +613,7 @@ class Generator:
                 # Get source and target paths, and invoke copying
 
                 # Get a source path
-                resSource = os.path.normpath(res[0])
+                resSource = os.path.normpath(res)
 
                 # Construct a target path
                 # strip off a library prefix...
@@ -626,7 +626,7 @@ class Generator:
                 resTarget = os.path.join(resTargetRoot, 'resource', relpath)
 
                 # Copy
-                self._copyResources(res[0], os.path.dirname(resTarget))
+                self._copyResources(res, os.path.dirname(resTarget))
 
         self._console.outdent()
 
@@ -688,47 +688,62 @@ class Generator:
 
 
     def runCompiled(self, parts, packages, boot, variants):
-        if not self._job.get("compile-dist/file"):
+        if not self._job.get("compile-dist", False):
             return
 
+        compConf = ExtMap(self._job.get("compile-dist"))
+
+        def getAppName(memo={}):
+            if not 'appname' in memo:
+                appname = self._job.get("let/APPLICATION")
+                if not appname:
+                    raise RuntimeError, "Need an application name in config (key let/APPLICATION)"
+                else:
+                    memo['appname'] = appname
+            return memo['appname']
+
+        def getOutputFile():
+            filePath = compConf.get("paths/file")
+            if not filePath:
+                filePath = os.path.join("build", "script", getAppName() + ".js")
+            return filePath
+
+        def getFileUri(scriptUri):
+            appfile = os.path.basename(fileRelPath)
+            fileUri = os.path.join(scriptUri, appfile)  # make complete with file name
+            fileUri = Path.posifyPath(fileUri)
+            return fileUri
+
         # Read in base file name
-        filePath = self._job.get("compile-dist/file")
-        if variants and False: # TODO: get variant names from config
-            filePath = self._makeVariantsName(filePath, variants)
-        filePath = self._config.absPath(filePath)
+        fileRelPath = getOutputFile()
+        filePath    = self._config.absPath(fileRelPath)
 
-        # The place where the app HTML ("index.html") lives
-        self.approot = self._job.get("compile-dist/root", None)
-        if self.approot:
-            self.approot = self._config.absPath(self.approot)
-
-        # Read in relative file name
-        fileUri = self._job.get("compile-dist/uri", filePath)
+        # Read in uri prefixes
+        scriptUri = compConf.get('uris/script', 'script')
+        fileUri = getFileUri(scriptUri)
 
         # Read in compiler options
-        optimize = self._job.get("compile-dist/optimize", [])
+        optimize = compConf.get("code/optimize", [])
 
         # Whether the code should be formatted
-        format = self._job.get("compile-dist/format", False)
+        format = compConf.get("code/format", False)
 
         # Read in settings
         settings = self.getSettings()
 
-        # Get resource list
-        buildRoot= self._job.get('compile-dist/target', "build")
-        buildRoot= self._config.absPath(buildRoot)
-        buildUri = self._job.get('compile-dist/resourceUri', ".")
+        # For resource list
+        resourceUri = compConf.get('uris/resource', 'resource')
+        resourceUri = Path.posifyPath(resourceUri)
+        forceUri = resourceUri
+
+        # Get translation maps
+        locales = compConf.get("paths/locales", [])
+        translationMaps = self.getTranslationMaps(parts, packages, variants, locales)
 
         libs = self._job.get("library", [])
-        forceUri = Path.rel_from_to(self.approot, os.path.join(buildRoot, "resource"))
-        forceUri = Path.posifyPath(forceUri)
 
         # Generating boot script
         self._console.info("Generating boot script...")
-
-        # Get translation maps
-        locales = self._job.get("compile-dist/locales", [])
-        translationMaps = self.getTranslationMaps(parts, packages, variants, locales)
 
         # wpbasti: Most of this stuff is identical between source/compile. Put together somewhere else.
         bootBlocks = []
@@ -750,7 +765,7 @@ class Generator:
         # Save result file
         filetool.save(resolvedFilePath, bootContent)
 
-        if self._job.get("compile-dist/gzip"):
+        if compConf.get("paths/gzip"):
             filetool.gzip(resolvedFilePath, bootContent)
 
         self._console.debug("Done: %s" % self._computeContentSize(bootContent))
@@ -783,7 +798,7 @@ class Generator:
             # Save result file
             filetool.save(resolvedFilePath, compiledContent)
 
-            if self._job.get("compile-dist/gzip"):
+            if compConf.get("paths/gzip"):
                 filetool.gzip(resolvedFilePath, compiledContent)
 
             self._console.debug("Done: %s" % self._computeContentSize(compiledContent))
@@ -1185,7 +1200,7 @@ class Generator:
             mfile = open(meta_fname)
             imgDict = simplejson.loads(mfile.read())
             mfile.close()
-            for mimg, mimgs in imgDict.iteritems():
+            for mimg, mimgs in imgDict.items():
                 # sort of like this: mimg : [width, height, type, combinedUri, off-x, off-y]
                 mimgspec = ImgInfoFmt(mimgs)
                 # have to normalize the uri's from the meta file
@@ -1194,7 +1209,8 @@ class Generator:
                 mimguri = normalizeImgUri(mimg, cimguri, mimgspec.mappedId)
                 ## replace lib uri with lib namespace in mimguri
                 ##mimgshorturi = replaceWithNamespace(mimguri, libresuri, cimgfmt.lib)
-                mimgshorturi = extractAssetPart(libresuri, mimguri)
+                #mimgshorturi = extractAssetPart(libresuri, mimguri)
+                mimgshorturi = extractAssetPart(librespath, mimguri)
                 mimgshorturi = Path.posifyPath(mimgshorturi)
 
                 mimgspec.mappedId = cimgshorturi        # correct the mapped uri of the combined image
@@ -1207,18 +1223,21 @@ class Generator:
         # main
 
         for lib in libs:
-            libresuri = self._computeResourceUri(lib, "", rType='resource', appRoot=self.approot)
+            #libresuri = self._computeResourceUri(lib, "", rType='resource', appRoot=self.approot)
+            librespath = os.path.normpath(os.path.join(lib['path'], lib['resource']))
             resourceList = self._resourceHandler.findAllResources([lib],
                                 self._resourceHandler.filterResourcesByClasslist(self._classList))
             # resourceList = [[file1,uri1],[file2,uri2],...]
             for resource in resourceList:
                 ##assetId = replaceWithNamespace(imguri, libresuri, lib['namespace'])
-                assetId = extractAssetPart(libresuri, resource[1])
+                #assetId = extractAssetPart(libresuri, resource[1])
+                assetId = extractAssetPart(librespath,resource)
                 assetId = Path.posifyPath(assetId)
 
-                if imgpatt.search(resource[0]): # handle images
-                    imgpath= resource[0]
-                    imguri = resource[1]
+                if imgpatt.search(resource): # handle images
+                    imgpath= resource
+                    #imguri = resource[1]
+                    imguri = resource
                     imageInfo = self._imageInfo.getImageInfo(imgpath)
 
                     # use an ImgInfoFmt object, to abstract from flat format
@@ -1607,7 +1626,7 @@ class _ResourceHandler(object):
             ruri = (self._genobj._computeResourceUri(lib, relpath, rType='resource', 
                                                         appRoot=self._genobj.approot))
 
-            return (resource, ruri)
+            return (rsource, ruri)
 
             
         # - Main --------------------------------------------------------------
@@ -1640,7 +1659,8 @@ class _ResourceHandler(object):
                 elif (filter and not filter(resource)):
                     continue
                 else:
-                    result.append(resourceValue(resource))
+                    #result.append(resourceValue(resource))
+                    result.append(resource)
 
             if not inCache:
                 # cache write

@@ -164,10 +164,10 @@
 
       "compile-dist" :
       {
-        "target" : "${BUILD_PATH}",
-        "file"   : "${BUILD_PATH}/script/${TESTRUNNER}.js", // this should be relative to 'target'
-        "uri"    : "script/${TESTRUNNER}.js",  // this should be calculated from 'root'
-        "root"   : "${BUILD_PATH}"  // should be relative to 'target'?
+        "paths" :
+        {
+          "file"   : "${BUILD_PATH}/script/${TESTRUNNER}.js" // this should be relative to 'target'
+        }
       }
     },
 
@@ -183,11 +183,19 @@
 
       "compile-dist" :
       {
-        "target" : "${BUILD_PATH}",
-        "file" : "${BUILD_PATH}/script/tests.js",
-        "uri"  : "../script/tests.js",
-        "locales" : "${LOCALES}",
-        "root" : "${BUILD_PATH}/html"
+        "paths" :
+        {
+          "file" : "${BUILD_PATH}/script/tests.js"
+        },
+        "uris" :
+        {
+           "script"  : "../script",
+          "resource" : "../resource"
+        },
+        "code" :
+        {
+          "locales" : "${LOCALES}"
+        }
       }
     },
 
