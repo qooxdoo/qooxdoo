@@ -1633,10 +1633,12 @@ qx.Class.define("qx.ui.table.Table",
      */
     _updateStatusBar : function()
     {
-      if (this.getStatusBarVisible())
+      var tableModel = this.getTableModel();
+      
+      if (this.getStatusBarVisible() && tableModel)
       {
         var selectedRowCount = this.getSelectionModel().getSelectedCount();
-        var rowCount = this.getTableModel().getRowCount();
+        var rowCount = tableModel.getRowCount();
 
         var text;
 
