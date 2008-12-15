@@ -94,6 +94,11 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
       for (key in reg)
       {
         var obj = reg[key];
+        
+        // skip pooled objects
+        if (obj.$$pooled) {
+          continue
+        }
         this.assertNotUndefined(
           regCopy[key],
           msg + ": The object '" + obj + "' has not been disposed!"
