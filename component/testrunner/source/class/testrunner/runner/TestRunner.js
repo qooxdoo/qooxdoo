@@ -981,11 +981,9 @@ qx.Class.define("testrunner.runner.TestRunner",
       this.loader = this.frameWindow.testrunner.TestLoader.getInstance();
       // Avoid errors in slow browsers
 
-      if(
-        qx.bom.client.Engine.GECKO &&
-        (qx.bom.client.Engine.VERSION < 1.9) &&
-        (!this.loader)
-      ){
+      if (!this.loader)
+      {
+        qx.event.Timer.once(this._ehIframeOnLoad, this, 100);
         return;
       }
 
