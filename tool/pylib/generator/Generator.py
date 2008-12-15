@@ -377,7 +377,8 @@ class Generator:
                 # Reading configuration
                 partsCfg = self._job.get("packages/parts", {})
                 collapseCfg = self._job.get("packages/collapse", [])
-                sizeCfg = self._job.get("packages/size", 0)
+                minPackageSize = self._config.get("packages/sizes/min-package", 0)
+                minPackageSizeForUnshared = self._config.get("packages/sizes/min-package-unshared", None)
                 boot = self._job.get("packages/init", "boot")
 
                 # Automatically add boot part to collapse list
@@ -393,7 +394,7 @@ class Generator:
                 # Computing packages
                 # partPackages[partId]=[0,1,3]
                 # packageClasses[0]=['qx.Class','qx.bom.Stylesheet',...]
-                partPackages, packageClasses = partBuilder.getPackages(partIncludes, smartExclude, classList, collapseCfg, variants, sizeCfg)
+                parts, packages = self._partBuilder.getPackages(partIncludes, smartExclude, classList, collapseCfg, variants, minPackageSize, minPackageSizeForUnshared)
 
             else:
                 # Emulate configuration

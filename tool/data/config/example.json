@@ -142,7 +142,10 @@
 
       "packages" :
       {
-        "size" : 5,
+        "sizes" : 
+        {
+          "min-package" : 5
+        },
 
         "parts" :
         {
