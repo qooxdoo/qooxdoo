@@ -74,27 +74,9 @@ qx.Class.define("qx.data.SingleValueBinding",
       // get the property names
       var propertyNames = sourcePropertyChain.split(".");
       
-      
-      
-      // TODO !!!
-      var inArrayValues = [];
-      // go through all properties
-      for (var i = 0; i < propertyNames.length; i++) {
-        var name = propertyNames[i];
-        if (qx.lang.String.endsWith(name, "]")) {
-          var inArray = name.substring(name.indexOf("[") + 1, name.indexOf("]"));          
-          inArrayValues[i] = inArray;
-          propertyNames[i] = name.substring(0, name.indexOf("["));
-        } else {
-          inArrayValues[i] = "";
-        }
-      }
-      
-      
-      
-      
-      
-      // store the stuff needed
+      // stuff thats needed to store for the listener function
+      var arrayIndexValues = 
+        this.__checkForArrayInPropertyChain(propertyNames);      
       var sources = [];
       var listeners = [];
       var listenerIds = [];
@@ -104,15 +86,21 @@ qx.Class.define("qx.data.SingleValueBinding",
       // go through all property names
       for (var i = 0; i < propertyNames.length; i++) {
         
-        // get the current event Name 
-        eventNames.push(this.__getEventForProperty(source, propertyNames[i]));
+        // check for the array
+        if (arrayIndexValues[i] !== "") {
+          // push the array change event
+          eventNames.push("change");
+        } else {
+          // get the current event Name 
+          eventNames.push(this.__getEventForProperty(source, propertyNames[i]));          
+        }
         
-        // save the source
+        // save the current source
         sources[i] = source;
         
         // create a listener
-        var listener = qx.lang.Function.bind(function(index, e) {          
-        
+        var listener = qx.lang.Function.bind(function(index, e) {
+
           // delete all listener after the current one
           for (var j = index + 1; j < propertyNames.length; j++) {
             // remove the old sources
@@ -121,17 +109,11 @@ qx.Class.define("qx.data.SingleValueBinding",
             if (!source) {
               continue;
             }
-            
-            // if its the last property
-            if (j == propertyNames.length - 1) {
-              // remove the binding from the last component
-              source.removeListenerById(listenerIds[j]);
-            } else {
-              // remove the listeners
-              source.removeListenerById(listenerIds[j]);
-            }
+
+            // remove the listeners
+            source.removeListenerById(listenerIds[j]);
           }
-        
+
           // get the current source
           var source = sources[index];
           // add new once after the current one          
@@ -139,6 +121,7 @@ qx.Class.define("qx.data.SingleValueBinding",
             // get and store the new source
             source = source["get" + qx.lang.String.firstUp(propertyNames[j - 1])]();
             sources[j] = source;
+            // reset the target object if no new source could be found
             if (!source) {
               targetObject["reset" + qx.lang.String.firstUp(targetProperty)]();
               break;
@@ -146,31 +129,59 @@ qx.Class.define("qx.data.SingleValueBinding",
 
             // if its the last property
             if (j == propertyNames.length - 1) {
-              // bin the last property to the new target
-              listenerIds[j] = this.__bindPropertyToProperty(
-                source, propertyNames[j], targetObject, targetProperty, options
-              );
+              // if its an array
+              if (source instanceof qx.data.Array) {
+                // bind the item event to the new target
+                listenerIds[j] = this.__bindEventToProperty(
+                  source, eventNames[j], targetObject, targetProperty, options, arrayIndexValues[j]
+                );
+
+              } else {
+                // bind the last property to the new target
+                listenerIds[j] = this.__bindPropertyToProperty(
+                  source, propertyNames[j], targetObject, targetProperty, options
+                );                
+              }
             } else {
               // add a new listener
               listenerIds[j] = source.addListener(eventNames[j], listeners[j]);
             }            
           }          
-          
+
         }, this, i);
+        
         // store the listener for further processing
         listeners.push(listener);
-        
+                        
         // check for the last property
         if (i == propertyNames.length -1) {
-          // bind the property
-          listenerIds[i] = this.__bindPropertyToProperty(
-            source, propertyNames[i], targetObject, targetProperty, options
-          );
+          // if it is an array, set the initial value and bind the event
+          if (arrayIndexValues[i] !== "") {
+            // getthe current value
+            var itemIndex = arrayIndexValues[i] === "last" ? 
+              source.length - 1 : arrayIndexValues[i];
+            var currentValue = source.getItem(itemIndex);              
+                   
+            // set the initial value
+            this.__setInitialValue(currentValue, targetObject, targetProperty, options);
+
+            // bind the event
+            listenerIds[i] = this.__bindEventToProperty(
+              source, eventNames[i], targetObject, targetProperty, options, arrayIndexValues[i]
+            );
+          } else {
+            // bind the property (incl. setting the inital value)
+            listenerIds[i] = this.__bindPropertyToProperty(
+              source, propertyNames[i], targetObject, targetProperty, options
+            );
+          }
+          
+
         } else {
           // add the chaining listener
           listenerIds[i] = source.addListener(eventNames[i], listener);
         }  
-        
+
         // get and store the next source
         source = source["get" + qx.lang.String.firstUp(propertyNames[i])]();
         if (!source) {
@@ -188,6 +199,66 @@ qx.Class.define("qx.data.SingleValueBinding",
       return id;
     },
   
+  
+    /**
+     * Set the given value to the target property. This method is used for 
+     * initially set the value.
+     * 
+     * @param value {var} The value to set.
+     * @param targetObject {qx.core.Object} The object which contains the target 
+     *   property.
+     * @param targetProperty {String} The name of the target property in the 
+     *   target object.
+     * @param options {Map} The options map perhaps containing the user defined
+     *   converter.
+     */
+    __setInitialValue: function(value, targetObject, targetProperty, options) 
+    {
+      // convert the initial value
+      value = this.__convertValue(
+        value, targetObject, targetProperty, options
+      );
+      targetObject["set" + qx.lang.String.firstUp(targetProperty)](value);      
+    },
+  
+  
+    /**
+     * Checks for an array element in the given property names and adapts the
+     * arrays to fit the algorithm.
+     * 
+     * @param propertyNames {Array} The array containing the property names. 
+     *   Attention, this method can chang this parameter!!!
+     * @return {Array} An array containing the values of the array properties 
+     *   corresponding to the property names.
+     */
+    __checkForArrayInPropertyChain: function(propertyNames) {
+      // array for the values of the array properties
+      var arrayIndexValues = [];
+      
+      // go through all properties and check for array notations
+      for (var i = 0; i < propertyNames.length; i++) {
+        var name = propertyNames[i];
+        // if its an array property in the chain
+        if (qx.lang.String.endsWith(name, "]")) {
+          // get the inner value of the array notation
+          var arrayIndex = name.substring(name.indexOf("[") + 1, name.indexOf("]"));          
+
+          // store the property name without the array notation
+          propertyNames[i] = name.substring(0, name.indexOf("["));
+          // store the values in the array for the current iteration
+          arrayIndexValues[i] = "";
+          // store the properties for the next iteration (the item of the array)
+          arrayIndexValues[i + 1] = arrayIndex;
+          propertyNames.splice(i + 1, 0, "item");
+          // skip the next iteration. its the array item and its already set
+          i++;
+        } else {
+          arrayIndexValues[i] = "";
+        }
+      }
+      
+      return arrayIndexValues;
+    },
   
   
     /**
@@ -257,14 +328,9 @@ qx.Class.define("qx.data.SingleValueBinding",
       // get the event name
       var changeEventName = this.__getEventForProperty(sourceObject, sourceProperty);
       
-      // get the initial value
+      // set the initial value
       var currentValue = sourceObject["get" + qx.lang.String.firstUp(sourceProperty)]();
-      
-      // convert the initial value
-      currentValue = this.__convertValue(
-        currentValue, targetObject, targetProperty, options
-      );
-      targetObject["set" + qx.lang.String.firstUp(targetProperty)](currentValue);
+      this.__setInitialValue(currentValue, targetObject, targetProperty, options);
       
       // delegate to the event binding
       return this.__bindEventToProperty(
@@ -340,6 +406,8 @@ qx.Class.define("qx.data.SingleValueBinding",
      * @param targetProperty {String} The property name of the target object.
      * @param options {Map} A map containing the options. See 
      *   {@link #bindEventToProperty} for more information.
+     * @param arrayIndex {String} The index of the given array if its an array 
+     *   to bind.
      * 
      * @return {id} Returns the internal id for that binding. This can be used 
      *   for referencing the binding or e.g. for removing. This is not an atomic 
@@ -350,17 +418,18 @@ qx.Class.define("qx.data.SingleValueBinding",
      *   property.
      */
     __bindEventToProperty : function(sourceObject, sourceEvent, targetObject, 
-      targetProperty, options) 
+      targetProperty, options, arrayIndex) 
     {
       // checks
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         // check for the data event
         var eventType = qx.Class.getEventType(
           sourceObject.constructor, sourceEvent
-        );  
+        );
         qx.core.Assert.assertEquals(
-          "qx.event.type.Data", eventType, sourceEvent + 
-          " is not an data (qx.event.type.Data) event on " + sourceObject + "."
+          "qx.event.type.Data", eventType, sourceEvent 
+          + " is not an data (qx.event.type.Data) event on " 
+          + sourceObject + "."
         );  
                 
         // check for the target property
@@ -372,9 +441,19 @@ qx.Class.define("qx.data.SingleValueBinding",
         );      
       }
 
-      var bindListener = function(e) {
-        // get the data
-        var data = e.getData();
+      var bindListener = function(arrayIndex, e) {
+        // if an array value is given
+        if (arrayIndex !== "") {
+          //check if its the "last" value
+          if (arrayIndex === "last") {
+            arrayIndex = sourceObject.length - 1;
+          }
+          // get the data of the array
+          var data = sourceObject.getItem(arrayIndex);
+        } else {
+          // get the data out of the event
+          var data = e.getData();          
+        }
 
         // convert the data if a converter is given
         if (options && options.converter) {
@@ -387,7 +466,7 @@ qx.Class.define("qx.data.SingleValueBinding",
           data = qx.data.SingleValueBinding.__defaultConvertion(
             data, propertieDefinition.check
           );
-        }      
+        }
 
         // try to set the value
         try {
@@ -396,11 +475,6 @@ qx.Class.define("qx.data.SingleValueBinding",
           // tell the user that the setter was invoked probably
           if (options && options.onSetOk) {
             options.onSetOk();
-          }   
-              
-          // Widget handling TODO remove
-          if (sourceObject instanceof qx.ui.core.Widget) {
-            sourceObject.resetShadow();
           }
                             
           } catch (e) {
@@ -417,8 +491,16 @@ qx.Class.define("qx.data.SingleValueBinding",
         }
       }            
 
+      // check if an array index is given
+      if (!arrayIndex) {
+        // if not, signal it a s an empty string
+        arrayIndex = "";
+      }
+      // bind the listener function (make the array index in the listener available)
+      bindListener = qx.lang.Function.bind(bindListener, sourceObject, arrayIndex);
+      
       // add the listener
-      var id = sourceObject.addListener(sourceEvent, bindListener, sourceObject);
+      var id = sourceObject.addListener(sourceEvent, bindListener);
       
       return id;
     },
