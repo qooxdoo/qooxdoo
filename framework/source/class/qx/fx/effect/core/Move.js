@@ -105,8 +105,13 @@ qx.Class.define("qx.fx.effect.core.Move",
 
       if(element.parentNode)
       {
-        this.__originalLeft = qx.bom.element.Location.getLeft(element) - qx.bom.element.Location.getLeft(element.parentNode);
-        this.__originalTop = qx.bom.element.Location.getTop(element) - qx.bom.element.Location.getTop(element.parentNode);
+        this.__originalLeft =
+          qx.bom.element.Location.getLeft(element) -
+          qx.bom.element.Location.getLeft(element.parentNode);
+
+        this.__originalTop =
+          qx.bom.element.Location.getTop(element) -
+          qx.bom.element.Location.getTop(element.parentNode);
       }
       else
       {
@@ -115,10 +120,15 @@ qx.Class.define("qx.fx.effect.core.Move",
       }
       this.__originalPosition = qx.bom.element.Style.get(element, "position");
 
-      if (this.getMode() == 'absolute') {
+      qx.bom.element.Style.set(element, "position", "absolute"); 
+
+      if (this.getMode() == 'absolute')
+      {
         this.__x = this.getX() - this.__originalLeft;
         this.__y = this.getY() - this.__originalTop;
-      }else{
+      }
+      else
+      {
         this.__x = this.getX();
         this.__y = this.getY();
       }
@@ -137,8 +147,12 @@ qx.Class.define("qx.fx.effect.core.Move",
       qx.bom.element.Style.set(element, "top", top + "px");
     },
 
-    afterFinishInternal : function() {
-      qx.bom.element.Style.set(this._getElement(), "position", this.__originalPosition);
+    afterFinishInternal : function()
+    {
+      qx.bom.element.Style.set(
+        this._getElement(),
+        "position",
+        this.__originalPosition);
     }
   }
 });
