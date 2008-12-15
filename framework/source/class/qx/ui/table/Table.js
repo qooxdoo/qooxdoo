@@ -151,7 +151,6 @@ qx.Class.define("qx.ui.table.Table",
     this._add(this.__scrollerParent, {flex: 1});
 
     this.initStatusBarVisible();
-    this.initColumnVisibilityButtonVisible();
 
     // Allocate a default data row renderer
     this.setDataRowRenderer(new qx.ui.table.rowrenderer.Default(this));
