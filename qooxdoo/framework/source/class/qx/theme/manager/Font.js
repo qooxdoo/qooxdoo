@@ -60,7 +60,7 @@ qx.Class.define("qx.theme.manager.Font",
     /**
      * Returns the dynamically interpreted result for the incoming value
      *
-     * @param value {String} dynamically interpreted idenfier
+     * @param value {String} dynamically interpreted identifier
      * @return {var} return the (translated) result of the incoming value
      */
     resolveDynamic : function(value)
@@ -68,18 +68,67 @@ qx.Class.define("qx.theme.manager.Font",
       var dynamic = this._getDynamic();
       return value instanceof qx.bom.Font ? value : dynamic[value];
     },
+    
+    
+    /**
+     * Returns the dynamically interpreted result for the incoming value,
+     * (if available), otherwise returns the original value
+     * @param value {String} Value to resolve
+     * @return {var} either returns the (translated) result of the incoming
+     * value or the value itself
+     */
+    resolve : function(value)
+    {
+      var cache = this.__dynamic;
+      var resolved = cache[value];
+      
+      if (resolved)
+      {
+        return resolved;
+      }
+      
+      // If the font instance is not yet cached create a new one to return
+      // This is true whenever a runtime include occured (using "qx.Theme.include"
+      // or "qx.Theme.patch"), since these methods only merging the keys of 
+      // the theme and are not updating the cache
+      var theme = this.getTheme();
+      if (theme.fonts[value])
+      {
+        return cache[value] = (new qx.bom.Font).set(theme.colors[value]);
+      }
+
+      return value;
+    },
 
 
     /**
      * Whether a value is interpreted dynamically
      *
-     * @param value {String} dynamically interpreted idenfier
+     * @param value {String} dynamically interpreted identifier
      * @return {Boolean} returns true if the value is interpreted dynamically
      */
     isDynamic : function(value)
     {
-      var dynamic = this._getDynamic();
-      return value && (value instanceof qx.bom.Font || dynamic[value] !== undefined);
+      var cache = this._getDynamic();
+      var resolved = cache[value];
+      
+      if (value && (value instanceof qx.bom.Font || cache[value] !== undefined))
+      {
+        return true;
+      }
+      
+      // If the font instance is not yet cached create a new one to return
+      // This is true whenever a runtime include occured (using "qx.Theme.include"
+      // or "qx.Theme.patch"), since these methods only merging the keys of 
+      // the theme and are not updating the cache
+      var theme = this.getTheme();
+      if (value && theme.fonts[value])
+      {
+        cache[value] = (new qx.bom.Font).set(theme.fonts[value]);
+        return true;
+      }
+      
+      return false;
     },
 
 
