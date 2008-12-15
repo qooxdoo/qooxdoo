@@ -161,15 +161,6 @@ qx.Class.define("qx.fx.effect.combination.Shake",
             effects[this.id + 1].start();
           };
         }
-        else
-        {
-          this.__effects[i].afterFinishInternal = function(){
-            for(var property in oldStyle) {
-              qx.bom.element.Style.set(this._getElement(), property, (oldStyle[property] + "px"));
-            }
-          };
-        }
-
       }
       this.__effects[0].start();
 
