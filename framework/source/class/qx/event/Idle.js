@@ -86,7 +86,7 @@ qx.Class.define("qx.event.Idle",
       this.__timer.setInterval(value);
     },
     
-    /*
+    /**
      * Fires an "interval" event
      */
     _onInterval : function() {
