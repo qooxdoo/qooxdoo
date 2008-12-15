@@ -150,8 +150,6 @@ qx.Class.define("qx.ui.table.Table",
     this.__scrollerParent = new qx.ui.container.Composite(new qx.ui.layout.HBox());
     this._add(this.__scrollerParent, {flex: 1});
 
-    this.initStatusBarVisible();
-
     // Allocate a default data row renderer
     this.setDataRowRenderer(new qx.ui.table.rowrenderer.Default(this));
 
@@ -191,6 +189,8 @@ qx.Class.define("qx.ui.table.Table",
     if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
       qx.locale.Manager.getInstance().addListener("changeLocale", this._onChangeLocale, this);
     }
+    
+    this.initStatusBarVisible();
   },
 
 
@@ -1658,7 +1658,7 @@ qx.Class.define("qx.ui.table.Table",
           }
         }
 
-        if(text) {
+        if (text) {
           this._getChildControl("statusbar").setContent(text);
         }
       }
