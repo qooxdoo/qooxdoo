@@ -162,14 +162,11 @@ qx.Class.define("qx.ui.core.EventHandler",
         widgetTarget = widgetTarget.getLayoutParent();
       }
 
-      if (!widgetTarget) {
-        return;
-      }
 
       // Correcting target for focus events
       if (this.__focusEvents[domEvent.getType()])
       {
-        widgetTarget = widgetTarget.getFocusTarget();
+        widgetTarget = widgetTarget && widgetTarget.getFocusTarget();
 
         // Whether nothing is returned
         if (!widgetTarget) {
@@ -239,7 +236,7 @@ qx.Class.define("qx.ui.core.EventHandler",
 
       widgetEvent.setTarget(widgetTarget);
       widgetEvent.setRelatedTarget(widgetRelatedTarget||null);
-      widgetEvent.setCurrentTarget(widgetTarget);
+      widgetEvent.setCurrentTarget(currentWidget);
 
       // Keep original target of DOM event, otherwise map it to the original
       var orig = domEvent.getOriginalTarget();
