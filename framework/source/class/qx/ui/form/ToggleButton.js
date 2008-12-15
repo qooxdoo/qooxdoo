@@ -143,7 +143,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
      */
     _onMouseOver : function(e)
     {
-      if (e.getOriginalTarget() !== this) {
+      if (e.getTarget() !== this) {
         return;
       }
 
@@ -170,7 +170,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
      */
     _onMouseOut : function(e)
     {
-      if (e.getOriginalTarget() !== this) {
+      if (e.getTarget() !== this) {
         return;
       }
 
