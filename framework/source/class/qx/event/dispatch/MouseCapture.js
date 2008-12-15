@@ -129,8 +129,6 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
       if (listeners)
       {
         event.setCurrentTarget(this.__captureElement);
-        event.setTarget(this.__captureElement);
-        event.setOriginalTarget(target);
         event.setEventPhase(qx.event.type.Event.AT_TARGET);
 
         for (var i=0, l=listeners.length; i<l; i++)
