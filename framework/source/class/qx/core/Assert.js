@@ -308,7 +308,7 @@ qx.Class.define("qx.core.Assert",
      *   listener. The function has one parameter called e which is the event.
      * @param msg {String} Message to be shows if the assertion fails.
      */
-    assertEventFired : function(obj, event, invonkeFunc, listenerFunc, msg)
+    assertEventFired : function(obj, event, invokeFunc, listenerFunc, msg)
     {
       var called = false;
       var listener = function(e) {
@@ -319,7 +319,7 @@ qx.Class.define("qx.core.Assert",
       };
       var id = obj.addListener(event, listener, obj);
 
-      invonkeFunc.call();
+      invokeFunc.call();
       this.__assert(called === true, msg || "", "Event (" + event + ") not fired.");
       
       obj.removeListenerById(id);
@@ -385,7 +385,7 @@ qx.Class.define("qx.core.Assert",
      * Assert that both array have identical array items.
      *
      * @param expected {Array} The expected array
-     * @found found {Array} The found array
+     * @param found {Array} The found array
      * @param msg {String} Message to be shown if the assertion fails.
      */
     assertArrayEquals : function(expected, found, msg)

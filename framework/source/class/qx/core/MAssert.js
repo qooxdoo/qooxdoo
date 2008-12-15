@@ -218,12 +218,12 @@ qx.Mixin.define("qx.core.MAssert",
      * @param event {String} The event which should be fired.
      * @param invokeFunc {Function} The function which will be invoked and which
      *   fires the event.
-     * @param listenerFunc {Function} The function which will be invoked in the 
+     * @param listener {Function} The function which will be invoked in the 
      *   listener. The function has one parameter called e which is the event.
      * @param msg {String} Message to be shows if the assertion fails.
      */
-    assertEventFired : function(obj, event, invonkeFunc, listener, msg) {
-      qx.core.Assert.assertEventFired(obj, event, invonkeFunc, listener, msg);
+    assertEventFired : function(obj, event, invokeFunc, listener, msg) {
+      qx.core.Assert.assertEventFired(obj, event, invokeFunc, listener, msg);
     }, 
 
 
@@ -259,7 +259,7 @@ qx.Mixin.define("qx.core.MAssert",
      * Assert that both array have identical array items.
      *
      * @param expected {Array} The expected array
-     * @found found {Array} The found array
+     * @param found {Array} The found array
      * @param msg {String} Message to be shown if the assertion fails.
      */
     assertArrayEquals : function(expected, found, msg) {
