@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-/*
+/**
  * Timer manipulation for handling multiple timed callbacks with the use of
  * only a single native timer object.
  *
@@ -255,8 +255,6 @@ qx.Class.define("qx.util.TimerManager",
      */
     __processQueue : function()
     {
-      var restartTimers = [];
-
       // Get the current time
       var timeNow = (new Date()).getTime();
 

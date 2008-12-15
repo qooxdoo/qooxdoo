@@ -102,8 +102,8 @@ qx.Class.define("qx.io.remote.Response",
 
     /**
      * Retrieves the response headers.
-     * @param vHeader {var} TODOC
-     * @return {Object | null} TODOC
+     * @param vHeader {var} The specific header.
+     * @return {Object | null} The headers or null;
      */
     getResponseHeader : function(vHeader)
     {
