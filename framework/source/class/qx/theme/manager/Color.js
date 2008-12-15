@@ -154,6 +154,6 @@ qx.Class.define("qx.theme.manager.Color",
       }
       
       return false;
-    },
+    }
   }
 });
