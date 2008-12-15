@@ -93,6 +93,67 @@ qx.Class.define("qx.theme.manager.Color",
       }
       
       this._setDynamic(dest);
-    }
+    },
+    
+    
+    /**
+     * Returns the dynamically interpreted result for the incoming value,
+     * (if available), otherwise returns the original value
+     * @param value {String} Value to resolve
+     * @return {var} either returns the (translated) result of the incoming
+     * value or the value itself
+     */
+    resolve : function(value)
+    {
+      var cache = this.__dynamic;
+      var resolved = cache[value];
+      
+      if (resolved)
+      {
+        return resolved;
+      }
+      
+      // If the font instance is not yet cached create a new one to return
+      // This is true whenever a runtime include occured (using "qx.Theme.include"
+      // or "qx.Theme.patch"), since these methods only merging the keys of 
+      // the theme and are not updating the cache
+      var theme = this.getTheme();
+      if (theme.colors[value])
+      {
+        return cache[value] = theme.colors[value];
+      }
+
+      return value;
+    },
+    
+    
+    /**
+     * Whether a value is interpreted dynamically
+     *
+     * @param value {String} dynamically interpreted identifier
+     * @return {Boolean} returns true if the value is interpreted dynamically
+     */
+    isDynamic : function(value) {
+      var cache = this.__dynamic;
+      var resolved = cache[value];
+      
+      if (value && (cache[value] !== undefined))
+      {
+        return true;
+      }
+      
+      // If the font instance is not yet cached create a new one to return
+      // This is true whenever a runtime include occured (using "qx.Theme.include"
+      // or "qx.Theme.patch"), since these methods only merging the keys of 
+      // the theme and are not updating the cache
+      var theme = this.getTheme();
+      if (value && (theme.colors[value] !== undefined))
+      {
+        cache[value] = theme.colors[value];
+        return true;
+      }
+      
+      return false;
+    },
   }
 });
