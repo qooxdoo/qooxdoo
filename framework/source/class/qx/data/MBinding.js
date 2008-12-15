@@ -47,8 +47,11 @@ qx.Mixin.define("qx.data.MBinding",
      *   there is no property definition for object and property (source and 
      *   target).
      */
-    bind : function(sourcePropertyChain, targetObject, targetProperty, options) {
-      return qx.data.SingleValueBinding.bind(this, sourcePropertyChain, targetObject, targetProperty, options);
+    bind : function(sourcePropertyChain, targetObject, targetProperty, options)
+    {
+      return qx.data.SingleValueBinding.bind(
+        this, sourcePropertyChain, targetObject, targetProperty, options
+      );
     },
     
     
@@ -73,8 +76,13 @@ qx.Mixin.define("qx.data.MBinding",
      *   there is no property definition for object and property (source and 
      *   target).
      */
-    bindToObject : function(sourceObject, sourcePropertyChain, targetProperty, options) {
-      return qx.data.SingleValueBinding.bind(sourceObject, sourcePropertyChain, this, targetProperty, options);      
+    bindToObject : function(
+      sourceObject, sourcePropertyChain, targetProperty, options
+    ) 
+    {
+      return qx.data.SingleValueBinding.bind(
+        sourceObject, sourcePropertyChain, this, targetProperty, options
+      );      
     },
     
     
@@ -102,8 +110,10 @@ qx.Mixin.define("qx.data.MBinding",
      *   there is no property definition for the target object and target 
      *   property.
      */
-    bindToEvent: function(sourceEvent, targetObject, targetProperty, options){
-      return qx.data.SingleValueBinding.bindEventToProperty(this, sourceEvent, targetObject, targetProperty, options);      
+    bindToEvent: function(sourceEvent, targetObject, targetProperty, options) {
+      return qx.data.SingleValueBinding.bindEventToProperty(
+        this, sourceEvent, targetObject, targetProperty, options
+      );      
     },
     
     

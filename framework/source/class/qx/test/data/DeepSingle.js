@@ -257,27 +257,40 @@ qx.Class.define("qx.test.data.DeepSingle",
     },
     
     
-    _testArrayBinding : function() {
+    testArrayBindingChangeItem : function() {
       // bind the first element of the array
       qx.data.SingleValueBinding.bind(this.__a, "array[0]", this.__label, "content");
-      
-      
-      
+            
       // check the binding
       this.assertEquals("one", this.__label.getContent(), "Array[0] binding does not work!");
       // change the value
       this.__a.getArray().setItem(0, "ONE");
-      this.assertEquals("ONE", this.__label.getContent(), "Array[0] binding does not work!");
+      this.assertEquals("ONE", this.__label.getContent(), "Array[0] binding does not work!");      
+    },
+    
+    
+    __testArrayBindingChangeArray: function() {
+      // bind the first element of the array
+      qx.data.SingleValueBinding.bind(this.__a, "array[0]", this.__label, "content");
+            
+      // change the array itself
+      this.__a.setArray(new qx.data.Array(1, 2, 3));
       
-      // // bind the last element
-      // qx.data.SingleValueBinding.bind(this.__a, "array[last]", this.__label, "content");
-      // 
-      // // check the binding
-      // this.assertEquals("one", this.__label.getContent(), "Array[0] binding does not work!");
-      // // change the value
-      // this.__a.getArray()[0] = "ONE";
-      // this.assertEquals("ONE", this.__label.getContent(), "Array[0] binding does not work!");
-    }
+      // check the binding
+      this.assertEquals("1", this.__label.getContent(), "Changing the array does not work!");
+    },
+    
+    
+    testArrayBindingLast: function() {
+      // bind the last element
+      qx.data.SingleValueBinding.bind(this.__a, "array[last]", this.__label, "content"); 
+      // check the binding
+      this.assertEquals("three", this.__label.getContent(), "Array[last] binding does not work!");
+      
+      // change the value
+      this.__a.getArray().setItem(2,"THREE");
+      this.assertEquals("THREE", this.__label.getContent(), "Array[last] binding does not work!");      
+    } 
        
   }
 });
