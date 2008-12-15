@@ -599,6 +599,8 @@ qx.Class.define("qx.ui.table.Table",
     __additionalStatusBarText : null,
     __lastRowCount : null,
     __internalChange : null,
+    
+    __columnMenuButtons : null,
 
 
     // overridden
@@ -1321,6 +1323,12 @@ qx.Class.define("qx.ui.table.Table",
         scrollerArr[i].onColVisibilityChanged();
       }
 
+      var data = evt.getData();
+      if (this.__columnMenuButtons != null && data.col != null && 
+          data.visible != null) {
+        this.__columnMenuButtons[data.col].setChecked(data.visible);
+      }
+      
       this._updateScrollerWidths();
       this._updateScrollBarVisibility();
     },
@@ -1780,12 +1788,14 @@ qx.Class.define("qx.ui.table.Table",
       };
       this.fireDataEvent("columnVisibilityMenuCreateStart", data);
 
+      this.__columnMenuButtons = {};
       for (var col=0, l=tableModel.getColumnCount(); col<l; col++)
       {
         var menuButton = new qx.ui.menu.CheckBox(tableModel.getColumnName(col));
         menuButton.setChecked(columnModel.isColumnVisible(col));
         menuButton.addListener("changeChecked", this._createColumnVisibilityCheckBoxHandler(col), this);
         menu.add(menuButton);
+        this.__columnMenuButtons[col] = menuButton;
       }
 
       // Inform listeners who may want to insert menu items at the end
