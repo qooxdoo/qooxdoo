@@ -111,7 +111,7 @@ qx.Class.define("qx.util.format.NumberFormat",
 
 
     /**
-     * The maximum number of integer digits (superfluos digits will be cut off
+     * The maximum number of integer digits (superfluous digits will be cut off
      * ("1923" -> "23").
      */
     maximumIntegerDigits :
@@ -134,7 +134,7 @@ qx.Class.define("qx.util.format.NumberFormat",
 
     /**
      * The maximum number of fraction digits (digits after the decimal separator).
-     * Superflous digits will cause rounding ("1.8277" -> "1.83")
+     * Superfluous digits will cause rounding ("1.8277" -> "1.83")
      */
     maximumFractionDigits :
     {
