@@ -82,10 +82,10 @@ qx.Class.define("qx.data.SingleValueBinding",
       var listenerIds = [];
       var eventNames = [];
       var source = sourceObject;
-      
+            
       // go through all property names
       for (var i = 0; i < propertyNames.length; i++) {
-        
+                
         // check for the array
         if (arrayIndexValues[i] !== "") {
           // push the array change event
@@ -119,7 +119,11 @@ qx.Class.define("qx.data.SingleValueBinding",
           // add new once after the current one          
           for (var j = index + 1; j < propertyNames.length; j++) {
             // get and store the new source
-            source = source["get" + qx.lang.String.firstUp(propertyNames[j - 1])]();
+            if (arrayIndexValues[j - 1] !== "") {
+              source = source["get" + qx.lang.String.firstUp(propertyNames[j - 1])](arrayIndexValues[j - 1]);              
+            } else {
+              source = source["get" + qx.lang.String.firstUp(propertyNames[j - 1])]();
+            }
             sources[j] = source;
             // reset the target object if no new source could be found
             if (!source) {
@@ -131,6 +135,12 @@ qx.Class.define("qx.data.SingleValueBinding",
             if (j == propertyNames.length - 1) {
               // if its an array
               if (source instanceof qx.data.Array) {
+                // set the inital value
+                var currentValue = source.getItem(arrayIndexValues[j]);
+                this.__setInitialValue(
+                  currentValue, targetObject, targetProperty, options
+                );
+                
                 // bind the item event to the new target
                 listenerIds[j] = this.__bindEventToProperty(
                   source, eventNames[j], targetObject, targetProperty, options, arrayIndexValues[j]
@@ -152,7 +162,7 @@ qx.Class.define("qx.data.SingleValueBinding",
         
         // store the listener for further processing
         listeners.push(listener);
-                        
+
         // check for the last property
         if (i == propertyNames.length -1) {
           // if it is an array, set the initial value and bind the event
@@ -181,9 +191,13 @@ qx.Class.define("qx.data.SingleValueBinding",
           // add the chaining listener
           listenerIds[i] = source.addListener(eventNames[i], listener);
         }  
-
+        
         // get and store the next source
-        source = source["get" + qx.lang.String.firstUp(propertyNames[i])]();
+        if (arrayIndexValues[i] !== "") {
+          source = source["get" + qx.lang.String.firstUp(propertyNames[i])](arrayIndexValues[i]);          
+        } else {
+          source = source["get" + qx.lang.String.firstUp(propertyNames[i])]();
+        }
         if (!source) {
           break;
         }
