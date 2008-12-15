@@ -33,6 +33,10 @@ qx.Class.define("qx.html.Iframe",
   *****************************************************************************
   */
 
+ /**
+  * Wrapper for the HTML Iframe element.
+  * @param url {String} Location which should be loaded inside the Iframe.
+  */
   construct : function(url)
   {
     this.base(arguments, "iframe");
