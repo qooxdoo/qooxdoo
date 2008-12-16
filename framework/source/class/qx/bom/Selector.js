@@ -48,11 +48,11 @@ qx.Class.define("qx.bom.Selector",
     __cache : null,
     done : 0,
     
-    invalidate : function() {
+    __invalidate : function() {
       this.__cache = {};
     },
     
-    makeArray : function(array, results) {},
+    __makeArray : function(array, results) {},
     
     __makeArrayNative : function(array, results) 
     {
@@ -262,7 +262,7 @@ qx.Class.define("qx.bom.Selector",
           }
         }
       } else {
-        qx.bom.Selector.makeArray( checkSet, results );
+        qx.bom.Selector.__makeArray( checkSet, results );
       }
 
       if ( extra ) {
@@ -759,18 +759,18 @@ qx.Class.define("qx.bom.Selector",
     if (document.addEventListener && !document.querySelectorAll) 
     {
       statics.__cache = {};
-      document.addEventListener("DOMAttrModified", statics.invalidate, false);
-      document.addEventListener("DOMNodeInserted", statics.invalidate, false);
-      document.addEventListener("DOMNodeRemoved", statics.invalidate, false);
+      document.addEventListener("DOMAttrModified", statics.__invalidate, false);
+      document.addEventListener("DOMNodeInserted", statics.__invalidate, false);
+      document.addEventListener("DOMNodeRemoved", statics.__invalidate, false);
     }
     
     // Perform a simple check to determine if the browser is capable of
     // converting a NodeList to an array using builtin methods.    
     try {
       Array.prototype.slice.call( document.documentElement.childNodes );
-      statics.makeArray = statics.__makeArrayNative;
+      statics.__makeArray = statics.__makeArrayNative;
     } catch(e){    
-      statics.makeArray = statics.__makeArrayManual;
+      statics.__makeArray = statics.__makeArrayManual;
     }
     
     // Check to see if the browser returns elements by name when
@@ -813,7 +813,7 @@ qx.Class.define("qx.bom.Selector",
     
         if ( context.nodeType === 9 ) {
           try {
-            return makeArray( context.querySelectorAll(query) );
+            return statics.makeArray( context.querySelectorAll(query) );
           } catch(e){}
         }
         
