@@ -143,6 +143,12 @@ qx.Class.define("qx.event.handler.ElementResize",
     },
 
 
+    /**
+     * Checks elements for width and height changes and fires resize event
+     * if needed.
+     * 
+     * @param e {qx.event.type.Data} The incoming data event
+     */ 
     _onInterval : function(e)
     {
       var elements = this.__elements;
