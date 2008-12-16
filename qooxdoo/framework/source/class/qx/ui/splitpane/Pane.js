@@ -161,8 +161,8 @@ qx.Class.define("qx.ui.splitpane.Pane",
      */
     _applyOrientation : function(value, old)
     {
-      var slider = this._getChildControl("slider");
-      var splitter = this._getChildControl("splitter")
+      var slider = this.getChildControl("slider");
+      var splitter = this.getChildControl("splitter")
 
       // Store boolean flag for faster access
       this.__isHorizontal = value === "horizontal";
@@ -180,7 +180,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
       // Update states for splitter and slider
       splitter.replaceState(old, value);
-      splitter._getChildControl("knob").replaceState(old, value);
+      splitter.getChildControl("knob").replaceState(old, value);
       slider.replaceState(old, value);
     },
 
@@ -248,7 +248,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
       }
 
       // Only proceed if the splitter is active
-      var splitter = this._getChildControl("splitter");
+      var splitter = this.getChildControl("splitter");
       if (!splitter.hasState("active")) {
         return;
       }
@@ -261,7 +261,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
         e.getDocumentTop() - splitterLocation.top + paneLocation.top ;
 
       // Synchronize slider to splitter size and show it
-      var slider = this._getChildControl("slider");
+      var slider = this.getChildControl("slider");
       var splitterBounds = splitter.getBounds();
       slider.setUserBounds(splitterBounds.left, splitterBounds.top,
         splitterBounds.width, splitterBounds.height);
@@ -293,7 +293,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
         this.__computeSizes();
 
         // Update slider position
-        var slider = this._getChildControl("slider");
+        var slider = this.getChildControl("slider");
         var pos = this.__beginSize;
 
         if(this.__isHorizontal) {
@@ -342,7 +342,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
       this.__finalizeSizes();
 
       // Hide the slider
-      var slider = this._getChildControl("slider");
+      var slider = this.getChildControl("slider");
       slider.exclude();
 
       // Cleanup
@@ -426,7 +426,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
      */
     __isNear : function()
     {
-      var splitter = this._getChildControl("splitter");
+      var splitter = this.getChildControl("splitter");
       var splitterBounds = splitter.getBounds();
       var splitterLocation = splitter.getContainerLocation();
       var min = 6;
@@ -477,7 +477,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
      */
     __updateCursor : function()
     {
-      var splitter = this._getChildControl("splitter");
+      var splitter = this.getChildControl("splitter");
       var root = this.getApplicationRoot();
 
       // Whether the cursor is near enough to the splitter

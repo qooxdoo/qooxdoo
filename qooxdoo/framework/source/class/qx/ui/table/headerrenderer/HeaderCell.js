@@ -78,9 +78,9 @@ qx.Class.define("qx.ui.table.headerrenderer.HeaderCell",
     _applyLabel : function(value, old)
     {
       if (value) {
-        this._showChildControl("label").setContent(value);
+        this.showChildControl("label").setContent(value);
       } else {
-        this._excludeChildControl("label");
+        this.excludeChildControl("label");
       }
     },
 
@@ -89,9 +89,9 @@ qx.Class.define("qx.ui.table.headerrenderer.HeaderCell",
     _applySortIcon : function(value, old)
     {
       if (value) {
-        this._showChildControl("sort-icon").setSource(value);
+        this.showChildControl("sort-icon").setSource(value);
       } else {
-        this._excludeChildControl("sort-icon");
+        this.excludeChildControl("sort-icon");
       }
     },
 
@@ -100,9 +100,9 @@ qx.Class.define("qx.ui.table.headerrenderer.HeaderCell",
     _applyIcon : function(value, old)
     {
       if (value) {
-        this._showChildControl("icon").setSource(value);
+        this.showChildControl("icon").setSource(value);
       } else {
-        this._excludeChildControl("icon");
+        this.excludeChildControl("icon");
       }
     },
 

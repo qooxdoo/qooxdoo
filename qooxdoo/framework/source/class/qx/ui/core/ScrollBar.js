@@ -229,25 +229,25 @@ qx.Class.define("qx.ui.core.ScrollBar",
 
     // property apply
     _applyMaximum : function(value) {
-      this._getChildControl("slider").setMaximum(value);
+      this.getChildControl("slider").setMaximum(value);
     },
 
 
     // property apply
     _applyPosition : function(value) {
-      this._getChildControl("slider").setValue(value);
+      this.getChildControl("slider").setValue(value);
     },
 
 
     // property apply
     _applyKnobFactor : function(value) {
-      this._getChildControl("slider").setKnobFactor(value);
+      this.getChildControl("slider").setKnobFactor(value);
     },
 
 
     // property apply
     _applyPageStep : function(value) {
-      this._getChildControl("slider").setPageStep(value);
+      this.getChildControl("slider").setPageStep(value);
     },
 
 
@@ -270,8 +270,8 @@ qx.Class.define("qx.ui.core.ScrollBar",
 
         this.replaceState("vertical", "horizontal");
 
-        this._getChildControl("button-begin").replaceState("up", "left");
-        this._getChildControl("button-end").replaceState("down", "right");
+        this.getChildControl("button-begin").replaceState("up", "left");
+        this.getChildControl("button-end").replaceState("down", "right");
       }
       else
       {
@@ -282,12 +282,12 @@ qx.Class.define("qx.ui.core.ScrollBar",
 
         this.replaceState("horizontal", "vertical");
 
-        this._getChildControl("button-begin").replaceState("left", "up");
-        this._getChildControl("button-end").replaceState("right", "down");
+        this.getChildControl("button-begin").replaceState("left", "up");
+        this.getChildControl("button-end").replaceState("right", "down");
       }
 
       // Sync slider orientation
-      this._getChildControl("slider").setOrientation(value);
+      this.getChildControl("slider").setOrientation(value);
     },
 
 
@@ -310,7 +310,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
      * @return {void}
      */
     scrollTo : function(position) {
-      this._getChildControl("slider").slideTo(position);
+      this.getChildControl("slider").slideTo(position);
     },
 
 
@@ -324,7 +324,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
      * @return {void}
      */
     scrollBy : function(offset) {
-      this._getChildControl("slider").slideBy(offset);
+      this.getChildControl("slider").slideBy(offset);
     },
 
 
@@ -340,7 +340,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
     scrollBySteps : function(steps)
     {
       var size = this.getSingleStep();
-      this._getChildControl("slider").slideBy(steps * size);
+      this.getChildControl("slider").slideBy(steps * size);
     },
 
 

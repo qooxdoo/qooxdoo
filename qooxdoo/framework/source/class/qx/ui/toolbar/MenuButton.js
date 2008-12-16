@@ -85,9 +85,9 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
     _applyShowArrow : function(value, old)
     {
       if (value) {
-        this._showChildControl("arrow");
+        this.showChildControl("arrow");
       } else {
-        this._excludeChildControl("arrow");
+        this.excludeChildControl("arrow");
       }
     }
   }

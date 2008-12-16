@@ -131,13 +131,13 @@ qx.Class.define("qx.ui.tabview.Page",
 
     // property apply
     _applyIcon : function(value, old) {
-      this._getChildControl("button").setIcon(value);
+      this.getChildControl("button").setIcon(value);
     },
 
 
     // property apply
     _applyLabel : function(value, old) {
-      this._getChildControl("button").setLabel(value);
+      this.getChildControl("button").setLabel(value);
     },
 
 
@@ -148,7 +148,7 @@ qx.Class.define("qx.ui.tabview.Page",
 
       // delegate to non-child widget button
       // since enabled is inheritable value may be null
-      var btn = this._getChildControl("button");
+      var btn = this.getChildControl("button");
       value == null ? btn.resetEnabled() : btn.setEnabled(value);
     },
 
@@ -198,7 +198,7 @@ qx.Class.define("qx.ui.tabview.Page",
      * @return {qx.ui.form.RadioButton} The button associated with this page.
      */
     getButton: function() {
-      return this._getChildControl("button");
+      return this.getChildControl("button");
     }
   }
 });

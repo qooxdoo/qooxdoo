@@ -109,7 +109,7 @@ qx.Class.define("qx.ui.menu.Button",
      * @param e {qx.event.type.Data} Property change event
      */
     _onChangeCommand : function(e) {
-      this._getChildControl("shortcut").setContent(e.getData().toString());
+      this.getChildControl("shortcut").setContent(e.getData().toString());
     },
 
 

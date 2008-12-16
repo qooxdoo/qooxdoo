@@ -238,9 +238,9 @@ qx.Class.define("qx.ui.basic.Atom",
     _handleLabel : function()
     {
       if (this.getLabel() == null || this.getShow() === "icon") {
-        this._excludeChildControl("label");
+        this.excludeChildControl("label");
       } else {
-        this._showChildControl("label");
+        this.showChildControl("label");
       }
     },
 
@@ -251,9 +251,9 @@ qx.Class.define("qx.ui.basic.Atom",
     _handleIcon : function()
     {
       if (this.getIcon() == null || this.getShow() === "label") {
-        this._excludeChildControl("icon");
+        this.excludeChildControl("icon");
       } else {
-        this._showChildControl("icon");
+        this.showChildControl("icon");
       }
     },
 
@@ -261,7 +261,7 @@ qx.Class.define("qx.ui.basic.Atom",
     // property apply
     _applyLabel : function(value, old)
     {
-      var label = this._getChildControl("label", true);
+      var label = this.getChildControl("label", true);
       if (label) {
         label.setContent(value);
       }
@@ -273,7 +273,7 @@ qx.Class.define("qx.ui.basic.Atom",
     // property apply
     _applyRich : function(value, old)
     {
-      var label = this._getChildControl("label", true);
+      var label = this.getChildControl("label", true);
       if (label) {
         label.setRich(value);
       }
@@ -283,7 +283,7 @@ qx.Class.define("qx.ui.basic.Atom",
     // property apply
     _applyIcon : function(value, old)
     {
-      var icon = this._getChildControl("icon", true);
+      var icon = this.getChildControl("icon", true);
       if (icon) {
         icon.setSource(value);
       }

@@ -167,7 +167,7 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
      * @return {qx.ui.form.RadioGroup} The radio manager
      */
     getGroup : function() {
-      return this._getChildControl("legend").getGroup();
+      return this.getChildControl("legend").getGroup();
     },
 
 
@@ -178,7 +178,7 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
      */
     setGroup : function(value)
     {
-      var legend = this._getChildControl("legend");
+      var legend = this.getChildControl("legend");
       return value ? legend.setGroup(value) : legend.resetGroup();
     },
 
@@ -189,7 +189,7 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
      * @return {String} The name
      */
     getName : function() {
-      return this._getChildControl("legend").getName();
+      return this.getChildControl("legend").getName();
     },
 
 
@@ -201,7 +201,7 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
      */
     setName : function(value)
     {
-      var legend = this._getChildControl("legend");
+      var legend = this.getChildControl("legend");
       return value ? legend.setName(value) : legend.resetName();
     },
 
@@ -212,7 +212,7 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
      * @return {String} the value
      */
     getValue : function() {
-      return this._getChildControl("legend").getValue();
+      return this.getChildControl("legend").getValue();
     },
 
 
@@ -224,7 +224,7 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
      */
     setValue : function(value)
     {
-      var legend = this._getChildControl("legend");
+      var legend = this.getChildControl("legend");
       return value ? legend.setValue(value) : legend.resetValue();
     },
 
@@ -235,7 +235,7 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
      * @return {Boolean} <code>true</code> when enabled
      */
     getChecked : function() {
-      return this._getChildControl("legend").getChecked();
+      return this.getChildControl("legend").getChecked();
     },
 
 
@@ -247,7 +247,7 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
      */
     setChecked : function(value)
     {
-      var legend = this._getChildControl("legend");
+      var legend = this.getChildControl("legend");
       return value ? legend.setChecked(value) : legend.resetChecked();
     },
 
@@ -258,7 +258,7 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
      * @return {String} The configured legend.
      */
     getLabel : function() {
-      return this._getChildControl("legend").getLabel();
+      return this.getChildControl("legend").getLabel();
     }
   }
 });

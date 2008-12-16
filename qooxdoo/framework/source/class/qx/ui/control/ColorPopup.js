@@ -212,7 +212,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
 
         for (var i=0; i<this.__fieldNumber; i++)
         {
-          field = this._getChildControl("field#" + (j++));
+          field = this.getChildControl("field#" + (j++));
           field.setBackgroundColor(table.values[i] || null);
           box.add(field);
         }
@@ -275,7 +275,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
         this.setBlue(rgb[2]);
       }
 
-      this._getChildControl("selected-preview").setBackgroundColor(value);
+      this.getChildControl("selected-preview").setBackgroundColor(value);
       this._rotatePreviousColors();
     },
 
@@ -339,7 +339,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
      */
     _onFieldMouseDown : function(e)
     {
-      var vValue = this._getChildControl("current-preview").getBackgroundColor();
+      var vValue = this.getChildControl("current-preview").getBackgroundColor();
       this.setValue(vValue);
 
       if (vValue) {
@@ -355,7 +355,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
      * @param e {qx.event.type.Mouse} Incoming event object
      */
     _onFieldMouseOver : function(e) {
-      this._getChildControl("current-preview").setBackgroundColor(e.getTarget().getBackgroundColor());
+      this.getChildControl("current-preview").setBackgroundColor(e.getTarget().getBackgroundColor());
     },
 
     /**
@@ -374,7 +374,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
         var color = qx.util.ColorUtil.rgbToRgbString([red, green, blue]);
       }
 
-      this._getChildControl("current-preview").setBackgroundColor(color);
+      this.getChildControl("current-preview").setBackgroundColor(color);
     },
 
     /**
@@ -464,8 +464,8 @@ qx.Class.define("qx.ui.control.ColorPopup",
           var color = qx.util.ColorUtil.rgbToRgbString([red, green, blue]);
         }
 
-        this._getChildControl("selected-preview").setBackgroundColor(color);
-        this._getChildControl("current-preview").setBackgroundColor(color);
+        this.getChildControl("selected-preview").setBackgroundColor(color);
+        this.getChildControl("current-preview").setBackgroundColor(color);
       }
     },
 

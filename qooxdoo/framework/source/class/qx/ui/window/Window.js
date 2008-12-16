@@ -387,7 +387,7 @@ qx.Class.define("qx.ui.window.Window",
      * @return {qx.ui.container.Composite} pane sub widget
      */
     getChildrenContainer : function() {
-      return this._getChildControl("pane");
+      return this.getChildControl("pane");
     },
 
 
@@ -424,7 +424,7 @@ qx.Class.define("qx.ui.window.Window",
         case "statusbar":
           control = new qx.ui.container.Composite(new qx.ui.layout.HBox());
           this._add(control);
-          control.add(this._getChildControl("statusbar-text"));
+          control.add(this.getChildControl("statusbar-text"));
           break;
 
         case "statusbar-text":
@@ -454,14 +454,14 @@ qx.Class.define("qx.ui.window.Window",
 
         case "icon":
           control = new qx.ui.basic.Image(this.getIcon());
-          this._getChildControl("captionbar").add(control, {row: 0, column:0});
+          this.getChildControl("captionbar").add(control, {row: 0, column:0});
           break;
 
         case "title":
           control = new qx.ui.basic.Label(this.getCaption());
           control.setWidth(0);
           control.setAllowGrowX(true);
-          this._getChildControl("captionbar").add(control, {row: 0, column:1});
+          this.getChildControl("captionbar").add(control, {row: 0, column:1});
           break;
 
         case "minimize-button":
@@ -469,7 +469,7 @@ qx.Class.define("qx.ui.window.Window",
           control.setFocusable(false);
           control.addListener("execute", this._onMinimizeButtonClick, this);
 
-          this._getChildControl("captionbar").add(control, {row: 0, column:2});
+          this.getChildControl("captionbar").add(control, {row: 0, column:2});
           break;
 
         case "restore-button":
@@ -477,7 +477,7 @@ qx.Class.define("qx.ui.window.Window",
           control.setFocusable(false);
           control.addListener("execute", this._onRestoreButtonClick, this);
 
-          this._getChildControl("captionbar").add(control, {row: 0, column:3});
+          this.getChildControl("captionbar").add(control, {row: 0, column:3});
           break;
 
         case "maximize-button":
@@ -485,7 +485,7 @@ qx.Class.define("qx.ui.window.Window",
           control.setFocusable(false);
           control.addListener("execute", this._onMaximizeButtonClick, this);
 
-          this._getChildControl("captionbar").add(control, {row: 0, column:4});
+          this.getChildControl("captionbar").add(control, {row: 0, column:4});
           break;
 
         case "close-button":
@@ -493,7 +493,7 @@ qx.Class.define("qx.ui.window.Window",
           control.setFocusable(false);
           control.addListener("execute", this._onCloseButtonClick, this);
 
-          this._getChildControl("captionbar").add(control, {row: 0, column:6});
+          this.getChildControl("captionbar").add(control, {row: 0, column:6});
           break;
       }
 
@@ -518,61 +518,61 @@ qx.Class.define("qx.ui.window.Window",
       var btn;
 
       if (this.getIcon()) {
-        this._showChildControl("icon");
+        this.showChildControl("icon");
       } else {
-        this._excludeChildControl("icon");
+        this.excludeChildControl("icon");
       }
 
       if (this.getCaption()) {
-        this._showChildControl("title");
+        this.showChildControl("title");
       } else {
-        this._excludeChildControl("title");
+        this.excludeChildControl("title");
       }
 
       if (this.getShowMinimize())
       {
-        this._showChildControl("minimize-button");
+        this.showChildControl("minimize-button");
 
-        btn = this._getChildControl("minimize-button");
+        btn = this.getChildControl("minimize-button");
         this.getAllowMinimize() ? btn.resetEnabled() : btn.setEnabled(false);
       }
       else
       {
-        this._excludeChildControl("minimize-button");
+        this.excludeChildControl("minimize-button");
       }
 
       if (this.getShowMaximize())
       {
         if (this.isMaximized())
         {
-          this._showChildControl("restore-button");
-          this._excludeChildControl("maximize-button");
+          this.showChildControl("restore-button");
+          this.excludeChildControl("maximize-button");
         }
         else
         {
-          this._showChildControl("maximize-button");
-          this._excludeChildControl("restore-button");
+          this.showChildControl("maximize-button");
+          this.excludeChildControl("restore-button");
         }
 
-        btn = this._getChildControl("maximize-button");
+        btn = this.getChildControl("maximize-button");
         this.getAllowMaximize() ? btn.resetEnabled() : btn.setEnabled(false);
       }
       else
       {
-        this._excludeChildControl("maximize-button");
-        this._excludeChildControl("restore-button");
+        this.excludeChildControl("maximize-button");
+        this.excludeChildControl("restore-button");
       }
 
       if (this.getShowClose())
       {
-        this._showChildControl("close-button");
+        this.showChildControl("close-button");
 
-        btn = this._getChildControl("close-button");
+        btn = this.getChildControl("close-button");
         this.getAllowClose() ? btn.resetEnabled() : btn.setEnabled(false);
       }
       else
       {
-        this._excludeChildControl("close-button");
+        this.excludeChildControl("close-button");
       }
     },
 
@@ -827,7 +827,7 @@ qx.Class.define("qx.ui.window.Window",
      * @return {qx.ui.core.Widget} The content padding target.
      */
     _getContentPaddingTarget : function() {
-      return this._getChildControl("pane");
+      return this.getChildControl("pane");
     },
 
 
@@ -835,9 +835,9 @@ qx.Class.define("qx.ui.window.Window",
     _applyShowStatusbar : function(value, old)
     {
       if (value) {
-        this._showChildControl("statusbar");
+        this.showChildControl("statusbar");
       } else {
-        this._excludeChildControl("statusbar");
+        this.excludeChildControl("statusbar");
       }
     },
 
@@ -851,7 +851,7 @@ qx.Class.define("qx.ui.window.Window",
     // property apply
     _applyStatus : function(value, old)
     {
-      var label = this._getChildControl("statusbar-text", true);
+      var label = this.getChildControl("statusbar-text", true);
       if (label) {
         label.setContent(value);
       }
@@ -860,13 +860,13 @@ qx.Class.define("qx.ui.window.Window",
 
     // property apply
     _applyCaption : function(value, old) {
-      this._getChildControl("title").setContent(value);
+      this.getChildControl("title").setContent(value);
     },
 
 
     // property apply
     _applyIcon : function(value, old) {
-      this._getChildControl("icon").setSource(value);
+      this.getChildControl("icon").setSource(value);
     },
 
 
@@ -958,7 +958,7 @@ qx.Class.define("qx.ui.window.Window",
     _onMinimizeButtonClick : function(e)
     {
       this.minimize();
-      this._getChildControl("minimize-button").reset();
+      this.getChildControl("minimize-button").reset();
     },
 
 
@@ -972,7 +972,7 @@ qx.Class.define("qx.ui.window.Window",
     _onRestoreButtonClick : function(e)
     {
       this.restore();
-      this._getChildControl("restore-button").reset();
+      this.getChildControl("restore-button").reset();
     },
 
 
@@ -986,7 +986,7 @@ qx.Class.define("qx.ui.window.Window",
     _onMaximizeButtonClick : function(e)
     {
       this.maximize();
-      this._getChildControl("maximize-button").reset();
+      this.getChildControl("maximize-button").reset();
     },
 
 
@@ -1000,7 +1000,7 @@ qx.Class.define("qx.ui.window.Window",
     _onCloseButtonClick : function(e)
     {
       this.close();
-      this._getChildControl("close-button").reset();
+      this.getChildControl("close-button").reset();
     }
   }
 });

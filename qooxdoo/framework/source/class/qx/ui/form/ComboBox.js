@@ -178,7 +178,7 @@ qx.Class.define("qx.ui.form.ComboBox",
     // overridden
     tabFocus : function()
     {
-      var field = this._getChildControl("textfield");
+      var field = this.getChildControl("textfield");
 
       field.getFocusElement().focus();
       field.selectAll();
@@ -188,7 +188,7 @@ qx.Class.define("qx.ui.form.ComboBox",
     // interface implementation
     setValue : function(value)
     {
-      var textfield = this._getChildControl("textfield");
+      var textfield = this.getChildControl("textfield");
       if (textfield.getValue() == value) {
         return;
       }
@@ -197,7 +197,7 @@ qx.Class.define("qx.ui.form.ComboBox",
       textfield.setValue(value);
 
       // Sync to list
-      var list = this._getChildControl("list");
+      var list = this.getChildControl("list");
       var item = list.findItem(value);
       if (item) {
         list.select(item);
@@ -209,7 +209,7 @@ qx.Class.define("qx.ui.form.ComboBox",
 
     // interface implementation
     getValue : function() {
-      return this._getChildControl("textfield").getValue();
+      return this.getChildControl("textfield").getValue();
     },
 
 
@@ -230,7 +230,7 @@ qx.Class.define("qx.ui.form.ComboBox",
     {
       if (e.isAltPressed())
       {
-        this._getChildControl("button").addState("selected");
+        this.getChildControl("button").addState("selected");
         this.focus();
       }
     },
@@ -239,7 +239,7 @@ qx.Class.define("qx.ui.form.ComboBox",
     // overridden
     _onKeyPress : function(e)
     {
-      var popup = this._getChildControl("popup");
+      var popup = this.getChildControl("popup");
       var iden = e.getKeyIdentifier();
 
       if (iden == "Down" && e.isAltPressed())
@@ -270,7 +270,7 @@ qx.Class.define("qx.ui.form.ComboBox",
     _onClick : function(e)
     {
       var target = e.getTarget();
-      if (target == this._getChildControl("button")) {
+      if (target == this.getChildControl("button")) {
         this.toggle();
       } else {
         this.close();
@@ -310,7 +310,7 @@ qx.Class.define("qx.ui.form.ComboBox",
       {
         // Ignore quick context (e.g. mouseover)
         // and configure the new value when closing the popup afterwards
-        var list = this._getChildControl("list");
+        var list = this.getChildControl("list");
         if (list.getSelectionContext() == "quick")
         {
           this.__preSelectedItem = current[0];
@@ -338,11 +338,11 @@ qx.Class.define("qx.ui.form.ComboBox",
       // the quick selection mode, the list may keep an invalid
       // selection on close or the user may enter text while
       // the combobox is closed and reopen it afterwards.
-      var popup = this._getChildControl("popup");
+      var popup = this.getChildControl("popup");
       if (popup.isVisible())
       {
         this.__initialAfterOpen = true;
-        var list = this._getChildControl("list");
+        var list = this.getChildControl("list");
         list.setValue(this.getValue());
       }
       else
@@ -353,7 +353,7 @@ qx.Class.define("qx.ui.form.ComboBox",
       }
 
       // In all cases: Remove focused state from button
-      this._getChildControl("button").removeState("selected");
+      this.getChildControl("button").removeState("selected");
     },
 
 
@@ -378,7 +378,7 @@ qx.Class.define("qx.ui.form.ComboBox",
       var value = e.getData();
 
       // Select item when possible
-      var list = this._getChildControl("list");
+      var list = this.getChildControl("list");
       var item = list.findItem(value);
       if (item) {
         list.select(item);
@@ -429,7 +429,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * @return {String|null}
      */
     getSelection : function() {
-      return this._getChildControl("textfield").getSelection();
+      return this.getChildControl("textfield").getSelection();
     },
 
 
@@ -441,7 +441,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * @return {Integer|null}
      */
     getSelectionLength : function() {
-      return this._getChildControl("textfield").getSelectionLength();
+      return this.getChildControl("textfield").getSelectionLength();
     },
 
 
@@ -457,7 +457,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * @return {void}
      */
     setSelection : function(start, end) {
-      this._getChildControl("textfield").setSelection(start, end);
+      this.getChildControl("textfield").setSelection(start, end);
     },
 
 
@@ -469,7 +469,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * @return {void}
      */
     clearSelection : function() {
-      this._getChildControl("textfield").clearSelection();
+      this.getChildControl("textfield").clearSelection();
     },
 
 
@@ -479,7 +479,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * @return {void}
      */
     selectAll : function() {
-      this._getChildControl("textfield").selectAll();
+      this.getChildControl("textfield").selectAll();
     }
   }
 });
