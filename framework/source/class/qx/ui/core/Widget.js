@@ -3461,6 +3461,10 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Returns the child control from the given ID. Returns
      * <code>null</code> when the child control is unknown.
+     * 
+     * Warning: This method exposes widget internals and messing around with the
+     * return value may set the widget into an inconsistent state. Use with
+     * caution.
      *
      * @param id {String} ID of the child control
      * @param notcreate {Boolean?false} Whether the child control
