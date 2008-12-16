@@ -277,9 +277,6 @@ qx.Class.define("qx.test.ui.Destroy",
         [qx.ui.toolbar.ToolBar, []]
       ];
       for (var i=0; i<forms.length; i++) {
-        this.debug("this: " + this);
-        this.debug(forms[i][0] + "");
-        this.debug(forms[i][0].classname);
         this.assertWidgetDispose(forms[i][0], forms[i][1], "Disposing " + forms[i][0].classname);
       }
 
