@@ -48,7 +48,7 @@ qx.Class.define("qx.application.AbstractGui",
 
 
     /**
-     * Crete the root widget. This method is abstract and must be overridden
+     * Create the root widget. This method is abstract and must be overridden
      * by sub classes.
      *
      * @return {qx.ui.core.Widget} The root widget. This widget must be configured
