@@ -3405,10 +3405,27 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Whether the given ID is assigned to a child control.
      *
+     * @deprecated Use public 'hasChildControl' instead!
      * @param id {String} ID of the child control
      * @return {Boolean} <code>true</code> when the child control is registered.
      */
     _hasChildControl : function(id)
+    {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use public 'hasChildControl' instead!"
+      );
+      return this.hasChildControl(id);
+    }
+    
+    
+    /**
+     * Whether the given ID is assigned to a child control.
+     *
+     * @param id {String} ID of the child control
+     * @return {Boolean} <code>true</code> when the child control is registered.
+     */
+    hasChildControl : function(id)
     {
       if (!this.__childControls) {
         return false;
@@ -3425,12 +3442,32 @@ qx.Class.define("qx.ui.core.Widget",
      * Returns the child control from the given ID. Returns
      * <code>null</code> when the child control is unknown.
      *
+     * @deprecated Use public 'getChildControl' instead!
      * @param id {String} ID of the child control
      * @param notcreate {Boolean?false} Whether the child control
      *    should not be created dynamically if not yet available.
      * @return {qx.ui.core.Widget} Child control
      */
     _getChildControl : function(id, notcreate)
+    {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use public 'getChildControl' instead!"
+      );      
+      return this.getChildControl(id, notcreate);
+    },
+    
+    
+    /**
+     * Returns the child control from the given ID. Returns
+     * <code>null</code> when the child control is unknown.
+     *
+     * @param id {String} ID of the child control
+     * @param notcreate {Boolean?false} Whether the child control
+     *    should not be created dynamically if not yet available.
+     * @return {qx.ui.core.Widget} Child control
+     */
+    getChildControl : function(id, notcreate)
     {
       if (!this.__childControls)
       {
@@ -3457,12 +3494,29 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Shows the given child control by ID
      *
+     * @deprecated Use public 'showChildControl' instead!
      * @param id {String} ID of the child control
      * @return {qx.ui.core.Widget} the child control
      */
     _showChildControl : function(id)
     {
-      var control = this._getChildControl(id);
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use public 'showChildControl' instead!"
+      );      
+      return this.showChildControl(id);
+    },
+    
+    
+    /**
+     * Shows the given child control by ID
+     *
+     * @param id {String} ID of the child control
+     * @return {qx.ui.core.Widget} the child control
+     */
+    showChildControl : function(id)
+    {
+      var control = this.getChildControl(id);
       control.show();
       return control;
     },
@@ -3471,12 +3525,27 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Excludes the given child control by ID
      *
+     * @deprecated Use public 'excludeChildControl' instead!
      * @param id {String} ID of the child control
-     * @return {void}
      */
     _excludeChildControl : function(id)
     {
-      var control = this._getChildControl(id, true);
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use public 'excludeChildControl' instead!"
+      );           
+      return this.excludeChildControl(id);
+    },
+    
+    
+    /**
+     * Excludes the given child control by ID
+     *
+     * @param id {String} ID of the child control
+     */
+    excludeChildControl : function(id)
+    {
+      var control = this.getChildControl(id, true);
       if (control) {
         control.exclude();
       }
@@ -3486,12 +3555,29 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Whether the given child control is visible.
      *
+     * @deprecated Use public 'isChildControlVisible' instead!
      * @param id {String} ID of the child control
      * @return {Boolean} <code>true</code> when the child control is visible.
      */
     _isChildControlVisible : function(id)
     {
-      var control = this._getChildControl(id, true);
+      qx.log.Logger.deprecatedMethodWarning(
+          arguments.callee,
+          "Use public 'isChildControlVisible' instead!"
+        );           
+        return this.isChildControlVisible(id);      
+    },
+    
+    
+    /**
+     * Whether the given child control is visible.
+     *
+     * @param id {String} ID of the child control
+     * @return {Boolean} <code>true</code> when the child control is visible.
+     */
+    isChildControlVisible : function(id)
+    {
+      var control = this.getChildControl(id, true);
       if (control) {
         return control.isVisible();
       }
