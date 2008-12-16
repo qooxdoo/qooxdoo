@@ -415,7 +415,15 @@ qx.Class.define("qx.bom.Selector",
     
     selectors :
     {
+      /** 
+       * ORDER
+       **/
       order: [ "ID", "NAME", "TAG" ],
+      
+      
+      /** 
+       * MATCH
+       **/      
       match: 
       {
         ID: /#((?:[\w\u0128-\uFFFF_-]|\\.)+)/,
@@ -427,15 +435,28 @@ qx.Class.define("qx.bom.Selector",
         POS: /:(nth|eq|gt|lt|first|last|even|odd)\(?(\d*)\)?(?:[^-]|$)/,
         PSEUDO: /:((?:[\w\u0128-\uFFFF_-]|\\.)+)(?:\((['"]*)((?:\([^\)]+\)|[^\2\(\)]*)+)\2\))?/
       },
+
+
+      /** 
+       * ATTRIBUTE MAP
+       **/
       attrMap: {
         "class": "className"
       },
+      
+      
+      /** 
+       * RELATIVE
+       **/
       relative: 
       {
-        "+": function(checkSet, part){
-          for ( var i = 0, l = checkSet.length; i < l; i++ ) {
+        "+": function(checkSet, part)
+        {
+          for ( var i = 0, l = checkSet.length; i < l; i++ ) 
+          {
             var elem = checkSet[i];
-            if ( elem ) {
+            if ( elem ) 
+            {
               var cur = elem.previousSibling;
               while ( cur && cur.nodeType !== 1 ) {
                 cur = cur.previousSibling;
@@ -450,21 +471,30 @@ qx.Class.define("qx.bom.Selector",
             qx.bom.Selector.filter( part, checkSet, true );
           }
         },
-        ">": function(checkSet, part){
-          if ( typeof part === "string" && !/\W/.test(part) ) {
+        
+        ">": function(checkSet, part)
+        {
+          if ( typeof part === "string" && !/\W/.test(part) ) 
+          {
             part = part.toUpperCase();
 
-            for ( var i = 0, l = checkSet.length; i < l; i++ ) {
+            for ( var i = 0, l = checkSet.length; i < l; i++ ) 
+            {
               var elem = checkSet[i];
-              if ( elem ) {
+              if ( elem ) 
+              {
                 var parent = elem.parentNode;
                 checkSet[i] = parent.nodeName === part ? parent : false;
               }
             }
-          } else {
-            for ( var i = 0, l = checkSet.length; i < l; i++ ) {
+          } 
+          else 
+          {
+            for ( var i = 0, l = checkSet.length; i < l; i++ ) 
+            {
               var elem = checkSet[i];
-              if ( elem ) {
+              if ( elem ) 
+              {
                 checkSet[i] = typeof part === "string" ?
                   elem.parentNode :
                   elem.parentNode === part;
@@ -476,7 +506,9 @@ qx.Class.define("qx.bom.Selector",
             }
           }
         },
-        "": function(checkSet, part){
+        
+        "": function(checkSet, part)
+        {
           var doneName = "done" + (done++), checkFn = qx.bom.Selector.__dirCheck;
 
           if ( !part.match(/\W/) ) {
@@ -486,7 +518,9 @@ qx.Class.define("qx.bom.Selector",
 
           checkFn("parentNode", part, doneName, checkSet, nodeCheck);
         },
-        "~": function(checkSet, part){
+        
+        "~": function(checkSet, part)
+        {
           var doneName = "done" + (done++), checkFn = qx.bom.Selector.__dirCheck;
 
           if ( typeof part === "string" && !part.match(/\W/) ) {
@@ -497,11 +531,17 @@ qx.Class.define("qx.bom.Selector",
           checkFn("previousSibling", part, doneName, checkSet, nodeCheck);
         }
       },
+      
+
+      /** 
+       * FIND
+       **/      
       find: 
       {
         ID: function(match, context) 
         {
-          if ( context.getElementById ) {
+          if ( context.getElementById ) 
+          {
             var m = context.getElementById(match[1]);
             return m ? [m] : [];
           }
@@ -510,21 +550,32 @@ qx.Class.define("qx.bom.Selector",
         NAME: function(match, context){
           return context.getElementsByName(match[1]);
         },
+        
         TAG: function(match, context){
           return context.getElementsByTagName(match[1]);
         }
       },
-      preFilter: {
-        CLASS: function(match){
+      
+      
+      /** 
+       * PRE FILTER
+       **/
+      preFilter: 
+      {
+        CLASS: function(match) {
           return new RegExp( "(?:^|\\s)" + match[1] + "(?:\\s|$)" );
         },
-        ID: function(match){
+        
+        ID: function(match) {
           return match[1];
         },
-        TAG: function(match){
+        
+        TAG: function(match) {
           return match[1].toUpperCase();
         },
-        CHILD: function(match){
+        
+        CHILD: function(match)
+        {
           if ( match[1] == "nth" ) {
             // parse equations like 'even', 'odd', '5', '2n', '3n+2', '4n-1', '-n+6'
             var test = /(-?)(\d*)n((?:\+|-)?\d*)/.exec(
@@ -541,7 +592,9 @@ qx.Class.define("qx.bom.Selector",
 
           return match;
         },
-        ATTR: function(match){
+        
+        ATTR: function(match)
+        {
           var name = match[1];
       
           if ( Expr.attrMap[name] ) {
@@ -554,14 +607,18 @@ qx.Class.define("qx.bom.Selector",
 
           return match;
         },
-        PSEUDO: function(match){
+        
+        PSEUDO: function(match)
+        {
           if ( match[1] === "not" ) {
             match[3] = match[3].split(/\s*,\s*/);
           }
       
           return match;
         },
-        POS: function(match){
+        
+        POS: function(match)
+        {
           match.unshift( true );
           return match;
         }
