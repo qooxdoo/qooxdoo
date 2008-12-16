@@ -54,7 +54,7 @@ qx.Class.define("qx.ui.form.List",
     this.__content.addListener("removeChildWidget", this._onRemoveChild, this);
 
     // Add to scrollpane
-    this._getChildControl("pane").add(this.__content);
+    this.getChildControl("pane").add(this.__content);
 
     // Apply orientation
     if (horizontal) {

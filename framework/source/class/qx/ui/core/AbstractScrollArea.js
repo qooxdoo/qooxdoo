@@ -210,7 +210,7 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
      * @return {Map} The pane boundaries.
      */
     getPaneSize : function() {
-      return this._getChildControl("pane").getBounds();
+      return this.getChildControl("pane").getBounds();
     },
 
 
@@ -232,7 +232,7 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
      * @return {Integer} Top offset
      */
     getItemTop : function(item) {
-      return this._getChildControl("pane").getItemTop(item);
+      return this.getChildControl("pane").getItemTop(item);
     },
 
 
@@ -244,7 +244,7 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
      * @return {Integer} Top offset
      */
     getItemBottom : function(item) {
-      return this._getChildControl("pane").getItemBottom(item);
+      return this.getChildControl("pane").getItemBottom(item);
     },
 
 
@@ -256,7 +256,7 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
      * @return {Integer} Top offset
      */
     getItemLeft : function(item) {
-      return this._getChildControl("pane").getItemLeft(item);
+      return this.getChildControl("pane").getItemLeft(item);
     },
 
 
@@ -268,7 +268,7 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
      * @return {Integer} Right offset
      */
     getItemRight : function(item) {
-      return this._getChildControl("pane").getItemRight(item);
+      return this.getChildControl("pane").getItemRight(item);
     },
 
 
@@ -291,7 +291,7 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
       // First flush queue before scroll
       qx.ui.core.queue.Manager.flush();
 
-      this._getChildControl("scrollbar-x").scrollTo(value);
+      this.getChildControl("scrollbar-x").scrollTo(value);
     },
 
 
@@ -305,7 +305,7 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
       // First flush queue before scroll
       qx.ui.core.queue.Manager.flush();
 
-      this._getChildControl("scrollbar-x").scrollBy(value);
+      this.getChildControl("scrollbar-x").scrollBy(value);
     },
 
 
@@ -316,7 +316,7 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
      */
     getScrollX : function()
     {
-      var scrollbar = this._getChildControl("scrollbar-x", true);
+      var scrollbar = this.getChildControl("scrollbar-x", true);
       return scrollbar ? scrollbar.getPosition() : 0;
     },
 
@@ -331,7 +331,7 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
       // First flush queue before scroll
       qx.ui.core.queue.Manager.flush();
 
-      this._getChildControl("scrollbar-y").scrollTo(value);
+      this.getChildControl("scrollbar-y").scrollTo(value);
     },
 
 
@@ -345,7 +345,7 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
       // First flush queue before scroll
       qx.ui.core.queue.Manager.flush();
 
-      this._getChildControl("scrollbar-y").scrollBy(value);
+      this.getChildControl("scrollbar-y").scrollBy(value);
     },
 
 
@@ -356,7 +356,7 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
      */
     getScrollY : function()
     {
-      var scrollbar = this._getChildControl("scrollbar-y", true);
+      var scrollbar = this.getChildControl("scrollbar-y", true);
       return scrollbar ? scrollbar.getPosition() : 0;
     },
 
@@ -377,7 +377,7 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
      * @return {void}
      */
     _onScrollBarX : function(e) {
-      this._getChildControl("pane").scrollToX(e.getData());
+      this.getChildControl("pane").scrollToX(e.getData());
     },
 
 
@@ -388,7 +388,7 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
      * @return {void}
      */
     _onScrollBarY : function(e) {
-      this._getChildControl("pane").scrollToY(e.getData());
+      this.getChildControl("pane").scrollToY(e.getData());
     },
 
 
@@ -422,14 +422,14 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
      */
     _onMouseWheel : function(e)
     {
-      var showX = this._isChildControlVisible("scrollbar-x");
-      var showY = this._isChildControlVisible("scrollbar-y");
+      var showX = this.isChildControlVisible("scrollbar-x");
+      var showY = this.isChildControlVisible("scrollbar-y");
 
       /*
        * If vertical scrollbar is present, scroll vertically, otherwise check if
        * horizontal scrollbar is present to scroll horizontally, else do not scroll at all.
        */
-      var scrollbar = (showY) ? this._getChildControl("scrollbar-y", true) : ( showX ? this._getChildControl("scrollbar-x", true) : null );
+      var scrollbar = (showY) ? this.getChildControl("scrollbar-y", true) : ( showX ? this.getChildControl("scrollbar-x", true) : null );
       if (scrollbar) {
         scrollbar.scrollBySteps(e.getWheelDelta());
       }
@@ -447,14 +447,14 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
      */
     _onChangeScrollbarXVisibility : function(e)
     {
-      var showX = this._isChildControlVisible("scrollbar-x");
-      var showY = this._isChildControlVisible("scrollbar-y");
+      var showX = this.isChildControlVisible("scrollbar-x");
+      var showY = this.isChildControlVisible("scrollbar-y");
 
       if (!showX) {
         this.scrollToX(0);
       }
 
-      showX && showY ? this._showChildControl("corner") : this._excludeChildControl("corner");
+      showX && showY ? this.showChildControl("corner") : this.excludeChildControl("corner");
     },
 
 
@@ -466,14 +466,14 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
      */
     _onChangeScrollbarYVisibility : function(e)
     {
-      var showX = this._isChildControlVisible("scrollbar-x");
-      var showY = this._isChildControlVisible("scrollbar-y");
+      var showX = this.isChildControlVisible("scrollbar-x");
+      var showY = this.isChildControlVisible("scrollbar-y");
 
       if (!showY) {
         this.scrollToY(0);
       }
 
-      showX && showY ? this._showChildControl("corner") : this._excludeChildControl("corner");
+      showX && showY ? this.showChildControl("corner") : this.excludeChildControl("corner");
     },
 
 
@@ -492,12 +492,12 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
      */
     _computeScrollbars : function()
     {
-      var pane = this._getChildControl("pane");
+      var pane = this.getChildControl("pane");
       var content = pane.getChild();
       if (!content)
       {
-        this._excludeChildControl("scrollbar-x");
-        this._excludeChildControl("scrollbar-y");
+        this.excludeChildControl("scrollbar-x");
+        this.excludeChildControl("scrollbar-y");
 
         return;
       }
@@ -555,7 +555,7 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
       // Update scrollbars
       if (showX)
       {
-        var barX = this._getChildControl("scrollbar-x");
+        var barX = this.getChildControl("scrollbar-x");
 
         barX.show();
         barX.setMaximum(Math.max(0, scrollSize.width - paneSize.width));
@@ -563,12 +563,12 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
       }
       else
       {
-        this._excludeChildControl("scrollbar-x");
+        this.excludeChildControl("scrollbar-x");
       }
 
       if (showY)
       {
-        var barY = this._getChildControl("scrollbar-y");
+        var barY = this.getChildControl("scrollbar-y");
 
         barY.show();
         barY.setMaximum(Math.max(0, scrollSize.height - paneSize.height));
@@ -576,7 +576,7 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
       }
       else
       {
-        this._excludeChildControl("scrollbar-y");
+        this.excludeChildControl("scrollbar-y");
       }
     }
   }

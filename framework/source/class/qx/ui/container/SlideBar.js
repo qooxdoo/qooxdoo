@@ -80,7 +80,7 @@ qx.Class.define("qx.ui.container.SlideBar",
   {
     this.base(arguments);
 
-    var scrollPane = this._getChildControl("scrollpane");
+    var scrollPane = this.getChildControl("scrollpane");
 
     if (orientation != null) {
       this.setOrientation(orientation);
@@ -140,7 +140,7 @@ qx.Class.define("qx.ui.container.SlideBar",
 
     // overridden
     getChildrenContainer : function() {
-      return this._getChildControl("content");
+      return this.getChildControl("content");
     },
 
 
@@ -167,7 +167,7 @@ qx.Class.define("qx.ui.container.SlideBar",
 
         case "content":
           control = new qx.ui.container.Composite();
-          this._getChildControl("scrollpane").add(control);
+          this.getChildControl("scrollpane").add(control);
           break;
 
         case "scrollpane":
@@ -205,7 +205,7 @@ qx.Class.define("qx.ui.container.SlideBar",
      */
     scrollBy : function(offset)
     {
-      var pane = this._getChildControl("scrollpane");
+      var pane = this.getChildControl("scrollpane");
       if (this.__isHorizontal) {
         pane.scrollByX(offset);
       } else {
@@ -222,7 +222,7 @@ qx.Class.define("qx.ui.container.SlideBar",
      */
     scrollTo : function(value)
     {
-      var pane = this._getChildControl("scrollpane");
+      var pane = this.getChildControl("scrollpane");
       if (this.__isHorizontal) {
         pane.scrollToX(value);
       } else {
@@ -275,7 +275,7 @@ qx.Class.define("qx.ui.container.SlideBar",
      */
     _onResize : function(e)
     {
-      var content = this._getChildControl("scrollpane").getChild();
+      var content = this.getChildControl("scrollpane").getChild();
       if (!content) {
         return;
       }
@@ -326,8 +326,8 @@ qx.Class.define("qx.ui.container.SlideBar",
      */
     _showArrows : function()
     {
-      this._showChildControl("button-forward");
-      this._showChildControl("button-backward");
+      this.showChildControl("button-forward");
+      this.showChildControl("button-backward");
     },
 
 
@@ -338,8 +338,8 @@ qx.Class.define("qx.ui.container.SlideBar",
      */
     _hideArrows : function()
     {
-      this._excludeChildControl("button-forward");
-      this._excludeChildControl("button-backward");
+      this.excludeChildControl("button-forward");
+      this.excludeChildControl("button-backward");
 
       this.scrollTo(0);
     }

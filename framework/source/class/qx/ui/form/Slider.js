@@ -340,7 +340,7 @@ qx.Class.define("qx.ui.form.Slider",
       }
 
       var isHorizontal = this.__isHorizontal;
-      var knob = this._getChildControl("knob");
+      var knob = this.getChildControl("knob");
 
       var locationProperty = isHorizontal ? "left" : "top";
 
@@ -501,7 +501,7 @@ qx.Class.define("qx.ui.form.Slider",
     {
       // Update sliding space
       var availSize = this.getInnerSize();
-      var knobSize = this._getChildControl("knob").getBounds();
+      var knobSize = this.getChildControl("knob").getBounds();
       var sizeProperty = this.__isHorizontal ? "width" : "height";
 
       // Sync knob size
@@ -677,7 +677,7 @@ qx.Class.define("qx.ui.form.Slider",
     _setKnobPosition : function(position)
     {
       // Use DOM Element
-      var container = this._getChildControl("knob").getContainerElement();
+      var container = this.getChildControl("knob").getContainerElement();
       if (this.__isHorizontal) {
         container.setStyle("left", position+"px", true);
       } else {
@@ -690,9 +690,9 @@ qx.Class.define("qx.ui.form.Slider",
 
       /*
       if (this.__isHorizontal) {
-        this._getChildControl("knob").setLayoutProperties({left:position});
+        this.getChildControl("knob").setLayoutProperties({left:position});
       } else {
-        this._getChildControl("knob").setLayoutProperties({top:position});
+        this.getChildControl("knob").setLayoutProperties({top:position});
       }
       */
     },
@@ -720,9 +720,9 @@ qx.Class.define("qx.ui.form.Slider",
 
       // Read size property
       if (this.__isHorizontal) {
-        this._getChildControl("knob").setWidth(Math.round(knobFactor * avail.width));
+        this.getChildControl("knob").setWidth(Math.round(knobFactor * avail.width));
       } else {
-        this._getChildControl("knob").setHeight(Math.round(knobFactor * avail.height));
+        this.getChildControl("knob").setHeight(Math.round(knobFactor * avail.height));
       }
     },
 
@@ -845,7 +845,7 @@ qx.Class.define("qx.ui.form.Slider",
     // property apply
     _applyOrientation : function(value, old)
     {
-      var knob = this._getChildControl("knob");
+      var knob = this.getChildControl("knob");
 
       // Update private flag for faster access
       this.__isHorizontal = value === "horizontal";
@@ -887,9 +887,9 @@ qx.Class.define("qx.ui.form.Slider",
       else
       {
         if (this.__isHorizontal) {
-          this._getChildControl("knob").resetWidth();
+          this.getChildControl("knob").resetWidth();
         } else {
-          this._getChildControl("knob").resetHeight();
+          this.getChildControl("knob").resetHeight();
         }
       }
     },

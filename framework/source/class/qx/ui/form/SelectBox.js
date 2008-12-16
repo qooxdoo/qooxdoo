@@ -147,12 +147,12 @@ qx.Class.define("qx.ui.form.SelectBox",
     // property apply
     _applySelected : function(value, old)
     {
-      var list = this._getChildControl("list");
+      var list = this.getChildControl("list");
       if (list.getSelectedItem() != value) {
         list.select(value);
       }
 
-      var atom = this._getChildControl("atom");
+      var atom = this.getChildControl("atom");
 
       var label = value ? value.getLabel() : "";
       label == null ? atom.resetLabel() : atom.setLabel(label);
@@ -176,7 +176,7 @@ qx.Class.define("qx.ui.form.SelectBox",
 
     // interface implementation
     setValue : function(value) {
-      this._getChildControl("list").setValue(value);
+      this.getChildControl("list").setValue(value);
     },
 
 
@@ -264,7 +264,7 @@ qx.Class.define("qx.ui.form.SelectBox",
      */
     _onMouseWheel : function(e)
     {
-      if (this._getChildControl("popup").isVisible()) {
+      if (this.getChildControl("popup").isVisible()) {
         return;
       }
 
@@ -330,7 +330,7 @@ qx.Class.define("qx.ui.form.SelectBox",
       clone.setBubbles(false);
 
       // forward it to the list
-      this._getChildControl("list").dispatchEvent(clone);
+      this.getChildControl("list").dispatchEvent(clone);
     },
 
 
@@ -354,8 +354,8 @@ qx.Class.define("qx.ui.form.SelectBox",
       {
         // Ignore quick context (e.g. mouseover)
         // and configure the new value when closing the popup afterwards
-        var popup = this._getChildControl("popup");
-        var list = this._getChildControl("list");
+        var popup = this.getChildControl("popup");
+        var list = this.getChildControl("list");
         var context = list.getSelectionContext();
 
         if (popup.isVisible() && (context == "quick" || context == "key"))
@@ -382,10 +382,10 @@ qx.Class.define("qx.ui.form.SelectBox",
       // when the popup is closed. The list selection may be invalid
       // because of the quick selection handling which is not
       // directly applied to the selectbox
-      var popup = this._getChildControl("popup");
+      var popup = this.getChildControl("popup");
       if (!popup.isVisible())
       {
-        var list = this._getChildControl("list");
+        var list = this.getChildControl("list");
 
         // check if the list has any children before selecting
         if (list.hasChildren()) {

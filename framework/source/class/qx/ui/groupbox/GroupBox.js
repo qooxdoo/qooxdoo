@@ -136,7 +136,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
      * @return {qx.ui.core.Widget} The content padding target.
      */
     _getContentPaddingTarget : function() {
-      return this._getChildControl("frame");
+      return this.getChildControl("frame");
     },
 
 
@@ -152,7 +152,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
      */
     _applyLegendPosition: function(e)
     {
-      if (this._getChildControl("legend").getBounds()) {
+      if (this.getChildControl("legend").getBounds()) {
         this._repositionFrame();
       }
     },
@@ -164,8 +164,8 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
      */
     _repositionFrame: function()
     {
-      var legend = this._getChildControl("legend");
-      var frame = this._getChildControl("frame");
+      var legend = this.getChildControl("legend");
+      var frame = this.getChildControl("frame");
 
       // get the current height of the legend
       var height = legend.getBounds().height;
@@ -196,7 +196,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
      * @return {qx.ui.container.Composite} pane sub widget
      */
     getChildrenContainer : function() {
-      return this._getChildControl("frame");
+      return this.getChildControl("frame");
     },
 
 
@@ -218,7 +218,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
      */
     setLegend : function(legend)
     {
-      var control = this._getChildControl("legend");
+      var control = this.getChildControl("legend");
 
       if (legend !== null)
       {
@@ -238,7 +238,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
      * @return {String} Label of the legend sub widget
      */
     getLegend : function() {
-      return this._getChildControl("legend").getLabel();
+      return this.getChildControl("legend").getLabel();
     },
 
 
@@ -249,7 +249,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
      * @return {void}
      */
     setIcon : function(icon) {
-      this._getChildControl("legend").setIcon(icon);
+      this.getChildControl("legend").setIcon(icon);
     },
 
 
@@ -259,7 +259,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
      * @return {String} source of the new icon of the legend sub widget
      */
     getIcon : function() {
-      this._getChildControl("legend").getIcon();
+      this.getChildControl("legend").getIcon();
     }
   }
 });

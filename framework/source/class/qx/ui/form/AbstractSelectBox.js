@@ -151,7 +151,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
           control.setAutoHide(false);
           control.setKeepActive(true);
           control.addListener("mouseup", this.close, this);
-          control.add(this._getChildControl("list"));
+          control.add(this.getChildControl("list"));
 
           control.addListener("changeVisibility", this._onPopupChangeVisibility, this);
           break;
@@ -170,7 +170,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
     // property apply
     _applyMaxListHeight : function(value, old) {
-      this._getChildControl("list").setMaxHeight(value);
+      this.getChildControl("list").setMaxHeight(value);
     },
 
 
@@ -186,7 +186,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
      * @return {qx.ui.form.List} the list
      */
     getChildrenContainer : function() {
-      return this._getChildControl("list");
+      return this.getChildControl("list");
     },
 
 
@@ -202,7 +202,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
      */
     open : function()
     {
-      var popup = this._getChildControl("popup");
+      var popup = this.getChildControl("popup");
 
       popup.placeToWidget(this, true);
       popup.show();
@@ -213,7 +213,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
      * Hides the list popup.
      */
     close : function() {
-      this._getChildControl("popup").hide();
+      this.getChildControl("popup").hide();
     },
 
 
@@ -222,7 +222,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
      */
     toggle : function()
     {
-      var isListOpen = this._getChildControl("popup").isVisible();
+      var isListOpen = this.getChildControl("popup").isVisible();
       if (isListOpen) {
         this.close();
       } else {
@@ -248,7 +248,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
     {
       // get the key identifier
       var identifier = e.getKeyIdentifier();
-      var listPopup = this._getChildControl("popup");
+      var listPopup = this.getChildControl("popup");
 
       // disabled pageUp and pageDown keys
       if (listPopup.isHidden() && (identifier == "PageDown" || identifier == "PageUp")) {
@@ -265,7 +265,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
       // forward the rest of the events to the list
       else
       {
-        this._getChildControl("list").handleKeyPress(e);
+        this.getChildControl("list").handleKeyPress(e);
       }
     },
 
@@ -276,7 +276,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
      * @param e {qx.event.type.Data} Data event
      */
     _onResize : function(e){
-      this._getChildControl("popup").setMinWidth(e.getData().width);
+      this.getChildControl("popup").setMinWidth(e.getData().width);
     },
 
 

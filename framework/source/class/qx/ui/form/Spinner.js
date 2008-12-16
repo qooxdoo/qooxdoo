@@ -283,7 +283,7 @@ qx.Class.define("qx.ui.form.Spinner",
     // overridden
     tabFocus : function()
     {
-      var field = this._getChildControl("textfield");
+      var field = this.getChildControl("textfield");
 
       field.getFocusElement().focus();
       field.selectAll();
@@ -351,8 +351,8 @@ qx.Class.define("qx.ui.form.Spinner",
       this.base(arguments, value, old);
       // if the spinner is disabled, disable the buttons for sure
         if (!value) {
-          this._getChildControl("upbutton").setEnabled(false);
-          this._getChildControl("downbutton").setEnabled(false);
+          this.getChildControl("upbutton").setEnabled(false);
+          this.getChildControl("downbutton").setEnabled(false);
         }
 
         this._updateButtons();
@@ -389,7 +389,7 @@ qx.Class.define("qx.ui.form.Spinner",
      */
     _applyValue: function(value, old)
     {
-      var textField = this._getChildControl("textfield");
+      var textField = this.getChildControl("textfield");
 
       this._updateButtons();
 
@@ -418,7 +418,7 @@ qx.Class.define("qx.ui.form.Spinner",
      */
     _applyEditable : function(value, old)
     {
-      var textField = this._getChildControl("textfield");
+      var textField = this.getChildControl("textfield");
 
       if (textField) {
         textField.setReadOnly(!value);
@@ -437,8 +437,8 @@ qx.Class.define("qx.ui.form.Spinner",
     {
       if (value)
       {
-        var upButton = this._getChildControl("upbutton");
-        var downButton = this._getChildControl("downbutton");
+        var upButton = this.getChildControl("upbutton");
+        var downButton = this.getChildControl("downbutton");
 
         if (this.getEnabled())
         {
@@ -467,7 +467,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * @return {qx.ui.core.Widget} The content padding target.
      */
     _getContentPaddingTarget : function() {
-      return this._getChildControl("textfield");
+      return this.getChildControl("textfield");
     },
 
     /**
@@ -475,8 +475,8 @@ qx.Class.define("qx.ui.form.Spinner",
      * buttons and handles the wrap around.
      */
     _updateButtons : function() {
-      var upButton = this._getChildControl("upbutton");
-      var downButton = this._getChildControl("downbutton");
+      var upButton = this.getChildControl("upbutton");
+      var downButton = this.getChildControl("downbutton");
       var value = this.getValue();
 
       // up button enabled/disabled
@@ -536,7 +536,7 @@ qx.Class.define("qx.ui.form.Spinner",
           this.__pageUpMode = true;
 
         case "Up":
-          this._getChildControl("upbutton").press();
+          this.getChildControl("upbutton").press();
           break;
 
         case "PageDown":
@@ -544,7 +544,7 @@ qx.Class.define("qx.ui.form.Spinner",
           this.__pageDownMode = true;
 
         case "Down":
-          this._getChildControl("downbutton").press();
+          this.getChildControl("downbutton").press();
           break;
 
         default:
@@ -570,21 +570,21 @@ qx.Class.define("qx.ui.form.Spinner",
       switch(e.getKeyIdentifier())
       {
         case "PageUp":
-          this._getChildControl("upbutton").release();
+          this.getChildControl("upbutton").release();
           this.__pageUpMode = false;
           break;
 
         case "Up":
-          this._getChildControl("upbutton").release();
+          this.getChildControl("upbutton").release();
           break;
 
         case "PageDown":
-          this._getChildControl("downbutton").release();
+          this.getChildControl("downbutton").release();
           this.__pageDownMode = false;
           break;
 
         case "Down":
-          this._getChildControl("downbutton").release();
+          this.getChildControl("downbutton").release();
           break;
       }
     },
@@ -623,7 +623,7 @@ qx.Class.define("qx.ui.form.Spinner",
      */
     _onTextChange : function(e)
     {
-      var textField = this._getChildControl("textfield");
+      var textField = this.getChildControl("textfield");
       var value;
 
       // if a number format is set

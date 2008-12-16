@@ -258,7 +258,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
      * added to the end of the layout.
      */
     addOpenButton : function() {
-      this._add(this._getChildControl("open"));
+      this._add(this.getChildControl("open"));
     },
 
 
@@ -282,7 +282,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
      */
     addIcon : function()
     {
-      var icon = this._getChildControl("icon");
+      var icon = this.getChildControl("icon");
 
       if (this.__iconAdded) {
         this._remove(icon);
@@ -302,7 +302,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
      */
     addLabel : function(text)
     {
-      var label = this._getChildControl("label");
+      var label = this.getChildControl("label");
 
       if (this.__labelAdded) {
         this._remove(label);
@@ -365,13 +365,13 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
 
     // property apply
     _applyIcon : function(value, old) {
-      this._getChildControl("icon").setSource(value);
+      this.getChildControl("icon").setSource(value);
     },
 
 
     // property apply
     _applyLabel : function(value, old) {
-      this._getChildControl("label").setContent(value);
+      this.getChildControl("label").setContent(value);
     },
 
 
@@ -382,7 +382,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
         this.getChildrenContainer().setVisibility(value ? "visible" : "excluded");
       }
 
-      var open = this._getChildControl("open", true);
+      var open = this.getChildControl("open", true);
       if (open) {
         open.setOpen(value);
       }
@@ -419,7 +419,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
      */
     _shouldShowOpenSymbol : function()
     {
-      var open = this._getChildControl("open", true);
+      var open = this.getChildControl("open", true);
       if (!open) {
         return false;
       }
@@ -461,7 +461,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
       }
 
       var openWidth = 0;
-      var open = this._getChildControl("open", true);
+      var open = this.getChildControl("open", true);
 
       if (open)
       {

@@ -53,10 +53,10 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this._setLayout(grid);
 
     // init child controls
-    this.__horScrollBar = this._showChildControl("scrollbar-x");
-    this.__verScrollBar = this._showChildControl("scrollbar-y");
-    this.__header = this._showChildControl("header");
-    this.__tablePane = this._showChildControl("pane");
+    this.__horScrollBar = this.showChildControl("scrollbar-x");
+    this.__verScrollBar = this.showChildControl("scrollbar-y");
+    this.__header = this.showChildControl("header");
+    this.__tablePane = this.showChildControl("pane");
 
     // the top line containing the header clipper and the top right widget
     this.__top = new qx.ui.container.Composite(new qx.ui.layout.HBox());
@@ -87,10 +87,10 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this._add(this.__paneClipper, {row: 1, column: 0});
 
     // init focus indicator
-    this.__focusIndicator = this._getChildControl("focus-indicator");
+    this.__focusIndicator = this.getChildControl("focus-indicator");
 
     // force creation of the resize line
-    this._getChildControl("resize-line").hide();
+    this.getChildControl("resize-line").hide();
 
     this.addListener("mouseout", this._onMouseout, this);
     this.addListener("appear", this._onAppear, this);
@@ -1411,7 +1411,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     _showResizeLine : function(x)
     {
-      var resizeLine = this._showChildControl("resize-line");
+      var resizeLine = this.showChildControl("resize-line");
 
       var width = resizeLine.getWidth();
       var paneBounds = this.__paneClipper.getBounds();
@@ -1425,7 +1425,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * Hides the resize line.
      */
     _hideResizeLine : function() {
-      this._excludeChildControl("resize-line");
+      this.excludeChildControl("resize-line");
     },
 
 
