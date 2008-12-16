@@ -44,10 +44,16 @@ qx.Class.define("qx.bom.Selector",
 {
   statics :
   {
+    /*
+    *****************************************************************************
+       PRIVATE HELPERS
+    *****************************************************************************
+    */    
+
     __chunker : /((?:\((?:\([^()]+\)|[^()]+)+\)|\[(?:\[[^[\]]+\]|[^[\]]+)+\]|\\.|[^ >+~,(\[]+)+|[>+~])(\s*,\s*)?/g,
     __cache : null,
     done : 0,
-    
+
     __invalidate : function() {
       this.__cache = {};
     },
@@ -146,7 +152,20 @@ qx.Class.define("qx.bom.Selector",
         }
       }
     },
-
+    
+    
+    
+    
+    
+    /*
+    *****************************************************************************
+       PUBLIC API
+    *****************************************************************************
+    */    
+    
+    /**
+     * Queries
+     */
     query : function(selector, context, results, seed) 
     {
       var doCache = !results;
@@ -276,10 +295,18 @@ qx.Class.define("qx.bom.Selector",
       return results;
     },
     
+    
+    /**
+     * Matches
+     */    
     matches : function(expr, set){
       return this.query(expr, null, null, set);
     },
     
+    
+    /**
+     * Finds
+     */    
     find : function(expr, context)
     {
       var set, match;
@@ -331,6 +358,10 @@ qx.Class.define("qx.bom.Selector",
       return {set: set, expr: expr};
     },
     
+    
+    /**
+     * Filters
+     */
     filter : function(expr, set, inplace)
     {
       var old = expr, result = [], curLoop = set, match;
@@ -399,7 +430,6 @@ qx.Class.define("qx.bom.Selector",
           }
         }
 
-
         expr = expr.replace(/\s*,\s*/, "");
 
         // Improper expression
@@ -413,6 +443,12 @@ qx.Class.define("qx.bom.Selector",
       return curLoop;
     },
     
+
+    /*
+    ==============================================================================
+      SELECTORS
+    ==============================================================================
+    */
     selectors :
     {
       /** 
