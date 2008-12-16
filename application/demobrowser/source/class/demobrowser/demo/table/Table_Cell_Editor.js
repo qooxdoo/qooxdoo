@@ -223,7 +223,7 @@ qx.Class.define("demobrowser.demo.table.Table_Cell_Editor",
             case "password":
               cellEditor = new qx.ui.table.celleditor.PasswordField;
               break;
-              
+
             case "checkbox":
               cellEditor = new qx.ui.table.celleditor.CheckBox;
               break;
@@ -327,7 +327,7 @@ qx.Class.define("demobrowser.demo.table.Table_Cell_Editor",
       propertyEditor_tableModel.setColumnEditable(2,true);
       tcm.setDataCellRenderer(2, propertyCellRendererFactory);
       tcm.setCellEditorFactory(2, propertyCellEditorFactory);
-      
+
       // fourth column is not visible, has the metadata
 
       // set data

@@ -32,7 +32,7 @@ qx.Class.define("demobrowser.TreeDataHandler",
   construct : function(testRep)
   {
     this.base(arguments);
-    
+
     this.tmap = testRep;
     this.ttree = this.__readTestRep(testRep);
   },
@@ -258,7 +258,7 @@ qx.Class.define("demobrowser.TreeDataHandler",
       if (!node) {
         return "";
       }
-      
+
       var path = node.pwd();
       path.shift();  // remove leading 'All'
 

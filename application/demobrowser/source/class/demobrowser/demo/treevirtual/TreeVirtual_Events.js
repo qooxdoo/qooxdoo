@@ -19,48 +19,48 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Events",
       // classes.  Include the mixin that provides them.
       qx.Class.include(qx.ui.treevirtual.TreeVirtual,
                        qx.ui.treevirtual.MNode);
-      
+
 
       // tree
       var tree = new qx.ui.treevirtual.TreeVirtual("Tree");
       tree.setColumnWidth(0, 400);
       tree.setAlwaysShowOpenCloseSymbol(true);
-  
+
       // Add the tree
       this.getRoot().add(tree, { edge : 30 });
-  
+
       // tree data model
       var dataModel = tree.getDataModel();
-  
+
       var te1 = dataModel.addBranch(null, "Desktop", true);
-  
+
       var te;
       dataModel.addBranch(te1, "Files", true);
-  
+
       te = dataModel.addBranch(te1, "Workspace", true);
       dataModel.addLeaf(te, "Windows (C:)");
       dataModel.addLeaf(te, "Documents (D:)");
-  
+
       dataModel.addBranch(te1, "Network", true);
       dataModel.addBranch(te1, "Trash", true);
-  
+
       var te2 = dataModel.addBranch(null, "Inbox", true);
-  
+
       te = dataModel.addBranch(te2, "Spam", false);
       for (var i = 1; i < 3000; i++)
       {
         dataModel.addLeaf(te, "Spam Message #" + i);
       }
-  
+
       dataModel.addBranch(te2, "Sent", false);
       dataModel.addBranch(te2, "Trash", false);
       dataModel.addBranch(te2, "Data", false);
       dataModel.addBranch(te2, "Edit", false);
-  
+
       dataModel.setData();
-  
+
       var newItem = 1;
-  
+
       /*
        * Each time we get a treeOpenWithContent event, add yet another leaf
        * node to the node being opened.
@@ -73,13 +73,13 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Events",
                          dataModel.addLeaf(node.nodeId, newItem.toString());
                          newItem++;
                        });
-  
+
       tree.addListener("treeClose",
                        function(e)
                        {
                          alert('treeClose ');
                        });
-  
+
       /*
        * We handle opening an empty folder specially.  We demonstrate how to
        * disable the open/close symbol once we've determined there's nothing
@@ -94,8 +94,8 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Events",
                          var node = e.getData();
                          tree.nodeSetHideOpenClose(node, true);
                        });
-  
-  
+
+
       tree.addListener("changeSelection",
                        function(e)
                        {

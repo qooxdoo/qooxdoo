@@ -31,8 +31,8 @@
 qx.Class.define("demobrowser.Application",
 {
   extend : qx.application.Standalone,
-  
-  
+
+
 
   /*
   *****************************************************************************
@@ -60,16 +60,16 @@ qx.Class.define("demobrowser.Application",
     },
 
     // overridden
-    finalize : function() 
+    finalize : function()
     {
       this.base(arguments);
-      
+
       this.viewer.dataLoader("script/demodata.js");
     }
   },
-  
-  
-  
+
+
+
   /*
   *****************************************************************************
      DEFER

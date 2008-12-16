@@ -169,22 +169,22 @@ qx.Class.define("demobrowser.DemoBrowser",
     {
       this._cmdObjectSummary = new qx.event.Command("Ctrl+O");
       this._cmdObjectSummary.addListener("execute", this.__getObjectSummary, this);
-       
+
       this._cmdRunSample = new qx.event.Command("F5");
       this._cmdRunSample.addListener("execute", this.runSample, this);
-       
+
       this._cmdPrevSample = new qx.event.Command("Ctrl+Left");
       this._cmdPrevSample.addListener("execute", this.playPrev, this);
-       
+
       this._cmdNextSample = new qx.event.Command("Ctrl+Right");
       this._cmdNextSample.addListener("execute", this.playNext, this);
-       
+
       this._cmdSampleInOwnWindow = new qx.event.Command("Ctrl+N");
       this._cmdSampleInOwnWindow.addListener("execute", this.__openWindow, this);
-       
+
       this._cmdDisposeSample = new qx.event.Command("Ctrl+D");
       this._cmdDisposeSample.addListener("execute", this.__disposeSample, this);
-       
+
       this._cmdNamespacePollution = new qx.event.Command("Ctrl+P");
       this._cmdNamespacePollution.addListener("execute", this.__showPollution, this);
     },
@@ -576,7 +576,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       }
       else
       {
-        this.__logDone = false;        
+        this.__logDone = false;
         this.__iframe.setSource(url);
       }
 

@@ -90,7 +90,7 @@ qx.Class.define("demobrowser.demo.widget.MenuBar",
 
       this._pasteCommand.setEnabled(false);
     },
-    
+
 
     getMenuBar : function()
     {
@@ -388,6 +388,6 @@ qx.Class.define("demobrowser.demo.widget.MenuBar",
       menu.add(infoButton);
 
       return menu;
-    }    
+    }
   }
 });

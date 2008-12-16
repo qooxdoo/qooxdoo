@@ -26,7 +26,7 @@ qx.Class.define("demobrowser.demo.widget.CheckBox",
     main: function()
     {
       this.base(arguments);
-      
+
       var label = new qx.ui.basic.Label("What do you need for the beach?");
 
       // create the main layout
@@ -38,7 +38,7 @@ qx.Class.define("demobrowser.demo.widget.CheckBox",
       container.setPadding(20);
 
       this.getRoot().add(container, {left:0,top:0});
-      
+
       container.add(label);
 
       // Create some radio buttons
@@ -46,7 +46,7 @@ qx.Class.define("demobrowser.demo.widget.CheckBox",
       var cbTowel = new qx.ui.form.CheckBox("Towel");
       var cbBeer = new qx.ui.form.CheckBox("Beer");
       var cbBT =  new qx.ui.form.CheckBox("Bathing togs");
-      
+
       this._checkBoxes = [ cbOil, cbTowel, cbBeer, cbBT ];
 
       // Add them to the container
@@ -58,7 +58,7 @@ qx.Class.define("demobrowser.demo.widget.CheckBox",
       var btOk = new qx.ui.form.Button("OK");
       btOk.addListener("execute", this._onExecute, this);
       btOk.setAllowGrowX(false);
-      
+
       container.add(btOk);
     },
 
@@ -81,7 +81,7 @@ qx.Class.define("demobrowser.demo.widget.CheckBox",
           str += (cbs[i].getLabel()  + ", ");
         }
       }
-      
+
       if (count > 0)
       {
         str = str.substring(0, str.length-2);

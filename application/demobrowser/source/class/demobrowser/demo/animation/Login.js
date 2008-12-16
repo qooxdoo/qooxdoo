@@ -24,15 +24,15 @@ qx.Class.define("demobrowser.demo.animation.Login",
   members :
   {
 
-  	checkInput : function()
-  	{
-  		this.__effect.start();
-  	},
+    checkInput : function()
+    {
+      this.__effect.start();
+    },
 
-  	__prepareEffect : function()
-  	{
-  	  this.__effect = new qx.fx.effect.combination.Shake(this.__container.getContainerElement().getDomElement());
-  	},
+    __prepareEffect : function()
+    {
+      this.__effect = new qx.fx.effect.combination.Shake(this.__container.getContainerElement().getDomElement());
+    },
 
     main: function()
     {
@@ -70,22 +70,22 @@ qx.Class.define("demobrowser.demo.animation.Login",
       }
 
       /* Text fields */
-			var field1 = new qx.ui.form.TextField();
-			var field2 = new qx.ui.form.PasswordField();
+      var field1 = new qx.ui.form.TextField();
+      var field2 = new qx.ui.form.PasswordField();
 
-			this.__container.add(field1.set({
+      this.__container.add(field1.set({
         allowShrinkX: false,
         paddingTop: 3
       }), {row: 0, column : 1});
 
-			this.__container.add(field2.set({
+      this.__container.add(field2.set({
         allowShrinkX: false,
         paddingTop: 3
       }), {row: 1, column : 1});
 
-			/* Button */
-			var button1 = this.__okButton =  new qx.ui.form.Button("Login");
-			button1.setAllowStretchX(false);
+      /* Button */
+      var button1 = this.__okButton =  new qx.ui.form.Button("Login");
+      button1.setAllowStretchX(false);
 
       this.__container.add(
         button1,
@@ -95,11 +95,11 @@ qx.Class.define("demobrowser.demo.animation.Login",
         }
       );
 
-			/* Check input on click */
+      /* Check input on click */
       button1.addListener("execute", this.checkInput, this);
 
-			/* Prepare effect as soon as the container is ready */
-			this.__container.addListener("appear", this.__prepareEffect, this);
+      /* Prepare effect as soon as the container is ready */
+      this.__container.addListener("appear", this.__prepareEffect, this);
 
     }
   }
