@@ -155,7 +155,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
       }
 
       this.__colToXPosMap = null;
-      
+
       for (var col=0; col<colCount; col++)
       {
         var data =

@@ -112,7 +112,7 @@ qx.Class.define("qx.ui.tooltip.ToolTip",
       apply : "_applyIcon",
       themeable : true
     },
-    
+
     /**
      * Switches between rich HTML and text content. The text mode (<code>false</code>) supports
      * advanced features like ellipsis when the available space is not
@@ -174,7 +174,7 @@ qx.Class.define("qx.ui.tooltip.ToolTip",
       var atom = this._getChildControl("atom");
       value == null ? atom.resetLabel() : atom.setLabel(value);
     },
-    
+
     // property apply
     _applyRich : function(value, old)
     {

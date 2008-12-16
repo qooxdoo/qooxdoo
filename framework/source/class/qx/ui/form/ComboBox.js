@@ -67,11 +67,11 @@ qx.Class.define("qx.ui.form.ComboBox",
       refine : true,
       init : "combobox"
     },
-    
-    /** 
+
+    /**
      * Formatter to format <code>TextField</code> value when <code>ListItem</code>
      * is selected. Uses the default formatter {@link qx.ui.form.ComboBox#__defaultFormat}.
-     */ 
+     */
     format :
     {
       check : "Function",
@@ -285,11 +285,11 @@ qx.Class.define("qx.ui.form.ComboBox",
       if (this.__preSelectedItem)
       {
         var label = this.__preSelectedItem.getLabel();
-        
+
         if (this.getFormat()!= null) {
           label = this.getFormat().call(this, this.__preSelectedItem);
         }
-        
+
         this.setValue(label);
         this.__preSelectedItem = null;
       }
@@ -318,11 +318,11 @@ qx.Class.define("qx.ui.form.ComboBox",
         else
         {
           var label = current[0].getLabel();
-        
+
           if (this.getFormat()!= null) {
             label = this.getFormat().call(this, current[0]);
           }
-        
+
           this.setValue(label);
           this.__preSelectedItem = null;
         }
@@ -399,19 +399,19 @@ qx.Class.define("qx.ui.form.ComboBox",
      * Return the formatted label text from the <code>ListItem</code>.
      * The formatter removes all HTML tags and converts all HTML entities
      * to string characters when the rich property is <code>true</code>.
-     *  
+     *
      * @param item {ListItem} The list item to format.
      * @return {String} The formatted text.
      */
     __defaultFormat : function(item)
     {
       var valueLabel = item.getLabel();
-      
+
       if (item.getRich()) {
         valueLabel = valueLabel.replace(/<[^>]+?>/g, "");
         valueLabel = qx.bom.String.unescape(valueLabel);
       }
-      
+
       return valueLabel;
     },
 

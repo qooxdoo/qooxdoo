@@ -149,9 +149,9 @@ qx.Class.define("qx.util.AliasManager",
     {
       // TODO: Optimize preprocess call, does not really
       // need to be a separate function
-      
+
       var dynamic = this._getDynamic();
-      
+
       if (path !== null) {
         path = this._preprocess(path);
       }

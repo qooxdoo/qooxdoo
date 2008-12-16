@@ -73,8 +73,8 @@ qx.Mixin.define("qx.locale.MTranslation",
 
       throw new Error("To enable localization please include qx.locale.Manager into your build!");
     },
-    
-    
+
+
     /**
      * Translate a message with translation hint
      * Mark the messages for translation.

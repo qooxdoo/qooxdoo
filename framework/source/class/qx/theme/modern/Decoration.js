@@ -222,7 +222,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         insets    : 2
       }
     },
-    
+
     "button-disabled" :
     {
       decorator : qx.ui.decoration.Grid,
@@ -326,7 +326,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         backgroundColor : "background-light"
       }
     },
-    
+
     "input-disabled" :
     {
       decorator : qx.ui.decoration.Beveled,

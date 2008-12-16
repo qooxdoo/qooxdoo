@@ -359,7 +359,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
         if (!this.__resizePlacement) {
           this.addListener("resize", this.__place);
         }
-        
+
         this.__resizePlacement = coords;
         return;
       }
@@ -369,7 +369,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
         delete this.__resizePlacement;
         this.removeListener("resize", this.__place);
       }
-      
+
       var area = this.getLayoutParent().getBounds();
       var position = this.getPosition();
       var smart = this.getSmart();

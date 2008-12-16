@@ -331,7 +331,7 @@ qx.Class.define("qx.ui.control.DateChooser",
           control.setAnonymous(true);
           control.setCursor("default");
           break;
-          
+
         case "weekday":
           control = new qx.ui.basic.Label();
           control.setAllowGrowX(true);
@@ -340,7 +340,7 @@ qx.Class.define("qx.ui.control.DateChooser",
           control.setAnonymous(true);
           control.setCursor("default");
           break;
-          
+
         case "day":
           control = new qx.ui.basic.Label();
           control.setAllowGrowX(true);

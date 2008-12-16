@@ -20,7 +20,7 @@
 /**
  * Contains detection for QuickTime, Windows Media, DivX and Silverlight.
  * If no version could be detected the version is set to "0" as default.
- * Be aware of that behaviour if using the {@link #has} method with a minimum 
+ * Be aware of that behaviour if using the {@link #has} method with a minimum
  * version as second parameter.
  */
 qx.Bootstrap.define("qx.bom.client.Multimedia",
@@ -90,7 +90,7 @@ qx.Bootstrap.define("qx.bom.client.Multimedia",
           }
         }
       }
-      
+
       return false;
     },
 
@@ -144,7 +144,7 @@ qx.Bootstrap.define("qx.bom.client.Multimedia",
               try
               {
                 entry.version = obj.version === undefined ? 0 : obj.version;
-              } 
+              }
               catch(ex)
               {
                 try

@@ -178,9 +178,9 @@ qx.Class.define("qx.util.format.NumberFormat",
 
   members :
   {
-    
+
     __locale : null,
-    
+
     /**
      * Formats a number.
      *

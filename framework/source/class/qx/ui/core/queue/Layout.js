@@ -38,9 +38,9 @@ qx.Class.define("qx.ui.core.queue.Layout",
      * @param widget {qx.ui.core.Widget} The widget to clear
      */
     remove : function(widget) {
-      delete this.__queue[widget.$$hash];      
+      delete this.__queue[widget.$$hash];
     },
-    
+
 
     /**
      * Mark a widget's layout as invalid and add its layout root to

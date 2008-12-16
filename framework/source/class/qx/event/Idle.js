@@ -24,7 +24,7 @@
  * this class is reduce the number of timers.
  */
 
-qx.Class.define("qx.event.Idle", 
+qx.Class.define("qx.event.Idle",
 {
   extend : qx.core.Object,
   type : "singleton",
@@ -85,7 +85,7 @@ qx.Class.define("qx.event.Idle",
     _applyTimeoutInterval : function(value) {
       this.__timer.setInterval(value);
     },
-    
+
     /**
      * Fires an "interval" event
      */
@@ -109,5 +109,5 @@ qx.Class.define("qx.event.Idle",
 
     this._disposeFields("__timer");
   }
-  
+
 });

@@ -338,7 +338,7 @@ qx.Class.define("qx.html.Element",
       {
         var action = this._actions[i];
         var element = action.element.__element;
-        
+
         qx.bom.Element[action.type](element);
       }
       this._actions = [];
@@ -1851,7 +1851,7 @@ qx.Class.define("qx.html.Element",
     /**
      * Takes the action to process as argument and queues this action if the
      * underlying DOM element is not yet created.
-     * 
+     *
      * @param action {String} action to queue
      * @return {void}
      */
@@ -1862,15 +1862,15 @@ qx.Class.define("qx.html.Element",
       if (el && actions.length == 0) {
         return qx.bom.Element[action](el);
       }
-      
+
       actions.push({
         type: action,
         element: this
       });
-      qx.html.Element._scheduleFlush("element");      
+      qx.html.Element._scheduleFlush("element");
     },
-    
-    
+
+
     /**
      * Focus this element.
      *

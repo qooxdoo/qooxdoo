@@ -157,7 +157,7 @@ qx.Class.define("qx.event.Command",
         event.stopPropagation();
       }
     },
-    
+
 
 
     /*
@@ -190,13 +190,13 @@ qx.Class.define("qx.event.Command",
           this.error(msg);
           throw msg;
         }
-        
+
         this.__modifier = { "Control" : false,
                             "Shift"   : false,
                             "Meta"    : false,
                             "Alt"     : false };
         this.__key = null;
-        
+
         // To support shortcuts with "+" and "-" as keys it is necessary
         // to split the given value in a different way to determine the
         // several keyIdentifiers
@@ -206,11 +206,11 @@ qx.Class.define("qx.event.Command",
         {
           // search for delimiters "+" and "-"
           index = value.search(/[-+]+/);
-          
-          // add identifiers - take value if no separator was found or 
+
+          // add identifiers - take value if no separator was found or
           // only one char is left (second part of shortcut)
           a.push((value.length == 1 || index == -1) ? value : value.substring(0, index));
-          
+
           // extract the already detected identifier
           value = value.substring(index + 1);
         }

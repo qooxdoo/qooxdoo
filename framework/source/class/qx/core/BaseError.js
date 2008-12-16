@@ -19,13 +19,13 @@
 ************************************************************************ */
 
 /**
- * The BaseError class is the common superclass for all error classes in 
+ * The BaseError class is the common superclass for all error classes in
  * qooxdoo.
- * 
+ *
  * It has a comment and a fail message as members. The toString method returns
  * the comment and the fail message separated by a colon.
  */
-qx.Class.define("qx.core.BaseError", 
+qx.Class.define("qx.core.BaseError",
 {
       extend : Error,
 
@@ -90,6 +90,6 @@ qx.Class.define("qx.core.BaseError",
         toString : function() {
           return this.__comment + ": " + this.__msg;
         }
-        
+
       }
     });

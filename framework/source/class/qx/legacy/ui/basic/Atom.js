@@ -46,7 +46,7 @@ qx.Class.define("qx.legacy.ui.basic.Atom",
    * @param vIcon {String?null} Icon URL of the atom
    * @param vIconWidth {Integer?null} desired width of the icon (the icon will be scaled to this size)
    * @param vIconHeight {Integer?null} desired height of the icon (the icon will be scaled to this size)
-   * @param vFlash {qx.legacy.ui.embed.Flash?null} optional flash animation for the Atom. 
+   * @param vFlash {qx.legacy.ui.embed.Flash?null} optional flash animation for the Atom.
    *          Needs valid width and height values. (IMPORTANT: Disabled in legacy part of qooxdoo 0.8+)
    */
   construct : function(vLabel, vIcon, vIconWidth, vIconHeight, vFlash)

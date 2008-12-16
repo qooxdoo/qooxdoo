@@ -233,13 +233,13 @@ qx.Bootstrap.define("qx.bom.Request",
       this.__xmlhttp.onreadystatechange = this.__stateListener;
 
       this.__timeoutListener = qx.lang.Function.bind(this.__onNativeTimeout, this);
-      
+
       // setting "ontimeout" is not possible in IE
       if (!qx.core.Variant.isSet("qx.client", "mshtml"))
       {
         this.__xmlhttp.ontimeout = this.__timeoutListener;
       }
-      
+
       // Store timeout to request
       // Currently only supported by IE8 beta
       if (this.timeout != null && this.timeout > 0) {

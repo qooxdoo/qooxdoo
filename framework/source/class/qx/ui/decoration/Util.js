@@ -94,12 +94,12 @@ qx.Class.define("qx.ui.decoration.Util",
           if (qx.core.Variant.isSet("qx.client", "mshtml"))
           {
             /*
-             * Internet Explorer as of version 6 for quirks and standards mode, 
-             * or version 7 in quirks mode adds an empty string to the "div" 
-             * node. This behavior causes rendering problems, because the node 
-             * would then have a minimum size determined by the font size. 
-             * To be able to set the "div" node height to a certain (small) 
-             * value independent of the minimum font size, an "overflow:hidden" 
+             * Internet Explorer as of version 6 for quirks and standards mode,
+             * or version 7 in quirks mode adds an empty string to the "div"
+             * node. This behavior causes rendering problems, because the node
+             * would then have a minimum size determined by the font size.
+             * To be able to set the "div" node height to a certain (small)
+             * value independent of the minimum font size, an "overflow:hidden"
              * style is added.
              * */
             if (qx.bom.client.Engine.VERSION < 7 || qx.bom.client.Feature.QUIRKS_MODE)
@@ -108,7 +108,7 @@ qx.Class.define("qx.ui.decoration.Util",
               styles += "overflow:hidden;";
             }
           }
-          
+
           return '<div style="' + styles + '"></div>';
         } else {
           return "";

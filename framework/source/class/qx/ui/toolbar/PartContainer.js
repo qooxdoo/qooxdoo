@@ -27,8 +27,8 @@
 qx.Class.define("qx.ui.toolbar.PartContainer",
 {
   extend : qx.ui.container.Composite,
-  
-  
+
+
 
   /*
   *****************************************************************************

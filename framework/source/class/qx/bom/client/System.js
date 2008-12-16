@@ -93,7 +93,7 @@ qx.Bootstrap.define("qx.bom.client.System",
 
     /** {Boolean} Flag to detect if the client system is NetBSD */
     NETBSD : false,
-    
+
     /** {Boolean} Flag to detect if the client system is OpenBSD */
     OPENBSD : false,
 
@@ -114,7 +114,7 @@ qx.Bootstrap.define("qx.bom.client.System",
 
     /** {Boolean} Flag to detect if the client system is an iPhone or iPod touch */
     IPHONE : false,
-    
+
     /** {Boolean} Flag to detect if the client system is assumed */
     UNKNOWN_SYSTEM : false,
 
@@ -180,31 +180,31 @@ qx.Bootstrap.define("qx.bom.client.System",
 
       if (!reg.test(agent)) {
         this.UNKNOWN_SYSTEM = true;
-        
+
         if(!qx.bom.client.Platform.UNKNOWN_PLATFORM)
         {
           if (qx.bom.client.Platform.UNIX)
           {
             this.NAME = "linux";
             this.LINUX = true;
-          } 
+          }
           else if(qx.bom.client.Platform.MAC)
           {
             this.NAME = "osx5";
             this.OSX = true;
-          } 
-          else 
+          }
+          else
           {
             this.NAME = "winxp";
             this.WINXP = true;
           }
-        } 
+        }
         else
         {
           this.NAME = "winxp";
           this.WINXP = true;
         }
-        
+
         return;
       }
 
