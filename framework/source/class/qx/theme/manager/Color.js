@@ -118,7 +118,7 @@ qx.Class.define("qx.theme.manager.Color",
       // or "qx.Theme.patch"), since these methods only merging the keys of
       // the theme and are not updating the cache
       var theme = this.getTheme();
-      if (theme.colors[value])
+      if (theme !== null && theme.colors[value])
       {
         return cache[value] = theme.colors[value];
       }
@@ -146,7 +146,7 @@ qx.Class.define("qx.theme.manager.Color",
       // or "qx.Theme.patch"), since these methods only merging the keys of
       // the theme and are not updating the cache
       var theme = this.getTheme();
-      if (value && (theme.colors[value] !== undefined))
+      if (theme !== null && value && (theme.colors[value] !== undefined))
       {
         cache[value] = theme.colors[value];
         return true;
