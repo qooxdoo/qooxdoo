@@ -152,9 +152,10 @@ qx.Class.define("qx.bom.Flash",
      * </pre>
      * involve memory leaks in Internet Explorer.
      * 
-     * @param element {Element} The DOM element that contain 
-     *              the flash object or the flash object self.
-     * @param win? {Window} Window to destroy the element for.
+     * @param element {Element} Either the DOM element that contains 
+     *              the flash object or the flash object itself.
+     * @param win? {Window} Window that the element, which is to be destroyed, 
+                    belongs to.
      * @return {void}
      * @signature function(element, win)
      */
@@ -169,7 +170,7 @@ qx.Class.define("qx.bom.Flash",
         }
         else {
           if (!win) {
-            win = windows;
+            win = window;
           }
           win.attachEvent("onload", function() {
             this.__destroyObjectInIE(element);
