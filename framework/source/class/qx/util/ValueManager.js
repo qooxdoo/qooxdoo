@@ -40,7 +40,7 @@ qx.Class.define("qx.util.ValueManager",
     this.base(arguments);
 
     // Create empty dynamic map
-    this.__dynamic = {};
+    this._dynamic = {};
   },
 
 
@@ -54,7 +54,7 @@ qx.Class.define("qx.util.ValueManager",
   members :
   {
 
-    __dynamic : null,
+    _dynamic : null,
 
     /**
      * Returns the dynamically interpreted result for the incoming value
@@ -63,7 +63,7 @@ qx.Class.define("qx.util.ValueManager",
      * @return {var} return the (translated) result of the incoming value
      */
     resolveDynamic : function(value) {
-      return this.__dynamic[value];
+      return this._dynamic[value];
     },
 
 
@@ -74,7 +74,7 @@ qx.Class.define("qx.util.ValueManager",
      * @return {Boolean} returns true if the value is interpreted dynamically
      */
     isDynamic : function(value) {
-      return !!this.__dynamic[value];
+      return !!this._dynamic[value];
     },
 
     /**
@@ -86,8 +86,8 @@ qx.Class.define("qx.util.ValueManager",
      */
     resolve : function(value)
     {
-      if (value && this.__dynamic[value]) {
-        return this.__dynamic[value];
+      if (value && this._dynamic[value]) {
+        return this._dynamic[value];
       }
 
       return value;
@@ -98,7 +98,7 @@ qx.Class.define("qx.util.ValueManager",
       * @param value {Map} The map.
       */
     _setDynamic : function(value) {
-      this.__dynamic = value;
+      this._dynamic = value;
     },
 
     /**
@@ -106,7 +106,7 @@ qx.Class.define("qx.util.ValueManager",
      * @return {Map} The map.
      */
     _getDynamic : function() {
-      return this.__dynamic;
+      return this._dynamic;
     }
 
   },
@@ -121,6 +121,6 @@ qx.Class.define("qx.util.ValueManager",
   */
 
   destruct : function() {
-    this._disposeFields("__dynamic");
+    this._disposeFields("_dynamic");
   }
 });
