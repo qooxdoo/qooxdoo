@@ -161,25 +161,25 @@ qx.Class.define("qx.ui.menu.AbstractButton",
     {
       var iconWidth=0, labelWidth=0, shortcutWidth=0, arrowWidth=0;
 
-      if (this.isChildControlVisible("icon"))
+      if (this._isChildControlVisible("icon"))
       {
         var icon = this.getChildControl("icon");
         iconWidth = icon.getMarginLeft() + icon.getSizeHint().width + icon.getMarginRight();
       }
 
-      if (this.isChildControlVisible("label"))
+      if (this._isChildControlVisible("label"))
       {
         var label = this.getChildControl("label");
         labelWidth = label.getMarginLeft() + label.getSizeHint().width + label.getMarginRight();
       }
 
-      if (this.isChildControlVisible("shortcut"))
+      if (this._isChildControlVisible("shortcut"))
       {
         var shortcut = this.getChildControl("shortcut");
         shortcutWidth = shortcut.getMarginLeft() + shortcut.getSizeHint().width + shortcut.getMarginRight();
       }
 
-      if (this.isChildControlVisible("arrow"))
+      if (this._isChildControlVisible("arrow"))
       {
         var arrow = this.getChildControl("arrow");
         arrowWidth = arrow.getMarginLeft() + arrow.getSizeHint().width + arrow.getMarginRight();
@@ -227,9 +227,9 @@ qx.Class.define("qx.ui.menu.AbstractButton",
     _applyIcon : function(value, old)
     {
       if (value) {
-        this.showChildControl("icon").setSource(value);
+        this._showChildControl("icon").setSource(value);
       } else {
-        this.excludeChildControl("icon");
+        this._excludeChildControl("icon");
       }
     },
 
@@ -237,9 +237,9 @@ qx.Class.define("qx.ui.menu.AbstractButton",
     _applyLabel : function(value, old)
     {
       if (value) {
-        this.showChildControl("label").setContent(value);
+        this._showChildControl("label").setContent(value);
       } else {
-        this.excludeChildControl("label");
+        this._excludeChildControl("label");
       }
     },
 
@@ -254,14 +254,14 @@ qx.Class.define("qx.ui.menu.AbstractButton",
 
       if (value)
       {
-        this.showChildControl("arrow");
+        this._showChildControl("arrow");
 
         value.setOpener(this);
         value.addState("submenu");
       }
       else
       {
-        this.excludeChildControl("arrow");
+        this._excludeChildControl("arrow");
       }
     }
   },

@@ -518,40 +518,40 @@ qx.Class.define("qx.ui.window.Window",
       var btn;
 
       if (this.getIcon()) {
-        this.showChildControl("icon");
+        this._showChildControl("icon");
       } else {
-        this.excludeChildControl("icon");
+        this._excludeChildControl("icon");
       }
 
       if (this.getCaption()) {
-        this.showChildControl("title");
+        this._showChildControl("title");
       } else {
-        this.excludeChildControl("title");
+        this._excludeChildControl("title");
       }
 
       if (this.getShowMinimize())
       {
-        this.showChildControl("minimize-button");
+        this._showChildControl("minimize-button");
 
         btn = this.getChildControl("minimize-button");
         this.getAllowMinimize() ? btn.resetEnabled() : btn.setEnabled(false);
       }
       else
       {
-        this.excludeChildControl("minimize-button");
+        this._excludeChildControl("minimize-button");
       }
 
       if (this.getShowMaximize())
       {
         if (this.isMaximized())
         {
-          this.showChildControl("restore-button");
-          this.excludeChildControl("maximize-button");
+          this._showChildControl("restore-button");
+          this._excludeChildControl("maximize-button");
         }
         else
         {
-          this.showChildControl("maximize-button");
-          this.excludeChildControl("restore-button");
+          this._showChildControl("maximize-button");
+          this._excludeChildControl("restore-button");
         }
 
         btn = this.getChildControl("maximize-button");
@@ -559,20 +559,20 @@ qx.Class.define("qx.ui.window.Window",
       }
       else
       {
-        this.excludeChildControl("maximize-button");
-        this.excludeChildControl("restore-button");
+        this._excludeChildControl("maximize-button");
+        this._excludeChildControl("restore-button");
       }
 
       if (this.getShowClose())
       {
-        this.showChildControl("close-button");
+        this._showChildControl("close-button");
 
         btn = this.getChildControl("close-button");
         this.getAllowClose() ? btn.resetEnabled() : btn.setEnabled(false);
       }
       else
       {
-        this.excludeChildControl("close-button");
+        this._excludeChildControl("close-button");
       }
     },
 
@@ -835,9 +835,9 @@ qx.Class.define("qx.ui.window.Window",
     _applyShowStatusbar : function(value, old)
     {
       if (value) {
-        this.showChildControl("statusbar");
+        this._showChildControl("statusbar");
       } else {
-        this.excludeChildControl("statusbar");
+        this._excludeChildControl("statusbar");
       }
     },
 
