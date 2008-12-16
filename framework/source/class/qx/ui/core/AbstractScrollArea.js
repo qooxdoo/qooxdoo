@@ -422,8 +422,8 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
      */
     _onMouseWheel : function(e)
     {
-      var showX = this.isChildControlVisible("scrollbar-x");
-      var showY = this.isChildControlVisible("scrollbar-y");
+      var showX = this._isChildControlVisible("scrollbar-x");
+      var showY = this._isChildControlVisible("scrollbar-y");
 
       /*
        * If vertical scrollbar is present, scroll vertically, otherwise check if
@@ -447,14 +447,14 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
      */
     _onChangeScrollbarXVisibility : function(e)
     {
-      var showX = this.isChildControlVisible("scrollbar-x");
-      var showY = this.isChildControlVisible("scrollbar-y");
+      var showX = this._isChildControlVisible("scrollbar-x");
+      var showY = this._isChildControlVisible("scrollbar-y");
 
       if (!showX) {
         this.scrollToX(0);
       }
 
-      showX && showY ? this.showChildControl("corner") : this.excludeChildControl("corner");
+      showX && showY ? this._showChildControl("corner") : this._excludeChildControl("corner");
     },
 
 
@@ -466,14 +466,14 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
      */
     _onChangeScrollbarYVisibility : function(e)
     {
-      var showX = this.isChildControlVisible("scrollbar-x");
-      var showY = this.isChildControlVisible("scrollbar-y");
+      var showX = this._isChildControlVisible("scrollbar-x");
+      var showY = this._isChildControlVisible("scrollbar-y");
 
       if (!showY) {
         this.scrollToY(0);
       }
 
-      showX && showY ? this.showChildControl("corner") : this.excludeChildControl("corner");
+      showX && showY ? this._showChildControl("corner") : this._excludeChildControl("corner");
     },
 
 
@@ -496,8 +496,8 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
       var content = pane.getChild();
       if (!content)
       {
-        this.excludeChildControl("scrollbar-x");
-        this.excludeChildControl("scrollbar-y");
+        this._excludeChildControl("scrollbar-x");
+        this._excludeChildControl("scrollbar-y");
 
         return;
       }
@@ -563,7 +563,7 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
       }
       else
       {
-        this.excludeChildControl("scrollbar-x");
+        this._excludeChildControl("scrollbar-x");
       }
 
       if (showY)
@@ -576,7 +576,7 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
       }
       else
       {
-        this.excludeChildControl("scrollbar-y");
+        this._excludeChildControl("scrollbar-y");
       }
     }
   }

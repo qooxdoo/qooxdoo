@@ -238,9 +238,9 @@ qx.Class.define("qx.ui.basic.Atom",
     _handleLabel : function()
     {
       if (this.getLabel() == null || this.getShow() === "icon") {
-        this.excludeChildControl("label");
+        this._excludeChildControl("label");
       } else {
-        this.showChildControl("label");
+        this._showChildControl("label");
       }
     },
 
@@ -251,9 +251,9 @@ qx.Class.define("qx.ui.basic.Atom",
     _handleIcon : function()
     {
       if (this.getIcon() == null || this.getShow() === "label") {
-        this.excludeChildControl("icon");
+        this._excludeChildControl("icon");
       } else {
-        this.showChildControl("icon");
+        this._showChildControl("icon");
       }
     },
 

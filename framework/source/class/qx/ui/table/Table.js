@@ -747,9 +747,9 @@ qx.Class.define("qx.ui.table.Table",
     _applyStatusBarVisible : function(value, old)
     {
       if (value) {
-        this.showChildControl("statusbar");
+        this._showChildControl("statusbar");
       } else {
-        this.excludeChildControl("statusbar");
+        this._excludeChildControl("statusbar");
       }
 
       if (value) {
@@ -770,9 +770,9 @@ qx.Class.define("qx.ui.table.Table",
     _applyColumnVisibilityButtonVisible : function(value, old)
     {
       if (value) {
-        this.showChildControl("column-button");
+        this._showChildControl("column-button");
       } else {
-        this.excludeChildControl("column-button");
+        this._excludeChildControl("column-button");
       }
     },
 
@@ -926,7 +926,7 @@ qx.Class.define("qx.ui.table.Table",
       }
 
       if (!this.isColumnVisibilityButtonVisible()) {
-        this.excludeChildControl("column-button");
+        this._excludeChildControl("column-button");
       }
 
       this._updateScrollerWidths();

@@ -1,2 +1,5 @@
 \bqx\.event\.type\.DataEvent\b=qx.event.type.Data
 \bqx\.event\.type\.ChangeEvent\b=qx.event.type.Data
+
+\b_getChildControl\b=getChildControl
+\b_hasChildControl\b=hasChildControl
