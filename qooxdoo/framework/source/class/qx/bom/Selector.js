@@ -566,101 +566,146 @@ qx.Class.define("qx.bom.Selector",
           return match;
         }
       },
-      filters: {
+      
+
+      /** 
+       * FILTERS 
+       **/
+      filters: 
+      {
         enabled: function(elem){
           return elem.disabled === false && elem.type !== "hidden";
         },
+        
         disabled: function(elem){
           return elem.disabled === true;
         },
+        
         checked: function(elem){
           return elem.checked === true;
         },
+        
         selected: function(elem){
           // Accessing this property makes selected-by-default
           // options in Safari work properly
           elem.parentNode.selectedIndex;
           return elem.selected === true;
         },
+        
         parent: function(elem){
           return !!elem.firstChild;
         },
+        
         empty: function(elem){
           return !elem.firstChild;
         },
+        
         has: function(elem, i, match){
           return !!this(match[3], elem).length;
         },
+        
         header: function(elem){
           return /h\d/i.test( elem.nodeName );
         },
+        
         text: function(elem){
           return "text" === elem.type;
         },
+        
         radio: function(elem){
           return "radio" === elem.type;
         },
+        
         checkbox: function(elem){
           return "checkbox" === elem.type;
         },
+        
         file: function(elem){
           return "file" === elem.type;
         },
+        
         password: function(elem){
           return "password" === elem.type;
         },
+        
         submit: function(elem){
           return "submit" === elem.type;
         },
+        
         image: function(elem){
           return "image" === elem.type;
         },
+        
         reset: function(elem){
           return "reset" === elem.type;
         },
+        
         button: function(elem){
           return "button" === elem.type || elem.nodeName.toUpperCase() === "BUTTON";
         },
+        
         input: function(elem){
           return /input|select|textarea|button/i.test(elem.nodeName);
         }
       },
-      setFilters: {
+      
+      
+      /** 
+       * SET FILTERS 
+       **/
+      setFilters: 
+      {
         first: function(elem, i){
           return i === 0;
         },
+        
         last: function(elem, i, match, array){
           return i === array.length - 1;
         },
+        
         even: function(elem, i){
           return i % 2 === 0;
         },
+        
         odd: function(elem, i){
           return i % 2 === 1;
         },
+        
         lt: function(elem, i, match){
           return i < match[3] - 0;
         },
+        
         gt: function(elem, i, match){
           return i > match[3] - 0;
         },
+        
         nth: function(elem, i, match){
           return match[3] - 0 == i;
         },
+        
         eq: function(elem, i, match){
           return match[3] - 0 == i;
         }
       },
-      filter: {
-        CHILD: function(elem, match){
+      
+      
+      /** 
+       * FILTER
+       **/
+      filter: 
+      {
+        CHILD: function(elem, match)
+        {
           var type = match[1], parent = elem.parentNode;
 
           var doneName = match[0];
       
-          if ( parent && !parent[ doneName ] ) {
+          if ( parent && !parent[ doneName ] ) 
+          {
             var count = 1;
 
-            for ( var node = parent.firstChild; node; node = node.nextSibling ) {
+            for ( var node = parent.firstChild; node; node = node.nextSibling ) 
+            {
               if ( node.nodeType == 1 ) {
                 node.nodeIndex = count++;
               }
@@ -671,11 +716,15 @@ qx.Class.define("qx.bom.Selector",
 
           if ( type == "first" ) {
             return elem.nodeIndex == 1;
-          } else if ( type == "last" ) {
+          } 
+          else if ( type == "last" ) {
             return elem.nodeIndex == parent[ doneName ];
-          } else if ( type == "only" ) {
+          } 
+          else if ( type == "only" ) {
             return parent[ doneName ] == 1;
-          } else if ( type == "nth" ) {
+          } 
+          else if ( type == "nth" ) 
+          {
             var add = false, first = match[2], last = match[3];
 
             if ( first == 1 && last == 0 ) {
@@ -693,14 +742,19 @@ qx.Class.define("qx.bom.Selector",
             return add;
           }
         },
-        PSEUDO: function(elem, match, i, array){
+        
+        PSEUDO: function(elem, match, i, array)
+        {
           var name = match[1], filter = Expr.filters[ name ];
 
           if ( filter ) {
             return filter( elem, i, match, array )
-          } else if ( name === "contains" ) {
+          } 
+          else if ( name === "contains" ) {
             return (elem.textContent || elem.innerText || "").indexOf(match[3]) >= 0;
-          } else if ( name === "not" ) {
+          } 
+          else if ( name === "not" ) 
+          {
             var not = match[3];
 
             for (var i = 0, l = not.length; i < l; i++ ) {
@@ -712,17 +766,23 @@ qx.Class.define("qx.bom.Selector",
             return true;
           }
         },
+        
         ID: function(elem, match){
           return elem.nodeType === 1 && elem.getAttribute("id") === match;
         },
+        
         TAG: function(elem, match){
           return (match === "*" && elem.nodeType === 1) || elem.nodeName === match;
         },
+        
         CLASS: function(elem, match){
           return match.test( elem.className );
         },
-        ATTR: function(elem, match){
+        
+        ATTR: function(elem, match)
+        {
           var result = elem[ match[1] ] || elem.getAttribute( match[1] ), value = result + "", type = match[2], check = match[4];
+          
           return result == null ?
             false :
             type === "=" ?
@@ -743,6 +803,7 @@ qx.Class.define("qx.bom.Selector",
             value === check || value.substr(0, check.length + 1) === check + "-" :
             false;
         },
+        
         POS: function(elem, match, i, array){
           var name = match[2], filter = Expr.setFilters[ name ];
 
