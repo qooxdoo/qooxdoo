@@ -194,7 +194,6 @@ qx.Class.define("qx.core.Object",
       var clazz = this.constructor
       var props = qx.Class.getProperties(clazz);
       var user = qx.core.Property.$$store.user;
-      var setter = qx.core.Property.$$method.set;
       var name, value;
 
       var result =
