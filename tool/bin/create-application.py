@@ -133,7 +133,7 @@ def patchSkeleton(dir, name, namespace):
                         "Namespace": namespace,
                         "REL_QOOXDOO_PATH": relPath,
                         "ABS_QOOXDOO_PATH": absPath,
-                        "QOOXDOO_VERSION": "0.8"
+                        "QOOXDOO_VERSION": "0.8.1"
                     })
                 )
                 out.close()
