@@ -340,11 +340,11 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       switch(id)
       {
         case "header":
-          control = this.getTable().getNewTablePaneHeader()(this);
+          control = (this.getTable().getNewTablePaneHeader())(this);
           break;
 
         case "pane":
-          control = this.getTable().getNewTablePane()(this);
+          control = (this.getTable().getNewTablePane())(this);
           break;
 
         case "focus-indicator":
