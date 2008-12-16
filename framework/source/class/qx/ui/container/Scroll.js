@@ -102,7 +102,7 @@ qx.Class.define("qx.ui.container.Scroll",
      * @return {void}
      */
     add : function(widget) {
-      this._getChildControl("pane").add(widget);
+      this.getChildControl("pane").add(widget);
     },
 
 
@@ -113,7 +113,7 @@ qx.Class.define("qx.ui.container.Scroll",
      * @return {qx.ui.core.Widget}
      */
     remove : function(widget) {
-      this._getChildControl("pane").remove(widget);
+      this.getChildControl("pane").remove(widget);
     },
 
 
@@ -126,7 +126,7 @@ qx.Class.define("qx.ui.container.Scroll",
      * @return {qx.ui.core.Widget} The child
      */
     getChild : function() {
-      return this._getChildControl("pane").getChild();
+      return this.getChildControl("pane").getChild();
     },
 
 
@@ -136,7 +136,7 @@ qx.Class.define("qx.ui.container.Scroll",
      * @return {qx.ui.core.Widget} The content padding target.
      */
     _getContentPaddingTarget : function() {
-      return this._getChildControl("pane");
+      return this.getChildControl("pane");
     }
   }
 });

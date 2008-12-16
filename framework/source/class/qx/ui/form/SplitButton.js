@@ -226,21 +226,21 @@ qx.Class.define("qx.ui.form.SplitButton",
     // property apply
     _applyLabel : function(value, old)
     {
-      var button = this._getChildControl("button");
+      var button = this.getChildControl("button");
       value == null ? button.resetLabel() : button.setLabel(value);
     },
 
     // property apply
     _applyIcon : function(value, old)
     {
-      var button = this._getChildControl("button");
+      var button = this.getChildControl("button");
       value == null ? button.resetIcon() : button.setIcon(value);
     },
 
     // property apply
     _applyMenu : function(value, old)
     {
-      var arrow = this._getChildControl("arrow");
+      var arrow = this.getChildControl("arrow");
 
       arrow.setEnabled(!!value);
 
@@ -343,7 +343,7 @@ qx.Class.define("qx.ui.form.SplitButton",
      */
     _onKeyDown : function(e)
     {
-      var button = this._getChildControl("button");
+      var button = this.getChildControl("button");
       switch(e.getKeyIdentifier())
       {
         case "Enter":
@@ -361,7 +361,7 @@ qx.Class.define("qx.ui.form.SplitButton",
      */
     _onKeyUp : function(e)
     {
-      var button = this._getChildControl("button");
+      var button = this.getChildControl("button");
       switch(e.getKeyIdentifier())
       {
         case "Enter":

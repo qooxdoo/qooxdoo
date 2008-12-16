@@ -141,7 +141,7 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
      * @return {String} The name
      */
     getName : function() {
-      return this._getChildControl("legend").getName();
+      return this.getChildControl("legend").getName();
     },
 
 
@@ -153,7 +153,7 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
      */
     setName : function(value)
     {
-      var legend = this._getChildControl("legend");
+      var legend = this.getChildControl("legend");
       return value ? legend.setName(value) : legend.resetName();
     },
 
@@ -164,7 +164,7 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
      * @return {String} the value
      */
     getValue : function() {
-      return this._getChildControl("legend").getValue();
+      return this.getChildControl("legend").getValue();
     },
 
 
@@ -176,7 +176,7 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
      */
     setValue : function(value)
     {
-      var legend = this._getChildControl("legend");
+      var legend = this.getChildControl("legend");
       return value ? legend.setValue(value) : legend.resetValue();
     },
 
@@ -187,7 +187,7 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
      * @return {Boolean} <code>true</code> when enabled
      */
     getChecked : function() {
-      return this._getChildControl("legend").getChecked();
+      return this.getChildControl("legend").getChecked();
     },
 
 
@@ -199,7 +199,7 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
      */
     setChecked : function(value)
     {
-      var legend = this._getChildControl("legend");
+      var legend = this.getChildControl("legend");
       return value ? legend.setChecked(value) : legend.resetChecked();
     }
   }

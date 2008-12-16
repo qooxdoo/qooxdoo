@@ -150,7 +150,7 @@ qx.Class.define("qx.ui.tabview.TabView",
      * @return {qx.ui.core.Widget} The content padding target.
      */
     _getContentPaddingTarget : function() {
-      return this._getChildControl("pane");
+      return this.getChildControl("pane");
     },
 
 
@@ -179,8 +179,8 @@ qx.Class.define("qx.ui.tabview.TabView",
       }
 
       var button = page.getButton();
-      var bar = this._getChildControl("bar");
-      var pane = this._getChildControl("pane");
+      var bar = this.getChildControl("bar");
+      var pane = this.getChildControl("pane");
 
       // Exclude page
       page.exclude();
@@ -213,8 +213,8 @@ qx.Class.define("qx.ui.tabview.TabView",
      */
     remove: function(page)
     {
-      var pane = this._getChildControl("pane");
-      var bar = this._getChildControl("bar");
+      var pane = this.getChildControl("pane");
+      var bar = this.getChildControl("bar");
       var button = page.getButton();
       var children = pane.getChildren();
 
@@ -271,7 +271,7 @@ qx.Class.define("qx.ui.tabview.TabView",
      * @return {Array} List of children.
      */
     getChildren : function() {
-      return this._getChildControl("pane").getChildren();
+      return this.getChildControl("pane").getChildren();
     },
 
 
@@ -282,7 +282,7 @@ qx.Class.define("qx.ui.tabview.TabView",
      * @return {Integer} Position of the page in the TabView
      */
     indexOf : function(page) {
-      return this._getChildControl("pane").indexOf(page);
+      return this.getChildControl("pane").indexOf(page);
     },
 
 
@@ -318,7 +318,7 @@ qx.Class.define("qx.ui.tabview.TabView",
      */
     _applyBarPosition : function(value, old)
     {
-      var bar = this._getChildControl("bar");
+      var bar = this.getChildControl("bar");
 
       var horizontal = value == "left" || value == "right";
       var reversed = value == "right" || value == "bottom";
@@ -373,7 +373,7 @@ qx.Class.define("qx.ui.tabview.TabView",
     // property apply
     _applySelected : function(value, old)
     {
-      var pane = this._getChildControl("pane");
+      var pane = this.getChildControl("pane");
       var group = this.__radioGroup;
 
       if (value)

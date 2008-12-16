@@ -260,11 +260,11 @@ qx.Class.define("qx.ui.control.DateChooser",
           control = new qx.ui.container.Composite(new qx.ui.layout.HBox());
 
           // Add the navigation bar elements
-          control.add(this._getChildControl("last-year-button"));
-          control.add(this._getChildControl("last-month-button"));
-          control.add(this._getChildControl("month-year-label"), {flex: 1});
-          control.add(this._getChildControl("next-month-button"));
-          control.add(this._getChildControl("next-year-button"));
+          control.add(this.getChildControl("last-year-button"));
+          control.add(this.getChildControl("last-month-button"));
+          control.add(this.getChildControl("month-year-label"), {flex: 1});
+          control.add(this.getChildControl("next-month-button"));
+          control.add(this.getChildControl("next-year-button"));
 
           this._add(control);
           break;
@@ -277,7 +277,7 @@ qx.Class.define("qx.ui.control.DateChooser",
           control = new qx.ui.form.Button();
           control.addState("lastYear");
           control.setFocusable(false);
-          control.setToolTip(this._getChildControl("last-year-button-tooltip"));
+          control.setToolTip(this.getChildControl("last-year-button-tooltip"));
           control.addListener("click", this._onNavButtonClicked, this);
           break;
 
@@ -289,7 +289,7 @@ qx.Class.define("qx.ui.control.DateChooser",
           control = new qx.ui.toolbar.Button();
           control.addState("lastMonth");
           control.setFocusable(false);
-          control.setToolTip(this._getChildControl("last-month-button-tooltip"));
+          control.setToolTip(this.getChildControl("last-month-button-tooltip"));
           control.addListener("click", this._onNavButtonClicked, this);
           break;
 
@@ -301,7 +301,7 @@ qx.Class.define("qx.ui.control.DateChooser",
           control = new qx.ui.toolbar.Button();
           control.addState("nextMonth");
           control.setFocusable(false);
-          control.setToolTip(this._getChildControl("next-month-button-tooltip"));
+          control.setToolTip(this.getChildControl("next-month-button-tooltip"));
           control.addListener("click", this._onNavButtonClicked, this);
           break;
 
@@ -313,7 +313,7 @@ qx.Class.define("qx.ui.control.DateChooser",
           control = new qx.ui.toolbar.Button();
           control.addState("nextYear");
           control.setFocusable(false);
-          control.setToolTip(this._getChildControl("next-year-button-tooltip"));
+          control.setToolTip(this.getChildControl("next-year-button-tooltip"));
           control.addListener("click", this._onNavButtonClicked, this);
           break;
 
@@ -364,14 +364,14 @@ qx.Class.define("qx.ui.control.DateChooser",
 
           // Create the weekdays
           // Add an empty label as spacer for the week numbers
-          var label = this._getChildControl("week#0");
+          var label = this.getChildControl("week#0");
           label.addState("header");
           control.add(label, {column: 0, row: 0});
 
           this.__weekdayLabelArr = [];
           for (var i=0; i<7; i++)
           {
-            label = this._getChildControl("weekday#" + i);
+            label = this.getChildControl("weekday#" + i);
             control.add(label, {column: i + 1, row: 0});
             this.__weekdayLabelArr.push(label);
           }
@@ -383,14 +383,14 @@ qx.Class.define("qx.ui.control.DateChooser",
           for (var y = 0; y < 6; y++)
           {
             // Add the week label
-            var label = this._getChildControl("week#" + (y+1));
+            var label = this.getChildControl("week#" + (y+1));
             control.add(label, {column: 0, row: y + 1});
             this.__weekLabelArr.push(label);
 
             // Add the day labels
             for (var x = 0; x < 7; x++)
             {
-              var label = this._getChildControl("day#" + ((y*7)+x));
+              var label = this.getChildControl("day#" + ((y*7)+x));
               control.add(label, {column:x + 1, row:y + 1});
               this.__dayLabelArr.push(label);
             }
@@ -461,8 +461,8 @@ qx.Class.define("qx.ui.control.DateChooser",
     _onMouseUpDown : function(e) {
       var target = e.getTarget();
 
-      if (target == this._getChildControl("navigation-bar") ||
-          target == this._getChildControl("date-pane")) {
+      if (target == this.getChildControl("navigation-bar") ||
+          target == this.getChildControl("date-pane")) {
         e.stopPropagation();
         return;
       }
@@ -481,11 +481,11 @@ qx.Class.define("qx.ui.control.DateChooser",
 
       switch(evt.getCurrentTarget())
       {
-        case this._getChildControl("last-year-button"):
+        case this.getChildControl("last-year-button"):
           year--;
           break;
 
-        case this._getChildControl("last-month-button"):
+        case this.getChildControl("last-month-button"):
           month--;
 
           if (month < 0)
@@ -496,7 +496,7 @@ qx.Class.define("qx.ui.control.DateChooser",
 
           break;
 
-        case this._getChildControl("next-month-button"):
+        case this.getChildControl("next-month-button"):
           month++;
 
           if (month >= 12)
@@ -507,7 +507,7 @@ qx.Class.define("qx.ui.control.DateChooser",
 
           break;
 
-        case this._getChildControl("next-year-button"):
+        case this.getChildControl("next-year-button"):
           year++;
           break;
       }
@@ -691,7 +691,7 @@ qx.Class.define("qx.ui.control.DateChooser",
       var helpDate = new Date(this.getShownYear(), this.getShownMonth(), 1);
 
       var monthYearFormat = new qx.util.format.DateFormat(DateChooser.MONTH_YEAR_FORMAT);
-      this._getChildControl("month-year-label").setContent(monthYearFormat.format(helpDate));
+      this.getChildControl("month-year-label").setContent(monthYearFormat.format(helpDate));
 
       // Show the day names
       var firstDayOfWeek = helpDate.getDay();

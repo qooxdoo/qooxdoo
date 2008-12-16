@@ -127,7 +127,7 @@ qx.Class.define("qx.ui.toolbar.Part",
 
     // overridden
     getChildrenContainer : function() {
-      return this._getChildControl("container");
+      return this.getChildControl("container");
     },
 
 
@@ -141,7 +141,7 @@ qx.Class.define("qx.ui.toolbar.Part",
 
     _applySpacing : function(value, old)
     {
-      var layout = this._getChildControl("container").getLayout();
+      var layout = this.getChildControl("container").getLayout();
       value == null ? layout.resetSpacing() : layout.setSpacing(value);
     },
 

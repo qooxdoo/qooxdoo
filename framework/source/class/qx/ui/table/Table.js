@@ -747,9 +747,9 @@ qx.Class.define("qx.ui.table.Table",
     _applyStatusBarVisible : function(value, old)
     {
       if (value) {
-        this._showChildControl("statusbar");
+        this.showChildControl("statusbar");
       } else {
-        this._excludeChildControl("statusbar");
+        this.excludeChildControl("statusbar");
       }
 
       if (value) {
@@ -770,9 +770,9 @@ qx.Class.define("qx.ui.table.Table",
     _applyColumnVisibilityButtonVisible : function(value, old)
     {
       if (value) {
-        this._showChildControl("column-button");
+        this.showChildControl("column-button");
       } else {
-        this._excludeChildControl("column-button");
+        this.excludeChildControl("column-button");
       }
     },
 
@@ -922,11 +922,11 @@ qx.Class.define("qx.ui.table.Table",
         paneScroller.getHeader().setHeight(this.getHeaderCellHeight());
 
         // Put the column visibility button in the top right corner of the last meta column
-        paneScroller.setTopRightWidget(isLast ? this._getChildControl("column-button") : null);
+        paneScroller.setTopRightWidget(isLast ? this.getChildControl("column-button") : null);
       }
 
       if (!this.isColumnVisibilityButtonVisible()) {
-        this._excludeChildControl("column-button");
+        this.excludeChildControl("column-button");
       }
 
       this._updateScrollerWidths();
@@ -1669,7 +1669,7 @@ qx.Class.define("qx.ui.table.Table",
         }
 
         if (text) {
-          this._getChildControl("statusbar").setContent(text);
+          this.getChildControl("statusbar").setContent(text);
         }
       }
     },
@@ -1766,7 +1766,7 @@ qx.Class.define("qx.ui.table.Table",
       var tableModel = this.getTableModel();
       var columnModel = this.getTableColumnModel();
 
-      var menu = this._getChildControl("column-button").getMenu();
+      var menu = this.getChildControl("column-button").getMenu();
       if (menu)
       {
         var entries = menu.getChildren();
@@ -1777,7 +1777,7 @@ qx.Class.define("qx.ui.table.Table",
       else
       {
         var menu = new qx.ui.menu.Menu();
-        this._getChildControl("column-button").setMenu(menu);
+        this.getChildControl("column-button").setMenu(menu);
       }
 
       // Inform listeners who may want to insert menu items at the beginning
@@ -1885,7 +1885,7 @@ qx.Class.define("qx.ui.table.Table",
 
     destroy : function()
     {
-      this._getChildControl("column-button").getMenu().destroy();
+      this.getChildControl("column-button").getMenu().destroy();
       this.base(arguments);
     }
   },

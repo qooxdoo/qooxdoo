@@ -163,7 +163,7 @@ qx.Class.define("qx.ui.tooltip.ToolTip",
     // property apply
     _applyIcon : function(value, old)
     {
-      var atom = this._getChildControl("atom");
+      var atom = this.getChildControl("atom");
       value == null ? atom.resetIcon : atom.setIcon(value);
     },
 
@@ -171,14 +171,14 @@ qx.Class.define("qx.ui.tooltip.ToolTip",
     // property apply
     _applyLabel : function(value, old)
     {
-      var atom = this._getChildControl("atom");
+      var atom = this.getChildControl("atom");
       value == null ? atom.resetLabel() : atom.setLabel(value);
     },
 
     // property apply
     _applyRich : function(value, old)
     {
-      var atom = this._getChildControl("atom");
+      var atom = this.getChildControl("atom");
       atom.setRich(value);
     }
   }

@@ -206,8 +206,8 @@ qx.Class.define("qx.ui.control.ColorSelector",
         case "control-bar":
           control = new qx.ui.container.Composite(new qx.ui.layout.HBox(10));
 
-          control.add(this._getChildControl("control-pane"));
-          control.add(this._getChildControl("visual-pane"));
+          control.add(this.getChildControl("control-pane"));
+          control.add(this.getChildControl("visual-pane"));
 
           this._add(control);
           break;
@@ -221,23 +221,23 @@ qx.Class.define("qx.ui.control.ColorSelector",
         case "visual-pane":
           control = new qx.ui.groupbox.GroupBox(this.tr("Visual"));
           control.setLayout(new qx.ui.layout.HBox(10));
-          control.add(this._getChildControl("hue-saturation-pane"));
-          control.add(this._getChildControl("brightness-pane"));
+          control.add(this.getChildControl("hue-saturation-pane"));
+          control.add(this.getChildControl("brightness-pane"));
           break;
 
         case "control-pane":
           control = new qx.ui.container.Composite(new qx.ui.layout.VBox(12));
-          control.add(this._getChildControl("preset-field-set"));
-          control.add(this._getChildControl("input-field-set"));
-          control.add(this._getChildControl("preview-field-set"), {flex: 1});
+          control.add(this.getChildControl("preset-field-set"));
+          control.add(this.getChildControl("input-field-set"));
+          control.add(this.getChildControl("preview-field-set"), {flex: 1});
           break;
 
         case "hue-saturation-pane":
           control = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
           control.setAllowGrowY(false);
           control.addListener("mouseup", this._onHueSaturationPaneMouseWheel, this);
-          control.add(this._getChildControl("hue-saturation-field"));
-          control.add(this._getChildControl("hue-saturation-handle"), {left: 0, top: 256});
+          control.add(this.getChildControl("hue-saturation-field"));
+          control.add(this.getChildControl("hue-saturation-handle"), {left: 0, top: 256});
           break;
 
         case "hue-saturation-field":
@@ -256,8 +256,8 @@ qx.Class.define("qx.ui.control.ColorSelector",
           control = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
           control.setAllowGrowY(false);
           control.addListener("mousewheel", this._onBrightnessPaneMouseWheel, this);
-          control.add(this._getChildControl("brightness-field"));
-          control.add(this._getChildControl("brightness-handle"));
+          control.add(this.getChildControl("brightness-field"));
+          control.add(this.getChildControl("brightness-handle"));
           break;
 
         case "brightness-field":
@@ -281,7 +281,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
         case "preset-field-set":
           control = new qx.ui.groupbox.GroupBox(this.tr("Presets"));
           control.setLayout(new qx.ui.layout.Grow());
-          control.add(this._getChildControl("preset-grid"));
+          control.add(this.getChildControl("preset-grid"));
           break;
 
         case "colorbucket":
@@ -301,7 +301,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
             for (var j=0; j<10; j++)
             {
               colorPos = i * 10 + j;
-              colorField = this._getChildControl("colorbucket#" + colorPos);
+              colorField = this.getChildControl("colorbucket#" + colorPos);
               colorField.setBackgroundColor(this.__presetTable[colorPos]);
 
               control.add(colorField, {column: j, row: i});
@@ -315,9 +315,9 @@ qx.Class.define("qx.ui.control.ColorSelector",
           controlLayout.setSpacing(10);
           control.setLayout(controlLayout);
 
-          control.add(this._getChildControl("hex-field-composite"));
-          control.add(this._getChildControl("rgb-spinner-composite"));
-          control.add(this._getChildControl("hsb-spinner-composite"));
+          control.add(this.getChildControl("hex-field-composite"));
+          control.add(this.getChildControl("rgb-spinner-composite"));
+          control.add(this.getChildControl("hsb-spinner-composite"));
           break;
 
         case "preview-field-set":
@@ -325,8 +325,8 @@ qx.Class.define("qx.ui.control.ColorSelector",
           var controlLayout = new qx.ui.layout.HBox(10);
           control.setLayout(controlLayout);
 
-          control.add(this._getChildControl("preview-content-old"), {flex: 1});
-          control.add(this._getChildControl("preview-content-new"), {flex: 1});
+          control.add(this.getChildControl("preview-content-old"), {flex: 1});
+          control.add(this.getChildControl("preview-content-new"), {flex: 1});
           break;
 
         /*
@@ -345,7 +345,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
           var hexHelper = new qx.ui.basic.Label("#");
           control.add(hexHelper);
 
-          control.add(this._getChildControl("hex-field"));
+          control.add(this.getChildControl("hex-field"));
           break;
 
         case "hex-field":
@@ -363,9 +363,9 @@ qx.Class.define("qx.ui.control.ColorSelector",
           rgbSpinLabel.setWidth(25);
           control.add(rgbSpinLabel);
 
-          control.add(this._getChildControl("rgb-spinner-red"));
-          control.add(this._getChildControl("rgb-spinner-green"));
-          control.add(this._getChildControl("rgb-spinner-blue"));
+          control.add(this.getChildControl("rgb-spinner-red"));
+          control.add(this.getChildControl("rgb-spinner-green"));
+          control.add(this.getChildControl("rgb-spinner-blue"));
           break;
 
         case "rgb-spinner-red":
@@ -395,9 +395,9 @@ qx.Class.define("qx.ui.control.ColorSelector",
           hsbSpinLabel.setWidth(25);
           control.add(hsbSpinLabel);
 
-          control.add(this._getChildControl("hsb-spinner-hue"));
-          control.add(this._getChildControl("hsb-spinner-saturation"));
-          control.add(this._getChildControl("hsb-spinner-brightness"));
+          control.add(this.getChildControl("hsb-spinner-hue"));
+          control.add(this.getChildControl("hsb-spinner-saturation"));
+          control.add(this.getChildControl("hsb-spinner-brightness"));
           break;
 
         case "hsb-spinner-hue":
@@ -457,7 +457,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
       }
 
       if (this.__updateContext !== "rgbSpinner") {
-        this._getChildControl("rgb-spinner-red").setValue(value);
+        this.getChildControl("rgb-spinner-red").setValue(value);
       }
 
       if (this.__updateContext !== "hexField") {
@@ -488,7 +488,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
       }
 
       if (this.__updateContext !== "rgbSpinner") {
-        this._getChildControl("rgb-spinner-green").setValue(value);
+        this.getChildControl("rgb-spinner-green").setValue(value);
       }
 
       if (this.__updateContext !== "hexField") {
@@ -519,7 +519,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
       }
 
       if (this.__updateContext !== "rgbSpinner") {
-        this._getChildControl("rgb-spinner-blue").setValue(value);
+        this.getChildControl("rgb-spinner-blue").setValue(value);
       }
 
       if (this.__updateContext !== "hexField") {
@@ -558,15 +558,15 @@ qx.Class.define("qx.ui.control.ColorSelector",
       }
 
       if (this.__updateContext !== "hsbSpinner") {
-        this._getChildControl("hsb-spinner-hue").setValue(value);
+        this.getChildControl("hsb-spinner-hue").setValue(value);
       }
 
       if (this.__updateContext !== "hueSaturationField")
       {
-        if (this._getChildControl("hue-saturation-handle").getBounds()) {
-          this._getChildControl("hue-saturation-handle").setDomLeft(Math.round(value / 1.40625) + this._getChildControl("hue-saturation-pane").getPaddingLeft());
+        if (this.getChildControl("hue-saturation-handle").getBounds()) {
+          this.getChildControl("hue-saturation-handle").setDomLeft(Math.round(value / 1.40625) + this.getChildControl("hue-saturation-pane").getPaddingLeft());
         } else {
-          this._getChildControl("hue-saturation-handle").setLayoutProperties({ left : Math.round(value / 1.40625) });
+          this.getChildControl("hue-saturation-handle").setLayoutProperties({ left : Math.round(value / 1.40625) });
         }
       }
 
@@ -592,16 +592,16 @@ qx.Class.define("qx.ui.control.ColorSelector",
       }
 
       if (this.__updateContext !== "hsbSpinner") {
-        this._getChildControl("hsb-spinner-saturation").setValue(value);
+        this.getChildControl("hsb-spinner-saturation").setValue(value);
       }
 
       if (this.__updateContext !== "hueSaturationField")
       {
         this._setBrightnessGradiant();
-        if (this._getChildControl("hue-saturation-handle").getBounds()) {
-          this._getChildControl("hue-saturation-handle").setDomTop(256 - Math.round(value * 2.56) + this._getChildControl("hue-saturation-pane").getPaddingTop());
+        if (this.getChildControl("hue-saturation-handle").getBounds()) {
+          this.getChildControl("hue-saturation-handle").setDomTop(256 - Math.round(value * 2.56) + this.getChildControl("hue-saturation-pane").getPaddingTop());
         } else {
-          this._getChildControl("hue-saturation-handle").setLayoutProperties({ top : 256 - Math.round(value * 2.56)});
+          this.getChildControl("hue-saturation-handle").setLayoutProperties({ top : 256 - Math.round(value * 2.56)});
         }
       }
 
@@ -627,17 +627,17 @@ qx.Class.define("qx.ui.control.ColorSelector",
       }
 
       if (this.__updateContext !== "hsbSpinner") {
-        this._getChildControl("hsb-spinner-brightness").setValue(value);
+        this.getChildControl("hsb-spinner-brightness").setValue(value);
       }
 
       if (this.__updateContext !== "brightnessField")
       {
         var topValue = 256 - Math.round(value * 2.56);
 
-        if (this._getChildControl("brightness-handle").getBounds()) {
-          this._getChildControl("brightness-handle").setDomTop(topValue + this._getChildControl("brightness-pane").getPaddingTop());
+        if (this.getChildControl("brightness-handle").getBounds()) {
+          this.getChildControl("brightness-handle").setDomTop(topValue + this.getChildControl("brightness-pane").getPaddingTop());
         } else {
-          this._getChildControl("brightness-handle").setLayoutProperties({ top : topValue });
+          this.getChildControl("brightness-handle").setLayoutProperties({ top : topValue });
         }
       }
 
@@ -672,13 +672,13 @@ qx.Class.define("qx.ui.control.ColorSelector",
     _onBrightnessHandleMouseDown : function(e)
     {
       // Activate Capturing
-      this._getChildControl("brightness-handle").capture();
+      this.getChildControl("brightness-handle").capture();
       this.__capture = "brightness-handle";
 
       // Calculate subtract: Position of Brightness Field - Current Mouse Offset
-      var locationBrightnessField = this._getChildControl("brightness-field").getContainerLocation();
-      var locationBrightnessHandle = this._getChildControl("brightness-handle").getContainerLocation();
-      var fieldBounds = this._getChildControl("brightness-field").getBounds();
+      var locationBrightnessField = this.getChildControl("brightness-field").getContainerLocation();
+      var locationBrightnessHandle = this.getChildControl("brightness-handle").getContainerLocation();
+      var fieldBounds = this.getChildControl("brightness-field").getBounds();
 
       this.__brightnessSubtract = locationBrightnessField.top +
         (e.getDocumentTop() - locationBrightnessHandle.top) - fieldBounds.top;
@@ -697,7 +697,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
     _onBrightnessHandleMouseUp : function(e)
     {
       // Disabling capturing
-      this._getChildControl("brightness-handle").releaseCapture();
+      this.getChildControl("brightness-handle").releaseCapture();
       this.__capture = null;
     },
 
@@ -726,15 +726,15 @@ qx.Class.define("qx.ui.control.ColorSelector",
     _onBrightnessFieldMouseDown : function(e)
     {
       // Calculate substract: Half height of handler
-      var location  = this._getChildControl("brightness-field").getContainerLocation();
-      var bounds = this._getChildControl("brightness-handle").getBounds();
+      var location  = this.getChildControl("brightness-field").getContainerLocation();
+      var bounds = this.getChildControl("brightness-handle").getBounds();
       this.__brightnessSubtract = location.top + (bounds.height / 2);
 
       // Update
       this._setBrightnessOnFieldEvent(e);
 
       // Afterwards: Activate Capturing for handle
-      this._getChildControl("brightness-handle").capture();
+      this.getChildControl("brightness-handle").capture();
       this.__capture = "brightness-handle";
     },
 
@@ -761,10 +761,10 @@ qx.Class.define("qx.ui.control.ColorSelector",
 
       this.__updateContext = "brightnessField";
 
-      if (this._getChildControl("brightness-handle").getBounds()) {
-        this._getChildControl("brightness-handle").setDomTop(value);
+      if (this.getChildControl("brightness-handle").getBounds()) {
+        this.getChildControl("brightness-handle").setDomTop(value);
       } else {
-        this._getChildControl("brightness-handle").setLayoutProperties({ top : value });
+        this.getChildControl("brightness-handle").setLayoutProperties({ top : value });
       }
 
       this.setBrightness(100 - Math.round(value / 2.56));
@@ -788,7 +788,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
     _onHueSaturationHandleMouseUp : function(e)
     {
       // Disabling capturing
-      this._getChildControl("hue-saturation-handle").releaseCapture();
+      this.getChildControl("hue-saturation-handle").releaseCapture();
       this.__capture = null;
     },
 
@@ -819,9 +819,9 @@ qx.Class.define("qx.ui.control.ColorSelector",
     _onHueSaturationFieldMouseDown : function(e)
     {
       // Calculate substract: Half width/height of handler
-      var location = this._getChildControl("hue-saturation-field").getContainerLocation();
-      var handleBounds = this._getChildControl("hue-saturation-handle").getBounds();
-      var fieldBounds = this._getChildControl("hue-saturation-field").getBounds();
+      var location = this.getChildControl("hue-saturation-field").getContainerLocation();
+      var handleBounds = this.getChildControl("hue-saturation-handle").getBounds();
+      var fieldBounds = this.getChildControl("hue-saturation-field").getBounds();
 
       this.__hueSaturationSubtractTop = location.top + (handleBounds.height / 2) - fieldBounds.top;
       this.__hueSaturationSubtractLeft = location.left + (handleBounds.width / 2) - fieldBounds.left;
@@ -830,7 +830,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
       this._setHueSaturationOnFieldEvent(e);
 
       // Afterwards: Activate Capturing for handle
-      this._getChildControl("hue-saturation-handle").capture();
+      this.getChildControl("hue-saturation-handle").capture();
       this.__capture = "hue-saturation-handle";
     },
 
@@ -856,7 +856,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
       var vTop = qx.lang.Number.limit(e.getDocumentTop() - this.__hueSaturationSubtractTop, 0, 256);
       var vLeft = qx.lang.Number.limit(e.getDocumentLeft() - this.__hueSaturationSubtractLeft, 0, 256);
 
-      this._getChildControl("hue-saturation-handle").setDomPosition(vLeft, vTop);
+      this.getChildControl("hue-saturation-handle").setDomPosition(vLeft, vTop);
 
       this.__updateContext = "hueSaturationField";
 
@@ -885,7 +885,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
       }
 
       this.__updateContext = "rgbSpinner";
-      this.setRed(this._getChildControl("rgb-spinner-red").getValue());
+      this.setRed(this.getChildControl("rgb-spinner-red").getValue());
       this.__updateContext = null;
     },
 
@@ -900,7 +900,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
       }
 
       this.__updateContext = "rgbSpinner";
-      this.setGreen(this._getChildControl("rgb-spinner-green").getValue());
+      this.setGreen(this.getChildControl("rgb-spinner-green").getValue());
       this.__updateContext = null;
     },
 
@@ -915,7 +915,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
       }
 
       this.__updateContext = "rgbSpinner";
-      this.setBlue(this._getChildControl("rgb-spinner-blue").getValue());
+      this.setBlue(this.getChildControl("rgb-spinner-blue").getValue());
       this.__updateContext = null;
     },
 
@@ -938,7 +938,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
       }
 
       this.__updateContext = "hsbSpinner";
-      this.setHue(this._getChildControl("hsb-spinner-hue").getValue());
+      this.setHue(this.getChildControl("hsb-spinner-hue").getValue());
       this.__updateContext = null;
     },
 
@@ -953,7 +953,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
       }
 
       this.__updateContext = "hsbSpinner";
-      this.setSaturation(this._getChildControl("hsb-spinner-saturation").getValue());
+      this.setSaturation(this.getChildControl("hsb-spinner-saturation").getValue());
       this.__updateContext = null;
     },
 
@@ -968,7 +968,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
       }
 
       this.__updateContext = "hsbSpinner";
-      this.setBrightness(this._getChildControl("hsb-spinner-brightness").getValue());
+      this.setBrightness(this.getChildControl("hsb-spinner-brightness").getValue());
       this.__updateContext = null;
     },
 
@@ -992,7 +992,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
       }
 
       try {
-        var hexField = this._getChildControl("hex-field");
+        var hexField = this.getChildControl("hex-field");
         var rgb = qx.util.ColorUtil.hexStringToRgb("#" + hexField.getValue());
       } catch(ex) {
         return;
@@ -1010,7 +1010,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
      * Sets hexfield value to it's corresponding red, green and blue value.
      */
     _setHexFromRgb : function() {
-      this._getChildControl("hex-field").setValue(
+      this.getChildControl("hex-field").setValue(
         qx.util.ColorUtil.rgbToHexString([this.getRed(),this.getGreen(),this.getBlue()])
       );
     },
@@ -1111,7 +1111,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
     _setPreviewFromRgb : function()
     {
       var rgbString = qx.util.ColorUtil.rgbToRgbString([this.getRed(), this.getGreen(), this.getBlue()]);
-      this._getChildControl("preview-content-new").setBackgroundColor(rgbString);
+      this.getChildControl("preview-content-new").setBackgroundColor(rgbString);
     },
 
 
@@ -1140,7 +1140,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
       var ColorUtil = qx.util.ColorUtil;
       var helpRgb = ColorUtil.hsbToRgb([this.getHue(), this.getSaturation(), 255]);
       var helpRgbString = ColorUtil.rgbToRgbString([helpRgb.red, helpRgb.green, helpRgb.blue])
-      this._getChildControl("brightness-field").setBackgroundColor(helpRgbString);
+      this.getChildControl("brightness-field").setBackgroundColor(helpRgbString);
     },
 
     /**
@@ -1153,8 +1153,8 @@ qx.Class.define("qx.ui.control.ColorSelector",
       var color = qx.util.ColorUtil.rgbToRgbString([this.getRed(),
       this.getGreen(), this.getBlue()]);
 
-      this._getChildControl("preview-content-old").setBackgroundColor(color);
-      this._getChildControl("preview-content-new").setBackgroundColor(color);
+      this.getChildControl("preview-content-old").setBackgroundColor(color);
+      this.getChildControl("preview-content-new").setBackgroundColor(color);
     }
   }
 });

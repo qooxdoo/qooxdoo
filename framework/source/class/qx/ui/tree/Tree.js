@@ -60,7 +60,7 @@ qx.Class.define("qx.ui.tree.Tree",
       allowGrowX: true
     });
 
-    this._getChildControl("pane").add(this.__content);
+    this.getChildControl("pane").add(this.__content);
 
     this.initOpenMode();
     this.initRootOpenClose();
