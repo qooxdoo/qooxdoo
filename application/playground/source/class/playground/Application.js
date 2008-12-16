@@ -414,7 +414,7 @@ qx.Class.define("playground.Application",
     /**
      * updates the playground.
      *
-     * @param root {var} TODOC
+     * @param root {var} of the playarea
      * @return {void} 
      */
     updatePlayground : function(root)

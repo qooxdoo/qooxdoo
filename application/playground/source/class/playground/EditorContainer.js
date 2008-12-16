@@ -22,7 +22,10 @@
 
 
 ************************************************************************ */
-
+/**
+ * The container of the editor.
+ * This class disjoint to a separate class to change the z-index of the blocker. 
+ */
 qx.Class.define("playground.EditorContainer",
 {
   extend : qx.ui.container.Composite,
@@ -30,8 +33,7 @@ qx.Class.define("playground.EditorContainer",
 
 
   /**
-   * The container of the editor.
-   * This class disjoint to a separate class to change the z-index of the blocker 
+   * sets the z-index of the blocker to 100 to allow sliding of the playground. 
    */
   construct : function()
   {
