@@ -437,7 +437,6 @@ qx.Class.define("playground.Application",
         this.fun = new Function(this.code);
         this.fun.call(this.__playApp);
         this.widgets["toolbar.logCheckButton"].setChecked(false);
-        this.stack.exclude();
       }
       catch(ex)
       {
@@ -446,7 +445,7 @@ qx.Class.define("playground.Application",
         this.stack.show();
       }
 
-      this.logelem.innerHTML = "";
+      //this.logelem.innerHTML = "";
       this.__fetchLog();
     },
 
