@@ -66,7 +66,7 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
   members :
   {
     __table : null,
-    
+
 
     /**
      * Getter for the table being managed
@@ -113,7 +113,7 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
 
     /**
      * Handles a select event.  First we determine if the click was on the
-     * open/close button and toggle the opened/closed state as necessary.  
+     * open/close button and toggle the opened/closed state as necessary.
      * Then, if the click was not on the open/close button or if the table's
      * "openCloseClickSelectsRow" property so indicates, call our superclass to
      * handle the actual row selection.

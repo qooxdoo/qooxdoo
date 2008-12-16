@@ -175,7 +175,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "button-frame" :
     {
       alias : "atom",
-      
+
       style : function(states)
       {
         if (states.pressed || states.abandoned || states.checked) {
@@ -193,7 +193,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         };
       }
     },
-    
+
     "button" :
     {
       alias : "button-frame",
@@ -2245,7 +2245,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
       }
     },
-    
+
     "colorpopup/colorselector-okbutton":
     {
       alias : "button",

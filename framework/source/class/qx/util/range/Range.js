@@ -111,7 +111,7 @@ qx.Class.define("qx.util.range.Range",
   members :
   {
     /**
-     * Set the current value to the maximum value, if current value is not in 
+     * Set the current value to the maximum value, if current value is not in
      * range with the new maximum value.
      *
      * @param value {var} Current value
@@ -123,7 +123,7 @@ qx.Class.define("qx.util.range.Range",
 
 
     /**
-     * Set the current value to the minimum value, if current value is not in 
+     * Set the current value to the minimum value, if current value is not in
      * range with the new minimum value.
      *
      * @param value {var} Current value

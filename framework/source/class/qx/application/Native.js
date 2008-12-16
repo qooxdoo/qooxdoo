@@ -56,7 +56,7 @@ qx.Class.define("qx.application.Native",
       // empty
     },
 
-    
+
     // interface method
     close : function()
     {

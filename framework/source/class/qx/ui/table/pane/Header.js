@@ -257,7 +257,7 @@ qx.Class.define("qx.ui.table.pane.Header",
       var colCount = paneModel.getColumnCount();
 
       var sortedColum = 0;
-      
+
       if (tableModel != null) {
         sortedColum = tableModel.getSortColumnIndex();
       }
@@ -270,7 +270,7 @@ qx.Class.define("qx.ui.table.pane.Header",
       // Update the header
       var cellInfo = {};
       cellInfo.sortedAscending = false;
-      
+
       if(tableModel != null) {
        cellInfo.sortedAscending = tableModel.isSortAscending();
       }

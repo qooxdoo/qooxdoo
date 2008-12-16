@@ -29,7 +29,7 @@ qx.Class.define("qx.ui.core.queue.Appearance",
     /** {Map} This contains all the queued widgets for the next flush. */
     __queue : {},
 
-    
+
     /**
      * Clears the widget from the internal queue. Normally only used
      * during interims disposes of one or a few widgets.
@@ -37,9 +37,9 @@ qx.Class.define("qx.ui.core.queue.Appearance",
      * @param widget {qx.ui.core.Widget} The widget to clear
      */
     remove : function(widget) {
-      delete this.__queue[widget.$$hash];      
+      delete this.__queue[widget.$$hash];
     },
-    
+
 
     /**
      * Adds a widget to the queue.
@@ -90,7 +90,7 @@ qx.Class.define("qx.ui.core.queue.Appearance",
         // Order is important to allow the same widget to be requeued directly
         obj = queue[hash];
         delete queue[hash];
-        
+
         // Only apply to currently visible widgets
         if (Visibility.isVisible(obj)) {
           obj.syncAppearance();

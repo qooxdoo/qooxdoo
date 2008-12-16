@@ -55,8 +55,8 @@ qx.Class.define("qx.theme.manager.Appearance",
   properties :
   {
     /** currently used appearance theme
-     * Deprecated - use the property {@link #theme} instead. 
-     * @deprecated 
+     * Deprecated - use the property {@link #theme} instead.
+     * @deprecated
      */
     appearanceTheme :
     {
@@ -65,7 +65,7 @@ qx.Class.define("qx.theme.manager.Appearance",
       apply : "_applyAppearanceTheme",
       event : "changeAppearanceTheme"
     },
-    
+
     /** currently used appearance theme */
     theme :
     {
@@ -99,7 +99,7 @@ qx.Class.define("qx.theme.manager.Appearance",
     {
 
     },
-    
+
     _applyTheme : function(value, old)
     {
 

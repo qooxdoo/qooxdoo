@@ -68,7 +68,7 @@ qx.Class.define("qx.bom.Flash",
      * before the browser is closed. Note: it is only used in IE.
      */
     _flashObjects: {},
-    
+
     /*
     ---------------------------------------------------------------------------
       CREATION
@@ -96,19 +96,19 @@ qx.Class.define("qx.bom.Flash",
       if (!win) {
         win = window;
       }
-      
-      //Check parametes and check if element for flash is in DOM, befor call create swf. 
+
+      //Check parametes and check if element for flash is in DOM, befor call create swf.
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         qx.core.Assert.assertElement(element, "Invalid parameter 'element'.");
         qx.core.Assert.assertString(movie, "Invalid parameter 'movie'.");
-        qx.core.Assert.assertString(id, "Invalid parameter 'id'.");        
-        
+        qx.core.Assert.assertString(id, "Invalid parameter 'id'.");
+
         if (!qx.dom.Element.isInDom(element, win)) {
           qx.log.Logger.warn(this, "The parent DOM element isn't in DOM! The External Interface doesn't work in IE!");
         }
       }
-      
+
       // Generates attributes for flash movie
       var attributes =
       {
@@ -138,23 +138,23 @@ qx.Class.define("qx.bom.Flash",
       this.__createSwf(element, attributes, params, win);
     },
 
-    
+
     /**
      * Destroys the flash object from DOM, but not the parent DOM element.
-     *  
-     * Note: Removing the flash object like this: 
+     *
+     * Note: Removing the flash object like this:
      * <pre>
      *  var div = qx.bom.Element.create("div");
      *  document.body.appendChild(div);
-     *  
+     *
      *  var flashObject = qx.bom.Flash.create(div, "Flash.swf", "id");
      *  div.removeChild(div.firstChild);
      * </pre>
      * involve memory leaks in Internet Explorer.
-     * 
-     * @param element {Element} Either the DOM element that contains 
+     *
+     * @param element {Element} Either the DOM element that contains
      *              the flash object or the flash object itself.
-     * @param win? {Window} Window that the element, which is to be destroyed, 
+     * @param win? {Window} Window that the element, which is to be destroyed,
                     belongs to.
      * @return {void}
      * @signature function(element, win)
@@ -163,8 +163,8 @@ qx.Class.define("qx.bom.Flash",
     {
       "mshtml" : function(element, win)
       {
-        element = this.__getFlashObject(element); 
-        
+        element = this.__getFlashObject(element);
+
         if (element.readyState == 4) {
           this.__destroyObjectInIE(element);
         }
@@ -175,19 +175,19 @@ qx.Class.define("qx.bom.Flash",
           win.attachEvent("onload", function() {
             this.__destroyObjectInIE(element);
           });
-        }      
+        }
       },
-      
+
       "default" : function(element, win) {
-        element = this.__getFlashObject(element); 
+        element = this.__getFlashObject(element);
         element.parentNode.removeChild(element);
       }
     }),
-    
+
     /**
      * Return the flash object element from DOM node.
-     * 
-     * @param element {Element} The element to look. 
+     *
+     * @param element {Element} The element to look.
      * @return {void}
      */
     __getFlashObject : function(element)
@@ -195,21 +195,21 @@ qx.Class.define("qx.bom.Flash",
       if (!element) {
         throw new Error("DOM element is null or undefined!");
       }
-      
+
       if (element.tagName.toLowerCase() !== "object") {
         element = element.firstChild;
       }
-      
+
       if (!element || element.tagName.toLowerCase() !== "object") {
         throw new Error("DOM element has or is not a flash object!");
       }
-      
+
       return element;
     },
-    
+
     /**
      * Destroy the flash object and remove from DOM, to fix memory leaks.
-     * 
+     *
      * @param element {Element} Flash object element to destroy.
      * @return {void}
      * @signature function(element)
@@ -222,13 +222,13 @@ qx.Class.define("qx.bom.Flash",
             element[i] = null;
           }
         }
-        element.parentNode.removeChild(element);      
+        element.parentNode.removeChild(element);
         delete this._flashObjects[element.id];
       },
-      
+
       "default" : null
     }),
-    
+
     /**
      * Internal helper to prevent leaks in IE
      *
@@ -241,7 +241,7 @@ qx.Class.define("qx.bom.Flash",
       {
         qx.bom.Flash.destroy(qx.bom.Flash._flashObjects[key]);
       }
-      
+
       window.__flash_unloadHandler = function() {};
       window.__flash_savedUnloadHandler = function() {};
 
@@ -286,7 +286,7 @@ qx.Class.define("qx.bom.Flash",
         for (var name in attributes) {
           element.firstChild.setAttribute(name, attributes[name]);
         }
-        
+
         this._flashObjects[attributes.id] = element.firstChild;
       },
 
@@ -295,7 +295,7 @@ qx.Class.define("qx.bom.Flash",
         // Cleanup
         delete attributes.classid;
         delete params.movie;
-        
+
         var swf = qx.bom.Element.create("object", attributes, win);
         swf.setAttribute("type", "application/x-shockwave-flash");
 
@@ -319,7 +319,7 @@ qx.Class.define("qx.bom.Flash",
      DEFER
   *****************************************************************************
   */
-  
+
   defer : function(statics)
   {
     if (qx.core.Variant.isSet("qx.client", "mshtml")) {

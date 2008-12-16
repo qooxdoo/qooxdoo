@@ -569,7 +569,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
 
       var tabelModel = this.getTable().getTableModel();
       var modelRowCount = 0;
-      
+
       if (tabelModel != null) {
         modelRowCount = tabelModel.getRowCount();
       }
@@ -654,7 +654,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
 
       var rowCount = this.getVisibleRowCount();
       var modelRowCount = 0;
-      
+
       if (tableModel != null) {
         modelRowCount = tableModel.getRowCount();
       }

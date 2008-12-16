@@ -51,7 +51,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
     this._setLayout(new qx.ui.layout.VBox());
 
     this._createChildControl("control-bar");
-    
+
     this.addListener("appear", this._onAppear, this);
   },
 
@@ -283,7 +283,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
           control.setLayout(new qx.ui.layout.Grow());
           control.add(this._getChildControl("preset-grid"));
           break;
-          
+
         case "colorbucket":
           control = new qx.ui.core.Widget();
           control.addListener("mousedown", this._onColorFieldClick, this);
@@ -801,7 +801,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
      */
     _onHueSaturationHandleMouseMove : function(e)
     {
-    	
+
       // Update if captured currently (through previous mousedown)
       if (this.__capture === "hue-saturation-handle") {
         this._setHueSaturationOnFieldEvent(e);
@@ -1131,28 +1131,28 @@ qx.Class.define("qx.ui.control.ColorSelector",
       this.setGreen(vGreen);
       this.setBlue(vBlue);
     },
-    
+
     /**
-     * Updates the background of the brightness field to give a nicer gradiant 
+     * Updates the background of the brightness field to give a nicer gradiant
      */
     _setBrightnessGradiant : function()
     {
       var ColorUtil = qx.util.ColorUtil;
       var helpRgb = ColorUtil.hsbToRgb([this.getHue(), this.getSaturation(), 255]);
       var helpRgbString = ColorUtil.rgbToRgbString([helpRgb.red, helpRgb.green, helpRgb.blue])
-      this._getChildControl("brightness-field").setBackgroundColor(helpRgbString);      
+      this._getChildControl("brightness-field").setBackgroundColor(helpRgbString);
     },
-    
+
     /**
      * Listener for appear.
      * Sets preview pane's background color to the current color.
-     * 
+     *
      * @param e {qx.event.type.Data} Incoming event object
      */
     _onAppear : function(e) {
       var color = qx.util.ColorUtil.rgbToRgbString([this.getRed(),
       this.getGreen(), this.getBlue()]);
-        
+
       this._getChildControl("preview-content-old").setBackgroundColor(color);
       this._getChildControl("preview-content-new").setBackgroundColor(color);
     }

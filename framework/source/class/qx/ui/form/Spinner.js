@@ -343,18 +343,18 @@ qx.Class.define("qx.ui.form.Spinner",
         this._updateButtons();
       }
     },
-    
-    
+
+
     // overridden
     _applyEnabled : function(value, old)
     {
-    	this.base(arguments, value, old);
-    	// if the spinner is disabled, disable the buttons for sure
+      this.base(arguments, value, old);
+      // if the spinner is disabled, disable the buttons for sure
         if (!value) {
           this._getChildControl("upbutton").setEnabled(false);
           this._getChildControl("downbutton").setEnabled(false);
         }
-    	
+
         this._updateButtons();
     },
 
@@ -363,7 +363,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * Check whether the value being applied is allowed.
      *
      * If you override this to change the allowed type, you will also
-     * want to override {@link #_applyValue}, {@link #_applyMin}, {@link #_applyMax}, 
+     * want to override {@link #_applyValue}, {@link #_applyMin}, {@link #_applyMax},
      * {@link #countUp}, {@link #_countDown}, and {@link #_onTextChange} methods as
      * those cater specifically to numeric values.
      *

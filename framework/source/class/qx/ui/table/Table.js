@@ -189,7 +189,7 @@ qx.Class.define("qx.ui.table.Table",
     if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
       qx.locale.Manager.getInstance().addListener("changeLocale", this._onChangeLocale, this);
     }
-    
+
     this.initStatusBarVisible();
   },
 
@@ -599,7 +599,7 @@ qx.Class.define("qx.ui.table.Table",
     __additionalStatusBarText : null,
     __lastRowCount : null,
     __internalChange : null,
-    
+
     __columnMenuButtons : null,
 
 
@@ -1324,11 +1324,11 @@ qx.Class.define("qx.ui.table.Table",
       }
 
       var data = evt.getData();
-      if (this.__columnMenuButtons != null && data.col != null && 
+      if (this.__columnMenuButtons != null && data.col != null &&
           data.visible != null) {
         this.__columnMenuButtons[data.col].setChecked(data.visible);
       }
-      
+
       this._updateScrollerWidths();
       this._updateScrollBarVisibility();
     },
@@ -1642,7 +1642,7 @@ qx.Class.define("qx.ui.table.Table",
     _updateStatusBar : function()
     {
       var tableModel = this.getTableModel();
-      
+
       if (this.getStatusBarVisible() && tableModel)
       {
         var selectedRowCount = this.getSelectionModel().getSelectedCount();
@@ -1882,9 +1882,9 @@ qx.Class.define("qx.ui.table.Table",
         this.base(arguments, type, listener, self, capture);
       }
     },
-    
-    destroy : function() 
-    {      
+
+    destroy : function()
+    {
       this._getChildControl("column-button").getMenu().destroy();
       this.base(arguments);
     }
@@ -1916,7 +1916,7 @@ qx.Class.define("qx.ui.table.Table",
     if (dataRowRenderer) {
       dataRowRenderer.dispose();
     }
-    
+
     this._cleanUpMetaColumns(0);
     this._disposeObjects("__selectionManager", "_columnVisibilityMenu", "_tableModel", "__scrollerParent");
   }

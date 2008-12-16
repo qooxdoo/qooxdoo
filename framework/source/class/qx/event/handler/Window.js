@@ -192,7 +192,7 @@ qx.Class.define("qx.event.handler.Window",
       //
       // Internet Explorer does not have a target in resize events.
       var target = e.target || e.srcElement;
-      if (target == null || target === win || target === doc || target === html) 
+      if (target == null || target === win || target === doc || target === html)
       {
         var event = qx.event.Registration.createEvent(e.type, qx.event.type.Native, [e, win]);
         qx.event.Registration.dispatchEvent(win, event);

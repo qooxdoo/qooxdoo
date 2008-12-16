@@ -120,7 +120,7 @@ qx.Class.define("qx.fx.effect.core.Move",
       }
       this.__originalPosition = qx.bom.element.Style.get(element, "position");
 
-      qx.bom.element.Style.set(element, "position", "absolute"); 
+      qx.bom.element.Style.set(element, "position", "absolute");
 
       if (this.getMode() == 'absolute')
       {

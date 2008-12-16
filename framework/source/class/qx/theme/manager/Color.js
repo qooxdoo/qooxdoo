@@ -91,11 +91,11 @@ qx.Class.define("qx.theme.manager.Color",
           dest[key] = temp;
         }
       }
-      
+
       this._setDynamic(dest);
     },
-    
-    
+
+
     /**
      * Returns the dynamically interpreted result for the incoming value,
      * (if available), otherwise returns the original value
@@ -107,15 +107,15 @@ qx.Class.define("qx.theme.manager.Color",
     {
       var cache = this._dynamic;
       var resolved = cache[value];
-      
+
       if (resolved)
       {
         return resolved;
       }
-      
+
       // If the font instance is not yet cached create a new one to return
       // This is true whenever a runtime include occured (using "qx.Theme.include"
-      // or "qx.Theme.patch"), since these methods only merging the keys of 
+      // or "qx.Theme.patch"), since these methods only merging the keys of
       // the theme and are not updating the cache
       var theme = this.getTheme();
       if (theme.colors[value])
@@ -125,8 +125,8 @@ qx.Class.define("qx.theme.manager.Color",
 
       return value;
     },
-    
-    
+
+
     /**
      * Whether a value is interpreted dynamically
      *
@@ -135,15 +135,15 @@ qx.Class.define("qx.theme.manager.Color",
      */
     isDynamic : function(value) {
       var cache = this._dynamic;
-      
+
       if (value && (cache[value] !== undefined))
       {
         return true;
       }
-      
+
       // If the font instance is not yet cached create a new one to return
       // This is true whenever a runtime include occured (using "qx.Theme.include"
-      // or "qx.Theme.patch"), since these methods only merging the keys of 
+      // or "qx.Theme.patch"), since these methods only merging the keys of
       // the theme and are not updating the cache
       var theme = this.getTheme();
       if (value && (theme.colors[value] !== undefined))
@@ -151,7 +151,7 @@ qx.Class.define("qx.theme.manager.Color",
         cache[value] = theme.colors[value];
         return true;
       }
-      
+
       return false;
     }
   }

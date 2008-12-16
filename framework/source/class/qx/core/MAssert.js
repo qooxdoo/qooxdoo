@@ -213,18 +213,18 @@ qx.Mixin.define("qx.core.MAssert",
 
     /**
      * Assert that a event is fired.
-     * 
+     *
      * @param obj {Object} The object on which the event should be fired.
      * @param event {String} The event which should be fired.
      * @param invokeFunc {Function} The function which will be invoked and which
      *   fires the event.
-     * @param listener {Function} The function which will be invoked in the 
+     * @param listener {Function} The function which will be invoked in the
      *   listener. The function has one parameter called e which is the event.
      * @param msg {String} Message to be shows if the assertion fails.
      */
     assertEventFired : function(obj, event, invokeFunc, listener, msg) {
       qx.core.Assert.assertEventFired(obj, event, invokeFunc, listener, msg);
-    }, 
+    },
 
 
     /**

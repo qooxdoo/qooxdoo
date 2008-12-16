@@ -213,7 +213,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         }
       }
     },
-    
+
     "button-frame/image" :
     {
       style : function(states)
@@ -342,7 +342,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : states.focused ? "input-focused" : 
+          decorator : states.focused ? "input-focused" :
                       states.disabled ? "input-disabled" : "input",
           padding   : [ 2, 4, 1 ],
           textColor : states.disabled ? "text-disabled" : "text-input"
@@ -1067,11 +1067,11 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           marginTop : 2,
           marginBottom : 2,
-          padding : (states.pressed || states.checked || states.hovered) && !states.disabled 
+          padding : (states.pressed || states.checked || states.hovered) && !states.disabled
                     || (states.disabled && states.checked) ? 3 : 5,
-          decorator : states.pressed || (states.checked && !states.hovered) || (states.checked && states.disabled) ? 
+          decorator : states.pressed || (states.checked && !states.hovered) || (states.checked && states.disabled) ?
                         "toolbar-button-checked" :
-                      states.hovered && !states.disabled ? 
+                      states.hovered && !states.disabled ?
                         "toolbar-button-hovered" : undefined
         };
       }

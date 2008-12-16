@@ -19,7 +19,7 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
- * 
+ *
  * A more comfortable HTTP request object than the native one under
  * {@link qx.bom.Request}.
  *

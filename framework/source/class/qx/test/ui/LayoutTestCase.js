@@ -94,7 +94,7 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
       for (key in reg)
       {
         var obj = reg[key];
-        
+
         // skip pooled objects
         if (obj.$$pooled) {
           continue

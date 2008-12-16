@@ -68,8 +68,8 @@ qx.Class.define("qx.theme.manager.Font",
       var dynamic = this._dynamic;
       return value instanceof qx.bom.Font ? value : dynamic[value];
     },
-    
-    
+
+
     /**
      * Returns the dynamically interpreted result for the incoming value,
      * (if available), otherwise returns the original value
@@ -81,15 +81,15 @@ qx.Class.define("qx.theme.manager.Font",
     {
       var cache = this._dynamic;
       var resolved = cache[value];
-      
+
       if (resolved)
       {
         return resolved;
       }
-      
+
       // If the font instance is not yet cached create a new one to return
       // This is true whenever a runtime include occured (using "qx.Theme.include"
-      // or "qx.Theme.patch"), since these methods only merging the keys of 
+      // or "qx.Theme.patch"), since these methods only merging the keys of
       // the theme and are not updating the cache
       var theme = this.getTheme();
       if (theme.fonts[value])
@@ -110,15 +110,15 @@ qx.Class.define("qx.theme.manager.Font",
     isDynamic : function(value)
     {
       var cache = this._dynamic;
-      
+
       if (value && (value instanceof qx.bom.Font || cache[value] !== undefined))
       {
         return true;
       }
-      
+
       // If the font instance is not yet cached create a new one to return
       // This is true whenever a runtime include occured (using "qx.Theme.include"
-      // or "qx.Theme.patch"), since these methods only merging the keys of 
+      // or "qx.Theme.patch"), since these methods only merging the keys of
       // the theme and are not updating the cache
       var theme = this.getTheme();
       if (value && theme.fonts[value])
@@ -126,7 +126,7 @@ qx.Class.define("qx.theme.manager.Font",
         cache[value] = (new qx.bom.Font).set(theme.fonts[value]);
         return true;
       }
-      
+
       return false;
     },
 

@@ -57,7 +57,7 @@ qx.Class.define("qx.test.lang.Function",
 
       // The assertEquals test fails in Safari 3 but is fixed in WebKit nightly
       if (qx.bom.client.Engine.WEBKIT) {
-        this.assertNotEquals(context, window, "This test fails if you use the WebKit nightly or the bug is fixed in Safari 3.");        
+        this.assertNotEquals(context, window, "This test fails if you use the WebKit nightly or the bug is fixed in Safari 3.");
       } else {
         this.assertEquals(context, window);
       }

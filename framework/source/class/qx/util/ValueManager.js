@@ -92,7 +92,7 @@ qx.Class.define("qx.util.ValueManager",
 
       return value;
     },
-    
+
      /**
       * Sets the dynamics map.
       * @param value {Map} The map.

@@ -146,7 +146,7 @@ qx.Class.define("qx.legacy.log.Logger",
 
       return logger;
     },
-    
+
 
     /** {Integer} The current indent. */
     _indent : 0,
