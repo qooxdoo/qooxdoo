@@ -87,7 +87,7 @@ qx.Class.define("qx.theme.manager.Meta",
       decorationMgr.setTheme(decoration);
       fontMgr.setTheme(font);
       iconMgr.setTheme(icon);
-      appearanceMgr.setAppearanceTheme(appearance);
+      appearanceMgr.setTheme(appearance);
     },
 
 
