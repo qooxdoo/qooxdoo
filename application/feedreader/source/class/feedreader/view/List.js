@@ -37,7 +37,7 @@ qx.Class.define("feedreader.view.List",
    * Creates a new instance of List.
    * @param feedList {Array} List of feeds.
    */
-  
+
   construct : function(feedList)
   {
     this.base(arguments);
@@ -189,15 +189,15 @@ qx.Class.define("feedreader.view.List",
       }
     }
   },
-  
-  
-  
+
+
+
   /*
    *****************************************************************************
       DESTRUCTOR
    *****************************************************************************
    */
-  
+
   destruct : function()
   {
     this._disposeObjects("_list", "_stack", "_listLoadImage");

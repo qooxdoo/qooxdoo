@@ -50,8 +50,8 @@ qx.Class.define("feedreader.view.ToolBar",
   construct : function(controller)
   {
     this.base(arguments);
-    
-    
+
+
     var mainPart = new qx.ui.toolbar.Part;
     this.add(mainPart);
 

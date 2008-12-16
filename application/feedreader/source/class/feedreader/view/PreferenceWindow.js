@@ -80,32 +80,32 @@ qx.Class.define("feedreader.view.PreferenceWindow",
       var windowLayout = new qx.ui.layout.VBox(10);
       this.setLayout(windowLayout);
       this.setMinWidth(350);
-      
+
       // Create and add a groupbox
       var groupBox = new qx.ui.groupbox.GroupBox(this.tr("Language"), "icon/16/apps/preferences-locale.png");
       groupBox.setMinWidth(150);
       groupBox.setLayout(new qx.ui.layout.VBox());
       this.add(groupBox);
-      
+
       // Create radio manager
       var radioManager = new qx.ui.form.RadioGroup();
-      
+
       // Create the radio buttons for the languages
-      var languages = { "en" : "English", 
-                        "de" : "Deutsch", 
-                        "es" : "Espanol", 
+      var languages = { "en" : "English",
+                        "de" : "Deutsch",
+                        "es" : "Espanol",
                         "fr" : "Français",
                         "it" : "Italiano",
                         "sv" : "Svenska" };
-      
+
       var localeManager = qx.locale.Manager.getInstance();
-      
+
       var radioButton;
       for (var lang in languages )
       {
         radioButton = new qx.ui.form.RadioButton(languages[lang]);
         radioButton.setValue(lang);
-        
+
         // add to radioManager and groupBox
         radioManager.add(radioButton);
         groupBox.add(radioButton);
@@ -115,25 +115,25 @@ qx.Class.define("feedreader.view.PreferenceWindow",
           radioManager.setSelected(radioButton);
         }
       }
- 
+
       // add the button bar
       var buttonBarLayout = new qx.ui.layout.HBox(10, "right");
       var buttonBar = new qx.ui.container.Composite(buttonBarLayout);
-      
+
       var cancelButton = new qx.ui.form.Button(this.tr("Cancel"), "icon/16/actions/dialog-cancel.png");
       cancelButton.addListener("execute", this.close, this);
-      
+
       var okButton = new qx.ui.form.Button(this.tr("OK"), "icon/16/actions/dialog-ok.png");
       okButton.addListener("execute", function(e){
         var selectedLanguage = radioManager.getSelected().getValue();
         qx.locale.Manager.getInstance().setLocale(selectedLanguage);
-        
+
         this.close();
       }, this);
-      
+
       buttonBar.add(cancelButton);
       buttonBar.add(okButton);
-      
+
       this.add(buttonBar);
     }
   }

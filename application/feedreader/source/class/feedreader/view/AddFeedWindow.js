@@ -82,7 +82,7 @@ qx.Class.define("feedreader.view.AddFeedWindow",
     _addContent : function()
     {
       this.setLayout(new qx.ui.layout.VBox(10));
-      
+
       var groupBox = new qx.ui.groupbox.GroupBox(this.tr("Feed Information"));
       this.add(groupBox);
 
