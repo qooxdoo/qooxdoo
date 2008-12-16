@@ -70,8 +70,8 @@ qx.Class.define("qx.html.Label",
 
       return el;
     },
-    
-    
+
+
     // overridden
     // be sure that style attributes are merged and not overwritten
     _copyData : function(fromMarkup) {

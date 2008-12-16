@@ -290,7 +290,7 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
     scrollToX : function(value) {
       // First flush queue before scroll
       qx.ui.core.queue.Manager.flush();
-      
+
       this._getChildControl("scrollbar-x").scrollTo(value);
     },
 
@@ -304,7 +304,7 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
     scrollByX : function(value) {
       // First flush queue before scroll
       qx.ui.core.queue.Manager.flush();
-      
+
       this._getChildControl("scrollbar-x").scrollBy(value);
     },
 
@@ -330,7 +330,7 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
     scrollToY : function(value) {
       // First flush queue before scroll
       qx.ui.core.queue.Manager.flush();
-      
+
       this._getChildControl("scrollbar-y").scrollTo(value);
     },
 
@@ -344,7 +344,7 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
     scrollByY : function(value) {
       // First flush queue before scroll
       qx.ui.core.queue.Manager.flush();
-      
+
       this._getChildControl("scrollbar-y").scrollBy(value);
     },
 
@@ -426,7 +426,7 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
       var showY = this._isChildControlVisible("scrollbar-y");
 
       /*
-       * If vertical scrollbar is present, scroll vertically, otherwise check if 
+       * If vertical scrollbar is present, scroll vertically, otherwise check if
        * horizontal scrollbar is present to scroll horizontally, else do not scroll at all.
        */
       var scrollbar = (showY) ? this._getChildControl("scrollbar-y", true) : ( showX ? this._getChildControl("scrollbar-x", true) : null );

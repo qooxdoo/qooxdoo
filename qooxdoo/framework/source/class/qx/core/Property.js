@@ -102,16 +102,16 @@
  *     On setting of the property value the method of the specified name will
  *     be called. The signature of the method is <code>function(value)</code>.
  *     The parameter <code>value</code> is the value passed to the setter.
- *     If the validation fails, an <code>qx.core.ValidationError</code> should 
- *     be thrown by the validation function. Otherwise, just do nothing in the 
+ *     If the validation fails, an <code>qx.core.ValidationError</code> should
+ *     be thrown by the validation function. Otherwise, just do nothing in the
  *     function.<br>
- *     If a string is given, the string should hold a reference to a member 
+ *     If a string is given, the string should hold a reference to a member
  *     method.<br>
- *     <code>"<i>methodname</i>"</code> for example 
+ *     <code>"<i>methodname</i>"</code> for example
  *     <code>"this.__validateProperty"</code><br>
- *     There are some default validators in the {@link qx.util.Validate} class. 
+ *     There are some default validators in the {@link qx.util.Validate} class.
  *     See this documentation for usage examples.
- *   </td></tr> 
+ *   </td></tr>
  * </table>
  *
  * *Property groups*
@@ -826,7 +826,7 @@ qx.Class.define("qx.core.Property",
         if (config.transform) {
           code.push('value=this.', config.transform, '(value);');
         }
-        
+
         // Call user-provided validate method, if one is provided.  Validate
         // method should either throw an error or do nothing.
         if (config.validate) {

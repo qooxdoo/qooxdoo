@@ -107,13 +107,13 @@ qx.Class.define("qx.ui.table.headerrenderer.Default",
       var widgetToolTip = cellWidget.getToolTip();
       if (this.getToolTip() != null)
       {
-        if (widgetToolTip == null) 
+        if (widgetToolTip == null)
         {
           // We have no tooltip yet -> Create one
           widgetToolTip = new qx.ui.tooltip.ToolTip(this.getToolTip());
           cellWidget.setToolTip(widgetToolTip);
         }
-        else 
+        else
         {
           // Update tooltip text
           widgetToolTip.setLabel(this.getToolTip());

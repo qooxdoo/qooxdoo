@@ -21,7 +21,7 @@
 
 /**
  * Container, which provides scrolling in one dimension (vertical or horizontal).
- * 
+ *
  * *Example*
  *
  * Here is a little example of how to use the widget.
@@ -40,7 +40,7 @@
  *   {
  *     slideBar.add((new qx.ui.core.Widget()).set({
  *       backgroundColor : (i % 2 == 0) ? "red" : "blue",
- *       width : 60          
+ *       width : 60
  *     }));
  *   }
  *

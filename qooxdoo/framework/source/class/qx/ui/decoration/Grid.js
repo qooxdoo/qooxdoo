@@ -226,7 +226,7 @@ qx.Class.define("qx.ui.decoration.Grid",
       // Set the inner width or height to zero if negative
       if (innerWidth < 0) {innerWidth = 0;}
       if (innerHeight < 0) {innerHeight = 0;}
-      
+
       // Update nodes
       var frame = element.getDomElement();
 

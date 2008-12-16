@@ -31,20 +31,20 @@ qx.Class.define("qx.ui.core.queue.Visibility",
 
     /** {Map} Maps hash codes to visibility */
     __data : {},
-    
-    
+
+
     /**
      * Clears the cached data of the given widget. Normally only used
      * during interims disposes of one or a few widgets.
      *
      * @param widget {qx.ui.core.Widget} The widget to clear
      */
-    remove : function(widget) 
+    remove : function(widget)
     {
       var hash = widget.$$hash;
-      
+
       delete this.__data[hash];
-      delete this.__queue[hash];      
+      delete this.__queue[hash];
     },
 
 
@@ -122,7 +122,7 @@ qx.Class.define("qx.ui.core.queue.Visibility",
      * @return {void}
      */
     flush : function()
-    {      
+    {
       // Dispose all registered objects
       var queue = this.__queue;
       var data = this.__data;

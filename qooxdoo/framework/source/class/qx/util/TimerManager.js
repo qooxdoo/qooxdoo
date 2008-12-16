@@ -242,7 +242,7 @@ qx.Class.define("qx.util.TimerManager",
                                                 this.__processQueue,
                                                 this);
       }
-      
+
     },
 
     /**
@@ -291,7 +291,7 @@ qx.Class.define("qx.util.TimerManager",
           delete timerData[expiredTimerId];
         }
       }
-      
+
       // If there are no more timers pending...
       if (timerQueue.length == 0)
       {

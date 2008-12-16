@@ -783,7 +783,7 @@ qx.Bootstrap.define("qx.Class",
         if (config.type && !(config.type === "static" || config.type === "abstract" || config.type === "singleton")) {
           throw new Error('Invalid type "' + config.type + '" definition for class "' + name + '"!');
         }
-        
+
         // Validate non-static class on the "extend" key
         if (config.type && config.type !== "static" && !config.extend) {
           throw new Error('Invalid config in class "' + name + '"! Every non-static class has to extend at least the "qx.core.Object" class.');
@@ -1578,12 +1578,12 @@ qx.Bootstrap.define("qx.Class",
   defer : function(statics)
   {
     // Binding of already loaded bootstrap classes
-    if (qx.core.Variant.isSet("qx.aspects", "on")) 
+    if (qx.core.Variant.isSet("qx.aspects", "on"))
     {
       for (var classname in qx.Bootstrap.$$registry)
       {
         var statics = qx.Bootstrap.$$registry[classname];
-  
+
         for (var key in statics)
         {
           // only functions, no regexps

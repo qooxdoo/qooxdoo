@@ -58,10 +58,10 @@ qx.Bootstrap.define("qx.bom.client.Engine",
 
     /** {Boolean} Flag to detect if the client is based on the Internet Explorer HTML/JS engine */
     MSHTML : false,
-    
+
     /** {Boolean} Flag to detect if the client engine is assumed */
     UNKNOWN_ENGINE : false,
-    
+
     /** {Boolean} Flag to detect if the client engine version is assumed */
     UNKNOWN_VERSION: false,
 
@@ -138,31 +138,31 @@ qx.Bootstrap.define("qx.bom.client.Engine",
         if (version >= 8 && document.documentMode < 8) {
           version = "7.0";
         }
-        
+
         this.MSHTML = true;
       }
       else
       {
         var failFunction = window.qxFail;
-               
+
         if (failFunction && typeof failFunction === "function") {
           var engine = failFunction();
-         
+
           if (engine.NAME && engine.FULLVERSION)
           {
             engine = engine.NAME;
             this[engine.toUpperCase()] = true;
             version = engine.FULLVERSION;
           }
-        } 
+        }
         else {
           unknownEngine = true;
           unknownVersion = true;
           version = "1.9.0.0";
           engine = "gecko";
           this.GECKO = true;
-        
-          alert("Unsupported client: " + agent 
+
+          alert("Unsupported client: " + agent
             + "! Assumed gecko version 1.9.0.0 (Firefox 3.0).");
         }
       }

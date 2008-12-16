@@ -84,7 +84,7 @@ qx.Class.define("qx.ui.root.Application",
 
   members :
   {
-    
+
     __window : null,
     __doc : null,
 

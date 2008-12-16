@@ -56,7 +56,7 @@ qx.Class.define("qx.ui.menu.Menu",
     // Initialize properties
     this.initVisibility();
     this.initKeepFocus();
-    this.initKeepActive();    
+    this.initKeepActive();
   },
 
 

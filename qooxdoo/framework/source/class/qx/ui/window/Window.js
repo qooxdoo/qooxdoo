@@ -604,7 +604,7 @@ qx.Class.define("qx.ui.window.Window",
 
     /**
      * Opens the window.
-     * 
+     *
      * @return {void}
      */
     open : function()
@@ -641,7 +641,7 @@ qx.Class.define("qx.ui.window.Window",
           if (top < 0) {
             top = 0;
           }
-          
+
           this.moveTo(left, top);
 
           return;
@@ -666,7 +666,7 @@ qx.Class.define("qx.ui.window.Window",
       if (this.isMaximized()) {
         return;
       }
-      
+
       // First check if the parent uses a canvas layout
       // Otherwise maximize() is not possible
       var parent = this.getLayoutParent();
@@ -772,23 +772,23 @@ qx.Class.define("qx.ui.window.Window",
     },
 
     /**
-     * Return <code>true</code> if the window is in maximized state, 
-     * but note that the window in maximized state could also be invisible, this 
+     * Return <code>true</code> if the window is in maximized state,
+     * but note that the window in maximized state could also be invisible, this
      * is equivalent to minimized. So use the {@link qx.ui.window.Window#getMode}
      * to get the window mode.
-     * 
-     * @return {Boolean} <code>true</code> if the window is maximized, 
+     *
+     * @return {Boolean} <code>true</code> if the window is maximized,
      *   <code>false</code> otherwise.
      */
     isMaximized : function()
     {
-      return this.hasState("maximized"); 
+      return this.hasState("maximized");
     },
-    
+
     /**
      * Return the window mode as <code>String</code>:
      * <code>"maximized"</code>, <code>"normal"</code> or <code>"minimized"</code>.
-     * 
+     *
      * @return {String} The window mode as <code>String</code> value.
      */
     getMode : function()
@@ -900,10 +900,10 @@ qx.Class.define("qx.ui.window.Window",
     _onWindowMouseDown : function(e) {
       this.setActive(true);
     },
-    
-    
+
+
     /**
-     * Listens to the "focusout" event to deactivate the window (if the 
+     * Listens to the "focusout" event to deactivate the window (if the
      * currently focused widget is not a child of the window)
      *
      * @param e {qx.event.type.Focus} focus event
@@ -915,9 +915,9 @@ qx.Class.define("qx.ui.window.Window",
       {
         return;
       }
-      
+
       // get the current focused widget and check if it is a child
-      var current = e.getRelatedTarget();      
+      var current = e.getRelatedTarget();
       if (current != null && !qx.ui.core.Widget.contains(this, current))
       {
         this.setActive(false);

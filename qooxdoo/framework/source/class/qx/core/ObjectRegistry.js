@@ -220,7 +220,7 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
 
       delete this.__registry;
     },
-    
+
 
     /**
      * Returns the object registry.

@@ -68,7 +68,7 @@ qx.Class.define("qx.core.Init",
       if (qx.bom.client.System.UNKNOWN_SYSTEM) {
         qx.log.Logger.warn("Could not detect system!");
       }
-      
+
       qx.log.Logger.debug(this, "Load runtime: " + (new Date - qx.Bootstrap.LOADSTART) + "ms");
 
       var app = qx.core.Setting.get("qx.application");

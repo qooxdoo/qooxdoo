@@ -104,7 +104,7 @@ qx.Theme.define("qx.theme.modern.Color",
 
     // text fields
     "border-input" : "#334866",
-    
+
     // disabled text fields
     "border-disabled" : "#969696",
 
