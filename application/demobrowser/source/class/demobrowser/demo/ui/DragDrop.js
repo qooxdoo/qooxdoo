@@ -145,13 +145,13 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
           this.add(items[i]);
         }
       });
-      
+
       targetSimple.addListener("dragover", function(e)
       {
         if (!e.supportsType("items")) {
           e.preventDefault();
         }
-      });      
+      });
 
 
 
@@ -177,7 +177,7 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
 
         this.setValue(e.getData("value").replace(/,/g, "\n"));
       });
-      
+
       textareaTarget.addListener("dragover", function(e)
       {
         if (!e.supportsType("value")) {
@@ -231,11 +231,11 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
       both.addListener("drag", function(e)
       {
         var orig = e.getOriginalTarget();
-        
+
         if (!qx.ui.core.Widget.contains(this, orig)) {
           return;
         }
-        
+
         var origCoords = orig.getContainerLocation();
 
         indicator.setWidth(orig.getBounds().width);

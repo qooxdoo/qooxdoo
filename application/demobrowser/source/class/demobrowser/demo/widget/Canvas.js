@@ -26,7 +26,7 @@ qx.Class.define("demobrowser.demo.widget.Canvas",
     main: function()
     {
       this.base(arguments);
-      
+
       var label = new qx.ui.basic.Label("Resize the windows to see the effect.");
       this.getRoot().add(label, {left: 10, top: 10});
 

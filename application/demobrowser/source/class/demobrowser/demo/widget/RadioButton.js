@@ -26,7 +26,7 @@ qx.Class.define("demobrowser.demo.widget.RadioButton",
     main: function()
     {
       this.base(arguments);
-      
+
       var label = new qx.ui.basic.Label("What is your favorite color?");
 
       // create the main layout
@@ -38,7 +38,7 @@ qx.Class.define("demobrowser.demo.widget.RadioButton",
       container.setPadding(20);
 
       this.getRoot().add(container, {left:0,top:0});
-      
+
       container.add(label);
 
       // Create some radio buttons

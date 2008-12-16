@@ -42,7 +42,7 @@ qx.Class.define("demobrowser.demo.animation.Tree_Highlight",
       })
       treeGroup.setLayout(new qx.ui.layout.Canvas());
       this._container.add(treeGroup);
-      
+
       this._treeGroup = treeGroup;
 
       var tree = this.getTree();
@@ -339,7 +339,7 @@ qx.Class.define("demobrowser.demo.animation.Tree_Highlight",
       var isFolder = current instanceof qx.ui.tree.TreeFolder;
       var isLastItem = this._tree.getNextSiblingOf(current) == null;
       var isFirstItem = this._tree.getPreviousSiblingOf(current) == null;
-      
+
       this.btnAddFolder.setEnabled(isFolder);
       this.btnAddFile.setEnabled(isFolder);
       this.btnAddBefore.setEnabled(!isTopLevel);

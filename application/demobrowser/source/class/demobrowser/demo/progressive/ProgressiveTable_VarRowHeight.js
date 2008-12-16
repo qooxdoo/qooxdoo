@@ -94,7 +94,7 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveTable_VarRowHeight",
                 return;
               }
             }
-            
+
             // Should never get here
             throw new Error("Image data for " + source + " not found");
           },

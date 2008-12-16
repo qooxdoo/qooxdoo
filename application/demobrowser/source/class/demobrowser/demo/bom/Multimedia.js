@@ -27,21 +27,21 @@ qx.Class.define("demobrowser.demo.bom.Multimedia",
     main : function()
     {
       this.base(arguments);
-      
+
       window.APPLICATION = this;
-      
+
       var multimedia = qx.bom.client.Multimedia;
-      
+
       var plugins = [ "quicktime", "wmv", "divx", "silverlight" ];
       var installed, el;
       for (var i=0, j=plugins.length; i<j; i++)
       {
         installed = multimedia.has(plugins[i]);
         el = document.getElementById(plugins[i]);
-        
+
         el.innerHTML = installed ? "true" : "false";
         el.className = installed ? "true" : "false";
       }
-    } 
+    }
   }
 });

@@ -28,7 +28,7 @@ qx.Class.define("demobrowser.demo.test.Destructor_Flash",
   members :
   {
     __data : [],
-    
+
     __count : 0,
 
     main : function()
@@ -40,13 +40,13 @@ qx.Class.define("demobrowser.demo.test.Destructor_Flash",
       var timer = new qx.event.Timer(5000);
       timer.addListener("interval", this.runTest, this);
       timer.start();
-      
+
       this.runTest();
     },
 
     runTest : function()
     {
-      for (var i = 0; i < 5; i++) 
+      for (var i = 0; i < 5; i++)
       {
         // Create div for flash object
         var flash = qx.bom.Element.create("div");
@@ -56,30 +56,30 @@ qx.Class.define("demobrowser.demo.test.Destructor_Flash",
 
         var id = "FlashMovie" + this.__count;
         this.__count++;
-        
+
         // Create flash movie
         qx.bom.Flash.create(flash, "TestFlash.swf", id);
-        
+
         this.debug("created: " + id);
         this.__data.push(flash);
       }
-      
+
       // Create timer to delete movies
       var timer = qx.event.Timer.once(this.clear, this, 2500);
       timer.start();
     },
-    
+
     clear : function()
     {
         var data = this.__data;
         for (var i=0, l=data.length; i<l; i++) {
           var id = data[i].firstChild.id;
-          
+
           // Clear flash object
           qx.bom.Flash.destroy(data[i]);
-          
+
           this.debug("cleaned: " + id);
-          
+
           // At the end remove div
           data[i].parentNode.removeChild(data[i]);
         }

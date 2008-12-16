@@ -46,7 +46,7 @@ qx.Class.define("demobrowser.demo.widget.ComboBox",
 
       // example 3: wide combo box with a large list
       this._createWideExample();
-      
+
       // example 4: combo combo box with HTML (rich) text
       this._createHtmlExample();
     },
@@ -140,7 +140,7 @@ qx.Class.define("demobrowser.demo.widget.ComboBox",
      * Creates a HTML example.
      * This means that a combobox will be created and filled with
      * some text, that contain HTML tags and entities.
-     * 
+     *
      * @return {void}
      */
     _createHtmlExample : function()
@@ -164,16 +164,16 @@ qx.Class.define("demobrowser.demo.widget.ComboBox",
                    "<u>Underlined Text</u>",
                    "<i>Italic Text</i>",
                    "HTML entities: &laquo; &lt; &amp; &gt; &raquo;"];
-     
-      // fill the combo box with some stuff             
+
+      // fill the combo box with some stuff
       for (var i = 0; i < items.length; i++)
       {
         var tempItem = new qx.ui.form.ListItem(items[i]);
-        
+
         if (i > 0) {
           tempItem.setRich(true);
         }
-        
+
         comboBox.add(tempItem);
       }
 
@@ -220,7 +220,7 @@ qx.Class.define("demobrowser.demo.widget.ComboBox",
         top  : 300
       });
     }
-    
-    
+
+
   }
 });

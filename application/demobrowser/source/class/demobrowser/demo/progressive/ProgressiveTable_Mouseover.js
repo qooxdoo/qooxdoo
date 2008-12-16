@@ -85,7 +85,7 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveTable_Mouseover",
 });
 
 /**
- * For demonstration purposes the following class is added to the same file as 
+ * For demonstration purposes the following class is added to the same file as
  * the application class. For a regular qooxdoo application each class must live
  * in a file of its own. You may neglect any warnings when generating this demo.
  */

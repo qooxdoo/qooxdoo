@@ -26,13 +26,13 @@ qx.Class.define("demobrowser.demo.ui.SelectBox_EdgeCases",
     main: function()
     {
       this.base(arguments);
-      
+
       this.addBox1();
       this.addBox2();
       this.addBox3();
     },
-    
-    
+
+
     addBox1 : function()
     {
       this.getRoot().add(new qx.ui.basic.Label("Long list"), {left: 25, top: 20});
@@ -43,7 +43,7 @@ qx.Class.define("demobrowser.demo.ui.SelectBox_EdgeCases",
         var tempItem = new qx.ui.form.ListItem("" + i);
         selectBox3.add(tempItem);
       }
-      this.getRoot().add(selectBox3, {left: 20, top: 40});      
+      this.getRoot().add(selectBox3, {left: 20, top: 40});
     },
 
     addBox2 : function()
@@ -61,13 +61,13 @@ qx.Class.define("demobrowser.demo.ui.SelectBox_EdgeCases",
         tempItem.setFont(fonts[i]);
         selectBox4.add(tempItem);
       }
-      this.getRoot().add(selectBox4, {left: 20, bottom: 20});      
+      this.getRoot().add(selectBox4, {left: 20, bottom: 20});
     },
 
     addBox3 : function()
     {
       this.getRoot().add(new qx.ui.basic.Label("Long button, short text"), {left: 205, top: 20});
-      
+
       var selectBox5 = new qx.ui.form.SelectBox();
       selectBox5.setWidth(300);
       selectBox5.setMaxListHeight(100);
@@ -79,7 +79,7 @@ qx.Class.define("demobrowser.demo.ui.SelectBox_EdgeCases",
         }
         selectBox5.add(tempItem);
       }
-      this.getRoot().add(selectBox5, {left: 200, top: 40});      
+      this.getRoot().add(selectBox5, {left: 200, top: 40});
     }
   }
 });
