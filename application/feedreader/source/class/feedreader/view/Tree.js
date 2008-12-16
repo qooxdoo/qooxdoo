@@ -102,21 +102,21 @@ qx.Class.define("feedreader.view.Tree",
 
       // create and add a folder for every feed
       var folder = new qx.ui.tree.TreeFolder(feed.getTitle());
-      
+
       this._updateFolderState(folder, feed.getState());
       folder.setUserData("feed", feed);
-      
+
       if (feed.getCategory() == "static") {
         this._staticFeedsFolder.add(folder);
       } else {
         this._userFeedsFolder.add(folder);
-      }      
+      }
     },
-    
+
 
     /**
      * Executed on removal of a feed from the list.
-     * 
+     *
      * @param e {qx.event.type.DataEvent} Incoming data event. Contains the remove feed.
      */
     _onFeedRemoved : function(e)
@@ -134,7 +134,7 @@ qx.Class.define("feedreader.view.Tree",
      */
     _updateFolderState : function(folder, state)
     {
-      if (state == "new" || state == "loading") 
+      if (state == "new" || state == "loading")
       {
         folder.setIcon("feedreader/images/loading22.gif");
         folder.resetEnabled();
@@ -188,7 +188,7 @@ qx.Class.define("feedreader.view.Tree",
           return folders[i];
         }
       }
-      
+
       return null;
     },
 
@@ -241,15 +241,15 @@ qx.Class.define("feedreader.view.Tree",
       }
     }
   },
-  
-  
-  
+
+
+
   /*
    *****************************************************************************
       DESTRUCTOR
    *****************************************************************************
    */
-  
+
   destruct : function()
   {
     this._disposeFields("_feedList");

@@ -140,26 +140,26 @@ qx.Class.define("feedreader.model.Feed",
 
   members :
   {
-    /** 
+    /**
      * Clear all articles
      */
     clearArticles : function()
     {
       var list = this.__articles;
-      for (var i=0, l=list.length; i<l; i++) 
+      for (var i=0, l=list.length; i<l; i++)
       {
         this.fireDataEvent("remove", list[i]);
         list[i].dispose();
       }
-      
+
       // Clear array
       list.length = 0;
-      
+
       // Clear selection
       this.resetSelected();
     },
-    
-    
+
+
     /**
      * Remove the article to the feed
      *
@@ -170,8 +170,8 @@ qx.Class.define("feedreader.model.Feed",
       qx.lang.Array.remove(this.__articles, article);
       this.fireDataEvent("remove", article);
     },
-    
-    
+
+
     /**
      * Add an article to the feed
      *
@@ -193,15 +193,15 @@ qx.Class.define("feedreader.model.Feed",
       return this.__articles;
     }
   },
-  
-  
-  
+
+
+
   /*
    *****************************************************************************
       DESTRUCTOR
    *****************************************************************************
    */
-  
+
   destruct : function()
   {
     this._disposeArray("__articles");
