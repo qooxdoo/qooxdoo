@@ -971,10 +971,17 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       this.frameWindow = iframe.getWindow();
 
+      if (this.__loadTimer)
+      {
+        this.__loadTimer.stop();
+        this.__loadTimer = null;
+      }
+      
       // Repeat until testrunner in iframe is loaded
       if (!this.frameWindow.testrunner)
       {
-        qx.event.Timer.once(this._ehIframeOnLoad, this, 100);
+        //this.debug("no testrunner" + this.frameWindow);
+        this.__loadTimer = qx.event.Timer.once(this._ehIframeOnLoad, this, 100);
         return;
       }
 
@@ -983,9 +990,12 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       if (!this.loader)
       {
-        qx.event.Timer.once(this._ehIframeOnLoad, this, 100);
+        //this.debug("no loader");
+        this.__loadTimer = qx.event.Timer.once(this._ehIframeOnLoad, this, 100);
         return;
       }
+      
+      //this.warn("loaded!!!!!");
 
       var testRep = this.loader.getTestDescriptions();
       this.tests.handler = new testrunner.runner.TestHandler(testRep);
