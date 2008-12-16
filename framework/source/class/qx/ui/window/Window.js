@@ -638,7 +638,9 @@ qx.Class.define("qx.ui.window.Window",
           var left = Math.round((bounds.width - hint.width) / 2);
           var top = Math.round((bounds.height - hint.height) / 2);
 
-          if (top < 0) top = 0;
+          if (top < 0) {
+            top = 0;
+          }
           
           this.moveTo(left, top);
 
