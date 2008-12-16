@@ -62,17 +62,17 @@ qx.Class.define("demobrowser.demo.legacy.Table_CellEditor",
 
       // cell renderer factory function
       // returns a cell renderer instance
-    	var propertyCellRendererFactoryFunc = function (cellInfo)
+      var propertyCellRendererFactoryFunc = function (cellInfo)
       {
-        var table 			 = cellInfo.table;
-  			var tableModel 	 = table.getTableModel();
-  			var rowData			 = tableModel.getRowData(cellInfo.row);
-  			var metaData		 = rowData[3];
+        var table        = cellInfo.table;
+        var tableModel    = table.getTableModel();
+        var rowData       = tableModel.getRowData(cellInfo.row);
+        var metaData     = rowData[3];
 
-  			for ( var cmd in metaData )
-  			{
-  				switch ( cmd )
-  				{
+        for ( var cmd in metaData )
+        {
+          switch ( cmd )
+          {
             case "type":
               switch ( metaData['type'])
               {
@@ -91,37 +91,37 @@ qx.Class.define("demobrowser.demo.legacy.Table_CellEditor",
                 }
               });
               renderer.setReplaceMap(replaceMap);
-  						renderer.addReversedReplaceMap();
+              renderer.addReversedReplaceMap();
               return renderer;
-  				}
+          }
         }
         return new qx.legacy.ui.table.cellrenderer.Default;
       }
 
       // create the  "meta" cell renderer object
-  		propertyCellRendererFactory =
-  			new qx.legacy.ui.table.cellrenderer.Dynamic(propertyCellRendererFactoryFunc);
+      propertyCellRendererFactory =
+        new qx.legacy.ui.table.cellrenderer.Dynamic(propertyCellRendererFactoryFunc);
 
       // cell editor factory function
       // returns a cellEditorFactory instance based on data in the row itself
-  		var propertyCellEditorFactoryFunc = function (cellInfo)
-  		{
-  			var table 			= cellInfo.table;
-  			var tableModel 	= table.getTableModel();
-  			var rowData			= tableModel.getRowData(cellInfo.row);
-  			var metaData		= rowData[3];
-  			var cellEditor 	= new qx.legacy.ui.table.celleditor.TextField;
-  			var validationFunc 	= null;
+      var propertyCellEditorFactoryFunc = function (cellInfo)
+      {
+        var table       = cellInfo.table;
+        var tableModel   = table.getTableModel();
+        var rowData      = tableModel.getRowData(cellInfo.row);
+        var metaData    = rowData[3];
+        var cellEditor   = new qx.legacy.ui.table.celleditor.TextField;
+        var validationFunc   = null;
 
-  			for ( var cmd in metaData )
-  			{
-  				switch ( cmd )
-  				{
-  					case "options":
-  						cellEditor = new qx.legacy.ui.table.celleditor.ComboBox;
-  						cellEditor.setListData( metaData['options'] );
-  						cellEditor.setEditable( false );
-  						break;
+        for ( var cmd in metaData )
+        {
+          switch ( cmd )
+          {
+            case "options":
+              cellEditor = new qx.legacy.ui.table.celleditor.ComboBox;
+              cellEditor.setListData( metaData['options'] );
+              cellEditor.setEditable( false );
+              break;
 
             case "type":
                switch ( metaData['type'] )
@@ -129,62 +129,62 @@ qx.Class.define("demobrowser.demo.legacy.Table_CellEditor",
                  case "password":
                    cellEditor = new qx.legacy.ui.table.celleditor.PasswordField; break;
                  case "checkbox":
-  						     cellEditor = new qx.legacy.ui.table.celleditor.CheckBox; break;
+                   cellEditor = new qx.legacy.ui.table.celleditor.CheckBox; break;
                  case "email":
-      						 cellEditor.setValidationFunction (function( newValue, oldValue ){
-      							 var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*\.(\w{2}|(com|net|org|edu|int|mil|gov|arpa|biz|aero|name|coop|info|pro|museum))$/;
-      							 if ( re.test(newValue) )
+                   cellEditor.setValidationFunction (function( newValue, oldValue ){
+                     var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*\.(\w{2}|(com|net|org|edu|int|mil|gov|arpa|biz|aero|name|coop|info|pro|museum))$/;
+                     if ( re.test(newValue) )
                     {
                       return newValue;
                     }
-      							 alert("You did not enter a valid email address");
-      							 return oldValue;
-      						 });
-      						 break;
+                     alert("You did not enter a valid email address");
+                     return oldValue;
+                   });
+                   break;
                }
 
-  						break;
+              break;
 
-  					case "editable":
-  						cellEditor.setEditable( metaData['editable'] === true );
-  						break;
+            case "editable":
+              cellEditor.setEditable( metaData['editable'] === true );
+              break;
 
-  					case "regExp":
-  						cellEditor.setValidationFunction (function( newValue, oldValue ){
-  							var re = new RegExp(metaData['regExp']);
-  							if ( re.test(newValue) )
+            case "regExp":
+              cellEditor.setValidationFunction (function( newValue, oldValue ){
+                var re = new RegExp(metaData['regExp']);
+                if ( re.test(newValue) )
                 {
                   return newValue;
                 }
-  							alert(metaData['failMsg']);
-  							return oldValue;
-  						});
-  						break;
+                alert(metaData['failMsg']);
+                return oldValue;
+              });
+              break;
 
-   					case "validationFunc":
+             case "validationFunc":
               cellEditor.setValidationFunction (metaData['validationFunc']);
-  						break;
+              break;
 
-  					case "required":
-  						validationFunc = function( newValue, oldValue ){
-  							if (! newValue)
-  							{
-  								alert("You need to supply a value here");
-  								return oldValue;
-  							}
-  							return newValue;
-  						};
-  						break;
-  				}
-  			}
-  			return cellEditor;
-  		}
+            case "required":
+              validationFunc = function( newValue, oldValue ){
+                if (! newValue)
+                {
+                  alert("You need to supply a value here");
+                  return oldValue;
+                }
+                return newValue;
+              };
+              break;
+          }
+        }
+        return cellEditor;
+      }
 
       // create a "meta" cell editor object
-  		propertyCellEditorFactory =
-  			new qx.legacy.ui.table.celleditor.Dynamic(propertyCellEditorFactoryFunc);
+      propertyCellEditorFactory =
+        new qx.legacy.ui.table.celleditor.Dynamic(propertyCellEditorFactoryFunc);
 
-  		// create table
+      // create table
       var propertyEditor_tableModel = new qx.legacy.ui.table.model.Simple();
       propertyEditor_tableModel.setColumns(['Property','Property','Doubleclick on cell to edit value']);
       var propertyEditor_resizeBehaviour = { tableColumnModel : function(obj){ return new qx.legacy.ui.table.columnmodel.Resize(obj); } };
@@ -220,16 +220,16 @@ qx.Class.define("demobrowser.demo.legacy.Table_CellEditor",
       // create event listener for data change event. this would normally
       // send the data back to the server etc.
       propertyEditor.getTableModel().addListener("dataChanged",function(event){
-  			if ( ! event instanceof qx.event.type.DataEvent )
+        if ( ! event instanceof qx.event.type.DataEvent )
         {
           return;
         }
-  			var changedData = event.getData();
+        var changedData = event.getData();
 
-  		  // get changed data
-  		  var model 	= this.getTableModel();
-  		  var key   	= model.getValue(0,changedData.firstRow);
-  		  var value 	= model.getValue(changedData.firstColumn,changedData.firstRow);
+        // get changed data
+        var model   = this.getTableModel();
+        var key     = model.getValue(0,changedData.firstRow);
+        var value   = model.getValue(changedData.firstColumn,changedData.firstRow);
 
         this.info("User edited property '" + key + "' and entered value '" + value +"'.");
 

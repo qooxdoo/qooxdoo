@@ -154,7 +154,7 @@ qx.Class.define("demobrowser.demo.widget.List",
           dragCheck.setEnabled(false);
           quickCheck.setEnabled(true);
         }
-        else if (value == "multi" || value == "addaptive") 
+        else if (value == "multi" || value == "addaptive")
         {
           dragCheck.setEnabled(true);
           quickCheck.setEnabled(false);

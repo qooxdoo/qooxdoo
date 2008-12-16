@@ -32,7 +32,7 @@ qx.Class.define("demobrowser.demo.bom.Flash",
       qx.bom.element.Style.set(domElement, "width", "300px");
       qx.bom.element.Style.set(domElement, "height", "120px");
       document.body.appendChild(domElement);
-      
+
       qx.bom.Flash.create(domElement, "Flash.swf", "flashMovie");
     }
   }

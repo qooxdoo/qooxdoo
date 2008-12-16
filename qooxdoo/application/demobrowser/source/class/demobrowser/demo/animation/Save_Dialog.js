@@ -35,7 +35,7 @@ qx.Class.define("demobrowser.demo.animation.Save_Dialog",
         ).set({
           from : 0,
           to : 1
-        });  
+        });
 
         this.__hideEffect = new qx.fx.effect.core.Fade(
           this.__dialog.getContainerElement().getDomElement()
@@ -58,17 +58,17 @@ qx.Class.define("demobrowser.demo.animation.Save_Dialog",
     },
 
 
-		showDialog : function()
-		{
+    showDialog : function()
+    {
       this.__dialog.setZIndex(1);
       this.__showEffect.start();
-		},
+    },
 
 
-		hideDialog : function()
-		{
-			this.__hideEffect.start();
-		},
+    hideDialog : function()
+    {
+      this.__hideEffect.start();
+    },
 
 
     main: function()
@@ -143,28 +143,28 @@ qx.Class.define("demobrowser.demo.animation.Save_Dialog",
 
       /* Labels  */
       var label1 = new qx.ui.basic.Label('<b "font-size:12pt;">Do you want to save the changes you made in the document "Untitled"?</b>');
-			var label2 = new qx.ui.basic.Label("Your changes will be lost if you don't save them.");
+      var label2 = new qx.ui.basic.Label("Your changes will be lost if you don't save them.");
 
-			label1.setRich(true);
+      label1.setRich(true);
 
-			this.__dialog.add(label1, { row: 0, column : 0, colSpan : 3});
-			this.__dialog.add(label2, { row: 1, column : 0, colSpan : 3});
+      this.__dialog.add(label1, { row: 0, column : 0, colSpan : 3});
+      this.__dialog.add(label2, { row: 1, column : 0, colSpan : 3});
 
-			/* Buttons */
+      /* Buttons */
       var buttons = [
-      	"Don't save",
-      	"Cancel",
-      	"Save..."
-     	];
+        "Don't save",
+        "Cancel",
+        "Save..."
+       ];
 
       for(var i=0; i<buttons.length; i++)
       {
-      	var tmp = new qx.ui.form.Button(buttons[i]);
-      	tmp.setAllowStretchX(false);
-	      this.__dialog.add(tmp, {row: 3, column : i});
+        var tmp = new qx.ui.form.Button(buttons[i]);
+        tmp.setAllowStretchX(false);
+        this.__dialog.add(tmp, {row: 3, column : i});
 
-	      /* Hide dialog on click */
-	      tmp.addListener("execute", this.hideDialog, this);
+        /* Hide dialog on click */
+        tmp.addListener("execute", this.hideDialog, this);
       }
 
     }

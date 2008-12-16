@@ -5,11 +5,11 @@ qx.Theme.define("demobrowser.Appearance",
 
   appearances :
   {
-    "demo-tree" : 
+    "demo-tree" :
     {
       alias : "tree",
       include : "tree",
-      
+
       style : function()
       {
         return {

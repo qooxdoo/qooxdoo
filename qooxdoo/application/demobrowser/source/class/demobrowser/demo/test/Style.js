@@ -33,7 +33,7 @@ qx.Class.define("demobrowser.demo.test.Style",
       document.body.appendChild(myElement);
 
       myElement.id = "testDiv";
-      myElement.innerHTML = 'Welcome to <br><b style="color:#F3FFB3;">qooxdoo</b> animations!';  
+      myElement.innerHTML = 'Welcome to <br><b style="color:#F3FFB3;">qooxdoo</b> animations!';
     }
   }
 });

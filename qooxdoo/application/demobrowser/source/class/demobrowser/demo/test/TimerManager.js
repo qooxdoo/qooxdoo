@@ -23,7 +23,7 @@ qx.Class.define("demobrowser.demo.test.TimerManager",
 
   members :
   {
-    
+
     startTimers : function()
     {
       var timer = qx.util.TimerManager.getInstance();
@@ -75,10 +75,10 @@ qx.Class.define("demobrowser.demo.test.TimerManager",
     main : function()
     {
       this.base(arguments);
-      
+
       var layout = new qx.ui.layout.VBox(5);
       var container = new qx.ui.container.Composite(layout);
-      
+
       var btStart = new qx.ui.form.Button("Start timers");
       btStart.set({
         allowGrowX : false,
@@ -88,16 +88,16 @@ qx.Class.define("demobrowser.demo.test.TimerManager",
         btStart.setEnabled(false);
         this.startTimers();
       }, this)
-      
+
       var textarea = new qx.ui.form.TextArea();
       textarea.set({
         width : 400,
         height: 300
       });
-      
-      
+
+
       this.__textarea = textarea;
-      
+
       container.add(textarea);
       container.add(btStart);
 

@@ -24,7 +24,7 @@ qx.Class.define("demobrowser.demo.widget.SplitPane",
   members :
   {
     __pane : null,
-    
+
     main: function()
     {
       this.base(arguments);
@@ -116,7 +116,7 @@ qx.Class.define("demobrowser.demo.widget.SplitPane",
       var orientation = this.__pane.getOrientation();
       this.__pane.setOrientation(orientation == "horizontal" ? "vertical" : "horizontal");
     },
-    
+
     /**
      * Changes the SplitPane's children visibility
      * @param e {qx.event.type.Data} Incoming data event
@@ -124,7 +124,7 @@ qx.Class.define("demobrowser.demo.widget.SplitPane",
     _changeVisiblity : function(e)
     {
       var data = e.getData();
-      
+
       if(data == "both")
       {
         this._container1.show();
