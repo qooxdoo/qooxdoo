@@ -30,6 +30,7 @@
     "build-script",
     "clean",
     "distclean",
+    "fix",
     "publish",
     "source",
     "source-data",
@@ -38,8 +39,7 @@
     "source-script",
     "test",
     "test-source",
-    "translation",
-    "fix"
+    "translation"
   ],
 
   "let" :
@@ -78,7 +78,7 @@
 
       "settings" :
       {
-        "qx.version" : "0.8.1-pre",
+        "qx.version" : "0.8.1",
         "qx.application" : "${APPLICATION}.Application",
         "qx.theme" : "${THEME}"
       },
