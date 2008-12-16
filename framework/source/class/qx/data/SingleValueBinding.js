@@ -45,6 +45,11 @@ qx.Class.define("qx.data.SingleValueBinding",
      * <code>
      * qx.data.SingleValueBinding.bind(a, "child.abc", textfield, "value");
      * </code>
+     * Also arrays can be bound as a source property.
+     * <code>
+     * qx.data.SingleValueBinding.bind(a, "children[0]", textfield, value);
+     * qx.data.SingleValueBinding.bind(a, "children[last]", textfield2, value);
+     * </code>
      *
      * As you can see in this example, the abc property of a's b will be bound
      * to the textfield. If now the value of b changed or even the a will get a
@@ -232,7 +237,10 @@ qx.Class.define("qx.data.SingleValueBinding",
       value = this.__convertValue(
         value, targetObject, targetProperty, options
       );
-      targetObject["set" + qx.lang.String.firstUp(targetProperty)](value);
+      // only set the initial value if one is given
+      if (value != undefined) {
+        targetObject["set" + qx.lang.String.firstUp(targetProperty)](value);              
+      }
     },
 
 
@@ -256,6 +264,19 @@ qx.Class.define("qx.data.SingleValueBinding",
         if (qx.lang.String.endsWith(name, "]")) {
           // get the inner value of the array notation
           var arrayIndex = name.substring(name.indexOf("[") + 1, name.indexOf("]"));
+          
+          // check the arrayIndex
+          if (name.indexOf("]") != name.length - 1) {
+            throw new Error("Please use only one array at a time: "
+              + name + " does not work.");
+          }
+          if (arrayIndex !== "last") {
+            qx.log.Logger.debug("index" + arrayIndex);
+            if (arrayIndex == "" || isNaN(parseInt(arrayIndex))) {
+              throw new Error("No number or 'last' value hast been given"
+                + " in a array binding: " + name + " does not work.");
+            }
+          }
 
           // store the property name without the array notation
           propertyNames[i] = name.substring(0, name.indexOf("["));

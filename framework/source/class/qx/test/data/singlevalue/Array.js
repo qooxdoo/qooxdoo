@@ -42,7 +42,8 @@ qx.Class.define("qx.test.data.singlevalue.Array",
         children : {
           check : "qx.data.Array",
           event : "changeChildren",
-          init : new qx.data.Array()
+          nullable: true,
+          init : null
         },
 
         name : {
@@ -66,13 +67,16 @@ qx.Class.define("qx.test.data.singlevalue.Array",
     setUp : function()
     {
       this.__a = new test.MultiBinding().set({
-        name: "a"
+        name: "a",
+        children: new qx.data.Array()
       });
       this.__b1 = new test.MultiBinding().set({
-        name: "b1"
+        name: "b1",
+        children: new qx.data.Array()
       });
       this.__b2 = new test.MultiBinding().set({
-        name: "b2"
+        name: "b2",
+        children: new qx.data.Array()
       });
       this.__label = new qx.ui.basic.Label();
 
@@ -185,7 +189,7 @@ qx.Class.define("qx.test.data.singlevalue.Array",
       this.__a.getChildren().push(this.__b1);
       this.__a.getChildren().push(this.__b2);
 
-      // bind the last element
+      // bind the element
       qx.data.SingleValueBinding.bind(this.__a, "children[0].name", this.__label, "content");
       // check the binding
       this.assertEquals("b1", this.__label.getContent(), "children[0].name binding does not work!");
@@ -199,6 +203,96 @@ qx.Class.define("qx.test.data.singlevalue.Array",
       this.__b2.setName("AFFE");
       // check the binding
       this.assertEquals("AFFE", this.__label.getContent(), "children[0].name binding does not work!");
+    },
+    
+    
+    test2Arrays: function() {
+      // create the objects
+      this.__a.getChildren().push(this.__b1);
+      this.__b1.getChildren().push(this.__b2);
+      
+      // bind the element
+      qx.data.SingleValueBinding.bind(this.__a, "children[0].children[0].name", this.__label, "content"); 
+      // check the binding
+      this.assertEquals("b2", this.__label.getContent(), "children[0].children[0].name binding does not work!");
+      
+      // rename the last element
+      this.__b2.setName("OHJE");
+      // check the binding
+      this.assertEquals("OHJE", this.__label.getContent(), "children[0].name binding does not work!");      
+    },
+    
+    
+    testSplice: function() {
+      // bind the first element
+      qx.data.SingleValueBinding.bind(this.__a, "array[0]", this.__label, "content"); 
+      
+      // remove the first and add "eins" at popsition 0
+      this.__a.getArray().splice(0, 1, "eins");
+      
+      // check the binding
+      this.assertEquals("eins", this.__label.getContent(), "Array[last] binding does not work!");
+    },
+    
+    
+    testWrongInput: function() {
+      var a = this.__a;
+      var label = this.__label;
+            
+      // bind a senseless value
+      this.assertException(function() {
+        qx.data.SingleValueBinding.bind(a, "array[affe]", label, "content");        
+      }, Error, null, "Affe not an array value.");
+      
+      // bind empty array
+      this.assertException(function() {
+        qx.data.SingleValueBinding.bind(a, "array[]", label, "content");
+      }, Error, null, "'' not an array value.");
+      
+      // bind 2 arrays
+      this.assertException(function() {
+        qx.data.SingleValueBinding.bind(a, "array[0][0]", label, "content");
+      }, Error, null, "array[][] not an array value.");    
+      
+      // bind an float    
+      this.assertException(function() {
+        qx.data.SingleValueBinding.bind(a, "array[1.5]", label, "content");
+      }, Error, null, "1.5 not an array value.");
+      
+      // bind strange value   
+      this.assertException(function() {
+        qx.data.SingleValueBinding.bind(a, "array[[affe]]", label, "content");
+      }, Error, null, "'[[affe]]' not an array value.");
+      
+      // test map in array   
+      this.assertException(function() {
+        qx.data.SingleValueBinding.bind(a, "array[{name: 'a'}]", label, "content");
+      }, Error, null, "'[affe]' not an array value.");
+      
+      // test null in the array
+      this.assertException(function() {
+        qx.data.SingleValueBinding.bind(a, "array[null]", label, "content");
+      }, Error, null, "'null' not an array value.");      
+    },
+    
+    
+    testLateBinding: function() {
+      // create the precondition
+      this.__a.setArray(new qx.data.Array());
+      // bind the last element
+      qx.data.SingleValueBinding.bind(this.__a, "array[last]", this.__label, "content");
+      
+      // check the binding
+      this.assertNull(this.__label.getContent(), "Late binding does not work!");
+      
+      // set a value and check it
+      this.__a.getArray().push("1");
+      this.assertEquals("1", this.__label.getContent(), "Late binding does not work!");
+      
+      // set another value and check it
+      this.__a.getArray().push("2");
+      this.assertEquals("2", this.__label.getContent(), "Late binding does not work!");
+      
     }
 
   }
