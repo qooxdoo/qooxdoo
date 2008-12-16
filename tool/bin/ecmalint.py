@@ -119,7 +119,7 @@ class Lint:
                 prot = "protected"
 
             if prot == "protected":
-                self.log(node, "Protected data field '%s'. Protected fields are deprecated. Better use private fileds in combination with getter and setter methods." % field)
+                self.log(node, "Protected data field '%s'. Protected fields are deprecated. Better use private fields in combination with getter and setter methods." % field)
             elif not field in restricted:
                 self.log(node, "Implicit declaration of %s field '%s'. You should list this field in the members section." % (prot, field))
 
