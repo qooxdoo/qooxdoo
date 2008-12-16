@@ -40,7 +40,7 @@ qx.Class.define("playground.Application",
    *****************************************************************************
       MEMBERS
    *****************************************************************************
- */
+  */
 
   members :
   {
@@ -105,6 +105,8 @@ qx.Class.define("playground.Application",
       // qooxdoo mainsplit, contains the textarea and the infosplitpane
       var mainsplit = new qx.ui.splitpane.Pane("horizontal");
 
+      this.mainsplit = mainsplit;
+
       var infosplit = new qx.ui.splitpane.Pane("vertical");
       infosplit.setDecorator(null);
 
@@ -150,12 +152,11 @@ qx.Class.define("playground.Application",
         self.dummy.setMinHeight(data.height);
       });
 
-      //Adds the event listener to the buttons
+      // Adds the event listener to the buttons
       this.__runApplication(this.__playRoot);
       this.__openApiViewer();
       this.__openHelpDialog();
       this.__openLog();
-
 
       // Back button and bookmark support
       this._history = qx.bom.History.getInstance();
@@ -163,24 +164,43 @@ qx.Class.define("playground.Application",
       this._history.addListener("request", function(e)
       {
         var newSample = e.getData();
-        if(this.sampleContainer[state] != undefined){
-           this.textarea.setValue(this.sampleContainer[newSample]);
+
+        if (this.sampleContainer[state] != undefined)
+        {
+          this.textarea.setValue(this.sampleContainer[newSample]);
+
+          if (this.editor != undefined) {
+            this.editor.setCode(this.sampleContainer[newSample]);
+          }
+
           this.updatePlayground(this.__playRoot);
+
           // update state on example change
           this._history.addToHistory(newSample, newSample);
         }
       },
       this);
 
-      //initializing value of the textarea
+      // initializing value of the textarea
       var state = this._history.getState();
 
-      //checks for the state, if the state contains an example, it will initialize
-      //the application with the selected sample
-      if(this.sampleContainer[state] != undefined){
-        this.textarea.setValue(this.sampleContainer[state !== null ? state : "Hello World"]);
-      } else {
-        this.textarea.setValue(this.sampleContainer["Hello World"]);
+      // checks for the state, if the state contains an example, it will initialize
+      // the application with the selected sample
+      if (this.sampleContainer[state] != undefined)
+      {
+        if (this.editor == undefined) {
+          this.textarea.setValue(this.sampleContainer[state !== null ? state : "Hello World"]);
+        } else {
+          this.editor.setCode(this.sampleContainer[state !== null ? state : "Hello World"]);
+        }
+      }
+      else
+      {
+        if (this.editor == undefined) {
+          this.textarea.setValue(this.sampleContainer["Hello World"]);
+        } else {
+          this.editor.setCode(this.sampleContainer["Hello World"]);
+        }
       }
 
       this.updatePlayground(this.__playRoot);
@@ -231,7 +251,9 @@ qx.Class.define("playground.Application",
       var layout = new qx.ui.layout.VBox();
       layout.setSeparator("separator-vertical");
 
-      var container = new qx.ui.container.Composite(layout).set({ decorator : "main" });
+      var container = new playground.EditorContainer();  // qx.ui.container.Composite(layout).set({ decorator : "main" });
+
+      this.container = container;
 
       var caption = new qx.ui.basic.Label(this.tr("Source Code")).set(
       {
@@ -244,7 +266,7 @@ qx.Class.define("playground.Application",
 
       container.add(caption);
 
-      //The textarea to write your own source
+      // The textarea to write your own source
       this.textarea = new qx.ui.form.TextArea;
 
       this.textarea.set(
@@ -255,7 +277,7 @@ qx.Class.define("playground.Application",
       });
 
       container.add(this.textarea, { flex : 1 });
-/*
+
       // this code part uses the Codemirror library to add syntax highlighting
       // to the current textarea
       this.textarea.addListenerOnce("appear", function()
@@ -263,31 +285,40 @@ qx.Class.define("playground.Application",
         var height = this.textarea.getBounds().height;
         var width = this.textarea.getBounds().width;
 
-
         this.textarea.getContentElement().getDomElement().style.display = "none";
 
-        this.myEditor = new CodeMirror( this.textarea.getContainerElement().getDomElement(),   {
-      content            : this.textarea.getValue(),
-      parserfile         : [ "tokenizejavascript.js", "parsejavascript.js" ],
-      stylesheet         : "css/jscolors.css",
-      path               : "js/",
-      textWrapping       : false,
-      continuousScanning : false,
-      width              : this.width + "px",
-      height             : this.height + "px",
-      autoMatchParens    : true
-    });
+        this.editor = new CodeMirror(this.textarea.getContainerElement().getDomElement(),
+        {
+          content            : this.textarea.getValue(),
+          parserfile         : [ "tokenizejavascript.js", "parsejavascript.js" ],
+          stylesheet         : "css/jscolors.css",
+          path               : "js/",
+          textWrapping       : false,
+          continuousScanning : false,
+          width              : width + "px",
+          height             : height + "px",
+          autoMatchParens    : true
+        });
 
-        this.myEditor.frame.style.width = this.textarea.getBounds().width + "px";
-        this.myEditor.frame.style.height = this.textarea.getBounds().height + "px";
+        var splitter = this.mainsplit._getChildControl("splitter");
+        var pane = this.mainsplit;
+
+        splitter.addListener("mousedown", function() {
+          this.container.block();
+        }, this);
+
+        pane.addListener("losecapture", function() {
+          this.container.unblock();
+        }, this);
+
+        this.editor.frame.style.width = this.textarea.getBounds().width + "px";
+        this.editor.frame.style.height = this.textarea.getBounds().height + "px";
 
         // to achieve auto-resize, the editor sets the size of the container element
         this.textarea.addListener("resize", function()
         {
-          this.myEditor.frame.style.width = this.textarea.getBounds().width + "px";
-          this.myEditor.frame.style.height = this.textarea.getBounds().height + "px";
-//          this.textarea.getContainerElement().getDomElement().childNodes[0].firstChild.style.width = width + "px";
-//          this.textarea.getContainerElement().getDomElement().childNodes[0].firstChild.style.height = height + "px";
+          this.editor.frame.style.width = this.textarea.getBounds().width + "px";
+          this.editor.frame.style.height = this.textarea.getBounds().height + "px";
         },
         this);
 
@@ -297,7 +328,8 @@ qx.Class.define("playground.Application",
         // will removed
         // This code fragment is a temporary solution, it will removed, if another solution is found
         var protector = this.textarea.getContainerElement().getChildren()[1];
-        if(protector) {
+
+        if (protector) {
           protector.getDomElement().parentNode.removeChild(protector.getDomElement());
         }
       },
@@ -305,7 +337,7 @@ qx.Class.define("playground.Application",
       // ******************************************************************************
       // ******************************************************************************
       this);
-*/
+
       return container;
     },
 
@@ -313,7 +345,7 @@ qx.Class.define("playground.Application",
     /**
      * adds shortcuts to the respective buttons.
      *
-     * @return {void}
+     * @return {void} 
      */
     __makeCommands : function()
     {
@@ -330,7 +362,7 @@ qx.Class.define("playground.Application",
      * If the code changed, it will rename the application name
      * to "Application"
      *
-     * @return {void}
+     * @return {void} 
      */
     __isSourceCodeChanged : function()
     {
@@ -342,16 +374,15 @@ qx.Class.define("playground.Application",
       compareElem1.innerHTML = this.sampleContainer[this.currentSelectedButton];
 
       var compareElem2 = document.getElementById("compare_div2");
-      //compareElem2.innerHTML = this.myEditor.getEditor().getCode();
-      compareElem2.innerHTML = this.textarea.getValue();
+      compareElem2.innerHTML = this.editor.getCode();
 
       if (compareElem1.innerHTML.length == compareElem2.innerHTML.length)
       {
-       if (compareElem1.innerHTML != compareElem2.innerHTML) {
-         this.playAreaCaption.setContent("Application");
-       } else {
-         this.playAreaCaption.setContent(this.currentSelectedButton);
-       }
+        if (compareElem1.innerHTML != compareElem2.innerHTML) {
+          this.playAreaCaption.setContent("Application");
+        } else {
+          this.playAreaCaption.setContent(this.currentSelectedButton);
+        }
       }
       else if (compareElem1.innerHTML.length != compareElem2.innerHTML.length)
       {
@@ -364,7 +395,7 @@ qx.Class.define("playground.Application",
      * runs the written source.
      *
      * @param root {var} the root of the play area
-     * @return {void}
+     * @return {void} 
      */
     __runApplication : function(root)
     {
@@ -372,9 +403,9 @@ qx.Class.define("playground.Application",
       {
         this.updatePlayground(root);
 
-        //if (this.myEditor != undefined) {
+        if (this.editor != undefined) {
           this.__isSourceCodeChanged();
-        //}
+        }
       },
       this);
     },
@@ -384,7 +415,7 @@ qx.Class.define("playground.Application",
      * updates the playground.
      *
      * @param root {var} TODOC
-     * @return {void}
+     * @return {void} 
      */
     updatePlayground : function(root)
     {
@@ -395,8 +426,8 @@ qx.Class.define("playground.Application",
         }
       }
 
-      if (this.myEditor != undefined) {
-        this.code = this.myEditor.getEditor().getCode();
+      if (this.editor != undefined) {
+        this.code = this.editor.getCode();
       } else {
         this.code = this.textarea.getValue();
       }
@@ -453,7 +484,7 @@ qx.Class.define("playground.Application",
      * initializes the playground with a sample.
      *
      * @param e {Event} the current target
-     * @return {void}
+     * @return {void} 
      */
     __onSampleChanged : function(e)
     {
@@ -463,8 +494,8 @@ qx.Class.define("playground.Application",
       var currentSource = this.sampleContainer[this.currentSelectedButton];
       currentSource = currentSource.replace(/&lt;/g, "<").replace(/&gt;/g, ">");
 
-      if (this.myEditor != undefined) {
-        this.myEditor.getEditor().setCode(currentSource);
+      if (this.editor != undefined) {
+        this.editor.setCode(currentSource);
       } else {
         this.textarea.setValue(currentSource);
       }
@@ -478,7 +509,7 @@ qx.Class.define("playground.Application",
     /**
      * opens the current qooxdoo api viewer.
      *
-     * @return {void}
+     * @return {void} 
      */
     __openApiViewer : function()
     {
@@ -491,7 +522,7 @@ qx.Class.define("playground.Application",
     /**
      * opens the current qooxdoo documentation.
      *
-     * @return {void}
+     * @return {void} 
      */
     __openHelpDialog : function()
     {
@@ -507,7 +538,7 @@ qx.Class.define("playground.Application",
     /**
      * shows the log entries.
      *
-     * @return {void}
+     * @return {void} 
      */
     __openLog : function()
     {
@@ -528,7 +559,7 @@ qx.Class.define("playground.Application",
     /**
      * fetchs the log entries.
      *
-     * @return {void}
+     * @return {void} 
      */
     __fetchLog : function()
     {
