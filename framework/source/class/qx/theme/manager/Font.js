@@ -110,7 +110,6 @@ qx.Class.define("qx.theme.manager.Font",
     isDynamic : function(value)
     {
       var cache = this._getDynamic();
-      var resolved = cache[value];
       
       if (value && (value instanceof qx.bom.Font || cache[value] !== undefined))
       {

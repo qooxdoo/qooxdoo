@@ -121,13 +121,6 @@ qx.Class.define("qx.fx.effect.combination.Shake",
       if (!this.base(arguments)) {
         return;
       }
-      var element = this._getElement();
-
-      var oldStyle = {
-        top  : qx.bom.element.Location.getTop(element),
-        left : qx.bom.element.Location.getLeft(element)
-      };
-
 
       var distance = parseFloat(this.getDistance());
       var split = parseFloat(this.getDuration()) / 10.0;
