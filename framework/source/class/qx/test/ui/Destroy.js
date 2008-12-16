@@ -63,7 +63,7 @@ qx.Class.define("qx.test.ui.Destroy",
       ];
 
       for (var i=0; i<layouts.length; i++) {
-        this.assertLayoutDispose(layouts[1][0], layouts[1][1], layouts[1][2])
+        this.assertLayoutDispose(layouts[i][0], layouts[i][1], layouts[i][2])
       }
     },
 
@@ -277,6 +277,9 @@ qx.Class.define("qx.test.ui.Destroy",
         [qx.ui.toolbar.ToolBar, []]
       ];
       for (var i=0; i<forms.length; i++) {
+        this.debug("this: " + this);
+        this.debug(forms[i][0] + "");
+        this.debug(forms[i][0].classname);
         this.assertWidgetDispose(forms[i][0], forms[i][1], "Disposing " + forms[i][0].classname);
       }
 

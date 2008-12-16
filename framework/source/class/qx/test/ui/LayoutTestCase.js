@@ -150,7 +150,7 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
           argStr.push("args[" + i + "]");
         }
         var widget;
-        var str = "var widget = new clazz(" + argStr.join(", ") + ");"
+        var str = "var widget = new clazz(" + argStr.join(", ") + ");";
         eval(str);
 
         this.getRoot().add(widget);
