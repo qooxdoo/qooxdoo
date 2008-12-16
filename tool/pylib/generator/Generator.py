@@ -992,7 +992,7 @@ class Generator:
             qxPath = qxPath['QOOXDOO_PATH']
         else:
             raise RuntimeError, "Need QOOXDOO_PATH setting to run lint command"
-        lintCommand = os.path.join(qxPath, os.pardir, 'tool', 'bin', "ecmalint.py")
+        lintCommand = os.path.join(qxPath, 'tool', 'bin', "ecmalint.py")
         lintsettings = ExtMap(self._job.get('lint-check'))
         allowedGlobals = lintsettings.get('allowed-globals', [])
 
@@ -1016,7 +1016,7 @@ class Generator:
         self._shellCmd  = ShellCmd()
 
         qxPath      = self._job.get('let',{})['QOOXDOO_PATH']
-        migratorCmd = os.path.join(qxPath, os.pardir, 'tool', "bin", "migrator.py")
+        migratorCmd = os.path.join(qxPath, 'tool', "bin", "migrator.py")
 
         libPaths = []
         for lib in libs:
