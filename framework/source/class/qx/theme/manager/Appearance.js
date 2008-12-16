@@ -54,13 +54,25 @@ qx.Class.define("qx.theme.manager.Appearance",
 
   properties :
   {
-    /** currently used appearance theme */
+    /** currently used appearance theme
+     * Deprecated - use the property {@link #theme} instead. 
+     * @deprecated 
+     */
     appearanceTheme :
     {
       check : "Theme",
       nullable : true,
       apply : "_applyAppearanceTheme",
       event : "changeAppearanceTheme"
+    },
+    
+    /** currently used appearance theme */
+    theme :
+    {
+      check : "Theme",
+      nullable : true,
+      apply : "_applyTheme",
+      event : "changeTheme"
     }
   },
 
@@ -80,7 +92,15 @@ qx.Class.define("qx.theme.manager.Appearance",
     __styleCache : null,
     __aliasMap : null,
 
+    /**
+     * @deprecated
+     */
     _applyAppearanceTheme : function(value, old)
+    {
+
+    },
+    
+    _applyTheme : function(value, old)
     {
 
     },
@@ -159,7 +179,7 @@ qx.Class.define("qx.theme.manager.Appearance",
     styleFrom : function(id, states, theme)
     {
       if (!theme) {
-        theme = this.getAppearanceTheme();
+        theme = this.getTheme();
       }
 
       // Resolve ID
