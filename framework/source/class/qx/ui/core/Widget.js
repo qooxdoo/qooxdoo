@@ -3459,13 +3459,16 @@ qx.Class.define("qx.ui.core.Widget",
     
     
     /**
+     * EXPERIMENTAL - for public use
+     * 
      * Returns the child control from the given ID. Returns
      * <code>null</code> when the child control is unknown.
      * 
-     * Warning: This method exposes widget internals and messing around with the
-     * return value may set the widget into an inconsistent state. Use with
-     * caution.
-     *
+     * <b>Warning</b>: This method exposes widget internals and modifying the
+     * returned sub widget may bring the widget into an inconsistent state. 
+     * Avoid using it if the result can be achieved using public API or theming.
+     * 
+     * @experimental
      * @param id {String} ID of the child control
      * @param notcreate {Boolean?false} Whether the child control
      *    should not be created dynamically if not yet available.
