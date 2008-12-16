@@ -105,7 +105,7 @@ qx.Class.define("qx.theme.manager.Color",
      */
     resolve : function(value)
     {
-      var cache = this.__dynamic;
+      var cache = this._getDynamic();
       var resolved = cache[value];
       
       if (resolved)
@@ -134,7 +134,7 @@ qx.Class.define("qx.theme.manager.Color",
      * @return {Boolean} returns true if the value is interpreted dynamically
      */
     isDynamic : function(value) {
-      var cache = this.__dynamic;
+      var cache = this._getDynamic();
       var resolved = cache[value];
       
       if (value && (cache[value] !== undefined))
