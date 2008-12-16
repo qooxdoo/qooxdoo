@@ -65,7 +65,7 @@ qx.Class.define("qx.theme.manager.Font",
      */
     resolveDynamic : function(value)
     {
-      var dynamic = this._getDynamic();
+      var dynamic = this._dynamic;
       return value instanceof qx.bom.Font ? value : dynamic[value];
     },
     
@@ -79,7 +79,7 @@ qx.Class.define("qx.theme.manager.Font",
      */
     resolve : function(value)
     {
-      var cache = this._getDynamic();
+      var cache = this._dynamic;
       var resolved = cache[value];
       
       if (resolved)
@@ -109,7 +109,7 @@ qx.Class.define("qx.theme.manager.Font",
      */
     isDynamic : function(value)
     {
-      var cache = this._getDynamic();
+      var cache = this._dynamic;
       
       if (value && (value instanceof qx.bom.Font || cache[value] !== undefined))
       {
