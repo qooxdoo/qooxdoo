@@ -62,7 +62,7 @@ qx.Class.define("playground.Application",
      * This method contains the initial application code and gets called
      * during startup of the application
      *
-     * @return {void} 
+     * @return {void}
      */
     main : function()
     {
@@ -155,32 +155,32 @@ qx.Class.define("playground.Application",
       this.__openApiViewer();
       this.__openHelpDialog();
       this.__openLog();
-      
+
 
       // Back button and bookmark support
       this._history = qx.bom.History.getInstance();
-      
+
       this._history.addListener("request", function(e)
       {
         var newSample = e.getData();
         if(this.sampleContainer[state] != undefined){
-         	this.textarea.setValue(this.sampleContainer[newSample]);
+           this.textarea.setValue(this.sampleContainer[newSample]);
           this.updatePlayground(this.__playRoot);
           // update state on example change
           this._history.addToHistory(newSample, newSample);
         }
       },
       this);
-      
+
       //initializing value of the textarea
       var state = this._history.getState();
-      
+
       //checks for the state, if the state contains an example, it will initialize
       //the application with the selected sample
       if(this.sampleContainer[state] != undefined){
         this.textarea.setValue(this.sampleContainer[state !== null ? state : "Hello World"]);
       } else {
-      	this.textarea.setValue(this.sampleContainer["Hello World"]);
+        this.textarea.setValue(this.sampleContainer["Hello World"]);
       }
 
       this.updatePlayground(this.__playRoot);
@@ -263,9 +263,9 @@ qx.Class.define("playground.Application",
         var height = this.textarea.getBounds().height;
         var width = this.textarea.getBounds().width;
 
-          
+
         this.textarea.getContentElement().getDomElement().style.display = "none";
-        
+
         this.myEditor = new CodeMirror( this.textarea.getContainerElement().getDomElement(),   {
       content            : this.textarea.getValue(),
       parserfile         : [ "tokenizejavascript.js", "parsejavascript.js" ],
@@ -277,10 +277,10 @@ qx.Class.define("playground.Application",
       height             : this.height + "px",
       autoMatchParens    : true
     });
-        
+
         this.myEditor.frame.style.width = this.textarea.getBounds().width + "px";
         this.myEditor.frame.style.height = this.textarea.getBounds().height + "px";
-        
+
         // to achieve auto-resize, the editor sets the size of the container element
         this.textarea.addListener("resize", function()
         {
@@ -313,7 +313,7 @@ qx.Class.define("playground.Application",
     /**
      * adds shortcuts to the respective buttons.
      *
-     * @return {void} 
+     * @return {void}
      */
     __makeCommands : function()
     {
@@ -330,21 +330,21 @@ qx.Class.define("playground.Application",
      * If the code changed, it will rename the application name
      * to "Application"
      *
-     * @return {void} 
+     * @return {void}
      */
     __isSourceCodeChanged : function()
     {
       if (this.currentSelectedButton == undefined) {
         this.currentSelectedButton = "Hello World";
       }
-      
+
       var compareElem1 = document.getElementById("compare_div1");
       compareElem1.innerHTML = this.sampleContainer[this.currentSelectedButton];
-      
+
       var compareElem2 = document.getElementById("compare_div2");
       //compareElem2.innerHTML = this.myEditor.getEditor().getCode();
       compareElem2.innerHTML = this.textarea.getValue();
-      
+
       if (compareElem1.innerHTML.length == compareElem2.innerHTML.length)
       {
        if (compareElem1.innerHTML != compareElem2.innerHTML) {
@@ -364,7 +364,7 @@ qx.Class.define("playground.Application",
      * runs the written source.
      *
      * @param root {var} the root of the play area
-     * @return {void} 
+     * @return {void}
      */
     __runApplication : function(root)
     {
@@ -384,7 +384,7 @@ qx.Class.define("playground.Application",
      * updates the playground.
      *
      * @param root {var} TODOC
-     * @return {void} 
+     * @return {void}
      */
     updatePlayground : function(root)
     {
@@ -453,7 +453,7 @@ qx.Class.define("playground.Application",
      * initializes the playground with a sample.
      *
      * @param e {Event} the current target
-     * @return {void} 
+     * @return {void}
      */
     __onSampleChanged : function(e)
     {
@@ -468,7 +468,7 @@ qx.Class.define("playground.Application",
       } else {
         this.textarea.setValue(currentSource);
       }
-      
+
       this.playAreaCaption.setContent(this.currentSelectedButton);
 
       this.updatePlayground(this.__playRoot);
@@ -478,7 +478,7 @@ qx.Class.define("playground.Application",
     /**
      * opens the current qooxdoo api viewer.
      *
-     * @return {void} 
+     * @return {void}
      */
     __openApiViewer : function()
     {
@@ -491,7 +491,7 @@ qx.Class.define("playground.Application",
     /**
      * opens the current qooxdoo documentation.
      *
-     * @return {void} 
+     * @return {void}
      */
     __openHelpDialog : function()
     {
@@ -507,7 +507,7 @@ qx.Class.define("playground.Application",
     /**
      * shows the log entries.
      *
-     * @return {void} 
+     * @return {void}
      */
     __openLog : function()
     {
@@ -528,7 +528,7 @@ qx.Class.define("playground.Application",
     /**
      * fetchs the log entries.
      *
-     * @return {void} 
+     * @return {void}
      */
     __fetchLog : function()
     {
