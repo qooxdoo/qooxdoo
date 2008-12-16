@@ -92,7 +92,7 @@ qx.Class.define("qx.theme.manager.Font",
       // or "qx.Theme.patch"), since these methods only merging the keys of
       // the theme and are not updating the cache
       var theme = this.getTheme();
-      if (theme.fonts[value])
+      if (theme !== null && theme.fonts[value])
       {
         return cache[value] = (new qx.bom.Font).set(theme.colors[value]);
       }
@@ -121,7 +121,7 @@ qx.Class.define("qx.theme.manager.Font",
       // or "qx.Theme.patch"), since these methods only merging the keys of
       // the theme and are not updating the cache
       var theme = this.getTheme();
-      if (value && theme.fonts[value])
+      if (theme !== null && value && theme.fonts[value])
       {
         cache[value] = (new qx.bom.Font).set(theme.fonts[value]);
         return true;
