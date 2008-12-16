@@ -1881,6 +1881,12 @@ qx.Class.define("qx.ui.table.Table",
       {
         this.base(arguments, type, listener, self, capture);
       }
+    },
+    
+    destroy : function() 
+    {      
+      this._getChildControl("column-button").getMenu().destroy();
+      this.base(arguments);
     }
   },
 
@@ -1910,7 +1916,7 @@ qx.Class.define("qx.ui.table.Table",
     if (dataRowRenderer) {
       dataRowRenderer.dispose();
     }
-
+    
     this._cleanUpMetaColumns(0);
     this._disposeObjects("__selectionManager", "_columnVisibilityMenu", "_tableModel", "__scrollerParent");
   }
