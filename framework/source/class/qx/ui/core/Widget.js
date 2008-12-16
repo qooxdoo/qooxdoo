@@ -3416,7 +3416,7 @@ qx.Class.define("qx.ui.core.Widget",
         "Use public 'hasChildControl' instead!"
       );
       return this.hasChildControl(id);
-    }
+    },
     
     
     /**
