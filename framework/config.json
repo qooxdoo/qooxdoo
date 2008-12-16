@@ -135,7 +135,20 @@
 
     "lint" :
     {
-      "extend" : ["appconf::lint"]
+      "extend" : ["appconf::lint"],
+      "exclude": ["=qx.legacy.*", "=qx.test.*"]
+    },
+
+    "lint-test" :
+    {
+      "extend" : ["appconf::lint"],
+      "include": ["=qx.test.*"]
+    },
+
+    "lint-legacy" :
+    {
+      "extend" : ["appconf::lint"],
+      "include": ["=qx.legacy.*"]
     },
 
     "translation" :
