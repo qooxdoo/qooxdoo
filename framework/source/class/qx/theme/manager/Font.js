@@ -79,7 +79,7 @@ qx.Class.define("qx.theme.manager.Font",
      */
     resolve : function(value)
     {
-      var cache = this.__dynamic;
+      var cache = this._getDynamic();
       var resolved = cache[value];
       
       if (resolved)
