@@ -3489,93 +3489,43 @@ qx.Class.define("qx.ui.core.Widget",
 
       return this._createChildControl(id);
     },
-
-
+    
+    
     /**
      * Shows the given child control by ID
      *
-     * @deprecated Use public 'showChildControl' instead!
      * @param id {String} ID of the child control
      * @return {qx.ui.core.Widget} the child control
      */
     _showChildControl : function(id)
-    {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee,
-        "Use public 'showChildControl' instead!"
-      );      
-      return this.showChildControl(id);
-    },
-    
-    
-    /**
-     * Shows the given child control by ID
-     *
-     * @param id {String} ID of the child control
-     * @return {qx.ui.core.Widget} the child control
-     */
-    showChildControl : function(id)
     {
       var control = this.getChildControl(id);
       control.show();
       return control;
     },
 
-
+ 
     /**
      * Excludes the given child control by ID
      *
-     * @deprecated Use public 'excludeChildControl' instead!
      * @param id {String} ID of the child control
      */
     _excludeChildControl : function(id)
-    {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee,
-        "Use public 'excludeChildControl' instead!"
-      );           
-      return this.excludeChildControl(id);
-    },
-    
-    
-    /**
-     * Excludes the given child control by ID
-     *
-     * @param id {String} ID of the child control
-     */
-    excludeChildControl : function(id)
     {
       var control = this.getChildControl(id, true);
       if (control) {
         control.exclude();
       }
     },
-
-
+    
+    
     /**
      * Whether the given child control is visible.
      *
-     * @deprecated Use public 'isChildControlVisible' instead!
      * @param id {String} ID of the child control
      * @return {Boolean} <code>true</code> when the child control is visible.
      */
     _isChildControlVisible : function(id)
-    {
-      qx.log.Logger.deprecatedMethodWarning(
-          arguments.callee,
-          "Use public 'isChildControlVisible' instead!"
-        );           
-        return this.isChildControlVisible(id);      
-    },
-    
-    
-    /**
-     * Whether the given child control is visible.
-     *
-     * @param id {String} ID of the child control
-     * @return {Boolean} <code>true</code> when the child control is visible.
-     */
-    isChildControlVisible : function(id)
     {
       var control = this.getChildControl(id, true);
       if (control) {

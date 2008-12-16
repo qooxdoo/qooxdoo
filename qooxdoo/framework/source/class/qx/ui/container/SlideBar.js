@@ -326,8 +326,8 @@ qx.Class.define("qx.ui.container.SlideBar",
      */
     _showArrows : function()
     {
-      this.showChildControl("button-forward");
-      this.showChildControl("button-backward");
+      this._showChildControl("button-forward");
+      this._showChildControl("button-backward");
     },
 
 
@@ -338,8 +338,8 @@ qx.Class.define("qx.ui.container.SlideBar",
      */
     _hideArrows : function()
     {
-      this.excludeChildControl("button-forward");
-      this.excludeChildControl("button-backward");
+      this._excludeChildControl("button-forward");
+      this._excludeChildControl("button-backward");
 
       this.scrollTo(0);
     }
