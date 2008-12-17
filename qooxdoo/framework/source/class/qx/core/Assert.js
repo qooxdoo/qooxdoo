@@ -581,7 +581,10 @@ qx.Class.define("qx.core.Assert",
     assertArray : function(value, msg)
     {
       this.__assert(
-        value instanceof Array || value.constructor.toString().indexOf("function Array(") === 0,
+        value instanceof Array ||
+        value.constructor.toString().indexOf("function Array(") === 0 ||
+        value.$$isArray,
+        
         msg || "",
         "Expected value to be an array but found " + value + "!"
       );
