@@ -290,7 +290,7 @@ qx.Class.define("qx.data.SingleValueBinding",
           }
           if (arrayIndex !== "last") {
             qx.log.Logger.debug("index" + arrayIndex);
-            if (arrayIndex == "" || isNaN(parseInt(arrayIndex))) {
+            if (arrayIndex == "" || isNaN(parseInt(arrayIndex))) {
               throw new Error("No number or 'last' value hast been given"
                 + " in a array binding: " + name + " does not work.");
             }
