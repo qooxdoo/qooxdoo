@@ -17,6 +17,14 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#asset(qx/icon/${qx.icontheme}/16/actions/dialog-ok.png)
+#asset(qx/icon/${qx.icontheme}/16/actions/dialog-cancel.png)
+
+************************************************************************ */
+
+
 /**
  * Table using the ConditionalDataCellRenderer to display values in different
  * ranges using varying colors; and the ImageDataCellRenderer to display
@@ -40,8 +48,8 @@ qx.Class.define("demobrowser.demo.table.Table_Conditional",
       tableModel.setColumns([ "ID", "Number 1", "Number 2", "Image" ]);
 
       var image = [
-       "decoration/tree/plus.gif",
-       "decoration/tree/minus.gif"
+       "icon/16/actions/dialog-ok.png",
+       "icon/16/actions/dialog-cancel.png"
       ];
 
       var rowData = [];
