@@ -850,7 +850,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       var isShiftPressed = event.isShiftPressed();
 
       // Clicking on selected items deselect on mouseup, not on mousedown
-      if (this.isItemSelected(item) && !isShiftPressed && !isCtrlPressed)
+      if (this.isItemSelected(item) && !isShiftPressed && !isCtrlPressed && !this.getDrag())
       {
         this.__mouseDownOnSelected = item;
         return;
