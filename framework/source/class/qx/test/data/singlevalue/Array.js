@@ -291,8 +291,7 @@ qx.Class.define("qx.test.data.singlevalue.Array",
       
       // set another value and check it
       this.__a.getArray().push("2");
-      this.assertEquals("2", this.__label.getContent(), "Late binding does not work!");
-      
+      this.assertEquals("2", this.__label.getContent(), "Late binding does not work!"); 
     }
 
   }
