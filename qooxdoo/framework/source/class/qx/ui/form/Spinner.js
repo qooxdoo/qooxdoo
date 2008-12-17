@@ -648,9 +648,11 @@ qx.Class.define("qx.ui.form.Spinner",
       {
         // Fix range
         if (value > this.getMax()) {
-          value = this.getMax();
+          textField.setValue(this.getMax() + "");
+          return;
         } else if (value < this.getMin()) {
-          value = this.getMin();
+          textField.setValue(this.getMin() + "");
+          return;
         }
 
         // set the value in the spinner
