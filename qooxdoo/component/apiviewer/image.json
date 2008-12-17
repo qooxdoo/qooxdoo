@@ -24,7 +24,7 @@
         "images" :
         {
           // 18x18 symbols combined
-          "${RESPATH}/imagesCombined/symbols.png":
+          "${RESPATH}/imagesCombined/symbols.gif":
           {
             "input"  :
             [
