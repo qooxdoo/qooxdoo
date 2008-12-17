@@ -175,6 +175,7 @@ qx.Class.define("playground.Application",
           }
 
           this.updatePlayground(this.__playRoot);
+          this.playAreaCaption.setContent(newSample);
 
           // update state on example change
           this._history.addToHistory(newSample, newSample);
