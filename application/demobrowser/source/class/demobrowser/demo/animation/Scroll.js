@@ -22,7 +22,7 @@
  */
 qx.Class.define("demobrowser.demo.animation.Scroll",
 {
-  extend : qx.application.Inline,
+  extend : qx.application.Standalone,
 
   members :
   {
@@ -30,10 +30,9 @@ qx.Class.define("demobrowser.demo.animation.Scroll",
     {
       this.base(arguments);
 
-      var doc = new qx.ui.root.Inline(document.getElementById("qooxdoo"));
-      doc.setBackgroundColor(null);
+      var doc = this.getRoot();
 
-      myElement = document.getElementById("testDiv");
+      var myElement = document.getElementById("testDiv");
 
       // Only one effect should be executed at the same time in gloabl queue
       qx.fx.queue.Manager.getInstance().getDefaultQueue().setLimit(1);
