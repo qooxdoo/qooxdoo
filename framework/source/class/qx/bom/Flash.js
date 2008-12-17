@@ -173,7 +173,7 @@ qx.Class.define("qx.bom.Flash",
             win = window;
           }
           win.attachEvent("onload", function() {
-            this.__destroyObjectInIE(element);
+            qx.bom.Flash.__destroyObjectInIE(element);
           });
         }
       },
