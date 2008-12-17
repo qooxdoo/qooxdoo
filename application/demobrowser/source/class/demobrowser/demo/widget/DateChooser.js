@@ -14,6 +14,7 @@
 
    Authors:
      * Martin Wittemann (martinwittemann)
+     * Christian Schmidt (chris_schmidt)
 
 ************************************************************************ */
 
@@ -31,15 +32,29 @@ qx.Class.define("demobrowser.demo.widget.DateChooser",
     {
       this.base(arguments);
 
-      // Date chooser
-      var container = new qx.ui.container.Composite(new qx.ui.layout.HBox());
-      var chooser = new qx.ui.control.DateChooser();
-      container.add(chooser);
+      // Layout
+      var container = new qx.ui.container.Composite(new qx.ui.layout.VBox(8));
+      var containerTop = new qx.ui.container.Composite(new qx.ui.layout.HBox(20));
+      var containerRight = new qx.ui.container.Composite(new qx.ui.layout.VBox(8));
+      var containerRightTop = new qx.ui.container.Composite(new qx.ui.layout.HBox(20));
+      var containerRightBottom = new qx.ui.container.Composite(new qx.ui.layout.HBox(8));
+      var containerButtons = new qx.ui.container.Composite(new qx.ui.layout.VBox(8));
+      var containerDescription = new qx.ui.container.Composite(new qx.ui.layout.VBox(2));
+      containerRightTop.add(containerButtons);
+      containerRightTop.add(containerDescription);
+      containerRight.add(containerRightTop);
+      containerRight.add(containerRightBottom);
+      containerTop.add(containerRight)
+      container.add(containerTop);
       this.getRoot().add(container, { left : 20, top: 20});
-
+      
+      // Date chooser
+      var chooser = new qx.ui.control.DateChooser();
+      containerTop.addBefore(chooser, containerRight);
+      
       // date label
       var label = new qx.ui.basic.Label("select a date");
-      this.getRoot().add(label, {left: 20, top: 185});
+      container.add(label);
 
       // listener for the change event
       chooser.addListener("changeDate", function(e) {
@@ -55,21 +70,21 @@ qx.Class.define("demobrowser.demo.widget.DateChooser",
       // set current Date control
       var setDateButton = new qx.ui.form.Button("Set current date");
       setDateButton.setAlignX("center");
-      this.getRoot().add(setDateButton, {left: 250, top: 20});
+      containerButtons.add(setDateButton);
       setDateButton.addListener("execute", function(e) {
         chooser.setDate(new Date());
       });
 
       // show a specific month
       var setMonthButton = new qx.ui.form.Button("Show January 1981");
-      this.getRoot().add(setMonthButton, {left: 250, top: 50});
+      containerButtons.add(setMonthButton);
       setMonthButton.addListener("execute", function(e) {
         chooser.showMonth(0, 1981);
       });
 
       // reset the selection
       var removeSelectionButton = new qx.ui.form.Button("Remove the selection");
-      this.getRoot().add(removeSelectionButton, {left: 250, top: 80});
+      containerButtons.add(removeSelectionButton);
       removeSelectionButton.addListener("execute", function(e) {
         chooser.setDate(null);
       });
@@ -77,9 +92,9 @@ qx.Class.define("demobrowser.demo.widget.DateChooser",
       // set value stuff
       var textField = new qx.ui.form.TextField(new Date().toString());
       textField.setWidth(200);
-      this.getRoot().add(textField, {left: 250, top: 110});
+      containerRightBottom.add(textField);
       var setValueButton = new qx.ui.form.Button("Set Value");
-      this.getRoot().add(setValueButton, {left: 455, top: 109});
+      containerRightBottom.add(setValueButton);
       setValueButton.addListener("execute", function(e) {
         chooser.setValue(textField.getValue());
       }, this);
@@ -87,11 +102,11 @@ qx.Class.define("demobrowser.demo.widget.DateChooser",
       // Description
       var headerLabel = new qx.ui.basic.Label("Description");
       headerLabel.setFont("bold");
-      this.getRoot().add(headerLabel, {left: 400, top: 20});
-      this.getRoot().add(new qx.ui.basic.Label("- Use the cursors keys to move the selection."), {left: 400, top: 35});
-      this.getRoot().add(new qx.ui.basic.Label("- Page-keys / shift + page-keys switch months/years."), {left: 400, top: 50});
-      this.getRoot().add(new qx.ui.basic.Label("- Double-click or enter/space-key will fire an execute event."), {left: 400, top: 65});
-      this.getRoot().add(new qx.ui.basic.Label("- Escape will remove the selection."), {left: 400, top: 80});
+      containerDescription.add(headerLabel);
+      containerDescription.add(new qx.ui.basic.Label("- Use the cursors keys to move the selection."));
+      containerDescription.add(new qx.ui.basic.Label("- Page-keys / shift + page-keys switch months/years."));
+      containerDescription.add(new qx.ui.basic.Label("- Double-click or enter/space-key will fire an execute event."));
+      containerDescription.add(new qx.ui.basic.Label("- Escape will remove the selection."));
     }
   }
 });
