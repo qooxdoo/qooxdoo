@@ -532,7 +532,7 @@ class Config:
                             seen.append(lib['namespace'])
                             newlib.append(lib)
                         else:
-                            self._console.info("Skipping duplicate library \"%s\"" % lib['namespace'])
+                            self._console.debug("Skipping duplicate library \"%s\"" % lib['namespace'])
 
                     jobObj.setFeature('library', newlib)
 

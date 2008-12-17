@@ -178,8 +178,12 @@ class Locale:
         all = {}
 
         for entry in entries:
-            # TODO: Plural support
-            all[entry.msgid] = entry.msgstr
+            if 'msgid_plural' in dir(entry):
+                all[entry.msgid]        = entry.msgstr_plural['0']
+                all[entry.msgid_plural] = entry.msgstr_plural['1']
+                # missing: handling of potential msgstr_plural[2:N]
+            else:
+                all[entry.msgid] = entry.msgstr
 
         return all
 

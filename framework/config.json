@@ -49,12 +49,15 @@
 
       "compile-dist" :
       {
-        "target"   : "build",
-        "file"     : "build/script/qx.js",
-        "uri"      : "script/qx.js",
-        "format"   : "on",
-        "optimize" : ["basecalls", "variables", "privates", "strings"],
-        "root"     : "build"
+        "paths" :
+        {
+          "file"     : "build/script/qx.js"
+        },
+        "code"  :
+        {
+          "format"   : "on",
+          "optimize" : ["basecalls", "variables", "privates", "strings"]
+        }
       },
 
       "copy-resources" :
@@ -153,7 +156,7 @@
 
     "translation" :
     {
-      "include": [],
+      "=include": ["qx.*"],
       "extend" : ["appconf::translation"]
     }
   }
