@@ -19,9 +19,9 @@
 
 /**
  * Container for the source code editor.
- * 
- * This is implemented as a separate class, for instance to easily change the 
- * z-index of the iframe blocker. 
+ *
+ * This is implemented as a separate class, for instance to easily change the
+ * z-index of the iframe blocker.
  */
 qx.Class.define("playground.EditorContainer",
 {
@@ -30,7 +30,7 @@ qx.Class.define("playground.EditorContainer",
 
 
   /**
-   * sets the z-index of the blocker to 100 to allow sliding of the playground. 
+   * sets the z-index of the blocker to 100 to allow sliding of the playground.
    */
   construct : function()
   {
