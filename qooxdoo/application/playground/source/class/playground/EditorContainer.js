@@ -17,14 +17,11 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-
-
-************************************************************************ */
 /**
- * The container of the editor.
- * This class disjoint to a separate class to change the z-index of the blocker. 
+ * Container for the source code editor.
+ * 
+ * This is implemented as a separate class, for instance to easily change the 
+ * z-index of the iframe blocker. 
  */
 qx.Class.define("playground.EditorContainer",
 {
@@ -39,8 +36,8 @@ qx.Class.define("playground.EditorContainer",
   {
     this.base(arguments);
 
-    // if widgets added to the container, the zIndex of the editor-Blocker
-    // sets to 100. This makes possible to slide the panes in the playground
+    // If widgets are added to the container, the zIndex of the editor blocker
+    // is set to 100. This makes possible to resize the splitpanes
     this.addListener("addChildWidget", function()
     {
       this._getContentBlocker().setStyles({ "zIndex" : 100 });
