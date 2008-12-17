@@ -383,7 +383,13 @@ qx.Class.define("qx.event.Command",
       var str = [];
 
       for (var modifier in this.__modifier) {
-        str.push(qx.locale.Key.getKeyName("short", modifier));
+        // this.__modifier holds a map with shortcut combination keys
+        // like "Control", "Alt", "Meta" and "Shift" as keys with
+        // Boolean values
+        if (this.__modifier[modifier])
+        {
+          str.push(qx.locale.Key.getKeyName("short", modifier));
+        }
       }
 
       if (key) {
