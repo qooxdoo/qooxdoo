@@ -26,8 +26,8 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL: This playground application is a minimal implementation,
- * that requires further improvements (object destruction, etc.)
+ * Playground application, which allows for source code editing and live 
+ * previews of a simple custom application 
  */
 qx.Class.define("playground.Application",
 {
@@ -102,15 +102,14 @@ qx.Class.define("playground.Application",
       // qooxdoo toolbar
       mainContainer.add(this.__makeToolbar(), { flex : 0 });
 
-      // qooxdoo mainsplit, contains the textarea and the infosplitpane
+      // qooxdoo mainsplit, contains the textarea and the info splitpane
       var mainsplit = new qx.ui.splitpane.Pane("horizontal");
-
       this.mainsplit = mainsplit;
+
+      mainContainer.add(mainsplit, { flex : 1 });
 
       var infosplit = new qx.ui.splitpane.Pane("vertical");
       infosplit.setDecorator(null);
-
-      mainContainer.add(mainsplit, { flex : 1 });
 
       mainsplit.add(this.__makeTextArea());
       mainsplit.add(infosplit, 1);
@@ -118,8 +117,7 @@ qx.Class.define("playground.Application",
 
       var log = this.__makeLog();
 
-      // adds the log into the stack
-      // therewith it is possible to show or hide the log pane
+      // Adds the log console to the stack
       this.stack = new qx.ui.container.Stack;
       this.stack.setDecorator("main");
       this.stack.add(log);
@@ -160,7 +158,7 @@ qx.Class.define("playground.Application",
 
       // Back button and bookmark support
       this._history = qx.bom.History.getInstance();
-      this._history.addToHistory(decodeURIComponent("Hello_World"), "Hello_World");
+      this._history.addToHistory(decodeURIComponent("Hello_World"));
       
       this._history.addListener("request", function(e)
       {
@@ -175,19 +173,21 @@ qx.Class.define("playground.Application",
           }
 
           this.updatePlayground(this.__playRoot);
-          this.playAreaCaption.setContent(newSample);
+          
+          var newName = newSample.replace(/_/g, " ");
+          this.playAreaCaption.setContent(newName);
 
-          // update state on example change
-          this._history.addToHistory(newSample, newSample);
+          // update state on sample change
+          this._history.addToHistory(newSample, document.title.split(":")[0] + " : " + newName);
         }
       },
       this);
 
-      // initializing value of the textarea
+      // retrieve current state
       var state = this._history.getState();
 
-      // checks for the state, if the state contains an example, it will initialize
-      // the application with the selected sample
+      // checks if the state corresponds to a sample. If yes, the application 
+      // will be initialized with the selected sample
       if (this.sampleContainer[state] != undefined)
       {
         if (this.editor == undefined) {
@@ -210,7 +210,7 @@ qx.Class.define("playground.Application",
 
 
     /**
-     * creates an area to show the samples.
+     * Creates an area to show the samples.
      *
      * @return {var} container of the play area
      */
@@ -244,9 +244,9 @@ qx.Class.define("playground.Application",
 
 
     /**
-     * creates a textarea to write your own code.
+     * Creates an editor for the source code
      *
-     * @return {var} container of the textarea
+     * @return {var} container of the editor
      */
     __makeTextArea : function()
     {
@@ -264,13 +264,9 @@ qx.Class.define("playground.Application",
         allowGrowY : true
       });
 
-
       container.add(caption);
 
-      // The textarea to write your own source
-      this.textarea = new qx.ui.form.TextArea;
-
-      this.textarea.set(
+      this.textarea = (new qx.ui.form.TextArea).set(
       {
         wrap      : false,
         font      : "monospace",
@@ -278,7 +274,7 @@ qx.Class.define("playground.Application",
       });
 
       container.add(this.textarea, { flex : 1 });
-      
+
       // this code part uses the Codemirror library to add syntax highlighting
       // to the current textarea
       this.textarea.addListenerOnce("appear", function()
@@ -292,8 +288,8 @@ qx.Class.define("playground.Application",
         {
           content            : this.textarea.getValue(),
           parserfile         : [ "tokenizejavascript.js", "parsejavascript.js" ],
-          stylesheet         : "css/jscolors.css",
-          path               : "js/",
+          stylesheet         : "resource/playground/css/jscolors.css",
+          path               : "resource/playground/js/",
           textWrapping       : false,
           continuousScanning : false,
           width              : width + "px",
@@ -301,7 +297,7 @@ qx.Class.define("playground.Application",
           autoMatchParens    : true
         });
 
-        var splitter = this.mainsplit._getChildControl("splitter");
+        var splitter = this.mainsplit.getChildControl("splitter");
         var pane = this.mainsplit;
 
         splitter.addListener("mousedown", function() {
@@ -323,19 +319,15 @@ qx.Class.define("playground.Application",
         },
         this);
 
-        // ******************************************************************************
-        // ******************************************************************************
-        // The protector disables the opportunity to edit the editor, therefore it
-        // will removed
-        // This code fragment is a temporary solution, it will removed, if another solution is found
+        // The protector blocks the editor, therefore it needs to be removed.
+        // This code fragment is a temporary solution, it will be removed once 
+        // a better solution is found
         var protector = this.textarea.getContainerElement().getChildren()[1];
-
         if (protector) {
           protector.getDomElement().parentNode.removeChild(protector.getDomElement());
         }
       },
 
-      // ******************************************************************************
       // ******************************************************************************
       this);
 
@@ -359,9 +351,8 @@ qx.Class.define("playground.Application",
  */
 
     /**
-     * checks, wheter the code is changed.
-     * If the code changed, it will rename the application name
-     * to "Application"
+     * Checks, whether the code is changed. If yes, the application name is 
+     * renamed
      *
      * @return {void} 
      */
@@ -395,9 +386,8 @@ qx.Class.define("playground.Application",
       }
     },
 
-
     /**
-     * runs the written source.
+     * Runs the current source code
      *
      * @param root {var} the root of the play area
      * @return {void} 
@@ -417,13 +407,18 @@ qx.Class.define("playground.Application",
 
 
     /**
-     * updates the playground.
+     * Updates the playground.
      *
      * @param root {var} of the playarea
      * @return {void} 
      */
     updatePlayground : function(root)
     {
+      // This currently only destroys the children of the application root.
+      // While this is ok for many simple scenarios, it cannot account for 
+      // application code that generates temporary objects without adding them 
+      // to the application (as widgets for instance). There is no real 
+      // for such a multi-application scenario that is playground specific.
       for (var i=0, ch=root.getChildren(), chl=ch.length; i<chl; i++)
       {
         if (ch[i]) {
@@ -455,23 +450,25 @@ qx.Class.define("playground.Application",
 
 
     /**
-     * generates a file menu to select the samples.
+     * Generates a file menu to select the samples.
      *
      * @return {var} menu of the samples
      */
-    __getFileMenu : function()
+    __createSampleMenu : function()
     {
       var menu = new qx.ui.menu.Menu;
 
       var newButton;
 
       var elem = document.getElementsByTagName("TEXTAREA");
-
+      var id;
+      
       for (var i=0; i<elem.length; i++)
       {
         if (elem[i].className == "qx_samples")
         {
-          this.sampleContainer[elem[i].title] = elem[i].value;
+          var id = elem[i].title.replace(/\s+/g, "_");
+          this.sampleContainer[id] = elem[i].value;
           newButton = new qx.ui.menu.Button(elem[i].title, "icon/16/actions/document-new.png");
           menu.add(newButton);
 
@@ -484,7 +481,7 @@ qx.Class.define("playground.Application",
 
 
     /**
-     * initializes the playground with a sample.
+     * Initializes the playground with a sample.
      *
      * @param e {Event} the current target
      * @return {void} 
@@ -494,6 +491,9 @@ qx.Class.define("playground.Application",
       var item = e.getTarget();
 
       this.currentSelectedButton = item.getLabel().toString();
+      this.playAreaCaption.setContent(this.currentSelectedButton);
+
+      this.currentSelectedButton.replace(/\s+/g, "_");
       var currentSource = this.sampleContainer[this.currentSelectedButton];
       currentSource = currentSource.replace(/&lt;/g, "<").replace(/&gt;/g, ">");
 
@@ -503,15 +503,13 @@ qx.Class.define("playground.Application",
         this.textarea.setValue(currentSource);
       }
 
-      this.playAreaCaption.setContent(this.currentSelectedButton);
-
       this._history.addToHistory(""+this.currentSelectedButton, this.currentSelectedButton);
       this.updatePlayground(this.__playRoot);
     },
 
 
     /**
-     * opens the current qooxdoo api viewer.
+     * Opens the qooxdoo api viewer.
      *
      * @return {void} 
      */
@@ -524,7 +522,7 @@ qx.Class.define("playground.Application",
 
 
     /**
-     * opens the current qooxdoo documentation.
+     * Opens the qooxdoo user manual.
      *
      * @return {void} 
      */
@@ -540,7 +538,7 @@ qx.Class.define("playground.Application",
 
 
     /**
-     * shows the log entries.
+     * Shows the log entries.
      *
      * @return {void} 
      */
@@ -561,7 +559,7 @@ qx.Class.define("playground.Application",
 
 
     /**
-     * fetchs the log entries.
+     * Fetches the log entries.
      *
      * @return {void} 
      */
@@ -583,7 +581,7 @@ qx.Class.define("playground.Application",
 
 
     /**
-     * creates the log pane.
+     * Creates the log pane.
      *
      * @return {var} container contains the log pane
      */
@@ -637,7 +635,7 @@ qx.Class.define("playground.Application",
 
 
     /**
-     * creates the application header.
+     * Creates the application header.
      *
      * @return {var} header of the application
      */
@@ -662,7 +660,7 @@ qx.Class.define("playground.Application",
 
 
     /**
-     * creates the toolbar of the application.
+     * Creates the toolbar of the application.
      *
      * @return {var} toolbar of the application
      */
@@ -679,14 +677,14 @@ qx.Class.define("playground.Application",
       part1.add(runButton);
       this.widgets["toolbar.runButton"] = runButton;
       //this.widgets["toolbar.runButton"].setCommand(this._runSample);
-      runButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Runs the created application")));
+      runButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Run the source code")));
 
       // select sample button
       var selectSampleButton = new qx.ui.toolbar.MenuButton("Samples", "playground/image/document-folder.png");
       part1.add(selectSampleButton);
       this.widgets["toolbar.selectSampleButton"] = selectSampleButton;
-      selectSampleButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Selects a demo application")));
-      selectSampleButton.setMenu(this.__getFileMenu());
+      selectSampleButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Select a demo application")));
+      selectSampleButton.setMenu(this.__createSampleMenu());
 
       toolbar.addSpacer();
 
@@ -697,19 +695,19 @@ qx.Class.define("playground.Application",
       var logCheckButton = new qx.ui.toolbar.CheckBox("Log", "playground/image/utilities-log-viewer.png");
       part2.add(logCheckButton);
       this.widgets["toolbar.logCheckButton"] = logCheckButton;
-      logCheckButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Shows the log entries")));
+      logCheckButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Show log output")));
 
       // api button
       var apiButton = new qx.ui.toolbar.Button("API Viewer", "playground/image/help-contents.png");
       part2.add(apiButton);
       this.widgets["toolbar.apiButton"] = apiButton;
-      apiButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Opens the API Viewer")));
+      apiButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Opens the qooxdoo API Viewer")));
 
       // help button
-      var helpButton = new qx.ui.toolbar.Button("Help", "playground/image/help-about.png");
+      var helpButton = new qx.ui.toolbar.Button("Manual", "playground/image/help-about.png");
       part2.add(helpButton);
       this.widgets["toolbar.helpButton"] = helpButton;
-      helpButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Opens the Help dialog")));
+      helpButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Opens the qooxdoo Manual")));
 
       return toolbar;
     }
