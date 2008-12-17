@@ -35,10 +35,9 @@
 ************************************************************************ */
 
 /**
- * Selector Engine for qooxdoo
- *
- * * Based on Sizzle by John Resig
- * * Currently in alpha status
+ * EXPERIMENTAL - NOT READY FOR PRODUCTION
+ * 
+ * Selector engine based on Sizzle by John Resig
  */
 qx.Class.define("qx.bom.Selector", 
 {
