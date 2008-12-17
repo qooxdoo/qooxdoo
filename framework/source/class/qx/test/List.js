@@ -32,21 +32,24 @@ qx.Class.define("qx.test.List",
   {    
     testListConstruct : function()
     {           
-      //var list = new qx.test.TestList(10);
-      //this.assertEquals(10, list.length);
-
-      
-      //var list = new qx.test.TestList(10);
-      //this.assertArrayEquals([10], list.length);
+      var list = new qx.test.TestList(10);
+      this.assertEquals(10, list.length);
     
       list = new qx.test.TestList(1, 2, 3);
-      this.assertArrayEquals([1, 2, 3], list.toArray());      
+      this.assertArrayEquals([1, 2, 3], list);      
     },
     
     testArrayLength : function()
     {            
       var list = new qx.test.TestList(1, 2, 3);
-      this.assertEquals(3, list.getLength());
+      this.assertEquals(3, list.length);
+    },
+    
+    testClear : function()
+    {
+      var list = new qx.test.TestList(1, 2, 3);
+      list.length = 0;
+      this.assertArrayEquals([], list)
     },
       
     testArrayJoin : function()
@@ -66,7 +69,7 @@ qx.Class.define("qx.test.List",
       var list = new qx.test.TestList(1, 2, 3);
       var popped = list.pop();
       this.assertEquals(3, popped);
-      this.assertArrayEquals([1, 2], list.toArray());
+      this.assertArrayEquals([1, 2], list);
     },
     
     testArrayPush : function()
@@ -74,20 +77,20 @@ qx.Class.define("qx.test.List",
       var list = new qx.test.TestList(1, 2);
       var length = list.push(3);
       this.assertEquals(3, length);
-      this.assertArrayEquals([1, 2, 3], list.toArray());
+      this.assertArrayEquals([1, 2, 3], list);
 
       var length = list.push(4, 5);
       this.assertEquals(5, length);
-      this.assertArrayEquals([1, 2, 3, 4, 5], list.toArray());
+      this.assertArrayEquals([1, 2, 3, 4, 5], list);
     },
     
     testArrayReverse : function()
     {
       var list = new qx.test.TestList(1, 2, 3, 4, 5);
       list.reverse();
-      this.assertArrayEquals([5, 4, 3, 2, 1], list.toArray());
+      this.assertArrayEquals([5, 4, 3, 2, 1], list);
       list.reverse();
-      this.assertArrayEquals([1, 2, 3, 4, 5], list.toArray());
+      this.assertArrayEquals([1, 2, 3, 4, 5], list);
     },
     
     testArrayShift : function()
@@ -95,14 +98,14 @@ qx.Class.define("qx.test.List",
       var list = new qx.test.TestList(1, 2, 3, 4, 5);
       var shifted = list.shift();
       this.assertEquals(1, shifted);
-      this.assertArrayEquals([2, 3, 4, 5], list.toArray());
+      this.assertArrayEquals([2, 3, 4, 5], list);
     },
     
     testArrayUnshift : function()
     {
       var list = new qx.test.TestList(2, 3, 4, 5);
       var length = list.unshift(1);
-      this.assertArrayEquals([1, 2, 3, 4, 5], list.toArray());
+      this.assertArrayEquals([1, 2, 3, 4, 5], list);
     },
     
     testArraySlice : function()
@@ -117,13 +120,13 @@ qx.Class.define("qx.test.List",
     {
       var list = new qx.test.TestList(3, 5, 1, -1);
       var sorted = list.sort();
-      this.assertArrayEquals([-1, 1, 3, 5], list.toArray());
+      this.assertArrayEquals([-1, 1, 3, 5], list);
 
       var list = new qx.test.TestList(3, 5, 1, -1);
       var sorted = list.sort(function(a, b) {
         return a > b ? -1 : 1;
       });
-      this.assertArrayEquals([5, 3, 1, -1], list.toArray());
+      this.assertArrayEquals([5, 3, 1, -1], list);
     },
     
     testArraySplice : function()
@@ -131,7 +134,7 @@ qx.Class.define("qx.test.List",
       var list = new qx.test.TestList(1, 2, 3, 4, 5);
       var removed = list.splice(1, 2, 22, 33);
       this.assertArrayEquals([2, 3], removed);
-      this.assertArrayEquals([1, 22, 33, 4, 5], list.toArray());
+      this.assertArrayEquals([1, 22, 33, 4, 5], list);
     },
     
     testArrayToString : function()
