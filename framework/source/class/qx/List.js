@@ -14,6 +14,18 @@
 
    Authors:
      * Sebastian Werner (wpbasti)
+     * Fabian Jakobs (fjakobs)
+     
+   ======================================================================
+
+   This class uses ideas and code snipplets presented at
+   <http://webreflection.blogspot.com/2008/05/habemus-array-unlocked-length-in-ie8.html>
+   
+   Author:
+       Andrea Giammarchi
+       
+   License:
+       MIT: http://www.opensource.org/licenses/mit-license.php
 
 ************************************************************************ */
 
@@ -63,64 +75,60 @@ qx.Bootstrap.define("qx.List",
       // Validate incoming data
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         this.__validateConfig(name, config);
-      }
-
-      // Create class
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      }   
+      
+      function clazz(length)
       {
-        try
+        if (arguments.length == 1 && typeof(length) == "number")
         {
-          var html = new ActiveXObject("htmlfile");
-          html.open();
-          html.write("<html><script><" + "/script></html>");
-          html.close();
-  
-          var clazz = html.parentWindow.Array
-          var proto = clazz.prototype;
-          
-          proto.toArray = this.__toArray;
-          proto.getLength = this.__getLength;
-          
-          // We need to keep the document referenced somewhere
-          // otherwise IE will garbage collect it and throws
-          // an "unexpected access" error.
-          clazz.__html = html;          
-        }
-        catch (ex)
-        {
-          if (clazz) {
-            delete(clazz.__html);
+          var isInteger = (length % 1 === 0);
+          if (length > 0 && isInteger) {
+            this.length = length;
+          } else {
+            this.length = this.push(arguments[0]);
           }
-          
-          var clazz = this.__createArrayWrapper();
-          var proto = clazz.prototype;
+        }
+        else if (arguments.length)
+        {
+          this.push.apply(this, arguments);
         }
       }
-      else
-      {
-        var clazz = function()
-        {
-          Array.call(this);
-          this.push.apply(this, arguments);
+      
+      var Array = function() {};
+      Array.prototype = [];
+      
+      clazz.prototype = new Array();      
+      
+      var proto = clazz.prototype;
+      
+      // In IE don't inherit Array but use an empty object as prototype
+      // and copy the methods from Array
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      {        
+        clazz.prototype = {
+          $$isArray: true
         };
-
-        clazz.prototype = new Array;
         var proto = clazz.prototype;
-        
-        // modify toString
-        proto.toString = proto.join;
-        proto.toLocaleString = proto.join;
-
-        proto.toArray = this.__toArray;
-        proto.getLength = this.__getLength;
-        
-        // need to reimplement concat since it does not work properly otherwise
-        clazz.prototype.concat = this.__concat;         
+        var methodNames = [
+          "pop", "push", "reverse", "shift", "sort", "splice",
+          "unshift", "join", "slice"
+        ];
+        for (var i=0; i<methodNames.length; i++)
+        {
+          var methodName = methodNames[i];
+          proto[methodName] = window.Array.prototype[methodName];
+        }
       }
+      
+      proto.length = 0;
+      proto.constructor = clazz;
+      
+      proto.toString = proto.join;
+      proto.toLocaleString = this.__toLocaleString; 
+      clazz.prototype.concat = this.__concat;    
 
       // Create namespace
       var basename = qx.Bootstrap.createNamespace(name, clazz, false);
-
 
 
       // Attach data
@@ -159,64 +167,6 @@ qx.Bootstrap.define("qx.List",
       // Store class reference in global class registry
       this.$$registry[name] = clazz;
     },
-
-    
-    __createArrayWrapper : qx.core.Variant.select("qx.client",
-    {
-      "mshtml" : function()
-      {
-        if (this.__arrayWrapper) {
-          return this.__arrayWrapper;
-        }
-        
-        function createWrapperFunction(method) {
-          return function() {
-            return method.apply(this.__array, arguments);
-          }
-        }
-        
-        var ArrayWrapper = function() {
-          this.__array = Array.prototype.slice.call(arguments, 0);
-        };
-        
-        ArrayWrapper.prototype = {
-          toArray : function() {
-            return this.__array;
-          },
-          getLength : function() {
-            return this.__array.length;
-          }
-        };
-  
-        var methods = [
-          "concat",
-          "join",
-          "pop",
-          "push",
-          "reverse",
-          "shift",
-          "slice",
-          "sort",
-          "splice",
-          "toLocaleString",
-          "toString",
-          "unshift"
-        ]
-        for (var i=0; i<methods.length; i++)
-        {
-          var name = methods[i];
-          var method = Array.prototype[name];
-          if (typeof method == "function") {
-            ArrayWrapper.prototype[name] = createWrapperFunction(method);
-          }
-        }
-              
-        this.__arrayWrapper = ArrayWrapper;
-        return ArrayWrapper;
-      },
-      
-      "default": null
-    }),
     
 
     /**
@@ -241,14 +191,12 @@ qx.Bootstrap.define("qx.List",
     },
     
     
-    __toArray : function() {
-      return this;
-    },
-    
-    
-    __getLength : function() {
-      return this.length;
-    },
+    /**
+     * Reimplement toLocaleString method
+     */
+    __toLocaleString : function() {
+      return  this.slice(0).toLocaleString();
+    };
     
 
     /** Stores all defined classes */
@@ -276,7 +224,6 @@ qx.Bootstrap.define("qx.List",
      * @param name {String} The name of the class
      * @param config {Map} Configuration map
      * @return {void}
-     * @throws TODOC
      */
     __validateConfig : qx.core.Variant.select("qx.debug",
     {
