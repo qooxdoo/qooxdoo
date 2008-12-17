@@ -18,6 +18,7 @@
 
 ************************************************************************ */
 
+
 qx.Class.define("demobrowser.demo.bom.ScrollIntoView",
 {
   extend : qx.application.Native,
@@ -31,8 +32,8 @@ qx.Class.define("demobrowser.demo.bom.ScrollIntoView",
       for (var i=0, l=ids.length; i<l; i++)
       {
         var el = document.getElementById(ids[i]);
-        qx.log.Logger.log("Width: " + ids[i] + ": offset=" + el.offsetWidth + ", scroll=" + el.scrollWidth + ", client=" + el.clientWidth);
-        qx.log.Logger.log("Height: " + ids[i] + ": offset=" + el.offsetHeight + ", scroll=" + el.scrollHeight + ", client=" + el.clientHeight);
+        qx.log.Logger.info("Width: " + ids[i] + ": offset=" + el.offsetWidth + ", scroll=" + el.scrollWidth + ", client=" + el.clientWidth);
+        qx.log.Logger.info("Height: " + ids[i] + ": offset=" + el.offsetHeight + ", scroll=" + el.scrollHeight + ", client=" + el.clientHeight);
       }
     }
   }
