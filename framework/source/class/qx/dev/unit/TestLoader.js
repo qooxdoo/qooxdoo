@@ -57,7 +57,6 @@ qx.Class.define("qx.dev.unit.TestLoader",
       this.base(arguments);
 
       // Dependencies to loggers
-      qx.log.appender.Native;
       qx.log.appender.Console;
 
       this.setTestNamespace(this.__getClassNameFromUrl());
