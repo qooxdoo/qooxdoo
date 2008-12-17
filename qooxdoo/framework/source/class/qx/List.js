@@ -196,7 +196,7 @@ qx.Bootstrap.define("qx.List",
      */
     __toLocaleString : function() {
       return  this.slice(0).toLocaleString();
-    };
+    },
     
 
     /** Stores all defined classes */
