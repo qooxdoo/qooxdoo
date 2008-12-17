@@ -53,7 +53,8 @@
       "exclude" :
       [
         "qx.legacy.*",
-        "qx.test.*"
+        "qx.test.*",
+        "qx.dev.unit.*"
       ],
 
       "variants" :
