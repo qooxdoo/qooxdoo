@@ -20,7 +20,8 @@
    This class contains code based on the following work:
 
    * Sizzle
-     http://ejohn.org
+     http://groups.google.com/group/sizzlejs
+     http://github.com/jeresig/sizzle/tree
      commit 62bf2902513e135b5aa888291de242a3da59afdd
      tree   a79acf482099538745bd9a395bc86b0f869e4d7a
      parent 5d980752ca8fb5a4237667289ea142f0bdf03329 
@@ -38,6 +39,9 @@
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  * 
  * Selector engine based on Sizzle by John Resig
+ * 
+ * * http://groups.google.com/group/sizzlejs
+ * * http://github.com/jeresig/sizzle/tree
  */
 qx.Class.define("qx.bom.Selector", 
 {
@@ -53,12 +57,27 @@ qx.Class.define("qx.bom.Selector",
     __cache : null,
     done : 0,
 
+    /**
+     * __invalidate
+     */
     __invalidate : function() {
       this.__cache = {};
     },
     
+    /**
+     * __makeArray
+     * 
+     * @param array {Array} array
+     * @param results {Array} results
+     */
     __makeArray : function(array, results) {},
     
+    /**
+     * __makeArrayNative
+     * 
+     * @param array {Array} array
+     * @param results {Array} results
+     */
     __makeArrayNative : function(array, results) 
     {
       array = Array.prototype.slice.call( array );
@@ -71,6 +90,12 @@ qx.Class.define("qx.bom.Selector",
       return array;
     },
     
+    /**
+     * __makeArrayAlternative
+     * 
+     * @param array {Array} array
+     * @param results {Array} results
+     */
     __makeArrayAlternative : function(array, results)
     {
       var ret = results || [];
@@ -86,6 +111,15 @@ qx.Class.define("qx.bom.Selector",
       return ret;      
     },
     
+    /**
+     * __dirNodeCheck
+     * 
+     * @param dir {var} dir
+     * @param cur {var} cur
+     * @param doneName {var} doneName
+     * @param checkSet {var} checkSet
+     * @param nodeCheck {var} nodeCheck
+     */
     __dirNodeCheck : function( dir, cur, doneName, checkSet, nodeCheck ) {
       for ( var i = 0, l = checkSet.length; i < l; i++ ) {
         var elem = checkSet[i];
@@ -116,6 +150,15 @@ qx.Class.define("qx.bom.Selector",
       }
     },
     
+    /**
+     * __dirCheck
+     * 
+     * @param dir {var} dir
+     * @param cur {var} cur
+     * @param doneName {var} doneName
+     * @param checkSet {var} checkSet
+     * @param nodeCheck {var} nodeCheck
+     */
     __dirCheck : function( dir, cur, doneName, checkSet, nodeCheck ) {
       for ( var i = 0, l = checkSet.length; i < l; i++ ) {
         var elem = checkSet[i];
@@ -162,8 +205,17 @@ qx.Class.define("qx.bom.Selector",
     *****************************************************************************
     */    
     
-    /**
+    /*
      * Queries
+     */
+    
+    /**
+     * query
+     * 
+     * @param selector {var} selector
+     * @param context {var} context
+     * @param results {var} results
+     * @param seed {var} seed
      */
     query : function(selector, context, results, seed) 
     {
@@ -295,17 +347,31 @@ qx.Class.define("qx.bom.Selector",
     },
     
     
-    /**
+    /*
      * Matches
-     */    
+     */
+    
+     /**
+      * matches
+      * 
+      * @param expr {var} expr
+      * @param set {var} set
+      */
     matches : function(expr, set){
       return this.query(expr, null, null, set);
     },
     
     
-    /**
+    /*
      * Finds
-     */    
+     */
+    
+     /**
+      * find
+      * 
+      * @param expr {var} expr
+      * @param context {var} context
+      */
     find : function(expr, context)
     {
       var set, match;
@@ -358,9 +424,17 @@ qx.Class.define("qx.bom.Selector",
     },
     
     
-    /**
+    /*
      * Filters
      */
+    
+     /**
+      * filter
+      * 
+      * @param expr {var} expr
+      * @param set {var} set
+      * @param inplace {var} inplace
+      */
     filter : function(expr, set, inplace)
     {
       var old = expr, result = [], curLoop = set, match;
