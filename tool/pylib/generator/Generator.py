@@ -738,7 +738,7 @@ class Generator:
         forceUri = resourceUri
 
         # Get translation maps
-        locales = compConf.get("paths/locales", [])
+        locales = compConf.get("code/locales", [])
         translationMaps = self.getTranslationMaps(parts, packages, variants, locales)
 
         libs = self._job.get("library", [])
