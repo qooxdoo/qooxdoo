@@ -7,13 +7,13 @@
   .qx_samples { display:none }
   </style>
   <script type="text/javascript">if (location.hostname === "demo.qooxdoo.org") document.write('<script src="http://resources.qooxdoo.org/script/analytics.js" type="text/javascript"></scr' + 'ipt>');</script>
-  <script src="js/codemirror.js" type="text/javascript"></script>
+  <script src="resource/playground/js/codemirror.js" type="text/javascript"></script>
 </head>
 <body>
 
 <!-- ********************************************************************** -->
 
-<textarea class="qx_samples" title="Hello_World">// Create a button
+<textarea class="qx_samples" title="Hello World">// Create a button
 var button1 = new qx.ui.form.Button("First Button", "icon/22/apps/internet-web-browser.png");
 
 // Document is the application root
@@ -38,6 +38,8 @@ button1.addListener("execute", function(e) {
 <div id="compare_div2" visibility="hidden"></div>
 
 <textarea class="qx_samples" title="Window">var win = new qx.ui.window.Window("First Window");
+win.setWidth(300);
+win.setHeight(200);
 win.open();
 this.getRoot().add(win, {left:20, top:20});
 </textarea>
