@@ -86,9 +86,11 @@ qx.Bootstrap.define("qx.List",
           // an "unexpected access" error.
           clazz.__html = html;          
         }
-        catch (e)
+        catch (ex)
         {
-          delete(clazz.__html);
+          if (clazz) {
+            delete(clazz.__html);
+          }
           
           var clazz = this.__createArrayWrapper();
           var proto = clazz.prototype;
