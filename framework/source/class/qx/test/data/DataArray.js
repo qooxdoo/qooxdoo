@@ -169,7 +169,7 @@ qx.Class.define("qx.test.data.DataArray",
         a.pop();
       }, function(e) {
         self.assertEquals(1, e.getData().start, "Wrong start index in the event.");
-        self.assertEquals(2, e.getData().end, "Wrong end index in the event.");
+        self.assertEquals(1, e.getData().end, "Wrong end index in the event.");
         self.assertEquals("remove", e.getData().type, "Wrong type in the event.");
       }, "Change event not fired!");
     },

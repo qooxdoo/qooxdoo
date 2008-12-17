@@ -312,7 +312,7 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
       this.assertEquals("hulk", this.__b.getName(), "Unbinding does not work!");
 
       // add another two bindings
-      var id1 = this.__a.bindToEvent("changeName", this.__b, "name");
+      var id1 = this.__a.bindEvent("changeName", this.__b, "name");
       var id2 = this.__a.bind("zIndex", this.__b, "zIndex");
 
       // get the current bindings

@@ -19,6 +19,9 @@
 
 /**
  * EXPERIMENTAL!!!
+ * 
+ * The data binding package is still under development so there will be changes
+ * to the API. This Features is for texting purpose only.
  */
 qx.Class.define("qx.data.SingleValueBinding",
 {
@@ -37,20 +40,33 @@ qx.Class.define("qx.data.SingleValueBinding",
      * Please keep in mind, that this binding is unidirectional. If you need
      * a binding in both directions, you have to use two of this bindings.
      *
-     * It's also possible to bind some hind of a hierarchy as a source. This
+     * It's also possible to bind some kind of a hierarchy as a source. This
      * means that you can separate the source properties with a dot and bind
      * by that the object referenced to this property chain.
      * Example with an object 'a' which has object 'b' stored in its 'child'
      * property. Object b has a string property named abc:
-     * <code>
+     * <pre><code>
      * qx.data.SingleValueBinding.bind(a, "child.abc", textfield, "value");
-     * </code>
-     * Also arrays can be bound as a source property.
-     * <code>
-     * qx.data.SingleValueBinding.bind(a, "children[0]", textfield, value);
-     * qx.data.SingleValueBinding.bind(a, "children[last]", textfield2, value);
-     * </code>
-     *
+     * </code></pre>
+     * In that case, if the property abc of b changes, the textfield will 
+     * automatically contain the new value. Also if the child of a changes, the 
+     * new value (abc of the new child) will be in the textfield.
+     * 
+     * There is also a possibility of binding an array. Therefor the array
+     * {@link qx.data.Array} is needed because this array has change events 
+     * which the native does not. Imagine a qooxdoo object a which has a 
+     * children property containing an array holding more of its own kind. 
+     * Every object has a name property as a string.
+     * <pre><code>
+     * var svb = qx.data.SingleValueBinding;
+     * // bind the first childs name of 'a' to a textfield
+     * svb.bind(a, "children[0].name", textfield, "value");
+     * // bind the last childs name of 'a' to a textfield
+     * svb.bind(a, "children[last].name", textfield2, "value");
+     * // also deeper bindinds are possible
+     * svb.bind(a, "children[0].children[0].name", textfield3, "value");
+     * </code></pre>
+     * 
      * As you can see in this example, the abc property of a's b will be bound
      * to the textfield. If now the value of b changed or even the a will get a
      * new b, the binding still shows the right value.
@@ -64,7 +80,7 @@ qx.Class.define("qx.data.SingleValueBinding",
      * @param options {Map} A map containing the options. See
      *   {@link #bindEventToProperty} for more information.
      *
-     * @return {id} Returns the internal id for that binding. This can be used
+     * @return {var} Returns the internal id for that binding. This can be used
      *   for referencing the binding or e.g. for removing. This is not an atomic
      *   id so you can't you use it as a hash-map index.
      *
@@ -141,7 +157,9 @@ qx.Class.define("qx.data.SingleValueBinding",
               // if its an array
               if (source instanceof qx.data.Array) {
                 // set the inital value
-                var currentValue = source.getItem(arrayIndexValues[j]);
+                var itemIndex = arrayIndexValues[j] === "last" ? 
+                  source.length - 1 : arrayIndexValues[j];
+                var currentValue = source.getItem(itemIndex);
                 this.__setInitialValue(
                   currentValue, targetObject, targetProperty, options
                 );
@@ -310,7 +328,7 @@ qx.Class.define("qx.data.SingleValueBinding",
      * @param options {Map} A map containing the options. See
      *   {@link #bindEventToProperty} for more information.
      *
-     * @return {id} Returns the internal id for that binding. This can be used
+     * @return {var} Returns the internal id for that binding. This can be used
      *   for referencing the binding or e.g. for removing. This is not an atomic
      *   id so you can't you use it as a hash-map index. It's the id which will
      *   be returned b< the {@link qx.core.Object#addListener} method.
@@ -319,7 +337,10 @@ qx.Class.define("qx.data.SingleValueBinding",
      *   there is no property definition for object and property (source and
      *   target).
      */
-    bindPropertyToProperty : function(sourceObject, sourceProperty, targetObject, targetProperty, options) {
+    bindPropertyToProperty : function(
+      sourceObject, sourceProperty, targetObject, targetProperty, options
+    )
+    {
       var id = this.__bindPropertyToProperty(
         sourceObject, sourceProperty, targetObject, targetProperty, options
       );
@@ -347,7 +368,7 @@ qx.Class.define("qx.data.SingleValueBinding",
      * @param options {Map} A map containing the options. See
      *   {@link #bindEventToProperty} for more information.
      *
-     * @return {id} Returns the internal id for that binding. This can be used
+     * @return {var} Returns the internal id for that binding. This can be used
      *   for referencing the binding or e.g. for removing. This is not an atomic
      *   id so you can't you use it as a hash-map index. It's the id which will
      *   be returned b< the {@link qx.core.Object#addListener} method.
@@ -400,7 +421,7 @@ qx.Class.define("qx.data.SingleValueBinding",
      *   <li>onSetFail: A callback function can be given here. This method will
      *       be called if the set of the value fails.</li>
      *
-     * @return {id} Returns the internal id for that binding. This can be used
+     * @return {var} Returns the internal id for that binding. This can be used
      *   for referencing the binding or e.g. for removing. This is not an atomic
      *   id so you can't you use it as a hash-map index. It's the id which will
      *   be returned b< the {@link qx.core.Object#addListener} method.
@@ -444,7 +465,7 @@ qx.Class.define("qx.data.SingleValueBinding",
      * @param arrayIndex {String} The index of the given array if its an array
      *   to bind.
      *
-     * @return {id} Returns the internal id for that binding. This can be used
+     * @return {var} Returns the internal id for that binding. This can be used
      *   for referencing the binding or e.g. for removing. This is not an atomic
      *   id so you can't you use it as a hash-map index. It's the id which will
      *   be returned b< the {@link qx.core.Object#addListener} method.
@@ -476,13 +497,13 @@ qx.Class.define("qx.data.SingleValueBinding",
         );
       }
 
-      var bindListener = function(arrayIndex, e) {
+      var bindListener = function(arrayIndex, e) {        
         // if an array value is given
         if (arrayIndex !== "") {
           //check if its the "last" value
           if (arrayIndex === "last") {
             arrayIndex = sourceObject.length - 1;
-          }
+          }          
           // get the data of the array
           var data = sourceObject.getItem(arrayIndex);
         } else {
@@ -505,23 +526,29 @@ qx.Class.define("qx.data.SingleValueBinding",
 
         // try to set the value
         try {
-          targetObject["set" + qx.lang.String.firstUp(targetProperty)](data);
+          if (data != undefined) {
+            targetObject["set" + qx.lang.String.firstUp(targetProperty)](data);            
+          } else {
+            targetObject["reset" + qx.lang.String.firstUp(targetProperty)];
+          }
 
           // tell the user that the setter was invoked probably
           if (options && options.onSetOk) {
             options.onSetOk();
           }
 
-          } catch (e) {
-            if (! (e instanceof qx.core.ValidationError)) {
-              throw e;
+        } catch (e) {
+          if (! (e instanceof qx.core.ValidationError)) {
+            throw e;
           }
 
           if (options && options.onSetFail) {
             options.onSetFail(e);
           } else {
-            this.warn("Failed so set value " + data + " on " +
-                      targetObject + ". Error message: " + e);
+            this.warn(
+              "Failed so set value " + data + " on " + targetObject
+               + ". Error message: " + e
+            );
           }
         }
       }
@@ -545,7 +572,7 @@ qx.Class.define("qx.data.SingleValueBinding",
      * This method stores the given value as a binding in the internal structure
      * of all bindings.
      *
-     * @param id {id} The listener id of the id for a deeper bingin.
+     * @param id {var} The listener id of the id for a deeper bingin.
      * @param sourceObject {qx.core.Object} The source Object of the binding.
      * @param sourceEvent {String} The name of the source event.
      * @param targetObject {qx.core.Object} The target object.
@@ -667,7 +694,7 @@ qx.Class.define("qx.data.SingleValueBinding",
      * id hast to be the id returned by any of the bind functions.
      *
      * @param sourceObject {qx.core.Object} The source object of the binding.
-     * @param id {id} The id of the binding.
+     * @param id {var} The id of the binding.
      * @throws {Error} If the binding could not be found.
      */
     removeBindingFromObject : function(sourceObject, id) {
@@ -779,8 +806,8 @@ qx.Class.define("qx.data.SingleValueBinding",
      * Debug function which shows some valuable information about the given
      * binding in console. For that it uses {@link qx.log.Logger}.
      *
-     * @param object {x.core.Object} the source of the binding.
-     * @param id {id} The id of the binding.
+     * @param object {qx.core.Object} the source of the binding.
+     * @param id {var} The id of the binding.
      */
     showBindingInLog : function(object, id) {
       var binding;
