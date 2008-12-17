@@ -117,8 +117,15 @@ qx.Class.define("demobrowser.TreeDataHandler",
         that.readTree(el, target);
       }
 
+      function topsort(a, b)
+      {
+        return (a.classname < b.classname) ? -1 : (a.classname > b.classname) ? 1 : 0;
+      }
+
       var root = new demobrowser.Tree("All");
       var that = this;
+
+      tmap.sort(topsort);
 
       for (var i=0; i<tmap.length; i++) {
         insert(root, tmap[i]);
