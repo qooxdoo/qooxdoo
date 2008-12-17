@@ -249,7 +249,7 @@ qx.Class.define("qx.core.Object",
         {
           if (!this[setter[data]])
           {
-            this.warn("No such property: " + data);
+            this.error("No such property: " + data);
             return this;
           }
         }
@@ -264,7 +264,7 @@ qx.Class.define("qx.core.Object",
           {
             if (!this[setter[prop]])
             {
-              this.warn("No such property: " + prop);
+              this.error("No such property: " + prop);
               continue;
             }
           }
@@ -292,7 +292,7 @@ qx.Class.define("qx.core.Object",
       {
         if (!this[getter[prop]])
         {
-          this.warn("No such property: " + prop);
+          this.error("No such property: " + prop);
           return;
         }
       }
@@ -315,7 +315,7 @@ qx.Class.define("qx.core.Object",
       {
         if (!this[resetter[prop]])
         {
-          this.warn("No such property: " + prop);
+          this.error("No such property: " + prop);
           return;
         }
       }
