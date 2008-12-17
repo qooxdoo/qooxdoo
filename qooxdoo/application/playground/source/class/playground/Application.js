@@ -248,11 +248,9 @@ qx.Class.define("playground.Application",
      */
     __makeTextArea : function()
     {
-      var layout = new qx.ui.layout.VBox();
-      layout.setSeparator("separator-vertical");
-
-      var container = new playground.EditorContainer();  // qx.ui.container.Composite(layout).set({ decorator : "main" });
-
+      var container = new playground.EditorContainer();  
+      this.container
+      
       this.container = container;
 
       var caption = new qx.ui.basic.Label(this.tr("Source Code")).set(
@@ -263,6 +261,7 @@ qx.Class.define("playground.Application",
         allowGrowX : true,
         allowGrowY : true
       });
+
 
       container.add(caption);
 
@@ -277,7 +276,7 @@ qx.Class.define("playground.Application",
       });
 
       container.add(this.textarea, { flex : 1 });
-
+      
       // this code part uses the Codemirror library to add syntax highlighting
       // to the current textarea
       this.textarea.addListenerOnce("appear", function()
