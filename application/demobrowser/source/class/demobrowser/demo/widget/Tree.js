@@ -112,10 +112,18 @@ qx.Class.define("demobrowser.demo.widget.Tree",
 
       tree.addListener("changeSelection", function(e)
       {
-        if (this.getSelectionMode() === "multi") {
-          tCurrentInput.setValue(e.getData().length + " items");
-        } else {
-          tCurrentInput.setValue(e.getData()[0].getLabel());
+        var data = e.getData();
+        if(data.length > 0)
+        {
+          if (this.getSelectionMode() === "multi") {
+            tCurrentInput.setValue(data.length + " items");
+          } else {
+            tCurrentInput.setValue(data[0].getLabel());
+          }
+        }
+        else
+        {
+          tCurrentInput.setValue("");
         }
       });
 
