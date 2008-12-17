@@ -19,6 +19,9 @@
 
 /**
  * EXPERIMENTAL!!!
+ * 
+ * The data binding package is still under development so there will be changes
+ * to the API. This Features is for texting purpose only.
  */
 qx.Mixin.define("qx.data.MBinding",
 {
@@ -39,7 +42,7 @@ qx.Mixin.define("qx.data.MBinding",
      *   {@link qx.data.SingleValueBinding#bindEventToProperty} for more
      *   information.
      *
-     * @return {id} Returns the internal id for that binding. This can be used
+     * @return {var} Returns the internal id for that binding. This can be used
      *   for referencing the binding e.g. for removing. This is not an atomic
      *   id so you can't you use it as a hash-map index.
      *
@@ -68,7 +71,7 @@ qx.Mixin.define("qx.data.MBinding",
      *   {@link qx.data.SingleValueBinding#bindEventToProperty} for more
      *   information.
      *
-     * @return {id} Returns the internal id for that binding. This can be used
+     * @return {var} Returns the internal id for that binding. This can be used
      *   for referencing the binding or e.g. for removing. This is not an atomic
      *   id so you can't you use it as a hash-map index.
      *
@@ -76,7 +79,7 @@ qx.Mixin.define("qx.data.MBinding",
      *   there is no property definition for object and property (source and
      *   target).
      */
-    bindToObject : function(
+    bindObject : function(
       sourceObject, sourcePropertyChain, targetProperty, options
     )
     {
@@ -101,7 +104,7 @@ qx.Mixin.define("qx.data.MBinding",
      *   {@link qx.data.SingleValueBinding#bindEventToProperty} for more
      *   information.
      *
-     * @return {id} Returns the internal id for that binding. This can be used
+     * @return {var} Returns the internal id for that binding. This can be used
      *   for referencing the binding or e.g. for removing. This is not an atomic
      *   id so you can't you use it as a hash-map index. It's the id which will
      *   be returned b< the {@link qx.core.Object#addListener} method.
@@ -110,7 +113,7 @@ qx.Mixin.define("qx.data.MBinding",
      *   there is no property definition for the target object and target
      *   property.
      */
-    bindToEvent: function(sourceEvent, targetObject, targetProperty, options) {
+    bindEvent: function(sourceEvent, targetObject, targetProperty, options) {
       return qx.data.SingleValueBinding.bindEventToProperty(
         this, sourceEvent, targetObject, targetProperty, options
       );
@@ -122,7 +125,7 @@ qx.Mixin.define("qx.data.MBinding",
      * Removes the binding with the given id from the current object. The
      * id hast to be the id returned by any of the bind functions.
      *
-     * @param id {id} The id of the binding.
+     * @param id {var} The id of the binding.
      * @throws {Error} If the binding could not be found.
      */
     removeBinding: function(id){
