@@ -650,12 +650,6 @@ qx.Class.define("qx.event.handler.DragDrop",
 
   destruct : function()
   {
-    // Clear a running session
-    this.__clearSession();
-
-    // Stop mousedown
-    this.__manager.removeListener(this.__root, "mousedown", this._onMouseDown, this);
-
     // Clear fields
     this._disposeFields("__dragTarget", "__dropTarget",
       "__manager", "__root",
