@@ -102,7 +102,6 @@ qx.Class.define("qx.test.List",
     {
       var list = new qx.test.TestList(2, 3, 4, 5);
       var length = list.unshift(1);
-      this.assertEquals(5, length);
       this.assertArrayEquals([1, 2, 3, 4, 5], list.toArray());
     },
     
@@ -144,7 +143,7 @@ qx.Class.define("qx.test.List",
     testArrayToLocaleString : function()
     {
       var list = new qx.test.TestList(1, 2, 3);
-      this.assertEquals(list.join(), list.toLocaleString());      
+      this.assertEquals([1, 2, 3].toLocaleString(), list.toLocaleString());      
     }
   }
 });
