@@ -15,6 +15,19 @@ import sys, os, optparse, codecs, re
 
 basic = u"""[%s]"""
 
+def fileCheck(fname):
+    fileH = open(fname,"rU")
+    selected = False
+    for line in fileH:
+        #if re.search(r'demobrowser\.demo',line):
+        if re.search(r'src="\.\./helper.js"',line):
+            selected = True
+            break
+    fileH.close()
+
+    return selected
+ 
+                                                                                 
 def main(dist, scan):
   res = ""
   structurize = False
@@ -42,6 +55,9 @@ def main(dist, scan):
         continue
 
       if os.path.splitext(item)[1] != ".html":
+        continue
+
+      if not fileCheck(os.path.join(scan, category, item)):
         continue
 
       title = item[:item.find(".")]
