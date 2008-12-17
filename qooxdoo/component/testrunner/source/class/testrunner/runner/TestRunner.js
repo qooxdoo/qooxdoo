@@ -49,7 +49,6 @@ qx.Class.define("testrunner.runner.TestRunner",
     this.setLayout(layout);
 
     // Dependencies to loggers
-    qx.log.appender.Native;
     qx.log.appender.Console;
 
     this.widgets = {};
@@ -168,7 +167,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       toolbar.add(part1);
 
       // -- run button
-      this.runbutton = new qx.ui.toolbar.Button(this.tr('<b>Run Tests!</b>'), "icon/22/actions/media-playback-start.png");    
+      this.runbutton = new qx.ui.toolbar.Button(this.tr('<b>Run&nbsp;Tests!</b>'), "icon/22/actions/media-playback-start.png");    
       this.runbutton.setTextColor("#36a618");
       this.runbutton.setRich(true);
       part1.add(this.runbutton);
@@ -1014,9 +1013,6 @@ qx.Class.define("testrunner.runner.TestRunner",
       {
         this.widgets["statuspane.systeminfo"].setContent(this.tr("Ready"));
         this.runbutton.setEnabled(true);
-
-        // Register the native appender again to have the output 
-        iframe.getWindow().qx.log.Logger.register(qx.log.appender.Native);
       }
       else
       {
@@ -1111,15 +1107,12 @@ qx.Class.define("testrunner.runner.TestRunner",
 
         // Register to flush the log queue into the appender.
         logger.register(this.logappender);
-        logger.register(qx.log.appender.Native);
 
         // Clear buffer
         logger.clear();
 
         // Unregister again, so that the logger can flush again the next time the tab is clicked.
-        logger.unregister(this.logappender);
-        logger.unregister(qx.log.appender.Native);
-        
+        logger.unregister(this.logappender);        
       }
     },
 
