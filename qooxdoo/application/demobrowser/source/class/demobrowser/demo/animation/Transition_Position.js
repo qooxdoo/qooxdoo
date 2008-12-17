@@ -32,13 +32,11 @@ qx.Class.define("demobrowser.demo.animation.Transition_Position",
 
       var doc = this.getRoot();
 
-      var elementStyle = 'font-size:12pt;text-align:center;font-family:"Trebuchet MS","Lucida Grande",Verdana,sans-serif;color:white;left:90px;top:90px;position:absolute;width:200px;height:55px;border:2px #E5E5E5 solid;background-color:#134275;z-Index:2;';
-      myElement = qx.bom.Element.create('div', { style : elementStyle });
+      var myElement = new qx.ui.embed.Html();
+      myElement.setHtml('<span style="color:white;">Welcome to <br><b style="color:#F3FFB3;">qooxdoo</b> animations!</span>');
+      myElement.setCssClass("test");
 
-      document.body.appendChild(myElement);
-
-      myElement.id = "testDiv";
-      myElement.innerHTML = 'Welcome to <br><b style="color:#F3FFB3;">qooxdoo</b> animations!';
+      doc.add(myElement);
 
       var transitionData = {
         linear      : "Linear is the default transition for many effects.",
@@ -73,22 +71,28 @@ qx.Class.define("demobrowser.demo.animation.Transition_Position",
         value :  1.0
       });
 
-      var animMove = new qx.fx.effect.core.Move(myElement);
-      animMove.set({
-        x : 600,
-        y : 300,
-        mode : "absolute"
-      });
-
+      var animMove;
       var moveBack = false;
-      animMove.addListener("finish", function()
-      {
+
+      myElement.addListenerOnce("appear", function(){
+        animMove = new qx.fx.effect.core.Move(myElement.getContentElement().getDomElement());
         animMove.set({
-          x: moveBack ? 90 : 600,
-          y: moveBack ? 90 : 300
+          x : 600,
+          y : 300,
+          mode : "absolute"
         });
-        moveBack = !moveBack;
-      });
+
+        animMove.addListener("finish", function()
+        {
+          animMove.set({
+            x: moveBack ? 90 : 600,
+            y: moveBack ? 90 : 300
+          });
+          moveBack = !moveBack;
+        });
+
+
+      }, this);
 
       var nf = new qx.util.format.NumberFormat();
       nf.setMaximumFractionDigits(2);

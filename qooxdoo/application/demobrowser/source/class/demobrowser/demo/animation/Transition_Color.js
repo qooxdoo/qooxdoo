@@ -32,13 +32,11 @@ members :
 
    var doc = this.getRoot();
 
-   var elementStyle = 'font-size:12pt;text-align:center;font-family:"Trebuchet MS","Lucida Grande",Verdana,sans-serif;color:white;left:90px;top:90px;position:absolute;width:200px;height:55px;border:2px #E5E5E5 solid;background-color:#134275;z-Index:2;';
-   myElement = qx.bom.Element.create('div', { style : elementStyle });
+   var myElement = new qx.ui.embed.Html();
+   myElement.setHtml('<span style="color:white;">Welcome to <br><b style="color:#F3FFB3;">qooxdoo</b> animations!</span>');
+   myElement.setCssClass("test");
 
-   document.body.appendChild(myElement);
-
-   myElement.id = "testDiv";
-   myElement.innerHTML = 'Welcome to <br><b style="color:#F3FFB3;">qooxdoo</b> animations!';
+   doc.add(myElement);
 
    var transitionData = {
      linear      : "Linear is the default transition for many effects.",
@@ -75,11 +73,15 @@ members :
      value :  1.0
    });
 
-   var animMove = new qx.fx.effect.core.Highlight(myElement);
-   animMove.set({
-     startColor : "#134275",
-     endColor : "#7CFC00"
-   });
+   var animMove;
+   
+   myElement.addListenerOnce("appear", function(){
+     animMove = new qx.fx.effect.core.Highlight(myElement.getContentElement().getDomElement());
+     animMove.set({
+       startColor : "#134275",
+       endColor : "#7CFC00"
+     });
+   }, this);
 
    var moveBack = false;
 
