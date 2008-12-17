@@ -436,7 +436,6 @@ qx.Class.define("playground.Application",
       {
         this.fun = new Function(this.code);
         this.fun.call(this.__playApp);
-        this.widgets["toolbar.logCheckButton"].setChecked(false);
       }
       catch(ex)
       {
