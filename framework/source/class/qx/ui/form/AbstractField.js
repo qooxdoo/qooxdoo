@@ -53,6 +53,17 @@ qx.Class.define("qx.ui.form.AbstractField",
     }
 
     this.getContentElement().addListener("change", this._onChangeContent, this);
+    
+    // IE doesn't fire the "change" event if "Enter" is pressed.
+    if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+      this.addListener("keypress", function(e)
+      {
+        if (e.getKeyIdentifier() === "Enter") {
+          this.fireNonBubblingEvent("changeValue", qx.event.type.Data, [this.getValue()]);
+        }
+      }, this);
+    }
+    
   },
 
 
