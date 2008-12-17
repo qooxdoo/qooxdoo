@@ -68,17 +68,31 @@ qx.Bootstrap.define("qx.List",
       // Create class
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
-        var html = new ActiveXObject("htmlfile");
-        html.open();
-        html.write("<html><script><" + "/script></html>");
-        html.close();
-
-        var clazz = html.parentWindow.Array
-
-        // We need to keep the document referenced somewhere
-        // otherwise IE will garbage collect it and throws
-        // an "unexpected access" error.
-        clazz.__html = html;
+        try
+        {
+          var html = new ActiveXObject("htmlfile");
+          html.open();
+          html.write("<html><script><" + "/script></html>");
+          html.close();
+  
+          var clazz = html.parentWindow.Array
+          var proto = clazz.prototype;
+          
+          proto.toArray = this.__toArray;
+          proto.getLength = this.__getLength;
+          
+          // We need to keep the document referenced somewhere
+          // otherwise IE will garbage collect it and throws
+          // an "unexpected access" error.
+          clazz.__html = html;          
+        }
+        catch (e)
+        {
+          delete(clazz.__html);
+          
+          var clazz = this.__createArrayWrapper();
+          var proto = clazz.prototype;
+        }
       }
       else
       {
@@ -89,29 +103,32 @@ qx.Bootstrap.define("qx.List",
         };
 
         clazz.prototype = new Array;
+        var proto = clazz.prototype;
+        
+        // modify toString
+        proto.toString = proto.join;
+        proto.toLocaleString = proto.join;
+
+        proto.toArray = this.__toArray;
+        proto.getLength = this.__getLength;
+        
+        // need to reimplement concat since it does not work properly otherwise
+        clazz.prototype.concat = this.__concat;         
       }
 
       // Create namespace
       var basename = qx.Bootstrap.createNamespace(name, clazz, false);
 
-      // Extract prototype
-      var proto = clazz.prototype;
+
 
       // Attach data
       clazz.classname = name;
       proto.classname = name;
       proto.basename = clazz.basename = basename;
-
+      
       // Modify toString on clazz
       clazz.toString = this.genericToString;
       
-      // modify toString
-      proto.toString = proto.join;
-      proto.toLocaleString = proto.join;
-      
-      // need to reimplement concat since it does not work properly otherwise
-      proto.concat = this.__concat; 
-
       // Attach statics
       var statics = config.statics;
       if (statics)
@@ -141,6 +158,64 @@ qx.Bootstrap.define("qx.List",
       this.$$registry[name] = clazz;
     },
 
+    
+    __createArrayWrapper : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function()
+      {
+        if (this.__arrayWrapper) {
+          return this.__arrayWrapper;
+        }
+        
+        function createWrapperFunction(method) {
+          return function() {
+            return method.apply(this.__array, arguments);
+          }
+        }
+        
+        var ArrayWrapper = function() {
+          this.__array = Array.prototype.slice.call(arguments, 0);
+        };
+        
+        ArrayWrapper.prototype = {
+          toArray : function() {
+            return this.__array;
+          },
+          getLength : function() {
+            return this.__array.length;
+          }
+        };
+  
+        var methods = [
+          "concat",
+          "join",
+          "pop",
+          "push",
+          "reverse",
+          "shift",
+          "slice",
+          "sort",
+          "splice",
+          "toLocaleString",
+          "toString",
+          "unshift"
+        ]
+        for (var i=0; i<methods.length; i++)
+        {
+          var name = methods[i];
+          var method = Array.prototype[name];
+          if (typeof method == "function") {
+            ArrayWrapper.prototype[name] = createWrapperFunction(method);
+          }
+        }
+              
+        this.__arrayWrapper = ArrayWrapper;
+        return ArrayWrapper;
+      },
+      
+      "default": null
+    }),
+    
 
     /**
      * This method will be attached to all lists to return
@@ -161,6 +236,16 @@ qx.Bootstrap.define("qx.List",
     {
       var copy = this.slice(0, this.length);
       return copy.concat.apply(copy, arguments);
+    },
+    
+    
+    __toArray : function() {
+      return this;
+    },
+    
+    
+    __getLength : function() {
+      return this.length;
     },
     
 
