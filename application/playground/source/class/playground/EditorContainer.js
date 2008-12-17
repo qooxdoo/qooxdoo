@@ -47,7 +47,9 @@ qx.Class.define("playground.EditorContainer",
       this._getBlocker().setStyles({ "zIndex" : 100 });
     });
 
-    this.setLayout(new qx.ui.layout.VBox());
+    var layout = new qx.ui.layout.VBox();
+    layout.setSeparator("separator-vertical");
+    this.setLayout(layout);
     this.set({ decorator : "main" });
   }
 });
