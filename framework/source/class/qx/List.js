@@ -29,12 +29,28 @@ qx.Bootstrap.define("qx.List",
      * Defines a new array-like data structure class.
      *
      * @param name {String} Name of the class
-     * @param config {Map ? null} Class definition structure. The configuration map has the following keys:
+     * @param config {Map ? null} Class definition structure. The configuration
+     *     map has the following keys:
      *     <table>
-     *       <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-     *       <tr><th>statics</th><td>Map</td><td>Map of static members of the class.</td></tr>
-     *       <tr><th>members</th><td>Map</td><td>Map of instance members of the class.</td></tr>
-     *       <tr><th>defer</th><td>Function</td><td>Function that is called at the end of processing the class declaration. It allows access to the declared statics, members and properties.</td></tr>
+     *       <tr>
+     *         <th>Name</th><th>Type</th><th>Description</th>
+     *       </tr>
+     *       <tr>
+     *         <th>statics</th><td>Map</td>
+     *         <td>Map of static members of the class.</td>
+     *       </tr>
+     *       <tr>
+     *         <th>members</th>
+     *         <td>Map</td><td>Map of instance members of the class.</td>
+     *       </tr>
+     *       <tr>
+     *         <th>defer</th><td>Function</td>
+     *         <td>
+     *           Function that is called at the end of processing the class
+     *           declaration. It allows access to the declared statics, members
+     *           and properties.
+     *         </td>
+     *       </tr>
      *     </table>
      * @return {void}
      */
@@ -83,10 +99,18 @@ qx.Bootstrap.define("qx.List",
 
       // Attach data
       clazz.classname = name;
+      proto.classname = name;
       proto.basename = clazz.basename = basename;
 
       // Modify toString on clazz
       clazz.toString = this.genericToString;
+      
+      // modify toString
+      proto.toString = proto.join;
+      proto.toLocaleString = proto.join;
+      
+      // need to reimplement concat since it does not work properly otherwise
+      proto.concat = this.__concat; 
 
       // Attach statics
       var statics = config.statics;
@@ -128,7 +152,17 @@ qx.Bootstrap.define("qx.List",
     genericToString : function() {
       return "[List " + this.classname + "]";
     },
-
+    
+    
+    /**
+     * Reimplementation of the concat method
+     */
+    __concat : function()
+    {
+      var copy = this.slice(0, this.length);
+      return copy.concat.apply(copy, arguments);
+    },
+    
 
     /** Stores all defined classes */
     $$registry : qx.Bootstrap.$$registry,
@@ -165,15 +199,24 @@ qx.Bootstrap.define("qx.List",
         for (var key in config)
         {
           if (allowed[key] === undefined) {
-            throw new Error('The configuration key "' + key + '" in theme "' + name + '" is not allowed!');
+            throw new Error(
+              'The configuration key "' + key + '" in list "' + name +
+              '" is not allowed!'
+            );
           }
 
           if (config[key] == null) {
-            throw new Error('Invalid key "' + key + '" in theme "' + name + '"! The value is undefined/null!');
+            throw new Error(
+              'Invalid key "' + key + '" in list "' + name +
+              '"! The value is undefined/null!'
+            );
           }
 
           if (allowed[key] !== null && typeof config[key] !== allowed[key]) {
-            throw new Error('Invalid type of key "' + key + '" in theme "' + name + '"! The type of the key must be "' + allowed[key] + '"!');
+            throw new Error(
+              'Invalid type of key "' + key + '" in list "' + name +
+              '"! The type of the key must be "' + allowed[key] + '"!'
+            );
           }
         }
       },
