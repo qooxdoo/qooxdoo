@@ -34,7 +34,7 @@ qx.Class.define("qx.ui.tree.SelectionManager",
       var computed = item.getBounds();
       if (computed)
       {
-        var top = this._getWidget().getItemOffset(item);
+        var top = this._getWidget().getItemTop(item);
         return {
           top: top,
           bottom: top+computed.height
