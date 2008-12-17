@@ -72,15 +72,14 @@ qx.Class.define("demobrowser.demo.showcase.Calculator",
     {
       // Create the Window
       var win = new qx.ui.window.Window("Calculator", "icon/22/apps/utilities-calculator.png");
-      win.setLayout(new qx.ui.layout.VBox(20));
-      var border = new qx.ui.decoration.Single(2, "solid", "black");
+      win.setLayout(new qx.ui.layout.VBox(16));
+      var border = new qx.ui.decoration.Single(1, "solid", "black");
 
       var box = new qx.ui.container.Composite().set(
       {
-        decorator  : border,
-        minWidth   : 200,
-        minHeight  : 300,
-        padding    : 5,
+        minWidth   : 180,
+        minHeight  : 280,
+        padding    : 3,
         allowGrowX : true,
         allowGrowY : true
       });
@@ -95,12 +94,12 @@ qx.Class.define("demobrowser.demo.showcase.Calculator",
         backgroundColor : "white",
         allowGrowX : true,
         allowGrowY : true,
-        minWidth : 180,
+        minWidth : 160,
         height : 50,
 
         font : new qx.bom.Font().set(
         {
-          size   : 32,
+          size   : 22,
           family : [ "Verdana", "sans-serif" ],
           bold   : true
         }),
@@ -112,7 +111,7 @@ qx.Class.define("demobrowser.demo.showcase.Calculator",
 
       var fontButton = new qx.bom.Font().set(
       {
-        size   : 18,
+        size   : 14,
         family : [ "Verdana", "sans-serif" ],
         bold   : true
       });
@@ -120,121 +119,121 @@ qx.Class.define("demobrowser.demo.showcase.Calculator",
       var button0 = new qx.ui.form.Button("0").set(
       {
         font     : fontButton,
-        minWidth : 60
+        minWidth : 40
       });
 
       var button1 = new qx.ui.form.Button("1").set(
       {
         font     : fontButton,
-        minWidth : 60
+        minWidth : 40
       });
 
       var button2 = new qx.ui.form.Button("2").set(
       {
         font     : fontButton,
-        minWidth : 60
+        minWidth : 40
       });
 
       var button3 = new qx.ui.form.Button("3").set(
       {
         font     : fontButton,
-        minWidth : 60
+        minWidth : 40
       });
 
       var button4 = new qx.ui.form.Button("4").set(
       {
         font     : fontButton,
-        minWidth : 60
+        minWidth : 40
       });
 
       var button5 = new qx.ui.form.Button("5").set(
       {
         font     : fontButton,
-        minWidth : 60
+        minWidth : 40
       });
 
       var button6 = new qx.ui.form.Button("6").set(
       {
         font     : fontButton,
-        minWidth : 60
+        minWidth : 40
       });
 
       var button7 = new qx.ui.form.Button("7").set(
       {
         font     : fontButton,
-        minWidth : 60
+        minWidth : 40
       });
 
       var button8 = new qx.ui.form.Button("8").set(
       {
         font     : fontButton,
-        minWidth : 60
+        minWidth : 40
       });
 
       var button9 = new qx.ui.form.Button("9").set(
       {
         font     : fontButton,
-        minWidth : 60
+        minWidth : 40
       });
 
       var buttonC = new qx.ui.form.Button("C").set(
       {
         font     : fontButton,
-        minWidth : 60
+        minWidth : 40
       });
 
       var buttonCE = new qx.ui.form.Button("CE").set(
       {
         font     : fontButton,
-        minWidth : 60
+        minWidth : 40
       });
 
       var buttonDelete = new qx.ui.form.Button("Del").set(
       {
         font     : fontButton,
-        minWidth : 60
+        minWidth : 40
       });
 
       var buttonChangeSign = new qx.ui.form.Button("+/-").set(
       {
         font     : fontButton,
-        minWidth : 60
+        minWidth : 40
       });
 
       var buttonComma = new qx.ui.form.Button(".").set(
       {
         font     : fontButton,
-        minWidth : 60
+        minWidth : 40
       });
 
       var buttonPlus = new qx.ui.form.Button("+").set(
       {
         font     : fontButton,
-        minWidth : 60
+        minWidth : 40
       });
 
       var buttonMinus = new qx.ui.form.Button("-").set(
       {
         font     : fontButton,
-        minWidth : 60
+        minWidth : 40
       });
 
       var buttonMultiplication = new qx.ui.form.Button("*").set(
       {
         font     : fontButton,
-        minWidth : 60
+        minWidth : 40
       });
 
       var buttonDivision = new qx.ui.form.Button("/").set(
       {
         font     : fontButton,
-        minWidth : 60
+        minWidth : 40
       });
 
       var buttonResult = new qx.ui.form.Button("=").set(
       {
         font     : fontButton,
-        minWidth : 60
+        minWidth : 40
       });
 
       gridLayout.setColumnFlex(0, 1);
@@ -381,11 +380,9 @@ qx.Class.define("demobrowser.demo.showcase.Calculator",
         colSpan : 4
       });
 
-      win.setShowStatusbar(true);
-      win.setStatus("Calculator loaded");
-      win.setWidth(300);
-      win.setMinWidth(300);
-      win.setHeight(300);
+      win.setWidth(260);
+      win.setMinWidth(260);
+      win.setHeight(260);
       win.open();
 
       this.getRoot().add(win,
