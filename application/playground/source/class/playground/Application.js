@@ -94,7 +94,7 @@ qx.Class.define("playground.Application",
       var mainContainer = new qx.ui.container.Composite(layout);
       doc.add(mainContainer, { edge : 0 });
 
-      this.__makeCommands();
+      //this.__makeCommands();
 
       // qooxdoo header
       mainContainer.add(this.__createHeader(), { flex : 0 });
@@ -160,12 +160,13 @@ qx.Class.define("playground.Application",
 
       // Back button and bookmark support
       this._history = qx.bom.History.getInstance();
-
+      this._history.addToHistory(decodeURIComponent("Hello_World"), "Hello_World");
+      
       this._history.addListener("request", function(e)
       {
         var newSample = e.getData();
 
-        if (this.sampleContainer[state] != undefined)
+        if (this.sampleContainer[newSample] != undefined)
         {
           this.textarea.setValue(this.sampleContainer[newSample]);
 
@@ -189,17 +190,17 @@ qx.Class.define("playground.Application",
       if (this.sampleContainer[state] != undefined)
       {
         if (this.editor == undefined) {
-          this.textarea.setValue(this.sampleContainer[state !== null ? state : "Hello World"]);
+          this.textarea.setValue(this.sampleContainer[state !== null ? state : "Hello_World"]);
         } else {
-          this.editor.setCode(this.sampleContainer[state !== null ? state : "Hello World"]);
+          this.editor.setCode(this.sampleContainer[state !== null ? state : "Hello_World"]);
         }
       }
       else
       {
         if (this.editor == undefined) {
-          this.textarea.setValue(this.sampleContainer["Hello World"]);
+          this.textarea.setValue(this.sampleContainer["Hello_World"]);
         } else {
-          this.editor.setCode(this.sampleContainer["Hello World"]);
+          this.editor.setCode(this.sampleContainer["Hello_World"]);
         }
       }
 
@@ -219,7 +220,7 @@ qx.Class.define("playground.Application",
 
       var container = new qx.ui.container.Composite(layout).set({ decorator : "main" });
 
-      this.playAreaCaption = new qx.ui.basic.Label(this.tr("Hello World")).set(
+      this.playAreaCaption = new qx.ui.basic.Label(this.tr("Hello_World")).set(
       {
         font       : "bold",
         decorator  : this.__labelDeco,
@@ -341,11 +342,11 @@ qx.Class.define("playground.Application",
     },
 
 
-    /**
+    /*
      * adds shortcuts to the respective buttons.
      *
      * @return {void} 
-     */
+    
     __makeCommands : function()
     {
       this._runSample = new qx.event.Command("Control+Y");
@@ -354,7 +355,7 @@ qx.Class.define("playground.Application",
         this.updatePlayground(this.__playRoot);
       }, this);
     },
-
+ */
 
     /**
      * checks, wheter the code is changed.
@@ -366,7 +367,8 @@ qx.Class.define("playground.Application",
     __isSourceCodeChanged : function()
     {
       if (this.currentSelectedButton == undefined) {
-        this.currentSelectedButton = "Hello World";
+        this.currentSelectedButton = "Hello_World";
+        this._history.addToHistory("Hello_World", "Hello_World");
       }
 
       var compareElem1 = document.getElementById("compare_div1");
@@ -378,14 +380,17 @@ qx.Class.define("playground.Application",
       if (compareElem1.innerHTML.length == compareElem2.innerHTML.length)
       {
         if (compareElem1.innerHTML != compareElem2.innerHTML) {
-          this.playAreaCaption.setContent("Application");
+          this.playAreaCaption.setContent(this.currentSelectedButton + " (modified)");
+          this._history.addToHistory("", "");
         } else {
           this.playAreaCaption.setContent(this.currentSelectedButton);
+          this._history.addToHistory(""+this.currentSelectedButton, this.currentSelectedButton);
         }
       }
       else if (compareElem1.innerHTML.length != compareElem2.innerHTML.length)
       {
-        this.playAreaCaption.setContent("Application");
+        this.playAreaCaption.setContent(this.currentSelectedButton + " (modified)");
+        this._history.addToHistory("", "");
       }
     },
 
@@ -499,6 +504,7 @@ qx.Class.define("playground.Application",
 
       this.playAreaCaption.setContent(this.currentSelectedButton);
 
+      this._history.addToHistory(""+this.currentSelectedButton, this.currentSelectedButton);
       this.updatePlayground(this.__playRoot);
     },
 
@@ -541,9 +547,9 @@ qx.Class.define("playground.Application",
     {
       this.widgets["toolbar.logCheckButton"].addListener("click", function(E)
       {
-        var state = this.widgets["toolbar.logCheckButton"].getChecked();
+        var logState = this.widgets["toolbar.logCheckButton"].getChecked();
 
-        if (state == true) {
+        if (logState == true) {
           this.stack.show();
         } else {
           this.stack.exclude();
@@ -671,8 +677,8 @@ qx.Class.define("playground.Application",
       var runButton = new qx.ui.toolbar.Button("Run", "playground/image/media-playback-start.png");
       part1.add(runButton);
       this.widgets["toolbar.runButton"] = runButton;
-      this.widgets["toolbar.runButton"].setCommand(this._runSample);
-      runButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Runs the created application [Shift+R]")));
+      //this.widgets["toolbar.runButton"].setCommand(this._runSample);
+      runButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Runs the created application")));
 
       // select sample button
       var selectSampleButton = new qx.ui.toolbar.MenuButton("Samples", "playground/image/document-folder.png");
