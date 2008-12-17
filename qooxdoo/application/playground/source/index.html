@@ -40,8 +40,10 @@ button1.addListener("execute", function(e) {
 <textarea class="qx_samples" title="Window">var win = new qx.ui.window.Window("First Window");
 win.setWidth(300);
 win.setHeight(200);
-win.open();
+win.setShowMinimize(false);
+
 this.getRoot().add(win, {left:20, top:20});
+win.open();
 </textarea>
 
 <!-- ********************************************************************** -->
@@ -66,6 +68,7 @@ this._createBrowser = function()
    var layout = new qx.ui.layout.VBox();
    layout.setSeparator("separator-vertical");
    win.setLayout(layout);
+   win.setShowMinimize(false);
    win.setAllowClose(false);
    win.setContentPadding(0);
    win.open();
@@ -118,8 +121,8 @@ this._createBrowser = function()
 
 
    this.iframe = new qx.ui.embed.Iframe().set({
-     width: 400,
-     height: 300,
+     width: 600,
+     height: 500,
      minWidth: 200,
      minHeight: 150,
      source: this.txtUrl.getValue(),
@@ -222,7 +225,8 @@ buttonPane.add(cancelButton);
 <!-- ********************************************************************** -->
 
 <textarea class="qx_samples" title="Calculator">var win = new qx.ui.window.Window("Calculator");
-win.setLayout(new qx.ui.layout.VBox(3)); 
+win.setLayout(new qx.ui.layout.VBox(3));
+win.setShowMinimize(false);
 this.getRoot().add(win, {left:100, top:50}); 
 win.open();
 
