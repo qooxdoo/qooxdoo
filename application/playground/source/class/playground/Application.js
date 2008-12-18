@@ -159,7 +159,7 @@ qx.Class.define("playground.Application",
 
       // Handle bookmarks
       var sample = this.__history.getState();
-        
+
       // checks if the state corresponds to a sample. If yes, the application
       // will be initialized with the selected sample
       if (sample && this.sampleContainer[sample] != undefined) {
@@ -167,13 +167,13 @@ qx.Class.define("playground.Application",
         if (this.editor != undefined) {
           this.editor.setCode(this.sampleContainer[sample]);
         }
+        this.currentSample = sample;
         this.updatePlayground(this.__playRoot);
       } else {
         sample = "Hello_World";
+        this.currentSample = sample;
         this.textarea.setValue(this.sampleContainer[sample]);
       }
-
-      this.currentSample = sample;
 
       this.__history.addListener("request", function(e)
       {
@@ -182,7 +182,7 @@ qx.Class.define("playground.Application",
         if (this.sampleContainer[newSample] != undefined)
         {
           this.editor.setCode(this.sampleContainer[newSample]);
-          
+
           this.updatePlayground(this.__playRoot);
 
           var newName = this.__decodeSampleId(newSample);
@@ -194,11 +194,11 @@ qx.Class.define("playground.Application",
       }, this);
 
       qx.event.Timer.once(function() {
-        this.__history.addToHistory(sample, 
+        this.__history.addToHistory(sample,
             this.__updateTitle(this.__decodeSampleId(sample)));
       }, this, 0);
     },
-    
+
     /**
      * Transform sample label into sample id
      * @param label {String} label
@@ -216,7 +216,7 @@ qx.Class.define("playground.Application",
     __decodeSampleId : function(id) {
       return id.replace(/_/g, " ");
     },
-    
+
     /**
      * Update the window title with given sample label
      * @param label {String} sample label
@@ -292,21 +292,21 @@ qx.Class.define("playground.Application",
 
       container.add(this.textarea, { flex : 1 });
       qx.html.Element.flush();
-      
+
       if (CodeMirror != undefined)
       {
         this.__syntaxhighlighing = true;
         this.showSyntaxHighlighting = true;
 
-        // this code part uses the CodeMirror library to add a 
+        // this code part uses the CodeMirror library to add a
         // syntax-highlighting editor as an textarea replacement
         this.textarea.addListenerOnce("appear", function()
         {
           var height = this.textarea.getBounds().height;
           var width = this.textarea.getBounds().width;
-  
+
           this.textarea.getContentElement().getDomElement().style.visibility = "hidden";
-  
+
           this.editor = new CodeMirror(this.textarea.getContainerElement().getDomElement(),
           {
             content            : this.textarea.getValue(),
@@ -319,21 +319,21 @@ qx.Class.define("playground.Application",
             height             : height + "px",
             autoMatchParens    : true
           });
-  
+
           var splitter = this.mainsplit.getChildControl("splitter");
           var pane = this.mainsplit;
-  
+
           splitter.addListener("mousedown", function() {
             this.container.block();
           }, this);
-  
+
           pane.addListener("losecapture", function() {
             this.container.unblock();
           }, this);
-  
+
           this.editor.frame.style.width = this.textarea.getBounds().width + "px";
           this.editor.frame.style.height = this.textarea.getBounds().height + "px";
-  
+
           // to achieve auto-resize, the editor sets the size of the container element
           this.textarea.addListener("resize", function()
           {
@@ -357,7 +357,7 @@ qx.Class.define("playground.Application",
         this.__syntaxhighlighing = false;
         this.showSyntaxHighlighting = false;
         this.widgets["toolbar.toggleButton"].setEnabled(false);
-        
+
         this.editor = {};
         var self = this;
         this.editor.setCode = function(code) { self.textarea.setValue.call(self.textarea, code); };
@@ -368,11 +368,11 @@ qx.Class.define("playground.Application",
     },
 
 
-    /*
+    /**
      * adds shortcuts to the respective buttons.
      *
      * @return {void}
-
+     */
     __createCommands : function()
     {
       this._runSample = new qx.event.Command("Control+Y");
@@ -381,7 +381,7 @@ qx.Class.define("playground.Application",
         this.updatePlayground(this.__playRoot);
       }, this);
     },
- */
+
 
     /**
      * Checks, whether the code is changed. If yes, the application name is
@@ -400,12 +400,12 @@ qx.Class.define("playground.Application",
       var label = this.__decodeSampleId(this.currentSample);
 
       if ((compareElem1.innerHTML.length == compareElem2.innerHTML.length &&
-          compareElem1.innerHTML != compareElem2.innerHTML) || 
+          compareElem1.innerHTML != compareElem2.innerHTML) ||
           compareElem1.innerHTML.length != compareElem2.innerHTML.length)
       {
         this.playAreaCaption.setContent(label + " (modified)");
         //top.location.hash = "#";
-      } 
+      }
       else {
         this.playAreaCaption.setContent(label);
         this.__history.addToHistory(this.currentSample, this.__updateTitle(label));
@@ -420,6 +420,10 @@ qx.Class.define("playground.Application",
      */
     updatePlayground : function(root)
     {
+      if(this.logelem) {
+        this.logelem.innerHTML = "";
+      }
+
       // This currently only destroys the children of the application root.
       // While this is ok for many simple scenarios, it cannot account for
       // application code that generates temporary objects without adding them
@@ -435,8 +439,13 @@ qx.Class.define("playground.Application",
       if (this.showSyntaxHighlighting && this.editor) {
           this.code = this.editor.getCode() || this.textarea.getValue();
       } else {
-        this.code = this.textarea.getValue();        
+        this.code = this.textarea.getValue();
       }
+
+      this.code = 'this.info("' + this.tr("Starting application '") +
+        this.__decodeSampleId(this.currentSample) + '\' ...");\n' +
+        this.code +
+        'this.info("' + this.tr("Successfully started.") + '");\n';
 
       try
       {
@@ -455,7 +464,10 @@ qx.Class.define("playground.Application",
       catch(ex)
       {
         var exc = ex;
-        alert("Unfortunately, there has been an internal error.");
+        alert("Unfortunately, an unrecoverable internal error was caused by your code.\n" +
+            "This may prevent the playground application to run properly.\n" +
+            "Please copy your code, restart the playground and paste your code.\n\n" +
+            exc);
       }
 
 
@@ -466,7 +478,6 @@ qx.Class.define("playground.Application",
         this.stack.show();
       }
 
-      //this.logelem.innerHTML = "";
       this.__fetchLog();
     },
 
@@ -524,7 +535,6 @@ qx.Class.define("playground.Application",
       }
 
       this.__history.addToHistory(this.currentSample, this.__updateTitle(label));
-      this.updatePlayground(this.__playRoot);
     },
 
 
@@ -604,17 +614,17 @@ qx.Class.define("playground.Application",
     * @return {void}
     */
    __toggleEditor : function(e)
-   {    
+   {
       if (!this.editor) {
         return;
       }
-      
+
       if (e.getData())
       {
         this.editor.setCode(this.textarea.getValue());
         this.editor.frame.style.visibility = "visible";
         this.textarea.getContentElement().getDomElement().style.visibility = "hidden";
-        
+
         this.showSyntaxHighlighting = true;
       }
       else
@@ -760,7 +770,7 @@ qx.Class.define("playground.Application",
       part1.add(toggleButton);
       toggleButton.setAppearance("toolbar-button");
       this.widgets["toolbar.toggleButton"] = toggleButton;
-      
+
       toggleButton.addListener("changeChecked", function(e)
       {
         this.__toggleEditor(e);
