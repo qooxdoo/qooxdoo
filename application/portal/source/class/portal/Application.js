@@ -48,16 +48,17 @@ qx.Class.define("portal.Application",
       {
         qx.log.appender.Native;
         qx.log.appender.Console;
+        
+        // show the console for IE at startup in source version
+        if (qx.core.Variant.isSet("qx.client", "mshtml"))
+        {
+          qx.log.appender.Console.init();
+        }
       }
 
       /* Initialize box- and DragAndDrop-Manager */
       var boxManager      = portal.box.Manager.getInstance().load();
       var dragDropManager = portal.dragdrop.Manager.getInstance();
-      
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
-      {
-        qx.log.appender.Console.init();
-      }
     }
   }
 });
