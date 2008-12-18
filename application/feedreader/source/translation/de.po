@@ -12,7 +12,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: feedreader/Application.js:351
+#: feedreader/Application.js:350
 msgid "FeedReader (qooxdoo powered)"
 msgstr "FeedReader (qooxdoo powered)"
 

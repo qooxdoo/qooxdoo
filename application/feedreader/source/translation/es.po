@@ -14,7 +14,7 @@ msgstr ""
 "X-Poedit-Language: Spanish\n"
 "X-Poedit-Country: COLOMBIA\n"
 
-#: feedreader/Application.js:351
+#: feedreader/Application.js:350
 msgid "FeedReader (qooxdoo powered)"
 msgstr "FeedReader (qooxdoo powered)"
 

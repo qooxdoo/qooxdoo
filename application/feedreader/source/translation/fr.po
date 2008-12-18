@@ -13,7 +13,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: feedreader/Application.js:351
+#: feedreader/Application.js:350
 msgid "FeedReader (qooxdoo powered)"
 msgstr "Agrégateur de fils de syndication (fait à l'aide de qooxdoo)"
 
