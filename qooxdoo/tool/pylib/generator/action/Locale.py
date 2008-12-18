@@ -69,6 +69,7 @@ class Locale:
             if "plural" in strings[msgid]:
                 obj.msgid_plural = strings[msgid]["plural"]
                 obj.msgstr_plural[0] = ""
+                obj.msgstr_plural[1] = ""
 
         pot.sort()
 
@@ -178,8 +179,8 @@ class Locale:
         all = {}
 
         for entry in entries:
-            if ('msgid_plural' in dir(entry) and
-                '0' in entry.msgid_plural and '1' in entry.msgid_plural):
+            if ('msgstr_plural' in dir(entry) and
+                '0' in entry.msgstr_plural and '1' in entry.msgstr_plural):
                 all[entry.msgid]        = entry.msgstr_plural['0']
                 all[entry.msgid_plural] = entry.msgstr_plural['1']
                 # missing: handling of potential msgstr_plural[2:N]
