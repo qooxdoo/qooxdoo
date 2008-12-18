@@ -102,7 +102,7 @@ qx.Class.define("demobrowser.demo.widget.SplitPane",
 
       rbm.addListener("changeValue", this._changeVisiblity, this);
 
-      this.getRoot().add(controlContainer, {left:645, top:42});
+      this.getRoot().add(controlContainer, {left:490, top:42});
 
       button.focus();
 
