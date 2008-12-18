@@ -93,10 +93,16 @@ var CodeMirror = (function(){
 
   CodeMirror.prototype = {
     getCode: function() {
-      return this.editor.getCode();
+      // TODO: qooxdoo modification
+      if(this.editor) {
+        return this.editor.getCode();
+      }
     },
     setCode: function(code) {
-      this.editor.importCode(code);
+      // TODO: qooxdoo modification
+      if(this.editor) {
+        this.editor.importCode(code);
+      }
     },
     focus: function() {
       this.win.focus();
