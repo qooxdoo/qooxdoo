@@ -441,11 +441,27 @@ qx.Class.define("playground.Application",
       try
       {
         this.fun = new Function(this.code);
-        this.fun.call(this.__playApp);
       }
       catch(ex)
       {
-        this.error(ex);
+        var exc = ex;
+      }
+
+      try
+      {
+        this.fun.call(this.__playApp);
+        qx.ui.core.queue.Manager.flush();
+        }
+      catch(ex)
+      {
+        var exc = ex;
+        alert("Unfortunately, there has been an internal error.");
+      }
+
+
+      if (exc)
+      {
+        this.error(exc);
         this.widgets["toolbar.logCheckButton"].setChecked(true);
         this.stack.show();
       }
@@ -475,7 +491,7 @@ qx.Class.define("playground.Application",
         {
           var id = this.__encodeSampleId(elem[i].title);
           this.sampleContainer[id] = elem[i].value;
-          newButton = new qx.ui.menu.Button(elem[i].title, "icon/16/actions/document-new.png");
+          newButton = new qx.ui.menu.Button(elem[i].title, "icon/16/mimetypes/office-document.png");
           menu.add(newButton);
 
           newButton.addListener("execute", this.__onSampleChanged, this);
