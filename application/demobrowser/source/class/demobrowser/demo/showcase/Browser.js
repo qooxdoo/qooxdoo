@@ -71,16 +71,16 @@ qx.Class.define("demobrowser.demo.showcase.Browser",
       toolbar.add(btnForward);
 
       // IE does not allow access to an iframes history object
-      if (qx.bom.client.Engine.MSHTML)
-      {
-        var ttIeNote = new qx.ui.tooltip.ToolTip("This feature is not possible in Internet Explorer!");
+      // Firefox applies history changes to the main window
+      // Opera throws a script error when trying to go forward or back
 
-        btnForward.setEnabled(false);
-        btnBack.setEnabled(false);
+      var ttIeNote = new qx.ui.tooltip.ToolTip("This feature is currently not supported.");
 
-        btnForward.setToolTip(ttIeNote)
-        btnBack.setToolTip(ttIeNote)
-      }
+      btnForward.setEnabled(false);
+      btnBack.setEnabled(false);
+
+      btnForward.setToolTip(ttIeNote)
+      btnBack.setToolTip(ttIeNote)
 
       this.txtUrl = new qx.ui.form.TextField().set({
         marginLeft: 1,
