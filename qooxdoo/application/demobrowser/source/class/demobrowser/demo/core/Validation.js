@@ -78,8 +78,8 @@ qx.Class.define("demobrowser.demo.core.Validation",
       embed.setBackgroundColor("white");
       embed.set({
         padding: 10,
-        width: 200,
-        height: 315
+        width: 250,
+        height: 360
       });
       this.getRoot().add(embed, {left: 10, top: 10});
 
@@ -96,19 +96,19 @@ qx.Class.define("demobrowser.demo.core.Validation",
 
 
       // setting the name property
-      embed.setHtml(embed.getHtml() + "<br><b>Testing the name property</b><br>");
-
+      embed.setHtml(embed.getHtml() + "<br><b>Setting the name to 'Hans'</b><br>");
       // set a working name
-      person.setName("Hans Maier");
+      person.setName("Hans");
       embed.setHtml(embed.getHtml() + "new name: " + person.getName() + "<br>");
 
+      embed.setHtml(embed.getHtml() + "<b>Setting the name to ''</b><br>");
       // set a not working name
       try {
         person.setName("");
         // code will never nur
         embed.setHtml(embed.getHtml() + "new name: " +
                       person.getName() + "<br>");
-      } catch (e) {
+      } catch (ex) {
         embed.setHtml(embed.getHtml() + "<font color='red'>NAME NOT SET</font>"
                       + "<br>old name: " + person.getName() + "<br>");
       }
@@ -118,20 +118,22 @@ qx.Class.define("demobrowser.demo.core.Validation",
 
 
       // setting the age property
-      embed.setHtml(embed.getHtml() + "<br><b>Testing the age " +
-                    "property</b><br>");
+      embed.setHtml(embed.getHtml() + "<br><b>Setting the age " +
+                    "property to 27</b><br>");
 
       // set a working age
       person.setAge(27);
       embed.setHtml(embed.getHtml() + "new age: " + person.getAge() + "<br>");
 
+      embed.setHtml(embed.getHtml() + "<b>Setting the age " +
+                    "property to 'true'</b><br>");
       // set a not working age
       try {
           person.setAge(true);
           // code will never run
           embed.setHtml(embed.getHtml() + "new age: " +
                         person.getAge() + "<br>");
-      } catch (e) {
+      } catch (ex) {
         embed.setHtml(embed.getHtml() + "<font color='red'>AGE NOT SET</font>"
                       + "<br>old age: " + person.getAge() + "<br>");
       }
@@ -141,25 +143,47 @@ qx.Class.define("demobrowser.demo.core.Validation",
 
 
       // setting the gender property
-      embed.setHtml(embed.getHtml() + "<br><b>Testing the gender " +
-                    "property</b><br>");
+      embed.setHtml(embed.getHtml() + "<br><b>Setting the gender " +
+                    "property to 'female'</b><br>");
 
       // set a working gender
       person.setGender("female");
       embed.setHtml(embed.getHtml() + "new gender: " + person.getGender() +
                     "<br>");
 
+      embed.setHtml(embed.getHtml() + "<b>Testing the gender " +
+        "property to 'fmale'</b><br>");
       // set a not working gender
       try {
           person.setAge("fmale");
           // code will never run
           embed.setHtml(embed.getHtml() + "new gender: " +
                         person.getGender() + "<br>");
-      } catch (e) {
+      } catch (ex) {
         embed.setHtml(embed.getHtml() + "<font color='red'>GENDER NOT SET</font>"
                       + "<br>old gender: " + person.getGender() + "<br>");
       }
 
+
+      
+      
+      
+      
+      /* ***********************************************
+       * DESCRIPTIONS
+       * ********************************************* */  
+      // Event binding description
+      var description = new qx.ui.basic.Label();
+      description.setRich(true);
+      description.setWidth(250);
+      description.setContent(
+        "<b>Description</b><br/>"
+        + "The demo creates an internal class containing three properties:<br/>"
+        + "- name: Name is validated to a minimum length of two.<br/>"
+        + "- age: Age is validated to be a number.<br/>"
+        + "- gender: Gender is validated to be either male or female."
+      );
+      this.getRoot().add(description, {left: 280, top: 10});      
 
     }
   }
