@@ -1,8 +1,12 @@
+body {
+	margin: 0;
+}
+
 .editbox {
-  margin: .4em;
+  margin-left: 6px;
   padding: 0;
   font-family: monospace;
-  font-size: 10pt;
+  font-size: 14px;
   color: black;
 }
 
