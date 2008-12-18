@@ -223,15 +223,6 @@ qx.Class.define("demobrowser.demo.widget.Tree",
 
 
 
-      var vShowOpenItems = new qx.ui.form.Button("Show Open Items");
-      commandFrame.add(vShowOpenItems, {row: row++, column: 1});
-
-      vShowOpenItems.addListener("execute", function(e) {
-        alert(("" + tree.getSelectableItems()).replace(",", "\n", "g"));
-      });
-
-
-
       var vShowSelectedItems = new qx.ui.form.Button("Show Selected Items");
       commandFrame.add(vShowSelectedItems, {row: row++, column: 1});
 
