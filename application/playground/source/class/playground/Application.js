@@ -26,8 +26,8 @@
 ************************************************************************ */
 
 /**
- * Playground application, which allows for source code editing and live 
- * previews of a simple custom application 
+ * Playground application, which allows for source code editing and live
+ * previews of a simple custom application
  */
 qx.Class.define("playground.Application",
 {
@@ -69,16 +69,6 @@ qx.Class.define("playground.Application",
       // Call super class
       this.base(arguments);
 
-      // Enable logging in debug variant
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        // support native logging capabilities, e.g. Firebug for Firefox
-        qx.log.appender.Native;
-
-        // support additional cross-browser console. Press F7 to toggle visibility
-        qx.log.appender.Console;
-      }
-
       var self = this;
 
       var doc = this.getRoot();
@@ -94,15 +84,15 @@ qx.Class.define("playground.Application",
       var mainContainer = new qx.ui.container.Composite(layout);
       doc.add(mainContainer, { edge : 0 });
 
-      //this.__makeCommands();
+      //this.__createCommands();
 
       // qooxdoo header
       mainContainer.add(this.__createHeader(), { flex : 0 });
 
       // qooxdoo toolbar
-      mainContainer.add(this.__makeToolbar(), { flex : 0 });
+      mainContainer.add(this.__createToolbar(), { flex : 0 });
 
-      // qooxdoo mainsplit, contains the textarea and the info splitpane
+      // qooxdoo mainsplit, contains the editor and the info splitpane
       var mainsplit = new qx.ui.splitpane.Pane("horizontal");
       this.mainsplit = mainsplit;
 
@@ -111,11 +101,11 @@ qx.Class.define("playground.Application",
       var infosplit = new qx.ui.splitpane.Pane("vertical");
       infosplit.setDecorator(null);
 
-      mainsplit.add(this.__makeTextArea());
+      mainsplit.add(this.__createTextArea());
       mainsplit.add(infosplit, 1);
-      infosplit.add(this.__makePlayArea(), 2);
+      infosplit.add(this.__createPlayArea(), 2);
 
-      var log = this.__makeLog();
+      var log = this.__createLog();
 
       // Adds the log console to the stack
       this.stack = new qx.ui.container.Stack;
@@ -151,77 +141,105 @@ qx.Class.define("playground.Application",
       });
 
       // Adds the event listener to the buttons
-      this.__runApplication(this.__playRoot);
-      this.__openApiViewer();
-      this.__openHelpDialog();
-      this.__openLog();
+      this.__attachRunApplication(this.__playRoot);
+      this.__attachOpenApiViewer();
+      this.__attachOpenManual();
+      this.__attachOpenLog();
 
       // Back button and bookmark support
-      this._history = qx.bom.History.getInstance();
-      this._history.addToHistory(decodeURIComponent("Hello_World"));
-      
-      this._history.addListener("request", function(e)
+      this.__initBookmarkSupport();
+    },
+
+    /**
+     * Back button and bookmark support
+     */
+    __initBookmarkSupport : function()
+    {
+      this.__history = qx.bom.History.getInstance();
+
+      // Handle bookmarks
+      var sample = this.__history.getState();
+        
+      // checks if the state corresponds to a sample. If yes, the application
+      // will be initialized with the selected sample
+      if (sample && this.sampleContainer[sample] != undefined) {
+        this.textarea.setValue(this.sampleContainer[sample]);
+        if (this.editor != undefined) {
+          this.editor.setCode(this.sampleContainer[sample]);
+        }
+        this.updatePlayground(this.__playRoot);
+      } else {
+        sample = "Hello_World";
+        this.textarea.setValue(this.sampleContainer[sample]);
+      }
+
+      this.currentSample = sample;
+
+      this.__history.addListener("request", function(e)
       {
         var newSample = e.getData();
 
         if (this.sampleContainer[newSample] != undefined)
         {
-          this.textarea.setValue(this.sampleContainer[newSample]);
-
-          if (this.editor != undefined) {
-            this.editor.setCode(this.sampleContainer[newSample]);
-          }
-
-          this.updatePlayground(this.__playRoot);
+          this.editor.setCode(this.sampleContainer[newSample]);
           
-          var newName = newSample.replace(/_/g, " ");
+          this.updatePlayground(this.__playRoot);
+
+          var newName = this.__decodeSampleId(newSample);
           this.playAreaCaption.setContent(newName);
 
           // update state on sample change
-          this._history.addToHistory(newSample, document.title.split(":")[0] + " : " + newName);
+          this.__history.addToHistory(newSample, this.__updateTitle(newName));
         }
-      },
-      this);
+      }, this);
 
-      // retrieve current state
-      var state = this._history.getState();
-
-      // checks if the state corresponds to a sample. If yes, the application 
-      // will be initialized with the selected sample
-      if (this.sampleContainer[state] != undefined)
-      {
-        if (this.editor == undefined) {
-          this.textarea.setValue(this.sampleContainer[state !== null ? state : "Hello_World"]);
-        } else {
-          this.editor.setCode(this.sampleContainer[state !== null ? state : "Hello_World"]);
-        }
-      }
-      else
-      {
-        if (this.editor == undefined) {
-          this.textarea.setValue(this.sampleContainer["Hello_World"]);
-        } else {
-          this.editor.setCode(this.sampleContainer["Hello_World"]);
-        }
-      }
-
-      this.updatePlayground(this.__playRoot);
+      qx.event.Timer.once(function() {
+        this.__history.addToHistory(sample, 
+            this.__updateTitle(this.__decodeSampleId(sample)));
+      }, this, 0);
+    },
+    
+    /**
+     * Transform sample label into sample id
+     * @param label {String} label
+     * @return
+     */
+    __encodeSampleId : function(label) {
+      return label.replace(/\s+/g, "_");
     },
 
+    /**
+    * Transform sample id into sample label
+    * @param id {String} id
+    * @return
+    */
+    __decodeSampleId : function(id) {
+      return id.replace(/_/g, " ");
+    },
+    
+    /**
+     * Update the window title with given sample label
+     * @param label {String} sample label
+     * @return {String} new window title
+     */
+    __updateTitle : function(label) {
+      var title = document.title.split(":")[0] + ": " + label;
+      return title;
+    },
 
     /**
      * Creates an area to show the samples.
      *
      * @return {var} container of the play area
      */
-    __makePlayArea : function()
+    __createPlayArea : function()
     {
       var layout = new qx.ui.layout.VBox();
       layout.setSeparator("separator-vertical");
 
       var container = new qx.ui.container.Composite(layout).set({ decorator : "main" });
 
-      this.playAreaCaption = new qx.ui.basic.Label(this.tr("Hello_World")).set(
+      this.playAreaCaption = new qx.ui.basic.Label().set(
       {
         font       : "bold",
         decorator  : this.__labelDeco,
@@ -248,11 +266,9 @@ qx.Class.define("playground.Application",
      *
      * @return {var} container of the editor
      */
-    __makeTextArea : function()
+    __createTextArea : function()
     {
-      var container = new playground.EditorContainer();  
-      this.container
-      
+      var container = new playground.EditorContainer();
       this.container = container;
 
       var caption = new qx.ui.basic.Label(this.tr("Source Code")).set(
@@ -266,70 +282,87 @@ qx.Class.define("playground.Application",
 
       container.add(caption);
 
-      this.textarea = (new qx.ui.form.TextArea).set(
+      this.textarea = new qx.ui.form.TextArea().set(
       {
         wrap      : false,
-        font      : "monospace",
-        decorator : null
+        font      : qx.bom.Font.fromString("14px monospace"),
+        decorator : null,
+        padding   : [0,0,0,5]
       });
 
       container.add(this.textarea, { flex : 1 });
-
-      // this code part uses the Codemirror library to add syntax highlighting
-      // to the current textarea
-      this.textarea.addListenerOnce("appear", function()
+      qx.html.Element.flush();
+      
+      if (CodeMirror != undefined)
       {
-        var height = this.textarea.getBounds().height;
-        var width = this.textarea.getBounds().width;
+        this.__syntaxhighlighing = true;
+        this.showSyntaxHighlighting = true;
 
-        this.textarea.getContentElement().getDomElement().style.display = "none";
-
-        this.editor = new CodeMirror(this.textarea.getContainerElement().getDomElement(),
+        // this code part uses the CodeMirror library to add a 
+        // syntax-highlighting editor as an textarea replacement
+        this.textarea.addListenerOnce("appear", function()
         {
-          content            : this.textarea.getValue(),
-          parserfile         : [ "tokenizejavascript.js", "parsejavascript.js" ],
-          stylesheet         : "resource/playground/css/jscolors.css",
-          path               : "resource/playground/js/",
-          textWrapping       : false,
-          continuousScanning : false,
-          width              : width + "px",
-          height             : height + "px",
-          autoMatchParens    : true
-        });
-
-        var splitter = this.mainsplit.getChildControl("splitter");
-        var pane = this.mainsplit;
-
-        splitter.addListener("mousedown", function() {
-          this.container.block();
-        }, this);
-
-        pane.addListener("losecapture", function() {
-          this.container.unblock();
-        }, this);
-
-        this.editor.frame.style.width = this.textarea.getBounds().width + "px";
-        this.editor.frame.style.height = this.textarea.getBounds().height + "px";
-
-        // to achieve auto-resize, the editor sets the size of the container element
-        this.textarea.addListener("resize", function()
-        {
+          var height = this.textarea.getBounds().height;
+          var width = this.textarea.getBounds().width;
+  
+          this.textarea.getContentElement().getDomElement().style.visibility = "hidden";
+  
+          this.editor = new CodeMirror(this.textarea.getContainerElement().getDomElement(),
+          {
+            content            : this.textarea.getValue(),
+            parserfile         : [ "tokenizejavascript.js", "parsejavascript.js" ],
+            stylesheet         : "resource/playground/css/jscolors.css",
+            path               : "resource/playground/js/",
+            textWrapping       : false,
+            continuousScanning : false,
+            width              : width + "px",
+            height             : height + "px",
+            autoMatchParens    : true
+          });
+  
+          var splitter = this.mainsplit.getChildControl("splitter");
+          var pane = this.mainsplit;
+  
+          splitter.addListener("mousedown", function() {
+            this.container.block();
+          }, this);
+  
+          pane.addListener("losecapture", function() {
+            this.container.unblock();
+          }, this);
+  
           this.editor.frame.style.width = this.textarea.getBounds().width + "px";
           this.editor.frame.style.height = this.textarea.getBounds().height + "px";
-        },
-        this);
+  
+          // to achieve auto-resize, the editor sets the size of the container element
+          this.textarea.addListener("resize", function()
+          {
+            this.editor.frame.style.width = this.textarea.getBounds().width + "px";
+            this.editor.frame.style.height = this.textarea.getBounds().height + "px";
+          },
+          this);
 
-        // The protector blocks the editor, therefore it needs to be removed.
-        // This code fragment is a temporary solution, it will be removed once 
-        // a better solution is found
-        var protector = this.textarea.getContainerElement().getChildren()[1];
-        if (protector) {
-          protector.getDomElement().parentNode.removeChild(protector.getDomElement());
-        }
-      },
+          // The protector blocks the editor, therefore it needs to be removed.
+          // This code fragment is a temporary solution, it will be removed once
+          // a better solution is found
+          var protector = this.textarea.getContainerElement().getChildren()[1];
+          if (protector) {
+            protector.getDomElement().parentNode.removeChild(protector.getDomElement());
+          }
 
-      // ******************************************************************************
-      this);
+        }, this);
+      }
+      else
+      {
+        this.__syntaxhighlighing = false;
+        this.showSyntaxHighlighting = false;
+        this.widgets["toolbar.toggleButton"].setEnabled(false);
+        
+        this.editor = {};
+        var self = this;
+        this.editor.setCode = function(code) { self.textarea.setValue.call(self.textarea, code); };
+        this.editor.getCode = function() { return self.textarea.getValue.call(self.textarea); };
+      }
 
       return container;
     },
@@ -338,9 +371,9 @@ qx.Class.define("playground.Application",
     /*
      * adds shortcuts to the respective buttons.
      *
-     * @return {void} 
-    
-    __makeCommands : function()
+     * @return {void}
+
+    __createCommands : function()
     {
       this._runSample = new qx.event.Command("Control+Y");
 
@@ -351,73 +384,46 @@ qx.Class.define("playground.Application",
  */
 
     /**
-     * Checks, whether the code is changed. If yes, the application name is 
+     * Checks, whether the code is changed. If yes, the application name is
      * renamed
      *
-     * @return {void} 
+     * @return {void}
      */
     __isSourceCodeChanged : function()
     {
-      if (this.currentSelectedButton == undefined) {
-        this.currentSelectedButton = "Hello_World";
-        this._history.addToHistory("Hello_World", "Hello_World");
-      }
-
       var compareElem1 = document.getElementById("compare_div1");
-      compareElem1.innerHTML = this.sampleContainer[this.currentSelectedButton];
+      compareElem1.innerHTML = this.sampleContainer[this.currentSample];
 
       var compareElem2 = document.getElementById("compare_div2");
       compareElem2.innerHTML = this.editor.getCode();
 
-      if (compareElem1.innerHTML.length == compareElem2.innerHTML.length)
+      var label = this.__decodeSampleId(this.currentSample);
+
+      if ((compareElem1.innerHTML.length == compareElem2.innerHTML.length &&
+          compareElem1.innerHTML != compareElem2.innerHTML) || 
+          compareElem1.innerHTML.length != compareElem2.innerHTML.length)
       {
-        if (compareElem1.innerHTML != compareElem2.innerHTML) {
-          this.playAreaCaption.setContent(this.currentSelectedButton + " (modified)");
-          this._history.addToHistory("", "");
-        } else {
-          this.playAreaCaption.setContent(this.currentSelectedButton);
-          this._history.addToHistory(""+this.currentSelectedButton, this.currentSelectedButton);
-        }
-      }
-      else if (compareElem1.innerHTML.length != compareElem2.innerHTML.length)
-      {
-        this.playAreaCaption.setContent(this.currentSelectedButton + " (modified)");
-        this._history.addToHistory("", "");
+        this.playAreaCaption.setContent(label + " (modified)");
+        //top.location.hash = "#";
+      } 
+      else {
+        this.playAreaCaption.setContent(label);
+        this.__history.addToHistory(this.currentSample, this.__updateTitle(label));
       }
     },
-
-    /**
-     * Runs the current source code
-     *
-     * @param root {var} the root of the play area
-     * @return {void} 
-     */
-    __runApplication : function(root)
-    {
-      this.widgets["toolbar.runButton"].addListener("execute", function()
-      {
-        this.updatePlayground(root);
-
-        if (this.editor != undefined) {
-          this.__isSourceCodeChanged();
-        }
-      },
-      this);
-    },
-
 
     /**
      * Updates the playground.
      *
      * @param root {var} of the playarea
-     * @return {void} 
+     * @return {void}
      */
     updatePlayground : function(root)
     {
       // This currently only destroys the children of the application root.
-      // While this is ok for many simple scenarios, it cannot account for 
-      // application code that generates temporary objects without adding them 
-      // to the application (as widgets for instance). There is no real 
+      // While this is ok for many simple scenarios, it cannot account for
+      // application code that generates temporary objects without adding them
+      // to the application (as widgets for instance). There is no real
       // for such a multi-application scenario that is playground specific.
       for (var i=0, ch=root.getChildren(), chl=ch.length; i<chl; i++)
       {
@@ -426,10 +432,10 @@ qx.Class.define("playground.Application",
         }
       }
 
-      if (this.editor != undefined) {
-        this.code = this.editor.getCode();
+      if (this.showSyntaxHighlighting && this.editor) {
+          this.code = this.editor.getCode() || this.textarea.getValue();
       } else {
-        this.code = this.textarea.getValue();
+        this.code = this.textarea.getValue();        
       }
 
       try
@@ -450,7 +456,7 @@ qx.Class.define("playground.Application",
 
 
     /**
-     * Generates a file menu to select the samples.
+     * Generates a menu to select the samples.
      *
      * @return {var} menu of the samples
      */
@@ -462,12 +468,12 @@ qx.Class.define("playground.Application",
 
       var elem = document.getElementsByTagName("TEXTAREA");
       var id;
-      
+
       for (var i=0; i<elem.length; i++)
       {
         if (elem[i].className == "qx_samples")
         {
-          var id = elem[i].title.replace(/\s+/g, "_");
+          var id = this.__encodeSampleId(elem[i].title);
           this.sampleContainer[id] = elem[i].value;
           newButton = new qx.ui.menu.Button(elem[i].title, "icon/16/actions/document-new.png");
           menu.add(newButton);
@@ -484,36 +490,54 @@ qx.Class.define("playground.Application",
      * Initializes the playground with a sample.
      *
      * @param e {Event} the current target
-     * @return {void} 
+     * @return {void}
      */
     __onSampleChanged : function(e)
     {
-      var item = e.getTarget();
+      var label = e.getTarget().getLabel().toString();
+      this.playAreaCaption.setContent(label);
 
-      this.currentSelectedButton = item.getLabel().toString();
-      this.playAreaCaption.setContent(this.currentSelectedButton);
-
-      this.currentSelectedButton.replace(/\s+/g, "_");
-      var currentSource = this.sampleContainer[this.currentSelectedButton];
+      this.currentSample = this.__encodeSampleId(label);
+      var currentSource = this.sampleContainer[this.currentSample];
       currentSource = currentSource.replace(/&lt;/g, "<").replace(/&gt;/g, ">");
 
-      if (this.editor != undefined) {
+      if (this.showSyntaxHighlighting) {
         this.editor.setCode(currentSource);
       } else {
         this.textarea.setValue(currentSource);
       }
 
-      this._history.addToHistory(""+this.currentSelectedButton, this.currentSelectedButton);
+      this.__history.addToHistory(this.currentSample, this.__updateTitle(label));
       this.updatePlayground(this.__playRoot);
+    },
+
+
+    /**
+     * Attach listener to run the current source code
+     *
+     * @param root {var} the root of the play area
+     * @return {void}
+     */
+    __attachRunApplication : function(root)
+    {
+      this.widgets["toolbar.runButton"].addListener("execute", function()
+      {
+        this.updatePlayground(root);
+
+        if (this.editor != undefined) {
+          this.__isSourceCodeChanged();
+        }
+      },
+      this);
     },
 
 
     /**
      * Opens the qooxdoo api viewer.
      *
-     * @return {void} 
+     * @return {void}
      */
-    __openApiViewer : function()
+    __attachOpenApiViewer : function()
     {
       this.widgets["toolbar.apiButton"].addListener("execute", function() {
         window.open("http://demo.qooxdoo.org/" + qx.core.Setting.get("qx.version") + "/apiviewer/");
@@ -524,9 +548,9 @@ qx.Class.define("playground.Application",
     /**
      * Opens the qooxdoo user manual.
      *
-     * @return {void} 
+     * @return {void}
      */
-    __openHelpDialog : function()
+    __attachOpenManual : function()
     {
       this.widgets["toolbar.helpButton"].addListener("execute", function()
       {
@@ -538,30 +562,60 @@ qx.Class.define("playground.Application",
 
 
     /**
-     * Shows the log entries.
-     *
-     * @return {void} 
-     */
-    __openLog : function()
-    {
-      this.widgets["toolbar.logCheckButton"].addListener("click", function(E)
-      {
-        var logState = this.widgets["toolbar.logCheckButton"].getChecked();
+    * Shows the log entries.
+    *
+    * @return {void}
+    */
+   __attachOpenLog : function()
+   {
+     this.widgets["toolbar.logCheckButton"].addListener("click", function()
+     {
+       var logState = this.widgets["toolbar.logCheckButton"].getChecked();
 
-        if (logState == true) {
-          this.stack.show();
-        } else {
-          this.stack.exclude();
-        }
-      },
-      this);
-    },
+       if (logState == true) {
+         this.stack.show();
+       } else {
+         this.stack.exclude();
+       }
+     },
+     this);
+   },
+
+
+   /**
+    * Toggle editor
+    *
+    * @return {void}
+    */
+   __toggleEditor : function(e)
+   {    
+      if (!this.editor) {
+        return;
+      }
+      
+      if (e.getData())
+      {
+        this.editor.setCode(this.textarea.getValue());
+        this.editor.frame.style.visibility = "visible";
+        this.textarea.getContentElement().getDomElement().style.visibility = "hidden";
+        
+        this.showSyntaxHighlighting = true;
+      }
+      else
+      {
+        this.textarea.setValue(this.editor.getCode());
+        this.textarea.getContentElement().getDomElement().style.visibility = "visible";
+        this.editor.frame.style.visibility = "hidden";
+
+        this.showSyntaxHighlighting = false;
+}
+   },
 
 
     /**
      * Fetches the log entries.
      *
-     * @return {void} 
+     * @return {void}
      */
     __fetchLog : function()
     {
@@ -585,7 +639,7 @@ qx.Class.define("playground.Application",
      *
      * @return {var} container contains the log pane
      */
-    __makeLog : function()
+    __createLog : function()
     {
       var layout = new qx.ui.layout.VBox();
       layout.setSeparator("separator-vertical");
@@ -664,7 +718,7 @@ qx.Class.define("playground.Application",
      *
      * @return {var} toolbar of the application
      */
-    __makeToolbar : function()
+    __createToolbar : function()
     {
       // toolbar of the playground
       var toolbar = new qx.ui.toolbar.ToolBar();
@@ -683,8 +737,19 @@ qx.Class.define("playground.Application",
       var selectSampleButton = new qx.ui.toolbar.MenuButton("Samples", "playground/image/document-folder.png");
       part1.add(selectSampleButton);
       this.widgets["toolbar.selectSampleButton"] = selectSampleButton;
-      selectSampleButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Select a demo application")));
+      selectSampleButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Select a sample")));
       selectSampleButton.setMenu(this.__createSampleMenu());
+
+      var toggleButton = new qx.ui.form.ToggleButton(this.tr("Syntax Highlighting"), "icon/16/actions/check-spelling.png");
+      part1.add(toggleButton);
+      toggleButton.setAppearance("toolbar-button");
+      this.widgets["toolbar.toggleButton"] = toggleButton;
+      
+      toggleButton.addListener("changeChecked", function(e)
+      {
+        this.__toggleEditor(e);
+      }, this);
+      toggleButton.setChecked(true);
 
       toolbar.addSpacer();
 
@@ -701,13 +766,13 @@ qx.Class.define("playground.Application",
       var apiButton = new qx.ui.toolbar.Button("API Viewer", "playground/image/help-contents.png");
       part2.add(apiButton);
       this.widgets["toolbar.apiButton"] = apiButton;
-      apiButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Opens the qooxdoo API Viewer")));
+      apiButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Open the qooxdoo API Viewer")));
 
       // help button
       var helpButton = new qx.ui.toolbar.Button("Manual", "playground/image/help-about.png");
       part2.add(helpButton);
       this.widgets["toolbar.helpButton"] = helpButton;
-      helpButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Opens the qooxdoo Manual")));
+      helpButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Open the qooxdoo Manual")));
 
       return toolbar;
     }
