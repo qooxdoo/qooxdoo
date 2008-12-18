@@ -609,7 +609,8 @@ class POFile(_BaseFile):
         # anymore
         for entry in self:
             if refpot.find(entry.msgid) is None:
-                entry.obsolete = True
+                #entry.obsolete = True
+                continue  # [thron7] temp. fix, to allow 'additive' merging
 
 # }}}
 # class MOFile {{{
