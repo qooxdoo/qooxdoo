@@ -16,6 +16,7 @@
     "APPLICATION"  : "qx",
     "QOOXDOO_PATH" : "..",
     "API_EXCLUDE"  : ["qx.legacy.*", "qx.test.*"],
+    "LOCALES"      : [ "de", "en", "es", "fr", "it", "sv" ],
     "CACHE"        : "../cache"
   },
 
