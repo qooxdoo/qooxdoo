@@ -94,9 +94,9 @@ qx.Class.define("demobrowser.demo.test.Table_CellEditor",
       this._container.add(box);
 
       // manually flush to do some unit testing
-      qx.ui.core.queue.Manager.flush();
-      btnValue.execute();
-      btnAddRemove.execute();
+      //qx.ui.core.queue.Manager.flush();
+      //btnValue.execute();
+      //btnAddRemove.execute();
     },
 
     testCheckBoxEditor : function()
