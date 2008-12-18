@@ -27,7 +27,12 @@ qx.Class.define("qx.test.ui.Destroy",
     {
       this.assertDestroy(function()
       {
-        var layout = new clazz(args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9], args[10]);
+        var argStr = [];
+        for (var i=0; i<args.length; i++) {
+          argStr.push("args[" + i + "]");
+        }
+        var str = "new clazz(" + argStr.join(", ") + ");"
+        var layout = eval(str);
 
         var widget = new qx.ui.container.Composite();
         widget.setLayout(layout);
