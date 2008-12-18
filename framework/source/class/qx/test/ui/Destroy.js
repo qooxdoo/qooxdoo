@@ -110,37 +110,53 @@ qx.Class.define("qx.test.ui.Destroy",
 
     testContainer : function()
     {
-      var forms = [
-        [qx.ui.container.Composite, []],
-        [qx.ui.container.Resizer, []],
-        [qx.ui.container.Scroll, []],
-        [qx.ui.container.SlideBar, []],
-        [qx.ui.container.Stack, []]
-      ];
-      for (var i=0; i<forms.length; i++) {
-        this.assertWidgetDispose(forms[i][0], forms[i][1], "Disposing " + forms[i][0].classname);
+      if(qx.bom.client.Engine.MSHTML && qx.bom.client.Engine.VERSION < 7)
+      {
+        this.warn("This test is skipped in IE6.");
+        return ;
+      }
+      else
+      {
+        var forms = [
+          [qx.ui.container.Composite, []],
+          [qx.ui.container.Resizer, []],
+          [qx.ui.container.Scroll, []],
+          [qx.ui.container.SlideBar, []],
+          [qx.ui.container.Stack, []]
+        ];
+        for (var i=0; i<forms.length; i++) {
+          this.assertWidgetDispose(forms[i][0], forms[i][1], "Disposing " + forms[i][0].classname);
+        }
       }
     },
 
 
     testControls : function()
     {
-      var forms = [
-        [qx.ui.control.ColorSelector, []],
-        [qx.ui.control.DateChooser, []]
-      ];
-      for (var i=0; i<forms.length; i++) {
-        this.assertWidgetDispose(forms[i][0], forms[i][1], "Disposing " + forms[i][0].classname);
-      }
-
-      this.assertDestroy(function()
+      if(qx.bom.client.Engine.MSHTML && qx.bom.client.Engine.VERSION < 7)
       {
-        var widget = new qx.ui.control.ColorPopup();
-        widget.show();
-        qx.ui.core.queue.Manager.flush();
+        this.warn("This test is skipped in IE6.");
+        return ;
+      }
+      else
+      {
+        var forms = [
+          [qx.ui.control.ColorSelector, []],
+          [qx.ui.control.DateChooser, []]
+        ];
+        for (var i=0; i<forms.length; i++) {
+          this.assertWidgetDispose(forms[i][0], forms[i][1], "Disposing " + forms[i][0].classname);
+        }
 
-        widget.destroy();
-      }, this, "Dispose color popup");
+        this.assertDestroy(function()
+        {
+          var widget = new qx.ui.control.ColorPopup();
+          widget.show();
+          qx.ui.core.queue.Manager.flush();
+
+          widget.destroy();
+        }, this, "Dispose color popup");
+      }
     },
 
 
