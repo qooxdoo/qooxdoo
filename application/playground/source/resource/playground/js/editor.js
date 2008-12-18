@@ -817,7 +817,13 @@ var Editor = (function(){
     // its lines, it shedules another highlight to finish the job.
     highlightDirty: function(force) {
       var lines = force ? Infinity : this.options.linesPerPass;
-      var sel = select.markSelection(this.win);
+      // TODO: qooxdoo modification
+      var sel;
+      try {
+        sel = select.markSelection(this.win);
+      } catch(ex) {
+        sel = null;
+      }
       var start;
       while (lines > 0 && (start = this.getDirtyNode())){
         var result = this.highlight(start, lines);
@@ -827,7 +833,10 @@ var Editor = (function(){
             this.addDirtyNode(result.node);
         }
       }
-      select.selectMarked(sel);
+      // TODO: qooxdoo modification
+      if(sel) {
+        select.selectMarked(sel);
+      }
       if (start)
         this.scheduleHighlight();
       return this.dirty.length == 0;
