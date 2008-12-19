@@ -26,6 +26,22 @@ qx.Bootstrap.define("qx.lang.Object",
   statics :
   {
     /**
+     * Clears the map from all values
+     *
+     * @param map {Object} the map to clear
+     */
+    empty : function(map)
+    {
+      for (var key in map) 
+      {
+        if (map.hasOwnProperty(key)) {
+          delete map[key];
+        }  
+      }
+    },
+    
+    
+    /**
      * Check if the hash has any keys
      *
      * @param map {Object} the map to check
@@ -49,13 +65,13 @@ qx.Bootstrap.define("qx.lang.Object",
      */
     len : function(map)
     {
-      var i = 0;
+      var length = 0;
 
       for (var key in map) {
-        i++;
+        length++;
       }
 
-      return i;
+      return length;
     },
 
 
@@ -181,7 +197,7 @@ qx.Bootstrap.define("qx.lang.Object",
      * @param value {var} Value to look for
      * @return {Boolean} Whether the value was found in the map.
      */
-    hasValue : function(obj, value) {
+    contains : function(obj, value) {
       return this.keyOf(obj, value) !== null;
     },
 
