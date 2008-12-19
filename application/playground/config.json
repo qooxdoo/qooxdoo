@@ -14,7 +14,7 @@
     "QOOXDOO_PATH" : "../..",
     "CACHE"        : "../../cache",
     "QXTHEME"      : "qx.theme.Modern",
-    "LOCALES"      : [ "en" ],
+    "LOCALES"      : [ "en", "de" ],
     "TEST_INCLUDE"   : "${APPLICATION}.*",
     "ROOT"         : "."
   },
