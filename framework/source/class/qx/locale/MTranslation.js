@@ -38,7 +38,7 @@ qx.Mixin.define("qx.locale.MTranslation",
      * Mark the message for translation.
      *
      * @param messageId {String} message id (may contain format strings)
-     * @param varargs {Object} variable number of argumes applied to the format string
+     * @param varargs {Object} variable number of arguments applied to the format string
      * @return {String} the localized string
      */
     tr : function(messageId, varargs)
