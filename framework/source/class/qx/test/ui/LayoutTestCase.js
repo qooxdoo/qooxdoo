@@ -145,7 +145,13 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
     {
       this.assertDestroy(function()
       {
-        var widget = new clazz(args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9], args[10]);
+        var argStr = [];
+        for (var i=0; i<args.length; i++) {
+          argStr.push("args[" + i + "]");
+        }
+        
+        var str = "new clazz(" + argStr.join(", ") + ");";
+        var widget = eval(str);
 
         this.getRoot().add(widget);
         qx.ui.core.queue.Manager.flush();
