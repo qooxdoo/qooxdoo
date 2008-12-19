@@ -31,6 +31,7 @@ qx.Bootstrap.define("qx.lang.Number",
     /**
      * Check whether the number is in a given range
      *
+     * @deprecated Legacy code - unused in the framework!
      * @param nr {Number} the number to check
      * @param vmin {Integer} lower bound of the range
      * @param vmax {Integer} upper bound of the range
@@ -44,6 +45,7 @@ qx.Bootstrap.define("qx.lang.Number",
     /**
      * Check whether the number is between a given range
      *
+     * @deprecated Legacy code - unused in the framework!
      * @param nr {Number} the number to check
      * @param vmin {Integer} lower bound of the range
      * @param vmax {Integer} upper bound of the range
