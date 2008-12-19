@@ -32,10 +32,10 @@
  * Variants enable the selection and removal of code from the build version.
  * A variant consists of a collection of states from which exactly one is active
  * at load time of the framework. The global map <code>qxvariants</code> can be
- * used to select a variant before the Framework is loades.
+ * used to select a variant before the Framework is loaded.
  *
  * Depending on the selected variant a specific code
- * path can be choosen using the <code>select</code> method. The generator is
+ * path can be chosen using the <code>select</code> method. The generator is
  * able to set a variant and remove all code paths which are
  * not selected by the variant.
  *
@@ -43,7 +43,7 @@
  * debugging code from the build version. It is very similar to conditional
  * compilation in C/C++.
  *
- * Here is a list of pre-defined variant names, the possilbe values they take,
+ * Here is a list of pre-defined variant names, the possible values they take,
  * and their system default:
  * <table>
  *  <tr>
@@ -218,7 +218,7 @@ qx.Bootstrap.define("qx.core.Variant",
      *
      * <pre class='javascript'>
      * var f = qx.Variant.select("qx.client", {
-     *   "gecko": fucntion() { ... },
+     *   "gecko": function() { ... },
      *   "mshtml|opera": function() { ... },
      *   "default": function() { ... }
      * });
