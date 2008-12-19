@@ -403,7 +403,7 @@ qx.Class.define("playground.Application",
           compareElem1.innerHTML != compareElem2.innerHTML) ||
           compareElem1.innerHTML.length != compareElem2.innerHTML.length)
       {
-        this.playAreaCaption.setContent(label + " (modified)");
+        this.playAreaCaption.setContent(this.tr("%1 (modified)", label));
         //top.location.hash = "#";
       }
       else {
@@ -460,14 +460,16 @@ qx.Class.define("playground.Application",
       {
         this.fun.call(this.__playApp);
         qx.ui.core.queue.Manager.flush();
-        }
+      }
       catch(ex)
       {
         var exc = ex;
-        alert("Unfortunately, an unrecoverable internal error was caused by your code.\n" +
-            "This may prevent the playground application to run properly.\n" +
-            "Please copy your code, restart the playground and paste your code.\n\n" +
-            exc);
+        alert(
+          this.tr("Unfortunately, an unrecoverable internal error was caused by your code.\n" +
+          "This may prevent the playground application to run properly.\n" +
+          "Please copy your code, restart the playground and paste your code.\n\n") +
+          exc
+        );
       }
 
 
@@ -726,10 +728,10 @@ qx.Class.define("playground.Application",
       header.setAppearance("app-header");
 
       // title of the header
-      var title = new qx.ui.basic.Label("Playground");
+      var title = new qx.ui.basic.Label(this.tr("Playground"));
 
       // qooxdoo version
-      var version = new qx.ui.basic.Label("qooxdoo " + qx.core.Setting.get("qx.version"));
+      var version = new qx.ui.basic.Label(this.tr("qooxdoo %1", qx.core.Setting.get("qx.version")));
 
       header.add(title);
       header.add(new qx.ui.core.Spacer, { flex : 1 });
@@ -753,14 +755,14 @@ qx.Class.define("playground.Application",
       toolbar.add(part1);
 
       // run button
-      var runButton = new qx.ui.toolbar.Button("Run", "playground/image/media-playback-start.png");
+      var runButton = new qx.ui.toolbar.Button(this.tr("Run"), "playground/image/media-playback-start.png");
       part1.add(runButton);
       this.widgets["toolbar.runButton"] = runButton;
       //this.widgets["toolbar.runButton"].setCommand(this._runSample);
       runButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Run the source code")));
 
       // select sample button
-      var selectSampleButton = new qx.ui.toolbar.MenuButton("Samples", "playground/image/document-folder.png");
+      var selectSampleButton = new qx.ui.toolbar.MenuButton(this.tr("Samples"), "playground/image/document-folder.png");
       part1.add(selectSampleButton);
       this.widgets["toolbar.selectSampleButton"] = selectSampleButton;
       selectSampleButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Select a sample")));
@@ -783,19 +785,19 @@ qx.Class.define("playground.Application",
       toolbar.add(part2);
 
       // log Check button
-      var logCheckButton = new qx.ui.toolbar.CheckBox("Log", "playground/image/utilities-log-viewer.png");
+      var logCheckButton = new qx.ui.toolbar.CheckBox(this.tr("Log"), "playground/image/utilities-log-viewer.png");
       part2.add(logCheckButton);
       this.widgets["toolbar.logCheckButton"] = logCheckButton;
       logCheckButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Show log output")));
 
       // api button
-      var apiButton = new qx.ui.toolbar.Button("API Viewer", "playground/image/help-contents.png");
+      var apiButton = new qx.ui.toolbar.Button(this.tr("API Viewer"), "playground/image/help-contents.png");
       part2.add(apiButton);
       this.widgets["toolbar.apiButton"] = apiButton;
       apiButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Open the qooxdoo API Viewer")));
 
       // help button
-      var helpButton = new qx.ui.toolbar.Button("Manual", "playground/image/help-about.png");
+      var helpButton = new qx.ui.toolbar.Button(this.tr("Manual"), "playground/image/help-about.png");
       part2.add(helpButton);
       this.widgets["toolbar.helpButton"] = helpButton;
       helpButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Open the qooxdoo Manual")));
