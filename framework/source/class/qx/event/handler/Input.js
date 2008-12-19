@@ -141,7 +141,7 @@ qx.Class.define("qx.event.handler.Input",
 
     // interface implementation
     /**
-     * @signature function(target, type)
+     * @signature function(target, type, capture)
      */
     registerEvent : qx.core.Variant.select("qx.client",
     {
@@ -150,16 +150,18 @@ qx.Class.define("qx.event.handler.Input",
         if (!target.__inputHandlerAttached)
         {
           var tag = target.tagName.toLowerCase();
-          var type = target.type;
+          var elementType = target.type;
 
-          if (type === "text" || tag === "textarea" || type === "checkbox" || type === "radio") {
+          if (elementType === "text" || tag === "textarea" || elementType === "checkbox" || elementType === "radio") {
             qx.bom.Event.addNativeListener(target, "propertychange", this._onPropertyWrapper);
           }
 
-          if (type !== "checkbox" && type !== "radio") {
+          if (elementType !== "checkbox" && elementType !== "radio") {
             qx.bom.Event.addNativeListener(target, "change", this._onChangeValueWrapper);
           }
-
+          
+          this.__changeEventOnEnterFix(target, elementType);
+          
           target.__inputHandlerAttached = true;
         }
       },
@@ -180,6 +182,8 @@ qx.Class.define("qx.event.handler.Input",
           {
             qx.bom.Event.addNativeListener(target, "change", this._onChangeValueWrapper);
           }
+          
+          this.__changeEventOnEnterFix(target, target.type);
         }
       }
     }),
@@ -196,13 +200,13 @@ qx.Class.define("qx.event.handler.Input",
         if (!target.__inputHandlerAttached)
         {
           var tag = target.tagName.toLowerCase();
-          var type = target.type;
+          var elementType = target.type;
 
-          if (type === "text" || tag === "textarea" || type === "checkbox" || type === "radio") {
+          if (elementType === "text" || tag === "textarea" || elementType === "checkbox" || elementType === "radio") {
             qx.bom.Event.removeNativeListener(target, "propertychange", this._onPropertyWrapper);
           }
 
-          if (type !== "checkbox" && type !== "radio") {
+          if (elementType !== "checkbox" && elementType !== "radio") {
             qx.bom.Event.removeNativeListener(target, "change", this._onChangeValueWrapper);
           }
 
@@ -229,6 +233,32 @@ qx.Class.define("qx.event.handler.Input",
         }
       }
     }),
+    
+    /**
+     * Fix the different behavior by pressing the enter key. 
+     * 
+     * FF and Safari fire a "change" event if the user press the enter key.
+     * IE and Opera fire the event only if the focus is changed.
+     * 
+     * @signature function(target, elementType)
+     */
+    __changeEventOnEnterFix : qx.core.Variant.select("qx.client",
+    {
+      "mshtml|opera" : function(target, elementType)
+      {
+        if (elementType === "text")
+        {
+          qx.event.Registration.addListener(target, "keypress", function(e) {
+            if (e.getKeyIdentifier() === "Enter") {
+              qx.event.Registration.fireEvent(target, "change", qx.event.type.Data, [target.value]);
+            }
+          });
+        }
+      },
+      
+      "default" : function(target, elementType) {}
+    }),
+
 
 
 
