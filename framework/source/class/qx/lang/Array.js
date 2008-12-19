@@ -106,6 +106,7 @@ qx.Bootstrap.define("qx.lang.Array",
     /**
      * Return a copy of the given arr
      *
+     * @deprecated Use {@link #clone} instead
      * @param arr {Array} the arr to copy
      * @return {Array} copy of the arr
      */
@@ -129,6 +130,7 @@ qx.Bootstrap.define("qx.lang.Array",
     /**
      * Return the last element of an arr
      *
+     * @deprecated For performance reasons it's better to omit the function call
      * @param arr {Array} the arr
      * @return {var} the last element of the arr
      */
@@ -140,6 +142,7 @@ qx.Bootstrap.define("qx.lang.Array",
     /**
      * Return the first element of an arr
      *
+     * @deprecated For performance reasons it's better to omit the function call
      * @param arr {Array} the arr
      * @return {var} the first element of the arr
      */
