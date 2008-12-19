@@ -23,6 +23,7 @@
 /* ************************************************************************
 
 #asset(qx/icon/Tango/22/actions/media-playback-start.png)
+#asset(qx/icon/Tango/22/actions/media-playback-stop.png)
 #asset(qx/icon/Tango/22/actions/go-previous.png)
 #asset(qx/icon/Tango/22/actions/go-next.png)
 #asset(qx/icon/Tango/22/actions/edit-redo.png)
@@ -152,6 +153,19 @@ qx.Class.define("demobrowser.DemoBrowser",
   },
 
 
+  /*
+   * ****************************************************************************
+   * PROPERTIES
+   * ****************************************************************************
+   */
+
+  properties : {
+    playDemos : {
+      check : [ "all", "category", "current" ],
+      init :"current"
+    }
+  },
+  
 
   /*
   *****************************************************************************
@@ -238,28 +252,33 @@ qx.Class.define("demobrowser.DemoBrowser",
       // NAVIGATION BUTTONS
       // -----------------------------------------------------
 
-      var navPart = new qx.ui.toolbar.Part();
-      bar.add(navPart);
+      this._navPart = new qx.ui.toolbar.Part();
+      bar.add(this._navPart);
 
       // -- run button
-      var runbutton = new qx.ui.toolbar.Button(this.tr("Run"), "icon/22/actions/media-playback-start.png");
-      runbutton.addListener("execute", this.runSample, this);
-      navPart.add(runbutton);
+      this._runbutton = new qx.ui.toolbar.Button(this.tr("Run"), "icon/22/actions/media-playback-start.png");
+      this._runbutton.addListener("execute", this.runSample, this);
+      this._navPart.add(this._runbutton);
+      
+      // -- stop button
+      this._stopbutton = new qx.ui.toolbar.Button(this.tr("Stop"),
+          "icon/22/actions/media-playback-stop.png");
+      this._stopbutton.addListener("execute", this.stopSample, this);
 
       // -- previous navigation
       var prevbutt = new qx.ui.toolbar.Button(this.tr("Previous"), "icon/22/actions/go-previous.png");
       prevbutt.addListener("execute", this.playPrev, this);
-      navPart.add(prevbutt);
+      this._navPart.add(prevbutt);
 
       // -- next navigation
       var nextbutt = new qx.ui.toolbar.Button(this.tr("Next"), "icon/22/actions/go-next.png");
       nextbutt.addListener("execute", this.playNext, this);
-      navPart.add(nextbutt);
+      this._navPart.add(nextbutt);
 
       // -- spin-out sample
       var sobutt = new qx.ui.toolbar.Button(this.tr("Own Window"), "icon/22/actions/edit-redo.png");
       sobutt.addListener("execute", this.__openWindow, this);
-      navPart.add(sobutt);
+      this._navPart.add(sobutt);
 
 
 
@@ -537,8 +556,39 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     runSample : function(e)
     {
-      var file = this.tests.selected.replace(".", "/");
-      this.setCurrentSample(file);
+      // If the button was clicked, decide what to play based on tree selection
+      if (e) {
+        if (this.tests.selected === "") {
+          this.setPlayDemos("all");
+        } else if (this.tests.selected.indexOf("html") > 0) {
+          this.setPlayDemos("current");
+        } else {
+          this.setPlayDemos("category");
+        }
+      }
+            
+      this._navPart.remove(this._runbutton);
+      this._navPart.addAt(this._stopbutton, 0);
+      
+      if (this.tests.selected != "") {
+        var file = this.tests.selected.replace(".", "/");
+        this.setCurrentSample(file);
+      } else {
+        this.playNext();
+      }      
+    },
+    
+    
+    /**
+     * event handler for the Stop Test button - stops execution
+     *
+     * @param e {Event} TODOC
+     * @return {void}
+     */
+    stopSample : function(e) {
+      this.setPlayDemos("current");
+      this._navPart.remove(this._stopbutton);
+      this._navPart.addAt(this._runbutton, 0);
     },
 
 
@@ -627,6 +677,17 @@ qx.Class.define("demobrowser.DemoBrowser",
 
 
       }
+      
+      // Remove stop button, display run button
+      this._navPart.remove(this._stopbutton);
+      this._navPart.addAt(this._runbutton, 0);
+      
+      // Play the next sample after five seconds
+      if (this.getPlayDemos() != "current") {
+        var self = this;
+        qx.event.Timer.once(this.playNext(), self, 5000);
+      }
+      
     },
 
 
@@ -801,6 +862,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     playPrev : function(e)
     {
+      this.setPlayDemos("current");
       var currSamp = this.tree.getSelectedItem();  // widget
 
       if (currSamp)
@@ -828,11 +890,31 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       if (currSamp)
       {
-        try{
-          var otherSamp = currSamp.getUserData('modelLink').getNextSibling().widgetLinkFull;
-        }catch(ex)
-        {
-          this.debug(ex)
+        try {
+          // If a folder is selected, get its first child
+          var otherSamp = currSamp.getUserData('modelLink').getChildren()[0].widgetLinkFull;
+        } catch (ex) {
+          try {
+            // If a sample is selected, get its following sibling
+            var otherSamp = currSamp.getUserData('modelLink').getNextSibling().widgetLinkFull;
+          } catch (ex) {
+            if (this.getPlayDemos() == "all") {
+
+              try {
+                // Get the following folder's first child
+                var tree = currSamp.getTree();
+
+                var nextFolder = tree.getNextSiblingOf(currSamp);
+                nextFolder.setOpen(true);
+
+                var otherSamp = nextFolder.getChildren()[0];                
+              } catch (ex) {
+                this.debug(ex)
+              }
+
+            }
+          }
+
         }
 
         if (otherSamp)
