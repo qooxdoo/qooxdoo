@@ -97,6 +97,25 @@ qx.Bootstrap.define("qx.lang.String",
 
 
     /**
+     * Removes all extraneous whitespace from a string and trims it
+     *
+     * Example:
+     *
+     * <code>
+     * qx.lang.String.clean(" i      like     cookies      \n\n");
+     * </code>
+     *
+     * Returns "i like cookies" 
+     * 
+     * @param str {String} the string to clean up
+     * @return Cleaned up string
+     */
+    clean: function(str){
+      return str.replace(/\s+/g, ' ').trim();
+    },
+  
+
+    /**
      * removes white space from the left side of a string
      *
      * @param str {String} the string to trim
@@ -266,6 +285,30 @@ qx.Bootstrap.define("qx.lang.String",
      */
     stripTags : function(str) {
       return str.replace(/<\/?[^>]+>/gi, "");
+    },
+    
+    
+    /**
+     * Strips the String of its <script> tags and anything in between them.
+     *
+     * @param str {String} string containing tags
+     * @param exec {Boolean?false} Whether the filtered code should be executed
+     * @return {String} The filtered string
+     */
+    stripScripts: function(str, exec)
+    {
+      var scripts = "";
+      var text = str.replace(/<script[^>]*>([\s\S]*?)<\/script>/gi, function()
+      {
+        scripts += arguments[1] + '\n';
+        return "";
+      });
+      
+      if (exec === true) {
+        qx.lang.Function.globalEval(scripts);
+      }
+      
+      return text;
     }
   }
 });
