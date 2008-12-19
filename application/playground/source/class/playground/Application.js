@@ -170,7 +170,7 @@ qx.Class.define("playground.Application",
         this.currentSample = sample;
         this.updatePlayground(this.__playRoot);
       } else {
-        sample = "Hello_World";
+        sample = qx.lang.Object.getKeys(this.sampleContainer)[0];
         this.currentSample = sample;
         this.textarea.setValue(this.sampleContainer[sample]);
       }
