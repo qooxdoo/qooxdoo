@@ -1,0 +1,84 @@
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: you@qooxdoo.org\n"
+"POT-Creation-Date: 2007-10-18 14:00+0100\n"
+"PO-Revision-Date: 2007-10-18 14:00+0100\n"
+"Last-Translator: you <you@qooxdoo.org>\n"
+"Language-Team: Team <yourteam@qooxdoo.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: playground/Application.js:274
+msgid "Source Code"
+msgstr ""
+
+#: playground/Application.js:406
+msgid "%1 (modified)"
+msgstr ""
+
+#: playground/Application.js:445
+msgid "Starting application '"
+msgstr ""
+
+#: playground/Application.js:448
+msgid "Successfully started."
+msgstr ""
+
+#: playground/Application.js:468
+msgid "Unfortunately, an unrecoverable internal error was caused by your code.\\nThis may prevent the playground application to run properly.\\nPlease copy your code, restart the playground and paste your code.\\n\\n"
+msgstr ""
+
+#: playground/Application.js:678 playground/Application.js:788
+msgid "Log"
+msgstr ""
+
+#: playground/Application.js:731
+msgid "Playground"
+msgstr ""
+
+#: playground/Application.js:734
+msgid "qooxdoo %1"
+msgstr ""
+
+#: playground/Application.js:758
+msgid "Run"
+msgstr ""
+
+#: playground/Application.js:762
+msgid "Run the source code"
+msgstr ""
+
+#: playground/Application.js:765
+msgid "Samples"
+msgstr ""
+
+#: playground/Application.js:768
+msgid "Select a sample"
+msgstr ""
+
+#: playground/Application.js:771
+msgid "Syntax Highlighting"
+msgstr ""
+
+#: playground/Application.js:791
+msgid "Show log output"
+msgstr ""
+
+#: playground/Application.js:794
+msgid "API Viewer"
+msgstr ""
+
+#: playground/Application.js:797
+msgid "Open the qooxdoo API Viewer"
+msgstr ""
+
+#: playground/Application.js:800
+msgid "Manual"
+msgstr ""
+
+#: playground/Application.js:803
+msgid "Open the qooxdoo Manual"
+msgstr ""
