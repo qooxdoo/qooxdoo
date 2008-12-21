@@ -124,7 +124,7 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
      * does not yet exist, create it.
      *
      * @param obj {Object} the Object to get the hashcode for
-     * @return {Integer} unique identifier for the given object
+     * @return {String} unique identifier for the given object
      */
     toHashCode : function(obj)
     {
@@ -160,7 +160,7 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
      * If the object is already disposed or the hashCode is invalid,
      * <code>null</code> is returned.
      *
-     * @param hash {Integer} The object's hash code.
+     * @param hash {String} The object's hash code.
      * @return {qx.core.Object} The corresponding object or <code>null</code>.
      */
     fromHashCode : function(hash) {
