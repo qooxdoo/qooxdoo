@@ -394,7 +394,7 @@ class Generator:
                 # Computing packages
                 # partPackages[partId]=[0,1,3]
                 # packageClasses[0]=['qx.Class','qx.bom.Stylesheet',...]
-                parts, packages = self._partBuilder.getPackages(partIncludes, smartExclude, classList, collapseCfg, variants, minPackageSize, minPackageSizeForUnshared)
+                partPackages, packageClasses = self._partBuilder.getPackages(partIncludes, smartExclude, classList, collapseCfg, variants, minPackageSize, minPackageSizeForUnshared)
 
             else:
                 # Emulate configuration
