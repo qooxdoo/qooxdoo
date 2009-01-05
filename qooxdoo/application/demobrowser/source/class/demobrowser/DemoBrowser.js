@@ -494,15 +494,37 @@ qx.Class.define("demobrowser.DemoBrowser",
     {
       this._sampleToTreeNodeMap = {};
       var _sampleToTreeNodeMap = this._sampleToTreeNodeMap;
-      var _initialSection = "widget";
+      var _initialSection = null;
       var _initialNode = null;
-
+      
+      // check for autorun parameter
+      var autorun = /\?autorun=true/.test(location.href);
+      
       // set a section to open initially
-      var state = this._history.getState();
+      var state = this._history.getState();            
+      
       var section =  state.match(/([^~]+)~/);
       if (section) {
+        // demo preselected, e.g. #bom~Clip.html
         _initialSection = section[1];
-      }
+      } else {
+        var category = state.match(/([^~][\w]*)/);
+        if (category) {
+          // category preselected, e.g. #widget
+          _initialSection = category[1];          
+          if (autorun) {
+            this.setPlayDemos("category");
+          }          
+        } 
+        else {
+          // nothing preselected
+          _initialSection = "animation";          
+          if (autorun) {
+            this.setPlayDemos("all");
+          }
+          
+        }
+      }                  
 
       // use tree struct
       /**
