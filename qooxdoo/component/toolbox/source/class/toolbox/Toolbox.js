@@ -142,19 +142,19 @@ qx.Class.define("toolbox.Toolbox",
       toolbar.add(part1);
 
       // -- create button
-      this.createButton = new qx.ui.toolbar.Button("New application", "toolbox/image/development.png");
+      this.createButton = new qx.ui.toolbar.Button(null, "toolbox/image/development.png");
       part1.add(this.createButton);
       this.widgets["toolbar.createButton"] = this.createButton;
       this.createButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Creates a new application")));
 
       // -- generate button
-      this.generateButton = new qx.ui.toolbar.Button("Generate source", "toolbox/image/system-run.png");
+      this.generateButton = new qx.ui.toolbar.Button(null, "toolbox/image/system-run.png");
       part1.add(this.generateButton);
       this.widgets["toolbar.generateButton"] = this.generateButton;
       this.generateButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Generates the source of the created application")));
 
       // -- generate build button
-      this.generateBuildButton = new qx.ui.toolbar.Button("Generate build", "toolbox/image/executable.png");
+      this.generateBuildButton = new qx.ui.toolbar.Button(null, "toolbox/image/executable.png");
       part1.add(this.generateBuildButton);
       this.widgets["toolbar.generateBuildButton"] = this.generateBuildButton;
       this.generateBuildButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Generates the build")));
@@ -163,31 +163,31 @@ qx.Class.define("toolbox.Toolbox",
       toolbar.add(part2);
 
       // -- generate Api
-      this.generateApiButton = new qx.ui.toolbar.Button("Generate api", "toolbox/image/help-contents.png");
+      this.generateApiButton = new qx.ui.toolbar.Button(null, "toolbox/image/help-contents.png");
       part2.add(this.generateApiButton);
       this.widgets["toolbar.generateApiButton"] = this.generateApiButton;
       this.generateApiButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Generates the API of the application")));
 
       // -- make pretty
-      this.makePrettyButton = new qx.ui.toolbar.Button("Format source", "toolbox/image/format-indent-more.png");
+      this.makePrettyButton = new qx.ui.toolbar.Button(null, "toolbox/image/format-indent-more.png");
       part2.add(this.makePrettyButton);
       this.widgets["toolbar.makePrettyButton"] = this.makePrettyButton;
       this.makePrettyButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("makes the source pretty")));
 
       // -- validate code
-      this.validateCodeButton = new qx.ui.toolbar.Button("Validate source", "toolbox/image/edit-find.png");
+      this.validateCodeButton = new qx.ui.toolbar.Button(null, "toolbox/image/edit-find.png");
       part2.add(this.validateCodeButton);
       this.widgets["toolbar.validateCodeButton"] = this.validateCodeButton;
       this.validateCodeButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Validates the source")));
 
       // -- test
-      this.testButton = new qx.ui.toolbar.Button("Test", "toolbox/image/dialog-apply.png");
+      this.testButton = new qx.ui.toolbar.Button(null, "toolbox/image/dialog-apply.png");
       part2.add(this.testButton);
       this.widgets["toolbar.testButton"] = this.testButton;
       this.testButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Tests the application")));
 
       // -- test source
-      this.testSourceButton = new qx.ui.toolbar.Button("Test source", "toolbox/image/check-spelling.png");
+      this.testSourceButton = new qx.ui.toolbar.Button(null, "toolbox/image/check-spelling.png");
       part2.add(this.testSourceButton);
       this.widgets["toolbar.testSourceButton"] = this.testSourceButton;
       this.testSourceButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Tests the source")));
@@ -197,7 +197,7 @@ qx.Class.define("toolbox.Toolbox",
       var part3 = new qx.ui.toolbar.Part();
       toolbar.add(part3);
 
-      this.configurationButton = new qx.ui.toolbar.Button("Configuration", "toolbox/image/preferences.png");
+      this.configurationButton = new qx.ui.toolbar.Button(null, "toolbox/image/preferences.png");
       part3.add(this.configurationButton);
       this.widgets["toolbar.configurationButton"] = this.configurationButton;
       this.configurationButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Configuration of the application")));
