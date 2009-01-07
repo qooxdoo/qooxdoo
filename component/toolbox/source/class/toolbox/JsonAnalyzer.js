@@ -23,7 +23,8 @@
 ************************************************************************ */
 
 /**
- * This is the main application class of your custom application "HelloWorld"
+ * This class analyzes the json-configuration and creates out of it a tree.
+ * This makes the adaption more easier and ilustrates a better overlook.
  */
 qx.Class.define("toolbox.JsonAnalyzer",
 {
@@ -914,13 +915,13 @@ qx.Class.define("toolbox.JsonAnalyzer",
     __addChild : function()
     {
       var json = this.__tree.getSelectedItem().getUserData("json");
-      
-      if(this.__tree.getSelectedItem().getLabel().toString() == "root"){
-      	var subTree = json.obj;
+
+      if (this.__tree.getSelectedItem().getLabel().toString() == "root") {
+        var subTree = json.obj;
       } else {
-      	var subTree = json.obj[json.key];
+        var subTree = json.obj[json.key];
       }
-      
+
       if (this.currentTypeAtom.getLabel().toString() == "array")
       {
         if (this.__currentType == "object") {
@@ -990,12 +991,12 @@ qx.Class.define("toolbox.JsonAnalyzer",
       var current = this.__tree.getSelectedItem();
       current.removeAll();
 
-      if(this.__tree.getSelectedItem().getLabel().toString() == "root"){
-      	this[this.__map[typeof subTree]](subTree, this.__tree.getSelectedItem());
+      if (this.__tree.getSelectedItem().getLabel().toString() == "root") {
+        this[this.__map[typeof subTree]](subTree, this.__tree.getSelectedItem());
       } else {
-      	this[this.__map[typeof json2.obj[json2.key]]](json2.obj[json2.key], this.__tree.getSelectedItem());
+        this[this.__map[typeof json2.obj[json2.key]]](json2.obj[json2.key], this.__tree.getSelectedItem());
       }
-      
+
       this.resetAddChildDialog();
       this.childKeyTextfield.setValue("");
       this.childValueTextfield.setValue("");
@@ -1079,41 +1080,59 @@ qx.Class.define("toolbox.JsonAnalyzer",
       }
 
       var json = this.currentItem.getUserData("json");
-      var par = this.currentItem.getParent().getUserData("json");
-      var parMem = this.currentItem.getParent();
 
-      // -----------------------------------OBJECT-------------------------------------
-      if (this.currentTypeAtom.getLabel().toString() == "object" || this.currentTypeAtom.getLabel().toString() == "array" || this.currentTypeAtom.getLabel().toString() == "null" || typeof json.obj[json.key] == "string" || typeof json.obj[json.key] == "number" || typeof json.obj[json.key] == "boolean")
-      {  // Objekt in einem Array
-        if (par.obj[par.key] instanceof Array)
-        {
-          for (var i=0; i<json.obj.length; i++)
+      if (this.currentItem.getParent())
+      {
+        var par = this.currentItem.getParent().getUserData("json");
+        var parMem = this.currentItem.getParent();
+
+        // -----------------------------------OBJECT-------------------------------------
+        if (this.currentTypeAtom.getLabel().toString() == "object" || this.currentTypeAtom.getLabel().toString() == "array" || this.currentTypeAtom.getLabel().toString() == "null" || this.__tree.getSelectedItem().getParent().getLabel().toString() == "root" || typeof json.obj[json.key] == "string" || typeof json.obj[json.key] == "number" || typeof json.obj[json.key] == "boolean")
+        {  // Objekt in einem Arrays
+          if (par.obj[par.key] instanceof Array)
           {
-            if (i == this.__tree.getSelectedItem().getLabel().toString())
+            for (var i=0; i<json.obj.length; i++)
             {
-              json.obj.splice(i, 1);
-              this[this.__map[typeof json.obj]](json.obj, this.__tree.getSelectedItem().getParent());
+              if (i == this.__tree.getSelectedItem().getLabel().toString())
+              {
+                json.obj.splice(i, 1);
+                this[this.__map[typeof json.obj]](json.obj, this.__tree.getSelectedItem().getParent());
 
-              for (var j=0; j<json.obj.length+1; j++) {
-                parMem.removeAt(0);
+                for (var j=0; j<json.obj.length+1; j++) {
+                  parMem.removeAt(0);
+                }
+
+                break;
               }
+            }
+          }
+          else if (par.obj[par.key] instanceof Object || this.__tree.getSelectedItem().getParent().getLabel().toString() == "root")
+          {  // Object in einem Object
+            delete json.obj[json.key];
+            delete json.key;
+            this[this.__map[typeof json.obj]](json.obj, this.__tree.getSelectedItem().getParent());
 
-              break;
+            for (var j=0; j<parMem.getItems(true, false).length+1; j++) {
+              parMem.removeAt(0);
             }
           }
         }
-        else if (par.obj[par.key] instanceof Object)
-        {  // Object in einem Object
-          delete json.obj[json.key];
-          delete json.key;
-          this[this.__map[typeof json.obj]](json.obj, this.__tree.getSelectedItem().getParent());
+      }
+      else if (this.__tree.getSelectedItem().getLabel().toString() == "root")
+      {
+        this.__tree.getSelectedItem().removeAll();
 
-          for (var j=0; j<parMem.getItems(true, false).length+1; j++) {
-            parMem.removeAt(0);
-          }
-        }
+        this.__tree.getSelectedItem().setUserData("json",
+        {
+          obj : {},
+          key : null
+        });
+
+        var json = this.__tree.getSelectedItem().getUserData("json");
+        toolbox.Configuration.JSON = json.obj;
       }
     },
+
 
     /**
      * TODOC
@@ -1122,7 +1141,6 @@ qx.Class.define("toolbox.JsonAnalyzer",
      */
     __editChild : function()
     {
-     	
       var obj = this.jsonObject;
 
       for (var i=0; i<this.parentMemory.length-1; i++) {
@@ -1138,22 +1156,24 @@ qx.Class.define("toolbox.JsonAnalyzer",
         json.obj[json.key] = parent;
 
         this.__tree.getSelectedItem().removeAll();
-        
-        if(this.__tree.getSelectedItem().getLabel().toString() == "root"){
+
+        if (this.__tree.getSelectedItem().getLabel().toString() == "root")
+        {
           var json = this.__tree.getSelectedItem().getUserData("json");
-          var subTree = json.obj;
+          var subTree = json.obj[json.key];
           this.__tree.getSelectedItem().removeAll();
-          this[this.__map[typeof subTree]](subTree, this.__tree.getSelectedItem());
-          alert(qx.util.Json.stringify(subTree, true));
-        } else {
-    	    this[this.__map[typeof parent]](parent, this.__tree.getSelectedItem());
+          this.createJsonTree(subTree);
+          toolbox.Configuration.JSON = subTree;
+        }
+        else
+        {
+          this[this.__map[typeof parent]](parent, this.__tree.getSelectedItem());
         }
       }
       catch(err)
       {
         alert(err);
       }
-	  
     }
   }
 });
