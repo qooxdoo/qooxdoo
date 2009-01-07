@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * A more comfortable HTTP request object than the native one under
  * {@link qx.bom.Request}.
  *
@@ -247,9 +245,9 @@ qx.Class.define("qx.io2.HttpRequest",
 
   members :
   {
-
     __req : null,
     __headers : null,
+
 
     /*
     ---------------------------------------------------------------------------
@@ -650,7 +648,7 @@ qx.Class.define("qx.io2.HttpRequest",
 
   destruct : function()
   {
-    this._disposeObjects("_req");
+    this._disposeObjects("__req");
     this._disposeFields("__headers");
   }
 });
