@@ -40,7 +40,7 @@ qx.Class.define("demobrowser.demo.io2.HttpRequest",
         var state = e.getData();
         qx.log.Logger.debug("Event: readystatechange: " + state);
         if (state == 4) {
-          el.value = req.responseText;
+          el.value = this.getResponseText();
         }
       });
       

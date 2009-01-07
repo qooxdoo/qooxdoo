@@ -28,7 +28,21 @@ qx.Class.define("demobrowser.demo.io2.ImageLoader",
     {
       this.base(arguments);
 
-      var Loader = qx.io2.ImageLoader;
+      qx.io2.ImageLoader.load("http://resources.qooxdoo.org/images/logo.gif", function(source, data)
+      {
+        qx.log.Logger.debug("Image loaded (" + data.width + "x" + data.height + ")");
+        
+        var elem = document.createElement("img");
+        elem.src = source;
+        elem.width = Math.round(data.width * 1.5);
+        elem.height = Math.round(data.height * 1.5);
+        
+        elem.style.position = "absolute";
+        elem.style.left = "100px";
+        elem.style.top = "100px";
+         
+        document.body.appendChild(elem);
+      });
     }
   }
 });
