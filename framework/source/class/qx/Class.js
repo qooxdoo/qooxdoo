@@ -401,7 +401,7 @@ qx.Bootstrap.define("qx.Class",
       while (clazz)
       {
         if (clazz.$$properties) {
-          list.push.apply(list, qx.lang.Object.getKeys(clazz.$$properties));
+          list.push.apply(list, qx.lang.Object.keys(clazz.$$properties));
         }
 
         clazz = clazz.superclass;
@@ -1289,7 +1289,7 @@ qx.Bootstrap.define("qx.Class",
     __addMembers : function(clazz, members, patch, base, wrap)
     {
       var proto = clazz.prototype;
-      var keys = qx.lang.Object.getKeys(members);
+      var keys = qx.lang.Object.keys(members);
       var key, member;
       
       // IE does not return "shadowed" keys even if they are defined directly
