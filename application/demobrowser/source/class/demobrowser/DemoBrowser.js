@@ -718,16 +718,20 @@ qx.Class.define("demobrowser.DemoBrowser",
         }
 
 
-      }
-      
-      // Remove stop button, display run button
-      this._navPart.remove(this._stopbutton);
-      this._navPart.addAt(this._runbutton, 0);
+      }            
       
       // Play the next sample after five seconds
       if (this.getPlayDemos() != "current") {
-        var self = this;
-        qx.event.Timer.once(this.playNext(), self, 5000);
+        if (!pagename) {
+          this.playNext();
+        } else {
+          var self = this;          
+          qx.event.Timer.once(this.playNext, self, 5000);
+        }        
+      } else {
+        // Remove stop button, display run button
+        this._navPart.remove(this._stopbutton);
+        this._navPart.addAt(this._runbutton, 0);
       }
       
     },
@@ -963,6 +967,10 @@ qx.Class.define("demobrowser.DemoBrowser",
         {
           this.tree.select(otherSamp);
           this.runSample();
+        } else {          
+          // Remove stop button, display run button
+          this._navPart.remove(this._stopbutton);
+          this._navPart.addAt(this._runbutton, 0);
         }
       }
     },
