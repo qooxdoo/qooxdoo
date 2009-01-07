@@ -37,7 +37,12 @@ qx.Bootstrap.define("qx.lang.Number",
      * @param vmax {Integer} upper bound of the range
      * @return {Boolean} whether the number is >= vmin and <= vmax
      */
-    isInRange : function(nr, vmin, vmax) {
+    isInRange : function(nr, vmin, vmax) 
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee);
+      }      
+      
       return nr >= vmin && nr <= vmax;
     },
 
@@ -51,7 +56,12 @@ qx.Bootstrap.define("qx.lang.Number",
      * @param vmax {Integer} upper bound of the range
      * @return {Boolean} whether the number is > vmin and < vmax
      */
-    isBetweenRange : function(nr, vmin, vmax) {
+    isBetweenRange : function(nr, vmin, vmax) 
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee);
+      }      
+      
       return nr > vmin && nr < vmax;
     },
 

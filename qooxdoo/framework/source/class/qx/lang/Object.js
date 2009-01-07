@@ -239,6 +239,10 @@ qx.Bootstrap.define("qx.lang.Object",
      */
     fromArray: function(array)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee);
+      }
+        
       var obj = {};
 
       for (var i=0, l=array.length; i<l; i++)
@@ -271,6 +275,10 @@ qx.Bootstrap.define("qx.lang.Object",
      */
     hasMinLength : function(map, length)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee);
+      }
+        
       var i = 0;
 
       for (var key in map)
@@ -291,7 +299,12 @@ qx.Bootstrap.define("qx.lang.Object",
      * @param map {Object} the map
      * @return {Integer} number of objects in the map
      */
-    getLength : function(map) {
+    getLength : function(map) 
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Use len() instead.");
+      }
+              
       return this.len(map);
     },    
     
@@ -303,7 +316,12 @@ qx.Bootstrap.define("qx.lang.Object",
      * @param map {Object} the map
      * @return {Array} array of the keys of the map
      */
-    getKeys : function(map) {
+    getKeys : function(map) 
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Use keys() instead.");
+      }
+      
       return this.keys(map);
     },
         
@@ -316,7 +334,12 @@ qx.Bootstrap.define("qx.lang.Object",
      * @return {String} String of the keys of the map
      *         The keys are separated by ", "
      */
-    getKeysAsString : function(map) {
+    getKeysAsString : function(map) 
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Use keysFormatted() instead.");
+      }
+            
       return this.keysFormatted(map);
     },
         
@@ -328,7 +351,12 @@ qx.Bootstrap.define("qx.lang.Object",
      * @param map {Object} the map
      * @return {Array} array of the values of the map
      */    
-    getValues : function(map) {
+    getValues : function(map) 
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Use values() instead.");
+      }
+               
       return this.values(map);
     },    
     
@@ -339,7 +367,12 @@ qx.Bootstrap.define("qx.lang.Object",
      * @param source {Object} map to clone
      * @return {Object} the clone
      */    
-    copy : function(source) {
+    copy : function(source) 
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Use clone() instead.");
+      }
+               
       return this.clone(source);
     },
     
@@ -354,7 +387,12 @@ qx.Bootstrap.define("qx.lang.Object",
      * @param value {var} Value to look for
      * @return {String|null} Name of the key (null if not found).
      */
-    getKeyFromValue: function(obj, value) {
+    getKeyFromValue: function(obj, value) 
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Use keyOf() instead.");
+      }
+               
       return this.keyOf(obj, value);
     },
         
@@ -371,6 +409,10 @@ qx.Bootstrap.define("qx.lang.Object",
      */
     mergeWith : function(target, source, overwrite)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee);
+      }
+            
       if (overwrite === undefined) {
         overwrite = true;
       }
@@ -395,7 +437,12 @@ qx.Bootstrap.define("qx.lang.Object",
      * @param source {Object} object to be merged
      * @return {Object} target with merged values from source
      */
-    carefullyMergeWith : function(target, source) {
+    carefullyMergeWith : function(target, source) 
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee);
+      }
+      
       return qx.lang.Object.mergeWith(target, source, false);
     },
 
@@ -410,6 +457,10 @@ qx.Bootstrap.define("qx.lang.Object",
      */
     merge : function(target, varargs)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee);
+      }
+      
       var len = arguments.length;
 
       for (var i=1; i<len; i++) {

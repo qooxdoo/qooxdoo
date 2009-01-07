@@ -110,7 +110,12 @@ qx.Bootstrap.define("qx.lang.Array",
      * @param arr {Array} the arr to copy
      * @return {Array} copy of the arr
      */
-    copy : function(arr) {
+    copy : function(arr) 
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Use clone() instead.");
+      }
+            
       return arr.concat();
     },
 
@@ -134,7 +139,12 @@ qx.Bootstrap.define("qx.lang.Array",
      * @param arr {Array} the arr
      * @return {var} the last element of the arr
      */
-    getLast : function(arr) {
+    getLast : function(arr) 
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Use the native features instead for performance reasons.");
+      }      
+      
       return arr[arr.length - 1];
     },
 
@@ -146,7 +156,12 @@ qx.Bootstrap.define("qx.lang.Array",
      * @param arr {Array} the arr
      * @return {var} the first element of the arr
      */
-    getFirst : function(arr) {
+    getFirst : function(arr) 
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Use the native features instead for performance reasons.");
+      }      
+
       return arr[0];
     },
 
@@ -356,6 +371,7 @@ qx.Bootstrap.define("qx.lang.Array",
 
       return result === undefined ? null : result;
     },
+
 
     /**
      * Returns the lowest value in the given arr. Supports
