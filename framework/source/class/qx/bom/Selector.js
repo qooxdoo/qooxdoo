@@ -69,8 +69,7 @@ qx.Bootstrap.define("qx.bom.Selector",
      * @param context {Element} Context element (result elements must be children of this element)
      * @return {Array} List of matching elements
      */
-    query : null, 
-    
+    query : null,     
     
     /**
      * Filters the given set of elements with the given selector. Only matching elements
@@ -89,9 +88,9 @@ qx.Bootstrap.define("qx.bom.Selector",
 });
 
 
-/*
-  This is the original Sizzle code
-*/
+/**
+ * This is the original Sizzle code. Snapshot date mentioned in the head of this file.
+ */
 (function(){
 
 var chunker = /((?:\((?:\([^()]+\)|[^()]+)+\)|\[(?:\[[^[\]]*\]|[^[\]]+)+\]|\\.|[^ >+~,(\[]+)+|[>+~])(\s*,\s*)?/g;
