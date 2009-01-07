@@ -360,6 +360,7 @@ qx.Bootstrap.define("qx.lang.Object",
       return this.values(map);
     },    
     
+    
     /**
      * Return a clone of the given map
      *
