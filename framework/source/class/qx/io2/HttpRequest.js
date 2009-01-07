@@ -245,8 +245,12 @@ qx.Class.define("qx.io2.HttpRequest",
 
   members :
   {
+    /** {qx.bom.Request} Contains the low-level request instance */
     __req : null,
+    
+    /** {Map} Stores the headers send for the request */
     __headers : null,
+    
 
 
     /*
