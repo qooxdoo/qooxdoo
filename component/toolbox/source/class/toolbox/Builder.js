@@ -46,12 +46,12 @@ qx.Class.define("toolbox.Builder",
      * @param type {var} TODOC
      * @param generate {var} TODOC
      * @param loadImage {var} TODOC
-     * @param frame {var} TODOC
+     * @param createApplicationLogFrame {var} TODOC
      * @param windowContent {var} TODOC
      * @param logFrame {var} TODOC
      * @return {void} 
      */
-    createNewApplication : function(adminPath, fileName, filePath, nameSpace, logFileName, type, generate, loadImage, frame, windowContent, logFrame)
+    createNewApplication : function(adminPath, fileName, filePath, nameSpace, logFileName, type, generate, loadImage, createApplicationLogFrame, windowContent, logFrame)
     {
       var url = adminPath;
       var req = new qx.io.remote.Request(url, "POST", "application/json");
@@ -107,13 +107,18 @@ qx.Class.define("toolbox.Builder",
           {
             if (receivedState == 0)
             {
-              frame.setHtml(result.output);
+              createApplicationLogFrame.setHtml(result.output);
 
               // disables all functions during the progress
               for (var i=0; i<windowContent.length; i++) {
                 windowContent[i].setEnabled(true);
+              	if(windowContent[i] instanceof qx.ui.form.Button){
+              		if(windowContent[i].getLabel().toString() == "Create"){
+              			windowContent[i].setLabel("Close");
+              		}
+              	}
               }
-
+			  
               loadImage.hide();
               logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.output);
 
@@ -133,14 +138,13 @@ qx.Class.define("toolbox.Builder",
 
             if (receivedState == 1)
             {
-              frame.setHtml('<font color="red">' + result.error + '</font>');
+              createApplicationLogFrame.setHtml('<font color="red">' + result.error + '</font>');
               logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.error + '</font>');
 
               // Enables all functions after receiving results
               for (var i=0; i<windowContent.length; i++) {
                 windowContent[i].setEnabled(true);
               }
-
               loadImage.hide();
             }
           }
@@ -155,12 +159,17 @@ qx.Class.define("toolbox.Builder",
       req2.addListener("completed", function(evt)
       {
         var genResult = evt.getContent();
-        frame.setHtml(frame.getHtml() + "</br>" + genResult.gen_output);
+        createApplicationLogFrame.setHtml(createApplicationLogFrame.getHtml() + "</br>" + genResult.gen_output);
         logFrame.setHtml(logFrame.getHtml() + "<br/>" + genResult.gen_output);
 
         // Enables all functions after receiving results
         for (var i=0; i<windowContent.length; i++) {
           windowContent[i].setEnabled(true);
+          if(windowContent[i] instanceof qx.ui.form.Button){
+	      	if(windowContent[i].getLabel().toString() == "Create"){
+	      		windowContent[i].setLabel("Close");
+	      	}
+	      }
         }
 
         loadImage.hide();
@@ -206,11 +215,11 @@ qx.Class.define("toolbox.Builder",
      * @param fileName {var} TODOC
      * @param filePath {var} TODOC
      * @param generate {var} TODOC
-     * @param frame {var} TODOC
+     * @param createApplicationLogFrame {var} TODOC
      * @param logFrame {var} TODOC
      * @return {void} 
      */
-    generateSource : function(adminPath, fileName, filePath, generate, frame, logFrame)
+    generateSource : function(adminPath, fileName, filePath, generate, createApplicationLogFrame, logFrame)
     {
       if (fileName != "" & filePath != "")
       {
@@ -256,7 +265,7 @@ qx.Class.define("toolbox.Builder",
             {
               if (receivedState == 0)
               {
-                frame.setHtml(result.gen_output);
+                createApplicationLogFrame.setHtml(result.gen_output);
                 logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.gen_output);
                 req.setData(openSource);
                 req.send();
@@ -269,7 +278,7 @@ qx.Class.define("toolbox.Builder",
 
               if (receivedState == 1)
               {
-                frame.setHtml('<font color="red">' + result.gen_error + '</font>');
+                createApplicationLogFrame.setHtml('<font color="red">' + result.gen_error + '</font>');
                 logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.gen_error + '</font>');
               }
             }
@@ -696,7 +705,7 @@ qx.Class.define("toolbox.Builder",
 
             if (receivedState == 1)
             {
-              frame.setHtml('<font color="red">' + result.testApp_output + '</font>');
+              createApplicationLogFrame.setHtml('<font color="red">' + result.testApp_output + '</font>');
               logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.testApp_output + '</font>');
             }
           }
@@ -780,7 +789,7 @@ qx.Class.define("toolbox.Builder",
 
             if (receivedState == 1)
             {
-              frame.setHtml('<font color="red">' + result.test_output + '</font>');
+              createApplicationLogFrame.setHtml('<font color="red">' + result.test_output + '</font>');
               logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.test_output + '</font>');
             }
           }
