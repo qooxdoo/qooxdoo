@@ -60,7 +60,7 @@ qx.Class.define("qx.data.Array",
       this.__array = new Array(param);
     // check for a array itself
     } else if (param instanceof Array) {
-      this.__array = param;
+      this.__array = qx.lang.Array.copy(param);
 
     // error case
     } else {
@@ -88,7 +88,10 @@ qx.Class.define("qx.data.Array",
      * <li>type: The type of the change as a String. This can be 'add' or 
      * 'remove'</li>
      */
-    "change" : "qx.event.type.Data" // TODO Explain the data in the event!
+    "change" : "qx.event.type.Data", // TODO Explain the data in the event!
+    
+    // TODO doc
+    "changeLength": "qx.event.type.Data"
   },
 
 
@@ -329,6 +332,9 @@ qx.Class.define("qx.data.Array",
      */
     __updateLength : function() {
       this.length = this.__array.length;
+      this.fireDataEvent("changeLength", 
+        {length: this.length}, null
+      );
     }
   }
 });

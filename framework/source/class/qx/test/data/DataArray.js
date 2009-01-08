@@ -275,6 +275,18 @@ qx.Class.define("qx.test.data.DataArray",
     testGetArray: function() {
       this.assertEquals("one two three", this.__a.getArray().join(" "), "getArray does not work!");
       this.assertInstance( this.__a.getArray(), Array, "getArray does not work!");
+    },
+    
+    
+    testLengthEvent: function() {
+      // test for the event
+      var a = new qx.data.Array(1, 2, 3);
+      var self = this;      
+      this.assertEventFired(a, "changeLength", function () {
+        a.pop();
+      }, function(e) {
+        self.assertEquals(2, e.getData().length, "Wrong lengt event.");
+      }, "ChangeLength event not fired!");      
     }
 
   }

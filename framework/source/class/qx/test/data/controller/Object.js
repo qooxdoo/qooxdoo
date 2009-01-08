@@ -44,7 +44,7 @@ qx.Class.define("qx.test.data.controller.Object",
     
     testOneToOne: function() {
       // Tie the label1s content to the zindex of the model
-      this.__controller.setTarget(this.__label1, "content", "zIndex");
+      this.__controller.addTarget(this.__label1, "content", "zIndex");
       
       // set a new zIndex to the model
       this.__model.setZIndex(10);
@@ -56,9 +56,9 @@ qx.Class.define("qx.test.data.controller.Object",
     
     testOneToTwo: function() {
       // Tie the label1s content to the zindex of the model
-      this.__controller.setTarget(this.__label1, "content", "zIndex");      
+      this.__controller.addTarget(this.__label1, "content", "zIndex");      
       // Tie the label2s content to the zindex of the model
-      this.__controller.setTarget(this.__label2, "content", "zIndex");  
+      this.__controller.addTarget(this.__label2, "content", "zIndex");  
       
       // set a new zIndex to the model
       this.__model.setZIndex(10);
@@ -71,8 +71,8 @@ qx.Class.define("qx.test.data.controller.Object",
     
     testChangeModel: function() {
       // Tie the labels content to the zindex of the model
-      this.__controller.setTarget(this.__label1, "content", "zIndex");
-      this.__controller.setTarget(this.__label2, "content", "zIndex");
+      this.__controller.addTarget(this.__label1, "content", "zIndex");
+      this.__controller.addTarget(this.__label2, "content", "zIndex");
         
       // set a old zIndex
       this.__model.setZIndex(10);
@@ -95,8 +95,8 @@ qx.Class.define("qx.test.data.controller.Object",
       this.__model.setZIndex(20);
       
       // Tie the labels content to the zindex of the model
-      this.__controller.setTarget(this.__label1, "content", "zIndex");
-      this.__controller.setTarget(this.__label2, "content", "zIndex");          
+      this.__controller.addTarget(this.__label1, "content", "zIndex");
+      this.__controller.addTarget(this.__label2, "content", "zIndex");          
       
       // test for the binding
       this.assertEquals("20", this.__label1.getContent(), "Binding1 does not work!");
@@ -120,7 +120,7 @@ qx.Class.define("qx.test.data.controller.Object",
       this.__controller.removeTarget(null, "AFFE", "AFFEN");
             
       // set a target for testing
-      this.__controller.setTarget(this.__label1, "content", "zIndex");
+      this.__controller.addTarget(this.__label1, "content", "zIndex");
       
       // test the same cases again
       this.__controller.removeTarget(this.__label1, "content", "zIndex");
@@ -130,8 +130,8 @@ qx.Class.define("qx.test.data.controller.Object",
     
     testTowToTwo: function() {
       // set up two links
-      this.__controller.setTarget(this.__label1, "content", "zIndex");
-      this.__controller.setTarget(this.__label2, "content", "visibility");
+      this.__controller.addTarget(this.__label1, "content", "zIndex");
+      this.__controller.addTarget(this.__label2, "content", "visibility");
       
       // set the values
       this.__model.setZIndex(11);
@@ -153,7 +153,7 @@ qx.Class.define("qx.test.data.controller.Object",
     
     testOneToOneBi: function() {
       // Tie the label1s content to the zindex of the model
-      this.__controller.setTarget(this.__label1, "content", "zIndex", true);
+      this.__controller.addTarget(this.__label1, "content", "zIndex", true);
       
       // set a new zIndex to the model
       this.__model.setZIndex(10);
@@ -171,9 +171,9 @@ qx.Class.define("qx.test.data.controller.Object",
     
     testOneToTwoBi: function() {
       // Tie the label1s content to the zindex of the model
-      this.__controller.setTarget(this.__label1, "content", "zIndex", true);      
+      this.__controller.addTarget(this.__label1, "content", "zIndex", true);      
       // Tie the label2s content to the zindex of the model
-      this.__controller.setTarget(this.__label2, "content", "zIndex", true);  
+      this.__controller.addTarget(this.__label2, "content", "zIndex", true);  
       
       // set a new zIndex to the model
       this.__model.setZIndex(10);
@@ -200,8 +200,8 @@ qx.Class.define("qx.test.data.controller.Object",
     
     testChangeModelBi: function() {
       // Tie the labels content to the zindex of the model
-      this.__controller.setTarget(this.__label1, "content", "zIndex", true);
-      this.__controller.setTarget(this.__label2, "content", "zIndex", true);
+      this.__controller.addTarget(this.__label1, "content", "zIndex", true);
+      this.__controller.addTarget(this.__label2, "content", "zIndex", true);
         
       // set a old zIndex
       this.__model.setZIndex(10);
@@ -239,7 +239,7 @@ qx.Class.define("qx.test.data.controller.Object",
       };
       
       // Tie the labels content to the zindex of the model
-      this.__controller.setTarget(this.__label1, "content", "zIndex", false, opt);
+      this.__controller.addTarget(this.__label1, "content", "zIndex", false, opt);
       
       // set a zIndex and test it
       this.__model.setZIndex(11); 
@@ -274,7 +274,7 @@ qx.Class.define("qx.test.data.controller.Object",
       };
             
       // Tie the labels content to the zindex of the model
-      this.__controller.setTarget(this.__label1, "content", "zIndex", true, opt, revOpt);
+      this.__controller.addTarget(this.__label1, "content", "zIndex", true, opt, revOpt);
       
       // set a zIndex and test it
       this.__model.setZIndex(11); 
@@ -304,8 +304,8 @@ qx.Class.define("qx.test.data.controller.Object",
       };      
       
       // Tie the labels content to the zindex of the model
-      this.__controller.setTarget(this.__label1, "content", "zIndex", false, opt);
-      this.__controller.setTarget(this.__label2, "content", "zIndex", false, opt);
+      this.__controller.addTarget(this.__label1, "content", "zIndex", false, opt);
+      this.__controller.addTarget(this.__label2, "content", "zIndex", false, opt);
         
       // set a old zIndex
       this.__model.setZIndex(3);
