@@ -60,19 +60,30 @@ qx.Class.define("qx.data.controller.Object",
             // remove the old reverse binding
             targetObject.removeBinding(bindingsForTarget[i][1]);
           }
-          this.setTarget(targetObject, bindingsForTarget[i][2], bindingsForTarget[i][3], bidirectional);
+          this.setTarget(
+            targetObject, bindingsForTarget[i][2], 
+            bindingsForTarget[i][3], bidirectional, 
+            bindingsForTarget[i][4], bindingsForTarget[i][5]
+          );
         }
       }
     },
     
     
-    setTarget: function(targetObject, targetProperty, sourceProperty, bidirectional) {
+    setTarget: function(
+      targetObject, targetProperty, sourceProperty, 
+      bidirectional, options, reverseOptions
+    ) {
       // create the binding
-      var id = this.getModel().bind(sourceProperty, targetObject, targetProperty);
+      var id = this.getModel().bind(
+        sourceProperty, targetObject, targetProperty, options
+      );
       // create the reverse binding if necessary
       var idReverse = null
       if (bidirectional) {
-        idReverse = targetObject.bind(targetProperty, this.getModel(), sourceProperty);
+        idReverse = targetObject.bind(
+          targetProperty, this.getModel(), sourceProperty, reverseOptions
+        );
       }
       
       // save the binding
@@ -80,7 +91,9 @@ qx.Class.define("qx.data.controller.Object",
       if (this.__bindings[targetHash] == undefined) {
         this.__bindings[targetHash] = [];
       }
-      this.__bindings[targetHash].push([id, idReverse, targetProperty, sourceProperty]);
+      this.__bindings[targetHash].push(
+        [id, idReverse, targetProperty, sourceProperty, options, reverseOptions]
+      );
     },
     
     

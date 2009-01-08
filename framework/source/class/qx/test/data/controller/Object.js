@@ -224,6 +224,102 @@ qx.Class.define("qx.test.data.controller.Object",
       this.assertEquals("11", this.__label1.getContent(), "Binding1 does not work!");
       this.assertEquals(11, newModel.getZIndex(), "Reverse-Binding does not work!");
       this.assertEquals(10, this.__model.getZIndex(), "Binding has not been removed.");
+    },
+    
+    
+    testConverting: function() {
+      // create the options map
+      var opt = {
+        converter: function(value) {
+          if (value > 10) {
+            return "A";
+          }
+          return "B";
+        }
+      };
+      
+      // Tie the labels content to the zindex of the model
+      this.__controller.setTarget(this.__label1, "content", "zIndex", false, opt);
+      
+      // set a zIndex and test it
+      this.__model.setZIndex(11); 
+      this.assertEquals("A", this.__label1.getContent(), "Converter does not work!");
+      
+      // set a zIndex and test it
+      this.__model.setZIndex(5);
+      this.assertEquals("B", this.__label1.getContent(), "Converter does not work!");
+    },
+    
+    
+    
+    testConvertingBi: function() {
+      // create the options map for source to target
+      var opt = {
+        converter: function(value) {
+          if (value > 10) {
+            return "A";
+          }
+          return "B";
+        }
+      };
+      
+      // create the options map for target to source
+      var revOpt = {
+        converter: function(value) {
+          if (value  == "A") {
+            return 11;
+          }
+          return 10;
+        }
+      };
+            
+      // Tie the labels content to the zindex of the model
+      this.__controller.setTarget(this.__label1, "content", "zIndex", true, opt, revOpt);
+      
+      // set a zIndex and test it
+      this.__model.setZIndex(11); 
+      this.assertEquals("A", this.__label1.getContent(), "Converter does not work!");
+      
+      // set a zIndex and test it
+      this.__model.setZIndex(5);
+      this.assertEquals("B", this.__label1.getContent(), "Converter does not work!");
+      
+      // change the target and check the model
+      this.__label1.setContent("A");
+      this.assertEquals(11, this.__model.getZIndex(), "Back-Converter does not work!");
+      this.__label1.setContent("B");
+      this.assertEquals(10, this.__model.getZIndex(), "Back-Converter does not work!");      
+    },
+    
+    
+    testChangeModelCon: function() {
+      // create the options map
+      var opt = {
+        converter: function(value) {
+          if (value > 10) {
+            return "A";
+          }
+          return "B";
+        }
+      };      
+      
+      // Tie the labels content to the zindex of the model
+      this.__controller.setTarget(this.__label1, "content", "zIndex", false, opt);
+      this.__controller.setTarget(this.__label2, "content", "zIndex", false, opt);
+        
+      // set a old zIndex
+      this.__model.setZIndex(3);
+      
+      // create a new model with a different zIndex
+      var newModel = new qx.ui.core.Widget();
+      newModel.setZIndex(20);
+      
+      // set the new Model
+      this.__controller.setModel(newModel);
+      
+      // test for the binding
+      this.assertEquals("A", this.__label1.getContent(), "Binding1 does not work!");
+      this.assertEquals("A", this.__label2.getContent(), "Binding2 does not work!");      
     }
     
   }
