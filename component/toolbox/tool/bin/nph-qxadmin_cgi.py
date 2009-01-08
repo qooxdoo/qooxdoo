@@ -129,6 +129,10 @@ def dispatch_action(form):
             print "Content-type: text/plain"  
             print
             testSource(form) 
+        elif (action == 'show_applicationList'):
+            print "Content-type: text/plain"  
+            print
+            showApplicationList(form)  
         else:
             print "Content-type: text/plain"
             print
@@ -182,7 +186,26 @@ def saveConfiguration(form):
     confFile = open(myPath+myName+"\config.json", 'w')
     confFile.write(uCode)
 
+
+def showApplicationList(form):
+    sys.stdout.flush()
     
+    myName = ""
+    if 'myName' in form:
+        myName = form['myName'].value #Name
+    myPath = ""
+    if 'myPath' in form:
+        myPath = form['myPath'].value #Path
+        myPath = myPath.replace(' ', '" "')   
+        if myPath[(len(myPath)-1)] != "\\":
+           myPath = myPath + '\\'    
+    
+    list = open("c:\\tmp\\applicationList.json", 'r').readlines()
+    input = "".join(list)
+
+    print input
+    return input
+
 
 def testApplication(form):
     sys.stdout.flush()

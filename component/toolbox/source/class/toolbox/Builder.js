@@ -812,6 +812,78 @@ qx.Class.define("toolbox.Builder",
       }
 
       return;
+    },
+    
+    
+    
+    
+    prepareApplicationList : function(adminPath, fileName, filePath, logFrame)
+    {
+        var url = adminPath;
+        var req = new qx.io.remote.Request(url, "POST", "application/json");
+        var dat = "action=show_applicationList";
+        var createParams = [];
+        req.setTimeout(100000);
+
+        for (var i=0; i<createParams.length; i++)
+        {
+          // check cygwin path
+          if ('cygwin' in this.__urlParms.getParms())
+          {
+            var cygParm = 'cygwin' + "=" + this.__urlParms.getParms()['cygwin'];
+            dat += "&" + cygParm;
+          }
+        }
+        req.setData(dat);
+        
+        req.addListener("completed", function(evt)
+        {
+          var result = evt.getContent();
+          
+          alert(qx.util.Json.stringify(result.toString().replace(/\n/g, "").replace(/\\/g, "\\").replace(/\t/g, "").replace(/\"/g, "").replace(/<pre>/g, "").replace(/<\/pre>/g, ""), true));
+
+          
+        },
+        this);
+
+        req.addListener("failed", function(evt) {
+          this.error("Failed to post to URL: " + url);
+          logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
+        }, this);
+
+        req.send();
+
+      return;
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
   }
 });
