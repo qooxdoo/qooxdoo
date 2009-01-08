@@ -284,11 +284,13 @@ qx.Class.define("toolbox.Toolbox",
      */
     __getCreatedAppsMenu : function() {
     	var menu = new qx.ui.menu.Menu;
-      var currentApp = new qx.ui.menu.Button("New", "icon/16/actions/document-new.png");
-      menu.add(currentApp);
+    	
+      var currentApp = new qx.ui.menu.Button("<b>" + "myApplication_1" + "</b> <br>" + "C:\\tmp\\", "icon/16/actions/document-new.png");
+      currentApp.getChildControl("label").setRich(true);
       
+      menu.add(currentApp);
       currentApp.addListener("execute", function() {
-        this.AppDevelCaption.setContent("Application Development of " +  currentApp.getLabel().toString());
+        this.AppDevelCaption.setContent("Application Development of " + "myApplication_1");
       	
       }, this);
       
