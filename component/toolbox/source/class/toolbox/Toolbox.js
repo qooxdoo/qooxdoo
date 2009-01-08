@@ -42,7 +42,6 @@ qx.Class.define("toolbox.Toolbox",
     qx.dev.Debug;
 
     var layout = new qx.ui.layout.VBox().set({ separator : "separator-vertical" });
-
     this.setLayout(layout);
 
     // Dependencies to loggers
@@ -79,33 +78,34 @@ qx.Class.define("toolbox.Toolbox",
     this._labelDeco = deco;
 
     // Adds the log console to the logStack
-    var home = this.__makeHomeContent();
-    var appDevel = this.__makeAppDevelContent();
-    
-	this.mainStack = new qx.ui.container.Stack;
-    this.mainStack.add(home);
-    this.mainStack.add(appDevel);
-    //this.mainStack.setSelected(this.mainStack.getChildren()[0]);
+	  this.mainStack = new qx.ui.container.Stack;
+    this.mainStack.add(this.__makeHomeContent());
+    this.mainStack.add(this.__makeAppDevelContent());
+    this.mainStack.add(this.__makeBuiltInAppContent());
+    this.mainStack.add(this.__makeHelpContent());
+    this.mainStack.setSelected(this.mainStack.getChildren()[0]);
     
     // Content of the toolbox
     this.__content = this.mainStack;
     this.mainsplit.add(this.__content, 2);
     
     //creates the log pane
-    var log = this.__createLog();
+    var log = this.__makeLogPane();
 
-	// Adds the log console to the logStack
-	this.logStack = new qx.ui.container.Stack;
-	this.logStack.setDecorator("main");
-	this.logStack.add(log);
+	  // Adds the log console to the logStack
+	  this.logStack = new qx.ui.container.Stack;
+	  this.logStack.setDecorator("main");
+  	this.logStack.add(log);
 	
-	this.mainsplit.add(this.logStack, 1);
-	this.logStack.exclude();
+  	this.mainsplit.add(this.logStack, 1);
+  	this.logStack.exclude();
 	
-	// Adds the event listener to the buttons
+  	// Adds the event listener to the buttons
     this.__attachOpenLogPane();
     this.__attachAppDevelPane();
     this.__attachHomePane();
+    this.__attachBuildInAppPane();
+    this.__attachHelpPane();
     this.__assignListener();
     
   },
@@ -133,7 +133,7 @@ qx.Class.define("toolbox.Toolbox",
     //   CONSTRUCTOR HELPERS
     // ------------------------------------------------------------------------
     /**
-     * TODOC
+     * creates the toolbar of the toolbox
      *
      * @return {var} TODOC
      */
@@ -144,7 +144,7 @@ qx.Class.define("toolbox.Toolbox",
       var part1 = new qx.ui.toolbar.Part();
       toolbar.add(part1);
 	  
-	  // -- home button (The Welcome page of the toolbox)
+	    // -- home button (The Welcome page of the toolbox)
       this.homeButton = new qx.ui.toolbar.Button("Home", "toolbox/image/go-home.png");
       part1.add(this.homeButton);
       this.widgets["toolbar.homeButton"] = this.homeButton;
@@ -153,10 +153,10 @@ qx.Class.define("toolbox.Toolbox",
       // --Application development button (The development part of the toolbox)
       this.AppDevelButton = new qx.ui.toolbar.Button("Application Development", "toolbox/image/development.png");
       part1.add(this.AppDevelButton);
-      this.widgets["toolbar.AppDevelButton"] = this.AppDevelButton;
+      this.widgets["toolbar.appDevelButton"] = this.AppDevelButton;
       this.AppDevelButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Create new application with the toolbox")));
 
-	  // --Application development button (The development part of the toolbox)
+	    // --Application development button (The development part of the toolbox)
       this.AppBuiltButton = new qx.ui.toolbar.Button("Built-in Applications", "toolbox/image/applications-utilities.png");
       part1.add(this.AppBuiltButton);
       this.widgets["toolbar.AppBuiltButton"] = this.AppBuiltButton;
@@ -171,7 +171,7 @@ qx.Class.define("toolbox.Toolbox",
 		
       toolbar.addSpacer();
       
-	  var part2 = new qx.ui.toolbar.Part();
+	    var part2 = new qx.ui.toolbar.Part();
       toolbar.add(part2);
       
       // --Log button (shows/hides the log pane)
@@ -179,12 +179,12 @@ qx.Class.define("toolbox.Toolbox",
       part2.add(this.logCheckButton);
       this.widgets["toolbar.logCheckButton"] = this.logCheckButton;
       this.logCheckButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Show log output")));
+      this.logCheckButton.exclude();
       
       
+      //main functions of the toolbox-------------------------------------------
       
-      //main function of the toolbox---------------------------------------------------------------------
-      
-	  var part3 = new qx.ui.toolbar.Part();
+	    var part3 = new qx.ui.toolbar.Part();
       toolbar.add(part3);
       
       
@@ -248,7 +248,7 @@ qx.Class.define("toolbox.Toolbox",
 
 
     /**
-     * TODOC
+     * adds the event listener to the toolbox buttons
      *
      * @return {void} 
      */
@@ -267,7 +267,7 @@ qx.Class.define("toolbox.Toolbox",
 
 
     /**
-     * TODOC
+     * shows the create application dialog
      *
      * @return {void} 
      */
@@ -555,7 +555,7 @@ qx.Class.define("toolbox.Toolbox",
 
 
     /**
-     * TODOC
+     * shows the log field
      *
      * @return {void} 
      */
@@ -579,7 +579,7 @@ qx.Class.define("toolbox.Toolbox",
 
 
     /**
-     * TODOC
+     * checks the input fields for invalid inputs
      *
      * @return {void} 
      */
@@ -612,7 +612,7 @@ qx.Class.define("toolbox.Toolbox",
 
 
     /**
-     * TODOC
+     * checks the namespace for invalid character
      *
      * @return {void} 
      */
@@ -635,7 +635,7 @@ qx.Class.define("toolbox.Toolbox",
 
 
     /**
-     * TODOC
+     * copies the content of the file name into the namespace field
      *
      * @return {void} 
      */
@@ -663,31 +663,69 @@ qx.Class.define("toolbox.Toolbox",
      },
      this)
    },
-   
-   
-   __attachHomePane : function() { //TODO
-   	this.widgets["toolbar.AppDevelButton"].addListener("execute", function() {
+
+   /**
+     * attaches the home pane to the toolbox
+     *
+     * @return {void} 
+     */
+   __attachHomePane : function() 
+   { 
+   	this.widgets["toolbar.homeButton"].addListener("execute", function() {
+   	   this.logCheckButton.exclude();
    	   this.logStack.exclude();
    	   this.mainStack.setSelected(this.mainStack.getChildren()[0]);
    	}, this);
    },
    
-   __attachAppDevelPane : function() { 
-   	this.widgets["toolbar.AppDevelButton"].addListener("execute", function() {
-   	   this.logStack.exclude();
+   /**
+     * attaches the development pane to the toolbox
+     *
+     * @return {void} 
+     */
+   __attachAppDevelPane : function() 
+   { 
+   	this.widgets["toolbar.appDevelButton"].addListener("execute", function() {
+   	   if(this.logCheckButton.getChecked()) {
+   	   	  this.logStack.show();
+   	   }
+   	   this.logCheckButton.show();
    	   this.mainStack.setSelected(this.mainStack.getChildren()[1]);
    	}, this);
    },
-    
-    
-    
-    
-
-    // creates a new Application
-    /**
-     * TODOC
+   
+   /**
+     * attaches the built-in pane to the toolbox
      *
      * @return {void} 
+     */
+   __attachBuildInAppPane : function() 
+   {
+   	this.widgets["toolbar.AppBuiltButton"].addListener("execute", function() {
+   	   this.logCheckButton.exclude();
+   	   this.logStack.exclude();
+   	   this.mainStack.setSelected(this.mainStack.getChildren()[2]);
+   	}, this);
+   },
+   
+   /**
+     * attaches the help pane to the toolbox
+     *
+     * @return {void} 
+     */
+   __attachHelpPane : function() 
+   {
+   	this.widgets["toolbar.helpButton"].addListener("execute", function() {
+   	   this.logCheckButton.exclude();
+   	   this.logStack.exclude();
+   	   this.mainStack.setSelected(this.mainStack.getChildren()[3]);
+   	}, this);
+   },
+    
+    /**
+     * creates a new application by sending the necessary information to the server
+     *
+     * @return 
      */
     __createNewApplication : function()
     {
@@ -720,9 +758,10 @@ qx.Class.define("toolbox.Toolbox",
 
 
     /**
-     * TODOC
+     * generates the source version of the  application by sending the necessary 
+     * information to the server
      *
-     * @return {void} 
+     * @return 
      */
     __generateApplication : function()
     {
@@ -737,9 +776,10 @@ qx.Class.define("toolbox.Toolbox",
 
 
     /**
-     * TODOC
+     * generates the build version of the  application by sending the necessary 
+     * information to the server
      *
-     * @return {void} 
+     * @return  
      */
     __generateBuild : function()
     {
@@ -752,9 +792,10 @@ qx.Class.define("toolbox.Toolbox",
 
 
     /**
-     * TODOC
+     * generates the API of the created application by sending the necessary 
+     * information to the server
      *
-     * @return {void} 
+     * @return  
      */
     __generateApi : function()
     {
@@ -767,7 +808,8 @@ qx.Class.define("toolbox.Toolbox",
 
 
     /**
-     * TODOC
+     * prettifies the source code of the  application by sending the necessary 
+     * information to the server
      *
      * @return {void} 
      */
@@ -782,7 +824,7 @@ qx.Class.define("toolbox.Toolbox",
 
 
     /**
-     * TODOC
+     * opens the configurations dialog
      *
      * @return {void} 
      */
@@ -797,7 +839,8 @@ qx.Class.define("toolbox.Toolbox",
 
 
     /**
-     * TODOC
+     * validates the source code of the  application by sending the necessary 
+     * information to the server
      *
      * @return {void} 
      */
@@ -813,7 +856,7 @@ qx.Class.define("toolbox.Toolbox",
 
 
     /**
-     * TODOC
+     * starts the test runner 
      *
      * @return {void} 
      */
@@ -829,7 +872,7 @@ qx.Class.define("toolbox.Toolbox",
 
 
     /**
-     * TODOC
+     * starts the test runner
      *
      * @return {void} 
      */
@@ -842,9 +885,9 @@ qx.Class.define("toolbox.Toolbox",
 
 
     /**
-     * TODOC
+     * cancels the create application dialog
      *
-     * @return {void} 
+     * @return 
      */
     __cancelNewApplication : function()
     {
@@ -860,9 +903,9 @@ qx.Class.define("toolbox.Toolbox",
     //   SETTER AND GETTER
     // ------------------------------------------------------------------------
     /**
-     * TODOC
+     * sets the current application type
      *
-     * @param type {var} TODOC
+     * @param type {var} type of the application
      * @return {void} 
      */
     __setCurrentType : function(type) {
@@ -871,9 +914,9 @@ qx.Class.define("toolbox.Toolbox",
 
 
     /**
-     * TODOC
+     * returns the type of the application
      *
-     * @return {var} TODOC
+     * @return {var} the type of the application
      */
     __getCurrentType : function() {
       return this.__currentType;
@@ -881,9 +924,9 @@ qx.Class.define("toolbox.Toolbox",
 
 
     /**
-     * TODOC
+     * sets the file name
      *
-     * @param name {var} TODOC
+     * @param name {var} file name of the application
      * @return {void} 
      */
     __setCurrentFileName : function(name) {
@@ -892,7 +935,7 @@ qx.Class.define("toolbox.Toolbox",
 
 
     /**
-     * TODOC
+     * returns the file name of the application
      *
      * @return {var} TODOC
      */
@@ -902,9 +945,9 @@ qx.Class.define("toolbox.Toolbox",
 
 
     /**
-     * TODOC
+     * sets the application path
      *
-     * @param path {var} TODOC
+     * @param path {var} path of the application
      * @return {void} 
      */
     __setCurrentFilePath : function(path) {
@@ -913,7 +956,7 @@ qx.Class.define("toolbox.Toolbox",
 
 
     /**
-     * TODOC
+     * returns the current application path
      *
      * @return {var} TODOC
      */
@@ -923,9 +966,9 @@ qx.Class.define("toolbox.Toolbox",
 
 
     /**
-     * TODOC
+     * set the namespace of the application
      *
-     * @param nameSpace {var} TODOC
+     * @param nameSpace {var} namespace of the application
      * @return {void} 
      */
     __setCurrentNamespace : function(nameSpace)
@@ -935,9 +978,9 @@ qx.Class.define("toolbox.Toolbox",
 
 
     /**
-     * TODOC
+     * returns the namespace of the application
      *
-     * @return {var} TODOC
+     * @return {var} namespace of the application
      */
     __getCurrentNamespace : function() {
       return this.__nameSpace;
@@ -945,9 +988,9 @@ qx.Class.define("toolbox.Toolbox",
 
 
     /**
-     * TODOC
+     * sets the log name of the application
      *
-     * @param logName {var} TODOC
+     * @param logName {var} name of the log file
      * @return {void} 
      */
     __setCurrentLogName : function(logName) {
@@ -956,20 +999,20 @@ qx.Class.define("toolbox.Toolbox",
 
 
     /**
-     * TODOC
+     * returns the log name of the application
      *
-     * @return {var} TODOC
+     * @return {var} log name of the application
      */
     __getCurrentLogName : function() {
       return this.__logName;
     },
     
     /**
-     * TODOC
+     * creates the the log pane of the toolbox
      *
-     * @return {var} TODOC
+     * @return {var} container of the log pane
      */
-    __createLog : function() {
+    __makeLogPane : function() {
       var layout = new qx.ui.layout.VBox();
       layout.setSeparator("separator-vertical");
 
@@ -1008,9 +1051,9 @@ qx.Class.define("toolbox.Toolbox",
     // -------------------------------------------------------------------------
     // -------------------------------------------------------------------------
     /**
-     * TODOC
+     * creates the home pane of the toolbox
      *
-     * @return {var} TODOC
+     * @return {var} container of the home pane
      */
     __makeHomeContent : function()
     {
@@ -1030,18 +1073,18 @@ qx.Class.define("toolbox.Toolbox",
 
       container.add(caption);
 
-      this.f1 = new qx.ui.embed.Html('Welcome to the qooxdoo Toolbox');
-      this.f1.set({ backgroundColor : "white" });
-      container.add(this.f1, { flex : 1 });
+      this.homeHtmlEmbed = new qx.ui.embed.Html('Welcome to the qooxdoo Toolbox');
+      this.homeHtmlEmbed.set({ backgroundColor : "white" });
+      container.add(this.homeHtmlEmbed, { flex : 1 });
 
       return container;
     },  // makeHomecontent
     
     
     /**
-     * TODOC
+     * creates the development pane of the toolbox
      *
-     * @return {var} TODOC
+     * @return {var} container of the development pane
      */
     __makeAppDevelContent : function()
     {
@@ -1061,15 +1104,72 @@ qx.Class.define("toolbox.Toolbox",
 
       container.add(caption);
 
-      this.f1 = new qx.ui.embed.Html('Create Application <br>');
-      this.f1.set({ backgroundColor : "white" });
-      container.add(this.f1, { flex : 1 });
+      this.AppDevelHtmlEmbed = new qx.ui.embed.Html('Create Application <br>');
+      this.AppDevelHtmlEmbed.set({ backgroundColor : "white" });
+      container.add(this.AppDevelHtmlEmbed, { flex : 1 });
 
       return container;
     },  // makeHomecontent
     
+    /**
+     * creates the built-in pane of the toolbox
+     *
+     * @return {var} container of the built-in pane
+     */
+    __makeBuiltInAppContent : function()
+    {
+      var layout = new qx.ui.layout.VBox();
+      layout.setSeparator("separator-vertical");
+
+      var container = new qx.ui.container.Composite(layout).set({ decorator : "main" });
+
+      var caption = new qx.ui.basic.Label(this.tr("Built-in Applications")).set(
+      {
+        font       : "bold",
+        decorator  : this._labelDeco,
+        padding    : 5,
+        allowGrowX : true,
+        allowGrowY : true
+      });
+
+      container.add(caption);
+
+      this.BuiltInAppHtmlEmbed = new qx.ui.embed.Html('Builds etc. <br>');
+      this.BuiltInAppHtmlEmbed.set({ backgroundColor : "white" });
+      container.add(this.BuiltInAppHtmlEmbed, { flex : 1 });
+
+      return container;
+    },  // makeHomecontent
     
-    
+    /**
+     * creates the help pane of the toolbox
+     *
+     * @return {var} container of the help pane
+     */
+    __makeHelpContent : function()
+    {
+      var layout = new qx.ui.layout.VBox();
+      layout.setSeparator("separator-vertical");
+
+      var container = new qx.ui.container.Composite(layout).set({ decorator : "main" });
+
+      var caption = new qx.ui.basic.Label(this.tr("Help")).set(
+      {
+        font       : "bold",
+        decorator  : this._labelDeco,
+        padding    : 5,
+        allowGrowX : true,
+        allowGrowY : true
+      });
+
+      container.add(caption);
+
+      this.helpHtmlEmbed = new qx.ui.embed.Html('Help, Demobrowser etc. <br>');
+      this.helpHtmlEmbed.set({ backgroundColor : "white" });
+      container.add(this.helpHtmlEmbed, { flex : 1 });
+
+      return container;
+    },  // makeHomecontent
     
 
 
