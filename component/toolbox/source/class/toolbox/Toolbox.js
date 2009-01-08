@@ -135,7 +135,7 @@ qx.Class.define("toolbox.Toolbox",
     /**
      * creates the toolbar of the toolbox
      *
-     * @return {var} TODOC
+     * @return {var} toolbar of the toolbox
      */
     __makeToolbar : function()
     {
@@ -168,6 +168,14 @@ qx.Class.define("toolbox.Toolbox",
       this.widgets["toolbar.helpButton"] = this.helpButton;
       this.helpButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Contains help and support")));
 
+      // --Created applications menu
+      this.__createdAppsMenu = new qx.ui.toolbar.MenuButton("Created applications", "toolbox/image/folder-open.png");
+      part1.add(this.__createdAppsMenu);
+      this.__createdAppsMenu.setMenu(this.__getCreatedAppsMenu());
+      
+      
+      
+      
 		
       toolbar.addSpacer();
       
@@ -182,12 +190,15 @@ qx.Class.define("toolbox.Toolbox",
       this.logCheckButton.setEnabled(false);
       
       
-      //main functions of the toolbox-------------------------------------------
       
+      
+      
+      
+      
+      //main functions of the toolbox-------------------------------------------
 	    var part3 = new qx.ui.toolbar.Part();
       toolbar.add(part3);
-      
-      
+
       // -- create button
       this.createButton = new qx.ui.toolbar.Button(null, "toolbox/image/development.png");
       part3.add(this.createButton);
@@ -266,6 +277,24 @@ qx.Class.define("toolbox.Toolbox",
     },  // assignListener
 
 
+    /**
+     * returns the menu of the created applications
+     *
+     * @return {void} the menu of the created applications
+     */
+    __getCreatedAppsMenu : function() {
+    	var menu = new qx.ui.menu.Menu;
+      var currentApp = new qx.ui.menu.Button("New", "icon/16/actions/document-new.png");
+      menu.add(currentApp);
+      
+      currentApp.addListener("execute", function() {
+        this.AppDevelCaption.setContent("Application Development of " +  currentApp.getLabel().toString());
+      	
+      }, this);
+      
+      return menu;
+    },
+    
     /**
      * shows the create application dialog
      *
@@ -753,6 +782,7 @@ qx.Class.define("toolbox.Toolbox",
                                            this.__windowContent, 
                                            this.__logFrame);
 	  }
+	  this.AppDevelCaption.setContent("Application Development of " +  this.__getCurrentFileName());
                                            
       return;
     },
@@ -1094,7 +1124,7 @@ qx.Class.define("toolbox.Toolbox",
 
       var container = new qx.ui.container.Composite(layout).set({ decorator : "main" });
 
-      var caption = new qx.ui.basic.Label(this.tr("Application Development")).set(
+      this.AppDevelCaption = new qx.ui.basic.Label(this.tr("Application Development")).set(
       {
         font       : "bold",
         decorator  : this._labelDeco,
@@ -1103,7 +1133,7 @@ qx.Class.define("toolbox.Toolbox",
         allowGrowY : true
       });
 
-      container.add(caption);
+      container.add(this.AppDevelCaption);
 
       this.AppDevelHtmlEmbed = new qx.ui.embed.Html('Create Application <br>');
       this.AppDevelHtmlEmbed.set({ backgroundColor : "white" });
