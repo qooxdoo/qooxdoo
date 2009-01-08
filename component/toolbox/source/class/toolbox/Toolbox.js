@@ -179,7 +179,7 @@ qx.Class.define("toolbox.Toolbox",
       part2.add(this.logCheckButton);
       this.widgets["toolbar.logCheckButton"] = this.logCheckButton;
       this.logCheckButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Show log output")));
-      this.logCheckButton.exclude();
+      this.logCheckButton.setEnabled(false);
       
       
       //main functions of the toolbox-------------------------------------------
@@ -282,6 +282,7 @@ qx.Class.define("toolbox.Toolbox",
       this.__container = new qx.ui.container.Composite(new qx.ui.layout.HBox(5)).set({ allowGrowX : false });
 
       var box = this.__createApplicationWindow = new qx.ui.window.Window("Create application");
+      this.__createApplicationWindow.setShowMinimize(false);
       box.setModal(true);
 
       this.__createApplicationWindow.setLayout(gridLayout);
@@ -672,7 +673,7 @@ qx.Class.define("toolbox.Toolbox",
    __attachHomePane : function() 
    { 
    	this.widgets["toolbar.homeButton"].addListener("execute", function() {
-   	   this.logCheckButton.exclude();
+   	   this.logCheckButton.setEnabled(false);
    	   this.logStack.exclude();
    	   this.mainStack.setSelected(this.mainStack.getChildren()[0]);
    	}, this);
@@ -689,7 +690,7 @@ qx.Class.define("toolbox.Toolbox",
    	   if(this.logCheckButton.getChecked()) {
    	   	  this.logStack.show();
    	   }
-   	   this.logCheckButton.show();
+   	   this.logCheckButton.setEnabled(true);
    	   this.mainStack.setSelected(this.mainStack.getChildren()[1]);
    	}, this);
    },
@@ -702,7 +703,7 @@ qx.Class.define("toolbox.Toolbox",
    __attachBuildInAppPane : function() 
    {
    	this.widgets["toolbar.AppBuiltButton"].addListener("execute", function() {
-   	   this.logCheckButton.exclude();
+   	   this.logCheckButton.setEnabled(false);
    	   this.logStack.exclude();
    	   this.mainStack.setSelected(this.mainStack.getChildren()[2]);
    	}, this);
@@ -716,7 +717,7 @@ qx.Class.define("toolbox.Toolbox",
    __attachHelpPane : function() 
    {
    	this.widgets["toolbar.helpButton"].addListener("execute", function() {
-   	   this.logCheckButton.exclude();
+   	   this.logCheckButton.setEnabled(false);
    	   this.logStack.exclude();
    	   this.mainStack.setSelected(this.mainStack.getChildren()[3]);
    	}, this);
