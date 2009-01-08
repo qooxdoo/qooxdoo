@@ -82,14 +82,6 @@ def invoke_piped(cmd):
     return (rcode, output, errout)
 
 
-
-def invoke_Background(cmd):
-    import subprocess
-    global myProc
-    myProc = subprocess.Popen(["sleep", "10"]) 
-    return myProc;
-
-
 def dispatch_action(form): 
     if 'action' in form:
         action = form['action'].value
@@ -137,11 +129,6 @@ def dispatch_action(form):
             print "Content-type: text/plain"  
             print
             testSource(form) 
-        elif (action == 'abort_Process'): # TODO TODO TODO TODO TODO 
-            print "Content-type: text/plain"  
-            print
-            print "myProc: " + str(myProc.pid)
-#            subprocess.Popen(['taskkill', myProc.pid])      
         else:
             print "Content-type: text/plain"
             print
