@@ -698,8 +698,8 @@ qx.Class.define("qx.html.Element",
 
         // Cleanup event map
         // Events are directly attached through event manager
-        // after intial creation. This differs from the
-        // handling of styles and attributes where queuing happes
+        // after initial creation. This differs from the
+        // handling of styles and attributes where queuing happens
         // through the complete runtime of the application.
         delete this.__eventValues;
       }
