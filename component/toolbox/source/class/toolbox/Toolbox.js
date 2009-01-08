@@ -282,17 +282,37 @@ qx.Class.define("toolbox.Toolbox",
      *
      * @return {void} the menu of the created applications
      */
-    __getCreatedAppsMenu : function() {
+    __getCreatedAppsMenu : function() { //TODO
     	var menu = new qx.ui.menu.Menu;
+    	/*
+    	toolbox.Builder.prepareApplicationList(this.__adminPath, 
+                                             this.__getCurrentFileName(), 
+                                             this.__getCurrentFilePath(),  
+                                             this.__logFrame);
     	
-      var currentApp = new qx.ui.menu.Button("<b>" + "myApplication_1" + "</b> <br>" + "C:\\tmp\\", "icon/16/actions/document-new.png");
-      currentApp.getChildControl("label").setRich(true);
+    	
+    	*/
+    	
+    	
+    	
+      var currentApp0 = new qx.ui.menu.Button("<b>" + "myApplication_1" + "</b> <br>" + "C:\\tmp\\");
+      currentApp0.getChildControl("label").setRich(true);
       
-      menu.add(currentApp);
-      currentApp.addListener("execute", function() {
+      var currentApp1 = new qx.ui.menu.Button("<b>" + "myApplication_2" + "</b> <br>" + "C:\\tmp\\");
+      currentApp1.getChildControl("label").setRich(true);
+      
+      
+      menu.add(currentApp0);
+      currentApp0.addListener("execute", function() {
         this.AppDevelCaption.setContent("Application Development of " + "myApplication_1");
-      	
       }, this);
+      
+      menu.add(currentApp1);
+      currentApp1.addListener("execute", function() {
+        this.AppDevelCaption.setContent("Application Development of " + "myApplication_2");
+      }, this);
+      
+      
       
       return menu;
     },
@@ -314,6 +334,8 @@ qx.Class.define("toolbox.Toolbox",
 
       var box = this.__createApplicationWindow = new qx.ui.window.Window("Create application");
       this.__createApplicationWindow.setShowMinimize(false);
+      this.__createApplicationWindow.setShowMaximize(false);
+      this.__createApplicationWindow.setShowClose(false);
       box.setModal(true);
 
       this.__createApplicationWindow.setLayout(gridLayout);
