@@ -60,7 +60,7 @@ qx.Class.define("qx.data.controller.Object",
             // remove the old reverse binding
             targetObject.removeBinding(bindingsForTarget[i][1]);
           }
-          this.setTarget(
+          this.addTarget(
             targetObject, bindingsForTarget[i][2], 
             bindingsForTarget[i][3], bidirectional, 
             bindingsForTarget[i][4], bindingsForTarget[i][5]
@@ -70,7 +70,7 @@ qx.Class.define("qx.data.controller.Object",
     },
     
     
-    setTarget: function(
+    addTarget: function(
       targetObject, targetProperty, sourceProperty, 
       bidirectional, options, reverseOptions
     ) {
