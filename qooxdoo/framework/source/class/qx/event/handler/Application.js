@@ -158,7 +158,7 @@ qx.Class.define("qx.event.handler.Application",
         this.__isReady = true;
 
         // Fire user event
-        qx.event.Registration.fireEvent(window, "ready");
+        qx.event.Registration.fireEvent(this._window, "ready");
       }
     },
 
@@ -181,8 +181,8 @@ qx.Class.define("qx.event.handler.Application",
       this._onNativeLoadWrapped = qx.lang.Function.bind(this._onNativeLoad, this);
       this._onNativeUnloadWrapped = qx.lang.Function.bind(this._onNativeUnload, this);
 
-      qx.bom.Event.addNativeListener(window, "load", this._onNativeLoadWrapped);
-      qx.bom.Event.addNativeListener(window, "unload", this._onNativeUnloadWrapped);
+      qx.bom.Event.addNativeListener(this._window, "load", this._onNativeLoadWrapped);
+      qx.bom.Event.addNativeListener(this._window, "unload", this._onNativeUnloadWrapped);
     },
 
 
@@ -193,8 +193,8 @@ qx.Class.define("qx.event.handler.Application",
      */
     _stopObserver : function()
     {
-      qx.bom.Event.removeNativeListener(window, "load", this._onNativeLoadWrapped);
-      qx.bom.Event.removeNativeListener(window, "unload", this._onNativeUnloadWrapped);
+      qx.bom.Event.removeNativeListener(this._window, "load", this._onNativeLoadWrapped);
+      qx.bom.Event.removeNativeListener(this._window, "unload", this._onNativeUnloadWrapped);
 
       this._onNativeLoadWrapped = null;
       this._onNativeUnloadWrapped = null;
@@ -219,7 +219,7 @@ qx.Class.define("qx.event.handler.Application",
     _onNativeLoad : function(e)
     {
       // Wrapper qxloader needed to be compatible with old generator
-      if (!window.qxloader) {
+      if (!this._window.qxloader) {
         this.__fireReady();
       }
     },
@@ -240,7 +240,7 @@ qx.Class.define("qx.event.handler.Application",
         try
         {
           // Fire user event
-          qx.event.Registration.fireEvent(window, "shutdown");
+          qx.event.Registration.fireEvent(this._window, "shutdown");
         }
         finally
         {
