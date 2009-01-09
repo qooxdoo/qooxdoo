@@ -34,6 +34,7 @@ qx.Class.define("qx.data.controller.Object",
     model : 
     {
       check: "qx.core.Object",
+      event: "changeModel",
       apply: "_applyModel"
     }
   },
@@ -42,10 +43,6 @@ qx.Class.define("qx.data.controller.Object",
   {
     
     _applyModel: function(value, old) {
-      // remove all bindings from the former model
-      if (old != undefined) {
-        old.removeAllBindings();
-      }
       // add all bindings to the new model
       for (var targetHash in this.__bindings) {
         var bindingsForTarget = this.__bindings[targetHash];
@@ -75,8 +72,8 @@ qx.Class.define("qx.data.controller.Object",
       bidirectional, options, reverseOptions
     ) {
       // create the binding
-      var id = this.getModel().bind(
-        sourceProperty, targetObject, targetProperty, options
+      var id = this.bind(
+        "model." + sourceProperty, targetObject, targetProperty, options
       );
       // create the reverse binding if necessary
       var idReverse = null
@@ -116,7 +113,7 @@ qx.Class.define("qx.data.controller.Object",
             ) {
               // remove the binding
               var id = currentListing[i][0];
-              this.getModel().removeBinding(id);
+              this.removeBinding(id);
               // check for the reverse binding
               if (currentListing[i][1] != null) {
                 targetObject.removeBinding(currentListing[i][1]);

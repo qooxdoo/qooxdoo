@@ -284,9 +284,7 @@ qx.Class.define("qx.test.data.DataArray",
       var self = this;      
       this.assertEventFired(a, "changeLength", function () {
         a.pop();
-      }, function(e) {
-        self.assertEquals(2, e.getData().length, "Wrong lengt event.");
-      }, "ChangeLength event not fired!");      
+      }, null, "ChangeLength event not fired!");      
     }
 
   }
