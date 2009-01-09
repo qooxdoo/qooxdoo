@@ -85,13 +85,16 @@ qx.Class.define("qx.data.Array",
      * The data contains a map with three key value pairs:
      * <li>start: The start index of the change.</li>
      * <li>end: The end index of the change.</li>
-     * <li>type: The type of the change as a String. This can be 'add' or 
-     * 'remove'</li>
+     * <li>type: The type of the change as a String. This can be 'add',  
+     * 'remove' or 'order'</li>
      */
-    "change" : "qx.event.type.Data", // TODO Explain the data in the event!
+    "change" : "qx.event.type.Data",
     
-    // TODO doc
-    "changeLength": "qx.event.type.Data"
+    /**
+     * The changeLength event will be fired every time the length of the
+     * array changes.
+     */
+    "changeLength": "qx.event.type.Event"
   },
 
 
@@ -329,12 +332,12 @@ qx.Class.define("qx.data.Array",
 
     /**
      * Internal function wich updates the length property of the array.
+     * Every time the length will be updated, a {@link #changeLength} data 
+     * event will be fired.
      */
     __updateLength : function() {
       this.length = this.__array.length;
-      this.fireDataEvent("changeLength", 
-        {length: this.length}, null
-      );
+      this.fireEvent("changeLength", qx.event.type.Event);
     }
   }
 });
