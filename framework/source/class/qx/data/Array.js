@@ -324,6 +324,7 @@ qx.Class.define("qx.data.Array",
      */
     setItem: function(index, item) {
       this.__array[index] = item;
+      this.__updateLength();
       this.fireDataEvent("change", 
         {start: index, end: index, type: "add"}, null
       );

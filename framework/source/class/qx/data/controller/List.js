@@ -21,13 +21,14 @@ qx.Class.define("qx.data.controller.List",
   extend : qx.core.Object,
 
 
-  construct : function(model)
+  construct : function(model, target)
   {
     this.base(arguments);
-    this.setModel(model);
-    
-    this.__targets = [];
     this.__bindings = {};
+
+
+    this.setModel(model);
+    this.setTarget(target);    
   },
   
   properties : 
@@ -37,8 +38,15 @@ qx.Class.define("qx.data.controller.List",
       check: "qx.data.Array",
       apply: "_applyModel",
       event: "changeModel"
+    },
+    
+    target : 
+    {
+      apply: "_applyTarget",
+      event: "changeTarget"
     }
   },  
+
 
   members :
   {
@@ -55,73 +63,65 @@ qx.Class.define("qx.data.controller.List",
         this.__changeModelLength();
       }
     },
+    
+    
+    _applyTarget: function(value, old) {
+      // if there was an old target
+      if (old != undefined) {
+        // remove all element of the old target
+        old.removeAll();
+        // remove all bindings
+        this.removeAllBindings();
+      }
+      // add a binding for all elements in the model
+      for (var i = 0; i < this.getModel().length; i++) {
+        this.__addItem(i);
+      }
+    },    
         
         
     __changeModelLength: function() {
+      // get the length
       var newLength = this.getModel().length;
-      for (var i = 0; i < this.__targets.length; i++) {
-        var currentLength = this.__targets[i].getChildren().length;
-        if (newLength > currentLength) {
-          for (var j = currentLength; j < newLength; j++) {
-            this.__addItem(j, this.__targets[i]);
-          }
-        } else if (newLength < currentLength) {
-          for (var j = currentLength; j > newLength; j--) {
-            this.__removeItem(this.__targets[i]);
-          }
+      var currentLength = this.getTarget().getChildren().length;
+      
+      if (newLength > currentLength) {
+        for (var j = currentLength; j < newLength; j++) {
+          this.__addItem(j);
         }
-      }
+      } else if (newLength < currentLength) {
+        for (var j = currentLength; j > newLength; j--) {
+          this.__removeItem();
+        }
+      }      
     },
     
     
-    __addItem: function(index, target) {
+    __addItem: function(index) {
       var listItem = new qx.ui.form.ListItem();
       var id = this.bind("model[" + index + "]", listItem, "label");
-      target.add(listItem);
+      this.getTarget().add(listItem);
       
       // save the bindings id
-      if (this.__bindings[target.toHashCode()] == undefined) {
-        this.__bindings[target.toHashCode()] = {};
-      }
-      this.__bindings[target.toHashCode()][index] = id;
+      this.__bindings[index] = id;
     },
     
     
-    __removeItem: function(target) {
+    __removeItem: function() {
       // get the last binding id
-      var index = target.getChildren().length - 1;
-      var id = this.__bindings[target.toHashCode()][index];
+      var index = this.getTarget().getChildren().length - 1;
+      var id = this.__bindings[index];
       // delete the reference 
-      delete this.__bindings[target.toHashCode()][index];
+      delete this.__bindings[index];
       // remove the binding
       this.removeBinding(id);
       // remove the item
-      target.removeAt(index);
-    },
-    
-    
-    addTarget: function(target) {
-      // add a binding for all elements in the model
-      for (var i = 0; i < this.getModel().length; i++) {
-        this.__addItem(i, target);
-      }
-      
-      this.__targets.push(target);
-    },
-    
-    
-    removeTarget: function(target) {
-      // remove all bindings
-      var targetHash = target.toHashCode();
-      for (var i in this.__bindings[targetHash]) {
-        var id = this.__bindings[targetHash][i];
-        this.removeBinding(id);
-      }
-      // delete the target in the internal reference
-      delete this.__bindings[targetHash];
-      qx.lang.Array.remove(this.__targets, target);
-      // remove all items of the target
-      target.removeAll();
+      var oldItem = this.getTarget().removeAt(index);
+      oldItem.destroy();
     }
+    
+    
+
+    
   }
 });
