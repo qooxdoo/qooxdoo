@@ -1,4 +1,4 @@
-/* ************************************************************************
+﻿/* ************************************************************************
 
    qooxdoo - the new era of web development
 
@@ -127,7 +127,8 @@ qx.Bootstrap.define("qx.lang.Array",
 
 
     /**
-     * Return the last element of an arr
+     * Return the last element of an arr. For performance reasons it is recommended 
+     * to omit the function call and instead use <code>arr[arr.length - 1]</code>
      *
      * @param arr {Array} the arr
      * @return {var} the last element of the arr
@@ -138,7 +139,8 @@ qx.Bootstrap.define("qx.lang.Array",
 
 
     /**
-     * Return the first element of an arr
+     * Return the first element of an arr. For performance reasons it is recommended 
+     * to omit the function call and instead use <code>arr[0]</code>
      *
      * @param arr {Array} the arr
      * @return {var} the first element of the arr
@@ -353,6 +355,7 @@ qx.Bootstrap.define("qx.lang.Array",
 
       return result === undefined ? null : result;
     },
+
 
     /**
      * Returns the lowest value in the given arr. Supports
