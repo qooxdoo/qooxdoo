@@ -23,7 +23,7 @@
  */
 qx.Class.define("qx.dev.unit.TestLoader",
 {
-  extend : qx.application.Native,
+  extend : qx.application.Standalone,
 
   /*
   *****************************************************************************
