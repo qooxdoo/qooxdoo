@@ -401,7 +401,7 @@ qx.Bootstrap.define("qx.Class",
       while (clazz)
       {
         if (clazz.$$properties) {
-          list.push.apply(list, qx.lang.Object.keys(clazz.$$properties));
+          list.push.apply(list, qx.lang.Object.getKeys(clazz.$$properties));
         }
 
         clazz = clazz.superclass;
@@ -922,16 +922,6 @@ qx.Bootstrap.define("qx.Class",
     }),
 
 
-    __shadowedKeys :
-    [
-      "isPrototypeOf",
-      "hasOwnProperty",
-      "toLocaleString",
-      "toString",
-      "valueOf"
-    ],
-    
-
     /**
      * Creates a class by type. Supports modern inheritance etc.
      *
@@ -970,35 +960,25 @@ qx.Bootstrap.define("qx.Class",
         // Copy statics
         if (statics)
         {
-          var value, key;
-          var aspects = qx.core.Variant.isSet("qx.aspects", "on");
-          
-          for (key in statics)
+          var key;
+
+          for (var i=0, a=qx.lang.Object.getKeys(statics), l=a.length; i<l; i++)
           {
-            value = statics[key];
-            
-            if (aspects && value instanceof Function) {
-              value = qx.core.Aspect.wrap(name + "." + key, value, "static");
-            }
-            
-            clazz[key] = value;
-          }
-          
-          if (qx.core.Variant.isSet("qx.client", "mshtml"))
-          {
-            var shadow = this.__shadowedKeys;
-            for (key in shadow)
+            key = a[i];
+
+            if (qx.core.Variant.isSet("qx.aspects", "on"))
             {
-              if (statics.hasOwnProperty(key)) 
-              {
-                value = statics[key];
-                
-                if (aspects && value instanceof Function) {
-                  value = qx.core.Aspect.wrap(name + "." + key, value, "static");
-                }
-                
-                clazz[key] = value;            
+              var staticValue = statics[key];
+
+              if (staticValue instanceof Function) {
+                staticValue = qx.core.Aspect.wrap(name + "." + key, staticValue, "static");
               }
+
+              clazz[key] = staticValue;
+            }
+            else
+            {
+              clazz[key] = statics[key];
             }
           }
         }
@@ -1289,25 +1269,11 @@ qx.Bootstrap.define("qx.Class",
     __addMembers : function(clazz, members, patch, base, wrap)
     {
       var proto = clazz.prototype;
-      var keys = qx.lang.Object.keys(members);
       var key, member;
-      
-      // IE does not return "shadowed" keys even if they are defined directly
-      // in the object. This is incompatible to the ECMA standard!
-      // This is why this additional loop is needed.
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
-      {
-        for (var i=0, shadow=this.__shadowedKeys, l=shadow.length; i<l; i++)
-        {
-          if (members.hasOwnProperty(shadow[i])) {
-            keys.push(shadow[i]);
-          }
-        }      
-      }
 
-      for (var i=0, l=keys.length; i<l; i++)
+      for (var i=0, a=qx.lang.Object.getKeys(members), l=a.length; i<l; i++)
       {
-        key = keys[i];
+        key = a[i];
         member = members[key];
 
         if (qx.core.Variant.isSet("qx.debug", "on"))
@@ -1339,7 +1305,6 @@ qx.Bootstrap.define("qx.Class",
             if (proto[key]) {
               member.base = proto[key];
             }
-            
             member.self = clazz;
           }
 
