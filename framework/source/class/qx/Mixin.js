@@ -95,7 +95,9 @@ qx.Class.define("qx.Mixin",
         // Create Interface from statics
         var mixin = config.statics ? config.statics : {};
         for(var key in mixin) {
-          mixin[key].mixin = mixin;
+          if (mixin[key] instanceof Function) {
+            mixin[key].$$mixin = mixin;
+          }
         }
 
         // Attach configuration
@@ -118,7 +120,7 @@ qx.Class.define("qx.Mixin",
         for(var key in mixin.$$members)
         {
           if (mixin.$$members[key] instanceof Function) {
-            mixin.$$members[key].mixin = mixin;
+            mixin.$$members[key].$$mixin = mixin;
           }
         }
 
