@@ -176,7 +176,7 @@ qx.Mixin.define("qx.ui.core.MChildrenHandling",
      * Remove all children.
      */
     removeAll : function() {
-      this._removeAll();
+      return this._removeAll();
     }
   },
 

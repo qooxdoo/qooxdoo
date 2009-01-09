@@ -1889,7 +1889,7 @@ qx.Class.define("qx.ui.core.Widget",
      * Remove the widget at the specified index.
      *
      * @param index {Integer} Index of the widget to remove.
-     * @return {void}
+     * @return {qx.ui.core.LayoutItem} The removed item.
      */
     _removeAt : function(index)
     {
@@ -1901,6 +1901,8 @@ qx.Class.define("qx.ui.core.Widget",
 
       qx.lang.Array.removeAt(this.__widgetChildren, index);
       this.__removeHelper(child);
+      
+      return child;
     },
 
 
