@@ -42,7 +42,8 @@
 qx.Class.define("qx.core.Object",
 {
   extend : Object,
-
+  include : [qx.data.MBinding],
+  
 
 
   /*
