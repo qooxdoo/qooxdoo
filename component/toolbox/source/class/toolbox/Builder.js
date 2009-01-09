@@ -287,7 +287,7 @@ qx.Class.define("toolbox.Builder",
           }
           else
           {
-            logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result + '</font>');
+            logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.gen_error + '</font>');
           }
 
           loader.unblock();
@@ -379,7 +379,7 @@ qx.Class.define("toolbox.Builder",
           }
           else
           {
-            logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result + '</font>');
+            logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.build_error + '</font>');
           }
 
           progressLoader.unblock();
@@ -533,19 +533,24 @@ qx.Class.define("toolbox.Builder",
         req.addListener("completed", function(evt)
         {
           var result = evt.getContent();
-          var receivedState = result.pretty_state;
-
-          if (receivedState == 1 || receivedState == 0)
+          
+          if(result.pretty_state != undefined)
           {
-            if (receivedState == 0) {
-              logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.pretty_output);
-            }
-
-            if (receivedState == 1) {
-              logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.pretty_output + '</font>');
-            }
+	          var receivedState = result.pretty_state;
+	
+	          if (receivedState == 1 || receivedState == 0)
+	          {
+	            if (receivedState == 0) {
+	              logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.pretty_output);
+	            }
+	
+	            if (receivedState == 1) {
+	              logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.pretty_error + '</font>');
+	            }
+	          }
+          } else {
+          	logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.pretty_error + '</font>');
           }
-
           loader.unblock();
           loader.hideLoader();
         },
@@ -839,8 +844,6 @@ qx.Class.define("toolbox.Builder",
         var createParams = [];
         req.setTimeout(100000);
 
-        this.__urlParms = new toolbox.UrlSearchParms();
-        
         for (var i=0; i<createParams.length; i++)
         {
           // check cygwin path
