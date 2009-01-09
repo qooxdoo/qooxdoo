@@ -31,18 +31,12 @@ qx.Bootstrap.define("qx.lang.Number",
     /**
      * Check whether the number is in a given range
      *
-     * @deprecated Legacy code - unused in the framework!
      * @param nr {Number} the number to check
      * @param vmin {Integer} lower bound of the range
      * @param vmax {Integer} upper bound of the range
      * @return {Boolean} whether the number is >= vmin and <= vmax
      */
-    isInRange : function(nr, vmin, vmax) 
-    {
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee);
-      }      
-      
+    isInRange : function(nr, vmin, vmax) {
       return nr >= vmin && nr <= vmax;
     },
 
@@ -50,18 +44,12 @@ qx.Bootstrap.define("qx.lang.Number",
     /**
      * Check whether the number is between a given range
      *
-     * @deprecated Legacy code - unused in the framework!
      * @param nr {Number} the number to check
      * @param vmin {Integer} lower bound of the range
      * @param vmax {Integer} upper bound of the range
      * @return {Boolean} whether the number is > vmin and < vmax
      */
-    isBetweenRange : function(nr, vmin, vmax) 
-    {
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee);
-      }      
-      
+    isBetweenRange : function(nr, vmin, vmax) {
       return nr > vmin && nr < vmax;
     },
 
