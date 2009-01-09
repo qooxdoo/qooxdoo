@@ -1,4 +1,4 @@
-/* ************************************************************************
+﻿/* ************************************************************************
 
    qooxdoo - the new era of web development
 
@@ -26,6 +26,22 @@ qx.Bootstrap.define("qx.lang.Object",
   statics :
   {
     /**
+     * Clears the map from all values
+     *
+     * @param map {Object} the map to clear
+     */
+    empty : function(map)
+    {
+      for (var key in map) 
+      {
+        if (map.hasOwnProperty(key)) {
+          delete map[key];
+        }  
+      }
+    },
+
+
+    /**
      * Check if the hash has any keys
      *
      * @param map {Object} the map to check
@@ -45,16 +61,16 @@ qx.Bootstrap.define("qx.lang.Object",
      * Check whether the number of objects in the maps is at least "length"
      *
      * @param map {Object} the map to check
-     * @param length {Integer} minimum number of objects in the map
+     * @param minLength {Integer} minimum number of objects in the map
      * @return {Boolean} whether the map contains at least "length" objects.
      */
-    hasMinLength : function(map, length)
+    hasMinLength : function(map, minLength)
     {
-      var i = 0;
+      var length = 0;
 
       for (var key in map)
       {
-        if ((++i) >= length) {
+        if ((++length) >= minLength) {
           return true;
         }
       }
@@ -71,13 +87,13 @@ qx.Bootstrap.define("qx.lang.Object",
      */
     getLength : function(map)
     {
-      var i = 0;
+      var length = 0;
 
       for (var key in map) {
-        i++;
+        length++;
       }
 
-      return i;
+      return length;
     },
 
 
@@ -93,8 +109,6 @@ qx.Bootstrap.define("qx.lang.Object",
 
     /**
      * Get the keys of a map as array as returned by a "for ... in" statement.
-     *
-     * TODO: Rename to keys() like in prototype and python
      *
      * @param map {Object} the map
      * @return {Array} array of the keys of the map
@@ -154,8 +168,6 @@ qx.Bootstrap.define("qx.lang.Object",
 
     /**
      * Get the values of a map as array
-     *
-     * TODO: Rename to values() like in prototype and python
      *
      * @param map {Object} the map
      * @return {Array} array of the values of the map
@@ -253,9 +265,10 @@ qx.Bootstrap.define("qx.lang.Object",
 
 
     /**
-     * Inverts a Map by exchanging the keys with the values.
+     * Inverts a map by exchanging the keys with the values.
+     *
      * If the map has the same values for different keys, information will get lost.
-     * The values will be converted to Strings using the toString methos.
+     * The values will be converted to strings using the toString methos.
      *
      * @param map {Object} Map to invert
      * @return {Object} inverted Map
@@ -285,12 +298,24 @@ qx.Bootstrap.define("qx.lang.Object",
     {
       for (var key in obj)
       {
-        if (obj[key] === value) {
+        if (obj.hasOwnProperty(key) && obj[key] === value) {
           return key;
         }
       }
 
       return null;
+    },
+
+
+    /**
+     * Whether the map contains the given value.
+     *
+     * @param obj {Object} Map to search for the value
+     * @param value {var} Value to look for
+     * @return {Boolean} Whether the value was found in the map.
+     */
+    contains : function(obj, value) {
+      return this.getKeyFromValue(obj, value) !== null;
     },
 
 
@@ -310,8 +335,8 @@ qx.Bootstrap.define("qx.lang.Object",
     * Convert an array into a map.
     *
     * All elements of the array become keys of the returned map by
-    * calling "toString" on the array elements. The values of the
-    * map are set to "true"
+    * calling <code>toString</code> on the array elements. The values of the
+    * map are set to <code>true</code>
     *
     * @param array {Array} array to convert
     * @return {Map} the array converted to a map.
