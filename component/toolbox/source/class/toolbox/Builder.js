@@ -230,6 +230,8 @@ qx.Class.define("toolbox.Builder",
         var createParams = [ fileName, filePath, generate ];
         req.setTimeout(100000);
 
+        this.__urlParms = new toolbox.UrlSearchParms();
+        
         // check cygwin path
         if ('cygwin' in this.__urlParms.getParms())
         {
@@ -265,20 +267,20 @@ qx.Class.define("toolbox.Builder",
             {
               if (receivedState == 0)
               {
-                createApplicationLogFrame.setHtml(result.gen_output);
+              	if(createApplicationLogFrame){
+                	createApplicationLogFrame.setHtml(result.gen_output);
+              	}
                 logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.gen_output);
                 req.setData(openSource);
                 req.send();
-                
-                //var openLink = ("/component/toolbox/tool/bin/nph-qxadmin_cgi.py?action=open_In_Browser&location=source").replace(/\\/g, "/");
-                //alert(openLink);
-                //window.open(openLink);
-                
+ 
               }
 
               if (receivedState == 1)
               {
-                createApplicationLogFrame.setHtml('<font color="red">' + result.gen_error + '</font>');
+              	if(createApplicationLogFrame){
+                	createApplicationLogFrame.setHtml('<font color="red">' + result.gen_error + '</font>');
+              	}
                 logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.gen_error + '</font>');
               }
             }
@@ -329,6 +331,8 @@ qx.Class.define("toolbox.Builder",
         var createParams = [ fileName, filePath ];
         req.setTimeout(600000);
 
+        this.__urlParms = new toolbox.UrlSearchParms();
+        
         // check cygwin path
         if ('cygwin' in this.__urlParms.getParms())
         {
@@ -419,6 +423,8 @@ qx.Class.define("toolbox.Builder",
         var createParams = [ fileName, filePath ];
         req.setTimeout(600000);
 
+        this.__urlParms = new toolbox.UrlSearchParms();
+        
         // check cygwin path
         if ('cygwin' in this.__urlParms.getParms())
         {
@@ -502,6 +508,8 @@ qx.Class.define("toolbox.Builder",
         var createParams = [ fileName, filePath ];
         req.setTimeout(600000);
 
+        this.__urlParms = new toolbox.UrlSearchParms();
+        
         // check cygwin path
         if ('cygwin' in this.__urlParms.getParms())
         {
@@ -578,6 +586,8 @@ qx.Class.define("toolbox.Builder",
         var createParams = [ fileName, filePath ];
         req.setTimeout(600000);
 
+        this.__urlParms = new toolbox.UrlSearchParms();
+        
         // check cygwin path
         if ('cygwin' in this.__urlParms.getParms())
         {
@@ -667,6 +677,8 @@ qx.Class.define("toolbox.Builder",
         var createParams = [ fileName, filePath ];
         req.setTimeout(100000);
 
+        this.__urlParms = new toolbox.UrlSearchParms();
+        
         // check cygwin path
         if ('cygwin' in this.__urlParms.getParms())
         {
@@ -751,6 +763,8 @@ qx.Class.define("toolbox.Builder",
         var createParams = [ fileName, filePath ];
         req.setTimeout(100000);
 
+        this.__urlParms = new toolbox.UrlSearchParms();
+        
         // check cygwin path
         if ('cygwin' in this.__urlParms.getParms())
         {
@@ -817,14 +831,16 @@ qx.Class.define("toolbox.Builder",
     
     
     
-    prepareApplicationList : function(adminPath, fileName, filePath, logFrame)
+    prepareApplicationList : function(adminPath, logFrame)
     {
         var url = adminPath;
-        var req = new qx.io.remote.Request(url, "POST", "application/json");
+        var req = new qx.io.remote.Request(url, "POST");
         var dat = "action=show_applicationList";
         var createParams = [];
         req.setTimeout(100000);
 
+        this.__urlParms = new toolbox.UrlSearchParms();
+        
         for (var i=0; i<createParams.length; i++)
         {
           // check cygwin path
@@ -839,9 +855,9 @@ qx.Class.define("toolbox.Builder",
         req.addListener("completed", function(evt)
         {
           var result = evt.getContent();
-          
-          alert(qx.util.Json.stringify(result.toString().replace(/\n/g, "").replace(/\\/g, "\\").replace(/\t/g, "").replace(/\"/g, "").replace(/<pre>/g, "").replace(/<\/pre>/g, ""), true));
-
+          result = result.replace(/\n/g, "").replace(/{/g, "\{").replace(/}/g, "\}");
+          this.jsonObject = qx.util.Json.parse(result);
+          toolbox.Toolbox.APPLIST = this.jsonObject;
           
         },
         this);
@@ -852,8 +868,7 @@ qx.Class.define("toolbox.Builder",
         }, this);
 
         req.send();
-
-      return;
+      
     }
     
     

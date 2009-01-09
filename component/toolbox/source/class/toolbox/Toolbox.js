@@ -38,7 +38,7 @@ qx.Class.define("toolbox.Toolbox",
   construct : function()
   {
     this.base(arguments);
-
+	
     qx.dev.Debug;
 
     var layout = new qx.ui.layout.VBox().set({ separator : "separator-vertical" });
@@ -108,6 +108,10 @@ qx.Class.define("toolbox.Toolbox",
     this.__attachHelpPane();
     this.__assignListener();
     
+    //loads the applications list
+    this.__loadAppList();
+    
+    
   },
 
   /*
@@ -115,7 +119,7 @@ qx.Class.define("toolbox.Toolbox",
      MEMBERS
   *****************************************************************************
   */
-
+  statics : { APPLIST : null },
   members :
   {
     /*
@@ -140,7 +144,7 @@ qx.Class.define("toolbox.Toolbox",
     __makeToolbar : function()
     {
       var toolbar = new qx.ui.toolbar.ToolBar;
-
+	  
       var part1 = new qx.ui.toolbar.Part();
       toolbar.add(part1);
 	  
@@ -160,7 +164,7 @@ qx.Class.define("toolbox.Toolbox",
       this.AppBuiltButton = new qx.ui.toolbar.Button("Built-in Applications", "toolbox/image/applications-utilities.png");
       part1.add(this.AppBuiltButton);
       this.widgets["toolbar.AppBuiltButton"] = this.AppBuiltButton;
-      this.AppBuiltButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Build the optimized version of your application")));
+      this.AppBuiltButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Build the optimized version of the application")));
 
       // --Help button (Support part of the toolbox)
       this.helpButton = new qx.ui.toolbar.Button("Help", "toolbox/image/utilities-help.png");
@@ -169,17 +173,14 @@ qx.Class.define("toolbox.Toolbox",
       this.helpButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Contains help and support")));
 
       // --Created applications menu
-      this.__createdAppsMenu = new qx.ui.toolbar.MenuButton("Created applications", "toolbox/image/folder-open.png");
-      part1.add(this.__createdAppsMenu);
-      this.__createdAppsMenu.setMenu(this.__getCreatedAppsMenu());
-      
-      
-      
-      
-		
+      this.__createdAppsMenuButton = new qx.ui.toolbar.MenuButton("Created Applications", "toolbox/image/folder-open.png");
+      part1.add(this.__createdAppsMenuButton);
+      this.__createdAppsMenuButton.setEnabled(false);      
+      this.__checkAppList(1000);
+
       toolbar.addSpacer();
       
-	    var part2 = new qx.ui.toolbar.Part();
+	  var part2 = new qx.ui.toolbar.Part();
       toolbar.add(part2);
       
       // --Log button (shows/hides the log pane)
@@ -191,12 +192,8 @@ qx.Class.define("toolbox.Toolbox",
       
       
       
-      
-      
-      
-      
       //main functions of the toolbox-------------------------------------------
-	    var part3 = new qx.ui.toolbar.Part();
+	  var part3 = new qx.ui.toolbar.Part();
       toolbar.add(part3);
 
       // -- create button
@@ -216,8 +213,6 @@ qx.Class.define("toolbox.Toolbox",
       part3.add(this.generateBuildButton);
       this.widgets["toolbar.generateBuildButton"] = this.generateBuildButton;
       this.generateBuildButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Generates the build")));
-
-      
 
       // -- generate Api
       this.generateApiButton = new qx.ui.toolbar.Button(null, "toolbox/image/help-contents.png");
@@ -256,8 +251,23 @@ qx.Class.define("toolbox.Toolbox",
 
       return toolbar;
     },  // makeToolbar
-
-
+    
+	/**
+	 * checks the applications list in a interval
+	 * 
+	 * @return {void}
+	 */
+    __checkAppList : function(milliSek) {
+      var appListChecker = qx.util.TimerManager.getInstance(); 
+      appListChecker.start(function(){
+      	if(toolbox.Toolbox.APPLIST){
+      	   this.__createdAppsMenuButton.setEnabled(true);
+      	   this.__createdAppsMenuButton.setMenu(this.__getCreatedAppsMenu());
+      	   appListChecker.stop(1);
+      	} 
+      }, milliSek, this, null, 1);
+    },
+    
     /**
      * adds the event listener to the toolbox buttons
      *
@@ -266,7 +276,7 @@ qx.Class.define("toolbox.Toolbox",
     __assignListener : function()
     {
       this.widgets["toolbar.createButton"].addListener("execute", this.__createApplicationWindow, this);
-      this.widgets["toolbar.generateButton"].addListener("execute", this.__generateApplication, this);
+      this.widgets["toolbar.generateButton"].addListener("execute", this.__generateSource, this);
       this.widgets["toolbar.generateApiButton"].addListener("execute", this.__generateApi, this);
       this.widgets["toolbar.configurationButton"].addListener("execute", this.__openConfiguration, this);
       this.widgets["toolbar.makePrettyButton"].addListener("execute", this.__makePretty, this);
@@ -276,47 +286,50 @@ qx.Class.define("toolbox.Toolbox",
       this.widgets["toolbar.testButton"].addListener("execute", this.__testApplication, this);
     },  // assignListener
 
+    /**
+     * loads the created application list
+     *
+     * @return {void} 
+     */
+    __loadAppList : function() {
+    	toolbox.Builder.prepareApplicationList(this.__adminPath,  
+ 				                               this.__logFrame);
+    },
 
     /**
      * returns the menu of the created applications
      *
      * @return {void} the menu of the created applications
      */
-    __getCreatedAppsMenu : function() { //TODO
-    	var menu = new qx.ui.menu.Menu;
-    	/*
-    	toolbox.Builder.prepareApplicationList(this.__adminPath, 
-                                             this.__getCurrentFileName(), 
-                                             this.__getCurrentFilePath(),  
-                                             this.__logFrame);
-    	
-    	
-    	*/
-    	
-    	
-    	
-      var currentApp0 = new qx.ui.menu.Button("<b>" + "myApplication_1" + "</b> <br>" + "C:\\tmp\\");
-      currentApp0.getChildControl("label").setRich(true);
-      
-      var currentApp1 = new qx.ui.menu.Button("<b>" + "myApplication_2" + "</b> <br>" + "C:\\tmp\\");
-      currentApp1.getChildControl("label").setRich(true);
-      
-      
-      menu.add(currentApp0);
-      currentApp0.addListener("execute", function() {
-        this.AppDevelCaption.setContent("Application Development of " + "myApplication_1");
-      }, this);
-      
-      menu.add(currentApp1);
-      currentApp1.addListener("execute", function() {
-        this.AppDevelCaption.setContent("Application Development of " + "myApplication_2");
-      }, this);
-      
-      
-      
-      return menu;
-    },
+    __getCreatedAppsMenu : function() 
+      {
+      	var menu = new qx.ui.menu.Menu;
+        var createdApp;
+        for(var i = 0; i < toolbox.Toolbox.APPLIST.length; i++) {
+          createdApp = new qx.ui.menu.Button("<b>" + toolbox.Toolbox.APPLIST[i].name + "</b> <br>" + toolbox.Toolbox.APPLIST[i].path);
+	      createdApp.getChildControl("label").setRich(true);	
+          
+	      createdApp.addListener("execute", this.__onApplicationChanged, this);
+	      
+          menu.add(createdApp);
+        
+        }
+        return menu;
+      },
     
+      __onApplicationChanged : function(e){
+      	var label = e.getTarget().getLabel().toString();
+      	label = label.split(" ");
+      	var appName = label[0].replace("<b>", "").replace("</b>", "");
+      	this.__setCurrentFileName(appName);
+      	var appPath = label[1].replace("<br>", "");
+      	this.__setCurrentFilePath(appPath);
+      	
+        this.AppDevelCaption.setContent("Application Development of " +  label[0].replace("<b>", "").replace("</b>", ""));
+      },
+      
+      
+      
     /**
      * shows the create application dialog
      *
@@ -358,7 +371,7 @@ qx.Class.define("toolbox.Toolbox",
 
       // Create Button
       this.__createButtonWindow = new qx.ui.form.Button("Create", "toolbox/image/dialog-ok.png");
-      this.__createButtonWindow.addListener("execute", this.__createNewApplication, this);
+      this.__createButtonWindow.addListener("execute", this.__createSkeleton, this);
       	
       
       // default value is disabled
@@ -607,7 +620,6 @@ qx.Class.define("toolbox.Toolbox",
       this.__fileNameText.focus();
     },  // __createApplicationWindow
 
-
     /**
      * shows the log field
      *
@@ -781,7 +793,7 @@ qx.Class.define("toolbox.Toolbox",
      *
      * @return 
      */
-    __createNewApplication : function()
+    __createSkeleton : function()
     {
       this.__loadImage.show();
       this.__setCurrentFileName(this.__fileNameText.getValue());
@@ -818,8 +830,8 @@ qx.Class.define("toolbox.Toolbox",
      *
      * @return 
      */
-    __generateApplication : function()
-    {
+    __generateSource : function()
+    { 
       toolbox.Builder.generateSource(this.__adminPath, 
                                      this.__getCurrentFileName(), 
                                      this.__getCurrentFilePath(), 
@@ -1006,6 +1018,7 @@ qx.Class.define("toolbox.Toolbox",
      * @return {void} 
      */
     __setCurrentFilePath : function(path) {
+      path = path.replace(/\//g, '\\');
       this.__currentFilePath = path;
     },
 
