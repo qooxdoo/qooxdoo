@@ -122,9 +122,6 @@ qx.Class.define("qx.ui.layout.Grow",
       var children = this._getLayoutChildren();
       var child, size;
       var neededWidth=0, neededHeight=0;
-      var minWidth = 0;
-      var minHeight = 0;
-
 
       // Iterate over children
       for (var i=0, l=children.length; i<l; i++)
@@ -134,18 +131,13 @@ qx.Class.define("qx.ui.layout.Grow",
 
         neededWidth = Math.max(neededWidth, size.width);
         neededHeight = Math.max(neededHeight, size.height);
-        
-        minWidth = Math.max(minWidth, size.minWidth);
-        minHeight = Math.max(minHeight, size.minHeight)
       }
 
 
       // Return hint
       return {
         width : neededWidth,
-        height : neededHeight,
-        minWidth : minWidth,
-        minHeight : minHeight
+        height : neededHeight
       };
     }
   }
