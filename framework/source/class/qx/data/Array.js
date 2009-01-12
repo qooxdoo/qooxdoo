@@ -324,7 +324,10 @@ qx.Class.define("qx.data.Array",
      */
     setItem: function(index, item) {
       this.__array[index] = item;
-      this.__updateLength();
+      // only update the length if its changed
+      if (this.length != this.__array.length) {
+        this.__updateLength();        
+      }
       this.fireDataEvent("change", 
         {start: index, end: index, type: "add"}, null
       );
@@ -336,9 +339,18 @@ qx.Class.define("qx.data.Array",
      * Every time the length will be updated, a {@link #changeLength} data 
      * event will be fired.
      */
-    __updateLength : function() {
+    __updateLength: function() {
       this.length = this.__array.length;
       this.fireEvent("changeLength", qx.event.type.Event);
-    }
+    },
+    
+    
+    /**
+     * Returns the toString of the original Array
+     * @return {String} The array as a string.
+     */
+    toString: function() {
+      return this.__array.toString();
+    } 
   }
 });
