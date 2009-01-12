@@ -339,9 +339,7 @@ qx.Class.define("toolbox.Toolbox",
     {
       var gridLayout = new qx.ui.layout.Grid(5, 5);
       gridLayout.setColumnFlex(2, 1);
-
-      gridLayout.setRowFlex(7, 1);
-      gridLayout.setRowAlign(8, "right", "middle");
+      gridLayout.setRowAlign(7, "right", "middle");
 
       this.__container = new qx.ui.container.Composite(new qx.ui.layout.HBox(5)).set({ allowGrowX : false });
 
@@ -350,20 +348,9 @@ qx.Class.define("toolbox.Toolbox",
       this.__createApplicationWindow.setShowMaximize(false);
       this.__createApplicationWindow.setShowClose(false);
       box.setModal(true);
-
+      
       this.__createApplicationWindow.setLayout(gridLayout);
       
-      // ------Embed Start------------------------------------------------------
-      this.__createApplicationLogFrame = new qx.ui.embed.Html().set(
-      {
-        overflowX  : "auto",
-        overflowY  : "auto",
-        minWidth   : 100,
-        minHeight  : 100,
-        paddingTop : 10
-      });
-
-      // ------Embed End--------------------------------------------------------
       // ------Buttons Start-----------------------------------------------------
       // Abort Button
       this.__abortButtonWindow = new qx.ui.form.Button("Cancel", "toolbox/image/dialog-close.png");
@@ -378,13 +365,9 @@ qx.Class.define("toolbox.Toolbox",
       this.__createButtonWindow.setEnabled(false);
 
       // ------Buttons End-------------------------------------------------------
-      this.__container.add(this.__abortButtonWindow);
       this.__container.add(this.__createButtonWindow);
-
-      // ------Image Start-------------------------------------------------------
-      this.__loadImage = new qx.ui.basic.Image('toolbox/image/loading22.gif');
-      this.__loadImage.hide();
-
+      this.__container.add(this.__abortButtonWindow);
+      
       // ------Image End---------------------------------------------------------
       // ------Labels Start------------------------------------------------------
       this.__fileNameLabel = new qx.ui.basic.Label("").set(
@@ -448,19 +431,7 @@ qx.Class.define("toolbox.Toolbox",
       }, this);
 
       // Default hide log textfield
-      this.__logText.hide();
-
-      // All components of the create-Dialog to disable while the process
-      this.__windowContent = new Array(this.__fileNameText, 
-                                       this.__filePathText, 
-                                       this.__namespaceText, 
-                                       this.__logCheckBox, 
-                                       this.__logText, 
-                                       this.__selectBox, 
-                                       this.__generateBox, 
-                                       this.__createButtonWindow, 
-                                       this.__abortButtonWindow); 
-                                       
+      this.__logText.hide();                            
 
       box.add(this.__fileNameLabel,
       {
@@ -567,28 +538,12 @@ qx.Class.define("toolbox.Toolbox",
         colSpan : 1
       });
 
-      box.add(this.__createApplicationLogFrame,
-      {
-        row     : 7,
-        column  : 0,
-        rowSpan : 0,
-        colSpan : 5
-      });
-
-      box.add(this.__loadImage,
-      {
-        row     : 8,
-        column  : 0,
-        rowSpan : 0,
-        colSpan : 1
-      });
-
       box.add(this.__container,
       {
-        row     : 8,
+        row     : 7,
         column  : 1,
         rowSpan : 0,
-        colSpan : 3
+        colSpan : 4
       });
 
       this.__logCheckBox.addListener("click", this.__showLogTextField, this);
@@ -597,7 +552,6 @@ qx.Class.define("toolbox.Toolbox",
 
       this.__filePathText.addListener("input", this.__checkInput, this);
 
-      // this.__logText.getTextField().addListener("input", this.__checkInput, this);
       this.__logText.addListener("input", this.__checkInput, this);
       this.__logCheckBox.addListener("click", this.__checkInput, this);
       this.__fileNameText.addListener("input", this.__copyContent, this);
@@ -612,8 +566,8 @@ qx.Class.define("toolbox.Toolbox",
       },
       this);
 
-      this.__createApplicationWindow.setWidth(400);
-      this.__createApplicationWindow.setHeight(410);
+      this.__createApplicationWindow.setWidth(300);
+      this.__createApplicationWindow.setMaxHeight(245);
       this.__createApplicationWindow.moveTo(100, 100);
       this.__createApplicationWindow.open();
 
@@ -795,31 +749,22 @@ qx.Class.define("toolbox.Toolbox",
      */
     __createSkeleton : function()
     {
-      this.__loadImage.show();
       this.__setCurrentFileName(this.__fileNameText.getValue());
       this.__setCurrentFilePath(this.__filePathText.getValue());
       this.__setCurrentNamespace(this.__namespaceText.getValue());
 
       // this.__setCurrentLogName(this.__logText.getTextField().getValue());
       this.__setCurrentLogName(this.__logText.getValue());
-		
-	  if(this.__createButtonWindow.getLabel().toString() == "Close"){	      	
-		   this.__cancelNewApplication();
-	  } else {
       	toolbox.Builder.createNewApplication(this.__adminPath, 
-                                           this.__getCurrentFileName(), 
-                                           this.__getCurrentFilePath(), 
-                                           this.__getCurrentNamespace(), 
-                                           this.__getCurrentLogName(), 
-                                           this.__getCurrentType(), 
-                                           this.__isGenerateSource.toString(), 
-                                           this.__loadImage, 
-                                           this.__createApplicationLogFrame, 
-                                           this.__windowContent, 
-                                           this.__logFrame);
-	  }
-	  this.AppDevelCaption.setContent("Application Development of " +  this.__getCurrentFileName());
-                                           
+                                             this.__getCurrentFileName(), 
+                                             this.__getCurrentFilePath(), 
+                                             this.__getCurrentNamespace(), 
+                                             this.__getCurrentLogName(), 
+                                             this.__getCurrentType(), 
+                                             this.__isGenerateSource.toString(), 
+                                             this.__logFrame);
+	     this.AppDevelCaption.setContent("Application Development of " +  this.__getCurrentFileName());
+       this.__cancelNewApplication();                                   
       return;
     },
 
@@ -836,7 +781,6 @@ qx.Class.define("toolbox.Toolbox",
                                      this.__getCurrentFileName(), 
                                      this.__getCurrentFilePath(), 
                                      "true", 
-                                     this.__createApplicationLogFrame, 
                                      this.__logFrame);
       return;
     },
@@ -958,7 +902,6 @@ qx.Class.define("toolbox.Toolbox",
      */
     __cancelNewApplication : function()
     {
-      this.__loadImage.hide();
       this.__isEdited = false;
       this.__isGenerateSource = false;
       this.__createApplicationWindow.close();
@@ -1004,7 +947,7 @@ qx.Class.define("toolbox.Toolbox",
     /**
      * returns the file name of the application
      *
-     * @return {var} TODOC
+     * @return {var} the filename of the current application
      */
     __getCurrentFileName : function() {
       return this.__currentFileName;
@@ -1026,7 +969,7 @@ qx.Class.define("toolbox.Toolbox",
     /**
      * returns the current application path
      *
-     * @return {var} TODOC
+     * @return {var} the file path of the application
      */
     __getCurrentFilePath : function() {
       return this.__currentFilePath;

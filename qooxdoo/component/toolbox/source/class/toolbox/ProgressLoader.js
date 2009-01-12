@@ -27,7 +27,7 @@
  */
 qx.Class.define("toolbox.ProgressLoader",
 {
-  extend : qx.core.Object,
+  extend : qx.ui.window.Window,
 
 
 
@@ -41,75 +41,28 @@ qx.Class.define("toolbox.ProgressLoader",
   construct : function()
   {
     this.base(arguments);
-    this.__createLoader();
-  },
-
-
-
-
-  /*
-          *****************************************************************************
-             MEMBERS
-          *****************************************************************************
-        */
-
-  members :
-  {
-    /**
-     * TODOC
-     *
-     * @param icon {var} TODOC
-     * @return {void} 
-     */
-    __createLoader : function(icon)
-    {
-      this.__loader = new qx.ui.window.Window("Loading").set(
-      {
-        // this.__loader = new qx.ui.popup.Popup(new qx.ui.layout.Canvas()).set({
-        backgroundColor : "white",
+    this.set({
         padding         : [ 4, 4, 4, 4 ],
         allowMaximize   : false,
         allowMinimize   : false,
         showMinimize    : false,
         showMaximize    : false,
+        showClose       : false,
         resizable       : false
-      });
+     });
 
       
-      this.__loader.setLayout(new qx.ui.layout.Canvas());
-
       this.__root = qx.core.Init.getApplication().getRoot();
-      this.__root.setZIndex(99);
-      this.__root.block();
       this.__root.setBlockerColor("white");
       this.__root.setBlockerOpacity(0.5);
+     
+      this.setLayout(new qx.ui.layout.Canvas());
 
-      this.__loader.add(new qx.ui.basic.Atom("Loading", "toolbox/image/progressLoader.gif"));
-      this.__loader.moveTo(400, 300);
-
-      this.__loader.setZIndex(100);
-
-      this.__loader.show();
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @return {void} 
-     */
-    unblock : function() {
-      this.__root.unblock();
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @return {void} 
-     */
-    hideLoader : function() {
-      this.__loader.hide();
-    }
+      this.add(new qx.ui.basic.Atom(null, "toolbox/image/progressLoader.gif"));
+      this.moveTo(400, 300);
+      this.show();
+      this.setModal(true);
   }
+
+
 });
