@@ -68,8 +68,6 @@ qx.Class.define("toolbox.Configuration",
      */
     __showConfiguration : function(adminPath, fileName, filePath, logFrame)
     {
-    	fileName = "app1";
-    	filePath = "C:\\tmp\\";
       if (fileName != "" & filePath != "")
       {
         var url = adminPath;
@@ -118,7 +116,7 @@ qx.Class.define("toolbox.Configuration",
 
           var tabButtonContainer = new qx.ui.container.Composite(new qx.ui.layout.HBox(5, "right"));
 
-          this.win = new qx.ui.window.Window("Configuration");
+          this.win = new qx.ui.window.Window("Configuration of " + fileName);
           this.win.setModal(true);
           this.win.setLayout(vBoxLayout);
           this.win.setMinWidth(380);
@@ -153,7 +151,7 @@ qx.Class.define("toolbox.Configuration",
           var page2Name = "Professional view";
 
           var tabApplyButton = new qx.ui.form.Button("Apply changes", "toolbox/image/dialog-ok.png");
-          var tabRestoreButton = new qx.ui.form.Button("Restore Defaults", "toolbox/image/edit-redo.png");
+          var tabRestoreButton = new qx.ui.form.Button("Restore defaults", "toolbox/image/edit-redo.png");
 
           this.isApplied = false;
 
@@ -169,7 +167,7 @@ qx.Class.define("toolbox.Configuration",
           tabRestoreButton.addListener("execute", function()
           {
             if (typeof restoreResult != "object") {
-              restoreResult = qx.util.Json.parse(restoreResult);
+              restoreResult = qx.util.Json.parseQx(restoreResult);
             }
 
             this.configFrame.setValue(qx.util.Json.stringify(restoreResult, true));
