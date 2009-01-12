@@ -41,6 +41,8 @@ __all__       = ['pofile', 'POFile', 'POEntry', 'mofile', 'MOFile', 'MOEntry',
 import struct
 import textwrap
 import warnings
+import codecs
+import string
 
 default_encoding = 'utf-8'
 
@@ -50,10 +52,10 @@ default_encoding = 'utf-8'
 _dictget    = dict.get
 _listappend = list.append
 _listpop    = list.pop
-_strjoin    = str.join
-_strsplit   = str.split
-_strstrip   = str.strip
-_strreplace = str.replace
+_strjoin    = string.join
+_strsplit   = string.split
+_strstrip   = string.strip
+_strreplace = string.replace
 _textwrap   = textwrap.wrap
 
 # }}}
@@ -100,7 +102,7 @@ def pofile(fpath, **kwargs):
         enc = detect_encoding(fpath)
     else:
         enc = _dictget(kwargs, 'encoding', default_encoding)
-    parser = _POFileParser(fpath)
+    parser = _POFileParser(fpath, enc)
     instance = parser.parse()
     instance.wrapwidth = _dictget(kwargs, 'wrapwidth', 78)
     instance.encoding  = enc
@@ -268,7 +270,7 @@ class _BaseFile(list):
             _listappend(ret, entry.__str__(self.wrapwidth))
         for entry in self.obsolete_entries():
             _listappend(ret, entry.__str__(self.wrapwidth))
-        return _strjoin('\n', ret)
+        return _strjoin(ret, '\n')
 
     def __repr__(self):
         """Return the official string representation of the object."""
@@ -282,10 +284,10 @@ class _BaseFile(list):
             strs = []
             for name, value in mdata:
                 # Strip whitespace off each line in a multi-line entry
-                value = _strjoin('\n', [_strstrip(v)
-                                        for v in _strsplit(value, '\n')])
+                value = _strjoin([_strstrip(v)
+                                        for v in _strsplit(value, '\n')], '\n')
                 _listappend(strs, '%s: %s' % (name, value))
-            e.msgstr = _strjoin('\n', strs) + '\n'
+            e.msgstr = _strjoin(strs, '\n') + '\n'
         return e
 
     def save(self, fpath=None, repr_method='__str__'):
@@ -307,7 +309,7 @@ class _BaseFile(list):
         mode = 'w'
         if repr_method == 'to_binary':
             mode += 'b'
-        fhandle = open(fpath, mode)
+        fhandle = codecs.open(fpath, mode, self.encoding)
         fhandle.write(contents)
         fhandle.close()
 
@@ -333,10 +335,10 @@ class _BaseFile(list):
         >>> entry.msgid
         'Thursday'
         """
-        try:
-            return [e for e in self if getattr(e, by) == st][0]
-        except IndexError:
-            return None
+        for e in self:
+            if getattr(e, by) == st:
+                return e
+        return None
 
     def ordered_metadata(self):
         """
@@ -759,7 +761,7 @@ class _BaseEntry(object):
             # otherwise write the msgstr
             ret += self._str_field("msgstr", delflag, "", self.msgstr)
         _listappend(ret, '')
-        return _strjoin('\n', ret)
+        return _strjoin(ret, '\n')
 
     def _str_field(self, fieldname, delflag, plural_index, field):
         field = self._decode(field)
@@ -777,6 +779,9 @@ class _BaseEntry(object):
         return ret
 
     def _decode(self, st):
+        return st
+
+    def __decode(self, st):
         try:
             if isinstance(st, unicode):
                 st = st.encode(self.encoding)
@@ -863,7 +868,7 @@ class POEntry(_BaseEntry):
             filelist = []
             for fpath, lineno in self.occurrences:
                 _listappend(filelist, '%s:%s' % (self._decode(fpath), lineno))
-            filestr = _strjoin(' ', filelist)
+            filestr = _strjoin(filelist, ' ')
             if wrapwidth > 0 and len(filestr)+3 > wrapwidth:
                 # XXX textwrap split words that contain hyphen, this is not 
                 # what we want for filenames, so the dirty hack is to 
@@ -884,9 +889,9 @@ class POEntry(_BaseEntry):
             flags = []
             for flag in self.flags:
                 _listappend(flags, flag)
-            _listappend(ret, '#, %s' % _strjoin(', ', flags))
+            _listappend(ret, '#, %s' % _strjoin(flags, ', '))
         _listappend(ret, _BaseEntry.__str__(self))
-        return _strjoin('\n', ret)
+        return _strjoin(ret, '\n')
 
     def __cmp__(self, other):
         '''
@@ -1015,14 +1020,14 @@ class _POFileParser(object):
     file format.
     """
 
-    def __init__(self, fpath):
+    def __init__(self, fpath, enc=default_encoding):
         """
         Constructor.
 
         **Keyword argument**:
           - *fpath*: string, path to the po file
         """
-        self.fhandle = open(fpath, 'r')
+        self.fhandle = codecs.open(fpath, 'rU', enc)
         self.instance = POFile(fpath=fpath)
         self.transitions = {}
         self.current_entry = POEntry()
