@@ -39,6 +39,11 @@ qx.Class.define("qx.ui.core.ScrollPane",
   {
     this.base(arguments);
 
+    this.set({
+      minWidth: 0,
+      minHeight: 0
+    });
+    
     // Automatically configure a "fixed" grow layout.
     this._setLayout(new qx.ui.layout.Grow());
 

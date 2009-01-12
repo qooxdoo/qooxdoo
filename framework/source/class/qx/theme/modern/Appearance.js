@@ -562,8 +562,17 @@ qx.Theme.define("qx.theme.modern.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "scrollarea" : "widget",
-
+    "scrollarea" : 
+    {
+      style : function(states)
+      {
+        return {
+          minWidth : 64,
+          minHeight : 64
+        };
+      }
+    },
+    
     "scrollarea/corner" :
     {
       style : function(states)
