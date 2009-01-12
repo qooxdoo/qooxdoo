@@ -241,7 +241,31 @@ qx.Class.define("qx.test.data.controller.List",
         var label = box.getChildren()[i].getLabel();
         this.assertEquals(this.__data[i], label, "ComboBox-Binding " + i + " is wrong!");
       }
-    }    
+    },
+    
+    
+    testSingleSelectionm: function() {
+      this.__setUpString();
+      
+      // select the first object
+      this.__list.addToSelection(this.__list.getChildren()[0]);
+      // test the selection
+      this.assertEquals(this.__model.getItem(0), this.__controller.getSelection().getItem(0), "Selection does not work.");
+    },
+    
+    
+    testMultipleSelection: function() {
+      this.__setUpString();
+      
+      // select the second and third object
+      this.__list.setSelectionMode("multi");
+      this.__list.addToSelection(this.__list.getChildren()[1]);
+      this.__list.addToSelection(this.__list.getChildren()[2]);
+
+      // test the selection
+      this.assertEquals(this.__model.getItem(1), this.__controller.getSelection().getItem(0), "Selection does not work.");      
+      this.assertEquals(this.__model.getItem(2), this.__controller.getSelection().getItem(1), "Selection does not work.");      
+    }
     
   }
 });
