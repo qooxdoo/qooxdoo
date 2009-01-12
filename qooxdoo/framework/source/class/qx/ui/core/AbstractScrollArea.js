@@ -162,6 +162,7 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
 
         case "scrollbar-x":
           control = new qx.ui.core.ScrollBar("horizontal");
+          control.setMinWidth(0);
 
           control.exclude();
           control.addListener("scroll", this._onScrollBarX, this);
@@ -173,6 +174,7 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
 
         case "scrollbar-y":
           control = new qx.ui.core.ScrollBar("vertical");
+          control.setMinHeight(0);
 
           control.exclude();
           control.addListener("scroll", this._onScrollBarY, this);
