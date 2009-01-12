@@ -1,0 +1,43 @@
+# 
+msgid ""
+msgstr ""
+
+#: demobrowser/DemoBrowser.js:259
+msgid "Run"
+msgstr ""
+
+#: demobrowser/DemoBrowser.js:266
+msgid "Stop"
+msgstr ""
+
+#: demobrowser/DemoBrowser.js:273
+msgid "Previous"
+msgstr ""
+
+#: demobrowser/DemoBrowser.js:280
+msgid "Next"
+msgstr ""
+
+#: demobrowser/DemoBrowser.js:287
+msgid "Own Window"
+msgstr ""
+
+#: demobrowser/DemoBrowser.js:316
+msgid "Theme"
+msgstr ""
+
+#: demobrowser/DemoBrowser.js:328
+msgid "Object Summary"
+msgstr ""
+
+#: demobrowser/DemoBrowser.js:332
+msgid "Global Namespace Pollution"
+msgstr ""
+
+#: demobrowser/DemoBrowser.js:336
+msgid "Dispose Demo"
+msgstr ""
+
+#: demobrowser/DemoBrowser.js:340
+msgid "Debug"
+msgstr ""
