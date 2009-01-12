@@ -24,11 +24,11 @@ qx.Class.define("qx.data.controller.List",
   construct : function(model, target)
   {
     this.base(arguments);
+    this.setSelection(new qx.data.Array());
     this.__bindings = {};
 
-
     this.setModel(model);
-    this.setTarget(target);    
+    this.setTarget(target);
   },
   
   properties : 
@@ -44,6 +44,12 @@ qx.Class.define("qx.data.controller.List",
     {
       apply: "_applyTarget",
       event: "changeTarget"
+    },
+    
+    selection : 
+    {
+      check: "qx.data.Array",
+      event: "changeSelection"
     }
   },  
 
@@ -77,8 +83,36 @@ qx.Class.define("qx.data.controller.List",
       for (var i = 0; i < this.getModel().length; i++) {
         this.__addItem(i);
       }
+      
+      // remove the old selection listener
+      if (this.__selectionListenerId != undefined && old != undefined) {
+        old.removeListenerById(this.__selectionListenerId);
+      }
+      // add a new selection listener
+      this.__selectionListenerId = value.addListener(
+        "changeSelection", this.__changeTargetSelection, this
+      );
     },    
         
+    
+    __changeTargetSelection: function(e) {
+      // TODO may be optimized (dont create an new array on every change)
+      var modelSelection = new qx.data.Array();
+      var selection = this.getTarget().getSelection();
+      
+      // go threw the model
+      for (var i = 0; i < this.getModel().length; i++) {
+        var item = this.getModel().getItem(i);
+        for (var j = 0; j < selection.length; j++) {
+          if (item == selection[j].getLabel()) {
+            modelSelection.push(item);
+            break;
+          }
+        }
+      }
+      this.setSelection(modelSelection);
+    },
+    
         
     __changeModelLength: function() {
       // get the length
