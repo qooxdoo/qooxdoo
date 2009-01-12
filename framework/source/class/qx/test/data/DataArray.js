@@ -285,6 +285,11 @@ qx.Class.define("qx.test.data.DataArray",
       this.assertEventFired(a, "changeLength", function () {
         a.pop();
       }, null, "ChangeLength event not fired!");      
+    },
+    
+    
+    testToString: function() {
+      this.assertEquals(this.__a.getArray().toString(), this.__a.toString(), "toString does not work!");
     }
 
   }
