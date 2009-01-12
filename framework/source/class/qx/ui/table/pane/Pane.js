@@ -660,7 +660,8 @@ qx.Class.define("qx.ui.table.pane.Pane",
       if (firstRow + rowCount > modelRowCount) {
         rowCount = Math.max(0, modelRowCount - firstRow);
       }
-      
+
+      var rowWidth = paneModel.getTotalWidth();
       var htmlArr;
 
       // If there are any rows...
@@ -691,6 +692,8 @@ qx.Class.define("qx.ui.table.pane.Pane",
 
       //this.debug(">>>" + data + "<<<")
       elem.innerHTML = data;
+
+      this.setWidth(rowWidth);
 
       this.__lastColCount = colCount;
       this.__lastRowCount = rowCount;
