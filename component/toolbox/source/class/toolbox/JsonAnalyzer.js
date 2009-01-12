@@ -537,7 +537,7 @@ qx.Class.define("toolbox.JsonAnalyzer",
       this.btnRemove.addListener("execute", this.__removeChild, this);
       container.add(this.btnRemove);
 
-      this.btnEdit = new qx.ui.form.Button("Edit child", "toolbox/image/edit.png");
+      this.btnEdit = new qx.ui.form.Button("Save changes", "toolbox/image/edit.png");
       this.btnEdit.addListener("execute", this.__editChild, this);
       container.add(this.btnEdit);
 
