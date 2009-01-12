@@ -149,6 +149,18 @@ qx.Class.define("qx.ui.table.pane.Pane",
       this.updateContent(true);
     },
 
+    
+    // overridden
+    _getContentHint : function()
+    {
+      // the preferred height is 400 pixel. We don't use rowCount * rowHeight
+      // because this is typically too large.
+      return {
+        width: this.getPaneScroller().getTablePaneModel().getTotalWidth(),
+        height: 400
+      }   
+    },
+    
 
     /**
      * Returns the TablePaneScroller this pane belongs to.
@@ -662,8 +674,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
       if (firstRow + rowCount > modelRowCount) {
         rowCount = Math.max(0, modelRowCount - firstRow);
       }
-
-      var rowWidth = paneModel.getTotalWidth();
+      
       var htmlArr;
 
       // If there are any rows...
@@ -694,9 +705,6 @@ qx.Class.define("qx.ui.table.pane.Pane",
 
       //this.debug(">>>" + data + "<<<")
       elem.innerHTML = data;
-
-      this.setHeight(rowCount * rowHeight);
-      this.setWidth(rowWidth);
 
       this.__lastColCount = colCount;
       this.__lastRowCount = rowCount;
