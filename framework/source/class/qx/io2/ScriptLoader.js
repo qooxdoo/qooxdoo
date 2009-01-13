@@ -87,12 +87,21 @@ qx.Bootstrap.define("qx.io2.ScriptLoader",
 
   members :
   {
-
+    /** {Boolean} Whether the request is running */
     __running : null,
+    
+    /** {Function} Callback method to execute */
     __callback : null,
+    
+    /** {Object} Context to execute the callback in */
     __context : null,
+    
+    /** {Function} This function is a wrapper for the DOM listener */
     __oneventWrapped : null,
+    
+    /** {Element} Stores the DOM element of the script tag */
     __elem : null,
+
 
     /**
      * Loads the script from the given URL. It is possible to define
