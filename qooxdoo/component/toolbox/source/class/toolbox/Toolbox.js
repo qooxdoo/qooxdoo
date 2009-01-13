@@ -1031,12 +1031,12 @@ qx.Class.define("toolbox.Toolbox",
 
       
       var buttonContainer = new qx.ui.container.Composite(buttonLayoutContainer);
-      var clearButton = new qx.ui.form.Button("clear log");
+      var clearButton = new qx.ui.form.Button("Clear log");
       clearButton.addListener("execute", function(){
         this.__logFrame.setHtml("");
       }, this);
       
-      buttonContainer.setPadding(4,4,4,4);
+      buttonContainer.setPadding(4, 4, 4, 4);
       buttonContainer.add(clearButton);
       
       var container = new qx.ui.container.Composite(layout);
