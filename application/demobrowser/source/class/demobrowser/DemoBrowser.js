@@ -978,9 +978,9 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     __beautySource : function (src, type)
     {
-      var bsrc = "<pre class='script'>";
+      var bsrc = new qx.util.StringBuilder("<pre class='script'>");
       var lines = [];
-      var currBlock = ""
+      var currBlock = new qx.util.StringBuilder();
       var PScriptStart = /^\s*<script\b[^>]*?(?!\bsrc\s*=)[^>]*?>\s*$/i;
       var PScriptEnd = /^\s*<\/script>\s*$/i;
 
@@ -1000,27 +1000,28 @@ qx.Class.define("demobrowser.DemoBrowser",
           if (PScriptStart.exec(lines[i])) // start of inline script
           {
             // add this line to 'normal' code
-            bsrc += this.__beautyHtml(qx.bom.String.escape(currBlock + lines[i]));
-            currBlock = "";  // start new block
+            bsrc.add(this.__beautyHtml(qx.bom.String.escape(currBlock.get() + lines[i])));
+            currBlock.clear();  // start new block
           }
           else if (PScriptEnd.exec(lines[i])) // end of inline script
           {
             // pass script block to tokenizer
-            var s1 = qx.dev.Tokenizer.javaScriptToHtml(currBlock);
-            bsrc += '<div class="script">'+s1+'</div>';
-            currBlock = lines[i]+'\n';  // start new block
+            var s1 = qx.dev.Tokenizer.javaScriptToHtml(currBlock.get());
+            bsrc.add('<div class="script">', s1, '</div>');
+            currBlock.clear(); // start new block
+            currBlock.add(lines[i], '\n');  
           }
           else // no border line
           {
-            currBlock += lines[i]+'\n';
+            currBlock.add(lines[i], '\n');
           }
       }
 
 
       // collect rest of page
-      bsrc += this.__beautyHtml(qx.bom.String.escape(currBlock)) + "</pre>";
+      bsrc.add(this.__beautyHtml(qx.bom.String.escape(currBlock.get())), "</pre>");
 
-      return bsrc;
+      return bsrc.get();
     },
 
 
@@ -1032,7 +1033,8 @@ qx.Class.define("demobrowser.DemoBrowser",
       // for later extensions (cf. Flanagan(5th), 703)
       function matchfunc (vargs)
       {
-        var s = arguments[1]+'<span class="html-tag-name">'+arguments[2]+'</span>';
+        var s = new qx.util.StringBuilder(arguments[1], 
+          '<span class="html-tag-name">', arguments[2], '</span>');
         var curr;
         var endT = false;
 
@@ -1052,16 +1054,16 @@ qx.Class.define("demobrowser.DemoBrowser",
               var r;
 
               while ((r = m.exec(curr)) != null) {
-                s += ' <span class="keyword">'+r[1]+'</span>=<span class="string">'+
-                      r[2].replace(/\s*$/,"")+'</span>';
+                s.add(' <span class="keyword">', r[1],
+                  '</span>=<span class="string">', r[2].replace(/\s*$/,""), '</span>');
               }
             }
           }
-          s += (endT?"/":"");
+          s.add((endT?"/":""));
         }
-        s += '&gt;';
+        s.add('&gt;');
 
-        return s;
+        return s.get();
 
       } //matchfunc()
 
