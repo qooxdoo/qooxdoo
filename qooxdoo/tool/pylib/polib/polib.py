@@ -105,7 +105,6 @@ def pofile(fpath, **kwargs):
     parser = _POFileParser(fpath, enc)
     instance = parser.parse()
     instance.wrapwidth = _dictget(kwargs, 'wrapwidth', 78)
-    instance.encoding  = enc
     return instance
 
 # }}}
@@ -150,10 +149,9 @@ def mofile(fpath, **kwargs):
         enc = detect_encoding(fpath)
     else:
         enc = _dictget(kwargs, 'encoding', default_encoding)
-    parser = _MOFileParser(fpath)
+    parser = _MOFileParser(fpath, enc)
     instance = parser.parse()
     instance.wrapwidth = _dictget(kwargs, 'wrapwidth', 78)
-    instance.encoding = enc
     return instance
 
 # }}}
@@ -306,10 +304,10 @@ class _BaseFile(list):
         contents = getattr(self, repr_method)()
         if fpath is None:
             fpath = self.fpath
-        mode = 'w'
         if repr_method == 'to_binary':
-            mode += 'b'
-        fhandle = codecs.open(fpath, mode, self.encoding)
+            fhandle = open(fpath, 'wb')
+        else:
+            fhandle = codecs.open(fpath, 'w', self.encoding)
         fhandle.write(contents)
         fhandle.close()
 
@@ -326,14 +324,14 @@ class _BaseFile(list):
 
         >>> po = pofile('tests/test_utf8.po')
         >>> entry = po.find('Thursday')
-        >>> entry.msgstr
-        'Jueves'
+        >>> print entry.msgstr
+        Jueves
         >>> entry = po.find('Some unexistant msgid')
         >>> entry is None
         True
         >>> entry = po.find('Jueves', 'msgstr')
-        >>> entry.msgid
-        'Thursday'
+        >>> print entry.msgid
+        Thursday
         """
         for e in self:
             if getattr(e, by) == st:
@@ -654,12 +652,12 @@ class MOFile(_BaseFile):
     <BLANKLINE>
     '''
 
-    def __init__(self, fpath=None, wrapwidth=78):
+    def __init__(self, *args, **kwargs):
         """
         MOFile constructor.
         See _BaseFile.__construct.
         """
-        _BaseFile.__init__(self, fpath, wrapwidth)
+        _BaseFile.__init__(self, *args, **kwargs)
         self.magic_number = None
         self.version = 0
 
@@ -1027,8 +1025,12 @@ class _POFileParser(object):
         **Keyword argument**:
           - *fpath*: string, path to the po file
         """
-        self.fhandle = codecs.open(fpath, 'rU', enc)
-        self.instance = POFile(fpath=fpath)
+        try:
+            self.fhandle = codecs.open(fpath, 'rU', enc)
+        except LookupError:
+            enc = default_encoding
+            self.fhandle = codecs.open(fpath, 'rU', enc)
+        self.instance = POFile(fpath=fpath, encoding=enc)
         self.transitions = {}
         self.current_entry = POEntry()
         self.current_state = 'ST'
@@ -1262,10 +1264,10 @@ class _MOFileParser(object):
     BIG_ENDIAN    = 0xde120495
     LITTLE_ENDIAN = 0x950412de
 
-    def __init__(self, fpath):
+    def __init__(self, fpath, enc=default_encoding):
         """_MOFileParser constructor."""
         self.fhandle = open(fpath, 'rb')
-        self.instance = MOFile(fpath)
+        self.instance = MOFile(fpath=fpath, encoding=enc)
 
     def parse_magicnumber(self):
         """
