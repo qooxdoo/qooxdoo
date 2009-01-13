@@ -79,6 +79,9 @@ qx.Class.define("demobrowser.demo.bom.Selector",
         result = Selector.query(list[i]);
         qx.log.Logger.debug("Selected " + result.length + " elems with \"" + list[i] + "\"");
       }
+      
+      // Use ElementCollection API
+      qx.bom.Selector.query("div + p").setStyle("color", "red");
     }
   }
 });
