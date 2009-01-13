@@ -374,6 +374,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
         columns.push(colData[visibleColumns[i]]);
       }
       this.__layoutChildren = columns;
+      this.__layout.invalidateChildrenCache();
 
       // Use a horizontal box layout to determine the available width.
       var width = this._getAvailableWidth(tableColumnModel);
