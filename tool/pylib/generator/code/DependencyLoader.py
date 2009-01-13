@@ -274,7 +274,7 @@ class DependencyLoader:
             assembled = (treeutil.assembleVariable(node))[0]
 
             # treat dependencies in defer as requires
-            if assembled == "qx.Class.define" or assembled == "qx.Bootstrap.define":
+            if assembled == "qx.Class.define" or assembled == "qx.Bootstrap.define" or assembled == "qx.List.define":
                 if node.parent.type == "operand" and node.parent.parent.type == "call":
                     deferNode = treeutil.selectNode(node, "../../params/2/keyvalue[@key='defer']/value/function/body/block")
                     if deferNode != None:
