@@ -339,7 +339,7 @@ qx.Class.define("toolbox.Toolbox",
     {
       var gridLayout = new qx.ui.layout.Grid(5, 5);
       gridLayout.setColumnFlex(2, 1);
-      gridLayout.setRowAlign(7, "right", "middle");
+      gridLayout.setRowAlign(8, "right", "middle");
 
       this.__container = new qx.ui.container.Composite(new qx.ui.layout.HBox(5)).set({ allowGrowX : false });
 
@@ -538,9 +538,18 @@ qx.Class.define("toolbox.Toolbox",
         colSpan : 1
       });
 
-      box.add(this.__container,
+      box.add(new qx.ui.core.Spacer(50,10),
       {
         row     : 7,
+        column  : 1,
+        rowSpan : 0,
+        colSpan : 1
+      });
+
+      
+      box.add(this.__container,
+      {
+        row     : 8,
         column  : 1,
         rowSpan : 0,
         colSpan : 4
@@ -566,8 +575,9 @@ qx.Class.define("toolbox.Toolbox",
       },
       this);
 
-      this.__createApplicationWindow.setWidth(300);
-      this.__createApplicationWindow.setMaxHeight(245);
+      //this.__createApplicationWindow.setWidth(300);
+      this.__createApplicationWindow.setMinHeight(270);
+      this.__createApplicationWindow.setMaxHeight(270);
       this.__createApplicationWindow.moveTo(100, 100);
       this.__createApplicationWindow.open();
 
