@@ -19,14 +19,14 @@
 
    This class contains code based on the following work:
 
-   * Sizzle v0.9
+   * Sizzle v0.9.1
      http://groups.google.com/group/sizzlejs
      http://github.com/jeresig/sizzle/tree
      
-     Snapshot from January 7th, 2009
-       commit  88edec547d5f5e0979c86a0ab5e872adcb0f2a7a
-       tree    7910e508a9a86eb2a589b5d9f714358cbe648977
-       parent  6c75b4ded5370088fee0250f51bbecb09ae93d49      
+     Snapshot from January 12, 2009
+      commit  798f067b2f48bfda34dca9d0a324acb6800175f2
+      tree    c25426fa1d0e7d009884bf1b0167c2cd7ff234dd
+      parent  2d1772fca51bb8d2ccd176ded7754a497176b738     
      
      Copyright:
        (c) 2008-2009, John Resig
@@ -37,7 +37,7 @@
 ************************************************************************ */
 
 /**
- * qooxdoo DOM selector engine 
+ * DOM query engine 
  *
  * * CSS 3 Selector support
  * * Full Unicode support
@@ -93,12 +93,11 @@ qx.Bootstrap.define("qx.bom.Selector",
  */
 (function(){
 
-var chunker = /((?:\((?:\([^()]+\)|[^()]+)+\)|\[(?:\[[^[\]]*\]|[^[\]]+)+\]|\\.|[^ >+~,(\[]+)+|[>+~])(\s*,\s*)?/g;
-
-var done = 0;
+var chunker = /((?:\((?:\([^()]+\)|[^()]+)+\)|\[(?:\[[^[\]]*\]|[^[\]]+)+\]|\\.|[^ >+~,(\[]+)+|[>+~])(\s*,\s*)?/g,
+	done = 0,
+	toString = Object.prototype.toString;
 
 var Sizzle = function(selector, context, results, seed) {
-	var doCache = !results;
 	results = results || [];
 	context = context || document;
 
@@ -178,7 +177,7 @@ var Sizzle = function(selector, context, results, seed) {
 				pop = context;
 			}
 
-			Expr.relative[ cur ]( checkSet, pop );
+			Expr.relative[ cur ]( checkSet, pop, isXML(context) );
 		}
 	}
 
@@ -190,7 +189,7 @@ var Sizzle = function(selector, context, results, seed) {
 		throw "Syntax error, unrecognized expression: " + (cur || selector);
 	}
 
-	if ( checkSet instanceof Array ) {
+	if ( toString.call(checkSet) === "[object Array]" ) {
 		if ( !prune ) {
 			results.push.apply( results, checkSet );
 		} else if ( context.nodeType === 1 ) {
@@ -270,6 +269,8 @@ Sizzle.filter = function(expr, set, inplace, not){
 
 					if ( !match ) {
 						anyFound = found = true;
+					} else if ( match === true ) {
+						continue;
 					} else if ( match[0] === true ) {
 						goodArray = [];
 						var last = null, elem;
@@ -342,17 +343,18 @@ Sizzle.filter = function(expr, set, inplace, not){
 var Expr = Sizzle.selectors = {
 	order: [ "ID", "NAME", "TAG" ],
 	match: {
-		ID: /#((?:[\w\u0128-\uFFFF_-]|\\.)+)/,
-		CLASS: /\.((?:[\w\u0128-\uFFFF_-]|\\.)+)/,
-		NAME: /\[name=['"]*((?:[\w\u0128-\uFFFF_-]|\\.)+)['"]*\]/,
-		ATTR: /\[((?:[\w\u0128-\uFFFF_-]|\\.)+)\s*(?:(\S?=)\s*(['"]*)(.*?)\3|)\]/,
-		TAG: /^((?:[\w\u0128-\uFFFF\*_-]|\\.)+)/,
-		CHILD: /:(only|nth|last|first)-child\(?(even|odd|[\dn+-]*)\)?/,
-		POS: /:(nth|eq|gt|lt|first|last|even|odd)\(?(\d*)\)?(?:[^-]|$)/,
-		PSEUDO: /:((?:[\w\u0128-\uFFFF_-]|\\.)+)(?:\((['"]*)((?:\([^\)]+\)|[^\2\(\)]*)+)\2\))?/
+		ID: /#((?:[\w\u00c0-\uFFFF_-]|\\.)+)/,
+		CLASS: /\.((?:[\w\u00c0-\uFFFF_-]|\\.)+)/,
+		NAME: /\[name=['"]*((?:[\w\u00c0-\uFFFF_-]|\\.)+)['"]*\]/,
+		ATTR: /\[((?:[\w\u00c0-\uFFFF_-]|\\.)+)\s*(?:(\S?=)\s*(['"]*)(.*?)\3|)\]/,
+		TAG: /^((?:[\w\u00c0-\uFFFF\*_-]|\\.)+)/,
+		CHILD: /:(only|nth|last|first)-child(?:\((even|odd|[\dn+-]*)\))?/,
+		POS: /:(nth|eq|gt|lt|first|last|even|odd)(?:\((\d*)\))?(?=[^-]|$)/,
+		PSEUDO: /:((?:[\w\u00c0-\uFFFF_-]|\\.)+)(?:\((['"]*)((?:\([^\)]+\)|[^\2\(\)]*)+)\2\))?/
 	},
 	attrMap: {
-		"class": "className"
+		"class": "className",
+		"for": "htmlFor"
 	},
 	relative: {
 		"+": function(checkSet, part){
@@ -373,9 +375,9 @@ var Expr = Sizzle.selectors = {
 				Sizzle.filter( part, checkSet, true );
 			}
 		},
-		">": function(checkSet, part){
+		">": function(checkSet, part, isXML){
 			if ( typeof part === "string" && !/\W/.test(part) ) {
-				part = part.toUpperCase();
+				part = isXML ? part : part.toUpperCase();
 
 				for ( var i = 0, l = checkSet.length; i < l; i++ ) {
 					var elem = checkSet[i];
@@ -399,21 +401,21 @@ var Expr = Sizzle.selectors = {
 				}
 			}
 		},
-		"": function(checkSet, part){
+		"": function(checkSet, part, isXML){
 			var doneName = "done" + (done++), checkFn = dirCheck;
 
 			if ( !part.match(/\W/) ) {
-				var nodeCheck = part = part.toUpperCase();
+				var nodeCheck = part = isXML ? part : part.toUpperCase();
 				checkFn = dirNodeCheck;
 			}
 
 			checkFn("parentNode", part, doneName, checkSet, nodeCheck);
 		},
-		"~": function(checkSet, part){
+		"~": function(checkSet, part, isXML){
 			var doneName = "done" + (done++), checkFn = dirCheck;
 
 			if ( typeof part === "string" && !part.match(/\W/) ) {
-				var nodeCheck = part = part.toUpperCase();
+				var nodeCheck = part = isXML ? part : part.toUpperCase();
 				checkFn = dirNodeCheck;
 			}
 
@@ -450,10 +452,11 @@ var Expr = Sizzle.selectors = {
 			return false;
 		},
 		ID: function(match){
-			return match[1];
+			return match[1].replace(/\\/g, "");
 		},
-		TAG: function(match){
-			return match[1].toUpperCase();
+		TAG: function(match, curLoop){
+			for ( var i = 0; !curLoop[i]; i++ ){}
+			return isXML(curLoop[i]) ? match[1] : match[1].toUpperCase();
 		},
 		CHILD: function(match){
 			if ( match[1] == "nth" ) {
@@ -497,6 +500,8 @@ var Expr = Sizzle.selectors = {
 					}
 					return false;
 				}
+			} else if ( Expr.match.POS.test( match[0] ) ) {
+				return true;
 			}
 			
 			return match;
@@ -595,9 +600,9 @@ var Expr = Sizzle.selectors = {
 		CHILD: function(elem, match){
 			var type = match[1], parent = elem.parentNode;
 
-			var doneName = match[0];
+			var doneName = "child" + parent.childNodes.length;
 			
-			if ( parent && !parent[ doneName ] ) {
+			if ( parent && (!parent[ doneName ] || !elem.nodeIndex) ) {
 				var count = 1;
 
 				for ( var node = parent.firstChild; node; node = node.nextSibling ) {
@@ -718,7 +723,7 @@ try {
 	makeArray = function(array, results) {
 		var ret = results || [];
 
-		if ( array instanceof Array ) {
+		if ( toString.call(array) === "[object Array]" ) {
 			Array.prototype.push.apply( ret, array );
 		} else {
 			if ( typeof array.length === "number" ) {
@@ -805,7 +810,7 @@ if ( document.querySelectorAll ) (function(){
 
 		if ( !seed && context.nodeType === 9 ) {
 			try {
-				return makeArray( context.querySelectorAll(query) );
+				return makeArray( context.querySelectorAll(query), extra );
 			} catch(e){}
 		}
 		
@@ -895,6 +900,11 @@ var contains = document.compareDocumentPosition ?  function(a, b){
 	return a.compareDocumentPosition(b) & 16;
 } : function(a, b){
 	return a !== b && (a.contains ? a.contains(b) : true);
+};
+
+var isXML = function(elem){
+	return elem.documentElement && !elem.body ||
+		elem.tagName && elem.ownerDocument && !elem.ownerDocument.body;
 };
 
 // EXPOSE
