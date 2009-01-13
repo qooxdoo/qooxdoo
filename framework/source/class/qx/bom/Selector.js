@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2008 Sebastian Werner, http://sebastian-werner.net
+     2008-2009 Sebastian Werner, http://sebastian-werner.net
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -64,12 +64,18 @@ qx.Bootstrap.define("qx.bom.Selector",
      * Queries the document for the given selector. Supports all CSS3 selector plus some extensions
      * like mentioned in the class header.
      *
-     * @signature function(selector, context)
      * @param selector {String} Valid selector (CSS3 + extensions)
      * @param context {Element} Context element (result elements must be children of this element)
-     * @return {Array} List of matching elements
+     * @return {qx.bom.ElementCollection} List of matching elements
      */
-    query : null,     
+    query : function(selector, context) 
+    {
+      var coll = new qx.bom.ElementCollection();
+      coll.push.apply(coll, this.__query(selector, context));
+      
+      return coll;
+    },
+    
     
     /**
      * Filters the given set of elements with the given selector. Only matching elements
@@ -914,7 +920,7 @@ var isXML = function(elem){
 // EXPOSE qooxdoo variant
 
 var Selector = qx.bom.Selector;
-Selector.query = Sizzle;
+Selector.__query = Sizzle;
 Selector.filter = Sizzle.filter;
 
 })();
