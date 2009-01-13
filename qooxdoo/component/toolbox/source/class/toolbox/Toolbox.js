@@ -1026,22 +1026,36 @@ qx.Class.define("toolbox.Toolbox",
     __makeLogPane : function() {
       var layout = new qx.ui.layout.VBox();
       layout.setSeparator("separator-vertical");
+      var buttonLayoutContainer = new qx.ui.layout.HBox(null, "right", null);
+      buttonLayoutContainer.set
 
-      var container = new qx.ui.container.Composite(layout).set({});
+      
+      var buttonContainer = new qx.ui.container.Composite(buttonLayoutContainer);
+      var clearButton = new qx.ui.form.Button("clear log");
+      clearButton.addListener("execute", function(){
+        this.__logFrame.setHtml("");
+      }, this);
+      
+      buttonContainer.setPadding(4,4,4,4);
+      buttonContainer.add(clearButton);
+      
+      var container = new qx.ui.container.Composite(layout);
 
       // caption of the log pane
       var caption = new qx.ui.basic.Label(this.tr("Log")).set(
       {
         font       : "bold",
+        rich       : true,
         decorator  : this._labelDeco,
         padding    : 5,
         allowGrowX : true,
         allowGrowY : true
       });
 
+      
       container.add(caption);
 
-      this.__logFrame = new qx.ui.embed.Html('');
+      this.__logFrame = new qx.ui.embed.Html("");
 
       this.__logFrame.set(
       {
@@ -1052,6 +1066,7 @@ qx.Class.define("toolbox.Toolbox",
       });
 
       container.add(this.__logFrame, { flex : 1 });
+      container.add(buttonContainer);
       return container;
     },
     
