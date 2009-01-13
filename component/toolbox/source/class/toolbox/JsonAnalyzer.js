@@ -800,8 +800,8 @@ qx.Class.define("toolbox.JsonAnalyzer",
       this.folderAbortButton = new qx.ui.form.Button("Abort", "toolbox/image/dialog-cancel.png");
       this.folderAbortButton.addListener("execute", this.__addChildWindowClose, this);
 
-      this.buttonContainer.add(this.folderAbortButton);
       this.buttonContainer.add(this.folderOkButton);
+      this.buttonContainer.add(this.folderAbortButton);
 
       this.keyLabel = new qx.ui.basic.Label("Key:");
       this.valueLabel = new qx.ui.basic.Label("Value:");

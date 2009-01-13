@@ -142,8 +142,8 @@ qx.Class.define("toolbox.Configuration",
           toolbox.Configuration.JSON = result = eval("(" + result + ")");
           var root = this.analyzer.createJsonTree(result);
 
-          container.add(closeButton);
           container.add(saveButton);
+          container.add(closeButton);
 
           tabView = new qx.ui.tabview.TabView();
 
