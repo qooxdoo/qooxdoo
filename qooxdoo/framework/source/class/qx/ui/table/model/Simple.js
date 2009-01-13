@@ -162,6 +162,24 @@ qx.Class.define("qx.ui.table.model.Simple",
 
       return map;
     },
+    
+    
+    /**
+     * Gets the whole data as array of maps.
+     *
+     * @note Individual items are get using getRowDataAsMap().
+     */
+    getDataAsMapArray: function() {
+      var len = this.getRowCount();
+      var data = [];
+
+      for (var i = 0; i < len; i++)
+      {
+        data.push(this.getRowDataAsMap(i));
+      }
+
+      return data;
+    },    
 
 
     /**
@@ -493,7 +511,66 @@ qx.Class.define("qx.ui.table.model.Simple",
       this.addRows(this._mapArray2RowArr(mapArr, rememberMaps), startIndex, clearSorting);
     },
 
+    
+    /**
+     * Sets rows in the model. The rows overwrite the old rows starting at
+     * <code>startIndex</code> to <code>startIndex+rowArr.length</code>.
+     *
+     * Warning: The given array will be altered!
+     *
+     * @param rowArr {var[][]} An array containing an array for each row. Each
+     *          row-array contains the values in that row in the order of the columns
+     *          in this model.
+     * @param startIndex {Integer ? null} The index where to insert the new rows. If null,
+     *          the rows are set from the beginning (0).
+     * @param clearSorting {Boolean ? true} Whether to clear the sort state.
+     * @return {void}
+     */
+    setRows : function(rowArr, startIndex, clearSorting)
+    {
+      if (startIndex == null) startIndex = 0; 
 
+      // Prepare the rowArr so it can be used for apply
+      rowArr.splice(0, 0, startIndex, rowArr.length);
+
+      // Replace rows
+      Array.prototype.splice.apply(this.__rowArr, rowArr);
+
+      // Inform the listeners
+      var data =
+      {
+        firstRow    : startIndex,
+        lastRow     : this.__rowArr.length - 1,
+        firstColumn : 0,
+        lastColumn  : this.getColumnCount() - 1
+      };
+      this.fireDataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
+
+      if (clearSorting !== false) {
+        this.clearSorting();
+      }
+    },   
+    
+    
+    /**
+     * Set rows in the model. The rows overwrite the old rows starting at
+     * <code>startIndex</code> to <code>startIndex+rowArr.length</code>.
+     *
+     * Warning: The given array (mapArr) will be altered!
+     *
+     * @param mapArr {Map[]} An array containing a map for each row. Each
+     *        row-map contains the column IDs as key and the cell values as value.
+     * @param startIndex {Integer ? null} The index where to insert the new rows. If null,
+     *        the rows are appended to the end.
+     * @param rememberMaps {Boolean ? false} Whether to remember the original maps.
+     *        If true {@link #getRowData} will return the original map.
+     * @param clearSorting {Boolean ? true} Whether to clear the sort state.
+     */
+    setRowsAsMapArray : function(mapArr, startIndex, rememberMaps, clearSorting) {
+      this.setRows(this._mapArray2RowArr(mapArr, rememberMaps), startIndex, clearSorting);
+    },    
+
+    
     /**
      * Removes some rows from the model.
      *
