@@ -290,6 +290,20 @@ qx.Class.define("qx.test.data.DataArray",
     
     testToString: function() {
       this.assertEquals(this.__a.getArray().toString(), this.__a.toString(), "toString does not work!");
+    },
+    
+    
+    testContains: function() {
+      this.assertTrue(this.__a.contains("one"), "contains does not work!");
+      this.assertTrue(this.__a.contains("two"), "contains does not work!");
+      this.assertTrue(this.__a.contains("three"), "contains does not work!");            
+    },
+    
+    
+    testIndexOf: function() {
+      this.assertEquals(0, this.__a.indexOf("one"), "indexOf does not work!");
+      this.assertEquals(1, this.__a.indexOf("two"), "indexOf does not work!");
+      this.assertEquals(2, this.__a.indexOf("three"), "indexOf does not work!");      
     }
 
   }
