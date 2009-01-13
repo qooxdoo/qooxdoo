@@ -2181,9 +2181,9 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       tablePaneModel.dispose();
     }
 
-    this._disposeFields("__lastMouseDownCell");
-    this._disposeObjects("__table", "__horScrollBar", "__verScrollBar",
+    this._disposeFields("__lastMouseDownCell", "__topRightWidget", "__table");
+    this._disposeObjects("__horScrollBar", "__verScrollBar",
                          "__headerClipper", "__paneClipper", "__focusIndicator",
-                         "__header", "__tablePane", "__top", "__topRightWidget");
+                         "__header", "__tablePane", "__top");
   }
 });
