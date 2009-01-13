@@ -289,6 +289,6 @@ qx.Class.define("qx.ui.table.pane.Model",
   */
 
   destruct : function() {
-    this._disposeObjects("__tableColumnModel");
+    this._disposeFields("__tableColumnModel");
   }
 });
