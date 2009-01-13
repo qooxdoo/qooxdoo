@@ -195,7 +195,7 @@ qx.Bootstrap.define("qx.List",
      * Reimplement toLocaleString method
      */
     __toLocaleString : function() {
-      return  this.slice(0).toLocaleString();
+      return this.slice(0).toLocaleString();
     },
     
 
