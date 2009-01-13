@@ -332,16 +332,16 @@ qx.Class.define("qx.data.Array",
         {start: index, end: index, type: "add"}, null
       );
     },
-
-
+    
+    
     /**
-     * Internal function wich updates the length property of the array.
-     * Every time the length will be updated, a {@link #changeLength} data 
-     * event will be fired.
+     * Returns the index of the item in the array. If the item is not in the
+     * array, -1 will be returned.
+     * 
+     * @return {number} The Index of the given item.
      */
-    __updateLength: function() {
-      this.length = this.__array.length;
-      this.fireEvent("changeLength", qx.event.type.Event);
+    indexOf: function(item) {
+      return this.__array.indexOf(item);
     },
     
     
@@ -351,6 +351,27 @@ qx.Class.define("qx.data.Array",
      */
     toString: function() {
       return this.__array.toString();
-    } 
+    },
+    
+    
+    /**
+     * Check if the given item is in the current array.
+     * 
+     * @return {boolean} true, if the array contains the given item.
+     */
+    contains: function(item) {
+      return this.__array.indexOf(item) !== -1;
+    },
+    
+    
+    /**
+     * Internal function wich updates the length property of the array.
+     * Every time the length will be updated, a {@link #changeLength} data 
+     * event will be fired.
+     */
+    __updateLength: function() {
+      this.length = this.__array.length;
+      this.fireEvent("changeLength", qx.event.type.Event);
+    }    
   }
 });
