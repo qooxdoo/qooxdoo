@@ -26,6 +26,8 @@ qx.Class.define("demobrowser.demo.bom.Selector",
     main: function()
     {
       this.base(arguments);
+      
+      var Logger = qx.log.Logger;
 
       // List by Slickspeed - Selector performance test
       var list = 
@@ -77,11 +79,18 @@ qx.Class.define("demobrowser.demo.bom.Selector",
       for (var i=0, l=list.length; i<l; i++) 
       {
         result = Selector.query(list[i]);
-        qx.log.Logger.debug("Selected " + result.length + " elems with \"" + list[i] + "\"");
+        Logger.debug("Selected " + result.length + " elems with \"" + list[i] + "\"");
       }
       
-      // Use ElementCollection API
+      // ************************************************************************
+      //   Use ElementCollection API
+      // ************************************************************************
+      
+      // Modify the color of some p elements
       qx.bom.Selector.query("div + p").setStyle("color", "red");
+      
+      // Print out body font size
+      Logger.debug("Font-Size: " + qx.bom.Selector.query("body").getStyle("fontSize"));
     }
   }
 });
