@@ -17,7 +17,7 @@
      
 ************************************************************************ */
 
-var setter = function(clazz, method)
+qx.$$setter = function(clazz, method)
 {
   return function(arg1, arg2, arg3, arg4, arg5, arg6)
   {
@@ -31,6 +31,18 @@ var setter = function(clazz, method)
     }
     
     return this;        
+  };
+}; 
+
+qx.$$getter = function(clazz, method)
+{
+  return function(arg1, arg2, arg3, arg4, arg5, arg6) 
+  {
+    if (this.length > 0) {
+      return clazz[method](this[0], arg1, arg2, arg3, arg4, arg5, arg6);
+    }
+    
+    return null;
   };
 }; 
      
@@ -47,7 +59,7 @@ qx.List.define("qx.bom.ElementCollection",
      * @param value {var} The value for the given style
      * @return {ElementCollection} The collection is returned for chaining proposes
      */
-     setStyle : setter(qx.bom.element.Style, "set"),     
+     setStyle : qx.$$setter(qx.bom.element.Style, "set"),     
      
     /**
      * Executes {@link qx.bom.element.Style.reset} to reset the given style property 
@@ -57,7 +69,17 @@ qx.List.define("qx.bom.ElementCollection",
      * @param name {String} Name of the style attribute (js variant e.g. marginTop, wordSpacing)
      * @return {ElementCollection} The collection is returned for chaining proposes     
      */
-     resetStyle : setter(qx.bom.element.Style, "reset"),     
+     resetStyle : qx.$$setter(qx.bom.element.Style, "reset"),
+     
+     /**
+      * Figures out the value of the given style property of 
+      * the first element stored in the collection.
+      *
+      * @signature function(prop, mode)
+      * @param name {String} Name of the style attribute (js variant e.g. marginTop, wordSpacing)
+      * @param mode {Number} Choose one of the modes supported by {@link qx.bom.element.Style.get}
+      */
+     getStyle : qx.$$getter(qx.bom.element.Style, "get"),
     
     /**
      * Executes {@link qx.bom.element.Attribute.set} to modify the given attribute
@@ -68,7 +90,7 @@ qx.List.define("qx.bom.ElementCollection",
      * @param value {var} New value of the attribute
      * @return {ElementCollection} The collection is returned for chaining proposes     
      */
-     setAttribute : setter(qx.bom.element.Attribute, "set"),     
+     setAttribute : qx.$$setter(qx.bom.element.Attribute, "set"),     
      
     /**
      * Executes {@link qx.bom.element.Attribute.reset} to reset the given attribute 
@@ -78,6 +100,12 @@ qx.List.define("qx.bom.ElementCollection",
      * @param name {String} Name of the attribute
      * @return {ElementCollection} The collection is returned for chaining proposes     
      */
-     resetAttribute : setter(qx.bom.element.Attribute, "reset")
+     resetAttribute : qx.$$setter(qx.bom.element.Attribute, "reset")
+  },
+  
+  defer : function()
+  {
+    delete qx.$$setter;
+    delete qx.$$getter;
   }
 });
