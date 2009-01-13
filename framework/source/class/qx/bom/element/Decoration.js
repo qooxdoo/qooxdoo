@@ -203,7 +203,7 @@ qx.Class.define("qx.bom.element.Decoration",
       // Cache image sizes
       var width = ResourceManager.getImageWidth(source) || ImageLoader.getWidth(source);
       var height = ResourceManager.getImageHeight(source) || ImageLoader.getHeight(source);
-      var format = ResourceManager.getImageFormat(source);
+      var format = ResourceManager.getImageFormat(source) || source.substr(source.length-3, 3).toLowerCase();
 
       // Enable AlphaImageLoader in IE6
       if (this.__enableAlphaFix && this.__alphaFixRepeats[repeat] && format === "png")
