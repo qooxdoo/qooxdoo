@@ -49,6 +49,10 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
     // Register listeners
     this.addListener("keypress", this._onKeyPress);
     this.addListener("blur", this.close, this);
+    
+    // register mouse wheel listener
+    var root = qx.core.Init.getApplication().getRoot();
+    root.addListener("mousewheel", this._onMousewheel, this, true);
 
     // register the resize listener
     this.addListener("resize", this._onResize, this);
@@ -268,7 +272,23 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
         this.getChildControl("list").handleKeyPress(e);
       }
     },
-
+    
+    /**
+     * Close the pop-up if the mousewheel event isn't on the pup-up window.
+     * 
+     * @param e {qx.event.type.Mouse} Mousewheel event.
+     */
+    _onMousewheel : function(e)
+    {
+      var target = e.getTarget();
+      var popup = this.getChildControl("popup");
+      
+      if (qx.ui.core.Widget.contains(popup, target)) {
+        return;
+      }
+      
+      this.close();
+    },
 
     /**
      * Updates list minimum size.
