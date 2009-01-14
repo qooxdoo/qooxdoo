@@ -15,7 +15,7 @@
    Authors:
      * Thomas Herchenroeder (thron7)
      * Fabian Jakobs (fjakobs)
-     * Jonathan Rass (jonathan_rass)
+     * Jonathan Weiß (jonathan_rass)
 
 ************************************************************************ */
 

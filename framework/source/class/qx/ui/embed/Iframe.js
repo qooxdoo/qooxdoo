@@ -16,7 +16,7 @@
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
      * Til Schneider (til132)
-     * Jonathan Rass (jonathan_rass)
+     * Jonathan Weiß (jonathan_rass)
 
 ************************************************************************ */
 
