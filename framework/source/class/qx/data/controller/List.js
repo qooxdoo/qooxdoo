@@ -59,12 +59,21 @@ qx.Class.define("qx.data.controller.List",
   {
     _applyModel: function(value, old) {
       // remove the old listener
-      if (old != undefined && this.__changeModelListenerId != undefined) {
-        old.removeListenerById(this.__changeModelListenerId);
+      if (old != undefined) {
+        if (this.__changeModelLengthListenerId != undefined) {
+          old.removeListenerById(this.__changeModelLengthListenerId);          
+        }
+        if (this.__changeModelListenerId != undefined) {
+          old.removeListenerById(this.__changeModelListenerId);
+        }
       }
-      // add a new Listener
-      value.addListener("changeLength", this.__changeModelLength, this);
       
+      // add a new Listener
+      this.__changeModelLengthListenerId = 
+        value.addListener("changeLength", this.__changeModelLength, this);
+      this.__changeModelListenerID = 
+        value.addListener("change", this.__changeModel, this);
+            
       // check for the new length
       if (old != undefined && old.length != value.length) {
         this.__changeModelLength();
@@ -109,16 +118,7 @@ qx.Class.define("qx.data.controller.List",
     
     
     __changeSelectionArray: function(e) {
-      // mark the change process in a flag
-      this.__modeifingSelection = true;
-      // remove the old selection
-      this.getTarget().clearSelection();
-      // go through the selection array
-      for (var i = 0; i < this.getSelection().length; i++) {
-        this.__selectItem(this.getSelection().getItem(i));
-      }
-      // reset the changing flag
-      this.__modeifingSelection = false;
+      this.__updateSelection();
     },
         
     
@@ -156,6 +156,17 @@ qx.Class.define("qx.data.controller.List",
       this.fireDataEvent("changeSelection", this.getSelection());
     },
     
+    
+    __changeModel: function() {
+      // check if something has been removed from the model
+      for (var i = this.getSelection().length - 1; i >= 0; i--) {
+        if (!this.getModel().contains(this.getSelection().getItem(i))) {
+          this.getSelection().splice(i, 1);
+        }
+      }
+      this.__updateSelection();
+    },
+    
         
     __changeModelLength: function() {
       // get the length
@@ -176,11 +187,20 @@ qx.Class.define("qx.data.controller.List",
     
     __addItem: function(index) {
       var listItem = new qx.ui.form.ListItem();
-      var id = this.bind("model[" + index + "]", listItem, "label");
+      var options = 
+      {
+        onSetOk: qx.lang.Function.bind(this.__onBindingSet, this)
+      };
+      var id = this.bind("model[" + index + "]", listItem, "label", options);
       this.getTarget().add(listItem);
       
       // save the bindings id
       this.__bindings[index] = id;
+    },
+    
+    
+    __onBindingSet: function(sourceObject, targetObject, data) {
+      this.__updateSelection();
     },
     
     
@@ -196,6 +216,22 @@ qx.Class.define("qx.data.controller.List",
       var oldItem = this.getTarget().removeAt(index);
       oldItem.destroy();
     },
+    
+    
+    __updateSelection: function() {
+      // mark the change process in a flag
+      this.__modeifingSelection = true;      
+
+      // remove the old selection
+      this.getTarget().clearSelection();
+      // go through the selection array
+      for (var i = 0; i < this.getSelection().length; i++) {
+        this.__selectItem(this.getSelection().getItem(i));
+      }     
+      
+      // reset the changing flag
+      this.__modeifingSelection = false;       
+    },    
     
     
     __selectItem: function(item) {
