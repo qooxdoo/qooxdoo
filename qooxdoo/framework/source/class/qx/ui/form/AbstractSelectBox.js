@@ -328,5 +328,19 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
     _onPopupChangeVisibility : function(e) {
       throw new Error("Abstract method: _onPopupChangeVisibility()");
     }
+  },
+  
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    var root = qx.core.Init.getApplication().getRoot();
+    if (root) {
+      root.removeListener("mousewheel", this._onMousewheel, this, true);
+    }
   }
 });
