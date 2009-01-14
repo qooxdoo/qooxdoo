@@ -141,7 +141,7 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
       // set tool tip
       var tooltip = urlAndToolTip.tooltip;
       if (tooltip != null) {
-        content.replace("></div>", "title='"+tooltip+"'></div>");
+        var content = content.replace("></div>", "title='"+tooltip+"'></div>");
       }
 
       return content;
