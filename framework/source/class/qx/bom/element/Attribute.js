@@ -173,7 +173,7 @@ qx.Class.define("qx.bom.element.Attribute",
      *
      * @param element {Element} The DOM element to query
      * @param name {String} Name of the attribute
-     * @return {var} New value of the attribute
+     * @return {var} The value of the attribute
      * @signature function(element, name)
      */
     get : qx.core.Variant.select("qx.client",
