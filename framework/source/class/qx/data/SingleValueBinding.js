@@ -416,7 +416,9 @@ qx.Class.define("qx.data.SingleValueBinding",
      *       (the value) and should return the converted value. If no conversion
      *       has been done, the given value should be returned.</li>
      *   <li>onSetOk: A callback function can be given here. This method will be
-     *       called if the set of the value was successful.</li>
+     *       called if the set of the value was successful. There will be 
+     *       three parameter you do get in that method call: the source object,
+     *       the target object and the data as third parameter.</li>
      *   <li>onSetFail: A callback function can be given here. This method will
      *       be called if the set of the value fails.</li>
      *
