@@ -175,12 +175,12 @@ qx.Class.define("toolbox.Toolbox",
       // --Created applications menu
       this.__createdAppsMenuButton = new qx.ui.toolbar.MenuButton("Created Applications", "toolbox/image/folder-open.png");
       part1.add(this.__createdAppsMenuButton);
-      this.__createdAppsMenuButton.setEnabled(false);      
-      this.__checkAppList(1000);
+      this.widgets["toolbar.createdAppsMenuButton"] = this.__createdAppsMenuButton;
+      this.__createdAppsMenuButton.setEnabled(false);
 
       toolbar.addSpacer();
       
-	  var part2 = new qx.ui.toolbar.Part();
+	    var part2 = new qx.ui.toolbar.Part();
       toolbar.add(part2);
       
       // --Log button (shows/hides the log pane)
@@ -193,7 +193,7 @@ qx.Class.define("toolbox.Toolbox",
       
       
       //main functions of the toolbox-------------------------------------------
-	  var part3 = new qx.ui.toolbar.Part();
+	    var part3 = new qx.ui.toolbar.Part();
       toolbar.add(part3);
 
       // -- create button
@@ -251,22 +251,8 @@ qx.Class.define("toolbox.Toolbox",
 
       return toolbar;
     },  // makeToolbar
-    
-	/**
-	 * checks the applications list in a interval
-	 * 
-	 * @return {void}
-	 */
-    __checkAppList : function(milliSek) {
-      var appListChecker = qx.util.TimerManager.getInstance(); 
-      appListChecker.start(function(){
-      	if(toolbox.Toolbox.APPLIST){
-      	   this.__createdAppsMenuButton.setEnabled(true);
-      	   this.__createdAppsMenuButton.setMenu(this.__getCreatedAppsMenu());
-      	   appListChecker.stop(1);
-      	} 
-      }, milliSek, this, null, 1);
-    },
+ 
+
     
     /**
      * adds the event listener to the toolbox buttons
@@ -284,6 +270,7 @@ qx.Class.define("toolbox.Toolbox",
       this.widgets["toolbar.generateBuildButton"].addListener("execute", this.__generateBuild, this);
       this.widgets["toolbar.testSourceButton"].addListener("execute", this.__testSource, this);
       this.widgets["toolbar.testButton"].addListener("execute", this.__testApplication, this);
+      this.widgets["toolbar.createdAppsMenuButton"].addListener("changeEnabled", this.__setAppListMenu, this);
     },  // assignListener
 
     /**
@@ -293,9 +280,14 @@ qx.Class.define("toolbox.Toolbox",
      */
     __loadAppList : function() {
     	toolbox.Builder.prepareApplicationList(this.__adminPath,  
- 				                               this.__logFrame);
+ 				                                     this.__logFrame,
+ 				                                     this.__createdAppsMenuButton);
     },
 
+    __setAppListMenu : function() {
+    	this.__createdAppsMenuButton.setMenu(this.__getCreatedAppsMenu());
+    },
+    
     /**
      * returns the menu of the created applications
      *
@@ -305,15 +297,12 @@ qx.Class.define("toolbox.Toolbox",
       {
       	var menu = new qx.ui.menu.Menu;
         var createdApp;
-        for(var i = 0; i < toolbox.Toolbox.APPLIST.length; i++) {
-          createdApp = new qx.ui.menu.Button("<b>" + toolbox.Toolbox.APPLIST[i].name + "</b> <br>" + toolbox.Toolbox.APPLIST[i].path);
-	      createdApp.getChildControl("label").setRich(true);	
-          
-	      createdApp.addListener("execute", this.__onApplicationChanged, this);
-	      
-          menu.add(createdApp);
-        
-        }
+          for(var i = 0; i < toolbox.Toolbox.APPLIST.length; i++) {
+            createdApp = new qx.ui.menu.Button("<b>" + toolbox.Toolbox.APPLIST[i].name + "</b> <br>" + toolbox.Toolbox.APPLIST[i].path);
+  	        createdApp.getChildControl("label").setRich(true);	
+  	        createdApp.addListener("execute", this.__onApplicationChanged, this);
+            menu.add(createdApp);
+          }
         return menu;
       },
     
@@ -772,7 +761,10 @@ qx.Class.define("toolbox.Toolbox",
                                              this.__getCurrentLogName(), 
                                              this.__getCurrentType(), 
                                              this.__isGenerateSource.toString(), 
-                                             this.__logFrame);
+                                             this.__logFrame,
+                                             this.__createdAppsMenuButton);
+       
+       this.__createdAppsMenuButton.setEnabled(false);                                      
 	     this.AppDevelCaption.setContent("Application Development of " +  this.__getCurrentFileName());
        this.__cancelNewApplication();                                   
       return;

@@ -51,15 +51,18 @@ qx.Class.define("toolbox.Builder",
      * @param logFrame {var} TODOC
      * @return {void} 
      */
-    createNewApplication : function(adminPath, fileName, filePath, nameSpace, logFileName, type, generate, logFrame)
+    createNewApplication : function(adminPath, fileName, filePath, nameSpace, 
+                                    logFileName, type, generate, logFrame, appList)
     {
       var url = adminPath;
       var req = new qx.io.remote.Request(url, "POST", "application/json");
       var req2 = new qx.io.remote.Request(url, "POST", "application/json");
+      var req3 = new qx.io.remote.Request(url, "POST");
       var dat = "action=create";
       var generateDat = "action=generate_Source";
       var openGen = "action=open_In_Browser&location=source";
-
+      var saveAppList = "action=save_Application_List";
+      
       this.__urlParms = new toolbox.UrlSearchParms();
       
       fileName = fileName.replace(/ /g, "_");
@@ -108,8 +111,17 @@ qx.Class.define("toolbox.Builder",
           {
             if (receivedState == 0)
             {
-              
               logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.output);
+              
+              
+              toolbox.Toolbox.APPLIST.push({name : fileName, path : filePath.replace(/\\/g, "/")}); 
+              var changedAppList = qx.util.Json.stringify( toolbox.Toolbox.APPLIST, true);
+              
+              saveAppList += "&changedAppList=" + changedAppList;
+              req3.setData(saveAppList);
+              req3.send();
+              
+              
               
               if (generate == "true")
               {
@@ -127,6 +139,7 @@ qx.Class.define("toolbox.Builder",
               logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.error + '</font>');
             }
           }
+          appList.setEnabled(true);
         }
         else
         {
@@ -136,6 +149,10 @@ qx.Class.define("toolbox.Builder",
       },
       this);
 
+      req3.addListener("failed", function(evt) {
+          logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Application list could not extends by the created application </br>Failed to post to URL: " + url + '</font>');
+      }, this);
+      
       req2.addListener("completed", function(evt)
       {
         var genResult = evt.getContent();
@@ -683,23 +700,28 @@ qx.Class.define("toolbox.Builder",
         req.addListener("completed", function(evt)
         {
           var result = evt.getContent();
-          var receivedState = result.testApp_state;
-
-          if (receivedState == 1 || receivedState == 0)
+          
+          if(result.testApp_state != undefined) 
           {
-            if (receivedState == 0)
+            var receivedState = result.testApp_state;
+  
+            if (receivedState == 1 || receivedState == 0)
             {
-              logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.testApp_output);
-              req.setData(openSource);
-              req.send();
+              if (receivedState == 0)
+              {
+                logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.testApp_output);
+                req.setData(openSource);
+                req.send();
+              }
+  
+              if (receivedState == 1)
+              {
+                logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.testApp_error + '</font>');
+              }
             }
-
-            if (receivedState == 1)
-            {
-              logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.testApp_error + '</font>');
-            }
+          } else {
+          	logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.testApp_error + '</font>');
           }
-
           this.__loader.setModal(false);
           this.__loader.hide();
         },
@@ -772,24 +794,28 @@ qx.Class.define("toolbox.Builder",
         req.addListener("completed", function(evt)
         {
           var result = evt.getContent();
-          var receivedState = result.test_state;
-
-          if (receivedState == 1 || receivedState == 0)
+          
+          if(result.test_state != undefined)
           {
-            if (receivedState == 0)
+            var receivedState = result.test_state;
+  
+            if (receivedState == 1 || receivedState == 0)
             {
-              logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.test_output);
-              req.setData(openSource);
-              req.send();
+              if (receivedState == 0)
+              {
+                logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.test_output);
+                req.setData(openSource);
+                req.send();
+              }
+  
+              if (receivedState == 1)
+              {
+                logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.test_error + '</font>');
+              }
             }
-
-            if (receivedState == 1)
-            {
-              createApplicationLogFrame.setHtml('<font color="red">' + result.test_output + '</font>');
-              logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.test_output + '</font>');
-            }
+          } else {
+          	logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.test_error + '</font>');
           }
-
           this.__loader.setModal(false);
           this.__loader.hide();
         },
@@ -815,11 +841,11 @@ qx.Class.define("toolbox.Builder",
     
     
     
-    prepareApplicationList : function(adminPath, logFrame)
+    prepareApplicationList : function(adminPath, logFrame, appLisButton)
     {
         var url = adminPath;
         var req = new qx.io.remote.Request(url, "POST");
-        var dat = "action=show_applicationList";
+        var dat = "action=show_Application_List";
         var createParams = [];
         req.setTimeout(100000);
 
@@ -840,7 +866,7 @@ qx.Class.define("toolbox.Builder",
           result = result.replace(/\n/g, "").replace(/{/g, "\{").replace(/}/g, "\}");
           this.jsonObject = qx.util.Json.parse(result);
           toolbox.Toolbox.APPLIST = this.jsonObject;
-          
+          appLisButton.setEnabled(true);
         },
         this);
 
