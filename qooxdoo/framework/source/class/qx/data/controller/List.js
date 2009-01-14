@@ -49,7 +49,8 @@ qx.Class.define("qx.data.controller.List",
     selection : 
     {
       check: "qx.data.Array",
-      event: "changeSelection"
+      event: "changeSelection",
+      apply: "_applySelection"
     }
   },  
 
@@ -93,24 +94,66 @@ qx.Class.define("qx.data.controller.List",
         "changeSelection", this.__changeTargetSelection, this
       );
     },    
+    
+    
+    _applySelection: function(value, old) {
+      // remove the old listener if necesarry
+      if (this._selectionArrayListenerId != undefined && old != undefined) {
+        old.removeListenerById(this._selectionArrayListenerId);
+      }
+      // add a new change listener to the changeArray
+      this._selectionArrayListenerId = value.addListener(
+        "change", this.__changeSelectionArray, this
+      );
+    },
+    
+    
+    __changeSelectionArray: function(e) {
+      // mark the change process in a flag
+      this.__modeifingSelection = true;
+      // remove the old selection
+      this.getTarget().clearSelection();
+      // go through the selection array
+      for (var i = 0; i < this.getSelection().length; i++) {
+        this.__selectItem(this.getSelection().getItem(i));
+      }
+      // reset the changing flag
+      this.__modeifingSelection = false;
+    },
         
     
     __changeTargetSelection: function(e) {
-      // TODO may be optimized (dont create an new array on every change)
-      var modelSelection = new qx.data.Array();
-      var selection = this.getTarget().getSelection();
+      // if __changeSelectionArray is currently working, do nothing
+      if (this.__modeifingSelection) {
+        return;
+      }
       
-      // go threw the model
-      for (var i = 0; i < this.getModel().length; i++) {
-        var item = this.getModel().getItem(i);
-        for (var j = 0; j < selection.length; j++) {
-          if (item == selection[j].getLabel()) {
-            modelSelection.push(item);
-            break;
-          }
+      // get the selection of the target
+      var targetSelection = this.getTarget().getSelection();
+      // go through the target selection
+      for (var i = 0; i < targetSelection.length; i++) {
+        var item = targetSelection[i].getLabel();
+        if (!this.getSelection().contains(item)) {
+          this.getSelection().push(item);
         }
       }
-      this.setSelection(modelSelection);
+      
+      var targetSelectionLablels = [];
+      for (var i = 0; i < targetSelection.length; i++) {
+        targetSelectionLablels[i] = targetSelection[i].getLabel();
+      }
+      
+      for (var i = this.getSelection().length - 1; i >= 0; i--) {
+        if (!qx.lang.Array.contains(
+          targetSelectionLablels, this.getSelection().getItem(i)
+        )) {
+          //  the current element
+          this.getSelection().splice(i, 1);
+        }
+      }
+
+      // fire the change event manualy
+      this.fireDataEvent("changeSelection", this.getSelection());
     },
     
         
@@ -152,10 +195,31 @@ qx.Class.define("qx.data.controller.List",
       // remove the item
       var oldItem = this.getTarget().removeAt(index);
       oldItem.destroy();
+    },
+    
+    
+    __selectItem: function(item) {
+      // get the list item
+      var children = this.getTarget().getChildren();
+      for (var i = 0; i < children.length; i++) {
+        if (children[i].getLabel() == item) {
+          var listItem = children[i];
+          break;
+        }
+      }
+      
+      // select the item in the target
+      this.getTarget().addToSelection(listItem);
+    },
+    
+    
+    addToSelection: function(item) {
+      // save the value to the selection array
+      this.getSelection().push(item);
+      
+      this.__selectItem(item);
     }
     
-    
-
     
   }
 });

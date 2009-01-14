@@ -244,17 +244,28 @@ qx.Class.define("qx.test.data.controller.List",
     },
     
     
-    testSingleSelectionm: function() {
+    testSelectionSingle: function() {
       this.__setUpString();
       
       // select the first object
       this.__list.addToSelection(this.__list.getChildren()[0]);
       // test the selection
       this.assertEquals(this.__model.getItem(0), this.__controller.getSelection().getItem(0), "Selection does not work.");
+    
+      // test for the length
+      this.assertEquals(1, this.__controller.getSelection().length, "Selection length is wrong.");
+      
+      // select the second object
+      this.__list.addToSelection(this.__list.getChildren()[1]);
+      // test the selection
+      this.assertEquals(this.__model.getItem(1), this.__controller.getSelection().getItem(0), "Selection does not work.");
+    
+      // test for the length
+      this.assertEquals(1, this.__controller.getSelection().length, "Selection length is wrong.");      
     },
     
     
-    testMultipleSelection: function() {
+    testSelectionMultiple: function() {
       this.__setUpString();
       
       // select the second and third object
@@ -265,6 +276,46 @@ qx.Class.define("qx.test.data.controller.List",
       // test the selection
       this.assertEquals(this.__model.getItem(1), this.__controller.getSelection().getItem(0), "Selection does not work.");      
       this.assertEquals(this.__model.getItem(2), this.__controller.getSelection().getItem(1), "Selection does not work.");      
+      
+      // test for the selection length
+      this.assertEquals(2, this.__controller.getSelection().length, "Selection length is wrong.");      
+    },
+    
+    
+    testSelectionBackSingle: function() {
+      this.__setUpString();
+      
+      // add the first element to the selection
+      this.__controller.addToSelection(this.__model.getItem(0));
+      
+      // test the selection
+      this.assertEquals(this.__model.getItem(0), this.__controller.getSelection().getItem(0), "addToSelection does not work.");
+    },
+    
+    
+    testSelectionBackMultiple: function() {
+      this.__setUpString();
+      
+      // select the second and third object
+      this.__list.setSelectionMode("multi");    
+      
+      // add the some elements to the selection
+      this.__controller.addToSelection(this.__model.getItem(1));
+      this.__controller.addToSelection(this.__model.getItem(2));      
+      
+      // test the selection
+      this.assertEquals(this.__model.getItem(1), this.__controller.getSelection().getItem(0), "addToSelection does not work.");
+      this.assertEquals(this.__model.getItem(2), this.__controller.getSelection().getItem(1), "addToSelection does not work.");      
+    },
+    
+    
+    testSelectionArrayChange: function() {
+      this.__setUpString();
+
+      // set the selection in the array
+      this.__controller.getSelection().push(this.__model.getItem(0));      
+      // test the selection
+      this.assertEquals(this.__model.getItem(0), this.__list.getSelection()[0].getLabel(), "Change the selection array does not work.");            
     }
     
   }
