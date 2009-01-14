@@ -92,32 +92,32 @@ qx.Class.define("qx.bom.Cookie",
 
       if (expires)
       {
-        vCookie.push(";");
-        vCookie.push(qx.bom.Cookie.STR_EXPIRES);
-        vCookie.push("=");
-        vCookie.push(new Date(today.getTime() + (expires * 1000 * 60 * 60 * 24)).toGMTString());
+        vCookie.push(";",
+          qx.bom.Cookie.STR_EXPIRES,
+          "=",
+          new Date(today.getTime() + (expires * 1000 * 60 * 60 * 24)).toGMTString());
       }
 
       if (path)
       {
-        vCookie.push(";");
-        vCookie.push(qx.bom.Cookie.STR_PATH);
-        vCookie.push("=");
-        vCookie.push(path);
+        vCookie.push(";",
+          qx.bom.Cookie.STR_PATH,
+          "=",
+          path);
       }
 
       if (domain)
       {
-        vCookie.push(";");
-        vCookie.push(qx.bom.Cookie.STR_DOMAIN);
-        vCookie.push("=");
-        vCookie.push(domain);
+        vCookie.push(";",
+          qx.bom.Cookie.STR_DOMAIN,
+          "=",
+          domain);
       }
 
       if (secure)
       {
-        vCookie.push(";");
-        vCookie.push(qx.bom.Cookie.STR_SECURE);
+        vCookie.push(";",
+          qx.bom.Cookie.STR_SECURE);
       }
 
       // Store cookie
@@ -144,24 +144,24 @@ qx.Class.define("qx.bom.Cookie",
 
       if (path)
       {
-        vCookie.push(";");
-        vCookie.push(qx.bom.Cookie.STR_PATH);
-        vCookie.push("=");
-        vCookie.push(path);
+        vCookie.push(";",
+          qx.bom.Cookie.STR_PATH,
+          "=",
+          path);
       }
 
       if (domain)
       {
-        vCookie.push(";");
-        vCookie.push(qx.bom.Cookie.STR_DOMAIN);
-        vCookie.push("=");
-        vCookie.push(domain);
+        vCookie.push(";",
+          qx.bom.Cookie.STR_DOMAIN,
+          "=",
+          domain);
       }
 
-      vCookie.push(";");
-      vCookie.push(qx.bom.Cookie.STR_EXPIRES);
-      vCookie.push("=");
-      vCookie.push(qx.bom.Cookie.STR_DELDATA);
+      vCookie.push(";",
+        qx.bom.Cookie.STR_EXPIRES,
+        "=",
+        qx.bom.Cookie.STR_DELDATA);
 
       // Store cookie
       document.cookie = vCookie.join("");
