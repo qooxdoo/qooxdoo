@@ -505,6 +505,18 @@ qx.Class.define("qx.data.SingleValueBinding",
           }          
           // get the data of the array
           var data = sourceObject.getItem(arrayIndex);
+
+          // reset the target if the data is not set
+          if (data == undefined) {
+            targetObject["reset" + qx.lang.String.firstUp(targetProperty)]();
+          }
+
+          // only do something if the curren array has been changed
+          var start = e.getData().start;
+          var end = e.getData().end;
+          if (arrayIndex < start || arrayIndex > end) {
+            return;
+          }          
         } else {
           // get the data out of the event
           var data = e.getData();
@@ -533,7 +545,7 @@ qx.Class.define("qx.data.SingleValueBinding",
 
           // tell the user that the setter was invoked probably
           if (options && options.onSetOk) {
-            options.onSetOk();
+            options.onSetOk(sourceObject, targetObject, data);
           }
 
         } catch (e) {
