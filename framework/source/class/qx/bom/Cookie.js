@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2009 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -28,12 +28,6 @@ qx.Class.define("qx.bom.Cookie",
 
   statics :
   {
-    STR_EXPIRES : "expires",
-    STR_PATH : "path",
-    STR_DOMAIN : "domain",
-    STR_SECURE : "secure",
-    STR_DELDATA : "Thu, 01-Jan-1970 00:00:01 GMT",
-
     /*
     ---------------------------------------------------------------------------
       USER APPLICATION METHODS
@@ -84,44 +78,31 @@ qx.Class.define("qx.bom.Cookie",
      */
     set : function(key, value, expires, path, domain, secure)
     {
-      var today = new Date();
-      today.setTime(today.getTime());
-
       // Generate cookie
-      var vCookie = [ key, "=", escape(value) ];
+      var cookie = [ key, "=", escape(value) ];
 
       if (expires)
       {
-        vCookie.push(";",
-          qx.bom.Cookie.STR_EXPIRES,
-          "=",
-          new Date(today.getTime() + (expires * 1000 * 60 * 60 * 24)).toGMTString());
+        var today = new Date();
+        today.setTime(today.getTime());
+
+        cookie.push(";expires=", new Date(today.getTime() + (expires * 1000 * 60 * 60 * 24)).toGMTString());
       }
 
-      if (path)
-      {
-        vCookie.push(";",
-          qx.bom.Cookie.STR_PATH,
-          "=",
-          path);
+      if (path) {
+        cookie.push(";path=", path);
       }
 
-      if (domain)
-      {
-        vCookie.push(";",
-          qx.bom.Cookie.STR_DOMAIN,
-          "=",
-          domain);
+      if (domain) {
+        cookie.push(";domain=", domain);
       }
 
-      if (secure)
-      {
-        vCookie.push(";",
-          qx.bom.Cookie.STR_SECURE);
+      if (secure) {
+        cookie.push(";secure");
       }
 
       // Store cookie
-      document.cookie = vCookie.join("");
+      document.cookie = cookie.join("");
     },
 
 
@@ -140,31 +121,20 @@ qx.Class.define("qx.bom.Cookie",
       }
 
       // Generate cookie
-      var vCookie = [ key, "=" ];
+      var cookie = [ key, "=" ];
 
-      if (path)
-      {
-        vCookie.push(";",
-          qx.bom.Cookie.STR_PATH,
-          "=",
-          path);
+      if (path) {
+        cookie.push(";path=", path);
       }
 
-      if (domain)
-      {
-        vCookie.push(";",
-          qx.bom.Cookie.STR_DOMAIN,
-          "=",
-          domain);
+      if (domain) {
+        cookie.push(";domain=", domain);
       }
 
-      vCookie.push(";",
-        qx.bom.Cookie.STR_EXPIRES,
-        "=",
-        qx.bom.Cookie.STR_DELDATA);
+      cookie.push(";expires=Thu, 01-Jan-1970 00:00:01 GMT");
 
       // Store cookie
-      document.cookie = vCookie.join("");
+      document.cookie = cookie.join("");
     }
   }
 });
