@@ -111,7 +111,8 @@ qx.Class.define("toolbox.Toolbox",
     //loads the applications list
     this.__loadAppList();
     
-    
+    //disables all functions
+    this.__setEnableAllFunctions(false);
   },
 
   /*
@@ -178,6 +179,13 @@ qx.Class.define("toolbox.Toolbox",
       this.widgets["toolbar.createdAppsMenuButton"] = this.__createdAppsMenuButton;
       this.__createdAppsMenuButton.setEnabled(false);
 
+      // --Delete button (deletes the selected application)
+      this.removeButton = new qx.ui.toolbar.Button("Remove Application", "toolbox/image/edit-delete.png");
+      part1.add(this.removeButton);
+      this.widgets["toolbar.removeButton"] = this.removeButton;
+      this.removeButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Contains help and support")));
+      this.removeButton.setEnabled(false);
+      
       toolbar.addSpacer();
       
 	    var part2 = new qx.ui.toolbar.Part();
@@ -271,8 +279,23 @@ qx.Class.define("toolbox.Toolbox",
       this.widgets["toolbar.testSourceButton"].addListener("execute", this.__testSource, this);
       this.widgets["toolbar.testButton"].addListener("execute", this.__testApplication, this);
       this.widgets["toolbar.createdAppsMenuButton"].addListener("changeEnabled", this.__setAppListMenu, this);
+      this.widgets["toolbar.removeButton"].addListener("execute", this.__removeDialog, this);
     },  // assignListener
 
+    
+    __setEnableAllFunctions : function(value) {
+    	this.widgets["toolbar.generateButton"].setEnabled(value);
+    	this.widgets["toolbar.generateBuildButton"].setEnabled(value);
+    	this.widgets["toolbar.generateApiButton"].setEnabled(value);
+    	this.widgets["toolbar.configurationButton"].setEnabled(value);
+    	this.widgets["toolbar.makePrettyButton"].setEnabled(value);
+    	this.widgets["toolbar.validateCodeButton"].setEnabled(value);
+    	this.widgets["toolbar.testSourceButton"].setEnabled(value);
+    	this.widgets["toolbar.testButton"].setEnabled(value);
+    	this.widgets["toolbar.removeButton"].setEnabled(value);
+    },
+    
+    
     /**
      * loads the created application list
      *
@@ -315,6 +338,7 @@ qx.Class.define("toolbox.Toolbox",
       	this.__setCurrentFilePath(appPath);
       	
         this.AppDevelCaption.setContent("Application Development of " +  label[0].replace("<b>", "").replace("</b>", ""));
+        this.__setEnableAllFunctions(true);
       },
       
       
@@ -573,6 +597,44 @@ qx.Class.define("toolbox.Toolbox",
       this.__fileNameText.focus();
     },  // __createApplicationWindow
 
+    
+    __removeDialog : function() {
+    	var removeDialog = new qx.ui.window.Window("Remove application", null);
+      var label = new qx.ui.basic.Label("Do you really want to remove <b>" + this.__getCurrentFileName() + "</b>");
+      label.setRich(true);
+      removeDialog.setLayout(new qx.ui.layout.VBox(5));
+      removeDialog.add(label);
+
+      var container = new qx.ui.container.Composite(new qx.ui.layout.HBox(5, "right"));
+
+      var yesButton = new qx.ui.form.Button("Yes");
+      var noButton = new qx.ui.form.Button("No");
+
+      noButton.addListener("execute", function() {
+        removeDialog.close();
+      }, this);
+
+      yesButton.addListener("execute", function()
+      {
+        removeDialog.close();
+      	this.__removeApplication();
+      	this.__setEnableAllFunctions(false);
+      },
+      this);
+
+      container.add(yesButton);
+      container.add(noButton);
+
+      removeDialog.add(container);
+
+      removeDialog.setShowMaximize(false);
+      removeDialog.setShowClose(false);
+      removeDialog.setShowMinimize(false);
+      removeDialog.setModal(true);
+      removeDialog.open();
+      removeDialog.moveTo(parseInt(this.getLayout().getSizeHint().width / 2), parseInt(this.getLayout().getSizeHint().height / 2));
+    },
+    
     /**
      * shows the log field
      *
@@ -608,7 +670,7 @@ qx.Class.define("toolbox.Toolbox",
         this.__createButtonWindow.setEnabled(true);
       }
       else if (this.__fileNameText.getValue().length > 0 & this.__filePathText.getValue().length > 0 & this.__logCheckBox.getChecked() & this.__logText.getValue().length > 0)
-      {  // this.__logText.getTextField().getValue().length > 0){
+      {  
         this.__createButtonWindow.setEnabled(true);
       }
       else
@@ -752,7 +814,6 @@ qx.Class.define("toolbox.Toolbox",
       this.__setCurrentFilePath(this.__filePathText.getValue());
       this.__setCurrentNamespace(this.__namespaceText.getValue());
 
-      // this.__setCurrentLogName(this.__logText.getTextField().getValue());
       this.__setCurrentLogName(this.__logText.getValue());
       	toolbox.Builder.createNewApplication(this.__adminPath, 
                                              this.__getCurrentFileName(), 
@@ -766,10 +827,22 @@ qx.Class.define("toolbox.Toolbox",
        
        this.__createdAppsMenuButton.setEnabled(false);                                      
 	     this.AppDevelCaption.setContent("Application Development of " +  this.__getCurrentFileName());
-       this.__cancelNewApplication();                                   
+       this.__cancelNewApplication();
+       this.__setEnableAllFunctions(true);
       return;
     },
 
+    
+    __removeApplication : function() {
+    	this.__createdAppsMenuButton.setEnabled(false);
+    	toolbox.Builder.removeCurrentApplication(this.__adminPath, 
+                                               this.__getCurrentFileName(), 
+                                               this.__getCurrentFilePath(),
+                                               this.__logFrame,
+                                               this.__createdAppsMenuButton);
+      this.AppDevelCaption.setContent("Application Development");                                               
+    },
+    
 
     /**
      * generates the source version of the  application by sending the necessary 

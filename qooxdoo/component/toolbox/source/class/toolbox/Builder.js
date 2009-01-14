@@ -36,19 +36,17 @@ qx.Class.define("toolbox.Builder",
   statics :
   {
     /**
-     * TODOC
+     * creates a qooxdoo-skeleton
      *
-     * @param adminPath {var} TODOC
-     * @param fileName {var} TODOC
-     * @param filePath {var} TODOC
-     * @param nameSpace {var} TODOC
-     * @param logFileName {var} TODOC
-     * @param type {var} TODOC
-     * @param generate {var} TODOC
-     * @param loadImage {var} TODOC
-     * @param createApplicationLogFrame {var} TODOC
-     * @param windowContent {var} TODOC
-     * @param logFrame {var} TODOC
+     * @param adminPath {var} path of the cgi-script
+     * @param fileName {var} name of the file
+     * @param filePath {var} path of the file
+     * @param nameSpace {var} namespace of the file
+     * @param logFileName {var} lofgile of the file
+     * @param type {var} type of the file
+     * @param generate {var} if you also want to generate the source code
+     * @param logFrame {var} the log output
+     * @param appList {var} button of the applicatioon list
      * @return {void} 
      */
     createNewApplication : function(adminPath, fileName, filePath, nameSpace, 
@@ -65,6 +63,7 @@ qx.Class.define("toolbox.Builder",
       
       this.__urlParms = new toolbox.UrlSearchParms();
       
+      //replaces all whitespaces with underscores
       fileName = fileName.replace(/ /g, "_");
       var createParams = [ fileName, filePath, nameSpace, logFileName, type, generate ];
 
@@ -79,7 +78,7 @@ qx.Class.define("toolbox.Builder",
         var cygParm = 'cygwin' + "=" + this.__urlParms.getParms()['cygwin'];
         dat += "&" + cygParm;
       }
-
+      
       for (var i=0; i<createParams.length; i++)
       {
         if (createParams[i] != "")
@@ -200,88 +199,81 @@ qx.Class.define("toolbox.Builder",
      */
     generateSource : function(adminPath, fileName, filePath, generate, logFrame)
     {
-      if (fileName != "" & filePath != "")
+      var url = adminPath;
+      var req = new qx.io.remote.Request(url, "POST", "application/json");
+      var dat = "action=generate_Source";
+      var openSource = "action=open_In_Browser&location=source";
+      var createParams = [ fileName, filePath, generate ];
+      req.setTimeout(100000);
+
+      this.__urlParms = new toolbox.UrlSearchParms();
+      
+      // check cygwin path
+      if ('cygwin' in this.__urlParms.getParms())
       {
-        var url = adminPath;
-        var req = new qx.io.remote.Request(url, "POST", "application/json");
-        var dat = "action=generate_Source";
-        var openSource = "action=open_In_Browser&location=source";
-        var createParams = [ fileName, filePath, generate ];
-        req.setTimeout(100000);
+        var cygParm = 'cygwin' + "=" + this.__urlParms.getParms()['cygwin'];
+        dat += "&" + cygParm;
+      }
 
-        this.__urlParms = new toolbox.UrlSearchParms();
-        
-        // check cygwin path
-        if ('cygwin' in this.__urlParms.getParms())
+      var params = [ "myName", "myPath", "generate_Source" ];
+
+      for (var i=0; i<createParams.length; i++)
+      {
+        if (createParams[i] != "")
         {
-          var cygParm = 'cygwin' + "=" + this.__urlParms.getParms()['cygwin'];
-          dat += "&" + cygParm;
+          dat += "&" + params[i] + "=" + createParams[i];
+          openSource += "&" + params[i] + "=" + createParams[i];
         }
+      }
 
-        var params = [ "myName", "myPath", "generate_Source" ];
+      req.setProhibitCaching(true);
+      req.setData(dat);
 
-        for (var i=0; i<createParams.length; i++)
+      this.__loader = new toolbox.ProgressLoader();
+      this.__loader.setCaption("Generating source version");
+      
+      req.addListener("completed", function(evt)
+      {
+        var result = evt.getContent();
+
+        if (result.gen_state != undefined)
         {
-          if (createParams[i] != "")
+          var receivedState = result.gen_state;
+
+          if (receivedState == 1 || receivedState == 0)
           {
-            dat += "&" + params[i] + "=" + createParams[i];
-            openSource += "&" + params[i] + "=" + createParams[i];
-          }
-        }
-
-        req.setProhibitCaching(true);
-        req.setData(dat);
-
-        this.__loader = new toolbox.ProgressLoader();
-        this.__loader.setCaption("Generating source version");
-        
-        req.addListener("completed", function(evt)
-        {
-          var result = evt.getContent();
-
-          if (result.gen_state != undefined)
-          {
-            var receivedState = result.gen_state;
-
-            if (receivedState == 1 || receivedState == 0)
+            if (receivedState == 0)
             {
-              if (receivedState == 0)
-              {
-                logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.gen_output);
-                req.setData(openSource);
-                req.send();
- 
-              }
+              logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.gen_output);
+              req.setData(openSource);
+              req.send();
+            }
 
-              if (receivedState == 1)
-              {
-                logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.gen_error + '</font>');
-              }
+            if (receivedState == 1)
+            {
+              logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.gen_error + '</font>');
             }
           }
-          else
-          {
-            logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.gen_error + '</font>');
-          }
+        }
+        else
+        {
+          logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.gen_error + '</font>');
+        }
 
-          this.__loader.setModal(false);
-          this.__loader.hide();
-        },
-        this);
+        this.__loader.setModal(false);
+        this.__loader.hide();
+      },
+      this);
 
-        req.addListener("failed", function(evt) {
-          this.error("Failed to post to URL: " + url);
-          logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
-          this.__loader.setModal(false);
-          this.__loader.hide();
-        }, this);
+      req.addListener("failed", function(evt) {
+        this.error("Failed to post to URL: " + url);
+        logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
+        this.__loader.setModal(false);
+        this.__loader.hide();
+      }, this);
 
-        req.send();
-      }
-      else
-      {
-        alert("You don't created an application");
-      }
+      req.send();
+    
 
       return;
     },
@@ -298,86 +290,79 @@ qx.Class.define("toolbox.Builder",
      */
     generateBuild : function(adminPath, fileName, filePath, logFrame)
     {
-      if (fileName != "" & filePath != "")
+      var url = adminPath;
+      var req = new qx.io.remote.Request(url, "POST", "application/json");
+      var dat = "action=generate_Build";
+      var openBuild = "action=open_In_Browser&location=build";
+      var createParams = [ fileName, filePath ];
+      req.setTimeout(600000);
+
+      this.__urlParms = new toolbox.UrlSearchParms();
+      
+      // check cygwin path
+      if ('cygwin' in this.__urlParms.getParms())
       {
-        var url = adminPath;
-        var req = new qx.io.remote.Request(url, "POST", "application/json");
-        var dat = "action=generate_Build";
-        var openBuild = "action=open_In_Browser&location=build";
-        var createParams = [ fileName, filePath ];
-        req.setTimeout(600000);
+        var cygParm = 'cygwin' + "=" + this.__urlParms.getParms()['cygwin'];
+        dat += "&" + cygParm;
+      }
 
-        this.__urlParms = new toolbox.UrlSearchParms();
-        
-        // check cygwin path
-        if ('cygwin' in this.__urlParms.getParms())
+      var params = [ "myName", "myPath" ];
+
+      for (var i=0; i<createParams.length; i++)
+      {
+        if (createParams[i] != "")
         {
-          var cygParm = 'cygwin' + "=" + this.__urlParms.getParms()['cygwin'];
-          dat += "&" + cygParm;
+          dat += "&" + params[i] + "=" + createParams[i];
+          openBuild += "&" + params[i] + "=" + createParams[i];
         }
+      }
 
-        var params = [ "myName", "myPath" ];
+      req.setProhibitCaching(true);
+      req.setData(dat);
+      
+      this.__loader = new toolbox.ProgressLoader();
+      this.__loader.setCaption("Generating build version");
 
-        for (var i=0; i<createParams.length; i++)
+      req.addListener("completed", function(evt)
+      {
+        var result = evt.getContent();
+
+        if (result.build_state != undefined)
         {
-          if (createParams[i] != "")
+          var receivedState = result.build_state;
+
+          if (receivedState == 1 || receivedState == 0)
           {
-            dat += "&" + params[i] + "=" + createParams[i];
-            openBuild += "&" + params[i] + "=" + createParams[i];
-          }
-        }
-
-        req.setProhibitCaching(true);
-        req.setData(dat);
-        
-        this.__loader = new toolbox.ProgressLoader();
-        this.__loader.setCaption("Generating build version");
-
-        req.addListener("completed", function(evt)
-        {
-          var result = evt.getContent();
-
-          if (result.build_state != undefined)
-          {
-            var receivedState = result.build_state;
-
-            if (receivedState == 1 || receivedState == 0)
+            if (receivedState == 0)
             {
-              if (receivedState == 0)
-              {
-                logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.build_output);
-                req.setData(openBuild);
-                req.send();
-              }
+              logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.build_output);
+              req.setData(openBuild);
+              req.send();
+            }
 
-              if (receivedState == 1) {
-                logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.build_error + '</font>');
-              }
+            if (receivedState == 1) {
+              logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.build_error + '</font>');
             }
           }
-          else
-          {
-            logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.build_error + '</font>');
-          }
+        }
+        else
+        {
+          logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.build_error + '</font>');
+        }
 
-          this.__loader.setModal(false);
-          this.__loader.hide();
-        },
-        this);
+        this.__loader.setModal(false);
+        this.__loader.hide();
+      },
+      this);
 
-        req.addListener("failed", function(evt) {
-          this.error("Failed to post to URL: " + url);
-          logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
-          this.__loader.setModal(false);
-          this.__loader.hide();
-        }, this);
+      req.addListener("failed", function(evt) {
+        this.error("Failed to post to URL: " + url);
+        logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
+        this.__loader.setModal(false);
+        this.__loader.hide();
+      }, this);
 
-        req.send();
-      }
-      else
-      {
-        alert("You don't created an application");
-      }
+      req.send();
 
       return;
     },
@@ -394,83 +379,76 @@ qx.Class.define("toolbox.Builder",
      */
     generateApi : function(adminPath, fileName, filePath, logFrame)
     {
-      if (fileName != "" & filePath != "")
+      var url = adminPath;
+      var req = new qx.io.remote.Request(url, "POST", "application/json");
+      var dat = "action=generate_Api";
+      var openApi = "action=open_In_Browser&location=api";
+      var createParams = [ fileName, filePath ];
+      req.setTimeout(600000);
+
+      this.__urlParms = new toolbox.UrlSearchParms();
+      
+      // check cygwin path
+      if ('cygwin' in this.__urlParms.getParms())
       {
-        var url = adminPath;
-        var req = new qx.io.remote.Request(url, "POST", "application/json");
-        var dat = "action=generate_Api";
-        var openApi = "action=open_In_Browser&location=api";
-        var createParams = [ fileName, filePath ];
-        req.setTimeout(600000);
+        var cygParm = 'cygwin' + "=" + this.__urlParms.getParms()['cygwin'];
+        dat += "&" + cygParm;
+      }
 
-        this.__urlParms = new toolbox.UrlSearchParms();
-        
-        // check cygwin path
-        if ('cygwin' in this.__urlParms.getParms())
+      var params = [ "myName", "myPath" ];
+
+      for (var i=0; i<createParams.length; i++)
+      {
+        if (createParams[i] != "")
         {
-          var cygParm = 'cygwin' + "=" + this.__urlParms.getParms()['cygwin'];
-          dat += "&" + cygParm;
+          dat += "&" + params[i] + "=" + createParams[i];
+          openApi += "&" + params[i] + "=" + createParams[i];
         }
+      }
 
-        var params = [ "myName", "myPath" ];
+      req.setProhibitCaching(true);
+      req.setData(dat);
 
-        for (var i=0; i<createParams.length; i++)
+      this.__loader = new toolbox.ProgressLoader();
+      this.__loader.setCaption("Generating API");
+
+      req.addListener("completed", function(evt)
+      {
+        var result = evt.getContent();
+
+        if(result.api_state != undefined) 
         {
-          if (createParams[i] != "")
+          var receivedState = result.api_state;
+
+          if (receivedState == 1 || receivedState == 0)
           {
-            dat += "&" + params[i] + "=" + createParams[i];
-            openApi += "&" + params[i] + "=" + createParams[i];
-          }
-        }
-
-        req.setProhibitCaching(true);
-        req.setData(dat);
-
-        this.__loader = new toolbox.ProgressLoader();
-        this.__loader.setCaption("Generating API");
-
-        req.addListener("completed", function(evt)
-        {
-          var result = evt.getContent();
-
-          if(result.api_state != undefined) 
-          {
-            var receivedState = result.api_state;
-  
-            if (receivedState == 1 || receivedState == 0)
+            if (receivedState == 0)
             {
-              if (receivedState == 0)
-              {
-                logFrame.setHtml(logFrame.getHtml() + " <br> " + result.api_output);
-                req.setData(openApi);
-                req.send();
-              }
-  
-              if (receivedState == 1) {
-                logFrame.setHtml(logFrame.getHtml() + " <br> " + '<font color="red">' + result.api_error + '</font>');
-              }
+              logFrame.setHtml(logFrame.getHtml() + " <br> " + result.api_output);
+              req.setData(openApi);
+              req.send();
             }
-          } else {
-          	logFrame.setHtml(logFrame.getHtml() + " <br> " + '<font color="red">' + result.api_error + '</font>');
+
+            if (receivedState == 1) {
+              logFrame.setHtml(logFrame.getHtml() + " <br> " + '<font color="red">' + result.api_error + '</font>');
+            }
           }
-          this.__loader.setModal(false);
-          this.__loader.hide();
-        },
-        this);
+        } else {
+        	logFrame.setHtml(logFrame.getHtml() + " <br> " + '<font color="red">' + result.api_error + '</font>');
+        }
+        this.__loader.setModal(false);
+        this.__loader.hide();
+      },
+      this);
 
-        req.addListener("failed", function(evt) {
-          this.error("Failed to post to URL: " + url);
-          logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
-          this.__loader.setModal(false);
-          this.__loader.hide();
-        }, this);
+      req.addListener("failed", function(evt) {
+        this.error("Failed to post to URL: " + url);
+        logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
+        this.__loader.setModal(false);
+        this.__loader.hide();
+      }, this);
 
-        req.send();
-      }
-      else
-      {
-        alert("You don't created an application");
-      }
+      req.send();
 
       return;
     },
@@ -487,77 +465,70 @@ qx.Class.define("toolbox.Builder",
      */
     makePretty : function(adminPath, fileName, filePath, logFrame)
     {
-      if (fileName != "" & filePath != "")
+      var url = adminPath;
+      var req = new qx.io.remote.Request(url, "POST", "application/json");
+      var dat = "action=make_Pretty";
+      var createParams = [ fileName, filePath ];
+      req.setTimeout(600000);
+
+      this.__urlParms = new toolbox.UrlSearchParms();
+      
+      // check cygwin path
+      if ('cygwin' in this.__urlParms.getParms())
       {
-        var url = adminPath;
-        var req = new qx.io.remote.Request(url, "POST", "application/json");
-        var dat = "action=make_Pretty";
-        var createParams = [ fileName, filePath ];
-        req.setTimeout(600000);
+        var cygParm = 'cygwin' + "=" + this.__urlParms.getParms()['cygwin'];
+        dat += "&" + cygParm;
+      }
 
-        this.__urlParms = new toolbox.UrlSearchParms();
-        
-        // check cygwin path
-        if ('cygwin' in this.__urlParms.getParms())
-        {
-          var cygParm = 'cygwin' + "=" + this.__urlParms.getParms()['cygwin'];
-          dat += "&" + cygParm;
+      var params = [ "myName", "myPath" ];
+
+      for (var i=0; i<createParams.length; i++)
+      {
+        if (createParams[i] != "") {
+          dat += "&" + params[i] + "=" + createParams[i];
         }
+      }
 
-        var params = [ "myName", "myPath" ];
+      req.setProhibitCaching(true);
+      req.setData(dat);
+      
+      this.__loader = new toolbox.ProgressLoader();
+      this.__loader.setCaption("Prettifing the source code");
 
-        for (var i=0; i<createParams.length; i++)
-        {
-          if (createParams[i] != "") {
-            dat += "&" + params[i] + "=" + createParams[i];
-          }
-        }
-
-        req.setProhibitCaching(true);
-        req.setData(dat);
+      req.addListener("completed", function(evt)
+      {
+        var result = evt.getContent();
         
-        this.__loader = new toolbox.ProgressLoader();
-        this.__loader.setCaption("Prettifing the source code");
-
-        req.addListener("completed", function(evt)
+        if(result.pretty_state != undefined)
         {
-          var result = evt.getContent();
-          
-          if(result.pretty_state != undefined)
+          var receivedState = result.pretty_state;
+
+          if (receivedState == 1 || receivedState == 0)
           {
-	          var receivedState = result.pretty_state;
-	
-	          if (receivedState == 1 || receivedState == 0)
-	          {
-	            if (receivedState == 0) {
-	              logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.pretty_output);
-	            }
-	
-	            if (receivedState == 1) {
-	              logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.pretty_error + '</font>');
-	            }
-	          }
-          } else {
-          	logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.pretty_error + '</font>');
+            if (receivedState == 0) {
+              logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.pretty_output);
+            }
+
+            if (receivedState == 1) {
+              logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.pretty_error + '</font>');
+            }
           }
-          this.__loader.setModal(false);
-          this.__loader.hide();
-        },
-        this);
+        } else {
+        	logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.pretty_error + '</font>');
+        }
+        this.__loader.setModal(false);
+        this.__loader.hide();
+      },
+      this);
 
-        req.addListener("failed", function(evt) {
-          this.error("Failed to post to URL: " + url);
-          logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
-          this.__loader.setModal(false);
-          this.__loader.hide();
-        }, this);
+      req.addListener("failed", function(evt) {
+        this.error("Failed to post to URL: " + url);
+        logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
+        this.__loader.setModal(false);
+        this.__loader.hide();
+      }, this);
 
-        req.send();
-      }
-      else
-      {
-        alert("You don't created an application");
-      }
+      req.send();
 
       return;
     },
@@ -574,78 +545,71 @@ qx.Class.define("toolbox.Builder",
      */
     validateCode : function(adminPath, fileName, filePath, logFrame)
     {
-      if (fileName != "" & filePath != "")
+      var url = adminPath;
+      var req = new qx.io.remote.Request(url, "POST", "application/json");
+      var dat = "action=validate_Code";
+      var createParams = [ fileName, filePath ];
+      req.setTimeout(600000);
+
+      this.__urlParms = new toolbox.UrlSearchParms();
+      
+      // check cygwin path
+      if ('cygwin' in this.__urlParms.getParms())
       {
-        var url = adminPath;
-        var req = new qx.io.remote.Request(url, "POST", "application/json");
-        var dat = "action=validate_Code";
-        var createParams = [ fileName, filePath ];
-        req.setTimeout(600000);
+        var cygParm = 'cygwin' + "=" + this.__urlParms.getParms()['cygwin'];
+        dat += "&" + cygParm;
+      }
 
-        this.__urlParms = new toolbox.UrlSearchParms();
-        
-        // check cygwin path
-        if ('cygwin' in this.__urlParms.getParms())
-        {
-          var cygParm = 'cygwin' + "=" + this.__urlParms.getParms()['cygwin'];
-          dat += "&" + cygParm;
+      var params = [ "myName", "myPath" ];
+
+      for (var i=0; i<createParams.length; i++)
+      {
+        if (createParams[i] != "") {
+          dat += "&" + params[i] + "=" + createParams[i];
         }
+      }
 
-        var params = [ "myName", "myPath" ];
+      req.setProhibitCaching(true);
+      req.setData(dat);
+      
+      this.__loader = new toolbox.ProgressLoader();
+      this.__loader.setCaption("Validating the source code");
 
-        for (var i=0; i<createParams.length; i++)
-        {
-          if (createParams[i] != "") {
-            dat += "&" + params[i] + "=" + createParams[i];
-          }
-        }
-
-        req.setProhibitCaching(true);
-        req.setData(dat);
+      req.addListener("completed", function(evt)
+      {
+        var result = evt.getContent();
         
-        this.__loader = new toolbox.ProgressLoader();
-        this.__loader.setCaption("Validating the source code");
-
-        req.addListener("completed", function(evt)
+        if(result.val_state != undefined)
         {
-          var result = evt.getContent();
-          
-          if(result.val_state != undefined)
+          var receivedState = result.val_state;
+
+          if (receivedState == 1 || receivedState == 0)
           {
-            var receivedState = result.val_state;
-  
-            if (receivedState == 1 || receivedState == 0)
+            if (receivedState == 0)
             {
-              if (receivedState == 0)
-              {
-                logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.val_output);
-              }
-  
-              if (receivedState == 1) {
-                logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.val_error + '</font>');
-              }
+              logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.val_output);
             }
-          } else {
-          	logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.val_error + '</font>');
+
+            if (receivedState == 1) {
+              logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.val_error + '</font>');
+            }
           }
-          this.__loader.setModal(false);
-          this.__loader.hide();
-        },
-        this);
+        } else {
+        	logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.val_error + '</font>');
+        }
+        this.__loader.setModal(false);
+        this.__loader.hide();
+      },
+      this);
 
-        req.addListener("failed", function(evt) {
-          this.error("Failed to post to URL: " + url);
-          logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
-          this.__loader.setModal(false);
-          this.__loader.hide();
-        }, this);
+      req.addListener("failed", function(evt) {
+        this.error("Failed to post to URL: " + url);
+        logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
+        this.__loader.setModal(false);
+        this.__loader.hide();
+      }, this);
 
-        req.send();
-      }
-      else
-      {
-        alert("You don't created an application");
-      }
+      req.send();
 
       return;
     },
@@ -662,84 +626,77 @@ qx.Class.define("toolbox.Builder",
      */
     testApplication : function(adminPath, fileName, filePath, logFrame)
     {
-      if (fileName != "" & filePath != "")
+      var url = adminPath;
+      var req = new qx.io.remote.Request(url, "POST", "application/json");
+      var dat = "action=test_Application";
+      var openSource = "action=open_In_Browser&location=test";
+      var createParams = [ fileName, filePath ];
+      req.setTimeout(100000);
+
+      this.__urlParms = new toolbox.UrlSearchParms();
+      
+      // check cygwin path
+      if ('cygwin' in this.__urlParms.getParms())
       {
-        var url = adminPath;
-        var req = new qx.io.remote.Request(url, "POST", "application/json");
-        var dat = "action=test_Application";
-        var openSource = "action=open_In_Browser&location=test";
-        var createParams = [ fileName, filePath ];
-        req.setTimeout(100000);
+        var cygParm = 'cygwin' + "=" + this.__urlParms.getParms()['cygwin'];
+        dat += "&" + cygParm;
+      }
 
-        this.__urlParms = new toolbox.UrlSearchParms();
-        
-        // check cygwin path
-        if ('cygwin' in this.__urlParms.getParms())
+      var params = [ "myName", "myPath" ];
+
+      for (var i=0; i<createParams.length; i++)
+      {
+        if (createParams[i] != "")
         {
-          var cygParm = 'cygwin' + "=" + this.__urlParms.getParms()['cygwin'];
-          dat += "&" + cygParm;
+          dat += "&" + params[i] + "=" + createParams[i];
+          openSource += "&" + params[i] + "=" + createParams[i];
         }
+      }
 
-        var params = [ "myName", "myPath" ];
+      req.setProhibitCaching(true);
+      req.setData(dat);
+      
+      this.__loader = new toolbox.ProgressLoader();
+      this.__loader.setCaption("Generating the Testrunner (using the tests in the build version)");
 
-        for (var i=0; i<createParams.length; i++)
-        {
-          if (createParams[i] != "")
-          {
-            dat += "&" + params[i] + "=" + createParams[i];
-            openSource += "&" + params[i] + "=" + createParams[i];
-          }
-        }
-
-        req.setProhibitCaching(true);
-        req.setData(dat);
+      req.addListener("completed", function(evt)
+      {
+        var result = evt.getContent();
         
-        this.__loader = new toolbox.ProgressLoader();
-        this.__loader.setCaption("Generating the Testrunner (using the tests in the build version)");
-
-        req.addListener("completed", function(evt)
+        if(result.testApp_state != undefined) 
         {
-          var result = evt.getContent();
-          
-          if(result.testApp_state != undefined) 
+          var receivedState = result.testApp_state;
+
+          if (receivedState == 1 || receivedState == 0)
           {
-            var receivedState = result.testApp_state;
-  
-            if (receivedState == 1 || receivedState == 0)
+            if (receivedState == 0)
             {
-              if (receivedState == 0)
-              {
-                logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.testApp_output);
-                req.setData(openSource);
-                req.send();
-              }
-  
-              if (receivedState == 1)
-              {
-                logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.testApp_error + '</font>');
-              }
+              logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.testApp_output);
+              req.setData(openSource);
+              req.send();
             }
-          } else {
-          	logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.testApp_error + '</font>');
+
+            if (receivedState == 1)
+            {
+              logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.testApp_error + '</font>');
+            }
           }
-          this.__loader.setModal(false);
-          this.__loader.hide();
-        },
-        this);
+        } else {
+        	logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.testApp_error + '</font>');
+        }
+        this.__loader.setModal(false);
+        this.__loader.hide();
+      },
+      this);
 
-        req.addListener("failed", function(evt) {
-          this.error("Failed to post to URL: " + url);
-          logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
-          this.__loader.setModal(false);
-          this.__loader.hide();
-        }, this);
+      req.addListener("failed", function(evt) {
+        this.error("Failed to post to URL: " + url);
+        logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
+        this.__loader.setModal(false);
+        this.__loader.hide();
+      }, this);
 
-        req.send();
-      }
-      else
-      {
-        alert("You don't created an application");
-      }
+      req.send();
 
       return;
     },
@@ -756,108 +713,150 @@ qx.Class.define("toolbox.Builder",
      */
     testSource : function(adminPath, fileName, filePath, logFrame)
     {
-      if (fileName != "" & filePath != "")
+      var url = adminPath;
+      var req = new qx.io.remote.Request(url, "POST", "application/json");
+      var dat = "action=test_Source";
+      var openSource = "action=open_In_Browser&location=test";
+      var createParams = [ fileName, filePath ];
+      req.setTimeout(100000);
+
+      this.__urlParms = new toolbox.UrlSearchParms();
+      
+      // check cygwin path
+      if ('cygwin' in this.__urlParms.getParms())
       {
-        var url = adminPath;
-        var req = new qx.io.remote.Request(url, "POST", "application/json");
-        var dat = "action=test_Source";
-        var openSource = "action=open_In_Browser&location=test";
-        var createParams = [ fileName, filePath ];
-        req.setTimeout(100000);
+        var cygParm = 'cygwin' + "=" + this.__urlParms.getParms()['cygwin'];
+        dat += "&" + cygParm;
+      }
 
-        this.__urlParms = new toolbox.UrlSearchParms();
-        
-        // check cygwin path
-        if ('cygwin' in this.__urlParms.getParms())
+      var params = [ "myName", "myPath" ];
+
+      for (var i=0; i<createParams.length; i++)
+      {
+        if (createParams[i] != "")
         {
-          var cygParm = 'cygwin' + "=" + this.__urlParms.getParms()['cygwin'];
-          dat += "&" + cygParm;
+          dat += "&" + params[i] + "=" + createParams[i];
+          openSource += "&" + params[i] + "=" + createParams[i];
         }
+      }
 
-        var params = [ "myName", "myPath" ];
+      req.setProhibitCaching(true);
+      req.setData(dat);
+      
+      this.__loader = new toolbox.ProgressLoader();
+      this.__loader.setCaption("Generating the Testrunner (using the tests in the source version)");
 
-        for (var i=0; i<createParams.length; i++)
-        {
-          if (createParams[i] != "")
-          {
-            dat += "&" + params[i] + "=" + createParams[i];
-            openSource += "&" + params[i] + "=" + createParams[i];
-          }
-        }
-
-        req.setProhibitCaching(true);
-        req.setData(dat);
+      req.addListener("completed", function(evt)
+      {
+        var result = evt.getContent();
         
-        this.__loader = new toolbox.ProgressLoader();
-        this.__loader.setCaption("Generating the Testrunner (using the tests in the source version)");
-
-        req.addListener("completed", function(evt)
+        if(result.test_state != undefined)
         {
-          var result = evt.getContent();
-          
-          if(result.test_state != undefined)
+          var receivedState = result.test_state;
+
+          if (receivedState == 1 || receivedState == 0)
           {
-            var receivedState = result.test_state;
-  
-            if (receivedState == 1 || receivedState == 0)
+            if (receivedState == 0)
             {
-              if (receivedState == 0)
-              {
-                logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.test_output);
-                req.setData(openSource);
-                req.send();
-              }
-  
-              if (receivedState == 1)
-              {
-                logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.test_error + '</font>');
-              }
+              logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.test_output);
+              req.setData(openSource);
+              req.send();
             }
-          } else {
-          	logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.test_error + '</font>');
+
+            if (receivedState == 1)
+            {
+              logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.test_error + '</font>');
+            }
           }
-          this.__loader.setModal(false);
-          this.__loader.hide();
-        },
-        this);
+        } else {
+        	logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.test_error + '</font>');
+        }
+        this.__loader.setModal(false);
+        this.__loader.hide();
+      },
+      this);
 
-        req.addListener("failed", function(evt) {
-          this.error("Failed to post to URL: " + url);
-          logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
-          this.__loader.setModal(false);
-          this.__loader.hide();
-        }, this);
+      req.addListener("failed", function(evt) {
+        this.error("Failed to post to URL: " + url);
+        logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
+        this.__loader.setModal(false);
+        this.__loader.hide();
+      }, this);
 
-        req.send();
-      }
-      else
-      {
-        alert("You don't created an application");
-      }
+      req.send();
 
       return;
     },
     
     
+    /**
+     * TODOC
+     *
+     * @param adminPath {var} TODOC
+     * @param fileName {var} TODOC
+     * @param filePath {var} TODOC
+     * @param logFrame {var} TODOC
+     * @param appList {var} TODOC
+     * @return {void} 
+     */
+    removeCurrentApplication : function(adminPath, fileName, filePath, logFrame, appList)
+    {  
+        var url = adminPath;
+        var req = new qx.io.remote.Request(url, "POST");
+        var dat = "action=delete_Application";
+        var createParams = [ fileName, filePath ];
+        req.setTimeout(100000);
+
+        
+        for(var i = 0; i < toolbox.Toolbox.APPLIST.length; i++) {
+          if(toolbox.Toolbox.APPLIST[i].name == fileName & 
+             toolbox.Toolbox.APPLIST[i].path == filePath.replace(/\\/g, "/")) 
+          {
+          	toolbox.Toolbox.APPLIST.splice(i, 1);
+          	var changedAppList = qx.util.Json.stringify( toolbox.Toolbox.APPLIST, true);  
+            
+            var params = [ "myName", "myPath" ];
+
+            for (var j=0; j<createParams.length; j++)
+            {
+              if (createParams[j] != "")
+              {
+                dat += "&" + params[j] + "=" + createParams[j];
+              }
+            }
+
+            dat += "&changedAppList=" + changedAppList;
+            req.setData(dat);
+            req.send();
+          }
+        }
+        req.setData(dat);
+
+        req.addListener("failed", function(evt) {
+          this.error("Failed to post to URL: " + url);
+          logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + fileName + " in " + filePath + " could not remove </br>Failed to post to URL: " + url + '</font>');
+        }, this);
+        
+        appList.setEnabled(true);
+    },
     
     
-    prepareApplicationList : function(adminPath, logFrame, appLisButton)
+    /**
+     * TODOC
+     *
+     * @param adminPath {var} TODOC
+     * @param logFrame {var} TODOC
+     * @param appList {var} TODOC
+     * @return {void} 
+     */
+    prepareApplicationList : function(adminPath, logFrame, appList)
     {
         var url = adminPath;
         var req = new qx.io.remote.Request(url, "POST");
         var dat = "action=show_Application_List";
-        var createParams = [];
         req.setTimeout(100000);
 
-        for (var i=0; i<createParams.length; i++)
-        {
-          // check cygwin path
-          if ('cygwin' in this.__urlParms.getParms())
-          {
-            var cygParm = 'cygwin' + "=" + this.__urlParms.getParms()['cygwin'];
-            dat += "&" + cygParm;
-          }
-        }
+
         req.setData(dat);
         
         req.addListener("completed", function(evt)
@@ -866,7 +865,7 @@ qx.Class.define("toolbox.Builder",
           result = result.replace(/\n/g, "").replace(/{/g, "\{").replace(/}/g, "\}");
           this.jsonObject = qx.util.Json.parse(result);
           toolbox.Toolbox.APPLIST = this.jsonObject;
-          appLisButton.setEnabled(true);
+          appList.setEnabled(true);
         },
         this);
 

@@ -136,7 +136,11 @@ def dispatch_action(form):
         elif (action == 'save_Application_List'):
             print "Content-type: text/plain"  
             print
-            saveApplicationList(form)  
+            saveApplicationList(form) 
+        elif (action == 'delete_Application'):
+            print "Content-type: text/plain"  
+            print
+            deleteApplication(form)     
         else:
             print "Content-type: text/plain"
             print
@@ -225,6 +229,21 @@ def saveApplicationList(form):
     confFile = open(directory+'\\..\\appList\\applicationList.json', 'w')
     confFile.write(uCode)
 
+def deleteApplication(form):
+    sys.stdout.flush()
+    import shutil
+    saveApplicationList(form)
+    myName = ""
+    if 'myName' in form:
+        myName = form['myName'].value #Name
+    myPath = ""
+    if 'myPath' in form:
+        myPath = form['myPath'].value #Path
+        myPath = myPath.replace(' ', '" "')   
+        if myPath[(len(myPath)-1)] != "\\":
+           myPath = myPath + '\\'    
+    
+    shutil.rmtree(myPath+myName) 
 
 
 
