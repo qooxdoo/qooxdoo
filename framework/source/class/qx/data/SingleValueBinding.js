@@ -528,7 +528,7 @@ qx.Class.define("qx.data.SingleValueBinding",
           if (data != undefined) {
             targetObject["set" + qx.lang.String.firstUp(targetProperty)](data);            
           } else {
-            targetObject["reset" + qx.lang.String.firstUp(targetProperty)];
+            targetObject["reset" + qx.lang.String.firstUp(targetProperty)]();
           }
 
           // tell the user that the setter was invoked probably
