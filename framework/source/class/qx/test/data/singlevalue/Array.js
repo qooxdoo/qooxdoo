@@ -292,6 +292,22 @@ qx.Class.define("qx.test.data.singlevalue.Array",
       // set another value and check it
       this.__a.getArray().push("2");
       this.assertEquals("2", this.__label.getContent(), "Late binding does not work!"); 
+    },
+    
+    
+    testRemoveArrayItem: function() {
+      // bind the last element
+      qx.data.SingleValueBinding.bind(this.__a, "array[last]", this.__label, "content");
+      // check the binding
+      this.assertEquals("three", this.__label.getContent(), "Array[last] binding does not work!");
+
+      // pop all 3 elements
+      this.__a.getArray().pop();
+      this.__a.getArray().pop();
+      this.__a.getArray().pop();
+      
+      // check the binding
+      this.assertNull(this.__label.getContent(), "Array[last] binding does not work!");
     }
 
   }
