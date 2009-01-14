@@ -129,10 +129,14 @@ def dispatch_action(form):
             print "Content-type: text/plain"  
             print
             testSource(form) 
-        elif (action == 'show_applicationList'):
+        elif (action == 'show_Application_List'):
             print "Content-type: text/plain"  
             print
-            showApplicationList(form)  
+            showApplicationList(form)
+        elif (action == 'save_Application_List'):
+            print "Content-type: text/plain"  
+            print
+            saveApplicationList(form)  
         else:
             print "Content-type: text/plain"
             print
@@ -200,11 +204,28 @@ def showApplicationList(form):
         if myPath[(len(myPath)-1)] != "\\":
            myPath = myPath + '\\'    
     
-    list = open("c:\\tmp\\applicationList.json", 'r').readlines()
+    directory, filename = os.path.split(os.path.abspath(sys.argv[0]))
+    directory = directory.replace('\\', '\\\\')
+    list = open(directory+'\\..\\appList\\applicationList.json', 'r').readlines()
     input = "".join(list)
-
+    
     print input
     return input
+
+def saveApplicationList(form):
+    sys.stdout.flush()
+
+    if 'changedAppList' in form:
+        changedAppList = form['changedAppList'].value #changedAppList
+    
+    uCode = unicode(str(changedAppList))
+    
+    directory, filename = os.path.split(os.path.abspath(sys.argv[0]))
+    directory = directory.replace('\\', '\\\\')
+    confFile = open(directory+'\\..\\appList\\applicationList.json', 'w')
+    confFile.write(uCode)
+
+
 
 
 def testApplication(form):
@@ -220,29 +241,33 @@ def testApplication(form):
         if myPath[(len(myPath)-1)] != "\\":
            myPath = myPath + '\\'    
     
-    if 'cygwin' in form:
-        #print "Content-type: text/plain"
-        #print 'In CYGWIN'
-        parts = form['cygwin'].value.split('\\')
-        pypath = os.path.join(*parts)
-        pypath = os.path.join(pypath,'bin','python.exe')
-        pypath = pypath.replace(':', ':/')
-        pypath = pypath.replace('\\', '/')
+    if os.path.exists(myPath+"\\"+myName):
+        if 'cygwin' in form:
+            #print "Content-type: text/plain"
+            #print 'In CYGWIN'
+            parts = form['cygwin'].value.split('\\')
+            pypath = os.path.join(*parts)
+            pypath = os.path.join(pypath,'bin','python.exe')
+            pypath = pypath.replace(':', ':/')
+            pypath = pypath.replace('\\', '/')
+            
+            libraryPath = os.getcwd().replace(":", "").replace("\\", "/").replace(' ', '" "')
+            cmd = pypath +' /cygdrive/'+ 'c/tmp/'+myName+'/./generate.py test'
+        else:
+            makecmd = sys.executable +' ' + myPath+myName+'\\generate.py test' 
+            cmd = makecmd
         
-        libraryPath = os.getcwd().replace(":", "").replace("\\", "/").replace(' ', '" "')
-        cmd = pypath +' /cygdrive/'+ 'c/tmp/'+myName+'/./generate.py test'
-    else:
-        makecmd = sys.executable +' ' + myPath+myName+'\\generate.py test' 
-        cmd = makecmd
+        (rcode, output, error) = invoke_piped(cmd)
+        output = output.replace('"', "'")
     
-    (rcode, output, error) = invoke_piped(cmd)
-    output = output.replace('"', "'")
-
-    result = ' { testApp_state: ' + repr(rcode) + ', testApp_output: "' + output + '", testApp_error: "' + error + '" }'
-    result = result.replace("\n", "<br/>")
-    result = result.replace("\\", "/");
-    result = result.replace("//", "/");
-    print result
+        result = ' { testApp_state: ' + repr(rcode) + ', testApp_output: "' + output + '", testApp_error: "' + error + '" }'
+        result = result.replace("\n", "<br/>")
+        result = result.replace("\\", "/");
+        result = result.replace("//", "/");
+        print result
+    else:
+        result = '{ testApp_error: "' + myName + ' not found in ' + myPath.replace('\\', '\\\\') + ' <br/>Application maybe does not exist any more" }'
+        print result
     return result
 
 
@@ -260,29 +285,33 @@ def testSource(form):
         if myPath[(len(myPath)-1)] != "\\":
            myPath = myPath + '\\'    
     
-    if 'cygwin' in form:
-        #print "Content-type: text/plain"
-        #print 'In CYGWIN'
-        parts = form['cygwin'].value.split('\\')
-        pypath = os.path.join(*parts)
-        pypath = os.path.join(pypath,'bin','python.exe')
-        pypath = pypath.replace(':', ':/')
-        pypath = pypath.replace('\\', '/')
+    if os.path.exists(myPath+"\\"+myName):
+        if 'cygwin' in form:
+            #print "Content-type: text/plain"
+            #print 'In CYGWIN'
+            parts = form['cygwin'].value.split('\\')
+            pypath = os.path.join(*parts)
+            pypath = os.path.join(pypath,'bin','python.exe')
+            pypath = pypath.replace(':', ':/')
+            pypath = pypath.replace('\\', '/')
+            
+            libraryPath = os.getcwd().replace(":", "").replace("\\", "/").replace(' ', '" "')
+            cmd = pypath +' /cygdrive/'+ 'c/tmp/'+myName+'/./generate.py test-source'
+        else:
+            makecmd = sys.executable +' ' + myPath+myName+'\\generate.py test-source' 
+            cmd = makecmd
         
-        libraryPath = os.getcwd().replace(":", "").replace("\\", "/").replace(' ', '" "')
-        cmd = pypath +' /cygdrive/'+ 'c/tmp/'+myName+'/./generate.py test-source'
-    else:
-        makecmd = sys.executable +' ' + myPath+myName+'\\generate.py test-source' 
-        cmd = makecmd
+        (rcode, output, error) = invoke_piped(cmd)
+        output = output.replace('"', "'")
     
-    (rcode, output, error) = invoke_piped(cmd)
-    output = output.replace('"', "'")
-
-    result = ' { test_state: ' + repr(rcode) + ', test_output: "' + output + '", test_error: "' + error + '" }'
-    result = result.replace("\n", "<br/>")
-    result = result.replace("\\", "/");
-    result = result.replace("//", "/");
-    print result
+        result = ' { test_state: ' + repr(rcode) + ', test_output: "' + output + '", test_error: "' + error + '" }'
+        result = result.replace("\n", "<br/>")
+        result = result.replace("\\", "/");
+        result = result.replace("//", "/");
+        print result
+    else:
+        result = '{ test_error: "' + myName + ' not found in ' + myPath.replace('\\', '\\\\') + ' <br/>Application maybe does not exist any more" }'
+        print result
     return result
 
 
@@ -301,7 +330,7 @@ def generateBuild(form):
         if myPath[(len(myPath)-1)] != "\\":
            myPath = myPath + '\\'    
     
-    if os.path.exists(myPath):
+    if os.path.exists(myPath+"\\"+myName):
 	    if 'cygwin' in form:
 	        #print "Content-type: text/plain"
 	        #print 'In CYGWIN'
@@ -346,7 +375,7 @@ def validateCode(form):
         if myPath[(len(myPath)-1)] != "\\":
            myPath = myPath + '\\'    
     
-    if os.path.exists(myPath):
+    if os.path.exists(myPath+"\\"+myName):
         if 'cygwin' in form:
             #print "Content-type: text/plain"
             #print 'In CYGWIN'
@@ -392,7 +421,7 @@ def makePretty(form):
         if myPath[(len(myPath)-1)] != "\\":
            myPath = myPath + '\\'    
     
-    if os.path.exists(myPath):
+    if os.path.exists(myPath+"\\"+myName):
         if 'cygwin' in form:
             #print "Content-type: text/plain"
             #print 'In CYGWIN'
@@ -457,7 +486,7 @@ def generateApi(form):
         if myPath[(len(myPath)-1)] != "\\":
            myPath = myPath + '\\'    
     
-    if os.path.exists(myPath):
+    if os.path.exists(myPath+"\\"+myName):
         if 'cygwin' in form:
             #print "Content-type: text/plain"
             #print 'In CYGWIN'
@@ -503,7 +532,7 @@ def generateSource(form):
         if myPath[(len(myPath)-1)] != "\\":
            myPath = myPath + '\\' 
     
-    if os.path.exists(myPath):
+    if os.path.exists(myPath+"\\"+myName):
 	    if 'cygwin' in form:
 	        #print "Content-type: text/plain"
 	        #print 'In CYGWIN'

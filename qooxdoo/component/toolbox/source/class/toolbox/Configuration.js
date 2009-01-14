@@ -255,9 +255,13 @@ qx.Class.define("toolbox.Configuration",
         this);
 
         req2.addListener("completed", function(evt) {
-          saveResult = evt.getContent();
+          var saveResult = evt.getContent();
         }, this);
 
+        req2.addListener("failed", function(evt) {
+          logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Configuration could not safed<br/>Failed to post to URL: " + url + '</font>');
+        }, this);
+        
         req.addListener("failed", function(evt) {
           this.error("Failed to post to URL: " + url);
           logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
