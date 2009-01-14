@@ -16,7 +16,7 @@
      * Sebastian Werner (wpbasti)
      * Fabian Jakobs (fjakobs)
      * Hugh Gibson
-     * Jonathan Rass (jonathan_rass)
+     * Jonathan Weiß (jonathan_rass)
 
 ************************************************************************ */
 

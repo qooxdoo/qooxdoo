@@ -15,7 +15,7 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
-     * Jonathan Rass (jonathan_rass)
+     * Jonathan Weiß (jonathan_rass)
      * Matthew Gregory
 
 ************************************************************************ */

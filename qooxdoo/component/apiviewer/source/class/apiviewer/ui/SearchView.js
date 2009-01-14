@@ -14,7 +14,7 @@
 
    Authors:
      * Stefan Kloiber (skloiber)
-     * Jonathan Rass (jonathan_rass)
+     * Jonathan Weiß (jonathan_rass)
 
 ************************************************************************ */
 

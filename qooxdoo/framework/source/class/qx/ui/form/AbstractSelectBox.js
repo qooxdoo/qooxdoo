@@ -15,7 +15,7 @@
    Authors:
      * Martin Wittemann (martinwittemann)
      * Sebastian Werner (wpbasti)
-     * Jonathan Rass (jonathan_rass)
+     * Jonathan Weiß (jonathan_rass)
 
 ************************************************************************ */
 
