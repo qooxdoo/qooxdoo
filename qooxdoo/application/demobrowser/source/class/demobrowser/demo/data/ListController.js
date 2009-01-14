@@ -67,13 +67,8 @@ qx.Class.define("demobrowser.demo.data.ListController",
       selectedLabel.setBackgroundColor("white");
       
       
-      
-      
-      
-      
-      
       /* ***********************************************
-       * Controlls
+       * Controlls: Do only work on the data array
        * ********************************************* */  
       var addItemButton = new qx.ui.form.Button("Add an item");
       addItemButton.setWidth(120);
@@ -82,7 +77,7 @@ qx.Class.define("demobrowser.demo.data.ListController",
         data.push("Item " + data.length);
       }, this);
       
-      var removeItemButton = new qx.ui.form.Button("Remove last item");
+      var removeItemButton = new qx.ui.form.Button("Remove an item");
       removeItemButton.setWidth(120);
       this.getRoot().add(removeItemButton, {left: 370, top: 145});
       removeItemButton.addListener("execute", function() {
@@ -96,6 +91,9 @@ qx.Class.define("demobrowser.demo.data.ListController",
         this.info(data.toString());
       }, this);
       
+
+
+
 
 
 
