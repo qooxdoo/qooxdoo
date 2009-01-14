@@ -16,7 +16,7 @@
      * Thomas Herchenroeder (thron7)
      * Fabian Jakobs (fjakobs)
      * Martin Wittemann (martinwittemann)
-     * Jonathan Rass (jonathan_rass)
+     * Jonathan Weiß (jonathan_rass)
 
 ************************************************************************ */
 
