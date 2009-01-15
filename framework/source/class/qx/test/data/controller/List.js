@@ -363,6 +363,22 @@ qx.Class.define("qx.test.data.controller.List",
 
       // check for null
       this.assertNull(label.getContent(), "Label does still contain something!");
+    },
+    
+    
+    testDates: function() {
+      this.__data = [new Date(0), new Date(100)];
+      // create a new array
+      this.__model = new qx.data.Array(this.__data);
+      
+      // create the controller
+      this.__controller = new qx.data.controller.List(this.__model, this.__list);    
+      
+      // check the binding
+      for (var i = 0; i < this.__data.length; i++) {
+        var label = this.__list.getChildren()[i].getLabel();
+        this.assertEquals(this.__data[i].toString(), label, "Date-Binding " + i + " is wrong!");
+      }      
     }
     
   }
