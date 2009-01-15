@@ -44,24 +44,37 @@ qx.Class.define("qx.test.bom.Cookie",
       this.assertNull(result, "Remove value");
     },
     
-    // TODO chris_schmidt: Add the domain parameter to the test.
     testSaveExtendedData : function()
     {
       var key = "qx.test.bom.Cookie.testSaveExtendedData";
       var dataToSave = "Qooxdoo";
       var path = "/";
+      var domain = document.domain;
+      
+      /* 
+       * It isn't possible to set a domain for localhost or if the test is
+       * running from file system. Otherwise the domain must start with a
+       * "." (dot) as prefix.  
+       */
+      if (domain != "") {
+        if (domain === "localhost") {
+          domain = "";
+        } else {
+          domain = "." + domain;
+        }
+      }
       
       // Check that no value exists 
       var result = qx.bom.Cookie.get(key);
       this.assertNull(result, "Empty check before start");
       
       // Set and restore value
-      qx.bom.Cookie.set(key, dataToSave, null, path);
+      qx.bom.Cookie.set(key, dataToSave, null, path, domain);
       result = qx.bom.Cookie.get(key);
       this.assertEquals(dataToSave, result, "Set and restore value");
       
       // remove value
-      qx.bom.Cookie.del(key, path);
+      qx.bom.Cookie.del(key, path, domain);
       result = qx.bom.Cookie.get(key);
       this.assertNull(result, "Remove value");
     }
