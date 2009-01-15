@@ -286,7 +286,7 @@ qx.Class.define("qx.test.data.controller.List",
       this.__setUpString();
       
       // add the first element to the selection
-      this.__controller.addToSelection(this.__model.getItem(0));
+      this.__controller.getSelection().push(this.__model.getItem(0));
       
       // test the selection
       this.assertEquals(this.__model.getItem(0), this.__controller.getSelection().getItem(0), "addToSelection does not work.");
@@ -300,8 +300,8 @@ qx.Class.define("qx.test.data.controller.List",
       this.__list.setSelectionMode("multi");    
       
       // add the some elements to the selection
-      this.__controller.addToSelection(this.__model.getItem(1));
-      this.__controller.addToSelection(this.__model.getItem(2));      
+      this.__controller.getSelection().push(this.__model.getItem(1));
+      this.__controller.getSelection().push(this.__model.getItem(2));      
       
       // test the selection
       this.assertEquals(this.__model.getItem(1), this.__controller.getSelection().getItem(0), "addToSelection does not work.");
@@ -323,7 +323,7 @@ qx.Class.define("qx.test.data.controller.List",
       this.__setUpString();
 
       // add c to the selection
-      this.__controller.addToSelection("c");
+      this.__controller.getSelection().push("c");
       // remove the c
       this.__model.splice(2, 1);
       
@@ -331,7 +331,7 @@ qx.Class.define("qx.test.data.controller.List",
       this.assertEquals(0, this.__controller.getSelection().length, "Remove from selection does not work!");
 
       // add b to the selection
-      this.__controller.addToSelection("b");
+      this.__controller.getSelection().push("b");
       // remove the first element of the controller 'a'
       this.__model.shift();
 
@@ -349,7 +349,7 @@ qx.Class.define("qx.test.data.controller.List",
       this.__controller.bind("selection[0]", label, "content");
       
       // add stuff to the selection  
-      this.__controller.addToSelection("c");
+      this.__controller.getSelection().push("c");
 
       // remove the first element of the controller 'a'
       this.__model.shift();
@@ -378,8 +378,7 @@ qx.Class.define("qx.test.data.controller.List",
       for (var i = 0; i < this.__data.length; i++) {
         var label = this.__list.getChildren()[i].getLabel();
         this.assertEquals(this.__data[i].toString(), label, "Date-Binding " + i + " is wrong!");
-      }      
+      }  
     }
-    
   }
 });
