@@ -28,6 +28,10 @@ qx.Class.define("qx.data.SingleValueBinding",
 
   statics :
   {
+    /* Static debug flag to enable log messages on every invoke of a listener */
+    DEBUG_ON: false,
+    
+    
     /* internal reference for all bindings */
     __bindings: {},
 
@@ -523,6 +527,13 @@ qx.Class.define("qx.data.SingleValueBinding",
           // get the data out of the event
           var data = e.getData();
         }
+        
+        // debug message
+        if (qx.data.SingleValueBinding.DEBUG_ON) {
+          qx.log.Logger.debug("Binding executed from " + sourceObject + " by " + 
+            sourceEvent + " to " + targetObject + " (" + targetProperty + ")");
+          qx.log.Logger.debug("Data before conversion: " + data);
+        }
 
         // convert the data if a converter is given
         if (options && options.converter) {
@@ -536,6 +547,11 @@ qx.Class.define("qx.data.SingleValueBinding",
             data, propertieDefinition.check
           );
         }
+        
+        // debug message
+        if (qx.data.SingleValueBinding.DEBUG_ON) {
+          qx.log.Logger.debug("Data after conversion: " + data);
+        }        
 
         // try to set the value
         try {
