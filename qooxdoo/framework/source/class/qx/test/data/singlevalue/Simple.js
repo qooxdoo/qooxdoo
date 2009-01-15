@@ -46,7 +46,6 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
       qx.data.SingleValueBinding.bindPropertyToProperty(affe, "name", this.__b, "name");
       this.assertEquals("Jonny", this.__b.getName(), "String binding does not work!");
       affe.destroy();
-
     },
 
 
@@ -324,6 +323,23 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
       this.__a.removeAllBindings();
       var bindings = this.__a.getBindings();
       this.assertEquals(0, bindings.length, "Still bindings there?");
+    },
+    
+    
+    testDebugListenerMessages: function() {
+      // enable debugging
+      qx.data.SingleValueBinding.DEBUG_ON = true;
+      
+      // just do some bindings and invoke the changes
+      qx.data.SingleValueBinding.bindPropertyToProperty(this.__a, "name", this.__b, "name");
+      this.__a.setName("affe");
+      this.assertEquals("affe", this.__b.getName(), "String binding does not work!");
+
+      var affe = new qx.ui.form.TextField()
+      affe.setName("Jonny");
+      qx.data.SingleValueBinding.bindPropertyToProperty(affe, "name", this.__b, "name");
+      this.assertEquals("Jonny", this.__b.getName(), "String binding does not work!");
+      affe.destroy();      
     }
   }
 });
