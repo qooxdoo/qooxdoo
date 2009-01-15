@@ -182,9 +182,9 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
         '" style="',
         'left:', cellInfo.styleLeft, 'px;',
         this._getCellSizeStyle(cellInfo.styleWidth, cellInfo.styleHeight, this._insetX, this._insetY),
-        this._getCellStyle(cellInfo), " ",
+        this._getCellStyle(cellInfo), '" ',
         this._getCellAttributes(cellInfo),        
-        '">' +
+        '>' +
         this._getContentHtml(cellInfo),
         '</div>'
       );
