@@ -115,6 +115,23 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
     },
 
 
+   /**
+     * Retrieve any extra attributes the cell renderer wants applied to this
+     * cell. Extra attributes could be such things as
+     * "onclick='handleClick()';"
+     *
+     * @param cellInfo {Map} The information about the cell.
+     *          See {@link #createDataCellHtml}.
+     *
+     * @return {String}
+     *   The extra attributes to be applied to this cell.
+     */
+    _getCellAttributes : function(cellInfo)
+    {
+      return "";
+    },
+
+
     /**
      * Returns the HTML that should be used inside the main div of this cell.
      *
@@ -165,7 +182,8 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
         '" style="',
         'left:', cellInfo.styleLeft, 'px;',
         this._getCellSizeStyle(cellInfo.styleWidth, cellInfo.styleHeight, this._insetX, this._insetY),
-        this._getCellStyle(cellInfo),
+        this._getCellStyle(cellInfo), " ",
+        this._getCellAttributes(cellInfo),        
         '">' +
         this._getContentHtml(cellInfo),
         '</div>'
