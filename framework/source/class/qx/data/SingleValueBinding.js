@@ -678,22 +678,22 @@ qx.Class.define("qx.data.SingleValueBinding",
      *   contains the target type.
      */
     __defaultConvertion : function(data, targetCheck) {
-      var dataType = typeof data;
+      var dataType = Object.prototype.toString.call(data).slice(8, -1)
 
       // to integer
-      if ((dataType == "number" || dataType == "string") &&
+      if ((dataType == "Number" || dataType == "String") &&
           (targetCheck == "Integer" || targetCheck == "PositiveInteger")) {
         data = parseInt(data);
       }
 
       // to string
-      if ((dataType == "boolean" || dataType == "number") &&
-        targetCheck == "String") {
+      if ((dataType == "Boolean" || dataType == "Number" || dataType == "Date") 
+        && targetCheck == "String") {
         data = data + "";
       }
 
       // to float
-      if ((dataType == "number" || dataType == "string") &&
+      if ((dataType == "Number" || dataType == "String") &&
         (targetCheck == "Number" || targetCheck == "PositiveNumber")) {
         data = parseFloat(data);
       }
