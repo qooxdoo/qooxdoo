@@ -846,7 +846,7 @@ class POEntry(_BaseEntry):
                                       initial_indent='#. ',
                                       subsequent_indent='#. ',
                                       break_long_words=False)
-                    _listappend(ret, lines)
+                    ret.extend(lines)
                 else:
                     _listappend(ret, '#. %s' % comment)
         # translator comment, if any (with text wrapping as xgettext does)
@@ -858,7 +858,7 @@ class POEntry(_BaseEntry):
                                       initial_indent='# ',
                                       subsequent_indent='# ',
                                       break_long_words=False)
-                    _listappend(ret, lines)
+                    ret.extend(lines)
                 else:
                     _listappend(ret, '# %s' % tcomment)
         # occurrences (with text wrapping as xgettext does)
