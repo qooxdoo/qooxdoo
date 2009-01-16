@@ -3893,7 +3893,7 @@ qx.Class.define("qx.ui.core.Widget",
 
   destruct : function()
   {
-    // Some dispose stuff is only needed in global shutdown, otherwise
+    // Some dispose stuff is not needed in global shutdown, otherwise
     // it just slows down things a bit, so do not do them.
     if (!qx.core.ObjectRegistry.inShutDown)
     {
@@ -3918,7 +3918,8 @@ qx.Class.define("qx.ui.core.Widget",
 
     // Cleanup map of appearance states
     this._disposeFields(
-      "__states"
+      "__states",
+      "__childControls"
     );
 
     // Dispose layout manager and HTML elements
