@@ -23,7 +23,7 @@ qx.Class.define("qx.data.controller.List",
 
   construct : function(model, target, labelPath, iconPath, labelOptions, iconOptions)
   {
-    this.base(arguments);
+    this.base(arguments, model, target);
     this.setSelection(new qx.data.Array());
     this.__bindingsLabel = {};
     this.__bindingsIcons = {};
@@ -50,7 +50,7 @@ qx.Class.define("qx.data.controller.List",
   
   
   properties : 
-  {
+  {    
     model : 
     {
       check: "qx.data.Array",
@@ -64,7 +64,7 @@ qx.Class.define("qx.data.controller.List",
       event: "changeTarget",
       init: null
     },
-    
+        
     selection : 
     {
       check: "qx.data.Array",
