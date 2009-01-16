@@ -410,6 +410,6 @@ qx.Class.define("feedreader.Application",
   {
     this._disposeFields("__commands");
     this._disposeObjects("_toolBarView", "_listView", "_articleView", "_treeView",
-        "_feedList", "_horizontalSplitPane", "_verticalSplitPane");
+        "_feedList", "_horizontalSplitPane", "_verticalSplitPane", "_header");
   }
 });
