@@ -88,6 +88,9 @@ qx.Class.define("demobrowser.demo.data.ListController",
       logDataButton.setWidth(120);
       this.getRoot().add(logDataButton, {left: 370, top: 180});
       logDataButton.addListener("execute", function() {
+        // open the console
+        qx.log.appender.Console.show();
+        // push the data in the console
         this.info(data.toString());
       }, this);
       

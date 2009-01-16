@@ -42,10 +42,10 @@ qx.Class.define("demobrowser.demo.data.ListControllerWithObjects",
       for (var i = 0; i < 20; i++) {
         var person = new demobrowser.demo.data.model.Person();
         person.setName(names[i % names.length]);
-        person.setEmote("icon/16/emotes/face-" + emotes[i % emotes.length] + ".png");
+        person.setEmote(emotes[i % emotes.length]);
         rawData.push(person);
       }
-      data = new qx.data.Array(rawData);
+      var data = new qx.data.Array(rawData);
       
       // create the widgets
       var list = new qx.ui.form.List();
@@ -54,8 +54,21 @@ qx.Class.define("demobrowser.demo.data.ListControllerWithObjects",
       // add the widgets to the document
       this.getRoot().add(list, {left: 10, top: 80});
       
+      // create the options for the icon
+      var iconOptions = {
+        converter: function(value) {
+          return "icon/16/emotes/face-" + value + ".png";
+        }
+      };
+      
       // create the controller
-      new qx.data.controller.List(data, list, "name", "emote");
+      // 1. Parameter: The data as a qx.data.Array
+      // 2. Parameter: The list widget
+      // 3. Parameter: The path to the property which should be showed in the label
+      // 4. Parameter: The path to the property which should be showed as an icon
+      // 5. Parameter: The options for the label binding
+      // 6. Parameter: The options for the icon binding including the converter
+      new qx.data.controller.List(data, list, "name", "emote", null, iconOptions);
       
       
       
@@ -70,7 +83,7 @@ qx.Class.define("demobrowser.demo.data.ListControllerWithObjects",
         // go threw the data array
         for (var i = 0; i < data.length; i++) {
           var person = data.getItem(i);
-          person.setEmote("icon/16/emotes/face-smile.png");
+          person.setEmote("smile");
         }
       }, this);
       
@@ -78,6 +91,9 @@ qx.Class.define("demobrowser.demo.data.ListControllerWithObjects",
       logDataButton.setWidth(120);
       this.getRoot().add(logDataButton, {left: 180, top: 115});
       logDataButton.addListener("execute", function() {
+        // open the console
+        qx.log.appender.Console.show();
+        // log the data
         this.info(data.toString());
       }, this);
       
@@ -96,11 +112,12 @@ qx.Class.define("demobrowser.demo.data.ListControllerWithObjects",
        // List Selection sync description
        var syncListDescription = new qx.ui.basic.Label();
        syncListDescription.setRich(true);
-       syncListDescription.setWidth(400);
+       syncListDescription.setWidth(410);
        syncListDescription.setContent(
          "<b>Displaying objects in a list</b><br/>"
          + "This list display a set of persons in a list. Every person does "
-         + "have a name and an emotion, which is displayed by the icon."
+         + "have a name and an emotion, which is displayed with the help of " 
+         + " a converter by the icon."
        );
        this.getRoot().add(syncListDescription, {left: 20, top: 10});        
     }
