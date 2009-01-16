@@ -18,6 +18,9 @@
 
 ************************************************************************ */
 
+/**
+ * A wrapper for Cookie handling.
+ */
 qx.Class.define("qx.bom.Cookie",
 {
   /*
