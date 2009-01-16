@@ -44,6 +44,36 @@ qx.Class.define("qx.test.bom.Cookie",
       this.assertNull(result, "Remove value");
     },
     
+    testSaveData : function()
+    {
+      var key1 = "qx.test.bom.Cookie.testSaveData2";
+      var key2 = "qx.test.bom.Cookie.testSaveData1";
+      var dataToSave1 = "Qooxdoo 1";
+      var dataToSave2 = "Qooxdoo 2";
+      
+      // Check that no values exist 
+      var result1 = qx.bom.Cookie.get(key1);
+      var result2 = qx.bom.Cookie.get(key2);
+      this.assertNull(result1, "Empty check before start (one)");
+      this.assertNull(result2, "Empty check before start (tow)");
+      
+      // Set and restore values
+      qx.bom.Cookie.set(key1, dataToSave1);
+      qx.bom.Cookie.set(key2, dataToSave2);
+      result1 = qx.bom.Cookie.get(key1);
+      result2 = qx.bom.Cookie.get(key2);
+      this.assertEquals(dataToSave1, result1, "Set and restore value (one)");
+      this.assertEquals(dataToSave2, result2, "Set and restore value (tow)");
+      
+      // remove values
+      qx.bom.Cookie.del(key1);
+      qx.bom.Cookie.del(key2);
+      result1 = qx.bom.Cookie.get(key1);
+      result2 = qx.bom.Cookie.get(key2);
+      this.assertNull(result1, "Remove value (one)");
+      this.assertNull(result2, "Remove value (tow)");
+    },
+    
     testSaveExtendedData : function()
     {
       var key = "qx.test.bom.Cookie.testSaveExtendedData";
