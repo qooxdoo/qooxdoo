@@ -184,7 +184,61 @@ qx.Class.define("qx.test.data.controller.ListWithObjects",
         var icon = this.__list.getChildren()[i].getIcon();
         this.assertEquals(this.__data[i].getIcon(), icon, "Binding " + i + " is wrong!");
       }      
+    },
+    
+    
+    testChangeIconPath: function() {
+      // create the controller
+      this.__controller = new qx.data.controller.List(this.__model, this.__list, "name", "icon");
+      
+      // check the binding
+      for (var i = 0; i < this.__data.length; i++) {
+        var icon = this.__list.getChildren()[i].getIcon();
+        this.assertEquals(this.__data[i].getIcon(), icon, "Binding " + i + " is wrong!");
+      }
+
+      this.__controller.setIconPath("name");
+
+      // check the binding again
+      for (var i = 0; i < this.__data.length; i++) {
+        var icon = this.__list.getChildren()[i].getIcon();
+        this.assertEquals(this.__data[i].getName(), icon, "Binding " + i + " is wrong!");
+      }
+    },
+    
+    
+    testConversionLabelAndIcon: function() {
+      // create the label options
+      var labelOptions = {
+        converter: function(value) {
+          return "Dr. " + value;
+        }
+      }
+      // create the icon options
+      var iconOptions = {
+        converter: function(value) {
+          return value + ".png";
+        }
+      }      
+      
+      // create the controller
+      this.__controller = new qx.data.controller.List(
+        this.__model, this.__list, "name", "icon", labelOptions, iconOptions
+      );
+      
+      // check the label binding
+      for (var i = 0; i < this.__data.length; i++) {
+        var label = this.__list.getChildren()[i].getLabel();
+        this.assertEquals("Dr. " + this.__data[i].getName(), label, "Binding " + i + " is wrong!");
+      }
+      
+      // check the icon binding
+      for (var i = 0; i < this.__data.length; i++) {
+        var icon = this.__list.getChildren()[i].getIcon();
+        this.assertEquals(this.__data[i].getIcon() + ".png", icon, "Binding " + i + " is wrong!");
+      }      
     }
+    
   }
 });
 
