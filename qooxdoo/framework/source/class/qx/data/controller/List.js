@@ -21,12 +21,20 @@ qx.Class.define("qx.data.controller.List",
   extend : qx.core.Object,
 
 
-  construct : function(model, target, labelPath, iconPath)
+  construct : function(model, target, labelPath, iconPath, labelOptions, iconOptions)
   {
     this.base(arguments);
     this.setSelection(new qx.data.Array());
     this.__bindingsLabel = {};
     this.__bindingsIcons = {};
+    
+    if (labelOptions != undefined) {
+      this.setLabelOptions(labelOptions);
+    }
+    
+    if (iconOptions != undefined) {
+      this.setIconOptions(iconOptions);
+    }    
     
     if (labelPath != undefined) {
       this.setLabelPath(labelPath);      
@@ -76,32 +84,40 @@ qx.Class.define("qx.data.controller.List",
       check: "String",
       apply: "_applyIconPath",
       nullable: true
+    },
+    
+    labelOptions : 
+    {
+      apply: "_applyLabelOptions",
+      nullable: true
+    },
+    
+    iconOptions :
+    {
+      apply: "_applyIconOptions",
+      nullable: true
     }
   },  
 
 
   members :
   {
+    _applyIconOptions: function(value, old) {
+      this.__renewBindings();
+    },
+    
+    _applyLabelOptions: function(value, old) {
+      this.__renewBindings();
+    },
+    
+    
     _applyIconPath: function(value, old) {
-      
+      this.__renewBindings();
     },
     
     
     _applyLabelPath: function(value, old) {
-      // ignore first run
-      if (this.getTarget() == null) {
-        return;
-      }
-            
-      // get all children of the target
-      var listItems = this.getTarget().getChildren();
-            
-      // go through all items
-      for (var i = 0; i < listItems.length; i++) {
-        this.__removeBindingsFrom(i);
-        // add the new binding
-        this.__bindListItem(listItems[i], i);
-      }
+      this.__renewBindings();
     },
     
     
@@ -244,10 +260,19 @@ qx.Class.define("qx.data.controller.List",
     
     
     __bindListItem: function(listItem, index) {
-      var options = 
-      {
-        onSetOk: qx.lang.Function.bind(this.__onBindingSet, this, index)
-      };
+ 
+      var options = qx.lang.Object.copy(this.getLabelOptions());
+      if (options != null) {
+        this.__onSetOkLabel = options.onSetOk;
+        delete options.onSetOk;
+      } else {
+        options = {};
+        this.__onSetOkLabel = null;
+      }
+      options.onSetOk =  qx.lang.Function.bind(this.__onBindingSet, this, index);
+
+
+
       // build up the path for the binding
       var bindPath = "model[" + index + "]";
       if (this.getLabelPath() != null) {
@@ -260,6 +285,17 @@ qx.Class.define("qx.data.controller.List",
       
       // if the iconPath is set
       if (this.getIconPath() != null) {
+        
+        options = qx.lang.Object.copy(this.getIconOptions());
+        if (options != null) {
+          this.__onSetOkIcon = options.onSetOk;
+          delete options.onSetOk;
+        } else {
+          options = {};
+          this.__onSetOkIcon = null;
+        }
+        options.onSetOk =  qx.lang.Function.bind(this.__onBindingSet, this, index);
+        
         // build up the path for the binding
         bindPath = "model[" + index + "]";
         if (this.getIconPath() != null) {
@@ -273,6 +309,12 @@ qx.Class.define("qx.data.controller.List",
     
     
     __onBindingSet: function(index, sourceObject, targetObject, data) {
+      // check for the users onSetOk for the label binding
+      if (this.__onSetOkLabel != null) {
+        this.__onSetOkLabel();
+      }
+      
+      // update the selection
       this.__updateSelection();
       
       // update the reference to the model
@@ -332,6 +374,26 @@ qx.Class.define("qx.data.controller.List",
           return;
         }
       }
-    }    
+    },
+    
+    
+    __renewBindings: function(attribute) {
+      // ignore first run
+      if (this.getTarget() == null) {
+        return;
+      }
+            
+      // get all children of the target
+      var listItems = this.getTarget().getChildren();
+            
+      // go through all items
+      for (var i = 0; i < listItems.length; i++) {
+        this.__removeBindingsFrom(i);
+        // add the new binding
+        this.__bindListItem(listItems[i], i);
+      }      
+    }
+    
+        
   }
 });

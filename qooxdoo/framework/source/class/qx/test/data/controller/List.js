@@ -379,6 +379,53 @@ qx.Class.define("qx.test.data.controller.List",
         var label = this.__list.getChildren()[i].getLabel();
         this.assertEquals(this.__data[i].toString(), label, "Date-Binding " + i + " is wrong!");
       }  
+    },
+    
+    
+    testConversionLabel: function() {
+      this.__setUpString();
+      
+      // create the options map with the converter
+      var options = {};
+      options.converter = function(data) {
+        return data + " Converted";
+      }
+      this.__controller.setLabelOptions(options);
+      
+      // check the binding
+      for (var i = 0; i < this.__data.length; i++) {
+        var label = this.__list.getChildren()[i].getLabel();
+        this.assertEquals(this.__data[i] + " Converted", label, "Binding " + i + " is wrong!");
+      }      
+    },
+    
+    
+    testOnSetOkLabel: function() {
+      this.__data = ["a", "b", "c", "d", "e"];
+      // create a new array
+      this.__model = new qx.data.Array(this.__data);
+          
+      // create the options map with the converter
+      var options = {};
+      var flag = false;
+      options.onSetOk = function() {
+        flag = true;
+      }
+      // create the controller
+      this.__controller = new qx.data.controller.List(this.__model, this.__list, null, null, options);
+      
+      // change something to inkoe a change of a binding
+      this.__data.pop();
+      this.__model.pop();
+      
+      // check the binding
+      for (var i = 0; i < this.__data.length; i++) {
+        var label = this.__list.getChildren()[i].getLabel();
+        this.assertEquals(this.__data[i], label, "Binding " + i + " is wrong!");
+      }
+      
+      // check if the flag is set
+      this.assertTrue(flag, "onSetOk not executed");
     }
   }
 });
