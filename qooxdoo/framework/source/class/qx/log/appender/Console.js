@@ -211,8 +211,7 @@ qx.Class.define("qx.log.appender.Console",
       }
       else if (this.__main.style.display == "none")
       {
-        this.__main.style.display = "block";
-        this.__log.scrollTop = this.__log.scrollHeight;
+        this.show();
       }
       else
       {
@@ -220,7 +219,20 @@ qx.Class.define("qx.log.appender.Console",
       }
     },
 
-
+    
+    /**
+     * Shows the console.
+     * 
+     * @return {void}
+     */
+    show: function() {
+      if (!this.__main) {
+        this.init();
+      } else {
+        this.__main.style.display = "block";
+        this.__log.scrollTop = this.__log.scrollHeight;        
+      }
+    },
 
 
     /*
