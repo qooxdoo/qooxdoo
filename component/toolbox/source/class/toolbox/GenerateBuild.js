@@ -33,10 +33,10 @@ qx.Class.define("toolbox.GenerateBuild",
 
 
   /*
-          *****************************************************************************
-             CONSTRUCTOR
-          *****************************************************************************
-        */
+            *****************************************************************************
+               CONSTRUCTOR
+            *****************************************************************************
+          */
 
   construct : function(adminPath, fileName, filePath, logFrame)
   {
@@ -49,10 +49,10 @@ qx.Class.define("toolbox.GenerateBuild",
 
 
   /*
-          *****************************************************************************
-             MEMBERS
-          *****************************************************************************
-        */
+            *****************************************************************************
+               MEMBERS
+            *****************************************************************************
+          */
 
   members :
   {
@@ -133,10 +133,12 @@ qx.Class.define("toolbox.GenerateBuild",
         },
         this);
 
-        req.addListener("failed", function(evt) {
+        req.addListener("failed", function(evt)
+        {
           this.error("Failed to post to URL: " + url);
           logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
-        }, this);
+        },
+        this);
 
         req.send();
       }
