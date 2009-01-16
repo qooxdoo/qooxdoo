@@ -51,7 +51,7 @@ qx.Class.define("toolbox.UrlSearchParms",
   members :
   {
     /**
-     * TODOC
+     * returns the paramter
      *
      * @return {var} TODOC
      */

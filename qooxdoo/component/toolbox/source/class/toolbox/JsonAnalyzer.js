@@ -66,11 +66,11 @@ qx.Class.define("toolbox.JsonAnalyzer",
 
 
     /**
-     * TODOC
+     * converts the incoming value to Boolean and sets the suitable icon for the parent.
      *
-     * @param incoming {var} TODOC
-     * @param parent {var} TODOC
-     * @return {var} TODOC
+     * @param incoming {var} incoming value
+     * @param parent {var} parent of the tree
+     * @return {var} incoming
      */
     __convertBoolean : function(incoming, parent)
     {
@@ -80,11 +80,11 @@ qx.Class.define("toolbox.JsonAnalyzer",
 
 
     /**
-     * TODOC
+     * converts the incoming value to Number and sets the suitable icon for the parent.
      *
-     * @param incoming {var} TODOC
-     * @param parent {var} TODOC
-     * @return {var} TODOC
+     * @param incoming {var} incoming value
+     * @param parent {var} parent of the tree
+     * @return {var} incoming
      */
     __convertNumber : function(incoming, parent)
     {
@@ -95,11 +95,11 @@ qx.Class.define("toolbox.JsonAnalyzer",
 
 
     /**
-     * TODOC
+     * analyzes the incoming Object and put it into the parent.
      *
-     * @param incoming {var} TODOC
-     * @param parent {var} TODOC
-     * @return {var} TODOC
+     * @param incoming {var} incoming value
+     * @param parent {var} parent of the tree
+     * @return {var} the next convert function
      */
     __convertObject : function(incoming, parent)
     {
@@ -126,10 +126,11 @@ qx.Class.define("toolbox.JsonAnalyzer",
 
 
     /**
-     * TODOC
-     *
-     * @param incoming {var} TODOC
-     * @param parent {var} TODOC
+     * converts the incoming value to String, sets the suitable icon for the parent
+     * and put it into.
+     * 
+     * @param incoming {var} incoming value
+     * @param parent {var} parent of the tree
      * @return {void} 
      */
     __convertString : function(incoming, parent)
@@ -159,11 +160,11 @@ qx.Class.define("toolbox.JsonAnalyzer",
 
 
     /**
-     * TODOC
+     * callback for JavaScript string escaping
      *
-     * @param a {Array} TODOC
-     * @param b {var} TODOC
-     * @return {var} TODOC
+     * @param a {Array} incoming array
+     * @param b {String} character to convert
+     * @return {String} converted character
      */
     __convertStringHelper : function(a, b)
     {
@@ -179,15 +180,14 @@ qx.Class.define("toolbox.JsonAnalyzer",
 
 
     /**
-     * TODOC
+     * analyzes the incoming Array and put it into the parent.
      *
-     * @param incoming {var} TODOC
-     * @param parent {var} TODOC
+     * @param incoming {var} incoming value
+     * @param parent {var} parent of the tree
      * @return {void} 
      */
     __convertArray : function(incoming, parent)
     {
-      // alert("----> " + incoming.length);
       for (var i=0, l=incoming.length; i<l; i++)
       {
         obj = incoming[i];
@@ -211,26 +211,25 @@ qx.Class.define("toolbox.JsonAnalyzer",
 
 
     /**
-     * TODOC
+     * converts the incoming value to Date and sets the suitable icon for the parent.
      *
-     * @param incoming {var} TODOC
-     * @param parent {var} TODOC
-     * @return {var} TODOC
+     * @param incoming {var} incoming value
+     * @param parent {var} parent of the tree
+     * @return {var} converted date
      */
     __convertDate : function(incoming, parent)
     {
-      // alert("Date  " + incoming);
       var dateParams = incoming.getUTCFullYear() + "," + incoming.getUTCMonth() + "," + incoming.getUTCDate() + "," + incoming.getUTCHours() + "," + incoming.getUTCMinutes() + "," + incoming.getUTCSeconds() + "," + incoming.getUTCMilliseconds();
+      parent.setIcon("toolbox/image/document-properties.png");
       return dateParams;
     },
 
 
     /**
-     * Converts the incoming value from Map to String.
+     * nalyzes the incoming Map and put it into the parent.
      *
      * @param incoming {Map} The incoming value
-     * @param parent {var} TODOC
-     * @return {String} value converted to a JSON string
+     * @param parent {var} parent of the tree
      */
     __convertMap : function(incoming, parent)
     {
@@ -259,7 +258,7 @@ qx.Class.define("toolbox.JsonAnalyzer",
 
 
     /**
-     * TODOC
+     * removes all tree items
      *
      * @return {void} 
      */
@@ -272,10 +271,10 @@ qx.Class.define("toolbox.JsonAnalyzer",
 
 
     /**
-     * TODOC
+     * creates a tree of the json
      *
-     * @param obj {Object} TODOC
-     * @return {var} TODOC
+     * @param obj {Object} json object
+     * @return {var} root of the tree
      */
     createJsonTree : function(obj)
     {
@@ -297,9 +296,9 @@ qx.Class.define("toolbox.JsonAnalyzer",
 
 
     /**
-     * TODOC
+     * returns the container, which contains the tree
      *
-     * @return {var} TODOC
+     * @return {var} tree group
      */
     getTreeGroup : function()
     {
@@ -309,9 +308,9 @@ qx.Class.define("toolbox.JsonAnalyzer",
 
 
     /**
-     * TODOC
+     * returns the tree
      *
-     * @return {var} TODOC
+     * @return {var} tree
      */
     getTree : function()
     {
@@ -321,9 +320,9 @@ qx.Class.define("toolbox.JsonAnalyzer",
 
 
     /**
-     * TODOC
+     * updates the type-label
      *
-     * @param tree {var} TODOC
+     * @param tree {var} tree
      * @return {void} 
      */
     updateTypeLabel : function(tree)
@@ -395,9 +394,9 @@ qx.Class.define("toolbox.JsonAnalyzer",
 
 
     /**
-     * TODOC
+     * updates the textarea of the selected node
      *
-     * @param tree {var} TODOC
+     * @param tree {var} tree
      * @return {void} 
      */
     updateTextArea : function(tree)
@@ -448,10 +447,10 @@ qx.Class.define("toolbox.JsonAnalyzer",
 
 
     /**
-     * TODOC
+     * returns the controller pane of the tree
      *
-     * @param tree {var} TODOC
-     * @return {var} TODOC
+     * @param tree {var} tree
+     * @return {var} command frame
      */
     getCommandFrame : function(tree)
     {
@@ -547,23 +546,23 @@ qx.Class.define("toolbox.JsonAnalyzer",
 
 
     /**
-     * TODOC
+     * enables/disables all buttons
      *
-     * @param state {var} TODOC
+     * @param value {var} boolean value
      * @return {void} 
      */
-    setEnableAllButtons : function(state)
+    setEnableAllButtons : function(value)
     {
-      this.btnAddItem.setEnabled(state);
-      this.btnRemove.setEnabled(state);
-      this.btnEdit.setEnabled(state);
+      this.btnAddItem.setEnabled(value);
+      this.btnRemove.setEnabled(value);
+      this.btnEdit.setEnabled(value);
     },
 
 
     /**
-     * TODOC
+     * returns the context menu of the tree
      *
-     * @return {var} TODOC
+     * @return {var} menu
      */
     __getContextMenu : function()
     {
@@ -582,7 +581,7 @@ qx.Class.define("toolbox.JsonAnalyzer",
 
 
     /**
-     * TODOC
+     * creates a dialog to add further childs into the tree (only ui)
      *
      * @return {void} 
      */
@@ -908,7 +907,7 @@ qx.Class.define("toolbox.JsonAnalyzer",
 
 
     /**
-     * TODOC
+     * adds childs into the tree
      *
      * @return {void} 
      */
@@ -1005,7 +1004,7 @@ qx.Class.define("toolbox.JsonAnalyzer",
 
 
     /**
-     * TODOC
+     * resets the textfields of the add child dialog
      *
      * @return {void} 
      */
@@ -1031,7 +1030,7 @@ qx.Class.define("toolbox.JsonAnalyzer",
 
 
     /**
-     * TODOC
+     * close the add child dialog
      *
      * @return {void} 
      */
@@ -1043,7 +1042,7 @@ qx.Class.define("toolbox.JsonAnalyzer",
 
 
     /**
-     * TODOC
+     * starts the add child dialog 
      *
      * @return {void} 
      */
@@ -1069,7 +1068,7 @@ qx.Class.define("toolbox.JsonAnalyzer",
 
 
     /**
-     * TODOC
+     * removes the selected child
      *
      * @return {void} 
      */
@@ -1135,7 +1134,7 @@ qx.Class.define("toolbox.JsonAnalyzer",
 
 
     /**
-     * TODOC
+     * edits the value of the selected node
      *
      * @return {void} 
      */

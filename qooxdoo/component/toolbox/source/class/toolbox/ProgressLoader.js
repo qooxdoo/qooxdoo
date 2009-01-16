@@ -23,7 +23,7 @@
 ************************************************************************ */
 
 /**
- * This is the main application class of your custom application "HelloWorld"
+ * This class shows a progess loader during all processes
  */
 qx.Class.define("toolbox.ProgressLoader",
 {
@@ -33,36 +33,35 @@ qx.Class.define("toolbox.ProgressLoader",
 
 
   /*
-          *****************************************************************************
-             CONSTRUCTOR
-          *****************************************************************************
-        */
+    *****************************************************************************
+       CONSTRUCTOR
+    *****************************************************************************
+  */
 
   construct : function()
   {
     this.base(arguments);
-    this.set({
-        padding         : [ 4, 4, 4, 4 ],
-        allowMaximize   : false,
-        allowMinimize   : false,
-        showMinimize    : false,
-        showMaximize    : false,
-        showClose       : false,
-        resizable       : false
-     });
 
-      
-      this.__root = qx.core.Init.getApplication().getRoot();
-      this.__root.setBlockerColor("white");
-      this.__root.setBlockerOpacity(0.5);
-     
-      this.setLayout(new qx.ui.layout.Canvas());
+    this.set(
+    {
+      padding       : [ 4, 4, 4, 4 ],
+      allowMaximize : false,
+      allowMinimize : false,
+      showMinimize  : false,
+      showMaximize  : false,
+      showClose     : false,
+      resizable     : false
+    });
 
-      this.add(new qx.ui.basic.Atom(null, "toolbox/image/progressLoader.gif"));
-      this.moveTo(400, 300);
-      this.show();
-      this.setModal(true);
+    this.__root = qx.core.Init.getApplication().getRoot();
+    this.__root.setBlockerColor("white");
+    this.__root.setBlockerOpacity(0.5);
+
+    this.setLayout(new qx.ui.layout.Canvas());
+
+    this.add(new qx.ui.basic.Atom(null, "toolbox/image/progressLoader.gif"));
+    this.moveTo(400, 300);
+    this.show();
+    this.setModal(true);
   }
-
-
 });

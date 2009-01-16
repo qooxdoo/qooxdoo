@@ -33,10 +33,10 @@ qx.Class.define("toolbox.MakePretty",
 
 
   /*
-          *****************************************************************************
-             CONSTRUCTOR
-          *****************************************************************************
-        */
+            *****************************************************************************
+               CONSTRUCTOR
+            *****************************************************************************
+          */
 
   construct : function(adminPath, fileName, filePath, logFrame)
   {
@@ -49,10 +49,10 @@ qx.Class.define("toolbox.MakePretty",
 
 
   /*
-          *****************************************************************************
-             MEMBERS
-          *****************************************************************************
-        */
+            *****************************************************************************
+               MEMBERS
+            *****************************************************************************
+          */
 
   members :
   {
@@ -102,13 +102,11 @@ qx.Class.define("toolbox.MakePretty",
 
           if (receivedState == 1 || receivedState == 0)
           {
-            if (receivedState == 0)
-            {
+            if (receivedState == 0) {
               logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.pretty_output);
             }
 
-            if (receivedState == 1)
-            {
+            if (receivedState == 1) {
               logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.pretty_error + '</font>');
             }
           }
@@ -118,10 +116,12 @@ qx.Class.define("toolbox.MakePretty",
         },
         this);
 
-        req.addListener("failed", function(evt) {
+        req.addListener("failed", function(evt)
+        {
           this.error("Failed to post to URL: " + url);
           logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
-        }, this);
+        },
+        this);
 
         req.send();
       }

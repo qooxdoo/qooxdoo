@@ -33,10 +33,10 @@ qx.Class.define("toolbox.ValidateCode",
 
 
   /*
-          *****************************************************************************
-             CONSTRUCTOR
-          *****************************************************************************
-        */
+            *****************************************************************************
+               CONSTRUCTOR
+            *****************************************************************************
+          */
 
   construct : function(adminPath, fileName, filePath)
   {
@@ -49,10 +49,10 @@ qx.Class.define("toolbox.ValidateCode",
 
 
   /*
-          *****************************************************************************
-             MEMBERS
-          *****************************************************************************
-        */
+            *****************************************************************************
+               MEMBERS
+            *****************************************************************************
+          */
 
   members :
   {
@@ -62,6 +62,7 @@ qx.Class.define("toolbox.ValidateCode",
      * @param adminPath {var} TODOC
      * @param fileName {var} TODOC
      * @param filePath {var} TODOC
+     * @param logFrame {var} TODOC
      * @return {void} 
      */
     __validateCode : function(adminPath, fileName, filePath, logFrame)
@@ -131,10 +132,12 @@ qx.Class.define("toolbox.ValidateCode",
         },
         this);
 
-        req.addListener("failed", function(evt) {
+        req.addListener("failed", function(evt)
+        {
           this.error("Failed to post to URL: " + url);
           logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
-        }, this);
+        },
+        this);
 
         req.send();
       }
