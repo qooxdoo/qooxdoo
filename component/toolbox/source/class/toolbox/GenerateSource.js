@@ -33,10 +33,10 @@ qx.Class.define("toolbox.GenerateSource",
 
 
   /*
-      *****************************************************************************
-         CONSTRUCTOR
-      *****************************************************************************
-    s */
+        *****************************************************************************
+           CONSTRUCTOR
+        *****************************************************************************
+      s */
 
   construct : function(adminPath, fileName, filePath, generate, frame, logFrame)
   {
@@ -49,10 +49,10 @@ qx.Class.define("toolbox.GenerateSource",
 
 
   /*
-      *****************************************************************************
-         MEMBERS
-      *****************************************************************************
-    */
+        *****************************************************************************
+           MEMBERS
+        *****************************************************************************
+      */
 
   members :
   {
@@ -96,8 +96,6 @@ qx.Class.define("toolbox.GenerateSource",
           }
         }
 
-
-
         req.setProhibitCaching(true);
         req.setData(dat);
 
@@ -119,13 +117,11 @@ qx.Class.define("toolbox.GenerateSource",
                 logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.gen_output);
                 req.setData(openSource);
                 req.send();
-                
-                //var openLink = ("/component/toolbox/tool/bin/nph-qxadmin_cgi.py?action=open_In_Browser&location=source").replace(/\\/g, "/");
-                //alert(openLink);
-                //window.open(openLink);
-                
               }
 
+              // var openLink = ("/component/toolbox/tool/bin/nph-qxadmin_cgi.py?action=open_In_Browser&location=source").replace(/\\/g, "/");
+              // alert(openLink);
+              // window.open(openLink);
               if (receivedState == 1)
               {
                 frame.setHtml('<font color="red">' + result.gen_error + '</font>');
@@ -143,10 +139,12 @@ qx.Class.define("toolbox.GenerateSource",
         },
         this);
 
-        req.addListener("failed", function(evt) {
+        req.addListener("failed", function(evt)
+        {
           this.error("Failed to post to URL: " + url);
           logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
-        }, this);
+        },
+        this);
 
         req.send();
       }

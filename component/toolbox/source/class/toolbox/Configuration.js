@@ -23,7 +23,7 @@
 ************************************************************************ */
 
 /**
- * This is the main application class of your custom application "HelloWorld"
+ * This class shows the configuration file of a qooxdoo-Application
  */
 qx.Class.define("toolbox.Configuration",
 {
@@ -33,10 +33,10 @@ qx.Class.define("toolbox.Configuration",
 
 
   /*
-          *****************************************************************************
-             CONSTRUCTOR
-          *****************************************************************************
-        */
+    *****************************************************************************
+       CONSTRUCTOR
+    *****************************************************************************
+  */
 
   construct : function(adminPath, fileName, filePath)
   {
@@ -49,21 +49,22 @@ qx.Class.define("toolbox.Configuration",
 
 
   /*
-          *****************************************************************************
-             MEMBERS
-          *****************************************************************************
-        */
+    *****************************************************************************
+       MEMBERS
+    *****************************************************************************
+  */
 
   statics : { JSON : null },
 
   members :
   {
     /**
-     * TODOC
+     * shows the configuration of the current application
      *
-     * @param adminPath {var} TODOC
-     * @param fileName {var} TODOC
-     * @param filePath {var} TODOC
+     * @param adminPath {var} path of the cgi-script
+     * @param fileName {var} name of the application
+     * @param filePath {var} path of the application
+     * @param logFrame {var} log output
      * @return {void} 
      */
     __showConfiguration : function(adminPath, fileName, filePath, logFrame)
@@ -250,7 +251,6 @@ qx.Class.define("toolbox.Configuration",
 
           this.win.open();
           this.win.moveTo(200, 50);
-
         },
         this);
 
@@ -261,11 +261,13 @@ qx.Class.define("toolbox.Configuration",
         req2.addListener("failed", function(evt) {
           logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Configuration could not safed<br/>Failed to post to URL: " + url + '</font>');
         }, this);
-        
-        req.addListener("failed", function(evt) {
+
+        req.addListener("failed", function(evt)
+        {
           this.error("Failed to post to URL: " + url);
           logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
-        }, this);
+        },
+        this);
 
         req.send();
       }
@@ -279,12 +281,12 @@ qx.Class.define("toolbox.Configuration",
 
 
     /**
-     * TODOC
+     * opens the save dialog to apply the changes in the professional view.
      *
      * @return {void} 
      */
     openSaveDialog : function()
-    {  
+    {
       this.__saveDialog = new qx.ui.window.Window("Save changes", null);
       this.__saveDialog.setLayout(new qx.ui.layout.VBox(5));
       this.__saveDialog.add(new qx.ui.basic.Label("You changed the JSON-object in the professional view."));
@@ -323,7 +325,7 @@ qx.Class.define("toolbox.Configuration",
 
 
     /**
-     * TODOC
+     * disposes all global objects
      *
      * @return {void} 
      */

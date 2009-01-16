@@ -33,10 +33,10 @@ qx.Class.define("toolbox.CreateNewApplication",
 
 
   /*
-          *****************************************************************************
-             CONSTRUCTOR
-          *****************************************************************************
-        */
+            *****************************************************************************
+               CONSTRUCTOR
+            *****************************************************************************
+          */
 
   construct : function(adminPath, fileName, filePath, nameSpace, logFileName, type, generate, loadImage, frame, windowContent, logFrame)
   {
@@ -49,10 +49,10 @@ qx.Class.define("toolbox.CreateNewApplication",
 
 
   /*
-          *****************************************************************************
-             MEMBERS
-          *****************************************************************************
-        */
+            *****************************************************************************
+               MEMBERS
+            *****************************************************************************
+          */
 
   members :
   {
@@ -84,9 +84,9 @@ qx.Class.define("toolbox.CreateNewApplication",
       var dat = "action=create";
       var generateDat = "action=generate_Source";
       var openGen = "action=open_In_Browser&location=source";
-      
+
       fileName = fileName.replace(/ /g, "_");
-      
+
       var createParams = [ fileName, filePath, nameSpace, logFileName, type, generate ];
 
       req.setTimeout(100000);
