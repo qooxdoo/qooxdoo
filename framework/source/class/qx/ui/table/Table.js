@@ -1456,6 +1456,19 @@ qx.Class.define("qx.ui.table.Table",
 
 
     /**
+     * Select whether the focused row is highlighted
+     *
+     * @param bHightlight {Boolean}
+     *   Flag indicating whether the focused row should be highlighted.
+     *
+     * @return {void}
+     */
+    highlightFocusedRow : function(bHighlight)
+    {
+      this.getDataRowRenderer().setHighlightFocusRow(bHighlight);
+    },
+
+    /**
      * Moves the focus.
      *
      * @param deltaX {Integer} The delta by which the focus should be moved on the x axis.
