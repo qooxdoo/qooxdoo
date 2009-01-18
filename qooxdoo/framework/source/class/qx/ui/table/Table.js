@@ -1468,6 +1468,34 @@ qx.Class.define("qx.ui.table.Table",
       this.getDataRowRenderer().setHighlightFocusRow(bHighlight);
     },
 
+
+    /**
+     * Remove the highlighting of the current focus row.
+     *
+     * This is used to temporarily remove the highlighting of the currently
+     * focused row, and is expected to be used most typically by adding a
+     * listener on the "mouseout" event, so that the focus highlighting is
+     * suspended when the mouse leaves the table:
+     *
+     *     table.addListener("mouseout", table.clearFocusedRowHighlight);
+     *
+     * @return {void}
+     */
+    clearFocusedRowHighlight : function()
+    {
+      // Remove focus from any cell that has it
+      this.resetCellFocus();
+
+      // Now, for each pane scroller...
+      var scrollerArr = this._getPaneScrollerArr();
+      for (var i=0; i<scrollerArr.length; i++)
+      {
+        // ... repaint without focus.
+        scrollerArr[i].onFocusChanged();
+      }
+    },
+    
+
     /**
      * Moves the focus.
      *
