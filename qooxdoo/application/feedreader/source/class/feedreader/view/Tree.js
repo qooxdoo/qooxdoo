@@ -225,7 +225,7 @@ qx.Class.define("feedreader.view.Tree",
       if (!feed)
       {
         if (this.getSelection()[0].getUserData("feed")) {
-          this.clearSelection();
+          this.resetSelection();
         }
 
         return;
@@ -233,10 +233,10 @@ qx.Class.define("feedreader.view.Tree",
 
       var folder = this.getFolder(feed);
       if (!folder) {
-        this.clearSelection();
+        this.resetSelection();
       }
 
-      if (this.getSelectedItem() != folder) {
+      if (this.getSelected() != folder) {
         this.addToSelection(folder);
       }
     }
