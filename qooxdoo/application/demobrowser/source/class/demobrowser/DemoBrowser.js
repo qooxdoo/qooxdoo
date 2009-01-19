@@ -457,7 +457,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       var root = new qx.ui.tree.TreeFolder("Demos");
       tree1.setAppearance("demo-tree");
       tree1.setRoot(root);
-      tree1.select(root);
+      tree1.setSelected(root);
 
       this.tree = this.widgets["treeview.flat"] = tree1;
 
@@ -478,7 +478,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     treeGetSelection : function(e)
     {
-      var treeNode = this.tree.getSelectedItem();
+      var treeNode = this.tree.getSelected();
       var modelNode = treeNode.getUserData("modelLink");
       this.tests.selected = this.tests.handler.getFullName(modelNode);
     },
@@ -584,7 +584,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       buildSubTree(this.tree.getRoot(), ttree);
 
       if (_initialNode != null) {
-        this.tree.select(_initialNode);
+        this.tree.setSelected(_initialNode);
       }
 
     },
@@ -654,7 +654,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       var treeNode = this._sampleToTreeNodeMap[value];
       if (treeNode)
       {
-        treeNode.getTree().select(treeNode);
+        treeNode.getTree().setSelected(treeNode);
         url = 'demo/' + value + "?qx.theme=" + this.__currentTheme;
       }
       else
@@ -909,7 +909,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     playPrev : function(e)
     {
       this.setPlayDemos("current");
-      var currSamp = this.tree.getSelectedItem();  // widget
+      var currSamp = this.tree.getSelected();  // widget
 
       if (currSamp)
       {
@@ -917,7 +917,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
         if (otherSamp)
         {
-          this.tree.select(otherSamp);
+          this.tree.setSelected(otherSamp);
           this.runSample();
         }
       }
@@ -932,7 +932,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     playNext : function(e)
     {
-      var currSamp = this.tree.getSelectedItem();  // widget
+      var currSamp = this.tree.getSelected();  // widget
 
       if (currSamp)
       {
@@ -965,7 +965,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
         if (otherSamp)
         {
-          this.tree.select(otherSamp);
+          this.tree.setSelected(otherSamp);
           this.runSample();
         } else {          
           // Remove stop button, display run button
