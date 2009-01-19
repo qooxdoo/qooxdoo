@@ -153,22 +153,39 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
      * Use {@link #addToSelection} instead if you want to add new
      * items to an existing selection.
      *
+     * @deprecated Use 'setSelected' instead!
      * @param item {Object} Any valid item
      * @return {void}
      */
     select : function(item) {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'setSelected' instead!"
+      );
+      this.setSelected(item);
+    },
+
+    
+    /**
+     * Selects the given item. Replaces current selection
+     * completely with the new item.
+     *
+     * @param item {Object} Any valid item
+     * @return {void}
+     */
+    setSelected : function(item) {
       this.__manager.selectItem(item);
     },
 
-
+    
     /**
      * Detects whether the given item is currently selected.
      *
-     * @param item {var} Any valid selectable item
+     * @param item {Object} Any valid selectable item
      * @return {Boolean} Whether the item is selected
      */
     isSelected : function(item) {
-      this.__manager.isSelected(item);
+      return this.__manager.isItemSelected(item);
     },
 
 
@@ -217,31 +234,72 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
      * resets the lead and anchor items and their
      * styles.
      *
+     * @deprecated Use 'resetSelection' instead!
      * @return {void}
      */
     clearSelection : function() {
-      this.__manager.clearSelection();
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'resetSelection' instead!"
+      );
+      this.resetSelection();
     },
 
-
+    /**
+     * Clears the whole selection at once.
+     *
+     * @return {void}
+     */
+    resetSelection : function() {
+      this.__manager.clearSelection();
+    },
+    
     /**
      * Replaces current selection with the given items
      *
+     * @deprecated Use 'setSelection' instead!
      * @param items {Object} Items to select
      * @return {void}
      */
     replaceSelection : function(items) {
-      this.__manager.replaceSelection(items);
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'setSelection' instead!"
+      );
+      this.setSelection(items);
     },
 
-
+    /**
+     * Replaces current selection with the given items.
+     *
+     * @param items {Object} Items to select
+     * @return {void}
+     */
+    setSelection : function(items) {
+      this.__manager.replaceSelection(items);
+    },
+    
     /**
      * Get the selected item. This method does only work in <code>single</code>
      * selection mode.
      *
+     * @deprecated Use 'getSelected' instead!
      * @return {Object} The selected item.
      */
     getSelectedItem : function() {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'getSelected' instead!"
+      );
+      return this.getSelected();
+    },
+    
+    /**
+     * Get the selected item.
+     *
+     * @return {Object} The selected item.
+     */
+    getSelected : function() {
       return this.__manager.getSelectedItem();
     },
 
