@@ -92,7 +92,7 @@ qx.Class.define("qx.ui.decoration.Util",
         // Repeated image
         else
         {
-          var back = qx.bom.element.Background.compile(resolved, repeat, backgroundLeft, backgroundTop);
+          var back = qx.bom.element.Background.compile(resolved, repeat, left, top);
           return '<div style="' + back + styles + '"></div>';
         }
       }
