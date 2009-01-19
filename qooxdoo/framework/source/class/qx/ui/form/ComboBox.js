@@ -200,9 +200,9 @@ qx.Class.define("qx.ui.form.ComboBox",
       var list = this.getChildControl("list");
       var item = list.findItem(value);
       if (item) {
-        list.select(item);
+        list.setSelected(item);
       } else {
-        list.clearSelection();
+        list.resetSelection();
       }
     },
 
@@ -381,9 +381,9 @@ qx.Class.define("qx.ui.form.ComboBox",
       var list = this.getChildControl("list");
       var item = list.findItem(value);
       if (item) {
-        list.select(item);
+        list.setSelected(item);
       } else {
-        list.clearSelection();
+        list.resetSelection();
       }
 
       // Fire event
