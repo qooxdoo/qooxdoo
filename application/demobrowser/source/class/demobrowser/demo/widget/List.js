@@ -57,7 +57,7 @@ qx.Class.define("demobrowser.demo.widget.List",
 
         // Pre-Select "Item No 20"
         if (i==20) {
-          configList.select(item);
+          configList.setSelected(item);
         }
 
         configList.add(item);
@@ -181,7 +181,7 @@ qx.Class.define("demobrowser.demo.widget.List",
 
         // Pre-Select "Item No 16"
         if (i==16) {
-          oneList.select(item);
+          oneList.setSelected(item);
         }
 
         oneList.add(item);
@@ -252,7 +252,7 @@ qx.Class.define("demobrowser.demo.widget.List",
         l4.add(item4);
 
         if (i == 12) {
-          l4.select(item4);
+          l4.setSelected(item4);
         }
       };
 
