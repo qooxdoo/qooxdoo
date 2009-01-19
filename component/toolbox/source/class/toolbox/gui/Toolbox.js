@@ -852,7 +852,7 @@ qx.Class.define("toolbox.gui.Toolbox",
 			        {
 			      		this.widgets["toolbar.appBuiltButton"].setChecked(true);
 			        },
-			        this);´
+			        this);
 			        this.widgets["toolbar.logCheckButton"].setEnabled(false);
 	    		} else if (e.getData().getLabel().toString() == "Help"){
 	    			this.logStack.exclude();
