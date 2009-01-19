@@ -175,7 +175,12 @@ qx.Class.define("qx.ui.decoration.Uniform",
       styles += "border:" + width + "px " + this.getStyle() + " " + Color.resolve(this.getColor()) + ";";
 
       // Generate markup
-      var html = qx.ui.decoration.Util.generateBackgroundMarkup(this.getBackgroundImage(), this.getBackgroundRepeat(), styles);
+      var html = qx.ui.decoration.Util.generateBackgroundMarkup(
+        this.getBackgroundImage(),
+        this.getBackgroundRepeat(),
+        0, 0, 
+        styles
+      );
 
       // Store
       return this.__markup = html;

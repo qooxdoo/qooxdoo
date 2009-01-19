@@ -64,10 +64,18 @@ qx.Class.define("qx.ui.decoration.Util",
      * @param repeat {String} Any supported background repeat: <code>repeat</code>,
      *    <code>repeat-x</code>, <code>repeat-y</code>, <code>no-repeat</code> or
      *    <code>scale</code>
+     * @param left {Integer|String?null} The horizontal offset of the image
+     *      inside of the image element. If the value is an integer it is
+     *      interpreted as pixel value otherwise the value is taken as CSS value.
+     *      CSS the values are "center", "left" and "right"
+     * @param top {Integer|String?null} The vertical offset of the image
+     *      inside of the image element. If the value is an integer it is
+     *      interpreted as pixel value otherwise the value is taken as CSS value.
+     *      CSS the values are "top", "bottom" and "center"
      * @param styles {String} Additional styles to insert into the element
      * @return {String} Markup which contains the given image specification
      */
-    generateBackgroundMarkup : function(image, repeat, styles)
+    generateBackgroundMarkup : function(image, repeat, left, top, styles)
     {
       // Support for images
       if (image)
@@ -84,7 +92,7 @@ qx.Class.define("qx.ui.decoration.Util",
         // Repeated image
         else
         {
-          var back = qx.bom.element.Background.compile(resolved, repeat, 0, 0);
+          var back = qx.bom.element.Background.compile(resolved, repeat, backgroundLeft, backgroundTop);
           return '<div style="' + back + styles + '"></div>';
         }
       }
