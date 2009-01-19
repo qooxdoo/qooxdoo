@@ -362,7 +362,12 @@ qx.Class.define("qx.ui.decoration.Single",
       styles += "position:absolute;top:0;left:0;";
 
       // Generate markup
-      var html = qx.ui.decoration.Util.generateBackgroundMarkup(this.getBackgroundImage(), this.getBackgroundRepeat(), styles);
+      var html = qx.ui.decoration.Util.generateBackgroundMarkup(
+        this.getBackgroundImage(), 
+        this.getBackgroundRepeat(),
+        0, 0,
+        styles
+      );
 
       // Store
       return this.__markup = html;

@@ -80,6 +80,42 @@ qx.Class.define("qx.ui.decoration.Background",
       check : "Color",
       nullable : true,
       apply : "_applyStyle"
+    },
+    
+    /**
+     * Either a string or a number, which define the the vertical position
+     * of the background image.
+     * 
+     * If the value is an integer it is interpreted as pixel value otherwise
+     * the value is taken as CSS value. CSS the values are "center", "left" and
+     * "right".
+     */
+    backgroundPositionX :
+    {
+      nullable : true,
+      apply : "_applyStyle" 
+    },
+    
+    /**
+     * Either a string or a number, which define the the horizontal position
+     * of the background image.
+     * 
+     * If the value is an integer it is interpreted as pixel value otherwise
+     * the value is taken as CSS value. CSS the values are "center", "left" and
+     * "right".
+     */    
+    backgroundPositionY :
+    {
+      nullable : true,
+      apply : "_applyStyle"
+    },    
+    
+    /**
+     * Property group to define the background position
+     */
+    backgroundPosition :
+    {
+      group : ["backgroundPositionY", "backgroundPositionX"]
     }
   },
 
@@ -117,7 +153,13 @@ qx.Class.define("qx.ui.decoration.Background",
       }
 
       // Generate markup
-      var html = qx.ui.decoration.Util.generateBackgroundMarkup(this.getBackgroundImage(), this.getBackgroundRepeat(), "position:absolute;top:0;left:0;");
+      var html = qx.ui.decoration.Util.generateBackgroundMarkup(
+        this.getBackgroundImage(),
+        this.getBackgroundRepeat(),
+        this.getBackgroundPositionX(),
+        this.getBackgroundPositionY(),
+        "position:absolute;top:0;left:0;"
+      );
 
       // Store
       return this.__markup = html;
