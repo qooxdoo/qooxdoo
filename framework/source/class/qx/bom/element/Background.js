@@ -47,32 +47,54 @@ qx.Class.define("qx.bom.element.Background",
 
 
     /**
+     * Computes the background position CSS value
+     * 
+     * @param left {Integer|String} either an integer pixel value or a CSS
+     *    string value
+     * @param top {Integer|String} either an integer pixel value or a CSS
+     *    string value
+     * @return {String} The background position CSS value
+     */
+    __computePosition : function(left, top)
+    {
+      // Correcting buggy Firefox background-position implementation
+      // Have problems with identical values      
+      var Engine = qx.bom.client.Engine;
+      if (Engine.GECKO && Engine.VERSION < 1.9 && left == top && typeof left == "number") {
+        top += 0.01;
+      }      
+      
+      if (left) {
+        var leftCss = (typeof left == "number") ? left + "px" : left;
+      }
+      if (top) {
+        var topCss = (typeof top == "number") ? top + "px" : top;
+      }
+
+      return (leftCss || "0") + " " + (topCss || "0");
+    },
+    
+    
+    /**
      * Compiles the background into a CSS compatible string.
      *
      * @param source {String?null} The URL of the background image
      * @param repeat {String?null} The background repeat property. valid values
      *     are <code>repeat</code>, <code>repeat-x</code>,
      *     <code>repeat-y</code>, <code>no-repeat</code>
-     * @param left {Integer?null} The horizontal offset of the image inside of
-     *     the image element.
-     * @param top {Integer?null} The vertical offset of the image inside of
-     *     the image element.
+     * @param left {Integer|String?null} The horizontal offset of the image
+     *      inside of the image element. If the value is an integer it is
+     *      interpreted as pixel value otherwise the value is taken as CSS value.
+     *      CSS the values are "center", "left" and "right"
+     * @param top {Integer|String?null} The vertical offset of the image
+     *      inside of the image element. If the value is an integer it is
+     *      interpreted as pixel value otherwise the value is taken as CSS value.
+     *      CSS the values are "top", "bottom" and "center"
      * @return {String} CSS string
      */
     compile : function(source, repeat, left, top)
     {
-      // Correcting buggy Firefox background-position implementation
-      // Have problems with identical values
-      var Engine = qx.bom.client.Engine;
-      if (Engine.GECKO && Engine.VERSION < 1.9 && left == top && left != null) {
-        top += 0.01;
-      }
-
-      if (left != null || top != null) {
-        var position = (left == null ? "0px" : left + "px") + " " + (top == null ? "0px" : top + "px")
-      } else {
-        var position = "0 0";
-      }
+      var position = this.__computePosition(left, top);
 
       // for IE check the given url for "HTTPS" to avoid "Mixed content" warnings
       var backgroundImageUrl = qx.util.ResourceManager.toUri(source);
@@ -98,10 +120,15 @@ qx.Class.define("qx.bom.element.Background",
      * @param repeat {String?null} The background repeat property. valid values
      *     are <code>repeat</code>, <code>repeat-x</code>,
      *     <code>repeat-y</code>, <code>no-repeat</code>
-     * @param left {Integer?null} The horizontal offset of the image inside of
-     *     the image element.
-     * @param top {Integer?null} The vertical offset of the image inside of
-     *     the image element.
+     * @param left {Integer|String?null} The horizontal offset of the image
+     *      inside of the image element. If the value is an integer it is
+     *      interpreted as pixel value otherwise the value is taken as CSS value.
+     *      CSS the values are "center", "left" and "right"
+     * @param top {Integer|String?null} The vertical offset of the image
+     *      inside of the image element. If the value is an integer it is
+     *      interpreted as pixel value otherwise the value is taken as CSS value.
+     *      CSS the values are "top", "bottom" and "center"
+     * @return {Map} A map of CSS styles
      */
     getStyles : function(source, repeat, left, top)
     {
@@ -109,14 +136,7 @@ qx.Class.define("qx.bom.element.Background",
         return this.__emptyStyles;
       }
 
-      var Engine = qx.bom.client.Engine;
-      if (Engine.GECKO && Engine.VERSION < 1.9 && left == top && left != null) {
-        top += 0.01;
-      }
-
-      if (left != null || top != null) {
-        var position = (left == null ? "0px" : left + "px") + " " + (top == null ? "0px" : top + "px")
-      }
+      var position = this.__computePosition(left, top);
 
       // for IE check the given url for "HTTPS" to avoid "Mixed content" warnings
       var backgroundImageUrl = qx.util.ResourceManager.toUri(source);
@@ -128,14 +148,13 @@ qx.Class.define("qx.bom.element.Background",
         backgroundImage : "url(" + backgroundImageUrl + ")"
       };
 
-      if (position != null) {
+      if (position != "0 0") {
         map.backgroundPosition = position;
       }
 
       if (repeat != null) {
         map.backgroundRepeat = repeat;
       }
-
       return map;
     },
 

@@ -222,8 +222,12 @@ qx.Class.define("qx.ui.decoration.Beveled",
       html.push('"></div>');
 
       // Inner background frame
-      var styles = "position:absolute;top:1px;left:1px;";
-      html.push(qx.ui.decoration.Util.generateBackgroundMarkup(this.getBackgroundImage(), this.getBackgroundRepeat(), styles));
+      html.push(qx.ui.decoration.Util.generateBackgroundMarkup(
+        this.getBackgroundImage(),
+        this.getBackgroundRepeat(),
+        0, 0,
+        "position:absolute;top:1px;left:1px;"
+      ));
 
       // Inner overlay frame
       html.push('<div style="position:absolute;top:1px;left:1px;');
