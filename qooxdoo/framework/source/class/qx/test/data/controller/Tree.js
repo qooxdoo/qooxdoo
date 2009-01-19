@@ -257,6 +257,16 @@ qx.Class.define("qx.test.data.controller.Tree",
       this.assertEquals("cc", this.__tree.getRoot().getChildren()[2].getChildren()[0].getLabel(), "cc node has a wrong name");
       // third layer
       this.assertEquals("bbb", this.__tree.getRoot().getChildren()[1].getChildren()[0].getChildren()[0].getLabel(), "bbb node has a wrong name");      
+    },
+    
+    
+    testChildReverse: function() {
+      //reverse the children
+      this.__model.getChildren().reverse();
+      // check the labels
+      this.assertEquals("a", this.__tree.getRoot().getChildren()[2].getLabel(), "First node has a wrong name");
+      this.assertEquals("b", this.__tree.getRoot().getChildren()[1].getLabel(), "Second node has a wrong name");
+      this.assertEquals("c", this.__tree.getRoot().getChildren()[0].getLabel(), "Third node has a wrong name");      
     }
   }
 });
