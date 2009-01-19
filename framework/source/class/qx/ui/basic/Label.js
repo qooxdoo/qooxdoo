@@ -342,7 +342,7 @@ qx.Class.define("qx.ui.basic.Label",
       "on" : function(e)
       {
         var content = this.getContent();
-        if (content.translate) {
+        if (content && content.translate) {
           this.setContent(content.translate());
         }
       },
