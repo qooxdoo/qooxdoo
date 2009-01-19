@@ -827,19 +827,18 @@ qx.Class.define("toolbox.gui.Toolbox",
     		if(e.getData() != null) {
     		    if(e.getData().getLabel().toString() == "Home") {
     			  this.logStack.exclude();
-                  this.mainStack.setSelected(this.mainStack.getChildren()[0]);
-                  
-                  this.widgets["toolbar.homeButton"].addListener("click", function()
+            this.mainStack.setSelected(this.mainStack.getChildren()[0]);      
+            this.widgets["toolbar.homeButton"].addListener("click", function()
 			      {
 			      	this.widgets["toolbar.homeButton"].setChecked(true);
 			      },
 			      this);
+			      this.widgets["toolbar.logCheckButton"].setEnabled(false);  
     		    } else if (e.getData().getLabel().toString() == "Application Development") {
-	    			if (this.widgets["toolbar.logCheckButton"].getChecked()) {
+	    			  if (this.widgets["toolbar.logCheckButton"].getChecked()) {
 			          this.logStack.show();
 			        }
 			        this.widgets["toolbar.logCheckButton"].setEnabled(true);
-	    			this.logStack.exclude();
 	        		this.mainStack.setSelected(this.mainStack.getChildren()[1]);
 	        		this.widgets["toolbar.appDevelButton"].addListener("click", function()
 			        {
@@ -853,7 +852,8 @@ qx.Class.define("toolbox.gui.Toolbox",
 			        {
 			      		this.widgets["toolbar.appBuiltButton"].setChecked(true);
 			        },
-			        this);
+			        this);´
+			        this.widgets["toolbar.logCheckButton"].setEnabled(false);
 	    		} else if (e.getData().getLabel().toString() == "Help"){
 	    			this.logStack.exclude();
 	        		this.mainStack.setSelected(this.mainStack.getChildren()[3]);
@@ -862,6 +862,7 @@ qx.Class.define("toolbox.gui.Toolbox",
 			      		this.widgets["toolbar.helpButton"].setChecked(true);
 			        },
 			        this);
+			        this.widgets["toolbar.logCheckButton"].setEnabled(false);
 	    		}  
     	    } 
     		/*
