@@ -27,7 +27,7 @@
 qx.Class.define("qx.ui.form.List",
 {
   extend : qx.ui.core.AbstractScrollArea,
-  implement : qx.ui.form.IFormElement,
+  implement : [qx.ui.form.IFormElement, qx.ui.core.ISingleSelection, qx.ui.core.IMultiSelection],
   include : [qx.ui.core.MRemoteChildrenHandling, qx.ui.core.MSelectionHandling],
 
 
@@ -294,7 +294,7 @@ qx.Class.define("qx.ui.form.List",
       }
 
       // Replace current selection
-      this.replaceSelection(result);
+      this.setSelection(result);
     },
 
 
@@ -438,7 +438,7 @@ qx.Class.define("qx.ui.form.List",
 
       // if an item was found, select it
       if (matchedItem) {
-        this.select(matchedItem);
+        this.setSelected(matchedItem);
       }
 
       // Store timestamp

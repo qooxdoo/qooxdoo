@@ -26,7 +26,7 @@
 qx.Class.define("qx.ui.form.SelectBox",
 {
   extend : qx.ui.form.AbstractSelectBox,
-  implement : qx.ui.form.IFormElement,
+  implement : [qx.ui.form.IFormElement, qx.ui.core.ISingleSelection],
 
 
 
@@ -76,7 +76,7 @@ qx.Class.define("qx.ui.form.SelectBox",
     {
       check : "qx.ui.form.ListItem",
       apply : "_applySelected",
-      event : "changeSelected"
+      event : "changeSelection"
     }
   },
 
@@ -148,8 +148,8 @@ qx.Class.define("qx.ui.form.SelectBox",
     _applySelected : function(value, old)
     {
       var list = this.getChildControl("list");
-      if (list.getSelectedItem() != value) {
-        list.select(value);
+      if (list.getSelected() != value) {
+        list.setSelected(value);
       }
 
       var atom = this.getChildControl("atom");
@@ -187,8 +187,56 @@ qx.Class.define("qx.ui.form.SelectBox",
       return item ? item.getFormValue() : null;
     },
 
+    
+    /*
+    ---------------------------------------------------------------------------
+      SINGLE SELECTION INTERFACE METHODS
+    ---------------------------------------------------------------------------
+    */
+    
+    /**
+     * Clears the whole selection at once.
+     *
+     * @return {void}
+     */
+    resetSelection : function() {
+      var firstElement = this.getChildControl("list").getChildren()[0]; 
+      
+      if (firstElement) {
+        this.setSelected(firstElement);
+      }
+    },
 
-
+    /**
+     * Detects whether the given item is currently selected.
+     *
+     * @param item {Object} Any valid selectable item
+     * @return {Boolean} Whether the item is selected
+     */
+    isSelected : function(item) {
+      var listElements = this.getChildControl("list").getChildren(); 
+      
+      if (listElements.length > 0) {
+        return this.getSelected() === item;
+      } else {
+        return false;
+      }
+    },
+    
+    /**
+     * Whether the selection is empty.
+     *
+     * @return {Boolean} Whether the selection is empty
+     */
+    isSelectionEmpty : function() {
+      var listElements = this.getChildControl("list").getChildren(); 
+      
+      if (listElements.length > 0) {
+        return this.getSelected() ? false : true;
+      } else {
+        return true;
+      }
+    },
 
     /*
     ---------------------------------------------------------------------------
@@ -389,7 +437,7 @@ qx.Class.define("qx.ui.form.SelectBox",
 
         // check if the list has any children before selecting
         if (list.hasChildren()) {
-          list.select(this.getSelected());
+          list.setSelected(this.getSelected());
         }
       }
     }
