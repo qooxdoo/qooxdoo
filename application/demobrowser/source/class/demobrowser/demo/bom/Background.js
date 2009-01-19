@@ -20,13 +20,13 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/48/devices/*)
+#asset(qx/icon/Tango/48/devices/*)
 
 ************************************************************************ */
 
 qx.Class.define("demobrowser.demo.bom.Background",
 {
-  extend : qx.application.Inline,
+  extend : qx.application.Native,
 
   members :
   {
@@ -35,7 +35,7 @@ qx.Class.define("demobrowser.demo.bom.Background",
       this.base(arguments);
       var q = qx.lang.Function.bind(qx.bom.Selector.query, qx.bom.Selector);
       
-      var resolved = qx.util.AliasManager.getInstance().resolve("icon/48/devices/drive-optical.png");
+      var resolved = qx.util.ResourceManager.toUri("qx/icon/Tango/48/devices/drive-optical.png");
       
       q("#box1_1").setCss(qx.bom.element.Background.compile(resolved));
       q("#box1_2").setCss(qx.bom.element.Background.compile(resolved, "repeat-x"));
