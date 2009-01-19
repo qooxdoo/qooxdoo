@@ -158,7 +158,7 @@ qx.Class.define("apiviewer.Controller",
 
       /*
       this._tree.addListener("appear", function(e) {
-        var item =  this._tree.getSelectedItem();
+        var item =  this._tree.getSelected();
         if (item) {
           this._tree.scrollChildIntoView(item);
         }
@@ -310,7 +310,7 @@ qx.Class.define("apiviewer.Controller",
         return;
       }
 
-      var nodeName = this._tree.getSelectedItem().getUserData("nodeName");
+      var nodeName = this._tree.getSelected().getUserData("nodeName");
 
 
       this._selectClass(apiviewer.dao.Class.getClassByName(nodeName), function()
