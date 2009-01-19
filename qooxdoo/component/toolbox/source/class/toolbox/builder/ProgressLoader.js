@@ -25,7 +25,7 @@
 /**
  * This class shows a progess loader during all processes
  */
-qx.Class.define("toolbox.ProgressLoader",
+qx.Class.define("toolbox.builder.ProgressLoader",
 {
   extend : qx.ui.window.Window,
 

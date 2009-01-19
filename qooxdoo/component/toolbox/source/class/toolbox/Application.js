@@ -52,7 +52,7 @@ qx.Class.define("toolbox.Application",
       this.base(arguments);
 
       // Initialize the toolbox
-      this.toolbox = new toolbox.Toolbox;
+      this.toolbox = new toolbox.gui.Toolbox;
 
       this.getRoot().add(this.toolbox, { edge : 0 });
     }

@@ -25,7 +25,7 @@
 /**
  * This class sends the request to the webserver to call the wished function.
  */
-qx.Class.define("toolbox.Builder",
+qx.Class.define("toolbox.builder.Builder",
 {
   /*
 	  *****************************************************************************
@@ -61,7 +61,7 @@ qx.Class.define("toolbox.Builder",
       var openGen = "action=open_In_Browser&location=source";
       var saveAppList = "action=save_Application_List";
 
-      this.__urlParms = new toolbox.UrlSearchParms();
+      this.__urlParms = new toolbox.builder.UrlSearchParms();
 
       // replaces all whitespaces with underscores
       fileName = fileName.replace(/ /g, "_");
@@ -93,7 +93,7 @@ qx.Class.define("toolbox.Builder",
       req.setProhibitCaching(true);
       req.setData(dat);
 
-      this.__loader = new toolbox.ProgressLoader();
+      this.__loader = new toolbox.builder.ProgressLoader();
       this.__loader.setCaption("Creating skeleton");
 
       req.addListener("completed", function(evt)
@@ -111,15 +111,15 @@ qx.Class.define("toolbox.Builder",
           {
             if (receivedState == 0)
             {
-              logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.output);
+              logFrame.setHtml( logFrame.getHtml() + '<br/><hr noshade size="4">CREATE APPLICATION<hr noshade size="4"> <br/>' + result.output);
 			  //adds the path and the name of the current application in the applicationlist
-              toolbox.Toolbox.APPLIST.push(
+              toolbox.gui.Toolbox.APPLIST.push(
               {
                 name : fileName,
                 path : filePath.replace(/\\/g, "/")
               });
 
-              var changedAppList = qx.util.Json.stringify(toolbox.Toolbox.APPLIST, true);
+              var changedAppList = qx.util.Json.stringify(toolbox.gui.Toolbox.APPLIST, true);
 
               saveAppList += "&changedAppList=" + changedAppList;
               req3.setData(saveAppList);
@@ -137,7 +137,7 @@ qx.Class.define("toolbox.Builder",
             }
 
             if (receivedState == 1) {
-              logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.error + '</font>');
+              logFrame.setHtml(logFrame.getHtml() + '<font color="red">' + '<br/> <hr noshade size="4">ERROR<hr noshade size="4">' + result.error + '</font>');
             }
           }
 
@@ -145,19 +145,21 @@ qx.Class.define("toolbox.Builder",
         }
         else
         {
-          logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.error + '</font>');
+          logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + '<br/> <hr noshade size="4">ERROR<hr noshade size="4">' + result.error + '</font>');
         }
       },
       this);
 
       req3.addListener("failed", function(evt) {
-        logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Application list could not extends by the created application </br>Failed to post to URL: " + url + '</font>');
+        logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + '<br/> <hr noshade size="4">CREATE APPLICATION<hr noshade size="4">' + 
+                         "Application list could not extends by the created application " +
+                         "</br>Failed to post to URL: " + url + '</font>');
       }, this);
 
       req2.addListener("completed", function(evt)
       {
         var genResult = evt.getContent();
-        logFrame.setHtml(logFrame.getHtml() + "<br/>" + genResult.gen_output);
+        logFrame.setHtml(logFrame.getHtml() + '<br/> <hr noshade size="4">GENERATE SOURCE<hr noshade size="4">' + genResult.gen_output);
 
         this.__loader.setModal(false);
         this.__loader.hide();
@@ -170,14 +172,16 @@ qx.Class.define("toolbox.Builder",
       req2.addListener("failed", function(evt)
       {
         this.error("Failed to post to URL: " + url);
-        logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
+        logFrame.setHtml(logFrame.getHtml() + '<br/> <hr noshade size="4">ERROR<hr noshade size="4">' + '<font color="red">' + 
+                         "Failed to post to URL: " + url + '</font>');
       },
       this);
 
       req.addListener("failed", function(evt)
       {
         this.error("Failed to post to URL: " + url);
-        logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
+        logFrame.setHtml(logFrame.getHtml() + '<br/> <hr noshade size="4">ERROR<hr noshade size="4">' + '<font color="red">' + 
+                         "Failed to post to URL: " + url + '</font>');
       },
       this);
 
@@ -205,7 +209,7 @@ qx.Class.define("toolbox.Builder",
       var createParams = [ fileName, filePath];
       req.setTimeout(100000);
 
-      this.__urlParms = new toolbox.UrlSearchParms();
+      this.__urlParms = new toolbox.builder.UrlSearchParms();
 
       // check cygwin path
       if ('cygwin' in this.__urlParms.getParms())
@@ -228,7 +232,7 @@ qx.Class.define("toolbox.Builder",
       req.setProhibitCaching(true);
       req.setData(dat);
 
-      this.__loader = new toolbox.ProgressLoader();
+      this.__loader = new toolbox.builder.ProgressLoader();
       this.__loader.setCaption("Generating source version");
 
       req.addListener("completed", function(evt)
@@ -243,19 +247,19 @@ qx.Class.define("toolbox.Builder",
           {
             if (receivedState == 0)
             {
-              logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.gen_output);
+              logFrame.setHtml(logFrame.getHtml()+ '<br/> <hr noshade size="4">GENERATE SOURCE<hr noshade size="4">'  + result.gen_output);
               req.setData(openSource);
               req.send();
             }
 
             if (receivedState == 1) {
-              logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.gen_error + '</font>');
+              logFrame.setHtml(logFrame.getHtml() + '<font color="red">' + '<br/> <hr noshade size="4">ERROR<hr noshade size="4">' + result.gen_error + '</font>');
             }
           }
         }
         else
         {
-          logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.gen_error + '</font>');
+          logFrame.setHtml(logFrame.getHtml() + '<font color="red">' + '<br/> <hr noshade size="4">ERROR<hr noshade size="4">' + result.gen_error + '</font>');
         }
 
         this.__loader.setModal(false);
@@ -266,7 +270,7 @@ qx.Class.define("toolbox.Builder",
       req.addListener("failed", function(evt)
       {
         this.error("Failed to post to URL: " + url);
-        logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
+        logFrame.setHtml(logFrame.getHtml() + '<font color="red">' + '<br/> <hr noshade size="4">ERROR<hr noshade size="4">' + "Failed to post to URL: " + url + '</font>');
         this.__loader.setModal(false);
         this.__loader.hide();
       },
@@ -296,7 +300,7 @@ qx.Class.define("toolbox.Builder",
       var createParams = [ fileName, filePath ];
       req.setTimeout(600000);
 
-      this.__urlParms = new toolbox.UrlSearchParms();
+      this.__urlParms = new toolbox.builder.UrlSearchParms();
 
       // check cygwin path
       if ('cygwin' in this.__urlParms.getParms())
@@ -319,7 +323,7 @@ qx.Class.define("toolbox.Builder",
       req.setProhibitCaching(true);
       req.setData(dat);
 
-      this.__loader = new toolbox.ProgressLoader();
+      this.__loader = new toolbox.builder.ProgressLoader();
       this.__loader.setCaption("Generating build version");
 
       req.addListener("completed", function(evt)
@@ -334,19 +338,19 @@ qx.Class.define("toolbox.Builder",
           {
             if (receivedState == 0)
             {
-              logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.build_output);
+              logFrame.setHtml(logFrame.getHtml() + '<br/> <hr noshade size="4">GENERATE BUILD<hr noshade size="4">' +  result.build_output);
               req.setData(openBuild);
               req.send();
             }
 
             if (receivedState == 1) {
-              logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.build_error + '</font>');
+              logFrame.setHtml(logFrame.getHtml() + '<font color="red">' + '<br/> <hr noshade size="4">ERROR<hr noshade size="4">' + result.build_error + '</font>');
             }
           }
         }
         else
         {
-          logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.build_error + '</font>');
+          logFrame.setHtml(logFrame.getHtml() + '<font color="red">' + '<br/> <hr noshade size="4">ERROR<hr noshade size="4">' + result.build_error + '</font>');
         }
 
         this.__loader.setModal(false);
@@ -357,7 +361,7 @@ qx.Class.define("toolbox.Builder",
       req.addListener("failed", function(evt)
       {
         this.error("Failed to post to URL: " + url);
-        logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
+        logFrame.setHtml(logFrame.getHtml() + '<font color="red">' + '<br/> <hr noshade size="4">ERROR<hr noshade size="4">' + "Failed to post to URL: " + url + '</font>');
         this.__loader.setModal(false);
         this.__loader.hide();
       },
@@ -387,7 +391,7 @@ qx.Class.define("toolbox.Builder",
       var createParams = [ fileName, filePath ];
       req.setTimeout(600000);
 
-      this.__urlParms = new toolbox.UrlSearchParms();
+      this.__urlParms = new toolbox.builder.UrlSearchParms();
 
       // check cygwin path
       if ('cygwin' in this.__urlParms.getParms())
@@ -410,7 +414,7 @@ qx.Class.define("toolbox.Builder",
       req.setProhibitCaching(true);
       req.setData(dat);
 
-      this.__loader = new toolbox.ProgressLoader();
+      this.__loader = new toolbox.builder.ProgressLoader();
       this.__loader.setCaption("Generating API");
 
       req.addListener("completed", function(evt)
@@ -425,19 +429,19 @@ qx.Class.define("toolbox.Builder",
           {
             if (receivedState == 0)
             {
-              logFrame.setHtml(logFrame.getHtml() + " <br> " + result.api_output);
+              logFrame.setHtml(logFrame.getHtml() + '<br/> <hr noshade size="4">GENERATE API<hr noshade size="4">'  + result.api_output);
               req.setData(openApi);
               req.send();
             }
 
             if (receivedState == 1) {
-              logFrame.setHtml(logFrame.getHtml() + " <br> " + '<font color="red">' + result.api_error + '</font>');
+              logFrame.setHtml(logFrame.getHtml() + " <br> " + '<font color="red">' + '<br/> <hr noshade size="4">ERROR<hr noshade size="4">' + result.api_error + '</font>');
             }
           }
         }
         else
         {
-          logFrame.setHtml(logFrame.getHtml() + " <br> " + '<font color="red">' + result.api_error + '</font>');
+          logFrame.setHtml(logFrame.getHtml() + " <br> " + '<font color="red">' + + '<br/> <hr noshade size="4">ERROR<hr noshade size="4">' + result.api_error + '</font>');
         }
 
         this.__loader.setModal(false);
@@ -448,7 +452,7 @@ qx.Class.define("toolbox.Builder",
       req.addListener("failed", function(evt)
       {
         this.error("Failed to post to URL: " + url);
-        logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
+        logFrame.setHtml(logFrame.getHtml() + '<font color="red">' + '<br/> <hr noshade size="4">ERROR<hr noshade size="4">' + "Failed to post to URL: " + url + '</font>');
         this.__loader.setModal(false);
         this.__loader.hide();
       },
@@ -477,7 +481,7 @@ qx.Class.define("toolbox.Builder",
       var createParams = [ fileName, filePath ];
       req.setTimeout(600000);
 
-      this.__urlParms = new toolbox.UrlSearchParms();
+      this.__urlParms = new toolbox.builder.UrlSearchParms();
 
       // check cygwin path
       if ('cygwin' in this.__urlParms.getParms())
@@ -498,7 +502,7 @@ qx.Class.define("toolbox.Builder",
       req.setProhibitCaching(true);
       req.setData(dat);
 
-      this.__loader = new toolbox.ProgressLoader();
+      this.__loader = new toolbox.builder.ProgressLoader();
       this.__loader.setCaption("Prettifing the source code");
 
       req.addListener("completed", function(evt)
@@ -512,17 +516,17 @@ qx.Class.define("toolbox.Builder",
           if (receivedState == 1 || receivedState == 0)
           {
             if (receivedState == 0) {
-              logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.pretty_output);
+              logFrame.setHtml(logFrame.getHtml() + '<br/> <hr noshade size="4">GENERATE PRETTY<hr noshade size="4">' + result.pretty_output);
             }
 
             if (receivedState == 1) {
-              logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.pretty_error + '</font>');
+              logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + '<br/> <hr noshade size="4">ERROR<hr noshade size="4">' + result.pretty_error + '</font>');
             }
           }
         }
         else
         {
-          logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.pretty_error + '</font>');
+          logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + '<br/> <hr noshade size="4">ERROR<hr noshade size="4">' + result.pretty_error + '</font>');
         }
 
         this.__loader.setModal(false);
@@ -533,7 +537,7 @@ qx.Class.define("toolbox.Builder",
       req.addListener("failed", function(evt)
       {
         this.error("Failed to post to URL: " + url);
-        logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
+        logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + '<br/> <hr noshade size="4">ERROR<hr noshade size="4">' + "Failed to post to URL: " + url + '</font>');
         this.__loader.setModal(false);
         this.__loader.hide();
       },
@@ -562,7 +566,7 @@ qx.Class.define("toolbox.Builder",
       var createParams = [ fileName, filePath ];
       req.setTimeout(600000);
 
-      this.__urlParms = new toolbox.UrlSearchParms();
+      this.__urlParms = new toolbox.builder.UrlSearchParms();
 
       // check cygwin path
       if ('cygwin' in this.__urlParms.getParms())
@@ -583,7 +587,7 @@ qx.Class.define("toolbox.Builder",
       req.setProhibitCaching(true);
       req.setData(dat);
 
-      this.__loader = new toolbox.ProgressLoader();
+      this.__loader = new toolbox.builder.ProgressLoader();
       this.__loader.setCaption("Validating the source code");
 
       req.addListener("completed", function(evt)
@@ -597,17 +601,17 @@ qx.Class.define("toolbox.Builder",
           if (receivedState == 1 || receivedState == 0)
           {
             if (receivedState == 0) {
-              logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.val_output);
+              logFrame.setHtml(logFrame.getHtml() + '<br/> <hr noshade size="4">GENERATE VALIDATE<hr noshade size="4">' + result.val_output);
             }
 
             if (receivedState == 1) {
-              logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.val_error + '</font>');
+              logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + '<br/> <hr noshade size="4">ERROR<hr noshade size="4">' + result.val_error + '</font>');
             }
           }
         }
         else
         {
-          logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.val_error + '</font>');
+          logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + '<br/> <hr noshade size="4">ERROR<hr noshade size="4">' + result.val_error + '</font>');
         }
 
         this.__loader.setModal(false);
@@ -618,7 +622,7 @@ qx.Class.define("toolbox.Builder",
       req.addListener("failed", function(evt)
       {
         this.error("Failed to post to URL: " + url);
-        logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
+        logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + '<br/> <hr noshade size="4">ERROR<hr noshade size="4">' + "Failed to post to URL: " + url + '</font>');
         this.__loader.setModal(false);
         this.__loader.hide();
       },
@@ -648,7 +652,7 @@ qx.Class.define("toolbox.Builder",
       var createParams = [ fileName, filePath ];
       req.setTimeout(100000);
 
-      this.__urlParms = new toolbox.UrlSearchParms();
+      this.__urlParms = new toolbox.builder.UrlSearchParms();
 
       // check cygwin path
       if ('cygwin' in this.__urlParms.getParms())
@@ -671,7 +675,7 @@ qx.Class.define("toolbox.Builder",
       req.setProhibitCaching(true);
       req.setData(dat);
 
-      this.__loader = new toolbox.ProgressLoader();
+      this.__loader = new toolbox.builder.ProgressLoader();
       this.__loader.setCaption("Generating the Testrunner (using the tests in the build version)");
 
       req.addListener("completed", function(evt)
@@ -686,19 +690,19 @@ qx.Class.define("toolbox.Builder",
           {
             if (receivedState == 0)
             {
-              logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.testApp_output);
+              logFrame.setHtml(logFrame.getHtml() + '<br/> <hr noshade size="4">GENERATE TEST<hr noshade size="4">' + result.testApp_output);
               req.setData(openSource);
               req.send();
             }
 
             if (receivedState == 1) {
-              logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.testApp_error + '</font>');
+              logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + '<br/> <hr noshade size="4">ERROR<hr noshade size="4">'+ result.testApp_error + '</font>');
             }
           }
         }
         else
         {
-          logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.testApp_error + '</font>');
+          logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + '<br/> <hr noshade size="4">ERROR<hr noshade size="4">' + result.testApp_error + '</font>');
         }
 
         this.__loader.setModal(false);
@@ -709,7 +713,7 @@ qx.Class.define("toolbox.Builder",
       req.addListener("failed", function(evt)
       {
         this.error("Failed to post to URL: " + url);
-        logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
+        logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + '<br/> <hr noshade size="4">ERROR<hr noshade size="4">' + "Failed to post to URL: " + url + '</font>');
         this.__loader.setModal(false);
         this.__loader.hide();
       },
@@ -739,7 +743,7 @@ qx.Class.define("toolbox.Builder",
       var createParams = [ fileName, filePath ];
       req.setTimeout(100000);
 
-      this.__urlParms = new toolbox.UrlSearchParms();
+      this.__urlParms = new toolbox.builder.UrlSearchParms();
 
       // check cygwin path
       if ('cygwin' in this.__urlParms.getParms())
@@ -762,7 +766,7 @@ qx.Class.define("toolbox.Builder",
       req.setProhibitCaching(true);
       req.setData(dat);
 
-      this.__loader = new toolbox.ProgressLoader();
+      this.__loader = new toolbox.builder.ProgressLoader();
       this.__loader.setCaption("Generating the Testrunner (using the tests in the source version)");
 
       req.addListener("completed", function(evt)
@@ -777,19 +781,19 @@ qx.Class.define("toolbox.Builder",
           {
             if (receivedState == 0)
             {
-              logFrame.setHtml(logFrame.getHtml() + "<br/>" + result.test_output);
+              logFrame.setHtml(logFrame.getHtml() + '<br/> <hr noshade size="4">GENERATE TEST-SOURCE<hr noshade size="4">' + result.test_output);
               req.setData(openSource);
               req.send();
             }
 
             if (receivedState == 1) {
-              logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.test_error + '</font>');
+              logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + '<br/> <hr noshade size="4">ERROR<hr noshade size="4">'+ result.test_error + '</font>');
             }
           }
         }
         else
         {
-          logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + result.test_error + '</font>');
+          logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">'+ '<br/> <hr noshade size="4">ERROR<hr noshade size="4">' + result.test_error + '</font>');
         }
 
         this.__loader.setModal(false);
@@ -800,7 +804,7 @@ qx.Class.define("toolbox.Builder",
       req.addListener("failed", function(evt)
       {
         this.error("Failed to post to URL: " + url);
-        logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
+        logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + '<br/> <hr noshade size="4">ERROR<hr noshade size="4">' + "Failed to post to URL: " + url + '</font>');
         this.__loader.setModal(false);
         this.__loader.hide();
       },
@@ -830,12 +834,12 @@ qx.Class.define("toolbox.Builder",
       var createParams = [ fileName, filePath ];
       req.setTimeout(100000);
 
-      for (var i=0; i<toolbox.Toolbox.APPLIST.length; i++)
+      for (var i=0; i<toolbox.gui.Toolbox.APPLIST.length; i++)
       {
-        if (toolbox.Toolbox.APPLIST[i].name == fileName & toolbox.Toolbox.APPLIST[i].path == filePath.replace(/\\/g, "/"))
+        if (toolbox.gui.Toolbox.APPLIST[i].name == fileName & toolbox.gui.Toolbox.APPLIST[i].path == filePath.replace(/\\/g, "/"))
         {
-          toolbox.Toolbox.APPLIST.splice(i, 1);
-          var changedAppList = qx.util.Json.stringify(toolbox.Toolbox.APPLIST, true);
+          toolbox.gui.Toolbox.APPLIST.splice(i, 1);
+          var changedAppList = qx.util.Json.stringify(toolbox.gui.Toolbox.APPLIST, true);
 
           var params = [ "myName", "myPath" ];
 
@@ -857,11 +861,16 @@ qx.Class.define("toolbox.Builder",
       req.addListener("failed", function(evt)
       {
         this.error("Failed to post to URL: " + url);
-        logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + fileName + " in " + filePath + " could not remove </br>Failed to post to URL: " + url + '</font>');
+        logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + '<br/> <hr noshade size="4">ERROR<hr noshade size="4">' + 
+        				 fileName + " in " + filePath + 
+                         " could not remove </br>Failed to post to URL: " + url + '</font>');
       },
       this);
-
-      appList.setEnabled(true);
+	  if(toolbox.gui.Toolbox.APPLIST.length == 0){
+        appList.setEnabled(false);
+      } else {
+      	appList.setEnabled(true);
+      }
     },
 
 
@@ -887,15 +896,19 @@ qx.Class.define("toolbox.Builder",
         var result = evt.getContent();
         result = result.replace(/\n/g, "").replace(/{/g, "\{").replace(/}/g, "\}");
         this.jsonObject = qx.util.Json.parse(result);
-        toolbox.Toolbox.APPLIST = this.jsonObject;
-        appList.setEnabled(true);
+        toolbox.gui.Toolbox.APPLIST = this.jsonObject;
+        if(toolbox.gui.Toolbox.APPLIST.length == 0){
+        	appList.setEnabled(false);
+        } else {
+        	appList.setEnabled(true);
+        }
       },
       this);
 
       req.addListener("failed", function(evt)
       {
         this.error("Failed to post to URL: " + url);
-        logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
+        logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + '<br/> <hr noshade size="4">ERROR<hr noshade size="4">' + "Failed to post to URL: " + url + '</font>');
       },
       this);
 
