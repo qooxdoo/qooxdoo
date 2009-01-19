@@ -114,7 +114,6 @@ qx.Class.define("qx.data.controller.Tree",
           
       // go threw all children in the model
       for (var i = 0; i < children.length; i++) {
-
         // if there is no node in the tree
         if (rootNode.getChildren()[i] == null 
           || children.getItem(i) != rootNode.getChildren()[i].getUserData("model")
