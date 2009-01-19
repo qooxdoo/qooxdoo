@@ -322,7 +322,7 @@ qx.Class.define("qx.ui.core.ScrollPane",
     */
 
     /**
-     * The size (identical with the preferred size) of of the content.
+     * The size (identical with the preferred size) of the content.
      *
      * @return {Map} Size of the content (keys: <code>width</code> and <code>height</code>)
      */
