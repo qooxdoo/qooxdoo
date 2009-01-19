@@ -842,11 +842,10 @@ class POEntry(_BaseEntry):
             comments = _strsplit(self._decode(self.comment), '\n')
             for comment in comments:
                 if wrapwidth > 0 and len(comment) > wrapwidth-3:
-                    lines = _textwrap(comment, wrapwidth,
+                    ret += _textwrap(comment, wrapwidth,
                                       initial_indent='#. ',
                                       subsequent_indent='#. ',
                                       break_long_words=False)
-                    ret.extend(lines)
                 else:
                     _listappend(ret, '#. %s' % comment)
         # translator comment, if any (with text wrapping as xgettext does)
@@ -854,11 +853,10 @@ class POEntry(_BaseEntry):
             tcomments = _strsplit(self._decode(self.tcomment), '\n')
             for tcomment in tcomments:
                 if wrapwidth > 0 and len(tcomment) > wrapwidth-2:
-                    lines = _textwrap(tcomment, wrapwidth,
+                    ret += _textwrap(tcomment, wrapwidth,
                                       initial_indent='# ',
                                       subsequent_indent='# ',
                                       break_long_words=False)
-                    ret.extend(lines)
                 else:
                     _listappend(ret, '# %s' % tcomment)
         # occurrences (with text wrapping as xgettext does)
