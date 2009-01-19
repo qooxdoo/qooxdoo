@@ -73,6 +73,9 @@ class TreeCompiler:
 
         self._console.debug("Compiling tree: %s..." % fileId)
         compiled = self.compileTree(tree, format)
+        self._console.indent()
+        self._console.debug("Size: %d" % len(compiled))
+        self._console.outdent()
 
         self._cache.write(cacheId, compiled)
         return compiled
