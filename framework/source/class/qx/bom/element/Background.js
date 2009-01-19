@@ -66,12 +66,16 @@ qx.Class.define("qx.bom.element.Background",
       
       if (left) {
         var leftCss = (typeof left == "number") ? left + "px" : left;
+      } else {
+        leftCss = "0";
       }
       if (top) {
         var topCss = (typeof top == "number") ? top + "px" : top;
+      } else {
+        topCss = "0";
       }
-
-      return (leftCss || "0") + " " + (topCss || "0");
+      
+      return leftCss + " " + topCss;
     },
     
     
