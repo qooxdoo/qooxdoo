@@ -19,8 +19,19 @@
 qx.Class.define("demobrowser.demo.data.model.Node", 
 {
   extend : qx.core.Object,
+  
+  construct : function() {
+    this.base(arguments);
+    
+    this.setChildren(new qx.data.Array());
+  },
 
   properties : {
+    children : {
+      check: "qx.data.Array",
+      event: "changeChildren"
+    },
+    
     child : {
       check : "demobrowser.demo.data.model.Node",
       event : "changeChild",
@@ -31,6 +42,12 @@ qx.Class.define("demobrowser.demo.data.model.Node",
       check : "qx.data.Array",
       event : "changeNames",
       init : new qx.data.Array("Homer", "Marge")
+    },
+    
+    name : {
+      check: "String",
+      init: "AFFE",
+      event: "changeName"
     },
     
     number : {
