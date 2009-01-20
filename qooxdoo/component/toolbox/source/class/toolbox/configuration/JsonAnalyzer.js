@@ -912,9 +912,9 @@ qx.Class.define("toolbox.configuration.JsonAnalyzer",
      */
     __addChild : function()
     {
-      var json = this.__tree.getSelectedItem().getUserData("json");
+      var json = this.__tree.getSelected().getUserData("json");
 
-      if (this.__tree.getSelectedItem().getLabel().toString() == "root") {
+      if (this.__tree.getSelected().getLabel().toString() == "root") {
         var subTree = json.obj;
       } else {
         var subTree = json.obj[json.key];
@@ -986,13 +986,13 @@ qx.Class.define("toolbox.configuration.JsonAnalyzer",
       }
 
       var json2 = this.currentItem.getUserData("json");
-      var current = this.__tree.getSelectedItem();
+      var current = this.__tree.getSelected();
       current.removeAll();
 
-      if (this.__tree.getSelectedItem().getLabel().toString() == "root") {
-        this[this.__map[typeof subTree]](subTree, this.__tree.getSelectedItem());
+      if (this.__tree.getSelected().getLabel().toString() == "root") {
+        this[this.__map[typeof subTree]](subTree, this.__tree.getSelected());
       } else {
-        this[this.__map[typeof json2.obj[json2.key]]](json2.obj[json2.key], this.__tree.getSelectedItem());
+        this[this.__map[typeof json2.obj[json2.key]]](json2.obj[json2.key], this.__tree.getSelected());
       }
 
       this.resetAddChildDialog();
@@ -1086,16 +1086,16 @@ qx.Class.define("toolbox.configuration.JsonAnalyzer",
         var parMem = this.currentItem.getParent();
 
         // -----------------------------------OBJECT-------------------------------------
-        if (this.currentTypeAtom.getLabel().toString() == "object" || this.currentTypeAtom.getLabel().toString() == "array" || this.currentTypeAtom.getLabel().toString() == "null" || this.__tree.getSelectedItem().getParent().getLabel().toString() == "root" || typeof json.obj[json.key] == "string" || typeof json.obj[json.key] == "number" || typeof json.obj[json.key] == "boolean")
+        if (this.currentTypeAtom.getLabel().toString() == "object" || this.currentTypeAtom.getLabel().toString() == "array" || this.currentTypeAtom.getLabel().toString() == "null" || this.__tree.getSelected().getParent().getLabel().toString() == "root" || typeof json.obj[json.key] == "string" || typeof json.obj[json.key] == "number" || typeof json.obj[json.key] == "boolean")
         {  // Objekt in einem Arrays
           if (par.obj[par.key] instanceof Array)
           {
             for (var i=0; i<json.obj.length; i++)
             {
-              if (i == this.__tree.getSelectedItem().getLabel().toString())
+              if (i == this.__tree.getSelected().getLabel().toString())
               {
                 json.obj.splice(i, 1);
-                this[this.__map[typeof json.obj]](json.obj, this.__tree.getSelectedItem().getParent());
+                this[this.__map[typeof json.obj]](json.obj, this.__tree.getSelected().getParent());
 
                 for (var j=0; j<json.obj.length+1; j++) {
                   parMem.removeAt(0);
@@ -1105,11 +1105,11 @@ qx.Class.define("toolbox.configuration.JsonAnalyzer",
               }
             }
           }
-          else if (par.obj[par.key] instanceof Object || this.__tree.getSelectedItem().getParent().getLabel().toString() == "root")
+          else if (par.obj[par.key] instanceof Object || this.__tree.getSelected().getParent().getLabel().toString() == "root")
           {  // Object in einem Object
             delete json.obj[json.key];
             delete json.key;
-            this[this.__map[typeof json.obj]](json.obj, this.__tree.getSelectedItem().getParent());
+            this[this.__map[typeof json.obj]](json.obj, this.__tree.getSelected().getParent());
 
             for (var j=0; j<parMem.getItems(true, false).length+1; j++) {
               parMem.removeAt(0);
@@ -1117,17 +1117,17 @@ qx.Class.define("toolbox.configuration.JsonAnalyzer",
           }
         }
       }
-      else if (this.__tree.getSelectedItem().getLabel().toString() == "root")
+      else if (this.__tree.getSelected().getLabel().toString() == "root")
       {
-        this.__tree.getSelectedItem().removeAll();
+        this.__tree.getSelected().removeAll();
 
-        this.__tree.getSelectedItem().setUserData("json",
+        this.__tree.getSelected().setUserData("json",
         {
           obj : {},
           key : null
         });
 
-        var json = this.__tree.getSelectedItem().getUserData("json");
+        var json = this.__tree.getSelected().getUserData("json");
         toolbox.configuration.Configuration.JSON = json.obj;
       }
     },
@@ -1147,26 +1147,26 @@ qx.Class.define("toolbox.configuration.JsonAnalyzer",
       }
 
       var value = this.tCurrentInput.getValue().toString().replace(/\n/g, '').replace(/\\"/g, '"');
-      var json = this.__tree.getSelectedItem().getUserData("json");
+      var json = this.__tree.getSelected().getUserData("json");
 
       try
       {
         var parent = qx.util.Json.parse(value);
         json.obj[json.key] = parent;
 
-        this.__tree.getSelectedItem().removeAll();
+        this.__tree.getSelected().removeAll();
 
-        if (this.__tree.getSelectedItem().getLabel().toString() == "root")
+        if (this.__tree.getSelected().getLabel().toString() == "root")
         {
-          var json = this.__tree.getSelectedItem().getUserData("json");
+          var json = this.__tree.getSelected().getUserData("json");
           var subTree = json.obj[json.key];
-          this.__tree.getSelectedItem().removeAll();
+          this.__tree.getSelected().removeAll();
           this.createJsonTree(subTree);
           toolbox.configuration.Configuration.JSON = subTree;
         }
         else
         {
-          this[this.__map[typeof parent]](parent, this.__tree.getSelectedItem());
+          this[this.__map[typeof parent]](parent, this.__tree.getSelected());
         }
       }
       catch(err)
