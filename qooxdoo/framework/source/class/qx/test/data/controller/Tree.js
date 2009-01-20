@@ -25,7 +25,7 @@ qx.Class.define("qx.test.data.controller.Tree",
     this.base(arguments);
 
     // define a test class
-    qx.Class.define("test.TreeNode",
+    qx.Class.define("qx.test.TreeNode",
     {
       extend : qx.core.Object,
       
@@ -33,11 +33,18 @@ qx.Class.define("qx.test.data.controller.Tree",
         this.base(arguments);
         
         this.setChildren(new qx.data.Array());
+        this.setAltChildren(new qx.data.Array());        
       },
 
       properties :
       {
         children : {
+          check : "qx.data.Array",
+          event : "changeChild",
+          nullable : true
+        },
+
+        altChildren : {
           check : "qx.data.Array",
           event : "changeChild",
           nullable : true
@@ -53,7 +60,19 @@ qx.Class.define("qx.test.data.controller.Tree",
           check : "String",
           init : "root2",
           event : "changeName"
-        }        
+        },
+        
+        icon : {
+          check : "String",
+          event: "changeIcon",
+          nullable: true
+        },
+        
+        icon2 : {
+          check : "String",
+          event: "changeIcon2",
+          nullable: true
+        }
       }
     });
   },
@@ -70,20 +89,37 @@ qx.Class.define("qx.test.data.controller.Tree",
       //        this.__model
       //        /    |      \
       // this.__a  this.__b  this.__c
-      this.__model = new test.TreeNode();
-      this.__a = new test.TreeNode();
-      this.__a.setName("a");
-      this.__a.setName2("a2");      
-      this.__b = new test.TreeNode();
-      this.__b.setName("b");
-      this.__b.setName2("b2");      
-      this.__c = new test.TreeNode();
-      this.__c.setName("c");
-      this.__c.setName2("c2");      
+      this.__model = new qx.test.TreeNode();
+      
+      this.__a = new qx.test.TreeNode();
+      this.__a.set({
+        name: "a",
+        name2: "a2",
+        icon: "icon a",
+        icon2: "icon a2"
+      });
+      
+      this.__b = new qx.test.TreeNode();
+      this.__b.set({
+       name: "b",
+       name2: "b2",
+       icon: "icon b",
+       icon2: "icon b2"
+      });
+
+      this.__c = new qx.test.TreeNode();
+      this.__c.set({
+        name: "c",
+        name2: "c2",
+        icon: "icon c",
+        icon2: "icon c2"
+      });    
+      
       this.__model.getChildren().push(this.__a, this.__b, this.__c);
+      this.__model.getAltChildren().push(this.__c, this.__b, this.__a);      
 
       // create the controller
-      this.__controller = new qx.data.controller.Tree(this.__model, this.__tree, "children", "name");      
+      this.__controller = new qx.data.controller.Tree(this.__model, this.__tree, "children", "name", "icon");      
     },
 
 
@@ -139,7 +175,7 @@ qx.Class.define("qx.test.data.controller.Tree",
     
     
     testChildPush: function() {
-      var d = new test.TreeNode();
+      var d = new qx.test.TreeNode();
       d.setName("d");
       var children = this.__model.getChildren();
       children.push(d);
@@ -175,7 +211,7 @@ qx.Class.define("qx.test.data.controller.Tree",
     
      
     testChildUnshift: function() {
-      var d = new test.TreeNode();
+      var d = new qx.test.TreeNode();
       d.setName("d");
       var children = this.__model.getChildren();
       children.unshift(d);
@@ -194,9 +230,7 @@ qx.Class.define("qx.test.data.controller.Tree",
       this.__model.getChildren().pop();
       this.__model.getChildren().pop();
       this.__model.getChildren().pop();
-      
-      tree = this.__tree;
-      
+            
       // create a staight tree
       // this.__model
       //      \
@@ -219,15 +253,15 @@ qx.Class.define("qx.test.data.controller.Tree",
     
     testBig: function() {
       // build up the model instances
-      var aa = new test.TreeNode();
+      var aa = new qx.test.TreeNode();
       aa.setName("aa");   
-      var bb = new test.TreeNode();
+      var bb = new qx.test.TreeNode();
       bb.setName("bb");
-      var cc = new test.TreeNode();
+      var cc = new qx.test.TreeNode();
       cc.setName("cc");
-      var bbb = new test.TreeNode();
+      var bbb = new qx.test.TreeNode();
       bbb.setName("bbb");
-      var AA = new test.TreeNode();
+      var AA = new qx.test.TreeNode();
       AA.setName("AA");
       
       // tie the model together
@@ -261,12 +295,94 @@ qx.Class.define("qx.test.data.controller.Tree",
     
     
     testChildReverse: function() {
-      //reverse the children
+      // reverse the children
       this.__model.getChildren().reverse();
       // check the labels
       this.assertEquals("a", this.__tree.getRoot().getChildren()[2].getLabel(), "First node has a wrong name");
       this.assertEquals("b", this.__tree.getRoot().getChildren()[1].getLabel(), "Second node has a wrong name");
       this.assertEquals("c", this.__tree.getRoot().getChildren()[0].getLabel(), "Third node has a wrong name");      
+    },
+    
+    
+    testChangeChildPath: function() {
+      // change the child path
+      this.__controller.setChildPath("altChildren");
+      // check the labels
+      this.assertEquals("c", this.__tree.getRoot().getChildren()[0].getLabel(), "First node has a wrong name");
+      this.assertEquals("b", this.__tree.getRoot().getChildren()[1].getLabel(), "Second node has a wrong name");
+      this.assertEquals("a", this.__tree.getRoot().getChildren()[2].getLabel(), "Third node has a wrong name");      
+    },
+    
+    
+    testChangeTarget: function() {
+      // create a new tree
+      var tree = new qx.ui.tree.Tree();
+      
+      // set the new tree as target
+      this.__controller.setTarget(tree);
+      
+      // check the new folders
+      this.assertEquals("a", tree.getRoot().getChildren()[0].getLabel(), "First node has a wrong name");
+      this.assertEquals("b", tree.getRoot().getChildren()[1].getLabel(), "Second node has a wrong name");
+      this.assertEquals("c", tree.getRoot().getChildren()[2].getLabel(), "Third node has a wrong name");      
+      
+      // check if the old tree is empty
+      this.assertNull(this.__tree.getRoot(), "Former tree is not empty.");
+    },
+    
+    
+    testChangeModel: function() {
+      // create a new model
+      //     this.__model
+      //        /    \
+      // this.__a  this.__b  
+      var model = new qx.test.TreeNode();
+      var a = new qx.test.TreeNode();
+      a.setName("A");
+      var b = new qx.test.TreeNode();
+      b.setName("B");
+      model.getChildren().push(a, b);
+
+      // set the new model
+      this.__controller.setModel(model);
+      
+      // check the folders
+      this.assertEquals("A", this.__tree.getRoot().getChildren()[0].getLabel(), "First node has a wrong name");
+      this.assertEquals("B", this.__tree.getRoot().getChildren()[1].getLabel(), "Second node has a wrong name");
+    },
+    
+    
+    testIconPath: function() {
+      this.assertEquals(null, this.__tree.getRoot().getIcon(), "Root node has a wrong icon");
+      this.assertEquals("icon a", this.__tree.getRoot().getChildren()[0].getIcon(), "First node has a wrong icon");
+      this.assertEquals("icon b", this.__tree.getRoot().getChildren()[1].getIcon(), "Second node has a wrong icon");
+      this.assertEquals("icon c", this.__tree.getRoot().getChildren()[2].getIcon(), "Third node has a wrong icon");      
+    },
+    
+    
+    testIconPathChange: function() {
+      // change the icon path
+      this.__controller.setIconPath("icon2");
+      
+      // test the binding
+      this.assertEquals(null, this.__tree.getRoot().getIcon(), "Root node has a wrong icon");
+      this.assertEquals("icon a2", this.__tree.getRoot().getChildren()[0].getIcon(), "First node has a wrong icon");
+      this.assertEquals("icon b2", this.__tree.getRoot().getChildren()[1].getIcon(), "Second node has a wrong icon");
+      this.assertEquals("icon c2", this.__tree.getRoot().getChildren()[2].getIcon(), "Third node has a wrong icon");      
+    },
+    
+    testIconChange: function() {
+      // change the icon values
+      this.__model.setIcon("AFFE");
+      this.__a.setIcon("ICON A");
+      this.__b.setIcon("ICON B");
+      this.__c.setIcon("ICON C");            
+      
+      // test the new icon values
+      this.assertEquals("AFFE", this.__tree.getRoot().getIcon(), "Root node has a wrong icon");
+      this.assertEquals("ICON A", this.__tree.getRoot().getChildren()[0].getIcon(), "First node has a wrong icon");
+      this.assertEquals("ICON B", this.__tree.getRoot().getChildren()[1].getIcon(), "Second node has a wrong icon");
+      this.assertEquals("ICON C", this.__tree.getRoot().getChildren()[2].getIcon(), "Third node has a wrong icon");      
     }
   }
 });
