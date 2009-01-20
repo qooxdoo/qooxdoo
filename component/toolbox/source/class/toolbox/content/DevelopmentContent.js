@@ -179,8 +179,8 @@ qx.Class.define("toolbox.content.DevelopmentContent",
       // ------Checkbox End-----------------------------------------------------
       
       // ------Selectbox Start--------------------------------------------------
-      var types = [ "GUI (default)", "Bom", "Migration", "With-contrib" ];
-      var values = [ "gui", "bom", "migration", "with-contrib" ];
+      var types = [ "GUI (default)", "Bom", "Migration" ];
+      var values = [ "gui", "bom", "migration" ];
 
       var selectBox = new qx.ui.form.SelectBox();
 

@@ -74,17 +74,17 @@ qx.Class.define("toolbox.configuration.ConfigurationDialog",
 
         var req = new qx.io.remote.Request(adminPath, "POST");
         var createParams = [ fileName, filePath ];
-	    req.setTimeout(1000000);
+	      req.setTimeout(1000000);
 	
-	    var params = [ "myName", "myPath" ];
+	     var params = [ "myName", "myPath" ];
 	
-	    for (var i=0; i<createParams.length; i++)
-	    {
-	      if (createParams[i] != "")
-	      {
-	        saveDat += "&" + params[i] + "=" + createParams[i];
-	      }
-	    }
+  	    for (var i=0; i<createParams.length; i++)
+  	    {
+  	      if (createParams[i] != "")
+  	      {
+  	        saveDat += "&" + params[i] + "=" + createParams[i];
+  	      }
+  	    }
         
         var vBoxLayout = new qx.ui.layout.VBox(5);
         vBoxLayout.setAlignX("right");
@@ -104,8 +104,8 @@ qx.Class.define("toolbox.configuration.ConfigurationDialog",
         this.setShowMinimize(false);
         this.setLayout(vBoxLayout);
         this.setMinWidth(410);
-		this.open();
-		this.show();
+		    this.open();
+		    this.show();
 		
         
         // --------Buttons-----------------------------------------------------
@@ -288,7 +288,7 @@ qx.Class.define("toolbox.configuration.ConfigurationDialog",
 
       saveDialog.setAllowMaximize(false);
       saveDialog.setAllowClose(true);
-      saveDialog.setAllowMinimize(false);
+      saveDialog.setShowMinimize(false);
       saveDialog.setModal(true);
       saveDialog.open();
       saveDialog.moveTo(this.getBounds()["left"] + 100, this.getBounds()["top"] + 50);
@@ -302,7 +302,6 @@ qx.Class.define("toolbox.configuration.ConfigurationDialog",
      */
     destruct : function()
     {
-      // this._disposeFields("widgets");
       this._disposeObjects("this.__content", "this.__state");
     }
   }
