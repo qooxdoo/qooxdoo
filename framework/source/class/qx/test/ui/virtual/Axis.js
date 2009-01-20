@@ -169,7 +169,20 @@ qx.Class.define("qx.test.ui.virtual.Axis",
       this.assertArrayEquals(
         [5, 10, 25, 10],
         this.axis.getItemSizes(1, 41)
-      );                  
+      );    
+      
+      // test at the end of the scale
+      this.axis.setDefaultItemSize(10);
+      this.axis.setItemCount(10);
+      this.assertArrayEquals(
+        [10, 10],
+        this.axis.getItemSizes(8, 25)
+      );        
+
+      this.assertArrayEquals(
+        [10],
+        this.axis.getItemSizes(9, 30)
+      );       
     },
     
 

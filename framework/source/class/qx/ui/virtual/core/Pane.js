@@ -35,6 +35,9 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     this.visibleCells = {};
     this.lastVisibleCells = {};
     
+    this.__paneHeight = 0;
+    this.__paneWidth = 0;
+    
     // create layer container. The container does not have a layout manager
     // layers are positioned using "setUserBounds"
     this.__layerContainer = new qx.ui.container.Composite();
@@ -44,9 +47,46 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     this.layers = [];
     
     this.addListener("resize", this._onResize, this);
-    this.addListener("appear", this._onResize, this);
+    this.addListener("appear", this._onResize, this);    
   },
    
+  
+  /*
+   *****************************************************************************
+      EVENTS
+   *****************************************************************************
+   */
+  
+  events :
+  {
+    /** Fired on resize of both the container or the (virtual) content. */
+    update : "qx.event.type.Event"
+  },
+   
+  
+ /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    // overridden
+    width :
+    {
+      refine : true,
+      init : 400
+    },
+
+
+    // overridden
+    height :
+    {
+      refine : true,
+      init : 300
+    }     
+  },   
    
   /*
   *****************************************************************************
@@ -56,15 +96,6 @@ qx.Class.define("qx.ui.virtual.core.Pane",
 
   members :
   {
-    // overridden
-    _getContentHint : function() {
-      return {
-        width: 400,
-        height: 300
-      }
-    },
-    
-
     /*
     ---------------------------------------------------------------------------
       LAYER MANAGMENT
@@ -217,8 +248,10 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     
     _onResize : function() 
     {
-      if (this.getContainerElement().getDomElement()) {
+      if (this.getContainerElement().getDomElement())
+      {
         this.fullUpdate();
+        this.fireEvent("update");
       }
     },
     
@@ -229,9 +262,26 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     ---------------------------------------------------------------------------
     */
     
+    __checkPaneResize : function()
+    {
+      var scrollSize = this.getScrollSize();
+      if (
+        this.__paneHeight !== scrollSize.height ||
+        this.__paneWidth !== scrollSize.width
+      ) 
+      {
+        this.__paneHeight = scrollSize.height;
+        this.__paneWidth = scrollSize.width;  
+        this.fireEvent("update");
+      }      
+    },
+    
+    
     fullUpdate : function()
     {
-      if (this.layers.length == 0) {
+      if (this.layers.length == 0)
+      {
+        this.__checkPaneResize();
         return;
       }
 
@@ -280,6 +330,8 @@ qx.Class.define("qx.ui.virtual.core.Pane",
           rowSizes, columnSizes
         );
       }
+      
+      this.__checkPaneResize();
     },
     
     
