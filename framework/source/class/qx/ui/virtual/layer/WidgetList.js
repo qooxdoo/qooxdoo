@@ -18,18 +18,7 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#asset(qx/icon/${qx.icontheme}/16/places/*)
-#asset(qx/icon/${qx.icontheme}/22/places/*)
-#asset(qx/icon/${qx.icontheme}/32/places/*)
-#asset(qx/icon/${qx.icontheme}/48/places/*)
-#asset(qx/icon/${qx.icontheme}/64/places/*)
-#asset(qx/icon/${qx.icontheme}/128/places/*)
-
-************************************************************************ */
-
-qx.Class.define("qx.ui.virtual.layer.WidgetList",
+qx.Class.define("qx.ui.virtual.layer.AbstractWidget",
 {
   extend : qx.ui.core.Widget,
   
@@ -47,22 +36,17 @@ qx.Class.define("qx.ui.virtual.layer.WidgetList",
  
   members :
   {
-    _pool : null,
-    
     _getWidget : function(row, column) {
-      return this._pool.pop() || new qx.ui.basic.Atom();
+      throw new Error("_getWidget is abstract");
     },
     
     _poolWidget: function(widget) {
-      this._pool.push(widget);
+      throw new Error("_poolWidget is abstract");
     },
-    
+
     _configureWidget : function(widget, row, column) 
     {
-      widget.set({
-        label: "Item #" + row,
-        icon: "icon/32/places/folder.png"
-      });      
+      throw new Error("_configureWidget is abstract");
     },    
     
     fullUpdate : function(visibleCells, lastVisibleCells, rowSizes, columnSizes)
@@ -75,17 +59,24 @@ qx.Class.define("qx.ui.virtual.layer.WidgetList",
       this._removeAll();
       
       var top = 0;
-      for (var y=0; y<rowSizes.length; y++)
+      var left = 0;
+      for (var x=0; x<columnSizes.length; x++)
       {
-        var rowIndex = visibleCells.firstRow + y;
-        
-        var item = this._getWidget(rowIndex, 0);
-        this._configureWidget(item, rowIndex, 0);
-        
-        item.setUserBounds(0, top, columnSizes[0], rowSizes[y]);
-        this._add(item);
-        
-        top += rowSizes[y];
+        for (var y=0; y<rowSizes.length; y++)
+        {
+          var rowIndex = visibleCells.firstRow + y;
+          var colIndex = visibleCells.firstColumn + x;
+                
+          var item = this._getWidget(rowIndex, colIndex);
+          this._configureWidget(item, rowIndex, colIndex);
+                
+          item.setUserBounds(left, top, columnSizes[x], rowSizes[y]);
+          this._add(item);
+
+          top += rowSizes[y];
+        }
+        left += columnSizes[x];
+        top = 0;
       }
     },
     
