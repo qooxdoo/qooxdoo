@@ -426,6 +426,23 @@ qx.Class.define("qx.test.data.controller.List",
       
       // check if the flag is set
       this.assertTrue(flag, "onSetOk not executed");
+    },
+    
+    
+    testSelectBoxSelectionSingle: function() {
+      this.__data = ["10", "20", "-1", "50"];
+      // create a new array
+      this.__model = new qx.data.Array(this.__data);
+      
+      // create the controller
+      var box = new qx.ui.form.SelectBox();
+      this.__controller = new qx.data.controller.List(this.__model, box);    
+      
+      // add 10 to the selection
+      this.__controller.getSelection().push("10");
+      
+      // check for the Selection
+      this.assertEquals("10", box.getSelected().getLabel(), "Wrong selection");
     }
   }
 });

@@ -24,26 +24,35 @@ qx.Class.define("qx.data.controller.List",
   construct : function(model, target, labelPath, iconPath, labelOptions, iconOptions)
   {
     this.base(arguments, model, target);
+    
+    // create a default selection array
     this.setSelection(new qx.data.Array());
+    
+    // create the maps for storing the bindings
     this.__bindingsLabel = {};
     this.__bindingsIcons = {};
     
+    // set the label options, if available
     if (labelOptions != undefined) {
       this.setLabelOptions(labelOptions);
     }
-    
+
+    // set the icon options, if available    
     if (iconOptions != undefined) {
       this.setIconOptions(iconOptions);
     }    
     
+    // set the label path, if available    
     if (labelPath != undefined) {
       this.setLabelPath(labelPath);      
     }
     
+    // set the icon path, if available    
     if (iconPath != undefined) {
       this.setIconPath(iconPath);
     }
 
+    // set the model and the target
     this.setModel(model);
     this.setTarget(target); 
   },
@@ -102,6 +111,11 @@ qx.Class.define("qx.data.controller.List",
 
   members :
   {
+    /*
+    ---------------------------------------------------------------------------
+       APPLY METHODS
+    ---------------------------------------------------------------------------
+    */
     _applyIconOptions: function(value, old) {
       this.__renewBindings();
     },
@@ -162,10 +176,16 @@ qx.Class.define("qx.data.controller.List",
       if (this.__selectionListenerId != undefined && old != undefined) {
         old.removeListenerById(this.__selectionListenerId);
       }
-      // add a new selection listener
-      this.__selectionListenerId = value.addListener(
-        "changeSelection", this.__changeTargetSelection, this
-      );
+
+      // if a selection API is supported
+      var sSupport = this.__targetSupportsSingleSelection();
+      var mSupport = this.__targetSupportsMultiSelection();
+      if (mSupport || sSupport) {
+        // add a new selection listener
+        this.__selectionListenerId = value.addListener(
+          "changeSelection", this.__changeTargetSelection, this
+        );        
+      }
     },    
     
     
@@ -181,6 +201,11 @@ qx.Class.define("qx.data.controller.List",
     },
     
     
+    /*
+    ---------------------------------------------------------------------------
+       EVENT HANDLER
+    ---------------------------------------------------------------------------
+    */    
     __changeSelectionArray: function(e) {
       this.__updateSelection();
     },
@@ -192,11 +217,16 @@ qx.Class.define("qx.data.controller.List",
         return;
       }
       
-      // get the selection of the target
-      var targetSelection = this.getTarget().getSelection();
+      if (this.__targetSupportsMultiSelection()) {
+        // get the selection of the target
+        var targetSelection = this.getTarget().getSelection();        
+      } else if (this.__targetSupportsSingleSelection()) {
+        // get the selection of the target as an array
+        var targetSelection = [this.getTarget().getSelected()];
+      }  
+      
       // go through the target selection
       for (var i = 0; i < targetSelection.length; i++) {
-        
         // get the fitting item
         var item = targetSelection[i].getUserData("model");
         if (!this.getSelection().contains(item)) {
@@ -204,16 +234,19 @@ qx.Class.define("qx.data.controller.List",
         }
       }
       
+      // get all items selected in the list
       var targetSelectionItems = [];
       for (var i = 0; i < targetSelection.length; i++) {
         targetSelectionItems[i] = targetSelection[i].getUserData("model");
       }
       
+      // go through the controller selection
       for (var i = this.getSelection().length - 1; i >= 0; i--) {
+        // if the item in the controller selection is not selected in the list
         if (!qx.lang.Array.contains(
           targetSelectionItems, this.getSelection().getItem(i)
         )) {
-          //  the current element
+          // remove the current element
           this.getSelection().splice(i, 1);
         }
       }
@@ -239,11 +272,15 @@ qx.Class.define("qx.data.controller.List",
       var newLength = this.getModel().length;
       var currentLength = this.getTarget().getChildren().length;
       
+      // if there are more item
       if (newLength > currentLength) {
+        // add the new elements
         for (var j = currentLength; j < newLength; j++) {
           this.__addItem(j);
         }
+      // if there are less elements
       } else if (newLength < currentLength) {
+        // remove the unnecessary ítems
         for (var j = currentLength; j > newLength; j--) {
           this.__removeItem();
         }
@@ -251,16 +288,41 @@ qx.Class.define("qx.data.controller.List",
     },
     
     
+    /*
+    ---------------------------------------------------------------------------
+       ITEM HANDLING
+    ---------------------------------------------------------------------------
+    */    
     __addItem: function(index) {
+      // create a new ListItem
       var listItem = new qx.ui.form.ListItem();
+      // store the coresponding model element as user data
       listItem.setUserData("model", this.getModel().getItem(index));
+      // set up the binding
       this.__bindListItem(listItem, index);
+      // add the ListItem to the target
       this.getTarget().add(listItem);      
     },
     
     
+    __removeItem: function() {
+      // get the last binding id
+      var index = this.getTarget().getChildren().length - 1;
+      this.__removeBindingsFrom(index);
+      // remove the item
+      var oldItem = this.getTarget().removeAt(index);
+      oldItem.destroy();
+    },    
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+       BINDING STUFF
+    ---------------------------------------------------------------------------
+    */
     __bindListItem: function(listItem, index) {
- 
+      // create the options for the binding containing the old options
+      // including the old onSetOk function
       var options = qx.lang.Object.copy(this.getLabelOptions());
       if (options != null) {
         this.__onSetOkLabel = options.onSetOk;
@@ -271,21 +333,19 @@ qx.Class.define("qx.data.controller.List",
       }
       options.onSetOk =  qx.lang.Function.bind(this.__onBindingSet, this, index);
 
-
-
       // build up the path for the binding
       var bindPath = "model[" + index + "]";
       if (this.getLabelPath() != null) {
         bindPath += "." + this.getLabelPath();
       }
+      // create the binding
       var id = this.bind(bindPath, listItem, "label", options);
-      
       // save the bindings id
       this.__bindingsLabel[index] = id;
       
       // if the iconPath is set
       if (this.getIconPath() != null) {
-        
+        // create the options for the icon path
         options = qx.lang.Object.copy(this.getIconOptions());
         if (options != null) {
           this.__onSetOkIcon = options.onSetOk;
@@ -301,8 +361,9 @@ qx.Class.define("qx.data.controller.List",
         if (this.getIconPath() != null) {
           bindPath += "." + this.getIconPath();
         }
+        // create the binding
         id = this.bind(bindPath, listItem, "icon", options);
-        
+        // save the binding id
         this.__bindingsIcons[index] = id;
       }
     },
@@ -323,24 +384,15 @@ qx.Class.define("qx.data.controller.List",
     },
     
     
-    __removeItem: function() {
-      // get the last binding id
-      var index = this.getTarget().getChildren().length - 1;
-      this.__removeBindingsFrom(index);
-      // remove the item
-      var oldItem = this.getTarget().removeAt(index);
-      oldItem.destroy();
-    },
-    
-    
     __removeBindingsFrom: function(index) {
       var id = this.__bindingsLabel[index];
       // delete the reference 
       delete this.__bindingsLabel[index];
       // remove the binding
       this.removeBinding(id);
-      // check for the icon binding
+      // of an icon binding exists
       if (this.__bindingsIcons[index] != undefined) {
+        // remove the icon binding
         id = this.__bindingsIcons[index];
         delete this.__bindingsIcons[index];
         this.removeBinding(id);
@@ -348,37 +400,8 @@ qx.Class.define("qx.data.controller.List",
     },
     
     
-    __updateSelection: function() {
-      // mark the change process in a flag
-      this.__modifingSelection = true;      
-
-      // remove the old selection
-      this.getTarget().resetSelection();
-      // go through the selection array
-      for (var i = 0; i < this.getSelection().length; i++) {
-        this.__selectItem(this.getSelection().getItem(i));
-      }     
-      
-      // reset the changing flag
-      this.__modifingSelection = false;       
-    },    
-    
-    
-    __selectItem: function(item) {
-      // get the list item
-      var children = this.getTarget().getChildren();
-      for (var i = 0; i < children.length; i++) {
-        if (children[i].getUserData("model") == item) {
-          // select the item in the target
-          this.getTarget().addToSelection(children[i]);
-          return;
-        }
-      }
-    },
-    
-    
     __renewBindings: function(attribute) {
-      // ignore first run
+      // ignore, if no target is set (startup)
       if (this.getTarget() == null) {
         return;
       }
@@ -392,8 +415,72 @@ qx.Class.define("qx.data.controller.List",
         // add the new binding
         this.__bindListItem(listItems[i], i);
       }      
-    }
+    },    
     
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+       SELECTION
+    ---------------------------------------------------------------------------
+    */    
+    __updateSelection: function() {
+      // mark the change process in a flag
+      this.__modifingSelection = true;      
+      
+      // if its a multi selection target
+      if (this.__targetSupportsMultiSelection()) {
+        // remove the old selection
+        this.getTarget().resetSelection();
+        // go through the selection array
+        for (var i = 0; i < this.getSelection().length; i++) {
+          // select each item
+          this.__selectItem(this.getSelection().getItem(i));
+        } 
+      // if its a single selection target      
+      } else if (this.__targetSupportsSingleSelection()) {
+        // select the last selected item (old selection will be removed anyway)
+        this.__selectItem(
+          this.getSelection().getItem(this.getSelection().length - 1)
+        );
+      }
+      
+      // reset the changing flag
+      this.__modifingSelection = false;       
+    },    
+    
+    
+    __targetSupportsMultiSelection: function() {
+      var targetClass = this.getTarget().constructor;
+      return qx.Class.implementsInterface(targetClass, qx.ui.core.IMultiSelection);
+    },
+    
+    
+    __targetSupportsSingleSelection: function() {
+      var targetClass = this.getTarget().constructor;      
+      return qx.Class.implementsInterface(targetClass, qx.ui.core.ISingleSelection);
+    },
+    
+    
+    __selectItem: function(item) {
+      // get all list items
+      var children = this.getTarget().getChildren();
+    
+      // go through all children and search for the child to select
+      for (var i = 0; i < children.length; i++) {
+        if (children[i].getUserData("model") == item) {
+          // if the target is multi selection able
+          if (this.__targetSupportsMultiSelection()) {            
+            // select the item in the target
+            this.getTarget().addToSelection(children[i]);
+          // if the target is single selection able
+          } else if (this.__targetSupportsSingleSelection()) {
+            this.getTarget().setSelected(children[i]);
+          }
+          return;
+        }
+      }        
+    }
         
   }
 });
