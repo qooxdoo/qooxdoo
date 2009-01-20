@@ -21,14 +21,19 @@ qx.Class.define("qx.data.controller.Tree",
   extend : qx.core.Object,
 
 
-  construct : function(model, target, childPath, labelPath)
+  construct : function(model, target, childPath, labelPath, iconPath)
   {
     this.base(arguments);
     
     // internal bindings reference
     this.__labelBindings = {};
+    this.__iconBindings = {};
     
     this.__childrenRef = {};
+    
+    if (iconPath != undefined) {
+      this.setIconPath(iconPath);
+    }
     
     this.setChildPath(childPath);
     this.setLabelPath(labelPath);
@@ -56,6 +61,7 @@ qx.Class.define("qx.data.controller.Tree",
     childPath : 
     {
       check: "String",
+      apply: "_applyChildPath",
       nullable: true
     },
     
@@ -63,28 +69,47 @@ qx.Class.define("qx.data.controller.Tree",
     {
       check: "String",
       apply: "_applyLabelPath"
+    },
+    
+    iconPath : 
+    {
+      check: "String",
+      apply: "_applyIconPath"
     }
   },
 
   members :
   {
     _applyTarget: function(value, old) {
-      // add a new root node
-      var rootNode = new qx.ui.tree.TreeFolder();
-      this.getTarget().setRoot(rootNode);
-      // bind the root node
-      this.__addBinding(this.getModel(), rootNode);
-      this.__updateTreeChildren(rootNode, this.getModel());
+      // if there was an old target
+      if (old != undefined) {
+        // get rid of the old stuff
+        var oldRoot = old.getRoot();
+        old.setRoot(null);
+        oldRoot.destroy();
+      }
+      // build up the tree
+      this.__buildTree();
     },
     
     
     _applyModel: function(value, old) {
-
+      this.__buildTree();      
+    },
+    
+    
+    _applyChildPath: function(value, old) {
+      this.__buildTree();
+    },
+    
+    
+    _applyIconPath: function(value, old) {
+      this.__renewAllBindings();      
     },
     
     
     _applyLabelPath: function(value, old) {
-      this.__renewAllBindings();
+      this.__renewAllBindings();        
     },
     
     
@@ -98,9 +123,31 @@ qx.Class.define("qx.data.controller.Tree",
     },
     
     
+    __buildTree: function() {
+      // only fill the target if there is a target
+      if (this.getTarget() == null) {
+        return;
+      }
+      
+      // check for the old root node
+      var oldRoot = this.getTarget().getRoot();
+      if (oldRoot != null) {
+        oldRoot.destroy();
+      }
+      
+      // add a new root node
+      var rootNode = new qx.ui.tree.TreeFolder();
+      this.getTarget().setRoot(rootNode);
+      // bind the root node
+      this.__addBinding(this.getModel(), rootNode);
+      this.__updateTreeChildren(rootNode, this.getModel());
+    },
+    
+    
     __updateTreeChildren: function(rootNode, modelNode) {
       // get all children of the current model node
-      var children = modelNode.getChildren();
+      var children = 
+        modelNode["get" + qx.lang.String.firstUp(this.getChildPath())]();
       
       // store the children reference
       if (this.__childrenRef[children.toHashCode()] == undefined) {
@@ -115,8 +162,9 @@ qx.Class.define("qx.data.controller.Tree",
       // go threw all children in the model
       for (var i = 0; i < children.length; i++) {
         // if there is no node in the tree
-        if (rootNode.getChildren()[i] == null 
-          || children.getItem(i) != rootNode.getChildren()[i].getUserData("model")
+        if (
+          rootNode.getChildren()[i] == null || 
+          children.getItem(i) != rootNode.getChildren()[i].getUserData("model")
         )
         {
             // add the child node
@@ -141,11 +189,13 @@ qx.Class.define("qx.data.controller.Tree",
       // get the model
       var model = treeFolder.getUserData("model");
       // delete the model reference
-      delete this.__childrenRef[model.getChildren().toHashCode()];
+      delete this.__childrenRef[
+        model[
+          "get" + qx.lang.String.firstUp(this.getChildPath())
+        ]().toHashCode()
+      ];
       // get the binding and remove it
-      var bindingId = this.__labelBindings[model.toHashCode()].id;
-      model.removeBinding(bindingId);
-      delete this.__labelBindings[model.toHashCode()];
+      this.__removeBinding(model);
       // remove the folder from the tree
       rootNode.remove(treeFolder);      
     },
@@ -165,16 +215,28 @@ qx.Class.define("qx.data.controller.Tree",
     
     
     __addBinding: function(modelNode, treeNode) {
-      // bind the node
+      // label binding
       var id = modelNode.bind(this.getLabelPath(), treeNode, "label");
-      // save the id
-      this.__labelBindings[modelNode.toHashCode()] = {id: id, treeNode: treeNode};      
+      this.__labelBindings[modelNode.toHashCode()] = {id: id, treeNode: treeNode};
+
+      // icon binding
+      id = modelNode.bind(this.getIconPath(), treeNode, "icon");
+      this.__iconBindings[modelNode.toHashCode()] = {id: id, treeNode: treeNode};      
     },
     
     
     __removeBinding: function(modelNode) {
+      // label binding
       var id = this.__labelBindings[modelNode.toHashCode()].id;
       modelNode.removeBinding(id);
+      delete this.__labelBindings[modelNode.toHashCode()];
+      
+      // icon binding
+      id = this.__iconBindings[modelNode.toHashCode()].id;
+      if (id != undefined) {
+        modelNode.removeBinding(id);
+        delete this.__iconBindings[modelNode.toHashCode()];        
+      }
     }
   }
 });
