@@ -47,8 +47,8 @@ qx.Class.define("demobrowser.demo.virtual.ListComplex",
       // Call super class
       this.base(arguments);
 
-      var scroller = new qx.ui.virtual.core.Scroller(2000, 2000, 32, 100);
-      scroller.pane.setWidth(400);
+      var scroller = new qx.ui.virtual.core.Scroller(2000, 2000, 32, 120);
+      scroller.pane.setWidth(450);
       
       
       this.getRoot().add(scroller, {left : 20, top : 10});
