@@ -61,13 +61,12 @@ qx.Class.define("demobrowser.demo.virtual.TableHeader",
       }
 
       // Fix values:
-      var listWidgetHeight = 140;
-      var totalAmount = 50;
+      var listWidgetHeight = 340;
+      var totalAmount = 500;
       var defaultItemHeight = 24;
 
       var yAxis = new qx.ui.virtual.core.Axis(defaultItemHeight, totalAmount);
 
-      var visibleItemAmount = yAxis.getItemAtPosition(listWidgetHeight).index;
 //      var listHeight = (visibleItemAmount - 2) * itemHeight;
 
 
@@ -87,6 +86,7 @@ qx.Class.define("demobrowser.demo.virtual.TableHeader",
 
       var sizes = [16, 22, 32, 48, 64, 128];
 
+      // Generate data:
       for (var i=0; i<totalAmount; i++)
       {
         var name = "";
@@ -102,6 +102,8 @@ qx.Class.define("demobrowser.demo.virtual.TableHeader",
 
         yAxis.setItemSize(i, sizes[size]);
       }
+
+      var visibleItemAmount = yAxis.getItemAtPosition(listWidgetHeight).index;
 
 
       this.__data = data;
@@ -119,6 +121,9 @@ qx.Class.define("demobrowser.demo.virtual.TableHeader",
         width : listWidgetHeight,
         backgroundColor : "white"
       });
+
+
+console.info(visibleItemAmount)
 
       var item;
       for( var i=0; i<visibleItemAmount; i++ )
