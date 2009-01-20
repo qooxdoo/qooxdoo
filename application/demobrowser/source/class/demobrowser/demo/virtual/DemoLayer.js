@@ -74,9 +74,12 @@ qx.Class.define("demobrowser.demo.virtual.DemoLayer",
       if (column % 2 == 0)
       {
         widget.set({
-          label: row + " / " + column,
-          icon: "icon/32/places/folder.png"
+          label: this.__generateName(),
+          icon: this.__getIcon()
         });
+        widget.addListener("mouseover", function(){
+          widget.setIcon(this.__getIcon())
+        }, this)
       }
       else
       {
@@ -84,7 +87,40 @@ qx.Class.define("demobrowser.demo.virtual.DemoLayer",
           checked : row % 2 == 0,
           label : row + " / " + column
         });
+        widget.addListener("changeChecked", function(){
+          this.setLabel(this.getLabel() == "foobar!" ? row + " / " + column : "foobar!");
+        }, widget)
       }
+    },
+
+    __generateName : function()
+    {
+      var name = "";
+      for (var j=0; j<10; j++) {
+        name += String.fromCharCode(Math.floor(Math.random()*25)+65);
+      }
+      return name;
+    },
+    
+    __getIcon : function()
+    {
+      var prefix = "icon/";
+      var suffix = "places/";
+
+      var iconImages = [
+        "folder.png",
+        "user-trash.png",
+        "network-server.png",
+        "network-workgroup.png",
+        "user-desktop.png"
+      ];
+
+      var sizes = [16, 22, 32, 48, 64, 128];
+
+      var imageId = Math.floor(Math.random()*4);
+      var size = Math.floor(Math.random()*5);
+
+      return (prefix + 16 + "/" + suffix + iconImages[imageId]);
     }
   }
 });
