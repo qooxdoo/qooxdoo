@@ -38,7 +38,7 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
     this.base(arguments);
 
     this.pane = new qx.ui.virtual.core.Pane(rowCount, columnCount, cellHeight, cellWidth);
-    this.pane.addListener("resize", this._computeScrollbars, this);
+    this.pane.addListener("update", this._computeScrollbars, this);    
     this._add(this.pane, {row: 0, column: 0});    
   },
 
