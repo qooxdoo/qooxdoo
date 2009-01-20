@@ -184,10 +184,10 @@ qx.Class.define("toolbox.gui.Toolbox",
       this.widgets["radioButton.manager"] = manager;
       
       // --Created applications menu
-      var createdAppsMenuButton = new qx.ui.toolbar.MenuButton("Created Applications", "toolbox/image/folder-open.png");
-      part1.add(createdAppsMenuButton);
-      this.widgets["toolbar.createdAppsMenuButton"] = createdAppsMenuButton;
-      createdAppsMenuButton.setEnabled(false);
+      var selectAppMenuButton = new qx.ui.toolbar.MenuButton("Select Application", "toolbox/image/folder-open.png");
+      part1.add(selectAppMenuButton);
+      this.widgets["toolbar.selectAppMenuButton"] = selectAppMenuButton;
+      selectAppMenuButton.setEnabled(false);
 
       // --Delete button (deletes the selected application)
       var removeButton = new qx.ui.toolbar.Button("Remove Application", "toolbox/image/edit-delete.png");
@@ -285,7 +285,7 @@ qx.Class.define("toolbox.gui.Toolbox",
       this.widgets["toolbar.generateBuildButton"].addListener("execute", this.__generateBuild, this);
       this.widgets["toolbar.testSourceButton"].addListener("execute", this.__testSource, this);
       this.widgets["toolbar.testButton"].addListener("execute", this.__testApplication, this);
-      this.widgets["toolbar.createdAppsMenuButton"].addListener("changeEnabled", this.__setAppListMenu, this);
+      this.widgets["toolbar.selectAppMenuButton"].addListener("changeEnabled", this.__setAppListMenu, this);
       this.widgets["toolbar.removeButton"].addListener("execute", this.__removeDialog, this);
       this.widgets["toolbar.homeButton"].addListener("click", function() { this.widgets["toolbar.homeButton"].setChecked(true);}, this);
     },  // assignListener
@@ -319,7 +319,7 @@ qx.Class.define("toolbox.gui.Toolbox",
     __loadAppList : function() {
       toolbox.builder.Builder.prepareApplicationList(this.__adminPath, 
                                                      this.widgets["pane.logFrame"], 
-                                                     this.widgets["toolbar.createdAppsMenuButton"]);
+                                                     this.widgets["toolbar.selectAppMenuButton"]);
     },
 
 
@@ -329,7 +329,7 @@ qx.Class.define("toolbox.gui.Toolbox",
      * @return {void} 
      */
     __setAppListMenu : function() {
-      this.widgets["toolbar.createdAppsMenuButton"].setMenu(this.__getCreatedAppsMenu());
+      this.widgets["toolbar.selectAppMenuButton"].setMenu(this.__getCreatedAppsMenu());
     },
 
 
@@ -460,8 +460,8 @@ qx.Class.define("toolbox.gui.Toolbox",
       // ------Checkbox End-----------------------------------------------------
       
       // ------Selectbox Start--------------------------------------------------
-      var types = [ "GUI (default)", "Bom", "Migration", "With-contrib" ];
-      var values = [ "gui", "bom", "migration", "with-contrib" ];
+      var types = [ "GUI (default)", "Bom", "Migration" ];
+      var values = [ "gui", "bom", "migration" ];
 
       var selectBox = new qx.ui.form.SelectBox();
 
@@ -893,9 +893,9 @@ qx.Class.define("toolbox.gui.Toolbox",
 		                                           this.__getCurrentType(),
 		                                           this.__isGenerateSource.toString(), 
 		                                           this.widgets["pane.logFrame"], 
-		                                           this.widgets["toolbar.createdAppsMenuButton"]);
+		                                           this.widgets["toolbar.selectAppMenuButton"]);
 
-      this.widgets["toolbar.createdAppsMenuButton"].setEnabled(false);
+      this.widgets["toolbar.selectAppMenuButton"].setEnabled(false);
       this.appDevelCaption.setContent(this.__getCurrentFileName());
       this.__cancelNewApplication();
       this.__setEnableAllFunctions(true);
@@ -910,12 +910,12 @@ qx.Class.define("toolbox.gui.Toolbox",
      */
     __removeApplication : function()
     {
-      this.widgets["toolbar.createdAppsMenuButton"].setEnabled(false);
+      this.widgets["toolbar.selectAppMenuButton"].setEnabled(false);
       toolbox.builder.Builder.removeCurrentApplication(this.__adminPath, 
 		                                               this.__getCurrentFileName(), 
 		                                               this.__getCurrentFilePath(), 
 		                                               this.widgets["pane.logFrame"], 
-		                                               this.widgets["toolbar.createdAppsMenuButton"]);
+		                                               this.widgets["toolbar.selectAppMenuButton"]);
       this.appDevelCaption.setContent("");
     },
 
@@ -1280,7 +1280,7 @@ qx.Class.define("toolbox.gui.Toolbox",
       container.add(this.appDevelCaption);
 
       this.appDevel = new toolbox.content.DevelopmentContent(this.widgets,
-      														 this.widgets["toolbar.createdAppsMenuButton"],
+      														 this.widgets["toolbar.selectAppMenuButton"],
       														 this.widgets["toolbar.removeButton"],
       														 this.appDevelCaption);
       container.add(this.appDevel, { flex : 1 });
