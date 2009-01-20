@@ -1,6 +1,14 @@
 #!/usr/bin/env python
 
-# BAT Client - qooxdoo platform-independent Build And Test client
+# NAME
+#  BAT Client - qooxdoo platform-independent Build And Test client
+#
+# DESCRIPTION
+#  The purpose of this software is to implement the client side of a simple
+#  client-server network protocol. The client, if it intends to run some job,
+#  registers with a BAT server ("bathost") and receives a workpackes which is
+#  then run on the client platform. Results are posted back to the server. (See
+#  the server implementation for more details on the protocol).
 
 import os, sys, platform
 import optparse
