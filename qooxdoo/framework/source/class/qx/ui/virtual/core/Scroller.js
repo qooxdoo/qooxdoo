@@ -55,7 +55,7 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
      width :
      {
        refine : true,
-       init : 400
+       init : null
      },
 
 
@@ -63,8 +63,8 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
      height :
      {
        refine : true,
-       init : 300
-     }     
+       init : null
+     }  
    },
    
    
