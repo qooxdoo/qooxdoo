@@ -62,7 +62,7 @@ qx.Class.define("demobrowser.demo.virtual.TableHeader",
 
       // Fix values:
       var listWidgetHeight = 340;
-      var totalAmount = 500;
+      var totalAmount = 200;
       var defaultItemHeight = 24;
 
       var yAxis = new qx.ui.virtual.core.Axis(defaultItemHeight, totalAmount);
