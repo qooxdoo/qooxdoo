@@ -49,9 +49,29 @@ qx.Class.define("qx.ui.virtual.layer.WidgetList",
   {
     _pool : null,
     
+    _getWidget : function(row, column) {
+      return this._pool.pop() || new qx.ui.basic.Atom();
+    },
+    
+    _poolWidget: function(widget) {
+      this._pool.push(widget);
+    },
+    
+    _configureWidget : function(widget, row, column) 
+    {
+      widget.set({
+        label: "Item #" + row,
+        icon: "icon/32/places/folder.png"
+      });      
+    },    
+    
     fullUpdate : function(visibleCells, lastVisibleCells, rowSizes, columnSizes)
     {
-      this._pool = qx.lang.Array.copy(this._getChildren());
+      var children = this._getChildren();
+      for (var i=0; i<children.length; i++) {
+        this._poolWidget(children[i]);
+      }
+      
       this._removeAll();
       
       var top = 0;
@@ -59,11 +79,9 @@ qx.Class.define("qx.ui.virtual.layer.WidgetList",
       {
         var rowIndex = visibleCells.firstRow + y;
         
-        var item = this._pool.pop() || new qx.ui.basic.Atom();
-        item.set({
-          label: "Item #" + rowIndex,
-          icon: "icon/32/places/folder.png"
-        });
+        var item = this._getWidget(rowIndex, 0);
+        this._configureWidget(item, rowIndex, 0);
+        
         item.setUserBounds(0, top, columnSizes[0], rowSizes[y]);
         this._add(item);
         
