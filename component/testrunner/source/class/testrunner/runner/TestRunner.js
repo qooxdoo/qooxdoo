@@ -1141,7 +1141,11 @@ qx.Class.define("testrunner.runner.TestRunner",
       "logappender",
       "iframe",
       "tree1",
-      "loader"
+      "loader",
+      "_labelDeco",
+      "_progress",
+      "logelem",
+      "currentTestData"
     );
   },
 
