@@ -353,7 +353,7 @@ qx.Class.define("qx.data.controller.List",
       this.__modifingSelection = true;      
 
       // remove the old selection
-      this.getTarget().clearSelection();
+      this.getTarget().resetSelection();
       // go through the selection array
       for (var i = 0; i < this.getSelection().length; i++) {
         this.__selectItem(this.getSelection().getItem(i));
