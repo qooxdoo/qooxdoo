@@ -49,6 +49,7 @@ qx.Class.define("demobrowser.demo.virtual.List",
 
       var scroller = new qx.ui.virtual.core.Scroller(10000, 1, 32, 200);
       scroller.pane.rowConfig.setItemSize(2, 50);
+      scroller.pane.rowConfig.setItemSize(20, 200);
       scroller.pane.setWidth(200);
       
       
