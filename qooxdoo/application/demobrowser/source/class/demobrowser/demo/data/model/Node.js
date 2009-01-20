@@ -50,6 +50,11 @@ qx.Class.define("demobrowser.demo.data.model.Node",
       event: "changeName"
     },
     
+    name2 : {
+      check: "String",
+      event: "changeName2"
+    },
+    
     number : {
       init:  10,
       validate: "__validateNumber"
@@ -64,6 +69,22 @@ qx.Class.define("demobrowser.demo.data.model.Node",
       } 
       throw new qx.core.ValidationError("Validation Error: " + value
         + "is no number (parseFloat says so!).");        
+    },
+    
+    
+    toString: function(indent) {
+      if (indent == undefined) {
+        indent = 0;
+      }
+      var returnString = "";
+      for (var i = 0; i < indent; i++) {
+        returnString += "- ";
+      }
+      returnString += this.getName();
+      for (var i = 0; i < this.getChildren().length; i++) {
+        returnString += "\n" + this.getChildren().getItem(i).toString(indent + 1); 
+      }
+      return returnString;
     }
   }
   
