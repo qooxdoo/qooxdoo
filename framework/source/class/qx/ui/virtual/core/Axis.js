@@ -26,10 +26,10 @@ qx.Class.define("qx.ui.virtual.core.Axis",
 {
   extend : qx.core.Object,
 
-  construct : function(defaultItemSize, cellCount) {
+  construct : function(defaultItemSize, itemCount) {
     this.base(arguments);
     
-    this.cellCount = cellCount;
+    this.itemCount = itemCount;
     this.defaultItemSize = defaultItemSize;
     
     // sparse array
@@ -56,12 +56,12 @@ qx.Class.define("qx.ui.virtual.core.Axis",
     },
     
     getItemCount : function() {
-      return this.cellCount;
+      return this.itemCount;
     },
     
-    setItemCount : function(cellCount)
+    setItemCount : function(itemCount)
     {
-      this.cellCount = cellCount;
+      this.itemCount = itemCount;
       this.__ranges = null;
     },    
     
@@ -92,7 +92,7 @@ qx.Class.define("qx.ui.virtual.core.Axis",
       }
       
       var defaultSize = this.defaultItemSize;
-      var cellCount = this.cellCount;
+      var itemCount = this.itemCount;
       
       var indexes = [];
       for (var key in this.customSizes) {
@@ -104,7 +104,7 @@ qx.Class.define("qx.ui.virtual.core.Axis",
           startIndex: 0,
           firstItemSize: defaultSize,
           rangeStart: 0,
-          rangeEnd: cellCount * defaultSize - 1
+          rangeEnd: itemCount * defaultSize - 1
         }];
         this.__ranges = ranges;
         return ranges;
@@ -145,7 +145,7 @@ qx.Class.define("qx.ui.virtual.core.Axis",
       
       // fix last range
       var lastRange = ranges[ranges.length-1];
-      var remainingItemsSize = (cellCount - lastRange.startIndex - 1) * defaultSize;
+      var remainingItemsSize = (itemCount - lastRange.startIndex - 1) * defaultSize;
       lastRange.rangeEnd = lastRange.rangeStart + lastRange.firstItemSize + remainingItemsSize - 1;
       
       this.__ranges = ranges;
@@ -239,6 +239,9 @@ qx.Class.define("qx.ui.virtual.core.Axis",
         var itemSize = customSizes[startIndex++] || defaultSize;
         sum += itemSize;
         sizes[i++] = itemSize;
+        if (startIndex >= this.itemCount) {
+          break;
+        }
       }
       return sizes;
     }
