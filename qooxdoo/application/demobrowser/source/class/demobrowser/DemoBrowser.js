@@ -944,7 +944,7 @@ qx.Class.define("demobrowser.DemoBrowser",
             // If a sample is selected, get its following sibling
             var otherSamp = currSamp.getUserData('modelLink').getNextSibling().widgetLinkFull;
           } catch (ex) {
-            if (this.getPlayDemos() == "all") {
+            if (this.getPlayDemos() !== "category") {
 
               try {
                 // Get the following folder's first child
