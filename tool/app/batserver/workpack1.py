@@ -1,5 +1,26 @@
 #!/usr/bin/env python
 
+# NAME
+#  BAT workpack - this is a workpackages as used in the qooxdoo Build and Test
+#  environment.
+#
+# DESCRIPTION
+#  A workpack is not merely a declarative description of a job to be done, but
+#  simply code that does the job :). This makes it much easier to implement both
+#  the involved client-server infrastructure that passes workpackages to and
+#  fro, and the workpackages themselves. While this approach is highly
+#  questionable in arbitrary environments, it is quite acceptable in controlled,
+#  LAN-based environments where both clients and servers are controlled by the
+#  same people.
+#
+#  The idea behind the workpackes is also to have the possibility to issue
+#  client-dependend workpacks, where not only the platform (architecture, OS,
+#  ...) is honored, but also space and time constraints can be honored. While
+#  this concrete workpack is just static code, you could envision both static
+#  variants of it that the server can choose from, as well as dynamically
+#  generated code that the server produces on the fly from snippets and
+#  templates.
+
 import os, sys, platform
 import optparse, re
 

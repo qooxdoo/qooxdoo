@@ -1,6 +1,18 @@
 #!/usr/bin/env python
 
-# BAT Server - qooxdoo Build And Test server
+# NAME
+#  BAT Server - qooxdoo Build And Test server
+#
+# DESCRIPTION
+#  The purpose of this program is to implement the server part of a simple
+#  network client-server scenario. The purpose of this server is to accept
+#  client connections and to exchange information about jobs to run (so called
+#  "workpackages") and the results of these runs. The client first registers
+#  itself with the server, possibly providing some details about its nature and
+#  the kind of job it is willing to take. The server then responds with the
+#  location of a workpackage that should be run by the client. After the client
+#  has run the workpackage it reports the results back to the server which does
+#  some logging etc. - That's the basic protocol.
 
 import sys, os, platform
 import SimpleXMLRPCServer

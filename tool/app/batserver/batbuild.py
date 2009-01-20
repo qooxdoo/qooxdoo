@@ -1,6 +1,14 @@
 #!/usr/bin/env python
 
-# BAT Build - creating local qooxdoo builds (sdk, quickstart, ...)
+# NAME
+#  BAT Build - creating local qooxdoo builds (sdk, quickstart, ...)
+#
+# DESCRIPTION
+#  This is the "Build" part of qooxdoo's "Build-And-Test" environment.
+#  It is a small, stand-alone continuous integration server for qooxdoo. It
+#  monitors changes in an SVN repository, maintains a current local checkout,
+#  and with every update runs some build targets on it. Messages are written to
+#  a log file.
 
 import os, sys, platform
 import optparse, time, re
