@@ -66,12 +66,6 @@ qx.Class.define("qx.ui.virtual.layer.Test",
       }
       
       this.getContentElement().setAttribute("html", html.join(""));
-      /*
-      this.debug("dom - update: " + (new Date() - start) + "ms");
-      var start = new Date();
-      qx.ui.core.queue.Manager.flush();
-      this.debug("dom - flush: " + (new Date() - start) + "ms");
-      */     
     },
     
     
