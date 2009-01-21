@@ -323,6 +323,17 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      */
     replaceSelection : function(items)
     {
+      // Check that the array contains only selectable items
+      var tempItems = [];
+      for (var i = 0; i < items.length; i++)
+      {
+        if (this._isSelectable(items[i]))
+        {
+          tempItems.push(items[i]);
+        }
+      }
+      items = tempItems;
+      
       // Remove selection completely
       this._clearSelection();
 
@@ -1494,6 +1505,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       for (var hash in selection) {
         this._removeFromSelection(selection[hash]);
       }
+      this.__selection = {};
     },
 
 
@@ -1600,8 +1612,11 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      */
     _setSelectedItem : function(item)
     {
-      this._clearSelection();
-      this._addToSelection(item);
+      if (this._isSelectable(item))
+      {
+        this._clearSelection();
+        this._addToSelection(item);
+      }
     },
 
 
@@ -1627,10 +1642,13 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
       if (!this.__selection[hash])
       {
-        this.__selection[hash] = item;
-        this._styleSelectable(item, "selected", true);
+        if (this._isSelectable(item))
+        {
+          this.__selection[hash] = item;
+          this._styleSelectable(item, "selected", true);
 
-        this.__selectionModified = true;
+          this.__selectionModified = true;
+        }
       }
     },
 
