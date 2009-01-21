@@ -93,8 +93,6 @@ qx.Class.define("qx.test.ui.virtual.Axis",
       for (var key in sizes) {
         this.axis.setItemSize(parseInt(key), sizes[key]);
       }
-      
-      var sum = 0;
 
       // exact start position
       this.assertItem(0, 0, this.axis.getItemAtPosition(0*d));
@@ -118,6 +116,31 @@ qx.Class.define("qx.test.ui.virtual.Axis",
       this.assertItem(601, d-1, this.axis.getItemAtPosition(601*d-8+20 + d-1));            
     },
     
+    ITEM_POS_ITER : 10,
+    ITEM_POS_COUNT : 10000,
+    
+    testGetItemAtPositionStress : function()
+    {
+      for (var j=0; j<this.ITEM_POS_ITER; j++)
+      {
+        var total = 0;
+        this.axis.setItemCount(this.ITEM_POS_COUNT);
+        
+        for (var i=0; i<this.ITEM_POS_COUNT; i++)
+        {
+          if (i==this.ITEM_POS_COUNT-10) {
+            var pos = total + 20;
+          }
+
+          var itemSize = 50 + Math.round(Math.random() * 80);
+          total += itemSize;
+          this.axis.setItemSize(i, itemSize);          
+        }        
+                
+        this.assertItem(this.ITEM_POS_COUNT-10, 20, this.axis.getItemAtPosition(pos));
+      }
+    },  
+    
     testGetTotalSize : function()
     {
       var d = this.defaultSize;
@@ -137,7 +160,7 @@ qx.Class.define("qx.test.ui.virtual.Axis",
     TOTAL_SIZE_ITER : 100,
     TOTAL_SIZE_ITEMS : 1000,
     
-    testGetTotoalSizeStress : function()
+    testGetTotalSizeStress : function()
     {
       for (var j=0; j<this.TOTAL_SIZE_ITER; j++)
       {
@@ -204,6 +227,30 @@ qx.Class.define("qx.test.ui.virtual.Axis",
         [10],
         this.axis.getItemSizes(9, 30)
       );       
+    },
+    
+    testGetItemPosition : function()
+    {
+      var d = this.defaultSize;
+      this.assertEquals(d*20, this.axis.getItemPosition(20));
+    },    
+    
+    testGetItemPositionCustomSizes : function()
+    {
+      var d = this.defaultSize;
+      var sizes = {};
+      sizes[100] = d-8;
+      sizes[200] = d+20;      
+      sizes[600] = d;
+      for (var key in sizes) {
+        this.axis.setItemSize(parseInt(key), sizes[key]);
+      }
+           
+      this.assertEquals(0*d, this.axis.getItemPosition(0));
+      this.assertEquals(10*d, this.axis.getItemPosition(10));
+      this.assertEquals(101*d-8, this.axis.getItemPosition(101));
+      this.assertEquals(201*d-8+20, this.axis.getItemPosition(201));
+      this.assertEquals(601*d-8+20, this.axis.getItemPosition(601));       
     },
     
 
