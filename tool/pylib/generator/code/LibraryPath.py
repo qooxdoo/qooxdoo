@@ -188,7 +188,7 @@ class LibraryPath:
                 self._classes[filePathId] = {
                     "relpath" : fileRel,
                     "path" : filePath,
-                    "uri" : fileUri,
+                    #"uri" : fileUri,
                     "encoding" : encoding,
                     "namespace" : self._namespace,
                     "id" : filePathId,
