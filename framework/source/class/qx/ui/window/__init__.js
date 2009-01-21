@@ -13,9 +13,9 @@
  *
  * win.setPadding(10);
  * win.setLayout(new qx.ui.layout.VBox(10));
- * win.add(new qx.ui.form.Button("Hello World");
+ * win.add(new qx.ui.form.Button("Hello World"));
  *
- * container.add(win, {left: 10, top: 10});
+ * win.open();
  *</pre>
  *
  * This example creates a new window and adds a button to the window pane. The
