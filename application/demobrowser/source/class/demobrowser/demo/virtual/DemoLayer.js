@@ -54,11 +54,31 @@ qx.Class.define("demobrowser.demo.virtual.DemoLayer",
     
     _getWidget : function(row, column)
     {
-      if (column % 2 == 0) {
-        return this._pool.atom.pop() || new qx.ui.basic.Atom();
-      } else {
-        return this._pool.checkbox.pop() || new qx.ui.form.CheckBox();
+      var widget;
+
+      if (column % 2 == 0)
+      {
+        widget = this._pool.atom.pop();
+        if (!widget) {
+          widget = new qx.ui.basic.Atom();
+          widget.addListener("mouseover", function(){
+            widget.setIcon(this.__getIcon())
+          }, this);
+        }
       }
+      else
+      {
+        widget = this._pool.checkbox.pop();
+        if (!widget)
+        {
+          widget = new qx.ui.form.CheckBox();        
+          widget.addListener("changeChecked", function(){
+            this.setLabel(this.getLabel() == "foobar!" ? row + " / " + column : "foobar!");
+          }, widget)
+        }
+      }
+
+      return widget;
     },
 
     _poolWidget: function(widget) {
@@ -77,9 +97,6 @@ qx.Class.define("demobrowser.demo.virtual.DemoLayer",
           label: this.__generateName(),
           icon: this.__getIcon()
         });
-        widget.addListener("mouseover", function(){
-          widget.setIcon(this.__getIcon())
-        }, this)
       }
       else
       {
@@ -87,9 +104,6 @@ qx.Class.define("demobrowser.demo.virtual.DemoLayer",
           checked : row % 2 == 0,
           label : row + " / " + column
         });
-        widget.addListener("changeChecked", function(){
-          this.setLabel(this.getLabel() == "foobar!" ? row + " / " + column : "foobar!");
-        }, widget)
       }
     },
 
