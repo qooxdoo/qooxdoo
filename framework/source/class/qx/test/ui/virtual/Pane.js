@@ -55,10 +55,10 @@ qx.Class.define("qx.test.ui.virtual.Pane",
     testScrollProperties : function()
     {
       qx.ui.core.queue.Manager.flush();
-      this.pane.setScrollY(30, false);
+      this.pane.setScrollY(30);
       this.assertEquals(30, this.pane.getScrollY());
       
-      this.pane.setScrollX(40, false);
+      this.pane.setScrollX(40);
       this.assertEquals(40, this.pane.getScrollX());      
     },
     
@@ -191,7 +191,7 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       qx.ui.core.queue.Manager.flush();
       
       layer.calls = [];      
-      this.pane.setScrollY(4, true);  
+      this.pane.setScrollY(4);  
       qx.ui.core.queue.Manager.flush();
       this.assertEquals("updateScrollPosition", layer.calls[0][0]);
       var args = layer.calls[0][1];      
@@ -199,13 +199,13 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.assertScroll(4, 0, this.pane);
       
       layer.calls = [];      
-      this.pane.setScrollY(5, true);  
+      this.pane.setScrollY(5);  
       qx.ui.core.queue.Manager.flush();
       this.assertEquals(0, layer.calls.length);
       this.assertScroll(5, 0, this.pane);
       
       layer.calls = [];
-      this.pane.setScrollY(10, true);                       
+      this.pane.setScrollY(10);                       
       qx.ui.core.queue.Manager.flush();
       this.assertEquals("updateScrollPosition", layer.calls[0][0]);
       var args = layer.calls[0][1];      
@@ -213,7 +213,7 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.assertScroll(0, 0, this.pane);
 
       layer.calls = [];
-      this.pane.setScrollY(16, true);                       
+      this.pane.setScrollY(16);                       
       qx.ui.core.queue.Manager.flush();
       this.assertEquals("updateScrollPosition", layer.calls[0][0]);
       var args = layer.calls[0][1];      
@@ -221,17 +221,17 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.assertScroll(6, 0, this.pane);
       
       
-      this.pane.setScrollY(0, true);
+      this.pane.setScrollY(0);
       qx.ui.core.queue.Manager.flush();
       
       layer.calls = [];
-      this.pane.setScrollX(4, true);                       
+      this.pane.setScrollX(4);                       
       qx.ui.core.queue.Manager.flush();
       this.assertEquals(0, layer.calls.length);
       this.assertScroll(0, 4, this.pane);
       
       layer.calls = [];
-      this.pane.setScrollX(30, true);                       
+      this.pane.setScrollX(30);                       
       qx.ui.core.queue.Manager.flush();
       this.assertEquals("updateScrollPosition", layer.calls[0][0]);
       var args = layer.calls[0][1];
@@ -239,7 +239,7 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.assertScroll(0, 0, this.pane);
 
       layer.calls = [];
-      this.pane.setScrollX(36, true);                       
+      this.pane.setScrollX(36);                       
       qx.ui.core.queue.Manager.flush();
       this.assertEquals(0, layer.calls.length);
       this.assertScroll(0, 6, this.pane);           
