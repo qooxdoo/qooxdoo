@@ -1,20 +1,39 @@
 #!/usr/bin/env python
 
+################################################################################
+#
+#  qooxdoo - the new era of web development
+#
+#  http://qooxdoo.org
+#
+#  Copyright:
+#    2007-2009 1&1 Internet AG, Germany, http://www.1und1.de
+#
+#  License:
+#    LGPL: http://www.gnu.org/licenses/lgpl.html
+#    EPL: http://www.eclipse.org/org/documents/epl-v10.php
+#    See the LICENSE file in the project's top-level directory for details.
+#
+#  Authors:
+#    * Thomas Herchenroeder (thron7)
+#
+################################################################################
+
 # NAME
-#  BAT workpack - this is a workpackages as used in the qooxdoo Build and Test
+#  BAT workpack - this is a workpackage as used in the qooxdoo Build and Test
 #  environment.
 #
 # DESCRIPTION
 #  A workpack is not merely a declarative description of a job to be done, but
 #  simply code that does the job :). This makes it much easier to implement both
 #  the involved client-server infrastructure that passes workpackages to and
-#  fro, and the workpackages themselves. While this approach is highly
+#  from, and the workpackages themselves. While this approach is highly
 #  questionable in arbitrary environments, it is quite acceptable in controlled,
 #  LAN-based environments where both clients and servers are controlled by the
 #  same people.
 #
-#  The idea behind the workpackes is also to have the possibility to issue
-#  client-dependend workpacks, where not only the platform (architecture, OS,
+#  The idea behind the workpacks is also to have the possibility to issue
+#  client-dependent workpacks, where not only the platform (architecture, OS,
 #  ...) is honored, but also space and time constraints can be honored. While
 #  this concrete workpack is just static code, you could envision both static
 #  variants of it that the server can choose from, as well as dynamically
