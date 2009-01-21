@@ -60,7 +60,16 @@ qx.Class.define("qx.ui.virtual.core.Pane",
   events :
   {
     /** Fired on resize of both the container or the (virtual) content. */
-    update : "qx.event.type.Event"
+    "update" : "qx.event.type.Event",
+    
+    /** Dispatched when a data cell has been clicked. */
+    "cellClick" : "qx.ui.table.pane.CellEvent",
+
+    /** Dispatched when a data cell has been clicked. */
+    "cellDblclick" : "qx.ui.table.pane.CellEvent",
+
+    /** Dispatched when the context menu is needed in a data cell */
+    "cellContextmenu" : "qx.ui.table.pane.CellEvent"  
   },
    
   
@@ -344,8 +353,8 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       var bounds = this.getBounds();
       if (!bounds) {
         return; // the pane has not yet been rendered -> wait for the appear event
-      }            
-     
+      }                      
+      
       var rowCellData = this.rowConfig.getItemAtPosition(this.__scrollTop);
       var columnCellData = this.columnConfig.getItemAtPosition(this.__scrollLeft);
            
@@ -362,6 +371,9 @@ qx.Class.define("qx.ui.virtual.core.Pane",
         -columnCellData.offset, -rowCellData.offset,
         layerWidth, layerHeight
       );
+      for (var i=0; i<this.layers.length; i++) {
+        this.layers[i].setUserBounds(0, 0, layerWidth, layerHeight);
+      }           
       
       var visibleCells = {
         firstRow: rowCellData.index,
@@ -382,12 +394,12 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       ) {
         return;
       }
-      
+           
       this.lastVisibleCells = this.visibleCells;
-      this.visibleCells = visibleCells;               
-
+      this.visibleCells = visibleCells;
+      
       // TODO: debugging code
-      qx.ui.core.queue.Manager.flush();      
+      //qx.ui.core.queue.Manager.flush();      
       
       for (var i=0; i<this.layers.length; i++) 
       {
