@@ -19,6 +19,7 @@
 qx.Class.define("qx.data.controller.Tree", 
 {
   extend : qx.core.Object,
+  include: qx.data.controller.MSelection,
 
 
   construct : function(model, target, childPath, labelPath, iconPath)
@@ -28,7 +29,7 @@ qx.Class.define("qx.data.controller.Tree",
     // internal bindings reference
     this.__labelBindings = {};
     this.__iconBindings = {};
-    
+    // reference to the child
     this.__childrenRef = {};
     
     if (iconPath != undefined) {
@@ -90,16 +91,19 @@ qx.Class.define("qx.data.controller.Tree",
       }
       // build up the tree
       this.__buildTree();
+      
+      // add a listener for the target change
+      this.__addChangeTargetListener(value, old);      
     },
     
     
     _applyModel: function(value, old) {
-      this.__buildTree();      
+      this.__buildTree(); 
     },
     
     
     _applyChildPath: function(value, old) {
-      this.__buildTree();
+      this.__buildTree();      
     },
     
     
@@ -120,6 +124,9 @@ qx.Class.define("qx.data.controller.Tree",
       var modelNode = this.__childrenRef[children.toHashCode()].modelNode;
       // update the subtree
       this.__updateTreeChildren(treeNode, modelNode);
+      
+      // update the selection in case a selected element has been removed
+      this.__updateSelection();
     },
     
     
@@ -137,6 +144,7 @@ qx.Class.define("qx.data.controller.Tree",
       
       // add a new root node
       var rootNode = new qx.ui.tree.TreeFolder();
+      rootNode.setUserData("model", this.getModel());
       this.getTarget().setRoot(rootNode);
       // bind the root node
       this.__addBinding(this.getModel(), rootNode);
@@ -161,12 +169,35 @@ qx.Class.define("qx.data.controller.Tree",
           
       // go threw all children in the model
       for (var i = 0; i < children.length; i++) {
-        // if there is no node in the tree
-        if (
-          rootNode.getChildren()[i] == null || 
-          children.getItem(i) != rootNode.getChildren()[i].getUserData("model")
-        )
+        // if there is no node in the tree or the current node does not fit
+        if (rootNode.getChildren()[i] == null || children.getItem(i) != rootNode.getChildren()[i].getUserData("model"))
         {
+          //chech if the node was just moved
+          for (var j = i; j < rootNode.getChildren().length; j++) {
+            if (rootNode.getChildren()[j].getUserData("model") === children.getItem(i)) {
+              var oldIndex = j;
+              break;
+            }
+          }
+          // if it is in the tree
+          if (oldIndex != undefined) {
+            // get the coresponding node
+            var currentNode = rootNode.getChildren()[oldIndex];
+            // check if it is selected
+            if (this.getTarget().isSelected(currentNode)) {
+              var wasSelected = true;
+            }        
+            // remove the item at its old place (will remove the selection)
+            rootNode.removeAt(oldIndex);
+            // add the node at the current position
+            rootNode.addAt(currentNode, i);
+            // select it again if it was selected
+            if (wasSelected) {
+              this.getTarget().addToSelection(currentNode);
+            }
+            
+          // if the node is new 
+          } else {
             // add the child node
             var treeNode = new qx.ui.tree.TreeFolder();
             treeNode.setUserData("model", children.getItem(i));
@@ -174,7 +205,8 @@ qx.Class.define("qx.data.controller.Tree",
             this.__addBinding(children.getItem(i), treeNode);
 
             // add all children recursive        
-            this.__updateTreeChildren(treeNode, children.getItem(i));          
+            this.__updateTreeChildren(treeNode, children.getItem(i));            
+          }
         }
       }
       // remove the rest of the tree items if they exist

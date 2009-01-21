@@ -144,13 +144,39 @@ qx.Mixin.define("qx.data.controller.MSelection",
       
       // if its a multi selection target
       if (this.__targetSupportsMultiSelection()) {
+        
+        
+        
         // remove the old selection
         this.getTarget().resetSelection();
         // go through the selection array
         for (var i = 0; i < this.getSelection().length; i++) {
           // select each item
           this.__selectItem(this.getSelection().getItem(i));
-        } 
+        }
+        
+        // get the selection of the target
+        var targetSelection = this.getTarget().getSelection();
+        // get all items selected in the list
+        var targetSelectionItems = [];
+        for (var i = 0; i < targetSelection.length; i++) {
+          targetSelectionItems[i] = targetSelection[i].getUserData("model");
+        }
+
+        // go through the controller selection
+        for (var i = this.getSelection().length - 1; i >= 0; i--) {
+          // if the item in the controller selection is not selected in the list
+          if (!qx.lang.Array.contains(
+            targetSelectionItems, this.getSelection().getItem(i)
+          )) {
+            // remove the current element
+            this.getSelection().splice(i, 1);
+          }
+        }        
+        
+        
+        
+        
       // if its a single selection target      
       } else if (this.__targetSupportsSingleSelection()) {
         // select the last selected item (old selection will be removed anyway)
