@@ -80,6 +80,18 @@ class Generator:
         if not isinstance(library, types.ListType):
             return (_namespaces, _classes, _docs, _translations, _libs)
 
+        def getJobsLib(path):
+            lib = None
+            path = os.path.abspath(os.path.normpath(path))
+            libMaps = self._job.getFeature("library")
+            for l in libMaps:
+                if l['path'] == path:
+                    lib = l
+                    break
+            if not lib:   # this must never happen
+                raise RuntimeError("Unable to look up library \"%s\" in Job definition" % path)
+            return lib
+
         for entry in library:
             key  = entry["path"]
 
@@ -88,9 +100,12 @@ class Generator:
                 path = memcache[key]
             else:
                 path = LibraryPath(entry, self._console)
+                namespace = getJobsLib(key)['namespace']
+                path._namespace = namespace  # patch namespace
                 path.scan()
 
             namespace = path.getNamespace()
+            #namespace = getJobsLib(key)['namespace']
             _namespaces.append(namespace)
 
             classes = path.getClasses()
