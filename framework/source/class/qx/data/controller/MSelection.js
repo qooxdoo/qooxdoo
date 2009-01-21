@@ -145,8 +145,6 @@ qx.Mixin.define("qx.data.controller.MSelection",
       // if its a multi selection target
       if (this.__targetSupportsMultiSelection()) {
         
-        
-        
         // remove the old selection
         this.getTarget().resetSelection();
         // go through the selection array
@@ -172,10 +170,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
             // remove the current element
             this.getSelection().splice(i, 1);
           }
-        }        
-        
-        
-        
+        }      
         
       // if its a single selection target      
       } else if (this.__targetSupportsSingleSelection()) {
