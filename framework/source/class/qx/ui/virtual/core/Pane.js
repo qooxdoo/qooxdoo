@@ -165,7 +165,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
      *
      * @param value {Integer} The vertical position to scroll to.
      */    
-    setScrollY : function(value, doUpdate)
+    setScrollY : function(value)
     {
       var max = this.getScrollMaxY();
 
@@ -175,9 +175,9 @@ qx.Class.define("qx.ui.virtual.core.Pane",
         value = max;
       }
       
-      this.__scrollTop = value;
-      
-      if (doUpdate) {
+      if (this.__scrollTop !== value)
+      {
+        this.__scrollTop = value;
         this.updateScrollPosition();
       }
     },
@@ -198,7 +198,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
      *
      * @param value {Integer} The horizontal position to scroll to.
      */     
-    setScrollX : function(value, doUpdate)
+    setScrollX : function(value)
     {
       var max = this.getScrollMaxX();
 
@@ -208,9 +208,9 @@ qx.Class.define("qx.ui.virtual.core.Pane",
         value = max;
       }
       
-      this.__scrollLeft = value;
-      
-      if (doUpdate) {
+      if (value !== this.__scrollLeft)
+      {
+        this.__scrollLeft = value;
         this.updateScrollPosition();
       }
     },

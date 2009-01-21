@@ -134,6 +134,27 @@ qx.Class.define("qx.test.ui.virtual.Axis",
       this.assertEquals(d*count + correction, this.axis.getTotalSize());
     },
     
+    TOTAL_SIZE_ITER : 100,
+    TOTAL_SIZE_ITEMS : 1000,
+    
+    testGetTotoalSizeStress : function()
+    {
+      for (var j=0; j<this.TOTAL_SIZE_ITER; j++)
+      {
+        var total = 0;
+        this.axis.setItemCount(this.TOTAL_SIZE_ITEMS);
+        
+        for (var i=0; i<this.TOTAL_SIZE_ITEMS; i++)
+        {
+          var itemSize = 50 + Math.round(Math.random() * 80);
+          total += itemSize;
+          this.axis.setItemSize(i, itemSize);
+        }        
+        
+        this.assertEquals(total, this.axis.getTotalSize());
+      }
+    },    
+    
     testGetItemSizes : function()
     {
       this.axis.setDefaultItemSize(10);

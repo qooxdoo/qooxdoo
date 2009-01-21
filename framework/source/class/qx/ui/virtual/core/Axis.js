@@ -67,6 +67,9 @@ qx.Class.define("qx.ui.virtual.core.Axis",
     
     setItemSize : function(cellIndex, size)
     {
+      if (cellIndex >= this.itemCount) {
+        return;
+      }
       this.customSizes[cellIndex] = size;
       this.__ranges = null;
     },
@@ -77,6 +80,11 @@ qx.Class.define("qx.ui.virtual.core.Axis",
       return this.customSizes[cellIndex] || this.defaultItemSize;
     },
     
+    resetItemSizes : function()
+    {
+      this.customSizes = {};
+      this.__ranges = null;      
+    },
     
     /**
      * Split the the position range into disjunct intervals. Each interval starts
@@ -118,6 +126,10 @@ qx.Class.define("qx.ui.virtual.core.Axis",
       for (var i=0; i<indexes.length; i++) 
       {
         var index = indexes[i];
+        if (index >= itemCount) {
+          break;
+        }
+        
         var cellSize = this.customSizes[index];
         var rangeStart = index * defaultSize + correctionSum;
         
