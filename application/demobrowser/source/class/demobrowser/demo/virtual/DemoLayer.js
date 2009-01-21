@@ -73,7 +73,7 @@ qx.Class.define("demobrowser.demo.virtual.DemoLayer",
         {
           widget = new qx.ui.form.CheckBox();        
           widget.addListener("changeChecked", function(){
-            this.setLabel(this.getLabel() == "foobar!" ? row + " / " + column : "foobar!");
+            this.setLabel(this.getLabel() == "foobar!" ? widget.getUserData("row") + " / " + widget.getUserData("column") : "foobar!");
           }, widget)
         }
       }
@@ -105,6 +105,8 @@ qx.Class.define("demobrowser.demo.virtual.DemoLayer",
           label : row + " / " + column
         });
       }
+      widget.setUserData("row", row);
+      widget.setUserData("column", column);
     },
 
     __generateName : function()
