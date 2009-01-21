@@ -526,13 +526,19 @@ qx.Class.define("qx.io.remote.Rpc",
                     "(" + this.getSequenceNumber() + ")!");
         }
 
+        // Determine if an error was returned. Assume no error, initially.
+        var eventType = "completed";
         var exTest = response["error"];
 
         if (exTest != null)
         {
+          // There was an error
           result = null;
           addToStringToObject(exTest);
           ex = exTest;
+
+          // Change the event type
+          eventType = "failed";
         }
         else
         {
@@ -553,7 +559,7 @@ qx.Class.define("qx.io.remote.Rpc",
           }
         }
 
-        handleRequestFinished("completed", eventTarget);
+        handleRequestFinished(eventType, eventTarget);
       });
 
       req.setData(qx.util.Json.stringify(requestObject));
