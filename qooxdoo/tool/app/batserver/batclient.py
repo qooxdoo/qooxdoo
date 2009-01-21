@@ -1,12 +1,31 @@
 #!/usr/bin/env python
 
+################################################################################
+#
+#  qooxdoo - the new era of web development
+#
+#  http://qooxdoo.org
+#
+#  Copyright:
+#    2007-2009 1&1 Internet AG, Germany, http://www.1und1.de
+#
+#  License:
+#    LGPL: http://www.gnu.org/licenses/lgpl.html
+#    EPL: http://www.eclipse.org/org/documents/epl-v10.php
+#    See the LICENSE file in the project's top-level directory for details.
+#
+#  Authors:
+#    * Thomas Herchenroeder (thron7)
+#
+################################################################################
+
 # NAME
 #  BAT Client - qooxdoo platform-independent Build And Test client
 #
 # DESCRIPTION
 #  The purpose of this software is to implement the client side of a simple
 #  client-server network protocol. The client, if it intends to run some job,
-#  registers with a BAT server ("bathost") and receives a workpackes which is
+#  registers with a BAT server ("bathost") and receives a workpack, which is
 #  then run on the client platform. Results are posted back to the server. (See
 #  the server implementation for more details on the protocol).
 
