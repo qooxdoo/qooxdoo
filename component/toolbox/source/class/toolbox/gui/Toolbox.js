@@ -51,7 +51,7 @@ qx.Class.define("toolbox.gui.Toolbox",
 
     this.widgets = {};
 
-    // Header // das schwarze
+    // Header
     this.add(this.__createHeader());
 
     // Toolbar
@@ -1312,10 +1312,10 @@ qx.Class.define("toolbox.gui.Toolbox",
 
       container.add(caption);
 
-      this.builtInApp = new toolbox.content.BuiltInContent;
-	 
-      this.builtInApp.set({ backgroundColor : "white" });
-      container.add(this.builtInApp, { flex : 1 });
+      this.BuiltInAppHtmlEmbed = new qx.ui.embed.Html('Builds etc. <br>');
+      this.BuiltInAppHtmlEmbed.setHtml(document.getElementById("builtin_apps").innerHTML);
+      this.BuiltInAppHtmlEmbed.set({ backgroundColor : "white" });
+      container.add(this.BuiltInAppHtmlEmbed, { flex : 1 });
 
       return container;
     },  // makeHomecontent
