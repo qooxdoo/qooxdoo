@@ -82,7 +82,7 @@ class Generator:
 
         def getJobsLib(path):
             lib = None
-            path = os.path.abspath(os.path.normpath(path))
+            #path = os.path.abspath(os.path.normpath(path))  # this shouldn't be necessary, and breaks in some scenarios (s. bug#1861)
             libMaps = self._job.getFeature("library")
             for l in libMaps:
                 if l['path'] == path:
