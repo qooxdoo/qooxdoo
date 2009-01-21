@@ -156,13 +156,13 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
 
     // overridden
     _onScrollBarX : function(e) {
-      this.getChildControl("pane").setScrollX(e.getData(), true);
+      this.getChildControl("pane").setScrollX(e.getData());
     },
 
 
     // overridden
     _onScrollBarY : function(e) {
-      this.getChildControl("pane").setScrollY(e.getData(), true);
+      this.getChildControl("pane").setScrollY(e.getData());
     }    
   }
 });

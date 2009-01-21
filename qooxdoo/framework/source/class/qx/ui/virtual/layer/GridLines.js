@@ -63,14 +63,14 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
       var left = 0;
       for (var x=0; x<columnSizes.length-1; x++)
       {
-        left += columnSizes[x] - 1;       
+        left += columnSizes[x];       
         htmlArr.push(
           "<div style='",
           "position: absolute;",
           "width: 1px;",          
           "height: 100%;",
           "top: 0px;",
-          "left:", left, "px;",
+          "left:", left-1, "px;",
           "background-color:", this._color, 
           "'>",
           "</div>"

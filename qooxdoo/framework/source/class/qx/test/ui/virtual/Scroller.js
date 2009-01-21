@@ -120,6 +120,30 @@ qx.Class.define("qx.test.ui.virtual.Scroller",
       this.assertEquals(0, this.scroller.pane.getScrollY());      
     },    
     
+    testMaxScrollPosition : function()
+    {
+      this.scroller.setScrollbarX("off");
+      
+      this.configureScroller(3000, 2000, 300, 200);
+      this.assertScrollbars(false, true);
+      
+      // scroll to end
+      this.scroller.scrollToY(10000);
+      this.assertEquals(1999-200, this.scroller.getScrollY());
+      
+      // increase scroller size
+      this.configureScroller(3000, 2000, 300, 400);
+      this.assertEquals(
+        1999-400, this.scroller.getScrollY(),
+        "the scroll position must be limited to the max scroll position"
+      );
+      this.assertEquals(
+        1999-400, this.scroller.pane.getScrollY(),
+        "the scroll position must be limited to the max scroll position"
+      );
+
+    },
+    
     testScrollbarYAuto : function()
     {
       this.scroller.setScrollbarX("off");
@@ -190,6 +214,6 @@ qx.Class.define("qx.test.ui.virtual.Scroller",
       // increase scroller width
       this.configureScroller(300, 201, 350, 250);
       this.assertScrollbars(false, false);      
-    }    
+    }
   }
 });
