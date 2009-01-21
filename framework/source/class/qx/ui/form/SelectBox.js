@@ -237,6 +237,17 @@ qx.Class.define("qx.ui.form.SelectBox",
         return true;
       }
     },
+    
+    
+    /**
+     * Returns all elements which are selectable.
+     * 
+     * @return {LayoutItem[]} The contained items.
+     */
+    getSelectables: function() {
+      return this.getChildControl("list").getChildren();
+    },
+    
 
     /*
     ---------------------------------------------------------------------------

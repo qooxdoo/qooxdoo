@@ -389,7 +389,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      */
     getSortedSelection : function()
     {
-      var children = this._getSelectables();
+      var children = this.getSelectables();
       var sel = qx.lang.Object.getValues(this.__selection);
 
       sel.sort(function(a, b) {
@@ -689,8 +689,8 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      *
      * @return {Array} A list of items
      */
-    _getSelectables : function() {
-      throw new Error("Abstract method call: _getSelectables()");
+    getSelectables : function() {
+      throw new Error("Abstract method call: getSelectables()");
     },
 
 
@@ -1478,7 +1478,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      */
     _selectAllItems : function()
     {
-      var range = this._getSelectables();
+      var range = this.getSelectables();
       for (var i=0, l=range.length; i<l; i++) {
         this._addToSelection(range[i]);
       }
