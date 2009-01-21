@@ -49,6 +49,14 @@ qx.Class.define("demobrowser.demo.virtual.ListComplex",
 
       var scroller = new qx.ui.virtual.core.Scroller(2000, 2000, 32, 120);
       scroller.pane.setWidth(450);
+
+      // change 8 sizes
+      for (var i=2; i<10; i++)
+      {
+        //scroller.pane.rowConfig.setItemSize(i, 20 + Math.round(Math.random() * 40));
+        //scroller.pane.columnConfig.setItemSize(i, 50 + Math.round(Math.random() * 80));
+      }
+
       
       
       this.getRoot().add(scroller, {left : 20, top : 10});
