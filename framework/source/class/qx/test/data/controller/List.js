@@ -436,7 +436,7 @@ qx.Class.define("qx.test.data.controller.List",
       
       // create the controller
       var box = new qx.ui.form.SelectBox();
-      this.__controller = new qx.data.controller.List(this.__model, box);    
+      this.__controller = new qx.data.controller.List(this.__model, box);
       
       // add 10 to the selection
       this.__controller.getSelection().push("10");
