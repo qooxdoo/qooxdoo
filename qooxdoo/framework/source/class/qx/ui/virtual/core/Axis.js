@@ -110,6 +110,7 @@ qx.Class.define("qx.ui.virtual.core.Axis",
       {
         var ranges = [{
           startIndex: 0,
+          endIndex: itemCount - 1,
           firstItemSize: defaultSize,
           rangeStart: 0,
           rangeEnd: itemCount * defaultSize - 1
@@ -141,7 +142,8 @@ qx.Class.define("qx.ui.virtual.core.Axis",
           rangeStart: rangeStart
         };
         if (i > 0) {
-          ranges[i-1].rangeEnd = rangeStart-1
+          ranges[i-1].rangeEnd = rangeStart-1;
+          ranges[i-1].endIndex = index-1;
         }
       }
       
@@ -149,6 +151,7 @@ qx.Class.define("qx.ui.virtual.core.Axis",
       if (ranges[0].rangeStart > 0) {
         ranges.unshift({
           startIndex: 0,
+          endIndex: ranges[0].startIndex-1,
           firstItemSize: defaultSize,
           rangeStart: 0,
           rangeEnd: ranges[0].rangeStart-1
@@ -159,6 +162,7 @@ qx.Class.define("qx.ui.virtual.core.Axis",
       var lastRange = ranges[ranges.length-1];
       var remainingItemsSize = (itemCount - lastRange.startIndex - 1) * defaultSize;
       lastRange.rangeEnd = lastRange.rangeStart + lastRange.firstItemSize + remainingItemsSize - 1;
+      lastRange.endIndex = itemCount - 1;
       
       this.__ranges = ranges;
       return ranges;
@@ -170,7 +174,7 @@ qx.Class.define("qx.ui.virtual.core.Axis",
      * 
      * Complexity: O(log n) (n = number of custom sized cells)
      */
-    __findRange : function(position)
+    __findRangeByPosition : function(position)
     {
       var ranges = this.__ranges || this.__getRanges();
       
@@ -199,7 +203,7 @@ qx.Class.define("qx.ui.virtual.core.Axis",
      */
     getItemAtPosition : function(position) 
     {
-      var range = this.__findRange(position);
+      var range = this.__findRangeByPosition(position);
       
       var startPos = range.rangeStart;
       var index = range.startIndex;
@@ -222,7 +226,48 @@ qx.Class.define("qx.ui.virtual.core.Axis",
       }
     },
     
+    
+    /**
+     * Returns the range, which contains the position
+     * 
+     * Complexity: O(log n) (n = number of custom sized cells)
+     */
+    __findRangeByIndex : function(index)
+    {
+      var ranges = this.__ranges || this.__getRanges();
+      
+      var start = 0;
+      var end = ranges.length-1;
+      
+      // binary search in the sorted ranges list
+      while (true)
+      {
+        var pivot = start + ((end - start) >> 1);
+        var range = ranges[pivot];
         
+        if (range.endIndex < index) {
+          start = pivot + 1;
+        } else if (range.startIndex > index) {
+          end = pivot - 1;
+        } else {
+          return range;
+        }
+      }
+    },
+    
+    
+    getItemPosition : function(index)
+    {
+      var range = this.__findRangeByIndex(index);
+      
+      if (range.startIndex == index) {
+        return range.rangeStart;
+      } else {
+        return range.rangeStart + range.firstItemSize + (index-range.startIndex-1) * this.defaultItemSize;
+      }
+    },
+        
+    
     /**
      * Returns the sum of all cell sizes
      */
