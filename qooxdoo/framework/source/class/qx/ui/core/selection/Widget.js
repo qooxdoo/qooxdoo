@@ -195,7 +195,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
     */
 
     // overridden
-    _getSelectables : function()
+    getSelectables : function()
     {
       var children = this.__widget.getChildren();
       var result = [];

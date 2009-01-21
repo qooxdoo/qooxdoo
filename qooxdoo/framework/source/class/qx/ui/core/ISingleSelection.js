@@ -92,6 +92,16 @@ qx.Interface.define("qx.ui.core.ISingleSelection",
      */
     isSelectionEmpty : function() {
       return true;
-    }
+    },
+    
+    
+    /**
+     * Returns all elements which are selectable.
+     * 
+     * @return {LayoutItem[]} The contained items.
+     */
+    getSelectables: function() {
+      return true;
+    }    
   }
 });

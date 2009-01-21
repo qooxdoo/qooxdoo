@@ -356,6 +356,14 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
     },
 
 
+    /**
+     * Returns all elements which are selectable.
+     * 
+     * @return {LayoutItem[]} The contained items.
+     */
+    getSelectables: function() {
+      return this.__manager.getSelectables();
+    },
 
 
     /*
