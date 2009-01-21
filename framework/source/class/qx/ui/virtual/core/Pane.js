@@ -372,7 +372,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       var columnSizes = this.columnConfig.getItemSizes(visibleCells.firstColumn, bounds.width + columnCellData.offset);
 
       visibleCells.lastRow = visibleCells.firstRow + rowSizes.length - 1;
-      visibleCells.lastColumn = visibleCells.firstRow + columnSizes.length - 1;
+      visibleCells.lastColumn = visibleCells.firstColumn + columnSizes.length - 1;
       
       if (
         this.visibleCells.firstRow == visibleCells.firstRow &&
@@ -391,7 +391,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       
       for (var i=0; i<this.layers.length; i++) 
       {
-        var start = new Date();
+        // var start = new Date();
         
         var layer = this.layers[i];
         layer.setUserBounds(0, 0, layerWidth, layerHeight);
@@ -399,11 +399,12 @@ qx.Class.define("qx.ui.virtual.core.Pane",
           visibleCells, this.lastVisibleCells, 
           rowSizes, columnSizes
         );
-        
-        this.debug("layer update ("+layer.classname+"): " + (new Date() - start) + "ms");
-        var start = new Date();
-        qx.ui.core.queue.Manager.flush();
-        this.debug("layer flush ("+layer.classname+"): " + (new Date() - start) + "ms");
+
+        // TODO: debugging code    
+        // this.debug("layer update ("+layer.classname+"): " + (new Date() - start) + "ms");
+        // var start = new Date();
+        // qx.ui.core.queue.Manager.flush();
+        // this.debug("layer flush ("+layer.classname+"): " + (new Date() - start) + "ms");
       }      
     }
   }
