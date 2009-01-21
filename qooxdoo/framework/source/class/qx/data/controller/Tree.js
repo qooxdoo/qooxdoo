@@ -75,7 +75,8 @@ qx.Class.define("qx.data.controller.Tree",
     iconPath : 
     {
       check: "String",
-      apply: "_applyIconPath"
+      apply: "_applyIconPath",
+      nullable: true
     }
   },
 
@@ -252,8 +253,10 @@ qx.Class.define("qx.data.controller.Tree",
       this.__labelBindings[modelNode.toHashCode()] = {id: id, treeNode: treeNode};
 
       // icon binding
-      id = modelNode.bind(this.getIconPath(), treeNode, "icon");
-      this.__iconBindings[modelNode.toHashCode()] = {id: id, treeNode: treeNode};      
+      if (this.getIconPath() != null) {
+        id = modelNode.bind(this.getIconPath(), treeNode, "icon");
+        this.__iconBindings[modelNode.toHashCode()] = {id: id, treeNode: treeNode};        
+      }
     },
     
     
@@ -264,9 +267,9 @@ qx.Class.define("qx.data.controller.Tree",
       delete this.__labelBindings[modelNode.toHashCode()];
       
       // icon binding
-      id = this.__iconBindings[modelNode.toHashCode()].id;
-      if (id != undefined) {
-        modelNode.removeBinding(id);
+      var bindingMap = this.__iconBindings[modelNode.toHashCode()];
+      if (bindingMap != undefined) {
+        modelNode.removeBinding(bindingMap.id);
         delete this.__iconBindings[modelNode.toHashCode()];        
       }
     }

@@ -39,19 +39,29 @@ qx.Class.define("demobrowser.demo.data.TreeController",
         }
       }
             
-      // create the wirdget
+      // create the tree
       var tree = new qx.ui.tree.Tree();
-      this.getRoot().add(tree, {left: 10, top: 80});
+      tree.setSelectionMode("multi");
+      this.getRoot().add(tree, {left: 10, top: 100});
       tree.setWidth(250);
       tree.setHeight(300);
       
       // bind the widget to the data with the controller
-      var controller = new qx.data.controller.Tree(nodes[0], tree, "children", "name");
+      var treeController = new qx.data.controller.Tree(nodes[0], tree, "children", "name");
       
       // open the root node
       tree.getRoot().setOpen(true);
       
-      root = nodes[0];
+      
+      // create a list for the selection
+      var list = new qx.ui.form.List();
+      list.setHeight(300);
+      this.getRoot().add(list, {left: 270, top: 100});
+      
+      // bind the list to the selection of the tree
+      new qx.data.controller.List(treeController.getSelection(), list, "name2");
+      
+      
       
       
       /* ***********************************************
@@ -60,7 +70,7 @@ qx.Class.define("demobrowser.demo.data.TreeController",
 
       var addItemButton = new qx.ui.form.Button("Add an item to root");
       addItemButton.setWidth(180);
-      this.getRoot().add(addItemButton, {left: 270, top: 80});
+      this.getRoot().add(addItemButton, {left: 390, top: 100});
       addItemButton.addListener("execute", function() {
         var node = new demobrowser.demo.data.model.Node();
         node.setName("Item " + tree.getItems(true).length);
@@ -70,25 +80,25 @@ qx.Class.define("demobrowser.demo.data.TreeController",
       
       var removeItemButton = new qx.ui.form.Button("Remove an item from root");
       removeItemButton.setWidth(180);
-      this.getRoot().add(removeItemButton, {left: 270, top: 115});
+      this.getRoot().add(removeItemButton, {left: 390, top: 135});
       removeItemButton.addListener("execute", function() {
         nodes[0].getChildren().pop();
       }, this);
       
       var changeNameButton = new qx.ui.form.Button("Change the label binding");
       changeNameButton.setWidth(180);
-      this.getRoot().add(changeNameButton, {left: 270, top: 150});
+      this.getRoot().add(changeNameButton, {left: 390, top: 170});
       changeNameButton.addListener("execute", function() {
-        if (controller.getLabelPath() == "name") {
-          controller.setLabelPath("name2");
+        if (treeController.getLabelPath() == "name") {
+          treeController.setLabelPath("name2");
         } else {
-          controller.setLabelPath("name");
+          treeController.setLabelPath("name");
         }
       }, this);
 
       var logDataButton = new qx.ui.form.Button("Write data to log");
       logDataButton.setWidth(180);
-      this.getRoot().add(logDataButton, {left: 270, top: 185});
+      this.getRoot().add(logDataButton, {left: 390, top: 205});
       logDataButton.addListener("execute", function() {
         // push the data in the consoleListController.html
         this.info(nodes[0].toString());
@@ -104,17 +114,28 @@ qx.Class.define("demobrowser.demo.data.TreeController",
        /* ***********************************************
         * DESCRIPTIONS
         * ********************************************* */  
-       // List Selection sync description
-       var syncListDescription = new qx.ui.basic.Label();
-       syncListDescription.setRich(true);
-       syncListDescription.setWidth(430);
-       syncListDescription.setContent(
+       // treeDescription
+       var treeDescription = new qx.ui.basic.Label();
+       treeDescription.setRich(true);
+       treeDescription.setWidth(240);
+       treeDescription.setContent(
          "<b>Tree binding</b><br/>"
          + "This tree is bound to a set of randomly generated nodes. Every node"
          + " does have a name and a name2 property, containing 'Item i' and "
-         + "'Thing i'. The children are stored in a qx.data.Array for each node."
+         + "'Thing i'."
        );
-       this.getRoot().add(syncListDescription, {left: 20, top: 10});      
+       this.getRoot().add(treeDescription, {left: 20, top: 10});
+       
+       
+       // List Selection description
+       var selectionListDescription = new qx.ui.basic.Label();
+       selectionListDescription.setRich(true);
+       selectionListDescription.setWidth(100);
+       selectionListDescription.setContent(
+         "<b>Selected Items</b><br/>"
+         + "A list containing the selected items of the tree."
+       );
+       this.getRoot().add(selectionListDescription, {left: 270, top: 10});            
     }
   }
 });
