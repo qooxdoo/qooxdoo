@@ -383,6 +383,72 @@ qx.Class.define("qx.test.data.controller.Tree",
       this.assertEquals("ICON A", this.__tree.getRoot().getChildren()[0].getIcon(), "First node has a wrong icon");
       this.assertEquals("ICON B", this.__tree.getRoot().getChildren()[1].getIcon(), "Second node has a wrong icon");
       this.assertEquals("ICON C", this.__tree.getRoot().getChildren()[2].getIcon(), "Third node has a wrong icon");      
+    },
+    
+    
+    testSelection: function() {
+      // open the tree so that the selection can be done
+      this.__tree.getRoot().setOpen(true);
+      // select the first object
+      this.__tree.addToSelection(this.__tree.getRoot().getChildren()[0]);
+      // test the selection
+      this.assertEquals(this.__a, this.__controller.getSelection().getItem(0), "Selection does not work.");
+    
+      // test for the length
+      this.assertEquals(1, this.__controller.getSelection().length, "Selection length is wrong.");
+      
+      // select the second object
+      this.__tree.addToSelection(this.__tree.getRoot().getChildren()[1]);
+      // test the selection
+      this.assertEquals(this.__b, this.__controller.getSelection().getItem(0), "Selection does not work.");
+      // test for the length
+      this.assertEquals(1, this.__controller.getSelection().length, "Selection length is wrong.");      
+    },
+    
+    
+    testSelectionBackMultiple: function() {      
+      // open the tree so that the selection can be done
+      this.__tree.getRoot().setOpen(true);            
+      // select the second and third object
+      this.__tree.setSelectionMode("multi");    
+      
+      // add the some elements to the selection    
+      this.__controller.getSelection().push(this.__a);
+      this.__controller.getSelection().push(this.__b);     
+      
+      // test the selection
+      this.assertEquals(this.__a, this.__controller.getSelection().getItem(0), "Add to selection does not work.");
+      this.assertEquals(this.__b, this.__controller.getSelection().getItem(1), "Add to selection does not work.");      
+    },
+    
+    
+    testSelectionAfterDelete: function() {
+      // open the tree so that the selection can be done
+      this.__tree.getRoot().setOpen(true);      
+      // add c to the selection
+      this.__controller.getSelection().push(this.__c);
+      // remove the c node
+      this.__model.getChildren().splice(2, 1);
+
+      // check if the selection is empty
+      this.assertEquals(0, this.__controller.getSelection().length, "Remove from selection does not work!");
+      // add b to the selection
+      this.__controller.getSelection().push(this.__b);
+      // remove the first element of the controller 'this.__a'
+      this.__model.getChildren().shift();
+
+      // check if the selected item in the list is "b"
+      this.assertTrue(this.__controller.getSelection().contains(this.__b), "Selection array wrong!");
+      this.assertEquals("b", this.__tree.getSelection()[0].getLabel(), "Remove from selection does not work!");      
+    },
+    
+    
+    testSelectInvisible: function() {
+      // add c to the selection
+      this.__controller.getSelection().push(this.__c);
+
+      // check if the selection is empty
+      this.assertEquals(0, this.__controller.getSelection().length, "Adding of an non visible element should not work.");      
     }
   }
 });
