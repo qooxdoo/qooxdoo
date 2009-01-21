@@ -385,16 +385,26 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       
       this.lastVisibleCells = this.visibleCells;
       this.visibleCells = visibleCells;               
+
+      // TODO: debugging code
+      qx.ui.core.queue.Manager.flush();      
       
       for (var i=0; i<this.layers.length; i++) 
       {
+        var start = new Date();
+        
         var layer = this.layers[i];
         layer.setUserBounds(0, 0, layerWidth, layerHeight);
         layer.updateScrollPosition(
           visibleCells, this.lastVisibleCells, 
           rowSizes, columnSizes
         );
-      }
+        
+        this.debug("layer update ("+layer.classname+"): " + (new Date() - start) + "ms");
+        var start = new Date();
+        qx.ui.core.queue.Manager.flush();
+        this.debug("layer flush ("+layer.classname+"): " + (new Date() - start) + "ms");
+      }      
     }
   }
 });
