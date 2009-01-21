@@ -108,7 +108,7 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
     // overridden
     _getPage : function(lead, up)
     {
-      var selectables = this._getSelectables();
+      var selectables = this.getSelectables();
       var length = selectables.length;
       var start = selectables.indexOf(lead);
 

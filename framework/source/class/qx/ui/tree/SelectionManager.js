@@ -56,7 +56,7 @@ qx.Class.define("qx.ui.tree.SelectionManager",
 
 
     // overridden
-    _getSelectables : function()
+    getSelectables : function()
     {
       var widget = this._getWidget();
       return widget.getRoot().getItems(true, false, widget.getHideRoot());
@@ -71,7 +71,7 @@ qx.Class.define("qx.ui.tree.SelectionManager",
         return [item1];
       }
 
-      var selectables = this._getSelectables();
+      var selectables = this.getSelectables();
 
       var item1Index = selectables.indexOf(item1);
       var item2Index = selectables.indexOf(item2);
@@ -90,14 +90,14 @@ qx.Class.define("qx.ui.tree.SelectionManager",
 
     // overridden
     _getFirstSelectable : function() {
-      return this._getSelectables()[0] || null;
+      return this.getSelectables()[0] || null;
     },
 
 
     // overridden
     _getLastSelectable : function()
     {
-      var selectables = this._getSelectables();
+      var selectables = this.getSelectables();
       if (selectables.length > 0) {
         return selectables[selectables.length-1];
       } else {
