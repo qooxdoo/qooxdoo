@@ -316,7 +316,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       var columnSizes = this.columnConfig.getItemSizes(visibleCells.firstColumn, bounds.width + columnCellData.offset);
 
       visibleCells.lastRow = visibleCells.firstRow + rowSizes.length - 1;
-      visibleCells.lastColumn = visibleCells.firstRow + columnSizes.length - 1;
+      visibleCells.lastColumn = visibleCells.firstColumn + columnSizes.length - 1;
                   
       this.lastVisibleCells = this.visibleCells;
       this.visibleCells = visibleCells;  
