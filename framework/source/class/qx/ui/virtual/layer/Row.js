@@ -20,6 +20,65 @@
 qx.Class.define("qx.ui.virtual.layer.Row",
 {
   extend : qx.ui.core.Widget,
+
+  /*
+   *****************************************************************************
+      CONSTRUCTOR
+   *****************************************************************************
+   */
+
+   /**
+    */
+   construct : function(colorEven, colorOdd)
+   {
+     this.base(arguments);
+     
+     if (colorEven) {
+       this.setColorEven(colorEven);
+     }
+     
+     if (colorOdd) {
+       this.setColorOdd(colorOdd);
+     }
+     
+     this.__customColors = {};
+   },
+
+   
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    // overridden
+    appearance :
+    {
+      refine : true,
+      init : "row-layer"
+    },
+     
+    /** color of row with even index */
+    colorEven :
+    {
+      nullable : true,
+      check : "Color",
+      apply : "_applyColorEven",
+      themeable : true
+    },
+    
+    /** color of row with odd index */
+    colorOdd :
+    {
+      nullable : true,
+      check : "Color",
+      apply : "_applyColorOdd",
+      themeable : true
+    }
+  },
+  
   
   /*
   *****************************************************************************
@@ -29,13 +88,9 @@ qx.Class.define("qx.ui.virtual.layer.Row",
  
   members :
   {
-    _even : "yellow",
-    _odd : "white",
-    _colors : {
-      "2" : "red",
-      "10": "blue",
-      "13": "gray"
-    },
+    __colorEven : null,
+    __colorOdd : null,
+    __customColors : null,
   
     fullUpdate : function(visibleCells, lastVisibleCells, rowSizes, columnSizes)
     {
@@ -43,17 +98,13 @@ qx.Class.define("qx.ui.virtual.layer.Row",
       for (var y=0; y<rowSizes.length; y++)
       {
         var rowIndex = visibleCells.firstRow + y;
-        if (this._colors[rowIndex]) {
-          var color = this._colors[rowIndex];
-        } else {
-          color = rowIndex % 2 == 0 ? this._even : this._odd;
-        }
+        var color = this.getRowColor(rowIndex);
 
         html.push(
           "<div style='",
           "height:", rowSizes[y], "px;",
           "width: 100%;",
-          "background-color:", color, 
+          color ? "background-color:"+ color : "", 
           "'>",
           "</div>"
         );
@@ -69,6 +120,56 @@ qx.Class.define("qx.ui.virtual.layer.Row",
       ) {
         this.fullUpdate(visibleCells, lastVisibleCells, rowSizes, columnSizes);
       }
-    }
+    },
+        
+    
+    /*
+    ---------------------------------------------------------------------------
+      COLOR HANDLING
+    ---------------------------------------------------------------------------
+    */
+
+    setRowColor : function(row, color) 
+    {
+      if (color) {
+        this.__customColors[row] = qx.theme.manager.Color.getInstance().resolve(color);
+      } else {
+        delete(this.__customColors[row]);
+      }      
+    },
+    
+    clearCustomRowColors : function() {
+      this.__customRowColors = {};
+    },
+    
+    getRowColor : function(row)
+    {
+      var customColor = this.__customColors[row];
+      if (customColor) {
+        return customColor;
+      } else {
+        return row % 2 == 0 ? this.__colorEven : this.__colorOdd;
+      }
+    },
+    
+    // property apply
+    _applyColorEven : function(value, old)
+    {
+      if (value) {
+        this.__colorEven = qx.theme.manager.Color.getInstance().resolve(value);
+      } else {
+        this.__colorEven = null;
+      }
+    },
+    
+    // property apply
+    _applyColorOdd : function(value, old)
+    {
+      if (value) {
+        this.__colorOdd = qx.theme.manager.Color.getInstance().resolve(value);
+      } else {
+        this.__colorOdd = null;
+      }
+    }    
   }
 });
