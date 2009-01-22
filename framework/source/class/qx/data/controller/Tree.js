@@ -22,7 +22,7 @@ qx.Class.define("qx.data.controller.Tree",
   include: qx.data.controller.MSelection,
 
 
-  construct : function(model, target, childPath, labelPath, iconPath)
+  construct : function(model, target, childPath, labelPath, iconPath, labelOptions, iconOptions)
   {
     this.base(arguments);
     
@@ -35,6 +35,12 @@ qx.Class.define("qx.data.controller.Tree",
     if (iconPath != undefined) {
       this.setIconPath(iconPath);
     }
+    if (labelOptions != undefined) {
+      this.setLabelOptions(labelOptions);
+    }
+    if (iconOptions != undefined) {
+      this.setIconOptions(iconOptions);
+    }    
     
     this.setChildPath(childPath);
     this.setLabelPath(labelPath);
@@ -77,11 +83,38 @@ qx.Class.define("qx.data.controller.Tree",
       check: "String",
       apply: "_applyIconPath",
       nullable: true
+    },
+    
+    labelOptions : 
+    {
+      apply: "_applyLabelOptions",
+      nullable: true
+    },
+    
+    iconOptions :
+    {
+      apply: "_applyIconOptions",
+      nullable: true
     }
   },
 
   members :
   {
+    /*
+    ---------------------------------------------------------------------------
+       APPLY METHODS
+    ---------------------------------------------------------------------------
+    */    
+    _applyIconOptions: function(value, old) {
+      this.__renewBindings();
+    },
+    
+    
+    _applyLabelOptions: function(value, old) {
+      this.__renewBindings();
+    },
+    
+    
     _applyTarget: function(value, old) {
       // if there was an old target
       if (old != undefined) {
@@ -117,7 +150,12 @@ qx.Class.define("qx.data.controller.Tree",
       this.__renewAllBindings();        
     },
     
-    
+
+    /*
+    ---------------------------------------------------------------------------
+       EVENT HANDLER
+    ---------------------------------------------------------------------------
+    */    
     __changeModelChildren: function(ev) {
       // get the stored data
       var children =  ev.getTarget();
@@ -131,6 +169,11 @@ qx.Class.define("qx.data.controller.Tree",
     },
     
     
+    /*
+    ---------------------------------------------------------------------------
+       ITEM HANDLING
+    ---------------------------------------------------------------------------
+    */    
     __buildTree: function() {
       // only fill the target if there is a target
       if (this.getTarget() == null) {
@@ -234,7 +277,13 @@ qx.Class.define("qx.data.controller.Tree",
     },
     
 
-    __renewAllBindings: function() {
+
+    /*
+    ---------------------------------------------------------------------------
+       BINDING STUFF
+    ---------------------------------------------------------------------------
+    */
+    __renewBindings: function() {
       for (var hash in this.__labelBindings) {
         // get the data 
         var treeNode = this.__labelBindings[hash].treeNode;
@@ -249,12 +298,16 @@ qx.Class.define("qx.data.controller.Tree",
     
     __addBinding: function(modelNode, treeNode) {
       // label binding
-      var id = modelNode.bind(this.getLabelPath(), treeNode, "label");
+      var id = modelNode.bind(
+        this.getLabelPath(), treeNode, "label", this.getLabelOptions()
+      );
       this.__labelBindings[modelNode.toHashCode()] = {id: id, treeNode: treeNode};
 
       // icon binding
       if (this.getIconPath() != null) {
-        id = modelNode.bind(this.getIconPath(), treeNode, "icon");
+        id = modelNode.bind(
+          this.getIconPath(), treeNode, "icon", this.getIconOptions()
+        );
         this.__iconBindings[modelNode.toHashCode()] = {id: id, treeNode: treeNode};        
       }
     },
