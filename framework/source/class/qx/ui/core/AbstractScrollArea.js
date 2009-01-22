@@ -500,7 +500,6 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
       {
         this._excludeChildControl("scrollbar-x");
         this._excludeChildControl("scrollbar-y");
-
         return;
       }
 

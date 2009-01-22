@@ -129,17 +129,20 @@ qx.Class.define("qx.ui.virtual.layer.AbstractWidget",
         // move visible cells up
         var i=0;
         for (var row=lastVisibleCells.firstRow + linesRemoved; row<=lastVisibleCells.lastRow; row++)
-        {            
-          for (var col=visibleCells.firstColumn; col<=visibleCells.lastColumn; col++)
+        {    
+          if (linesRemoved)
           {
-            var item = children[i++]; 
-            item.setUserBounds(left, top, columnSizes[x], rowSizes[y]);              
-            
-            left += columnSizes[x];               
-            x++;
+            for (var col=visibleCells.firstColumn; col<=visibleCells.lastColumn; col++)
+            {
+              var item = children[i++]; 
+              item.setUserBounds(left, top, columnSizes[x], rowSizes[y]);              
+              
+              left += columnSizes[x];               
+              x++;
+            }
+            left = 0;
+            top += rowSizes[y];
           }
-          left = 0;
-          top += rowSizes[y];
           
           y++;
           x = 0;
