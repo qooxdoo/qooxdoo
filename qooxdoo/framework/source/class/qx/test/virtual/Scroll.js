@@ -26,7 +26,6 @@ qx.Class.define("qx.test.virtual.Scroll",
 
     setUp : function()
     {
-      
       qx.Class.define("qx.test.virtual.testLayer",
       {
         extend : qx.ui.virtual.layer.AbstractWidget,
@@ -35,20 +34,18 @@ qx.Class.define("qx.test.virtual.Scroll",
         {
 
           _poolWidget: function(widget) {
-            this.debug(arguments)
             this._pool.push(widget);
           },
 
           _getWidget : function(row, column)
           {
-            this.debug(arguments)
             var widget = this._pool.pop() || new qx.ui.core.Widget;
             return widget;
           },
 
           _configureWidget : function(widget, row, column)
           {
-            this.debug(arguments)
+            this.debug("row: " + row + " / column: " + column)
             widget.setUserData("row", row);
             widget.setUserData("column", column);
           }
@@ -56,22 +53,29 @@ qx.Class.define("qx.test.virtual.Scroll",
         }
       });
 
-      this.__scroller = new qx.ui.virtual.core.Scroller(50, 50, 10, 250);
+      this.__scroller = new qx.ui.virtual.core.Scroller(50, 1, 10, 250);
       this.__testLayer = new qx.test.virtual.testLayer;
       this.__scroller.pane.setWidth(450);
       this.__scroller.pane.addLayer(this.__testLayer);
 
       this.getRoot().add(this.__scroller, {left : 20, top : 10});
     },
-    
+
     testScrollDown : function()
     {
+      qx.ui.core.queue.Manager.flush();
       this.__scroller.pane.setScrollY(500);
       this.__scroller.pane.fullUpdate();
+
+      var children = this.__testLayer._getChildren();
+
+      this.debug(children[0].getUserData("row"));
+      this.debug(children[0].getUserData("column"));
+
+      this.debug(children[children.length-1].getUserData("row"));
+      this.debug(children[children.length-1].getUserData("column"));
+
     }
-
-
-
 
   }
 });
