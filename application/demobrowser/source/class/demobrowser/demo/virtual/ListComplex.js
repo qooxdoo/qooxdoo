@@ -61,6 +61,8 @@ qx.Class.define("demobrowser.demo.virtual.ListComplex",
       
       this.getRoot().add(scroller, {left : 20, top : 10});
       scroller.pane.addLayer(new qx.ui.virtual.layer.Row());
+      scroller.pane.addLayer(new qx.ui.virtual.layer.GridLines("horizontal"));
+      //scroller.pane.addLayer(new qx.ui.virtual.layer.GridLines("vertical"));            
       scroller.pane.addLayer(new demobrowser.demo.virtual.DemoLayer);
     }
   }
