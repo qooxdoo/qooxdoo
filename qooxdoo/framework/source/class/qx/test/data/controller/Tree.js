@@ -449,6 +449,46 @@ qx.Class.define("qx.test.data.controller.Tree",
 
       // check if the selection is empty
       this.assertEquals(0, this.__controller.getSelection().length, "Adding of an non visible element should not work.");      
+    },
+    
+    
+    testLabelOptions: function() {
+      // create the options
+      var options = {
+        converter: function(data) {
+          return data + " AFFE";
+        }
+      };
+      
+      // create the controller
+      this.__controller = new qx.data.controller.Tree(this.__model, this.__tree, "children", "name", null, options);
+
+      // test the converter
+      this.assertEquals("root AFFE", this.__tree.getRoot().getLabel(), "Root node has a wrong name");
+      this.assertEquals("a AFFE", this.__tree.getRoot().getChildren()[0].getLabel(), "First node has a wrong name");
+      this.assertEquals("b AFFE", this.__tree.getRoot().getChildren()[1].getLabel(), "Second node has a wrong name");
+      this.assertEquals("c AFFE", this.__tree.getRoot().getChildren()[2].getLabel(), "Third node has a wrong name");      
+    },
+    
+    testIconOptions: function() {
+      // create the options
+      var options = {
+        converter: function(data) {
+          if (data != null) {
+             return data + " AFFE";         
+          }
+          return null;
+        }
+      };
+      
+      // create the controller
+      this.__controller = new qx.data.controller.Tree(this.__model, this.__tree, "children", "name", "icon", null, options);
+
+      // test the converter
+      this.assertNull(this.__tree.getRoot().getIcon(), "Root node has a wrong icon");
+      this.assertEquals("icon a AFFE", this.__tree.getRoot().getChildren()[0].getIcon(), "First node has a wrong icon");
+      this.assertEquals("icon b AFFE", this.__tree.getRoot().getChildren()[1].getIcon(), "Second node has a wrong icon");
+      this.assertEquals("icon c AFFE", this.__tree.getRoot().getChildren()[2].getIcon(), "Third node has a wrong icon");      
     }
   }
 });
