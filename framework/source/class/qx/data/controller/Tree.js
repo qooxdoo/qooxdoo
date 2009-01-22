@@ -142,12 +142,12 @@ qx.Class.define("qx.data.controller.Tree",
     
     
     _applyIconPath: function(value, old) {
-      this.__renewAllBindings();      
+      this.__renewBindings();      
     },
     
     
     _applyLabelPath: function(value, old) {
-      this.__renewAllBindings();        
+      this.__renewBindings();        
     },
     
 
