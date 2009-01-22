@@ -515,7 +515,7 @@ class Config:
                             else:
                                 contribCachePath = "cache-downloads"
                             self._download_contrib(oldlib, contrib, contribCachePath)
-                            manifest = os.path.join(contribCachePath, contrib, manifile)
+                            manifest = os.path.normpath(os.path.join(contribCachePath, contrib, manifile))
                             lib['manifest'] = manifest  # patch 'manifest' entry to download path
                         else:  # patch the path which is local to the current config
                             pass # TODO: use manidir and config._dirname, or fix it when including the config
