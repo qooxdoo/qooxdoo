@@ -301,7 +301,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
           this.__scrollTop - above,
           bounds.width,
           bounds.height + above + below,
-          false
+          true
         );
       }
     },
