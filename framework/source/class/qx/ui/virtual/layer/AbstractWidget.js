@@ -83,6 +83,9 @@ qx.Class.define("qx.ui.virtual.layer.AbstractWidget",
     
     updateScrollPosition : function(visibleCells, lastVisibleCells, rowSizes, columnSizes) 
     {
+      this.fullUpdate(visibleCells, lastVisibleCells, rowSizes, columnSizes)
+      return;      
+      
       var refreshAll = false;
       var direction;
 

@@ -13,7 +13,6 @@
      See the LICENSE file in the project's left-level directory for details.
 
    Authors:
-     * Sebastian Werner (wpbasti)
      * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
