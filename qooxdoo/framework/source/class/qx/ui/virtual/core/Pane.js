@@ -105,6 +105,9 @@ qx.Class.define("qx.ui.virtual.core.Pane",
 
   members :
   {
+    DEBUG : false,
+    
+    
     /*
     ---------------------------------------------------------------------------
       LAYER MANAGMENT
@@ -273,6 +276,41 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       PREFETCH SUPPORT
     ---------------------------------------------------------------------------
     */
+    
+    prefetchX : function(minLeft, maxLeft, minRight, maxRight)
+    {
+      var layers = this.getVisibleLayers();
+      if (layers.length == 0) {
+        return;
+      }   
+      
+      var bounds = this.getBounds();
+      if (!bounds) {
+        return;
+      }
+
+      var paneRight = this.__scrollLeft + bounds.width;
+      var rightAvailable = this.__paneWidth - paneRight;
+      if (
+        this.__scrollLeft - this.__layerWindow.left  < Math.min(this.__scrollLeft, minLeft) ||
+        this.__layerWindow.right - paneRight < Math.min(rightAvailable, minRight)
+      )
+      {      
+        this.DEBUG && console.log("prefetch x");
+        var left = Math.min(this.__scrollLeft, maxLeft); 
+        var right = Math.min(rightAvailable, maxRight)
+        this.setLayerWindow(
+          layers,
+          this.__scrollLeft - left,
+          this.__scrollTop,
+          bounds.width + left + right,
+          bounds.height,
+          true  // TODO should be false but AbstractWidget layer still has problems
+        );
+      }
+    },
+    
+    
     prefetchY : function(minAbove, maxAbove, minBelow, maxBelow)
     {
       var layers = this.getVisibleLayers();
@@ -292,7 +330,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
         this.__layerWindow.bottom - paneBottom < Math.min(belowAvailable, minBelow)
       )
       {      
-        //console.log("prefetch");
+        this.DEBUG && console.log("prefetch y");
         var above = Math.min(this.__scrollTop, maxAbove); 
         var below = Math.min(belowAvailable, maxBelow)
         this.setLayerWindow(
@@ -301,7 +339,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
           this.__scrollTop - above,
           bounds.width,
           bounds.height + above + below,
-          true
+          true // TODO should be false but AbstractWidget layer still has problems
         );
       }
     },
@@ -436,7 +474,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
         return; // the pane has not yet been rendered -> wait for the appear event
       }            
      
-      //console.log("full update");
+      this.DEBUG && console.log("full update");
       this.setLayerWindow(
         layers,
         this.__scrollLeft, this.__scrollTop,
@@ -475,7 +513,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
         this.__layerWindow.right >= paneWindow.right
       )
       {
-        //console.log("scroll");
+        this.DEBUG && console.log("scroll");
         // only update layer container offset
         this.__layerContainer.setUserBounds(          
           this.__layerWindow.left - paneWindow.left,
@@ -486,7 +524,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       }
       else
       {
-        //console.log("update scroll pos");
+        this.DEBUG && console.log("update scroll pos");
         this.setLayerWindow(
           layers,
           this.__scrollLeft, this.__scrollTop,

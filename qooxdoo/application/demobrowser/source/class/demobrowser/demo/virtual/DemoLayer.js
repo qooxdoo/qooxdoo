@@ -40,6 +40,8 @@ qx.Class.define("demobrowser.demo.virtual.DemoLayer",
       atom : [],
       checkbox : []
     };
+    
+    this.__rowData = [];
   },
   
   /*
@@ -51,6 +53,23 @@ qx.Class.define("demobrowser.demo.virtual.DemoLayer",
   members :
   {
     _pool : null,
+    _rowData : null,
+    
+    getCellData : function(row, column)
+    {
+      if (!this.__rowData[row]) {
+        this.__rowData[row] = [];
+      }
+      if (!this.__rowData[row][column]) 
+      {
+        this.__rowData[row][column] = {
+          label: this.__generateName(),
+          icon: this.__getIcon()
+        }
+      }
+      return this.__rowData[row][column];
+    },
+    
     
     _getWidget : function(row, column)
     {
@@ -61,8 +80,11 @@ qx.Class.define("demobrowser.demo.virtual.DemoLayer",
         widget = this._pool.atom.pop();
         if (!widget) {
           widget = new qx.ui.basic.Atom();
-          widget.addListener("mouseover", function(){
-            widget.setIcon(this.__getIcon())
+          widget.addListener("mouseover", function()
+          {
+            var icon = this.__getIcon();
+            widget.setIcon(icon);
+            this.__rowData[row][column].icon = icon;
           }, this);
         }
       }
@@ -93,10 +115,7 @@ qx.Class.define("demobrowser.demo.virtual.DemoLayer",
     {
       if (column % 2 == 0)
       {
-        widget.set({
-          label: this.__generateName(),
-          icon: this.__getIcon()
-        });
+        widget.set(this.getCellData(row, column));
       }
       else
       {
