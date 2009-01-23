@@ -127,7 +127,7 @@ qx.Class.define("qx.data.controller.Tree",
       this.__buildTree();
       
       // add a listener for the target change
-      this.__addChangeTargetListener(value, old);      
+      this._addChangeTargetListener(value, old);      
     },
     
     
@@ -165,7 +165,7 @@ qx.Class.define("qx.data.controller.Tree",
       this.__updateTreeChildren(treeNode, modelNode);
       
       // update the selection in case a selected element has been removed
-      this.__updateSelection();
+      this._updateSelection();
     },
     
     

@@ -67,7 +67,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
     ---------------------------------------------------------------------------
     */    
     __changeSelectionArray: function(e) {
-      this.__updateSelection();
+      this._updateSelection();
     },
         
     
@@ -121,7 +121,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
        SELECTION
     ---------------------------------------------------------------------------
     */
-    __addChangeTargetListener: function(value, old) {
+    _addChangeTargetListener: function(value, old) {
       // remove the old selection listener
       if (this.__selectionListenerId != undefined && old != undefined) {
         old.removeListenerById(this.__selectionListenerId);
@@ -139,7 +139,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
     },
     
     
-    __updateSelection: function() {
+    _updateSelection: function() {
       // mark the change process in a flag
       this.__modifingSelection = true;      
       

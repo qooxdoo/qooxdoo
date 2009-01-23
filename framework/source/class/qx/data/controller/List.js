@@ -176,7 +176,7 @@ qx.Class.define("qx.data.controller.List",
         }
       }
       // add a listener for the target change
-      this.__addChangeTargetListener(value, old);
+      this._addChangeTargetListener(value, old);
     },    
     
     
@@ -192,11 +192,16 @@ qx.Class.define("qx.data.controller.List",
           this.getSelection().splice(i, 1);
         }
       }
-      this.__updateSelection();
+      this._updateSelection();
     },
     
         
     __changeModelLength: function() {
+      // only do something if there is a target
+      if (this.getTarget() == null) {
+        return;
+      }
+      
       // get the length
       var newLength = this.getModel().length;
       var currentLength = this.getTarget().getChildren().length;
@@ -305,7 +310,7 @@ qx.Class.define("qx.data.controller.List",
       }
       
       // update the selection
-      this.__updateSelection();
+      this._updateSelection();
       
       // update the reference to the model
       var itemModel = this.getModel().getItem(index);
