@@ -26,7 +26,7 @@ qx.Class.define("qx.test.ui.virtual.Layer",
 
     setUp : function()
     {
-      qx.Class.define("qx.test.virtual.testLayer",
+      qx.Class.define("qx.test.ui.virtual.testLayer",
       {
         extend : qx.ui.virtual.layer.AbstractWidget,
 
@@ -53,7 +53,7 @@ qx.Class.define("qx.test.ui.virtual.Layer",
       });
 
       this.__scroller = new qx.ui.virtual.core.Scroller(50, 1, 10, 250);
-      this.__testLayer = new qx.test.virtual.testLayer;
+      this.__testLayer = new qx.test.ui.virtual.testLayer;
       this.__scroller.pane.setWidth(450);
       this.__scroller.pane.addLayer(this.__testLayer);
 
@@ -68,11 +68,11 @@ qx.Class.define("qx.test.ui.virtual.Layer",
 
       var children = this.__testLayer._getChildren();
 
-      this.debug(children[0].getUserData("row"));
-      this.debug(children[0].getUserData("column"));
+      this.assertEquals(children[0].getUserData("row"), 20);
+      this.assertEquals(children[0].getUserData("column"), 0);
 
-      this.debug(children[children.length-1].getUserData("row"));
-      this.debug(children[children.length-1].getUserData("column"));
+      this.assertEquals(children[children.length-1].getUserData("row"), 49);
+      this.assertEquals(children[children.length-1].getUserData("column"), 0);
 
     }
 
