@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.virtual.Scroll",
+qx.Class.define("qx.test.ui.virtual.Layer",
 {
   extend : qx.test.ui.LayoutTestCase,
 
@@ -45,7 +45,6 @@ qx.Class.define("qx.test.virtual.Scroll",
 
           _configureWidget : function(widget, row, column)
           {
-            this.debug("row: " + row + " / column: " + column)
             widget.setUserData("row", row);
             widget.setUserData("column", column);
           }
