@@ -28,7 +28,7 @@ from generator.runtime.ShellCmd import ShellCmd
 # (aka. 'triggers')
 #
 
-class JobLib(object):
+class ActionLib(object):
     def __init__(self, config, console_):
         self._config   = config
         self._console  = console_

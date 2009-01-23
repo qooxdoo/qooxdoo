@@ -38,7 +38,7 @@ from generator.action.ImageInfo import ImageInfo, ImgInfoFmt
 from generator.action.ImageClipping import ImageClipping
 from generator.action.ApiLoader import ApiLoader
 from generator.action.Locale import Locale
-from generator.action.JobLib import JobLib
+from generator.action.ActionLib import ActionLib
 from generator.runtime.Cache import Cache
 from generator.runtime.ShellCmd import ShellCmd
 import simplejson
@@ -324,14 +324,23 @@ class Generator:
     def run(self):
         config = self._job
         job    = self._job
-
         require = config.get("require", {})
-        use = config.get("use", {})
+        use     = config.get("use", {})
 
-        self._jobLib         = JobLib(self._config, self._console)
+        self._actionLib         = ActionLib(self._config, self._console)
 
-        triggerNameSet = set(self.listJobTriggers().keys())  # list of trigger names
-        jobKeySet      = set(job.getData().keys())
+        # Known Job Trigger Keys
+        jobTriggers         = self.listJobTriggers()
+
+        triggersSimpleSet   = set((x for x in jobTriggers if jobTriggers[x]['type']=="JSimpleJob"))
+        triggersClassDepSet = set((x for x in jobTriggers if jobTriggers[x]['type']=="JClassDepJob"))
+        triggersCompileSet  = set((x for x in jobTriggers if jobTriggers[x]['type']=="JCompileJob"))
+        triggerNameSet      = set(jobTriggers.keys())  # list of trigger names
+
+        # This Job's Keys
+        jobKeySet           = set(job.getData().keys())
+
+
         if jobKeySet.intersection(triggerNameSet) == set(['clean-files']):
             self.runClean()
             return  # cleaning was the only job
@@ -989,7 +998,7 @@ class Generator:
         self._console.info("Cleaning up files...")
         self._console.indent()
 
-        self._jobLib.clean(self._job.get('clean-files'))
+        self._actionLib.clean(self._job.get('clean-files'))
 
         self._console.outdent()
 
@@ -1011,7 +1020,7 @@ class Generator:
         lintsettings = ExtMap(self._job.get('lint-check'))
         allowedGlobals = lintsettings.get('allowed-globals', [])
 
-        #self._jobLib.lint(classes)
+        #self._actionLib.lint(classes)
         lint_opts = "".join(map(lambda x: " -g"+x, allowedGlobals))
         numClasses = len(classes)
         for pos, classId in enumerate(classes):
