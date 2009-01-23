@@ -22,6 +22,8 @@ qx.Class.define("qx.ui.virtual.layer.AbstractWidget",
 {
   extend : qx.ui.core.Widget,
   
+  implement : [qx.ui.virtual.core.ILayer],
+  
   construct : function()
   {
     this.base(arguments);
@@ -49,7 +51,7 @@ qx.Class.define("qx.ui.virtual.layer.AbstractWidget",
       throw new Error("_configureWidget is abstract");
     },    
     
-    fullUpdate : function(visibleCells, lastVisibleCells, rowSizes, columnSizes)
+    fullUpdate : function(visibleCells, rowSizes, columnSizes)
     {
       var children = this._getChildren();
       for (var i=0; i<children.length; i++) {
@@ -114,7 +116,7 @@ qx.Class.define("qx.ui.virtual.layer.AbstractWidget",
       
       if (refreshAll) 
       {
-        this.fullUpdate(visibleCells, lastVisibleCells, rowSizes, columnSizes);
+        this.fullUpdate(visibleCells, rowSizes, columnSizes);
         return;
       }
       
@@ -123,7 +125,7 @@ qx.Class.define("qx.ui.virtual.layer.AbstractWidget",
       } else if (direction == "up") {
         this.scrollUp(visibleCells, lastVisibleCells, rowSizes, columnSizes);
       } else {
-        this.fullUpdate(visibleCells, lastVisibleCells, rowSizes, columnSizes);
+        this.fullUpdate(visibleCells, rowSizes, columnSizes);
       }
     },
 
@@ -207,7 +209,7 @@ qx.Class.define("qx.ui.virtual.layer.AbstractWidget",
     scrollUp : function(visibleCells, lastVisibleCells, rowSizes, columnSizes)
     {
       // TODO
-      this.fullUpdate(visibleCells, lastVisibleCells, rowSizes, columnSizes)
+      this.fullUpdate(visibleCells, rowSizes, columnSizes)
       return;
     }
 

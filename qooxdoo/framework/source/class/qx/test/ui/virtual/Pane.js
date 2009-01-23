@@ -97,9 +97,17 @@ qx.Class.define("qx.test.ui.virtual.Pane",
     {
       this.assertEquals(rowIndex, args[0].firstRow, msg);
       this.assertEquals(colIndex, args[0].firstColumn, msg);
+      this.assertArrayEquals(rowSizes, args[1], msg);
+      this.assertArrayEquals(colSizes, args[2], msg);      
+    },
+
+    assertScrollArgs : function(rowIndex, colIndex, rowSizes, colSizes, args, msg)
+    {
+      this.assertEquals(rowIndex, args[0].firstRow, msg);
+      this.assertEquals(colIndex, args[0].firstColumn, msg);
       this.assertArrayEquals(rowSizes, args[2], msg);
       this.assertArrayEquals(colSizes, args[3], msg);      
-    },
+    },    
     
     assertScroll : function(scrollTop, scrollLeft, pane, msg)
     {
@@ -126,24 +134,24 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.assertUpdateArgs(0, 0, [10, 10, 10, 10, 10], [30, 30, 30, 30], args);
       this.assertScroll(0, 0, this.pane);
       
-      layer.calls = [];
       this.pane.setScrollY(4);                       
+      layer.calls = [];
       this.pane.fullUpdate();
       qx.ui.core.queue.Manager.flush();
       var args = layer.calls[0][1];
       this.assertUpdateArgs(0, 0, [10, 10, 10, 10, 10, 10], [30, 30, 30, 30], args);
       this.assertScroll(4, 0, this.pane);
       
-      layer.calls = [];
       this.pane.setScrollY(10);                       
+      layer.calls = [];
       this.pane.fullUpdate();
       qx.ui.core.queue.Manager.flush();
       var args = layer.calls[0][1];
       this.assertUpdateArgs(1, 0, [10, 10, 10, 10, 10], [30, 30, 30, 30], args);
       this.assertScroll(0, 0, this.pane);
 
-      layer.calls = [];
       this.pane.setScrollY(16);                       
+      layer.calls = [];
       this.pane.fullUpdate();
       qx.ui.core.queue.Manager.flush();
       var args = layer.calls[0][1];
@@ -154,24 +162,24 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.pane.setScrollY(0);
       qx.ui.core.queue.Manager.flush();
       
-      layer.calls = [];
       this.pane.setScrollX(4);                       
+      layer.calls = [];
       this.pane.fullUpdate();
       qx.ui.core.queue.Manager.flush();
       var args = layer.calls[0][1];
       this.assertUpdateArgs(0, 0, [10, 10, 10, 10, 10], [30, 30, 30, 30], args);
       this.assertScroll(0, 4, this.pane);
       
-      layer.calls = [];
       this.pane.setScrollX(30);                       
+      layer.calls = [];
       this.pane.fullUpdate();
       qx.ui.core.queue.Manager.flush();
       var args = layer.calls[0][1];
       this.assertUpdateArgs(0, 1, [10, 10, 10, 10, 10], [30, 30, 30, 30], args);
       this.assertScroll(0, 0, this.pane);
 
-      layer.calls = [];
       this.pane.setScrollX(36);                       
+      layer.calls = [];
       this.pane.fullUpdate();
       qx.ui.core.queue.Manager.flush();
       var args = layer.calls[0][1];
@@ -195,7 +203,7 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       qx.ui.core.queue.Manager.flush();
       this.assertEquals("updateScrollPosition", layer.calls[0][0]);
       var args = layer.calls[0][1];      
-      this.assertUpdateArgs(0, 0, [10, 10, 10, 10, 10, 10], [30, 30, 30, 30], args);
+      this.assertScrollArgs(0, 0, [10, 10, 10, 10, 10, 10], [30, 30, 30, 30], args);
       this.assertScroll(4, 0, this.pane);
       
       layer.calls = [];    
@@ -215,7 +223,7 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       qx.ui.core.queue.Manager.flush();
       this.assertEquals("updateScrollPosition", layer.calls[0][0]);
       var args = layer.calls[0][1];      
-      this.assertUpdateArgs(1, 0, [10, 10, 10, 10, 10, 10], [30, 30, 30, 30], args);
+      this.assertScrollArgs(1, 0, [10, 10, 10, 10, 10, 10], [30, 30, 30, 30], args);
       this.assertScroll(6, 0, this.pane);
       
       
@@ -233,7 +241,7 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       qx.ui.core.queue.Manager.flush();
       this.assertEquals("updateScrollPosition", layer.calls[0][0]);
       var args = layer.calls[0][1];
-      this.assertUpdateArgs(0, 1, [10, 10, 10, 10, 10], [30, 30, 30, 30], args);
+      this.assertScrollArgs(0, 1, [10, 10, 10, 10, 10], [30, 30, 30, 30], args);
       this.assertScroll(0, 0, this.pane);
 
       layer.calls = [];

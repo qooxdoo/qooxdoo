@@ -21,6 +21,8 @@ qx.Class.define("qx.ui.virtual.layer.Row",
 {
   extend : qx.ui.core.Widget,
 
+  implement : [qx.ui.virtual.core.ILayer],
+  
   /*
    *****************************************************************************
       CONSTRUCTOR
@@ -92,7 +94,7 @@ qx.Class.define("qx.ui.virtual.layer.Row",
     __colorOdd : null,
     __customColors : null,
   
-    fullUpdate : function(visibleCells, lastVisibleCells, rowSizes, columnSizes)
+    fullUpdate : function(visibleCells, rowSizes, columnSizes)
     {
       var html = [];
       for (var y=0; y<rowSizes.length; y++)
@@ -118,7 +120,7 @@ qx.Class.define("qx.ui.virtual.layer.Row",
         visibleCells.firstRow !== lastVisibleCells.firstRow ||
         visibleCells.lastRow !== lastVisibleCells.lastRow
       ) {
-        this.fullUpdate(visibleCells, lastVisibleCells, rowSizes, columnSizes);
+        this.fullUpdate(visibleCells, rowSizes, columnSizes);
       }
     },
         
