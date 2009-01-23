@@ -47,7 +47,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     this.__layers = [];
     
     this.addListener("resize", this._onResize, this);
-    this.addListener("appear", this._onResize, this);    
+    this.addListener("appear", this._onAppear, this);    
   },
    
   
@@ -386,11 +386,14 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     
     _onResize : function() 
     {
-      if (this.getContainerElement().getDomElement())
-      {
-        this.fullUpdate();
-        this.fireEvent("update");
+      if (this.getContainerElement().getDomElement()) {        
+        this.updateScrollPosition();  
       }
+    },
+    
+    
+    _onAppear : function() {
+      this.fullUpdate();
     },
     
     
@@ -513,7 +516,9 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     updateScrollPosition : function() 
     {
       var layers = this.getVisibleLayers();
-      if (layers.length == 0) {
+      if (layers.length == 0) 
+      {
+        this.__checkPaneResize();
         return;
       }
       
@@ -548,7 +553,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       }
       else
       {
-        this.DEBUG && console.log("update scroll pos");
+        this.DEBUG && console.log("update layer window");
         this.setLayerWindow(
           layers,
           this.__scrollLeft, this.__scrollTop,
@@ -556,6 +561,8 @@ qx.Class.define("qx.ui.virtual.core.Pane",
           false
         )
       }
+      
+      this.__checkPaneResize();
     }
   }
 });
