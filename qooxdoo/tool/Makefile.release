@@ -310,6 +310,8 @@ publish-check:
 	@echo "    - Looks good"
 
 publish: publish-check
+	@echo "  * Backing up devel version on server; this will take some time..."
+	@ssh root@qooxdoo.org 'cd /var/www/qooxdoo/demo/; cp -R -H devel 0.0.devel_backlog'
 	@echo "  * Preparing index.html..."
 	@$(CMD_DIR) temp/
 	@cat tool/data/publish/index.html | \
