@@ -83,6 +83,12 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
       scroller.pane.addLayer(rowLayer);
       scroller.pane.addLayer(MessengerLayer);
       win.add(scroller);
+        
+      var prefetch = new qx.ui.virtual.behavior.Prefetch(
+        scroller,
+        0, 0, 0, 0,
+        200, 300, 400, 600
+      );
     }
   }
 });

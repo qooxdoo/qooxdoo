@@ -37,14 +37,14 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     
     this.__paneHeight = 0;
     this.__paneWidth = 0;
-    
+        
     // create layer container. The container does not have a layout manager
     // layers are positioned using "setUserBounds"
     this.__layerContainer = new qx.ui.container.Composite();
     this.__layerContainer.setUserBounds(0, 0, 0, 0);
     this._add(this.__layerContainer);
     
-    this.layers = [];
+    this.__layers = [];
     
     this.addListener("resize", this._onResize, this);
     this.addListener("appear", this._onResize, this);    
@@ -123,9 +123,28 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     
     addLayer : function(layer)
     {
-      this.layers.push(layer);
+      this.__layers.push(layer);
       layer.setUserBounds(0, 0, 0, 0);
       this.__layerContainer.add(layer);
+    },
+    
+    
+    getLayers : function() {
+      return this.__layers;
+    },
+    
+    
+    getVisibleLayers : function()
+    {
+      var layers = [];
+      for (var i=0; i<this.__layers.length; i++)
+      {
+        var layer = this.__layers[i];
+        if (layer.isVisible()) {
+          layers.push(layer);
+        }
+      }
+      return layers;
     },
     
     
@@ -248,6 +267,45 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       }      
     },
     
+
+    /*
+    ---------------------------------------------------------------------------
+      PREFETCH SUPPORT
+    ---------------------------------------------------------------------------
+    */
+    prefetchY : function(minAbove, maxAbove, minBelow, maxBelow)
+    {
+      var layers = this.getVisibleLayers();
+      if (layers.length == 0) {
+        return;
+      }   
+      
+      var bounds = this.getBounds();
+      if (!bounds) {
+        return;
+      }
+
+      var paneBottom = this.__scrollTop + bounds.height;
+      var belowAvailable = this.__paneHeight - paneBottom;
+      if (
+        this.__scrollTop - this.__layerWindow.top  < Math.min(this.__scrollTop, minAbove) ||
+        this.__layerWindow.bottom - paneBottom < Math.min(belowAvailable, minBelow)
+      )
+      {      
+        //console.log("prefetch");
+        var above = Math.min(this.__scrollTop, maxAbove); 
+        var below = Math.min(belowAvailable, maxBelow)
+        this.setLayerWindow(
+          layers,
+          this.__scrollLeft,
+          this.__scrollTop - above,
+          bounds.width,
+          bounds.height + above + below,
+          false
+        );
+      }
+    },
+    
     
     /*
     ---------------------------------------------------------------------------
@@ -271,6 +329,84 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     ---------------------------------------------------------------------------
     */
     
+    /**
+     * Sets the size of the layers to contain the cells at the pixel position
+     * "left/right" up to "left+minHeight/right+minHeight". The offset of the
+     * layer container is adjusted to respect the pane's scroll top and scroll
+     * left values. 
+     */
+    setLayerWindow : function(layers, left, top, minWidth, minHeight, doFullUpdate)
+    {
+      var rowCellData = this.rowConfig.getItemAtPosition(top);
+      var columnCellData = this.columnConfig.getItemAtPosition(left);
+           
+      var visibleCells = {
+        firstRow: rowCellData.index,
+        firstColumn: columnCellData.index
+      }
+      
+      var rowSizes = this.rowConfig.getItemSizes(visibleCells.firstRow, minHeight + rowCellData.offset);
+      var columnSizes = this.columnConfig.getItemSizes(visibleCells.firstColumn, minWidth + columnCellData.offset);
+
+      visibleCells.lastRow = visibleCells.firstRow + rowSizes.length - 1;
+      visibleCells.lastColumn = visibleCells.firstColumn + columnSizes.length - 1;
+
+      var layerWidth = qx.lang.Array.sum(columnSizes);
+      var layerHeight = qx.lang.Array.sum(rowSizes);
+
+      this.__layerWindow = {
+        top: top - rowCellData.offset,
+        bottom: top - rowCellData.offset + layerHeight,
+        left: left - columnCellData.offset,        
+        right: left - columnCellData.offset + layerWidth
+      }      
+      
+      this.__layerContainer.setUserBounds(
+        this.__layerWindow.left - this.__scrollLeft,
+        this.__layerWindow.top - this.__scrollTop,
+        layerWidth, layerHeight
+      );            
+           
+      this.lastVisibleCells = this.visibleCells;
+      this.visibleCells = visibleCells;
+      
+      this.__columnSizes = columnSizes;
+      this.__rowSizes = rowSizes;
+      
+      // TODO: debugging code
+      //qx.ui.core.queue.Manager.flush();      
+      
+      for (var i=0; i<this.__layers.length; i++) 
+      {
+        // var start = new Date();
+        
+        var layer = this.__layers[i];
+        layer.setUserBounds(0, 0, layerWidth, layerHeight);
+        
+        if (doFullUpdate)
+        {
+          layer.fullUpdate(
+            visibleCells, this.lastVisibleCells, 
+            rowSizes, columnSizes
+          );
+        }
+        else
+        {
+          layer.updateScrollPosition(
+            visibleCells, this.lastVisibleCells, 
+            rowSizes, columnSizes
+          );
+        }
+
+        // TODO: debugging code    
+        // this.debug("layer update ("+layer.classname+"): " + (new Date() - start) + "ms");
+        // var start = new Date();
+        // qx.ui.core.queue.Manager.flush();
+        // this.debug("layer flush ("+layer.classname+"): " + (new Date() - start) + "ms");
+      }            
+    },    
+    
+    
     __checkPaneResize : function()
     {
       var scrollSize = this.getScrollSize();
@@ -288,7 +424,8 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     
     fullUpdate : function()
     {
-      if (this.layers.length == 0)
+      var layers = this.getVisibleLayers();
+      if (layers.length == 0)
       {
         this.__checkPaneResize();
         return;
@@ -299,54 +436,22 @@ qx.Class.define("qx.ui.virtual.core.Pane",
         return; // the pane has not yet been rendered -> wait for the appear event
       }            
      
-      var rowCellData = this.rowConfig.getItemAtPosition(this.__scrollTop);
-      var columnCellData = this.columnConfig.getItemAtPosition(this.__scrollLeft);
-      
-      var layerHeight = bounds.height; 
-      if (rowCellData.offset) {
-        layerHeight += this.rowConfig.getItemSize(rowCellData.index);
-      }
-      var layerWidth = bounds.width;
-      if (columnCellData.offset) {
-        layerWidth += this.columnConfig.getItemSize(columnCellData.index);
-      }
-      
-      this.__layerContainer.setUserBounds(
-        -columnCellData.offset, -rowCellData.offset, 
-        layerWidth, layerHeight
+      //console.log("full update");
+      this.setLayerWindow(
+        layers,
+        this.__scrollLeft, this.__scrollTop,
+        bounds.width, bounds.height,
+        true
       );
-      
-      var visibleCells = {
-        firstRow: rowCellData.index,
-        firstColumn: columnCellData.index
-      }
-      
-      var rowSizes = this.rowConfig.getItemSizes(visibleCells.firstRow, bounds.height + rowCellData.offset);
-      var columnSizes = this.columnConfig.getItemSizes(visibleCells.firstColumn, bounds.width + columnCellData.offset);
-
-      visibleCells.lastRow = visibleCells.firstRow + rowSizes.length - 1;
-      visibleCells.lastColumn = visibleCells.firstColumn + columnSizes.length - 1;
-                  
-      this.lastVisibleCells = this.visibleCells;
-      this.visibleCells = visibleCells;  
-      
-      for (var i=0; i<this.layers.length; i++) 
-      {
-        var layer = this.layers[i];
-        layer.setUserBounds(0, 0, layerWidth, layerHeight);
-        layer.fullUpdate(
-          visibleCells, this.lastVisibleCells,
-          rowSizes, columnSizes
-        );
-      }
-      
+             
       this.__checkPaneResize();
     },
     
     
     updateScrollPosition : function() 
     {
-      if (this.layers.length == 0) {
+      var layers = this.getVisibleLayers();
+      if (layers.length == 0) {
         return;
       }
       
@@ -355,69 +460,40 @@ qx.Class.define("qx.ui.virtual.core.Pane",
         return; // the pane has not yet been rendered -> wait for the appear event
       }                      
       
-      var rowCellData = this.rowConfig.getItemAtPosition(this.__scrollTop);
-      var columnCellData = this.columnConfig.getItemAtPosition(this.__scrollLeft);
-           
-      var layerHeight = bounds.height; 
-      if (rowCellData.offset) {
-        layerHeight += this.rowConfig.getItemSize(rowCellData.index);
-      }
-      var layerWidth = bounds.width;
-      if (columnCellData.offset) {
-        layerWidth += this.columnConfig.getItemSize(columnCellData.index);
-      }
-
-      this.__layerContainer.setUserBounds(
-        -columnCellData.offset, -rowCellData.offset,
-        layerWidth, layerHeight
-      );
-      for (var i=0; i<this.layers.length; i++) {
-        this.layers[i].setUserBounds(0, 0, layerWidth, layerHeight);
-      }           
-      
-      var visibleCells = {
-        firstRow: rowCellData.index,
-        firstColumn: columnCellData.index
-      }
-      
-      var rowSizes = this.rowConfig.getItemSizes(visibleCells.firstRow, bounds.height + rowCellData.offset);
-      var columnSizes = this.columnConfig.getItemSizes(visibleCells.firstColumn, bounds.width + columnCellData.offset);
-
-      visibleCells.lastRow = visibleCells.firstRow + rowSizes.length - 1;
-      visibleCells.lastColumn = visibleCells.firstColumn + columnSizes.length - 1;
+      // the visible window of the virtual coordinate space
+      var paneWindow = {
+        top: this.__scrollTop,
+        bottom: this.__scrollTop + bounds.height,
+        left: this.__scrollLeft,
+        right: this.__scrollLeft + bounds.width
+      };
       
       if (
-        this.visibleCells.firstRow == visibleCells.firstRow &&
-        this.visibleCells.firstColumn == visibleCells.firstColumn &&
-        this.visibleCells.lastRow == visibleCells.lastRow &&
-        this.visibleCells.lastColumn == visibleCells.lastColumn
-      ) {
-        return;
-      }
-           
-      this.lastVisibleCells = this.visibleCells;
-      this.visibleCells = visibleCells;
-      
-      // TODO: debugging code
-      //qx.ui.core.queue.Manager.flush();      
-      
-      for (var i=0; i<this.layers.length; i++) 
+        this.__layerWindow.top <= paneWindow.top &&
+        this.__layerWindow.bottom >= paneWindow.bottom && 
+        this.__layerWindow.left <= paneWindow.left &&
+        this.__layerWindow.right >= paneWindow.right
+      )
       {
-        // var start = new Date();
-        
-        var layer = this.layers[i];
-        layer.setUserBounds(0, 0, layerWidth, layerHeight);
-        layer.updateScrollPosition(
-          visibleCells, this.lastVisibleCells, 
-          rowSizes, columnSizes
-        );
-
-        // TODO: debugging code    
-        // this.debug("layer update ("+layer.classname+"): " + (new Date() - start) + "ms");
-        // var start = new Date();
-        // qx.ui.core.queue.Manager.flush();
-        // this.debug("layer flush ("+layer.classname+"): " + (new Date() - start) + "ms");
-      }      
+        //console.log("scroll");
+        // only update layer container offset
+        this.__layerContainer.setUserBounds(          
+          this.__layerWindow.left - paneWindow.left,
+          this.__layerWindow.top - paneWindow.top,
+          this.__layerWindow.right - this.__layerWindow.left,
+          this.__layerWindow.bottom - this.__layerWindow.top
+        );              
+      }
+      else
+      {
+        //console.log("update scroll pos");
+        this.setLayerWindow(
+          layers,
+          this.__scrollLeft, this.__scrollTop,
+          bounds.width, bounds.height,
+          false
+        )
+      }
     }
   }
 });

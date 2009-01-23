@@ -79,7 +79,7 @@ qx.Class.define("qx.test.ui.virtual.Pane",
     {
       var layer = new qx.test.ui.virtual.LayerMock();
       this.pane.addLayer(layer);
-      this.assertEquals(layer, this.pane.layers[0]);
+      this.assertEquals(layer, this.pane.getLayers()[0]);
     },
     
     testUpdateOnResize : function()
@@ -198,7 +198,7 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.assertUpdateArgs(0, 0, [10, 10, 10, 10, 10, 10], [30, 30, 30, 30], args);
       this.assertScroll(4, 0, this.pane);
       
-      layer.calls = [];      
+      layer.calls = [];    
       this.pane.setScrollY(5);  
       qx.ui.core.queue.Manager.flush();
       this.assertEquals(0, layer.calls.length);
@@ -207,10 +207,8 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       layer.calls = [];
       this.pane.setScrollY(10);                       
       qx.ui.core.queue.Manager.flush();
-      this.assertEquals("updateScrollPosition", layer.calls[0][0]);
-      var args = layer.calls[0][1];      
-      this.assertUpdateArgs(1, 0, [10, 10, 10, 10, 10], [30, 30, 30, 30], args);
-      this.assertScroll(0, 0, this.pane);
+      this.assertEquals(0, layer.calls.length);
+      this.assertScroll(10, 0, this.pane);
 
       layer.calls = [];
       this.pane.setScrollY(16);                       
