@@ -40,6 +40,15 @@ qx.Class.define("feedreader.model.FeedFolder",
     },
     
     
+    /** The feed category */
+    category :
+    {
+      check : "String",
+      init : "",
+      event : "dataModified"
+    },
+        
+    
     /** Array of feeds. This could contain another feed folder or a feed. */
     feeds : 
     {
