@@ -21,6 +21,8 @@ qx.Class.define("qx.ui.virtual.layer.Test",
 {
   extend : qx.ui.core.Widget,
   
+  implement : [qx.ui.virtual.core.ILayer],
+  
   /*
   *****************************************************************************
      MEMBERS
@@ -29,11 +31,8 @@ qx.Class.define("qx.ui.virtual.layer.Test",
 
   members :
   {
-    fullUpdate : function(visibleCells, lastVisibleCells, rowSizes, columnSizes)
+    fullUpdate : function(visibleCells, rowSizes, columnSizes)
     {
-      //qx.ui.core.queue.Manager.flush();
-      //var start = new Date();
-  
       var html = [];
       var left = 0;
       var top = 0;
@@ -70,7 +69,7 @@ qx.Class.define("qx.ui.virtual.layer.Test",
     
     
     updateScrollPosition : function(visibleCells, lastVisibleCells, rowSizes, columnSizes) {
-      this.fullUpdate(visibleCells, lastVisibleCells, rowSizes, columnSizes);
+      this.fullUpdate(visibleCells, rowSizes, columnSizes);
     }
   }
 });

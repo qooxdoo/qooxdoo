@@ -21,6 +21,7 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
 {
   extend : qx.ui.core.Widget,
   
+  implement : [qx.ui.virtual.core.ILayer],
   
   construct : function(orientation) 
   {
@@ -78,7 +79,7 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
       }      
     },
   
-    fullUpdate : function(visibleCells, lastVisibleCells, rowSizes, columnSizes)
+    fullUpdate : function(visibleCells, rowSizes, columnSizes)
     {
       var html = [];
       if (this._isHorizontal) {
@@ -98,7 +99,7 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
         (this._isHorizontal && rowChanged) ||
         (!this._isHorizontal && columnChanged)
       ) {
-        this.fullUpdate(visibleCells, lastVisibleCells, rowSizes, columnSizes);
+        this.fullUpdate(visibleCells, rowSizes, columnSizes);
       }
     }
   }
