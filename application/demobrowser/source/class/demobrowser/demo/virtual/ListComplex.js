@@ -47,7 +47,7 @@ qx.Class.define("demobrowser.demo.virtual.ListComplex",
       // Call super class
       this.base(arguments);
 
-      var scroller = new qx.ui.virtual.core.Scroller(50, 2000, 32, 120);
+      var scroller = new qx.ui.virtual.core.Scroller(100, 15, 32, 120);
       scroller.pane.setWidth(450);
 
       // change 8 sizes
@@ -61,6 +61,12 @@ qx.Class.define("demobrowser.demo.virtual.ListComplex",
       scroller.pane.addLayer(new qx.ui.virtual.layer.Row("white", "rgb(238, 243, 255)"));
       scroller.pane.addLayer(new qx.ui.virtual.layer.GridLines("horizontal"));
       scroller.pane.addLayer(new demobrowser.demo.virtual.DemoLayer);
+      
+      var prefetch = new qx.ui.virtual.behavior.Prefetch(
+        scroller,
+        500, 600, 1000, 1200,
+        0, 0, 0, 0
+      );           
     }
   }
 });

@@ -87,7 +87,7 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
       var prefetch = new qx.ui.virtual.behavior.Prefetch(
         scroller,
         0, 0, 0, 0,
-        200, 300, 400, 600
+        200, 300, 600, 800
       );
     }
   }
