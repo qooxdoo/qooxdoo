@@ -127,27 +127,15 @@ class Generator:
 
     def listJobTriggers(self): return {
 
-      "translate" :
+      "api" :
       {
-        "action" : Generator.runUpdateTranslation,
-        "type"   : "JClassDepJob"
+        "action" :Generator.runApiData,
+        "type"   : "JCompileJob"            # this is debatable - JClassDepJob?!
       },
 
       "copy-files" :
       {
         "action" :Generator.runCopyFiles,
-        "type"   : "JSimpleJob"
-      },
-
-      "shell" :
-      {
-        "action" :Generator.runShellCommands,
-        "type"   : "JSimpleJob"
-      },
-
-      "slice-images" :
-      {
-        "action" :Generator.runImageSlicing,
         "type"   : "JSimpleJob"
       },
 
@@ -169,12 +157,6 @@ class Generator:
         "type"   : "JCompileJob"            # this is debatable - JClassDepJob?!
       },
 
-      "api" :
-      {
-        "action" :Generator.runApiData,
-        "type"   : "JCompileJob"            # this is debatable - JClassDepJob?!
-      },
-
       "compile-source" :
       {
         "action" :Generator.runSource,
@@ -187,10 +169,22 @@ class Generator:
         "type" : "JCompileJob",
       },
 
+      "fix-files" :
+      {
+        "action" :Generator.runFix,
+        "type" : "JClassDepJob",
+      },
+
       "lint-check" :
       {
         "action" :Generator.runLint,
         "type" : "JClassDepJob",
+      },
+
+      "migrate-files" :
+      {
+        "action" :Generator.runMigration,
+        "type"   : "JSimpleJob",           # this might change once we stop to shell exit to an external script
       },
 
       "pretty-print" :
@@ -199,10 +193,22 @@ class Generator:
         "type" : "JClassDepJob",
       },
 
-      "fix-files" :
+      "shell" :
       {
-        "action" :Generator.runFix,
-        "type" : "JClassDepJob",
+        "action" :Generator.runShellCommands,
+        "type"   : "JSimpleJob"
+      },
+
+      "slice-images" :
+      {
+        "action" :Generator.runImageSlicing,
+        "type"   : "JSimpleJob"
+      },
+
+      "translate" :
+      {
+        "action" : Generator.runUpdateTranslation,
+        "type"   : "JClassDepJob"
       },
 
     }
@@ -328,9 +334,10 @@ class Generator:
         # We use some sets of Job keys, both well-known and actual, to determin
         # which actions have to be run, and in which order.
 
-        # Known Job Trigger Keys
+        # Known job trigger keys
         triggersSet         = self.listJobTriggers()
 
+        # some interesting categories
         triggersSimpleSet   = set((x for x in triggersSet if triggersSet[x]['type']=="JSimpleJob"))
         triggersClassDepSet = set((x for x in triggersSet if triggersSet[x]['type']=="JClassDepJob"))
         triggersCompileSet  = set((x for x in triggersSet if triggersSet[x]['type']=="JCompileJob"))
@@ -350,7 +357,10 @@ class Generator:
         # Process simple job triggers
         if simpleTriggers:
             for trigger in simpleTriggers:
-                apply(triggersSet[trigger]['action'],(self,))  # call the corresp. method from listJobTriggers()
+                if trigger == 'migrate-files':
+                    apply(triggersSet[trigger]['action'],(self, config.get("library")))
+                else:
+                    apply(triggersSet[trigger]['action'],(self,))  # call the corresp. method from listJobTriggers()
 
         # remove the keys we have processed
         jobTriggers = jobTriggers.difference(simpleTriggers)
@@ -411,69 +421,25 @@ class Generator:
 
         # Iterate through variant sets
         for variantSetNum, variants in enumerate(variantSets):
-            if len(variantSets) > 1:
-                variantStr = simplejson.dumps(variants,ensure_ascii=False)
-                self._console.head("Processing variant set %s/%s (%s)" % (variantSetNum+1, len(variantSets), variantStr))
 
-                # Debug variant combination
-                self._console.debug("Switched variants:")
-                self._console.indent()
-                for key in variants:
-                    if len(variantData[key]) > 1:
-                        self._console.debug("%s = %s" % (key, variants[key]))
-                self._console.outdent()
-
-
-            # Resolving dependencies
-            self._console.info("Resolving dependencies...")
-            self._console.indent()
-            classList = self._depLoader.getClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, variants)
+            (classList,
+            boot,
+            partPackages,           # partPackages[partId]=[0,1,3]
+            packageClasses          # packageClasses[0]=['qx.Class','qx.bom.Stylesheet',...]
+            )               = self._processVariantInfo(smartInclude, smartExclude, explicitInclude,
+                                                       explicitExclude, variantSetNum, variants,
+                                                       variantSets, variantData)
             self._classList = classList
-            self._console.outdent()
-
-
-            # Check for package configuration
-            if self._job.get("packages"):
-                # Reading configuration
-                partsCfg = self._job.get("packages/parts", {})
-                collapseCfg = self._job.get("packages/collapse", [])
-                minPackageSize = self._config.get("packages/sizes/min-package", 0)
-                minPackageSizeForUnshared = self._config.get("packages/sizes/min-package-unshared", None)
-                boot = self._job.get("packages/init", "boot")
-
-                # Automatically add boot part to collapse list
-                if boot in partsCfg and not boot in collapseCfg:
-                    collapseCfg.append(boot)
-
-                # Expanding expressions
-                self._console.debug("Expanding include expressions...")
-                partIncludes = {}
-                for partId in partsCfg:
-                    partIncludes[partId] = self._expandRegExps(partsCfg[partId])
-
-                # Computing packages
-                # partPackages[partId]=[0,1,3]
-                # packageClasses[0]=['qx.Class','qx.bom.Stylesheet',...]
-                partPackages, packageClasses = self._partBuilder.getPackages(partIncludes, smartExclude, classList, collapseCfg, variants, minPackageSize, minPackageSizeForUnshared)
-
-            else:
-                # Emulate configuration
-                boot = "boot"
-                partPackages = { "boot" : [0] }
-                packageClasses = [classList]
-
-
 
             # Execute real tasks
             self.runApiData(packageClasses)
             self.runSource(partPackages, packageClasses, boot, variants)
-            self.runResources()  # run before runCompiled, to get image infos
+            self.runResources()
             self.runCompiled(partPackages, packageClasses, boot, variants)
             #self.runPrettyPrinting(classList)
             #self.runLint(classList)
-            self.runMigration(config.get("library"))
+            #self.runMigration(config.get("library"))
             #self.runFix(classList)
-
 
             # Debug tasks
             self.runDependencyDebug(partPackages, packageClasses, variants)
@@ -481,6 +447,85 @@ class Generator:
             self.runUnusedClasses(partPackages, packageClasses, variants)
 
         self._console.info("Done")
+
+        return
+
+
+    def _processVariantInfo(self, smartInclude, smartExclude, explicitInclude,
+                            explicitExclude, variantSetNum, variants, variantSets, variantData):
+
+        # -- helpers for the variant loop  -------------------------------------
+
+        def printVariantInfo(variantSetNum, variants, variantSets, variantData):
+            variantStr = simplejson.dumps(variants,ensure_ascii=False)
+            self._console.head("Processing variant set %s/%s (%s)" % (variantSetNum+1, len(variantSets), variantStr))
+
+            # Debug variant combination
+            self._console.debug("Switched variants:")
+            self._console.indent()
+            for key in variants:
+                if len(variantData[key]) > 1:
+                    self._console.debug("%s = %s" % (key, variants[key]))
+            self._console.outdent()
+
+            return
+
+
+        def evalPackagesConfig(smartExclude, classList, variants):
+            
+            # Reading configuration
+            partsCfg = self._job.get("packages/parts", {})
+            collapseCfg = self._job.get("packages/collapse", [])
+            minPackageSize = self._config.get("packages/sizes/min-package", 0)
+            minPackageSizeForUnshared = self._config.get("packages/sizes/min-package-unshared", None)
+            boot = self._job.get("packages/init", "boot")
+
+            # Automatically add boot part to collapse list
+            if boot in partsCfg and not boot in collapseCfg:
+                collapseCfg.append(boot)
+
+            # Expanding expressions
+            self._console.debug("Expanding include expressions...")
+            partIncludes = {}
+            for partId in partsCfg:
+                partIncludes[partId] = self._expandRegExps(partsCfg[partId])
+
+            # Computing packages
+            partPackages, packageClasses = self._partBuilder.getPackages(partIncludes, smartExclude, classList, collapseCfg, variants, minPackageSize, minPackageSizeForUnshared)
+
+            return boot, partPackages, packageClasses
+
+
+        def resolveDependencies():
+            self._console.info("Resolving dependencies...")
+            self._console.indent()
+            classList = self._depLoader.getClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, variants)
+            self._console.outdent()
+
+            return classList
+
+        # -- main --------------------------------------------------------------
+
+        if len(variantSets) > 1:
+            printVariantInfo(variantSetNum, variants, variantSets, variantData)
+
+        # Resolving dependencies
+        classList       = resolveDependencies()
+        self._classList = classList
+
+        # Check for package configuration
+        if self._job.get("packages"):
+            (boot,
+            partPackages,           # partPackages[partId]=[0,1,3]
+            packageClasses          # packageClasses[0]=['qx.Class','qx.bom.Stylesheet',...]
+            )              = evalPackagesConfig(smartExclude, classList, variants)
+        else:
+            # Emulate configuration
+            boot           = "boot"
+            partPackages   = { "boot" : [0] }
+            packageClasses = [classList]
+
+        return classList, boot, partPackages, packageClasses
 
 
     def runPrivateDebug(self):
