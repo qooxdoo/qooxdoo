@@ -68,7 +68,7 @@ qx.Class.define("qx.ui.virtual.layer.Test",
     },
     
     
-    updateScrollPosition : function(visibleCells, lastVisibleCells, rowSizes, columnSizes) {
+    updateLayerWindow : function(visibleCells, lastVisibleCells, rowSizes, columnSizes) {
       this.fullUpdate(visibleCells, rowSizes, columnSizes);
     }
   }

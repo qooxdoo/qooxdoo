@@ -103,7 +103,7 @@ qx.Class.define("qx.ui.virtual.layer.DomPoolTest",
     },
     
     
-    updateScrollPosition : function(visibleCells, lastVisibleCells, rowSizes, columnSizes) {
+    updateLayerWindow : function(visibleCells, lastVisibleCells, rowSizes, columnSizes) {
       this.fullUpdate(visibleCells, rowSizes, columnSizes);
     }
   }
