@@ -84,7 +84,8 @@ qx.Class.define("qx.ui.virtual.layer.AbstractWidget",
     updateScrollPosition : function(visibleCells, lastVisibleCells, rowSizes, columnSizes) 
     {
       var refreshAll = false;
-      
+      var direction;
+
       if (
         visibleCells.firstRow > lastVisibleCells.firstRow ||
         visibleCells.lastRow > lastVisibleCells.lastRow        
@@ -93,6 +94,19 @@ qx.Class.define("qx.ui.virtual.layer.AbstractWidget",
           refreshAll = true;
         } else {
           direction = "down";
+        }
+
+      }
+        else if
+        (
+          visibleCells.firstRow < lastVisibleCells.firstRow ||
+          visibleCells.lastRow < lastVisibleCells.lastRow
+        )
+      {
+        if (visibleCells.firstRow > lastVisibleCells.lastRow) {
+          refreshAll = true;
+        } else {
+          direction = "up";
         }
       } else {
         refreshAll = true;
@@ -104,75 +118,99 @@ qx.Class.define("qx.ui.virtual.layer.AbstractWidget",
         return;
       }
       
-      if (direction == "down")
+      if (direction == "down") {
+        this.scrollDown(visibleCells, lastVisibleCells, rowSizes, columnSizes);
+      } else if (direction == "up") {
+        this.scrollUp(visibleCells, lastVisibleCells, rowSizes, columnSizes);
+      } else {
+        this.fullUpdate(visibleCells, lastVisibleCells, rowSizes, columnSizes);
+      }
+    },
+
+    scrollDown : function(visibleCells, lastVisibleCells, rowSizes, columnSizes)
+    {
+      var children = this._getChildren();
+
+      // Calculate amount of cells which have to be removed
+      var linesRemoved = visibleCells.firstRow - lastVisibleCells.firstRow;
+
+      // Remove and pool children
+      for (var row=lastVisibleCells.firstRow; row<lastVisibleCells.firstRow + linesRemoved; row++)
+      {            
+        for (var col=visibleCells.firstColumn; col<=visibleCells.lastColumn; col++)
+        {
+          var item = children[0];
+          this._poolWidget(item);
+          this._remove(item);
+        }
+      }
+
+      // These are the relative coordinates inside the pane
+      var x = 0;
+      var y = 0;
+
+      // Pixel coordinates relative to pane
+      var left = 0;
+      var top = 0;
+
+      // move visible cells up
+      var i=0;
+      for (var row=lastVisibleCells.firstRow + linesRemoved; row<=lastVisibleCells.lastRow; row++)
       {
-        var children = this._getChildren();
-
-        // Remove and pool children
-        var linesRemoved = visibleCells.firstRow - lastVisibleCells.firstRow;
-        for (var row=lastVisibleCells.firstRow; row<lastVisibleCells.firstRow + linesRemoved; row++)
-        {            
+        if (linesRemoved)
+        {
           for (var col=visibleCells.firstColumn; col<=visibleCells.lastColumn; col++)
           {
-            var item = children[0];
-            this._poolWidget(item);
-            this._remove(item);
-          }
-        }
+            var item = children[i++];
 
-        var x = 0;
-        var y = 0;
-        
-        var left = 0;
-        var top = 0;
+            // Position item
+            item.setUserBounds(left, top, columnSizes[x], rowSizes[y]);
 
-        // move visible cells up
-        var i=0;
-        for (var row=lastVisibleCells.firstRow + linesRemoved; row<=lastVisibleCells.lastRow; row++)
-        {    
-          if (linesRemoved)
-          {
-            for (var col=visibleCells.firstColumn; col<=visibleCells.lastColumn; col++)
-            {
-              var item = children[i++]; 
-              item.setUserBounds(left, top, columnSizes[x], rowSizes[y]);              
-              
-              left += columnSizes[x];               
-              x++;
-            }
-            left = 0;
-            top += rowSizes[y];
-          }
-          
-          y++;
-          x = 0;
-        }
-
-        // add new cells
-        for (var row=lastVisibleCells.lastRow+1; row<=visibleCells.lastRow; row++)
-        {      
-          for (var col=visibleCells.firstColumn; col<=visibleCells.lastColumn; col++)
-          {
-            var item = this._getWidget(row, col);
-            this._configureWidget(item, row, col);
-                          
-            item.setUserBounds(left, top, columnSizes[x], rowSizes[y]); 
-            this._add(item);
-
-            left += columnSizes[x];               
+            left += columnSizes[x];
             x++;
           }
           left = 0;
           top += rowSizes[y];
-          
-          y++;
-          x = 0;
         }
+
+        y++;
+        x = 0;
       }
-      else
-      {
-        this.fullUpdate(visibleCells, lastVisibleCells, rowSizes, columnSizes);
+
+      // add new cells
+      for (var row=lastVisibleCells.lastRow+1; row<=visibleCells.lastRow; row++)
+      {      
+        for (var col=visibleCells.firstColumn; col<=visibleCells.lastColumn; col++)
+        {
+
+          // Create item or get it form pool
+          var item = this._getWidget(row, col);
+
+          // Configure item
+          this._configureWidget(item, row, col);
+
+          // Position item and add it
+          item.setUserBounds(left, top, columnSizes[x], rowSizes[y]); 
+          this._add(item);
+
+          left += columnSizes[x];               
+          x++;
+        }
+        left = 0;
+        top += rowSizes[y];
+
+        y++;
+        x = 0;
       }
+    },
+
+    scrollUp : function(visibleCells, lastVisibleCells, rowSizes, columnSizes)
+    {
+      // TODO
+      this.fullUpdate(visibleCells, lastVisibleCells, rowSizes, columnSizes)
+      return;
     }
+
+
   }
 });
