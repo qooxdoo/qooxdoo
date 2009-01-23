@@ -21,6 +21,7 @@ qx.Class.define("qx.test.ui.virtual.LayerMock",
 {
   extend : qx.ui.core.Widget,
   include : [qx.core.MAssert],
+  implement : [qx.ui.virtual.core.ILayer],
   
   construct : function() 
   {
@@ -37,17 +38,17 @@ qx.Class.define("qx.test.ui.virtual.LayerMock",
 
   members :
   {
-    fullUpdate : function(visibleCells, rowSizes, columnSizes) 
+    fullUpdate : function(cells, rowSizes, columnSizes) 
     {    
       this.assertArgumentsCount(arguments, 3, 3);
       this.calls.push(["fullUpdate", qx.lang.Array.fromArguments(arguments)]);
     },
     
     
-    updateScrollPosition : function(visibleCells, lastVisibleCells, rowSizes, columnSizes) 
+    updateLayerWindow : function(cells, lastCells, rowSizes, columnSizes) 
     {
       this.assertArgumentsCount(arguments, 4, 4);
-      this.calls.push(["updateScrollPosition", qx.lang.Array.fromArguments(arguments)]);
+      this.calls.push(["updateLayerWindow", qx.lang.Array.fromArguments(arguments)]);
     }
   }
 });
