@@ -35,13 +35,13 @@ qx.Class.define("feedreader.view.List",
 
   /**
    * Creates a new instance of List.
-   * @param feedList {Array} List of feeds.
    */
 
-  construct : function(feedList)
+  construct : function()
   {
     this.base(arguments);
 
+    // set the layout
     var layout = new qx.ui.layout.VBox();
     layout.setSeparator("separator-vertical");
     this._setLayout(layout);
@@ -62,7 +62,6 @@ qx.Class.define("feedreader.view.List",
     this._list = new qx.ui.form.List();
     this._list.setDecorator(null);
     this._list.setSelectionMode("single");
-    this._list.addListener("changeSelection", this._onChangeSelectionView, this);
     this._stack.add(this._list);
 
     // Create the loading image for the list
@@ -73,29 +72,17 @@ qx.Class.define("feedreader.view.List",
     this._stack.add(this._listLoadImage);
   },
 
-
-
-
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
+  
+  properties : 
   {
-    /** The feed to display in the list */
-    feed :
+    /** Determinates if the loading image should be shown */
+    loading : 
     {
-      check : "feedreader.model.Feed",
-      nullable : true,
-      apply : "_applyFeed"
+      check : "Boolean",
+      init: false,
+      apply: "_applyLoading"
     }
   },
-
-
-
 
 
   /*
@@ -107,86 +94,22 @@ qx.Class.define("feedreader.view.List",
   members :
   {
     // property apply
-    _applyFeed : function(value, old)
-    {
-      this._list.removeAll();
-
-      if (old) {
-        old.removeListener("stateModified", this._onFeedStateModified, this);
-      }
-
-      if (value)
-      {
-        value.addListener("stateModified", this._onFeedStateModified, this);
-        this._updateFeedState();
+    _applyLoading: function(value, old) {
+      if (value) {
+        this._stack.setSelected(this._listLoadImage);        
+      } else {
+        this._stack.setSelected(this._list);        
       }
     },
-
-
+    
+    
     /**
-     * Event listener. Called if the loading state of the feed changes
-     *
-     * @param e {qx.event.type.Data} The change event
+     * Returns the list widget used in the list view of the feedreader.
+     * 
+     * @return {qx.ui.form.List} The used List.
      */
-    _onFeedStateModified : function(e) {
-      this._updateFeedState();
-    },
-
-
-    /**
-     * Visualizes the loading state of the feed
-     */
-    _updateFeedState : function()
-    {
-      var feed = this.getFeed();
-      var state = feed.getState();
-
-      if (state == "loaded")
-      {
-        this._list.removeAll();
-        this._stack.setSelected(this._list);
-
-        var articles = feed.getArticles();
-        var selected = feed.getSelected();
-
-        for (var i=0, l=articles.length; i<l; i++)
-        {
-          var article = articles[i];
-          var listItem = new qx.ui.form.ListItem(article.getTitle());
-          listItem.setUserData("article", article);
-
-          this._list.add(listItem);
-
-          if (article == selected) {
-            this._list.addToSelection(listItem);
-          }
-        }
-      }
-      else if (state == "loading")
-      {
-        this._stack.setSelected(this._listLoadImage);
-      }
-    },
-
-
-    /**
-     * Event handler for the change event of the selection.
-     *
-     * @param e {qx.event.type.Data} The data event of the list managers change.
-     */
-    _onChangeSelectionView : function(e)
-    {
-      // get the selected item
-      var item = e.getData()[0];
-
-      if (item)
-      {
-        // get the article model
-        var article = item.getUserData("article");
-
-        // get the feed and select the article
-        this.getFeed().setSelected(article);
-      }
+    getList: function() {
+      return this._list;
     }
   },
 

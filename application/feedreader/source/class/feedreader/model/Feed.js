@@ -50,30 +50,9 @@ qx.Class.define("feedreader.model.Feed",
       category : category || ""
     });
 
-    // {Array} Internal article list
-    this.__articles = [];
+
+    this.setArticles(new qx.data.Array());
   },
-
-
-
-
-  /*
-  *****************************************************************************
-     EVENTS
-  *****************************************************************************
-  */
-
-  events :
-  {
-    /** fired when a new article was added */
-    "add" : "qx.event.type.DataEvent",
-
-    /** fired when an articles was removed */
-    "remove" : "qx.event.type.DataEvent"
-  },
-
-
-
 
 
   /*
@@ -84,21 +63,27 @@ qx.Class.define("feedreader.model.Feed",
 
   properties :
   {
-    /** The selected article */
-    selected :
+    /** The articles in an array */
+    articles : 
+    {
+      check : "qx.data.Array",
+      event : "changeArticles"
+    },
+    
+    
+    /** The currently selected article */
+    selectedArticle : 
     {
       check : "feedreader.model.Article",
-      nullable : true,
-      init : null,
-      event : "change"
+      nullable: true
     },
-
-
+    
+    
     /** The feed URL */
     url :
     {
       check : "String",
-      event : "dataModified"
+      event : "changeUrl"
     },
 
 
@@ -106,7 +91,7 @@ qx.Class.define("feedreader.model.Feed",
     title :
     {
       check : "String",
-      event : "dataModified"
+      event : "changeTitle"
     },
 
 
@@ -126,84 +111,5 @@ qx.Class.define("feedreader.model.Feed",
       init : "new",
       event : "stateModified"
     }
-  },
-
-
-
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
-  members :
-  {
-    /**
-     * Clear all articles
-     */
-    clearArticles : function()
-    {
-      var list = this.__articles;
-      for (var i=0, l=list.length; i<l; i++)
-      {
-        this.fireDataEvent("remove", list[i]);
-        list[i].dispose();
-      }
-
-      // Clear array
-      list.length = 0;
-
-      // Clear selection
-      this.resetSelected();
-    },
-
-
-    /**
-     * Remove the article to the feed
-     *
-     * @param article {feedreader.model.Article} article to remove
-     */
-    removeArticles : function(article)
-    {
-      qx.lang.Array.remove(this.__articles, article);
-      this.fireDataEvent("remove", article);
-    },
-
-
-    /**
-     * Add an article to the feed
-     *
-     * @param article {feedreader.model.Article} article to add
-     */
-    addArticle : function(article)
-    {
-      this.__articles.push(article);
-      this.fireDataEvent("add", article);
-    },
-
-
-    /**
-     * Get all articles
-     *
-     * @return {feedreader.model.Article[]} a list of all articles in the feed
-     */
-    getArticles : function() {
-      return this.__articles;
-    }
-  },
-
-
-
-  /*
-   *****************************************************************************
-      DESTRUCTOR
-   *****************************************************************************
-   */
-
-  destruct : function()
-  {
-    this._disposeArray("__articles");
   }
 });
