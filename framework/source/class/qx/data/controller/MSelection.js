@@ -36,7 +36,8 @@ qx.Mixin.define("qx.data.controller.MSelection",
     {
       check: "qx.data.Array",
       event: "changeSelection",
-      apply: "_applySelection"
+      apply: "_applySelection",
+      init: null
     }
   },
   
