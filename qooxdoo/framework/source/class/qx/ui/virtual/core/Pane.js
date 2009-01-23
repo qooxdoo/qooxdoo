@@ -264,7 +264,8 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     /**
      * The (virtual) size of the content.
      *
-     * @return {Map} Size of the content (keys: <code>width</code> and <code>height</code>)
+     * @return {Map} Size of the content (keys: <code>width</code> and
+     *     <code>height</code>)
      */
     getScrollSize : function() 
     {
@@ -281,6 +282,20 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     ---------------------------------------------------------------------------
     */
     
+    /**
+     * Increase the layers height beyond the needed height to improve 
+     * vertical scrolling. The layers are only resized if invisible parts
+     * above/below the pane window are smaller than minAbove/minBelow.
+     * 
+     * @param minAbove {Integer} Only prefetch if the invisible part above the
+     *    pane window if smaller than this (pixel) value
+     * @param maxAbove {Integer} The amount of pixel the layers should reach
+     *    above the pane window
+     * @param minBelow {Integer} Only prefetch if the invisible part below the
+     *    pane window if smaller than this (pixel) value
+     * @param maxBelow {Integer} The amount of pixel the layers should reach
+     *    below the pane window
+     */    
     prefetchX : function(minLeft, maxLeft, minRight, maxRight)
     {
       var layers = this.getVisibleLayers();
@@ -309,12 +324,26 @@ qx.Class.define("qx.ui.virtual.core.Pane",
           this.__scrollTop,
           bounds.width + left + right,
           bounds.height,
-          true  // TODO should be false but AbstractWidget layer still has problems
+          false
         );
       }
     },
     
     
+    /**
+     * Increase the layers height beyond the needed height to improve 
+     * vertical scrolling. The layers are only resized if invisible parts
+     * above/below the pane window are smaller than minAbove/minBelow.
+     * 
+     * @param minAbove {Integer} Only prefetch if the invisible part above the
+     *    pane window if smaller than this (pixel) value
+     * @param maxAbove {Integer} The amount of pixel the layers should reach
+     *    above the pane window
+     * @param minBelow {Integer} Only prefetch if the invisible part below the
+     *    pane window if smaller than this (pixel) value
+     * @param maxBelow {Integer} The amount of pixel the layers should reach
+     *    below the pane window
+     */
     prefetchY : function(minAbove, maxAbove, minBelow, maxBelow)
     {
       var layers = this.getVisibleLayers();
@@ -343,7 +372,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
           this.__scrollTop - above,
           bounds.width,
           bounds.height + above + below,
-          true // TODO should be false but AbstractWidget layer still has problems
+          false
         );
       }
     },
@@ -428,7 +457,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
         if (doFullUpdate) {
           layer.fullUpdate(cells, rowSizes, columnSizes);
         } else {
-          layer.updateScrollPosition(cells, this.lastCells, rowSizes, columnSizes);
+          layer.updateLayerWindow(cells, this.lastCells, rowSizes, columnSizes);
         }
 
         // TODO: debugging code    

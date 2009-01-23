@@ -90,7 +90,7 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
       this.getContentElement().setAttribute("html", html.join(""));
     },
     
-    updateScrollPosition : function(visibleCells, lastVisibleCells, rowSizes, columnSizes) 
+    updateLayerWindow : function(visibleCells, lastVisibleCells, rowSizes, columnSizes) 
     {
       var rowChanged = visibleCells.firstRow !== lastVisibleCells.firstRow;
       var columnChanged = visibleCells.firstColumn !== lastVisibleCells.firstColumn;

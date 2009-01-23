@@ -114,7 +114,7 @@ qx.Class.define("qx.ui.virtual.layer.Row",
       this.getContentElement().setAttribute("html", html.join(""));
     },
     
-    updateScrollPosition : function(visibleCells, lastVisibleCells, rowSizes, columnSizes) 
+    updateLayerWindow : function(visibleCells, lastVisibleCells, rowSizes, columnSizes) 
     {
       if (
         visibleCells.firstRow !== lastVisibleCells.firstRow ||
