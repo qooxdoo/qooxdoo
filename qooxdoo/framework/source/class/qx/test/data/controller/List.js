@@ -443,6 +443,22 @@ qx.Class.define("qx.test.data.controller.List",
       
       // check for the Selection
       this.assertEquals("10", box.getSelected().getLabel(), "Wrong selection");
+    },
+    
+    
+    testSelectionWithModelChange: function() {
+      this.__setUpString();
+      
+      // select the first object
+      this.__list.addToSelection(this.__list.getChildren()[0]);
+      // test the selection
+      this.assertEquals(this.__model.getItem(0), this.__controller.getSelection().getItem(0), "Selection does not work.");      
+      
+      // change the model
+      this.__controller.setModel(new qx.data.Array(["x", "y", "z"]));
+      
+      // test for an empty selection
+      this.assertEquals(0, this.__controller.getSelection().length, "Selection is not empty.");
     }
   }
 });
