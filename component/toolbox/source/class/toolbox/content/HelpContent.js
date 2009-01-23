@@ -36,16 +36,15 @@ qx.Class.define("toolbox.content.HelpContent",
     this.setLayout(layout);
     this.setBackgroundColor("white");
     this.setPadding(4, 4, 4, 4);
-    
-    var label = new qx.ui.basic.Label("<b>Help</b>").set({rich : true});
-    
-    this.add(label, {
-        row     : 0,
-        column  : 0,
-        rowSpan : 0,
-        colSpan : 0
+
+    var label = new qx.ui.basic.Label("<b>Help</b>").set({ rich : true });
+
+    this.add(label,
+    {
+      row     : 0,
+      column  : 0,
+      rowSpan : 0,
+      colSpan : 0
     });
-    
   }
-  
 });

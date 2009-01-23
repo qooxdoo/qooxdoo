@@ -28,10 +28,10 @@
 qx.Class.define("toolbox.builder.Builder",
 {
   /*
-	  *****************************************************************************
-	     STATICS
-	  *****************************************************************************
-  */
+  	  *****************************************************************************
+  	     STATICS
+  	  *****************************************************************************
+    */
 
   statics :
   {
@@ -49,8 +49,7 @@ qx.Class.define("toolbox.builder.Builder",
      * @param appList {var} button of the applicatioon list
      * @return {void} 
      */
-    createNewApplication : function(adminPath, fileName, filePath, nameSpace, 
-                                    logFileName, type, generate, logFrame, appList)
+    createNewApplication : function(adminPath, fileName, filePath, nameSpace, logFileName, type, generate, logFrame, appList)
     {
       var url = adminPath;
       var req = new qx.io.remote.Request(url, "POST", "application/json");
@@ -111,20 +110,22 @@ qx.Class.define("toolbox.builder.Builder",
           {
             if (receivedState == 0)
             {
-              logFrame.setHtml( logFrame.getHtml() + '<br/><hr noshade size="4">CREATE APPLICATION<hr noshade size="4"> <br/>' + result.output);
-			  //adds the path and the name of the current application in the applicationlist
-              toolbox.gui.Toolbox.APPLIST.push(
+              logFrame.setHtml(logFrame.getHtml() + '<br/><hr noshade size="4">CREATE APPLICATION<hr noshade size="4"> <br/>' + result.output);
+
+              // adds the path and the name of the current application in the applicationlist
+              toolbox.content.DevelopmentContent.APPLIST.push(
               {
                 name : fileName,
                 path : filePath.replace(/\\/g, "/")
               });
 
-              var changedAppList = qx.util.Json.stringify(toolbox.gui.Toolbox.APPLIST, true);
+              var changedAppList = qx.util.Json.stringify(toolbox.content.DevelopmentContent.APPLIST, true);
 
               saveAppList += "&changedAppList=" + changedAppList;
               req3.setData(saveAppList);
               req3.send();
-			  //If the checkbox selected the source version will be generated
+
+              // If the checkbox selected the source version will be generated
               if (generate == "true")
               {
                 this.__loader.show();
@@ -151,9 +152,7 @@ qx.Class.define("toolbox.builder.Builder",
       this);
 
       req3.addListener("failed", function(evt) {
-        logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + '<br/> <hr noshade size="4">CREATE APPLICATION<hr noshade size="4">' + 
-                         "Application list could not extends by the created application " +
-                         "</br>Failed to post to URL: " + url + '</font>');
+        logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + '<br/> <hr noshade size="4">CREATE APPLICATION<hr noshade size="4">' + "Application list could not extends by the created application " + "</br>Failed to post to URL: " + url + '</font>');
       }, this);
 
       req2.addListener("completed", function(evt)
@@ -172,16 +171,14 @@ qx.Class.define("toolbox.builder.Builder",
       req2.addListener("failed", function(evt)
       {
         this.error("Failed to post to URL: " + url);
-        logFrame.setHtml(logFrame.getHtml() + '<br/> <hr noshade size="4">ERROR<hr noshade size="4">' + '<font color="red">' + 
-                         "Failed to post to URL: " + url + '</font>');
+        logFrame.setHtml(logFrame.getHtml() + '<br/> <hr noshade size="4">ERROR<hr noshade size="4">' + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
       },
       this);
 
       req.addListener("failed", function(evt)
       {
         this.error("Failed to post to URL: " + url);
-        logFrame.setHtml(logFrame.getHtml() + '<br/> <hr noshade size="4">ERROR<hr noshade size="4">' + '<font color="red">' + 
-                         "Failed to post to URL: " + url + '</font>');
+        logFrame.setHtml(logFrame.getHtml() + '<br/> <hr noshade size="4">ERROR<hr noshade size="4">' + '<font color="red">' + "Failed to post to URL: " + url + '</font>');
       },
       this);
 
@@ -206,7 +203,7 @@ qx.Class.define("toolbox.builder.Builder",
       var req = new qx.io.remote.Request(url, "POST", "application/json");
       var dat = "action=generate_Source";
       var openSource = "action=open_In_Browser&location=source";
-      var createParams = [ fileName, filePath];
+      var createParams = [ fileName, filePath ];
       req.setTimeout(100000);
 
       this.__urlParms = new toolbox.builder.UrlSearchParms();
@@ -247,7 +244,7 @@ qx.Class.define("toolbox.builder.Builder",
           {
             if (receivedState == 0)
             {
-              logFrame.setHtml(logFrame.getHtml()+ '<br/> <hr noshade size="4">GENERATE SOURCE<hr noshade size="4">'  + result.gen_output);
+              logFrame.setHtml(logFrame.getHtml() + '<br/> <hr noshade size="4">GENERATE SOURCE<hr noshade size="4">' + result.gen_output);
               req.setData(openSource);
               req.send();
             }
@@ -338,7 +335,7 @@ qx.Class.define("toolbox.builder.Builder",
           {
             if (receivedState == 0)
             {
-              logFrame.setHtml(logFrame.getHtml() + '<br/> <hr noshade size="4">GENERATE BUILD<hr noshade size="4">' +  result.build_output);
+              logFrame.setHtml(logFrame.getHtml() + '<br/> <hr noshade size="4">GENERATE BUILD<hr noshade size="4">' + result.build_output);
               req.setData(openBuild);
               req.send();
             }
@@ -429,7 +426,7 @@ qx.Class.define("toolbox.builder.Builder",
           {
             if (receivedState == 0)
             {
-              logFrame.setHtml(logFrame.getHtml() + '<br/> <hr noshade size="4">GENERATE API<hr noshade size="4">'  + result.api_output);
+              logFrame.setHtml(logFrame.getHtml() + '<br/> <hr noshade size="4">GENERATE API<hr noshade size="4">' + result.api_output);
               req.setData(openApi);
               req.send();
             }
@@ -441,7 +438,7 @@ qx.Class.define("toolbox.builder.Builder",
         }
         else
         {
-          logFrame.setHtml(logFrame.getHtml() + " <br> " + '<font color="red">' + + '<br/> <hr noshade size="4">ERROR<hr noshade size="4">' + result.api_error + '</font>');
+          logFrame.setHtml(logFrame.getHtml() + " <br> " + '<font color="red">' + +'<br/> <hr noshade size="4">ERROR<hr noshade size="4">' + result.api_error + '</font>');
         }
 
         this.__loader.setModal(false);
@@ -696,7 +693,7 @@ qx.Class.define("toolbox.builder.Builder",
             }
 
             if (receivedState == 1) {
-              logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + '<br/> <hr noshade size="4">ERROR<hr noshade size="4">'+ result.testApp_error + '</font>');
+              logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + '<br/> <hr noshade size="4">ERROR<hr noshade size="4">' + result.testApp_error + '</font>');
             }
           }
         }
@@ -787,13 +784,13 @@ qx.Class.define("toolbox.builder.Builder",
             }
 
             if (receivedState == 1) {
-              logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + '<br/> <hr noshade size="4">ERROR<hr noshade size="4">'+ result.test_error + '</font>');
+              logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + '<br/> <hr noshade size="4">ERROR<hr noshade size="4">' + result.test_error + '</font>');
             }
           }
         }
         else
         {
-          logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">'+ '<br/> <hr noshade size="4">ERROR<hr noshade size="4">' + result.test_error + '</font>');
+          logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + '<br/> <hr noshade size="4">ERROR<hr noshade size="4">' + result.test_error + '</font>');
         }
 
         this.__loader.setModal(false);
@@ -834,12 +831,12 @@ qx.Class.define("toolbox.builder.Builder",
       var createParams = [ fileName, filePath ];
       req.setTimeout(100000);
 
-      for (var i=0; i<toolbox.gui.Toolbox.APPLIST.length; i++)
+      for (var i=0; i<toolbox.content.DevelopmentContent.APPLIST.length; i++)
       {
-        if (toolbox.gui.Toolbox.APPLIST[i].name == fileName & toolbox.gui.Toolbox.APPLIST[i].path == filePath.replace(/\\/g, "/"))
+        if (toolbox.content.DevelopmentContent.APPLIST[i].name == fileName & toolbox.content.DevelopmentContent.APPLIST[i].path == filePath.replace(/\\/g, "/"))
         {
-          toolbox.gui.Toolbox.APPLIST.splice(i, 1);
-          var changedAppList = qx.util.Json.stringify(toolbox.gui.Toolbox.APPLIST, true);
+          toolbox.content.DevelopmentContent.APPLIST.splice(i, 1);
+          var changedAppList = qx.util.Json.stringify(toolbox.content.DevelopmentContent.APPLIST, true);
 
           var params = [ "myName", "myPath" ];
 
@@ -861,15 +858,14 @@ qx.Class.define("toolbox.builder.Builder",
       req.addListener("failed", function(evt)
       {
         this.error("Failed to post to URL: " + url);
-        logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + '<br/> <hr noshade size="4">ERROR<hr noshade size="4">' + 
-        				 fileName + " in " + filePath + 
-                         " could not remove </br>Failed to post to URL: " + url + '</font>');
+        logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + '<br/> <hr noshade size="4">ERROR<hr noshade size="4">' + fileName + " in " + filePath + " could not remove </br>Failed to post to URL: " + url + '</font>');
       },
       this);
-	  if(toolbox.gui.Toolbox.APPLIST.length == 0){
+
+      if (toolbox.content.DevelopmentContent.APPLIST.length == 0) {
         appList.setEnabled(false);
       } else {
-      	appList.setEnabled(true);
+        appList.setEnabled(true);
       }
     },
 
@@ -896,11 +892,12 @@ qx.Class.define("toolbox.builder.Builder",
         var result = evt.getContent();
         result = result.replace(/\n/g, "").replace(/{/g, "\{").replace(/}/g, "\}");
         this.jsonObject = qx.util.Json.parse(result);
-        toolbox.gui.Toolbox.APPLIST = this.jsonObject;
-        if(toolbox.gui.Toolbox.APPLIST.length == 0){
-        	appList.setEnabled(false);
+        toolbox.content.DevelopmentContent.APPLIST = this.jsonObject;
+
+        if (toolbox.content.DevelopmentContent.APPLIST.length == 0) {
+          appList.setEnabled(false);
         } else {
-        	appList.setEnabled(true);
+          appList.setEnabled(true);
         }
       },
       this);
