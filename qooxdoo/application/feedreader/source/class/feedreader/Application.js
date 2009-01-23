@@ -209,7 +209,7 @@ qx.Class.define("feedreader.Application",
       
       // bind the article //
       // bind the first selection of the list to the article view
-      this.__listController.bind("selection[0]", this._articleView, "article");      
+      this.__listController.bind("selection[0]", this._articleView, "article"); 
       
       // register a handler for the change of the list selection
       this.__listController.getSelection().addListener(
@@ -225,6 +225,25 @@ qx.Class.define("feedreader.Application",
       this.__treeController.bind(
         "selection[0].state", this._listView, "loading", options
       );      
+      
+      // bind the enabled property of the remove feed button
+      options = {converter: this._category2enabledConverter};
+      this.__treeController.bind(
+        "selection[0].category", this._toolBarView.getRemoveButton(), "enabled", options
+      );      
+      
+    },
+    
+    
+    /**
+     * Converts the category to a boolean for the enabled status of the remove 
+     * button.
+     */
+    _category2enabledConverter : function(data) {
+      if (data == "user") {
+        return true;
+      }
+      return false;   
     },
     
     
@@ -278,14 +297,12 @@ qx.Class.define("feedreader.Application",
       // get the selected feed
       var feed = this.__treeController.getSelection().getItem(0);
       // restore the last selected feed
-      if (feed != null && feed.getSelectedArticle != null && feed.getSelectedArticle() != null) {
+      if (
+        feed != null && 
+        feed.classname == "feedreader.model.Feed" && 
+        feed.getSelectedArticle() != null
+      ) {
         this.__listController.getSelection().push(feed.getSelectedArticle());
-      }
-      // enable / disable the remove button
-      if (feed && feed.getCategory&& feed.getCategory() !== "static") {
-        this._toolBarView.getRemoveButton().setEnabled(true);
-      } else {
-        this._toolBarView.getRemoveButton().setEnabled(false);          
       }
     },
     
