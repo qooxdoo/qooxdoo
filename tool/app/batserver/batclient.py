@@ -34,13 +34,14 @@ import optparse
 import xmlrpclib
 
 clientconf = {
-   'bathost'    : '172.17.12.117',
+   'bathost'    : '172.17.12.142',
    'batport'    : 8000,
    'platform'   : None,
    'packarch'   : None,
    'unpack_only': False,
    'work_dir'   : '/tmp/qx',
-   'logfile'    : 'bat_client.log',
+   #'logfile'    : 'bat_client.log',
+    'logfile'   : None,
    #'disk_space' : '2G',
    #'cpu_consume' : '20%',
    #'time_limit' : '30m',
@@ -191,7 +192,8 @@ def main():
     (jobid,workpack_url, workpack_opts) = register_client()
     workpack = retreive_workpack(workpack_url)
     ret = run_workpack(workpack,workpack_opts)
-    report_outcomes(jobid, ret, os.path.join(options.workdir,options.logfile))
+    if (options.logfile):
+        report_outcomes(jobid, ret, os.path.join(options.workdir,options.logfile))
 
 
 if __name__ == "__main__":
