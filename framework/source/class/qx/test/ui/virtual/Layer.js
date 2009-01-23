@@ -26,7 +26,8 @@ qx.Class.define("qx.test.ui.virtual.Layer",
 
     setUp : function()
     {
-      qx.Class.define("qx.test.ui.virtual.testLayer",
+  
+      qx.Class.define("qx.test.ui.virtual.TestLayer",
       {
         extend : qx.ui.virtual.layer.AbstractWidget,
 
@@ -53,7 +54,7 @@ qx.Class.define("qx.test.ui.virtual.Layer",
       });
 
       this.__scroller = new qx.ui.virtual.core.Scroller(50, 1, 10, 250);
-      this.__testLayer = new qx.test.ui.virtual.testLayer;
+      this.__testLayer = new qx.test.ui.virtual.TestLayer;
       this.__scroller.pane.setWidth(450);
       this.__scroller.pane.addLayer(this.__testLayer);
 

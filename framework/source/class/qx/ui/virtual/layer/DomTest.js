@@ -21,6 +21,8 @@ qx.Class.define("qx.ui.virtual.layer.DomTest",
 {
   extend : qx.ui.core.Widget,
   
+  implement : [qx.ui.virtual.core.ILayer],
+  
   /*
   *****************************************************************************
      MEMBERS
@@ -29,10 +31,8 @@ qx.Class.define("qx.ui.virtual.layer.DomTest",
 
   members :
   {
-    fullUpdate : function(visibleCells, lastVisibleCells, rowSizes, columnSizes)
+    fullUpdate : function(visibleCells, rowSizes, columnSizes)
     {
-      qx.ui.core.queue.Manager.flush();
-      var start = new Date();
       var el = this.getContainerElement().getDomElement();
       if (!el) {
         return;
@@ -70,16 +70,11 @@ qx.Class.define("qx.ui.virtual.layer.DomTest",
         top += rowSizes[x];
         row++;
       }
-      
-      this.debug("dom - update: " + (new Date() - start) + "ms");
-      var start = new Date();
-      qx.ui.core.queue.Manager.flush();
-      this.debug("dom - flush: " + (new Date() - start) + "ms");
     },
     
     
     updateScrollPosition : function(visibleCells, lastVisibleCells, rowSizes, columnSizes) {
-      this.fullUpdate(visibleCells, lastVisibleCells, rowSizes, columnSizes);
+      this.fullUpdate(visibleCells, rowSizes, columnSizes);
     }
   }
 });

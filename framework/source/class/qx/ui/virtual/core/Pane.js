@@ -32,8 +32,8 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     this.__scrollTop = 0;
     this.__scrollLeft = 0;
     
-    this.visibleCells = {};
-    this.lastVisibleCells = {};
+    this.cells = {};
+    this.lastCells = {};
     
     this.__paneHeight = 0;
     this.__paneWidth = 0;
@@ -126,6 +126,10 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     
     addLayer : function(layer)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        this.assertInterface(layer, qx.ui.virtual.core.ILayer);
+      }
+
       this.__layers.push(layer);
       layer.setUserBounds(0, 0, 0, 0);
       this.__layerContainer.add(layer);
@@ -378,16 +382,16 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       var rowCellData = this.rowConfig.getItemAtPosition(top);
       var columnCellData = this.columnConfig.getItemAtPosition(left);
            
-      var visibleCells = {
+      var cells = {
         firstRow: rowCellData.index,
         firstColumn: columnCellData.index
       }
       
-      var rowSizes = this.rowConfig.getItemSizes(visibleCells.firstRow, minHeight + rowCellData.offset);
-      var columnSizes = this.columnConfig.getItemSizes(visibleCells.firstColumn, minWidth + columnCellData.offset);
+      var rowSizes = this.rowConfig.getItemSizes(cells.firstRow, minHeight + rowCellData.offset);
+      var columnSizes = this.columnConfig.getItemSizes(cells.firstColumn, minWidth + columnCellData.offset);
 
-      visibleCells.lastRow = visibleCells.firstRow + rowSizes.length - 1;
-      visibleCells.lastColumn = visibleCells.firstColumn + columnSizes.length - 1;
+      cells.lastRow = cells.firstRow + rowSizes.length - 1;
+      cells.lastColumn = cells.firstColumn + columnSizes.length - 1;
 
       var layerWidth = qx.lang.Array.sum(columnSizes);
       var layerHeight = qx.lang.Array.sum(rowSizes);
@@ -405,8 +409,8 @@ qx.Class.define("qx.ui.virtual.core.Pane",
         layerWidth, layerHeight
       );            
            
-      this.lastVisibleCells = this.visibleCells;
-      this.visibleCells = visibleCells;
+      this.lastCells = this.cells;
+      this.cells = cells;
       
       this.__columnSizes = columnSizes;
       this.__rowSizes = rowSizes;
@@ -421,19 +425,10 @@ qx.Class.define("qx.ui.virtual.core.Pane",
         var layer = this.__layers[i];
         layer.setUserBounds(0, 0, layerWidth, layerHeight);
         
-        if (doFullUpdate)
-        {
-          layer.fullUpdate(
-            visibleCells, this.lastVisibleCells, 
-            rowSizes, columnSizes
-          );
-        }
-        else
-        {
-          layer.updateScrollPosition(
-            visibleCells, this.lastVisibleCells, 
-            rowSizes, columnSizes
-          );
+        if (doFullUpdate) {
+          layer.fullUpdate(cells, rowSizes, columnSizes);
+        } else {
+          layer.updateScrollPosition(cells, this.lastCells, rowSizes, columnSizes);
         }
 
         // TODO: debugging code    
