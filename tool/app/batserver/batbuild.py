@@ -35,13 +35,15 @@ import optparse, time, re
 # some defaults
 buildconf = {
    'svn_base_url' : 'https://qooxdoo.svn.sourceforge.net/svnroot/qooxdoo',
-   'stage_dir'    : '/tmp/qx',
+   'stage_dir'    : '/var/www/qx',
    'logfile'      : 'bat_build.log',
    # change the next entry, to e.g. include a release candidate 'tags/release_0_8'
    'targets'       : ['trunk','branches/legacy_0_7_x'],
-   'download_dir' : '/srv/www/htdocs/downloads',
+   'download_dir' : '/var/www/downloads',
    'doCleanup'    : False,
    'checkInterval': 10, # 10min - beware of time it takes for a build before re-check
+   'generate'     : False,
+   'path'         : 'application/demobrowser',   
    #'disk_space' : '2G',
    #'cpu_consume' : '20%',
    #'time_limit' : '30m',
@@ -63,6 +65,16 @@ def get_computed_conf():
     parser.add_option(
         "-r", "--build-release", dest="release", default=None, type="string",
         help="Release version (SVN) of target to build (e.g. \"9077\")"
+    )
+    
+    parser.add_option(
+        "-g", "--generate-job", dest="generate", default=buildconf['generate'], type="string",
+        help="Which generator job to run, e.g. \"release\", \"source\", \"build\""
+    )
+    
+    parser.add_option(
+        "-p", "--generate-path", dest="path", default=buildconf['path'], type="string",
+        help="Path to run generate.py in, e.g. \"framework\", \"application/demobrowser\""
     )
 
     parser.add_option(
@@ -161,7 +173,7 @@ def svn_checkout(target,revision):
     return rc
 
 def make(target):
-    rc = invoke_external("make %s" % target)
+    rc = invoke_external("make -f tool/Makefile.release %s" % target)
     return rc
 
 def copy_archives(target):
@@ -185,27 +197,40 @@ def date():
 #rc = build_packet('tags/release_0_7',0)
 #rc = build_packet('branches/legacy_0_7_x',0)
 #rc = build_packet('trunc',0)
-def build_packet(target,revision):
+def build_packet(target,revision,generate):
     cleanup(target)
+    print("Updating SVN")
     svn_checkout(target,revision)
-    goto_workdir(os.path.join(target,"qooxdoo","frontend"))
-    date()
-    #make('source')
+    if (generate != "release"):
+        working_dir = os.path.join(options.stagedir, target,"qooxdoo",options.path)
+        print("Changing dir to: " + working_dir)        
+        os.chdir(working_dir)        
+        print("Generating framework tests")
+        genRc = invoke_external("./generate.py test")        
+        if (genRc != 0):
+            print ("Generator exited with status " + repr(genRc))
+            sys.exit(genRc)
+    else:        
+        goto_workdir(os.path.join(target,"qooxdoo"))
+        date()    
+        make(generate)
     #make('build')
-    make('release')
+    #make('release')
     date()
     return 0
 
 def build_targets(targList):
     rc = 0
     for target in targList:
-        if svn_check(target,0):
-            goto_workdir(options.stagedir)
-            print "Making "+target
-            rc = build_packet(target,0)
+        #if svn_check(target,0):
+        goto_workdir(options.stagedir)
+        if (options.generate):
+            print "Target: "+target
+            rc = build_packet(target,0,options.generate)
+        if (options.generate == "release"):
             copy_archives(target)
-            if (options.cleanup):
-                cleanup(target)
+        if (options.cleanup):
+            cleanup(target)
     return rc
 
 def main():
