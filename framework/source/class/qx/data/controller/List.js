@@ -50,8 +50,11 @@ qx.Class.define("qx.data.controller.List",
       this.setIconPath(iconPath);
     }
 
-    // set the model and the target
-    this.setModel(model);
+    // set the model, if available
+    if (model != undefined) {
+      this.setModel(model);      
+    }
+
     this.setTarget(target); 
   },
   
@@ -62,7 +65,8 @@ qx.Class.define("qx.data.controller.List",
     {
       check: "qx.data.Array",
       apply: "_applyModel",
-      event: "changeModel"
+      event: "changeModel",
+      nullable: true
     },
     
     target : 
@@ -126,7 +130,7 @@ qx.Class.define("qx.data.controller.List",
     },
     
     
-    _applyModel: function(value, old) {
+    _applyModel: function(value, old) {     
       // remove the old listener
       if (old != undefined) {
         if (this.__changeModelLengthListenerId != undefined) {
@@ -137,15 +141,21 @@ qx.Class.define("qx.data.controller.List",
         }
       }
       
-      // add a new Listener
-      this.__changeModelLengthListenerId = 
-        value.addListener("changeLength", this.__changeModelLength, this);
-      this.__changeModelListenerID = 
-        value.addListener("change", this.__changeModel, this);
-            
-      // check for the new length
-      if (old != undefined && old.length != value.length) {
+      // if a model is set
+      if (value != null) {
+        // add a new Listener      
+        this.__changeModelLengthListenerId = 
+          value.addListener("changeLength", this.__changeModelLength, this);
+        this.__changeModelListenerID = 
+          value.addListener("change", this.__changeModel, this);
+
+        // check for the new length
         this.__changeModelLength();
+      }
+
+      // erase the selection if there is something selected
+      if (this.getSelection() != undefined && this.getSelection().length > 0) {
+        this.getSelection().splice(0, this.getSelection().length);
       }
     },
     
@@ -158,11 +168,13 @@ qx.Class.define("qx.data.controller.List",
         // remove all bindings
         this.removeAllBindings();
       }
-      // add a binding for all elements in the model
-      for (var i = 0; i < this.getModel().length; i++) {
-        this.__addItem(i);
-      }
       
+      if (this.getModel() != null) {
+        // add a binding for all elements in the model
+        for (var i = 0; i < this.getModel().length; i++) {
+          this.__addItem(i);
+        }
+      }
       // add a listener for the target change
       this.__addChangeTargetListener(value, old);
     },    
