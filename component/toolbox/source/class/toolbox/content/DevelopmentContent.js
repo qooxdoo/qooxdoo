@@ -339,7 +339,7 @@ qx.Class.define("toolbox.content.DevelopmentContent",
       var layout = new qx.ui.layout.Grid(5, 5);
       var layout2 = new qx.ui.layout.Grid(5, 5);
 
-      var box = new qx.ui.groupbox.GroupBox("Generation", "toolbox/image/system.png");
+      var box = new qx.ui.groupbox.GroupBox();
       box.setLayout(layout2);
       generationPage.setLayout(layout);
 
