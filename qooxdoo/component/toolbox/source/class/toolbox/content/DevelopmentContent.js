@@ -279,7 +279,9 @@ qx.Class.define("toolbox.content.DevelopmentContent",
         colSpan : 0
       });
 
-      box1.add(new qx.ui.basic.Label('<font size="+2">New Application</font> <br>' + 'Creates a new qooxdoo-skeleton.<br>' + 'This step is necessary if you want develop a new application.').set({ rich : true }),
+      box1.add(new qx.ui.basic.Label('<font size="+2">New Application</font> <br>' + 
+                                     'Creates a new qooxdoo-skeleton.<br>' + 
+                                     'This step is necessary if you want develop a new application.').set({ rich : true }),
       {
         row     : 0,
         column  : 1,
@@ -295,7 +297,9 @@ qx.Class.define("toolbox.content.DevelopmentContent",
         colSpan : 0
       });
 
-      box2.add(new qx.ui.basic.Label('<font size="+2">Switch Application</font> <br>' + 'All created application will be list here. <br/>' + 'You can switch already created applications. ').set({ rich : true }),
+      box2.add(new qx.ui.basic.Label('<font size="+2">Switch Application</font> <br>' + 
+                                     'All created application will be list here. <br/>' + 
+                                     'You can switch already created applications. ').set({ rich : true }),
       {
         row     : 1,
         column  : 1,
@@ -311,7 +315,9 @@ qx.Class.define("toolbox.content.DevelopmentContent",
         colSpan : 0
       });
 
-      box3.add(new qx.ui.basic.Label('<font size="+2">Remove Application</font> <br>' + 'Removes the current application <br/>' + '<b>ATTENTION:</b> This step is irrevocable.').set({ rich : true }),
+      box3.add(new qx.ui.basic.Label('<font size="+2">Remove Application</font> <br>' + 
+                                     'Removes the current application <br/>' + 
+                                     '<b>ATTENTION:</b> This step is irrevocable.').set({ rich : true }),
       {
         row     : 2,
         column  : 1,
@@ -360,7 +366,7 @@ qx.Class.define("toolbox.content.DevelopmentContent",
       });
 
       box.add(new qx.ui.basic.Label('<font size="+2">Generate Source</font> <br>' + 'Generates the source version of the current application.<br>' + 
-      							    'Herewith you can run the application.').set({ rich : true }),
+      							                'Herewith you can run the application.').set({ rich : true }),
       {
         row     : 0,
         column  : 1,
