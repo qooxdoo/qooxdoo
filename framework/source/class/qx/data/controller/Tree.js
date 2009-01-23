@@ -197,6 +197,10 @@ qx.Class.define("qx.data.controller.Tree",
     
     
     __updateTreeChildren: function(rootNode, modelNode) {
+      // ignore items which dont have children
+      if (modelNode["get" + qx.lang.String.firstUp(this.getChildPath())] == undefined) {
+        return;
+      }
       // get all children of the current model node
       var children = 
         modelNode["get" + qx.lang.String.firstUp(this.getChildPath())]();
@@ -264,12 +268,17 @@ qx.Class.define("qx.data.controller.Tree",
     __removeFolder: function(treeFolder, rootNode) {
       // get the model
       var model = treeFolder.getUserData("model");
-      // delete the model reference
-      delete this.__childrenRef[
-        model[
-          "get" + qx.lang.String.firstUp(this.getChildPath())
-        ]().toHashCode()
-      ];
+      
+      // if the model does have a child path
+      if (
+        model["get" + qx.lang.String.firstUp(this.getChildPath())] != undefined
+      )
+      {
+        // delete the model reference
+        delete this.__childrenRef[
+          model["get" + qx.lang.String.firstUp(this.getChildPath())]().toHashCode()
+        ];        
+      }
       // get the binding and remove it
       this.__removeBinding(model);
       // remove the folder from the tree

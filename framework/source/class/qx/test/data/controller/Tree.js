@@ -489,6 +489,40 @@ qx.Class.define("qx.test.data.controller.Tree",
       this.assertEquals("icon a AFFE", this.__tree.getRoot().getChildren()[0].getIcon(), "First node has a wrong icon");
       this.assertEquals("icon b AFFE", this.__tree.getRoot().getChildren()[1].getIcon(), "Second node has a wrong icon");
       this.assertEquals("icon c AFFE", this.__tree.getRoot().getChildren()[2].getIcon(), "Third node has a wrong icon");      
+    },
+    
+    
+    testItemWithoutChildren: function() {
+      // create new Object
+      qx.Class.define("qx.test.TreeEndNode",
+      {
+        extend : qx.core.Object,
+
+        properties :
+        {
+          name : {
+            check : "String",
+            init : "root",
+            event : "changeName"
+          },
+          
+          icon : {
+            check : "String",
+            event : "changeIcon",
+            nullable : true
+          }          
+        }
+      });     
+      
+      var endNode = new qx.test.TreeEndNode();
+      endNode.setName("ENDE");
+      this.__model.getChildren().push(endNode);
+      
+      this.assertEquals("root", this.__tree.getRoot().getLabel(), "Root node has a wrong name");
+      this.assertEquals("a", this.__tree.getRoot().getChildren()[0].getLabel(), "First node has a wrong name");
+      this.assertEquals("b", this.__tree.getRoot().getChildren()[1].getLabel(), "Second node has a wrong name");
+      this.assertEquals("c", this.__tree.getRoot().getChildren()[2].getLabel(), "Third node has a wrong name");
+      this.assertEquals("ENDE", this.__tree.getRoot().getChildren()[3].getLabel(), "Fourth node has a wrong name");            
     }
   }
 });
