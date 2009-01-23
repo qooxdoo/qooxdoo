@@ -38,16 +38,17 @@ import SimpleXMLRPCServer
 import re
 
 servconf = {
-    'bathost'       : '172.17.12.117',
+    'bathost'       : '172.17.12.142',
     'batport'       : 8000,
-    'downloadhost'  : '172.17.12.117',
+    'downloadhost'  : '172.17.12.142',
     'downloadport'  : 80,
     'reportfile'    : "bat_client_reports.log",
     'defaultTarget' : 'qooxdoo-0.8-sdk',
 }
 
 workpackopts = [
-    #'--unpack-only'
+    #"--autPath /qx/tags/release_0_8_1/qooxdoo/framework/test/index.html"
+    "--autPath /qx/trunk/qooxdoo/framework/test/index.html"
 ]
 
 
@@ -65,7 +66,7 @@ class ServFunctions(object):
         jobid = time.time()
         wpopts = list(workpackopts)  # init workpackoptions with global
         selectWorkOpts(clientconf,wpopts)
-        return (jobid, "http://" + servconf['downloadhost'] + "/downloads/workpack1.py", wpopts)
+        return (jobid, "http://" + servconf['downloadhost'] + "/~dwagner/workspace/qooxdoo.trunk/tool/app/batserver/workpack_test.py", wpopts)
     
     def receive_report(self,jobid,clientreport):
         rfile.write(repr(jobid)+": ")
