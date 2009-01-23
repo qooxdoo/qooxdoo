@@ -40,14 +40,20 @@ qx.Class.define("feedreader.io.FeedLoader",
     /**
      * Load all feeds from the feed list
      *
-     * @param feedList {feedreader.model.FeedList} load all feed from this feed list
+     * @param feedFolder {feedreader.model.FeedFolder} load all feed from this feed folder
      */
-    loadAll : function(feedList)
+    loadAll : function(feedFolder)
     {
-      var feeds = feedList.getFeeds();
-      for (i=0; i<feeds.length; i++) {
-        this.load(feeds[i]);
+      // static feeds
+      var staticFeeds = feedFolder.getFeeds().getItem(0).getFeeds();
+      for (i = 0; i < staticFeeds.length; i++) {
+        this.load(staticFeeds.getItem(i));
       }
+      // user feeds
+      var userFeeds = feedFolder.getFeeds().getItem(1).getFeeds();      
+      for (i = 0; i < userFeeds.length; i++) {
+        this.load(userFeeds.getItem(i));
+      }   
     },
 
 
@@ -107,12 +113,12 @@ qx.Class.define("feedreader.io.FeedLoader",
           try
           {
             // Clear old articles
-            feed.clearArticles();
+            feed.getArticles().splice(0, feed.getArticles().length);
 
             // Normalize json feed data to article list
             var articles = feedreader.io.FeedParser.parseFeed(json);
-            for (var i=0; i<articles.length; i++) {
-              feed.addArticle(articles[i]);
+            for (var i = 0; i < articles.length; i++) {
+              feed.getArticles().push(articles[i]);
             }
 
             // mark the feed as not loading

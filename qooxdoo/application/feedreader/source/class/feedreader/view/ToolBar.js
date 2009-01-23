@@ -61,9 +61,10 @@ qx.Class.define("feedreader.view.ToolBar",
     addBtn.setCommand(controller.getCommand("addFeed"));
     mainPart.add(addBtn);
 
-    var removeBtn = new qx.ui.toolbar.Button(this.tr("Remove feed"), "icon/22/actions/dialog-cancel.png");
-    removeBtn.setCommand(controller.getCommand("removeFeed"));
-    mainPart.add(removeBtn);
+    this._removeBtn = new qx.ui.toolbar.Button(this.tr("Remove feed"), "icon/22/actions/dialog-cancel.png");
+    this._removeBtn.setCommand(controller.getCommand("removeFeed"));
+    this._removeBtn.setEnabled(false);
+    mainPart.add(this._removeBtn);
 
 
     // Add a sepearator
@@ -103,5 +104,19 @@ qx.Class.define("feedreader.view.ToolBar",
     aboutBtn.setCommand(aboutCmd);
     aboutBtn.setToolTip(new qx.ui.tooltip.ToolTip("(" + aboutCmd.toString() + ")"));
     infoPart.add(aboutBtn);
+  },
+  
+  
+  members : 
+  {
+    /**
+     * Return the button which removed the feeds. This is neede to enable / 
+     * disable the button from the main application.
+     * 
+     * @return {qx.ui.toolbar.Button}
+     */
+    getRemoveButton: function() {
+      return this._removeBtn;
+    }
   }
 });

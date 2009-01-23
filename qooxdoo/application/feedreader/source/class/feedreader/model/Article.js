@@ -40,7 +40,7 @@ qx.Class.define("feedreader.model.Article",
     title :
     {
       check : "String",
-      event : "dataModified"
+      event : "changeTitle"
     },
 
 
@@ -49,7 +49,7 @@ qx.Class.define("feedreader.model.Article",
     {
       check : "String",
       nullable : true,
-      event : "dataModified"
+      event : "changeAuthor"
     },
 
 
@@ -57,7 +57,7 @@ qx.Class.define("feedreader.model.Article",
     date :
     {
       check : "Date",
-      event : "dataModified"
+      event : "changeDate"
     },
 
 
@@ -65,7 +65,7 @@ qx.Class.define("feedreader.model.Article",
     content :
     {
       check : "String",
-      event : "dataModified"
+      event : "changeContent"
     },
 
 
@@ -73,7 +73,7 @@ qx.Class.define("feedreader.model.Article",
     link :
     {
       check : "String",
-      event : "dataModified"
+      event : "changeLink"
     }
   }
 });

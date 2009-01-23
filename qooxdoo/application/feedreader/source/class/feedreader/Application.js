@@ -19,42 +19,20 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#asset(feedreader/*)
+#asset(qx/icon/Tango/22/apps/internet-feed-reader.png)
+#asset(qx/icon/Tango/22/actions/process-stop.png)
+
+************************************************************************ */
+
 /**
  * The feed reader's main application class.
  */
 qx.Class.define("feedreader.Application",
 {
   extend : qx.application.Standalone,
-
-
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
-    /** The current selected feed */
-    feed :
-    {
-      check    : "feedreader.model.Feed",
-      nullable : true,
-      apply    : "_applyFeed"
-    },
-
-
-    /** The current selected article */
-    article :
-    {
-      check    : "feedreader.model.Article",
-      nullable : true,
-      apply    : "_applyArticle"
-    }
-  },
-
-
 
 
   /*
@@ -86,27 +64,23 @@ qx.Class.define("feedreader.Application",
         qx.log.appender.Console;
       }
 
-      // Initialize the model
-      this._initializeModel();
-
       // Initialize commands
       this._initializeCommands();
 
       // Create application layout
       this._createLayout();
-
-      // Add static feeds
-      this._feedList.addFeed(new feedreader.model.Feed("qooxdoo News", "http://feedproxy.feedburner.com/qooxdoo/news/content", "static"));      
-      this._feedList.addFeed(new feedreader.model.Feed("JScript Team Blog", "http://blogs.msdn.com/jscript/rss.xml", "static"));
-      this._feedList.addFeed(new feedreader.model.Feed("Daring Fireball", "http://daringfireball.net/index.xml", "static"));
-      this._feedList.addFeed(new feedreader.model.Feed("Surfin' Safari", "http://webkit.org/blog/?feed=rss2", "static"));
-      this._feedList.addFeed(new feedreader.model.Feed("Ajaxian", "http://feedproxy.feedburner.com/ajaxian", "static"));
-
-      // Add user feeds
-      this._feedList.addFeed(new feedreader.model.Feed("Heise", "http://www.heise.de/newsticker/heise-atom.xml", "user"));
-      this._feedList.addFeed(new feedreader.model.Feed("A List Apart", "http://www.alistapart.com/rss.xml", "user"));
-      this._feedList.addFeed(new feedreader.model.Feed("Apple Insider", "http://www.appleinsider.com/appleinsider.rss", "user"));
-      this._feedList.addFeed(new feedreader.model.Feed("Opera Desktop Blog", "http://my.opera.com/desktopteam/xml/rss/blog/", "user"));
+      
+      // Initialize the model
+      this._initializeModel();    
+      
+      // Initialize the bindings
+      this._setUpBinding(); 
+      
+      // set up the default view of the tree
+      this._treeView.getRoot().setOpen(true);
+      this._treeView.getRoot().getChildren()[0].setOpen(true);
+      this._treeView.getRoot().getChildren()[1].setOpen(true);
+      this._treeView.setHideRoot(true);      
     },
 
 
@@ -118,9 +92,7 @@ qx.Class.define("feedreader.Application",
       this.base(arguments);
       this.reload();
     },
-
-
-
+    
 
     /*
     ---------------------------------------------------------------------------
@@ -133,52 +105,192 @@ qx.Class.define("feedreader.Application",
      */
     _initializeModel : function()
     {
-      this._feedList = new feedreader.model.FeedList();
+      // create the root folder
+      this._feedFolder = new feedreader.model.FeedFolder("Feeds");
+      
+      // Add static feeds
+      this._staticFeedFolder = 
+        new feedreader.model.FeedFolder(this.tr("Static Feeds"));
+      this._feedFolder.getFeeds().push(this._staticFeedFolder);
+      this._staticFeedFolder.getFeeds().push(
+        new feedreader.model.Feed(
+          "qooxdoo News", "http://feedproxy.feedburner.com/qooxdoo/news/content", "static"
+        )
+      );      
+      this._staticFeedFolder.getFeeds().push(
+        new feedreader.model.Feed(
+          "JScript Team Blog", "http://blogs.msdn.com/jscript/rss.xml", "static"
+        )
+      );
+      this._staticFeedFolder.getFeeds().push(
+        new feedreader.model.Feed(
+          "Daring Fireball", "http://daringfireball.net/index.xml", "static"
+        )
+      );
+      this._staticFeedFolder.getFeeds().push(
+        new feedreader.model.Feed(
+          "Surfin' Safari", "http://webkit.org/blog/?feed=rss2", "static"
+        )
+      );
+      this._staticFeedFolder.getFeeds().push(
+        new feedreader.model.Feed(
+          "Ajaxian","http://feedproxy.feedburner.com/ajaxian", "static"
+        )
+      );
 
-      // Register listener
-      this._feedList.addListener("change", this._onSelectFeed, this);
+      // Add user feeds
+      this._userFeedFolder = 
+        new feedreader.model.FeedFolder(this.tr("User Feeds"));
+      this._feedFolder.getFeeds().push(this._userFeedFolder);
+      this._userFeedFolder.getFeeds().push(
+        new feedreader.model.Feed(
+          "Heise", "http://www.heise.de/newsticker/heise-atom.xml", "user"
+        )
+      );
+      this._userFeedFolder.getFeeds().push(
+        new feedreader.model.Feed(
+          "A List Apart", "http://www.alistapart.com/rss.xml", "user"
+        )
+      );
+      this._userFeedFolder.getFeeds().push(
+        new feedreader.model.Feed(
+          "Apple Insider", "http://www.appleinsider.com/appleinsider.rss", "user"
+        )
+      );
+      this._userFeedFolder.getFeeds().push(
+        new feedreader.model.Feed(
+          "Opera Desktop Blog", "http://my.opera.com/desktopteam/xml/rss/blog/", "user"
+        )
+      );      
     },
 
 
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      BINDING RELATED
+    ---------------------------------------------------------------------------
+    */
+    
     /**
-     * Event handler for the change event of feed list.
-     *
-     * @param e {qx.event.type.Data} The data event of the feed list change.
+     * Set up the bindings and controller.
      */
-    _onSelectFeed : function(e)
-    {
-      var feed = e.getData();
-      var oldFeed = e.getOldData();
-
-      if (oldFeed) {
-        oldFeed.removeListener("change", this._onSelectArticle, this);
-      }
-
-      this.setFeed(feed);
-
-      if (feed)
-      {
-        feed.addListener("change", this._onSelectArticle, this);
-
-        var selectedArticle = feed.getSelected();
-        this.setArticle(selectedArticle);
-      }
+    _setUpBinding : function() {
+      
+      // bind the tree //
+      // create the options used to store the converter for the icon
+      var iconOptions = {converter: this._state2iconConverter};
+      // create the controller which binds the feeds to the tree
+      // 1. Parameter: The model (root feed folder)
+      // 2. Parameter: The view (the tree widget)
+      // 3. Parameter: name of the children of the model items
+      // 4. Parameter: name of the model property to show as label in the tree
+      // 5. Parameter: name of the model property so show as icon in the tree
+      // 6. Parameter: options for the label binding (not needed in this example)
+      // 7. Parameter: options for the icon binding
+      this.__treeController = new qx.data.controller.Tree(
+        this._feedFolder, this._treeView, "feeds", "title", "state", null, iconOptions
+      );
+      
+      // bind the list //
+      // create the controller which binds ths list
+      // 1. Parameter: The model (null because is bound in the next line)
+      // 2. Parameter: The view (the list widget)
+      // 3. Parameter: name of the model property to show as label in the list      
+      this.__listController = new qx.data.controller.List(
+        null, this._listView.getList(), "title"
+      );
+      // bind the first selection of the tree as the model of the list
+      this.__treeController.bind(
+        "selection[0].articles", this.__listController, "model"
+      );  
+      
+      // bind the article //
+      // bind the first selection of the list to the article view
+      this.__listController.bind("selection[0]", this._articleView, "article");      
+      
+      // register a handler for the change of the list selection
+      this.__listController.getSelection().addListener(
+        "change" , this._listControllerChange, this
+      );
+      // register a handler for the change of the trr selection
+      this.__treeController.getSelection().addListener(
+        "change", this._treeControllerChange, this
+      ); 
+      
+      // binding for showing the loading image in the list
+      var options = {converter: this._state2loadingConverter};
+      this.__treeController.bind(
+        "selection[0].state", this._listView, "loading", options
+      );      
     },
-
-
+    
+    
     /**
-     * Event handler. Called on a change of the selected article in the data model.
-     *
-     * @param e {qx.event.type.Data} The data event of the article change.
+     * Converter function which converts the state of a feed to a icon url.
      */
-    _onSelectArticle : function(e)
-    {
-      var article = e.getData();
-      this.setArticle(article);
+    _state2iconConverter : function(value) {
+      if (value == "new" || value == "loading") {
+        return "feedreader/images/loading22.gif";
+      }
+      else if (value == "loaded") {
+        return "icon/22/apps/internet-feed-reader.png";
+      } else if (value == "error") {
+        return "icon/22/actions/process-stop.png";
+      }
+      return null;
     },
-
-
-
+    
+    
+    /**
+     * Converter function which converts the state of a feed to a loading 
+     * indicator in the list view.
+     */
+    _state2loadingConverter : function(data) {
+      if (data == "new" || data == "loading") {
+        return true;
+      }
+      return false;
+    },
+    
+    
+    /**
+     * Event handler for a change of the selection of the list.
+     */
+    _listControllerChange : function(ev) {
+      // get the selected feed
+      var feed = this.__treeController.getSelection().getItem(0);
+      // get the selected article
+      var article = this.__listController.getSelection().getItem(0);
+      // set the selected article
+      if (article != undefined) {
+        feed.setSelectedArticle(article);          
+      }
+    },
+    
+    
+    /**
+     * Event handler for a change of the selection of the tree.
+     */
+    _treeControllerChange : function(ev) {
+      // get the selected feed
+      var feed = this.__treeController.getSelection().getItem(0);
+      // restore the last selected feed
+      if (feed != null && feed.getSelectedArticle != null && feed.getSelectedArticle() != null) {
+        this.__listController.getSelection().push(feed.getSelectedArticle());
+      }
+      // enable / disable the remove button
+      if (feed && feed.getCategory&& feed.getCategory() !== "static") {
+        this._toolBarView.getRemoveButton().setEnabled(true);
+      } else {
+        this._toolBarView.getRemoveButton().setEnabled(false);          
+      }
+    },
+    
+    
+    
 
     /*
     ---------------------------------------------------------------------------
@@ -210,8 +322,9 @@ qx.Class.define("feedreader.Application",
       dockLayoutComposite.add(this._horizontalSplitPane);
 
       // Create tree view
-      this._treeView = new feedreader.view.Tree(this._feedList);
+      this._treeView = new qx.ui.tree.Tree();
       this._treeView.setWidth(250);
+      this._treeView.setBackgroundColor("white");
       this._horizontalSplitPane.add(this._treeView, 0);
 
       // Create vertical splitpane for list and detail view
@@ -220,7 +333,7 @@ qx.Class.define("feedreader.Application",
       this._horizontalSplitPane.add(this._verticalSplitPane, 1);
 
       // Create the list view
-      this._listView = new feedreader.view.List(this._feedList);
+      this._listView = new feedreader.view.List(this._feedFolder);
       this._listView.setHeight(200);
       this._listView.setDecorator("main");
       this._verticalSplitPane.add(this._listView, 0);
@@ -296,7 +409,7 @@ qx.Class.define("feedreader.Application",
     addFeed : function(title, url, category)
     {
       var feed = new feedreader.model.Feed(title, url, category);
-      this._feedList.addFeed(feed);
+      this._userFeedFolder.getFeeds().push(feed);
 
       var loader = feedreader.io.FeedLoader.getInstance();
       loader.load(feed);
@@ -308,9 +421,18 @@ qx.Class.define("feedreader.Application",
      */
     removeFeed : function()
     {
-      var feed = this._feedList.getSelected();
-      if (feed && feed.getCategory() !== "static") {
-        this._feedList.removeFeed(feed);
+      // get the selected feed
+      var feed = this.__treeController.getSelection().getItem(0);
+      // if there is a feed and its not static
+      if (feed && feed.getCategory&& feed.getCategory() !== "static") {
+        var userFeeds = this._userFeedFolder.getFeeds();
+        // remove it
+        for (var i = 0; i < userFeeds.length; i++) {
+          if (feed === userFeeds.getItem(i)) {
+            userFeeds.splice(i, 1);
+            return;            
+          }
+        }
       }
     },
 
@@ -321,7 +443,7 @@ qx.Class.define("feedreader.Application",
     reload : function()
     {
       var loader = feedreader.io.FeedLoader.getInstance();
-      loader.loadAll(this._feedList);
+      loader.loadAll(this._feedFolder);
     },
 
 
@@ -367,33 +489,6 @@ qx.Class.define("feedreader.Application",
       // open the window
       this._addFeedWindow.center();
       this._addFeedWindow.open();
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTY APPLY ROUTINES
-    ---------------------------------------------------------------------------
-    */
-
-    // property apply
-    _applyFeed : function(value, old)
-    {
-      this._listView.setFeed(value);
-      this.getCommand("removeFeed").setEnabled(!!(value && value.getCategory() !== "static"));
-    },
-
-
-    // property apply
-    _applyArticle : function(value, old)
-    {
-      if (value) {
-        this._articleView.setArticle(value);
-      } else {
-        this._articleView.resetArticle();
-      }
     }
   },
 
@@ -410,6 +505,6 @@ qx.Class.define("feedreader.Application",
   {
     this._disposeFields("__commands");
     this._disposeObjects("_toolBarView", "_listView", "_articleView", "_treeView",
-        "_feedList", "_horizontalSplitPane", "_verticalSplitPane", "_header");
+        "_feedFolder", "_horizontalSplitPane", "_verticalSplitPane", "_header");
   }
 });
