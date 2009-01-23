@@ -130,7 +130,7 @@ class Generator:
       "translate" :
       {
         "action" : Generator.runUpdateTranslation,
-        "type"   : "JSimpleJob"
+        "type"   : "JClassDepJob"
       },
 
       "copy-files" :
@@ -166,13 +166,13 @@ class Generator:
       "copy-resources" :
       {
         "action" :Generator.runResources,
-        "type"   : "JClassDepJob"
+        "type"   : "JCompileJob"            # this is debatable - JClassDepJob?!
       },
 
       "api" :
       {
         "action" :Generator.runApiData,
-        "type"   : "JClassDepJob"
+        "type"   : "JCompileJob"            # this is debatable - JClassDepJob?!
       },
 
       "compile-source" :
@@ -185,7 +185,25 @@ class Generator:
       {
         "action" :Generator.runCompiled,
         "type" : "JCompileJob",
-      }
+      },
+
+      "lint-check" :
+      {
+        "action" :Generator.runLint,
+        "type" : "JClassDepJob",
+      },
+
+      "pretty-print" :
+      {
+        "action" :Generator.runPrettyPrinting,
+        "type" : "JClassDepJob",
+      },
+
+      "fix-files" :
+      {
+        "action" :Generator.runFix,
+        "type" : "JClassDepJob",
+      },
 
     }
 
@@ -298,70 +316,88 @@ class Generator:
 
 
 
-    def run1(self):
-        config = self._job
-        job    = config.get(".")
-        jobTriggers = self.listJobTriggers()
-
-        # get the simple triggers from global struct
-        triggersSimpleSet   = set((x for x in jobTriggers if jobTriggers[x]['type']=="JSimpleJob"))
-        # get the job keys
-        jobKeySet = set(job.keys())
-        # let's check for presence of certain triggers
-        simpleTriggerKeys         = jobKeySet.intersection(triggersSimpleSet) # we have simple job triggers
-
-        # process simple job triggers
-        if simpleTriggerKeys:
-            for trigger in simpleTriggerKeys:
-                apply(jobTriggers[trigger]['action'],(self,))
-                del job[trigger]
-
-        # dispatch rest to old run()
-        self.run()
-
-
-
+    # This is the main dispatch method to run a single job. It uses the top-
+    # level keys of the job description to run all necessary methods. In order
+    # to do so, it also sets up a lot of tool chain infrastructure.
     def run(self):
         config = self._job
         job    = self._job
         require = config.get("require", {})
         use     = config.get("use", {})
 
-        self._actionLib         = ActionLib(self._config, self._console)
+        # We use some sets of Job keys, both well-known and actual, to determin
+        # which actions have to be run, and in which order.
 
         # Known Job Trigger Keys
-        jobTriggers         = self.listJobTriggers()
+        triggersSet         = self.listJobTriggers()
 
-        triggersSimpleSet   = set((x for x in jobTriggers if jobTriggers[x]['type']=="JSimpleJob"))
-        triggersClassDepSet = set((x for x in jobTriggers if jobTriggers[x]['type']=="JClassDepJob"))
-        triggersCompileSet  = set((x for x in jobTriggers if jobTriggers[x]['type']=="JCompileJob"))
-        triggerNameSet      = set(jobTriggers.keys())  # list of trigger names
+        triggersSimpleSet   = set((x for x in triggersSet if triggersSet[x]['type']=="JSimpleJob"))
+        triggersClassDepSet = set((x for x in triggersSet if triggersSet[x]['type']=="JClassDepJob"))
+        triggersCompileSet  = set((x for x in triggersSet if triggersSet[x]['type']=="JCompileJob"))
 
         # This Job's Keys
         jobKeySet           = set(job.getData().keys())
+        jobTriggers         = jobKeySet.intersection(triggersSet)
 
+        # let's check for presence of certain triggers
+        simpleTriggers   = jobTriggers.intersection(triggersSimpleSet) # we have simple job triggers
+        classdepTriggers = jobTriggers.intersection(triggersClassDepSet) # we have classdep. triggers
+        compileTriggers  = jobTriggers.intersection(triggersCompileSet)
 
-        if jobKeySet.intersection(triggerNameSet) == set(['clean-files']):
-            self.runClean()
-            return  # cleaning was the only job
+        # Create tool chain instances
+        self._actionLib     = ActionLib(self._config, self._console)
 
-        # Scanning given library paths
+        # Process simple job triggers
+        if simpleTriggers:
+            for trigger in simpleTriggers:
+                apply(triggersSet[trigger]['action'],(self,))  # call the corresp. method from listJobTriggers()
+
+        # remove the keys we have processed
+        jobTriggers = jobTriggers.difference(simpleTriggers)
+
+        # use early returns to avoid setting up costly, but unnecessary infrastructure
+        if not jobTriggers:
+            return
+
+        # Process job triggers that require a class list (and some)
+
+        # scanning given library paths
         (self._namespaces,
          self._classes,
          self._docs,
          self._translations,
          self._libs) = self.scanLibrary(config.get("library"))
 
-        # Create tool chain instances
+        if "lint-check" in jobTriggers:
+            apply(triggersSet["lint-check"]['action'], (self, self._classes))
+
+        if "fix-files" in jobTriggers:
+            apply(triggersSet["fix-files"]['action'], (self, self._classes))
+
+        # create tool chain instances
         self._treeLoader     = TreeLoader(self._classes, self._cache, self._console)
+
+        if "pretty-print" in jobTriggers:
+            apply(triggersSet["pretty-print"]['action'], (self, self._classes))
+
+        # create tool chain instances
+        self._locale         = Locale(self._classes, self._translations, self._cache, self._console, self._treeLoader)
+
+        if "translate" in jobTriggers:
+            apply(triggersSet["translate"]['action'], (self, ))
+
+        # remove the keys we have processed, and check return
+        jobTriggers = jobTriggers.difference(classdepTriggers)
+        if not jobTriggers:
+            return
+
+        # Process job triggers that require the full tool chain
+
+        # Create tool chain instances
         self._depLoader      = DependencyLoader(self._classes, self._cache, self._console, self._treeLoader, require, use)
         self._treeCompiler   = TreeCompiler(self._classes, self._cache, self._console, self._treeLoader)
-        self._locale         = Locale(self._classes, self._translations, self._cache, self._console, self._treeLoader)
         self._partBuilder    = PartBuilder(self._console, self._depLoader, self._treeCompiler)
         self._resourceHandler= _ResourceHandler(self)
-
-        # Updating translation
-        self.runUpdateTranslation()
 
         # Preprocess include/exclude lists
         # This is only the parsing of the config values
@@ -430,19 +466,13 @@ class Generator:
 
             # Execute real tasks
             self.runApiData(packageClasses)
-            #self._translationMaps = self.getTranslationMaps(partPackages, packageClasses, variants)
             self.runSource(partPackages, packageClasses, boot, variants)
             self.runResources()  # run before runCompiled, to get image infos
             self.runCompiled(partPackages, packageClasses, boot, variants)
-            self.runCopyFiles()
-            self.runShellCommands()
-            self.runImageSlicing()
-            self.runImageCombining()
-            self.runPrettyPrinting(classList)
-            self.runClean()
-            self.runLint(classList)
+            #self.runPrettyPrinting(classList)
+            #self.runLint(classList)
             self.runMigration(config.get("library"))
-            self.runFix(classList)
+            #self.runFix(classList)
 
 
             # Debug tasks
