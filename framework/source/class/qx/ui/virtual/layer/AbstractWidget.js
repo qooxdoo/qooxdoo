@@ -98,7 +98,7 @@ qx.Class.define("qx.ui.virtual.layer.AbstractWidget",
         firstRow: Math.max(cells.firstRow, lastCells.firstRow),
         lastRow: Math.min(cells.lastRow, lastCells.lastRow),
         firstColumn: Math.max(cells.firstColumn, lastCells.firstColumn),
-        lastColumn: Math.min(cells.lastColumn, lastCells.lastColumn),        
+        lastColumn: Math.min(cells.lastColumn, lastCells.lastColumn)
       }
       
       if (
