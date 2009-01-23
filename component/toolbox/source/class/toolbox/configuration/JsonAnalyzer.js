@@ -37,8 +37,11 @@ qx.Class.define("toolbox.configuration.JsonAnalyzer",
     this.keyContainer = new Array();
     this.valueContainer = new Array();
     this.parentMemory = null;
+    var grid = new qx.ui.layout.Grid(5, 5);
+    grid.setColumnFlex(0, 1);
+    grid.setRowFlex(0, 1);
     this.treeGroup = new qx.ui.groupbox.GroupBox("JSON-Tree");
-    this.treeGroup.setLayout(new qx.ui.layout.VBox());
+    this.treeGroup.setLayout(grid);
     this.jsonObject = null;
 
     this.__tree = new qx.ui.tree.Tree().set(
@@ -304,7 +307,12 @@ qx.Class.define("toolbox.configuration.JsonAnalyzer",
      */
     getTreeGroup : function()
     {
-      this.treeGroup.add(this.__tree, { flex : 1 });
+      this.treeGroup.add(this.__tree, {
+          row     : 0,
+          column  : 0,
+          rowSpan : 0,
+          colSpan : 1
+        });
       return this.treeGroup;
     },
 
@@ -458,7 +466,8 @@ qx.Class.define("toolbox.configuration.JsonAnalyzer",
 
       var gridLayout = new qx.ui.layout.Grid(5, 3);
       gridLayout.setColumnFlex(0, 1);
-
+      gridLayout.setRowFlex(1, 1);
+      
       this.commandFrame.setLayout(gridLayout);
 
       this.currentTypeAtom = new qx.ui.basic.Atom("No selection").set(
@@ -473,7 +482,7 @@ qx.Class.define("toolbox.configuration.JsonAnalyzer",
       },
       this);
 
-      var container = new qx.ui.container.Composite(new qx.ui.layout.HBox(5)).set({ allowGrowX : false });
+      var container = new qx.ui.container.Composite(new qx.ui.layout.HBox(5)).set({ allowGrowX : true });
 
       this.commandFrame.add(new qx.ui.basic.Label("Selection ").set({ paddingTop : 4 }, this),
       {
@@ -493,7 +502,7 @@ qx.Class.define("toolbox.configuration.JsonAnalyzer",
         column : 2
       });
 
-      this.tCurrentInput = new qx.ui.form.TextArea().set({ minHeight : 120 });
+      this.tCurrentInput = new qx.ui.form.TextArea().set({ minHeight : 50 });
 
       this.commandFrame.add(this.tCurrentInput,
       {

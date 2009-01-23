@@ -38,10 +38,10 @@ qx.Class.define("toolbox.configuration.Configuration",
     *****************************************************************************
   */
 
-  construct : function(adminPath, fileName, filePath, logFrame)
+  construct : function(adminPath, fileName, filePath, logFrame, configButton)
   {
-    this.base(arguments, adminPath, fileName, filePath, logFrame);
-    this.__showConfiguration(adminPath, fileName, filePath, logFrame);
+    this.base(arguments, adminPath, fileName, filePath, logFrame, configButton);
+    this.__showConfiguration(adminPath, fileName, filePath, logFrame, configButton);
   },
 
 
@@ -66,7 +66,7 @@ qx.Class.define("toolbox.configuration.Configuration",
      * @param logFrame {var} log output
      * @return {void} 
      */
-    __showConfiguration : function(adminPath, fileName, filePath, logFrame)
+    __showConfiguration : function(adminPath, fileName, filePath, logFrame, configButton)
     {
       var url = adminPath;
       var req = new qx.io.remote.Request(url, "POST");
@@ -89,6 +89,7 @@ qx.Class.define("toolbox.configuration.Configuration",
 
       req.addListener("completed", function(evt)
       {
+      	configButton.setEnabled(true);
         var result = evt.getContent();
         var restoreResult = result;
         this.showCon = new toolbox.configuration.ConfigurationDialog(adminPath, fileName, filePath, logFrame, restoreResult);
@@ -103,7 +104,7 @@ qx.Class.define("toolbox.configuration.Configuration",
       this);
 
       req.send();
-
+      configButton.setEnabled(false);
       return;
     },
 

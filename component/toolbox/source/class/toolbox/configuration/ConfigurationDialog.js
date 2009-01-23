@@ -93,6 +93,8 @@ qx.Class.define("toolbox.configuration.ConfigurationDialog",
         gridLayout.setRowFlex(0, 1);
         gridLayout.setRowFlex(1, 1);
         gridLayout.setColumnFlex(0, 1);
+        gridLayout.setColumnFlex(1, 1);
+        
         var mainContainer = new qx.ui.container.Composite(gridLayout);
  
         var container = new qx.ui.container.Composite(new qx.ui.layout.HBox(5)).set({ allowGrowX : false });
@@ -104,6 +106,7 @@ qx.Class.define("toolbox.configuration.ConfigurationDialog",
         this.setShowMinimize(false);
         this.setLayout(vBoxLayout);
         this.setMinWidth(410);
+        this.setMinHeight(550);
 		    this.open();
 		    this.show();
 		
@@ -205,7 +208,7 @@ qx.Class.define("toolbox.configuration.ConfigurationDialog",
           colSpan : 1
         });
 
-        page1.add(mainContainer);
+        page1.add(mainContainer, {flex: 1});
         page2.add(this.configFrame, {flex: 1});
         page2.add(tabButtonContainer);
 
