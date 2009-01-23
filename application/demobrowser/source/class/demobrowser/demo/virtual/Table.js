@@ -54,7 +54,7 @@ qx.Class.define("demobrowser.demo.virtual.Table",
         scroller.pane.columnConfig.setItemSize(i, 50 + Math.round(Math.random() * 80));
       }
       this.getRoot().add(scroller, {edge: 20});
-      scroller.pane.addLayer(new qx.ui.virtual.layer.Row());
+      scroller.pane.addLayer(new qx.ui.virtual.layer.Row("white", "#EEE"));
       scroller.pane.addLayer(new qx.ui.virtual.layer.GridLines("horizontal"));
       scroller.pane.addLayer(new qx.ui.virtual.layer.GridLines("vertical"));      
       scroller.pane.addLayer(new qx.ui.virtual.layer.Test());

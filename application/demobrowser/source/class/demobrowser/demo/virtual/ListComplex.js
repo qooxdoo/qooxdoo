@@ -53,16 +53,13 @@ qx.Class.define("demobrowser.demo.virtual.ListComplex",
       // change 8 sizes
       for (var i=2; i<10; i++)
       {
-        scroller.pane.rowConfig.setItemSize(i, 20 + Math.round(Math.random() * 40));
+        scroller.pane.rowConfig.setItemSize(i, 50 + Math.round(Math.random() * 40));
         scroller.pane.columnConfig.setItemSize(i, 50 + Math.round(Math.random() * 80));
-      }
-
-      
+      }      
       
       this.getRoot().add(scroller, {left : 20, top : 10});
-      scroller.pane.addLayer(new qx.ui.virtual.layer.Row());
+      scroller.pane.addLayer(new qx.ui.virtual.layer.Row("white", "rgb(238, 243, 255)"));
       scroller.pane.addLayer(new qx.ui.virtual.layer.GridLines("horizontal"));
-      //scroller.pane.addLayer(new qx.ui.virtual.layer.GridLines("vertical"));            
       scroller.pane.addLayer(new demobrowser.demo.virtual.DemoLayer);
     }
   }
