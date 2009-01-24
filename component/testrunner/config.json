@@ -27,6 +27,7 @@
   {
       "APPLICATION"  : "testrunner",
       "QOOXDOO_PATH" : "../..",
+      "QXTHEME"      : "qx.theme.Modern",
       "CACHE"        : "../../cache"
   }
 }
