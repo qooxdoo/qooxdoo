@@ -213,65 +213,6 @@ class Generator:
 
     }
 
-    def run2(self):
-        config = self._job
-        job    = config.get(".")
-        jobTriggers = self.listJobTriggers()
-
-        #from sets import * - using 'set' instead of 'Set' since 2.4
-
-
-        triggersSimpleSet   = set((x for x in jobTriggers if jobTriggers[x]['type']=="JSimpleJob"))
-        triggersClassDepSet = set((x for x in jobTriggers if jobTriggers[x]['type']=="JClassDepJob"))
-        triggersCompileSet  = set((x for x in jobTriggers if jobTriggers[x]['type']=="JCompileJob"))
-
-        jobKeySet = set(job.keys())
-
-        # let's check for presence of certain triggers
-        simpleTriggerKeys         = jobKeySet.intersection(triggersSimpleSet) # we have simple job triggers
-        classdependentTriggerKeys = jobKeySet.intersection(triggersClassDepSet)  # we have classdep. triggers
-        compileTriggerKeys        = jobKeySet.intersection(triggersCompileSet)
-
-        # process simple job triggers
-        if simpleTriggerKeys:
-            for trigger in simpleTriggerKeys:
-                apply(jobTriggers[trigger]['action'],(self,))
-
-        if not classdependentTriggerKeys and not compileTriggerKeys:
-            return
-
-        # process job triggers that require a class list
-        (_,classes,_,_) = self.scanLibrary(config.extract("library"))
-
-        if classdependentTriggerKeys:
-            for trigger in classdependentTriggerKeys:
-                if trigger is "copy-resources":
-                    apply(jobTriggers[trigger]['action'], (self, classes))
-
-                if trigger is "api":
-                    apply(jobTriggers[trigger]['action'], (self, classes))
-
-
-
-        if not compileTriggerKeys:
-            return
-
-        # the next part is transitional, until the new runCompiled1(), runSource1() methods are implemented
-        partBuilder     = PartBuilder(self._console, self._depLoader, self._treeCompiler)
-        parts, packages = partBuilder.getPackages(partIncludes, smartExclude, classList, collapseCfg, variants, sizeCfg)
-
-        # process job triggers that compile
-        if compileTriggerKeys:
-            for trigger in compileTriggerKeys:
-                if trigger is "compile-source":
-                    self.runSource(parts, packages, boot, variants)
-
-                if trigger is "compile-dist":
-                    self.runCompiled(parts, packages, boot, variants)
-
-
-        return
-
 
     def runCompiled1(self):
 
@@ -405,15 +346,26 @@ class Generator:
 
         # Create tool chain instances
         self._depLoader      = DependencyLoader(self._classes, self._cache, self._console, self._treeLoader, require, use)
-        self._treeCompiler   = TreeCompiler(self._classes, self._cache, self._console, self._treeLoader)
-        self._partBuilder    = PartBuilder(self._console, self._depLoader, self._treeCompiler)
-        self._resourceHandler= _ResourceHandler(self)
-
+        
         # Preprocess include/exclude lists
         # This is only the parsing of the config values
         # We only need to call this once on each job
         smartInclude, explicitInclude = self.getIncludes(self._job.get("include", []))
         smartExclude, explicitExclude = self.getExcludes(self._job.get("exclude", []))
+
+        # get a class list without variants (for runApiData, runResources)
+        classList = self._resolveDependencies(smartInclude, smartExclude, explicitInclude, explicitExclude, [])
+        self._resourceHandler= _ResourceHandler(self)
+
+        if "copy-resources" in jobTriggers:
+            apply(triggersSet["copy-resources"]['action'], (self, classList))  # this might become variant-dependent later
+
+        if "api" in jobTriggers:
+            apply(triggersSet["api"]['action'], (self, classList))
+
+        # Create tool chain instances
+        self._treeCompiler   = TreeCompiler(self._classes, self._cache, self._console, self._treeLoader)
+        self._partBuilder    = PartBuilder(self._console, self._depLoader, self._treeCompiler)
 
         # Processing all combinations of variants
         variantData = self.getVariants()  # e.g. {'qx.debug':['on','off'], 'qx.aspects':['on','off']}
@@ -432,14 +384,8 @@ class Generator:
             self._classList = classList
 
             # Execute real tasks
-            self.runApiData(packageClasses)
             self.runSource(partPackages, packageClasses, boot, variants)
-            self.runResources()
             self.runCompiled(partPackages, packageClasses, boot, variants)
-            #self.runPrettyPrinting(classList)
-            #self.runLint(classList)
-            #self.runMigration(config.get("library"))
-            #self.runFix(classList)
 
             # Debug tasks
             self.runDependencyDebug(partPackages, packageClasses, variants)
@@ -449,6 +395,15 @@ class Generator:
         self._console.info("Done")
 
         return
+
+
+    def _resolveDependencies(self, smartInclude, smartExclude, explicitInclude, explicitExclude, variants):
+        self._console.info("Resolving dependencies...")
+        self._console.indent()
+        classList = self._depLoader.getClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, variants)
+        self._console.outdent()
+
+        return classList
 
 
     def _processVariantInfo(self, smartInclude, smartExclude, explicitInclude,
@@ -496,21 +451,13 @@ class Generator:
             return boot, partPackages, packageClasses
 
 
-        def resolveDependencies():
-            self._console.info("Resolving dependencies...")
-            self._console.indent()
-            classList = self._depLoader.getClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, variants)
-            self._console.outdent()
-
-            return classList
-
         # -- main --------------------------------------------------------------
 
         if len(variantSets) > 1:
             printVariantInfo(variantSetNum, variants, variantSets, variantData)
 
         # Resolving dependencies
-        classList       = resolveDependencies()
+        classList       = self._resolveDependencies(smartInclude, smartExclude, explicitInclude, explicitExclude, variants)
         self._classList = classList
 
         # Check for package configuration
@@ -537,7 +484,7 @@ class Generator:
 
 
 
-    def runApiData(self, packages):
+    def runApiData(self, classList):
         apiPath = self._job.get("api/path")
         if not apiPath:
             return
@@ -546,17 +493,9 @@ class Generator:
 
         self._apiLoader      = ApiLoader(self._classes, self._docs, self._cache, self._console, self._treeLoader)
 
-        smartInclude, explicitInclude = self.getIncludes(self._job.get("include", []))
-        smartExclude, explicitExclude = self.getExcludes(self._job.get("exclude", []))
+        self._apiLoader.storeApi(classList, apiPath)
 
-        classList = self._depLoader.getClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, {})
-        packages = [classList]
-
-        apiContent = []
-        for classes in packages:
-            apiContent.extend(classes)
-
-        self._apiLoader.storeApi(apiContent, apiPath)
+        return
 
 
     def runUnusedClasses(self, parts, packages, variants):
@@ -684,7 +623,7 @@ class Generator:
 
 
 
-    def runResources(self):
+    def runResources(self, classList):
         # only run for copy jobs
         if not self._job.get("copy-resources", False):
             return
@@ -706,7 +645,7 @@ class Generator:
             libpath = os.path.normpath(libpath)
 
             # get relevant resources for this lib
-            resList  = self._resourceHandler.findAllResources([lib], self._resourceHandler.filterResourcesByClasslist(self._classList))
+            resList  = self._resourceHandler.findAllResources([lib], self._resourceHandler.filterResourcesByClasslist(classList))
 
             # for each needed resource
             for res in resList:
