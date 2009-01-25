@@ -346,6 +346,7 @@ class Generator:
 
         # Create tool chain instances
         self._depLoader      = DependencyLoader(self._classes, self._cache, self._console, self._treeLoader, require, use)
+        self._resourceHandler= _ResourceHandler(self)
         
         # Preprocess include/exclude lists
         # This is only the parsing of the config values
@@ -353,15 +354,15 @@ class Generator:
         smartInclude, explicitInclude = self.getIncludes(self._job.get("include", []))
         smartExclude, explicitExclude = self.getExcludes(self._job.get("exclude", []))
 
-        # get a class list without variants (for runApiData, runResources)
-        classList = self._resolveDependencies(smartInclude, smartExclude, explicitInclude, explicitExclude, [])
-        self._resourceHandler= _ResourceHandler(self)
 
-        if "copy-resources" in jobTriggers:
-            apply(triggersSet["copy-resources"]['action'], (self, classList))  # this might become variant-dependent later
+        if "copy-resources" in jobTriggers or "api" in jobTriggers:
+            # get a class list without variants
+            classList = self._resolveDependencies(smartInclude, smartExclude, explicitInclude, explicitExclude, {})
+            if "copy-resources" in jobTriggers:
+                apply(triggersSet["copy-resources"]['action'], (self, classList))  # this might become variant-dependent later
 
-        if "api" in jobTriggers:
-            apply(triggersSet["api"]['action'], (self, classList))
+            if "api" in jobTriggers:
+                apply(triggersSet["api"]['action'], (self, classList))
 
         # Create tool chain instances
         self._treeCompiler   = TreeCompiler(self._classes, self._cache, self._console, self._treeLoader)
@@ -374,14 +375,13 @@ class Generator:
         # Iterate through variant sets
         for variantSetNum, variants in enumerate(variantSets):
 
-            (classList,
-            boot,
+            self._classList = self._resolveDependencies(smartInclude, smartExclude, explicitInclude, explicitExclude, variants)
+
+            (boot,
             partPackages,           # partPackages[partId]=[0,1,3]
             packageClasses          # packageClasses[0]=['qx.Class','qx.bom.Stylesheet',...]
-            )               = self._processVariantInfo(smartInclude, smartExclude, explicitInclude,
-                                                       explicitExclude, variantSetNum, variants,
-                                                       variantSets, variantData)
-            self._classList = classList
+            )               = self._processVariantInfo(self._classList, smartExclude, variantSetNum,
+                                                       variants, variantSets, variantData)
 
             # Execute real tasks
             self.runSource(partPackages, packageClasses, boot, variants)
@@ -406,8 +406,8 @@ class Generator:
         return classList
 
 
-    def _processVariantInfo(self, smartInclude, smartExclude, explicitInclude,
-                            explicitExclude, variantSetNum, variants, variantSets, variantData):
+    def _processVariantInfo(self, classList, smartExclude, variantSetNum, variants, 
+                                  variantSets, variantData):
 
         # -- helpers for the variant loop  -------------------------------------
 
@@ -456,10 +456,6 @@ class Generator:
         if len(variantSets) > 1:
             printVariantInfo(variantSetNum, variants, variantSets, variantData)
 
-        # Resolving dependencies
-        classList       = self._resolveDependencies(smartInclude, smartExclude, explicitInclude, explicitExclude, variants)
-        self._classList = classList
-
         # Check for package configuration
         if self._job.get("packages"):
             (boot,
@@ -472,7 +468,7 @@ class Generator:
             partPackages   = { "boot" : [0] }
             packageClasses = [classList]
 
-        return classList, boot, partPackages, packageClasses
+        return boot, partPackages, packageClasses
 
 
     def runPrivateDebug(self):
