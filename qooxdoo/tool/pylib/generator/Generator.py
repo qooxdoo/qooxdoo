@@ -16,6 +16,7 @@
 #
 #  Authors:
 #    * Sebastian Werner (wpbasti)
+#    * Thomas Herchenroeder (thron7)
 #
 ################################################################################
 
@@ -357,7 +358,7 @@ class Generator:
 
         if "copy-resources" in jobTriggers or "api" in jobTriggers:
             # get a class list without variants
-            classList = self._resolveDependencies(smartInclude, smartExclude, explicitInclude, explicitExclude, {})
+            classList = self._computeClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, {})
             if "copy-resources" in jobTriggers:
                 apply(triggersSet["copy-resources"]['action'], (self, classList))  # this might become variant-dependent later
 
@@ -367,47 +368,6 @@ class Generator:
         # Create tool chain instances
         self._treeCompiler   = TreeCompiler(self._classes, self._cache, self._console, self._treeLoader)
         self._partBuilder    = PartBuilder(self._console, self._depLoader, self._treeCompiler)
-
-        # Processing all combinations of variants
-        variantData = self.getVariants()  # e.g. {'qx.debug':['on','off'], 'qx.aspects':['on','off']}
-        variantSets = idlist.computeCombinations(variantData) # e.g. [{'qx.debug':'on','qx.aspects':'on'},...]
-
-        # Iterate through variant sets
-        for variantSetNum, variants in enumerate(variantSets):
-
-            self._classList = self._resolveDependencies(smartInclude, smartExclude, explicitInclude, explicitExclude, variants)
-
-            (boot,
-            partPackages,           # partPackages[partId]=[0,1,3]
-            packageClasses          # packageClasses[0]=['qx.Class','qx.bom.Stylesheet',...]
-            )               = self._processVariantInfo(self._classList, smartExclude, variantSetNum,
-                                                       variants, variantSets, variantData)
-
-            # Execute real tasks
-            self.runSource(partPackages, packageClasses, boot, variants)
-            self.runCompiled(partPackages, packageClasses, boot, variants)
-
-            # Debug tasks
-            self.runDependencyDebug(partPackages, packageClasses, variants)
-            self.runPrivateDebug()
-            self.runUnusedClasses(partPackages, packageClasses, variants)
-
-        self._console.info("Done")
-
-        return
-
-
-    def _resolveDependencies(self, smartInclude, smartExclude, explicitInclude, explicitExclude, variants):
-        self._console.info("Resolving dependencies...")
-        self._console.indent()
-        classList = self._depLoader.getClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, variants)
-        self._console.outdent()
-
-        return classList
-
-
-    def _processVariantInfo(self, classList, smartExclude, variantSetNum, variants, 
-                                  variantSets, variantData):
 
         # -- helpers for the variant loop  -------------------------------------
 
@@ -425,6 +385,50 @@ class Generator:
 
             return
 
+        # Processing all combinations of variants
+        variantData = self.getVariants()  # e.g. {'qx.debug':['on','off'], 'qx.aspects':['on','off']}
+        variantSets = idlist.computeCombinations(variantData) # e.g. [{'qx.debug':'on','qx.aspects':'on'},...]
+
+        # Iterate through variant sets
+        for variantSetNum, variants in enumerate(variantSets):
+
+            # some console output
+            if len(variantSets) > 1:
+                printVariantInfo(variantSetNum, variants, variantSets, variantData)
+
+            # get current class list
+            self._classList = self._computeClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, variants)
+
+            # get parts config
+            (boot,
+            partPackages,           # partPackages[partId]=[0,1,3]
+            packageClasses          # packageClasses[0]=['qx.Class','qx.bom.Stylesheet',...]
+            )              = self._partsConfigFromClassList(self._classList, smartExclude, variants)
+
+            # Execute real tasks
+            self.runSource(partPackages, packageClasses, boot, variants)
+            self.runCompiled(partPackages, packageClasses, boot, variants)
+
+            # Debug tasks
+            self.runDependencyDebug(partPackages, packageClasses, variants)
+            self.runPrivateDebug()
+            self.runUnusedClasses(partPackages, packageClasses, variants)
+
+        self._console.info("Done")
+
+        return
+
+
+    def _computeClassList(self, smartInclude, smartExclude, explicitInclude, explicitExclude, variants):
+        self._console.info("Resolving dependencies...")
+        self._console.indent()
+        classList = self._depLoader.getClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, variants)
+        self._console.outdent()
+
+        return classList
+
+
+    def _partsConfigFromClassList(self, classList, smartExclude, variants,):
 
         def evalPackagesConfig(smartExclude, classList, variants):
             
@@ -452,9 +456,6 @@ class Generator:
 
 
         # -- main --------------------------------------------------------------
-
-        if len(variantSets) > 1:
-            printVariantInfo(variantSetNum, variants, variantSets, variantData)
 
         # Check for package configuration
         if self._job.get("packages"):
