@@ -1071,8 +1071,8 @@ qx.Class.define("toolbox.configuration.JsonAnalyzer",
         this.childValueTextfield.setValue("");
       }
 
-      this.win.moveTo(qx.core.Init.getApplication().toolbox.__configuration.showCon.getBounds()["left"] + 100, 
-                      qx.core.Init.getApplication().toolbox.__configuration.showCon.getBounds()["top"] + 50);
+      this.win.moveTo(qx.core.Init.getApplication().toolbox.appDevel.__configuration.showCon.getBounds()["left"] + 100, 
+                      qx.core.Init.getApplication().toolbox.appDevel.__configuration.showCon.getBounds()["top"] + 50);
     },
 
 
