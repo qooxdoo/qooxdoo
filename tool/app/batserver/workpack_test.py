@@ -46,8 +46,8 @@ import optparse
 workdir = "/home/dwagner/qxselenium"
 start_test = 'java -cp "/home/dwagner/qxselenium/selenium-java-client-driver.jar:/home/dwagner/rhino1_7R1/js.jar" org.mozilla.javascript.tools.shell.Main test_testrunner.js'
 get_log = "python logFormatter.py /tmp/selenium.log selenium-report.html"
-#testBrowsers = ["'*custom /usr/lib/firefox-3.0.5/firefox -no-remote -P selenium-3'", "'*firefox /home/dwagner/firefox2/firefox-bin'", "*opera"]
-testBrowsers = ["'*custom /usr/lib/firefox-3.0.5/firefox -no-remote -P selenium-3'"]
+testBrowsers = ["'*custom /usr/lib/firefox-3.0.5/firefox -no-remote -P selenium-3'", "*opera"]
+
 # go to workdir
 def goto_workdir(workdir):
     if not os.path.exists(workdir):
@@ -122,9 +122,11 @@ def main():
     global options, args
     (options, args) = get_options()    
     os.chdir(workdir)    
-    print("autPath: " +options.autpath)
+    #print("autPath: " +options.autpath)
     for browser in testBrowsers:
-        invoke_external(start_test + " autPath=" + options.autpath + " testBrowser=" + browser)
+        startcmd = start_test + " autPath=" + options.autpath + " testBrowser=" + browser
+        print startcmd 
+        invoke_external(startcmd)
         invoke_external(get_log)
     #return rc
 
