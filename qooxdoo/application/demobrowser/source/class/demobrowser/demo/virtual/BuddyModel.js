@@ -21,7 +21,7 @@
 qx.Class.define("demobrowser.demo.virtual.BuddyModel",
 {
   extend : qx.ui.core.Widget,
-  
+
   construct : function()
   {
     this.base(arguments);
@@ -46,7 +46,7 @@ qx.Class.define("demobrowser.demo.virtual.BuddyModel",
   
     avatar :
     {
-      init : null,
+      init : "",
       event : "changeAvatar",
       check : "String"
     },
