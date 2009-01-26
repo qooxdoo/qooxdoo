@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 
-qx.Class.define("demobrowser.demo.virtual.BuddyModel",
+qx.Class.define("demobrowser.demo.virtual.messenger.BuddyModel",
 {
   extend : qx.core.Object,
 

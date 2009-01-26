@@ -26,7 +26,7 @@
 ************************************************************************ */
 
 
-qx.Class.define("demobrowser.demo.virtual.Buddy",
+qx.Class.define("demobrowser.demo.virtual.messenger.Buddy",
 {
   extend : qx.ui.core.Widget,
   
@@ -55,15 +55,7 @@ qx.Class.define("demobrowser.demo.virtual.Buddy",
     this._add(this.icon);
     
     
-  },
-  
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
- 
-  members :
-  {
   }
+  
+
 });
