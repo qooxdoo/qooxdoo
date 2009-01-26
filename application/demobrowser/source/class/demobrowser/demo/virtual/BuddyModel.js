@@ -40,7 +40,6 @@ qx.Class.define("demobrowser.demo.virtual.BuddyModel",
     name :
     {
       init : "(unnamed)",
-      apply : "_applyName",
       event : "changeName",
       check : "String"
     },
@@ -48,7 +47,6 @@ qx.Class.define("demobrowser.demo.virtual.BuddyModel",
     avatar :
     {
       init : null,
-      apply : "_applyAvatar",
       event : "changeAvatar",
       check : "String"
     },
@@ -56,7 +54,6 @@ qx.Class.define("demobrowser.demo.virtual.BuddyModel",
     status :
     {
       init : "offline",
-      apply : "_applyStatus",
       event : "changeStatus",
       check : ["away", "busy", "online", "offline"]
     }
