@@ -19,6 +19,15 @@
 #
 ################################################################################
 
+##
+#
+# The idea of this module is to inline the code of functionA into functionB
+# to improve performance.
+#
+# This is highly experimental to date and will be worked on as time allows.
+#
+##
+
 import copy
 from ecmascript.frontend import tree, treeutil
 
@@ -29,7 +38,6 @@ def patch(tree):
     processBlock(treeutil.selectNode(qxnode, "params/map/keyvalue[@key='statics']/value/map"))
     processBlock(treeutil.selectNode(qxnode, "params/map/keyvalue[@key='members']/value/map"))
 
-            
             
 def processBlock(block):
     if not block or not block.hasChildren():
@@ -107,17 +115,15 @@ def collectCalls(node, calls):
     if node.type == "call":
         var = treeutil.selectNode(node, "operand/variable")
         if var:
-            name = detect(var)
+            name = detectCallName(var)
             if name:
                 if name in calls:
                     calls[name].append(node)
                 else:
                     calls[name] = [node]
                     
-    
                 
-                
-def detect(node):
+def detectCallName(node):
     children = node.children
     
     thisFound = False
