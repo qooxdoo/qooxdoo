@@ -112,7 +112,11 @@ def dispatch_action(form):
         elif (action == 'save_Application_List'):
             print "Content-type: text/plain"  
             print
-            saveApplicationList(form) 
+            saveApplicationList(form)
+        elif (action == 'save_BuiltIn_List'):
+            print "Content-type: text/plain"  
+            print
+            saveBuiltInList(form) 
         elif (action == 'delete_Application'):
             print "Content-type: text/plain"  
             print
@@ -155,7 +159,6 @@ def generateTarget(form):
     
     if isBuiltIn == "true":
        directory, filename = os.path.split(os.path.abspath(sys.argv[0]))
-       #directory = directory.replace('\\', '\\\\')
        configFile = directory.replace(' ', '" "') + "\\..\\..\\..\\..\\" + myTypeBuilt + "\\"+ myName +"\\config.json"
        makecmd = sys.executable +' ' + directory.replace(' ', '" "') + "\\..\\..\\..\\..\\" + myTypeBuilt + "\\" +myName+'\\generate.py -c ' + configFile + " " + myType 
        cmd = makecmd
@@ -165,6 +168,8 @@ def generateTarget(form):
        result = result.replace("\n", "<br/>")
        result = result.replace("\\", "/");
        result = result.replace("//", "/");
+       result = result.replace('"source"', 'source');
+       result = result.replace('"build-script"', 'build-script');
        print result
     else: 
         if os.path.exists(myPath+"\\"+myName):
@@ -270,6 +275,18 @@ def saveApplicationList(form):
     confFile = open(directory+'\\..\\persistence\\applicationList.json', 'w')
     confFile.write(uCode)
 
+def saveBuiltInList(form):
+    sys.stdout.flush()
+
+    if 'changedBuiltInList' in form:
+        changedBuiltInList = form['changedBuiltInList'].value #changedAppList
+    
+    uCode = unicode(str(changedBuiltInList))
+    
+    directory, filename = os.path.split(os.path.abspath(sys.argv[0]))
+    directory = directory.replace('\\', '\\\\')
+    confFile = open(directory+'\\..\\persistence\\builtInList.json', 'w')
+    confFile.write(uCode)
 
 def deleteApplication(form):
     sys.stdout.flush()
