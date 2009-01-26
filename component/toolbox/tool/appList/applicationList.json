@@ -1,18 +1,9 @@
 [
   {
-    "name":"app1",
-    "path":"C:/tmp/"
-  },
-  {
-    "name":"app2",
-    "path":"C:/tmp/"
-  },
-  {
-    "name":"yxcyxc",
-    "path":"C:/tmp/"
-  },
-  {
-    "name":"TESTAPP",
-    "path":"C:/tmp/"
+    "name":"App1",
+    "path":"C:/tmp/",
+    "source":true,
+    "build":false,
+    "api":false
   }
 ]
