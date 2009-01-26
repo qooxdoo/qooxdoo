@@ -156,7 +156,7 @@ def sendReport():
     
     reportFile.close()
     
-    print("Sending report to " + strTo)
+    print("Sending report to " + testconf['mailTo'])
     
     mailServer = smtplib.SMTP(testconf['smtpHost'], testconf['smtpPort'])
     mailServer.ehlo()
