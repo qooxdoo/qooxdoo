@@ -297,10 +297,13 @@ qx.Class.define("feedreader.Application",
       // get the selected feed
       var feed = this.__treeController.getSelection().getItem(0);
       // restore the last selected feed
+      // if a feed is selected and its not an folder and an article was selected
+      // and if the article belongs to the current feed
       if (
         feed != null && 
         feed.classname == "feedreader.model.Feed" && 
-        feed.getSelectedArticle() != null
+        feed.getSelectedArticle() != null &&
+        feed.getFeeds().contains(feed.getSelectedArticle())
       ) {
         this.__listController.getSelection().push(feed.getSelectedArticle());
       }
