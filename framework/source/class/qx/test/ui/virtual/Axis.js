@@ -81,6 +81,10 @@ qx.Class.define("qx.test.ui.virtual.Axis",
       this.axis.setItemCount(1000);
       this.axis.setDefaultItemSize(10);
       this.assertItem(0, 0, this.axis.getItemAtPosition(0));
+      
+      this.assertItem(0, -10, this.axis.getItemAtPosition(-10));
+      this.assertItem(999, 10, this.axis.getItemAtPosition(10 * 1000));
+      this.assertItem(999, 110, this.axis.getItemAtPosition(10 * 1000 + 100));      
     },
     
     testGetItemAtPositionCustomSizes : function()
