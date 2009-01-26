@@ -134,11 +134,6 @@ def sendReport():
     from email.MIMEImage import MIMEImage
     import smtplib
     
-    strFrom = 'zipotter@gmail.com'
-    strTo = 'daniel.wagner@1und1.de'
-    gmail_user = 'zipotter@gmail.com'
-    gmail_pwd = 'va-5150'
-    
     # Create the root message and fill in the from, to, and subject headers
     msgRoot = MIMEMultipart('related')
     msgRoot['Subject'] = 'Test Runner report'
