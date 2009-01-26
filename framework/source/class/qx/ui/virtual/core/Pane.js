@@ -37,6 +37,8 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     
     this.__paneHeight = 0;
     this.__paneWidth = 0;
+    
+    this.__layerWindow = {};
         
     // create layer container. The container does not have a layout manager
     // layers are positioned using "setUserBounds"
@@ -386,8 +388,12 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     
     _onResize : function() 
     {
-      if (this.getContainerElement().getDomElement()) {        
-        this.updateScrollPosition();  
+      if (this.getContainerElement().getDomElement()) 
+      {        
+        this.__dontFireUpdate = true;
+        this.updateScrollPosition();
+        this.__dontFireUpdate = null;
+        this.fireEvent("update");
       }
     },
     
@@ -474,6 +480,10 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     
     __checkPaneResize : function()
     {
+      if (this.__dontFireUpdate) {
+        return;
+      }
+      
       var scrollSize = this.getScrollSize();
       if (
         this.__paneHeight !== scrollSize.height ||

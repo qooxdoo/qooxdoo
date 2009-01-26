@@ -202,7 +202,7 @@ qx.Class.define("qx.test.ui.virtual.Pane",
         width: 100,
         height: 50
       });                
-      this.pane.updateLayerWindow();
+      this.pane.updateScrollPosition();
       qx.ui.core.queue.Manager.flush();
       
       layer.calls = [];      
