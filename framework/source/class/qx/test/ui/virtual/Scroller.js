@@ -88,8 +88,8 @@ qx.Class.define("qx.test.ui.virtual.Scroller",
 
       this.scroller.scrollToX(3000);
 
-      this.assertEquals(2999-200, this.scroller.getScrollX());
-      this.assertEquals(2999-200, this.scroller.pane.getScrollX());
+      this.assertEquals(2999-300, this.scroller.getScrollX());
+      this.assertEquals(2999-300, this.scroller.pane.getScrollX());
       
       this.configureScroller(3000, 2000, 3000, 2000);
       this.assertScrollbars(false, false);
