@@ -61,7 +61,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
   
   events :
   {
-    /** Fired on resize of both the container or the (virtual) content. */
+    /** Fired on resize of either the container or the (virtual) content. */
     "update" : "qx.event.type.Event",
     
     /** Dispatched when a data cell has been clicked. */

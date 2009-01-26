@@ -92,6 +92,48 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.assertEquals(1, layer.calls.length);
       this.assertEquals("fullUpdate", layer.calls[0][0]);
     },
+    
+    testUpdateEvent : function()
+    {
+      var called = 0;
+      
+      var pane = new qx.ui.virtual.core.Pane(100, 20, 10, 50);
+      pane.addListener("update", function() { called ++}, this);
+      pane.set({
+        width: 300,
+        height: 200
+      });
+            
+      // no update after creation
+      this.getRoot().add(pane);
+      this.assertEquals(0, called, "Expect no update after creation");
+      
+      // one update after appear
+      qx.ui.core.queue.Manager.flush();
+      this.assertEquals(1, called, "Expect one update after appear");      
+      
+      // one update after pane resize
+      called = 0;
+      pane.setWidth(400);
+      qx.ui.core.queue.Manager.flush();
+      this.assertEquals(1, called, "Expect one update after pane resize");
+      
+      // one update after data resize
+      called = 0;
+      pane.rowConfig.setItemCount(200);
+      this.assertEquals(0, called, "Expect no update");
+      pane.fullUpdate();
+      this.assertEquals(1, called, "Expect one update after data resize");
+      
+      // one update after data and pane resize
+      called = 0;
+      pane.rowConfig.setItemCount(300);
+      pane.setWidth(500);
+      qx.ui.core.queue.Manager.flush();
+      this.assertEquals(1, called, "Expect one update after data and pane resize");
+      
+      pane.destroy();
+    },
         
     assertUpdateArgs : function(rowIndex, colIndex, rowSizes, colSizes, args, msg)
     {
