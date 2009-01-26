@@ -151,6 +151,16 @@ qx.Class.define("qx.data.controller.List",
 
         // check for the new length
         this.__changeModelLength();
+        
+        // if there is a target
+        if (this.getTarget() != null) {
+          // update the model references to the models
+          for (var i = 0; i < this.getModel().length; i++) {
+            var modelNode = this.getModel().getItem(i);
+            var listItem = this.getTarget().getChildren()[i];
+            listItem.setUserData("model", modelNode);
+          }          
+        }
       }
 
       // erase the selection if there is something selected
