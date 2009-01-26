@@ -116,7 +116,11 @@ def dispatch_action(form):
         elif (action == 'save_BuiltIn_List'):
             print "Content-type: text/plain"  
             print
-            saveBuiltInList(form) 
+            saveBuiltInList(form)
+        elif (action == 'show_BuiltIn_List'):
+            print "Content-type: text/plain"  
+            print
+            showBuiltInList(form)  
         elif (action == 'delete_Application'):
             print "Content-type: text/plain"  
             print
@@ -241,23 +245,12 @@ def saveConfiguration(form):
     
     
 def showApplicationList(form):
-    sys.stdout.flush()
-    
-    myName = ""
-    if 'myName' in form:
-        myName = form['myName'].value #Name
-    myPath = ""
-    if 'myPath' in form:
-        myPath = form['myPath'].value #Path
-        myPath = myPath.replace(' ', '" "')   
-        if myPath[(len(myPath)-1)] != "\\":
-           myPath = myPath + '\\'    
+    sys.stdout.flush()  
     
     directory, filename = os.path.split(os.path.abspath(sys.argv[0]))
     directory = directory.replace('\\', '\\\\')
     list = open(directory+'\\..\\persistence\\applicationList.json', 'r').readlines()
     input = "".join(list)
-    
     print input
     return input
 
@@ -287,6 +280,16 @@ def saveBuiltInList(form):
     directory = directory.replace('\\', '\\\\')
     confFile = open(directory+'\\..\\persistence\\builtInList.json', 'w')
     confFile.write(uCode)
+
+def showBuiltInList(form):
+    sys.stdout.flush()
+    
+    directory, filename = os.path.split(os.path.abspath(sys.argv[0]))
+    directory = directory.replace('\\', '\\\\')
+    list = open(directory+'\\..\\persistence\\applicationList.json', 'r').readlines()
+    input = "".join(list)
+    print input
+    return input
 
 def deleteApplication(form):
     sys.stdout.flush()
@@ -318,28 +321,15 @@ def openInBrowser(form):
            myPath = myPath + '\\'
     if 'location' in form:
         location = form['location'].value 
-    isBuiltIn = ""    
-    if 'isBuiltIn' in form:
-        isBuiltIn = form['isBuiltIn'].value #is Built-in    
-    myTypeBuilt = "" 
-    if 'myTypeBuilt' in form:
-        myTypeBuilt = form['myTypeBuilt'].value #is Built-in 
-    
-    if isBuiltIn == "true":
-        directory, filename = os.path.split(os.path.abspath(sys.argv[0]))
-        path = directory.replace('\\', '/') + "/../../../../" + myTypeBuilt + "/" + myName +"/"+location+"/index.html"
-        webbrowser.open_new_tab(path);
-        result = '{open_state: ' + repr(0) + ' , open_output: "' + myName + ' in ' + path.replace('\\', '\\\\') + ' was started successfully" }'
+           
+    filePath = myPath+myName+"\\"+location+"\\index.html"
+    if (os.path.exists(filePath)):
+    	webbrowser.open_new_tab("file:///" + filePath);
+    	result = '{open_state: ' + repr(0) + ' , open_output: "' + myName + ' in ' + myPath.replace('\\', '\\\\') + ' was started successfully" }'
         print result
-    else:            
-        filePath = myPath+myName+"\\"+location+"\\index.html"
-        if (os.path.exists(filePath)):
-        	webbrowser.open_new_tab("file:///" + filePath);
-        	result = '{open_state: ' + repr(0) + ' , open_output: "' + myName + ' in ' + myPath.replace('\\', '\\\\') + ' was started successfully" }'
-	        print result
-        else:
-            result = '{open_state: ' + repr(1) + ' , open_error: "' + myName + ' not found in ' + myPath.replace('\\', '\\\\') + ' <br/>Application maybe does not exist" }'
-    	    print result
+    else:
+        result = '{open_state: ' + repr(1) + ' , open_error: "' + myName + ' not found in ' + myPath.replace('\\', '\\\\') + ' <br/>Application maybe does not exist" }'
+	print result
     	
 	return result
 	
