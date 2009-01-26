@@ -203,6 +203,22 @@ qx.Class.define("qx.ui.virtual.core.Axis",
      */
     getItemAtPosition : function(position) 
     {
+      if (position < 0) 
+      {
+        return {
+          index: 0,
+          offset: position
+        }
+      }
+      
+      if (position >= this.getTotalSize()) 
+      {
+        return {
+          index : this.itemCount-1,
+          offset: position - this.getTotalSize() + this.getItemSize(this.itemCount-1)  
+        }
+      }
+      
       var range = this.__findRangeByPosition(position);
       
       var startPos = range.rangeStart;
