@@ -105,10 +105,11 @@ qx.Class.define("toolbox.configuration.ConfigurationDialog",
         this.setModal(true);
         this.setShowMinimize(false);
         this.setLayout(vBoxLayout);
+        this.setWidth(550);
         this.setMinWidth(410);
-        this.setMinHeight(550);
-		    this.open();
-		    this.show();
+        this.setMinHeight(500);
+		this.open();
+		this.show();
 		
         
         // --------Buttons-----------------------------------------------------

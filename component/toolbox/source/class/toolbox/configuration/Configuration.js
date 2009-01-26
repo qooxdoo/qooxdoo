@@ -38,10 +38,10 @@ qx.Class.define("toolbox.configuration.Configuration",
     *****************************************************************************
   */
 
-  construct : function(adminPath, fileName, filePath, logFrame, configButton)
+  construct : function(adminPath, fileName, filePath, logFrame, develWidgets)
   {
-    this.base(arguments, adminPath, fileName, filePath, logFrame, configButton);
-    this.__showConfiguration(adminPath, fileName, filePath, logFrame, configButton);
+    this.base(arguments, adminPath, fileName, filePath, logFrame, develWidgets);
+    this.__showConfiguration(adminPath, fileName, filePath, logFrame, develWidgets);
   },
 
 
@@ -66,7 +66,7 @@ qx.Class.define("toolbox.configuration.Configuration",
      * @param logFrame {var} log output
      * @return {void} 
      */
-    __showConfiguration : function(adminPath, fileName, filePath, logFrame, configButton)
+    __showConfiguration : function(adminPath, fileName, filePath, logFrame, develWidgets)
     {
       var url = adminPath;
       var req = new qx.io.remote.Request(url, "POST");
@@ -89,7 +89,7 @@ qx.Class.define("toolbox.configuration.Configuration",
 
       req.addListener("completed", function(evt)
       {
-      	configButton.setEnabled(true);
+      	develWidgets["development.configurationButton"].setEnabled(true);
         var result = evt.getContent();
         var restoreResult = result;
         this.showCon = new toolbox.configuration.ConfigurationDialog(adminPath, fileName, filePath, logFrame, restoreResult);
@@ -104,7 +104,7 @@ qx.Class.define("toolbox.configuration.Configuration",
       this);
 
       req.send();
-      configButton.setEnabled(false);
+      develWidgets["development.configurationButton"].setEnabled(false);
       return;
     },
 
