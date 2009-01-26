@@ -35,12 +35,31 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
     main : function()
     {
       this.base(arguments);
+      
+      var doc = this.getRoot();
+      
+      this.messenger = new demobrowser.demo.virtual.messenger.Messenger();
+      messenger = this.messenger;
+      
+      var btnAdd = new qx.ui.form.Button("Add a contact");
+      var btnRemove = new qx.ui.form.Button("Remove a contact");
+
+      btnAdd.addListener("execute", this.addContact, this);
+      btnRemove.addListener("execute", this.removeContact, this);
+
+      doc.add(btnAdd, {left : 20, top : 10});
+      doc.add(btnRemove, {left : 20, top : 40});
+    },
+    
+    addContact: function()
+    {
+      this.messenger.getModel().push(new demobrowser.demo.virtual.messenger.BuddyModel);
+    },
+
+    removeContact: function()
+    {
+      this.messenger.getModel().pop();
     }
-
-
-
-
-
 
   }
 });

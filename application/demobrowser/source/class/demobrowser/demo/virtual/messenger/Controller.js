@@ -16,7 +16,7 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("demobrowser.demo.virtual.Controller", 
+qx.Class.define("demobrowser.demo.virtual.messenger.Controller", 
 {
   extend : qx.core.Object,
 

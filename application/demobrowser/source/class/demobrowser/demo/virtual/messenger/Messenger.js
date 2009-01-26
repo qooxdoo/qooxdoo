@@ -23,9 +23,9 @@
 #asset(qx/icon/${qx.icontheme}/22/emotes/*)
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.virtual.Messenger",
+qx.Class.define("demobrowser.demo.virtual.messenger.Messenger",
 {
-  extend : qx.application.Standalone,
+  extend : qx.ui.core.Widget,
 
   construct : function()
   {
@@ -40,6 +40,72 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
     this._groupPool = [];
     
     
+    this.base(arguments);
+    
+    // Create and fill model
+    this.setModel(new qx.data.Array());
+    var model = this.getModel();
+
+    for (var i=0; i<this.__users.length; i++)
+    {
+      var buddyModel = new demobrowser.demo.virtual.messenger.BuddyModel().set({
+        name : this.__users[i].name,
+        avatar : this.__users[i].img,
+        status : this.__users[i].statusIcon
+      });
+
+      model.setItem(i, buddyModel);
+    }
+
+    var win = new qx.ui.window.Window("Contacts").set({
+      contentPadding: 0,
+      showClose: false,
+      showMinimize: false
+    });
+    win.setLayout(new qx.ui.layout.Grow());
+    win.moveTo(200, 50);
+    win.open();
+    
+    var width = 200;
+    
+    var scroller = new qx.ui.virtual.core.Scroller(400, 1, 28, width).set({
+      scrollbarX: "off",
+      scrollbarY: "auto",
+      width: width,
+      height: 300
+    });
+
+    scroller.pane.addListener("resize", function(e)
+    {
+      scroller.pane.columnConfig.setItemSize(0, e.getData().width);
+      scroller.pane.fullUpdate();
+    });
+    
+
+    var groupColor = "rgb(60, 97, 226)";
+    var rowLayer = new qx.ui.virtual.layer.Row("white", "rgb(238, 243, 255)");
+
+    for (var row in this.groupPositions) 
+    {
+      row = parseInt(row);
+      scroller.pane.rowConfig.setItemSize(row, 15);
+      rowLayer.setRowColor(row, groupColor);
+    }
+    
+    scroller.pane.addLayer(rowLayer);
+    scroller.pane.addLayer(new qx.ui.virtual.layer.WidgetCell(this));
+    win.add(scroller);
+    
+    this.__scroller = scroller;
+
+    // TODO!
+    // var prefetch = new qx.ui.virtual.behavior.Prefetch(
+    //   scroller,
+    //   0, 0, 0, 0,
+    //   200, 300, 600, 800
+    // );
+
+    new demobrowser.demo.virtual.messenger.Controller(this.getModel(), this);
     
     
   },
@@ -76,77 +142,6 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
      * This method contains the initial application code and gets called 
      * during startup of the application
      */
-    main : function()
-    {
-      this.base(arguments);
-      
-      // Create and fill model
-      this.setModel(new qx.data.Array());
-      var model = this.getModel();
-
-      for (var i=0; i<this.__users.length; i++)
-      {
-        var buddyModel = new demobrowser.demo.virtual.BuddyModel().set({
-          name : this.__users[i].name,
-          avatar : this.__users[i].img,
-          status : this.__users[i].statusIcon
-        });
-
-        model.setItem(i, buddyModel);
-      }
-
-      var win = new qx.ui.window.Window("Contacts").set({
-        contentPadding: 0,
-        showClose: false,
-        showMinimize: false
-      });
-      win.setLayout(new qx.ui.layout.Grow());
-      win.moveTo(30, 50);
-      win.open();
-      
-      var width = 200;
-      
-      var scroller = new qx.ui.virtual.core.Scroller(400, 1, 28, width).set({
-        scrollbarX: "off",
-        scrollbarY: "auto",
-        width: width,
-        height: 300
-      });
-      scroller.pane.addListener("resize", function(e)
-      {
-        scroller.pane.columnConfig.setItemSize(0, e.getData().width);
-        scroller.pane.fullUpdate();
-      });
-      
-
-      var groupColor = "rgb(60, 97, 226)";
-      var rowLayer = new qx.ui.virtual.layer.Row("white", "rgb(238, 243, 255)");
-
-      for (var row in this.groupPositions) 
-      {
-        row = parseInt(row);
-        scroller.pane.rowConfig.setItemSize(row, 15);
-        rowLayer.setRowColor(row, groupColor);
-      }
-      
-      scroller.pane.addLayer(rowLayer);
-      scroller.pane.addLayer(new qx.ui.virtual.layer.WidgetCell(this));
-      win.add(scroller);
-      
-      this.__scroller = scroller;
-        
-      var prefetch = new qx.ui.virtual.behavior.Prefetch(
-        scroller,
-        0, 0, 0, 0,
-        200, 300, 600, 800
-      );
-
-
-
-      new demobrowser.demo.virtual.Controller(this.getModel(), this);
-      
-      m = this.getModel();
-    },
 
     __createUsers : function()
     {
@@ -229,17 +224,12 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
       }
       else
       {
-        widget = this._buddyPool.pop() || new demobrowser.demo.virtual.Buddy(); 
+        widget = this._buddyPool.pop() || new demobrowser.demo.virtual.messenger.Buddy(); 
         if (row < this.getModel().length+1)
         {
-          // widget.label.setContent(this.__users[row-1].name);
-          // widget.icon.setSource(this.__users[row-1].img);
-          // widget.statusIcon.setSource("demobrowser/demo/icons/imicons/status_" + this.__users[row-1].statusIcon + ".png");
-
           widget.label.setContent(this.getModel().getItem(row-1).getName());
           widget.icon.setSource(this.getModel().getItem(row-1).getAvatar());
           widget.statusIcon.setSource("demobrowser/demo/icons/imicons/status_" + this.getModel().getItem(row-1).getStatus() + ".png");
-          
         }
         else
         {
