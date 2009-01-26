@@ -376,26 +376,36 @@ qx.Class.define("toolbox.builder.Builder",
      * @param develWidgets {var} widgets of the development pane
      * @return {void} 
      */
-    prepareApplicationList : function(adminPath, logFrame, develWidgets)
+    prepareApplicationList : function(adminPath, logFrame, widgets, list)
     {
       var url = adminPath;
       var req = new qx.io.remote.Request(url, "POST");
       var dat = "action=show_Application_List";
+      var dat2 = "action=show_BuiltIn_List";
       req.setTimeout(100000);
 
-      req.setData(dat);
-
+      if(list == "application") {
+        req.setData(dat);
+      } else {
+      	req.setData(dat2);
+      }
       req.addListener("completed", function(evt)
       {
         var result = evt.getContent();
         result = result.replace(/\n/g, "").replace(/{/g, "\{").replace(/}/g, "\}");
-        this.jsonObject = qx.util.Json.parse(result);
-        toolbox.content.DevelopmentContent.APPLIST = this.jsonObject;
-
-        if (toolbox.content.DevelopmentContent.APPLIST.length == 0) {
-          develWidgets["development.selectAppMenuButton"].setEnabled(false);
+        
+        if(list == "application") {
+          this.jsonObject = qx.util.Json.parse(result);
+          toolbox.content.DevelopmentContent.APPLIST = this.jsonObject;
+          //disables the "switch application" button, if no application was created
+          if (toolbox.content.DevelopmentContent.APPLIST.length == 0) {
+            widgets["development.selectAppMenuButton"].setEnabled(false);
+          } else {
+            widgets["development.selectAppMenuButton"].setEnabled(true);
+          }
         } else {
-          develWidgets["development.selectAppMenuButton"].setEnabled(true);
+        	this.jsonObject = qx.util.Json.parse(result);
+          toolbox.content.BuiltInContent.BUILTINLIST = this.jsonObject;
         }
       },
       this);
@@ -421,17 +431,17 @@ qx.Class.define("toolbox.builder.Builder",
      * @param generationTyp {var} the kind of the generation
      * @return {void} 
      */
-    openApplication : function(adminPath, fileName, filePath, logFrame, generationTyp, isBuiltIn, typeBuilt)
+    openApplication : function(adminPath, fileName, filePath, logFrame, generationTyp)
     {
       if (generationTyp == "source" || generationTyp == "build" || generationTyp == "test" || generationTyp == "api")
       {
         var url = adminPath;
         var req = new qx.io.remote.Request(url, "POST", "application/json");
         var openSource = 'action=open_In_Browser&location=' + generationTyp;
-        var createParams = [ fileName, filePath, isBuiltIn, typeBuilt ];
+        var createParams = [ fileName, filePath];
         req.setTimeout(100000);
 
-        var params = [ "myName", "myPath", "isBuiltIn", "myTypeBuilt" ];
+        var params = [ "myName", "myPath" ];
 
         for (var i=0; i<createParams.length; i++)
         {
