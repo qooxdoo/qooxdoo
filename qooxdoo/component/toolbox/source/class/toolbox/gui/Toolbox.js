@@ -33,10 +33,10 @@ qx.Class.define("toolbox.gui.Toolbox",
 
 
   /*
-      *****************************************************************************
-    	 CONSTRUCTOR
-      ****************************************************************************
-      */
+        *****************************************************************************
+      	 CONSTRUCTOR
+        ****************************************************************************
+        */
 
   construct : function()
   {
@@ -95,25 +95,24 @@ qx.Class.define("toolbox.gui.Toolbox",
     this.__attachOpenLogPane();
     this.__assignHomeInitialListener();
     this.__attachContent();
-
   },
 
 
 
 
   /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
+    *****************************************************************************
+       MEMBERS
+    *****************************************************************************
+    */
 
   members :
   {
     /*
-	----------------------------------------------------------------------------
-	  CONFIG SETTINGS
-	----------------------------------------------------------------------------
-	*/
+    	----------------------------------------------------------------------------
+    	  CONFIG SETTINGS
+    	----------------------------------------------------------------------------
+    	*/
 
     __adminHost : "127.0.0.1",
     __adminPort : "8000",
@@ -179,7 +178,7 @@ qx.Class.define("toolbox.gui.Toolbox",
       toolbar.add(part2);
 
       // --Log button (shows/hides the log pane)
-      var logCheckButton = new qx.ui.toolbar.CheckBox("Log", "toolbox/image/utilities-log-viewer.png");
+      var logCheckButton = new qx.ui.toolbar.CheckBox("Log File", "toolbox/image/utilities-log-viewer.png");
       part2.add(logCheckButton);
       this.widgets["toolbar.logCheckButton"] = logCheckButton;
       logCheckButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Show log output")));
@@ -199,7 +198,8 @@ qx.Class.define("toolbox.gui.Toolbox",
       this.widgets["toolbar.homeButton"].addListener("click", function() {
         this.widgets["toolbar.homeButton"].setChecked(true);
       }, this);
-    },  
+    },
+
 
     /**
      * Shows the log entries.
@@ -220,6 +220,7 @@ qx.Class.define("toolbox.gui.Toolbox",
       },
       this);
     },
+
 
     /**
      * attaches the content of the toolbox
@@ -258,14 +259,18 @@ qx.Class.define("toolbox.gui.Toolbox",
           }
           else if (e.getData().getLabel().toString() == "Built-in Applications")
           {
-            this.logStack.exclude();
+            //this.logStack.exclude();
             this.mainStack.setSelected(this.mainStack.getChildren()[2]);
 
             this.widgets["toolbar.appBuiltButton"].addListener("click", function() {
               this.widgets["toolbar.appBuiltButton"].setChecked(true);
             }, this);
 
-            this.widgets["toolbar.logCheckButton"].setEnabled(false);
+            if (this.widgets["toolbar.logCheckButton"].getChecked()) {
+              this.logStack.show();
+            }
+            
+            this.widgets["toolbar.logCheckButton"].setEnabled(true);
           }
           else if (e.getData().getLabel().toString() == "Help")
           {
@@ -283,6 +288,7 @@ qx.Class.define("toolbox.gui.Toolbox",
 
       this);
     },
+
 
     /**
      * creates the the log pane of the toolbox
@@ -309,7 +315,7 @@ qx.Class.define("toolbox.gui.Toolbox",
       var container = new qx.ui.container.Composite(layout);
 
       // caption of the log pane
-      var caption = new qx.ui.basic.Label(this.tr("Log")).set(
+      var caption = new qx.ui.basic.Label(this.tr("Log File")).set(
       {
         font       : "bold",
         rich       : true,
@@ -337,9 +343,7 @@ qx.Class.define("toolbox.gui.Toolbox",
       return container;
     },
 
-    // -------------------------------------------------------------------------
-    // -------------------------------------------------------------------------
-    // -------------------------------------------------------------------------
+    
     /**
      * creates the home pane of the toolbox
      *
@@ -369,7 +373,7 @@ qx.Class.define("toolbox.gui.Toolbox",
       return container;
     },  // makeHomecontent
 
-
+    
     /**
      * creates the development pane of the toolbox
      *
@@ -432,9 +436,11 @@ qx.Class.define("toolbox.gui.Toolbox",
         overflowX : "auto"
       });
 
-      this.BuiltInAppHtmlEmbed.setHtml(document.getElementById("builtin_apps").innerHTML);
-      this.BuiltInAppHtmlEmbed.set({ backgroundColor : "white" });
-      container.add(this.BuiltInAppHtmlEmbed, { flex : 1 });
+      //this.BuiltInAppHtmlEmbed.setHtml(document.getElementById("builtin_apps").innerHTML);
+      //this.BuiltInAppHtmlEmbed.set({ backgroundColor : "white" });
+      //container.add(this.BuiltInAppHtmlEmbed, { flex : 1 });
+      var builtIn = new toolbox.content.BuiltInContent(this.widgets);
+      container.add(builtIn, { flex : 1 });
 
       return container;
     },  // makeHomecontent

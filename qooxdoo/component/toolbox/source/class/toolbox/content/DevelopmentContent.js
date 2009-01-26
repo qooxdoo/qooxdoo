@@ -80,47 +80,51 @@ qx.Class.define("toolbox.content.DevelopmentContent",
     this.develWidgets["development.generateSourceButton"] = generateSourceButton;
     generateSourceButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Generates the source version of the current application")));
 
+    // -- generate source all button
+    var generateSourceAllButton = new qx.ui.form.Button(null, "toolbox/image/48/system.png");
+    this.develWidgets["development.generateSourceAllButton"] = generateSourceAllButton;
+    generateSourceAllButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Generates the source version of the current application with all qooxdoo classes")));
+
     // -- generate build button
-    var generateBuildButton = new qx.ui.form.Button("Generate Build", "toolbox/image/executable.png");
+    var generateBuildButton = new qx.ui.form.Button(null, "toolbox/image/48/executable.png");
     this.develWidgets["development.generateBuildButton"] = generateBuildButton;
     generateBuildButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Generates the build version of the current application")));
 
-    // -- make pretty
-    var makePrettyButton = new qx.ui.form.Button("Prettify Source", "toolbox/image/format-indent-more.png");
+    // -- make pretty button
+    var makePrettyButton = new qx.ui.form.Button(null, "toolbox/image/48/format-indent-less.png");
     this.develWidgets["development.makePrettyButton"] = makePrettyButton;
     makePrettyButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Prettifies the source code")));
 
-    // -- validate code
-    var validateCodeButton = new qx.ui.form.Button("Validate Source", "toolbox/image/edit-find.png");
+    // -- validate code button
+    var validateCodeButton = new qx.ui.form.Button(null, "toolbox/image/48/system-search.png");
     this.develWidgets["development.validateCodeButton"] = validateCodeButton;
     validateCodeButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Validates the source Code")));
 
-    // -- generate Api
-    var generateApiButton = new qx.ui.form.Button("Generate API", "toolbox/image/help-contents.png");
+    // -- generate Api button
+    var generateApiButton = new qx.ui.form.Button(null, "toolbox/image/48/help-contents.png");
     this.develWidgets["development.generateApiButton"] = generateApiButton;
     generateApiButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Generates the API of current the application")));
 
-    // -- test source
-    var testSourceButton = new qx.ui.form.Button("Test Source", "toolbox/image/check-spelling.png");
+    // -- test source button
+    var testSourceButton = new qx.ui.form.Button(null, "toolbox/image/48/check-spelling.png");
     this.develWidgets["development.testSourceButton"] = testSourceButton;
     testSourceButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Starts the Testrunner for testing the source version")));
 
-    // -- test build
-    var testBuildButton = new qx.ui.form.Button("Test Build", "toolbox/image/dialog-apply.png");
+    // -- test build button
+    var testBuildButton = new qx.ui.form.Button(null, "toolbox/image/48/dialog-apply.png");
     this.develWidgets["development.testBuildButton"] = testBuildButton;
     testBuildButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Starts the Testrunner for testing the build version")));
 
-    var configurationButton = new qx.ui.form.Button("Configuration", "toolbox/image/preferences.png");
+    // -- configuration button
+    var configurationButton = new qx.ui.form.Button(null, "toolbox/image/48/preferences-system.png");
     this.develWidgets["development.configurationButton"] = configurationButton;
-    configurationButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Configuration of the application")));
-
-    // disables all function (initial)
-    this.__setEnableAllFunctions(false);
+    configurationButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Configuration of the current application")));
 
     // Listener, signs all listener to the correspondig functions
     this.develWidgets["development.createSkeletonButton"].addListener("execute", this.__createApplicationDialog, this);
     this.develWidgets["development.removeButton"].addListener("execute", this.__removeDialog, this);
     this.develWidgets["development.generateSourceButton"].addListener("execute", this.__generateSource, this);
+    this.develWidgets["development.generateSourceAllButton"].addListener("execute", this.__generateSourceAll, this);
     this.develWidgets["development.generateBuildButton"].addListener("execute", this.__generateBuild, this);
     this.develWidgets["development.makePrettyButton"].addListener("execute", this.__makePretty, this);
     this.develWidgets["development.validateCodeButton"].addListener("execute", this.__validateCode, this);
@@ -130,7 +134,7 @@ qx.Class.define("toolbox.content.DevelopmentContent",
     this.develWidgets["development.configurationButton"].addListener("execute", this.__openConfiguration, this);
     this.develWidgets["development.selectAppMenuButton"].addListener("changeEnabled", this.__setAppListMenu, this);
 
-    //The Tabview
+    // The Tabview
     this.add(this.getTabView(),
     {
       row     : 0,
@@ -139,12 +143,16 @@ qx.Class.define("toolbox.content.DevelopmentContent",
       colSpan : 0
     });
 
+    // disables all functions (initial)
+    this.__setEnableAllFunctions(false, true);
+
+    // loads the application list
     this.__loadAppList();
   },
 
-  //Applicationlist
+  // Applicationlist
   statics : { APPLIST : null },
-  
+
   members :
   {
     /**
@@ -181,9 +189,9 @@ qx.Class.define("toolbox.content.DevelopmentContent",
 
 
     /**
-     * sets some changes, if a application was selected from the list
+     * sets some changes, if an application was selected from the list
      *
-     * @param e {Event} TODOC
+     * @param e {Event} Target
      * @return {void} 
      */
     __onApplicationChanged : function(e)
@@ -194,9 +202,29 @@ qx.Class.define("toolbox.content.DevelopmentContent",
       this.setCurrentFileName(appName);
       var appPath = label[1].replace("<br>", "");
       this.setCurrentFilePath(appPath);
-
       this.appDevelCaption.setContent("Current application: " + appName);
-      this.__setEnableAllFunctions(true);
+      this.__setEnableAllFunctions(true, true);
+
+      for (var i=0; i<toolbox.content.DevelopmentContent.APPLIST.length; i++)
+      {
+        if (toolbox.content.DevelopmentContent.APPLIST[i].name == appName & toolbox.content.DevelopmentContent.APPLIST[i].path == appPath.replace(/\\/g, "/"))
+        {
+          if (toolbox.content.DevelopmentContent.APPLIST[i].source == false)
+          {
+            this.develWidgets["development.openSourceButton"].setEnabled(false);
+            this.develWidgets["development.openSourceAllButton"].setEnabled(false);
+          }
+
+          if (toolbox.content.DevelopmentContent.APPLIST[i].build == false) {
+            this.develWidgets["development.openBuildButton"].setEnabled(false);
+          }
+          
+          if (toolbox.content.DevelopmentContent.APPLIST[i].api == false) {
+            this.develWidgets["development.openApiButton"].setEnabled(false);
+          }
+          
+        }
+      }
     },
 
 
@@ -213,6 +241,7 @@ qx.Class.define("toolbox.content.DevelopmentContent",
       // Adding
       tabView.add(this.getApplicationPane());
       tabView.add(this.getGenerationPane());
+      tabView.add(this.getAnalysisPane());
       tabView.add(this.getTestApiPane());
       tabView.add(this.getConfigurationPane());
       tabView.add(this.getInspectorPane());
@@ -224,27 +253,26 @@ qx.Class.define("toolbox.content.DevelopmentContent",
     /**
      * contains the functions to create/delete or select applications
      *
-     * @return {var} applicationPage 
+     * @return {var} applicationPage
      */
     getApplicationPane : function()
     {
-      var applicationPage = new qx.ui.tabview.Page("<b>Application</b>", "toolbox/image/64/development.png");
+      var applicationPage = new qx.ui.tabview.Page("<b>Applications</b>", "toolbox/image/64/development.png");
       applicationPage.getChildControl("button").getChildControl("label").setRich(true);
       applicationPage.getChildControl("button").setIconPosition("top");
 
-      //gruopbox 1 contains the "New Application" button
+      // gruopbox 1 contains the "New Application" button
       var box1 = new qx.ui.groupbox.GroupBox();
       box1.setLayout(new qx.ui.layout.Grid(5, 5));
-      
-      //gruopbox 2 contains the "Switch Application" button
+
+      // gruopbox 2 contains the "Switch Application" button
       var box2 = new qx.ui.groupbox.GroupBox();
       box2.setLayout(new qx.ui.layout.Grid(5, 5));
-      
-      //gruopbox 3 contains the "Remove Application" button
+
+      // gruopbox 3 contains the "Remove Application" button
       var box3 = new qx.ui.groupbox.GroupBox();
       box3.setLayout(new qx.ui.layout.Grid(5, 5));
-      
-      
+
       applicationPage.setLayout(new qx.ui.layout.Grid(5, 5));
 
       applicationPage.add(box1,
@@ -262,7 +290,7 @@ qx.Class.define("toolbox.content.DevelopmentContent",
         rowSpan : 0,
         colSpan : 0
       });
-      
+
       applicationPage.add(box3,
       {
         row     : 2,
@@ -270,7 +298,7 @@ qx.Class.define("toolbox.content.DevelopmentContent",
         rowSpan : 0,
         colSpan : 0
       });
-      
+
       box1.add(this.develWidgets["development.createSkeletonButton"],
       {
         row     : 0,
@@ -279,9 +307,7 @@ qx.Class.define("toolbox.content.DevelopmentContent",
         colSpan : 0
       });
 
-      box1.add(new qx.ui.basic.Label('<font size="+2">New Application</font> <br>' + 
-                                     'Creates a new qooxdoo-skeleton.<br>' + 
-                                     'This step is necessary if you want develop a new application.').set({ rich : true }),
+      box1.add(new qx.ui.basic.Label('<font size="+2">New Application</font> <br>' + 'Creates a new qooxdoo-skeleton.<br>' + 'This step is necessary if you want develop a new application.').set({ rich : true }),
       {
         row     : 0,
         column  : 1,
@@ -297,9 +323,7 @@ qx.Class.define("toolbox.content.DevelopmentContent",
         colSpan : 0
       });
 
-      box2.add(new qx.ui.basic.Label('<font size="+2">Switch Application</font> <br>' + 
-                                     'All created application will be list here. <br/>' + 
-                                     'You can switch already created applications. ').set({ rich : true }),
+      box2.add(new qx.ui.basic.Label('<font size="+2">Switch Application</font> <br>' + 'All created application will be list here. <br/>' + 'You can switch already created applications. ').set({ rich : true }),
       {
         row     : 1,
         column  : 1,
@@ -315,9 +339,7 @@ qx.Class.define("toolbox.content.DevelopmentContent",
         colSpan : 0
       });
 
-      box3.add(new qx.ui.basic.Label('<font size="+2">Remove Application</font> <br>' + 
-                                     'Removes the current application <br/>' + 
-                                     '<b>ATTENTION:</b> This step is irrevocable.').set({ rich : true }),
+      box3.add(new qx.ui.basic.Label('<font size="+2">Remove Application</font> <br>' + 'Removes the current application <br/>' + '<b>ATTENTION:</b> This step is irrevocable.').set({ rich : true }),
       {
         row     : 2,
         column  : 1,
@@ -340,16 +362,42 @@ qx.Class.define("toolbox.content.DevelopmentContent",
       generationPage.getChildControl("button").getChildControl("label").setRich(true);
       generationPage.getChildControl("button").setIconPosition("top");
 
-      
-      // layout
-      var layout = new qx.ui.layout.Grid(5, 5);
-      var layout2 = new qx.ui.layout.Grid(5, 5);
+      var box1 = new qx.ui.groupbox.GroupBox();
+      box1.setLayout(new qx.ui.layout.Grid(5, 5));
 
-      var box = new qx.ui.groupbox.GroupBox();
-      box.setLayout(layout2);
-      generationPage.setLayout(layout);
+      var box2 = new qx.ui.groupbox.GroupBox();
+      box2.setLayout(new qx.ui.layout.Grid(5, 5));
 
-      generationPage.add(box,
+      var box3 = new qx.ui.groupbox.GroupBox();
+      box3.setLayout(new qx.ui.layout.Grid(5, 5));
+
+      generationPage.setLayout(new qx.ui.layout.Grid(5, 5));
+
+      var openSourceButton = new qx.ui.form.Button("Open");
+      this.develWidgets["development.openSourceButton"] = openSourceButton;
+
+      var openSourceAllButton = new qx.ui.form.Button("Open");
+      this.develWidgets["development.openSourceAllButton"] = openSourceAllButton;
+
+      var openBuildButton = new qx.ui.form.Button("Open");
+      this.develWidgets["development.openBuildButton"] = openBuildButton;
+
+      //Opens the application
+      openSourceButton.addListener("execute", function() {
+        this.__openApplication(this.__adminPath, this.getCurrentFileName(), this.getCurrentFilePath(), this.myLogFrame, "source", false, null);
+      }, this);
+
+      //Opens the application
+      openSourceAllButton.addListener("execute", function() {
+        this.__openApplication(this.__adminPath, this.getCurrentFileName(), this.getCurrentFilePath(), this.myLogFrame, "source", false, null);
+      }, this);
+
+      //Opens the application
+      openBuildButton.addListener("execute", function() {
+        this.__openApplication(this.__adminPath, this.getCurrentFileName(), this.getCurrentFilePath(), this.myLogFrame, "build", false, null);
+      }, this);
+
+      generationPage.add(box1,
       {
         row     : 0,
         column  : 0,
@@ -357,7 +405,23 @@ qx.Class.define("toolbox.content.DevelopmentContent",
         colSpan : 0
       });
 
-      box.add(this.develWidgets["development.generateSourceButton"],
+      generationPage.add(box2,
+      {
+        row     : 1,
+        column  : 0,
+        rowSpan : 0,
+        colSpan : 0
+      });
+
+      generationPage.add(box3,
+      {
+        row     : 2,
+        column  : 0,
+        rowSpan : 0,
+        colSpan : 0
+      });
+
+      box1.add(this.develWidgets["development.generateSourceAllButton"],
       {
         row     : 0,
         column  : 0,
@@ -365,8 +429,7 @@ qx.Class.define("toolbox.content.DevelopmentContent",
         colSpan : 0
       });
 
-      box.add(new qx.ui.basic.Label('<font size="+2">Generate Source</font> <br>' + 'Generates the source version of the current application.<br>' + 
-      							                'Herewith you can run the application.').set({ rich : true }),
+      box1.add(new qx.ui.basic.Label('<font size="+2">Generate Source-All</font> <br>' + 'Generates the source version of the current application,<br>' + 'with all qooxdoo-classes.').set({ rich : true }),
       {
         row     : 0,
         column  : 1,
@@ -374,7 +437,117 @@ qx.Class.define("toolbox.content.DevelopmentContent",
         colSpan : 0
       });
 
-      box.add(new qx.ui.form.Button("Open"),
+      box1.add(openSourceAllButton,
+      {
+        row     : 1,
+        column  : 0,
+        rowSpan : 0,
+        colSpan : 0
+      });
+
+      box1.add(new qx.ui.basic.Label('Opens the source version of the application').set({ rich : true }),
+      {
+        row     : 1,
+        column  : 1,
+        rowSpan : 0,
+        colSpan : 0
+      });
+
+      box2.add(this.develWidgets["development.generateSourceButton"],
+      {
+        row     : 0,
+        column  : 0,
+        rowSpan : 1,
+        colSpan : 0
+      });
+
+      box2.add(new qx.ui.basic.Label('<font size="+2">Generate Source</font> <br>' + 'Generates the source version of the current application.<br>' + 'Herewith you can run the application.').set({ rich : true }),
+      {
+        row     : 0,
+        column  : 1,
+        rowSpan : 0,
+        colSpan : 0
+      });
+
+      box2.add(openSourceButton,
+      {
+        row     : 1,
+        column  : 0,
+        rowSpan : 0,
+        colSpan : 0
+      });
+
+      box2.add(new qx.ui.basic.Label('Opens the source version of the application').set({ rich : true }),
+      {
+        row     : 1,
+        column  : 1,
+        rowSpan : 0,
+        colSpan : 0
+      });
+
+      box3.add(this.develWidgets["development.generateBuildButton"],
+      {
+        row     : 0,
+        column  : 0,
+        rowSpan : 1,
+        colSpan : 0
+      });
+
+      box3.add(new qx.ui.basic.Label('<font size="+2">Generate Build</font> <br>' + 'Generates the build version of the current application.<br>' + 'This version is the optimized application.').set({ rich : true }),
+      {
+        row     : 0,
+        column  : 1,
+        rowSpan : 0,
+        colSpan : 0
+      });
+
+      box3.add(openBuildButton,
+      {
+        row     : 1,
+        column  : 0,
+        rowSpan : 0,
+        colSpan : 0
+      });
+
+      box3.add(new qx.ui.basic.Label('Opens the build version of the application').set({ rich : true }),
+      {
+        row     : 1,
+        column  : 1,
+        rowSpan : 0,
+        colSpan : 0
+      });
+
+      return generationPage;
+    },
+
+    /**
+     * contains the functions to validate and prettify the source code
+     * 
+     * @return {var} analysisPage
+     */
+    getAnalysisPane : function()
+    {
+      var analysisPage = new qx.ui.tabview.Page("<b>Analysis</b>", "toolbox/image/64/format-indent-more.png");
+      analysisPage.getChildControl("button").getChildControl("label").setRich(true);
+      analysisPage.getChildControl("button").setIconPosition("top");
+
+      var box1 = new qx.ui.groupbox.GroupBox();
+      box1.setLayout(new qx.ui.layout.Grid(5, 5));
+
+      var box2 = new qx.ui.groupbox.GroupBox();
+      box2.setLayout(new qx.ui.layout.Grid(5, 5));
+      
+      analysisPage.setLayout(new qx.ui.layout.Grid(5, 5));
+      
+      analysisPage.add(box1,
+      {
+        row     : 0,
+        column  : 0,
+        rowSpan : 0,
+        colSpan : 0
+      });
+      
+      analysisPage.add(box2,
       {
         row     : 1,
         column  : 0,
@@ -382,22 +555,46 @@ qx.Class.define("toolbox.content.DevelopmentContent",
         colSpan : 0
       });
       
-      box.add(new qx.ui.basic.Label('Opens the application').set({ rich : true }),
+      box1.add(this.develWidgets["development.makePrettyButton"],
       {
-        row     : 1,
+        row     : 0,
+        column  : 0,
+        rowSpan : 1,
+        colSpan : 0
+      });
+
+      box1.add(new qx.ui.basic.Label('<font size="+2">Prettify Code</font> <br>' + 'Pretty-formatting of the source code of the current library.').set({ rich : true }),
+      {
+        row     : 0,
+        column  : 1,
+        rowSpan : 0,
+        colSpan : 0
+      });
+      
+      box2.add(this.develWidgets["development.validateCodeButton"],
+      {
+        row     : 0,
+        column  : 0,
+        rowSpan : 1,
+        colSpan : 0
+      });
+
+      box2.add(new qx.ui.basic.Label('<font size="+2">Validate Code</font> <br>' + 'Check the source code of the .js files of the current library.').set({ rich : true }),
+      {
+        row     : 0,
         column  : 1,
         rowSpan : 0,
         colSpan : 0
       });
       
       
-
-      return generationPage;
+      
+      return analysisPage;
     },
 
-
+    
     /**
-     * contains the functions to generate the Api-reference or Testrunner 
+     * contains the functions to generate the Api-reference or Testrunner
      *
      * @return {var} testApiPage
      */
@@ -407,12 +604,121 @@ qx.Class.define("toolbox.content.DevelopmentContent",
       testApiPage.getChildControl("button").getChildControl("label").setRich(true);
       testApiPage.getChildControl("button").setIconPosition("top");
 
+      var box1 = new qx.ui.groupbox.GroupBox();
+      box1.setLayout(new qx.ui.layout.Grid(5, 5));
+
+      var box2 = new qx.ui.groupbox.GroupBox();
+      box2.setLayout(new qx.ui.layout.Grid(5, 5));
+
+      var box3 = new qx.ui.groupbox.GroupBox();
+      box3.setLayout(new qx.ui.layout.Grid(5, 5));
+
+      var openApiButton = new qx.ui.form.Button("Open");
+      this.develWidgets["development.openApiButton"] = openApiButton;
+      
+      //Opens the application
+      openApiButton.addListener("execute", function() {
+        this.__openApplication(this.__adminPath, this.getCurrentFileName(), this.getCurrentFilePath(), this.myLogFrame, "api", false, null);
+      }, this);
+      
+      testApiPage.setLayout(new qx.ui.layout.Grid(5, 5));
+      
+      testApiPage.add(box1,
+      {
+        row     : 0,
+        column  : 0,
+        rowSpan : 0,
+        colSpan : 0
+      });
+      
+      testApiPage.add(box2,
+      {
+        row     : 1,
+        column  : 0,
+        rowSpan : 0,
+        colSpan : 0
+      });
+      
+      testApiPage.add(box3,
+      {
+        row     : 2,
+        column  : 0,
+        rowSpan : 0,
+        colSpan : 0
+      });
+      
+      
+      box1.add(this.develWidgets["development.generateApiButton"],
+      {
+        row     : 0,
+        column  : 0,
+        rowSpan : 1,
+        colSpan : 0
+      });
+
+      box1.add(new qx.ui.basic.Label('<font size="+2">Generate API Reference</font> <br>' + 'Generates the API of the current application,<br>' + 'with all qooxdoo-classes. This process may take 3-5 minutes.').set({ rich : true }),
+      {
+        row     : 0,
+        column  : 1,
+        rowSpan : 0,
+        colSpan : 0
+      });
+
+      box1.add(openApiButton,
+      {
+        row     : 1,
+        column  : 0,
+        rowSpan : 0,
+        colSpan : 0
+      });
+
+      box1.add(new qx.ui.basic.Label('Opens the API Reference').set({ rich : true }),
+      {
+        row     : 1,
+        column  : 1,
+        rowSpan : 0,
+        colSpan : 0
+      });
+      
+      box2.add(this.develWidgets["development.testSourceButton"],
+      {
+        row     : 0,
+        column  : 0,
+        rowSpan : 1,
+        colSpan : 0
+      });
+
+      box2.add(new qx.ui.basic.Label('<font size="+2">Generate Test (Source version)</font> <br>' + 'Create a test runner application for unit tests (source version)<br>' + 'of the current library.').set({ rich : true }),
+      {
+        row     : 0,
+        column  : 1,
+        rowSpan : 0,
+        colSpan : 0
+      });
+
+      box3.add(this.develWidgets["development.testBuildButton"],
+      {
+        row     : 0,
+        column  : 0,
+        rowSpan : 1,
+        colSpan : 0
+      });
+
+      box3.add(new qx.ui.basic.Label('<font size="+2">Generate Test (Build version)</font> <br>' + 'create a test runner application for unit tests <br>' + 'of the current library.').set({ rich : true }),
+      {
+        row     : 0,
+        column  : 1,
+        rowSpan : 0,
+        colSpan : 0
+      });
+      
+      
       return testApiPage;
     },
 
 
     /**
-     * contains the function to change the configuration file of the current application 
+     * contains the function to change the configuration file of the current application
      *
      * @return {var} configurationPage
      */
@@ -422,11 +728,43 @@ qx.Class.define("toolbox.content.DevelopmentContent",
       configurationPage.getChildControl("button").getChildControl("label").setRich(true);
       configurationPage.getChildControl("button").setIconPosition("top");
 
+      var box1 = new qx.ui.groupbox.GroupBox();
+      box1.setLayout(new qx.ui.layout.Grid(5, 5));
+
+      configurationPage.setLayout(new qx.ui.layout.Grid(5, 5));
+      
+      configurationPage.add(box1,
+      {
+        row     : 0,
+        column  : 0,
+        rowSpan : 0,
+        colSpan : 0
+      });
+      
+      box1.add(this.develWidgets["development.configurationButton"],
+      {
+        row     : 0,
+        column  : 0,
+        rowSpan : 1,
+        colSpan : 0
+      });
+
+      box1.add(new qx.ui.basic.Label('<font size="+2">Configuration</font> <br>' + 'Shows the current settings of the application.<br>' +
+                                     'Herewith you can change the settings of the current application.').set({ rich : true }),
+      {
+        row     : 0,
+        column  : 1,
+        rowSpan : 0,
+        colSpan : 0
+      });
+      
+      
       return configurationPage;
     },
 
+
     /**
-     * contains the debugging tool (inspector) 
+     * contains the debugging tool (inspector)
      *
      * @return {var} inspectorPage
      */
@@ -439,13 +777,14 @@ qx.Class.define("toolbox.content.DevelopmentContent",
       return inspectorPage;
     },
 
+
     /**
      * loads the created application list
      *
      * @return {void} 
      */
     __loadAppList : function() {
-      toolbox.builder.Builder.prepareApplicationList(this.__adminPath, this.myLogFrame, this.develWidgets["development.selectAppMenuButton"]);
+      toolbox.builder.Builder.prepareApplicationList(this.__adminPath, this.myLogFrame, this.develWidgets);
     },
 
 
@@ -709,7 +1048,7 @@ qx.Class.define("toolbox.content.DevelopmentContent",
       this.develWidgets["createDialog.fileNameText"].focus();
     },
 
-
+    
     /**
      * creates a new application by sending the necessary information to the server
      *
@@ -722,12 +1061,12 @@ qx.Class.define("toolbox.content.DevelopmentContent",
       this.setCurrentNamespace(this.develWidgets["createDialog.namespaceText"].getValue());
 
       this.setCurrentLogName(this.develWidgets["createDialog.logText"].getValue());
-      toolbox.builder.Builder.createNewApplication(this.__adminPath, this.getCurrentFileName(), this.getCurrentFilePath(), this.getCurrentNamespace(), this.getCurrentLogName(), this.getCurrentType(), this.__isGenerateSource.toString(), this.myLogFrame, this.develWidgets["development.selectAppMenuButton"]);
+      toolbox.builder.Builder.createNewApplication(this.__adminPath, this.getCurrentFileName(), this.getCurrentFilePath(), this.getCurrentNamespace(), this.getCurrentLogName(), this.getCurrentType(), this.__isGenerateSource.toString(), this.myLogFrame, this.develWidgets);
 
       this.develWidgets["development.selectAppMenuButton"].setEnabled(false);
       this.appDevelCaption.setContent("Current application: " + this.getCurrentFileName());
       this.__cancelNewApplication();
-      this.__setEnableAllFunctions(true);
+      this.__setEnableAllFunctions(true, false);
       return;
     },
 
@@ -740,13 +1079,20 @@ qx.Class.define("toolbox.content.DevelopmentContent",
     __removeDialog : function()
     {
       var removeDialog = new qx.ui.window.Window("Remove Application", null);
-      var label = new qx.ui.basic.Label("Do you really want to remove <b>\"" + this.getCurrentFileName() + "\"</b>");
+      var label = new qx.ui.basic.Label("Do you really want to remove <b>\"" + this.getCurrentFileName() + "\"</b>? <br/>All files of this application will be removed. <br/> <b>This process is irrevocable!</b> ");
       label.setRich(true);
-      removeDialog.setLayout(new qx.ui.layout.VBox(5));
-      removeDialog.add(label);
+      var layout = new qx.ui.layout.Grid(5, 5);
+      removeDialog.setLayout(layout);
+      removeDialog.add(label, 
+      {
+      	row     : 0,
+        column  : 1,
+        rowSpan : 0,
+        colSpan : 0
+      });
 
       var container = new qx.ui.container.Composite(new qx.ui.layout.HBox(5, "right"));
-
+      var warningImage = new qx.ui.basic.Image("toolbox/image/48/dialog-warning.png");
       var yesButton = new qx.ui.form.Button("Yes");
       var noButton = new qx.ui.form.Button("No");
 
@@ -760,14 +1106,28 @@ qx.Class.define("toolbox.content.DevelopmentContent",
       {
         removeDialog.close();
         this.__removeApplication();
-        this.__setEnableAllFunctions(false);
+        this.__setEnableAllFunctions(false, true);
       },
       this);
 
       container.add(yesButton);
       container.add(noButton);
 
-      removeDialog.add(container);
+      removeDialog.add(warningImage, 
+      {
+      	row     : 0,
+        column  : 0,
+        rowSpan : 1,
+        colSpan : 0
+      });
+      
+      removeDialog.add(container, 
+      {
+      	row     : 1,
+        column  : 1,
+        rowSpan : 0,
+        colSpan : 0
+      });
 
       removeDialog.setShowMaximize(false);
       removeDialog.setShowClose(false);
@@ -788,59 +1148,72 @@ qx.Class.define("toolbox.content.DevelopmentContent",
     __removeApplication : function()
     {
       this.develWidgets["development.selectAppMenuButton"].setEnabled(false);
-      toolbox.builder.Builder.removeCurrentApplication(this.__adminPath, this.getCurrentFileName(), this.getCurrentFilePath(), this.myLogFrame, this.develWidgets["development.selectAppMenuButton"]);
+      toolbox.builder.Builder.removeCurrentApplication(this.__adminPath, this.getCurrentFileName(), this.getCurrentFilePath(), this.myLogFrame, this.develWidgets);
       this.appDevelCaption.setContent("No Application selected");
     },
 
 
     /**
-     * generates the source version of the  application by sending the necessary 
+     * generates the source version of the application by sending the necessary 
      * information to the server
      *
      * @return {void} 
      */
     __generateSource : function()
     {
-      toolbox.builder.Builder.generateSource(this.__adminPath, this.getCurrentFileName(), this.getCurrentFilePath(), this.myLogFrame);
+      toolbox.builder.Builder.generateTarget(this.__adminPath, this.getCurrentFileName(), this.getCurrentFilePath(), this.myLogFrame, this.develWidgets, "source", false, null);
       return;
     },
 
 
     /**
-     * generates the build version of the  application by sending the necessary 
+     * generates the source version of the application 
+     * with all qooxdoo-classes by sending the necessary information to the server
+     *
+     * @return {void} 
+     */
+    __generateSourceAll : function()
+    {
+      toolbox.builder.Builder.generateTarget(this.__adminPath, this.getCurrentFileName(), this.getCurrentFilePath(), this.myLogFrame, this.develWidgets, "source-all", false, null);
+      return;
+    },
+
+
+    /**
+     * generates the build version of the application by sending the necessary 
      * information to the server
      *
      * @return {void} 
      */
     __generateBuild : function()
     {
-      toolbox.builder.Builder.generateBuild(this.__adminPath, this.getCurrentFileName(), this.getCurrentFilePath(), this.myLogFrame);
+      toolbox.builder.Builder.generateTarget(this.__adminPath, this.getCurrentFileName(), this.getCurrentFilePath(), this.myLogFrame, this.develWidgets, "build", false, null);
       return;
     },
 
 
     /**
-     * prettifies the source code of the  application by sending the necessary 
+     * prettifies the source code of the application by sending the necessary 
      * information to the server
      *
      * @return {void} 
      */
     __makePretty : function()
     {
-      toolbox.builder.Builder.makePretty(this.__adminPath, this.getCurrentFileName(), this.getCurrentFilePath(), this.myLogFrame);
+      toolbox.builder.Builder.generateTarget(this.__adminPath, this.getCurrentFileName(), this.getCurrentFilePath(), this.myLogFrame, null, "pretty", false, null);
       return;
     },
 
 
     /**
-     * validates the source code of the  application by sending the necessary 
+     * validates the source code of the application by sending the necessary 
      * information to the server
      *
      * @return {void} 
      */
     __validateCode : function()
     {
-      toolbox.builder.Builder.validateCode(this.__adminPath, this.getCurrentFileName(), this.getCurrentFilePath(), this.myLogFrame);
+      toolbox.builder.Builder.generateTarget(this.__adminPath, this.getCurrentFileName(), this.getCurrentFilePath(), this.myLogFrame, null, "lint", false, null);
       return;
     },
 
@@ -853,20 +1226,19 @@ qx.Class.define("toolbox.content.DevelopmentContent",
      */
     __generateApi : function()
     {
-      toolbox.builder.Builder.generateApi(this.__adminPath, this.getCurrentFileName(), this.getCurrentFilePath(), this.myLogFrame);
+      toolbox.builder.Builder.generateTarget(this.__adminPath, this.getCurrentFileName(), this.getCurrentFilePath(), this.myLogFrame, this.develWidgets, "api", false, null);
       return;
     },
 
 
     /**
-     * starts the test runner
+     * starts the "Testrunner"
      *
      * @return {void} 
      */
     __testSource : function()
     {
-      toolbox.builder.Builder.testSource(this.__adminPath, this.getCurrentFileName(), this.getCurrentFilePath(), this.myLogFrame);
-
+      toolbox.builder.Builder.generateTarget(this.__adminPath, this.getCurrentFileName(), this.getCurrentFilePath(), this.myLogFrame, null, "test-source", false, null);
       return;
     },
 
@@ -877,7 +1249,23 @@ qx.Class.define("toolbox.content.DevelopmentContent",
      * @return {void} 
      */
     __testBuild : function() {
-      toolbox.builder.Builder.testApplication(this.__adminPath, this.getCurrentFileName(), this.getCurrentFilePath(), this.myLogFrame);
+      toolbox.builder.Builder.generateTarget(this.__adminPath, this.getCurrentFileName(), this.getCurrentFilePath(), this.myLogFrame, this.develWidgets, "test", false, null);
+      return;
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @param url {var} TODOC
+     * @param fileName {var} TODOC
+     * @param filePath {var} TODOC
+     * @param logFrame {var} TODOC
+     * @param generationTyp {var} TODOC
+     * @return {void} 
+     */
+    __openApplication : function(url, fileName, filePath, logFrame, generationTyp, isBuiltIn, typeBuilt) {
+      toolbox.builder.Builder.openApplication(url, fileName, filePath, logFrame, generationTyp, isBuiltIn, typeBuilt);
     },
 
 
@@ -888,8 +1276,8 @@ qx.Class.define("toolbox.content.DevelopmentContent",
      */
     __openConfiguration : function()
     {
-      // An Configuration object have to exist because the Jsonanalyzer needs the coordinates of this dialog
-      this.__configuration = new toolbox.configuration.Configuration(this.__adminPath, this.getCurrentFileName(), this.getCurrentFilePath(), this.myLogFrame, this.develWidgets["development.configurationButton"]);
+      // A configuration object have to be exist because the Jsonanalyzer needs the coordinates of this dialog
+      this.__configuration = new toolbox.configuration.Configuration(this.__adminPath, this.getCurrentFileName(), this.getCurrentFilePath(), this.myLogFrame, this.develWidgets);
       return;
     },
 
@@ -898,9 +1286,10 @@ qx.Class.define("toolbox.content.DevelopmentContent",
      * enables/disables all functions
      *
      * @param value {var} the boolean value
+     * @param open {var} the boolean value to enable/disable the open buttons
      * @return {void} 
      */
-    __setEnableAllFunctions : function(value)
+    __setEnableAllFunctions : function(value, open)
     {
       this.develWidgets["development.generateSourceButton"].setEnabled(value);
       this.develWidgets["development.generateBuildButton"].setEnabled(value);
@@ -911,6 +1300,15 @@ qx.Class.define("toolbox.content.DevelopmentContent",
       this.develWidgets["development.testBuildButton"].setEnabled(value);
       this.develWidgets["development.testSourceButton"].setEnabled(value);
       this.develWidgets["development.configurationButton"].setEnabled(value);
+      this.develWidgets["development.generateSourceAllButton"].setEnabled(value);
+
+      if (open)
+      {
+        this.develWidgets["development.openSourceButton"].setEnabled(value);
+        this.develWidgets["development.openSourceAllButton"].setEnabled(value);
+        this.develWidgets["development.openBuildButton"].setEnabled(value);
+        this.develWidgets["development.openApiButton"].setEnabled(value);
+      }
     },
 
 
