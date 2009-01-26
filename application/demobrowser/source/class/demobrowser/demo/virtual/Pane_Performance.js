@@ -14,6 +14,7 @@
 
    Authors:
    * Fabian Jakobs (fjakobs)
+   * Jonathan Weiß (jonathan_rass)
 
 ************************************************************************ */
 
@@ -55,20 +56,16 @@ qx.Class.define("demobrowser.demo.virtual.Pane_Performance",
       var container = new qx.ui.container.Composite(layout);
       this.getRoot().add(container, {edge: 5});
       
-      container.add(new qx.ui.basic.Label("innerHTML"), {row: 0, column: 0});
+      container.add(new qx.ui.basic.Label("absolute"), {row: 0, column: 0});
       var scroller = new qx.ui.virtual.core.Scroller(1000, 100, 15, 40);
       scroller.pane.addLayer(new qx.ui.virtual.layer.Test());      
       container.add(scroller, {row: 1, column: 0});      
 
-      container.add(new qx.ui.basic.Label("DOM"), {row: 0, column: 1});
+      container.add(new qx.ui.basic.Label("relative"), {row: 0, column: 1});
       var scroller = new qx.ui.virtual.core.Scroller(1000, 100, 15, 40);
-      scroller.pane.addLayer(new qx.ui.virtual.layer.DomTest());      
+      scroller.pane.addLayer(new qx.ui.virtual.layer.TestRelative());      
       container.add(scroller, {row: 1, column: 2});
 
-      container.add(new qx.ui.basic.Label("pooled DOM"), {row: 0, column: 2});
-      var scroller = new qx.ui.virtual.core.Scroller(1000, 100, 15, 40);
-      scroller.pane.addLayer(new qx.ui.virtual.layer.DomPoolTest());      
-      container.add(scroller, {row: 1, column: 1});      
     }
   }
 });
