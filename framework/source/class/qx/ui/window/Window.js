@@ -453,16 +453,17 @@ qx.Class.define("qx.ui.window.Window",
 
         case "icon":
           control = new qx.ui.basic.Image(this.getIcon());
-          var captionBar = this.getChildControl("captionbar");
-          captionBar.getLayout().setRowFlex(0, 1);
-          captionBar.add(control, {row: 0, column:0});
+          this.getChildControl("captionbar").add(control, {row: 0, column:0});
           break;
 
         case "title":
           control = new qx.ui.basic.Label(this.getCaption());
           control.setWidth(0);
           control.setAllowGrowX(true);
-          this.getChildControl("captionbar").add(control, {row: 0, column:1});
+          
+          var captionBar = this.getChildControl("captionbar");
+          captionBar.getLayout().setRowFlex(0, 1);
+          captionBar.add(control, {row: 0, column:1});
           break;
 
         case "minimize-button":
