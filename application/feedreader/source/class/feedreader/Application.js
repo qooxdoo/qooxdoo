@@ -294,6 +294,10 @@ qx.Class.define("feedreader.Application",
      * Event handler for a change of the selection of the tree.
      */
     _treeControllerChange : function(ev) {
+      // only act if something new is selected
+      if (ev.getData().type != "add") {
+        return;
+      }
       // get the selected feed
       var feed = this.__treeController.getSelection().getItem(0);
       // restore the last selected feed
@@ -303,7 +307,7 @@ qx.Class.define("feedreader.Application",
         feed != null && 
         feed.classname == "feedreader.model.Feed" && 
         feed.getSelectedArticle() != null &&
-        feed.getFeeds().contains(feed.getSelectedArticle())
+        feed.getArticles().contains(feed.getSelectedArticle())
       ) {
         this.__listController.getSelection().push(feed.getSelectedArticle());
       }
