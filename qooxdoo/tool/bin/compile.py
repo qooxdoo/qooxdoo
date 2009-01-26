@@ -19,6 +19,22 @@
 #
 ################################################################################
 
+##
+#
+# Operates on single file basis to do one of the following actions:
+#
+# * compile the file
+# * pretty print the file
+# * generate the abstract syntax tree
+# 
+# TODO: These options would also be nice:
+#
+# * generate an API file
+# * fix the file for tabs vs. spaces etc.
+# * ecmalint the file
+#
+##
+
 import sys, os, optparse, string, types, pprint, copy
 import qxenviron
 
@@ -35,38 +51,47 @@ def main():
     usage_str = '''%prog [options] file.js,...'''
     parser.set_usage(usage_str)
     
+    # General flags
     parser.add_option("-v", "--verbose", action="store_true", dest="verbose", default=False, help="verbose output mode (extra verbose)")
 
+    # Optimization flags
     parser.add_option("-n", "--variables", action="store_true", dest="variables", default=False, help="optimize variables")
     parser.add_option("-s", "--strings", action="store_true", dest="strings", default=False, help="optimize strings")
     parser.add_option("-p", "--privates", action="store_true", dest="privates", default=False, help="optimize privates")
     parser.add_option("-b", "--basecalls", action="store_true", dest="basecalls", default=False, help="optimize basecalls")            
     parser.add_option("-i", "--inline", action="store_true", dest="inline", default=False, help="optimize inline")            
-
-    parser.add_option("--variant", action="extend", dest="variants", metavar="KEY:VALUE", type="string", default=[], help="Selected variants")
     parser.add_option("--all", action="store_true", dest="all", default=False, help="optimize all")            
+
+    # Variant support
+    parser.add_option("--variant", action="extend", dest="variants", metavar="KEY:VALUE", type="string", default=[], help="Selected variants")
     
+    # Action modifier
     parser.add_option("--pretty", action="store_true", dest="pretty", default=False, help="print out pretty printed")            
     parser.add_option("--tree", action="store_true", dest="tree", default=False, help="print out tree")                
     
+    
+    #
+    # Process arguments
+    #
     (options, args) = parser.parse_args(sys.argv[1:])
 
-    
-    print ">>> Reading file..."
+    print ">>> Parsing file..."
     fileName = args[0]
     fileContent = filetool.read(fileName, "utf-8")
     fileId = "xxx"
-
-    print ">>> Parsing file..."
     tokens = tokenizer.parseStream(fileContent, fileName)
     
     print ">>> Creating tree..."
     tree = treegenerator.createSyntaxTree(tokens)
     
+    
+    #
+    # Optimizing tree
+    #
+    
     if len(options.variants) > 0:
         print ">>> Selecting variants..."
-        variantoptimizer.search(tree, options.variants, fileName)
-            
+        variantoptimizer.search(tree, options.variants, fileId)
     
     if options.all or options.basecalls:
         print ">>> Optimizing basecalls..."
@@ -88,16 +113,25 @@ def main():
         print ">>> Optimizing privates..."
         privateoptimizer.patch(tree, fileId)
          
-            
+         
+    #
+    # Output the result
+    #
+    
     if options.tree:
         print ">>> Printing out tree..."
-        #print tree.toXml()
+        print tree.toXml()
+        
     else:
-        print ">>> Compiling tree..."
+        print ">>> Compiling..."
         compiled = _compileTree(tree, options.pretty)
         print compiled
             
-            
+
+#        
+# A copy from the TreeCompiler module            
+#
+
 def _optimizeStrings(tree, id):
     stringMap = stringoptimizer.search(tree)
 
@@ -124,8 +158,13 @@ def _optimizeStrings(tree, id):
 
     # Add wrapper to tree
     tree.addChild(wrapperNode)     
+
+
            
-            
+#
+# Wrapper around the ugly compiler interface            
+#
+
 def _compileTree(tree, pretty):
     # Emulate options
     parser = optparse.OptionParser()
@@ -141,7 +180,11 @@ def _compileTree(tree, pretty):
     (options, args) = parser.parse_args([])
 
     return compiler.compile(tree, options, True)
-            
+     
+
+#
+# Main routine
+#            
             
 if __name__ == '__main__':
     try:
