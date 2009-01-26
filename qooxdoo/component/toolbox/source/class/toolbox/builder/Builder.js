@@ -35,7 +35,9 @@ qx.Class.define("toolbox.builder.Builder",
 
   statics :
   {
-  	
+  	// Applicationlist
+    BUILTINLIST : null,
+    
   	generateTarget : function(adminPath, fileName, filePath, logFrame, develWidgets, generationType, isBuiltIn, typeBuilt)
     {
       var url = adminPath;
@@ -43,6 +45,7 @@ qx.Class.define("toolbox.builder.Builder",
       var req2 = new qx.io.remote.Request(url, "POST");
       var dat = "action=generate";
       var saveAppList = "action=save_Application_List";
+      var saveBuiltInList = "action=save_BuiltIn_List";
       var createParams = [ fileName, filePath, generationType, isBuiltIn, typeBuilt ];
       req.setTimeout(10000000);
 
@@ -77,45 +80,68 @@ qx.Class.define("toolbox.builder.Builder",
         if (result.state != undefined)
         {
           var receivedState = result.state;
-
+          
           if (receivedState == 1 || receivedState == 0)
           {
             if (receivedState == 0)
             {
-              for (var i=0; i<toolbox.content.DevelopmentContent.APPLIST.length; i++)
-              {
-                if (toolbox.content.DevelopmentContent.APPLIST[i].name == fileName & toolbox.content.DevelopmentContent.APPLIST[i].path == filePath.replace(/\\/g, "/"))
+            	//Checks if this function is a built-in
+            	if(isBuiltIn) 
+            	{	
+            		for (var i = 0; i < toolbox.content.BuiltInContent.BUILTINLIST.length; i++)
                 {
-                  var changedAppList = qx.util.Json.stringify(toolbox.content.DevelopmentContent.APPLIST, true);
-				  
-                  // adds the path and the name of the current application in the applicationlist
-                  if(generationType == "source" || generationType == "source-all") {	
-                  	toolbox.content.DevelopmentContent.APPLIST[i].source = true;
-                  } else if (generationType == "build") {
-                  	toolbox.content.DevelopmentContent.APPLIST[i].build = true;
-                  } else if (generationType == "api") {
-                  	toolbox.content.DevelopmentContent.APPLIST[i].api = true;
+                  if (toolbox.content.BuiltInContent.BUILTINLIST[i].name == fileName)
+                  {
+                    if (generationType == "source") {
+                      toolbox.content.BuiltInContent.BUILTINLIST.source = true;
+                    } else if (generationType == "build") {
+                      toolbox.content.BuiltInContent.BUILTINLIST.build = true;
+                    }
+                    
+                    var changedBuiltInList = qx.util.Json.stringify(toolbox.content.BuiltInContent.BUILTINLIST, true);
+  
+                    saveBuiltInList += "&changedBuiltInList=" + changedBuiltInList;
+                    req2.setData(saveBuiltInList);
+                    req2.send();
                   }
-                  
-                  var changedAppList = qx.util.Json.stringify(toolbox.content.DevelopmentContent.APPLIST, true);
-
-                  saveAppList += "&changedAppList=" + changedAppList;
-                  req2.setData(saveAppList);
-                  req2.send();
                 }
-              }
-			  
-              //Enables/ disables the open button
-              if(develWidgets != null) {
-              	if(generationType == "source" || generationType == "source-all") {
-              		develWidgets["development.openSourceButton"].setEnabled(true);
-              		develWidgets["development.openSourceAllButton"].setEnabled(true);
-              	} else if (generationType == "build") {
-              		develWidgets["development.openBuildButton"].setEnabled(true);              		
-              	} else if (generationType == "api") {
-              		develWidgets["development.openApiButton"].setEnabled(true);
-              	}
-              }
+            		
+            	} else {
+                for (var i = 0; i < toolbox.content.DevelopmentContent.APPLIST.length; i++)
+                {
+                  if (toolbox.content.DevelopmentContent.APPLIST[i].name == fileName & toolbox.content.DevelopmentContent.APPLIST[i].path == filePath.replace(/\\/g, "/"))
+                  {
+                    //var changedAppList = qx.util.Json.stringify(toolbox.content.DevelopmentContent.APPLIST, true);
+  				  
+                    // adds the path and the name of the current application in the applicationlist
+                    if(generationType == "source" || generationType == "source-all") {	
+                    	toolbox.content.DevelopmentContent.APPLIST[i].source = true;
+                    } else if (generationType == "build") {
+                    	toolbox.content.DevelopmentContent.APPLIST[i].build = true;
+                    } else if (generationType == "api") {
+                    	toolbox.content.DevelopmentContent.APPLIST[i].api = true;
+                    } 
+                    
+                    var changedAppList = qx.util.Json.stringify(toolbox.content.DevelopmentContent.APPLIST, true);
+  
+                    saveAppList += "&changedAppList=" + changedAppList;
+                    req2.setData(saveAppList);
+                    req2.send();
+                  }
+                }
+            	
+                //Enables/ disables the open button
+                if(develWidgets != null) {
+                	if(generationType == "source" || generationType == "source-all") {
+                		develWidgets["development.openSourceButton"].setEnabled(true);
+                		develWidgets["development.openSourceAllButton"].setEnabled(true);
+                	} else if (generationType == "build") {
+                		develWidgets["development.openBuildButton"].setEnabled(true);              		
+                	} else if (generationType == "api") {
+                		develWidgets["development.openApiButton"].setEnabled(true);
+                	}
+                }
+            	}
               logFrame.setHtml(logFrame.getHtml() + '<br/> <hr noshade size="4">GENERATE ' + (generationType).toUpperCase() + ' <hr noshade size="4">' + result.output);
               
               if(generationType == "test" || generationType == "test-source") {
