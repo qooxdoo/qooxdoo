@@ -63,8 +63,14 @@ qx.Class.define("toolbox.content.BuiltInContent",
       rowSpan : 0,
       colSpan : 0
     });
-	
-
+    
+    this.add(this.__getPlayground(),
+    {
+      row     : 0,
+      column  : 2,
+      rowSpan : 0,
+      colSpan : 0
+    });
 
   },
   
@@ -190,6 +196,62 @@ qx.Class.define("toolbox.content.BuiltInContent",
 	    return box1;
   	},
   	
+  	__getPlayground : function()
+    {   
+      var box1 = new qx.ui.groupbox.GroupBox();
+      box1.setLayout(new qx.ui.layout.Grid(5, 5));
+      
+      var generateSource = new qx.ui.form.Button("Generate Source");
+      generateSource.addListener("execute", this.__generatePlaygroundSource, this);
+      
+      var container = new qx.ui.container.Composite(new qx.ui.layout.HBox(5, "left", null));
+      container.add(generateSource);
+      
+      //Demo Browser header
+      var playgroundHeaderLabel = new qx.ui.basic.Label('<h2>Playground</h2>').set({ rich : true });
+  
+      //Demo Browser description
+      var playgroundDescriptionLabel = new qx.ui.basic.Label('<p>Play and experiment with source code<br/>and see the results immediately.</p>' 
+      ).set({ rich : true });
+  
+      // Demo Browser image
+      var playgroundImage = new qx.ui.basic.Image("toolbox/image/builtin-apps/playground.png");
+      
+      box1.add(playgroundHeaderLabel,
+      {
+        row     : 0,
+        column  : 0,
+        rowSpan : 0,
+        colSpan : 0
+      });
+      
+      box1.add(playgroundImage,
+      {
+        row     : 1,
+        column  : 0,
+        rowSpan : 0,
+        colSpan : 0
+      });
+      
+      box1.add(playgroundDescriptionLabel,
+      {
+        row     : 2,
+        column  : 0,
+        rowSpan : 0,
+        colSpan : 0
+      });
+      
+      box1.add(container,
+      {
+        row     : 3,
+        column  : 0,
+        rowSpan : 0,
+        colSpan : 0
+      });
+      
+      return box1;
+    },
+  	
   	__generateDemobrowserSource : function()
     {
       toolbox.builder.Builder.generateTarget(this.__adminPath, "demobrowser", "", this.myLogFrame, null, "source", true, "application");
@@ -208,6 +270,12 @@ qx.Class.define("toolbox.content.BuiltInContent",
     
     __openApiViewerSource : function() {
       toolbox.builder.Builder.openApplication(this.__adminPath, "apiviewer", "", this.myLogFrame, "source", true, "component");
+    },
+    
+    __generatePlaygroundSource : function()
+    {
+      toolbox.builder.Builder.generateTarget(this.__adminPath, "playground", "", this.myLogFrame, null, "source", true, "application");
+      return;
     }
     
     
