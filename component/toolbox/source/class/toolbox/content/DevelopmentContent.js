@@ -784,7 +784,7 @@ qx.Class.define("toolbox.content.DevelopmentContent",
      * @return {void} 
      */
     __loadAppList : function() {
-      toolbox.builder.Builder.prepareApplicationList(this.__adminPath, this.myLogFrame, this.develWidgets);
+      toolbox.builder.Builder.prepareApplicationList(this.__adminPath, this.myLogFrame, this.develWidgets, "application");
     },
 
 
