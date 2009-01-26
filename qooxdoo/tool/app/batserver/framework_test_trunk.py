@@ -22,6 +22,17 @@ def main():
     batserver()
     if ( isSeleniumServer() ):
         print("Selenium server seems to be running.")
+        if (os.path.exists(testconf['seleniumLog'])):            
+            f = open(testconf['seleniumLog'], 'w')
+            print("Emptying server log file " + testconf['seleniumLog'])
+            f.write('')
+            f.close()
+            #print("Deleting server log file " + testconf['seleniumLog'])
+            #os.remove(testconf['seleniumLog'])
+        
+        if (os.path.exists(testconf['seleniumReport'])):
+            print("Deleting report file " + testconf['seleniumReport'])
+            os.remove(testconf['seleniumReport'])
     else:        
         seleniumserver()
     batclient()
@@ -83,9 +94,7 @@ def seleniumserver():
         print("Deleting report file " + testconf['seleniumReport'])
         os.remove(testconf['seleniumReport'])
     print "Starting Selenium server..."    
-    selserv = subprocess.Popen(testconf['startSelenium'] + testconf['seleniumLog'], shell=True,
-                             stdout=subprocess.PIPE,
-                             stderr=subprocess.STDOUT)
+    selserv = subprocess.Popen(testconf['startSelenium'] + testconf['seleniumLog'], shell=True)
     
     # wait a while for the server to start up
     time.sleep(20)
