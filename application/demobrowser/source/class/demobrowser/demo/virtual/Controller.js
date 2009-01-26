@@ -35,7 +35,7 @@ qx.Class.define("demobrowser.demo.virtual.Controller",
   {
     model : 
     {
-      check : "qx.data.array",
+      check : "qx.data.Array",
       event: "changeModel",
       apply: "_applyModel"
     },
@@ -44,7 +44,7 @@ qx.Class.define("demobrowser.demo.virtual.Controller",
     {
       event: "changeTarget"
     }
-  }
+  },
 
   members :
   {

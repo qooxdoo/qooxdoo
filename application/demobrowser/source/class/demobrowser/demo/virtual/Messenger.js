@@ -38,8 +38,28 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
     
     this._buddyPool = [];
     this._groupPool = [];
+    
+    
+    
+    
   },
 
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+
+    model :
+    {
+      event : "changeModel",
+      check : "qx.data.Array"
+    }
+  },
 
 
   /*
@@ -51,8 +71,7 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
   members :
   {
     __users : null,
-    
-    
+
     /**
      * This method contains the initial application code and gets called 
      * during startup of the application
@@ -60,6 +79,21 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
     main : function()
     {
       this.base(arguments);
+      
+      // Create and fill model
+      this.setModel(new qx.data.Array());
+      var model = this.getModel();
+
+      for (var i=0; i<this.__users.length; i++)
+      {
+        var buddyModel = new demobrowser.demo.virtual.BuddyModel().set({
+          name : this.__users[i].name,
+          avatar : this.__users[i].img,
+          status : this.__users[i].statusIcon
+        });
+
+        model.setItem(i, buddyModel);
+      }
 
       var win = new qx.ui.window.Window("Contacts").set({
         contentPadding: 0,
@@ -98,12 +132,20 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
       scroller.pane.addLayer(rowLayer);
       scroller.pane.addLayer(new qx.ui.virtual.layer.WidgetCell(this));
       win.add(scroller);
+      
+      this.__scroller = scroller;
         
       var prefetch = new qx.ui.virtual.behavior.Prefetch(
         scroller,
         0, 0, 0, 0,
         200, 300, 600, 800
       );
+
+
+
+      new demobrowser.demo.virtual.Controller(this.getModel(), this);
+      
+      m = this.getModel();
     },
 
     __createUsers : function()
@@ -164,7 +206,7 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
     getRandomStatus : function()
     {
       var icons = [
-        "away", "busy", "online", "offline"           
+        "away", "busy", "online", "offline"
       ];
       return icons[Math.floor(Math.random() * icons.length)];
     },
@@ -188,11 +230,16 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
       else
       {
         widget = this._buddyPool.pop() || new demobrowser.demo.virtual.Buddy(); 
-        if (row < this.__users.length+1)
+        if (row < this.getModel().length+1)
         {
-          widget.label.setContent(this.__users[row-1].name);
-          widget.icon.setSource(this.__users[row-1].img);
-          widget.statusIcon.setSource("demobrowser/demo/icons/imicons/status_" + this.__users[row-1].statusIcon + ".png");
+          // widget.label.setContent(this.__users[row-1].name);
+          // widget.icon.setSource(this.__users[row-1].img);
+          // widget.statusIcon.setSource("demobrowser/demo/icons/imicons/status_" + this.__users[row-1].statusIcon + ".png");
+
+          widget.label.setContent(this.getModel().getItem(row-1).getName());
+          widget.icon.setSource(this.getModel().getItem(row-1).getAvatar());
+          widget.statusIcon.setSource("demobrowser/demo/icons/imicons/status_" + this.getModel().getItem(row-1).getStatus() + ".png");
+          
         }
         else
         {
@@ -215,6 +262,10 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
       } else {      
         this._buddyPool.push(widget)
       }
+    },
+
+    update : function() {
+      this.__scroller.pane.fullUpdate();
     }
 
   }
