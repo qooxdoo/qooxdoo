@@ -19,55 +19,81 @@
 #
 ################################################################################
 
-from ecmascript.frontend import treeutil
+import copy
+from ecmascript.frontend import tree, treeutil
 
 
 def patch(tree):
     qxnode = treeutil.findQxDefine(tree)
-    staticsNode = treeutil.selectNode(qxnode, "params/map/keyvalue[@key='statics']/value/map")
-    membersNode = treeutil.selectNode(qxnode, "params/map/keyvalue[@key='members']/value/map")
     
-    if staticsNode and staticsNode.hasChildren():
-        staticCalls = {}
-        statics = {}
+    processBlock(treeutil.selectNode(qxnode, "params/map/keyvalue[@key='statics']/value/map"))
+    processBlock(treeutil.selectNode(qxnode, "params/map/keyvalue[@key='members']/value/map"))
+
+            
+            
+def processBlock(block):
+    if not block or not block.hasChildren():
+        return
+    
+    print ">>> Looking for definitions..."
+    defs = {}
+    collectDefs(block, defs)
+    print defs.keys()
+
+    print ">>> Looking for calls..."
+    calls = {}
+    collectCalls(block, calls)
+    print calls.keys()
+    
+    for name in defs:
+        print ">>> Analysing method %s()" % name
+        analyseFunction(name, defs)                
+            
+
+def analyseFunction(name, defined):
+    func = defined[name]
+    
+    # Looking out for functions each member is calling
+    calls = {}
+    collectCalls(func, calls)
+    
+    # Iterate through these functions and try to inline them
+    for callName in calls:
+        if callName != name and name in defined:
+            print "  - Inlining %s() called by %s() (%sx occurrences)" % (callName, name, len(calls[callName]))
+            
+            for occurrence in calls[callName]:
+                inlineFunction(occurrence, defined[name])
+            
+
+def inlineFunction(callNode, funcNode):
+    params = funcNode.getChild("params")
+    body = copy.copy(funcNode.getChild("body"))
+    
+    # Without params is a lot easier
+    if params.hasChildren():
+        print "  - TODO: With parameters"            
+        
+    else:
+        print "  - Call without params"
+
+    # TODO: This is the tricky part doing the transformation from normal to inline
+        
+    replNode = tree.Node("block")
+    callNode.parent.replaceChild(callNode, replNode)
         
 
 
-    if membersNode and membersNode.hasChildren():
-        memberCalls = {}
-        memberDefs = {}
-        
-        print ">>> Looking for definitions..."
-        collectDefs(membersNode, memberDefs)
-        print memberDefs.keys()
 
-        print ">>> Looking for calls..."
-        collectCalls(membersNode, memberCalls)
-        print memberCalls.keys()
-        
-        for defName in memberDefs:
-            print ">>> Analysing method %s()" % defName
-            func = memberDefs[defName]
-            funcCalls = {}
-            collectCalls(func, funcCalls)
-            for useName in funcCalls:
-                print "  - Calls %s()" % useName
-            
-                
-                
-                
-            
-            
-        
-        
+
+
+
 
 def collectDefs(node, defs):
     for child in node.getAllChildrenOfType("keyvalue"):
         func = treeutil.selectNode(child, "value/function")
         if func:
             defs[child.get("key")] = func
-
-
 
 
 def collectCalls(node, calls):
@@ -83,7 +109,10 @@ def collectCalls(node, calls):
         if var:
             name = detect(var)
             if name:
-                calls[name] = True
+                if name in calls:
+                    calls[name].append(node)
+                else:
+                    calls[name] = [node]
                     
     
                 
