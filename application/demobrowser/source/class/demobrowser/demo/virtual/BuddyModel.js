@@ -20,14 +20,8 @@
 
 qx.Class.define("demobrowser.demo.virtual.BuddyModel",
 {
-  extend : qx.ui.core.Widget,
+  extend : qx.core.Object,
 
-  construct : function()
-  {
-    this.base(arguments);
-    
-  },
-  
   /*
   *****************************************************************************
      PROPERTIES
@@ -46,7 +40,7 @@ qx.Class.define("demobrowser.demo.virtual.BuddyModel",
   
     avatar :
     {
-      init : "",
+      init : "icon/22/emotes/face-smile.png",
       event : "changeAvatar",
       check : "String"
     },
@@ -57,16 +51,6 @@ qx.Class.define("demobrowser.demo.virtual.BuddyModel",
       event : "changeStatus",
       check : ["away", "busy", "online", "offline"]
     }
-  },
-  
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
- 
-  members :
-  {
-    
   }
+  
 });
