@@ -95,8 +95,7 @@ def main():
     else:
         print ">>> Compiling tree..."
         compiled = _compileTree(tree, options.pretty)
-    
-    #print compiled
+        print compiled
             
             
 def _optimizeStrings(tree, id):
