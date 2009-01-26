@@ -74,17 +74,17 @@ qx.Class.define("toolbox.content.BuiltInContent",
   	{
   		var generateSource = new qx.ui.form.Button("Generate Source");
 	    var generateBuild = new qx.ui.form.Button("Generate Build");
-	    var openApiButton = new qx.ui.form.Button(" Open ");
+	    var openDemoButton = new qx.ui.form.Button(" Open ");
 	    
 	    generateSource.addListener("execute", this.__generateDemobrowserSource, this);
 	    generateBuild.addListener("execute", this.__generateDemobrowserBuild, this);
-	    openApiButton.addListener("execute", this.__openDemoBrowserSource, this);
+	    openDemoButton.addListener("execute", this.__openDemoBrowserSource, this);
 	    
 	    //Button container
 	    var container = new qx.ui.container.Composite(new qx.ui.layout.HBox(5, "left", null));
 	    container.add(generateSource);
 	    container.add(generateBuild);
-	    container.add(openApiButton);
+	    container.add(openDemoButton);
 	    
 	    var box1 = new qx.ui.groupbox.GroupBox();
 	    box1.setLayout(new qx.ui.layout.Grid(5, 5));
@@ -140,6 +140,7 @@ qx.Class.define("toolbox.content.BuiltInContent",
 	    box1.setLayout(new qx.ui.layout.Grid(5, 5));
 	    
 	    var openApiButton = new qx.ui.form.Button(" Open ");
+	    openApiButton.addListener("execute", this.__openApiViewerSource, this);
 	    
 	    var container = new qx.ui.container.Composite(new qx.ui.layout.HBox(5, "left", null));
 	    container.add(openApiButton);
@@ -203,6 +204,10 @@ qx.Class.define("toolbox.content.BuiltInContent",
     
     __openDemoBrowserSource : function() {
       toolbox.builder.Builder.openApplication(this.__adminPath, "demobrowser", "", this.myLogFrame, "source", true, "application");
+    },
+    
+    __openApiViewerSource : function() {
+      toolbox.builder.Builder.openApplication(this.__adminPath, "apiviewer", "", this.myLogFrame, "source", true, "component");
     }
     
     
