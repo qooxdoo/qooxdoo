@@ -165,6 +165,7 @@ qx.Class.define("demobrowser.demo.virtual.Gallery",
       });
       
       widget.set(itemData);
+
       return widget;
     },
     
