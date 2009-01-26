@@ -171,17 +171,41 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
 
     getCellWidget : function(row, column)
     {
+      var widget;
+
       if (this.groupPositions[row])
       {
-        return this._groupPool.pop() || new qx.ui.basic.Atom().set({
+        widget = this._groupPool.pop() || new qx.ui.basic.Atom().set({
           icon: "decoration/arrows/down-invert.png",
           textColor: "white",
           font: "bold",
           padding: [0, 3]
         });
+
+        var label = (row == 0) ? "qooxdoo" : "Friends";
+        widget.setLabel(label);
       }
-    
-      return this._buddyPool.pop() || new demobrowser.demo.virtual.Buddy(); 
+      else
+      {
+        widget = this._buddyPool.pop() || new demobrowser.demo.virtual.Buddy(); 
+        if (row < this.__users.length+1)
+        {
+          widget.label.setContent(this.__users[row-1].name);
+          widget.icon.setSource(this.__users[row-1].img);
+          widget.statusIcon.setSource("demobrowser/demo/icons/imicons/status_" + this.__users[row-1].statusIcon + ".png");
+        }
+        else
+        {
+          widget.label.setContent("User #" + row);
+          widget.icon.setSource("icon/22/emotes/face-smile.png");
+          widget.statusIcon.setSource("demobrowser/demo/icons/imicons/status_offline.png");
+        }
+      }
+
+      widget.setUserData("row", row);
+      widget.setUserData("column", column);
+
+      return widget;
     },
 
     poolCellWidget: function(widget)
@@ -191,37 +215,7 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
       } else {      
         this._buddyPool.push(widget)
       }
-    },
+    }
 
-    _configureWidget : function(widget, row, column)
-    {
-      widget.setUserData("row", row);
-      widget.setUserData("column", column);
-
-      if (this.groupPositions[row]) 
-      {
-        if (row == 0) {
-          widget.setLabel("qooxdoo");
-        } else {
-          widget.setLabel("Friends");
-        }       
-        return;
-      }
-      
-      if (row < this.__users.length+1)
-      {
-        widget.label.setContent(this.__users[row-1].name);
-        widget.icon.setSource(this.__users[row-1].img);
-        widget.statusIcon.setSource("demobrowser/demo/icons/imicons/status_" + this.__users[row-1].statusIcon + ".png");
-      }
-      else
-      {
-        widget.label.setContent("User #" + row);
-        widget.icon.setSource("icon/22/emotes/face-smile.png");
-        widget.statusIcon.setSource("demobrowser/demo/icons/imicons/status_offline.png");
-      }
-    }    
-    
-    
   }
 });
