@@ -31,7 +31,11 @@ qx.Class.define("qx.ui.virtual.layer.DomTest",
 
   members :
   {
-    fullUpdate : function(visibleCells, rowSizes, columnSizes)
+    fullUpdate : function(
+      firstRow, lastRow, 
+      firstColumn, lastColumn, 
+      rowSizes, columnSizes
+    )
     {
       var el = this.getContainerElement().getDomElement();
       if (!el) {
@@ -73,8 +77,16 @@ qx.Class.define("qx.ui.virtual.layer.DomTest",
     },
     
     
-    updateLayerWindow : function(visibleCells, lastVisibleCells, rowSizes, columnSizes) {
-      this.fullUpdate(visibleCells, rowSizes, columnSizes);
+    updateLayerWindow : function(
+      firstRow, lastRow, 
+      firstColumn, lastColumn, 
+      rowSizes, columnSizes
+    ) {
+      this.fullUpdate(
+        firstRow, lastRow, 
+        firstColumn, lastColumn, 
+        rowSizes, columnSizes
+      );
     }
   }
 });
