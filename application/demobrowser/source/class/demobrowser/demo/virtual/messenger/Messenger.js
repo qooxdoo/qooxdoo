@@ -19,7 +19,6 @@
 ************************************************************************ */
 
 /* ************************************************************************
-#asset(demobrowser/demo/icons/imicons/*)
 #asset(qx/icon/${qx.icontheme}/22/emotes/*)
 ************************************************************************ */
 
@@ -30,17 +29,17 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Messenger",
   construct : function()
   {
     this.base(arguments);
+
+    this.__amount = 400;
+
     this.__createUsers();
     
     this.groupPositions = {}
     this.groupPositions[0] = true;
-    this.groupPositions[this.__users.length + 1] = true;
+    this.groupPositions[10] = true;
     
     this._buddyPool = [];
     this._groupPool = [];
-    
-    
-    this.base(arguments);
     
     // Create and fill model
     this.setModel(new qx.data.Array());
@@ -57,31 +56,30 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Messenger",
       model.setItem(i, buddyModel);
     }
 
+    // Create widget windo
     var win = new qx.ui.window.Window("Contacts").set({
       contentPadding: 0,
       showClose: false,
       showMinimize: false
     });
+
     win.setLayout(new qx.ui.layout.Grow());
     win.moveTo(200, 50);
     win.open();
     
     var width = 200;
-    
-    var scroller = new qx.ui.virtual.core.Scroller(400, 1, 28, width).set({
+
+    // Create scroller
+    var scroller = new qx.ui.virtual.core.Scroller(this.__amount, 1, 28, width).set({
       scrollbarX: "off",
       scrollbarY: "auto",
       width: width,
       height: 300
     });
 
-    scroller.pane.addListener("resize", function(e)
-    {
-      scroller.pane.columnConfig.setItemSize(0, e.getData().width);
-      scroller.pane.fullUpdate();
-    });
-    
+    scroller.pane.addListener("resize", this._onResize, this);
 
+    // Create layers
     var groupColor = "rgb(60, 97, 226)";
     var rowLayer = new qx.ui.virtual.layer.Row("white", "rgb(238, 243, 255)");
 
@@ -91,11 +89,12 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Messenger",
       scroller.pane.rowConfig.setItemSize(row, 15);
       rowLayer.setRowColor(row, groupColor);
     }
-    
+
+    // Add layers to scroller
     scroller.pane.addLayer(rowLayer);
     scroller.pane.addLayer(new qx.ui.virtual.layer.WidgetCell(this));
     win.add(scroller);
-    
+
     this.__scroller = scroller;
 
     // TODO!
@@ -105,8 +104,8 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Messenger",
     //   200, 300, 600, 800
     // );
 
+    // Create controller
     new demobrowser.demo.virtual.messenger.Controller(this.getModel(), this);
-    
     
   },
 
@@ -137,6 +136,8 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Messenger",
   members :
   {
     __users : null,
+    __scroller : null,
+    __amount : null,
 
     /**
      * This method contains the initial application code and gets called 
@@ -148,44 +149,58 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Messenger",
       this.__users = [
         {
           name : "Alexander Back",
-          img : this.getRandomBuddy()
+          img : this.getRandomBuddy(),
+          statusIcon : this.getRandomStatus()
         },
         {
           name : "Fabian Jakobs",
-          img : "demobrowser/demo/icons/imicons/fabian_jakobs.png"
+          img : "demobrowser/demo/icons/imicons/fabian_jakobs.png",
+          statusIcon : this.getRandomStatus()
         },
         {
           name : "Andreas Ecker",
-          img : this.getRandomBuddy()
+          img : this.getRandomBuddy(),
+          statusIcon : this.getRandomStatus()
         },
         {
           name : "Martin Wittemann",
-          img : "demobrowser/demo/icons/imicons/martin_wittemann.png"
+          img : "demobrowser/demo/icons/imicons/martin_wittemann.png",
+          statusIcon : this.getRandomStatus()
         },
         {
           name : "Thomas Herchenröder",
-          img : this.getRandomBuddy()
+          img : this.getRandomBuddy(),
+          statusIcon : this.getRandomStatus()
         },
         {
           name : "Daniel Wagner",
-          img : this.getRandomBuddy()
+          img : this.getRandomBuddy(),
+          statusIcon : this.getRandomStatus()
         },
         {
           name : "Jonathan Weiß",
-          img : "demobrowser/demo/icons/imicons/jonathan_weiss.png"
+          img : "demobrowser/demo/icons/imicons/jonathan_weiss.png",
+          statusIcon : this.getRandomStatus()
         },
         {
           name : "Yücel Beser",
-          img : this.getRandomBuddy()
+          img : this.getRandomBuddy(),
+          statusIcon : this.getRandomStatus()
         },
         {
           name : "Christian Schmidt",
-          img : "demobrowser/demo/icons/imicons/christian_schmidt.png"
+          img : "demobrowser/demo/icons/imicons/christian_schmidt.png",
+          statusIcon : this.getRandomStatus()
         }
       ];
 
-      for (var i=0; i<this.__users.length; i++) {
-        this.__users[i].statusIcon = this.getRandomStatus();
+      // Fill with dummy users:
+      for (var i=this.__users.length; i<this.__amount; i++) {
+        this.__users[i] = {
+          name : "User #" + i,
+          img : this.getRandomBuddy(),
+          statusIcon : this.getRandomStatus()
+        };
       }
     },    
       
@@ -225,18 +240,10 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Messenger",
       else
       {
         widget = this._buddyPool.pop() || new demobrowser.demo.virtual.messenger.Buddy(); 
-        if (row < this.getModel().length+1)
-        {
-          widget.label.setContent(this.getModel().getItem(row-1).getName());
-          widget.icon.setSource(this.getModel().getItem(row-1).getAvatar());
-          widget.statusIcon.setSource("demobrowser/demo/icons/imicons/status_" + this.getModel().getItem(row-1).getStatus() + ".png");
-        }
-        else
-        {
-          widget.label.setContent("User #" + row);
-          widget.icon.setSource("icon/22/emotes/face-smile.png");
-          widget.statusIcon.setSource("demobrowser/demo/icons/imicons/status_offline.png");
-        }
+
+        widget.label.setContent(this.getModel().getItem(row-1).getName());
+        widget.icon.setSource(this.getModel().getItem(row-1).getAvatar());
+        widget.statusIcon.setSource("demobrowser/demo/icons/imicons/status_" + this.getModel().getItem(row-1).getStatus() + ".png");
       }
 
       widget.setUserData("row", row);
@@ -255,6 +262,12 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Messenger",
     },
 
     update : function() {
+      this.__scroller.pane.fullUpdate();
+    },
+    
+    _onResize : function(e)
+    {
+      this.__scroller.pane.columnConfig.setItemSize(0, e.getData().width);
       this.__scroller.pane.fullUpdate();
     }
 
