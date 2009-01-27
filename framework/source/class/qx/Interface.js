@@ -247,7 +247,6 @@ qx.Class.define("qx.Interface",
             {
               var match = key.match(/^(get|set|reset)(.*)$/);
               if (!match || !qx.Class.hasProperty(clazz, qx.lang.String.firstLow(match[2]))) {
-                debugger;
                 throw new Error(
                   'Implementation of method "' + key +
                   '" is missing in class "' + clazz.classname + 
