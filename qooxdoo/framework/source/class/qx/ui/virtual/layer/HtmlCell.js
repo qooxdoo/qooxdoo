@@ -38,17 +38,21 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCell",
 
   members :
   {
-    fullUpdate : function(visibleCells, rowSizes, columnSizes)
+    fullUpdate : function(
+      firstRow, lastRow, 
+      firstColumn, lastColumn, 
+      rowSizes, columnSizes
+    )
     {
       var html = [];
       var left = 0;
       var top = 0;
-      var row = visibleCells.firstRow;
-      var col = visibleCells.firstColumn;
+      var row = firstRow;
+      var col = firstColumn;
       for (var x=0; x<rowSizes.length; x++)
       {
         var left = 0;
-        var col = visibleCells.firstColumn;
+        var col = firstColumn;
         var height = rowSizes[x] 
         for(var y=0; y<columnSizes.length; y++)
         {
@@ -71,8 +75,16 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCell",
     },
     
     
-    updateLayerWindow : function(visibleCells, lastVisibleCells, rowSizes, columnSizes) {
-      this.fullUpdate(visibleCells, rowSizes, columnSizes);
+    updateLayerWindow : function(
+      firstRow, lastRow, 
+      firstColumn, lastColumn, 
+      rowSizes, columnSizes
+    ) {
+      this.fullUpdate(
+        firstRow, lastRow, 
+        firstColumn, lastColumn, 
+        rowSizes, columnSizes
+      );
     }
   }
 });

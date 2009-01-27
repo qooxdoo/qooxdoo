@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.Layer",
+qx.Class.define("qx.test.ui.virtual.layer.Layer",
 {
   extend : qx.test.ui.LayoutTestCase,
 

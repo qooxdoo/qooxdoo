@@ -32,9 +32,6 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     this.__scrollTop = 0;
     this.__scrollLeft = 0;
     
-    this.cells = {};
-    this.lastCells = {};
-    
     this.__paneHeight = 0;
     this.__paneWidth = 0;
     
@@ -420,16 +417,14 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       var rowCellData = this.rowConfig.getItemAtPosition(top);
       var columnCellData = this.columnConfig.getItemAtPosition(left);
            
-      var cells = {
-        firstRow: rowCellData.index,
-        firstColumn: columnCellData.index
-      }
+      var firstRow = rowCellData.index;
+      var firstColumn = columnCellData.index;
       
-      var rowSizes = this.rowConfig.getItemSizes(cells.firstRow, minHeight + rowCellData.offset);
-      var columnSizes = this.columnConfig.getItemSizes(cells.firstColumn, minWidth + columnCellData.offset);
+      var rowSizes = this.rowConfig.getItemSizes(firstRow, minHeight + rowCellData.offset);
+      var columnSizes = this.columnConfig.getItemSizes(firstColumn, minWidth + columnCellData.offset);
 
-      cells.lastRow = cells.firstRow + rowSizes.length - 1;
-      cells.lastColumn = cells.firstColumn + columnSizes.length - 1;
+      var lastRow = firstRow + rowSizes.length - 1;
+      var lastColumn = firstColumn + columnSizes.length - 1;
 
       var layerWidth = qx.lang.Array.sum(columnSizes);
       var layerHeight = qx.lang.Array.sum(rowSizes);
@@ -447,9 +442,6 @@ qx.Class.define("qx.ui.virtual.core.Pane",
         layerWidth, layerHeight
       );            
            
-      this.lastCells = this.cells;
-      this.cells = cells;
-      
       this.__columnSizes = columnSizes;
       this.__rowSizes = rowSizes;
       
@@ -464,9 +456,17 @@ qx.Class.define("qx.ui.virtual.core.Pane",
         layer.setUserBounds(0, 0, layerWidth, layerHeight);
         
         if (doFullUpdate) {
-          layer.fullUpdate(cells, rowSizes, columnSizes);
+          layer.fullUpdate(
+            firstRow, lastRow, 
+            firstColumn, lastColumn, 
+            rowSizes, columnSizes              
+          );
         } else {
-          layer.updateLayerWindow(cells, this.lastCells, rowSizes, columnSizes);
+          layer.updateLayerWindow(
+            firstRow, lastRow, 
+            firstColumn, lastColumn, 
+            rowSizes, columnSizes
+          );
         }
 
         // TODO: debugging code    

@@ -79,7 +79,11 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
       }      
     },
   
-    fullUpdate : function(visibleCells, rowSizes, columnSizes)
+    fullUpdate : function(
+      firstRow, lastRow, 
+      firstColumn, lastColumn, 
+      rowSizes, columnSizes
+    )
     {
       var html = [];
       if (this._isHorizontal) {
@@ -88,18 +92,31 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
         this.__renderVerticalLines(html, columnSizes);
       }
       this.getContentElement().setAttribute("html", html.join(""));
+      
+      this._firstRow = firstRow;
+      this._lastRow = lastRow;
+      this._firstColumn = firstColumn;
+      this._lastColumn = lastColumn;       
     },
     
-    updateLayerWindow : function(visibleCells, lastVisibleCells, rowSizes, columnSizes) 
+    updateLayerWindow : function(
+      firstRow, lastRow, 
+      firstColumn, lastColumn, 
+      rowSizes, columnSizes
+    ) 
     {
-      var rowChanged = visibleCells.firstRow !== lastVisibleCells.firstRow;
-      var columnChanged = visibleCells.firstColumn !== lastVisibleCells.firstColumn;
+      var rowChanged = firstRow !== this._firstRow;
+      var columnChanged = firstColumn !== this._firstColumn;
       
       if (
         (this._isHorizontal && rowChanged) ||
         (!this._isHorizontal && columnChanged)
       ) {
-        this.fullUpdate(visibleCells, rowSizes, columnSizes);
+        this.fullUpdate(
+          firstRow, lastRow, 
+          firstColumn, lastColumn, 
+          rowSizes, columnSizes
+        );
       }
     }
   }

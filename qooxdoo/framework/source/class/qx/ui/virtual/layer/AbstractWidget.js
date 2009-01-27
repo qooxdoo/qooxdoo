@@ -51,7 +51,11 @@ qx.Class.define("qx.ui.virtual.layer.AbstractWidget",
       throw new Error("_configureWidget is abstract");
     },    
     
-    fullUpdate : function(cells, rowSizes, columnSizes)
+    fullUpdate : function(
+      firstRow, lastRow, 
+      firstColumn, lastColumn, 
+      rowSizes, columnSizes    
+    )
     {
       var children = this._getChildren();
       for (var i=0; i<children.length; i++) {
@@ -67,8 +71,8 @@ qx.Class.define("qx.ui.virtual.layer.AbstractWidget",
       {
         for (var x=0; x<columnSizes.length; x++)
         {
-          var row = cells.firstRow + y;
-          var col = cells.firstColumn + x;
+          var row = firstRow + y;
+          var col = firstColumn + x;
                 
           var item = this._getWidget(row, col);
           this._configureWidget(item, row, col);
@@ -81,10 +85,19 @@ qx.Class.define("qx.ui.virtual.layer.AbstractWidget",
         top += rowSizes[y];
         left = 0;
       }
+
+      this._firstRow = firstRow;
+      this._lastRow = lastRow;
+      this._firstColumn = firstColumn;
+      this._lastColumn = lastColumn;            
     },
     
     
-    updateLayerWindow : function(cells, lastCells, rowSizes, columnSizes)
+    updateLayerWindow : function(
+      firstRow, lastRow, 
+      firstColumn, lastColumn, 
+      rowSizes, columnSizes
+    ) 
     {
       // compute overlap of old and new window
       //
@@ -95,28 +108,32 @@ qx.Class.define("qx.ui.virtual.layer.AbstractWidget",
       //         +---+
       //
       var overlap = {
-        firstRow: Math.max(cells.firstRow, lastCells.firstRow),
-        lastRow: Math.min(cells.lastRow, lastCells.lastRow),
-        firstColumn: Math.max(cells.firstColumn, lastCells.firstColumn),
-        lastColumn: Math.min(cells.lastColumn, lastCells.lastColumn)
+        firstRow: Math.max(firstRow, this._firstRow),
+        lastRow: Math.min(lastRow, this._lastRow),
+        firstColumn: Math.max(firstColumn, this._firstColumn),
+        lastColumn: Math.min(lastColumn, this._lastColumn)
       }
       
       if (
         overlap.firstRow > overlap.lastRow || 
         overlap.firstColumn > overlap.lastColumn
       ) {
-        return this.fullUpdate(cells, rowSizes, columnSizes);
+        return this.fullUpdate(
+          firstRow, lastRow, 
+          firstColumn, lastColumn, 
+          rowSizes, columnSizes            
+        );
       }
       
       // collect the widgets to move
       var children = this._getChildren();
-      var lineLength = lastCells.lastColumn - lastCells.firstColumn + 1;
+      var lineLength = this._lastColumn - this._firstColumn + 1;
       var widgetsToMove = [];
       var widgetsToMoveIndexes = {};
-      for (var row=cells.firstRow; row<=cells.lastRow; row++)
+      for (var row=firstRow; row<=lastRow; row++)
       {
         widgetsToMove[row] = [];
-        for (var col=cells.firstColumn; col<=cells.lastColumn; col++)
+        for (var col=firstColumn; col<=lastColumn; col++)
         {
           if (
             row >= overlap.firstRow &&
@@ -125,8 +142,8 @@ qx.Class.define("qx.ui.virtual.layer.AbstractWidget",
             col <= overlap.lastColumn
           ) 
           {
-            var x = col - lastCells.firstColumn;
-            var y = row - lastCells.firstRow;
+            var x = col - this._firstColumn;
+            var y = row - this._firstRow;
             var index = y*lineLength + x;
             widgetsToMove[row][col] = children[index];
             widgetsToMoveIndexes[index] = true;
@@ -152,8 +169,8 @@ qx.Class.define("qx.ui.virtual.layer.AbstractWidget",
       {
         for (var x=0; x<columnSizes.length; x++)
         {
-          var row = cells.firstRow + y;
-          var col = cells.firstColumn + x;
+          var row = firstRow + y;
+          var col = firstColumn + x;
                 
           var item = widgetsToMove[row][col];
           if (!item) 
@@ -169,7 +186,12 @@ qx.Class.define("qx.ui.virtual.layer.AbstractWidget",
         }
         top += rowSizes[y];
         left = 0;
-      }      
+      }
+      
+      this._firstRow = firstRow;
+      this._lastRow = lastRow;
+      this._firstColumn = firstColumn;
+      this._lastColumn = lastColumn;      
     }
   }
 });

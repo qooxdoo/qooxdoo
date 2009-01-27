@@ -77,14 +77,14 @@ qx.Class.define("qx.test.ui.virtual.Pane",
     
     testLayerAdd : function()
     {
-      var layer = new qx.test.ui.virtual.LayerMock();
+      var layer = new qx.test.ui.virtual.layer.LayerMock();
       this.pane.addLayer(layer);
       this.assertEquals(layer, this.pane.getLayers()[0]);
     },
     
     testUpdateOnResize : function()
     {
-      var layer = new qx.test.ui.virtual.LayerMock();
+      var layer = new qx.test.ui.virtual.layer.LayerMock();
       this.pane.addLayer(layer);
 
       this.assertEquals(0, layer.calls.length);
@@ -137,18 +137,18 @@ qx.Class.define("qx.test.ui.virtual.Pane",
         
     assertUpdateArgs : function(rowIndex, colIndex, rowSizes, colSizes, args, msg)
     {
-      this.assertEquals(rowIndex, args[0].firstRow, msg);
-      this.assertEquals(colIndex, args[0].firstColumn, msg);
-      this.assertArrayEquals(rowSizes, args[1], msg);
-      this.assertArrayEquals(colSizes, args[2], msg);      
+      this.assertEquals(rowIndex, args[0], msg);
+      this.assertEquals(colIndex, args[2], msg);
+      this.assertArrayEquals(rowSizes, args[4], msg);
+      this.assertArrayEquals(colSizes, args[5], msg);      
     },
 
     assertScrollArgs : function(rowIndex, colIndex, rowSizes, colSizes, args, msg)
     {
-      this.assertEquals(rowIndex, args[0].firstRow, msg);
-      this.assertEquals(colIndex, args[0].firstColumn, msg);
-      this.assertArrayEquals(rowSizes, args[2], msg);
-      this.assertArrayEquals(colSizes, args[3], msg);      
+      this.assertEquals(rowIndex, args[0], msg);
+      this.assertEquals(colIndex, args[2], msg);
+      this.assertArrayEquals(rowSizes, args[4], msg);
+      this.assertArrayEquals(colSizes, args[5], msg);      
     },    
     
     assertScroll : function(scrollTop, scrollLeft, pane, msg)
@@ -160,7 +160,7 @@ qx.Class.define("qx.test.ui.virtual.Pane",
     
     testFullUpdate : function()
     {
-      var layer = new qx.test.ui.virtual.LayerMock();
+      var layer = new qx.test.ui.virtual.layer.LayerMock();
       this.pane.addLayer(layer);
       this.pane.set({
         width: 100,
@@ -238,7 +238,7 @@ qx.Class.define("qx.test.ui.virtual.Pane",
     
     testUpdateLayerWindow : function()
     {
-      var layer = new qx.test.ui.virtual.LayerMock();
+      var layer = new qx.test.ui.virtual.layer.LayerMock();
       this.pane.addLayer(layer);
       this.pane.set({
         width: 100,
