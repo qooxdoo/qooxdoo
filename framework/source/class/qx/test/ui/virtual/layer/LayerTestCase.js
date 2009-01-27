@@ -21,6 +21,7 @@
 qx.Class.define("qx.test.ui.virtual.layer.LayerTestCase",
 {
   extend : qx.test.ui.LayoutTestCase,
+  type : "abstract",
 
   members :
   {

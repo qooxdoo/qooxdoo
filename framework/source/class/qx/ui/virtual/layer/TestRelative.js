@@ -31,7 +31,11 @@ qx.Class.define("qx.ui.virtual.layer.TestRelative",
 
   members :
   {
-    fullUpdate : function(visibleCells, rowSizes, columnSizes)
+    fullUpdate : function(
+      firstRow, lastRow, 
+      firstColumn, lastColumn, 
+      rowSizes, columnSizes
+    )
     {
       var html = [];
       var left = 0;
@@ -50,8 +54,6 @@ qx.Class.define("qx.ui.virtual.layer.TestRelative",
           html.push(
             "<div style='",
             "float: left;",
-            //"left:", left, "px;",
-            //"top:", top, "px;",
             "width:", columnSizes[y], "px;",
             "height:", rowSizes[x], "px;",
             "overflow:hidden;",
@@ -71,8 +73,16 @@ qx.Class.define("qx.ui.virtual.layer.TestRelative",
     },
     
     
-    updateLayerWindow : function(visibleCells, lastVisibleCells, rowSizes, columnSizes) {
-      this.fullUpdate(visibleCells, rowSizes, columnSizes);
+    updateLayerWindow : function(
+      firstRow, lastRow, 
+      firstColumn, lastColumn, 
+      rowSizes, columnSizes
+    ) {
+      this.fullUpdate(
+        firstRow, lastRow, 
+        firstColumn, lastColumn, 
+        rowSizes, columnSizes
+      );
     }
   }
 });

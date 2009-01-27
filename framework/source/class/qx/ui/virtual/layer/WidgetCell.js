@@ -33,7 +33,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
     }
     
     this._cellProvider = widgetCellProvider;
-    this._pool = [];
+    this.__spacerPool = [];
   },
   
   
@@ -45,6 +45,19 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
  
   members :
   {    
+    __spacerPool : null,
+    
+    _getSpacer : function()
+    {
+      var spacer = this.__spacerPool.pop();
+      if (!spacer) 
+      {
+        spacer = new qx.ui.core.Spacer();
+        spacer.setUserData("emptycell", 1);
+      }
+      return spacer;
+    },
+    
     fullUpdate : function(
       firstRow, lastRow, 
       firstColumn, lastColumn, 
@@ -54,8 +67,14 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
       var cellProvider = this._cellProvider;
     
       var children = this._getChildren();
-      for (var i=0; i<children.length; i++) {
-        cellProvider.poolCellWidget(children[i]);
+      for (var i=0; i<children.length; i++) 
+      {
+        var child = children[i];
+        if (child.getUserData("emptycell")) {
+          this.__spacerPool.push(child);
+        } else {
+          cellProvider.poolCellWidget(child);
+        }
       }
 
       this._removeAll();
@@ -70,7 +89,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
           var row = firstRow + y;
           var column = firstColumn + x;
                 
-          var item = cellProvider.getCellWidget(row, column);
+          var item = cellProvider.getCellWidget(row, column) || this._getSpacer();
           item.setUserBounds(left, top, columnSizes[x], rowSizes[y]);
           this._add(item);
 
@@ -150,9 +169,15 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
       // pool widgets
       var children = this._getChildren();
       for (var i=0; i<children.length; i++)
-      {
-        if (!widgetsToMoveIndexes[i]) {
-          cellProvider.poolCellWidget(children[i]);
+      {        
+        if (!widgetsToMoveIndexes[i]) 
+        {
+          var child = children[i];
+          if (child.getUserData("emptycell")) {
+            this.__spacerPool.push(child);
+          } else {
+            cellProvider.poolCellWidget(child);
+          }
         }
       }
 
@@ -168,7 +193,11 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
           var row = firstRow + y;
           var column = firstColumn + x;
                 
-          var item = widgetsToMove[row][column] || cellProvider.getCellWidget(row, column);
+          var item = 
+            widgetsToMove[row][column] || 
+            cellProvider.getCellWidget(row, column) ||
+            this._getSpacer();
+          
           item.setUserBounds(left, top, columnSizes[x], rowSizes[y]);
           this._add(item);
 
@@ -182,6 +211,14 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
       this._lastRow = lastRow;
       this._firstColumn = firstColumn;
       this._lastColumn = lastColumn;      
+    }
+  },
+  
+  destruct : function()
+  {   
+    var children = this._getChildren();
+    for (var i=0; i<children.length; i++) {
+      children[i].dispose();
     }
   }
 });
