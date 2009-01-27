@@ -24,7 +24,7 @@ import time, datetime
 
 from polib import polib
 from ecmascript.frontend import treeutil, tree
-from misc import cldr, idlist, filetool
+from misc import cldr, idlist, filetool, util
 from generator.code.LibraryPath import LibraryPath
 
 class Locale:
@@ -225,16 +225,7 @@ class Locale:
 
     def createPoFile(self):
         po = polib.POFile()
-        
-        def nowString():
-            # we want something like '2007-10-18 14:00+0100'
-            mytz="%+4.4d" % (time.timezone / -(60*60) * 100) # time.timezone counts westwards!
-            dt  = datetime.datetime.now()
-            dts = dt.strftime('%Y-%m-%d %H:%M')  # %Z (timezone) would be empty
-            nowstring="%s%s" % (dts,mytz)
-            return nowstring
-            
-        now = nowString()
+        now = util.nowString()
 
         po.metadata['Project-Id-Version']   = '1.0'
         po.metadata['Report-Msgid-Bugs-To'] = 'you@your.org'
