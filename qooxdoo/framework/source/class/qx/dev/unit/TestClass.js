@@ -77,11 +77,8 @@ qx.Class.define("qx.dev.unit.TestClass",
 
     for (var test in proto)
     {
-      if (proto.hasOwnProperty(test))
-      {
-        if (typeof (proto[test]) == "function" && test.indexOf("test") == 0) {
-          this.addTestMethod(clazz, test);
-        }
+      if (typeof (proto[test]) == "function" && test.indexOf("test") == 0) {
+        this.addTestMethod(clazz, test);
       }
     }
 
