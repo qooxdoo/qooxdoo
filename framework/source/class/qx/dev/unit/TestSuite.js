@@ -116,8 +116,10 @@ qx.Class.define("qx.dev.unit.TestSuite",
       {
         if (qx.Class.isSubClassOf(namespace, qx.dev.unit.TestCase))
         {
-          this.addTestClass(namespace);
-          return;
+          if (namespace.$$classtype !== "abstract") {
+            this.addTestClass(namespace);
+          }
+          return;          
         }
       }
       else if (typeof (namespace) == "object" && !(namespace instanceof Array))
