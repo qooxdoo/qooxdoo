@@ -66,10 +66,15 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
         var layout = new qx.ui.layout.Grid(5, 10);
 
         var win = new qx.ui.window.Window("Add user", "icon/16/actions/list-add.png");
-        win.setWidth(180);
-        win.setHeight(100);
-        win.setShowMinimize(false);
-        win.setShowClose(false);
+
+        win.set({
+          width : 165,
+          height  : 100,
+          showMinimize : false,
+          showClose : false,
+          showMaximize : false
+        });
+
         win.setLayout(layout);
 
         var lblUsername = new qx.ui.basic.Label("Name:");
@@ -99,6 +104,7 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
         win.add(btnAdd, {row : 1, column : 1});
         win.add(btnCancel, {row : 1, column : 2});
 
+        layout.setColumnAlign(0, "left", "middle");
         layout.setColumnAlign(1, "right", "middle");
 
         this.getRoot().add(win, {left:20, top:20});
