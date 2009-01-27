@@ -100,7 +100,7 @@ def directory(dirname):
 
 
 def normalize(filename):
-    return os.path.normcase(os.path.normpath(filename))
+    return os.path.normpath(filename)
 
 
 def read(filePath, encoding="utf_8"):
