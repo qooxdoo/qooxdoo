@@ -37,7 +37,7 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Messenger",
     this.groupPositions = {}
     this.groupPositions[0] = true;
     this.groupPositions[10] = true;
-    
+
     this._buddyPool = [];
     this._groupPool = [];
     
@@ -64,7 +64,7 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Messenger",
     });
 
     win.setLayout(new qx.ui.layout.Grow());
-    win.moveTo(200, 50);
+    win.moveTo(250, 20);
     win.open();
     
     var width = 200;
@@ -275,7 +275,7 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Messenger",
     _modelLengthChange : function(e)
     {
       this.__amount = e.getTarget().length;
-      this.__scroller.pane.rowConfig.setItemCount(this.__amount);
+      this.__scroller.pane.rowConfig.setItemCount(this.__amount+1);
     }
 
   }
