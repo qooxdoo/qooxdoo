@@ -657,7 +657,7 @@ qx.Class.define("qx.core.Assert",
      */
     assertInterface : function(value, iface, msg) {
       this.__assert(
-        qx.Class.implementsInterface(value.constructor, iface),
+        qx.Class.implementsInterface(value, iface),
         msg || "",
         "Expected object '" + value + "' to implement the interface '" + iface + "'!"
       );
