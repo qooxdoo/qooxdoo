@@ -1,4 +1,26 @@
+#!/usr/bin/env python
+
+################################################################################
+#
+#  qooxdoo - the new era of web development
+#
+#  http://qooxdoo.org
+#
+#  Copyright:
+#    2006-2009 1&1 Internet AG, Germany, http://www.1und1.de
+#
+#  License:
+#    LGPL: http://www.gnu.org/licenses/lgpl.html
+#    EPL: http://www.eclipse.org/org/documents/epl-v10.php
+#    See the LICENSE file in the project's top-level directory for details.
+#
+#  Authors:
+#    * Sebastian Werner (wpbasti)
+#
+################################################################################
+
 import os, sys, re
+import time, datetime
 
 from polib import polib
 from ecmascript.frontend import treeutil, tree
@@ -203,15 +225,25 @@ class Locale:
 
     def createPoFile(self):
         po = polib.POFile()
+        
+        def nowString():
+            # we want something like '2007-10-18 14:00+0100'
+            mytz="%+4.4d" % (time.timezone / -(60*60) * 100) # time.timezone counts westwards!
+            dt  = datetime.datetime.now()
+            dts = dt.strftime('%Y-%m-%d %H:%M')  # %Z (timezone) would be empty
+            nowstring="%s%s" % (dts,mytz)
+            return nowstring
+            
+        now = nowString()
 
-        po.metadata['Project-Id-Version'] = '1.0'
-        po.metadata['Report-Msgid-Bugs-To'] = 'you@qooxdoo.org'
-        po.metadata['POT-Creation-Date'] = '2007-10-18 14:00+0100'
-        po.metadata['PO-Revision-Date'] = '2007-10-18 14:00+0100'
-        po.metadata['Last-Translator'] = 'you <you@qooxdoo.org>'
-        po.metadata['Language-Team'] = 'Team <yourteam@qooxdoo.org>'
-        po.metadata['MIME-Version'] = '1.0'
-        po.metadata['Content-Type'] = 'text/plain; charset=utf-8'
+        po.metadata['Project-Id-Version']   = '1.0'
+        po.metadata['Report-Msgid-Bugs-To'] = 'you@your.org'
+        po.metadata['POT-Creation-Date']    = now
+        po.metadata['PO-Revision-Date']     = now
+        po.metadata['Last-Translator']      = 'you <you@your.org>'
+        po.metadata['Language-Team']        = 'Team <yourteam@your.org>'
+        po.metadata['MIME-Version']         = '1.0'
+        po.metadata['Content-Type']         = 'text/plain; charset=utf-8'
         po.metadata['Content-Transfer-Encoding'] = '8bit'
 
         return po
