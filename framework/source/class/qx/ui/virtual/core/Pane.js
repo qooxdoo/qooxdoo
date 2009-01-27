@@ -454,8 +454,8 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       this.__rowSizes = rowSizes;
       
       // TODO: debugging code
-      qx.ui.core.queue.Manager.flush();      
-      
+      this.DEBUG && qx.ui.core.queue.Manager.flush();      
+
       for (var i=0; i<this.__layers.length; i++) 
       {
         var start = new Date();
@@ -470,10 +470,13 @@ qx.Class.define("qx.ui.virtual.core.Pane",
         }
 
         // TODO: debugging code    
-        this.debug("layer update ("+layer.classname+"): " + (new Date() - start) + "ms");
-        var start = new Date();
-        qx.ui.core.queue.Manager.flush();
-        this.debug("layer flush ("+layer.classname+"): " + (new Date() - start) + "ms");
+        if(this.DEBUG)
+        {
+          this.debug("layer update ("+layer.classname+"): " + (new Date() - start) + "ms");
+          var start = new Date();
+          qx.ui.core.queue.Manager.flush();
+          this.debug("layer flush ("+layer.classname+"): " + (new Date() - start) + "ms");
+        }
       }            
     },    
     
