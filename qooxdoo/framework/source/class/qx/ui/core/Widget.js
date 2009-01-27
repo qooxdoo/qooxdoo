@@ -224,7 +224,7 @@ qx.Class.define("qx.ui.core.Widget",
     capture : "qx.event.type.Event",
 
     /**
-     * Fired is the widget looses the capturing mode by a call to
+     * Fired if the widget looses the capturing mode by a call to
      * {@link #releaseCapture} or a mouse click.
      */
     losecapture : "qx.event.type.Event",
