@@ -106,7 +106,7 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Messenger",
 
     // Create controller
     new demobrowser.demo.virtual.messenger.Controller(this.getModel(), this);
-    
+    model.addListener("changeLength", this._modelLengthChange, this);
   },
 
 
@@ -269,6 +269,13 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Messenger",
     {
       this.__scroller.pane.columnConfig.setItemSize(0, e.getData().width);
       this.__scroller.pane.fullUpdate();
+    },
+
+
+    _modelLengthChange : function(e)
+    {
+      this.__amount = e.getTarget().length;
+      this.__scroller.pane.rowConfig.setItemCount(this.__amount);
     }
 
   }
