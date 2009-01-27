@@ -17,10 +17,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.LayerMock",
+qx.Class.define("qx.test.ui.virtual.layer.LayerMock",
 {
   extend : qx.ui.core.Widget,
-  include : [qx.core.MAssert],
   implement : [qx.ui.virtual.core.ILayer],
   
   construct : function() 
@@ -38,16 +37,20 @@ qx.Class.define("qx.test.ui.virtual.LayerMock",
 
   members :
   {
-    fullUpdate : function(cells, rowSizes, columnSizes) 
-    {    
-      this.assertArgumentsCount(arguments, 3, 3);
+    fullUpdate : function(
+      firstRow, lastRow, 
+      firstColumn, lastColumn, 
+      rowSizes, columnSizes
+    ) {    
       this.calls.push(["fullUpdate", qx.lang.Array.fromArguments(arguments)]);
     },
     
     
-    updateLayerWindow : function(cells, lastCells, rowSizes, columnSizes) 
-    {
-      this.assertArgumentsCount(arguments, 4, 4);
+    updateLayerWindow : function(
+      firstRow, lastRow, 
+      firstColumn, lastColumn, 
+      rowSizes, columnSizes  
+    ) {
       this.calls.push(["updateLayerWindow", qx.lang.Array.fromArguments(arguments)]);
     }
   }

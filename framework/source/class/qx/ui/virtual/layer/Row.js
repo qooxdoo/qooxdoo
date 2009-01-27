@@ -94,12 +94,16 @@ qx.Class.define("qx.ui.virtual.layer.Row",
     __colorOdd : null,
     __customColors : null,
   
-    fullUpdate : function(visibleCells, rowSizes, columnSizes)
+    fullUpdate : function(
+      firstRow, lastRow, 
+      firstColumn, lastColumn, 
+      rowSizes, columnSizes
+    )
     {
       var html = [];
       for (var y=0; y<rowSizes.length; y++)
       {
-        var rowIndex = visibleCells.firstRow + y;
+        var rowIndex = firstRow + y;
         var color = this.getRowColor(rowIndex);
 
         html.push(
@@ -112,15 +116,26 @@ qx.Class.define("qx.ui.virtual.layer.Row",
         );
       }
       this.getContentElement().setAttribute("html", html.join(""));
+      
+      this._firstRow = firstRow;
+      this._lastRow = lastRow;
     },
     
-    updateLayerWindow : function(visibleCells, lastVisibleCells, rowSizes, columnSizes) 
+    updateLayerWindow : function(
+      firstRow, lastRow, 
+      firstColumn, lastColumn, 
+      rowSizes, columnSizes
+    )
     {
       if (
-        visibleCells.firstRow !== lastVisibleCells.firstRow ||
-        visibleCells.lastRow !== lastVisibleCells.lastRow
+        firstRow !== this._firstRow ||
+        lastRow !== this._lastRow
       ) {
-        this.fullUpdate(visibleCells, rowSizes, columnSizes);
+        this.fullUpdate(
+          firstRow, lastRow, 
+          firstColumn, lastColumn, 
+          rowSizes, columnSizes            
+        );
       }
     },
         

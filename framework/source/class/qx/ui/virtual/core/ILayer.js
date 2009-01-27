@@ -28,36 +28,55 @@ qx.Interface.define("qx.ui.virtual.core.ILayer",
     /**
      * Do a complete update of the layer. All cached data should be discarded.
      * This method is called e.g. after changes to the grid geometry
-     * (row/column sizes, row/column count, ...). 
-     * @param cells {Object} The window of cells to display. This is a Map with
-     *    the keys <code>firstRow</code>, <code>lastRow</code>,
-     *    <code>firstColumn</code> and <code>lastColumn</code>.
+     * (row/column sizes, row/column count, ...).
+     *  
+     * @param firstRow {Integer} Index of the first row to display
+     * @param lastRow {Integer} Index of the last row to display
+     * @param firstColumn {Integer} Index of the first column to display
+     * @param lastColumn {Integer} Index of the last column to display
      * @param rowSizes {Integer[]} Array of heights for each row to display
      * @param columnSizes {Integer[]} Array of widths for each column to display
      */
-    fullUpdate : function(cells, rowSizes, columnSizes) {
-      this.assertArgumentsCount(arguments, 3, 3);      
+    fullUpdate : function(
+      firstRow, lastRow, 
+      firstColumn, lastColumn, 
+      rowSizes, columnSizes    
+    ) {
+      this.assertArgumentsCount(arguments, 6, 6);
+      this.assertPositiveInteger(firstRow);
+      this.assertPositiveInteger(lastRow);
+      this.assertPositiveInteger(firstColumn);
+      this.assertPositiveInteger(lastColumn);
+      this.assertArray(rowSizes);
+      this.assertArray(columnSizes);
     },
     
     /**
      * Update the layer to display a different window of the virtual grid.
      * This method is called if the pane is scrolled, resized or cells
      * are prefetched. The implementation can assume that no other grid
-     * data has been changes since the last "fullUpdate" of "updateLayerWindow"
+     * data has been changed since the last "fullUpdate" of "updateLayerWindow"
      * call.
      * 
-     * @param cells {Object} The window of cells to display. This is a Map with
-     *    the keys <code>firstRow</code>, <code>lastRow</code>,
-     *    <code>firstColumn</code> and <code>lastColumn</code>.
-     * @param lastCells {Object} This window of cells the layer displays
-     *    currently. The format of this value is the same as the "cells" 
-     *    argument. This information can be used to update only those parts
-     *    of the layer, which have been changed.
+     * @param firstRow {Integer} Index of the first row to display
+     * @param lastRow {Integer} Index of the last row to display
+     * @param firstColumn {Integer} Index of the first column to display
+     * @param lastColumn {Integer} Index of the last column to display
      * @param rowSizes {Integer[]} Array of heights for each row to display
      * @param columnSizes {Integer[]} Array of widths for each column to display
      */
-    updateLayerWindow : function(cells, lastCells, rowSizes, columnSizes) {
-      this.assertArgumentsCount(arguments, 4, 4);
+    updateLayerWindow : function(
+      firstRow, lastRow, 
+      firstColumn, lastColumn, 
+      rowSizes, columnSizes
+    ) {
+      this.assertArgumentsCount(arguments, 6, 6);
+      this.assertPositiveInteger(firstRow);
+      this.assertPositiveInteger(lastRow);
+      this.assertPositiveInteger(firstColumn);
+      this.assertPositiveInteger(lastColumn);
+      this.assertArray(rowSizes);
+      this.assertArray(columnSizes);
     }
   }
 });
