@@ -582,7 +582,7 @@ qx.Bootstrap.define("qx.Class",
 
 
     /**
-     * Returns the class or one of its superclasses which contains the
+     * Returns the class or one of its super classes which contains the
      * declaration of the given interface. Returns null if the interface is not
      * specified anywhere.
      *
@@ -639,7 +639,7 @@ qx.Bootstrap.define("qx.Class",
 
 
     /**
-     * Whether a given class or any of its superclasses includes a given interface.
+     * Whether a given class or any of its super classes includes a given interface.
      *
      * This function will return "true" if the interface was defined
      * in the class declaration (@link qx.Class#define}) of the class
@@ -656,21 +656,30 @@ qx.Bootstrap.define("qx.Class",
 
 
     /**
-     * Whether a given class conforms to an interface.
+     * Whether a given class or object conforms to an interface.
      *
      * Checks whether all methods defined in the interface are
-     * implemented in the class. The class does not need to implement
-     * the interface explicitly.
+     * implemented. The class does not need to implement
+     * the interface explicitly in the <code>extend</code> key.
      *
-     * @param clazz {Class} class to check
+     * @param obj {Object|Class} class or object to check
      * @param iface {Interface} the interface to check for
      * @return {Boolean} whether the class conforms to the interface.
      */
-    implementsInterface : function(clazz, iface)
+    implementsInterface : function(obj, iface)
     {
+      var clazz = obj.constructor;
+      
       if (this.hasInterface(clazz, iface)) {
         return true;
       }
+
+      try
+      {
+        qx.Interface.assertObject(obj, iface);
+        return true;
+      }
+      catch(ex) {}
 
       try
       {
