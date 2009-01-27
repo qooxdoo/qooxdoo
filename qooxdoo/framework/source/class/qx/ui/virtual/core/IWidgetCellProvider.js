@@ -27,7 +27,8 @@ qx.Interface.define("qx.ui.virtual.core.IWidgetCellProvider",
   members :
   {
     /**
-     * This method returns the configured cell for the given cell
+     * This method returns the configured cell for the given cell. The return 
+     * value may be <code>null</code> to indicate that the cell should be empty.
      * 
      * @param row {Integer} The cell's row index
      * @param column {Integer} The cell's column index

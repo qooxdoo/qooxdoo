@@ -51,6 +51,7 @@ qx.Class.define("qx.test.ui.virtual.layer.WidgetCell",
       var widget = this._pool.pop() || new qx.ui.core.Widget();
       widget.setUserData("row", row);
       widget.setUserData("column", column);
+      widget.setBackgroundColor((row + column) % 2 == 0 ? "red" : "green");
       return widget;
     },
     
@@ -81,6 +82,41 @@ qx.Class.define("qx.test.ui.virtual.layer.WidgetCell",
           this.assertEquals(column, widget.getUserData("column"));
         }
       }
+    },
+    
+    
+    testEmptyCells : function()
+    {
+      var layer = new qx.ui.virtual.layer.WidgetCell({
+        getCellWidget: function(row, column) {
+          return column === 0 ? new qx.ui.core.Widget() : null;
+        },
+        
+        poolCellWidget : function(widget) {
+          widget.destroy(); 
+        }
+      });
+      
+      this.getRoot().add(layer);
+      layer.fullUpdate(0, 5, 0, 2, [10, 10, 10, 10, 10, 10], [30, 30, 30]);
+      qx.ui.core.queue.Manager.flush();
+      
+      var children = layer._getChildren();
+     
+      for (var y=0; y<=5; y++)
+      {
+        for (var x=0; x<=2; x++)
+        {          
+          var child = children[y*3 + x];
+          if (x === 0) {
+            this.assertInstance(child, qx.ui.core.Widget);
+          } else {
+            this.assertInstance(child, qx.ui.core.Spacer);
+          }
+        }
+      }
+      
+      layer.destroy();
     }
   }
 });
