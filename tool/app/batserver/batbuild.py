@@ -222,17 +222,17 @@ def build_packet(target,revision,generate):
 def build_targets(targList):
     rc = 0
     for target in targList:
-        #if svn_check(target,0):
-        goto_workdir(options.stagedir)
-        if (options.generate):
-            print "Target: "+target
-            rc = build_packet(target,0,options.generate)
-        else:
-            rc = build_packet(target,0,None)
-        if (options.generate == "release"):
-            copy_archives(target)
-        if (options.cleanup):
-            cleanup(target)
+        if svn_check(target,0):
+            goto_workdir(options.stagedir)
+            if (options.generate):
+                print "Target: "+target
+                rc = build_packet(target,0,options.generate)
+            else:
+                rc = build_packet(target,0,None)
+            if (options.generate == "release"):
+                copy_archives(target)
+            if (options.cleanup):
+                cleanup(target)
     return rc
 
 def main():
