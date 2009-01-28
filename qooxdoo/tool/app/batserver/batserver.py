@@ -34,6 +34,7 @@
 #  some logging etc. - That's the basic protocol.
 
 import sys, os, platform
+import optparse
 import SimpleXMLRPCServer
 import re
 
@@ -48,7 +49,6 @@ servconf = {
 
 workpackopts = [
     #"--autPath /qx/tags/release_0_8_1/qooxdoo/framework/test/index.html"
-    "--autPath /qx/trunk/qooxdoo/framework/test/index.html"
 ]
 
 
@@ -56,7 +56,7 @@ class ServFunctions(object):
     def __init__(self):
         import string
         self.python_string = string
-    
+
     def register_client(self,clientconf):
         import time
         print >>rfile,'Registering Client with ClientConf:'
@@ -65,7 +65,7 @@ class ServFunctions(object):
         rfile.flush()
         jobid = time.time()
         wpopts = list(workpackopts)  # init workpackoptions with global
-        selectWorkOpts(clientconf,wpopts)
+        selectWorkOpts(clientconf,wpopts,server_opts)
         return (jobid, "http://" + servconf['downloadhost'] + "/~dwagner/workspace/qooxdoo.trunk/tool/app/batserver/workpack_test.py", wpopts)
     
     def receive_report(self,jobid,clientreport):
@@ -74,8 +74,30 @@ class ServFunctions(object):
         rfile.write(os.linesep)
         rfile.flush()
         return 0
+    
+def getServerOpts():
+    parser = optparse.OptionParser()
+    
+    parser.add_option(
+        "-a", "--aut-host", dest="aut_host", default="http://" + servconf['bathost'], type="string",
+        help="Host of the application to be tested by the client, e.g. http://example.com"
+    )
+    
+    parser.add_option(
+        "-r", "--aut-port", dest="aut_port", default=None, type="string",
+        help="Host of the application to be tested by the client, e.g. http://example.com"
+    )
+    
+    parser.add_option(
+        "-q", "--qx-path", dest="qx_path", default=None, type="string",
+        help="Qooxdoo path on the host"
+    )
+    
+    (options, args) = parser.parse_args()
 
-def selectWorkOpts(clientconf,wpopts):
+    return options    
+
+def selectWorkOpts(clientconf,wpopts,server_opts):
     # select package
     wpopts.append('--package-name')
     if ('target' in clientconf) and (clientconf['target'] != None):
@@ -101,16 +123,46 @@ def selectWorkOpts(clientconf,wpopts):
     # select amount of work
     if clientconf['unpack_only']:
         wpopts.append('--unpack-only')
+    
+    if('selenium_script' in clientconf and clientconf['selenium_script'] != None):
+        wpopts.append('--selenium-script')
+        wpopts.append(clientconf['selenium_script'])
+        
+    if('classpath' in clientconf and clientconf['classpath'] != None):
+        wpopts.append('--java-classpath')
+        wpopts.append(clientconf['classpath'])
+
+    if('logformatter' in clientconf and clientconf['logformatter'] != None):
+        wpopts.append('--log-formatter')
+        wpopts.append(clientconf['logformatter'])
+        
+    if('autpath' in clientconf and clientconf['autpath'] != None):
+        wpopts.append('--autPath')
+        wpopts.append(clientconf['autpath'])
+    
+    if server_opts.aut_host:
+        wpopts.append("--autHost")
+        wpopts.append(server_opts.aut_host)  
+        
+    if server_opts.aut_port:
+        wpopts.append("--autPort")
+        wpopts.append(server_opts.aut_port)
+        
+    if server_opts.qx_path:
+        wpopts.append("--qxPath")
+        wpopts.append(server_opts.qx_path)              
 
     return
 
 def main():
     global rfile
+    global server_opts
     server = SimpleXMLRPCServer.SimpleXMLRPCServer((servconf["bathost"],servconf['batport']))
     server.register_instance(ServFunctions(), allow_dotted_names = True)
     server.register_introspection_functions()
     #server.list_public_methods()
     rfile = open(servconf['reportfile'], 'a')
+    server_opts = getServerOpts()
     server.serve_forever()
 
 if __name__ == '__main__':
