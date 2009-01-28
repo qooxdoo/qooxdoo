@@ -139,6 +139,10 @@ def selectWorkOpts(clientconf,wpopts,server_opts):
     if('autpath' in clientconf and clientconf['autpath'] != None):
         wpopts.append('--autPath')
         wpopts.append(clientconf['autpath'])
+        
+    if('testbrowsers' in clientconf and clientconf['testbrowsers'] != None):
+        wpopts.append('--testBrowsers')
+        wpopts.append(clientconf['testbrowsers'])
     
     if server_opts.aut_host:
         wpopts.append("--autHost")
