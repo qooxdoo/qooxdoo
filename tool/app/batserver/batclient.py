@@ -39,7 +39,8 @@ clientconf = {
    'platform'   : None,
    'packarch'   : None,
    'unpack_only': False,
-   'work_dir'   : '/tmp/qx',
+   'work_dir'   : os.getcwd(),
+   'selenium_script' : None,
    #'logfile'    : 'bat_client.log',
     'logfile'   : None,
    #'disk_space' : '2G',
@@ -58,7 +59,7 @@ def get_computed_opts():
     )
 
     parser.add_option(
-        "-p", "--bat-port", dest="batport", default=clientconf['batport'], type="string",
+        "-p", "--bat-port", dest="batport", default=clientconf['batport'], type="int",
         help="Port of BAT host to connect to"
     )
 
@@ -93,6 +94,30 @@ def get_computed_opts():
         type="string",
         help="Package archive format (e.g. \".tar.gz\" or \".zip\")"
     )
+    
+    parser.add_option(
+        "-j", "--java-classpath", dest="classpath", default=None,
+        type="string",
+        help="Java classpath for Selenium tests"
+    )
+    
+    parser.add_option(
+        "-S", "--selenium-script", dest="seleniumscript", default=None,
+        type="string",
+        help="Full path to the Selenium test script"
+    )
+    
+    parser.add_option(
+        "-f", "--log-formatter", dest="logformatter", default=None,
+        type="string",
+        help="Full log formatting command, e.g. '/usr/bin/python /home/dwagner/qxselenium/logFormatter.py /tmp/selenium.log /home/dwagner/qxselenium/selenium-report.html'"
+    )
+    
+    parser.add_option(
+        "-A", "--aut-path", dest="autpath", default=None,
+        type="string",
+        help="Path to the application to be tested"
+    )
 
     (options, args) = parser.parse_args()
 
@@ -104,6 +129,10 @@ def get_computed_opts():
     clientconf['target']     = options.target
     clientconf['packarch']   = options.packarch
     clientconf['unpack_only']   = options.unpack_only
+    clientconf['classpath'] = options.classpath
+    clientconf['selenium_script'] = options.seleniumscript
+    clientconf['logformatter'] = options.logformatter
+    clientconf['autpath'] = options.autpath
 
     return (options, args)
 
@@ -191,6 +220,8 @@ def main():
     server = xmlrpclib.ServerProxy(uri='http://'+options.bathost+':'+repr(options.batport),allow_none=True)
     (jobid,workpack_url, workpack_opts) = register_client()
     workpack = retreive_workpack(workpack_url)
+    #workpack = 'workpack_test.py'
+    #print("Running workpack " + workpack)
     ret = run_workpack(workpack,workpack_opts)
     if (options.logfile):
         report_outcomes(jobid, ret, os.path.join(options.workdir,options.logfile))
