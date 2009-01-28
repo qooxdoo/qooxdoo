@@ -32,25 +32,25 @@ qx.Class.define("qx.data.controller.Tree",
     // reference to the child
     this.__childrenRef = {};
     
-    if (iconPath != undefined) {
+    if (iconPath != null) {
       this.setIconPath(iconPath);
     }
-    if (labelOptions != undefined) {
+    if (labelOptions != null) {
       this.setLabelOptions(labelOptions);
     }
-    if (iconOptions != undefined) {
+    if (iconOptions != null) {
       this.setIconOptions(iconOptions);
     }    
-    if (childPath != undefined) {
+    if (childPath != null) {
       this.setChildPath(childPath);      
     }
-    if (labelPath != undefined) {
+    if (labelPath != null) {
       this.setLabelPath(labelPath);      
     }
-    if (model != undefined) {
+    if (model != null) {
       this.setModel(model);      
     }
-    if (target != undefined) {
+    if (target != null) {
       this.setTarget(target);
     }
   },

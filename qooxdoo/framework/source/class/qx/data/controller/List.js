@@ -30,22 +30,22 @@ qx.Class.define("qx.data.controller.List",
     this.__bindingsLabel = {};
     this.__bindingsIcons = {};
     
-    if (labelOptions != undefined) {
+    if (labelOptions != null) {
       this.setLabelOptions(labelOptions);
     }
-    if (iconOptions != undefined) {
+    if (iconOptions != null) {
       this.setIconOptions(iconOptions);
     }    
-    if (labelPath != undefined) {
+    if (labelPath != null) {
       this.setLabelPath(labelPath);      
     }
-    if (iconPath != undefined) {
+    if (iconPath != null) {
       this.setIconPath(iconPath);
     }
-    if (model != undefined) {
+    if (model != null) {
       this.setModel(model);      
     }
-    if (target != undefined) {
+    if (target != null) {
       this.setTarget(target);       
     }
   },
