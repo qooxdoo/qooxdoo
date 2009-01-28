@@ -16,6 +16,7 @@
 #
 #  Authors:
 #    * Thomas Herchenroeder (thron7)
+#    * Daniel Wagner (d_wagner)
 #
 ################################################################################
 
