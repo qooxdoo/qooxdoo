@@ -39,7 +39,7 @@ clientconf = {
    'platform'   : None,
    'packarch'   : None,
    'unpack_only': False,
-   'work_dir'   : os.getcwd(),
+   'work_dir'   : '/tmp/qx',
    'selenium_script' : None,
    #'logfile'    : 'bat_client.log',
     'logfile'   : None,
@@ -118,6 +118,12 @@ def get_computed_opts():
         type="string",
         help="Path to the application to be tested"
     )
+    
+    parser.add_option(
+        "-b", "--test-browsers", dest="testbrowsers", default=None,
+        type="string",
+        help="Python array literal of browsers to run the tests in, e.g. [\"*opera\", \"*iexplore\"]"
+    )
 
     (options, args) = parser.parse_args()
 
@@ -133,6 +139,7 @@ def get_computed_opts():
     clientconf['selenium_script'] = options.seleniumscript
     clientconf['logformatter'] = options.logformatter
     clientconf['autpath'] = options.autpath
+    clientconf['testbrowsers'] = "'" + options.testbrowsers + "'"
 
     return (options, args)
 
