@@ -205,6 +205,7 @@ qx.Class.define("toolbox.content.DevelopmentContent",
       this.appDevelCaption.setContent("Current application: " + appName);
       this.__setEnableAllFunctions(true, true);
 
+      //Enables/disables the open button  
       for (var i=0; i<toolbox.content.DevelopmentContent.APPLIST.length; i++)
       {
         if (toolbox.content.DevelopmentContent.APPLIST[i].name == appName & toolbox.content.DevelopmentContent.APPLIST[i].path == appPath.replace(/\\/g, "/"))
@@ -218,18 +219,17 @@ qx.Class.define("toolbox.content.DevelopmentContent",
           if (toolbox.content.DevelopmentContent.APPLIST[i].build == false) {
             this.develWidgets["development.openBuildButton"].setEnabled(false);
           }
-          
+
           if (toolbox.content.DevelopmentContent.APPLIST[i].api == false) {
             this.develWidgets["development.openApiButton"].setEnabled(false);
           }
-          
         }
       }
     },
 
 
     /**
-     * retunrs the Tabview
+     * retunrs the Tabview with the respective pages
      *
      * @return {var} tabView contains all panes
      */
@@ -238,7 +238,7 @@ qx.Class.define("toolbox.content.DevelopmentContent",
       tabView = new qx.ui.tabview.TabView();
       tabView.setBarPosition("left");
 
-      // Adding
+      // Adding of the pages
       tabView.add(this.getApplicationPane());
       tabView.add(this.getGenerationPane());
       tabView.add(this.getAnalysisPane());
@@ -382,17 +382,17 @@ qx.Class.define("toolbox.content.DevelopmentContent",
       var openBuildButton = new qx.ui.form.Button("Open");
       this.develWidgets["development.openBuildButton"] = openBuildButton;
 
-      //Opens the application
+      // Opens the application
       openSourceButton.addListener("execute", function() {
         this.__openApplication(this.__adminPath, this.getCurrentFileName(), this.getCurrentFilePath(), this.myLogFrame, "source", false, null);
       }, this);
 
-      //Opens the application
+      // Opens the application
       openSourceAllButton.addListener("execute", function() {
         this.__openApplication(this.__adminPath, this.getCurrentFileName(), this.getCurrentFilePath(), this.myLogFrame, "source", false, null);
       }, this);
 
-      //Opens the application
+      // Opens the application
       openBuildButton.addListener("execute", function() {
         this.__openApplication(this.__adminPath, this.getCurrentFileName(), this.getCurrentFilePath(), this.myLogFrame, "build", false, null);
       }, this);
@@ -520,9 +520,10 @@ qx.Class.define("toolbox.content.DevelopmentContent",
       return generationPage;
     },
 
+
     /**
      * contains the functions to validate and prettify the source code
-     * 
+     *
      * @return {var} analysisPage
      */
     getAnalysisPane : function()
@@ -536,9 +537,9 @@ qx.Class.define("toolbox.content.DevelopmentContent",
 
       var box2 = new qx.ui.groupbox.GroupBox();
       box2.setLayout(new qx.ui.layout.Grid(5, 5));
-      
+
       analysisPage.setLayout(new qx.ui.layout.Grid(5, 5));
-      
+
       analysisPage.add(box1,
       {
         row     : 0,
@@ -546,7 +547,7 @@ qx.Class.define("toolbox.content.DevelopmentContent",
         rowSpan : 0,
         colSpan : 0
       });
-      
+
       analysisPage.add(box2,
       {
         row     : 1,
@@ -554,7 +555,7 @@ qx.Class.define("toolbox.content.DevelopmentContent",
         rowSpan : 0,
         colSpan : 0
       });
-      
+
       box1.add(this.develWidgets["development.makePrettyButton"],
       {
         row     : 0,
@@ -570,7 +571,7 @@ qx.Class.define("toolbox.content.DevelopmentContent",
         rowSpan : 0,
         colSpan : 0
       });
-      
+
       box2.add(this.develWidgets["development.validateCodeButton"],
       {
         row     : 0,
@@ -586,13 +587,11 @@ qx.Class.define("toolbox.content.DevelopmentContent",
         rowSpan : 0,
         colSpan : 0
       });
-      
-      
-      
+
       return analysisPage;
     },
 
-    
+
     /**
      * contains the functions to generate the Api-reference or Testrunner
      *
@@ -615,14 +614,14 @@ qx.Class.define("toolbox.content.DevelopmentContent",
 
       var openApiButton = new qx.ui.form.Button("Open");
       this.develWidgets["development.openApiButton"] = openApiButton;
-      
-      //Opens the application
+
+      // Opens the application
       openApiButton.addListener("execute", function() {
         this.__openApplication(this.__adminPath, this.getCurrentFileName(), this.getCurrentFilePath(), this.myLogFrame, "api", false, null);
       }, this);
-      
+
       testApiPage.setLayout(new qx.ui.layout.Grid(5, 5));
-      
+
       testApiPage.add(box1,
       {
         row     : 0,
@@ -630,7 +629,7 @@ qx.Class.define("toolbox.content.DevelopmentContent",
         rowSpan : 0,
         colSpan : 0
       });
-      
+
       testApiPage.add(box2,
       {
         row     : 1,
@@ -638,7 +637,7 @@ qx.Class.define("toolbox.content.DevelopmentContent",
         rowSpan : 0,
         colSpan : 0
       });
-      
+
       testApiPage.add(box3,
       {
         row     : 2,
@@ -646,8 +645,7 @@ qx.Class.define("toolbox.content.DevelopmentContent",
         rowSpan : 0,
         colSpan : 0
       });
-      
-      
+
       box1.add(this.develWidgets["development.generateApiButton"],
       {
         row     : 0,
@@ -679,7 +677,7 @@ qx.Class.define("toolbox.content.DevelopmentContent",
         rowSpan : 0,
         colSpan : 0
       });
-      
+
       box2.add(this.develWidgets["development.testSourceButton"],
       {
         row     : 0,
@@ -711,8 +709,7 @@ qx.Class.define("toolbox.content.DevelopmentContent",
         rowSpan : 0,
         colSpan : 0
       });
-      
-      
+
       return testApiPage;
     },
 
@@ -732,7 +729,7 @@ qx.Class.define("toolbox.content.DevelopmentContent",
       box1.setLayout(new qx.ui.layout.Grid(5, 5));
 
       configurationPage.setLayout(new qx.ui.layout.Grid(5, 5));
-      
+
       configurationPage.add(box1,
       {
         row     : 0,
@@ -740,7 +737,7 @@ qx.Class.define("toolbox.content.DevelopmentContent",
         rowSpan : 0,
         colSpan : 0
       });
-      
+
       box1.add(this.develWidgets["development.configurationButton"],
       {
         row     : 0,
@@ -749,16 +746,14 @@ qx.Class.define("toolbox.content.DevelopmentContent",
         colSpan : 0
       });
 
-      box1.add(new qx.ui.basic.Label('<font size="+2">Configuration</font> <br>' + 'Shows the current settings of the application.<br>' +
-                                     'Herewith you can change the settings of the current application.').set({ rich : true }),
+      box1.add(new qx.ui.basic.Label('<font size="+2">Configuration</font> <br>' + 'Shows the current settings of the application.<br>' + 'Herewith you can change the settings of the current application.').set({ rich : true }),
       {
         row     : 0,
         column  : 1,
         rowSpan : 0,
         colSpan : 0
       });
-      
-      
+
       return configurationPage;
     },
 
@@ -784,7 +779,7 @@ qx.Class.define("toolbox.content.DevelopmentContent",
      * @return {void} 
      */
     __loadAppList : function() {
-      toolbox.builder.Builder.prepareApplicationList(this.__adminPath, this.myLogFrame, this.develWidgets, "application");
+      toolbox.builder.Builder.prepareList(this.__adminPath, this.myLogFrame, this.develWidgets, "application");
     },
 
 
@@ -1048,7 +1043,7 @@ qx.Class.define("toolbox.content.DevelopmentContent",
       this.develWidgets["createDialog.fileNameText"].focus();
     },
 
-    
+
     /**
      * creates a new application by sending the necessary information to the server
      *
@@ -1059,8 +1054,9 @@ qx.Class.define("toolbox.content.DevelopmentContent",
       this.setCurrentFileName(this.develWidgets["createDialog.fileNameText"].getValue());
       this.setCurrentFilePath(this.develWidgets["createDialog.filePathText"].getValue());
       this.setCurrentNamespace(this.develWidgets["createDialog.namespaceText"].getValue());
-
       this.setCurrentLogName(this.develWidgets["createDialog.logText"].getValue());
+      
+      //builder
       toolbox.builder.Builder.createNewApplication(this.__adminPath, this.getCurrentFileName(), this.getCurrentFilePath(), this.getCurrentNamespace(), this.getCurrentLogName(), this.getCurrentType(), this.__isGenerateSource.toString(), this.myLogFrame, this.develWidgets);
 
       this.develWidgets["development.selectAppMenuButton"].setEnabled(false);
@@ -1072,7 +1068,7 @@ qx.Class.define("toolbox.content.DevelopmentContent",
 
 
     /**
-     * shows the Remove Application dialog
+     * shows the "Remove Application" dialog
      *
      * @return {void} 
      */
@@ -1083,9 +1079,10 @@ qx.Class.define("toolbox.content.DevelopmentContent",
       label.setRich(true);
       var layout = new qx.ui.layout.Grid(5, 5);
       removeDialog.setLayout(layout);
-      removeDialog.add(label, 
+
+      removeDialog.add(label,
       {
-      	row     : 0,
+        row     : 0,
         column  : 1,
         rowSpan : 0,
         colSpan : 0
@@ -1113,17 +1110,17 @@ qx.Class.define("toolbox.content.DevelopmentContent",
       container.add(yesButton);
       container.add(noButton);
 
-      removeDialog.add(warningImage, 
+      removeDialog.add(warningImage,
       {
-      	row     : 0,
+        row     : 0,
         column  : 0,
         rowSpan : 1,
         colSpan : 0
       });
-      
-      removeDialog.add(container, 
+
+      removeDialog.add(container,
       {
-      	row     : 1,
+        row     : 1,
         column  : 1,
         rowSpan : 0,
         colSpan : 0
@@ -1141,7 +1138,7 @@ qx.Class.define("toolbox.content.DevelopmentContent",
 
 
     /**
-     * removes the current selected application
+     * removes the selected application
      *
      * @return {void} 
      */
@@ -1248,20 +1245,23 @@ qx.Class.define("toolbox.content.DevelopmentContent",
      *
      * @return {void} 
      */
-    __testBuild : function() {
+    __testBuild : function()
+    {
       toolbox.builder.Builder.generateTarget(this.__adminPath, this.getCurrentFileName(), this.getCurrentFilePath(), this.myLogFrame, this.develWidgets, "test", false, null);
       return;
     },
 
 
     /**
-     * TODOC
+     * opens the generated/built application
      *
-     * @param url {var} TODOC
-     * @param fileName {var} TODOC
-     * @param filePath {var} TODOC
-     * @param logFrame {var} TODOC
-     * @param generationTyp {var} TODOC
+     * @param url {var} url to the cgi-script
+     * @param fileName {var} name of the application
+     * @param filePath {var} path of the application
+     * @param logFrame {var} the log frame of the Toolbox
+     * @param generationTyp {var} generation type of the application
+     * @param isBuiltIn {var} check if it is a built-in or not
+     * @param typeBuilt {var} if it is a built-in, what kind of, e.g. application? component?
      * @return {void} 
      */
     __openApplication : function(url, fileName, filePath, logFrame, generationTyp, isBuiltIn, typeBuilt) {
@@ -1302,6 +1302,7 @@ qx.Class.define("toolbox.content.DevelopmentContent",
       this.develWidgets["development.configurationButton"].setEnabled(value);
       this.develWidgets["development.generateSourceAllButton"].setEnabled(value);
 
+      // if the source version is built, then you are able to open the application
       if (open)
       {
         this.develWidgets["development.openSourceButton"].setEnabled(value);
@@ -1319,7 +1320,7 @@ qx.Class.define("toolbox.content.DevelopmentContent",
      */
     __showLogTextField : function()
     {
-      // if checked then show the log textfield
+      // if the log checkbox is checked then show the log textfield
       if (this.develWidgets["createDialog.logCheckBox"].getChecked())
       {
         this.develWidgets["createDialog.logText"].show();
