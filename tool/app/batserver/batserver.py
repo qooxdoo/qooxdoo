@@ -16,6 +16,7 @@
 #
 #  Authors:
 #    * Thomas Herchenroeder (thron7)
+#    * Daniel Wagner (d_wagner)
 #
 ################################################################################
 
@@ -43,6 +44,8 @@ servconf = {
     'batport'       : 8000,
     'downloadhost'  : '172.17.12.142',
     'downloadport'  : 80,
+    'downloaddir'   : '/~dwagner/workspace/qooxdoo.trunk/tool/app/batserver/',
+    'workpack'      : 'workpack_test.py',
     'reportfile'    : "bat_client_reports.log",
     'defaultTarget' : 'qooxdoo-0.8-sdk',
 }
@@ -66,7 +69,7 @@ class ServFunctions(object):
         jobid = time.time()
         wpopts = list(workpackopts)  # init workpackoptions with global
         selectWorkOpts(clientconf,wpopts,server_opts)
-        return (jobid, "http://" + servconf['downloadhost'] + "/~dwagner/workspace/qooxdoo.trunk/tool/app/batserver/workpack_test.py", wpopts)
+        return (jobid, "http://" + servconf['downloadhost'] + servconf['downloaddir'] + servconf['workpack'], wpopts)
     
     def receive_report(self,jobid,clientreport):
         rfile.write(repr(jobid)+": ")
