@@ -16,46 +16,32 @@
 #
 #  Authors:
 #    * Thomas Herchenroeder (thron7)
+#    * Daniel Wagner (d_wagner)
 #
 ################################################################################
 
 # NAME
-#  BAT workpack - this is a workpackage as used in the qooxdoo Build and Test
-#  environment.
+#  BAT Selenium testing workpack - this is a workpackage as used in the qooxdoo 
+#  Build and Test environment.
 #
 # DESCRIPTION
-#  A workpack is not merely a declarative description of a job to be done, but
-#  simply code that does the job :). This makes it much easier to implement both
-#  the involved client-server infrastructure that passes workpackages to and
-#  from, and the workpackages themselves. While this approach is highly
-#  questionable in arbitrary environments, it is quite acceptable in controlled,
-#  LAN-based environments where both clients and servers are controlled by the
-#  same people.
-#
-#  The idea behind the workpacks is also to have the possibility to issue
-#  client-dependent workpacks, where not only the platform (architecture, OS,
-#  ...) is honored, but also space and time constraints can be honored. While
-#  this concrete workpack is just static code, you could envision both static
-#  variants of it that the server can choose from, as well as dynamically
-#  generated code that the server produces on the fly from snippets and
-#  templates.
+#  This workpack launches a Selenium script that tests a qooxdoo application, 
+#  such as the Test Runner or Demo Browser. Its main purpose is to assemble the
+#  command line call that launches the script from a number of parameters. Some
+#  of these (like the host name and qooxdoo path of the application to be 
+#  tested) are supplied by the BAT server, while others, such as the path to the
+#  Selenium Client Driver JAR file, are provided by the BAT client. This enables 
+#  distributed testing setups where multiple clients running various browsers on
+#  different machines can test applications on a central build server.
 
 import os, sys
 import optparse
 
-workdir = "/home/dwagner/qxselenium"
-start_test = 'java -cp "/home/dwagner/qxselenium/selenium-java-client-driver.jar:/home/dwagner/rhino1_7R1/js.jar" org.mozilla.javascript.tools.shell.Main test_testrunner.js'
-get_log = "python logFormatter.py /tmp/selenium.log selenium-report.html"
-testBrowsers = ["'*custom /usr/lib/firefox-3.0.5/firefox -no-remote -P selenium-3'", "*opera"]
-
-# go to workdir
-def goto_workdir(workdir):
-    if not os.path.exists(workdir):
-        os.mkdir(workdir)
-    os.chdir(workdir)
+testBrowsers = ["*custom /usr/lib/firefox-3.0.5/firefox -no-remote -P selenium-3"]
+#testBrowsers = ["*opera"]
 
 def invoke_external(cmd):
-    import subprocess
+    import subprocess    
     p = subprocess.Popen(cmd, shell=True,
                          stdout=sys.stdout,
                          stderr=sys.stderr)
@@ -63,6 +49,16 @@ def invoke_external(cmd):
 
 def get_options():
     parser = optparse.OptionParser()
+    
+    parser.add_option(
+        "--autHost", dest="authost", default=None, type="string",
+        help="Host name of the application to be tested"
+    )
+    
+    parser.add_option(
+        "--autPort", dest="autport", default=None, type="string",
+        help="Port number of the application to be tested"
+    )
 
     parser.add_option(
         "--autPath", dest="autpath", default=None, type="string",
@@ -70,7 +66,7 @@ def get_options():
     )
     
     parser.add_option(
-        "-w", "--work-dir", dest="workdir", default=workdir, type="string",
+        "-w", "--work-dir", dest="workdir", default=None, type="string",
         help="Directory for dowloading, unpacking and running the work pack"
     )
 
@@ -95,40 +91,78 @@ def get_options():
     )
 
     parser.add_option(
-        "-b", "--browser-run", dest="dobrowser", default=False, action="store_true",
-        help="Whether to open a browser and run some tests (might interfer with your desktop)"
-    )
-
-    parser.add_option(
         "-t", "--bat-host", dest="bathost", default=None, type="string",
         help="The BAT host to connect to"
     )
-
+    
     parser.add_option(
-        "-u", "--unpack-only", dest="unpackonly", default=None, action="store_true",
-        help="Stop processing after downloading and unpacking"
+        "-S", "--selenium-script", dest="seleniumscript", default=None, type="string",
+        help="Full path to the Selenium test script"
     )
-
+    
     parser.add_option(
-        "-m", "--make-build", dest="makebuild", default=False, action="store_true",
-        help="Run a \"make build\" additionally to making the source version"
-    )    
+        "-j", "--java-classpath", dest="classpath", default=None,
+        type="string",
+        help="Java classpath for Selenium tests"
+    )
+    
+    parser.add_option(
+        "-f", "--log-formatter", dest="logformatter", default=None,
+        type="string",
+        help="Full log formatting command, e.g. '/usr/bin/python /home/dwagner/qxselenium/logFormatter.py /tmp/selenium.log /home/dwagner/qxselenium/selenium-report.html'"
+    )
+    
+    parser.add_option(
+        "-q", "--qxPath", dest="qxpath", default=None,
+        type="string",
+        help="Qooxdoo path on the host"
+    )
     
     (options, args) = parser.parse_args()
 
     return (options, args)
 
-def main():
+def main():    
     global options, args
-    (options, args) = get_options()    
-    os.chdir(workdir)    
-    #print("autPath: " +options.autpath)
-    for browser in testBrowsers:
-        startcmd = start_test + " autPath=" + options.autpath + " testBrowser=" + browser
-        print startcmd 
-        invoke_external(startcmd)
-        invoke_external(get_log)
-    #return rc
+    (options, args) = get_options()
+    
+    rhino_class = 'org.mozilla.javascript.tools.shell.Main'
+    
+    if ( not(options.seleniumscript) or options.seleniumscript == None):
+        print("Selenium test script not specified, quitting")
+        sys.exit(1)
+        
+    if ( not(options.authost) or options.authost == None):
+        print("No host name specified for application to be tested, quitting")
+        sys.exit(1)
+
+    if ( not(options.autpath) or options.autpath == None):
+        print("No path specified for application to be tested, quitting")
+        sys.exit(1)
+
+    else:
+        startcmd = 'java '
+        if (options.classpath):
+            startcmd += '-cp ' + options.classpath + ' '
+        startcmd += rhino_class + ' ' + options.seleniumscript + ' autHost=' + options.authost
+        if (options.autport and options.autport != None):
+            startcmd += ':' + options.autport
+        startcmd += " autPath="            
+        if (options.qxpath and options.qxpath != None):
+            startcmd += options.qxpath
+        startcmd += options.autpath                            
+    
+        rc = False
+    
+        for browser in testBrowsers:
+            startcmd += " testBrowser='" + browser + "'"
+            print ("Workpack starting test: " + startcmd)
+            rc = invoke_external(startcmd)
+            if (options.logformatter and options.logformatter !=None):
+                print("Workpack starting log formatter: " + options.logformatter)
+                rc = invoke_external(options.logformatter)
+        return rc    
+        
 
 if __name__ == "__main__":
     try:
