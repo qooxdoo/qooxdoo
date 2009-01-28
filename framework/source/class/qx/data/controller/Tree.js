@@ -41,11 +41,18 @@ qx.Class.define("qx.data.controller.Tree",
     if (iconOptions != undefined) {
       this.setIconOptions(iconOptions);
     }    
-    
-    this.setChildPath(childPath);
-    this.setLabelPath(labelPath);
-    this.setModel(model);
-    this.setTarget(target);    
+    if (childPath != undefined) {
+      this.setChildPath(childPath);      
+    }
+    if (labelPath != undefined) {
+      this.setLabelPath(labelPath);      
+    }
+    if (model != undefined) {
+      this.setModel(model);      
+    }
+    if (target != undefined) {
+      this.setTarget(target);
+    }
   },
   
   
@@ -55,7 +62,8 @@ qx.Class.define("qx.data.controller.Tree",
     {
       check: "qx.core.Object",
       apply: "_applyModel",
-      event: "changeModel"
+      event: "changeModel",
+      nullable: true
     },
     
     target : 
@@ -75,7 +83,8 @@ qx.Class.define("qx.data.controller.Tree",
     labelPath : 
     {
       check: "String",
-      apply: "_applyLabelPath"
+      apply: "_applyLabelPath",
+      nullable: true
     },
     
     iconPath : 
@@ -123,8 +132,12 @@ qx.Class.define("qx.data.controller.Tree",
         old.setRoot(null);
         oldRoot.destroy();
       }
-      // build up the tree
-      this.__buildTree();
+      
+      // if a model is set
+      if (this.getModel() != null) {
+        // build up the tree
+        this.__buildTree();        
+      }
       
       // add a listener for the target change
       this._addChangeTargetListener(value, old);      
@@ -175,8 +188,12 @@ qx.Class.define("qx.data.controller.Tree",
     ---------------------------------------------------------------------------
     */    
     __buildTree: function() {
-      // only fill the target if there is a target
-      if (this.getTarget() == null) {
+      // only fill the target if there is a target, its known how to 
+      // access the children and what needs to be desplayed as label 
+      if (this.getTarget() == null 
+          || this.getChildPath() == null 
+          || this.getLabelPath() == null
+      ) {
         return;
       }
       
