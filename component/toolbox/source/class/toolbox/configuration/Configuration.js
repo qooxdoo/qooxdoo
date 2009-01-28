@@ -33,10 +33,10 @@ qx.Class.define("toolbox.configuration.Configuration",
 
 
   /*
-    *****************************************************************************
-       CONSTRUCTOR
-    *****************************************************************************
-  */
+      *****************************************************************************
+         CONSTRUCTOR
+      *****************************************************************************
+    */
 
   construct : function(adminPath, fileName, filePath, logFrame, develWidgets)
   {
@@ -48,10 +48,10 @@ qx.Class.define("toolbox.configuration.Configuration",
 
 
   /*
-    *****************************************************************************
-       MEMBERS
-    *****************************************************************************
-  */
+      *****************************************************************************
+         MEMBERS
+      *****************************************************************************
+    */
 
   statics : { JSON : null },
 
@@ -64,6 +64,7 @@ qx.Class.define("toolbox.configuration.Configuration",
      * @param fileName {var} name of the application
      * @param filePath {var} path of the application
      * @param logFrame {var} log output
+     * @param develWidgets {var} TODOC
      * @return {void} 
      */
     __showConfiguration : function(adminPath, fileName, filePath, logFrame, develWidgets)
@@ -78,8 +79,7 @@ qx.Class.define("toolbox.configuration.Configuration",
 
       for (var i=0; i<createParams.length; i++)
       {
-        if (createParams[i] != "")
-        {
+        if (createParams[i] != "") {
           dat += "&" + params[i] + "=" + createParams[i];
         }
       }
@@ -89,7 +89,7 @@ qx.Class.define("toolbox.configuration.Configuration",
 
       req.addListener("completed", function(evt)
       {
-      	develWidgets["development.configurationButton"].setEnabled(true);
+        develWidgets["development.configurationButton"].setEnabled(true);
         var result = evt.getContent();
         var restoreResult = result;
         this.showCon = new toolbox.configuration.ConfigurationDialog(adminPath, fileName, filePath, logFrame, restoreResult);
@@ -114,8 +114,7 @@ qx.Class.define("toolbox.configuration.Configuration",
      *
      * @return {void} 
      */
-    destruct : function()
-    {
+    destruct : function() {
       this._disposeObjects("this.win", "this.__content", "this.__state");
     }
   }
