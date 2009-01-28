@@ -37,9 +37,6 @@
 import os, sys
 import optparse
 
-testBrowsers = ["*custom /usr/lib/firefox-3.0.5/firefox -no-remote -P selenium-3"]
-#testBrowsers = ["*opera"]
-
 def invoke_external(cmd):
     import subprocess    
     p = subprocess.Popen(cmd, shell=True,
@@ -118,6 +115,12 @@ def get_options():
         help="Qooxdoo path on the host"
     )
     
+    parser.add_option(
+        "-b", "--testBrowsers", dest="testbrowsers", default=None,
+        type="string",
+        help="Python array literal of browsers to run the tests in, e.g. [\"*opera\", \"*iexplore\"]"
+    )
+    
     (options, args) = parser.parse_args()
 
     return (options, args)
@@ -153,11 +156,13 @@ def main():
         startcmd += options.autpath                            
     
         rc = False
+
+        testBrowsers = options.testbrowsers.split(',')
     
         for browser in testBrowsers:
-            startcmd += " testBrowser='" + browser + "'"
-            print ("Workpack starting test: " + startcmd)
-            rc = invoke_external(startcmd)
+            runcmd = startcmd + " testBrowser='" + browser + "'"
+            print ("Workpack starting test: " + runcmd)
+            rc = invoke_external(runcmd)
             if (options.logformatter and options.logformatter !=None):
                 print("Workpack starting log formatter: " + options.logformatter)
                 rc = invoke_external(options.logformatter)
