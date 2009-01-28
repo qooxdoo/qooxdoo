@@ -30,32 +30,24 @@ qx.Class.define("qx.data.controller.List",
     this.__bindingsLabel = {};
     this.__bindingsIcons = {};
     
-    // set the label options, if available
     if (labelOptions != undefined) {
       this.setLabelOptions(labelOptions);
     }
-
-    // set the icon options, if available    
     if (iconOptions != undefined) {
       this.setIconOptions(iconOptions);
     }    
-    
-    // set the label path, if available    
     if (labelPath != undefined) {
       this.setLabelPath(labelPath);      
     }
-    
-    // set the icon path, if available    
     if (iconPath != undefined) {
       this.setIconPath(iconPath);
     }
-
-    // set the model, if available
     if (model != undefined) {
       this.setModel(model);      
     }
-
-    this.setTarget(target); 
+    if (target != undefined) {
+      this.setTarget(target);       
+    }
   },
   
   
@@ -73,6 +65,7 @@ qx.Class.define("qx.data.controller.List",
     {
       apply: "_applyTarget",
       event: "changeTarget",
+      nullable: true,
       init: null
     },
     

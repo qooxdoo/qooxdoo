@@ -24,7 +24,10 @@ qx.Class.define("qx.data.controller.Object",
   construct : function(model)
   {
     this.base(arguments);
-    this.setModel(model);
+    
+    if (model != undefined) {
+      this.setModel(model);      
+    }
     
     this.__bindings = {};
   },
@@ -35,7 +38,8 @@ qx.Class.define("qx.data.controller.Object",
     {
       check: "qx.core.Object",
       event: "changeModel",
-      apply: "_applyModel"
+      apply: "_applyModel",
+      nullable: true
     }
   },
 

@@ -459,6 +459,12 @@ qx.Class.define("qx.test.data.controller.List",
       
       // test for an empty selection
       this.assertEquals(0, this.__controller.getSelection().length, "Selection is not empty.");
+      
+      // select an item
+      this.__controller.getSelection().push("x");
+      
+      // test for the selection
+      this.assertEquals("x", this.__controller.getSelection().getItem(0), "Selection is wrong.");
     }
   }
 });
