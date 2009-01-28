@@ -18,7 +18,34 @@
 ************************************************************************ */
 
 
-
+/**
+ * <h2>Object Controller</h2>
+ * 
+ * *General idea*
+ * 
+ * The idea of the object controller is to make the binding of one model object
+ * containing one or more properties as easy as possible. Therefore the 
+ * controller can take a model as property. Every property in that model can be 
+ * bound to one ore more targets properties. The binding will be for 
+ * atomic types only like Numbers, Strings, ...
+ * 
+ * *Features*
+ * 
+ * * Manages the bindings between the model properties and the different targets
+ * * No need for the user to take care of the binding ids
+ * * Can create an bidirectional binding (read- / write-binding)
+ * * Handles the change of the model which means adding the old targets
+ * 
+ * *Usage*
+ * 
+ * The controller only can work if a model is set. If the model property is
+ * null, the controller ist not working. But it can be null on any time.
+ * 
+ * *Cross reference*
+ * 
+ * * If you want to bind a list like widget, use {@link qx.data.controller.List}
+ * * If you want to bind a tree widget, use {@link qx.data.controller.Tree}
+ */
 qx.Class.define("qx.data.controller.Object", 
 {
   extend : qx.core.Object,

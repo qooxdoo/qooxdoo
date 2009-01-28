@@ -18,6 +18,14 @@
 ************************************************************************ */
 
 
+/**
+ * Mixin for the selection in the data binding controller.
+ * It contains an selection property which can be manipulated. 
+ * Remember to call the method {@link #_addChangeTargetListener} on every
+ * change of the target.
+ * It is also important that the elements stored in the target e.g. ListItems
+ * do have the corresponding model stored as user data under the "model" key.
+ */
 qx.Mixin.define("qx.data.controller.MSelection", 
 {
   
@@ -49,7 +57,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
   properties : {
     /** 
      * Data array containing the selected model objects. This property can be 
-     * manipulated directly which menas that a push to the selection will also 
+     * manipulated directly which means that a push to the selection will also 
      * select the corresponding element in the target.
      */
     selection : 
@@ -77,7 +85,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
     ---------------------------------------------------------------------------
     */    
     /**
-     * Apply-method for setting a new slection array. Only the change listener
+     * Apply-method for setting a new selection array. Only the change listener
      * will be removed from the old array and added to the new.
      * 
      * @param value {qx.data.Array} The new data array for the selection.

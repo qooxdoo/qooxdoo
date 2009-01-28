@@ -17,10 +17,55 @@
 
 ************************************************************************ */
 
+
+/**
+ * <h2>List Controller</h2>
+ * 
+ * *General idea*
+ * The list controller is responsible for synchronizing every list like widget
+ * with a data array. It does not matter if the array contains atomic values 
+ * like strings of complete objects where one property holds the value for
+ * the label and another property holds the icon url. You can even use converts
+ * the make the label show a text corresponding to the icon by binding both,
+ * label and icon to the same model property and converting one. 
+ * 
+ * *Features*
+ * 
+ * * Synchronize the model and the target
+ * * Label and icon are bindable
+ * * Takes care of the selection
+ * * Passes on the options used by the bindings
+ * 
+ * *Usage*
+ * 
+ * As model, only {@link qx.data.Array}s do work. The currently supported 
+ * targets are 
+ * 
+ * * {@link qx.ui.form.SelectBox}
+ * * {@link qx.ui.form.List}
+ * * {@link qx.ui.form.ComboBox}
+ * 
+ * All the properties like model, target or any property path is bindable. 
+ * Especially the model is nice to bind to another selection for example.
+ * The controller itself can only work if it has a model and a target set. The
+ * rest of the properties may be empty.
+ * 
+ * *Cross reference*
+ * 
+ * * If you want to bind single values, use {@link qx.data.controller.Object}
+ * * If you want to bind a tree widget, use {@link qx.data.controller.Tree}
+ */
 qx.Class.define("qx.data.controller.List", 
 {
   extend : qx.core.Object,
   include: qx.data.controller.MSelection,
+  
+  
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */  
   
   /**
    * @param model {qx.data.Array?null} The array containing the data.
@@ -72,6 +117,13 @@ qx.Class.define("qx.data.controller.List",
     }
   },
   
+  
+  
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */  
   
   properties : 
   {    
@@ -142,6 +194,13 @@ qx.Class.define("qx.data.controller.List",
     }
   },  
 
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
 
   members :
   {
