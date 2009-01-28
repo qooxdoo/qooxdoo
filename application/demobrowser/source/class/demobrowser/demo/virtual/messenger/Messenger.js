@@ -30,7 +30,7 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Messenger",
   {
     this.base(arguments);
 
-    this.__amount = 400;
+    this.__amount = 200;
 
     this.__createUsers();
     
@@ -97,12 +97,11 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Messenger",
 
     this.__scroller = scroller;
 
-    // TODO!
-    // var prefetch = new qx.ui.virtual.behavior.Prefetch(
-    //   scroller,
-    //   0, 0, 0, 0,
-    //   200, 300, 600, 800
-    // );
+    var prefetch = new qx.ui.virtual.behavior.Prefetch(
+      scroller,
+      0, 0, 0, 0,
+      200, 300, 600, 800
+    );
 
     // Create controller
     new demobrowser.demo.virtual.messenger.Controller(this.getModel(), this);
@@ -239,11 +238,12 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Messenger",
       }
       else
       {
-        widget = this._buddyPool.pop() || new demobrowser.demo.virtual.messenger.Buddy(); 
+        widget = this._buddyPool.pop() || new demobrowser.demo.virtual.messenger.Buddy();
+        var item = this.getModel().getItem(row-1);
 
-        widget.label.setContent(this.getModel().getItem(row-1).getName());
-        widget.icon.setSource(this.getModel().getItem(row-1).getAvatar());
-        widget.statusIcon.setSource("demobrowser/demo/icons/imicons/status_" + this.getModel().getItem(row-1).getStatus() + ".png");
+        widget.label.setContent(item.getName());
+        widget.icon.setSource(item.getAvatar());
+        widget.statusIcon.setSource("demobrowser/demo/icons/imicons/status_" + item.getStatus() + ".png");
       }
 
       widget.setUserData("row", row);
