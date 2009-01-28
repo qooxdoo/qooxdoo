@@ -17,7 +17,35 @@
 
 ************************************************************************ */
 
-
+/**
+ * <h2>Tree Controller</h2>
+ * 
+ * *General idea*
+ * 
+ * The tree controller is the controller made for the {@link qx.ui.tree.Tree}
+ * widget in qooxdoo. Therefore, it is responsible for creating and adding the 
+ * tree folders to the tree given as target.
+ * 
+ * *Features*
+ * 
+ * * Synchronize the model and the target
+ * * Label and icon are bindable
+ * * Takes care of the selection
+ * * Passes on the options used by the bindings
+ * 
+ * *Usage*
+ * 
+ * As model, you can use every qooxdoo widget structure having one property, 
+ * which is a data array holding the children of the current node. There can 
+ * be as many additional as you like.
+ * You need to specify a model, a target, a child path and a label path to 
+ * make the controller work. 
+ * 
+ * *Cross reference*
+ * 
+ * * If you want to bind single values, use {@link qx.data.controller.Object}
+ * * If you want to bind a list like widget, use {@link qx.data.controller.List}
+ */
 qx.Class.define("qx.data.controller.Tree", 
 {
   extend : qx.core.Object,
