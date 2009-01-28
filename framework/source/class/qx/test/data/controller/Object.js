@@ -338,6 +338,23 @@ qx.Class.define("qx.test.data.controller.Object",
       
       // test for the binding
       this.assertEquals("10", this.__label1.getContent(), "Binding does not work!");      
+    },
+    
+    
+    testSetModelNull: function() {
+      // Tie the label1s content to the zindex of the model
+      this.__controller.addTarget(this.__label1, "content", "zIndex");
+      
+      // set the model of the controller to null and back
+      this.__controller.setModel(null);
+      this.__controller.setModel(this.__model);
+      
+      // set a new zIndex to the model
+      this.__model.setZIndex(10);
+      
+      // test for the binding
+      this.assertEquals("10", this.__label1.getContent(), "Binding does not work!");      
     }
+    
   }
 });
