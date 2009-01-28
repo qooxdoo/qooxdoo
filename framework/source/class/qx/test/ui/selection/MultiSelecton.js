@@ -80,7 +80,7 @@ qx.Class.define("qx.test.ui.selection.MultiSelecton",
       }, function(event) {
         // Tests the result from the event
         var data = event.getData();
-        this.assertArrayEquals(self.__selection, data, "Selection is wrong");
+        self.assertArrayEquals(self.__selection, data, "Selection is wrong");
       }, "'changeSelection' event not fired!");
       
       // Tests the result from "getSelection"
@@ -171,21 +171,6 @@ qx.Class.define("qx.test.ui.selection.MultiSelecton",
       
       // Tests the result from "getSelection"
       this.__selection = this.__list.getSelection();
-      
-      /*
-      var test1 = this.__list.getChildren();
-      var test2 = this.__selection;
-        
-      var expected = test1.length + ", ";
-      var result = test2.length + ", ";
-        
-      for (var i = 0; i < test1.length; i++)
-      {
-        expected += test1[i].getLabel() + ", ";
-        result += test2[i].getLabel() + ", ";
-      }
-      alert(expected + "\n" + result);*/
-      
       this.assertArrayEquals(this.__list.getChildren(), this.__selection,
         "Selection is wrong B");
     },
@@ -203,7 +188,7 @@ qx.Class.define("qx.test.ui.selection.MultiSelecton",
         list.addToSelection(newValue);
       }, function(event) {
         // Tests the result from the event        
-        this.assertArrayEquals(self.__selection, event.getData(), 
+        self.assertArrayEquals(self.__selection, event.getData(), 
           "The result of the selection is wrong");
       }, "'changeSelection' event not fired!");
       
@@ -236,7 +221,7 @@ qx.Class.define("qx.test.ui.selection.MultiSelecton",
         self.__selection.length = self.__selection.length - 1;
         
         // Tests the result from the event
-        this.assertArrayEquals(self.__selection, event.getData(), "The result of the selection is wrong");
+        self.assertArrayEquals(self.__selection, event.getData(), "The result of the selection is wrong");
       }, "'changeSelection' event not fired!");
       
       // Tests the result from "getSelection"
