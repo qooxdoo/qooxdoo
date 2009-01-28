@@ -135,10 +135,6 @@ def dispatch_action(form):
         print 'alert("no action!");'
 
 
-
-
-
-
 def generateTarget(form):
     sys.stdout.flush()
     
@@ -274,8 +270,7 @@ def saveBuiltInList(form):
     if 'changedBuiltInList' in form:
         changedBuiltInList = form['changedBuiltInList'].value #changedAppList
     
-    uCode = unicode(str(changedBuiltInList))
-    
+    uCode = unicode(str(changedBuiltInList)) 
     directory, filename = os.path.split(os.path.abspath(sys.argv[0]))
     directory = directory.replace('\\', '\\\\')
     confFile = open(directory+'\\..\\persistence\\builtInList.json', 'w')
@@ -286,7 +281,7 @@ def showBuiltInList(form):
     
     directory, filename = os.path.split(os.path.abspath(sys.argv[0]))
     directory = directory.replace('\\', '\\\\')
-    list = open(directory+'\\..\\persistence\\applicationList.json', 'r').readlines()
+    list = open(directory+'\\..\\persistence\\builtInList.json', 'r').readlines()
     input = "".join(list)
     print input
     return input

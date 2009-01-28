@@ -33,10 +33,10 @@ qx.Class.define("toolbox.gui.Toolbox",
 
 
   /*
-        *****************************************************************************
-      	 CONSTRUCTOR
-        ****************************************************************************
-        */
+  *****************************************************************************
+	 CONSTRUCTOR
+  ****************************************************************************
+  */
 
   construct : function()
   {
@@ -98,21 +98,19 @@ qx.Class.define("toolbox.gui.Toolbox",
   },
 
 
-
-
   /*
-    *****************************************************************************
-       MEMBERS
-    *****************************************************************************
-    */
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
 
   members :
   {
     /*
-    	----------------------------------------------------------------------------
-    	  CONFIG SETTINGS
-    	----------------------------------------------------------------------------
-    	*/
+	----------------------------------------------------------------------------
+	  CONFIG SETTINGS
+	----------------------------------------------------------------------------
+	*/
 
     __adminHost : "127.0.0.1",
     __adminPort : "8000",
@@ -259,7 +257,7 @@ qx.Class.define("toolbox.gui.Toolbox",
           }
           else if (e.getData().getLabel().toString() == "Built-in Applications")
           {
-            //this.logStack.exclude();
+            // this.logStack.exclude();
             this.mainStack.setSelected(this.mainStack.getChildren()[2]);
 
             this.widgets["toolbar.appBuiltButton"].addListener("click", function() {
@@ -269,7 +267,7 @@ qx.Class.define("toolbox.gui.Toolbox",
             if (this.widgets["toolbar.logCheckButton"].getChecked()) {
               this.logStack.show();
             }
-            
+
             this.widgets["toolbar.logCheckButton"].setEnabled(true);
           }
           else if (e.getData().getLabel().toString() == "Help")
@@ -343,7 +341,7 @@ qx.Class.define("toolbox.gui.Toolbox",
       return container;
     },
 
-    
+
     /**
      * creates the home pane of the toolbox
      *
@@ -373,7 +371,7 @@ qx.Class.define("toolbox.gui.Toolbox",
       return container;
     },  // makeHomecontent
 
-    
+
     /**
      * creates the development pane of the toolbox
      *
@@ -416,9 +414,12 @@ qx.Class.define("toolbox.gui.Toolbox",
     {
       var layout = new qx.ui.layout.VBox();
       layout.setSeparator("separator-vertical");
-
-      var container = new qx.ui.container.Composite(layout).set({ decorator : "main" });
-
+	  var container = new qx.ui.container.Composite(layout).set({ decorator : "main" });
+      
+      
+      var containerScroll = new qx.ui.container.Scroll();
+	  
+      
       var caption = new qx.ui.basic.Label(this.tr("Built-in Applications")).set(
       {
         font       : "bold",
@@ -436,14 +437,15 @@ qx.Class.define("toolbox.gui.Toolbox",
         overflowX : "auto"
       });
 
-      //this.BuiltInAppHtmlEmbed.setHtml(document.getElementById("builtin_apps").innerHTML);
-      //this.BuiltInAppHtmlEmbed.set({ backgroundColor : "white" });
-      //container.add(this.BuiltInAppHtmlEmbed, { flex : 1 });
+      // this.BuiltInAppHtmlEmbed.setHtml(document.getElementById("builtin_apps").innerHTML);
+      // this.BuiltInAppHtmlEmbed.set({ backgroundColor : "white" });
+      // container.add(this.BuiltInAppHtmlEmbed, { flex : 1 });
       var builtIn = new toolbox.content.BuiltInContent(this.widgets);
-      container.add(builtIn, { flex : 1 });
-
+      container.add(containerScroll, { flex : 1 });
+      containerScroll.add(builtIn);
+	  
       return container;
-    },  // makeHomecontent
+    },  
 
 
     /**
@@ -479,7 +481,7 @@ qx.Class.define("toolbox.gui.Toolbox",
     /**
      * Creates the application header.
      *
-     * @return {var} TODOC
+     * @return {var} header of the toolbox
      */
     __createHeader : function()
     {

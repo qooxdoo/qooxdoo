@@ -28,17 +28,27 @@
 qx.Class.define("toolbox.builder.Builder",
 {
   /*
-	  *****************************************************************************
-	     STATICS
-	  *****************************************************************************
-  */
+  	  *****************************************************************************
+  	     STATICS
+  	  *****************************************************************************
+    */
 
   statics :
   {
-  	// Applicationlist
-    BUILTINLIST : null,
-    
-  	generateTarget : function(adminPath, fileName, filePath, logFrame, develWidgets, generationType, isBuiltIn, typeBuilt)
+    /**
+     * TODOC
+     *
+     * @param adminPath {var} path of the cgi-script
+     * @param fileName {var} name of the application
+     * @param filePath {var} path of the application
+     * @param logFrame {var} the log output
+     * @param widget {var} widgets of the development- or builtin class
+     * @param generationType {var} generation type
+     * @param isBuiltIn {var} checks, if it is a built-in application 
+     * @param typeBuilt {var} what kind of built-in, application or component
+     * @return {void} 
+     */
+    generateTarget : function(adminPath, fileName, filePath, logFrame, widgets, generationType, isBuiltIn, typeBuilt)
     {
       var url = adminPath;
       var req = new qx.io.remote.Request(url, "POST", "application/json");
@@ -58,7 +68,7 @@ qx.Class.define("toolbox.builder.Builder",
         dat += "&" + cygParm;
       }
 
-      var params = [ "myName", "myPath", "myType", "isBuiltIn", "myTypeBuilt"];
+      var params = [ "myName", "myPath", "myType", "isBuiltIn", "myTypeBuilt" ];
 
       for (var i=0; i<createParams.length; i++)
       {
@@ -73,79 +83,101 @@ qx.Class.define("toolbox.builder.Builder",
       this.__loader = new toolbox.builder.ProgressLoader();
       this.__loader.setCaption("Generating " + generationType);
 
-      
       req.addListener("completed", function(evt)
       {
         var result = evt.getContent();
+
         if (result.state != undefined)
         {
           var receivedState = result.state;
-          
+
           if (receivedState == 1 || receivedState == 0)
           {
             if (receivedState == 0)
             {
-            	//Checks if this function is a built-in
-            	if(isBuiltIn) 
-            	{	
-            		for (var i = 0; i < toolbox.content.BuiltInContent.BUILTINLIST.length; i++)
+              // Checks if this function is a built-in
+              if (isBuiltIn)
+              {
+                for (var i=0; i<toolbox.content.BuiltInContent.BUILTINLIST.length; i++)
                 {
                   if (toolbox.content.BuiltInContent.BUILTINLIST[i].name == fileName)
                   {
                     if (generationType == "source") {
-                      toolbox.content.BuiltInContent.BUILTINLIST.source = true;
+                      toolbox.content.BuiltInContent.BUILTINLIST[i].source = true;
+                      if (fileName == "demobrowser") {
+                      	widgets["builtInApps.openSourceDemobrowser"].setEnabled(true);
+                      } else if (fileName == "playground")  {
+                      	widgets["builtInApps.openSourcePlayground"].setEnabled(true);
+                      } else if (fileName == "testrunner")  {
+                      	widgets["builtInApps.openSourceTestrunner"].setEnabled(true);
+                      } else if (fileName == "portal")  {
+                      	widgets["builtInApps.openSourcePortal"].setEnabled(true);
+                      }
                     } else if (generationType == "build") {
-                      toolbox.content.BuiltInContent.BUILTINLIST.build = true;
+                      toolbox.content.BuiltInContent.BUILTINLIST[i].build = true;
+                      if (fileName == "demobrowser")  {
+                      	widgets["builtInApps.openBuildDemobrowser"].setEnabled(true);
+                      }else if (fileName == "playground")  {
+                      	widgets["builtInApps.openBuildPlayground"].setEnabled(true);
+                      } else if (fileName == "testrunner")  {
+                      	widgets["builtInApps.openBuildTestrunner"].setEnabled(true);
+                      } else if (fileName == "portal")  {
+                      	widgets["builtInApps.openBuildPortal"].setEnabled(true);
+                      }
                     }
-                    
                     var changedBuiltInList = qx.util.Json.stringify(toolbox.content.BuiltInContent.BUILTINLIST, true);
-  
+
                     saveBuiltInList += "&changedBuiltInList=" + changedBuiltInList;
                     req2.setData(saveBuiltInList);
                     req2.send();
                   }
                 }
-            		
-            	} else {
-                for (var i = 0; i < toolbox.content.DevelopmentContent.APPLIST.length; i++)
+              }
+              else
+              {
+                for (var i=0; i<toolbox.content.DevelopmentContent.APPLIST.length; i++)
                 {
                   if (toolbox.content.DevelopmentContent.APPLIST[i].name == fileName & toolbox.content.DevelopmentContent.APPLIST[i].path == filePath.replace(/\\/g, "/"))
                   {
-                    //var changedAppList = qx.util.Json.stringify(toolbox.content.DevelopmentContent.APPLIST, true);
-  				  
                     // adds the path and the name of the current application in the applicationlist
-                    if(generationType == "source" || generationType == "source-all") {	
-                    	toolbox.content.DevelopmentContent.APPLIST[i].source = true;
+                    if (generationType == "source" || generationType == "source-all") {
+                      toolbox.content.DevelopmentContent.APPLIST[i].source = true;
                     } else if (generationType == "build") {
-                    	toolbox.content.DevelopmentContent.APPLIST[i].build = true;
+                      toolbox.content.DevelopmentContent.APPLIST[i].build = true;
                     } else if (generationType == "api") {
-                    	toolbox.content.DevelopmentContent.APPLIST[i].api = true;
-                    } 
-                    
+                      toolbox.content.DevelopmentContent.APPLIST[i].api = true;
+                    }
+
                     var changedAppList = qx.util.Json.stringify(toolbox.content.DevelopmentContent.APPLIST, true);
-  
                     saveAppList += "&changedAppList=" + changedAppList;
                     req2.setData(saveAppList);
                     req2.send();
                   }
                 }
-            	
-                //Enables/ disables the open button
-                if(develWidgets != null) {
-                	if(generationType == "source" || generationType == "source-all") {
-                		develWidgets["development.openSourceButton"].setEnabled(true);
-                		develWidgets["development.openSourceAllButton"].setEnabled(true);
-                	} else if (generationType == "build") {
-                		develWidgets["development.openBuildButton"].setEnabled(true);              		
-                	} else if (generationType == "api") {
-                		develWidgets["development.openApiButton"].setEnabled(true);
-                	}
+
+                // Enables/disables the open button of the development pane
+                if (widgets != null)
+                {
+                  if (generationType == "source" || generationType == "source-all")
+                  {
+                    widgets["development.openSourceButton"].setEnabled(true);
+                    widgets["development.openSourceAllButton"].setEnabled(true);
+                  }
+                  else if (generationType == "build")
+                  {
+                    widgets["development.openBuildButton"].setEnabled(true);
+                  }
+                  else if (generationType == "api")
+                  {
+                    widgets["development.openApiButton"].setEnabled(true);
+                  }
                 }
-            	}
+              }
+
               logFrame.setHtml(logFrame.getHtml() + '<br/> <hr noshade size="4">GENERATE ' + (generationType).toUpperCase() + ' <hr noshade size="4">' + result.output);
-              
-              if(generationType == "test" || generationType == "test-source") {
-              	toolbox.builder.Builder.openApplication(adminPath, fileName, filePath, logFrame, "test");
+
+              if (generationType == "test" || generationType == "test-source") {
+                toolbox.builder.Builder.openApplication(adminPath, fileName, filePath, logFrame, "test");
               }
             }
 
@@ -181,8 +213,8 @@ qx.Class.define("toolbox.builder.Builder",
 
       return;
     },
-  	
-  	
+
+
     /**
      * creates a qooxdoo-skeleton
      *
@@ -190,7 +222,7 @@ qx.Class.define("toolbox.builder.Builder",
      * @param fileName {var} name of the file
      * @param filePath {var} path of the file
      * @param nameSpace {var} namespace of the file
-     * @param logFileName {var} lofgile of the file
+     * @param logFileName {var} logfile of the file
      * @param type {var} type of the file
      * @param generate {var} if you also want to generate the source code
      * @param logFrame {var} the log output
@@ -262,7 +294,7 @@ qx.Class.define("toolbox.builder.Builder",
                 path   : filePath.replace(/\\/g, "/"),
                 source : false,
                 build  : false,
-                api	   : false
+                api    : false
               });
 
               var changedAppList = qx.util.Json.stringify(toolbox.content.DevelopmentContent.APPLIST, true);
@@ -272,9 +304,8 @@ qx.Class.define("toolbox.builder.Builder",
               req3.send();
 
               // If the checkbox selected the source version will be generated
-              if (generate == "true")
-              {
-              	toolbox.builder.Builder.generateTarget(adminPath, fileName, filePath, logFrame, develWidgets, "source", false, null);
+              if (generate == "true") {
+                toolbox.builder.Builder.generateTarget(adminPath, fileName, filePath, logFrame, develWidgets, "source", false, null);
               }
             }
 
@@ -291,8 +322,6 @@ qx.Class.define("toolbox.builder.Builder",
         }
       },
       this);
-
-      
 
       req3.addListener("failed", function(evt) {
         logFrame.setHtml(logFrame.getHtml() + "<br/>" + '<font color="red">' + '<br/> <hr noshade size="4">GENERATE SOURCE<hr noshade size="4">' + "</br>Failed to post to URL: " + url + '</font>');
@@ -369,14 +398,15 @@ qx.Class.define("toolbox.builder.Builder",
 
 
     /**
-     * prepares the application list for using
+     * prepares the application list or built-in list for using
      *
      * @param adminPath {var} path of the cgi-script
      * @param logFrame {var} log output
-     * @param develWidgets {var} widgets of the development pane
+     * @param widgets {var} TODOC
+     * @param list {var} TODOC
      * @return {void} 
      */
-    prepareApplicationList : function(adminPath, logFrame, widgets, list)
+    prepareList : function(adminPath, logFrame, widgets, list)
     {
       var url = adminPath;
       var req = new qx.io.remote.Request(url, "POST");
@@ -384,28 +414,61 @@ qx.Class.define("toolbox.builder.Builder",
       var dat2 = "action=show_BuiltIn_List";
       req.setTimeout(100000);
 
-      if(list == "application") {
+      if (list == "application") {
         req.setData(dat);
-      } else {
-      	req.setData(dat2);
+      } else if (list == "buildIn") {
+        req.setData(dat2);
       }
+
       req.addListener("completed", function(evt)
       {
         var result = evt.getContent();
         result = result.replace(/\n/g, "").replace(/{/g, "\{").replace(/}/g, "\}");
-        
-        if(list == "application") {
+
+        if (list == "application")
+        {
           this.jsonObject = qx.util.Json.parse(result);
           toolbox.content.DevelopmentContent.APPLIST = this.jsonObject;
-          //disables the "switch application" button, if no application was created
+
+          // disables the "switch application" button, if no application was created
           if (toolbox.content.DevelopmentContent.APPLIST.length == 0) {
             widgets["development.selectAppMenuButton"].setEnabled(false);
           } else {
             widgets["development.selectAppMenuButton"].setEnabled(true);
           }
-        } else {
-        	this.jsonObject = qx.util.Json.parse(result);
+        }
+        else if (list == "buildIn")
+        {
+          this.jsonObject = qx.util.Json.parse(result);
           toolbox.content.BuiltInContent.BUILTINLIST = this.jsonObject;
+
+          //loads the liste
+          for (var i=0; i<toolbox.content.BuiltInContent.BUILTINLIST.length; i++)
+          {
+            if (toolbox.content.BuiltInContent.BUILTINLIST[i].source == true)
+            {
+              if (toolbox.content.BuiltInContent.BUILTINLIST[i].name == "demobrowser") {
+                widgets["builtInApps.openSourceDemobrowser"].setEnabled(true);
+              } else if (toolbox.content.BuiltInContent.BUILTINLIST[i].name == "playground") {
+                widgets["builtInApps.openSourcePlayground"].setEnabled(true);
+              } else if (toolbox.content.BuiltInContent.BUILTINLIST[i].name == "testrunner") {
+                widgets["builtInApps.openSourceTestrunner"].setEnabled(true);
+              } else if (toolbox.content.BuiltInContent.BUILTINLIST[i].name == "portal") {
+                widgets["builtInApps.openSourcePortal"].setEnabled(true);
+              }
+            } else if (toolbox.content.BuiltInContent.BUILTINLIST[i].build == true)
+            {
+              if (toolbox.content.BuiltInContent.BUILTINLIST[i].name == "demobrowser") {
+                widgets["builtInApps.openBuildDemobrowser"].setEnabled(true);
+              } else if (toolbox.content.BuiltInContent.BUILTINLIST[i].name == "playground") {
+                widgets["builtInApps.openBuildPlayground"].setEnabled(true);
+              }	else if (toolbox.content.BuiltInContent.BUILTINLIST[i].name == "testrunner") {
+                widgets["builtInApps.openBuildTestrunner"].setEnabled(true);
+              }	else if (toolbox.content.BuiltInContent.BUILTINLIST[i].name == "portal") {
+                widgets["builtInApps.openBuildPortal"].setEnabled(true);
+              }	
+            }
+          }
         }
       },
       this);
@@ -438,7 +501,7 @@ qx.Class.define("toolbox.builder.Builder",
         var url = adminPath;
         var req = new qx.io.remote.Request(url, "POST", "application/json");
         var openSource = 'action=open_In_Browser&location=' + generationTyp;
-        var createParams = [ fileName, filePath];
+        var createParams = [ fileName, filePath ];
         req.setTimeout(100000);
 
         var params = [ "myName", "myPath" ];

@@ -33,9 +33,9 @@ qx.Class.define("toolbox.configuration.ConfigurationDialog",
 
 
   /*
-    *****************************************************************************
-       CONSTRUCTOR
-    *****************************************************************************
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
   */
 
   construct : function(adminPath, fileName, filePath, logFrame, recResult)
@@ -48,16 +48,15 @@ qx.Class.define("toolbox.configuration.ConfigurationDialog",
 
 
   /*
-    *****************************************************************************
-       MEMBERS
-    *****************************************************************************
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
   */
 
   statics : { JSON : null },
 
   members :
   {
-  	
     /**
      * shows the configuration of the current application
      *
@@ -65,184 +64,181 @@ qx.Class.define("toolbox.configuration.ConfigurationDialog",
      * @param fileName {var} name of the application
      * @param filePath {var} path of the application
      * @param logFrame {var} log output
+     * @param recResult {var} TODOC
      * @return {void} 
+     * @throws error on save process
      */
     __createConfiguration : function(adminPath, fileName, filePath, logFrame, recResult)
     {
-        var saveDat = "action=save_Configuration";
-        var restoreResult = recResult;
+      var saveDat = "action=save_Configuration";
+      var restoreResult = recResult;
 
-        var req = new qx.io.remote.Request(adminPath, "POST");
-        var createParams = [ fileName, filePath ];
-	      req.setTimeout(1000000);
-	
-	     var params = [ "myName", "myPath" ];
-	
-  	    for (var i=0; i<createParams.length; i++)
-  	    {
-  	      if (createParams[i] != "")
-  	      {
-  	        saveDat += "&" + params[i] + "=" + createParams[i];
-  	      }
-  	    }
-        
-        var vBoxLayout = new qx.ui.layout.VBox(5);
-        vBoxLayout.setAlignX("right");
+      var req = new qx.io.remote.Request(adminPath, "POST");
+      var createParams = [ fileName, filePath ];
+      req.setTimeout(1000000);
 
-        var gridLayout = new qx.ui.layout.Grid(5, 5);
-        gridLayout.setRowFlex(0, 1);
-        gridLayout.setRowFlex(1, 1);
-        gridLayout.setColumnFlex(0, 1);
-        gridLayout.setColumnFlex(1, 1);
-        
-        var mainContainer = new qx.ui.container.Composite(gridLayout);
- 
-        var container = new qx.ui.container.Composite(new qx.ui.layout.HBox(5)).set({ allowGrowX : false });
+      var params = [ "myName", "myPath" ];
 
-        var tabButtonContainer = new qx.ui.container.Composite(new qx.ui.layout.HBox(5, "right"));
+      for (var i=0; i<createParams.length; i++)
+      {
+        if (createParams[i] != "") {
+          saveDat += "&" + params[i] + "=" + createParams[i];
+        }
+      }
 
-        this.setCaption("Configuration of " + fileName);
-        this.setModal(true);
-        this.setShowMinimize(false);
-        this.setLayout(vBoxLayout);
-        this.setWidth(550);
-        this.setMinWidth(410);
-        this.setMinHeight(500);
-		this.open();
-		this.show();
-		
-        
-        // --------Buttons-----------------------------------------------------
-        var saveButton = new qx.ui.form.Button("Save", "toolbox/image/media-floppy.png");
-        var cancelButton = new qx.ui.form.Button("Cancel", "toolbox/image/dialog-close.png");
+      var vBoxLayout = new qx.ui.layout.VBox(5);
+      vBoxLayout.setAlignX("right");
 
-        // --------Buttons-----------------------------------------------------
-        // --------Textarea----------------------------------------------------
-        this.configFrame = new qx.ui.form.TextArea("").set({
-        	font : qx.bom.Font.fromString("14px monospace")
-        });
-        this.configFrame.setWrap(false);
-        this.configFrame.setAllowGrowX(true);
-        this.configFrame.setAllowGrowY(true);
-        this.configFrame.setAllowStretchX(true);
-        this.configFrame.setAllowStretchY(true);
-        this.configFrame.setValue(restoreResult);
-      
-        // --------Textarea----------------------------------------------------
-        this.analyzer = new toolbox.configuration.JsonAnalyzer();
-        toolbox.configuration.Configuration.JSON = restoreResult = qx.util.Json.parseQx(restoreResult);
-        this.analyzer.createJsonTree(restoreResult);
+      var gridLayout = new qx.ui.layout.Grid(5, 5);
+      gridLayout.setRowFlex(0, 1);
+      gridLayout.setRowFlex(1, 1);
+      gridLayout.setColumnFlex(0, 1);
+      gridLayout.setColumnFlex(1, 1);
 
-        container.add(saveButton);
-        container.add(cancelButton);
- 
-        var tabView = new qx.ui.tabview.TabView();
+      var mainContainer = new qx.ui.container.Composite(gridLayout);
 
-        var page1Name = "JSON-settings";
-        var page2Name = "Professional view";
+      var container = new qx.ui.container.Composite(new qx.ui.layout.HBox(5)).set({ allowGrowX : false });
 
-        var tabApplyButton = new qx.ui.form.Button("Apply changes", "toolbox/image/dialog-ok.png");
-        var tabRestoreButton = new qx.ui.form.Button("Restore defaults", "toolbox/image/edit-redo.png");
+      var tabButtonContainer = new qx.ui.container.Composite(new qx.ui.layout.HBox(5, "right"));
 
-        this.isApplied = false;
+      this.setCaption("Configuration of " + fileName);
+      this.setModal(true);
+      this.setShowMinimize(false);
+      this.setLayout(vBoxLayout);
+      this.setWidth(550);
+      this.setMinWidth(410);
+      this.setMinHeight(500);
+      this.open();
+      this.show();
 
-        tabApplyButton.addListener("execute", function()
+      // --------Buttons-----------------------------------------------------
+      var saveButton = new qx.ui.form.Button("Save", "toolbox/image/media-floppy.png");
+      var cancelButton = new qx.ui.form.Button("Cancel", "toolbox/image/dialog-close.png");
+
+      // --------Buttons-----------------------------------------------------
+      // --------Textarea----------------------------------------------------
+      this.configFrame = new qx.ui.form.TextArea("").set({ font : qx.bom.Font.fromString("14px monospace") });
+      this.configFrame.setWrap(false);
+      this.configFrame.setAllowGrowX(true);
+      this.configFrame.setAllowGrowY(true);
+      this.configFrame.setAllowStretchX(true);
+      this.configFrame.setAllowStretchY(true);
+      this.configFrame.setValue(restoreResult);
+
+      // --------Textarea----------------------------------------------------
+      this.analyzer = new toolbox.configuration.JsonAnalyzer();
+      toolbox.configuration.Configuration.JSON = restoreResult = qx.util.Json.parseQx(restoreResult);
+      this.analyzer.createJsonTree(restoreResult);
+
+      container.add(saveButton);
+      container.add(cancelButton);
+
+      var tabView = new qx.ui.tabview.TabView();
+
+      var page1Name = "JSON-settings";
+      var page2Name = "Professional view";
+
+      var tabApplyButton = new qx.ui.form.Button("Apply changes", "toolbox/image/dialog-ok.png");
+      var tabRestoreButton = new qx.ui.form.Button("Restore defaults", "toolbox/image/edit-redo.png");
+
+      this.isApplied = false;
+
+      tabApplyButton.addListener("execute", function()
+      {
+        var obj = qx.util.Json.parseQx(this.configFrame.getValue());
+        this.analyzer.createJsonTree(obj);
+        toolbox.configuration.Configuration.JSON = obj;
+        this.isApplied = true;
+      },
+      this);
+
+      tabRestoreButton.addListener("execute", function()
+      {
+        if (typeof restoreResult != "object") {
+          restoreResult = qx.util.Json.parseQx(restoreResult);
+        }
+
+        this.configFrame.setValue(qx.util.Json.stringify(restoreResult, true));
+      },
+      this);
+
+      tabButtonContainer.add(tabApplyButton);
+      tabButtonContainer.add(tabRestoreButton);
+
+      var page1 = new qx.ui.tabview.Page(page1Name, null);
+      page1.setLayout(new qx.ui.layout.VBox());
+      tabView.add(page1);
+
+      var page2 = new qx.ui.tabview.Page("Professional view", null);
+      page2.setLayout(new qx.ui.layout.VBox(5));
+      page2.add(new qx.ui.basic.Label("Config.js"));
+      tabView.add(page2);
+
+      tabView.addListener("changeSelected", function()
+      {
+        if (tabView.getSelected().getLabel().toString() == page2Name) {
+          this.configFrame.setValue(qx.util.Json.stringify(toolbox.configuration.Configuration.JSON, true));
+        }
+        else if (tabView.getSelected().getLabel().toString() == page1Name)
         {
-          var obj = qx.util.Json.parseQx(this.configFrame.getValue());
-          this.analyzer.createJsonTree(obj);
-          toolbox.configuration.Configuration.JSON = obj;
-          this.isApplied = true;
-        },
-        this);
-
-        tabRestoreButton.addListener("execute", function()
-        {
-          if (typeof restoreResult != "object") {
-            restoreResult = qx.util.Json.parseQx(restoreResult);
+          if (this.configFrame.getValue().toString() != qx.util.Json.stringify(toolbox.configuration.Configuration.JSON, true).toString() & !this.isApplied) {
+            this.openSaveDialog();
+          } else {
+            this.isApplied = false;
           }
+        }
+      },
+      this);
 
-          this.configFrame.setValue(qx.util.Json.stringify(restoreResult, true));
-        },
-        this);
+      mainContainer.add(this.analyzer.getTreeGroup(),
+      {
+        row     : 0,
+        column  : 0,
+        rowSpan : 0,
+        colSpan : 1
+      });
 
-        tabButtonContainer.add(tabApplyButton);
-        tabButtonContainer.add(tabRestoreButton);
+      mainContainer.add(this.analyzer.getCommandFrame(this.analyzer.getTree()),
+      {
+        row     : 1,
+        column  : 0,
+        rowSpan : 0,
+        colSpan : 1
+      });
 
-        var page1 = new qx.ui.tabview.Page(page1Name, null);
-        page1.setLayout(new qx.ui.layout.VBox());
-        tabView.add(page1);
+      page1.add(mainContainer, { flex : 1 });
+      page2.add(this.configFrame, { flex : 1 });
+      page2.add(tabButtonContainer);
 
-        var page2 = new qx.ui.tabview.Page("Professional view", null);
-        page2.setLayout(new qx.ui.layout.VBox(5));
-        page2.add(new qx.ui.basic.Label("Config.js"));
-        tabView.add(page2);
+      this.add(tabView, { flex : 1 });
+      this.add(container);
 
-        tabView.addListener("changeSelected", function()
+      cancelButton.addListener("execute", function() {
+        this.close();
+      }, this);
+
+      saveButton.addListener("execute", function()
+      {
+        try
         {
-          if (tabView.getSelected().getLabel().toString() == page2Name) {
-            this.configFrame.setValue(qx.util.Json.stringify(toolbox.configuration.Configuration.JSON, true));
-          }
-          else if (tabView.getSelected().getLabel().toString() == page1Name)
-          {
-            if (this.configFrame.getValue().toString() != qx.util.Json.stringify(toolbox.configuration.Configuration.JSON, true).toString() & !this.isApplied) {
-              this.openSaveDialog();
-            } else {
-              this.isApplied = false;
-            }
-          }
-        },
-        this);
+          var changedConfig = this.configFrame.getValue();
+          changedConfig = qx.util.Json.stringify(qx.util.Json.parseQx(changedConfig), true);
+          saveDat += "&changedConfig=" + changedConfig;
 
-        mainContainer.add(this.analyzer.getTreeGroup(),
+          req.setData(saveDat);
+          req.send();
+        }
+        catch(err)
         {
-          row     : 0,
-          column  : 0,
-          rowSpan : 0,
-          colSpan : 1
-        });
+          throw new Error(err.toString());
+        }
 
-        mainContainer.add(this.analyzer.getCommandFrame(this.analyzer.getTree()),
-        {
-          row     : 1,
-          column  : 0,
-          rowSpan : 0,
-          colSpan : 1
-        });
+        this.close();
+      },
+      this);
 
-        page1.add(mainContainer, {flex: 1});
-        page2.add(this.configFrame, {flex: 1});
-        page2.add(tabButtonContainer);
-
-        this.add(tabView, { flex : 1 });
-        this.add(container);
-
-        cancelButton.addListener("execute", function() {
-          this.close();
-        }, this);
-
-        saveButton.addListener("execute", function()
-        {
-          try
-          {
-            var changedConfig = this.configFrame.getValue();
-            changedConfig  = qx.util.Json.stringify(qx.util.Json.parseQx(changedConfig), true);
-            saveDat += "&changedConfig=" + changedConfig;
-            
-            req.setData(saveDat);
-            req.send();
-            
-          }
-          catch(err)
-          {
-            throw new Error(err.toString());
-          }
-
-          this.close();
-        },
-        this);
-
-        this.open();
-        this.moveTo(200, 50);
+      this.open();
+      this.moveTo(200, 50);
 
       req.addListener("failed", function(evt)
       {
@@ -263,12 +259,20 @@ qx.Class.define("toolbox.configuration.ConfigurationDialog",
     openSaveDialog : function()
     {
       var saveDialog = new qx.ui.window.Window("Save changes", null);
-      saveDialog.setLayout(new qx.ui.layout.VBox(5));
-      saveDialog.add(new qx.ui.basic.Label("You changed the JSON-object in the professional view."));
-      saveDialog.add(new qx.ui.basic.Label("Do you want to save the changes?"));
+      var layout = new qx.ui.layout.Grid(5, 5);
+      saveDialog.setLayout(layout);
+      var label = new qx.ui.basic.Label("You changed the JSON-object in the professional view.<br/>Do you want to save the changes?").set({ rich : true})
 
+      saveDialog.add(label,
+      {
+        row     : 0,
+        column  : 1,
+        rowSpan : 0,
+        colSpan : 0
+      });
+      
       var container = new qx.ui.container.Composite(new qx.ui.layout.HBox(5, "right"));
-
+	  var warningImage = new qx.ui.basic.Image("toolbox/image/48/dialog-warning.png");
       var yesButton = new qx.ui.form.Button("Yes");
       var noButton = new qx.ui.form.Button("No");
 
@@ -288,9 +292,23 @@ qx.Class.define("toolbox.configuration.ConfigurationDialog",
       container.add(yesButton);
       container.add(noButton);
 
-      saveDialog.add(container);
+	  saveDialog.add(warningImage,
+      {
+        row     : 0,
+        column  : 0,
+        rowSpan : 1,
+        colSpan : 0
+      });
+      
+      saveDialog.add(container,
+      {
+        row     : 1,
+        column  : 1,
+        rowSpan : 0,
+        colSpan : 0
+      });
 
-      saveDialog.setAllowMaximize(false);
+      saveDialog.setShowMaximize(false);
       saveDialog.setAllowClose(true);
       saveDialog.setShowMinimize(false);
       saveDialog.setModal(true);
@@ -304,8 +322,7 @@ qx.Class.define("toolbox.configuration.ConfigurationDialog",
      *
      * @return {void} 
      */
-    destruct : function()
-    {
+    destruct : function() {
       this._disposeObjects("this.__content", "this.__state");
     }
   }
