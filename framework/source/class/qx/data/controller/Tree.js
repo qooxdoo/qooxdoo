@@ -16,13 +16,46 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+
+
 qx.Class.define("qx.data.controller.Tree", 
 {
   extend : qx.core.Object,
   include: qx.data.controller.MSelection,
 
 
-  construct : function(model, target, childPath, labelPath, iconPath, labelOptions, iconOptions)
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+  
+  /**
+   * @param model {qx.core.Object?null} The root element of the model, which holds 
+   *   the data.
+   * 
+   * @param target {qx.ui.tree.Tree?null} The target widgets which should be a tree.
+   * 
+   * @param childPath {String?null} The name of the property in the model, which 
+   *   holds the data array containing the children.
+   * 
+   * @param labelPath {String?null} The name of the property in the model, 
+   *   which holds the value to be displayed as the label of the tree items.
+   * 
+   * @param iconPath {String?null} The name of the property in the model , 
+   *   which holds the value to be used as source of the icon.
+   * 
+   * @param labelOptions {Map?null} The options used for the label binding. The 
+   *   possible options can be found in the {@link qx.data.SingleValueBinding} 
+   *   class.
+   * 
+   * @param iconOptions {Map?null} The options used for the icon binding. The 
+   *   possible options can be found in the {@link qx.data.SingleValueBinding} 
+   *   class.
+   */
+  construct : function(
+    model, target, childPath, labelPath, iconPath, labelOptions, iconOptions
+  )
   {
     this.base(arguments);
     
@@ -54,10 +87,18 @@ qx.Class.define("qx.data.controller.Tree",
       this.setTarget(target);
     }
   },
-  
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */  
   
   properties : 
   {
+    /** The root element of the data. */
     model : 
     {
       check: "qx.core.Object",
@@ -66,6 +107,8 @@ qx.Class.define("qx.data.controller.Tree",
       nullable: true
     },
     
+    
+    /** The tree to bind the data to. */
     target : 
     {
       apply: "_applyTarget",
@@ -73,6 +116,8 @@ qx.Class.define("qx.data.controller.Tree",
       init: null
     },
     
+    
+    /** The name of the property, where the children are stored in the model. */
     childPath : 
     {
       check: "String",
@@ -80,6 +125,11 @@ qx.Class.define("qx.data.controller.Tree",
       nullable: true
     },
     
+    
+    /** 
+     * The name of the property, where the value for the tree folders label 
+     * is stored in the model classes.
+     */
     labelPath : 
     {
       check: "String",
@@ -87,6 +137,11 @@ qx.Class.define("qx.data.controller.Tree",
       nullable: true
     },
     
+    
+    /** 
+     * The name of the property, where the source for the tree folders icon 
+     * is stored in the model classes.
+     */
     iconPath : 
     {
       check: "String",
@@ -94,12 +149,22 @@ qx.Class.define("qx.data.controller.Tree",
       nullable: true
     },
     
+    
+    /** 
+     * A map containing the options for the label binding. The possible keys 
+     * can be found in the {@link qx.data.SingleValueBinding} documentation.
+     */
     labelOptions : 
     {
       apply: "_applyLabelOptions",
       nullable: true
     },
     
+    
+    /** 
+     * A map containing the options for the icon binding. The possible keys 
+     * can be found in the {@link qx.data.SingleValueBinding} documentation.
+     */    
     iconOptions :
     {
       apply: "_applyIconOptions",
@@ -107,6 +172,14 @@ qx.Class.define("qx.data.controller.Tree",
     }
   },
 
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+  
   members :
   {
     /*
@@ -114,16 +187,38 @@ qx.Class.define("qx.data.controller.Tree",
        APPLY METHODS
     ---------------------------------------------------------------------------
     */    
+    /**
+     * Apply-method which will be called after the icon options had been 
+     * changed. This method will invoke a renewing of all bindings.
+     * 
+     * @param value {Map|null} The new options map.
+     * @param old {Map|null} The old options map.
+     */
     _applyIconOptions: function(value, old) {
       this.__renewBindings();
     },
     
     
+    /**
+     * Apply-method which will be called after the label options had been 
+     * changed. This method will invoke a renewing of all bindings.
+     * 
+     * @param value {Map|null} The new options map.
+     * @param old {Map|null} The old options map.
+     */    
     _applyLabelOptions: function(value, old) {
       this.__renewBindings();
     },
     
     
+    /**
+     * Apply-method which will be called after the target had been 
+     * changed. This method will clean up the old tree and will initially 
+     * build up the new tree containing the data from the model.
+     * 
+     * @param value {qx.ui.tree.Tree|null} The new tree.
+     * @param old {qx.ui.tree.Tree|null} The old tree.
+     */    
     _applyTarget: function(value, old) {
       // if there was an old target
       if (old != undefined) {
@@ -144,21 +239,49 @@ qx.Class.define("qx.data.controller.Tree",
     },
     
     
+    /**
+     * Apply-method which will be called after the model had been 
+     * changed. This method invoke a new building of the tree.
+     * 
+     * @param value {qx.core.Object|null} The new tree.
+     * @param old {qx.core.Object|null} The old tree.
+     */    
     _applyModel: function(value, old) {
       this.__buildTree(); 
     },
     
     
+    /**
+     * Apply-method which will be called after the child path had been 
+     * changed. This method invoke a new building of the tree.
+     * 
+     * @param value {String|null} The new path to the children property.
+     * @param old {String|null} The old path to the children property.
+     */    
     _applyChildPath: function(value, old) {
       this.__buildTree();      
     },
     
     
+    /**
+     * Apply-method which will be called after the icon path had been 
+     * changed. This method invoke a new building of the tree.
+     * 
+     * @param value {String|null} The new path to the icon property.
+     * @param old {String|null} The old path ot the icon property.
+     */    
     _applyIconPath: function(value, old) {
       this.__renewBindings();      
     },
     
     
+    /**
+     * Apply-method which will be called after the label path had been 
+     * changed. This method invoke a new building of the tree.
+     * 
+     * @param value {String|null} The new path to the label property.
+     * @param old {String|null} The old path of the label property.
+     */    
     _applyLabelPath: function(value, old) {
       this.__renewBindings();        
     },
@@ -168,7 +291,13 @@ qx.Class.define("qx.data.controller.Tree",
     ---------------------------------------------------------------------------
        EVENT HANDLER
     ---------------------------------------------------------------------------
-    */    
+    */
+    /**
+     * Handler function handling the change of a length of a children array. 
+     * This method invokes a rebuild of the corresponding subtree.
+     * 
+     * @param ev {qx.event.type.Event} The changeLength event of a data array.
+     */
     __changeModelChildren: function(ev) {
       // get the stored data
       var children =  ev.getTarget();
@@ -186,7 +315,13 @@ qx.Class.define("qx.data.controller.Tree",
     ---------------------------------------------------------------------------
        ITEM HANDLING
     ---------------------------------------------------------------------------
-    */    
+    */   
+    /**
+     * Internal helper function to build up the tree corresponding to the data 
+     * stored in the model. This function creates the root node and hands the
+     * recursive creation of all subtrees to the {#__updateTreeChildren} 
+     * function.
+     */ 
     __buildTree: function() {
       // only fill the target if there is a target, its known how to 
       // access the children and what needs to be desplayed as label 
@@ -213,6 +348,16 @@ qx.Class.define("qx.data.controller.Tree",
     },
     
     
+    /**
+     * Main method building up the tree folders corresponding to the given 
+     * model node. The new created subtree will be added to the given tree node.
+     * 
+     * @param rootNode {qx.ui.tree.TreeFolder} The tree folder to add the new 
+     *   created subtree.
+     * 
+     * @param modelNode {qx.core.Object} The model nodes which represent the 
+     *   data in the current subtree.
+     */
     __updateTreeChildren: function(rootNode, modelNode) {
       // ignore items which dont have children
       if (modelNode["get" + qx.lang.String.firstUp(this.getChildPath())] == undefined) {
@@ -281,7 +426,16 @@ qx.Class.define("qx.data.controller.Tree",
       }
     },
 
-
+    
+    /**
+     * Internal helper method removing the given folder form the given root 
+     * node. All set bindings will be removed and the old tree folder will be 
+     * destroyed.
+     * 
+     * @param treeFolder {qx.ui.tree.TreeFolder} The folder to remove.
+     * @param rootNode {qx.ui.tree.TreeFolder} The folder holding the
+     *   treeFolder. 
+     */
     __removeFolder: function(treeFolder, rootNode) {
       // get the model
       var model = treeFolder.getUserData("model");
@@ -299,16 +453,21 @@ qx.Class.define("qx.data.controller.Tree",
       // get the binding and remove it
       this.__removeBinding(model);
       // remove the folder from the tree
-      rootNode.remove(treeFolder);      
+      rootNode.remove(treeFolder);
+      // get rid of the old tree folder
+      treeFolder.destroy();
     },
     
-
 
     /*
     ---------------------------------------------------------------------------
        BINDING STUFF
     ---------------------------------------------------------------------------
     */
+    /**
+     * Helper method renewing all bindings with the currently saved options and
+     * paths.
+     */
     __renewBindings: function() {
       for (var hash in this.__labelBindings) {
         // get the data 
@@ -322,6 +481,14 @@ qx.Class.define("qx.data.controller.Tree",
     },
     
     
+    /**
+     * Internal helper method adding the right bindings from the given 
+     * modelNode to the given treeNode.
+     * 
+     * @param modelNode {qx.core.Object} The model node holding the data.
+     * @param treeNode {qx.ui.tree.TreeFolder} The corresponding tree folder 
+     *   to the model node.
+     */
     __addBinding: function(modelNode, treeNode) {
       // label binding
       var id = modelNode.bind(
@@ -339,6 +506,12 @@ qx.Class.define("qx.data.controller.Tree",
     },
     
     
+    /**
+     * Internal helper method for removing bindings for a given model node.
+     * 
+     * @param modelNode {qx.core.Object} the model node for which the bindings
+     *   should be removed.
+     */
     __removeBinding: function(modelNode) {
       // label binding
       var id = this.__labelBindings[modelNode.toHashCode()].id;
