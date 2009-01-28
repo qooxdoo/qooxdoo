@@ -16,24 +16,46 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+
+
+
 qx.Class.define("qx.data.controller.Object", 
 {
   extend : qx.core.Object,
 
 
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+  
+  /**
+   * @param model {qx.core.Object?null} The model for the model property.
+   */
   construct : function(model)
   {
     this.base(arguments);
+
+    // create a map for all created binding ids
+    this.__bindings = {};
     
     if (model != null) {
       this.setModel(model);      
     }
-    
-    this.__bindings = {};
   },
+  
+  
+  
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
   
   properties : 
   {
+    /** The model object which does have the properties for the binding. */
     model : 
     {
       check: "qx.core.Object",
@@ -43,9 +65,23 @@ qx.Class.define("qx.data.controller.Object",
     }
   },
 
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+  
   members :
   {
-    
+    /**
+     * Apply-method which will be called if a new model has been set.
+     * All bindings will be moved to the new model.
+     * 
+     * @param value {qx.core.Object|null} The new model.
+     * @param old {qx.core.Object|null} The old model.
+     */
     _applyModel: function(value, old) {
       // add all bindings to the new model
       for (var targetHash in this.__bindings) {
@@ -71,6 +107,29 @@ qx.Class.define("qx.data.controller.Object",
     },
     
     
+    /**
+     * Adds a new target to the controller. After adding the target, the given
+     * property of the model will be bound to the targets property.
+     * 
+     * @param targetObject {qx.core.Object} The object on which the property 
+     *   should be bound.
+     * 
+     * @param targetProperty {String} The property to which the binding should 
+     *   go. 
+     * 
+     * @param sourceProperty {String} The name of the property in the model.
+     * 
+     * @param bidirectional {Boolean?false} Signals if the binding should also work
+     *   in the reverse direction, from the target to source.
+     * 
+     * @param options {Map?null} The options Map used by the binding from source
+     *   to target. The possible options can be found in the 
+     *   {@link qx.data.SingleValueBinding} class.
+     * 
+     * @param reverseOptions {Map?null} The options used by the binding in the 
+     *   reverse direction. The possible options can be found in the 
+     *   {@link qx.data.SingleValueBinding} class.
+     */
     addTarget: function(
       targetObject, targetProperty, sourceProperty, 
       bidirectional, options, reverseOptions
@@ -98,6 +157,17 @@ qx.Class.define("qx.data.controller.Object",
     },
     
     
+    /**
+     * Removes the target identified by the three properties.
+     * 
+     * @param targetObject {qx.core.Object} The target object on which the 
+     *   binding exist.
+     * 
+     * @param targetProperty {String} The targets property name used by the 
+     *   adding of the target.
+     * 
+     * @param sourceProperty {String} The name of the property of the model.
+     */
     removeTarget: function(targetObject, targetProperty, sourceProperty) {
       // check for not fitting targetObjects
       if (!(targetObject instanceof qx.core.Object)) {
