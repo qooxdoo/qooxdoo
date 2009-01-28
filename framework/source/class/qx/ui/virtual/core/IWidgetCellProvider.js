@@ -39,7 +39,7 @@ qx.Interface.define("qx.ui.virtual.core.IWidgetCellProvider",
     /**
      * Release the given cell widget. Either pool or destroy the widget.
      * 
-     * @param {qx.ui.core.LayoutItem} The cell widget to pool
+     * @param widget {qx.ui.core.LayoutItem} The cell widget to pool
      */
     poolCellWidget : function(widget) {}  
   }
