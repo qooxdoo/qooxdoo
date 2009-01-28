@@ -201,21 +201,21 @@ def build_packet(target,revision,generate):
     cleanup(target)
     print("Updating SVN")
     svn_checkout(target,revision)
-    if (generate != "release"):
-        working_dir = os.path.join(options.stagedir, target,"qooxdoo",options.path)
-        print("Changing dir to: " + working_dir)        
-        os.chdir(working_dir)        
-        print("Generating framework tests")
-        genRc = invoke_external("./generate.py test")        
-        if (genRc != 0):
-            print ("Generator exited with status " + repr(genRc))
-            sys.exit(genRc)
-    else:        
-        goto_workdir(os.path.join(target,"qooxdoo"))
-        date()    
-        make(generate)
-    #make('build')
-    #make('release')
+    if (generate != None):
+        if (generate != "release"):
+            working_dir = os.path.join(options.stagedir, target,"qooxdoo",options.path)
+            print("Changing dir to: " + working_dir)        
+            os.chdir(working_dir)        
+            print("Starting generator")
+            genRc = invoke_external("./generate.py " + generate)        
+            if (genRc != 0):
+                print ("Generator exited with status " + repr(genRc))
+                sys.exit(genRc)
+        else:        
+            goto_workdir(os.path.join(target,"qooxdoo"))
+            date()    
+            make(generate)
+        
     date()
     return 0
 
@@ -227,6 +227,8 @@ def build_targets(targList):
         if (options.generate):
             print "Target: "+target
             rc = build_packet(target,0,options.generate)
+        else:
+            rc = build_packet(target,0,None)
         if (options.generate == "release"):
             copy_archives(target)
         if (options.cleanup):
