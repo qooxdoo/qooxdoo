@@ -70,7 +70,7 @@ qx.Class.define("qx.test.ui.selection.SingleSelecton",
         list.setSelected(self.__selected);
       }, function(event) {
         // Tests the value from the event
-        this.assertEquals(event.getData()[0], self.__selected,
+        self.assertEquals(event.getData()[0], self.__selected,
           "The result of the selection is wrong");
       }, "'changeSelection' event not fired!");
       
