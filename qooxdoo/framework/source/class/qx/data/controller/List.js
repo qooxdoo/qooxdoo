@@ -16,12 +16,34 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+
 qx.Class.define("qx.data.controller.List", 
 {
   extend : qx.core.Object,
   include: qx.data.controller.MSelection,
   
-
+  /**
+   * @param model {qx.data.Array?null} The array containing the data.
+   * 
+   * @param target {qx.ui.core.Widget?null} The widget which should show the 
+   *   ListItems.
+   * 
+   * @param labelPath {String?null} If the model contains objects, the labelPath
+   *   is the path reference to the property in these objects which should be 
+   *   shown as label.
+   * 
+   * @param iconPath {String?null} If the model contains objects, the iconPath
+   *   is the path reference to the property in these objects which should be
+   *   shown as icon.
+   * 
+   * @param labelOptions {Map?null} A map containing the options for the label
+   *   binding. The possible options can be found in the 
+   *   {@link qx.data.SingleValueBinding} class.
+   * 
+   * @param iconOptions {Map?null} A map containing the options for the icon
+   *   binding. The possible options can be found in the 
+   *   {@link qx.data.SingleValueBinding} class.
+   */
   construct : function(model, target, labelPath, iconPath, labelOptions, iconOptions)
   {
     this.base(arguments);
@@ -53,6 +75,7 @@ qx.Class.define("qx.data.controller.List",
   
   properties : 
   {    
+    /** Data array containing the data which should be shown in the list. */
     model : 
     {
       check: "qx.data.Array",
@@ -61,6 +84,8 @@ qx.Class.define("qx.data.controller.List",
       nullable: true
     },
     
+    
+    /** The target widget which should show the data. */
     target : 
     {
       apply: "_applyTarget",
@@ -69,6 +94,11 @@ qx.Class.define("qx.data.controller.List",
       init: null
     },
     
+    
+    /** 
+     * The path to the property which holds the information that should be 
+     * shown as a label. This is only needed if objects are stored in the model.
+     */
     labelPath : 
     {
       check: "String",
@@ -76,6 +106,12 @@ qx.Class.define("qx.data.controller.List",
       nullable: true
     },
     
+    
+    /** 
+     * The path to the property which holds the information that should be 
+     * shown as a icon. This is only needed if objects are stored in the model 
+     * and if the icon should be shown.
+     */
     iconPath : 
     {
       check: "String",
@@ -83,12 +119,22 @@ qx.Class.define("qx.data.controller.List",
       nullable: true
     },
     
+    
+    /** 
+     * A map containing the options for the label binding. The possible keys 
+     * can be found in the {@link qx.data.SingleValueBinding} documentation.
+     */
     labelOptions : 
     {
       apply: "_applyLabelOptions",
       nullable: true
     },
     
+    
+    /** 
+     * A map containing the options for the icon binding. The possible keys 
+     * can be found in the {@link qx.data.SingleValueBinding} documentation.
+     */    
     iconOptions :
     {
       apply: "_applyIconOptions",
@@ -104,25 +150,63 @@ qx.Class.define("qx.data.controller.List",
        APPLY METHODS
     ---------------------------------------------------------------------------
     */
+    /**
+     * Apply-method which will be called if the icon options has been changed.
+     * It invokes a renewing of all set bindings.
+     * 
+     * @param value {Map|null} The new icon options.
+     * @param old {Map|null} The old icon options.
+     */
     _applyIconOptions: function(value, old) {
       this.__renewBindings();
     },
     
+    
+    /**
+     * Apply-method which will be called if the label options has been changed.
+     * It invokes a renewing of all set bindings.
+     * 
+     * @param value {Map|null} The new label options.
+     * @param old {Map|null} The old label options.
+     */
     _applyLabelOptions: function(value, old) {
       this.__renewBindings();
     },
     
     
+    /**
+     * Apply-method which will be called if the icon path has been changed.
+     * It invokes a renewing of all set bindings.
+     * 
+     * @param value {String|null} The new icon path.
+     * @param old {String|null} The old icon path.
+     */    
     _applyIconPath: function(value, old) {
       this.__renewBindings();
     },
     
     
+    /**
+     * Apply-method which will be called if the label path has been changed.
+     * It invokes a renewing of all set bindings.
+     * 
+     * @param value {String|null} The new label path.
+     * @param old {String|null} The old label path.
+     */    
     _applyLabelPath: function(value, old) {
       this.__renewBindings();
     },
     
     
+    /**
+     * Apply-method which will be called if the model has been changed. It
+     * removes all the listeners from the old model and adds the needed 
+     * listeners to the new model. It also invokes the initial filling of the
+     * target widgets if there is a target set.
+     * 
+     * @param value {qx.data.Array|null} The new model array.
+     * @param old {qx.data.Array|null} The old model array.
+     */
     _applyModel: function(value, old) {     
       // remove the old listener
       if (old != undefined) {
@@ -163,6 +247,15 @@ qx.Class.define("qx.data.controller.List",
     },
     
     
+    /**
+     * Apply-method which will be called if the target has been changed. 
+     * When the target changes, every binding needs to be reseted and the old 
+     * target needs to be cleaned up. If there is a model, the target will be 
+     * filled with the data of the model.
+     * 
+     * @param value {qx.ui.core.Widget|null} The new target.
+     * @param old {qx.ui.core.Widget|null} The old target.
+     */
     _applyTarget: function(value, old) {
       // if there was an old target
       if (old != undefined) {
@@ -188,6 +281,11 @@ qx.Class.define("qx.data.controller.List",
        EVENT HANDLER
     ---------------------------------------------------------------------------
     */    
+    /**
+     * Event handler for the change event of the model. If the model changes, 
+     * Only the selection needs to be changed. The change of the data will
+     * be done by the binding.
+     */
     __changeModel: function() {
       // check if something has been removed from the model
       for (var i = this.getSelection().length - 1; i >= 0; i--) {
@@ -199,6 +297,10 @@ qx.Class.define("qx.data.controller.List",
     },
     
         
+    /**
+     * Event handler for the changeLength of the model. If the length changes
+     * of the model, either ListItems need to be removed or added to the target.
+     */
     __changeModelLength: function() {
       // only do something if there is a target
       if (this.getTarget() == null) {
@@ -229,7 +331,13 @@ qx.Class.define("qx.data.controller.List",
     ---------------------------------------------------------------------------
        ITEM HANDLING
     ---------------------------------------------------------------------------
-    */    
+    */
+    /**
+     * Internal helper to add ListItems to the target including the creation 
+     * of the binding.
+     * 
+     * @param index {Number} The index of the item to add.
+     */
     __addItem: function(index) {
       // create a new ListItem
       var listItem = new qx.ui.form.ListItem();
@@ -242,6 +350,10 @@ qx.Class.define("qx.data.controller.List",
     },
     
     
+    /**
+     * Internal helper to remove ListItems from the target. Also the bidning 
+     * will be removed properly.
+     */
     __removeItem: function() {
       // get the last binding id
       var index = this.getTarget().getChildren().length - 1;
@@ -257,6 +369,13 @@ qx.Class.define("qx.data.controller.List",
        BINDING STUFF
     ---------------------------------------------------------------------------
     */
+    /**
+     * Sets up the binding for the given ListItem and index.
+     * 
+     * @param listItem {qx.ui.form.ListItem} The internally created and used 
+     *   ListItem.
+     * @param index {number} The index of the ListItem.
+     */
     __bindListItem: function(listItem, index) {
       // create the options for the binding containing the old options
       // including the old onSetOk function
@@ -306,7 +425,15 @@ qx.Class.define("qx.data.controller.List",
     },
     
     
-    __onBindingSet: function(index, sourceObject, targetObject, data) {
+    /**
+     * Method which will be called on the invoke of every binding. It takes 
+     * care of the selection on the change of the binding.
+     * 
+     * @param index {number} The index of the current binding.
+     * @param sourceObject {var} The source object of the binding.
+     * @param targetObject {var} The target object of the binding.
+     */
+    __onBindingSet: function(index, sourceObject, targetObject) {
       // check for the users onSetOk for the label binding
       if (this.__onSetOkLabel != null) {
         this.__onSetOkLabel();
@@ -321,6 +448,11 @@ qx.Class.define("qx.data.controller.List",
     },
     
     
+    /**
+     * Internal helper method to remove the binding of the given index.
+     * 
+     * @param index {number} The index of the binding which should be removed.
+     */
     __removeBindingsFrom: function(index) {
       var id = this.__bindingsLabel[index];
       // delete the reference 
@@ -337,7 +469,10 @@ qx.Class.define("qx.data.controller.List",
     },
     
     
-    __renewBindings: function(attribute) {
+    /**
+     * Internal helper method to renew all set bindings.
+     */
+    __renewBindings: function() {
       // ignore, if no target is set (startup)
       if (this.getTarget() == null) {
         return;
