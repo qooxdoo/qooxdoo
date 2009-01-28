@@ -320,7 +320,24 @@ qx.Class.define("qx.test.data.controller.Object",
       // test for the binding
       this.assertEquals("A", this.__label1.getContent(), "Binding1 does not work!");
       this.assertEquals("A", this.__label2.getContent(), "Binding2 does not work!");      
-    }
+    },
     
+    
+    testSetLateModel: function() {
+      // create a blank controller
+      this.__controller = new qx.data.controller.Object();
+      
+      // set the model
+      this.__controller.setModel(this.__model);
+      
+      // Tie the label1s content to the zindex of the model
+      this.__controller.addTarget(this.__label1, "content", "zIndex");
+      
+      // set a new zIndex to the model
+      this.__model.setZIndex(10);
+      
+      // test for the binding
+      this.assertEquals("10", this.__label1.getContent(), "Binding does not work!");      
+    }
   }
 });

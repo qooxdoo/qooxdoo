@@ -24,7 +24,7 @@ qx.Class.define("qx.test.data.controller.ListWithObjects",
     this.base(arguments);
 
     // define a test class
-    qx.Class.define("test.ListWithObject",
+    qx.Class.define("qx.test.ListWithObject",
     {
       extend : qx.core.Object,
 
@@ -55,7 +55,7 @@ qx.Class.define("qx.test.data.controller.ListWithObjects",
       // create the model
       this.__data = [];
       for (var i = 0; i < 5; i++) {
-        var obj = new test.ListWithObject();
+        var obj = new qx.test.ListWithObject();
         obj.setName("name" + i);
         obj.setIcon("icon" + i);
         this.__data.push(obj);
@@ -151,7 +151,7 @@ qx.Class.define("qx.test.data.controller.ListWithObjects",
       // create the model
       this.__data = [];
       for (var i = 0; i < 2; i++) {
-        var obj = new test.ListWithObject();
+        var obj = new qx.test.ListWithObject();
         obj.setName("name");
         obj.setIcon("icon");
         this.__data.push(obj);
@@ -237,7 +237,35 @@ qx.Class.define("qx.test.data.controller.ListWithObjects",
         var icon = this.__list.getChildren()[i].getIcon();
         this.assertEquals(this.__data[i].getIcon() + ".png", icon, "Binding " + i + " is wrong!");
       }      
-    }
+    },
+    
+    
+    testSetModelLate: function() {
+      // create the controller
+      this.__controller = new qx.data.controller.List(null, this.__list, "name");
+      
+      this.__controller.setModel(this.__model);
+      
+      // check the binding
+      for (var i = 0; i < this.__data.length; i++) {
+        var label = this.__list.getChildren()[i].getLabel();
+        this.assertEquals(this.__data[i].getName(), label, "Binding " + i + " is wrong!");
+      }
+    },
+    
+    
+    testSetTargetLate: function() {
+      // create the controller
+      this.__controller = new qx.data.controller.List(this.__model, null, "name");
+      
+      this.__controller.setTarget(this.__list);
+      
+      // check the binding
+      for (var i = 0; i < this.__data.length; i++) {
+        var label = this.__list.getChildren()[i].getLabel();
+        this.assertEquals(this.__data[i].getName(), label, "Binding " + i + " is wrong!");
+      }
+    }    
     
   }
 });

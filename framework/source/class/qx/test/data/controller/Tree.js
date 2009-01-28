@@ -523,6 +523,104 @@ qx.Class.define("qx.test.data.controller.Tree",
       this.assertEquals("b", this.__tree.getRoot().getChildren()[1].getLabel(), "Second node has a wrong name");
       this.assertEquals("c", this.__tree.getRoot().getChildren()[2].getLabel(), "Third node has a wrong name");
       this.assertEquals("ENDE", this.__tree.getRoot().getChildren()[3].getLabel(), "Fourth node has a wrong name");            
+    },
+    
+    
+    testSetLateModel: function() {
+      // create the controller
+      this.__controller = new qx.data.controller.Tree(null, this.__tree, "children", "name", "icon");
+      
+      this.__controller.setModel(this.__model);
+      
+      // check the initial Labels
+      this.assertEquals("root", this.__tree.getRoot().getLabel(), "Root node has a wrong name");
+      this.assertEquals("a", this.__tree.getRoot().getChildren()[0].getLabel(), "First node has a wrong name");
+      this.assertEquals("b", this.__tree.getRoot().getChildren()[1].getLabel(), "Second node has a wrong name");
+      this.assertEquals("c", this.__tree.getRoot().getChildren()[2].getLabel(), "Third node has a wrong name");      
+    },
+    
+    
+    testSetLateTarget: function() {
+      // create the controller
+      this.__controller = new qx.data.controller.Tree(this.__model, null, "children", "name", "icon");
+      
+      this.__controller.setTarget(this.__tree);
+      
+      // check the initial Labels
+      this.assertEquals("root", this.__tree.getRoot().getLabel(), "Root node has a wrong name");
+      this.assertEquals("a", this.__tree.getRoot().getChildren()[0].getLabel(), "First node has a wrong name");
+      this.assertEquals("b", this.__tree.getRoot().getChildren()[1].getLabel(), "Second node has a wrong name");
+      this.assertEquals("c", this.__tree.getRoot().getChildren()[2].getLabel(), "Third node has a wrong name");      
+    },
+    
+    
+    testSetLateTargetAndModel: function() {
+      this.__controller = new qx.data.controller.Tree(null, null, "children", "name");
+      
+      this.__controller.setTarget(this.__tree);
+      this.__controller.setModel(this.__model);      
+      
+      // check the initial Labels
+      this.assertEquals("root", this.__tree.getRoot().getLabel(), "Root node has a wrong name");
+      this.assertEquals("a", this.__tree.getRoot().getChildren()[0].getLabel(), "First node has a wrong name");
+      this.assertEquals("b", this.__tree.getRoot().getChildren()[1].getLabel(), "Second node has a wrong name");
+      this.assertEquals("c", this.__tree.getRoot().getChildren()[2].getLabel(), "Third node has a wrong name");      
+      
+      // redo the test and set the modeln and target in different order
+      this.__controller = new qx.data.controller.Tree(null, null, "children", "name");
+
+      this.__controller.setModel(this.__model);            
+      this.__controller.setTarget(this.__tree);
+      
+      // check the initial Labels
+      this.assertEquals("root", this.__tree.getRoot().getLabel(), "Root node has a wrong name");
+      this.assertEquals("a", this.__tree.getRoot().getChildren()[0].getLabel(), "First node has a wrong name");
+      this.assertEquals("b", this.__tree.getRoot().getChildren()[1].getLabel(), "Second node has a wrong name");
+      this.assertEquals("c", this.__tree.getRoot().getChildren()[2].getLabel(), "Third node has a wrong name");      
+    },
+    
+    
+    testSetLateChildPath: function() {
+      this.__controller = new qx.data.controller.Tree(this.__model, this.__tree, null, "name");
+      
+      this.__controller.setChildPath("children");
+      
+      // check the initial Labels
+      this.assertEquals("root", this.__tree.getRoot().getLabel(), "Root node has a wrong name");
+      this.assertEquals("a", this.__tree.getRoot().getChildren()[0].getLabel(), "First node has a wrong name");
+      this.assertEquals("b", this.__tree.getRoot().getChildren()[1].getLabel(), "Second node has a wrong name");
+      this.assertEquals("c", this.__tree.getRoot().getChildren()[2].getLabel(), "Third node has a wrong name");      
+    },
+    
+    
+    testSetLateLabelPath: function() {
+      this.__controller = new qx.data.controller.Tree(this.__model, this.__tree, "children");
+      
+      this.__controller.setLabelPath("name");
+      
+      // check the initial Labels
+      this.assertEquals("root", this.__tree.getRoot().getLabel(), "Root node has a wrong name");
+      this.assertEquals("a", this.__tree.getRoot().getChildren()[0].getLabel(), "First node has a wrong name");
+      this.assertEquals("b", this.__tree.getRoot().getChildren()[1].getLabel(), "Second node has a wrong name");
+      this.assertEquals("c", this.__tree.getRoot().getChildren()[2].getLabel(), "Third node has a wrong name");      
+    },
+    
+    
+    testSetLateAll: function() {
+      this.__controller = new qx.data.controller.Tree();
+      
+      // set the needed properties
+      this.__controller.setLabelPath("name");
+      this.__controller.setChildPath("children");
+      this.__controller.setModel(this.__model);
+      this.__controller.setTarget(this.__tree);
+      
+      // check the initial Labels
+      this.assertEquals("root", this.__tree.getRoot().getLabel(), "Root node has a wrong name");
+      this.assertEquals("a", this.__tree.getRoot().getChildren()[0].getLabel(), "First node has a wrong name");
+      this.assertEquals("b", this.__tree.getRoot().getChildren()[1].getLabel(), "Second node has a wrong name");
+      this.assertEquals("c", this.__tree.getRoot().getChildren()[2].getLabel(), "Third node has a wrong name");      
     }
+    
   }
 });
