@@ -25,7 +25,7 @@ qx.Class.define("qx.data.controller.Object",
   {
     this.base(arguments);
     
-    if (model != undefined) {
+    if (model != null) {
       this.setModel(model);      
     }
     
