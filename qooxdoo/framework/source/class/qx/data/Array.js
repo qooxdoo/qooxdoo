@@ -339,6 +339,7 @@ qx.Class.define("qx.data.Array",
      * Returns the index of the item in the array. If the item is not in the
      * array, -1 will be returned.
      * 
+     * @param item {var} The item of which the index should be returned.
      * @return {number} The Index of the given item.
      */
     indexOf: function(item) {
@@ -358,6 +359,7 @@ qx.Class.define("qx.data.Array",
     /**
      * Check if the given item is in the current array.
      * 
+     * @param item {var} The item which is possibly in the array.
      * @return {boolean} true, if the array contains the given item.
      */
     contains: function(item) {
