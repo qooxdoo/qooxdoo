@@ -384,6 +384,6 @@ qx.Class.define("qx.data.Array",
     __updateLength: function() {
       this.length = this.__array.length;
       this.fireEvent("changeLength", qx.event.type.Event);
-    }    
+    }
   }
 });
