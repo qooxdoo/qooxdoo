@@ -76,38 +76,17 @@ qx.Class.define("qx.data.controller.List",
    * @param labelPath {String?null} If the model contains objects, the labelPath
    *   is the path reference to the property in these objects which should be 
    *   shown as label.
-   * 
-   * @param iconPath {String?null} If the model contains objects, the iconPath
-   *   is the path reference to the property in these objects which should be
-   *   shown as icon.
-   * 
-   * @param labelOptions {Map?null} A map containing the options for the label
-   *   binding. The possible options can be found in the 
-   *   {@link qx.data.SingleValueBinding} class.
-   * 
-   * @param iconOptions {Map?null} A map containing the options for the icon
-   *   binding. The possible options can be found in the 
-   *   {@link qx.data.SingleValueBinding} class.
    */
-  construct : function(model, target, labelPath, iconPath, labelOptions, iconOptions)
+  construct : function(model, target, labelPath)
   {
     this.base(arguments);
         
     // create the maps for storing the bindings
     this.__bindingsLabel = {};
     this.__bindingsIcons = {};
-    
-    if (labelOptions != null) {
-      this.setLabelOptions(labelOptions);
-    }
-    if (iconOptions != null) {
-      this.setIconOptions(iconOptions);
-    }    
+       
     if (labelPath != null) {
       this.setLabelPath(labelPath);      
-    }
-    if (iconPath != null) {
-      this.setIconPath(iconPath);
     }
     if (model != null) {
       this.setModel(model);      

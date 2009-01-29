@@ -187,12 +187,13 @@ qx.Class.define("feedreader.Application",
       // 2. Parameter: The view (the tree widget)
       // 3. Parameter: name of the children of the model items
       // 4. Parameter: name of the model property to show as label in the tree
-      // 5. Parameter: name of the model property so show as icon in the tree
-      // 6. Parameter: options for the label binding (not needed in this example)
-      // 7. Parameter: options for the icon binding
       this.__treeController = new qx.data.controller.Tree(
-        this._feedFolder, this._treeView, "feeds", "title", "state", null, iconOptions
+        this._feedFolder, this._treeView, "feeds", "title"
       );
+      // set the property for the icon binding
+      this.__treeController.setIconPath("state");
+      // set the options for the icon binding
+      this.__treeController.setIconOptions(iconOptions);
       
       // bind the list //
       // create the controller which binds ths list

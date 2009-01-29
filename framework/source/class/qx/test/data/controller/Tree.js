@@ -119,7 +119,8 @@ qx.Class.define("qx.test.data.controller.Tree",
       this.__model.getAltChildren().push(this.__c, this.__b, this.__a);      
 
       // create the controller
-      this.__controller = new qx.data.controller.Tree(this.__model, this.__tree, "children", "name", "icon");      
+      this.__controller = new qx.data.controller.Tree(this.__model, this.__tree, "children", "name");
+      this.__controller.setIconPath("icon");
     },
 
 
@@ -461,7 +462,8 @@ qx.Class.define("qx.test.data.controller.Tree",
       };
       
       // create the controller
-      this.__controller = new qx.data.controller.Tree(this.__model, this.__tree, "children", "name", null, options);
+      this.__controller = new qx.data.controller.Tree(this.__model, this.__tree, "children", "name");
+      this.__controller.setLabelOptions(options);
 
       // test the converter
       this.assertEquals("root AFFE", this.__tree.getRoot().getLabel(), "Root node has a wrong name");
@@ -482,7 +484,9 @@ qx.Class.define("qx.test.data.controller.Tree",
       };
       
       // create the controller
-      this.__controller = new qx.data.controller.Tree(this.__model, this.__tree, "children", "name", "icon", null, options);
+      this.__controller = new qx.data.controller.Tree(this.__model, this.__tree, "children", "name");
+      this.__controller.setIconPath("icon");
+      this.__controller.setIconOptions(options);
 
       // test the converter
       this.assertNull(this.__tree.getRoot().getIcon(), "Root node has a wrong icon");
@@ -528,7 +532,7 @@ qx.Class.define("qx.test.data.controller.Tree",
     
     testSetLateModel: function() {
       // create the controller
-      this.__controller = new qx.data.controller.Tree(null, this.__tree, "children", "name", "icon");
+      this.__controller = new qx.data.controller.Tree(null, this.__tree, "children", "name");
       
       this.__controller.setModel(this.__model);
       
@@ -542,7 +546,7 @@ qx.Class.define("qx.test.data.controller.Tree",
     
     testSetLateTarget: function() {
       // create the controller
-      this.__controller = new qx.data.controller.Tree(this.__model, null, "children", "name", "icon");
+      this.__controller = new qx.data.controller.Tree(this.__model, null, "children", "name");
       
       this.__controller.setTarget(this.__tree);
       
