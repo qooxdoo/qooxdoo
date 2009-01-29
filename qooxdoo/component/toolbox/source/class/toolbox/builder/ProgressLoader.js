@@ -42,6 +42,9 @@ qx.Class.define("toolbox.builder.ProgressLoader",
   {
     this.base(arguments);
 
+    var layout = new qx.ui.layout.VBox(5);
+    this.setLayout(layout);
+	
     this.set(
     {
       padding       : [ 4, 4, 4, 4 ],
@@ -56,10 +59,10 @@ qx.Class.define("toolbox.builder.ProgressLoader",
     this.__root = qx.core.Init.getApplication().getRoot();
     this.__root.setBlockerColor("white");
     this.__root.setBlockerOpacity(0.5);
-
-    this.setLayout(new qx.ui.layout.Canvas());
-
-    this.add(new qx.ui.basic.Atom(null, "toolbox/image/progressLoader.gif"));
+	
+    var loaderImage = new qx.ui.basic.Atom(null, "toolbox/image/progressLoader.gif");
+    this.add(loaderImage);
+    this.add(new qx.ui.basic.Label("  This process will take few minutes!"));
     this.moveTo(400, 300);
     this.show();
     this.setModal(true);
