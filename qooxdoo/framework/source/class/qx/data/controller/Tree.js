@@ -69,22 +69,8 @@ qx.Class.define("qx.data.controller.Tree",
    * 
    * @param labelPath {String?null} The name of the property in the model, 
    *   which holds the value to be displayed as the label of the tree items.
-   * 
-   * @param iconPath {String?null} The name of the property in the model , 
-   *   which holds the value to be used as source of the icon.
-   * 
-   * @param labelOptions {Map?null} The options used for the label binding. The 
-   *   possible options can be found in the {@link qx.data.SingleValueBinding} 
-   *   class.
-   * 
-   * @param iconOptions {Map?null} The options used for the icon binding. The 
-   *   possible options can be found in the {@link qx.data.SingleValueBinding} 
-   *   class.
    */
-  construct : function(
-    model, target, childPath, labelPath, iconPath, labelOptions, iconOptions
-  )
-  {
+  construct : function(model, target, childPath, labelPath)  {
     this.base(arguments);
     
     // internal bindings reference
@@ -93,15 +79,6 @@ qx.Class.define("qx.data.controller.Tree",
     // reference to the child
     this.__childrenRef = {};
     
-    if (iconPath != null) {
-      this.setIconPath(iconPath);
-    }
-    if (labelOptions != null) {
-      this.setLabelOptions(labelOptions);
-    }
-    if (iconOptions != null) {
-      this.setIconOptions(iconOptions);
-    }    
     if (childPath != null) {
       this.setChildPath(childPath);      
     }

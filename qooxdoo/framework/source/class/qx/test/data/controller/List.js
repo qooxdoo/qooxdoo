@@ -412,7 +412,8 @@ qx.Class.define("qx.test.data.controller.List",
         flag = true;
       }
       // create the controller
-      this.__controller = new qx.data.controller.List(this.__model, this.__list, null, null, options);
+      this.__controller = new qx.data.controller.List(this.__model, this.__list);
+      this.__controller.setLabelOptions(options);
       
       // change something to inkoe a change of a binding
       this.__data.pop();
