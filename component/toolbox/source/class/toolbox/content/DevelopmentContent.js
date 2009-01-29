@@ -70,7 +70,7 @@ qx.Class.define("toolbox.content.DevelopmentContent",
     removeButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Removes the selected application")));
     removeButton.setEnabled(false);
 
-    // --Created applications menu
+    // -- created applications menu
     var selectAppMenuButton = new qx.ui.form.MenuButton(null, "toolbox/image/48/folder-open.png");
     this.develWidgets["development.selectAppMenuButton"] = selectAppMenuButton;
     selectAppMenuButton.setEnabled(false);
