@@ -32,19 +32,34 @@ qx.Class.define("toolbox.content.HomeContent",
   construct : function()
   {
     this.base(arguments);
-    var layout = new qx.ui.layout.Grid(5, 5);
+    var layout = new qx.ui.layout.Grid();
     this.setLayout(layout);
     this.setBackgroundColor("white");
-    this.setPadding(4, 4, 4, 4);
-
-    var label = new qx.ui.basic.Label("<b>Welcome in the toolbox</b>").set({ rich : true });
-
-    this.add(label,
+    
+	var general = new qx.ui.toolbar.RadioButton("General");
+    var development = new qx.ui.toolbar.RadioButton("Development");
+    var builtIns = new qx.ui.toolbar.RadioButton("Built-ins");
+    
+    var toolbar = new qx.ui.toolbar.ToolBar;
+    toolbar.setPadding(0, 0, 0, 0);
+    toolbar.setSpacing(0);
+    
+    toolbar.add(general);
+    toolbar.add(development);
+    
+    
+    
+    this.add(toolbar,
     {
       row     : 0,
       column  : 0,
       rowSpan : 0,
       colSpan : 0
     });
+    
+   
+    
+    
+    
   }
 });
