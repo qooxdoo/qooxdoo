@@ -87,6 +87,14 @@ qx.Class.define("toolbox.content.BuiltInContent",
       colSpan : 0
     });
 
+    this.add(this.__getFeedreader(),
+    {
+      row     : 1,
+      column  : 2,
+      rowSpan : 0,
+      colSpan : 0
+    });
+    
     // loads the built-in list
     this.__loadBuiltInList();
   },
@@ -280,7 +288,7 @@ qx.Class.define("toolbox.content.BuiltInContent",
       openSourcePlayground.setEnabled(false);
 
       //open build
-      var openBuildPlayground = new qx.ui.form.Button("   Open Build   ");
+      var openBuildPlayground = new qx.ui.form.Button("   Open Build    ");
       this.builtInWidgets["builtInApps.openBuildPlayground"] = openBuildPlayground;
       openBuildPlayground.addListener("execute", function() {
       	window.open("/application/playground/build/index.html");
@@ -347,7 +355,6 @@ qx.Class.define("toolbox.content.BuiltInContent",
       return box1;
     },
 
-
     /**
      * returns the Testrunner
      *
@@ -376,7 +383,7 @@ qx.Class.define("toolbox.content.BuiltInContent",
       openSourceTestrunner.setEnabled(false);
 
       //open build
-      var openBuildTestrunner = new qx.ui.form.Button("   Open Build   ");
+      var openBuildTestrunner = new qx.ui.form.Button("   Open Build    ");
       this.builtInWidgets["builtInApps.openBuildTestrunner"] = openBuildTestrunner;
       openBuildTestrunner.addListener("execute", function() {
       	window.open("/component/testrunner/build/index.html");
@@ -471,7 +478,7 @@ qx.Class.define("toolbox.content.BuiltInContent",
       openSourcePortal.setEnabled(false);
 
       //open build
-      var openBuildPortal = new qx.ui.form.Button("   Open Build   ");
+      var openBuildPortal = new qx.ui.form.Button("   Open Build    ");
       this.builtInWidgets["builtInApps.openBuildPortal"] = openBuildPortal;
       openBuildPortal.addListener("execute", function() {
       	window.open("/application/portal/build/index.html");
@@ -538,7 +545,101 @@ qx.Class.define("toolbox.content.BuiltInContent",
       return box1;
     },
     
-    
+
+    /**
+     * returns the Feedreader
+     *
+     * @return {var} box1 the Feedreader
+     */
+    __getFeedreader : function()
+    {
+      var box1 = new qx.ui.groupbox.GroupBox();
+      box1.setLayout(new qx.ui.layout.Grid(5, 5));
+
+      //generate source
+      var generateSource = new qx.ui.form.Button("Generate Source");
+      generateSource.addListener("execute", this.__generateFeedreaderSource, this);
+
+      //generate source
+      var generateBuild = new qx.ui.form.Button("Generate Build");
+      generateBuild.addListener("execute", this.__generateFeedreaderBuild, this);
+
+      
+      //open source
+      var openSourceFeedreader = new qx.ui.form.Button("   Open Source   ");
+      this.builtInWidgets["builtInApps.openSourceFeedreader"] = openSourceFeedreader;
+      openSourceFeedreader.addListener("execute", function() {
+      	window.open("/application/feedreader/source/index.html");
+      }, this);
+      openSourceFeedreader.setEnabled(false);
+
+      //open build
+      var openBuildFeedreader = new qx.ui.form.Button("   Open Build    ");
+      this.builtInWidgets["builtInApps.openBuildFeedreader"] = openBuildFeedreader;
+      openBuildFeedreader.addListener("execute", function() {
+      	window.open("/application/feedreader/build/index.html");
+      }, this);
+      openBuildFeedreader.setEnabled(false);
+      
+      
+      var container = new qx.ui.container.Composite(new qx.ui.layout.HBox(5, "left", null));
+      var container2 = new qx.ui.container.Composite(new qx.ui.layout.HBox(5, "left", null));
+      container.add(generateSource);
+      container.add(generateBuild);
+      container2.add(openSourceFeedreader);
+      container2.add(openBuildFeedreader);
+
+      // Feedreader header
+      var feedreaderHeaderLabel = new qx.ui.basic.Label('<h2>Feedreader</h2>').set({ rich : true });
+
+      // Feedreader description
+      var feedreaderDescriptionLabel = new qx.ui.basic.Label('<p>A typical rich internet application (RIA)<br/>for displaying RSS feeds.</p>').set({ rich : true });
+
+      // Playground image
+      var feedreaderImage = new qx.ui.basic.Image("toolbox/image/builtin-apps/feedreader.png");
+
+      box1.add(feedreaderHeaderLabel,
+      {
+        row     : 0,
+        column  : 0,
+        rowSpan : 0,
+        colSpan : 0
+      });
+
+      box1.add(feedreaderImage,
+      {
+        row     : 1,
+        column  : 0,
+        rowSpan : 0,
+        colSpan : 0
+      });
+
+      box1.add(feedreaderDescriptionLabel,
+      {
+        row     : 2,
+        column  : 0,
+        rowSpan : 0,
+        colSpan : 0
+      });
+
+      box1.add(container,
+      {
+        row     : 3,
+        column  : 0,
+        rowSpan : 0,
+        colSpan : 0
+      });
+      
+      box1.add(container2,
+      {
+        row     : 4,
+        column  : 0,
+        rowSpan : 0,
+        colSpan : 0
+      });
+
+      return box1;
+    },
     
     
     /**
@@ -547,7 +648,7 @@ qx.Class.define("toolbox.content.BuiltInContent",
      * @return {void} 
      */
     __loadBuiltInList : function() {
-      toolbox.builder.Builder.prepareList(this.__adminPath, this.myLogFrame, this.builtInWidgets, "buildIn");
+      toolbox.builder.Builder.prepareList(this.__adminPath, this.myLogFrame, this.builtInWidgets, "builtIn");
     },
 
 
@@ -638,6 +739,28 @@ qx.Class.define("toolbox.content.BuiltInContent",
     __generatePortalBuild : function()
     {
       toolbox.builder.Builder.generateTarget(this.__adminPath, "portal", "", this.myLogFrame, this.builtInWidgets, "build", true, "application");
+      return;
+    },
+    
+    /**
+     * generates the source-version of the Feedreader
+     *
+     * @return {void} 
+     */
+    __generateFeedreaderSource : function()
+    {
+    	toolbox.builder.Builder.generateTarget(this.__adminPath, "feedreader", "", this.myLogFrame, this.builtInWidgets, "source", true, "application");
+      return;
+    },
+    
+    /**
+     * generates the build-version of the Feedreader
+     *
+     * @return {void} 
+     */
+    __generateFeedreaderBuild : function()
+    {
+    	toolbox.builder.Builder.generateTarget(this.__adminPath, "feedreader", "", this.myLogFrame, this.builtInWidgets, "build", true, "application");
       return;
     }
   }
