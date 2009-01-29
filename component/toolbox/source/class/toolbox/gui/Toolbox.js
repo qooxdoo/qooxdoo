@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2008 1&1 Internet AG, Germany, http://www.1und1.de
+     2008-09 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -430,16 +430,7 @@ qx.Class.define("toolbox.gui.Toolbox",
       });
 
       container.add(caption);
-
-      this.BuiltInAppHtmlEmbed = new qx.ui.embed.Html('Builds etc. <br>').set(
-      {
-        overflowY : "auto",
-        overflowX : "auto"
-      });
-
-      // this.BuiltInAppHtmlEmbed.setHtml(document.getElementById("builtin_apps").innerHTML);
-      // this.BuiltInAppHtmlEmbed.set({ backgroundColor : "white" });
-      // container.add(this.BuiltInAppHtmlEmbed, { flex : 1 });
+      
       var builtIn = new toolbox.content.BuiltInContent(this.widgets);
       container.add(containerScroll, { flex : 1 });
       containerScroll.add(builtIn);
