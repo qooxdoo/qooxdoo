@@ -112,6 +112,8 @@ qx.Class.define("toolbox.builder.Builder",
                       	widgets["builtInApps.openSourceTestrunner"].setEnabled(true);
                       } else if (fileName == "portal")  {
                       	widgets["builtInApps.openSourcePortal"].setEnabled(true);
+                      } else if (fileName == "feedreader")  {
+                      	widgets["builtInApps.openSourceFeedreader"].setEnabled(true);
                       }
                     } else if (generationType == "build") {
                       toolbox.content.BuiltInContent.BUILTINLIST[i].build = true;
@@ -123,6 +125,8 @@ qx.Class.define("toolbox.builder.Builder",
                       	widgets["builtInApps.openBuildTestrunner"].setEnabled(true);
                       } else if (fileName == "portal")  {
                       	widgets["builtInApps.openBuildPortal"].setEnabled(true);
+                      } else if (fileName == "feedreader")  {
+                      	widgets["builtInApps.openBuildFeedreader"].setEnabled(true);
                       }
                     }
                     var changedBuiltInList = qx.util.Json.stringify(toolbox.content.BuiltInContent.BUILTINLIST, true);
@@ -416,7 +420,7 @@ qx.Class.define("toolbox.builder.Builder",
 
       if (list == "application") {
         req.setData(dat);
-      } else if (list == "buildIn") {
+      } else if (list == "builtIn") {
         req.setData(dat2);
       }
 
@@ -437,7 +441,7 @@ qx.Class.define("toolbox.builder.Builder",
             widgets["development.selectAppMenuButton"].setEnabled(true);
           }
         }
-        else if (list == "buildIn")
+        else if (list == "builtIn")
         {
           this.jsonObject = qx.util.Json.parse(result);
           toolbox.content.BuiltInContent.BUILTINLIST = this.jsonObject;
@@ -455,8 +459,11 @@ qx.Class.define("toolbox.builder.Builder",
                 widgets["builtInApps.openSourceTestrunner"].setEnabled(true);
               } else if (toolbox.content.BuiltInContent.BUILTINLIST[i].name == "portal") {
                 widgets["builtInApps.openSourcePortal"].setEnabled(true);
+              } else if (toolbox.content.BuiltInContent.BUILTINLIST[i].name == "feedreader") {
+                widgets["builtInApps.openSourceFeedreader"].setEnabled(true);
               }
-            } else if (toolbox.content.BuiltInContent.BUILTINLIST[i].build == true)
+            } 
+            if (toolbox.content.BuiltInContent.BUILTINLIST[i].build == true)
             {
               if (toolbox.content.BuiltInContent.BUILTINLIST[i].name == "demobrowser") {
                 widgets["builtInApps.openBuildDemobrowser"].setEnabled(true);
@@ -466,6 +473,8 @@ qx.Class.define("toolbox.builder.Builder",
                 widgets["builtInApps.openBuildTestrunner"].setEnabled(true);
               }	else if (toolbox.content.BuiltInContent.BUILTINLIST[i].name == "portal") {
                 widgets["builtInApps.openBuildPortal"].setEnabled(true);
+              }	else if (toolbox.content.BuiltInContent.BUILTINLIST[i].name == "feedreader") {
+                widgets["builtInApps.openBuildFeedreader"].setEnabled(true);
               }	
             }
           }
