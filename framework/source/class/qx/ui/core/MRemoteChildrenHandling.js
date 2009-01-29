@@ -125,7 +125,7 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
      * @param options {Map?null} Optional layout data for item.
      */
     addAt : function(child, index, options) {
-      return this.getChildrenContainer().addAt(child, index, options);
+      this.getChildrenContainer().addAt(child, index, options);
     },
 
 
@@ -142,7 +142,7 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
      * @param options {Map?null} Optional layout data for item.
      */
     addBefore : function(child, before, options) {
-      return this.getChildrenContainer().addBefore(child, before, options);
+      this.getChildrenContainer().addBefore(child, before, options);
     },
 
 
@@ -159,7 +159,7 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
      * @param options {Map?null} Optional layout data for item.
      */
     addAfter : function(child, after, options) {
-      return this.getChildrenContainer().addAfter(child, after, options);
+      this.getChildrenContainer().addAfter(child, after, options);
     },
 
 
@@ -174,7 +174,7 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
      * @param index {Integer} Index of the item to remove.
      */
     removeAt : function(index) {
-      return this.getChildrenContainer().removeAt(index);
+      this.getChildrenContainer().removeAt(index);
     }
   }
 });
