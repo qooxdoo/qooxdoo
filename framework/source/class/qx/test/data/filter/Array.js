@@ -47,12 +47,12 @@ qx.Class.define("qx.test.data.filter.Array",
     
     testStringFilter: function() {            
       // check if the filter contains the new items
-      this.assertTrue(this.__filter.getFilteredData().contains("A"), "Filter does not work!");
-      this.assertTrue(this.__filter.getFilteredData().contains("B"), "Filter does not work!");
-      this.assertTrue(this.__filter.getFilteredData().contains("C"), "Filter does not work!");
+      this.assertTrue(this.__filter.contains("A"), "Filter does not work!");
+      this.assertTrue(this.__filter.contains("B"), "Filter does not work!");
+      this.assertTrue(this.__filter.contains("C"), "Filter does not work!");
       
       // check the length
-      this.assertEquals(3, this.__filter.getFilteredData().length, "Too much elements in the data.");
+      this.assertEquals(3, this.__filter.length, "Too much elements in the data.");
     },
     
     
@@ -63,11 +63,11 @@ qx.Class.define("qx.test.data.filter.Array",
       this.__filter.setModel(newArray);
       
       // check if the filter contains the new items
-      this.assertTrue(this.__filter.getFilteredData().contains("B"), "Filter does not work!");
-      this.assertTrue(this.__filter.getFilteredData().contains("C"), "Filter does not work!");
+      this.assertTrue(this.__filter.contains("B"), "Filter does not work!");
+      this.assertTrue(this.__filter.contains("C"), "Filter does not work!");
       
       // check the length
-      this.assertEquals(2, this.__filter.getFilteredData().length, "Too much elements in the data.");
+      this.assertEquals(2, this.__filter.length, "Too much elements in the data.");
       
       newArray.dispose();
     },
@@ -77,12 +77,12 @@ qx.Class.define("qx.test.data.filter.Array",
       this.__model.reverse();
 
       // check if the filter contains the new items
-      this.assertTrue(this.__filter.getFilteredData().contains("A"), "Filter does not work!");
-      this.assertTrue(this.__filter.getFilteredData().contains("B"), "Filter does not work!");
-      this.assertTrue(this.__filter.getFilteredData().contains("C"), "Filter does not work!");
+      this.assertTrue(this.__filter.contains("A"), "Filter does not work!");
+      this.assertTrue(this.__filter.contains("B"), "Filter does not work!");
+      this.assertTrue(this.__filter.contains("C"), "Filter does not work!");
       
       // check the length
-      this.assertEquals(3, this.__filter.getFilteredData().length, "Too much elements in the data.");      
+      this.assertEquals(3, this.__filter.length, "Too much elements in the data.");      
     },
     
     
@@ -90,11 +90,11 @@ qx.Class.define("qx.test.data.filter.Array",
       this.__model.shift();
 
       // check if the filter contains the new items
-      this.assertTrue(this.__filter.getFilteredData().contains("B"), "Filter does not work!");
-      this.assertTrue(this.__filter.getFilteredData().contains("C"), "Filter does not work!");
+      this.assertTrue(this.__filter.contains("B"), "Filter does not work!");
+      this.assertTrue(this.__filter.contains("C"), "Filter does not work!");
       
       // check the length
-      this.assertEquals(2, this.__filter.getFilteredData().length, "Too much elements in the data.");      
+      this.assertEquals(2, this.__filter.length, "Too much elements in the data.");      
     },
     
     
@@ -110,12 +110,12 @@ qx.Class.define("qx.test.data.filter.Array",
         
         
       // check if the filter contains the new items
-      this.assertTrue(this.__filter.getFilteredData().contains("D"), "Filter does not work!");
-      this.assertTrue(this.__filter.getFilteredData().contains("E"), "Filter does not work!");
-      this.assertTrue(this.__filter.getFilteredData().contains("F"), "Filter does not work!");
-      this.assertTrue(this.__filter.getFilteredData().contains("G"), "Filter does not work!");      
+      this.assertTrue(this.__filter.contains("D"), "Filter does not work!");
+      this.assertTrue(this.__filter.contains("E"), "Filter does not work!");
+      this.assertTrue(this.__filter.contains("F"), "Filter does not work!");
+      this.assertTrue(this.__filter.contains("G"), "Filter does not work!");      
       // check the length
-      this.assertEquals(4, this.__filter.getFilteredData().length, "Too much elements in the data.");        
+      this.assertEquals(4, this.__filter.length, "Too much elements in the data.");        
     },
     
     
@@ -123,7 +123,7 @@ qx.Class.define("qx.test.data.filter.Array",
       this.__filter.setModel(null);
       
       // check the length
-      this.assertEquals(0, this.__filter.getFilteredData().length, "Too much elements in the data.");      
+      this.assertEquals(0, this.__filter.length, "Too much elements in the data.");      
     },
     
     
@@ -131,7 +131,7 @@ qx.Class.define("qx.test.data.filter.Array",
       this.__filter.setRule(null);
       
       // check the length
-      this.assertEquals(7, this.__filter.getFilteredData().length, "Too much elements in the data.");      
+      this.assertEquals(7, this.__filter.length, "Too much elements in the data.");      
     },
     
     
@@ -150,9 +150,57 @@ qx.Class.define("qx.test.data.filter.Array",
       var filter = new qx.data.filter.Array(model, rule);
       
       // check if only objects 
-      for (var i = 0; i < filter.getFilteredData().length; i++) {
-        this.assertEquals(1, filter.getFilteredData().getItem(i).getZIndex(), "Wrong object in the filtered data.");
+      for (var i = 0; i < filter.length; i++) {
+        this.assertEquals(1, filter.getItem(i).getZIndex(), "Wrong object in the filtered data.");
       }
+      
+      // check for the length
+      this.assertEquals(5, filter.length, "Too much elements in the data.");      
+    },
+    
+    
+    testObjectWithPropertyChangeSingle: function() {
+      var model = new qx.data.Array();
+      // create an array with objects
+      for (var i = 0; i < 10; i++) {
+        model.push(new qx.ui.core.Widget());
+        model.getItem(i).setZIndex(i % 2);
+      }
+      
+      var rule = function(data) {
+        return data.getZIndex() == 1; 
+      }
+      
+      var filter = new qx.data.filter.Array(model, rule);
+      filter.setUpdateProperty("zIndex");
+      
+      // check if only objects 
+      for (var i = 0; i < filter.length; i++) {
+        this.assertEquals(1, filter.getItem(i).getZIndex(), "Wrong object in the filtered data.");
+      }
+      
+      // set all zIndex values to 0
+      for (var i = 0; i < model.length; i++) {
+        model.getItem(i).setZIndex(0);
+      }
+      
+      // check if the filteredData is empty
+      this.assertEquals(0, filter.length, "Too much elements in the data.");      
+    },
+    
+    
+    testWithController: function() {
+      var list = new qx.ui.form.List();
+      // create the controller
+      this.__controller = new qx.data.controller.List(this.__filter, list);
+      
+      // check how many listitems are shown
+      this.assertEquals(3, list.getChildren().length, "Too much elements in the list.");
+      
+      // check if the list contains the new items
+      this.assertEquals("A", list.getChildren()[0].getLabel(),"Filter does not work!");
+      this.assertEquals("B", list.getChildren()[1].getLabel(), "Filter does not work!");
+      this.assertEquals("C", list.getChildren()[2].getLabel(), "Filter does not work!");
     }
     
 
