@@ -147,7 +147,7 @@ qx.Class.define("qx.test.data.controller.ListWithObjects",
     testChangeModelSmaller: function() {
       // create the controller
       this.__controller = new qx.data.controller.List(this.__model, this.__list, "name");
-            
+      
       // create the model
       this.__data = [];
       for (var i = 0; i < 2; i++) {
@@ -172,7 +172,8 @@ qx.Class.define("qx.test.data.controller.ListWithObjects",
     
     testIcon: function() {
       // create the controller
-      this.__controller = new qx.data.controller.List(this.__model, this.__list, "name", "icon");
+      this.__controller = new qx.data.controller.List(this.__model, this.__list, "name");
+      this.__controller.setIconPath("icon");
       
       // check the label binding
       for (var i = 0; i < this.__data.length; i++) {
@@ -189,7 +190,8 @@ qx.Class.define("qx.test.data.controller.ListWithObjects",
     
     testChangeIconPath: function() {
       // create the controller
-      this.__controller = new qx.data.controller.List(this.__model, this.__list, "name", "icon");
+      this.__controller = new qx.data.controller.List(this.__model, this.__list, "name");
+      this.__controller.setIconPath("icon");
       
       // check the binding
       for (var i = 0; i < this.__data.length; i++) {
@@ -222,9 +224,11 @@ qx.Class.define("qx.test.data.controller.ListWithObjects",
       }      
       
       // create the controller
-      this.__controller = new qx.data.controller.List(
-        this.__model, this.__list, "name", "icon", labelOptions, iconOptions
-      );
+      this.__controller = new qx.data.controller.List(this.__model, this.__list, "name");
+      this.__controller.setIconPath("icon");
+      this.__controller.setLabelOptions(labelOptions);
+      this.__controller.setIconOptions(iconOptions);
+      
       
       // check the label binding
       for (var i = 0; i < this.__data.length; i++) {
