@@ -88,6 +88,7 @@ qx.Class.define("qx.data.Array",
      * <li>end: The end index of the change.</li>
      * <li>type: The type of the change as a String. This can be 'add',  
      * 'remove' or 'order'</li>
+     * <li>item: The item which has been changed.</li>
      */
     "change" : "qx.event.type.Data",
     
@@ -187,7 +188,7 @@ qx.Class.define("qx.data.Array",
       var value = this.__array.shift();
       this.__updateLength();
       this.fireDataEvent("change", 
-        {start: 0, end: this.length -1, type: "remove"}, null
+        {start: 0, end: this.length -1, type: "remove", item: value}, null
       );
       return value;
     },
@@ -235,10 +236,13 @@ qx.Class.define("qx.data.Array",
       // remove the objects
       for (var i = startIndex; i < end; i++) {
         // remove the last element
-        returnArray.push(this.__array.splice(startIndex, 1)[0]);
+        var item = this.__array.splice(startIndex, 1)[0]
+        returnArray.push(item);
         this.__updateLength();
         this.fireDataEvent("change", 
-          {start: startIndex, end: this.length - 1, type: "remove"}, null
+          {
+            start: startIndex, end: this.length - 1, type: "remove", item: item
+          }, null
         );
       }
 
@@ -250,7 +254,10 @@ qx.Class.define("qx.data.Array",
           this.__array.splice(startIndex, 0, arguments[i]);
           this.__updateLength();
           this.fireDataEvent("change", 
-            {start: startIndex, end: this.length - 1, type: "add"}, null
+            {
+              start: startIndex, end: this.length - 1, 
+              type: "add", item: arguments[i]
+            }, null
           );
         }
       }
@@ -269,7 +276,7 @@ qx.Class.define("qx.data.Array",
     sort: function(func) {
       this.__array.sort.apply(this.__array, arguments);
       this.fireDataEvent("change", 
-        {start: 0, end: this.length - 1, type: "order"}, null
+        {start: 0, end: this.length - 1, type: "order", item: null}, null
       );
     },
 
@@ -285,7 +292,9 @@ qx.Class.define("qx.data.Array",
         this.__array.unshift(arguments[i])
         this.__updateLength();
         this.fireDataEvent("change", 
-          {start: 0, end: this.length - 1, type: "add"}, null
+          {
+            start: 0, end: this.length - 1, type: "add", item: arguments[i]
+          }, null
         );
       }
       return this.length;
@@ -330,7 +339,7 @@ qx.Class.define("qx.data.Array",
         this.__updateLength();        
       }
       this.fireDataEvent("change", 
-        {start: index, end: index, type: "add"}, null
+        {start: index, end: index, type: "add", item: item}, null
       );
     },
     
