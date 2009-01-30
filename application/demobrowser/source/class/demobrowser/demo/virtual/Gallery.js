@@ -92,20 +92,7 @@ qx.Class.define("demobrowser.demo.virtual.Gallery",
         scrollbarY: "auto"
       });
       
-      scroller.pane.addListener("resize", function(e)
-      {
-        var width = e.getData().width;
-        
-        var colCount = Math.floor(width/this.itemWidth);
-        var rowCount = Math.ceil(this.itemCount/colCount);
-        
-        scroller.pane.columnConfig.setItemCount(colCount);
-        scroller.pane.rowConfig.setItemCount(rowCount);
-        
-        scroller.pane.fullUpdate();
-        
-        this.itemPerLine = colCount;
-      }, this);
+      scroller.pane.addListener("resize", this._onPaneResize, this);
       
       if (useWidgets) {
         scroller.pane.addLayer(new qx.ui.virtual.layer.WidgetCell(this));
@@ -115,6 +102,25 @@ qx.Class.define("demobrowser.demo.virtual.Gallery",
         
       win.add(scroller);
       return win;
+    },
+    
+    
+    _onPaneResize : function(e)
+    {
+      var pane = e.getTarget();
+      var width = e.getData().width;
+      
+      var colCount = Math.floor(width/this.itemWidth);
+      if (colCount == this.itemsPerLine) {
+        return;
+      }
+      this.itemPerLine = colCount;
+      var rowCount = Math.ceil(this.itemCount/colCount);
+      
+      pane.columnConfig.setItemCount(colCount);
+      pane.rowConfig.setItemCount(rowCount);
+      
+      pane.fullUpdate();
     },
     
     
