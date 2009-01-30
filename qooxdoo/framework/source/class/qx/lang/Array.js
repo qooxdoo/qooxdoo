@@ -15,6 +15,20 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
+     
+   ======================================================================
+
+   This class contains code based on the following work:
+     
+   * jQuery
+     http://jquery.com
+     Version 1.3.1
+
+     Copyright:
+       2009 John Resig
+
+     License:
+       MIT: http://www.opensource.org/licenses/mit-license.php         
 
 ************************************************************************ */
 
@@ -32,6 +46,17 @@ qx.Bootstrap.define("qx.lang.Array",
 {
   statics :
   {
+    /**
+     * Returns whether the given object is an array
+     *
+     * @param obj {Object} Any object
+     * @return {Boolean} whether the given object is an array
+     */    
+    isArray: function(obj) {
+      return Object.prototype.toString.call(obj) === "[object Array]";
+    },
+      
+
     /**
      * Convert an arguments object into an arr
      *

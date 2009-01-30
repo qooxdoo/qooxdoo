@@ -57,11 +57,26 @@ qx.Bootstrap.define("qx.lang.Function",
   statics :
   {
     /**
+     * Returns whether the given object is a function
+     *
+     * @param obj {Object} Any object
+     * @return {Boolean} whether the given object is a function
+     */
+    isFunction: function(obj)
+    {
+      // Since version 1.3, DOM methods and functions like alert
+      // aren't supported. They return false on IE (see jQuery bug #2968).
+
+      return Object.prototype.toString.call(obj) === "[object Function]";
+    },    
+    
+    
+    /**
      * Extract the caller of a function from the arguments variable.
      * This will not work in Opera.
      *
      * @param args {arguments} The local arguments variable
-     * @return {Function | undefined} A reference to the calling function or "undefined" if caller is not supported.
+     * @return {Function} A reference to the calling function or "undefined" if caller is not supported.
      */
     getCaller : function(args) {
       return args.caller ? args.caller.callee : args.callee.caller;
