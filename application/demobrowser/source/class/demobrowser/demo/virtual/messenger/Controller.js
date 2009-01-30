@@ -76,8 +76,6 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Controller",
      */
     _modelLengthChange: function()
     {
-      // TODO: enabled listeners for item entries
-      return ;
       if (this.__oldModelLength > this.getModel().length)
       {
         for (var i = this.__oldModelLength; i < this.getModel().length; i++) {
