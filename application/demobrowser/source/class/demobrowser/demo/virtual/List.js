@@ -58,12 +58,12 @@ qx.Class.define("demobrowser.demo.virtual.List",
         }
         //!(i % 9) && (item.setEnabled(false));
 
+        configList.add(item);
+        
         // Pre-Select "Item No 20"
         if (i==20) {
           configList.setSelected(item);
-        }
-
-        configList.add(item);
+        }        
       };
 
       configList.addListener("changeValue", function(e) {
@@ -183,12 +183,12 @@ qx.Class.define("demobrowser.demo.virtual.List",
       {
         item = new qx.ui.virtual.form.ListItem("Item No " + i, "icon/16/places/folder.png");
 
+        oneList.add(item);
+        
         // Pre-Select "Item No 16"
         if (i==16) {
           oneList.setSelected(item);
-        }
-
-        oneList.add(item);
+        }        
       };
 
       this.getRoot().add(oneList, {left: 330, top: 40});

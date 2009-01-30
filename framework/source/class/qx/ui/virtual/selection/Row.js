@@ -20,24 +20,7 @@
 
 qx.Class.define("qx.ui.virtual.selection.Row",
 {
-  extend : qx.ui.core.selection.Abstract,
-   
-  
-  /*
-   *****************************************************************************
-      CONSTRUCTOR
-   *****************************************************************************
-   */
-
-  /**
-   * @param scroller {qx.ui.virtual.core.Scroller} The virtual scroller to connect to
-   */
-  construct : function(scroller)
-  {
-    this.base(arguments);
-
-    this.__scroller = scroller;
-  },
+  extend : qx.ui.virtual.selection.Abstract,
    
    
   /*
@@ -47,34 +30,27 @@ qx.Class.define("qx.ui.virtual.selection.Row",
   */
  
   members :
-  {   
+  {  
     // overridden
-    _capture : function() {
-      this.__scroller.capture();
-    },
-
-
-    // overridden
-    _releaseCapture : function() {
-      this.__scroller.releaseCapture();
-    },    
-    
-    
     _getSelectableFromMouseEvent : function(event)
     {
-      var pane = this.__scroller.pane;
       var mouseTop = event.getDocumentTop();
-      var paneTop = pane.getContentLocation().top;
-      var row = pane.rowConfig.getItemAtPosition(pane.getScrollY() + mouseTop - paneTop).index;
+      var paneTop = this._pane.getContentLocation().top;
+      
+      var row = this._pane.rowConfig.getItemAtPosition(
+        this._pane.getScrollY() + mouseTop - paneTop
+      ).index;
+      
       return this._isSelectable(row) ? row : null;
     },        
     
     
+    // overridden
     getSelectables : function() 
     {
       var selectables = [];
       
-      for (var i=0, l=this.__scroller.pane.rowConfig.getItemCount(); i<l; i++) 
+      for (var i=0, l=this._pane.rowConfig.getItemCount(); i<l; i++) 
       {
         if (this._isSelectable(i)) {
           selectables.push(i);
@@ -85,6 +61,7 @@ qx.Class.define("qx.ui.virtual.selection.Row",
     },
 
 
+    // overridden
     _getSelectableRange : function(item1, item2)
     {
       var selectables = [];
@@ -102,9 +79,10 @@ qx.Class.define("qx.ui.virtual.selection.Row",
     },
 
 
+    // overridden
     _getFirstSelectable : function() 
     {
-      var count = this.__scroller.getChildren().length;
+      var count = this._pane.rowConfig.getItemCount();
       for (var i=0; i<count; i++) 
       {
         if (this._isSelectable(i)) {
@@ -115,9 +93,10 @@ qx.Class.define("qx.ui.virtual.selection.Row",
     },
 
 
+    // overridden
     _getLastSelectable : function() 
     {
-      var count = this.__scroller.getChildren().length;
+      var count = this._pane.rowConfig.getItemCount();
       for (var i=count-1; i>=0; i--) 
       {
         if (this._isSelectable(i)) {
@@ -128,6 +107,7 @@ qx.Class.define("qx.ui.virtual.selection.Row",
     },
 
 
+    // overridden
     _getRelatedSelectable : function(item, relation) 
     {
       var related = -1;
@@ -138,7 +118,7 @@ qx.Class.define("qx.ui.virtual.selection.Row",
       }
       
       if (
-        related >= this.__scroller.getChildren().length ||
+        related >= this._pane.rowConfig.getItemCount() ||
         related < 0
       ) {
         return null;
@@ -148,6 +128,7 @@ qx.Class.define("qx.ui.virtual.selection.Row",
     },
 
 
+    // overridden
     _getPage : function(lead, up) 
     {
       if (up) {
@@ -158,58 +139,45 @@ qx.Class.define("qx.ui.virtual.selection.Row",
     },    
     
     
+    // overridden
     _isSelectable : function(item) {
       return true;
     },
     
     
+    // overridden
     _selectableToHashCode : function(item) {
       return item;
     },
     
     
-    _styleSelectable : function(item, type, enabled) {
-      this.__scroller.updateSelection();
+    // overridden
+    _styleSelectable : function(item, type, enabled) {      
     },
     
     
-    _getScroll : function()
-    {
-      return {
-        left : this.__scroller.getScrollX(),
-        top : this.__scroller.getScrollY()
-      };
-    },
-    
-
-    _scrollBy : function(xoff, yoff) 
-    {
-      this.__scroller.scrollByX(xoff);
-      this.__scroller.scrollByY(yoff);
-    },
-    
-    
+    // overridden
     _scrollItemIntoView : function(item) 
     {
-      var bounds = this.__scroller.pane.getBounds();
+      var bounds = this._pane.getBounds();
       if (!bounds) 
       {
-        this.__scroller.pane.addListenerOnce("appear", function() {
+        this._pane.addListenerOnce("appear", function() {
           this._scrollItemIntoView(item);
         }, this);
         return;
       }
 
-      var rowConfig = this.__scroller.pane.rowConfig;
+      var rowConfig = this._pane.rowConfig;
       var itemTop = rowConfig.getItemPosition(item);
       var itemBottom = itemTop + rowConfig.getItemSize(item);
-      var scrollTop = this.__scroller.getScrollY();
+      var scrollTop = this._pane.getScrollY();
      
       
       if (itemTop < scrollTop) {
-        this.__scroller.scrollToY(itemTop);
+        this._pane.setScrollY(itemTop);
       } else if (itemBottom > scrollTop + bounds.height) {
-        this.__scroller.scrollToY(itemBottom - bounds.height);
+        this._pane.setScrollY(itemBottom - bounds.height);
       }
     },
     
@@ -219,7 +187,7 @@ qx.Class.define("qx.ui.virtual.selection.Row",
     {
       return {
         left: 0,
-        right: this.__scroller.columnConfig.getTotalSize() - 1
+        right: this._pane.columnConfig.getTotalSize() - 1
       };
     },
 
@@ -227,7 +195,7 @@ qx.Class.define("qx.ui.virtual.selection.Row",
     // overridden
     _getSelectableLocationY : function(item) 
     {
-      var rowConfig = this.__scroller.pane.rowConfig;
+      var rowConfig = this._pane.rowConfig;
       
       var itemTop = rowConfig.getItemPosition(item);
       var itemBottom = itemTop + rowConfig.getItemSize(item) - 1;
@@ -236,20 +204,6 @@ qx.Class.define("qx.ui.virtual.selection.Row",
         top: itemTop,
         bottom: itemBottom
       }
-    },    
-
-    
-    // overridden
-    _getLocation : function()
-    {
-      var elem = this.__scroller.pane.getContentElement().getDomElement();
-      return elem ? qx.bom.element.Location.get(elem) : null;
-    },
-    
-    
-    // overridden
-    _getDimension : function() {
-      return this.__scroller.pane.getInnerSize();
-    }    
+    }
   }
 });
