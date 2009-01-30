@@ -27,18 +27,24 @@ qx.Class.define("qx.ui.virtual.form.List",
     qx.ui.core.ISingleSelection,
     qx.ui.core.IMultiSelection
   ],
-  include : [qx.ui.core.MSelectionHandling],
 
+  
   construct : function()
   {
     this.base(arguments, 0, 1, this.getItemHeight(), 10);
     
     this.__widgetLayer = new qx.ui.virtual.layer.WidgetCell(this);
-    this.pane.addLayer(this.__widgetLayer)
-    
+    this.pane.addLayer(this.__widgetLayer)    
     this.pane.addListener("resize", this._onResize, this);
+    
     this.__items = [];
     this.__pool = [];
+    
+    this.__selectionManager = new qx.ui.virtual.selection.Row(this.pane);
+    this.__selectionManager.addListener("changeSelection", this._onChangeSelection, this);
+    this.__selectionManager.attachMouseEvents();
+    this.__selectionManager.attachKeyEvents(this);
+    this.__selectionManager.attachListEvents(this);
     
     var prefetch = new qx.ui.virtual.behavior.Prefetch(
       this,
@@ -78,7 +84,11 @@ qx.Class.define("qx.ui.virtual.form.List",
      * Fired on every modification of the selection which also means that the
      * value has been modified.
      */
-    changeValue : "qx.event.type.Data"
+    changeValue : "qx.event.type.Data",
+    
+    
+    /** Fires after the selection was modified */
+    changeSelection : "qx.event.type.Data"    
   },
 
 
@@ -132,13 +142,55 @@ qx.Class.define("qx.ui.virtual.form.List",
       event : "changeName"
     },
     
+    
     itemHeight :
     {
       init : 24,
       themeable : true,
       check : "Number",
       apply : "_applyItemHeight"
-    }
+    },
+    
+    
+    /**
+     * The selection mode to use.
+     *
+     * For further details please have a look at:
+     * {@link qx.ui.core.selection.Abstract#mode}
+     */
+    selectionMode :
+    {
+      check : [ "single", "multi", "additive", "one" ],
+      init : "single",
+      apply : "_applySelectionMode"
+    },
+
+
+    /**
+     * Enable drag selection (multi selection of items through
+     * dragging the mouse in pressed states).
+     *
+     * Only possible for the selection modes <code>multi</code> and <code>additive</code>
+     */
+    dragSelection :
+    {
+      check : "Boolean",
+      init : false,
+      apply : "_applyDragSelection"
+    },
+
+
+    /**
+     * Enable quick selection mode, where no click is needed to change the selection.
+     *
+     * Only possible for the modes <code>single</code> and <code>one</code>.
+     */
+    quickSelection :
+    {
+      check : "Boolean",
+      init : false,
+      apply : "_applyQuickSelection"
+    }    
   },
 
 
@@ -175,7 +227,7 @@ qx.Class.define("qx.ui.virtual.form.List",
         var widget = widgets[i];
         var row = widget.getUserData("row");
         
-        if (this.isSelected(row)) {
+        if (this.__selectionManager.isItemSelected(row)) {
           widget.addState("selected");
         } else {
           widget.removeState("selected");
@@ -183,16 +235,7 @@ qx.Class.define("qx.ui.virtual.form.List",
       }
     },
     
-    
-    /*
-    ---------------------------------------------------------------------------
-      SELECTION API
-    ---------------------------------------------------------------------------
-    */
-
-    /** {Class} Pointer to the selection manager to use */
-    SELECTION_MANAGER : qx.ui.virtual.selection.Row,
-    
+        
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLER
@@ -209,6 +252,12 @@ qx.Class.define("qx.ui.virtual.form.List",
       qx.ui.core.queue.Widget.add(this);
     },
 
+    _onChangeSelection : function(e) 
+    {
+      this.updateSelection();
+      this.fireDataEvent("changeSelection", this.__rowsToItems(e.getData()));
+    },
+    
     
     /*
     ---------------------------------------------------------------------------
@@ -230,7 +279,7 @@ qx.Class.define("qx.ui.virtual.form.List",
         icon : data.getIcon()
       });
       
-      if (this.isSelected(row)) {
+      if (this.__selectionManager.isItemSelected(row)) {
         widget.addState("selected");
       } else {
         widget.removeState("selected");
@@ -306,12 +355,12 @@ qx.Class.define("qx.ui.virtual.form.List",
       this.setSelection(result);
     },
 
+    
     /*
     ---------------------------------------------------------------------------
       CHILDREN HANDLING
     ---------------------------------------------------------------------------
     */
-
 
     /**
      * Returns the children list
@@ -482,6 +531,236 @@ qx.Class.define("qx.ui.virtual.form.List",
     {
       this.__items.splice(index, 1);
       this._removeHelper(child);
-    }        
+    },
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      SELECTION HANDLING
+    ---------------------------------------------------------------------------
+    */    
+    
+    __itemToRow : function(item) 
+    {
+      var row = this.__items.indexOf(item);
+      if (row < 0) {
+        return null;
+      } else {
+        return row;
+      }
+    },
+    
+    
+    __rowToItem : function(row)
+    {
+      var item = this.__items[row];      
+      return item;
+    },
+    
+    
+    __itemsToRows : function(items)
+    {
+      var rows = [];
+      for (var i=0; i<items.length; i++) {
+        rows.push(this.__itemToRow(items[i]));
+      }
+      return rows;
+    },
+    
+    
+    __rowsToItems : function(rows)
+    {
+      var items = [];
+      for (var i=0; i<rows.length; i++) {
+        items.push(this.__items[rows[i]]);
+      }
+      return items;
+    },
+    
+    
+    /**
+     * Selects all items of the managed object.
+     */
+    selectAll : function() {
+      this.__selectionManager.selectAll();
+    },
+
+    
+    /**
+     * Selects the given item. Replaces current selection
+     * completely with the new item.
+     *
+     * @param item {Object} Any valid item
+     * @return {void}
+     */
+    setSelected : function(item) {
+      this.__selectionManager.selectItem(this.__itemToRow(item));
+    },
+
+    
+    /**
+     * Detects whether the given item is currently selected.
+     *
+     * @param item {Object} Any valid selectable item
+     * @return {Boolean} Whether the item is selected
+     */
+    isSelected : function(item) {
+      return this.__selectionManager.isItemSelected(this.__itemToRow(item));
+    },
+
+
+    /**
+     * Adds the given item to the existing selection.
+     *
+     * Use {@link #selectItem} instead if you want to replace
+     * the current selection.
+     *
+     * @param item {Object} Any valid item
+     * @return {void}
+     */
+    addToSelection : function(item) {
+      this.__selectionManager.addItem(this.__itemToRow(item));
+    },
+
+
+    /**
+     * Removes the given item from the selection.
+     *
+     * Use {@link #clearSelection} when you want to clear
+     * the whole selection at once.
+     *
+     * @param item {Object} Any valid item
+     * @return {void}
+     */
+    removeFromSelection : function(item) {
+      this.__selectionManager.removeItem(this.__itemToRow(item));
+    },
+
+
+    /**
+     * Selects an item range between two given items.
+     *
+     * @param begin {Object} Item to start with
+     * @param end {Object} Item to end at
+     * @return {void}
+     */
+    selectRange : function(begin, end) {
+      this.__selectionManager.selectItemRange(
+        this.__itemToRow(begin), 
+        this.__itemToRow(end)
+      );
+    },
+    
+
+    /**
+     * Clears the whole selection at once.
+     *
+     * @return {void}
+     */
+    resetSelection : function() {
+      this.__selectionManager.clearSelection();
+    },
+
+    
+    /**
+     * Replaces current selection with the given items.
+     *
+     * @param items {Object} Items to select
+     * @return {void}
+     */
+    setSelection : function(items) {
+      this.__selectionManager.replaceSelection(this.__itemsToRows(items));
+    },
+    
+    
+    /**
+     * Get the selected item. This method does only work in <code>single</code>
+     * selection mode.
+     *
+     * @deprecated Use 'getSelected' instead!
+     * @return {Object} The selected item.
+     */
+    getSelectedItem : function() {
+      return this.__items[this.getSelected()];
+    },
+    
+    
+    /**
+     * Get the selected item.
+     *
+     * @return {Object} The selected item.
+     */
+    getSelected : function() {
+      return this.__items[this.__selectionManager.getSelectedItem()];
+    },
+
+
+    /**
+     * Returns an array of currently selected items.
+     *
+     * @return {Object[]} List of items.
+     */
+    getSelection : function() {
+      return this.__rowsToItems(this.__selectionManager.getSelection());
+    },
+
+
+    /**
+     * Returns an array of currently selected items sorted
+     * by their index in the container.
+     *
+     * @return {Object[]} Sorted list of items
+     */
+    getSortedSelection : function() {
+      return this.__rowsToItems(this.__selectionManager.getSortedSelection());
+    },
+
+
+    /**
+     * Whether the selection is empty
+     *
+     * @return {Boolean} Whether the selection is empty
+     */
+    isSelectionEmpty : function() {
+      return this.__selectionManager.isSelectionEmpty();
+    },
+
+
+    /**
+     * Returns the last selection context. One of <code>click</code>,
+     * <code>quick</code>, <code>drag</code> or <code>key</code> or
+     * <code>null</code>.
+     */
+    getSelectionContext : function() {
+      return this.__selectionManager.getSelectionContext();
+    },
+
+
+    /**
+     * Returns all elements which are selectable.
+     * 
+     * @return {LayoutItem[]} The contained items.
+     */
+    getSelectables: function() {
+      return this.__rowsToItems(this.__selectionManager.getSelectables());
+    },
+    
+    
+    // property apply
+    _applySelectionMode : function(value, old) {
+      this.__selectionManager.setMode(value);
+    },
+
+
+    // property apply
+    _applyDragSelection : function(value, old) {
+      this.__selectionManager.setDrag(value);
+    },
+
+
+    // property apply
+    _applyQuickSelection : function(value, old) {
+      this.__selectionManager.setQuick(value);
+    }    
   }
 });
