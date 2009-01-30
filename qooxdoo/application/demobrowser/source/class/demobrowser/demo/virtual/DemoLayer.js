@@ -31,11 +31,11 @@
 
 qx.Class.define("demobrowser.demo.virtual.DemoLayer",
 {
-  extend : qx.ui.virtual.layer.AbstractWidget,
+  extend : qx.ui.virtual.layer.WidgetCell,
   
   construct : function()
   {
-    this.base(arguments);
+    this.base(arguments, this);
     this._pool = {
       atom : [],
       checkbox : []
@@ -71,8 +71,8 @@ qx.Class.define("demobrowser.demo.virtual.DemoLayer",
     },
     
     
-    _getWidget : function(row, column)
-    {
+    getCellWidget : function(row, column)
+    {  
       var widget;
 
       if (column % 2 == 0)
@@ -87,6 +87,7 @@ qx.Class.define("demobrowser.demo.virtual.DemoLayer",
             this.__rowData[row][column].icon = icon;
           }, this);
         }
+        widget.set(this.getCellData(row, column));
       }
       else
       {
@@ -96,14 +97,22 @@ qx.Class.define("demobrowser.demo.virtual.DemoLayer",
           widget = new qx.ui.form.CheckBox();        
           widget.addListener("changeChecked", function(){
             this.setLabel(this.getLabel() == "foobar!" ? widget.getUserData("row") + " / " + widget.getUserData("column") : "foobar!");
-          }, widget)
+          }, widget);
         }
+        widget.set({
+          checked : row % 2 == 0,
+          label : row + " / " + column
+        });        
       }
 
+      widget.setUserData("row", row);
+      widget.setUserData("column", column);
+      
       return widget;
     },
 
-    _poolWidget: function(widget) {
+    
+    poolCellWidget: function(widget) {
       if (widget.classname == "qx.ui.basic.Atom") {
         this._pool.atom.push(widget)
       } else {
@@ -111,22 +120,6 @@ qx.Class.define("demobrowser.demo.virtual.DemoLayer",
       }
     },
 
-    _configureWidget : function(widget, row, column)
-    {
-      if (column % 2 == 0)
-      {
-        widget.set(this.getCellData(row, column));
-      }
-      else
-      {
-        widget.set({
-          checked : row % 2 == 0,
-          label : row + " / " + column
-        });
-      }
-      widget.setUserData("row", row);
-      widget.setUserData("column", column);
-    },
 
     __generateName : function()
     {
