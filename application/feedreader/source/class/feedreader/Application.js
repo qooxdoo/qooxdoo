@@ -190,10 +190,10 @@ qx.Class.define("feedreader.Application",
       this.__treeController = new qx.data.controller.Tree(
         this._feedFolder, this._treeView, "feeds", "title"
       );
+      // set the options for the icon binding
+      this.__treeController.setIconOptions(iconOptions);      
       // set the property for the icon binding
       this.__treeController.setIconPath("state");
-      // set the options for the icon binding
-      this.__treeController.setIconOptions(iconOptions);
       
       // bind the list //
       // create the controller which binds ths list
