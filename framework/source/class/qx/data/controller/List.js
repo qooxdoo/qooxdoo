@@ -396,8 +396,10 @@ qx.Class.define("qx.data.controller.List",
       // get the last binding id
       var index = this.getTarget().getChildren().length - 1;
       this.__removeBindingsFrom(index);
+      // get the item
+      var oldItem = this.getTarget().getChildren()[index];
       // remove the item
-      var oldItem = this.getTarget().removeAt(index);
+      this.getTarget().removeAt(index);
       oldItem.destroy();
     },    
     
