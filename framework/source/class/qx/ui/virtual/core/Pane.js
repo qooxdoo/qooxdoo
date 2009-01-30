@@ -59,20 +59,15 @@ qx.Class.define("qx.ui.virtual.core.Pane",
   events :
   {
     /** Fired on resize of either the container or the (virtual) content. */
-    "update" : "qx.event.type.Event",
+    update : "qx.event.type.Event",
+        
+    scrollX : "qx.event.type.Data",
     
-    /** Dispatched when a data cell has been clicked. */
-    "cellClick" : "qx.ui.table.pane.CellEvent",
-
-    /** Dispatched when a data cell has been clicked. */
-    "cellDblclick" : "qx.ui.table.pane.CellEvent",
-
-    /** Dispatched when the context menu is needed in a data cell */
-    "cellContextmenu" : "qx.ui.table.pane.CellEvent"  
+    scrollY : "qx.event.type.Data"    
   },
    
   
- /*
+  /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
@@ -210,9 +205,11 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       }
       
       if (this.__scrollTop !== value)
-      {
+      {        
+        var old = this.__scrollTop;
         this.__scrollTop = value;
         this.updateScrollPosition();
+        this.fireDataEvent("scrollY", value, old);
       }
     },
     
@@ -243,9 +240,12 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       }
       
       if (value !== this.__scrollLeft)
-      {
+      {                
+        var old = this.__scrollLeft;
         this.__scrollLeft = value;
         this.updateScrollPosition();
+                
+        this.fireDataEvent("scrollX", value, old);
       }
     },
 
