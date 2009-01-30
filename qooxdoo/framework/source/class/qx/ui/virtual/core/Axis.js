@@ -70,7 +70,11 @@ qx.Class.define("qx.ui.virtual.core.Axis",
       if (cellIndex >= this.itemCount) {
         return;
       }
-      this.customSizes[cellIndex] = size;
+      if (cellIndex === null) {
+        delete this.customSizes[cellIndex];
+      } else {
+        this.customSizes[cellIndex] = size;
+      }
       this.__ranges = null;
     },
     
@@ -119,7 +123,7 @@ qx.Class.define("qx.ui.virtual.core.Axis",
         return ranges;
       }
       
-      indexes.sort();
+      indexes.sort(function(a,b) { return a > b});
       
       var ranges = [];
       var correctionSum = 0;      
@@ -203,7 +207,7 @@ qx.Class.define("qx.ui.virtual.core.Axis",
      */
     getItemAtPosition : function(position) 
     {
-      if (position < 0) 
+      if (position <= 0) 
       {
         return {
           index: 0,

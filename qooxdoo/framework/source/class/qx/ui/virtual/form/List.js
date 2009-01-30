@@ -31,13 +31,22 @@ qx.Class.define("qx.ui.virtual.form.List",
 
   construct : function()
   {
-    this.base(arguments, 0, 1, this.getItemHeight(), 0);
+    this.base(arguments, 0, 1, this.getItemHeight(), 10);
     
-    this.pane.addLayer(new qx.ui.virtual.layer.WidgetCell(this))
+    this.__widgetLayer = new qx.ui.virtual.layer.WidgetCell(this);
+    this.pane.addLayer(this.__widgetLayer)
     
     this.pane.addListener("resize", this._onResize, this);
     this.__items = [];
     this.__pool = [];
+    
+    var prefetch = new qx.ui.virtual.behavior.Prefetch(
+      this,
+      0, 0, 0, 0,
+      400, 600, 400, 600
+    ).set({
+      interval: 500
+    });  
   },
 
 
@@ -135,11 +144,46 @@ qx.Class.define("qx.ui.virtual.form.List",
 
   members :
   {
+    syncWidget : function() {
+      this.update();
+    },
     
-    update : function() {
+    
+    update : function()
+    {
+      var rowConfig = this.pane.rowConfig;
+      rowConfig.setItemCount(this.__items.length);
+      
+      rowConfig.resetItemSizes();
+      for(var i=0; i<this.__items.length; i++) 
+      {
+        var height = this.__items[i].getHeight();
+        if (height !== null) {
+          rowConfig.setItemSize(i, height);
+        }
+      }
+      
       this.pane.fullUpdate();
     },
-
+    
+    
+    updateSelection : function() 
+    {
+      var widgets = this.__widgetLayer.getChildren();
+      for (var i=0; i<widgets.length; i++)
+      {
+        var widget = widgets[i];
+        var row = widget.getUserData("row");
+        
+        if (this.isSelected(row)) {
+          widget.addState("selected");
+        } else {
+          widget.removeState("selected");
+        }        
+      }
+    },
+    
+    
     /*
     ---------------------------------------------------------------------------
       SELECTION API
@@ -147,7 +191,7 @@ qx.Class.define("qx.ui.virtual.form.List",
     */
 
     /** {Class} Pointer to the selection manager to use */
-    SELECTION_MANAGER : qx.ui.core.selection.Abstract,
+    SELECTION_MANAGER : qx.ui.virtual.selection.Row,
     
     /*
     ---------------------------------------------------------------------------
@@ -158,9 +202,14 @@ qx.Class.define("qx.ui.virtual.form.List",
     _onResize : function(e)
     {
       this.pane.columnConfig.setItemSize(0, e.getData().width);
-      this.pane.fullUpdate();
+      qx.ui.core.queue.Widget.add(this);
+    },
+    
+    _onChangeItemHeight : function(e) {
+      qx.ui.core.queue.Widget.add(this);
     },
 
+    
     /*
     ---------------------------------------------------------------------------
       CELL PROVIDER API
@@ -180,6 +229,13 @@ qx.Class.define("qx.ui.virtual.form.List",
         label : data.getLabel(),
         icon : data.getIcon()
       });
+      
+      if (this.isSelected(row)) {
+        widget.addState("selected");
+      } else {
+        widget.removeState("selected");
+      }
+      widget.setUserData("row", row);
       
       return widget;
     },
@@ -278,6 +334,22 @@ qx.Class.define("qx.ui.virtual.form.List",
     },
 
 
+    _addHelper : function(child)
+    {
+      this.fireDataEvent("addItem", child);
+      child.addListener("changeHeight", this._onChangeItemHeight, this);
+      qx.ui.core.queue.Widget.add(this);
+    },
+    
+    
+    _removeHelper : function(child)
+    {
+      this.fireDataEvent("removeItem", child);
+      child.removeListener("changeHeight", this._onChangeItemHeight, this);
+      qx.ui.core.queue.Widget.add(this);
+    },
+    
+    
     /**
      * Adds a new child widget.
      *
@@ -291,8 +363,7 @@ qx.Class.define("qx.ui.virtual.form.List",
     add : function(child)
     {
       this.__items.push(child);
-      this.fireDataEvent("addItem", child);
-      this.update();
+      this._addHelper(child);
       return this;
     },
 
@@ -306,8 +377,7 @@ qx.Class.define("qx.ui.virtual.form.List",
     remove : function(child)
     {
       qx.lang.Array.remove(this.__items, child);
-      this.fireDataEvent("removeItem", child);
-      this.update();
+      this._removeHelper(child);
       return this;
     },
 
@@ -320,10 +390,9 @@ qx.Class.define("qx.ui.virtual.form.List",
     removeAll : function()
     {
       for (var i=0,j=this.__items.lenth; i<j; i++) {
-        this.fireDataEvent("removeItem", this.__items[i]);
+        this._removeHelper(child);
       }
       this.__items = [];
-      this.update();
     },
 
 
@@ -359,8 +428,7 @@ qx.Class.define("qx.ui.virtual.form.List",
     addAt : function(child, index)
     {
       qx.lang.Array.insertAt(this.__items, child, index);
-      this.fireDataEvent("addItem", child);
-      this.update();
+      this._addHelper(child);
     },
 
 
@@ -378,8 +446,7 @@ qx.Class.define("qx.ui.virtual.form.List",
     addBefore : function(child, before)
     {
       qx.lang.Array.insertBefore(this.__items, child, before);
-      this.fireDataEvent("addItem", child);
-      this.update();
+      this._addHelper(child);
     },
 
 
@@ -397,8 +464,7 @@ qx.Class.define("qx.ui.virtual.form.List",
     addAfter : function(child, after)
     {
       qx.lang.Array.insertAfter(this.__items, child, after);
-      this.fireDataEvent("addItem", child);
-      this.update();
+      this._addHelper(child);
     },
 
 
@@ -415,9 +481,7 @@ qx.Class.define("qx.ui.virtual.form.List",
     removeAt : function(index)
     {
       this.__items.splice(index, 1);
-      this.fireDataEvent("removeItem", child);
-      this.update();
-    }    
-    
+      this._removeHelper(child);
+    }        
   }
 });

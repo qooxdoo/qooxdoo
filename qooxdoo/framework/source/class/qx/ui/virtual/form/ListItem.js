@@ -31,6 +31,14 @@ qx.Class.define("qx.ui.virtual.form.ListItem",
   {
     this.base(arguments);
 
+    if (label != null) {
+      this.setLabel(label);
+    }
+
+    if (icon != null) {
+      this.setIcon(icon);
+    }
+    
     if (value != null) {
       this.setValue(value);
     }
@@ -87,7 +95,25 @@ qx.Class.define("qx.ui.virtual.form.ListItem",
       check : "String",
       nullable : true,
       event : "changeValue"
-    }
+    },
+    
+    /** The item's width. */
+    width :
+    {
+      check : "Integer",
+      nullable : true,
+      event : "changeWidth",
+      init : null
+    },
+    
+    /** The item's height. */
+    height :
+    {
+      check : "Integer",
+      nullable : true,
+      event : "changeHeight",
+      init : null
+    } 
   },
 
   members :

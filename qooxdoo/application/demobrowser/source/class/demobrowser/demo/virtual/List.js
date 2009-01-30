@@ -43,17 +43,20 @@ qx.Class.define("demobrowser.demo.virtual.List",
       configureLabel.setFont("bold");
       this.getRoot().add(configureLabel, {left: 20, top: 20});
 
-      var configList = new qx.ui.virtual.form.List;
+      var configList = new qx.ui.virtual.form.List();
       configList.setScrollbarX("on");
 
       configList.set({ height: 280, width: 150, selectionMode : "multi" });
 
       var item;
-      for( var i=1; i<=25; i++ )
+      for( var i=1; i<=2500; i++ )
       {
         item = new qx.ui.virtual.form.ListItem("Item No " + i, "icon/" + ((i % 4) ? "16" : "48") + "/places/folder.png");
 
-        !(i % 9) && (item.setEnabled(false));
+        if (i % 4 == 0) {
+          item.setHeight(56);
+        }
+        //!(i % 9) && (item.setEnabled(false));
 
         // Pre-Select "Item No 20"
         if (i==20) {
@@ -68,7 +71,8 @@ qx.Class.define("demobrowser.demo.virtual.List",
       });
 
       this.getRoot().add(configList, {left: 20, top: 40});
-
+      
+      
       // Configure Elements
       var mode1 = new qx.ui.form.RadioButton("Single Selection");
       var mode2 = new qx.ui.form.RadioButton("Multi Selection");
