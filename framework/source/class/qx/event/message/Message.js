@@ -73,7 +73,11 @@ qx.Class.define("qx.event.message.Message",
     /**
      * Any data the sender wants to pass with the event.
      */
-    data : {},
+    data :
+    {
+      init        : null,
+      nullable    : true
+    },
 
     /**
      * A reference to the sending object.
