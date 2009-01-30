@@ -64,6 +64,8 @@ qx.Class.define("qx.ui.root.Inline",
   {
     // Temporary storage of element to use
     this.__elem = el;
+    // Avoid any problems with dynamic resizing
+    el.style.overflow = "hidden";
 
     this.__dynX = dynamicX || false;
     this.__dynY = dynamicY || false;
@@ -163,7 +165,7 @@ qx.Class.define("qx.ui.root.Inline",
 
       if (dynX)
       {
-        var width = qx.bom.element.Dimension.getWidth(this.__elem);
+        var width = qx.bom.element.Dimension.getClientWidth(this.__elem);
         hint.width = width;
         hint.minWidth = width;
         hint.maxWidth = width;
@@ -171,7 +173,7 @@ qx.Class.define("qx.ui.root.Inline",
 
       if (dynY)
       {
-        var height = qx.bom.element.Dimension.getHeight(this.__elem);
+        var height = qx.bom.element.Dimension.getClientHeight(this.__elem);
         hint.height = height;
         hint.minHeight = height;
         hint.maxHeight = height;
