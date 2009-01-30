@@ -420,7 +420,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     isItemSelected : function(item)
     {
       var hash = this._selectableToHashCode(item);
-      return !!this.__selection[hash];
+      return this.__selection[hash] !== undefined;
     },
 
 
@@ -454,11 +454,11 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     {
       var old = this.__leadItem;
 
-      if (old) {
+      if (old !== null) {
         this._styleSelectable(old, "lead", false);
       }
 
-      if (value) {
+      if (value !== null) {
         this._styleSelectable(value, "lead", true);
       }
 
@@ -473,7 +473,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * @return {Object} The lead item or <code>null</code>
      */
     _getLeadItem : function() {
-      return this.__leadItem || null;
+      return this.__leadItem !== null ? this.__leadItem : null;
     },
 
 
@@ -509,7 +509,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * @return {Object} The anchor item or <code>null</code>
      */
     _getAnchorItem : function() {
-      return this.__anchorItem || null;
+      return this.__anchorItem !== null ? this.__anchorItem : null;
     },
 
 
@@ -534,13 +534,14 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
 
     /**
-     * Finds the selectable instance from any given target inside
-     * the connected widget.
+     * Finds the selectable instance from a mouse event
      *
-     * @param target {Object} The event target
+     * @param event {qx.event.type.Mouse} The mouse event
      * @return {Object} The resulting selectable
      */
-    _getSelectableFromTarget : function(target) {
+    _getSelectableFromMouseEvent : function(event) 
+    {
+      var target = event.getTarget();
       return this._isSelectable(target) ? target : null;
     },
 
@@ -826,8 +827,8 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         return;
       }
 
-      var item = this._getSelectableFromTarget(event.getTarget());
-      if (!item) {
+      var item = this._getSelectableFromMouseEvent(event);
+      if (item === null) {
         return;
       }
 
@@ -851,8 +852,8 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      */
     handleMouseDown : function(event)
     {
-      var item = this._getSelectableFromTarget(event.getTarget());
-      if (!item) {
+      var item = this._getSelectableFromMouseEvent(event);
+      if (item === null) {
         return;
       }
 
@@ -896,8 +897,10 @@ qx.Class.define("qx.ui.core.selection.Abstract",
           if (isShiftPressed)
           {
             var anchor = this._getAnchorItem();
-            if (!anchor) {
-              this._setAnchorItem(anchor = this.getFirstItem());
+            if (anchor === null) 
+            {
+              anchor = this._getFirstSelectable();
+              this._setAnchorItem(anchor);
             }
 
             this._selectItemRange(anchor, item, isCtrlPressed);
@@ -923,8 +926,13 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
       // Drag selection
       var mode = this.getMode();
-      if (this.getDrag() && mode !== "single" && mode !== "one" &&
-        !isShiftPressed && !isCtrlPressed)
+      if (
+        this.getDrag() && 
+        mode !== "single" &&
+        mode !== "one" &&
+        !isShiftPressed &&
+        !isCtrlPressed
+      )
       {
         // Cache location/scroll data
         this.__frameLocation = this._getLocation();
@@ -960,8 +968,8 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
       if (!isCtrlPressed && !isShiftPressed && this.__mouseDownOnSelected)
       {
-        var item = this._getSelectableFromTarget(event.getTarget());
-        if (!item || !this.isItemSelected(item)) {
+        var item = this._getSelectableFromMouseEvent(event);
+        if (item === null || !this.isItemSelected(item)) {
           return;
         }
 
@@ -1195,10 +1203,12 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       while (moveX !== 0)
       {
         // Find next item to process depending on current scroll direction
-        nextX = moveX > 0 ? this._getRelatedSelectable(leadX, "right") : this._getRelatedSelectable(leadX, "left");
+        nextX = moveX > 0 ? 
+          this._getRelatedSelectable(leadX, "right") : 
+          this._getRelatedSelectable(leadX, "left");
 
         // May be null (e.g. first/last item)
-        if (nextX)
+        if (nextX !== null)
         {
           locationX = this._getSelectableLocationX(nextX);
 
@@ -1222,12 +1232,12 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       var nextY, locationY, countY=0;
 
       while (moveY !== 0)
-      {
+      {        
         // Find next item to process depending on current scroll direction
         nextY = moveY > 0 ? this._getRelatedSelectable(leadY, "under") : this._getRelatedSelectable(leadY, "above");
-
+        
         // May be null (e.g. first/last item)
-        if (nextY)
+        if (nextY !== null)
         {
           locationY = this._getSelectableLocationY(nextY);
 
@@ -1248,7 +1258,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
       // Select highest lead
       var lead = countX > countY ? leadX : leadY;
-
 
       // Differenciate between the two supported modes
       var mode = this.getMode();
@@ -1311,7 +1320,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * @return {void}
      */
     handleKeyPress : function(event)
-    {
+    {      
       var current, next;
       var key = event.getKeyIdentifier();
       var mode = this.getMode();
@@ -1363,7 +1372,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         var first = this._getFirstSelectable();
         var last = this._getLastSelectable();
 
-        if (current)
+        if (current !== null)
         {
           switch(key)
           {
@@ -1421,7 +1430,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         }
 
         // Process result
-        if (next)
+        if (next !== null)
         {
           switch(mode)
           {
@@ -1438,7 +1447,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
               if (isShiftPressed)
               {
                 var anchor = this._getAnchorItem();
-                if (!anchor) {
+                if (anchor === null) {
                   this._setAnchorItem(anchor = this._getFirstSelectable());
                 }
 
@@ -1687,7 +1696,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     {
       var hash = this._selectableToHashCode(item);
 
-      if (this.__selection[hash])
+      if (this.__selection[hash] !== null)
       {
         delete this.__selection[hash];
         this._styleSelectable(item, "selected", false);
