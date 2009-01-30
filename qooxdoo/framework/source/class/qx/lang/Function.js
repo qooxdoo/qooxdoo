@@ -21,14 +21,25 @@
    This class contains code based on the following work:
 
    * Mootools
-     http://mootools.net/
+     http://mootools.net
      Version 1.1.1
 
      Copyright:
-       (c) 2007 Valerio Proietti
+       2007 Valerio Proietti
 
      License:
        MIT: http://www.opensource.org/licenses/mit-license.php
+       
+     
+   * jQuery
+     http://jquery.com
+     Version 1.3.1
+
+     Copyright:
+       2009 John Resig
+
+     License:
+       MIT: http://www.opensource.org/licenses/mit-license.php       
 
 ************************************************************************ */
 
@@ -124,6 +135,7 @@ qx.Bootstrap.define("qx.lang.Function",
       if (fcnReResult && fcnReResult.length >= 1 && fcnReResult[1]) {
         return fcnReResult[1];
       }
+      
       var fcnReResult = fcn.toString().match(/(function\s*\(.*?\))/);
       if (fcnReResult && fcnReResult.length >= 1 && fcnReResult[1]) {
         return "anonymous: " + fcnReResult[1];
@@ -136,16 +148,28 @@ qx.Bootstrap.define("qx.lang.Function",
     /**
      * Evaluates JavaScript code globally
      *
+     * Inspired by code by Andrea Giammarchi
+     * http://webreflection.blogspot.com/2007/08/global-scope-evaluation-and-dom.html
+     *
      * @param data {String} JavaScript commands
-     * @return {var} Result of the execution
+     * @return {void}
      */
     globalEval : function(data)
     {
-      if (window.execScript) {
-        return window.execScript(data);
+      var head = document.getElementsByTagName("head")[0] || document.documentElement;
+      var script = document.createElement("script");
+
+      script.type = "text/javascript";
+      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+        script.text = data;	
       } else {
-        return eval.call(window, data);
-      }
+        script.appendChild(document.createTextNode(data));  
+      }	
+
+      // Use insertBefore instead of appendChild to circumvent an IE6 bug.
+      // This arises when a base node is used (see jQuery Bug #2709).
+      head.insertBefore(script, head.firstChild);
+      head.removeChild(script);
     },
 
 
