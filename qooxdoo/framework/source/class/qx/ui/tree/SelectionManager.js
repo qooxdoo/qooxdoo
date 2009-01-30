@@ -50,8 +50,9 @@ qx.Class.define("qx.ui.tree.SelectionManager",
 
 
     // overridden
-    _getSelectableFromTarget : function(target) {
-      return this._getWidget().getTreeItem(target);
+    _getSelectableFromMouseEvent : function(event) 
+    {
+      return this._getWidget().getTreeItem(event.getTarget());
     },
 
 
