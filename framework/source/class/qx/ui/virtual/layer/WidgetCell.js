@@ -20,7 +20,7 @@
 
 qx.Class.define("qx.ui.virtual.layer.WidgetCell",
 {
-  extend : qx.ui.core.Widget,
+  extend : qx.ui.container.Composite,
   
   implement : [qx.ui.virtual.core.ILayer],
   
