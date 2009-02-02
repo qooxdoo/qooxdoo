@@ -23,7 +23,7 @@ from ecmascript.frontend import tree
 from ecmascript.frontend import lang
 
 # TODO: Any idea to make this more random while still being compact?
-def mapper(found):
+def mapper(found, obound):
     counter = 0
     translations = {}
     
@@ -31,7 +31,7 @@ def mapper(found):
         repl = convert(counter)
         counter += 1
         
-        while repl in found or lang.RESERVED.has_key(repl):
+        while repl in found or repl in obound or lang.RESERVED.has_key(repl):
             repl = convert(counter)
             counter += 1
             
@@ -58,9 +58,12 @@ def respect(name, found):
     return (name and not name in found and not name.startswith("_"))
 
 
-def search(node, found=None, register=False, level=0):
+def search(node, found=None, register=False, level=0, other_bound=None):
     if found == None:
         found = []
+
+    if other_bound == None:
+        other_bound = set([])
     
     if node.type == "function":
         if register:
@@ -89,28 +92,37 @@ def search(node, found=None, register=False, level=0):
         if respect(name, found):
             found.append(name)
 
+    # register other bound names
+    # -- this is overgenerating, but is ok since it is checked against when generating
+    # -- "fresh" names, to make sure they're not in use
+    elif node.type == "identifier":
+        name = node.get("name", None)
+
+        if respect(name, found) and not name in other_bound and not lang.RESERVED.has_key(name):
+            other_bound.add(name)
+
     # Iterate over children
     if node.hasChildren():
         if node.type == "function":
             for child in node.children:
-                search(child, found, register, level+1)
+                search(child, found, register, level+1, other_bound)
 
         else:
             for child in node.children:
-                search(child, found, register, level)
+                search(child, found, register, level, other_bound)
 
     # Function closed
     if node.type == "function":
         if level==0:
             # Generate translation list
-            translations = mapper(found)
+            translations = mapper(found, other_bound)
             
             # Start replacement when get back to first level
             update(node, translations)
             
             # Afterwards the function is closed and we can clean-
             # up the found variables
-            del found[openedAt:]
+            del found[openedAt:]   # openedAt is always 0 here currently
 
 
 def update(node, translations):
