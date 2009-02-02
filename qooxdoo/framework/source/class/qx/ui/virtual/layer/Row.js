@@ -61,6 +61,13 @@ qx.Class.define("qx.ui.virtual.layer.Row",
       refine : true,
       init : "row-layer"
     },
+    
+    // overridden
+    anonymous :
+    {
+      refine: true,
+      init: true
+    },    
      
     /** color of row with even index */
     colorEven :
@@ -93,7 +100,24 @@ qx.Class.define("qx.ui.virtual.layer.Row",
     __colorEven : null,
     __colorOdd : null,
     __customColors : null,
-  
+    
+    syncWidget : function()
+    {
+      var el = this.getContentElement().getDomElement();
+      if (!el) {
+        return;
+      }
+      
+      var children = el.childNodes;
+      var row = this._firstRow;
+      for (var i=0, l=children.length; i<l; i++)
+      {
+        var color = this.getRowColor(row++);
+        children[i].style.backgroundColor = color;
+      }
+    },
+    
+
     fullUpdate : function(
       firstRow, lastRow, 
       firstColumn, lastColumn, 
@@ -103,8 +127,7 @@ qx.Class.define("qx.ui.virtual.layer.Row",
       var html = [];
       for (var y=0; y<rowSizes.length; y++)
       {
-        var rowIndex = firstRow + y;
-        var color = this.getRowColor(rowIndex);
+        var color = this.getRowColor(firstRow + y);
 
         html.push(
           "<div style='",
@@ -153,11 +176,18 @@ qx.Class.define("qx.ui.virtual.layer.Row",
       } else {
         delete(this.__customColors[row]);
       }      
+      if (row >= this._firstRow && row <= this._lastRow) {
+        qx.ui.core.queue.Widget.add(this);
+      }
     },
     
-    clearCustomRowColors : function() {
+    
+    clearCustomRowColors : function()
+    {
       this.__customRowColors = {};
+      qx.ui.core.queue.Widget.add(this);
     },
+    
     
     getRowColor : function(row)
     {
@@ -169,6 +199,7 @@ qx.Class.define("qx.ui.virtual.layer.Row",
       }
     },
     
+    
     // property apply
     _applyColorEven : function(value, old)
     {
@@ -177,6 +208,7 @@ qx.Class.define("qx.ui.virtual.layer.Row",
       } else {
         this.__colorEven = null;
       }
+      qx.ui.core.queue.Widget.add(this);
     },
     
     // property apply
@@ -187,6 +219,7 @@ qx.Class.define("qx.ui.virtual.layer.Row",
       } else {
         this.__colorOdd = null;
       }
+      qx.ui.core.queue.Widget.add(this);
     }    
   }
 });
