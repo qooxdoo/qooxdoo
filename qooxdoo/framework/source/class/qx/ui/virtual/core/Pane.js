@@ -17,6 +17,9 @@
 
 ************************************************************************ */
 
+/**
+ * The Pane renders a window of a much larger virtual area.
+ */
 qx.Class.define("qx.ui.virtual.core.Pane",
 {
   extend : qx.ui.core.Widget,
