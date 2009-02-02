@@ -92,6 +92,7 @@ qx.Class.define("qx.ui.virtual.selection.Cell",
     // overridden
     _getSelectableRange : function(item1, item2)
     {
+      //console.log("selecte range", item1, item2);
       var selectables = [];
       
       var minRow = Math.min(item1.row, item2.row);
@@ -111,8 +112,7 @@ qx.Class.define("qx.ui.virtual.selection.Cell",
             selectables.push(cell);
           }                  
         }
-      }
-      
+      }      
       return selectables;      
     },
 
@@ -241,16 +241,16 @@ qx.Class.define("qx.ui.virtual.selection.Cell",
     // overridden
     _scrollItemIntoView : function(item) {
       this._pane.scrollCellIntoView(item.column, item.row);
-    },
-    
+    },   
+
     
     // overridden
     _getSelectableLocationX : function(item) 
     {
       var columnConfig = this._pane.columnConfig;
       
-      var itemLeft = columnConfig.getItemPosition(item);
-      var itemRight = itemLeft + columnConfig.getItemSize(item) - 1;
+      var itemLeft = columnConfig.getItemPosition(item.column);
+      var itemRight = itemLeft + columnConfig.getItemSize(item.column) - 1;
       
       return {
         left: itemLeft,
@@ -264,8 +264,8 @@ qx.Class.define("qx.ui.virtual.selection.Cell",
     {
       var rowConfig = this._pane.rowConfig;
       
-      var itemTop = rowConfig.getItemPosition(item);
-      var itemBottom = itemTop + rowConfig.getItemSize(item) - 1;
+      var itemTop = rowConfig.getItemPosition(item.row);
+      var itemBottom = itemTop + rowConfig.getItemSize(item.row) - 1;
       
       return {
         top: itemTop,
