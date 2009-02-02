@@ -405,6 +405,52 @@ qx.Bootstrap.define("qx.lang.Array",
       }
 
       return result === undefined ? null : result;
-    }
+    },
+    
+      
+    /**
+     * Remove all duplicate elements from an array of elements. Note that this 
+     * only works on arrays of DOM elements, not strings or numbers.
+     * 
+     * Do not modifies the original array!
+     *
+     * @param arr {Array} Incoming array
+     * @return {Array} Returns a copy with no duplicates or the original array if no duplicates were found
+     */
+    unique: function(arr) 
+    {
+      var ret=[], done={};
+      var Registry = qx.core.ObjectRegistry;
+  
+      try 
+      {
+        // Rebuild array and omit duplicates
+        for (var i=0, len=arr.length; i<len; i++) 
+        {
+          var id = Registry.toHashCode(arr[i]);  
+          if (!done[id]) 
+          {
+            done[id] = true;
+            ret.push(arr[i]);
+          }
+        }
+        
+        // Clear cached hash codes
+        for (var i=0, len=ret.length; i<len; i++) {
+          Registry.clearHashCode(ret[i]);
+        }
+        
+        // Return the original if it is unmodified (reduce memory consumption)
+        if (ret.length == arr.length) {
+          return arr;
+        }
+      } 
+      catch(e) 
+      {
+        ret = arr;
+      }
+  
+      return ret;
+    }  
   }
 });
