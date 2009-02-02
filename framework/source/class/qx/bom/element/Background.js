@@ -149,12 +149,9 @@ qx.Class.define("qx.bom.element.Background",
       }
 
       var map = {
+        backgroundPosition : position,
         backgroundImage : "url(" + backgroundImageUrl + ")"
       };
-
-      if (position != "0 0") {
-        map.backgroundPosition = position;
-      }
 
       if (repeat != null) {
         map.backgroundRepeat = repeat;
