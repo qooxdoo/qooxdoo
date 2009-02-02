@@ -55,9 +55,9 @@ qx.Class.define("qx.ui.virtual.selection.Cell",
     _getSelectableFromMouseEvent : function(event)
     {
       var cell = this._pane.getCellAtPosition(
-          event.getDocumentLeft(),
-          event.getDocumentTop()
-        );
+        event.getDocumentLeft(),
+        event.getDocumentTop()
+      );
         
       return this._isSelectable(cell) ? cell : null;
     },        
@@ -196,8 +196,8 @@ qx.Class.define("qx.ui.virtual.selection.Cell",
           }
           break;
       
-        case "left":          
-          for (var column=item.column-1; column<=0; column--) 
+        case "left":   
+          for (var column=item.column-1; column>=0; column--) 
           {
             cell.column = column;
             if (this._isSelectable(cell)) {
@@ -247,7 +247,7 @@ qx.Class.define("qx.ui.virtual.selection.Cell",
     // overridden
     _getSelectableLocationX : function(item) 
     {
-      var colConfig = this._pane.columnConfig;
+      var columnConfig = this._pane.columnConfig;
       
       var itemLeft = columnConfig.getItemPosition(item);
       var itemRight = itemLeft + columnConfig.getItemSize(item) - 1;
