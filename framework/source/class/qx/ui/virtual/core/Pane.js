@@ -282,7 +282,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
 
     /*
     ---------------------------------------------------------------------------
-      SCROLL SUPPORT
+      SCROLL INTO VIEW SUPPORT
     ---------------------------------------------------------------------------
     */
     
@@ -314,7 +314,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       
     },
 
-    scrollItemIntoView : function(item)
+    scrollCellIntoView : function(column, row)
     {
       
     },
