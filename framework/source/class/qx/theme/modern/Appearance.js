@@ -2343,7 +2343,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          minWidth  : 40,
+          minWidth  : 13,
           minHeight : 20,
           padding   : states.hovered ? [ 3, 4, 2, 4 ] : [ 3, 4 ],
           decorator : states.hovered ? "table-header-cell-hovered" : "table-header-cell",
