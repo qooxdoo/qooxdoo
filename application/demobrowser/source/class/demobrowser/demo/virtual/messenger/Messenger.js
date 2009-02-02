@@ -87,7 +87,7 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Messenger",
     {
       row = parseInt(row);
       scroller.pane.rowConfig.setItemSize(row, 15);
-      rowLayer.setRowColor(row, groupColor);
+      rowLayer.setColor(row, groupColor);
     }
 
     // Add layers to scroller
