@@ -63,7 +63,10 @@
     {
       "compile-dist" : 
       {
-        "format" : "off"
+        "code" :
+        {
+          "format" : false
+        }
       }
     }
   }
