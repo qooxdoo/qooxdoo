@@ -244,10 +244,10 @@ qx.core.BaseArray = function(Stack)
   {
     Stack.prototype = { length : 0 };
     
-    var arguments = "pop.push.reverse.shift.sort.splice.unshift.join.slice".split(".");
+    var args = "pop.push.reverse.shift.sort.splice.unshift.join.slice".split(".");
     
-    for (var length = arguments.length; length;) {
-      Stack.prototype[arguments[--length]] = Array.prototype[arguments[length]];
+    for (var length = args.length; length;) {
+      Stack.prototype[args[--length]] = Array.prototype[args[length]];
     }      
   };
     
@@ -272,7 +272,7 @@ qx.core.BaseArray = function(Stack)
       constructor.push.apply(constructor, copy);
     }
       
-    return  constructor;
+    return constructor;
   };
     
   Stack.prototype.toString = function(){
@@ -294,10 +294,10 @@ qx.core.BaseArray = function(Stack)
     }      
   };
   
-  function Array(){};
+  function PseudoArray(){};
   
-  Array.prototype = [];
-  Stack.prototype = new Array;
+  PseudoArray.prototype = [];
+  Stack.prototype = new PseudoArray;
   Stack.prototype.length = 0;
   
   return Stack;
