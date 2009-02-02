@@ -297,9 +297,8 @@ qx.Class.define("qx.ui.virtual.core.Pane",
         return;
       }
 
-      var rowConfig = this.rowConfig;
-      var itemTop = rowConfig.getItemPosition(row);
-      var itemBottom = itemTop + rowConfig.getItemSize(row);
+      var itemTop = this.rowConfig.getItemPosition(row);
+      var itemBottom = itemTop + this.rowConfig.getItemSize(row);
       var scrollTop = this.getScrollY();
 
       if (itemTop < scrollTop) {
@@ -311,12 +310,40 @@ qx.Class.define("qx.ui.virtual.core.Pane",
 
     scrollColumnIntoView : function(column)
     {
+      var bounds = this.getBounds();
+      if (!bounds) 
+      {
+        this.addListenerOnce("appear", function() {
+          this.scrollColumnIntoView(column);
+        }, this);
+        return;
+      }
+
+      var itemLeft = this.columnConfig.getItemPosition(column);
+      var itemRight = itemLeft + this.columnConfig.getItemSize(column);
+      var scrollLeft = this.getScrollX();
+
+      if (itemLeft < scrollLeft) {
+        this.setScrollX(itemLeft);
+      } else if (itemRight > scrollLeft + bounds.height) {
+        this.setScrollX(itemRight - bounds.width);
+      }
       
     },
 
     scrollCellIntoView : function(column, row)
     {
-      
+      var bounds = this.getBounds();
+      if (!bounds) 
+      {
+        this.addListenerOnce("appear", function() {
+          this.scrollCellIntoView(column, row);
+        }, this);
+        return;
+      }
+
+      this.scrollColumnIntoView(column);
+      this.scrollRowIntoView(row);
     },
     
 
