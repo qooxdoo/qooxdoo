@@ -18,6 +18,10 @@
 
 ************************************************************************ */
 
+/**
+ * Abstract base class for selection manager, which manage selectable items
+ * rendered in a virtual {@link qx.ui.virtual.core.Pane}.
+ */
 qx.Class.define("qx.ui.virtual.selection.Abstract",
 {
   extend : qx.ui.core.selection.Abstract,
@@ -29,10 +33,18 @@ qx.Class.define("qx.ui.virtual.selection.Abstract",
    *****************************************************************************
    */
 
-  construct : function(pane)
+  /**
+   * @param pane {qx.ui.virtual.core.Pane} The virtual pane on which the 
+   *    selectable item are rendered
+   * @param selectionDelegate {ISelectionDelegate?null} An optional delegate, 
+   *    which can be used to customize the behavior of the selection manager 
+   *    without sub classing it.
+   */
+  construct : function(pane, selectionDelegate)
   {
     this.base(arguments);
     this._pane = pane;
+    this._delegate = selectionDelegate || {};
   },
    
    
@@ -44,6 +56,38 @@ qx.Class.define("qx.ui.virtual.selection.Abstract",
  
   members :
   {  
+    /*
+    ---------------------------------------------------------------------------
+      DELEGATE METHODS
+    ---------------------------------------------------------------------------
+    */    
+    
+    // overridden
+    _isSelectable : function(item) {
+      return this._delegate.isItemSelectable ?
+        this._delegate.isItemSelectable() :
+        true;
+    },    
+    
+    
+    // overridden
+    _styleSelectable : function(item, type, enabled) 
+    { 
+      if (this._delegate.styleSelectable) {
+        this._delegate.styleSelectable(item, type, enabled);
+      }
+    },
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      EVENTS
+    ---------------------------------------------------------------------------
+    */
+    
+    /**
+     * Attach mouse events to the managed pane.
+     */
     attachMouseEvents : function()
     {
       var pane = this._pane;
@@ -55,17 +99,78 @@ qx.Class.define("qx.ui.virtual.selection.Abstract",
     },
     
     
+    /**
+     * Detach mouse events from the managed pane.
+     */    
+    detatchMouseEvents : function()
+    {
+      var pane = this._pane;
+      pane.removeListener("mousedown", this.handleMouseDown, this);
+      pane.removeListener("mouseup", this.handleMouseUp, this);
+      pane.removeListener("mouseover", this.handleMouseOver, this);
+      pane.removeListener("mousemove", this.handleMouseMove, this);
+      pane.removeListener("losecapture", this.handleLoseCapture, this);
+    },    
+    
+    
+    /**
+     * Attach key events to manipulate the selection using the keyboard. The 
+     * event target doesn't need to be the pane itself. It can be an widget,
+     * which received key events. Usually the key event target is the 
+     * {@link qx.ui.virtual.core.Scroller}.
+     * 
+     * @param target {qx.core.Object} the key event target.
+     * 
+     */
     attachKeyEvents : function(target) {
       target.addListener("keypress", this.handleKeyPress, this);
     },
     
     
+    /**
+     * Detach key events.
+     *
+     * @param target {qx.core.Object} the key event target.
+     */     
+    detachKeyEvents : function(target) {
+      target.removeListener("keypress", this.handleKeyPress, this);
+    },    
+    
+    
+    /**
+     * Attach list events. The selection mode <code>one</code> need to know,
+     * when selectable items are added or removed. If this mode is used the
+     * <code>list</code> parameter must fire <code>addItem</code> and 
+     * <code>removeItem</code> events.
+     * 
+     * @param list {qx.core.Object} the event target for <code>addItem</code> and 
+     *    <code>removeItem</code> events
+     */
     attachListEvents : function(list)
     {
       list.addListener("addItem", this.handleAddItem, this);
       list.addListener("removeItem", this.handleRemoveItem, this);      
     },
     
+    
+    /**
+     * Detach list events.
+     * 
+     * @param list {qx.core.Object} the event target for <code>addItem</code> and 
+     *    <code>removeItem</code> events
+     */    
+    detachListEvents : function(list)
+    {
+      list.removeListener("addItem", this.handleAddItem, this);
+      list.removeListener("removeItem", this.handleRemoveItem, this);      
+    },    
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      IMPLEMENT ABSTRACT METHODS
+    ---------------------------------------------------------------------------
+    */    
     
     // overridden
     _capture : function() {
@@ -77,11 +182,6 @@ qx.Class.define("qx.ui.virtual.selection.Abstract",
     _releaseCapture : function() {
       this._pane.releaseCapture();
     },    
-    
-    
-    // overridden
-    _styleSelectable : function(item, type, enabled) {      
-    },
     
     
     // overridden
