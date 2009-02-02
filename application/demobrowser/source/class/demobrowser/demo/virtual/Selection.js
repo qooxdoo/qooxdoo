@@ -225,9 +225,9 @@ qx.Class.define("demobrowser.demo.virtual.Selection",
             return;
           }
           if (wasAdded) {
-            rowLayer.setRowColor(item, "#00398D");
+            rowLayer.setColor(item, "#00398D");
           } else {
-            rowLayer.setRowColor(item, null);
+            rowLayer.setColor(item, null);
           }
           qx.ui.core.queue.Widget.add(cellLayer);
         }
@@ -288,9 +288,9 @@ qx.Class.define("demobrowser.demo.virtual.Selection",
             return;
           }
           if (wasAdded) {
-            columnLayer.setColumnColor(item, "#00398D");
+            columnLayer.setColor(item, "#00398D");
           } else {
-            columnLayer.setColumnColor(item, null);
+            columnLayer.setColor(item, null);
           }          
           qx.ui.core.queue.Widget.add(cellLayer);
         }

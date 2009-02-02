@@ -17,6 +17,9 @@
 
 ************************************************************************ */
 
+/**
+ * Abstract base class for the {@link Row} and {@link Column} layers.
+ */
 qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
 {
   extend : qx.ui.core.Widget,
@@ -30,6 +33,8 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
    */
 
    /**
+    * @param colorEven {Color?null} color for even indexes
+    * @param colorOdd {Color?null} color for odd indexes
     */
    construct : function(colorEven, colorOdd)
    {
@@ -95,11 +100,15 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
     __customColors : null,
     
     
+    /**
+     * Get the index of the first visible color
+     */
     _getFirstItemIndex : function() {
       throw new Error("Abstract method call: _isSelectable()");
     },
   
     
+    // overridden
     syncWidget : function()
     {
       var el = this.getContentElement().getDomElement();
@@ -111,12 +120,13 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
       var index = this._getFirstItemIndex();
       for (var i=0, l=children.length; i<l; i++)
       {
-        var color = this._getItemColor(index++);
+        var color = this.getColor(index++);
         children[i].style.backgroundColor = color;
       }
     },
     
     
+    // interface implementation
     fullUpdate : function(
       firstRow, lastRow, 
       firstColumn, lastColumn, 
@@ -125,6 +135,8 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
       throw new Error("Abstract method call: _isSelectable()");
     },
     
+    
+    // interface implementation
     updateLayerWindow : function(
       firstRow, lastRow, 
       firstColumn, lastColumn, 
@@ -140,7 +152,14 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
     ---------------------------------------------------------------------------
     */
 
-    _setItemColor : function(index, color) 
+    /**
+     * Sets the color for the given index
+     * 
+     * @param index {Integer} Index to set the color for
+     * @param color {Color|null} the color to set. A value of <code>null</code>
+     *    will reset the color.
+     */
+    setColor : function(index, color) 
     {
       if (color) {
         this.__customColors[index] = qx.theme.manager.Color.getInstance().resolve(color);
@@ -150,14 +169,23 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
     },
     
     
-    _clearCustomColors : function()
+    /**
+     * Clear all colors set using {@link #setColor}.
+     */
+    clearCustomColors : function()
     {
       this.__customColors = {};
       qx.ui.core.queue.Widget.add(this);
     },
     
     
-    _getItemColor : function(index)
+    /**
+     * Get the color at the given index
+     * 
+     * @param index {Integer} The index to get the color for.
+     * @return {Color} The color at the given index
+     */
+    getColor : function(index)
     {
       var customColor = this.__customColors[index];
       if (customColor) {

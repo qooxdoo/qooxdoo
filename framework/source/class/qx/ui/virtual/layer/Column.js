@@ -17,6 +17,9 @@
 
 ************************************************************************ */
 
+/**
+ * The Row layer renders row background colors. 
+ */
 qx.Class.define("qx.ui.virtual.layer.Column",
 {
   extend : qx.ui.virtual.layer.AbstractBackground,
@@ -47,11 +50,13 @@ qx.Class.define("qx.ui.virtual.layer.Column",
  
   members :
   {
+    // overridden
     _getFirstItemIndex : function() {
       return this._firstColumn;
     },    
     
     
+    // overridden
     fullUpdate : function(
       firstRow, lastRow, 
       firstColumn, lastColumn, 
@@ -61,7 +66,7 @@ qx.Class.define("qx.ui.virtual.layer.Column",
       var html = [];
       for (var x=0; x<columnSizes.length; x++)
       {
-        var color = this._getItemColor(firstColumn + x);
+        var color = this.getColor(firstColumn + x);
 
         html.push(
           "<div style='",
@@ -96,25 +101,15 @@ qx.Class.define("qx.ui.virtual.layer.Column",
         );
       }
     },
-        
-    
-    /*
-    ---------------------------------------------------------------------------
-      COLOR HANDLING
-    ---------------------------------------------------------------------------
-    */
+       
 
-    setColumnColor : function(column, color) 
+    // overridden
+    setColor : function(index, color) 
     {
-      this._setItemColor(column, color);     
-      if (column >= this._firstColumn && column <= this._lastColumn) {
+      this.base(arguments, index, color);     
+      if (index >= this._firstColumn && index <= this._lastColumn) {
         qx.ui.core.queue.Widget.add(this);
       }
-    },
-    
-    
-    getColumnColor : function(column) {
-      return this._getItemColor(column)
     }
   }
 });
