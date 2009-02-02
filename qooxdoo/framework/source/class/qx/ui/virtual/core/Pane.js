@@ -14,6 +14,7 @@
 
    Authors:
      * Fabian Jakobs (fjakobs)
+     * Jonathan Weiß (jonathan_rass)
 
 ************************************************************************ */
 
@@ -35,6 +36,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     this.__scrollTop = 0;
     this.__scrollLeft = 0;
     
+  
     this.__paneHeight = 0;
     this.__paneWidth = 0;
     
@@ -276,7 +278,49 @@ qx.Class.define("qx.ui.virtual.core.Pane",
         height: this.rowConfig.getTotalSize()
       }      
     },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      SCROLL SUPPORT
+    ---------------------------------------------------------------------------
+    */
     
+    scrollRowIntoView : function(row)
+    {
+      var bounds = this.getBounds();
+      if (!bounds) 
+      {
+        this.addListenerOnce("appear", function() {
+          this.scrollRowIntoView(row);
+        }, this);
+        return;
+      }
+
+      var rowConfig = this.rowConfig;
+      var itemTop = rowConfig.getItemPosition(row);
+      var itemBottom = itemTop + rowConfig.getItemSize(row);
+      var scrollTop = this.getScrollY();
+
+      if (itemTop < scrollTop) {
+        this.setScrollY(itemTop);
+      } else if (itemBottom > scrollTop + bounds.height) {
+        this.setScrollY(itemBottom - bounds.height);
+      }
+    },
+
+    scrollColumnIntoView : function(column)
+    {
+      
+    },
+
+    scrollItemIntoView : function(item)
+    {
+      
+    },
+    
+
+
 
     /*
     ---------------------------------------------------------------------------
@@ -527,7 +571,6 @@ qx.Class.define("qx.ui.virtual.core.Pane",
              
       this.__checkPaneResize();
     },
-    
     
     updateScrollPosition : function() 
     {
