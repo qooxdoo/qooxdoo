@@ -14,6 +14,7 @@
 
    Authors:
      * Fabian Jakobs (fjakobs)
+     * Jonathan Weiß (jonathan_rass)
 
 ************************************************************************ */
 
@@ -87,8 +88,6 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
     // overridden
     _createChildControlImpl : function(id)
     {
-      var control;
-
       if (id == "pane") {
         return this.pane;
       } else {
@@ -149,7 +148,7 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
     getItemRight : function(item) {
       // TODO
     },
-    
+
     /*
     ---------------------------------------------------------------------------
       EVENT LISTENERS
