@@ -27,69 +27,68 @@
  */
 qx.Class.define("qx.core.BaseError",
 {
-      extend : Error,
+  extend : Error,
 
 
-      /*
-      *****************************************************************************
-         CONSTRUCTOR
-      *****************************************************************************
-      */
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
 
-      /**
-       * @param comment {String} Comment passed to the assertion call
-       * @param failMessage {String} Fail message provided by the assertion
-       */
-      construct : function(comment, failMessage)
-      {
-        Error.call(this, failMessage);
+  /**
+   * @param comment {String} Comment passed to the assertion call
+   * @param failMessage {String} Fail message provided by the assertion
+   */
+  construct : function(comment, failMessage)
+  {
+    Error.call(this, failMessage);
 
-        this.__comment = comment || "";
-        this.__msg = failMessage || "";
-      },
-
-
-
-      /*
-      *****************************************************************************
-         MEMBERS
-      *****************************************************************************
-      */
-
-      members :
-      {
-        __comment : null,
-        __msg : null,
+    this.__comment = comment || "";
+    this.__msg = failMessage || "";
+  },
 
 
-        /**
-         * Comment passed to the assertion call
-         *
-         * @return {String} The comment passed to the assertion call
-         */
-        getComment : function() {
-          return this.__comment;
-        },
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    __comment : null,
+    __msg : null,
 
 
-        /**
-         * Fail message provided by the assertion
-         *
-         * @return {String} Fail message provided by the assertion
-         */
-        message : function() {
-          return this.__msg;
-        },
+    /**
+     * Comment passed to the assertion call
+     *
+     * @return {String} The comment passed to the assertion call
+     */
+    getComment : function() {
+      return this.__comment;
+    },
 
 
-        /**
-         * Get the error message
-         *
-         * @return {String} The error message
-         */
-        toString : function() {
-          return this.__comment + ": " + this.__msg;
-        }
+    /**
+     * Fail message provided by the assertion
+     *
+     * @return {String} Fail message provided by the assertion
+     */
+    message : function() {
+      return this.__msg;
+    },
 
-      }
-    });
+
+    /**
+     * Get the error message
+     *
+     * @return {String} The error message
+     */
+    toString : function() {
+      return this.__comment + ": " + this.__msg;
+    }
+  }
+});
