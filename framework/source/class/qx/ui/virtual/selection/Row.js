@@ -18,6 +18,9 @@
 
 ************************************************************************ */
 
+/**
+ * Row selection manager
+ */
 qx.Class.define("qx.ui.virtual.selection.Row",
 {
   extend : qx.ui.virtual.selection.Abstract,
@@ -31,6 +34,23 @@ qx.Class.define("qx.ui.virtual.selection.Row",
  
   members :
   {  
+    /**
+     * Returns the number of all items in the pane. This number may contain 
+     * unselectable items as well.
+     * 
+     * @return {Integer} number of items
+     */
+    _getItemCount : function() {
+      return this._pane.rowConfig.getItemCount();
+    },
+  
+  
+    /*
+    ---------------------------------------------------------------------------
+      IMPLEMENT ABSTRACT METHODS
+    ---------------------------------------------------------------------------
+    */  
+    
     // overridden
     _getSelectableFromMouseEvent : function(event)
     {
@@ -50,7 +70,7 @@ qx.Class.define("qx.ui.virtual.selection.Row",
     {
       var selectables = [];
       
-      for (var i=0, l=this._pane.rowConfig.getItemCount(); i<l; i++) 
+      for (var i=0, l=this._getItemCount(); i<l; i++) 
       {
         if (this._isSelectable(i)) {
           selectables.push(i);
@@ -82,7 +102,7 @@ qx.Class.define("qx.ui.virtual.selection.Row",
     // overridden
     _getFirstSelectable : function() 
     {
-      var count = this._pane.rowConfig.getItemCount();
+      var count = this._getItemCount();
       for (var i=0; i<count; i++) 
       {
         if (this._isSelectable(i)) {
@@ -96,7 +116,7 @@ qx.Class.define("qx.ui.virtual.selection.Row",
     // overridden
     _getLastSelectable : function() 
     {
-      var count = this._pane.rowConfig.getItemCount();
+      var count = this._getItemCount();
       for (var i=count-1; i>=0; i--) 
       {
         if (this._isSelectable(i)) {
@@ -110,21 +130,30 @@ qx.Class.define("qx.ui.virtual.selection.Row",
     // overridden
     _getRelatedSelectable : function(item, relation) 
     {
-      var related = -1;
-      if (relation == "above") {
-        related = item - 1;
-      } else if (relation == "under") {
-        related = item + 1;
+      if (relation == "above")
+      {
+        var startIndex = item-1;
+        var endIndex = 0;
+        var increment = -1;
+      }
+      else if (relation == "below")
+      {
+        var startIndex = item+1;
+        var endIndex = this._getItemCount()-1; 
+        var increment = 1;
+      }
+      else
+      {
+        return null;
       }
       
-      if (
-        related >= this._pane.rowConfig.getItemCount() ||
-        related < 0
-      ) {
-        return null;
-      } else {
-        return related;
+      for (var i=startIndex; i !== endIndex+increment; i += increment) 
+      {
+        if (this._isSelectable(i)) {
+          return i;
+        }        
       }
+      return null;
     },
 
 
@@ -136,23 +165,12 @@ qx.Class.define("qx.ui.virtual.selection.Row",
       } else {
         return this._getLastSelectable();
       }
-    },    
-    
-    
-    // overridden
-    _isSelectable : function(item) {
-      return true;
-    },
+    },   
     
     
     // overridden
     _selectableToHashCode : function(item) {
       return item;
-    },
-    
-    
-    // overridden
-    _styleSelectable : function(item, type, enabled) {      
     },
     
     
