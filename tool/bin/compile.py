@@ -26,11 +26,7 @@
 # * compile the file
 # * pretty print the file
 # * generate the abstract syntax tree
-# 
-# TODO: These options would also be nice:
-#
 # * generate an API file
-# * fix the file for tabs vs. spaces etc.
 # * ecmalint the file
 #
 ##
@@ -42,6 +38,7 @@ from optparseext.ExtendAction import ExtendAction
 from ecmascript import compiler
 from ecmascript.frontend import tokenizer, treegenerator, treeutil
 from ecmascript.backend.optimizer import basecalloptimizer, privateoptimizer, stringoptimizer, variableoptimizer, variantoptimizer, inlineoptimizer
+from ecmascript.backend import api
 from misc import filetool
 
             
@@ -59,7 +56,7 @@ def main():
     parser.add_option("-s", "--strings", action="store_true", dest="strings", default=False, help="optimize strings")
     parser.add_option("-p", "--privates", action="store_true", dest="privates", default=False, help="optimize privates")
     parser.add_option("-b", "--basecalls", action="store_true", dest="basecalls", default=False, help="optimize basecalls")            
-    parser.add_option("-i", "--inline", action="store_true", dest="inline", default=False, help="optimize inline")            
+    parser.add_option("-i", "--inline", action="store_true", dest="inline", default=False, help="optimize inline")
     parser.add_option("--all", action="store_true", dest="all", default=False, help="optimize all")            
 
     # Variant support
@@ -67,13 +64,20 @@ def main():
     
     # Action modifier
     parser.add_option("--pretty", action="store_true", dest="pretty", default=False, help="print out pretty printed")            
-    parser.add_option("--tree", action="store_true", dest="tree", default=False, help="print out tree")                
+    parser.add_option("--tree", action="store_true", dest="tree", default=False, help="print out tree")
+    parser.add_option("--apiXml", action="store_true", dest="apiXml", default=False, help="print out api data as XML")
+    parser.add_option("--apiJson", action="store_true", dest="apiJson", default=False, help="print out api data as JSON")
+    parser.add_option("--lint", action="store_true", dest="lint", default=False, help="ecmalint the file")
     
     
     #
     # Process arguments
     #
     (options, args) = parser.parse_args(sys.argv[1:])
+    
+    if len(args) == 0:
+        print ">>> Missing filename!"
+        return
 
     print ">>> Parsing file..."
     fileName = args[0]
@@ -118,7 +122,22 @@ def main():
     # Output the result
     #
     
-    if options.tree:
+    if options.apiXml or options.apiJson:
+        (data, hasError) = api.createDoc(tree)  
+        if hasError:
+            print "Error in API docs!"
+        elif options.apiXml:
+            print ">>> API data as XML..."
+            print data.toXml()
+        else:
+            print ">>> API data as JSON..."
+            print data.toJson()
+            
+    elif options.lint:
+        print ">>> Executing ecmalint..."
+        print "Needs implementation"
+    
+    elif options.tree:
         print ">>> Printing out tree..."
         print tree.toXml()
         
