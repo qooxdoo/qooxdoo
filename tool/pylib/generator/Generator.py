@@ -26,9 +26,9 @@ import urllib
 from misc import filetool, textutil, idlist, Path
 from ecmascript import compiler
 from ecmascript.frontend import treegenerator, tokenizer
-from ecmascript.backend.optimizer import variableoptimizer
-from ecmascript.backend.optimizer import privateoptimizer
-#from ecmascript.backend.optimizer import protectedoptimizer
+from ecmascript.transform.optimizer import variableoptimizer
+from ecmascript.transform.optimizer import privateoptimizer
+#from ecmascript.transform.optimizer import protectedoptimizer
 from generator.config.ExtMap import ExtMap
 from generator.code.DependencyLoader import DependencyLoader
 from generator.code.PartBuilder import PartBuilder

@@ -46,7 +46,7 @@ import sys, string, re, os, random, codecs
 import config
 from ecmascript.frontend import tokenizer, treegenerator
 from misc import filetool, textutil
-from ecmascript.backend.optimizer import stringoptimizer
+from ecmascript.transform.optimizer import stringoptimizer
 from ecmascript.frontend import treeutil
 
 ##
