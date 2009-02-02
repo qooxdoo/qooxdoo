@@ -63,7 +63,7 @@
   /**
    * Wraps a set of elements and offers the often used DOM methods to modify them.
    */
-  qx.Class.define("qx.bom.ElementCollection",
+  qx.Class.define("qx.bom.Collection",
   {
     extend : qx.core.BaseArray,
     
@@ -82,7 +82,7 @@
        * @signature function(name, value)
        * @param name {String} Name of the style attribute (js variant e.g. marginTop, wordSpacing)
        * @param value {var} The value for the given style
-       * @return {ElementCollection} The collection is returned for chaining proposes
+       * @return {Collection} The collection is returned for chaining proposes
        */
        setStyle : setter(qx.bom.element.Style, "set"),     
        
@@ -92,7 +92,7 @@
        * @signature function(styles)
        * @param styles {Map} a map where the key is the name of the property
        *    and the value is the value to use.
-       * @return {ElementCollection} The collection is returned for chaining proposes
+       * @return {Collection} The collection is returned for chaining proposes
        */
        setStyles : setter(qx.bom.element.Style, "setStyles"),            
        
@@ -101,7 +101,7 @@
        *
        * @signature function(value)
        * @param value {String} The full CSS string
-       * @return {ElementCollection} The collection is returned for chaining proposes     
+       * @return {Collection} The collection is returned for chaining proposes     
        */
        setCss : setter(qx.bom.element.Style, "setCss"),           
      
@@ -111,7 +111,7 @@
        *
        * @signature function(name)
        * @param name {String} Name of the style attribute (js variant e.g. marginTop, wordSpacing)
-       * @return {ElementCollection} The collection is returned for chaining proposes     
+       * @return {Collection} The collection is returned for chaining proposes     
        */
        resetStyle : setter(qx.bom.element.Style, "reset"),
      
@@ -142,7 +142,7 @@
        * @signature function(name, value)
        * @param name {String} Name of the attribute
        * @param value {var} New value of the attribute
-       * @return {ElementCollection} The collection is returned for chaining proposes     
+       * @return {Collection} The collection is returned for chaining proposes     
        */
        setAttribute : setter(qx.bom.element.Attribute, "set"),     
      
@@ -152,7 +152,7 @@
        *
        * @signature function(name)
        * @param name {String} Name of the attribute
-       * @return {ElementCollection} The collection is returned for chaining proposes     
+       * @return {Collection} The collection is returned for chaining proposes     
        */
        resetAttribute : setter(qx.bom.element.Attribute, "reset"),
        
@@ -180,7 +180,7 @@
        *
        * @signature function(name)
        * @param name {String} The class name to add
-       * @return {ElementCollection} The collection is returned for chaining proposes     
+       * @return {Collection} The collection is returned for chaining proposes     
        */
       addClass : setter(qx.bom.element.Class, "add"),
 
@@ -206,7 +206,7 @@
        *
        * @signature function(name)
        * @param name {String} The class name to remove
-       * @return {ElementCollection} The collection is returned for chaining proposes     
+       * @return {Collection} The collection is returned for chaining proposes     
        */
       removeClass : setter(qx.bom.element.Class, "remove"),
 
@@ -216,7 +216,7 @@
        * @signature function(oldName, newName)
        * @param oldName {String} The class name to remove
        * @param newName {String} The class name to add
-       * @return {ElementCollection} The collection is returned for chaining proposes     
+       * @return {Collection} The collection is returned for chaining proposes     
        */
       replaceClass : setter(qx.bom.element.Class, "replace"),
 
@@ -225,7 +225,7 @@
        *
        * @signature function(name)
        * @param name {String} The class name to toggle
-       * @return {ElementCollection} The collection is returned for chaining proposes     
+       * @return {Collection} The collection is returned for chaining proposes     
        */
       toggleClass : setter(qx.bom.element.Class, "toggle"),
       
@@ -241,7 +241,7 @@
        * Removes all content from the elements
        *
        * @signature function()
-       * @return {ElementCollection} The collection is returned for chaining proposes     
+       * @return {Collection} The collection is returned for chaining proposes     
        */
       empty : setter(qx.bom.Element, "empty"),
       
@@ -258,7 +258,7 @@
        * @param capture {Boolean} Whether to attach the event to the
        *       capturing phase of the bubbling phase of the event. The default is
        *       to attach the event handler to the bubbling phase.
-       * @return {ElementCollection} The collection is returned for chaining proposes     
+       * @return {Collection} The collection is returned for chaining proposes     
        */
       addListener : setter(qx.bom.Element, "addListener"),
 
@@ -275,7 +275,7 @@
        *       the event listener.
        * @param capture {Boolean} Whether to remove the event listener of
        *       the bubbling or of the capturing phase.
-       * @return {ElementCollection} The collection is returned for chaining proposes     
+       * @return {Collection} The collection is returned for chaining proposes     
        */
       removeListener : setter(qx.bom.Element, "removeListener"),
       
@@ -300,7 +300,7 @@
       
       __pushStack : function(arr)   	
       {
-        var coll = new qx.bom.ElementCollection;
+        var coll = new qx.bom.Collection;
         
         // Remember previous collection
         coll.__prevObject = this;
@@ -318,7 +318,7 @@
        *
        * @param selector {String} Valid selector (CSS3 + extensions)
        * @param context {Element} Context element (result elements must be children of this element)
-       * @return {qx.bom.ElementCollection} The collection is returned for chaining proposes     
+       * @return {qx.bom.Collection} The collection is returned for chaining proposes     
        */
       add : function(selector, context) 
       {
@@ -341,7 +341,7 @@
        * TODO
        */
       end : function() {
-        return this.__prevObject || new qx.bom.ElementCollection();
+        return this.__prevObject || new qx.bom.Collection();
       }
     }
   });
