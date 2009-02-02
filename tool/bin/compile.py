@@ -37,7 +37,7 @@ import qxenviron
 from optparseext.ExtendAction import ExtendAction
 from ecmascript import compiler
 from ecmascript.frontend import tokenizer, treegenerator, treeutil
-from ecmascript.backend.optimizer import basecalloptimizer, privateoptimizer, stringoptimizer, variableoptimizer, variantoptimizer, inlineoptimizer
+from ecmascript.transform.optimizer import basecalloptimizer, privateoptimizer, stringoptimizer, variableoptimizer, variantoptimizer, inlineoptimizer
 from ecmascript.backend import api
 from misc import filetool
 
