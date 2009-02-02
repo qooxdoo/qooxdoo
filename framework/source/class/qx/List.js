@@ -32,6 +32,8 @@
 /**
  * This class may be used to declare classes for array-like data structures.
  * Useful to create queues, string builders, etc.
+ *
+ * @deprecated Please use qx.Class.define instead and extend the class qx.core.BaseArray.
  */
 qx.Bootstrap.define("qx.List",
 {
