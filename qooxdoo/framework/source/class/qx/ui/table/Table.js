@@ -1458,7 +1458,7 @@ qx.Class.define("qx.ui.table.Table",
     /**
      * Select whether the focused row is highlighted
      *
-     * @param bHightlight {Boolean}
+     * @param bHighlight {Boolean}
      *   Flag indicating whether the focused row should be highlighted.
      *
      * @return {void}
