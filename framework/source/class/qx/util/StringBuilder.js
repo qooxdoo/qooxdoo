@@ -34,6 +34,10 @@
  */
 qx.Class.define("qx.util.StringBuilder",
 {
+  extend : qx.core.BaseArray,
+  
+  
+  
   /*
   *****************************************************************************
     MEMBERS
