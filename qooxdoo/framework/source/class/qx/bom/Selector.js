@@ -66,11 +66,11 @@ qx.Bootstrap.define("qx.bom.Selector",
      *
      * @param selector {String} Valid selector (CSS3 + extensions)
      * @param context {Element} Context element (result elements must be children of this element)
-     * @return {qx.bom.ElementCollection} List of matching elements
+     * @return {qx.bom.Collection} List of matching elements
      */
     query : function(selector, context) 
     {
-      var coll = new qx.bom.ElementCollection();
+      var coll = new qx.bom.Collection();
       coll.push.apply(coll, this.__query(selector, context));
       
       return coll;
