@@ -17,6 +17,9 @@
 
 ************************************************************************ */
 
+/**
+ * The Row layer renders row background colors. 
+ */
 qx.Class.define("qx.ui.virtual.layer.Row",
 {
   extend : qx.ui.virtual.layer.AbstractBackground,
@@ -47,10 +50,13 @@ qx.Class.define("qx.ui.virtual.layer.Row",
  
   members :
   {
+    // overridden
     _getFirstItemIndex : function() {
       return this._firstRow;
     },    
     
+    
+    // overridden
     fullUpdate : function(
       firstRow, lastRow, 
       firstColumn, lastColumn, 
@@ -60,7 +66,7 @@ qx.Class.define("qx.ui.virtual.layer.Row",
       var html = [];
       for (var y=0; y<rowSizes.length; y++)
       {
-        var color = this._getItemColor(firstRow + y);
+        var color = this.getColor(firstRow + y);
 
         html.push(
           "<div style='",
@@ -77,6 +83,8 @@ qx.Class.define("qx.ui.virtual.layer.Row",
       this._lastRow = lastRow;
     },
     
+    
+    // overridden
     updateLayerWindow : function(
       firstRow, lastRow, 
       firstColumn, lastColumn, 
@@ -96,23 +104,13 @@ qx.Class.define("qx.ui.virtual.layer.Row",
     },
         
     
-    /*
-    ---------------------------------------------------------------------------
-      COLOR HANDLING
-    ---------------------------------------------------------------------------
-    */
-
-    setRowColor : function(row, color) 
+    // overridden
+    setColor : function(index, color) 
     {
-      this._setItemColor(row, color);     
-      if (row >= this._firstRow && row <= this._lastRow) {
+      this.base(arguments, index, color);     
+      if (index >= this._firstRow && index <= this._lastRow) {
         qx.ui.core.queue.Widget.add(this);
       }
-    },
-    
-    
-    getRowColor : function(row) {
-      return this._getItemColor(row)
     }
   }
 });
