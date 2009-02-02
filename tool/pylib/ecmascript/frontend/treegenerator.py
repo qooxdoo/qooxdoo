@@ -355,7 +355,7 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
         stream.next(item)
 
         # Read optional function name
-        if stream.currIsType("name"):
+        if stream.currIsType("name") or stream.currIsType("builtin"):
             item.set("name", stream.currSource())
             stream.next(item)
 
