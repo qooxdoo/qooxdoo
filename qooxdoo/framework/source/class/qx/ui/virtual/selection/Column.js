@@ -52,10 +52,7 @@ qx.Class.define("qx.ui.virtual.selection.Column",
     
     // overridden
     _getSelectableFromMouseEvent : function(event)
-    {      
-      // TODO
-      return 0;
-      
+    {           
       var cell = this._pane.getCellAtPosition(
         event.getDocumentLeft(),
         event.getDocumentTop()
@@ -104,7 +101,7 @@ qx.Class.define("qx.ui.virtual.selection.Column",
     // overridden
     _getSelectableLocationX : function(item) 
     {
-      var colConfig = this._pane.columnConfig;
+      var columnConfig = this._pane.columnConfig;
       
       var itemLeft = columnConfig.getItemPosition(item);
       var itemRight = itemLeft + columnConfig.getItemSize(item) - 1;

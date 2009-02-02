@@ -54,14 +54,12 @@ qx.Class.define("qx.ui.virtual.selection.Row",
     // overridden
     _getSelectableFromMouseEvent : function(event)
     {
-      var mouseTop = event.getDocumentTop();
-      var paneTop = this._pane.getContentLocation().top;
+      var cell = this._pane.getCellAtPosition(
+        event.getDocumentLeft(),
+        event.getDocumentTop()
+      );
       
-      var row = this._pane.rowConfig.getItemAtPosition(
-        this._pane.getScrollY() + mouseTop - paneTop
-      ).index;
-      
-      return this._isSelectable(row) ? row : null;
+      return this._isSelectable(cell.row) ? cell.row : null;
     },        
     
     
@@ -175,28 +173,8 @@ qx.Class.define("qx.ui.virtual.selection.Row",
     
     
     // overridden
-    _scrollItemIntoView : function(item) 
-    {
-      var bounds = this._pane.getBounds();
-      if (!bounds) 
-      {
-        this._pane.addListenerOnce("appear", function() {
-          this._scrollItemIntoView(item);
-        }, this);
-        return;
-      }
-
-      var rowConfig = this._pane.rowConfig;
-      var itemTop = rowConfig.getItemPosition(item);
-      var itemBottom = itemTop + rowConfig.getItemSize(item);
-      var scrollTop = this._pane.getScrollY();
-     
-      
-      if (itemTop < scrollTop) {
-        this._pane.setScrollY(itemTop);
-      } else if (itemBottom > scrollTop + bounds.height) {
-        this._pane.setScrollY(itemBottom - bounds.height);
-      }
+    _scrollItemIntoView : function(item) {
+      this._pane.scrollRowIntoView(item);
     },
     
     
