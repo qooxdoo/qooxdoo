@@ -1169,8 +1169,8 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       // Auto select based on new scroll position and cursor
       this._autoSelect();
     },
-
-
+ 
+    
     /**
      * Automatically selects items based on the mouse movement during a drag selection
      */
@@ -1182,30 +1182,27 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       var relX = Math.max(0, Math.min(this.__mouseX - this.__frameLocation.left, inner.width)) + this.__frameScroll.left;
       var relY = Math.max(0, Math.min(this.__mouseY - this.__frameLocation.top, inner.height)) + this.__frameScroll.top;
 
-
       // Compare old and new relative coordinates (for performance reasons)
       if (this.__lastRelX === relX && this.__lastRelY === relY) {
         return;
       }
-
       this.__lastRelX = relX;
       this.__lastRelY = relY;
-
-
+      
       // Cache anchor
       var anchor = this._getAnchorItem();
 
 
       // Process X-coordinate
-      var moveX=this.__moveDirectionX, leadX=anchor;
+      var moveX=this.__moveDirectionX, lead=anchor;
       var nextX, locationX, countX=0;
-
+      
       while (moveX !== 0)
       {
         // Find next item to process depending on current scroll direction
         nextX = moveX > 0 ? 
-          this._getRelatedSelectable(leadX, "right") : 
-          this._getRelatedSelectable(leadX, "left");
+          this._getRelatedSelectable(lead, "right") : 
+          this._getRelatedSelectable(lead, "left");
 
         // May be null (e.g. first/last item)
         if (nextX !== null)
@@ -1213,9 +1210,12 @@ qx.Class.define("qx.ui.core.selection.Abstract",
           locationX = this._getSelectableLocationX(nextX);
 
           // Continue when the item is in the visible area
-          if ((moveX > 0 && locationX.left <= relX) || (moveX < 0 && locationX.right >= relX))
+          if (
+            (moveX > 0 && locationX.left <= relX) || 
+            (moveX < 0 && locationX.right >= relX)
+          )
           {
-            leadX = nextX;
+            lead = nextX;
             countX++;
 
             continue;
@@ -1228,13 +1228,15 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
 
       // Process Y-coordinate
-      var moveY=this.__moveDirectionY, leadY=anchor;
+      var moveY=this.__moveDirectionY;
       var nextY, locationY, countY=0;
 
       while (moveY !== 0)
       {        
         // Find next item to process depending on current scroll direction
-        nextY = moveY > 0 ? this._getRelatedSelectable(leadY, "under") : this._getRelatedSelectable(leadY, "above");
+        nextY = moveY > 0 ? 
+          this._getRelatedSelectable(lead, "under") : 
+          this._getRelatedSelectable(lead, "above");
         
         // May be null (e.g. first/last item)
         if (nextY !== null)
@@ -1242,9 +1244,12 @@ qx.Class.define("qx.ui.core.selection.Abstract",
           locationY = this._getSelectableLocationY(nextY);
 
           // Continue when the item is in the visible area
-          if ((moveY > 0 && locationY.top <= relY) || (moveY < 0 && locationY.bottom >= relY))
+          if (
+            (moveY > 0 && locationY.top <= relY) || 
+            (moveY < 0 && locationY.bottom >= relY)
+          )
           {
-            leadY = nextY;
+            lead = nextY;
             countY++;
 
             continue;
@@ -1255,9 +1260,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         break;
       }
 
-
-      // Select highest lead
-      var lead = countX > countY ? leadX : leadY;
 
       // Differenciate between the two supported modes
       var mode = this.getMode();
