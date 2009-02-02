@@ -116,6 +116,20 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
         delete registry[hash];
         this.__freeHashes.push(hash);
       }
+      
+      // Delete the hash code
+      try
+      {
+        delete obj.$$hash  
+      }
+      catch(ex) 
+      {
+        // IE has trouble directly removing the hash
+				// but it's ok with using removeAttribute
+        if (obj.removeAttribute) {
+          obj.removeAttribute("$$hash");
+        }
+      }
     },
 
 
@@ -123,7 +137,7 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
      * Returns an unique identifier for the given object. If such an identifier
      * does not yet exist, create it.
      *
-     * @param obj {Object} the Object to get the hashcode for
+     * @param obj {Object} the object to get the hashcode for
      * @return {String} unique identifier for the given object
      */
     toHashCode : function(obj)
@@ -152,6 +166,31 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
 
       // Store
       return obj.$$hash = hash;
+    },
+    
+
+    /**
+     * Clears the unique identifier on the given object.
+     *
+     * @param obj {Object} the object to clear the hashcode for
+     */    
+    clearHashCode : function(obj)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (obj == null)
+        {
+          qx.log.Logger.trace(this);
+          throw new Error("Invalid object: " + obj);
+        }
+      }
+
+      var hash = obj.$$hash;
+      if (hash != null) 
+      {
+        this.__freeHashes.push(hash);
+        delete obj.$$hash;
+      }
     },
 
 
