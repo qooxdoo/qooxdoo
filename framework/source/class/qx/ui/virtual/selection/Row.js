@@ -25,7 +25,7 @@ qx.Class.define("qx.ui.virtual.selection.Row",
 {
   extend : qx.ui.virtual.selection.Abstract,
    
-   
+  
   /*
   *****************************************************************************
      MEMBERS
@@ -136,7 +136,7 @@ qx.Class.define("qx.ui.virtual.selection.Row",
         var endIndex = 0;
         var increment = -1;
       }
-      else if (relation == "below")
+      else if (relation == "under")
       {
         var startIndex = item+1;
         var endIndex = this._getItemCount()-1; 
