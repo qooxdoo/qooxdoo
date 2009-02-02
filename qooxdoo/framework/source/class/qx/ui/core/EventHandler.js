@@ -158,8 +158,16 @@ qx.Class.define("qx.ui.core.EventHandler",
       var domTarget = domEvent.getTarget();
 
       var widgetTarget = qx.ui.core.Widget.getWidgetByElement(domTarget, true);
-      while (widgetTarget && widgetTarget.isAnonymous()) {
+      var targetChanged = false;
+      while (widgetTarget && widgetTarget.isAnonymous())
+      {        
+        var targetChanged = true;
         widgetTarget = widgetTarget.getLayoutParent();
+      }
+      
+      // don't activate anonymous widgets!
+      if (targetChanged && domEvent.getType() == "activate") {
+        widgetTarget.getContainerElement().activate();
       }
 
 
