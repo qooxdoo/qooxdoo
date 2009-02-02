@@ -19,7 +19,7 @@
 
 /* ************************************************************************
 
-#require(qx.List)
+#require(qx.core.BaseArray)
 
 #require(qx.bom.element.Style)
 #require(qx.bom.element.Attribute)
@@ -63,8 +63,10 @@
   /**
    * Wraps a set of elements and offers the often used DOM methods to modify them.
    */
-  qx.List.define("qx.bom.ElementCollection",
+  qx.Class.define("qx.bom.ElementCollection",
   {
+    extend : qx.core.BaseArray,
+    
     members :
     {
       /*
@@ -294,14 +296,35 @@
       ---------------------------------------------------------------------------
          SELECTOR MODIFICATIONS
       ---------------------------------------------------------------------------
-      */      	
+      */   
+      
+      __pushStack : function(arr)   	
+      {
+        var coll = new qx.bom.ElementCollection;
+        
+        // Remember previous collection
+        coll.__prevObject = this;
+        
+        // Append all elements
+        coll.push.apply(coll, arr);
+        
+        // Return newly formed collection
+        return coll;
+      },
+      
       
       /**
-       * TODO
+       * Queries the document for the given selector and adds the result to the collection.
+       *
+       * @param selector {String} Valid selector (CSS3 + extensions)
+       * @param context {Element} Context element (result elements must be children of this element)
+       * @return {qx.bom.ElementCollection} The collection is returned for chaining proposes     
        */
-      add : function(selector)
+      add : function(selector, context) 
       {
-        
+        var res = qx.bom.Selector.query(selector, context);
+        var arr = qx.lang.Array.unique(res.concat(this));
+        return this.__pushStack(arr);
       },
       
 
