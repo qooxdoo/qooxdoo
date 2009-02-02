@@ -59,6 +59,19 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCell",
 
   members :
   {
+    syncWidget : function()
+    {
+      if (!this._rowSizes) {
+        return;
+      }
+      this.fullUpdate(
+        this._firstRow, this._lastRow,
+        this._firstColumn, this._lastColumn,
+        this._rowSizes, this._columnSizes
+      );
+    },
+     
+     
     fullUpdate : function(
       firstRow, lastRow, 
       firstColumn, lastColumn, 
@@ -93,6 +106,13 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCell",
       }
       
       this.getContentElement().setAttribute("html", html.join(""));
+      
+      this._firstRow = firstRow;
+      this._lastRow = lastRow;
+      this._firstColumn = firstColumn;
+      this._lastColumn = lastColumn;
+      this._rowSizes = rowSizes;
+      this._columnSizes = columnSizes;
     },
     
     
