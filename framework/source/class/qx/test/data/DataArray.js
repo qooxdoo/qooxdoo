@@ -281,7 +281,6 @@ qx.Class.define("qx.test.data.DataArray",
     testLengthEvent: function() {
       // test for the event
       var a = new qx.data.Array(1, 2, 3);
-      var self = this;      
       this.assertEventFired(a, "changeLength", function () {
         a.pop();
       }, null, "ChangeLength event not fired!");      
@@ -304,6 +303,134 @@ qx.Class.define("qx.test.data.DataArray",
       this.assertEquals(0, this.__a.indexOf("one"), "indexOf does not work!");
       this.assertEquals(1, this.__a.indexOf("two"), "indexOf does not work!");
       this.assertEquals(2, this.__a.indexOf("three"), "indexOf does not work!");      
+    },
+    
+    
+    testCopy: function(attribute) {
+      var a = this.__a.copy();
+      // change the original array
+      this.__a.setItem(0, "0");
+      this.__a.setItem(1, "1");
+      this.__a.setItem(2, "2");
+      
+      // check the value
+      this.assertEquals("one", a.getItem(0), "Copy does not work");
+      this.assertEquals("two", a.getItem(1), "Copy does not work");
+      this.assertEquals("three", a.getItem(2), "Copy does not work");      
+      
+      a.dispose();
+    },
+    
+    
+    testInsertAt: function() {
+      this.__a.insertAt(1, "eins");
+      this.__a.insertAt(3, "drei");      
+      
+      // check the value
+      this.assertEquals("one", this.__a.getItem(0), "insertAt does not work");
+      this.assertEquals("eins", this.__a.getItem(1), "insertAt does not work");
+      this.assertEquals("two", this.__a.getItem(2), "insertAt does not work");
+      this.assertEquals("drei", this.__a.getItem(3), "insertAt does not work");
+      this.assertEquals("three", this.__a.getItem(4), "insertAt does not work");
+    },
+    
+    
+    testInsertBefore: function() {
+      this.__a.insertBefore("two", "eins");
+      this.__a.insertBefore("three", "drei");      
+      
+      // check the value
+      this.assertEquals("one", this.__a.getItem(0), "insertBefore does not work");
+      this.assertEquals("eins", this.__a.getItem(1), "insertBefore does not work");
+      this.assertEquals("two", this.__a.getItem(2), "insertBefore does not work");
+      this.assertEquals("drei", this.__a.getItem(3), "insertBefore does not work");
+      this.assertEquals("three", this.__a.getItem(4), "insertBefore does not work");
+    },
+    
+    
+    testInsertAfter: function() {
+      this.__a.insertAfter("one", "eins");
+      this.__a.insertAfter("two", "drei");      
+      
+      // check the value
+      this.assertEquals("one", this.__a.getItem(0), "insertAfter does not work");
+      this.assertEquals("eins", this.__a.getItem(1), "insertAfter does not work");
+      this.assertEquals("two", this.__a.getItem(2), "insertAfter does not work");
+      this.assertEquals("drei", this.__a.getItem(3), "insertAfter does not work");
+      this.assertEquals("three", this.__a.getItem(4), "insertAfter does not work");
+    },
+    
+    
+    testRemoveAt: function() {
+      this.__a.removeAt(1);      
+      
+      // check the value
+      this.assertEquals("one", this.__a.getItem(0), "removeAt does not work");
+      this.assertEquals("three", this.__a.getItem(1), "removeAt does not work");
+    },    
+    
+    
+    testRemoveAll: function() {
+      this.__a.removeAll();
+      
+      this.assertEquals(0, this.__a.length, "RemoveAll does not work.");
+    },
+    
+    
+    testAppend: function() {
+      this.__a.append(new qx.data.Array("4", "5").getArray());
+      
+      // check the value
+      this.assertEquals("one", this.__a.getItem(0), "append does not work");
+      this.assertEquals("two", this.__a.getItem(1), "append does not work");
+      this.assertEquals("three", this.__a.getItem(2), "append does not work");
+      this.assertEquals("4", this.__a.getItem(3), "append does not work");
+      this.assertEquals("5", this.__a.getItem(4), "append does not work");
+    },
+    
+    
+    testRemove: function() {
+      this.__a.remove("two");
+      
+      // check the value
+      this.assertEquals("one", this.__a.getItem(0), "removeAt does not work");
+      this.assertEquals("three", this.__a.getItem(1), "removeAt does not work");      
+    },
+    
+    
+    testEquals: function() {
+      var a = new qx.data.Array("one", "two", "three");
+      
+      this.assertTrue(this.__a.equals(a), "equals does not work.");
+      
+      a.dispose();
+    },
+    
+    
+    testSum: function() {
+      var a = new qx.data.Array(1, 2, 3);
+      
+      this.assertEquals(6, a.sum(), "sum does not work.");
+      
+      a.dispose();
+    },
+    
+    
+    testMax: function() {
+      var a = new qx.data.Array(1, 2, 3);
+      
+      this.assertEquals(3, a.max(), "max does not work.");
+      
+      a.dispose();      
+    },
+    
+  
+    testMin: function() {
+      var a = new qx.data.Array(1, 2, -3);
+      
+      this.assertEquals(-3, a.min(), "min does not work.");
+      
+      a.dispose();      
     }
 
   }
