@@ -345,8 +345,31 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       this.scrollColumnIntoView(column);
       this.scrollRowIntoView(row);
     },
-    
 
+    /*
+    ---------------------------------------------------------------------------
+      CELL SUPPORT
+    ---------------------------------------------------------------------------
+    */
+    
+    getCellAtPosition: function(documentX, documentY)
+    {
+      var row, column;
+      var paneLocation = this._pane.getContentLocation();
+
+      var row = this._pane.rowConfig.getItemAtPosition(
+        this._pane.getScrollY() + documentY - paneLocation.top
+      ).index;
+
+      var column = this._pane.columnConfig.getItemAtPosition(
+        this._pane.getScrollX() + documentX - paneLocation.left
+      ).index;
+
+      return {
+        row: row,
+        column: column
+        };
+    },
 
 
     /*
