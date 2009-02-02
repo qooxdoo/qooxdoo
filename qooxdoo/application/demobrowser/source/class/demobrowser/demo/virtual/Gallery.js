@@ -95,6 +95,10 @@ qx.Class.define("demo.AbstractGallery",
   
   members :
   {
+    getItemData : function(row, column) {
+      return this.items[row * this.itemPerLine + column];
+    },
+    
     _createScroller : function() {
       // abstract method
     },
@@ -184,7 +188,7 @@ qx.Class.define("demo.WidgetGallery",
     
     getCellWidget : function(row, column)
     {     
-      var itemData = this.items[row * this.itemPerLine + column];
+      var itemData = this.getItemData(row, column);
 
       if (!itemData) {
         return null;
@@ -239,15 +243,23 @@ qx.Class.define("demo.HtmlGallery",
       return scroller;
     },
     
+    _onPaneResize : function(e)
+    {
+      this.base(arguments, e);
+      this.manager.clearSelection();
+    },
+    
+    isItemSelectable : function(item) {
+      return !!this.getItemData(item.row, item.column)
+    },
     
     styleSelectable : function(item, type, wasAdded) {
       qx.ui.core.queue.Widget.add(this.layer);
     },
     
-    
     getCellHtml : function(row, column, left, top, width, height)
     {
-      var itemData = this.items[row * this.itemPerLine + column];
+      var itemData = this.getItemData(row, column);
       
       if (!itemData) {
         return "";

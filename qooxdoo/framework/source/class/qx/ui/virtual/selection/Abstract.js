@@ -65,7 +65,7 @@ qx.Class.define("qx.ui.virtual.selection.Abstract",
     // overridden
     _isSelectable : function(item) {
       return this._delegate.isItemSelectable ?
-        this._delegate.isItemSelectable() :
+        this._delegate.isItemSelectable(item) :
         true;
     },    
     
