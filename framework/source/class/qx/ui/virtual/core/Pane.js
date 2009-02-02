@@ -355,14 +355,14 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     getCellAtPosition: function(documentX, documentY)
     {
       var row, column;
-      var paneLocation = this._pane.getContentLocation();
+      var paneLocation = this.getContentLocation();
 
-      var row = this._pane.rowConfig.getItemAtPosition(
-        this._pane.getScrollY() + documentY - paneLocation.top
+      var row = this.rowConfig.getItemAtPosition(
+        this.getScrollY() + documentY - paneLocation.top
       ).index;
 
-      var column = this._pane.columnConfig.getItemAtPosition(
-        this._pane.getScrollX() + documentX - paneLocation.left
+      var column = this.columnConfig.getItemAtPosition(
+        this.getScrollX() + documentX - paneLocation.left
       ).index;
 
       return {
