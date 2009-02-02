@@ -185,7 +185,7 @@ qx.Class.define("qx.ui.virtual.selection.Cell",
           }
           break;
       
-        case "below":
+        case "under":
           var rowCount = this._pane.rowConfig.getItemCount();
           for (var row=item.row+1; row<rowCount; row++) 
           {
