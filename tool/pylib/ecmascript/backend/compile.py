@@ -21,7 +21,7 @@
 
 import sys, string, re
 from ecmascript.frontend import comment, lang
-from ecmascript.backend import pretty as prettyM, compile as compileM
+from ecmascript.backend import pretty as prettyM
 
 KEY = re.compile("^[A-Za-z0-9_$]+$")
 
@@ -342,7 +342,7 @@ def inForLoop(node):
 
 
 
-def compile(node, opts, enableBreaks=False, enableVerbose=False):
+def compileNode(node, opts, rslt, enableBreaks=False, enableVerbose=False):
     global indent
     global result
     global pretty
@@ -354,6 +354,8 @@ def compile(node, opts, enableBreaks=False, enableVerbose=False):
     global afterDivider
     global afterArea
     global options
+    
+    result = rslt
 
     options = opts
     options.prettypIndentString          = eval("'" + options.prettypIndentString + "'")
@@ -386,18 +388,11 @@ def compile(node, opts, enableBreaks=False, enableVerbose=False):
     afterDivider = False
     afterArea    = False
 
-    if pretty:
-        comment.fill(node)
-        result = prettyM.prettyNode(node, opts, result)
-    else:
-        #result = compileM.compileNode(node, opts, result)
-        result = compileNode(node, opts, result)
-
-    return u"".join(result)
+    return _compileNode(node, opts, result)
 
 
 
-def compileNode(node,optns,result):
+def _compileNode(node,optns,result):
 
     global pretty
     global indent
