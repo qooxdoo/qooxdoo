@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.virtual.layer.Row",
+qx.Class.define("qx.ui.virtual.layer.Column",
 {
   extend : qx.ui.virtual.layer.AbstractBackground,
 
@@ -34,7 +34,7 @@ qx.Class.define("qx.ui.virtual.layer.Row",
     appearance :
     {
       refine : true,
-      init : "row-layer"
+      init : "column-layer"
     }
   },
   
@@ -48,8 +48,9 @@ qx.Class.define("qx.ui.virtual.layer.Row",
   members :
   {
     _getFirstItemIndex : function() {
-      return this._firstRow;
+      return this._firstColumn;
     },    
+    
     
     fullUpdate : function(
       firstRow, lastRow, 
@@ -58,14 +59,15 @@ qx.Class.define("qx.ui.virtual.layer.Row",
     )
     {
       var html = [];
-      for (var y=0; y<rowSizes.length; y++)
+      for (var x=0; x<columnSizes.length; x++)
       {
-        var color = this._getItemColor(firstRow + y);
+        var color = this._getItemColor(firstColumn + x);
 
         html.push(
           "<div style='",
-          "height:", rowSizes[y], "px;",
-          "width: 100%;",
+          "float: left;",
+          "width:", columnSizes[x], "px;",
+          "height: 100%;",
           color ? "background-color:"+ color : "", 
           "'>",
           "</div>"
@@ -73,8 +75,8 @@ qx.Class.define("qx.ui.virtual.layer.Row",
       }
       this.getContentElement().setAttribute("html", html.join(""));
       
-      this._firstRow = firstRow;
-      this._lastRow = lastRow;
+      this._firstColumn = firstColumn;
+      this._lastColumn = lastColumn;
     },
     
     updateLayerWindow : function(
@@ -84,8 +86,8 @@ qx.Class.define("qx.ui.virtual.layer.Row",
     )
     {
       if (
-        firstRow !== this._firstRow ||
-        lastRow !== this._lastRow
+        firstColumn !== this._firstColumn ||
+        lastColumn !== this._lastColumn
       ) {
         this.fullUpdate(
           firstRow, lastRow, 
@@ -102,17 +104,17 @@ qx.Class.define("qx.ui.virtual.layer.Row",
     ---------------------------------------------------------------------------
     */
 
-    setRowColor : function(row, color) 
+    setColumnColor : function(column, color) 
     {
-      this._setItemColor(row, color);     
-      if (row >= this._firstRow && row <= this._lastRow) {
+      this._setItemColor(column, color);     
+      if (column >= this._firstColumn && column <= this._lastColumn) {
         qx.ui.core.queue.Widget.add(this);
       }
     },
     
     
-    getRowColor : function(row) {
-      return this._getItemColor(row)
+    getColumnColor : function(column) {
+      return this._getItemColor(column)
     }
   }
 });
