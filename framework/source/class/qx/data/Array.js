@@ -365,6 +365,11 @@ qx.Class.define("qx.data.Array",
     },
     
     
+    /*
+    ---------------------------------------------------------------------------
+       IMPLEMENTATION OF THE QX.LANG.ARRAY METHODS
+    ---------------------------------------------------------------------------
+    */
     /**
      * Check if the given item is in the current array.
      * 
@@ -376,6 +381,210 @@ qx.Class.define("qx.data.Array",
     },
     
     
+    /**
+     * Return a copy of the given arr
+     *
+     * @return {qx.data.Array} copy of this
+     */
+    copy : function() {
+      return this.concat();
+    },
+    
+    
+    /**
+     * Insert an element at a given position.
+     *
+     * @param index {Integer} Position where to insert the item.
+     * @param item {var} The element to insert.
+     */
+    insertAt : function(index, item)
+    {
+      this.splice(index, 0, item);
+    },    
+    
+    
+    /**
+     * Insert an item into the array before a given item.
+     *
+     * @param before {var} Insert item before this object.
+     * @param item {var} The item to be inserted.
+     */
+    insertBefore : function(before, item)
+    {
+      var index = this.indexOf(before);
+
+      if (index == -1) {
+        this.push(item);
+      } else {
+        this.splice(index, 0, item);
+      }
+    },   
+    
+    
+    /**
+     * Insert an element into the array after a given item.
+     *
+     * @param after {var} Insert item after this object.
+     * @param item {var} Object to be inserted.
+     */
+    insertAfter : function(after, item)
+    {
+      var index = this.indexOf(after);
+
+      if (index == -1 || index == (this.length - 1)) {
+        this.push(item);
+      } else {
+        this.splice(index + 1, 0, item);
+      }
+    },
+    
+    
+    /**
+     * Remove an element from the array at the given index.
+     *
+     * @param index {Integer} Index of the item to be removed.
+     * @return {var} The removed item.
+     */
+    removeAt : function(index) {
+      return this.splice(index, 1)[0];
+    },   
+    
+    
+    /**
+     * Remmove all elements from the array.
+     */
+    removeAll : function() {
+      this.__array.length = 0;
+      this.__updateLength();
+    },         
+
+
+    /**
+     * Append the items of the given array.
+     *
+     * @param array {Array} The items of this array will be appended.
+     * @throws An exception if the second argument is not an array.
+     */
+    append : function(array)
+    {
+      // this check is important because opera throws an uncatchable error if 
+      // apply is called without an array as argument.
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.core.Assert.assertArray(array, "The parameter must be an array.");
+      }
+      Array.prototype.push.apply(this.__array, array);
+      this.__updateLength();
+    },
+    
+    
+    /**
+     * Remove the given item.
+     *
+     * @param item {var} Item to be removed from the array.
+     * @return {var} The removed item.
+     */
+    remove : function(item)
+    {
+      var index = this.indexOf(item);
+
+      if (index != -1)
+      {
+        this.splice(index, 1);
+        return item;
+      }
+    },    
+    
+    
+    /**
+     * Check whether the given array has the same content as this. 
+     * Checks only the equality of the arrays' content.
+     *
+     * @param array {Array} The array to check.
+     * @return {Boolean} Whether the two arrays are equal.
+     */
+    equals : function(array)
+    {
+      if (this.length !== array.length) {
+        return false;
+      }
+
+      for (var i = 0; i < this.length; i++)
+      {
+        if (this.getItem(i) !== array.getItem(i)) {
+          return false;
+        }
+      }
+
+      return true;
+    },    
+    
+    
+    /**
+     * Returns the sum of all values in the array. Supports
+     * numeric values only.
+     *
+     * @return {Number} The sum of all values.
+     */
+    sum : function()
+    {
+      var result = 0;
+      for (var i = 0; i < this.length; i++) {
+        result += this.getItem(i);
+      }
+
+      return result;
+    },    
+    
+    
+    /**
+     * Returns the highest value in the given array.
+     * Supports numeric values only.
+     *
+     * @return {Number | null} The highest of all values or undefined if the 
+     *   array is empty.
+     */
+    max : function()
+    {
+      var result = this.getItem(0);
+
+      for (var i = 1; i < this.length; i++)
+      {
+        if (this.getItem(i) > result) {
+          result = this.getItem(i);
+        }
+      }
+
+      return result === undefined ? null : result;
+    },    
+    
+    
+    /**
+     * Returns the lowest value in the array. Supports
+     * numeric values only.
+     *
+     * @return {Number | null} The lowest of all values or undefined 
+     *   if the array is empty.
+     */
+    min : function()
+    {
+      var result = this.getItem(0);
+
+      for (var i = 1; i < this.length; i++)
+      {
+        if (this.getItem(i) < result) {
+          result = this.getItem(i);
+        }
+      }
+
+      return result === undefined ? null : result;
+    },    
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      INTERNAL HELPERS
+    ---------------------------------------------------------------------------
+    */
     /**
      * Internal function wich updates the length property of the array.
      * Every time the length will be updated, a {@link #changeLength} data 
