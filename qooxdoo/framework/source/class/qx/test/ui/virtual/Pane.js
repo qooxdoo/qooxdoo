@@ -298,6 +298,36 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       qx.ui.core.queue.Manager.flush();
       this.assertEquals(0, layer.calls.length);
       this.assertScroll(0, 6, this.pane);           
-    }    
+    },
+    
+    testSrollRowIntoView : function()
+    {
+      this.getRoot().remove(this.pane);
+      this.pane.destroy();      
+
+      var pane = new qx.ui.virtual.core.Pane(
+        this.rowCount, this.colCount, 
+        this.defaultHeight, this.defaultWidth
+      );
+
+      this.getRoot().add(pane);
+      this.pane = pane;
+      
+      var layer = new qx.test.ui.virtual.layer.LayerSimple();
+      this.pane.addLayer(layer);
+      qx.ui.core.queue.Manager.flush();
+
+      this.pane.scrollRowIntoView(100)
+      qx.ui.core.queue.Manager.flush();
+
+      var children = layer.getContentElement().getDomElement().childNodes;
+
+      this.assertEquals("0 / 71", children[0].innerHTML)
+      this.assertEquals("0 / 86", children[210].innerHTML)
+      this.assertEquals("13 / 71", children[13].innerHTML)
+      this.assertEquals("13 / 86", children[223].innerHTML)
+
+    }
+
   }
 });
