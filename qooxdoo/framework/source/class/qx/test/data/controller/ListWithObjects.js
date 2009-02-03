@@ -269,8 +269,29 @@ qx.Class.define("qx.test.data.controller.ListWithObjects",
         var label = this.__list.getChildren()[i].getLabel();
         this.assertEquals(this.__data[i].getName(), label, "Binding " + i + " is wrong!");
       }
-    }    
+    },
+    
+    
+    testFilter: function() {
+      // create the controller
+      this.__controller = new qx.data.controller.List(this.__model, this.__list, "name");
+      this.__controller.setIconPath("icon");
+      
+      // set the filter
+      this.__controller.setFilter(function(data) {
+        return data.getName() == "name2" ? true : false;
+      });
+      
+      // check for the length
+      this.assertEquals(1, this.__list.getChildren().length, "Too much list items.");      
+      
+      // check the label binding
+      var label = this.__list.getChildren()[0].getLabel();
+      this.assertEquals("name2", label, "Label binding is wrong!");
+      // check the icon binding
+      var icon = this.__list.getChildren()[0].getIcon();
+      this.assertEquals("icon2", icon, "Icon binding is wrong!");
+    }
     
   }
 });
-

@@ -80,10 +80,9 @@ qx.Class.define("qx.data.controller.List",
   construct : function(model, target, labelPath)
   {
     this.base(arguments);
-        
-    // create the maps for storing the bindings
-    this.__bindingsLabel = {};
-    this.__bindingsIcons = {};
+    
+    // lookup table for filtering and sorting
+    this.__lookupTable = [];
        
     if (labelPath != null) {
       this.setLabelPath(labelPath);      
@@ -170,6 +169,16 @@ qx.Class.define("qx.data.controller.List",
     {
       apply: "_applyIconOptions",
       nullable: true
+    },
+    
+    
+    
+    filter : 
+    {
+      check: "Function",
+      apply: "_applyFilter",
+      event: "changeFilter",
+      nullable: true
     }
   },  
 
@@ -188,6 +197,48 @@ qx.Class.define("qx.data.controller.List",
        APPLY METHODS
     ---------------------------------------------------------------------------
     */
+    
+    
+    _applyFilter: function(value, old) {
+      // remove all bindings
+      if (this.getTarget() != null) {
+        for (var i = 0; i < this.getTarget().length; i++) {
+          var id = this.getTarget().getChildren()[i].getUserData("labelBindingId");
+          this.removeBinding(id);
+          id = this.getTarget().getChildren()[i].getUserData("iconBindingId");
+          if (id != null) {
+            this.removeBinding(id);
+          }
+        }
+      }
+
+      // store the old lookup table
+      var oldTable = this.__lookupTable;      
+      // generate a new lookup table
+      this.__buildUpLookupTable();
+      
+      // if there are lesser items
+      if (oldTable.length > this.__lookupTable.length) {
+        // remove the unnecessary ítems
+        for (var j = oldTable.length; j > this.__lookupTable.length; j--) {
+          this.getTarget().removeAt(j - 1);
+        }     
+      // if there are more items   
+      } else if (oldTable.length < this.__lookupTable.length) {
+        // add the new elements
+        for (var j = oldTable.length; j < this.__lookupTable.length; j++) {
+          this.getTarget().add(new qx.ui.form.ListItem());
+        }        
+      }
+      
+      // bind every list item again
+      var listItems = this.getTarget().getChildren();
+      for (var i = 0; i < listItems.length; i++) {
+        this.__bindListItem(listItems[i], this.__lookup(i));
+      }
+    },
+    
+    
     /**
      * Apply-method which will be called if the icon options has been changed.
      * It invokes a renewing of all set bindings.
@@ -264,14 +315,16 @@ qx.Class.define("qx.data.controller.List",
         this.__changeModelListenerID = 
           value.addListener("change", this.__changeModel, this);
 
+        // renew the index lookup table
+        this.__buildUpLookupTable();
         // check for the new length
         this.__changeModelLength();
         
         // if there is a target
         if (this.getTarget() != null) {
           // update the model references to the models
-          for (var i = 0; i < this.getModel().length; i++) {
-            var modelNode = this.getModel().getItem(i);
+          for (var i = 0; i < this.__lookupTable.length; i++) {
+            var modelNode = this.getModel().getItem(this.__lookup(i));
             var listItem = this.getTarget().getChildren()[i];
             listItem.setUserData("model", modelNode);
           }          
@@ -303,14 +356,16 @@ qx.Class.define("qx.data.controller.List",
         this.removeAllBindings();
       }
       
-      if (this.getModel() != null) {
-        // add a binding for all elements in the model
-        for (var i = 0; i < this.getModel().length; i++) {
-          this.__addItem(i);
+      if (value != null) {
+        if (this.getModel() != null) {
+          // add a binding for all elements in the model
+          for (var i = 0; i < this.__lookupTable.length; i++) {
+            this.__addItem(this.__lookup(i));
+          }
         }
+        // add a listener for the target change
+        this._addChangeTargetListener(value, old);
       }
-      // add a listener for the target change
-      this._addChangeTargetListener(value, old);
     },    
     
     
@@ -345,15 +400,18 @@ qx.Class.define("qx.data.controller.List",
         return;
       }
       
+      // build up the look up table
+      this.__buildUpLookupTable();
+      
       // get the length
-      var newLength = this.getModel().length;
+      var newLength = this.__lookupTable.length;
       var currentLength = this.getTarget().getChildren().length;
       
       // if there are more item
       if (newLength > currentLength) {
         // add the new elements
         for (var j = currentLength; j < newLength; j++) {
-          this.__addItem(j);
+          this.__addItem(this.__lookup(j));
         }
       // if there are less elements
       } else if (newLength < currentLength) {
@@ -380,7 +438,9 @@ qx.Class.define("qx.data.controller.List",
       // create a new ListItem
       var listItem = new qx.ui.form.ListItem();
       // store the coresponding model element as user data
-      listItem.setUserData("model", this.getModel().getItem(index));
+      listItem.setUserData("model", 
+        this.getModel().getItem(this.__lookup(index))
+      );
       // set up the binding
       this.__bindListItem(listItem, index);
       // add the ListItem to the target
@@ -395,9 +455,9 @@ qx.Class.define("qx.data.controller.List",
     __removeItem: function() {
       // get the last binding id
       var index = this.getTarget().getChildren().length - 1;
-      this.__removeBindingsFrom(index);
       // get the item
       var oldItem = this.getTarget().getChildren()[index];
+      this.__removeBindingsFrom(oldItem);
       // remove the item
       this.getTarget().removeAt(index);
       oldItem.destroy();
@@ -436,8 +496,7 @@ qx.Class.define("qx.data.controller.List",
       }
       // create the binding
       var id = this.bind(bindPath, listItem, "label", options);
-      // save the bindings id
-      this.__bindingsLabel[index] = id;
+      listItem.setUserData("labelBindingId", id);
       
       // if the iconPath is set
       if (this.getIconPath() != null) {
@@ -460,7 +519,7 @@ qx.Class.define("qx.data.controller.List",
         // create the binding
         id = this.bind(bindPath, listItem, "icon", options);
         // save the binding id
-        this.__bindingsIcons[index] = id;
+        listItem.setUserData("iconBindingId", id);
       }
     },
     
@@ -493,17 +552,14 @@ qx.Class.define("qx.data.controller.List",
      * 
      * @param index {number} The index of the binding which should be removed.
      */
-    __removeBindingsFrom: function(index) {
-      var id = this.__bindingsLabel[index];
-      // delete the reference 
-      delete this.__bindingsLabel[index];
+    __removeBindingsFrom: function(item) {
+      var id = item.getUserData("labelBindingId");
       // remove the binding
       this.removeBinding(id);
-      // of an icon binding exists
-      if (this.__bindingsIcons[index] != undefined) {
+      // if an icon binding exists
+      id = item.getUserData("iconBindingId");
+      if (id != undefined) {
         // remove the icon binding
-        id = this.__bindingsIcons[index];
-        delete this.__bindingsIcons[index];
         this.removeBinding(id);
       }
     },
@@ -523,11 +579,43 @@ qx.Class.define("qx.data.controller.List",
             
       // go through all items
       for (var i = 0; i < listItems.length; i++) {
-        this.__removeBindingsFrom(i);
+        this.__removeBindingsFrom(listItems[i]);
         // add the new binding
-        this.__bindListItem(listItems[i], i);
+        this.__bindListItem(listItems[i], this.__lookup(i));
       }      
+    },
+    
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+       LOOKUP STUFF
+    ---------------------------------------------------------------------------
+    */    
+    __buildUpLookupTable: function() {
+      var model = this.getModel();
+      var filter = this.getFilter();
+      
+      this.__lookupTable = [];
+      for (var i = 0; i < model.length; i++) {
+        if (filter == null || filter(model.getItem(i))) {
+          this.__lookupTable.push(i);
+        }
+      }
+    },
+    
+    
+    __lookup: function(index) {
+      return this.__lookupTable[index];
+    },  
+    
+    __reverseLookup: function(index) {
+      for (var i = 0; i < this.__lookupTable.length; i++) {
+        if (this.__lookupTable[i] == index) {
+          return i;
+        }
+      }
+      return -1;
     }
-        
   }
 });
