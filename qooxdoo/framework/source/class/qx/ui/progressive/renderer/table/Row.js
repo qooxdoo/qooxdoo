@@ -90,7 +90,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
         "  white-space:nowrap;" +
         "  border-right:1px solid #f2f2f2;" +
         "  border-bottom:1px solid #eeeeee;" +
-        "  padding : 0px 6px 0px 6px" +
+        "  padding : 0px 6px 0px 6px;" +
         "  cursor:default;" +
         "  font-size: 11px;" +
         "  font-family: 'Segoe UI', Corbel, Calibri, Tahoma, 'Lucida Sans Unicode', sans-serif;" +
@@ -157,7 +157,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
 
         var stylesheet =
           ".qx-progressive-" + hash + "-row {" +
-          "  width : '100%';" +
+          "  width : 100%;" +
           "}";
         tr.__clazz[hash].rowstylesheet =
           qx.bom.Stylesheet.createElement(stylesheet);

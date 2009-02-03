@@ -113,6 +113,9 @@ qx.Class.define("DateCellRenderer",
       var ms =
         Date.parse(cellDiv.attributes.getNamedItem("celldata").nodeValue);
       var date = new Date(ms);
+
+      // Opera displays both lines here but shouldn't, since the row height
+      // is explicitly specified. Firefox properly shows only one line.
       cellDiv.innerHTML = date.toUTCString() + "<br>" + date.toString();
     },
 
