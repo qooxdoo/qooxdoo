@@ -90,6 +90,13 @@ qx.Class.define("demo.AbstractGallery",
     });    
     scroller.pane.addListener("resize", this._onPaneResize, this);    
     this.add(scroller);    
+    
+    this.manager = new qx.ui.virtual.selection.Cell(scroller.pane, this).set({
+      mode: "multi",
+      drag: true
+    });  
+    this.manager.attachMouseEvents();
+    this.manager.attachKeyEvents(scroller);    
   },
   
   
@@ -102,6 +109,14 @@ qx.Class.define("demo.AbstractGallery",
     _createScroller : function() {
       // abstract method
     },
+    
+    isItemSelectable : function(item) {
+      return !!this.getItemData(item.row, item.column)
+    },
+    
+    styleSelectable : function(item, type, wasAdded) {
+      // abstract method
+    },    
     
     _onPaneResize : function(e)
     {
@@ -173,7 +188,8 @@ qx.Class.define("demo.WidgetGallery",
         1, this.itemPerLine,
         this.itemHeight, this.itemWidth
       );
-      scroller.pane.addLayer(new qx.ui.virtual.layer.WidgetCell(this));
+      this.layer = new qx.ui.virtual.layer.WidgetCell(this);
+      scroller.pane.addLayer(this.layer);
       
       var prefetch = new qx.ui.virtual.behavior.Prefetch(
         scroller,
@@ -186,6 +202,44 @@ qx.Class.define("demo.WidgetGallery",
       return scroller;
     },
     
+    styleListItem : function(widget, isSelected) 
+    {
+      //console.log("style", isSelected)
+      var label = widget.getChildControl("label");
+      if (isSelected)
+      {
+        label.setDecorator("selected");
+        label.setTextColor("text-selected");
+      } else {
+        label.resetDecorator();
+        label.resetTextColor();
+      }
+    },
+    
+    styleSelectable : function(item, type, wasAdded) 
+    {
+      if (type !== "selected") {
+        return;
+      }
+
+      var widgets = this.layer.getChildren();
+      for (var i=0; i<widgets.length; i++)
+      {
+        var widget = widgets[i];
+        var cell = widget.getUserData("cell");
+        
+        if (item.row !== cell.row || item.column !== cell.column) {
+          continue;
+        }
+        
+        if (wasAdded) {
+          this.styleListItem(widget, true);
+        } else {
+          this.styleListItem(widget, false);
+        }        
+      }
+    },     
+    
     getCellWidget : function(row, column)
     {     
       var itemData = this.getItemData(row, column);
@@ -193,12 +247,28 @@ qx.Class.define("demo.WidgetGallery",
       if (!itemData) {
         return null;
       }
-           
-      var widget = this._pool.pop() || new qx.ui.basic.Atom().set({
-        iconPosition: "top"
-      });
+                 
+      var widget = this._pool.pop();
+      
+      if (!widget) 
+      {
+        widget = new qx.ui.basic.Atom().set({
+          iconPosition: "top"
+        });
+        widget.getChildControl("label").set({
+          padding : [0, 4]
+        });
+      }
+      
+      var cell = {row: row, column: column};
+      if (this.manager.isItemSelected(cell)) {
+        this.styleListItem(widget, true);
+      } else {
+        this.styleListItem(widget, false);
+      }
       
       widget.set(itemData);
+      widget.setUserData("cell", cell);
 
       return widget;
     },
@@ -233,12 +303,13 @@ qx.Class.define("demo.HtmlGallery",
       this.layer = new qx.ui.virtual.layer.HtmlCell(this);
       scroller.pane.addLayer(this.layer);
       
-      this.manager = new qx.ui.virtual.selection.Cell(scroller.pane, this).set({
-        mode: "multi",
-        drag: true
-      });  
-      this.manager.attachMouseEvents(scroller.pane);
-      this.manager.attachKeyEvents(scroller);
+      var lines = new qx.ui.virtual.layer.GridLines("horizontal");
+      lines._color = "#f3f3f3";
+      scroller.pane.addLayer(lines);
+      
+      var lines = new qx.ui.virtual.layer.GridLines("vertical");
+      lines._color = "#f3f3f3";
+      scroller.pane.addLayer(lines);
       
       return scroller;
     },
@@ -247,10 +318,6 @@ qx.Class.define("demo.HtmlGallery",
     {
       this.base(arguments, e);
       this.manager.clearSelection();
-    },
-    
-    isItemSelectable : function(item) {
-      return !!this.getItemData(item.row, item.column)
     },
     
     styleSelectable : function(item, type, wasAdded) {

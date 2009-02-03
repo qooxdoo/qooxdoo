@@ -93,6 +93,7 @@ qx.Class.define("demobrowser.demo.virtual.List",
 
       var rbm1 = new qx.ui.form.RadioGroup(mode1, mode2, mode3, mode4);
 
+      /*
       var show1 = new qx.ui.form.RadioButton("Show Label");
       var show2 = new qx.ui.form.RadioButton("Show Icon");
       var show3 = new qx.ui.form.RadioButton("Show Both");
@@ -115,6 +116,7 @@ qx.Class.define("demobrowser.demo.virtual.List",
           configList.getChildren()[i].setShow(e.getData());
         }
       });
+      */
 
       var dragCheck = new qx.ui.form.CheckBox("Enable drag selection");
       var quickCheck = new qx.ui.form.CheckBox("Enable quick selection").set({enabled : false});
