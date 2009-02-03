@@ -52,8 +52,14 @@ qx.Bootstrap.define("qx.lang.Array",
      * @param obj {Object} Any object
      * @return {Boolean} whether the given object is an array
      */    
-    isArray: function(obj) {
-      return Object.prototype.toString.call(obj) === "[object Array]";
+    isArray: function(obj) 
+    {
+      // Normally the string compare is enough for all arrays 
+      // (cross document), but all classes which extends Array e.g.
+      // qx.core.BaseArray are identified as "[object Object]". The 
+      // instanceof checks works though very well for them.
+      return Object.prototype.toString.call(obj) === "[object Array]" || 
+        obj instanceof Array;
     },
       
 
