@@ -302,17 +302,12 @@ qx.Class.define("qx.test.ui.virtual.Pane",
     
     testSrollRowIntoView : function()
     {
-      this.getRoot().remove(this.pane);
-      this.pane.destroy();      
+      this.pane.set({
+        width : 400,
+        height : 305
+      });
+      this.pane.columnConfig.setItemCount(1);
 
-      var pane = new qx.ui.virtual.core.Pane(
-        this.rowCount, this.colCount, 
-        this.defaultHeight, this.defaultWidth
-      );
-
-      this.getRoot().add(pane);
-      this.pane = pane;
-      
       var layer = new qx.test.ui.virtual.layer.LayerSimple();
       this.pane.addLayer(layer);
       qx.ui.core.queue.Manager.flush();
@@ -322,10 +317,9 @@ qx.Class.define("qx.test.ui.virtual.Pane",
 
       var children = layer.getContentElement().getDomElement().childNodes;
 
-      this.assertEquals("0 / 71", children[0].innerHTML)
-      this.assertEquals("0 / 86", children[210].innerHTML)
-      this.assertEquals("13 / 71", children[13].innerHTML)
-      this.assertEquals("13 / 86", children[223].innerHTML)
+      this.assertScroll(5, 0, this.pane);
+      this.assertEquals("0 / 70", children[0].innerHTML)
+      this.assertEquals("0 / 100", children[children.length-1].innerHTML)
 
     }
 
