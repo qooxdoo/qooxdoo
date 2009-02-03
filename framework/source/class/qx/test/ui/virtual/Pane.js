@@ -364,9 +364,9 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       var children = layer.getContentElement().getDomElement().childNodes;
 
       // TODO fjakobs
-      // this.assertScroll(5, 0, this.pane);
-      // this.assertEquals("0 / 70", children[0].innerHTML)
-      // this.assertEquals("0 / 100", children[children.length-1].innerHTML)
+      this.assertScroll(5, 0, this.pane);
+      this.assertEquals("0 / 969", children[0].innerHTML)
+      this.assertEquals("0 / 999", children[children.length-1].innerHTML)
 
     },
 
@@ -389,9 +389,9 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       var children = layer.getContentElement().getDomElement().childNodes;
 
       // TODO fjakobs
-      // this.assertScroll(0, 5, this.pane);
-      // this.assertEquals("70 / 0", children[0].innerHTML)
-      // this.assertEquals("100 / 0", children[children.length-1].innerHTML)
+      this.assertScroll(0, 15, this.pane);
+      this.assertEquals("186 / 0", children[0].innerHTML)
+      this.assertEquals("199 / 0", children[children.length-1].innerHTML)
     }
 
   }
