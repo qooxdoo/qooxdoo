@@ -83,6 +83,16 @@ qx.Class.define("qx.util.StringBuilder",
      */
     isEmpty : function() {
       return this.length === 0;
+    },
+    
+    
+    /**
+     * Returns the size of the strings
+     *
+     * @return {Integer} The string length
+     */
+    size : function(){
+      return this.join("").length;
     }
   },
 
@@ -99,5 +109,6 @@ qx.Class.define("qx.util.StringBuilder",
   {
     members.add = members.push;
     members.toString = members.get;
+    members.valueOf = members.get;
   }
 });
