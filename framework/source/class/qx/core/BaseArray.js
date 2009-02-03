@@ -19,7 +19,8 @@
    ======================================================================
 
    This class uses ideas and code snipplets presented at
-   <http://webreflection.blogspot.com/2008/05/habemus-array-unlocked-length-in-ie8.html>
+   http://webreflection.blogspot.com/2008/05/habemus-array-unlocked-length-in-ie8.html
+   http://webreflection.blogspot.com/2008/05/stack-and-arrayobject-how-to-create.html
    
    Author:
      Andrea Giammarchi
@@ -27,13 +28,14 @@
    License:
      MIT: http://www.opensource.org/licenses/mit-license.php     
        
-   -- 
+   ======================================================================
    
    This class uses documentation of the native Array methods from the MDC
    documentation of Mozilla. 
   
    License:
-     CC Attribution-Sharealike License: http://creativecommons.org/licenses/by-sa/2.5/
+     CC Attribution-Sharealike License: 
+     http://creativecommons.org/licenses/by-sa/2.5/
 
 ************************************************************************ */
 
@@ -240,6 +242,7 @@ qx.Class.define("qx.core.BaseArray",
 
 qx.core.BaseArray = function(Stack)
 {
+  // Redefine Stack's prototype (IE fix for length)
   if((new Stack(0,1)).length === 0)
   {
     Stack.prototype = { length : 0 };
@@ -250,9 +253,11 @@ qx.core.BaseArray = function(Stack)
       Stack.prototype[args[--length]] = Array.prototype[args[length]];
     }      
   };
-    
+  
+  // Remember Array's slice method
   var slice = Array.prototype.slice;
     
+  // Fix "slice" method
   Stack.prototype.concat = function()
   {
     var constructor = this.slice(0);
@@ -262,7 +267,7 @@ qx.core.BaseArray = function(Stack)
       var copy;
       
       if (arguments[i] instanceof Stack) {
-        copy = arguments[i].slice(0);
+        copy = slice.call(arguments[i], 0);
       } else if (arguments[i] instanceof Array) {
         copy = arguments[i];
       } else {
@@ -275,12 +280,62 @@ qx.core.BaseArray = function(Stack)
     return constructor;
   };
     
+  // Fix "toString" method
   Stack.prototype.toString = function(){
     return slice.call(this, 0).toString();
   };
     
+  // Fix constructor
   Stack.prototype.constructor = Stack;
   
+  // Fix methods which generates a new instance 
+  // to return an instance of the same class
+  Stack.prototype.filter = function()
+  {
+    var ret = new this.constructor;
+    ret.push.apply(ret, Array.prototype.filter.apply(this, arguments));
+    return ret;
+  };
+  
+  Stack.prototype.map = function()
+  {
+    var ret = new this.constructor;
+    ret.push.apply(ret, Array.prototype.map.apply(this, arguments));
+    return ret;
+  };
+  
+  Stack.prototype.slice = function()
+  {
+    var ret = new this.constructor;
+    ret.push.apply(ret, Array.prototype.slice.apply(this, arguments));
+    return ret;
+  };
+
+  Stack.prototype.splice = function()
+  {
+    var ret = new this.constructor;
+    ret.push.apply(ret, Array.prototype.splice.apply(this, arguments));
+    return ret;
+  };
+
+  // Add new "to" method for easy translation between Array-like instances
+  Stack.prototype.to = function(constructor)
+  {
+    if (this.constructor === constructor) {
+      return this; 
+    }
+    
+    var ret = new constructor;
+    ret.push.apply(ret, Array.prototype.slice.call(this, 0));
+    return ret;
+  };  
+  
+  // Add valueOf() to return the length
+  Stack.prototype.valueOf = function(){
+    return this.length;
+  };  
+
+  // Return final class
   return Stack;
 }
 (function()
