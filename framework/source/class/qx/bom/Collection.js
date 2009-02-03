@@ -295,20 +295,9 @@
       
       
       
-      
-
       /*
       ---------------------------------------------------------------------------
-         DOM MANIPULATION
-      ---------------------------------------------------------------------------
-      */  
-        
-      
-      
-      
-      /*
-      ---------------------------------------------------------------------------
-         SELECTOR MODIFICATIONS
+         COLLECTION CHAINING/MODIFICATION
       ---------------------------------------------------------------------------
       */   
       
@@ -327,6 +316,10 @@
         // Remember previous collection
         coll.__prevObject = this;
         
+        // The "apply" call only accepts real arrays, no extended ones, 
+        // so we need to convert it first
+        arr = Array.prototype.slice.call(arr, 0);
+        
         // Append all elements
         coll.push.apply(coll, arr);
         
@@ -336,20 +329,8 @@
       
       
       /**
-       * Reduce the set of matched elements to a single element.
-       *
-       * The position of the element in the collection of matched elements starts at 0 and goes to length - 1.
-       *
-       * @param index {Integer} The position of the element
-       * @return {Collection} The reduced collection
-       */
-      eq : function(index) {
-        return this.slice(index, +index + 1);
-      },
-      
-      
-      /**
-       * Queries the document for the given selector and adds the result to the collection.
+       * Adds more elements, matched by the given expression, 
+       * to the set of matched elements.
        *
        * @param selector {String} Valid selector (CSS3 + extensions)
        * @param context {Element} Context element (result elements must be children of this element)
@@ -364,17 +345,137 @@
       },
       
 
+      /** 
+       * Get a set of elements containing all of the unique immediate children 
+       * of each of the matched set of elements.
+       *
+       * This set can be filtered with an optional expression that will cause 
+       * only elements matching the selector to be collected. 
+       *
+       * Also note: while <code>parents()</code> will look at all ancestors, 
+       * <code>children()</code> will only consider immediate child elements.
+       *
+       * @return {Collection} The filtered collection
+       */      
+      children : function() {
+        
+      },
+      
+      
       /**
-       * TODO
+       * Reduce the set of matched elements to a single element.
+       *
+       * The position of the element in the collection of matched 
+       * elements starts at 0 and goes to length - 1.
+       *
+       * @param index {Integer} The position of the element
+       * @return {Collection} The filtered collection
        */
-      filter : function(selector)
-      {
+      eq : function(index) {
+        return this.slice(index, +index + 1);
+      },
+      
+      
+      /** 
+       * Removes all elements from the set of matched elements that 
+       * do not match the specified expression(s).
+       *
+       * @param expr {String} The expression to filter
+       * @return {Collection} The filtered collection
+       */
+      filter : function() {
         
       },
       
 
+      /** 
+       *
+       *
+       * @return {Collection} The filtered collection
+       */
+      find : function() {
+        
+      },
+      
+
+      /** 
+       *
+       *
+       * @return {Collection} The filtered collection
+       */
+      gt : function() {
+        
+      },
+      
+
+      /** 
+       *
+       *
+       * @return {Collection} The filtered collection
+       */
+      lt : function() {
+        
+      },
+      
+
+      /** 
+       *
+       *
+       * @return {Collection} The new collection
+       */
+      next : function() {
+        
+      },
+      
+
+      /** 
+       * Removes elements matching the specified expression 
+       * from the set of matched elements.
+       *
+       * @param expr {String} The expression to filter
+       * @return {Collection} The filtered collection
+       */
+      not : function() {
+        
+      },
+      
+
+      /** 
+       *
+       *
+       * @return {Collection} The new collection
+       */
+      parent : function() {
+        
+      },
+
+      
+      /** 
+       *
+       *
+       * @return {Collection} The new collection
+       */
+      parents : function() {
+        
+      },
+      
+
+      /** 
+       *
+       *
+       * @return {Collection} The new collection
+       */
+      siblings : function() {
+        
+      },
+
       /**
-       * TODO
+       * Undone of the last modification of the collection.
+       *
+       * These methods change the selection during a chained method call:
+       * <code>add</code>, <code>children</code>, <code>eq</code>, <code>filter</code>, 
+       * <code>find</code>, <code>gt</code>, <code>lt</code>, <code>next</code>, 
+       * <code>not</code>, <code>parent</code>, <code>parents</code> and <code>siblings</code>
        */
       end : function() {
         return this.__prevObject || new qx.bom.Collection();
