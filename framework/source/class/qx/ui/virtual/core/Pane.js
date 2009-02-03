@@ -19,13 +19,23 @@
 ************************************************************************ */
 
 /**
- * The Pane renders a window of a much larger virtual area.
+ * The Pane provides a window of a larger virtual grid.
+ * 
+ * The actual rendering is performed by one or several layers ({@link ILayer}.
+ * The pane computes, which cells of the virtual area is visible and instructs
+ * the layers to render these cells.
  */
 qx.Class.define("qx.ui.virtual.core.Pane",
 {
   extend : qx.ui.core.Widget,
 
 
+  /**
+   * @param rowCount {Integer?0} The number of rows of the virtual grid
+   * @param columnCount {Integer?0} The number of columns of the virtual grid
+   * @param cellHeight {Integer?10} The default cell height
+   * @param cellWidth {Integer?10} The default cell width 
+   */
   construct : function(rowCount, columnCount, cellHeight, cellWidth)
   {
     this.base(arguments);
@@ -51,7 +61,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     this.__layers = [];
     
     this.addListener("resize", this._onResize, this);
-    this.addListener("appear", this._onAppear, this);    
+    this.addListenerOnce("appear", this._onAppear, this);    
   },
    
   
@@ -66,8 +76,10 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     /** Fired on resize of either the container or the (virtual) content. */
     update : "qx.event.type.Event",
         
+    /** Fired if the pane is scrolled horizontally */
     scrollX : "qx.event.type.Data",
     
+    /** Fired if the pane is scrolled vertically */
     scrollY : "qx.event.type.Data"    
   },
    
@@ -123,6 +135,11 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     },
     
     
+    /**
+     * Add a layer to the layer container
+     * 
+     * @param layer {ILayer} the layer to add
+     */
     addLayer : function(layer)
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
@@ -135,11 +152,21 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     },
     
     
+    /**
+     * Get a list of all layers
+     * 
+     * @return {ILayer[]} list of the pane's layers
+     */
     getLayers : function() {
       return this.__layers;
     },
     
     
+    /**
+     * Get a list of all visible layers
+     * 
+     * @return {ILayer[]} list of the pane's visible layers
+     */
     getVisibleLayers : function()
     {
       var layers = [];
@@ -213,7 +240,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       {        
         var old = this.__scrollTop;
         this.__scrollTop = value;
-        this.updateScrollPosition();
+        this._updateScrollPosition();
         this.fireDataEvent("scrollY", value, old);
       }
     },
@@ -248,7 +275,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       {                
         var old = this.__scrollLeft;
         this.__scrollLeft = value;
-        this.updateScrollPosition();
+        this._updateScrollPosition();
                 
         this.fireDataEvent("scrollX", value, old);
       }
@@ -286,6 +313,11 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     ---------------------------------------------------------------------------
     */
     
+    /**
+     * Scrolls a row into the visible area of the pane.
+     * 
+     * @param row {Integer} The row's index
+     */
     scrollRowIntoView : function(row)
     {
       var bounds = this.getBounds();
@@ -308,6 +340,12 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       }
     },
 
+    
+    /**
+     * Scrolls a column into the visible area of the pane.
+     * 
+     * @param column {Integer} The column's index
+     */    
     scrollColumnIntoView : function(column)
     {
       var bounds = this.getBounds();
@@ -327,10 +365,16 @@ qx.Class.define("qx.ui.virtual.core.Pane",
         this.setScrollX(itemLeft);
       } else if (itemWidth > scrollLeft + bounds.height) {
         this.setScrollX(itemWidth - bounds.width);
-      }
-      
+      }     
     },
 
+    
+    /**
+     * Scrolls a grid cell into the visible area of the pane.
+     * 
+     * @param row {Integer} The cell's row index
+     * @param column {Integer} The cell's column index
+     */
     scrollCellIntoView : function(column, row)
     {
       var bounds = this.getBounds();
@@ -346,12 +390,28 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       this.scrollRowIntoView(row);
     },
 
+    
     /*
     ---------------------------------------------------------------------------
       CELL SUPPORT
     ---------------------------------------------------------------------------
     */
     
+    /**
+     * Get the grid cell at the given absolute document coordinates. This method
+     * can be used to convert the mouse position returned by 
+     * {@link qx.event.type.Mouse#getDocumentLeft} and 
+     * {@link qx.event.type.Mouse#getDocumentLeft} into cell coordinates.
+     * 
+     * @param documentX {Integer} The x coordinate relative to the viewport
+     *    origin.
+     * @param documentY {Integer} The y coordinate relative to the viewport
+     *    origin.
+     * @return {Map} A map containing th <code>row</code> and <code>column</code>
+     *    of the found cell. If the coordinate is outside of the pane's bounds
+     *    of there is no cell at the coordinate the values of row and column
+     *    are <code>null</code>.
+     */
     getCellAtPosition: function(documentX, documentY)
     {
       var row, column;
@@ -379,18 +439,18 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     */
     
     /**
-     * Increase the layers height beyond the needed height to improve 
-     * vertical scrolling. The layers are only resized if invisible parts
-     * above/below the pane window are smaller than minAbove/minBelow.
+     * Increase the layers width beyond the needed width to improve 
+     * horizontal scrolling. The layers are only resized if invisible parts
+     * left/right of the pane window are smaller than minLeft/minRight.
      * 
-     * @param minAbove {Integer} Only prefetch if the invisible part above the
+     * @param minLeft {Integer} Only prefetch if the invisible part left of the
      *    pane window if smaller than this (pixel) value
-     * @param maxAbove {Integer} The amount of pixel the layers should reach
-     *    above the pane window
-     * @param minBelow {Integer} Only prefetch if the invisible part below the
+     * @param maxLeft {Integer} The amount of pixel the layers should reach
+     *    left of the pane window
+     * @param minRight {Integer} Only prefetch if the invisible part right of the
      *    pane window if smaller than this (pixel) value
-     * @param maxBelow {Integer} The amount of pixel the layers should reach
-     *    below the pane window
+     * @param maxRight {Integer} The amount of pixel the layers should reach
+     *    right of the pane window
      */    
     prefetchX : function(minLeft, maxLeft, minRight, maxRight)
     {
@@ -414,7 +474,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
         this.DEBUG && console.log("prefetch x");
         var left = Math.min(this.__scrollLeft, maxLeft); 
         var right = Math.min(rightAvailable, maxRight)
-        this.setLayerWindow(
+        this._setLayerWindow(
           layers,
           this.__scrollLeft - left,
           this.__scrollTop,
@@ -462,7 +522,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
         this.DEBUG && console.log("prefetch y");
         var above = Math.min(this.__scrollTop, maxAbove); 
         var below = Math.min(belowAvailable, maxBelow)
-        this.setLayerWindow(
+        this._setLayerWindow(
           layers,
           this.__scrollLeft,
           this.__scrollTop - above,
@@ -480,18 +540,26 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     ---------------------------------------------------------------------------
     */
     
+    /**
+     * Resize event handler.
+     * 
+     * Updates the visible window
+     */
     _onResize : function() 
     {
       if (this.getContainerElement().getDomElement()) 
       {        
         this.__dontFireUpdate = true;
-        this.updateScrollPosition();
+        this._updateScrollPosition();
         this.__dontFireUpdate = null;
         this.fireEvent("update");
       }
     },
     
     
+    /**
+     * Resize event handler. Do a full update on first appear.
+     */
     _onAppear : function() {
       this.fullUpdate();
     },
@@ -508,8 +576,18 @@ qx.Class.define("qx.ui.virtual.core.Pane",
      * "left/right" up to "left+minHeight/right+minHeight". The offset of the
      * layer container is adjusted to respect the pane's scroll top and scroll
      * left values. 
+     * 
+     * @param layers {ILayer[]} list of layers to update
+     * @param left {Integer} maximum left pixel coordinate of the layers
+     * @param top {Integer} maximum top pixel coordinate of the layers
+     * @param minWidth {Integer} the minimum end coordinate of the layers will 
+     *    be larger than <code>left+minWidth</code>. 
+     * @param minHeight {Integer} the minimum end coordinate of the layers will 
+     *    be larger than <code>top+minHeight</code>. 
+     * @param doFullUpdate {Boolean?false} Whether a full update on the layer
+     *    should be performed of if only the layer window should be updated.
      */
-    setLayerWindow : function(layers, left, top, minWidth, minHeight, doFullUpdate)
+    _setLayerWindow : function(layers, left, top, minWidth, minHeight, doFullUpdate)
     {
       var rowCellData = this.rowConfig.getItemAtPosition(top);
       var columnCellData = this.columnConfig.getItemAtPosition(left);
@@ -578,6 +656,11 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     },    
     
     
+    
+    /**
+     * Check whether the pane was resized and fire an {@link #update} event if
+     * it was.
+     */
     __checkPaneResize : function()
     {
       if (this.__dontFireUpdate) {
@@ -597,6 +680,10 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     },
     
     
+    /**
+     * Perform a full update on all visible layers. All cached data will be 
+     * discarded.
+     */
     fullUpdate : function()
     {
       var layers = this.getVisibleLayers();
@@ -612,7 +699,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       }            
      
       this.DEBUG && console.log("full update");
-      this.setLayerWindow(
+      this._setLayerWindow(
         layers,
         this.__scrollLeft, this.__scrollTop,
         bounds.width, bounds.height,
@@ -622,7 +709,12 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       this.__checkPaneResize();
     },
     
-    updateScrollPosition : function() 
+    
+    /**
+     * Update the visible window of the grid according to the top and left scroll
+     * positions. 
+     */
+    _updateScrollPosition : function() 
     {
       var layers = this.getVisibleLayers();
       if (layers.length == 0) 
@@ -663,7 +755,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       else
       {
         this.DEBUG && console.log("update layer window");
-        this.setLayerWindow(
+        this._setLayerWindow(
           layers,
           this.__scrollLeft, this.__scrollTop,
           bounds.width, bounds.height,
