@@ -84,6 +84,7 @@ def main():
                 selected = True
                 break
         if not selected:
+            print "  - Skipping HTML file: %s" % html
             continue
         fileH.seek(0)  # rewind
         category = html.split(os.sep)[2]
