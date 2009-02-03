@@ -28,11 +28,12 @@ qx.Class.define("demobrowser.demo.widget.Tree",
     {
       this.base(arguments);
 
-      var container = new qx.ui.container.Composite(new qx.ui.layout.HBox().set({
-        spacing: 20
-      })).set({
-        padding: 30
-      });
+      var hBox = new qx.ui.layout.HBox();
+      hBox.set(
+        {
+          spacing: 20
+        });
+      var container = new qx.ui.container.Composite(hBox);
       this.getRoot().add(container);
 
       var tree = this.getTree();
