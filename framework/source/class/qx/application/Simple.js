@@ -17,6 +17,13 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#optional(qx.event.handler.Focus)
+
+************************************************************************ */
+
+
 /**
  * Very simple application, which calls the global methods
  * <code>qxmain()</code> at load time and <code>qxterminate()</code> at
@@ -44,6 +51,18 @@ qx.Class.define("qx.application.Simple",
     main : function()
     {
       this.base(arguments);
+      
+      // Enable the focus handler at startup if it's available.
+      // This ensures that the key event handler gets the right target for the
+      // very first key events. 
+      // Otherwise the key event handler will invoke the focus handler which 
+      // then returns the BODY element as fallback because the handler has (yet)
+      // no active element.
+      // See Bug #1880 for details.
+      if (qx.Class.isDefined("qx.event.handler.Focus"))
+      {
+        qx.event.Registration.getManager(window).getHandler(qx.event.handler.Focus);
+      }
 
       if (window.qxmain) {
         window.qxmain.call(this);
