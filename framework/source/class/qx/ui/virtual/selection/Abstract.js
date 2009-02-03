@@ -49,7 +49,7 @@ qx.Class.define("qx.ui.virtual.selection.Abstract",
     }
 
     this._pane = pane;
-    this._delegate = selectionDelegate || {};
+    this._delegate = selectionDelegate || {};
   },
    
    
