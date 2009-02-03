@@ -15,6 +15,20 @@
    Authors:
      * Sebastian Werner (wpbasti)
      
+   ======================================================================
+
+   This class contains code based on the following work:
+     
+   * jQuery
+     http://jquery.com
+     Version 1.3.1
+
+     Copyright:
+       2009 John Resig
+
+     License:
+       MIT: http://www.opensource.org/licenses/mit-license.php           
+     
 ************************************************************************ */
 
 /* ************************************************************************
@@ -298,6 +312,14 @@
       ---------------------------------------------------------------------------
       */   
       
+      /** 
+       * Extend the chaining with a new collection, while
+       * storing the previous collection to make it accessible
+       * via <code>end()</code>.
+       *
+       * @param arr {Array} Array to transform into new collection
+       * @return {Collection} The newly created collection
+       */
       __pushStack : function(arr)   	
       {
         var coll = new qx.bom.Collection;
@@ -314,6 +336,19 @@
       
       
       /**
+       * Reduce the set of matched elements to a single element.
+       *
+       * The position of the element in the collection of matched elements starts at 0 and goes to length - 1.
+       *
+       * @param index {Integer} The position of the element
+       * @return {Collection} The reduced collection
+       */
+      eq : function(index) {
+        return this.slice(index, +index + 1);
+      },
+      
+      
+      /**
        * Queries the document for the given selector and adds the result to the collection.
        *
        * @param selector {String} Valid selector (CSS3 + extensions)
@@ -324,6 +359,7 @@
       {
         var res = qx.bom.Selector.query(selector, context);
         var arr = qx.lang.Array.unique(res.concat(this));
+        
         return this.__pushStack(arr);
       },
       
