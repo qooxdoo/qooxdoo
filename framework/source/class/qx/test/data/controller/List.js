@@ -49,7 +49,7 @@ qx.Class.define("qx.test.data.controller.List",
     
     testStringArray: function() {
       this.__setUpString();
-      
+            
       // check the binding
       for (var i = 0; i < this.__data.length; i++) {
         var label = this.__list.getChildren()[i].getLabel();
@@ -466,6 +466,115 @@ qx.Class.define("qx.test.data.controller.List",
       
       // test for the selection
       this.assertEquals("x", this.__controller.getSelection().getItem(0), "Selection is wrong.");
+    },
+    
+    
+    testFilterApply: function() {
+      this.__setUpString();
+      
+      this.__controller.setFilter(function(data) {
+        return data == "b" || data == "c" || data == "d";
+      });
+      
+      // check the binding
+      for (var i = 0; i < this.__data.length - 2; i++) {
+        var label = this.__list.getChildren()[i].getLabel();
+        this.assertEquals(this.__data[i + 1], label, "Binding " + i + " is wrong!");
+      }
+    },
+    
+    
+    testFilterChange: function() {
+      this.__setUpString();
+      
+      this.__controller.setFilter(function(data) {
+        return data == "b" || data == "c" || data == "d";
+      });
+      
+      this.__controller.setFilter(function(data) {
+        return data == "a" || data == "b" || data == "c";
+      });      
+      
+      // check the binding
+      for (var i = 0; i < this.__data.length - 2; i++) {
+        var label = this.__list.getChildren()[i].getLabel();
+        this.assertEquals(this.__data[i], label, "Binding " + i + " is wrong!");
+      } 
+    },
+    
+    
+    testFilterChangeModel: function() {
+      this.__setUpString();
+
+      this.__controller.setFilter(function(data) {
+        return data == "B" || data == "C" || data == "D";
+      });
+      
+      // check for the right length
+      this.assertEquals(0, this.__list.getChildren().length, "Some list items created.");
+      
+      this.__controller.setModel(new qx.data.Array("A", "B", "C", "D", "E"));
+      
+      // check the length
+      this.assertEquals(3, this.__list.getChildren().length, "Wrong number of list items");
+      // check the labels
+      this.assertEquals("B", this.__list.getChildren()[0].getLabel(), "Binding is wrong!");
+      this.assertEquals("C", this.__list.getChildren()[1].getLabel(), "Binding is wrong!");      
+      this.assertEquals("D", this.__list.getChildren()[2].getLabel(), "Binding is wrong!");
+    },
+    
+    
+    testFilterChangeTarget: function() {
+      this.__setUpString();
+
+      var list = new qx.ui.form.List();
+      
+      this.__controller.setFilter(function(data) {
+        return data == "b" || data == "d";
+      });
+      
+      // check the length of the first list
+      this.assertEquals(2, this.__list.getChildren().length, "Wrong number of list items");
+      
+      // change the target
+      this.__controller.setTarget(null);
+      // check if everything is cleaned up
+      this.assertEquals(0, this.__list.getChildren().length, "Wrong number of list items");
+      
+      // set the new target
+      this.__controller.setTarget(list);
+
+      // check the new target
+      this.assertEquals(2, list.getChildren().length, "Wrong number of list items");
+      this.assertEquals("b", list.getChildren()[0].getLabel(), "Binding is wrong!");
+      this.assertEquals("d", list.getChildren()[1].getLabel(), "Binding is wrong!");
+      
+      list.dispose();
+    },
+    
+    
+    testFilterWithSelection: function() {
+      this.__setUpString();
+      
+      this.__controller.setFilter(function(data) {
+        return data == "a" || data == "e";
+      });
+      
+      // select the first object
+      this.__list.addToSelection(this.__list.getChildren()[0]);
+      // test the selection
+      this.assertEquals(this.__model.getItem(0), this.__controller.getSelection().getItem(0), "Selection does not work.");
+    
+      // test for the length
+      this.assertEquals(1, this.__controller.getSelection().length, "Selection length is wrong.");
+      
+      // select the second object
+      this.__list.addToSelection(this.__list.getChildren()[1]);
+      // test the selection
+      this.assertEquals(this.__model.getItem(1), this.__controller.getSelection().getItem(0), "Selection does not work.");
+    
+      // test for the length
+      this.assertEquals(1, this.__controller.getSelection().length, "Selection length is wrong.");      
     }
   }
 });

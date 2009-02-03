@@ -502,7 +502,7 @@ qx.Class.define("qx.data.SingleValueBinding",
         );
       }
 
-      var bindListener = function(arrayIndex, e) {        
+      var bindListener = function(arrayIndex, e) {
         // if an array value is given
         if (arrayIndex !== "") {
           //check if its the "last" value
