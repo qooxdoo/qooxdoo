@@ -35,13 +35,13 @@
  *
  *   // add some children
  *   stack.add(new qx.ui.core.Widget().set({
- *    backgroundColor: "red";
+ *    backgroundColor: "red"
  *   }));
  *   stack.add(new qx.ui.core.Widget().set({
- *    backgroundColor: "green";
+ *    backgroundColor: "green"
  *   }));
  *   stack.add(new qx.ui.core.Widget().set({
- *    backgroundColor: "blue";
+ *    backgroundColor: "blue"
  *   }));
  *
  *   // select green widget
