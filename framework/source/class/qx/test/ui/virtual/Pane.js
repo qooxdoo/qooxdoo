@@ -299,7 +299,7 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.assertEquals(0, layer.calls.length);
       this.assertScroll(0, 6, this.pane);           
     },
-    
+
     testSrollRowIntoView : function()
     {
       this.pane.set({
@@ -321,6 +321,77 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.assertEquals("0 / 70", children[0].innerHTML)
       this.assertEquals("0 / 100", children[children.length-1].innerHTML)
 
+    },
+
+
+    testSrollColumnIntoView : function()
+    {
+      this.pane.set({
+        width : 405,
+        height : 305
+      });
+      this.pane.rowConfig.setItemCount(1);
+
+      var layer = new qx.test.ui.virtual.layer.LayerSimple();
+      this.pane.addLayer(layer);
+      qx.ui.core.queue.Manager.flush();
+
+      this.pane.scrollColumnIntoView(100)
+      qx.ui.core.queue.Manager.flush();
+
+      var children = layer.getContentElement().getDomElement().childNodes;
+
+      this.assertScroll(0, 15, this.pane);
+      this.assertEquals("87 / 0", children[0].innerHTML)
+      this.assertEquals("100 / 0", children[children.length-1].innerHTML)
+    },
+
+    testSrollRowIntoViewEdgeCase : function()
+    {
+      this.pane.set({
+        width : 400,
+        height : 305
+      });
+      this.pane.columnConfig.setItemCount(1);
+
+      var layer = new qx.test.ui.virtual.layer.LayerSimple();
+      this.pane.addLayer(layer);
+      qx.ui.core.queue.Manager.flush();
+
+      this.pane.scrollRowIntoView(2000)
+      qx.ui.core.queue.Manager.flush();
+
+      var children = layer.getContentElement().getDomElement().childNodes;
+
+      // TODO fjakobs
+      // this.assertScroll(5, 0, this.pane);
+      // this.assertEquals("0 / 70", children[0].innerHTML)
+      // this.assertEquals("0 / 100", children[children.length-1].innerHTML)
+
+    },
+
+
+    testSrollColumnIntoViewEdgeCase : function()
+    {
+      this.pane.set({
+        width : 405,
+        height : 305
+      });
+      this.pane.rowConfig.setItemCount(1);
+
+      var layer = new qx.test.ui.virtual.layer.LayerSimple();
+      this.pane.addLayer(layer);
+      qx.ui.core.queue.Manager.flush();
+
+      this.pane.scrollColumnIntoView(400)
+      qx.ui.core.queue.Manager.flush();
+
+      var children = layer.getContentElement().getDomElement().childNodes;
+
+      // TODO fjakobs
+      // this.assertScroll(0, 5, this.pane);
+      // this.assertEquals("70 / 0", children[0].innerHTML)
+      // this.assertEquals("100 / 0", children[children.length-1].innerHTML)
     }
 
   }
