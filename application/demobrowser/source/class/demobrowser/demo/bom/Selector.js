@@ -55,6 +55,18 @@ qx.Class.define("demobrowser.demo.bom.Selector",
         .add("h2").setStyle("color", "orange")
         .add("li").setStyle("backgroundColor", "#eee")
         .end().setStyle("textAlign", "center");
+        
+      // Selector to collection
+      Selector.query("li a").eq(1).setStyle("fontWeight", "bold");
+      
+      // Debug
+      var arr1 = new qx.core.BaseArray(1,2,3);
+      var arr2 = arr1.slice(1)
+      
+      Logger.debug("BaseArray Instance Test: " + (arr1 instanceof qx.core.BaseArray));
+      Logger.debug("BaseArray Instance Test: " + (arr2 instanceof qx.core.BaseArray));
+
+
     }
   }
 });
