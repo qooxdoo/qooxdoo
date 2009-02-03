@@ -25,7 +25,7 @@
 ################################################################################
 
 FRAMEWORK_VERSION := $(shell svn propget qx:version .)
-FRAMEWORK_SVNINFO := $(shell python tool/bin/svninfo.py .)
+FRAMEWORK_SVNINFO := $(shell python tool/admin/bin/svninfo.py .)
 
 CMD_LINE = echo "----------------------------------------------------------------------------"
 CMD_NICE = nice -n 10
@@ -125,7 +125,7 @@ release-sdk-collect:
 
 	@echo "  * Synchronizing tools..."
 	@$(CMD_DIR) $(RELEASE_SDK)/tool
-	@$(CMD_SYNC_OFFLINE) --exclude *.pyo --exclude *.pyc tool/* $(RELEASE_SDK)/tool
+	@$(CMD_SYNC_OFFLINE) --exclude *.pyo --exclude *.pyc --exclude tool/admin tool/* $(RELEASE_SDK)/tool
 
 	@echo "  * Copying remaining SDK files..."
 	@for ITEM in $(SDK_COPY); do \
