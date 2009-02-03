@@ -49,6 +49,12 @@ qx.Class.define("demobrowser.demo.bom.Selector",
       
       // Add some events
       Selector.query("p").addListener("click", function() { alert(this.innerHTML) });
+      
+      // Work with collection
+      (new qx.bom.Collection)
+        .add("h2").setStyle("color", "orange")
+        .add("li").setStyle("backgroundColor", "#eee")
+        .end().setStyle("textAlign", "center");
     }
   }
 });
