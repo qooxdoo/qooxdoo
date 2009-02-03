@@ -320,13 +320,13 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       }
 
       var itemLeft = this.columnConfig.getItemPosition(column);
-      var itemRight = itemLeft + this.columnConfig.getItemSize(column);
+      var itemWidth = itemLeft + this.columnConfig.getItemSize(column);
       var scrollLeft = this.getScrollX();
 
       if (itemLeft < scrollLeft) {
         this.setScrollX(itemLeft);
-      } else if (itemRight > scrollLeft + bounds.height) {
-        this.setScrollX(itemRight - bounds.width);
+      } else if (itemWidth > scrollLeft + bounds.height) {
+        this.setScrollX(itemWidth - bounds.width);
       }
       
     },
@@ -366,9 +366,9 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       ).index;
 
       return {
-        row: row,
-        column: column
-        };
+        row : row,
+        column : column
+      };
     },
 
 
