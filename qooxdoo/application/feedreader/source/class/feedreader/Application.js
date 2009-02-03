@@ -206,7 +206,7 @@ qx.Class.define("feedreader.Application",
       // bind the first selection of the tree as the model of the list
       this.__treeController.bind(
         "selection[0].articles", this.__listController, "model"
-      );  
+      );
       
       // bind the article //
       // bind the first selection of the list to the article view
@@ -225,7 +225,7 @@ qx.Class.define("feedreader.Application",
       var options = {converter: this._state2loadingConverter};
       this.__treeController.bind(
         "selection[0].state", this._listView, "loading", options
-      );      
+      );
       
       // bind the enabled property of the remove feed button
       options = {converter: this._category2enabledConverter};
@@ -449,7 +449,7 @@ qx.Class.define("feedreader.Application",
       // get the selected feed
       var feed = this.__treeController.getSelection().getItem(0);
       // if there is a feed and its not static
-      if (feed && feed.getCategory&& feed.getCategory() !== "static") {
+      if (feed && feed.getCategory && feed.getCategory() !== "static") {
         var userFeeds = this._userFeedFolder.getFeeds();
         // remove it
         for (var i = 0; i < userFeeds.length; i++) {
