@@ -92,6 +92,15 @@ def search(node, found=None, register=False, level=0, other_bound=None):
         if respect(name, found):
             found.append(name)
 
+
+    # e.g. catch(name1)
+    elif register and node.type == "catch":
+        name = node.getChild("expression").getChild("variable").getChild("identifier").get("name")
+        
+        if respect(name, found):
+            found.append(name)
+ 
+
     # register other bound names
     # -- this is overgenerating, but is ok since it is checked against when generating
     # -- "fresh" names, to make sure they're not in use
