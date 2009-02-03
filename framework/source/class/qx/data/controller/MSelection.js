@@ -125,7 +125,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
      */
     __changeTargetSelection: function() {
       // if __changeSelectionArray is currently working, do nothing
-      if (this.__modifingSelection) {
+      if (this.__modifingSelection || this.getTarget() == null) {
         return;
       }
       
