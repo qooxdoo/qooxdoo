@@ -19,8 +19,8 @@
 ************************************************************************ */
 
 /**
- * The ScrollArea provides a container widget with on demand scroll bars
- * if the content size exceeds the size of the container.
+ * The Scroller wraps a {@link Pane} and provides scroll bars to interactively
+ * scroll the pane's content.
  */
 qx.Class.define("qx.ui.virtual.core.Scroller",
 {
@@ -33,6 +33,12 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
   *****************************************************************************
   */
 
+  /**
+   * @param rowCount {Integer?0} The number of rows of the virtual grid
+   * @param columnCount {Integer?0} The number of columns of the virtual grid
+   * @param cellHeight {Integer?10} The default cell height
+   * @param cellWidth {Integer?10} The default cell width 
+   */  
   construct : function(rowCount, columnCount, cellHeight, cellWidth)
   {
     this.base(arguments);
@@ -103,8 +109,7 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
     */
 
     /**
-     * Returns the top offset of the given item in relation to the
-     * inner height of this widget.
+     * NOT IMPLEMENTED
      *
      * @param item {qx.ui.core.Widget} Item to query
      * @return {Integer} Top offset
@@ -115,8 +120,7 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
 
 
     /**
-     * Returns the top offset of the end of the given item in relation to the
-     * inner height of this widget.
+     * NOT IMPLEMENTED
      *
      * @param item {qx.ui.core.Widget} Item to query
      * @return {Integer} Top offset
@@ -127,8 +131,7 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
 
 
     /**
-     * Returns the left offset of the given item in relation to the
-     * inner width of this widget.
+     * NOT IMPLEMENTED
      *
      * @param item {qx.ui.core.Widget} Item to query
      * @return {Integer} Top offset
@@ -139,8 +142,7 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
 
 
     /**
-     * Returns the left offset of the end of the given item in relation to the
-     * inner width of this widget.
+     * NOT IMPLEMENTED
      *
      * @param item {qx.ui.core.Widget} Item to query
      * @return {Integer} Right offset
