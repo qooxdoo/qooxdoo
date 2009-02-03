@@ -21,6 +21,7 @@
 qx.Class.define("qx.ui.virtual.form.List", 
 {
   extend : qx.ui.virtual.core.Scroller,
+  
   implement : [
     qx.ui.virtual.core.IWidgetCellProvider,
     qx.ui.form.IFormElement,
