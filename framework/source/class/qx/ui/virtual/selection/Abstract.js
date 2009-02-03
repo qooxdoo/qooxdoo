@@ -43,6 +43,11 @@ qx.Class.define("qx.ui.virtual.selection.Abstract",
   construct : function(pane, selectionDelegate)
   {
     this.base(arguments);
+    
+    if (qx.core.Variant.isSet("qx.debug", "on")) {
+      this.assertInstance(pane, qx.ui.virtual.core.Pane);
+    }
+
     this._pane = pane;
     this._delegate = selectionDelegate || {};
   },
