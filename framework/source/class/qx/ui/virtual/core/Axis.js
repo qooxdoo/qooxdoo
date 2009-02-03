@@ -18,15 +18,20 @@
 ************************************************************************ */
 
 /**
- * The axis maps virtual screen coordinates to cell indexes. By default all
- * cells have the same size but it is also possible to give specific cells
+ * The axis maps virtual screen coordinates to item indexes. By default all
+ * items have the same size but it is also possible to give specific items
  * a different size.
  */
 qx.Class.define("qx.ui.virtual.core.Axis",
 {
   extend : qx.core.Object,
 
-  construct : function(defaultItemSize, itemCount) {
+  /**
+   * @param defaultItemSize {Integer} The default size of the items
+   * @param itemCount {Integer} the number of item on the axis
+   */
+  construct : function(defaultItemSize, itemCount) 
+  {
     this.base(arguments);
     
     this.itemCount = itemCount;
@@ -37,58 +42,95 @@ qx.Class.define("qx.ui.virtual.core.Axis",
   },
   
 
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
   members :
   {
-    getDefaultItemSize : function(defaultItemSize) {
+    /**
+     * Get the default size of the items
+     * 
+     * @return {Integer} the default item size
+     */
+    getDefaultItemSize : function() {
       return this.defaultItemSize;
     },    
     
+    
+    /**
+     * Set the default size the items
+     * 
+     * @param defaultItemSize {Integer} The default size of the items
+     */
     setDefaultItemSize : function(defaultItemSize) 
     {
       this.defaultItemSize = defaultItemSize;
       this.__ranges = null;
     },
     
+    
+    /**
+     * Get the number of items in the axis
+     * 
+     * @return {Integer} The number of items
+     */
     getItemCount : function() {
       return this.itemCount;
     },
     
+    
+    /**
+     * Set the number of items in the axis.
+     * 
+     * @param itemCount {Integer} The new item count
+     */
     setItemCount : function(itemCount)
     {
       this.itemCount = itemCount;
       this.__ranges = null;
     },    
     
-    setItemSize : function(cellIndex, size)
+    
+    /**
+     * Sets the size of a specific item. This allow item, which have a size 
+     * different from the default size.
+     * 
+     * @param index {Integer} index of the item to change
+     * @param size {Integer} New size of the item
+     */
+    setItemSize : function(index, size)
     {
-      if (cellIndex >= this.itemCount) {
+      if (index >= this.itemCount) {
         return;
       }
-      if (cellIndex === null) {
-        delete this.customSizes[cellIndex];
+      if (index === null) {
+        delete this.customSizes[index];
       } else {
-        this.customSizes[cellIndex] = size;
+        this.customSizes[index] = size;
       }
       this.__ranges = null;
     },
     
-    getItemSize : function(cellIndex)
+    
+    /**
+     * Get the size of the item at the given index
+     * 
+     * @param index {Integer} index of the item to get the size for
+     * @return {Integer} Size of the item
+     */
+    getItemSize : function(index)
     {
       // custom size of 0 is not allowed
-      return this.customSizes[cellIndex] || this.defaultItemSize;
+      return this.customSizes[index] || this.defaultItemSize;
     },
     
+    
+    /**
+     * Reset all custom sizes set with {@link #setItemSize}.
+     */
     resetItemSizes : function()
     {
       this.customSizes = {};
       this.__ranges = null;      
     },
+    
     
     /**
      * Split the the position range into disjunct intervals. Each interval starts
@@ -96,6 +138,8 @@ qx.Class.define("qx.ui.virtual.core.Axis",
      * The ranges are sorted according to their start position.
      * 
      * Complexity: O(n log n) (n = number of custom sized cells)
+     * 
+     * @return {Map[]} the sorted list of ranges.
      */
     __getRanges : function()
     {
@@ -177,6 +221,9 @@ qx.Class.define("qx.ui.virtual.core.Axis",
      * Returns the range, which contains the position
      * 
      * Complexity: O(log n) (n = number of custom sized cells)
+     * 
+     * @param position {Integer} the position
+     * @return {Map} The range, which contains the given position.
      */
     __findRangeByPosition : function(position)
     {
@@ -203,7 +250,12 @@ qx.Class.define("qx.ui.virtual.core.Axis",
     
     
     /**
-     * Get the cell and the offset into the cell at the given position
+     * Get the item and the offset into the item at the given position
+     * 
+     * @param position {Integer} The position to get the item for
+     * @return {Map} A map with the keys <code>index</code> and 
+     *    <code>offset</code>. The index is the index of the item containing the
+     *    position and offsets specifies offset into this item.
      */
     getItemAtPosition : function(position) 
     {
@@ -251,6 +303,9 @@ qx.Class.define("qx.ui.virtual.core.Axis",
      * Returns the range, which contains the position
      * 
      * Complexity: O(log n) (n = number of custom sized cells)
+     * 
+     * @param index {Integer} The index of the item to get the range for.
+     * @return {Map} The range for the index.
      */
     __findRangeByIndex : function(index)
     {
@@ -276,6 +331,12 @@ qx.Class.define("qx.ui.virtual.core.Axis",
     },
     
     
+    /**
+     * Get the start position of the item with the given index.
+     * 
+     * @param index {Integer} The item's index
+     * @return {Integer} The start position of the item
+     */
     getItemPosition : function(index)
     {
       var range = this.__findRangeByIndex(index);
@@ -290,6 +351,8 @@ qx.Class.define("qx.ui.virtual.core.Axis",
     
     /**
      * Returns the sum of all cell sizes
+     * 
+     * @return {Integer} The sum of all item sizes
      */
     getTotalSize : function()
     {
@@ -301,6 +364,12 @@ qx.Class.define("qx.ui.virtual.core.Axis",
     /**
      * Get an array of item sizes starting with the item at "startIndex". The
      * sum of all sizes in the returned array is at least "minSizeSum". 
+     * 
+     * @param startIndex {Integer} The index of the first item
+     * @param minSizeSum {Integer} The minimum sum of the item sizes
+     * @return {Integer[]} List of item sizes starting with the size of the item
+     *    at index <code>startIndex</code>. The sum of the item sizes is at least
+     *    <code>minSizeSum</code>.
      */
     getItemSizes : function(startIndex, minSizeSum)
     {
