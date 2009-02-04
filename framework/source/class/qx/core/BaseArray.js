@@ -40,8 +40,17 @@
 ************************************************************************ */
 
 /**
- * The BaseArray class is the common superclass for all array classes in
- * qooxdoo.
+ * This class is the common superclass for all array classes in
+ * qooxdoo. It supports all of the shiny 1.6 JavaScript array features
+ * like <code>forEach</code> and <code>map</code>.
+ *
+ * This class may be instantiated instead of the native Array if
+ * one wants to work with a feature-unified Array instead of the native
+ * one. This class uses native features whereever possible but fills
+ * all missing implementations with custom ones.
+ *
+ * Through the ability to extend from this class one could add even 
+ * more utility features on top of it.
  */
 qx.Class.define("qx.core.BaseArray",
 {
@@ -85,6 +94,26 @@ qx.Class.define("qx.core.BaseArray",
 
   members :
   {
+    /** 
+     * Translates the array to other array-like objects like the native Array.
+     *
+     * Attention: This method may return the same instance when it is 
+     * already using the correct constructor.
+     *
+     * @signature function(constructor)
+     * @param constructor {Function} Constructor function to use
+     * @return {Array} Transformed copy of the original array
+     */
+    to : null,
+    
+    /** 
+     * Returns the current number of items stored in the Array
+     *
+     * @signature function()
+     * @return {Integer} number of items
+     */
+    valueOf : null,    
+    
     /**
      * Removes the last element from an array and returns that element. 
      *
@@ -236,7 +265,167 @@ qx.Class.define("qx.core.BaseArray",
      *   less than 0, -1 is returned, i.e. the array will not be searched.
      * @return {Integer} The index of the given element
      */
-    lastIndexOf : null                   
+    lastIndexOf : null,
+    
+    /**
+     * Executes a provided function once per array element.
+     *
+     * <code>forEach</code> executes the provided function (<code>callback</code>) once for each
+     * element present in the array.  <code>callback</code> is invoked only for indexes of the array
+     * which have assigned values; it is not invoked for indexes which have been deleted or which
+     * have never been assigned values.
+     *
+     * <code>callback</code> is invoked with three arguments: the value of the element, the index
+     * of the element, and the Array object being traversed.
+     *
+     * If a <code>obj</code> parameter is provided to <code>forEach</code>, it will be used
+     * as the <code>this</code> for each invocation of the <code>callback</code>.  If it is not
+     * provided, or is <code>null</code>, the global object associated with <code>callback</code>
+     * is used instead.
+     *
+     * <code>forEach</code> does not mutate the array on which it is called.
+     *
+     * The range of elements processed by <code>forEach</code> is set before the first invocation of
+     * <code>callback</code>.  Elements which are appended to the array after the call to
+     * <code>forEach</code> begins will not be visited by <code>callback</code>. If existing elements
+     * of the array are changed, or deleted, their value as passed to <code>callback</code> will be
+     * the value at the time <code>forEach</code> visits them; elements that are deleted are not visited.
+     *
+     * @signature function(callback, obj)
+     * @param callback {Function} Function to execute for each element.
+     * @param obj {Object} Object to use as this when executing callback.
+     */    
+    forEach : null,  
+
+    /**
+     * Creates a new array with all elements that pass the test implemented by the provided
+     * function.
+     *
+     * <code>filter</code> calls a provided <code>callback</code> function once for each
+     * element in an array, and constructs a new array of all the values for which
+     * <code>callback</code> returns a true value.  <code>callback</code> is invoked only
+     * for indexes of the array which have assigned values; it is not invoked for indexes
+     * which have been deleted or which have never been assigned values.  Array elements which
+     * do not pass the <code>callback</code> test are simply skipped, and are not included
+     * in the new array.
+     *
+     * <code>callback</code> is invoked with three arguments: the value of the element, the
+     * index of the element, and the Array object being traversed.
+     *
+     * If a <code>obj</code> parameter is provided to <code>filter</code>, it will
+     * be used as the <code>this</code> for each invocation of the <code>callback</code>.
+     * If it is not provided, or is <code>null</code>, the global object associated with
+     * <code>callback</code> is used instead.
+     *
+     * <code>filter</code> does not mutate the array on which it is called. The range of
+     * elements processed by <code>filter</code> is set before the first invocation of
+     * <code>callback</code>. Elements which are appended to the array after the call to
+     * <code>filter</code> begins will not be visited by <code>callback</code>. If existing
+     * elements of the array are changed, or deleted, their value as passed to <code>callback</code>
+     * will be the value at the time <code>filter</code> visits them; elements that are deleted
+     * are not visited.
+     *
+     * @signature function(callback, obj)
+     * @param callback {Function} Function to test each element of the array.
+     * @param obj {Object} Object to use as <code>this</code> when executing <code>callback</code>.
+     * @return {Array} The newly created array with all matching elements
+     */    
+    filter : null, 
+              
+    /**
+     * Creates a new array with the results of calling a provided function on every element in this array.
+     *
+     * <code>map</code> calls a provided <code>callback</code> function once for each element in an array,
+     * in order, and constructs a new array from the results.  <code>callback</code> is invoked only for
+     * indexes of the array which have assigned values; it is not invoked for indexes which have been
+     * deleted or which have never been assigned values.
+     *
+     * <code>callback</code> is invoked with three arguments: the value of the element, the index of the
+     * element, and the Array object being traversed.
+     *
+     * If a <code>obj</code> parameter is provided to <code>map</code>, it will be used as the
+     * <code>this</code> for each invocation of the <code>callback</code>. If it is not provided, or is
+     * <code>null</code>, the global object associated with <code>callback</code> is used instead.
+     *
+     * <code>map</code> does not mutate the array on which it is called.
+     *
+     * The range of elements processed by <code>map</code> is set before the first invocation of
+     * <code>callback</code>. Elements which are appended to the array after the call to <code>map</code>
+     * begins will not be visited by <code>callback</code>.  If existing elements of the array are changed,
+     * or deleted, their value as passed to <code>callback</code> will be the value at the time
+     * <code>map</code> visits them; elements that are deleted are not visited.
+     *
+     * @signature function(callback, obj)
+     * @param callback {Function} Function produce an element of the new Array from an element of the current one.
+     * @param obj {Object} Object to use as <code>this</code> when executing <code>callback</code>.
+     * @return {Array} A new array which contains the return values of every item executed through the given function
+     */
+    map : null,
+    
+    /**
+     * Tests whether some element in the array passes the test implemented by the provided function.
+     *
+     * <code>some</code> executes the <code>callback</code> function once for each element present in
+     * the array until it finds one where <code>callback</code> returns a true value. If such an element
+     * is found, <code>some</code> immediately returns <code>true</code>. Otherwise, <code>some</code>
+     * returns <code>false</code>. <code>callback</code> is invoked only for indexes of the array which
+     * have assigned values; it is not invoked for indexes which have been deleted or which have never
+     * been assigned values.
+     *
+     * <code>callback</code> is invoked with three arguments: the value of the element, the index of the
+     * element, and the Array object being traversed.
+     *
+     * If a <code>obj</code> parameter is provided to <code>some</code>, it will be used as the
+     * <code>this</code> for each invocation of the <code>callback</code>. If it is not provided, or is
+     * <code>null</code>, the global object associated with <code>callback</code> is used instead.
+     *
+     * <code>some</code> does not mutate the array on which it is called.
+     *
+     * The range of elements processed by <code>some</code> is set before the first invocation of
+     * <code>callback</code>.  Elements that are appended to the array after the call to <code>some</code>
+     * begins will not be visited by <code>callback</code>. If an existing, unvisited element of the array
+     * is changed by <code>callback</code>, its value passed to the visiting <code>callback</code> will
+     * be the value at the time that <code>some</code> visits that element's index; elements that are
+     * deleted are not visited.
+     *
+     * @signature function(callback, obj)
+     * @param callback {Function} Function to test for each element.
+     * @param obj {Object} Object to use as <code>this</code> when executing <code>callback</code>.
+     * @return {Boolean} Whether at least one elements passed the test
+     */    
+    some : null,
+    
+    /**
+     * Tests whether all elements in the array pass the test implemented by the provided function.
+     *
+     * <code>every</code> executes the provided <code>callback</code> function once for each element
+     * present in the array until it finds one where <code>callback</code> returns a false value. If
+     * such an element is found, the <code>every</code> method immediately returns <code>false</code>.
+     * Otherwise, if <code>callback</code> returned a true value for all elements, <code>every</code>
+     * will return <code>true</code>.  <code>callback</code> is invoked only for indexes of the array
+     * which have assigned values; it is not invoked for indexes which have been deleted or which have
+     * never been assigned values.
+     *
+     * <code>callback</code> is invoked with three arguments: the value of the element, the index of
+     * the element, and the Array object being traversed.
+     *
+     * If a <code>obj</code> parameter is provided to <code>every</code>, it will be used as
+     * the <code>this</code> for each invocation of the <code>callback</code>. If it is not provided,
+     * or is <code>null</code>, the global object associated with <code>callback</code> is used instead.
+     *
+     * <code>every</code> does not mutate the array on which it is called. The range of elements processed
+     * by <code>every</code> is set before the first invocation of <code>callback</code>. Elements which
+     * are appended to the array after the call to <code>every</code> begins will not be visited by
+     * <code>callback</code>.  If existing elements of the array are changed, their value as passed
+     * to <code>callback</code> will be the value at the time <code>every</code> visits them; elements
+     * that are deleted are not visited.
+     *
+     * @signature function(callback, obj)
+     * @param callback {Function} Function to test for each element.
+     * @param obj {Object} Object to use as <code>this</code> when executing <code>callback</code>.
+     * @return {Boolean} Whether all elements passed the test
+     */    
+    every : null    
   }
 });
 
