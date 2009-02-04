@@ -318,8 +318,7 @@ qx.Class.define("qx.test.ui.virtual.Pane",
 
       this.assertScroll(5, 0, this.pane);
       this.assertEquals("0 / 70", children[0].innerHTML)
-      this.assertEquals("0 / 100", children[children.length-1].innerHTML)
-
+      this.assertEquals("0 / 100", children[children.length-1].innerHTML);
     },
 
 
