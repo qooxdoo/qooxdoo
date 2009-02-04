@@ -172,7 +172,13 @@ qx.Class.define("qx.data.controller.List",
     },
     
     
-    
+    /**
+     * A method used for filtering the data. As the only parameter, the data
+     * will be pased in. The filter have to decide if the data should be in 
+     * or out. Therefore, the filter should just return a boolean true for
+     * in the filter and a false for not in the filter.
+     * If you want to use extra parameters, use {@link qx.lang.Function#bind}.
+     */
     filter : 
     {
       check: "Function",
@@ -197,7 +203,10 @@ qx.Class.define("qx.data.controller.List",
        PUBLIC API
     ---------------------------------------------------------------------------
     */    
-    
+    /**
+     * Updates the filter and the target. This could be used if the filter 
+     * uses an additional parameter which changes the filter result.
+     */
     update: function() {      
       this.__buildUpLookupTable();
       this.__changeModelLength();
@@ -213,7 +222,15 @@ qx.Class.define("qx.data.controller.List",
     ---------------------------------------------------------------------------
     */
     
-    
+    /** 
+     * Apply-Method for applying the filter. It removes all bindings,
+     * check if the length has changed and adds or removes the items in the 
+     * target. After that, the bindings will be set up again and the selection
+     * will be updated. 
+     * 
+     * @param value {Function|null} The new filter function.
+     * @param old {Function|null} The old filter function.
+     */
     _applyFilter: function(value, old) {
       this._startSelectionModification();
       // remove all bindings
@@ -252,7 +269,6 @@ qx.Class.define("qx.data.controller.List",
       for (var i = 0; i < listItems.length; i++) {
         this.__bindListItem(listItems[i], this.__lookup(i));
       }
-      
       this._endSelectionModification();
       
       this._updateSelection();
@@ -500,7 +516,7 @@ qx.Class.define("qx.data.controller.List",
      * @param index {number} The index of the ListItem.
      */
     __bindListItem: function(listItem, index) {
-      
+      // set right model to the listItem
       listItem.setUserData("model", this.getModel().getItem(index));
       
       // create the options for the binding containing the old options
@@ -578,9 +594,10 @@ qx.Class.define("qx.data.controller.List",
     
     
     /**
-     * Internal helper method to remove the binding of the given index.
+     * Internal helper method to remove the binding of the given listItem.
      * 
-     * @param index {number} The index of the binding which should be removed.
+     * @param item {Number} The itemof which the binding which should 
+     *   be removed.
      */
     __removeBindingsFrom: function(item) {
       var id = item.getUserData("labelBindingId");
@@ -620,7 +637,11 @@ qx.Class.define("qx.data.controller.List",
     ---------------------------------------------------------------------------
        LOOKUP STUFF
     ---------------------------------------------------------------------------
-    */    
+    */  
+    /**
+     * Helper-Method which builds up the index lookup for the filter feature. 
+     * If no filter is set, the lookup table will be a 1:1 mapping.
+     */  
     __buildUpLookupTable: function() {
       var model = this.getModel();
       var filter = this.getFilter();
@@ -634,17 +655,13 @@ qx.Class.define("qx.data.controller.List",
     },
     
     
+    /**
+     * Function for accessing the lookup table.
+     * 
+     * @param index {Integer} The index of the lookup table.
+     */
     __lookup: function(index) {
       return this.__lookupTable[index];
-    },  
-    
-    __reverseLookup: function(index) {
-      for (var i = 0; i < this.__lookupTable.length; i++) {
-        if (this.__lookupTable[i] == index) {
-          return i;
-        }
-      }
-      return -1;
     }
   }
 });
