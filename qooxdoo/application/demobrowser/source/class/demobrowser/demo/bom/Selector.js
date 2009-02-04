@@ -61,7 +61,10 @@ qx.Class.define("demobrowser.demo.bom.Selector",
       
       // Select all "li" items from all ul/ol elements.
       // Yes this could be done with purely selector magic as well :)
-      Logger.debug("Found " + qx.bom.Selector.query("ul,ol").children() + " children of ul/ol elements.");
+      Logger.debug("Found " + qx.bom.Selector.query("ul,ol").children().length + " children of ul/ol elements.");
+      
+      // It is even possible to filter them
+      Logger.debug("Found " + qx.bom.Selector.query("ul,ol").children(":first-child").length + " first children of ul/ol elements.");
     }
   }
 });
