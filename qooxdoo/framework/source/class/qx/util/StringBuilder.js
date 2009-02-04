@@ -67,10 +67,10 @@ qx.Class.define("qx.util.StringBuilder",
 
 
     /**
-     * Adds new strings.
+     * Adds new strings. Supports multiple arguments.
      *
-     * @signature function(strings)
-     * @param strings {String...} The separate strings to add
+     * @signature function(varargs)
+     * @param varargs {String} The separate strings to add
      * @return {void}
      */
     add : null,
