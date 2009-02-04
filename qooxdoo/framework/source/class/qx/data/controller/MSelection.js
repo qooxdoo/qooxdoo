@@ -42,6 +42,9 @@ qx.Mixin.define("qx.data.controller.MSelection",
       throw new Error("Target property is needed.");
     }
     
+    // set the semaphore variable for the selection change
+    this.__modifingSelection = 0;
+    
     // create a default selection array
     this.setSelection(new qx.data.Array());
   },
@@ -125,7 +128,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
      */
     __changeTargetSelection: function() {
       // if __changeSelectionArray is currently working, do nothing
-      if (this.__modifingSelection || this.getTarget() == null) {
+      if (this.__modifingSelection > 0 || this.getTarget() == null) {
         return;
       }
       
@@ -205,7 +208,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
      */
     _updateSelection: function() {
       // mark the change process in a flag
-      this.__modifingSelection = true;      
+      this._startSelectionModification();      
       
       // if its a multi selection target
       if (this.__targetSupportsMultiSelection()) {
@@ -246,7 +249,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
       }
       
       // reset the changing flag
-      this.__modifingSelection = false;       
+      this._endSelectionModification();       
     },    
     
     
@@ -294,6 +297,15 @@ qx.Mixin.define("qx.data.controller.MSelection",
           return;
         }
       }        
+    },
+    
+    
+    _startSelectionModification: function() {
+      this.__modifingSelection++;
+    },
+    
+    _endSelectionModification: function() {
+      this.__modifingSelection > 0 ? this.__modifingSelection-- : null;
     }
         
   }
