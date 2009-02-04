@@ -355,10 +355,22 @@
        * Also note: while <code>parents()</code> will look at all ancestors, 
        * <code>children()</code> will only consider immediate child elements.
        *
-       * @return {Collection} The filtered collection
+       * @param selector {String?null} Optional selector to match
+       * @return {Collection} The new collection
        */      
-      children : function() {
+      children : function(selector) 
+      {
+        var children = [];
         
+        for (var i=0, l=this.length; i<l; i++) {
+          children.push.apply(children, qx.dom.Hierarchy.getChildElements(this[i]));
+        }
+        
+        if (selector) {
+          children = qx.bom.Selector.matches(selector, children);
+        }
+        
+        return this.__pushStack(children);
       },
       
       
