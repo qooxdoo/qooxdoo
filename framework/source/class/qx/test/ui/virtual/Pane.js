@@ -629,8 +629,8 @@ qx.Class.define("qx.test.ui.virtual.Pane",
     
     testGetCellAtPosition : function()
     {
-      this.pane.rowConfig.setItemCount(3);
-      this.pane.columnConfig.setItemCount(3);
+      this.pane.getRowConfig().setItemCount(3);
+      this.pane.getColumnConfig().setItemCount(3);
 
       var layer = new qx.test.ui.virtual.layer.LayerSimple();
       this.pane.addLayer(layer);
