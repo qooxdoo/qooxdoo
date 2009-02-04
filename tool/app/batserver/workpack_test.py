@@ -118,7 +118,7 @@ def get_options():
     parser.add_option(
         "-b", "--testBrowsers", dest="testbrowsers", default=None,
         type="string",
-        help="Python array literal of browsers to run the tests in, e.g. [\"*opera\", \"*iexplore\"]"
+        help="Comma-separated list of browsers to run the tests in, e.g. [\"*opera,*iexplore\"]"
     )
     
     (options, args) = parser.parse_args()
