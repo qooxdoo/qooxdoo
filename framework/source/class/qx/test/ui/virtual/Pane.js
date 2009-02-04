@@ -289,7 +289,7 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.assertEquals(layerHeight+400, layer.getBounds().height);
       this.assertScroll(200, 0, this.pane);
 
-      // already prefetched 200 pixel above. Scrolling 20px and prefetching 
+      // already prefetched 200 pixel above. Scrolling up 20px and prefetching 
       // again should not change the layers      
       this.pane.setScrollY(480);
       this.pane.prefetchY(100, 200, 100, 200);
@@ -302,7 +302,22 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.pane.prefetchY(100, 200, 100, 200);
       qx.ui.core.queue.Manager.flush();
       this.assertEquals(layerHeight+400, layer.getBounds().height); 
-      this.assertScroll(200, 0, this.pane);      
+      this.assertScroll(200, 0, this.pane);     
+      
+      // already prefetched 200 pixel below. Scrolling down 20px and prefetching 
+      // again should not change the layers      
+      this.pane.setScrollY(410);
+      this.pane.prefetchY(100, 200, 100, 200);
+      qx.ui.core.queue.Manager.flush();
+      this.assertEquals(layerHeight+400, layer.getBounds().height); 
+      this.assertScroll(220, 0, this.pane);
+      
+      // scroll more than minBelow down. Prefetching should update the layers
+      this.pane.setScrollY(520);
+      this.pane.prefetchY(100, 200, 100, 200);
+      qx.ui.core.queue.Manager.flush();
+      this.assertEquals(layerHeight+400, layer.getBounds().height); 
+      this.assertScroll(200, 0, this.pane);          
     },
     
     

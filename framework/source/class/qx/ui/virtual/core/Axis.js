@@ -255,23 +255,15 @@ qx.Class.define("qx.ui.virtual.core.Axis",
      * @param position {Integer} The position to get the item for
      * @return {Map} A map with the keys <code>index</code> and 
      *    <code>offset</code>. The index is the index of the item containing the
-     *    position and offsets specifies offset into this item.
+     *    position and offsets specifies offset into this item. If the position
+     *    is outside of the range both have the value <code>null</code>.
      */
     getItemAtPosition : function(position) 
     {
-      if (position <= 0) 
-      {
+      if (position < 0 || position >= this.getTotalSize()) {
         return {
-          index: 0,
-          offset: position
-        }
-      }
-      
-      if (position >= this.getTotalSize()) 
-      {
-        return {
-          index : this.itemCount-1,
-          offset: position - this.getTotalSize() + this.getItemSize(this.itemCount-1)  
+          index: null,
+          offset: null
         }
       }
       
