@@ -91,7 +91,11 @@ qx.Class.define("qx.test.ui.virtual.Axis",
       // position outside of the range
       this.assertItem(null, null, this.axis.getItemAtPosition(-10));
       this.assertItem(null, null, this.axis.getItemAtPosition(10 * 1000));
-      this.assertItem(null, null, this.axis.getItemAtPosition(10 * 1000 + 100));      
+      this.assertItem(null, null, this.axis.getItemAtPosition(10 * 1000 + 100));
+      
+      // special case: no items in the axis
+      this.axis.setItemCount(0);
+      this.assertItem(null, null, this.axis.getItemAtPosition(0));
     },
     
     testGetItemAtPositionCustomSizes : function()
