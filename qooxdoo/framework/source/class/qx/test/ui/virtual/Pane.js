@@ -98,7 +98,7 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.assertEquals(this.defaultWidth * this.colCount, size.width);
       this.assertEquals(this.defaultHeight * this.rowCount, size.height);
       
-      var rowConfig = this.pane.rowConfig;
+      var rowConfig = this.pane.getRowConfig();
       rowConfig.setDefaultItemSize(50);
       rowConfig.setItemCount(123);
       rowConfig.setItemSize(10, 30);
@@ -153,14 +153,14 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       
       // one update after data resize
       called = 0;
-      pane.rowConfig.setItemCount(200);
+      pane.getRowConfig().setItemCount(200);
       this.assertEquals(0, called, "Expect no update");
       pane.fullUpdate();
       this.assertEquals(1, called, "Expect one update after data resize");
       
       // one update after data and pane resize
       called = 0;
-      pane.rowConfig.setItemCount(300);
+      pane.getRowConfig().setItemCount(300);
       pane.setWidth(500);
       qx.ui.core.queue.Manager.flush();
       this.assertEquals(1, called, "Expect one update after data and pane resize");
@@ -376,7 +376,7 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       var layerWidth = 300;          
       var layer = new qx.test.ui.virtual.layer.LayerMock();
       this.pane.addLayer(layer);
-      this.pane.columnConfig.setDefaultItemSize(10);
+      this.pane.getColumnConfig().setDefaultItemSize(10);
       this.pane.set({width: layerWidth, height: 400});                
       qx.ui.core.queue.Manager.flush();  
       
@@ -394,7 +394,7 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       var layerWidth = 300;          
       var layer = new qx.test.ui.virtual.layer.LayerMock();
       this.pane.addLayer(layer);
-      this.pane.columnConfig.setDefaultItemSize(10);
+      this.pane.getColumnConfig().setDefaultItemSize(10);
       this.pane.set({width: layerWidth, height: 400});                
       qx.ui.core.queue.Manager.flush();  
       
@@ -412,7 +412,7 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       var layerWidth = 300;          
       var layer = new qx.test.ui.virtual.layer.LayerMock();
       this.pane.addLayer(layer);
-      this.pane.columnConfig.setDefaultItemSize(10);
+      this.pane.getColumnConfig().setDefaultItemSize(10);
       this.pane.set({width: layerWidth, height: 400});                
       qx.ui.core.queue.Manager.flush();  
       
@@ -431,7 +431,7 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       var layer = new qx.test.ui.virtual.layer.LayerMock();
       this.pane.addLayer(layer);
       this.pane.set({width: layerWidth, height: 400}); 
-      this.pane.columnConfig.setDefaultItemSize(10);
+      this.pane.getColumnConfig().setDefaultItemSize(10);
       qx.ui.core.queue.Manager.flush();                 
 
       // scroll left is 500 and prefetch left 200
@@ -543,7 +543,7 @@ qx.Class.define("qx.test.ui.virtual.Pane",
         width : 400,
         height : 305
       });
-      this.pane.columnConfig.setItemCount(1);
+      this.pane.getColumnConfig().setItemCount(1);
 
       var layer = new qx.test.ui.virtual.layer.LayerSimple();
       this.pane.addLayer(layer);
@@ -566,7 +566,7 @@ qx.Class.define("qx.test.ui.virtual.Pane",
         width : 405,
         height : 305
       });
-      this.pane.rowConfig.setItemCount(1);
+      this.pane.getRowConfig().setItemCount(1);
 
       var layer = new qx.test.ui.virtual.layer.LayerSimple();
       this.pane.addLayer(layer);
@@ -588,7 +588,7 @@ qx.Class.define("qx.test.ui.virtual.Pane",
         width : 400,
         height : 305
       });
-      this.pane.columnConfig.setItemCount(1);
+      this.pane.getColumnConfig().setItemCount(1);
 
       var layer = new qx.test.ui.virtual.layer.LayerSimple();
       this.pane.addLayer(layer);
@@ -611,7 +611,7 @@ qx.Class.define("qx.test.ui.virtual.Pane",
         width : 405,
         height : 305
       });
-      this.pane.rowConfig.setItemCount(1);
+      this.pane.getRowConfig().setItemCount(1);
 
       var layer = new qx.test.ui.virtual.layer.LayerSimple();
       this.pane.addLayer(layer);

@@ -60,8 +60,8 @@ qx.Class.define("qx.test.ui.virtual.Scroller",
         width: width,
         height: height
       });
-      this.scroller.pane.rowConfig.setItemSize(0, scrollHeight);
-      this.scroller.pane.columnConfig.setItemSize(0, scrollWidth);
+      this.scroller.pane.getRowConfig().setItemSize(0, scrollHeight);
+      this.scroller.pane.getColumnConfig().setItemSize(0, scrollWidth);
       
       // trigger update manually
       this.scroller.pane.fullUpdate();

@@ -41,7 +41,7 @@ qx.Class.define("qx.ui.virtual.selection.Cell",
      * @return {Integer} number of items
      */
     _getItemCount : function() {
-      return this._pane.rowConfig.getItemCount() * this._pane.columnConfig.getItemCount();
+      return this._pane.getRowConfig().getItemCount() * this._pane.getColumnConfig().getItemCount();
     },
   
   
@@ -68,8 +68,8 @@ qx.Class.define("qx.ui.virtual.selection.Cell",
     {
       var selectables = [];
       
-      var rowCount = this._pane.rowConfig.getItemCount();
-      var columnCount = this._pane.columnConfig.getItemCount();
+      var rowCount = this._pane.getRowConfig().getItemCount();
+      var columnCount = this._pane.getColumnConfig().getItemCount();
       
       for (var row=0; row<rowCount; row++)
       {
@@ -120,8 +120,8 @@ qx.Class.define("qx.ui.virtual.selection.Cell",
     // overridden
     _getFirstSelectable : function() 
     {
-      var rowCount = this._pane.rowConfig.getItemCount();
-      var columnCount = this._pane.columnConfig.getItemCount();
+      var rowCount = this._pane.getRowConfig().getItemCount();
+      var columnCount = this._pane.getColumnConfig().getItemCount();
       
       for (var row=0; row<rowCount; row++)
       {
@@ -144,8 +144,8 @@ qx.Class.define("qx.ui.virtual.selection.Cell",
     // overridden
     _getLastSelectable : function() 
     {
-      var rowCount = this._pane.rowConfig.getItemCount();
-      var columnCount = this._pane.columnConfig.getItemCount();
+      var rowCount = this._pane.getRowConfig().getItemCount();
+      var columnCount = this._pane.getColumnConfig().getItemCount();
       
       for (var column=columnCount-1; column>=0; column--)
       {
@@ -186,7 +186,7 @@ qx.Class.define("qx.ui.virtual.selection.Cell",
           break;
       
         case "under":
-          var rowCount = this._pane.rowConfig.getItemCount();
+          var rowCount = this._pane.getRowConfig().getItemCount();
           for (var row=item.row+1; row<rowCount; row++) 
           {
             cell.row = row;
@@ -207,7 +207,7 @@ qx.Class.define("qx.ui.virtual.selection.Cell",
           break;
       
         case "right":
-          var columnCount = this._pane.columnConfig.getItemCount();
+          var columnCount = this._pane.getColumnConfig().getItemCount();
           for (var column=item.column+1; column<columnCount; column++) 
           {
             cell.column = column;
@@ -247,7 +247,7 @@ qx.Class.define("qx.ui.virtual.selection.Cell",
     // overridden
     _getSelectableLocationX : function(item) 
     {
-      var columnConfig = this._pane.columnConfig;
+      var columnConfig = this._pane.getColumnConfig();
       
       var itemLeft = columnConfig.getItemPosition(item.column);
       var itemRight = itemLeft + columnConfig.getItemSize(item.column) - 1;
@@ -262,7 +262,7 @@ qx.Class.define("qx.ui.virtual.selection.Cell",
     // overridden
     _getSelectableLocationY : function(item) 
     {
-      var rowConfig = this._pane.rowConfig;
+      var rowConfig = this._pane.getRowConfig();
       
       var itemTop = rowConfig.getItemPosition(item.row);
       var itemBottom = itemTop + rowConfig.getItemSize(item.row) - 1;
