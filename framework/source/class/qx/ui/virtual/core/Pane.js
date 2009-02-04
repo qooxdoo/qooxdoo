@@ -384,13 +384,13 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       }
 
       var itemLeft = this.__columnConfig.getItemPosition(column);
-      var itemWidth = itemLeft + this.__columnConfig.getItemSize(column);
+      var itemRight = itemLeft + this.__columnConfig.getItemSize(column);
       var scrollLeft = this.getScrollX();
-
+      
       if (itemLeft < scrollLeft) {
         this.setScrollX(itemLeft);
-      } else if (itemWidth > scrollLeft + bounds.height) {
-        this.setScrollX(itemWidth - bounds.width);
+      } else if (itemRight > scrollLeft + bounds.width) {
+        this.setScrollX(itemRight - bounds.width);
       }     
     },
 
