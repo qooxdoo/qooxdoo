@@ -51,7 +51,7 @@ qx.Class.define("demobrowser.demo.virtual.Table",
       for (var i=0; i<10000; i++)
       {
         scroller.getPane().getRowConfig().setItemSize(i, 20 + Math.round(Math.random() * 40));
-        scroller.getPane().columnConfig.setItemSize(i, 50 + Math.round(Math.random() * 80));
+        scroller.getPane().getColumnConfig().setItemSize(i, 50 + Math.round(Math.random() * 80));
       }
       this.getRoot().add(scroller, {edge: 20});
       scroller.getPane().addLayer(new qx.ui.virtual.layer.Row("white", "#EEE"));
