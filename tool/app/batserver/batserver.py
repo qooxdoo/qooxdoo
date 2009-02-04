@@ -37,6 +37,7 @@
 import sys, os, platform
 import optparse
 import SimpleXMLRPCServer
+import socket
 import re
 
 servconf = {
@@ -164,13 +165,17 @@ def selectWorkOpts(clientconf,wpopts,server_opts):
 def main():
     global rfile
     global server_opts
-    server = SimpleXMLRPCServer.SimpleXMLRPCServer((servconf["bathost"],servconf['batport']))
-    server.register_instance(ServFunctions(), allow_dotted_names = True)
-    server.register_introspection_functions()
-    #server.list_public_methods()
-    rfile = open(servconf['reportfile'], 'a')
-    server_opts = getServerOpts()
-    server.serve_forever()
+    try:
+        server = SimpleXMLRPCServer.SimpleXMLRPCServer((servconf["bathost"],servconf['batport']))
+        server.register_instance(ServFunctions(), allow_dotted_names = True)
+        server.register_introspection_functions()
+        #server.list_public_methods()
+        rfile = open(servconf['reportfile'], 'a')
+        server_opts = getServerOpts()
+        server.serve_forever()
+    except socket.error, e:
+        print "Error creating socket: %s" % e
+
 
 if __name__ == '__main__':
     try:
