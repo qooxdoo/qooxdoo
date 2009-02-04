@@ -204,7 +204,7 @@ qx.Class.define("qx.ui.virtual.form.List",
     
     update : function()
     {
-      var rowConfig = this.pane.rowConfig;
+      var rowConfig = this.pane.getRowConfig();
       rowConfig.setItemCount(this.__items.length);
       
       rowConfig.resetItemSizes();
@@ -245,7 +245,7 @@ qx.Class.define("qx.ui.virtual.form.List",
     
     _onResize : function(e)
     {
-      this.pane.columnConfig.setItemSize(0, e.getData().width);
+      this.pane.getColumnConfig().setItemSize(0, e.getData().width);
       qx.ui.core.queue.Widget.add(this);
     },
     

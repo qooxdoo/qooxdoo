@@ -53,7 +53,7 @@ qx.Class.define("demobrowser.demo.virtual.ListComplex",
       // change 8 sizes
       for (var i=2; i<10; i++)
       {
-        scroller.pane.rowConfig.setItemSize(i, 50 + Math.round(Math.random() * 40));
+        scroller.pane.getRowConfig().setItemSize(i, 50 + Math.round(Math.random() * 40));
         scroller.pane.columnConfig.setItemSize(i, 50 + Math.round(Math.random() * 80));
       }      
       

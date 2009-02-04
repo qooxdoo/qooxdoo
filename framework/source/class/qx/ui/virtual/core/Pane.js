@@ -40,8 +40,8 @@ qx.Class.define("qx.ui.virtual.core.Pane",
   {
     this.base(arguments);
     
-    this.rowConfig = new qx.ui.virtual.core.Axis(cellHeight, rowCount);
-    this.columnConfig = new qx.ui.virtual.core.Axis(cellWidth, columnCount);
+    this.__rowConfig = new qx.ui.virtual.core.Axis(cellHeight, rowCount);
+    this.__columnConfig = new qx.ui.virtual.core.Axis(cellWidth, columnCount);
     
     this.__scrollTop = 0;
     this.__scrollLeft = 0;
@@ -117,6 +117,22 @@ qx.Class.define("qx.ui.virtual.core.Pane",
   members :
   {
     DEBUG : false,
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      ACCESSOR METHODS
+    ---------------------------------------------------------------------------
+    */
+    
+    getRowConfig : function() {
+      return this.__rowConfig;
+    },
+    
+    
+    getColumnConfig : function() {
+      return this.__columnConfig;
+    },    
     
     
     /*
@@ -197,7 +213,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       var paneSize = this.getBounds();
 
       if (paneSize) {
-        return Math.max(0, this.columnConfig.getTotalSize() - paneSize.width);
+        return Math.max(0, this.__columnConfig.getTotalSize() - paneSize.width);
       }
 
       return 0;
@@ -214,7 +230,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       var paneSize = this.getBounds();
 
       if (paneSize) {
-        return Math.max(0, this.rowConfig.getTotalSize() - paneSize.height);
+        return Math.max(0, this.__rowConfig.getTotalSize() - paneSize.height);
       }
 
       return 0;
@@ -301,8 +317,8 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     getScrollSize : function() 
     {
       return {
-        width: this.columnConfig.getTotalSize(),
-        height: this.rowConfig.getTotalSize()
+        width: this.__columnConfig.getTotalSize(),
+        height: this.__rowConfig.getTotalSize()
       }      
     },
 
@@ -329,8 +345,8 @@ qx.Class.define("qx.ui.virtual.core.Pane",
         return;
       }
 
-      var itemTop = this.rowConfig.getItemPosition(row);
-      var itemBottom = itemTop + this.rowConfig.getItemSize(row);
+      var itemTop = this.__rowConfig.getItemPosition(row);
+      var itemBottom = itemTop + this.__rowConfig.getItemSize(row);
       var scrollTop = this.getScrollY();
 
       if (itemTop < scrollTop) {
@@ -357,8 +373,8 @@ qx.Class.define("qx.ui.virtual.core.Pane",
         return;
       }
 
-      var itemLeft = this.columnConfig.getItemPosition(column);
-      var itemWidth = itemLeft + this.columnConfig.getItemSize(column);
+      var itemLeft = this.__columnConfig.getItemPosition(column);
+      var itemWidth = itemLeft + this.__columnConfig.getItemSize(column);
       var scrollLeft = this.getScrollX();
 
       if (itemLeft < scrollLeft) {
@@ -417,11 +433,11 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       var row, column;
       var paneLocation = this.getContentLocation();
 
-      var row = this.rowConfig.getItemAtPosition(
+      var row = this.__rowConfig.getItemAtPosition(
         this.getScrollY() + documentY - paneLocation.top
       ).index;
 
-      var column = this.columnConfig.getItemAtPosition(
+      var column = this.__columnConfig.getItemAtPosition(
         this.getScrollX() + documentX - paneLocation.left
       ).index;
 
@@ -589,14 +605,14 @@ qx.Class.define("qx.ui.virtual.core.Pane",
      */
     _setLayerWindow : function(layers, left, top, minWidth, minHeight, doFullUpdate)
     {
-      var rowCellData = this.rowConfig.getItemAtPosition(top);
-      var columnCellData = this.columnConfig.getItemAtPosition(left);
+      var rowCellData = this.__rowConfig.getItemAtPosition(top);
+      var columnCellData = this.__columnConfig.getItemAtPosition(left);
            
       var firstRow = rowCellData.index;
       var firstColumn = columnCellData.index;
       
-      var rowSizes = this.rowConfig.getItemSizes(firstRow, minHeight + rowCellData.offset);
-      var columnSizes = this.columnConfig.getItemSizes(firstColumn, minWidth + columnCellData.offset);
+      var rowSizes = this.__rowConfig.getItemSizes(firstRow, minHeight + rowCellData.offset);
+      var columnSizes = this.__columnConfig.getItemSizes(firstColumn, minWidth + columnCellData.offset);
 
       var lastRow = firstRow + rowSizes.length - 1;
       var lastColumn = firstColumn + columnSizes.length - 1;

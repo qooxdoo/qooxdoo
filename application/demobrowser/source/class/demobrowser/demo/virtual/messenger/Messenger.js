@@ -86,7 +86,7 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Messenger",
     for (var row in this.groupPositions) 
     {
       row = parseInt(row);
-      scroller.pane.rowConfig.setItemSize(row, 15);
+      scroller.pane.getRowConfig().setItemSize(row, 15);
       rowLayer.setColor(row, groupColor);
     }
 
@@ -275,7 +275,7 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Messenger",
     _modelLengthChange : function(e)
     {
       this.__amount = e.getTarget().length;
-      this.__scroller.pane.rowConfig.setItemCount(this.__amount+1);
+      this.__scroller.pane.getRowConfig().setItemCount(this.__amount+1);
     }
 
   }
