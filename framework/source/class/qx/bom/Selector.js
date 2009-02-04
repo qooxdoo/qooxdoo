@@ -89,7 +89,23 @@ qx.Bootstrap.define("qx.bom.Selector",
      * @param not {Boolean?false} Whether the expression should be negated
      * @return {Array} The result array (which is identical to the incoming set when <code>inplace</code> is <code>true</code>)
      */
-    filter : null
+    filter : null,
+    
+    
+    /** 
+     * TODO: Still missing Sizzle docs here
+     *
+     * @signature function()
+     */
+    matches : null,
+    
+    
+    /*
+     * TODO: Still missing Sizzle docs here
+     *
+     * @signature function()
+     */
+    find : null
   }
 });
 
@@ -954,5 +970,7 @@ var posProcess = function(selector, context){
 var Selector = qx.bom.Selector;
 Selector.__query = Sizzle;
 Selector.filter = Sizzle.filter;
+Selector.matches = Sizzle.matches;
+Selector.find = Sizzle.find;
 
 })();
