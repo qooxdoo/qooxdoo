@@ -1594,16 +1594,3 @@ def _prettyNode(node,optns, result):
 
     return result
 
-
-
-def addCommandLineOptions(parser):
-    parser.add_option("--pretty-print-indent-string", metavar="STRING", dest="prettypIndentString", default="  ", help="String used for indenting source code; escapes possible, e.g. \"\\t\" (default: \"  \")")
-    parser.add_option("--pretty-print-newline-before-open-curly", dest="prettypOpenCurlyNewlineBefore",
-                      type="choice", choices=('a','A','n','N','m','M'), metavar="[aAnNmM]", default="m",
-                      help="Defines whether \"{\" will always [aA] or never [nN] be on a new line; the default is mixed [mM] behaviour according to complexity of the enclosed block")
-    parser.add_option("--pretty-print-indent-before-open-curly", action="store_true", dest="prettypOpenCurlyIndentBefore", default=False, help="Indent \"{\" (default: False)")
-    parser.add_option("--pretty-print-indent-align-block-with-curlies", action="store_true", dest="prettypAlignBlockWithCurlies", default=False, help="Align a block of code with its surrounding curlies (obviously not with the opening curly when it is not on a new line); use in combination with --pretty-print-indent-before-open-curly, otherwise the result might look weird (default: False)")
-    parser.add_option("--pretty-print-comments-trailing-keepColumn", action="store_true", dest="prettypCommentsTrailingKeepColumn", default=False, help="Keep column for trailing comments instead of just putting it after text (via pretty-print-inline-comment-padding). If code is too long, either the padding specified in --pretty-print-inline-comment-padding is inserted or the comment is moved to the next column given by --pretty-print-comments-trailing-commentCols (default: False)")
-    parser.add_option("--pretty-print-comments-trailing-commentCols", metavar="\"<col1>,<col2>,..,<colN>\"", dest="prettypCommentsTrailingCommentCols", default="", help="Columns for trailing comments as a comma separated list e.g. \"50,70,90\". In this case if code length is less than 49, column 50 will be used; if between 50 and 69, column 70 will be used and so on. These apply if --pretty-print-comments-trailing-keepColumn isn't specified, or if it is specified but the code exceeds the original column (default: \"\")")
-    parser.add_option("--pretty-print-inline-comment-padding", metavar="STRING", dest="prettypCommentsInlinePadding", default="  ", help="String used between the end of a statement and a trailing inline comment; escapes possible, e.g. \"\\t\" (default: \"  \"). If --pretty-print-comments-trailing-keepColumn or --pretty-print-comments-trailing-commentCols are set then they take precendence.")
-
