@@ -237,10 +237,10 @@ qx.Class.define("qx.test.ui.virtual.Axis",
     {
       var d = this.defaultSize;
       this.assertEquals(0, this.axis.getItemPosition(0));
-      this.assertEquals(0, this.axis.getItemPosition(-1));
+      this.assertEquals(null, this.axis.getItemPosition(-1));
       this.assertEquals(d*20, this.axis.getItemPosition(20));
-      this.assertEquals(d*(this.count-1), this.axis.getItemPosition(this.count));
-      this.assertEquals(d*(this.count-1), this.axis.getItemPosition(this.count + 100));
+      this.assertEquals(null, this.axis.getItemPosition(this.count));
+      this.assertEquals(null, this.axis.getItemPosition(this.count + 100));
     },    
     
     testGetItemPositionCustomSizes : function()
