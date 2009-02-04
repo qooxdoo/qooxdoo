@@ -102,6 +102,11 @@ def get_computed_conf():
         "-s", "--log-size", dest="logSize", type="long", default=None, 
         help="Log file size (in byte; default: unlimited)"
     )
+    
+    parser.add_option(
+        "-n", "--no-svn-check", dest="noSvnCheck", default=False, action="store_true",
+        help="Start generate process even if there were no changes in the repository."
+    )
 
     (options, args) = parser.parse_args()
 
@@ -223,7 +228,7 @@ def build_packet(target,revision,generate):
 def build_targets(targList):
     rc = 0
     for target in targList:
-        if svn_check(target,0):
+        if svn_check(target,0) or options.noSvnCheck:
             goto_workdir(options.stagedir)
             if (options.generate):
                 print "Target: "+target
