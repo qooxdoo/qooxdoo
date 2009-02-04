@@ -599,7 +599,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     runSample : function(e)
     {
       // If the button was clicked, decide what to play based on tree selection
-      if (e) {
+      if (e && e.getType() === "execute") {
         if (this.tests.selected === "") {
           this.setPlayDemos("all");
         } else if (this.tests.selected.indexOf("html") > 0) {
