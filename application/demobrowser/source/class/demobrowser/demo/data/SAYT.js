@@ -63,9 +63,24 @@ qx.Class.define("demobrowser.demo.data.SAYT",
       // set the filter
       controller.setFilter(filter);
 
+
+      // get the timer instance
+      var timer = qx.util.TimerManager.getInstance();
+      var timerId = null;
+      
       // make every input in the textfield update the controller
       textfield.addListener("input", function() {
-        controller.update();
+        // check for the old listener
+        if (timerId != null) {
+          // stop the old one
+          timer.stop(timerId);
+          timerId = null;
+        }
+        // start a new listener to update the view
+        timerId = timer.start(function() {
+          controller.update();          
+          timerId = null;
+        }, 0, this, null, 200);
       }, this);
 
 
