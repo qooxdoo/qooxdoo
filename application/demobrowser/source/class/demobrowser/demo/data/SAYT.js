@@ -35,7 +35,7 @@ qx.Class.define("demobrowser.demo.data.SAYT",
       // create the data
       var rawData = [];
       for (var i = 0; i < 60; i++) {
-        rawData.push(names[i % 10]);
+        rawData.push(names[i % 10] + " " + i);
       }
       var data = new qx.data.Array(rawData);
 
