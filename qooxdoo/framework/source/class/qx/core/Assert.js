@@ -364,7 +364,7 @@ qx.Class.define("qx.core.Assert",
 
 
     /**
-     * Assert the the value is an item in the given array.
+     * Assert that the value is an item in the given array.
      *
      * @param value {var} Value to check
      * @param array {Array} List of valid values
@@ -401,7 +401,7 @@ qx.Class.define("qx.core.Assert",
 
 
     /**
-     * Assert the the value is a key in the given map.
+     * Assert that the value is a key in the given map.
      *
      * @param value {var} Value to check
      * @param map {map} Map, where the keys represent the valid values
@@ -419,7 +419,7 @@ qx.Class.define("qx.core.Assert",
 
 
     /**
-     * Assert the the value is a function.
+     * Assert that the value is a function.
      *
      * @param value {var} Value to check
      * @param msg {String} Message to be shown if the assertion fails.
@@ -435,7 +435,7 @@ qx.Class.define("qx.core.Assert",
 
 
     /**
-     * Assert the the value is a string.
+     * Assert that the value is a string.
      *
      * @param value {var} Value to check
      * @param msg {String} Message to be shown if the assertion fails.
@@ -450,7 +450,7 @@ qx.Class.define("qx.core.Assert",
 
 
     /**
-     * Assert the the value is a boolean.
+     * Assert that the value is a boolean.
      *
      * @param value {var} Value to check
      * @param msg {String} Message to be shown if the assertion fails.
@@ -466,7 +466,7 @@ qx.Class.define("qx.core.Assert",
 
 
     /**
-     * Assert the the value is a number.
+     * Assert that the value is a number.
      *
      * @param value {var} Value to check
      * @param msg {String} Message to be shown if the assertion fails.
@@ -482,7 +482,7 @@ qx.Class.define("qx.core.Assert",
 
 
     /**
-     * Assert the the value is a number >= 0.
+     * Assert that the value is a number >= 0.
      *
      * @param value {var} Value to check
      * @param msg {String} Message to be shown if the assertion fails.
@@ -498,7 +498,7 @@ qx.Class.define("qx.core.Assert",
 
 
     /**
-     * Assert the the value is an integer.
+     * Assert that the value is an integer.
      *
      * @param value {var} Value to check
      * @param msg {String} Message to be shown if the assertion fails.
@@ -518,7 +518,7 @@ qx.Class.define("qx.core.Assert",
 
 
     /**
-     * Assert the the value is an integer >= 0.
+     * Assert that the value is an integer >= 0.
      *
      * @param value {var} Value to check
      * @param msg {String} Message to be shown if the assertion fails.
@@ -539,7 +539,7 @@ qx.Class.define("qx.core.Assert",
 
 
     /**
-     * Assert the the value is inside the given range.
+     * Assert that the value is inside the given range.
      *
      * @param value {var} Value to check
      * @param min {Number} lower bound
@@ -557,7 +557,7 @@ qx.Class.define("qx.core.Assert",
 
 
     /**
-     * Assert the the value is an object.
+     * Assert that the value is an object.
      *
      * @param value {var} Value to check
      * @param msg {String} Message to be shown if the assertion fails.
@@ -573,7 +573,7 @@ qx.Class.define("qx.core.Assert",
 
 
     /**
-     * Assert the the value is an array.
+     * Assert that the value is an array.
      *
      * @param value {var} Value to check
      * @param msg {String} Message to be shown if the assertion fails.
@@ -592,7 +592,7 @@ qx.Class.define("qx.core.Assert",
 
 
     /**
-     * Assert the the value is a map either created using <code>new Object</code>
+     * Assert that the value is a map either created using <code>new Object</code>
      * or by using the object literal notation <code>{ ... }</code>.
      *
      * @param value {var} Value to check
@@ -610,7 +610,7 @@ qx.Class.define("qx.core.Assert",
 
 
     /**
-     * Assert the the value has the given type using the <code>typeof</code>
+     * Assert that the value has the given type using the <code>typeof</code>
      * operator. Because the type is not always what it is supposed to be it is
      * better to use more explicit checks like {@link #assertString} or
      * {@link #assertArray}.
@@ -630,7 +630,7 @@ qx.Class.define("qx.core.Assert",
 
 
     /**
-     * Assert the the value is an instance of the given class.
+     * Assert that the value is an instance of the given class.
      *
      * @param value {var} Value to check
      * @param clazz {Class} The value must be an instance of this class
@@ -649,7 +649,7 @@ qx.Class.define("qx.core.Assert",
 
 
     /**
-     * Assert the the value implements the given interface.
+     * Assert that the value implements the given interface.
      *
      * @param value {var} Value to check
      * @param iface {Class} The value must implement this interface
@@ -733,7 +733,7 @@ qx.Class.define("qx.core.Assert",
 
 
     /**
-     * Assert the the value is an instance of {@link qx.ui.core.Widget}.
+     * Assert that the value is an instance of {@link qx.ui.core.Widget}.
      *
      * @param value {var} Value to check
      * @param msg {String} Message to be shown if the assertion fails.
