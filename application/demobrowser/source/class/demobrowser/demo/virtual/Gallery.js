@@ -131,7 +131,7 @@ qx.Class.define("demo.AbstractGallery",
       var rowCount = Math.ceil(this.itemCount/colCount);
       
       pane.columnConfig.setItemCount(colCount);
-      pane.rowConfig.setItemCount(rowCount);
+      pane.getRowConfig().setItemCount(rowCount);
       
       pane.fullUpdate();
     },

@@ -50,7 +50,7 @@ qx.Class.define("demobrowser.demo.virtual.Table",
       // change all cell sizes!!
       for (var i=0; i<10000; i++)
       {
-        scroller.pane.rowConfig.setItemSize(i, 20 + Math.round(Math.random() * 40));
+        scroller.pane.getRowConfig().setItemSize(i, 20 + Math.round(Math.random() * 40));
         scroller.pane.columnConfig.setItemSize(i, 50 + Math.round(Math.random() * 80));
       }
       this.getRoot().add(scroller, {edge: 20});

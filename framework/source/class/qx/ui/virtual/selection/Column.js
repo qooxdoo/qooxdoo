@@ -40,7 +40,7 @@ qx.Class.define("qx.ui.virtual.selection.Column",
      * @return {Integer} number of items
      */
     _getItemCount : function() {
-      return this._pane.columnConfig.getItemCount();
+      return this._pane.getColumnConfig().getItemCount();
     },
   
   
@@ -101,7 +101,7 @@ qx.Class.define("qx.ui.virtual.selection.Column",
     // overridden
     _getSelectableLocationX : function(item) 
     {
-      var columnConfig = this._pane.columnConfig;
+      var columnConfig = this._pane.getColumnConfig();
       
       var itemLeft = columnConfig.getItemPosition(item);
       var itemRight = itemLeft + columnConfig.getItemSize(item) - 1;
@@ -118,7 +118,7 @@ qx.Class.define("qx.ui.virtual.selection.Column",
     {
       return {
         top: 0,
-        bottom: this._pane.rowConfig.getTotalSize() - 1
+        bottom: this._pane.getRowConfig().getTotalSize() - 1
       };
     }
   }
