@@ -20,7 +20,7 @@
 ################################################################################
 
 import sys, string, re
-from ecmascript.frontend import comment, lang
+from ecmascript.frontend import lang
 
 KEY = re.compile("^[A-Za-z0-9_$]+$")
 
@@ -136,29 +136,9 @@ def write(txt=""):
         result.append(txt)
 
 
-def area():
-    global afterArea
-    afterArea = True
-
-
-def divide():
-    global afterDivider
-    afterDivider = True
-
-
 def sep():
     global afterBreak
     afterBreak = True
-
-
-def doc():
-    global afterDoc
-    afterDoc = True
-
-
-def nosep():
-    global afterBreak
-    afterBreak = False
 
 
 def line():
@@ -178,16 +158,6 @@ def noline():
     afterDivider = False
     afterArea = False
     afterDoc = False
-
-
-def inc_indent():
-    global indent
-    indent += 1
-
-
-def dec_indent():
-    global indent
-    indent -= 1
 
 
 def semicolon():
@@ -216,115 +186,6 @@ def comma():
             result[-1] += "\n"
 
 
-def commentNode(node):
-    global pretty
-
-    if not pretty:
-        return
-
-    commentText = ""
-    commentIsInline = False
-
-    comment = node.getChild("commentsAfter", False)
-
-    if comment and not comment.get("inserted", False):
-        for child in comment.children:
-            if not child.isFirstChild():
-                commentText += " "
-
-            commentText += child.get("text")
-
-            if child.get("detail") == "inline":
-                commentIsInline = True
-
-        if commentText != "":
-            padding = getInlineCommentPadding(options, child.get("column"))
-            if padding:
-                commentText = padding + commentText.strip()
-            else:
-                space()
-            ##space()
-            write(commentText)
-
-            if commentIsInline:
-                line()
-            else:
-                space()
-
-            comment.set("inserted", True)
-
-
-
-def getInlineCommentPadding(options, keepColumn):
-    global result
-
-    padding = ""
-    lineLength = -1
-
-    # Retaining keepColumn?
-    if options.prettypCommentsTrailingKeepColumn:
-
-        # Find length of last line
-        posReturn = result[-1].rfind("\n")
-        if posReturn == -1:
-            posReturn = 0
-        lineLength = (len(result[-1]) - posReturn - 1)
-
-        # Work out padding to keep column at same position
-        if keepColumn > lineLength:
-            padding = " " * (keepColumn - lineLength - 1)
-
-    # Check if preferred comment columns are defined
-    if not padding and options.prettypCommentsTrailingCommentCols:
-
-        # Find length of last line, but only if not already done
-        if lineLength == -1:
-            posReturn = result[-1].rfind("\n")
-            if posReturn == -1:
-                posReturn = 0
-            lineLength = (len(result[-1]) - posReturn - 1)
-
-        # Work out preferred position of text
-        for commentCol in options.prettypCommentsTrailingCommentCols:
-            if commentCol > (lineLength + 1):   # leave room for a space
-                padding = " " * (commentCol - lineLength - 1)
-                break
-
-    # If not retaining keepColumn or comment cols not defined or not far enough across then put in fixed padding
-    if not padding and options.prettypCommentsInlinePadding:
-        padding = options.prettypCommentsInlinePadding
-    return padding
-
-
-
-def postProcessMap(m):
-    if m.get("maxKeyLength", False) != None:
-        return
-
-    maxKeyLength = 0
-    alignValues = True
-
-    if m.hasChildren():
-        for keyvalue in m.children:
-            if keyvalue.type != "keyvalue":
-                continue
-
-            currKeyLength = len(keyvalue.get("key"))
-
-            if keyvalue.get("quote", False) != None:
-                currKeyLength += 2
-
-            if currKeyLength > maxKeyLength:
-                maxKeyLength = currKeyLength
-
-            if alignValues and keyvalue.getChild("value").isComplex():
-                alignValues = False
-
-    m.set("maxKeyLength", maxKeyLength)
-    m.set("alignValues", alignValues)
-
-
-
 
 def inForLoop(node):
     while node:
@@ -337,7 +198,6 @@ def inForLoop(node):
         node = node.parent
 
     return False
-
 
 
 
