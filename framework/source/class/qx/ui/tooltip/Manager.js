@@ -41,8 +41,7 @@ qx.Class.define("qx.ui.tooltip.Manager",
     this.base(arguments);
 
     // Register events
-    var root = qx.core.Init.getApplication().getRoot();
-    root.addListener("mouseover", this.__onMouseOverRoot, this, true);
+    qx.event.Registration.addListener(document.body, "mouseover", this.__onMouseOverRoot, this, true);
 
     // Instantiate timers
     this.__showTimer = new qx.event.Timer();
@@ -114,24 +113,24 @@ qx.Class.define("qx.ui.tooltip.Manager",
         this.__hideTimer.stop();
       }
 
-      var root = qx.core.Init.getApplication().getRoot();
-
+      var Registration = qx.event.Registration;
+      var el = document.body;
       // If new tooltip is not null, set it up and start the timer
       if (value)
       {
         this.__showTimer.startWith(value.getShowTimeout());
 
         // Register hide handler
-        root.addListener("mouseout", this.__onMouseOutRoot, this, true);
-        root.addListener("focusout", this.__onFocusOutRoot, this, true);
-        root.addListener("mousemove", this.__onMouseMoveRoot, this, true);
+        Registration.addListener(el, "mouseout", this.__onMouseOutRoot, this, true);
+        Registration.addListener(el, "focusout", this.__onFocusOutRoot, this, true);
+        Registration.addListener(el, "mousemove", this.__onMouseMoveRoot, this, true);
       }
       else
       {
         // Deregister hide handler
-        root.removeListener("mouseout", this.__onMouseOutRoot, this, true);
-        root.removeListener("focusout", this.__onFocusOutRoot, this, true);
-        root.removeListener("mousemove", this.__onMouseMoveRoot, this, true);
+        Registration.removeListener(el, "mouseout", this.__onMouseOutRoot, this, true);
+        Registration.removeListener(el, "focusout", this.__onFocusOutRoot, this, true);
+        Registration.removeListener(el, "mousemove", this.__onMouseMoveRoot, this, true);
       }
     },
 
@@ -213,7 +212,11 @@ qx.Class.define("qx.ui.tooltip.Manager",
      */
     __onMouseOverRoot : function(e)
     {
-      var target = e.getTarget();
+      var target = qx.ui.core.Widget.getWidgetByElement(e.getTarget());
+      if (!target){
+        return;
+      }
+
       var tooltip;
 
       // Search first parent which has a tooltip
@@ -243,8 +246,16 @@ qx.Class.define("qx.ui.tooltip.Manager",
      */
     __onMouseOutRoot : function(e)
     {
-      var target = e.getTarget();
-      var related = e.getRelatedTarget();
+      var target = qx.ui.core.Widget.getWidgetByElement(e.getTarget());
+      if (!target) {
+        return;
+      }
+
+      var related = qx.ui.core.Widget.getWidgetByElement(e.getRelatedTarget());
+      if (!related) {
+        return;
+      }
+
 
       var tooltip = this.getCurrent();
 
@@ -288,7 +299,7 @@ qx.Class.define("qx.ui.tooltip.Manager",
      */
     __onFocusOutRoot : function(e)
     {
-      var target = e.getTarget();
+      var target = qx.ui.core.Widget.getWidgetByElement(e.getTarget());
       if (!target) {
         return;
       }
@@ -315,11 +326,7 @@ qx.Class.define("qx.ui.tooltip.Manager",
   destruct : function()
   {
     // Deregister events
-    var root = qx.core.Init.getApplication().getRoot();
-    if (root)
-    {
-      root.addListener("mouseover", this.__onMouseOverRoot, this, true);
-    }
+    qx.event.Registration.removeListener(document.body, "mouseover", this.__onMouseOverRoot, this, true);
 
     // Dispose timers
     this._disposeObjects("__showTimer", "__hideTimer");
