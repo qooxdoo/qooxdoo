@@ -32,7 +32,6 @@
      Authors:
        * Prototype Core Team
 
-
 ************************************************************************ */
 
 /**
@@ -321,7 +320,10 @@ qx.Class.define("qx.dom.Hierarchy",
       }
 
       var arr = this.getNextSiblings(element);
-      arr.unshift(element);
+      
+      if (element.nodeType === 1) {
+        arr.unshift(element);  
+      }      
 
       return arr;
     },
