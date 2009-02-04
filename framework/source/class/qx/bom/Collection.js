@@ -98,7 +98,7 @@
        * @param value {var} The value for the given style
        * @return {Collection} The collection is returned for chaining proposes
        */
-       setStyle : setter(qx.bom.element.Style, "set"),     
+      setStyle : setter(qx.bom.element.Style, "set"),     
        
       /**
        * Convenience method to modify a set of styles at once.
@@ -108,7 +108,7 @@
        *    and the value is the value to use.
        * @return {Collection} The collection is returned for chaining proposes
        */
-       setStyles : setter(qx.bom.element.Style, "setStyles"),            
+      setStyles : setter(qx.bom.element.Style, "setStyles"),            
        
       /**
        * Set the full CSS content of the style attribute
@@ -117,7 +117,7 @@
        * @param value {String} The full CSS string
        * @return {Collection} The collection is returned for chaining proposes     
        */
-       setCss : setter(qx.bom.element.Style, "setCss"),           
+      setCss : setter(qx.bom.element.Style, "setCss"),           
      
       /**
        * Executes {@link qx.bom.element.Style.reset} to reset the given style property 
@@ -127,7 +127,7 @@
        * @param name {String} Name of the style attribute (js variant e.g. marginTop, wordSpacing)
        * @return {Collection} The collection is returned for chaining proposes     
        */
-       resetStyle : setter(qx.bom.element.Style, "reset"),
+      resetStyle : setter(qx.bom.element.Style, "reset"),
      
        /**
         * Figures out the value of the given style property of 
@@ -138,7 +138,7 @@
         * @param mode {Number} Choose one of the modes supported by {@link qx.bom.element.Style.get}
         * @return {var} The value of the style property
         */
-       getStyle : getter(qx.bom.element.Style, "get"),
+      getStyle : getter(qx.bom.element.Style, "get"),
     
     
     
@@ -158,7 +158,7 @@
        * @param value {var} New value of the attribute
        * @return {Collection} The collection is returned for chaining proposes     
        */
-       setAttribute : setter(qx.bom.element.Attribute, "set"),     
+      setAttribute : setter(qx.bom.element.Attribute, "set"),     
      
       /**
        * Executes {@link qx.bom.element.Attribute.reset} to reset the given attribute 
@@ -168,7 +168,7 @@
        * @param name {String} Name of the attribute
        * @return {Collection} The collection is returned for chaining proposes     
        */
-       resetAttribute : setter(qx.bom.element.Attribute, "reset"),
+      resetAttribute : setter(qx.bom.element.Attribute, "reset"),
        
        /**
         * Figures out the value of the given attribute of 
@@ -178,7 +178,7 @@
         * @param name {String} Name of the attribute
         * @return {var} The value of the attribute
         */
-       getAttribute : getter(qx.bom.element.Attribute, "get"),  
+      getAttribute : getter(qx.bom.element.Attribute, "get"),  
        
        
 
@@ -468,6 +468,7 @@
       siblings : function() {
         
       },
+      
 
       /**
        * Undone of the last modification of the collection.
