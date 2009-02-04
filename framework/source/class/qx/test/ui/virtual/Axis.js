@@ -80,11 +80,18 @@ qx.Class.define("qx.test.ui.virtual.Axis",
     {
       this.axis.setItemCount(1000);
       this.axis.setDefaultItemSize(10);
-      this.assertItem(0, 0, this.axis.getItemAtPosition(0));
       
-      this.assertItem(0, -10, this.axis.getItemAtPosition(-10));
-      this.assertItem(999, 10, this.axis.getItemAtPosition(10 * 1000));
-      this.assertItem(999, 110, this.axis.getItemAtPosition(10 * 1000 + 100));      
+      // in the middle
+      this.assertItem(500, 5, this.axis.getItemAtPosition(10*500+5));
+      
+      // position at the edge
+      this.assertItem(0, 0, this.axis.getItemAtPosition(0));
+      this.assertItem(999, 9, this.axis.getItemAtPosition(10*1000-1));
+      
+      // position outside of the range
+      this.assertItem(null, null, this.axis.getItemAtPosition(-10));
+      this.assertItem(null, null, this.axis.getItemAtPosition(10 * 1000));
+      this.assertItem(null, null, this.axis.getItemAtPosition(10 * 1000 + 100));      
     },
     
     testGetItemAtPositionCustomSizes : function()
