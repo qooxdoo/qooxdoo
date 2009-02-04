@@ -14,6 +14,7 @@
 
    Authors:
      * Fabian Jakobs (fjakobs)
+     * Jonathan Weiß (jonathan_rass)
 
 ************************************************************************ */
 
@@ -43,7 +44,22 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
     {
       refine: true,
       init: true
+    },
+
+    lineColor :
+    {
+      init : "gray",
+      check : "Color",
+      themeable : true
+    },
+
+    lineWidth :
+    {
+      init : "1",
+      check : "PositiveInteger",
+      themeable : true
     }
+
   },
    
   
@@ -55,21 +71,22 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
  
   members :
   {  
-    _color : "gray",
-  
+
     __renderHorizontalLines : function(htmlArr, rowSizes)
     {
       var top = 0;
+      var height = this.getLineWidth();
+      var color = this.getLineColor();
       for (var y=0; y<rowSizes.length-1; y++)
       {
         top += rowSizes[y] - 1;       
         htmlArr.push(
           "<div style='",
           "position: relative;",
-          "height: 1px;",
+          "height: " + height + "px;",
           "width: 100%;",
           "top:", top, "px;",
-          "background-color:", this._color, 
+          "background-color:", color, 
           "'>",
           "</div>"
         );
@@ -79,23 +96,26 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
     __renderVerticalLines : function(htmlArr, columnSizes)
     {
       var left = 0;
+      var color = this.getLineColor();
+      var width = this.getLineWidth();
       for (var x=0; x<columnSizes.length-1; x++)
       {
         left += columnSizes[x];       
         htmlArr.push(
           "<div style='",
           "position: absolute;",
-          "width: 1px;",          
+          "width: " + width + "px;",          
           "height: 100%;",
           "top: 0px;",
           "left:", left-1, "px;",
-          "background-color:", this._color, 
+          "background-color:", color, 
           "'>",
           "</div>"
         );
       }      
     },
-  
+
+    // interface implementation
     fullUpdate : function(
       firstRow, lastRow, 
       firstColumn, lastColumn, 
@@ -116,6 +136,7 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
       this._lastColumn = lastColumn;       
     },
     
+    // interface implementation
     updateLayerWindow : function(
       firstRow, lastRow, 
       firstColumn, lastColumn, 
