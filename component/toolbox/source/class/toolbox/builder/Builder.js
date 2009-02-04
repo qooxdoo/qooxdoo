@@ -406,8 +406,8 @@ qx.Class.define("toolbox.builder.Builder",
      *
      * @param adminPath {var} path of the cgi-script
      * @param logFrame {var} log output
-     * @param widgets {var} TODOC
-     * @param list {var} TODOC
+     * @param widgets {var} widgets if the respectiv pane
+     * @param list {var} current list (application or builtIn)
      * @return {void} 
      */
     prepareList : function(adminPath, logFrame, widgets, list)
