@@ -389,7 +389,7 @@ qx.Class.define("qx.test.ui.virtual.Pane",
     },
       
     
-    testPrefetchYAtBottom : function()
+    testPrefetchXAtBottom : function()
     {
       var layerWidth = 300;          
       var layer = new qx.test.ui.virtual.layer.LayerMock();
@@ -407,7 +407,7 @@ qx.Class.define("qx.test.ui.virtual.Pane",
     },    
       
 
-    testPrefetchYLimitedAtBottom : function()
+    testPrefetchXLimitedAtBottom : function()
     {
       var layerWidth = 300;          
       var layer = new qx.test.ui.virtual.layer.LayerMock();
@@ -599,11 +599,9 @@ qx.Class.define("qx.test.ui.virtual.Pane",
 
       var children = layer.getContentElement().getDomElement().childNodes;
 
-      // TODO fjakobs
       this.assertScroll(5, 0, this.pane);
       this.assertEquals("0 / 969", children[0].innerHTML)
       this.assertEquals("0 / 999", children[children.length-1].innerHTML)
-
     },
 
 
@@ -624,10 +622,25 @@ qx.Class.define("qx.test.ui.virtual.Pane",
 
       var children = layer.getContentElement().getDomElement().childNodes;
 
-      // TODO fjakobs
       this.assertScroll(0, 15, this.pane);
       this.assertEquals("186 / 0", children[0].innerHTML)
       this.assertEquals("199 / 0", children[children.length-1].innerHTML)
+    },
+    
+    testGetCellAtPosition : function()
+    {
+      this.pane.rowConfig.setItemCount(3);
+      this.pane.columnConfig.setItemCount(3);
+
+      var layer = new qx.test.ui.virtual.layer.LayerSimple();
+      this.pane.addLayer(layer);
+      qx.ui.core.queue.Manager.flush();
+
+      this.assertJsonEquals({row : 0, column : 0}, this.pane.getCellAtPosition(0, 0))
+      this.assertJsonEquals({row : null, column : null}, this.pane.getCellAtPosition(400, 0))
+      this.assertJsonEquals({row : null, column : null}, this.pane.getCellAtPosition(0, 300))
+      this.assertJsonEquals({row : null, column : null}, this.pane.getCellAtPosition(400, 300))
+      this.assertJsonEquals({row : 2, column : 2}, this.pane.getCellAtPosition(89, 29))
     }
   }
 });
