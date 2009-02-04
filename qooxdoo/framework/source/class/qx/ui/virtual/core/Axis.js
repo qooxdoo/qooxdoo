@@ -335,10 +335,15 @@ qx.Class.define("qx.ui.virtual.core.Axis",
      * Get the start position of the item with the given index.
      * 
      * @param index {Integer} The item's index
-     * @return {Integer} The start position of the item
+     * @return {Integer|null} The start position of the item. If the index is outside
+     *    of the axis range <code>null</code> is returned.‚
      */
     getItemPosition : function(index)
     {
+      if (index < 0 || index >= this.itemCount) {
+        return null;
+      }
+      
       var range = this.__findRangeByIndex(index);
       
       if (range.startIndex == index) {
