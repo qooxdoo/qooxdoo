@@ -125,11 +125,21 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     ---------------------------------------------------------------------------
     */
     
+    /**
+     * Get the axis object, which defines the row numbers and the row sizes.
+     * 
+     * @return {Axis} The row configuration
+     */
     getRowConfig : function() {
       return this.__rowConfig;
     },
     
     
+    /**
+     * Get the axis object, which defines the column numbers and the column sizes.
+     * 
+     * @return {Axis} The column configuration
+     */
     getColumnConfig : function() {
       return this.__columnConfig;
     },    
