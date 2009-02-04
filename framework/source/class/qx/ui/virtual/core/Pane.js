@@ -443,11 +443,23 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       var row, column;
       var paneLocation = this.getContentLocation();
 
-      var row = this.__rowConfig.getItemAtPosition(
+      if (
+        documentY < paneLocation.top ||
+        documentY >= paneLocation.bottom ||
+        documentX < paneLocation.left ||
+        documentX >= paneLocation.right
+      ){
+        return {
+          row : null,
+          column : null
+        };
+      }
+
+      row = this.__rowConfig.getItemAtPosition(
         this.getScrollY() + documentY - paneLocation.top
       ).index;
 
-      var column = this.__columnConfig.getItemAtPosition(
+      column = this.__columnConfig.getItemAtPosition(
         this.getScrollX() + documentX - paneLocation.left
       ).index;
 
