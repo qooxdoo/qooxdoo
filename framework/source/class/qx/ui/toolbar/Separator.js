@@ -38,18 +38,28 @@ qx.Class.define("qx.ui.toolbar.Separator",
 
   properties :
   {
+    // overridden
     appearance :
     {
       refine : true,
       init : "toolbar-separator"
     },
 
+    // overridden
+    anonymous :
+    {
+      refine : true,
+      init : true
+    }    
+    
+    // overridden
     width :
     {
       refine : true,
       init : 0
     },
 
+    // overridden
     height :
     {
       refine : true,
