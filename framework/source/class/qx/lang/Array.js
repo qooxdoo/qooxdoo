@@ -471,45 +471,86 @@ qx.Bootstrap.define("qx.lang.Array",
     
       
     /**
-     * Remove all duplicate elements from an array of elements. Note that this 
-     * only works on arrays of DOM elements, not strings or numbers.
+     * Recreates an array which is free of all duplicate elements from the original.
      * 
-     * Do not modifies the original array!
+     * This method do not modifies the original array!
      *
      * @param arr {Array} Incoming array
      * @return {Array} Returns a copy with no duplicates or the original array if no duplicates were found
      */
     unique: function(arr) 
     {
-      var ret=[], done={};
+      var ret=[], doneStrings={}, doneNumbers={}, doneObjects={};
       var Registry = qx.core.ObjectRegistry;
+      var value, id, count=0;
+      var key = "qx" + qx.lang.Date.now();
+      var hasNull=false, hasFalse=false, hasTrue=false;
   
-      try 
+      // Rebuild array and omit duplicates
+      for (var i=0, len=arr.length; i<len; i++) 
       {
-        // Rebuild array and omit duplicates
-        for (var i=0, len=arr.length; i<len; i++) 
+        value = arr[i];
+        
+        // Differ between null, primitives and reference types
+        if (value === null)
         {
-          var id = Registry.toHashCode(arr[i]);  
-          if (!done[id]) 
+          if (!hasNull)
           {
-            done[id] = true;
-            ret.push(arr[i]);
+            hasNull = true;
+            ret.push(value);
           }
         }
-        
-        // Clear cached hash codes
-        for (var i=0, len=ret.length; i<len; i++) {
-          Registry.clearHashCode(ret[i]);
+        else if (value === false) 
+        {
+          if (!hasFalse)
+          {
+            hasFalse = true;
+            ret.push(value);
+          }
         }
-        
-        // Return the original if it is unmodified (reduce memory consumption)
-        if (ret.length == arr.length) {
-          return arr;
+        else if (value === true) 
+        {
+          if (!hasTrue)
+          {
+            hasTrue = true;
+            ret.push(value);
+          }
+        }        
+        else if (typeof value === "string")
+        {
+          if (!doneStrings[value]) 
+          {
+            doneStrings[value] = 1;
+            ret.push(value);
+          }
         }
-      } 
-      catch(e) 
-      {
-        ret = arr;
+        else if (typeof value === "number")
+        {
+          if (!doneNumbers[value]) 
+          {
+            doneNumbers[value] = 1;
+            ret.push(value);
+          }
+        }
+        else
+        {
+          hash = value[key]
+          
+          if (hash == null) {
+            hash = value[key] = count++;
+          }
+          
+          if (!doneObjects[hash]) 
+          {
+            doneObjects[hash] = value;
+            ret.push(value);
+          }
+        }
+      }
+
+      // Clear object hashs      
+      for (var hash in doneObjects) {
+        delete doneObjects[hash];
       }
   
       return ret;
