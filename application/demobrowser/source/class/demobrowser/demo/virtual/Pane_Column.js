@@ -70,7 +70,7 @@ qx.Class.define("demobrowser.demo.virtual.Pane_Column",
       var scroller = new qx.ui.virtual.core.Scroller(100, 10000, 60, 60);
       var columnLayer = new qx.ui.virtual.layer.Column();
       for (var i=0; i<10000; i++) {
-        columnLayer.setColumnColor(i, qx.util.ColorUtil.randomColor());
+        columnLayer.setColor(i, qx.util.ColorUtil.randomColor());
       }
       scroller.getPane().addLayer(columnLayer);
       container.add(scroller, {row: 1, column: 1});   
@@ -86,7 +86,7 @@ qx.Class.define("demobrowser.demo.virtual.Pane_Column",
       var columnLayer = new qx.ui.virtual.layer.Column("white", "#EEE");
       for (var i=0; i<10000; i++) {
         if (Math.random() > 0.7) {
-          columnLayer.setColumnColor(i, qx.util.ColorUtil.randomColor());
+          columnLayer.setColor(i, qx.util.ColorUtil.randomColor());
         }
       }
       scroller.getPane().addLayer(columnLayer);
