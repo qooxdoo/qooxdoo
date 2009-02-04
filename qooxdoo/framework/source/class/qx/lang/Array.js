@@ -550,7 +550,7 @@ qx.Bootstrap.define("qx.lang.Array",
 
       // Clear object hashs      
       for (var hash in doneObjects) {
-        delete doneObjects[hash];
+        delete doneObjects[hash][key];
       }
   
       return ret;
