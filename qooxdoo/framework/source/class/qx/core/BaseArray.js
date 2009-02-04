@@ -178,7 +178,7 @@ qx.Class.define("qx.core.BaseArray",
      *   at least one new element.
      * @param varargs {var?null} The elements to add to the array. If you don't specify any elements, 
      *   splice simply removes elements from the array. 
-     * @return {Array} New array with the removed elements.
+     * @return {BaseArray} New array with the removed elements.
      */
     splice : null,
     
@@ -225,7 +225,7 @@ qx.Class.define("qx.core.BaseArray",
      *   <code>slice(1,4)</code> extracts the second element through the fourth element (elements indexed 1, 2, and 3). 
      *   As a negative index, end indicates an offset from the end of the sequence. slice(2,-1) extracts the third element through the second-to-last element in the sequence. 
      *   If end is omitted, slice extracts to the end of the sequence. 
-     * @return {Array} An new array which contains a copy of the given region.
+     * @return {BaseArray} An new array which contains a copy of the given region.
      */
     slice : null, 
     
@@ -328,7 +328,7 @@ qx.Class.define("qx.core.BaseArray",
      * @signature function(callback, obj)
      * @param callback {Function} Function to test each element of the array.
      * @param obj {Object} Object to use as <code>this</code> when executing <code>callback</code>.
-     * @return {Array} The newly created array with all matching elements
+     * @return {BaseArray} The newly created array with all matching elements
      */    
     filter : null, 
               
@@ -358,7 +358,7 @@ qx.Class.define("qx.core.BaseArray",
      * @signature function(callback, obj)
      * @param callback {Function} Function produce an element of the new Array from an element of the current one.
      * @param obj {Object} Object to use as <code>this</code> when executing <code>callback</code>.
-     * @return {Array} A new array which contains the return values of every item executed through the given function
+     * @return {BaseArray} A new array which contains the return values of every item executed through the given function
      */
     map : null,
     
