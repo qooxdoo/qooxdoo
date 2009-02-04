@@ -61,7 +61,7 @@ qx.Class.define("qx.application.Simple",
       // See Bug #1880 for details.
       if (qx.Class.isDefined("qx.event.handler.Focus"))
       {
-        qx.event.Registration.getManager(window).getHandler(qx.event.handler.Focus);
+        qx.event.Registration.getManager(window).getHandler(qx.Class.getByName("qx.event.handler.Focus");
       }
 
       if (window.qxmain) {
