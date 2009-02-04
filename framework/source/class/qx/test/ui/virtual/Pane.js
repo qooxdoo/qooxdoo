@@ -272,8 +272,42 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.assertEquals(layerHeight+100, layer.getBounds().height);
       this.assertScroll(100, 0, this.pane);
     },
+    
+    
+    testPrefetchYAtBottom : function()
+    {
+      var layerHeight = 400;          
+      var layer = new qx.test.ui.virtual.layer.LayerMock();
+      this.pane.addLayer(layer);
+      this.pane.set({width: 300, height: layerHeight});                
+      qx.ui.core.queue.Manager.flush();
+      
+      // scroll top to bottom and prefetch below 200
+      this.pane.setScrollY(this.pane.getScrollMaxY());
+      this.pane.prefetchY(0, 0, 100, 200);
+      qx.ui.core.queue.Manager.flush();
+      this.assertEquals(layerHeight, layer.getBounds().height);
+      this.assertScroll(0, 0, this.pane);
+    },    
       
 
+    testPrefetchYLimitedAtBottom : function()
+    {
+      var layerHeight = 400;          
+      var layer = new qx.test.ui.virtual.layer.LayerMock();
+      this.pane.addLayer(layer);
+      this.pane.set({width: 300, height: layerHeight});                
+      qx.ui.core.queue.Manager.flush();
+      
+      // scroll top to bottom and prefetch below 200
+      this.pane.setScrollY(this.pane.getScrollMaxY()-100);
+      this.pane.prefetchY(0, 0, 100, 200);
+      qx.ui.core.queue.Manager.flush();
+      this.assertEquals(layerHeight+100, layer.getBounds().height);
+      this.assertScroll(0, 0, this.pane);
+    }, 
+    
+    
     testPrefetchYInMiddle : function()
     {
       var layerHeight = 400;          
@@ -318,6 +352,124 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       qx.ui.core.queue.Manager.flush();
       this.assertEquals(layerHeight+400, layer.getBounds().height); 
       this.assertScroll(200, 0, this.pane);          
+    },
+    
+    
+    testPrefetchXAtLeft : function()
+    {
+      var layerWidth = 300;          
+      var layer = new qx.test.ui.virtual.layer.LayerMock();
+      this.pane.addLayer(layer);
+      this.pane.set({width: layerWidth, height: 400});                
+      qx.ui.core.queue.Manager.flush();                
+
+      // scroll left is 0 and prefetch left
+      this.pane.prefetchX(100, 200, 0, 0);
+      qx.ui.core.queue.Manager.flush();
+      this.assertEquals(layerWidth, layer.getBounds().width);
+      this.assertScroll(0, 0, this.pane);
+    },
+
+    
+    testPrefetchXLimitedAtLeft : function()
+    {
+      var layerWidth = 300;          
+      var layer = new qx.test.ui.virtual.layer.LayerMock();
+      this.pane.addLayer(layer);
+      this.pane.columnConfig.setDefaultItemSize(10);
+      this.pane.set({width: layerWidth, height: 400});                
+      qx.ui.core.queue.Manager.flush();  
+      
+      // scroll top is 100 and prefetch above 200
+      this.pane.setScrollX(100);
+      this.pane.prefetchX(100, 200, 0, 0);
+      qx.ui.core.queue.Manager.flush();
+      this.assertEquals(layerWidth+100, layer.getBounds().width);
+      this.assertScroll(0, 100, this.pane);
+    },
+      
+    
+    testPrefetchYAtBottom : function()
+    {
+      var layerWidth = 300;          
+      var layer = new qx.test.ui.virtual.layer.LayerMock();
+      this.pane.addLayer(layer);
+      this.pane.columnConfig.setDefaultItemSize(10);
+      this.pane.set({width: layerWidth, height: 400});                
+      qx.ui.core.queue.Manager.flush();  
+      
+      // scroll left to right and prefetch right 200
+      this.pane.setScrollX(this.pane.getScrollMaxX());
+      this.pane.prefetchX(0, 0, 100, 200);
+      qx.ui.core.queue.Manager.flush();
+      this.assertEquals(layerWidth, layer.getBounds().width);
+      this.assertScroll(0, 0, this.pane);
+    },    
+      
+
+    testPrefetchYLimitedAtBottom : function()
+    {
+      var layerWidth = 300;          
+      var layer = new qx.test.ui.virtual.layer.LayerMock();
+      this.pane.addLayer(layer);
+      this.pane.columnConfig.setDefaultItemSize(10);
+      this.pane.set({width: layerWidth, height: 400});                
+      qx.ui.core.queue.Manager.flush();  
+      
+      // scroll left to right-100 and prefetch right 200
+      this.pane.setScrollX(this.pane.getScrollMaxX()-100);
+      this.pane.prefetchX(0, 0, 100, 200);
+      qx.ui.core.queue.Manager.flush();
+      this.assertEquals(layerWidth+100, layer.getBounds().width);
+      this.assertScroll(0, 0, this.pane);
+    }, 
+    
+
+    testPrefetchXInMiddle : function()
+    {
+      var layerWidth = 300;          
+      var layer = new qx.test.ui.virtual.layer.LayerMock();
+      this.pane.addLayer(layer);
+      this.pane.set({width: layerWidth, height: 400}); 
+      this.pane.columnConfig.setDefaultItemSize(10);
+      qx.ui.core.queue.Manager.flush();                 
+
+      // scroll left is 500 and prefetch left 200
+      this.pane.setScrollX(500);
+      this.pane.prefetchX(100, 200, 100, 200);
+      qx.ui.core.queue.Manager.flush();
+      this.assertEquals(layerWidth+400, layer.getBounds().width);
+      this.assertScroll(0, 200, this.pane);
+
+      // already prefetched 200 pixel at the left. Scrolling left 20px and prefetching 
+      // again should not change the layers      
+      this.pane.setScrollX(480);
+      this.pane.prefetchX(100, 200, 100, 200);
+      qx.ui.core.queue.Manager.flush();
+      this.assertEquals(layerWidth+400, layer.getBounds().width); 
+      this.assertScroll(0, 180, this.pane);
+      
+      // scroll more than minLeft left. Prefetching should update the layers
+      this.pane.setScrollX(390);
+      this.pane.prefetchX(100, 200, 100, 200);
+      qx.ui.core.queue.Manager.flush();
+      this.assertEquals(layerWidth+400, layer.getBounds().width); 
+      this.assertScroll(0, 200, this.pane);     
+      
+      // already prefetched 200 pixel right. Scrolling right 20px and prefetching 
+      // again should not change the layers      
+      this.pane.setScrollX(410);
+      this.pane.prefetchX(100, 200, 100, 200);
+      qx.ui.core.queue.Manager.flush();
+      this.assertEquals(layerWidth+400, layer.getBounds().width); 
+      this.assertScroll(0, 220, this.pane);
+      
+      // scroll more than minRight right. Prefetching should update the layers
+      this.pane.setScrollX(520);
+      this.pane.prefetchX(100, 200, 100, 200);
+      qx.ui.core.queue.Manager.flush();
+      this.assertEquals(layerWidth+400, layer.getBounds().width); 
+      this.assertScroll(0, 200, this.pane);          
     },
     
     
