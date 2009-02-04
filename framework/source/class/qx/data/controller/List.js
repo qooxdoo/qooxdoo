@@ -198,10 +198,12 @@ qx.Class.define("qx.data.controller.List",
     ---------------------------------------------------------------------------
     */    
     
-    update: function() {
+    update: function() {      
       this.__buildUpLookupTable();
       this.__changeModelLength();
       this.__renewBindings();
+      
+      this._updateSelection();
     },
     
     
@@ -213,6 +215,7 @@ qx.Class.define("qx.data.controller.List",
     
     
     _applyFilter: function(value, old) {
+      this._startSelectionModification();
       // remove all bindings
       if (this.getTarget() != null) {
         for (var i = 0; i < this.getTarget().length; i++) {
@@ -242,13 +245,17 @@ qx.Class.define("qx.data.controller.List",
         for (var j = oldTable.length; j < this.__lookupTable.length; j++) {
           this.getTarget().add(new qx.ui.form.ListItem());
         }        
-      }
+      }      
       
       // bind every list item again
       var listItems = this.getTarget().getChildren();
       for (var i = 0; i < listItems.length; i++) {
         this.__bindListItem(listItems[i], this.__lookup(i));
       }
+      
+      this._endSelectionModification();
+      
+      this._updateSelection();
     },
     
     
@@ -466,6 +473,7 @@ qx.Class.define("qx.data.controller.List",
      * will be removed properly.
      */
     __removeItem: function() {
+      this._startSelectionModification();
       // get the last binding id
       var index = this.getTarget().getChildren().length - 1;
       // get the item
@@ -474,6 +482,8 @@ qx.Class.define("qx.data.controller.List",
       // remove the item
       this.getTarget().removeAt(index);
       oldItem.destroy();
+      this.__modifingSelection = false;  
+      this._endSelectionModification();
     },    
     
     
@@ -490,6 +500,9 @@ qx.Class.define("qx.data.controller.List",
      * @param index {number} The index of the ListItem.
      */
     __bindListItem: function(listItem, index) {
+      
+      listItem.setUserData("model", this.getModel().getItem(index));
+      
       // create the options for the binding containing the old options
       // including the old onSetOk function
       var options = qx.lang.Object.copy(this.getLabelOptions());
@@ -542,21 +555,25 @@ qx.Class.define("qx.data.controller.List",
      * care of the selection on the change of the binding.
      * 
      * @param index {number} The index of the current binding.
-     * @param sourceObject {var} The source object of the binding.
-     * @param targetObject {var} The target object of the binding.
+     * @param sourceObject {qx.core.Object} The source object of the binding.
+     * @param targetObject {qx.core.Object} The target object of the binding.
      */
     __onBindingSet: function(index, sourceObject, targetObject) {
       // check for the users onSetOk for the label binding
       if (this.__onSetOkLabel != null) {
         this.__onSetOkLabel();
       }
+      // check for the users onSetOk for the icon binding
+      if (this.__onSetOkIcon != null) {
+        this.__onSetOkIcon();
+      }
+      
+      // update the reference to the model
+      var itemModel = this.getModel().getItem(this.__lookup(index));
+      targetObject.setUserData("model", itemModel);      
       
       // update the selection
       this._updateSelection();
-      
-      // update the reference to the model
-      var itemModel = this.getModel().getItem(index);
-      targetObject.setUserData("model", itemModel);
     },
     
     
@@ -589,7 +606,6 @@ qx.Class.define("qx.data.controller.List",
             
       // get all children of the target
       var listItems = this.getTarget().getChildren();
-            
       // go through all items
       for (var i = 0; i < listItems.length; i++) {
         this.__removeBindingsFrom(listItems[i]);

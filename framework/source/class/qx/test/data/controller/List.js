@@ -571,10 +571,26 @@ qx.Class.define("qx.test.data.controller.List",
       // select the second object
       this.__list.addToSelection(this.__list.getChildren()[1]);
       // test the selection
-      this.assertEquals(this.__model.getItem(1), this.__controller.getSelection().getItem(0), "Selection does not work.");
+      this.assertEquals(this.__model.getItem(4), this.__controller.getSelection().getItem(0), "Selection does not work.");
     
       // test for the length
       this.assertEquals(1, this.__controller.getSelection().length, "Selection length is wrong.");      
+    },
+    
+  
+    testFilterAfterSelection: function() {
+      this.__setUpString();
+
+      // select the first object
+      this.__list.addToSelection(this.__list.getChildren()[1]);
+      
+      // apply the filter
+      this.__controller.setFilter(function(data) {
+        return data == "b" || data == "c" || data == "d";
+      });
+      
+      this.assertEquals("b", this.__controller.getSelection().getItem(0), "Selection does not work.");
+      this.assertEquals("b", this.__list.getSelection()[0].getLabel(), "Selection does not work.");      
     }
   }
 });
