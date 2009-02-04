@@ -88,10 +88,10 @@ qx.Class.define("demo.AbstractGallery",
       scrollbarX: "off",
       scrollbarY: "auto"
     });    
-    scroller.pane.addListener("resize", this._onPaneResize, this);    
+    scroller.getPane().addListener("resize", this._onPaneResize, this);    
     this.add(scroller);    
     
-    this.manager = new qx.ui.virtual.selection.Cell(scroller.pane, this).set({
+    this.manager = new qx.ui.virtual.selection.Cell(scroller.getPane(), this).set({
       mode: "multi",
       drag: true
     });  
@@ -189,7 +189,7 @@ qx.Class.define("demo.WidgetGallery",
         this.itemHeight, this.itemWidth
       );
       this.layer = new qx.ui.virtual.layer.WidgetCell(this);
-      scroller.pane.addLayer(this.layer);
+      scroller.getPane().addLayer(this.layer);
       
       var prefetch = new qx.ui.virtual.behavior.Prefetch(
         scroller,
@@ -301,15 +301,15 @@ qx.Class.define("demo.HtmlGallery",
         this.itemHeight, this.itemWidth
       );
       this.layer = new qx.ui.virtual.layer.HtmlCell(this);
-      scroller.pane.addLayer(this.layer);
+      scroller.getPane().addLayer(this.layer);
       
       var lines = new qx.ui.virtual.layer.GridLines("horizontal");
       lines._color = "#f3f3f3";
-      scroller.pane.addLayer(lines);
+      scroller.getPane().addLayer(lines);
       
       var lines = new qx.ui.virtual.layer.GridLines("vertical");
       lines._color = "#f3f3f3";
-      scroller.pane.addLayer(lines);
+      scroller.getPane().addLayer(lines);
       
       return scroller;
     },

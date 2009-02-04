@@ -54,8 +54,8 @@ qx.Class.define("demobrowser.demo.virtual.Scroller",
         width: 500,
         height: 400
       });
-      scroller.pane.addLayer(new qx.ui.virtual.layer.Row());
-      scroller.pane.addLayer(new qx.ui.virtual.layer.Test());
+      scroller.getPane().addLayer(new qx.ui.virtual.layer.Row());
+      scroller.getPane().addLayer(new qx.ui.virtual.layer.Test());
       win.add(scroller);
     }
   }

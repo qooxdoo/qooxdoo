@@ -48,14 +48,14 @@ qx.Class.define("demobrowser.demo.virtual.ListSimple",
       this.base(arguments);
 
       var scroller = new qx.ui.virtual.core.Scroller(10000, 1, 32, 200);
-      scroller.pane.getRowConfig().setItemSize(2, 50);
-      scroller.pane.getRowConfig().setItemSize(20, 200);
-      scroller.pane.setWidth(200);
+      scroller.getPane().getRowConfig().setItemSize(2, 50);
+      scroller.getPane().getRowConfig().setItemSize(20, 200);
+      scroller.getPane().setWidth(200);
       
       
       this.getRoot().add(scroller, {left : 20, top : 10});
-      scroller.pane.addLayer(new qx.ui.virtual.layer.Row("white", "#EEE"));
-      scroller.pane.addLayer(new demobrowser.demo.virtual.DemoLayer());
+      scroller.getPane().addLayer(new qx.ui.virtual.layer.Row("white", "#EEE"));
+      scroller.getPane().addLayer(new demobrowser.demo.virtual.DemoLayer());
     }
   }
 });

@@ -56,16 +56,16 @@ qx.Class.define("demobrowser.demo.virtual.Pane_GridLines",
       this.getRoot().add(container, {edge: 5});      
       
       var scroller = new qx.ui.virtual.core.Scroller(100, 10000, 60, 100);
-      scroller.pane.addLayer(new qx.ui.virtual.layer.GridLines("horizontal"));
-      scroller.pane.addLayer(new qx.ui.virtual.layer.GridLines("vertical"));
+      scroller.getPane().addLayer(new qx.ui.virtual.layer.GridLines("horizontal"));
+      scroller.getPane().addLayer(new qx.ui.virtual.layer.GridLines("vertical"));
       container.add(scroller, {row: 0, column: 0});   
 
       var scroller = new qx.ui.virtual.core.Scroller(100, 10000, 60, 100);
-      scroller.pane.addLayer(new qx.ui.virtual.layer.GridLines("vertical"));
+      scroller.getPane().addLayer(new qx.ui.virtual.layer.GridLines("vertical"));
       container.add(scroller, {row: 0, column: 1});   
 
       var scroller = new qx.ui.virtual.core.Scroller(100, 10000, 60, 100);
-      scroller.pane.addLayer(new qx.ui.virtual.layer.GridLines("horizontal"));
+      scroller.getPane().addLayer(new qx.ui.virtual.layer.GridLines("horizontal"));
       container.add(scroller, {row: 0, column: 2});   
     }
   }

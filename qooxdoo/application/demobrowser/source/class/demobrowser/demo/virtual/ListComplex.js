@@ -48,19 +48,19 @@ qx.Class.define("demobrowser.demo.virtual.ListComplex",
       this.base(arguments);
 
       var scroller = new qx.ui.virtual.core.Scroller(100, 15, 32, 120);
-      scroller.pane.setWidth(450);
+      scroller.getPane().setWidth(450);
 
       // change 8 sizes
       for (var i=2; i<10; i++)
       {
-        scroller.pane.getRowConfig().setItemSize(i, 50 + Math.round(Math.random() * 40));
-        scroller.pane.columnConfig.setItemSize(i, 50 + Math.round(Math.random() * 80));
+        scroller.getPane().getRowConfig().setItemSize(i, 50 + Math.round(Math.random() * 40));
+        scroller.getPane().columnConfig.setItemSize(i, 50 + Math.round(Math.random() * 80));
       }      
       
       this.getRoot().add(scroller, {left : 20, top : 10});
-      scroller.pane.addLayer(new qx.ui.virtual.layer.Row("white", "rgb(238, 243, 255)"));
-      scroller.pane.addLayer(new qx.ui.virtual.layer.GridLines("horizontal"));
-      scroller.pane.addLayer(new demobrowser.demo.virtual.DemoLayer);
+      scroller.getPane().addLayer(new qx.ui.virtual.layer.Row("white", "rgb(238, 243, 255)"));
+      scroller.getPane().addLayer(new qx.ui.virtual.layer.GridLines("horizontal"));
+      scroller.getPane().addLayer(new demobrowser.demo.virtual.DemoLayer);
       
       var prefetch = new qx.ui.virtual.behavior.Prefetch(
         scroller,

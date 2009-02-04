@@ -192,9 +192,9 @@ qx.Class.define("demobrowser.demo.virtual.Selection",
       var scroller = new qx.ui.virtual.core.Scroller(1000, 100, 20, 100);
       
       var rowLayer = new qx.ui.virtual.layer.Row("white", "#EEE");      
-      scroller.pane.addLayer(rowLayer);
+      scroller.getPane().addLayer(rowLayer);
       
-      scroller.pane.addLayer(new qx.ui.virtual.layer.GridLines("horizontal"));
+      scroller.getPane().addLayer(new qx.ui.virtual.layer.GridLines("horizontal"));
       
       var cellLayer = new qx.ui.virtual.layer.HtmlCell({
         getCellHtml : function(row, column, left, top, width, height)
@@ -220,9 +220,9 @@ qx.Class.define("demobrowser.demo.virtual.Selection",
           return html.join("");
         }          
       });      
-      scroller.pane.addLayer(cellLayer);
+      scroller.getPane().addLayer(cellLayer);
       
-      var manager = new qx.ui.virtual.selection.Row(scroller.pane, {
+      var manager = new qx.ui.virtual.selection.Row(scroller.getPane(), {
         styleSelectable : function(item, type, wasAdded)
         {
           if (type !== "selected") {
@@ -236,7 +236,7 @@ qx.Class.define("demobrowser.demo.virtual.Selection",
           qx.ui.core.queue.Widget.add(cellLayer);
         }
       });
-      manager.attachMouseEvents(scroller.pane);
+      manager.attachMouseEvents(scroller.getPane());
       manager.attachKeyEvents(scroller);
       manager.set({
         mode: "multi"
@@ -253,12 +253,12 @@ qx.Class.define("demobrowser.demo.virtual.Selection",
     {
       var scroller = new qx.ui.virtual.core.Scroller(1000, 100, 20, 100);
       
-      scroller.pane.addLayer(new qx.ui.virtual.layer.Row("white", "#EEE"));
+      scroller.getPane().addLayer(new qx.ui.virtual.layer.Row("white", "#EEE"));
       
       var columnLayer = new qx.ui.virtual.layer.Column();
-      scroller.pane.addLayer(columnLayer);
+      scroller.getPane().addLayer(columnLayer);
       
-      scroller.pane.addLayer(new qx.ui.virtual.layer.GridLines("horizontal"));
+      scroller.getPane().addLayer(new qx.ui.virtual.layer.GridLines("horizontal"));
       
       var cellLayer = new qx.ui.virtual.layer.HtmlCell({
         getCellHtml : function(row, column, left, top, width, height)
@@ -284,9 +284,9 @@ qx.Class.define("demobrowser.demo.virtual.Selection",
           return html.join("");
         }          
       });      
-      scroller.pane.addLayer(cellLayer);
+      scroller.getPane().addLayer(cellLayer);
       
-      var manager = new qx.ui.virtual.selection.Column(scroller.pane, {
+      var manager = new qx.ui.virtual.selection.Column(scroller.getPane(), {
         styleSelectable : function(item, type, wasAdded)
         {
           if (type !== "selected") {
@@ -300,7 +300,7 @@ qx.Class.define("demobrowser.demo.virtual.Selection",
           qx.ui.core.queue.Widget.add(cellLayer);
         }
       });
-      manager.attachMouseEvents(scroller.pane);
+      manager.attachMouseEvents(scroller.getPane());
       manager.attachKeyEvents(scroller);
       manager.set({
         mode: "multi"
@@ -317,7 +317,7 @@ qx.Class.define("demobrowser.demo.virtual.Selection",
     {
       var scroller = new qx.ui.virtual.core.Scroller(1000, 100, 20, 100);
       
-      scroller.pane.addLayer(new qx.ui.virtual.layer.Row("white", "#EEE"));            
+      scroller.getPane().addLayer(new qx.ui.virtual.layer.Row("white", "#EEE"));            
       var cellLayer = new qx.ui.virtual.layer.HtmlCell({
         getCellHtml : function(row, column, left, top, width, height)
         {    
@@ -342,15 +342,15 @@ qx.Class.define("demobrowser.demo.virtual.Selection",
           return html.join("");
         }          
       });      
-      scroller.pane.addLayer(cellLayer);
-      scroller.pane.addLayer(new qx.ui.virtual.layer.GridLines("horizontal"));
+      scroller.getPane().addLayer(cellLayer);
+      scroller.getPane().addLayer(new qx.ui.virtual.layer.GridLines("horizontal"));
       
-      var manager = new qx.ui.virtual.selection.Cell(scroller.pane, {
+      var manager = new qx.ui.virtual.selection.Cell(scroller.getPane(), {
         styleSelectable : function(item, type, wasAdded) {
           qx.ui.core.queue.Widget.add(cellLayer);
         }
       });
-      manager.attachMouseEvents(scroller.pane);
+      manager.attachMouseEvents(scroller.getPane());
       manager.attachKeyEvents(scroller);
       manager.set({
         mode: "multi"

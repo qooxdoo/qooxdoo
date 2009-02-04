@@ -43,12 +43,12 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
   {
     this.base(arguments);
 
-    this.pane = new qx.ui.virtual.core.Pane(rowCount, columnCount, cellHeight, cellWidth);
-    this.pane.addListener("update", this._computeScrollbars, this);  
-    this.pane.addListener("scrollX", this._onScrollPaneX, this);
-    this.pane.addListener("scrollY", this._onScrollPaneY, this);
+    this.__pane = new qx.ui.virtual.core.Pane(rowCount, columnCount, cellHeight, cellWidth);
+    this.__pane.addListener("update", this._computeScrollbars, this);  
+    this.__pane.addListener("scrollX", this._onScrollPaneX, this);
+    this.__pane.addListener("scrollY", this._onScrollPaneY, this);
 
-    this._add(this.pane, {row: 0, column: 0});    
+    this._add(this.__pane, {row: 0, column: 0});    
   },
 
 
@@ -87,6 +87,22 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
   {
     /*
     ---------------------------------------------------------------------------
+      ACCESSOR METHODS
+    ---------------------------------------------------------------------------
+    */
+     
+    /**
+     * Get the scroller's virtual pane
+     * 
+     * @return {Pane} The scroller's pane 
+     */
+    getPane : function() {
+      return this.__pane;
+    },
+     
+    
+    /*
+    ---------------------------------------------------------------------------
       CHILD CONTROL SUPPORT
     ---------------------------------------------------------------------------
     */
@@ -95,7 +111,7 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
     _createChildControlImpl : function(id)
     {
       if (id == "pane") {
-        return this.pane;
+        return this.__pane;
       } else {
         return this.base(arguments, id); 
       }
@@ -159,13 +175,13 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
 
     // overridden
     _onScrollBarX : function(e) {
-      this.getChildControl("pane").setScrollX(e.getData());
+      this.__pane.setScrollX(e.getData());
     },
 
 
     // overridden
     _onScrollBarY : function(e) {
-      this.getChildControl("pane").setScrollY(e.getData());
+      this.__pane.setScrollY(e.getData());
     }    
   }
 });
