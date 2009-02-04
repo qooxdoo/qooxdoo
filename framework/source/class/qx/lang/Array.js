@@ -61,6 +61,61 @@ qx.Bootstrap.define("qx.lang.Array",
       return Object.prototype.toString.call(obj) === "[object Array]" || 
         obj instanceof Array;
     },
+    
+    
+    /** 
+     * Converts array like constructions like the <code>argument</code> object,
+     * node collections like the ones returned by <code>getElementsByTagName</code>
+     * or extended array objects like <code>qx.core.BaseArray</code> to an 
+     * native Array instance.
+     *
+     * @param object {var} any array like object
+     * @param offset {Integer?0} position to start from
+     * @return {Array} New array with the content of the incoming object
+     */
+    from : function(object, offset) {
+      return this.to(object, Array, offset);
+    },
+    
+    
+    /** 
+     * Converts an array like object to any other array like
+     * object. 
+     *
+     * Attention please: The returned array may be same
+     * instance as the incoming one then the constructor is identical!
+     *
+     * @param object {var} any array like object
+     * @param constructor {Function} constructor of the new instance
+     * @param offset {Integer?0} position to start from
+     * @return {Array} the converted array
+     */
+    to : function(object, constructor, offset)
+    {
+      if (object.constructor === constructor) {
+        return this; 
+      }
+      
+      // Some collection is mshtml are not able to be sliced.
+      // This lines are a special workaround for this client.
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      {
+        if (object.item)
+        {
+          var ret = [];
+          for (var i=offset||0, l=object.length; i<l; i++) {
+            ret[i] = object[i];
+          }
+
+          return ret;
+        }
+      }      
+      
+      // Create new instance
+      var ret = new constructor;
+      ret.push.apply(ret, Array.prototype.slice.call(object, offset||0));
+      return ret;      
+    },
       
 
     /**
@@ -267,22 +322,23 @@ qx.Bootstrap.define("qx.lang.Array",
     /**
      * Append the elements of an arr to the arr
      *
-     * @param arr {Array} the arr
-     * @param a {Array} the elements of this arr will be appended to the arr
+     * @param arr1 {Array} the array
+     * @param arr2 {Array} the elements of this array will be appended to other one
      * @return {Array} The modified arr.
      * @throws an exception if the second argument is not an arr
      */
-    append : function(arr, a)
+    append : function(arr1, arr2)
     {
       // this check is important because opera throws an uncatchable error if apply is called without
       // an arr as second argument.
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
-        qx.core.Assert.assertArray(a, "The second parameter must be an array.");
+      if (qx.core.Variant.isSet("qx.debug", "on")) 
+      {
+        qx.core.Assert.assertArray(arr1, "The first parameter must be an array.");
+        qx.core.Assert.assertArray(arr2, "The second parameter must be an array.");
       }
 
-      Array.prototype.push.apply(arr, a);
-
-      return arr;
+      Array.prototype.push.apply(arr1, arr2);
+      return arr1;
     },
 
 
