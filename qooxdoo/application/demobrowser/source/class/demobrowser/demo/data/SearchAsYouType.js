@@ -16,7 +16,7 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("demobrowser.demo.data.SAYT", 
+qx.Class.define("demobrowser.demo.data.SearchAsYouType", 
 {
   extend : qx.application.Standalone,
 
