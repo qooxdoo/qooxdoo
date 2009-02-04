@@ -57,12 +57,12 @@ qx.Class.define("demobrowser.demo.virtual.Pane_Performance",
       
       container.add(new qx.ui.basic.Label("absolute"), {row: 0, column: 0});
       var scroller = new qx.ui.virtual.core.Scroller(1000, 100, 15, 40);
-      scroller.pane.addLayer(new qx.ui.virtual.layer.Test());      
+      scroller.getPane().addLayer(new qx.ui.virtual.layer.Test());      
       container.add(scroller, {row: 1, column: 0});      
 
       container.add(new qx.ui.basic.Label("relative"), {row: 0, column: 1});
       var scroller = new qx.ui.virtual.core.Scroller(1000, 100, 15, 40);
-      scroller.pane.addLayer(new qx.ui.virtual.layer.TestRelative());      
+      scroller.getPane().addLayer(new qx.ui.virtual.layer.TestRelative());      
       container.add(scroller, {row: 1, column: 1});
 
     }
