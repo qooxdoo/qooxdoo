@@ -50,14 +50,14 @@ qx.Class.define("demobrowser.demo.virtual.Table",
       // change all cell sizes!!
       for (var i=0; i<10000; i++)
       {
-        scroller.pane.getRowConfig().setItemSize(i, 20 + Math.round(Math.random() * 40));
-        scroller.pane.columnConfig.setItemSize(i, 50 + Math.round(Math.random() * 80));
+        scroller.getPane().getRowConfig().setItemSize(i, 20 + Math.round(Math.random() * 40));
+        scroller.getPane().columnConfig.setItemSize(i, 50 + Math.round(Math.random() * 80));
       }
       this.getRoot().add(scroller, {edge: 20});
-      scroller.pane.addLayer(new qx.ui.virtual.layer.Row("white", "#EEE"));
-      scroller.pane.addLayer(new qx.ui.virtual.layer.GridLines("horizontal"));
-      scroller.pane.addLayer(new qx.ui.virtual.layer.GridLines("vertical"));      
-      scroller.pane.addLayer(new qx.ui.virtual.layer.HtmlCell(this));
+      scroller.getPane().addLayer(new qx.ui.virtual.layer.Row("white", "#EEE"));
+      scroller.getPane().addLayer(new qx.ui.virtual.layer.GridLines("horizontal"));
+      scroller.getPane().addLayer(new qx.ui.virtual.layer.GridLines("vertical"));      
+      scroller.getPane().addLayer(new qx.ui.virtual.layer.HtmlCell(this));
     },
     
     

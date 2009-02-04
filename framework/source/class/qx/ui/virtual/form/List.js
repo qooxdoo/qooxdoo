@@ -35,13 +35,13 @@ qx.Class.define("qx.ui.virtual.form.List",
     this.base(arguments, 0, 1, this.getItemHeight(), 10);
     
     this.__widgetLayer = new qx.ui.virtual.layer.WidgetCell(this);
-    this.pane.addLayer(this.__widgetLayer)    
-    this.pane.addListener("resize", this._onResize, this);
+    this.getPane().addLayer(this.__widgetLayer)    
+    this.getPane().addListener("resize", this._onResize, this);
     
     this.__items = [];
     this.__pool = [];
     
-    this.__selectionManager = new qx.ui.virtual.selection.Row(this.pane);
+    this.__selectionManager = new qx.ui.virtual.selection.Row(this.getPane());
     this.__selectionManager.addListener("changeSelection", this._onChangeSelection, this);
     this.__selectionManager.attachMouseEvents();
     this.__selectionManager.attachKeyEvents(this);
@@ -204,7 +204,7 @@ qx.Class.define("qx.ui.virtual.form.List",
     
     update : function()
     {
-      var rowConfig = this.pane.getRowConfig();
+      var rowConfig = this.getPane().getRowConfig();
       rowConfig.setItemCount(this.__items.length);
       
       rowConfig.resetItemSizes();
@@ -216,7 +216,7 @@ qx.Class.define("qx.ui.virtual.form.List",
         }
       }
       
-      this.pane.fullUpdate();
+      this.getPane().fullUpdate();
     },
     
     
@@ -245,7 +245,7 @@ qx.Class.define("qx.ui.virtual.form.List",
     
     _onResize : function(e)
     {
-      this.pane.getColumnConfig().setItemSize(0, e.getData().width);
+      this.getPane().getColumnConfig().setItemSize(0, e.getData().width);
       qx.ui.core.queue.Widget.add(this);
     },
     

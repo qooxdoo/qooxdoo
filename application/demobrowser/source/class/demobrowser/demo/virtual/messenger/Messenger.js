@@ -77,7 +77,7 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Messenger",
       height: 300
     });
 
-    scroller.pane.addListener("resize", this._onResize, this);
+    scroller.getPane().addListener("resize", this._onResize, this);
 
     // Create layers
     var groupColor = "rgb(60, 97, 226)";
@@ -86,13 +86,13 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Messenger",
     for (var row in this.groupPositions) 
     {
       row = parseInt(row);
-      scroller.pane.getRowConfig().setItemSize(row, 15);
+      scroller.getPane().getRowConfig().setItemSize(row, 15);
       rowLayer.setColor(row, groupColor);
     }
 
     // Add layers to scroller
-    scroller.pane.addLayer(rowLayer);
-    scroller.pane.addLayer(new qx.ui.virtual.layer.WidgetCell(this));
+    scroller.getPane().addLayer(rowLayer);
+    scroller.getPane().addLayer(new qx.ui.virtual.layer.WidgetCell(this));
     win.add(scroller);
 
     this.__scroller = scroller;
@@ -262,20 +262,20 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Messenger",
     },
 
     update : function() {
-      this.__scroller.pane.fullUpdate();
+      this.__scroller.getPane().fullUpdate();
     },
     
     _onResize : function(e)
     {
-      this.__scroller.pane.columnConfig.setItemSize(0, e.getData().width);
-      this.__scroller.pane.fullUpdate();
+      this.__scroller.getPane().columnConfig.setItemSize(0, e.getData().width);
+      this.__scroller.getPane().fullUpdate();
     },
 
 
     _modelLengthChange : function(e)
     {
       this.__amount = e.getTarget().length;
-      this.__scroller.pane.getRowConfig().setItemCount(this.__amount+1);
+      this.__scroller.getPane().getRowConfig().setItemCount(this.__amount+1);
     }
 
   }
