@@ -47,15 +47,18 @@ qx.Class.define("qx.ui.menu.Manager",
     // Create data structure
     this.__objects = [];
 
+    var Registration = qx.event.Registration;
+    var el = document.body;
+
     // React on mousedown/mouseup events
-    var root = qx.core.Init.getApplication().getRoot();
-    root.addListener("mousedown", this._onMouseDown, this, true);
-    root.addListener("mouseup", this._onMouseUp, this);
+    Registration.addListener(el, "mousedown", this._onMouseDown, this, true);
+    Registration.addListener(window.document.documentElement, "mouseup", this._onMouseUp, this);
+    
 
     // React on keypress events
-    root.addListener("keydown", this._onKeyUpDown, this, true);
-    root.addListener("keyup", this._onKeyUpDown, this, true);
-    root.addListener("keypress", this._onKeyPress, this, true);
+    Registration.addListener(el, "keydown", this._onKeyUpDown, this, true);
+    Registration.addListener(el, "keyup", this._onKeyUpDown, this, true);
+    Registration.addListener(el, "keypress", this._onKeyPress, this, true);
 
     // Hide all when the window is blurred
     qx.bom.Element.addListener(window, "blur", this.hideAll, this);
@@ -395,7 +398,10 @@ qx.Class.define("qx.ui.menu.Manager",
      */
     _onMouseDown : function(e)
     {
-      var target = e.getTarget();
+      var target = qx.ui.core.Widget.getWidgetByElement(e.getTarget());
+      if (!target) {
+        return;
+      }
 
       // If the target is the one which has opened the current menu
       // we ignore the mousedown to let the button process the event
@@ -418,12 +424,22 @@ qx.Class.define("qx.ui.menu.Manager",
      */
     _onMouseUp : function(e)
     {
-      var target = e.getTarget();
+      // hide all menus if the user clicks directly at the document element
+      // this scenario is only applicable in inline applications
+      if (e.getTarget() == window.document.documentElement) {
+        this.hideAll();
+        return;
+      }
+      
+      var target = qx.ui.core.Widget.getWidgetByElement(e.getTarget());
+      if (!target) {
+        return;
+      }
 
       // All mouseups not exactly clicking on the menu hide all currently
       // open menus.
       // Separators for example are anonymous. This way the
-      // target is the menu. It is a wanted behavior that clicks on
+      // target is the menu. It is a wanted behaviour that clicks on
       // separators are ignored completely.
       if (!(target instanceof qx.ui.menu.Menu)) {
         this.hideAll();
@@ -528,6 +544,7 @@ qx.Class.define("qx.ui.menu.Manager",
         }
 
         e.stopPropagation();
+        e.preventDefault();
       }
       else if (selection)
       {
@@ -547,6 +564,7 @@ qx.Class.define("qx.ui.menu.Manager",
           }
 
           e.stopPropagation();
+          e.preventDefault();
         }
       }
     },
@@ -801,19 +819,17 @@ qx.Class.define("qx.ui.menu.Manager",
 
   destruct : function()
   {
-    var root = qx.core.Init.getApplication().getRoot();
+    var Registration = qx.event.Registration;
+    var el = document.body;
+    
+    // React on mousedown/mouseup events
+    Registration.removeListener(el, "mousedown", this, this._onMouseDown, this, true);
+    Registration.removeListener(window.document.documentElement, "mouseup", this._onMouseUp, this);
 
-    if (root)
-    {
-      // React on mousedown/mouseup events
-      root.removeListener("mousedown", this._onMouseDown, this, true);
-      root.removeListener("mouseup", this._onMouseUp, this);
-
-      // React on keypress events
-      root.removeListener("keydown", this._onKeyUpDown, this, true);
-      root.removeListener("keyup", this._onKeyUpDown, this, true);
-      root.removeListener("keypress", this._onKeyPress, this, true);
-    }
+    // React on keypress events
+    Registration.removeListener.removeListener(el, "keydown", this._onKeyUpDown, this, true);
+    Registration.removeListener.removeListener(el, "keyup", this._onKeyUpDown, this, true);
+    Registration.removeListener.removeListener(el, "keypress", this._onKeyPress, this, true);
 
     this._disposeObjects("__openTimer", "__closeTimer");
     this._disposeArray("__objects");
