@@ -54,7 +54,7 @@ qx.Class.define("demobrowser.demo.virtual.ListComplex",
       for (var i=2; i<10; i++)
       {
         scroller.getPane().getRowConfig().setItemSize(i, 50 + Math.round(Math.random() * 40));
-        scroller.getPane().columnConfig.setItemSize(i, 50 + Math.round(Math.random() * 80));
+        scroller.getPane().getColumnConfig().setItemSize(i, 50 + Math.round(Math.random() * 80));
       }      
       
       this.getRoot().add(scroller, {left : 20, top : 10});

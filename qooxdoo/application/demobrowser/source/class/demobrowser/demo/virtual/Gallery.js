@@ -130,7 +130,7 @@ qx.Class.define("demo.AbstractGallery",
       this.itemPerLine = colCount;
       var rowCount = Math.ceil(this.itemCount/colCount);
       
-      pane.columnConfig.setItemCount(colCount);
+      pane.getColumnConfig().setItemCount(colCount);
       pane.getRowConfig().setItemCount(rowCount);
       
       pane.fullUpdate();
@@ -159,7 +159,8 @@ qx.Class.define("demo.AbstractGallery",
         
         items[i] = {
           label: "Icon #" + (i+1),
-          icon: url
+          icon: icon,
+          resolvedIcon: url
         };
       }
       
@@ -267,7 +268,10 @@ qx.Class.define("demo.WidgetGallery",
         this.styleListItem(widget, false);
       }
       
-      widget.set(itemData);
+      widget.set({
+        icon: itemData.icon,
+        label: itemData.label
+      });
       widget.setUserData("cell", cell);
 
       return widget;
@@ -345,7 +349,7 @@ qx.Class.define("demo.HtmlGallery",
         color,
         "'>",
 
-        "<img src='", itemData.icon, "'></img>",
+        "<img src='", itemData.resolvedIcon, "'></img>",
         "<br>",
         
         itemData.label,

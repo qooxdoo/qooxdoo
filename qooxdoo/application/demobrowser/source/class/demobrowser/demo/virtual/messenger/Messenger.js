@@ -267,7 +267,7 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Messenger",
     
     _onResize : function(e)
     {
-      this.__scroller.getPane().columnConfig.setItemSize(0, e.getData().width);
+      this.__scroller.getPane().getColumnConfig().setItemSize(0, e.getData().width);
       this.__scroller.getPane().fullUpdate();
     },
 
