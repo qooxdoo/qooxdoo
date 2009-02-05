@@ -93,6 +93,76 @@
   {
     extend : qx.core.BaseArray,
     
+    
+    /*
+    *****************************************************************************
+       STATICS
+    *****************************************************************************
+    */
+      
+    statics : 
+    {
+      /** {RegExp} Test for HTML or ID */
+      __expr : /^[^<]*(<(.|\s)+>)[^>]*$|^#([\w-]+)$/,
+      
+      /** 
+       * Processes the input and translates it to a collection instance.
+       *
+       * @param input {Element|Html|Selector} Support HTML elements, HTML strings and selector strings
+       * @return {Collection} Newly created collection 
+       */
+      from : function(input)
+      {
+        if (input.nodeType)
+        {
+          return new qx.bom.Collection(input);
+        }
+        else if (typeof input === "string")
+        {
+          var match = this.__expr.exec(input);
+          if (match)
+          {
+            if (match[1]) 
+            {
+              console.debug("From HTML", match[1]);  
+              
+              // TODO
+              
+            } 
+            else if (match[3]) 
+            {
+              var id = match[3];
+              var elem = document.getElementById(id);
+              
+              // Handle the case where IE and Opera return items
+              // by name instead of ID
+              if (elem && elem.id != id) {
+                return qx.bom.Selector.query(input);
+              }
+              
+              return new qx.bom.Collection(elem);              
+            }
+          }
+          else
+          {
+            return qx.bom.Selector.query(input);
+          }    
+        }
+        else
+        {
+          throw new Error("Unsupported type: " + input);
+        }     
+      }      
+    },
+    
+    
+    
+    /*
+    *****************************************************************************
+       MEMBERS
+    *****************************************************************************
+    */
+      
     members :
     {
       /*
