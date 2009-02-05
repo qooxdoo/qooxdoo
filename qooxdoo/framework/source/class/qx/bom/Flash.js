@@ -168,10 +168,12 @@ qx.Class.define("qx.bom.Flash",
         if (element.readyState == 4) {
           this.__destroyObjectInIE(element);
         }
-        else {
+        else 
+        {
           if (!win) {
             win = window;
           }
+          
           win.attachEvent("onload", function() {
             qx.bom.Flash.__destroyObjectInIE(element);
           });
@@ -216,12 +218,15 @@ qx.Class.define("qx.bom.Flash",
      */
     __destroyObjectInIE : qx.core.Variant.select("qx.client",
     {
-      "mshtml" :  function(element) {
-        for (var i in element) {
+      "mshtml" :  function(element) 
+      {
+        for (var i in element) 
+        {
           if (typeof element[i] == "function") {
             element[i] = null;
           }
         }
+        
         element.parentNode.removeChild(element);
         delete this._flashObjects[element.id];
       },
@@ -237,8 +242,7 @@ qx.Class.define("qx.bom.Flash",
     __fixOutOfMemoryError : function()
     {
       // IE Memory Leak Fix
-      for (var key in qx.bom.Flash._flashObjects)
-      {
+      for (var key in qx.bom.Flash._flashObjects) {
         qx.bom.Flash.destroy(qx.bom.Flash._flashObjects[key]);
       }
 
@@ -261,9 +265,6 @@ qx.Class.define("qx.bom.Flash",
      */
     __createSwf : qx.core.Variant.select("qx.client",
     {
-      // Note: Old webkit support < 312 was removed.
-      // This is not needed in qooxdoo.
-
       "mshtml" : function(element, attributes, params, win)
       {
         // Move data from params to attributes
