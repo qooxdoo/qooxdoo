@@ -110,7 +110,7 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
      * Sets the width/height for the grid line with the given index.
      * 
      * @param index {PositiveNumber} The index of the line.
-     * @param size {assertPositiveInteger} The size.
+     * @param size {PositiveInteger} The size.
      */
     setLineSize : function(index, size)
     {
@@ -126,7 +126,7 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
      * Returns the size of the grid line with the given index.
      * 
      * @param index {PositiveNumber} The index of the line.
-     * @return {assertPositiveInteger} The size.
+     * @return {PositiveInteger} The size.
      */
     getLineSize : function(index) {
       return this.__lineSizes[index] || this.getDefaultLineSize();
