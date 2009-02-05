@@ -293,9 +293,8 @@ qx.Class.define("qx.ui.decoration.Double",
         innerHeight = 0;
       }
 
-      var dom = element.getDomElement();
-      dom.firstChild.style.width = innerWidth + "px";
-      dom.firstChild.style.height = innerHeight + "px";
+      element.firstChild.style.width = innerWidth + "px";
+      element.firstChild.style.height = innerHeight + "px";
     },
 
 

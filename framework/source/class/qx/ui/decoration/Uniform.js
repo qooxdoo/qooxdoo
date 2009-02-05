@@ -210,9 +210,8 @@ qx.Class.define("qx.ui.decoration.Uniform",
         }
       }
 
-      var dom = element.getDomElement();
-      dom.style.width = width + "px";
-      dom.style.height = height + "px";
+      element.style.width = width + "px";
+      element.style.height = height + "px";
     },
 
 
@@ -220,13 +219,12 @@ qx.Class.define("qx.ui.decoration.Uniform",
     tint : function(element, bgcolor)
     {
       var Color = qx.theme.manager.Color.getInstance();
-      var dom = element.getDomElement();
 
       if (bgcolor == null) {
         bgcolor = this.getBackgroundColor();
       }
 
-      dom.style.backgroundColor = Color.resolve(bgcolor) || "";
+      element.style.backgroundColor = Color.resolve(bgcolor) || "";
     },
 
 

@@ -276,26 +276,25 @@ qx.Class.define("qx.ui.decoration.Beveled",
         var innerHeight = frameHeight;
       }
 
-      var dom = element.getDomElement();
       var pixel = "px";
 
-      var backgroundFrame = dom.childNodes[0].style;
+      var backgroundFrame = element.childNodes[0].style;
       backgroundFrame.width = outerWidth + pixel;
       backgroundFrame.height = outerHeight + pixel;
 
-      var horizontalFrame = dom.childNodes[1].style;
+      var horizontalFrame = element.childNodes[1].style;
       horizontalFrame.width = outerWidth + pixel;
       horizontalFrame.height = frameHeight + pixel;
 
-      var verticalFrame = dom.childNodes[2].style;
+      var verticalFrame = element.childNodes[2].style;
       verticalFrame.width = frameWidth + pixel;
       verticalFrame.height = outerHeight + pixel;
 
-      var innerBackground = dom.childNodes[3].style;
+      var innerBackground = element.childNodes[3].style;
       innerBackground.width = frameWidth + pixel;
       innerBackground.height = frameHeight + pixel;
 
-      var innerOverlay = dom.childNodes[4].style;
+      var innerOverlay = element.childNodes[4].style;
       innerOverlay.width = innerWidth + pixel;
       innerOverlay.height = innerHeight + pixel;
     },
@@ -304,14 +303,13 @@ qx.Class.define("qx.ui.decoration.Beveled",
     // interface implementation
     tint : function(element, bgcolor)
     {
-      var dom = element.getDomElement();
       var Color = qx.theme.manager.Color.getInstance();
 
       if (bgcolor == null) {
         bgcolor = this.getBackgroundColor();
       }
 
-      dom.childNodes[3].style.backgroundColor = Color.resolve(bgcolor) || "";
+      element.childNodes[3].style.backgroundColor = Color.resolve(bgcolor) || "";
     },
 
 

@@ -948,7 +948,7 @@ qx.Class.define("qx.ui.core.Widget",
           var element = this.__decoratorElement;
           var instance = manager.resolve(decorator);
 
-          instance.resize(element, width, height);
+          instance.resize(element.getDomElement(), width, height);
         }
       }
 
@@ -963,7 +963,7 @@ qx.Class.define("qx.ui.core.Widget",
           var shadowWidth = width + insets.left + insets.right;
           var shadowHeight = height + insets.top + insets.bottom;
 
-          instance.resize(element, shadowWidth, shadowHeight);
+          instance.resize(element.getDomElement(), shadowWidth, shadowHeight);
         }
       }
 
@@ -1068,7 +1068,7 @@ qx.Class.define("qx.ui.core.Widget",
       this.__contentElement.add(elem);
 
       // Resize
-      instance.resize(elem, bounds.width, bounds.height);
+      instance.resize(elem.getDomElement(), bounds.width, bounds.height);
 
       // Move
       var style = elem.getDomElement().style;
@@ -2170,7 +2170,7 @@ qx.Class.define("qx.ui.core.Widget",
         element.setAttribute("qxType", "decorator");
       }
 
-      decorator.init(element);
+      element.useMarkup(decorator.getMarkup());
 
       return element;
     },
@@ -2255,7 +2255,7 @@ qx.Class.define("qx.ui.core.Widget",
 
         // Tint decorator
         var bgcolor = this.getBackgroundColor();
-        value.tint(elem, bgcolor);
+        value.tint(elem.getDomElement(), bgcolor);
 
         // Add to container
         container.add(elem);
@@ -2289,7 +2289,7 @@ qx.Class.define("qx.ui.core.Widget",
         var bounds = this.getBounds();
         if (bounds)
         {
-          mgr.resolve(value).resize(elem, bounds.width, bounds.height);
+          mgr.resolve(value).resize(elem.getDomElement(), bounds.width, bounds.height);
 
           // Update protector element
           this.__protectorElement.setStyles({
@@ -2384,7 +2384,7 @@ qx.Class.define("qx.ui.core.Widget",
           var shadowWidth = bounds.width + insets.left + insets.right;
           var shadowHeight = bounds.height + insets.top + insets.bottom;
 
-          value.resize(elem, shadowWidth, shadowHeight);
+          value.resize(elem.getDomElement(), shadowWidth, shadowHeight);
         }
       }
       else
@@ -2466,7 +2466,7 @@ qx.Class.define("qx.ui.core.Widget",
         if (elem)
         {
           var instance = qx.theme.manager.Decoration.getInstance().resolve(decorator);
-          instance.tint(this.__decoratorElement, color);
+          instance.tint(this.__decoratorElement.getDomElement(), color);
         }
 
         // Please note:
