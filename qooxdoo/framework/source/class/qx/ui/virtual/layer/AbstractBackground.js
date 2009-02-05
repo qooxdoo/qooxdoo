@@ -49,6 +49,7 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
      }
      
      this.__customColors = {};
+     this.__decorators = {};
    },
 
    
@@ -216,6 +217,22 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
         this.__colorOdd = null;
       }
       qx.ui.core.queue.Widget.add(this);
+    },
+    
+    
+    setDecorator : function(index, decorator)
+    {
+      if (decorator) {
+        this.__decorators[index] = qx.theme.manager.Decoration.getInstance().resolve(decorator);
+      } else {
+        delete(this.__decorators[index]);
+      }     
+      qx.ui.core.queue.Widget.add(this);
+    },
+    
+    
+    getDecorator : function(index) {
+      return this.__decorators[index];
     }    
   }
 });

@@ -228,18 +228,16 @@ qx.Class.define("qx.ui.decoration.Grid",
       if (innerHeight < 0) {innerHeight = 0;}
 
       // Update nodes
-      var frame = element.getDomElement();
+      element.style.width = width + "px";
+      element.style.height = height + "px";
 
-      frame.style.width = width + "px";
-      frame.style.height = height + "px";
+      element.childNodes[1].style.width = innerWidth + "px";
+      element.childNodes[4].style.width = innerWidth + "px";
+      element.childNodes[7].style.width = innerWidth + "px";
 
-      frame.childNodes[1].style.width = innerWidth + "px";
-      frame.childNodes[4].style.width = innerWidth + "px";
-      frame.childNodes[7].style.width = innerWidth + "px";
-
-      frame.childNodes[6].style.height = innerHeight + "px";
-      frame.childNodes[7].style.height = innerHeight + "px";
-      frame.childNodes[8].style.height = innerHeight + "px";
+      element.childNodes[6].style.height = innerHeight + "px";
+      element.childNodes[7].style.height = innerHeight + "px";
+      element.childNodes[8].style.height = innerHeight + "px";
 
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
@@ -254,28 +252,28 @@ qx.Class.define("qx.ui.decoration.Grid",
         {
           if (width%2==1)
           {
-            frame.childNodes[2].style.marginRight = "-1px";
-            frame.childNodes[5].style.marginRight = "-1px";
-            frame.childNodes[8].style.marginRight = "-1px";
+            element.childNodes[2].style.marginRight = "-1px";
+            element.childNodes[5].style.marginRight = "-1px";
+            element.childNodes[8].style.marginRight = "-1px";
           }
           else
           {
-            frame.childNodes[2].style.marginRight = "0px";
-            frame.childNodes[5].style.marginRight = "0px";
-            frame.childNodes[8].style.marginRight = "0px";
+            element.childNodes[2].style.marginRight = "0px";
+            element.childNodes[5].style.marginRight = "0px";
+            element.childNodes[8].style.marginRight = "0px";
           }
 
           if (height%2==1)
           {
-            frame.childNodes[3].style.marginBottom = "-1px";
-            frame.childNodes[4].style.marginBottom = "-1px";
-            frame.childNodes[5].style.marginBottom = "-1px";
+            element.childNodes[3].style.marginBottom = "-1px";
+            element.childNodes[4].style.marginBottom = "-1px";
+            element.childNodes[5].style.marginBottom = "-1px";
           }
           else
           {
-            frame.childNodes[3].style.marginBottom = "0px";
-            frame.childNodes[4].style.marginBottom = "0px";
-            frame.childNodes[5].style.marginBottom = "0px";
+            element.childNodes[3].style.marginBottom = "0px";
+            element.childNodes[4].style.marginBottom = "0px";
+            element.childNodes[5].style.marginBottom = "0px";
           }
         }
       }
