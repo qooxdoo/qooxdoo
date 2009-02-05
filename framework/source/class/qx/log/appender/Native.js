@@ -51,23 +51,40 @@ qx.Bootstrap.define("qx.log.appender.Native",
           console[entry.level].apply(console, this.__toArguments(entry));
         }
       },
+      
+      "mshtml" : function(entry)
+      {
+        if (window.console) 
+        {
+          var level = entry.level;
+          if (level == "debug") {
+            level = "log";
+          }
+
+          // IE8 as of RC1 do not support "apply" on the console object methods
+          var args = this.__toArguments(entry).join(" ");
+          console[level](args);
+        }
+      },      
 
       "webkit" : function(entry)
       {
-        var level = entry.level;
-        if (level == "debug") {
-          level = "log";
-        }
+        if (window.console)
+        {
+          var level = entry.level;
+          if (level == "debug") {
+            level = "log";
+          }
 
-        var args = this.__toArguments(entry).join(" ");
-        if (window.console && console[level]) {
+          // Webkit do not support "apply" on the console object methods
+          var args = this.__toArguments(entry).join(" ");
           console[level](args);
         }
       },
 
       "opera" : function(entry)
       {
-        // Opera's debugging as of 9.5 beta is not really useful
+        // Opera's debugging as of 9.6 is not really useful
         // Our own console makes a lot more sense
 
         /*
@@ -75,9 +92,7 @@ qx.Bootstrap.define("qx.log.appender.Native",
           opera.postError.apply(opera, this.__toArguments(entry));
         }
         */
-      },
-
-      "default" : function(entry) {}
+      }
     }),
 
 
@@ -89,7 +104,7 @@ qx.Bootstrap.define("qx.log.appender.Native",
      */
     __toArguments : qx.core.Variant.select("qx.client",
     {
-      "gecko|webkit" : function(entry)
+      "gecko|webkit|mshtml" : function(entry)
       {
         var output = [];
 
