@@ -446,7 +446,7 @@ qx.core.BaseArray = function(Stack)
   // Remember Array's slice method
   var slice = Array.prototype.slice;
     
-  // Fix "slice" method
+  // Fix "concat" method
   Stack.prototype.concat = function()
   {
     var constructor = this.slice(0);
