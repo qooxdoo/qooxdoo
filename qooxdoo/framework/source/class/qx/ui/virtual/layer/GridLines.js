@@ -56,7 +56,7 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
       init: true
     },
 
-    // The default color for grid lines.
+    /** The default color for grid lines.*/
     defaultLineColor :
     {
       init : "gray",
@@ -64,7 +64,7 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
       themeable : true
     },
 
-    // The default width/height for grid lines.
+    /** The default width/height for grid lines.*/
     defaultLineSize :
     {
       init : "1",
@@ -145,8 +145,8 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
     /**
      * Helper function to render horizontal lines.
      * 
-     * @param htmlArr {Array} The array to store the generated HTML in.
-     * @return {Array} An array containing the row sizes.
+     * @param htmlArr {Array} An array to store the generated HTML in.
+     * @param rowSizes {Array} An array containing the row sizes.
      */
     __renderHorizontalLines : function(htmlArr, rowSizes)
     {
@@ -175,7 +175,7 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
      * Helper function to render vertical lines.
      * 
      * @param htmlArr {Array} The array to store the generated HTML in.
-     * @return {Array} An array containing the column sizes.
+     * @param columnSizes {Array} An array containing the column sizes.
      */
     __renderVerticalLines : function(htmlArr, columnSizes)
     {
