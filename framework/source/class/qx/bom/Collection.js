@@ -75,7 +75,19 @@
   };
   
   /**
-   * Wraps a set of elements and offers the often used DOM methods to modify them.
+   * Wraps a set of elements and offers a whole set of features to query or modify them.
+   *
+   * The collection uses an interesting concept called a "Builder" to make 
+   * its code short and simple. The Builder pattern is an object-oriented 
+   * programming design pattern that has been gaining popularity.
+   *
+   * In a nutshell: Every method on the collection returns the collection object itself, 
+   * allowing you to 'chain' upon it, for example:
+   *
+   * <pre class="javascript">
+   * qx.bom.Selector.query("a").addClass("test")
+   *   .setStyle("visibility", "visible").setAttribute("html", "foo");
+   * </pre>
    */
   qx.Class.define("qx.bom.Collection",
   {
