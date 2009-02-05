@@ -55,6 +55,18 @@ qx.Class.define("qx.ui.virtual.layer.Row",
       return this._firstRow;
     },    
     
+    syncWidget : function()
+    {
+      if (!this._columnSizes) {
+        return;
+      }
+      this.fullUpdate(
+        this._firstRow, this._lastRow,
+        0, 0, 
+        this._rowSizes, this._columnSizes
+      )
+    },
+    
     
     // overridden
     fullUpdate : function(
@@ -64,23 +76,50 @@ qx.Class.define("qx.ui.virtual.layer.Row",
     )
     {
       var html = [];
+      
+      var width = qx.lang.Array.sum(columnSizes);
+      var decoratedRows = {};
+      
+      var top = 0;
       for (var y=0; y<rowSizes.length; y++)
       {
-        var color = this.getColor(firstRow + y);
-
+        var deco = this.getDecorator(firstRow + y);
+        if (deco) 
+        {
+          decoratedRows[y] = deco;
+          this._hasDecoratedRows = true;
+        } else {
+          var color = this.getColor(firstRow + y);
+        }
+        
         html.push(
           "<div style='",
+          "position: absolute;",
+          "left: 0;",
+          "top:", top, "px;",
           "height:", rowSizes[y], "px;",
-          "width: 100%;",
+          "width:", width, "px;",
           color ? "background-color:"+ color : "", 
           "'>",
+          deco ? deco.getMarkup() : "",
           "</div>"
         );
+        
+        top += rowSizes[y];
       }
-      this.getContentElement().setAttribute("html", html.join(""));
+      var el = this.getContentElement().getDomElement();
+      el.innerHTML = html.join("");
+      
+      for (var y in decoratedRows) 
+      {
+        var deco = decoratedRows[y];
+        deco.resize(el.childNodes[y].firstChild, width, rowSizes[y]);
+      }
       
       this._firstRow = firstRow;
       this._lastRow = lastRow;
+      this._rowSizes = rowSizes;
+      this._columnSizes = columnSizes;
     },
     
     

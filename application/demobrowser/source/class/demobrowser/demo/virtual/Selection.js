@@ -229,9 +229,9 @@ qx.Class.define("demobrowser.demo.virtual.Selection",
             return;
           }
           if (wasAdded) {
-            rowLayer.setColor(item, "#00398D");
+            rowLayer.setDecorator(item, "selected");
           } else {
-            rowLayer.setColor(item, null);
+            rowLayer.setDecorator(item, null);
           }
           qx.ui.core.queue.Widget.add(cellLayer);
         }
