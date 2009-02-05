@@ -157,7 +157,7 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
         color = this.getLineColor(this._firstRow + y);
         height = this.getLineSize(this._firstRow + y);
 
-        top += rowSizes[y] - 1;       
+        top += rowSizes[y] - ((height > 1) ? Math.floor(height / 2) : 1);
         htmlArr.push(
           "<div style='",
           "position: relative;",
@@ -186,14 +186,14 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
         color = this.getLineColor(this._firstColumn + x);
         width = this.getLineSize(this._firstColumn + x);
 
-        left += columnSizes[x];       
+        left += columnSizes[x] - ((width > 1) ? Math.floor(width / 2) : 1);
         htmlArr.push(
           "<div style='",
           "position: absolute;",
           "width: " + width + "px;",          
           "height: 100%;",
           "top: 0px;",
-          "left:", left-1, "px;",
+          "left:", left, "px;",
           "background-color:", color, 
           "'>",
           "</div>"
