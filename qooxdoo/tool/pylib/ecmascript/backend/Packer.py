@@ -98,11 +98,7 @@ class Packer(object):
                 pass
             s.__name__ = "symbol-" + id # for debugging
             s.id = id
-            s.value = None
-            s.lbp = bp
             Packer.symbol_table[id] = s
-        else:
-            s.lbp = max(bp, s.lbp)
         return s
 
     # decorator
@@ -955,23 +951,15 @@ class Packer(object):
 
     @staticmethod
     def serializeNode(node, opts, rslt, enableBreaks=False, enableVerbose=False):
-        global indent
-        global result
         global pretty
-        global verbose
         global breaks
         global afterLine
         global afterBreak
         global afterDoc
         global afterDivider
         global afterArea
-        global options
         
-        result = rslt
-
-        result       = [u""]
         pretty       = False
-        verbose      = enableVerbose
         breaks       = enableBreaks
         afterLine    = False
         afterBreak   = False
@@ -1026,7 +1014,6 @@ if True:
 
 
     def space(force=True, result=u''):
-        global indent
         global pretty
         global afterLine
         global afterBreak
