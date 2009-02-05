@@ -104,6 +104,10 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
         qx.core.Assert.assertString(color);
       }
       this.__lineColors[index] = color;
+
+      if (index >= this._firstRow && index <= this._lastRow) {
+        qx.ui.core.queue.Widget.add(this);
+      }
     },
 
     /**
@@ -120,6 +124,10 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
         qx.core.Assert.assertPositiveInteger(size);
       }
       this.__lineSizes[index] = size;
+
+      if (index >= this._firstRow && index <= this._lastRow) {
+        qx.ui.core.queue.Widget.add(this);
+      }
     },
 
     /**
@@ -201,6 +209,24 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
       }      
     },
 
+    // overridden
+    syncWidget : function()
+    {
+      var el = this.getContentElement().getDomElement();
+      if (!el) {
+        return;
+      }
+
+      this.fullUpdate(
+        this._firstRow,
+        this._lastRow,
+        this._firstColumn,
+        this._lastColumn,
+        this._rowSizes,
+        this._columnSizes
+        );
+    },
+
     // interface implementation
     fullUpdate : function(
       firstRow, lastRow, 
@@ -211,7 +237,9 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
       this._firstRow = firstRow;
       this._lastRow = lastRow;
       this._firstColumn = firstColumn;
-      this._lastColumn = lastColumn;       
+      this._lastColumn = lastColumn;
+      this._rowSizes = rowSizes;
+      this._columnSizes = columnSizes;
 
       var html = [];
       if (this._isHorizontal) {
