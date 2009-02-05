@@ -56,16 +56,32 @@ qx.Class.define("demobrowser.demo.virtual.Pane_GridLines",
       this.getRoot().add(container, {edge: 5});      
       
       var scroller = new qx.ui.virtual.core.Scroller(100, 10000, 60, 100);
-      scroller.getPane().addLayer(new qx.ui.virtual.layer.GridLines("horizontal"));
-      scroller.getPane().addLayer(new qx.ui.virtual.layer.GridLines("vertical"));
+      
+      var gl1 = new qx.ui.virtual.layer.GridLines("horizontal");
+
+      gl1.setLineWidth(1, 3);
+      gl1.setLineColor(2, "red");
+
+      var gl2 = new qx.ui.virtual.layer.GridLines("vertical");
+      
+      scroller.getPane().addLayer(gl1);
+      scroller.getPane().addLayer(gl2);
       container.add(scroller, {row: 0, column: 0});   
 
       var scroller = new qx.ui.virtual.core.Scroller(100, 10000, 60, 100);
-      scroller.getPane().addLayer(new qx.ui.virtual.layer.GridLines("vertical"));
-      container.add(scroller, {row: 0, column: 1});   
+      var gl3 = new qx.ui.virtual.layer.GridLines("vertical");
 
+      gl3.setLineWidth(1, 5);
+      gl3.setLineColor(1, "blue");
+      
+
+      scroller.getPane().addLayer(gl3);
+      container.add(scroller, {row: 0, column: 1});   
+      
       var scroller = new qx.ui.virtual.core.Scroller(100, 10000, 60, 100);
-      scroller.getPane().addLayer(new qx.ui.virtual.layer.GridLines("horizontal"));
+      var gl4 = new qx.ui.virtual.layer.GridLines("horizontal");
+      
+      scroller.getPane().addLayer(gl4);
       container.add(scroller, {row: 0, column: 2});   
     }
   }
