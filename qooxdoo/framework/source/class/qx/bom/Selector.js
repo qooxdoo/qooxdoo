@@ -95,15 +95,15 @@ qx.Bootstrap.define("qx.bom.Selector",
     /** 
      * TODO: Still missing Sizzle docs here
      *
-     * @signature function()
+     * @signature function(expr, set)
      */
     matches : null,
     
     
     /*
-     * TODO: Still missing Sizzle docs here
+     * Find any children which match the expression inside the given element.
      *
-     * @signature function()
+     * @signature function(expr, context, isXML)
      */
     find : null
   }
