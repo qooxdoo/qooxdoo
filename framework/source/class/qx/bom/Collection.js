@@ -520,7 +520,6 @@
       children : function(selector) 
       {
         var children = [];
-        
         for (var i=0, l=this.length; i<l; i++) {
           children.push.apply(children, qx.dom.Hierarchy.getChildElements(this[i]));
         }
@@ -619,6 +618,113 @@
         
         return this.__pushStack(ret);
       },
+      
+      
+      /** 
+       * Get a set of elements containing the unique next siblings of each of the given set of elements.
+       *
+       * <code>next</code> only returns the very next sibling for each element, not all next siblings 
+       * (see {@link #nextAll}). You may provide an optional expression to filter the returned set.
+       *
+       * @param selector {String?null} Optional selector to filter the result
+       * @return {Collection} Collection of all very next siblings of the current collection.
+       */
+      next : function(selector) 
+      {
+        var Hierarchy = qx.dom.Hierarchy;
+        var ret = this.map(Hierarchy.getNextElementSibling, Hierarchy);
+        
+        // Post reduce result by selector
+        if (selector) {
+          ret = qx.bom.Selector.matches(selector, ret);
+        }
+        
+        return this.__pushStack(ret);
+      },
+      
+      
+      /** 
+       * Find all sibling elements after the current element.
+       *
+       * Use an optional expression to filter the matched set.
+       *
+       * @param selector {String?null} Optional selector to filter the result
+       * @return {Collection} Collection of all siblings following the elements of the current collection.
+       */
+      nextAll : function(selector) 
+      {
+        var Hierarchy = qx.dom.Hierarchy;
+        
+        // Iterate ourself, as we need a native Array as return value
+        var all = [];
+        for (var i=0, l=this.length; i<l; i++) {
+          all.push(Hierarchy.getNextSiblings(this[i]));
+        }
+
+        // Combine all resulting arrays        
+        var ret = Array.prototype.concat.apply([], all);
+
+        // Post reduce result by selector
+        if (selector) {
+          ret = qx.bom.Selector.matches(selector, ret);
+        }
+        
+        return this.__pushStack(ret);        
+      },      
+      
+      
+      /** 
+       * Get a set of elements containing the unique previous siblings of each of the given set of elements.
+       *
+       * <code>next</code> only returns the very previous sibling for each element, not all previous siblings 
+       * (see {@link #previousAll}). You may provide an optional expression to filter the returned set.
+       *
+       * @param selector {String?null} Optional selector to filter the result
+       * @return {Collection} Collection of all very previous siblings of the current collection.
+       */
+      prev : function(selector) 
+      {
+        var Hierarchy = qx.dom.Hierarchy;
+        var ret = this.map(Hierarchy.getPreviousElementSibling, Hierarchy);
+        
+        // Post reduce result by selector
+        if (selector) {
+          ret = qx.bom.Selector.matches(selector, ret);
+        }
+        
+        return this.__pushStack(ret);        
+      }, 
+      
+      
+      /** 
+       * Find all sibling elements preceding the current element.
+       *
+       * Use an optional expression to filter the matched set.
+       *
+       * @param selector {String?null} Optional selector to filter the result
+       * @return {Collection} Collection of all siblings preceding the elements of the current collection.
+       */
+      prevAll : function(selector) 
+      {
+        var Hierarchy = qx.dom.Hierarchy;
+        
+        // Iterate ourself, as we need a native Array as return value
+        var all = [];
+        for (var i=0, l=this.length; i<l; i++) {
+          all.push(Hierarchy.getPreviousSiblings(this[i]));
+        }
+
+        // Combine all resulting arrays        
+        var ret = Array.prototype.concat.apply([], all);
+        
+        // Post reduce result by selector
+        if (selector) {
+          ret = qx.bom.Selector.matches(selector, ret);
+        }
+        
+        return this.__pushStack(ret);        
+      },             
+      
       
       
             

@@ -109,17 +109,36 @@ qx.Class.define("demobrowser.demo.bom.Selector",
       
       // NEXT
       
+      var res = qx.bom.Selector.query("ul").next()[0].tagName;
+      Logger.debug("Tag following the UL element: " + res)
+      
+      
       // NEXT ALL
+
+      var res = qx.bom.Selector.query("ul").nextAll().length;
+      Logger.debug("Number of elements following the UL: " + res);
+
       
       // OFFSET PARENT
       
+      
       // PARENT
+      
       
       // PARENTS
       
+      
       // PREV
+
+      var res = qx.bom.Selector.query("ul").prev()[0].tagName;
+      Logger.debug("Tag before the UL element: " + res)
+
       
       // PREV ALL
+
+      var res = qx.bom.Selector.query("ul").prevAll().length;
+      Logger.debug("Number of elements preceding the UL: " + res);
+
       
       // SIBLINGS
       
