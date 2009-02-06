@@ -136,6 +136,7 @@ qx.Class.define("qx.ui.virtual.layer.Column",
       this._lastColumn = lastColumn;
       this._rowSizes = rowSizes;
       this._columnSizes = columnSizes;
+      this._height = height;
     },
     
     updateLayerWindow : function(
@@ -146,7 +147,8 @@ qx.Class.define("qx.ui.virtual.layer.Column",
     {
       if (
         firstColumn !== this._firstColumn ||
-        lastColumn !== this._lastColumn
+        lastColumn !== this._lastColumn ||
+        this._height < qx.lang.Array.sum(rowSizes)
       ) {
         this.fullUpdate(
           firstRow, lastRow, 
