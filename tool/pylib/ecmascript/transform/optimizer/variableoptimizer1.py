@@ -22,6 +22,7 @@
 import sys, os, re, types
 
 from ecmascript.frontend.Script import Script
+from ecmascript.frontend import lang
 
 counter = 0
 
@@ -102,12 +103,23 @@ def search(node):
     script = Script(node)
     varset = set([])
 
+    # Create a blacklist of words to leave untouched
+    reservedWords = set(())
+    reservedWords.update(lang.GLOBALS)
+    reservedWords.update(lang.RESERVED.keys())
+
+    def isReservedWord(word):
+        return word in reservedWords
+
     for scope in script.iterScopes():
         varset.update((x.name for x in scope.variables))
 
     # loop through declared vars of scopes
     for scope in script.iterScopes():
         for var in scope.variables:
+
+            if isReservedWord(var.name) or len(var.name)<2:
+                continue
 
             print "-- replacing: ", var.name
             # Define mappings for local var
