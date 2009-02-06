@@ -66,15 +66,30 @@ qx.Bootstrap.define("qx.bom.Selector",
      *
      * @param selector {String} Valid selector (CSS3 + extensions)
      * @param context {Element} Context element (result elements must be children of this element)
-     * @return {qx.bom.Collection} List of matching elements
+     * @return {qx.bom.Collection} Matching elements
      */
-    query : function(selector, context) 
+    query : function(selector, context, asArray) 
     {
       var coll = new qx.bom.Collection();
-      coll.push.apply(coll, this.__query(selector, context));
+      coll.push.apply(coll, this.queryNative(selector, context));
       
       return coll;
     },
+    
+    
+    /**
+     * Queries the document for the given selector. Supports all CSS3 selector plus some extensions
+     * like mentioned in the class header.
+     *
+     * This method returns an native Array, not a Collection like {@link #query} and 
+     * is mainly thought for internal use.
+     *
+     * @internal
+     * @param selector {String} Valid selector (CSS3 + extensions)
+     * @param context {Element} Context element (result elements must be children of this element)
+     * @return {Array} Matching elements
+     */
+    queryNative : null,
     
     
     /**
@@ -968,7 +983,7 @@ var posProcess = function(selector, context){
 // EXPOSE qooxdoo variant
 
 var Selector = qx.bom.Selector;
-Selector.__query = Sizzle;
+Selector.queryNative = Sizzle;
 Selector.filter = Sizzle.filter;
 Selector.matches = Sizzle.matches;
 Selector.find = Sizzle.find;
