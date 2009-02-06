@@ -676,8 +676,8 @@
       /** 
        * Get a set of elements containing the unique previous siblings of each of the given set of elements.
        *
-       * <code>next</code> only returns the very previous sibling for each element, not all previous siblings 
-       * (see {@link #previousAll}). You may provide an optional expression to filter the returned set.
+       * <code>prev</code> only returns the very previous sibling for each element, not all previous siblings 
+       * (see {@link #prevAll}). You may provide an optional expression to filter the returned set.
        *
        * @param selector {String?null} Optional selector to filter the result
        * @return {Collection} Collection of all very previous siblings of the current collection.
