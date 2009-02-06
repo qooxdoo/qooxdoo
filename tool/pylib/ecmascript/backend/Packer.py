@@ -54,18 +54,18 @@ class Packer(object):
                 # Add comma dividers between statements in these parents
                 if node.parent.type in ["array", "params", "statementList"]:
                     if not node.isLastChild(True):
-                        str += comma(str)
+                        str += Packer.comma(str)
 
                 # Semicolon handling
                 elif node.type in ["group", "block", "assignment", "call", "operation", "definitionList", "return", "break", "continue", "delete", "accessor", "instantiation", "throw", "variable", "emptyStatement"]:
 
                     # Default semicolon handling
                     if node.parent.type in ["block", "file"]:
-                        str += semicolon(str)
+                        str += Packer.semicolon(str)
 
                     # Special handling for switch statements
                     elif node.parent.type == "statement" and node.parent.parent.type == "switch" and node.parent.parent.get("switchType") == "case":
-                        str += semicolon(str)
+                        str += Packer.semicolon(str)
 
                     # Special handling for loops (e.g. if) without blocks {}
                     elif (
@@ -73,16 +73,16 @@ class Packer(object):
                         not node.parent.hasChild("block") and
                         node.parent.parent.type == "loop"
                     ):
-                        str += semicolon(str)
+                        str += Packer.semicolon(str)
 
             return str
 
         # tokens -> string
         def opening(self, node):
-            raise RuntimeError("You need to override 'opening' method")
+            raise NotImplementedError("You need to override 'opening' method")
 
         def closing(self, node):
-            raise RuntimeError("You need to override 'closing' method")
+            raise NotImplementedError("You need to override 'closing' method")
 
     # -- end symbol_base -------------------------------------------------------
 
@@ -120,312 +120,312 @@ class Packer(object):
         symbol("accessor")
 
         @method(symbol("accessor"))
-        def opening(self, node):
-            s = u''
-            return s
+        def opening(s, node):         # 's' is 'self'
+            r = u''
+            return r
 
         @method(symbol("accessor"))
-        def closing(self, node):
-            s = u''
+        def closing(s, node):
+            r = u''
             if node.hasParent() and node.parent.type == "variable" and not node.isLastChild(True):
-                s += write(".")
-            return s
+                r += cls.write(".")
+            return r
 
 
         symbol("array")
 
         @method(symbol("array"))
-        def opening(self, node):
-            s = u''
-            s += write("[")
+        def opening(s, node):
+            r = u''
+            r += cls.write("[")
             if node.hasChildren(True):
-                s += space(False,s)
-            return s
+                r += cls.space(False,r)
+            return r
 
         @method(symbol("array"))
-        def closing(self, node):
-            s = u''
+        def closing(s, node):
+            r = u''
             if node.hasChildren(True):
-                s += space(False,s)
+                r += cls.space(False,r)
 
-            s += write("]")
-            return s
+            r += cls.write("]")
+            return r
 
 
         symbol("assignment")
 
         @method(symbol("assignment"))
-        def opening(self, node):
-            s = u''
+        def opening(s, node):
+            r = u''
             if node.parent.type == "definition":
                 oper = node.get("operator", False)
                 # be compact in for-loops
-                compact = inForLoop(node)
-                s += compileToken(oper, compact)
-            return s
+                compact = cls.inForLoop(node)
+                r += cls.compileToken(oper, compact)
+            return r
 
         @method(symbol("assignment"))
-        def closing(self, node):
+        def closing(s, node):
             return u""
 
 
         symbol("block")
 
         @method(symbol("block"))
-        def opening(self, node):
-            return write("{")
+        def opening(s, node):
+            return cls.write("{")
 
         @method(symbol("block"))
-        def closing(self, node):
-            return write("}")
+        def closing(s, node):
+            return cls.write("}")
 
 
         symbol("break")
 
         @method(symbol("break"))
-        def opening(self, node):
-            s = write("break")
+        def opening(s, node):
+            r = cls.write("break")
             if node.get("label", False):
-                s += space(result=s)
-                s += write(node.get("label", False))
-            return s
+                r += cls.space(result=r)
+                r += cls.write(node.get("label", False))
+            return r
 
         @method(symbol("break"))
-        def closing(self, node):
+        def closing(s, node):
             return u""
 
 
         symbol("call")
 
         @method(symbol("call"))
-        def opening(self, node):
-            s = u''
-            return s
+        def opening(s, node):
+            r = u''
+            return r
 
         @method(symbol("call"))
-        def closing(self, node):
+        def closing(s, node):
             return u""
 
 
         symbol("case")
 
         @method(symbol("case"))
-        def opening(self, node):
-            s = u''
-            s += write("case")
-            s += space(result=s)
-            return s
+        def opening(s, node):
+            r = u''
+            r += cls.write("case")
+            r += cls.space(result=r)
+            return r
 
         @method(symbol("case"))
-        def closing(self, node):
-            return write(":")
+        def closing(s, node):
+            return cls.write(":")
 
 
         symbol("catch")
 
         @method(symbol("catch"))
-        def opening(self, node):
-            s = u''
-            s += write("catch")
-            return s
+        def opening(s, node):
+            r = u''
+            r += cls.write("catch")
+            return r
 
         @method(symbol("catch"))
-        def closing(self, node):
+        def closing(s, node):
             return u""
 
 
         symbol("comment")
 
         @method(symbol("comment"))
-        def opening(self, node):
-            s = u''
-            return s
+        def opening(s, node):
+            r = u''
+            return r
 
         @method(symbol("comment"))
-        def closing(self, node):
+        def closing(s, node):
             return u""
 
 
         symbol("commentsAfter")
 
         @method(symbol("commentsAfter"))
-        def opening(self, node):
-            s = u''
-            return s
+        def opening(s, node):
+            r = u''
+            return r
 
         @method(symbol("commentsAfter"))
-        def closing(self, node):
+        def closing(s, node):
             return u""
 
 
         symbol("commentsBefore")
 
         @method(symbol("commentsBefore"))
-        def opening(self, node):
-            s = u''
-            return s
+        def opening(s, node):
+            r = u''
+            return r
 
         @method(symbol("commentsBefore"))
-        def closing(self, node):
+        def closing(s, node):
             return u""
 
 
         symbol("constant")
 
         @method(symbol("constant"))
-        def opening(self, node):
-            s = u''
+        def opening(s, node):
+            r = u''
             if node.get("constantType") == "string":
                 if node.get("detail") == "singlequotes":
-                    s += write("'")
+                    r += cls.write("'")
                 else:
-                    s += write('"')
-                s += write(node.get("value"))
+                    r += cls.write('"')
+                r += cls.write(node.get("value"))
                 if node.get("detail") == "singlequotes":
-                    s += write("'")
+                    r += cls.write("'")
                 else:
-                    s += write('"')
+                    r += cls.write('"')
             else:
-                s += write(node.get("value"))
-            return s
+                r += cls.write(node.get("value"))
+            return r
 
         @method(symbol("constant"))
-        def closing(self, node):
+        def closing(s, node):
             return u""
 
 
         symbol("continue")
 
         @method(symbol("continue"))
-        def opening(self, node):
-            s = write("continue")
+        def opening(s, node):
+            r = cls.write("continue")
             if node.get("label", False):
-                s += space(result=s)
-                s += write(node.get("label", False))
-            return s
+                r += cls.space(result=r)
+                r += cls.write(node.get("label", False))
+            return r
 
         @method(symbol("continue"))
-        def closing(self, node):
+        def closing(s, node):
             return u""
 
 
         symbol("default")
 
         @method(symbol("default"))
-        def opening(self, node):
-            s = u''
-            s += write("default")
-            s += write(":")
-            return s
+        def opening(s, node):
+            r = u''
+            r += cls.write("default")
+            r += cls.write(":")
+            return r
 
         @method(symbol("default"))
-        def closing(self, node):
+        def closing(s, node):
             return u""
 
 
         symbol("definition")
 
         @method(symbol("definition"))
-        def opening(self, node):
-            s = u''
+        def opening(s, node):
+            r = u''
             if node.parent.type != "definitionList":
-                s += write("var")
-                s += space(result=s)
-            s += write(node.get("identifier"))
-            return s
+                r += cls.write("var")
+                r += cls.space(result=r)
+            r += cls.write(node.get("identifier"))
+            return r
 
         @method(symbol("definition"))
-        def closing(self, node):
-            s = u''
+        def closing(s, node):
+            r = u''
             if node.hasParent() and node.parent.type == "definitionList" and not node.isLastChild(True):
-                s += comma(s)
-            return s
+                r += cls.comma(r)
+            return r
 
 
         symbol("definitionList")
 
         @method(symbol("definitionList"))
-        def opening(self, node):
-            s = write("var")
-            s += space(result=s)
-            return s
+        def opening(s, node):
+            r = cls.write("var")
+            r += cls.space(result=r)
+            return r
 
         @method(symbol("definitionList"))
-        def closing(self, node):
+        def closing(s, node):
             return u""
 
 
         symbol("delete")
 
         @method(symbol("delete"))
-        def opening(self, node):
-            s = write("delete")
-            s += space(result=s)
-            return s
+        def opening(s, node):
+            r = cls.write("delete")
+            r += cls.space(result=r)
+            return r
 
         @method(symbol("delete"))
-        def closing(self, node):
+        def closing(s, node):
             return u""
 
 
         symbol("elseStatement")
 
         @method(symbol("elseStatement"))
-        def opening(self, node):
-            s = u''
-            s += write("else")
+        def opening(s, node):
+            r = u''
+            r += cls.write("else")
 
             # This is a elseStatement without a block around (a set of {})
             if not node.hasChild("block"):
-                s += space(result=s)
-            return s
+                r += cls.space(result=r)
+            return r
 
         @method(symbol("elseStatement"))
-        def closing(self, node):
+        def closing(s, node):
             return u""
 
 
         symbol("emptyStatement")
 
         @method(symbol("emptyStatement"))
-        def opening(self, node):
-            s = u''
-            return s
+        def opening(s, node):
+            r = u''
+            return r
 
         @method(symbol("emptyStatement"))
-        def closing(self, node):
+        def closing(s, node):
             return u""
 
 
         symbol("expression")
 
         @method(symbol("expression"))
-        def opening(self, node):
-            s = u''
+        def opening(s, node):
+            r = u''
             if node.parent.type == "loop":
                 loopType = node.parent.get("loopType")
 
                 # only do-while loops
                 if loopType == "DO":
-                    s += write("while")
+                    r += cls.write("while")
 
                 # open expression block of IF/WHILE/DO-WHILE/FOR statements
-                s += write("(")
+                r += cls.write("(")
 
             elif node.parent.type == "catch":
                 # open expression block of CATCH statement
-                s += write("(")
+                r += cls.write("(")
 
             elif node.parent.type == "switch" and node.parent.get("switchType") == "case":
                 # open expression block of SWITCH statement
-                s += write("(")
-            return s
+                r += cls.write("(")
+            return r
 
         @method(symbol("expression"))
-        def closing(self, node):
-            s = u''
+        def closing(s, node):
+            r = u''
             if node.parent.type == "loop":
-                s += write(")")
+                r += cls.write(")")
 
                 # e.g. a if-construct without a block {}
                 if node.parent.getChild("statement").hasChild("block"):
@@ -438,164 +438,164 @@ class Packer(object):
                     pass
 
                 else:
-                    s += space(False,result=s)
+                    r += cls.space(False,result=r)
 
             elif node.parent.type == "catch":
-                s += write(")")
+                r += cls.write(")")
 
             elif node.parent.type == "switch" and node.parent.get("switchType") == "case":
-                s += write(")")
+                r += cls.write(")")
 
-                s += write("{")
-            return s
+                r += cls.write("{")
+            return r
 
 
         symbol("file")
 
         @method(symbol("file"))
-        def opening(self, node):
+        def opening(s, node):
             return u''
 
         @method(symbol("file"))
-        def closing(self, node):
+        def closing(s, node):
             return u''
 
 
         symbol("finally")
 
         @method(symbol("finally"))
-        def opening(self, node):
-            return write("finally")
+        def opening(s, node):
+            return cls.write("finally")
 
         @method(symbol("finally"))
-        def closing(self, node):
+        def closing(s, node):
             return u""
 
 
         symbol("first")
 
         @method(symbol("first"))
-        def opening(self, node):
-            s = u''
+        def opening(s, node):
+            r = u''
             # for loop
             if node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
-                s += write("(")
+                r += cls.write("(")
 
             # operation
             elif node.parent.type == "operation":
                 # operation (var a = -1)
                 if node.parent.get("left", False) == True:
-                    s += compileToken(node.parent.get("operator"), True)
-            return s
+                    r += cls.compileToken(node.parent.get("operator"), True)
+            return r
 
         @method(symbol("first"))
-        def closing(self, node):
-            s = u''
+        def closing(s, node):
+            r = u''
             # for loop
             if node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
                 if node.parent.get("forVariant") == "iter":
-                    s += write(";")
+                    r += cls.write(";")
 
                     if node.parent.hasChild("second"):
-                        s += space(False,result=s)
+                        r += cls.space(False,result=r)
 
             # operation
             elif node.parent.type == "operation" and node.parent.get("left", False) != True:
                 oper = node.parent.get("operator")
 
                 # be compact in for loops
-                compact = inForLoop(node)
-                s += compileToken(oper, compact)
-            return s
+                compact = cls.inForLoop(node)
+                r += cls.compileToken(oper, compact)
+            return r
 
 
         symbol("function")
 
         @method(symbol("function"))
-        def opening(self, node):
-            s = write("function")
+        def opening(s, node):
+            r = cls.write("function")
             functionName = node.get("name", False)
             if functionName != None:
-                s += space(result=s)
-                s += write(functionName)
-            return s
+                r += cls.space(result=r)
+                r += cls.write(functionName)
+            return r
 
         @method(symbol("function"))
-        def closing(self, node):
+        def closing(s, node):
             return u""
 
 
         symbol("group")
 
         @method(symbol("group"))
-        def opening(self, node):
-            return write("(")
+        def opening(s, node):
+            return cls.write("(")
 
         @method(symbol("group"))
-        def closing(self, node):
-            s = u''
+        def closing(s, node):
+            r = u''
             if node.getChildrenLength(True) == 1:
-                noline()
+                cls.noline()
 
-            s += write(")")
-            return s
+            r += cls.write(")")
+            return r
 
 
         symbol("identifier")
 
         @method(symbol("identifier"))
-        def opening(self, node):
+        def opening(s, node):
             name = node.get("name", False)
             if name != None:
-                return write(name)
+                return cls.write(name)
             return u""
 
         @method(symbol("identifier"))
-        def closing(self, node):
-            s = u''
+        def closing(s, node):
+            r = u''
             if node.hasParent() and node.parent.type == "variable" and not node.isLastChild(True):
-                s += write(".")
+                r += cls.write(".")
             elif node.hasParent() and node.parent.type == "label":
-                s += write(":")
-            return s
+                r += cls.write(":")
+            return r
 
 
         symbol("instantiation")
 
         @method(symbol("instantiation"))
-        def opening(self, node):
-            s = write("new")
-            s += space(result=s)
-            return s
+        def opening(s, node):
+            r = cls.write("new")
+            r += cls.space(result=r)
+            return r
 
 
         @method(symbol("instantiation"))
-        def closing(self, node):
+        def closing(s, node):
             return u""
 
 
         symbol("key")
 
         @method(symbol("key"))
-        def opening(self, node):
-            s = u''
+        def opening(s, node):
+            r = u''
             if node.parent.type == "accessor":
-                s += write("[")
-            return s
+                r += cls.write("[")
+            return r
 
         @method(symbol("key"))
-        def closing(self, node):
-            s = u''
+        def closing(s, node):
+            r = u''
             if node.hasParent() and node.parent.type == "accessor":
-                s += write("]")
-            return s
+                r += cls.write("]")
+            return r
 
 
         symbol("keyvalue")
 
         @method(symbol("keyvalue"))
-        def opening(self, node):
-            s = u''
+        def opening(s, node):
+            r = u''
             keyString = node.get("key")
             keyQuote = node.get("quote", False)
 
@@ -607,50 +607,50 @@ class Packer(object):
                     keyString = "'" + keyString + "'"
 
             elif keyString in lang.RESERVED or not KEY.match(keyString):
-                print "Warning: Auto protect key: %s" % keyString
+                print "Warning: Auto protect key: %r" % keyString
                 keyString = "\"" + keyString + "\""
 
-            s += write(keyString)
-            s += space(False,result=s)
+            r += cls.write(keyString)
+            r += cls.space(False,result=r)
 
-            s += write(":")
-            s += space(False,result=s)
-            return s
+            r += cls.write(":")
+            r += cls.space(False,result=r)
+            return r
 
         @method(symbol("keyvalue"))
-        def closing(self, node):
-            s = u''
+        def closing(s, node):
+            r = u''
             if node.hasParent() and node.parent.type == "map" and not node.isLastChild(True):
-                noline()
-                s += comma(s)
-            return s
+                cls.noline()
+                r += cls.comma(r)
+            return r
 
 
 
         symbol("left")
 
         @method(symbol("left"))
-        def opening(self, node):
-            s = u''
-            return s
+        def opening(s, node):
+            r = u''
+            return r
 
         @method(symbol("left"))
-        def closing(self, node):
-            s = u''
+        def closing(s, node):
+            r = u''
             if node.hasParent() and node.parent.type == "assignment":
                 oper = node.parent.get("operator", False)
 
                 # be compact in for-loops
-                compact = inForLoop(node)
-                s += compileToken(oper, compact)
-            return s
+                compact = cls.inForLoop(node)
+                r += cls.compileToken(oper, compact)
+            return r
 
 
         symbol("loop")
 
         @method(symbol("loop"))
-        def opening(self, node):
-            s = u''
+        def opening(s, node):
+            r = u''
             # Additional new line before each loop
             if not node.isFirstChild(True) and not node.getChild("commentsBefore", False):
                 prev = node.getPreviousSibling(False, True)
@@ -659,193 +659,193 @@ class Packer(object):
                 if prev != None and prev.type in ["case", "default"]:
                     pass
                 elif node.hasChild("elseStatement") or node.getChild("statement").hasBlockChildren():
-                    sep()
+                    cls.sep()
                 else:
-                    line()
+                    cls.line()
 
             loopType = node.get("loopType")
 
             if loopType == "IF":
-                s += write("if")
-                s += space(False,result=s)
+                r += cls.write("if")
+                r += cls.space(False,result=r)
 
             elif loopType == "WHILE":
-                s += write("while")
-                s += space(False,result=s)
+                r += cls.write("while")
+                r += cls.space(False,result=r)
 
             elif loopType == "FOR":
-                s += write("for")
-                s += space(False,result=s)
+                r += cls.write("for")
+                r += cls.space(False,result=r)
 
             elif loopType == "DO":
-                s += write("do")
-                s += space(False,result=s)
+                r += cls.write("do")
+                r += cls.space(False,result=r)
 
             elif loopType == "WITH":
-                s += write("with")
-                s += space(False,result=s)
+                r += cls.write("with")
+                r += cls.space(False,result=r)
 
             else:
                 print "Warning: Unknown loop type: %s" % loopType
-            return s
+            return r
 
         @method(symbol("loop"))
-        def closing(self, node):
-            s = u''
+        def closing(s, node):
+            r = u''
             if node.get("loopType") == "DO":
-                s += semicolon()
-            return s
+                r += cls.semicolon()
+            return r
 
 
         symbol("map")
 
         @method(symbol("map"))
-        def opening(self, node):
-            s = u''
-            s += write("{")
-            return s
+        def opening(s, node):
+            r = u''
+            r += cls.write("{")
+            return r
 
         @method(symbol("map"))
-        def closing(self, node):
-            return write("}")
+        def closing(s, node):
+            return cls.write("}")
 
 
         symbol("operand")
 
         @method(symbol("operand"))
-        def opening(self, node):
+        def opening(s, node):
             return u""
 
         @method(symbol("operand"))
-        def closing(self, node):
+        def closing(s, node):
             return u""
 
 
         symbol("operation")
 
         @method(symbol("operation"))
-        def opening(self, node):
-            s = u''
-            return s
+        def opening(s, node):
+            r = u''
+            return r
 
         @method(symbol("operation"))
-        def closing(self, node):
+        def closing(s, node):
             return u""
 
 
         symbol("params")
 
         @method(symbol("params"))
-        def opening(self, node):
-            s = u''
-            noline()
-            s += write("(")
-            return s
+        def opening(s, node):
+            r = u''
+            cls.noline()
+            r += cls.write("(")
+            return r
 
         @method(symbol("params"))
-        def closing(self, node):
-            return write(")")
+        def closing(s, node):
+            return cls.write(")")
 
 
         symbol("return")
 
         @method(symbol("return"))
-        def opening(self, node):
-            s = write("return")
+        def opening(s, node):
+            r = cls.write("return")
             if node.hasChildren():
-                s += space(result=s)
-            return s
+                r += cls.space(result=r)
+            return r
 
         @method(symbol("return"))
-        def closing(self, node):
+        def closing(s, node):
             return u""
 
 
         symbol("right")
 
         @method(symbol("right"))
-        def opening(self, node):
-            s = u''
+        def opening(s, node):
+            r = u''
             if node.parent.type == "accessor":
-                s += write(".")
-            return s
+                r += cls.write(".")
+            return r
 
         @method(symbol("right"))
-        def closing(self, node):
+        def closing(s, node):
             return u""
 
 
         symbol("second")
 
         @method(symbol("second"))
-        def opening(self, node):
-            s = u''
+        def opening(s, node):
+            r = u''
             # for loop
             if node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
                 if not node.parent.hasChild("first"):
-                    s += write("(;")
+                    r += cls.write("(;")
 
             # operation
             elif node.parent.type == "operation":
                 if node.isComplex():
                     # (?: hook operation)
                     if node.parent.get("operator") == "HOOK":
-                        sep()
+                        cls.sep()
                     else:
-                        line()
-            return s
+                        cls.line()
+            return r
 
         @method(symbol("second"))
-        def closing(self, node):
-            s = u''
+        def closing(s, node):
+            r = u''
             # for loop
             if node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
-                s += write(";")
+                r += cls.write(";")
 
                 if node.parent.hasChild("third"):
-                    s += space(False,result=s)
+                    r += cls.space(False,result=r)
 
             # operation
             elif node.parent.type == "operation":
                 # (?: hook operation)
                 if node.parent.get("operator") == "HOOK":
-                    noline()
-                    s += space(False,result=s)
-                    s += write(":")
-                    s += space(False,result=s)
-            return s
+                    cls.noline()
+                    r += cls.space(False,result=r)
+                    r += cls.write(":")
+                    r += cls.space(False,result=r)
+            return r
 
 
         symbol("statement")
 
         @method(symbol("statement"))
-        def opening(self, node):
-            s = u''
+        def opening(s, node):
+            r = u''
             # for loop
             if node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
                 if node.parent.get("forVariant") == "iter":
                     if not node.parent.hasChild("first") and not node.parent.hasChild("second") and not node.parent.hasChild("third"):
-                        s += write("(;;");
+                        r += cls.write("(;;");
 
                     elif not node.parent.hasChild("second") and not node.parent.hasChild("third"):
-                        s += write(";")
+                        r += cls.write(";")
 
-                s += write(")")
+                r += cls.write(")")
 
                 if not node.hasChild("block"):
-                    s += space(False,result=s)
-            return s
+                    r += cls.space(False,result=r)
+            return r
 
         @method(symbol("statement"))
-        def closing(self, node):
+        def closing(s, node):
             return u""
 
 
         symbol("switch")
 
         @method(symbol("switch"))
-        def opening(self, node):
-            s = u''
+        def opening(s, node):
+            r = u''
             # Additional new line before each switch/try
             if not node.isFirstChild(True) and not node.getChild("commentsBefore", False):
                 prev = node.getPreviousSibling(False, True)
@@ -853,94 +853,249 @@ class Packer(object):
                 if prev != None and prev.type in ["case", "default"]:
                     pass
                 else:
-                    sep()
+                    cls.sep()
             if node.get("switchType") == "catch":
-                s += write("try")
+                r += cls.write("try")
             elif node.get("switchType") == "case":
-                s += write("switch")
-            return s
+                r += cls.write("switch")
+            return r
 
         @method(symbol("switch"))
-        def closing(self, node):
-            s = u''
+        def closing(s, node):
+            r = u''
             if node.get("switchType") == "case":
-                s += write("}")
-            return s
+                r += cls.write("}")
+            return r
 
 
         symbol("third")
 
         @method(symbol("third"))
-        def opening(self, node):
-            s = u''
+        def opening(s, node):
+            r = u''
             # for loop
             if node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
                 if not node.parent.hasChild("second"):
                     if node.parent.hasChild("first"):
-                        s += write(";")
-                        s += space(False,result=s)
+                        r += cls.write(";")
+                        r += cls.space(False,result=r)
                     else:
-                        s += write("(;;")
+                        r += cls.write("(;;")
 
             # operation
             elif node.parent.type == "operation":
                 # (?: hook operation)
                 if node.parent.get("operator") == "HOOK":
                     if node.isComplex():
-                        sep()
-            return s
+                        cls.sep()
+            return r
 
         @method(symbol("third"))
-        def closing(self, node):
+        def closing(s, node):
             return u""
 
 
         symbol("throw")
 
         @method(symbol("throw"))
-        def opening(self, node):
-            s = write("throw")
-            s += space(result=s)
-            return s
+        def opening(s, node):
+            r = cls.write("throw")
+            r += cls.space(result=r)
+            return r
 
 
         @method(symbol("throw"))
-        def closing(self, node):
+        def closing(s, node):
             return u""
 
 
         symbol("variable")
 
         @method(symbol("variable"))
-        def opening(self, node):
-            s = u''
-            return s
+        def opening(s, node):
+            r = u''
+            return r
 
         @method(symbol("variable"))
-        def closing(self, node):
+        def closing(s, node):
             return u""
 
 
         symbol("void")
 
         @method(symbol("void"))
-        def opening(self, node):
-            s = u''
-            s += write("void")
-            s += write("(")
-            return s
+        def opening(s, node):
+            r = u''
+            r += cls.write("void")
+            r += cls.write("(")
+            return r
 
         @method(symbol("void"))
-        def closing(self, node):
-            s = u''
+        def closing(s, node):
+            r = u''
             if node.getChildrenLength(True) == 1:
-                noline()
+                cls.noline()
 
-            s += write(")")
-            return s
+            r += cls.write(")")
+            return r
 
     #end:init_symtab()
 
+
+    # --------------------------------------------------------------------------
+    # -- Helper for symbol methods ---------------------------------------------
+    # --------------------------------------------------------------------------
+
+
+    @staticmethod
+    def compileToken(name, compact=False):
+        s = u''
+
+        if name in ["INC", "DEC", "TYPEOF"]:
+            pass
+
+        elif name in ["INSTANCEOF", "IN"]:
+            s += Packer.space(result=s)
+
+        elif not compact and pretty:
+            s += Packer.space(result=s)
+
+        if name == None:
+            s += Packer.write("=")
+
+        elif name in ["TYPEOF", "INSTANCEOF", "IN"]:
+            s += Packer.write(name.lower())
+
+        else:
+            for key in lang.TOKENS:
+                if lang.TOKENS[key] == name:
+                    s += Packer.write(key)
+
+        if name in ["INC", "DEC"]:
+            pass
+
+        elif name in ["TYPEOF", "INSTANCEOF", "IN"]:
+            s += Packer.space(result=s)
+
+        elif not compact and pretty:
+            s += Packer.space(result=s)
+
+        return s
+
+
+    @staticmethod
+    def space(force=True, result=u''):
+        global pretty
+        global afterLine
+        global afterBreak
+        global afterDoc
+        s = u''
+
+        if not force and not pretty:
+            return s
+
+        if afterDoc or afterBreak or afterLine or result and (result.endswith(" ") or result.endswith("\n")):
+            return s
+        else:
+            return u' '
+
+
+    @staticmethod
+    def write(txt=u""):
+        result = u""
+        global breaks
+        global afterLine
+        global afterBreak
+        global afterDoc
+        global afterDivider
+        global afterArea
+
+        if breaks:
+            if afterArea or afterDivider or afterDoc or afterBreak or afterLine:
+                result += "\n"
+
+        # reset
+        afterLine = False
+        afterBreak = False
+        afterDoc = False
+        afterDivider = False
+        afterArea = False
+
+        result += txt
+
+        return result
+
+
+    @staticmethod
+    def sep():
+        global afterBreak
+        afterBreak = True
+
+
+    @staticmethod
+    def line():
+        global afterLine
+        afterLine = True
+
+
+    @staticmethod
+    def noline():
+        global afterLine
+        global afterBreak
+        global afterDivider
+        global afterArea
+        global afterDoc
+
+        afterLine = False
+        afterBreak = False
+        afterDivider = False
+        afterArea = False
+        afterDoc = False
+
+
+    @staticmethod
+    def semicolon(result=u''):
+        global breaks
+        s = u''
+
+        Packer.noline()
+
+        if not result or not (result.endswith("\n") or result.endswith(";")):
+            s += Packer.write(";")
+
+            if breaks:
+                s += "\n"
+        return s
+
+
+    @staticmethod
+    def comma(result):
+        global breaks
+        s = u''
+
+        Packer.noline()
+
+        if not result or not (result.endswith("\n") or result.endswith(",")):
+            s += Packer.write(",")
+
+            if breaks:
+                result += "\n"
+
+        return s
+
+
+    @staticmethod
+    def inForLoop(node):
+        while node:
+            if node.type in ["first", "second", "third"] and node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
+                return True
+
+            if not node.hasParent():
+                return False
+
+            node = node.parent
+
+        return False
 
     # --------------------------------------------------------------------------
     # -- Interface Methods -----------------------------------------------------
@@ -969,154 +1124,4 @@ class Packer(object):
 
         return [ Packer.symbol_base.emit(node) ]  # caller expects []
 
-
-
-if True:
-
-    # --------------------------------------------------------------------------
-    # -- Helper for symbol methods ---------------------------------------------
-    # --------------------------------------------------------------------------
-
-
-    def compileToken(name, compact=False):
-        s = u''
-
-        if name in ["INC", "DEC", "TYPEOF"]:
-            pass
-
-        elif name in ["INSTANCEOF", "IN"]:
-            s += space(result=s)
-
-        elif not compact and pretty:
-            s += space(result=s)
-
-        if name == None:
-            s += write("=")
-
-        elif name in ["TYPEOF", "INSTANCEOF", "IN"]:
-            s += write(name.lower())
-
-        else:
-            for key in lang.TOKENS:
-                if lang.TOKENS[key] == name:
-                    s += write(key)
-
-        if name in ["INC", "DEC"]:
-            pass
-
-        elif name in ["TYPEOF", "INSTANCEOF", "IN"]:
-            s += space(result=s)
-
-        elif not compact and pretty:
-            s += space(result=s)
-
-        return s
-
-
-    def space(force=True, result=u''):
-        global pretty
-        global afterLine
-        global afterBreak
-        global afterDoc
-        s = u''
-
-        if not force and not pretty:
-            return s
-
-        if afterDoc or afterBreak or afterLine or result and (result.endswith(" ") or result.endswith("\n")):
-            return s
-        else:
-            return u' '
-
-
-    def write(txt=u""):
-        result = u""
-        global breaks
-        global afterLine
-        global afterBreak
-        global afterDoc
-        global afterDivider
-        global afterArea
-
-        if breaks:
-            if afterArea or afterDivider or afterDoc or afterBreak or afterLine:
-                result += "\n"
-
-        # reset
-        afterLine = False
-        afterBreak = False
-        afterDoc = False
-        afterDivider = False
-        afterArea = False
-
-        result += txt
-
-        return result
-
-
-    def sep():
-        global afterBreak
-        afterBreak = True
-
-
-    def line():
-        global afterLine
-        afterLine = True
-
-
-    def noline():
-        global afterLine
-        global afterBreak
-        global afterDivider
-        global afterArea
-        global afterDoc
-
-        afterLine = False
-        afterBreak = False
-        afterDivider = False
-        afterArea = False
-        afterDoc = False
-
-
-    def semicolon(result=u''):
-        global breaks
-        s = u''
-
-        noline()
-
-        if not result or not (result.endswith("\n") or result.endswith(";")):
-            s += write(";")
-
-            if breaks:
-                s += "\n"
-        return s
-
-
-    def comma(result):
-        global breaks
-        s = u''
-
-        noline()
-
-        if not result or not (result.endswith("\n") or result.endswith(",")):
-            s += write(",")
-
-            if breaks:
-                result += "\n"
-
-        return s
-
-
-
-    def inForLoop(node):
-        while node:
-            if node.type in ["first", "second", "third"] and node.parent.type == "loop" and node.parent.get("loopType") == "FOR":
-                return True
-
-            if not node.hasParent():
-                return False
-
-            node = node.parent
-
-        return False
 
