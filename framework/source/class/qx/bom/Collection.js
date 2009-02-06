@@ -523,75 +523,16 @@
       },
       
 
-      /** 
+      /**
+       * Checks the current selection against an expression 
+       * and returns true, if at least one element of the 
+       * selection fits the given expression.
        *
-       *
-       * @return {Collection} The filtered collection
+       * @param selector {String} Selector to check the content for
+       * @return {Boolean} Whether at least one element matches the given selector
        */
-      gt : function() {
-        
-      },
-      
-
-      /** 
-       *
-       *
-       * @return {Collection} The filtered collection
-       */
-      lt : function() {
-        
-      },
-      
-
-      /** 
-       *
-       *
-       * @return {Collection} The new collection
-       */
-      next : function() {
-        
-      },
-      
-
-      /** 
-       * Removes elements matching the specified expression 
-       * from the set of matched elements.
-       *
-       * @param expr {String} The expression to filter
-       * @return {Collection} The filtered collection
-       */
-      not : function() {
-        
-      },
-      
-
-      /** 
-       *
-       *
-       * @return {Collection} The new collection
-       */
-      parent : function() {
-        
-      },
-
-      
-      /** 
-       *
-       *
-       * @return {Collection} The new collection
-       */
-      parents : function() {
-        
-      },
-      
-
-      /** 
-       *
-       *
-       * @return {Collection} The new collection
-       */
-      siblings : function() {
-        
+      is : function(selector) {
+        return !!selector && qx.bom.Selector.matches(selector, this).length > 0;
       },
       
 
