@@ -534,6 +534,49 @@
       
       
       /** 
+       * Get a set of elements containing the closest parent element 
+       * that matches the specified selector, the starting element included.
+       *
+       * Closest works by first looking at the current element to see if 
+       * it matches the specified expression, if so it just returns the 
+       * element itself. If it doesn't match then it will continue to 
+       * traverse up the document, parent by parent, until an element 
+       * is found that matches the specified expression. If no matching 
+       * element is found then none will be returned.
+       *
+       * @param selector {String} Expression to filter the elements with
+       * @return {Collection} New collection which contains all interesting parents
+       */
+      closest : function(selector)
+      {
+        // Initialize array for reusing it as container for
+        // selector match call.
+        var arr = new qx.bom.Collection(1);
+        
+        // Performance tweak
+        var Selector = qx.bom.Selector;
+
+        // Map all children to given selector        
+        var ret = this.map(function(current)
+        {
+          while (current && current.ownerDocument) 
+          {
+            arr[0] = current;
+            
+            if (Selector.matches(selector, arr).length > 0) {
+              return current;
+            }
+
+            // Try the next parent            
+            current = current.parentNode;
+          }
+        });
+        
+        return qx.lang.Array.unique(ret);
+      },
+      
+      
+      /** 
        * Searches for all elements that match the specified expression. 
        * This method is a good way to find additional descendant 
        * elements with which to process.

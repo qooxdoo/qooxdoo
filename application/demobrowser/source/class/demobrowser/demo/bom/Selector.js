@@ -83,6 +83,13 @@ qx.Class.define("demobrowser.demo.bom.Selector",
       Logger.debug("Found " + qx.bom.Selector.query("ul,ol").children(":first-child").length + " first children of ul/ol elements using children(selector)");
       
       
+      // CLOSEST
+      
+      // All even 'li' elements and their next ul or ol parent
+      // Do not make a lot of sense using this way, though
+      console.debug("Number of ul/ol elements which are closest to a li element: " + qx.bom.Selector.query("li").closest("ul,ol").length);
+      
+      
       // FIND
 
       // Fast path
@@ -131,7 +138,6 @@ qx.Class.define("demobrowser.demo.bom.Selector",
       
       var res = qx.bom.Selector.query("ul").find("li").not(":first-child,:last-child");
       Logger.debug("Number of found li elements in the middle: " + res.length);
-
     }
   }
 });
