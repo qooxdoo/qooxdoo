@@ -25,7 +25,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.data.JsonToList", 
+qx.Class.define("demobrowser.demo.data.JsonToTree", 
 {
   extend : qx.application.Standalone,
 
@@ -35,34 +35,33 @@ qx.Class.define("demobrowser.demo.data.JsonToList",
     {
       this.base(arguments);
       
-      // create and add the list
-      var list = new qx.ui.form.List();      
-      this.getRoot().add(list, {left: 10, top: 80});
+      // create and add the tree
+      var tree = new qx.ui.tree.Tree();      
+      this.getRoot().add(tree, {left: 10, top: 80});
+      tree.setWidth(200);
+      tree.setHeight(300);
       
       // create the controller
-      var controller = new qx.data.controller.List(null, list);
-      // set the name for the label property
-      controller.setLabelPath("name");
-      // set a converter for the icons
-      controller.setIconOptions({converter : function(data) {
-        return "icon/16/mimetypes/" + data + ".png";
-      }});
-      // set the name of the icon property
-      controller.setIconPath("type");
+      var controller = new qx.data.controller.Tree(null, tree, "kids", "name");
 
       // create the data store
-      var url = "json/list.json";
+      var url = "json/tree.json";
       var store = new qx.data.store.Json(url);
       
       // create the status label
       var status = new qx.ui.basic.Label("Loading...");
-      this.getRoot().add(status, {left: 120, top: 80});   
+      this.getRoot().add(status, {left: 220, top: 80});   
       
       // connect the store and the controller
-      store.bind("model.items", controller, "model");
+      store.bind("model", controller, "model");      
   
       // bind the status label
-      store.bind("state", status, "content");  
+      store.bind("state", status, "content");
+    
+      // show the data in the list when loaded
+      store.addListener("loaded", function(ev) {
+        tree.getRoot().setOpen(true);
+      }, this);
       
       
       
@@ -75,10 +74,9 @@ qx.Class.define("demobrowser.demo.data.JsonToList",
       description.setRich(true);
       description.setWidth(260);
       description.setContent(
-        "<b>List bound to data in a json file</b><br/>"
+        "<b>Tree bound to data in a json file</b><br/>"
         + "Loading the json file <a href='" + url +"' target='_blank'>"
-        + "list.json</a> and bind the items to the list widget. The icons "
-        + " will be created by a converter which converts the type to an icon url."
+        + "tree.json</a> and bind the items to the tree widget."
       );
       this.getRoot().add(description, {left: 10, top: 10});   
             

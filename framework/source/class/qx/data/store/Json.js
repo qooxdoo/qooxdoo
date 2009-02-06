@@ -33,18 +33,18 @@ qx.Class.define("qx.data.store.Json",
    
     // create the request
     this.__request = new qx.io.remote.Request(url, "POST", "application/json");
-    // this.__request.setTimeout(3 * 1000);
     this.__request.addListener("completed", this.__requestCompleteHandler, this);
-    this.__request.addListener("failed", this.__requestFailHandler, this);
-    this.__request.addListener("timeout", this.__requestFailHandler, this);
+    this.__request.addListener("changeState", function(ev) {
+      this.setState(ev.getData());
+    }, this);
+    
     this.__request.send();  
   },
   
   
   events : 
   {
-    "loaded": "qx.event.type.Data",
-    "failed": "qx.event.type.Event"
+    "loaded": "qx.event.type.Data"
   },
   
   
@@ -53,6 +53,15 @@ qx.Class.define("qx.data.store.Json",
     model : {
       nullable: true,
       event: "changeModel"
+    },
+    
+    state : {
+      check : [ 
+        "configured", "queued", "sending", "receiving", 
+        "completed", "aborted", "timeout", "failed"
+      ],
+      init : "configured",
+      event : "changeState"
     }
   },
 
@@ -150,11 +159,6 @@ qx.Class.define("qx.data.store.Json",
                 
         // fire complete event
         this.fireDataEvent("loaded", this.getModel());
-    },
-    
-    
-    __requestFailHandler: function(ev) {
-      this.fireEvent("failed", qx.event.type.Event);
     }
   }
 });

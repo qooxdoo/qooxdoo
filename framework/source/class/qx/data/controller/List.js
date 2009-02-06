@@ -108,7 +108,7 @@ qx.Class.define("qx.data.controller.List",
     /** Data array containing the data which should be shown in the list. */
     model : 
     {
-      check: "value instanceof qx.data.Array || value instanceof qx.data.filter.Array",
+      check: "qx.data.Array",
       apply: "_applyModel",
       event: "changeModel",
       nullable: true
