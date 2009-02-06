@@ -105,6 +105,24 @@ qx.Class.define("demobrowser.demo.bom.Selector",
       // Testing find() for complexer cases
       var res = new qx.bom.Collection(document.body).find("h1,h2");
       Logger.debug("Found " + res.length + " headers using find()");
+      
+      
+      // NEXT
+      
+      // NEXT ALL
+      
+      // OFFSET PARENT
+      
+      // PARENT
+      
+      // PARENTS
+      
+      // PREV
+      
+      // PREV ALL
+      
+      // SIBLINGS
+      
 
 
 
@@ -114,7 +132,7 @@ qx.Class.define("demobrowser.demo.bom.Selector",
 
       // EQ
         
-      // Selector to collection
+      // Select the second element from the collection
       Selector.query("li a").eq(1).setStyle("fontWeight", "bold");
       
     
