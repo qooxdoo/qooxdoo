@@ -281,7 +281,8 @@ qx.Class.define("qx.util.format.DateFormat",
               // TODO: G - Era designator (e.g. AD). Problem: Not covered by JScript Date class
               // TODO: W - Week in month (e.g. 2)
               // TODO: F - Day of week in month (e.g.   2). Problem: What is this?
-            case 'y': // Year
+            case 'y': // Year 
+            case 'Y': // Year (which must be 4 digits)
               if (wildcardSize == 2) {
                 replacement = this.__fillNumber(fullYear % 100, 2);
               } else if (wildcardSize == 4) {
@@ -821,7 +822,14 @@ qx.Class.define("qx.util.format.DateFormat",
       // Z (RFC 822 time zone) reason: no setter in Date class
       this.__parseRules.push(
       {
-        pattern     : "yyyy",
+        pattern     : "YYYY", //Year (must be 4 digits)
+        regex       : "(\\d\\d\\d\\d)",
+        manipulator : yearManipulator
+      });
+      
+      this.__parseRules.push(
+      {
+        pattern     : "yyyy", //Year (2 or 4 digits)
         regex       : "(\\d\\d(\\d\\d)?)",
         groups      : 2,
         manipulator : yearManipulator
