@@ -51,24 +51,6 @@ qx.Class.define("qx.ui.virtual.layer.Row",
   members :
   {
     // overridden
-    _getFirstItemIndex : function() {
-      return this._firstRow;
-    },    
-    
-    syncWidget : function()
-    {
-      if (!this._columnSizes) {
-        return;
-      }
-      this.fullUpdate(
-        this._firstRow, this._lastRow,
-        0, 0, 
-        this._rowSizes, this._columnSizes
-      )
-    },
-    
-    
-    // overridden
     fullUpdate : function(
       firstRow, lastRow, 
       firstColumn, lastColumn, 
@@ -78,43 +60,76 @@ qx.Class.define("qx.ui.virtual.layer.Row",
       var html = [];
       
       var width = qx.lang.Array.sum(columnSizes);
-      var decoratedRows = {};
+      var decorations = [];      
       
       var top = 0;
+      var row = firstRow;
+      var childIndex = 0;
+      
       for (var y=0; y<rowSizes.length; y++)
       {
-        var deco = this.getDecorator(firstRow + y);
-        if (deco) 
-        {
-          decoratedRows[y] = deco;
-          this._hasDecoratedRows = true;
-        } else {
-          var color = this.getColor(firstRow + y);
+        var decorator = this.getDecorator(row);
+        if (decorator)
+        {          
+          decorations.push({
+            childIndex: childIndex,
+            decorator: decorator,
+            width: width,
+            height: rowSizes[y]
+          });
+
+          html.push(
+            "<div style='",
+            "position: absolute;",
+            "left: 0;",
+            "top:", top, "px;",
+            "'>",
+            decorator.getMarkup(),
+            "</div>"
+          );  
+          childIndex++
         }
-        
-        html.push(
-          "<div style='",
-          "position: absolute;",
-          "left: 0;",
-          "top:", top, "px;",
-          "height:", rowSizes[y], "px;",
-          "width:", width, "px;",
-          color ? "background-color:"+ color : "", 
-          "'>",
-          deco ? deco.getMarkup() : "",
-          "</div>"
-        );
+        else
+        {
+          var color = this.getColor(row);
+          if (color)
+          {
+            html.push(
+              "<div style='",
+              "position: absolute;",
+              "left: 0;",
+              "top:", top, "px;",
+              "height:", rowSizes[y], "px;",
+              "width:", width, "px;",
+              "background-color:", color, 
+              "'>",
+              "</div>"
+            );
+            childIndex++
+          }
+        }        
         
         top += rowSizes[y];
+        row += 1;
       }
-      var el = this.getContentElement().getDomElement();
+      
+      var el = this.getContentElement().getDomElement();      
+      // hide element before changing the child nodes to avoid 
+      // premature reflow calculations
+      el.style.display = "none";
       el.innerHTML = html.join("");
       
-      for (var y in decoratedRows) 
+      // set size of decorated rows
+      for (var i=0, l=decorations.length; i<l; i++) 
       {
-        var deco = decoratedRows[y];
-        deco.resize(el.childNodes[y].firstChild, width, rowSizes[y]);
-      }
+        var deco = decorations[i];
+        deco.decorator.resize(
+          el.childNodes[deco.childIndex].firstChild,
+          deco.width,
+          deco.height
+        );
+      }      
+      el.style.display = "block";
       
       this._firstRow = firstRow;
       this._lastRow = lastRow;
@@ -150,6 +165,16 @@ qx.Class.define("qx.ui.virtual.layer.Row",
       if (index >= this._firstRow && index <= this._lastRow) {
         qx.ui.core.queue.Widget.add(this);
       }
-    }
+    },
+    
+    
+    // overridden
+    setDecorator : function(index, decorator) 
+    {
+      this.base(arguments, index, decorator);     
+      if (index >= this._firstRow && index <= this._lastRow) {
+        qx.ui.core.queue.Widget.add(this);
+      }
+    }    
   }
 });

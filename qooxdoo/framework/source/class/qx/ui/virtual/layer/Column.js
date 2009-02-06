@@ -51,12 +51,6 @@ qx.Class.define("qx.ui.virtual.layer.Column",
   members :
   {
     // overridden
-    _getFirstItemIndex : function() {
-      return this._firstColumn;
-    },    
-    
-    
-    // overridden
     fullUpdate : function(
       firstRow, lastRow, 
       firstColumn, lastColumn, 
@@ -64,24 +58,84 @@ qx.Class.define("qx.ui.virtual.layer.Column",
     )
     {
       var html = [];
+
+      var height = qx.lang.Array.sum(rowSizes);
+      var decorations = [];
+      
+      var left = 0;
+      var column = firstColumn;
+      var childIndex = 0;
+      
       for (var x=0; x<columnSizes.length; x++)
       {
-        var color = this.getColor(firstColumn + x);
+        
+        var decorator = this.getDecorator(column);
+        if (decorator)
+        {          
+          decorations.push({
+            childIndex: childIndex,
+            decorator: decorator,
+            width: columnSizes[x],
+            height: height
+          });
+          
+          html.push(
+            "<div style='",
+            "position: absolute;",
+            "top: 0;",
+            "left:", left, "px;",
+            "'>",
+            decorator.getMarkup(),
+            "</div>"
+          ); 
+          childIndex++;
+        }
+        else
+        {
+          var color = this.getColor(column);
+          if (color)
+          {
+            html.push(
+              "<div style='",
+              "position: absolute;",
+              "top: 0;",
+              "left:", left, "px;",
+              "width:", columnSizes[x], "px;",
+              "height:", height, "px;",
+              "background-color:", color, 
+              "'>",
+              "</div>"
+            );
+            childIndex++
+          }
+        }
+        
+        left += columnSizes[x];
+        column += 1;        
+      }
+      
+      var el = this.getContentElement().getDomElement();
+      // hide element before changing the child nodes to avoid 
+      // premature reflow calculations
+      el.style.display = "none";
+      el.innerHTML = html.join("");
 
-        html.push(
-          "<div style='",
-          "float: left;",
-          "width:", columnSizes[x], "px;",
-          "height: 100%;",
-          color ? "background-color:"+ color : "", 
-          "'>",
-          "</div>"
+      // set size of decorated columns
+      for (var i=0, l=decorations.length; i<l; i++) 
+      {
+        var deco = decorations[i];
+        deco.decorator.resize(
+          el.childNodes[deco.childIndex].firstChild,
+          deco.width,
+          deco.height
         );
       }
-      this.getContentElement().setAttribute("html", html.join(""));
+      el.style.display = "block";
       
       this._firstColumn = firstColumn;
       this._lastColumn = lastColumn;
+      this._rowSizes = rowSizes;
+      this._columnSizes = columnSizes;
     },
     
     updateLayerWindow : function(

@@ -30,10 +30,18 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
   /**
    * @param orientation {String?"horizontal"} The grid line orientation.
    */
-  construct : function(orientation) 
+  construct : function(orientation, lineColor, lineSize) 
   {
     this.base(arguments);
 
+    if (lineColor) {
+      this.setDefaultLineColor(lineColor);
+    }
+    
+    if (lineSize !== undefined) {
+      this.setSetDefaultLineSize(lineSize);
+    }    
+    
     this.__lineColors = [];
     this.__lineSizes = [];
 

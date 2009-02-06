@@ -205,15 +205,19 @@ qx.Class.define("demo.WidgetGallery",
     
     styleListItem : function(widget, isSelected) 
     {
-      //console.log("style", isSelected)
       var label = widget.getChildControl("label");
+      var icon = widget.getChildControl("icon");
       if (isSelected)
       {
         label.setDecorator("selected");
         label.setTextColor("text-selected");
-      } else {
+        icon.setDecorator("group");
+      }
+      else
+      {
         label.resetDecorator();
         label.resetTextColor();
+        icon.resetDecorator();
       }
     },
     
@@ -258,6 +262,9 @@ qx.Class.define("demo.WidgetGallery",
         });
         widget.getChildControl("label").set({
           padding : [0, 4]
+        });
+        widget.getChildControl("icon").set({
+          padding : 4
         });
       }
       
@@ -307,12 +314,10 @@ qx.Class.define("demo.HtmlGallery",
       this.layer = new qx.ui.virtual.layer.HtmlCell(this);
       scroller.getPane().addLayer(this.layer);
       
-      var lines = new qx.ui.virtual.layer.GridLines("horizontal");
-      lines._color = "#f3f3f3";
+      var lines = new qx.ui.virtual.layer.GridLines("horizontal", "#f3f3f3");
       scroller.getPane().addLayer(lines);
       
-      var lines = new qx.ui.virtual.layer.GridLines("vertical");
-      lines._color = "#f3f3f3";
+      var lines = new qx.ui.virtual.layer.GridLines("vertical", "#f3f3f3");
       scroller.getPane().addLayer(lines);
       
       return scroller;
