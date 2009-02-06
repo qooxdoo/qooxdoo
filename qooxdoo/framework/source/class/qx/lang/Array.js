@@ -96,13 +96,15 @@ qx.Bootstrap.define("qx.lang.Array",
         return this; 
       }
       
+      // Create from given constructor
+      var ret = new constructor;
+      
       // Some collection is mshtml are not able to be sliced.
       // This lines are a special workaround for this client.
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
         if (object.item)
         {
-          var ret = [];
           for (var i=offset||0, l=object.length; i<l; i++) {
             ret[i] = object[i];
           }
@@ -112,7 +114,6 @@ qx.Bootstrap.define("qx.lang.Array",
       }      
       
       // Create new instance
-      var ret = new constructor;
       ret.push.apply(ret, Array.prototype.slice.call(object, offset||0));
       return ret;      
     },
