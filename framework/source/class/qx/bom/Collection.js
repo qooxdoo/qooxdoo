@@ -472,18 +472,32 @@
       
       /** 
        * Removes all elements from the set of matched elements that 
-       * do not match the specified expression(s).
+       * do not match the specified expression(s) or be valid
+       * after being tested with the given function.
        *
-       * @param expr {String} The expression to filter
+       * A selector function is invoked with three arguments: the value of the element, the
+       * index of the element, and the Array object being traversed.       
+       *
+       * @param selector {String|Function} An expression or function to filter
+       * @param context {Object?null} Optional context for the function to being executed in.
        * @return {Collection} The filtered collection
        */
-      filter : function() {
+      filter : function(selector, context) 
+      {
+        if (qx.lang.Function.isFunction(selector)) {
+          var res = qx.core.BaseArray.prototype.filter.call(this, selector, context);
+        } else {
+          var res = qx.bom.Selector.matches(selector, this);
+        }
         
+        return this.__pushStack(res);
       },
       
 
       /** 
-       *
+       * Searches for all elements that match the specified expression. 
+       * This method is a good way to find additional descendant 
+       * elements with which to process.
        *
        * @return {Collection} The filtered collection
        */
