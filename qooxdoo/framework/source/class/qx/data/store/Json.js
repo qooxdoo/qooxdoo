@@ -31,14 +31,7 @@ qx.Class.define("qx.data.store.Json",
     // classes hashmap
     this.__classHashMap = {};
    
-    // create the request
-    this.__request = new qx.io.remote.Request(url, "POST", "application/json");
-    this.__request.addListener("completed", this.__requestCompleteHandler, this);
-    this.__request.addListener("changeState", function(ev) {
-      this.setState(ev.getData());
-    }, this);
-    
-    this.__request.send();  
+    this._createRequest(url);
   },
   
   
@@ -67,6 +60,17 @@ qx.Class.define("qx.data.store.Json",
 
   members :
   {
+    
+    _createRequest: function(url) {
+      // create the request
+      this.__request = new qx.io.remote.Request(url, "POST", "application/json");
+      this.__request.addListener("completed", this.__requestCompleteHandler, this);
+      this.__request.addListener("changeState", function(ev) {
+        this.setState(ev.getData());
+      }, this);
+
+      this.__request.send();
+    },
     
     __createDataHash: function(data) {
       var properties = [];
