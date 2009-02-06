@@ -59,7 +59,7 @@ qx.Class.define("demobrowser.demo.virtual.Pane_GridLines",
       
       var gl1 = new qx.ui.virtual.layer.GridLines("horizontal");
 
-      gl1.setLineWidth(1, 3);
+      gl1.setLineSize(1, 3);
       gl1.setLineColor(2, "red");
 
       var gl2 = new qx.ui.virtual.layer.GridLines("vertical");
@@ -71,7 +71,7 @@ qx.Class.define("demobrowser.demo.virtual.Pane_GridLines",
       var scroller = new qx.ui.virtual.core.Scroller(100, 10000, 60, 100);
       var gl3 = new qx.ui.virtual.layer.GridLines("vertical");
 
-      gl3.setLineWidth(1, 5);
+      gl3.setLineSize(1, 5);
       gl3.setLineColor(1, "blue");
       
 
