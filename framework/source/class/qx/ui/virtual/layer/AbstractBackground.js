@@ -99,31 +99,20 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
     __colorEven : null,
     __colorOdd : null,
     __customColors : null,
-    
-    
-    /**
-     * Get the index of the first visible color
-     */
-    _getFirstItemIndex : function() {
-      throw new Error("Abstract method call: _isSelectable()");
-    },
-  
+    __decorators : null,
+
     
     // overridden
     syncWidget : function()
     {
-      var el = this.getContentElement().getDomElement();
-      if (!el) {
+      if (!this._columnSizes) {
         return;
       }
-      
-      var children = el.childNodes;
-      var index = this._getFirstItemIndex();
-      for (var i=0, l=children.length; i<l; i++)
-      {
-        var color = this.getColor(index++);
-        children[i].style.backgroundColor = color;
-      }
+      this.fullUpdate(
+        this._firstRow, this._lastRow,
+        this._firstColumn, this._lastColumn, 
+        this._rowSizes, this._columnSizes
+      )
     },
     
     
