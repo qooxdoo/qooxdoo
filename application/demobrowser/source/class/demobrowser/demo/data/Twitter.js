@@ -34,7 +34,8 @@ qx.Class.define("demobrowser.demo.data.Twitter",
       // create the controller
       var controller = new qx.data.controller.List(null, list);
       // set the name for the label property
-      controller.setLabelPath("text");   
+      controller.setLabelPath("text");
+      controller.setIconPath("user.profile_image_url");
 
       var url = "http://twitter.com/statuses/user_timeline/wittemann.json";
       store = new demobrowser.demo.data.store.TwitterStore(url);
