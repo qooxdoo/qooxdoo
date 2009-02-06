@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.virtual.Table",
+qx.Class.define("demobrowser.demo.virtual.CellSpan",
 {
   extend : qx.application.Standalone,
 
@@ -36,35 +36,27 @@ qx.Class.define("demobrowser.demo.virtual.Table",
       // Call super class
       this.base(arguments);
 
-      var scroller = new qx.ui.virtual.core.Scroller(10000, 10000, 20, 100);
-      // change all cell sizes!!
-      for (var i=0; i<10000; i++)
-      {
-        scroller.getPane().getRowConfig().setItemSize(i, 20 + Math.round(Math.random() * 40));
-        scroller.getPane().getColumnConfig().setItemSize(i, 50 + Math.round(Math.random() * 80));
-      }
+      var scroller = new qx.ui.virtual.core.Scroller(1000, 100, 20, 100);
+
       this.getRoot().add(scroller, {edge: 20});
       scroller.getPane().addLayer(new qx.ui.virtual.layer.Row("white", "#EEE"));
       scroller.getPane().addLayer(new qx.ui.virtual.layer.GridLines("horizontal"));
-      scroller.getPane().addLayer(new qx.ui.virtual.layer.GridLines("vertical"));      
-      scroller.getPane().addLayer(new qx.ui.virtual.layer.HtmlCell(this));
-    },
-    
-    
-    getCellHtml : function(row, col, left, top, width, height)
-    {    
-      var html = [
-        "<div style='",
-        "float: left;",
-        "text-align: center;",
-        this._fontCss,
-        "width:", width, "px;",
-        "height:", height, "px;",
-        "'>",        
-        col + "x" + row,
-        "</div>"                  
-      ];
-      return html.join("");
-    }    
+      scroller.getPane().addLayer(new qx.ui.virtual.layer.GridLines("vertical"));   
+      
+      var pane = scroller.getPane();
+      
+      var spanLayer = new qx.ui.virtual.layer.CellSpan(
+        pane.getRowConfig(),
+        pane.getColumnConfig()
+      );      
+      spanLayer.addCell("c1", 1, 1, 2, 1);
+      spanLayer.addCell("c2", 1, 5, 3, 3);
+      spanLayer.addCell("c3", 7, 3, 1, 4);
+      spanLayer.addCell("c4", 6, 0, 10, 1);
+      spanLayer.addCell("c5", 10, 9, 10, 5);
+      spanLayer.addCell("c6", 11, 3, 6, 3);
+      
+      scroller.getPane().addLayer(spanLayer);
+    }   
   }
 });
