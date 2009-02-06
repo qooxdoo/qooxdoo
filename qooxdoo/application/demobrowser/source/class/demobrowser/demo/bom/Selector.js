@@ -123,6 +123,15 @@ qx.Class.define("demobrowser.demo.bom.Selector",
       var res = qx.bom.Selector.query("ul").find("li").is(":contains('List Item 1')");
       Logger.debug("Found li element with text 'List Item 1': " + res);
       
+      
+      // NOT
+
+      var res = qx.bom.Selector.query("ul").find("li").not(":contains('List Item 1')");
+      Logger.debug("Number of found li elements without text 'List Item 1': " + res.length);
+      
+      var res = qx.bom.Selector.query("ul").find("li").not(":first-child,:last-child");
+      Logger.debug("Number of found li elements in the middle: " + res.length);
+
     }
   }
 });

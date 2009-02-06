@@ -105,6 +105,7 @@
       /** {RegExp} Test for HTML or ID */
       __expr : /^[^<]*(<(.|\s)+>)[^>]*$|^#([\w-]+)$/,
       
+      
       /** 
        * Processes the input and translates it to a collection instance.
        *
@@ -377,6 +378,109 @@
       
       
 
+
+
+
+      /*
+      ---------------------------------------------------------------------------
+         TRAVERSING: FILTERING
+      ---------------------------------------------------------------------------
+      */   
+      
+      /**
+       * Reduce the set of matched elements to a single element.
+       *
+       * The position of the element in the collection of matched 
+       * elements starts at 0 and goes to length - 1.
+       *
+       * @param index {Integer} The position of the element
+       * @return {Collection} The filtered collection
+       */
+      eq : function(index) {
+        return this.slice(index, +index + 1);
+      },
+      
+      
+      /** 
+       *
+       *
+       */
+      hasClass : function(classname)
+      {
+        
+      },
+      
+      
+      /** 
+       * Removes all elements from the set of matched elements that 
+       * do not match the specified expression(s) or be valid
+       * after being tested with the given function.
+       *
+       * A selector function is invoked with three arguments: the value of the element, the
+       * index of the element, and the Array object being traversed.       
+       *
+       * @param selector {String|Function} An expression or function to filter
+       * @param context {Object?null} Optional context for the function to being executed in.
+       * @return {Collection} The filtered collection
+       */
+      filter : function(selector, context) 
+      {
+        var res;
+        
+        if (qx.lang.Function.isFunction(selector)) {
+          res = qx.core.BaseArray.prototype.filter.call(this, selector, context);
+        } else {
+          res = qx.bom.Selector.matches(selector, this);
+        }
+        
+        return this.__pushStack(res);
+      },
+      
+      
+      /**
+       * Checks the current selection against an expression 
+       * and returns true, if at least one element of the 
+       * selection fits the given expression.
+       *
+       * @param selector {String} Selector to check the content for
+       * @return {Boolean} Whether at least one element matches the given selector
+       */
+      is : function(selector) {
+        return !!selector && qx.bom.Selector.matches(selector, this).length > 0;
+      },
+      
+      
+      /** {RegExp} Test for simple selectors */
+      __simple : /^.[^:#\[\.,]*$/,
+
+      
+      /** 
+       * Removes elements matching the specified expression from the collection.
+       *
+       * @param selector {String} CSS selector expression
+       * @return {Collection} A newly created collection where the matching elements
+       *    have been removed.
+       */
+      not : function(selector)
+      {
+        // Test special case where just one selector is passed in
+        if (this.__simple.test(selector)) 
+        {
+          var res = qx.bom.Selector.matches(":not(" + selector + ")", this);
+          return this.__pushStack(res);
+        }
+          
+        // Otherwise do it in a more complicated way
+        var res = qx.bom.Selector.matches(selector, this);
+        return this.filter(function(value) {
+          return res.indexOf(value) === -1;
+        });  				
+      },
+      
+      
+      
+      
+
       /*
       ---------------------------------------------------------------------------
          TRAVERSING: FINDING
@@ -457,68 +561,6 @@
       
       
             
-
-
-      /*
-      ---------------------------------------------------------------------------
-         TRAVERSING: FILTERING
-      ---------------------------------------------------------------------------
-      */   
-      
-      /**
-       * Reduce the set of matched elements to a single element.
-       *
-       * The position of the element in the collection of matched 
-       * elements starts at 0 and goes to length - 1.
-       *
-       * @param index {Integer} The position of the element
-       * @return {Collection} The filtered collection
-       */
-      eq : function(index) {
-        return this.slice(index, +index + 1);
-      },
-      
-      
-      /** 
-       * Removes all elements from the set of matched elements that 
-       * do not match the specified expression(s) or be valid
-       * after being tested with the given function.
-       *
-       * A selector function is invoked with three arguments: the value of the element, the
-       * index of the element, and the Array object being traversed.       
-       *
-       * @param selector {String|Function} An expression or function to filter
-       * @param context {Object?null} Optional context for the function to being executed in.
-       * @return {Collection} The filtered collection
-       */
-      filter : function(selector, context) 
-      {
-        var res;
-        
-        if (qx.lang.Function.isFunction(selector)) {
-          res = qx.core.BaseArray.prototype.filter.call(this, selector, context);
-        } else {
-          res = qx.bom.Selector.matches(selector, this);
-        }
-        
-        return this.__pushStack(res);
-      },
-      
-      
-      /**
-       * Checks the current selection against an expression 
-       * and returns true, if at least one element of the 
-       * selection fits the given expression.
-       *
-       * @param selector {String} Selector to check the content for
-       * @return {Boolean} Whether at least one element matches the given selector
-       */
-      is : function(selector) {
-        return !!selector && qx.bom.Selector.matches(selector, this).length > 0;
-      },
-
-
-
       
       /*
       ---------------------------------------------------------------------------
