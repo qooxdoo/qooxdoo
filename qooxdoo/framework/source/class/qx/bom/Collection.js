@@ -167,7 +167,7 @@
     {
       /*
       ---------------------------------------------------------------------------
-         STYLE API
+         WRAP API: STYLES
       ---------------------------------------------------------------------------
       */    
       
@@ -227,7 +227,7 @@
     
       /*
       ---------------------------------------------------------------------------
-         ATTRIBUTE API
+         WRAP API: ATTRIBUTES
       ---------------------------------------------------------------------------
       */    
       
@@ -266,7 +266,7 @@
 
       /*
       ---------------------------------------------------------------------------
-         CSS CLASS API
+         WRAP API: CSS CLASSES
       ---------------------------------------------------------------------------
       */    
       
@@ -329,7 +329,7 @@
 
       /*
       ---------------------------------------------------------------------------
-         ELEMENT API
+         WRAP API: BOM ELEMENT
       ---------------------------------------------------------------------------
       */    
 
@@ -376,39 +376,12 @@
       removeListener : setter(qx.bom.Element, "removeListener"),
       
       
-      
+
       /*
       ---------------------------------------------------------------------------
-         COLLECTION CHAINING/MODIFICATION
+         TRAVERSING: FINDING
       ---------------------------------------------------------------------------
       */   
-      
-      /** 
-       * Extend the chaining with a new collection, while
-       * storing the previous collection to make it accessible
-       * via <code>end()</code>.
-       *
-       * @param arr {Array} Array to transform into new collection
-       * @return {Collection} The newly created collection
-       */
-      __pushStack : function(arr)   	
-      {
-        var coll = new qx.bom.Collection;
-        
-        // Remember previous collection
-        coll.__prevObject = this;
-        
-        // The "apply" call only accepts real arrays, no extended ones, 
-        // so we need to convert it first
-        arr = Array.prototype.slice.call(arr, 0);
-        
-        // Append all elements
-        coll.push.apply(coll, arr);
-        
-        // Return newly formed collection
-        return coll;
-      },
-      
       
       /**
        * Adds more elements, matched by the given expression, 
@@ -456,6 +429,42 @@
       },
       
       
+      /** 
+       * Searches for all elements that match the specified expression. 
+       * This method is a good way to find additional descendant 
+       * elements with which to process.
+       *
+       * @param selector {String} Selector for children to find
+       * @return {Collection} The found elements in a new collection
+       */
+      find : function(selector) 
+      {
+        var Selector = qx.bom.Selector;
+        
+        // Fast path for single item selector on single item collection
+        if (this.length === 1 && !/,/.test(selector)) {
+          return this.__pushStack(Selector.queryNative(selector, this[0]));
+        }
+
+        // Let the selector do the work and merge all result arrays.
+        var ret = [];
+        for (var i=0, l=this.length; i<l; i++) {
+          ret.push.apply(ret, Selector.queryNative(selector, this[i]));
+        }
+        
+        return this.__pushStack(ret);
+      },
+      
+      
+            
+
+
+      /*
+      ---------------------------------------------------------------------------
+         TRAVERSING: FILTERING
+      ---------------------------------------------------------------------------
+      */   
+      
       /**
        * Reduce the set of matched elements to a single element.
        *
@@ -495,34 +504,7 @@
         return this.__pushStack(res);
       },
       
-
-      /** 
-       * Searches for all elements that match the specified expression. 
-       * This method is a good way to find additional descendant 
-       * elements with which to process.
-       *
-       * @param selector {String} Selector for children to find
-       * @return {Collection} The found elements in a new collection
-       */
-      find : function(selector) 
-      {
-        var Selector = qx.bom.Selector;
-        
-        // Fast path for single item selector on single item collection
-        if (this.length === 1 && !/,/.test(selector)) {
-          return this.__pushStack(Selector.queryNative(selector, this[0]));
-        }
-
-        // Let the selector do the work and merge all result arrays.
-        var ret = [];
-        for (var i=0, l=this.length; i<l; i++) {
-          ret.push.apply(ret, Selector.queryNative(selector, this[i]));
-        }
-        
-        return this.__pushStack(ret);
-      },
       
-
       /**
        * Checks the current selection against an expression 
        * and returns true, if at least one element of the 
@@ -533,6 +515,52 @@
        */
       is : function(selector) {
         return !!selector && qx.bom.Selector.matches(selector, this).length > 0;
+      },
+
+
+
+      
+      /*
+      ---------------------------------------------------------------------------
+         TRAVERSING: CHAINING
+      ---------------------------------------------------------------------------
+      */  
+      
+      /** 
+       * Extend the chaining with a new collection, while
+       * storing the previous collection to make it accessible
+       * via <code>end()</code>.
+       *
+       * @param arr {Array} Array to transform into new collection
+       * @return {Collection} The newly created collection
+       */
+      __pushStack : function(arr)   	
+      {
+        var coll = new qx.bom.Collection;
+        
+        // Remember previous collection
+        coll.__prevObject = this;
+        
+        // The "apply" call only accepts real arrays, no extended ones, 
+        // so we need to convert it first
+        arr = Array.prototype.slice.call(arr, 0);
+        
+        // Append all elements
+        coll.push.apply(coll, arr);
+        
+        // Return newly formed collection
+        return coll;
+      },
+            
+      
+      /**
+       * Add the previous selection to the current selection.
+       *
+       * @return {Collection} Newly build collection containing the current and
+       *    and the previous collection.
+       */
+      andSelf : function() {
+        return this.add(this.__prevObject);
       },
       
 
