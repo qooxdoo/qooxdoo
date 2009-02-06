@@ -135,6 +135,7 @@ qx.Class.define("qx.ui.virtual.layer.Row",
       this._lastRow = lastRow;
       this._rowSizes = rowSizes;
       this._columnSizes = columnSizes;
+      this._width = width;
     },
     
     
@@ -147,7 +148,8 @@ qx.Class.define("qx.ui.virtual.layer.Row",
     {
       if (
         firstRow !== this._firstRow ||
-        lastRow !== this._lastRow
+        lastRow !== this._lastRow || 
+        this._width < qx.lang.Array.sum(columnSizes)
       ) {
         this.fullUpdate(
           firstRow, lastRow, 
