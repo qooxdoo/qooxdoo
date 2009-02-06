@@ -97,6 +97,11 @@ qx.Class.define("demobrowser.demo.bom.Selector",
       Logger.debug("Found " + res.length + " headers using find()");
       
       
+      // *********************** IS ***********************************************************************      
+      
+      var res = qx.bom.Selector.query("ul").find("li").is(":contains('List Item 1')");
+      Logger.debug("Found li element with text 'List Item 1': " + res);
+      
     }
   }
 });
