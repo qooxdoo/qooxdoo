@@ -484,10 +484,12 @@
        */
       filter : function(selector, context) 
       {
+        var res;
+        
         if (qx.lang.Function.isFunction(selector)) {
-          var res = qx.core.BaseArray.prototype.filter.call(this, selector, context);
+          res = qx.core.BaseArray.prototype.filter.call(this, selector, context);
         } else {
-          var res = qx.bom.Selector.matches(selector, this);
+          res = qx.bom.Selector.matches(selector, this);
         }
         
         return this.__pushStack(res);
@@ -499,10 +501,25 @@
        * This method is a good way to find additional descendant 
        * elements with which to process.
        *
-       * @return {Collection} The filtered collection
+       * @param selector {String} Selector for children to find
+       * @return {Collection} The found elements in a new collection
        */
-      find : function() {
+      find : function(selector) 
+      {
+        var Selector = qx.bom.Selector;
         
+        // Fast path for single item selector on single item collection
+        if (this.length === 1 && !/,/.test(selector)) {
+          return this.__pushStack(Selector.queryNative(selector, this[0]));
+        }
+
+        // Let the selector do the work and merge all result arrays.
+        var ret = [];
+        for (var i=0, l=this.length; i<l; i++) {
+          ret.push.apply(ret, Selector.queryNative(selector, this[i]));
+        }
+        
+        return this.__pushStack(ret);
       },
       
 
