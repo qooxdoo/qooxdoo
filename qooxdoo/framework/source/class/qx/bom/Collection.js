@@ -577,6 +577,24 @@
       
       
       /** 
+       * Find all the child nodes inside the matched elements (including text nodes).
+       *
+       * @return {Collection} A new collection containing all child nodes of the previous collection.
+       */
+      contents : function()
+      {
+        var res = [];
+        var lang = qx.lang.Array;
+        
+        for (var i=0, l=this.length; i<l; i++) {
+          res.push.apply(res, lang.fromCollection(this[i].childNodes));
+        }
+        
+        return this.__pushStack(res);
+      },
+      
+      
+      /** 
        * Searches for all elements that match the specified expression. 
        * This method is a good way to find additional descendant 
        * elements with which to process.
