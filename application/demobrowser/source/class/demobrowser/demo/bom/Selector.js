@@ -65,6 +65,16 @@ qx.Class.define("demobrowser.demo.bom.Selector",
       
       // It is even possible to filter them
       Logger.debug("Found " + qx.bom.Selector.query("ul,ol").children(":first-child").length + " first children of ul/ol elements.");
+      
+      // Filtering the collection using a selector
+      var res = qx.bom.Selector.query("input").filter("[type=submit]");
+      Logger.debug("Found " + res.length + " submit buttons");
+      
+      // or a function
+      var res = qx.bom.Selector.query("input").filter(function(item, index, array){
+        return item.type === "submit"
+      });
+      Logger.debug("Found " + res.length + " submit buttons");
     }
   }
 });
