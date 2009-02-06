@@ -230,7 +230,7 @@ qx.Class.define("qx.util.Json",
      * if/when implemented in Javascript, would eliminate
      * the need to pass "new Date() in JSON":
      *
-     *   http://www.hikhilk.net/DateSyntaxForJSON.aspx
+     *   http://www.nikhilk.net/DateSyntaxForJSON.aspx
      *
      * Sending a JSON message from client to server, we have
      * no idea what language the server will be written in,
