@@ -293,9 +293,9 @@ qx.Class.define("demobrowser.demo.virtual.Selection",
             return;
           }
           if (wasAdded) {
-            columnLayer.setColor(item, "#00398D");
+            columnLayer.setDecorator(item, "selected");
           } else {
-            columnLayer.setColor(item, null);
+            columnLayer.setDecorator(item, null);
           }          
           qx.ui.core.queue.Widget.add(cellLayer);
         }
