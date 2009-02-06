@@ -731,10 +731,11 @@ qx.Class.define("qx.ui.virtual.core.Pane",
         return;
       }
 
-      var bounds = this.getBounds();
-      if (!bounds) {
+      if (!this.getContainerElement().getDomElement()) {
         return; // the pane has not yet been rendered -> wait for the appear event
-      }            
+      }
+      
+      var bounds = this.getBounds();
      
       this.DEBUG && console.log("full update");
       this._setLayerWindow(
