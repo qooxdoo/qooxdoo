@@ -56,25 +56,47 @@ qx.Class.define("demobrowser.demo.bom.Selector",
         .add("li").setStyle("backgroundColor", "#eee")
         .end().setStyle("textAlign", "center");
         
+        
+      // *********************** EQ ***********************************************************************
+        
       // Selector to collection
       Selector.query("li a").eq(1).setStyle("fontWeight", "bold");
       
+      
+      // *********************** CHILDREN ***********************************************************************
+      
       // Select all "li" items from all ul/ol elements.
       // Yes this could be done with purely selector magic as well :)
-      Logger.debug("Found " + qx.bom.Selector.query("ul,ol").children().length + " children of ul/ol elements.");
+      Logger.debug("Found " + qx.bom.Selector.query("ul,ol").children().length + " children of ul/ol elements using children().");
       
       // It is even possible to filter them
-      Logger.debug("Found " + qx.bom.Selector.query("ul,ol").children(":first-child").length + " first children of ul/ol elements.");
+      Logger.debug("Found " + qx.bom.Selector.query("ul,ol").children(":first-child").length + " first children of ul/ol elements using children(selector)");
+      
+      
+      // *********************** FILTER ***********************************************************************
       
       // Filtering the collection using a selector
       var res = qx.bom.Selector.query("input").filter("[type=submit]");
-      Logger.debug("Found " + res.length + " submit buttons");
+      Logger.debug("Found " + res.length + " submit buttons using filter(selector)");
       
       // or a function
       var res = qx.bom.Selector.query("input").filter(function(item, index, array){
-        return item.type === "submit"
+        return item.type === "submit";
       });
-      Logger.debug("Found " + res.length + " submit buttons");
+      Logger.debug("Found " + res.length + " submit button using filter(function)");
+      
+      
+      // *********************** FIND ***********************************************************************
+
+      // Fast path
+      var res = qx.bom.Selector.query("ul").find("li");
+      Logger.debug("Found " + res.length + " li elements in uls using find()");
+
+      // Testing find() for complexer cases
+      var res = new qx.bom.Collection(document.body).find("h1,h2");
+      Logger.debug("Found " + res.length + " headers using find()");
+      
+      
     }
   }
 });
