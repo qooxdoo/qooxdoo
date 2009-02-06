@@ -93,7 +93,7 @@ qx.Bootstrap.define("qx.bom.Selector",
     
     
     /** 
-     * TODO: Still missing Sizzle docs here
+     * Filters in someway... mhh
      *
      * @signature function(expr, set)
      */
