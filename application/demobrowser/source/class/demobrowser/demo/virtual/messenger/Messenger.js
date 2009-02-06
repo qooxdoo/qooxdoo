@@ -81,19 +81,25 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Messenger",
 
     // Create layers
     var groupColor = "rgb(60, 97, 226)";
-    var rowLayer = new qx.ui.virtual.layer.Row("white", "rgb(238, 243, 255)");
+    this.rowLayer = new qx.ui.virtual.layer.Row("white", "rgb(238, 243, 255)");
 
     for (var row in this.groupPositions) 
     {
       row = parseInt(row);
       scroller.getPane().getRowConfig().setItemSize(row, 15);
-      rowLayer.setColor(row, groupColor);
+      this.rowLayer.setColor(row, groupColor);
     }
 
     // Add layers to scroller
-    scroller.getPane().addLayer(rowLayer);
-    scroller.getPane().addLayer(new qx.ui.virtual.layer.WidgetCell(this));
+    scroller.getPane().addLayer(this.rowLayer);
+    
+    this.cellLayer = new qx.ui.virtual.layer.WidgetCell(this);
+    scroller.getPane().addLayer(this.cellLayer);
     win.add(scroller);
+    
+    this.manager = new qx.ui.virtual.selection.Row(scroller.getPane(), this);  
+    this.manager.attachMouseEvents();
+    this.manager.attachKeyEvents(scroller);        
 
     this.__scroller = scroller;
 
@@ -244,6 +250,8 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Messenger",
         widget.label.setContent(item.getName());
         widget.icon.setSource(item.getAvatar());
         widget.statusIcon.setSource("demobrowser/demo/icons/imicons/status_" + item.getStatus() + ".png");
+        
+        this.styleListItem(widget, this.manager.isItemSelected(row));
       }
 
       widget.setUserData("row", row);
@@ -263,7 +271,48 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Messenger",
 
     update : function() {
       this.__scroller.getPane().fullUpdate();
+    },  
+    
+    isItemSelectable : function(row) {
+      return (this.groupPositions[row] == undefined);
     },
+    
+    styleListItem : function(widget, isSelected)
+    {
+      if (isSelected) {
+        widget.setTextColor("text-selected");
+      } else {
+        widget.resetTextColor();
+      }
+    },
+    
+    styleSelectable : function(row, type, wasAdded) 
+    {
+      if (type !== "selected") {
+        return;
+      }
+      
+      if (wasAdded) {
+        this.rowLayer.setDecorator(row, "selected");
+      } else {
+        this.rowLayer.setDecorator(row, null);
+      }
+      
+      var widgets = this.cellLayer.getChildren();
+      for (var i=0; i<widgets.length; i++)
+      {
+        var widget = widgets[i];
+        if (row !== widget.getUserData("row")) {
+          continue;
+        }
+        
+        if (wasAdded) {
+          this.styleListItem(widget, true);
+        } else {
+          this.styleListItem(widget, false);
+        }        
+      }      
+    },    
     
     _onResize : function(e)
     {
@@ -271,12 +320,10 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Messenger",
       this.__scroller.getPane().fullUpdate();
     },
 
-
     _modelLengthChange : function(e)
     {
       this.__amount = e.getTarget().length;
       this.__scroller.getPane().getRowConfig().setItemCount(this.__amount+1);
     }
-
   }
 });
