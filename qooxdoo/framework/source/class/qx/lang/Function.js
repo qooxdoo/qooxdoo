@@ -29,17 +29,6 @@
 
      License:
        MIT: http://www.opensource.org/licenses/mit-license.php
-       
-     
-   * jQuery
-     http://jquery.com
-     Version 1.3.1
-
-     Copyright:
-       2009 John Resig
-
-     License:
-       MIT: http://www.opensource.org/licenses/mit-license.php       
 
 ************************************************************************ */
 
@@ -163,28 +152,16 @@ qx.Bootstrap.define("qx.lang.Function",
     /**
      * Evaluates JavaScript code globally
      *
-     * Inspired by code by Andrea Giammarchi
-     * http://webreflection.blogspot.com/2007/08/global-scope-evaluation-and-dom.html
-     *
      * @param data {String} JavaScript commands
-     * @return {void}
+     * @return {var} Result of the execution
      */
     globalEval : function(data)
     {
-      var head = document.getElementsByTagName("head")[0] || document.documentElement;
-      var script = document.createElement("script");
-
-      script.type = "text/javascript";
-      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
-        script.text = data;	
+      if (window.execScript) {
+        return window.execScript(data);
       } else {
-        script.appendChild(document.createTextNode(data));  
-      }	
-
-      // Use insertBefore instead of appendChild to circumvent an IE6 bug.
-      // This arises when a base node is used (see jQuery Bug #2709).
-      head.insertBefore(script, head.firstChild);
-      head.removeChild(script);
+        return eval.call(window, data);
+      }
     },
 
 
