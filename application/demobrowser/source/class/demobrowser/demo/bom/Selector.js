@@ -90,6 +90,12 @@ qx.Class.define("demobrowser.demo.bom.Selector",
       console.debug("Number of ul/ol elements which are closest to a li element: " + qx.bom.Selector.query("li").closest("ul,ol").length);
       
       
+      // CONTENTS
+
+      // Detect children number (incl. text nodes)      
+      console.debug("Number of child nodes of the body: " + new qx.bom.Collection(document.body).contents().length);
+      
+      
       // FIND
 
       // Fast path
