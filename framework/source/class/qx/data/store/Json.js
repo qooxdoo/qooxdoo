@@ -43,7 +43,8 @@ qx.Class.define("qx.data.store.Json",
   
   events : 
   {
-    "loaded": "qx.event.type.Event"
+    "loaded": "qx.event.type.Data",
+    "failed": "qx.event.type.Event"
   },
   
   
@@ -143,7 +144,7 @@ qx.Class.define("qx.data.store.Json",
     {
         var data = e.getContent();
         // create the class
-        this.__createModelClass(data);
+        this._createModelClass(data);
         // set the initial data
         this.setModel(this._setData(data));
                 
@@ -153,7 +154,7 @@ qx.Class.define("qx.data.store.Json",
     
     
     __requestFailHandler: function(ev) {
-      // TODO
+      this.fireEvent("failed", qx.event.type.Event);
     }
   }
 });
