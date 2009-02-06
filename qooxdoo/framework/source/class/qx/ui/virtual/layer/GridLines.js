@@ -265,8 +265,8 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
       rowSizes, columnSizes
     ) 
     {
-      var rowChanged = firstRow !== this._firstRow;
-      var columnChanged = firstColumn !== this._firstColumn;
+      var rowChanged = firstRow !== this._firstRow || lastRow !== this._lastRow;
+      var columnChanged = firstColumn !== this._firstColumn || lastColumn !== this._lastColumn;
       
       if (
         (this._isHorizontal && rowChanged) ||
