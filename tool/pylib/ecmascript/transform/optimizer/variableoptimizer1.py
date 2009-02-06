@@ -26,6 +26,12 @@ from ecmascript.frontend import lang
 
 counter = 0
 
+# Create a blacklist of words to leave untouched
+reservedWords = set(())
+reservedWords.update(lang.GLOBALS)
+reservedWords.update(lang.RESERVED.keys())
+
+
 def convert(current):
     table = u"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
@@ -44,7 +50,7 @@ def mapper(name, checkset):
     global counter
     repl = convert(counter)
     counter += 1
-    while repl in checkset:   # checkset is not updated, since we never generate the same repl twice
+    while repl in checkset or repl in reservedWords:   # checkset is not updated, since we never generate the same repl twice
         repl = convert(counter)
         counter += 1
     return repl
@@ -102,11 +108,6 @@ def search(node):
     # Collect the set of all used variables
     script = Script(node)
     varset = set([])
-
-    # Create a blacklist of words to leave untouched
-    reservedWords = set(())
-    reservedWords.update(lang.GLOBALS)
-    reservedWords.update(lang.RESERVED.keys())
 
     def isReservedWord(word):
         return word in reservedWords
