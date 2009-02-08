@@ -20,21 +20,25 @@
 /**
  * The traditional qx.ui.menu.MenuButton to access the column visibility menu.
  */
-qx.Class.define("qx.ui.table.columnmenu.simple.Button",
+qx.Class.define("qx.ui.table.columnmenu.simple.ColumnMenuButton",
 {
   extend     : qx.ui.form.MenuButton,
   implement  : qx.ui.table.IColumnMenu,
 
-  construct : function(label, icon, menu)
+  /**
+   * @param table {qx.ui.table.Table}
+   *   The table with which this column menu is associated
+   */
+  construct : function()
   {
-    this.base(arguments, label, icon, menu);
+    this.base(arguments);
   },
 
   members :
   {
     __columnMenuButtons : null,
 
-    factory : function(item, text)
+    factory : function(item, options)
     {
       switch(item)
       {
@@ -43,11 +47,15 @@ qx.Class.define("qx.ui.table.columnmenu.simple.Button",
         this.setMenu(menu);
         return menu;
 
-      case "checkbox":
-        return new qx.ui.menu.CheckBox(text);
+      case "menu-button":
+        var menuButton =
+          new qx.ui.table.columnmenu.simple.MenuItem(options.text);
+        menuButton.setVisible(options.bVisible);
+        this.getMenu().add(menuButton);
+        return menuButton;
 
-      case "button":
-        var button = new qx.ui.menu.Button(text);
+      case "user-button":
+        var button = new qx.ui.menu.Button(options.text);
         button.set(
           {
             appearance: "table-column-reset-button"

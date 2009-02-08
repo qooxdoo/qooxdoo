@@ -104,6 +104,13 @@ qx.Class.define("qx.ui.table.Table",
    *           return new qx.ui.table.pane.Model(obj);
    *         }
    *       </pre></dd>
+   *     <dt>columnMenu</dt>
+   *       <dd><pre class='javascript'>
+   *         function()
+   *         {
+   *           return new qx.ui.table.columnmenu.simple.ColumnMenuButton();
+   *         }
+   *       </pre></dd>
    *   </dl>
    */
   construct : function(tableModel, custom)
@@ -142,6 +149,10 @@ qx.Class.define("qx.ui.table.Table",
 
     if (custom.tablePaneModel) {
       this.setNewTablePaneModel(custom.tablePaneModel);
+    }
+
+    if (custom.columnMenu) {
+      this.setNewColumnMenu(custom.columnMenu);
     }
 
     this._setLayout(new qx.ui.layout.VBox());
@@ -487,7 +498,7 @@ qx.Class.define("qx.ui.table.Table",
     {
       check : "Function",
       init  : function() {
-        return new qx.ui.table.columnmenu.simple.Button();
+        return new qx.ui.table.columnmenu.simple.ColumnMenuButton();
       }
     },
     
@@ -639,7 +650,7 @@ qx.Class.define("qx.ui.table.Table",
           });
 
         // Create the initial menu too
-        control.setMenu(control.factory("menu"));
+        control.setMenu(control.factory("menu", { table : this }));
         break;
       }
 
@@ -1345,7 +1356,7 @@ qx.Class.define("qx.ui.table.Table",
       var data = evt.getData();
       if (this.__columnMenuButtons != null && data.col != null &&
           data.visible != null) {
-        this.__columnMenuButtons[data.col].setChecked(data.visible);
+        this.__columnMenuButtons[data.col].setVisible(data.visible);
       }
 
       this._updateScrollerWidths();
@@ -1845,16 +1856,19 @@ qx.Class.define("qx.ui.table.Table",
       for (var col=0, l=tableModel.getColumnCount(); col<l; col++)
       {
         var menuButton =
-          columnButton.factory("checkbox", tableModel.getColumnName(col));
+          columnButton.factory("menu-button",
+                               {
+                                 text     : tableModel.getColumnName(col),
+                                 column   : col,
+                                 bVisible : columnModel.isColumnVisible(col)
+                               });
 
         qx.core.Assert.assertInterface(menuButton,
                                        qx.ui.table.IColumnMenuCheckbox);
 
-        menuButton.setChecked(columnModel.isColumnVisible(col));
         menuButton.addListener(
-          "changeChecked",
+          "changeVisible",
           this._createColumnVisibilityCheckBoxHandler(col), this);
-        menu.add(menuButton);
         this.__columnMenuButtons[col] = menuButton;
       }
 
