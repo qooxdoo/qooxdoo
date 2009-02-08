@@ -27,6 +27,9 @@ qx.Class.define("qx.ui.table.columnmenu.MenuItem",
 
   properties :
   {
+    /**
+     * Whether the table column associated with this menu item is visible.
+     */
     visible :
     {
       check : "Boolean",
@@ -36,6 +39,14 @@ qx.Class.define("qx.ui.table.columnmenu.MenuItem",
     }
   },
 
+  /**
+   * Create a new instance of an item for insertion into the table column
+   * visibility menu.
+   *
+   * @param text {String}
+   *   Text for the menu item, most typically the name of the column in the
+   *   table.
+   */
   construct : function(text)
   {
     this.base(arguments, text);
@@ -54,7 +65,16 @@ qx.Class.define("qx.ui.table.columnmenu.MenuItem",
   {
     __bInListener : false,
 
-    _applyVisible : function(value, oldValue)
+    /**
+     * Keep menu in sync with programmatic changes of visibility
+     *
+     * @param value {Boolean}
+     *   New visibility value
+     *
+     * @param old {Boolean}
+     *   Previous visibility value
+     */
+    _applyVisible : function(value, old)
     {
       // avoid recursion if called from listener on "changeChecked" property
       if (! this.bInListener)

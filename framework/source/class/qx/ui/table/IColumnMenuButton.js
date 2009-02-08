@@ -24,6 +24,9 @@ qx.Interface.define("qx.ui.table.IColumnMenuButton",
 {
   properties :
   {
+    /**
+     * The menu which is displayed when this button is pressed.
+     */
     menu : { }
   },
 
@@ -67,12 +70,12 @@ qx.Interface.define("qx.ui.table.IColumnMenuButton",
      *   </dl>
      *
      * @param options {Map}
-     *   Options specific to the item being requested. See #item.
+     *   Options specific to the <i>item</i> being requested.
      *
      * @return {qx.ui.core.Widget}
-     *   The instantiated object as specified by #item.
+     *   The instantiated object as specified by <i>item</i>.
      */
-    factory : function(item, text)
+    factory : function(item, options)
     {
       return true;
     },
