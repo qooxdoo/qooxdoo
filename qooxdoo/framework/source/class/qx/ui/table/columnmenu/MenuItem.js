@@ -20,7 +20,7 @@
 /**
  * A menu item.
  */
-qx.Class.define("qx.ui.table.columnmenu.simple.MenuItem",
+qx.Class.define("qx.ui.table.columnmenu.MenuItem",
 {
   extend     : qx.ui.menu.CheckBox,
   implement  : qx.ui.table.IColumnMenuItem,
