@@ -503,6 +503,12 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       // Get the array of visible columns
       var visibleColumns = tableColumnModel.getVisibleColumns();
 
+      // If no columns are visible...
+      if (visibleColumns.length == 0)
+      {
+        return;
+      }
+
       // Determine the available width
       var width = this._getAvailableWidth(tableColumnModel);
 
