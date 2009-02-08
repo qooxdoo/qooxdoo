@@ -23,6 +23,7 @@
 qx.Class.define("qx.ui.table.columnmenu.simple.MenuItem",
 {
   extend     : qx.ui.menu.CheckBox,
+  implement  : qx.ui.table.IColumnMenuItem,
 
   properties :
   {
