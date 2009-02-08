@@ -24,11 +24,11 @@ qx.Interface.define("qx.ui.table.IColumnMenuCheckbox",
 {
   properties :
   {
-    checked : { }
+    visible : { }
   },
 
   events :
   {
-    changeChecked : "qx.event.type.Data"
+    changeVisible : "qx.event.type.Data"
   }
 });

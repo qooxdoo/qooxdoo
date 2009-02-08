@@ -34,16 +34,6 @@ qx.Interface.define("qx.ui.table.IColumnMenu",
       return true;
     },
     
-    getMenu : function()
-    {
-      return true;
-    },
-
-    setMenu : function(menu)
-    {
-      return true;
-    },
-
     empty : function()
     {
       return true;
