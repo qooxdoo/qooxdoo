@@ -30,6 +30,7 @@ qx.Class.define("qx.ui.table.columnmenu.grid.MenuItem",
     {
       check : "Boolean",
       init  : true,
+      apply : "_applyVisible",
       event : "changeVisible"
     }
   },
@@ -37,5 +38,37 @@ qx.Class.define("qx.ui.table.columnmenu.grid.MenuItem",
   construct : function(menu, text, colNum)
   {
     this.base(arguments, text, null, colNum);
+    this.__menu = menu;
+  },
+
+  members :
+  {
+    __menu : null,
+
+    _applyVisible :  function(value, old)
+    {
+      if (value)
+      {
+        this.__menu.getHideList().addToSelection(this);
+        if (this.__menu.getHideList().getSelection().length > 0)
+        {
+          this.__menu._setVisibility(false,
+                                     this.__menu.getHideList(),
+                                     this.__menu.getShowList(),
+                                     true);
+        }
+      }
+      else
+      {
+        this.__menu.getShowList().addToSelection(this);
+        if (this.__menu.getShowList().getSelection().length > 0)
+        {
+          this.__menu._setVisibility(true,
+                                     this.__menu.getShowList(),
+                                     this.__menu.getHideList(),
+                                     true);
+        }
+      }
+    }
   }
 });

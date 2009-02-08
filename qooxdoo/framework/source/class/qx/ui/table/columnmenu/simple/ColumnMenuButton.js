@@ -25,19 +25,11 @@ qx.Class.define("qx.ui.table.columnmenu.simple.ColumnMenuButton",
   extend     : qx.ui.form.MenuButton,
   implement  : qx.ui.table.IColumnMenu,
 
-  /**
-   * @param table {qx.ui.table.Table}
-   *   The table with which this column menu is associated
-   */
-  construct : function()
-  {
-    this.base(arguments);
-  },
-
   members :
   {
     __columnMenuButtons : null,
 
+    // Documented in qx.ui.table.IColumnMenu
     factory : function(item, options)
     {
       switch(item)
@@ -70,6 +62,7 @@ qx.Class.define("qx.ui.table.columnmenu.simple.ColumnMenuButton",
       }
     },
 
+    // Documented in qx.ui.table.IColumnMenu
     empty : function()
     {
       var menu = this.getMenu();

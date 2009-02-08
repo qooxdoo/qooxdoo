@@ -30,16 +30,6 @@ qx.Class.define("qx.ui.table.columnmenu.grid.ColumnMenuButton",
   extend     : qx.ui.form.Button,
   implement  : qx.ui.table.IColumnMenu,
 
-  /**
-   * @param table {qx.ui.table.Table}
-   *   The table with which this column menu is associated
-   */
-  construct : function(table)
-  {
-    this.base(arguments);
-  },
-
-
   properties :
   {
     /** The popup instance to show when clicking on the button */

@@ -138,7 +138,7 @@ qx.Class.define("qx.ui.table.columnmenu.grid.Menu",
     __table : null,
     __showList : null,
     __hideList : null,
-
+    __inSetColumnVisible : false,
     
     /**
      * Return the showList object
@@ -222,10 +222,19 @@ qx.Class.define("qx.ui.table.columnmenu.grid.Menu",
      */
     _setVisibility : function(value, fromList, toList)
     {
+      // Ignore recursive calls via setColumnVisible()
+      if (this.__inSetColumnVisible)
+      {
+        return;
+      }
       var selection = fromList.getSelection();
       var col = selection[0].getValue();
       var columnModel = this.__table.getTableColumnModel();
+
+      this.__inSetColumnVisible = true;
       columnModel.setColumnVisible(col, value);
+      this.__inSetColumnVisible = false;
+
       fromList.remove(selection[0]);
         
       // Preserve column order in lists
@@ -259,7 +268,7 @@ qx.Class.define("qx.ui.table.columnmenu.grid.Menu",
         {
           qx.event.Timer.once(this._hide, this, 10);
         }
-      }				
+      }
     }
   }
 });
