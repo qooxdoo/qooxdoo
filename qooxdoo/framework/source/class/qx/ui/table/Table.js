@@ -1864,7 +1864,7 @@ qx.Class.define("qx.ui.table.Table",
                                });
 
         qx.core.Assert.assertInterface(menuButton,
-                                       qx.ui.table.IColumnMenuCheckbox);
+                                       qx.ui.table.IColumnMenuItem);
 
         menuButton.addListener(
           "changeVisible",

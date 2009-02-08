@@ -23,6 +23,7 @@
 qx.Class.define("qx.ui.table.columnmenu.grid.MenuItem",
 {
   extend     : qx.ui.form.ListItem,
+  implement  : qx.ui.table.IColumnMenuItem,
 
   properties :
   {

@@ -15,7 +15,7 @@
 
    Authors:
      * Bill Adams (badams)
-     * Derrell LIpman (derrell)
+     * Derrell Lipman (derrell)
 
 ************************************************************************ */
 
