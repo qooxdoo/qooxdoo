@@ -481,6 +481,18 @@ qx.Class.define("qx.ui.table.Table",
 
 
     /**
+     * A function to instantiate a new column menu button.
+     */
+    newColumnMenu :
+    {
+      check : "Function",
+      init  : function() {
+        return new qx.ui.table.columnmenu.simple.MenuButton();
+      }
+    },
+    
+
+    /**
      * A function to instantiate a selection manager.  this allows subclasses of
      * Table to subclass this internal class.  To take effect, this property must
      * be set before calling the Table constructor.
@@ -610,18 +622,25 @@ qx.Class.define("qx.ui.table.Table",
 
       switch(id)
       {
-        case "statusbar":
-          control = new qx.ui.basic.Label().set({
+      case "statusbar":
+        control = new qx.ui.basic.Label();
+        control.set(
+          {
             allowGrowX: true
           });
-          this._add(control);
-          break;
+        this._add(control);
+        break;
 
-        case "column-button":
-          control = new qx.ui.form.MenuButton().set({
-            focusable: false
+      case "column-button":
+        control = this.getNewColumnMenu()();
+        control.set(
+          {
+            focusable : false
           });
-          break;
+
+        // Create the initial menu too
+        control.setMenu(control.factory("menu"));
+        break;
       }
 
       return control || this.base(arguments, id);
@@ -1807,34 +1826,31 @@ qx.Class.define("qx.ui.table.Table",
       var tableModel = this.getTableModel();
       var columnModel = this.getTableColumnModel();
 
-      var menu = this.getChildControl("column-button").getMenu();
-      if (menu)
-      {
-        var entries = menu.getChildren();
-        for (var i=0,l=entries.length; i<l; i++) {
-          entries[0].destroy();
-        }
-      }
-      else
-      {
-        var menu = new qx.ui.menu.Menu();
-        this.getChildControl("column-button").setMenu(menu);
+      var columnButton = this.getChildControl("column-button");
+      var menu = columnButton.getMenu();
+      var entries = menu.getChildren();
+      for (var i=0,l=entries.length; i<l; i++) {
+        entries[0].destroy();
       }
 
       // Inform listeners who may want to insert menu items at the beginning
       var data =
       {
-        table : this,
-        menu  : menu
+        table        : this,
+        menu         : menu,
+        columnButton : columnButton
       };
       this.fireDataEvent("columnVisibilityMenuCreateStart", data);
 
       this.__columnMenuButtons = {};
       for (var col=0, l=tableModel.getColumnCount(); col<l; col++)
       {
-        var menuButton = new qx.ui.menu.CheckBox(tableModel.getColumnName(col));
+        var menuButton =
+          columnButton.factory("checkbox", tableModel.getColumnName(col));
         menuButton.setChecked(columnModel.isColumnVisible(col));
-        menuButton.addListener("changeChecked", this._createColumnVisibilityCheckBoxHandler(col), this);
+        menuButton.addListener(
+          "changeChecked",
+          this._createColumnVisibilityCheckBoxHandler(col), this);
         menu.add(menuButton);
         this.__columnMenuButtons[col] = menuButton;
       }
@@ -1842,8 +1858,9 @@ qx.Class.define("qx.ui.table.Table",
       // Inform listeners who may want to insert menu items at the end
       var data =
       {
-        table : this,
-        menu  : menu
+        table        : this,
+        menu         : menu,
+        columnButton : columnButton
       };
       this.fireDataEvent("columnVisibilityMenuCreateEnd", data);
     },
