@@ -6,7 +6,7 @@
  * The concept "render" is used quite loosely, in that it could be building
  * part of a GUI or it could be loading the next successive portion of a table,
  * or it could be doing any partial task which requires periodically returning
- * control to the browser.
+ * control to the browser to allow user interaction.
  *
  * This is a general purpose widget that happens to come packaged with some
  * useful renderers:
