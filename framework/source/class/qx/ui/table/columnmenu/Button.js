@@ -20,7 +20,7 @@
 /**
  * The traditional qx.ui.menu.MenuButton to access the column visibility menu.
  */
-qx.Class.define("qx.ui.table.columnmenu.simple.ColumnMenuButton",
+qx.Class.define("qx.ui.table.columnmenu.Button",
 {
   extend     : qx.ui.form.MenuButton,
   implement  : qx.ui.table.IColumnMenuButton,
@@ -41,7 +41,7 @@ qx.Class.define("qx.ui.table.columnmenu.simple.ColumnMenuButton",
 
       case "menu-button":
         var menuButton =
-          new qx.ui.table.columnmenu.simple.MenuItem(options.text);
+          new qx.ui.table.columnmenu.MenuItem(options.text);
         menuButton.setVisible(options.bVisible);
         this.getMenu().add(menuButton);
         return menuButton;
