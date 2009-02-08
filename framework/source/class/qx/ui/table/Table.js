@@ -487,7 +487,7 @@ qx.Class.define("qx.ui.table.Table",
     {
       check : "Function",
       init  : function() {
-        return new qx.ui.table.columnmenu.simple.MenuButton();
+        return new qx.ui.table.columnmenu.simple.Button();
       }
     },
     
@@ -1827,13 +1827,12 @@ qx.Class.define("qx.ui.table.Table",
       var columnModel = this.getTableColumnModel();
 
       var columnButton = this.getChildControl("column-button");
-      var menu = columnButton.getMenu();
-      var entries = menu.getChildren();
-      for (var i=0,l=entries.length; i<l; i++) {
-        entries[0].destroy();
-      }
+
+      // Remove all items from the menu. We'll rebuild it here.
+      columnButton.empty();
 
       // Inform listeners who may want to insert menu items at the beginning
+      var menu = columnButton.getMenu();
       var data =
       {
         table        : this,
@@ -1847,6 +1846,10 @@ qx.Class.define("qx.ui.table.Table",
       {
         var menuButton =
           columnButton.factory("checkbox", tableModel.getColumnName(col));
+
+        qx.core.Assert.assertInterface(menuButton,
+                                       qx.ui.table.IColumnMenuCheckbox);
+
         menuButton.setChecked(columnModel.isColumnVisible(col));
         menuButton.addListener(
           "changeChecked",

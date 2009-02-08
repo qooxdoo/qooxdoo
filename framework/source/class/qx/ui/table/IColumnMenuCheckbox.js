@@ -18,35 +18,17 @@
 ************************************************************************ */
 
 /**
- * Interface for creating the column visibility menu
+ * Interface for a checkbox menu item.
  */
-qx.Interface.define("qx.ui.table.IColumnMenu",
+qx.Interface.define("qx.ui.table.IColumnMenuCheckbox",
 {
   properties :
   {
-    menu : { }
+    checked : { }
   },
 
-  members :
+  events :
   {
-    factory : function(item, text)
-    {
-      return true;
-    },
-    
-    getMenu : function()
-    {
-      return true;
-    },
-
-    setMenu : function(menu)
-    {
-      return true;
-    },
-
-    empty : function()
-    {
-      return true;
-    }
+    changeChecked : "qx.event.type.Data"
   }
 });
