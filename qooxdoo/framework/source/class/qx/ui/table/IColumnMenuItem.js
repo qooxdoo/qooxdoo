@@ -32,10 +32,10 @@ qx.Interface.define("qx.ui.table.IColumnMenuItem",
 
   events :
   {
-    /*
+    /**
      * Dispatched when a column changes visibility state. The event data is a
-     * boolean indicating whether the table column associated with menu item
-     * is now visible.
+     * boolean indicating whether the table column associated with this menu
+     * item is now visible.
      */
     changeVisible : "qx.event.type.Data"
   }

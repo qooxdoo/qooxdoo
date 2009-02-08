@@ -25,6 +25,15 @@ qx.Class.define("qx.ui.table.columnmenu.Button",
   extend     : qx.ui.form.MenuButton,
   implement  : qx.ui.table.IColumnMenuButton,
 
+  /**
+   * Create a new instance of a column visibility menu button. This button
+   * also contains the factory for creating each of the sub-widgets.
+   */
+  construct : function()
+  {
+    this.base(arguments);
+  },
+
   members :
   {
     __columnMenuButtons : null,
