@@ -20,7 +20,7 @@
 /**
  * Interface for creating the column visibility menu
  */
-qx.Interface.define("qx.ui.table.IColumnMenu",
+qx.Interface.define("qx.ui.table.IColumnMenuButton",
 {
   properties :
   {
@@ -48,7 +48,7 @@ qx.Interface.define("qx.ui.table.IColumnMenu",
      *       the column; <i>column</i>, the column number; and
      *       <i>bVisible</i>, a boolean indicating whether this column is
      *       currently visible. The instantiated return object must implement
-     *       interface {@link qx.ui.table.IColumnMenuCheckbox}
+     *       interface {@link qx.ui.table.IColumnMenuItem}
      *     </dd>
      *     <dt>user-button</dt>
      *     <dd>

@@ -18,9 +18,9 @@
 ************************************************************************ */
 
 /**
- * Interface for a checkbox menu item.
+ * Interface for a column menu item corresponding to a table column.
  */
-qx.Interface.define("qx.ui.table.IColumnMenuCheckbox",
+qx.Interface.define("qx.ui.table.IColumnMenuItem",
 {
   properties :
   {

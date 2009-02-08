@@ -28,7 +28,7 @@
 qx.Class.define("qx.ui.table.columnmenu.grid.ColumnMenuButton",
 {
   extend     : qx.ui.form.Button,
-  implement  : qx.ui.table.IColumnMenu,
+  implement  : qx.ui.table.IColumnMenuButton,
 
   properties :
   {
