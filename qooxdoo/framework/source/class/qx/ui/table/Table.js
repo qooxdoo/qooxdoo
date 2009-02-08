@@ -108,7 +108,7 @@ qx.Class.define("qx.ui.table.Table",
    *       <dd><pre class='javascript'>
    *         function()
    *         {
-   *           return new qx.ui.table.columnmenu.simple.ColumnMenuButton();
+   *           return new qx.ui.table.columnmenu.Button();
    *         }
    *       </pre></dd>
    *   </dl>
@@ -498,7 +498,7 @@ qx.Class.define("qx.ui.table.Table",
     {
       check : "Function",
       init  : function() {
-        return new qx.ui.table.columnmenu.simple.ColumnMenuButton();
+        return new qx.ui.table.columnmenu.Button();
       }
     },
     
