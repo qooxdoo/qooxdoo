@@ -20,7 +20,7 @@
 /**
  * The traditional qx.ui.menu.MenuButton to access the column visibility menu.
  */
-qx.Class.define("qx.ui.table.columnmenu.simple.MenuButton",
+qx.Class.define("qx.ui.table.columnmenu.simple.Button",
 {
   extend     : qx.ui.form.MenuButton,
   implement  : qx.ui.table.IColumnMenu,
@@ -32,6 +32,8 @@ qx.Class.define("qx.ui.table.columnmenu.simple.MenuButton",
 
   members :
   {
+    __columnMenuButtons : null,
+
     factory : function(item, text)
     {
       switch(item)
@@ -57,6 +59,17 @@ qx.Class.define("qx.ui.table.columnmenu.simple.MenuButton",
 
       default:
         throw new Error("Unrecognized factory request: " + item);
+      }
+    },
+
+    empty : function()
+    {
+      var menu = this.getMenu();
+      var entries = menu.getChildren();
+
+      for (var i=0,l=entries.length; i<l; i++)
+      {
+        entries[0].destroy();
       }
     }
   }
