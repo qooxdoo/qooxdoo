@@ -36,30 +36,16 @@ qx.Class.define("toolbox.content.HomeContent",
     this.setLayout(layout);
     this.setBackgroundColor("white");
     
-	var general = new qx.ui.toolbar.RadioButton("General");
-    var development = new qx.ui.toolbar.RadioButton("Development");
-    var builtIns = new qx.ui.toolbar.RadioButton("Built-ins");
-    
-    var toolbar = new qx.ui.toolbar.ToolBar;
-    toolbar.setPadding(0, 0, 0, 0);
-    toolbar.setSpacing(0);
-    
-    toolbar.add(general);
-    toolbar.add(development);
+	  
     
     
-    
-    this.add(toolbar,
+    this.add(new qx.ui.basic.Label("HOME"),
     {
       row     : 0,
       column  : 0,
       rowSpan : 0,
       colSpan : 0
     });
-    
-   
-    
-    
     
   }
 });
