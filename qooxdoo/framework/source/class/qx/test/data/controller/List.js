@@ -591,6 +591,49 @@ qx.Class.define("qx.test.data.controller.List",
       
       this.assertEquals("b", this.__controller.getSelection().getItem(0), "Selection does not work.");
       this.assertEquals("b", this.__list.getSelection()[0].getLabel(), "Selection does not work.");      
-    }
+    },
+    
+    
+    testDelegateLate: function() {
+      this.__setUpString();
+
+      // create the delegate
+      var delegate = new qx.core.Object();
+      delegate.configureItem = function(item) {
+        item.setRich(true);
+      };
+      
+      this.__controller.setDelegate(delegate);
+      
+      // check the binding
+      for (var i = 0; i < this.__data.length; i++) {
+        var item = this.__list.getChildren()[i];
+        this.assertTrue(item.getRich(), "Delegate " + i + " is wrong!");
+      }
+    },
+    
+    
+    testDelegateFirst: function() {
+      this.__data = ["a", "b", "c", "d", "e"];
+      // create a new array
+      this.__model = new qx.data.Array(this.__data);
+      
+      // create the controller
+      this.__controller = new qx.data.controller.List(this.__model);
+      // create the delegate
+      var delegate = new qx.core.Object();
+      delegate.configureItem = function(item) {
+        item.setRich(true);
+      };
+      
+      this.__controller.setDelegate(delegate);
+      this.__controller.setTarget(this.__list);
+      
+      // check the binding
+      for (var i = 0; i < this.__data.length; i++) {
+        var item = this.__list.getChildren()[i];
+        this.assertTrue(item.getRich(), "Delegate " + i + " is wrong!");
+      }
+    }    
   }
 });
