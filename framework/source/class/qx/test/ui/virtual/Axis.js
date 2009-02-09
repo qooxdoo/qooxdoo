@@ -30,15 +30,18 @@ qx.Class.define("qx.test.ui.virtual.Axis",
       this.axis = new qx.ui.virtual.core.Axis(this.defaultSize, this.count); 
     },
     
+    
     tearDown : function() {
       this.axis.dispose();
     },
   
+    
     assertItem : function(expectedItemIndex, expectedOffset, cellData, msg)
     {
       this.assertEquals(expectedItemIndex, cellData.index, msg);
       this.assertEquals(expectedOffset, cellData.offset, msg);
     },
+    
     
     testDefaultItemSize : function()
     {
@@ -48,6 +51,7 @@ qx.Class.define("qx.test.ui.virtual.Axis",
       this.assertEquals(20, this.axis.getDefaultItemSize());
     },
     
+    
     testItemCount : function()
     {
       this.assertEquals(this.count, this.axis.getItemCount());
@@ -55,6 +59,7 @@ qx.Class.define("qx.test.ui.virtual.Axis",
       this.axis.setItemCount(this.count * 2);
       this.assertEquals(this.count * 2, this.axis.getItemCount());
     },
+    
     
     testItemSize : function() 
     {
@@ -75,6 +80,7 @@ qx.Class.define("qx.test.ui.virtual.Axis",
         this.assertEquals(sizes[i] || (this.defaultSize*2), this.axis.getItemSize(i));
       }      
     },
+    
     
     testItemAtPosition : function() 
     {
@@ -97,6 +103,7 @@ qx.Class.define("qx.test.ui.virtual.Axis",
       this.axis.setItemCount(0);
       this.assertItem(null, null, this.axis.getItemAtPosition(0));
     },
+    
     
     testGetItemAtPositionCustomSizes : function()
     {
@@ -131,6 +138,7 @@ qx.Class.define("qx.test.ui.virtual.Axis",
       this.assertItem(601, d-1, this.axis.getItemAtPosition(601*d-8+20 + d-1));            
     },
     
+    
     ITEM_POS_ITER : 10,
     ITEM_POS_COUNT : 10000,
     
@@ -156,6 +164,7 @@ qx.Class.define("qx.test.ui.virtual.Axis",
       }
     },  
     
+    
     testGetTotalSize : function()
     {
       var d = this.defaultSize;
@@ -171,6 +180,7 @@ qx.Class.define("qx.test.ui.virtual.Axis",
       
       this.assertEquals(d*count + correction, this.axis.getTotalSize());
     },
+    
     
     TOTAL_SIZE_ITER : 100,
     TOTAL_SIZE_ITEMS : 1000,
@@ -192,6 +202,7 @@ qx.Class.define("qx.test.ui.virtual.Axis",
         this.assertEquals(total, this.axis.getTotalSize());
       }
     },    
+    
     
     testGetItemSizes : function()
     {
@@ -244,6 +255,7 @@ qx.Class.define("qx.test.ui.virtual.Axis",
       );       
     },
     
+    
     testGetItemPosition : function()
     {
       var d = this.defaultSize;
@@ -261,6 +273,7 @@ qx.Class.define("qx.test.ui.virtual.Axis",
       this.assertEquals(null, this.axis.getItemPosition(this.count + 100));
     },    
     
+    
     testGetItemPositionCustomSizes : function()
     {
       var d = this.defaultSize;
@@ -277,6 +290,52 @@ qx.Class.define("qx.test.ui.virtual.Axis",
       this.assertEquals(101*d-8, this.axis.getItemPosition(101));
       this.assertEquals(201*d-8+20, this.axis.getItemPosition(201));
       this.assertEquals(601*d-8+20, this.axis.getItemPosition(601));       
+    },
+    
+    
+    testChangeEvents : function()
+    {
+      var self = this;
+      var listener = function() {};
+      
+      this.assertEventFired(this.axis, "change", function() {
+        self.axis.setDefaultItemSize(23);
+      }, listener);
+      
+      this.assertEventNotFired(this.axis, "change", function() {
+        self.axis.setDefaultItemSize(23);
+      }, listener);
+
+      
+      this.assertEventFired(this.axis, "change", function() {
+        self.axis.setItemCount(123);
+      }, listener);
+
+      this.assertEventNotFired(this.axis, "change", function() {
+        self.axis.setItemCount(123);
+      }, listener);
+      
+      
+      this.assertEventFired(this.axis, "change", function() {
+        self.axis.setItemSize(10, 66);
+      }, listener);
+
+      this.assertEventNotFired(this.axis, "change", function() {
+        self.axis.setItemSize(10, 66);
+      }, listener); 
+      
+      this.assertEventFired(this.axis, "change", function() {
+        self.axis.setItemSize(10, null);
+      }, listener);      
+
+      this.assertEventNotFired(this.axis, "change", function() {
+        self.axis.setItemSize(11, null);
+      }, listener); 
+      
+
+      this.assertEventFired(this.axis, "change", function() {
+        self.axis.resetItemSizes();
+      }, listener);       
     },
     
 
