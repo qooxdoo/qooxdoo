@@ -34,7 +34,8 @@ qx.Class.define("qx.ui.virtual.layer.CellSpan",
     }    
     
     this._cells = {};
-    this._sorted = {};
+    this._invalidateSortCache();
+    this._invalidatePositionCache();
     
     this._rowConfig = rowConfig;
     this._columnConfig = columnConfig;
@@ -168,7 +169,38 @@ qx.Class.define("qx.ui.virtual.layer.CellSpan",
       }
       return cells;
     },     
-
+    
+    
+    _invalidatePositionCache : function()
+    {
+      this._rowPos = [];
+      this._columnPos = [];
+    },
+    
+    
+    _getRowPosition : function(row)
+    {
+      var pos = this._rowPos[row]; 
+      if (pos !== undefined) {
+        return pos;
+      }
+      
+      pos = this._rowPos[row] = this._rowConfig.getItemPosition(row);
+      return pos;
+    },
+    
+    
+    _getColumnPosition : function(column)
+    {
+      var pos = this._columnPos[column]; 
+      if (pos !== undefined) {
+        return pos;
+      }
+      
+      pos = this._columnPos[column] = this._columnConfig.getItemPosition(column);
+      return pos;
+    },    
+    
     
     _getCellBounds : function(cell, firstVisibleRow, firstVisibleColumn)
     {
@@ -178,46 +210,24 @@ qx.Class.define("qx.ui.virtual.layer.CellSpan",
         width: 0,
         height: 0
       }
+     
+      bounds.height = 
+        this._getRowPosition(cell.lastRow) + 
+        this._rowConfig.getItemSize(cell.lastRow) -
+        this._getRowPosition(cell.firstRow);
       
-      // compute height
-      var rowConfig = this._rowConfig;
-      for (var row=cell.firstRow, l=cell.lastRow; row<=l; row++) {
-        bounds.height += rowConfig.getItemSize(row);
-      }
-
-      // compute width
-      var columnConfig = this._columnConfig;
-      for (var column=cell.firstColumn, l=cell.lastColumn; column<=l; column++) {
-        bounds.width += columnConfig.getItemSize(column);
-      }
-
-      // compute top offset
-      if (cell.firstRow < firstVisibleRow)
-      {        
-        for (var row=cell.firstRow, l=firstVisibleRow; row<l; row++) {
-          bounds.top -= rowConfig.getItemSize(row);
-        }
-      }
-      else
-      {
-        for (var row=firstVisibleRow, l=cell.firstRow; row<l; row++) {
-          bounds.top += rowConfig.getItemSize(row);
-        }        
-      }
+      bounds.top = 
+        this._getRowPosition(cell.firstRow) -
+        this._getRowPosition(firstVisibleRow);
       
-      // compute left offset
-      if (cell.firstColumn < firstVisibleColumn)
-      {
-        for (var column=cell.firstColumn, l=firstVisibleColumn; column<l; column++) {
-          bounds.left -= columnConfig.getItemSize(column);
-        }
-      }    
-      else
-      {
-        for (var column=firstVisibleColumn, l=cell.firstColumn; column<l; column++) {
-          bounds.left += columnConfig.getItemSize(column);
-        }
-      }
+      bounds.width = 
+        this._getColumnPosition(cell.lastColumn) + 
+        this._columnConfig.getItemSize(cell.lastColumn) -
+        this._getColumnPosition(cell.firstColumn);
+      
+      bounds.left = 
+        this._getColumnPosition(cell.firstColumn) -
+        this._getColumnPosition(firstVisibleColumn);
       
       return bounds;
     },
@@ -248,7 +258,8 @@ qx.Class.define("qx.ui.virtual.layer.CellSpan",
     {
       var html = [];
       
-      var cells = this._findCellsInWindow(firstRow, lastRow, firstColumn, lastColumn);      
+      var cells = this._findCellsInWindow(firstRow, lastRow, firstColumn, lastColumn);
+      this._invalidatePosiotionCache();
       for (var id in cells)
       {
         var cell = cells[id];
