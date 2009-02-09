@@ -119,9 +119,6 @@ qx.Class.define("demobrowser.demo.bom.Selector",
       Logger.debug("Number of elements following the UL: " + res);
 
       
-      // OFFSET PARENT
-      
-      
       // PARENT
       
       var res = qx.bom.Selector.query("li").parent().length;
@@ -152,6 +149,22 @@ qx.Class.define("demobrowser.demo.bom.Selector",
       Logger.debug("List Item 3 has " + res + " siblings");      
       
 
+
+
+      // *************
+      // ** OFFSET ***
+      // *************
+      
+      // OFFSET PARENT
+      var res = qx.bom.Selector.query("select").offsetParent()[0].tagName;
+      Logger.debug("Offset parent of select box: " + res);
+      
+      
+      // OFFSET      
+      var res = qx.bom.Selector.query("select").offset();
+      Logger.debug("Offset of select box: ");
+      Logger.debug(res);
+      
 
 
       // ****************
