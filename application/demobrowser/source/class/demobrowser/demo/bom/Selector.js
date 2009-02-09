@@ -189,12 +189,18 @@ qx.Class.define("demobrowser.demo.bom.Selector",
       });
       Logger.debug("Found " + res.length + " submit button using filter(function)");
       
+
+      // HASCLASS
       
+      var res = qx.bom.Selector.query("h2").hasClass("form");
+      Logger.debug("Any H2 with form has a class 'form': " + res);
+      
+            
       // IS
       
       var res = qx.bom.Selector.query("ul").find("li").is(":contains('List Item 1')");
       Logger.debug("Found li element with text 'List Item 1': " + res);
-      
+     
       
       // NOT
 
