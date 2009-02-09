@@ -37,8 +37,7 @@
 /**
  * Combination effect "Shrink"
  *
- * The given element will be resized from initial dimensions to
- * final dimensions.
+ * Resizes the element from initial to given dimensions.
  */
 
 qx.Class.define("qx.fx.effect.combination.Shrink",

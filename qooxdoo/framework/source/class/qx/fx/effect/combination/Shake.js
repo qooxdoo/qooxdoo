@@ -37,8 +37,7 @@
 /**
  * Combination effect "Shake"
  *
- * The given element will be moved forwards and backwards
- * several times.
+ * Moves the element forwards and backwards several times.
  */
 qx.Class.define("qx.fx.effect.combination.Shake",
 {

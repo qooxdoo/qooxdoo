@@ -37,7 +37,7 @@
 /**
  * Core effect "Scroll"
  *
- * This effect scrolls to specified coordinates on given element.
+ * Scrolls to specified coordinates on given element.
  */
 qx.Class.define("qx.fx.effect.core.Scroll",
 {
