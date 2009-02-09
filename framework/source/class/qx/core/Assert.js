@@ -297,15 +297,15 @@ qx.Class.define("qx.core.Assert",
 
 
     /**
-     * Assert that a event is fired.
+     * Assert that an event is fired.
      *
      * @param obj {Object} The object on which the event should be fired.
      * @param event {String} The event which should be fired.
      * @param invokeFunc {Function} The function which will be invoked and which
      *   fires the event.
-     * @param listenerFunc {Function} The function which will be invoked in the
+     * @param listenerFunc {Function?null} The function which will be invoked in the
      *   listener. The function has one parameter called e which is the event.
-     * @param msg {String} Message to be shows if the assertion fails.
+     * @param msg {String?""} Message to be shows if the assertion fails.
      */
     assertEventFired : function(obj, event, invokeFunc, listenerFunc, msg)
     {
@@ -323,6 +323,30 @@ qx.Class.define("qx.core.Assert",
 
       obj.removeListenerById(id);
     },
+    
+    
+    /**
+     * Assert that an event is not fired.
+     *
+     * @param obj {Object} The object on which the event should be fired.
+     * @param event {String} The event which should be fired.
+     * @param invokeFunc {Function} The function which will be invoked and which
+     *   should not fire the event.
+     * @param msg {String} Message to be shows if the assertion fails.
+     */
+    assertEventNotFired : function(obj, event, invokeFunc, msg)
+    {
+      var called = false;
+      var listener = function(e) {
+        called = true;
+      };
+      var id = obj.addListener(event, listener, obj);
+
+      invokeFunc.call();
+      this.__assert(called === false, msg || "", "Event (" + event + ") was fired.");
+
+      obj.removeListenerById(id);
+    },    
 
 
     /**
