@@ -33,10 +33,10 @@ qx.Class.define("toolbox.builder.ProgressLoader",
 
 
   /*
-          *****************************************************************************
-             CONSTRUCTOR
-          *****************************************************************************
-        */
+    *****************************************************************************
+       CONSTRUCTOR
+    *****************************************************************************
+  */
 
   construct : function()
   {
@@ -60,6 +60,7 @@ qx.Class.define("toolbox.builder.ProgressLoader",
     this.__root.setBlockerColor("white");
     this.__root.setBlockerOpacity(0.5);
 	
+    //loader image (gif) to show the steps
     var loaderImage = new qx.ui.basic.Atom(null, "toolbox/image/progressLoader.gif");
     this.add(loaderImage);
     this.add(new qx.ui.basic.Label("  This process will take few minutes!"));
