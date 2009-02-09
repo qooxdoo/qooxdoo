@@ -594,6 +594,25 @@ qx.Class.define("qx.bom.element.Location",
         right : loc1.right - loc2.right,
         bottom : loc1.bottom - loc2.bottom
       };
+    },
+    
+    
+    /** 
+     * Detects the offset parent of the given element
+     *
+     * @param element {Element} Element to query for offset parent
+     * @return {Element} Detected offset parent
+     */
+    getOffsetParent : function(element) 
+    {
+      var offsetParent = element.offsetParent || document.body;
+      var Style = qx.bom.element.Style;
+      
+      while (offsetParent && (!/^body|html$/i.test(offsetParent.tagName) && Style.get(offsetParent, "position") === "static")) {
+        offsetParent = offsetParent.offsetParent;
+      }
+        
+      return offsetParent;
     }
   }
 });
