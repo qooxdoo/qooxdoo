@@ -40,11 +40,12 @@ qx.Class.define("qx.test.ui.virtual.layer.LayerTestCase",
       var columnSizes = [];
       for(var i=15; i<=18; i++) {
         columnSizes.push(this.colWidth);
-      }
-      
-      this.layer.updateLayerWindow(10, 20, 15, 18, rowSizes, columnSizes);
+      }          
       
       this.getRoot().add(this.layer);
+      qx.ui.core.queue.Manager.flush();
+      
+      this.layer.updateLayerWindow(10, 20, 15, 18, rowSizes, columnSizes);
       qx.ui.core.queue.Manager.flush();
     },
   

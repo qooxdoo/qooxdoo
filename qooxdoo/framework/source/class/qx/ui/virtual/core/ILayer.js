@@ -29,6 +29,9 @@ qx.Interface.define("qx.ui.virtual.core.ILayer",
      * Do a complete update of the layer. All cached data should be discarded.
      * This method is called e.g. after changes to the grid geometry
      * (row/column sizes, row/column count, ...).
+     * 
+     * Note: This method can only be called after the widgets initial appear
+     * event has been fired because it may work with the widget's DOM elements. 
      *  
      * @param firstRow {Integer} Index of the first row to display
      * @param lastRow {Integer} Index of the last row to display
@@ -57,6 +60,9 @@ qx.Interface.define("qx.ui.virtual.core.ILayer",
      * are prefetched. The implementation can assume that no other grid
      * data has been changed since the last "fullUpdate" of "updateLayerWindow"
      * call.
+     * 
+     * Note: This method can only be called after the widgets initial appear
+     * event has been fired because it may work with the widget's DOM elements. 
      * 
      * @param firstRow {Integer} Index of the first row to display
      * @param lastRow {Integer} Index of the last row to display
