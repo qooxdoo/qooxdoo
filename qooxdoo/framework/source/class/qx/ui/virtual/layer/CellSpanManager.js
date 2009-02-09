@@ -269,5 +269,17 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
       
       return map;
     }
+  },
+  
+  
+  destruct : function()
+  {
+    this._rowConfig.removeListener("change", this._onRowConfigChange, this);
+    this._columnConfig.removeListener("change", this._onColumnConfigChange, this);
+    
+    this._disposeFields(
+      "_cells", "_sorted", "_rowPos", "_columnPos",
+      "_rowConfig", "_columnConfig"
+    );    
   }
 });
