@@ -124,9 +124,15 @@ qx.Class.define("demobrowser.demo.bom.Selector",
       
       // PARENT
       
+      var res = qx.bom.Selector.query("li").parent().length;
+      Logger.debug("Number of parent elements of all li elems: " + res);
+      
       
       // PARENTS
       
+      var res = qx.bom.Selector.query("input[type=submit]").parents().length;
+      Logger.debug("Number of all parent elements of the submit button: " + res);
+
       
       // PREV
 
@@ -141,6 +147,9 @@ qx.Class.define("demobrowser.demo.bom.Selector",
 
       
       // SIBLINGS
+      
+      var res = qx.bom.Selector.query("ul li:contains('List Item 3')").siblings().length;
+      Logger.debug("List Item 3 has " + res + " siblings");      
       
 
 
