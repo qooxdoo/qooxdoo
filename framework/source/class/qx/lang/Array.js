@@ -39,7 +39,7 @@
  * there are modifications to the native Array in {@link qx.lang.Core} for
  * browsers that do not support certain JavaScript 1.6 features natively .
  *
- * The string/arr generics introduced in JavaScript 1.6 are supported by
+ * The string/array generics introduced in JavaScript 1.6 are supported by
  * {@link qx.lang.Generics}.
  */
 qx.Bootstrap.define("qx.lang.Array",
@@ -120,11 +120,11 @@ qx.Bootstrap.define("qx.lang.Array",
       
 
     /**
-     * Convert an arguments object into an arr
+     * Convert an arguments object into an array
      *
      * @param args {arguments} arguments object
      * @param offset {Integer?0} position to start from
-     * @return {Array} a newly created arr (copy) with the content of the arguments object.
+     * @return {Array} a newly created array (copy) with the content of the arguments object.
      */
     fromArguments : function(args, offset) {
       return Array.prototype.slice.call(args, offset||0);
@@ -132,10 +132,10 @@ qx.Bootstrap.define("qx.lang.Array",
 
 
     /**
-     * Convert a (node) collection into an arr
+     * Convert a (node) collection into an array
      *
      * @param coll {var} node collection
-     * @return {Array} a newly created arr (copy) with the content of the node collection.
+     * @return {Array} a newly created array (copy) with the content of the node collection.
      */
     fromCollection : function(coll)
     {
@@ -191,10 +191,10 @@ qx.Bootstrap.define("qx.lang.Array",
 
 
     /**
-     * Return a copy of the given arr
+     * Return a copy of the given array
      *
-     * @param arr {Array} the arr to copy
-     * @return {Array} copy of the arr
+     * @param arr {Array} the array to copy
+     * @return {Array} copy of the array
      */
     copy : function(arr) {
       return arr.concat();
@@ -202,10 +202,10 @@ qx.Bootstrap.define("qx.lang.Array",
 
 
     /**
-     * Return a copy of the given arr
+     * Return a copy of the given array
      * The same as {@link qx.lang.Array#copy}
      *
-     * @param arr {Array} the arr to copy
+     * @param arr {Array} the array to copy
      * @return {Array} copy of the array
      */
     clone : function(arr) {
@@ -214,7 +214,7 @@ qx.Bootstrap.define("qx.lang.Array",
 
 
     /**
-     * Return the last element of an arr. For performance reasons it is recommended 
+     * Return the last element of an array. For performance reasons it is recommended 
      * to omit the function call and instead use <code>arr[arr.length - 1]</code>
      *
      * @param arr {Array} the array
@@ -226,7 +226,7 @@ qx.Bootstrap.define("qx.lang.Array",
 
 
     /**
-     * Return the first element of an arr. For performance reasons it is recommended 
+     * Return the first element of an array. For performance reasons it is recommended 
      * to omit the function call and instead use <code>arr[0]</code>
      *
      * @param arr {Array} the array
@@ -238,7 +238,7 @@ qx.Bootstrap.define("qx.lang.Array",
 
 
     /**
-     * Insert an element at a given position into the arr
+     * Insert an element at a given position into the array
      *
      * @param arr {Array} the array
      * @param obj {var} the element to insert
@@ -254,7 +254,7 @@ qx.Bootstrap.define("qx.lang.Array",
 
 
     /**
-     * Insert an element into the arr before a given second element
+     * Insert an element into the array before a given second element
      *
      * @param arr {Array} the array
      * @param obj {var} object to be inserted
@@ -276,7 +276,7 @@ qx.Bootstrap.define("qx.lang.Array",
 
 
     /**
-     * Insert an element into the arr after a given second element
+     * Insert an element into the array after a given second element
      *
      * @param arr {Array} the array
      * @param obj {var} object to be inserted
@@ -298,7 +298,7 @@ qx.Bootstrap.define("qx.lang.Array",
 
 
     /**
-     * Remove an element from the arr at the given index
+     * Remove an element from the array at the given index
      *
      * @param arr {Array} the array
      * @param i {Integer} index of the element to be removed
@@ -310,18 +310,20 @@ qx.Bootstrap.define("qx.lang.Array",
 
 
     /**
-     * Remmove all elements from the arr
+     * Remmove all elements from the array
      *
      * @param arr {Array} the array
      * @return {Array} empty array
      */
-    removeAll : function(arr) {
-      return arr.length = 0;
+    removeAll : function(arr) 
+    {
+      arr.length = 0;
+      return this;
     },
 
 
     /**
-     * Append the elements of an arr to the arr
+     * Append the elements of an array to the array
      *
      * @param arr1 {Array} the array
      * @param arr2 {Array} the elements of this array will be appended to other one
@@ -363,7 +365,7 @@ qx.Bootstrap.define("qx.lang.Array",
 
 
     /**
-     * Whether the arr contains the given element
+     * Whether the array contains the given element
      *
      * @param arr {Array} the array
      * @param obj {var} object to look for
@@ -375,7 +377,7 @@ qx.Bootstrap.define("qx.lang.Array",
 
 
     /**
-     * Check whether the two arr have the same content. Checks only the
+     * Check whether the two arrays have the same content. Checks only the
      * equality of the arrays' content.
      *
      * @param arr1 {Array} first array
@@ -402,7 +404,7 @@ qx.Bootstrap.define("qx.lang.Array",
 
 
     /**
-     * Returns the sum of all values in the given arr. Supports
+     * Returns the sum of all values in the given array. Supports
      * numeric values only.
      *
      * @param arr {Number[]} Array to process
@@ -420,7 +422,7 @@ qx.Bootstrap.define("qx.lang.Array",
 
 
     /**
-     * Returns the highest value in the given arr. Supports
+     * Returns the highest value in the given array. Supports
      * numeric values only.
      *
      * @param arr {Number[]} Array to process
@@ -446,7 +448,7 @@ qx.Bootstrap.define("qx.lang.Array",
 
 
     /**
-     * Returns the lowest value in the given arr. Supports
+     * Returns the lowest value in the given array. Supports
      * numeric values only.
      *
      * @param arr {Number[]} Array to process
