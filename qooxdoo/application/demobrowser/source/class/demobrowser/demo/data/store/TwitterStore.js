@@ -45,12 +45,6 @@ qx.Class.define("demobrowser.demo.data.store.TwitterStore",
     __loaded: function() {
       var data = demobrowser.demo.data.store.TwitterStore.__result;
       
-      // change the to an array
-      var newData = [];
-      for (var i in data) {
-        newData.push(data[i]);
-      }
-      
       // create the class
       this._createModelClass(data);
       // set the initial data
