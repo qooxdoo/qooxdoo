@@ -624,6 +624,24 @@ qx.Class.define("qx.test.data.controller.Tree",
       this.assertEquals("a", this.__tree.getRoot().getChildren()[0].getLabel(), "First node has a wrong name");
       this.assertEquals("b", this.__tree.getRoot().getChildren()[1].getLabel(), "Second node has a wrong name");
       this.assertEquals("c", this.__tree.getRoot().getChildren()[2].getLabel(), "Third node has a wrong name");      
+    },
+    
+    
+    testDelegation: function() {
+
+      // create the delegate
+      var delegate = new qx.core.Object();
+      delegate.configureItem = function(item) {
+        item.setUserData("a", true);
+      };
+      
+      this.__controller.setDelegate(delegate);
+      
+      // check the initial Labels
+      this.assertTrue(this.__tree.getRoot().getUserData("a"), "Delegation not working.");
+      this.assertTrue(this.__tree.getRoot().getChildren()[0].getUserData("a"), "Delegation not working.");
+      this.assertTrue(this.__tree.getRoot().getChildren()[1].getUserData("a"), "Delegation not working.");
+      this.assertTrue(this.__tree.getRoot().getChildren()[2].getUserData("a"), "Delegation not working.");  
     }
     
   }
