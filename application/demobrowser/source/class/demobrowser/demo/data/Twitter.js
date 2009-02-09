@@ -33,6 +33,8 @@ qx.Class.define("demobrowser.demo.data.Twitter",
       
       // create the controller
       var controller = new qx.data.controller.List(null, list);
+      // set the delegate
+      controller.setDelegate(this);
 
       // set the name for the label property
       controller.setLabelPath("text");
@@ -86,7 +88,7 @@ qx.Class.define("demobrowser.demo.data.Twitter",
       detailsBox.setWidth(300);
       detailsBox.setHeight(220);
       
-      detailsBox.setLayout(new qx.ui.layout.Grid());
+      detailsBox.setLayout(new qx.ui.layout.Grid(0, 5));
       
       detailsBox.add(new qx.ui.basic.Label("Name: "), {row: 0, column: 0});
       detailsBox.add(new qx.ui.basic.Label("Location: "), {row: 1, column: 0});
@@ -129,10 +131,18 @@ qx.Class.define("demobrowser.demo.data.Twitter",
       headline.setRich(true);
       headline.setWidth(260);
       headline.setContent(
-        "<p style='font-size: 20px'>Twitter</p>"
+        "<span style='font-size: 20px'>Twitter</span>"
       );
-      this.getRoot().add(headline, {left: 10, top: 0});   
+      this.getRoot().add(headline, {left: 10, top: 10});   
             
+    },
+    
+    
+    configureItem: function(item) {
+      item.setRich(true);
+      item.getChildControl("icon").setWidth(50);
+      item.getChildControl("icon").setHeight(50);      
+      item.getChildControl("icon").setScale(true);
     }
   }
 });
