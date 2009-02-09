@@ -35,11 +35,12 @@
 
 #require(qx.core.BaseArray)
 
+#require(qx.bom.Element)
+
 #require(qx.bom.element.Style)
 #require(qx.bom.element.Attribute)
 #require(qx.bom.element.Class)
-
-#require(qx.bom.Element)
+#require(qx.bom.element.Location)
 
 ************************************************************************ */
 
@@ -67,12 +68,18 @@
     return function(arg1, arg2, arg3, arg4, arg5, arg6) 
     {
       if (this.length > 0) {
-        return clazz[method](this[0], arg1, arg2, arg3, arg4, arg5, arg6);
+        var ret = clazz[method](this[0], arg1, arg2, arg3, arg4, arg5, arg6);
+        if (ret.nodeType) {
+          return this.__pushStack([ret]);
+        } else {
+          return ret;
+        }
       }
     
       return null;
     };
   };
+  
   
   /**
    * Wraps a set of elements and offers a whole set of features to query or modify them.
@@ -378,8 +385,43 @@
       
       
 
-
-
+      /*
+      ---------------------------------------------------------------------------
+         WRAP API: LOCATION
+      ---------------------------------------------------------------------------
+      */  
+      
+      /**
+       * Computes the location of the first element in context of
+       * the document dimensions.
+       *
+       * Supported modes:
+       *
+       * * <code>margin</code>: Calculate from the margin box of the element (bigger than the visual appearance: including margins of given element)
+       * * <code>box</code>: Calculates the offset box of the element (default, uses the same size as visible)
+       * * <code>border</code>: Calculate the border box (useful to align to border edges of two elements).
+       * * <code>scroll</code>: Calculate the scroll box (relevant for absolute positioned content).
+       * * <code>padding</code>: Calculate the padding box (relevant for static/relative positioned content).
+       *
+       * @signature function(mode)
+       * @param mode {String} A supported option. See comment above.
+       * @return {Map} Returns a map with <code>left</code>, <code>top</code>,
+       *   <code>right</code> and <code>bottom</code> which contains the distance
+       *   of the element relative to the document.
+       */
+      offset : getter(qx.bom.element.Location, "get"),
+      
+      
+      /** 
+       * Detects the offset parent of the first element
+       *
+       * @signature function()
+       * @return {Collection} Detected offset parent capsulated into a new collection instance
+       */      
+      offsetParent : getter(qx.bom.element.Location, "getOffsetParent"),
+      
+      
+      
 
       /*
       ---------------------------------------------------------------------------
@@ -767,8 +809,8 @@
         return this.__pushStack(ret);       
       },
       
-      
-            
+
+
       
       /*
       ---------------------------------------------------------------------------
