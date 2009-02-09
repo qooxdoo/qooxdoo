@@ -44,9 +44,6 @@ qx.Class.define("toolbox.configuration.ConfigurationDialog",
     this.__createConfiguration(adminPath, fileName, filePath, logFrame, recResult);
   },
 
-
-
-
   /*
   *****************************************************************************
      MEMBERS
@@ -64,7 +61,7 @@ qx.Class.define("toolbox.configuration.ConfigurationDialog",
      * @param fileName {var} name of the application
      * @param filePath {var} path of the application
      * @param logFrame {var} log output
-     * @param recResult {var} TODOC
+     * @param recResult {var} received Result from the web server
      * @return {void} 
      * @throws error on save process
      */
