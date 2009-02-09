@@ -23,10 +23,10 @@
      http://groups.google.com/group/sizzlejs
      http://github.com/jeresig/sizzle/tree
      
-     Snapshot from January 30, 2009
-       commit  e374a73bbffc12ec3b5f252e7f76e593c508dfa5
-       tree    6c56ddfd29eb00f93b380fb69a9348d657da75d5
-       parent  87df87a6e6b6aa7f6f85ee2253b4913d50474c4e     
+     Snapshot from February 9, 2009
+       commit  0449e2b83c82db0e6e4eaf47d400222d3187a832
+       tree    8ca63b9e064c9f5c461c38b2d92771316eeeae11
+       parent  67818adc5d5a0f31fc3d7a6fa80217b60850c6df        
      
      Copyright:
        (c) 2008-2009, John Resig
@@ -128,15 +128,9 @@ qx.Bootstrap.define("qx.bom.Selector",
 /**
  * This is the original Sizzle code. Snapshot date mentioned in the head of this file.
  */
-/*!
- * Sizzle CSS Selector Engine - v0.9.3
- *  Copyright 2009, The Dojo Foundation
- *  Released under the MIT, BSD, and GPL Licenses.
- *  More information: http://sizzlejs.com/
- */
 (function(){
 
-var chunker = /((?:\((?:\([^()]+\)|[^()]+)+\)|\[(?:\[[^[\]]*\]|['"][^'"]+['"]|[^[\]'"]+)+\]|\\.|[^ >+~,(\[]+)+|[>+~])(\s*,\s*)?/g,
+var chunker = /((?:\((?:\([^()]+\)|[^()]+)+\)|\[(?:\[[^[\]]*\]|['"][^'"]*['"]|[^[\]'"]+)+\]|\\.|[^ >+~,(\[]+)+|[>+~])(\s*,\s*)?/g,
   done = 0,
   toString = Object.prototype.toString;
 
@@ -871,12 +865,25 @@ if ( document.querySelectorAll ) (function(){
   Sizzle.matches = oldSizzle.matches;
 })();
 
-if ( document.getElementsByClassName && document.documentElement.getElementsByClassName ) {
+if ( document.getElementsByClassName && document.documentElement.getElementsByClassName ) (function(){
+  var div = document.createElement("div");
+  div.innerHTML = "<div class='test e'></div><div class='test'></div>";
+
+  // Opera can't find a second classname (in 9.6)
+  if ( div.getElementsByClassName("e").length === 0 )
+    return;
+
+  // Safari caches class attributes, doesn't catch changes (in 3.2)
+  div.lastChild.className = "e";
+
+  if ( div.getElementsByClassName("e").length === 1 )
+    return;
+
   Expr.order.splice(1, 0, "CLASS");
   Expr.find.CLASS = function(match, context) {
     return context.getElementsByClassName(match[1]);
   };
-}
+})();
 
 function dirNodeCheck( dir, cur, doneName, checkSet, nodeCheck, isXML ) {
   for ( var i = 0, l = checkSet.length; i < l; i++ ) {
