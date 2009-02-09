@@ -66,6 +66,8 @@ qx.Class.define("qx.data.controller.Object",
 
     // create a map for all created binding ids
     this.__bindings = {};
+    // create an array to store all current targets
+    this.__targets = [];
     
     if (model != null) {
       this.setModel(model);      
@@ -110,24 +112,26 @@ qx.Class.define("qx.data.controller.Object",
      * @param old {qx.core.Object|null} The old model.
      */
     _applyModel: function(value, old) {
-      // add all bindings to the new model
-      for (var targetHash in this.__bindings) {
-        var bindingsForTarget = this.__bindings[targetHash];
-        this.__bindings[targetHash] = [];
-        var targetObject = qx.core.ObjectRegistry.fromHashCode(targetHash);
+      // for every target
+      for (var i = 0; i < this.__targets.length; i++) {
+        // get the properties
+        var targetObject = this.__targets[i][0];
+        var targetProperty = this.__targets[i][1];
+        var sourceProperty = this.__targets[i][2];
+        var bidirectional = this.__targets[i][3];
+        var options = this.__targets[i][4];
+        var reverseOptions = this.__targets[i][5];
         
-        for (var i = 0; i < bindingsForTarget.length; i++) {
-          // check for a bidirectional binding
-          var bidirectional = false;
-          if (bindingsForTarget[i][1] != null) {
-            bidirectional = true;
-            // remove the old reverse binding
-            targetObject.removeBinding(bindingsForTarget[i][1]);
-          }
-          this.addTarget(
-            targetObject, bindingsForTarget[i][2], 
-            bindingsForTarget[i][3], bidirectional, 
-            bindingsForTarget[i][4], bindingsForTarget[i][5]
+        // remove it from the old if possible
+        if (old != undefined) {
+          this.__removeTargetFrom(targetObject, targetProperty, sourceProperty, old);          
+        }
+        
+        // add it to the new if available
+        if (value != undefined) {
+          this.__addTarget(
+            targetObject, targetProperty, sourceProperty, bidirectional,
+            options, reverseOptions
           );
         }
       }
@@ -161,9 +165,57 @@ qx.Class.define("qx.data.controller.Object",
       targetObject, targetProperty, sourceProperty, 
       bidirectional, options, reverseOptions
     ) {
+      
+      // store the added target
+      this.__targets.push([
+        targetObject, targetProperty, sourceProperty, 
+        bidirectional, options, reverseOptions
+      ]);
+      
+      // delegate the adding
+      this.__addTarget(
+        targetObject, targetProperty, sourceProperty, 
+        bidirectional, options, reverseOptions
+      );
+    },
+    
+    
+    /**
+    * Does the work for {@link #addTarget} but without saving the target
+    * to the internal target registry. 
+    * 
+    * @param targetObject {qx.core.Object} The object on which the property 
+    *   should be bound.
+    * 
+    * @param targetProperty {String} The property to which the binding should 
+    *   go. 
+    * 
+    * @param sourceProperty {String} The name of the property in the model.
+    * 
+    * @param bidirectional {Boolean?false} Signals if the binding should also work
+    *   in the reverse direction, from the target to source.
+    * 
+    * @param options {Map?null} The options Map used by the binding from source
+    *   to target. The possible options can be found in the 
+    *   {@link qx.data.SingleValueBinding} class.
+    * 
+    * @param reverseOptions {Map?null} The options used by the binding in the 
+    *   reverse direction. The possible options can be found in the 
+    *   {@link qx.data.SingleValueBinding} class.
+    */
+    __addTarget: function(
+      targetObject, targetProperty, sourceProperty, 
+      bidirectional, options, reverseOptions
+    ) {
+      
+      // do nothing if no model is set
+      if (this.getModel() == null) {
+        return;
+      }
+      
       // create the binding
-      var id = this.bind(
-        "model." + sourceProperty, targetObject, targetProperty, options
+      var id = this.getModel().bind(
+        sourceProperty, targetObject, targetProperty, options
       );
       // create the reverse binding if necessary
       var idReverse = null
@@ -181,8 +233,7 @@ qx.Class.define("qx.data.controller.Object",
       this.__bindings[targetHash].push(
         [id, idReverse, targetProperty, sourceProperty, options, reverseOptions]
       );
-    },
-    
+    },    
     
     /**
      * Removes the target identified by the three properties.
@@ -196,38 +247,72 @@ qx.Class.define("qx.data.controller.Object",
      * @param sourceProperty {String} The name of the property of the model.
      */
     removeTarget: function(targetObject, targetProperty, sourceProperty) {
+      this.__removeTargetFrom(
+        targetObject, targetProperty, sourceProperty, this.getModel()
+      );
+
+      // delete the target in the targets reference
+      for (var i = 0; i < this.__targets.length; i++) {
+        if (
+          this.__targets[i][0] == targetObject 
+          && this.__targets[i][1] == targetProperty 
+          && this.__targets[i][2] == sourceProperty
+        ) {
+          this.__targets.splice(i, 1);
+        }
+      }
+    },
+    
+
+    /**
+     * Does the work for {@link #removeTarget} but without removing the target
+     * from the internal registry.
+     * 
+     * @param targetObject {qx.core.Object} The target object on which the 
+     *   binding exist.
+     * 
+     * @param targetProperty {String} The targets property name used by the 
+     *   adding of the target.
+     * 
+     * @param sourceProperty {String} The name of the property of the model.
+     * 
+     * @param sourceObject {String} The source object from which the binding 
+     *   comes.
+     */    
+    __removeTargetFrom: function(
+      targetObject, targetProperty, sourceProperty, sourceObject
+    ) {
       // check for not fitting targetObjects
       if (!(targetObject instanceof qx.core.Object)) {
         // just do nothing
         return;
       }
-      for(var currentHash in this.__bindings) {
-        // if the target object is in the internal registry
-        if (currentHash === targetObject.toHashCode()) {
-          var currentListing = this.__bindings[currentHash];          
-          // go threw all listings for the object
-          for (var i = 0; i < currentListing.length; i++) {
-            // if it is the listing
-            if (
-              currentListing[i][2] == targetProperty &&
-              currentListing[i][3] == sourceProperty
-            ) {
-              // remove the binding
-              var id = currentListing[i][0];
-              this.removeBinding(id);
-              // check for the reverse binding
-              if (currentListing[i][1] != null) {
-                targetObject.removeBinding(currentListing[i][1]);
-              }
-              // delete the entry and return
-              currentListing.splice(i, 1);
-              return;
-            }
+
+      var currentListing = this.__bindings[targetObject.toHashCode()];
+      // if no binding is stored
+      if (currentListing == undefined || currentListing.length == 0) {
+        return;
+      }
+                
+      // go threw all listings for the object
+      for (var i = 0; i < currentListing.length; i++) {
+        // if it is the listing
+        if (
+          currentListing[i][2] == targetProperty &&
+          currentListing[i][3] == sourceProperty
+        ) {
+          // remove the binding
+          var id = currentListing[i][0];
+          sourceObject.removeBinding(id);
+          // check for the reverse binding
+          if (currentListing[i][1] != null) {
+            targetObject.removeBinding(currentListing[i][1]);
           }
-          // if the binding is not there, return and do nothing
+          // delete the entry and return
+          currentListing.splice(i, 1);
           return;
         }
       }
-    }
+    }    
   }
 });
