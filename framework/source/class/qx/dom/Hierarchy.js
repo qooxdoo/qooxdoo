@@ -400,8 +400,8 @@ qx.Class.define("qx.dom.Hierarchy",
     getNextSiblings : function(element) {
       return this._recursivelyCollect(element, "nextSibling");
     },
-
-
+    
+    
     /**
      * Recursively collects elements whose relationship is specified by
      * property.  <code>property</code> has to be a property (a method won't
