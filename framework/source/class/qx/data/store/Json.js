@@ -31,7 +31,9 @@ qx.Class.define("qx.data.store.Json",
     // classes hashmap
     this.__classHashMap = {};
    
-    this._createRequest(url);
+    if (url != null) {
+      this.setUrl(url);
+    }
   },
   
   
@@ -55,11 +57,24 @@ qx.Class.define("qx.data.store.Json",
       ],
       init : "configured",
       event : "changeState"
+    },
+    
+    url : {
+      check: "String",
+      apply: "_applyUrl",
+      event: "changeUrl"
     }
   },
 
   members :
   {
+    
+    _applyUrl: function(value, old) {
+      if (value != null) {
+        this._createRequest(value);
+      }
+    },
+    
     
     _createRequest: function(url) {
       // create the request
@@ -163,6 +178,14 @@ qx.Class.define("qx.data.store.Json",
                 
         // fire complete event
         this.fireDataEvent("loaded", this.getModel());
+    },
+    
+    
+    reload: function() {
+      var url = this.getUrl();
+      if (url != null) {
+        this._createRequest(url);        
+      }
     }
   }
 });
