@@ -37,7 +37,7 @@
 /**
  * Combination effect "Pulsate"
  *
- * The given element faded in and out several times.
+ * Fades the element in and out several times.
  */
 
 qx.Class.define("qx.fx.effect.combination.Pulsate",

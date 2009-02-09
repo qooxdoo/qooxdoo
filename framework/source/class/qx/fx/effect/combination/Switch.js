@@ -37,8 +37,7 @@
 /**
  * Combination effect "Switch Off"
  *
- * The given element will flicker one time and then
- * fold in.
+ * Flickers the element one time and then folds it in.
  */
 
 qx.Class.define("qx.fx.effect.combination.Switch",

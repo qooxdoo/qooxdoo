@@ -37,7 +37,7 @@
 /**
  * Combination effect "Fold"
  *
- * The specified element will shrink in width and height and become invisible.
+ * Shrinks the element in width and height until it gets invisible.
  */
 
 qx.Class.define("qx.fx.effect.combination.Fold",

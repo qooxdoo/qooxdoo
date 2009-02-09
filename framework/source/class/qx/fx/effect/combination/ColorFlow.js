@@ -36,10 +36,9 @@
 
 /**
  * Combination effect "Color Flow"
- *
- * It changes an element's background color to a given initial value and modifies it
- * step by step to the final value. After that the effects waits a given amount of time
- * before it modifies to background color back to the inital value.
+ * Changes the background color of an element to a given initial. After that the
+ * effects waits a given amount of time before it modifies to background color
+ * back to the initial value.
  */
 
 qx.Class.define("qx.fx.effect.combination.ColorFlow",

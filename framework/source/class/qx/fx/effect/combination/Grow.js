@@ -37,8 +37,7 @@
 /**
  * Combination effect "Grow"
  *
- * The element will be resized from initial dimensions to
- * final dimensions.
+ * Resizes the element from initial dimensions to final dimensions.
  */
 
 qx.Class.define("qx.fx.effect.combination.Grow",

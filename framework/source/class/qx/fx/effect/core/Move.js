@@ -37,7 +37,7 @@
 /**
  * Core effect "Move"
  *
- * This effect moves to element to the given coordinates.
+ * Moves to element to the given coordinates.
  */
 qx.Class.define("qx.fx.effect.core.Move",
 {
