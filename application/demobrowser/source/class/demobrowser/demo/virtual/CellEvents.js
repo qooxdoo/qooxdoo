@@ -35,15 +35,12 @@ qx.Class.define("demobrowser.demo.virtual.CellEvents",
     events :
     {
       /**See {@link qx.ui.table.Table#cellClick}.*/
-      "cellClick" : "qx.ui.table.pane.CellEvent"
+      "cellClick" : "qx.ui.table.pane.CellEvent",
+      /**
+       * Dispatched when the context menu is needed in a data cell
+       */
+      "cellContextmenu" : "qx.ui.table.pane.CellEvent"
     },
-
-
-
-
-
-
-
 
     main : function()
     {
@@ -59,71 +56,34 @@ qx.Class.define("demobrowser.demo.virtual.CellEvents",
 
       var pane = scroller.getPane();
 
-      pane.addListener("mousewheel", this._onMousewheel, this);
-      pane.addListener("mousemove", this._onMousemovePane, this);
-      pane.addListener("mousedown", this._onMousedownPane, this);
-      pane.addListener("mouseup", this._onMouseupPane, this);
-      pane.addListener("click", this._onClickPane, this);
-      pane.addListener("contextmenu", this._onContextMenu, this);
-      pane.addListener("dblclick", this._onDblclickPane, this);
+      scroller.addListener("cellClick", this._onCellClick, this);
+      scroller.addListener("cellContextmenu", this._onContextMenu, this);
+      scroller.addListener("cellDblclick", this._onDblclickPane, this);
 
       pane.addLayer(this.layer);
 
       this.__scroller = scroller;
       this.__pane = pane;
 
-//      this.addListener("cellClick", this._onCellClick, this);
-
       this.getRoot().add(scroller, {left : 20, top : 10});
     },
 
     _onCellClick : function(e)
     {
-      console.warn(e)
+      console.warn("_onCellClick: ", e);
     },
-
-    _onMousewheel : function(e)
-    {
-      console.info(e);
-    },
-
-
-    _onMousemovePane : function(e)
-    {
-      // console.info(e);
-    },
-
-
-    _onMousedownPane : function(e)
-    {
-      // console.info(e);
-    },
-
-
-    _onMouseupPane : function(e)
-    {
-      // console.info(e);
-    },
-
-
-    _onClickPane : function(e)
-    {
-      var coords = this.__pane.getCellAtPosition(e.getDocumentLeft(), e.getDocumentTop())
-      console.info(coords)
-      this.fireEvent("cellClick", qx.ui.table.pane.CellEvent, [this, e, coords.row, coords.column], true);
-    },
-
 
     _onContextMenu : function(e)
     {
-      console.info(e);
+      console.warn("_onContextMenu: ", e);
     },
 
 
     _onDblclickPane : function(e)
     {
-      console.info(e);
+      console.warn("_onDblclickPane: ", e);
     }
+
 
   }
 });
