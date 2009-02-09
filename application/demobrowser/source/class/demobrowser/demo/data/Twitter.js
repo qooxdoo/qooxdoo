@@ -28,7 +28,7 @@ qx.Class.define("demobrowser.demo.data.Twitter",
       
       // create and add the list
       var list = new qx.ui.form.List();      
-      this.getRoot().add(list, {left: 10, top: 80});
+      this.getRoot().add(list, {left: 10, top: 85});
       list.setWidth(300);
       
       // create the controller
@@ -39,13 +39,47 @@ qx.Class.define("demobrowser.demo.data.Twitter",
       // set the name for the icon property
       controller.setIconPath("user.profile_image_url");
 
-      var url = "http://twitter.com/statuses/user_timeline/wittemann.json";
-      var store = new demobrowser.demo.data.store.TwitterStore(url);
+      var store = new demobrowser.demo.data.store.TwitterStore("wittemann");
       
       // connect the store and the controller
       store.bind("model", controller, "model");
       
       
+      
+      /* ***********************************************
+       * CONTROLS
+       * ********************************************* */
+       var friendsButton = new qx.ui.form.Button("Friends");
+       this.getRoot().add(friendsButton, {left: 10, top: 55});
+       friendsButton.addListener("execute", function() {
+         store.setUrl("http://twitter.com/statuses/friends_timeline.json");
+       }, this);
+
+       // create the user textfield and button
+       var userButton = new qx.ui.form.Button("User");
+       this.getRoot().add(userButton, {left: 90, top: 55});
+       var userName = new qx.ui.form.TextField("wittemann");
+       this.getRoot().add(userName, {left: 140, top: 55});
+       userButton.addListener("execute", function() {
+         var url = "http://twitter.com/statuses/user_timeline/" + userName.getValue() + ".json"
+         if (store.getUrl() == url) {
+           store.reload();
+         } else {
+           store.setUrl(url);
+         }
+       }, this);
+       userName.addListener("keydown", function(ev) {
+         if (ev.getKeyIdentifier() == "Enter") {
+           userButton.execute();
+         }
+       }, this);
+       
+       
+    
+       
+       /* ***********************************************
+        * DETAIL VIEW
+        * ********************************************* */
       // details for the current selected tweet
       var detailsBox = new qx.ui.groupbox.GroupBox("Details");
       this.getRoot().add(detailsBox, {left: 320, top: 60});
@@ -89,17 +123,15 @@ qx.Class.define("demobrowser.demo.data.Twitter",
       
 
       /* ***********************************************
-       * DESCRIPTIONS
+       * HEADLINE
        * ********************************************* */  
-      var description = new qx.ui.basic.Label();
-      description.setRich(true);
-      description.setWidth(260);
-      description.setContent(
-        "<b>Twitter messages from Martin Wittemann</b><br/>"
-        + "Created a twitter store which fetches the last 20 posts of "
-        + "<a href='http://twitter.com/wittemann' target='_blank'>@wittemann</a>."
+      var headline = new qx.ui.basic.Label();
+      headline.setRich(true);
+      headline.setWidth(260);
+      headline.setContent(
+        "<p style='font-size: 20px'>Twitter</p>"
       );
-      this.getRoot().add(description, {left: 10, top: 10});   
+      this.getRoot().add(headline, {left: 10, top: 0});   
             
     }
   }
