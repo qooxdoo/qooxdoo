@@ -67,8 +67,10 @@
   {
     return function(arg1, arg2, arg3, arg4, arg5, arg6) 
     {
-      if (this.length > 0) {
+      if (this.length > 0) 
+      {
         var ret = clazz[method](this[0], arg1, arg2, arg3, arg4, arg5, arg6);
+        
         if (ret.nodeType) {
           return this.__pushStack([ret]);
         } else {
@@ -180,7 +182,7 @@
       */    
       
       /**
-       * Executes {@link qx.bom.element.Style.set} to modify the given style property
+       * Modify the given style property
        * on all selected elements.
        *
        * @signature function(name, value)
@@ -210,7 +212,7 @@
       setCss : setter(qx.bom.element.Style, "setCss"),           
      
       /**
-       * Executes {@link qx.bom.element.Style.reset} to reset the given style property 
+       * Reset the given style property 
        * on all selected elements.
        *
        * @signature function(name)
@@ -240,8 +242,7 @@
       */    
       
       /**
-       * Executes {@link qx.bom.element.Attribute.set} to modify the given attribute
-       * on all selected elements.
+       * Modify the given attribute on all selected elements.
        *
        * @signature function(name, value)
        * @param name {String} Name of the attribute
@@ -251,8 +252,7 @@
       setAttribute : setter(qx.bom.element.Attribute, "set"),     
      
       /**
-       * Executes {@link qx.bom.element.Attribute.reset} to reset the given attribute 
-       * on all selected elements.
+       * Reset the given attribute on all selected elements.
        *
        * @signature function(name)
        * @param name {String} Name of the attribute
@@ -440,16 +440,6 @@
        */
       eq : function(index) {
         return this.slice(index, +index + 1);
-      },
-      
-      
-      /** 
-       *
-       *
-       */
-      hasClass : function(classname)
-      {
-        
       },
       
       
@@ -863,6 +853,8 @@
        * <code>add</code>, <code>children</code>, <code>eq</code>, <code>filter</code>, 
        * <code>find</code>, <code>gt</code>, <code>lt</code>, <code>next</code>, 
        * <code>not</code>, <code>parent</code>, <code>parents</code> and <code>siblings</code>
+       *
+       * @return {Collection} The previous collection
        */
       end : function() {
         return this.__prevObject || new qx.bom.Collection();
