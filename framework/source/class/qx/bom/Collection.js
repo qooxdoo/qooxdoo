@@ -571,7 +571,7 @@
           }
         });
         
-        return qx.lang.Array.unique(ret);
+        return this.__pushStack(qx.lang.Array.unique(ret));
       },
       
       
@@ -624,7 +624,7 @@
        * Get a set of elements containing the unique next siblings of each of the given set of elements.
        *
        * <code>next</code> only returns the very next sibling for each element, not all next siblings 
-       * (see {@link #nextAll}). You may provide an optional expression to filter the returned set.
+       * (see {@link #nextAll}). Use an optional expression to filter the matched set.
        *
        * @param selector {String?null} Optional selector to filter the result
        * @return {Collection} Collection of all very next siblings of the current collection.
@@ -638,7 +638,7 @@
         if (selector) {
           ret = qx.bom.Selector.matches(selector, ret);
         }
-        
+                
         return this.__pushStack(ret);
       },
       
@@ -661,8 +661,8 @@
           all.push(Hierarchy.getNextSiblings(this[i]));
         }
 
-        // Combine all resulting arrays        
-        var ret = Array.prototype.concat.apply([], all);
+        // Combine all resulting arrays and remove duplicates        
+        var ret = qx.lang.Array.unique(Array.prototype.concat.apply([], all));
 
         // Post reduce result by selector
         if (selector) {
@@ -677,7 +677,7 @@
        * Get a set of elements containing the unique previous siblings of each of the given set of elements.
        *
        * <code>prev</code> only returns the very previous sibling for each element, not all previous siblings 
-       * (see {@link #prevAll}). You may provide an optional expression to filter the returned set.
+       * (see {@link #prevAll}). Use an optional expression to filter the matched set.
        *
        * @param selector {String?null} Optional selector to filter the result
        * @return {Collection} Collection of all very previous siblings of the current collection.
@@ -691,7 +691,7 @@
         if (selector) {
           ret = qx.bom.Selector.matches(selector, ret);
         }
-        
+                
         return this.__pushStack(ret);        
       }, 
       
@@ -714,8 +714,8 @@
           all.push(Hierarchy.getPreviousSiblings(this[i]));
         }
 
-        // Combine all resulting arrays        
-        var ret = Array.prototype.concat.apply([], all);
+        // Combine all resulting arrays and remove duplicates      
+        var ret = qx.lang.Array.unique(Array.prototype.concat.apply([], all));
         
         // Post reduce result by selector
         if (selector) {
@@ -725,6 +725,24 @@
         return this.__pushStack(ret);        
       },             
       
+      
+      /**
+       * Get a set of elements containing the unique parents of the matched set of elements.
+       *
+       * @return {Collection} Collection of all unique parent elements.
+       */
+      parent : function() 
+      {
+        var Element = qx.dom.Element;
+        var ret = qx.lang.Array.unique(this.map(Element.getParentElement, Element));
+        
+        // Post reduce result by selector
+        if (selector) {
+          ret = qx.bom.Selector.matches(selector, ret);
+        }
+                
+        return this.__pushStack(ret);
+      },
       
       
             
