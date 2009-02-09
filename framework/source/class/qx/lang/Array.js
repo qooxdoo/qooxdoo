@@ -206,7 +206,7 @@ qx.Bootstrap.define("qx.lang.Array",
      * The same as {@link qx.lang.Array#copy}
      *
      * @param arr {Array} the arr to copy
-     * @return {Array} copy of the arr
+     * @return {Array} copy of the array
      */
     clone : function(arr) {
       return arr.concat();
@@ -217,8 +217,8 @@ qx.Bootstrap.define("qx.lang.Array",
      * Return the last element of an arr. For performance reasons it is recommended 
      * to omit the function call and instead use <code>arr[arr.length - 1]</code>
      *
-     * @param arr {Array} the arr
-     * @return {var} the last element of the arr
+     * @param arr {Array} the array
+     * @return {var} the last element of the array
      */
     getLast : function(arr) {
       return arr[arr.length - 1];
@@ -229,8 +229,8 @@ qx.Bootstrap.define("qx.lang.Array",
      * Return the first element of an arr. For performance reasons it is recommended 
      * to omit the function call and instead use <code>arr[0]</code>
      *
-     * @param arr {Array} the arr
-     * @return {var} the first element of the arr
+     * @param arr {Array} the array
+     * @return {var} the first element of the array
      */
     getFirst : function(arr) {
       return arr[0];
@@ -240,10 +240,10 @@ qx.Bootstrap.define("qx.lang.Array",
     /**
      * Insert an element at a given position into the arr
      *
-     * @param arr {Array} the arr
+     * @param arr {Array} the array
      * @param obj {var} the element to insert
-     * @param i {Integer} position where to insert the element into the arr
-     * @return {Array} the arr
+     * @param i {Integer} position where to insert the element into the array
+     * @return {Array} the array
      */
     insertAt : function(arr, obj, i)
     {
@@ -256,10 +256,10 @@ qx.Bootstrap.define("qx.lang.Array",
     /**
      * Insert an element into the arr before a given second element
      *
-     * @param arr {Array} the arr
+     * @param arr {Array} the array
      * @param obj {var} object to be inserted
      * @param obj2 {var} insert obj1 before this object
-     * @return {Array} the arr
+     * @return {Array} the array
      */
     insertBefore : function(arr, obj, obj2)
     {
@@ -278,10 +278,10 @@ qx.Bootstrap.define("qx.lang.Array",
     /**
      * Insert an element into the arr after a given second element
      *
-     * @param arr {Array} the arr
+     * @param arr {Array} the array
      * @param obj {var} object to be inserted
      * @param obj2 {var} insert obj1 after this object
-     * @return {Array} the arr
+     * @return {Array} the array
      */
     insertAfter : function(arr, obj, obj2)
     {
@@ -300,7 +300,7 @@ qx.Bootstrap.define("qx.lang.Array",
     /**
      * Remove an element from the arr at the given index
      *
-     * @param arr {Array} the arr
+     * @param arr {Array} the array
      * @param i {Integer} index of the element to be removed
      * @return {var} The removed element.
      */
@@ -312,8 +312,8 @@ qx.Bootstrap.define("qx.lang.Array",
     /**
      * Remmove all elements from the arr
      *
-     * @param arr {Array} the arr
-     * @return {Array} empty arr
+     * @param arr {Array} the array
+     * @return {Array} empty array
      */
     removeAll : function(arr) {
       return arr.length = 0;
@@ -325,8 +325,8 @@ qx.Bootstrap.define("qx.lang.Array",
      *
      * @param arr1 {Array} the array
      * @param arr2 {Array} the elements of this array will be appended to other one
-     * @return {Array} The modified arr.
-     * @throws an exception if the second argument is not an arr
+     * @return {Array} The modified array.
+     * @throws an exception if one of the arguments is not an array
      */
     append : function(arr1, arr2)
     {
@@ -344,10 +344,10 @@ qx.Bootstrap.define("qx.lang.Array",
 
 
     /**
-     * Remove an element from the arr
+     * Remove an element from the array
      *
-     * @param arr {Array} the arr
-     * @param obj {var} element to be removed from the arr
+     * @param arr {Array} the array
+     * @param obj {var} element to be removed from the array
      * @return {var} the removed element
      */
     remove : function(arr, obj)
@@ -365,7 +365,7 @@ qx.Bootstrap.define("qx.lang.Array",
     /**
      * Whether the arr contains the given element
      *
-     * @param arr {Array} the arr
+     * @param arr {Array} the array
      * @param obj {var} object to look for
      * @return {Boolean} whether the arr contains the element
      */
@@ -378,8 +378,8 @@ qx.Bootstrap.define("qx.lang.Array",
      * Check whether the two arr have the same content. Checks only the
      * equality of the arrays' content.
      *
-     * @param arr1 {Array} first arr
-     * @param arr2 {Array} second arr
+     * @param arr1 {Array} first array
+     * @param arr2 {Array} second array
      * @return {Boolean} Whether the two arrays are equal
      */
     equals : function(arr1, arr2)
