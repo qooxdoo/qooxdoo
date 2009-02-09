@@ -48,29 +48,7 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
     this.__pane.addListener("scrollX", this._onScrollPaneX, this);
     this.__pane.addListener("scrollY", this._onScrollPaneY, this);
 
-    this.__pane.addListener("click", this._onCellClick, this);  
-    this.__pane.addListener("dblclick", this._onDblclickPane, this);
-    this.__pane.addListener("contextmenu", this._onContextMenu, this);
-
-
     this._add(this.__pane, {row: 0, column: 0});    
-  },
-
-  /*
-  *****************************************************************************
-     EVENTS
-  *****************************************************************************
-  */
-
-  events :
-  {
-    /**See {@link qx.ui.table.Table#cellClick}.*/
-    "cellClick" : "qx.ui.table.pane.CellEvent",
-
-    /**
-     * Dispatched when the context menu is needed in a data cell
-     */
-    "cellContextmenu" : "qx.ui.table.pane.CellEvent"
   },
 
 
@@ -204,33 +182,7 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
     // overridden
     _onScrollBarY : function(e) {
       this.__pane.setScrollY(e.getData());
-    },
-
-
-    _onCellClick : function(e)
-    {
-      var coords = this.__getCoords(e);
-      this.fireEvent("cellClick", qx.ui.table.pane.CellEvent, [this, e, coords.row, coords.column], true);
-    },
-
-    _onContextMenu : function(e)
-    {
-      var coords = this.__getCoords(e);
-      this.fireEvent("cellContextmenu", qx.ui.table.pane.CellEvent, [this, e, coords.row, coords.column], true);
-    },
-
-
-    _onDblclickPane : function(e)
-    {
-      var coords = this.__getCoords(e);
-      this.fireEvent("cellDblclick", qx.ui.table.pane.CellEvent, [this, e, coords.row, coords.column], true);
-    },
-
-
-    __getCoords : function(e) {
-      return this.getPane().getCellAtPosition(e.getDocumentLeft(), e.getDocumentTop());
     }
-
 
   }
 });

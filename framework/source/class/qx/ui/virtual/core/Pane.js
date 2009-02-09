@@ -62,17 +62,29 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     
     this.addListener("resize", this._onResize, this);
     this.addListenerOnce("appear", this._onAppear, this);    
+
+    this.addListener("click", this._onCellClick, this);  
+    this.addListener("dblclick", this._onDblclickPane, this);
+    this.addListener("contextmenu", this._onContextMenu, this);
   },
    
   
   /*
-   *****************************************************************************
-      EVENTS
-   *****************************************************************************
-   */
-  
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+
   events :
   {
+    /**See {@link qx.ui.table.Table#cellClick}.*/
+    cellClick : "qx.ui.table.pane.CellEvent",
+
+    /**
+     * Dispatched when the context menu is needed in a data cell
+     */
+    cellContextmenu : "qx.ui.table.pane.CellEvent",
+
     /** Fired on resize of either the container or the (virtual) content. */
     update : "qx.event.type.Event",
         
@@ -600,6 +612,30 @@ qx.Class.define("qx.ui.virtual.core.Pane",
      */
     _onAppear : function() {
       this.fullUpdate();
+    },
+    
+    _onCellClick : function(e)
+    {
+      var coords = this.__getCoords(e);
+      this.fireEvent("cellClick", qx.ui.table.pane.CellEvent, [this, e, coords.row, coords.column], true);
+    },
+
+    _onContextMenu : function(e)
+    {
+      var coords = this.__getCoords(e);
+      this.fireEvent("cellContextmenu", qx.ui.table.pane.CellEvent, [this, e, coords.row, coords.column], true);
+    },
+
+
+    _onDblclickPane : function(e)
+    {
+      var coords = this.__getCoords(e);
+      this.fireEvent("cellDblclick", qx.ui.table.pane.CellEvent, [this, e, coords.row, coords.column], true);
+    },
+
+
+    __getCoords : function(e) {
+      return this.getPane().getCellAtPosition(e.getDocumentLeft(), e.getDocumentTop());
     },
     
     
