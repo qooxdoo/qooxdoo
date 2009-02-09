@@ -41,6 +41,13 @@ qx.Class.define("qx.ui.virtual.core.Axis",
     this.customSizes = {};
   },
   
+  
+  events :
+  {
+    /** Every change to the axis configuration triggers this event */
+    "change" : "qx.event.type.Event"
+  },
+  
 
   members :
   {
@@ -61,8 +68,12 @@ qx.Class.define("qx.ui.virtual.core.Axis",
      */
     setDefaultItemSize : function(defaultItemSize) 
     {
-      this.defaultItemSize = defaultItemSize;
-      this.__ranges = null;
+      if (this.defaultItemSize !== defaultItemSize)
+      {
+        this.defaultItemSize = defaultItemSize;
+        this.__ranges = null;
+        this.fireNonBubblingEvent("change");
+      }
     },
     
     
@@ -83,8 +94,12 @@ qx.Class.define("qx.ui.virtual.core.Axis",
      */
     setItemCount : function(itemCount)
     {
-      this.itemCount = itemCount;
-      this.__ranges = null;
+      if (this.itemCount !== itemCount)
+      {
+        this.itemCount = itemCount;
+        this.__ranges = null;
+        this.fireNonBubblingEvent("change");
+      }
     },    
     
     
@@ -100,12 +115,17 @@ qx.Class.define("qx.ui.virtual.core.Axis",
       if (index >= this.itemCount) {
         return;
       }
+      if (this.customSizes[index] == size) {
+        return;
+      }
+      
       if (index === null) {
         delete this.customSizes[index];
       } else {
         this.customSizes[index] = size;
       }
       this.__ranges = null;
+      this.fireNonBubblingEvent("change");
     },
     
     
@@ -128,7 +148,8 @@ qx.Class.define("qx.ui.virtual.core.Axis",
     resetItemSizes : function()
     {
       this.customSizes = {};
-      this.__ranges = null;      
+      this.__ranges = null; 
+      this.fireNonBubblingEvent("change");
     },
     
     
