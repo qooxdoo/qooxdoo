@@ -185,6 +185,24 @@ qx.Class.define("qx.data.controller.List",
       apply: "_applyFilter",
       event: "changeFilter",
       nullable: true
+    },
+    
+    
+    /**
+     * Delegation object, which can have the following functions:
+     * 
+     * * configureItem(item)
+     * 
+     * This function will be called if a new ListItem has been created. The 
+     * argument 'item' is the new created listItem. In that method you can
+     * configure the ListItems the way you like them.    
+     */
+    delegate : 
+    {
+      check: "qx.core.Object",
+      apply: "_applyDelegate",
+      init: null,
+      nullable: true
     }
   },  
 
@@ -221,6 +239,22 @@ qx.Class.define("qx.data.controller.List",
        APPLY METHODS
     ---------------------------------------------------------------------------
     */
+    /**
+     * If a new delegate is set, it applies the stored configuration for the
+     * list items to the already created list items once.
+     * 
+     * @param value {qx.core.Object|null} The new delegate.
+     * @param old {qx.core.Object|null} The old delegate.
+     */
+    _applyDelegate: function(value, old) {
+      if (value != null && value.configureItem != null && this.getTarget() != null) {
+        var children = this.getTarget().getChildren();
+        for (var i = 0; i < children.length; i++) {
+          value.configureItem(children[i]);
+        }
+      }
+    },
+    
     
     /** 
      * Apply-Method for applying the filter. It removes all bindings,
@@ -260,8 +294,7 @@ qx.Class.define("qx.data.controller.List",
       } else if (oldTable.length < this.__lookupTable.length) {
         // add the new elements
         for (var j = oldTable.length; j < this.__lookupTable.length; j++) {
-          var tempItem = new qx.ui.form.ListItem();
-          tempItem.setRich(true);
+          var tempItem = this._createItem();
           this.getTarget().add(tempItem);
         }        
       }      
@@ -269,7 +302,7 @@ qx.Class.define("qx.data.controller.List",
       // bind every list item again
       var listItems = this.getTarget().getChildren();
       for (var i = 0; i < listItems.length; i++) {
-        this.__bindListItem(listItems[i], this.__lookup(i));
+        this._bindListItem(listItems[i], this.__lookup(i));
       }
       this._endSelectionModification();
       
@@ -467,6 +500,23 @@ qx.Class.define("qx.data.controller.List",
     ---------------------------------------------------------------------------
     */
     /**
+     * Creates a ListItem and delegates the configure method if a delegate is 
+     * set and the needed function (configureItem) is available.
+     * 
+     * @return {qx.ui.form.ListItem} The created and configured ListItem. 
+     */
+    _createItem: function() {
+      var item = new qx.ui.form.ListItem();     
+      var delegate = this.getDelegate();
+      // check if a delegate is set and if the configure function is available
+      if (delegate != null && delegate.configureItem != null) {
+        delegate.configureItem(item);
+      }
+      return item;
+    },
+    
+    
+    /**
      * Internal helper to add ListItems to the target including the creation 
      * of the binding.
      * 
@@ -474,14 +524,13 @@ qx.Class.define("qx.data.controller.List",
      */
     __addItem: function(index) {
       // create a new ListItem
-      var listItem = new qx.ui.form.ListItem();
-      listItem.setRich(true);
+      var listItem = this._createItem();
       // store the coresponding model element as user data
       listItem.setUserData("model", 
         this.getModel().getItem(this.__lookup(index))
       );
       // set up the binding
-      this.__bindListItem(listItem, index);
+      this._bindListItem(listItem, index);
       // add the ListItem to the target
       this.getTarget().add(listItem);      
     },
@@ -497,7 +546,7 @@ qx.Class.define("qx.data.controller.List",
       var index = this.getTarget().getChildren().length - 1;
       // get the item
       var oldItem = this.getTarget().getChildren()[index];
-      this.__removeBindingsFrom(oldItem);
+      this._removeBindingsFrom(oldItem);
       // remove the item
       this.getTarget().removeAt(index);
       oldItem.destroy();
@@ -518,7 +567,7 @@ qx.Class.define("qx.data.controller.List",
      *   ListItem.
      * @param index {number} The index of the ListItem.
      */
-    __bindListItem: function(listItem, index) {
+    _bindListItem: function(listItem, index) {
       // set right model to the listItem
       listItem.setUserData("model", this.getModel().getItem(index));
       
@@ -532,7 +581,7 @@ qx.Class.define("qx.data.controller.List",
         options = {};
         this.__onSetOkLabel = null;
       }
-      options.onSetOk =  qx.lang.Function.bind(this.__onBindingSet, this, index);
+      options.onSetOk =  qx.lang.Function.bind(this._onBindingSet, this, index);
 
       // build up the path for the binding
       var bindPath = "model[" + index + "]";
@@ -554,7 +603,7 @@ qx.Class.define("qx.data.controller.List",
           options = {};
           this.__onSetOkIcon = null;
         }
-        options.onSetOk =  qx.lang.Function.bind(this.__onBindingSet, this, index);
+        options.onSetOk =  qx.lang.Function.bind(this._onBindingSet, this, index);
         
         // build up the path for the binding
         bindPath = "model[" + index + "]";
@@ -577,7 +626,7 @@ qx.Class.define("qx.data.controller.List",
      * @param sourceObject {qx.core.Object} The source object of the binding.
      * @param targetObject {qx.core.Object} The target object of the binding.
      */
-    __onBindingSet: function(index, sourceObject, targetObject) {
+    _onBindingSet: function(index, sourceObject, targetObject) {
       // check for the users onSetOk for the label binding
       if (this.__onSetOkLabel != null) {
         this.__onSetOkLabel();
@@ -602,7 +651,7 @@ qx.Class.define("qx.data.controller.List",
      * @param item {Number} The itemof which the binding which should 
      *   be removed.
      */
-    __removeBindingsFrom: function(item) {
+    _removeBindingsFrom: function(item) {
       var id = item.getUserData("labelBindingId");
       // remove the binding
       this.removeBinding(id);
@@ -628,9 +677,9 @@ qx.Class.define("qx.data.controller.List",
       var listItems = this.getTarget().getChildren();
       // go through all items
       for (var i = 0; i < listItems.length; i++) {
-        this.__removeBindingsFrom(listItems[i]);
+        this._removeBindingsFrom(listItems[i]);
         // add the new binding
-        this.__bindListItem(listItems[i], this.__lookup(i));
+        this._bindListItem(listItems[i], this.__lookup(i));
       }      
     },
     

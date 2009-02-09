@@ -174,7 +174,25 @@ qx.Class.define("qx.data.controller.Tree",
     {
       apply: "_applyIconOptions",
       nullable: true
-    }
+    },
+    
+    
+    /**
+     * Delegation object, which can have the following functions:
+     * 
+     * * configureItem(item)
+     * 
+     * This function will be called if a new TreeFolder has been created. The 
+     * argument 'item' is the new created TreeFolder. In that method you can
+     * configure the TreeItem the way you like them.    
+     */
+    delegate : 
+    {
+      check: "qx.core.Object",
+      apply: "_applyDelegate",
+      init: null,
+      nullable: true
+    }    
   },
 
 
@@ -191,7 +209,24 @@ qx.Class.define("qx.data.controller.Tree",
     ---------------------------------------------------------------------------
        APPLY METHODS
     ---------------------------------------------------------------------------
-    */    
+    */   
+    /**
+     * If a new delegate is set, it applies the stored configuration for the
+     * tree folder to the already created folders once.
+     * 
+     * @param value {qx.core.Object|null} The new delegate.
+     * @param old {qx.core.Object|null} The old delegate.
+     */
+    _applyDelegate: function(value, old) {
+      if (value != null && value.configureItem != null && this.getTarget() != null) {
+        var children = this.getTarget().getRoot().getItems(true, true, false);
+        for (var i = 0; i < children.length; i++) {
+          value.configureItem(children[i]);
+        }
+      }
+    },
+    
+         
     /**
      * Apply-method which will be called after the icon options had been 
      * changed. This method will invoke a renewing of all bindings.
@@ -322,6 +357,23 @@ qx.Class.define("qx.data.controller.Tree",
     ---------------------------------------------------------------------------
     */   
     /**
+     * Creates a TreeFolder and delegates the configure method if a delegate is 
+     * set and the needed function (configureItem) is available.
+     * 
+     * @return {qx.ui.tree.TreeFolder} The created and configured TreeFolder. 
+     */
+    _createItem: function() {
+      var item = new qx.ui.tree.TreeFolder();     
+      var delegate = this.getDelegate();
+      // check if a delegate is set and if the configure function is available
+      if (delegate != null && delegate.configureItem != null) {
+        delegate.configureItem(item);
+      }
+      return item;
+    },
+        
+    
+    /**
      * Internal helper function to build up the tree corresponding to the data 
      * stored in the model. This function creates the root node and hands the
      * recursive creation of all subtrees to the {#__updateTreeChildren} 
@@ -344,7 +396,7 @@ qx.Class.define("qx.data.controller.Tree",
       }
       
       // add a new root node
-      var rootNode = new qx.ui.tree.TreeFolder();
+      var rootNode = this._createItem();
       rootNode.setUserData("model", this.getModel());
       this.getTarget().setRoot(rootNode);
       // bind the root node
@@ -414,7 +466,7 @@ qx.Class.define("qx.data.controller.Tree",
           // if the node is new 
           } else {
             // add the child node
-            var treeNode = new qx.ui.tree.TreeFolder();
+            var treeNode = this._createItem();
             treeNode.setUserData("model", children.getItem(i));
             rootNode.addAt(treeNode, i);
             this.__addBinding(children.getItem(i), treeNode);
