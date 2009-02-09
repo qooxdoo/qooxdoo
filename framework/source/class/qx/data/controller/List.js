@@ -260,7 +260,9 @@ qx.Class.define("qx.data.controller.List",
       } else if (oldTable.length < this.__lookupTable.length) {
         // add the new elements
         for (var j = oldTable.length; j < this.__lookupTable.length; j++) {
-          this.getTarget().add(new qx.ui.form.ListItem());
+          var tempItem = new qx.ui.form.ListItem();
+          tempItem.setRich(true);
+          this.getTarget().add(tempItem);
         }        
       }      
       
@@ -473,6 +475,7 @@ qx.Class.define("qx.data.controller.List",
     __addItem: function(index) {
       // create a new ListItem
       var listItem = new qx.ui.form.ListItem();
+      listItem.setRich(true);
       // store the coresponding model element as user data
       listItem.setUserData("model", 
         this.getModel().getItem(this.__lookup(index))
