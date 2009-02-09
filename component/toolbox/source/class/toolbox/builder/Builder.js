@@ -36,7 +36,7 @@ qx.Class.define("toolbox.builder.Builder",
   statics :
   {
     /**
-     * TODOC
+     * generates the source/build version of the current application
      *
      * @param adminPath {var} path of the cgi-script
      * @param fileName {var} name of the application
@@ -446,7 +446,7 @@ qx.Class.define("toolbox.builder.Builder",
           this.jsonObject = qx.util.Json.parse(result);
           toolbox.content.BuiltInContent.BUILTINLIST = this.jsonObject;
 
-          //loads the liste
+          //loads the buildIn-list to activate/deactivate the corresponding open-buttons
           for (var i=0; i<toolbox.content.BuiltInContent.BUILTINLIST.length; i++)
           {
             if (toolbox.content.BuiltInContent.BUILTINLIST[i].source == true)
@@ -524,7 +524,7 @@ qx.Class.define("toolbox.builder.Builder",
 
         req.setProhibitCaching(true);
         req.setData(openSource);
-
+        
         req.addListener("completed", function(evt)
         {
           var result = evt.getContent();
