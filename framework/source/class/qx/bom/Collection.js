@@ -470,6 +470,18 @@
       
       
       /**
+       * Checks the current selection against a class and returns true, if 
+       * at least one element of the selection has the given class.
+       *
+       * @param classname {String} Classname to check for
+       * @return {Boolean} Whether at least one element uses the given class
+       */
+      hasClass: function(classname) {
+        return !!classname && this.is("." + classname);
+      },
+      
+      
+      /**
        * Checks the current selection against an expression 
        * and returns true, if at least one element of the 
        * selection fits the given expression.
