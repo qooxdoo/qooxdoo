@@ -655,15 +655,15 @@
       {
         var Hierarchy = qx.dom.Hierarchy;
         
-        // Iterate ourself, as we need a native Array as return value
+        // Iterate ourself, as we want to directly combine the result
         var all = [];
         for (var i=0, l=this.length; i<l; i++) {
-          all.push(Hierarchy.getNextSiblings(this[i]));
+          all.push.apply(all, Hierarchy.getNextSiblings(this[i]));
         }
 
-        // Combine all resulting arrays and remove duplicates        
-        var ret = qx.lang.Array.unique(Array.prototype.concat.apply([], all));
-
+        // Remove duplicates
+        var ret = qx.lang.Array.unique(all);
+        
         // Post reduce result by selector
         if (selector) {
           ret = qx.bom.Selector.matches(selector, ret);
@@ -708,14 +708,14 @@
       {
         var Hierarchy = qx.dom.Hierarchy;
         
-        // Iterate ourself, as we need a native Array as return value
+        // Iterate ourself, as we want to directly combine the result
         var all = [];
         for (var i=0, l=this.length; i<l; i++) {
-          all.push(Hierarchy.getPreviousSiblings(this[i]));
+          all.push.apply(all, Hierarchy.getPreviousSiblings(this[i]));
         }
 
-        // Combine all resulting arrays and remove duplicates      
-        var ret = qx.lang.Array.unique(Array.prototype.concat.apply([], all));
+        // Remove duplicates
+        var ret = qx.lang.Array.unique(all);
         
         // Post reduce result by selector
         if (selector) {
@@ -729,6 +729,7 @@
       /**
        * Get a set of elements containing the unique parents of the matched set of elements.
        *
+       * @param selector {String?null} Optional selector to filter the result
        * @return {Collection} Collection of all unique parent elements.
        */
       parent : function() 
@@ -742,6 +743,37 @@
         }
                 
         return this.__pushStack(ret);
+      },
+      
+
+      /**
+       * Get a set of elements containing the unique ancestors of the matched set of 
+       * elements (except for the root element).
+       *
+       * The matched elements can be filtered with an optional expression.
+       *
+       * @param selector {String?null} Optional selector to filter the result
+       * @return {Collection} Collection of all unique parent elements.
+       */      
+      parents : function(selector)
+      {
+        var Hierarchy = qx.dom.Hierarchy;
+        
+        // Iterate ourself, as we want to directly combine the result
+        var all = [];
+        for (var i=0, l=this.length; i<l; i++) {
+          all.push.apply(all, Hierarchy.getAncestors(this[i]));
+        }        
+        
+        // Remove duplicates
+        var ret = qx.lang.Array.unique(all);
+        
+        // Post reduce result by selector
+        if (selector) {
+          ret = qx.bom.Selector.matches(selector, ret);
+        }
+                
+        return this.__pushStack(ret);               
       },
       
       
