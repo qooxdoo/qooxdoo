@@ -37,7 +37,7 @@
 /**
  * Core effect "Highlight"
  *
- * This effect cycles to background color from initial to final color.
+ * Cycles the background color of the element from initial to final color.
  */
 qx.Class.define("qx.fx.effect.core.Highlight",
 {

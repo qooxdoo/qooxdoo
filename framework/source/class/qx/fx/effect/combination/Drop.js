@@ -37,7 +37,7 @@
 /**
  * Combination effect "Drop Out"
  *
- * The specified element will move to the given direction and fade out.
+ * Moves the element to the given direction while fading it out.
  */
 qx.Class.define("qx.fx.effect.combination.Drop",
 {

@@ -37,8 +37,8 @@
 /**
  * Combination effect "Puff"
  *
- * The given element resized from zero to it's original size
- * and faded in at the same time.
+ * Resizes the element from zero to the original size of the element and fades
+ * it in at the same time.
  */
 qx.Class.define("qx.fx.effect.combination.Puff",
 {
