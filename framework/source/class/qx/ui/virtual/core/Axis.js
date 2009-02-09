@@ -112,6 +112,15 @@ qx.Class.define("qx.ui.virtual.core.Axis",
      */
     setItemSize : function(index, size)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on")) 
+      {
+        this.assertArgumentsCount(arguments, 2, 2);
+        this.assert(
+          size > 0 || size === null,
+          "'size' must be 'null' or an integer larger than 0."
+        );
+      }        
+      
       if (index >= this.itemCount) {
         return;
       }
