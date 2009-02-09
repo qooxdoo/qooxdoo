@@ -20,7 +20,7 @@
 
 qx.Class.define("qx.test.ui.virtual.layer.CellSpanManager",
 {
-  extend : qx.dev.unit.TestCase,
+  extend : qx.test.ui.LayoutTestCase,
 
   members :
   {
@@ -280,8 +280,27 @@ qx.Class.define("qx.test.ui.virtual.layer.CellSpanManager",
        [undefined, 1, undefined, undefined, 1],
        [undefined, undefined, 1, 1],
        [undefined, undefined, 1, 1],
-       [undefined, 1, undefined, undefined, 1],
+       [undefined, 1, undefined, undefined, 1]
       ], map);
+    },
+    
+    
+    testDispose : function()
+    {
+      var rowConfig = new qx.ui.virtual.core.Axis(10, 100);
+      var columnConfig = new qx.ui.virtual.core.Axis(20, 100);
+
+      this.assertDestroy(function()
+      {    
+        var cellSpan = new qx.ui.virtual.layer.CellSpanManager(
+          rowConfig,
+          columnConfig
+        );
+        cellSpan.dispose();
+      }, this);
+      
+      rowConfig.dispose();
+      columnConfig.dispose();              
     }
     
   }
