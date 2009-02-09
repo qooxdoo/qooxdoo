@@ -82,23 +82,23 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCell",
       var left = 0;
       var top = 0;
       var row = firstRow;
-      var col = firstColumn;
+      var column = firstColumn;
       for (var x=0; x<rowSizes.length; x++)
       {
         var left = 0;
-        var col = firstColumn;
+        var column = firstColumn;
         var height = rowSizes[x] 
         for(var y=0; y<columnSizes.length; y++)
         {
           var width = columnSizes[y];
           
           html[html.length] = this._cellProvider.getCellHtml(
-            row, col,
+            row, column,
             left, top,
             width, height
           );
 
-          col++;
+          column++;
           left += width;          
         }
         top += height;

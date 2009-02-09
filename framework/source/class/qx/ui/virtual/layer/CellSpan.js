@@ -19,45 +19,14 @@
 
 qx.Class.define("qx.ui.virtual.layer.CellSpan",
 {
-  extend : qx.ui.core.Widget,
+  extend : qx.ui.virtual.layer.HtmlCell,
   
-  implement : [qx.ui.virtual.core.ILayer],
-  
-  construct : function(rowConfig, columnConfig)
+  construct : function(htmlCellProvider, rowConfig, columnConfig)
   {
-    this.base(arguments);  
-    
-    if (qx.core.Variant.isSet("qx.debug", "on")) 
-    {
-      this.assertInstance(rowConfig, qx.ui.virtual.core.Axis);
-      this.assertInstance(columnConfig, qx.ui.virtual.core.Axis);
-    }    
-    
-    this._cells = {};
-    this._invalidateSortCache();
-    this._invalidatePositionCache();
-    
-    this._rowConfig = rowConfig;
-    this._columnConfig = columnConfig;
+    this.base(arguments, htmlCellProvider);      
+    this._spanManager = new qx.ui.virtual.layer.CellSpanManager(rowConfig, columnConfig);
   },
-  
-  
-  /*
-   *****************************************************************************
-      PROPERTIES
-   *****************************************************************************
-   */
 
-   properties :
-   {
-     // overridden
-     anonymous :
-     {
-       refine: true,
-       init: true
-     }
-   },
-  
   
   /*
   *****************************************************************************
@@ -67,186 +36,14 @@ qx.Class.define("qx.ui.virtual.layer.CellSpan",
 
   members :
   {
-    addCell : function(id, row, column, rowSpan, columnSpan)
+    setCellSpan : function(row, column, rowSpan, columnSpan)
     {
-      this._cells[id] = {
-        firstRow: row,
-        lastRow : row + rowSpan - 1,
-        firstColumn: column,
-        lastColumn: column + columnSpan - 1,
-        id: id
+      var id = row + "x" + column;
+      this._spanManager.removeCell(id);
+      if (rowSpan > 1 || columnSpan > 1) {        
+        this._spanManager.addCell(id, row, column, rowSpan, columnSpan);
       }
-      this._invalidateSortCache();
-    },
-     
-     
-    removeCell : function(id)
-    {
-      delete(this._cells[id]);
-      this._invalidateSortCache();
-    },
-         
-     
-    _invalidateSortCache : function() {
-      this._sorted = {};
-    },
-     
-     
-    _getSortedCells : function(key)
-    {
-      if (this._sorted[key]) {
-        return this._sorted[key];
-      }
-      var sorted = this._sorted[key] = qx.lang.Object.getValues(this._cells);
-      sorted.sort(function(a, b) {
-        return a[key] < b[key] ? -1 : 1;
-      });
-      return sorted;
-    },     
-     
-     
-    _findCellsInRange : function(result, key, min, max)
-    {
-      var cells = this._getSortedCells(key);
-      if (cells.length == 0) {
-        return;
-      }
-       
-      var start = 0;
-      var end = cells.length-1;            
-      
-      // find first cell, which is >= "min"
-      while (true) 
-      {
-        var pivot = start + ((end - start) >> 1);
-        
-        var cell = cells[pivot];
-        if (
-          cell[key] >= min &&
-          (pivot == 0 || cells[pivot-1][key] < min)
-        ) {
-          // the start cell was found
-          break;
-        }
-        
-        if (cell[key] >= min) {
-          end = pivot - 1;
-        } else {
-          start = pivot + 1; 
-        }
-        if (start > end) {
-          // nothing found
-          return;
-        }
-      }       
-       
-      var cell = cells[pivot];
-      while (cell && cell[key] >= min && cell[key] <= max)
-      {
-        result[cell.id] = cell;
-        cell = cells[pivot++];
-      }       
-    },
-     
-       
-    _findCellsInWindow : function(firstRow, lastRow, firstColumn, lastColumn) 
-    {
-      var horizontalInWindow = {};
-      this._findCellsInRange(horizontalInWindow, "firstColumn", firstColumn, lastColumn);
-      this._findCellsInRange(horizontalInWindow, "lastColumn", firstColumn, lastColumn);
-       
-      var verticalInWindow = {};
-      this._findCellsInRange(verticalInWindow, "firstRow", firstRow, lastRow);
-      this._findCellsInRange(verticalInWindow, "lastRow", firstRow, lastRow);
-       
-      var cells = {};
-      // intersec
-      for (var id in verticalInWindow)
-      {
-        if (horizontalInWindow[id]) {
-          cells[id] = horizontalInWindow[id];
-        }
-      }
-      return cells;
-    },     
-    
-    
-    _invalidatePositionCache : function()
-    {
-      this._rowPos = [];
-      this._columnPos = [];
-    },
-    
-    
-    _getRowPosition : function(row)
-    {
-      var pos = this._rowPos[row]; 
-      if (pos !== undefined) {
-        return pos;
-      }
-      
-      pos = this._rowPos[row] = this._rowConfig.getItemPosition(row);
-      return pos;
-    },
-    
-    
-    _getColumnPosition : function(column)
-    {
-      var pos = this._columnPos[column]; 
-      if (pos !== undefined) {
-        return pos;
-      }
-      
-      pos = this._columnPos[column] = this._columnConfig.getItemPosition(column);
-      return pos;
-    },    
-    
-    
-    _getCellBounds : function(cell, firstVisibleRow, firstVisibleColumn)
-    {
-      var bounds = {
-        left: 0,
-        top: 0,
-        width: 0,
-        height: 0
-      }
-     
-      bounds.height = 
-        this._getRowPosition(cell.lastRow) + 
-        this._rowConfig.getItemSize(cell.lastRow) -
-        this._getRowPosition(cell.firstRow);
-      
-      bounds.top = 
-        this._getRowPosition(cell.firstRow) -
-        this._getRowPosition(firstVisibleRow);
-      
-      bounds.width = 
-        this._getColumnPosition(cell.lastColumn) + 
-        this._columnConfig.getItemSize(cell.lastColumn) -
-        this._getColumnPosition(cell.firstColumn);
-      
-      bounds.left = 
-        this._getColumnPosition(cell.firstColumn) -
-        this._getColumnPosition(firstVisibleColumn);
-      
-      return bounds;
-    },
-    
-    
-    _getCellHtml : function(id, cell, bounds)
-    {
-      var color = "green";
-      
-      return [
-        "<div style='position:absolute;",
-        "left:", bounds.left, "px;",
-        "top:", bounds.top, "px;",
-        "width:", bounds.width, "px;",
-        "height:", bounds.height, "px;",
-        "background-color:", color,
-        "'>",
-        "</div>"        
-      ].join("");
+      qx.ui.core.queue.Widget.add(this);
     },
     
     
@@ -258,28 +55,79 @@ qx.Class.define("qx.ui.virtual.layer.CellSpan",
     {
       var html = [];
       
-      var cells = this._findCellsInWindow(firstRow, lastRow, firstColumn, lastColumn);
-      this._invalidatePosiotionCache();
-      for (var id in cells)
-      {
-        var cell = cells[id];
-        var bounds = this._getCellBounds(cell, firstRow, firstColumn);
-        html.push(this._getCellHtml(cell.id, cell, bounds));
-      } 
-      this.getContentElement().setAttribute("html", html.join(""));
-    },    
-    
-    
-    updateLayerWindow : function(
-      firstRow, lastRow, 
-      firstColumn, lastColumn, 
-      rowSizes, columnSizes
-    ) {
-      this.fullUpdate(
-        firstRow, lastRow, 
-        firstColumn, lastColumn, 
-        rowSizes, columnSizes
+      var cells = this._spanManager.findCellsInWindow(
+        firstRow, lastRow,
+        firstColumn, lastColumn
       );
+      
+      if (cells.length > 0)
+      {
+        var bounds = this._spanManager.getCellBounds(cells, firstRow, firstColumn);
+        var spanMap = this._spanManager.computeCellSpanMap(
+          cells,
+          firstRow, lastRow,
+          firstColumn, lastColumn
+        );
+        
+        // render spanning cells
+        for (var i=0, l=cells.length; i<l; i++)
+        {
+          var cell = cells[i];
+          var cellBounds = bounds[i];
+          html.push(this._cellProvider.getCellHtml(
+            cell.firstRow, cell.firstColumn,
+            cellBounds.left, cellBounds.top,
+            cellBounds.width, cellBounds.height
+          ));
+        }         
+      }
+      else
+      {
+        // create empty dummy map
+        spanMap = [];
+        for (var i=firstRow; i<= lastRow; i++) {
+          spanMap[i] = [];
+        }
+      }
+      
+      // render non spanning cells
+      var left = 0;
+      var top = 0;
+      var row = firstRow;
+      var column = firstColumn;
+      for (var x=0; x<rowSizes.length; x++)
+      {
+        var left = 0;
+        var column = firstColumn;
+        var height = rowSizes[x] 
+        for(var y=0; y<columnSizes.length; y++)
+        {          
+          var width = columnSizes[y];
+          
+          if (!spanMap[row][column])
+          {
+            html[html.length] = this._cellProvider.getCellHtml(
+              row, column,
+              left, top,
+              width, height
+            );
+          }
+
+          column++;
+          left += width;          
+        }
+        top += height;
+        row++;
+      }            
+      
+      this.getContentElement().setAttribute("html", html.join(""));    
+      
+      this._firstRow = firstRow;
+      this._lastRow = lastRow;
+      this._firstColumn = firstColumn;
+      this._lastColumn = lastColumn;
+      this._rowSizes = rowSizes;
+      this._columnSizes = columnSizes;      
     }
   }
 });
