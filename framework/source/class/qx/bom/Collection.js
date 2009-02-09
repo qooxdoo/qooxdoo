@@ -651,25 +651,8 @@
        * @param selector {String?null} Optional selector to filter the result
        * @return {Collection} Collection of all siblings following the elements of the current collection.
        */
-      nextAll : function(selector) 
-      {
-        var Hierarchy = qx.dom.Hierarchy;
-        
-        // Iterate ourself, as we want to directly combine the result
-        var all = [];
-        for (var i=0, l=this.length; i<l; i++) {
-          all.push.apply(all, Hierarchy.getNextSiblings(this[i]));
-        }
-
-        // Remove duplicates
-        var ret = qx.lang.Array.unique(all);
-        
-        // Post reduce result by selector
-        if (selector) {
-          ret = qx.bom.Selector.matches(selector, ret);
-        }
-        
-        return this.__pushStack(ret);        
+      nextAll : function(selector) {
+        return this.__hierarchyHelper("getNextSiblings", selector);
       },      
       
       
@@ -704,25 +687,8 @@
        * @param selector {String?null} Optional selector to filter the result
        * @return {Collection} Collection of all siblings preceding the elements of the current collection.
        */
-      prevAll : function(selector) 
-      {
-        var Hierarchy = qx.dom.Hierarchy;
-        
-        // Iterate ourself, as we want to directly combine the result
-        var all = [];
-        for (var i=0, l=this.length; i<l; i++) {
-          all.push.apply(all, Hierarchy.getPreviousSiblings(this[i]));
-        }
-
-        // Remove duplicates
-        var ret = qx.lang.Array.unique(all);
-        
-        // Post reduce result by selector
-        if (selector) {
-          ret = qx.bom.Selector.matches(selector, ret);
-        }
-        
-        return this.__pushStack(ret);        
+      prevAll : function(selector) {
+        return this.__hierarchyHelper("getPreviousSiblings", selector);
       },             
       
       
@@ -732,7 +698,7 @@
        * @param selector {String?null} Optional selector to filter the result
        * @return {Collection} Collection of all unique parent elements.
        */
-      parent : function() 
+      parent : function(selector) 
       {
         var Element = qx.dom.Element;
         var ret = qx.lang.Array.unique(this.map(Element.getParentElement, Element));
@@ -755,14 +721,39 @@
        * @param selector {String?null} Optional selector to filter the result
        * @return {Collection} Collection of all unique parent elements.
        */      
-      parents : function(selector)
+      parents : function(selector) {
+        return this.__hierarchyHelper("getAncestors", selector);
+      },
+      
+      
+      /**
+       * Get a set of elements containing all of the unique siblings 
+       * of each of the matched set of elements.
+       *
+       * Can be filtered with an optional expressions.
+       *
+       * @param selector {String?null} Optional selector to filter the result
+       * @return {Collection} Collection of all unique sibling elements.       
+       */       
+      siblings : function(selector) {
+        return this.__hierarchyHelper("getSiblings", selector);
+      },
+      
+      
+      /** 
+       * Internal helper to work with hierarchy result arrays.
+       *
+       * @param method {String} Method name to execute
+       * @param selector {String} Optional selector to filter the result
+       * @return {Collection} Collection from all found elements
+       */ 
+      __hierarchyHelper : function(method, selector)
       {
-        var Hierarchy = qx.dom.Hierarchy;
-        
         // Iterate ourself, as we want to directly combine the result
         var all = [];
+        var Hierarchy = qx.dom.Hierarchy;
         for (var i=0, l=this.length; i<l; i++) {
-          all.push.apply(all, Hierarchy.getAncestors(this[i]));
+          all.push.apply(all, Hierarchy[method](this[i]));
         }        
         
         // Remove duplicates
@@ -771,9 +762,9 @@
         // Post reduce result by selector
         if (selector) {
           ret = qx.bom.Selector.matches(selector, ret);
-        }
-                
-        return this.__pushStack(ret);               
+        } 
+        
+        return this.__pushStack(ret);       
       },
       
       
