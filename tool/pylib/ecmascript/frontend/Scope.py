@@ -117,8 +117,6 @@ Function %s(%s):
             startNode = self.node.getChild("body")
 
         for (name, node) in Scope.declaredVariablesIterator(startNode):
-            if name == 'qx':
-                print "-- qx found in _getDeclaredVariables"
             if name in variables:
                 variables[name].addDecl(node)
             else:
