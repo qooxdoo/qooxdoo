@@ -108,7 +108,7 @@ qx.Class.define("qx.data.controller.List",
     /** Data array containing the data which should be shown in the list. */
     model : 
     {
-      check: "qx.data.Array",
+      check: "qx.data.IListData",
       apply: "_applyModel",
       event: "changeModel",
       nullable: true
