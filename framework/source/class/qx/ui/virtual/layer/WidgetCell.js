@@ -18,12 +18,20 @@
 
 ************************************************************************ */
 
+/**
+ * The WidgetCell layer renders each cell with a qooxdoo widget. The concrete
+ * widget instance for each cell is provided by a cell provider.
+ */
 qx.Class.define("qx.ui.virtual.layer.WidgetCell",
 {
   extend : qx.ui.container.Composite,
   
   implement : [qx.ui.virtual.core.ILayer],
   
+  /**
+   * @param widgetCellProvider {qx.ui.virtual.core.IWidgetCellProvider} This
+   *    class manages the life cycle of the cell widgets.
+   */
   construct : function(widgetCellProvider)
   {
     this.base(arguments);
@@ -47,6 +55,11 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
   {    
     __spacerPool : null,
     
+    /**
+     * Get the spacer widget, for empry cells
+     * 
+     * @return {qx.ui.core.Spacer} The spacer widget.
+     */
     _getSpacer : function()
     {
       var spacer = this.__spacerPool.pop();
