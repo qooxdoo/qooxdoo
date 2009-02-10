@@ -35,11 +35,13 @@ qx.Class.define("demobrowser.demo.virtual.CellEvents",
       // Call super class
       this.base(arguments);
 
-
       var scroller = new qx.ui.virtual.core.Scroller(
         20, 20,
         40, 40
-      );
+      ).set({
+        width : 400,
+        height : 300
+      });
       this.layer = new qx.test.ui.virtual.layer.LayerSimple(this);
 
       var pane = scroller.getPane();
@@ -50,28 +52,40 @@ qx.Class.define("demobrowser.demo.virtual.CellEvents",
 
       pane.addLayer(this.layer);
 
-      this.__scroller = scroller;
-      this.__pane = pane;
+
+      this.logger = new qx.ui.embed.Html().set({
+        width : 400,
+        height : 300,
+        html : "",
+        decorator : "main"
+      });      
 
       this.getRoot().add(scroller, {left : 20, top : 10});
+      this.getRoot().add(this.logger, {left : 450, top : 10});
     },
 
     _onCellClick : function(e)
     {
-      console.warn("_onCellClick: ", e);
+      var msg = '<p style="color:green;">You clicked on cell ' + e.getRow() + ' / ' + e.getColumn() + '</p>';
+      this.__fillLog(msg);
     },
 
     _onContextMenu : function(e)
     {
-      console.warn("_onContextMenu: ", e);
+      var msg = '<p style="color:yellow;">You rightclicked cell ' + e.getRow() + ' / ' + e.getColumn() + '</p>';
+      this.__fillLog(msg);
     },
 
 
     _onDblclickPane : function(e)
     {
-      console.warn("_onDblclickPane: ", e);
+      var msg = '<p style="color:red;">You double clicked cell ' + e.getRow() + ' / ' + e.getColumn() + '</p>';
+      this.__fillLog(msg);
+    },
+    
+    __fillLog : function(msg) {
+      this.logger.setHtml(this.logger.getHtml() + msg)
     }
-
 
   }
 });
