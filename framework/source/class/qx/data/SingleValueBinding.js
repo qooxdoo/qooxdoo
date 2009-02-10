@@ -703,7 +703,7 @@ qx.Class.define("qx.data.SingleValueBinding",
       }
 
       // to string
-      if ((dataType == "Boolean" || dataType == "Number" || dataType == "Date") 
+      if ((dataType == "Boolean" || dataType == "Number" || dataType == "Date") 
         && targetCheck == "String") {
         data = data + "";
       }
