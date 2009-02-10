@@ -27,6 +27,7 @@
 qx.Class.define("qx.data.Array",
 {
   extend : qx.core.Object,
+  implement : [qx.data.IListData], 
 
   /**
    * Creates a new instance of an array.
@@ -214,7 +215,7 @@ qx.Class.define("qx.data.Array",
      * @param varargs {var} The first parameter defines the start index.
      *   The second parameter defines number of element which will be removed
      *   at the given position.
-     *   All folloing parameters will be added at the given position to the
+     *   All following parameters will be added at the given position to the
      *   array.
      * @return {qx.data.Array} An array containing the removed elements.
      */

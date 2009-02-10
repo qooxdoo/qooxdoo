@@ -145,7 +145,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
         // get the fitting item
         var item = targetSelection[i].getUserData("model");
         if (!this.getSelection().contains(item)) {
-          this.getSelection().push(item);
+          this.getSelection().splice(this.getSelection().length, 0, item);
         }
       }
       
