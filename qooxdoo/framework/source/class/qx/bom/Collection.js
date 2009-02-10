@@ -177,67 +177,7 @@
     {
       /*
       ---------------------------------------------------------------------------
-         WRAP API: STYLES
-      ---------------------------------------------------------------------------
-      */    
-      
-      /**
-       * Modify the given style property
-       * on all selected elements.
-       *
-       * @signature function(name, value)
-       * @param name {String} Name of the style attribute (js variant e.g. marginTop, wordSpacing)
-       * @param value {var} The value for the given style
-       * @return {Collection} The collection is returned for chaining proposes
-       */
-      setStyle : setter(qx.bom.element.Style, "set"),     
-       
-      /**
-       * Convenience method to modify a set of styles at once.
-       *
-       * @signature function(styles)
-       * @param styles {Map} a map where the key is the name of the property
-       *    and the value is the value to use.
-       * @return {Collection} The collection is returned for chaining proposes
-       */
-      setStyles : setter(qx.bom.element.Style, "setStyles"),            
-       
-      /**
-       * Set the full CSS content of the style attribute
-       *
-       * @signature function(value)
-       * @param value {String} The full CSS string
-       * @return {Collection} The collection is returned for chaining proposes     
-       */
-      setCss : setter(qx.bom.element.Style, "setCss"),           
-     
-      /**
-       * Reset the given style property 
-       * on all selected elements.
-       *
-       * @signature function(name)
-       * @param name {String} Name of the style attribute (js variant e.g. marginTop, wordSpacing)
-       * @return {Collection} The collection is returned for chaining proposes     
-       */
-      resetStyle : setter(qx.bom.element.Style, "reset"),
-     
-       /**
-        * Figures out the value of the given style property of 
-        * the first element stored in the collection.
-        *
-        * @signature function(name, mode)
-        * @param name {String} Name of the style attribute (js variant e.g. marginTop, wordSpacing)
-        * @param mode {Number} Choose one of the modes supported by {@link qx.bom.element.Style.get}
-        * @return {var} The value of the style property
-        */
-      getStyle : getter(qx.bom.element.Style, "get"),
-    
-    
-    
-    
-      /*
-      ---------------------------------------------------------------------------
-         WRAP API: ATTRIBUTES
+         ATTRIBUTES: CORE
       ---------------------------------------------------------------------------
       */    
       
@@ -274,7 +214,7 @@
 
       /*
       ---------------------------------------------------------------------------
-         WRAP API: CSS CLASSES
+         ATTRIBUTES: CLASS
       ---------------------------------------------------------------------------
       */    
       
@@ -333,22 +273,147 @@
        */
       toggleClass : setter(qx.bom.element.Class, "toggle"),
       
-           
+      
+      
+      
+      /*
+      ---------------------------------------------------------------------------
+         ATTRIBUTES: VALUE
+      ---------------------------------------------------------------------------
+      */   
+            
+      // TODO
+      
+      
+      
+      
+      
+            
+      /*
+      ---------------------------------------------------------------------------
+         CSS: CORE
+      ---------------------------------------------------------------------------
+      */    
+      
+      /**
+       * Modify the given style property
+       * on all selected elements.
+       *
+       * @signature function(name, value)
+       * @param name {String} Name of the style attribute (js variant e.g. marginTop, wordSpacing)
+       * @param value {var} The value for the given style
+       * @return {Collection} The collection is returned for chaining proposes
+       */
+      setStyle : setter(qx.bom.element.Style, "set"),     
+       
+      /**
+       * Convenience method to modify a set of styles at once.
+       *
+       * @signature function(styles)
+       * @param styles {Map} a map where the key is the name of the property
+       *    and the value is the value to use.
+       * @return {Collection} The collection is returned for chaining proposes
+       */
+      setStyles : setter(qx.bom.element.Style, "setStyles"),            
+       
+      /**
+       * Reset the given style property 
+       * on all selected elements.
+       *
+       * @signature function(name)
+       * @param name {String} Name of the style attribute (js variant e.g. marginTop, wordSpacing)
+       * @return {Collection} The collection is returned for chaining proposes     
+       */
+      resetStyle : setter(qx.bom.element.Style, "reset"),
+     
+       /**
+        * Figures out the value of the given style property of 
+        * the first element stored in the collection.
+        *
+        * @signature function(name, mode)
+        * @param name {String} Name of the style attribute (js variant e.g. marginTop, wordSpacing)
+        * @param mode {Number} Choose one of the modes supported by {@link qx.bom.element.Style.get}
+        * @return {var} The value of the style property
+        */
+      getStyle : getter(qx.bom.element.Style, "get"),
+    
+    
+     
 
       /*
       ---------------------------------------------------------------------------
-         WRAP API: BOM ELEMENT
+         CSS: SHEET
       ---------------------------------------------------------------------------
-      */    
-
+      */        
+      
       /**
-       * Removes all content from the elements
+       * Set the full CSS content of the style attribute
        *
-       * @signature function()
+       * @signature function(value)
+       * @param value {String} The full CSS string
        * @return {Collection} The collection is returned for chaining proposes     
        */
-      empty : setter(qx.bom.Element, "empty"),
+      setCss : setter(qx.bom.element.Style, "setCss"),   
       
+               
+    
+
+      /*
+      ---------------------------------------------------------------------------
+         CSS: POSITIONING
+      ---------------------------------------------------------------------------
+      */  
+      
+      /**
+       * Computes the location of the first element in context of
+       * the document dimensions.
+       *
+       * Supported modes:
+       *
+       * * <code>margin</code>: Calculate from the margin box of the element (bigger than the visual appearance: including margins of given element)
+       * * <code>box</code>: Calculates the offset box of the element (default, uses the same size as visible)
+       * * <code>border</code>: Calculate the border box (useful to align to border edges of two elements).
+       * * <code>scroll</code>: Calculate the scroll box (relevant for absolute positioned content).
+       * * <code>padding</code>: Calculate the padding box (relevant for static/relative positioned content).
+       *
+       * @signature function(mode)
+       * @param mode {String} A supported option. See comment above.
+       * @return {Map} Returns a map with <code>left</code>, <code>top</code>,
+       *   <code>right</code> and <code>bottom</code> which contains the distance
+       *   of the element relative to the document.
+       */
+      offset : getter(qx.bom.element.Location, "get"),
+      
+      
+      /**
+       * Returns the distance between the first element of the collection to its offset parent.
+       *
+       * @return {Map} Returns a map with <code>left</code> and <code>top</code>
+       *   which contains the distance of the elements from each other.
+       */        
+      position : getter(qx.bom.element.Location, "getPosition"),
+      
+            
+      /** 
+       * Detects the offset parent of the first element
+       *
+       * @signature function()
+       * @return {Collection} Detected offset parent capsulated into a new collection instance
+       */      
+      offsetParent : getter(qx.bom.element.Location, "getOffsetParent"),      
+      
+
+      
+      
+      
+      
+      
+      /*
+      ---------------------------------------------------------------------------
+         EVENTS
+      ---------------------------------------------------------------------------
+      */ 
+            
       /**
        * Add an event listener to the selected elements. The event listener is passed an
        * instance of {@link Event} containing all relevant information
@@ -384,41 +449,6 @@
       removeListener : setter(qx.bom.Element, "removeListener"),
       
       
-
-      /*
-      ---------------------------------------------------------------------------
-         WRAP API: LOCATION
-      ---------------------------------------------------------------------------
-      */  
-      
-      /**
-       * Computes the location of the first element in context of
-       * the document dimensions.
-       *
-       * Supported modes:
-       *
-       * * <code>margin</code>: Calculate from the margin box of the element (bigger than the visual appearance: including margins of given element)
-       * * <code>box</code>: Calculates the offset box of the element (default, uses the same size as visible)
-       * * <code>border</code>: Calculate the border box (useful to align to border edges of two elements).
-       * * <code>scroll</code>: Calculate the scroll box (relevant for absolute positioned content).
-       * * <code>padding</code>: Calculate the padding box (relevant for static/relative positioned content).
-       *
-       * @signature function(mode)
-       * @param mode {String} A supported option. See comment above.
-       * @return {Map} Returns a map with <code>left</code>, <code>top</code>,
-       *   <code>right</code> and <code>bottom</code> which contains the distance
-       *   of the element relative to the document.
-       */
-      offset : getter(qx.bom.element.Location, "get"),
-      
-      
-      /** 
-       * Detects the offset parent of the first element
-       *
-       * @signature function()
-       * @return {Collection} Detected offset parent capsulated into a new collection instance
-       */      
-      offsetParent : getter(qx.bom.element.Location, "getOffsetParent"),
       
       
       
@@ -870,7 +900,25 @@
        */
       end : function() {
         return this.__prevObject || new qx.bom.Collection();
-      }
+      },
+      
+      
+      
+           
+
+      /*
+      ---------------------------------------------------------------------------
+         MANIPULATION
+      ---------------------------------------------------------------------------
+      */    
+
+      /**
+       * Removes all content from the elements
+       *
+       * @signature function()
+       * @return {Collection} The collection is returned for chaining proposes     
+       */
+      empty : setter(qx.bom.Element, "empty") 
     }
   });
 })();  
