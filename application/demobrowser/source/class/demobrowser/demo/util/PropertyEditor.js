@@ -128,7 +128,7 @@ qx.Class.define("demobrowser.demo.util.PropertyEditor",
 
     updateWidgetLayoutPropertyEditor : function(widget)
     {
-      var layout = widget.getLayoutParent() ? widget.getLayoutParent().getLayout() : null;
+      var layout = widget.getLayoutParent() ? widget.getLayoutParent()._getLayout() : null;
       var wlpe = this.getWidgetLayoutPropertyEditor(layout);
 
       if (wlpe) {
