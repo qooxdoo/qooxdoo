@@ -17,12 +17,21 @@
 
 ************************************************************************ */
 
+/**
+ * The HtmlCell layer renders each cell with custom HTML markup. The concrete
+ * markup for each cell is provided by a cell provider.
+ */
 qx.Class.define("qx.ui.virtual.layer.HtmlCell",
 {
   extend : qx.ui.core.Widget,
   
   implement : [qx.ui.virtual.core.ILayer],
   
+  
+  /**
+   * @param htmlCellProvider {qx.ui.virtual.core.IHtmlCellProvider} This class
+   *    provides the HTML markup for each cell.
+   */
   construct : function(htmlCellProvider)
   {
     this.base(arguments);  
@@ -59,6 +68,7 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCell",
 
   members :
   {
+    // overridden
     syncWidget : function()
     {
       if (!this._rowSizes) {
@@ -72,6 +82,7 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCell",
     },
      
      
+    // overridden
     fullUpdate : function(
       firstRow, lastRow, 
       firstColumn, lastColumn, 
@@ -116,6 +127,7 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCell",
     },
     
     
+    // overridden
     updateLayerWindow : function(
       firstRow, lastRow, 
       firstColumn, lastColumn, 

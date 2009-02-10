@@ -17,10 +17,22 @@
 
 ************************************************************************ */
 
+/**
+ * The CellSpanManager manages cells, which span several rows or columns.
+ * 
+ * It provides functionality to compute, which spanning cells are visible
+ * in a given view port and how they have to be placed.
+ */
 qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
 {
   extend : qx.core.Object,
   
+  /**
+   * @param rowConfig {qx.ui.virtual.core.Axis} The row configuration of the pane 
+   *    in which the cells will be rendered
+   * @param columnConfig {qx.ui.virtual.core.Axis} The column configuration of the pane 
+   *    in which the cells will be rendered
+   */
   construct : function(rowConfig, columnConfig)
   {
     this.base(arguments);  
@@ -50,7 +62,17 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
   */
 
   members :
-  {
+  {    
+    /**
+     * Add a spanning cell to the manager.
+     * 
+     * @param id {String} Unique id for the cell definition. This id is required
+     *    for removing the cell from the manager
+     * @param row {PositiveInteger} The cell's row
+     * @param column {PositiveInteger} The cell's column
+     * @param rowSpan {PositiveInteger} The number of rows the cells spans
+     * @param columnSpan {PositiveInteger} The number of columns the cells spans
+     */
     addCell : function(id, row, column, rowSpan, columnSpan)
     {
       this._cells[id] = {
@@ -64,6 +86,11 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
     },
      
      
+    /**
+     * Remove a cell from the manager
+     * 
+     * @param id {String} The id of the cell to remove
+     */
     removeCell : function(id)
     {
       delete(this._cells[id]);
@@ -71,11 +98,21 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
     },
          
      
+    /**
+     * Invalidate the sort cache
+     */
     _invalidateSortCache : function() {
       this._sorted = {};
     },
      
      
+    /**
+     * Get the cell array sorted by the given key (ascending)
+     * 
+     * @param key {String} The sort key. One of <code>firstRow</code>,
+     *     <code>lastRow</code>, <code>firstColumn</code> or <code>lastColumn</code>
+     * @return {Map[]} sorted array of cell descriptions
+     */
     _getSortedCells : function(key)
     {
       if (this._sorted[key]) {
@@ -88,7 +125,18 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
       return sorted;
     },     
      
-     
+    
+    /**
+     * Finds all cells with a sort key within the given range. The result is
+     * added to the result map
+     * 
+     * Complexity: O(log n)
+     * 
+     * @param result {Map} Map, which will contain the search results
+     * @param key {String} The key to search for
+     * @param min {Integer} minimum value 
+     * @param max {Integer} maximum value (inclusive)
+     */
     _findCellsInRange : function(result, key, min, max)
     {
       var cells = this._getSortedCells(key);
@@ -133,6 +181,17 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
     },
      
        
+    /**
+     * Find all cells, which are visible in the given grid window.
+     * 
+     * @param firstRow {PositiveInteger} first visible row
+     * @param lastRow {PositiveInteger} last visible row
+     * @param firstColumn {PositiveInteger} first visible column
+     * @param lastColumn {PositiveInteger} last visible column
+     * @return {Map[]} The array of found cells descriptions. A cell description
+     *    contains the keys <code>firstRow</code>, <code>lastRow</code>,
+     *    <code>firstColumn</code> or <code>lastColumn</code>
+     */
     findCellsInWindow : function(firstRow, lastRow, firstColumn, lastColumn) 
     {
       var horizontalInWindow = {};
@@ -155,16 +214,29 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
     },     
     
 
+    /**
+     * Event handler for row configuration changes
+     * 
+     * @param e {qx.event.type.Event} the event object
+     */
     _onRowConfigChange : function(e) {
       this._rowPos = [];
     },    
     
     
+    /**
+     * Event handler for column configuration changes
+     * 
+     * @param e {qx.event.type.Event} the event object
+     */
     _onColumnConfigChange : function(e) {
       this._columnPos = [];
     },
 
     
+    /**
+     * Invalidates the row/column position cache
+     */    
     _invalidatePositionCache : function()
     {
       this._rowPos = [];
@@ -172,6 +244,12 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
     },
     
     
+    /**
+     * Get the pixel start position of the given row
+     * 
+     * @param row {Integer} The row index
+     * @return {Integer} The pixel start position of the given row
+     */
     _getRowPosition : function(row)
     {
       var pos = this._rowPos[row]; 
@@ -184,6 +262,12 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
     },
     
     
+    /**
+     * Get the pixel start position of the given column
+     * 
+     * @param column {Integer} The column index
+     * @return {Integer} The pixel start position of the given column
+     */    
     _getColumnPosition : function(column)
     {
       var pos = this._columnPos[column]; 
@@ -196,6 +280,14 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
     },    
     
     
+    /**
+     * Get the bounds of a single cell
+     * 
+     * @param cell {Map} the cell description as returned by 
+     *    {@link #findCellsInWindow} to get the bounds for
+     * @param firstVisibleRow {Map} The pane's first visible row
+     * @param firstVisibleColumn {Map} The pane's first visible column 
+     */
     _getSingleCellBounds : function(cell, firstVisibleRow, firstVisibleColumn)
     {
       var bounds = {
@@ -227,6 +319,14 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
     },
     
     
+    /**
+     * Get the bounds of a list of cells as returned by {@link findCellsInWindow}
+     * 
+     * @param cells {Map[]} Array of cell descriptions
+     * @param firstVisibleRow {Map} The pane's first visible row
+     * @param firstVisibleColumn {Map} The pane's first visible column
+     * @return {Map[]} Array, which contains a bounds map for each cell. 
+     */
     getCellBounds : function(cells, firstVisibleRow, firstVisibleColumn)
     {
       var bounds = [];      
@@ -240,6 +340,19 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
     },
     
     
+    /**
+     * Compute a bitmap, which marks for each visible cell, whether the cell
+     * is covered by a spanning cell.
+     * 
+     * @param cells {Map[]} Array of cell descriptions as returned by
+     *     {@link findCellsInWindow}.
+     * @param firstRow {PositiveInteger} first visible row
+     * @param lastRow {PositiveInteger} last visible row
+     * @param firstColumn {PositiveInteger} first visible column
+     * @param lastColumn {PositiveInteger} last visible column
+     * @return {Map[][]} Two dimensional array, which contains a <code>1</code>
+     *    for each visible cell, which is covered by a spanned cell. 
+     */
     computeCellSpanMap : function(cells, firstRow, lastRow, firstColumn, lastColumn)
     {
       var map = [];
