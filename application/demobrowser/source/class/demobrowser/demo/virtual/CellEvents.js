@@ -30,18 +30,6 @@ qx.Class.define("demobrowser.demo.virtual.CellEvents",
   members :
   {
 
-
-
-    events :
-    {
-      /**See {@link qx.ui.table.Table#cellClick}.*/
-      "cellClick" : "qx.ui.table.pane.CellEvent",
-      /**
-       * Dispatched when the context menu is needed in a data cell
-       */
-      "cellContextmenu" : "qx.ui.table.pane.CellEvent"
-    },
-
     main : function()
     {
       // Call super class
@@ -56,9 +44,9 @@ qx.Class.define("demobrowser.demo.virtual.CellEvents",
 
       var pane = scroller.getPane();
 
-      scroller.addListener("cellClick", this._onCellClick, this);
-      scroller.addListener("cellContextmenu", this._onContextMenu, this);
-      scroller.addListener("cellDblclick", this._onDblclickPane, this);
+      pane.addListener("cellClick", this._onCellClick, this);
+      pane.addListener("cellContextmenu", this._onContextMenu, this);
+      pane.addListener("cellDblclick", this._onDblclickPane, this);
 
       pane.addLayer(this.layer);
 
