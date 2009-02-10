@@ -35,12 +35,14 @@
 
 #require(qx.core.BaseArray)
 
+#require(qx.bom.Document)
 #require(qx.bom.Element)
+#require(qx.bom.Viewport)
 
-#require(qx.bom.element.Style)
 #require(qx.bom.element.Attribute)
 #require(qx.bom.element.Class)
 #require(qx.bom.element.Location)
+#require(qx.bom.element.Style)
 
 ************************************************************************ */
 
@@ -384,7 +386,6 @@
        */
       offset : getter(qx.bom.element.Location, "get"),
       
-      
       /**
        * Returns the distance between the first element of the collection to its offset parent.
        *
@@ -393,16 +394,111 @@
        */        
       position : getter(qx.bom.element.Location, "getPosition"),
       
-            
       /** 
        * Detects the offset parent of the first element
        *
        * @signature function()
        * @return {Collection} Detected offset parent capsulated into a new collection instance
        */      
-      offsetParent : getter(qx.bom.element.Location, "getOffsetParent"),      
+      offsetParent : getter(qx.bom.element.Location, "getOffsetParent"),
       
 
+      /**
+       * Scrolls the elements of the collection to the given coordinate.
+       *
+       * @param value {Integer} Left scroll position
+       * @return {Collection} This collection for chaining
+       */
+      setScrollLeft : function(value) 
+      {
+        var obj;
+        var Node = qx.dom.Node;
+        
+        for (var i=0, l=this.length; i<l; i++) 
+        {
+          obj = this[i];
+          
+          if (Node.isWindow(obj)) {
+            obj.scrollTo(value, this.getScrollTop(obj));
+          } else if (Node.isDocument(obj)) {
+            Node.getWindow(obj).scrollTo(value, this.getScrollTop(obj));
+          } else {
+            obj.scrollLeft = value;
+          }
+        }
+        
+        return this;
+      },
+      
+      
+      /**
+       * Scrolls the elements of the collection to the given coordinate.
+       *
+       * @param value {Integer} Top scroll position
+       * @return {Collection} This collection for chaining
+       */
+      setScrollTop : function(value) 
+      {
+        var obj;
+        var Node = qx.dom.Node;
+        
+        for (var i=0, l=this.length; i<l; i++) 
+        {
+          obj = this[i];
+          
+          if (Node.isWindow(obj)) {
+            obj.scrollTo(this.getScrollLeft(obj), value);
+          } else if (Node.isDocument(obj)) {
+            Node.getWindow(obj).scrollTo(this.getScrollLeft(obj), value);
+          } else {
+            obj.scrollTop = value;
+          }
+        }
+        
+        return this;
+      },
+      
+      
+      /** 
+       * Returns the left scroll position of the first element in the collection.
+       *
+       * @return {Integer} Current left scroll position
+       */
+      getScrollLeft : function() 
+      {
+        var obj = this[0];
+        if (!obj) {
+          return null;
+        }
+        
+        var Node = qx.dom.Node;
+        if (Node.isWindow(obj) || Node.isDocument(obj)) {
+          return qx.bom.Viewport.getScrollLeft();
+        }
+        
+        return obj.scrollLeft;
+      },
+
+
+      /** 
+       * Returns the left scroll position of the first element in the collection.
+       *
+       * @return {Integer} Current top scroll position
+       */
+      getScrollTop : function() 
+      {
+        var obj = this[0];
+        if (!obj) {
+          return null;
+        }
+        
+        var Node = qx.dom.Node;
+        if (Node.isWindow(obj) || Node.isDocument(obj)) {
+          return qx.bom.Viewport.getScrollTop();
+        }
+        
+        return obj.scrollTop;
+      },
       
       
       
