@@ -117,11 +117,17 @@ Function %s(%s):
             startNode = self.node.getChild("body")
 
         for (name, node) in Scope.declaredVariablesIterator(startNode):
-            variables[name] = VariableDefinition(name, node, False, self)
+            if name == 'qx':
+                print "-- qx found in _getDeclaredVariables"
+            if name in variables:
+                variables[name].addDecl(node)
+            else:
+                variables[name] = VariableDefinition(name, node, False, self)
 
         return variables.values()
 
 
+    @staticmethod
     def declaredVariablesIterator(node):
         if node.type == "function":
             name = node.get("name", False)
@@ -140,9 +146,8 @@ Function %s(%s):
                 for (var, node) in Scope.declaredVariablesIterator(child):
                     yield (var, node)
 
-    declaredVariablesIterator = staticmethod(declaredVariablesIterator)
 
-
+    @staticmethod
     def usedVariablesIterator(node):
         if node.type in ["function", "catch"]:
             return
@@ -226,13 +231,11 @@ Function %s(%s):
                 for (name, use) in Scope.usedVariablesIterator(child):
                     yield (name, use)
 
-    usedVariablesIterator = staticmethod(usedVariablesIterator)
-
 
 class VariableDefinition:
     def __init__(self, name, node, isArgument, scope):
         self.name = name
-        self.node = node
+        self.nodes = [node]
         self.isArgument = isArgument
         self.scope = scope
         self.uses = []
@@ -242,6 +245,9 @@ class VariableDefinition:
 
     def addUse(self, variableUse):
         self.uses.append(variableUse)
+
+    def addDecl(self, node):
+        self.nodes.append(node)
 
 
 class VariableUse:

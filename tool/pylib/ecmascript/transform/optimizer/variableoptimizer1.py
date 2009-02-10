@@ -105,27 +105,28 @@ def update(node, newname):
 
 def search(node):
 
-    # Collect the set of all used variables
-    script = Script(node)
-    varset = set([])
-
     def isReservedWord(word):
         return word in reservedWords
 
     def updateOccurences(var, newname):
         # Replace variable definition
-        # TODO: Kludge!
-        if var.node.type == 'variable' and var.node.children[0].type == 'identifier':
-            update(var.node.children[0], newname)
-        else:
-            update(var.node, newname)
+        for node in var.nodes:
+            # TODO: Kludge!
+            if node.type == 'variable' and node.children[0].type == 'identifier':
+                update(node.children[0], newname)
+            else:
+                update(node, newname)
 
         # Replace variable references
         for varUse in var.uses:  # varUse is a VariableUse object
             update(varUse.node, newname)
 
+    # Collect the set of all used variables
+    script = Script(node)
+    varset = set([])
+
     for scope in script.iterScopes():
-        varset.update((x.name for x in scope.variables))
+        varset.update((x.name for x in scope.uses))
 
     # loop through declared vars of scopes
     for scope in script.iterScopes():
@@ -135,11 +136,6 @@ def search(node):
             if isReservedWord(var.name) or len(var.name)<2:
                 continue
 
-            if var in scope.arguments:
-                import pydb
-                #pydb.debugger()
-                pass
-            #print "-- replacing: ", var.name
             # get replacement name
             newname = mapper(var.name, varset)
 
@@ -151,7 +147,6 @@ def search(node):
                 # get declared vars of same name
                 lvars = [x for x in scope.variables if x.name == var.name]
                 for lvar in lvars:
-                    print "-- updating var as param: %s" % var.name
                     updateOccurences(lvar, newname)
                     # don't re-process
                     allvars.remove(lvar)
