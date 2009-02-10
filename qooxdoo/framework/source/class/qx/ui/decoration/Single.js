@@ -311,12 +311,6 @@ qx.Class.define("qx.ui.decoration.Single",
     */
 
     // interface implementation
-    init : function(element) {
-      element.useMarkup(this.getMarkup());
-    },
-
-
-    // interface implementation
     getMarkup : function(element)
     {
 
