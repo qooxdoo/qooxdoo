@@ -17,10 +17,23 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.virtual.layer.CellSpan",
+/**
+ * An extended HtmlCell layer, which adds the possibility to specify row and
+ * column spans for specific cells. 
+ */
+qx.Class.define("qx.ui.virtual.layer.HtmlCellSpan",
 {
   extend : qx.ui.virtual.layer.HtmlCell,
   
+  
+  /**
+   * @param htmlCellProvider {qx.ui.virtual.core.IHtmlCellProvider} This class
+   *    provides the HTML markup for each cell.
+   * @param rowConfig {qx.ui.virtual.core.Axis} The row configuration of the pane 
+   *    in which the cells will be rendered
+   * @param columnConfig {qx.ui.virtual.core.Axis} The column configuration of the pane 
+   *    in which the cells will be rendered
+   */  
   construct : function(htmlCellProvider, rowConfig, columnConfig)
   {
     this.base(arguments, htmlCellProvider);      
@@ -36,6 +49,14 @@ qx.Class.define("qx.ui.virtual.layer.CellSpan",
 
   members :
   {
+    /**
+     * Set the row and column span for a specific cell
+     * 
+     * @param row {PositiveInteger} The cell's row
+     * @param column {PositiveInteger} The cell's column
+     * @param rowSpan {PositiveInteger} The number of rows the cells spans
+     * @param columnSpan {PositiveInteger} The number of columns the cells spans
+     */
     setCellSpan : function(row, column, rowSpan, columnSpan)
     {
       var id = row + "x" + column;
@@ -47,6 +68,7 @@ qx.Class.define("qx.ui.virtual.layer.CellSpan",
     },
     
     
+    // overridden
     fullUpdate : function(
       firstRow, lastRow, 
       firstColumn, lastColumn, 
