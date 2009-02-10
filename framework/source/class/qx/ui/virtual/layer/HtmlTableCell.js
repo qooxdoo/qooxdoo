@@ -85,14 +85,20 @@ qx.Class.define("qx.ui.virtual.layer.HtmlTableCell",
       var row = firstRow;
       var column = firstColumn;
 
-      html[html.length] = '<table style="border-collapse: collapse; margin: 0px; padding: 0px;">';
+      html[html.length] = '<table style="table-layout:fixed; border-collapse: collapse; margin: 0px; padding: 0px;">';
+      html[html.length] = '<colgroup>';
+      for(var y=0; y<columnSizes.length; y++) {
+        html[html.length] = '<col width="' + columnSizes[y] + '">';
+      }
+      html[html.length] = '</colgroup>';
 
       for (var x=0; x<rowSizes.length; x++)
       {
-        html[html.length] = '<tr style="border-collapse: collapse; margin: 0px; padding: 0px;">';
         var left = 0;
         var column = firstColumn;
         var height = rowSizes[x] 
+
+        html[html.length] = '<tr height="' + height + '" style="border-collapse: collapse; margin: 0px; padding: 0px;">';
         for(var y=0; y<columnSizes.length; y++)
         {
           var width = columnSizes[y];
