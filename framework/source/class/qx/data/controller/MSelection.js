@@ -192,7 +192,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
       // if a selection API is supported
       var sSupport = this.__targetSupportsSingleSelection();
       var mSupport = this.__targetSupportsMultiSelection();
-      if (mSupport || sSupport) {
+      if (mSupport || sSupport) {
         // add a new selection listener
         this.__selectionListenerId = value.addListener(
           "changeSelection", this.__changeTargetSelection, this
