@@ -77,13 +77,14 @@ qx.Class.define("qx.ui.virtual.core.Pane",
 
   events :
   {
-    /**See {@link qx.ui.table.Table#cellClick}.*/
-    cellClick : "qx.ui.table.pane.CellEvent",
+    /**See {@link qx.ui.virtual.core.CellEvent}.*/
+    cellClick : "qx.ui.virtual.core.CellEvent",
 
-    /**
-     * Dispatched when the context menu is needed in a data cell
-     */
-    cellContextmenu : "qx.ui.table.pane.CellEvent",
+    /**See {@link qx.ui.virtual.core.CellEvent}.*/
+    cellContextmenu : "qx.ui.virtual.core.CellEvent",
+
+    /**See {@link qx.ui.virtual.core.CellEvent}.*/
+    cellDblclick : "qx.ui.virtual.core.CellEvent",
 
     /** Fired on resize of either the container or the (virtual) content. */
     update : "qx.event.type.Event",
@@ -614,28 +615,45 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       this.fullUpdate();
     },
     
+    /**
+     * Event listener for mouse clicks. Fires an cellClick event.
+     * @param e {qx.event.type.Mouse} The incoming mouse event.
+     */
     _onCellClick : function(e)
     {
       var coords = this.__getCoords(e);
-      this.fireEvent("cellClick", qx.ui.table.pane.CellEvent, [this, e, coords.row, coords.column], true);
+      this.fireEvent("cellClick", qx.ui.virtual.core.CellEvent, [this, e, coords.row, coords.column], true);
     },
 
+    /**
+     * Event listener for context menu clicks. Fires an cellContextmenu event.
+     * @param e {qx.event.type.Mouse} The incoming mouse event.
+     */
     _onContextMenu : function(e)
     {
       var coords = this.__getCoords(e);
-      this.fireEvent("cellContextmenu", qx.ui.table.pane.CellEvent, [this, e, coords.row, coords.column], true);
+      this.fireEvent("cellContextmenu", qx.ui.virtual.core.CellEvent, [this, e, coords.row, coords.column], true);
     },
 
 
+    /**
+     * Event listener for double clicks. Fires an cellDblclick event.
+     * @param e {qx.event.type.Mouse} The incoming mouse event.
+     */
     _onDblclickPane : function(e)
     {
       var coords = this.__getCoords(e);
-      this.fireEvent("cellDblclick", qx.ui.table.pane.CellEvent, [this, e, coords.row, coords.column], true);
+      this.fireEvent("cellDblclick", qx.ui.virtual.core.CellEvent, [this, e, coords.row, coords.column], true);
     },
 
 
+    /**
+     * Helper function to convert mouse coordinates into cell corrdinates.
+     * @param e {qx.event.type.Mouse} The incoming mouse event.
+     * @return {Map} An map containing row and column.
+     */
     __getCoords : function(e) {
-      return this.getPane().getCellAtPosition(e.getDocumentLeft(), e.getDocumentTop());
+      return this.getCellAtPosition(e.getDocumentLeft(), e.getDocumentTop());
     },
     
     
