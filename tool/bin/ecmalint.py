@@ -130,7 +130,18 @@ class Lint:
             if scope.type != Scope.EXCEPTION:
                 for var in scope.variables:
                     if len(var.uses) == 0:
-                        self.log(var.node, "Unused identifier '%s'" % var.name)
+                        for node in var.nodes:
+                            self.log(node, "Unused identifier '%s'" % var.name)
+
+
+    def checkMultiDefinedVariables(self):
+        for scope in self.script.iterScopes():
+            if scope.type != Scope.EXCEPTION:
+                for var in scope.variables:
+                    if len(var.nodes) > 1:
+                        for node in var.nodes:
+                            self.log(node, "Multiply declared identifier '%s'" % var.name)
+
 
     DEPRECATED_IDENTIFIER = set([
         "alert",
@@ -271,6 +282,8 @@ misspelled identifier and missing 'var' statements. You can use the '-g' flag to
 
         if checkAll or "fields" in options.actions:
             lint.checkFields()
+
+        lint.checkMultiDefinedVariables()
 
 
 
