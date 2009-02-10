@@ -39,9 +39,9 @@ qx.Class.define("qx.test.ui.virtual.layer.Column",
       {
         var column = firstColumn + i;
         if (column % 2 == 0) {
-          this.assertEquals("red", children[i].style.backgroundColor);
+          this.assertCssColor("red", children[i].style.backgroundColor);
         } else {
-          this.assertEquals("green", children[i].style.backgroundColor);
+          this.assertCssColor("green", children[i].style.backgroundColor);
         }
       }
     }
