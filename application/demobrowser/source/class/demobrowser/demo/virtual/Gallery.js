@@ -427,6 +427,9 @@ qx.Class.define("demo.HtmlTableGallery",
       
       var html = [
         "<td style='",
+        "border-collapse: collapse;",
+        "margin: 0px;",
+        "padding: 0px;",
         "text-align: center;",
         this._fontCss,
         "width:", width, "px;",
