@@ -178,17 +178,11 @@ qx.Class.define("qx.data.controller.Tree",
     
     
     /**
-     * Delegation object, which can have the following functions:
-     * 
-     * * configureItem(item)
-     * 
-     * This function will be called if a new TreeFolder has been created. The 
-     * argument 'item' is the new created TreeFolder. In that method you can
-     * configure the TreeItem the way you like them.    
+     * Delegation object, which can have one ore more functionf defined by the
+     * {@link #IControllerDelegate} Interface.  
      */
     delegate : 
     {
-      check: "qx.core.Object",
       apply: "_applyDelegate",
       init: null,
       nullable: true
