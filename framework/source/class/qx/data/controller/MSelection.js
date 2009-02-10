@@ -38,7 +38,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
   construct : function()
   {
     // check for a target property
-    if (this.constructor.$$properties.target == undefined) {
+    if (!qx.Class.hasProperty(this.constructor, "target")) {
       throw new Error("Target property is needed.");
     }
     
