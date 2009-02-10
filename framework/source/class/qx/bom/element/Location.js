@@ -597,6 +597,18 @@ qx.Class.define("qx.bom.element.Location",
     },
     
     
+    /**
+     * Returns the distance between the given element to its offset parent.
+     *
+     * @param elem {Element} DOM element to query
+     * @return {Map} Returns a map with <code>left</code> and <code>top</code>
+     *   which contains the distance of the elements from each other.
+     */    
+    getPosition: function(elem) {
+      return this.getRelative(elem, this.getOffsetParent(elem));
+    },    
+    
+    
     /** 
      * Detects the offset parent of the given element
      *
