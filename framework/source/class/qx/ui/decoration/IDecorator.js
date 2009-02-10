@@ -23,26 +23,28 @@
  * border. It is passed the widget's decoration element {@link qx.html.Element}
  * and configures it to display the decoration.
  *
- * A {@link qx.html.Element} can be initialized for usage calling the
- * method {@link #init} and given the element as a parameter.
- *
- * Later elements are updated using the decorator methods {@link #resize}
- * and {@link #tint} to scale and tint the element to the local
- * configuration of the widget.
+ * To use the decorator first call the {@link #getMarkup} method. This method
+ * will return an HTML fragment containing the decoration. After the decoration
+ * has been inserted into the DOM e.g. by using <code>innerHTML</code> the 
+ * {@link #resize} method must be called to give the decoration the proper size.
+ * The first parameter of this call is the root DOM element of the decoration.
+ * The resize call can be repeated as needed.
+ * 
+ * It is also possible to alter the bakground color of an decoration using the
+ * {@link #tint} method.
  */
 qx.Interface.define("qx.ui.decoration.IDecorator",
 {
   members :
   {
     /**
-     * Initialized the given element for being used
-     * as a decorator element.
+     * Returns the basic markup structure used for this decoration.
+     * This later updated on DOM to resize or tint the element.
      *
-     * @param element {qx.html.Element} The element to initialize
+     * @return {String} Basic markup
      */
-    init : function(element) {},
-
-
+    getMarkup : function() {},  
+  
     /**
      * Resizes the element respecing the configured borders
      * to the given width and height. Should automatically
@@ -65,15 +67,6 @@ qx.Interface.define("qx.ui.decoration.IDecorator",
      * @param bgcolor {Color} The color to apply or <code>null</code>
      */
     tint : function(element, bgcolor) {},
-
-
-    /**
-     * Returns the basic markup structure used for this decoration.
-     * This later updated on DOM to resize or tint the element.
-     *
-     * @return {String} Basic markup
-     */
-    getMarkup : function() {},
 
 
     /**
