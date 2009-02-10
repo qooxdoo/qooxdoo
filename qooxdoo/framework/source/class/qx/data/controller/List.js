@@ -694,7 +694,7 @@ qx.Class.define("qx.data.controller.List",
       
       this.__lookupTable = [];
       for (var i = 0; i < model.length; i++) {
-        if (filter == null || filter(model.getItem(i))) {
+        if (filter == null || filter(model.getItem(i))) {
           this.__lookupTable.push(i);
         }
       }

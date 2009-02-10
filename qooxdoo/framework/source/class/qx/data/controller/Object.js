@@ -290,7 +290,7 @@ qx.Class.define("qx.data.controller.Object",
 
       var currentListing = this.__bindings[targetObject.toHashCode()];
       // if no binding is stored
-      if (currentListing == undefined || currentListing.length == 0) {
+      if (currentListing == undefined || currentListing.length == 0) {
         return;
       }
                 
