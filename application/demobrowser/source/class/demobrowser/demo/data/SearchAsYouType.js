@@ -54,34 +54,13 @@ qx.Class.define("demobrowser.demo.data.SearchAsYouType",
       var controller = new qx.data.controller.List(data, list);
 
       // create the filter
-      var filter = function(field, data) {
-        return data.search(field.getValue()) != -1;
-      }
-      // make the search string available in filter function
-      filter = qx.lang.Function.bind(filter, this, textfield);
+      var filterObj = new demobrowser.demo.data.filter.SearchAsYouTypeFilter(controller);
       
       // set the filter
-      controller.setFilter(filter);
-
-
-      // get the timer instance
-      var timer = qx.util.TimerManager.getInstance();
-      var timerId = null;
+      controller.setFilter(filterObj.filter);
       
       // make every input in the textfield update the controller
-      textfield.addListener("input", function() {
-        // check for the old listener
-        if (timerId != null) {
-          // stop the old one
-          timer.stop(timerId);
-          timerId = null;
-        }
-        // start a new listener to update the view
-        timerId = timer.start(function() {
-          controller.update();          
-          timerId = null;
-        }, 0, this, null, 200);
-      }, this);
+      textfield.bindEvent("input", filterObj, "searchString");
 
 
 
