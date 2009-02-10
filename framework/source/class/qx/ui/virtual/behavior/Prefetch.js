@@ -96,13 +96,17 @@ qx.Class.define("qx.ui.virtual.behavior.Prefetch",
      _onInterval : function()
      {
        var px = this.__prefetchX;
-       if (px[1] && px[3]) {
+       if (px[1] && px[3])
+       {
          this.getScroller().getPane().prefetchX(px[0], px[1], px[2], px[3]);
+         qx.ui.core.queue.Manager.flush();
        }
 
        var py = this.__prefetchY;
-       if (py[1] && py[3]) {
+       if (py[1] && py[3]) 
+       {
          this.getScroller().getPane().prefetchY(py[0], py[1], py[2], py[3]);
+         qx.ui.core.queue.Manager.flush();
        }
      },
      

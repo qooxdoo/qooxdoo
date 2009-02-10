@@ -113,7 +113,7 @@ qx.Class.define("qx.ui.virtual.layer.Row",
         row += 1;
       }
       
-      var el = this.getContentElement().getDomElement();      
+      var el = this.getContentElement().getDomElement();            
       // hide element before changing the child nodes to avoid 
       // premature reflow calculations
       el.style.display = "none";
