@@ -186,21 +186,6 @@ qx.Class.define("qx.test.data.filter.Array",
       
       // check if the filteredData is empty
       this.assertEquals(0, filter.length, "Too much elements in the data.");      
-    },
-    
-    
-    testWithController: function() {
-      var list = new qx.ui.form.List();
-      // create the controller
-      this.__controller = new qx.data.controller.List(this.__filter, list);
-      
-      // check how many listitems are shown
-      this.assertEquals(3, list.getChildren().length, "Too much elements in the list.");
-      
-      // check if the list contains the new items
-      this.assertEquals("A", list.getChildren()[0].getLabel(),"Filter does not work!");
-      this.assertEquals("B", list.getChildren()[1].getLabel(), "Filter does not work!");
-      this.assertEquals("C", list.getChildren()[2].getLabel(), "Filter does not work!");
     }
     
 
