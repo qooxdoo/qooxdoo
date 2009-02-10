@@ -232,7 +232,6 @@ qx.Class.define("demobrowser.demo.virtual.List",
 
 
 
-      /*
       ////////////////////////////////////////////////////////////////
       // Horizontal list
       var configureLabel = new qx.ui.basic.Label("Horizontal, Icons only");
@@ -264,7 +263,6 @@ qx.Class.define("demobrowser.demo.virtual.List",
 
       this.getRoot().add(l4, {left: 20, top: 370});
       ////////////////////////////////////////////////////////////////
-      */
 
     }
   }
