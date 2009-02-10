@@ -112,25 +112,48 @@ def search(node):
     def isReservedWord(word):
         return word in reservedWords
 
+    def updateOccurences(var, newname):
+        # Replace variable definition
+        # TODO: Kludge!
+        if var.node.type == 'variable' and var.node.children[0].type == 'identifier':
+            update(var.node.children[0], newname)
+        else:
+            update(var.node, newname)
+
+        # Replace variable references
+        for varUse in var.uses:  # varUse is a VariableUse object
+            update(varUse.node, newname)
+
     for scope in script.iterScopes():
         varset.update((x.name for x in scope.variables))
 
     # loop through declared vars of scopes
     for scope in script.iterScopes():
-        for var in scope.variables:
+        allvars = scope.arguments + scope.variables
+        for var in allvars:
 
             if isReservedWord(var.name) or len(var.name)<2:
                 continue
 
-            print "-- replacing: ", var.name
-            # Define mappings for local var
+            if var in scope.arguments:
+                import pydb
+                #pydb.debugger()
+                pass
+            #print "-- replacing: ", var.name
+            # get replacement name
             newname = mapper(var.name, varset)
 
-            # Replace variable definition
-            update(var.node, newname)
+            # update all occurrences in scope
+            updateOccurences(var, newname)
 
-            # Replace variable references
-            for varUse in var.uses:  # varUse is a VariableUse object
-                update(varUse.node, newname)
+            # if var is param, patch local vars of same name in one go
+            if (var in scope.arguments):
+                # get declared vars of same name
+                lvars = [x for x in scope.variables if x.name == var.name]
+                for lvar in lvars:
+                    print "-- updating var as param: %s" % var.name
+                    updateOccurences(lvar, newname)
+                    # don't re-process
+                    allvars.remove(lvar)
 
 
