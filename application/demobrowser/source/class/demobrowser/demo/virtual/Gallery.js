@@ -426,14 +426,16 @@ qx.Class.define("demo.HtmlTableGallery",
       qx.dev.StackTrace.getStackTrace();
       
       var html = [
-        "<td style='",
+        "<td ",
+        // TODO: Does this slows tings done?
+        // "height = '" + height +"' ",
+        // "width = '" + width +"' ",
+        "style='",
         "border-collapse: collapse;",
         "margin: 0px;",
         "padding: 0px;",
         "text-align: center;",
         this._fontCss,
-        "width:", width, "px;",
-        "height:", height, "px;",
         color,
         "'>",
 
