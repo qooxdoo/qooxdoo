@@ -77,13 +77,13 @@ qx.Class.define("qx.ui.virtual.core.Pane",
 
   events :
   {
-    /**See {@link qx.ui.virtual.core.CellEvent}.*/
+    /** Fired if a cell is clicked */
     cellClick : "qx.ui.virtual.core.CellEvent",
 
-    /**See {@link qx.ui.virtual.core.CellEvent}.*/
+    /** Fired if a cell is right-clicked. */
     cellContextmenu : "qx.ui.virtual.core.CellEvent",
 
-    /**See {@link qx.ui.virtual.core.CellEvent}.*/
+    /** Fired if a cell is doubleclicked. */
     cellDblclick : "qx.ui.virtual.core.CellEvent",
 
     /** Fired on resize of either the container or the (virtual) content. */
@@ -635,7 +635,6 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       this.fireEvent("cellContextmenu", qx.ui.virtual.core.CellEvent, [this, e, coords.row, coords.column], true);
     },
 
-
     /**
      * Event listener for double clicks. Fires an cellDblclick event.
      * @param e {qx.event.type.Mouse} The incoming mouse event.
@@ -645,7 +644,6 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       var coords = this.__getCoords(e);
       this.fireEvent("cellDblclick", qx.ui.virtual.core.CellEvent, [this, e, coords.row, coords.column], true);
     },
-
 
     /**
      * Helper function to convert mouse coordinates into cell corrdinates.
