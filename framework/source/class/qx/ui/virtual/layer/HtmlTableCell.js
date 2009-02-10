@@ -85,12 +85,11 @@ qx.Class.define("qx.ui.virtual.layer.HtmlTableCell",
       var row = firstRow;
       var column = firstColumn;
 
-
-      html[html.length] = "<table>"
+      html[html.length] = '<table style="border-collapse: collapse; margin: 0px; padding: 0px;">';
 
       for (var x=0; x<rowSizes.length; x++)
       {
-        html[html.length] = "<tr>"
+        html[html.length] = '<tr style="border-collapse: collapse; margin: 0px; padding: 0px;">';
         var left = 0;
         var column = firstColumn;
         var height = rowSizes[x] 
@@ -107,11 +106,11 @@ qx.Class.define("qx.ui.virtual.layer.HtmlTableCell",
           column++;
           left += width;          
         }
-        html[html.length] = "</tr>"
+        html[html.length] = "</tr>";
         top += height;
         row++;
       }
-      html[html.length] = "</table>"
+      html[html.length] = "</table>";
       
       this.getContentElement().setAttribute("html", html.join(""));
       
