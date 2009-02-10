@@ -122,7 +122,7 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
       firstColumn, lastColumn, 
       rowSizes, columnSizes
     ) {
-      throw new Error("Abstract method call: _isSelectable()");
+      throw new Error("Abstract method call: fullUpdate()");
     },
     
     
@@ -132,7 +132,7 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
       firstColumn, lastColumn, 
       rowSizes, columnSizes
     ) {
-      throw new Error("Abstract method call: _isSelectable()");
+      throw new Error("Abstract method call: updateLayerWindow()");
     },
         
     
@@ -197,6 +197,7 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
       qx.ui.core.queue.Widget.add(this);
     },
     
+    
     // property apply
     _applyColorOdd : function(value, old)
     {
@@ -209,6 +210,13 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
     },
     
     
+    /**
+     * Sets the decorator for the given index
+     * 
+     * @param index {Integer} Index to set the color for
+     * @param decorator {Decorator|null} the decorator to set. A value of
+     *    <code>null</code> will reset the decorator.
+     */    
     setDecorator : function(index, decorator)
     {
       if (decorator) {
@@ -220,6 +228,12 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
     },
     
     
+    /**
+     * Get the decorator at the given index
+     * 
+     * @param index {Integer} The index to get the decorator for.
+     * @return {Decorator} The decorator at the given index
+     */    
     getDecorator : function(index) {
       return this.__decorators[index];
     }    

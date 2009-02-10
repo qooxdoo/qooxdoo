@@ -29,6 +29,9 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
   
   /**
    * @param orientation {String?"horizontal"} The grid line orientation.
+   * @param lineColor {Color?null} The default color for grid lines
+   * @param lineSize {PositiveInteger|null} The default width/height for grid
+   *    lines.
    */
   construct : function(orientation, lineColor, lineSize) 
   {
