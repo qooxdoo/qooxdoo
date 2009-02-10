@@ -106,6 +106,7 @@ qx.Class.define("qx.bom.element.Dimension",
     {
       "gecko" : function(element)
       {
+        // Why not use offsetWidth/offsetHeight in every browser?!? 
         if (element.getBoundingClientRect)
         {
           var rect = element.getBoundingClientRect();
