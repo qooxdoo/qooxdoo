@@ -191,7 +191,7 @@ qx.Class.define("qx.dom.Node",
      * @return {Boolean} true if the object is a window object.
      */
     isWindow : function(obj) {
-      return !!(typeof obj === "object" && obj && obj.Array);
+      return !!(typeof obj === "object" && obj && obj.nodeType == null && obj.Array);
     },
 
 
