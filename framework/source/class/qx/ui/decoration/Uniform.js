@@ -146,12 +146,6 @@ qx.Class.define("qx.ui.decoration.Uniform",
     */
 
     // interface implementation
-    init : function(element) {
-      element.useMarkup(this.getMarkup());
-    },
-
-
-    // interface implementation
     getMarkup : function()
     {
       if (this.__markup) {
