@@ -92,6 +92,7 @@
         },
         "code" :
         {
+          "format"  : true,
           "locales" : "${LOCALES}",
           "optimize" : [ "variables", "basecalls", "privates", "strings" ]
         }
