@@ -112,19 +112,7 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.pane.addLayer(layer);
       this.assertEquals(layer, this.pane.getLayers()[0]);
     },
-    
-    
-    testUpdateOnResize : function()
-    {
-      var layer = new qx.test.ui.virtual.layer.LayerMock();
-      this.pane.addLayer(layer);
-
-      this.assertEquals(0, layer.calls.length);
-      this.flush();
-      this.assertEquals(1, layer.calls.length);
-      this.assertEquals("fullUpdate", layer.calls[0][0]);
-    },
-    
+   
     
     testUpdateEvent : function()
     {
@@ -154,8 +142,7 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       // one update after data resize
       called = 0;
       pane.getRowConfig().setItemCount(200);
-      this.assertEquals(0, called, "Expect no update");
-      pane.fullUpdate();
+      this.flush();
       this.assertEquals(1, called, "Expect one update after data resize");
       
       // one update after data and pane resize
@@ -163,7 +150,7 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       pane.getRowConfig().setItemCount(300);
       pane.setWidth(500);
       this.flush();
-      this.assertEquals(1, called, "Expect one update after data and pane resize");
+      this.assertEquals(2, called, "Expect two updates after data and pane resize");
       
       pane.destroy();
     },
@@ -627,6 +614,7 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.assertEquals("199 / 0", children[children.length-1].innerHTML)
     },
     
+    
     testGetCellAtPosition : function()
     {
       this.pane.getRowConfig().setItemCount(3);
@@ -641,6 +629,24 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.assertJsonEquals({row : null, column : null}, this.pane.getCellAtPosition(0, 300))
       this.assertJsonEquals({row : null, column : null}, this.pane.getCellAtPosition(400, 300))
       this.assertJsonEquals({row : 2, column : 2}, this.pane.getCellAtPosition(89, 29))
+    },
+    
+    
+    testDestroy : function()
+    {
+      this.pane.destroy();
+      this.flush();
+      
+      this.assertDestroy(function()
+      {    
+        var pane = new qx.ui.virtual.core.Pane(
+          this.rowCount, this.colCount, 
+          this.defaultHeight, this.defaultWidth
+        );
+          
+        this.getRoot().add(pane);
+        pane.destroy();              
+      }, this);      
     }
   }
 });

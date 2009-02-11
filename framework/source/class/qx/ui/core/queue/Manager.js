@@ -84,7 +84,7 @@ qx.Class.define("qx.ui.core.queue.Manager",
 
       // Process jobs
       var jobs = self.__jobs;
-      while (jobs.visibility || jobs.widget || jobs.appearance || jobs.layout)
+      while (jobs.visibility || jobs.widget || jobs.appearance || jobs.layout || jobs.element)
       {
         // No else blocks here because each flush can influence the following flushes!
         if (jobs.widget)
@@ -115,15 +115,20 @@ qx.Class.define("qx.ui.core.queue.Manager",
           delete jobs.layout;
           qx.ui.core.queue.Layout.flush();
         }
+        
+        // Omit element as long as possible
+        if (jobs.widget || jobs.visibility || jobs.appearance || jobs.layout) {
+          continue;
+        }
+        
+        if (jobs.element)
+        {
+          delete jobs.element;
+          qx.html.Element.flush();
+        }                
       }
 
       qx.ui.core.queue.Manager.__scheduled = false;
-
-      if (jobs.element)
-      {
-        delete jobs.element;
-        qx.html.Element.flush();
-      }
 
       if (jobs.dispose)
       {

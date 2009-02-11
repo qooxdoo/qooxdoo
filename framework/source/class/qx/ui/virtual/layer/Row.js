@@ -51,7 +51,7 @@ qx.Class.define("qx.ui.virtual.layer.Row",
   members :
   {
     // overridden
-    fullUpdate : function(
+    _fullUpdate : function(
       firstRow, lastRow, 
       firstColumn, lastColumn, 
       rowSizes, columnSizes
@@ -130,28 +130,23 @@ qx.Class.define("qx.ui.virtual.layer.Row",
         );
       }      
       el.style.display = "block";
-      
-      this._firstRow = firstRow;
-      this._lastRow = lastRow;
-      this._rowSizes = rowSizes;
-      this._columnSizes = columnSizes;
       this._width = width;
     },
     
     
     // overridden
-    updateLayerWindow : function(
+    _updateLayerWindow : function(
       firstRow, lastRow, 
       firstColumn, lastColumn, 
       rowSizes, columnSizes
     )
-    {
+    {      
       if (
         firstRow !== this._firstRow ||
         lastRow !== this._lastRow || 
         this._width < qx.lang.Array.sum(columnSizes)
       ) {
-        this.fullUpdate(
+        this._fullUpdate(
           firstRow, lastRow, 
           firstColumn, lastColumn, 
           rowSizes, columnSizes            
@@ -165,7 +160,7 @@ qx.Class.define("qx.ui.virtual.layer.Row",
     {
       this.base(arguments, index, color);     
       if (index >= this._firstRow && index <= this._lastRow) {
-        qx.ui.core.queue.Widget.add(this);
+        this.updateLayerData();
       }
     },
     
@@ -175,7 +170,7 @@ qx.Class.define("qx.ui.virtual.layer.Row",
     {
       this.base(arguments, index, decorator);     
       if (index >= this._firstRow && index <= this._lastRow) {
-        qx.ui.core.queue.Widget.add(this);
+        this.updateLayerData();
       }
     }    
   }
