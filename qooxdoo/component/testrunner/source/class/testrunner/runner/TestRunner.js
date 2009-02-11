@@ -632,12 +632,16 @@ qx.Class.define("testrunner.runner.TestRunner",
           var currNode = children[i];
           var firstChar = currNode.label.charAt(0);
 
+          var icons = {
+            "package" : "testrunner/image/package18.gif",
+            "class" : "testrunner/image/class18.gif",
+            "test" : "testrunner/image/method_public18.gif"
+          }
+          
           if (currNode.hasChildren())
           {
             t = new qx.ui.tree.TreeFolder(currNode.label).set({
-              icon: currNode.type == "package" ?
-                "testrunner/image/package18.gif" :
-                "testrunner/image/class18.gif"
+              icon: icons[currNode.type] || null
             });
             if (level < 2)
             {
@@ -650,7 +654,7 @@ qx.Class.define("testrunner.runner.TestRunner",
           else
           {
             t = new qx.ui.tree.TreeFile(currNode.label).set({
-              icon: "testrunner/image/method_public18.gif"
+              icon: icons[currNode.type] || null
             });
             t.addListener("dblclick", that.runTest, that);
           }
