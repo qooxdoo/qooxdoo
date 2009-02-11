@@ -85,38 +85,40 @@ qx.Class.define("qx.ui.virtual.layer.HtmlTableCell",
       var row = firstRow;
       var column = firstColumn;
 
-      html[html.length] = '<table style="table-layout:fixed; border-collapse: collapse; margin: 0px; padding: 0px;">';
-      html[html.length] = '<colgroup>';
+      html.push('<table style="table-layout:fixed; border-collapse: collapse; margin: 0px; padding: 0px;">');
+      html.push('<colgroup>');
       for(var y=0; y<columnSizes.length; y++) {
-        html[html.length] = '<col width="' + columnSizes[y] + '">';
+       html.push('<col width="' + columnSizes[y] + '">');
       }
-      html[html.length] = '</colgroup>';
+      html.push('</colgroup>');
 
       for (var x=0; x<rowSizes.length; x++)
       {
         var left = 0;
         var column = firstColumn;
-        var height = rowSizes[x] 
+        var height = rowSizes[x];
 
-        html[html.length] = '<tr height="' + height + '" style="border-collapse: collapse; margin: 0px; padding: 0px;">';
+        html.push('<tr height="' + height + '" style="border-collapse: collapse; margin: 0px; padding: 0px;">');
         for(var y=0; y<columnSizes.length; y++)
         {
           var width = columnSizes[y];
           
-          html[html.length] = this._cellProvider.getCellHtml(
-            row, column,
-            left, top,
-            width, height
+          html.push(
+            this._cellProvider.getCellHtml(
+              row, column,
+              left, top,
+              width, height
+            )
           );
 
           column++;
           left += width;          
         }
-        html[html.length] = "</tr>";
+        html.push("</tr>");
         top += height;
         row++;
       }
-      html[html.length] = "</table>";
+      html.push("</table>");
       
       this.getContentElement().setAttribute("html", html.join(""));
       

@@ -60,6 +60,12 @@ qx.Class.define("demobrowser.demo.virtual.Gallery",
   }
 });
 
+/*
+*****************************************************************************
+   ABSTRACT GALLERY
+*****************************************************************************
+*/
+
 
 qx.Class.define("demo.AbstractGallery",
 {
@@ -173,6 +179,11 @@ qx.Class.define("demo.AbstractGallery",
   }
 });
 
+/*
+*****************************************************************************
+   WIDGET GALLERY
+*****************************************************************************
+*/
 
 qx.Class.define("demo.WidgetGallery",
 {
@@ -294,6 +305,12 @@ qx.Class.define("demo.WidgetGallery",
   }
 });
 
+/*
+*****************************************************************************
+   HTML GALLERY
+*****************************************************************************
+*/
+
 
 qx.Class.define("demo.HtmlGallery",
 {
@@ -369,6 +386,11 @@ qx.Class.define("demo.HtmlGallery",
   }
 });
 
+/*
+*****************************************************************************
+   HTML TABLE GALLERY
+*****************************************************************************
+*/
 
 qx.Class.define("demo.HtmlTableGallery",
 {
@@ -380,7 +402,7 @@ qx.Class.define("demo.HtmlTableGallery",
 
     var fontStyles = qx.theme.manager.Font.getInstance().resolve("default").getStyles();
     this._fontCss = qx.bom.element.Style.compile(fontStyles);    
-  },  
+  },
 
   members : 
   {
@@ -401,17 +423,17 @@ qx.Class.define("demo.HtmlTableGallery",
       
       return scroller;
     },
-    
+
     _onPaneResize : function(e)
     {
       this.base(arguments, e);
       this.manager.clearSelection();
     },
-    
+
     styleSelectable : function(item, type, wasAdded) {
       qx.ui.core.queue.Widget.add(this.layer);
     },
-    
+
     getCellHtml : function(row, column, left, top, width, height)
     {
       var itemData = this.getItemData(row, column);
@@ -419,17 +441,12 @@ qx.Class.define("demo.HtmlTableGallery",
       if (!itemData) {
         return "";
       }
-      
+
       var isSelected = this.manager.isItemSelected({row: row, column: column});
       var color = isSelected ? "color: white; background-color: #00398D;" : "";
-      
-      qx.dev.StackTrace.getStackTrace();
-      
+
       var html = [
         "<td ",
-        // TODO: Does this slows tings done?
-        // "height = '" + height +"' ",
-        // "width = '" + width +"' ",
         "style='",
         "border-collapse: collapse;",
         "margin: 0px;",
