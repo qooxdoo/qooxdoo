@@ -46,7 +46,7 @@ qx.Class.define("qx.test.ui.ChildrenHandling",
         parent.add(children[i]);
       }
 
-      qx.ui.core.queue.Manager.flush();
+      this.flush();
       this.assertArrayEquals(children, parent.getChildren());
     },
 

@@ -19,8 +19,7 @@
 
 qx.Class.define("qx.test.ui.virtual.layer.LayerMock",
 {
-  extend : qx.ui.core.Widget,
-  implement : [qx.ui.virtual.core.ILayer],
+  extend : qx.ui.virtual.layer.Abstract,
   
   construct : function() 
   {
@@ -41,8 +40,14 @@ qx.Class.define("qx.test.ui.virtual.layer.LayerMock",
       firstRow, lastRow, 
       firstColumn, lastColumn, 
       rowSizes, columnSizes
-    ) {    
+    )
+    {    
       this.calls.push(["fullUpdate", qx.lang.Array.fromArguments(arguments)]);
+      this.base(
+        arguments, firstRow, lastRow, 
+        firstColumn, lastColumn, 
+        rowSizes, columnSizes
+      );
     },
     
     
@@ -50,8 +55,14 @@ qx.Class.define("qx.test.ui.virtual.layer.LayerMock",
       firstRow, lastRow, 
       firstColumn, lastColumn, 
       rowSizes, columnSizes  
-    ) {
+    ) 
+    {
       this.calls.push(["updateLayerWindow", qx.lang.Array.fromArguments(arguments)]);
+      this.base(
+        arguments, firstRow, lastRow, 
+        firstColumn, lastColumn, 
+        rowSizes, columnSizes
+      );      
     }
   }
 });

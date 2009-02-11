@@ -36,7 +36,7 @@ qx.Class.define("qx.test.ui.table.Dispose",
         var table = new qx.ui.table.Table(tableModel);
 
         this.getRoot().add(table);
-        qx.ui.core.queue.Manager.flush();
+        this.flush();
 
         table.destroy();
         tableModel.dispose();
