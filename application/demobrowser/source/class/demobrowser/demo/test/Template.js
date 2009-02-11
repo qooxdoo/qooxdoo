@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.Template",
+qx.Class.define("demobrowser.demo.test.Template",
 {
   extend : qx.application.Standalone,
 
@@ -27,7 +27,9 @@ qx.Class.define("demobrowser.demo.Template",
     main: function()
     {
       this.base(arguments);
-
+      var foo = new qx.util.Template;
+      foo.setContent("Hello {name}");
+      this.debug(foo.run({ name : "Jonny" }));
 
     }
   }
