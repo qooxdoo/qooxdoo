@@ -269,7 +269,7 @@ qx.Class.define("feedreader.Application",
      * indicator in the list view.
      */
     _state2loadingConverter : function(data) {
-      if (data == "new" || data == "loading") {
+      if (data == "new" || data == "loading") {
         return true;
       }
       return false;
