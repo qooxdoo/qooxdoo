@@ -103,38 +103,38 @@ qx.Class.define("demobrowser.demo.data.ListController",
 
 
 
-       /* ***********************************************
-        * DESCRIPTIONS
-        * ********************************************* */  
-       // List Selection sync description
-       var syncListDescription = new qx.ui.basic.Label();
-       syncListDescription.setRich(true);
-       syncListDescription.setWidth(200);
-       syncListDescription.setContent(
-         "<b>Multi selection List</b><br/>"
-         + "Bound to the same data and share the selection."
-       );
-       this.getRoot().add(syncListDescription, {left: 20, top: 10});   
+      /* ***********************************************
+       * DESCRIPTIONS
+       * ********************************************* */  
+      // List Selection sync description
+      var syncListDescription = new qx.ui.basic.Label();
+      syncListDescription.setRich(true);
+      syncListDescription.setWidth(200);
+      syncListDescription.setContent(
+        "<b>Multi selection List</b><br/>"
+        + "Bound to the same data and share the selection."
+      );
+      this.getRoot().add(syncListDescription, {left: 20, top: 10});   
        
-       // List Selection description
-       var selectionListDescription = new qx.ui.basic.Label();
-       selectionListDescription.setRich(true);
-       selectionListDescription.setWidth(100);
-       selectionListDescription.setContent(
-         "<b>Selection List</b><br/>"
-         + "Bound to the selection of the list to the left."
-       );
-       this.getRoot().add(selectionListDescription, {left: 260, top: 10});
+      // List Selection description
+      var selectionListDescription = new qx.ui.basic.Label();
+      selectionListDescription.setRich(true);
+      selectionListDescription.setWidth(100);
+      selectionListDescription.setContent(
+        "<b>Selection List</b><br/>"
+        + "Bound to the selection of the list to the left."
+      );
+      this.getRoot().add(selectionListDescription, {left: 260, top: 10});
        
-       // Label Selection description
-       var selectionLabelDescription = new qx.ui.basic.Label();
-       selectionLabelDescription.setRich(true);
-       selectionLabelDescription.setWidth(100);
-       selectionLabelDescription.setContent(
-         "<b>Selection Label</b><br/>"
-         + "Bound to the selection of the list to the left."
-       );
-       this.getRoot().add(selectionLabelDescription, {left: 380, top: 10});       
+      // Label Selection description
+      var selectionLabelDescription = new qx.ui.basic.Label();
+      selectionLabelDescription.setRich(true);
+      selectionLabelDescription.setWidth(100);
+      selectionLabelDescription.setContent(
+        "<b>Selection Label</b><br/>"
+        + "Bound to the selection of the list to the left."
+      );
+      this.getRoot().add(selectionLabelDescription, {left: 380, top: 10});       
     }
   }
 });
