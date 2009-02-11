@@ -416,9 +416,12 @@ qx.Class.define("qx.data.SingleValueBinding",
      *   be bind to.
      * @param targetProperty {String} The property name of the target object.
      * @param options {Map} A map containing the options.
-     *   <li>converter: A converter function which takes one parameter
-     *       (the value) and should return the converted value. If no conversion
-     *       has been done, the given value should be returned.</li>
+     *   <li>converter: A converter function which takes two parameters
+     *       and should return the converted value. The first parameter ist the 
+     *       data so convert and the second one is the corresponding model 
+     *       object, which is only set in case of the use of an controller.
+     *       If no conversion has been done, the given value should be 
+     *       returned.</li>
      *   <li>onSetOk: A callback function can be given here. This method will be
      *       called if the set of the value was successful. There will be 
      *       three parameter you do get in that method call: the source object,
@@ -535,18 +538,10 @@ qx.Class.define("qx.data.SingleValueBinding",
           qx.log.Logger.debug("Data before conversion: " + data);
         }
 
-        // convert the data if a converter is given
-        if (options && options.converter) {
-          data = options.converter(data);
-        } else {
-          // try default conversion
-          var propertieDefinition =  qx.Class.getPropertyDefinition(
-            targetObject.constructor, targetProperty
-          );
-          data = qx.data.SingleValueBinding.__defaultConvertion(
-            data, propertieDefinition.check
-          );
-        }
+        // convert the data
+        data = qx.data.SingleValueBinding.__convertValue(
+          data, targetObject, targetProperty, options
+        );
         
         // debug message
         if (qx.data.SingleValueBinding.DEBUG_ON) {
@@ -643,7 +638,7 @@ qx.Class.define("qx.data.SingleValueBinding",
     __convertValue : function(value, targetObject, targetProperty, options) {
       // do the conversion given by the user
       if (options && options.converter) {
-        return options.converter(value);
+        return options.converter(value, targetObject.getUserData("model"));
       // try default conversion
       } else {
         var propertieDefinition = qx.Class.getPropertyDefinition(
