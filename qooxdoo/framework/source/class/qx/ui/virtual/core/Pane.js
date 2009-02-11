@@ -61,8 +61,8 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     
     this.__layers = [];
     
-    this.__rowConfig.addListener("change", this.deferredFullUpdate, this);
-    this.__columnConfig.addListener("change", this.deferredFullUpdate, this);
+    this.__rowConfig.addListener("change", this.fullUpdate, this);
+    this.__columnConfig.addListener("change", this.fullUpdate, this);
     
     this.addListener("resize", this._onResize, this);
     this.addListenerOnce("appear", this._onAppear, this);    
@@ -668,27 +668,13 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     // overridden
     syncWidget : function()
     {
-      if (this.__jobs.fullUpdate) {
-        this.fullUpdate();
+      if (this.__jobs._fullUpdate) {
+        this._fullUpdate();
       } else if (this.__jobs._updateScrollPosition) {
         this._updateScrollPosition();
       }
       this.__jobs = {};
     },
-    
-    
-    _deferredUpdateScrollPosition : function()
-    {
-      this.__jobs._updateScrollPosition = 1;
-      qx.ui.core.queue.Widget.add(this);
-    },
-    
-    
-    deferredFullUpdate : function()
-    {
-      this.__jobs.fullUpdate = 1;
-      qx.ui.core.queue.Widget.add(this);
-    },    
     
     
     /**
@@ -798,13 +784,23 @@ qx.Class.define("qx.ui.virtual.core.Pane",
         this.fireEvent("update");
       }      
     },
+        
+    
+    /**
+     * Schedule a full update on all visible layers. 
+     */
+    fullUpdate : function()
+    {
+      this.__jobs._fullUpdate = 1;
+      qx.ui.core.queue.Widget.add(this);
+    },       
     
     
     /**
      * Perform a full update on all visible layers. All cached data will be 
      * discarded.
      */
-    fullUpdate : function()
+    _fullUpdate : function()
     {
       var layers = this.getVisibleLayers();
       if (layers.length == 0)
@@ -829,6 +825,17 @@ qx.Class.define("qx.ui.virtual.core.Pane",
              
       this.__checkPaneResize();
     },
+    
+    
+    /**
+     * Schedule an update the visible window of the grid according to the top 
+     * and left scroll positions. 
+     */
+    _deferredUpdateScrollPosition : function()
+    {
+      this.__jobs._updateScrollPosition = 1;
+      qx.ui.core.queue.Widget.add(this);
+    }, 
     
     
     /**

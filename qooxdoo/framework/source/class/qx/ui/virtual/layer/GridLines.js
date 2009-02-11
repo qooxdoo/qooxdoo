@@ -92,6 +92,7 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
     /** Stores the width/height for deviant grid lines. */
     __lineSizes : null,
 
+    
     /**
      * Sets the color for the grid line with the given index.
      * 
@@ -112,6 +113,7 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
       }
     },
 
+    
     /**
      * Sets the width/height for the grid line with the given index.
      * 
@@ -132,6 +134,7 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
       }
     },
 
+    
     /**
      * Returns the size of the grid line with the given index.
      * 
@@ -142,6 +145,7 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
       return this.__lineSizes[index] || this.getDefaultLineSize();
     },
 
+    
     /**
      * Returns the color of the grid line with the given index.
      * 
@@ -152,10 +156,12 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
       return this.__lineColors[index] || this.getDefaultLineColor();
     },
 
+    
     /**
      * Helper function to render horizontal lines.
      * 
      * @param htmlArr {Array} An array to store the generated HTML in.
+     * @param firstRow {Integer} The first visible row
      * @param rowSizes {Array} An array containing the row sizes.
      */
     __renderHorizontalLines : function(htmlArr, firstRow, rowSizes)
@@ -181,10 +187,12 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
       }  
     },
     
+    
     /**
      * Helper function to render vertical lines.
      * 
      * @param htmlArr {Array} The array to store the generated HTML in.
+     * @param firstColumn {Integer} The first visible column
      * @param columnSizes {Array} An array containing the column sizes.
      */
     __renderVerticalLines : function(htmlArr, firstColumn, columnSizes)
