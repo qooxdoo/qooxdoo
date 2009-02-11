@@ -107,7 +107,7 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
       }
       this.__lineColors[index] = color;
 
-      if (index >= this._firstRow && index <= this._lastRow) {
+      if (index >= this.getFirstRow() && index <= this._lastRow) {
         this.updateLayerData();
       }
     },
@@ -127,7 +127,7 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
       }
       this.__lineSizes[index] = size;
 
-      if (index >= this._firstRow && index <= this._lastRow) {
+      if (index >= this.getFirstRow() && index <= this._lastRow) {
         this.updateLayerData();
       }
     },
@@ -236,8 +236,8 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
       rowSizes, columnSizes
     ) 
     {
-      var rowChanged = firstRow !== this._firstRow || lastRow !== this._lastRow;
-      var columnChanged = firstColumn !== this._firstColumn || lastColumn !== this._lastColumn;
+      var rowChanged = firstRow !== this.getFirstRow() || lastRow !== this._lastRow;
+      var columnChanged = firstColumn !== this.getFirstColumn() || lastColumn !== this.getLastColumn();
       
       if (
         (this._isHorizontal && rowChanged) ||

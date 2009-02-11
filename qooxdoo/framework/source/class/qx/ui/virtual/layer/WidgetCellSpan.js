@@ -219,7 +219,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
       this.__updateCellSpanData(firstRow, lastRow, firstColumn, lastColumn);
       this.__updateCellSpanWidgets();
       
-      this._cellLayer._fullUpdate(
+      this._cellLayer.fullUpdate(
         firstRow, lastRow, 
         firstColumn, lastColumn, 
         rowSizes, columnSizes        
@@ -237,7 +237,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
       this.__updateCellSpanData(firstRow, lastRow, firstColumn, lastColumn);
       this.__updateCellSpanWidgets();
       
-      this._cellLayer._updateLayerWindow(
+      this._cellLayer.updateLayerWindow(
         firstRow, lastRow, 
         firstColumn, lastColumn, 
         rowSizes, columnSizes            

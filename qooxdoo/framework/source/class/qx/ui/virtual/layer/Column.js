@@ -142,8 +142,8 @@ qx.Class.define("qx.ui.virtual.layer.Column",
     )
     {
       if (
-        firstColumn !== this._firstColumn ||
-        lastColumn !== this._lastColumn ||
+        firstColumn !== this.getFirstColumn() ||
+        lastColumn !== this.getLastColumn() ||
         this._height < qx.lang.Array.sum(rowSizes)
       ) {
         this._fullUpdate(
@@ -159,7 +159,7 @@ qx.Class.define("qx.ui.virtual.layer.Column",
     setColor : function(index, color) 
     {
       this.base(arguments, index, color);     
-      if (index >= this._firstColumn && index <= this._lastColumn) {
+      if (index >= this.getFirstColumn() && index <= this.getLastColumn()) {
         this.updateLayerData();
       }
     }

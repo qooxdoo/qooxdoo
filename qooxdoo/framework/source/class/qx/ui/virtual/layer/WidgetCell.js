@@ -154,10 +154,10 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
       //         +---+
       //
       var overlap = {
-        firstRow: Math.max(firstRow, this._firstRow),
+        firstRow: Math.max(firstRow, this.getFirstRow()),
         lastRow: Math.min(lastRow, this._lastRow),
-        firstColumn: Math.max(firstColumn, this._firstColumn),
-        lastColumn: Math.min(lastColumn, this._lastColumn)
+        firstColumn: Math.max(firstColumn, this.getFirstColumn()),
+        lastColumn: Math.min(lastColumn, this.getLastColumn())
       }
       
       if (
@@ -173,7 +173,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
       
       // collect the widgets to move
       var children = this._getChildren();
-      var lineLength = this._lastColumn - this._firstColumn + 1;
+      var lineLength = this.getLastColumn() - this.getFirstColumn() + 1;
       var widgetsToMove = [];
       var widgetsToMoveIndexes = {};
       for (var row=firstRow; row<=lastRow; row++)
@@ -188,8 +188,8 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
             column <= overlap.lastColumn
           ) 
           {
-            var x = column - this._firstColumn;
-            var y = row - this._firstRow;
+            var x = column - this.getFirstColumn();
+            var y = row - this.getFirstRow();
             var index = y*lineLength + x;
             widgetsToMove[row][column] = children[index];
             widgetsToMoveIndexes[index] = true;
@@ -238,12 +238,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
         }
         top += rowSizes[y];
         left = 0;
-      }
-      
-      this._firstRow = firstRow;
-      this._lastRow = lastRow;
-      this._firstColumn = firstColumn;
-      this._lastColumn = lastColumn;      
+      }     
     }
   },
   
