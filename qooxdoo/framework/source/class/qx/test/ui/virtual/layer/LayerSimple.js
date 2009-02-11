@@ -20,8 +20,8 @@
 
 qx.Class.define("qx.test.ui.virtual.layer.LayerSimple",
 {
-  extend : qx.ui.core.Widget,
-  implement : [qx.ui.virtual.core.ILayer],
+  extend : qx.ui.virtual.layer.Abstract,
+  
 
   /*
   *****************************************************************************
@@ -47,7 +47,7 @@ qx.Class.define("qx.test.ui.virtual.layer.LayerSimple",
       ].join("");   
     },
 
-    fullUpdate : function(
+    _fullUpdate : function(
       firstRow, lastRow, 
       firstColumn, lastColumn, 
       rowSizes, columnSizes
@@ -81,28 +81,6 @@ qx.Class.define("qx.test.ui.virtual.layer.LayerSimple",
       }
       
       this.getContentElement().setAttribute("html", html.join(""));
-      
-      this._firstRow = firstRow;
-      this._lastRow = lastRow;
-      this._firstColumn = firstColumn;
-      this._lastColumn = lastColumn;
-      this._rowSizes = rowSizes;
-      this._columnSizes = columnSizes;
-    },
-
-
-    
-    updateLayerWindow : function(
-      firstRow, lastRow, 
-      firstColumn, lastColumn, 
-      rowSizes, columnSizes
-    ) {
-      this.fullUpdate(
-        firstRow, lastRow, 
-        firstColumn, lastColumn, 
-        rowSizes, columnSizes
-      );
     }
-
   }
 });
