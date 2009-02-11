@@ -36,6 +36,18 @@ qx.Class.define("qx.test.ui.virtual.layer.LayerMock",
 
   members :
   {
+    updateLayerData : function() 
+    {
+      this.calls.push(["updateLayerData", qx.lang.Array.fromArguments(arguments)]);
+      this.base(arguments);      
+    },
+    
+
+    _updateLayerData : function() {
+      this.calls.push(["_updateLayerData", qx.lang.Array.fromArguments(arguments)]);          
+    },
+
+    
     fullUpdate : function(
       firstRow, lastRow, 
       firstColumn, lastColumn, 
@@ -49,6 +61,15 @@ qx.Class.define("qx.test.ui.virtual.layer.LayerMock",
         rowSizes, columnSizes
       );
     },
+
+    
+    _fullUpdate : function(
+      firstRow, lastRow, 
+      firstColumn, lastColumn, 
+      rowSizes, columnSizes
+    ) {
+      this.calls.push(["_fullUpdate", qx.lang.Array.fromArguments(arguments)]);
+    },    
     
     
     updateLayerWindow : function(
@@ -63,6 +84,15 @@ qx.Class.define("qx.test.ui.virtual.layer.LayerMock",
         firstColumn, lastColumn, 
         rowSizes, columnSizes
       );      
-    }
+    },
+    
+    
+    _updateLayerWindow : function(
+      firstRow, lastRow, 
+      firstColumn, lastColumn, 
+      rowSizes, columnSizes  
+    ) {
+      this.calls.push(["_updateLayerWindow", qx.lang.Array.fromArguments(arguments)]);
+    }    
   }
 });

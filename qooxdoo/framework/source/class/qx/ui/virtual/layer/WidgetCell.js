@@ -24,10 +24,13 @@
  */
 qx.Class.define("qx.ui.virtual.layer.WidgetCell",
 {
-  extend : qx.ui.container.Composite,
-  
-  implement : [qx.ui.virtual.core.ILayer],
-  
+  extend : qx.ui.virtual.layer.Abstract,
+
+  include : [
+    qx.ui.core.MChildrenHandling
+  ],
+
+           
   /**
    * @param widgetCellProvider {qx.ui.virtual.core.IWidgetCellProvider} This
    *    class manages the life cycle of the cell widgets.
@@ -37,13 +40,33 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
     this.base(arguments);
 
     if (qx.core.Variant.isSet("qx.debug", "on")) {
-      this.assertInterface(widgetCellProvider, qx.ui.virtual.core.IWidgetCellProvider);
+      this.assertInterface(
+        widgetCellProvider, 
+        qx.ui.virtual.core.IWidgetCellProvider
+      );
     }
     
     this._cellProvider = widgetCellProvider;
     this.__spacerPool = [];
   },
   
+  
+  /*
+   *****************************************************************************
+      PROPERTIES
+   *****************************************************************************
+   */
+
+   properties :
+   {
+     // overridden
+     anonymous :
+     {
+       refine: true,
+       init: false
+     }    
+   },
+   
   
   /*
   *****************************************************************************
@@ -71,7 +94,9 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
       return spacer;
     },
     
-    fullUpdate : function(
+    
+    // overridden
+    _fullUpdate : function(
       firstRow, lastRow, 
       firstColumn, lastColumn, 
       rowSizes, columnSizes    
@@ -110,16 +135,11 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
         }
         top += rowSizes[y];
         left = 0;
-      }
-
-      this._firstRow = firstRow;
-      this._lastRow = lastRow;
-      this._firstColumn = firstColumn;
-      this._lastColumn = lastColumn;            
+      }          
     },
     
     
-    updateLayerWindow : function(
+    _updateLayerWindow : function(
       firstRow, lastRow, 
       firstColumn, lastColumn, 
       rowSizes, columnSizes
@@ -144,7 +164,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
         overlap.firstRow > overlap.lastRow || 
         overlap.firstColumn > overlap.lastColumn
       ) {
-        return this.fullUpdate(
+        return this._fullUpdate(
           firstRow, lastRow, 
           firstColumn, lastColumn, 
           rowSizes, columnSizes            

@@ -24,11 +24,14 @@
  */
 qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
 {
-  extend : qx.ui.container.Composite,
+  extend : qx.ui.virtual.layer.Abstract,
   
   implement : [
-    qx.ui.virtual.core.ILayer,
     qx.ui.virtual.core.IWidgetCellProvider
+  ],
+  
+  include : [
+    qx.ui.core.MChildrenHandling
   ],
   
   
@@ -54,6 +57,23 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
   },
   
   
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    // overridden
+    anonymous :
+    {
+      refine: true,
+      init: false
+    }    
+  },  
+  
+   
   /*
   *****************************************************************************
      MEMBERS
@@ -190,7 +210,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
     
     
     // overridden
-    fullUpdate : function(
+    _fullUpdate : function(
       firstRow, lastRow, 
       firstColumn, lastColumn, 
       rowSizes, columnSizes    
@@ -199,7 +219,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
       this.__updateCellSpanData(firstRow, lastRow, firstColumn, lastColumn);
       this.__updateCellSpanWidgets();
       
-      this._cellLayer.fullUpdate(
+      this._cellLayer._fullUpdate(
         firstRow, lastRow, 
         firstColumn, lastColumn, 
         rowSizes, columnSizes        
@@ -208,7 +228,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
     
     
     // overridden
-    updateLayerWindow : function(
+    _updateLayerWindow : function(
       firstRow, lastRow, 
       firstColumn, lastColumn, 
       rowSizes, columnSizes
@@ -217,7 +237,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
       this.__updateCellSpanData(firstRow, lastRow, firstColumn, lastColumn);
       this.__updateCellSpanWidgets();
       
-      this._cellLayer.updateLayerWindow(
+      this._cellLayer._updateLayerWindow(
         firstRow, lastRow, 
         firstColumn, lastColumn, 
         rowSizes, columnSizes            

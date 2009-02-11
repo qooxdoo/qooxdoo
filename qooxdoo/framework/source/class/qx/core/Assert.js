@@ -48,7 +48,7 @@ qx.Class.define("qx.core.Assert",
     __assert : function(condition, comment, msg)
     {
       if (!condition)
-      {
+      {        
         var errorMsg = "Assertion error! " + comment + ": " + msg;
         qx.log.Logger.error(errorMsg);
         if (qx.Class.isDefined("qx.core.AssertionError"))

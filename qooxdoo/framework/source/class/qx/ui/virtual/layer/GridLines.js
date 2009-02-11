@@ -23,9 +23,7 @@
  */
 qx.Class.define("qx.ui.virtual.layer.GridLines",
 {
-  extend : qx.ui.core.Widget,
-  
-  implement : [qx.ui.virtual.core.ILayer],
+  extend : qx.ui.virtual.layer.Abstract,
   
   /**
    * @param orientation {String?"horizontal"} The grid line orientation.
@@ -60,13 +58,6 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
 
   properties :
   {
-    // overridden
-    anonymous :
-    {
-      refine: true,
-      init: true
-    },
-
     /** The default color for grid lines.*/
     defaultLineColor :
     {
@@ -117,7 +108,7 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
       this.__lineColors[index] = color;
 
       if (index >= this._firstRow && index <= this._lastRow) {
-        qx.ui.core.queue.Widget.add(this);
+        this.updateLayerData();
       }
     },
 
@@ -137,7 +128,7 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
       this.__lineSizes[index] = size;
 
       if (index >= this._firstRow && index <= this._lastRow) {
-        qx.ui.core.queue.Widget.add(this);
+        this.updateLayerData();
       }
     },
 
@@ -167,14 +158,14 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
      * @param htmlArr {Array} An array to store the generated HTML in.
      * @param rowSizes {Array} An array containing the row sizes.
      */
-    __renderHorizontalLines : function(htmlArr, rowSizes)
+    __renderHorizontalLines : function(htmlArr, firstRow, rowSizes)
     {
       var top = 0;
       var color, height;
       for (var y=0; y<rowSizes.length-1; y++)
       {
-        color = this.getLineColor(this._firstRow + y);
-        height = this.getLineSize(this._firstRow + y);
+        color = this.getLineColor(firstRow + y);
+        height = this.getLineSize(firstRow + y);
 
         top += rowSizes[y];
         htmlArr.push(
@@ -196,14 +187,14 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
      * @param htmlArr {Array} The array to store the generated HTML in.
      * @param columnSizes {Array} An array containing the column sizes.
      */
-    __renderVerticalLines : function(htmlArr, columnSizes)
+    __renderVerticalLines : function(htmlArr, firstColumn, columnSizes)
     {
       var left = 0;
       var color, width;
       for (var x=0; x<columnSizes.length-1; x++)
       {
-        color = this.getLineColor(this._firstColumn + x);
-        width = this.getLineSize(this._firstColumn + x);
+        color = this.getLineColor(firstColumn + x);
+        width = this.getLineSize(firstColumn + x);
 
         left += columnSizes[x];
         htmlArr.push(
@@ -220,49 +211,26 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
       }      
     },
 
+
     // overridden
-    syncWidget : function()
-    {
-      var el = this.getContentElement().getDomElement();
-      if (!el) {
-        return;
-      }
-
-      this.fullUpdate(
-        this._firstRow,
-        this._lastRow,
-        this._firstColumn,
-        this._lastColumn,
-        this._rowSizes,
-        this._columnSizes
-        );
-    },
-
-    // interface implementation
-    fullUpdate : function(
+    _fullUpdate : function(
       firstRow, lastRow, 
       firstColumn, lastColumn, 
       rowSizes, columnSizes
     )
     {
-      this._firstRow = firstRow;
-      this._lastRow = lastRow;
-      this._firstColumn = firstColumn;
-      this._lastColumn = lastColumn;
-      this._rowSizes = rowSizes;
-      this._columnSizes = columnSizes;
-
       var html = [];
       if (this._isHorizontal) {
-        this.__renderHorizontalLines(html, rowSizes);
+        this.__renderHorizontalLines(html, firstRow, rowSizes);
       } else {
-        this.__renderVerticalLines(html, columnSizes);
+        this.__renderVerticalLines(html, firstColumn, columnSizes);
       }
       this.getContentElement().setAttribute("html", html.join(""));
     },
     
-    // interface implementation
-    updateLayerWindow : function(
+    
+    // overridden
+    _updateLayerWindow : function(
       firstRow, lastRow, 
       firstColumn, lastColumn, 
       rowSizes, columnSizes
@@ -275,7 +243,7 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
         (this._isHorizontal && rowChanged) ||
         (!this._isHorizontal && columnChanged)
       ) {
-        this.fullUpdate(
+        this._fullUpdate(
           firstRow, lastRow, 
           firstColumn, lastColumn, 
           rowSizes, columnSizes

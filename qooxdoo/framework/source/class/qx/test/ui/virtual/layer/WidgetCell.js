@@ -98,10 +98,12 @@ qx.Class.define("qx.test.ui.virtual.layer.WidgetCell",
       });
       
       this.getRoot().add(layer);
+      this.flush();
+      
       layer.fullUpdate(0, 5, 0, 2, [10, 10, 10, 10, 10, 10], [30, 30, 30]);
       this.flush();
       
-      var children = layer._getChildren();
+      var children = layer.getChildren();
      
       for (var y=0; y<=5; y++)
       {

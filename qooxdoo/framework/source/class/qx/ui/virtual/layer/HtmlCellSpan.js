@@ -31,13 +31,15 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCellSpan",
    *    provides the HTML markup for each cell.
    * @param rowConfig {qx.ui.virtual.core.Axis} The row configuration of the pane 
    *    in which the cells will be rendered
-   * @param columnConfig {qx.ui.virtual.core.Axis} The column configuration of the pane 
-   *    in which the cells will be rendered
+   * @param columnConfig {qx.ui.virtual.core.Axis} The column configuration of
+   *    the pane in which the cells will be rendered
    */  
   construct : function(htmlCellProvider, rowConfig, columnConfig)
   {
     this.base(arguments, htmlCellProvider);      
-    this._spanManager = new qx.ui.virtual.layer.CellSpanManager(rowConfig, columnConfig);
+    this._spanManager = new qx.ui.virtual.layer.CellSpanManager(
+      rowConfig, columnConfig
+    );
   },
 
   
@@ -69,7 +71,7 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCellSpan",
     
     
     // overridden
-    fullUpdate : function(
+    _fullUpdate : function(
       firstRow, lastRow, 
       firstColumn, lastColumn, 
       rowSizes, columnSizes

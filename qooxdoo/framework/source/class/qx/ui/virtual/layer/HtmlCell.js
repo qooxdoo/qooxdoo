@@ -23,7 +23,7 @@
  */
 qx.Class.define("qx.ui.virtual.layer.HtmlCell",
 {
-  extend : qx.ui.core.Widget,
+  extend : qx.ui.virtual.layer.Abstract,
   
   implement : [qx.ui.virtual.core.ILayer],
   
@@ -44,23 +44,6 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCell",
   
   
   /*
-   *****************************************************************************
-      PROPERTIES
-   *****************************************************************************
-   */
-
-   properties :
-   {
-     // overridden
-     anonymous :
-     {
-       refine: true,
-       init: true
-     }
-   },
-  
-  
-  /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
@@ -69,21 +52,7 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCell",
   members :
   {
     // overridden
-    syncWidget : function()
-    {
-      if (!this._rowSizes) {
-        return;
-      }
-      this.fullUpdate(
-        this._firstRow, this._lastRow,
-        this._firstColumn, this._lastColumn,
-        this._rowSizes, this._columnSizes
-      );
-    },
-     
-     
-    // overridden
-    fullUpdate : function(
+    _fullUpdate : function(
       firstRow, lastRow, 
       firstColumn, lastColumn, 
       rowSizes, columnSizes
@@ -117,27 +86,6 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCell",
       }
       
       this.getContentElement().setAttribute("html", html.join(""));
-      
-      this._firstRow = firstRow;
-      this._lastRow = lastRow;
-      this._firstColumn = firstColumn;
-      this._lastColumn = lastColumn;
-      this._rowSizes = rowSizes;
-      this._columnSizes = columnSizes;
-    },
-    
-    
-    // overridden
-    updateLayerWindow : function(
-      firstRow, lastRow, 
-      firstColumn, lastColumn, 
-      rowSizes, columnSizes
-    ) {
-      this.fullUpdate(
-        firstRow, lastRow, 
-        firstColumn, lastColumn, 
-        rowSizes, columnSizes
-      );
     }
   }
 });
