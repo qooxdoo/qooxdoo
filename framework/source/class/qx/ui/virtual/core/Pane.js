@@ -129,7 +129,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
 
   members :
   {
-    DEBUG : false,
+    DEBUG : true,
     
     
     /*

@@ -42,7 +42,7 @@ qx.Class.define("qx.test.ui.Destroy",
         }
 
         this.getRoot().add(widget);
-        qx.ui.core.queue.Manager.flush();
+        this.flush();
 
         widget.destroy();
       }, this);
@@ -93,7 +93,7 @@ qx.Class.define("qx.test.ui.Destroy",
         widget.setMenu(this.__createMenu());
 
         this.getRoot().add(widget);
-        qx.ui.core.queue.Manager.flush();
+        this.flush();
 
         widget.destroy();
       }, this, "Dispose menu button");
@@ -157,7 +157,7 @@ qx.Class.define("qx.test.ui.Destroy",
         {
           var widget = new qx.ui.control.ColorPopup();
           widget.show();
-          qx.ui.core.queue.Manager.flush();
+          this.flush();
 
           widget.destroy();
         }, this, "Dispose color popup");
@@ -222,7 +222,7 @@ qx.Class.define("qx.test.ui.Destroy",
 
         menu.setOpener(this.getRoot());
         menu.open();
-        qx.ui.core.queue.Manager.flush();
+        this.flush();
 
         menu.destroy();
       }, this, "Dispose configured menu");
@@ -235,7 +235,7 @@ qx.Class.define("qx.test.ui.Destroy",
       {
         var widget = new qx.ui.popup.Popup();
         widget.show();
-        qx.ui.core.queue.Manager.flush();
+        this.flush();
 
         widget.destroy();
       }, this, "Dispose configured menu");
@@ -257,7 +257,7 @@ qx.Class.define("qx.test.ui.Destroy",
         widget.add(new qx.ui.core.Widget());
 
         this.getRoot().add(widget);
-        qx.ui.core.queue.Manager.flush();
+        this.flush();
 
         widget.destroy();
       }, this, "Dispose split pane");
@@ -273,7 +273,7 @@ qx.Class.define("qx.test.ui.Destroy",
         widget.add(new qx.ui.tabview.Page("Kinners"));
 
         this.getRoot().add(widget);
-        qx.ui.core.queue.Manager.flush();
+        this.flush();
 
         widget.destroy();
       }, this, "Dispose tabview");
@@ -301,7 +301,7 @@ qx.Class.define("qx.test.ui.Destroy",
         widget.setMenu(this.__createMenu());
 
         this.getRoot().add(widget);
-        qx.ui.core.queue.Manager.flush();
+        this.flush();
 
         widget.destroy();
       }, this, "Dispose toolbar menu button");
@@ -312,7 +312,7 @@ qx.Class.define("qx.test.ui.Destroy",
         widget.setMenu(this.__createMenu());
 
         this.getRoot().add(widget);
-        qx.ui.core.queue.Manager.flush();
+        this.flush();
 
         widget.destroy();
       }, this, "Dispose toolbar split button");
@@ -327,7 +327,7 @@ qx.Class.define("qx.test.ui.Destroy",
         widget.add(part);
 
         this.getRoot().add(widget);
-        qx.ui.core.queue.Manager.flush();
+        this.flush();
 
         widget.destroy();
       }, this, "Dispose configured toolbar");
@@ -340,7 +340,7 @@ qx.Class.define("qx.test.ui.Destroy",
       {
         var widget = new qx.ui.tooltip.ToolTip();
         widget.show();
-        qx.ui.core.queue.Manager.flush();
+        this.flush();
 
         widget.destroy();
       }, this, "Dispose tool tip");
@@ -359,7 +359,7 @@ qx.Class.define("qx.test.ui.Destroy",
         widget.setRoot(root);
 
         widget.show();
-        qx.ui.core.queue.Manager.flush();
+        this.flush();
 
         widget.destroy();
       }, this, "Dispose tool tip");
@@ -378,7 +378,7 @@ qx.Class.define("qx.test.ui.Destroy",
       {
         var widget = new qx.ui.window.Window();
         widget.show();
-        qx.ui.core.queue.Manager.flush();
+        this.flush();
 
         widget.destroy();
       }, this, "Dispose tool tip");
