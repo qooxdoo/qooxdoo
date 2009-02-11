@@ -66,6 +66,30 @@ qx.Class.define("qx.ui.virtual.layer.Abstract",
  
   members :
   {
+    getFirstRow : function() {
+      return this.__firstRow;
+    },
+    
+    getLastRow : function() {
+      return this.__lastRow;
+    },
+    
+    getFirstColumn : function() {
+      return this.__firstColumn;
+    },
+
+    getLastColumn : function() {
+      return this.__lastColumn;
+    },
+    
+    getRowSizes : function() {
+      return this.__rowSizes;
+    },
+    
+    getColumnSizes : function() {
+      return this.__columnSizes;
+    },
+    
     // overridden
     syncWidget : function()
     {
@@ -94,12 +118,12 @@ qx.Class.define("qx.ui.virtual.layer.Abstract",
       if (this.__jobs.fullUpdate || this.__jobs.updateLayerWindow)
       {
         var args = this.__arguments;
-        this._firstRow = args[0];
-        this._lastRow = args[1];
-        this._firstColumn = args[2];
-        this._lastColumn = args[3];
-        this._rowSizes = args[4];
-        this._columnSizes = args[5];
+        this.__firstRow = args[0];
+        this.__lastRow = args[1];
+        this.__firstColumn = args[2];
+        this.__lastColumn = args[3];
+        this.__rowSizes = args[4];
+        this.__columnSizes = args[5];
       }
       this.__jobs = {};
     },
@@ -108,9 +132,9 @@ qx.Class.define("qx.ui.virtual.layer.Abstract",
     _updateLayerData : function() 
     {
       this._fullUpdate(
-        this._firstRow, this._lastRow,
-        this._firstColumn, this._lastColumn,
-        this._rowSizes, this._columnSizes
+        this.__firstRow, this.__lastRow,
+        this.__firstColumn, this.__lastColumn,
+        this.__rowSizes, this.__columnSizes
       );
     },
     

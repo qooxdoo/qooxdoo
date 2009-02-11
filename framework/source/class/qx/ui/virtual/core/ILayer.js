@@ -54,6 +54,7 @@ qx.Interface.define("qx.ui.virtual.core.ILayer",
       this.assertArray(columnSizes);
     },
     
+    
     /**
      * Update the layer to display a different window of the virtual grid.
      * This method is called if the pane is scrolled, resized or cells
@@ -83,6 +84,12 @@ qx.Interface.define("qx.ui.virtual.core.ILayer",
       this.assertPositiveInteger(lastColumn);
       this.assertArray(rowSizes);
       this.assertArray(columnSizes);
-    }
+    },
+    
+    
+    /**
+     * Update the layer to reflect changes in the data the layer displays.
+     */
+    updateLayerData : function() {}
   }
 });

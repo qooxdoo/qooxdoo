@@ -429,7 +429,7 @@ qx.Class.define("demo.HtmlTableGallery",
     },
 
     styleSelectable : function(item, type, wasAdded) {
-      qx.ui.core.queue.Widget.add(this.layer);
+      this.layer.updateLayerData();
     },
 
     getCellHtml : function(row, column, left, top, width, height)

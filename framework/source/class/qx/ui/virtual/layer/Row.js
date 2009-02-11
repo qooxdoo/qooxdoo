@@ -142,7 +142,7 @@ qx.Class.define("qx.ui.virtual.layer.Row",
     )
     {      
       if (
-        firstRow !== this._firstRow ||
+        firstRow !== this.getFirstRow() ||
         lastRow !== this._lastRow || 
         this._width < qx.lang.Array.sum(columnSizes)
       ) {
@@ -159,7 +159,7 @@ qx.Class.define("qx.ui.virtual.layer.Row",
     setColor : function(index, color) 
     {
       this.base(arguments, index, color);     
-      if (index >= this._firstRow && index <= this._lastRow) {
+      if (index >= this.getFirstRow() && index <= this._lastRow) {
         this.updateLayerData();
       }
     },
@@ -169,7 +169,7 @@ qx.Class.define("qx.ui.virtual.layer.Row",
     setDecorator : function(index, decorator) 
     {
       this.base(arguments, index, decorator);     
-      if (index >= this._firstRow && index <= this._lastRow) {
+      if (index >= this.getFirstRow() && index <= this._lastRow) {
         this.updateLayerData();
       }
     }    
