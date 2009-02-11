@@ -99,6 +99,7 @@ qx.Class.define("testrunner.runner.TestHandler",
             if (nextRoot == null)
             {
               nextRoot = new testrunner.runner.Tree(head);
+              nextRoot.type = "package";
               parent.add(nextRoot);
             }
 
@@ -115,11 +116,13 @@ qx.Class.define("testrunner.runner.TestHandler",
           throw new Error("No target to insert tests");
         }
 
-        that.readTree(el, target);
+        var classNode = that.readTree(el, target);
+        classNode.type = "class";
 
       }  // insert()
 
       var root = new testrunner.runner.Tree("All");
+      root.type = "root";
       var that = this;
 
       for (var i=0; i<tmap.length; i++) {
