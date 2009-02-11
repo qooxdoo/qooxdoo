@@ -17,14 +17,14 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.performance.HtmlTableCell", 
+qx.Class.define("qx.test.ui.virtual.performance.HtmlDivCell", 
 {
   extend : qx.test.ui.virtual.performance.AbstractLayerTest,
 
   members :
   {
     getLayer : function() {
-      return new qx.ui.virtual.layer.HtmlTableCell(this);
+      return new qx.ui.virtual.layer.HtmlCell(this);
     },
     
     testScrollDown : function() {
@@ -46,20 +46,19 @@ qx.Class.define("qx.test.ui.virtual.performance.HtmlTableCell",
     getCellHtml : function(row, column, left, top, width, height)
     {
       var html = [
-        "<td ",
-        "style='",
-        "border-collapse: collapse;",
-        "margin: 0px;",
-        "padding: 0px;",
+        "<div style='",
+        "float: left;",
         "text-align: center;",
+        "width:", width, "px;",
+        "height:", height, "px;",
         "'>",
         row,
         " / ",
         column,
-        "</td>"                  
+        "</div>"                  
       ];
       return html.join("");
-    }    
+    }          
     
   }
 
