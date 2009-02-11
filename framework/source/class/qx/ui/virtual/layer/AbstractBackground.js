@@ -22,9 +22,8 @@
  */
 qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
 {
-  extend : qx.ui.core.Widget,
+  extend : qx.ui.virtual.layer.Abstract,
 
-  implement : [qx.ui.virtual.core.ILayer],
   
   /*
    *****************************************************************************
@@ -61,13 +60,6 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
 
   properties :
   {
-    // overridden
-    anonymous :
-    {
-      refine: true,
-      init: true
-    },    
-     
     /** color for event indexes */
     colorEven :
     {
@@ -100,40 +92,6 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
     __colorOdd : null,
     __customColors : null,
     __decorators : null,
-
-    
-    // overridden
-    syncWidget : function()
-    {
-      if (!this._columnSizes) {
-        return;
-      }
-      this.fullUpdate(
-        this._firstRow, this._lastRow,
-        this._firstColumn, this._lastColumn, 
-        this._rowSizes, this._columnSizes
-      )
-    },
-    
-    
-    // interface implementation
-    fullUpdate : function(
-      firstRow, lastRow, 
-      firstColumn, lastColumn, 
-      rowSizes, columnSizes
-    ) {
-      throw new Error("Abstract method call: fullUpdate()");
-    },
-    
-    
-    // interface implementation
-    updateLayerWindow : function(
-      firstRow, lastRow, 
-      firstColumn, lastColumn, 
-      rowSizes, columnSizes
-    ) {
-      throw new Error("Abstract method call: updateLayerWindow()");
-    },
         
     
     /*
@@ -165,7 +123,7 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
     clearCustomColors : function()
     {
       this.__customColors = {};
-      qx.ui.core.queue.Widget.add(this);
+      this.updateLayerData();
     },
     
     
@@ -194,7 +152,7 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
       } else {
         this.__colorEven = null;
       }
-      qx.ui.core.queue.Widget.add(this);
+      this.updateLayerData();
     },
     
     
@@ -206,7 +164,7 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
       } else {
         this.__colorOdd = null;
       }
-      qx.ui.core.queue.Widget.add(this);
+      this.updateLayerData();
     },
     
     
@@ -224,7 +182,7 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
       } else {
         delete(this.__decorators[index]);
       }     
-      qx.ui.core.queue.Widget.add(this);
+      this.updateLayerData();
     },
     
     

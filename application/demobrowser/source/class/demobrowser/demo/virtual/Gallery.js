@@ -142,8 +142,6 @@ qx.Class.define("demo.AbstractGallery",
       
       pane.getColumnConfig().setItemCount(colCount);
       pane.getRowConfig().setItemCount(rowCount);
-      
-      pane.fullUpdate();
     },
     
     
@@ -351,7 +349,7 @@ qx.Class.define("demo.HtmlGallery",
     },
     
     styleSelectable : function(item, type, wasAdded) {
-      qx.ui.core.queue.Widget.add(this.layer);
+      this.layer.updateLayerData();
     },
     
     getCellHtml : function(row, column, left, top, width, height)

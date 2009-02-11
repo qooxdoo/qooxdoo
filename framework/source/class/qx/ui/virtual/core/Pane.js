@@ -51,6 +51,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     this.__paneWidth = 0;
     
     this.__layerWindow = {};
+    this.__jobs = {};
         
     // create layer container. The container does not have a layout manager
     // layers are positioned using "setUserBounds"
@@ -59,6 +60,9 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     this._add(this.__layerContainer);
     
     this.__layers = [];
+    
+    this.__rowConfig.addListener("change", this.deferredFullUpdate, this);
+    this.__columnConfig.addListener("change", this.deferredFullUpdate, this);
     
     this.addListener("resize", this._onResize, this);
     this.addListenerOnce("appear", this._onAppear, this);    
@@ -129,7 +133,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
 
   members :
   {
-    DEBUG : true,
+    DEBUG : false,
     
     
     /*
@@ -279,7 +283,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       {        
         var old = this.__scrollTop;
         this.__scrollTop = value;
-        this._updateScrollPosition();
+        this._deferredUpdateScrollPosition();
         this.fireDataEvent("scrollY", value, old);
       }
     },
@@ -314,7 +318,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       {                
         var old = this.__scrollLeft;
         this.__scrollLeft = value;
-        this._updateScrollPosition();
+        this._deferredUpdateScrollPosition();
                 
         this.fireDataEvent("scrollX", value, old);
       }
@@ -661,6 +665,32 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     ---------------------------------------------------------------------------
     */
     
+    // overridden
+    syncWidget : function()
+    {
+      if (this.__jobs.fullUpdate) {
+        this.fullUpdate();
+      } else if (this.__jobs._updateScrollPosition) {
+        this._updateScrollPosition();
+      }
+      this.__jobs = {};
+    },
+    
+    
+    _deferredUpdateScrollPosition : function()
+    {
+      this.__jobs._updateScrollPosition = 1;
+      qx.ui.core.queue.Widget.add(this);
+    },
+    
+    
+    deferredFullUpdate : function()
+    {
+      this.__jobs.fullUpdate = 1;
+      qx.ui.core.queue.Widget.add(this);
+    },    
+    
+    
     /**
      * Sets the size of the layers to contain the cells at the pixel position
      * "left/right" up to "left+minHeight/right+minHeight". The offset of the
@@ -856,5 +886,12 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       
       this.__checkPaneResize();
     }
+  },
+  
+  
+  destruct : function() 
+  {
+    this._disposeArray("__layers");
+    this._disposeObjects("__rowConfig", "__columnConfig");
   }
 });
