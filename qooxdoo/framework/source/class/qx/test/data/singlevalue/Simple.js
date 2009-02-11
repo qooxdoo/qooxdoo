@@ -294,9 +294,6 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
 
 
     testMixinSupport: function() {
-      // include the mixin
-      qx.Class.include(qx.core.Object, qx.data.MBinding);
-
       // remove all bindings
       qx.data.SingleValueBinding.removeAllBindings();
 
