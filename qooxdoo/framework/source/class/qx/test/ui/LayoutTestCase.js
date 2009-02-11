@@ -58,13 +58,18 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
       return cls._root;
     },
 
+    
+    flush : function() {
+      qx.ui.core.queue.Manager.flush();
+    },
+    
 
     assertDestroy : function(fcn, context, msg)
     {
       // call function
       fcn.call(context);
-      qx.ui.core.queue.Manager.flush();
-      qx.ui.core.queue.Manager.flush();
+      this.flush();
+      this.flush();
 
 
       // copy object registry
@@ -84,8 +89,8 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
 
       // call function
       fcn.call(context);
-      qx.ui.core.queue.Manager.flush();
-      qx.ui.core.queue.Manager.flush();
+      this.flush();
+      this.flush();
 
       // measure increase in object counts
 
@@ -154,7 +159,7 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
         var widget = eval(str);
 
         this.getRoot().add(widget);
-        qx.ui.core.queue.Manager.flush();
+        this.flush();
 
         widget.destroy();
       }, this, msg);
@@ -178,7 +183,7 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
 
     assertSize : function(widget, width, height, msg)
     {
-      qx.ui.core.queue.Manager.flush();
+      this.flush();
       var el = widget.getContainerElement().getDomElement();
       var elHeight = parseInt(el.style.height);
       var elWidth = parseInt(el.style.width);
@@ -189,7 +194,7 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
 
     assertPadding : function(widget, top, right, bottom, left, msg)
     {
-      qx.ui.core.queue.Manager.flush();
+      this.flush();
 
       this.assertNotNull(widget.getContainerElement());
       this.assertNotNull(widget.getContainerElement().getDomElement());
@@ -214,7 +219,7 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
 
     assertStyle : function(widget, style, value, msg)
     {
-      qx.ui.core.queue.Manager.flush();
+      this.flush();
       var widgetStyle = widget.getContainerElement().getDomElement().style[style];
 
       if (value && style.match(/color/i)) {
@@ -227,7 +232,7 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
 
     assertContentStyle : function(widget, style, value, msg)
     {
-      qx.ui.core.queue.Manager.flush();
+      this.flush();
       var widgetStyle = widget.getContainerElement().getDomElement().style[style];
       if (value && style.match(/color/i)) {
         this.assertCssColor(value, widgetStyle, msg);
@@ -239,7 +244,7 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
 
     assertDecoratorStyle : function(widget, style, value, msg)
     {
-      qx.ui.core.queue.Manager.flush();
+      this.flush();
 
       if (!value && !widget.getDecoratorElement()) {
         return;

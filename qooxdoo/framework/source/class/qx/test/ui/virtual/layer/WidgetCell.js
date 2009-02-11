@@ -39,7 +39,7 @@ qx.Class.define("qx.test.ui.virtual.layer.WidgetCell",
       this._pool = null;      
       this.base(arguments);
       
-      qx.ui.core.queue.Manager.flush();
+      this.flush();
     },
   
     _createLayer : function() {
@@ -99,7 +99,7 @@ qx.Class.define("qx.test.ui.virtual.layer.WidgetCell",
       
       this.getRoot().add(layer);
       layer.fullUpdate(0, 5, 0, 2, [10, 10, 10, 10, 10, 10], [30, 30, 30]);
-      qx.ui.core.queue.Manager.flush();
+      this.flush();
       
       var children = layer._getChildren();
      

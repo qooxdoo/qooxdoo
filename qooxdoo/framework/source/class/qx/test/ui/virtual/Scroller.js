@@ -30,14 +30,14 @@ qx.Class.define("qx.test.ui.virtual.Scroller",
       var scroller = new qx.ui.virtual.core.Scroller(1, 1, 10, 10);
       this.getRoot().add(scroller);
       this.scroller = scroller;
-      qx.ui.core.queue.Manager.flush();
+      this.flush();
     },
     
     tearDown : function()
     {
       this.scroller.destroy();      
       this.base(arguments);
-      qx.ui.core.queue.Manager.flush();
+      this.flush();
     },
     
     assertScrollbars : function(hasScrollX, hasScrollY, msg)
@@ -65,7 +65,7 @@ qx.Class.define("qx.test.ui.virtual.Scroller",
       
       // trigger update manually
       this.scroller.getPane().fullUpdate();
-      qx.ui.core.queue.Manager.flush();
+      this.flush();
     },
     
     testConstructor : function() {

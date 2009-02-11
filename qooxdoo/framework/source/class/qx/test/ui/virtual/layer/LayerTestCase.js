@@ -43,10 +43,10 @@ qx.Class.define("qx.test.ui.virtual.layer.LayerTestCase",
       }          
       
       this.getRoot().add(this.layer);
-      qx.ui.core.queue.Manager.flush();
+      this.flush();
       
       this.layer.updateLayerWindow(10, 20, 15, 18, rowSizes, columnSizes);
-      qx.ui.core.queue.Manager.flush();
+      this.flush();
     },
   
     tearDown : function() {
@@ -91,7 +91,7 @@ qx.Class.define("qx.test.ui.virtual.layer.LayerTestCase",
         );
       }
       
-      qx.ui.core.queue.Manager.flush();
+      this.flush();
       this._assertCells(firstRow, lastRow, firstColumn, lastColumn);
     },
     
