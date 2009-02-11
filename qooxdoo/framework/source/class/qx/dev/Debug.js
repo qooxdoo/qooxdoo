@@ -272,7 +272,7 @@ qx.Class.define("qx.dev.Debug",
      * 
      * @return {String} A string representation of the given model.
      */    
-    debugModel: function(model, maxLevel, html, indent) {
+    debugProperties: function(model, maxLevel, html, indent) {
       // set the default max depth of the recursion
       if (maxLevel == null) {
         maxLevel = 10;
@@ -302,7 +302,7 @@ qx.Class.define("qx.dev.Debug",
             message += "-"
           }          
           message += "index(" + i + "): "
-            + this.debugModel(model.getItem(i), maxLevel - 1, html, indent + 1)
+            + this.debugProperties(model.getItem(i), maxLevel - 1, html, indent + 1)
             + newLine;
         }
         return message + newLine;
@@ -316,7 +316,7 @@ qx.Class.define("qx.dev.Debug",
           for (var j = 0; j < indent; j++) {
             message += "-"
           }
-          message += " " + key + ": " + this.debugModel(
+          message += " " + key + ": " + this.debugProperties(
             model["get" + qx.lang.String.firstUp(key)](), maxLevel - 1, html, indent + 1
           );
         }

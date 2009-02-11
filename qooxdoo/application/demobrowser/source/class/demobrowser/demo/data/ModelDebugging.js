@@ -42,9 +42,9 @@ qx.Class.define("demobrowser.demo.data.ModelDebugging",
       store.addListener("loaded", function() {
         var model = store.getModel();
         // display the model in the log
-        this.debug(qx.dev.Debug.debugModel(model));
+        this.debug(qx.dev.Debug.debugProperties(model));
         // display the model in an html embed
-        embed.setHtml(qx.dev.Debug.debugModel(model, 10, true));
+        embed.setHtml(qx.dev.Debug.debugProperties(model, 10, true));
       }, this);
       
       
