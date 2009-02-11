@@ -215,8 +215,6 @@ qx.Class.define("qx.ui.virtual.form.List",
           rowConfig.setItemSize(i, height);
         }
       }
-      
-      this.getPane().fullUpdate();
     },
     
     

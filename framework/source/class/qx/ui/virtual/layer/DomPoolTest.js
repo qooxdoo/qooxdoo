@@ -19,9 +19,7 @@
 
 qx.Class.define("qx.ui.virtual.layer.DomPoolTest",
 {
-  extend : qx.ui.core.Widget,
-  
-  implement : [qx.ui.virtual.core.ILayer],
+  extend : qx.ui.virtual.layer.Abstract,
   
   construct : function() 
   {
@@ -39,7 +37,7 @@ qx.Class.define("qx.ui.virtual.layer.DomPoolTest",
   {
     _nodePool: null,
   
-    fullUpdate : function(
+    _fullUpdate : function(
       firstRow, lastRow, 
       firstColumn, lastColumn, 
       rowSizes, columnSizes
@@ -104,19 +102,6 @@ qx.Class.define("qx.ui.virtual.layer.DomPoolTest",
       var start = new Date();
       qx.ui.core.queue.Manager.flush();
       this.debug("dom - flush: " + (new Date() - start) + "ms");
-    },
-    
-    
-    updateLayerWindow : function(
-      firstRow, lastRow, 
-      firstColumn, lastColumn, 
-      rowSizes, columnSizes
-    ) {
-      this.fullUpdate(
-        firstRow, lastRow, 
-        firstColumn, lastColumn, 
-        rowSizes, columnSizes
-      );
     }
   }
 });

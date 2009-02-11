@@ -25,8 +25,6 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCell",
 {
   extend : qx.ui.virtual.layer.Abstract,
   
-  implement : [qx.ui.virtual.core.ILayer],
-  
   
   /**
    * @param htmlCellProvider {qx.ui.virtual.core.IHtmlCellProvider} This class

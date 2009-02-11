@@ -20,9 +20,7 @@
 
 qx.Class.define("qx.ui.virtual.layer.HtmlTableCell",
 {
-  extend : qx.ui.core.Widget,
-  
-  implement : [qx.ui.virtual.core.ILayer],
+  extend : qx.ui.virtual.layer.Abstract,
   
   construct : function(htmlCellProvider)
   {
@@ -36,23 +34,6 @@ qx.Class.define("qx.ui.virtual.layer.HtmlTableCell",
   
   
   /*
-   *****************************************************************************
-      PROPERTIES
-   *****************************************************************************
-   */
-
-   properties :
-   {
-     // overridden
-     anonymous :
-     {
-       refine: true,
-       init: true
-     }
-   },
-  
-  
-  /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
@@ -60,20 +41,7 @@ qx.Class.define("qx.ui.virtual.layer.HtmlTableCell",
 
   members :
   {
-    syncWidget : function()
-    {
-      if (!this._rowSizes) {
-        return;
-      }
-      this.fullUpdate(
-        this._firstRow, this._lastRow,
-        this._firstColumn, this._lastColumn,
-        this._rowSizes, this._columnSizes
-      );
-    },
-     
-     
-    fullUpdate : function(
+    _fullUpdate : function(
       firstRow, lastRow, 
       firstColumn, lastColumn, 
       rowSizes, columnSizes
@@ -128,19 +96,6 @@ qx.Class.define("qx.ui.virtual.layer.HtmlTableCell",
       this._lastColumn = lastColumn;
       this._rowSizes = rowSizes;
       this._columnSizes = columnSizes;
-    },
-    
-    
-    updateLayerWindow : function(
-      firstRow, lastRow, 
-      firstColumn, lastColumn, 
-      rowSizes, columnSizes
-    ) {
-      this.fullUpdate(
-        firstRow, lastRow, 
-        firstColumn, lastColumn, 
-        rowSizes, columnSizes
-      );
     }
   }
 });

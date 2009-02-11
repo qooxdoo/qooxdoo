@@ -144,14 +144,7 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCellSpan",
         row++;
       }            
       
-      this.getContentElement().setAttribute("html", html.join(""));    
-      
-      this._firstRow = firstRow;
-      this._lastRow = lastRow;
-      this._firstColumn = firstColumn;
-      this._lastColumn = lastColumn;
-      this._rowSizes = rowSizes;
-      this._columnSizes = columnSizes;      
+      this.getContentElement().setAttribute("html", html.join(""));        
     }
   }
 });

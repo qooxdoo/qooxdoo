@@ -19,9 +19,7 @@
 
 qx.Class.define("qx.ui.virtual.layer.DomTest",
 {
-  extend : qx.ui.core.Widget,
-  
-  implement : [qx.ui.virtual.core.ILayer],
+  extend : qx.ui.virtual.layer.Abstract,
   
   /*
   *****************************************************************************
@@ -31,7 +29,7 @@ qx.Class.define("qx.ui.virtual.layer.DomTest",
 
   members :
   {
-    fullUpdate : function(
+    _fullUpdate : function(
       firstRow, lastRow, 
       firstColumn, lastColumn, 
       rowSizes, columnSizes
@@ -74,19 +72,6 @@ qx.Class.define("qx.ui.virtual.layer.DomTest",
         top += rowSizes[x];
         row++;
       }
-    },
-    
-    
-    updateLayerWindow : function(
-      firstRow, lastRow, 
-      firstColumn, lastColumn, 
-      rowSizes, columnSizes
-    ) {
-      this.fullUpdate(
-        firstRow, lastRow, 
-        firstColumn, lastColumn, 
-        rowSizes, columnSizes
-      );
     }
   }
 });
