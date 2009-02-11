@@ -20,9 +20,13 @@
 ************************************************************************ */
 
 /* ************************************************************************
+
 #asset(qx/icon/Tango/22/actions/media-playback-start.png)
 #asset(qx/icon/Tango/22/actions/view-refresh.png)
 #asset(qx/icon/Tango/22/actions/system-run.png)
+
+#asset(testrunner/image/*)
+
 ************************************************************************ */
 
 /**
@@ -630,7 +634,11 @@ qx.Class.define("testrunner.runner.TestRunner",
 
           if (currNode.hasChildren())
           {
-            t = new qx.ui.tree.TreeFolder(currNode.label);
+            t = new qx.ui.tree.TreeFolder(currNode.label).set({
+              icon: currNode.type == "package" ?
+                "testrunner/image/package18.gif" :
+                "testrunner/image/class18.gif"
+            });
             if (level < 2)
             {
               t.setOpen(true);
@@ -641,7 +649,9 @@ qx.Class.define("testrunner.runner.TestRunner",
           }
           else
           {
-            t = new qx.ui.tree.TreeFile(currNode.label);
+            t = new qx.ui.tree.TreeFile(currNode.label).set({
+              icon: "testrunner/image/method_public18.gif"
+            });
             t.addListener("dblclick", that.runTest, that);
           }
 
