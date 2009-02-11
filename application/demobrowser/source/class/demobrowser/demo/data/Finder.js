@@ -19,9 +19,7 @@
 
 /* ************************************************************************
 
-#asset(demobrowser/demo/data/list.json)
-#asset(qx/icon/${qx.icontheme}/16/mimetypes/*)
-
+#asset(demobrowser/demo/data/finder.json)
 
 ************************************************************************ */
 
