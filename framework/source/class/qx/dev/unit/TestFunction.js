@@ -77,7 +77,7 @@ qx.Class.define("qx.dev.unit.TestFunction",
 
     if (clazz) {
       this.setClassName(clazz.classname);
-      this.setTestInstance(new clazz);
+      this.setTestClass(clazz);
     }
 
     this.setName(methodName);
@@ -107,10 +107,10 @@ qx.Class.define("qx.dev.unit.TestFunction",
       init  : ""
     },
     
-    /** Instance of the test class */
-    testInstance : 
+    /** The test class */
+    testClass : 
     { 
-      check : "Object",
+      check : "Class",
       init : null 
     }
   },
@@ -132,8 +132,8 @@ qx.Class.define("qx.dev.unit.TestFunction",
      */
     run : function(testResult) {
       //testResult.run(this, this.getTestFunction());
-      
-      var cls = this.getTestInstance();
+      var clazz = this.getTestClass();
+      var cls = new clazz;
       var method = this.getName();
       var testFunc = this;
       testResult.run(this, function()
