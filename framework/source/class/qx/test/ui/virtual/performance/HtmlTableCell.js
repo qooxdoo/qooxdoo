@@ -35,12 +35,12 @@ qx.Class.define("qx.test.ui.virtual.performance.HtmlTableCell",
       this.scrollUp();
     },
 
-    testScrollLeft : function() {
-      this.scrollLeft();
-    },
-
     testScrollRight : function() {
       this.scrollRight();
+    },
+
+    testScrollLeft : function() {
+      this.scrollLeft();
     },
 
     getCellHtml : function(row, column, left, top, width, height)

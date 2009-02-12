@@ -76,7 +76,7 @@ qx.Class.define("qx.test.ui.virtual.performance.AbstractLayerTest",
     {
       var start = this.__beforeAction();
       this.scroller.scrollToX(-this.downAmount);
-      this.__afterAction(start, "scrollLeft");
+      this.__afterAction(start, "scrollRight");
     },
 
 
