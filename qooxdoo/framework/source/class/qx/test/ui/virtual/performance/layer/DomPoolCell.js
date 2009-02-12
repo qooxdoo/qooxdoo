@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.virtual.layer.DomPoolTest",
+qx.Class.define("qx.test.ui.virtual.performance.layer.DomPoolCell",
 {
   extend : qx.ui.virtual.layer.Abstract,
   
@@ -58,16 +58,15 @@ qx.Class.define("qx.ui.virtual.layer.DomPoolTest",
         
       var left = 0;
       var top = 0;
-      var row = visibleCells.firstRow;
-      var col = visibleCells.firstColumn;
+      var row = firstRow;
+      var col = firstColumn;
       for (var x=0; x<rowSizes.length; x++)
       {
         var left = 0;
-        var col = visibleCells.firstColumn;
+        var col = firstColumn;
         for(var y=0; y<columnSizes.length; y++)
         {
-          var color = (row+col) % 2 == 0 ? "blue" : "yellow";
-          var content = col + "x" + row;
+          var content = col + " / " + row;
           
           var cell = childNodes[i++];
           if (!cell) {
@@ -97,11 +96,6 @@ qx.Class.define("qx.ui.virtual.layer.DomPoolTest",
       for (j=i; j<childNodes.length; i++) {
         el.removeChild(childNodes[i]);
       }
-      
-      this.debug("dom - update: " + (new Date() - start) + "ms");
-      var start = new Date();
-      qx.ui.core.queue.Manager.flush();
-      this.debug("dom - flush: " + (new Date() - start) + "ms");
     }
   }
 });

@@ -86,14 +86,21 @@ qx.Class.define("qx.test.ui.virtual.performance.AbstractLayerTest",
     
     profile : function(name, fcn, context, count)
     {
-      console.profile(name + " " + this.classname);
+      var times = [];
+      //console.profile(name + " " + this.classname);
       for (var i=0,l=count; i<l; i++)
       {
-        var start = this.__beforeAction();
+        //var start = this.__beforeAction();
+        var start = new Date();
         fcn.call(context);
-        this.__afterAction(start, name);
+        this.flush();
+        var duration = new Date() - start;
+        
+        times.push(duration);
+        //this.__afterAction(start, name);
       }
-      console.profileEnd(name + " " + this.classname);
+      this.warn(name + " took: " + times.sort().join("ms ") + "ms");
+      //console.profileEnd(name + " " + this.classname);
     },
 
     

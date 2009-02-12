@@ -17,29 +17,15 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.performance.HtmlTableCssCell", 
+qx.Class.define("qx.test.ui.virtual.performance.HtmlDivRelative", 
 {
   extend : qx.test.ui.virtual.performance.AbstractLayerTest,
 
   members :
   {
     getLayer : function() {
-      return new qx.test.ui.virtual.performance.layer.HtmlTableCssCell(this);
-    },
-    
-
-    getCellHtml : function(row, column, left, top, width, height)
-    {
-      var html = [
-        "<td>",
-        row,
-        " / ",
-        column,
-        "</td>"                  
-      ];
-      return html.join("");
+      return new qx.test.ui.virtual.performance.layer.HtmlDivRelative();
     }    
-    
   }
 
 });
