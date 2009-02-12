@@ -129,11 +129,17 @@ qx.Class.define("qx.bom.element.Class",
      *
      * @param element {Element} The DOM element to modify
      * @param name {String} The class name to toggle
+     * @param toggle {Boolean?null} Whether to switch class on/off. Without 
+     *    the parameter an automatic toggling would happen.
      * @return {String} The class name
      */
-    toggle : function(element, name)
+    toggle : function(element, name, toggle)
     {
-      this.has(element, name) ? this.remove(element, name) : this.add(element, name);
+      if (toggle == null) {
+        toggle = !this.has(element, name);
+      }
+        
+      toggle ? this.add(element, name) : this.remove(element, name);
       return name;
     }
   }
