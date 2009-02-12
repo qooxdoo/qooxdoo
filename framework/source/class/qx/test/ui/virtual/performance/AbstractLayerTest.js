@@ -25,9 +25,10 @@ qx.Class.define("qx.test.ui.virtual.performance.AbstractLayerTest",
   construct : function()
   {
     this.downAmount = 500;
-    this.upAmount = 500;
-    this.leftAmount = 500;
     this.rightAmount = 500;
+    
+    this.horizontalIter = 6;
+    this.verticalIter = 6;
 
     this.base(arguments);
   },
@@ -63,31 +64,49 @@ qx.Class.define("qx.test.ui.virtual.performance.AbstractLayerTest",
 
     testScrollVertical : function(amount)
     {
-      var start = this.__beforeAction();
-      this.scroller.scrollToX(this.downAmount);
-      this.__afterAction(start, "ScrollVertical");
+      var down = this.downAmount;
+      this.profile("scroll vertical", function() 
+      {
+        this.scroller.scrollToY(down);
+        down += this.downAmount;
+      }, this, this.verticalIter);
     },
 
 
     testScrollHorizontal : function(amount)
     {
-      var start = this.__beforeAction();
-      this.scroller.scrollToY(this.downAmount);
-      this.__afterAction(start, "ScrollHorizontal");
+      var right = this.rightAmount;
+      this.profile("scroll horizontal", function()
+      {
+        this.scroller.scrollToX(right);
+        right += this.rightAmount;
+      }, this, this.horizontalIter);
     },
 
+    
+    profile : function(name, fcn, context, count)
+    {
+      console.profile(name + " " + this.classname);
+      for (var i=0,l=count; i<l; i++)
+      {
+        var start = this.__beforeAction();
+        fcn.call(context);
+        this.__afterAction(start, name);
+      }
+      console.profileEnd(name + " " + this.classname);
+    },
 
+    
     __beforeAction : function()
     {
-      qx.ui.core.queue.Manager.flush();
+      this.flush();
       return new Date();
     },
     
+    
     __afterAction : function(start, name)
-    {
-      qx.ui.core.queue.Manager.flush();
+    {      
       var end = new Date() - start;
-
       this.debug(name + " took " + end + "ms.")
     }
 
