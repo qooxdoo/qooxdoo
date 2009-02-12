@@ -20,6 +20,7 @@
 qx.Class.define("qx.test.ui.virtual.performance.AbstractLayerTest", 
 {
   extend : qx.test.ui.LayoutTestCase,
+  type : "abstract",
 
   construct : function()
   {
@@ -36,7 +37,10 @@ qx.Class.define("qx.test.ui.virtual.performance.AbstractLayerTest",
     
     setUp : function()
     {
-      this.scroller = new qx.ui.virtual.core.Scroller(1000, 500, 20, 40);
+      this.scroller = new qx.ui.virtual.core.Scroller(1000, 500, 20, 40).set({
+        width: 1000,
+        height: 1000
+      });
       this.scroller.getPane().addLayer(this.getLayer());
 
       this.getRoot().add(this.scroller);
@@ -56,36 +60,22 @@ qx.Class.define("qx.test.ui.virtual.performance.AbstractLayerTest",
       throw new Error("Abstract method call (getLayer) in 'AbstractLayerTest'!");
     },
 
-    scrollDown : function()
-    {
-      var start = this.__beforeAction();
-      this.scroller.scrollToY(this.downAmount);
-      this.__afterAction(start, "scrollDown");
-    },
 
-
-    scrollLeft : function(amount)
+    testScrollVertical : function(amount)
     {
       var start = this.__beforeAction();
       this.scroller.scrollToX(this.downAmount);
-      this.__afterAction(start, "scrollLeft");
+      this.__afterAction(start, "ScrollVertical");
     },
 
 
-    scrollRight : function(amount)
+    testScrollHorizontal : function(amount)
     {
       var start = this.__beforeAction();
-      this.scroller.scrollToX(-this.downAmount);
-      this.__afterAction(start, "scrollRight");
+      this.scroller.scrollToY(this.downAmount);
+      this.__afterAction(start, "ScrollHorizontal");
     },
 
-
-    scrollUp : function(amount)
-    {
-      var start = this.__beforeAction();
-      this.scroller.scrollToY(-this.downAmount);
-      this.__afterAction(start, "scrollLeft");
-    },
 
     __beforeAction : function()
     {
