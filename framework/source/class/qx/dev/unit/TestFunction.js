@@ -14,6 +14,7 @@
 
    Authors:
      * Fabian Jakobs (fjakobs)
+     * Daniel Wagner (d_wagner)
 
 ************************************************************************ */
 
@@ -47,6 +48,8 @@ qx.Class.define("qx.dev.unit.TestFunction",
     if (testFunction) {
       this.setTestFunction(testFunction);
     }
+    /* Deferred to the run method so we can pass the testResult instance to the 
+     * test class.
     else
     {
       this.setTestFunction(function()
@@ -70,9 +73,11 @@ qx.Class.define("qx.dev.unit.TestFunction",
 
       });
     }
+    */
 
     if (clazz) {
       this.setClassName(clazz.classname);
+      this.setTestInstance(new clazz);
     }
 
     this.setName(methodName);
@@ -100,6 +105,13 @@ qx.Class.define("qx.dev.unit.TestFunction",
     {
       check : "String",
       init  : ""
+    },
+    
+    /** Instance of the test class */
+    testInstance : 
+    { 
+      check : "Object",
+      init : null 
     }
   },
 
@@ -119,7 +131,34 @@ qx.Class.define("qx.dev.unit.TestFunction",
      * @param testResult {TestResult} The class used to log the test result.
      */
     run : function(testResult) {
-      testResult.run(this, this.getTestFunction());
+      //testResult.run(this, this.getTestFunction());
+      
+      var cls = this.getTestInstance();
+      var method = this.getName();
+      var testFunc = this;
+      testResult.run(this, function()
+        {
+  
+          if (typeof (cls.setUp) == "function") {
+            cls.setUp();
+          }
+          cls.setTestFunc(testFunc);
+          cls.setTestResult(testResult);
+          
+          try {
+              cls[method]();
+          } catch (ex) {
+              throw ex;
+          } finally {
+              // tearDown should always be called.
+              if (typeof (cls.tearDown) == "function") {
+                cls.tearDown();
+              }
+          }
+  
+        } 
+      );
+      
     },
 
 
