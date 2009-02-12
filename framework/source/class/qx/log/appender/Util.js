@@ -40,7 +40,7 @@ qx.Class.define("qx.log.appender.Util",
 
       if (entry.object)
       {
-        var obj = entry.registry.fromHashCode(entry.object);
+        var obj = entry.win.qx.core.ObjectRegistry.fromHashCode(entry.object);
         if (obj) {
           output.push("<span class='object' title='Object instance with hash code: " + obj.$$hash + "'>", obj.classname, "[" , obj.$$hash, "]</span>: ");
         }

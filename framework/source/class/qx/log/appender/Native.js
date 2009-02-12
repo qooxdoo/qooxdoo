@@ -112,7 +112,7 @@ qx.Bootstrap.define("qx.log.appender.Native",
 
         if (entry.object)
         {
-          var obj = entry.registry.fromHashCode(entry.object);
+          var obj = entry.win.qx.core.ObjectRegistry.fromHashCode(entry.object);
           if (obj) {
             output.push(obj.classname + "[" + obj.$$hash + "]:");
           }

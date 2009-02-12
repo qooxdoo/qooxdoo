@@ -165,10 +165,12 @@ qx.Class.define("qx.test.ui.virtual.Pane",
         height: 50
       });
       this.flush();
+      
       layer.calls = [];           
       this.pane.fullUpdate();
+      this.flush();
       
-      this.assertEquals(1, layer.calls.length);
+      this.assertEquals(2, layer.calls.length);
       this.assertEquals("fullUpdate", layer.calls[0][0]);
       var args = layer.calls[0][1];
       this.assertUpdateArgs(0, 0, [10, 10, 10, 10, 10], [30, 30, 30, 30], args);
