@@ -235,11 +235,12 @@ qx.Class.define("qx.dom.Hierarchy",
     {
       "mshtml|opera" : function(element1, element2)
       {
+
         if (element1 === element2) {
           return element1;
         }
 
-        while (element1)
+        while (element1 && qx.dom.Node.isElement(element1))
         {
           if (element1.contains(element2)) {
             return element1;

@@ -105,6 +105,15 @@ qx.Class.define("qx.test.bom.Element",
     {
       qx.bom.Element.releaseCapture(this._el);
       this.warn("needs better test!");
+    },
+    
+    testGetCommonParent : function()
+    {
+      if (qx.core.Variant.isSet("qx.client", "opera")) {
+        this.assertNull(qx.dom.Hierarchy.getCommonParent(this._el, document));
+      } else {
+        this.assertIdentical(document, qx.dom.Hierarchy.getCommonParent(this._el, document));
+      }
     }
 
   }
