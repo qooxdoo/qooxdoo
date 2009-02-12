@@ -14,6 +14,7 @@
 
    Authors:
      * Fabian Jakobs (fjakobs)
+     * Daniel Wagner (d_wagner)
 
 ************************************************************************ */
 
@@ -24,6 +25,20 @@ qx.Class.define("qx.dev.unit.TestCase",
 {
   extend  : qx.core.Object,
   include : [qx.core.MAssert],
+  
+  properties :
+  {
+		/** The TestResult instance that runs the test */
+    testResult :
+    {
+      init : null
+    },
+		/** The test currently running */
+    testFunc :
+    {
+      init : null
+    }
+  },
 
   members :
   {
@@ -35,6 +50,28 @@ qx.Class.define("qx.dev.unit.TestCase",
      */
     isDebugOn : function() {
       return qx.core.Variant.isSet("qx.debug", "on") ? true : false;
+    },
+		
+		/**
+		 * Instruct the test to wait. Used for asynchronous tests.
+		 * 
+		 * @param deferredFunction {Function?false} Optional function to run after
+		 * timeout has expired.
+		 * @param delay {Integer?5000} Amount of time in milliseconds to wait.
+		 */
+    wait : function(deferredFunction, delay) {
+      throw new qx.dev.unit.AsyncWrapper(deferredFunction, delay);
+    },
+		
+		/**
+		 * Cancel a timeout started with <code>wait()</code> and run the given 
+		 * function. Used for asynchronous tests, e.g. in a listener's callback
+		 * function.
+		 * 
+		 * @param deferredFunction {Function?false} Function to run 
+		 */
+    resume : function(deferredFunction) {
+      this.getTestResult().run(this.getTestFunc(), deferredFunction);
     }
   }
 });
