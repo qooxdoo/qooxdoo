@@ -24,34 +24,43 @@ qx.Class.define("qx.test.ui.virtual.performance.AbstractLayerTest",
 
   construct : function()
   {
-    this.downAmount = 500;
-    this.rightAmount = 500;
-    
-    this.horizontalIter = 6;
-    this.verticalIter = 6;
-
     this.base(arguments);
+
+    this.rowCount = 30;
+    this.rowHeight = 20;
+    this.colCount = 20;
+    this.colWidth = 40;
   },
 
   members :
   {
+    ITERATIONS : 24,
     
     setUp : function()
     {
-      this.scroller = new qx.ui.virtual.core.Scroller(1000, 500, 20, 40).set({
+      this.layer = this.getLayer().set({
         width: 1000,
         height: 1000
       });
-      this.scroller.getPane().addLayer(this.getLayer());
 
-      this.getRoot().add(this.scroller);
-      qx.ui.core.queue.Manager.flush();
+      this.getRoot().add(this.layer);
+      this.flush();
+      
+      this.rowSizes = [];
+      for (var i=0; i<this.rowCount; i++) {
+        this.rowSizes.push(this.rowHeight);
+      }      
+      
+      this.colSizes = [];      
+      for (var i=0; i<this.colCount; i++) {
+        this.colSizes.push(this.colWidth);
+      }      
     },
 
+    
     tearDown : function()
     {
-      this.getRoot().remove(this.scroller);
-      this.scroller.dispose();
+      this.layer.destroy();
     },
 
 
@@ -61,62 +70,106 @@ qx.Class.define("qx.test.ui.virtual.performance.AbstractLayerTest",
       throw new Error("Abstract method call (getLayer) in 'AbstractLayerTest'!");
     },
 
-
-    testScrollVertical : function(amount)
+    
+    testFullUpdateSameWindow : function() 
     {
-      var down = this.downAmount;
-      this.profile("scroll vertical", function() 
+      this.profile("fullUpdate (same window)", function()
       {
-        this.scroller.scrollToY(down);
-        down += this.downAmount;
-      }, this, this.verticalIter);
+        this.layer.fullUpdate(
+          0, this.rowCount - 1,
+          0, this.colCount-1,
+          this.rowSizes, this.colSizes
+        );
+      }, this, this.ITERATIONS);
     },
-
-
-    testScrollHorizontal : function(amount)
+    
+    
+    testFullUpdateScrollDown : function() 
     {
-      var right = this.rightAmount;
-      this.profile("scroll horizontal", function()
+      var startRow = 0;
+      
+      this.profile("fullUpdate (scroll)", function()
       {
-        this.scroller.scrollToX(right);
-        right += this.rightAmount;
-      }, this, this.horizontalIter);
+        this.layer.fullUpdate(
+          startRow, startRow + this.rowCount - 1,
+          0, this.colCount-1,
+          this.rowSizes, this.colSizes
+        );
+        startRow ++;
+      }, this, this.ITERATIONS);
+    },    
+    
+    
+    testUpdateLayerWindowScrollDown : function() 
+    {
+      var startRow = 0;
+      
+      this.profile("scroll down 10 lines", function()
+      {
+        this.layer.updateLayerWindow(
+          startRow, startRow + this.rowCount - 1,
+          0, this.colCount - 1,
+          this.rowSizes, this.colSizes
+        );
+        startRow += 10;
+      }, this, this.ITERATIONS);
     },
-
+    
+    
+    testUpdateLayerWindowScrollRight : function() 
+    {
+      var startCol = 0;
+      
+      this.profile("scroll right 10 columns", function()
+      {
+        this.layer.updateLayerWindow(
+          0, this.rowCount - 1,
+          startCol, startCol + this.colCount - 1,
+          this.rowSizes, this.colSizes
+        );
+        startCol += 10;
+      }, this, this.ITERATIONS);
+    }, 
+    
+    
+      
+    testUpdateLayerData : function() 
+    {
+      this.layer.fullUpdate(
+        0, this.rowCount - 1,
+        0, this.colCount-1,
+        this.rowSizes, this.colSizes
+      );
+      this.flush();
+      
+      this.profile("update layer data", function()
+      {
+        this.layer.updateLayerData();
+      }, this, this.ITERATIONS);
+    },    
+    
     
     profile : function(name, fcn, context, count)
     {
+      console.profile(name + "; " + this.classname);
+      
       var times = [];
-      //console.profile(name + " " + this.classname);
       for (var i=0,l=count; i<l; i++)
       {
-        //var start = this.__beforeAction();
         var start = new Date();
-        fcn.call(context);
-        this.flush();
-        var duration = new Date() - start;
         
+        fcn.call(context);  
+        this.flush();
+        
+        var duration = new Date() - start;        
         times.push(duration);
-        //this.__afterAction(start, name);
       }
-      this.warn(name + " took: " + times.sort().join("ms ") + "ms");
-      //console.profileEnd(name + " " + this.classname);
-    },
-
-    
-    __beforeAction : function()
-    {
-      this.flush();
-      return new Date();
-    },
-    
-    
-    __afterAction : function(start, name)
-    {      
-      var end = new Date() - start;
-      this.debug(name + " took " + end + "ms.")
+      times.sort(function(a, b) { return a < b ? -1 : 1});
+      var avg = Math.round(qx.lang.Array.sum(times.slice(1, -1)) / (times.length-2))
+      this.warn(";" + name + "; avg(" + avg + "ms); " + times.join("ms; ") + "ms;");
+      
+      console.profileEnd(name + " " + this.classname);
     }
-
   }
 
 });
