@@ -88,6 +88,14 @@ qx.Interface.define("qx.data.IListData",
      * @param item {var} The item which is possibly in the data structure.
      * @return {boolean} true, if the array contains the given item.
      */
-    contains : function(item) {}
+    contains : function(item) {},
+    
+    
+    /**
+     * Returns the current length of the data structure. 
+     * 
+     * @return {Number} The current length of the data structure.
+     */
+    getLength : function() {}
   }
 });
