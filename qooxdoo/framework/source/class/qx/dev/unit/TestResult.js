@@ -14,6 +14,7 @@
 
    Authors:
      * Fabian Jakobs (fjakobs)
+     * Daniel Wagner (d_wagner)
 
 ************************************************************************ */
 
@@ -90,15 +91,37 @@ qx.Class.define("qx.dev.unit.TestResult",
     run : function(test, testFunction)
     {
       this.fireDataEvent("startTest", test);
+			
+			if(!this._timeout) {
+				this._timeout = {};
+			}
+      
+      if (this._timeout[test.$$user_name]) {
+        this.debug("clearing timeout");
+        clearTimeout(this._timeout[test.$$user_name]);
+      }
 
       try {
         testFunction();
       }
       catch(ex)
       {
-        var error = true;
-
-        if (ex.classname == "qx.core.AssertionError") {
+				var error = true;
+        if (ex instanceof qx.dev.unit.AsyncWrapper) {
+          if (ex.getDelay()) {						
+						var that = this;
+            var oldTest = test;
+						var defaultTimeoutFunction = function() { 
+						  that.__createError("error", new qx.core.BaseError("Asynchronous Test Error","Timeout reached before resume() was called."), oldTest); 
+						}
+						var timeoutFunc = (ex.getDeferredFunction() ? ex.getDeferredFunction() : defaultTimeoutFunction);
+						            
+            this._timeout[test.$$user_name] = setTimeout(function() {							 
+							 that.run(oldTest, timeoutFunc);							 
+            }, ex.getDelay());
+          }
+           
+        } else if (ex.classname == "qx.core.AssertionError") {
           this.__createError("failure", ex, test);
         } else {
           this.__createError("error", ex, test);
