@@ -42,14 +42,12 @@ qx.Class.define("qx.dev.unit.AsyncWrapper",
   construct : function(deferredFunction, delay)
   {
     for (var i=0; i<arguments.length; i++) {
-      try {				
-        this.setDeferredFunction(arguments[i]);
-      }
-      catch(e) {}
-      try {
-        this.setDelay(arguments[i]);
-      }
-      catch(e) {}
+			if (typeof arguments[i] === "function") {				
+				this.setDeferredFunction(arguments[i]);
+			}
+			if (typeof arguments[i] === "number") {
+				this.setDelay(arguments[i]);
+			}      
     }
   },
 
