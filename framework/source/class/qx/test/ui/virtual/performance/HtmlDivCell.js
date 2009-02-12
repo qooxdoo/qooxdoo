@@ -27,22 +27,6 @@ qx.Class.define("qx.test.ui.virtual.performance.HtmlDivCell",
       return new qx.ui.virtual.layer.HtmlCell(this);
     },
     
-    testScrollDown : function() {
-      this.scrollDown();
-    },
-
-    testScrollUp : function() {
-      this.scrollUp();
-    },
-
-    testScrollRight : function() {
-      this.scrollRight();
-    },
-
-    testScrollLeft : function() {
-      this.scrollLeft();
-    },
-
     getCellHtml : function(row, column, left, top, width, height)
     {
       var html = [
