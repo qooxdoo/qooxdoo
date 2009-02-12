@@ -334,8 +334,8 @@ qx.Bootstrap.define("qx.log.Logger",
         offset : time-qx.Bootstrap.LOADSTART,
         level: level,
         items: items,
-        // store registry to allow cross frame logging
-        registry: qx.core.ObjectRegistry 
+        // store window to allow cross frame logging
+        win: window 
       };
 
       // Add relation fields
