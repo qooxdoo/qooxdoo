@@ -24,7 +24,7 @@ qx.Class.define("qx.test.ui.virtual.performance.HtmlTableCell",
   members :
   {
     getLayer : function() {
-      return new qx.ui.virtual.layer.HtmlTableCell(this);
+      return new qx.test.ui.virtual.performance.layer.HtmlTableCell(this);
     },
     
 
