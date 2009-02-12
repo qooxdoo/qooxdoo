@@ -95,10 +95,9 @@ qx.Class.define("qx.dev.unit.TestResult",
 			if(!this._timeout) {
 				this._timeout = {};
 			}
-      
-      if (this._timeout[test.$$user_name]) {
+      if (this._timeout[test.getFullName()]) {
         this.debug("clearing timeout");
-        clearTimeout(this._timeout[test.$$user_name]);
+        clearTimeout(this._timeout[test.getFullName()]);
       }
 
       try {
@@ -116,7 +115,7 @@ qx.Class.define("qx.dev.unit.TestResult",
 						}
 						var timeoutFunc = (ex.getDeferredFunction() ? ex.getDeferredFunction() : defaultTimeoutFunction);
 						            
-            this._timeout[test.$$user_name] = setTimeout(function() {							 
+            this._timeout[test.getFullName()] = setTimeout(function() {							 
 							 that.run(oldTest, timeoutFunc);							 
             }, ex.getDelay());
           }
