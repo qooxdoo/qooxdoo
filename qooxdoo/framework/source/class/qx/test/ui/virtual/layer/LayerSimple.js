@@ -34,7 +34,7 @@ qx.Class.define("qx.test.ui.virtual.layer.LayerSimple",
 
     getCellHtml : function(row, column, left, top, width, height)
     {
-      var content = column + " / " + row;
+      var content = row + " / " + column;
       return [
         "<div style='position:absolute;",
         "left:", left, "px;",
