@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.virtual.layer.HtmlTableCssCell",
+qx.Class.define("qx.test.ui.virtual.performance.layer.HtmlTableCssCell",
 {
   extend : qx.ui.virtual.layer.Abstract,
   
@@ -31,7 +31,7 @@ qx.Class.define("qx.ui.virtual.layer.HtmlTableCssCell",
     }
     this._cellProvider = htmlCellProvider;
   
-    var clazz = qx.ui.virtual.layer.HtmlTableCell;
+    var clazz = qx.test.ui.virtual.performance.layer.HtmlTableCssCell;
     if (!clazz.__style)
     {
       var stylesheet =

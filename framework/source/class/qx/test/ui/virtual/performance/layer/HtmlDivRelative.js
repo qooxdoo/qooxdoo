@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.virtual.layer.TestRelative",
+qx.Class.define("qx.test.ui.virtual.performance.layer.HtmlDivRelative",
 {
   extend : qx.ui.virtual.layer.Abstract,
   
@@ -47,8 +47,7 @@ qx.Class.define("qx.ui.virtual.layer.TestRelative",
         var col = firstColumn;
         for(var y=0; y<columnSizes.length; y++)
         {
-          var color = (row+col) % 2 == 0 ? "blue" : "yellow";
-          var content = col + "x" + row;
+          var content = col + " / " + row;
 
           html.push(
             "<div style='",
@@ -56,7 +55,6 @@ qx.Class.define("qx.ui.virtual.layer.TestRelative",
             "width:", columnSizes[y], "px;",
             "height:", rowSizes[x], "px;",
             "overflow:hidden;",
-            "background-color:", color,
             "'>",
             content,
             "</div>"
