@@ -133,6 +133,9 @@ qx.Class.define("qx.data.controller.Object",
             targetObject, targetProperty, sourceProperty, bidirectional,
             options, reverseOptions
           );
+        } else {
+          // if the model is null, reset the targets
+          targetObject["reset" + qx.lang.String.firstUp(targetProperty)]();
         }
       }
     },
