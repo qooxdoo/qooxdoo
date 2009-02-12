@@ -346,6 +346,17 @@ qx.Class.define("qx.data.Array",
     
     
     /**
+     * This method returns the current lengthalso stored under .length on each
+     * array.
+     * 
+     * @return {Number} The current length of the array.
+     */
+    getLength: function() {
+      return this.length;
+    },
+    
+    
+    /**
      * Returns the index of the item in the array. If the item is not in the
      * array, -1 will be returned.
      * 
