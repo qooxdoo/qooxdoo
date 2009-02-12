@@ -776,6 +776,14 @@ qx.Class.define("testrunner.runner.TestRunner",
           that.appender(this.tr("Test '") + test.getFullName() + this.tr("' started."));
         },
         that);
+				
+				testResult.addListener("wait", function(e)
+        {
+          var test = e.getData();          
+          that.currentTestData.setState("wait");
+          that.appender(this.tr("Test '") + test.getFullName() + this.tr("' waiting."));
+        },
+        that);
 
         testResult.addListener("failure", function(e)
         {

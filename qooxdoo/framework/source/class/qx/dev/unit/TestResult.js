@@ -114,7 +114,7 @@ qx.Class.define("qx.dev.unit.TestResult",
 						  that.__createError("error", new qx.core.BaseError("Asynchronous Test Error","Timeout reached before resume() was called."), oldTest); 
 						}
 						var timeoutFunc = (ex.getDeferredFunction() ? ex.getDeferredFunction() : defaultTimeoutFunction);
-						            
+						this.fireDataEvent("wait", test);            
             this._timeout[test.getFullName()] = setTimeout(function() {							 
 							 that.run(oldTest, timeoutFunc);							 
             }, ex.getDelay());
