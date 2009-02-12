@@ -87,21 +87,23 @@ qx.Class.define("testrunner.runner.TestResultView",
      */
     __createResultHtml : function(testResult)
     {
-      var html = new qx.util.StringBuilder();
-      html.add("<div class='testResult ", testResult.getState(), "' id='testResult", testResult.toHashCode(), "'>");
-      html.add("<h3>", testResult.getName(), "</h3>");
-
-      if (testResult.getState() == "failure" || testResult.getState() == "error")
-      {
-        html.add("Error message is: <br />", testResult.getMessage(), "<br />");
-
-        if (testResult.getStackTrace().length > 0) {
-          html.add("Stack trace: <div class='trace'>", testResult.getStackTrace(), "</div>");
-        }
-      }
-
-      html.add("</div>");
-      return html.get();
+			if (testResult.getState() !== "wait") {
+			
+				var html = new qx.util.StringBuilder();
+				html.add("<div class='testResult ", testResult.getState(), "' id='testResult", testResult.toHashCode(), "'>");
+				html.add("<h3>", testResult.getName(), "</h3>");
+				
+				if (testResult.getState() == "failure" || testResult.getState() == "error") {
+					html.add("Error message is: <br />", testResult.getMessage(), "<br />");
+					
+					if (testResult.getStackTrace().length > 0) {
+						html.add("Stack trace: <div class='trace'>", testResult.getStackTrace(), "</div>");
+					}
+				}
+				
+				html.add("</div>");
+				return html.get();
+			}
     },
 
 
