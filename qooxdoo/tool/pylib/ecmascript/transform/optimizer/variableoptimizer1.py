@@ -22,7 +22,7 @@
 import sys, os, re, types
 
 from ecmascript.frontend.Script import Script
-from ecmascript.frontend import lang
+from ecmascript.frontend import lang, treeutil
 
 counter = 0
 
@@ -58,7 +58,13 @@ def mapper(name, checkset):
 
 def update(node, newname):
 
-    if node.type == "identifier":
+    if node.type == "catch":
+       identifier = treeutil.selectNode(node, "expression/variable/identifier")
+       name = identifier.get("name", False)
+       if name != None:
+           identifier.set("name", newname)
+
+    elif node.type == "identifier":
         isFirstChild = False
         isVariableMember = False
 
@@ -105,9 +111,6 @@ def update(node, newname):
 
 def search(node):
 
-    def isReservedWord(word):
-        return word in reservedWords
-
     def updateOccurences(var, newname):
         # Replace variable definition
         for node in var.nodes:
@@ -133,7 +136,7 @@ def search(node):
         allvars = scope.arguments + scope.variables
         for var in allvars:
 
-            if isReservedWord(var.name) or len(var.name)<2:
+            if var.name in reservedWords or len(var.name)<2:
                 continue
 
             # get replacement name
