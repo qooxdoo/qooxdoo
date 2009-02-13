@@ -56,8 +56,8 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.HtmlTableCssCell",
         "table.qooxdoo-table tr td {" +
         qx.bom.element.Style.compile(
         {
-          "margin" : "0px;",
-          "padding" : "0px;"
+          "margin" : "0px",
+          "padding" : "0px"
         }) +
         "} ";
 
