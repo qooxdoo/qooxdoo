@@ -19,17 +19,19 @@
 
    This class contains code based on the following work:
 
-   * Sizzle v0.9.3
+   * Sizzle CSS Selector Engine - v0.9.3
+
+     http://sizzlejs.com/
      http://groups.google.com/group/sizzlejs
      http://github.com/jeresig/sizzle/tree
-     
+
      Snapshot from February 9, 2009
        commit  0449e2b83c82db0e6e4eaf47d400222d3187a832
        tree    8ca63b9e064c9f5c461c38b2d92771316eeeae11
        parent  67818adc5d5a0f31fc3d7a6fa80217b60850c6df        
-     
+
      Copyright:
-       (c) 2008-2009, John Resig
+       (c) 2009, The Dojo Foundation
 
      License:
        MIT: http://www.opensource.org/licenses/mit-license.php
@@ -53,16 +55,15 @@
  *
  * Based on Sizzle by John Resig, see also:
  * 
- * * http://groups.google.com/group/sizzlejs
- * * http://github.com/jeresig/sizzle/tree
+ * * http://sizzlejs.com/
  */
 qx.Bootstrap.define("qx.bom.Selector", 
 {
   statics :
   {
     /**
-     * Queries the document for the given selector. Supports all CSS3 selector plus some extensions
-     * like mentioned in the class header.
+     * Queries the document for the given selector. Supports all CSS3 selectors 
+     * plus some extensions as mentioned in the class description.
      *
      * @param selector {String} Valid selector (CSS3 + extensions)
      * @param context {Element} Context element (result elements must be children of this element)
@@ -78,11 +79,11 @@ qx.Bootstrap.define("qx.bom.Selector",
     
     
     /**
-     * Queries the document for the given selector. Supports all CSS3 selector plus some extensions
-     * like mentioned in the class header.
+     * Queries the document for the given selector. Supports all CSS3 selectors 
+     * plus some extensions as mentioned in the class description.
      *
-     * This method returns an native Array, not a Collection like {@link #query} and 
-     * is mainly thought for internal use.
+     * This method returns a native Array, not a Collection like {@link #query} 
+     * does. It is mainly thought for internal use.
      *
      * @internal
      * @param selector {String} Valid selector (CSS3 + extensions)
@@ -93,9 +94,9 @@ qx.Bootstrap.define("qx.bom.Selector",
     
     
     /**
-     * Filters the given set of elements with the given selector. Only matching elements
-     * are returned. Through the argument <code>inplace</code> one can switch between modifying the
-     * original set or returning a new one.
+     * Filters the given set of elements according to the given selector. Only 
+     * matching elements are returned. By the argument <code>inplace</code> one 
+     * can choose whether to modify the original set or to return a new one.
      *
      * @signature function(selector, set, inplace, not)
      * @param selector {String} Valid selector (CSS3 + extensions)
@@ -109,6 +110,7 @@ qx.Bootstrap.define("qx.bom.Selector",
     
     /** 
      * Filters in someway... mhh
+     * TODOC
      *
      * @signature function(expr, set)
      */
@@ -126,7 +128,8 @@ qx.Bootstrap.define("qx.bom.Selector",
 
 
 /**
- * This is the original Sizzle code. Snapshot date mentioned in the head of this file.
+ * Below is the original Sizzle code. Snapshot date is mentioned in the head of 
+ * this file.
  */
 (function(){
 
