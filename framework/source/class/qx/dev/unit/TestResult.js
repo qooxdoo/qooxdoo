@@ -46,7 +46,10 @@ qx.Class.define("qx.dev.unit.TestResult",
     error     : "qx.event.type.Data",
 
     /** Fired if the test failed with a different exception */
-    failure   : "qx.event.type.Data"
+    failure   : "qx.event.type.Data",
+    
+		/** Fired if an asynchronous test sets a timeout */
+		wait   : "qx.event.type.Data"
   },
 
 
@@ -86,9 +89,10 @@ qx.Class.define("qx.dev.unit.TestResult",
      * Run the test
      *
      * @param test {TestSuite|TestFunction} The test
-     * @param testFunction {var} The test function
+     * @param testFunction {Function} The test function
+     * @param self {Object?} The context in which to run the test function 
      */
-    run : function(test, testFunction)
+    run : function(test, testFunction, self)
     {
       this.fireDataEvent("startTest", test);
 			
@@ -101,25 +105,33 @@ qx.Class.define("qx.dev.unit.TestResult",
       }
 
       try {
-        testFunction();
+				if (self) {
+					testFunction.call(self);
+				}
+				else {
+					testFunction();
+				}
       }
       catch(ex)
       {
 				var error = true;
-        if (ex instanceof qx.dev.unit.AsyncWrapper) {
-          if (ex.getDelay()) {						
+        if (ex instanceof qx.dev.unit.AsyncWrapper)
+				{
+          if (ex.getDelay()) {
 						var that = this;
-            var oldTest = test;
-						var defaultTimeoutFunction = function() { 
-						  that.__createError("error", new qx.core.BaseError("Asynchronous Test Error","Timeout reached before resume() was called."), oldTest); 
+						var defaultTimeoutFunction = function() {
+						  throw new qx.core.AssertionError(
+							  "Asynchronous Test Error",
+								"Timeout reached before resume() was called."
+						  );
 						}
 						var timeoutFunc = (ex.getDeferredFunction() ? ex.getDeferredFunction() : defaultTimeoutFunction);
-						this.fireDataEvent("wait", test);            
-            this._timeout[test.getFullName()] = setTimeout(function() {							 
-							 that.run(oldTest, timeoutFunc);							 
+						this.fireDataEvent("wait", test);
+            this._timeout[test.getFullName()] = setTimeout(function() {
+							 that.run(test, timeoutFunc);
             }, ex.getDelay());
           }
-           
+
         } else if (ex.classname == "qx.core.AssertionError") {
           this.__createError("failure", ex, test);
         } else {
