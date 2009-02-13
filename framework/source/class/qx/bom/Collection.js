@@ -384,7 +384,7 @@
        *   <code>right</code> and <code>bottom</code> which contains the distance
        *   of the element relative to the document.
        */
-      offset : getter(qx.bom.element.Location, "get"),
+      getOffset : getter(qx.bom.element.Location, "get"),
       
       /**
        * Returns the distance between the first element of the collection to its offset parent.
@@ -392,7 +392,7 @@
        * @return {Map} Returns a map with <code>left</code> and <code>top</code>
        *   which contains the distance of the elements from each other.
        */        
-      position : getter(qx.bom.element.Location, "getPosition"),
+      getPosition : getter(qx.bom.element.Location, "getPosition"),
       
       /** 
        * Detects the offset parent of the first element
@@ -400,7 +400,7 @@
        * @signature function()
        * @return {Collection} Detected offset parent capsulated into a new collection instance
        */      
-      offsetParent : getter(qx.bom.element.Location, "getOffsetParent"),
+      getOffsetParent : getter(qx.bom.element.Location, "getOffsetParent"),
       
 
       /**
@@ -411,19 +411,18 @@
        */
       setScrollLeft : function(value) 
       {
-        var obj;
         var Node = qx.dom.Node;
-        
-        for (var i=0, l=this.length; i<l; i++) 
+
+        for (var i=0, l=this.length, obj; i<l; i++) 
         {
           obj = this[i];
           
-          if (Node.isWindow(obj)) {
+          if (Node.isElement(obj)) {
+            obj.scrollLeft = value;
+          } else if (Node.isWindow(obj)) {
             obj.scrollTo(value, this.getScrollTop(obj));
           } else if (Node.isDocument(obj)) {
             Node.getWindow(obj).scrollTo(value, this.getScrollTop(obj));
-          } else {
-            obj.scrollLeft = value;
           }
         }
         
@@ -439,19 +438,18 @@
        */
       setScrollTop : function(value) 
       {
-        var obj;
         var Node = qx.dom.Node;
         
-        for (var i=0, l=this.length; i<l; i++) 
+        for (var i=0, l=this.length, obj; i<l; i++) 
         {
           obj = this[i];
           
-          if (Node.isWindow(obj)) {
+          if (Node.isElement(obj)) {
+            obj.scrollTop = value;
+          } else if (Node.isWindow(obj)) {
             obj.scrollTo(this.getScrollLeft(obj), value);
           } else if (Node.isDocument(obj)) {
             Node.getWindow(obj).scrollTo(this.getScrollLeft(obj), value);
-          } else {
-            obj.scrollTop = value;
           }
         }
         
@@ -501,6 +499,119 @@
       },
       
       
+      
+      /*
+      ---------------------------------------------------------------------------
+         CSS: WIDTH AND HEIGHT
+      ---------------------------------------------------------------------------
+      */        
+      
+      /** 
+       * Returns the width of the first element in the collection.
+       *
+       * This is the rendered width of the element which includes borders and
+       * paddings like the <code>offsetWidth</code> property in plain HTML.
+       *
+       * @return {Integer} The width of the first element
+       */ 
+      getWidth : function()
+      {
+        var obj = this[0];
+        var Node = qx.dom.Node;
+        
+        if (obj) 
+        {
+          if (Node.isElement(obj)) {
+            return qx.bom.element.Dimension.getWidth(obj);
+          } else if (Node.isDocument(obj)) {
+            return qx.bom.Document.getWidth(Node.getWindow(obj));
+          } else if (Node.isWindow(obj)) {
+            return qx.bom.Viewport.getWidth(obj);
+          }          
+        }
+        
+        return null;
+      },
+      
+      
+      /** 
+       * Returns the content width of the first element in the collection. 
+       *
+       * The content width is basically the maximum
+       * width used or the maximum width which can be used by the content. This
+       * excludes all kind of styles of the element like borders, paddings, margins,
+       * and even scrollbars.
+       *
+       * Please note that with visible scrollbars the content width returned 
+       * may be larger than the box width returned via {@link #getWidth}.
+       *
+       * @return {Integer} Computed content width
+       */ 
+      getContentWidth : function()
+      {
+        var obj = this[0];
+        if (qx.dom.Node.isElement(obj)) {
+          return qx.bom.element.Dimension.getContentWidth(obj);
+        }
+        
+        return null;
+      },
+            
+
+      /** 
+       * Returns the height of the first element in the collection.
+       *
+       * This is the rendered height of the element which includes borders and
+       * paddings like the <code>offsetHeight</code> property in plain HTML.
+       *
+       * @return {Integer} The height of the first element
+       */ 
+      getHeight : function()
+      {
+        var obj = this[0];
+        var Node = qx.dom.Node;
+        
+        if (obj)
+        {
+          if (Node.isElement(obj)) {
+            return qx.bom.element.Dimension.getHeight(obj);
+          } else if (Node.isDocument(obj)) {
+            return qx.bom.Document.getHeight(Node.getWindow(obj));
+          } else if (Node.isWindow(obj)) {
+            return qx.bom.Viewport.getHeight(obj);
+          }
+        }
+        
+        return null;
+      }, 
+      
+      
+      /** 
+       * Returns the content height of the first element in the collection. 
+       *
+       * The content height is basically the maximum
+       * height used or the maximum height which can be used by the content. This
+       * excludes all kind of styles of the element like borders, paddings, margins,
+       * and even scrollbars.
+       *
+       * Please note that with visible scrollbars the content height returned 
+       * may be larger than the box width returned via {@link #getWidth}.
+       *
+       * @return {Integer} Computed content height
+       */      
+      getContentHeight : function()
+      {
+        var obj = this[0];
+        if (qx.dom.Node.isElement(obj)) {
+          return qx.bom.element.Dimension.getContentHeight(obj);
+        }
+        
+        return null;
+      },      
+      
+
+
+         
       
       
       
