@@ -261,7 +261,7 @@ misspelled identifier and missing 'var' statements. You can use the '-g' flag to
     if options.globals:
         globals = options.globals
     else:
-        globals = {}
+        globals = []
 
     checkAll = "ALL" in options.actions or len(options.actions) == 0
 
