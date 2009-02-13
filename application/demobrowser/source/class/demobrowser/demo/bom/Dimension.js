@@ -27,7 +27,6 @@ qx.Class.define("demobrowser.demo.bom.Dimension",
     main : function()
     {
       this.base(arguments);
-      this.debug("Please note: Results may depend on rendering!");
 
       var Overflow = qx.bom.element.Overflow;
       
@@ -38,16 +37,11 @@ qx.Class.define("demobrowser.demo.bom.Dimension",
           break;
         }
         
-        var msg = "Block " + i + ": " + 
-          el.offsetWidth + "x" + el.offsetHeight + "; " + 
-          el.clientWidth + "x" + el.clientHeight + "; " +
-          el.scrollWidth + "x" + el.scrollHeight + " || " +
-          borderSize(el) + "; " + contentSize(el)
-          
+        var msg = "Block " + i + ": Box=" + boxSize(el) + "; Content=" + contentSize(el);
         this.debug(msg);
       }
       
-      function borderSize(el) 
+      function boxSize(el) 
       {
         var Dimension = qx.bom.element.Dimension;
         return Dimension.getWidth(el) + "x" + Dimension.getHeight(el);
