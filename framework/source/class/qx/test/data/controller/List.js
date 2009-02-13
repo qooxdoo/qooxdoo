@@ -472,9 +472,12 @@ qx.Class.define("qx.test.data.controller.List",
     testFilterApply: function() {
       this.__setUpString();
       
-      this.__controller.setFilter(function(data) {
+      var delegate = {};
+      delegate.filter = function(data) {
         return data == "b" || data == "c" || data == "d";
-      });
+      };
+      
+      this.__controller.setDelegate(delegate);
       
       // check the binding
       for (var i = 0; i < this.__data.length - 2; i++) {
@@ -487,13 +490,17 @@ qx.Class.define("qx.test.data.controller.List",
     testFilterChange: function() {
       this.__setUpString();
       
-      this.__controller.setFilter(function(data) {
+      var delegate1 = {};
+      delegate1.filter = function(data) {
         return data == "b" || data == "c" || data == "d";
-      });
-      
-      this.__controller.setFilter(function(data) {
+      };
+      var delegate2 = {};
+      delegate2.filter = function(data) {
         return data == "a" || data == "b" || data == "c";
-      });      
+      };
+      
+      this.__controller.setDelegate(delegate1);
+      this.__controller.setDelegate(delegate2);
       
       // check the binding
       for (var i = 0; i < this.__data.length - 2; i++) {
@@ -506,9 +513,12 @@ qx.Class.define("qx.test.data.controller.List",
     testFilterChangeModel: function() {
       this.__setUpString();
 
-      this.__controller.setFilter(function(data) {
+      var delegate = {};
+      delegate.filter = function(data) {
         return data == "B" || data == "C" || data == "D";
-      });
+      };
+
+      this.__controller.setDelegate(delegate);
       
       // check for the right length
       this.assertEquals(0, this.__list.getChildren().length, "Some list items created.");
@@ -529,9 +539,12 @@ qx.Class.define("qx.test.data.controller.List",
 
       var list = new qx.ui.form.List();
       
-      this.__controller.setFilter(function(data) {
+      var delegate = {};
+      delegate.filter = function(data) {
         return data == "b" || data == "d";
-      });
+      };
+      
+      this.__controller.setDelegate(delegate);
       
       // check the length of the first list
       this.assertEquals(2, this.__list.getChildren().length, "Wrong number of list items");
@@ -556,9 +569,11 @@ qx.Class.define("qx.test.data.controller.List",
     testFilterWithSelection: function() {
       this.__setUpString();
       
-      this.__controller.setFilter(function(data) {
+      var delegate = {};
+      delegate.filter = function(data) {
         return data == "a" || data == "e";
-      });
+      };
+      this.__controller.setDelegate(delegate);
       
       // select the first object
       this.__list.addToSelection(this.__list.getChildren()[0]);
@@ -585,9 +600,11 @@ qx.Class.define("qx.test.data.controller.List",
       this.__list.addToSelection(this.__list.getChildren()[1]);
       
       // apply the filter
-      this.__controller.setFilter(function(data) {
+      var delegate = {};
+      delegate.filter = function(data) {
         return data == "b" || data == "c" || data == "d";
-      });
+      };
+      this.__controller.setDelegate(delegate);
       
       this.assertEquals("b", this.__controller.getSelection().getItem(0), "Selection does not work.");
       this.assertEquals("b", this.__list.getSelection()[0].getLabel(), "Selection does not work.");      
@@ -598,7 +615,7 @@ qx.Class.define("qx.test.data.controller.List",
       this.__setUpString();
 
       // create the delegate
-      var delegate = new qx.core.Object();
+      var delegate = {};
       delegate.configureItem = function(item) {
         item.setRich(true);
       };
@@ -621,7 +638,7 @@ qx.Class.define("qx.test.data.controller.List",
       // create the controller
       this.__controller = new qx.data.controller.List(this.__model);
       // create the delegate
-      var delegate = new qx.core.Object();
+      var delegate = {};
       delegate.configureItem = function(item) {
         item.setRich(true);
       };

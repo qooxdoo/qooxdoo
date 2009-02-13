@@ -173,28 +173,13 @@ qx.Class.define("qx.data.controller.List",
     
     
     /**
-     * A method used for filtering the data. As the only parameter, the data
-     * will be pased in. The filter have to decide if the data should be in 
-     * or out. Therefore, the filter should just return a boolean true for
-     * in the filter and a false for not in the filter.
-     * If you want to use extra parameters, use {@link qx.lang.Function#bind}.
-     */
-    filter : 
-    {
-      check: "Function",
-      apply: "_applyFilter",
-      event: "changeFilter",
-      nullable: true
-    },
-    
-    
-    /**
      * Delegation object, which can have one ore more functionf defined by the
      * {@link #IControllerDelegate} Interface.  
      */
     delegate : 
     {
       apply: "_applyDelegate",
+      event: "changeDelegate",
       init: null,
       nullable: true
     }
@@ -241,66 +226,8 @@ qx.Class.define("qx.data.controller.List",
      * @param old {qx.core.Object|null} The old delegate.
      */
     _applyDelegate: function(value, old) {
-      if (value != null && value.configureItem != null && this.getTarget() != null) {
-        var children = this.getTarget().getChildren();
-        for (var i = 0; i < children.length; i++) {
-          value.configureItem(children[i]);
-        }
-      }
-    },
-    
-    
-    /** 
-     * Apply-Method for applying the filter. It removes all bindings,
-     * check if the length has changed and adds or removes the items in the 
-     * target. After that, the bindings will be set up again and the selection
-     * will be updated. 
-     * 
-     * @param value {Function|null} The new filter function.
-     * @param old {Function|null} The old filter function.
-     */
-    _applyFilter: function(value, old) {
-      this._startSelectionModification();
-      // remove all bindings
-      if (this.getTarget() != null) {
-        for (var i = 0; i < this.getTarget().length; i++) {
-          var id = this.getTarget().getChildren()[i].getUserData("labelBindingId");
-          this.removeBinding(id);
-          id = this.getTarget().getChildren()[i].getUserData("iconBindingId");
-          if (id != null) {
-            this.removeBinding(id);
-          }
-        }
-      }
-
-      // store the old lookup table
-      var oldTable = this.__lookupTable;      
-      // generate a new lookup table
-      this.__buildUpLookupTable();
-      
-      // if there are lesser items
-      if (oldTable.length > this.__lookupTable.length) {
-        // remove the unnecessary ítems
-        for (var j = oldTable.length; j > this.__lookupTable.length; j--) {
-          this.getTarget().removeAt(j - 1);
-        }     
-      // if there are more items   
-      } else if (oldTable.length < this.__lookupTable.length) {
-        // add the new elements
-        for (var j = oldTable.length; j < this.__lookupTable.length; j++) {
-          var tempItem = this._createItem();
-          this.getTarget().add(tempItem);
-        }        
-      }      
-      
-      // bind every list item again
-      var listItems = this.getTarget().getChildren();
-      for (var i = 0; i < listItems.length; i++) {
-        this._bindListItem(listItems[i], this.__lookup(i));
-      }
-      this._endSelectionModification();
-      
-      this._updateSelection();
+      this._setConfigureItem(value, old);
+      this._setFilter(value, old);
     },
     
     
@@ -677,6 +604,79 @@ qx.Class.define("qx.data.controller.List",
       }      
     },
     
+ 
+    /*
+    ---------------------------------------------------------------------------
+       DELEGATE HELPER
+    ---------------------------------------------------------------------------
+    */    
+    
+    _setConfigureItem: function(value, old) {
+      if (value != null && value.configureItem != null && this.getTarget() != null) {
+        var children = this.getTarget().getChildren();
+        for (var i = 0; i < children.length; i++) {
+          value.configureItem(children[i]);
+        }
+      }      
+    },
+    
+    
+    /** 
+     * Apply-Method for setting the filter. It removes all bindings,
+     * check if the length has changed and adds or removes the items in the 
+     * target. After that, the bindings will be set up again and the selection
+     * will be updated. 
+     * 
+     * @param value {Function|null} The new filter function.
+     * @param old {Function|null} The old filter function.
+     */
+    _setFilter: function(value, old) {
+      if (this.getTarget() != null) {
+        this._startSelectionModification();
+
+        // remove all bindings
+        for (var i = 0; i < this.getTarget().length; i++) {
+          var id = this.getTarget().getChildren()[i].getUserData("labelBindingId");
+          this.removeBinding(id);
+          id = this.getTarget().getChildren()[i].getUserData("iconBindingId");
+          if (id != null) {
+            this.removeBinding(id);
+          }
+        }
+      }
+
+      // store the old lookup table
+      var oldTable = this.__lookupTable;      
+      // generate a new lookup table
+      this.__buildUpLookupTable();
+      
+      if (this.getTarget() != null) {
+        // if there are lesser items
+        if (oldTable.length > this.__lookupTable.length) {
+          // remove the unnecessary ítems
+          for (var j = oldTable.length; j > this.__lookupTable.length; j--) {
+            this.getTarget().removeAt(j - 1);
+          }     
+        // if there are more items   
+        } else if (oldTable.length < this.__lookupTable.length) {
+          // add the new elements
+          for (var j = oldTable.length; j < this.__lookupTable.length; j++) {
+            var tempItem = this._createItem();
+            this.getTarget().add(tempItem);
+          }        
+        }      
+
+        // bind every list item again
+        var listItems = this.getTarget().getChildren();
+        for (var i = 0; i < listItems.length; i++) {
+          this._bindListItem(listItems[i], this.__lookup(i));
+        }        
+        
+        this._endSelectionModification();
+
+        this._updateSelection();        
+      }
+    },    
     
     
     /*
@@ -690,7 +690,10 @@ qx.Class.define("qx.data.controller.List",
      */  
     __buildUpLookupTable: function() {
       var model = this.getModel();
-      var filter = this.getFilter();
+      var delegate = this.getDelegate();
+      if (delegate != null) {
+        var filter = delegate.filter;
+      }
       
       this.__lookupTable = [];
       for (var i = 0; i < model.length; i++) {

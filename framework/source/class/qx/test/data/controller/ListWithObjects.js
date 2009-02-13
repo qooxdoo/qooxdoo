@@ -277,10 +277,12 @@ qx.Class.define("qx.test.data.controller.ListWithObjects",
       this.__controller = new qx.data.controller.List(this.__model, this.__list, "name");
       this.__controller.setIconPath("icon");
       
-      // set the filter
-      this.__controller.setFilter(function(data) {
+      var delegate = {};
+      delegate.filter = function(data) {
         return data.getName() == "name2" ? true : false;
-      });
+      }
+      // set the filter
+      this.__controller.setDelegate(delegate);
       
       // check for the length
       this.assertEquals(1, this.__list.getChildren().length, "Too much list items.");      
