@@ -55,12 +55,12 @@ qx.Class.define("qx.dev.unit.TestCase",
 		/**
 		 * Instruct the test to wait. Used for asynchronous tests.
 		 * 
-		 * @param deferredFunction {Function?false} Optional function to run after
-		 * timeout has expired.
 		 * @param delay {Integer?5000} Amount of time in milliseconds to wait.
+		 * @param deferredFunction {Function?false} Optional function to run after
+		 * timeout has expired.		 
 		 */
-    wait : function(deferredFunction, delay) {
-      throw new qx.dev.unit.AsyncWrapper(deferredFunction, delay);
+    wait : function(delay, deferredFunction) {
+      throw new qx.dev.unit.AsyncWrapper(delay, deferredFunction);
     },
 		
 		/**
@@ -68,10 +68,12 @@ qx.Class.define("qx.dev.unit.TestCase",
 		 * function. Used for asynchronous tests, e.g. in a listener's callback
 		 * function.
 		 * 
-		 * @param deferredFunction {Function?false} Function to run 
+		 * @param deferredFunction {Function?false} Function to run
+		 * @param self {Object?false} reference to the ‘this’ variable inside the 
+		 * callback 
 		 */
-    resume : function(deferredFunction) {
-      this.getTestResult().run(this.getTestFunc(), deferredFunction);
+    resume : function(deferredFunction, self) {
+      this.getTestResult().run(this.getTestFunc(), deferredFunction, self);
     }
   }
 });
