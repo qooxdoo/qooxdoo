@@ -162,10 +162,12 @@ qx.Class.define("qx.ui.root.Inline",
       } else {
         hint = {};
       }
+      
+      var Dimension = qx.bom.element.Dimension;
 
       if (dynX)
       {
-        var width = qx.bom.element.Dimension.getClientWidth(this.__elem);
+        var width = Dimension.getContentWidth(this.__elem);
         hint.width = width;
         hint.minWidth = width;
         hint.maxWidth = width;
@@ -173,7 +175,7 @@ qx.Class.define("qx.ui.root.Inline",
 
       if (dynY)
       {
-        var height = qx.bom.element.Dimension.getClientHeight(this.__elem);
+        var height = Dimension.getContentHeight(this.__elem);
         hint.height = height;
         hint.minHeight = height;
         hint.maxHeight = height;
