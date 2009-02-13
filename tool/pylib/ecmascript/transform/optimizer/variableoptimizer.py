@@ -6,7 +6,7 @@
 #  http://qooxdoo.org
 #
 #  Copyright:
-#    2006-2008 1&1 Internet AG, Germany, http://www.1und1.de
+#    2006-2009 1&1 Internet AG, Germany, http://www.1und1.de
 #
 #  License:
 #    LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -14,30 +14,22 @@
 #    See the LICENSE file in the project's top-level directory for details.
 #
 #  Authors:
+#    * Thomas Herchenroeder (thron7)
 #    * Sebastian Werner (wpbasti)
-#    * Alessandro Sala (asala)
 #
 ################################################################################
 
-from ecmascript.frontend import tree
-from ecmascript.frontend import lang
+import sys, os, re, types
 
-# TODO: Any idea to make this more random while still being compact?
-def mapper(found, obound):
-    counter = 0
-    translations = {}
-    
-    for entry in found:
-        repl = convert(counter)
-        counter += 1
-        
-        while repl in found or repl in obound or lang.RESERVED.has_key(repl):
-            repl = convert(counter)
-            counter += 1
-            
-        translations[entry] = repl
+from ecmascript.frontend.Script import Script
+from ecmascript.frontend import lang, treeutil
 
-    return translations
+counter = 0
+
+# Create a blacklist of words to leave untouched
+reservedWords = set(())
+reservedWords.update(lang.GLOBALS)
+reservedWords.update(lang.RESERVED.keys())
 
 
 def convert(current):
@@ -54,88 +46,18 @@ def convert(current):
     return res
 
 
-def respect(name, found):
-    return (name and not name in found and not name.startswith("_"))
+def mapper(name, checkset):
+    global counter
+    repl = convert(counter)
+    counter += 1
+    while repl in checkset or repl in reservedWords:   # checkset is not updated, since we never generate the same repl twice
+        repl = convert(counter)
+        counter += 1
+    return repl
 
 
-def search(node, found=None, register=False, level=0, other_bound=None):
-    if found == None:
-        found = []
+def update(node, newname):
 
-    if other_bound == None:
-        other_bound = set([])
-    
-    if node.type == "function":
-        if register:
-            name = node.get("name", False)
-            if respect(name, found):
-                found.append(name)
-
-        openedAt = len(found)
-        register = True
-
-    # e.g. func(name1, name2);
-    elif register and node.type == "variable" and node.hasChildren() and len(node.children) == 1:
-        if node.parent.type == "params" and node.parent.parent.type != "call":
-            first = node.getFirstChild()
-
-            if first.type == "identifier":
-                name = first.get("name")
-
-                if respect(name, found):
-                    found.append(name)
-
-    # e.g. var name1, name2 = "foo";
-    elif register and node.type == "definition":
-        name = node.get("identifier", False)
-
-        if respect(name, found):
-            found.append(name)
-
-
-    # e.g. catch(name1)
-    elif register and node.type == "catch":
-        name = node.getChild("expression").getChild("variable").getChild("identifier").get("name")
-        
-        if respect(name, found):
-            found.append(name)
- 
-
-    # register other bound names
-    # -- this is overgenerating, but is ok since it is checked against when generating
-    # -- "fresh" names, to make sure they're not in use
-    elif node.type == "identifier":
-        name = node.get("name", None)
-
-        if respect(name, found) and not name in other_bound and not lang.RESERVED.has_key(name):
-            other_bound.add(name)
-
-    # Iterate over children
-    if node.hasChildren():
-        if node.type == "function":
-            for child in node.children:
-                search(child, found, register, level+1, other_bound)
-
-        else:
-            for child in node.children:
-                search(child, found, register, level, other_bound)
-
-    # Function closed
-    if node.type == "function":
-        if level==0:
-            # Generate translation list
-            translations = mapper(found, other_bound)
-            
-            # Start replacement when get back to first level
-            update(node, translations)
-            
-            # Afterwards the function is closed and we can clean-
-            # up the found variables
-            del found[openedAt:]   # openedAt is always 0 here currently
-
-
-def update(node, translations):
-    # Handle all identifiers
     if node.type == "identifier":
         isFirstChild = False
         isVariableMember = False
@@ -161,24 +83,69 @@ def update(node, translations):
         if not isVariableMember or isFirstChild:
             name = node.get("name", False)
 
-            if name != None and translations.has_key(name):
-                node.set("name", translations[name])
+            if name != None:
+                node.set("name", newname)
 
     # Handle variable definition
     elif node.type == "definition":
         name = node.get("identifier", False)
 
-        if name != None and translations.has_key(name):
-            node.set("identifier", translations[name])
+        if name != None:
+            node.set("identifier", newname)
 
     # Handle function definition
     elif node.type == "function":
         name = node.get("name", False)
 
-        if name != None and translations.has_key(name):
-            node.set("name", translations[name])
+        if name != None:
+            node.set("name", newname)
 
-    # Iterate over children
-    if node.hasChildren():
-        for child in node.children:
-            update(child, translations)
+
+# -- Interface function --------------------------------------------------------
+
+def search(node):
+
+    def updateOccurences(var, newname):
+        # Replace variable definition
+        for node in var.nodes:
+            # TODO: Kludge!
+            if node.type == 'variable' and node.children[0].type == 'identifier':
+                update(node.children[0], newname)
+            else:
+                update(node, newname)
+
+        # Replace variable references
+        for varUse in var.uses:  # varUse is a VariableUse object
+            update(varUse.node, newname)
+
+    # Collect the set of all used variables
+    script = Script(node)
+    varset = set([])
+
+    for scope in script.iterScopes():
+        varset.update((x.name for x in scope.uses))
+
+    # loop through declared vars of scopes
+    for scope in script.iterScopes():
+        allvars = scope.arguments + scope.variables
+        for var in allvars:
+
+            if var.name in reservedWords or len(var.name)<2:
+                continue
+
+            # get replacement name
+            newname = mapper(var.name, varset)
+
+            # update all occurrences in scope
+            updateOccurences(var, newname)
+
+            # if var is param, patch local vars of same name in one go
+            if (var in scope.arguments):
+                # get declared vars of same name
+                lvars = [x for x in scope.variables if x.name == var.name]
+                for lvar in lvars:
+                    updateOccurences(lvar, newname)
+                    # don't re-process
+                    allvars.remove(lvar)
+
+
