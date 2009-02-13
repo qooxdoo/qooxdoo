@@ -40,7 +40,7 @@ qx.Class.define("demobrowser.demo.util.PropertyEditor",
     var pane = new qx.ui.container.Composite().set({
       padding: [20, 14]
     });
-    this._getChildControl("pane").add(pane);
+    this.getChildControl("pane").add(pane);
     this._pane = pane;
 
 
