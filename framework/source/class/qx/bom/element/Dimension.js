@@ -43,6 +43,7 @@ qx.Class.define("qx.bom.element.Dimension",
      * to the width configured via CSS. This highly depends on the current 
      * box-sizing for the document and maybe even for the element.
      *
+     * @signature function(element)
      * @param element {Element} element to query
      * @return {Integer} width of the element
      */
@@ -79,6 +80,7 @@ qx.Class.define("qx.bom.element.Dimension",
      * to the height configured via CSS. This highly depends on the current 
      * box-sizing for the document and maybe even for the element.
      *
+     * @signature function(element)
      * @param element {Element} element to query
      * @return {Integer} height of the element
      */
