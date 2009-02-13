@@ -89,7 +89,7 @@ qx.Interface.define("qx.ui.form.IFormElement",
      * @param value {Boolean} The new name of the element
      */
     setName : function(value) {
-      this.assertType(value, "string");
+      this.assertString(value);
     },
 
 
@@ -116,7 +116,7 @@ qx.Interface.define("qx.ui.form.IFormElement",
      * @return {var} the value
      */
     setValue : function(value) {
-      this.assertType(value, "string");
+      this.assertString(value);
     },
 
 
