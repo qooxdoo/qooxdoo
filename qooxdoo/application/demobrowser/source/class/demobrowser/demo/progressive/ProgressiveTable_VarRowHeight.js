@@ -68,7 +68,7 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveTable_VarRowHeight",
           source,
           function(source, entry)
           {
-            this.warn("Searching for [" + source + "]");
+            this.info("Searching for [" + source + "]");
 
             // Find this source entry
             for (var j = 0; j < this.imageData.length; j++)
