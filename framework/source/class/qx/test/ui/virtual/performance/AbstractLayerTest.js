@@ -151,7 +151,7 @@ qx.Class.define("qx.test.ui.virtual.performance.AbstractLayerTest",
     
     profile : function(name, fcn, context, count)
     {
-      if (console && console.profile) console.profile(name + "; " + this.classname);
+      if (window.console && window.console.profile) console.profile(name + "; " + this.classname);
 
       var times = [];
       for (var i=0,l=count; i<l; i++)
@@ -168,7 +168,7 @@ qx.Class.define("qx.test.ui.virtual.performance.AbstractLayerTest",
       var avg = Math.round(qx.lang.Array.sum(times.slice(1, -1)) / (times.length-2))
       this.warn(";" + name + "; avg(" + avg + "ms); " + times.join("ms; ") + "ms;");
       
-      if (console && console.profile) console.profileEnd(name + " " + this.classname);
+      if (window.console && window.console.profile) console.profileEnd(name + " " + this.classname);
     }
   }
 
