@@ -829,6 +829,7 @@ qx.Class.define("testrunner.runner.TestRunner",
             that.widgets["progresspane.progressbar"].update(String(tstCurr + "/" + tstCnt));
             tstCurr++;
           }
+					qx.event.Timer.once(runtest, this, 0);
         },
         that);
 
@@ -852,7 +853,6 @@ qx.Class.define("testrunner.runner.TestRunner",
           var test = tlist[0];
           that.loader.runTests(testResult, test[0], test[1]);
           tlist = tlist.slice(1, tlist.length);  // recurse with rest of list
-          qx.event.Timer.once(runtest, this, 100);
         }
         else
         {  // no more tests -> re-enable toolbar
