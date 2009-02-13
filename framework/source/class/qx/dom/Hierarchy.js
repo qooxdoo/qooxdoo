@@ -235,7 +235,6 @@ qx.Class.define("qx.dom.Hierarchy",
     {
       "mshtml|opera" : function(element1, element2)
       {
-
         if (element1 === element2) {
           return element1;
         }
