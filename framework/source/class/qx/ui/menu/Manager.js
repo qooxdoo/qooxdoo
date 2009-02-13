@@ -814,15 +814,17 @@ qx.Class.define("qx.ui.menu.Manager",
   {
     var Registration = qx.event.Registration;
     var el = document.body;
+    var root = qx.core.Init.getApplication().getRoot();
     
     // React on mousedown/mouseup events
-    Registration.removeListener(el, "mousedown", this, this._onMouseDown, this, true);
+    root.removeListener("mousedown", this._onMouseDown, this, true);
+    root.removeListener("mouseup", this._onMouseUp, this);
     Registration.removeListener(window.document.documentElement, "mouseup", this._onMouseUp, this);
-
+    
     // React on keypress events
-    Registration.removeListener.removeListener(el, "keydown", this._onKeyUpDown, this, true);
-    Registration.removeListener.removeListener(el, "keyup", this._onKeyUpDown, this, true);
-    Registration.removeListener.removeListener(el, "keypress", this._onKeyPress, this, true);
+    Registration.removeListener(el, "keydown", this._onKeyUpDown, this, true);
+    Registration.removeListener(el, "keyup", this._onKeyUpDown, this, true);
+    Registration.removeListener(el, "keypress", this._onKeyPress, this, true);
 
     this._disposeObjects("__openTimer", "__closeTimer");
     this._disposeArray("__objects");
