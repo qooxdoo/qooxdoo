@@ -201,6 +201,8 @@
         "code" :
         {
           "locales" : "${LOCALES}"
+          ,"optimize" : ["variables", "basecalls", "privates", "strings"]
+          ,"format" : true
         }
       }
     },
