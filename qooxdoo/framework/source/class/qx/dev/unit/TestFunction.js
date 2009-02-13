@@ -48,32 +48,6 @@ qx.Class.define("qx.dev.unit.TestFunction",
     if (testFunction) {
       this.setTestFunction(testFunction);
     }
-    /* Deferred to the run method so we can pass the testResult instance to the 
-     * test class.
-    else
-    {
-      this.setTestFunction(function()
-      {
-        var cls = new clazz;
-
-        if (typeof (cls.setUp) == "function") {
-          cls.setUp();
-        }
-
-        try {
-            cls[methodName]();
-        } catch (ex) {
-            throw ex;
-        } finally {
-            // tearDown should always be called.
-            if (typeof (cls.tearDown) == "function") {
-              cls.tearDown();
-            }
-        }
-
-      });
-    }
-    */
 
     if (clazz) {
       this.setClassName(clazz.classname);
@@ -111,7 +85,8 @@ qx.Class.define("qx.dev.unit.TestFunction",
     testClass : 
     { 
       check : "Class",
-      init : null 
+      init : null,
+      apply : "_applyTestClass"
     }
   },
 
@@ -125,40 +100,48 @@ qx.Class.define("qx.dev.unit.TestFunction",
 
   members :
   {
+    _applyTestClass : function(value, old) {
+      this.__inst = new value;
+    },
+    
+    
     /**
      * Runs the test and logs the test result to a {@link TestResult} instance,
      *
      * @param testResult {TestResult} The class used to log the test result.
      */
-    run : function(testResult) {
-      //testResult.run(this, this.getTestFunction());
-      var clazz = this.getTestClass();
-      var cls = new clazz;
+    run : function(testResult) 
+		{
+      var inst = this.__inst;
       var method = this.getName();
       var testFunc = this;
       testResult.run(this, function()
-        {
-  
-          if (typeof (cls.setUp) == "function") {
-            cls.setUp();
-          }
-          cls.setTestFunc(testFunc);
-          cls.setTestResult(testResult);
-          
-          try {
-              cls[method]();
-          } catch (ex) {
-              throw ex;
-          } finally {
-              // tearDown should always be called.
-              if (typeof (cls.tearDown) == "function") {
-                cls.tearDown();
-              }
-          }
-  
-        } 
-      );
+      {
+        inst.setTestFunc(testFunc);
+        inst.setTestResult(testResult);
+
+        try {
+            inst[method]();
+        } catch (ex) {
+            throw ex;
+        }
+      });
       
+    },
+    
+    
+    setUp : function() 
+    {
+      if (typeof (this.__inst.setUp) == "function") {
+        this.__inst.setUp();
+      }
+    },
+    
+    tearDown : function() 
+    {
+      if (typeof (this.__inst.tearDown) == "function") {
+        this.__inst.tearDown();
+      }
     },
 
 

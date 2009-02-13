@@ -103,6 +103,9 @@ qx.Class.define("qx.dev.unit.TestResult",
         this.debug("clearing timeout");
         clearTimeout(this._timeout[test.getFullName()]);
       }
+      else {
+        test.setUp();
+      }
 
       try {
 				if (self) {
@@ -133,13 +136,16 @@ qx.Class.define("qx.dev.unit.TestResult",
           }
 
         } else if (ex.classname == "qx.core.AssertionError") {
+          test.tearDown();
           this.__createError("failure", ex, test);
         } else {
+          test.tearDown();
           this.__createError("error", ex, test);
         }
       }
 
       if (!error) {
+        test.tearDown();
         this.fireDataEvent("endTest", test);
       }
     },
