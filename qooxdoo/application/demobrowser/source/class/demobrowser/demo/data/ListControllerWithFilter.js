@@ -44,27 +44,29 @@ qx.Class.define("demobrowser.demo.data.ListControllerWithFilter",
       // create the controller
       var controller = new qx.data.controller.List(data, list);
 
-      // create the filter
-      var filterOdd = function(data) {
+      // create the delegates for the filter
+      var delegateOdd = {};
+      delegateOdd.filter = function(data) {
         return parseInt(data) % 2 == 1;
-      }
-      var filterEven = function(data) {
+      };
+      var delegateEven = {};
+      delegateEven.filter = function(data) {
         return parseInt(data) % 2 == 0;
-      }    
+      };
             
       var filterNameLabel = new qx.ui.basic.Label("init");
       this.getRoot().add(filterNameLabel, {left: 10, top: 290});
       var options = {
         converter: function(data) {
-          if (data == filterEven) {
+          if (data == delegateEven) {
             return "Show only even numbers."
-          } else if (data == filterOdd) {
+          } else if (data == delegateOdd) {
             return "Show only odd numbers."            
           }
           return "Show all numbers."
         }
       };
-      controller.bind("filter", filterNameLabel, "content", options);
+      controller.bind("delegate", filterNameLabel, "content", options);
       
             
             
@@ -101,14 +103,14 @@ qx.Class.define("demobrowser.demo.data.ListControllerWithFilter",
       changeFilterButton.setWidth(120);
       this.getRoot().add(changeFilterButton, {left: 130, top: 185});
       changeFilterButton.addListener("execute", function() {
-        controller.getFilter() == filterOdd ? controller.setFilter(filterEven) : controller.setFilter(filterOdd);
+        controller.getDelegate() == delegateOdd ? controller.setDelegate(delegateEven) : controller.setDelegate(delegateOdd);
       }, this);      
       
       var removeFilterButton = new qx.ui.form.Button("Remove filter");
       removeFilterButton.setWidth(120);
       this.getRoot().add(removeFilterButton, {left: 130, top: 220});
       removeFilterButton.addListener("execute", function() {
-        controller.setFilter(null);
+        controller.setDelegate(null);
       }, this);
       
       var reverseButton = new qx.ui.form.Button("Reverse order");
