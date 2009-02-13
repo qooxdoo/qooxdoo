@@ -567,8 +567,8 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       var children = layer.getContentElement().getDomElement().childNodes;
 
       this.assertScroll(0, 15, this.pane);
-      this.assertEquals("87 / 0", children[0].innerHTML)
-      this.assertEquals("100 / 0", children[children.length-1].innerHTML)
+      this.assertEquals("0 / 87", children[0].innerHTML)
+      this.assertEquals("0 / 100", children[children.length-1].innerHTML)
     },
 
     _testSrollRowIntoViewEdgeCase : function()
