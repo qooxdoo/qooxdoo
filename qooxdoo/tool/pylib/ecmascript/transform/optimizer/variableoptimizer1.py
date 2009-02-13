@@ -58,13 +58,13 @@ def mapper(name, checkset):
 
 def update(node, newname):
 
-    if node.type == "catch":
-       identifier = treeutil.selectNode(node, "expression/variable/identifier")
-       name = identifier.get("name", False)
-       if name != None:
-           identifier.set("name", newname)
+    #if node.type == "catch":
+    #   identifier = treeutil.selectNode(node, "expression/variable/identifier")
+    #   name = identifier.get("name", False)
+    #   if name != None:
+    #       identifier.set("name", newname)
 
-    elif node.type == "identifier":
+    if node.type == "identifier":
         isFirstChild = False
         isVariableMember = False
 
