@@ -21,7 +21,7 @@
 /* ************************************************************************
 
 #use(qx.legacy.theme.ClassicRoyale)
-#asset(qx/icon/${qx.icontheme}/32/apps/dialog-information.png)
+#asset(qx/compat/icon/CrystalClear/32/status/dialog-information.png)
 
 ************************************************************************ */
 
