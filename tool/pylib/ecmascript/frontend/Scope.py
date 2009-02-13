@@ -95,8 +95,8 @@ Function %s(%s):
 
 
     def _getExceptionVariables(self):
-        identifier = treeutil.selectNode(self.node, "expression/variable/identifier/@name")
-        return [VariableDefinition(identifier, self.node, False, self)]
+        identifier = treeutil.selectNode(self.node, "expression/variable/identifier")
+        return [VariableDefinition(identifier.get("name",None), identifier, False, self)]
 
 
     def _getParentScopeNode(self):
