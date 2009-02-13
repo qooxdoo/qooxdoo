@@ -38,6 +38,19 @@ qx.Interface.define("qx.data.controller.IControllerDelegate",
      *
      * @param item {var} Item to modify.
      */    
-    configureItem : function(item) {}   
+    configureItem : function(item) {},
+    
+    
+    /**
+     * Filter checks the current data and returns a boolean if the data should 
+     * appera in the filtered data set or not.
+     * 
+     * The filter currently works only with the {@link qx.data.controller.List}
+     * controller!
+     *  
+     * @param data {var} The data which will be checked.
+     * @return {Boolean} True, if the data passes the filter, false otherwise.
+     */
+    filter : function(data) {}
   }
 });

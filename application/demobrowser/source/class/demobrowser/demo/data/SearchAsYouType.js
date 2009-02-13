@@ -57,7 +57,7 @@ qx.Class.define("demobrowser.demo.data.SearchAsYouType",
       var filterObj = new demobrowser.demo.data.filter.SearchAsYouTypeFilter(controller);
       
       // set the filter
-      controller.setFilter(filterObj.filter);
+      controller.setDelegate(filterObj);
       
       // make every input in the textfield update the controller
       textfield.bindEvent("input", filterObj, "searchString");
