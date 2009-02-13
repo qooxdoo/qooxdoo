@@ -155,53 +155,6 @@ class Lint:
 
     KNOWN_IDENTIFIER = set(lang.GLOBALS)
 
-    # this array has formerly been assigned to KNOWN_IDENTIFIER and can be removed later
-    [
-
-        "window", "document",
-
-        # Java
-        "java", "sun", "Packages",
-
-        # Firefox extension: Firebug
-        "console",
-
-        # IE
-        "event", "offscreenBuffering", "clipboardData", "clientInformation", "Option",
-        "Image", "external", "screenTop", "screenLeft", "ActiveXObject",
-
-        # window
-        'window', 'console', 'document', 'addEventListener', '__firebug__', 'location',
-        'navigator', 'Packages', 'sun', 'java', 'netscape', 'XPCNativeWrapper', 'Components',
-        'parent', 'top', 'scrollbars', 'name', 'scrollX', 'scrollY', 'scrollTo', 'scrollBy',
-        'getSelection', 'scrollByLines', 'scrollByPages', 'sizeToContent', 'dump', 'setTimeout',
-        'setInterval', 'clearTimeout', 'clearInterval', 'setResizable', 'captureEvents',
-        'releaseEvents', 'routeEvent', 'enableExternalCapture', 'disableExternalCapture',
-        'prompt', 'open', 'openDialog', 'frames', 'find', 'self', 'screen', 'history',
-        'content', 'menubar', 'toolbar', 'locationbar', 'personalbar', 'statusbar',
-        'directories', 'closed', 'crypto', 'pkcs11', 'controllers', 'opener', 'status',
-        'defaultStatus', 'innerWidth', 'innerHeight', 'outerWidth', 'outerHeight', 'screenX',
-        'screenY', 'pageXOffset', 'pageYOffset', 'scrollMaxX', 'scrollMaxY', 'length',
-        'fullScreen', 'alert', 'confirm', 'focus', 'blur', 'back', 'forward', 'home', 'stop',
-        'print', 'moveTo', 'moveBy', 'resizeTo', 'resizeBy', 'scroll', 'close', 'updateCommands',
-        'atob', 'btoa', 'frameElement', 'removeEventListener', 'dispatchEvent', 'getComputedStyle',
-        'sessionStorage', 'globalStorage',
-
-        # XML
-        "DOMParser", "XMLSerializer", "XPathEvaluator", "XPathResult",
-        "XMLHttpRequest",
-
-        # Language
-        "Array", "Object", "Date", "Error", "Function", "String", "RegExp", "Math",
-        "Number", "Boolean",
-
-        "decodeURI", "decodeURIComponent", "encodeURIComponent",
-        "escape", "unescape",
-        "parseInt", "parseFloat", "isNaN", "isFinite",
-
-        "this", "arguments", "undefined", "NaN", "Infinity"
-    ]
-
     def isGoodGlobal(self, identifier):
         return identifier in Lint.KNOWN_IDENTIFIER
 
