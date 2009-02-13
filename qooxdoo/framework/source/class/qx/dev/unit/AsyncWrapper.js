@@ -35,11 +35,11 @@ qx.Class.define("qx.dev.unit.AsyncWrapper",
   */
   
 	/**
+   * @param delay {Integer?} The amount of time in milliseconds to wait
    * @param deferredFunction {Function?} The function to run after the timeout 
    * has expired.
-   * @param delay {Integer?} The amount of time in milliseconds to wait
    */
-  construct : function(deferredFunction, delay)
+  construct : function(delay, deferredFunction)
   {
     for (var i=0; i<arguments.length; i++) {
 			if (typeof arguments[i] === "function") {				
