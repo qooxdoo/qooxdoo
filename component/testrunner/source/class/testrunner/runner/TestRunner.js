@@ -21,9 +21,9 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/Tango/22/actions/media-playback-start.png)
-#asset(qx/icon/Tango/22/actions/view-refresh.png)
-#asset(qx/icon/Tango/22/actions/system-run.png)
+#asset(qx/n/Tango/22/actions/media-playback-start.png)
+#asset(qx/n/Tango/22/actions/view-refresh.png)
+#asset(qx/n/Tango/22/actions/system-run.png)
 
 #asset(testrunner/image/*)
 
@@ -171,13 +171,13 @@ qx.Class.define("testrunner.runner.TestRunner",
       toolbar.add(part1);
 
       // -- run button
-      this.runbutton = new qx.ui.toolbar.Button(this.tr('<b>Run&nbsp;Tests!</b>'), "icon/22/actions/media-playback-start.png");    
+      this.runbutton = new qx.ui.toolbar.Button(this.tr('<b>Run&nbsp;Tests!</b>'), "n/22/actions/media-playback-start.png");    
       this.runbutton.setTextColor("#36a618");
       this.runbutton.setRich(true);
       part1.add(this.runbutton);
 
       // -- reload button
-      this.reloadbutton = new qx.ui.toolbar.Button(this.tr("Reload"), "icon/22/actions/view-refresh.png");
+      this.reloadbutton = new qx.ui.toolbar.Button(this.tr("Reload"), "n/22/actions/view-refresh.png");
       part1.add(this.reloadbutton);
       this.reloadbutton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Reload application under test")));
       this.reloadbutton.addListener("execute", this.reloadTestSuite, this);
@@ -217,7 +217,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       // -- reload switch
       var part3 = new qx.ui.toolbar.Part();
       toolbar.add(part3);
-      this.reloadswitch = new qx.ui.toolbar.CheckBox(this.tr("Auto Reload"), "icon/22/actions/system-run.png");
+      this.reloadswitch = new qx.ui.toolbar.CheckBox(this.tr("Auto Reload"), "n/22/actions/system-run.png");
       part3.add(this.reloadswitch);
       this.reloadswitch.setShow("both");
       this.reloadswitch.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Always reload application under test before testing")));
@@ -392,7 +392,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       var that = this;
 
       this.tree.getSelectedElement = function() {
-        return elem = that.widgets["treeview.full"].getSelected();
+        return that.widgets["treeview.full"].getSelected();
       };
 
       container.add(tree, {flex : 1});
@@ -432,7 +432,7 @@ qx.Class.define("testrunner.runner.TestRunner",
         alignY : "middle"
       }));
       var queuecnt = new qx.ui.form.TextField("0").set({
-        width : 30,
+        width : 40,
         font : "small",
         readOnly : true,
         textAlign : "right"
@@ -445,7 +445,7 @@ qx.Class.define("testrunner.runner.TestRunner",
         alignY : "middle"
       }));
       var failcnt = new qx.ui.form.TextField("0").set({
-        width : 30,
+        width : 40,
         font : "small",
         readOnly : true,
         textAlign : "right"
@@ -456,7 +456,7 @@ qx.Class.define("testrunner.runner.TestRunner",
         alignY : "middle"
       }));
       var succcnt = new qx.ui.form.TextField("0").set({
-        width : 30,
+        width : 40,
         font : "small",
         readOnly : true,
         textAlign : "right"
@@ -522,7 +522,7 @@ qx.Class.define("testrunner.runner.TestRunner",
         alignY : "middle"
       }));
       var l2 = new qx.ui.form.TextField("").set({
-        width : 30,
+        width : 40,
         font : "small",
         readOnly : true,
         textAlign : "right"
@@ -600,7 +600,6 @@ qx.Class.define("testrunner.runner.TestRunner",
       {
         var children = modelR.getChildren();
         var t;
-        var ico;
 
         var children = qx.lang.Array.copy(children);
 
@@ -632,7 +631,7 @@ qx.Class.define("testrunner.runner.TestRunner",
           var currNode = children[i];
           var firstChar = currNode.label.charAt(0);
 
-          var icons = {
+          var ns = {
             "package" : "testrunner/image/package18.gif",
             "class" : "testrunner/image/class18.gif",
             "test" : "testrunner/image/method_public18.gif"
@@ -641,7 +640,7 @@ qx.Class.define("testrunner.runner.TestRunner",
           if (currNode.hasChildren())
           {
             t = new qx.ui.tree.TreeFolder(currNode.label).set({
-              icon: icons[currNode.type] || null
+              n: ns[currNode.type] || null
             });
             if (level < 2)
             {
@@ -654,7 +653,7 @@ qx.Class.define("testrunner.runner.TestRunner",
           else
           {
             t = new qx.ui.tree.TreeFile(currNode.label).set({
-              icon: icons[currNode.type] || null
+              n: ns[currNode.type] || null
             });
             t.addListener("dblclick", that.runTest, that);
           }
@@ -672,7 +671,6 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       // -- Main --------------------------------
       var ttree = this.tests.handler.ttree;
-      var handler = this.tests.handler;
       var that = this;
       var initalSelected = null;
 
@@ -755,7 +753,6 @@ qx.Class.define("testrunner.runner.TestRunner",
       // each test is passed to the same iframe object to be run(loader.runTests).
       var that = this;
       var tlist = [];
-      var tlist1 = [];
       var handler = this.tests.handler;
 
       // -- Helper Functions ---------------------
