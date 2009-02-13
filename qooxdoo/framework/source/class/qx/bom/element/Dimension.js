@@ -137,7 +137,7 @@ qx.Class.define("qx.bom.element.Dimension",
      * Please note that with visible scrollbars the content width returned 
      * may be larger than the box width returned via {@link #getWidth}.
      *
-     * @param {Element} element to query
+     * @param element {Element} element to query
      * @return {Integer} Computed content width
      */
     getContentWidth : function(element)
@@ -180,7 +180,7 @@ qx.Class.define("qx.bom.element.Dimension",
      * Please note that with visible scrollbars the content height returned 
      * may be larger than the box width returned via {@link #getWidth}.
      *
-     * @param {Element} element to query
+     * @param element {Element} element to query
      * @return {Integer} Computed content height
      */
     getContentHeight : function(element)
