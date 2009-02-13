@@ -47,13 +47,16 @@ qx.Class.define("qx.ui.menu.Manager",
     // Create data structure
     this.__objects = [];
 
-    var Registration = qx.event.Registration;
+    var root = qx.core.Init.getApplication().getRoot();
     var el = document.body;
-
-    // React on mousedown/mouseup events
-    Registration.addListener(el, "mousedown", this._onMouseDown, this, true);
-    Registration.addListener(window.document.documentElement, "mouseup", this._onMouseUp, this);
+    var Registration = qx.event.Registration;
     
+    // React on mousedown/mouseup events
+    root.addListener("mousedown", this._onMouseDown, this, true);
+    root.addListener("mouseup", this._onMouseUp, this);
+    
+    // support for inline applications
+    Registration.addListener(window.document.documentElement, "mouseup", this._onMouseUp, this);
 
     // React on keypress events
     Registration.addListener(el, "keydown", this._onKeyUpDown, this, true);
@@ -398,10 +401,7 @@ qx.Class.define("qx.ui.menu.Manager",
      */
     _onMouseDown : function(e)
     {
-      var target = qx.ui.core.Widget.getWidgetByElement(e.getTarget());
-      if (!target) {
-        return;
-      }
+      var target = e.getTarget();
 
       // If the target is the one which has opened the current menu
       // we ignore the mousedown to let the button process the event
@@ -424,24 +424,17 @@ qx.Class.define("qx.ui.menu.Manager",
      */
     _onMouseUp : function(e)
     {
-      // hide all menus if the user clicks directly at the document element
-      // this scenario is only applicable in inline applications
-      if (e.getTarget() == window.document.documentElement) {
-        this.hideAll();
-        return;
-      }
-      
-      var target = qx.ui.core.Widget.getWidgetByElement(e.getTarget());
-      if (!target) {
-        return;
-      }
+      var target = e.getTarget();
 
       // All mouseups not exactly clicking on the menu hide all currently
       // open menus.
       // Separators for example are anonymous. This way the
-      // target is the menu. It is a wanted behaviour that clicks on
+      // target is the menu. It is a wanted behavior that clicks on
       // separators are ignored completely.
-      if (!(target instanceof qx.ui.menu.Menu)) {
+      // For inline apps: also hide the menus if the user clicked anywhere
+      // at the document
+      if (!(target instanceof qx.ui.menu.Menu) ||
+          (target == window.document.documentElement)) {
         this.hideAll();
       }
     },
