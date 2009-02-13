@@ -156,12 +156,12 @@ qx.Class.define("demobrowser.demo.bom.Selector",
       // *************
       
       // OFFSET PARENT
-      var res = qx.bom.Selector.query("select").offsetParent()[0].tagName;
+      var res = qx.bom.Selector.query("select").getOffsetParent()[0].tagName;
       Logger.debug("Offset parent of select box: " + res);
       
       
       // OFFSET      
-      var res = qx.bom.Selector.query("select").offset();
+      var res = qx.bom.Selector.query("select").getOffset();
       Logger.debug("Offset of select box: ");
       Logger.debug(res);
       
