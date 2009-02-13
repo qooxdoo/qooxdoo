@@ -42,7 +42,7 @@ qx.Class.define("demobrowser.demo.root.Inline_Dynamic_Resize",
       var isle2 = new qx.ui.root.Inline(document.getElementById("isle2"), true, false).set({
         padding: [10, 0],
         decorator: null,
-        appearance: "foo"
+        appearance: "widget"
       });
       isle2.setLayout(new qx.ui.layout.Canvas());
 
