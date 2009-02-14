@@ -30,6 +30,12 @@ qx.Class.define("demobrowser.demo.data.model.Person",
     emote : {
       check : "String",
       event : "changeEmote"
+    },
+    
+    online : {
+      check : "Boolean",
+      event : "changeOnline",
+      init : true
     }
   },
   

@@ -43,6 +43,7 @@ qx.Class.define("demobrowser.demo.data.ListControllerWithObjects",
         var person = new demobrowser.demo.data.model.Person();
         person.setName(names[i % names.length]);
         person.setEmote(emotes[i % emotes.length]);
+        person.setOnline(i % 3 == 0);
         rawData.push(person);
       }
       var data = new qx.data.Array(rawData);
@@ -68,9 +69,33 @@ qx.Class.define("demobrowser.demo.data.ListControllerWithObjects",
       // 4. Parameter: The path to the property which should be showed as an icon
       // 5. Parameter: The options for the label binding
       // 6. Parameter: The options for the icon binding including the converter
-      new qx.data.controller.List(data, list, "name", "emote", null, iconOptions);
+      var controller = new qx.data.controller.List(data, list, "name", "emote", null, iconOptions);
       
+      // create the options for the online binding
+      var colorOptions = {
+        converter : function(data) {
+          if (data) {
+            return "green";
+          } else {
+            return "red";
+          }
+        }
+      };
       
+      // create the delegate to change the bindings
+      var delegate = {
+        bindItem : function(item, index) {
+          // 1. Parameter: The property chain to the data source
+          // 2. Parameter: the property name to in the target
+          // 3. Parameter: the options for the binding
+          // 4. Parameter: the current item (comming in as parameter)
+          // 5. Parameter: the current index (comming in as parameter)
+          this._bindProperty("name", "label", null, item, index);       
+          this._bindProperty("emote", "icon", iconOptions, item, index);       
+          this._bindProperty("online", "textColor", colorOptions, item, index);
+        }
+      };
+      controller.setDelegate(delegate);
       
       
       /* ***********************************************
@@ -87,9 +112,18 @@ qx.Class.define("demobrowser.demo.data.ListControllerWithObjects",
         }
       }, this);
       
+      var statusButton = new qx.ui.form.Button("Online <> Offline");
+      statusButton.setWidth(120);
+      this.getRoot().add(statusButton, {left: 180, top: 115});
+      statusButton.addListener("execute", function() {
+        for (var i = 0; i < data.length; i++) {
+          data.getItem(i).toggleOnline();
+        }
+      }, this);      
+      
       var logDataButton = new qx.ui.form.Button("Write data to log");
       logDataButton.setWidth(120);
-      this.getRoot().add(logDataButton, {left: 180, top: 115});
+      this.getRoot().add(logDataButton, {left: 180, top: 150});
       logDataButton.addListener("execute", function() {
         // open the console
         qx.log.appender.Console.show();
@@ -117,7 +151,7 @@ qx.Class.define("demobrowser.demo.data.ListControllerWithObjects",
          "<b>Displaying objects in a list</b><br/>"
          + "This list display a set of persons in a list. Every person does "
          + "have a name and an emotion, which is displayed with the help of " 
-         + " a converter by the icon."
+         + " a converter by the icon. The font color shows the online status."
        );
        this.getRoot().add(syncListDescription, {left: 20, top: 10});        
     }
