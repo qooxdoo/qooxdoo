@@ -474,7 +474,7 @@ qx.Class.define("qx.test.data.controller.List",
       
       var delegate = {};
       delegate.filter = function(data) {
-        return data == "b" || data == "c" || data == "d";
+        return data == "b" || data == "c" || data == "d";
       };
       
       this.__controller.setDelegate(delegate);
@@ -492,11 +492,11 @@ qx.Class.define("qx.test.data.controller.List",
       
       var delegate1 = {};
       delegate1.filter = function(data) {
-        return data == "b" || data == "c" || data == "d";
+        return data == "b" || data == "c" || data == "d";
       };
       var delegate2 = {};
       delegate2.filter = function(data) {
-        return data == "a" || data == "b" || data == "c";
+        return data == "a" || data == "b" || data == "c";
       };
       
       this.__controller.setDelegate(delegate1);
@@ -515,7 +515,7 @@ qx.Class.define("qx.test.data.controller.List",
 
       var delegate = {};
       delegate.filter = function(data) {
-        return data == "B" || data == "C" || data == "D";
+        return data == "B" || data == "C" || data == "D";
       };
 
       this.__controller.setDelegate(delegate);
@@ -571,7 +571,7 @@ qx.Class.define("qx.test.data.controller.List",
       
       var delegate = {};
       delegate.filter = function(data) {
-        return data == "a" || data == "e";
+        return data == "a" || data == "e";
       };
       this.__controller.setDelegate(delegate);
       
@@ -602,7 +602,7 @@ qx.Class.define("qx.test.data.controller.List",
       // apply the filter
       var delegate = {};
       delegate.filter = function(data) {
-        return data == "b" || data == "c" || data == "d";
+        return data == "b" || data == "c" || data == "d";
       };
       this.__controller.setDelegate(delegate);
       
@@ -636,7 +636,7 @@ qx.Class.define("qx.test.data.controller.List",
       this.__model = new qx.data.Array(this.__data);
       
       // create the controller
-      this.__controller = new qx.data.controller.List(this.__model);
+      this.__controller = new qx.data.controller.List();
       // create the delegate
       var delegate = {};
       delegate.configureItem = function(item) {
@@ -645,12 +645,72 @@ qx.Class.define("qx.test.data.controller.List",
       
       this.__controller.setDelegate(delegate);
       this.__controller.setTarget(this.__list);
+      this.__controller.setModel(this.__model);
       
       // check the binding
       for (var i = 0; i < this.__data.length; i++) {
         var item = this.__list.getChildren()[i];
         this.assertTrue(item.getRich(), "Delegate " + i + " is wrong!");
       }
-    }    
+    },
+    
+    
+    testDelegateBindItem: function() {
+      this.__data = [true, true, false, true, false];
+      // create a new array
+      this.__model = new qx.data.Array(this.__data);
+             
+      this.__controller = new qx.data.controller.List();
+      
+      var delegate = {};
+      delegate.createItem = function() {
+        return new qx.ui.basic.Atom();
+      }
+      
+      delegate.bindItem = function(item, index) {
+        this._bindProperty(null, "enabled", null, item, index);       
+      }
+      
+      this.__controller.setDelegate(delegate);
+      this.__controller.setTarget(this.__list);
+      this.__controller.setModel(this.__model);
+      
+      // check the binding
+      // check the binding
+      for (var i = 0; i < this.__data.length; i++) {
+        this.assertEquals("qx.ui.basic.Atom", this.__list.getChildren()[i].classname);
+        var label = this.__list.getChildren()[i].getEnabled();
+        this.assertEquals(this.__data[i], label, "Binding " + i + " is wrong!");
+      }     
+    },
+    
+    
+    testDelegateBindItemLate: function() {
+      this.__data = [true, true, false, true, false];
+      // create a new array
+      this.__model = new qx.data.Array(this.__data);
+              
+      this.__controller = new qx.data.controller.List();
+      this.__controller.setTarget(this.__list);
+      this.__controller.setModel(this.__model);
+            
+      var delegate = {};
+      delegate.createItem = function() {
+        return new qx.ui.basic.Atom();
+      }
+      
+      delegate.bindItem = function(item, index) {
+        this._bindProperty(null, "enabled", null, item, index);       
+      }
+      
+      this.__controller.setDelegate(delegate);
+      
+      // check the binding
+      for (var i = 0; i < this.__data.length; i++) {
+        this.assertEquals("qx.ui.basic.Atom", this.__list.getChildren()[i].classname);
+        var label = this.__list.getChildren()[i].getEnabled();
+        this.assertEquals(this.__data[i], label, "Binding " + i + " is wrong!");
+      }
+    }
   }
 });
