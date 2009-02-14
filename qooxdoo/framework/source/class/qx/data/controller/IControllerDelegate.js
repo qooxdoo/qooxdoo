@@ -51,6 +51,34 @@ qx.Interface.define("qx.data.controller.IControllerDelegate",
      * @param data {var} The data which will be checked.
      * @return {Boolean} True, if the data passes the filter, false otherwise.
      */
-    filter : function(data) {}
+    filter : function(data) {},
+    
+    
+    /**
+     * Creates an item which will be added to the target as child. Be sure to 
+     * implement the {@link #bindItem} function as well to get the needed
+     * properties bound.
+     * 
+     * The createItem currently works only with the {@link qx.data.controller.List}
+     * controller!
+     * 
+     * @return {qx.ui.core.Widget} A new created widget.
+     */
+    createItem: function() {},
+    
+    
+    /**
+     * Sets up the binding for the given item and index.
+     * 
+     * For every property you want to bind, use 
+     * {@link qx.data.controller.List#_bindProperty} like this:
+     * <code>
+     * this._bindProperty("paht.in.the.model", "label", options, item, index);
+     * </code>
+     * 
+     * @param item {qx.ui.core.Widget} The created and used item.
+     * @param index {number} The index of the item.
+     */
+    bindItem: function(item, index) {}
   }
 });
