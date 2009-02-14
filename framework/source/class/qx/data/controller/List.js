@@ -83,7 +83,12 @@ qx.Class.define("qx.data.controller.List",
     
     // lookup table for filtering and sorting
     this.__lookupTable = [];
-       
+    
+    // register for bound target properties and onSetOk methods 
+    // from the binding options
+    this.__boundProperties = [];
+    this.__onSetOk = {};
+      
     if (labelPath != null) {
       this.setLabelPath(labelPath);      
     }
@@ -228,6 +233,8 @@ qx.Class.define("qx.data.controller.List",
     _applyDelegate: function(value, old) {
       this._setConfigureItem(value, old);
       this._setFilter(value, old);
+      this._setCreateItem(value, old);
+      this._setBindItem(value, old);            
     },
     
     
@@ -427,11 +434,17 @@ qx.Class.define("qx.data.controller.List",
      * @return {qx.ui.form.ListItem} The created and configured ListItem. 
      */
     _createItem: function() {
-      var item = new qx.ui.form.ListItem();     
       var delegate = this.getDelegate();
-      // check if a delegate is set and if the configure function is available
+      // check if a delegate and a create method is set
+      if (delegate != null && delegate.createItem != null) {
+        var item = delegate.createItem();     
+      } else {
+        var item = new qx.ui.form.ListItem();     
+      }
+      
+      // if there is a configure method, invoke it
       if (delegate != null && delegate.configureItem != null) {
-        delegate.configureItem(item);
+        delegate.configureItem(item);          
       }
       return item;
     },
@@ -488,53 +501,65 @@ qx.Class.define("qx.data.controller.List",
      *   ListItem.
      * @param index {number} The index of the ListItem.
      */
-    _bindListItem: function(listItem, index) {
-      // set right model to the listItem
-      listItem.setUserData("model", this.getModel().getItem(index));
+    _bindListItem: function(item, index) {
+      var delegate = this.getDelegate();
+      // if a delegate for creating the binding is given, use it
+      if (delegate != null && delegate.bindItem != null) {
+        delegate.bindItem.call(this, item, index);
+      // otherwise, try to bind the listItem by default
+      } else {
+        this._bindProperty(
+          this.getLabelPath(), "label", this.getLabelOptions(), item, index  
+        );  
+        // if the iconPath is set
+        if (this.getIconPath() != null) {
+          this._bindProperty(
+            this.getIconPath(), "icon", this.getIconOptions(), item, index  
+          );       
+        }
+      }
+    },
+    
+    
+    /**
+     * Helper-Method for binding a given property from the model to the target
+     * widget.
+     * 
+     * @param sourcePath {String | null} The path to the propety in the model.
+     * @param targetProperty {String} The name of the property in the target 
+     *   widget.
+     * @param options {Map | null} The options to use for the binding.
+     * @param targetWidget {qx.ui.core.Widget} The target widget.
+     * @param index {Number} The index of the current binding.
+     */
+    _bindProperty: function(sourcePath, targetProperty, options, targetWidget, index) {
+      // set right model to the target widget
+      targetWidget.setUserData("model", this.getModel().getItem(index));
       
       // create the options for the binding containing the old options
       // including the old onSetOk function
-      var options = qx.lang.Object.copy(this.getLabelOptions());
+      var options = qx.lang.Object.copy(options);
       if (options != null) {
-        this.__onSetOkLabel = options.onSetOk;
+        this.__onSetOk[targetProperty] = options.onSetOk;
         delete options.onSetOk;
       } else {
         options = {};
-        this.__onSetOkLabel = null;
+        this.__onSetOk[targetProperty] = null;
       }
       options.onSetOk =  qx.lang.Function.bind(this._onBindingSet, this, index);
 
       // build up the path for the binding
       var bindPath = "model[" + index + "]";
-      if (this.getLabelPath() != null) {
-        bindPath += "." + this.getLabelPath();
+      if (sourcePath != null) {
+        bindPath += "." + sourcePath;
       }
       // create the binding
-      var id = this.bind(bindPath, listItem, "label", options);
-      listItem.setUserData("labelBindingId", id);
+      var id = this.bind(bindPath, targetWidget, targetProperty, options);
+      targetWidget.setUserData(targetProperty + "BindingId", id);  
       
-      // if the iconPath is set
-      if (this.getIconPath() != null) {
-        // create the options for the icon path
-        options = qx.lang.Object.copy(this.getIconOptions());
-        if (options != null) {
-          this.__onSetOkIcon = options.onSetOk;
-          delete options.onSetOk;
-        } else {
-          options = {};
-          this.__onSetOkIcon = null;
-        }
-        options.onSetOk =  qx.lang.Function.bind(this._onBindingSet, this, index);
-        
-        // build up the path for the binding
-        bindPath = "model[" + index + "]";
-        if (this.getIconPath() != null) {
-          bindPath += "." + this.getIconPath();
-        }
-        // create the binding
-        id = this.bind(bindPath, listItem, "icon", options);
-        // save the binding id
-        listItem.setUserData("iconBindingId", id);
+      // save the bound property
+      if (!qx.lang.Array.contains(this.__boundProperties, targetProperty)) {
+        this.__boundProperties.push(targetProperty);        
       }
     },
     
@@ -548,14 +573,13 @@ qx.Class.define("qx.data.controller.List",
      * @param targetObject {qx.core.Object} The target object of the binding.
      */
     _onBindingSet: function(index, sourceObject, targetObject) {
-      // check for the users onSetOk for the label binding
-      if (this.__onSetOkLabel != null) {
-        this.__onSetOkLabel();
-      }
-      // check for the users onSetOk for the icon binding
-      if (this.__onSetOkIcon != null) {
-        this.__onSetOkIcon();
-      }
+      // go through all bound target properties
+      for (var i = 0; i < this.__boundProperties.length; i++) {
+        // if there is an onSetOk for one of it, invoke it
+        if (this.__onSetOk[this.__boundProperties[i]] != null) {
+          this.__onSetOk[this.__boundProperties[i]]();
+        }
+      } 
       
       // update the reference to the model
       var itemModel = this.getModel().getItem(this.__lookup(index));
@@ -567,20 +591,19 @@ qx.Class.define("qx.data.controller.List",
     
     
     /**
-     * Internal helper method to remove the binding of the given listItem.
+     * Internal helper method to remove the binding of the given item.
      * 
      * @param item {Number} The itemof which the binding which should 
      *   be removed.
      */
     _removeBindingsFrom: function(item) {
-      var id = item.getUserData("labelBindingId");
-      // remove the binding
-      this.removeBinding(id);
-      // if an icon binding exists
-      id = item.getUserData("iconBindingId");
-      if (id != undefined) {
-        // remove the icon binding
-        this.removeBinding(id);
+      // go through all bound target properties
+      for (var  i = 0; i < this.__boundProperties.length; i++) {
+        // get the binding id and remove it, if possible
+        var id = item.getUserData(this.__boundProperties[i] + "BindingId");
+        if (id != null) {
+          this.removeBinding(id);
+        }
       }
     },
     
@@ -595,12 +618,12 @@ qx.Class.define("qx.data.controller.List",
       }
             
       // get all children of the target
-      var listItems = this.getTarget().getChildren();
+      var items = this.getTarget().getChildren();
       // go through all items
-      for (var i = 0; i < listItems.length; i++) {
-        this._removeBindingsFrom(listItems[i]);
+      for (var i = 0; i < items.length; i++) {
+        this._removeBindingsFrom(items[i]);
         // add the new binding
-        this._bindListItem(listItems[i], this.__lookup(i));
+        this._bindListItem(items[i], this.__lookup(i));
       }      
     },
     
@@ -611,6 +634,14 @@ qx.Class.define("qx.data.controller.List",
     ---------------------------------------------------------------------------
     */    
     
+    
+    /**
+     * Helper method for applying the delegate It checks if a configureItem 
+     * is set end invokes the initial process to apply the the given function.
+     * 
+     * @param value {Object} The new delegate.
+     * @param old {Object} The old delegate.
+     */
     _setConfigureItem: function(value, old) {
       if (value != null && value.configureItem != null && this.getTarget() != null) {
         var children = this.getTarget().getChildren();
@@ -618,6 +649,59 @@ qx.Class.define("qx.data.controller.List",
           value.configureItem(children[i]);
         }
       }      
+    },
+    
+    
+    /**
+     * Helper method for applying the delegate It checks if a bindItem 
+     * is set end invokes the initial process to apply the the given function.
+     * 
+     * @param value {Object} The new delegate.
+     * @param old {Object} The old delegate.
+     */
+    _setBindItem: function(value, old) {
+      // if a new bindItem function is set
+      if (value != null && value.bindItem != null) {
+        // do nothing if the bindItem function did not change
+        if (old != null && old.bindItem != null && value.bindItem == old.bindItem) {
+          return;
+        }
+        this.__renewBindings();
+      }
+    },
+    
+    
+    /**
+     * Helper method for applying the delegate It checks if a createItem 
+     * is set end invokes the initial process to apply the the given function.
+     * 
+     * @param value {Object} The new delegate.
+     * @param old {Object} The old delegate.
+     */
+    _setCreateItem: function(value, old) {
+      if (this.getTarget() == null || this.getModel() == null) {
+        return;
+      }
+      this._startSelectionModification();
+      
+      // remove all bindings
+      for (var i = 0; i < this.getTarget().length; i++) {
+        var id = this.getTarget().getChildren()[i].getUserData("labelBindingId");
+        this.removeBinding(id);
+        id = this.getTarget().getChildren()[i].getUserData("iconBindingId");
+        if (id != null) {
+          this.removeBinding(id);
+        }
+      }
+      
+      // remove all elements of the target
+      this.getTarget().removeAll();
+
+      // update
+      this.update();
+      
+      this._endSelectionModification();
+      this._updateSelection();            
     },
     
     
@@ -631,17 +715,18 @@ qx.Class.define("qx.data.controller.List",
      * @param old {Function|null} The old filter function.
      */
     _setFilter: function(value, old) {
-      if (this.getTarget() != null) {
-        this._startSelectionModification();
+      if (this.getTarget() == null || this.getModel() == null) {
+        return;
+      }
+      this._startSelectionModification();
 
-        // remove all bindings
-        for (var i = 0; i < this.getTarget().length; i++) {
-          var id = this.getTarget().getChildren()[i].getUserData("labelBindingId");
+      // remove all bindings
+      for (var i = 0; i < this.getTarget().length; i++) {
+        var id = this.getTarget().getChildren()[i].getUserData("labelBindingId");
+        this.removeBinding(id);
+        id = this.getTarget().getChildren()[i].getUserData("iconBindingId");
+        if (id != null) {
           this.removeBinding(id);
-          id = this.getTarget().getChildren()[i].getUserData("iconBindingId");
-          if (id != null) {
-            this.removeBinding(id);
-          }
         }
       }
 
@@ -650,32 +735,29 @@ qx.Class.define("qx.data.controller.List",
       // generate a new lookup table
       this.__buildUpLookupTable();
       
-      if (this.getTarget() != null) {
-        // if there are lesser items
-        if (oldTable.length > this.__lookupTable.length) {
-          // remove the unnecessary ítems
-          for (var j = oldTable.length; j > this.__lookupTable.length; j--) {
-            this.getTarget().removeAt(j - 1);
-          }     
-        // if there are more items   
-        } else if (oldTable.length < this.__lookupTable.length) {
-          // add the new elements
-          for (var j = oldTable.length; j < this.__lookupTable.length; j++) {
-            var tempItem = this._createItem();
-            this.getTarget().add(tempItem);
-          }        
-        }      
-
-        // bind every list item again
-        var listItems = this.getTarget().getChildren();
-        for (var i = 0; i < listItems.length; i++) {
-          this._bindListItem(listItems[i], this.__lookup(i));
+      // if there are lesser items
+      if (oldTable.length > this.__lookupTable.length) {
+        // remove the unnecessary ítems
+        for (var j = oldTable.length; j > this.__lookupTable.length; j--) {
+          this.getTarget().removeAt(j - 1);
+        }     
+      // if there are more items   
+      } else if (oldTable.length < this.__lookupTable.length) {
+        // add the new elements
+        for (var j = oldTable.length; j < this.__lookupTable.length; j++) {
+          var tempItem = this._createItem();
+          this.getTarget().add(tempItem);
         }        
-        
-        this._endSelectionModification();
+      }      
 
-        this._updateSelection();        
-      }
+      // bind every list item again
+      var listItems = this.getTarget().getChildren();
+      for (var i = 0; i < listItems.length; i++) {
+        this._bindListItem(listItems[i], this.__lookup(i));
+      }        
+      
+      this._endSelectionModification();
+      this._updateSelection();        
     },    
     
     
