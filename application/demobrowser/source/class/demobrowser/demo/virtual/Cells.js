@@ -35,17 +35,16 @@ qx.Class.define("demobrowser.demo.virtual.Cells",
       this.base(arguments);
 
       var layout = new qx.ui.layout.Grid(5);
-
       var container = new qx.ui.container.Composite(layout);    
-      var defaultCell = this.testDefaultCell();
-      
-      
-      container.add(defaultCell, {row : 0, column : 0 });
+
+      container.add(this.testDefaultCellString(), {row : 0, column : 0 });
+      container.add(this.testDefaultCellNumber(), {row : 0, column : 1 });
+      container.add(this.testDefaultCellDate(), {row : 0, column : 2 });
 
       this.getRoot().add(container, {edge : 0});
     },
 
-    testDefaultCell : function(data)
+    testDefaultCellString : function(data)
     {
       var states = {};
       var defaultCell = new qx.ui.virtual.cell.Default;
@@ -55,6 +54,29 @@ qx.Class.define("demobrowser.demo.virtual.Cells",
 
       return this.__renderCell(cellProperties);
     },
+    
+    testDefaultCellNumber : function(data)
+    {
+      var states = {};
+      var defaultCell = new qx.ui.virtual.cell.Default;
+      var cellProperties = defaultCell.getCellProperties(
+        1.234, states
+      );
+
+      return this.__renderCell(cellProperties);
+    },
+    
+    testDefaultCellDate : function(data)
+    {
+      var states = {};
+      var defaultCell = new qx.ui.virtual.cell.Default;
+      var cellProperties = defaultCell.getCellProperties(
+        new Date(), states
+      );
+
+      return this.__renderCell(cellProperties);
+    },
+    
     
     __renderCell : function(cellProperties)
     {
