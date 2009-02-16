@@ -27,14 +27,14 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
     this.base(arguments);
 
     // define a test class
-    qx.Class.define("test.MultiBinding",
+    qx.Class.define("qx.test.MultiBinding",
     {
       extend : qx.core.Object,
 
       properties :
       {
         child : {
-          check : "test.MultiBinding",
+          check : "qx.test.MultiBinding",
           event : "changeChild",
           nullable : true
         },
@@ -48,6 +48,10 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
         array : {
           init : new qx.data.Array(["one", "two", "three"]),
           event: "changeArray"
+        },
+        
+        lab : {
+          event: "changeLable"
         }
       }
     });
@@ -59,14 +63,17 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
 
     setUp : function()
     {
-      this.__a = new test.MultiBinding().set({
-        name: "a"
+      this.__a = new qx.test.MultiBinding().set({
+        name: "a",
+        lab: new qx.ui.basic.Label("")
       });
-      this.__b1 = new test.MultiBinding().set({
-        name: "b1"
+      this.__b1 = new qx.test.MultiBinding().set({
+        name: "b1",
+        lab: new qx.ui.basic.Label("")
       });
-      this.__b2 = new test.MultiBinding().set({
-        name: "b2"
+      this.__b2 = new qx.test.MultiBinding().set({
+        name: "b2",
+        lab: new qx.ui.basic.Label("")
       });
       this.__label = new qx.ui.basic.Label();
 
@@ -110,10 +117,10 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
 
     testDepthOf3: function(attribute) {
       // create a hierarchy
-      var c1 = new test.MultiBinding().set({
+      var c1 = new qx.test.MultiBinding().set({
         name: "c1"
       });
-      var c2 = new test.MultiBinding().set({
+      var c2 = new qx.test.MultiBinding().set({
         name: "c2"
       });
 
@@ -156,13 +163,13 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
 
     testDepthOf5: function(attribute) {
       // create a hierarchy
-      var c = new test.MultiBinding().set({
+      var c = new qx.test.MultiBinding().set({
         name: "c"
       });
-      var d = new test.MultiBinding().set({
+      var d = new qx.test.MultiBinding().set({
         name: "d"
       });
-      var e = new test.MultiBinding().set({
+      var e = new qx.test.MultiBinding().set({
         name: "e"
       });
 
@@ -274,7 +281,43 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
       
       this.__b1.setName("B1");
       this.assertEquals("B1", this.__label.getContent(), "Deep binding does not work.");      
-    }
+    },
+    
+    
+    testDeepTarget: function() {
+      qx.data.SingleValueBinding.bind(this.__a, "name", this.__b1, "lab.content");
+      
+      this.assertEquals("a", this.__b1.getLab().getContent(), "Deep binding on the target does not work.");            
+    },
+    
+    testDeepTarget2: function() {
+      this.__b2.setChild(this.__b1);
+      qx.data.SingleValueBinding.bind(this.__a, "name", this.__b2, "child.lab.content");
+      
+      this.assertEquals("a", this.__b1.getLab().getContent(), "Deep binding on the target does not work.");            
+    },
+    
+    testDeepTargetNull: function() {
+      qx.data.SingleValueBinding.bind(this.__a, "name", this.__b2, "child.lab.content");
+      
+      this.assertEquals("", this.__b1.getLab().getContent(), "Deep binding on the target does not work.");            
+    },
+    
+    testDeepTargetArray: function() {
+      this.__a.setArray(new qx.data.Array([this.__b1]));
+      
+      qx.data.SingleValueBinding.bind(this.__a, "name", this.__a, "array[0].lab.content");
+      
+      this.assertEquals("a", this.__b1.getLab().getContent(), "Deep binding on the target does not work.");            
+    },
+    
+    testDeepTargetArrayLast: function() {
+      this.__a.setArray(new qx.data.Array([this.__b1]));
+      
+      qx.data.SingleValueBinding.bind(this.__a, "name", this.__a, "array[last].lab.content");
+      
+      this.assertEquals("a", this.__b1.getLab().getContent(), "Deep binding on the target does not work.");            
+    }    
 
   }
 });
