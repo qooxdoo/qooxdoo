@@ -528,10 +528,10 @@ qx.Class.define("qx.data.controller.List",
      * {@link qx.data.controller.IControllerDelegate#bindItem} function 
      * implemented by the {@link #delegate} property. 
      * 
-     * @param sourcePath {String | null} The path to the propety in the model.
+     * @param sourcePath {String | null} The path to the propety in the model.
      * @param targetProperty {String} The name of the property in the target 
      *   widget.
-     * @param options {Map | null} The options to use for the binding.
+     * @param options {Map | null} The options to use for the binding.
      * @param targetWidget {qx.ui.core.Widget} The target widget.
      * @param index {Number} The index of the current binding.
      */
