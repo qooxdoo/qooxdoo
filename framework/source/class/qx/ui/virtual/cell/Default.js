@@ -19,26 +19,10 @@
 
 qx.Class.define("qx.ui.virtual.cell.Default", 
 {
-  extend : qx.core.Object,
-  implement : qx.ui.virtual.cell.ICell,
-
-
-  construct : function()
-  {
-    this.base(arguments);
-  },
+  extend : qx.ui.virtual.cell.Abstract,
 
   members :
   {
-    getCellProperties : function(value, states)
-    {
-      return {
-        classes : "",
-        style : "",
-        attributes : "",
-        content : value,
-        insets : [0, 0]
-      };
-    }
+
   }
 });
