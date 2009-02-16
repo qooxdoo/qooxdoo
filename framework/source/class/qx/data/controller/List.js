@@ -505,15 +505,15 @@ qx.Class.define("qx.data.controller.List",
       var delegate = this.getDelegate();
       // if a delegate for creating the binding is given, use it
       if (delegate != null && delegate.bindItem != null) {
-        delegate.bindItem.call(this, item, index);
+        delegate.bindItem(this, item, index);
       // otherwise, try to bind the listItem by default
       } else {
-        this._bindProperty(
+        this.bindProperty(
           this.getLabelPath(), "label", this.getLabelOptions(), item, index  
         );  
         // if the iconPath is set
         if (this.getIconPath() != null) {
-          this._bindProperty(
+          this.bindProperty(
             this.getIconPath(), "icon", this.getIconOptions(), item, index  
           );       
         }
@@ -524,6 +524,9 @@ qx.Class.define("qx.data.controller.List",
     /**
      * Helper-Method for binding a given property from the model to the target
      * widget.
+     * This method should only be called in the 
+     * {@link qx.data.controller.IControllerDelegate#bindItem} function 
+     * implemented by the {@link #delegate} property. 
      * 
      * @param sourcePath {String | null} The path to the propety in the model.
      * @param targetProperty {String} The name of the property in the target 
@@ -532,7 +535,7 @@ qx.Class.define("qx.data.controller.List",
      * @param targetWidget {qx.ui.core.Widget} The target widget.
      * @param index {Number} The index of the current binding.
      */
-    _bindProperty: function(sourcePath, targetProperty, options, targetWidget, index) {
+    bindProperty: function(sourcePath, targetProperty, options, targetWidget, index) {
       // set right model to the target widget
       targetWidget.setUserData("model", this.getModel().getItem(index));
       
@@ -772,6 +775,9 @@ qx.Class.define("qx.data.controller.List",
      */  
     __buildUpLookupTable: function() {
       var model = this.getModel();
+      if (model == null) {
+        return;
+      }
       var delegate = this.getDelegate();
       if (delegate != null) {
         var filter = delegate.filter;
