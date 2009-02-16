@@ -79,9 +79,9 @@ qx.Class.define("demobrowser.demo.data.Twitter",
        
     
        
-       /* ***********************************************
-        * DETAIL VIEW
-        * ********************************************* */
+      /* ***********************************************
+       * DETAIL VIEW
+       * ********************************************* */
       // details for the current selected tweet
       var detailsBox = new qx.ui.groupbox.GroupBox("Details");
       this.getRoot().add(detailsBox, {left: 320, top: 60});
@@ -117,7 +117,7 @@ qx.Class.define("demobrowser.demo.data.Twitter",
       detailsController.addTarget(message, "content", "text");
       detailsController.addTarget(posted, "content", "source");
       detailsController.addTarget(avatar, "source", "user.profile_image_url");
-      // connect thze selected model item of the list to the detail view
+      // connect the selected model item of the list to the detail view
       controller.bind("selection[0]", detailsController, "model");
       
       
