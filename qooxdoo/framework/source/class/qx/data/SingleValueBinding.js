@@ -152,7 +152,7 @@ qx.Class.define("qx.data.SingleValueBinding",
             sources[j] = source;
             // reset the target object if no new source could be found
             if (!source) {
-              targetObject["reset" + qx.lang.String.firstUp(targetProperty)]();
+              this.__resetTargetValue(targetObject, targetProperty);
               break;
             }
 
@@ -239,6 +239,96 @@ qx.Class.define("qx.data.SingleValueBinding",
 
       return id;
     },
+    
+    
+    /**
+     * Resets the value of the given target after resolving the target property
+     * chain. 
+     * 
+     * @param targetObject {qx.core.Object} The object where the property chain 
+     *   starts.
+     * @param targetPropertyChain {String} The names of the properties, 
+     *   separated with a dot.
+     */
+    __resetTargetValue: function(targetObject, targetPropertyChain) {
+      // get the last target object of the chain
+      var target = this.__getTargetFromChain(targetObject, targetPropertyChain);
+      if (target != null) {
+        // get the name of the last property
+        var lastProperty = targetPropertyChain.substring(
+          targetPropertyChain.lastIndexOf(".") + 1, targetPropertyChain.length
+        );
+        // reset the property
+        target["reset" + qx.lang.String.firstUp(lastProperty)]();
+      }
+    },
+    
+    
+    /**
+     * Sets the given value to the given target after resolving the 
+     * target property chain. 
+     * 
+     * @param targetObject {qx.core.Object} The object where the property chain 
+     *   starts.
+     * @param targetPropertyChain {String} The names of the properties, 
+     *   separated with a dot.
+     * @param value {var} The value to set.
+     */    
+    __setTargetValue: function(targetObject, targetPropertyChain, value) {
+      // get the last target object of the chain
+      var target = this.__getTargetFromChain(targetObject, targetPropertyChain);
+      if (target != null) {
+        // geht the name of the last property
+        var lastProperty = targetPropertyChain.substring(
+          targetPropertyChain.lastIndexOf(".") + 1, targetPropertyChain.length
+        );
+        // set the given value
+        target["set" + qx.lang.String.firstUp(lastProperty)](value);
+      }
+    },
+    
+    
+    /**
+     * Helper-Function resolving the object on which the last property of the 
+     * chain should be set. 
+     * 
+     * @param targetObject {qx.core.Object} The object where the property chain 
+     *   starts.
+     * @param targetPropertyChain {String} The names of the properties, 
+     *   separated with a dot.
+     * @return {qx.core.Object | null} The object on which the last property
+     *   should be set.
+     */
+    __getTargetFromChain: function(targetObject, targetPropertyChain) {
+      var properties = targetPropertyChain.split(".");
+      var target = targetObject;
+      // ignore the last property
+      for (var i = 0; i < properties.length - 1; i++) {
+        try {
+          var property = properties[i];
+          // if there is a array notaion
+          if (property.indexOf("]") == property.length - 1) {
+            var index = property.substring(
+              property.indexOf("[") + 1, property.length - 1
+            );
+            property = property.substring(0, property.indexOf("["));
+          }
+          target = target["get" + qx.lang.String.firstUp(property)]();   
+          if (index != null) {
+            // check for the last notation
+            if (index == "last") {
+              index = target.length - 1;
+            }
+            // get the array item
+            target = target.getItem(index);
+            index = null;
+          }
+        } catch (ex) {
+          return null;
+        }
+      }
+      return target;
+    },
 
 
     /**
@@ -253,15 +343,15 @@ qx.Class.define("qx.data.SingleValueBinding",
      * @param options {Map} The options map perhaps containing the user defined
      *   converter.
      */
-    __setInitialValue: function(value, targetObject, targetProperty, options)
+    __setInitialValue: function(value, targetObject, targetPropertyChain, options)
     {
       // convert the initial value
       value = this.__convertValue(
-        value, targetObject, targetProperty, options
+        value, targetObject, targetPropertyChain, options
       );
       // only set the initial value if one is given
       if (value != undefined) {
-        targetObject["set" + qx.lang.String.firstUp(targetProperty)](value);              
+        this.__setTargetValue(targetObject, targetPropertyChain, value);              
       }
     },
 
@@ -495,14 +585,6 @@ qx.Class.define("qx.data.SingleValueBinding",
           + " is not an data (qx.event.type.Data) event on "
           + sourceObject + "."
         );
-
-        // check for the target property
-        var propertieDefinition =  qx.Class.getPropertyDefinition(
-          targetObject.constructor, targetProperty
-        );
-        qx.core.Assert.assertNotNull(
-          propertieDefinition, targetProperty + " does not exist."
-        );
       }
 
       var bindListener = function(arrayIndex, e) {
@@ -517,7 +599,7 @@ qx.Class.define("qx.data.SingleValueBinding",
 
           // reset the target if the data is not set
           if (data == undefined) {
-            targetObject["reset" + qx.lang.String.firstUp(targetProperty)]();
+            qx.data.SingleValueBinding.__resetTargetValue(targetObject, targetProperty);
           }
 
           // only do something if the curren array has been changed
@@ -551,9 +633,9 @@ qx.Class.define("qx.data.SingleValueBinding",
         // try to set the value
         try {
           if (data != undefined) {
-            targetObject["set" + qx.lang.String.firstUp(targetProperty)](data);            
+            qx.data.SingleValueBinding.__setTargetValue(targetObject, targetProperty, data);
           } else {
-            targetObject["reset" + qx.lang.String.firstUp(targetProperty)]();
+            qx.data.SingleValueBinding.__resetTargetValue(targetObject, targetProperty);
           }
 
           // tell the user that the setter was invoked probably
@@ -635,19 +717,28 @@ qx.Class.define("qx.data.SingleValueBinding",
      * @throws {qx.core.AssertionError} If there is no property definition
      *   of the given target object and target property.
      */
-    __convertValue : function(value, targetObject, targetProperty, options) {
+    __convertValue : function(value, targetObject, targetPropertyChain, options) {
       // do the conversion given by the user
       if (options && options.converter) {
         return options.converter(value, targetObject.getUserData("model"));
       // try default conversion
       } else {
+        var target = this.__getTargetFromChain(targetObject, targetPropertyChain);
+        var lastProperty = targetPropertyChain.substring(
+          targetPropertyChain.lastIndexOf(".") + 1, targetPropertyChain.length
+        );
+        // if no target is currently available, return the original value
+        if (target == null) {
+          return value;
+        }
+        
         var propertieDefinition = qx.Class.getPropertyDefinition(
-          targetObject.constructor, targetProperty
+          target.constructor, lastProperty
         );
         // check for the existance of the source property
         if (qx.core.Variant.isSet("qx.debug", "on")) {
           qx.core.Assert.assertNotNull(propertieDefinition,
-            "No property definition available for " + targetProperty);
+            "No property definition available for " + targetPropertyChain);
         }
         return this.__defaultConvertion(value, propertieDefinition.check);
       }
