@@ -1034,7 +1034,7 @@ qx.Class.define("qx.legacy.ui.form.TextField",
         // https://bugzilla.mozilla.org/show_bug.cgi?id=329354
         try
         {
-          if (qx.util.Validation.isValidString(el.value)) {
+          if (qx.legacy.util.Validation.isValidString(el.value)) {
             return el.selectionStart;
           }
         } catch (ex) {
@@ -1085,7 +1085,7 @@ qx.Class.define("qx.legacy.ui.form.TextField",
         // https://bugzilla.mozilla.org/show_bug.cgi?id=329354
         try
         {
-          if (qx.util.Validation.isValidString(el.value)) {
+          if (qx.legacy.util.Validation.isValidString(el.value)) {
             el.selectionEnd = el.selectionStart + vLength;
           }
         } catch (ex) {}
@@ -1096,7 +1096,7 @@ qx.Class.define("qx.legacy.ui.form.TextField",
         this._visualPropertyCheck();
         var el = this._inputElement;
 
-        if (qx.util.Validation.isValidString(el.value)) {
+        if (qx.legacy.util.Validation.isValidString(el.value)) {
           el.selectionEnd = el.selectionStart + vLength;
         }
       }
@@ -1188,7 +1188,7 @@ qx.Class.define("qx.legacy.ui.form.TextField",
         // https://bugzilla.mozilla.org/show_bug.cgi?id=329354
         try
         {
-          if (qx.util.Validation.isValidString(el.value))
+          if (qx.legacy.util.Validation.isValidString(el.value))
           {
             var vOldText = el.value;
             var vStart = el.selectionStart;
