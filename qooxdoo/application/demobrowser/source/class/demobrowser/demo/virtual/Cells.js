@@ -53,6 +53,12 @@ qx.Class.define("demobrowser.demo.virtual.Cells",
         "test", states
       );
 
+      return this.__renderCell(cellProperties);
+    },
+    
+    __renderCell : function(cellProperties)
+    {
+
       var htmlEmbed = new qx.ui.embed.Html();
 
       // Set content and apply css classes:
