@@ -17,6 +17,10 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+#require(qx.bom.Stylesheet)
+************************************************************************ */
+
 qx.Class.define("qx.ui.virtual.cell.Abstract", 
 {
   type : "abstract",
@@ -31,7 +35,7 @@ qx.Class.define("qx.ui.virtual.cell.Abstract",
     {
       cr.__style = this.self(arguments);
       var stylesheet =
-        ".qooxdoo-table-cell {" +
+        ".qooxdoo-cell {" +
         qx.bom.element.Style.compile(
         {
           position : "absolute",
@@ -65,7 +69,7 @@ qx.Class.define("qx.ui.virtual.cell.Abstract",
     __insetY : null,
 
     _getCssClasses : function(value, states) {
-      return "qooxdoo-table-cell";
+      return "qooxdoo-cell";
     },
 
     _getAttributes : function(value, states) {
@@ -87,11 +91,11 @@ qx.Class.define("qx.ui.virtual.cell.Abstract",
     getCellProperties : function(value, states)
     {
       return {
-        classes : this._getCssClasses(),
-        style : this._getStyles(),
-        attributes : this._getAttributes(),
-        content : this._getValue(),
-        insets : this._getInsets()
+        classes : this._getCssClasses(value, states),
+        style : this._getStyles(value, states),
+        attributes : this._getAttributes(value, states),
+        content : this._getValue(value, states),
+        insets : this._getInsets(value, states)
       };
     }
   }
