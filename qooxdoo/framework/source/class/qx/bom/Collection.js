@@ -335,6 +335,7 @@
        * Returns an array in cases of multi-selection in
        * select boxes but in all other cases a string.
        *
+       * @signature function()
        * @return {String|Array} The value of the first element.
        */
        getValue : getter(qx.bom.Input, "getValue"),
