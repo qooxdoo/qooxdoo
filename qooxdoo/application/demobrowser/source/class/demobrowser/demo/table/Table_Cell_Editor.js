@@ -339,7 +339,7 @@ qx.Class.define("demobrowser.demo.table.Table_Cell_Editor",
         "dataChanged",
         function(event)
         {
-          if ( ! event instanceof qx.event.type.Data )
+          if ( !(event instanceof qx.event.type.Data))
           {
             return;
           }
