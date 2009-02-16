@@ -27,6 +27,8 @@ qx.Interface.define("qx.ui.virtual.cell.ICell",
   members :
   {
 
+    __defaultCssClass : "qx-cell",
+
     /**
       * Returns all relevant properties of the cell:
       * <ul>
