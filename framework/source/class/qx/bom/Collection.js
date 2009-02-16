@@ -443,7 +443,7 @@
        * * <code>padding</code>: Calculate the padding box (relevant for static/relative positioned content).
        *
        * @signature function(mode)
-       * @param mode {String} A supported option. See comment above.
+       * @param mode {String?box} A supported option. See comment above.
        * @return {Map} Returns a map with <code>left</code>, <code>top</code>,
        *   <code>right</code> and <code>bottom</code> which contains the distance
        *   of the element relative to the document.
