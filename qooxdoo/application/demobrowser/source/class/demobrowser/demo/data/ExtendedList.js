@@ -66,9 +66,9 @@ qx.Class.define("demobrowser.demo.data.ExtendedList",
         createItem : function() {
           return new qx.ui.form.CheckBox();
         },
-        bindItem : function(item, index) {
-          this._bindProperty("name", "label", null, item, index);       
-          this._bindProperty("online", "checked", null, item, index);          
+        bindItem : function(controller, item, index) {
+          controller.bindProperty("name", "label", null, item, index);       
+          controller.bindProperty("online", "checked", null, item, index);          
         }
       };
       controller.setDelegate(delegate);
@@ -117,10 +117,9 @@ qx.Class.define("demobrowser.demo.data.ExtendedList",
        syncListDescription.setRich(true);
        syncListDescription.setWidth(410);
        syncListDescription.setContent(
-         "<b>Displaying objects in a list</b><br/>"
-         + "This list display a set of persons in a list. Every person does "
-         + "have a name and an emotion, which is displayed with the help of " 
-         + " a converter by the icon. The font color shows the online status."
+         "<b>Displaying Checkboxes in a list</b><br/>"
+         + "This list display a set of persons in a list as checkbox. Every " 
+         + "person does have a name as label and an online status as checkbox."
        );
        this.getRoot().add(syncListDescription, {left: 20, top: 10});        
     }

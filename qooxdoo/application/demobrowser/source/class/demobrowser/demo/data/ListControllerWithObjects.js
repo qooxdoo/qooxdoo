@@ -84,15 +84,15 @@ qx.Class.define("demobrowser.demo.data.ListControllerWithObjects",
       
       // create the delegate to change the bindings
       var delegate = {
-        bindItem : function(item, index) {
+        bindItem : function(controller, item, index) {
           // 1. Parameter: The property chain to the data source
           // 2. Parameter: the property name to in the target
           // 3. Parameter: the options for the binding
           // 4. Parameter: the current item (comming in as parameter)
           // 5. Parameter: the current index (comming in as parameter)
-          this._bindProperty("name", "label", null, item, index);       
-          this._bindProperty("emote", "icon", iconOptions, item, index);       
-          this._bindProperty("online", "textColor", colorOptions, item, index);
+          controller.bindProperty("name", "label", null, item, index);       
+          controller.bindProperty("emote", "icon", iconOptions, item, index);       
+          controller.bindProperty("online", "textColor", colorOptions, item, index);
         }
       };
       controller.setDelegate(delegate);

@@ -667,8 +667,8 @@ qx.Class.define("qx.test.data.controller.List",
         return new qx.ui.basic.Atom();
       }
       
-      delegate.bindItem = function(item, index) {
-        this._bindProperty(null, "enabled", null, item, index);       
+      delegate.bindItem = function(controller, item, index) {
+        controller.bindProperty(null, "enabled", null, item, index);       
       }
       
       this.__controller.setDelegate(delegate);
@@ -699,8 +699,8 @@ qx.Class.define("qx.test.data.controller.List",
         return new qx.ui.basic.Atom();
       }
       
-      delegate.bindItem = function(item, index) {
-        this._bindProperty(null, "enabled", null, item, index);       
+      delegate.bindItem = function(controller, item, index) {
+        controller.bindProperty(null, "enabled", null, item, index);       
       }
       
       this.__controller.setDelegate(delegate);
