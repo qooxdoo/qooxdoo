@@ -806,6 +806,11 @@ qx.Class.define("qx.data.SingleValueBinding",
       // go threw all registerd objects
       for (var hash in this.__bindings) {
         var object = qx.core.ObjectRegistry.fromHashCode(hash);
+        // check for the object, perhaps its already deleted
+        if (object == null) {
+          delete this.__bindings[hash];
+          continue;
+        }
         this.removeAllBindingsForObject(object);
       }
       // reset the bindings map
