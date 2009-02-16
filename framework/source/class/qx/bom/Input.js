@@ -15,6 +15,20 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
+     
+   ======================================================================
+
+   This class contains code based on the following work:
+     
+   * jQuery
+     http://jquery.com
+     Version 1.3.1
+
+     Copyright:
+       2009 John Resig
+
+     License:
+       MIT: http://www.opensource.org/licenses/mit-license.php        
 
 ************************************************************************ */
 
@@ -97,38 +111,137 @@ qx.Class.define("qx.bom.Input",
 
 
     /**
-     * Sets the value of the given element.
+     * Applies the given value to the element.
      *
-     * @signature function(element, value)
-     * @param element {Element} DOM element to modify
-     * @param value {var} the new value
+     * Normally the value is given as a string/number value and applied
+     * to the field content (textfield, textarea) or used to
+     * detect whether the field is checked (checkbox, radiobutton).
+     *
+     * Supports array values for selectboxes (multiple-selection)
+     * and checkboxes or radiobuttons (for convenience).
+     *
+     * Please note: To modify the value attribute of a checkbox or
+     * radiobutton use {@link qx.bom.element.Attribute.set} instead.
+     *
+     * @param element {Element} element to update
+     * @param value {String|Number|Array} the value to apply
      */
-    setValue : qx.core.Variant.select("qx.client",
+    setValue : function(element, value)
     {
-      "mshtml" : function(element, value)
+      var tag = element.nodeName.toLowerCase();
+      var type = element.type;
+      var Array = qx.lang.Array;
+
+      if (typeof value === "number") {
+        value += "";  
+      }
+      
+      if ((type === "checkbox" || type === "radio"))
+      {
+        if (Array.isArray(value)) {
+          element.checked = Array.contains(value, element.value)
+        } else {
+          element.checked = element.value == value;
+        }
+      }
+      else if (tag === "select") 
+      {
+        var isArray = Array.isArray(value);
+        var options = element.options;
+        var subel;
+        
+        for (var i=0, l=options.length; i<l; i++) 
+        {
+          subel = options[i];
+          subval = subel.getAttribute("value");
+          if (subval == null) {
+            subval = subel.text;
+          }
+          
+          subel.selected = isArray ? 
+            value == subval : Array.contains(value, subval);			    
+        }
+
+        if (isArray && value.length == 0) {
+          element.selectedIndex = -1;
+        }
+      }
+      else if (type === "text" && qx.core.Variant.isSet("qx.client", "mshtml"))
       {
         // These flags are required to detect self-made property-change
         // events during value modification. They are used by the Input
         // event handler to filter events.
         element.__inValueSet = true;
         element.value = value;
-        element.__inValueSet = null;
-      },
-
-      "default" : function(element, value) {
-        element.value = value;
+        element.__inValueSet = null;			  
       }
-    }),
+      else
+      {
+        element.value = value;      
+      }
+    },
 
 
     /**
      * Returns the currently configured value.
      *
+     * Works with simple input fields as well as with
+     * select boxes or option elements.
+     *
+     * Returns an array in cases of multi-selection in
+     * select boxes but in all other cases a string.
+     *
      * @param element {Element} DOM element to query
-     * @return {String} The value
+     * @return {String|Array} The value of the given element
      */
-    getValue : function(element) {
-      return element.value;
+    getValue : function(element) 
+    {
+      var tag = element.nodeName.toLowerCase();
+      
+      if (tag === "option") {
+        return (element.attributes.value || {}).specified ? element.value : element.text;  
+      }
+      
+      if (tag === "select") 
+      {
+        var index = element.selectedIndex;
+  
+        // Nothing was selected
+        if (index < 0) {
+          return null;
+        }
+          
+        var values = [];
+        var options = element.options;
+        var one = element.type == "select-one";
+        var clazz = qx.bom.Input;
+
+        // Loop through all the selected options
+        for (var i=one ? index : 0, max=one ? index+1 : options.length; i<max; i++) 
+        {
+          var option = options[i];
+  
+          if (option.selected)
+          {
+            // Get the specifc value for the option
+            value = clazz.getValue(option);
+  
+            // We don't need an array for one selects
+            if (one) {
+              return value;
+            }
+  
+            // Multi-Selects return an array
+            values.push(value);
+          }
+        }
+        
+        return values;
+      }
+      else
+      {
+        return (element.value || "").replace(/\r/g, "");
+      }
     },
 
 
@@ -151,7 +264,7 @@ qx.Class.define("qx.bom.Input",
         var wrapValue = wrap ? "soft" : "off";
         var styleValue = wrap ? "" : "auto";
 
-        element.setAttribute('wrap', wrapValue);
+        element.setAttribute("wrap", wrapValue);
         element.style.overflow = styleValue;
       },
 
