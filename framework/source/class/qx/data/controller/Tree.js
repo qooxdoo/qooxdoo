@@ -377,8 +377,8 @@ qx.Class.define("qx.data.controller.Tree",
       // only fill the target if there is a target, its known how to 
       // access the children and what needs to be desplayed as label 
       if (this.getTarget() == null 
-          || this.getChildPath() == null 
-          || this.getLabelPath() == null
+          || this.getChildPath() == null 
+          || this.getLabelPath() == null
       ) {
         return;
       }
@@ -431,7 +431,7 @@ qx.Class.define("qx.data.controller.Tree",
       // go threw all children in the model
       for (var i = 0; i < children.length; i++) {
         // if there is no node in the tree or the current node does not fit
-        if (rootNode.getChildren()[i] == null || children.getItem(i) != rootNode.getChildren()[i].getUserData("model"))
+        if (rootNode.getChildren()[i] == null || children.getItem(i) != rootNode.getChildren()[i].getUserData("model"))
         {
           //chech if the node was just moved
           for (var j = i; j < rootNode.getChildren().length; j++) {
