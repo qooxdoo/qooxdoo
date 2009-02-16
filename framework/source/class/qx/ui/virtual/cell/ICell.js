@@ -26,9 +26,24 @@ qx.Interface.define("qx.ui.virtual.cell.ICell",
 {
   members :
   {
+
     /**
-     * TODOC
-     */
-    getCellProperties : function(data, states) {}
+      * Returns all relevant properties of the cell:
+      * <ul>
+      * <li>classes (String): Space separated class names</li>
+      * <li>style (String): CSS styles</li>
+      * <li>attributes (String): Space separated attributes</li>
+      * <li>content (String): HTML fragment of the innerHTML of the cell</li>
+      * <li>insets (Array): insets (padding + border) of the cell as
+      * two-dimensional array.</li>
+      * </ul>
+      * 
+      * @param value {Var} Value of the cell.
+      * @param states {Map} The states set on the cell (e.g. <i>selected</i>,
+      * <i>focused</i>, <i>editable</i>).
+      * 
+      * @return {Map} Cell properties (see above.)
+      */
+    getCellProperties : function(value, states) {}
   }
 });
