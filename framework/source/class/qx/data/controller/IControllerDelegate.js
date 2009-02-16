@@ -73,12 +73,12 @@ qx.Interface.define("qx.data.controller.IControllerDelegate",
      * For every property you want to bind, use 
      * {@link qx.data.controller.List#_bindProperty} like this:
      * <code>
-     * this._bindProperty("paht.in.the.model", "label", options, item, index);
+     * controller.bindProperty("paht.in.the.model", "label", options, item, index);
      * </code>
      * 
      * @param item {qx.ui.core.Widget} The created and used item.
      * @param index {number} The index of the item.
      */
-    bindItem: function(item, index) {}
+    bindItem: function(controller, item, index) {}
   }
 });
