@@ -37,6 +37,7 @@
 
 #require(qx.bom.Document)
 #require(qx.bom.Element)
+#require(qx.bom.Input)
 #require(qx.bom.Viewport)
 
 #require(qx.bom.element.Attribute)
@@ -48,6 +49,13 @@
 
 (function()
 {
+  /**
+   * Helper method to create setters for all DOM elements in the collection
+   *
+   * @param clazz {Class} Static class which contains the given method
+   * @param method {String} Name of the method
+   * @return {Function} Returns a new function which wrapps the given function
+   */
   var setter = function(clazz, method)
   {
     return function(arg1, arg2, arg3, arg4, arg5, arg6)
@@ -56,8 +64,11 @@
       if (length > 0)
       {
         var ptn = clazz[method];
-        for (var i=0; i<length; i++) {
-          ptn.call(clazz, this[i], arg1, arg2, arg3, arg4, arg5, arg6);
+        for (var i=0; i<length; i++) 
+        {
+          if (this[i].nodeType === 1) {
+            ptn.call(clazz, this[i], arg1, arg2, arg3, arg4, arg5, arg6);
+          }
         }          
       }
     
@@ -65,15 +76,26 @@
     };
   }; 
 
+
+  /**
+   * Helper method to create getters for the first DOM element in the collection.
+   *
+   * Automatically push the result to the stack if it is an element as well.
+   *
+   * @param clazz {Class} Static class which contains the given method
+   * @param method {String} Name of the method
+   * @return {Function} Returns a new function which wrapps the given function
+   */
   var getter = function(clazz, method)
   {
     return function(arg1, arg2, arg3, arg4, arg5, arg6) 
     {
       if (this.length > 0) 
       {
-        var ret = clazz[method](this[0], arg1, arg2, arg3, arg4, arg5, arg6);
+        var ret = this[0].nodeType === 1 ?
+          clazz[method](this[0], arg1, arg2, arg3, arg4, arg5, arg6) : null;
         
-        if (ret.nodeType) {
+        if (ret && ret.nodeType) {
           return this.__pushStack([ret]);
         } else {
           return ret;
@@ -283,8 +305,39 @@
          ATTRIBUTES: VALUE
       ---------------------------------------------------------------------------
       */   
-            
-      // TODO
+      
+      /**
+       * Applies the given value to the element.
+       *
+       * Normally the value is given as a string/number value and applied
+       * to the field content (textfield, textarea) or used to
+       * detect whether the field is checked (checkbox, radiobutton).
+       *
+       * Supports array values for selectboxes (multiple-selection)
+       * and checkboxes or radiobuttons (for convenience).
+       *
+       * Please note: To modify the value attribute of a checkbox or
+       * radiobutton use {@link qx.bom.element.Attribute.set} instead.
+       *
+       * @signature function(value)
+       * @param value {String|Number|Array} Value to apply to each element
+       * @return {Collection} The collection is returned for chaining proposes
+       */
+      setValue : setter(qx.bom.Input, "setValue"),
+
+      /**
+       * Returns the currently configured value of the first 
+       * element in the collection.
+       *
+       * Works with simple input fields as well as with
+       * select boxes or option elements.
+       *
+       * Returns an array in cases of multi-selection in
+       * select boxes but in all other cases a string.
+       *
+       * @return {String|Array} The value of the first element.
+       */
+       getValue : getter(qx.bom.Input, "getValue"),
       
       
       
@@ -349,13 +402,23 @@
       */        
       
       /**
-       * Set the full CSS content of the style attribute
+       * Set the full CSS content of the style attribute for all elements in the 
+       * collection.
        *
        * @signature function(value)
        * @param value {String} The full CSS string
        * @return {Collection} The collection is returned for chaining proposes     
        */
       setCss : setter(qx.bom.element.Style, "setCss"),   
+      
+      /**
+       * Returns the full content of the style attribute of the first element
+       * in the collection.
+       *
+       * @signature function()
+       * @return {String} the full CSS string
+       */      
+      getCss : setter(qx.bom.element.Style, "getCss"),   
       
                
     
@@ -500,6 +563,7 @@
       
       
       
+      
       /*
       ---------------------------------------------------------------------------
          CSS: WIDTH AND HEIGHT
@@ -544,6 +608,9 @@
        *
        * Please note that with visible scrollbars the content width returned 
        * may be larger than the box width returned via {@link #getWidth}.
+       *
+       * Only works for DOM elements and not for the window object or the document
+       * object!
        *
        * @return {Integer} Computed content width
        */ 
@@ -596,6 +663,9 @@
        *
        * Please note that with visible scrollbars the content height returned 
        * may be larger than the box width returned via {@link #getWidth}.
+       *       
+       * Only works for DOM elements and not for the window object or the document
+       * object!
        *
        * @return {Integer} Computed content height
        */      
@@ -612,8 +682,6 @@
 
 
          
-      
-      
       
       /*
       ---------------------------------------------------------------------------
