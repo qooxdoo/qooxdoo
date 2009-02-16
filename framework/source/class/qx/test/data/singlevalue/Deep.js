@@ -254,6 +254,26 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
 
       qx.data.SingleValueBinding.removeAllBindings();
 
+    },
+    
+    
+    testArrayDeep: function() {
+      this.__a.setArray(new qx.data.Array([this.__b1]));
+      this.__b1.setChild(this.__b2);
+      this.__b2.setChild(this.__b1);
+      
+      qx.data.SingleValueBinding.bind(this.__a, "array[0].child.name", this.__label, "content");
+      
+      this.assertEquals("b2", this.__label.getContent(), "Deep binding does not work.");
+      
+      this.__a.getArray().pop();
+      this.assertNull(this.__label.getContent(), "Deep binding does not work.");
+      
+      this.__a.getArray().push(this.__b2);
+      this.assertEquals("b1", this.__label.getContent(), "Deep binding does not work.");      
+      
+      this.__b1.setName("B1");
+      this.assertEquals("B1", this.__label.getContent(), "Deep binding does not work.");      
     }
 
   }
