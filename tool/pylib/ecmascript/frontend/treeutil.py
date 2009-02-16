@@ -368,6 +368,12 @@ def assembleVariable(variableItem):
     for child in variableItem.children:
         if child.type == "commentsBefore":
             continue
+        elif child.type == "accessor":
+            for value in child.children:
+                if value.type == "identifier":
+                    assembled = assembled + "." if assembled else assembled
+                    return assembled + value.get("name"), False
+            return assembled, False
         elif child.type != "identifier":
             # this means there is some accessor like part in the variable
             # e.g. foo["hello"]
