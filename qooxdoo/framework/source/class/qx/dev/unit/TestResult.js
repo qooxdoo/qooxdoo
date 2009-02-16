@@ -100,7 +100,6 @@ qx.Class.define("qx.dev.unit.TestResult",
 				this._timeout = {};
 			}
       if (this._timeout[test.getFullName()]) {
-        this.debug("clearing timeout");
         clearTimeout(this._timeout[test.getFullName()]);
       }
       else {
