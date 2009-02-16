@@ -139,7 +139,7 @@ qx.Class.define("qx.bom.Input",
       if ((type === "checkbox" || type === "radio"))
       {
         if (Array.isArray(value)) {
-          element.checked = Array.contains(value, element.value)
+          element.checked = Array.contains(value, element.value);
         } else {
           element.checked = element.value == value;
         }
@@ -158,8 +158,8 @@ qx.Class.define("qx.bom.Input",
             subval = subel.text;
           }
           
-          subel.selected = isArray ? 
-            value == subval : Array.contains(value, subval);			    
+          subel.selected = isArray ?
+             Array.contains(value, subval) : value == subval;			    
         }
 
         if (isArray && value.length == 0) {
