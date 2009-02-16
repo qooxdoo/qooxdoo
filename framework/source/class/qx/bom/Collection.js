@@ -388,7 +388,7 @@
         *
         * @signature function(name, mode)
         * @param name {String} Name of the style attribute (js variant e.g. marginTop, wordSpacing)
-        * @param mode {Number} Choose one of the modes supported by {@link qx.bom.element.Style.get}
+        * @param mode {Number} Choose one of the modes supported by {@link qx.bom.element.Style#get}
         * @return {var} The value of the style property
         */
       getStyle : getter(qx.bom.element.Style, "get"),
