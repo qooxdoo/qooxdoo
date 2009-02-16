@@ -145,6 +145,198 @@ qx.Class.define("qx.bom.Element",
     empty : function(element) {
       return element.innerHTML = "";
     },
+    
+    
+    /**
+     * Fixes incoming HTML markup and fix for XHTML compatibility.
+     *
+     * This method fixes tags which are not allowed to be directly
+     * closed like <code>div</code> or <code>p</code>. They are patched
+     * to use an open and close tag instead e.g.
+     * <code><p></code> => <code><p></p></code>
+     *
+     * @param html {String} Incoming markup
+     * @return {String} XHTML corrected markup
+     */
+    __fixNonDirectlyClosable : function(html) {
+      return html.replace(/(<(\w+)[^>]*?)\/>/g, this.__fixNonDirectlyClosableHelper);      
+    },
+    
+    
+    /**
+     * Helper method for XHTML replacement.
+     *
+     * @param all {String} Complete string
+     * @param front {String} Front of the match
+     * @param tag {String} Tag name
+     * @return {String} XHTML corrected tag
+     */
+    __fixNonDirectlyClosableHelper : function(all, front, tag)
+    {
+      return tag.match(/^(abbr|br|col|img|input|link|meta|param|hr|area|embed)$/i) ?
+        all : front + "></" + tag + ">";
+    },
+    
+    
+    /**
+     * Translates a HTML string into an array of elements.
+     *
+     * @param html {String} HTML string
+     * @param context {Document} Context document in which (helper) elements should be created
+     * @return {Array} List of resulting elements
+     */
+    __convertHtmlString : function(elem, context)
+    {
+      var div=context.createElement("div");
+      
+      // Fix "XHTML"-style tags in all browsers
+      elem = this.__fixNonDirectlyClosable(elem);
+
+      // Trim whitespace, otherwise indexOf won't work as expected
+      var tags = elem.replace(/^\s+/, "").substring(0, 10).toLowerCase();
+
+      var wrap =
+        // option or optgroup
+        !tags.indexOf("<opt") && [ 1, "<select multiple='multiple'>", "</select>" ] ||
+        
+        !tags.indexOf("<leg") && [ 1, "<fieldset>", "</fieldset>" ] ||
+        tags.match(/^<(thead|tbody|tfoot|colg|cap)/) && [ 1, "<table>", "</table>" ] ||
+        !tags.indexOf("<tr") && [ 2, "<table><tbody>", "</tbody></table>" ] ||
+
+        // <thead> matched above
+        (!tags.indexOf("<td") || !tags.indexOf("<th")) && [ 3, "<table><tbody><tr>", "</tr></tbody></table>" ] ||
+        !tags.indexOf("<col") && [ 2, "<table><tbody></tbody><colgroup>", "</colgroup></table>" ] ||
+
+        // IE can't serialize <link> and <script> tags normally
+        qx.core.Variant.isSet("qx.client", "mshtml") && [ 1, "div<div>", "</div>" ] ||
+
+        [ 0, "", "" ];
+
+      // Go to html and back, then peel off extra wrappers
+      div.innerHTML = wrap[1] + elem + wrap[2];
+
+      // Move to the right depth
+      while (wrap[0]--) {
+        div = div.lastChild;
+      }
+      
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      {
+        // Remove IE's autoinserted <tbody> from table fragments
+        // String was a <table>, *may* have spurious <tbody>
+        var hasBody = /<tbody/i.test(elem);
+        
+        // String was a bare <thead> or <tfoot>
+        var tbody = !tags.indexOf("<table") && !hasBody ? div.firstChild && div.firstChild.childNodes : wrap[1] == "<table>" && !hasBody ? div.childNodes : [];
+
+        for ( var j = tbody.length - 1; j >= 0 ; --j ) 
+        {
+          if (tbody[j].tagName.toLowerCase() === "tbody" && !tbody[j].childNodes.length) {
+            tbody[j].parentNode.removeChild(tbody[j]);
+          }
+        }
+
+        // IE completely kills leading whitespace when innerHTML is used
+        if (/^\s/.test(elem)) {
+          div.insertBefore(context.createTextNode(elem.match(/^\s*/)[0] ), div.firstChild);
+        }
+      }
+
+      return qx.lang.Array.fromCollection(div.childNodes); 
+    },
+    
+    
+    /**
+     * Cleans-up the given HTML and append it to a fragment
+     *
+     * When no <code>context</code> is given the global document is used to
+     * create new DOM elements.
+     *
+     * When a <code>fragment</code> is given the nodes are appended to this
+     * fragment except the script tags. These are returned in a seperate Array.
+     *
+     * @param objs {Element[]|String[]} Array of DOM elements or HTML strings
+     * @param context {Document?document} Context in which the elements should be created
+     * @param fragment {Element?null} Document fragment to appends elements to
+     * @return {Element[]} Array of elements (when a fragment is given it only contains script elements)
+     */
+    clean: function(objs, context, fragment) 
+    {
+      context = context || document;
+  
+      // !context.createElement fails in IE with an error but returns typeof 'object'
+      if (typeof context.createElement === "undefined") {
+        context = context.ownerDocument || context[0] && context[0].ownerDocument || document;
+      }
+  
+      // Fast-Path:
+      // If a single string is passed in and it's a single tag
+      // just do a createElement and skip the rest
+      if (!fragment && objs.length === 1 && typeof objs[0] === "string") 
+      {
+        var match = /^<(\w+)\s*\/?>$/.exec(objs[0]);
+        if (match) {
+          return [context.createElement(match[1])];
+        }
+      }
+  
+      // Interate through items in incoming array
+      var obj, ret=[];
+      for (var i=0, l=objs.length; i<l; i++)
+      {
+        obj = objs[i];
+  
+        // Convert HTML string into DOM nodes
+        if (typeof obj === "string") {
+          obj = this.__convertHtmlString(obj, context);
+        }
+  
+        // Append or merge depending on type
+        if (obj.nodeType) {
+          ret.push(obj);
+        } else {
+          ret.push.apply(ret, obj);
+        }
+      }
+  
+      // Append to fragment and filter out scripts... or...
+      if (fragment) 
+      {
+        var scripts=[], Array=qx.lang.Array, elem, temp;
+        for (var i=0; ret[i]; i++) 
+        {
+          elem = ret[i];
+          
+          if (elem.tagName.toLowerCase() === "script" && (!elem.type || elem.type.toLowerCase() === "text/javascript")) 
+          {
+            // Trying to remove the element from DOM
+            if (elem.parentNode) {
+              elem.parentNode.removeChild(ret[i]);
+            }
+            
+            // Store in script list
+            scripts.push(elem);
+          } 
+          else
+          {
+            if (elem.nodeType === 1) 
+            {
+              // Recursively search for scripts and append them to the list of elements to process
+              temp = Array.fromCollection(elem.getElementsByTagName("script"));
+              ret.splice.apply(ret, [i+1, 0].concat(temp));
+            }
+              
+            // Finally append element to fragment
+            fragment.appendChild(elem);
+          }
+        }
+        
+        return scripts;
+      }
+  
+      // Otherwise return the array of all elements
+      return ret;
+    },
 
 
     /**
