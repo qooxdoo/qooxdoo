@@ -22,8 +22,14 @@
 /* ************************************************************************
 
 #asset(qx/icon/Tango/22/actions/media-playback-start.png)
+#asset(qx/icon/Tango/22/actions/media-playback-stop.png)
 #asset(qx/icon/Tango/22/actions/view-refresh.png)
 #asset(qx/icon/Tango/22/actions/system-run.png)
+#asset(qx/icon/Tango/22/actions/document-properties.png)
+#asset(qx/icon/Tango/22/categories/system.png)
+#asset(qx/icon/Tango/22/status/dialog-information.png)
+#asset(qx/icon/Tango/22/status/dialog-warning.png)
+#asset(qx/icon/Tango/22/status/dialog-error.png)
 
 #asset(testrunner/image/*)
 
@@ -139,6 +145,12 @@ qx.Class.define("testrunner.runner.TestRunner",
     {
       check : "Boolean",
       init  : false
+    },
+    
+    logLevel :
+    {
+      check : ["debug", "info", "warn", "error"],
+      init  : "debug"
     }
   },
 
@@ -245,6 +257,42 @@ qx.Class.define("testrunner.runner.TestRunner",
       part3.add(this.reloadswitch);
       this.reloadswitch.setShow("both");
       this.reloadswitch.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Always reload application under test before testing")));
+
+      // -- log level menu
+      this.levelbox = new qx.ui.toolbar.MenuButton(this.tr("Log Level"), "icon/22/categories/system.png");
+      var levelMenu = new qx.ui.menu.Menu;
+      
+      var debugButton = new qx.ui.menu.Button("Debug", "icon/22/categories/system.png");
+      debugButton.addListener("execute", function(e){
+        this.setLogLevel("debug");
+        this.levelbox.setIcon(e.getTarget().getIcon());
+      }, this);
+      levelMenu.add(debugButton);
+      
+      var infoButton = new qx.ui.menu.Button("Information", "icon/22/status/dialog-information.png");
+      infoButton.addListener("execute", function(e){
+        this.setLogLevel("info");        
+        this.levelbox.setIcon(e.getTarget().getIcon());
+      }, this);
+      levelMenu.add(infoButton);
+      
+      var warnButton = new qx.ui.menu.Button("Warning", "icon/22/status/dialog-warning.png");
+      warnButton.addListener("execute", function(e){
+        this.setLogLevel("warn");
+        this.levelbox.setIcon(e.getTarget().getIcon());
+      }, this);
+      levelMenu.add(warnButton);
+      
+      var errorButton = new qx.ui.menu.Button("Error", "icon/22/status/dialog-error.png");
+      errorButton.addListener("execute", function(e){
+        this.setLogLevel("error");
+        this.levelbox.setIcon(e.getTarget().getIcon());
+      }, this);
+      levelMenu.add(errorButton);
+
+      this.levelbox.setMenu(levelMenu);
+      
+      part3.add(this.levelbox);
 
       return toolbar;
     },  // makeToolbar
@@ -1178,6 +1226,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       if (w.qx && w.qx.log && w.qx.log.Logger)
       {
         logger = w.qx.log.Logger;
+        logger.setLevel(this.getLogLevel());
 
         // Register to flush the log queue into the appender.
         logger.register(this.logappender);
@@ -1206,9 +1255,11 @@ qx.Class.define("testrunner.runner.TestRunner",
       "mainsplit",
       "left",
       "runbutton",
+      "stopbutton",
       "testSuiteUrl",
       "reloadbutton",
       "reloadswitch",
+      "levelbox",
       "toolbar",
       "f1",
       "f2",
