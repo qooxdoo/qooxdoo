@@ -101,7 +101,7 @@ qx.Class.define("demo.AbstractGallery",
     scroller.getPane().addListener("resize", this._onPaneResize, this);    
     this.add(scroller);    
     
-    this.manager = new qx.ui.virtual.selection.Cell(scroller.getPane(), this).set({
+    this.manager = new qx.ui.virtual.selection.CellLines(scroller.getPane(), this).set({
       mode: "multi",
       drag: true
     });  
