@@ -35,7 +35,7 @@ qx.Class.define("qx.ui.virtual.cell.Abstract",
     {
       cr.__style = this.self(arguments);
       var stylesheet =
-        ".qooxdoo-cell {" +
+        ".qx-cell {" +
         qx.bom.element.Style.compile(
         {
           position : "absolute",
@@ -45,31 +45,24 @@ qx.Class.define("qx.ui.virtual.cell.Abstract",
           userSelect : "none"
         }) +
         "} " +
-        ".qooxdoo-cell-right { text-align:right } " +
-        ".qooxdoo-cell-italic { font-style:italic} " +
-        ".qooxdoo-cell-bold { font-weight:bold } ";
+        ".qx-cell-right { text-align:right } " +
+        ".qx-cell-italic { font-style:italic} " +
+        ".qx-cell-bold { font-weight:bold } ";
 
       if (!qx.core.Variant.isSet("qx.client", "mshtml")) {
-        stylesheet += ".qooxdoo-cell {" + qx.bom.element.BoxSizing.compile("content-box") + "}";
+        stylesheet += ".qx-cell {" + qx.bom.element.BoxSizing.compile("content-box") + "}";
       }
 
       cr.__style.stylesheet = qx.bom.Stylesheet.createElement(stylesheet);
     }
-
-    this.__insetX = 0;
-    this.__insetY = 0;
 
     this.base(arguments);
   },
 
   members :
   {
-
-    __insetX : null,
-    __insetY : null,
-
     _getCssClasses : function(value, states) {
-      return "qooxdoo-cell";
+      return "qx-cell";
     },
 
     _getAttributes : function(value, states) {
@@ -81,7 +74,7 @@ qx.Class.define("qx.ui.virtual.cell.Abstract",
     },
 
     _getInsets : function(value, states) {
-      return [this.__insetX, this.__insetY];
+      return [0, 0];
     },
 
     _getValue : function(value, states) {
