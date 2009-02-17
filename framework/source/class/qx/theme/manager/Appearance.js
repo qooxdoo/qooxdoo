@@ -62,7 +62,6 @@ qx.Class.define("qx.theme.manager.Appearance",
     {
       check : "Theme",
       nullable : true,
-      apply : "_applyAppearanceTheme",
       event : "changeAppearanceTheme"
     },
 
@@ -71,7 +70,6 @@ qx.Class.define("qx.theme.manager.Appearance",
     {
       check : "Theme",
       nullable : true,
-      apply : "_applyTheme",
       event : "changeTheme"
     }
   },
@@ -91,19 +89,6 @@ qx.Class.define("qx.theme.manager.Appearance",
     __defaultStates : {},
     __styleCache : null,
     __aliasMap : null,
-
-    /**
-     * @deprecated
-     */
-    _applyAppearanceTheme : function(value, old)
-    {
-
-    },
-
-    _applyTheme : function(value, old)
-    {
-
-    },
 
 
 

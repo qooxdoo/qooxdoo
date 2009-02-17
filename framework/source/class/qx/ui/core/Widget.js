@@ -459,7 +459,10 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
-    /** The font property describes how to paint the font on the widget. */
+    /**
+     * The widget's font. The value is either a font name defined in the font
+     * theme or an instance of {@link qx.bom.Font}.
+     */
     font :
     {
       nullable : true,
