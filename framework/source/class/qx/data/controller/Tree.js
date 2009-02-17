@@ -74,8 +74,9 @@ qx.Class.define("qx.data.controller.Tree",
     this.base(arguments);
     
     // internal bindings reference
-    this.__labelBindings = {};
-    this.__iconBindings = {};
+    this.__bindings = {};
+    this.__boundProperties = [];
+
     // reference to the child
     this.__childrenRef = {};
     
@@ -212,12 +213,9 @@ qx.Class.define("qx.data.controller.Tree",
      * @param old {qx.core.Object|null} The old delegate.
      */
     _applyDelegate: function(value, old) {
-      if (value != null && value.configureItem != null && this.getTarget() != null) {
-        var children = this.getTarget().getRoot().getItems(true, true, false);
-        for (var i = 0; i < children.length; i++) {
-          value.configureItem(children[i]);
-        }
-      }
+      this._setConfigureItem(value, old);
+      this._setCreateItem(value, old);
+      this._setBindItem(value, old);
     },
     
          
@@ -354,11 +352,17 @@ qx.Class.define("qx.data.controller.Tree",
      * Creates a TreeFolder and delegates the configure method if a delegate is 
      * set and the needed function (configureItem) is available.
      * 
-     * @return {qx.ui.tree.TreeFolder} The created and configured TreeFolder. 
+     * @return {qx.ui.tree.AbstractTreeItem} The created and configured TreeFolder. 
      */
     _createItem: function() {
-      var item = new qx.ui.tree.TreeFolder();     
       var delegate = this.getDelegate();
+      // check if a delegate and a create method is set
+      if (delegate != null && delegate.createItem != null) {
+        var item = delegate.createItem();     
+      } else {
+        var item = new qx.ui.tree.TreeFolder();     
+      }
+
       // check if a delegate is set and if the configure function is available
       if (delegate != null && delegate.configureItem != null) {
         delegate.configureItem(item);
@@ -476,6 +480,43 @@ qx.Class.define("qx.data.controller.Tree",
         this.__removeFolder(treeFolder, rootNode);
       }
     },
+    
+    
+    /**
+     * Removes all folders and bindings for the current set target.
+     */
+    __emptyTarget: function() {
+      // only do something if a tree is set
+      if (this.getTarget() == null) {
+        return;
+      }
+      // remove the root node
+      var root = this.getTarget().getRoot();
+      if (root != null) {
+        this.getTarget().setRoot(null);
+        this.__removeAllFolders(root);
+        this.__removeBinding(root.getUserData("model"));
+        root.destroy();        
+      }
+    },
+    
+    
+    /**
+     * Removes all child forlders of the given tree node. Also removes all 
+     * bindings for the removed folders.
+     * 
+     * @param node {qx.ui.tree.AbstractTreeItem} The used tree folder. 
+     */
+    __removeAllFolders: function(node) {
+      var children = node.getChildren();
+      // remove all subchildren
+      for (var i = children.length - 1; i >= 0; i--) {
+        if (children[i].getChildren().length > 0) {
+          this.__removeAllFolders(children[i]);          
+        }
+        this.__removeFolder(children[i], node);
+      }
+    },
 
     
     /**
@@ -483,8 +524,8 @@ qx.Class.define("qx.data.controller.Tree",
      * node. All set bindings will be removed and the old tree folder will be 
      * destroyed.
      * 
-     * @param treeFolder {qx.ui.tree.TreeFolder} The folder to remove.
-     * @param rootNode {qx.ui.tree.TreeFolder} The folder holding the
+     * @param treeFolder {qx.ui.tree.AbstractTreeItem} The folder to remove.
+     * @param rootNode {qx.ui.tree.AbstractTreeItem} The folder holding the
      *   treeFolder. 
      */
     __removeFolder: function(treeFolder, rootNode) {
@@ -516,13 +557,52 @@ qx.Class.define("qx.data.controller.Tree",
     ---------------------------------------------------------------------------
     */
     /**
+     * Helper-Method for binding a given property from the model to the target
+     * widget.
+     * This method should only be called in the 
+     * {@link qx.data.controller.IControllerDelegate#bindItem} function 
+     * implemented by the {@link #delegate} property. 
+     * 
+     * @param sourcePath {String | null} The path to the propety in the model.
+     * @param targetPath {String} The name of the property in the target 
+     *   widget.
+     * @param options {Map | null} The options to use for the binding.
+     * @param targetWidget {qx.ui.tree.AbstractTreeItem} The target widget.
+     * @param modelNode {var} The model node which should be bound to the target.
+     */
+    bindProperty: function(sourcePath, targetPath, options, targetWidget, modelNode) {
+      // set up the binding
+      var id = modelNode.bind(sourcePath, targetWidget, targetPath, options);
+      // check for the storeage for the references
+      if (this.__bindings[targetPath] == null) {
+        this.__bindings[targetPath] = {};
+      }
+      // store the binding reference
+      this.__bindings[targetPath][modelNode.toHashCode()] = {id: id, treeNode: targetWidget};
+      
+      // save the bound property
+      if (!qx.lang.Array.contains(this.__boundProperties, targetPath)) {
+        this.__boundProperties.push(targetPath);        
+      }      
+    },
+    
+    
+    /**
      * Helper method renewing all bindings with the currently saved options and
      * paths.
      */
     __renewBindings: function() {
-      for (var hash in this.__labelBindings) {
+      // get the first bound property
+      var firstProp;
+      for (var key in this.__bindings) {
+        firstProp = key;
+        break;
+      }
+      // go through all stored bindings for that property
+      // (should have all the same amount of entrys and tree nodes)
+      for (var hash in this.__bindings[firstProp]) {
         // get the data 
-        var treeNode = this.__labelBindings[hash].treeNode;
+        var treeNode = this.__bindings[firstProp][hash].treeNode;
         var modelNode = qx.core.ObjectRegistry.fromHashCode(hash);
         // remove the old bindings
         this.__removeBinding(modelNode);
@@ -541,18 +621,20 @@ qx.Class.define("qx.data.controller.Tree",
      *   to the model node.
      */
     __addBinding: function(modelNode, treeNode) {
-      // label binding
-      var id = modelNode.bind(
-        this.getLabelPath(), treeNode, "label", this.getLabelOptions()
-      );
-      this.__labelBindings[modelNode.toHashCode()] = {id: id, treeNode: treeNode};
+      var delegate = this.getDelegate();
+      // if a delegate for creating the binding is given, use it
+      if (delegate != null && delegate.bindItem != null) {
+        delegate.bindItem(this, treeNode, modelNode);
+        
+      // otherwise, try to bind the listItem by default
+      } else {
+        // label binding
+        this.bindProperty(this.getLabelPath(), "label", this.getLabelOptions(), treeNode, modelNode);
 
-      // icon binding
-      if (this.getIconPath() != null) {
-        id = modelNode.bind(
-          this.getIconPath(), treeNode, "icon", this.getIconOptions()
-        );
-        this.__iconBindings[modelNode.toHashCode()] = {id: id, treeNode: treeNode};        
+        // icon binding
+        if (this.getIconPath() != null) {
+          this.bindProperty(this.getIconPath(), "icon", this.getIconOptions(), treeNode, modelNode);
+        }
       }
     },
     
@@ -564,17 +646,79 @@ qx.Class.define("qx.data.controller.Tree",
      *   should be removed.
      */
     __removeBinding: function(modelNode) {
-      // label binding
-      var id = this.__labelBindings[modelNode.toHashCode()].id;
-      modelNode.removeBinding(id);
-      delete this.__labelBindings[modelNode.toHashCode()];
-      
-      // icon binding
-      var bindingMap = this.__iconBindings[modelNode.toHashCode()];
-      if (bindingMap != undefined) {
-        modelNode.removeBinding(bindingMap.id);
-        delete this.__iconBindings[modelNode.toHashCode()];        
+      for (var i = 0; i < this.__boundProperties.length; i++) {
+        var property = this.__boundProperties[i];
+        var bindingsMap = this.__bindings[property][modelNode.toHashCode()];
+        if (bindingsMap != null) {
+          modelNode.removeBinding(bindingsMap.id);
+          delete this.__bindings[property][modelNode.toHashCode()];          
+        }
       }
-    }
+    },
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+       DELEGATE HELPER
+    ---------------------------------------------------------------------------
+    */
+    /**
+     * Helper method for applying the delegate It checks if a configureItem 
+     * is set end invokes the initial process to apply the the given function.
+     * 
+     * @param value {Object} The new delegate.
+     * @param old {Object} The old delegate.
+     */
+    _setConfigureItem: function(value, old) {
+      if (value != null && value.configureItem != null && this.getTarget() != null) {
+        var children = this.getTarget().getRoot().getItems(true, true, false);
+        for (var i = 0; i < children.length; i++) {
+          value.configureItem(children[i]);
+        }
+      }    
+    },
+    
+    
+    /**
+     * Helper method for applying the delegate It checks if a createItem 
+     * is set end invokes the initial process to apply the the given function.
+     * 
+     * @param value {Object} The new delegate.
+     * @param old {Object} The old delegate.
+     */
+    _setCreateItem: function(value, old) {
+      if (this.getTarget() == null || this.getModel() == null) {
+        return;
+      }
+      if (old && old.createItem && value && value.createItem && old.createItem == value.createTtem) {
+        return;
+      }
+      this._startSelectionModification();
+      
+      this.__emptyTarget();
+      this.__buildTree();
+      
+      this._endSelectionModification();
+      this._updateSelection();            
+    },
+    
+    
+    /**
+     * Helper method for applying the delegate It checks if a bindItem 
+     * is set end invokes the initial process to apply the the given function.
+     * 
+     * @param value {Object} The new delegate.
+     * @param old {Object} The old delegate.
+     */
+    _setBindItem: function(value, old) {
+      // if a new bindItem function is set
+      if (value != null && value.bindItem != null) {
+        // do nothing if the bindItem function did not change
+        if (old != null && old.bindItem != null && value.bindItem == old.bindItem) {
+          return;
+        }
+        this.__renewBindings();
+      }
+    }      
   }
 });

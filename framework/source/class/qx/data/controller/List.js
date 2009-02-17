@@ -497,7 +497,7 @@ qx.Class.define("qx.data.controller.List",
     /**
      * Sets up the binding for the given ListItem and index.
      * 
-     * @param listItem {qx.ui.form.ListItem} The internally created and used 
+     * @param item {qx.ui.form.ListItem} The internally created and used 
      *   ListItem.
      * @param index {number} The index of the ListItem.
      */
@@ -636,8 +636,6 @@ qx.Class.define("qx.data.controller.List",
        DELEGATE HELPER
     ---------------------------------------------------------------------------
     */    
-    
-    
     /**
      * Helper method for applying the delegate It checks if a configureItem 
      * is set end invokes the initial process to apply the the given function.
