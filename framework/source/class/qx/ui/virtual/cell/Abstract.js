@@ -59,6 +59,32 @@ qx.Class.define("qx.ui.virtual.cell.Abstract",
     this.base(arguments);
   },
 
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+
+    insetX :
+    {
+      init : 0,
+      check : "Number"
+    },
+
+
+    insetY :
+    {
+      init : 0,
+      check : "Number"
+    }
+
+  },
+
+
+
   members :
   {
     _getCssClasses : function(value, states) {
@@ -74,7 +100,7 @@ qx.Class.define("qx.ui.virtual.cell.Abstract",
     },
 
     _getInsets : function(value, states) {
-      return [0, 0];
+      return [this.getInsetX(), this.getInsetY()];
     },
 
     _getValue : function(value, states) {
