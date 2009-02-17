@@ -148,22 +148,6 @@ qx.Class.define("qx.bom.Element",
     
     
     /**
-     * Fixes incoming HTML markup and fix for XHTML compatibility.
-     *
-     * This method fixes tags which are not allowed to be directly
-     * closed like <code>div</code> or <code>p</code>. They are patched
-     * to use an open and close tag instead e.g.
-     * <code><p></code> => <code><p></p></code>
-     *
-     * @param html {String} Incoming markup
-     * @return {String} XHTML corrected markup
-     */
-    __fixNonDirectlyClosable : function(html) {
-      return html.replace(/(<(\w+)[^>]*?)\/>/g, this.__fixNonDirectlyClosableHelper);      
-    },
-    
-    
-    /**
      * Helper method for XHTML replacement.
      *
      * @param all {String} Complete string
@@ -204,10 +188,13 @@ qx.Class.define("qx.bom.Element",
      */
     __convertHtmlString : function(html, context)
     {
-      var div=context.createElement("div");
+      var div = context.createElement("div");
       
       // Fix "XHTML"-style tags in all browsers
-      html = this.__fixNonDirectlyClosable(html);
+      // Replaces tags which are not allowed to be directly closed like 
+      // <code>div</code> or <code>p</code>. They are patched to use an 
+      // open and close tag instead e.g. <p> => <p></p>
+      html = html.replace(/(<(\w+)[^>]*?)\/>/g, this.__fixNonDirectlyClosableHelper);
 
       // Trim whitespace, otherwise indexOf won't work as expected
       var tags = html.replace(/^\s+/, "").substring(0, 5).toLowerCase();
