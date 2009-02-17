@@ -26,7 +26,7 @@ qx.Class.define("qx.test.toolchain.Optimizer",
     testStringRenaming: function() {
       // Can only fail in build version withall optimizations
       this.assertEquals("__te" + "st a", this.__test(), "Variable in a string renamed!");
-      this.assertEquals("__te" + "st test", this.__test() + " a test", "Variable in a string renamed!");      
+      this.assertEquals("__te" + "st a test", this.__test() + " test", "Variable in a string renamed!");      
     },
     
     // needed for the string renaming test
