@@ -23,7 +23,7 @@
  */
 qx.Class.define("qx.ui.virtual.selection.CellLines",
 {
-  extend : qx.ui.virtual.selection.Cell,
+  extend : qx.ui.virtual.selection.CellRectangle,
    
    
   /*
