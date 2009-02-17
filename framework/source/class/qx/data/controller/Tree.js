@@ -380,9 +380,13 @@ qx.Class.define("qx.data.controller.Tree",
     __buildTree: function() {
       // only fill the target if there is a target, its known how to 
       // access the children and what needs to be desplayed as label 
-      if (this.getTarget() == null 
-          || this.getChildPath() == null 
-          || this.getLabelPath() == null
+      if (this.getTarget() == null || this.getChildPath() == null) {
+        return;
+      }
+      // check for the binding knowledge
+      if (
+        (this.getLabelPath() == null && this.getDelegate() == null)
+        || (this.getLabelPath() == null && this.getDelegate() != null && this.getDelegate().bindItem == null)
       ) {
         return;
       }
