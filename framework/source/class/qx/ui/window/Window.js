@@ -441,6 +441,7 @@ qx.Class.define("qx.ui.window.Window",
           // captionbar
           var layout = new qx.ui.layout.Grid();
           layout.setRowFlex(0, 1);      
+          layout.setColumnFlex(1, 1);  
           control = new qx.ui.container.Composite(layout);
           this._add(control);
 
@@ -462,7 +463,6 @@ qx.Class.define("qx.ui.window.Window",
           control.setAllowGrowX(true);
           
           var captionBar = this.getChildControl("captionbar");
-          captionBar.getLayout().setColumnFlex(1, 1);  
           captionBar.add(control, {row: 0, column:1});
           break;
 
