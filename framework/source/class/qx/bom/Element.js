@@ -178,6 +178,23 @@ qx.Class.define("qx.bom.Element",
     },
     
     
+    /** {Map} Contains wrap fragments for specific HTML matches */
+    __convertMap :
+    {
+      opt : [ 1, "<select multiple='multiple'>", "</select>" ], // option or optgroup
+      leg : [ 1, "<fieldset>", "</fieldset>" ],
+      table : [ 1, "<table>", "</table>" ],
+      tr : [ 2, "<table><tbody>", "</tbody></table>" ],
+      td : [ 3, "<table><tbody><tr>", "</tr></tbody></table>" ],
+      col : [ 2, "<table><tbody></tbody><colgroup>", "</colgroup></table>" ],
+      def : qx.core.Variant.select("qx.client", 
+      {
+        "mshtml" : [ 1, "div<div>", "</div>" ],
+        "default" : null
+      })
+    },
+    
+
     /**
      * Translates a HTML string into an array of elements.
      *
@@ -185,51 +202,65 @@ qx.Class.define("qx.bom.Element",
      * @param context {Document} Context document in which (helper) elements should be created
      * @return {Array} List of resulting elements
      */
-    __convertHtmlString : function(elem, context)
+    __convertHtmlString : function(html, context)
     {
       var div=context.createElement("div");
       
       // Fix "XHTML"-style tags in all browsers
-      elem = this.__fixNonDirectlyClosable(elem);
+      html = this.__fixNonDirectlyClosable(html);
 
       // Trim whitespace, otherwise indexOf won't work as expected
-      var tags = elem.replace(/^\s+/, "").substring(0, 10).toLowerCase();
+      var tags = html.replace(/^\s+/, "").substring(0, 5).toLowerCase();
 
-      var wrap =
-        // option or optgroup
-        !tags.indexOf("<opt") && [ 1, "<select multiple='multiple'>", "</select>" ] ||
-        
-        !tags.indexOf("<leg") && [ 1, "<fieldset>", "</fieldset>" ] ||
-        tags.match(/^<(thead|tbody|tfoot|colg|cap)/) && [ 1, "<table>", "</table>" ] ||
-        !tags.indexOf("<tr") && [ 2, "<table><tbody>", "</tbody></table>" ] ||
-
-        // <thead> matched above
-        (!tags.indexOf("<td") || !tags.indexOf("<th")) && [ 3, "<table><tbody><tr>", "</tr></tbody></table>" ] ||
-        !tags.indexOf("<col") && [ 2, "<table><tbody></tbody><colgroup>", "</colgroup></table>" ] ||
-
-        // IE can't serialize <link> and <script> tags normally
-        qx.core.Variant.isSet("qx.client", "mshtml") && [ 1, "div<div>", "</div>" ] ||
-
-        [ 0, "", "" ];
-
-      // Go to html and back, then peel off extra wrappers
-      div.innerHTML = wrap[1] + elem + wrap[2];
-
-      // Move to the right depth
-      while (wrap[0]--) {
-        div = div.lastChild;
+      // Auto-wrap content into required DOM structure
+      var wrap, map = this.__convertMap;
+      if (!tags.indexOf("<opt")) { 
+        wrap = map.opt;
+      } else if (!tags.indexOf("<leg")) {
+        wrap = map.leg;
+      } else if (tags.match(/^<(thead|tbody|tfoot|colg|cap)/)) {
+        wrap = map.table;
+      } else if (!tags.indexOf("<tr")) {
+        wrap = map.tr;
+      } else if (!tags.indexOf("<td") || !tags.indexOf("<th")) {
+        wrap = map.td;
+      } else if (!tags.indexOf("<col")) {
+        wrap = map.col;
+      } else {
+        wrap = map.def;
       }
       
+      // Omit string concat when no wrapping is needed
+      if (wrap)
+      {
+        // Go to html and back, then peel off extra wrappers
+        div.innerHTML = wrap[1] + html + wrap[2];
+  
+        // Move to the right depth
+        var depth = wrap[0];
+        while (depth--) {
+          div = div.lastChild;
+        }
+      }
+      else
+      {
+        div.innerHTML = html;
+      }
+      
+      // Fix IE specific bugs
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
         // Remove IE's autoinserted <tbody> from table fragments
         // String was a <table>, *may* have spurious <tbody>
-        var hasBody = /<tbody/i.test(elem);
+        var hasBody = /<tbody/i.test(html);
         
         // String was a bare <thead> or <tfoot>
-        var tbody = !tags.indexOf("<table") && !hasBody ? div.firstChild && div.firstChild.childNodes : wrap[1] == "<table>" && !hasBody ? div.childNodes : [];
+        var tbody = !tags.indexOf("<table") && !hasBody ? 
+          div.firstChild && div.firstChild.childNodes : 
+          wrap[1] == "<table>" && !hasBody ? div.childNodes : 
+          [];
 
-        for ( var j = tbody.length - 1; j >= 0 ; --j ) 
+        for (var j=tbody.length-1; j>=0 ; --j) 
         {
           if (tbody[j].tagName.toLowerCase() === "tbody" && !tbody[j].childNodes.length) {
             tbody[j].parentNode.removeChild(tbody[j]);
@@ -237,8 +268,8 @@ qx.Class.define("qx.bom.Element",
         }
 
         // IE completely kills leading whitespace when innerHTML is used
-        if (/^\s/.test(elem)) {
-          div.insertBefore(context.createTextNode(elem.match(/^\s*/)[0] ), div.firstChild);
+        if (/^\s/.test(html)) {
+          div.insertBefore(context.createTextNode(html.match(/^\s*/)[0]), div.firstChild);
         }
       }
 
