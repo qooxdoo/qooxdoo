@@ -44,6 +44,21 @@ qx.Class.define("qx.test.core.Object",
       this.assertTrue(this.hasListener("test", false));
       this.removeListenerById(id);
       this.assertFalse(this.hasListener("test", false));
+    },
+    
+    
+    testUserData : function()
+    {
+      var o = new qx.core.Object();
+      
+      this.assertNull(o.getUserData("foo"));
+      
+      o.setUserData("foo", "bar");
+      this.assertEquals("bar", o.getUserData("foo"));
+      
+      this.assertNull(o.getUserData("bar"));
+      
+      o.dispose();
     }
   }
 });
