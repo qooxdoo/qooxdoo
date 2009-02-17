@@ -1017,6 +1017,11 @@ qx.Class.define("testrunner.runner.TestRunner",
      */
     _ehIframeOnLoad : function(e)
     {
+      if (!this.__loadAttempts) {
+        this.__loadAttempts = 0; 
+      }      
+      this.__loadAttempts++;
+      
       var iframe = this.iframe;
 
       this.frameWindow = iframe.getWindow();
@@ -1027,28 +1032,33 @@ qx.Class.define("testrunner.runner.TestRunner",
         this.__loadTimer = null;
       }
       
-      // Repeat until testrunner in iframe is loaded
-      if (!this.frameWindow.testrunner)
-      {
-        //this.debug("no testrunner" + this.frameWindow);
-        this.__loadTimer = qx.event.Timer.once(this._ehIframeOnLoad, this, 100);
-        return;
+      if (this.__loadAttempts <= 150) {
+        // Repeat until testrunner in iframe is loaded
+        if (!this.frameWindow.testrunner) {
+          //this.debug("no testrunner" + this.frameWindow);        
+          this.__loadTimer = qx.event.Timer.once(this._ehIframeOnLoad, this, 100);
+          return;
+        }
+        
+        this.loader = this.frameWindow.testrunner.TestLoader.getInstance();
+        // Avoid errors in slow browsers
+        
+        if (!this.loader) {
+          //this.debug("no loader");
+          this.__loadTimer = qx.event.Timer.once(this._ehIframeOnLoad, this, 100);
+          return;
+        }
+        
+        if (!this.loader.getSuite()) {
+          //this.debug("no test suite");
+          this.__loadTimer = qx.event.Timer.once(this._ehIframeOnLoad, this, 100);
+          return;
+        }
       }
-
-      this.loader = this.frameWindow.testrunner.TestLoader.getInstance();
-      // Avoid errors in slow browsers
-
-      if (!this.loader)
-      {
-        //this.debug("no loader");
-        this.__loadTimer = qx.event.Timer.once(this._ehIframeOnLoad, this, 100);
-        return;
-      }
-      
-      if (!this.loader.getSuite())
-      {
-        //this.debug("no test suite");
-        this.__loadTimer = qx.event.Timer.once(this._ehIframeOnLoad, this, 100);
+      else {
+        alert(this.tr("The selected test file is invalid."));
+        this.toolbar.setEnabled(true);
+        this.widgets["statuspane.systeminfo"].setContent(this.tr("Invalid test file selected!"));
         return;
       }
       
