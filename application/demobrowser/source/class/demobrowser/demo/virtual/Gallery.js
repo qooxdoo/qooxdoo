@@ -410,7 +410,7 @@ qx.Class.define("demo.HtmlTableGallery",
         1, this.itemPerLine,
         this.itemHeight, this.itemWidth
       );
-      this.layer = new qx.ui.virtual.layer.HtmlTableCell(this);
+      this.layer = new qx.test.ui.virtual.performance.layer.HtmlTableCell(this);
       scroller.getPane().addLayer(this.layer);
       
       var lines = new qx.ui.virtual.layer.GridLines("horizontal", "#f3f3f3");
