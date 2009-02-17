@@ -204,6 +204,15 @@ Function %s(%s):
                 ):
                     varParent = varParent.parent.parent.parent.parent
 
+                # catch corner case a.b().c[0]
+                if (
+                    varParent.type == "identifier" and
+                    varParent.parent.type == "accessor" and
+                    varParent.parent.parent.type == "right" and
+                    varParent.parent.parent.parent.type == "accessor"
+                ):
+                    varParent = varParent.parent.parent
+
                 if not (varParent.type == "right" and varParent.parent.type == "accessor"):
                     isFirstChild = node.parent.getFirstChild(True, True) == node
 
