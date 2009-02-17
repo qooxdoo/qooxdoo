@@ -208,6 +208,10 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       var testUri   = qx.core.Setting.get("qx.testPageUri");
       var nameSpace = qx.core.Setting.get("qx.testNameSpace");
+      var params = location.search;
+      if (params.indexOf("testclass=") >=0) {
+        nameSpace = params.substr(params.indexOf("testclass=") + 10);
+      }
       this.__testSuiteUrl = testUri+"?testclass="+nameSpace;
       this.testSuiteUrl = new qx.ui.form.TextField(this.__testSuiteUrl);
 
