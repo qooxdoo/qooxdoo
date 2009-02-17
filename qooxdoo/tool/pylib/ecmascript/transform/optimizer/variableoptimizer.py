@@ -59,32 +59,10 @@ def mapper(name, checkset):
 def update(node, newname):
 
     if node.type == "identifier":
-        isFirstChild = False
-        isVariableMember = False
+        name = node.get("name", False)
 
-        if node.parent.type == "variable":
-            isVariableMember = True
-            varParent = node.parent.parent
-
-            # catch corner case: a().b(); var b;
-            if varParent.type == "operand" and varParent.parent.type == "call" and varParent.parent.parent.type == "right" and varParent.parent.parent.parent.type == "accessor":
-                varParent = varParent.parent.parent
-
-            if not (varParent.type == "right" and varParent.parent.type == "accessor"):
-                isFirstChild = node.parent.getFirstChild(True, True) == node
-
-        # used in foo.bar.some[thing] where "some" is the identifier
-        elif node.parent.type == "accessor":
-            isVariableMember = True
-            accessor = node.parent
-            isFirstChild = accessor.parent.getFirstChild(True, True) == accessor
-
-        # inside a variable parent only respect the first member
-        if not isVariableMember or isFirstChild:
-            name = node.get("name", False)
-
-            if name != None:
-                node.set("name", newname)
+        if name != None:
+            node.set("name", newname)
 
     # Handle variable definition
     elif node.type == "definition":
