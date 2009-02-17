@@ -955,18 +955,20 @@
       {
         var Selector = qx.bom.Selector;
         
-        // Fast path for single item selector on single item collection
-        if (this.length === 1 && !/,/.test(selector)) {
+        // Fast path for single item selector
+        if (this.length === 1) {
           return this.__pushStack(Selector.queryNative(selector, this[0]));
         }
-
-        // Let the selector do the work and merge all result arrays.
-        var ret = [];
-        for (var i=0, l=this.length; i<l; i++) {
-          ret.push.apply(ret, Selector.queryNative(selector, this[i]));
+        else
+        {
+          // Let the selector do the work and merge all result arrays.
+          var ret = [];
+          for (var i=0, l=this.length; i<l; i++) {
+            ret.push.apply(ret, Selector.queryNative(selector, this[i]));
+          }
+          
+          return this.__pushStack(qx.lang.Array.unique(ret));          
         }
-        
-        return this.__pushStack(ret);
       },
       
       
