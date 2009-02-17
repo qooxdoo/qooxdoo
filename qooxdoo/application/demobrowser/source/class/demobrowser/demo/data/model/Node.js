@@ -58,6 +58,11 @@ qx.Class.define("demobrowser.demo.data.model.Node",
     number : {
       init:  10,
       validate: "__validateNumber"
+    },
+    
+    color : {
+      event: "changeColor",
+      nullable: true
     }
   },
   
