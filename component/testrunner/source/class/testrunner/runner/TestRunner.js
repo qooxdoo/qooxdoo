@@ -21,9 +21,9 @@
 
 /* ************************************************************************
 
-#asset(qx/n/Tango/22/actions/media-playback-start.png)
-#asset(qx/n/Tango/22/actions/view-refresh.png)
-#asset(qx/n/Tango/22/actions/system-run.png)
+#asset(qx/icon/Tango/22/actions/media-playback-start.png)
+#asset(qx/icon/Tango/22/actions/view-refresh.png)
+#asset(qx/icon/Tango/22/actions/system-run.png)
 
 #asset(testrunner/image/*)
 
@@ -133,12 +133,6 @@ qx.Class.define("testrunner.runner.TestRunner",
       check : "Integer",
       init  : 0,
       apply : "_applyQueCnt"
-    },
-    
-    stopped :
-    {
-      check : "Boolean",
-      init  : false
     }
   },
 
@@ -177,19 +171,13 @@ qx.Class.define("testrunner.runner.TestRunner",
       toolbar.add(part1);
 
       // -- run button
-      this.runbutton = new qx.ui.toolbar.Button(this.tr('<b>Run&nbsp;Tests!</b>'), "n/22/actions/media-playback-start.png");    
+      this.runbutton = new qx.ui.toolbar.Button(this.tr('<b>Run&nbsp;Tests!</b>'), "icon/22/actions/media-playback-start.png");    
       this.runbutton.setTextColor("#36a618");
       this.runbutton.setRich(true);
       part1.add(this.runbutton);
-      
-      this.stopbutton = new qx.ui.toolbar.Button(this.tr('<b>Stop&nbsp;Tests</b>'), "n/22/actions/media-playback-stop.png");
-      this.stopbutton.setTextColor("#ff0000");
-      this.stopbutton.setRich(true);
-      this.stopbutton.setVisibility("excluded");
-      part1.add(this.stopbutton);
 
       // -- reload button
-      this.reloadbutton = new qx.ui.toolbar.Button(this.tr("Reload"), "n/22/actions/view-refresh.png");
+      this.reloadbutton = new qx.ui.toolbar.Button(this.tr("Reload"), "icon/22/actions/view-refresh.png");
       part1.add(this.reloadbutton);
       this.reloadbutton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Reload application under test")));
       this.reloadbutton.addListener("execute", this.reloadTestSuite, this);
@@ -198,20 +186,8 @@ qx.Class.define("testrunner.runner.TestRunner",
       this.runbutton.addListener("execute", this.runTest, this);
       this.runbutton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Run selected test(s)")));
 
-      this.widgets["toolbar.stopbutton"] = this.stopbutton;
-      this.stopbutton.addListener("execute", function(e) {
-        this.setStopped(true);
-        this.runbutton.setVisibility("visible");
-        this.stopbutton.setVisibility("excluded");
-      }, this);
-      this.stopbutton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Stop running tests")));
-
       var testUri   = qx.core.Setting.get("qx.testPageUri");
       var nameSpace = qx.core.Setting.get("qx.testNameSpace");
-      var params = location.search;
-      if (params.indexOf("testclass=") >=0) {
-        nameSpace = params.substr(params.indexOf("testclass=") + 10);
-      }
       this.__testSuiteUrl = testUri+"?testclass="+nameSpace;
       this.testSuiteUrl = new qx.ui.form.TextField(this.__testSuiteUrl);
 
@@ -241,7 +217,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       // -- reload switch
       var part3 = new qx.ui.toolbar.Part();
       toolbar.add(part3);
-      this.reloadswitch = new qx.ui.toolbar.CheckBox(this.tr("Auto Reload"), "n/22/actions/system-run.png");
+      this.reloadswitch = new qx.ui.toolbar.CheckBox(this.tr("Auto Reload"), "icon/22/actions/system-run.png");
       part3.add(this.reloadswitch);
       this.reloadswitch.setShow("both");
       this.reloadswitch.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Always reload application under test before testing")));
@@ -749,8 +725,7 @@ qx.Class.define("testrunner.runner.TestRunner",
     runTest : function(e)
     {
       // -- Vars and Setup -----------------------
-      this.widgets["toolbar.runbutton"].setVisibility("excluded");
-      this.widgets["toolbar.stopbutton"].setVisibility("visible");
+      this.toolbar.setEnabled(false);
 
       this.logelem.innerHTML = "";
       if (this.__state === 0)
@@ -854,13 +829,7 @@ qx.Class.define("testrunner.runner.TestRunner",
             that.widgets["progresspane.progressbar"].update(String(tstCurr + "/" + tstCnt));
             tstCurr++;
           }
-          if (!this.getStopped()) {
-            qx.event.Timer.once(runtest, this, 0);
-          } else {
-            this.setStopped(false);
-            that.widgets["toolbar.runbutton"].setVisibility("visible");
-            that.widgets["toolbar.stopbutton"].setVisibility("excluded");
-          }
+					qx.event.Timer.once(runtest, this, 0);
         },
         that);
 
@@ -877,9 +846,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       function runtest()
       {
         that.widgets["statuspane.systeminfo"].setContent(that.tr("Running tests..."));
-        that.toolbar.setEnabled(true);
-        that.widgets["toolbar.runbutton"].setVisibility("excluded");
-        that.widgets["toolbar.stopbutton"].setVisibility("visible");
+        that.toolbar.setEnabled(false);  // if we are run as run_pending
 
         if (tlist.length)
         {
@@ -888,9 +855,8 @@ qx.Class.define("testrunner.runner.TestRunner",
           tlist = tlist.slice(1, tlist.length);  // recurse with rest of list
         }
         else
-        {  // no more tests -> re-enable run button
-          that.widgets["toolbar.runbutton"].setVisibility("visible");
-          that.widgets["toolbar.stopbutton"].setVisibility("excluded");
+        {  // no more tests -> re-enable toolbar
+          that.toolbar.setEnabled(true);
           this.__state == 0;
           if (that.tests.firstrun)
           {
@@ -948,8 +914,6 @@ qx.Class.define("testrunner.runner.TestRunner",
       {  // no selected tree node - this should never happen here!
         alert(this.tr("Please select a test node from the tree!"));
         that.toolbar.setEnabled(true);
-        this.widgets["toolbar.runbutton"].setVisibility("visible");
-        this.widgets["toolbar.stopbutton"].setVisibility("excluded");
         return;
       }
 
@@ -1005,7 +969,7 @@ qx.Class.define("testrunner.runner.TestRunner",
         }
         else
         {
-          this.toolbar.setEnabled(false);
+          this.runbutton.setEnabled(false);
           this.iframe.setSource(neu);
         }
       },
@@ -1021,11 +985,6 @@ qx.Class.define("testrunner.runner.TestRunner",
      */
     _ehIframeOnLoad : function(e)
     {
-      if (!this.__loadAttempts) {
-        this.__loadAttempts = 0; 
-      }      
-      this.__loadAttempts++;
-      
       var iframe = this.iframe;
 
       this.frameWindow = iframe.getWindow();
@@ -1036,33 +995,21 @@ qx.Class.define("testrunner.runner.TestRunner",
         this.__loadTimer = null;
       }
       
-      if (this.__loadAttempts <= 150) {
-        // Repeat until testrunner in iframe is loaded
-        if (!this.frameWindow.testrunner) {
-          //this.debug("no testrunner" + this.frameWindow);        
-          this.__loadTimer = qx.event.Timer.once(this._ehIframeOnLoad, this, 100);
-          return;
-        }
-        
-        this.loader = this.frameWindow.testrunner.TestLoader.getInstance();
-        // Avoid errors in slow browsers
-        
-        if (!this.loader) {
-          //this.debug("no loader");
-          this.__loadTimer = qx.event.Timer.once(this._ehIframeOnLoad, this, 100);
-          return;
-        }
-        
-        if (!this.loader.getSuite()) {
-          //this.debug("no test suite");
-          this.__loadTimer = qx.event.Timer.once(this._ehIframeOnLoad, this, 100);
-          return;
-        }
+      // Repeat until testrunner in iframe is loaded
+      if (!this.frameWindow.testrunner)
+      {
+        //this.debug("no testrunner" + this.frameWindow);
+        this.__loadTimer = qx.event.Timer.once(this._ehIframeOnLoad, this, 100);
+        return;
       }
-      else {
-        alert(this.tr("The selected test file is invalid."));
-        this.toolbar.setEnabled(true);
-        this.widgets["statuspane.systeminfo"].setContent(this.tr("Invalid test file selected!"));
+
+      this.loader = this.frameWindow.testrunner.TestLoader.getInstance();
+      // Avoid errors in slow browsers
+
+      if (!this.loader)
+      {
+        //this.debug("no loader");
+        this.__loadTimer = qx.event.Timer.once(this._ehIframeOnLoad, this, 100);
         return;
       }
       
@@ -1073,8 +1020,6 @@ qx.Class.define("testrunner.runner.TestRunner",
       this.tests.firstrun = true;
       this.leftReloadTree();
       this.toolbar.setEnabled(true);  // in case it was disabled (for reload)
-      this.widgets["toolbar.runbutton"].setVisibility("visible");
-      this.widgets["toolbar.stopbutton"].setVisibility("excluded");
       this.reloadswitch.setChecked(false);  // disable for first run
 
       if (this.tests.run_pending)
