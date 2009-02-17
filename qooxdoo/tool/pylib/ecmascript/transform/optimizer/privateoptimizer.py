@@ -141,13 +141,12 @@ def update(node, privates):
     elif node.type == "constant" and node.get("constantType") == "string":
         name = node.get("value", False)
     
-        # Try it a bit more compex
-        # Look whether the found string contains any of the
-        if not privates.has_key(name):
-            for key in privates:
-                if key in name and re.compile(r"\b%s\b" % key).search(name):
-                    name = re.sub(r"(\b%s\b)" % key, privates[key], name)
-                    node.set("value", name)            
+        # Replace occurrences of privates in larger strings:
+        #if not privates.has_key(name):
+        #    for key in privates:
+        #        if key in name and re.compile(r"\b%s\b" % key).search(name):
+        #            name = re.sub(r"(\b%s\b)" % key, privates[key], name)
+        #            node.set("value", name)            
                         
     else:
         return
