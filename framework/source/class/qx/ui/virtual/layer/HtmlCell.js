@@ -14,6 +14,7 @@
 
    Authors:
      * Fabian Jakobs (fjakobs)
+     * Jonathan Weiß (jonathan_rass)
 
 ************************************************************************ */
 
@@ -49,6 +50,33 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCell",
 
   members :
   {
+
+    /**
+     * Get the cell size taking the box model into account
+     *
+     * @param width {Integer} The cell's (border-box) width in pixel
+     * @param height {Integer} The cell's (border-box) height in pixel
+     * @param insetX {Integer} The cell's horizontal insets, i.e. the sum of
+     *    horizontal paddings and borders
+     * @param insetY {Integer} The cell's vertical insets, i.e. the sum of
+     *    vertical paddings and borders
+     * @return {String} The CSS style string for the cell size
+     */
+    _getCellSizeStyle : function(width, height, insetX, insetY)
+    {
+      var style = "";
+      if (qx.bom.client.Feature.CONTENT_BOX)
+      {
+        width -= insetX;
+        height -= insetY;
+      }
+
+      style += "width:" +  width + "px;";
+      style += "height:" + height + "px;";
+
+      return style;
+    },
+
     // overridden
     _fullUpdate : function(
       firstRow, lastRow, 
