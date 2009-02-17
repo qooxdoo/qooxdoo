@@ -66,9 +66,9 @@ qx.Class.define("demobrowser.demo.data.ExtendedList",
         createItem : function() {
           return new qx.ui.form.CheckBox();
         },
-        bindItem : function(controller, item, index) {
-          controller.bindProperty("name", "label", null, item, index);       
-          controller.bindProperty("online", "checked", null, item, index);          
+        bindItem : function(controller, item, id) {
+          controller.bindProperty("name", "label", null, item, id);       
+          controller.bindProperty("online", "checked", null, item, id);          
         }
       };
       controller.setDelegate(delegate);
