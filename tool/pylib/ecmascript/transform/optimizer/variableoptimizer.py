@@ -86,11 +86,7 @@ def search(node):
     def updateOccurences(var, newname):
         # Replace variable definition
         for node in var.nodes:
-            # TODO: Kludge!
-            if node.type == 'variable' and node.children[0].type == 'identifier':
-                update(node.children[0], newname)
-            else:
-                update(node, newname)
+            update(node, newname)
 
         # Replace variable references
         for varUse in var.uses:  # varUse is a VariableUse object

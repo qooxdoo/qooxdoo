@@ -88,8 +88,10 @@ Function %s(%s):
         if paramsNode.hasChildren():
             for child in paramsNode.children:
                 if child.type == "variable":
-                    name = child.getChild("identifier").get("name")
-                    arguments.append(VariableDefinition(name, child, True, self))
+                    #name = child.getChild("identifier").get("name")
+                    identifier = child.getChild("identifier")
+                    name       = identifier.get("name")
+                    arguments.append(VariableDefinition(name, identifier, True, self))
 
         return arguments
 
@@ -163,7 +165,7 @@ Function %s(%s):
             use = treeutil.selectNode(node, "definitionList/definition")
             if use:
                 name = use.get("identifier", False)
-                yield (name, node)
+                yield (name, use)
                 return
 
         # Handle all identifiers
