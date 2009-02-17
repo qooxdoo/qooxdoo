@@ -1045,6 +1045,13 @@ qx.Class.define("testrunner.runner.TestRunner",
         return;
       }
       
+      if (!this.loader.getSuite())
+      {
+        //this.debug("no test suite");
+        this.__loadTimer = qx.event.Timer.once(this._ehIframeOnLoad, this, 100);
+        return;
+      }
+      
       //this.warn("loaded!!!!!");
 
       var testRep = this.loader.getTestDescriptions();
