@@ -83,16 +83,27 @@ qx.Class.define("demobrowser.demo.virtual.Selection",
       managers.push(scroller.getUserData("manager"));
       container.add(scroller, {row: 2, column: 1});  
 
-      // Cell selection
-      container.add(new qx.ui.basic.Label("Cell Selection").set({
+      // Cell rectangle selection
+      container.add(new qx.ui.basic.Label("Cell Rectangle Selection").set({
         font: "bold",
         decorator: "table-scroller-header",
         padding: 3,
         allowGrowX: true
       }), {row: 1, column: 2});
-      var scroller = this.createCellSelectionScroller();
+      var scroller = this.createCellRectangleSelectionScroller();
       managers.push(scroller.getUserData("manager"));
       container.add(scroller, {row: 2, column: 2});
+      
+      // Cell line selection
+      container.add(new qx.ui.basic.Label("Cell Line Selection").set({
+        font: "bold",
+        decorator: "table-scroller-header",
+        padding: 3,
+        allowGrowX: true
+      }), {row: 1, column: 3});
+      var scroller = this.createCellLineSelectionScroller();
+      managers.push(scroller.getUserData("manager"));
+      container.add(scroller, {row: 2, column: 3});      
       
       
       // Controls
@@ -101,7 +112,7 @@ qx.Class.define("demobrowser.demo.virtual.Selection",
         padding: 15,
         backgroundColor: "white"
       });
-      container.add(controls, {row: 0, column: 0, colSpan: 3});
+      container.add(controls, {row: 0, column: 0, colSpan: 4});
       
       controls.add(new qx.ui.basic.Label("Selection Mode").set({
         font: "bold",
@@ -233,7 +244,7 @@ qx.Class.define("demobrowser.demo.virtual.Selection",
           } else {
             rowLayer.setDecorator(item, null);
           }
-          qx.ui.core.queue.Widget.add(cellLayer);
+          cellLayer.updateLayerData();
         }
       });
       manager.attachMouseEvents(scroller.getPane());
@@ -297,7 +308,7 @@ qx.Class.define("demobrowser.demo.virtual.Selection",
           } else {
             columnLayer.setDecorator(item, null);
           }          
-          qx.ui.core.queue.Widget.add(cellLayer);
+          cellLayer.updateLayerData();
         }
       });
       manager.attachMouseEvents(scroller.getPane());
@@ -313,7 +324,7 @@ qx.Class.define("demobrowser.demo.virtual.Selection",
     },
     
     
-    createCellSelectionScroller : function()
+    createCellRectangleSelectionScroller : function()
     {
       var scroller = new qx.ui.virtual.core.Scroller(1000, 100, 20, 100);
       
@@ -345,9 +356,59 @@ qx.Class.define("demobrowser.demo.virtual.Selection",
       scroller.getPane().addLayer(cellLayer);
       scroller.getPane().addLayer(new qx.ui.virtual.layer.GridLines("horizontal"));
       
-      var manager = new qx.ui.virtual.selection.Cell(scroller.getPane(), {
+      var manager = new qx.ui.virtual.selection.CellRectangle(scroller.getPane(), {
         styleSelectable : function(item, type, wasAdded) {
-          qx.ui.core.queue.Widget.add(cellLayer);
+          cellLayer.updateLayerData();
+        }
+      });
+      manager.attachMouseEvents(scroller.getPane());
+      manager.attachKeyEvents(scroller);
+      manager.set({
+        mode: "multi"
+      });
+      manager.addItem({row: 0, column: 0});
+      
+      scroller.setUserData("manager", manager);
+      
+      return scroller;
+    },
+    
+    
+    createCellLineSelectionScroller : function()
+    {
+      var scroller = new qx.ui.virtual.core.Scroller(1000, 100, 20, 100);
+      
+      scroller.getPane().addLayer(new qx.ui.virtual.layer.Row("white", "#EEE"));            
+      var cellLayer = new qx.ui.virtual.layer.HtmlCell({
+        getCellHtml : function(row, column, left, top, width, height)
+        {    
+          if (manager.isItemSelected({row: row, column: column})) {
+            var color = "color: white; background-color: #00398D;"
+          } else {
+            color = ""
+          }
+        
+          var html = [
+            "<div style='position:absolute;",
+            "left:", left, "px;",
+            "top:", top, "px;",
+            "width:", width, "px;",
+            "height:", height, "px;",
+            color,
+            this._fontCss,
+            "'>",
+            column, "x", row,
+            "</div>"                 
+          ];
+          return html.join("");
+        }          
+      });      
+      scroller.getPane().addLayer(cellLayer);
+      scroller.getPane().addLayer(new qx.ui.virtual.layer.GridLines("horizontal"));
+      
+      var manager = new qx.ui.virtual.selection.CellLines(scroller.getPane(), {
+        styleSelectable : function(item, type, wasAdded) {
+          cellLayer.updateLayerData();
         }
       });
       manager.attachMouseEvents(scroller.getPane());
