@@ -29,34 +29,10 @@ qx.Class.define("qx.ui.virtual.cell.Abstract",
 
   construct : function()
   {
-
-    var cr = qx.ui.virtual.cell.Abstract;
-    if (!cr.__style)
-    {
-      cr.__style = this.self(arguments);
-      var stylesheet =
-        ".qx-cell {" +
-        qx.bom.element.Style.compile(
-        {
-          position : "absolute",
-          overflow: "hidden",
-          cursor : "default",
-          textOverflow : "ellipsis",
-          userSelect : "none"
-        }) +
-        "} " +
-        ".qx-cell-right { text-align:right } " +
-        ".qx-cell-italic { font-style:italic} " +
-        ".qx-cell-bold { font-weight:bold } ";
-
-      if (!qx.core.Variant.isSet("qx.client", "mshtml")) {
-        stylesheet += ".qx-cell {" + qx.bom.element.BoxSizing.compile("content-box") + "}";
-      }
-
-      cr.__style.stylesheet = qx.bom.Stylesheet.createElement(stylesheet);
-    }
-
     this.base(arguments);
+    
+    // initialize stylesheet
+    qx.ui.virtual.cell.CellStylesheet.getInstance();
   },
 
   /*

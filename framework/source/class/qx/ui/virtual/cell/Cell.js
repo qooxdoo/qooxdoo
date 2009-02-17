@@ -31,10 +31,7 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
   {
     this.base(arguments);    
     
-    var clazz = qx.ui.virtual.cell.Cell;
-    if (!clazz.__stylesheet) {
-      this.__stylesheet = clazz.__stylesheet = qx.bom.Stylesheet.createElement();
-    }
+    this.__stylesheet = qx.ui.virtual.cell.CellStylesheet.getInstance().getStylesheet();
   
     this.__userStyles = {};
     this.__themeStyles = {};
@@ -388,5 +385,10 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
       
       return [left + right, top + bottom];
     }    
+  },
+  
+  
+  destruct : function() {
+    this.__disposeFields("__stylesheet"); 
   }
 });
