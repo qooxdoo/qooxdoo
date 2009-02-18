@@ -41,7 +41,7 @@ qx.Class.define("demobrowser.demo.ui.Placement",
       root.add(this.createTestField("left-bottom"), { right: 20, top: 250 });
 
       // DOM align test
-      root.add(this.createDomClick(), { left: 500, top: 100 });
+      root.add(this.createDomClick(), { left: 200, top: 100 });
     },
 
 
