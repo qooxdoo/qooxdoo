@@ -1188,28 +1188,105 @@
       ---------------------------------------------------------------------------
          MANIPULATION: INSERTING INSIDE
       ---------------------------------------------------------------------------
-      */    
-      
-      append : function()
+      */
+
+      /**
+       * Helper method for all DOM manipulation methods which deal
+       * with set of elements or HTML fragments.
+       *
+       * @param objs {Element[]|String[]} Array of DOM elements or HTML strings
+       * @param callback {Function} Method to execute for each fragment/element created
+       */      
+      __manipulate : function(args, callback)
       {
+        var element = this[0];
+        var doc = element.ownerDocument || element;
+        var fragment = doc.createDocumentFragment();
+        var scripts = qx.bom.Html.clean(args, doc, fragment);
+        var first = fragment.firstChild;
+        var tags = this.__tags;
+  
+        // Process fragment content
+        if (first) 
+        {
+          // Clone every fragment except the last one
+          var last = this.length-1;
+          for (var i=0, l=last; i<l; i++) {
+            callback.call(this, this[i], fragment.cloneNode(true));  
+          }
+          
+          callback.call(this, this[last], fragment);
+        }
         
+        // Process script elements
+        if (scripts) 
+        {
+          var script;
+          var Loader = qx.io2.ScriptLoader;
+          var Function = qx.lang.Function;
+          
+          for (var i=0, l=scripts.length; i<l; i++) 
+          {
+            script = scripts[i];
+            
+            // Executing script code or loading source depending on element configuration
+            if (script.src) {
+              Loader.get().load(script.src);
+            } else {
+              Function.globalEval(script.text || script.textContent || script.innerHTML || "");
+            }
+    
+            // Removing element from old parent
+            if (script.parentNode) {
+              script.parentNode.removeChild(script);
+            }
+          }
+        }
+      },      
+      
+      append : function() {
+        this.__manipulate(arguments, this.__appendCallback);
       },
+      
+      prepend : function() {
+        this.__manipulate(arguments, this.__prependCallback);
+      },
+      
+      before : function() {
+        this.__manipulate(arguments, this.__beforeCallback);
+      },
+      
+      after : function() {
+        this.__manipulate(arguments, this.__afterCallback);
+      },
+
+
+      __appendCallback : function(parent, child) {
+        parent.appendChild(child);
+      },
+      
+      __prependCallback : function(parent, child) {
+        parent.insertBefore(child, parent.firstChild);
+      },
+
+      __beforeCallback : function(parent, child) {
+        parent.parentNode.insertBefore(child, parent);
+      },
+
+      __afterCallback : function(parent, child) {
+        parent.parentNode.insertBefore(child, parent.nextSibling);
+      },
+      
       
       appendTo : function()
       {
         
       },
 
-      prepend : function()
-      {
-        
-      },
-      
       prependTo : function()
       {
         
       },
-      
       
 
 
