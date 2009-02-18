@@ -54,7 +54,7 @@ qx.Class.define("qx.ui.virtual.cell.Abstract",
       return [0, 0];
     },
 
-    getValue : function(value, states) {
+    getContent : function(value, states) {
       return value;
     },
 
@@ -64,7 +64,7 @@ qx.Class.define("qx.ui.virtual.cell.Abstract",
         classes : this.getCssClasses(value, states),
         style : this.getStyles(value, states),
         attributes : this.getAttributes(value, states),
-        content : this.getValue(value, states),
+        content : this.getContent(value, states),
         insets : this.getInsets(value, states)
       };
     }

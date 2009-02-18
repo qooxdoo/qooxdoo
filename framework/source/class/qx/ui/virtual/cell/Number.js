@@ -25,9 +25,16 @@ qx.Class.define("qx.ui.virtual.cell.Number",
 {
   extend : qx.ui.virtual.cell.Cell,
 
-  construct : function()
+  construct : function(numberFormat)
   {
     this.base(arguments);    
+
+    if (numberFormat) {
+      this.setNumberFormat(numberFormat);
+    } else {
+      this.setNumberFormat(qx.util.format.NumberFormat.getInstance());
+    }
+
   },
 
 
@@ -39,6 +46,18 @@ qx.Class.define("qx.ui.virtual.cell.Number",
 
   properties :
   {
+
+    numberFormat :
+    {
+      check : "qx.util.format.NumberFormat"
+    },
+
+    appearance:
+    {
+      refine : true,
+      init : "cell-number"
+    }
+
   },
 
 
@@ -57,6 +76,12 @@ qx.Class.define("qx.ui.virtual.cell.Number",
       IMPLEMENT CELL API
     ---------------------------------------------------------------------------
     */    
+
+    getContent : function(value, states) {
+      return this.getNumberFormat().format(value);
+    }
+
+
 
   }
 
