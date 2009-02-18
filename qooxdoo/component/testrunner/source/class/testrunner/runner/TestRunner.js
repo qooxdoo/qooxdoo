@@ -108,6 +108,12 @@ qx.Class.define("testrunner.runner.TestRunner",
     var statuspane = this.__makeStatus();
     this.widgets["statuspane"] = statuspane;
     this.add(statuspane);
+    
+    // history
+    this._history = qx.bom.History.getInstance();
+    if (this._history.getState()) {
+      this.__setCurrentTestArray(this._history.getState());
+    }
   },
 
 
@@ -151,6 +157,12 @@ qx.Class.define("testrunner.runner.TestRunner",
     {
       check : ["debug", "info", "warn", "error"],
       init  : "debug"
+    },
+    
+    currentTest :
+    {
+      check : "Array",
+      init : null
     }
   },
 
@@ -175,6 +187,18 @@ qx.Class.define("testrunner.runner.TestRunner",
     // ------------------------------------------------------------------------
     //   CONSTRUCTOR HELPERS
     // ------------------------------------------------------------------------
+
+    /**
+     * TODOC
+     *
+     */
+    __setCurrentTestArray : function(testName)
+    {
+      var testNameArray = testName.split(".");
+      if (testNameArray.length > 0) {
+        this.setCurrentTest(testNameArray);
+      }
+    },
 
     /**
      * TODOC
@@ -714,12 +738,21 @@ qx.Class.define("testrunner.runner.TestRunner",
             t = new qx.ui.tree.TreeFolder(currNode.label).set({
               n: ns[currNode.type] || null
             });
-            if (level < 2)
+            if (level < 2 && !that.getCurrentTest())
             {
               t.setOpen(true);
               // Store node to select:
               initalSelected = t;
             }
+
+            if (that.getCurrentTest()) {
+              if (that.getCurrentTest()[level] == currNode.label) {
+                t.setOpen(true);
+                // Store node to select:
+                initalSelected = t;
+              }
+            }
+
             buildSubTree(t, currNode, level+1);
           }
           else
@@ -727,6 +760,15 @@ qx.Class.define("testrunner.runner.TestRunner",
             t = new qx.ui.tree.TreeFile(currNode.label).set({
               n: ns[currNode.type] || null
             });
+
+            if (that.getCurrentTest()) {
+              if (that.getCurrentTest()[level] == currNode.label &&
+              that.getCurrentTest()[level-1] == currNode.parent.label) {
+                // Store node to select:
+                initalSelected = t;
+              }
+            }
+
             t.addListener("dblclick", that.runTest, that);
           }
 
@@ -845,6 +887,8 @@ qx.Class.define("testrunner.runner.TestRunner",
           that.currentTestData = new testrunner.runner.TestResultData(test.getFullName());
           that.f1.addTestResult(that.currentTestData);
           that.appender(this.tr("Test '") + test.getFullName() + this.tr("' started."));
+          // store current test in history - slows everything down
+          //that._history.addToHistory(test.getFullName().replace(":", "."));
         },
         that);
 				
