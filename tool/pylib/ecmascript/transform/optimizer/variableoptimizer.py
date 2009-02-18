@@ -92,6 +92,9 @@ def search(node):
         for varUse in var.uses:  # varUse is a VariableUse object
             update(varUse.node, newname)
 
+    global counter
+    counter = 0 # reset repl name generation
+
     # Collect the set of all used variables
     script = Script(node)
     varset = set([])
