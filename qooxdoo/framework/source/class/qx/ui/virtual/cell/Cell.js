@@ -25,7 +25,8 @@
  */
 qx.Class.define("qx.ui.virtual.cell.Cell", 
 {
-  extend : qx.ui.virtual.cell.Abstract,
+  extend : qx.core.Object,
+  implement : qx.ui.virtual.cell.ICell,
 
   construct : function()
   {
@@ -41,6 +42,9 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
     
     this.__styles = {};
     this.__classes = {};
+    
+    this.__value = "";
+    this.__states = {};
     
     this.initAppearance();
   },
@@ -182,6 +186,10 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
 
   members :
   {
+
+    __value : null,
+    __states : null,
+
     // property apply
     _applyAppearance : function(value, old)
     {
@@ -315,8 +323,35 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
     ---------------------------------------------------------------------------
     */    
     
+    getCellProperties : function(value, states)
+    {
+      return {
+        classes : this.getCssClasses(value, states),
+        style : this.getStyles(value, states),
+        attributes : this.getAttributes(value, states),
+        content : this.getValue(value, states),
+        insets : this.getInsets(value, states)
+      };
+    },
+  
+    setState : function(value, states, propValues)
+    {
+      this.__value = value;
+      this.__states = states;
+    },
+
+    resetState : function() {},
+
+    getAttributes : function(value, states) {
+      return "";
+    },
+
+    getValue : function(value, states) {
+      return this.__value;
+    },
+
     // overridden
-    _getCssClasses : function(value, states)
+    getCssClasses : function(value, states)
     {
       var statesKey = qx.lang.Object.getKeys(states).join(" ") || "$default";
       if (this.__classes[statesKey]) {
@@ -367,13 +402,13 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
     
 
     // overridden
-    _getStyles: function(value, states) {
+    getStyles: function(value, states) {
       return qx.lang.Object.getValues(this.__userStyles).join(";");
     },
     
     
     // overridden
-    _getInsets : function(value, states) 
+    getInsets : function(value, states) 
     {
       var user = this.__userPaddings;
       var theme = this.__themePaddings;
