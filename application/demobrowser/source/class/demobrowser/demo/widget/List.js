@@ -36,12 +36,19 @@ qx.Class.define("demobrowser.demo.widget.List",
     main: function()
     {
       this.base(arguments);
+      
+      // scroll container
+      var scroller = new qx.ui.container.Scroll();
+      var container = new qx.ui.container.Composite(new qx.ui.layout.Basic());
+      container.setAllowStretchX(false);
+      scroller.add(container);
+      this.getRoot().add(scroller, {edge : 0});
 
       ////////////////////////////////////////////////////////////////
       // Configurable list
       var configureLabel = new qx.ui.basic.Label("Configurable");
       configureLabel.setFont("bold");
-      this.getRoot().add(configureLabel, {left: 20, top: 20});
+      container.add(configureLabel, {left: 20, top: 20});
 
       var configList = new qx.ui.form.List;
       configList.setScrollbarX("on");
@@ -67,7 +74,7 @@ qx.Class.define("demobrowser.demo.widget.List",
         this.debug("Value: " + e.getData());
       });
 
-      this.getRoot().add(configList, {left: 20, top: 40});
+      container.add(configList, {left: 20, top: 40});
 
       // Configure Elements
       var mode1 = new qx.ui.form.RadioButton("Single Selection");
@@ -82,10 +89,10 @@ qx.Class.define("demobrowser.demo.widget.List",
 
       mode2.setChecked(true);
 
-      this.getRoot().add(mode1, {left: 180, top: 40});
-      this.getRoot().add(mode2, {left: 180, top: 60});
-      this.getRoot().add(mode3, {left: 180, top: 80});
-      this.getRoot().add(mode4, {left: 180, top: 100});
+      container.add(mode1, {left: 180, top: 40});
+      container.add(mode2, {left: 180, top: 60});
+      container.add(mode3, {left: 180, top: 80});
+      container.add(mode4, {left: 180, top: 100});
 
       var rbm1 = new qx.ui.form.RadioGroup(mode1, mode2, mode3, mode4);
 
@@ -99,9 +106,9 @@ qx.Class.define("demobrowser.demo.widget.List",
 
       show3.setChecked(true);
 
-      this.getRoot().add(show1, {left: 180, top: 140});
-      this.getRoot().add(show2, {left: 180, top: 160});
-      this.getRoot().add(show3, {left: 180, top: 180});
+      container.add(show1, {left: 180, top: 140});
+      container.add(show2, {left: 180, top: 160});
+      container.add(show3, {left: 180, top: 180});
 
       var rbm2 = new qx.ui.form.RadioGroup(show1, show2, show3);
 
@@ -115,8 +122,8 @@ qx.Class.define("demobrowser.demo.widget.List",
       var dragCheck = new qx.ui.form.CheckBox("Enable drag selection");
       var quickCheck = new qx.ui.form.CheckBox("Enable quick selection").set({enabled : false});
 
-      this.getRoot().add(dragCheck, {left: 180, top: 220});
-      this.getRoot().add(quickCheck, {left: 180, top: 240});
+      container.add(dragCheck, {left: 180, top: 220});
+      container.add(quickCheck, {left: 180, top: 240});
 
       dragCheck.addListener("changeChecked", function(e)
       {
@@ -170,7 +177,7 @@ qx.Class.define("demobrowser.demo.widget.List",
       // Selection mode "one" demo list
       var oneLabel = new qx.ui.basic.Label("One as selection mode");
       oneLabel.setFont("bold");
-      this.getRoot().add(oneLabel, {left: 330, top: 20});
+      container.add(oneLabel, {left: 330, top: 20});
 
       var oneList = new qx.ui.form.List();
       oneList.set({ height: 280, width: 150, selectionMode : "one" });
@@ -187,7 +194,7 @@ qx.Class.define("demobrowser.demo.widget.List",
         oneList.add(item);
       };
 
-      this.getRoot().add(oneList, {left: 330, top: 40});
+      container.add(oneList, {left: 330, top: 40});
       ////////////////////////////////////////////////////////////////
 
 
@@ -197,7 +204,7 @@ qx.Class.define("demobrowser.demo.widget.List",
       // additive selecion list
       var configureLabel = new qx.ui.basic.Label("Additive selection");
       configureLabel.setFont("bold");
-      this.getRoot().add(configureLabel, {left: 520, top: 20});
+      container.add(configureLabel, {left: 520, top: 20});
 
       var additiveList = new qx.ui.form.List;
       var item3;
@@ -221,7 +228,7 @@ qx.Class.define("demobrowser.demo.widget.List",
         }
       };
 
-      this.getRoot().add(additiveList, {left: 520, top: 40});
+      container.add(additiveList, {left: 520, top: 40});
       ////////////////////////////////////////////////////////////////
 
 
@@ -231,7 +238,7 @@ qx.Class.define("demobrowser.demo.widget.List",
       // Horizontal list
       var configureLabel = new qx.ui.basic.Label("Horizontal, Icons only");
       configureLabel.setFont("bold");
-      this.getRoot().add(configureLabel, {left: 20, top: 350});
+      container.add(configureLabel, {left: 20, top: 350});
 
       var l4 = new qx.ui.form.List(true);
       var item4;
@@ -256,7 +263,7 @@ qx.Class.define("demobrowser.demo.widget.List",
         }
       };
 
-      this.getRoot().add(l4, {left: 20, top: 370});
+      container.add(l4, {left: 20, top: 370});
       ////////////////////////////////////////////////////////////////
 
 
