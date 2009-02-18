@@ -30,7 +30,9 @@ qx.Class.define("demobrowser.demo.ui.Label_Reflow",
     main: function()
     {
       this.base(arguments);
-      this.getRoot().setPadding(20);
+      //this.getRoot().setPadding(20);
+      
+      var scroller = new qx.ui.container.Scroll();
 
       var layout = new qx.ui.layout.Grid();
       layout.setColumnFlex(0, 1);
@@ -40,9 +42,14 @@ qx.Class.define("demobrowser.demo.ui.Label_Reflow",
       var dialog = new qx.ui.container.Composite(layout).set({
          backgroundColor: "#EEE",
          decorator: "main",
-         padding: 10
+         padding: 10,
+         allowGrowX : false,
+         allowGrowY : false,
+         allowStretchX : false,
+         allowStretchY : false
       });
-      this.getRoot().add(dialog);
+      scroller.add(dialog);
+      this.getRoot().add(scroller, {edge : 0});
 
       var pane = this.getPane();
       dialog.add(pane, {row: 0, column: 0, colSpan: 3});
