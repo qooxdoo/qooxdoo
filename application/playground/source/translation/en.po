@@ -11,6 +11,14 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: playground/Application.js:228
+msgid "Warning"
+msgstr ""
+
+#: playground/Application.js:231
+msgid "You changed the source code of this sample.<br/>If you continue the source code will be reset.<br/>Do you want to continue?"
+msgstr ""
+
 #: playground/Application.js:274
 msgid "Source Code"
 msgstr ""
@@ -82,3 +90,5 @@ msgstr ""
 #: playground/Application.js:803
 msgid "Open the qooxdoo Manual"
 msgstr ""
+
+
