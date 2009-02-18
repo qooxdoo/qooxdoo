@@ -36,13 +36,20 @@ qx.Class.define("demobrowser.demo.widget.Tree_Columns",
     main: function()
     {
       this.base(arguments);
+      
+      var scroller = new qx.ui.container.Scroll();
+      var container = new qx.ui.container.Composite(new qx.ui.layout.Basic());
+      container.setAllowGrowX(false);
+      container.setAllowStretchX(false);
+      scroller.add(container);
+      this.getRoot().add(scroller, {edge : 0});
 
       var tree = new qx.ui.tree.Tree().set({
         width: 600,
         height: 500
       });
 
-      this.getRoot().add(tree, {left: 20, top: 48});
+      container.add(tree, {left: 20, top: 48});
       var root = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Root");
       root.setOpen(true);
       tree.setRoot(root);
