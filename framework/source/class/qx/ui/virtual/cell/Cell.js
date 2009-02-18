@@ -31,16 +31,13 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
   {
     this.base(arguments);    
     
-    this.__stylesheet = qx.ui.virtual.cell.CellStylesheet.getInstance().getStylesheet();
+    this.__stylesheet = qx.ui.virtual.cell.CellStylesheet.getInstance();
   
     this.__userStyles = {};
     this.__themeStyles = {};
     
     this.__userPaddings = {};
     this.__themePaddings = {};
-    
-    this.__styles = {};
-    this.__classes = {};
     
     this.initAppearance();
   },
@@ -186,15 +183,7 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
     // property apply
     _applyAppearance : function(value, old)
     {
-      if (old)
-      {
-        for (var cssClass in this.__classes) {
-          qx.bom.Stylesheet.removeRule(this.__stylesheet, "." + cssClass);
-        }
-        this.__classes = {};
-        this.__styles = {};
-        this.__themePaddings = {};
-        this.__classCounter = 0;
+      if (old) {
         this.__themeStyles = {};
       }
     },
@@ -208,9 +197,9 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
      * @param name {String} The property name
      * @param styles {String} String with computed CSS styles
      */
-    _store : function(name, styles) 
+    __store : function(name, styles) 
     {
-      var userValue = this["$$user_" + name];
+      var userValue = qx.util.PropertyUtil.getUserValue(this, name);
       
       // if the user "reseted" the property
       if (!this.__isThemed && userValue === undefined)
@@ -299,16 +288,6 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
     },
     
     
-    /**
-     * Get the next unique CSS class name
-     * 
-     * @return {String} The next unique CSS class name 
-     */
-    __getNextClassname : function() {
-      return "qx-cell-" + this.toHashCode() + "-" + (this.__classCounter++);    
-    },
-    __classCounter : 0,
-    
     
     /*
     ---------------------------------------------------------------------------
@@ -338,9 +317,12 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
     // overridden
     getCssClasses : function(value, states)
     {
-      var statesKey = qx.lang.Object.getKeys(states).join(" ") || "$default";
-      if (this.__classes[statesKey]) {
-        return "qx-cell " + this.__classes[statesKey]; 
+      var appearance = this.getAppearance();
+      var statesKey = appearance + "-" + qx.lang.Object.getKeys(states).sort().join(" ");
+      
+      var cssClass = this.__stylesheet.getCssClass(statesKey);
+      if (cssClass) {
+        return "qx-cell " + cssClass; 
       }
       
       var manager = qx.theme.manager.Appearance.getInstance();
@@ -362,7 +344,7 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
       }
       
       // set new themed values
-      var styles = manager.styleFrom(this.getAppearance(), states);      
+      var styles = manager.styleFrom(appearance, states);      
       for (var prop in styles) 
       {
         if (styles[prop] !== undefined) { 
@@ -372,17 +354,7 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
       this.__isThemed = false;
             
       var styleString = qx.lang.Object.getValues(this.__themeStyles).join(";");
-      var cssClass = this.__styles[styleString];
-      if (!cssClass)
-      {
-        // generate stylesheet rule
-        var cssClass = this.__getNextClassname();
-        qx.bom.Stylesheet.addRule(this.__stylesheet, "." + cssClass, styleString);
-        this.__styles[styleString] = cssClass;
-      }
-
-      this.__classes[statesKey] = cssClass;
-      return "qx-cell " + cssClass;
+      return "qx-cell " + this.__stylesheet.computeClassForStyles(appearance, styleString);
     },
     
 
