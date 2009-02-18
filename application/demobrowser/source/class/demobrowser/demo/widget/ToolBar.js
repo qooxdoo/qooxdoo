@@ -36,12 +36,19 @@ qx.Class.define("demobrowser.demo.widget.ToolBar",
     main: function()
     {
       this.base(arguments);
+      
+      // create a scroll container
+      var scroller = new qx.ui.container.Scroll();
 
       // create a container for the main layout and set the main layout
       var mainContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox(20));
+      mainContainer.setPadding(20);
 
-      // add the main container to the root
-      this.getRoot().add(mainContainer, {left:20, top:20, right:20});
+      // add the main container to the scroll container
+      scroller.add(mainContainer);
+      
+      // add the scroll container to the root
+      this.getRoot().add(scroller, { edge: 0 } );
 
       ///////////////////////////////////////////////////////////////
       // Toolbar stuff
