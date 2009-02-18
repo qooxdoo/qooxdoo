@@ -1,5 +1,4 @@
 (function(){
-
 /*
 if (!window.qxsettings) qxsettings = {};
 var settings = ${Settings};
@@ -13,8 +12,7 @@ qxresources = ${Resources};
 qxtranslations = ${Translations}
 */
 
-qxloader =
-{
+qxloader = {
   /*
   parts : ${Parts},
   uris : ${Uris},
@@ -26,8 +24,7 @@ qxloader =
   boot : %BOOT%,  
 };  
 
-function loadScript(uri, callback)
-{
+function loadScript(uri, callback) {
   var elem = document.createElement("script");
   elem.charset = "utf-8";
   elem.src = uri;
@@ -45,8 +42,7 @@ function loadScript(uri, callback)
   head.appendChild(elem);
 }
 
-function loadScripts(list, callback)
-{
+function loadScripts(list, callback) {
   if (list.length == 0) {
     callback();
     return;
@@ -58,8 +54,7 @@ function loadScripts(list, callback)
   });
 }  
 
-var fireContentLoadedEvent = function()
-{
+var fireContentLoadedEvent = function() {
   document.readyState = "complete";
   document.removeEventListener('DOMContentLoaded', fireContentLoadedEvent, false);
 };
@@ -67,12 +62,8 @@ if (document.addEventListener) {
   document.addEventListener('DOMContentLoaded', fireContentLoadedEvent, false);
 }
 
-
 var l=qxloader;
 loadScripts(l.uris[l.parts[l.boot]], function() {
-  if (document.readyState == "complete") {
-    try {qx.event.handler.Application.ready() } catch(e) {};
-  }
+  if (document.readyState == "complete") try {qx.event.handler.Application.ready() } catch(e) {};
 });
-
 })();
