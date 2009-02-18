@@ -58,12 +58,12 @@ qx.Class.define("qx.bom.Document",
     isStandardMode : function(win) {
       return (win||window).document.compatMode === "CSS1Compat";
     },
-
+    
 
     /**
      * Returns the width of the document.
      *
-     * Internet Explorer in standard mode stores the properitary <code>scrollWidth</code> property
+     * Internet Explorer in standard mode stores the proprietary <code>scrollWidth</code> property
      * on the <code>documentElement</code>, but in quirks mode on the body element. All
      * other known browsers simply store the correct value on the <code>documentElement</code>.
      *
