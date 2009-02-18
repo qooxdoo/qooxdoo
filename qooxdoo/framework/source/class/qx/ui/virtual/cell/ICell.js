@@ -26,10 +26,6 @@ qx.Interface.define("qx.ui.virtual.cell.ICell",
 {
   members :
   {
-
-    __value : null,
-    __states : null,
-
     /**
       * Returns all relevant properties of the cell:
       * <ul>
@@ -41,20 +37,12 @@ qx.Interface.define("qx.ui.virtual.cell.ICell",
       * two-dimensional array.</li>
       * </ul>
       * 
-      * @param value {Var} Value of the cell.
+      * @param data {Var} Data needed for the cell to render.
       * @param states {Map} The states set on the cell (e.g. <i>selected</i>,
       * <i>focused</i>, <i>editable</i>).
       * 
       * @return {Map} Cell properties (see above.)
       */
-      getCellProperties : function(value, states) { },
-      setState : function(value, states, propValues) { },
-      resetState : function() { },
-      getCssClasses : function() { },
-      getAttributes : function() { },
-      getStyles: function() { },
-      getInsets : function() { },
-      getValue : function() { }
-
+      getCellProperties : function(data, states) { }
   }
 });
