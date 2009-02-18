@@ -67,6 +67,8 @@ def main():
 
     source = ""
     build  = ""
+    scategories = {}
+    bcategories = {}
 
     JSON = open(fJSON,"w")
     JSON.write('// This file is dynamically created by the generator!\n')
@@ -97,6 +99,12 @@ def main():
         simple = "%s.%s" % (category,name)
         source = source + ' "source-%s",' % simple
         build  = build + ' "build-%s",' % simple
+        if not category in scategories:
+            scategories[category] = ""
+        scategories[category] += ' "source-%s",' % (simple,)
+        if not category in bcategories:
+            bcategories[category] = ""
+        bcategories[category] += ' "build-%s",' % (simple,)
 
         # copy js source file
         if ('js_target' in c and len(c['js_target']) > 0):
@@ -111,6 +119,16 @@ def main():
         JSON.write("%s," % currcont[:-1])
         JSON.write("\n\n\n")
 
+    for category in scategories:
+        JSON.write("""  "source-%s" : {
+            "run" : [
+            %s]
+          },\n\n""" % (category, scategories[category][:-1]))
+        JSON.write("""  "build-%s" : {
+            "run" : [
+            %s]
+          },\n\n""" % (category, bcategories[category][:-1]))
+          
     JSON.write("""  "source" : {
         "run" : [
          %s]
