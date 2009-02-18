@@ -52,7 +52,7 @@ qx.Class.define("demobrowser.demo.virtual.ThemedCell",
 
       cell.setPaddingRight(20);
       cell.setTextAlign("right");
-      container.add(this.__renderCell(cell, 10, {selected: 1}));
+      container.add(this.__renderCell(cell, 10, {}));
       cell.resetPaddingRight();
       cell.resetTextAlign();
       
