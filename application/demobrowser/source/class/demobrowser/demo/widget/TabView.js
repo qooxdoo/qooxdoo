@@ -38,11 +38,16 @@ qx.Class.define("demobrowser.demo.widget.TabView",
     main: function()
     {
       this.base(arguments);
+      
+      var scroller = new qx.ui.container.Scroll();
 
       var container = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
       container.setPadding(20);
+      container.setAllowStretchX(false);
+      
+      scroller.add(container);
 
-      this.getRoot().add(container, {left:0,top:0});
+      this.getRoot().add(scroller, {edge : 0});
 
       container.add(this.getTabView1());
       container.add(this.getTabView2());
