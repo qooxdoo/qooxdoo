@@ -38,7 +38,7 @@ qx.Class.define("demobrowser.demo.data.SingleValueBinding",
       var labelSimple = new qx.ui.basic.Label("Change me...");
       this.getRoot().add(labelSimple, {top: 32, left: 120});
       // bind the input event of the textfield to the label content
-      textFieldSimple.bindEvent("input", labelSimple, "content");
+      textFieldSimple.bind("input", labelSimple, "content");
       
       
       
@@ -156,7 +156,7 @@ qx.Class.define("demobrowser.demo.data.SingleValueBinding",
         }
       };
       // bind the slider value to the label content
-      validationTextField.bindEvent("input", rootNode, "number", options);      
+      validationTextField.bind("input", rootNode, "number", options);      
       
       
       
