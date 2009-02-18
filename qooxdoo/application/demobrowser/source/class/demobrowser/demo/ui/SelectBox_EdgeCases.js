@@ -26,6 +26,13 @@ qx.Class.define("demobrowser.demo.ui.SelectBox_EdgeCases",
     main: function()
     {
       this.base(arguments);
+      
+      var scroller = new qx.ui.container.Scroll();
+      this.container = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
+      this.container.setAllowStretchX(false);
+      this.container.setAllowGrowX(false);
+      scroller.add(this.container);
+      this.getRoot().add(scroller, {edge : 0});
 
       this.addBox1();
       this.addBox2();
@@ -35,7 +42,7 @@ qx.Class.define("demobrowser.demo.ui.SelectBox_EdgeCases",
 
     addBox1 : function()
     {
-      this.getRoot().add(new qx.ui.basic.Label("Long list"), {left: 25, top: 20});
+      this.container.add(new qx.ui.basic.Label("Long list"), {left: 25, top: 20});
 
       var selectBox3 = new qx.ui.form.SelectBox();
       selectBox3.setMaxListHeight(null);
@@ -43,12 +50,12 @@ qx.Class.define("demobrowser.demo.ui.SelectBox_EdgeCases",
         var tempItem = new qx.ui.form.ListItem("" + i);
         selectBox3.add(tempItem);
       }
-      this.getRoot().add(selectBox3, {left: 20, top: 40});
+      this.container.add(selectBox3, {left: 20, top: 40});
     },
 
     addBox2 : function()
     {
-      this.getRoot().add(new qx.ui.basic.Label("Fonts"), {left: 25, bottom: 45});
+      this.container.add(new qx.ui.basic.Label("Fonts"), {left: 25, bottom: 45});
 
       var selectBox4 = new qx.ui.form.SelectBox();
       var font1 = new qx.bom.Font(12, ["Tahoma"]);
@@ -61,12 +68,12 @@ qx.Class.define("demobrowser.demo.ui.SelectBox_EdgeCases",
         tempItem.setFont(fonts[i]);
         selectBox4.add(tempItem);
       }
-      this.getRoot().add(selectBox4, {left: 20, bottom: 20});
+      this.container.add(selectBox4, {left: 20, bottom: 20});
     },
 
     addBox3 : function()
     {
-      this.getRoot().add(new qx.ui.basic.Label("Long button, short text"), {left: 205, top: 20});
+      this.container.add(new qx.ui.basic.Label("Long button, short text"), {left: 205, top: 20});
 
       var selectBox5 = new qx.ui.form.SelectBox();
       selectBox5.setWidth(300);
@@ -79,7 +86,7 @@ qx.Class.define("demobrowser.demo.ui.SelectBox_EdgeCases",
         }
         selectBox5.add(tempItem);
       }
-      this.getRoot().add(selectBox5, {left: 200, top: 40});
+      this.container.add(selectBox5, {left: 200, top: 40});
     }
   }
 });
