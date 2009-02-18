@@ -215,16 +215,16 @@ qx.Class.define("demobrowser.demo.bom.Selector",
       // ** MANIPULATION: INSERT INSIDE ***
       // **********************************
       
-      qx.bom.Selector.query("ul,ol").append("<li>inserted via append()</li");
-      qx.bom.Selector.query("ul,ol").prepend("<li>inserted via prepend()</li");
+      qx.bom.Selector.query("ul,ol").append("<li>inserted via append()</li>");
+      qx.bom.Selector.query("ul,ol").prepend("<li>inserted via prepend()</li>");
 
 
       // ***********************************
       // ** MANIPULATION: INSERT OUTSIDE ***
       // ***********************************
 
-      qx.bom.Selector.query("li:first-child").after("<li>inserted via after()</li");
-      qx.bom.Selector.query("li:last-child").before("<li>inserted via before()</li");
+      qx.bom.Selector.query("li:first-child").after("<li>inserted via after()</li>");
+      qx.bom.Selector.query("li:last-child").before("<li>inserted via before()</li>");
       
       var select = document.createElement("select");
       var label = document.createElement("label");
