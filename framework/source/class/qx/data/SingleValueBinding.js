@@ -81,8 +81,19 @@ qx.Class.define("qx.data.SingleValueBinding",
      * @param targetObject {qx.core.Object} The object which the source should
      *   be bind to.
      * @param targetProperty {String} The property name of the target object.
-     * @param options {Map} A map containing the options. See
-     *   {@link #bindEventToProperty} for more information.
+     * @param options {Map} A map containing the options.
+     *   <li>converter: A converter function which takes two parameters
+     *       and should return the converted value. The first parameter ist the 
+     *       data so convert and the second one is the corresponding model 
+     *       object, which is only set in case of the use of an controller.
+     *       If no conversion has been done, the given value should be 
+     *       returned.</li>
+     *   <li>onSetOk: A callback function can be given here. This method will be
+     *       called if the set of the value was successful. There will be 
+     *       three parameter you do get in that method call: the source object,
+     *       the target object and the data as third parameter.</li>
+     *   <li>onSetFail: A callback function can be given here. This method will
+     *       be called if the set of the value fails.</li>
      *
      * @return {var} Returns the internal id for that binding. This can be used
      *   for referencing the binding or e.g. for removing. This is not an atomic
@@ -110,14 +121,12 @@ qx.Class.define("qx.data.SingleValueBinding",
 
       // go through all property names
       for (var i = 0; i < propertyNames.length; i++) {
-
         // check for the array
         if (arrayIndexValues[i] !== "") {
           // push the array change event
           eventNames.push("change");
         } else {
-          // get the current event Name
-          eventNames.push(this.__getEventForProperty(source, propertyNames[i]));
+          eventNames.push(this.__getEventNameForProperty(source, propertyNames[i]));
         }
 
         // save the current source
@@ -174,9 +183,14 @@ qx.Class.define("qx.data.SingleValueBinding",
                 );
 
               } else {
+                if (propertyNames[j] != null && source["get" + qx.lang.String.firstUp(propertyNames[j])] != null) {
+                  var currentValue = source["get" + qx.lang.String.firstUp(propertyNames[j])]();
+                  this.__setInitialValue(currentValue, targetObject, targetProperty, options);                  
+                }
+                var eventName = this.__getEventNameForProperty(source, propertyNames[j]);
                 // bind the last property to the new target
-                listenerIds[j] = this.__bindPropertyToProperty(
-                  source, propertyNames[j], targetObject, targetProperty, options
+                listenerIds[j] = this.__bindEventToProperty(
+                  source, eventName, targetObject, targetProperty, options
                 );
               }
             } else {
@@ -207,9 +221,14 @@ qx.Class.define("qx.data.SingleValueBinding",
               source, eventNames[i], targetObject, targetProperty, options, arrayIndexValues[i]
             );
           } else {
-            // bind the property (incl. setting the inital value)
-            listenerIds[i] = this.__bindPropertyToProperty(
-              source, propertyNames[i], targetObject, targetProperty, options
+            // try to set the initial value
+            if (propertyNames[i] != null && source["get" + qx.lang.String.firstUp(propertyNames[i])] != null) {
+              var currentValue = source["get" + qx.lang.String.firstUp(propertyNames[i])]();
+              this.__setInitialValue(currentValue, targetObject, targetProperty, options);                  
+            }
+            // bind the property
+            listenerIds[i] = this.__bindEventToProperty(
+              source, eventNames[i], targetObject, targetProperty, options
             );
           }
 
@@ -220,7 +239,9 @@ qx.Class.define("qx.data.SingleValueBinding",
         }
 
         // get and store the next source
-        if (arrayIndexValues[i] !== "") {
+        if (source["get" + qx.lang.String.firstUp(propertyNames[i])] == null) {
+          source = null;
+        } else if (arrayIndexValues[i] !== "") {
           source = source["get" + qx.lang.String.firstUp(propertyNames[i])](arrayIndexValues[i]);
         } else {
           source = source["get" + qx.lang.String.firstUp(propertyNames[i])]();
@@ -229,7 +250,7 @@ qx.Class.define("qx.data.SingleValueBinding",
           break;
         }
       }
-
+      
       // create the id map
       var id = {type: "deepBinding", listenerIds: listenerIds, sources: sources};
       // store the bindings
@@ -238,6 +259,42 @@ qx.Class.define("qx.data.SingleValueBinding",
       );
 
       return id;
+    },
+    
+    
+    /**
+     * Tries to return a fitting event name to the given source object and
+     * property name. First, it assumes that the propertyname is a real property 
+     * and therefore it checks the property definition for the event. The second 
+     * possibility is to check if there is an event with the given name. The 
+     * third and last possibility checked is if there is an event which is named
+     * change + propertyname. If this three possibilities fail, an error will be 
+     * thrown.
+     * 
+     * @param source {qx.core.Object} The source where the property is stored.
+     * @param propertyname {String} The name of the property.
+     * @return {String} The name of the corresponding property.
+     */
+    __getEventNameForProperty: function(source, propertyname) {
+      // get the current event Name from the property definition
+      var eventName = this.__getEventForProperty(source, propertyname);
+      // if no event name could be found
+      if (eventName == null) {
+        // check if the propertyname is the event name
+        if (qx.Class.supportsEvent(source.constructor, propertyname)) {
+          eventName = propertyname;
+        // check if the change + propertyname is the event name
+        } else if (qx.Class.supportsEvent(
+          source.constructor, "change" + qx.lang.String.firstUp(propertyname))
+        ) {
+          eventName = "change" + qx.lang.String.firstUp(propertyname);
+        } else {
+          throw new qx.core.AssertionError(
+            "No event could be found for the property", propertyname
+          );
+        }
+      }
+      return eventName;
     },
     
     
@@ -338,7 +395,7 @@ qx.Class.define("qx.data.SingleValueBinding",
      * @param value {var} The value to set.
      * @param targetObject {qx.core.Object} The object which contains the target
      *   property.
-     * @param targetProperty {String} The name of the target property in the
+     * @param targetPropertyChain {String} The name of the target property in the
      *   target object.
      * @param options {Map} The options map perhaps containing the user defined
      *   converter.
@@ -408,148 +465,13 @@ qx.Class.define("qx.data.SingleValueBinding",
 
 
     /**
-     * This method binds a source property to a target property. The source
-     * property needs to be an qooxdoo property and has to have an changeEvent
-     * fired on every change. The change Event has to be an
-     * {@link qx.event.type.Data} event.
-     *
-     * @param sourceObject {qx.core.Object} The source of the binding.
-     * @param sourceProperty {String} The source property of the source object.
-     * @param targetObject {qx.core.Object} The object which the source should
-     *   be bind to.
-     * @param targetProperty {String} The property name of the target object.
-     * @param options {Map} A map containing the options. See
-     *   {@link #bindEventToProperty} for more information.
-     *
-     * @return {var} Returns the internal id for that binding. This can be used
-     *   for referencing the binding or e.g. for removing. This is not an atomic
-     *   id so you can't you use it as a hash-map index. It's the id which will
-     *   be returned b< the {@link qx.core.Object#addListener} method.
-     *
-     * @throws {qx.core.AssertionError} If the event is no data event or
-     *   there is no property definition for object and property (source and
-     *   target).
-     */
-    bindPropertyToProperty : function(
-      sourceObject, sourceProperty, targetObject, targetProperty, options
-    )
-    {
-      var id = this.__bindPropertyToProperty(
-        sourceObject, sourceProperty, targetObject, targetProperty, options
-      );
-      // store the binding
-      this.__storeBinding(
-        id, sourceObject, sourceProperty, targetObject, targetProperty
-      );
-      return id;
-    },
-
-
-    /**
-     * Internal helper method which evaluates the change event name and
-     * delegates the creation of the binding to the
-     * {@link #__bindEventToProperty} method. This method does not store the
-     * binding in the internal reference store so it should NOT be used from
-     * outside this class. For an outside usage, use
-     * {@link #bindPropertyToProperty}.
-     *
-     * @param sourceObject {qx.core.Object} The source of the binding.
-     * @param sourceProperty {String} The source property of the source object.
-     * @param targetObject {qx.core.Object} The object which the source should
-     *   be bind to.
-     * @param targetProperty {String} The property name of the target object.
-     * @param options {Map} A map containing the options. See
-     *   {@link #bindEventToProperty} for more information.
-     *
-     * @return {var} Returns the internal id for that binding. This can be used
-     *   for referencing the binding or e.g. for removing. This is not an atomic
-     *   id so you can't you use it as a hash-map index. It's the id which will
-     *   be returned b< the {@link qx.core.Object#addListener} method.
-     *
-     * @throws {qx.core.AssertionError} If the event is no data event or
-     *   there is no property definition for object and property (source and
-     *   target).
-     */
-    __bindPropertyToProperty : function(
-      sourceObject, sourceProperty, targetObject, targetProperty, options
-    )
-    {
-      // get the event name
-      var changeEventName = this.__getEventForProperty(sourceObject, sourceProperty);
-
-      // set the initial value
-      var currentValue = sourceObject["get" + qx.lang.String.firstUp(sourceProperty)]();
-      this.__setInitialValue(currentValue, targetObject, targetProperty, options);
-
-      // delegate to the event binding
-      return this.__bindEventToProperty(
-        sourceObject, changeEventName, targetObject, targetProperty, options
-      );
-    },
-
-
-    /**
-     * The method binds a {@link qx.event.type.Data} event to a target property.
-     * This could be necessary for "properties" in the framework which
-     * are no real properties but do fire an change event. The change event HAS
-     * to be a data event!
-     * Remember that this binding is one way only!
-     * the common way of binding is to bind one property to another or a
-     * property chain to another property. To do that, take the {@link #bind}
-     * method.
-     *
-     * @param sourceObject {qx.core.Object} The source of the binding.
-     * @param sourceEvent {String} The event of the source object which chould
-     *   be the change event in common but has to be an
-     *   {@link qx.event.type.Data} event.
-     * @param targetObject {qx.core.Object} The object which the source should
-     *   be bind to.
-     * @param targetProperty {String} The property name of the target object.
-     * @param options {Map} A map containing the options.
-     *   <li>converter: A converter function which takes two parameters
-     *       and should return the converted value. The first parameter ist the 
-     *       data so convert and the second one is the corresponding model 
-     *       object, which is only set in case of the use of an controller.
-     *       If no conversion has been done, the given value should be 
-     *       returned.</li>
-     *   <li>onSetOk: A callback function can be given here. This method will be
-     *       called if the set of the value was successful. There will be 
-     *       three parameter you do get in that method call: the source object,
-     *       the target object and the data as third parameter.</li>
-     *   <li>onSetFail: A callback function can be given here. This method will
-     *       be called if the set of the value fails.</li>
-     *
-     * @return {var} Returns the internal id for that binding. This can be used
-     *   for referencing the binding or e.g. for removing. This is not an atomic
-     *   id so you can't you use it as a hash-map index. It's the id which will
-     *   be returned b< the {@link qx.core.Object#addListener} method.
-     *
-     * @throws {qx.core.AssertionError} If the event is no data event or
-     *   there is no property definition for the target object and target
-     *   property.
-     */
-    bindEventToProperty : function(
-      sourceObject, sourceEvent, targetObject, targetProperty, options
-    )
-    {
-      var id = this.__bindEventToProperty(
-        sourceObject, sourceEvent, targetObject, targetProperty, options
-      );
-      this.__storeBinding(
-        id, sourceObject, sourceEvent, targetObject, targetProperty
-      );
-      return id;
-    },
-
-
-    /**
      * Internal helper method which is actually doing all bindings. That means
      * that an event listener will be added to the source object which listens
      * to the given event and invokes an set on the target property on the
      * targetObject.
      * This method does not store the binding in the internal reference store
      * so it should NOT be used from outside this class. For an outside usage,
-     * use {@link #bindEventToProperty}.
+     * use {@link #bind}.
      *
      * @param sourceObject {qx.core.Object} The source of the binding.
      * @param sourceEvent {String} The event of the source object which could
@@ -559,7 +481,7 @@ qx.Class.define("qx.data.SingleValueBinding",
      *   be bind to.
      * @param targetProperty {String} The property name of the target object.
      * @param options {Map} A map containing the options. See
-     *   {@link #bindEventToProperty} for more information.
+     *   {@link #bind} for more information.
      * @param arrayIndex {String} The index of the given array if its an array
      *   to bind.
      *
@@ -707,10 +629,10 @@ qx.Class.define("qx.data.SingleValueBinding",
      *
      * @param value {var} The value which possibly should be converted.
      * @param targetObject {qx.core.Object} The target object.
-     * @param targetProperty {String} The property name of the target object.
+     * @param targetPropertyChain {String} The property name of the target object.
      * @param options {Map} The options map which can includes the converter.
      *   For a detailed information on the map, take a look at
-     *   {@link #bindEventToProperty}.
+     *   {@link #bind}.
      *
      * @return {var} The converted value. If no conversion has been done, the
      *   value property will be returned.
@@ -735,12 +657,8 @@ qx.Class.define("qx.data.SingleValueBinding",
         var propertieDefinition = qx.Class.getPropertyDefinition(
           target.constructor, lastProperty
         );
-        // check for the existance of the source property
-        if (qx.core.Variant.isSet("qx.debug", "on")) {
-          qx.core.Assert.assertNotNull(propertieDefinition,
-            "No property definition available for " + targetPropertyChain);
-        }
-        return this.__defaultConvertion(value, propertieDefinition.check);
+        var check = propertieDefinition == null ? "" : propertieDefinition.check;
+        return this.__defaultConvertion(value, check);
       }
     },
 
@@ -762,12 +680,9 @@ qx.Class.define("qx.data.SingleValueBinding",
         sourceObject.constructor, sourceProperty
       );
 
-      // check for the existance of the source property
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
-        qx.core.Assert.assertNotNull(propertieDefinition,
-          "No property definition available for " + sourceProperty);
+      if (propertieDefinition == null) {
+        return null;
       }
-
       return propertieDefinition.event;
     },
 

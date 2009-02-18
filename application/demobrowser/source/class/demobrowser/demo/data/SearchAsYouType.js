@@ -60,7 +60,7 @@ qx.Class.define("demobrowser.demo.data.SearchAsYouType",
       controller.setDelegate(filterObj);
       
       // make every input in the textfield update the controller
-      textfield.bindEvent("input", filterObj, "searchString");
+      textfield.bind("input", filterObj, "searchString");
 
 
 
