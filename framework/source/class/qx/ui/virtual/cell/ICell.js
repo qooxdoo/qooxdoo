@@ -47,35 +47,14 @@ qx.Interface.define("qx.ui.virtual.cell.ICell",
       * 
       * @return {Map} Cell properties (see above.)
       */
-    getCellProperties : function(value, states) {},
-    
-    setState : function(value, states, propValues)
-    {
-      this.__value = value;
-      this.__states = states;
-    },
-
-    resetState : function() {},
-
-    getCssClasses : function() {
-      return "qx-cell";
-    },
-
-    getAttributes : function() {
-      return "";
-    },
-
-    getStyles: function() {
-      return "";
-    },
-
-    getInsets : function() {
-      return [0, 0];
-    },
-
-    getValue : function() {
-      return this.__value;
-    }
+      getCellProperties : function(value, states) { },
+      setState : function(value, states, propValues) { },
+      resetState : function() { },
+      getCssClasses : function() { },
+      getAttributes : function() { },
+      getStyles: function() { },
+      getInsets : function() { },
+      getValue : function() { }
 
   }
 });
