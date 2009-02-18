@@ -34,10 +34,14 @@ qx.Class.define("demobrowser.demo.widget.MenuBar",
     main: function()
     {
       this.base(arguments);
+      
+      var scroller = new qx.ui.container.Scroll();
 
       var container = new qx.ui.container.Composite(new qx.ui.layout.Canvas);
       container.setPadding(20);
-      this.getRoot().add(container);
+      container.setAllowStretchX(false);
+      scroller.add(container);
+      this.getRoot().add(scroller, {edge : 0});
 
       this.createCommands();
 
