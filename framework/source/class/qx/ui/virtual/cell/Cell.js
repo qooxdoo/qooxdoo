@@ -301,7 +301,7 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
         classes : this.getCssClasses(value, states),
         style : this.getStyles(value, states),
         attributes : this.getAttributes(value, states),
-        content : this.getValue(value, states),
+        content : this.getContent(value, states),
         insets : this.getInsets(value, states)
       };
     },
@@ -310,7 +310,7 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
       return "";
     },
 
-    getValue : function(value, states) {
+    getContent : function(value, states) {
       return value;
     },
 
