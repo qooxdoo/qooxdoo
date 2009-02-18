@@ -27,6 +27,8 @@ qx.Class.define("demobrowser.demo.ui.Opacity",
     main: function()
     {
       this.base(arguments);
+      
+      var scroller = new qx.ui.container.Scroll();
 
       var layout = new qx.ui.layout.HBox();
       layout.setSpacing(10);
@@ -34,7 +36,8 @@ qx.Class.define("demobrowser.demo.ui.Opacity",
       var container = new qx.ui.container.Composite(layout);
       container.setPadding(20);
 
-      this.getRoot().add(container, {left:0,top:0});
+      scroller.add(container);
+      this.getRoot().add(scroller, {edge : 0});
 
       container.add(this.getGrid1());
     },
