@@ -799,6 +799,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       // -- Vars and Setup -----------------------
       this.widgets["toolbar.runbutton"].setVisibility("excluded");
       this.widgets["toolbar.stopbutton"].setVisibility("visible");
+      this.setStopped(false);
 
       this.logelem.innerHTML = "";
       if (this.__state === 0)
@@ -929,7 +930,7 @@ qx.Class.define("testrunner.runner.TestRunner",
         that.widgets["toolbar.runbutton"].setVisibility("excluded");
         that.widgets["toolbar.stopbutton"].setVisibility("visible");
 
-        if (tlist.length)
+        if (tlist.length && that.getStopped() == false)
         {
           var test = tlist[0];
           that.loader.runTests(testResult, test[0], test[1]);
