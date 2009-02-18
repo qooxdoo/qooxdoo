@@ -2484,7 +2484,17 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator : "app-header"
         }
       }
-    }
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      VIRTUAL WIDGETS
+    ---------------------------------------------------------------------------
+    */
+
+    "row-layer" : "widget",
+    "column-layer" : "widget"
 
   }
 });
