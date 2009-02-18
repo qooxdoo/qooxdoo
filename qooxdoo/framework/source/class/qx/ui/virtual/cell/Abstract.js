@@ -35,31 +35,6 @@ qx.Class.define("qx.ui.virtual.cell.Abstract",
     qx.ui.virtual.cell.CellStylesheet.getInstance();
   },
 
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
-
-    insetX :
-    {
-      init : 0,
-      check : "Number"
-    },
-
-
-    insetY :
-    {
-      init : 0,
-      check : "Number"
-    }
-
-  },
-
-
 
   members :
   {
@@ -76,7 +51,7 @@ qx.Class.define("qx.ui.virtual.cell.Abstract",
     },
 
     _getInsets : function(value, states) {
-      return [this.getInsetX(), this.getInsetY()];
+      return [0, 0];
     },
 
     _getValue : function(value, states) {
