@@ -14,6 +14,20 @@
 
    Authors:
      * Sebastian Werner (wpbasti)
+     
+   ======================================================================
+
+   This class contains code based on the following work:
+     
+   * jQuery
+     http://jquery.com
+     Version 1.3.1
+
+     Copyright:
+       2009 John Resig
+
+     License:
+       MIT: http://www.opensource.org/licenses/mit-license.php        
 
 ************************************************************************ */
 
@@ -204,7 +218,7 @@ qx.Class.define("qx.bom.Html",
       // Append to fragment and filter out scripts... or...
       if (fragment) 
       {
-        var scripts=[], Array=qx.lang.Array, elem, temp;
+        var scripts=[], LArray=qx.lang.Array, elem, temp;
         for (var i=0; ret[i]; i++) 
         {
           elem = ret[i];
@@ -224,7 +238,7 @@ qx.Class.define("qx.bom.Html",
             if (elem.nodeType === 1) 
             {
               // Recursively search for scripts and append them to the list of elements to process
-              temp = Array.fromCollection(elem.getElementsByTagName("script"));
+              temp = LArray.fromCollection(elem.getElementsByTagName("script"));
               ret.splice.apply(ret, [i+1, 0].concat(temp));
             }
               
