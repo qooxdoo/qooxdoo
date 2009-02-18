@@ -25,8 +25,7 @@
  */
 qx.Class.define("qx.ui.virtual.cell.Cell", 
 {
-  extend : qx.core.Object,
-  implement : qx.ui.virtual.cell.ICell,
+  extend : qx.ui.virtual.cell.Abstract,
 
   construct : function()
   {
@@ -42,9 +41,6 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
     
     this.__styles = {};
     this.__classes = {};
-    
-    this.__value = "";
-    this.__states = {};
     
     this.initAppearance();
   },
@@ -186,9 +182,6 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
 
   members :
   {
-
-    __value : null,
-    __states : null,
 
     // property apply
     _applyAppearance : function(value, old)
@@ -334,20 +327,12 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
       };
     },
   
-    setState : function(value, states, propValues)
-    {
-      this.__value = value;
-      this.__states = states;
-    },
-
-    resetState : function() {},
-
     getAttributes : function(value, states) {
       return "";
     },
 
     getValue : function(value, states) {
-      return this.__value;
+      return value;
     },
 
     // overridden
