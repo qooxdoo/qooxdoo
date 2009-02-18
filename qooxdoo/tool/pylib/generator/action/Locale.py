@@ -90,8 +90,8 @@ class Locale:
             
             if "plural" in strings[msgid]:
                 obj.msgid_plural = strings[msgid]["plural"]
-                obj.msgstr_plural[0] = ""
-                obj.msgstr_plural[1] = ""
+                obj.msgstr_plural[u'0'] = ""
+                obj.msgstr_plural[u'1'] = ""
 
         pot.sort()
 
