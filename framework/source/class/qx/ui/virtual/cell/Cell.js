@@ -179,7 +179,15 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
 
   members :
   {
-
+    _getCssProperties : function()
+    {
+      return [
+        "backgroundColor", "textColor", "font", "textAlign",
+        "paddingTop", "paddingRight", "paddingBottom", "paddingLeft"
+      ];
+    },
+    
+    
     // property apply
     _applyAppearance : function(value, old)
     {
@@ -189,6 +197,16 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
     },
    
     
+    _getValue : function(propertyName)
+    {
+      if (this.__isThemed) {
+        return qx.util.PropertyUtil.getThemeValue(this, propertyName);
+      } else {
+        return qx.util.PropertyUtil.getUserValue(this, propertyName);
+      }
+    },
+    
+    
     /**
      * Store a properties computed style string either in the user or in the
      * theme values. User values will be applied as inline styles, while theme
@@ -197,69 +215,66 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
      * @param name {String} The property name
      * @param styles {String} String with computed CSS styles
      */
-    __store : function(name, styles) 
+    _storeStyle : function(propertyName, styles) 
     {
-      var userValue = qx.util.PropertyUtil.getUserValue(this, name);
-      
-      // if the user "reseted" the property
-      if (!this.__isThemed && userValue === undefined)
-      {
-        delete this.__userStyles[name];
+      if (this.__isThemed) {
         var store = this.__themeStyles;
-      }
-      else if (this.__isThemed) 
-      {
-        var store = this.__themeStyles;
-      }
-      else
-      {
+      } else {
         var store = this.__userStyles;
       }
       
       if (styles === null) {
-        delete store[name];
+        delete store[propertyName];
       } else {
-        store[name] = styles;
+        store[propertyName] = styles;
       }
-      
     },
    
     
     // property apply
-    _applyBackgroundColor : function(value, old, name) {
-      this.__store(
-        name,
-        value ?
-          "background-color:" + qx.theme.manager.Color.getInstance().resolve(value) :
-          null
-      );
+    _applyBackgroundColor : function(value, old, name)
+    {
+      var value = this._getValue(name);
+      if (!value) {
+        this._storeStyle(name, null);
+      } else {
+        this._storeStyle(name, "background-color:" + qx.theme.manager.Color.getInstance().resolve(value));
+      }
     },
 
     
     // property apply
-    _applyTextColor : function(value, old, name) {
-      this.__store(
-        name,
-        value ?
-          "color:" + qx.theme.manager.Color.getInstance().resolve(value) :
-          null
-      );
+    _applyTextColor : function(value, old, name)
+    {
+      var value = this._getValue(name);
+      if (!value) {
+        this._storeStyle(name, null);
+      } else {
+        this._storeStyle(name, "color:" + qx.theme.manager.Color.getInstance().resolve(value));
+      }
     },
 
     
     // property apply
-    _applyTextAlign : function(value, old, name) {
-      this.__store(name, value ? "text-align:" + value : null);
+    _applyTextAlign : function(value, old, name)
+    {
+      var value = this._getValue(name);
+      if (!value) {
+        this._storeStyle(name, null);
+      } else {
+        this._storeStyle(name, "text-align:" + value);
+      }
     },
     
     
     // property apply
     _applyFont : function(value, old, name) 
     {
+      var value = this._getValue(name);
       if (!value) {
-        this.__store(name, null);
+        this._storeStyle(name, null);
       } else {
-        this.__store(name, qx.bom.Style.compile(value.getStyles()));
+        this._storeStyle(name, qx.bom.Style.compile(value.getStyles()));
       }
     },
     
@@ -267,23 +282,25 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
     // property apply
     _applyPadding : function(value, old, name) 
     {
+      var value = this._getValue(name);
+      
       if (this.__isThemed) {
         var paddingStore = this.__themePaddings;
       } else {
         paddingStore = this.__userPaddings;
       }
       
-      if (value == null) {
+      if (value === null) {
         delete paddingStore[name];
       } else {
         paddingStore[name] = value;
       }
       
       if (value === null) {
-        this.__store(name, null)
+        this._storeStyle(name, null)
       } else {
         var cssKey = qx.lang.String.hyphenate(name);
-        this.__store(name, cssKey + ":" + value + "px");
+        this._storeStyle(name, cssKey + ":" + value + "px");
       }
     },
     
@@ -325,30 +342,23 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
         return "qx-cell " + cssClass; 
       }
       
-      var manager = qx.theme.manager.Appearance.getInstance();
-      var styler = qx.core.Property.$$method.setThemed;
-      var unstyler = qx.core.Property.$$method.resetThemed;      
-      
+      var PropertyUtil = qx.util.PropertyUtil;   
       this.__themeStyles = {};
       
-      this.__isThemed = true;
-      
-      var themableProperties = [
-        "backgroundColor", "textColor", "font", "textAlign",
-        "paddingTop", "paddingRight", "paddingBottom", "paddingLeft"
-      ];
       
       // reset old themed values
+      var themableProperties = this._getCssProperties();
       for (var i=0; i<themableProperties.length; i++) {
-        this[unstyler[themableProperties[i]]]();
+        PropertyUtil.deleteThemeValue(this, themableProperties[i]);
       }
       
       // set new themed values
-      var styles = manager.styleFrom(appearance, states);      
+      this.__isThemed = true;
+      var styles = qx.theme.manager.Appearance.getInstance().styleFrom(appearance, states);      
       for (var prop in styles) 
       {
         if (styles[prop] !== undefined) { 
-          this[styler[prop]](styles[prop]);
+          PropertyUtil.setThemed(this, prop, styles[prop]);
         }
       }
       this.__isThemed = false;
