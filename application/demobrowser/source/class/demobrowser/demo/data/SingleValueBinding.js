@@ -25,12 +25,7 @@ qx.Class.define("demobrowser.demo.data.SingleValueBinding",
   {
     main: function()
     {
-      this.base(arguments);
-      
-      // include the data binding mixin to qx.core.object
-      qx.Class.include(qx.core.Object, qx.data.MBinding);
-      
-      
+      this.base(arguments);      
       
       /* Event binding */
       
