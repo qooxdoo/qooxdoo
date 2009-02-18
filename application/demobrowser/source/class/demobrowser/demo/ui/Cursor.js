@@ -27,14 +27,17 @@ qx.Class.define("demobrowser.demo.ui.Cursor",
     main: function()
     {
       this.base(arguments);
+      
+      var scroller = new qx.ui.container.Scroll();
 
       var box = new qx.ui.layout.HBox();
       box.setSpacing(10);
 
       var container = new qx.ui.container.Composite(box);
       container.setPadding(20);
-
-      this.getRoot().add(container, {left:0,top:0});
+      
+      scroller.add(container);
+      this.getRoot().add(scroller, {edge : 0});
 
       container.add(this.getGrid1());
     },
