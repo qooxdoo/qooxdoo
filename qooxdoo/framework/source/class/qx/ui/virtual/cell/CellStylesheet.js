@@ -42,17 +42,52 @@ qx.Class.define("qx.ui.virtual.cell.CellStylesheet",
     }
 
     this.__stylesheet = qx.bom.Stylesheet.createElement(stylesheet);
+    
+    this.__classes = {};
+    this.__styles = {}
   },
   
   members : 
   {
     getStylesheet : function() {
       return this.__stylesheet;
-    }  
+    },
+    
+    
+    getCssClass : function(key) {
+      return this.__classes[key];
+    },
+    
+    
+    computeClassForStyles : function(key, styleString)
+    {
+      var cssClass = this.__styles[styleString];
+      if (!cssClass)
+      {
+        // generate stylesheet rule
+        var cssClass = this.__getNextClassname();
+        qx.bom.Stylesheet.addRule(this.__stylesheet, "." + cssClass, styleString);
+        this.__styles[styleString] = cssClass;
+      }
+
+      this.__classes[key] = cssClass;      
+      return cssClass;
+    },
+    
+    
+    /**
+     * Get the next unique CSS class name
+     * 
+     * @return {String} The next unique CSS class name 
+     */
+    __getNextClassname : function() {
+      return "qx-cell-" + this.toHashCode() + "-" + (this.__classCounter++);    
+    },
+    __classCounter : 0   
   },
   
   
   destruct : function() {
-    this._disposeFields("__stylesheet"); 
+    this._disposeFields("__stylesheet", "__classes", "__styles"); 
   }
 });
