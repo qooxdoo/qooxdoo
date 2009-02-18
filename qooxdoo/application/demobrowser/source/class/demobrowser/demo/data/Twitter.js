@@ -41,7 +41,7 @@ qx.Class.define("demobrowser.demo.data.Twitter",
       // set the name for the icon property
       controller.setIconPath("user.profile_image_url");
 
-      var store = new demobrowser.demo.data.store.TwitterStore("wittemann");
+      var store = new demobrowser.demo.data.store.Twitter("wittemann");
       
       // connect the store and the controller
       store.bind("model", controller, "model");
