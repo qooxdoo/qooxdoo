@@ -40,15 +40,26 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
       // ****************************************************************
 
 
+      var scroller = new qx.ui.container.Scroll();
+      
+      var box = new qx.ui.layout.Basic();
+      var container = new qx.ui.container.Composite(box).set({
+        allowStretchY : false,
+        allowStretchX : false
+      });
+
+      scroller.add(container);
+      root.add(scroller, {edge : 0});
+
       // Create source list
 
       var labelSource = new qx.ui.basic.Label("Source");
-      root.add(labelSource, { left : 20, top: 20 });
+      container.add(labelSource, { left : 20, top: 20 });
 
       var source = new qx.ui.form.List;
       source.setDraggable(true);
       source.setSelectionMode("multi");
-      root.add(source, { left : 20, top : 40 });
+      container.add(source, { left : 20, top : 40 });
 
       for (var i=0; i<20; i++) {
         source.add(new qx.ui.form.ListItem("Item " + i, "icon/16/places/folder.png"));
@@ -56,7 +67,7 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
 
       var check = new qx.ui.form.CheckBox("Enable drag");
       check.setChecked(true);
-      root.add(check, { left : 20, top : 260 });
+      container.add(check, { left : 20, top : 260 });
 
 
       source.addListener("dragstart", function(e)
@@ -128,12 +139,12 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
       // Create simple target
 
       var labelSimple = new qx.ui.basic.Label("Simple Target");
-      root.add(labelSimple, { left : 140, top: 20 });
+      container.add(labelSimple, { left : 140, top: 20 });
 
       var targetSimple = new qx.ui.form.List;
       targetSimple.setDroppable(true);
       targetSimple.setSelectionMode("multi");
-      root.add(targetSimple, { left : 140, top: 40 });
+      container.add(targetSimple, { left : 140, top: 40 });
 
       targetSimple.addListener("drop", function(e)
       {
@@ -163,12 +174,12 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
       // Text Field uses value
 
       var labelSimple = new qx.ui.basic.Label("TextArea Target");
-      root.add(labelSimple, { left : 260, top: 20 });
+      container.add(labelSimple, { left : 260, top: 20 });
 
       var textareaTarget = new qx.ui.form.TextArea;
       textareaTarget.setDroppable(true);
       textareaTarget.setHeight(100);
-      root.add(textareaTarget, { left : 260, top: 40 });
+      container.add(textareaTarget, { left : 260, top: 40 });
 
       // Serialize content to text, items are left in the list
       textareaTarget.addListener("drop", function(e)
@@ -192,13 +203,13 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
       // ****************************************************************
 
       var labelBoth = new qx.ui.basic.Label("Reorderable");
-      root.add(labelBoth, { left : 500, top: 20 });
+      container.add(labelBoth, { left : 500, top: 20 });
 
       var both = new qx.ui.form.List;
       both.setDraggable(true);
       both.setDroppable(true);
       both.setSelectionMode("multi");
-      root.add(both, { left : 500, top : 40 });
+      container.add(both, { left : 500, top : 40 });
 
       for (var i=0; i<20; i++) {
         both.add(new qx.ui.form.ListItem("Item " + i, "icon/16/places/folder.png"));
