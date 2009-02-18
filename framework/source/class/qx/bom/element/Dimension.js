@@ -165,7 +165,15 @@ qx.Class.define("qx.bom.element.Dimension",
         {
           // Scrollbars visible and needed. We just remove the left padding, 
           // as the right padding is not respected in rendering.
-          return element.scrollWidth - paddingLeft;  
+          var width = element.scrollWidth - paddingLeft;
+          
+          // IE renders the paddingRight as well with scrollbars on
+          var Engine = qx.bom.client.Engine;
+          if (Engine.NAME === "mshtml" && Engine.VERSION == 6) {
+            width -= paddingRight;
+          }
+          
+          return width;
         }               
       }
     },
@@ -207,8 +215,16 @@ qx.Class.define("qx.bom.element.Dimension",
         else
         {
           // Scrollbars visible and needed. We just remove the top padding, 
-          // as the bottom padding is not respected in rendering.
-          return element.scrollHeight - paddingTop;  
+          // as the right padding is not respected in rendering.
+          var height = element.scrollHeight - paddingTop;
+          
+          // IE renders the paddingRight as well with scrollbars on
+          var Engine = qx.bom.client.Engine;
+          if (Engine.NAME === "mshtml" && Engine.VERSION == 6) {
+            height -= paddingBottom;
+          }
+          
+          return height;
         }               
       }
     },
