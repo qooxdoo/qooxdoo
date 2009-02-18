@@ -225,6 +225,16 @@ qx.Class.define("demobrowser.demo.bom.Selector",
 
       qx.bom.Selector.query("li:first-child").after("<li>inserted via after()</li");
       qx.bom.Selector.query("li:last-child").before("<li>inserted via before()</li");
+      
+      var select = document.createElement("select");
+      var label = document.createElement("label");
+      
+      var selectCol = new qx.bom.Collection(select).setAttribute("id", "field-title");
+      var labelCol = new qx.bom.Collection(label).setAttribute("for", "field-title").setAttribute("text", " Title ");
+      
+      qx.bom.Selector.query("select").after(label, select);
+      
+      selectCol.append("<option>Mr</option>","<option>Mrs</option>","<option>Dr</option>", "<option>Prof</option>");
     }
   }
 });
