@@ -25,9 +25,16 @@ qx.Class.define("qx.ui.virtual.cell.Date",
 {
   extend : qx.ui.virtual.cell.Cell,
 
-  construct : function()
+  construct : function(dateFormat)
   {
-    this.base(arguments);    
+    this.base(arguments);
+    
+    if (dateFormat) {
+      this.setDateFormat(dateFormat);
+    } else {
+      this.setDateFormat(qx.util.format.DateFormat.getDateInstance());
+    }
+    
   },
 
 
@@ -39,6 +46,18 @@ qx.Class.define("qx.ui.virtual.cell.Date",
 
   properties :
   {
+
+    appearance:
+    {
+      refine : true,
+      init : "cell-date"
+    },
+
+    dateFormat:
+    {
+      check : "qx.util.format.DateFormat"
+    }
+
   },
 
 
@@ -57,6 +76,11 @@ qx.Class.define("qx.ui.virtual.cell.Date",
       IMPLEMENT CELL API
     ---------------------------------------------------------------------------
     */    
+
+    getValue : function(value, states) {
+      return this.getDateFormat().format(value);
+    }
+
 
   }
 

@@ -39,6 +39,13 @@ qx.Class.define("qx.ui.virtual.cell.String",
 
   properties :
   {
+
+    appearance:
+    {
+      refine : true,
+      init : "cell-string"
+    }
+
   },
 
 
@@ -57,6 +64,10 @@ qx.Class.define("qx.ui.virtual.cell.String",
       IMPLEMENT CELL API
     ---------------------------------------------------------------------------
     */    
+
+    getContent : function(value, states) {
+      return qx.bom.String.escape(value);
+    }
 
   }
 
