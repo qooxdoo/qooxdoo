@@ -28,6 +28,12 @@ qx.Class.define("demobrowser.demo.widget.SplitPane",
     main: function()
     {
       this.base(arguments);
+      
+      // Create a scroll container and an outer container
+      var scroller = new qx.ui.container.Scroll();
+      var outerContainer = new qx.ui.container.Composite(new qx.ui.layout.Basic());
+      outerContainer.setAllowStretchX(false);
+      scroller.add(outerContainer);
 
       // Create a horizontal split pane
       var pane = new qx.ui.splitpane.Pane("horizontal").set({
@@ -77,9 +83,11 @@ qx.Class.define("demobrowser.demo.widget.SplitPane",
       // Add the second container. Flex = 1 means that this child should consume all available space.
       pane.add(container2, 1);
 
-      // Finally add the pane to the root widget.
-      this.getRoot().add(pane, {left:20, top:40});
+      // Add the pane to the outer container.      
+      outerContainer.add(pane, {left:20, top:40});
 
+      // Finally add the scroll container to the root widget.
+      this.getRoot().add(scroller, {edge : 0});
 
       var controlLayout = new qx.ui.layout.VBox(5);
       var controlContainer = new qx.ui.container.Composite(controlLayout);
@@ -102,7 +110,7 @@ qx.Class.define("demobrowser.demo.widget.SplitPane",
 
       rbm.addListener("changeValue", this._changeVisiblity, this);
 
-      this.getRoot().add(controlContainer, {left:490, top:42});
+      outerContainer.add(controlContainer, {left:490, top:42});
 
       button.focus();
 
