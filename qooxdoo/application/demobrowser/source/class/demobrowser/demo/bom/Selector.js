@@ -211,12 +211,17 @@ qx.Class.define("demobrowser.demo.bom.Selector",
       Logger.debug("Number of found li elements in the middle: " + res.length);
       
       
+      
+      
       // **********************************
       // ** MANIPULATION: INSERT INSIDE ***
       // **********************************
       
       qx.bom.Selector.query("ul,ol").append("<li>inserted via append()</li>");
       qx.bom.Selector.query("ul,ol").prepend("<li>inserted via prepend()</li>");
+      
+      qx.bom.Selector.query("ul").append("<script type='text/javascript'>qx.log.Logger.debug('Globally executed script');</script>");
+
 
 
       // ***********************************
