@@ -25,6 +25,8 @@ qx.Class.define("qx.ui.virtual.cell.CellStylesheet",
   
   construct : function()
   {
+    this.base(arguments);
+  
     var stylesheet =
       ".qx-cell {" +
       qx.bom.element.Style.compile(
