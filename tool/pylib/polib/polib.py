@@ -603,8 +603,7 @@ class POFile(_BaseFile):
                 self.append(entry)
             else:
                 # entry found, we update it...
-                e.occurrences = entry.occurrences
-                e.comment = entry.comment
+                e.merge(entry)
         # ok, now we must "obsolete" entries that are not in the refpot
         # anymore
         for entry in self:
@@ -982,6 +981,20 @@ class POEntry(_BaseEntry):
                     return False
             return True
         return False
+
+    def merge(self, other):
+        self.occurrences = other.occurrences
+        self.comment     = other.comment
+        self.tcomment    = other.tcomment
+        self.flags       = other.flags
+        if other.msgid_plural:
+            self.msgid_plural = other.msgid_plural
+        if other.msgstr_plural:
+            for pos in other.msgstr_plural:
+                if len(other.msgstr_plural[pos])>0:
+                    self.msgstr_plural[pos] = other.msgstr_plural[pos]
+        
+        
 
 # }}}
 # class MOEntry {{{
