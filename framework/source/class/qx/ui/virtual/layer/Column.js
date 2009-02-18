@@ -36,9 +36,8 @@ qx.Class.define("qx.ui.virtual.layer.Column",
     // overridden
     appearance :
     {
-      refine : true
-//// TODO: add an appearance
-////      init : "column-layer"
+      refine : true,
+      init : "column-layer"
     }
   },
   

@@ -2270,6 +2270,16 @@ qx.Theme.define("qx.theme.classic.Appearance",
           icon : "icon/16/actions/dialog-cancel.png"
         };
       }
-    }
+    },
+
+    /*
+    ---------------------------------------------------------------------------
+      VIRTUAL WIDGETS
+    ---------------------------------------------------------------------------
+    */
+
+    "row-layer" : "widget",
+    "column-layer" : "widget"
+
   }
 });

@@ -36,9 +36,8 @@ qx.Class.define("qx.ui.virtual.layer.Row",
     // overridden
     appearance :
     {
-      refine : true
-//// TODO: add an appearance
-////      init : "row-layer"
+      refine : true,
+      init : "row-layer"
     }
   },
   
