@@ -32,15 +32,19 @@ qx.Class.define("demobrowser.demo.widget.SelectBox",
     main: function()
     {
       this.base(arguments);
+      
+      var scroller = new qx.ui.container.Scroll();
 
       var box = new qx.ui.container.Composite(new qx.ui.layout.HBox(50));
+      box.setPadding(20);
 
       box.add(this.createBox1());
       box.add(this.createBox2());
       box.add(this.createBox3());
       box.add(this.createBox4());
 
-      this.getRoot().add(box, {left : 20, top : 20})
+      scroller.add(box, {left : 20, top : 20});
+      this.getRoot().add(scroller, {edge : 0});
     },
 
 
