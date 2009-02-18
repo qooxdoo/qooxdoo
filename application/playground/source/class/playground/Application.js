@@ -53,6 +53,9 @@ qx.Class.define("playground.Application",
 
     // global decoration
     __labelDeco : null,
+    
+    //modification state of the source
+    __isModified : false,
 
     // Container for the sample codes
     sampleContainer : {},
@@ -83,9 +86,7 @@ qx.Class.define("playground.Application",
       // Main container
       var mainContainer = new qx.ui.container.Composite(layout);
       doc.add(mainContainer, { edge : 0 });
-
-      //this.__createCommands();
-
+      
       // qooxdoo header
       mainContainer.add(this.__createHeader(), { flex : 0 });
 
@@ -148,6 +149,8 @@ qx.Class.define("playground.Application",
 
       // Back button and bookmark support
       this.__initBookmarkSupport();
+      
+      
     },
 
     /**
@@ -179,17 +182,33 @@ qx.Class.define("playground.Application",
       {
         var newSample = e.getData();
 
-        if (this.sampleContainer[newSample] != undefined)
-        {
-          this.editor.setCode(this.sampleContainer[newSample]);
-
-          this.updatePlayground(this.__playRoot);
-
-          var newName = this.__decodeSampleId(newSample);
-          this.playAreaCaption.setContent(newName);
-
-          // update state on sample change
-          this.__history.addToHistory(newSample, this.__updateTitle(newName));
+        if(this.__isModified) {
+          this.__dialog = this.__codeChangedWindow();
+          this.__dialog.addListener("close", function() {
+           if(this.__previousCodeState) {          
+            
+            if (this.sampleContainer[newSample] != undefined)
+            {         
+              this.editor.setCode(this.sampleContainer[newSample]);
+              this.updatePlayground(this.__playRoot);
+              var newName = this.__decodeSampleId(newSample);
+              this.playAreaCaption.setContent(newName);
+              // update state on sample change
+              this.__history.addToHistory(newSample, this.__updateTitle(newName));
+            }  
+           }
+          }, this);
+          
+        } else {
+          if (this.sampleContainer[newSample] != undefined)
+          {        	
+            this.editor.setCode(this.sampleContainer[newSample]);
+            this.updatePlayground(this.__playRoot);
+            var newName = this.__decodeSampleId(newSample);
+            this.playAreaCaption.setContent(newName);
+            // update state on sample change
+            this.__history.addToHistory(newSample, this.__updateTitle(newName));
+          }  
         }
       }, this);
 
@@ -199,6 +218,95 @@ qx.Class.define("playground.Application",
       }, this, 0);
     },
 
+    
+    /**
+     * shows a dialog to inform the user if the source code was changed
+     * This dialog only appears if the user changed the source code and selects after that another sample
+     * due to do not lose his code
+     * 
+     * @return window the dialog
+     */
+    __codeChangedWindow : function() {
+    	var window = new qx.ui.window.Window(this.tr("Warning"), null);
+      var layout = new qx.ui.layout.Grid(5, 5);
+      window.setLayout(layout);
+      var label = new qx.ui.basic.Label(this.tr("You changed the source code of this sample." +
+      		"<br/>If you continue the source code will be reset.<br/>Do you want to continue?")).set({ rich : true})
+
+      this.__previousCodeState = true;
+      
+      window.add(label,
+      {
+        row     : 0,
+        column  : 1,
+        rowSpan : 0,
+        colSpan : 1
+      });
+      
+      var container = new qx.ui.container.Composite(new qx.ui.layout.HBox(5, "right"));
+      var warningImage = new qx.ui.basic.Image("playground/image/dialog-warning.png");
+      var yesButton = new qx.ui.form.Button("Yes");
+      var noButton = new qx.ui.form.Button("No");
+      var showDialogCheckBox = new qx.ui.form.CheckBox("Don not show this again");
+
+
+      noButton.addListener("execute", function() {
+        this.__previousCodeState = false;
+        window.close();
+      }, this);
+
+      yesButton.addListener("execute", function()
+      {
+      	this.__previousCodeState = true;
+      	this.__isModified = false;
+      	//updates the currentSample
+      	this.currentSample = this.__history.getState();
+      	window.close();
+      },
+      this);
+
+      container.add(yesButton);
+      container.add(noButton);
+
+      window.add(warningImage,
+      {
+        row     : 0,
+        column  : 0,
+        rowSpan : 1,
+        colSpan : 0
+      });
+      
+      window.add(container,
+      {
+        row     : 1,
+        column  : 1,
+        rowSpan : 0,
+        colSpan : 0
+      });
+
+      /*//TODO
+      window.add(showDialogCheckBox,
+      {
+        row     : 1,
+        column  : 0,
+        rowSpan : 0,
+        colSpan : 0
+      });
+      */
+      window.setShowMaximize(false);
+      window.setShowClose(false);
+      window.setShowMinimize(false);
+      window.setResizable(false);
+      window.setModal(true);
+      if(this.__isModified) {
+        window.open();
+      }
+      window.moveTo(200, 200);
+      return window;
+    },
+    
+    
+    
     /**
      * Transform sample label into sample id
      * @param label {String} label
@@ -382,21 +490,22 @@ qx.Class.define("playground.Application",
       }, this);
     },
 
-
     /**
-     * Checks, whether the code is changed. If yes, the application name is
-     * renamed
+     * Checks, whether the code is changed. If yes, the application name will be
+     * rename
      *
      * @return {void}
      */
     __isSourceCodeChanged : function()
-    {
+    {      
       var compareElem1 = document.getElementById("compare_div1");
+      this.currentSample = this.__history.getState(); // NEW
+        
       compareElem1.innerHTML = this.sampleContainer[this.currentSample];
 
       var compareElem2 = document.getElementById("compare_div2");
       compareElem2.innerHTML = this.editor.getCode();
-
+      
       var label = this.__decodeSampleId(this.currentSample);
 
       if ((compareElem1.innerHTML.length == compareElem2.innerHTML.length &&
@@ -404,6 +513,7 @@ qx.Class.define("playground.Application",
           compareElem1.innerHTML.length != compareElem2.innerHTML.length)
       {
         this.playAreaCaption.setContent(this.tr("%1 (modified)", label));
+        this.__isModified = true;
         //top.location.hash = "#";
       }
       else {
@@ -513,8 +623,7 @@ qx.Class.define("playground.Application",
 
       return menu;
     },
-
-
+    
     /**
      * Initializes the playground with a sample.
      *
@@ -522,21 +631,48 @@ qx.Class.define("playground.Application",
      * @return {void}
      */
     __onSampleChanged : function(e)
-    {
-      var label = e.getTarget().getLabel().toString();
-      this.playAreaCaption.setContent(label);
-
-      this.currentSample = this.__encodeSampleId(label);
-      var currentSource = this.sampleContainer[this.currentSample];
-      currentSource = currentSource.replace(/&lt;/g, "<").replace(/&gt;/g, ">");
-
-      if (this.showSyntaxHighlighting) {
-        this.editor.setCode(currentSource);
-      } else {
-        this.textarea.setValue(currentSource);
-      }
-
-      this.__history.addToHistory(this.currentSample, this.__updateTitle(label));
+    { 
+    	this.aim = e;
+    	var label = this.aim.getTarget().getLabel().toString();
+    	
+    	if(this.__isModified) {
+    	 	this.__dialog = this.__codeChangedWindow();
+      	
+      	this.__dialog.addListener("close", function() {  
+          if(this.__previousCodeState) {
+            this.playAreaCaption.setContent(label);
+      
+            this.currentSample = this.__encodeSampleId(label);
+            var currentSource = this.sampleContainer[this.currentSample];
+            currentSource = currentSource.replace(/&lt;/g, "<").replace(/&gt;/g, ">");
+            
+            if (this.showSyntaxHighlighting) {
+              this.editor.setCode(currentSource);
+            } else {
+              this.textarea.setValue(currentSource);
+            }
+            this.updatePlayground(this.__playRoot); //New
+            
+            this.__history.addToHistory(this.currentSample, this.__updateTitle(label));
+          }
+        }, this);
+        
+    	} else {
+    		var label = e.getTarget().getLabel().toString();
+        this.playAreaCaption.setContent(label);
+        
+        this.currentSample = this.__encodeSampleId(label);
+        var currentSource = this.sampleContainer[this.currentSample];
+        currentSource = currentSource.replace(/&lt;/g, "<").replace(/&gt;/g, ">");
+        
+        if (this.showSyntaxHighlighting) {
+          this.editor.setCode(currentSource);
+        } else {
+          this.textarea.setValue(currentSource);
+        }
+        
+        this.__history.addToHistory(this.currentSample, this.__updateTitle(label));
+    	}
     },
 
 
