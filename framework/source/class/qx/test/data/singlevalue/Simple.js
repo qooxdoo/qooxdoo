@@ -332,6 +332,21 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
       qx.data.SingleValueBinding.bind(affe, "name", this.__b, "name");
       this.assertEquals("Jonny", this.__b.getName(), "String binding does not work!");
       affe.destroy();      
+    },
+    
+    
+    testFallback: function() {
+      // change + "name" binding
+      this.__a.bind("value", this.__b, "value");
+
+      this.__a.setValue("affe");
+      this.assertEquals(this.__a.getValue(), this.__b.getValue(), "change event binding is not working.");
+      
+      // event binding
+      this.__a.bind("changeZIndex", this.__b, "zIndex");
+      
+      this.__a.setZIndex(123);
+      this.assertEquals(this.__a.getZIndex(), this.__b.getZIndex(), "Event binding is not working.");            
     }
   }
 });
