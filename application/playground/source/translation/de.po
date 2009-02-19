@@ -21,7 +21,7 @@ msgstr "Warnung"
 
 #: playground/Application.js:231
 msgid "You changed the source code of this sample.<br/>If you continue the source code will be reset.<br/>Do you want to continue?"
-msgstr "Sie haben den Quellcode des Beispielanwendungs geändert.<br/>Wenn Sie fortsetzten, wird Ihr Quellcode zurückgesetzt.<br/>Möchten Sie fortsetzten?"
+msgstr "Sie haben den Quellcode des Beispielanwendungs geändert.<br/>Wenn Sie fortsetzen, wird Ihr Quellcode zurückgesetzt.<br/>Möchten Sie fortsetzen?"
 
 #: playground/Application.js:274
 msgid "Source Code"
