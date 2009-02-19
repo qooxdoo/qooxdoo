@@ -19,6 +19,18 @@ msgstr ""
 msgid "You changed the source code of this sample.<br/>If you continue the source code will be reset.<br/>Do you want to continue?"
 msgstr ""
 
+#: playground/Application.js:248
+msgid "Yes"
+msgstr ""
+
+#: playground/Application.js:249
+msgid "No"
+msgstr ""
+
+#: playground/Application.js:251
+msgid "Do not show this again"
+msgstr ""
+
 #: playground/Application.js:274
 msgid "Source Code"
 msgstr ""
