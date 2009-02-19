@@ -17,5 +17,5 @@ qxloader = {
 
 ${BootPart}
 
-try {qx.event.handler.Application.ready() } catch(e) {};
+if (window.qx && qx.event && qx.event.handler && qx.event.handler.Application) qx.event.handler.Application.ready();
 
