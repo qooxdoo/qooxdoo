@@ -194,7 +194,7 @@ qx.Class.define("qx.event.handler.Application",
       {
         this._onNativeLoadWrapped = qx.lang.Function.bind(this._onNativeLoad, this);
 
-        if (qx.core.Variant.isSet("qx.client", "gecko|opera{webkit"))
+        if (qx.core.Variant.isSet("qx.client", "gecko|opera|webkit"))
         {
           // Using most native method supported by Mozilla and Opera >= 9.0
           qx.bom.Event.addNativeListener(this._window, "DOMContentLoaded", this._onNativeLoadWrapped);
