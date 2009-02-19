@@ -110,6 +110,8 @@
   /**
    * Wraps a set of elements and offers a whole set of features to query or modify them.
    *
+   * *Chaining*
+   *
    * The collection uses an interesting concept called a "Builder" to make 
    * its code short and simple. The Builder pattern is an object-oriented 
    * programming design pattern that has been gaining popularity.
@@ -120,6 +122,63 @@
    * <pre class="javascript">
    * qx.bom.Selector.query("a").addClass("test")
    *   .setStyle("visibility", "visible").setAttribute("html", "foo");
+   * </pre>
+   *
+   * *Content Manipulatioon*
+   *
+   * Most methods that accept "content" will accept one or more
+   * arguments of any of the following:
+   *  
+   * * A DOM node element
+   * * An array of DOM node elements
+   * * A collection
+   * * A string representing HTML
+   * 
+   * Example:
+   *
+   * <pre class="javascript">
+   * $("#div1").append(
+   * document.createElement("br"),
+   * $("#div2"), "<em>after div2</em>"
+   * );
+   * </pre>
+   *
+   * Content inserting methods ({@link #append}, {@link #prepend}, 
+   * {@link #before}, {@link #after}, and
+   * {@link #replaceWith}) behave differently depending on the number of DOM
+   * elements currently selected by the collection. If there is only one
+   * element in the collection, the content is inserted to that element;
+   * content that was in another location in the DOM tree will be moved by
+   * this operation. This is essentially the same as the W3C DOM
+   * appendChild method.
+   *  
+   * When multiple elements are selected by a collection, these methods
+   * clone the content before inserting it to each element. Since the
+   * content can only exist in one location in the document tree, cloning
+   * is required in these cases so that the same content can be used in
+   * multiple locations.
+   *   
+   * This rule also applies to the selector-insertion methods ({@link #appendTo},
+   * {@link #prependTo}, {@link #insertBefore}, {@link #insertAfter}, 
+   * and {@link #replaceAll}), but the auto-cloning occurs if there is more 
+   * than one element selected by the
+   * Selector provided as an argument to the method.
+   *   
+   * When a specific behavior is needed regardless of the number of
+   * elements selected, use the {@link #clone} or {@link #remove} methods in
+   * conjunction with a selector-insertion method. This example will always
+   * clone <code>#Thing</code>, append it to each element with class OneOrMore, and
+   * leave the original <code>#Thing</code> unmolested in the document:
+   * 
+   * <pre class="javascript">
+   * qx.bom.Selector.query("#Thing").clone().appendTo(".OneOrMore");
+   * </pre>
+   *  
+   * This example will always remove <code>#Thing</code> from the document and append it
+   * to <code>.OneOrMore</code>:
+   *
+   * <pre class="javascript">
+   * qx.bom.Selector.query("#Thing").remove().appendTo(".OneOrMore");   
    * </pre>
    */
   qx.Class.define("qx.bom.Collection",
@@ -1186,7 +1245,7 @@
 
       /*
       ---------------------------------------------------------------------------
-         MANIPULATION: INSERTING INSIDE
+         MANIPULATION: CORE
       ---------------------------------------------------------------------------
       */
 
@@ -1194,17 +1253,19 @@
        * Helper method for all DOM manipulation methods which deal
        * with set of elements or HTML fragments.
        *
-       * @param objs {Element[]|String[]} Array of DOM elements or HTML strings
+       * @param args {Element[]|String[]} Array of DOM elements or HTML strings
        * @param callback {Function} Method to execute for each fragment/element created
+       * @return {Collection} The collection is returned for chaining proposes     
        */      
       __manipulate : function(args, callback)
       {
         var element = this[0];
         var doc = element.ownerDocument || element;
+
+        // Create fragment, cleanup HTML and extract scripts
         var fragment = doc.createDocumentFragment();
         var scripts = qx.bom.Html.clean(args, doc, fragment);
         var first = fragment.firstChild;
-        var tags = this.__tags;
   
         // Process fragment content
         if (first) 
@@ -1223,7 +1284,7 @@
         {
           var script;
           var Loader = qx.io2.ScriptLoader;
-          var Function = qx.lang.Function;
+          var LFunction = qx.lang.Function;
           
           for (var i=0, l=scripts.length; i<l; i++) 
           {
@@ -1233,7 +1294,7 @@
             if (script.src) {
               Loader.get().load(script.src);
             } else {
-              Function.globalEval(script.text || script.textContent || script.innerHTML || "");
+              LFunction.globalEval(script.text || script.textContent || script.innerHTML || "");
             }
     
             // Removing element from old parent
@@ -1242,50 +1303,151 @@
             }
           }
         }
+        
+        return this;
       },      
       
-      append : function() {
-        this.__manipulate(arguments, this.__appendCallback);
-      },
       
-      prepend : function() {
-        this.__manipulate(arguments, this.__prependCallback);
-      },
       
-      before : function() {
-        this.__manipulate(arguments, this.__beforeCallback);
-      },
       
-      after : function() {
-        this.__manipulate(arguments, this.__afterCallback);
-      },
+      /*
+      ---------------------------------------------------------------------------
+         MANIPULATION: INSERTING INSIDE
+      ---------------------------------------------------------------------------
+      */
 
-
-      __appendCallback : function(parent, child) {
-        parent.appendChild(child);
-      },
-      
-      __prependCallback : function(parent, child) {
-        parent.insertBefore(child, parent.firstChild);
-      },
-
-      __beforeCallback : function(parent, child) {
-        parent.parentNode.insertBefore(child, parent);
-      },
-
-      __afterCallback : function(parent, child) {
-        parent.parentNode.insertBefore(child, parent.nextSibling);
+      /** 
+       * Append content to the inside of every matched element.
+       *
+       * Supports lists of DOM elements or HTML strings through a variable 
+       * argument list.
+       *
+       * @param varargs {Element|String} A reference to an DOM element or a HTML string
+       * @return {Collection} The collection is returned for chaining proposes     
+       */
+      append : function(varargs) {
+        return this.__manipulate(arguments, this.__appendCallback);
       },
       
       
-      appendTo : function()
+      /**
+       * Prepend content to the inside of every matched element.
+       *
+       * Supports lists of DOM elements or HTML strings through a variable 
+       * argument list.
+       *
+       * @param varargs {Element|String} A reference to an DOM element or a HTML string
+       * @return {Collection} The collection is returned for chaining proposes    
+       */
+      prepend : function(varargs) {
+        return this.__manipulate(arguments, this.__prependCallback);
+      },
+      
+      
+      /**
+       * Callback for {@link #append} to apply the insertion of content
+       *
+       * @param rel {Element} Relative DOM element (iteration point in selector processing)
+       * @param child {Element} Child to insert
+       */
+      __appendCallback : function(rel, child) {
+        rel.appendChild(child);
+      },
+      
+
+      /**
+       * Callback for {@link #prepend} to apply the insertion of content
+       *
+       * @param rel {Element} Relative DOM element (iteration point in selector processing)
+       * @param child {Element} Child to insert
+       */
+      __prependCallback : function(rel, child) {
+        rel.insertBefore(child, rel.firstChild);
+      },
+      
+      
+      __manipulateTo : function(args, original)
       {
+        var Selector = qx.bom.Selector;
         
+        for (var i=0, il=this.length, obj; i<il; i++) 
+        {
+          obj = this[i];
+          
+          for (var j=0, jl=args.length; j<jl; j++) {
+            Selector.query(args[j])[original](obj);
+          }          
+        }
+        
+        return this;
+      },
+      
+      
+      appendTo : function(selector) {
+        return this.__manipulateTo(arguments, "append");
       },
 
-      prependTo : function()
-      {
-        
+      prependTo : function() {
+        return this.__manipulateTo(arguments, "prepend");
+      },      
+
+
+      
+      
+      
+      /*
+      ---------------------------------------------------------------------------
+         MANIPULATION: INSERTING OUTSIDE
+      ---------------------------------------------------------------------------
+      */      
+      
+      /**
+       * Insert content before each of the matched elements.
+       *
+       * Supports lists of DOM elements or HTML strings through a variable 
+       * argument list.
+       *
+       * @param varargs {Element|String} A reference to an DOM element or a HTML string
+       * @return {Collection} The collection is returned for chaining proposes    
+       */
+      before : function(varargs) {
+        return this.__manipulate(arguments, this.__beforeCallback);
+      },
+      
+
+      /**
+       * Insert content after each of the matched elements.
+       *
+       * Supports lists of DOM elements or HTML strings through a variable 
+       * argument list.
+       *
+       * @param varargs {Element|String} A reference to an DOM element or a HTML string
+       * @return {Collection} The collection is returned for chaining proposes    
+       */
+      after : function(varargs) {
+        return this.__manipulate(arguments, this.__afterCallback);
+      },
+
+
+      /**
+       * Callback for {@link #before} to apply the insertion of content
+       *
+       * @param rel {Element} Relative DOM element (iteration point in selector processing)
+       * @param child {Element} Child to insert
+       */
+      __beforeCallback : function(rel, child) {
+        rel.parentNode.insertBefore(child, rel);
+      },
+
+
+      /**
+       * Callback for {@link #after} to apply the insertion of content
+       *
+       * @param rel {Element} Relative DOM element (iteration point in selector processing)
+       * @param child {Element} Child to insert
+       */
+      __afterCallback : function(rel, child) {
+        rel.parentNode.insertBefore(child, rel.nextSibling);
       },
       
 
@@ -1306,4 +1468,5 @@
       empty : setter(qx.bom.Element, "empty") 
     }
   });
-})();  
+})();
+  
