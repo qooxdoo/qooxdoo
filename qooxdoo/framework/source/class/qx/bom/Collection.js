@@ -1367,28 +1367,63 @@
       },
       
       
+      /** 
+       * Helper for wrapping the methods to insert/replace content
+       * so that they can be used in reverse order (selector is
+       * given to the target method instead) 
+       *
+       * @param args {String[]} All arguments (selectors) of the original method call
+       * @param original {String} Name of the original method to wrap
+       * @return {Collection} The collection is returned for chaining proposes
+       */
       __manipulateTo : function(args, original)
       {
         var Selector = qx.bom.Selector;
         
-        for (var i=0, il=this.length, obj; i<il; i++) 
-        {
-          obj = this[i];
-          
-          for (var j=0, jl=args.length; j<jl; j++) {
-            Selector.query(args[j])[original](obj);
-          }          
+        // Build a large collection from the individual elements
+        var col = new qx.bom.Collection;
+        for (var i=0, l=args.length; i<l; i++) {
+          col.push.apply(col, Selector.queryNative(args[i]));
+        }
+        
+        // Remove duplicates
+        col = qx.lang.Array.unique(col);
+        
+        // Process modification
+        for (var i=0, il=this.length; i<il; i++) {
+          col[original](this[i]);
         }
         
         return this;
       },
       
       
-      appendTo : function(selector) {
+      /** 
+       * Append all of the matched elements to another, specified, set of elements.
+       *
+       * This operation is, essentially, the reverse of doing a regular 
+       * <code>qx.bom.Selector.query(A).append(B)</code>, in that instead 
+       * of appending B to A, you're appending A to B.
+       *
+       * @param varargs {String} List of selector expressions
+       * @return {Collection} The collection is returned for chaining proposes    
+       */
+      appendTo : function(varargs) {
         return this.__manipulateTo(arguments, "append");
       },
 
-      prependTo : function() {
+
+      /** 
+       * Append all of the matched elements to another, specified, set of elements.
+       *
+       * This operation is, essentially, the reverse of doing a regular 
+       * <code>qx.bom.Selector.query(A).prepend(B)</code>,  in that instead 
+       * of prepending B to A, you're prepending A to B.
+       *
+       * @param varargs {String} List of selector expressions
+       * @return {Collection} The collection is returned for chaining proposes    
+       */
+      prependTo : function(varargs) {
         return this.__manipulateTo(arguments, "prepend");
       },      
 
@@ -1450,6 +1485,37 @@
       __afterCallback : function(rel, child) {
         rel.parentNode.insertBefore(child, rel.nextSibling);
       },
+      
+      
+      /** 
+       * Insert all of the matched elements after another, specified, set of elements.
+       *
+       * This operation is, essentially, the reverse of doing a regular 
+       * <code>qx.bom.Selector.query(A).before(B)</code>, in that instead 
+       * of inserting B to A, you're inserting A to B.
+       *
+       * @param varargs {String} List of selector expressions
+       * @return {Collection} The collection is returned for chaining proposes    
+       */
+      insertBefore : function(varargs) {
+        return this.__manipulateTo(arguments, "before");
+      },
+
+
+      /** 
+       * Insert all of the matched elements before another, specified, set of elements.
+       *
+       * This operation is, essentially, the reverse of doing a regular 
+       * <code>qx.bom.Selector.query(A).after(B)</code>,  in that instead 
+       * of inserting B to A, you're inserting A to B.
+       *
+       * @param varargs {String} List of selector expressions
+       * @return {Collection} The collection is returned for chaining proposes    
+       */
+      insertAfter : function(varargs) {
+        return this.__manipulateTo(arguments, "after");
+      },       
+      
       
 
 
