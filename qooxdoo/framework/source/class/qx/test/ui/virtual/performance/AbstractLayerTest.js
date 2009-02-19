@@ -166,7 +166,8 @@ qx.Class.define("qx.test.ui.virtual.performance.AbstractLayerTest",
       }
       times.sort(function(a, b) { return a < b ? -1 : 1});
       var avg = Math.round(qx.lang.Array.sum(times.slice(1, -1)) / (times.length-2))
-      this.warn(";" + name + "; avg(" + avg + "ms); " + times.join("ms; ") + "ms;");
+      //this.warn(";" + name + "; avg(" + avg + "ms); " + times.join("ms; ") + "ms;");
+      this.warn(";" + name + ";avg:" + avg + ";" + times.join(";"));
       
       if (window.console && window.console.profile) console.profileEnd(name + " " + this.classname);
     }

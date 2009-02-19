@@ -54,7 +54,6 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.HtmlDivRelative",
             "float: left;",
             "width:", columnSizes[y], "px;",
             "height:", rowSizes[x], "px;",
-            "overflow:hidden;",
             "'>",
             content,
             "</div>"
