@@ -2509,7 +2509,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "cell-image" : "widget",
     "cell-boolean" : "widget",
     "cell-atom" : "widget",
-    "cell-date" : "widget"
+    "cell-date" : "widget",
+    "cell-html" : "widget"
 
   }
 });
