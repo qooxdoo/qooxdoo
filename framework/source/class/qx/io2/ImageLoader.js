@@ -43,11 +43,8 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
     },
     
     /** {Array} Known image types */
-    __knownImageTypes : [ "png", "gif", "jpg", "jpeg", "bmp" ],
+    __knownImageTypesRegExp : /\.(png|gif|jpg|jpeg|bmp)\b/i,
     
-    /** {Map} RegExp objects for known image types */
-    __knownImageTypesRegExp :  {},
-
 
     /**
      * Whether the given image has previously been loaded using the
@@ -223,25 +220,10 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
         entry.height = this.__getHeight(element);
         
         // try to determine the image format
-        var regExp;
-        var imgFormatArr = this.__knownImageTypes;
-        var formatExps = this.__knownImageTypesRegExp;
-        
-        for (var i=0, j=imgFormatArr.length; i<j; i++)
+        var result = this.__knownImageTypesRegExp.exec(source);
+        if (result != null)
         {
-          regExp = formatExps[imgFormatArr[i]];
-          
-          if (typeof regExp === "undefined")
-          {
-            regExp = new RegExp("\." + this.__knownImageTypes[i], "i");
-            formatExps[imgFormatArr[i]] = regExp;
-          }
-          
-          if (regExp.exec(source) != null)
-          {
-            entry.format = imgFormatArr[i];
-            break;
-          }
+          entry.format = result[1];
         }
       }
       else
