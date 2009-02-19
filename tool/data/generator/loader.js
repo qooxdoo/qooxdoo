@@ -185,7 +185,11 @@ window.qxloader =
       // Is this the boot module? => start init process
       if (part == this.boot)
       {
-        this._fireReady();
+        // Opera needs this timeout!
+        var self = this;
+        setTimeout(function(){
+          self._fireReady();
+        }, 0);
       }
 
       // Finally return
