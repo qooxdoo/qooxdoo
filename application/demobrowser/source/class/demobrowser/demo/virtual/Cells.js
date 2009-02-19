@@ -34,57 +34,69 @@ qx.Class.define("demobrowser.demo.virtual.Cells",
     {
       this.base(arguments);
 
-      var layout = new qx.ui.layout.Grid(5);
+      var layout = new qx.ui.layout.Grid(5, 5);
       var container = new qx.ui.container.Composite(layout);    
 
-      container.add(this.testDefaultCellString(), {row : 0, column : 0 });
-      container.add(this.testDefaultCellNumber(), {row : 0, column : 1 });
-      container.add(this.testDefaultCellDate(), {row : 0, column : 2 });
+      container.add(this.createStringCell(), {row : 0, column : 0 });
+      container.add(this.createNumberCell(), {row : 0, column : 1 });
+      container.add(this.createDateCell(), {row : 0, column : 2 });
+      container.add(this.createHtmlCell(), {row : 1, column : 0 });
 
       this.getRoot().add(container, {edge : 0});
     },
 
-    testDefaultCellString : function(data)
+    createStringCell : function(data)
     {
       var states = {};
-      var defaultCell = new qx.ui.virtual.cell.String;
-      var cellProperties = defaultCell.getCellProperties(
+      var stringCell = new qx.ui.virtual.cell.String;
+      var cellProperties = stringCell.getCellProperties(
         "test<br/>lala", states
       );
 
       return this.__renderCell(cellProperties);
     },
     
-    testDefaultCellNumber : function(data)
+    createNumberCell : function(data)
     {
       var states = {};
 
       var numberFormat = qx.util.format.NumberFormat.getInstance();
       numberFormat.setMaximumFractionDigits(2);
 
-      var defaultCell = new qx.ui.virtual.cell.Number(numberFormat);
-      var cellProperties = defaultCell.getCellProperties(
+      var numberCell = new qx.ui.virtual.cell.Number(numberFormat);
+      var cellProperties = numberCell.getCellProperties(
         1.2345678, states
       );
 
       return this.__renderCell(cellProperties);
     },
     
-    testDefaultCellDate : function(data)
+    createDateCell : function(data)
     {
       var states = {};
 
       var dateFormat = qx.util.format.DateFormat.getDateInstance();
 
-      var defaultCell = new qx.ui.virtual.cell.Date(dateFormat);
-      var cellProperties = defaultCell.getCellProperties(
+      var dateCell = new qx.ui.virtual.cell.Date(dateFormat);
+      var cellProperties = dateCell.getCellProperties(
         new Date(), states
       );
 
       return this.__renderCell(cellProperties);
     },
-    
-    
+
+    createHtmlCell : function(data)
+    {
+      var states = {};
+
+      var htmlCell = new qx.ui.virtual.cell.Html;
+      var cellProperties = htmlCell.getCellProperties(
+        "<b>html</b><i>cell</i>", states
+      );
+
+      return this.__renderCell(cellProperties);
+    },
+
     __renderCell : function(cellProperties)
     {
 
