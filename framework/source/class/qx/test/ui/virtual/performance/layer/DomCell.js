@@ -45,6 +45,9 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.DomCell",
       var top = 0;
       var row = firstRow;
       var col = firstColumn;
+      
+      var fragment = document.createDocumentFragment();
+      
       for (var x=0; x<rowSizes.length; x++)
       {
         var left = 0;
@@ -63,11 +66,13 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.DomCell",
           
           Attribute.set(cell, "text", content);
           left += columnSizes[y];
-          el.appendChild(cell);
+          fragment.appendChild(cell);
         }
         top += rowSizes[x];
         row++;
       }
+      
+      el.appendChild(fragment);
     }
   }
 });

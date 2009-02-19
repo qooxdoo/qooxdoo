@@ -31,12 +31,13 @@ qx.Class.define("qx.test.ui.virtual.performance.HtmlDivCell",
     {
       var html = [
         "<div style='",
+        "position: absolute;",
         "width:", width, "px;",
         "height:", height, "px;",
-        "'>",
-        row,
-        " / ",
-        column,
+        "left:", left, "px;",
+        "top:", top, "px;",
+        "'>",        
+        row, " / ", column,
         "</div>"                  
       ];
       return html.join("");
