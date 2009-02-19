@@ -2495,10 +2495,25 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
     "row-layer" : "widget",
     "column-layer" : "widget",
-    "cell" : "widget",
-    "cell-string" : "widget",
+
+    "cell" :
+    {
+      style : function(states)
+      {
+        return {
+          backgroundColor: states.selected ?
+            "table-row-background-selected" :
+            "table-row-background-even",
+          textColor: states.selected ? "text-selected" : "text-label",
+          padding: [3, 6]
+        }
+      }
+    },
+
+    "cell-string" : "cell",
     "cell-number" :
     {
+      include : "cell",
       style : function(states)
       {
         return {
@@ -2506,11 +2521,11 @@ qx.Theme.define("qx.theme.modern.Appearance",
         }
       }
     },
-    "cell-image" : "widget",
-    "cell-boolean" : "widget",
-    "cell-atom" : "widget",
-    "cell-date" : "widget",
-    "cell-html" : "widget"
+    "cell-image" : "cell",
+    "cell-boolean" : "cell",
+    "cell-atom" : "cell",
+    "cell-date" : "cell",
+    "cell-html" : "cell"
 
   }
 });
