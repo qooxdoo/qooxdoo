@@ -96,8 +96,6 @@ qx.Class.define("demobrowser.demo.virtual.ThemedCell",
         "</div>"
       ].join("");
       
-      console.log(html);
-      
       embed.setHtml(html);
       return embed;
     }
