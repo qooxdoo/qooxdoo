@@ -17,7 +17,9 @@
 
 ************************************************************************ */
 
-
+/**
+ * EXPERIMENTAL!
+ */
 qx.Class.define("qx.data.store.Json", 
 {
   extend : qx.core.Object,
