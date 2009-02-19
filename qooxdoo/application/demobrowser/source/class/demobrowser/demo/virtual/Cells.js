@@ -47,9 +47,9 @@ qx.Class.define("demobrowser.demo.virtual.Cells",
     testDefaultCellString : function(data)
     {
       var states = {};
-      var defaultCell = new qx.ui.virtual.cell.Default;
+      var defaultCell = new qx.ui.virtual.cell.String;
       var cellProperties = defaultCell.getCellProperties(
-        "test", states
+        "test<br/>lala", states
       );
 
       return this.__renderCell(cellProperties);
@@ -58,9 +58,13 @@ qx.Class.define("demobrowser.demo.virtual.Cells",
     testDefaultCellNumber : function(data)
     {
       var states = {};
-      var defaultCell = new qx.ui.virtual.cell.Default;
+
+      var numberFormat = qx.util.format.NumberFormat.getInstance();
+      numberFormat.setMaximumFractionDigits(2);
+
+      var defaultCell = new qx.ui.virtual.cell.Number(numberFormat);
       var cellProperties = defaultCell.getCellProperties(
-        1.234, states
+        1.2345678, states
       );
 
       return this.__renderCell(cellProperties);
@@ -69,7 +73,10 @@ qx.Class.define("demobrowser.demo.virtual.Cells",
     testDefaultCellDate : function(data)
     {
       var states = {};
-      var defaultCell = new qx.ui.virtual.cell.Default;
+
+      var dateFormat = qx.util.format.DateFormat.getDateInstance();
+
+      var defaultCell = new qx.ui.virtual.cell.Date(dateFormat);
       var cellProperties = defaultCell.getCellProperties(
         new Date(), states
       );
@@ -82,13 +89,15 @@ qx.Class.define("demobrowser.demo.virtual.Cells",
     {
 
       var htmlEmbed = new qx.ui.embed.Html();
+      var styles = cellProperties.style;
 
       // Set content and apply css classes:
       htmlEmbed.set({
-        html : cellProperties.content,
-        cssClass : cellProperties.classes
+        html : cellProperties.content + "",
+        cssClass : cellProperties.classes,
+        backgroundColor : "red"
       });
-        
+
       htmlEmbed.addListener("appear", function(){
 
         var domElement = htmlEmbed.getContentElement().getDomElement();
@@ -103,16 +112,10 @@ qx.Class.define("demobrowser.demo.virtual.Cells",
         }
 
         // Render styles:
-        qx.bom.element.Style.setCss(domElement, cellProperties.style);
-
-        // Apply insets:
-        for(var inset in cellProperties.insets)
-        {
-          // TODO:
-        }
+        qx.bom.element.Style.setCss(domElement, styles);
 
       }, this);
-      
+
       return htmlEmbed;
     }
   }
