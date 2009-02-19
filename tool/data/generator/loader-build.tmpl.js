@@ -14,3 +14,8 @@ qxloader = {
   uris : ${Uris},
   boot : ${Boot}
 };
+
+${BootPart}
+
+try {qx.event.handler.Application.ready() } catch(e) {};
+
