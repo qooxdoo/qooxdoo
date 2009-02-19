@@ -63,7 +63,7 @@ if (document.addEventListener) {
 }
 
 var l=qxloader;
-loadScripts(l.uris[l.parts[l.boot]], function({
-  if (window.qx && qx.event && qx.event.handler && qx.event.handler.Application) qx.event.handler.Application.ready();
+loadScripts(l.uris[l.parts[l.boot]], function() {
+ if (document.readyState == "complete"  && window.qx && qx.event && qx.event.handler && qx.event.handler.Application) qx.event.handler.Application.ready();
 });
 })();
