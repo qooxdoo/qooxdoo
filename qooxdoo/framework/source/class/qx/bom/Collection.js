@@ -202,26 +202,37 @@
       /** 
        * Processes the input and translates it to a collection instance.
        *
-       * @param input {Element|Html|Selector} Support HTML elements, HTML strings and selector strings
+       * @param input {Element|String} Support HTML elements, HTML strings and selector strings
+       * @param context {Element|Document} Where to start looking for the expression or
+       *   any element in the document which refers to a valid document to create new elements
+       *   (useful when dealing with HTML->Element translation in multi document environments).
        * @return {Collection} Newly created collection 
        */
-      from : function(input)
+      from : function(input, context)
       {
+        // Work with aliases to make it possible to call this 
+        // method context free e.g for "$" support.
+        var Collection = qx.bom.Collection;
+        var Selector = qx.bom.Selector;
+        
         if (input.nodeType)
         {
-          return new qx.bom.Collection(input);
+          return new Collection(input);
         }
         else if (typeof input === "string")
         {
-          var match = this.__expr.exec(input);
+          var match = Collection.__expr.exec(input);
           if (match)
           {
             if (match[1]) 
             {
-              console.debug("From HTML", match[1]);  
+              // Translate HTML into DOM elements
+              var list = qx.bom.Html.clean([match[1]], context);
               
-              // TODO
-              
+              // Translate into Collection
+              var col = new Collection;
+              col.push.apply(col, list);
+              return col;              
             } 
             else if (match[3]) 
             {
@@ -231,18 +242,18 @@
               // Handle the case where IE and Opera return items
               // by name instead of ID
               if (elem && elem.id != id) {
-                return qx.bom.Selector.query(input);
+                return Selector.query(input, context);
               }
               
-              return new qx.bom.Collection(elem);              
+              return new Collection(elem);              
             }
           }
           else
           {
-            return qx.bom.Selector.query(input);
+            return Selector.query(input, context);
           }    
         }
-        else
+        else if (qx.core.Variant.isSet("qx.debug", "on"))
         {
           throw new Error("Unsupported type: " + input);
         }     
@@ -1379,15 +1390,16 @@
       __manipulateTo : function(args, original)
       {
         var Selector = qx.bom.Selector;
+        var Lang = qx.lang.Array;
         
         // Build a large collection from the individual elements
-        var col = new qx.bom.Collection;
+        var col = [];
         for (var i=0, l=args.length; i<l; i++) {
           col.push.apply(col, Selector.queryNative(args[i]));
         }
         
-        // Remove duplicates
-        col = qx.lang.Array.unique(col);
+        // Remove duplicates and transform into Collection
+        col = Lang.to(Lang.unique(col), qx.bom.Collection);
         
         // Process modification
         for (var i=0, il=this.length; i<il; i++) {
@@ -1533,6 +1545,23 @@
        * @return {Collection} The collection is returned for chaining proposes     
        */
       empty : setter(qx.bom.Element, "empty") 
+    },
+    
+    
+    
+    
+    /*
+    *****************************************************************************
+       DEFER
+    *****************************************************************************
+    */    
+    
+    defer : function(statics, members)
+    {
+      // Define alias as used by jQuery if not already in use.
+      if (window.$ == null) {
+        window.$ = statics.from;
+      }
     }
   });
 })();
