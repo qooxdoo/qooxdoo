@@ -132,78 +132,6 @@ qx.Class.define("qx.data.SingleValueBinding",
         // save the current source
         sources[i] = source;
 
-        // create a listener
-        var listener = qx.lang.Function.bind(function(index, e) {
-
-          // delete all listener after the current one
-          for (var j = index + 1; j < propertyNames.length; j++) {
-            // remove the old sources
-            var source = sources[j];
-            sources[j] = null;
-            if (!source) {
-              continue;
-            }
-
-            // remove the listeners
-            source.removeListenerById(listenerIds[j]);
-          }
-
-          // get the current source
-          var source = sources[index];
-          // add new once after the current one
-          for (var j = index + 1; j < propertyNames.length; j++) {
-            // get and store the new source
-            if (arrayIndexValues[j - 1] !== "") {
-              source = source["get" + qx.lang.String.firstUp(propertyNames[j - 1])](arrayIndexValues[j - 1]);
-            } else {
-              source = source["get" + qx.lang.String.firstUp(propertyNames[j - 1])]();
-            }
-            sources[j] = source;
-            // reset the target object if no new source could be found
-            if (!source) {
-              this.__resetTargetValue(targetObject, targetProperty);
-              break;
-            }
-
-            // if its the last property
-            if (j == propertyNames.length - 1) {
-              // if its an array
-              if (source instanceof qx.data.Array) {
-                // set the inital value
-                var itemIndex = arrayIndexValues[j] === "last" ? 
-                  source.length - 1 : arrayIndexValues[j];
-                var currentValue = source.getItem(itemIndex);
-                this.__setInitialValue(
-                  currentValue, targetObject, targetProperty, options
-                );
-
-                // bind the item event to the new target
-                listenerIds[j] = this.__bindEventToProperty(
-                  source, eventNames[j], targetObject, targetProperty, options, arrayIndexValues[j]
-                );
-
-              } else {
-                if (propertyNames[j] != null && source["get" + qx.lang.String.firstUp(propertyNames[j])] != null) {
-                  var currentValue = source["get" + qx.lang.String.firstUp(propertyNames[j])]();
-                  this.__setInitialValue(currentValue, targetObject, targetProperty, options);                  
-                }
-                var eventName = this.__getEventNameForProperty(source, propertyNames[j]);
-                // bind the last property to the new target
-                listenerIds[j] = this.__bindEventToProperty(
-                  source, eventName, targetObject, targetProperty, options
-                );
-              }
-            } else {
-              // add a new listener
-              listenerIds[j] = source.addListener(eventNames[j], listeners[j]);
-            }
-          }
-
-        }, this, i);
-
-        // store the listener for further processing
-        listeners.push(listener);
-
         // check for the last property
         if (i == propertyNames.length -1) {
           // if it is an array, set the initial value and bind the event
@@ -234,6 +162,26 @@ qx.Class.define("qx.data.SingleValueBinding",
 
 
         } else {
+          
+          // create the contenxt for the listener
+          var context = {
+            index: i,
+            propertyNames: propertyNames,
+            sources: sources,
+            listenerIds: listenerIds,
+            arrayIndexValues: arrayIndexValues,
+            targetObject: targetObject,
+            targetProperty: targetProperty,
+            options: options,
+            listeners: listeners
+          };
+          
+          // create a listener
+          var listener = qx.lang.Function.bind(this.__chainListener, this, context);
+
+          // store the listener for further processing
+          listeners.push(listener);
+                    
           // add the chaining listener
           listenerIds[i] = source.addListener(eventNames[i], listener);
         }
@@ -259,6 +207,89 @@ qx.Class.define("qx.data.SingleValueBinding",
       );
 
       return id;
+    },
+    
+    
+    /**
+     * Event listener for the chaining of the properties.
+     * 
+     * @param context {Map} The current context for the listener. 
+     */
+    __chainListener: function(context) {
+      // delete all listener after the current one
+      for (var j = context.index + 1; j < context.propertyNames.length; j++) {
+        // remove the old sources
+        var source = context.sources[j];
+        context.sources[j] = null;
+        if (!source) {
+          continue;
+        }
+
+        // remove the listeners
+        source.removeListenerById(context.listenerIds[j]);
+      }
+
+      // get the current source
+      var source = context.sources[context.index];
+      // add new once after the current one
+      for (var j = context.index + 1; j < context.propertyNames.length; j++) {
+        // get and store the new source
+        if (context.arrayIndexValues[j - 1] !== "") {
+          source = source["get" + qx.lang.String.firstUp(context.propertyNames[j - 1])](context.arrayIndexValues[j - 1]);
+        } else {
+          source = source["get" + qx.lang.String.firstUp(context.propertyNames[j - 1])]();
+        }
+        context.sources[j] = source;
+        // reset the target object if no new source could be found
+        if (!source) {
+          this.__resetTargetValue(context.targetObject, context.targetProperty);
+          break;
+        }
+
+        // if its the last property
+        if (j == context.propertyNames.length - 1) {
+          // if its an array
+          if (source instanceof qx.data.Array) {
+            // set the inital value
+            var itemIndex = context.arrayIndexValues[j] === "last" ? 
+              source.length - 1 : context.arrayIndexValues[j];
+            var currentValue = source.getItem(itemIndex);
+            this.__setInitialValue(
+              currentValue, context.targetObject, context.targetProperty, context.options
+            );
+
+            // bind the item event to the new target
+            context.listenerIds[j] = this.__bindEventToProperty(
+              source, "change", context.targetObject, context.targetProperty, context.options, context.arrayIndexValues[j]
+            );
+
+          } else {
+            if (context.propertyNames[j] != null && source["get" + qx.lang.String.firstUp(context.propertyNames[j])] != null) {
+              var currentValue = source["get" + qx.lang.String.firstUp(context.propertyNames[j])]();
+              this.__setInitialValue(currentValue, context.targetObject, context.targetProperty, context.options);                  
+            }
+            var eventName = this.__getEventNameForProperty(source, context.propertyNames[j]);
+            // bind the last property to the new target
+            context.listenerIds[j] = this.__bindEventToProperty(
+              source, eventName, context.targetObject, context.targetProperty, context.options
+            );
+          }
+        } else {
+          // check if a listener already created
+          if (context.listeners[j] == null) {
+            var listener = qx.lang.Function.bind(this.__chainListener, this, context);
+            // store the listener for further processing
+            context.listeners.push(listener);
+          }
+          // add a new listener
+          if (source instanceof qx.data.Array ) {
+            var eventName = "change";
+          } else {
+            var eventName = this.__getEventNameForProperty(source, context.propertyNames[j]);
+          }
+          context.listenerIds[j] = source.addListener(eventName, context.listeners[j]);
+        }
+      }      
     },
     
     
