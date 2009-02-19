@@ -221,6 +221,9 @@ qx.Class.define("demobrowser.demo.bom.Selector",
       qx.bom.Selector.query("ul,ol").prepend("<li>inserted via prepend()</li>");
       
       qx.bom.Selector.query("ul").append("<script type='text/javascript'>qx.log.Logger.debug('Globally executed script');</script>");
+      
+      // Testing appendTo() with multiple targets
+      // qx.bom.Selector.query("select[name=title],label[for=field-title]").appendTo("ul>li","ol>li");
 
 
 
@@ -240,6 +243,9 @@ qx.Class.define("demobrowser.demo.bom.Selector",
       qx.bom.Selector.query("select").after(label, select);
       
       selectCol.append("<option>Mr</option>","<option>Mrs</option>","<option>Dr</option>", "<option>Prof</option>");
+      
+      // testing jQuery alias
+      $("<h3>Dynamically Inserted H3</h3>").insertAfter("h2")
     }
   }
 });
