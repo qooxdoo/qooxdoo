@@ -47,6 +47,10 @@ qx.Class.define("qx.event.handler.Application",
     // Define shorthands
     this._window = manager.getWindow();
 
+    this.__scriptLoaded = false;
+    this.__domReady = false;
+    this.__loaded = false;
+    
     // Initialize observers
     this._initObserver();
 
@@ -94,10 +98,12 @@ qx.Class.define("qx.event.handler.Application",
      * @internal
      * @return {void}
      */
-    ready : function()
+    onScriptLoaded : function()
     {
       var inst = qx.event.handler.Application.$$instance;
-      if (inst) {
+      if (inst)
+      {
+        inst.__scriptLoaded = true;
         inst.__fireReady();
       }
     }
@@ -153,7 +159,7 @@ qx.Class.define("qx.event.handler.Application",
     __fireReady : function()
     {
       // Wrapper qxloader needed to be compatible with old generator
-      if (!this.__isReady)
+      if (!this.__isReady && this.__domReady && this.__scriptLoaded)
       {
         this.__isReady = true;
 
@@ -178,10 +184,46 @@ qx.Class.define("qx.event.handler.Application",
      */
     _initObserver : function()
     {
-      this._onNativeLoadWrapped = qx.lang.Function.bind(this._onNativeLoad, this);
-      this._onNativeUnloadWrapped = qx.lang.Function.bind(this._onNativeUnload, this);
+      // in Firefox the loader script sets the ready state
+      if (document.readyState == "complete")
+      {
+        this.__domReady = true;
+        this.__fireReady();
+      }
+      else
+      {
+        this._onNativeLoadWrapped = qx.lang.Function.bind(this._onNativeLoad, this);
 
-      qx.bom.Event.addNativeListener(this._window, "load", this._onNativeLoadWrapped);
+        if (qx.core.Variant.isSet("qx.client", "gecko|opera{webkit"))
+        {
+          // Using most native method supported by Mozilla and Opera >= 9.0
+          qx.bom.Event.addNativeListener(win, "DOMContentLoaded", this._onNativeLoadWrapped);
+        }
+        else if (qx.core.Variant.isSet("qx.client", "mshtml"))
+        {
+          // Continually check to see if the document is ready
+          var timer = function()
+          {
+            try
+            {
+              // If IE is used, use the trick by Diego Perini
+              // http://javascript.nwbox.com/IEContentLoaded/
+              document.documentElement.doScroll("left");
+              this._onNativeLoadWrapped();
+            }
+            catch(error) {
+              setTimeout(timer, 100);
+            }
+          };
+
+          timer();
+        }
+
+        // Additional load listener as fallback
+        qx.bom.Event.addNativeListener(this._window, "load", this._onNativeLoadWrapped);
+      }
+
+      this._onNativeUnloadWrapped = qx.lang.Function.bind(this._onNativeUnload, this);
       qx.bom.Event.addNativeListener(this._window, "unload", this._onNativeUnloadWrapped);
     },
 
@@ -218,10 +260,8 @@ qx.Class.define("qx.event.handler.Application",
      */
     _onNativeLoad : function(e)
     {
-      // Wrapper qxloader needed to be compatible with old generator
-      if (!this._window.qxloader) {
-        this.__fireReady();
-      }
+      this.__domReady = true;
+      this.__fireReady();
     },
 
 
