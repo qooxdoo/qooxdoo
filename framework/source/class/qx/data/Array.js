@@ -21,7 +21,7 @@
  * EXPERIMENTAL!
  *
  * Mapping class of the native JavaScript array. This does have all the native
- * methods but fires event if the content of the array changes in any way.
+ * methods but fires events if the content of the array changes in any way.
  * Also the <code>.length</code> property is available on the array.
  */
 qx.Class.define("qx.data.Array",
