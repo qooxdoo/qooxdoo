@@ -24,7 +24,6 @@
 #use(qx.event.handler.Keyboard)
 #use(qx.event.handler.Mouse)
 #use(qx.event.handler.Element)
-#use(qx.event.handler.DomReady)
 
 ************************************************************************ */
 
@@ -136,15 +135,5 @@ qx.Class.define("demobrowser.demo.event.Event",
     {
       this._log([e.getType() + " 2: " + e]);
     }
-  },
-
-
-  defer : function()
-  {
-    var domReady = function() {
-      qx.log.Logger.debug("DOM Ready... juhi :)")
-    }
-
-    qx.event.Registration.addListener(window, "domready", domReady, this);
   }
 });
