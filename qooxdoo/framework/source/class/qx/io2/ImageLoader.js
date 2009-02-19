@@ -41,6 +41,12 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
       width : null,
       height : null
     },
+    
+    /** {Array} Known image types */
+    __knownImageTypes : [ "png", "gif", "jpg", "jpeg", "bmp" ],
+    
+    /** {Map} RegExp objects for known image types */
+    __knownImageTypesRegExp :  {},
 
 
     /**
@@ -84,6 +90,17 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
     },
 
 
+    /**
+     * Returns the format of a previously loaded image
+     *
+     * @param source {String} Image source to query
+     * @return {String ? null} The format of the image or <code>null</code>
+     */
+    getFormat : function(source) {
+      return source != null ? (this.__data[source].format || null) : null;
+    },
+    
+        
     /**
      * Returns the size of a previously loaded image
      *
@@ -204,6 +221,28 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
         entry.loaded = true;
         entry.width = this.__getWidth(element);
         entry.height = this.__getHeight(element);
+        
+        // try to determine the image format
+        var regExp;
+        var imgFormatArr = this.__knownImageTypes;
+        var formatExps = this.__knownImageTypesRegExp;
+        
+        for (var i=0, j=imgFormatArr.length; i<j; i++)
+        {
+          regExp = formatExps[imgFormatArr[i]];
+          
+          if (typeof regExp === "undefined")
+          {
+            regExp = new RegExp("\." + this.__knownImageTypes[i] + "$", "i");
+            formatExps[imgFormatArr[i]] = regExp;
+          }
+          
+          if (regExp.exec(source) != null)
+          {
+            entry.format = imgFormatArr[i];
+            break;
+          }
+        }
       }
       else
       {
