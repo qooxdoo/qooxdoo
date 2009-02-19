@@ -122,19 +122,18 @@ qx.Class.define("demobrowser.demo.data.store.Gears",
     getPerson: function() {
       var person = {};
 
-      // Get the 3 most recent entries. Delete any others.
-      var rs = this.__db.execute('select * from Persons order by Lastname desc');
+      // Get the person entry
+      var rs = this.__db.execute('select * from Persons');
       var index = 0;
-      while (rs.isValidRow()) {
+      if (rs.isValidRow()) {
         person.firstname = rs.field(0) || "";
         person.lastname = rs.field(1) || "";
         person.age = parseInt(rs.field(2)) || 0;
-        rs.next();
       }
       rs.close();
 
       return person;
-    },  
+    },
     
     
     initDB: function() {
