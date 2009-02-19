@@ -162,7 +162,12 @@ qx.Class.define("playground.Application",
 
       // Handle bookmarks
       var sample = this.__history.getState();
-
+      
+      //If you reload the playground, the current application name will be setted 
+      //in the title bar
+      var newName = this.__decodeSampleId(sample);
+      this.playAreaCaption.setContent(newName);
+      
       // checks if the state corresponds to a sample. If yes, the application
       // will be initialized with the selected sample
       if (sample && this.sampleContainer[sample] != undefined) {
@@ -181,9 +186,9 @@ qx.Class.define("playground.Application",
       this.__history.addListener("request", function(e)
       {
         var newSample = e.getData();
-
+        
         if(this.__isModified) {
-          this.__dialog = this.__codeChangedWindow();
+          this.__dialog = this.__createChangedWindow();
           this.__dialog.addListener("close", function() {
            if(this.__previousCodeState) {          
             
@@ -226,9 +231,10 @@ qx.Class.define("playground.Application",
      * 
      * @return window the dialog
      */
-    __codeChangedWindow : function() {
+    __createChangedWindow : function() {
     	var window = new qx.ui.window.Window(this.tr("Warning"), null);
       var layout = new qx.ui.layout.Grid(5, 5);
+      layout.setColumnFlex(1, 1);
       window.setLayout(layout);
       var label = new qx.ui.basic.Label(this.tr("You changed the source code of this sample." +
       		"<br/>If you continue the source code will be reset.<br/>Do you want to continue?")).set({ rich : true})
@@ -240,15 +246,21 @@ qx.Class.define("playground.Application",
         row     : 0,
         column  : 1,
         rowSpan : 0,
-        colSpan : 1
+        colSpan : 2
       });
       
       var container = new qx.ui.container.Composite(new qx.ui.layout.HBox(5, "right"));
       var warningImage = new qx.ui.basic.Image("playground/image/dialog-warning.png");
-      var yesButton = new qx.ui.form.Button("Yes");
-      var noButton = new qx.ui.form.Button("No");
-      var showDialogCheckBox = new qx.ui.form.CheckBox("Don not show this again");
-
+      var yesButton = new qx.ui.form.Button(this.tr("Yes"));
+      var noButton = new qx.ui.form.Button(this.tr("No"));
+      var showDialogCheckBox = new qx.ui.form.CheckBox(this.tr("Do not show this again"));
+      
+      showDialogCheckBox.addListener("click", function() {
+        alert(showDialogCheckBox.getChecked());
+      	//TODO Checkbox not jet implemented
+      	
+      }, this);
+      
 
       noButton.addListener("execute", function() {
         this.__previousCodeState = false;
@@ -279,20 +291,21 @@ qx.Class.define("playground.Application",
       window.add(container,
       {
         row     : 1,
-        column  : 1,
+        column  : 2,
         rowSpan : 0,
         colSpan : 0
       });
 
-      /*//TODO
+      
       window.add(showDialogCheckBox,
       {
         row     : 1,
         column  : 0,
         rowSpan : 0,
-        colSpan : 0
+        colSpan : 2
       });
-      */
+      
+      
       window.setShowMaximize(false);
       window.setShowClose(false);
       window.setShowMinimize(false);
@@ -304,8 +317,6 @@ qx.Class.define("playground.Application",
       window.moveTo(200, 200);
       return window;
     },
-    
-    
     
     /**
      * Transform sample label into sample id
@@ -636,7 +647,7 @@ qx.Class.define("playground.Application",
     	var label = this.aim.getTarget().getLabel().toString();
     	
     	if(this.__isModified) {
-    	 	this.__dialog = this.__codeChangedWindow();
+    	 	this.__dialog = this.__createChangedWindow();
       	
       	this.__dialog.addListener("close", function() {  
           if(this.__previousCodeState) {
@@ -651,7 +662,7 @@ qx.Class.define("playground.Application",
             } else {
               this.textarea.setValue(currentSource);
             }
-            this.updatePlayground(this.__playRoot); //New
+            this.updatePlayground(this.__playRoot); 
             
             this.__history.addToHistory(this.currentSample, this.__updateTitle(label));
           }
