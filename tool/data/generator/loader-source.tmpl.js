@@ -24,6 +24,7 @@ qxloader = {
   boot : %BOOT%,  
 };  
 
+
 function loadScript(uri, callback) {
   var elem = document.createElement("script");
   elem.charset = "utf-8";
@@ -32,7 +33,6 @@ function loadScript(uri, callback) {
   {
     if (!this.readyState || this.readyState == "loaded" || this.readyState == "complete")
     {
-      // Remove listeners (mem leak prevention)
       elem.onreadystatechange = elem.onload = null;
       callback();
     }
@@ -42,17 +42,27 @@ function loadScript(uri, callback) {
   head.appendChild(elem);
 }
 
-function loadScripts(list, callback) {
+var isWebkit = /AppleWebKit\/([^ ]+)/.test(navigator.userAgent);
+
+function loadScriptList(list, callback) {
   if (list.length == 0) {
     callback();
     return;
   }
   loadScript(list.shift(), function() {
-    window.setTimeout(function() {
+    if (isWebkit) {
+      // force asynchronous load
+      // Safari fails with an "maximum recursion depth exceeded" error if it is
+      // called sync.      
+      window.setTimeout(function() {
+        loadScripts(list, callback);
+      }, 0);
+    } else {
       loadScripts(list, callback);
-    }, 0);
+    }
   });
-}  
+}
+
 
 var fireContentLoadedEvent = function() {
   document.readyState = "complete";
@@ -63,7 +73,7 @@ if (document.addEventListener) {
 }
 
 var l=qxloader;
-loadScripts(l.uris[l.parts[l.boot]], function(){
+loadScriptList(l.uris[l.parts[l.boot]], function(){
   if (window.qx && qx.event && qx.event.handler && qx.event.handler.Application) qx.event.handler.Application.onScriptLoaded();
 });
 })();
