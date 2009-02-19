@@ -77,7 +77,7 @@ qx.Class.define("qx.ui.virtual.cell.Date",
     ---------------------------------------------------------------------------
     */    
 
-    getValue : function(value, states) {
+    getContent : function(value, states) {
       return this.getDateFormat().format(value);
     }
 

@@ -2494,7 +2494,22 @@ qx.Theme.define("qx.theme.modern.Appearance",
     */
 
     "row-layer" : "widget",
-    "column-layer" : "widget"
+    "column-layer" : "widget",
+    "cell" : "widget",
+    "cell-string" : "widget",
+    "cell-number" :
+    {
+      style : function(states)
+      {
+        return {
+          textAlign : "right"
+        }
+      }
+    },
+    "cell-image" : "widget",
+    "cell-boolean" : "widget",
+    "cell-atom" : "widget",
+    "cell-date" : "widget"
 
   }
 });
