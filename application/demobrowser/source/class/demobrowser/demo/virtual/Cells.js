@@ -49,11 +49,7 @@ qx.Class.define("demobrowser.demo.virtual.Cells",
     {
       var states = {};
       var stringCell = new qx.ui.virtual.cell.String;
-      var cellProperties = stringCell.getCellProperties(
-        "test<br/>lala", states
-      );
-
-      return this.__renderCell(cellProperties);
+      return this.__renderCell(stringCell, "test<br/>lala", states);
     },
     
     createNumberCell : function(data)
@@ -62,13 +58,9 @@ qx.Class.define("demobrowser.demo.virtual.Cells",
 
       var numberFormat = qx.util.format.NumberFormat.getInstance();
       numberFormat.setMaximumFractionDigits(2);
-
       var numberCell = new qx.ui.virtual.cell.Number(numberFormat);
-      var cellProperties = numberCell.getCellProperties(
-        1.2345678, states
-      );
 
-      return this.__renderCell(cellProperties);
+      return this.__renderCell(numberCell, 1.2345678, states);
     },
     
     createDateCell : function(data)
@@ -76,59 +68,62 @@ qx.Class.define("demobrowser.demo.virtual.Cells",
       var states = {};
 
       var dateFormat = qx.util.format.DateFormat.getDateInstance();
-
       var dateCell = new qx.ui.virtual.cell.Date(dateFormat);
-      var cellProperties = dateCell.getCellProperties(
-        new Date(), states
-      );
 
-      return this.__renderCell(cellProperties);
+      return this.__renderCell(dateCell, new Date(), states);
     },
 
     createHtmlCell : function(data)
     {
       var states = {};
-
       var htmlCell = new qx.ui.virtual.cell.Html;
-      var cellProperties = htmlCell.getCellProperties(
-        "<b>html</b><i>cell</i>", states
-      );
 
-      return this.__renderCell(cellProperties);
+      return this.__renderCell(htmlCell, "<b>html</b><i>cell</i>", states);
     },
 
-    __renderCell : function(cellProperties)
+
+    _getCellSizeStyle : function(width, height, insetX, insetY)
     {
+      var style = "";
+      if (qx.bom.client.Feature.CONTENT_BOX)
+      {
+        width -= insetX;
+        height -= insetY;
+      }
 
-      var htmlEmbed = new qx.ui.embed.Html();
-      var styles = cellProperties.style;
+      style += "width:" +  width + "px;";
+      style += "height:" + height + "px;";
 
-      // Set content and apply css classes:
-      htmlEmbed.set({
-        html : cellProperties.content + "",
-        cssClass : cellProperties.classes,
-        backgroundColor : "red"
+      return style;
+    },
+    
+
+    __renderCell : function(cell, value, states)
+    {
+      var width = 100;
+      var height = 40;
+
+      var embed = new qx.ui.embed.Html().set({
+        width: width,
+        height: height,
+        decorator : "main"
       });
-
-      htmlEmbed.addListener("appear", function(){
-
-        var domElement = htmlEmbed.getContentElement().getDomElement();
-
-        // Apply attributes:
-        for(var attribute in cellProperties.attributes)
-        {
-          htmlEmbed.set(
-            domElement,
-            attribute,
-            cellProperties.attributes[attribute]);
-        }
-
-        // Render styles:
-        qx.bom.element.Style.setCss(domElement, styles);
-
-      }, this);
-
-      return htmlEmbed;
+      var cellProperties = cell.getCellProperties(value, states);
+      var insets = cellProperties.insets;
+      
+      var html = [
+        "<div ",
+        "style='", 
+        this._getCellSizeStyle(width, height, insets[0], insets[1]),
+        cellProperties.style, "' ",
+        "class='", cellProperties.classes, "' ",
+        cellProperties.attributes, ">",
+        cellProperties.content,
+        "</div>"
+      ].join("");
+      
+      embed.setHtml(html);
+      return embed;
     }
   }
 });
