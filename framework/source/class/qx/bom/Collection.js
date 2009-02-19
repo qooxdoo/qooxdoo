@@ -137,9 +137,10 @@
    * Example:
    *
    * <pre class="javascript">
-   * $("#div1").append(
-   * document.createElement("br"),
-   * $("#div2"), "<em>after div2</em>"
+   * qx.bom.Selector.query("#div1").append(
+   *   document.createElement("br"),
+   *   qx.bom.Selector.query("#div2"), 
+   *   "<em>after div2</em>"
    * );
    * </pre>
    *
@@ -150,7 +151,7 @@
    * element in the collection, the content is inserted to that element;
    * content that was in another location in the DOM tree will be moved by
    * this operation. This is essentially the same as the W3C DOM
-   * appendChild method.
+   * <code>appendChild</code> method.
    *  
    * When multiple elements are selected by a collection, these methods
    * clone the content before inserting it to each element. Since the
