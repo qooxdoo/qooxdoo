@@ -203,7 +203,15 @@ qx.Class.define("qx.bom.element.Decoration",
       // Cache image sizes
       var width = ResourceManager.getImageWidth(source) || ImageLoader.getWidth(source);
       var height = ResourceManager.getImageHeight(source) || ImageLoader.getHeight(source);
-      var format = ResourceManager.getImageFormat(source) || source.substr(source.length-3, 3).toLowerCase();
+      var format = ResourceManager.getImageFormat(source) || ImageLoader.getFormat(source);
+      
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (source != null && format == null)
+        {
+          qx.log.Logger.warn("ImageLoader: Not recognized format of external image '" + source + "'!");
+        }
+      }
 
       // Enable AlphaImageLoader in IE6
       if (this.__enableAlphaFix && this.__alphaFixRepeats[repeat] && format === "png")
@@ -405,6 +413,14 @@ qx.Class.define("qx.bom.element.Decoration",
 
             if (height != null && style.height == null) {
               style.height = height + "px";
+            }
+            
+            // Reset the AlphaImageLoader filter if applied
+            // This prevents IE from setting BOTH CSS filter AND backgroundImage
+            // This is only a fallback if the image is not recognized as PNG
+            // If it's a Alpha-PNG file it *may* result in display problems 
+            if (style.filter) {
+              style.filter = "";
             }
 
             return {
