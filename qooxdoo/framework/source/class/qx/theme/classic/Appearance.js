@@ -2294,7 +2294,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "cell-image" : "widget",
     "cell-boolean" : "widget",
     "cell-atom" : "widget",
-    "cell-date" : "widget"
+    "cell-date" : "widget",
+    "cell-html" : "widget"
 
   }
 });
