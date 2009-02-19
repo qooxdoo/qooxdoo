@@ -55,10 +55,10 @@ function loadScriptList(list, callback) {
       // Safari fails with an "maximum recursion depth exceeded" error if it is
       // called sync.      
       window.setTimeout(function() {
-        loadScripts(list, callback);
+        loadScriptList(list, callback);
       }, 0);
     } else {
-      loadScripts(list, callback);
+      loadScriptList(list, callback);
     }
   });
 }
