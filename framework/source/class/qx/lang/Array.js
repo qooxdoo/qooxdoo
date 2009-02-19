@@ -113,8 +113,13 @@ qx.Bootstrap.define("qx.lang.Array",
         }
       }      
       
-      // Create new instance
-      ret.push.apply(ret, Array.prototype.slice.call(object, offset||0));
+      // Copy over items
+      if (Object.prototype.toString.call(object) === "[object Array]" && offset == null) {
+        ret.push.apply(ret, object);
+      } else {
+        ret.push.apply(ret, Array.prototype.slice.call(object, offset||0));  
+      }
+      
       return ret;      
     },
       
