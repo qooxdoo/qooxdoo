@@ -234,7 +234,7 @@ qx.Class.define("demobrowser.demo.bom.Selector",
       var select = document.createElement("select");
       var label = document.createElement("label");
       
-      var selectCol = new qx.bom.Collection(select).setAttribute("id", "field-title");
+      var selectCol = new qx.bom.Collection(select).setAttribute("id", "field-title").setAttribute("name", "title");
       var labelCol = new qx.bom.Collection(label).setAttribute("for", "field-title").setAttribute("text", " Title ");
       
       qx.bom.Selector.query("select").after(label, select);
