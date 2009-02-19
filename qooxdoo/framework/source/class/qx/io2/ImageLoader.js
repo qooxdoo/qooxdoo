@@ -233,7 +233,7 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
           
           if (typeof regExp === "undefined")
           {
-            regExp = new RegExp("\." + this.__knownImageTypes[i] + "$", "i");
+            regExp = new RegExp("\." + this.__knownImageTypes[i], "i");
             formatExps[imgFormatArr[i]] = regExp;
           }
           
