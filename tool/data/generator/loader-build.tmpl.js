@@ -17,5 +17,5 @@ qxloader = {
 
 ${BootPart}
 
-if (window.qx && qx.event && qx.event.handler && qx.event.handler.Application) qx.event.handler.Application.ready();
+if (window.qx && qx.event && qx.event.handler && qx.event.handler.Application) qx.event.handler.Application.onScriptLoaded();
 

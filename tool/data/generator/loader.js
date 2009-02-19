@@ -185,7 +185,6 @@ window.qxloader =
       // Is this the boot module? => start init process
       if (part == this.boot)
       {
-        this._bootLoaded = true;
         this._fireReady();
       }
 
@@ -213,8 +212,8 @@ window.qxloader =
 
   _fireReady : function()
   {
-    if (this._bootLoaded && this._pageLoaded && window.qx && qx.event && qx.event.handler && qx.event.handler.Application) {
-      qx.event.handler.Application.ready();
+    if (window.qx && qx.event && qx.event.handler && qx.event.handler.Application) {
+      qx.event.handler.Application.onScriptLoaded();
     }
   },
 
@@ -275,34 +274,19 @@ window.qxloader =
   _pageLoad : function()
   {
     if (window.addEventListener) {
-      window.removeEventListener("load", qxloader._pageLoad, false);
-    } else {
-      window.detachEvent("onload", qxloader._pageLoad);
+      window.removeEventListener("DOMContentLoaded", qxloader._pageLoad, false);
     }
 
-    qxloader._pageLoaded = true;
-    qxloader._fireReady();
+    document.readyState = "complete";
   },
 
 
   init : function()
   {
-    // first check whether the page is already loaded (IE only)
-    // We have to rely on readyState "complete" since one can *not* be sure
-    // that the body element is present at the readyState "interactive".
-    // Inline applications rely on the presence of the body element at startup.
-    if (this._isMshtml && document.readyState == "complete") {
-      qxloader._pageLoad();
+    if (window.addEventListener) {
+      window.addEventListener("DOMContentLoaded", this._pageLoad, false);
     }
-    else
-    {
-      if (window.addEventListener) {
-        window.addEventListener("load", this._pageLoad, false);
-      } else {
-        window.attachEvent("onload", this._pageLoad);
-      }
-    }
-
+    
     this.loadPart(this.boot);
   }
 };
