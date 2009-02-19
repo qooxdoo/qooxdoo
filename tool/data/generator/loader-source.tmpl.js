@@ -21,7 +21,7 @@ qxloader = {
   
   parts : %PARTS%,
   uris : %URIS%,
-  boot : %BOOT%,  
+  boot : %BOOT%  
 };  
 
 
