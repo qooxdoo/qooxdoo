@@ -34,7 +34,7 @@ qx.Class.define("qx.test.ui.virtual.performance.AbstractLayerTest",
 
   members :
   {
-    ITERATIONS : 24,
+    ITERATIONS : 10, // was 24
     
     setUp : function()
     {
