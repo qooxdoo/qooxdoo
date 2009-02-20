@@ -20,6 +20,7 @@
 qx.Class.define("qx.test.ui.virtual.performance.WidgetCell", 
 {
   extend : qx.test.ui.virtual.performance.AbstractLayerTest,
+  type : "abstract",
 
   construct : function()
   {
@@ -31,7 +32,7 @@ qx.Class.define("qx.test.ui.virtual.performance.WidgetCell",
   
   members :
   {      
-    ITERATIONS : 6,
+    ITERATIONS : 3,
     
     getLayer : function() {
       return new qx.ui.virtual.layer.WidgetCell(this);
