@@ -44,7 +44,9 @@ var CodeMirror = (function(){
     height: "300px",
     autoMatchParens: false,
     parserConfig: null,
-    dumbTabs: false
+    dumbTabs: false,
+    activeTokens: null,
+    cursorActivity: null
   });
 
   function CodeMirror(place, options) {
@@ -53,6 +55,7 @@ var CodeMirror = (function(){
     setDefaults(options, CodeMirrorConfig);
 
     var frame = this.frame = document.createElement("IFRAME");
+    frame.src = "javascript:false;";
     frame.style.border = "0";
     frame.style.width = options.width;
     frame.style.height = options.height;
@@ -92,50 +95,69 @@ var CodeMirror = (function(){
   }
 
   CodeMirror.prototype = {
-    getCode: function() {
-      // TODO: qooxdoo modification
-      if(this.editor) {
-        return this.editor.getCode();
-      }
-    },
-    setCode: function(code) {
-      // TODO: qooxdoo modification
-      if(this.editor) {
-        this.editor.importCode(code);
-      }
-    },
+    getCode: function() {return this.editor.getCode();},
+    setCode: function(code) {this.editor.importCode(code);},
+    selection: function() {return this.editor.selectedText();},
+    reindent: function() {this.editor.reindent();},
+
     focus: function() {
       this.win.focus();
+      if (this.editor.selectionSnapshot) // IE hack
+        this.win.select.selectCoords(this.win, this.editor.selectionSnapshot);
     },
-    jumpToChar: function(start, end) {
-      this.editor.jumpToChar(start, end);
+    replaceSelection: function(text) {
       this.focus();
-    },
-    jumpToLine: function(line) {
-      this.editor.jumpToLine(line);
-      this.focus();
-    },
-    currentLine: function() {
-      return this.editor.currentLine();
-    },
-    selection: function() {
-      return this.editor.selectedText();
-    },
-    reindent: function() {
-      this.editor.reindent();
-    },
-    replaceSelection: function(text, focus) {
-      var result = this.editor.replaceSelection(text);
-      if (focus) this.focus();
-      return result;
+      this.editor.replaceSelection(text);
+      return true;
     },
     replaceChars: function(text, start, end) {
       this.editor.replaceChars(text, start, end);
     },
     getSearchCursor: function(string, fromCursor) {
       return this.editor.getSearchCursor(string, fromCursor);
+    },
+
+    cursorPosition: function(start) {
+      if (this.win.select.ie_selection) this.focus();
+      return this.editor.cursorPosition(start);
+    },
+    firstLine: function() {return this.editor.firstLine();},
+    lastLine: function() {return this.editor.lastLine();},
+    nextLine: function(line) {return this.editor.nextLine(line);},
+    prevLine: function(line) {return this.editor.prevLine(line);},
+    lineContent: function(line) {return this.editor.lineContent(line);},
+    setLineContent: function(line, content) {this.editor.setLineContent(line, content);},
+    insertIntoLine: function(line, position, content) {this.editor.insertIntoLine(line, position, content);},
+    selectLines: function(startLine, startOffset, endLine, endOffset) {
+      this.win.focus();
+      this.editor.selectLines(startLine, startOffset, endLine, endOffset);
+    },
+    nthLine: function(n) {
+      var line = this.firstLine();
+      for (; n > 1 && line !== false; n--)
+        line = this.nextLine(line);
+      return line;
+    },
+    lineNumber: function(line) {
+      var num = 0;
+      while (line !== false) {
+        num++;
+        line = this.prevLine(line);
+      }
+      return num;
+    },
+
+    // Old number-based line interface
+    jumpToLine: function(n) {
+      this.selectLines(this.nthLine(n), 0);
+      this.win.focus();
+    },
+    currentLine: function() {
+      return this.lineNumber(this.cursorPosition().line);
     }
   };
+
+  CodeMirror.InvalidLineHandle = {toString: function(){return "CodeMirror.InvalidLineHandle";}};
 
   CodeMirror.replace = function(element) {
     if (typeof element == "string")
@@ -187,6 +209,8 @@ var CodeMirror = (function(){
       return Number(match[1]) >= 6;
     else if (match = navigator.userAgent.match(/gecko\/(\d{8})/i))
       return Number(match[1]) >= 20050901;
+    else if (/Chrome\//.test(navigator.userAgent))
+      return true;
     else
       return null;
   };

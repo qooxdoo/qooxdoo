@@ -105,8 +105,8 @@ var JSParser = Editor.Parser = (function() {
         lexical.align = true;
 
       // Execute actions until one 'consumes' the token and we can
-      // return it. Marked is used to 
-      while(true){
+      // return it.
+      while(true) {
         consume = marked = false;
         // Take and execute the topmost action.
         cc.pop()(token.type, token.content);
@@ -132,7 +132,7 @@ var JSParser = Editor.Parser = (function() {
     function copy(){
       var _context = context, _lexical = lexical, _cc = cc.concat([]), _tokenState = tokens.state;
   
-      return function(input){
+      return function copyParser(input){
         context = _context;
         lexical = _lexical;
         cc = _cc.concat([]); // copies the array
@@ -164,8 +164,7 @@ var JSParser = Editor.Parser = (function() {
       marked = style;
     }
 
-    // Push a new scope. Will automatically link the the current
-    // scope.
+    // Push a new scope. Will automatically link the current scope.
     function pushcontext(){
       context = {prev: context, vars: {"this": true, "arguments": true}};
     }
@@ -211,7 +210,7 @@ var JSParser = Editor.Parser = (function() {
     // Creates an action that discards tokens until it finds one of
     // the given type.
     function expect(wanted){
-      return function(type){
+      return function expecting(type){
         if (type == wanted) cont();
         else cont(arguments.callee);
       };
@@ -232,6 +231,7 @@ var JSParser = Editor.Parser = (function() {
       else if (type == "for") cont(pushlex("form"), expect("("), pushlex(")"), forspec1, expect(")"), poplex, statement, poplex);
       else if (type == "variable") cont(pushlex("stat"), maybelabel);
       else if (type == "case") cont(expression, expect(":"));
+      else if (type == "default") cont(expect(":"));
       else if (type == "catch") cont(pushlex("form"), pushcontext, expect("("), funarg, expect(")"), statement, poplex, popcontext);
       else pass(pushlex("stat"), expression, expect(";"), poplex);
     }
@@ -250,9 +250,9 @@ var JSParser = Editor.Parser = (function() {
     // is found.
     function maybeoperator(type){
       if (type == "operator") cont(expression);
-      else if (type == "(") cont(pushlex(")"), expression, commasep(expression), expect(")"), poplex);
+      else if (type == "(") cont(pushlex(")"), expression, commasep(expression), expect(")"), poplex, maybeoperator);
       else if (type == ".") cont(property, maybeoperator);
-      else if (type == "[") cont(pushlex("]"), expression, expect("]"), poplex);
+      else if (type == "[") cont(pushlex("]"), expression, expect("]"), poplex, maybeoperator);
     }
     // When a statement starts with a variable name, it might be a
     // label. If no colon follows, it's a regular statement.
@@ -261,7 +261,7 @@ var JSParser = Editor.Parser = (function() {
       else pass(maybeoperator, expect(";"), poplex);
     }
     // Property names need to have their style adjusted -- the
-    // tokenizer think they are variables.
+    // tokenizer thinks they are variables.
     function property(type){
       if (type == "variable") {mark("js-property"); cont();}
     }
@@ -276,7 +276,7 @@ var JSParser = Editor.Parser = (function() {
       function proceed(type) {
         if (type == ",") cont(what, proceed);
       };
-      return function() {
+      return function commaSeparated() {
         pass(what, proceed);
       };
     }
