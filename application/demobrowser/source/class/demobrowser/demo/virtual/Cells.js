@@ -41,7 +41,8 @@ qx.Class.define("demobrowser.demo.virtual.Cells",
       container.add(this.createNumberCell(), {row : 0, column : 1 });
       container.add(this.createDateCell(), {row : 0, column : 2 });
       container.add(this.createHtmlCell(), {row : 1, column : 0 });
-
+      container.add(this.createSelectedCell(), {row : 1, column : 1 });
+      
       this.getRoot().add(container, {edge : 0});
     },
 
@@ -80,7 +81,14 @@ qx.Class.define("demobrowser.demo.virtual.Cells",
 
       return this.__renderCell(htmlCell, "<b>html</b><i>cell</i>", states);
     },
+    
+    createSelectedCell : function(data)
+    {
+      var states = {selected: 1};
+      var htmlCell = new qx.ui.virtual.cell.Html;
 
+      return this.__renderCell(htmlCell, "selected", states);
+    },    
 
     _getCellSizeStyle : function(width, height, insetX, insetY)
     {
