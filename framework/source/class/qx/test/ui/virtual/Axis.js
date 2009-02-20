@@ -139,7 +139,7 @@ qx.Class.define("qx.test.ui.virtual.Axis",
     },
     
     
-    ITEM_POS_ITER : 10,
+    ITEM_POS_ITER : 5,
     ITEM_POS_COUNT : 10000,
     
     testGetItemAtPositionStress : function()
@@ -182,7 +182,7 @@ qx.Class.define("qx.test.ui.virtual.Axis",
     },
     
     
-    TOTAL_SIZE_ITER : 100,
+    TOTAL_SIZE_ITER : 50,
     TOTAL_SIZE_ITEMS : 1000,
     
     testGetTotalSizeStress : function()
