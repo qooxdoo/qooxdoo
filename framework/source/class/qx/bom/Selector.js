@@ -19,16 +19,16 @@
 
    This class contains code based on the following work:
 
-   * Sizzle CSS Selector Engine - v0.9.3
+   * Sizzle CSS Selector Engine - v1.0
 
      http://sizzlejs.com/
      http://groups.google.com/group/sizzlejs
      http://github.com/jeresig/sizzle/tree
 
      Snapshot from February 20, 2009
-       commit  2ad030fbcc76e591e0cf5e13af1072c973c8e6bd
-       tree    a136c4ebe05812f420cf0445ce830e63f6fdb5a8
-       parent  0e4465b677d0b2f6c72f3704b4af88a17c0db4ff    
+       commit  cc1213bc4d9402765d7699f2f9d2db2298830ff5
+       tree    3f8650c5fb6b173bba78f9d0c5af992244a8c6d7
+       parent  1836cc553704ef03a1ec77294585709cc748e581   
 
      Copyright:
        (c) 2009, The Dojo Foundation
@@ -1071,7 +1071,7 @@ var posProcess = function(selector, context){
 
 // EXPOSE
 
-window.Sizzle = Sizzle;
+// window.Sizzle = Sizzle;
 
 // EXPOSE qooxdoo variant
 
