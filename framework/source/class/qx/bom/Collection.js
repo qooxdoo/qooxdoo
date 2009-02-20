@@ -39,6 +39,7 @@
 #require(qx.bom.Element)
 #require(qx.bom.Input)
 #require(qx.bom.Viewport)
+#require(qx.bom.Selector)
 
 #require(qx.bom.element.Attribute)
 #require(qx.bom.element.Class)
@@ -120,7 +121,7 @@
    * allowing you to 'chain' upon it, for example:
    *
    * <pre class="javascript">
-   * qx.bom.Selector.query("a").addClass("test")
+   * qx.bom.Collection.query("a").addClass("test")
    *   .setStyle("visibility", "visible").setAttribute("html", "foo");
    * </pre>
    *
@@ -137,9 +138,9 @@
    * Example:
    *
    * <pre class="javascript">
-   * qx.bom.Selector.query("#div1").append(
+   * qx.bom.Collection.query("#div1").append(
    *   document.createElement("br"),
-   *   qx.bom.Selector.query("#div2"), 
+   *   qx.bom.Collection.query("#div2"), 
    *   "<em>after div2</em>"
    * );
    * </pre>
@@ -172,14 +173,14 @@
    * leave the original <code>#Thing</code> unmolested in the document:
    * 
    * <pre class="javascript">
-   * qx.bom.Selector.query("#Thing").clone().appendTo(".OneOrMore");
+   * qx.bom.Collection.query("#Thing").clone().appendTo(".OneOrMore");
    * </pre>
    *  
    * This example will always remove <code>#Thing</code> from the document and append it
    * to <code>.OneOrMore</code>:
    *
    * <pre class="javascript">
-   * qx.bom.Selector.query("#Thing").remove().appendTo(".OneOrMore");   
+   * qx.bom.Collection.query("#Thing").remove().appendTo(".OneOrMore");   
    * </pre>
    */
   qx.Class.define("qx.bom.Collection",
@@ -201,7 +202,7 @@
        *
        * @see qx.bom.Selector.query
        * @param selector {String} CSS Selector String
-       * @param context {Element} Context element to filter start search in
+       * @param context {Element|Document?document} Context element to filter start search in
        * @return {Collection} Collection instance to wrap found elements
        */
       query : function(selector, context) 
@@ -212,7 +213,8 @@
       
 
       /**
-       * Queries the DOM for an element matching the given ID.
+       * Queries the DOM for an element matching the given ID. Must not contain
+       * the "#" like when using the query engine.
        *
        * This is mainly a wrapper for <code>document.getElementById</code> and
        * returns a collection for easy querying and modification instead of the 
@@ -239,7 +241,7 @@
        * Converts a HTML string into a collection
        *
        * @param html {String} String containing one or multiple elements or pure text content
-       * @param context {Document} Context in which newly DOM elements are created from the markup
+       * @param context {Element|Document?document} Context in which newly DOM elements are created from the markup
        * @return {Collection} Collection containing the create DOM elements
        */
       html : function(html, context)
@@ -263,7 +265,7 @@
        * @see #id
        * @see #html
        * @param input {Element|String|Element[]} Support HTML elements, HTML strings and selector strings
-       * @param context {Element|Document?null} Where to start looking for the expression or
+       * @param context {Element|Document?document} Where to start looking for the expression or
        *   any element in the document which refers to a valid document to create new elements
        *   (useful when dealing with HTML->Element translation in multi document environments).
        * @return {Collection} Newly created collection 
@@ -286,7 +288,7 @@
         {
           var match = Collection.__expr.exec(input);
           if (match) {
-            return match[1] ? Collection.html(match[1], context) : Collection.id(match[3]);
+            return match[1] ? Collection.html(match[1], context) : Collection.id(match[3].substring(1));
           } else {
             return Collection.query(input, context);
           }    
@@ -1454,7 +1456,7 @@
        * Append all of the matched elements to another, specified, set of elements.
        *
        * This operation is, essentially, the reverse of doing a regular 
-       * <code>qx.bom.Selector.query(A).append(B)</code>, in that instead 
+       * <code>qx.bom.Collection.query(A).append(B)</code>, in that instead 
        * of appending B to A, you're appending A to B.
        *
        * @param varargs {String} List of selector expressions
@@ -1469,7 +1471,7 @@
        * Append all of the matched elements to another, specified, set of elements.
        *
        * This operation is, essentially, the reverse of doing a regular 
-       * <code>qx.bom.Selector.query(A).prepend(B)</code>,  in that instead 
+       * <code>qx.bom.Collection.query(A).prepend(B)</code>,  in that instead 
        * of prepending B to A, you're prepending A to B.
        *
        * @param varargs {String} List of selector expressions
@@ -1543,7 +1545,7 @@
        * Insert all of the matched elements after another, specified, set of elements.
        *
        * This operation is, essentially, the reverse of doing a regular 
-       * <code>qx.bom.Selector.query(A).before(B)</code>, in that instead 
+       * <code>qx.bom.Collection.query(A).before(B)</code>, in that instead 
        * of inserting B to A, you're inserting A to B.
        *
        * @param varargs {String} List of selector expressions
@@ -1558,7 +1560,7 @@
        * Insert all of the matched elements before another, specified, set of elements.
        *
        * This operation is, essentially, the reverse of doing a regular 
-       * <code>qx.bom.Selector.query(A).after(B)</code>,  in that instead 
+       * <code>qx.bom.Collection.query(A).after(B)</code>,  in that instead 
        * of inserting B to A, you're inserting A to B.
        *
        * @param varargs {String} List of selector expressions
@@ -1592,7 +1594,7 @@
        * This returns the JQuery element that was just replaced, which has been 
        * removed from the DOM.
        *
-       * @param varargs {Element|String} A reference to an DOM element or a HTML string
+       * @param content {Element|String} A reference to an DOM element or a HTML string
        * @return {Collection} The collection is returned for chaining proposes    
        */
       replaceWith : function(content) {
@@ -1631,7 +1633,7 @@
        *
        * Note that this function will also remove all event handlers. So:
        *
-       * <code>qx.bom.Selector.query("#foo").remove().appendTo("#bar");</code>
+       * <code>qx.bom.Collection.query("#foo").remove().appendTo("#bar");</code>
        *
        * should be written as
        *
