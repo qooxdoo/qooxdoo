@@ -348,6 +348,38 @@ qx.Bootstrap.define("qx.lang.Array",
       Array.prototype.push.apply(arr1, arr2);
       return arr1;
     },
+    
+    
+    /**
+     * Modifies the first array as it removes all elements
+     * which are listed in the second array as well.
+     *
+     * @param arr1 {Array} the array
+     * @param arr2 {Array} the elements of this array will be excluded from the other one
+     * @return {Array} The modified array.
+     * @throws an exception if one of the arguments is not an array
+     */
+    exclude : function(arr1, arr2)
+    {
+      // this check is important because opera throws an uncatchable error if apply is called without
+      // an arr as second argument.
+      if (qx.core.Variant.isSet("qx.debug", "on")) 
+      {
+        qx.core.Assert.assertArray(arr1, "The first parameter must be an array.");
+        qx.core.Assert.assertArray(arr2, "The second parameter must be an array.");
+      }
+      
+      var index;
+      for (var i=0, il=arr2.length; i<il; i++)
+      {
+        index = arr1.indexOf(arr2[i]);
+        if (index != -1) {
+          arr1.splice(index, 1);
+        }
+      }
+      
+      return arr1;
+    },
 
 
     /**
