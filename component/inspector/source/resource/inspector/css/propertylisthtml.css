@@ -1,0 +1,48 @@
+.ins_property_editor_html_error {
+  color: red;
+  padding: 2px;
+}
+
+.ins_property_editor_html_tr_odd {
+  font: 11px Verdana; 
+  background-color: #EBEBEE;
+}
+
+.ins_property_editor_html_tr_even {
+  font: 11px Verdana; 
+  background-color: #EBEBE0;
+}
+
+.ins_property_editor_html_td {
+  vertical-align: top;
+  padding: 2px;  
+}
+
+.ins_property_editor_html_td_link {
+  vertical-align: top;
+  padding: 2px;
+  font-weight: bold;
+}
+
+.ins_property_editor_html_tr_classname {
+  font: 14px Verdana; 
+  background-color: #D7D7A7;
+}
+
+.ins_property_editor_html_td_classname {
+  font: bold 13px Verdana;
+  padding: 4px;  
+}
+
+.ins_property_editor_html_table {
+  width: 100%;
+  border-spacing: 1px;
+  background-color: #C0C0C0;
+  border-width: 0px;  
+}
+.ins_property_editor_html_edit_field {
+  width: 100%;
+  background-color: #D7D7A7;
+  border: 1px black solid;
+  font: 10px Verdana;
+}

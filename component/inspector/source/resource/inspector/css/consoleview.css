@@ -1,0 +1,96 @@
+/* COMMON STUFF */
+.ins_console_common {
+  font-family: Courier New;
+  font-size:11px;
+  width: 100%;
+  border-bottom: 1px #CCCCCC solid;
+}
+
+
+
+/* OUTPUT STYLES */
+.ins_console_text {
+  color: blue;
+  padding: 3px;
+}
+
+.ins_console_help {
+  color: #666666;
+  padding: 3px;  
+}
+
+
+
+/* ICON */
+.ins_console_icon {
+  vertical-align: middle;
+}
+
+
+
+/* RETURN STUFF */
+.ins_console_return_qxobject {
+  color: #006400;
+  padding: 3px;  
+}
+
+.ins_console_return_primitive {
+  color: #00008B;
+  padding: 3px;
+}
+
+.ins_console_return_object {
+  color: #AAAA00;
+  padding: 3px;
+}
+
+.ins_console_return_array {
+  color: #AAAA00;
+  padding: 3px;
+}
+
+.ins_console_return_code {
+  color: white;
+  background-color: black;
+  padding: 3px;
+}
+
+
+
+/* APPENDER STUFF */
+.ins_console_debug {
+  color: grey;
+  padding: 3px;
+}
+
+.ins_console_info {
+  color: black;
+  padding: 3px;
+}
+
+.ins_console_warn {
+  color: black;
+  background-color: #00FFFF;
+  padding: 3px;
+}
+
+.ins_console_error {
+  color: red;
+  background-color: #FFFFE0;
+  padding: 3px;
+}
+
+
+
+/* LINKS */
+.ins_console_dom_link {
+  cursor: pointer;
+  color: #AAAA00;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.ins_console_link {
+  cursor: pointer;
+  text-decoration: underline;
+}
