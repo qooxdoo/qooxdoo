@@ -126,9 +126,9 @@ qx.Class.define("demobrowser.demo.data.store.Gears",
       var rs = this.__db.execute('select * from Persons');
       var index = 0;
       if (rs.isValidRow()) {
-        person.firstname = rs.field(0) || "";
-        person.lastname = rs.field(1) || "";
-        person.age = parseInt(rs.field(2)) || 0;
+        person.firstname = rs.field(0) || "";
+        person.lastname = rs.field(1) || "";
+        person.age = parseInt(rs.field(2)) || 0;
       }
       rs.close();
 
