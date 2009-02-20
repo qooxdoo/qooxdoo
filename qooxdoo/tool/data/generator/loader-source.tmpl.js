@@ -72,8 +72,15 @@ if (document.addEventListener) {
   document.addEventListener('DOMContentLoaded', fireContentLoadedEvent, false);
 }
 
-var l=qxloader;
-loadScriptList(l.uris[l.parts[l.boot]], function(){
-  if (window.qx && qx.event && qx.event.handler && qx.event.handler.Application) qx.event.handler.Application.onScriptLoaded();
-});
+qxloader.init = function(){
+  var l=qxloader;
+  loadScriptList(l.uris[l.parts[l.boot]], function(){
+    // Opera needs this extra time to parse the scripts
+    window.setTimeout(function(){
+      if (window.qx && qx.event && qx.event.handler && qx.event.handler.Application) qx.event.handler.Application.onScriptLoaded();
+    }, 0);
+  });
+}
+qxloader.init();
+
 })();
