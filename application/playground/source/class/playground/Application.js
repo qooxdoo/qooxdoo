@@ -617,7 +617,6 @@ qx.Class.define("playground.Application",
       var newButton;
 
       var elem = document.getElementsByTagName("TEXTAREA");
-      var id;
 
       for (var i=0; i<elem.length; i++)
       {
@@ -625,6 +624,7 @@ qx.Class.define("playground.Application",
         {
           var id = this.__encodeSampleId(elem[i].title);
           this.sampleContainer[id] = elem[i].value;
+
           newButton = new qx.ui.menu.Button(elem[i].title, "icon/16/mimetypes/office-document.png");
           menu.add(newButton);
 
@@ -681,7 +681,6 @@ qx.Class.define("playground.Application",
         } else {
           this.textarea.setValue(currentSource);
         }
-        
         this.__history.addToHistory(this.currentSample, this.__updateTitle(label));
     	}
     },
