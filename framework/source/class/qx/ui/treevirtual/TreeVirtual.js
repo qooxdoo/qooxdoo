@@ -552,7 +552,8 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      *
      * @param attributes {Map}
      *
-     * @deprecated This method no longer does anything and will be removed.
+     * @deprecated
+     *   This method no longer does anything and will be removed in 0.9
      *
      * @return {void}
      */
