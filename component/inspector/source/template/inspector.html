@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qx Inspector</title>
+  
+  <script type="text/javascript" src="../../qooxdoo-contrib.trunk/Inspector/trunk/build/script/inspector.js"></script>
+
+  <script type="text/javascript">
+    qxinspector = {local : true};
+    
+    qxlibraries["qx"]={"resourceUri":"../../qooxdoo-contrib.trunk/Inspector/trunk/build/resource","version":"trunk"};
+		qxlibraries["iframetest"]={"resourceUri":"../../qooxdoo-contrib.trunk/Inspector/trunk/build/resource","version":"trunk"};
+		
+		window.qxloader.uris = [["../../qooxdoo-contrib.trunk/Inspector/trunk/build/script/inspector-0.js"]];
+		
+		window.qxloader.runningParts = {};
+		window.qxloader.loadedParts = {};
+		window.qxloader.runningPackages = {};
+		window.qxloader.loadedPackages = {};
+		window.qxloader.runningScripts = {};
+		window.qxloader.loadedScripts = {};
+		
+		window.qxloader.callbackList = [];
+		
+		window.qxloader.scriptQueue = [];
+		window.qxloader.inFlushQueue = false;
+		
+		qxloader.init();
+</script>
+
+</head>
+</html>
