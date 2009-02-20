@@ -1733,7 +1733,7 @@
     {
       // Define alias as used by jQuery if not already in use.
       if (window.$ == null) {
-        window.$ = statics.from;
+        window.$ = statics.create;
       }
     }
   });
