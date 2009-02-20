@@ -55,6 +55,7 @@ qx.Class.define("demobrowser.demo.virtual.Selection",
       layout.setColumnFlex(0, 1);
       layout.setColumnFlex(1, 1);
       layout.setColumnFlex(2, 1);
+      layout.setColumnFlex(3, 1);
       
       var managers = [];
       

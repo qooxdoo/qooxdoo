@@ -391,6 +391,6 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
   
   
   destruct : function() {
-    this.__disposeFields("__stylesheet"); 
+    this._disposeFields("__stylesheet"); 
   }
 });
