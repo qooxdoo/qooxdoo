@@ -11,9 +11,104 @@
  * an exception when this happens.
  */
 
-(function(){
-  // Generic operations that apply to stringstreams.
-  var base = {
+// Make a string stream out of an iterator that returns strings. This
+// is applied to the result of traverseDOM (see codemirror.js), and
+// the resulting stream is fed to the parser.
+window.stringStream = function(source){
+  source = iter(source);
+  // String that's currently being iterated over.
+  var current = "";
+  // Position in that string.
+  var pos = 0;
+  // Accumulator for strings that have been iterated over but not
+  // get()-ed yet.
+  var accum = "";
+  // Make sure there are more characters ready, or throw
+  // StopIteration.
+  function ensureChars() {
+    while (pos == current.length) {
+      accum += current;
+      current = ""; // In case source.next() throws
+      pos = 0;
+      try {current = source.next();}
+      catch (e) {
+        if (e != StopIteration) throw e;
+        else return false;
+      }
+    }
+    return true;
+  }
+
+  return {
+    // Return the next character in the stream.
+    peek: function() {
+      if (!ensureChars()) return null;
+      return current.charAt(pos);
+    },
+    // Get the next character, throw StopIteration if at end, check
+    // for unused content.
+    next: function() {
+      if (!ensureChars()) {
+        if (accum.length > 0)
+          throw "End of stringstream reached without emptying buffer ('" + accum + "').";
+        else
+          throw StopIteration;
+      }
+      return current.charAt(pos++);
+    },
+    // Return the characters iterated over since the last call to
+    // .get().
+    get: function() {
+      var temp = accum;
+      accum = "";
+      if (pos > 0){
+        temp += current.slice(0, pos);
+        current = current.slice(pos);
+        pos = 0;
+      }
+      return temp;
+    },
+    // Push a string back into the stream.
+    push: function(str) {
+      current = current.slice(0, pos) + str + current.slice(pos);
+    },
+    lookAhead: function(str, consume, skipSpaces, caseInsensitive) {
+      function cased(str) {return caseInsensitive ? str.toLowerCase() : str;}
+      str = cased(str);
+      var found = false;
+
+      var _accum = accum, _pos = pos;
+      if (skipSpaces) this.nextWhile(matcher(/[\s\u00a0]/));
+
+      while (true) {
+        var end = pos + str.length, left = current.length - pos;
+        if (end <= current.length) {
+          found = str == cased(current.slice(pos, end));
+          pos = end;
+          break;
+        }
+        else if (str.slice(0, left) == cased(current.slice(pos))) {
+          accum += current; current = "";
+          try {current = source.next();}
+          catch (e) {break;}
+          pos = 0;
+          str = str.slice(left);
+        }
+        else {
+          break;
+        }
+      }
+
+      if (!(found && consume)) {
+        current = accum.slice(_accum.length) + current;
+        pos = _pos;
+        accum = _accum;
+      }
+
+      return found;
+    },
+
+    // Utils built on top of the above
     more: function() {
       return this.peek() !== null;
     },
@@ -31,81 +126,6 @@
     endOfLine: function() {
       var next = this.peek();
       return next == null || next == "\n";
-    },
-    matches: function(string, caseSensitive) {
-      for (var i = 0; i < string.length; i++) {
-        var ch = this.peek();
-        if (!ch || string.charAt(i) != (caseSensitive ? ch : ch.toLowerCase()))
-          return false;
-        this.next();
-      }
-      return true;
     }
   };
-
-  // Make a string stream out of an iterator that returns strings. This
-  // is applied to the result of traverseDOM (see codemirror.js), and
-  // the resulting stream is fed to the parser.
-  window.stringStream = function(source){
-    source = iter(source);
-    var current = "", pos = 0;
-    var peeked = null, accum = "";
-
-    return update({
-      peek: function() {
-        if (!peeked) {
-          try {peeked = this.step();}
-          catch (e) {
-            if (e != StopIteration) throw e;
-            else peeked = null;
-          }
-        }
-        return peeked;
-      },
-      step: function() {
-        if (peeked) {
-          var temp = peeked;
-          peeked = null;
-          return temp;
-        }
-        while (pos == current.length) {
-          accum += current;
-          current = ""; // In case source.next() throws
-          pos = 0;
-          current = source.next();
-        }
-        return current.charAt(pos++);
-
-      },
-      next: function() {
-        try {return this.step();}
-        catch (e) {
-          if (e == StopIteration && accum.length > 0)
-            throw "End of stringstream reached without emptying buffer ('" + accum + "').";
-          else
-            throw e;
-        }
-      },
-      get: function() {
-        var temp = accum;
-        var realPos = peeked ? pos - 1 : pos;
-        accum = "";
-        if (realPos > 0){
-          temp += current.slice(0, realPos);
-          current = current.slice(realPos);
-          pos = peeked ? 1 : 0;
-        }
-        return temp;
-      },
-      reset: function() {
-        current = accum + current;
-        accum = "";
-        pos = 0;
-        peeked = null;
-      },
-      push: function(str) {
-        current = current.slice(0, pos) + str + current.slice(pos);
-      }
-    }, base);
-  };
-})();
+};

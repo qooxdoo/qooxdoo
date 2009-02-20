@@ -5,13 +5,6 @@ function method(obj, name) {
   return function() {obj[name].apply(obj, arguments);};
 }
 
-// Write properties from an object into another object.
-function update(obj, from) {
-  for (var name in from)
-    obj[name] = from[name];
-  return obj;
-}
-
 // The value used to signal the end of a sequence in iterators.
 var StopIteration = {toString: function() {return "StopIteration"}};
 
@@ -23,7 +16,7 @@ function iter(seq) {
   else return {
     next: function() {
       if (i >= seq.length) throw StopIteration;
-      else return seq[++i];
+      else return seq[i++];
     }
   };
 }
@@ -115,20 +108,16 @@ function normalizeEvent(event) {
 }
 
 // Portably register event handlers.
-function addEventHandler(node, type, handler) {
+function addEventHandler(node, type, handler, removeFunc) {
   function wrapHandler(event) {
     handler(normalizeEvent(event || window.event));
   }
   if (typeof node.addEventListener == "function") {
     node.addEventListener(type, wrapHandler, false);
-    return function() { node.removeEventListener(type, wrapHandler, false); };
+    if (removeFunc) return function() {node.removeEventListener(type, wrapHandler, false);};
   }
   else {
     node.attachEvent("on" + type, wrapHandler);
-    return function() { node.detachEvent("on" + type, wrapHandler); };
+    if (removeFunc) return function() {node.detachEvent("on" + type, wrapHandler);};
   }
-}
-
-function removeEventHandler(handler) {
-  handler();
 }

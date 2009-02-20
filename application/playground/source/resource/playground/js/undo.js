@@ -227,27 +227,25 @@ History.prototype = {
       else nullTemp = line;
     }
 
+    function buildLine(node) {
+      var text = [];
+      for (var cur = node ? node.nextSibling : self.container.firstChild;
+           cur && cur.nodeName != "BR"; cur = cur.nextSibling)
+        if (cur.currentText) text.push(cur.currentText);
+      return {from: node, to: cur, text: text.join("")};
+    }
+
     // Filter out unchanged lines and nodes that are no longer in the
     // document. Build up line objects for remaining nodes.
     var lines = [];
     if (self.firstTouched) self.touched.push(null);
     forEach(self.touched, function(node) {
-      if (node) {
-        node.historyTouched = false;
-        if (node.parentNode != self.container)
-          return;
-      }
-      else {
-        self.firstTouched = false;
-      }
+      if (node && node.parentNode != self.container) return;
 
-      var text = [];
-      for (var cur = node ? node.nextSibling : self.container.firstChild;
-           cur && cur.nodeName != "BR"; cur = cur.nextSibling)
-        if (cur.currentText) text.push(cur.currentText);
+      if (node) node.historyTouched = false;
+      else self.firstTouched = false;
 
-      var line = {from: node, to: cur, text: text.join("")};
-      var shadow = self.after(node);
+      var line = buildLine(node), shadow = self.after(node);
       if (!shadow || !compareText(shadow.text, line.text) || shadow.to != line.to) {
         lines.push(line);
         setTemp(node, line);
@@ -270,35 +268,36 @@ History.prototype = {
       // been pulled into chains by lines before them.
       if (!temp(line.from)) return;
 
-      var chain = [], curNode = line.from;
+      var chain = [], curNode = line.from, safe = true;
       // Put any line objects (referred to by temp info) before this
       // one on the front of the array.
       while (true) {
         var curLine = temp(curNode);
-        if (!curLine) break;
+        if (!curLine) {
+          if (safe) break;
+          else curLine = buildLine(curNode);
+        }
         chain.unshift(curLine);
         setTemp(curNode, null);
         if (!curNode) break;
+        safe = self.after(curNode);
         curNode = nextBR(curNode, "previous");
       }
-      curNode = line.to;
+      curNode = line.to; safe = self.before(line.from);
       // Add lines after this one at end of array.
       while (true) {
+        if (!curNode) break;
         var curLine = temp(curNode);
-        if (!curLine || !curNode) break;
+        if (!curLine) {
+          if (safe) break;
+          else curLine = buildLine(curNode);
+        }
         chain.push(curLine);
         setTemp(curNode, null);
+        safe = self.before(curNode);
         curNode = nextBR(curNode, "next");
       }
-
-      // Chains that can not determine a valid 'shadow' -- a chain
-      // currently stored in the DOM tree that has the same start and
-      // end point -- are put back into the touched set, hoping they
-      // will be valid next time.
-      if (self.after(chain[0].from) && self.before(chain[chain.length - 1].to))
-        chains.push(chain);
-      else
-        forEach(chain, function(line) {self.setTouched(line.from);});
+      chains.push(chain);
     });
 
     return chains;
@@ -314,7 +313,10 @@ History.prototype = {
       if (!nextNode || nextNode == end)
         break;
       else
-        next = nextNode.historyAfter;
+        next = nextNode.historyAfter || this.before(end);
+      // (The this.before(end) is a hack -- FF sometimes removes
+      // properties from BR nodes, in which case the best we can hope
+      // for is to not break.)
     }
     return shadows;
   },
@@ -356,8 +358,8 @@ History.prototype = {
       if (i > 0)
         insert(line.from);
       // Add the text.
-      var textNode = this.container.ownerDocument.createTextNode(line.text);
-      insert(textNode);
+      var node = makePartSpan(splitSpaces(line.text), this.container.ownerDocument);
+      insert(node);
       // See if the cursor was on this line. Put it back, adjusting
       // for changed line length, if it was.
       if (cursor && cursor.node == line.from) {
