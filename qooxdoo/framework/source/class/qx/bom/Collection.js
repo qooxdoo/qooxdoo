@@ -1626,57 +1626,110 @@
       */    
       
       /**
-       * Removes all matched elements from the DOM.
+       * Removes all matched elements from the DOM. This does NOT remove them 
+       * from the collection object, allowing you to use the matched 
+       * elements further. When a selector is given the list is filtered
+       * by the selector and the chaining stack is pushed by the new collection.
        *
-       * This does NOT remove them from the collection object, allowing you to 
-       * use the matched elements further. 
+       * The Collection content can be pre-filtered with an optional selector 
+       * expression.
        *
-       * Note that this function will also remove all event handlers. So:
-       *
-       * <code>qx.bom.Collection.query("#foo").remove().appendTo("#bar");</code>
-       *
-       * should be written as
-       *
-       * <code>$("#foo").appendTo("#bar");</code>
-       *
-       * to avoid losing the event handlers.
-       *
-       * Current collection content can be filtered with with an 
-       * optional expression.
-       *
-       * @param selector {String} Selector to filter current collection
+       * @param selector {String?null} Selector to filter current collection
        * @return {Collection} The collection is returned for chaining proposes
        */
       remove : function(selector)
       {
-        if (this.length == 0) {
-          return;
-        }
-        
-        var Selector = qx.bom.Selector;
-        var Manager = qx.event.Registration.getManager(this[0]);
-        
+        // Filter by given selector        
         var coll = this;
-        if (selector) {
-          coll = Selector.filter(selector, this.concat(), true);
+        if (selector) 
+        {
+          coll = this.filter(selector);
+          if (coll.length == 0) {
+            return this;
+          }
         }
-        
-        var current, elems;
-        for (var i=0, il=coll.length; i<il; i++)
+          
+        // Remove elements from DOM      
+        for (var i=0, il=coll.length, current; i<il; i++)
         {
           current = coll[i];
-          
-          // Collect all inner elements to prevent memory leaks
-          Manager.removeAllListeners(this);
-          elems = Selector.query("*", coll[i]);
-          for (var j=0, jl=elems.length; j<jl; j++) {
-            Manager.removeAllListeners(elems[j]);
-          }
-          
-          // Remove from DOM
           if (current.parentNode) {
             current.parentNode.removeChild(current);
           }
+        }
+        
+        // Return filtered collection (or original if no selector given)
+        return coll;
+      },
+      
+      
+      /**
+       * Removes all matched elements from their parent elements,
+       * cleans up any attached events or data and clears up the Collection
+       * to free up memory.
+       *
+       * The Collection content can be pre-filtered with an optional selector 
+       * expression.
+       *
+       * Modifies the current collection (without pushing the stack) as it 
+       * removes all elements from the collection which where removed from the DOM.
+       * This normally means all elements in the collection when no selector is given.
+       *
+       * @param selector {String?null} Selector to filter current collection       
+       * @return {Collection} The collection is returned for chaining proposes
+       */
+      destroy : function(selector)
+      {
+        if (this.length == 0) {
+          return this;
+        }
+
+        var Selector = qx.bom.Selector;
+        
+        // Filter by given selector        
+        var coll = this;
+        if (selector) 
+        {
+          coll = this.filter(selector);
+          if (coll.length == 0) {
+            return this;
+          }
+        }
+                
+        // Collect all inner elements to prevent memory leaks
+        var Manager = qx.event.Registration.getManager(this[0]);
+        for (var i=0, l=coll.length, current, inner; i<l; i++)
+        {
+          // Cache element
+          current = coll[i];
+          
+          // Remove from element in collection
+          Manager.removeAllListeners(current);
+          
+          // Remove events from all children (recursive)
+          inner = Selector.query("*", current);
+          for (var j=0, jl=inner.length; j<jl; j++) {
+            Manager.removeAllListeners(inner[j]);
+          }
+          
+          // Remove collection element from DOM
+          if (current.parentNode) {
+            current.parentNode.removeChild(current);
+          }
+        }
+        
+        // Revert filter and reduce size
+        if (selector)
+        {
+          // Exit chaining
+          coll.end();
+          
+          // Remove all selected elements from current list
+          qx.lang.Array.exclude(this, coll);
+        }
+        else
+        {
+          this.length = 0;
         }
         
         return this;
