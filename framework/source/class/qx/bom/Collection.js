@@ -1529,7 +1529,52 @@
       },       
       
       
+      
+      /*
+      ---------------------------------------------------------------------------
+         MANIPULATION: INSERTING AROUND
+      ---------------------------------------------------------------------------
+      */          
+      
+      
 
+
+
+      /*
+      ---------------------------------------------------------------------------
+         MANIPULATION: REPLACING
+      ---------------------------------------------------------------------------
+      */ 
+      
+      /**
+       * Replaces all matched elements with the specified HTML or DOM elements. 
+       *
+       * This returns the JQuery element that was just replaced, which has been 
+       * removed from the DOM.
+       *
+       * @param varargs {Element|String} A reference to an DOM element or a HTML string
+       * @return {Collection} The collection is returned for chaining proposes    
+       */
+      replaceWith : function(content) {
+        return this.after(content).remove();
+      },
+      
+
+      /**
+       * Replaces the elements matched by the specified selector 
+       * with the matched elements.
+       *
+       * This function is the complement to {@link #replaceWith} which does 
+       * the same task with the parameters reversed.
+       *
+       * @param varargs {String} List of selector expressions
+       * @return {Collection} The collection is returned for chaining proposes           
+       */      
+      replaceAll : function(varargs) {
+        return this.__manipulateTo(arguments, "replaceWith");
+      },
+      
+      
 
 
       /*
@@ -1537,6 +1582,64 @@
          MANIPULATION: REMOVING
       ---------------------------------------------------------------------------
       */    
+      
+      /**
+       * Removes all matched elements from the DOM.
+       *
+       * This does NOT remove them from the collection object, allowing you to 
+       * use the matched elements further. 
+       *
+       * Note that this function will also remove all event handlers. So:
+       *
+       * <code>qx.bom.Selector.query("#foo").remove().appendTo("#bar");</code>
+       *
+       * should be written as
+       *
+       * <code>$("#foo").appendTo("#bar");</code>
+       *
+       * to avoid losing the event handlers.
+       *
+       * Current collection content can be filtered with with an 
+       * optional expression.
+       *
+       * @param selector {String} Selector to filter current collection
+       * @return {Collection} The collection is returned for chaining proposes
+       */
+      remove : function(selector)
+      {
+        if (this.length == 0) {
+          return;
+        }
+        
+        var Selector = qx.bom.Selector;
+        var Manager = qx.event.Registration.getManager(this[0]);
+        
+        var coll = this;
+        if (selector) {
+          coll = Selector.filter(selector, this.concat(), true);
+        }
+        
+        var current, elems;
+        for (var i=0, il=coll.length; i<il; i++)
+        {
+          current = coll[i];
+          
+          // Collect all inner elements to prevent memory leaks
+          Manager.removeAllListeners(this);
+          elems = Selector.query("*", coll[i]);
+          for (var j=0, jl=elems.length; j<jl; j++) {
+            Manager.removeAllListeners(elems[j]);
+          }
+          
+          // Remove from DOM
+          if (current.parentNode) {
+            current.parentNode.removeChild(current);
+          }
+        }
+        
+        return this;
+      },
+      
 
       /**
        * Removes all content from the elements
@@ -1544,7 +1647,35 @@
        * @signature function()
        * @return {Collection} The collection is returned for chaining proposes     
        */
-      empty : setter(qx.bom.Element, "empty") 
+      empty : function()
+      {
+        var Selector = qx.bom.Selector;
+        
+        for (var i=0, l=this.length; i<l; i++)
+        {
+          // Remove element nodes and prevent memory leaks
+          Selector.query(">*", this[i]).remove();
+      
+          // Remove any remaining nodes
+          while (this.firstChild) {
+            this.removeChild( this.firstChild );        
+          }
+        }
+      }
+      
+        
+        
+      
+      
+      /*
+      ---------------------------------------------------------------------------
+         MANIPULATION: CLONING
+      ---------------------------------------------------------------------------
+      */          
+      
+      
+        
+        
     },
     
     
