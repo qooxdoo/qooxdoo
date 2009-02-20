@@ -24,7 +24,6 @@
 #use(qx.event.handler.Keyboard)
 #use(qx.event.handler.Mouse)
 #use(qx.event.handler.Element)
-#use(qx.event.handler.DomReady)
 
 ************************************************************************ */
 
