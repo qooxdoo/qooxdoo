@@ -551,42 +551,13 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      * Set the attributes used to indicate the cell that has the focus.
      *
      * @param attributes {Map}
-     *   The set of attributes that the cell focus indicator should have.
-     *   This is in the format required to call the <i>set()</i> method of a
-     *   widget, e.g.
      *
-     *     { backgroundColor: blue }
-     *
-     *   If not otherwise specified, the opacity is set to 0.2 so that the
-     *   cell data can be seen "through" the cell focus indicator which
-     *   overlays it.
-     *
-     *   For no visible focus indicator, use:
-     *
-     *     { backgroundColor : "transparent" }
-     *
-     *   The focus indicator is a box the size of the cell, which overlays
-     *   the cell itself.  There is no text in the focus indicator itself,
-     *   so it makes no sense to set the color attribute or any other
-     *   attribute that affects fonts.
+     * @deprecated This method no longer does anything and will be removed.
      *
      * @return {void}
      */
     setCellFocusAttributes : function(attributes)
     {
-      // Add an opacity attribute so what's below the focus can be seen
-      if (!attributes.opacity)
-      {
-        attributes.opacity = 0.2;
-      }
-
-      var scrollers = this._getPaneScrollerArr();
-
-      for (var i=0; i<scrollers.length; i++)
-      {
-// djl FIXME
-//        scrollers[i]._focusIndicator.set(attributes);
-      }
     },
 
 
