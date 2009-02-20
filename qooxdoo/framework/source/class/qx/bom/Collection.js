@@ -1346,6 +1346,38 @@
         return this;
       },      
       
+
+      /** 
+       * Helper for wrapping the methods to insert/replace content
+       * so that they can be used in reverse order (selector is
+       * given to the target method instead) 
+       *
+       * @param args {String[]} All arguments (selectors) of the original method call
+       * @param original {String} Name of the original method to wrap
+       * @return {Collection} The collection is returned for chaining proposes
+       */
+      __manipulateTo : function(args, original)
+      {
+        var Selector = qx.bom.Selector;
+        var Lang = qx.lang.Array;
+        
+        // Build a large collection from the individual elements
+        var col = [];
+        for (var i=0, l=args.length; i<l; i++) {
+          col.push.apply(col, Selector.query(args[i]));
+        }
+        
+        // Remove duplicates and transform into Collection
+        col = Lang.to(Lang.unique(col), qx.bom.Collection);
+        
+        // Process modification
+        for (var i=0, il=this.length; i<il; i++) {
+          col[original](this[i]);
+        }
+        
+        return this;
+      },      
+      
       
       
       
@@ -1402,38 +1434,6 @@
        */
       __prependCallback : function(rel, child) {
         rel.insertBefore(child, rel.firstChild);
-      },
-      
-      
-      /** 
-       * Helper for wrapping the methods to insert/replace content
-       * so that they can be used in reverse order (selector is
-       * given to the target method instead) 
-       *
-       * @param args {String[]} All arguments (selectors) of the original method call
-       * @param original {String} Name of the original method to wrap
-       * @return {Collection} The collection is returned for chaining proposes
-       */
-      __manipulateTo : function(args, original)
-      {
-        var Selector = qx.bom.Selector;
-        var Lang = qx.lang.Array;
-        
-        // Build a large collection from the individual elements
-        var col = [];
-        for (var i=0, l=args.length; i<l; i++) {
-          col.push.apply(col, Selector.query(args[i]));
-        }
-        
-        // Remove duplicates and transform into Collection
-        col = Lang.to(Lang.unique(col), qx.bom.Collection);
-        
-        // Process modification
-        for (var i=0, il=this.length; i<il; i++) {
-          col[original](this[i]);
-        }
-        
-        return this;
       },
       
       
@@ -1554,6 +1554,7 @@
       insertAfter : function(varargs) {
         return this.__manipulateTo(arguments, "after");
       },       
+      
       
       
       
