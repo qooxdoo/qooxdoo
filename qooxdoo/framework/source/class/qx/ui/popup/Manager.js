@@ -137,7 +137,7 @@ qx.Class.define("qx.ui.popup.Manager",
      */
     __updateIndexes : function()
     {
-      var min = 1e6;
+      var min = 1e7;
       var reg = this.__objects;
       for (var hash in reg) {
         reg[hash].setZIndex(min++);
