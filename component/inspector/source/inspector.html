@@ -4,28 +4,17 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>qx Inspector</title>
   
-  <script type="text/javascript" src="../../qooxdoo-contrib.trunk/Inspector/trunk/build/script/inspector.js"></script>
+  <script type="text/javascript" src="../../qooxdoo.trunk/component/inspector/build/script/inspector.js"></script>
 
   <script type="text/javascript">
+    var baseURI = "../../qooxdoo.trunk"
     qxinspector = {local : true};
     
-    qxlibraries["qx"]={"resourceUri":"../../qooxdoo-contrib.trunk/Inspector/trunk/build/resource","version":"trunk"};
-		qxlibraries["iframetest"]={"resourceUri":"../../qooxdoo-contrib.trunk/Inspector/trunk/build/resource","version":"trunk"};
+    qxlibraries["qx"]={"resourceUri": baseURI + "/component/inspector/build/resource","version":"trunk"};
+		qxlibraries["iframetest"]={"resourceUri": baseURI + "/component/inspector/build/resource","version":"trunk"};
 		
-		window.qxloader.uris = [["../../qooxdoo-contrib.trunk/Inspector/trunk/build/script/inspector-0.js"]];
-		
-		window.qxloader.runningParts = {};
-		window.qxloader.loadedParts = {};
-		window.qxloader.runningPackages = {};
-		window.qxloader.loadedPackages = {};
-		window.qxloader.runningScripts = {};
-		window.qxloader.loadedScripts = {};
-		
-		window.qxloader.callbackList = [];
-		
-		window.qxloader.scriptQueue = [];
-		window.qxloader.inFlushQueue = false;
-		
+		window.qxloader.uris = [[baseURI + "/component/inspector/build/script/inspector-0.js"]];
+			
 		qxloader.init();
 </script>
 
