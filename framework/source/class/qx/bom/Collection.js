@@ -230,7 +230,7 @@
         // Handle the case where IE and Opera return items
         // by name instead of ID
         if (elem && elem.id != id) {
-          return qx.bom.Collection.query("#" + selector);
+          return qx.bom.Collection.query("#" + id);
         }
         
         return new qx.bom.Collection(elem);         
@@ -275,11 +275,9 @@
         // Work with aliases to make it possible to call this 
         // method context free e.g for "$" support.
         var Collection = qx.bom.Collection;
-        var Selector = qx.bom.Selector;
         
         // Element
-        if (input.nodeType)
-        {
+        if (input.nodeType) {
           return new Collection(input);
         }
         
@@ -295,8 +293,7 @@
         }
         
         // Element Array
-        else
-        {
+        else {
           return qx.lang.Array.to(input, qx.bom.Collection);
         }
       }      
@@ -889,18 +886,6 @@
       
       
       /**
-       * Checks the current selection against a class and returns true, if 
-       * at least one element of the selection has the given class.
-       *
-       * @param classname {String} Classname to check for
-       * @return {Boolean} Whether at least one element uses the given class
-       */
-      hasClass: function(classname) {
-        return !!classname && this.is("." + classname);
-      },
-      
-      
-      /**
        * Checks the current selection against an expression 
        * and returns true, if at least one element of the 
        * selection fits the given expression.
@@ -1338,7 +1323,7 @@
         {
           var script;
           var Loader = qx.io2.ScriptLoader;
-          var LFunction = qx.lang.Function;
+          var Func = qx.lang.Function;
           
           for (var i=0, l=scripts.length; i<l; i++) 
           {
@@ -1348,7 +1333,7 @@
             if (script.src) {
               Loader.get().load(script.src);
             } else {
-              LFunction.globalEval(script.text || script.textContent || script.innerHTML || "");
+              Func.globalEval(script.text || script.textContent || script.innerHTML || "");
             }
     
             // Removing element from old parent
@@ -1749,13 +1734,15 @@
         for (var i=0, l=this.length; i<l; i++)
         {
           // Remove element nodes and prevent memory leaks
-          Selector.query(">*", this[i]).remove();
+          Selector.query(">*", this[i]).destroy();
       
           // Remove any remaining nodes
           while (this.firstChild) {
-            this.removeChild( this.firstChild );        
+            this.removeChild(this.firstChild);        
           }
         }
+        
+        return this;
       }
       
         
