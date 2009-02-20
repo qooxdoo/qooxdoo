@@ -1,0 +1,37 @@
+#qx_srcview pre{
+  margin: 0;
+  padding: 0;
+  
+  /* repeat it, needed to fix display in MSHTML */
+  font-family: Consolas, "Bitstream Vera Sans Mono", "Courier New", monospace !important;
+  font-size: 11px !important;
+}
+
+#qx_srcview .keyword {
+  color : blue;
+  font-weight: bold;
+}
+
+#qx_srcview .atom {
+  color: orange;
+}
+
+#qx_srcview .qxkey {
+	font-weight: bold;
+}
+
+#qx_srcview .ident {
+	
+}
+
+#qx_srcview .comment {
+  color: darkgray;
+}
+
+#qx_srcview .string {
+  color: green;
+}
+
+#qx_srcview .html-tag-name {
+  color: purple;
+}
