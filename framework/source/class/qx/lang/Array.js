@@ -369,8 +369,7 @@ qx.Bootstrap.define("qx.lang.Array",
         qx.core.Assert.assertArray(arr2, "The second parameter must be an array.");
       }
       
-      var index;
-      for (var i=0, il=arr2.length; i<il; i++)
+      for (var i=0, il=arr2.length, index; i<il; i++)
       {
         index = arr1.indexOf(arr2[i]);
         if (index != -1) {
