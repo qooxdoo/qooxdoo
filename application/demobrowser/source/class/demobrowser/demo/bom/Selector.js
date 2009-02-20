@@ -245,7 +245,7 @@ qx.Class.define("demobrowser.demo.bom.Selector",
       selectCol.append("<option>Mr</option>","<option>Mrs</option>","<option>Dr</option>", "<option>Prof</option>");
       
       // testing jQuery alias
-      $("<h3>Dynamically Inserted H3</h3>").insertAfter("h2")
+      $("<h3>Dynamically Inserted H3</h3>").insertAfter("h2");
     }
   }
 });
