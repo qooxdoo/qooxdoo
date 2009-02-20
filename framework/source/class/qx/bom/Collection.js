@@ -195,68 +195,108 @@
       
     statics : 
     {
+      /**
+       * Queries the selector engine and returns a new collection
+       * for convenient modfication and quering.
+       *
+       * @see qx.bom.Selector.query
+       * @param selector {String} CSS Selector String
+       * @param context {Element} Context element to filter start search in
+       * @return {Collection} Collection instance to wrap found elements
+       */
+      query : function(selector, context) 
+      {
+        var arr = qx.bom.Selector.query(selector, context);
+        return qx.lang.Array.to(arr, qx.bom.Collection);
+      },
+      
+
+      /**
+       * Queries the DOM for an element matching the given ID.
+       *
+       * This is mainly a wrapper for <code>document.getElementById</code> and
+       * returns a collection for easy querying and modification instead of the 
+       * pure DOM node.
+       *
+       * @param id {String} Identifier for DOM element to found
+       * @return {Collection} Found element wrapped into Collection
+       */             
+      id : function(id)
+      {
+        var elem = document.getElementById(id);
+        
+        // Handle the case where IE and Opera return items
+        // by name instead of ID
+        if (elem && elem.id != id) {
+          return qx.bom.Collection.query("#" + selector);
+        }
+        
+        return new qx.bom.Collection(elem);         
+      },
+      
+
+      /**
+       * Converts a HTML string into a collection
+       *
+       * @param html {String} String containing one or multiple elements or pure text content
+       * @param context {Document} Context in which newly DOM elements are created from the markup
+       * @return {Collection} Collection containing the create DOM elements
+       */
+      html : function(html, context)
+      {
+        // Translate HTML into DOM elements
+        var arr = qx.bom.Html.clean([html], context);
+        
+        // Translate into Collection
+        return qx.lang.Array.to(arr, qx.bom.Collection);
+      },
+      
+
       /** {RegExp} Test for HTML or ID */
       __expr : /^[^<]*(<(.|\s)+>)[^>]*$|^#([\w-]+)$/,
-      
+
       
       /** 
        * Processes the input and translates it to a collection instance.
        *
-       * @param input {Element|String} Support HTML elements, HTML strings and selector strings
-       * @param context {Element|Document} Where to start looking for the expression or
+       * @see #query
+       * @see #id
+       * @see #html
+       * @param input {Element|String|Element[]} Support HTML elements, HTML strings and selector strings
+       * @param context {Element|Document?null} Where to start looking for the expression or
        *   any element in the document which refers to a valid document to create new elements
        *   (useful when dealing with HTML->Element translation in multi document environments).
        * @return {Collection} Newly created collection 
        */
-      from : function(input, context)
+      create : function(input, context)
       {
         // Work with aliases to make it possible to call this 
         // method context free e.g for "$" support.
         var Collection = qx.bom.Collection;
         var Selector = qx.bom.Selector;
         
+        // Element
         if (input.nodeType)
         {
           return new Collection(input);
         }
+        
+        // HTML, ID or Selector
         else if (typeof input === "string")
         {
           var match = Collection.__expr.exec(input);
-          if (match)
-          {
-            if (match[1]) 
-            {
-              // Translate HTML into DOM elements
-              var list = qx.bom.Html.clean([match[1]], context);
-              
-              // Translate into Collection
-              var col = new Collection;
-              col.push.apply(col, list);
-              return col;              
-            } 
-            else if (match[3]) 
-            {
-              var id = match[3];
-              var elem = document.getElementById(id);
-              
-              // Handle the case where IE and Opera return items
-              // by name instead of ID
-              if (elem && elem.id != id) {
-                return Selector.query(input, context);
-              }
-              
-              return new Collection(elem);              
-            }
-          }
-          else
-          {
-            return Selector.query(input, context);
+          if (match) {
+            return match[1] ? Collection.html(match[1], context) : Collection.id(match[3]);
+          } else {
+            return Collection.query(input, context);
           }    
         }
-        else if (qx.core.Variant.isSet("qx.debug", "on"))
+        
+        // Element Array
+        else
         {
-          throw new Error("Unsupported type: " + input);
-        }     
+          return qx.lang.Array.to(input, qx.bom.Collection);
+        }
       }      
     },
     
@@ -1028,14 +1068,14 @@
         
         // Fast path for single item selector
         if (this.length === 1) {
-          return this.__pushStack(Selector.queryNative(selector, this[0]));
+          return this.__pushStack(Selector.query(selector, this[0]));
         }
         else
         {
           // Let the selector do the work and merge all result arrays.
           var ret = [];
           for (var i=0, l=this.length; i<l; i++) {
-            ret.push.apply(ret, Selector.queryNative(selector, this[i]));
+            ret.push.apply(ret, Selector.query(selector, this[i]));
           }
           
           return this.__pushStack(qx.lang.Array.unique(ret));          
@@ -1395,7 +1435,7 @@
         // Build a large collection from the individual elements
         var col = [];
         for (var i=0, l=args.length; i<l; i++) {
-          col.push.apply(col, Selector.queryNative(args[i]));
+          col.push.apply(col, Selector.query(args[i]));
         }
         
         // Remove duplicates and transform into Collection
