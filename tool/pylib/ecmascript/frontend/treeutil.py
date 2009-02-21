@@ -371,7 +371,8 @@ def assembleVariable(variableItem):
         elif child.type == "accessor":
             for value in child.children:
                 if value.type == "identifier":
-                    assembled = assembled + "." if assembled else assembled
+                    if assembled:
+                        assembled += "."
                     return assembled + value.get("name"), False
             return assembled, False
         elif child.type != "identifier":
