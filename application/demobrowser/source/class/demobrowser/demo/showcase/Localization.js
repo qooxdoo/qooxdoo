@@ -73,8 +73,6 @@ qx.Class.define("demobrowser.demo.showcase.Localization",
       controls.open();
 
       var locales = qx.locale.Manager.getInstance().getAvailableLocales().sort();
-      console.log(locales);
-
 
       var l2 = new qx.ui.basic.Label(this.tr("Choose a locale:"));
       controls.add(l2, {row:0,column:0});
