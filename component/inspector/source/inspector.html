@@ -2,21 +2,21 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>qx Inspector</title>
-  
+  <title>qooxdoo Inspector</title>
+
+  <!-- STEP 1/2: Replace "../../qooxdoo.trunk" below with the path to your qooxdoo project folder -->
   <script type="text/javascript" src="../../qooxdoo.trunk/component/inspector/build/script/inspector.js"></script>
 
   <script type="text/javascript">
+    // STEP 2/2: Replace "../../qooxdoo.trunk" below with the path to your qooxdoo project folder
     var baseURI = "../../qooxdoo.trunk"
-    qxinspector = {local : true};
-    
-    qxlibraries["qx"]={"resourceUri": baseURI + "/component/inspector/build/resource","version":"trunk"};
-		qxlibraries["iframetest"]={"resourceUri": baseURI + "/component/inspector/build/resource","version":"trunk"};
-		
-		window.qxloader.uris = [[baseURI + "/component/inspector/build/script/inspector-0.js"]];
-			
-		qxloader.init();
-</script>
 
+
+    qxinspector = {local : true};
+    qxlibraries["qx"]={"resourceUri": baseURI + "/component/inspector/build/resource","version":"trunk"};
+    qxlibraries["iframetest"]={"resourceUri": baseURI + "/component/inspector/build/resource","version":"trunk"};
+    window.qx.$$loader.uris = [[baseURI + "/component/inspector/build/script/inspector-0.js"]];
+    window.qx.$$loader.init();
+  </script>
 </head>
 </html>
