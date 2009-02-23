@@ -19,7 +19,7 @@
 
 
 /* ************************************************************************
-#asset(qx/icon/${qx.icontheme}/32/apps/internet-feed-reader.png)
+#asset(qx/icon/${qx.icontheme}/16/apps/internet-feed-reader.png)
 #asset(qx/icon/${qx.icontheme}/32/apps/utilities-notes.png)
 ************************************************************************ */
 
@@ -51,7 +51,7 @@ qx.Class.define("demobrowser.demo.virtual.Cells",
       container.add(this.createHtmlCell(), {row : 1, column : 0 });
       container.add(this.createSelectedCell(), {row : 1, column : 1 });
       container.add(this.createImageCell(), {row : 1, column : 2 });
-      
+      container.add(this.createImageCellSmall(), {row : 2, column : 0 });  
 
       this.getRoot().add(container, {edge : 5});
     },
@@ -92,7 +92,6 @@ qx.Class.define("demobrowser.demo.virtual.Cells",
       return this.__renderCell(htmlCell, "<b>html</b><i>cell</i>", states);
     },
     
-    
     createSelectedCell : function(data)
     {
       var states = {selected: 1};
@@ -104,10 +103,21 @@ qx.Class.define("demobrowser.demo.virtual.Cells",
     createImageCell : function(data)
     {
       var states = {};
+
       var data = {
-        source : "icon/32/apps/internet-feed-reader.png",
-        width : 32,
-        height : 32,
+        source : "icon/16/apps/internet-feed-reader.png",
+        tooltip : "This is a feed reader!"
+      };
+      var imageCell = new qx.ui.virtual.cell.Image;
+      return this.__renderCell(imageCell, data, states);
+    },
+
+    createImageCellSmall : function(data)
+    {
+      var states = {};
+
+      var data = {
+        source : "icon/32/apps/utilities-notes.png",
         tooltip : "foobar!"
       };
       var imageCell = new qx.ui.virtual.cell.Image;
