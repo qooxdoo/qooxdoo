@@ -54,7 +54,10 @@ qx.Class.define("playground.Application",
     // global decoration
     __labelDeco : null,
     
-    //modification state of the source
+    // state of the dialog
+    __neverShowDialog : false,
+    
+    // modification state of the source
     __isModified : false,
 
     // Container for the sample codes
@@ -187,7 +190,7 @@ qx.Class.define("playground.Application",
       {
         var newSample = e.getData();
         
-        if(this.__isModified) {
+        if(this.__isModified & !this.__neverShowDialog) {
           this.__dialog = this.__createChangedWindow();
           this.__dialog.addListener("close", function() {
            if(this.__previousCodeState) {          
@@ -256,9 +259,7 @@ qx.Class.define("playground.Application",
       var showDialogCheckBox = new qx.ui.form.CheckBox(this.tr("Do not show this again"));
       
       showDialogCheckBox.addListener("click", function() {
-        alert(showDialogCheckBox.getChecked());
-      	//TODO Checkbox not jet implemented
-      	
+      	this.__neverShowDialog = showDialogCheckBox.getChecked();
       }, this);
       
       noButton.addListener("execute", function() {
@@ -645,7 +646,7 @@ qx.Class.define("playground.Application",
     	this.aim = e;
     	var label = this.aim.getTarget().getLabel().toString();
     	
-    	if(this.__isModified) {
+    	if(this.__isModified & !this.__neverShowDialog) {
     	 	this.__dialog = this.__createChangedWindow();
       	
       	this.__dialog.addListener("close", function() {  
