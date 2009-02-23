@@ -33,20 +33,7 @@ qx.Class.define("qx.core.Package",
      * @return {void}
      */
     loadPart : function(name, callback, self) {
-      window.qxloader.loadPart(name, callback, self);
-    },
-
-
-    /**
-     * Loads any script file asynchronously.
-     *
-     * @param url {String} Complete URI of the script
-     * @param callback {Function} Function to execute on completetion
-     * @param self {Object?window} Context to execute the given function
-     * @return {void}
-     */
-    loadScript : function(url, callback, self) {
-      window.qxloader.loadScript(url, callback, self);
+      qx.core.part.Loader.getInstance().loadPart(name, callback, self);
     }
   }
 });

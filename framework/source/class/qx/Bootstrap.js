@@ -29,91 +29,92 @@
 /**
  * Create namespace
  */
-qx =
-{
-  /**
-   * Bootstrap qx.Bootstrap to create myself later
-   * This is needed for the API browser etc. to let them detect me
-   */
-  Bootstrap :
+if (!qx) {
+  window.qx = [];
+}
+
+/**
+ * Bootstrap qx.Bootstrap to create myself later
+ * This is needed for the API browser etc. to let them detect me
+ */
+qx.Bootstrap = {
+    
+  genericToString : function() {
+    return "[Class " + this.classname + "]";
+  },
+
+  createNamespace : function(name, object)
   {
-    genericToString : function() {
-      return "[Class " + this.classname + "]";
-    },
+    var splits = name.split(".");
+    var parent = window;
+    var part = splits[0];
 
-    createNamespace : function(name, object)
+    for (var i=0, len=splits.length-1; i<len; i++, part=splits[i])
     {
-      var splits = name.split(".");
-      var parent = window;
-      var part = splits[0];
-
-      for (var i=0, len=splits.length-1; i<len; i++, part=splits[i])
-      {
-        if (!parent[part]) {
-          parent = parent[part] = {};
-        } else {
-          parent = parent[part];
-        }
+      if (!parent[part]) {
+        parent = parent[part] = {};
+      } else {
+        parent = parent[part];
       }
-
-      // store object
-      parent[part] = object;
-
-      // return last part name (e.g. classname)
-      return part;
-    },
-
-    define : function(name, config)
-    {
-      if (!config) {
-        var config = { statics : {} };
-      }
-
-      var clazz;
-      var proto = null;
-
-      if (config.members)
-      {
-        clazz = config.construct || new Function;
-        var statics = config.statics;
-        for (var key in statics) {
-          clazz[key] = statics[key];
-        }
-
-        proto = clazz.prototype;
-        var members = config.members;
-        for (var key in members) {
-          proto[key] = members[key];
-        }
-      }
-      else
-      {
-        clazz = config.statics || {};
-      }
-
-      // Create namespace
-      var basename = this.createNamespace(name, clazz);
-
-      // Store names in constructor/object
-      clazz.name = clazz.classname = name;
-      clazz.basename = basename;
-
-      // Store type info
-      clazz.$$type = "Class";
-
-      // Attach toString
-      if (!clazz.hasOwnProperty("toString")) {
-        clazz.toString = this.genericToString;
-      }
-
-      // Execute defer section
-      if (config.defer) {
-        config.defer(clazz, proto);
-      }
-
-      // Store class reference in global class registry
-      qx.Bootstrap.$$registry[name] = config.statics;
     }
+
+    // store object
+    parent[part] = object;
+
+    // return last part name (e.g. classname)
+    return part;
+  },
+
+  define : function(name, config)
+  {
+    if (!config) {
+      var config = { statics : {} };
+    }
+
+    var clazz;
+    var proto = null;
+
+    if (config.members)
+    {
+      clazz = config.construct || new Function;
+      var statics = config.statics;
+      for (var key in statics) {
+        clazz[key] = statics[key];
+      }
+
+      proto = clazz.prototype;
+      var members = config.members;
+      for (var key in members) {
+        proto[key] = members[key];
+      }
+    }
+    else
+    {
+      clazz = config.statics || {};
+    }
+
+    // Create namespace
+    var basename = this.createNamespace(name, clazz);
+
+    // Store names in constructor/object
+    clazz.name = clazz.classname = name;
+    clazz.basename = basename;
+
+    // Store type info
+    clazz.$$type = "Class";
+
+    // Attach toString
+    if (!clazz.hasOwnProperty("toString")) {
+      clazz.toString = this.genericToString;
+    }
+
+    // Execute defer section
+    if (config.defer) {
+      config.defer(clazz, proto);
+    }
+
+    // Store class reference in global class registry
+    qx.Bootstrap.$$registry[name] = config.statics;
   }
 };
 
