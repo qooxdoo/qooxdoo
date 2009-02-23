@@ -139,7 +139,8 @@ qx.Class.define("qx.dom.Hierarchy",
         {
           var doc = qx.dom.Node.getDocument(target);
           return element && doc == element;
-        } else if (qx.dom.Node.isDocument(target))
+        } 
+        else if (qx.dom.Node.isDocument(target))
         {
           return false;
         }
