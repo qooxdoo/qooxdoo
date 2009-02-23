@@ -47,7 +47,7 @@ qx.Class.define("demobrowser.demo.data.store.Twitter",
       var data = demobrowser.demo.data.store.Twitter.__result;
       
       if (data == undefined) {
-        this.setStatus("failed");
+        this.setState("failed");
         return;
       }
       
