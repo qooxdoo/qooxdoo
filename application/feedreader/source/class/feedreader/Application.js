@@ -56,7 +56,7 @@ qx.Class.define("feedreader.Application",
     main : function()
     {
       this.base(arguments);
-
+      
       // Add log appenders
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -477,16 +477,21 @@ qx.Class.define("feedreader.Application",
      */
     showPreferences : function()
     {
-      // if the window is not created
-      if (!this._prefWindow) {
-        // create it
-        this._prefWindow = new feedreader.view.PreferenceWindow();
-        this.getRoot().add(this._prefWindow);
-      }
-
-      // open the window
-      this._prefWindow.center();
-      this._prefWindow.open();
+      qx.core.Package.loadPart("settings", function()
+      {
+        // if the window is not created
+        if (!this._prefWindow)
+        {
+          // create it
+          this._prefWindow = new feedreader.view.PreferenceWindow();
+          this.getRoot().add(this._prefWindow);
+          this.showPreferences();
+        }
+  
+        // open the window
+        this._prefWindow.center();
+        this._prefWindow.open();
+      }, this);
     },
 
 
@@ -503,17 +508,20 @@ qx.Class.define("feedreader.Application",
      */
     showAddFeed : function()
     {
-      // if the window is not created
-      if (!this._addFeedWindow)
+      qx.core.Package.loadPart("add-feed-window", function()
       {
-        // create it
-        this._addFeedWindow = new feedreader.view.AddFeedWindow(this);
-        this.getRoot().add(this._addFeedWindow);
-      }
-
-      // open the window
-      this._addFeedWindow.center();
-      this._addFeedWindow.open();
+        // if the window is not created
+        if (!this._addFeedWindow)
+        {
+            // create it
+          this._addFeedWindow = new feedreader.view.AddFeedWindow(this);
+          this.getRoot().add(this._addFeedWindow);
+        }
+  
+        // open the window
+        this._addFeedWindow.center();
+        this._addFeedWindow.open();
+      }, this);
     }
   },
 
