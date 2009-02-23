@@ -252,23 +252,23 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
       var see = node.getSee();
       if (see.length > 0)
       {
-        var seeAlsoHtml = new qx.util.StringBuilder();
+        var seeAlsoLinks = new qx.util.StringBuilder();
 
         for (var i=0; i<see.length; i++)
         {
-           if (seeAlsoHtml.length != 0) {
-             seeAlsoHtml.add(", ");
+           if (seeAlsoLinks.length != 0) {
+             seeAlsoLinks.add(", ");
            }
-
-           seeAlsoHtml.add(this.createItemLinkHtml(see[i].getName(), node.getClass()));
+           seeAlsoLinks.add(this.createItemLinkHtml(see[i], node.getClass()));
         }
 
-        if (!seeAlsoHtml.isEmpty())
+        if (!seeAlsoLinks.isEmpty())
         {
           // We had @see attributes
+          var seeAlsoHtml = new qx.util.StringBuilder();
           seeAlsoHtml.add(
             '<div class="item-detail-headline">', "See also:", '</div>',
-            '<div class="item-detail-text">', seeAlsoHtml, '</div>'
+            '<div class="item-detail-text">', seeAlsoLinks, '</div>'
           )
           return seeAlsoHtml.get()
         }
