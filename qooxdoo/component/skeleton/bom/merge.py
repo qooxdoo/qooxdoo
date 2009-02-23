@@ -2,7 +2,7 @@
 import os
 
 loader = open("compile-bom.js").read()
-header_end = loader.find("window.qxloader")
+header_end = loader.find("(function(){")
 if header_end == -1:
     raise RuntimeError, "No qxloader found - aborting!"
 header = loader[:header_end]
