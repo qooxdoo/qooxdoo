@@ -23,7 +23,7 @@
  *
  * This widget displays data like text, images or links in a table.
  *
- * @deprecated Please use {@see qx.legacy.ui.table.Table} instead.
+ * @deprecated Please use {@link qx.legacy.ui.table.Table} instead.
  * @appearance list-view
  */
 qx.Class.define("qx.legacy.ui.listview.ListView",
