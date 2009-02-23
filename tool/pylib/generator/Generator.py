@@ -435,7 +435,7 @@ class Generator:
             # Reading configuration
             partsCfg = self._job.get("packages/parts", {})
             collapseCfg = self._job.get("packages/collapse", [])
-            minPackageSize = self._config.get("packages/sizes/min-package", 0)
+            minPackageSize = self._job.get("packages/sizes/min-package", 0)
             minPackageSizeForUnshared = self._config.get("packages/sizes/min-package-unshared", None)
             boot = self._job.get("packages/init", "boot")
 
