@@ -185,7 +185,7 @@ qx.Class.define("qx.event.handler.Application",
     _initObserver : function()
     {
       // in Firefox the loader script sets the ready state
-      if (document.readyState == "complete")
+      if (qx.$$domReady || document.readyState == "complete")
       {
         this.__domReady = true;
         this.__fireReady();
