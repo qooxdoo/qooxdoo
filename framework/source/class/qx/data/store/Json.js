@@ -25,13 +25,16 @@ qx.Class.define("qx.data.store.Json",
   extend : qx.core.Object,
 
 
-  construct : function(url)
+  construct : function(url, delegate)
   {
     this.base(arguments);
     
     
     // classes hashmap
     this.__classHashMap = {};
+   
+    // store the delegate
+    this.__delegate = delegate;
    
     if (url != null) {
       this.setUrl(url);
@@ -66,7 +69,7 @@ qx.Class.define("qx.data.store.Json",
       check: "String",
       apply: "_applyUrl",
       event: "changeUrl"
-    }
+    }  
   },
 
   members :
@@ -81,8 +84,12 @@ qx.Class.define("qx.data.store.Json",
     
     _createRequest: function(url) {
       // create the request
-      this.__request = new qx.io.remote.Request(url, "POST", "application/json");
-      this.__request.addListener("completed", this.__requestCompleteHandler, this);
+      this.__request = new qx.io.remote.Request(
+        url, "POST", "application/json"
+      );
+      this.__request.addListener(
+        "completed", this.__requestCompleteHandler, this
+      );
       this.__request.addListener("failed", this.__requestFailedHandler, this);
       this.__request.addListener("changeState", function(ev) {
         this.setState(ev.getData());
@@ -105,11 +112,25 @@ qx.Class.define("qx.data.store.Json",
       // get the proper type
       var type = Object.prototype.toString.call(data).slice(8, -1);
       // break on all primitive json types
-      if (type == "String" || type == "Number" || type == "Boolean" || data == null) {
+      if (
+        type == "String" 
+        || type == "Number" 
+        || type == "Boolean" 
+        || data == null
+      ) {
         return;
       }
       
       var hash = this.__createDataHash(data);
+      // class is defined by the model
+      if (
+        this.__delegate 
+        && this.__delegate.getModelClass 
+        && this.__delegate.getModelClass(hash) != null
+      ) {
+        return;
+      }
+      // class already exists
       if (qx.lang.Object.contains(this.__classHashMap, hash)) {
         return;
       }
@@ -129,8 +150,26 @@ qx.Class.define("qx.data.store.Json",
         properties[key].event = "change" + qx.lang.String.firstUp(key);
       }
       
+      // try to get the superclass, qx.core.Object as default
+      if (this.__delegate && this.__delegate.getModelSuperClass) {
+        var superClass = 
+          this.__delegate.getModelSuperClass(hash) || qx.core.Object;
+      } else {
+        var superClass = qx.core.Object;        
+      }
+      
+      // try to get the mixins
+      var mixins;
+      if (this.__delegate && this.__delegate.getModelMixins) {
+        mixins = this.__delegate.getModelMixins(hash);
+      }
+      if (mixins == null) {
+        mixins = [];
+      }
+      
       var newClass = {
-          extend : qx.core.Object,          
+          extend : superClass,
+          include : mixins,
           properties : properties 
       };
 
@@ -141,13 +180,28 @@ qx.Class.define("qx.data.store.Json",
 
     
     __createInstance: function(hash) {
-      return (new this.__classHashMap[hash]());
+      var instance;
+      var delegateClass;
+      // get the class from the delegate
+      if (this.__delegate && this.__delegate.getModelClass) {
+        delegateClass = this.__delegate.getModelClass(hash);        
+      }
+      if (delegateClass != null) {
+        return (new delegateClass());
+      } else {
+        return (new this.__classHashMap[hash]());        
+      }
     },
 
     
     _getData: function(data) {   
       var type = Object.prototype.toString.call(data).slice(8, -1);
-      if (type == "Number" || type == "String" || type == "Boolean" || data == null) {
+      if (
+        type == "Number" 
+        || type == "String" 
+        || type == "Boolean" 
+        || data == null
+      ) {
         return data;
         
       } else if (type == "Array") {
@@ -186,7 +240,6 @@ qx.Class.define("qx.data.store.Json",
     },
     
     __requestFailedHandler: function(ev) {
-      alert("failed");
       this.fireEvent("failed");
     },
     

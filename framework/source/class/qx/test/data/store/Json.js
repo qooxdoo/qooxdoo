@@ -351,7 +351,7 @@ qx.Class.define("qx.test.data.store.Json",
     },
     
     
-    testOwnClass: function() {
+    testOwnClassWith: function() {
       // define a test class
       qx.Class.define("qx.test.AB",
       {
@@ -372,14 +372,14 @@ qx.Class.define("qx.test.data.store.Json",
       });  
       
       var delegate = {
-        getClass : function(properties) {
+        getModelClass : function(properties) {
           if (properties == "a b") {
             return qx.Class.getByName("qx.test.AB");
           }
           return null;
         }
       };
-      this.__store.setDelegate(delegate);
+      this.__store = new qx.data.store.Json(null, delegate);
       
       this.__store.addListener("loaded", function() {
         this.resume(function() {
@@ -397,9 +397,157 @@ qx.Class.define("qx.test.data.store.Json",
       var url = qx.util.ResourceManager.toUri("qx/test/object.json");
       this.__store.setUrl(url);      
       
+      this.wait();
+    },
+    
+    
+    testOwnClassWithout: function() {
+      
+      var delegate = {
+        getModelClass : function(properties) {
+          return null;
+        }
+      };
+      this.__store = new qx.data.store.Json(null, delegate);
+      
+      this.__store.addListener("loaded", function() {
+        this.resume(function() {
+          var model = this.__store.getModel();
+          this.assertNotNull(model.getO(), "The model is not created how it should!");          
+          this.assertEquals("a", model.getO().getA(), "Wrong content of the object.");
+          this.assertEquals("b", model.getO().getB(), "Wrong content of the object.");
+
+        }, this);
+      }, this);
+      
+      var url = qx.util.ResourceManager.toUri("qx/test/object.json");
+      this.__store.setUrl(url);      
       
       this.wait();
-    }
+    },
+    
+    
+    testOwnSuperclassWith: function() {
+      // define a test class
+      qx.Class.define("qx.test.O",
+      {
+        extend : qx.core.Object
+      });  
+      
+      var delegate = {
+        getModelSuperClass : function(properties) {
+          return qx.test.O;
+        }
+      };
+      this.__store = new qx.data.store.Json(null, delegate);
+      
+      this.__store.addListener("loaded", function() {
+        this.resume(function() {
+          var model = this.__store.getModel();
+          this.assertTrue(qx.Class.isSubClassOf(model.constructor, qx.test.O));
+          this.assertNotNull(model.getO(), "The model is not created how it should!");
+          this.assertTrue(qx.Class.isSubClassOf(model.getO().constructor, qx.test.O));
+          this.assertEquals("a", model.getO().getA(), "Wrong content of the object.");
+          this.assertEquals("b", model.getO().getB(), "Wrong content of the object.");
+        }, this);
+      }, this);
+      
+      var url = qx.util.ResourceManager.toUri("qx/test/object.json");
+      this.__store.setUrl(url);      
+      
+      this.wait();
+    },
+    
+
+    testOwnSuperclassWithout: function() {
+      // define a test class
+      qx.Class.define("qx.test.O",
+      {
+        extend : qx.core.Object
+      });  
+      
+      var delegate = {
+        getModelSuperClass : function(properties) {
+          return null;
+        }
+      };
+      this.__store = new qx.data.store.Json(null, delegate);
+      
+      this.__store.addListener("loaded", function() {
+        this.resume(function() {
+          var model = this.__store.getModel();
+          this.assertNotNull(model.getO(), "The model is not created how it should!");          
+          this.assertEquals("a", model.getO().getA(), "Wrong content of the object.");
+          this.assertEquals("b", model.getO().getB(), "Wrong content of the object.");
+        }, this);
+      }, this);
+      
+      var url = qx.util.ResourceManager.toUri("qx/test/object.json");
+      this.__store.setUrl(url);      
+      
+      this.wait();
+    },
+    
+    
+    testOwnMixinWithout: function() {    
+      var delegate = {
+        getModelMixins : function(properties) {
+          return null;
+        }
+      };
+      this.__store = new qx.data.store.Json(null, delegate);
+      
+      this.__store.addListener("loaded", function() {
+        this.resume(function() {
+          var model = this.__store.getModel();
+          this.assertNotNull(model.getO(), "The model is not created how it should!");          
+          this.assertEquals("a", model.getO().getA(), "Wrong content of the object.");
+          this.assertEquals("b", model.getO().getB(), "Wrong content of the object.");
+        }, this);
+      }, this);
+      
+      var url = qx.util.ResourceManager.toUri("qx/test/object.json");
+      this.__store.setUrl(url);      
+      
+      this.wait();
+    },
+    
+    
+    testOwnMixinWith: function() {
+      // define a test class
+      qx.Mixin.define("qx.test.M",
+      {
+        members :
+        {
+          a: function() {
+            return true;
+          }
+        }
+      });  
+      
+      var delegate = {
+        getModelMixins : function(properties) {
+          return qx.test.M;
+        }
+      };
+      this.__store = new qx.data.store.Json(null, delegate);
+      
+      this.__store.addListener("loaded", function() {
+        this.resume(function() {
+          var model = this.__store.getModel();
+          this.assertTrue(model.a(), "Mixin not included.");
+          this.assertNotNull(model.getO(), "The model is not created how it should!");          
+          this.assertTrue(model.getO().a(), "Mixin not included.");          
+          this.assertEquals("a", model.getO().getA(), "Wrong content of the object.");
+          this.assertEquals("b", model.getO().getB(), "Wrong content of the object.");
+        }, this);
+      }, this);
+      
+      var url = qx.util.ResourceManager.toUri("qx/test/object.json");
+      this.__store.setUrl(url);      
+      
+      this.wait();
+    }    
 
   }
 });
