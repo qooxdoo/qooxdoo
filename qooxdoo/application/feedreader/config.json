@@ -19,5 +19,22 @@
     "TEST_INCLUDE"   : "${APPLICATION}.*",
     "OPTIMIZE"     : ["basecalls", "strings", "privates", "variables"], 
     "ROOT"         : "."
-  }
+  },
+  
+  
+  "jobs" :
+  {
+    "common" :
+    {
+      "packages" : 
+      {
+        "parts" : 
+        {
+          "boot": ["${QXTHEME}", "feedreader.Application"],
+          "settings": ["feedreader.view.PreferenceWindow"],
+          "add-feed-window": ["feedreader.view.AddFeedWindow"]
+        } 
+      }
+    }
+  }  
 }
