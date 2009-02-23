@@ -16,11 +16,21 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+
+/**
+ * EXPERIMENTAL!
+ * 
+ * This class is responsible for converting json data to class instances 
+ * including the creation of the classes. 
+ */
 qx.Class.define("qx.data.marshal.Json", 
 {
   extend : qx.core.Object,
 
-
+  /**
+   * @param delegate {Object} An object containing one of the mehtods described 
+   *   in {@link qx.data.store.IStoreDelegate}.
+   */
   construct : function(delegate)
   {
     this.base(arguments);
@@ -28,8 +38,17 @@ qx.Class.define("qx.data.marshal.Json",
     this.__delegate = delegate;
   },
 
+
   members :
   {
+    /**
+     * Converts a given object into a hash which will be used to identify the 
+     * classes under the namespace <code>qx.data.model</code>.
+     * 
+     * @param data {Object} The JavaScript object from which the hash is 
+     *   requeired.
+     * @return {String} The hash representation of the given JavaScript object.
+     */
     __jsonToHash: function(data) {
       var properties = [];
       for (var key in data) {
@@ -39,6 +58,18 @@ qx.Class.define("qx.data.marshal.Json",
     },
     
     
+    /**
+     * Creates for the given data the needed classes. The classes contain for 
+     * every key in the data a property. The classname is always the prefix
+     * <code>qx.data.model</code> and the hash of the data created by
+     * {@link #__jsonToHash}. Two objects containing the same keys will not 
+     * create two different classes. The class creation process also supports 
+     * the functions provided by its delegate. 
+     * 
+     * @see qx.data.store.IStoreDelegate
+     * 
+     * @param data {Object} The object for which classes should be created.
+     */
     jsonToClass: function(data) {
       // get the proper type
       var type = Object.prototype.toString.call(data).slice(8, -1);
@@ -53,7 +84,7 @@ qx.Class.define("qx.data.marshal.Json",
       }
       
       var hash = this.__jsonToHash(data);
-      // class is defined by the model
+      // class is defined by the delegate
       if (
         this.__delegate 
         && this.__delegate.getModelClass 
@@ -108,6 +139,13 @@ qx.Class.define("qx.data.marshal.Json",
     },
 
     
+    /**
+     * Creates an instance for the given data hash.
+     * 
+     * @param hash {String} The hash of the data for which an instance should 
+     *   be created.
+     * @return {var} An instance of the corresponding class.
+     */
     __createInstance: function(hash) {
       var delegateClass;
       // get the class from the delegate
@@ -123,6 +161,15 @@ qx.Class.define("qx.data.marshal.Json",
     },
 
 
+    /**
+     * Creates for the given data the needed models. Be sure to have the classes
+     * created with {@link #jsonToClass} before calling this method. The creation 
+     * of the class itself is delegated to the {@link #__createInstance} method,
+     * which could use the {@link qx.data.store.IStoreDelegate} methods, if 
+     * given.
+     * 
+     * @param data {Object} The object for which models should be created.
+     */
     jsonToModel: function(data) {   
       var type = Object.prototype.toString.call(data).slice(8, -1);
       if (
