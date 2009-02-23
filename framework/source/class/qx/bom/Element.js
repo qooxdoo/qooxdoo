@@ -277,6 +277,87 @@ qx.Class.define("qx.bom.Element",
      */
     releaseCapture : function(element) {
       qx.event.Registration.getManager(element).getDispatcher(qx.event.dispatch.MouseCapture).releaseCapture(element);
+    },
+    
+
+    /**
+     * Clone matched DOM Elements and select the clones.
+     *
+     * @param element {Element} Element to clone
+     * @param events {Boolean?false} Whether events should be copied as well
+     * @return {Element} The copied element
+     */    
+    clone : function(element, events)
+    {
+      var clone;
+      
+      if (events || (qx.core.Variant.isSet("qx.client", "mshtml") && !qx.xml.Document.isXmlDocument(element)))
+      {
+        var mgr = qx.event.Registration.getManager(element);
+        var all = qx.dom.Hierarchy.getDescendants(element);
+        all.push(element);        
+      }
+      
+      // IE copies events bound via attachEvent() when
+      // using cloneNode(). Calling detachEvent() on the
+      // clone will also remove the events from the orignal.
+      //
+      // In order to get around this, we detach all locally
+      // attached events first, do the cloning and recover
+      // them afterwards again.
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      {
+        if (!qx.xml.Document.isXmlDocument(element))
+        {
+          for (var i=0, l=all.length; i<l; i++) {
+            mgr.toggleAttachedEvents(all[i], false);
+          }
+        }
+      }
+      
+      // Do the native cloning
+      var clone = element.cloneNode(true);
+
+      // Recover events on original elements
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      {
+        if (mgr) 
+        {
+          for (var i=0, l=all.length; i<l; i++) {
+            mgr.toggleAttachedEvents(all[i], true);
+          }
+        }
+      }
+      
+      // Attach events from original element
+      if (events === true)
+      {
+        // Produce recursive list of elements in the clone
+        var cloneAll = qx.dom.Hierarchy.getDescendants(clone);
+        cloneAll.push(clone);
+        
+        // Process all elements and copy over listeners
+        var eventList, cloneElem, origElem, eventEntry;
+        for (var i=0, il=all.length; i<il; i++) 
+        {
+          origElem = all[i];
+          eventList = mgr.serializeListeners(origElem);
+          
+          if (eventList.length > 0)
+          {
+            cloneElem = cloneAll[i];
+
+            for (var j=0, jl=eventList.length; j<jl; j++)    
+            {
+              eventEntry = eventList[j];
+              mgr.addListener(cloneElem, eventEntry.type, eventEntry.handler, eventEntry.self, eventEntry.capture);
+            }
+          }
+        }        
+      }
+            
+      // Finally return the clone
+      return clone;
     }
   }
 });
