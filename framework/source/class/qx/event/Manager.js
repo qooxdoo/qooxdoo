@@ -179,6 +179,47 @@ qx.Bootstrap.define("qx.event.Manager",
 
       return entryList ? entryList.concat() : null;
     },
+    
+    
+    /**
+     * Returns a serialized array of all events attached on the given target.
+     *
+     * @param target {Object} Any valid event target
+     * @return {Map[]} Array of maps where everyone contains the keys: 
+     *   <code>handler</code>, <code>context</code>, <code>type</code> and <code>capture</code>.
+     */
+    serializeAllListeners : function(target)
+    {
+      var targetKey = qx.core.ObjectRegistry.toHashCode(target);
+      var targetMap = this.__listeners[targetKey];
+      var result = [];
+
+      if (targetMap)
+      {
+        var indexOf, type, capture, entryList, entry;
+        for (var entryKey in targetMap) 
+        {
+          indexOf = entryKey.indexOf("|");
+          type = entryKey.substring(0, indexOf);
+          capture = entryKey.charAt(indexOf+1) == "c";
+          
+          entryList = targetMap[entryKey];
+          for (var i=0, l=entryList.length; i<l; i++) 
+          {
+            entry = entryList[i];
+            result.push(
+            {
+              context:entry.context||null,
+              handler:entry.handler,
+              type:type,
+              capture:capture
+            });
+          }
+        }
+      }
+      
+      return result;
+    },
 
 
     /**
