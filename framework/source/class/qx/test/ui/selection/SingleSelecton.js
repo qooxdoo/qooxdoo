@@ -74,6 +74,12 @@ qx.Class.define("qx.test.ui.selection.SingleSelecton",
           "The result of the selection is wrong");
       }, "'changeSelection' event not fired!");
       
+      // A second selection with the same element shouldn't fire a event
+      this.assertEventNotFired(list, "changeSelection", function () {
+        self.__selected = list.getChildren()[0];
+        list.setSelected(self.__selected);
+      }, function(event) {}, "'changeSelection' event fired!");
+      
       // Tests result from "getSelected"
       var result = this.__list.getSelected();
       this.assertEquals(result, this.__selected,

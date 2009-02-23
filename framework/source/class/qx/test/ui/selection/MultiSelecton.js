@@ -83,6 +83,11 @@ qx.Class.define("qx.test.ui.selection.MultiSelecton",
         self.assertArrayEquals(self.__selection, data, "Selection is wrong");
       }, "'changeSelection' event not fired!");
       
+      // A second selection with the same elements shouldn't fire a event
+      this.assertEventNotFired(list, "changeSelection", function () {
+        list.setSelection(self.__selection);
+      }, function(event) {}, "'changeSelection' event fired!");
+      
       // Tests the result from "getSelection"
       var result = this.__list.getSelection();
       this.assertArrayEquals(this.__selection, result, "Selection is wrong");
@@ -100,6 +105,34 @@ qx.Class.define("qx.test.ui.selection.MultiSelecton",
       
       testElement1.destroy();
       testElement2.destroy();
+    },
+    
+    testSetSelectionOverrideWithLess : function()
+    {
+      // Sets up the new selection
+      this.__selection = [];
+      this.__selection[0] = this.__list.getChildren()[0];
+      this.__selection[1] = this.__list.getChildren()[1];
+      this.__selection[2] = this.__list.getChildren()[2];
+      this.__selection[3] = this.__list.getChildren()[3];
+      this.__selection[4] = this.__list.getChildren()[4];
+      this.__list.setSelection(this.__selection);
+      
+      // Test setSelection() with the same elements, but less
+      var expected = [this.__selection[0], this.__selection[2],
+        this.__selection[4]];
+      this.__list.setSelection(expected);
+        
+      // Tests the result from "getSelection"
+      var result = this.__list.getSelection();
+      this.assertArrayEquals(expected, result, "Selection is wrong");
+      
+      // Test setSelection(), with one element from the selection before
+      this.__list.setSelection(this.__selection);
+      this.__list.setSelected(this.__selection[0]);
+      result = this.__list.getSelection();
+      expected = [this.__selection[0]];
+      this.assertArrayEquals(expected, result, "Selection is wrong");
     },
     
     testResetSelection : function()
@@ -167,6 +200,11 @@ qx.Class.define("qx.test.ui.selection.MultiSelecton",
           "Selection is wrong A");
       }, "'changeSelection' event not fired!");
       
+      // A second selectAll() shouldn't fire a event
+      this.assertEventNotFired(list, "changeSelection", function () {
+        list.selectAll();
+      }, function(event) {}, "'changeSelection' event fired!");
+      
       this.__list.selectAll();
       
       // Tests the result from "getSelection"
@@ -191,6 +229,11 @@ qx.Class.define("qx.test.ui.selection.MultiSelecton",
         self.assertArrayEquals(self.__selection, event.getData(), 
           "The result of the selection is wrong");
       }, "'changeSelection' event not fired!");
+      
+      // A second selection shouldn't fire a event
+      this.assertEventNotFired(list, "changeSelection", function () {
+        list.addToSelection(newValue);
+      }, function(event) {}, "'changeSelection' event fired!");
       
       // Tests the result from "getSelection"
       this.assertArrayEquals(this.__selection, this.__list.getSelection(),
