@@ -87,13 +87,13 @@ qx.Class.define("demobrowser.demo.bom.Selector",
       
       // All even 'li' elements and their next ul or ol parent
       // Do not make a lot of sense using this way, though
-      console.debug("Number of ul/ol elements which are closest to a li element: " + qx.bom.Collection.query("li").closest("ul,ol").length);
+      Logger.debug("Number of ul/ol elements which are closest to a li element: " + qx.bom.Collection.query("li").closest("ul,ol").length);
       
       
       // CONTENTS
 
       // Detect children number (incl. text nodes)      
-      console.debug("Number of child nodes of the body: " + new qx.bom.Collection(document.body).contents().length);
+      Logger.debug("Number of child nodes of the body: " + new qx.bom.Collection(document.body).contents().length);
       
       
       // FIND
