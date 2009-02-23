@@ -197,7 +197,7 @@ qx.Class.define("qx.event.handler.Input",
     {
       "mshtml" : function(target, type)
       {
-        if (!target.__inputHandlerAttached)
+        if (target.__inputHandlerAttached)
         {
           var tag = target.tagName.toLowerCase();
           var elementType = target.type;
@@ -210,7 +210,11 @@ qx.Class.define("qx.event.handler.Input",
             qx.bom.Event.removeNativeListener(target, "change", this._onChangeValueWrapper);
           }
 
-          delete target.__inputHandlerAttached;
+          try {
+            delete target.__inputHandlerAttached;
+          } catch(ex) {
+            target.__inputHandlerAttached = null;  
+          }
         }
       },
 
