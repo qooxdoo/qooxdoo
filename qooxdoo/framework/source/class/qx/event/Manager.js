@@ -239,7 +239,6 @@ qx.Bootstrap.define("qx.event.Manager",
     {
       var targetKey = qx.core.ObjectRegistry.toHashCode(target);
       var targetMap = this.__listeners[targetKey];
-      var result = [];
 
       if (targetMap)
       {
