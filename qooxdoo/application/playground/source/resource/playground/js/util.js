@@ -1,5 +1,8 @@
 /* A few useful utility functions. */
 
+var internetExplorer = document.selection && window.ActiveXObject && /MSIE/.test(navigator.userAgent);
+var webkit = /AppleWebKit/.test(navigator.userAgent);
+
 // Capture a method on an object.
 function method(obj, name) {
   return function() {obj[name].apply(obj, arguments);};
@@ -98,10 +101,7 @@ function normalizeEvent(event) {
   }
 
   if (event.type == "keypress") {
-    if (event.charCode === 0 || event.charCode == undefined)
-      event.code = event.keyCode;
-    else
-      event.code = event.charCode;
+    event.code = (event.charCode == null) ? event.keyCode : event.charCode;
     event.character = String.fromCharCode(event.code);
   }
   return event;
@@ -120,4 +120,8 @@ function addEventHandler(node, type, handler, removeFunc) {
     node.attachEvent("on" + type, wrapHandler);
     if (removeFunc) return function() {node.detachEvent("on" + type, wrapHandler);};
   }
+}
+
+function nodeText(node) {
+  return node.innerText || node.textContent || node.nodeValue || "";
 }
