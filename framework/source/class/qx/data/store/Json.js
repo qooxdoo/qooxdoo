@@ -28,10 +28,6 @@ qx.Class.define("qx.data.store.Json",
   construct : function(url, delegate)
   {
     this.base(arguments);
-    
-    
-    // classes hashmap
-    this.__classHashMap = {};
    
     // store the delegate
     this.__delegate = delegate;
@@ -131,7 +127,7 @@ qx.Class.define("qx.data.store.Json",
         return;
       }
       // class already exists
-      if (qx.lang.Object.contains(this.__classHashMap, hash)) {
+      if (qx.Class.isDefined("qx.data.model." + hash)) {
         return;
       }
       
@@ -174,13 +170,10 @@ qx.Class.define("qx.data.store.Json",
       };
 
       qx.Class.define("qx.data.model." + hash, newClass);
-      
-      this.__classHashMap[hash] = qx.Class.getByName("qx.data.model." + hash);
     },
 
     
     __createInstance: function(hash) {
-      var instance;
       var delegateClass;
       // get the class from the delegate
       if (this.__delegate && this.__delegate.getModelClass) {
@@ -189,11 +182,12 @@ qx.Class.define("qx.data.store.Json",
       if (delegateClass != null) {
         return (new delegateClass());
       } else {
-        return (new this.__classHashMap[hash]());        
+        var clazz = qx.Class.getByName("qx.data.model." + hash);
+        return (new clazz());        
       }
     },
 
-    
+
     _getData: function(data) {   
       var type = Object.prototype.toString.call(data).slice(8, -1);
       if (
