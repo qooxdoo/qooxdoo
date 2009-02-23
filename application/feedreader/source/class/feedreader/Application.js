@@ -477,7 +477,7 @@ qx.Class.define("feedreader.Application",
      */
     showPreferences : function()
     {
-      qx.core.Package.loadPart("settings", function()
+      qx.io2.part.Loader.getInstance().loadPart("settings", function()
       {
         // if the window is not created
         if (!this._prefWindow)
@@ -508,7 +508,7 @@ qx.Class.define("feedreader.Application",
      */
     showAddFeed : function()
     {
-      qx.core.Package.loadPart("add-feed-window", function()
+      qx.io2.part.Loader.getInstance().loadPart("add-feed-window", function()
       {
         // if the window is not created
         if (!this._addFeedWindow)
