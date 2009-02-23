@@ -173,6 +173,18 @@ qx.Bootstrap.define("qx.event.Registration",
       return this.getManager(target).hasListener(target, type, capture);
     },
 
+    
+    /**
+     * Returns a serialized array of all events attached on the given target.
+     *
+     * @param target {Object} Any valid event target
+     * @return {Map[]} Array of maps where everyone contains the keys: 
+     *   <code>handler</code>, <code>self</code>, <code>type</code> and <code>capture</code>.
+     */
+    serializeListeners : function(target) {
+      return this.getManager(target).serializeListeners(target);
+    },
+
 
     /**
      * Get an event instance of the given class, which can be dispatched using
