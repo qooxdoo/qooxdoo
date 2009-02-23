@@ -284,6 +284,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
           this.removeState("abandoned");
           this.toggleChecked();
 
+          this.removeState("pressed");
           e.stopPropagation();
       }
     }
