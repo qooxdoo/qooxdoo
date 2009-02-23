@@ -19,7 +19,7 @@
 
 qx.Class.define("qx.ui.virtual.cell.Boolean",
 {
-  extend : qx.ui.virtual.cell.Image,
+  extend : qx.ui.virtual.cell.AbstractImage,
 
   /*
   *****************************************************************************
@@ -64,16 +64,9 @@ qx.Class.define("qx.ui.virtual.cell.Boolean",
     __imageTrue : null,
     __imageFalse : null,
 
-    getContent : function(value, states)
-    {
-      if (value.value === true) {
-        value.source = this.__imageTrue;
-      } else {
-        value.source = this.__imageFalse;
-      }
-
-      return this.base(arguments, value, states);
+    // overridden
+    _identifyImage : function(value) {
+      return value == true ? this.__imageTrue : this.__imageFalse;
     }
-
   }
 });

@@ -19,16 +19,10 @@
 
 ************************************************************************ */
 
-/**
- * A template class for cell renderer, which display images. Concrete
- * implementations must implement the method @{link #_identifyImage}.
- */
 qx.Class.define("qx.ui.virtual.cell.AbstractImage",
 {
   extend : qx.ui.virtual.cell.Cell,
   type : "abstract",
-
-
 
   /*
   *****************************************************************************
@@ -39,34 +33,11 @@ qx.Class.define("qx.ui.virtual.cell.AbstractImage",
   construct : function()
   {
     this.base(arguments);
-    // 
-    // var clazz = this.self(arguments);
-    // if (!clazz.__style)
-    // {
-    //   clazz.__style = qx.bom.Stylesheet.createElement(
-    //     ".qooxdoo-cell-icon {" +
-    //     "  text-align:center;" +
-    //     "  padding-top:1px;" +
-    //     "}"
-    //   );
-    // }
-    
+
     this.__defaultWidth = 16;
     this.__defaultHeight = 16;
     this.__aliasManager = qx.util.AliasManager.getInstance();
   },
-
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
-  },
-
 
 
   /*
@@ -77,14 +48,57 @@ qx.Class.define("qx.ui.virtual.cell.AbstractImage",
 
   members :
   {
-
     __defaultWidth : null,
     __defaultHeight : null,
     __aliasManager : null,
 
-    // overwritten
-    getInsets : function(value, states) {
-      return [0, 2];
+    __getImageSize : function(source)
+    {
+      var ResourceManager = qx.util.ResourceManager;
+      var ImageLoader = qx.io2.ImageLoader;
+      var width, height;
+
+      // Detect if the image registry knows this image
+      if (ResourceManager.has(source))
+      {
+        width = ResourceManager.getImageWidth(source),
+        height = ResourceManager.getImageHeight(source)
+      }
+      else if (ImageLoader.isLoaded(source))
+      {
+        width = ImageLoader.getWidth(source);
+        height = ImageLoader.getHeight(source);
+      }
+      else
+      {
+        width = this.__defaultWidth;
+        height = this.__defaultHeight;
+      }
+
+      return {width : width, height : height};
+    },
+
+    __createImage : function(imageData)
+    {
+      if (typeof(imageData) == "string") {
+        imageData = {url: imageData};
+      }
+
+      var url = this.__aliasManager.resolve(imageData.url || null);
+      var sizes;
+
+      if (imageData.width && imageData.height) {
+        sizes = {width : imageData.width, height : imageData.height};
+      } else {
+        sizes = this.__getImageSize(url);
+      }
+
+      return {
+        width : sizes.width,
+        height : sizes.height,
+        url : url,
+        tooltip : imageData.tooltip
+      };
     },
 
 
@@ -93,70 +107,50 @@ qx.Class.define("qx.ui.virtual.cell.AbstractImage",
      * implements by sub classes.
      *
      * @abstract
-     * @param cellInfo {Map} The information about the cell.
-     *          See {@link #createDataCellHtml}.
+     * @param value {var} TODO
      * @return {Map} A map having the following attributes:
      *           <ul>
      *           <li>"url": (type string) must be the URL of the image to show.</li>
-     *           <li>"imageWidth": (type int) the width of the image in pixels.</li>
-     *           <li>"imageHeight": (type int) the height of the image in pixels.</li>
+     *           <li>"width": (type int) the width of the image in pixels.</li>
+     *           <li>"height": (type int) the height of the image in pixels.</li>
      *           <li>"tooltip": (type string) must be the image tooltip text.</li>
      *           </ul>
-     * @throws the abstract function warning.
      */
-    _identifyImage : function(value, states) {
+    _identifyImage : function(value) {
       throw new Error("_identifyImage is abstract");
     },
 
 
-    /**
-     * Retrieves the image infos.
-     *
-     * @param cellInfo {Map} The information about the cell.
-     *          See {@link #createDataCellHtml}.
-     * @return {Map} Map with an "url" attribute (type string)
-     *                 holding the URL of the image to show
-     *                 and a "tooltip" attribute
-     *                 (type string) being the tooltip text (or null if none was specified)
-     */
-    __getImageInfos : function(value)
+    getContent : function(value, states)
     {
-      // Query the subclass about image and tooltip
-      var urlAndTooltipMap = this._identifyImage(value);
+      var content = "";
+      var imageData = this.__createImage(this._identifyImage(value));
+      var isOldFireFox = qx.bom.client.Engine.GECKO && qx.bom.client.Engine.VERSION < 1.9;
+      var tooltip = imageData.tooltip ? 'title="' + imageData.tooltip + '"' : "";
 
-      // If subclass refuses to give map, construct it
-      if (urlAndTooltipMap == null || typeof urlAndTooltipMap == "string")
-      {
-        urlAndTooltipMap =
-        {
-          url : urlAndTooltipMap,
-          tooltip : null
-        };
-      }
-
-      return urlAndTooltipMap;
-    },
-
-
-    // overridden
-    getCssClasses : function(value, states) {
-      return this.base(arguments) + " qooxdoo-cell-icon";
-    },
-
-
-    getStyles : function(value, states)
-    {
-    },
-
-    getCellProperties : function(value, states)
-    {
-      return {
-        classes : this.getCssClasses(value, states),
-        style : this.getStyles(value, states),
-        attributes : this.getAttributes(value, states),
-        content : this.getContent(value, states),
-        insets : this.getInsets(value, states)
+      var styles = {
+        width: imageData.width + "px",
+        height: imageData.height + "px",
+        display: isOldFireFox ? "-moz-inline-box" : "inline-block",
+        verticalAlign: "top",
+        position: "static"
       };
+
+      var tag = qx.bom.element.Decoration.getTagName("no-repeat", imageData.url);
+      var ret = qx.bom.element.Decoration.getAttributes(imageData.url, "no-repeat", styles);
+      var css = qx.bom.element.Style.compile(ret.style);
+
+      if (tag === "img")
+      {
+        content = '<img src="' + ret.src + '" style="' + css + '" ';
+        content += tooltip + '/>';
+      }
+      else
+      {
+        content = '<div style="' + css + '" ';
+        content += tooltip + '></div>';
+      }
+      return content;
     }
 
   }
