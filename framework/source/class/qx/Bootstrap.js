@@ -30,7 +30,7 @@
  * Create namespace
  */
 if (!qx) {
-  window.qx = [];
+  window.qx = {};
 }
 
 /**
