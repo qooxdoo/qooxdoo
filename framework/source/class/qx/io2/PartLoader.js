@@ -58,12 +58,26 @@ qx.Class.define("qx.io2.PartLoader",
   
   events :
   {
+    /**
+     * Fired if a parts was loaded. The {@link qx.event.type.Data#data} property
+     * of the event instance point to the loaded part instance.
+     */
     "partLoaded" : "qx.event.type.Data"
   },
   
   
   statics :
   {
+    /**
+     * Loads one or more parts asynchronously. The callback is called after all
+     * parts and their dependencies are fully loaded. If the parts are already
+     * loaded the callback is called immediately.
+     *
+     * @param partNames {String[]} List of parts namesto load as defined in the
+     *    config file at compile time.
+     * @param callback {Function} Function to execute on completion
+     * @param self {Object?window} Context to execute the given function in
+     */    
     require : function(partNames, callback, self) {
       this.getInstance().require(partNames, callback, self);
     }
@@ -74,24 +88,15 @@ qx.Class.define("qx.io2.PartLoader",
   {
   
     /**
-     * Loads a part asynchronously. The callback is called after the part and
-     * its dependencies are fully loaded. If the part is already loaded the
-     * callback is called immediately.
+     * Loads one or more parts asynchronously. The callback is called after all
+     * parts and their dependencies are fully loaded. If the parts are already
+     * loaded the callback is called immediately.
      *
-     * @param name {String} Name of the part as defined in the config file at
-     *    compile time.
+     * @param partNames {String[]} List of parts namesto load as defined in the
+     *    config file at compile time.
      * @param callback {Function} Function to execute on completion
      * @param self {Object?window} Context to execute the given function in
      */
-    loadPart : function(name, callback, self)
-    {
-      var callback = callback || function() {};
-      var self = self || window;
-      
-      this.getPart(name).load(callback, self);
-    },
-    
-    
     require : function(partNames, callback, self)
     {
       var callback = callback || function() {};
