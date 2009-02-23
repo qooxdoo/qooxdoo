@@ -52,6 +52,8 @@ qx.Class.define("demobrowser.demo.virtual.Cells",
       container.add(this.createSelectedCell(), {row : 1, column : 1 });
       container.add(this.createImageCell(), {row : 1, column : 2 });
       container.add(this.createImageCellSmall(), {row : 2, column : 0 });  
+      container.add(this.createBooleanCellTrue(), {row : 2, column : 1 });  
+      container.add(this.createBooleanCellFalse(), {row : 2, column : 2 });  
 
       this.getRoot().add(container, {edge : 5});
     },
@@ -122,6 +124,31 @@ qx.Class.define("demobrowser.demo.virtual.Cells",
       };
       var imageCell = new qx.ui.virtual.cell.Image;
       return this.__renderCell(imageCell, data, states);
+    },
+
+
+    createBooleanCellTrue : function(data)
+    {
+      var states = {};
+
+      var data = {
+        value : true,
+        tooltip : "Indicating true..."
+      }
+      var booleanCell = new qx.ui.virtual.cell.Boolean;
+      return this.__renderCell(booleanCell, data, states);
+    },
+
+    createBooleanCellFalse: function(data)
+    {
+      var states = {};
+
+      var data = {
+        value : false,
+        tooltip : "Indicating false..."
+      }
+      var booleanCell = new qx.ui.virtual.cell.Boolean;
+      return this.__renderCell(booleanCell, data, states);
     },
 
 
