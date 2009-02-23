@@ -38,6 +38,25 @@ qx.Bootstrap.define("qx.xml.Document",
 
 
     /**
+     * Whether the given element is a XML document or element
+     * which is part of a XML document.
+     *
+     * @param elem {Document|Element} Any DOM Document or Element
+     * @return {Boolean} Whether the document is a XML document
+     */
+    isXmlDocument : function(elem) 
+    {
+      if (elem.nodeType === 9) {
+        return elem.documentElement.nodeName !== "HTML";
+      } else if (elem.ownerDocument) {
+        return this.isXmlDocument(elem.ownerDocument);
+      } else {
+        return false;
+      }
+    },
+    
+
+    /**
      * Create an XML document.
      * http://www.w3.org/TR/DOM-Level-2-Core/core.html#i-Document
      *
