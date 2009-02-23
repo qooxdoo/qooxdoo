@@ -186,7 +186,7 @@ qx.Bootstrap.define("qx.event.Manager",
      *
      * @param target {Object} Any valid event target
      * @return {Map[]} Array of maps where everyone contains the keys: 
-     *   <code>handler</code>, <code>context</code>, <code>type</code> and <code>capture</code>.
+     *   <code>handler</code>, <code>self</code>, <code>type</code> and <code>capture</code>.
      */
     serializeAllListeners : function(target)
     {
@@ -201,18 +201,18 @@ qx.Bootstrap.define("qx.event.Manager",
         {
           indexOf = entryKey.indexOf("|");
           type = entryKey.substring(0, indexOf);
-          capture = entryKey.charAt(indexOf+1) == "c";
-          
+          capture = entryKey.charAt(indexOf+1) == "c";          
           entryList = targetMap[entryKey];
+          
           for (var i=0, l=entryList.length; i<l; i++) 
           {
             entry = entryList[i];
             result.push(
             {
-              context:entry.context||null,
-              handler:entry.handler,
-              type:type,
-              capture:capture
+              self: entry.context||null,
+              handler: entry.handler,
+              type: type,
+              capture: capture
             });
           }
         }
