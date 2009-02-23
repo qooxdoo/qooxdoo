@@ -42,7 +42,14 @@ qx.Class.define("qx.test.data.store.Json",
     tearDown : function()
     {
       this.__store.dispose();
+      
+      // remove the former created classes
       qx.data.model = {};
+      for (var name in qx.Class.$$registry) {
+        if (name.search("qx.data.model") != -1) {
+          delete qx.Class.$$registry[name];
+        }
+      } 
     },
   
   
