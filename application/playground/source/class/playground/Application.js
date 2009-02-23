@@ -131,8 +131,9 @@ qx.Class.define("playground.Application",
         self.__playRoot.setMinHeight(data.height);
       });
 
+      // playground instance copied
       this.__playApp = this.clone();
-
+      // playground instance overwritten to a inline object
       this.__playApp.getRoot = function() {
         return self.__playRoot;
       };
@@ -156,6 +157,7 @@ qx.Class.define("playground.Application",
       
     },
 
+    
     /**
      * Back button and bookmark support
      */
@@ -319,6 +321,7 @@ qx.Class.define("playground.Application",
       return window;
     },
     
+    
     /**
      * Transform sample label into sample id
      * @param label {String} label
@@ -328,6 +331,7 @@ qx.Class.define("playground.Application",
       return label.replace(/\s+/g, "_");
     },
 
+    
     /**
     * Transform sample id into sample label
     * @param id {String} id
@@ -337,6 +341,7 @@ qx.Class.define("playground.Application",
       return id.replace(/_/g, " ");
     },
 
+    
     /**
      * Update the window title with given sample label
      * @param label {String} sample label
@@ -347,6 +352,7 @@ qx.Class.define("playground.Application",
       return title;
     },
 
+    
     /**
      * Creates an area to show the samples.
      *
@@ -502,6 +508,7 @@ qx.Class.define("playground.Application",
       }, this);
     },
 
+    
     /**
      * Checks, whether the code is changed. If yes, the application name will be
      * rename
@@ -511,7 +518,7 @@ qx.Class.define("playground.Application",
     __isSourceCodeChanged : function()
     {      
       var compareElem1 = document.getElementById("compare_div1");
-      this.currentSample = this.__history.getState(); // NEW
+      this.currentSample = this.__history.getState(); 
         
       compareElem1.innerHTML = this.sampleContainer[this.currentSample];
 
@@ -534,6 +541,7 @@ qx.Class.define("playground.Application",
       }
     },
 
+    
     /**
      * Updates the playground.
      *
@@ -593,8 +601,6 @@ qx.Class.define("playground.Application",
           exc
         );
       }
-
-
       if (exc)
       {
         this.error(exc);
@@ -614,9 +620,7 @@ qx.Class.define("playground.Application",
     __createSampleMenu : function()
     {
       var menu = new qx.ui.menu.Menu;
-
       var newButton;
-
       var elem = document.getElementsByTagName("TEXTAREA");
 
       for (var i=0; i<elem.length; i++)
@@ -625,16 +629,15 @@ qx.Class.define("playground.Application",
         {
           var id = this.__encodeSampleId(elem[i].title);
           this.sampleContainer[id] = elem[i].value;
-
           newButton = new qx.ui.menu.Button(elem[i].title, "icon/16/mimetypes/office-document.png");
           menu.add(newButton);
-
           newButton.addListener("execute", this.__onSampleChanged, this);
         }
       }
 
       return menu;
     },
+    
     
     /**
      * Initializes the playground with a sample.
@@ -741,8 +744,8 @@ qx.Class.define("playground.Application",
     *
     * @return {void}
     */
-   __attachOpenLog : function()
-   {
+    __attachOpenLog : function()
+    {
      this.widgets["toolbar.logCheckButton"].addListener("click", function()
      {
        var logState = this.widgets["toolbar.logCheckButton"].getChecked();
@@ -752,18 +755,18 @@ qx.Class.define("playground.Application",
        } else {
          this.stack.exclude();
        }
-     },
-     this);
-   },
+      },
+      this);
+    },
 
 
-   /**
-    * Toggle editor
-    *
-    * @return {void}
-    */
-   __toggleEditor : function(e)
-   {
+    /**
+     * Toggle editor
+     *
+     * @return {void}
+     */
+    __toggleEditor : function(e)
+    {
       if (!this.editor) {
         return;
       }
@@ -783,8 +786,8 @@ qx.Class.define("playground.Application",
         this.editor.frame.style.visibility = "hidden";
 
         this.showSyntaxHighlighting = false;
-}
-   },
+      }
+    },
 
 
     /**
