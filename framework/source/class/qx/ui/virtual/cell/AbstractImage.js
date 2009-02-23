@@ -50,6 +50,10 @@ qx.Class.define("qx.ui.virtual.cell.AbstractImage",
     //     "}"
     //   );
     // }
+    
+    this.__defaultWidth = 16;
+    this.__defaultHeight = 16;
+    this.__aliasManager = qx.util.AliasManager.getInstance();
   },
 
 
@@ -74,6 +78,10 @@ qx.Class.define("qx.ui.virtual.cell.AbstractImage",
   members :
   {
 
+    __defaultWidth : null,
+    __defaultHeight : null,
+    __aliasManager : null,
+
     // overwritten
     getInsets : function(value, states) {
       return [0, 2];
@@ -96,7 +104,7 @@ qx.Class.define("qx.ui.virtual.cell.AbstractImage",
      *           </ul>
      * @throws the abstract function warning.
      */
-    _identifyImage : function(value) {
+    _identifyImage : function(value, states) {
       throw new Error("_identifyImage is abstract");
     },
 
@@ -111,10 +119,10 @@ qx.Class.define("qx.ui.virtual.cell.AbstractImage",
      *                 and a "tooltip" attribute
      *                 (type string) being the tooltip text (or null if none was specified)
      */
-    _getImageInfos : function(value)
+    __getImageInfos : function(value)
     {
       // Query the subclass about image and tooltip
-      var urlAndTooltipMap = this._identifyImage(cellInfo);
+      var urlAndTooltipMap = this._identifyImage(value);
 
       // If subclass refuses to give map, construct it
       if (urlAndTooltipMap == null || typeof urlAndTooltipMap == "string")
@@ -131,53 +139,23 @@ qx.Class.define("qx.ui.virtual.cell.AbstractImage",
 
 
     // overridden
-    _getCssClasses : function(cellInfo) {
+    getCssClasses : function(value, states) {
       return this.base(arguments) + " qooxdoo-cell-icon";
     },
 
 
-    // // overridden
-    // getCellProperties : function(value, states)
-    // {
-    //   var urlAndToolTip = this._getImageInfos(value);
-    // 
-    //   var content = "<div></div>";
-    // 
-    //   // set image
-    //   if (urlAndToolTip.url) {
-    //     var content = qx.bom.element.Decoration.create(urlAndToolTip.url, "no-repeat", {
-    //       width: urlAndToolTip.imageWidth ? urlAndToolTip.imageWidth + "px" : null,
-    //       height: urlAndToolTip.imageHeight ? urlAndToolTip.imageHeight + "px" : null,
-    //     });
-    //   };
-    // 
-    //   // set tool tip
-    //   var tooltip = urlAndToolTip.tooltip;
-    //   if (tooltip != null) {
-    //     var content = content.replace("></div>", "title='"+tooltip+"'></div>");
-    //   }
-    // 
-    //   return content;
-    // }
-
-
-
-
-    _getStyles : function(value, states)
+    getStyles : function(value, states)
     {
-      //       display: qx.bom.client.Engine.GECKO && qx.bom.client.Engine.VERSION < 1.9 ? "-moz-inline-box" : "inline-block",
-      //       verticalAlign: "top",
-      //       position: "static"
     },
 
     getCellProperties : function(value, states)
     {
       return {
-        classes : this._getCssClasses(value, states),
-        style : '',
-        attributes : this._getAttributes(value, states),
-        content : this._getValue(value, states),
-        insets : this._getInsets(value, states)
+        classes : this.getCssClasses(value, states),
+        style : this.getStyles(value, states),
+        attributes : this.getAttributes(value, states),
+        content : this.getContent(value, states),
+        insets : this.getInsets(value, states)
       };
     }
 
