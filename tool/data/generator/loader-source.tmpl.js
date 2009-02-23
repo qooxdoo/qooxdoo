@@ -1,5 +1,3 @@
-(function(){
-
 if (!window.qx) window.qx = {};
 if (!window.qxsettings) qxsettings = {};
 if (!window.qxvariants) qxvariants = {};
@@ -29,6 +27,7 @@ qx.$$loader = {
   boot : %BOOT%  
 };  
 
+(function(){
 
 function loadScript(uri, callback) {
   var elem = document.createElement("script");

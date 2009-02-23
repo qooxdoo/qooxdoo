@@ -29,7 +29,7 @@
 /**
  * Create namespace
  */
-if (!qx) {
+if (!window.qx) {
   window.qx = {};
 }
 

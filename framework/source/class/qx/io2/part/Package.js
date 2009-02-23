@@ -73,9 +73,9 @@ qx.Class.define("qx.io2.part.Package",
           // force asynchronous load
           // Safari fails with an "maximum recursion depth exceeded" error if it is
           // called sync.      
-          window.setTimeout(function() {
+          qx.event.Timer.once(function() {
             this.__loadScriptList(urlList, callback, self);
-          }, 0);
+          }, this, 0);
         } else {
           this.__loadScriptList(urlList, callback, self);
         }
