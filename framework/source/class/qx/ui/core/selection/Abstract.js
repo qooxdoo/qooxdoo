@@ -325,14 +325,30 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     {
       // Check that the array contains only selectable items
       var tempItems = [];
+      var newItems = 0;
+      var allSelectableItems = true;
       for (var i = 0; i < items.length; i++)
       {
         if (this._isSelectable(items[i]))
         {
           tempItems.push(items[i]);
+          
+          var hash = this._selectableToHashCode(items[i]);
+      
+          if (!this.__selection[hash]) {
+            newItems++;
+          }
+        } else {
+          allSelectableItems = false;
         }
       }
       items = tempItems;
+      
+      // Stop if the selection doesn't change
+      if (qx.lang.Object.getLength(this.__selection) == items.length &&
+          allSelectableItems && newItems == 0) {
+        return;
+      }
       
       // Remove selection completely
       this._clearSelection();
@@ -1623,7 +1639,16 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      */
     _setSelectedItem : function(item)
     {
-      if (this._isSelectable(item))
+      var hash = this._selectableToHashCode(item);
+      var isSelectable = this._isSelectable(item);
+      
+      /*
+       * Do the following only if the item is selectable. However, if the item 
+       * is already selected, do nothing. If the current selection has more 
+       * then one element selected, reset the selection to the single item. 
+       */ 
+      if ((isSelectable && !this.__selection[hash]) ||
+        (isSelectable && qx.lang.Object.getLength(this.__selection) > 1))
       {
         this._clearSelection();
         this._addToSelection(item);
