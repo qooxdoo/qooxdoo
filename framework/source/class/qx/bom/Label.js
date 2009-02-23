@@ -204,7 +204,7 @@ qx.Class.define("qx.bom.Label",
      * Sets the content of the element.
      *
      * The possibilities of the value depends on the mode
-     * defined using {@see #create}.
+     * defined using {@link #create}.
      *
      * @param element {Element} DOM element to modify.
      * @param value {String} Content to insert.
