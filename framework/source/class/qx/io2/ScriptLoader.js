@@ -28,8 +28,11 @@
  * All request relevant data is given through {@link #load}. Pooling of
  * an instance for multiple usage should possible.
  */
-qx.Bootstrap.define("qx.io2.ScriptLoader",
+qx.Class.define("qx.io2.ScriptLoader",
 {
+  extend : qx.core.Object,
+  
+    
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -38,6 +41,7 @@ qx.Bootstrap.define("qx.io2.ScriptLoader",
 
   construct : function()
   {
+    this.base(arguments);
     this.__oneventWrapped = qx.lang.Function.bind(this.__onevent, this);
     this.__elem = document.createElement("script");
   },
@@ -205,5 +209,10 @@ qx.Bootstrap.define("qx.io2.ScriptLoader",
         return;
       }
     }
+  },
+  
+  
+  destruct : function() {
+    this._disposeFields("__elem", "__oneventWrapped", "__callback", "__context");
   }
 });
