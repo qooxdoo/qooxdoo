@@ -98,23 +98,29 @@ qx.Class.define("qx.io2.part.Part",
     {
       if (this.__readyState == "complete")
       {
-        callback.call(self);
+        if (callback) {
+          callback.call(self);
+        }
         return;
       } 
       else if (this.__readyState == "loading")
       {
-        this.addListenerOnce("load", callback, self);
+        if (callback) {
+          this.addListenerOnce("load", callback, self);
+        }
         return;
       }
       
-      this.addListenerOnce("load", callback, self);
+      if (callback) {
+        this.addListenerOnce("load", callback, self);
+      }
       
       this.__readyState == "loading";
       var packagesToLoad = 0;
       var loadedPackages = 0;
 
       var onLoad = function() {
-        this.load(callback, self);
+        this.load();
       }
       
       for (var i=0; i<this.__packages.length; i++) 
