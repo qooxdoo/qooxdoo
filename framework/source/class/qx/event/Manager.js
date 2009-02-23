@@ -167,7 +167,7 @@ qx.Bootstrap.define("qx.event.Manager",
      */
     getListeners : function(target, type, capture)
     {
-      var targetKey = qx.core.ObjectRegistry.toHashCode(target);
+      var targetKey = target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
       var targetMap = this.__listeners[targetKey];
 
       if (!targetMap) {
@@ -190,7 +190,7 @@ qx.Bootstrap.define("qx.event.Manager",
      */
     serializeListeners : function(target)
     {
-      var targetKey = qx.core.ObjectRegistry.toHashCode(target);
+      var targetKey = target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
       var targetMap = this.__listeners[targetKey];
       var result = [];
 
@@ -237,7 +237,7 @@ qx.Bootstrap.define("qx.event.Manager",
      */
     toggleAttachedEvents : function(target, enable)
     {
-      var targetKey = qx.core.ObjectRegistry.toHashCode(target);
+      var targetKey = target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
       var targetMap = this.__listeners[targetKey];
 
       if (targetMap)
@@ -281,7 +281,7 @@ qx.Bootstrap.define("qx.event.Manager",
         }
       }
 
-      var targetKey = qx.core.ObjectRegistry.toHashCode(target);
+      var targetKey = target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
       var targetMap = this.__listeners[targetKey];
 
       if (!targetMap) {
@@ -325,7 +325,7 @@ qx.Bootstrap.define("qx.event.Manager",
         }
       }
 
-      var targetKey = qx.core.ObjectRegistry.toHashCode(target);
+      var targetKey = target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
       var targetMap = this.__listeners[targetKey] = {};
 
       for (var listKey in list)
@@ -375,22 +375,23 @@ qx.Bootstrap.define("qx.event.Manager",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        var msg =
-          "Failed to add event listener for type '"+ type +"'" +
+        var msg = "Failed to add event listener for type '"+ type +"'" +
           " to the target '" + target + "': ";
 
         qx.core.Assert.assertObject(target, msg + "Invalid Target.");
         qx.core.Assert.assertString(type, msg + "Invalid event type.");
         qx.core.Assert.assertFunction(listener, msg + "Invalid callback function");
+        
         if (self !== undefined) {
           qx.core.Assert.assertObject(self, "Invalid context for callback.");
         }
+        
         if (capture !== undefined) {
           qx.core.Assert.assertBoolean(capture, "Invalid capture flag.");
         }
       }
 
-      var targetKey = qx.core.ObjectRegistry.toHashCode(target);
+      var targetKey = target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
       var targetMap = this.__listeners[targetKey];
 
       if (!targetMap) {
@@ -412,10 +413,12 @@ qx.Bootstrap.define("qx.event.Manager",
       }
 
       // Append listener to list
-      var entry = {
+      var entry = 
+      {
         handler : listener,
         context : self
       };
+      
       entryList.push(entry);
 
       return [entryList, entry, type, capture];
@@ -550,8 +553,7 @@ qx.Bootstrap.define("qx.event.Manager",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        var msg =
-          "Failed to remove event listener for type '"+ type +"'" +
+        var msg = "Failed to remove event listener for type '"+ type +"'" +
           " to the target '" + target + "': ";
 
         qx.core.Assert.assertObject(target, msg + "Invalid Target.");
@@ -565,7 +567,7 @@ qx.Bootstrap.define("qx.event.Manager",
         }
       }
 
-      var targetKey = qx.core.ObjectRegistry.toHashCode(target);
+      var targetKey = target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
       var targetMap = this.__listeners[targetKey];
 
       if (!targetMap) {
@@ -626,7 +628,7 @@ qx.Bootstrap.define("qx.event.Manager",
      */
     removeAllListeners : function(target)
     {
-      var targetKey = qx.core.ObjectRegistry.toHashCode(target);
+      var targetKey = target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
       var targetMap = this.__listeners[targetKey];
       if (!targetMap) {
         return false;
