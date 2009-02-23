@@ -188,7 +188,7 @@ qx.Bootstrap.define("qx.event.Manager",
      * @return {Map[]} Array of maps where everyone contains the keys: 
      *   <code>handler</code>, <code>self</code>, <code>type</code> and <code>capture</code>.
      */
-    serializeAllListeners : function(target)
+    serializeListeners : function(target)
     {
       var targetKey = qx.core.ObjectRegistry.toHashCode(target);
       var targetMap = this.__listeners[targetKey];
@@ -219,6 +219,45 @@ qx.Bootstrap.define("qx.event.Manager",
       }
       
       return result;
+    },
+
+    
+    /** 
+     * This method might be used to temporarly remove all events
+     * directly attached to the given target. This do not work
+     * have any effect on bubbling events normally.
+     *
+     * This is mainly thought for detaching events in IE, before
+     * cloning them. It also removes all leak scenarios
+     * when unloading a document and may be used here as well.
+     *
+     * @internal
+     * @param target {Object} Any valid event target
+     * @param enable {Boolean} Whether to enable or disable the events
+     */
+    toggleAttachedEvents : function(target, enable)
+    {
+      var targetKey = qx.core.ObjectRegistry.toHashCode(target);
+      var targetMap = this.__listeners[targetKey];
+      var result = [];
+
+      if (targetMap)
+      {
+        var indexOf, type, capture;
+        for (var entryKey in targetMap) 
+        {
+          indexOf = entryKey.indexOf("|");
+          type = entryKey.substring(0, indexOf);
+          capture = entryKey.charCodeAt(indexOf+1) === 99; // checking for character "c".
+          entryList = targetMap[entryKey];          
+          
+          if (enable) {
+            this.__registerAtHandler(target, type, capture);  
+          } else {
+            this.__unregisterAtHandler(target, type, capture);
+          }
+        }
+      }
     },
 
 
@@ -601,7 +640,7 @@ qx.Bootstrap.define("qx.event.Manager",
         if (targetMap[entryKey].length > 0)
         {
           // This is quite expensive, see bug #1283
-          split = entryKey.split('|');
+          split = entryKey.split("|");
 
           type = split[0];
           capture = split[1] === "capture";
