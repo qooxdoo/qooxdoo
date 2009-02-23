@@ -99,16 +99,16 @@ qx.Class.define("playground.Application",
       // qooxdoo mainsplit, contains the editor and the info splitpane
       var mainsplit = new qx.ui.splitpane.Pane("horizontal");
       this.mainsplit = mainsplit;
-
+      // contains the panes (mainsplit)
       mainContainer.add(mainsplit, { flex : 1 });
-
+      // contains the logpane
       var infosplit = new qx.ui.splitpane.Pane("vertical");
       infosplit.setDecorator(null);
 
       mainsplit.add(this.__createTextArea());
       mainsplit.add(infosplit, 1);
       infosplit.add(this.__createPlayArea(), 2);
-
+      //log pane created
       var log = this.__createLog();
 
       // Adds the log console to the stack
@@ -258,6 +258,7 @@ qx.Class.define("playground.Application",
       var noButton = new qx.ui.form.Button(this.tr("No"));
       var showDialogCheckBox = new qx.ui.form.CheckBox(this.tr("Do not show this again"));
       
+      // checkbox 
       showDialogCheckBox.addListener("click", function() {
       	this.__neverShowDialog = showDialogCheckBox.getChecked();
       }, this);
