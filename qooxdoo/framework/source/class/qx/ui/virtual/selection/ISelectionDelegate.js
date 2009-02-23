@@ -24,7 +24,7 @@
  * implemented the selection manager provides a default implementation.  
  * 
  * Note: This interface is meant to document the delegate but should not be
- * listed in the <code>implment</code> key of a class unless all methods are 
+ * listed in the <code>implement</code> key of a class unless all methods are 
  * really implemented.
  */
 qx.Interface.define("qx.ui.virtual.selection.ISelectionDelegate",
