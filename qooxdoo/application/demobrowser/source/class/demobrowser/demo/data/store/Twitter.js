@@ -54,7 +54,7 @@ qx.Class.define("demobrowser.demo.data.store.Twitter",
       // create the class
       this._createModelClass(data);
       // set the initial data
-      this.setModel(this._setData(data));
+      this.setModel(this._getData(data));
               
       // fire complete event
       this.fireDataEvent("loaded", this.getModel());
