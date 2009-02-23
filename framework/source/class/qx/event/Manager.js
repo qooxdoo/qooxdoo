@@ -209,7 +209,7 @@ qx.Bootstrap.define("qx.event.Manager",
             entry = entryList[i];
             result.push(
             {
-              self: entry.context||null,
+              self: entry.context,
               handler: entry.handler,
               type: type,
               capture: capture
