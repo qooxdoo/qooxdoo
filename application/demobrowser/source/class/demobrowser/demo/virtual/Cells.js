@@ -107,7 +107,7 @@ qx.Class.define("demobrowser.demo.virtual.Cells",
       var states = {};
 
       var data = {
-        source : "icon/16/apps/internet-feed-reader.png",
+        url : "icon/16/apps/internet-feed-reader.png",
         tooltip : "This is a feed reader!"
       };
       var imageCell = new qx.ui.virtual.cell.Image;
@@ -119,7 +119,7 @@ qx.Class.define("demobrowser.demo.virtual.Cells",
       var states = {};
 
       var data = {
-        source : "icon/32/apps/utilities-notes.png",
+        url : "icon/32/apps/utilities-notes.png",
         tooltip : "foobar!"
       };
       var imageCell = new qx.ui.virtual.cell.Image;
@@ -131,10 +131,7 @@ qx.Class.define("demobrowser.demo.virtual.Cells",
     {
       var states = {};
 
-      var data = {
-        value : true,
-        tooltip : "Indicating true..."
-      }
+      var data = true;
       var booleanCell = new qx.ui.virtual.cell.Boolean;
       return this.__renderCell(booleanCell, data, states);
     },
@@ -143,10 +140,7 @@ qx.Class.define("demobrowser.demo.virtual.Cells",
     {
       var states = {};
 
-      var data = {
-        value : false,
-        tooltip : "Indicating false..."
-      }
+      var data = false;
       var booleanCell = new qx.ui.virtual.cell.Boolean;
       return this.__renderCell(booleanCell, data, states);
     },
