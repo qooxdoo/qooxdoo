@@ -63,8 +63,11 @@ qx.Class.define("qx.io2.part.Package",
         return;
       }
       
-      qx.io2.Script.load(urlList.shift(), function() 
+      var loader = new qx.io2.ScriptLoader()
+      
+      loader.load(urlList.shift(), function() 
       {
+        loader.dispose();
         if (qx.core.Variant.isSet("qx.client", "webkit"))
         {
           // force asynchronous load
