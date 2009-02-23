@@ -97,7 +97,7 @@ qx.Class.define("qx.ui.virtual.cell.Image",
         height = this.__defaultHeight;
       }
 
-      return {widht : width, height : height};
+      return {width : width, height : height};
     },
 
     __createImage : function(source, width, height)
@@ -105,7 +105,7 @@ qx.Class.define("qx.ui.virtual.cell.Image",
 
       var url = (source == "") ? null : this.__aliasManager.resolve(source);
       var sizes;
-      
+
       if (width && height) {
         sizes = {width : width, height : height};
       } else {
@@ -122,16 +122,36 @@ qx.Class.define("qx.ui.virtual.cell.Image",
 
     getContent : function(value, states)
     {
+      var content = "";
       var imageData = this.__createImage(value.source, value.width, value.height);
+      var oldFireFox = qx.bom.client.Engine.GECKO && qx.bom.client.Engine.VERSION < 1.9;
+      var tooltip = (value.tooltip) ? 'title="' + value.tooltip + '"' : "";
 
-      var content = qx.bom.element.Decoration.create(imageData.url, "no-repeat", {
+      var styles = {
         width: imageData.width + "px",
         height: imageData.height + "px",
-        display: qx.bom.client.Engine.GECKO && qx.bom.client.Engine.VERSION < 1.9 ? "-moz-inline-box" : "inline-block",
+        display: oldFireFox ? "-moz-inline-box" : "inline-block",
         verticalAlign: "top",
         position: "static"
-      });
-      
+      };
+
+      var tag = qx.bom.element.Decoration.getTagName("no-repeat", imageData.url);
+      var ret = qx.bom.element.Decoration.getAttributes(imageData.url, "no-repeat", styles);
+      var css = qx.bom.element.Style.compile(ret.style);
+
+      if (tag === "img")
+      {
+        content = '<img src="' + ret.src + '" style="' + css + '" ';
+        content += tooltip + '/>';
+      }
+      else
+      {
+        content = '<div style="' + css + '" ';
+        content += tooltip + '></div>';
+      }
+
+
+
       return content;
     }
 
