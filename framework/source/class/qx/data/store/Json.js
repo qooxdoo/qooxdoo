@@ -29,7 +29,7 @@ qx.Class.define("qx.data.store.Json",
   {
     this.base(arguments);
    
-    // store the delegate
+    // store the marshaler
     this.__marshaler = new qx.data.marshal.Json(delegate);
    
     if (url != null) {
