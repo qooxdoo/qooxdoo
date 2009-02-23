@@ -22,7 +22,7 @@
  * 
  * It contains functionality to load parts and to retrieve part instances.
  */
-qx.Class.define("qx.io2.part.Loader",
+qx.Class.define("qx.io2.PartLoader",
 {
   type : "singleton",
   extend : qx.core.Object,
@@ -47,7 +47,25 @@ qx.Class.define("qx.io2.part.Loader",
       for (var i=0; i<pkgIndexes.length; i++) {
         packages.push(this.__packages[pkgIndexes[i]]);
       }
-      this.__parts[name] = new qx.io2.part.Part(name, packages);
+      var part = new qx.io2.part.Part(name, packages);
+      part.addListener("load", function(e) {
+        this.fireDataEvent("partLoaded", e.getTarget());
+      }, this);
+      this.__parts[name] = part;
+    }
+  },
+  
+  
+  events :
+  {
+    "partLoaded" : "qx.event.type.Data"
+  },
+  
+  
+  statics :
+  {
+    require : function(partNames, callback, self) {
+      this.getInstance().require(partNames, callback, self);
     }
   },
   
@@ -74,6 +92,30 @@ qx.Class.define("qx.io2.part.Loader",
     },
     
     
+    require : function(partNames, callback, self)
+    {
+      var callback = callback || function() {};
+      var self = self || window;
+
+      var parts = [];
+      for (var i=0; i<partNames.length; i++) {
+        parts.push(this.getPart(partNames[i]));
+      }
+      
+      var partsLoaded = 0;
+      var onLoad = function() {
+        partsLoaded += 1;
+        if (partsLoaded >= parts.length) {
+          callback.call(self)
+        }
+      }
+      
+      for (var i=0; i<parts.length; i++) {
+        parts[i].load(onLoad, this);
+      }
+    },
+    
+    
     /**
      * Get the part instance of the part with the given name.
      * 
@@ -85,7 +127,6 @@ qx.Class.define("qx.io2.part.Loader",
     {
       var part = this.__parts[name];
       
-      // unknown part
       if (!part) {
         throw new Error("No such part: " + name)
       }
