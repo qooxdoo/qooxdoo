@@ -22,7 +22,7 @@
  * 
  * It contains functionality to load parts and to retrieve part instances.
  */
-qx.Class.define("qx.core.part.Loader",
+qx.Class.define("qx.io2.part.Loader",
 {
   type : "singleton",
   extend : qx.core.Object,
@@ -34,7 +34,7 @@ qx.Class.define("qx.core.part.Loader",
     this.__packages = [];
     var uris = qx.$$loader.uris;
     for (var i=0; i<uris.length; i++) {
-      this.__packages.push(new qx.core.part.Package(uris[i], i==0));
+      this.__packages.push(new qx.io2.part.Package(uris[i], i==0));
     };
 
     this.__parts = {};
@@ -47,7 +47,7 @@ qx.Class.define("qx.core.part.Loader",
       for (var i=0; i<pkgIndexes.length; i++) {
         packages.push(this.__packages[pkgIndexes[i]]);
       }
-      this.__parts[name] = new qx.core.part.Part(name, packages);
+      this.__parts[name] = new qx.io2.part.Part(name, packages);
     }
   },
   

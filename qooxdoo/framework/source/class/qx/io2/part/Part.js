@@ -21,7 +21,7 @@
  * Wrapper for a part as defined in the config file. This class knows about all
  * packages the part depends on and provides functionality to load the part. 
  */
-qx.Class.define("qx.core.part.Part",
+qx.Class.define("qx.io2.part.Part",
 {
   extend : qx.core.Object,
   
