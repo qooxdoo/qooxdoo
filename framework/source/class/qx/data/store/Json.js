@@ -41,7 +41,8 @@ qx.Class.define("qx.data.store.Json",
   
   events : 
   {
-    "loaded": "qx.event.type.Data"
+    "loaded": "qx.event.type.Data",
+    "failed": "qx.event.type.Event"
   },
   
   
@@ -82,12 +83,14 @@ qx.Class.define("qx.data.store.Json",
       // create the request
       this.__request = new qx.io.remote.Request(url, "POST", "application/json");
       this.__request.addListener("completed", this.__requestCompleteHandler, this);
+      this.__request.addListener("failed", this.__requestFailedHandler, this);
       this.__request.addListener("changeState", function(ev) {
         this.setState(ev.getData());
       }, this);
 
       this.__request.send();
     },
+    
     
     __createDataHash: function(data) {
       var properties = [];
@@ -142,7 +145,7 @@ qx.Class.define("qx.data.store.Json",
     },
 
     
-    _setData: function(data) {   
+    _getData: function(data) {   
       var type = Object.prototype.toString.call(data).slice(8, -1);
       if (type == "Number" || type == "String" || type == "Boolean" || data == null) {
         return data;
@@ -150,7 +153,7 @@ qx.Class.define("qx.data.store.Json",
       } else if (type == "Array") {
         var array = new qx.data.Array();
         for (var i = 0; i < data.length; i++) {
-          array.push(this._setData(data[i]));
+          array.push(this._getData(data[i]));
         }
         return array;
         
@@ -161,7 +164,7 @@ qx.Class.define("qx.data.store.Json",
         
         // go threw all element in the data
         for (var key in data) {
-          model["set" + qx.lang.String.firstUp(key)](this._setData(data[key]));
+          model["set" + qx.lang.String.firstUp(key)](this._getData(data[key]));
         }
         return model;
       }
@@ -170,16 +173,21 @@ qx.Class.define("qx.data.store.Json",
     },
     
     
-    __requestCompleteHandler : function(e) 
+    __requestCompleteHandler : function(ev) 
     {
-        var data = e.getContent();
+        var data = ev.getContent();
         // create the class
         this._createModelClass(data);
         // set the initial data
-        this.setModel(this._setData(data));
+        this.setModel(this._getData(data));
                 
         // fire complete event
         this.fireDataEvent("loaded", this.getModel());
+    },
+    
+    __requestFailedHandler: function(ev) {
+      alert("failed");
+      this.fireEvent("failed");
     },
     
     

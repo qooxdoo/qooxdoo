@@ -32,8 +32,7 @@ qx.Class.define("qx.test.data.store.Json",
 
     setUp : function()
     {
-      var url = qx.util.ResourceManager.toUri("qx/test/data.json");
-      this.__store = new qx.data.store.Json(url);
+      this.__store = new qx.data.store.Json();
       
       this.__data = eval("({s: 'String', n: 12, b: true})");
       this.__propertyNames = ["s", "n", "b"];
@@ -124,7 +123,7 @@ qx.Class.define("qx.test.data.store.Json",
       // first create the classes befor setting the data
       this.__store._createModelClass(this.__data);
       // set the data
-      var model = this.__store._setData(this.__data);
+      var model = this.__store._getData(this.__data);
       
       // check the model
       this.assertEquals(10, model.getA(), "getA does not work.");
@@ -138,7 +137,7 @@ qx.Class.define("qx.test.data.store.Json",
       // first create the classes befor setting the data
       this.__store._createModelClass(this.__data);
       // set the data
-      var model = this.__store._setData(this.__data);
+      var model = this.__store._getData(this.__data);
       
       // check the model
       this.assertEquals(true, model.getA(), "getA does not work.");
@@ -151,7 +150,7 @@ qx.Class.define("qx.test.data.store.Json",
       // first create the classes befor setting the data
       this.__store._createModelClass(this.__data);
       // set the data
-      var model = this.__store._setData(this.__data);
+      var model = this.__store._getData(this.__data);
       
       // check the model
       this.assertEquals("affe", model.getA(), "getA does not work.");
@@ -164,7 +163,7 @@ qx.Class.define("qx.test.data.store.Json",
       // first create the classes befor setting the data
       this.__store._createModelClass(this.__data);
       // set the data
-      var model = this.__store._setData(this.__data);
+      var model = this.__store._getData(this.__data);
       
       // check the model
       this.assertEquals("affe", model.getA(), "getA does not work.");
@@ -178,7 +177,7 @@ qx.Class.define("qx.test.data.store.Json",
       // first create the classes befor setting the data
       this.__store._createModelClass(this.__data);
       // set the data
-      var model = this.__store._setData(this.__data);
+      var model = this.__store._getData(this.__data);
       
       // check the model
       var a = model.getA();
@@ -195,7 +194,7 @@ qx.Class.define("qx.test.data.store.Json",
       // first create the classes befor setting the data
       this.__store._createModelClass(this.__data);
       // set the data
-      var model = this.__store._setData(this.__data);
+      var model = this.__store._getData(this.__data);
       
       // check the model
       var a = model.getA();
@@ -219,7 +218,7 @@ qx.Class.define("qx.test.data.store.Json",
       // first create the classes befor setting the data
       this.__store._createModelClass(this.__data);
       // set the data
-      var model = this.__store._setData(this.__data);
+      var model = this.__store._getData(this.__data);
       
       // check the model
       var a = model.getA();
@@ -239,7 +238,7 @@ qx.Class.define("qx.test.data.store.Json",
       // first create the classes befor setting the data
       this.__store._createModelClass(this.__data);
       // set the data
-      var model = this.__store._setData(this.__data);
+      var model = this.__store._getData(this.__data);
       
       // check the model
       var a = model.getA();
@@ -257,7 +256,7 @@ qx.Class.define("qx.test.data.store.Json",
       // first create the classes befor setting the data
       this.__store._createModelClass(this.__data);
       // set the data
-      var model = this.__store._setData(this.__data);
+      var model = this.__store._getData(this.__data);
       
       // check the model
       var a = model.getA();
@@ -279,7 +278,7 @@ qx.Class.define("qx.test.data.store.Json",
       // first create the classes befor setting the data
       this.__store._createModelClass(this.__data);
       // set the data
-      var model = this.__store._setData(this.__data);
+      var model = this.__store._getData(this.__data);
       
       // check the model      
       this.assertEquals("affe", model.getA().getA().getA(), "No affe is there!");
@@ -291,9 +290,115 @@ qx.Class.define("qx.test.data.store.Json",
       // first create the classes befor setting the data
       this.__store._createModelClass(this.__data);
       // set the data
-      var model = this.__store._setData(this.__data);
+      var model = this.__store._getData(this.__data);
       
       this.assertNotNull(model, "No model set.");      
+    },
+    
+    
+    testWholePrimitive: function() {      
+      this.__store.addListener("loaded", function() {
+        this.resume(function() {
+          var model = this.__store.getModel();
+          this.assertEquals("String", model.getString(), "The model is not created how it should!");
+          this.assertEquals(12, model.getNumber(), "The model is not created how it should!");
+          this.assertEquals(true, model.getBoolean(), "The model is not created how it should!");
+          this.assertNull(model.getNull(), "The model is not created how it should!");          
+        }, this);
+      }, this);
+      
+      var url = qx.util.ResourceManager.toUri("qx/test/primitive.json");
+      this.__store.setUrl(url);
+
+      this.wait();
+    },
+    
+    
+    testWholeArray: function() {      
+      this.__store.addListener("loaded", function() {
+        this.resume(function() {
+          var model = this.__store.getModel();
+          this.assertNotNull(model.getArray(), "The model is not created how it should!");
+          this.assertEquals("qx.data.Array", model.getArray().classname, "Wrong array class.");
+          this.assertEquals("a", model.getArray().getItem(0), "Wrong content of the array.");
+          this.assertEquals("b", model.getArray().getItem(1), "Wrong content of the array.");
+          this.assertEquals("c", model.getArray().getItem(2), "Wrong content of the array.");
+        }, this);
+      }, this);
+      
+      var url = qx.util.ResourceManager.toUri("qx/test/array.json");
+      this.__store.setUrl(url);
+
+      this.wait();
+    },
+    
+    
+    testWholeObject: function() {      
+      this.__store.addListener("loaded", function() {
+        this.resume(function() {
+          var model = this.__store.getModel();
+          this.assertNotNull(model.getO(), "The model is not created how it should!");
+          this.assertEquals("a", model.getO().getA(), "Wrong content of the object.");
+          this.assertEquals("b", model.getO().getB(), "Wrong content of the object.");
+
+        }, this);
+      }, this);
+      
+      var url = qx.util.ResourceManager.toUri("qx/test/object.json");
+      this.__store.setUrl(url);
+
+      this.wait();
+    },
+    
+    
+    testOwnClass: function() {
+      // define a test class
+      qx.Class.define("qx.test.AB",
+      {
+        extend : qx.core.Object,
+
+        properties :
+        {
+          a : {
+            check : "String",
+            event : "changeA"
+          },
+
+          b : {
+            check : "String",
+            event : "changeB"
+          }
+        }
+      });  
+      
+      var delegate = {
+        getClass : function(properties) {
+          if (properties == "a b") {
+            return qx.Class.getByName("qx.test.AB");
+          }
+          return null;
+        }
+      };
+      this.__store.setDelegate(delegate);
+      
+      this.__store.addListener("loaded", function() {
+        this.resume(function() {
+          var model = this.__store.getModel();
+          this.assertNotNull(model.getO(), "The model is not created how it should!");
+          
+          this.assertEquals("qx.test.AB", model.getO().classname, "Not the given class used!");
+          
+          this.assertEquals("a", model.getO().getA(), "Wrong content of the object.");
+          this.assertEquals("b", model.getO().getB(), "Wrong content of the object.");
+
+        }, this);
+      }, this);
+      
+      var url = qx.util.ResourceManager.toUri("qx/test/object.json");
+      this.__store.setUrl(url);      
+      
+      
+      this.wait();
     }
 
   }
