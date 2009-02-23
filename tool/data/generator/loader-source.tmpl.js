@@ -1,18 +1,23 @@
 (function(){
-/*
+
+if (!window.qx) window.qx = {};
 if (!window.qxsettings) qxsettings = {};
+if (!window.qxvariants) qxvariants = {};
+
+qx.$$start = new Date();
+  
+/*
 var settings = ${Settings};
 for (var k in settings) qxsettings[k] = settings[k];
 
-if (!window.qxvariants) qxvariants = {};
 var variants = ${variants};
 for (var k in variants) qxvariants[k] = variants[k];
 
-qxresources = ${Resources};
-qxtranslations = ${Translations}
+qx.$$resources = ${Resources};
+qx.$$translations = ${Translations}
 */
 
-qxloader = {
+qx.$$loader = {
   /*
   parts : ${Parts},
   uris : ${Uris},
@@ -63,17 +68,16 @@ function loadScriptList(list, callback) {
   });
 }
 
-
 var fireContentLoadedEvent = function() {
-  document.readyState = "complete";
+  qx.$$domReady = true;
   document.removeEventListener('DOMContentLoaded', fireContentLoadedEvent, false);
 };
 if (document.addEventListener) {
   document.addEventListener('DOMContentLoaded', fireContentLoadedEvent, false);
 }
 
-qxloader.init = function(){
-  var l=qxloader;
+qx.$$loader.init = function(){
+  var l=qx.$$loader;
   loadScriptList(l.uris[l.parts[l.boot]], function(){
     // Opera needs this extra time to parse the scripts
     window.setTimeout(function(){
@@ -81,6 +85,6 @@ qxloader.init = function(){
     }, 0);
   });
 }
-qxloader.init();
+qx.$$loader.init();
 
 })();
