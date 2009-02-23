@@ -261,7 +261,6 @@ qx.Class.define("playground.Application",
       	
       }, this);
       
-
       noButton.addListener("execute", function() {
         this.__previousCodeState = false;
         window.close();
@@ -428,11 +427,11 @@ qx.Class.define("playground.Application",
 
           this.editor = new CodeMirror(this.textarea.getContainerElement().getDomElement(),
           {
-            content            : this.textarea.getValue(),
+            content            : this.textarea.getValue().replace(/\t/g, ' '),
             parserfile         : [ "tokenizejavascript.js", "parsejavascript.js" ],
             stylesheet         : "resource/playground/css/jscolors.css",
             path               : "resource/playground/js/",
-            textWrapping       : false,
+            textWrapping       : true,
             continuousScanning : false,
             width              : width + "px",
             height             : height + "px",
