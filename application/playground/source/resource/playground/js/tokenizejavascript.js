@@ -23,26 +23,26 @@ var tokenizeJavaScript = (function() {
   // token.
   var keywords = function(){
     function result(type, style){
-      return {type: type, style: style};
+      return {type: type, style: "js-" + style};
     }
     // keywords that take a parenthised expression, and then a
     // statement (if)
-    var keywordA = result("keyword a", "js-keyword");
+    var keywordA = result("keyword a", "keyword");
     // keywords that take just a statement (else)
-    var keywordB = result("keyword b", "js-keyword");
+    var keywordB = result("keyword b", "keyword");
     // keywords that optionally take an expression, and form a
     // statement (return)
-    var keywordC = result("keyword c", "js-keyword");
-    var operator = result("operator", "js-keyword");
-    var atom = result("atom", "js-atom");
+    var keywordC = result("keyword c", "keyword");
+    var operator = result("operator", "keyword");
+    var atom = result("atom", "atom");
     return {
-      "if": keywordA, "switch": keywordA, "while": keywordA, "with": keywordA,
+      "if": keywordA, "while": keywordA, "with": keywordA,
       "else": keywordB, "do": keywordB, "try": keywordB, "finally": keywordB,
       "return": keywordC, "break": keywordC, "continue": keywordC, "new": keywordC, "delete": keywordC, "throw": keywordC,
       "in": operator, "typeof": operator, "instanceof": operator,
-      "var": result("var", "js-keyword"), "function": result("function", "js-keyword"), "catch": result("catch", "js-keyword"),
-      "for": result("for", "js-keyword"), 
-      "case": result("case", "js-keyword"), "default": result("default", "js-keyword"),
+      "var": result("var", "keyword"), "function": result("function", "keyword"), "catch": result("catch", "keyword"),
+      "for": result("for", "keyword"), "switch": result("switch", "keyword"),
+      "case": result("case", "keyword"), "default": result("default", "keyword"),
       "true": atom, "false": atom, "null": atom, "undefined": atom, "NaN": atom, "Infinity": atom
     };
   }();

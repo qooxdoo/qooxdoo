@@ -146,7 +146,7 @@ var select = {};
         var range = currentSelection.window.document.body.createTextRange();
         var node = point.node;
         if (!node) {
-          range.moveToElementText(win.document.body);
+          range.moveToElementText(currentSelection.window.document.body);
           range.collapse(false);
         }
         else if (node.nodeType == 3) {
@@ -228,7 +228,7 @@ var select = {};
     // Used to normalize the effect of the enter key, since browsers
     // do widely different things when pressing enter in designMode.
     select.insertNewlineAtCursor = function(window) {
-      insertAtCursor(window, "<br/>");
+      insertAtCursor(window, "<br>");
     };
 
     select.insertTabAtCursor = function(window) {
@@ -291,6 +291,11 @@ var select = {};
       selection.createRange().scrollIntoView();
     };
 
+    select.scrollToNode = function(node) {
+      if (!node) return;
+      node.scrollIntoView();
+    };
+
     // Some hacks for storing and re-storing the selection when the editor loses and regains focus.
     select.selectionCoords = function (win) {
       var selection = win.document.selection;
@@ -322,10 +327,6 @@ var select = {};
   }
   // W3C model
   else {
-    // This is used to fix an issue with getting the scroll position
-    // in Opera.
-    var opera_scroll = window.scrollX == null;
-
     // Store start and end nodes, and offsets within these, and refer
     // back to the selection object from those nodes, so that this
     // object can be updated when the nodes are replaced before the
@@ -340,8 +341,6 @@ var select = {};
         start: {node: range.startContainer, offset: range.startOffset},
         end: {node: range.endContainer, offset: range.endOffset},
         window: win,
-        scrollX: opera_scroll && win.document.body.scrollLeft,
-        scrollY: opera_scroll && win.document.body.scrollTop,
         changed: false
       };
 
@@ -384,11 +383,6 @@ var select = {};
         }
       }
 
-      // Have to restore the scroll position of the frame in Opera.
-      if (opera_scroll) {
-        win.document.body.scrollLeft = currentSelection.scrollX;
-        win.document.body.scrollTop = currentSelection.scrollY;
-      }
       setPoint(currentSelection.end, "End");
       setPoint(currentSelection.start, "Start");
       selectRange(range, win);
@@ -484,10 +478,11 @@ var select = {};
 
       range.deleteContents();
       range.insertNode(node);
-      range.setEndAfter(node);
+      webkitLastLineHack(window.document.body);
+      range = window.document.createRange();
+      range.selectNode(node);
       range.collapse(false);
       selectRange(range, window);
-      return node;
     }
 
     select.insertNewlineAtCursor = function(window) {
@@ -562,9 +557,9 @@ var select = {};
         selectRange(range, win);
     };
 
-    select.scrollToCursor = function(container) {
-      var body = container.ownerDocument.body, win = container.ownerDocument.defaultView;
-      var element = select.selectionTopNode(container, true) || container.firstChild;
+    select.scrollToNode = function(element) {
+      if (!element) return;
+      var doc = element.ownerDocument, body = doc.body, win = doc.defaultView, html = doc.documentElement;
       
       // In Opera, BR elements *always* have a scrollTop property of zero. Go Opera.
       while (element && !element.offsetTop)
@@ -576,9 +571,13 @@ var select = {};
         pos = pos.offsetParent;
       }
 
-      var screen_y = y - body.scrollTop;
-      if (screen_y < 0 || screen_y > win.innerHeight - 10)
-        win.scrollTo(0, y);
+      var screen_y = y - (body.scrollTop || html.scrollTop || 0);
+      if (screen_y < 0 || screen_y > win.innerHeight - 30)
+        win.scrollTo(body.scrollLeft || html.scrollLeft || 0, y);
+    };
+
+    select.scrollToCursor = function(container) {
+      select.scrollToNode(select.selectionTopNode(container, true) || container.firstChild);
     };
   }
 })();
