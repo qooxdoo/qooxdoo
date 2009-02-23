@@ -21,7 +21,7 @@
  * The Package wraps a list of related script URLs, which are required by one
  * or more parts.
  */
-qx.Class.define("qx.core.part.Package",
+qx.Class.define("qx.io2.part.Package",
 {
   extend : qx.core.Object,
   
