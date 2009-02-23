@@ -34,8 +34,6 @@ qx.Class.define("playground.Application",
   extend : qx.application.Standalone,
 
 
-
-
   /*
    *****************************************************************************
       MEMBERS
