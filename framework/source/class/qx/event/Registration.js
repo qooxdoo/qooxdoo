@@ -68,13 +68,13 @@ qx.Bootstrap.define("qx.event.Registration",
         var win = window;
       }
 
-      var id = qx.core.ObjectRegistry.toHashCode(win);
-      var manager = this.__managers[id];
+      var hash = win.$$hash || qx.core.ObjectRegistry.toHashCode(win);
+      var manager = this.__managers[hash];
 
       if (!manager)
       {
         manager = new qx.event.Manager(win);
-        this.__managers[id] = manager;
+        this.__managers[hash] = manager;
       }
 
       return manager;
