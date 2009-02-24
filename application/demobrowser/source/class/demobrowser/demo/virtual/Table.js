@@ -48,23 +48,12 @@ qx.Class.define("demobrowser.demo.virtual.Table",
       scroller.getPane().addLayer(new qx.ui.virtual.layer.GridLines("horizontal"));
       scroller.getPane().addLayer(new qx.ui.virtual.layer.GridLines("vertical"));      
       scroller.getPane().addLayer(new qx.ui.virtual.layer.HtmlCell(this));
+      
+      this.__cellRenderer = new qx.ui.virtual.cell.Cell();
     },
     
-    
-    getCellHtml : function(row, col, left, top, width, height)
-    {    
-      var html = [
-        "<div style='",
-        "float: left;",
-        "text-align: center;",
-        this._fontCss,
-        "width:", width, "px;",
-        "height:", height, "px;",
-        "'>",        
-        col + "x" + row,
-        "</div>"                  
-      ];
-      return html.join("");
-    }    
+    getCellProperties : function(row, column) {
+      return this.__cellRenderer.getCellProperties(row + " / " + column);
+    }  
   }
 });

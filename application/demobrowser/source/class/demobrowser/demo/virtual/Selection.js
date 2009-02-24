@@ -208,29 +208,16 @@ qx.Class.define("demobrowser.demo.virtual.Selection",
       
       scroller.getPane().addLayer(new qx.ui.virtual.layer.GridLines("horizontal"));
       
+      var cellRenderer = new qx.ui.virtual.cell.Cell();
       var cellLayer = new qx.ui.virtual.layer.HtmlCell({
-        getCellHtml : function(row, column, left, top, width, height)
-        {    
+        getCellProperties : function(row, column)
+        {
+          var states = {};
           if (manager.isItemSelected(row)) {
-            var color = "color: white;"
-          } else {
-            color = ""
+            states.selected = true;
           }
-        
-          var html = [
-            "<div style='position:absolute;",
-            "left:", left, "px;",
-            "top:", top, "px;",
-            "width:", width, "px;",
-            "height:", height, "px;",
-            color,
-            this._fontCss,
-            "'>",
-            column, "x", row,
-            "</div>"                 
-          ];
-          return html.join("");
-        }          
+          return cellRenderer.getCellProperties(row + " / " + column, states);
+        }                 
       });      
       scroller.getPane().addLayer(cellLayer);
       
@@ -272,30 +259,18 @@ qx.Class.define("demobrowser.demo.virtual.Selection",
       
       scroller.getPane().addLayer(new qx.ui.virtual.layer.GridLines("horizontal"));
       
+      var cellRenderer = new qx.ui.virtual.cell.Cell();
       var cellLayer = new qx.ui.virtual.layer.HtmlCell({
-        getCellHtml : function(row, column, left, top, width, height)
-        {    
+        getCellProperties : function(row, column)
+        {
+          var states = {};
           if (manager.isItemSelected(column)) {
-            var color = "color: white;"
-          } else {
-            color = ""
+            states.selected = true;
           }
-        
-          var html = [
-            "<div style='position:absolute;",
-            "left:", left, "px;",
-            "top:", top, "px;",
-            "width:", width, "px;",
-            "height:", height, "px;",
-            color,
-            this._fontCss,
-            "'>",
-            column, "x", row,
-            "</div>"                 
-          ];
-          return html.join("");
-        }          
-      });      
+          
+          return cellRenderer.getCellProperties(row + " / " + column, states);
+        }                 
+      });     
       scroller.getPane().addLayer(cellLayer);
       
       var manager = new qx.ui.virtual.selection.Column(scroller.getPane(), {
@@ -329,31 +304,28 @@ qx.Class.define("demobrowser.demo.virtual.Selection",
     {
       var scroller = new qx.ui.virtual.core.Scroller(1000, 100, 20, 100);
       
-      scroller.getPane().addLayer(new qx.ui.virtual.layer.Row("white", "#EEE"));            
+      scroller.getPane().addLayer(new qx.ui.virtual.layer.Row("white", "#EEE"));
+      
+      var cellRenderer = new qx.ui.virtual.cell.Cell();
+      var selectedCell = new qx.ui.virtual.cell.Cell().set({
+        backgroundColor: "table-row-background-selected"
+      });
       var cellLayer = new qx.ui.virtual.layer.HtmlCell({
-        getCellHtml : function(row, column, left, top, width, height)
-        {    
+        getCellProperties : function(row, column)
+        {
+          var states = {};
           if (manager.isItemSelected({row: row, column: column})) {
-            var color = "color: white; background-color: #00398D;"
-          } else {
-            color = ""
+            states.selected = true;
           }
-        
-          var html = [
-            "<div style='position:absolute;",
-            "left:", left, "px;",
-            "top:", top, "px;",
-            "width:", width, "px;",
-            "height:", height, "px;",
-            color,
-            this._fontCss,
-            "'>",
-            column, "x", row,
-            "</div>"                 
-          ];
-          return html.join("");
-        }          
-      });      
+          
+          if (states.selected) {
+            return selectedCell.getCellProperties(row + " / " + column, states);
+          } else {
+            cellRenderer.resetBackgroundColor();
+            return cellRenderer.getCellProperties(row + " / " + column, states);
+          }
+        }                 
+      });    
       scroller.getPane().addLayer(cellLayer);
       scroller.getPane().addLayer(new qx.ui.virtual.layer.GridLines("horizontal"));
       
@@ -380,30 +352,26 @@ qx.Class.define("demobrowser.demo.virtual.Selection",
       var scroller = new qx.ui.virtual.core.Scroller(1000, 100, 20, 100);
       
       scroller.getPane().addLayer(new qx.ui.virtual.layer.Row("white", "#EEE"));            
+      var cellRenderer = new qx.ui.virtual.cell.Cell();
+      var selectedCell = new qx.ui.virtual.cell.Cell().set({
+        backgroundColor: "table-row-background-selected"
+      });
       var cellLayer = new qx.ui.virtual.layer.HtmlCell({
-        getCellHtml : function(row, column, left, top, width, height)
-        {    
+        getCellProperties : function(row, column)
+        {
+          var states = {};
           if (manager.isItemSelected({row: row, column: column})) {
-            var color = "color: white; background-color: #00398D;"
-          } else {
-            color = ""
+            states.selected = true;
           }
-        
-          var html = [
-            "<div style='position:absolute;",
-            "left:", left, "px;",
-            "top:", top, "px;",
-            "width:", width, "px;",
-            "height:", height, "px;",
-            color,
-            this._fontCss,
-            "'>",
-            column, "x", row,
-            "</div>"                 
-          ];
-          return html.join("");
-        }          
-      });      
+          
+          if (states.selected) {
+            return selectedCell.getCellProperties(row + " / " + column, states);
+          } else {
+            cellRenderer.resetBackgroundColor();
+            return cellRenderer.getCellProperties(row + " / " + column, states);
+          }
+        }                 
+      });    
       scroller.getPane().addLayer(cellLayer);
       scroller.getPane().addLayer(new qx.ui.virtual.layer.GridLines("horizontal"));
       

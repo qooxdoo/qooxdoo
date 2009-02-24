@@ -41,7 +41,6 @@ function loadScript(uri, callback) {
       callback();
     }
   };
-
   var head = document.getElementsByTagName("head")[0];
   head.appendChild(elem);
 }
