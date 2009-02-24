@@ -2501,11 +2501,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor: states.selected ?
-            "table-row-background-selected" :
-            "table-row-background-even",
           textColor: states.selected ? "text-selected" : "text-label",
-          padding: [3, 6]
+          padding: [3, 6],
+          font: "default"
         }
       }
     },

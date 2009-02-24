@@ -76,6 +76,7 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCell",
 
       return style;
     },
+    
 
     // overridden
     _fullUpdate : function(
@@ -97,11 +98,20 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCell",
         for(var y=0; y<columnSizes.length; y++)
         {
           var width = columnSizes[y];
-          
-          html[html.length] = this._cellProvider.getCellHtml(
-            row, column,
-            left, top,
-            width, height
+          var cellProperties = this._cellProvider.getCellProperties(row, column);
+          var insets = cellProperties.insets || [0, 0];
+
+          html.push(
+            "<div ",
+            "style='",
+            "left:", left, "px;",
+            "top:", top, "px;",
+            this._getCellSizeStyle(width, height, insets[0], insets[1]),
+            cellProperties.style || "", "' ",
+            "class='", cellProperties.classes || "", "' ",
+            cellProperties.attributes || "", ">",
+            cellProperties.content || "",
+            "</div>"                     
           );
 
           column++;

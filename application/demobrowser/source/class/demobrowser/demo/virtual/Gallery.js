@@ -348,7 +348,7 @@ qx.Class.define("demo.HtmlGallery",
       this.layer.updateLayerData();
     },
     
-    getCellHtml : function(row, column, left, top, width, height)
+    getCellProperties : function(row, column)
     {
       var itemData = this.getItemData(row, column);
       
@@ -359,23 +359,20 @@ qx.Class.define("demo.HtmlGallery",
       var isSelected = this.manager.isItemSelected({row: row, column: column});
       var color = isSelected ? "color: white; background-color: #00398D;" : "";
       
-      var html = [
-        "<div style='",
-        "float: left;",
-        "text-align: center;",
-        this._fontCss,
-        "width:", width, "px;",
-        "height:", height, "px;",
-        color,
-        "'>",
-
-        "<img src='", itemData.resolvedIcon, "'></img>",
-        "<br>",
-        
-        itemData.label,
-        "</div>"                  
-      ];
-      return html.join("");
+      return {
+        style: [
+          "position: absolute;",
+          "text-align: center;",
+          this._fontCss,
+          color
+        ].join(""),
+  
+        content: [
+          "<img src='", itemData.resolvedIcon, "'></img>",
+          "<br>",          
+          itemData.label        
+        ].join("")
+      };
     }          
   }
 });
