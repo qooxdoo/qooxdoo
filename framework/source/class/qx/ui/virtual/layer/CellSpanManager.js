@@ -366,6 +366,7 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
         
         var rowStartIndex = Math.max(firstRow, cell.firstRow);
         var rowEndIndex = Math.min(lastRow, cell.lastRow);
+        var row;
         
         for (var rowIndex=rowStartIndex; rowIndex <= rowEndIndex; rowIndex++)
         {
