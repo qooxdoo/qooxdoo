@@ -347,7 +347,7 @@ qx.Class.define("qx.core.Object",
      * @param capture {Boolean ? false} Whether to attach the event to the
      *         capturing phase of the bubbling phase of the event. The default is
      *         to attach the event handler to the bubbling phase.
-     * @return {var} An opaque id, which can be used to remove the event listener
+     * @return {String} An opaque id, which can be used to remove the event listener
      *         using the {@link #removeListenerById} method.
      */
     addListener : function(type, listener, self, capture)
@@ -355,6 +355,7 @@ qx.Class.define("qx.core.Object",
       if (!this.$$disposed) {
         return this.__Registration.addListener(this, type, listener, self, capture);
       }
+      
       return null;
     },
 
@@ -369,7 +370,7 @@ qx.Class.define("qx.core.Object",
      * @param capture {Boolean ? false} Whether to attach the event to the
      *         capturing phase of the bubbling phase of the event. The default is
      *         to attach the event handler to the bubbling phase.
-     * @return {var} An opaque id, which can be used to remove the event listener
+     * @return {String} An opaque id, which can be used to remove the event listener
      *         using the {@link #removeListenerById} method.
      */
     addListenerOnce : function(type, listener, self, capture)
@@ -377,11 +378,10 @@ qx.Class.define("qx.core.Object",
       var callback = function(e)
       {
         listener.call(self||this, e);
-        this.removeListenerById(id);
+        this.removeListener(type, callback, this, capture);
       };
 
-      var id = this.addListener(type, callback, this, capture);
-      return id;
+      return this.addListener(type, callback, this, capture);
     },
 
 
@@ -393,13 +393,15 @@ qx.Class.define("qx.core.Object",
      * @param self {Object ? null} reference to the 'this' variable inside the callback
      * @param capture {Boolean} Whether to remove the event listener of
      *   the bubbling or of the capturing phase.
-     * @return {void}
+     * @return {Boolean} Whether the event was removed successfully (was existend)
      */
     removeListener : function(type, listener, self, capture)
     {
       if (!this.$$disposed) {
-        this.__Registration.removeListener(this, type, listener, self, capture);
+        return this.__Registration.removeListener(this, type, listener, self, capture);
       }
+      
+      return false;
     },
 
 
@@ -407,10 +409,16 @@ qx.Class.define("qx.core.Object",
      * Removes an event listener from an event target by an id returned by
      * {@link #addListener}
      *
-     * @param id {var} The id returned by {@link #addListener}
+     * @param id {String} The id returned by {@link #addListener}
+     * @return {Boolean} Whether the event was removed successfully (was existend)
      */
-    removeListenerById : function(id) {
-      this.__Registration.removeListenerById(this, id);
+    removeListenerById : function(id) 
+    {
+      if (!this.$$disposed) {
+        return this.__Registration.removeListenerById(this, id);
+      }
+
+      return false;
     },
 
 
@@ -521,6 +529,7 @@ qx.Class.define("qx.core.Object",
 
     /** {Map} stored user data */
     __userData : null,
+
 
     /**
      * Store user defined data inside the object.
