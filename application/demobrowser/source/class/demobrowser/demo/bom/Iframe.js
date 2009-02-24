@@ -27,7 +27,7 @@ qx.Class.define("demobrowser.demo.bom.Iframe",
     {
       this.base(arguments);
 
-      iframe = qx.bom.Iframe.create({
+      var iframe = qx.bom.Iframe.create({
         name : "testFrame",
         src : "http://gmx.com"
       });
@@ -37,6 +37,14 @@ qx.Class.define("demobrowser.demo.bom.Iframe",
       }, this);
 
       document.body.appendChild(iframe);
+
+      /*
+       * Due to a very strange bug in Opera 9.6 and higher, iframes are not
+       * rendered if they have no width and height and the HTML page does not
+       * get rendered again after inserting the iframe.
+       * So we just change a small piece of content on this page:
+       */
+      document.getElementById("dummy").innerHTML = "";        
     }
   }
 });
