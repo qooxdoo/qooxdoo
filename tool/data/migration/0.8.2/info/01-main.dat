@@ -1,0 +1,2 @@
+\bqx\.core\.Package\b=This experimental class is no longer available. See qx.io2.part.Package for a follow-up solution.
+\bsetCellFocusAttributes\b=This method in qx.ui.treevirtual.TreeVirtual no longer does anything and will be removed.
