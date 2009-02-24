@@ -159,8 +159,27 @@ qx.Class.define("qx.ui.menu.Manager",
 
       return false;
     },
+    
+    
+    /**
+     * Returns an instance of a menu button if the given widget is a child
+     * 
+     * @param widget {qx.ui.core.Widget} any widget
+     * @return {qx.ui.menu.Button ? null} Menu button instance or null
+     */
+    _getMenuButton : function(widget)
+    {
+      while(widget)
+      {
+        if (widget instanceof qx.ui.menu.AbstractButton) {
+          return widget;
+        }
 
+        widget = widget.getLayoutParent();
+      }
 
+      return null;
+    },
 
 
     /*
@@ -425,16 +444,28 @@ qx.Class.define("qx.ui.menu.Manager",
     _onMouseUp : function(e)
     {
       var target = e.getTarget();
-
+      var widget;
+      
+      // use widget instance to check for disabled menu items  
+      if (target instanceof qx.ui.core.Widget) {
+        widget = target;
+      }
+      else {
+        widget = this._getMenuButton(qx.ui.core.Widget.getWidgetByElement(target));
+      }
+      
+      // do not hide the menu of the user clicked at a disabled menu item
+      if (widget != null && 
+          widget instanceof qx.ui.menu.AbstractButton && !widget.isEnabled()) {
+        return;
+      }
+      
       // All mouseups not exactly clicking on the menu hide all currently
       // open menus.
       // Separators for example are anonymous. This way the
       // target is the menu. It is a wanted behavior that clicks on
       // separators are ignored completely.
-      // For inline apps: also hide the menus if the user clicked anywhere
-      // at the document
-      if (!(target instanceof qx.ui.menu.Menu) ||
-          (target == window.document.documentElement)) {
+      if (!(widget instanceof qx.ui.menu.Menu)) {
         this.hideAll();
       }
     },
