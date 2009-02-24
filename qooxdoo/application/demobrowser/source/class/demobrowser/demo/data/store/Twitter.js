@@ -52,9 +52,9 @@ qx.Class.define("demobrowser.demo.data.store.Twitter",
       }
       
       // create the class
-      this._createModelClass(data);
+      this._marshaler.jsonToClass(data);
       // set the initial data
-      this.setModel(this._getData(data));
+      this.setModel(this._marshaler.jsonToModel(data));
               
       // fire complete event
       this.fireDataEvent("loaded", this.getModel());
