@@ -165,7 +165,7 @@ qx.Class.define("qx.ui.menu.Manager",
      * Returns an instance of a menu button if the given widget is a child
      * 
      * @param widget {qx.ui.core.Widget} any widget
-     * @return {qx.ui.menu.Button ? null} Menu button instance or null
+     * @return {qx.ui.menu.Button} Any menu button instance or <code>null</code>
      */
     _getMenuButton : function(widget)
     {
