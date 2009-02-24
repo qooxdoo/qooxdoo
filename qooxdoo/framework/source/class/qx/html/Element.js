@@ -99,9 +99,6 @@ qx.Class.define("qx.html.Element",
     /** {Map} Map of post actions for elements. The key is the action name. The value the {@link qx.html.Element}. */
     _actions : [],
 
-    
-    __lastUniqueEvent : 0,
-
 
 
 
