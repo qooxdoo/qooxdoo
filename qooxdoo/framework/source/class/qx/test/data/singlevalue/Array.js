@@ -27,7 +27,7 @@ qx.Class.define("qx.test.data.singlevalue.Array",
     this.base(arguments);
 
     // define a test class
-    qx.Class.define("test.MultiBinding",
+    qx.Class.define("qx.test.data.singlevalue.Array_MultiBinding",
     {
       extend : qx.core.Object,
       
@@ -70,15 +70,15 @@ qx.Class.define("qx.test.data.singlevalue.Array",
 
     setUp : function()
     {
-      this.__a = new test.MultiBinding().set({
+      this.__a = new qx.test.data.singlevalue.Array_MultiBinding().set({
         name: "a",
         children: new qx.data.Array()
       });
-      this.__b1 = new test.MultiBinding().set({
+      this.__b1 = new qx.test.data.singlevalue.Array_MultiBinding().set({
         name: "b1",
         children: new qx.data.Array()
       });
-      this.__b2 = new test.MultiBinding().set({
+      this.__b2 = new qx.test.data.singlevalue.Array_MultiBinding().set({
         name: "b2",
         children: new qx.data.Array()
       });
