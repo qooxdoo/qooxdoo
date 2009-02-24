@@ -638,6 +638,8 @@ qx.Class.define("testrunner.runner.TestRunner",
       l3.set({ width : 150 });
       this.widgets["statuspane.systeminfo"] = l3;
       this.widgets["statuspane.systeminfo"].setContent(this.tr("Loading..."));
+      this.widgets["toolbar.runbutton"].setEnabled(false);
+      this.toolbar.setEnabled(false);
 
       return statuspane;
     },  // makeStatus
@@ -1085,6 +1087,7 @@ qx.Class.define("testrunner.runner.TestRunner",
     {
       var curr = this.iframe.getSource();
       var neu = this.testSuiteUrl.getValue();
+      this.widgets["toolbar.runbutton"].setEnabled(false);
       this.toolbar.setEnabled(false);
       this.widgets["statuspane.systeminfo"].setContent(this.tr("Reloading test suite..."));
 
@@ -1098,7 +1101,6 @@ qx.Class.define("testrunner.runner.TestRunner",
         }
         else
         {
-          this.toolbar.setEnabled(false);
           this.iframe.setSource(neu);
         }
       },
@@ -1166,6 +1168,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       this.tests.firstrun = true;
       this.leftReloadTree();
       this.toolbar.setEnabled(true);  // in case it was disabled (for reload)
+      this.widgets["toolbar.runbutton"].setEnabled(true);
       this.widgets["toolbar.runbutton"].setVisibility("visible");
       this.widgets["toolbar.stopbutton"].setVisibility("excluded");
       this.reloadswitch.setChecked(false);  // disable for first run
