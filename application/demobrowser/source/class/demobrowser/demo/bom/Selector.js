@@ -246,6 +246,20 @@ qx.Class.define("demobrowser.demo.bom.Selector",
       
       // testing jQuery alias
       $("<h3>Dynamically Inserted H3</h3>").insertAfter("h2");
+      
+      
+      
+      
+      
+      // **************************
+      // ** MANIPULATION: CLONE ***
+      // **************************
+      
+      qx.bom.Collection.id("field-mail").addListener("input", function() {
+        Logger.debug("Typing in e-mail field...");
+      });
+      
+      //qx.bom.Collection.id("field-mail").clone();
     }
   }
 });
