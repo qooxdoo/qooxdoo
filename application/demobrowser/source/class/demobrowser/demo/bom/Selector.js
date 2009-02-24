@@ -246,21 +246,6 @@ qx.Class.define("demobrowser.demo.bom.Selector",
       
       // testing jQuery alias
       $("<h3>Dynamically Inserted H3</h3>").insertAfter("h2");
-      
-
-function clicked(){
-  console.debug("clicked");
-}
-      
-fireunit.profile(function(){
-  
-qx.bom.Collection.query("*").forEach(function(item){
-qx.event.Registration.addListener(item, "click", clicked);
-});
-
-});      
-      
-      
     }
   }
 });
