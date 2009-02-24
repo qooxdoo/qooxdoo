@@ -61,7 +61,6 @@ qx.Class.define("playground.Application",
     // Container for the sample codes
     sampleContainer : {},
 
-
     /**
      * This method contains the initial application code and gets called
      * during startup of the application
@@ -206,7 +205,6 @@ qx.Class.define("playground.Application",
             }  
            }
           }, this);
-          
         } else {
           if (this.sampleContainer[newSample] != undefined)
           {        	
