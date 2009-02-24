@@ -63,6 +63,31 @@ qx.Bootstrap.define("qx.event.Manager",
 
 
 
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
+  statics :
+  {
+    /** {Integer} Last used ID for an event */
+    __lastUnique : 0,
+    
+    
+    /**
+     * Returns a unique ID which may be used in combination with a target and
+     * a type to identify an event entry.
+     *
+     * @return {String} The next free identifier (auto-incremened)
+     */
+    getNextUniqueId : function() {
+      return (this.__lastUnique++).toString(36);
+    }    
+  },
+
+
+
 
   /*
   *****************************************************************************
@@ -291,11 +316,7 @@ qx.Bootstrap.define("qx.event.Manager",
       var entryKey = type + (capture ? "|capture" : "|bubble");
       var entryList = targetMap[entryKey];
 
-      if (!entryList) {
-        return false;
-      }
-
-      return entryList.length > 0;
+      return entryList && entryList.length > 0;
     },
 
 
@@ -305,10 +326,11 @@ qx.Bootstrap.define("qx.event.Manager",
      * all existing data structures.
      *
      * Works with a map of data. Each entry in this map should be a
-     * map again with the keys <code>type</code>, <code>capture</code>,
-     * <code>listener</code> and <code>self</code>. The values are
-     * identical to the parameters of {@link #addListener}. For details
-     * please have a look there.
+     * map again with the keys <code>type</code>, <code>listener</code>, 
+     * <code>self</code>, <code>capture</code> and an optional <code>unique</code>.
+     *
+     * The values are identical to the parameters of {@link #addListener}. 
+     * For details please have a look there.
      *
      * @param target {Object} Any valid event target
      * @param list {Map} A map where every listener has a unique key.
@@ -327,6 +349,7 @@ qx.Bootstrap.define("qx.event.Manager",
 
       var targetKey = target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
       var targetMap = this.__listeners[targetKey] = {};
+      //var clazz = qx.event.Manager;
 
       for (var listKey in list)
       {
@@ -349,10 +372,12 @@ qx.Bootstrap.define("qx.event.Manager",
         entryList.push(
         {
           handler : item.listener,
-          context : item.self
+          context : item.self,
+          unique : item.unique || (clazz.__lastUnique++).toString(36)
         });
       }
     },
+    
 
     /**
      * Add an event listener to any valid target. The event listener is passed an
@@ -367,7 +392,7 @@ qx.Bootstrap.define("qx.event.Manager",
      * @param capture {Boolean ? false} Whether to attach the event to the
      *         capturing phase of the bubbling phase of the event. The default is
      *         to attach the event handler to the bubbling phase.
-     * @return {var} An opaque id, which can be used to remove the event listener
+     * @return {String} An opque ID, which can be used to remove the event listener
      *         using the {@link #removeListenerById} method.
      * @throws an error if the parameters are wrong
      */
@@ -413,15 +438,17 @@ qx.Bootstrap.define("qx.event.Manager",
       }
 
       // Append listener to list
+      var unique = (qx.event.Manager.__lastUnique++).toString(36);
       var entry = 
       {
         handler : listener,
-        context : self
+        context : self,
+        unique : unique
       };
       
       entryList.push(entry);
 
-      return [entryList, entry, type, capture];
+      return entryKey + "|" + unique;
     },
 
 
@@ -435,10 +462,8 @@ qx.Bootstrap.define("qx.event.Manager",
      */
     findHandler : function(target, type)
     {
+      var isDomNode=false, isWindow=false, isObject=false;
       var key;
-      var isDomNode = false;
-      var isWindow = false;
-      var isObject = false;
 
       if (target.nodeType === 1)
       {
@@ -472,28 +497,28 @@ qx.Bootstrap.define("qx.event.Manager",
 
 
       var classes = qx.event.Registration.getHandlers();
-      var instance;
+      var IEventHandler = qx.event.IEventHandler;
+      var clazz, instance, supportedTypes, targetCheck;
 
       for (var i=0, l=classes.length; i<l; i++)
       {
-        var clazz = classes[i];
+        clazz = classes[i];
 
         // shortcut type check
-        var supportedTypes = clazz.SUPPORTED_TYPES;
+        supportedTypes = clazz.SUPPORTED_TYPES;
         if (supportedTypes && !supportedTypes[type]) {
           continue;
         }
 
-        // chortcut target check
-        var IEventHandler = qx.event.IEventHandler;
-        var targetCheck = clazz.TARGET_CHECK;
+        // shortcut target check
+        targetCheck = clazz.TARGET_CHECK;
         if (targetCheck)
         {
-          if (targetCheck === IEventHandler.TARGET_DOMNODE && !isDomNode) {
+          if (!isDomNode && targetCheck === IEventHandler.TARGET_DOMNODE) {
             continue;
-          } else if (targetCheck === IEventHandler.TARGET_WINDOW && !isWindow) {
+          } else if (!isWindow && targetCheck === IEventHandler.TARGET_WINDOW) {
             continue;
-          } else if (targetCheck === IEventHandler.TARGET_OBJECT && !isObject) {
+          } else if (!isObject && targetCheck === IEventHandler.TARGET_OBJECT) {
             continue;
           }
         }
@@ -546,22 +571,24 @@ qx.Bootstrap.define("qx.event.Manager",
      *         the event listener.
      * @param capture {Boolean ? false} Whether to remove the event listener of
      *         the bubbling or of the capturing phase.
-     * @return {void}
+     * @return {Boolean} Whether the event was removed successfully (was existend)
      * @throws an error if the parameters are wrong
      */
     removeListener : function(target, type, listener, self, capture)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        var msg = "Failed to remove event listener for type '"+ type +"'" +
-          " to the target '" + target + "': ";
+        var msg = "Failed to remove event listener for type '" + type + "'" +
+          " from the target '" + target + "': ";
 
         qx.core.Assert.assertObject(target, msg + "Invalid Target.");
         qx.core.Assert.assertString(type, msg + "Invalid event type.");
         qx.core.Assert.assertFunction(listener, msg + "Invalid callback function");
+        
         if (self !== undefined) {
           qx.core.Assert.assertObject(self, "Invalid context for callback.")
         }
+        
         if (capture !== undefined) {
           qx.core.Assert.assertBoolean(capture, "Invalid capture falg.");
         }
@@ -581,9 +608,10 @@ qx.Bootstrap.define("qx.event.Manager",
         return false;
       }
 
+      var entry;
       for (var i=0, l=entryList.length; i<l; i++)
       {
-        var entry = entryList[i];
+        entry = entryList[i];
 
         if (entry.handler === listener && entry.context === self)
         {
@@ -602,29 +630,68 @@ qx.Bootstrap.define("qx.event.Manager",
 
 
     /**
-     * Removes an event listener from an event target by an id returned by
-     * {@link #addListener}
+     * Removes an event listener from an event target by an ID returned by
+     * {@link #addListener}.
      *
      * @param target {Object} The event target
-     * @param id {var} The id returned by {@link #addListener}
+     * @param id {String} The ID returned by {@link #addListener}
      */
     removeListenerById : function(target, id)
     {
-      var entryList = id[0];
-      var entry = id[1];
-      var type = id[2];
-      var capture = id[3];
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        var msg = "Failed to remove event listener for id '" + id + "'" +
+          " from the target '" + target + "': ";
 
-      qx.lang.Array.remove(entryList, entry);
-      if (entryList.length == 0) {
-        this.__unregisterAtHandler(target, type, capture);
+        qx.core.Assert.assertObject(target, msg + "Invalid Target.");
+        qx.core.Assert.assertString(id, msg + "Invalid id type.");
+      }  
+      
+      var split = id.split("|");
+      var type = split[0];
+      var capture = split[1].charCodeAt(0) == 99; // detect leading "c"
+      var unique = split[2];
+      
+      var targetKey = target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
+      var targetMap = this.__listeners[targetKey];
+
+      if (!targetMap) {
+        return false;
       }
+
+      var entryKey = type + (capture ? "|capture" : "|bubble");
+      var entryList = targetMap[entryKey];
+
+      if (!entryList) {
+        return false;
+      }
+      
+      var entry;
+      for (var i=0, l=entryList.length; i<l; i++) 
+      {
+        entry = entryList[i];
+        
+        if (entry.unique === unique) 
+        {
+          qx.lang.Array.removeAt(entryList, i);
+
+          if (entryList.length == 0) {
+            this.__unregisterAtHandler(target, type, capture);
+          }
+
+          return true;          
+        }
+      }
+      
+      return false;
     },
+
 
     /**
      * Remove all event listeners, which are attached to the given event target.
      *
      * @param target {Object} The event target to remove all event listeners from.
+     * @return {Boolean} Whether the events were existend and were removed successfully.
      */
     removeAllListeners : function(target)
     {

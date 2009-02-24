@@ -310,12 +310,14 @@ qx.Class.define("qx.core.Assert",
     assertEventFired : function(obj, event, invokeFunc, listenerFunc, msg)
     {
       var called = false;
-      var listener = function(e) {
+      var listener = function(e) 
+      {
         if (listenerFunc) {
           listenerFunc.call(obj, e);
         }
         called = true;
       };
+      
       var id = obj.addListener(event, listener, obj);
 
       invokeFunc.call();
