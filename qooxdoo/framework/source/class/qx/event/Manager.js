@@ -267,7 +267,7 @@ qx.Bootstrap.define("qx.event.Manager",
 
       if (targetMap)
       {
-        var indexOf, type, capture;
+        var indexOf, type, capture, entryList;
         for (var entryKey in targetMap) 
         {
           indexOf = entryKey.indexOf("|");

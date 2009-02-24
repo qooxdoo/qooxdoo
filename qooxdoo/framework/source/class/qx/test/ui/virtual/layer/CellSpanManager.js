@@ -172,7 +172,7 @@ qx.Class.define("qx.test.ui.virtual.layer.CellSpanManager",
       cellSpan.addCell("c6", 10, 10, 1, 3);    
       
       var cells = cellSpan.findCellsInWindow(1, 5, 7, 20);
-      ids = [];
+      var ids = [];
       cells.forEach(function(cell) {
         ids.push(cell.id);
       });
@@ -268,7 +268,7 @@ qx.Class.define("qx.test.ui.virtual.layer.CellSpanManager",
       cellSpan.addCell("c5", 4, 4, 2, 2);
       
       var cells = cellSpan.findCellsInWindow(1, 4, 1, 4);
-      ids = [];
+      var ids = [];
       cells.forEach(function(cell) {
         ids.push(cell.id);
       });

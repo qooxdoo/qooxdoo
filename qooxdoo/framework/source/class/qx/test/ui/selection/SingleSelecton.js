@@ -106,7 +106,7 @@ qx.Class.define("qx.test.ui.selection.SingleSelecton",
       }, "'changeSelection' event not fired!");
       
       // Tests result from "getSelected"
-      result = this.__list.getSelected();
+      var result = this.__list.getSelected();
       this.assertNull(result, "The result isn't empty");
     },
     
