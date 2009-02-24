@@ -330,7 +330,7 @@ qx.Class.define("qx.test.core.Variants",
       if (true) {
         var i = 3;
       } else if (qx.core.Variant.isSet("qx.client", "mshtml")) {
-        debug("");
+        this.debug("");
       }
 
       i = 2;
