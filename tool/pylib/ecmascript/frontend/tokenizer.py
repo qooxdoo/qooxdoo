@@ -23,9 +23,9 @@ import sys, re
 from ecmascript.frontend import lang, comment
 
 
-R_WHITESPACE = re.compile(r"(?:\s+)")
-R_NONWHITESPACE = re.compile("\S+")
-R_NUMBER = re.compile("^[0-9]+")
+R_WHITESPACE = re.compile(r"(?:\s+)",re.UNICODE)
+R_NONWHITESPACE = re.compile("\S+",re.UNICODE)
+R_NUMBER = re.compile("^\d+",re.UNICODE)
 R_NEWLINE = re.compile(r"(\n)")  # don't touch this subgroup!
 
 # Ideas from: http://www.regular-expressions.info/examplesprogrammer.html
