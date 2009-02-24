@@ -15,7 +15,6 @@
    Authors:
      * Sebastian Werner (wpbasti)
 
-
 ************************************************************************ */
 
 /**
@@ -80,16 +79,14 @@ qx.Class.define("qx.dom.Node",
     /**
      * Returns the owner document of the given node
      *
-     * @param node {Node|Document} the node which should be tested
-     * @return {Document | null} The document of the given DOM node
+     * @param node {Node|Document|Window} the node which should be tested
+     * @return {Document|null} The document of the given DOM node
      */
-    getDocument : function(node)
+    getDocument : function(node) 
     {
-      if (this.isDocument(node)) {
-        return node;
-      }
-
-      return node.ownerDocument || node.document || null;
+      return node.nodeType === this.DOCUMENT ? node : // is document already 
+        node.ownerDocument || // is DOM node
+        node.document; // is window
     },
 
 
@@ -97,17 +94,31 @@ qx.Class.define("qx.dom.Node",
      * Returns the DOM2 <code>defaultView</code> (window).
      *
      * @signature function(node)
-     * @param node {Node|Document} node to inspect
+     * @param node {Node|Document|Window} node to inspect
      * @return {Window} the <code>defaultView</code> of the given node
      */
     getWindow : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(node) {
-        return this.getDocument(node).parentWindow;
+      "mshtml" : function(node) 
+      {
+        // jump to document
+        if (node.nodeType !== this.DOCUMENT) {
+          node = node.ownerDocument;
+        }
+
+        // try window, otherwise it may be the window already
+        return node.parentWindow || node;
       },
 
-      "default" : function(node) {
-        return this.getDocument(node).defaultView;
+      "default" : function(node) 
+      {
+        // jump to document
+        if (node.nodeType !== this.DOCUMENT) {
+          node = node.ownerDocument;
+        }
+        
+        // try window, otherwise it may be the window already
+        return node.defaultView || node;
       }
     }),
 
@@ -119,7 +130,7 @@ qx.Class.define("qx.dom.Node",
      * node that is the root element of the document. For HTML documents,
      * this is the element with the tagName "HTML".
      *
-     * @param node {Node|Document} node to inspect
+     * @param node {Node|Document|Window} node to inspect
      * @return {Element} document element of the given node
      */
     getDocumentElement : function(node) {
@@ -133,7 +144,7 @@ qx.Class.define("qx.dom.Node",
      * This normally only makes sense for HTML documents. It returns
      * the content area of the HTML document.
      *
-     * @param node {Node|Document} node to inspect
+     * @param node {Node|Document|Window} node to inspect
      * @return {Element} document body of the given node
      */
     getBodyElement : function(node) {
@@ -158,7 +169,7 @@ qx.Class.define("qx.dom.Node",
      * @return {Boolean} true if the node is a DOM element
      */
     isElement : function(node) {
-      return !!(node && node.nodeType === qx.dom.Node.ELEMENT);
+      return !!(node && node.nodeType === this.ELEMENT);
     },
 
 
@@ -169,7 +180,7 @@ qx.Class.define("qx.dom.Node",
      * @return {Boolean} true when the node is a document
      */
     isDocument : function(node) {
-      return !!(node && node.nodeType === qx.dom.Node.DOCUMENT);
+      return !!(node && node.nodeType === this.DOCUMENT);
     },
 
 
@@ -180,7 +191,7 @@ qx.Class.define("qx.dom.Node",
      * @return {Boolean} true if the node is a DOM element
      */
     isText : function(node) {
-      return !!(node && node.nodeType === qx.dom.Node.TEXT);
+      return !!(node && node.nodeType === this.TEXT);
     },
 
 
@@ -191,7 +202,7 @@ qx.Class.define("qx.dom.Node",
      * @return {Boolean} true if the object is a window object.
      */
     isWindow : function(obj) {
-      return !!(typeof obj === "object" && obj && obj.nodeType == null && obj.Array);
+      return !!(obj && obj.history && obj.location && obj.document);
     },
 
 
@@ -222,7 +233,7 @@ qx.Class.define("qx.dom.Node",
       switch(node.nodeType)
       {
         case 1: // NODE_ELEMENT
-          var i, a=[], nodes = node.childNodes, length = nodes.length;
+          var i, a=[], nodes=node.childNodes, length=nodes.length;
           for (i=0; i<length; i++) {
             a[i] = this.getText(nodes[i]);
           };
