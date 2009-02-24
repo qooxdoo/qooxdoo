@@ -99,6 +99,8 @@ qx.Class.define("qx.html.Element",
     /** {Map} Map of post actions for elements. The key is the action name. The value the {@link qx.html.Element}. */
     _actions : [],
 
+    
+    __lastUniqueEvent : 0,
 
 
 
@@ -824,32 +826,6 @@ qx.Class.define("qx.html.Element",
       }
 
       return false;
-    },
-
-
-    /**
-     * Generates a unique key for a listener configuration
-     *
-     * @param type {String} Name of the event
-     * @param listener {Function} Function to execute on event
-     * @param self {Object} Execution context of given function
-     * @param capture {Boolean ? false} Whether capturing should be enabled
-     * @return {String} A unique ID for this configuration
-     */
-    __generateListenerId : function(type, listener, self, capture)
-    {
-      var reg = qx.core.ObjectRegistry;
-      var id = "evt\000" + type + "\000" + reg.toHashCode(listener);
-
-      if (self) {
-        id += "\000" + reg.toHashCode(self);
-      }
-
-      if (capture) {
-        id += "\000capture";
-      }
-
-      return id;
     },
 
 
@@ -1774,8 +1750,7 @@ qx.Class.define("qx.html.Element",
     getSelection : function()
     {
       var el = this.__element;
-      if (el)
-      {
+      if (el) {
         return qx.bom.Selection.get(el);
       }
 
@@ -1794,8 +1769,7 @@ qx.Class.define("qx.html.Element",
     getSelectionLength : function()
     {
       var el = this.__element;
-      if (el)
-      {
+      if (el) {
         return qx.bom.Selection.getLength(el);
       }
 
@@ -1816,8 +1790,7 @@ qx.Class.define("qx.html.Element",
     setSelection : function(start, end)
     {
       var el = this.__element;
-      if (el)
-      {
+      if (el) {
         qx.bom.Selection.set(el, start, end);
       }
     },
@@ -1833,8 +1806,7 @@ qx.Class.define("qx.html.Element",
     clearSelection : function()
     {
       var el = this.__element;
-      if (el)
-      {
+      if (el) {
         qx.bom.Selection.clear(el);
       }
     },
@@ -1879,8 +1851,7 @@ qx.Class.define("qx.html.Element",
      *
      * @return {void}
      */
-    focus : function()
-    {
+    focus : function() {
       this.__performAction("focus");
     },
 
@@ -1890,8 +1861,7 @@ qx.Class.define("qx.html.Element",
      *
      * @return {void}
      */
-    blur : function()
-    {
+    blur : function() {
       this.__performAction("blur");
     },
 
@@ -1901,8 +1871,7 @@ qx.Class.define("qx.html.Element",
      *
      * @return {void}
      */
-    activate : function()
-    {
+    activate : function() {
       this.__performAction("activate");
     },
 
@@ -1912,8 +1881,7 @@ qx.Class.define("qx.html.Element",
      *
      * @return {void}
      */
-    deactivate : function()
-    {
+    deactivate : function() {
       this.__performAction("deactivate");
     },
 
@@ -1921,8 +1889,7 @@ qx.Class.define("qx.html.Element",
     /**
      * Captures all mouse events to this element
      */
-    capture : function()
-    {
+    capture : function() {
       this.__performAction("capture");
     },
 
@@ -1930,8 +1897,7 @@ qx.Class.define("qx.html.Element",
     /**
      * Releases this element from a previous {@link #capture} call
      */
-    releaseCapture : function()
-    {
+    releaseCapture : function() {
       this.__performAction("releaseCapture");
     },
 
@@ -2271,8 +2237,6 @@ qx.Class.define("qx.html.Element",
 
 
 
-
-
     /*
     ---------------------------------------------------------------------------
       EVENT SUPPORT
@@ -2291,21 +2255,22 @@ qx.Class.define("qx.html.Element",
      */
     addListener : function(type, listener, self, capture)
     {
-      if (this.isDisposed()) {
+      if (this.$$disposed) {
         return null;
       }
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        var msg =
-          "Failed to add event listener for type '"+ type +"'" +
+        var msg = "Failed to add event listener for type '" + type + "'" +
           " to the target '" + this + "': ";
 
         this.assertString(type, msg + "Invalid event type.");
         this.assertFunction(listener, msg + "Invalid callback function");
+        
         if (self !== undefined) {
           this.assertObject(self, "Invalid context for callback.")
         }
+        
         if (capture !== undefined) {
           this.assertBoolean(capture, "Invalid capture falg.");
         }
@@ -2319,22 +2284,23 @@ qx.Class.define("qx.html.Element",
         this.__eventValues = {};
       }
 
-      var key = this.__generateListenerId(type, listener, self, capture);
-      if (this.__eventValues[key])
-      {
-        this.warn("A listener of this configuration does already exist!");
-        return this.__eventValues[key];
+      if (capture == null) {
+        capture = false;
       }
-
-      var entry = {
+        
+      var unique = qx.event.Manager.getNextUniqueId();
+      var id = type + (capture ? "|capture|" : "|bubble|") + unique;
+      
+      this.__eventValues[id] = 
+      {
         type : type,
         listener : listener,
         self : self,
-        capture : capture
-      }
-      this.__eventValues[key] = entry;
+        capture : capture,
+        unique : unique
+      };
 
-      return entry;
+      return id;
     },
 
 
@@ -2349,40 +2315,51 @@ qx.Class.define("qx.html.Element",
      */
     removeListener : function(type, listener, self, capture)
     {
-      if (this.isDisposed()) {
-        return;
+      if (this.$$disposed) {
+        return null;
       }
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        var msg =
-          "Failed to remove event listener for type '"+ type +"'" +
-          " to the target '" + this + "': ";
+        var msg = "Failed to remove event listener for type '" + type + "'" +
+          " from the target '" + this + "': ";
 
         this.assertString(type, msg + "Invalid event type.");
         this.assertFunction(listener, msg + "Invalid callback function");
+        
         if (self !== undefined) {
           this.assertObject(self, "Invalid context for callback.")
         }
+        
         if (capture !== undefined) {
           this.assertBoolean(capture, "Invalid capture flag.");
         }
       }
 
-      if (this.__element)
+      if (this.__element) 
       {
         qx.event.Registration.removeListener(this.__element, type, listener, self, capture);
       }
       else
       {
-        var key = this.__generateListenerId(type, listener, self, capture);
-        if (!this.__eventValues || !this.__eventValues[key])
-        {
-          this.warn("A listener of this configuration does not exist!");
-          return false;
+        var values = this.__eventValues;
+        var entry;
+        
+        if (capture == null) {
+          capture = false;
         }
-
-        delete this.__eventValues[key];
+        
+        for (var key in values) 
+        {
+          entry = values[key];
+          
+          // Optimized for performance: Testing references first
+          if (entry.listener === listener && entry.self === self && entry.capture === capture && entry.type === type) 
+          {
+            delete values[key];
+            break;
+          }
+        }
       }
 
       return this;
@@ -2397,17 +2374,17 @@ qx.Class.define("qx.html.Element",
      */
     removeListenerById : function(id)
     {
-      if (this.__element)
-      {
-        if (id.type) {
-          qx.event.Registration.removeListener(id.type, id.listener, id.self, id.capture);
-        } else {
-          qx.event.Registration.removeListenerById(this.__element, id);
-        }
-        return;
+      if (this.$$disposed) {      
+        return null;
       }
-
-      this.removeListener(id.type, id.listener, id.self, id.capture);
+      
+      if (this.__element) {
+        qx.event.Registration.removeListenerById(this.__element, id);
+      } else {
+        delete this.__eventValues[id];
+      }
+      
+      return this;
     },
 
 
@@ -2421,19 +2398,31 @@ qx.Class.define("qx.html.Element",
      */
     hasListener : function(type, capture)
     {
+      if (this.$$disposed) {      
+        return false;
+      }
+
       if (this.__element) {
         return qx.event.Registration.hasListener(this.__element, type, capture);
       }
 
-      for (var key in this.__eventValues)
+      var values = this.__eventValues;
+      var entry;
+      
+      if (capture == null) {
+        capture = false;
+      }
+      
+      for (var key in values) 
       {
-        key = key.split("\000");
-        var isCapture = key[4] == "capture";
-
-        if (capture == isCapture && type == key[1]) {
+        entry = values[key];
+        
+        // Optimized for performance: Testing fast types first
+        if (entry.capture === capture && entry.type === type) {
           return true;
         }
       }
+      
       return false;
     }
   },

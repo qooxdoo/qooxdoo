@@ -128,12 +128,14 @@ qx.Bootstrap.define("qx.event.Registration",
      * @param type {String} Name of the event
      * @param listener {Function} The pointer to the event listener
      * @param self {Object} Reference to the 'this' variable inside
-     *         the event listener.
+     *    the event listener.
      * @param capture {Boolean} Whether to remove the event listener of
-     *         the bubbling or of the capturing phase.
+     *    the bubbling or of the capturing phase.
+     * @return {Boolean} Whether the event was removed. Return <code>false</code> if
+     *    the event was already removed before.
      */
     removeListener : function(target, type, listener, self, capture) {
-      this.getManager(target).removeListener(target, type, listener, self, capture);
+      return this.getManager(target).removeListener(target, type, listener, self, capture);
     },
 
 
@@ -143,9 +145,11 @@ qx.Bootstrap.define("qx.event.Registration",
      *
      * @param target {Object} The event target
      * @param id {var} The id returned by {@link #addListener}
+     * @return {Boolean} Whether the event was removed. Return <code>false</code> if
+     *    the event was already removed before.
      */
     removeListenerById : function(target, id) {
-      this.getManager(target).removeListenerById(target, id);
+      return this.getManager(target).removeListenerById(target, id);
     },
 
 
@@ -153,9 +157,10 @@ qx.Bootstrap.define("qx.event.Registration",
      * Remove all event listeners, which are attached to the given event target.
      *
      * @param target {Object} The event target to remove all event listeners from.
+     * @return {Boolean} Whether the events were existend and were removed successfully.
      */
     removeAllListeners : function(target) {
-      this.getManager(target).removeAllListeners(target);
+      return this.getManager(target).removeAllListeners(target);
     },
 
 
@@ -311,6 +316,8 @@ qx.Bootstrap.define("qx.event.Registration",
       var evt = this.createEvent(type, clazz||null, args);
       return mgr.dispatchEvent(target, evt);
     },
+
+
 
 
     /*
