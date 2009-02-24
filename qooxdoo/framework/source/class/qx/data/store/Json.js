@@ -30,7 +30,7 @@ qx.Class.define("qx.data.store.Json",
     this.base(arguments);
    
     // store the marshaler
-    this.__marshaler = new qx.data.marshal.Json(delegate);
+    this._marshaler = new qx.data.marshal.Json(delegate);
    
     if (url != null) {
       this.setUrl(url);
@@ -99,9 +99,9 @@ qx.Class.define("qx.data.store.Json",
     {
         var data = ev.getContent();
         // create the class
-        this.__marshaler.jsonToClass(data);
+        this._marshaler.jsonToClass(data);
         // set the initial data
-        this.setModel(this.__marshaler.jsonToModel(data));
+        this.setModel(this._marshaler.jsonToModel(data));
                 
         // fire complete event
         this.fireDataEvent("loaded", this.getModel());
