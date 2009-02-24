@@ -93,7 +93,7 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.DomPoolCell",
         row++;
       }
       
-      for (j=i; j<childNodes.length; i++) {
+      for (var j=i; j<childNodes.length; i++) {
         el.removeChild(childNodes[i]);
       }
     }
