@@ -148,7 +148,7 @@ qx.Class.define("qx.bom.Input",
       {
         var isArray = Array.isArray(value);
         var options = element.options;
-        var subel;
+        var subel, subval;
         
         for (var i=0, l=options.length; i<l; i++) 
         {
@@ -215,6 +215,7 @@ qx.Class.define("qx.bom.Input",
         var options = element.options;
         var one = element.type == "select-one";
         var clazz = qx.bom.Input;
+        var value;
 
         // Loop through all the selected options
         for (var i=one ? index : 0, max=one ? index+1 : options.length; i<max; i++) 
