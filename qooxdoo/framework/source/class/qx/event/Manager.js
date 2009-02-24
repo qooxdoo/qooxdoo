@@ -349,7 +349,7 @@ qx.Bootstrap.define("qx.event.Manager",
 
       var targetKey = target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
       var targetMap = this.__listeners[targetKey] = {};
-      //var clazz = qx.event.Manager;
+      var clazz = qx.event.Manager;
 
       for (var listKey in list)
       {
@@ -392,7 +392,7 @@ qx.Bootstrap.define("qx.event.Manager",
      * @param capture {Boolean ? false} Whether to attach the event to the
      *         capturing phase of the bubbling phase of the event. The default is
      *         to attach the event handler to the bubbling phase.
-     * @return {String} An opque ID, which can be used to remove the event listener
+     * @return {String} An opaque ID, which can be used to remove the event listener
      *         using the {@link #removeListenerById} method.
      * @throws an error if the parameters are wrong
      */
