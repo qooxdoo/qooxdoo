@@ -212,58 +212,43 @@ qx.Class.define("qx.data.Array",
      * Method to remove and add new element to the array. For every remove or
      * add an event will be fired.
      *
-     * @param varargs {var} The first parameter defines the start index.
-     *   The second parameter defines number of element which will be removed
-     *   at the given position.
-     *   All following parameters will be added at the given position to the
-     *   array.
+     * @param startIndex {Integer} The index where the splice should start
+     * @param amount {Integer} Defines number of element which will be removed
+      *   at the given position.
+     * @param varargs {var} All following parameters will be added at the given 
+     *   position to the array.
      * @return {qx.data.Array} An array containing the removed elements.
      */
-    splice: function(varargs) {
-      // get the important arguments
-      var startIndex = arguments[0];
-      var amount = arguments[1];
+    splice: function(startIndex, amount, varargs) {
+      // store the old length
+      var oldLength = this.__array.length;
 
-      // create a return array
-      var returnArray = new qx.data.Array();
-
-      // get the right end
-      if (arguments.length >= 2) {
-        var end = amount + startIndex;
-      } else {
-        var end = this.__array.length;
-      }
-
-      // remove the objects
-      for (var i = startIndex; i < end; i++) {
-        // remove the last element
-        var item = this.__array.splice(startIndex, 1)[0]
-        returnArray.push(item);
+      // invoke the slice on the array
+      var returnArray = this.__array.splice.apply(this.__array, arguments);
+    
+      // fire a change event for the length
+      if (this.__array.length != oldLength) {
         this.__updateLength();
+      }
+      // fire an event for the change
+      var removed = amount > 0;
+      var added = arguments.length > 2;
+      if (removed || added) {
+        if (this.__array.length > oldLength) {
+          var type = "add";
+        } else if (this.__array.length < oldLength) {
+          var type = "remove";
+        } else {
+          var type = "order";
+        }
         this.fireDataEvent("change", 
           {
-            start: startIndex, end: this.length - 1, type: "remove", item: item
+            start: startIndex, end: this.length - 1, type: type, item: null
           }, null
         );
       }
 
-      // if there are objects which should be added
-      if (arguments.length > 2) {
-        // go threw all objects which should be added
-        for (var i = arguments.length - 1; i >= 2 ; i--) {
-          // add every single object and fire an add event
-          this.__array.splice(startIndex, 0, arguments[i]);
-          this.__updateLength();
-          this.fireDataEvent("change", 
-            {
-              start: startIndex, end: this.length - 1, 
-              type: "add", item: arguments[i]
-            }, null
-          );
-        }
-      }
-
-      return returnArray;
+      return (new qx.data.Array(returnArray));
     },
 
 
