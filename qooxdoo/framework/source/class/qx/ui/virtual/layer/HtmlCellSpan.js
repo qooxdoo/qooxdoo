@@ -70,6 +70,26 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCellSpan",
     },
     
     
+    __renderCell : function(htmlArr, row, column, left, top, width, height) 
+    {
+      var cellProperties = this._cellProvider.getCellProperties(row, column);
+      var insets = cellProperties.insets || [0, 0];
+
+      htmlArr.push(
+        "<div ",
+        "style='",
+        "left:", left, "px;",
+        "top:", top, "px;",
+        this._getCellSizeStyle(width, height, insets[0], insets[1]),
+        cellProperties.style || "", "' ",
+        "class='", cellProperties.classes || "", "' ",
+        cellProperties.attributes || "", ">",
+        cellProperties.content || "",
+        "</div>"                     
+      );      
+    },
+    
+    
     // overridden
     _fullUpdate : function(
       firstRow, lastRow, 
@@ -98,11 +118,12 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCellSpan",
         {
           var cell = cells[i];
           var cellBounds = bounds[i];
-          html.push(this._cellProvider.getCellHtml(
+          this.__renderCell(
+            html,
             cell.firstRow, cell.firstColumn,
             cellBounds.left, cellBounds.top,
             cellBounds.width, cellBounds.height
-          ));
+          );
         }         
       }
       else
@@ -130,7 +151,8 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCellSpan",
           
           if (!spanMap[row][column])
           {
-            html[html.length] = this._cellProvider.getCellHtml(
+            this.__renderCell(
+              html,
               row, column,
               left, top,
               width, height

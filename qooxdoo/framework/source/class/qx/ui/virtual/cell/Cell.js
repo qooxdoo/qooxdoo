@@ -274,7 +274,8 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
       if (!value) {
         this._storeStyle(name, null);
       } else {
-        this._storeStyle(name, qx.bom.Style.compile(value.getStyles()));
+        var font = qx.theme.manager.Font.getInstance().resolve(value)
+        this._storeStyle(name, qx.bom.element.Style.compile(font.getStyles()));
       }
     },
     

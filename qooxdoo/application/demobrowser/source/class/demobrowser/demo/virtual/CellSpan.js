@@ -63,7 +63,9 @@ qx.Class.define("demobrowser.demo.virtual.CellSpan",
       }), {row: 0, column: 1});      
       
       var scroller = this.getWidgetCellSpanScroller();
-      container.add(scroller, {row: 1, column: 1});         
+      container.add(scroller, {row: 1, column: 1});   
+      
+      this.__cellRenderer = new qx.ui.virtual.cell.Cell();
     },
     
     
@@ -87,24 +89,14 @@ qx.Class.define("demobrowser.demo.virtual.CellSpan",
       scroller.getPane().addLayer(spanLayer);
       return scroller;
     },
+
     
-    
-    getCellHtml : function(row, column, left, top, width, height) 
+    getCellProperties : function(row, column) 
     {
       var color = (row + column) % 2 == 0 ? "yellow" : "green";
-      
-      return [
-        "<div style='position:absolute;",
-        "left:", left, "px;",
-        "top:", top, "px;",
-        "width:", width, "px;",
-        "height:", height, "px;",
-        "background-color:", color,
-        "'>",
-        row, "x", column,
-        "</div>"
-      ].join(""); 
-    },
+      this.__cellRenderer.setBackgroundColor(color);
+      return this.__cellRenderer.getCellProperties(row + " / " + column);
+    },     
     
     
     getWidgetCellSpanScroller : function()
