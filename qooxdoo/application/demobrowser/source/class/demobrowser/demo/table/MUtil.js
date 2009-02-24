@@ -28,6 +28,7 @@ qx.Mixin.define("demobrowser.demo.table.MUtil",
         updateContent : function() {},
         setFocusedCell : function(col, row) {},
         getKeepFirstVisibleRowComplete : function() { return true; },
+        _updateScrollBarVisibility : function(){},
         getSelectionManager : function() { return selectionManager; },
         getNewTablePaneHeader : function(obj) {
           return function(obj) {
