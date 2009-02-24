@@ -437,8 +437,8 @@ qx.Class.define("qx.ui.virtual.form.List",
      */
     removeAll : function()
     {
-      for (var i=0,j=this.__items.lenth; i<j; i++) {
-        this._removeHelper(child);
+      for (var i=0, j=this.__items.length; i<j; i++) {
+        this._removeHelper(this.__items[i]);
       }
       this.__items = [];
     },
@@ -528,8 +528,8 @@ qx.Class.define("qx.ui.virtual.form.List",
      */
     removeAt : function(index)
     {
+      this._removeHelper(this.__items[index]);
       this.__items.splice(index, 1);
-      this._removeHelper(child);
     },
     
     
