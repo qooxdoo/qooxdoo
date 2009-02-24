@@ -44,7 +44,7 @@ buildconf = {
    'doCleanup'    : False,
    'checkInterval': 10, # 10min - beware of time it takes for a build before re-check
    'generate'     : False,
-   'path'         : 'application/demobrowser',   
+   'path'         : 'application/demobrowser',
    #'disk_space' : '2G',
    #'cpu_consume' : '20%',
    #'time_limit' : '30m',
@@ -67,12 +67,12 @@ def get_computed_conf():
         "-r", "--build-release", dest="release", default=None, type="string",
         help="Release version (SVN) of target to build (e.g. \"9077\")"
     )
-    
+
     parser.add_option(
         "-g", "--generate-job", dest="generate", default=buildconf['generate'], type="string",
         help="Which generator job to run, e.g. \"release\", \"source\", \"build\""
     )
-    
+
     parser.add_option(
         "-p", "--generate-path", dest="path", default=buildconf['path'], type="string",
         help="Path to run generate.py in, e.g. \"framework\", \"application/demobrowser\""
@@ -99,13 +99,18 @@ def get_computed_conf():
     )
 
     parser.add_option(
-        "-s", "--log-size", dest="logSize", type="long", default=None, 
+        "-s", "--log-size", dest="logSize", type="long", default=None,
         help="Log file size (in byte; default: unlimited)"
     )
-    
+
     parser.add_option(
         "-n", "--no-svn-check", dest="noSvnCheck", default=False, action="store_true",
         help="Start generate process even if there were no changes in the repository."
+    )
+
+    parser.add_option(
+        "-C", "--clean", dest="distclean", default=False, action="store_true",
+        help="Run distclean before building"
     )
 
     (options, args) = parser.parse_args()
@@ -210,18 +215,21 @@ def build_packet(target,revision,generate):
     if (generate != None):
         if (generate != "release"):
             working_dir = os.path.join(options.stagedir, target,"qooxdoo",options.path)
-            print("Changing dir to: " + working_dir)        
-            os.chdir(working_dir)        
+            print("Changing dir to: " + working_dir)
+            os.chdir(working_dir)
+            if (options.distclean):
+              print("Clearing cache")
+              clRc = invoke_external("./generate.py distclean")
             print("Starting generator")
-            genRc = invoke_external("./generate.py " + generate)        
+            genRc = invoke_external("./generate.py " + generate)
             if (genRc != 0):
                 print ("Generator exited with status " + repr(genRc))
                 sys.exit(genRc)
-        else:        
+        else:
             goto_workdir(os.path.join(target,"qooxdoo"))
-            date()    
+            date()
             make(generate)
-        
+
     date()
     return 0
 
