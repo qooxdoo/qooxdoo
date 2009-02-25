@@ -79,9 +79,9 @@ qx.Theme.define("qx.theme.modern.Color",
 
     // states
     "text-hovered"  : "#001533",
-    "text-disabled" : "#6B6A6E",
+    "text-disabled" : "#7B7A7E",
     "text-selected" : "#fffefe",
-    "text-active" : "#26364D",
+    "text-active"   : "#26364D",
     "text-inactive" : "#404955",
 
 
@@ -106,7 +106,7 @@ qx.Theme.define("qx.theme.modern.Color",
     "border-input" : "#334866",
 
     // disabled text fields
-    "border-disabled" : "#969696",
+    "border-disabled" : "#B6B6B6",
 
     // tab view, window
     "border-pane" : "#00204D",
