@@ -171,8 +171,7 @@ qx.Class.define("qx.event.handler.Mouse",
       // we need a true node for the fireEvent
       // e.g. when hovering over text of disables textfields IE is returning
       // an empty object as "srcElement"
-      var Node = qx.dom.Node;
-      if (Node.isElement(target) || Node.isText(target) || Node.isDocument(target))
+      if (target && target.nodeType)
       {
         qx.event.Registration.fireEvent(
           target,
