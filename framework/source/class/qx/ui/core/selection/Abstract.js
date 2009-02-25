@@ -1207,11 +1207,12 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       
       // Cache anchor
       var anchor = this._getAnchorItem();
+      var lead = anchor;
 
 
       // Process X-coordinate
-      var moveX=this.__moveDirectionX, lead=anchor;
-      var nextX, locationX, countX=0;
+      var moveX = this.__moveDirectionX;
+      var nextX, locationX;
       
       while (moveX !== 0)
       {
@@ -1232,8 +1233,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
           )
           {
             lead = nextX;
-            countX++;
-
             continue;
           }
         }
@@ -1244,8 +1243,8 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
 
       // Process Y-coordinate
-      var moveY=this.__moveDirectionY;
-      var nextY, locationY, countY=0;
+      var moveY = this.__moveDirectionY;
+      var nextY, locationY;
 
       while (moveY !== 0)
       {        
@@ -1266,8 +1265,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
           )
           {
             lead = nextY;
-            countY++;
-
             continue;
           }
         }
