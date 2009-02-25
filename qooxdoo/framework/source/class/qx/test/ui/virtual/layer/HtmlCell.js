@@ -24,9 +24,10 @@ qx.Class.define("qx.test.ui.virtual.layer.HtmlCell",
 
   members :
   { 
-    _createLayer : function() {
-      return new qx.ui.virtual.layer.HtmlCell(this);
+    _createLayer : function() 
+    {
       this.__cellRenderer = new qx.ui.virtual.cell.Cell();
+      return new qx.ui.virtual.layer.HtmlCell(this);
     },
     
     
@@ -50,7 +51,7 @@ qx.Class.define("qx.test.ui.virtual.layer.HtmlCell",
           var column = firstColumn + x;
           
           var cellEl = children[y*columnCount + x];
-          this.assertEquals(column + "x" + row, cellEl.innerHTML);
+          this.assertEquals(row + " / " + column, cellEl.innerHTML);
         }
       }
     }
