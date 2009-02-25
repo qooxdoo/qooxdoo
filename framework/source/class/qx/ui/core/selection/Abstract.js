@@ -255,6 +255,11 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         if (first) {
           this.addItem(first);
         }
+        
+        // Do not fire any event in this case.
+        if (first == item) {
+          return;
+        }
       }
 
       if (this._getLeadItem() == item) {
@@ -280,7 +285,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     {
       var mode = this.getMode();
       if (mode == "single" || mode == "one") {
-        throw new Error("Can not select items in selection mode: " + mode);
+        throw new Error("Can not select multiple items in selection mode: " + mode);
       }
 
       this._selectItemRange(begin, end);
@@ -316,68 +321,29 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
 
     /**
-     * Replaces current selection with the given items
+     * Replaces current selection with given array of items.
      *
-     * @param items {Object} Items to select
-     * @return {void}
+     * Please note that in single selection scenarios it is more 
+     * efficient to directly use {@link #selectItem}.
+     *
+     * @param items {Array} Items to select
      */
     replaceSelection : function(items)
     {
-      // Check that the array contains only selectable items
-      var tempItems = [];
-      var newItems = 0;
-      var allSelectableItems = true;
-      for (var i = 0; i < items.length; i++)
+      var mode = this.getMode();
+      if (mode == "one" || mode === "single") 
       {
-        if (this._isSelectable(items[i]))
-        {
-          tempItems.push(items[i]);
-          
-          var hash = this._selectableToHashCode(items[i]);
-      
-          if (!this.__selection[hash]) {
-            newItems++;
-          }
-        } else {
-          allSelectableItems = false;
+        if (items.length > 1)   {
+          throw new Error("Could not select more than one items in mode: " + mode + "!");
         }
-      }
-      items = tempItems;
-      
-      // Stop if the selection doesn't change
-      if (qx.lang.Object.getLength(this.__selection) == items.length &&
-          allSelectableItems && newItems == 0) {
+        
+        this.selectItem(items[0]);
         return;
       }
-      
-      // Remove selection completely
-      this._clearSelection();
-
-      // Reset anchor and lead item
-      this._setLeadItem(null);
-      this._setAnchorItem(null);
-
-      // Add given items to selection
-      for (var i=0, l=items.length; i<l; i++) {
-        this._addToSelection(items[i]);
-      }
-
-      // Scroll last item into view
-      if (l > 0) {
-        this._scrollItemIntoView(items[l-1]);
-      }
-
-      // Correcting selection when 'one' mode is active
-      else if (this.getMode() == "one")
+      else
       {
-        var firstItem = this._getFirstSelectable();
-        if (firstItem) {
-          this._addToSelection(firstItem);
-        }
+        this._replaceMultiSelection(items);
       }
-
-      // Finally fire change event
-      this._fireChange();
     },
 
 
@@ -1636,19 +1602,18 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      */
     _setSelectedItem : function(item)
     {
-      var hash = this._selectableToHashCode(item);
-      var isSelectable = this._isSelectable(item);
-      
-      /*
-       * Do the following only if the item is selectable. However, if the item 
-       * is already selected, do nothing. If the current selection has more 
-       * then one element selected, reset the selection to the single item. 
-       */ 
-      if ((isSelectable && !this.__selection[hash]) ||
-        (isSelectable && qx.lang.Object.getLength(this.__selection) > 1))
+      if (this._isSelectable(item))
       {
-        this._clearSelection();
-        this._addToSelection(item);
+        // Detect if the item is already selected
+        var hash = this._selectableToHashCode(item);
+        
+        // If already selected try to find out if this is the only item
+        var current = this.__selection;
+        if (!current[item.$$hash] || qx.lang.Object.hasMinLength(current, 2)) 
+        {
+          this._clearSelection();
+          this._addToSelection(item);
+        }
       }
     },
 
@@ -1673,15 +1638,12 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     {
       var hash = this._selectableToHashCode(item);
 
-      if (!this.__selection[hash])
+      if (!this.__selection[hash] && this._isSelectable(item))
       {
-        if (this._isSelectable(item))
-        {
-          this.__selection[hash] = item;
-          this._styleSelectable(item, "selected", true);
+        this.__selection[hash] = item;
+        this._styleSelectable(item, "selected", true);
 
-          this.__selectionModified = true;
-        }
+        this.__selectionModified = true;
       }
     },
 
@@ -1729,6 +1691,85 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       }
     },
 
+
+    /** 
+     * Replaces current selection with items from given array.
+     *
+     * @param items {Array} List of items to select
+     */ 
+    _replaceMultiSelection : function(items)
+    {
+      var modified = false;
+      
+      // Build map from hash codes and filter non-selectables
+      var selectable, hash;
+      var incoming = {};
+      for (var i=0, l=items.length; i<l; i++) 
+      {
+        selectable = items[i];
+        if (this._isSelectable(selectable))
+        {
+          hash = this._selectableToHashCode(selectable);
+          incoming[hash] = selectable;  
+        }
+      }
+      
+      // Remember last 
+      var last = selectable;
+
+      // Clear old entries from map
+      var current = this.__selection;
+      for (var hash in current)
+      {
+        if (incoming[hash]) 
+        {
+          // Reduce map to make next loop faster
+          delete incoming[hash];
+        }
+        else
+        {
+          // update internal map
+          selectable = current[hash];
+          delete current[hash];
+          
+          // apply styling
+          this._styleSelectable(selectable, "selected", false);
+          
+          // remember that the selection has been modified
+          modified = true;
+        }
+      }
+      
+      // Add remaining selectables to selection
+      for (var hash in incoming) 
+      {
+        // update internal map
+        selectable = current[hash] = incoming[hash];
+        
+        // apply styling
+        this._styleSelectable(selectable, "selected", true);
+        
+        // remember that the selection has been modified
+        modified = true;
+      }
+      
+      // Do not do anything if selection is equal to previous one
+      if (!modified) {
+        return false;
+      }
+      
+      // Scroll last incoming item into view
+      this._scrollItemIntoView(last);
+        
+      // Reset anchor and lead item
+      this._setLeadItem(null);
+      this._setAnchorItem(null);        
+
+      // Finally fire change event
+      this.__selectionModified = true;
+      this._fireChange();
+    },
+    
 
     /**
      * Fires the selection change event if the selection has
