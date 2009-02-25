@@ -259,7 +259,9 @@ qx.Class.define("demobrowser.demo.bom.Selector",
         Logger.debug("Typing in e-mail field...");
       });
       
-      //qx.bom.Collection.id("field-mail").clone();
+      var field = qx.bom.Collection.id("field-mail");
+      var entry = field.add("label[for=field-mail]").reverse();
+      field.after(entry.clone(true));
     }
   }
 });
