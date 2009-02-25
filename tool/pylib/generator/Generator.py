@@ -20,7 +20,7 @@
 #
 ################################################################################
 
-import re, os, sys, zlib, optparse, types
+import re, os, sys, zlib, optparse, types, string
 import urllib
 
 from misc import filetool, textutil, idlist, Path
@@ -436,7 +436,7 @@ class Generator:
             partsCfg = self._job.get("packages/parts", {})
             collapseCfg = self._job.get("packages/collapse", [])
             minPackageSize = self._job.get("packages/sizes/min-package", 0)
-            minPackageSizeForUnshared = self._config.get("packages/sizes/min-package-unshared", None)
+            minPackageSizeForUnshared = self._job.get("packages/sizes/min-package-unshared", None)
             boot = self._job.get("packages/init", "boot")
 
             # Automatically add boot part to collapse list
@@ -750,6 +750,55 @@ class Generator:
             fileUri = Path.posifyPath(fileUri)
             return fileUri
 
+        def generateBootScript(bootPackage):
+            self._console.info("Generating boot script...")
+
+            # wpbasti: Most of this stuff is identical between source/compile. Put together somewhere else.
+            bootBlocks = []
+            globalCodes  = {}
+
+            settingsCode,mapInfo = self.generateSettingsCode(settings, format)
+            #bootBlocks.append(settingsCode)
+            globalCodes["Settings"] = simplejson.dumps(mapInfo, ensure_ascii=False)
+
+            variantsCode,mapInfo = self.generateVariantsCode(variants, format)
+            #bootBlocks.append(variantsCode)
+            globalCodes["Variants"] = simplejson.dumps(mapInfo,ensure_ascii=False)
+
+            libinfoCode,mapInfo = self.generateLibInfoCode(libs,format, forceUri)
+            #bootBlocks.append(libinfoCode)
+            globalCodes["Libinfo"] = simplejson.dumps(mapInfo,ensure_ascii=False)
+
+            resourceCode,mapInfo = self.generateResourceInfoCode(settings, libs, format)
+            #bootBlocks.append(resourceCode)
+            globalCodes["Resources"] = simplejson.dumps(mapInfo,ensure_ascii=False)
+
+            localesCode,transInfo,localeInfo = self.generateLocalesCode(translationMaps, format)
+            #bootBlocks.append(localesCode)
+            globalCodes["Translations"] = simplejson.dumps(transInfo,ensure_ascii=False)
+            globalCodes["Locales"]      = simplejson.dumps(localeInfo,ensure_ascii=False)
+
+            bootBlocks.append(self.generateCompiledPackageCode(fileUri, parts, packages, boot, variants, settings, bootPackage, globalCodes, format))
+
+            if format:
+                bootContent = "\n\n".join(bootBlocks)
+            else:
+                bootContent = "".join(bootBlocks)
+
+            # Resolve file name variables
+            resolvedFilePath = self._resolveFileName(filePath, variants, settings)
+
+            # Save result file
+            filetool.save(resolvedFilePath, bootContent)
+
+            if compConf.get("paths/gzip"):
+                filetool.gzip(resolvedFilePath, bootContent)
+
+            self._console.debug("Done: %s" % self._computeContentSize(bootContent))
+            self._console.debug("")
+
+            return
+
         # Read in base file name
         fileRelPath = getOutputFile()
         filePath    = self._config.absPath(fileRelPath)
@@ -778,35 +827,6 @@ class Generator:
 
         libs = self._job.get("library", [])
 
-        # Generating boot script
-        self._console.info("Generating boot script...")
-
-        # wpbasti: Most of this stuff is identical between source/compile. Put together somewhere else.
-        bootBlocks = []
-        bootBlocks.append(self.generateSettingsCode(settings, format))
-        bootBlocks.append(self.generateVariantsCode(variants, format))
-        bootBlocks.append(self.generateLibInfoCode(libs, format, forceUri))
-        bootBlocks.append(self.generateResourceInfoCode(settings, libs, format))
-        bootBlocks.append(self.generateLocalesCode(translationMaps, format))
-        bootBlocks.append(self.generateCompiledPackageCode(fileUri, parts, packages, boot, variants, settings, format))
-
-        if format:
-            bootContent = "\n\n".join(bootBlocks)
-        else:
-            bootContent = "".join(bootBlocks)
-
-        # Resolve file name variables
-        resolvedFilePath = self._resolveFileName(filePath, variants, settings)
-
-        # Save result file
-        filetool.save(resolvedFilePath, bootContent)
-
-        if compConf.get("paths/gzip"):
-            filetool.gzip(resolvedFilePath, bootContent)
-
-        self._console.debug("Done: %s" % self._computeContentSize(bootContent))
-        self._console.debug("")
-
 
         # Need to preprocess all classes first to correctly detect all
         # fields before starting renaming them
@@ -821,12 +841,15 @@ class Generator:
         self._console.info("Generating packages...")
         self._console.indent()
 
+        bootPackage = ""
         for packageId, classes in enumerate(packages):
             self._console.info("Compiling package #%s:" % packageId, False)
             self._console.indent()
 
             # Compile file content
             compiledContent = self._treeCompiler.compileClasses(classes, variants, optimize, format)
+            if packageId == 0: # TODO: is this a valid assumption?
+                bootPackage = compiledContent
 
             # Construct file name
             resolvedFilePath = self._resolveFileName(filePath, variants, settings, packageId)
@@ -841,6 +864,14 @@ class Generator:
             self._console.outdent()
 
         self._console.outdent()
+
+        # Generating boot script
+        if not bootPackage:
+            raise RuntimeError("No valid boot package generated.")
+        generateBootScript(bootPackage)
+
+        return
+
 
 
     def runSource(self, parts, packages, boot, variants):
@@ -874,12 +905,30 @@ class Generator:
 
         # Add data from settings, variants and packages
         sourceBlocks = []
-        sourceBlocks.append(self.generateSettingsCode(settings, format))
-        sourceBlocks.append(self.generateVariantsCode(variants, format))
-        sourceBlocks.append(self.generateLibInfoCode(self._job.get("library",[]),format))
-        sourceBlocks.append(self.generateResourceInfoCode(settings, libs, format))
-        sourceBlocks.append(self.generateLocalesCode(translationMaps, format))
-        sourceBlocks.append(self.generateSourcePackageCode(parts, packages, boot, format))
+        globalCodes  = {}
+
+        settingsCode,mapInfo = self.generateSettingsCode(settings, format)
+        #sourceBlocks.append(settingsCode)
+        globalCodes["Settings"] = simplejson.dumps(mapInfo, ensure_ascii=False)
+
+        variantsCode,mapInfo = self.generateVariantsCode(variants, format)
+        #sourceBlocks.append(variantsCode)
+        globalCodes["Variants"] = simplejson.dumps(mapInfo,ensure_ascii=False)
+
+        libinfoCode,mapInfo = self.generateLibInfoCode(self._job.get("library",[]),format)
+        #sourceBlocks.append(libinfoCode)
+        globalCodes["Libinfo"] = simplejson.dumps(mapInfo,ensure_ascii=False)
+
+        resourceCode,mapInfo = self.generateResourceInfoCode(settings, libs, format)
+        #sourceBlocks.append(resourceCode)
+        globalCodes["Resources"] = simplejson.dumps(mapInfo,ensure_ascii=False)
+
+        localesCode,transInfo,localeInfo = self.generateLocalesCode(translationMaps, format)
+        #sourceBlocks.append(localesCode)
+        globalCodes["Translations"] = simplejson.dumps(transInfo,ensure_ascii=False)
+        globalCodes["Locales"]      = simplejson.dumps(localeInfo,ensure_ascii=False)
+
+        sourceBlocks.append(self.generateSourcePackageCode(parts, packages, boot, globalCodes, format))
 
         # TODO: Do we really need this optimization here. Could this be solved
         # with less resources just through directly generating "good" code?
@@ -1149,7 +1198,7 @@ class Generator:
             value = self._toJavaScript(settings[key])
             result += 'qxsettings["%s"]=%s;' % (key, value)
 
-        return result
+        return result,settings
 
 
     def generateVariantsCode(self, variants, format=False):
@@ -1167,14 +1216,16 @@ class Generator:
             if key == "qx.theme":  # this is a bad kludge!
                 result += '\nqxsettings["%s"]=%s;' % (key, value)
 
-        return result
+        return result,variants
 
 
     def generateLibInfoCode(self, libs, format, forceUri=None):
         result = 'if(!window.qxlibraries)qxlibraries={};'
 
+        qxlibs = {}
         for lib in libs:
             result += 'qxlibraries["%s"]={' % lib['namespace']
+            qxlibs[lib['namespace']] = {}
 
             if forceUri:
                 liburi = forceUri
@@ -1182,15 +1233,17 @@ class Generator:
                 liburi = self._computeResourceUri(lib, "", rType="resource", appRoot=self.approot)
                 
             result += '"resourceUri":"%s"' % urllib.quote(liburi)
+            qxlibs[lib['namespace']]['resourceUri'] = "%s" % urllib.quote(liburi)
             
             # TODO: Add version, svn revision, maybe even authors, but at least homepage link, ...
 
             if 'version' in lib:
                 result += ',"version":"%s"' % lib['version']
+                qxlibs[lib['namespace']]['version'] = "%s" % lib['version']
 
             result += '};'
 
-        return result
+        return result, qxlibs
 
 
     def generateResourceInfoCode(self, settings, libs, format=False):
@@ -1315,7 +1368,7 @@ class Generator:
 
         self._console.outdent()
 
-        return result
+        return result, resdata
 
 
     ##
@@ -1343,14 +1396,14 @@ class Generator:
                 result[i] += simplejson.dumps(value)
                 result[i] += ';'
 
-        return "".join(result)
+        return "".join(result), translationMaps[0], translationMaps[1]
 
 
     # wpbasti: This needs a lot of work. What's about the generation of a small bootstrap script
     # from normal qooxdoo classes (include io2.ScriptLoader) and starting the variant selection etc.
     # from there. This would be somewhat comparable to the GWT way.
     # Finally "loader.js" should be completely removed.
-    def generateSourcePackageCode(self, parts, packages, boot, format=False):
+    def generateSourcePackageCode(self, parts, packages, boot, globalCodes, format=False):
         if not parts:
             return ""
 
@@ -1380,15 +1433,20 @@ class Generator:
         loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader-source.tmpl.js")
         result = filetool.read(loaderFile)
 
-        # Replace template with computed data
-        result = result.replace("%PARTS%", partData)
-        result = result.replace("%URIS%", uriData)
-        result = result.replace("%BOOT%", '"%s"' % boot)
+        # Replace string.template macros
+        rmap = {}
+        rmap.update(globalCodes)
+        rmap["Parts"] = partData
+        rmap["Uris"]  = uriData
+        rmap["Boot"]  = '"%s"' % boot
+
+        templ  = MyTemplate(result)
+        result = templ.safe_substitute(rmap)
 
         return result
 
 
-    def generateCompiledPackageCode(self, fileName, parts, packages, boot, variants, settings, format=False):
+    def generateCompiledPackageCode(self, fileName, parts, packages, boot, variants, settings, bootCode, globalCodes, format=False):
         if not parts:
             return ""
 
@@ -1409,13 +1467,19 @@ class Generator:
         uriData = "[" + ",\n".join(allUris) + "]"
 
         # Locate and load loader basic script
-        loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader-source.tmpl.js")
+        loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader-build.tmpl.js")
         result = filetool.read(loaderFile)
 
-        # Replace template with computed data
-        result = result.replace("%PARTS%", partData)
-        result = result.replace("%URIS%", uriData)
-        result = result.replace("%BOOT%", '"%s"' % boot)
+        # Replace string.template macros
+        rmap = {}
+        rmap.update(globalCodes)
+        rmap["Parts"] = partData
+        rmap["Uris"]  = uriData
+        rmap["Boot"]  = '"%s"' % boot
+        rmap["BootPart"] = bootCode
+
+        templ  = MyTemplate(result)
+        result = templ.safe_substitute(rmap)
 
         return result
 
@@ -1811,6 +1875,10 @@ class _ResourceHandler(object):
         result = expMacRec(res)
         return result
 
+
+# Helper class for string.Template, to overwrite the placeholder introducing delimiter
+class MyTemplate(string.Template):
+    delimiter = "%"
 
 # scratch pad:
 

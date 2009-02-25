@@ -48,8 +48,8 @@ qx.Class.define("qx.locale.Manager",
   {
     this.base(arguments);
 
-    this.__translations = window.qxtranslations || {};
-    this.__locales      = window.qxlocales || {};
+    this.__translations = qx.$$translations || {};
+    this.__locales      = qx.$$locales || {};
 
     var clazz = qx.bom.client.Locale;
 
