@@ -26,6 +26,12 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
   extend : qx.dev.unit.TestCase,
   type : "abstract",
 
+  statics :
+  {
+    $$clazz : null,
+    $$args : null
+  },
+  
   members :
   {
     setUp : function() {
@@ -153,10 +159,12 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
       {
         var argStr = [];
         for (var i=0; i<args.length; i++) {
-          argStr.push("args[" + i + "]");
+          argStr.push("qx.test.ui.LayoutTestCase.$$args" + "[" + i + "]");
         }
         
-        var str = "new clazz(" + argStr.join(", ") + ");";
+        qx.test.ui.LayoutTestCase.$$clazz = clazz;
+        qx.test.ui.LayoutTestCase.$$args = args;
+        var str = "new qx.test.ui.LayoutTestCase.$$clazz" + "(" + argStr.join(", ") + ");";
         var widget = eval(str);
 
         this.getRoot().add(widget);

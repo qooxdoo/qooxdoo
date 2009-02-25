@@ -21,17 +21,26 @@ qx.Class.define("qx.test.ui.Destroy",
 {
   extend : qx.test.ui.LayoutTestCase,
 
-  members :
+  statics :
   {
+    $$clazz : null,
+    $$args : null
+  },
+  
+  members :
+  {    
     assertLayoutDispose : function(clazz, args, layoutArgsArr)
     {
       this.assertDestroy(function()
       {
         var argStr = [];
         for (var i=0; i<args.length; i++) {
-          argStr.push("args[" + i + "]");
+          argStr.push("qx.test.ui.Destroy.$$args[" + i + "]");
         }
-        var str = "new clazz(" + argStr.join(", ") + ");"
+        
+        qx.test.ui.Destroy.$$clazz = clazz;
+        qx.test.ui.Destroy.$$args = args;
+        var str = "new qx.test.ui.Destroy.$$clazz(" + argStr.join(", ") + ");"
         var layout = eval(str);
 
         var widget = new qx.ui.container.Composite();
