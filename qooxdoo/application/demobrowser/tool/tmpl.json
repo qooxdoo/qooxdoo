@@ -25,11 +25,6 @@
         "qx.dev.Pollution"
       ],
 
-      "require" :
-      {
-      	"qx.ui.core.Widget" : ["qx.theme.Classic","qx.theme.Modern"]
-      },
-
       "asset-let" :
       {
         "qx.icontheme" : ["Oxygen", "Tango"],
@@ -61,8 +56,6 @@
 
       "let"    : {"THEME" : "qx.theme.Classic"},
 
-      "=require" : {},
-
       "include" : ["${THEME}"],
 
       "settings" : {"qx.theme": "${THEME}"},
@@ -80,8 +73,6 @@
       "extend" : ["common-XXX"],
 
       "let"    : {"THEME" : "qx.theme.Modern"},
-
-      "=require" : {},
 
       "include" : ["${THEME}"],
 
@@ -105,8 +96,6 @@
       "extend" : ["common-XXX"],
 
       "let"    : {"THEME" : "qx.theme.Classic"},
-
-      "=require" : {},
 
       "include" : ["${THEME}"],
 
@@ -143,8 +132,6 @@
       "extend" : ["common-XXX"],
 
       "let"    : {"THEME" : "qx.theme.Modern"},
-
-      "=require" : {},
 
       "include" : ["${THEME}"],
 
