@@ -63,11 +63,14 @@ qx.Class.define("qx.io2.part.Package",
         return;
       }
       
+      this.__readyState = "loading";
+      
       var urlsLoaded = 0;
       var onLoad = function(urls)
       {
         if (urlsLoaded >= urlList.length) 
         {
+          this.__readyState = "complete";
           callback.call(self);
           return;
         }
