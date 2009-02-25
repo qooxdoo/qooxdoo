@@ -946,8 +946,8 @@
       add : function(selector, context) 
       {
         var res = qx.bom.Selector.query(selector, context);
-        var arr = qx.lang.Array.unique(res.concat(this));
-        
+        var arr = qx.lang.Array.unique(this.concat(res));
+
         return this.__pushStack(arr);
       },
       
@@ -1744,7 +1744,7 @@
         }
         
         return this;
-      }
+      },
       
         
         
@@ -1756,9 +1756,21 @@
       ---------------------------------------------------------------------------
       */          
       
-      
+      /**
+       * Clone all DOM elements of the collection and return them in a newly
+       * created collection.
+       *
+       * @param events {Boolean?false} Whether events should be copied as well
+       * @return {Collection} The copied elements
+       */
+      clone : function(events)
+      {
+        var Element = qx.bom.Element;
         
-        
+        return events ? 
+          this.map(function(elem) { console.debug("MAP: ", elem); return Element.clone(elem, true); }) : 
+          this.map(Element.clone, Element);
+      }      
     },
     
     
