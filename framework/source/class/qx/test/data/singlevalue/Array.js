@@ -38,7 +38,7 @@ qx.Class.define("qx.test.data.singlevalue.Array",
       properties :
       {
         child : {
-          check : "test.MultiBinding",
+          check : "qx.test.data.singlevalue.Array_MultiBinding",
           event : "changeChild",
           nullable : true
         },
