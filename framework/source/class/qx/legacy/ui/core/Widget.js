@@ -6281,8 +6281,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
      */
     __reflowBorderX : function(value)
     {
-      if (!value.getWidthLeft) debugger;
-      
       var oldLeftWidth = this._cachedBorderLeft;
       var oldRightWidth = this._cachedBorderRight;
 
