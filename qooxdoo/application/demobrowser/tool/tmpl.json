@@ -50,18 +50,46 @@
       }
     },
 
-    "source-XXX" :
+    "source-XXX" : 
+    {
+        "run" : ["source-XXX-Classic", "source-XXX-Modern"]    
+    },
+
+    "source-XXX-Classic" :
     {
       "extend" : ["common-XXX"],
 
-      "variants" :
-      {
-        "qx.theme" : ["qx.theme.Modern", "qx.theme.Classic"]
-      },
+      "let"    : {"THEME" : "qx.theme.Classic"},
+
+      "=require" : {},
+
+      "include" : ["${THEME}"],
+
+      "settings" : {"qx.theme": "${THEME}"},
 
       "compile-source" :
       {
-        "file" : "source/script/YYY-{qx.theme}.js",
+        "file" : "source/script/YYY-${THEME}.js",
+        "locales" : "${LOCALES}",
+        "root" : "source/demo/yyy"
+      }
+    },
+
+    "source-XXX-Modern" :
+    {
+      "extend" : ["common-XXX"],
+
+      "let"    : {"THEME" : "qx.theme.Modern"},
+
+      "=require" : {},
+
+      "include" : ["${THEME}"],
+
+      "settings" : {"qx.theme": "${THEME}"},
+
+      "compile-source" :
+      {
+        "file" : "source/script/YYY-${THEME}.js",
         "locales" : "${LOCALES}",
         "root" : "source/demo/yyy"
       }
@@ -69,24 +97,73 @@
 
     "build-XXX" :
     {
+        "run" : ["build-XXX-Classic", "build-XXX-Modern"]
+    },
+
+    "build-XXX-Classic" :
+    {
       "extend" : ["common-XXX"],
+
+      "let"    : {"THEME" : "qx.theme.Classic"},
+
+      "=require" : {},
+
+      "include" : ["${THEME}"],
+
+      "settings" : {"qx.theme": "${THEME}"},
 
       "variants" :
       {
         "qx.debug" : ["off"],
-        "qx.aspects" : ["off"],
-        "qx.theme" : ["qx.theme.Modern", "qx.theme.Classic"]
+        "qx.aspects" : ["off"]
       },
 
       "compile-dist" :
       {
         "paths" :
         {
-          "file" : "build/script/YYY-{qx.theme}.js"
+          "file" : "build/script/YYY-${THEME}.js"
         },
         "uris" :
         {
-          //"script"  : "../../script/YYY-{qx.theme}.js",
+          "script"  : "../../script",
+          "resource" : "../../resource"
+        },
+        "code" :
+        {
+          "format"  : true,
+          "locales" : "${LOCALES}",
+          "optimize" : [ "variables", "basecalls", "privates", "strings" ]
+        }
+      }
+    },
+
+    "build-XXX-Modern" :
+    {
+      "extend" : ["common-XXX"],
+
+      "let"    : {"THEME" : "qx.theme.Modern"},
+
+      "=require" : {},
+
+      "include" : ["${THEME}"],
+
+      "settings" : {"qx.theme": "${THEME}"},
+
+      "variants" :
+      {
+        "qx.debug" : ["off"],
+        "qx.aspects" : ["off"]
+      },
+
+      "compile-dist" :
+      {
+        "paths" :
+        {
+          "file" : "build/script/YYY-${THEME}.js"
+        },
+        "uris" :
+        {
           "script"  : "../../script",
           "resource" : "../../resource"
         },
