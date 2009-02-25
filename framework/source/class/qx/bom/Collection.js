@@ -1363,7 +1363,15 @@
         
         // Build a large collection from the individual elements
         var col = [];
-        for (var i=0, l=args.length; i<l; i++) {
+        for (var i=0, l=args.length; i<l; i++) 
+        {
+          if (qx.core.Variant.isSet("qx.debug", "on")) 
+          {
+            if (typeof args[i] !== "string") {
+              throw new Error("Invalid argument for selector query: " + args[i]);
+            }
+          }
+          
           col.push.apply(col, Selector.query(args[i]));
         }
         
@@ -1563,6 +1571,113 @@
          MANIPULATION: INSERTING AROUND
       ---------------------------------------------------------------------------
       */          
+      
+      /**
+       * Wrap all the elements in the matched set into a single wrapper element.
+       *
+       * This is different from {@link #wrap} where each element in the matched set 
+       * would get wrapped with an element.
+       *
+       * This wrapping process is most useful for injecting additional structure 
+       * into a document, without ruining the original semantic qualities of 
+       * a document.
+       * 
+       * This works by going through the first element provided (which is 
+       * generated, on the fly, from the provided HTML) and finds the deepest 
+       * descendant element within its structure -- it is that element that 
+       * will enwrap everything else.
+       *
+       * @param content {String|Element} Element or HTML markup used for wrapping
+       * @return {Collection} The collection is returned for chaining proposes    
+       */
+      wrapAll : function(content)
+      {
+        var first = this[0];
+        if (first)
+        {
+          // Parse HTML / Clone given content
+          var wrap = qx.bom.Collection.create(content, first.ownerDocument).clone();
+          
+          // Insert wrapper before first element
+          if (first.parentNode) {
+            first.parentNode.insertBefore(wrap[0], first);
+          }            
+          
+          // Wrap so that we have the innerst element of every item in the 
+          // collection. Afterwards append the current items to the wrapper.
+          wrap.map(this.__getInnerHelper).append(this);
+        }
+    
+        return this;        
+      },
+      
+      
+      /**
+       * Finds the deepest child inside the given element
+       *
+       * @param elem {Element} Outer DOM element
+       * @return {Element} Inner DOM element
+       */
+      __getInnerHelper : function(elem)
+      {
+        while (elem.firstChild) {
+          elem = elem.firstChild;
+        }
+
+        return elem;
+      },
+      
+      
+      /**
+       * Wrap the inner child contents of each matched element (including 
+       * text nodes) with an HTML structure.
+       *
+       * This wrapping process is most useful for injecting additional structure 
+       * into a document, without ruining the original semantic qualities of a 
+       * document. This works by going through the first element provided 
+       * (which is generated, on the fly, from the provided HTML) and finds the 
+       * deepest ancestor element within its structure -- it is that element 
+       * that will enwrap everything else.
+       *
+       * @param content {String|Element} Element or HTML markup used for wrapping
+       * @return {Collection} The collection is returned for chaining proposes    
+       */
+      wrapInner : function(content) 
+      {
+        // Fly weight pattern, reuse collection instance for every iteration.
+        var helper = new qx.bom.Collection(1);
+        
+        for (var i=0, l=this.length; i<l; i++) 
+        {
+          helper[0] = this[i];
+          helper.contents().wrapAll(content);
+        }
+      },
+    
+      
+      /**
+       * Wrap each matched element with the specified HTML content.
+       *
+       * This wrapping process is most useful for injecting additional structure 
+       * into a document, without ruining the original semantic qualities of a 
+       * document. This works by going through the first element provided (which 
+       * is generated, on the fly, from the provided HTML) and finds the deepest 
+       * descendant element within its structure -- it is that element that will 
+       * enwrap everything else.
+       *
+       * @param content {String|Element} Element or HTML markup used for wrapping
+       * @return {Collection} The collection is returned for chaining proposes    
+       */      
+      wrap : function(content) 
+      {
+        var helper = new qx.bom.Collection(1);
+        
+        return this.forEach(function(elem)
+        {
+          helper[0] = elem;
+          helper.wrapAll(content);
+        });
+      },      
       
       
 
