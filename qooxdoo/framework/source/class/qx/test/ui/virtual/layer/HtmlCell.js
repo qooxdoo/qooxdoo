@@ -26,21 +26,12 @@ qx.Class.define("qx.test.ui.virtual.layer.HtmlCell",
   { 
     _createLayer : function() {
       return new qx.ui.virtual.layer.HtmlCell(this);
+      this.__cellRenderer = new qx.ui.virtual.cell.Cell();
     },
     
-    getCellHtml : function(row, column, left, top, width, height)
-    {
-      var content = column + "x" + row;
-      return [
-        "<div style='position:absolute;",
-        "left:", left, "px;",
-        "top:", top, "px;",
-        "width:", width, "px;",
-        "height:", height, "px;",
-        "'>",
-        content,
-        "</div>"
-      ].join("");   
+    
+    getCellProperties : function(row, column) {
+      return this.__cellRenderer.getCellProperties(row + " / " + column);
     },
     
     _assertCells : function(firstRow, lastRow, firstColumn, lastColumn, msg) 
