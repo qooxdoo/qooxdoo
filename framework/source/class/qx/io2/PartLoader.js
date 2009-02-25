@@ -92,8 +92,9 @@ qx.Class.define("qx.io2.PartLoader",
      * parts and their dependencies are fully loaded. If the parts are already
      * loaded the callback is called immediately.
      *
-     * @param partNames {String[]} List of parts namesto load as defined in the
-     *    config file at compile time.
+     * @param partNames {String|String[]} List of parts names to load as defined
+     *    in the config file at compile time. The method also accepts a single
+     *    string as parameter to only load one part.
      * @param callback {Function} Function to execute on completion
      * @param self {Object?window} Context to execute the given function in
      */
@@ -102,6 +103,10 @@ qx.Class.define("qx.io2.PartLoader",
       var callback = callback || function() {};
       var self = self || window;
 
+      if (typeof(partNames) == "string") {
+        partNames = [partNames];
+      }
+      
       var parts = [];
       for (var i=0; i<partNames.length; i++) {
         parts.push(this.getPart(partNames[i]));
