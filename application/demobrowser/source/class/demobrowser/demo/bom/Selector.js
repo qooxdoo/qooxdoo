@@ -262,6 +262,20 @@ qx.Class.define("demobrowser.demo.bom.Selector",
       var field = qx.bom.Collection.id("field-mail");
       var entry = field.add("label[for=field-mail]").reverse();
       field.after(entry.clone(true));
+      
+      
+      
+      
+      // *************************************
+      // ** MANIPULATION: INSERTING AROUND ***
+      // *************************************
+      
+      qx.bom.Collection.query("#detail1,#detail2,#detail3").
+        wrapAll('<div style="border:2px solid red"><div style="border:2px solid blue"></div></div>');
+      
+      qx.bom.Collection.query("#detail1,#detail2,#detail3").wrapInner("<b></b>");
+      
+      qx.bom.Collection.query("#detail2").wrap('<div style="background:#FFFFBB"></div>');     
     }
   }
 });
