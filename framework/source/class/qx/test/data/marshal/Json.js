@@ -300,7 +300,182 @@ qx.Class.define("qx.test.data.marshal.Json",
       var model = this.__marshaler.jsonToModel(this.__data);
       
       this.assertNotNull(model, "No model set.");      
-    }
+    },
+    
+    
+    testBubbleEventsDepth1: function() {
+      this.__data = eval("({a: 10, b: -15, c: 10.5e10})");
+      // first create the classes befor setting the data
+      this.__marshaler.jsonToClass(this.__data);
+      // set the data
+      var model = this.__marshaler.jsonToModel(this.__data);
+
+      // check the event for a
+      this.assertEventFired(model, "changeBubble", function() {
+        model.setA(0);
+      }, function(e) {
+        this.assertEquals(0, e.getData().value, "Not the right value in the event.");
+        this.assertEquals(10, e.getData().old, "Not the right old value in the event.");
+        this.assertEquals("a", e.getData().name, "Not the right name in the event.");
+      }, "Change event not fired!");
+      
+      // check the event for b
+      this.assertEventFired(model, "changeBubble", function() {
+        model.setB(0);
+      }, function(e) {
+        this.assertEquals(0, e.getData().value, "Not the right value in the event.");
+        this.assertEquals(-15, e.getData().old, "Not the right old value in the event.");
+        this.assertEquals("b", e.getData().name, "Not the right name in the event.");
+      }, "Change event not fired!");
+    },
+    
+    
+    testBubbleEventsDepth2: function() {
+      this.__data = eval("({a: {b: 10, c: 20}})");
+      // first create the classes befor setting the data
+      this.__marshaler.jsonToClass(this.__data);
+      // set the data
+      var model = this.__marshaler.jsonToModel(this.__data);
+
+      // check the event for b
+      this.assertEventFired(model, "changeBubble", function() {
+        model.getA().setB(0);
+      }, function(e) {
+        this.assertEquals(0, e.getData().value, "Not the right value in the event.");
+        this.assertEquals(10, e.getData().old, "Not the right old value in the event.");
+        this.assertEquals("a.b", e.getData().name, "Not the right name in the event.");
+      }, "Change event not fired!");
+      
+      // check the event for a
+      this.assertEventFired(model, "changeBubble", function() {
+        model.setA(true);
+      }, function(e) {
+        this.assertEquals(true, e.getData().value, "Not the right value in the event.");
+        this.assertEquals("a", e.getData().name, "Not the right name in the event.");
+      }, "Change event not fired!");
+    },
+    
+    
+    testBubbleEventsDepth3: function() {
+      this.__data = eval("({a: {b: {c: 10}}})");
+      // first create the classes befor setting the data
+      this.__marshaler.jsonToClass(this.__data);
+      // set the data
+      var model = this.__marshaler.jsonToModel(this.__data);
+
+      // check the event for c
+      this.assertEventFired(model, "changeBubble", function() {
+        model.getA().getB().setC(0);
+      }, function(e) {
+        this.assertEquals(0, e.getData().value, "Not the right value in the event.");
+        this.assertEquals(10, e.getData().old, "Not the right old value in the event.");
+        this.assertEquals("a.b.c", e.getData().name, "Not the right name in the event.");
+      }, "Change event not fired!");
+    },
+    
+
+    testBubbleEventsArrayDepth1: function() {
+      this.__data = eval("({a: [12, 23, 34]})");
+      // first create the classes befor setting the data
+      this.__marshaler.jsonToClass(this.__data);
+      // set the data
+      var model = this.__marshaler.jsonToModel(this.__data);
+
+      // check the event for the first array element
+      this.assertEventFired(model, "changeBubble", function() {
+        model.getA().setItem(0, 1);
+      }, function(e) {
+        this.assertEquals(1, e.getData().value, "Not the right value in the event.");
+        this.assertEquals("a[0]", e.getData().name, "Not the right name in the event.");
+      }, "Change event not fired!");
+    },
+    
+    
+    testBubbleEventsArrayDepth2: function() {
+      this.__data = eval("({a: [{b: 10}, {b: 11}]})");
+      // first create the classes befor setting the data
+      this.__marshaler.jsonToClass(this.__data);
+      // set the data
+      var model = this.__marshaler.jsonToModel(this.__data);
+
+      // check the event for the first array element
+      this.assertEventFired(model, "changeBubble", function() {
+        model.getA().getItem(0).setB(0);
+      }, function(e) {
+        this.assertEquals(0, e.getData().value, "Not the right value in the event.");
+        this.assertEquals("a[0].b", e.getData().name, "Not the right name in the event.");
+      }, "Change event not fired!");
+    },
+    
+    
+    testBubbleEventsArrayDepthAlot: function() {
+      this.__data = eval("({a: [[[[{b:10}]]]]})");
+      // first create the classes befor setting the data
+      this.__marshaler.jsonToClass(this.__data);
+      // set the data
+      var model = this.__marshaler.jsonToModel(this.__data);
+
+      // check the event for the first array element
+      this.assertEventFired(model, "changeBubble", function() {
+        model.getA().getItem(0).getItem(0).getItem(0).getItem(0).setB(0);
+      }, function(e) {
+        this.assertEquals(0, e.getData().value, "Not the right value in the event.");
+        this.assertEquals("a[0][0][0][0].b", e.getData().name, "Not the right name in the event.");
+      }, "Change event not fired!");
+    },
+    
+    
+    testBubbleEventsArrayDepthAlotMix: function() {
+      this.__data = eval("({a: [ {b: [ [{c: {d: [0, 1]}}] ]} ]})");
+      // first create the classes befor setting the data
+      this.__marshaler.jsonToClass(this.__data);
+      // set the data
+      var model = this.__marshaler.jsonToModel(this.__data);
+
+      // check the event for the first array element
+      this.assertEventFired(model, "changeBubble", function() {
+        model.getA().getItem(0).getB().getItem(0).getItem(0).getC().getD().setItem(1, 12);
+      }, function(e) {
+        this.assertEquals(12, e.getData().value, "Not the right value in the event.");
+        this.assertEquals("a[0].b[0][0].c.d[1]", e.getData().name, "Not the right name in the event.");
+      }, "Change event not fired!");
+    },
+    
+    
+    testBubbleEventsArrayLong: function() {
+      this.__data = eval("({a: [0, 1, 2, 3, 4, 5, 6 , 7, 8, 9, 10]})");
+      // first create the classes befor setting the data
+      this.__marshaler.jsonToClass(this.__data);
+      // set the data
+      var model = this.__marshaler.jsonToModel(this.__data);
+
+      // check the event for the first array element
+      this.assertEventFired(model, "changeBubble", function() {
+        model.getA().setItem(10, "AFFE");
+      }, function(e) {
+        this.assertEquals("AFFE", e.getData().value, "Not the right value in the event.");
+        this.assertEquals("a[10]", e.getData().name, "Not the right name in the event.");
+      }, "Change event not fired!");
+    },
+    
+    
+    testBubbleEventsArrayReorder: function() {
+      this.__data = eval("({a: [11, 1, 2, 3, 4, 5, 6 , 7, 8, 9, 10]})");
+      // first create the classes befor setting the data
+      this.__marshaler.jsonToClass(this.__data);
+      // set the data
+      var model = this.__marshaler.jsonToModel(this.__data);
+      
+      model.getA().sort();
+
+      // check the event for the first array element
+      this.assertEventFired(model, "changeBubble", function() {
+        model.getA().setItem(0, "AFFE");
+      }, function(e) {
+        this.assertEquals("AFFE", e.getData().value, "Not the right value in the event.");
+        this.assertEquals("a[0]", e.getData().name, "Not the right name in the event.");
+      }, "Change event not fired!");
+    }      
 
   }
 });

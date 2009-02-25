@@ -75,7 +75,6 @@ qx.Class.define("demobrowser.demo.data.store.Gears",
     }
     
     this.__db = this.initDB();
-    
     this.__load();
   },
 
@@ -88,9 +87,7 @@ qx.Class.define("demobrowser.demo.data.store.Gears",
       // set the initial data
       this.setModel(this._marshaler.jsonToModel(data));
       
-      this.getModel().addListener("changeFirstname", this.__modelChanged, this);
-      this.getModel().addListener("changeLastname", this.__modelChanged, this);
-      this.getModel().addListener("changeAge", this.__modelChanged, this);      
+      this.getModel().addListener("change", this.__modelChanged, this);    
               
       // fire complete event
       this.fireDataEvent("loaded", this.getModel());      

@@ -110,6 +110,7 @@ qx.Class.define("qx.data.marshal.Json",
         properties[key] = {};
         properties[key].nullable = true;
         properties[key].event = "change" + qx.lang.String.firstUp(key);
+        properties[key].apply = "_applyEventPropagation";
       }
       
       // try to get the superclass, qx.core.Object as default
@@ -121,20 +122,27 @@ qx.Class.define("qx.data.marshal.Json",
       }
       
       // try to get the mixins
-      var mixins;
+      var mixins = [];
       if (this.__delegate && this.__delegate.getModelMixins) {
-        mixins = this.__delegate.getModelMixins(hash);
-      }
-      if (mixins == null) {
-        mixins = [];
+        var delegateMixins = this.__delegate.getModelMixins(hash);
+        // check if its an array
+        if (Object.prototype.toString.call(delegateMixins).slice(8, -1) != "Array") {
+          if (delegateMixins != null) {
+            mixins = [delegateMixins];            
+          }
+        }
       }
       
+      // include the mixin for the event bubbling
+      mixins.push(qx.data.marshal.MEventBubbling);
+      
+      // create the map for the class
       var newClass = {
-          extend : superClass,
-          include : mixins,
-          properties : properties 
+        extend : superClass,
+        include : mixins,
+        properties : properties
       };
-
+      
       qx.Class.define("qx.data.model." + hash, newClass);
     },
 
