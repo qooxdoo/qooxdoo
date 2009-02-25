@@ -101,24 +101,34 @@ qx.Class.define("qx.dom.Node",
     {
       "mshtml" : function(node) 
       {
+        // is a window already
+        if (node.nodeType == null) {
+          return node;
+        }
+        
         // jump to document
         if (node.nodeType !== this.DOCUMENT) {
           node = node.ownerDocument;
         }
 
-        // try window, otherwise it may be the window already
-        return node.parentWindow || node;
+        // jump to window
+        return node.parentWindow;
       },
 
       "default" : function(node) 
       {
+        // is a window already
+        if (node.nodeType == null) {
+          return node;
+        }
+                
         // jump to document
         if (node.nodeType !== this.DOCUMENT) {
           node = node.ownerDocument;
         }
         
-        // try window, otherwise it may be the window already
-        return node.defaultView || node;
+        // jump to window
+        return node.defaultView;
       }
     }),
 
