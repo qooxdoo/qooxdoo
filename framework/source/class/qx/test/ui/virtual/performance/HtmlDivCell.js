@@ -23,9 +23,10 @@ qx.Class.define("qx.test.ui.virtual.performance.HtmlDivCell",
 
   members :
   {
-    getLayer : function() {
-      return new qx.ui.virtual.layer.HtmlCell(this);
+    getLayer : function() 
+    {
       this.__cellRenderer = new qx.ui.virtual.cell.Cell();
+      return new qx.ui.virtual.layer.HtmlCell(this);
     },
     
     getCellProperties : function(row, column) {
