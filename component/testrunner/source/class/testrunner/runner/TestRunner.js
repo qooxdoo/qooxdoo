@@ -194,6 +194,9 @@ qx.Class.define("testrunner.runner.TestRunner",
      */
     __setCurrentTestArray : function(testName)
     {
+      if (testName.indexOf("?") > 0) {
+        testName = testName.substr(0,testName.indexOf("?"));
+      }
       var testNameArray = testName.split(".");
       if (testNameArray.length > 0) {
         this.setCurrentTest(testNameArray);
@@ -738,7 +741,7 @@ qx.Class.define("testrunner.runner.TestRunner",
           if (currNode.hasChildren())
           {
             t = new qx.ui.tree.TreeFolder(currNode.label).set({
-              n: ns[currNode.type] || null
+              icon: ns[currNode.type] || null
             });
             if (level < 2 && !that.getCurrentTest())
             {
@@ -760,7 +763,7 @@ qx.Class.define("testrunner.runner.TestRunner",
           else
           {
             t = new qx.ui.tree.TreeFile(currNode.label).set({
-              n: ns[currNode.type] || null
+              icon: ns[currNode.type] || null
             });
 
             if (that.getCurrentTest()) {
