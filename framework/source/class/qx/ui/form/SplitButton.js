@@ -242,11 +242,11 @@ qx.Class.define("qx.ui.form.SplitButton",
     {
       var arrow = this.getChildControl("arrow");
 
-      arrow.setEnabled(!!value);
-
+      this.debug(value);
+      
       if (value)
       {
-        arrow.setEnabled(true);
+        arrow.resetEnabled();
         arrow.setMenu(value);
         value.setOpener(this);
 
@@ -254,6 +254,8 @@ qx.Class.define("qx.ui.form.SplitButton",
       }
       else
       {
+        this.debug("resetting menu");
+        
         arrow.setEnabled(false);
         arrow.resetMenu();
       }
@@ -270,16 +272,7 @@ qx.Class.define("qx.ui.form.SplitButton",
       // pass: is already inherited to the button
     },
 
-    // property value
-    _applyEnabled : function(value, old)
-    {
-      this.base(arguments);
-      
-      // also disable/enable the arrow widget
-      this.getChildControl("arrow").setEnabled(value);
-    },
-
-
+    
 
     /*
     ---------------------------------------------------------------------------
