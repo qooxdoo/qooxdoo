@@ -757,6 +757,10 @@ class Generator:
             bootBlocks = []
             globalCodes  = {}
 
+            # TODO: bad kludge to have theme in both variants and settings
+            if "qx.theme" in variants:
+                settings["qx.theme"] = variants["qx.theme"]
+
             settingsCode,mapInfo = self.generateSettingsCode(settings, format)
             #bootBlocks.append(settingsCode)
             globalCodes["Settings"] = simplejson.dumps(mapInfo, ensure_ascii=False)
@@ -850,6 +854,8 @@ class Generator:
             compiledContent = self._treeCompiler.compileClasses(classes, variants, optimize, format)
             if packageId == 0: # TODO: is this a valid assumption?
                 bootPackage = compiledContent
+                self._console.outdent()
+                continue
 
             # Construct file name
             resolvedFilePath = self._resolveFileName(filePath, variants, settings, packageId)
@@ -906,6 +912,10 @@ class Generator:
         # Add data from settings, variants and packages
         sourceBlocks = []
         globalCodes  = {}
+
+        # TODO: bad kludge to have theme in both variants and settings
+        if "qx.theme" in variants:
+            settings["qx.theme"] = variants["qx.theme"]
 
         settingsCode,mapInfo = self.generateSettingsCode(settings, format)
         #sourceBlocks.append(settingsCode)
@@ -1204,19 +1214,20 @@ class Generator:
     def generateVariantsCode(self, variants, format=False):
         result = 'if(!window.qxvariants)qxvariants={};'
 
+        variats = {}
         for key in variants:
             if key == "__override__":
                 continue
  
+            variats[key] = variants[key]
+
             if format:
                 result += "\n"
 
             value = self._toJavaScript(variants[key])
             result += 'qxvariants["%s"]=%s;' % (key, value)
-            if key == "qx.theme":  # this is a bad kludge!
-                result += '\nqxsettings["%s"]=%s;' % (key, value)
 
-        return result,variants
+        return result,variats
 
 
     def generateLibInfoCode(self, libs, format, forceUri=None):
