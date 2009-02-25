@@ -225,7 +225,7 @@ qx.Class.define("qx.bom.Html",
         {
           elem = ret[i];
           
-          if (elem.tagName.toLowerCase() === "script" && (!elem.type || elem.type.toLowerCase() === "text/javascript")) 
+          if (elem.nodeType == 1 && elem.tagName.toLowerCase() === "script" && (!elem.type || elem.type.toLowerCase() === "text/javascript")) 
           {
             // Trying to remove the element from DOM
             if (elem.parentNode) {
