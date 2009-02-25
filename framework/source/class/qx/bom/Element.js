@@ -281,7 +281,8 @@ qx.Class.define("qx.bom.Element",
     
 
     /**
-     * Clone matched DOM Elements and select the clones.
+     * Clone given DOM element. May optionally clone all attached
+     * events (recursively) as well.
      *
      * @param element {Element} Element to clone
      * @param events {Boolean?false} Whether events should be copied as well
@@ -307,11 +308,8 @@ qx.Class.define("qx.bom.Element",
       // them afterwards again.
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
-        if (!qx.xml.Document.isXmlDocument(element))
-        {
-          for (var i=0, l=all.length; i<l; i++) {
-            mgr.toggleAttachedEvents(all[i], false);
-          }
+        for (var i=0, l=all.length; i<l; i++) {
+          mgr.toggleAttachedEvents(all[i], false);
         }
       }
       
@@ -321,11 +319,8 @@ qx.Class.define("qx.bom.Element",
       // Recover events on original elements
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
-        if (mgr) 
-        {
-          for (var i=0, l=all.length; i<l; i++) {
-            mgr.toggleAttachedEvents(all[i], true);
-          }
+        for (var i=0, l=all.length; i<l; i++) {
+          mgr.toggleAttachedEvents(all[i], true);
         }
       }
       
