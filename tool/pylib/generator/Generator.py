@@ -757,10 +757,6 @@ class Generator:
             bootBlocks = []
             globalCodes  = {}
 
-            # TODO: bad kludge to have theme in both variants and settings
-            if "qx.theme" in variants:
-                settings["qx.theme"] = variants["qx.theme"]
-
             settingsCode,mapInfo = self.generateSettingsCode(settings, format)
             #bootBlocks.append(settingsCode)
             globalCodes["Settings"] = simplejson.dumps(mapInfo, ensure_ascii=False)
@@ -912,10 +908,6 @@ class Generator:
         # Add data from settings, variants and packages
         sourceBlocks = []
         globalCodes  = {}
-
-        # TODO: bad kludge to have theme in both variants and settings
-        if "qx.theme" in variants:
-            settings["qx.theme"] = variants["qx.theme"]
 
         settingsCode,mapInfo = self.generateSettingsCode(settings, format)
         #sourceBlocks.append(settingsCode)
