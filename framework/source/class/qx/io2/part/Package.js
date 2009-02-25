@@ -76,7 +76,6 @@ qx.Class.define("qx.io2.part.Package",
         var url = urls[0];
         loader.load(urls.shift(), function() 
         {
-          console.log("loaded: ", url);
           urlsLoaded += 1;
           loader.dispose();
           if (qx.core.Variant.isSet("qx.client", "webkit"))
