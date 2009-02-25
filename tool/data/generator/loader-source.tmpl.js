@@ -1,30 +1,27 @@
 if (!window.qx) window.qx = {};
-if (!window.qxsettings) qxsettings = {};
-if (!window.qxvariants) qxvariants = {};
 
 qx.$$start = new Date();
   
-/*
-var settings = ${Settings};
+if (!window.qxsettings) qxsettings = {};
+var settings = %{Settings};
 for (var k in settings) qxsettings[k] = settings[k];
 
-var variants = ${variants};
+if (!window.qxvariants) qxvariants = {};
+var variants = %{Variants};
 for (var k in variants) qxvariants[k] = variants[k];
 
-qx.$$resources = ${Resources};
-qx.$$translations = ${Translations}
-*/
+if (!window.qxlibraries) qxlibraries = {};
+var libinfo = %{Libinfo};
+for (var k in libinfo) qxlibraries[k] = libinfo[k];
+
+qx.$$resources = %{Resources};
+qx.$$translations = %{Translations};
+qx.$$locales = %{Locales}
 
 qx.$$loader = {
-  /*
-  parts : ${Parts},
-  uris : ${Uris},
-  boot : ${Boot}
-  */
-  
-  parts : %PARTS%,
-  uris : %URIS%,
-  boot : %BOOT%  
+  parts : %{Parts},
+  uris : %{Uris},
+  boot : %{Boot}
 };  
 
 (function(){
