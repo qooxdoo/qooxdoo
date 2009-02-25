@@ -25,24 +25,12 @@ qx.Class.define("qx.test.ui.virtual.performance.HtmlDivCell",
   {
     getLayer : function() {
       return new qx.ui.virtual.layer.HtmlCell(this);
+      this.__cellRenderer = new qx.ui.virtual.cell.Cell();
     },
     
-    getCellHtml : function(row, column, left, top, width, height)
-    {
-      var html = [
-        "<div style='",
-        "position: absolute;",
-        "width:", width, "px;",
-        "height:", height, "px;",
-        "left:", left, "px;",
-        "top:", top, "px;",
-        "'>",        
-        row, " / ", column,
-        "</div>"                  
-      ];
-      return html.join("");
+    getCellProperties : function(row, column) {
+      return this.__cellRenderer.getCellProperties(row + " / " + column);
     }          
-    
   }
 
 });
