@@ -87,14 +87,15 @@ qx.Bootstrap.define("qx.bom.client.Engine",
         // Opera has a special versioning scheme, where the second part is combined
         // e.g. 8.54 which should be handled like 8.5.4 to be compatible to the
         // common versioning system used by other browsers
-        if (/Opera[\s\/]([0-9\.]*)/.test(agent)) {
-          var split = RegExp.$1.split(".");
-          
-          var version = split[0];
-          for (var i = 0; i < split[1].length; i++) {
-            version +=  "." + split[1].charAt(i);
+        if (/Opera[\s\/]([0-9]+)\.([0-9])([0-9]*)/.test(agent)) 
+        {
+          version = RegExp.$1 + "." + RegExp.$2;
+          if (RegExp.$3 != "") {
+            version += "." + RegExp.$3;
           }
-        } else {
+        }
+        else
+        {
           unknownVersion = true;
           version = "9.6.0";
         }
