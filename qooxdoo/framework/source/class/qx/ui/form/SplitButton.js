@@ -270,6 +270,14 @@ qx.Class.define("qx.ui.form.SplitButton",
       // pass: is already inherited to the button
     },
 
+    // property value
+    _applyEnabled : function(value, old)
+    {
+      this.base(arguments);
+      
+      // also disable/enable the arrow widget
+      this.getChildControl("arrow").setEnabled(value);
+    },
 
 
 

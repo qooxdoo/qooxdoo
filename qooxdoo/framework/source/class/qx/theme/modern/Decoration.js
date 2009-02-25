@@ -188,6 +188,19 @@ qx.Theme.define("qx.theme.modern.Decoration",
         innerOpacity : 0.5
       }
     },
+    
+    "scrollbar-slider-horizontal-disabled" :
+    {
+      decorator : qx.ui.decoration.Beveled,
+
+      style : {
+        backgroundImage : "decoration/scrollbar/scrollbar-button-bg-horizontal.png",
+        backgroundRepeat : "scale",
+        outerColor : "border-disabled",
+        innerColor : "white",
+        innerOpacity : 0.3
+      }
+    },
 
     "scrollbar-slider-vertical" :
     {
@@ -199,6 +212,19 @@ qx.Theme.define("qx.theme.modern.Decoration",
         outerColor : "border-main",
         innerColor : "white",
         innerOpacity : 0.5
+      }
+    },
+    
+    "scrollbar-slider-vertical-disabled" :
+    {
+      decorator : qx.ui.decoration.Beveled,
+
+      style : {
+        backgroundImage : "decoration/scrollbar/scrollbar-button-bg-vertical.png",
+        backgroundRepeat : "scale",
+        outerColor : "border-disabled",
+        innerColor : "white",
+        innerOpacity : 0.3
       }
     },
 
