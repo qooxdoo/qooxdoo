@@ -451,10 +451,12 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
     "datefield/textfield" :
     {
+      
       style : function(states)
       {
         return {
-          padding: [ 2, 4, 1 ]
+          padding   : [ 2, 4, 1 ],
+          textColor : states.disabled ? "text-disabled" : "text-input"
         }
       }
     },
