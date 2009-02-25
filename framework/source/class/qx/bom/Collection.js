@@ -1768,7 +1768,7 @@
         var Element = qx.bom.Element;
         
         return events ? 
-          this.map(function(elem) { console.debug("MAP: ", elem); return Element.clone(elem, true); }) : 
+          this.map(function(elem) { return Element.clone(elem, true); }) : 
           this.map(Element.clone, Element);
       }      
     },
