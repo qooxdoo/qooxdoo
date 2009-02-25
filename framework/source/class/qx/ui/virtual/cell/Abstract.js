@@ -21,6 +21,10 @@
 #require(qx.bom.Stylesheet)
 ************************************************************************ */
 
+/**
+ * EXPERIMENTAL!
+ */
+
 qx.Class.define("qx.ui.virtual.cell.Abstract", 
 {
   type : "abstract",

@@ -18,6 +18,9 @@
 
 ************************************************************************ */
 
+/**
+ * EXPERIMENTAL!
+ */
 qx.Class.define("qx.ui.virtual.cell.CellStylesheet",
 {
   extend : qx.core.Object,

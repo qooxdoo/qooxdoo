@@ -18,7 +18,10 @@
 
 ************************************************************************ */
 
+
 /**
+ * EXPERIMENTAL!
+ * 
  * The WidgetCell layer renders each cell with a qooxdoo widget. The concrete
  * widget instance for each cell is provided by a cell provider.
  */

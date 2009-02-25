@@ -18,6 +18,10 @@
 
 ************************************************************************ */
 
+/**
+ * EXPERIMENTAL!
+ */
+
 qx.Class.define("qx.ui.virtual.form.ListItem", 
 {
   extend : qx.core.Object,

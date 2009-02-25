@@ -19,6 +19,8 @@
 ************************************************************************ */
 
 /**
+ * EXPERIMENTAL!
+ *
  * The Pane provides a window of a larger virtual grid.
  * 
  * The actual rendering is performed by one or several layers ({@link ILayer}.

@@ -18,6 +18,9 @@
 
 ************************************************************************ */
 
+/**
+ * EXPERIMENTAL!
+ */
 qx.Class.define("qx.ui.virtual.form.List", 
 {
   extend : qx.ui.virtual.core.Scroller,

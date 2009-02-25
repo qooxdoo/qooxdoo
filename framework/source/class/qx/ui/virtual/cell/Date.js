@@ -19,7 +19,7 @@
 ************************************************************************ */
 
 /**
- * TODOC
+ * EXPERIMENTAL!
  */
 qx.Class.define("qx.ui.virtual.cell.Date", 
 {

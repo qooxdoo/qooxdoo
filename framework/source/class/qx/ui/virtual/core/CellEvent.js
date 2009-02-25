@@ -18,9 +18,13 @@
 
 ************************************************************************ */
 
+
+
 /**
+ * EXPERIMENTAL!
+ * 
  * A cell event instance contains all data for mouse events related to cells in
- * a table.
+ * a pane.
  **/
 qx.Class.define("qx.ui.virtual.core.CellEvent",
 {
