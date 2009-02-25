@@ -407,10 +407,6 @@ qx.Bootstrap.define("qx.event.Manager",
         qx.core.Assert.assertString(type, msg + "Invalid event type.");
         qx.core.Assert.assertFunction(listener, msg + "Invalid callback function");
         
-        if (self !== undefined) {
-          qx.core.Assert.assertObject(self, "Invalid context for callback.");
-        }
-        
         if (capture !== undefined) {
           qx.core.Assert.assertBoolean(capture, "Invalid capture flag.");
         }
