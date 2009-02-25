@@ -27,7 +27,7 @@ qx.Bootstrap.define("qx.util.ResourceManager",
   statics :
   {
     /** {Map} the shared image registry */
-    __registry : window.qxresources || {},
+    __registry : qx.$$resources || {},
 
 
     /**
