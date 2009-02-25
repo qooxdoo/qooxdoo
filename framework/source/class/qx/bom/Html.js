@@ -206,10 +206,12 @@ qx.Class.define("qx.bom.Html",
         if (typeof obj === "string") {
           obj = this.__convertHtmlString(obj, context);
         }
-  
+        
         // Append or merge depending on type
         if (obj.nodeType) {
           ret.push(obj);
+        } else if (obj instanceof qx.core.BaseArray) {
+          ret.push.apply(ret, Array.prototype.slice.call(obj, 0));
         } else {
           ret.push.apply(ret, obj);
         }
