@@ -63,23 +63,37 @@ qx.Class.define("qx.io2.part.Package",
         return;
       }
       
-      var loader = new qx.io2.ScriptLoader()
-      
-      loader.load(urlList.shift(), function() 
+      var urlsLoaded = 0;
+      var onLoad = function(urls)
       {
-        loader.dispose();
-        if (qx.core.Variant.isSet("qx.client", "webkit"))
+        if (urlsLoaded >= urlList.length) 
         {
-          // force asynchronous load
-          // Safari fails with an "maximum recursion depth exceeded" error if it is
-          // called sync.      
-          qx.event.Timer.once(function() {
-            this.__loadScriptList(urlList, callback, self);
-          }, this, 0);
-        } else {
-          this.__loadScriptList(urlList, callback, self);
+          callback.call(self);
+          return;
         }
-      }, this);
+
+        var loader = new qx.io2.ScriptLoader()
+        var url = urls[0];
+        loader.load(urls.shift(), function() 
+        {
+          console.log("loaded: ", url);
+          urlsLoaded += 1;
+          loader.dispose();
+          if (qx.core.Variant.isSet("qx.client", "webkit"))
+          {
+            // force asynchronous load
+            // Safari fails with an "maximum recursion depth exceeded" error if it is
+            // called sync.      
+            qx.event.Timer.once(function() {
+              onLoad.call(this, urls, callback, self);
+            }, this, 0);
+          } else {
+            onLoad.call(this, urls, callback, self);
+          }
+        }, this);
+      }
+      
+      onLoad(qx.lang.Array.copy(urlList));      
     },
     
     
