@@ -451,7 +451,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
     "datefield/textfield" :
     {
-      
       style : function(states)
       {
         return {
@@ -634,8 +633,15 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
       style : function(states)
       {
+        var decorator = states.horizontal ? "scrollbar-slider-horizontal" :
+                                            "scrollbar-slider-vertical";
+        
+        if (states.disabled) {
+          decorator += "-disabled"
+        }
+         
         return {
-          decorator : states.horizontal ? "scrollbar-slider-horizontal" : "scrollbar-slider-vertical",
+          decorator : decorator,
           minHeight : states.horizontal ? undefined : 14,
           minWidth  : states.horizontal ? 14 : undefined
         };
@@ -699,7 +705,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : "input"
+          decorator : states.focused ? "input-focused" :
+                      states.disabled ? "input-disabled" : "input"
         }
       }
     },
@@ -711,7 +718,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : "scrollbar-slider-horizontal",
+          decorator : states.disabled ? "scrollbar-slider-horizontal-disabled" :
+                                        "scrollbar-slider-horizontal", 
           height : 14,
           width : 14
         };
@@ -736,7 +744,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           backgroundColor : "background-light",
-          decorator : "main"
+          decorator : states.focused ? "input-focused" :
+                      states.disabled ? "input-disabled" : "input"
         };
       }
     },
@@ -1680,6 +1689,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
     "selectbox/arrow" :
     {
+      include : "image",
+      
       style : function(states)
       {
         return {
@@ -1827,7 +1838,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : states.focused ? "input-focused" : "input"
+          decorator : states.focused ? "input-focused" : 
+                      states.disabled ? "input-disabled" : "input"
         };
       }
     },
