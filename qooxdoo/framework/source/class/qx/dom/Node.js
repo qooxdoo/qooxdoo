@@ -166,7 +166,7 @@ qx.Class.define("qx.dom.Node",
      * Whether the given object is a DOM node
      *
      * @param node {Node} the node which should be tested
-     * @return {Boolean} true if the node is a DOM element
+     * @return {Boolean} true if the node is a DOM node
      */
     isNode : function(node) {
       return node.nodeType != null;
@@ -188,7 +188,7 @@ qx.Class.define("qx.dom.Node",
      * Whether the given object is a DOM document node
      *
      * @param node {Node} the node which should be tested
-     * @return {Boolean} true when the node is a document
+     * @return {Boolean} true when the node is a DOM document
      */
     isDocument : function(node) {
       return !!(node && node.nodeType === this.DOCUMENT);
@@ -199,7 +199,7 @@ qx.Class.define("qx.dom.Node",
      * Whether the given object is a DOM text node
      *
      * @param node {Node} the node which should be tested
-     * @return {Boolean} true if the node is a DOM element
+     * @return {Boolean} true if the node is a DOM text node
      */
     isText : function(node) {
       return !!(node && node.nodeType === this.TEXT);
@@ -210,7 +210,7 @@ qx.Class.define("qx.dom.Node",
      * Check whether the given object is a browser window object.
      *
      * @param obj {Object} the object which should be tested
-     * @return {Boolean} true if the object is a window object.
+     * @return {Boolean} true if the object is a window object
      */
     isWindow : function(obj) {
       return !!(obj && obj.history && obj.location && obj.document);
