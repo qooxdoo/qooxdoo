@@ -103,7 +103,15 @@ qx.Class.define("qx.dev.unit.TestResult",
         clearTimeout(this._timeout[test.getFullName()]);
       }
       else {
-        test.setUp();
+        try {
+          test.setUp();
+        }
+        catch(ex) {
+          test.tearDown();
+          var qxEx = new qx.core.BaseError("Error setting up test: " + ex.name, ex.message);                    
+          this.__createError("failure", qxEx, test);
+          return;
+        }
       }
 
       try {
