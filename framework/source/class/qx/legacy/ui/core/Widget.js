@@ -1297,6 +1297,18 @@ qx.Class.define("qx.legacy.ui.core.Widget",
       themeable : true
     },
 
+    
+    /**
+     * Mapping to native style property background-repeat.
+     */
+    backgroundRepeat :
+    {
+      check : "String",
+      nullable : true,
+      apply : "_applyBackgroundRepeat",
+      themeable : true
+    },
+    
 
     /**
      * Describes how to handle content that is too large to fit inside the widget.
@@ -5925,7 +5937,10 @@ qx.Class.define("qx.legacy.ui.core.Widget",
       value ? this.setStyleProperty("backgroundImage", "url(" + qx.util.ResourceManager.toUri(value) + ")") : this.removeStyleProperty("backgroundImage");
     },
 
-
+    _applyBackgroundRepeat : function(value, old)
+    {
+      value ? this.setStyleProperty("backgroundRepeat", value) : this.removeStyleProperty("backgroundRepeat");
+    },
 
 
 
@@ -6266,6 +6281,8 @@ qx.Class.define("qx.legacy.ui.core.Widget",
      */
     __reflowBorderX : function(value)
     {
+      if (!value.getWidthLeft) debugger;
+      
       var oldLeftWidth = this._cachedBorderLeft;
       var oldRightWidth = this._cachedBorderRight;
 
