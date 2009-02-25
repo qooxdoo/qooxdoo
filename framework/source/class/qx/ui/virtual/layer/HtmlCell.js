@@ -18,7 +18,10 @@
 
 ************************************************************************ */
 
+
 /**
+ * EXPERIMENTAL!
+ * 
  * The HtmlCell layer renders each cell with custom HTML markup. The concrete
  * markup for each cell is provided by a cell provider.
  */

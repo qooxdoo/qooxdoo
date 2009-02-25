@@ -18,7 +18,10 @@
 
 ************************************************************************ */
 
+
 /**
+ * EXPERIMENTAL!
+ * 
  * An extended WidgetCell layer, which adds the possibility to specify row and
  * column spans for specific cells. 
  */
