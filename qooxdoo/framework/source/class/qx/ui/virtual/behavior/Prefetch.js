@@ -18,6 +18,7 @@
 ************************************************************************ */
 
 /**
+ * EXPERIMENTAL!
  */
 qx.Class.define("qx.ui.virtual.behavior.Prefetch",
 {
