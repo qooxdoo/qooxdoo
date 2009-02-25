@@ -161,9 +161,20 @@ qx.Class.define("qx.dom.Node",
       TYPE TESTS
     ---------------------------------------------------------------------------
     */
+    
+    /**
+     * Whether the given object is a DOM node
+     *
+     * @param node {Node} the node which should be tested
+     * @return {Boolean} true if the node is a DOM element
+     */
+    isNode : function(node) {
+      return node.nodeType != null;
+    },
+    
 
     /**
-     * Whether the given node is a DOM element node
+     * Whether the given object is a DOM element node
      *
      * @param node {Node} the node which should be tested
      * @return {Boolean} true if the node is a DOM element
@@ -174,7 +185,7 @@ qx.Class.define("qx.dom.Node",
 
 
     /**
-     * Whether the given node is a DOM document node
+     * Whether the given object is a DOM document node
      *
      * @param node {Node} the node which should be tested
      * @return {Boolean} true when the node is a document
@@ -185,7 +196,7 @@ qx.Class.define("qx.dom.Node",
 
 
     /**
-     * Whether the given node is a DOM text node
+     * Whether the given object is a DOM text node
      *
      * @param node {Node} the node which should be tested
      * @return {Boolean} true if the node is a DOM element
