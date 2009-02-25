@@ -2368,6 +2368,7 @@ qx.Class.define("qx.html.Element",
      * {@link #addListener}
      *
      * @param id {var} The id returned by {@link #addListener}
+     * @return {qx.html.Element} this object (for chaining support)
      */
     removeListenerById : function(id)
     {
