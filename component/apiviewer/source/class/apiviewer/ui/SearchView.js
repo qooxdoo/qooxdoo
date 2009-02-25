@@ -60,6 +60,8 @@ qx.Class.define("apiviewer.ui.SearchView",
   members :
   {
 
+    __note : null,
+
     /**
      * Generate the search form.
      */
@@ -132,6 +134,14 @@ qx.Class.define("apiviewer.ui.SearchView",
 
 
       this.__initresult = true;
+      this.__table = table;
+
+      table.addListener("appear", this.__handleNote, this);
+
+      table.addListener("disappear", function(e) {
+        this.__note.hide();
+      }, this);
+
 
       this.add(table, {flex : 1})
 
@@ -147,10 +157,6 @@ qx.Class.define("apiviewer.ui.SearchView",
         this._searchResult(this.sinput.getValue());
       }, this);
 
-      this.__button.addListener("execute", function(e) {
-        this._searchResult(this.sinput.getValue());
-      }, this);
-
     },
 
 
@@ -161,10 +167,15 @@ qx.Class.define("apiviewer.ui.SearchView",
      */
     _searchResult : function(svalue)
     {
-      var searchStart = new Date();
-
       // Trim search string
       var svalue = qx.lang.String.trim(svalue);
+
+      // Hide the note if text is typed into to search field.
+      if (svalue.length > 0) {
+        this.__note.hide();
+      } else {
+        this.__note.show();
+      }
 
       // If empty or too short search string stop here
       if (svalue.length < 3)
@@ -200,16 +211,13 @@ qx.Class.define("apiviewer.ui.SearchView",
 
 
         sresult = this._searchIndex(search[0], search[1]);
-
+        
         this._tableModel.setColumns([ "", (sresult.length + " Result" + ((sresult.length != 1) ? "s" : "")) ]);
         this._tableModel.setData(sresult);
         
         // Clear old selection
         this._table.clearSelection();
 
-        var searchEnd = new Date();
-        var results = sresult.length;
-        var duration = (searchEnd.getTime() - searchStart.getTime())/1000; //seconds
       }
     },
 
@@ -268,10 +276,10 @@ qx.Class.define("apiviewer.ui.SearchView",
         {
           if (spath) {
             for (var i=0, l=index[key].length; i<l; i++) {
-              fullname = fullNames[index[key][i][1]];
+              var fullname = fullNames[index[key][i][1]];
               if (new RegExp(spath, "i").test(fullname)) {
-                elemtype = types[index[key][i][0]].toUpperCase();
-                icon = apiviewer.TreeUtil["ICON_" + elemtype];
+                var elemtype = types[index[key][i][0]].toUpperCase();
+                var icon = apiviewer.TreeUtil["ICON_" + elemtype];
                 sresult.push([icon, fullname + key]);
               }
             }
@@ -368,8 +376,6 @@ qx.Class.define("apiviewer.ui.SearchView",
      */
     _load : function()
     {
-      var loadStart = new Date();
-
       var url = "./script/apiindex.js";
       var req = new qx.io.remote.Request(url);
 
@@ -378,8 +384,6 @@ qx.Class.define("apiviewer.ui.SearchView",
       req.setProhibitCaching(false);
       req.addListener("completed", function(evt) {
         this.apiindex = eval("(" + evt.getContent() + ")");
-        var loadEnd = new Date();
-        //this.debug("Time to load api indexfile from server: " + (loadEnd.getTime() - loadStart.getTime()) + "ms");
       }, this);
 
       req.addListener("failed", function(evt) {
@@ -467,6 +471,34 @@ qx.Class.define("apiviewer.ui.SearchView",
       this._tableModel.setData([]);
       this._tableModel.setColumns([ "", ""]);
       this.__button.setEnabled(false);
+    },
+
+
+    __initNote : function(table)
+    {
+      this.__note = new qx.ui.popup.Popup(new qx.ui.layout.Canvas).set({
+        autoHide : false,
+        width : 170,
+        offsetTop : 10
+      });
+      var hintText = this.tr("Hint: You can use regular expressions in the search field.");
+      var hint = new qx.ui.basic.Label(hintText);
+      hint.setRich(true);
+      this.__note.add(hint, {edge : 3});
+
+      this.__note.setPosition("bottom-left");
+      this.__note.placeToWidget(this.sinput, false);
+
+      this.__note.show();
+    },
+
+    __handleNote : function(e)
+    {
+      if (this.__note) {
+        this.__note.show();
+      } else {
+        this.__initNote();
+      }
     }
   },
 
