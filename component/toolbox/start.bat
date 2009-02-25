@@ -5,7 +5,7 @@
 :: http://qooxdoo.org
 ::
 :: Copyright:
-::   2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
+::   2006-2009 1&1 Internet AG, Germany, http://www.1und1.de
 ::
 :: License:
 ::   LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -14,33 +14,38 @@
 ::
 :: Authors:
 ::   * Thomas Herchenroeder (thron7)
+::   * Andreas Ecker (ecker)
 ::   * Yuecel Beser (ybeser)
 ::
 :: ********************************************************************* */
 @echo off
 rem
 rem NAME
-rem  startme.bat -- start script for qooxdoo Build Tool on Windows systems
+rem  start-windows.bat -- start script for qooxdoo Toolbox on Windows systems
 rem
 rem DESCRIPTION
-rem  This script starts the qooxdoo Build Tool, a small application to control the
+rem  This script starts the qooxdoo Toolbox, a web application to control the
 rem  build process of skeleton-based applications.
 rem
-rem  It has two basic functions, (a) to start a small Python-based web server, and
-rem  (b) to launch a URL on that web server with any availabe browser. The URL
-rem  will open the admin GUI (itself a qooxdoo application), which in turn will
-rem  interact with the web server to perform various actions like saving
-rem  configuraton settings and invoking build processes.
+rem  It has two basic functions, (a) to start a small Python-based web server, 
+rem  and (b) to launch an URL on that web server with the default web browser. 
+rem  The URL will open the Toolbox (itself a qooxdoo application), which in 
+rem  turn will interact with the web server to perform various actions like 
+rem  saving configuraton settings and invoking build processes.
 rem
 rem CAVEATS
 rem  - Port 8000 for the web server is hard-coded; if this port is occupied on
 rem    your machine, you have to change it here and in the GUI Javascript source
 rem    code (which implies you need a source version of this app).
-rem  - The whole application is intentionally restricted to local usage (althrough
-rem    it uses network connections); don't try it from a remote host
+rem  - The whole application is intentionally restricted to local usage 
+rem    (although it uses network connections); don't try it from a remote host
 rem
 rem
-:: Config Section
+
+  ::---------------------------------------------------------------------------
+  :: Config Section
+  ::---------------------------------------------------------------------------
+ 
   setlocal ENABLEDELAYEDEXPANSION
   set DEBUG=1
   set WebSvrWait=5
@@ -51,8 +56,7 @@ rem
   set adminPort=8000
   set adminPath=component/toolbox/build/index.html
   set adminUrl=http://!adminHost!:!adminPort!/!adminPath!
-  rem set adminUrl=http://127.0.0.1:8000/tool/buildtool/index.html
-  set testUrl=http://127.0.0.1:8000/
+  set testUrl=http://!adminHost!:!adminPort!/
   
   set pybin=python
   set tmpFile="%TEMP%.\qxtmp.txt"
@@ -65,7 +69,7 @@ rem
   :: Find native Python installation
   ::---------------------------------------------------------------------------
 
-  echo. Trying to find Native Python installation ...
+  echo. Trying to find native Python installation ...
   
   assoc .py >nul 2>&1
   if %errorlevel%==0 (
