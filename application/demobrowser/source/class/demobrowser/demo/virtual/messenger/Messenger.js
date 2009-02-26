@@ -97,6 +97,9 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Messenger",
     scroller.getPane().addLayer(this.cellLayer);
     win.add(scroller);
     
+    this.__groupCell = new demobrowser.demo.virtual.messenger.GroupCell();
+    this.__buddyCell = new demobrowser.demo.virtual.messenger.BuddyCell();
+    
     this.manager = new qx.ui.virtual.selection.Row(scroller.getPane(), this);  
     this.manager.attachMouseEvents();
     this.manager.attachKeyEvents(scroller);        
@@ -232,15 +235,8 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Messenger",
 
       if (this.groupPositions[row])
       {
-        widget = this._groupPool.pop() || new qx.ui.basic.Atom().set({
-          icon: "decoration/arrows/down-invert.png",
-          textColor: "white",
-          font: "bold",
-          padding: [0, 3]
-        });
-
         var label = (row == 0) ? "qooxdoo" : "Friends";
-        widget.setLabel(label);
+        widget = this.__groupCell.getCellWidget(label);
       }
       else
       {
