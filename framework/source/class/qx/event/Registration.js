@@ -60,20 +60,18 @@ qx.Bootstrap.define("qx.event.Registration",
     getManager : function(target)
     {
       // get the corresponding default view (window)
-      if (qx.dom.Node.isWindow(target)) {
-        var win = target;
-      } else if (qx.dom.Node.isElement(target)) {
-        var win = qx.dom.Node.getWindow(target);
-      } else {
-        var win = window;
+      if (target.nodeType) {
+        target = qx.dom.Node.getWindow(target);
+      } else if (!qx.dom.Node.isWindow(target)) {
+        target = window;
       }
-
-      var hash = win.$$hash || qx.core.ObjectRegistry.toHashCode(win);
+      
+      var hash = target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
       var manager = this.__managers[hash];
 
       if (!manager)
       {
-        manager = new qx.event.Manager(win);
+        manager = new qx.event.Manager(target);
         this.__managers[hash] = manager;
       }
 
