@@ -30,6 +30,7 @@ qx.Class.define("qx.test.ui.LocaleSwitch",
 
   construct : function()
   {
+    this.base(arguments);
     var manager = qx.locale.Manager.getInstance();
 
     // add dummy translations
