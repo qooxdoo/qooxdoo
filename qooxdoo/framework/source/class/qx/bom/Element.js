@@ -136,6 +136,15 @@ qx.Class.define("qx.bom.Element",
     },
 
 
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      MODIFICATION
+    ---------------------------------------------------------------------------
+    */
+    
     /**
      * Removes all content from the given element
      *
@@ -146,6 +155,15 @@ qx.Class.define("qx.bom.Element",
       return element.innerHTML = "";
     },
 
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENTS
+    ---------------------------------------------------------------------------
+    */
 
     /**
      * Add an event listener to a DOM element. The event listener is passed an
@@ -280,6 +298,14 @@ qx.Class.define("qx.bom.Element",
     },
     
 
+
+
+    /*
+    ---------------------------------------------------------------------------
+      UTILS
+    ---------------------------------------------------------------------------
+    */
+    
     /**
      * Clone given DOM element. May optionally clone all attached
      * events (recursively) as well.
