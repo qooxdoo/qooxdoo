@@ -696,7 +696,7 @@ qx.Class.define("qx.io.remote.Request",
 
       // If value isn't "no-url-params-on-post" or this isn't a POST request
       if (value !== "no-url-params-on-post" ||
-          this.getMethod() != qx.net.Http.METHOD_POST)
+          this.getMethod() != "POST")
       {
         // ... then add a parameter to the URL to make it unique on each
         // request.  The actual id, "nocache" is irrelevant; it's the fact
