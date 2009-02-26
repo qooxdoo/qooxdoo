@@ -221,7 +221,7 @@ qx.Class.define("qx.data.Array",
      *
      * @param startIndex {Integer} The index where the splice should start
      * @param amount {Integer} Defines number of element which will be removed
-      *   at the given position.
+     *   at the given position.
      * @param varargs {var} All following parameters will be added at the given 
      *   position to the array.
      * @return {qx.data.Array} An array containing the removed elements.

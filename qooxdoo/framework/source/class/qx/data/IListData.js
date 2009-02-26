@@ -74,15 +74,14 @@ qx.Interface.define("qx.data.IListData",
      * Method to remove and add new element to the data. For every remove or
      * add a change event should be fired.
      *
-     * @param varargs {var} The first parameter defines the start index.
-     *   The second parameter defines number of element which will be removed
+     * @param startIndex {Integer} The index where the splice should start
+     * @param amount {Integer} Defines number of element which will be removed
      *   at the given position.
-     *   All following parameters will be added at the given position to the
-     *   array.
-     * @return {var} An data structure of the current type
-     *   containing the removed elements.
-     */    
-    splice : function(varargs) {},
+     * @param varargs {var} All following parameters will be added at the given 
+     *   position to the array.
+     * @return {qx.data.Array} An array containing the removed elements.
+     */   
+    splice : function(startIndex, amount, varargs) {},
     
     
     /**
