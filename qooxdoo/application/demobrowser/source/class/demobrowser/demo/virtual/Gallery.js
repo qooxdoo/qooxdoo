@@ -209,7 +209,7 @@ qx.Class.define("gallery.GalleryCell",
     },
     
     
-    _updateStates : function(widget, states)
+    updateStates : function(widget, states)
     {
       var label = widget.getChildControl("label");
       var icon = widget.getChildControl("icon");
@@ -281,9 +281,9 @@ qx.Class.define("demo.WidgetGallery",
         }
         
         if (wasAdded) {
-          this.__cell._updateStates(widget, {selected: 1});
+          this.__cell.updateStates(widget, {selected: 1});
         } else {
-          this.__cell._updateStates(widget, {});
+          this.__cell.updateStates(widget, {});
         }        
       }
     },     

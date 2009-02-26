@@ -9,7 +9,22 @@ qx.Class.define("qx.ui.virtual.form.AbstractList",
 
     this.getPane().addListener("resize", this._onResize, this); 
     
-    this._manager = new qx.ui.virtual.selection.Row(this.getPane(), this);
+    var self = this;
+    var selectionDelegate = {
+      isItemSelectable : function(item)
+      {
+        return self._delegate.isRowSelectable ?
+          self._delegate.isRowSelectable(item) :
+          true;
+      },
+      styleSelectable : function(item, type, wasAdded) {
+        self._styleSelectable(item, type, wasAdded);
+      }        
+    }
+    
+    this._manager = new qx.ui.virtual.selection.Row(
+      this.getPane(), selectionDelegate
+    );
     this._manager.attachMouseEvents(this.getPane());
     this._manager.attachKeyEvents(this);
     this._manager.set({
@@ -74,7 +89,7 @@ qx.Class.define("qx.ui.virtual.form.AbstractList",
     },
     
 
-    styleSelectable : function(item, type, wasAdded) {
+    _styleSelectable : function(item, type, wasAdded) {
       throw new Error("abstract method");
     },
     

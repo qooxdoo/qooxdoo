@@ -4,6 +4,8 @@ qx.Interface.define("qx.ui.virtual.form.IListDelegate",
   {
     getCellData : function(row) {},
     
-    getCellRenderer : function(row) {}
+    getCellRenderer : function(row) {},
+    
+    isRowSelectable : function(row) {}
   }
 })

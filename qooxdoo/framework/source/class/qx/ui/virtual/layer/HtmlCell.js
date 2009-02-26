@@ -36,7 +36,8 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCell",
    */
   construct : function(htmlCellProvider)
   {
-    this.base(arguments);  
+    this.base(arguments); 
+    this.setZIndex(2);
     
     if (qx.core.Variant.isSet("qx.debug", "on")) {
       this.assertInterface(htmlCellProvider, qx.ui.virtual.core.IHtmlCellProvider);
