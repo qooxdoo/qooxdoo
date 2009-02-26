@@ -236,7 +236,8 @@ qx.Class.define("qx.test.data.DataArray",
 
     testSplice: function() {
       var a = new qx.data.Array(1, 2, 3, 4, 5, 6, 7, 8);
-      this.assertEquals("5 6 7 8", a.splice(4).join(" "), "Splice does not work");
+
+      this.assertEquals("5 6 7 8", a.splice(4, a.length - 1).join(" "), "Splice does not work");
       this.assertEquals("1 2 3 4", a.join(" "), "Splice does not work");
       this.assertEquals("2 3", a.splice(1, 2).join(" "), "Splice does not work");
       this.assertEquals("1 4", a.join(" "), "Splice does not work");
