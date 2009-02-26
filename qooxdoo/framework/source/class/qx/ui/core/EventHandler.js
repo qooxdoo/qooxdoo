@@ -37,7 +37,8 @@ qx.Class.define("qx.ui.core.EventHandler",
   construct : function()
   {
     this.base(arguments);
-    this.__manager = qx.event.Registration.getManager();
+    
+    this.__manager = qx.event.Registration.getManager(window);
   },
 
 
