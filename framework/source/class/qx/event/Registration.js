@@ -66,7 +66,7 @@ qx.Bootstrap.define("qx.event.Registration",
           qx.log.Logger.error("qx.event.Registration.getManager(null) was called!");
           qx.log.Logger.trace(this);
           
-          return window;
+          target = window;
         }
       }
       
