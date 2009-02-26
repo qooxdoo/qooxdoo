@@ -311,21 +311,22 @@ qx.Class.define("qx.test.data.marshal.Json",
       var model = this.__marshaler.jsonToModel(this.__data);
 
       // check the event for a
+      var self = this;
       this.assertEventFired(model, "changeBubble", function() {
         model.setA(0);
       }, function(e) {
-        this.assertEquals(0, e.getData().value, "Not the right value in the event.");
-        this.assertEquals(10, e.getData().old, "Not the right old value in the event.");
-        this.assertEquals("a", e.getData().name, "Not the right name in the event.");
+        self.assertEquals(0, e.getData().value, "Not the right value in the event.");
+        self.assertEquals(10, e.getData().old, "Not the right old value in the event.");
+        self.assertEquals("a", e.getData().name, "Not the right name in the event.");
       }, "Change event not fired!");
       
       // check the event for b
       this.assertEventFired(model, "changeBubble", function() {
         model.setB(0);
       }, function(e) {
-        this.assertEquals(0, e.getData().value, "Not the right value in the event.");
-        this.assertEquals(-15, e.getData().old, "Not the right old value in the event.");
-        this.assertEquals("b", e.getData().name, "Not the right name in the event.");
+        self.assertEquals(0, e.getData().value, "Not the right value in the event.");
+        self.assertEquals(-15, e.getData().old, "Not the right old value in the event.");
+        self.assertEquals("b", e.getData().name, "Not the right name in the event.");
       }, "Change event not fired!");
     },
     
@@ -338,20 +339,21 @@ qx.Class.define("qx.test.data.marshal.Json",
       var model = this.__marshaler.jsonToModel(this.__data);
 
       // check the event for b
+      var self = this;
       this.assertEventFired(model, "changeBubble", function() {
         model.getA().setB(0);
       }, function(e) {
-        this.assertEquals(0, e.getData().value, "Not the right value in the event.");
-        this.assertEquals(10, e.getData().old, "Not the right old value in the event.");
-        this.assertEquals("a.b", e.getData().name, "Not the right name in the event.");
+        self.assertEquals(0, e.getData().value, "Not the right value in the event.");
+        self.assertEquals(10, e.getData().old, "Not the right old value in the event.");
+        self.assertEquals("a.b", e.getData().name, "Not the right name in the event.");
       }, "Change event not fired!");
       
       // check the event for a
       this.assertEventFired(model, "changeBubble", function() {
         model.setA(true);
       }, function(e) {
-        this.assertEquals(true, e.getData().value, "Not the right value in the event.");
-        this.assertEquals("a", e.getData().name, "Not the right name in the event.");
+        self.assertEquals(true, e.getData().value, "Not the right value in the event.");
+        self.assertEquals("a", e.getData().name, "Not the right name in the event.");
       }, "Change event not fired!");
     },
     
@@ -364,12 +366,13 @@ qx.Class.define("qx.test.data.marshal.Json",
       var model = this.__marshaler.jsonToModel(this.__data);
 
       // check the event for c
+      var self = this;
       this.assertEventFired(model, "changeBubble", function() {
         model.getA().getB().setC(0);
       }, function(e) {
-        this.assertEquals(0, e.getData().value, "Not the right value in the event.");
-        this.assertEquals(10, e.getData().old, "Not the right old value in the event.");
-        this.assertEquals("a.b.c", e.getData().name, "Not the right name in the event.");
+        self.assertEquals(0, e.getData().value, "Not the right value in the event.");
+        self.assertEquals(10, e.getData().old, "Not the right old value in the event.");
+        self.assertEquals("a.b.c", e.getData().name, "Not the right name in the event.");
       }, "Change event not fired!");
     },
     
@@ -382,11 +385,12 @@ qx.Class.define("qx.test.data.marshal.Json",
       var model = this.__marshaler.jsonToModel(this.__data);
 
       // check the event for the first array element
+      var self = this;
       this.assertEventFired(model, "changeBubble", function() {
         model.getA().setItem(0, 1);
       }, function(e) {
-        this.assertEquals(1, e.getData().value, "Not the right value in the event.");
-        this.assertEquals("a[0]", e.getData().name, "Not the right name in the event.");
+        self.assertEquals(1, e.getData().value, "Not the right value in the event.");
+        self.assertEquals("a[0]", e.getData().name, "Not the right name in the event.");
       }, "Change event not fired!");
     },
     
@@ -399,11 +403,12 @@ qx.Class.define("qx.test.data.marshal.Json",
       var model = this.__marshaler.jsonToModel(this.__data);
 
       // check the event for the first array element
+      var self = this;
       this.assertEventFired(model, "changeBubble", function() {
         model.getA().getItem(0).setB(0);
       }, function(e) {
-        this.assertEquals(0, e.getData().value, "Not the right value in the event.");
-        this.assertEquals("a[0].b", e.getData().name, "Not the right name in the event.");
+        self.assertEquals(0, e.getData().value, "Not the right value in the event.");
+        self.assertEquals("a[0].b", e.getData().name, "Not the right name in the event.");
       }, "Change event not fired!");
     },
     
@@ -416,11 +421,12 @@ qx.Class.define("qx.test.data.marshal.Json",
       var model = this.__marshaler.jsonToModel(this.__data);
 
       // check the event for the first array element
+      var self = this;
       this.assertEventFired(model, "changeBubble", function() {
         model.getA().getItem(0).getItem(0).getItem(0).getItem(0).setB(0);
       }, function(e) {
-        this.assertEquals(0, e.getData().value, "Not the right value in the event.");
-        this.assertEquals("a[0][0][0][0].b", e.getData().name, "Not the right name in the event.");
+        self.assertEquals(0, e.getData().value, "Not the right value in the event.");
+        self.assertEquals("a[0][0][0][0].b", e.getData().name, "Not the right name in the event.");
       }, "Change event not fired!");
     },
     
@@ -433,11 +439,12 @@ qx.Class.define("qx.test.data.marshal.Json",
       var model = this.__marshaler.jsonToModel(this.__data);
 
       // check the event for the first array element
+      var self = this;
       this.assertEventFired(model, "changeBubble", function() {
         model.getA().getItem(0).getB().getItem(0).getItem(0).getC().getD().setItem(1, 12);
       }, function(e) {
-        this.assertEquals(12, e.getData().value, "Not the right value in the event.");
-        this.assertEquals("a[0].b[0][0].c.d[1]", e.getData().name, "Not the right name in the event.");
+        self.assertEquals(12, e.getData().value, "Not the right value in the event.");
+        self.assertEquals("a[0].b[0][0].c.d[1]", e.getData().name, "Not the right name in the event.");
       }, "Change event not fired!");
     },
     
@@ -450,11 +457,12 @@ qx.Class.define("qx.test.data.marshal.Json",
       var model = this.__marshaler.jsonToModel(this.__data);
 
       // check the event for the first array element
+      var self = this;
       this.assertEventFired(model, "changeBubble", function() {
         model.getA().setItem(10, "AFFE");
       }, function(e) {
-        this.assertEquals("AFFE", e.getData().value, "Not the right value in the event.");
-        this.assertEquals("a[10]", e.getData().name, "Not the right name in the event.");
+        self.assertEquals("AFFE", e.getData().value, "Not the right value in the event.");
+        self.assertEquals("a[10]", e.getData().name, "Not the right name in the event.");
       }, "Change event not fired!");
     },
     
@@ -469,11 +477,12 @@ qx.Class.define("qx.test.data.marshal.Json",
       model.getA().sort();
 
       // check the event for the first array element
+      var self = this;
       this.assertEventFired(model, "changeBubble", function() {
         model.getA().setItem(0, "AFFE");
       }, function(e) {
-        this.assertEquals("AFFE", e.getData().value, "Not the right value in the event.");
-        this.assertEquals("a[0]", e.getData().name, "Not the right name in the event.");
+        self.assertEquals("AFFE", e.getData().value, "Not the right value in the event.");
+        self.assertEquals("a[0]", e.getData().name, "Not the right name in the event.");
       }, "Change event not fired!");
     }      
 
