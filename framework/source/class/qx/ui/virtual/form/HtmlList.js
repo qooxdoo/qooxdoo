@@ -25,7 +25,7 @@ qx.Class.define("qx.ui.virtual.form.HtmlList",
     },
 
 
-    styleSelectable : function(item, type, wasAdded)
+    _styleSelectable : function(item, type, wasAdded)
     {
       if (type !== "selected") {
         return;

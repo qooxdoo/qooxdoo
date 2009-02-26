@@ -35,7 +35,7 @@ qx.Class.define("demobrowser.demo.virtual.messenger.GroupCell",
     
     
     updateData : function(widget, data) {
-      widget.setLabel(data);
+      widget.setLabel(data.getName());
     }  
   }
 });

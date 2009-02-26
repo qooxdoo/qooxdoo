@@ -17,6 +17,7 @@ qx.Class.define("qx.ui.virtual.form.VirtualListController",
     }
   },
 
+  
   properties : 
   {
     target : 
@@ -42,15 +43,16 @@ qx.Class.define("qx.ui.virtual.form.VirtualListController",
       check : "qx.data.IListData",
       event : "changeSelection",
       apply: "_applySelection"
-
     }
-
   },
 
+  
   members :
   {
-    _applyTarget: function(value, old) {
-      if (value != null) {
+    _applyTarget: function(value, old)
+    {
+      if (value != null)
+      {
         value.setDelegate(this);
 
         this.__changeSelectionListenerId = value.addListener(
@@ -58,7 +60,8 @@ qx.Class.define("qx.ui.virtual.form.VirtualListController",
         );
       }
 
-      if (old != null) {
+      if (old != null)
+      {
         old.setDelegate(null);
         old.removeListenerById(this.__changeSelectionListenerId);
       }
@@ -71,8 +74,10 @@ qx.Class.define("qx.ui.virtual.form.VirtualListController",
     },
 
 
-    _applyModel: function(value, old) {
-      if (value != null) {
+    _applyModel: function(value, old)
+    {
+      if (value != null)
+      {
         this.__changeLengthListenerId = value.addListener(
           "changeLength", this.__onChangeLengthModel, this
         );
@@ -95,7 +100,9 @@ qx.Class.define("qx.ui.virtual.form.VirtualListController",
 
     },
 
-    __onChangeSelection: function(e) {
+    
+    __onChangeSelection: function(e)
+    {
       var targetSelection = e.getData();
       var selection = [];
 
@@ -110,20 +117,23 @@ qx.Class.define("qx.ui.virtual.form.VirtualListController",
       this.getSelection().splice.apply(this.getSelection(), selection);
     },
 
+    
     __onChangeLengthModel: function(e) {
       this._syncRowCount();
     },
 
 
-    __onChangeModel: function(e) {
+    __onChangeModel: function(e) 
+    {
       var target = this.getTarget();
       if (target != null) {
         target.update();
       }
-
     },    
 
-    _syncRowCount: function() {
+    
+    _syncRowCount: function()
+    {
       var model = this.getModel();
       var length = model ? model.length : 0;
       this.getTarget().setRowCount(length);
@@ -135,6 +145,5 @@ qx.Class.define("qx.ui.virtual.form.VirtualListController",
       var model = this.getModel();
       return (model ? model.getItem(row) : "");
     }    
-
   }
 });
