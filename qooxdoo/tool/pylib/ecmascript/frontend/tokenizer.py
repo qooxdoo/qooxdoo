@@ -23,7 +23,7 @@ import sys, re
 from ecmascript.frontend import lang, comment
 
 
-R_WHITESPACE = re.compile(r"(?:\s+)",re.UNICODE)
+R_WHITESPACE = re.compile(ur"(?:\s+|\ufeff)",re.UNICODE)  # space or BOM
 R_NONWHITESPACE = re.compile("\S+",re.UNICODE)
 R_NUMBER = re.compile("^\d+",re.UNICODE)
 R_NEWLINE = re.compile(r"(\n)")  # don't touch this subgroup!
