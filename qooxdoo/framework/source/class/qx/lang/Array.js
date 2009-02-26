@@ -520,8 +520,7 @@ qx.Bootstrap.define("qx.lang.Array",
     unique: function(arr) 
     {
       var ret=[], doneStrings={}, doneNumbers={}, doneObjects={};
-      var Registry = qx.core.ObjectRegistry;
-      var value, id, count=0;
+      var value, count=0;
       var key = "qx" + qx.lang.Date.now();
       var hasNull=false, hasFalse=false, hasTrue=false;
   
