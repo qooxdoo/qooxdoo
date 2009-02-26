@@ -43,7 +43,6 @@ qx.Class.define("qx.core.BaseString",
 
   members :
   {
-
     __txt : null,
 
     /**
@@ -54,6 +53,16 @@ qx.Class.define("qx.core.BaseString",
      */
     toString : function() {
       return this.__txt;
+    },
+    
+    
+    /**
+     * Set the string's value
+     * 
+     *  @param value {String} the new value
+     */
+    setValue : function(value) {
+      this.__txt = value;
     },
 
 
