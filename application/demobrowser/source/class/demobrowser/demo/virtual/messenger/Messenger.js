@@ -38,9 +38,6 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Messenger",
     this.groupPositions[0] = true;
     this.groupPositions[10] = true;
 
-    this._buddyPool = [];
-    this._groupPool = [];
-    
     // Create and fill model
     this.setModel(new qx.data.Array());
     var model = this.getModel();
@@ -202,6 +199,10 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Messenger",
         }
       ];
 
+      for (var i=0; i<this.__users.length; i++) {
+        this.__users[i].group = "qooxdoo";
+      };
+      
       // Fill with dummy users:
       for (var i=this.__users.length; i<this.__amount; i++) {
         this.__users[i] = {
@@ -240,28 +241,25 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Messenger",
       }
       else
       {
-        widget = this._buddyPool.pop() || new demobrowser.demo.virtual.messenger.Buddy();
         var item = this.getModel().getItem(row-1);
 
-        widget.label.setContent(item.getName());
-        widget.icon.setSource(item.getAvatar());
-        widget.statusIcon.setSource("demobrowser/demo/icons/imicons/status_" + item.getStatus() + ".png");
-        
-        this.styleListItem(widget, this.manager.isItemSelected(row));
+        var states = {};
+        if (this.manager.isItemSelected(row)) {
+          state.selected = true;
+        }
+        widget = this.__buddyCell.getCellWidget(item, states);
       }
 
       widget.setUserData("row", row);
-      widget.setUserData("column", column);
-
       return widget;
     },
 
     poolCellWidget: function(widget)
     {
       if (this.groupPositions[widget.getUserData("row")]) {
-        this._groupPool.push(widget);
+        this.__groupCell.pool(widget);
       } else {      
-        this._buddyPool.push(widget)
+        this.__buddyCell.pool(widget)
       }
     },
 

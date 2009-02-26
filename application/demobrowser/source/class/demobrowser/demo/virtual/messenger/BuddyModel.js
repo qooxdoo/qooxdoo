@@ -50,6 +50,13 @@ qx.Class.define("demobrowser.demo.virtual.messenger.BuddyModel",
       init : "offline",
       event : "changeStatus",
       check : ["away", "busy", "online", "offline"]
+    },
+    
+    group :
+    {
+      init : "Friends",
+      event : "changeGroup",
+      check : "String"
     }
   }
   
