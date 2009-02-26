@@ -49,6 +49,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
   construct : function(htmlCellProvider, rowConfig, columnConfig)
   {
     this.base(arguments);
+    this.setZIndex(2);
     
     this._spanManager = new qx.ui.virtual.layer.CellSpanManager(rowConfig, columnConfig);
     this._cellProvider = htmlCellProvider;

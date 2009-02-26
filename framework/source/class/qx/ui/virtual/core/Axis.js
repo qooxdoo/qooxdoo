@@ -123,9 +123,6 @@ qx.Class.define("qx.ui.virtual.core.Axis",
         );
       }        
       
-      if (index >= this.itemCount) {
-        return;
-      }
       if (this.customSizes[index] == size) {
         return;
       }

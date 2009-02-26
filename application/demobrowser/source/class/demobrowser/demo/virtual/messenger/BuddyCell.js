@@ -37,12 +37,15 @@ qx.Class.define("demobrowser.demo.virtual.messenger.BuddyCell",
     },  
     
     
-    _updateStates : function(widget, states)
+    updateStates : function(widget, states)
     {
-      if (states.selected) {
+      if (states.selected)
+      {
         widget.setTextColor("text-selected");
+        widget.setDecorator("selected");
       } else {
         widget.resetTextColor();
+        widget.resetDecorator();
       }
     }
   }

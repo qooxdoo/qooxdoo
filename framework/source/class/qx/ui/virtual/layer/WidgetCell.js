@@ -41,6 +41,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
   construct : function(widgetCellProvider)
   {
     this.base(arguments);
+    this.setZIndex(2);
 
     if (qx.core.Variant.isSet("qx.debug", "on")) {
       this.assertInterface(
@@ -67,7 +68,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
      {
        refine: true,
        init: false
-     }    
+     }
    },
    
   
@@ -82,7 +83,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
     __spacerPool : null,
     
     /**
-     * Get the spacer widget, for empry cells
+     * Get the spacer widget, for empty cells
      * 
      * @return {qx.ui.core.Spacer} The spacer widget.
      */
