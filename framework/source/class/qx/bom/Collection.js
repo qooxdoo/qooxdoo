@@ -200,7 +200,7 @@
        * Queries the selector engine and returns a new collection
        * for convenient modfication and quering.
        *
-       * @see qx.bom.Selector.query
+       * @see qx.bom.Selector#query
        * @param selector {String} CSS Selector String
        * @param context {Element|Document?document} Context element to filter start search in
        * @return {Collection} Collection instance to wrap found elements
