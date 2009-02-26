@@ -179,7 +179,7 @@ qx.Class.define("qx.dom.Node",
      * @return {Boolean} true if the node is a DOM node
      */
     isNode : function(node) {
-      return node.nodeType != null;
+      return !!(node && node.nodeType != null);
     },
     
 
