@@ -43,7 +43,7 @@ qx.Class.define("demobrowser.demo.virtual.List",
       configureLabel.setFont("bold");
       this.getRoot().add(configureLabel, {left: 20, top: 20});
 
-      var configList = new qx.ui.virtual.form.List();
+      var configList = new demobrowser.demo.virtual.list.List();
       configList.setScrollbarX("on");
 
       configList.set({ height: 280, width: 150, selectionMode : "multi" });
@@ -51,7 +51,7 @@ qx.Class.define("demobrowser.demo.virtual.List",
       var item;
       for( var i=1; i<=2500; i++ )
       {
-        item = new qx.ui.virtual.form.ListItem("Item No " + i, "icon/" + ((i % 4) ? "16" : "48") + "/places/folder.png");
+        item = new demobrowser.demo.virtual.list.ListItem("Item No " + i, "icon/" + ((i % 4) ? "16" : "48") + "/places/folder.png");
 
         if (i % 4 == 0) {
           item.setHeight(56);
@@ -178,12 +178,12 @@ qx.Class.define("demobrowser.demo.virtual.List",
       oneLabel.setFont("bold");
       this.getRoot().add(oneLabel, {left: 330, top: 20});
 
-      var oneList = new qx.ui.virtual.form.List();
+      var oneList = new demobrowser.demo.virtual.list.List();
       oneList.set({ height: 280, width: 150, selectionMode : "one" });
       var item;
       for( var i=1; i<=25; i++ )
       {
-        item = new qx.ui.virtual.form.ListItem("Item No " + i, "icon/16/places/folder.png");
+        item = new demobrowser.demo.virtual.list.ListItem("Item No " + i, "icon/16/places/folder.png");
 
         oneList.add(item);
         
@@ -205,7 +205,7 @@ qx.Class.define("demobrowser.demo.virtual.List",
       configureLabel.setFont("bold");
       this.getRoot().add(configureLabel, {left: 520, top: 20});
 
-      var additiveList = new qx.ui.virtual.form.List;
+      var additiveList = new demobrowser.demo.virtual.list.List;
       var item3;
 
       additiveList.set({ width: 150, selectionMode : "additive" });
@@ -219,7 +219,7 @@ qx.Class.define("demobrowser.demo.virtual.List",
 
       for (var i=0; i<l3l.length; i++)
       {
-        item3 = new qx.ui.virtual.form.ListItem(l3l[i]);
+        item3 = new demobrowser.demo.virtual.list.ListItem(l3l[i]);
         additiveList.add(item3);
 
         if (i==10||i==12||i==16) {
@@ -238,7 +238,7 @@ qx.Class.define("demobrowser.demo.virtual.List",
       configureLabel.setFont("bold");
       this.getRoot().add(configureLabel, {left: 20, top: 350});
 
-      var l4 = new qx.ui.virtual.form.List(true);
+      var l4 = new demobrowser.demo.virtual.list.List(true);
       var item4;
 
       l4.set({ width: 550, selectionMode : "multi", height : null });
@@ -253,7 +253,7 @@ qx.Class.define("demobrowser.demo.virtual.List",
 
       for (var i=0; i<l4l.length; i++)
       {
-        item4 = new qx.ui.virtual.form.ListItem(null, l4pre + l4l[i]);
+        item4 = new demobrowser.demo.virtual.list.ListItem(null, l4pre + l4l[i]);
         l4.add(item4);
 
         if (i == 12) {
