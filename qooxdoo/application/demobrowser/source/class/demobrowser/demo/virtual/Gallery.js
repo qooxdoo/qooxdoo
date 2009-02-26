@@ -179,6 +179,58 @@ qx.Class.define("demo.AbstractGallery",
 *****************************************************************************
 */
 
+qx.Class.define("gallery.GalleryCell",
+{
+  extend : qx.ui.virtual.cell.AbstractWidget,
+
+  members :
+  {
+    _createWidget : function()
+    {
+      var widget = new qx.ui.basic.Atom().set({
+        iconPosition: "top"
+      });
+      widget.getChildControl("label").set({
+        padding : [0, 4]
+      });
+      widget.getChildControl("icon").set({
+        padding : 4
+      });
+      return widget;
+    },
+    
+    
+    updateData : function(widget, data) 
+    {
+      widget.set({
+        icon: data.icon,
+        label: data.label
+      });
+    },
+    
+    
+    _updateStates : function(widget, states)
+    {
+      var label = widget.getChildControl("label");
+      var icon = widget.getChildControl("icon");
+      
+      if (states.selected) 
+      {
+        label.setDecorator("selected");
+        label.setTextColor("text-selected");
+        icon.setDecorator("group");
+      }
+      else
+      {
+        label.resetDecorator();
+        label.resetTextColor();
+        icon.resetDecorator();
+      }
+    }    
+  }
+});
+
+
 qx.Class.define("demo.WidgetGallery",
 {
   extend : demo.AbstractGallery,
@@ -186,8 +238,7 @@ qx.Class.define("demo.WidgetGallery",
   construct : function(title)
   {
     this.base(arguments, title);
-    
-    this._pool = [];
+    this.__cell = new gallery.GalleryCell();
   },  
   
   members : 
@@ -211,24 +262,7 @@ qx.Class.define("demo.WidgetGallery",
       
       return scroller;
     },
-    
-    styleListItem : function(widget, isSelected) 
-    {
-      var label = widget.getChildControl("label");
-      var icon = widget.getChildControl("icon");
-      if (isSelected)
-      {
-        label.setDecorator("selected");
-        label.setTextColor("text-selected");
-        icon.setDecorator("group");
-      }
-      else
-      {
-        label.resetDecorator();
-        label.resetTextColor();
-        icon.resetDecorator();
-      }
-    },
+   
     
     styleSelectable : function(item, type, wasAdded) 
     {
@@ -247,12 +281,13 @@ qx.Class.define("demo.WidgetGallery",
         }
         
         if (wasAdded) {
-          this.styleListItem(widget, true);
+          this.__cell._updateStates(widget, {selected: 1});
         } else {
-          this.styleListItem(widget, false);
+          this.__cell._updateStates(widget, {});
         }        
       }
     },     
+    
     
     getCellWidget : function(row, column)
     {     
@@ -262,39 +297,20 @@ qx.Class.define("demo.WidgetGallery",
         return null;
       }
                  
-      var widget = this._pool.pop();
-      
-      if (!widget) 
-      {
-        widget = new qx.ui.basic.Atom().set({
-          iconPosition: "top"
-        });
-        widget.getChildControl("label").set({
-          padding : [0, 4]
-        });
-        widget.getChildControl("icon").set({
-          padding : 4
-        });
-      }
-      
       var cell = {row: row, column: column};
+      var states = {};
       if (this.manager.isItemSelected(cell)) {
-        this.styleListItem(widget, true);
-      } else {
-        this.styleListItem(widget, false);
+        states.selected = true;
       }
       
-      widget.set({
-        icon: itemData.icon,
-        label: itemData.label
-      });
+      var widget = this.__cell.getCellWidget(itemData, states);
       widget.setUserData("cell", cell);
 
       return widget;
     },
     
     poolCellWidget : function(widget) {
-      this._pool.push(widget);
+      this.__cell.pool(widget);
     }    
   }
 });
