@@ -24,9 +24,6 @@
  *
  * * Supports cross-domain communication
  * * Automatically "embeds" script so when the loaded event occours the new features are useable as well
- *
- * All request relevant data is given through {@link #load}. Pooling of
- * an instance for multiple usage should possible.
  */
 qx.Class.define("qx.io2.ScriptLoader",
 {
@@ -42,42 +39,9 @@ qx.Class.define("qx.io2.ScriptLoader",
   construct : function()
   {
     this.base(arguments);
+    
     this.__oneventWrapped = qx.lang.Function.bind(this.__onevent, this);
     this.__elem = document.createElement("script");
-  },
-
-
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-    /** {Array} Internal pool for script loaders */
-    __pool : [],
-
-
-    /**
-     * Gets a new script loader instance.
-     *
-     * @return {qx.io2.ScriptLoader} A loader instance
-     */
-    get : function() {
-      return this.__pool.pop() || new qx.io2.ScriptLoader;
-    },
-
-
-    /**
-     * Pools a loader for re-usage.
-     *
-     * @param loader {qx.io2.ScriptLoader} Loader instance
-     */
-    pool : function(loader) {
-      this.__pool.push(loader);
-    }
   },
 
 
@@ -212,6 +176,14 @@ qx.Class.define("qx.io2.ScriptLoader",
   },
   
   
+  
+  
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+    
   destruct : function() {
     this._disposeFields("__elem", "__oneventWrapped", "__callback", "__context");
   }
