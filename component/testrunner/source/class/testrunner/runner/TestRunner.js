@@ -1134,7 +1134,7 @@ qx.Class.define("testrunner.runner.TestRunner",
         this.__loadTimer = null;
       }
       
-      if (this.__loadAttempts <= 150) {
+      if (this.__loadAttempts <= 300) {
         // Repeat until testrunner in iframe is loaded
         if (!this.frameWindow.testrunner) {
           //this.debug("no testrunner" + this.frameWindow);        
