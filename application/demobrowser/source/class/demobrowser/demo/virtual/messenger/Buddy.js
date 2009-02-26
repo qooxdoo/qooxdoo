@@ -53,9 +53,5 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Buddy",
     this._add(this.statusIcon);
     this._add(this.label, {flex : 1});
     this._add(this.icon);
-    
-    
   }
-  
-
 });
