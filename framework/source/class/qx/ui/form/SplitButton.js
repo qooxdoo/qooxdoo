@@ -242,8 +242,6 @@ qx.Class.define("qx.ui.form.SplitButton",
     {
       var arrow = this.getChildControl("arrow");
 
-      this.debug(value);
-      
       if (value)
       {
         arrow.resetEnabled();
@@ -254,8 +252,6 @@ qx.Class.define("qx.ui.form.SplitButton",
       }
       else
       {
-        this.debug("resetting menu");
-        
         arrow.setEnabled(false);
         arrow.resetMenu();
       }
