@@ -131,7 +131,7 @@ class Generator:
       "api" :
       {
         "action" :Generator.runApiData,
-        "type"   : "JCompileJob"            # this is debatable - JClassDepJob?!
+        "type"   : "JClassDepJob"
       },
 
       "copy-files" :
@@ -155,7 +155,7 @@ class Generator:
       "copy-resources" :
       {
         "action" :Generator.runResources,
-        "type"   : "JCompileJob"            # this is debatable - JClassDepJob?!
+        "type"   : "JClassDepJob"
       },
 
       "compile-source" :
@@ -179,7 +179,7 @@ class Generator:
       "lint-check" :
       {
         "action" :Generator.runLint,
-        "type" : "JCompileJob",
+        "type" : "JClassDepJob",
       },
 
       "migrate-files" :
@@ -320,20 +320,25 @@ class Generator:
          self._translations,
          self._libs) = self.scanLibrary(config.get("library"))
 
-        if "fix-files" in jobTriggers:
-            apply(triggersSet["fix-files"]['action'], (self, self._classes))
-
         # create tool chain instances
         self._treeLoader     = TreeLoader(self._classes, self._cache, self._console)
-
-        if "pretty-print" in jobTriggers:
-            apply(triggersSet["pretty-print"]['action'], (self, self._classes))
-
-        # create tool chain instances
         self._locale         = Locale(self._classes, self._translations, self._cache, self._console, self._treeLoader)
+        self._depLoader      = DependencyLoader(self._classes, self._cache, self._console, self._treeLoader, require, use)
+        self._resourceHandler= _ResourceHandler(self)
 
-        if "translate" in jobTriggers:
-            apply(triggersSet["translate"]['action'], (self, ))
+        # Preprocess include/exclude lists
+        smartInclude, explicitInclude = self.getIncludes(self._job.get("include", []))
+        smartExclude, explicitExclude = self.getExcludes(self._job.get("exclude", []))
+        # get a class list without variants
+        classList = self._computeClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, {})
+        
+        # Process simple job triggers
+        if classdepTriggers:
+            for trigger in classdepTriggers:
+                if trigger == 'translate':
+                    apply(triggersSet[trigger]['action'],(self, ))
+                else:
+                    apply(triggersSet[trigger]['action'],(self, classList))  # call the corresp. method
 
         # remove the keys we have processed, and check return
         jobTriggers = jobTriggers.difference(classdepTriggers)
@@ -341,30 +346,6 @@ class Generator:
             return
 
         # Process job triggers that require the full tool chain
-
-        # Create tool chain instances
-        self._depLoader      = DependencyLoader(self._classes, self._cache, self._console, self._treeLoader, require, use)
-        self._resourceHandler= _ResourceHandler(self)
-        
-        # Preprocess include/exclude lists
-        # This is only the parsing of the config values
-        # We only need to call this once on each job
-        smartInclude, explicitInclude = self.getIncludes(self._job.get("include", []))
-        smartExclude, explicitExclude = self.getExcludes(self._job.get("exclude", []))
-
-
-        if "copy-resources" in jobTriggers or "api" in jobTriggers or "lint-check" in jobTriggers:
-            # get a class list without variants
-            classList = self._computeClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, {})
-            if "copy-resources" in jobTriggers:
-                apply(triggersSet["copy-resources"]['action'], (self, classList))  # this might become variant-dependent later
-
-            if "api" in jobTriggers:
-                apply(triggersSet["api"]['action'], (self, classList))
-            
-            if "lint-check" in jobTriggers:
-                apply(triggersSet["lint-check"]['action'], (self, classList))
-
 
         # Create tool chain instances
         self._treeCompiler   = TreeCompiler(self._classes, self._cache, self._console, self._treeLoader)
