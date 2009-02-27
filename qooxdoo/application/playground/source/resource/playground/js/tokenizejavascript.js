@@ -3,16 +3,16 @@
 var tokenizeJavaScript = (function() {
   // Advance the stream until the given character (not preceded by a
   // backslash) is encountered, or the end of the line is reached.
-  function nextUntilUnescaped(source, end) {
+  function nextUntilUnescaped(source, end, result){
     var escaped = false;
     var next;
-    while (!source.endOfLine()) {
+    while(!source.endOfLine()){
       var next = source.next();
       if (next == end && !escaped)
-        return false;
-      escaped = !escaped && next == "\\";
+        break;
+      escaped = next == "\\";
     }
-    return escaped;
+    return result;
   }
 
   // A map of JavaScript's keywords. The a/b/c keyword distinction is
@@ -23,32 +23,31 @@ var tokenizeJavaScript = (function() {
   // token.
   var keywords = function(){
     function result(type, style){
-      return {type: type, style: "js-" + style};
+      return {type: type, style: style};
     }
     // keywords that take a parenthised expression, and then a
     // statement (if)
-    var keywordA = result("keyword a", "keyword");
+    var keywordA = result("keyword a", "js-keyword");
     // keywords that take just a statement (else)
-    var keywordB = result("keyword b", "keyword");
+    var keywordB = result("keyword b", "js-keyword");
     // keywords that optionally take an expression, and form a
     // statement (return)
-    var keywordC = result("keyword c", "keyword");
-    var operator = result("operator", "keyword");
-    var atom = result("atom", "atom");
+    var keywordC = result("keyword c", "js-keyword");
+    var operator = result("operator", "js-keyword");
+    var atom = result("atom", "js-atom");
     return {
-      "if": keywordA, "while": keywordA, "with": keywordA,
+      "if": keywordA, "switch": keywordA, "while": keywordA, "with": keywordA,
       "else": keywordB, "do": keywordB, "try": keywordB, "finally": keywordB,
       "return": keywordC, "break": keywordC, "continue": keywordC, "new": keywordC, "delete": keywordC, "throw": keywordC,
       "in": operator, "typeof": operator, "instanceof": operator,
-      "var": result("var", "keyword"), "function": result("function", "keyword"), "catch": result("catch", "keyword"),
-      "for": result("for", "keyword"), "switch": result("switch", "keyword"),
-      "case": result("case", "keyword"), "default": result("default", "keyword"),
+      "var": result("var", "js-keyword"), "function": result("function", "js-keyword"), "catch": result("catch", "js-keyword"),
+      "for": result("for", "js-keyword"), "case": result("case", "js-keyword"),
       "true": atom, "false": atom, "null": atom, "undefined": atom, "NaN": atom, "Infinity": atom
     };
   }();
 
   // Some helper regexp matchers.
-  var isOperatorChar = matcher(/[+\-*&%\/=<>!?|]/);
+  var isOperatorChar = matcher(/[\+\-\*\&\%\/=<>!\?]/);
   var isDigit = matcher(/[0-9]/);
   var isHexDigit = matcher(/[0-9A-Fa-f]/);
   var isWordChar = matcher(/[\w\$_]/);
@@ -56,13 +55,13 @@ var tokenizeJavaScript = (function() {
   // Wrapper around jsToken that helps maintain parser state (whether
   // we are inside of a multi-line comment and whether the next token
   // could be a regular expression).
-  function jsTokenState(inside, regexp) {
+  function jsTokenState(inComment, regexp) {
     return function(source, setState) {
-      var newInside = inside;
-      var type = jsToken(inside, regexp, source, function(c) {newInside = c;});
+      var newInComment = inComment;
+      var type = jsToken(inComment, regexp, source, function(c) {newInComment = c;});
       var newRegexp = type.type == "operator" || type.type == "keyword c" || type.type.match(/^[\[{}\(,;:]$/);
-      if (newRegexp != regexp || newInside != inside)
-        setState(jsTokenState(newInside, newRegexp));
+      if (newRegexp != regexp || newInComment != inComment)
+        setState(jsTokenState(newInComment, newRegexp));
       return type;
     };
   }
@@ -71,7 +70,7 @@ var tokenizeJavaScript = (function() {
   // tokenize.js (through jsTokenState). Advances the source stream
   // over a token, and returns an object containing the type and style
   // of that token.
-  function jsToken(inside, regexp, source, setInside) {
+  function jsToken(inComment, regexp, source, setComment) {
     function readHexNumber(){
       source.next(); // skip the 'x'
       source.nextWhile(isHexDigit);
@@ -109,43 +108,36 @@ var tokenizeJavaScript = (function() {
     // Mutli-line comments are tricky. We want to return the newlines
     // embedded in them as regular newline tokens, and then continue
     // returning a comment token for every line of the comment. So
-    // some state has to be saved (inside) to indicate whether we are
-    // inside a /* */ sequence.
+    // some state has to be saved (inComment) to indicate whether we
+    // are inside a /* */ sequence.
     function readMultilineComment(start){
-      var newInside = "/*";
+      var newInComment = true;
       var maybeEnd = (start == "*");
       while (true) {
         if (source.endOfLine())
           break;
         var next = source.next();
         if (next == "/" && maybeEnd){
-          newInside = null;
+          newInComment = false;
           break;
         }
         maybeEnd = (next == "*");
       }
-      setInside(newInside);
+      setComment(newInComment);
       return {type: "comment", style: "js-comment"};
     }
     function readOperator() {
       source.nextWhile(isOperatorChar);
       return {type: "operator", style: "js-operator"};
     }
-    function readString(quote) {
-      var endBackSlash = nextUntilUnescaped(source, quote);
-      setInside(endBackSlash ? quote : null);
-      return {type: "string", style: "js-string"};
-    }
 
     // Fetch the next token. Dispatches on first character in the
     // stream, or first two characters when the first is a slash.
-    if (inside == "\"" || inside == "'")
-      return readString(inside);
     var ch = source.next();
-    if (inside == "/*")
+    if (inComment)
       return readMultilineComment(ch);
     else if (ch == "\"" || ch == "'")
-      return readString(ch);
+      return nextUntilUnescaped(source, ch, {type: "string", style: "js-string"});
     // with punctuation, the type of the token is the symbol itself
     else if (/[\[\]{}\(\),;\:\.]/.test(ch))
       return {type: ch, style: "js-punctuation"};
@@ -157,7 +149,7 @@ var tokenizeJavaScript = (function() {
       if (source.equals("*"))
       { source.next(); return readMultilineComment(ch); }
       else if (source.equals("/"))
-      { nextUntilUnescaped(source, null); return {type: "comment", style: "js-comment"};}
+        return nextUntilUnescaped(source, null, {type: "comment", style: "js-comment"});
       else if (regexp)
         return readRegexp();
       else
