@@ -111,6 +111,8 @@ qx.Class.define("qx.test.bom.Element",
     {
       if (qx.core.Variant.isSet("qx.client", "opera")) {
         this.assertNull(qx.dom.Hierarchy.getCommonParent(this._el, document));
+      } else if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+        this.assertIdentical(document.body, qx.dom.Hierarchy.getCommonParent(this._el, document.body));
       } else {
         this.assertIdentical(document, qx.dom.Hierarchy.getCommonParent(this._el, document));
       }
