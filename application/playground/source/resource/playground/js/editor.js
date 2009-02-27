@@ -4,77 +4,42 @@
  * plain sequences of <span> and <br> elements
  */
 
-// Make sure a string does not contain two consecutive 'collapseable'
-// whitespace characters.
-function makeWhiteSpace(n) {
-  var buffer = [], nb = true;
-  for (; n > 0; n--) {
-    buffer.push((nb || n == 1) ? nbsp : " ");
-    nb = !nb;
-  }
-  return buffer.join("");
-}
-
-// Create a set of white-space characters that will not be collapsed
-// by the browser, but will not break text-wrapping either.
-function fixSpaces(string) {
-  if (string.charAt(0) == " ") string = nbsp + string.slice(1);
-  return string.replace(/[\t \u00a0]{2,}/g, function(s) {return makeWhiteSpace(s.length);});
-}
-
-function cleanText(text) {
-  return text.replace(/\u00a0/g, " ").replace(/\u200b/g, "");
-}
-
-// Create a SPAN node with the expected properties for document part
-// spans.
-function makePartSpan(value, doc) {
-  var text = value;
-  if (value.nodeType == 3) text = value.nodeValue;
-  else value = doc.createTextNode(text);
-
-  var span = doc.createElement("SPAN");
-  span.isPart = true;
-  span.appendChild(value);
-  span.currentText = text;
-  return span;
-}
-
-// On webkit, when the last BR of the document does not have text
-// behind it, the cursor can not be put on the line after it. This
-// makes pressing enter at the end of the document occasionally do
-// nothing (or at least seem to do nothing). To work around it, this
-// function makes sure the document ends with a span containing a
-// zero-width space character. The traverseDOM iterator filters such
-// character out again, so that the parsers won't see them. This
-// function is called from a few strategic places to make sure the
-// zwsp is restored after the highlighting process eats it.
-var webkitLastLineHack = webkit ?
-  function(container) {
-    var last = container.lastChild;
-    if (!last || !last.isPart || last.textContent != "\u200b")
-      container.appendChild(makePartSpan("\u200b", container.ownerDocument));
-  } : function() {};
-
 var Editor = (function(){
   // The HTML elements whose content should be suffixed by a newline
   // when converting them to flat text.
   var newlineElements = {"P": true, "DIV": true, "LI": true};
 
-  function asEditorLines(string) {
-    return fixSpaces(string.replace(/\t/g, "  ").replace(/\u00a0/g, " ")).replace(/\r\n?/g, "\n").split("\n");
+  // Create a set of white-space characters that will not be collapsed
+  // by the browser, but will not break text-wrapping either.
+  function safeWhiteSpace(n) {
+    var buffer = [], nb = true;
+    for (; n > 0; n--) {
+      buffer.push((nb || n == 1) ? nbsp : " ");
+      nb = !nb;
+    }
+    return buffer.join("");
   }
+
+  function splitSpaces(string) {
+    if (string == " ") return nbsp;
+    else return string.replace(/[\t \u00a0]{2,}/g, function(s) {return safeWhiteSpace(s.length);});
+  }
+  function asEditorLines(string) {
+    return splitSpaces(string.replace(/\u00a0/g, " ")).replace(/\r\n?/g, "\n").split("\n");
+  }
+
+  var internetExplorer = document.selection && window.ActiveXObject && /MSIE/.test(navigator.userAgent);
 
   // Helper function for traverseDOM. Flattens an arbitrary DOM node
   // into an array of textnodes and <br> tags.
   function simplifyDOM(root) {
     var doc = root.ownerDocument;
     var result = [];
-    var leaving = true;
+    var leaving = false;
 
     function simplifyNode(node) {
       if (node.nodeType == 3) {
-        var text = node.nodeValue = fixSpaces(node.nodeValue.replace(/[\r\u200b]/g, "").replace(/\n/g, " "));
+        var text = node.nodeValue = splitSpaces(node.nodeValue.replace(/[\n\r]/g, ""));
         if (text.length) leaving = false;
         result.push(node);
       }
@@ -130,9 +95,12 @@ var Editor = (function(){
     function insertPart(part){
       var text = "\n";
       if (part.nodeType == 3) {
-        select.snapshotChanged();
-        part = makePartSpan(part, owner);
-        text = part.currentText;
+        text = part.nodeValue;
+        var span = owner.createElement("SPAN");
+        span.className = "part";
+        span.appendChild(part);
+        part = span;
+        part.currentText = text;
       }
       part.dirty = true;
       nodeQueue.push(part);
@@ -153,9 +121,9 @@ var Editor = (function(){
 
     // Check whether a node is a normalized <span> element.
     function partNode(node){
-      if (node.isPart && node.childNodes.length == 1 && node.firstChild.nodeType == 3) {
+      if (node.nodeName == "SPAN" && node.childNodes.length == 1 && node.firstChild.nodeType == 3){
         node.currentText = node.firstChild.nodeValue;
-        return !/[\n\t\r]/.test(node.currentText);
+        return true;
       }
       return false;
     }
@@ -200,15 +168,13 @@ var Editor = (function(){
   // Search backwards through the top-level nodes until the next BR or
   // the start of the frame.
   function startOfLine(node) {
-    while (node && node.nodeName != "BR") node = node.previousSibling;
+    while (node && node.nodeName != "BR")
+      node = node.previousSibling;
     return node;
   }
-  function endOfLine(node, container) {
-    if (!node) node = container.firstChild;
-    else if (node.nodeName == "BR") node = node.nextSibling;
 
-    while (node && node.nodeName != "BR") node = node.nextSibling;
-    return node;
+  function cleanText(text) {
+    return text.replace(/\u00a0/g, " ");
   }
 
   // Client interface for searching the content of the editor. Create
@@ -340,28 +306,28 @@ var Editor = (function(){
   // The Editor object is the main inside-the-iframe interface.
   function Editor(options) {
     this.options = options;
-    window.indentUnit = options.indentUnit;
     this.parent = parent;
     this.doc = document;
-    var container = this.container = this.doc.body;
+    this.container = this.doc.body;
     this.win = window;
-    this.history = new History(container, options.undoDepth, options.undoDelay,
+    this.history = new History(this.container, this.options.undoDepth, this.options.undoDelay,
                                this, options.onChange);
-    var self = this;
 
     if (!Editor.Parser)
       throw "No parser loaded.";
     if (options.parserConfig && Editor.Parser.configure)
       Editor.Parser.configure(options.parserConfig);
 
-    if (!options.readOnly)
-      select.setCursorPos(container, {node: null, offset: 0});
+    if (!options.textWrapping)
+      this.container.style.whiteSpace = "pre";
+
+    select.setCursorPos(this.container, {node: null, offset: 0});
 
     this.dirty = [];
     if (options.content)
       this.importCode(options.content);
     else // FF acts weird when the editable document is completely empty
-      container.appendChild(this.doc.createElement("BR"));
+      this.container.appendChild(this.doc.createElement("BR"));
 
     if (!options.readOnly) {
       if (options.continuousScanning !== false) {
@@ -372,38 +338,30 @@ var Editor = (function(){
       function setEditable() {
         // In IE, designMode frames can not run any scripts, so we use
         // contentEditable instead.
-        if (document.body.contentEditable != undefined && internetExplorer)
+        if (document.body.contentEditable != undefined && /MSIE/.test(navigator.userAgent))
           document.body.contentEditable = "true";
         else
           document.designMode = "on";
-
-        document.documentElement.style.borderWidth = "0";
-        if (!options.textWrapping)
-          container.style.whiteSpace = "nowrap";
       }
 
       // If setting the frame editable fails, try again when the user
       // focus it (happens when the frame is not visible on
       // initialisation, in Firefox).
       try {
-        setEditable();
+		setEditable();	
       }
       catch(e) {
         var focusEvent = addEventHandler(document, "focus", function() {
-          focusEvent();
+          removeEventHandler(focusEvent);
           setEditable();
-        }, true);
+        });
       }
 
       addEventHandler(document, "keydown", method(this, "keyDown"));
       addEventHandler(document, "keypress", method(this, "keyPress"));
       addEventHandler(document, "keyup", method(this, "keyUp"));
-
-      function cursorActivity() {self.cursorActivity(false);}
-      addEventHandler(document.body, "paste", cursorActivity);
-      addEventHandler(document.body, "cut", cursorActivity);
-      addEventHandler(document.body, "mouseup", cursorActivity);
-
+      addEventHandler(document.body, "paste", method(this, "markCursorDirty"));
+      addEventHandler(document.body, "cut", method(this, "markCursorDirty"));
       if (this.options.autoMatchParens)
         addEventHandler(document.body, "click", method(this, "scheduleParenBlink"));
     }
@@ -427,103 +385,34 @@ var Editor = (function(){
         return "";
 
       var accum = [];
-      select.markSelection(this.win);
       forEach(traverseDOM(this.container.firstChild), method(accum, "push"));
-      webkitLastLineHack(this.container);
-      select.selectMarked();
       return cleanText(accum.join(""));
     },
 
-    checkLine: function(node) {
-      if (node === false || !(node == null || node.parentNode == this.container))
-        throw parent.CodeMirror.InvalidLineHandle;
-    },
-
-    cursorPosition: function(start) {
-      if (start == null) start = true;
-      var pos = select.cursorPos(this.container, start);
-      if (pos) return {line: pos.node, character: pos.offset};
-      else return {line: null, character: 0};
-    },
-
-    firstLine: function() {
-      return null;
-    },
-
-    lastLine: function() {
-      if (this.container.lastChild) return startOfLine(this.container.lastChild);
-      else return null;
-    },
-
-    nextLine: function(line) {
-      this.checkLine(line);
-      var end = endOfLine(line, this.container);
-      return end || false;
-    },
-
-    prevLine: function(line) {
-      this.checkLine(line);
-      if (line == null) return false;
-      return startOfLine(line.previousSibling);
-    },
-
-    selectLines: function(startLine, startOffset, endLine, endOffset) {
-      this.checkLine(startLine);
-      var start = {node: startLine, offset: startOffset}, end = null;
-      if (endOffset !== undefined) {
-        this.checkLine(endLine);
-        end = {node: endLine, offset: endOffset};
-      }
-      select.setCursorPos(this.container, start, end);
-    },
-
-    lineContent: function(line) {
-      this.checkLine(line);
-      var accum = [];
-      for (line = line ? line.nextSibling : this.container.firstChild;
-           line && line.nodeName != "BR"; line = line.nextSibling)
-        accum.push(nodeText(line));
-      return cleanText(accum.join(""));
-    },
-
-    setLineContent: function(line, content) {
-      this.history.commit();
-      this.replaceRange({node: line, offset: 0},
-                        {node: line, offset: this.history.textAfter(line).length},
-                        content);
-      this.addDirtyNode(line);
-      this.scheduleHighlight();
-    },
-
-    insertIntoLine: function(line, position, content) {
-      var before = null;
-      if (position == "end") {
-        before = endOfLine(line, this.container);
+    // Move the cursor to the start of a specific line (counting from 1).
+    jumpToLine: function(line) {
+      if (line <= 1 || !this.container.firstChild) {
+        select.focusAfterNode(null, this.container);
       }
       else {
-        for (var cur = line ? line.nextSibling : this.container.firstChild; cur; cur = cur.nextSibling) {
-          if (position == 0) {
-            before = cur;
-            break;
-          }
-          var text = (cur.innerText || cur.textContent || cur.nodeValue || "");
-          if (text.length > position) {
-            before = cur.nextSibling;
-            content = text.slice(0, position) + content + text.slice(position);
-            removeElement(cur);
-            break;
-          }
-          position -= text.length;
+        var pos = this.container.firstChild;
+        while (true) {
+          if (pos.nodeName == "BR") line--;
+          if (line <= 1 || !pos.nextSibling) break;
+          pos = pos.nextSibling;
         }
+        select.focusAfterNode(pos, this.container);
       }
+      select.scrollToCursor(this.container);
+    },
 
-      var lines = asEditorLines(content), doc = this.container.ownerDocument;
-      for (var i = 0; i < lines.length; i++) {
-        if (i > 0) this.container.insertBefore(doc.createElement("BR"), before);
-        this.container.insertBefore(makePartSpan(lines[i], doc), before);
-      }
-      this.addDirtyNode(line);
-      this.scheduleHighlight();
+    // Find the line that the cursor is currently on.
+    currentLine: function() {
+      var pos = select.cursorPos(this.container, true), line = 1;
+      if (!pos) return 1;
+      for (cursor = pos.node; cursor; cursor = cursor.previousSibling)
+        if (cursor.nodeName == "BR") line++;
+      return line;
     },
 
     // Retrieve the selected text.
@@ -550,10 +439,11 @@ var Editor = (function(){
       this.history.commit();
       var start = select.cursorPos(this.container, true),
           end = select.cursorPos(this.container, false);
-      if (!start || !end) return;
+      if (!start || !end) return false;
 
       end = this.replaceRange(start, end, text);
       select.setCursorPos(this.container, start, end);
+      return true;
     },
 
     replaceRange: function(from, to, text) {
@@ -579,14 +469,13 @@ var Editor = (function(){
 
     // Intercept enter and tab, and assign their new functions.
     keyDown: function(event) {
-      var code = event.keyCode;
       // Don't scan when the user is typing.
       this.delayScanning();
       // Schedule a paren-highlight event, if configured.
       if (this.options.autoMatchParens)
         this.scheduleParenBlink();
 
-      if (code == 13) { // enter
+      if (event.keyCode == 13) { // enter
         if (event.ctrlKey) {
           this.reparseBuffer();
         }
@@ -597,39 +486,20 @@ var Editor = (function(){
         }
         event.stop();
       }
-      else if (code == 9 && this.options.tabMode != "default") { // tab
-        this.handleTab(!event.ctrlKey && !event.shiftKey);
+      else if (event.keyCode == 9) { // tab
+        this.handleTab();
         event.stop();
       }
-      else if (code == 32 && event.shiftKey && this.options.tabMode == "default") { // space
-        this.handleTab(true);
-        event.stop();
-      }
-      else if ((code == 219 || code == 221) && event.ctrlKey) {
-        this.blinkParens(event.shiftKey);
-        event.stop();
-      }
-      else if (event.metaKey && (code == 37 || code == 39)) { // Meta-left/right
-        var cursor = select.selectionTopNode(this.container);
-        if (cursor === false || !this.container.firstChild) return;
-
-        if (code == 37) select.focusAfterNode(startOfLine(cursor), this.container);
-        else {
-          end = endOfLine(cursor, this.container);
-          select.focusAfterNode(end ? end.previousSibling : this.container.lastChild, this.container);
-        }
-        event.stop();
-      }
-      else if (event.ctrlKey || event.metaKey) {
-        if ((event.shiftKey && code == 90) || code == 89) { // shift-Z, Y
-          select.scrollToNode(this.history.redo());
+      else if (event.ctrlKey) {
+        if (event.keyCode == 90 || event.keyCode == 8) { // Z, backspace
+          this.history.undo();
           event.stop();
         }
-        else if (code == 90 || code == 8) { // Z, backspace
-          select.scrollToNode(this.history.undo());
+        else if (event.keyCode == 89) { // Y
+          this.history.redo();
           event.stop();
         }
-        else if (code == 83 && this.options.saveFunction) { // S
+        else if (event.keyCode == 83 && this.options.saveFunction) { // S
           this.options.saveFunction();
           event.stop();
         }
@@ -644,9 +514,10 @@ var Editor = (function(){
       // keydown event does not prevent the associated keypress event
       // from happening, so we have to cancel enter and tab again
       // here.
-      if (event.code == 13 || (event.code == 9 && this.options.tabMode != "default") ||
-          (event.keyCode == 32 && event.shiftKey && this.options.tabMode == "default"))
+      if (event.code == 13 || event.code == 9)
         event.stop();
+      else if ((event.character == "[" || event.character == "]") && event.ctrlKey)
+        event.stop(), this.blinkParens();
       else if (electric && electric.indexOf(event.character) != -1)
         this.parent.setTimeout(method(this, "indentAtCursor"), 0);
     },
@@ -654,14 +525,18 @@ var Editor = (function(){
     // Mark the node at the cursor dirty when a non-safe key is
     // released.
     keyUp: function(event) {
-      this.cursorActivity(isSafeKey(event.keyCode));
+      if (internetExplorer)
+        this.container.createTextRange().execCommand("unlink");
+
+      if (!isSafeKey(event.keyCode))
+        this.markCursorDirty();
     },
 
     // Indent the line following a given <br>, or null for the first
     // line. If given a <br> element, this must have been highlighted
     // so that it has an indentation method. Returns the whitespace
     // element that has been modified or created (if any).
-    indentLineAfter: function(start, direction) {
+    indentLineAfter: function(start) {
       // whiteSpace is the whitespace span at the start of the line,
       // or null if there is no such node.
       var whiteSpace = start ? start.nextSibling : this.container.firstChild;
@@ -675,25 +550,17 @@ var Editor = (function(){
 
       // Ask the lexical context for the correct indentation, and
       // compute how much this differs from the current indentation.
-      var newIndent = 0, curIndent = whiteSpace ? whiteSpace.currentText.length : 0;
-      if (direction != null && this.options.tabMode == "shift")
-        newIndent = direction ? curIndent + 2 : Math.max(0, curIndent - 2)
-      else if (start)
-        newIndent = start.indentation(nextChars, curIndent, direction);
-      else if (Editor.Parser.firstIndentation)
-        newIndent = Editor.Parser.firstIndentation(nextChars, curIndent, direction);
-      var indentDiff = newIndent - curIndent;
+      var indent = start ? start.indentation(nextChars) : 0;
+      var indentDiff = indent - (whiteSpace ? whiteSpace.currentText.length : 0);
 
       // If there is too much, this is just a matter of shrinking a span.
       if (indentDiff < 0) {
-        if (newIndent == 0) {
-          if (firstText) select.snapshotMove(whiteSpace.firstChild, firstText.firstChild, 0);
+        if (indent == 0) {
           removeElement(whiteSpace);
           whiteSpace = null;
         }
         else {
-          select.snapshotMove(whiteSpace.firstChild, whiteSpace.firstChild, indentDiff, true);
-          whiteSpace.currentText = makeWhiteSpace(newIndent);
+          whiteSpace.currentText = safeWhiteSpace(indent);
           whiteSpace.firstChild.nodeValue = whiteSpace.currentText;
         }
       }
@@ -701,19 +568,20 @@ var Editor = (function(){
       else if (indentDiff > 0) {
         // If there is whitespace, we grow it.
         if (whiteSpace) {
-          whiteSpace.currentText = makeWhiteSpace(newIndent);
+          whiteSpace.currentText = safeWhiteSpace(indent);
           whiteSpace.firstChild.nodeValue = whiteSpace.currentText;
         }
         // Otherwise, we have to add a new whitespace node.
         else {
-          whiteSpace = makePartSpan(makeWhiteSpace(newIndent), this.doc);
-          whiteSpace.className = "whitespace";
-          if (start) insertAfter(whiteSpace, start);
-          else this.container.insertBefore(whiteSpace, this.container.firstChild);
+          whiteSpace = this.doc.createElement("SPAN");
+          whiteSpace.className = "part whitespace";
+          whiteSpace.appendChild(this.doc.createTextNode(safeWhiteSpace(indent)));
+          if (start)
+            insertAfter(whiteSpace, start);
+          else
+            this.container.insertBefore(whiteSpace, this.container.firstChild);
         }
-        if (firstText) select.snapshotMove(firstText.firstChild, whiteSpace.firstChild, curIndent, false, true);
       }
-      if (indentDiff != 0) this.addDirtyNode(start);
       return whiteSpace;
     },
 
@@ -726,7 +594,7 @@ var Editor = (function(){
       // *inside* a highlighted line.
       if (to.nextSibling) to = to.nextSibling;
 
-      select.markSelection(this.win);
+      var sel = select.markSelection(this.win);
       var toIsText = to.nodeType == 3;
       if (!toIsText) to.dirty = true;
 
@@ -736,49 +604,39 @@ var Editor = (function(){
         if (result) pos = result.node;
         if (!result || result.left) break;
       }
-      select.selectMarked();
+      select.selectMarked(sel);
     },
 
     // When tab is pressed with text selected, the whole selection is
     // re-indented, when nothing is selected, the line with the cursor
     // is re-indented.
-    handleTab: function(direction) {
-      if (this.options.tabMode == "spaces") {
+    handleTab: function() {
+      if (this.options.dumbTabs) {
         select.insertTabAtCursor(this.win);
-      }
-      else if (!select.somethingSelected(this.win)) {
-        this.indentAtCursor(direction);
       }
       else {
         var start = select.selectionTopNode(this.container, true),
             end = select.selectionTopNode(this.container, false);
         if (start === false || end === false) return;
-        this.indentRegion(start, end, direction);
+
+        if (start == end)
+          this.indentAtCursor();
+        else
+          this.indentRegion(start, end);
       }
     },
 
     // Delay (or initiate) the next paren blink event.
     scheduleParenBlink: function() {
       if (this.parenEvent) this.parent.clearTimeout(this.parenEvent);
-      var self = this;
-      this.parenEvent = this.parent.setTimeout(function(){self.blinkParens();}, 300);
-    },
-
-    isNearParsedNode: function(node) {
-      var distance = 0;
-      while (node && (!node.parserFromHere || node.dirty)) {
-        distance += (node.textContent || node.innerText || "-").length;
-        if (distance > 800) return false;
-        node = node.previousSibling;
-      }
-      return true;
+      this.parenEvent = this.parent.setTimeout(method(this, "blinkParens"), 300);
     },
 
     // Take the token before the cursor. If it contains a character in
     // '()[]{}', search for the matching paren/brace/bracket, and
     // highlight them in green for a moment, or red if no proper match
     // was found.
-    blinkParens: function(jump) {
+    blinkParens: function() {
       // Clear the event property.
       if (this.parenEvent) this.parent.clearTimeout(this.parenEvent);
       this.parenEvent = null;
@@ -795,12 +653,9 @@ var Editor = (function(){
         return /[\(\[\{]/.test(ch);
       }
 
-      var ch, self = this, cursor = select.selectionTopNode(this.container, true);
-      if (!cursor || !this.isNearParsedNode(cursor)) return;
       this.highlightAtCursor();
-      cursor = select.selectionTopNode(this.container, true);
-      if (!(cursor && ((ch = paren(cursor)) || (cursor = cursor.nextSibling) && (ch = paren(cursor)))))
-        return;
+      var cursor = select.selectionTopNode(this.container, true), ch, self = this;
+      if (!cursor || !(ch = paren(cursor))) return;
       // We only look for tokens with the same className.
       var className = cursor.className, dir = forward(ch), match = matching[ch];
 
@@ -844,10 +699,7 @@ var Editor = (function(){
         }
         else {
           blink(cursor, found.status);
-          if (found.node) {
-            blink(found.node, found.status);
-            if (jump) select.focusAfterNode(found.node.previousSibling, this.container);
-          }
+          if (found.node) blink(found.node, found.status);
           break;
         }
       }
@@ -855,7 +707,7 @@ var Editor = (function(){
 
     // Adjust the amount of whitespace at the start of the line that
     // the cursor is on so that it is indented properly.
-    indentAtCursor: function(direction) {
+    indentAtCursor: function() {
       if (!this.container.firstChild) return;
       // The line has to have up-to-date lexical information, so we
       // highlight it first.
@@ -866,7 +718,7 @@ var Editor = (function(){
       if (cursor === false)
         return;
       var lineStart = startOfLine(cursor);
-      var whiteSpace = this.indentLineAfter(lineStart, direction);
+      var whiteSpace = this.indentLineAfter(lineStart);
       if (cursor == lineStart && whiteSpace)
           cursor = whiteSpace;
       // This means the indentation has probably messed up the cursor.
@@ -876,38 +728,35 @@ var Editor = (function(){
 
     // Indent all lines whose start falls inside of the current
     // selection.
-    indentRegion: function(current, end, direction) {
-      select.markSelection(this.win);
-      current = startOfLine(current);
-      end = endOfLine(end, this.container);
+    indentRegion: function(current, end) {
+      var sel = select.markSelection(this.win);
+      if (!current)
+        this.indentLineAfter(current);
+      else
+        current = startOfLine(current.previousSibling);
+      end = startOfLine(end);
 
-      do {
-        this.highlight(current);
-        var hl = this.highlight(current, 1);
-        this.indentLineAfter(current, direction);
-        current = hl ? hl.node : null;
-      } while (current != end);
-      select.selectMarked();
+      while (true) {
+        var result = this.highlight(current, 1);
+        var next = result ? result.node : null;
+
+        while (current != next)
+          current = current ? current.nextSibling : this.container.firstChild;
+        if (next)
+          this.indentLineAfter(next);
+        if (current == end)
+          break;
+      }
+      select.selectMarked(sel);
     },
 
     // Find the node that the cursor is in, mark it as dirty, and make
     // sure a highlight pass is scheduled.
-    cursorActivity: function(safe) {
-      if (internetExplorer) {
-        this.container.createTextRange().execCommand("unlink");
-        this.selectionSnapshot = select.selectionCoords(this.win);
-      }
-
-      var activity = this.options.cursorActivity;
-      if (!safe || activity) {
-        var cursor = select.selectionTopNode(this.container, false);
-        if (cursor === false || !this.container.firstChild) return;
-        cursor = cursor || this.container.firstChild;
-        if (activity) activity(cursor);
-        if (!safe) {
-          this.scheduleHighlight();
-          this.addDirtyNode(cursor);
-        }
+    markCursorDirty: function() {
+      var cursor = select.selectionTopNode(this.container, false);
+      if (cursor !== false && this.container.firstChild) {
+        this.scheduleHighlight();
+        this.addDirtyNode(cursor || this.container.firstChild);
       }
     },
 
@@ -952,9 +801,7 @@ var Editor = (function(){
         try {
           // If the node has been coloured in the meantime, or is no
           // longer in the document, it should not be returned.
-          while (found && found.parentNode != this.container)
-            found = found.parentNode
-          if (found && (found.dirty || found.nodeType == 3))
+          if ((found.dirty || found.nodeType == 3) && found.parentNode)
             return found;
         } catch (e) {}
       }
@@ -970,7 +817,13 @@ var Editor = (function(){
     // its lines, it shedules another highlight to finish the job.
     highlightDirty: function(force) {
       var lines = force ? Infinity : this.options.linesPerPass;
-      if (!this.options.readOnly) select.markSelection(this.win);
+      // TODO: qooxdoo modification
+      var sel;
+      try {
+        sel = select.markSelection(this.win);
+      } catch(ex) {
+        sel = null;
+      }
       var start;
       while (lines > 0 && (start = this.getDirtyNode())){
         var result = this.highlight(start, lines);
@@ -980,7 +833,10 @@ var Editor = (function(){
             this.addDirtyNode(result.node);
         }
       }
-      if (!this.options.readOnly) select.selectMarked();
+      // TODO: qooxdoo modification
+      if(sel) {
+        select.selectMarked(sel);
+      }
       if (start)
         this.scheduleHighlight();
       return this.dirty.length == 0;
@@ -995,11 +851,10 @@ var Editor = (function(){
         // well, we start over.
         if (pos && pos.parentNode != self.container)
           pos = null;
-        select.markSelection(self.win);
+        var sel = select.markSelection(self.win);
         var result = self.highlight(pos, linesPer, true);
-        select.selectMarked();
-        var newPos = result ? (result.node && result.node.nextSibling) : null;
-        pos = (pos == newPos) ? null : newPos;
+        select.selectMarked(sel);
+        pos = result ? (result.node && result.node.nextSibling) : null;
         self.delayScanning();
       };
     },
@@ -1025,15 +880,10 @@ var Editor = (function(){
     // a 'clean' line (no dirty nodes), it will stop, except when
     // 'cleanLines' is true.
     highlight: function(from, lines, cleanLines){
-      var container = this.container, self = this, active = this.options.activeTokens, origFrom = from;
+      var container = this.container, self = this;
 
       if (!container.firstChild)
         return;
-      // lines given as null means 'make sure this BR node has up to date parser information'
-      if (lines == null) {
-        if (!from) return;
-        else from = from.previousSibling;
-      }
       // Backtrack to the first node before from that has a partial
       // parse stored.
       while (from && (!from.parserFromHere || from.dirty))
@@ -1045,7 +895,7 @@ var Editor = (function(){
       // Check whether a part (<span> node) and the corresponding token
       // match.
       function correctPart(token, part){
-        return !part.reduced && part.currentText == token.value && part.className == token.style;
+        return !part.reduced && part.currentText == token.value && part.className == "part " + token.style;
       }
       // Shorten the text associated with a part by chopping off
       // characters from the front. Note that only the currentText
@@ -1058,8 +908,10 @@ var Editor = (function(){
       }
       // Create a part corresponding to a given token.
       function tokenPart(token){
-        var part = makePartSpan(token.value, self.doc);
-        part.className = token.style;
+        var part = self.doc.createElement("SPAN");
+        part.className = "part " + token.style;
+        part.appendChild(self.doc.createTextNode(token.value));
+        part.currentText = token.value;
         return part;
       }
 
@@ -1100,18 +952,18 @@ var Editor = (function(){
           // Allow empty nodes when they are alone on a line, needed
           // for the FF cursor bug workaround (see select.js,
           // insertNewlineAtCursor).
-          while (part && part.nodeName == "SPAN" && part.currentText == "") {
+          while (part && part.nodeName == "SPAN" && part.currentText == ""){
             var old = part;
             this.remove();
             part = this.get();
             // Adjust selection information, if any. See select.js for details.
-            select.snapshotMove(old.firstChild, part && (part.firstChild || part), 0);
+            select.replaceSelection(old.firstChild, part.firstChild || part, 0, 0);
           }
           return part;
         }
       };
 
-      var lineDirty = false, prevLineDirty = true, lineNodes = 0;
+      var lineDirty = false, lineNodes = 0;
 
       // This forEach loops over the tokens from the parsed stream, and
       // at the same time uses the parts object to proceed through the
@@ -1136,16 +988,12 @@ var Editor = (function(){
           part.parserFromHere = parsed.copy();
           part.indentation = token.indentation;
           part.dirty = false;
-
-          // No line argument passed means 'go at least until this node'.
-          if (lines == null && part == origFrom) throw StopIteration;
-
           // A clean line with more than one node means we are done.
           // Throwing a StopIteration is the way to break out of a
           // MochiKit forEach loop.
-          if ((lines !== undefined && --lines <= 0) || (!lineDirty && !prevLineDirty && lineNodes > 1 && !cleanLines))
+          if ((lines !== undefined && --lines <= 0) || (!lineDirty && lineNodes > 1 && !cleanLines))
             throw StopIteration;
-          prevLineDirty = lineDirty; lineDirty = false; lineNodes = 0;
+          lineDirty = false; lineNodes = 0;
           parts.next();
         }
         else {
@@ -1166,7 +1014,6 @@ var Editor = (function(){
             // Insert the correct part.
             var newPart = tokenPart(token);
             container.insertBefore(newPart, part);
-            if (active) active(newPart, token, self);
             var tokensize = token.value.length;
             var offset = 0;
             // Eat up parts until the text for this token has been
@@ -1175,7 +1022,7 @@ var Editor = (function(){
             while (tokensize > 0) {
               part = parts.get();
               var partsize = part.currentText.length;
-              select.snapshotReplaceNode(part.firstChild, newPart.firstChild, tokensize, offset);
+              select.replaceSelection(part.firstChild, newPart.firstChild, tokensize, offset);
               if (partsize > tokensize){
                 shortenPart(part, tokensize);
                 tokensize = 0;
@@ -1190,13 +1037,12 @@ var Editor = (function(){
         }
       });
       if (lineDirty) this.history.touch(from);
-      webkitLastLineHack(this.container);
 
       // The function returns some status information that is used by
       // hightlightDirty to determine whether and where it has to
       // continue.
       return {left: lines,
-              node: parts.getNonEmpty(),
+              node: parts.get(),
               dirty: lineDirty};
     }
   };
@@ -1207,5 +1053,9 @@ var Editor = (function(){
 addEventHandler(window, "load", function() {
   var CodeMirror = window.frameElement.CodeMirror;
   CodeMirror.editor = new Editor(CodeMirror.options);
-  this.parent.setTimeout(method(CodeMirror, "init"), 0);
+  if (CodeMirror.options.initCallback) {
+    this.parent.setTimeout(function(){
+      CodeMirror.options.initCallback(CodeMirror);
+    }, 0);
+  }
 });

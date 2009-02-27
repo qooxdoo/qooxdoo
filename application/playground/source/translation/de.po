@@ -15,26 +15,6 @@ msgstr ""
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
-#: playground/Application.js:228
-msgid "Warning"
-msgstr "Warnung"
-
-#: playground/Application.js:231
-msgid "You changed the source code of this sample.<br/>If you continue the source code will be reset.<br/>Do you want to continue?"
-msgstr "Sie haben den Quellcode des Beispielanwendungs geändert.<br/>Wenn Sie fortsetzen, wird Ihr Quellcode zurückgesetzt.<br/>Möchten Sie fortsetzen?"
-
-#: playground/Application.js:248
-msgid "Yes"
-msgstr "Ja"
-
-#: playground/Application.js:249
-msgid "No"
-msgstr "Nein"
-
-#: playground/Application.js:251
-msgid "Do not show this again"
-msgstr "Nicht mehr anzeigen"
-
 #: playground/Application.js:274
 msgid "Source Code"
 msgstr "Quelltext"
@@ -45,7 +25,7 @@ msgstr "%1 (geändert)"
 
 #: playground/Application.js:445
 msgid "Starting application '"
-msgstr "Starte Anwendung '"
+msgstr "Starte Anwendung"
 
 #: playground/Application.js:448
 msgid "Successfully started."

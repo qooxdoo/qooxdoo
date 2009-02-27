@@ -34,6 +34,8 @@ qx.Class.define("playground.Application",
   extend : qx.application.Standalone,
 
 
+
+
   /*
    *****************************************************************************
       MEMBERS
@@ -51,15 +53,10 @@ qx.Class.define("playground.Application",
 
     // global decoration
     __labelDeco : null,
-    
-    // state of the dialog
-    __neverShowDialog : false,
-    
-    // modification state of the source
-    __isModified : false,
 
     // Container for the sample codes
     sampleContainer : {},
+
 
     /**
      * This method contains the initial application code and gets called
@@ -86,7 +83,9 @@ qx.Class.define("playground.Application",
       // Main container
       var mainContainer = new qx.ui.container.Composite(layout);
       doc.add(mainContainer, { edge : 0 });
-      
+
+      //this.__createCommands();
+
       // qooxdoo header
       mainContainer.add(this.__createHeader(), { flex : 0 });
 
@@ -96,16 +95,16 @@ qx.Class.define("playground.Application",
       // qooxdoo mainsplit, contains the editor and the info splitpane
       var mainsplit = new qx.ui.splitpane.Pane("horizontal");
       this.mainsplit = mainsplit;
-      // contains the panes (mainsplit)
+
       mainContainer.add(mainsplit, { flex : 1 });
-      // contains the logpane
+
       var infosplit = new qx.ui.splitpane.Pane("vertical");
       infosplit.setDecorator(null);
 
       mainsplit.add(this.__createTextArea());
       mainsplit.add(infosplit, 1);
       infosplit.add(this.__createPlayArea(), 2);
-      //log pane created
+
       var log = this.__createLog();
 
       // Adds the log console to the stack
@@ -128,9 +127,8 @@ qx.Class.define("playground.Application",
         self.__playRoot.setMinHeight(data.height);
       });
 
-      // playground instance copied
       this.__playApp = this.clone();
-      // playground instance overwritten to a inline object
+
       this.__playApp.getRoot = function() {
         return self.__playRoot;
       };
@@ -150,11 +148,8 @@ qx.Class.define("playground.Application",
 
       // Back button and bookmark support
       this.__initBookmarkSupport();
-      
-      
     },
 
-    
     /**
      * Back button and bookmark support
      */
@@ -164,12 +159,7 @@ qx.Class.define("playground.Application",
 
       // Handle bookmarks
       var sample = this.__history.getState();
-      
-      //If you reload the playground, the current application name will be setted 
-      //in the title bar
-      var newName = this.__decodeSampleId(sample);
-      this.playAreaCaption.setContent(newName);
-      
+
       // checks if the state corresponds to a sample. If yes, the application
       // will be initialized with the selected sample
       if (sample && this.sampleContainer[sample] != undefined) {
@@ -188,33 +178,18 @@ qx.Class.define("playground.Application",
       this.__history.addListener("request", function(e)
       {
         var newSample = e.getData();
-        
-        if(this.__isModified & !this.__neverShowDialog) {
-          this.__dialog = this.__createChangedWindow();
-          this.__dialog.addListener("close", function() {
-           if(this.__previousCodeState) {          
-            
-            if (this.sampleContainer[newSample] != undefined)
-            {         
-              this.editor.setCode(this.sampleContainer[newSample]);
-              this.updatePlayground(this.__playRoot);
-              var newName = this.__decodeSampleId(newSample);
-              this.playAreaCaption.setContent(newName);
-              // update state on sample change
-              this.__history.addToHistory(newSample, this.__updateTitle(newName));
-            }  
-           }
-          }, this);
-        } else {
-          if (this.sampleContainer[newSample] != undefined)
-          {        	
-            this.editor.setCode(this.sampleContainer[newSample]);
-            this.updatePlayground(this.__playRoot);
-            var newName = this.__decodeSampleId(newSample);
-            this.playAreaCaption.setContent(newName);
-            // update state on sample change
-            this.__history.addToHistory(newSample, this.__updateTitle(newName));
-          }  
+
+        if (this.sampleContainer[newSample] != undefined)
+        {
+          this.editor.setCode(this.sampleContainer[newSample]);
+
+          this.updatePlayground(this.__playRoot);
+
+          var newName = this.__decodeSampleId(newSample);
+          this.playAreaCaption.setContent(newName);
+
+          // update state on sample change
+          this.__history.addToHistory(newSample, this.__updateTitle(newName));
         }
       }, this);
 
@@ -224,100 +199,6 @@ qx.Class.define("playground.Application",
       }, this, 0);
     },
 
-    
-    /**
-     * shows a dialog to inform the user if the source code was changed
-     * This dialog only appears if the user changed the source code and selects after that another sample
-     * due to do not lose his code
-     * 
-     * @return window the dialog
-     */
-    __createChangedWindow : function() {
-    	var window = new qx.ui.window.Window(this.tr("Warning"), null);
-      var layout = new qx.ui.layout.Grid(5, 5);
-      layout.setColumnFlex(1, 1);
-      window.setLayout(layout);
-      var label = new qx.ui.basic.Label(this.tr("You changed the source code of this sample." +
-      		"<br/>If you continue the source code will be reset.<br/>Do you want to continue?")).set({ rich : true})
-
-      this.__previousCodeState = true;
-      
-      window.add(label,
-      {
-        row     : 0,
-        column  : 1,
-        rowSpan : 0,
-        colSpan : 2
-      });
-      
-      var container = new qx.ui.container.Composite(new qx.ui.layout.HBox(5, "right"));
-      var warningImage = new qx.ui.basic.Image("playground/image/dialog-warning.png");
-      var yesButton = new qx.ui.form.Button(this.tr("Yes"));
-      var noButton = new qx.ui.form.Button(this.tr("No"));
-      var showDialogCheckBox = new qx.ui.form.CheckBox(this.tr("Do not show this again"));
-      
-      // checkbox 
-      showDialogCheckBox.addListener("click", function() {
-      	this.__neverShowDialog = showDialogCheckBox.getChecked();
-      }, this);
-      
-      noButton.addListener("execute", function() {
-        this.__previousCodeState = false;
-        window.close();
-      }, this);
-
-      yesButton.addListener("execute", function()
-      {
-      	this.__previousCodeState = true;
-      	this.__isModified = false;
-      	//updates the currentSample
-      	this.currentSample = this.__history.getState();
-      	window.close();
-      },
-      this);
-
-      container.add(yesButton);
-      container.add(noButton);
-
-      window.add(warningImage,
-      {
-        row     : 0,
-        column  : 0,
-        rowSpan : 1,
-        colSpan : 0
-      });
-      
-      window.add(container,
-      {
-        row     : 1,
-        column  : 2,
-        rowSpan : 0,
-        colSpan : 0
-      });
-
-      
-      window.add(showDialogCheckBox,
-      {
-        row     : 1,
-        column  : 0,
-        rowSpan : 0,
-        colSpan : 2
-      });
-      
-      
-      window.setShowMaximize(false);
-      window.setShowClose(false);
-      window.setShowMinimize(false);
-      window.setResizable(false);
-      window.setModal(true);
-      if(this.__isModified) {
-        window.open();
-      }
-      window.moveTo(200, 200);
-      return window;
-    },
-    
-    
     /**
      * Transform sample label into sample id
      * @param label {String} label
@@ -327,7 +208,6 @@ qx.Class.define("playground.Application",
       return label.replace(/\s+/g, "_");
     },
 
-    
     /**
     * Transform sample id into sample label
     * @param id {String} id
@@ -337,7 +217,6 @@ qx.Class.define("playground.Application",
       return id.replace(/_/g, " ");
     },
 
-    
     /**
      * Update the window title with given sample label
      * @param label {String} sample label
@@ -348,7 +227,6 @@ qx.Class.define("playground.Application",
       return title;
     },
 
-    
     /**
      * Creates an area to show the samples.
      *
@@ -431,7 +309,7 @@ qx.Class.define("playground.Application",
 
           this.editor = new CodeMirror(this.textarea.getContainerElement().getDomElement(),
           {
-            content            : this.textarea.getValue().replace(/\t/g, ' '),
+            content            : this.textarea.getValue(),
             parserfile         : [ "tokenizejavascript.js", "parsejavascript.js" ],
             stylesheet         : "resource/playground/css/jscolors.css",
             path               : "resource/playground/js/",
@@ -504,23 +382,21 @@ qx.Class.define("playground.Application",
       }, this);
     },
 
-    
+
     /**
-     * Checks, whether the code is changed. If yes, the application name will be
-     * rename
+     * Checks, whether the code is changed. If yes, the application name is
+     * renamed
      *
      * @return {void}
      */
     __isSourceCodeChanged : function()
-    {      
+    {
       var compareElem1 = document.getElementById("compare_div1");
-      this.currentSample = this.__history.getState(); 
-        
       compareElem1.innerHTML = this.sampleContainer[this.currentSample];
 
       var compareElem2 = document.getElementById("compare_div2");
       compareElem2.innerHTML = this.editor.getCode();
-      
+
       var label = this.__decodeSampleId(this.currentSample);
 
       if ((compareElem1.innerHTML.length == compareElem2.innerHTML.length &&
@@ -528,7 +404,6 @@ qx.Class.define("playground.Application",
           compareElem1.innerHTML.length != compareElem2.innerHTML.length)
       {
         this.playAreaCaption.setContent(this.tr("%1 (modified)", label));
-        this.__isModified = true;
         //top.location.hash = "#";
       }
       else {
@@ -537,7 +412,6 @@ qx.Class.define("playground.Application",
       }
     },
 
-    
     /**
      * Updates the playground.
      *
@@ -597,6 +471,8 @@ qx.Class.define("playground.Application",
           exc
         );
       }
+
+
       if (exc)
       {
         this.error(exc);
@@ -616,8 +492,11 @@ qx.Class.define("playground.Application",
     __createSampleMenu : function()
     {
       var menu = new qx.ui.menu.Menu;
+
       var newButton;
+
       var elem = document.getElementsByTagName("TEXTAREA");
+      var id;
 
       for (var i=0; i<elem.length; i++)
       {
@@ -627,14 +506,15 @@ qx.Class.define("playground.Application",
           this.sampleContainer[id] = elem[i].value;
           newButton = new qx.ui.menu.Button(elem[i].title, "icon/16/mimetypes/office-document.png");
           menu.add(newButton);
+
           newButton.addListener("execute", this.__onSampleChanged, this);
         }
       }
 
       return menu;
     },
-    
-    
+
+
     /**
      * Initializes the playground with a sample.
      *
@@ -642,47 +522,21 @@ qx.Class.define("playground.Application",
      * @return {void}
      */
     __onSampleChanged : function(e)
-    { 
-    	this.aim = e;
-    	var label = this.aim.getTarget().getLabel().toString();
-    	
-    	if(this.__isModified & !this.__neverShowDialog) {
-    	 	this.__dialog = this.__createChangedWindow();
-      	
-      	this.__dialog.addListener("close", function() {  
-          if(this.__previousCodeState) {
-            this.playAreaCaption.setContent(label);
-      
-            this.currentSample = this.__encodeSampleId(label);
-            var currentSource = this.sampleContainer[this.currentSample];
-            currentSource = currentSource.replace(/&lt;/g, "<").replace(/&gt;/g, ">");
-            
-            if (this.showSyntaxHighlighting) {
-              this.editor.setCode(currentSource);
-            } else {
-              this.textarea.setValue(currentSource);
-            }
-            this.updatePlayground(this.__playRoot); 
-            
-            this.__history.addToHistory(this.currentSample, this.__updateTitle(label));
-          }
-        }, this);
-        
-    	} else {
-    		var label = e.getTarget().getLabel().toString();
-        this.playAreaCaption.setContent(label);
-        
-        this.currentSample = this.__encodeSampleId(label);
-        var currentSource = this.sampleContainer[this.currentSample];
-        currentSource = currentSource.replace(/&lt;/g, "<").replace(/&gt;/g, ">");
-        
-        if (this.showSyntaxHighlighting) {
-          this.editor.setCode(currentSource);
-        } else {
-          this.textarea.setValue(currentSource);
-        }
-        this.__history.addToHistory(this.currentSample, this.__updateTitle(label));
-    	}
+    {
+      var label = e.getTarget().getLabel().toString();
+      this.playAreaCaption.setContent(label);
+
+      this.currentSample = this.__encodeSampleId(label);
+      var currentSource = this.sampleContainer[this.currentSample];
+      currentSource = currentSource.replace(/&lt;/g, "<").replace(/&gt;/g, ">");
+
+      if (this.showSyntaxHighlighting) {
+        this.editor.setCode(currentSource);
+      } else {
+        this.textarea.setValue(currentSource);
+      }
+
+      this.__history.addToHistory(this.currentSample, this.__updateTitle(label));
     },
 
 
@@ -740,8 +594,8 @@ qx.Class.define("playground.Application",
     *
     * @return {void}
     */
-    __attachOpenLog : function()
-    {
+   __attachOpenLog : function()
+   {
      this.widgets["toolbar.logCheckButton"].addListener("click", function()
      {
        var logState = this.widgets["toolbar.logCheckButton"].getChecked();
@@ -751,18 +605,18 @@ qx.Class.define("playground.Application",
        } else {
          this.stack.exclude();
        }
-      },
-      this);
-    },
+     },
+     this);
+   },
 
 
-    /**
-     * Toggle editor
-     *
-     * @return {void}
-     */
-    __toggleEditor : function(e)
-    {
+   /**
+    * Toggle editor
+    *
+    * @return {void}
+    */
+   __toggleEditor : function(e)
+   {
       if (!this.editor) {
         return;
       }
@@ -782,8 +636,8 @@ qx.Class.define("playground.Application",
         this.editor.frame.style.visibility = "hidden";
 
         this.showSyntaxHighlighting = false;
-      }
-    },
+}
+   },
 
 
     /**
