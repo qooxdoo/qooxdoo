@@ -446,18 +446,11 @@ qx.Class.define("qx.ui.menu.Manager",
       var target = e.getTarget();
       var widget;
       
-      // use widget instance to check for disabled menu items  
       if (target instanceof qx.ui.core.Widget) {
         widget = target;
       }
       else {
-        widget = this._getMenuButton(qx.ui.core.Widget.getWidgetByElement(target));
-      }
-      
-      // do not hide the menu of the user clicked at a disabled menu item
-      if (widget != null && 
-          widget instanceof qx.ui.menu.AbstractButton && !widget.isEnabled()) {
-        return;
+        widget = qx.ui.core.Widget.getWidgetByElement(target);
       }
       
       // All mouseups not exactly clicking on the menu hide all currently
@@ -465,7 +458,15 @@ qx.Class.define("qx.ui.menu.Manager",
       // Separators for example are anonymous. This way the
       // target is the menu. It is a wanted behavior that clicks on
       // separators are ignored completely.
+      // Do not hide the menu if the target widget is a disabled menu button 
       if (!(widget instanceof qx.ui.menu.Menu)) {
+        
+        widget = this._getMenuButton(widget);
+        if (widget != null && 
+            widget instanceof qx.ui.menu.AbstractButton && !widget.isEnabled()) {
+          return;
+        }
+        
         this.hideAll();
       }
     },
