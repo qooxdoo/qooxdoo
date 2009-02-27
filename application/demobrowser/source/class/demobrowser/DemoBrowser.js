@@ -913,12 +913,13 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       if (currSamp)
       {
-        var otherSamp = currSamp.getUserData('modelLink').getPrevSibling().widgetLinkFull;
-
-        if (otherSamp)
-        {
-          this.tree.setSelected(otherSamp);
-          this.runSample();
+        if (currSamp.getUserData('modelLink').getPrevSibling()) {
+          var otherSamp = currSamp.getUserData('modelLink').getPrevSibling().widgetLinkFull;
+          
+          if (otherSamp) {
+            this.tree.setSelected(otherSamp);
+            this.runSample();
+          }
         }
       }
     },
