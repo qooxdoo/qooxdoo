@@ -553,14 +553,14 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      * @param attributes {Map}
      *
      * @deprecated
-     *   This method no longer does anything and will be removed
+     *   This method no longer does anything and will be removed in 0.9
      *
      * @return {void}
      */
     setCellFocusAttributes : function(attributes)
     {
        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-           "This method no longer does anything and will be removed");
+           "This method no longer does anything and will be removed in 0.9");
     },
 
 
