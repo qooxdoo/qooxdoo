@@ -94,13 +94,24 @@
 
     "test" :
     {
-      "extend" : ["appconf::test"],
+      "run" : ["appconf::test", "test-copy-files"],
 
       "let" :
       {
         "LOCALES" : ["de", "de_DE", "en", "en_GB"]
       }
     },
+
+    "test-copy-files" :
+    {
+      "copy-files" :
+      {
+        "files"    : [ "test" ],
+        "source"   : "source/resource/qx",
+        "target"   : "test/resource/qx"
+      }
+    },
+
 
     "test-source" :
     {
