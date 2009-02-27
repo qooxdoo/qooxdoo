@@ -343,7 +343,7 @@ qx.Class.define("portal.box.Resizable",
 
         if (mouseDiff !== 0)
         {
-          var elementWidth = qx.bom.element.Dimension.getClientWidth(this.__element);
+          var elementWidth = this.__element.clientWidth;
 
           var newWidth = (elementWidth + mouseDiff) - 
                          (this._elementProperties['paddingLeft'] + this._elementProperties['paddingRight']); 
@@ -376,7 +376,7 @@ qx.Class.define("portal.box.Resizable",
         // this.info("mouseDiff = " +mouseDiff);
         if (mouseDiff !== 0)
         {
-          var elementHeight = qx.bom.element.Dimension.getClientHeight(this.__element);
+          var elementHeight = this.__element.clientHeight;
         
           var newHeight = (elementHeight + mouseDiff) - 
                           (this._elementProperties['paddingTop'] + this._elementProperties['paddingBottom']);
