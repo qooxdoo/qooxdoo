@@ -117,6 +117,17 @@ qx.Bootstrap.define("qx.lang.Object",
     {
       "mshtml" : function(map)
       {
+
+        // Check incoming value in debug version:
+        if (qx.core.Variant.isSet("qx.debug", "on"))
+        {
+          if (!(map && map.constructor && map.constructor === ({}).constructor))
+          {
+            qx.log.Logger.trace(this);
+            throw new Error("Invalid map: " + map);
+          }
+        }
+
         var arr = [];
         for (var key in map) {
           arr.push(key);
