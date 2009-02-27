@@ -1312,7 +1312,7 @@ class Generator:
                     imgpath= resource
                     #imguri = resource[1]
                     imguri = resource
-                    imageInfo = self._imageInfo.getImageInfo(imgpath)
+                    imageInfo = self._imageInfo.getImageInfo(imgpath, assetId)
 
                     # use an ImgInfoFmt object, to abstract from flat format
                     imgfmt = ImgInfoFmt()
