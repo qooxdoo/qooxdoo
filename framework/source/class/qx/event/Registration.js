@@ -59,15 +59,15 @@ qx.Bootstrap.define("qx.event.Registration",
      */
     getManager : function(target)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if (target == null) 
       {
-        if (target == null) 
+        if (qx.core.Variant.isSet("qx.debug", "on"))
         {
           qx.log.Logger.error("qx.event.Registration.getManager(null) was called!");
           qx.log.Logger.trace(this);
-          
-          target = window;
         }
+          
+        target = window;
       }
       
       // get the corresponding default view (window)
