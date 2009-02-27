@@ -30,12 +30,12 @@ var CodeMirror = (function(){
     path: "",
     parserfile: [],
     basefiles: ["util.js", "stringstream.js", "select.js", "undo.js", "editor.js", "tokenize.js"],
-    linesPerPass: 30,
+    linesPerPass: 15,
     passDelay: 200,
     continuousScanning: false,
     saveFunction: null,
     onChange: null,
-    undoDepth: 50,
+    undoDepth: 20,
     undoDelay: 800,
     disableSpellcheck: true,
     textWrapping: true,
@@ -44,70 +44,15 @@ var CodeMirror = (function(){
     height: "300px",
     autoMatchParens: false,
     parserConfig: null,
-    tabMode: "indent", // or "spaces", "default", "shift"
-    activeTokens: null,
-    cursorActivity: null,
-    lineNumbers: false,
-    indentUnit: 2
+    dumbTabs: false
   });
 
-  function wrapLineNumberDiv(place) {
-    return function(node) {
-      var container = document.createElement("DIV"),
-          nums = document.createElement("DIV"),
-          scroller = document.createElement("DIV");
-      container.style.position = "relative";
-      nums.style.position = "absolute";
-      nums.style.height = "100%";
-      if (nums.style.setExpression)
-        nums.style.setExpression("height", "this.previousSibling.offsetHeight + 'px'");
-      nums.style.top = "0px";
-      nums.style.overflow = "hidden";
-      place(container);
-      container.appendChild(node);
-      container.appendChild(nums);
-      scroller.className = "CodeMirror-line-numbers";
-      nums.appendChild(scroller);
-    }
-  }
-
-  function applyLineNumbers(frame) {
-    var win = frame.contentWindow, doc = win.document,
-        nums = frame.nextSibling, scroller = nums.firstChild;
-
-    var nextNum = 1, barWidth = null;
-    function sizeBar() {
-      if (nums.offsetWidth != barWidth) {
-        barWidth = nums.offsetWidth;
-        nums.style.left = "-" + (frame.parentNode.style.marginLeft = barWidth + "px");
-      }
-    }
-    function update() {
-      var diff = 20 + Math.max(doc.body.offsetHeight, frame.offsetHeight) - scroller.offsetHeight;
-      for (var n = Math.ceil(diff / 10); n > 0; n--) {
-        scroller.appendChild(document.createTextNode(nextNum++));
-        scroller.appendChild(document.createElement("BR"));
-      }
-      nums.scrollTop = doc.body.scrollTop || doc.documentElement.scrollTop || 0;
-    }
-    sizeBar();
-    update();
-    win.addEventHandler(win, "scroll", update);
-    setInterval(sizeBar, 500);
-  }
-
   function CodeMirror(place, options) {
-    // Backward compatibility for deprecated options.
-    if (options.dumbTabs) options.tabMode = "spaces";
-    else if (options.normalTab) options.tabMode = "default";
-
     // Use passed options, if any, to override defaults.
     this.options = options = options || {};
     setDefaults(options, CodeMirrorConfig);
 
     var frame = this.frame = document.createElement("IFRAME");
-    frame.frameBorder = 0;
-    frame.src = "javascript:false;";
     frame.style.border = "0";
     frame.style.width = options.width;
     frame.style.height = options.height;
@@ -115,12 +60,10 @@ var CodeMirror = (function(){
     // always add it, redundant as it sounds.
     frame.style.display = "block";
 
-    if (place.appendChild) {
-      var node = place;
-      place = function(n){node.appendChild(n);};
-    }
-    if (options.lineNumbers) place = wrapLineNumberDiv(place);
-    place(frame);
+    if (place.appendChild)
+      place.appendChild(frame);
+    else
+      place(frame);
 
     // Link back to this object, so that the editor can fetch options
     // and add a reference to itself.
@@ -132,7 +75,7 @@ var CodeMirror = (function(){
     if (typeof options.stylesheet == "string")
       options.stylesheet = [options.stylesheet];
 
-    var html = ["<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\"><html><head>"];
+    var html = ["<html><head>"];
     forEach(options.stylesheet, function(file) {
       html.push("<link rel=\"stylesheet\" type=\"text/css\" href=\"" + file + "\"/>");
     });
@@ -149,78 +92,50 @@ var CodeMirror = (function(){
   }
 
   CodeMirror.prototype = {
-    init: function() {
-      if (this.options.initCallback) this.options.initCallback(this);
-      if (this.options.lineNumbers) applyLineNumbers(this.frame);
+    getCode: function() {
+      // TODO: qooxdoo modification
+      if(this.editor) {
+        return this.editor.getCode();
+      }
     },
-
-    getCode: function() {return this.editor.getCode();},
-    setCode: function(code) {this.editor.importCode(code);},
-    selection: function() {return this.editor.selectedText();},
-    reindent: function() {this.editor.reindent();},
-
+    setCode: function(code) {
+      // TODO: qooxdoo modification
+      if(this.editor) {
+        this.editor.importCode(code);
+      }
+    },
     focus: function() {
       this.win.focus();
-      if (this.editor.selectionSnapshot) // IE hack
-        this.win.select.selectCoords(this.win, this.editor.selectionSnapshot);
     },
-    replaceSelection: function(text) {
+    jumpToChar: function(start, end) {
+      this.editor.jumpToChar(start, end);
       this.focus();
-      this.editor.replaceSelection(text);
-      return true;
+    },
+    jumpToLine: function(line) {
+      this.editor.jumpToLine(line);
+      this.focus();
+    },
+    currentLine: function() {
+      return this.editor.currentLine();
+    },
+    selection: function() {
+      return this.editor.selectedText();
+    },
+    reindent: function() {
+      this.editor.reindent();
+    },
+    replaceSelection: function(text, focus) {
+      var result = this.editor.replaceSelection(text);
+      if (focus) this.focus();
+      return result;
     },
     replaceChars: function(text, start, end) {
       this.editor.replaceChars(text, start, end);
     },
     getSearchCursor: function(string, fromCursor) {
       return this.editor.getSearchCursor(string, fromCursor);
-    },
-
-    undo: function() {this.editor.history.undo();},
-    redo: function() {this.editor.history.redo();},
-    historySize: function() {return this.editor.history.historySize();},
-
-    cursorPosition: function(start) {
-      if (this.win.select.ie_selection) this.focus();
-      return this.editor.cursorPosition(start);
-    },
-    firstLine: function() {return this.editor.firstLine();},
-    lastLine: function() {return this.editor.lastLine();},
-    nextLine: function(line) {return this.editor.nextLine(line);},
-    prevLine: function(line) {return this.editor.prevLine(line);},
-    lineContent: function(line) {return this.editor.lineContent(line);},
-    setLineContent: function(line, content) {this.editor.setLineContent(line, content);},
-    insertIntoLine: function(line, position, content) {this.editor.insertIntoLine(line, position, content);},
-    selectLines: function(startLine, startOffset, endLine, endOffset) {
-      this.win.focus();
-      this.editor.selectLines(startLine, startOffset, endLine, endOffset);
-    },
-    nthLine: function(n) {
-      var line = this.firstLine();
-      for (; n > 1 && line !== false; n--)
-        line = this.nextLine(line);
-      return line;
-    },
-    lineNumber: function(line) {
-      var num = 0;
-      while (line !== false) {
-        num++;
-        line = this.prevLine(line);
-      }
-      return num;
-    },
-
-    // Old number-based line interface
-    jumpToLine: function(n) {
-      this.selectLines(this.nthLine(n), 0);
-      this.win.focus();
-    },
-    currentLine: function() {
-      return this.lineNumber(this.cursorPosition().line);
     }
   };
-
-  CodeMirror.InvalidLineHandle = {toString: function(){return "CodeMirror.InvalidLineHandle";}};
 
   CodeMirror.replace = function(element) {
     if (typeof element == "string")
@@ -272,8 +187,6 @@ var CodeMirror = (function(){
       return Number(match[1]) >= 6;
     else if (match = navigator.userAgent.match(/gecko\/(\d{8})/i))
       return Number(match[1]) >= 20050901;
-    else if (/Chrome\//.test(navigator.userAgent))
-      return true;
     else
       return null;
   };
