@@ -69,11 +69,12 @@ qx.Bootstrap.define("qx.event.Registration",
           
         target = window;
       }
-      
-      // get the corresponding default view (window)
-      if (target.nodeType) {
+      else if (target.nodeType) 
+      {
         target = qx.dom.Node.getWindow(target);
-      } else if (!qx.dom.Node.isWindow(target)) {
+      }
+      else if (!qx.dom.Node.isWindow(target)) 
+      {
         target = window;
       }
       
