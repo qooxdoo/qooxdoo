@@ -179,7 +179,7 @@ class Generator:
       "lint-check" :
       {
         "action" :Generator.runLint,
-        "type" : "JClassDepJob",
+        "type" : "JCompileJob",
       },
 
       "migrate-files" :
@@ -320,9 +320,6 @@ class Generator:
          self._translations,
          self._libs) = self.scanLibrary(config.get("library"))
 
-        if "lint-check" in jobTriggers:
-            apply(triggersSet["lint-check"]['action'], (self, self._classes))
-
         if "fix-files" in jobTriggers:
             apply(triggersSet["fix-files"]['action'], (self, self._classes))
 
@@ -356,7 +353,7 @@ class Generator:
         smartExclude, explicitExclude = self.getExcludes(self._job.get("exclude", []))
 
 
-        if "copy-resources" in jobTriggers or "api" in jobTriggers:
+        if "copy-resources" in jobTriggers or "api" in jobTriggers or "lint-check" in jobTriggers:
             # get a class list without variants
             classList = self._computeClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, {})
             if "copy-resources" in jobTriggers:
@@ -364,6 +361,10 @@ class Generator:
 
             if "api" in jobTriggers:
                 apply(triggersSet["api"]['action'], (self, classList))
+            
+            if "lint-check" in jobTriggers:
+                apply(triggersSet["lint-check"]['action'], (self, classList))
+
 
         # Create tool chain instances
         self._treeCompiler   = TreeCompiler(self._classes, self._cache, self._console, self._treeLoader)
