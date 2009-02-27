@@ -1271,9 +1271,13 @@ class Generator:
         def processCombinedImg(data, meta_fname, cimguri, cimgshorturi, cimgfmt):
             assert cimgfmt.lib, cimgfmt.type
             # read meta file
-            mfile = open(meta_fname)
-            imgDict = simplejson.loads(mfile.read())
-            mfile.close()
+            cacheId = "imgcomb-%s" % cimgshorturi
+            imgDict = self._cache.read(cacheId, meta_fname)
+            if imgDict == None:
+                mfile = open(meta_fname)
+                imgDict = simplejson.loads(mfile.read())
+                mfile.close()
+                self._cache.write(cacheId, imgDict)
             for mimg, mimgs in imgDict.items():
                 # sort of like this: mimg : [width, height, type, combinedUri, off-x, off-y]
                 mimgspec = ImgInfoFmt(mimgs)
