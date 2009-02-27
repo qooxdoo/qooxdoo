@@ -47,7 +47,7 @@ qx.Class.define("demobrowser.demo.widget.Iframe",
       });
 
       // elastic
-      frame.setSource("http://www.gmx.de");
+      frame.setSource("http://www.gmx.net");
 
       d.add(frame, {
         top : 100,
@@ -63,7 +63,7 @@ qx.Class.define("demobrowser.demo.widget.Iframe",
       // radio group
       //-------------
 
-      var rd1 = new qx.ui.form.RadioButton("GMX").set({value: "http://www.gmx.de"});
+      var rd1 = new qx.ui.form.RadioButton("GMX").set({value: "http://www.gmx.net"});
       var rd2 = new qx.ui.form.RadioButton("web.de").set({value:"http://www.web.de"});
 
       rd1.setChecked(true);
