@@ -324,11 +324,14 @@ qx.Class.define("qx.data.controller.List",
         // if there is a target
         if (this.getTarget() != null) {
           // update the model references to the models
-          for (var i = 0; i < this.__lookupTable.length; i++) {
-            var modelNode = this.getModel().getItem(this.__lookup(i));
-            var listItem = this.getTarget().getChildren()[i];
+          
+          var model = this.getModel();
+          var children = this.getTarget().getChildren();
+          for (var i = 0, l = this.__lookupTable.length; i < l; i++) {
+            var modelNode = model.getItem(this.__lookup(i));
+            var listItem = children[i];
             listItem.setUserData("model", modelNode);
-          }          
+          }
         }
       }
 
@@ -478,10 +481,11 @@ qx.Class.define("qx.data.controller.List",
      */
     __removeItem: function() {
       this._startSelectionModification();
+      var children = this.getTarget().getChildren();
       // get the last binding id
-      var index = this.getTarget().getChildren().length - 1;
+      var index = children.length - 1;
       // get the item
-      var oldItem = this.getTarget().getChildren()[index];
+      var oldItem = children[index];
       this._removeBindingsFrom(oldItem);
       // remove the item
       this.getTarget().removeAt(index);
@@ -688,10 +692,11 @@ qx.Class.define("qx.data.controller.List",
       this._startSelectionModification();
       
       // remove all bindings
-      for (var i = 0; i < this.getTarget().length; i++) {
-        var id = this.getTarget().getChildren()[i].getUserData("labelBindingId");
+      var children = this.getTarget().getChildren();
+      for (var i = 0, l = this.getTarget().length; i < l; i++) {
+        var id = children[i].getUserData("labelBindingId");
         this.removeBinding(id);
-        id = this.getTarget().getChildren()[i].getUserData("iconBindingId");
+        id = children[i].getUserData("iconBindingId");
         if (id != null) {
           this.removeBinding(id);
         }
@@ -724,10 +729,11 @@ qx.Class.define("qx.data.controller.List",
       this._startSelectionModification();
 
       // remove all bindings
-      for (var i = 0; i < this.getTarget().length; i++) {
-        var id = this.getTarget().getChildren()[i].getUserData("labelBindingId");
+      var children = this.getTarget().getChildren();
+      for (var i = 0, l = this.getTarget().length; i < l; i++) {
+        var id = children[i].getUserData("labelBindingId");
         this.removeBinding(id);
-        id = this.getTarget().getChildren()[i].getUserData("iconBindingId");
+        id = children[i].getUserData("iconBindingId");
         if (id != null) {
           this.removeBinding(id);
         }
