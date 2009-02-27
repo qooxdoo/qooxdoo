@@ -6,16 +6,9 @@
     "ROOT"         : "."
   },
 
-  "export" : [ "build" ],
-
   "jobs" :
   {
     "build" :
-    {
-      "run" : ["compile", "merge"]
-    },
-
-    "compile" :
     {
       "library" :
       [
@@ -49,7 +42,7 @@
       {
         "paths" :
         {
-          "file" : "compile-bom.js"
+          "file" : "qx-bom.js"
         },
         "uris" :
         {
@@ -58,17 +51,10 @@
         },
         "code" :
         {
+          "format"   : true,
           "optimize" : [ "variables", "basecalls", "privates", "strings" ]
         }
       }
-    },
-    
-    "merge" :
-    {
-      "shell" :
-      {
-        "command" : "python ./merge.py"
-      }
-    }   
+    }
   }
 }
