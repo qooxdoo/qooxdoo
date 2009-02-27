@@ -48,8 +48,17 @@ class Locale:
                 locale = "en"
             else:
                 locale = entry
-            self._console.debug("Processing locale: %s" % locale)
-            data[entry] = cldr.parseCldrFile(os.path.join(root, "%s.xml" % locale))
+
+            locFile = os.path.join(root, "%s.xml" % locale)
+            cacheId = "locale-%s" % locale
+
+            locDat = self._cache.read(cacheId, locFile)
+            if locDat == None:
+                self._console.debug("Processing locale: %s" % locale)
+                locDat = cldr.parseCldrFile(locFile)
+                self._cache.write(cacheId, locDat)
+
+            data[entry] = locDat
 
         self._console.outdent()
         return data
