@@ -46,19 +46,28 @@ class ImageInfo(object):
 
         return result
 
-    def getImageInfo(self, fileName):
+    def getImageInfo(self, fileName, assetId):
         img = fileName
         
-        if memcache.has_key(img):
-            return memcache[img]
+        #if memcache.has_key(img):
+        #    return memcache[img]
+
+        cacheId = "img-%s" % assetId
+
+        imgInfo = self._cache.readmulti(cacheId, fileName)
+        if imgInfo != None:
+            return imgInfo
         
         self._console.debug("Analysing image: %s" % img)
         #mo = self.imgpatt.search(img)
         imgInfo = ImgInfo(img).getInfo()
         if imgInfo:
-            result = memcache[img] = {'width': imgInfo[0], 'height': imgInfo[1], 'type': imgInfo[2]}
+            #result = memcache[img] = {'width': imgInfo[0], 'height': imgInfo[1], 'type': imgInfo[2]}
+            result = {'width': imgInfo[0], 'height': imgInfo[1], 'type': imgInfo[2]}
         else:
             result = {}
+
+        self._cache.writemulti(cacheId, result)
 
         return result
 
