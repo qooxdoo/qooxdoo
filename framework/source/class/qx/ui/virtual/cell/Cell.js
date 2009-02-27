@@ -338,6 +338,11 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
     getCssClasses : function(value, states)
     {
       var appearance = this.getAppearance();
+
+      if (!states) {
+        states = {};
+      }
+
       var statesKey = appearance + "-" + qx.lang.Object.getKeys(states).sort().join(" ");
       
       var cssClass = this.__stylesheet.getCssClass(statesKey);
