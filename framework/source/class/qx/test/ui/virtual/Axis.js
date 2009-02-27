@@ -182,8 +182,8 @@ qx.Class.define("qx.test.ui.virtual.Axis",
     },
     
     
-    TOTAL_SIZE_ITER : 50,
-    TOTAL_SIZE_ITEMS : 1000,
+    TOTAL_SIZE_ITER : 5, // was 50
+    TOTAL_SIZE_ITEMS : 100, // was 1000
     
     testGetTotalSizeStress : function()
     {
@@ -339,7 +339,7 @@ qx.Class.define("qx.test.ui.virtual.Axis",
     },
     
 
-    SETUP_ITER : 100,
+    SETUP_ITER : 10, // was 100
     
     testPerformanceSetupBestCase : function()
     {
@@ -377,7 +377,7 @@ qx.Class.define("qx.test.ui.virtual.Axis",
     },
     
     
-    FIND_ITER : 10000,
+    FIND_ITER : 100, // was 10000
     
     testPerformanceFindBestCase : function()
     {
