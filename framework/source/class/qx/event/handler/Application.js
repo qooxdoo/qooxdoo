@@ -235,7 +235,9 @@ qx.Class.define("qx.event.handler.Application",
      */
     _stopObserver : function()
     {
-      qx.bom.Event.removeNativeListener(this._window, "load", this._onNativeLoadWrapped);
+      if (this._onNativeLoadWrapped) {
+        qx.bom.Event.removeNativeListener(this._window, "load", this._onNativeLoadWrapped);
+      }
       qx.bom.Event.removeNativeListener(this._window, "unload", this._onNativeUnloadWrapped);
 
       this._onNativeLoadWrapped = null;
