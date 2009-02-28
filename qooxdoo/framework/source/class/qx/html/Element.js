@@ -97,10 +97,33 @@ qx.Class.define("qx.html.Element",
 
 
     /** {Map} Map of post actions for elements. The key is the action name. The value the {@link qx.html.Element}. */
-    _actions : [],
+    __actions : {},
 
 
+    /** {Array} Order of incoming actions */
+    __actionOrder : [],
 
+    
+    /** {Map} Store for all actions which actually do something (which may be done initially) */
+    __positiveActions : 
+    {
+      focus : true,
+      activate : true,
+      capture : true
+    },
+    
+    
+    /** {Map} Mapping from positive to negative option */
+    __actionPairs : 
+    {
+      focus : "blur",
+      blur : "focus",
+      activate : "deactivate",
+      deactivate : "activate",
+      capture : "releaseCapture",
+      releaseCapture : "capture"
+    },
+    
 
 
 
@@ -331,17 +354,42 @@ qx.Class.define("qx.html.Element",
       }
 
 
-
       // Process action list
-      for (var i=0; i<this._actions.length; i++)
+      var actionOrder = this.__actionOrder;
+      if (actionOrder.length > 0)
       {
-        var action = this._actions[i];
-        var element = action.element.__element;
+        // Reverse and unique to higher priorize latest requests
+        // Filter: focus, capture, focus, activate => capture, focus, activate
+        actionOrder = qx.lang.Array.unique(actionOrder.reverse());
+        // console.debug("Actions", actionOrder.reverse());
+        
+        var actions = this.__actions;
+        var bom = qx.bom.Element;
+        var action, obj, elem;
 
-        qx.bom.Element[action.type](element);
+        // Loop from the end of the reversed array to be able to delete actions
+        for (var i=actionOrder.length-1; i>=0; i--)
+        {
+          action = actionOrder[i];
+          obj = actions[action];          
+          elem = obj.__element;
+
+          // If the element was found, apply the action, 
+          // otherwise wait for the next flush and try it again.
+          if (elem)
+          {
+            // obj.debug("Sending " + action + " to ", elem);
+            bom[action](elem);
+            
+            // Finally clear action from array and map
+            qx.lang.Array.removeAt(actionOrder, i);
+            delete actions[action];
+          }            
+        }
+        
+        // Update storage field with sorted array (bring in correct order first)
+        this.__actionOrder = actionOrder.reverse();
       }
-      this._actions = [];
-
 
 
       // Fire appear/disappear events
@@ -1816,7 +1864,11 @@ qx.Class.define("qx.html.Element",
       FOCUS/ACTIVATE SUPPORT
     ---------------------------------------------------------------------------
     */
+    
 
+    
+
+    
     /**
      * Takes the action to process as argument and queues this action if the
      * underlying DOM element is not yet created.
@@ -1826,17 +1878,60 @@ qx.Class.define("qx.html.Element",
      */
     __performAction : function(action)
     {
-      var el = this.__element;
-      var actions = qx.html.Element._actions;
-      if (el && actions.length == 0) {
-        return qx.bom.Element[action](el);
+      var clazz = qx.html.Element;
+      var elem = this.__element;
+      var actions = clazz.__actions;
+      var pairs = clazz.__actionPairs;
+      var opposite = pairs[action];
+      
+      if (elem)
+      {
+        // this.debug("Execute action: " + action);
+        
+        // In case of a requested action which is directly fulfillable,
+        // apply it and clear all actions remebered for the action and the
+        // matching opposite action as these have no relevance anymore.
+        delete actions[action];
+        delete actions[opposite];
+        
+        // Now apply to already created element
+        qx.bom.Element[action](elem);
       }
+      else
+      {
+        // For uncreated elements only queue positive actions 
+        // as the others do not make sense as the element had never
+        // a chance that these have been applied previously.
+        if (clazz.__positiveActions[action])
+        {
+          // this.debug("Store request for: " + action);
+          
+          // Store action request
+          actions[action] = this;
+          
+          // Delete opposite action request
+          // so a focus() will clear requests for blur()
+          // as well.
+          delete actions[opposite];          
 
-      actions.push({
-        type: action,
-        element: this
-      });
-      qx.html.Element._scheduleFlush("element");
+          // Remember order of action requests, especially important
+          // for mixed focus/activate requests
+          clazz.__actionOrder.push(action);
+
+          // Schedule Flush
+          clazz._scheduleFlush("element");
+        } 
+        
+        // requested blur() in cases where it should be focused
+        // previously: Clear the focus request.
+        else if (actions[opposite] == this)
+        {
+          // this.debug("Clear request for: " + opposite);
+          
+          // Clear opposite request e.g. focus, activate
+          delete actions[opposite];
+        }
+      }
     },
 
 
