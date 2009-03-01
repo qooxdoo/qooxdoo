@@ -1300,11 +1300,11 @@ class Generator:
 
         # main
 
+        resourceFilter = self._resourceHandler.filterResourcesByClasslist(self._classList)
         for lib in libs:
             #libresuri = self._computeResourceUri(lib, "", rType='resource', appRoot=self.approot)
             librespath = os.path.normpath(os.path.join(lib['path'], lib['resource']))
-            resourceList = self._resourceHandler.findAllResources([lib],
-                                self._resourceHandler.filterResourcesByClasslist(self._classList))
+            resourceList = self._resourceHandler.findAllResources([lib], resourceFilter)
             # resourceList = [[file1,uri1],[file2,uri2],...]
             for resource in resourceList:
                 ##assetId = replaceWithNamespace(imguri, libresuri, lib['namespace'])
@@ -1695,8 +1695,8 @@ class _ResourceHandler(object):
 
         # - Helpers -----------------------------------------------------------
 
-        def getCache(lib):
-            cacheId = "resinlib-%s" % lib.getNamespace()
+        def getCache(lib,filterId):
+            cacheId = "resinlib-%s" % (lib.getNamespace(), )
             liblist = self._genobj._cache.read(cacheId, dependsOn=None, memory=True)
             return liblist, cacheId
 
@@ -1712,12 +1712,12 @@ class _ResourceHandler(object):
             relpath = (Path.getCommonPrefix(libObj._resourcePath, rsource))[2]
             if relpath[0] == os.sep:  # normalize "/..."
                 relpath = relpath[1:]
-            ruri = (self._genobj._computeResourceUri(lib, relpath, rType='resource', 
+            ruri = (self._genobj._computeResourceUri(lib, relpath, rType='resource',
                                                         appRoot=self._genobj.approot))
 
             return (rsource, ruri)
 
-            
+
         # - Main --------------------------------------------------------------
 
         result       = []
@@ -1732,33 +1732,39 @@ class _ResourceHandler(object):
             # create wrapper object
             libObj = LibraryPath(lib, self._genobj._console)
             # retrieve list of library resources
-            libList, cacheId = getCache(libObj)
+            libList, cacheId = getCache(libObj, id(filter))
             if libList:
+                #print "-- reusing cached libList(%s)" % cacheId
                 inCache = True
+                result.extend(libList)
+                continue
             else:
+                #print "-- fresh calculating libList(%s)" % cacheId
                 libList = libObj.scanResourcePath()
                 inCache = False
 
-            # go through list of library resources and add suitable
-            for resource in libList:
-                if not inCache:
-                    cacheList.append(resource)
-                if isSkipFile(resource):
-                    continue
-                elif (filter and not filter(resource)):
-                    continue
-                else:
-                    #result.append(resourceValue(resource))
-                    result.append(resource)
+                # go through list of library resources and add suitable
+                for resource in libList:
+                    #if not inCache:
+                    #    cacheList.append(resource)
+                    if isSkipFile(resource):
+                        continue
+                    elif (filter and not filter(resource)):
+                        continue
+                    else:
+                        #result.append(resourceValue(resource))
+                        result.append(resource)
+                        if not inCache:
+                            cacheList.append(resource)
 
-            if not inCache:
-                # cache write
-                self._genobj._cache.write(cacheId, cacheList, memory=True, writeToFile=False)
+                if not inCache:
+                    # cache write
+                    self._genobj._cache.write(cacheId, cacheList, memory=True, writeToFile=False)
 
         return result
 
-                        
-        
+
+
 
     def filterResourcesByClasslist(self, classes):
         # returns a function that takes a resource path and return true if one
