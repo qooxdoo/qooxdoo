@@ -573,7 +573,13 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       elem.className = "marked";
       this._markedElement = elem;
 
-      qx.bom.element.Scroll.intoView(elem);
+      // Use a timeout as pragmatic solution
+      // Replace this later on with a kind of post-processing
+      // to get rid off this timer
+      qx.event.Timer.once(function(e)
+      {
+        qx.bom.element.Scroll.intoView(elem);
+      }, this, 0);
 
       return true;
     },
