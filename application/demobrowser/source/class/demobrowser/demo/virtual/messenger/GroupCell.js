@@ -21,21 +21,41 @@ qx.Class.define("demobrowser.demo.virtual.messenger.GroupCell",
 {
   extend : qx.ui.virtual.cell.AbstractWidget,
 
+  events :
+  {
+    changeOpen : "qx.event.type.Data"
+  },
+  
+  
   members :
   {
     _createWidget : function()
     {
-      return new qx.ui.basic.Atom().set({
+      var widget = new qx.ui.basic.Atom().set({
         icon: "decoration/arrows/down-invert.png",
         textColor: "white",
         font: "bold",
         padding: [0, 3]
       });
+      widget.addListener("click", function(e) {
+        this.fireDataEvent("changeOpen", e.getCurrentTarget());
+      }, this);
+      return widget;
     },
     
     
     updateData : function(widget, data) {
       widget.setLabel(data.getName());
-    }  
+    },
+    
+    
+    updateStates : function(widget, states) 
+    {
+      if (states.closed) {
+        widget.setIcon("decoration/arrows/right-invert.png");
+      } else {
+        widget.setIcon("decoration/arrows/down-invert.png");
+      }
+    }
   }
 });

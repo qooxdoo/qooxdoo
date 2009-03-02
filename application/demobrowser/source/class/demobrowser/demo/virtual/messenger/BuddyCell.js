@@ -43,7 +43,9 @@ qx.Class.define("demobrowser.demo.virtual.messenger.BuddyCell",
       {
         widget.setTextColor("text-selected");
         widget.setDecorator("selected");
-      } else {
+      }
+      else
+      {
         widget.resetTextColor();
         widget.resetDecorator();
       }
