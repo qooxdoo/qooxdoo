@@ -65,7 +65,7 @@ qx.Mixin.define("qx.ui.table.MTableContextMenu",
         this._contextMenu = new qx.ui.menu.Menu();
 
         // Call the context menu handler for this column.
-        bShowContextMenu = contextMenuHandler(col,
+        var bShowContextMenu = contextMenuHandler(col,
                                               e.getRow(),
                                               this,
                                               dm,
