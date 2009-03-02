@@ -19,12 +19,28 @@
 
 /**
  * EXPERIMENTAL!
+ * 
+ * The json data store is responsible for fetching data from a url. The type
+ * of the data has to be json. 
+ * 
+ * The loaded data will be parsed and saved in qooxdoo objects. Every value
+ * of the loaded data will be stored in a qooxdoo property. The model classes
+ * for the data will be created automatically. 
+ * 
+ * For the fetching itself it uses the {@link qx.io.remote.Request} class and 
+ * for parsing the loaded javascript objects into qooxdoo objects, the 
+ * {@link qx.data.marshal.Json} class will be used.
  */
 qx.Class.define("qx.data.store.Json", 
 {
   extend : qx.core.Object,
 
 
+  /**
+   * @param url {String|null} The url where to find the data.
+   * @param delegate {Object} The delegate containing one of the methods 
+   *   specified in {@link qx.data.store.IStoreDelegate}.
+   */
   construct : function(url, delegate)
   {
     this.base(arguments);
@@ -40,18 +56,30 @@ qx.Class.define("qx.data.store.Json",
   
   events : 
   {
-    "loaded": "qx.event.type.Data",
-    "failed": "qx.event.type.Event"
+    /**
+     * Data event fired after the model has been created. The data will be the 
+     * created model.
+     */
+    "loaded": "qx.event.type.Data"
   },
   
   
   properties : 
   {  
+    /**
+     * Property for holding the loaded model instance.
+     */
     model : {
       nullable: true,
       event: "changeModel"
     },
     
+    
+    /**
+     * The state of the request as an url. If you want to check if the request 
+     * did his job, use, the {@link #changeState} event and check for one of the
+     * listed values.
+     */
     state : {
       check : [ 
         "configured", "queued", "sending", "receiving", 
@@ -61,6 +89,10 @@ qx.Class.define("qx.data.store.Json",
       event : "changeState"
     },
     
+    
+    /**
+     * The url where the request should go to.
+     */
     url : {
       check: "String",
       apply: "_applyUrl",
@@ -68,9 +100,10 @@ qx.Class.define("qx.data.store.Json",
     }  
   },
 
+
   members :
   {
-    
+    // apply function
     _applyUrl: function(value, old) {
       if (value != null) {
         this._createRequest(value);
@@ -78,6 +111,13 @@ qx.Class.define("qx.data.store.Json",
     },
     
     
+    /**
+     * Creates and sends a POST request with the given url. Additionally two
+     * listeners will be added for the state and the completed event of the 
+     * request.
+     * 
+     * @param url {String} The url for the request.
+     */
     _createRequest: function(url) {
       // create the request
       this.__request = new qx.io.remote.Request(
@@ -86,7 +126,7 @@ qx.Class.define("qx.data.store.Json",
       this.__request.addListener(
         "completed", this.__requestCompleteHandler, this
       );
-      this.__request.addListener("failed", this.__requestFailedHandler, this);
+      // mapp the state to its own state
       this.__request.addListener("changeState", function(ev) {
         this.setState(ev.getData());
       }, this);
@@ -95,6 +135,13 @@ qx.Class.define("qx.data.store.Json",
     },
     
     
+    /**
+     * Handler for the completion of the requests. It invokes the creation of 
+     * the needed classes and instances for the fetched data using 
+     * {@link qx.data.marshal.Json}.
+     * 
+     * @param ev {qx.io.remote.Response} The event fired by the request.
+     */
     __requestCompleteHandler : function(ev) 
     {
         var data = ev.getContent();
@@ -106,12 +153,11 @@ qx.Class.define("qx.data.store.Json",
         // fire complete event
         this.fireDataEvent("loaded", this.getModel());
     },
+        
     
-    __requestFailedHandler: function(ev) {
-      this.fireEvent("failed");
-    },
-    
-    
+    /**
+     * Reloads the data with the url set in the {@link #url} property.
+     */
     reload: function() {
       var url = this.getUrl();
       if (url != null) {

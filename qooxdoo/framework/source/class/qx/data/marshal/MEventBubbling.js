@@ -20,7 +20,9 @@
 /**
  * EXPERIMENTAL!
  * 
- * 
+ * Mixin used for the bubling events. If you want to use this in your own model 
+ * classes, be sure that every property will call the 
+ * {@link #_applyEventPropagation} function on every change.
  */
 qx.Mixin.define("qx.data.marshal.MEventBubbling", 
 {
@@ -44,20 +46,32 @@ qx.Mixin.define("qx.data.marshal.MEventBubbling",
 
 
   members : {
-    
+    /**
+     * Apply function for every property created with the 
+     * {@link qx.data.marshal.Json} marshaler. It fires and 
+     * {@link #changeBubble} event on every change. It also adds the chaining
+     * listener if possible which is necessary for the bubbling of the events.
+     * 
+     * @param value {var} The new value of the property.
+     * @param old {var} The old value of the property.
+     * @param name {String} The name of the changed property.
+     */
     _applyEventPropagation: function(value, old, name) {
       this.fireDataEvent("changeBubble", {value: value, name: name, old: old});
 
+      // if the child supports chaining
       if ((value instanceof qx.core.Object) 
         && qx.Class.hasMixin(value.constructor, qx.data.marshal.MEventBubbling)
       ) {
+        // create the listener
         var listener = qx.lang.Function.bind(
           this.__changePropertyListener, this, name
         );
+        // add the listener
         var id = value.addListener("changeBubble", listener, this);
         value.setUserData("idBubble", id);        
       }
-
+      // if an old value is given, remove the old listener if possible
       if (old != null && old.getUserData && old.getUserData("idBubble") != null) {
         old.removeListenerById(old.getUserData("idBubble"));
       }
@@ -65,12 +79,22 @@ qx.Mixin.define("qx.data.marshal.MEventBubbling",
     },
 
 
+    /**
+     * Listener responsible for formating the name and firing the change event
+     * for the changed property.
+     * 
+     * @param name {String} The name of the former properties.
+     * @param e {qx.event.type.Data} The date event fired by the property 
+     *   change.
+     */
     __changePropertyListener: function(name, e) {
       var data = e.getData();
       var value = data.value;
       var old = data.old;
 
+      // if the target is an array  
       if (qx.Class.hasInterface(e.getTarget().constructor, qx.data.IListData)) {
+        
         if (data.name.indexOf) {
           var dotIndex = data.name.indexOf(".") != -1 ? data.name.indexOf(".") : data.name.length;
           var bracketIndex = data.name.indexOf("[") != -1 ? data.name.indexOf("[") : data.name.length;
@@ -92,12 +116,11 @@ qx.Mixin.define("qx.data.marshal.MEventBubbling",
         } else {
           var newName =  name + "[" + data.name + "]";
         }
-        
-        
+      
+      // if the target is not an array  
       } else {
         var newName =  name + "." + data.name;        
       }
-
 
       this.fireDataEvent(
         "changeBubble", 
