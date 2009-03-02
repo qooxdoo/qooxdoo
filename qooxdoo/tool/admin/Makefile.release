@@ -51,7 +51,7 @@ RELEASE_BUILD = release/temp/build/qooxdoo-$(FRAMEWORK_VERSION)-build
 RELEASE_SDK = release/temp/sdk/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 
 APPLICATIONS = demobrowser feedreader portal playground
-COMPONENTS = apiviewer testrunner
+COMPONENTS = apiviewer testrunner inspector
 FRAMEWORK_TARGETS = api test
 SDK_COPY = index.html
 
@@ -88,52 +88,12 @@ release-sdk-svn-collect:
 	@echo "  * Synchronizing framework..."
 	@$(CMD_SYNC_OFFLINE) framework/api/* $(RELEASE_SDK)/framework/api
 
-	@echo "  * Switching to Unix line endings..."
-	@$(CMD_FIND) $(RELEASE_SDK) $(FILES_TEXT) $(CMD_ANY2UNIX)
-
-
-release-sdk-collect:
-	@echo
-	@echo "  SYNCHRONISATION OF SDK RELEASE"
-	@echo "----------------------------------------------------------------------------"
-
-	@echo "  * Copying info files..."
-	@$(CMD_DIR) $(RELEASE_SDK)
-	@for FILE in `find . -maxdepth 1 -type f -name "*.txt"`; do \
-	  echo "    - `basename $$FILE`"; \
-	  cp -f $$FILE $(RELEASE_SDK); \
-	done
-
-	@echo "  * Synchronizing applications..."
-	@for APPLICATION in $(APPLICATIONS); do \
-		echo "    - $$APPLICATION"; \
-	  $(CMD_DIR) $(RELEASE_SDK)/application/$$APPLICATION; \
-	  $(CMD_SYNC_OFFLINE) --exclude script --exclude build --exclude publish application/$$APPLICATION/* $(RELEASE_SDK)/application/$$APPLICATION; \
-	done
-
-	@echo "  * Synchronizing components..."
-	@for APPLICATION in $(COMPONENTS); do \
-		echo "    - $$APPLICATION"; \
-	  $(CMD_DIR) $(RELEASE_SDK)/component/$$APPLICATION; \
-	  $(CMD_SYNC_OFFLINE) --exclude script --exclude build --exclude publish component/$$APPLICATION/* $(RELEASE_SDK)/component/$$APPLICATION; \
-	done
-
-	@echo "  * Synchronizing framework..."
-	@$(CMD_DIR) $(RELEASE_SDK)/framework
-	@$(CMD_SYNC_OFFLINE) --exclude *.pyo --exclude *.pyc --exclude .cache --exclude tool/icon/themes --exclude tool/icon/temp framework/* $(RELEASE_SDK)/framework
-	@$(CMD_SYNC_OFFLINE) framework/api/* $(RELEASE_SDK)/framework/api
-
 	@echo "  * Synchronizing tools..."
-	@$(CMD_DIR) $(RELEASE_SDK)/tool
-	@$(CMD_SYNC_OFFLINE) --exclude *.pyo --exclude *.pyc --exclude tool/admin tool/* $(RELEASE_SDK)/tool
-
-	@echo "  * Copying remaining SDK files..."
-	@for ITEM in $(SDK_COPY); do \
-	  cp -rf $$ITEM $(RELEASE_SDK)/$$ITEM; \
-	done
+	@$(CMD_REMOVE) $(RELEASE_SDK)/tool/admin/
 
 	@echo "  * Switching to Unix line endings..."
 	@$(CMD_FIND) $(RELEASE_SDK) $(FILES_TEXT) $(CMD_ANY2UNIX)
+
 
 release-sdk-archive:
 	@echo "  * Generating zip archive..."
@@ -306,6 +266,12 @@ publish-build: build-apps build-framework
 publish-check:
 	@echo "  * Checking kit is complete..."
 	@for TARGET in $(APPLICATIONS); do F="application/$$TARGET/build/script/$$TARGET.js"; [ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); done
+	@for TARGET in $(COMPONENTS); do \
+     if [ "$$TARGET" = "inspector" ]; then \
+       F="component/$$TARGET/build/script/$$TARGET.js"; \
+       [ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
+     fi; \
+  done
 	@for TARGET in $(FRAMEWORK_TARGETS); do F="framework/$$TARGET/script"; [ -d $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); done
 	@echo "    - Looks good"
 
@@ -332,6 +298,9 @@ publish: publish-check
 		fi; \
 		if [ "$$APPLICATION" = "testrunner" ]; then \
 			rsync --checksum --compress --recursive --delete --inplace --links --safe-links --exclude .svn framework/test/* root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
+		fi; \
+		if [ "$$APPLICATION" = "inspector" ]; then \
+			rsync --checksum --compress --recursive --delete --inplace --links --safe-links --exclude .svn component/$$APPLICATION/build/* root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
 		fi; \
 	done
 
