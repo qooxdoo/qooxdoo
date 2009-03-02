@@ -1652,6 +1652,8 @@
           helper[0] = this[i];
           helper.contents().wrapAll(content);
         }
+        
+        return this;
       },
     
       
@@ -1667,16 +1669,29 @@
        *
        * @param content {String|Element} Element or HTML markup used for wrapping
        * @return {Collection} The collection is returned for chaining proposes    
-       */      
+       */
       wrap : function(content) 
       {
         var helper = new qx.bom.Collection(1);
         
+        /*
+        // TODO: The current implementation of forEach() breaks in IE7
+        
         return this.forEach(function(elem)
         {
+          qx.log.Logger.debug("forEach " + elem);
           helper[0] = elem;
           helper.wrapAll(content);
         });
+        */
+        
+        for (var i=0, l=this.length; i<l; i++) 
+        {
+          helper[0] = this[i];
+          helper.wrapAll(content);
+        }
+        
+        return this;
       },      
       
       
