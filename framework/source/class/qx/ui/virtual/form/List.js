@@ -14,6 +14,7 @@ qx.Class.define("qx.ui.virtual.form.List",
     this._initSelectionManager();  
     
     this.initRowHeight();
+    this.initDelegate();
   },
 
   
@@ -125,7 +126,9 @@ qx.Class.define("qx.ui.virtual.form.List",
       this.__cellLayer = new qx.ui.virtual.layer.WidgetCell(widgetCellDelegate);
       this.getPane().addLayer(this.__cellLayer); 
       
-      this.setCellRenderer(qx.ui.virtual.form.ListItemCell.getInstance());
+      if (!this.__defaultCellRenderer) {
+        this.setCellRenderer(qx.ui.virtual.form.ListItemCell.getInstance());
+      }
     },
     
     
@@ -150,7 +153,9 @@ qx.Class.define("qx.ui.virtual.form.List",
       this.__cellLayer = new qx.ui.virtual.layer.HtmlCell(htmlLayerDelegate);
       this.getPane().addLayer(this.__cellLayer);   
 
-      this.setCellRenderer(new qx.ui.virtual.cell.Cell());      
+      if (!this.__defaultCellRenderer) {
+        this.setCellRenderer(new qx.ui.virtual.cell.Cell());
+      }
     },
     
     
@@ -258,7 +263,9 @@ qx.Class.define("qx.ui.virtual.form.List",
     _applyCellRenderer : function(value, old)
     {
       this.__defaultCellRenderer = value;
-      this.__cellLayer.fullUpdate();
+      if (this.__cellLayer) {       
+        this.__cellLayer.fullUpdate();
+      }
     },
     
     
