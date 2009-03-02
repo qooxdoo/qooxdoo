@@ -612,6 +612,8 @@ class Generator:
         resTargetRoot = self._config.absPath(resTargetRoot)
         self.approot  = resTargetRoot  # this is a hack, because resource copying generates uri's
         libs          = self._job.get("library", [])
+        resourceFilter= self._resourceHandler.getResourceFilterByAssets(classList)
+
         self._console.indent()
         # Copy resources
         for lib in libs:
@@ -624,7 +626,7 @@ class Generator:
             libpath = os.path.normpath(libpath)
 
             # get relevant resources for this lib
-            resList  = self._resourceHandler.findAllResources([lib], self._resourceHandler.filterResourcesByClasslist(classList))
+            resList  = self._resourceHandler.findAllResources([lib], resourceFilter)
 
             # for each needed resource
             for res in resList:
@@ -1300,11 +1302,12 @@ class Generator:
 
         # main
 
+        resourceFilter= self._resourceHandler.getResourceFilterByAssets(self._classList)
+
         for lib in libs:
             #libresuri = self._computeResourceUri(lib, "", rType='resource', appRoot=self.approot)
             librespath = os.path.normpath(os.path.join(lib['path'], lib['resource']))
-            resourceList = self._resourceHandler.findAllResources([lib],
-                                self._resourceHandler.filterResourcesByClasslist(self._classList))
+            resourceList = self._resourceHandler.findAllResources([lib], resourceFilter)
             # resourceList = [[file1,uri1],[file2,uri2],...]
             for resource in resourceList:
                 ##assetId = replaceWithNamespace(imguri, libresuri, lib['namespace'])
@@ -1760,7 +1763,7 @@ class _ResourceHandler(object):
                         
         
 
-    def filterResourcesByClasslist(self, classes):
+    def getResourceFilterByAssets(self, classes):
         # returns a function that takes a resource path and return true if one
         # of the <classes> needs it
 
@@ -1779,12 +1782,12 @@ class _ResourceHandler(object):
         return filter
 
 
-    def filterResourcesByFilepath(self, filepatt=None, inversep=lambda x: x):
+    def getResourceFilterByFilepath(self, filepatt=None, inversep=lambda x: x):
         """Returns a filter function that takes a resource path and returns
            True/False, depending on whether the resource should be included.
            <filepatt> pattern to match against a resource path, <inversep> if
            the match result should be reversed (for exclusions); example:
-               filterResourcesByFilepath(re.compile(r'.*/qx/icon/.*'), lambda x: not x)
+               getResourceFilterByFilepath(re.compile(r'.*/qx/icon/.*'), lambda x: not x)
            returns only res paths that do *not* match '/qx/icon/'"""
         if not filepatt:
             #filepatt = re.compile(r'\.(?:png|jpeg|gif)$', re.I)
