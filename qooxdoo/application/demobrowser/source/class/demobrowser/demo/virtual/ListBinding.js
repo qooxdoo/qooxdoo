@@ -41,7 +41,7 @@ qx.Class.define("demobrowser.demo.virtual.ListBinding",
       this.base(arguments);
 
       // create a list
-      var list = new qx.ui.virtual.form.List(true);
+      var list = new qx.ui.virtual.form.List();
       this.getRoot().add(list, {left: 10, top: 10});
       
       // build up the data
@@ -52,16 +52,30 @@ qx.Class.define("demobrowser.demo.virtual.ListBinding",
       model = new qx.data.Array(model);
       
       // define a controller for the binding
-      var controller = new qx.ui.virtual.form.VirtualListController(model, list);
+      var controller = new qx.ui.virtual.form.ListController(model, list);
       
       // create a list for the selection    
-      var selectedList = new qx.ui.virtual.form.List(false);
+      var selectedList = new qx.ui.virtual.form.List().set({
+        useWidgetCells : true
+      });
       this.getRoot().add(selectedList, {left: 500, top: 10});
       
       // create a controller for the selection
-      var selectedController = new qx.ui.virtual.form.VirtualListController(
+      var selectedController = new qx.ui.virtual.form.ListController(
         controller.getSelection(), selectedList
       );
+      
+      
+      var buddyList = new qx.ui.virtual.form.List().set({
+        useWidgetCells : true,
+        cellRenderer : new demobrowser.demo.virtual.messenger.BuddyCell(),
+        rowHeight : 28
+      });
+      
+      var buddyModel = demobrowser.demo.virtual.messenger.BuddyModel.createBuddies(200);
+      var buddyController = new qx.ui.virtual.form.ListController(buddyModel, buddyList);
+      
+      this.getRoot().add(buddyList, {left: 10, top: 320});
     }
   }
 });

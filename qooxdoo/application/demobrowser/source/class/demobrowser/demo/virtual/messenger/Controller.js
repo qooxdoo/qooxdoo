@@ -1,6 +1,6 @@
 qx.Class.define("demobrowser.demo.virtual.messenger.Controller", 
 {
-  extend : qx.ui.virtual.form.VirtualListController,
+  extend : qx.ui.virtual.form.ListController,
   
   construct : function(model, target) 
   {

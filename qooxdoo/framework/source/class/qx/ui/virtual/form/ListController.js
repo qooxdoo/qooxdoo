@@ -1,4 +1,4 @@
-qx.Class.define("qx.ui.virtual.form.VirtualListController", 
+qx.Class.define("qx.ui.virtual.form.ListController", 
 {
   extend : qx.core.Object,
 
