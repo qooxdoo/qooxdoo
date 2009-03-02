@@ -15,6 +15,11 @@
     {
       "path" : "${QOOXDOO_PATH}/component/testrunner/testrunner.json",
       "as"   : "testrunner"
+    },
+
+    {
+      "path" : "${QOOXDOO_PATH}/component/inspector/inspector.json",
+      "as"   : "inspector"
     }
   ],
 
@@ -26,6 +31,7 @@
     "clean",
     "distclean",
     "fix",
+    "inspector",
     "lint",
     "migration",
     "pretty",
@@ -72,6 +78,75 @@
           "manifest" : "Manifest.json"
         }
       ]
+    },
+
+    "inspector":
+    {
+      "desc"   : "create an inspector instance in the current library",
+
+      "extend" : ["inspector::build"],
+
+      "let"    :
+      {
+        "INSPECTOR_ROOT" : "${QOOXDOO_PATH}/component/inspector",
+        "BUILD_PATH"  : "./inspector"
+      }
+
+      /*
+      "library" :
+      [
+        {
+          "manifest" : "${QOOXDOO_PATH}/framework/Manifest.json",
+          "uri"      : "../inspector"
+        },
+
+        {
+          "manifest" : "${INSPECTOR_ROOT}/Manifest.json",
+          "uri"      : "../inspector"
+        }
+      ]
+      */
+    },
+
+
+    "inspector-r":
+    {
+      "extend" : ["inspector::build"],
+      "let"    :
+      {
+        "INSPECTOR_ROOT" : "${QOOXDOO_PATH}/component/inspector",
+        "BUILD_PATH"  : "./inspector"
+      },
+      "=run" : ["inspector-resources", "inspector-script", "inspector-files"]
+    },
+
+    "inspector-resources":
+    {
+        "extend"  : ["inspector::build-resources"]
+    },
+
+    "inspector-script":
+    {
+      "extend"  : ["inspector::build-script"],
+
+      "compile-dist": 
+      {
+        "uris" : 
+        { 
+          "resource" : "../inspector/resource",
+          "script"   : "../inspector/script"
+        }
+      }
+    },
+
+    "inspector-files":
+    {
+      "extend" : ["inspector::build-files"],
+
+      "copy-files" :
+      {
+        "target" : "${ROOT}/source"
+      }
     },
 
 
