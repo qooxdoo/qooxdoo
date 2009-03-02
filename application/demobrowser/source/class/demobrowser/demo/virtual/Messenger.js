@@ -92,7 +92,9 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
         win.setLayout(layout);
 
         var lblUsername = new qx.ui.basic.Label("Name:");
-        var tfUsername = new qx.ui.form.TextField;
+        var tfUsername = new qx.ui.form.TextField();
+        var tfGroup = new qx.ui.form.TextField("New Group");        
+        var lblGroup = new qx.ui.basic.Label("Group:");        
         var btnAdd = new qx.ui.form.Button("Add");
         var btnCancel = new qx.ui.form.Button("Cancel");
 
@@ -108,15 +110,18 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
         {
           var buddy = new demobrowser.demo.virtual.messenger.BuddyModel();
           buddy.setName(tfUsername.getValue());
+          buddy.setGroup(tfGroup.getValue());
           this.messenger.getModel().push(buddy);
           win.close();
         }, this);
 
         win.add(lblUsername, {row : 0, column : 0});
         win.add(tfUsername, {row : 0, column : 1, colSpan: 2});
+        win.add(lblGroup, {row : 1, column : 0});
+        win.add(tfGroup, {row : 1, column : 1, colSpan: 2});
 
-        win.add(btnAdd, {row : 1, column : 1});
-        win.add(btnCancel, {row : 1, column : 2});
+        win.add(btnAdd, {row : 2, column : 1});
+        win.add(btnCancel, {row : 2, column : 2});
 
         layout.setColumnAlign(0, "left", "middle");
         layout.setColumnAlign(1, "right", "middle");

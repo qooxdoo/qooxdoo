@@ -13,6 +13,7 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Controller",
     
     this.__groups = {};
     this.__groupedData = [];
+    
   },
   
   members : 
@@ -65,11 +66,11 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Controller",
       var model = this.getModel();
       
       this.__groupedData = [];
-      var groups = [];
+      var groups = {};
       
       if (model && model.length > 0) 
       {
-        this.__groupedData = model.getArray();
+        this.__groupedData = qx.lang.Array.copy(model.getArray());
         this.__groupedData.sort(function(a, b) 
         {
           var groupA = a.getGroup();
@@ -82,7 +83,6 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Controller",
           return groupA > groupB ? -1 : 1;
         });
         
-        var groups = [];
         var firstItem = this.__groupedData[0];
         var group = new demobrowser.demo.virtual.messenger.GroupSeparator().set({
           name : firstItem.getGroup(),
@@ -105,7 +105,7 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Controller",
             groups[i] = group;
             i++;
           }
-          i ++;
+          i++;
         } while (i<this.__groupedData.length);
       }      
 
@@ -115,9 +115,18 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Controller",
     _applyModel: function(value, old)
     {
       this.base(arguments, value, old);
-      
+            
       this._updateGrouping();
       this._syncRowCount();
+    },
+    
+    
+    _onChangeModel: function(e) 
+    {
+      this.base(arguments, e);
+            
+      this._updateGrouping();
+      this._syncRowCount();      
     },
     
     _syncRowCount: function() {
