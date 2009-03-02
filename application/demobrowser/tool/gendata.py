@@ -57,7 +57,9 @@ def main(dist, scan):
       if os.path.splitext(item)[1] != ".html":
         continue
 
-      if not fileCheck(os.path.join(scan, category, item)):
+      htmlfile = os.path.join(scan, category, item)
+      if not fileCheck(htmlfile):
+        print "  - Skipping HTML file: %s" % (htmlfile,)
         continue
 
       title = item[:item.find(".")]
