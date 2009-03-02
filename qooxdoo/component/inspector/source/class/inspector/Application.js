@@ -131,7 +131,9 @@ qx.Class.define("inspector.Application",
       
       if (window.qxinspector == undefined) 
       {
-        this._urlTextField.setValue(this._iFrame.getWindow().location.pathname);
+        try {
+          this._urlTextField.setValue(this._iFrame.getWindow().location.pathname);
+        } catch (ex) {}
       }
       
       // save the url in a cookie
