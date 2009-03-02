@@ -1,29 +1,34 @@
 {
   "info" : 
   {
-    "name" : "iframetest",
+    "name" : "inspector",
 
-    "summary" : "Custom Application",
-    "description" : "This is a skeleton for a custom application with qooxdoo.",
+    "summary" : "A runtime code inspection module",
+    "description" : "The qooxdoo inspector is a tool designed to help debugging qooxdoo applications.  It consists of four seperate windows, (1) a javascript shell; (2) the object finder which shows a table of all qooxdoo objects; (3) the widget finder which shows a tree structure of the ui; (4) the property editor which shows all properties of the current selected object.",
     
-    "homepage" : "http://some.homepage.url/",
+    "homepage" : "http://qooxdoo.org/",
 
-    "license" : "SomeLicense",
+    "license" : "LGPL/EPL",
     "authors" : 
     [
       {
-        "name" : "First Author (uid)",
-        "email" : "first.author@some.domain"
+        "name" : "Martin Wittemann (martinwittemann)",
+        "email" : "martin.wittemann@1und1.de"
+      },
+      
+      {
+        "name" : "Christian Schmidt (chris_schmidt)",
+        "email" : "schmidt.christian@1und1.de"
       }
     ],
 
     "version" : "trunk",
-    "qooxdoo-versions": ["0.8.1"]
+    "qooxdoo-versions": ["0.8.2"]
   },
   
   "provides" : 
   {
-    "namespace"   : "iframetest",
+    "namespace"   : "inspector",
     "encoding"    : "utf-8",
     "class"       : "source/class",
     "resource"    : "source/resource",
