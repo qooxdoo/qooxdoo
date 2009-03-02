@@ -189,7 +189,20 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
       if (hash != null) 
       {
         this.__freeHashes.push(hash);
-        delete obj.$$hash;
+
+        // Delete the hash code
+        try
+        {
+          delete obj.$$hash  
+        }
+        catch(ex) 
+        {
+          // IE has trouble directly removing the hash
+          // but it's ok with using removeAttribute
+          if (obj.removeAttribute) {
+            obj.removeAttribute("$$hash");
+          }
+        }
       }
     },
 
