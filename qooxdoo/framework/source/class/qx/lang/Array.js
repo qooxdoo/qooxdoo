@@ -587,8 +587,24 @@ qx.Bootstrap.define("qx.lang.Array",
       }
 
       // Clear object hashs      
-      for (var hash in doneObjects) {
-        delete doneObjects[hash][key];
+      for (var hash in doneObjects) 
+      {
+        try 
+        {
+          // TODO: The following delete seems to fail in IE7
+          delete doneObjects[hash][key];
+        } 
+        catch(ex) 
+        {
+          try 
+          {
+            doneObjects[hash][key] = null;
+          }
+          catch(ex)
+          { 
+            throw new Error("Cannot clean-up map entry doneObjects[" + hash + "][" + key + "]");
+          }
+        }
       }
   
       return ret;
