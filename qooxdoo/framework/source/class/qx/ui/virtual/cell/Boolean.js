@@ -34,8 +34,8 @@ qx.Class.define("qx.ui.virtual.cell.Boolean",
   {
     this.base(arguments);
 
-    this.__imageTrue = this.__aliasManager.resolve("decoration/table/boolean-true.png");
-    this.__imageFalse = this.__aliasManager.resolve("decoration/table/boolean-false.png");
+    this.__imageTrue = this._aliasManager.resolve("decoration/table/boolean-true.png");
+    this.__imageFalse = this._aliasManager.resolve("decoration/table/boolean-false.png");
   },
 
 
