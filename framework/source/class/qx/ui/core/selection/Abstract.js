@@ -337,7 +337,11 @@ qx.Class.define("qx.ui.core.selection.Abstract",
           throw new Error("Could not select more than one items in mode: " + mode + "!");
         }
         
-        this.selectItem(items[0]);
+        if (items.length == 1) {
+          this.selectItem(items[0]);
+        } else {
+          this.clearSelection();
+        }
         return;
       }
       else

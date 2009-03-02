@@ -44,8 +44,12 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
     */
 
     // overridden
-    _isSelectable : function(item) {
-      return item.isEnabled() && item.getLayoutParent() === this._getWidget().getChildrenContainer();
+    _isSelectable : function(item) 
+    {
+      return (
+        item.isEnabled() &&
+        item.getLayoutParent() === this._getWidget().getChildrenContainer()
+      );
     },
 
 
