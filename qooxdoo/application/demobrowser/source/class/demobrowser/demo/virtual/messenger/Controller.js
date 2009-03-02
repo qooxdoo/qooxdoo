@@ -6,8 +6,10 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Controller",
   {
     this.base(arguments, model, target);
     
-    this.__groupCell = new demobrowser.demo.virtual.messenger.GroupCell();
     this.__buddyCell = new demobrowser.demo.virtual.messenger.BuddyCell();
+
+    this.__groupCell = new demobrowser.demo.virtual.messenger.GroupCell();
+    this.__groupCell.addListener("changeOpen", this._onChangeOpenGroup, this);
     
     this.__groups = {};
     this.__groupedData = [];
@@ -15,6 +17,12 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Controller",
   
   members : 
   {
+    _onChangeOpenGroup : function(e)
+    {
+      var group = this.__groups[e.getData().getUserData("cell.row")];
+      this.debug("open " + group.getName());
+    },
+    
     getCellRenderer: function(row)
     {
       if (this.__groups[row]) {
