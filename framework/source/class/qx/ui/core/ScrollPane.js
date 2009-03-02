@@ -348,7 +348,7 @@ qx.Class.define("qx.ui.core.ScrollPane",
      */
     getScrollMaxX : function()
     {
-      var paneSize = this.getBounds();
+      var paneSize = this.getInnerSize();
       var scrollSize = this.getScrollSize();
 
       if (paneSize && scrollSize) {
@@ -366,7 +366,7 @@ qx.Class.define("qx.ui.core.ScrollPane",
      */
     getScrollMaxY : function()
     {
-      var paneSize = this.getBounds();
+      var paneSize = this.getInnerSize();
       var scrollSize = this.getScrollSize();
 
       if (paneSize && scrollSize) {

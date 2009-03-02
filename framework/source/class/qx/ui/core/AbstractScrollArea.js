@@ -212,7 +212,7 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
      * @return {Map} The pane boundaries.
      */
     getPaneSize : function() {
-      return this.getChildControl("pane").getBounds();
+      return this.getChildControl("pane").getInnerSize();
     },
 
 
@@ -504,7 +504,7 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
       }
 
       var innerSize = this.getInnerSize();
-      var paneSize = pane.getBounds();
+      var paneSize = pane.getInnerSize();
       var scrollSize = pane.getScrollSize();
 
       // if the widget has not yet been rendered, return and try again in the
