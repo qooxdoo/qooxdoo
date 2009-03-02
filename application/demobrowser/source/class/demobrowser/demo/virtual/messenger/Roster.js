@@ -24,7 +24,7 @@
 
 qx.Class.define("demobrowser.demo.virtual.messenger.Roster",
 {
-  extend : qx.ui.virtual.form.WidgetList,
+  extend : qx.ui.virtual.form.List,
 
   construct : function()
   {
@@ -35,23 +35,22 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Roster",
       scrollbarY: "auto",
       width: 200,
       height: 300,
+      rowHeight: 28,
+      useWidgetCells: true,
       decorator: null
     });
-    
-    this._manager.setMode("single");
+    this.getSelectionManager().setMode("single");
 
-    this.groupPositions = {}
-    this.groupPositions[0] = true;
-    this.groupPositions[10] = true;
-    
-    this.getPane().getRowConfig().setDefaultItemSize(28);
-    
     // Create controller
     var controller = new demobrowser.demo.virtual.messenger.Controller(null, this);
     this.bind("model", controller, "model");
     
-    // render groups
-    this.rowLayer = new qx.ui.virtual.layer.Row("white", "rgb(238, 243, 255)");
+    // configure row colors
+    this.rowLayer = this.getChildControl("row-layer");
+    this.rowLayer.set({
+      colorEven: "white",
+      colorOdd: "rgb(238, 243, 255)"
+    });
     this.getPane().addLayer(this.rowLayer);
   },
 

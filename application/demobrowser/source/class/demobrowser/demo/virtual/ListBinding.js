@@ -41,7 +41,7 @@ qx.Class.define("demobrowser.demo.virtual.ListBinding",
       this.base(arguments);
 
       // create a list
-      var list = new qx.ui.virtual.form.HtmlList();
+      var list = new qx.ui.virtual.form.List(true);
       this.getRoot().add(list, {left: 10, top: 10});
       
       // build up the data
@@ -55,7 +55,7 @@ qx.Class.define("demobrowser.demo.virtual.ListBinding",
       var controller = new qx.ui.virtual.form.VirtualListController(model, list);
       
       // create a list for the selection    
-      var selectedList = new qx.ui.virtual.form.WidgetList();
+      var selectedList = new qx.ui.virtual.form.List(false);
       this.getRoot().add(selectedList, {left: 500, top: 10});
       
       // create a controller for the selection
