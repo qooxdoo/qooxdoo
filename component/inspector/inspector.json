@@ -1,0 +1,146 @@
+{
+  "name"    : "Inspector (export) config",
+
+  "let" :
+  {
+    "APPLICATION"  : "inspector",
+    "QOOXDOO_PATH" : "../..",
+    "CACHE"        : "../../cache",
+    "THEME"        : "inspector.theme.Theme",
+    "ICONTHEME"    : ["Tango"],    
+    "INSPECTOR_ROOT"  : ".",
+    "BUILD_PATH"   : "${ROOT}/build",    
+    "QXVERSION"    : "0.8.2-pre",
+    "OPTIMIZE"     : ["basecalls", "variables", "privates", "strings"]
+  },
+
+  "jobs" :
+  {
+    "libraries" :
+    {
+      "desc" : "includer job, to hold the essential libraries for the compile jobs",
+
+      "library" :
+      [
+        {
+          "manifest" : "${QOOXDOO_PATH}/framework/Manifest.json"
+        },
+
+        {
+          "manifest" : "${INSPECTOR_ROOT}/Manifest.json"
+        }
+      ]
+    },
+
+    "common" :
+    {
+      "desc"    : "common settings for base.json jobs",
+
+      "extend"  : ["libraries"],
+
+      "include" :
+      [
+        "${THEME}",
+        "inspector.Application"
+      ],
+
+      "cache" :
+      {
+        "compile"   :  "${CACHE}",
+        "downloads" :  "${CACHE}/downloads"
+      },
+
+      "settings" :
+      {
+        "qx.version"     : "${QXVERSION}",
+        "qx.theme"       : "${THEME}",
+        "qx.application" : "inspector.Application"
+      },
+      
+      "asset-let" :
+      {
+        "qx.icontheme" : "${ICONTHEME}"
+      }
+    },
+
+    
+    // -- build jobs ---------------------------------------------------
+
+    "build-script" :
+    {
+      "desc"    : "create build script of current application",
+
+      "extend" : ["common"],
+
+      "variants" :
+      {
+        "qx.debug" : ["off"]
+      },
+
+      "compile-dist" :
+      {
+        "paths"  :
+        {
+          "file" : "${BUILD_PATH}/script/inspector.js"
+        },
+        "uris"   :
+        {
+          "script"   : "../inspector/script"
+          ,"resource" : "../inspector/resource"
+        },
+        "code"   :
+        {
+          "format"   : true,
+          "locales"  : "${LOCALES}",
+          "optimize" : "${OPTIMIZE}"
+        }
+      }
+    },
+
+
+    "build-files" :
+    {
+      "desc"    : "copy files of current application to build dir",
+
+      "extend" : ["common"],
+
+      "copy-files" :
+      {
+        "files" :
+        [
+          "inspector1.html"
+        ],
+
+        "target" : "${BUILD_PATH}",
+        "source" : "${INSPECTOR_ROOT}/source"
+      }
+    },
+
+
+    "build-resources":
+    {
+      "desc"    : "copy necessary resources for current application to build dir",
+
+      "extend" : ["common"],
+
+      "copy-resources" :
+      {
+        "target"          : "${BUILD_PATH}",
+        "resource-filter" : true
+      }
+    },
+
+
+    "build" :
+    {
+      "desc"    : "create build version of current application",
+
+      "run" :
+      [
+        "build-resources",
+        "build-script",
+        "build-files"
+      ]
+    }
+  }
+}

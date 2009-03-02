@@ -1,10 +1,22 @@
 {
-  "name"    : "Inspector config.json",
+  "name"    : "Inspector (application) config",
 
   "include" :
   [
     {
-      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json"
+      "path" : "inspector.json"
+    },
+    {
+      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json",
+      "block"   : 
+      [ 
+        "libraries",
+        "common",
+        "build",
+        "build-script",
+        "build-resources",
+        "build-files"
+      ]
     }
   ],
 

@@ -19,8 +19,6 @@
 /* ************************************************************************
 
 #asset(inspector/*)
-#resource(inspector.css:css)
-#embed(inspector.css/*)
 #asset(qx/icon/Tango/16/actions/view-refresh.png)
 
 ************************************************************************ */
