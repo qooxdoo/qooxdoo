@@ -2507,7 +2507,20 @@ qx.Theme.define("qx.theme.modern.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "row-layer" : "widget",
+    "virtual-list" : "list",
+    "virtual-list/row-layer" : "row-layer",
+
+    "row-layer" : 
+    {
+      style : function(states)
+      {
+        return {
+          colorEven : "white",
+          colorOdd : "#EEE"
+        }
+      }
+    },
+    
     "column-layer" : "widget",
 
     "cell" :

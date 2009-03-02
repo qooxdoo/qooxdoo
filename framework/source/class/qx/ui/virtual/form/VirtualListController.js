@@ -22,7 +22,7 @@ qx.Class.define("qx.ui.virtual.form.VirtualListController",
   {
     target : 
     {
-      check : "qx.ui.virtual.form.AbstractList",
+      //check : "qx.ui.virtual.form.AbstractList",
       event: "changeTarget",
       nullable: true,
       init: null,
