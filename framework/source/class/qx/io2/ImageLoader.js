@@ -93,8 +93,13 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
      * @param source {String} Image source to query
      * @return {String ? null} The format of the image or <code>null</code>
      */
-    getFormat : function(source) {
-      return source != null ? (this.__data[source].format || null) : null;
+    getFormat : function(source)
+    {
+      if (source != null && this.__data[source]) {
+        return this.__data[source] || null;
+      } else {
+        return null;
+      }
     },
     
         
