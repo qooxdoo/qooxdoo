@@ -475,26 +475,38 @@ qx.Class.define("qx.ui.splitpane.Pane",
      * Updates the pane's cursor based on the mouse position
      *
      */
-    __updateCursor : function()
-    {
-      var splitter = this.getChildControl("splitter");
-      var root = this.getApplicationRoot();
-
-      // Whether the cursor is near enough to the splitter
-      if (this.__activeDragSession || this.__isNear())
-      {
-        var cursor = this.__isHorizontal ? "col-resize" : "row-resize";
-        this.setCursor(cursor);
-        root.setGlobalCursor(cursor);
-        splitter.addState("active");
-      }
-      else if (splitter.hasState("active"))
-      {
-        this.resetCursor();
-        root.resetGlobalCursor();
-        splitter.removeState("active");
-      }
-    },
+     // TODO: Rework global cursor in Opera and set it here:
+     __updateCursor : qx.core.Variant.select("qx.client", {
+       "opera" : function()
+       {
+         var splitter = this.getChildControl("splitter");
+         if (this.__activeDragSession || this.__isNear()) {
+           splitter.addState("active");
+         } else if (splitter.hasState("active")) {
+           splitter.removeState("active");
+         }
+       },
+       "default" : function()
+       {
+         var splitter = this.getChildControl("splitter");
+         var root = this.getApplicationRoot();
+     
+         // Whether the cursor is near enough to the splitter
+         if (this.__activeDragSession || this.__isNear())
+         {
+           var cursor = this.__isHorizontal ? "col-resize" : "row-resize";
+           this.setCursor(cursor);
+           root.setGlobalCursor(cursor);
+           splitter.addState("active");
+         }
+         else if (splitter.hasState("active"))
+         {
+           this.resetCursor();
+           root.resetGlobalCursor();
+           splitter.removeState("active");
+         }
+       }
+     }),
 
 
     /**
