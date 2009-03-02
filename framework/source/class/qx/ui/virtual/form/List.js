@@ -8,7 +8,7 @@ qx.Class.define("qx.ui.virtual.form.List",
     this.base(arguments, 0, 1, 20, 100);
     this._useHtmlCells = useHtmlCells;
 
-    this.addListenerOnce("appear", this._onAppear, this);
+    qx.ui.core.queue.Widget.add(this);
     
     this.getPane().addListener("resize", this._onResize, this); 
     this._initSelectionManager();  
@@ -317,27 +317,19 @@ qx.Class.define("qx.ui.virtual.form.List",
     },      
     
 
-    _onAppear : function(e)
+    syncWidget : function()
     {
-      this.__useWidgetCells = this.getUseWidgetCells();
-      
-      /*
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (this.__useWidgetCells) {
-          this.assertInterface(value, qx.ui.virtual.cell.IWidgetCell)
-        } else {
-          this.assertInterface(value, qx.ui.virtual.cell.ICell)
-        }
+      if (this.__useWidgetCells !== undefined) {
+        return;
       }
-      */
+      
+      this.__useWidgetCells = this.getUseWidgetCells();
       
       if (this.__useWidgetCells) {
         this._initWidgetLayer();
       } else {
         this._initHtmlLayer();
       }
-      this.fullUpdate();
     },
 
     
