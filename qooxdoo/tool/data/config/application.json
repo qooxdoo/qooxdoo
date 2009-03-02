@@ -133,7 +133,18 @@
 
     "inspector-resources":
     {
-        "extend"  : ["inspector::build-resources"]
+      "extend"  : ["inspector::build-resources"],
+
+      "copy-files" : // piggy-packing another files copy job onto this one
+      {
+        "files"  :
+        [
+          "index-redirect.html"
+        ],
+
+        "target" : "${BUILD_PATH}",
+        "source" : "${INSPECTOR_ROOT}/source"
+      }
     },
 
     "inspector-script":
