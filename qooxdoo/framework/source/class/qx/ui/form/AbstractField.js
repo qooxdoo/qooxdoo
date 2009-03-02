@@ -194,7 +194,8 @@ qx.Class.define("qx.ui.form.AbstractField",
         "display" : "block",
         "background" : "transparent",
         "outline": "none",
-        "appearance": "none"
+        "appearance": "none",
+        "autoComplete": "off"
       });
 
       // Block resize handle in Safari
