@@ -167,6 +167,11 @@
 
       "copy-files" :
       {
+        "=files" :
+        [
+          "inspector.html"
+        ],
+
         "target" : "${ROOT}/source"
       }
     },

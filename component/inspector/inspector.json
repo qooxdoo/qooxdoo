@@ -108,7 +108,7 @@
       {
         "files" :
         [
-          "inspector.html"
+          "index.html"
         ],
 
         "target" : "${BUILD_PATH}",
