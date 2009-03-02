@@ -30,7 +30,7 @@
 
 qx.Class.define("portal.Application",
 {
-  extend : qx.application.Simple,
+  extend : qx.application.Native,
 
   members :
   {
