@@ -58,12 +58,10 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
       win.moveTo(250, 20);
       win.open();
       
-      
       this.messenger = new demobrowser.demo.virtual.messenger.Roster();
-      this.messenger.setModel(this.__createUsers(200));
+      this.messenger.setModel(demobrowser.demo.virtual.messenger.BuddyModel.createBuddies(200));
       win.add(this.messenger);
       
-
       var btnAdd = new qx.ui.form.Button("Add a contact...");
       var btnRemove = new qx.ui.form.Button("Remove last contact");
 
@@ -74,109 +72,6 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
       doc.add(btnRemove, {left : 20, top : 40});
     },
 
-    /**
-     * This method contains the initial application code and gets called 
-     * during startup of the application
-     */
-    __createUsers : function(amount)
-    {
-      var users = [
-        {
-          name : "Alexander Back",
-          img : this.getRandomBuddy(),
-          statusIcon : this.getRandomStatus()
-        },
-        {
-          name : "Fabian Jakobs",
-          img : "demobrowser/demo/icons/imicons/fabian_jakobs.png",
-          statusIcon : this.getRandomStatus()
-        },
-        {
-          name : "Andreas Ecker",
-          img : this.getRandomBuddy(),
-          statusIcon : this.getRandomStatus()
-        },
-        {
-          name : "Martin Wittemann",
-          img : "demobrowser/demo/icons/imicons/martin_wittemann.png",
-          statusIcon : this.getRandomStatus()
-        },
-        {
-          name : "Thomas Herchenröder",
-          img : this.getRandomBuddy(),
-          statusIcon : this.getRandomStatus()
-        },
-        {
-          name : "Daniel Wagner",
-          img : this.getRandomBuddy(),
-          statusIcon : this.getRandomStatus()
-        },
-        {
-          name : "Jonathan Weiß",
-          img : "demobrowser/demo/icons/imicons/jonathan_weiss.png",
-          statusIcon : this.getRandomStatus()
-        },
-        {
-          name : "Yücel Beser",
-          img : this.getRandomBuddy(),
-          statusIcon : this.getRandomStatus()
-        },
-        {
-          name : "Christian Schmidt",
-          img : "demobrowser/demo/icons/imicons/christian_schmidt.png",
-          statusIcon : this.getRandomStatus()
-        }
-      ];
-
-      for (var i=0; i<users.length; i++) {
-        users[i].group = "qooxdoo";
-      };
-      
-      // Fill with dummy users:
-      for (var i=users.length; i<amount; i++) {
-        users[i] = {
-          name : "User #" + i,
-          img : this.getRandomBuddy(),
-          statusIcon : this.getRandomStatus(),
-          group : "Friends"
-        };
-      }
-      
-      var model = [];
-      for (var i=0; i<users.length; i++)
-      {
-        var buddyModel = new demobrowser.demo.virtual.messenger.BuddyModel().set({
-          name : users[i].name,
-          avatar : users[i].img,
-          status : users[i].statusIcon,
-          group : users[i].group
-        });
-
-        model.push(buddyModel);
-      }
-      
-      return new qx.data.Array(model);      
-    },    
-    
-      
-    getRandomBuddy : function()
-    {
-      var icons = [
-        "angel", "embarrassed", "kiss", "laugh", "plain", "raspberry",
-        "sad", "smile-big", "smile", "surprise"
-      ];
-      return "icon/22/emotes/face-" + icons[Math.floor(Math.random() * icons.length)] + ".png";
-    },
-  
-    
-    getRandomStatus : function()
-    {
-      var icons = [
-        "away", "busy", "online", "offline"
-      ];
-      return icons[Math.floor(Math.random() * icons.length)];
-    },
-    
     
     showAddContactWindow: function()
     {

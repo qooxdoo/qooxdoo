@@ -17,6 +17,9 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+#asset(qx/icon/${qx.icontheme}/22/emotes/*)
+************************************************************************ */
 
 qx.Class.define("demobrowser.demo.virtual.messenger.BuddyModel",
 {
@@ -58,6 +61,104 @@ qx.Class.define("demobrowser.demo.virtual.messenger.BuddyModel",
       event : "changeGroup",
       check : "String"
     }
+  },
+  
+  
+  statics :
+  {
+    createBuddies : function(amount)
+    {
+      var users = [
+        {
+          name : "Alexander Back",
+          img : this.getRandomBuddy(),
+          statusIcon : this.getRandomStatus()
+        },
+        {
+          name : "Fabian Jakobs",
+          img : "demobrowser/demo/icons/imicons/fabian_jakobs.png",
+          statusIcon : this.getRandomStatus()
+        },
+        {
+          name : "Andreas Ecker",
+          img : this.getRandomBuddy(),
+          statusIcon : this.getRandomStatus()
+        },
+        {
+          name : "Martin Wittemann",
+          img : "demobrowser/demo/icons/imicons/martin_wittemann.png",
+          statusIcon : this.getRandomStatus()
+        },
+        {
+          name : "Thomas Herchenröder",
+          img : this.getRandomBuddy(),
+          statusIcon : this.getRandomStatus()
+        },
+        {
+          name : "Daniel Wagner",
+          img : this.getRandomBuddy(),
+          statusIcon : this.getRandomStatus()
+        },
+        {
+          name : "Jonathan Weiß",
+          img : "demobrowser/demo/icons/imicons/jonathan_weiss.png",
+          statusIcon : this.getRandomStatus()
+        },
+        {
+          name : "Christian Schmidt",
+          img : "demobrowser/demo/icons/imicons/christian_schmidt.png",
+          statusIcon : this.getRandomStatus()
+        }
+      ];
+
+      for (var i=0; i<users.length; i++) {
+        users[i].group = "qooxdoo";
+      };
+      
+      // Fill with dummy users:
+      for (var i=users.length; i<amount; i++) {
+        users[i] = {
+          name : "User #" + i,
+          img : this.getRandomBuddy(),
+          statusIcon : this.getRandomStatus(),
+          group : "Friends"
+        };
+      }
+      
+      var model = [];
+      for (var i=0; i<users.length; i++)
+      {
+        var buddyModel = new demobrowser.demo.virtual.messenger.BuddyModel().set({
+          name : users[i].name,
+          avatar : users[i].img,
+          status : users[i].statusIcon,
+          group : users[i].group
+        });
+
+        model.push(buddyModel);
+      }
+      
+      return new qx.data.Array(model);      
+    },    
+    
+      
+    getRandomBuddy : function()
+    {
+      var icons = [
+        "angel", "embarrassed", "kiss", "laugh", "plain", "raspberry",
+        "sad", "smile-big", "smile", "surprise"
+      ];
+      return "icon/22/emotes/face-" + icons[Math.floor(Math.random() * icons.length)] + ".png";
+    },
+  
+    
+    getRandomStatus : function()
+    {
+      var icons = [
+        "away", "busy", "online", "offline"
+      ];
+      return icons[Math.floor(Math.random() * icons.length)];
+    }    
   }
   
 });
