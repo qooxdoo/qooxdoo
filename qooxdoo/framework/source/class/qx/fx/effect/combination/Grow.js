@@ -143,8 +143,8 @@ qx.Class.define("qx.fx.effect.combination.Grow",
       var oldStyle = {
         top    : qx.bom.element.Location.getTop(element),
         left   : qx.bom.element.Location.getLeft(element),
-        width  : qx.bom.element.Dimension.getWidth(element),
-        height : qx.bom.element.Dimension.getHeight(element),
+        width  : qx.bom.element.Dimension.getContentWidth(element),
+        height : qx.bom.element.Dimension.getContentHeight(element),
         overflow : "visible"
       };
 

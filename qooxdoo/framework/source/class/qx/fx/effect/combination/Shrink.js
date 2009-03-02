@@ -171,8 +171,8 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
       this.__oldStyle = {
         top      : qx.bom.element.Location.getTop(element, "scroll"),
         left     : qx.bom.element.Location.getLeft(element, "scroll"),
-        width    : qx.bom.element.Dimension.getWidth(element),
-        height   : qx.bom.element.Dimension.getHeight(element),
+        width    : qx.bom.element.Dimension.getContentWidth(element),
+        height   : qx.bom.element.Dimension.getContentHeight(element),
         opacity  : qx.bom.element.Style.get(element, "opacity")
       };
 
