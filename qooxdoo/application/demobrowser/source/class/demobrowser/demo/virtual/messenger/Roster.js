@@ -35,7 +35,6 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Roster",
       useWidgetCells: true,
       decorator: null
     });
-    this.getSelectionManager().setMode("single");
 
     // Create controller
     var controller = new demobrowser.demo.virtual.messenger.Controller(null, this);

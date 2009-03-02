@@ -79,10 +79,10 @@ qx.Class.define("qx.ui.virtual.form.ListController",
       if (value != null)
       {
         this.__changeLengthListenerId = value.addListener(
-          "changeLength", this.__onChangeLengthModel, this
+          "changeLength", this._onChangeLengthModel, this
         );
         this.__changeListenerId = value.addListener(
-          "change", this.__onChangeModel, this
+          "change", this._onChangeModel, this
         );
       }
 
@@ -118,12 +118,12 @@ qx.Class.define("qx.ui.virtual.form.ListController",
     },
 
     
-    __onChangeLengthModel: function(e) {
+    _onChangeLengthModel: function(e) {
       this._syncRowCount();
     },
 
 
-    __onChangeModel: function(e) 
+    _onChangeModel: function(e) 
     {
       var target = this.getTarget();
       if (target != null) {
