@@ -70,7 +70,7 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Controller",
       
       if (model && model.length > 0) 
       {
-        this.__groupedData = qx.lang.Array.copy(model.getArray());
+        this.__groupedData = qx.lang.Array.clone(model.getArray());
         this.__groupedData.sort(function(a, b) 
         {
           var groupA = a.getGroup();

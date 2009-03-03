@@ -425,7 +425,7 @@ qx.Class.define("qx.legacy.ui.core.Widget",
       // the queue and loop while the queue has any entries.
       while(Widget._globalStateQueue.length > 0)
       {
-        var queue = qx.lang.Array.copy(Widget._globalStateQueue);
+        var queue = qx.lang.Array.clone(Widget._globalStateQueue);
         Widget._globalStateQueue = [];
 
         for (var i=0, l=queue.length; i<l; i++)

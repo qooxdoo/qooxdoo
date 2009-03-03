@@ -270,7 +270,7 @@ qx.Mixin.define("qx.legacy.ui.treevirtual.MDragAndDropSupport",
       {
         // set default mimetype for accepting drag data from other widgets (or from itself)
         var defaultMimeType = this.getDragDataMimeType();
-        var dropDataTypes = qx.lang.Array.copy(this.getDropDataTypes()||[]);
+        var dropDataTypes = qx.lang.Array.clone(this.getDropDataTypes()||[]);
         if ( dropDataTypes.indexOf(defaultMimeType) < 0 )
         {
           dropDataTypes.push(defaultMimeType);

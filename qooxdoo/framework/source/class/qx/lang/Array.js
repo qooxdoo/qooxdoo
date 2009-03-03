@@ -173,7 +173,7 @@ qx.Bootstrap.define("qx.lang.Array",
     fromShortHand : function(input)
     {
       var len = input.length;
-      var result = qx.lang.Array.copy(input);
+      var result = qx.lang.Array.clone(input);
 
       // Copy Values (according to the length)
       switch(len)

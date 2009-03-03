@@ -90,7 +90,7 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
       {
         listenersCopy[hash] = {};
         for (var key in listeners[hash]) {
-          listenersCopy[hash][key] = qx.lang.Array.copy(listeners[hash][key]);
+          listenersCopy[hash][key] = qx.lang.Array.clone(listeners[hash][key]);
         }
       }
 
