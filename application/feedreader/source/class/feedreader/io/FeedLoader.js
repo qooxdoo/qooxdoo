@@ -46,7 +46,7 @@ qx.Class.define("feedreader.io.FeedLoader",
     {
       // static feeds
       var staticFeeds = feedFolder.getFeeds().getItem(0).getFeeds();
-      for (i = 0; i < staticFeeds.length; i++) {
+      for (var i = 0; i < staticFeeds.length; i++) {
         this.load(staticFeeds.getItem(i));
       }
       // user feeds
@@ -66,7 +66,7 @@ qx.Class.define("feedreader.io.FeedLoader",
     {
       feed.setState("loading");
 
-      var proxy, entry, req;
+      var proxy, req;
 
       // Redirect request through proxy (required for cross-domain loading)
       // The proxy also translates the data from XML to JSON
