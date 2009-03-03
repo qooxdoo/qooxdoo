@@ -66,7 +66,7 @@ qx.Class.define("feedreader.view.List",
 
     // Create the loading image for the list
     this._listLoadImage = new qx.ui.container.Composite(new qx.ui.layout.HBox(0, "center"));
-    loadImage = new qx.ui.basic.Image("feedreader/images/loading66.gif");
+    var loadImage = new qx.ui.basic.Image("feedreader/images/loading66.gif");
     loadImage.setAlignY("middle");
     this._listLoadImage.add(loadImage);
     this._stack.add(this._listLoadImage);
