@@ -19,8 +19,8 @@
 ************************************************************************ */
 
 /**
- * A more feature rich Array class which adds a lot of often used
- * convenience methods to the array like 'remove' or 'contains'.
+ * An extended array class which adds a lot of often used
+ * convenience methods to the regular array like 'remove' or 'contains'.
  */
 qx.Class.define("qx.core.ComfortArray",
 {
@@ -106,7 +106,7 @@ qx.Class.define("qx.core.ComfortArray",
 
 
     /**
-     * Remmove all elements
+     * Remove all elements
      *
      * @return {Array} empty array
      */
@@ -126,8 +126,8 @@ qx.Class.define("qx.core.ComfortArray",
      */
     append : function(arr)
     {
-      // this check is important because Opera throws an uncatchable error if apply is called without
-      // an arr as second argument.
+      // this check is important because Opera throws an uncatchable error if 
+      // apply is called without an arr as second argument.
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         qx.core.Assert.assertArray(arr, "The parameter must be an array.");
       }
