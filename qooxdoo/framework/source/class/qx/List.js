@@ -33,7 +33,7 @@
  * This class may be used to declare classes for array-like data structures.
  * Useful to create queues, string builders, etc.
  *
- * @deprecated Please use qx.Class.define instead and extend the class qx.core.BaseArray.
+ * @deprecated Use qx.Class.define() instead and derive from qx.type.BaseArray
  */
 qx.Bootstrap.define("qx.List",
 {
@@ -70,6 +70,10 @@ qx.Bootstrap.define("qx.List",
      */
     define : function(name, config)
     {
+      qx.log.Logger.deprecatedClassWarning(
+        this, "Use qx.Class.define() instead and derive from qx.type.BaseArray"
+      );
+
       if (!config) {
         var config = {};
       }
