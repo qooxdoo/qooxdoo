@@ -23,7 +23,7 @@
  */
 qx.Class.define("qx.core.AssertionError",
 {
-  extend : qx.core.BaseError,
+  extend : qx.type.BaseError,
 
 
 
@@ -40,7 +40,7 @@ qx.Class.define("qx.core.AssertionError",
    */
   construct : function(comment, failMessage)
   {
-    qx.core.BaseError.call(this, comment, failMessage);
+    qx.type.BaseError.call(this, comment, failMessage);
     this.__trace = qx.dev.StackTrace.getStackTrace();
   },
 

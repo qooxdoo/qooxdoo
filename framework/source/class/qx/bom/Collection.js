@@ -33,7 +33,7 @@
 
 /* ************************************************************************
 
-#require(qx.core.BaseArray)
+#require(qx.type.BaseArray)
 
 #require(qx.bom.Document)
 #require(qx.bom.Element)
@@ -185,7 +185,7 @@
    */
   qx.Class.define("qx.bom.Collection",
   {
-    extend : qx.core.BaseArray,
+    extend : qx.type.BaseArray,
     
     
     /*
@@ -876,7 +876,7 @@
         var res;
         
         if (qx.lang.Function.isFunction(selector)) {
-          res = qx.core.BaseArray.prototype.filter.call(this, selector, context);
+          res = qx.type.BaseArray.prototype.filter.call(this, selector, context);
         } else {
           res = qx.bom.Selector.matches(selector, this);
         }

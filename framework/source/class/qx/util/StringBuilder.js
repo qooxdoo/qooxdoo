@@ -34,7 +34,7 @@
  */
 qx.Class.define("qx.util.StringBuilder",
 {
-  extend : qx.core.BaseArray,
+  extend : qx.type.BaseArray,
   
   
   
