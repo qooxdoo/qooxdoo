@@ -96,6 +96,16 @@ qx.Class.define("qx.ui.root.Application",
     {
       var doc = this.__doc;
 
+      if (qx.core.Variant.isSet("qx.client", "webkit"))
+      {
+        // In the "DOMContentLoaded" event of Safari and WebKit there seems to
+        // be no body element in the DOM if the HTML file contained no body
+        // element
+        if (!doc.body) {
+          alert("Body tag missing in 'index.html'!");
+        }
+      }
+      
       // Apply application layout
       var hstyle = doc.documentElement.style;
       var bstyle = doc.body.style;
