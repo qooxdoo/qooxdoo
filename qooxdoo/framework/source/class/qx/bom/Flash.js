@@ -119,7 +119,7 @@ qx.Class.define("qx.bom.Flash",
       };
 
       // Work on param copy
-      var params = params ? qx.lang.Object.copy(params) : {};
+      var params = params ? qx.lang.Object.clone(params) : {};
 
       // Copy over variables (into params)
       if (variables)

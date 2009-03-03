@@ -957,7 +957,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
       var props = this.__layoutProperties;
       if (props) {
-        clone.__layoutProperties = qx.lang.Object.copy(props);
+        clone.__layoutProperties = qx.lang.Object.clone(props);
       }
 
       return clone;
@@ -971,7 +971,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
       var props = this.__layoutProperties;
       if (props) {
-        result.layoutProperties = qx.lang.Object.copy(props);
+        result.layoutProperties = qx.lang.Object.clone(props);
       }
 
       return result;

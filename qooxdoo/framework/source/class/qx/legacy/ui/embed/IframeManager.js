@@ -71,7 +71,7 @@ qx.Class.define("qx.legacy.ui.embed.IframeManager",
      */
     handleMouseDown : function(evt)
     {
-      var iframeMap = this._blockData = qx.lang.Object.copy(this.getAll());
+      var iframeMap = this._blockData = qx.lang.Object.clone(this.getAll());
       // console.debug("Blocking frames: " + qx.lang.Object.getLength(iframeMap));
 
       for (var key in iframeMap) {

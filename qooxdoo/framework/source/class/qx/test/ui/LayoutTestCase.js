@@ -80,7 +80,7 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
 
 
       // copy object registry
-      var regCopy = qx.lang.Object.copy(qx.core.ObjectRegistry.getRegistry());
+      var regCopy = qx.lang.Object.clone(qx.core.ObjectRegistry.getRegistry());
 
       // copy event listener structure
       var eventMgr = qx.event.Registration.getManager(window);
