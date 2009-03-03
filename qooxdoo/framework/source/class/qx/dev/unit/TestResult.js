@@ -108,7 +108,7 @@ qx.Class.define("qx.dev.unit.TestResult",
         }
         catch(ex) {
           test.tearDown();
-          var qxEx = new qx.core.BaseError("Error setting up test: " + ex.name, ex.message);                    
+          var qxEx = new qx.type.BaseError("Error setting up test: " + ex.name, ex.message);                    
           this.__createError("failure", qxEx, test);
           return;
         }

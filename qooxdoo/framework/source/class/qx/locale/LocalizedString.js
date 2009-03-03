@@ -23,7 +23,7 @@
  */
 qx.Class.define("qx.locale.LocalizedString",
 {
-  extend : qx.core.BaseString,
+  extend : qx.type.BaseString,
 
   /**
    * @param translation {String} The translated message

@@ -52,7 +52,7 @@
  * Through the ability to extend from this class one could add even 
  * more utility features on top of it.
  */
-qx.Class.define("qx.core.BaseArray",
+qx.Class.define("qx.type.BaseArray",
 {
   extend : Array,
 
@@ -67,8 +67,8 @@ qx.Class.define("qx.core.BaseArray",
    * Creates a new Array with the given length or the listed elements.
    *
    * <pre class="javascript">
-   * var arr1 = new qx.core.BaseArray(arrayLength);
-   * var arr2 = new qx.core.BaseArray(element0, element1, ..., elementN);
+   * var arr1 = new qx.type.BaseArray(arrayLength);
+   * var arr2 = new qx.type.BaseArray(element0, element1, ..., elementN);
    * </pre>
    *
    * * <code>arrayLength</code>: The initial length of the array. You can access 
@@ -429,7 +429,7 @@ qx.Class.define("qx.core.BaseArray",
   }
 });
 
-qx.core.BaseArray = function(Stack)
+qx.type.BaseArray = function(Stack)
 {
   // Redefine Stack's prototype (IE fix for length)
   if((new Stack(0,1)).length === 0)
