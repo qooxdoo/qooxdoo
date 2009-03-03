@@ -26,7 +26,7 @@ qx.Class.define("demobrowser.demo.data.Flickr",
     {
       this.base(arguments);
       
-      // fetch some data from twitter
+      // fetch some data from Flickr
       var store = new demobrowser.demo.data.store.Flickr("qooxdoo");
           
 

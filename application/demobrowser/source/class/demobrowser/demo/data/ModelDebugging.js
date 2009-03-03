@@ -26,7 +26,7 @@ qx.Class.define("demobrowser.demo.data.ModelDebugging",
     {
       this.base(arguments);
       
-      // fetch some data from twitter
+      // fetch some data from Twitter
       var store = new demobrowser.demo.data.store.Twitter("wittemann");
       
       // create an html embed to view the model
