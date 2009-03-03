@@ -127,7 +127,7 @@ qx.Class.define("qx.util.DeferredCallManager",
       // the queue and loop while the queue has any entries.
       while(this.__hasCalls)
       {
-        this.__currentQueue = qx.lang.Object.copy(this.__calls);
+        this.__currentQueue = qx.lang.Object.clone(this.__calls);
         this.__calls = {};
         this.__hasCalls = false;
 

@@ -57,7 +57,7 @@ qx.Class.define("demobrowser.demo.util.PropertyEditor",
       padding: [1, 0, 5, 0]
     }));
 
-    var props = qx.lang.Object.copy(demobrowser.demo.util.PropertyGroup.WIDGET_PROPERTIES);
+    var props = qx.lang.Object.clone(demobrowser.demo.util.PropertyGroup.WIDGET_PROPERTIES);
     props.content = {type:"string", nullable: true};
 
     this._layoutControls = new demobrowser.demo.util.PropertyGroup(props);

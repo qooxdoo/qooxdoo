@@ -54,7 +54,7 @@ qx.Class.define("demobrowser.demo.test.Table_CellEditor",
 
     _addEditor : function(editorFactory, cellInfo)
     {
-      cellInfo = qx.lang.Object.copy(cellInfo);
+      cellInfo = qx.lang.Object.clone(cellInfo);
 
       var box = new qx.ui.container.Composite(new qx.ui.layout.HBox(20));
 
