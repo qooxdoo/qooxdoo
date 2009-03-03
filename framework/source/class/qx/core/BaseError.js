@@ -19,8 +19,7 @@
 ************************************************************************ */
 
 /**
- * The BaseError class is the common superclass for all error classes in
- * qooxdoo.
+ * This class is the common super class for all error classes in qooxdoo.
  *
  * It has a comment and a fail message as members. The toString method returns
  * the comment and the fail message separated by a colon.
