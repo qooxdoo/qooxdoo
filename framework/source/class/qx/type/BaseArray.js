@@ -429,12 +429,18 @@ qx.Class.define("qx.type.BaseArray",
   }
 });
 
-qx.type.BaseArray = function(Stack)
+(function() {
+  
+function createStackConstructor(stack)
 {
-  // Redefine Stack's prototype (IE fix for length)
-  if((new Stack(0,1)).length === 0)
+  // In IE don't inherit from Array but use an empty object as prototype
+  // and copy the methods from Array
+  if (qx.core.Variant.isSet("qx.client", "mshtml"))
   {
-    Stack.prototype = { length : 0 };
+    Stack.prototype = {
+      length : 0,
+      $$isArray : true
+    };
     
     var args = "pop.push.reverse.shift.sort.splice.unshift.join.slice".split(".");
     
@@ -665,23 +671,22 @@ qx.type.BaseArray = function(Stack)
   // Return final class
   return Stack;
 }
-(function()
+
+
+function Stack(length)
 {
-  function Stack(length)
-  {
-    if(arguments.length === 1 && typeof length === "number") {
-      this.length = -1 < length && length === length >> .5 ? length : this.push(length);
-    } else if(arguments.length) {
-      this.push.apply(this, arguments);
-    }      
-  };
-  
-  function PseudoArray(){};
-  
-  PseudoArray.prototype = [];
-  Stack.prototype = new PseudoArray;
-  Stack.prototype.length = 0;
-  Stack.prototype.$$isArray = true;
-  
-  return Stack;
-}());
+  if(arguments.length === 1 && typeof length === "number") {
+    this.length = -1 < length && length === length >> .5 ? length : this.push(length);
+  } else if(arguments.length) {
+    this.push.apply(this, arguments);
+  }      
+};
+
+function PseudoArray(){};
+PseudoArray.prototype = [];
+Stack.prototype = new PseudoArray;
+Stack.prototype.length = 0;
+
+qx.type.BaseArray = createStackConstructor(Stack);
+
+})();
