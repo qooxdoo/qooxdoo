@@ -100,9 +100,9 @@ qx.Class.define("qx.ui.root.Application",
       {
         // In the "DOMContentLoaded" event of Safari and WebKit there seems to
         // be no body element in the DOM if the HTML file contained no body
-        // element
+        // element. Unfortunately, it cannot be added here dynamically.
         if (!doc.body) {
-          alert("Body tag missing in 'index.html'!");
+          alert("The application could not be started due to a missing body tag in the HTML file!");
         }
       }
       
