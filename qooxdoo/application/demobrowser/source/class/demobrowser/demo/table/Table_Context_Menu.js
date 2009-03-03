@@ -70,7 +70,6 @@ qx.Class.define("demobrowser.demo.table.Table_Context_Menu",
 
       // table
       var table = new qx.ui.table.Table(tableModel);
-      TABLE = table;
 
       table.set({
         width: 600,
@@ -121,7 +120,7 @@ qx.Class.define("demobrowser.demo.table.Table_Context_Menu",
     {
       // Add our two choices
       var menuEntry;
-      for (i = 0; i <= 1; i++)
+      for (var i = 0; i <= 1; i++)
       {
         menuEntry = new qx.ui.menu.Button(i ? "On" : "Off");
         menuEntry.setUserData("value", i ? true : false)
