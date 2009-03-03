@@ -273,7 +273,7 @@ qx.Class.define("qx.legacy.ui.layout.impl.DockLayoutImpl",
       // sorting children
       var vRankImpl = qx.legacy.ui.layout.impl.DockLayoutImpl._childRanking[vMode];
 
-      var vOrderedChildren = qx.lang.Array.copy(vChildren).sort(function(c1, c2) {
+      var vOrderedChildren = qx.lang.Array.clone(vChildren).sort(function(c1, c2) {
         return (vRankImpl(c1) + vChildren.indexOf(c1)) - (vRankImpl(c2) + vChildren.indexOf(c2));
       });
 
