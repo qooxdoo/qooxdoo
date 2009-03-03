@@ -98,7 +98,7 @@ qx.Class.define("qx.ui.root.Application",
 
       if (qx.core.Variant.isSet("qx.client", "webkit"))
       {
-        // In the "DOMContentLoaded" event of Safari and WebKit there seems to
+        // In the "DOMContentLoaded" event of WebKit (Safari, Chrome) seems to
         // be no body element in the DOM if the HTML file contained no body
         // element. Unfortunately, it cannot be added here dynamically.
         if (!doc.body) {
