@@ -83,11 +83,11 @@ qx.Class.define("demobrowser.demo.data.store.Gears",
     __load: function(url) {
       var data = this.getPerson();
       // create the class
-      this._marshaler.jsonToClass(data);
+      this._marshaler.jsonToClass(data, true);
       // set the initial data
       this.setModel(this._marshaler.jsonToModel(data));
       
-      this.getModel().addListener("change", this.__modelChanged, this);    
+      this.getModel().addListener("changeBubble", this.__modelChanged, this);    
               
       // fire complete event
       this.fireDataEvent("loaded", this.getModel());      
