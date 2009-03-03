@@ -53,8 +53,6 @@ RELEASE_SDK = release/temp/sdk/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 APPLICATIONS = demobrowser feedreader portal playground
 COMPONENTS = apiviewer testrunner inspector
 FRAMEWORK_TARGETS = api test
-SDK_COPY = index.html
-
 
 
 ################################################################################
@@ -84,6 +82,7 @@ release-sdk-svn-collect:
 
 	@echo "  * Synchronizing components..."
 	@$(CMD_REMOVE) $(RELEASE_SDK)/component/buildtool/
+	@$(CMD_REMOVE) $(RELEASE_SDK)/component/toolbox/
 
 	@echo "  * Synchronizing framework..."
 	@$(CMD_SYNC_OFFLINE) framework/api/* $(RELEASE_SDK)/framework/api
@@ -103,6 +102,9 @@ release-sdk-archive:
 	@rm -rf release/temp
 
 
+################################################################################
+# APIVIEWER TARGETS
+################################################################################
 
 info-apiviewer:
 	@echo
@@ -117,73 +119,21 @@ exec-apiviewer-build:
 	@time ( cd framework && $(CMD_GENERATOR) api ) || exit 1
 
 
-
-
 ################################################################################
-# QUICKSTART TARGETS
+# INSPECTOR TARGETS
 ################################################################################
 
-release-quickstart: quickstart
+info-inspector:
 	@echo
 	@echo "****************************************************************************"
-	@echo "  GENERATING QUICKSTART VERSION OF RELEASE $(FRAMEWORK_VERSION)"
+	@echo "  GENERATING INSPECTOR"
 	@echo "****************************************************************************"
 
-	@echo
-	@echo "  SYNCHRONISATION OF QUICKSTART RELEASE"
-	@echo "----------------------------------------------------------------------------"
 
-	@echo "  * Synchronizing quickstart..."
-	@$(CMD_DIR) release
-	@$(CMD_SYNC_OFFLINE) component/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.zip release/
+inspector: exec-inspector-build
 
-
-QUICKSTART_TEMP = temp-quickstart
-
-info-quickstart:
-	@echo
-	@echo "****************************************************************************"
-	@echo "  GENERATING QUICKSTART"
-	@echo "****************************************************************************"
-
-quickstart: exec-quickstart-build info-quickstart exec-quickstart-collect exec-quickstart-archive
-
-exec-quickstart-build:
-	@cd component/quickstart && $(CMD_GENERATOR) build
-
-exec-quickstart-collect:
-	@$(CMD_DIR) $(QUICKSTART_TEMP)/qooxdoo-$(FRAMEWORK_VERSION)-quickstart
-
-	@echo "  * Copying info files..."
-	@$(CMD_DIR) $(QUICKSTART_TEMP)/qooxdoo-$(FRAMEWORK_VERSION)-quickstart
-	@for FILE in `find ../ -maxdepth 1 -type f -name "*.txt"`; do \
-	  echo "    - `basename $$FILE`"; \
-	  cp -f $$FILE $(QUICKSTART_TEMP)/qooxdoo-$(FRAMEWORK_VERSION)-quickstart; \
-	done
-
-	@echo "  * Syncing files..."
-	@$(CMD_SYNC_OFFLINE) component/quickstart/build/* $(QUICKSTART_TEMP)/qooxdoo-$(FRAMEWORK_VERSION)-quickstart/quickstart
-
-exec-quickstart-archive:
-	@echo "  * Cleaning up target folders..."
-	@$(CMD_FIND) $(QUICKSTART_TEMP) $(FILES_TEMP) -exec $(CMD_REMOVE) {} \;
-
-	@echo "  * Switching to Unix line endings..."
-	@$(CMD_FIND) $(QUICKSTART_TEMP) $(FILES_TEXT) $(CMD_ANY2UNIX)
-
-	@echo "  * Fixing executables..."
-	@$(CMD_FIND) $(QUICKSTART_TEMP) $(FILES_EXEC) -exec $(CMD_MKEXEC) {} \;
-
-	@echo "  * Building quickstart archive..."
-	@cd $(QUICKSTART_TEMP); $(CMD_REMOVE) ../component/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.zip; $(CMD_ZIP_CREATE) ../component/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.zip qooxdoo-$(FRAMEWORK_VERSION)-quickstart
-
-	@echo "  * Cleaning up temporary folder..."
-	@$(CMD_REMOVE) $(QUICKSTART_TEMP)
-
-	@echo "  * Created component/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.zip"
-
-
-
+exec-inspector-build:
+	@time ( cd component/inspector && $(CMD_GENERATOR) build ) || exit 1
 
 
 
@@ -240,6 +190,7 @@ exec-skeleton-archive:
 ################################################################################
 # BASIC TARGETS
 ################################################################################
+
 distclean:
 	@for APPLICATION in $(APPLICATIONS); do ( cd application/$$APPLICATION && $(CMD_GENERATOR) distclean ) || exit 1; done
 	@for APPLICATION in $(COMPONENTS); do ( cd component/$$APPLICATION && $(CMD_GENERATOR) distclean ) || exit 1; done
@@ -261,7 +212,12 @@ source:
 	@time for APPLICATION in $(APPLICATIONS); do ( cd application/$$APPLICATION && $(CMD_GENERATOR) source ) || exit 1; done
 	@time for APPLICATION in $(COMPONENTS); do ( cd component/$$APPLICATION && $(CMD_GENERATOR) source ) || exit 1; done
 
-publish-build: build-apps build-components build-framework
+
+################################################################################
+# PUBLISH TARGETS
+################################################################################
+
+publish-build: build-apps inspector build-framework
 
 publish-check:
 	@echo "  * Checking kit is complete..."
