@@ -681,6 +681,7 @@ qx.type.BaseArray = function(Stack)
   PseudoArray.prototype = [];
   Stack.prototype = new PseudoArray;
   Stack.prototype.length = 0;
+  Stack.prototype.$$isArray = true;
   
   return Stack;
 }());
