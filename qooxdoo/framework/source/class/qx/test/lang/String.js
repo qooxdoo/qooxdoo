@@ -124,36 +124,6 @@ qx.Class.define("qx.test.lang.String",
       this.assertEquals("<div id='1'>&nbsp; €</div>", qx.xml.String.unescape("&lt;div id=&apos;1&apos;&gt;&amp;nbsp; &#8364;&lt;/div&gt;"));
 
       this.assertEquals('"bread" & "butter"', qx.xml.String.unescape("&quot;bread&quot; &amp; &quot;butter&quot;"));
-    },
-
-
-    testStringExtend : function()
-    {
-      qx.Class.define("qx.String",
-      {
-        extend : qx.type.BaseString,
-
-        members :
-        {
-          bold : function() {
-            //console.log("bold", this);
-            return "<b>" + this.toString() + "</b>";
-          },
-
-          setText : function(txt) {
-            this.setValue(txt);
-          }
-        }
-      });
-
-      var s = new qx.String("Juhu");
-      this.assertEquals("<b>Juhu</b>", s.bold());
-      this.assertEquals("JUHU", s.toUpperCase());
-      this.assertEquals(1, s.indexOf("u"));
-      this.assertEquals("__Juhu__", ["__", s + "__"].join(""));
-
-      s.setText("Kinners");
-      this.assertEquals("Kinners", s);
     }
   }
 });

@@ -473,6 +473,11 @@ qx.type.BaseArray = function(Stack)
   Stack.prototype.toString = function(){
     return slice.call(this, 0).toString();
   };
+  
+  // Fix "toLocaleString"
+  Stack.prototype.toLocaleString = function() {
+    return slice.call(this, 0).toLocaleString();
+  },
     
   // Fix constructor
   Stack.prototype.constructor = Stack;
