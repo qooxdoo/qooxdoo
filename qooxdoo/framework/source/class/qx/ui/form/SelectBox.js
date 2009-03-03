@@ -26,7 +26,7 @@
 qx.Class.define("qx.ui.form.SelectBox",
 {
   extend : qx.ui.form.AbstractSelectBox,
-  implement : [qx.ui.form.IFormElement, qx.ui.core.ISingleSelection],
+  implement : [qx.ui.form.IFormElement],
 
 
 
@@ -76,7 +76,7 @@ qx.Class.define("qx.ui.form.SelectBox",
     {
       check : "qx.ui.form.ListItem",
       apply : "_applySelected",
-      event : "changeSelection"
+      event : "changeSelected"
     }
   },
 
@@ -208,6 +208,8 @@ qx.Class.define("qx.ui.form.SelectBox",
     },
 
     /**
+     * EXPERIMENTAL!!!
+     * 
      * Detects whether the given item is currently selected.
      *
      * @param item {Object} Any valid selectable item
@@ -224,6 +226,8 @@ qx.Class.define("qx.ui.form.SelectBox",
     },
     
     /**
+     * EXPERIMENTAL!!!
+     * 
      * Whether the selection is empty.
      *
      * @return {Boolean} Whether the selection is empty
@@ -240,6 +244,8 @@ qx.Class.define("qx.ui.form.SelectBox",
     
     
     /**
+     * EXPERIMENTAL!!!
+     * 
      * Returns all elements which are selectable.
      * 
      * @return {LayoutItem[]} The contained items.
