@@ -56,7 +56,7 @@ qx.Class.define("demobrowser.demo.widget.TabView",
 
     getTabView1 : function()
     {
-      tabView = new qx.ui.tabview.TabView();
+      var tabView = new qx.ui.tabview.TabView();
       tabView.setWidth(500);
 
 
