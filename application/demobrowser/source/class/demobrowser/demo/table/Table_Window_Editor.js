@@ -115,7 +115,7 @@ qx.Class.define("ModalCellEditorFactory",
     {
       // Create the cell editor window, since we need to return it
       // immediately.
-      cellEditor = new qx.ui.window.Window("Cell Editor");
+      var cellEditor = new qx.ui.window.Window("Cell Editor");
       cellEditor.setLayout(new qx.ui.layout.HBox(4));
       cellEditor.set(
       {

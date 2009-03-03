@@ -79,7 +79,7 @@ qx.Mixin.define("demobrowser.demo.table.MUtil",
 
     getPaneModelMock : function()
     {
-      model = {
+      var model = {
         getColumnAtX : function(x) { return x; },
         getColumnCount : function() { return 4; },
         getX : function(col) { return col; },
