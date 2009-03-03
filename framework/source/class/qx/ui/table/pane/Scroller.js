@@ -1332,8 +1332,19 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         var menu = this.getTable().getContextMenu();
         if (menu)
         {
-          menu.placeToMouse(e);
-          menu.show();
+          // A menu with no children means don't display any context menu
+          // including the default context menu even if the default context
+          // menu is allowed to be displayed normally. There's no need to
+          // actually show an empty menu, though.
+          if (menu.getChildren().length > 0)
+          {
+            menu.placeToMouse(e);
+            menu.show();
+          }
+          else
+          {
+            menu.exclude();
+          }
 
           // Do not show native menu
           e.preventDefault();

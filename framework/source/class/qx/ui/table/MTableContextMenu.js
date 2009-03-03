@@ -64,6 +64,13 @@ qx.Mixin.define("qx.ui.table.MTableContextMenu",
         // Create a context menu for this tree.
         this._contextMenu = new qx.ui.menu.Menu();
 
+        // Don't display context menus from the context menu
+        this._contextMenu.addListener("contextmenu",
+                                      function(e)
+                                      {
+                                        e.preventDefault();
+                                      });
+
         // Call the context menu handler for this column.
         var bShowContextMenu = contextMenuHandler(col,
                                               e.getRow(),
