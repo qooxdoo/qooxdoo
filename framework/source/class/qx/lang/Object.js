@@ -258,12 +258,28 @@ qx.Bootstrap.define("qx.lang.Object",
     /**
      * Return a copy of an Object
      *
-     * TODO: Rename to clone() like in prototype and python
+     * @deprecated Use clone() instead
      *
      * @param source {Object} Object to copy
      * @return {Object} copy of vObject
      */
     copy : function(source)
+    {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Use 'clone()' instead!"
+      );
+
+      return qx.lang.Object.clone(source);
+    },
+
+    
+    /**
+     * Return a copy of an Object
+     *
+     * @param source {Object} Object to copy
+     * @return {Object} copy of vObject
+     */
+    clone : function(source)
     {
       var clone = {};
 
