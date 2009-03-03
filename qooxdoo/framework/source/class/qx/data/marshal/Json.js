@@ -103,10 +103,10 @@ qx.Class.define("qx.data.marshal.Json",
       for (var key in data) {
         if (data[key] instanceof Array) {
           for (var i = 0; i < data[key].length; i++) {
-            this.jsonToClass(data[key][i]);
+            this.jsonToClass(data[key][i], includeBubbleEvents);
           }
         } else if (data[key] instanceof Object) {
-          this.jsonToClass(data[key]);
+          this.jsonToClass(data[key], includeBubbleEvents);
         }
         
         properties[key] = {};
