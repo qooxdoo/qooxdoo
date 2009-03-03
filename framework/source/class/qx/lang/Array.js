@@ -198,17 +198,23 @@ qx.Bootstrap.define("qx.lang.Array",
     /**
      * Return a copy of the given array
      *
+     * @deprecated Use clone() instead
+     * 
      * @param arr {Array} the array to copy
      * @return {Array} copy of the array
      */
     copy : function(arr) {
-      return arr.concat();
+
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Use 'clone()' instead!"
+      );
+
+      return qx.lang.Array.clone(arr);
     },
 
 
     /**
      * Return a copy of the given array
-     * The same as {@link qx.lang.Array#copy}
      *
      * @param arr {Array} the array to copy
      * @return {Array} copy of the array
@@ -219,25 +225,39 @@ qx.Bootstrap.define("qx.lang.Array",
 
 
     /**
-     * Return the last element of an array. For performance reasons it is recommended 
-     * to omit the function call and instead use <code>arr[arr.length - 1]</code>
+     * Return the last element of an array. 
+     * 
+     * @deprecated For performance reasons it is recommended to omit the 
+     *   function call and instead use <code>arr[arr.length - 1]</code>
      *
      * @param arr {Array} the array
      * @return {var} the last element of the array
      */
     getLast : function(arr) {
+
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Use the native Array access instead: arr[arr.length - 1]"
+      );
+
       return arr[arr.length - 1];
     },
 
 
     /**
-     * Return the first element of an array. For performance reasons it is recommended 
-     * to omit the function call and instead use <code>arr[0]</code>
+     * Return the first element of an array.
+     * 
+     * @deprecated For performance reasons it is recommended to omit the 
+     *   function call and instead use <code>arr[0]</code>
      *
      * @param arr {Array} the array
      * @return {var} the first element of the array
      */
     getFirst : function(arr) {
+
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Use the native Array access instead: arr[0]"
+      );
+
       return arr[0];
     },
 
