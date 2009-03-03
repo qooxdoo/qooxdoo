@@ -71,6 +71,9 @@ qx.Class.define("qx.ui.root.Application",
 
     // Register as root
     qx.ui.core.FocusHandler.getInstance().connectTo(this);
+
+    // Hide the native contextmenu
+    this.setNativeContextMenu(false);
   },
 
 
