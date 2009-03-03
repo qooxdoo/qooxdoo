@@ -460,5 +460,18 @@ qx.Class.define("qx.ui.menu.Menu",
         }
       }
     }
+  },
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    if (!qx.core.ObjectRegistry.inShutDown) {
+      qx.ui.menu.Manager.getInstance().remove(this);
+    }
   }
 });
