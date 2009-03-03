@@ -69,8 +69,10 @@ qx.Class.define("qx.data.marshal.Json",
      * @see qx.data.store.IStoreDelegate
      * 
      * @param data {Object} The object for which classes should be created.
+     * @param includeBubbleEvents {Boolean} Whether the model should support
+     *   the bubbling of change events or not.
      */
-    jsonToClass: function(data) {
+    jsonToClass: function(data, includeBubbleEvents) {
       // get the proper type
       var type = Object.prototype.toString.call(data).slice(8, -1);
       // break on all primitive json types
@@ -110,7 +112,9 @@ qx.Class.define("qx.data.marshal.Json",
         properties[key] = {};
         properties[key].nullable = true;
         properties[key].event = "change" + qx.lang.String.firstUp(key);
-        properties[key].apply = "_applyEventPropagation";
+        if (includeBubbleEvents) {
+          properties[key].apply = "_applyEventPropagation";          
+        }
       }
       
       // try to get the superclass, qx.core.Object as default
@@ -134,7 +138,9 @@ qx.Class.define("qx.data.marshal.Json",
       }
       
       // include the mixin for the event bubbling
-      mixins.push(qx.data.marshal.MEventBubbling);
+      if (includeBubbleEvents) {
+        mixins.push(qx.data.marshal.MEventBubbling);        
+      }
       
       // create the map for the class
       var newClass = {
