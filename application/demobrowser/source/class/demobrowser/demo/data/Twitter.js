@@ -38,8 +38,12 @@ qx.Class.define("demobrowser.demo.data.Twitter",
 
       // set the name for the label property
       controller.setLabelPath("text");
+      
       // set the name for the icon property
-      controller.setIconPath("user.profile_image_url");
+      if (!qx.core.Variant.isSet("qx.client", "mshtml")) {
+        controller.setIconPath("user.profile_image_url");        
+      }
+
 
       // fetch some data from Twitter
       var store = new demobrowser.demo.data.store.Twitter("wittemann");
@@ -95,7 +99,6 @@ qx.Class.define("demobrowser.demo.data.Twitter",
       detailsBox.add(new qx.ui.basic.Label("Location: "), {row: 1, column: 0});
       detailsBox.add(new qx.ui.basic.Label("Message: "), {row: 2, column: 0});
       detailsBox.add(new qx.ui.basic.Label("Postet with: "), {row: 3, column: 0});
-      detailsBox.add(new qx.ui.basic.Label("Avatar: "), {row: 4, column: 0});   
       
       var name = new qx.ui.basic.Label();
       detailsBox.add(name, {row: 0, column: 1});
@@ -108,8 +111,6 @@ qx.Class.define("demobrowser.demo.data.Twitter",
       var posted = new qx.ui.basic.Label();
       posted.setRich(true);
       detailsBox.add(posted, {row: 3, column: 1});
-      var avatar = new qx.ui.basic.Image();
-      detailsBox.add(avatar, {row: 4, column: 1});
       
       // create the controller for the detail view
       var detailsController = new qx.data.controller.Object();
@@ -117,7 +118,12 @@ qx.Class.define("demobrowser.demo.data.Twitter",
       detailsController.addTarget(location, "content", "user.location");
       detailsController.addTarget(message, "content", "text");
       detailsController.addTarget(posted, "content", "source");
-      detailsController.addTarget(avatar, "source", "user.profile_image_url");
+      if (!qx.core.Variant.isSet("qx.client", "mshtml")) {
+        detailsBox.add(new qx.ui.basic.Label("Avatar: "), {row: 4, column: 0});   
+        var avatar = new qx.ui.basic.Image();
+        detailsBox.add(avatar, {row: 4, column: 1});      
+        detailsController.addTarget(avatar, "source", "user.profile_image_url");
+      }
       // connect the selected model item of the list to the detail view
       controller.bind("selection[0]", detailsController, "model");
       
