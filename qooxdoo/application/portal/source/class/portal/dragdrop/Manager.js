@@ -296,7 +296,6 @@ qx.Class.define("portal.dragdrop.Manager",
       {
         // get the first element of the groupBox as start point
         nextBox = qx.dom.Hierarchy.getFirstDescendant(document.getElementById(this.__currentGroupBox));
-        var nextBoxTop, nextBoxHeight;
         
         // iterate over all elements to check where to insert the placeholder element
         while (nextBox != null)
@@ -319,7 +318,6 @@ qx.Class.define("portal.dragdrop.Manager",
       {
         // down
         nextBox = qx.dom.Hierarchy.getNextElementSibling(nextBox);
-        var nextBoxTop, nextBoxHeight;
         
         while(nextBox != null)
         {
@@ -336,7 +334,6 @@ qx.Class.define("portal.dragdrop.Manager",
       {
         // up
         var nextBox = qx.dom.Hierarchy.getPreviousElementSibling(nextBox);
-        var nextBoxTop, nextBoxHeight;
         
         while(nextBox != null)
         {
