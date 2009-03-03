@@ -306,7 +306,7 @@ qx.Class.define("qx.test.data.marshal.Json",
     testBubbleEventsDepth1: function() {
       this.__data = eval("({a: 10, b: -15, c: 10.5e10})");
       // first create the classes befor setting the data
-      this.__marshaler.jsonToClass(this.__data);
+      this.__marshaler.jsonToClass(this.__data, true);
       // set the data
       var model = this.__marshaler.jsonToModel(this.__data);
 
@@ -334,7 +334,7 @@ qx.Class.define("qx.test.data.marshal.Json",
     testBubbleEventsDepth2: function() {
       this.__data = eval("({a: {b: 10, c: 20}})");
       // first create the classes befor setting the data
-      this.__marshaler.jsonToClass(this.__data);
+      this.__marshaler.jsonToClass(this.__data, true);
       // set the data
       var model = this.__marshaler.jsonToModel(this.__data);
 
@@ -361,7 +361,7 @@ qx.Class.define("qx.test.data.marshal.Json",
     testBubbleEventsDepth3: function() {
       this.__data = eval("({a: {b: {c: 10}}})");
       // first create the classes befor setting the data
-      this.__marshaler.jsonToClass(this.__data);
+      this.__marshaler.jsonToClass(this.__data, true);
       // set the data
       var model = this.__marshaler.jsonToModel(this.__data);
 
@@ -380,7 +380,7 @@ qx.Class.define("qx.test.data.marshal.Json",
     testBubbleEventsArrayDepth1: function() {
       this.__data = eval("({a: [12, 23, 34]})");
       // first create the classes befor setting the data
-      this.__marshaler.jsonToClass(this.__data);
+      this.__marshaler.jsonToClass(this.__data, true);
       // set the data
       var model = this.__marshaler.jsonToModel(this.__data);
 
@@ -398,7 +398,7 @@ qx.Class.define("qx.test.data.marshal.Json",
     testBubbleEventsArrayDepth2: function() {
       this.__data = eval("({a: [{b: 10}, {b: 11}]})");
       // first create the classes befor setting the data
-      this.__marshaler.jsonToClass(this.__data);
+      this.__marshaler.jsonToClass(this.__data, true);
       // set the data
       var model = this.__marshaler.jsonToModel(this.__data);
 
@@ -416,7 +416,7 @@ qx.Class.define("qx.test.data.marshal.Json",
     testBubbleEventsArrayDepthAlot: function() {
       this.__data = eval("({a: [[[[{b:10}]]]]})");
       // first create the classes befor setting the data
-      this.__marshaler.jsonToClass(this.__data);
+      this.__marshaler.jsonToClass(this.__data, true);
       // set the data
       var model = this.__marshaler.jsonToModel(this.__data);
 
@@ -434,7 +434,7 @@ qx.Class.define("qx.test.data.marshal.Json",
     testBubbleEventsArrayDepthAlotMix: function() {
       this.__data = eval("({a: [ {b: [ [{c: {d: [0, 1]}}] ]} ]})");
       // first create the classes befor setting the data
-      this.__marshaler.jsonToClass(this.__data);
+      this.__marshaler.jsonToClass(this.__data, true);
       // set the data
       var model = this.__marshaler.jsonToModel(this.__data);
 
@@ -452,7 +452,7 @@ qx.Class.define("qx.test.data.marshal.Json",
     testBubbleEventsArrayLong: function() {
       this.__data = eval("({a: [0, 1, 2, 3, 4, 5, 6 , 7, 8, 9, 10]})");
       // first create the classes befor setting the data
-      this.__marshaler.jsonToClass(this.__data);
+      this.__marshaler.jsonToClass(this.__data, true);
       // set the data
       var model = this.__marshaler.jsonToModel(this.__data);
 
@@ -470,7 +470,7 @@ qx.Class.define("qx.test.data.marshal.Json",
     testBubbleEventsArrayReorder: function() {
       this.__data = eval("({a: [11, 1, 2, 3, 4, 5, 6 , 7, 8, 9, 10]})");
       // first create the classes befor setting the data
-      this.__marshaler.jsonToClass(this.__data);
+      this.__marshaler.jsonToClass(this.__data, true);
       // set the data
       var model = this.__marshaler.jsonToModel(this.__data);
       
