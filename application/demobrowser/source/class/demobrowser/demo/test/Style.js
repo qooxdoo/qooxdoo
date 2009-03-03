@@ -28,7 +28,7 @@ qx.Class.define("demobrowser.demo.test.Style",
       this.base(arguments);
 
       var elementStyle = 'font-size:12pt;text-align:center;font-family:"Trebuchet MS","Lucida Grande",Verdana,sans-serif;color:white;left:90px;top:90px;position:absolute;width:200px;height:55px;border:2px #E5E5E5 solid;background-color:#134275;z-Index:10;';
-      myElement = qx.bom.Element.create('div', { style : elementStyle });
+      var myElement = qx.bom.Element.create('div', { style : elementStyle });
 
       document.body.appendChild(myElement);
 

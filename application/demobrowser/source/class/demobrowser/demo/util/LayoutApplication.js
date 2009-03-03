@@ -35,7 +35,7 @@ qx.Class.define("demobrowser.demo.util.LayoutApplication",
         minWidth: 10
       });
 
-      editor = new demobrowser.demo.util.PropertyEditor(root);
+      var editor = new demobrowser.demo.util.PropertyEditor(root);
       root.addListener("click", this._onClickRoot, this);
 
       frame.add(editor, {edge: "east"});
