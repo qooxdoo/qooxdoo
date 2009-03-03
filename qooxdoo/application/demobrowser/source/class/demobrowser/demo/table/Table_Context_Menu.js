@@ -44,6 +44,9 @@ qx.Class.define("demobrowser.demo.table.Table_Context_Menu",
       qx.Class.include(qx.ui.table.Table, qx.ui.table.MTableContextMenu);
 
       this.base(arguments);
+
+      // Allow showing the native contextmenu
+      this.getRoot().setNativeContextMenu(true);
     },
 
     getCaption : function()
