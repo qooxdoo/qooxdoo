@@ -112,7 +112,7 @@ qx.Class.define("qx.data.store.Json",
     
     
     /**
-     * Creates and sends a POST request with the given url. Additionally two
+     * Creates and sends a GET request with the given url. Additionally two
      * listeners will be added for the state and the completed event of the 
      * request.
      * 
@@ -121,7 +121,7 @@ qx.Class.define("qx.data.store.Json",
     _createRequest: function(url) {
       // create the request
       this.__request = new qx.io.remote.Request(
-        url, "POST", "application/json"
+        url, "GET", "application/json"
       );
       this.__request.addListener(
         "completed", this.__requestCompleteHandler, this
@@ -146,7 +146,7 @@ qx.Class.define("qx.data.store.Json",
     {
         var data = ev.getContent();
         // create the class
-        this._marshaler.jsonToClass(data);
+        this._marshaler.jsonToClass(data, true);
         // set the initial data
         this.setModel(this._marshaler.jsonToModel(data));
                 
