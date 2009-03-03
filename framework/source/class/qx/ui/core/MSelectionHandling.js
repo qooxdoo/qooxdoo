@@ -153,20 +153,17 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
      * Use {@link #addToSelection} instead if you want to add new
      * items to an existing selection.
      *
-     * @deprecated Use 'setSelected' instead!
      * @param item {Object} Any valid item
      * @return {void}
      */
     select : function(item) {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee,
-        "Use 'setSelected' instead!"
-      );
       this.setSelected(item);
     },
 
     
     /**
+     * EXPERIMENTAL!!!
+     *
      * Selects the given item. Replaces current selection
      * completely with the new item.
      *
@@ -234,18 +231,15 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
      * resets the lead and anchor items and their
      * styles.
      *
-     * @deprecated Use 'resetSelection' instead!
      * @return {void}
      */
     clearSelection : function() {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee,
-        "Use 'resetSelection' instead!"
-      );
       this.resetSelection();
     },
 
     /**
+     * EXPERIMENTAL!!!
+     * 
      * Clears the whole selection at once.
      *
      * @return {void}
@@ -257,19 +251,16 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
     /**
      * Replaces current selection with the given items
      *
-     * @deprecated Use 'setSelection' instead!
      * @param items {Object} Items to select
      * @return {void}
      */
     replaceSelection : function(items) {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee,
-        "Use 'setSelection' instead!"
-      );
       this.setSelection(items);
     },
 
     /**
+     * EXPERIMENTAL!!!
+     * 
      * Replaces current selection with the given items.
      *
      * @param items {Object} Items to select
@@ -283,18 +274,15 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
      * Get the selected item. This method does only work in <code>single</code>
      * selection mode.
      *
-     * @deprecated Use 'getSelected' instead!
      * @return {Object} The selected item.
      */
     getSelectedItem : function() {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee,
-        "Use 'getSelected' instead!"
-      );
       return this.getSelected();
     },
     
     /**
+     * EXPERIMENTAL!!!
+     * 
      * Get the selected item.
      *
      * @return {Object} The selected item.
@@ -357,6 +345,8 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
 
 
     /**
+     * EXPERIMENTAL!!!
+     *
      * Returns all elements which are selectable.
      * 
      * @return {LayoutItem[]} The contained items.
