@@ -547,7 +547,7 @@ qx.Class.define("qx.data.controller.List",
       
       // create the options for the binding containing the old options
       // including the old onSetOk function
-      var options = qx.lang.Object.copy(options);
+      var options = qx.lang.Object.clone(options);
       if (options != null) {
         this.__onSetOk[targetProperty] = options.onSetOk;
         delete options.onSetOk;

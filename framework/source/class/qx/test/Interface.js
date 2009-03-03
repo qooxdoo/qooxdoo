@@ -391,7 +391,7 @@ qx.Class.define("qx.test.Interface",
       };
 
       // all implemented
-      var def = qx.lang.Object.copy(classDef);
+      var def = qx.lang.Object.clone(classDef);
       qx.Class.define("qx.Implement1", def);
 
       this.assertTrue(qx.Class.implementsInterface(qx.Implement1, qx.IAll), "implements IAll");
@@ -401,7 +401,7 @@ qx.Class.define("qx.test.Interface",
       this.assertFalse(qx.Class.implementsInterface(qx.Implement1, qx.IOther), "not implements IOther");
 
       // no members
-      var def = qx.lang.Object.copy(classDef);
+      var def = qx.lang.Object.clone(classDef);
       delete (def.members);
 
       if (this.isDebugOn())
@@ -412,7 +412,7 @@ qx.Class.define("qx.test.Interface",
       };
 
       // no properties
-      var def = qx.lang.Object.copy(classDef);
+      var def = qx.lang.Object.clone(classDef);
       delete (def.properties);
 
       if (this.isDebugOn())

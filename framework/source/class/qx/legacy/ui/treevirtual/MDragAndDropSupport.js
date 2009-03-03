@@ -850,7 +850,7 @@ qx.Mixin.define("qx.legacy.ui.treevirtual.MDragAndDropSupport",
         var sourceNodeId = this.getDataModel()._nodeArr.length;
 
         // Set the data for this node
-        var sourceNode = qx.lang.Object.copy(sourceNode);
+        var sourceNode = qx.lang.Object.clone(sourceNode);
         sourceNode.nodeId = sourceNodeId;
 
         // Add this node to the array
