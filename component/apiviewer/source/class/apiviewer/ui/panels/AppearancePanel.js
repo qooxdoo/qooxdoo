@@ -37,7 +37,7 @@ qx.Class.define("apiviewer.ui.panels.AppearancePanel", {
     {
       var states = apperanceNode.getStates();
       if (states.length > 0) {
-        var result = qx.lang.Array.copy(states);
+        var result = qx.lang.Array.clone(states);
       } else {
         result = [];
       }

@@ -95,7 +95,7 @@ qx.Class.define("qx.io2.part.Package",
         }, this);
       }
       
-      onLoad(qx.lang.Array.copy(urlList));      
+      onLoad(qx.lang.Array.clone(urlList));      
     },
     
     

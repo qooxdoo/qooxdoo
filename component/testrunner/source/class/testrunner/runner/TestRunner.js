@@ -702,7 +702,7 @@ qx.Class.define("testrunner.runner.TestRunner",
         var children = modelR.getChildren();
         var t;
 
-        var children = qx.lang.Array.copy(children);
+        var children = qx.lang.Array.clone(children);
 
         for (var i=0; i<children.length; i++)
         {
