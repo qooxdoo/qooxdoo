@@ -22,9 +22,9 @@
  * An extended array class which adds a lot of often used
  * convenience methods to the regular array like 'remove' or 'contains'.
  */
-qx.Class.define("qx.core.ComfortArray",
+qx.Class.define("qx.type.Array",
 {
-  extend : qx.core.BaseArray,
+  extend : qx.type.BaseArray,
   
   members :
   {
@@ -35,7 +35,7 @@ qx.Class.define("qx.core.ComfortArray",
      * @return {Array} Cloned array instance
      * @signature function()
      */
-    clone : qx.core.BaseArray.prototype.concat,
+    clone : qx.type.BaseArray.prototype.concat,
     
     
     /**

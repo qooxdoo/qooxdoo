@@ -56,7 +56,7 @@ qx.Bootstrap.define("qx.lang.Array",
     {
       // Normally the string compare is enough for all arrays 
       // (cross document), but all classes which extends Array e.g.
-      // qx.core.BaseArray are identified as "[object Object]". The 
+      // qx.type.BaseArray are identified as "[object Object]". The 
       // instanceof checks works though very well for them.
       return Object.prototype.toString.call(obj) === "[object Array]" || 
         obj instanceof Array;
@@ -66,7 +66,7 @@ qx.Bootstrap.define("qx.lang.Array",
     /** 
      * Converts array like constructions like the <code>argument</code> object,
      * node collections like the ones returned by <code>getElementsByTagName</code>
-     * or extended array objects like <code>qx.core.BaseArray</code> to an 
+     * or extended array objects like <code>qx.type.BaseArray</code> to an 
      * native Array instance.
      *
      * @param object {var} any array like object

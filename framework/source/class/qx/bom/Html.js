@@ -210,7 +210,7 @@ qx.Class.define("qx.bom.Html",
         // Append or merge depending on type
         if (obj.nodeType) {
           ret.push(obj);
-        } else if (obj instanceof qx.core.BaseArray) {
+        } else if (obj instanceof qx.type.BaseArray) {
           ret.push.apply(ret, Array.prototype.slice.call(obj, 0));
         } else {
           ret.push.apply(ret, obj);

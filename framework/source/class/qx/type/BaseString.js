@@ -23,7 +23,7 @@
  *
  * Instances of this class can be used in any place a JavaScript string can.
  */
-qx.Class.define("qx.core.BaseString",
+qx.Class.define("qx.type.BaseString",
 {
   extend : String,
 

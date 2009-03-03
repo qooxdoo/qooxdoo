@@ -131,7 +131,7 @@ qx.Class.define("qx.test.lang.String",
     {
       qx.Class.define("qx.String",
       {
-        extend : qx.core.BaseString,
+        extend : qx.type.BaseString,
 
         members :
         {
