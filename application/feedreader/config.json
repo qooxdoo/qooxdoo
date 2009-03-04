@@ -16,7 +16,7 @@
     "CACHE"        : "../../cache",
     "QXTHEME"      : "qx.theme.Modern",
     "LOCALES"      : ["en", "de", "es", "fr", "it", "sv"],
-    "TEST_INCLUDE" : ["${APPLICATION}.*"],
+    "TEST_INCLUDE" : "${APPLICATION}.*",
     "OPTIMIZE"     : ["basecalls", "strings", "privates", "variables"], 
     "ROOT"         : "."
   },
