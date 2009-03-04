@@ -550,11 +550,10 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
     /**
      * Set the attributes used to indicate the cell that has the focus.
      *
-     * @param attributes {Map}
-     *
      * @deprecated
      *   This method no longer does anything and will be removed in 0.9
      *
+     * @param attributes {Map} attributes used to indicate the cell that has the focus
      * @return {void}
      */
     setCellFocusAttributes : function(attributes)
