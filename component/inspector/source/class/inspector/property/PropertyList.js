@@ -307,6 +307,7 @@ qx.Class.define("inspector.property.PropertyList", {
 
               // layouting
               groupLayout.getLayout().setRowAlign(row, "left", "middle");
+              groupLayout.getLayout().setRowMinHeight(row, 20);
 
                // handle the clicks
               labelName.addListener("click", this.__onPropertyClick, this);
