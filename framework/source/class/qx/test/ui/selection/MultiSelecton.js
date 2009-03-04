@@ -29,7 +29,7 @@ qx.Class.define("qx.test.ui.selection.MultiSelecton",
     
     setUp : function()
     {
-      var length = 25;
+      var length = 10;
       this.__selection = [];
       
       this.__list = new qx.ui.form.List();
@@ -43,9 +43,9 @@ qx.Class.define("qx.test.ui.selection.MultiSelecton",
         var item = new qx.ui.form.ListItem("ListItem" + i);
         this.__list.add(item);
         
-        if (i % 5 == 0) {
+        if (i % 2 == 0) {
           this.__list.addToSelection(item);
-          this.__selection[i / 5] = item;
+          this.__selection[i / 2] = item;
         }
       } 
     },
@@ -66,11 +66,11 @@ qx.Class.define("qx.test.ui.selection.MultiSelecton",
     {
       // Sets up the new selection
       this.__selection = [];
-      this.__selection[0] = this.__list.getChildren()[0];
-      this.__selection[1] = this.__list.getChildren()[1];
-      this.__selection[2] = this.__list.getChildren()[2];
-      this.__selection[3] = this.__list.getChildren()[3];
-      this.__selection[4] = this.__list.getChildren()[4];
+      this.__selection[0] = this.__list.getChildren()[1];
+      this.__selection[1] = this.__list.getChildren()[3];
+      this.__selection[2] = this.__list.getChildren()[5];
+      this.__selection[3] = this.__list.getChildren()[7];
+      this.__selection[4] = this.__list.getChildren()[9];
       
       // Tests the event and sets the new selection
       var list = this.__list;
@@ -216,7 +216,7 @@ qx.Class.define("qx.test.ui.selection.MultiSelecton",
     testAddToSelection : function()
     {
       // Sets up a new item for selection
-      var newValue = this.__list.getChildren()[4];
+      var newValue = this.__list.getChildren()[3];
       this.__selection[this.__selection.length] = newValue;
       
       // Tests event and adds item to the selection
