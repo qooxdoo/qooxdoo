@@ -208,7 +208,7 @@
       query : function(selector, context) 
       {
         var arr = qx.bom.Selector.query(selector, context);
-        return qx.lang.Array.to(arr, qx.bom.Collection);
+        return qx.lang.Array.cast(arr, qx.bom.Collection);
       },
       
 
@@ -250,7 +250,7 @@
         var arr = qx.bom.Html.clean([html], context);
         
         // Translate into Collection
-        return qx.lang.Array.to(arr, qx.bom.Collection);
+        return qx.lang.Array.cast(arr, qx.bom.Collection);
       },
       
 
@@ -294,7 +294,7 @@
         
         // Element Array
         else {
-          return qx.lang.Array.to(input, qx.bom.Collection);
+          return qx.lang.Array.cast(input, qx.bom.Collection);
         }
       }      
     },
@@ -1376,7 +1376,7 @@
         }
         
         // Remove duplicates and transform into Collection
-        col = Lang.to(Lang.unique(col), qx.bom.Collection);
+        col = Lang.cast(Lang.unique(col), qx.bom.Collection);
         
         // Process modification
         for (var i=0, il=this.length; i<il; i++) {

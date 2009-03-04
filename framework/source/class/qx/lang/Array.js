@@ -73,8 +73,8 @@ qx.Bootstrap.define("qx.lang.Array",
      * @param offset {Integer?0} position to start from
      * @return {Array} New array with the content of the incoming object
      */
-    from : function(object, offset) {
-      return this.to(object, Array, offset);
+    toArray : function(object, offset) {
+      return this.cast(object, Array, offset);
     },
     
     
@@ -82,31 +82,35 @@ qx.Bootstrap.define("qx.lang.Array",
      * Converts an array like object to any other array like
      * object. 
      *
-     * Attention please: The returned array may be same
-     * instance as the incoming one then the constructor is identical!
+     * Attention: The returned array may be same
+     * instance as the incoming one if the constructor is identical!
      *
      * @param object {var} any array like object
      * @param constructor {Function} constructor of the new instance
      * @param offset {Integer?0} position to start from
      * @return {Array} the converted array
      */
-    to : function(object, constructor, offset)
+    cast : function(object, constructor, offset)
     {
       if (object.constructor === constructor) {
-        return this; 
+        return object; 
+      }
+      
+      if (qx.Class.hasInterface(object, qx.data.IListData)) {
+        var object = object.toArray();
       }
       
       // Create from given constructor
       var ret = new constructor;
       
-      // Some collection is mshtml are not able to be sliced.
-      // This lines are a special workaround for this client.
+      // Some collections in mshtml are not able to be sliced.
+      // These lines are a special workaround for this client.
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
         if (object.item)
         {
           for (var i=offset||0, l=object.length; i<l; i++) {
-            ret[i] = object[i];
+            ret.push(object[i]);
           }
 
           return ret;
