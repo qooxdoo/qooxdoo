@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2006-2009 Derrell Lipman
+     2009 Derrell Lipman
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -17,6 +17,9 @@
 
 ************************************************************************ */
 
+/**
+ * This mixin allows easily adding handlers for context menus on table columns.
+ */
 qx.Mixin.define("qx.ui.table.MTableContextMenu",
 {
   construct : function()
