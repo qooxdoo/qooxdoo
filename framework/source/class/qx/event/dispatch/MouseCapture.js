@@ -106,8 +106,14 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
     */
 
     // interface implementation
-    canDispatchEvent : function(target, event, type) {
-      return this.__captureElement && this.__captureEvents[type];
+    canDispatchEvent : function(target, event, type)
+    {      
+      return (
+        this.__captureElement && 
+        this.__captureEvents[type] && 
+        event.classname &&
+        event.classname.indexOf("qx.legacy") == -1
+      );
     },
 
 

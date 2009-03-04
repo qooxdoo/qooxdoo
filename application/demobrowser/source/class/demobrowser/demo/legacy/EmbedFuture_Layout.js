@@ -74,40 +74,8 @@ qx.Class.define("demobrowser.demo.legacy.EmbedFuture_Layout",
     },
 
 
-    getGrid : function()
-    {
-      // auto size
-      var box = new qx.ui.container.Composite().set({
-        decorator: "main",
-        backgroundColor: "yellow"
-      });
-
-      var layout = new qx.ui.layout.Grid(10, 20);
-      layout.setRowFlex(0, 1);
-      layout.setColumnFlex(0, 1);
-      box.setLayout(layout);
-
-      box.add(new qx.ui.core.Widget().set({
-        decorator: "main",
-        backgroundColor: "green"
-      }), {row: 0, column: 0});
-
-      box.add(new qx.ui.core.Widget().set({
-        decorator: "main",
-        backgroundColor: "green"
-      }), {row: 0, column: 1});
-
-      box.add(new qx.ui.core.Widget().set({
-        decorator: "main",
-        backgroundColor: "green"
-      }), {row: 1, column: 0});
-
-      box.add(new qx.ui.core.Widget().set({
-        decorator: "main",
-        backgroundColor: "green"
-      }), {row: 1, column: 1});
-
-      return box;
+    getGrid : function() {
+      return new qx.ui.control.DateChooser();
     }
   }
 });

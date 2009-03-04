@@ -59,7 +59,7 @@ qx.Class.define("qx.legacy.ui.listview.SelectionManager",
      * @return {var} TODOC
      */
     getFirst : function() {
-      return qx.lang.Array.getFirst(this.getItems());
+      return this.getItems()[0];
     },
 
 
@@ -68,8 +68,10 @@ qx.Class.define("qx.legacy.ui.listview.SelectionManager",
      *
      * @return {var} TODOC
      */
-    getLast : function() {
-      return qx.lang.Array.getLast(this.getItems());
+    getLast : function() 
+    {
+      var items = this.getItems();
+      return items[items.length-1];
     },
 
 
