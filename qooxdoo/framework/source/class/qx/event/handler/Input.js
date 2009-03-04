@@ -239,12 +239,14 @@ qx.Class.define("qx.event.handler.Input",
     }),
     
     /**
-     * Fix the different behavior by pressing the enter key. 
+     * Fix the different behavior when pressing the enter key. 
      * 
-     * FF and Safari fire a "change" event if the user press the enter key.
+     * FF and Safari fire a "change" event if the user presses the enter key.
      * IE and Opera fire the event only if the focus is changed.
      * 
      * @signature function(target, elementType)
+     * @param target {Element} The event target
+     * @param elementType {String} The type of element
      */
     __changeEventOnEnterFix : qx.core.Variant.select("qx.client",
     {
