@@ -478,8 +478,10 @@ qx.Class.define("inspector.property.PropertyWindow",
     },
     
     _openApiWindow: function(classname, propertyname) {
-      var urlString = "http://demo.qooxdoo.org/current/apiviewer/";
       
+      var version = qx.core.Init.getApplication()._loadedWindow.qx.core.Setting.get("qx.version");
+      var urlString = "http://demo.qooxdoo.org/" + (version || "current") + "/apiviewer/";
+
       if (classname != null) {
         urlString += "#" + classname;
         // if a property name is given
@@ -573,7 +575,8 @@ qx.Class.define("inspector.property.PropertyWindow",
       var getterName = "get" + qx.lang.String.firstUp(key);
       try {
         // tell the document tree to highlight the new widget
-        this._inspector.highlightWidget(this._qxObject[getterName].call(this._qxObject));
+        // TODO: the following line appears to be old 0.7 code
+        // this._inspector.highlightWidget(this._qxObject[getterName].call(this._qxObject));
       } catch (e) {
         alert("Error during highlighting the currently selected property widget: " + e);
       }
@@ -595,7 +598,8 @@ qx.Class.define("inspector.property.PropertyWindow",
 
         try {
           // tell the document tree to select the new widget
-          this._inspector.setWidget(this._qxObject[getterName].call(this._qxObject), this);
+          // TODO: the following line appears to be old 0.7 code
+          // this._inspector.setWidget(this._qxObject[getterName].call(this._qxObject), this);
           // reload the configuration for the property buttons
           this._switchPropertyButtons();            
         } catch (e) {
