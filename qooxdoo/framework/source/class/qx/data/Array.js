@@ -303,15 +303,11 @@ qx.Class.define("qx.data.Array",
     },
 
 
-    /**
-     * Returns the native array.
-     *
-     * @return {Array} The native array.
-     */
+    // interface implementation
     toArray: function() {
       return this.__array;
     },
-
+    
 
     /**
      * Replacement function for the getting of the array value.
