@@ -29,7 +29,7 @@ qx.Class.define("qx.test.ui.selection.SingleSelecton",
     
     setUp : function()
     {
-      var length = 25;
+      var length = 10;
       
       this.__list = new qx.ui.form.List();
       
