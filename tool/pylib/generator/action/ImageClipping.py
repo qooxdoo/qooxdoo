@@ -49,7 +49,7 @@ class ImageClipping(object):
         source_file = source
         dest_file   = os.path.join(os.path.dirname(source), dest_prefix)
 
-        imginf        = self._imageInfo.getImageInfo(source_file)
+        imginf        = self._imageInfo.getImageInfo(source_file, source_file)
         width, height = imginf['width'], imginf['height']
 
         crop_cmd = "convert %s -crop %sx%s+%s+%s +repage %s"
@@ -85,7 +85,7 @@ class ImageClipping(object):
             allfiles.extend(glob.glob(file))
         for file in allfiles:
             clips.append(file)
-            imginfo = self._imageInfo.getImageInfo(file)
+            imginfo = self._imageInfo.getImageInfo(file, file)
             width, height = imginfo['width'], imginfo['height']
             config.append({'file':file, 'combined':combined, 'left': -left,
                            'top': -top, 'width':width, 'height':height, 'type':imginfo['type']})
