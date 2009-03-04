@@ -1,52 +1,179 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2009 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Fabian Jakobs (fjakobs)
+
+************************************************************************ */
+
+/**
+ * A helper class for debugging the property system
+ */
 qx.Class.define("qx.util.PropertyUtil",
 {
   statics :
   {
+    /*
+    -------------------------------------------------------------------------
+      USER VALUES
+    -------------------------------------------------------------------------
+    */
+
+    /**
+     * Returns the user value of the given property
+     * 
+     * @param object {Object} The object to debug
+     * @param propertyName {String} The name of the property
+     * @return {var} The user value
+     */
     getUserValue : function(object, propertyName) {
       return object["$$user_" + propertyName];
     },
     
+    /**
+    * Sets the user value of the given property
+    * 
+    * @param object {Object} The object to debug
+    * @param propertyName {String} The name of the property
+    * @param value {var} The value to set
+    * @return {void}
+    */
     setUserValue : function(object, propertyName, value) {
       object["$$user_" + propertyName] = value;
     },
 
+    /**
+    * Deletes the user value of the given property
+    * 
+    * @param object {Object} The object to debug
+    * @param propertyName {String} The name of the property
+    * @return {void}
+    */
     deleteUserValue : function(object, propertyName) {
       delete(object["$$user_" + propertyName]);
     },
     
     
-    getThemeValue : function(object, propertyName) {
-      return object["$$theme_" + propertyName];
-    },
-    
-    setThemeValue : function(object, propertyName, value) {
-      object["$$theme_" + propertyName] = value;
-    },
-    
-    deleteThemeValue : function(object, propertyName) {
-      delete(object["$$theme_" + propertyName]);
-    },
+    /*
+    -------------------------------------------------------------------------
+      INIT VALUES
+    -------------------------------------------------------------------------
+    */
 
-    
+    /**
+     * Returns the init value of the given property
+     * 
+     * @param object {Object} The object to debug
+     * @param propertyName {String} The name of the property
+     * @return {var} The init value
+     */
     getInitValue : function(object, propertyName) {
       return object["$$init_" + propertyName];
     },
     
+    /**
+    * Sets the init value of the given property
+    * 
+    * @param object {Object} The object to debug
+    * @param propertyName {String} The name of the property
+    * @param value {var} The value to set
+    * @return {void}
+    */
     setInitValue : function(object, propertyName, value) {
       object["$$init_" + propertyName] = value;
     },  
     
+    /**
+    * Deletes the init value of the given property
+    * 
+    * @param object {Object} The object to debug
+    * @param propertyName {String} The name of the property
+    * @return {void}
+    */
     deleteInitValue : function(object, propertyName) {
       delete(object["$$init_" + propertyName]);
     },
     
     
+    /*
+    -------------------------------------------------------------------------
+      THEME VALUES
+    -------------------------------------------------------------------------
+    */
+
+    /**
+     * Returns the theme value of the given property
+     * 
+     * @param object {Object} The object to debug
+     * @param propertyName {String} The name of the property
+     * @return {var} The theme value
+     */
+    getThemeValue : function(object, propertyName) {
+      return object["$$theme_" + propertyName];
+    },
+    
+    /**
+    * Sets the theme value of the given property
+    * 
+    * @param object {Object} The object to debug
+    * @param propertyName {String} The name of the property
+    * @param value {var} The value to set
+    * @return {void}
+    */
+    setThemeValue : function(object, propertyName, value) {
+      object["$$theme_" + propertyName] = value;
+    },
+    
+    /**
+    * Deletes the theme value of the given property
+    * 
+    * @param object {Object} The object to debug
+    * @param propertyName {String} The name of the property
+    * @return {void}
+    */
+    deleteThemeValue : function(object, propertyName) {
+      delete(object["$$theme_" + propertyName]);
+    },
+
+    
+    /*
+    -------------------------------------------------------------------------
+      THEMED PROPERTY
+    -------------------------------------------------------------------------
+    */
+  
+    /**
+     * Sets a themed property
+     * 
+     * @param object {Object} The object to debug
+     * @param propertyName {String} The name of the property
+    * @param value {var} The value to set
+     * @return {void}
+     */
     setThemed : function(object, propertyName, value) 
     {
       var styler = qx.core.Property.$$method.setThemed;
       object[styler[propertyName]](value);
     },
     
+    /**
+    * Resets a themed property
+    * 
+    * @param object {Object} The object to debug
+    * @param propertyName {String} The name of the property
+    * @return {void}
+    */
     resetThemed : function(object, propertyName) 
     {
       var unstyler = qx.core.Property.$$method.resetThemed;
