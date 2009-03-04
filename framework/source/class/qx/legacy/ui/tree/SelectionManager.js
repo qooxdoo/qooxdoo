@@ -83,8 +83,8 @@ qx.Class.define("qx.legacy.ui.tree.SelectionManager",
      *
      * @return {var} TODOC
      */
-    _getFirst : function() {
-      return qx.lang.Array.getFirst(this.getItems());
+    getFirst : function() {
+      return this.getItems()[0];
     },
 
 
@@ -93,8 +93,10 @@ qx.Class.define("qx.legacy.ui.tree.SelectionManager",
      *
      * @return {var} TODOC
      */
-    _getLast : function() {
-      return qx.lang.Array.getLast(this.getItems());
+    getLast : function() 
+    {
+      var items = this.getItems();
+      return items[items.length-1];
     },
 
 
