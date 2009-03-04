@@ -273,9 +273,9 @@ qx.Class.define("qx.test.data.DataArray",
     },
 
 
-    testGetArray: function() {
-      this.assertEquals("one two three", this.__a.getArray().join(" "), "getArray does not work!");
-      this.assertInstance( this.__a.getArray(), Array, "getArray does not work!");
+    testToArray: function() {
+      this.assertEquals("one two three", this.__a.toArray().join(" "), "toArray does not work!");
+      this.assertInstance( this.__a.toArray(), Array, "toArray does not work!");
     },
     
     
@@ -289,7 +289,7 @@ qx.Class.define("qx.test.data.DataArray",
     
     
     testToString: function() {
-      this.assertEquals(this.__a.getArray().toString(), this.__a.toString(), "toString does not work!");
+      this.assertEquals(this.__a.toArray().toString(), this.__a.toString(), "toString does not work!");
     },
     
     
@@ -379,7 +379,7 @@ qx.Class.define("qx.test.data.DataArray",
     
     
     testAppend: function() {
-      this.__a.append(new qx.data.Array("4", "5").getArray());
+      this.__a.append(new qx.data.Array("4", "5").toArray());
       
       // check the value
       this.assertEquals("one", this.__a.getItem(0), "append does not work");
