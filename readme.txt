@@ -36,13 +36,13 @@ see http://qooxdoo.org/documentation/0.8#getting_started
 
 For the impatient, here is a short version:
 
-Use the 'tool/bin/create-application.py' script to start a new application,
-This will create a minimal application directory structure, which is ready to 
-be built and run. Within the newly created application run the command 
-'generate.py source', in order to build a development version of your app. 
-Open 'source/index.html' in your browser to startup the application. You can 
-then go on and extend it into an application of your liking, by changing the
-'source/class/<namespace>/Application.js' source file.
+Use the 'tool/bin/create-application.py' script to setup a new application.
+This will create a minimal directory structure of an application, which is ready to
+be built and run. Within the newly created application folder run the command
+'generate.py source-all' to build a development version of your app.
+Open 'source/index.html' in your browser and see your first application in action. You can
+then go on and extend it into an application of your liking by changing the
+'Application.js' class file below the 'source/class/' folder.
 
 
 API Reference
