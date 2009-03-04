@@ -352,6 +352,7 @@ qx.Class.define("inspector.widgets.WidgetsWindow", {
         this._openFolder(parents[i]);
       }
           
+      this._tree.getRoot().setOpen(true);
       
       var id = widget.toHashCode();
       // get all items of the tree
@@ -397,7 +398,8 @@ qx.Class.define("inspector.widgets.WidgetsWindow", {
         this._tree.resetSelection();
         this._tree.addToSelection(this._tree.getRoot());
         // tell the inspector class that the widget has changed
-        this._inspector.setWidget(qx.ui.core.ClientDocument.getInstance(), this);        
+        // TODO: the following line appears to be old 0.7 code
+        // this._inspector.setWidget(qx.ui.core.ClientDocument.getInstance(), this);        
         return;
       }
       // for every element
