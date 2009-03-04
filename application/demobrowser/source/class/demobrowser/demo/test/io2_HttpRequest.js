@@ -33,7 +33,7 @@ qx.Class.define("demobrowser.demo.test.io2_HttpRequest",
 
       var req = new qx.io2.HttpRequest;
       
-      req.setUrl("HttpRequest.html");
+      req.setUrl("io2_HttpRequest.html");
       
       req.addListener("change", function(e)
       {
