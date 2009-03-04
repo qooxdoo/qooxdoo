@@ -139,11 +139,11 @@
       {
         "files"  :
         [
-          "index-redirect.html"
+          "index.html"
         ],
 
         "target" : "${BUILD_PATH}",
-        "source" : "${INSPECTOR_ROOT}/source"
+        "source" : "${INSPECTOR_ROOT}/source/resource/inspector/html"
       }
     },
 
