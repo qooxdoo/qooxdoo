@@ -94,17 +94,13 @@ qx.Class.define("qx.type.BaseArray",
 
   members :
   {
-    /** 
-     * Translates the array to other array-like objects like the native Array.
-     *
-     * Attention: This method may return the same instance when it is 
-     * already using the correct constructor.
-     *
-     * @signature function(constructor)
-     * @param constructor {Function} Constructor function to use
-     * @return {Array} Transformed copy of the original array
+    /**
+     * Converts a base array to a native Array
+     * 
+     * @signature function()
+     * @return {Array} The native array
      */
-    to : null,
+    toArray : null,
     
     /** 
      * Returns the current number of items stored in the Array
@@ -651,14 +647,10 @@ function createStackConstructor(stack)
     return ret;
   };
 
-  // Add new "to" method for easy translation between Array-like instances
-  Stack.prototype.to = function(constructor)
+  // Add new "toArray" method for convert a base array to a native Array
+  Stack.prototype.toArray = function(constructor)
   {
-    if (this.constructor === constructor) {
-      return this; 
-    }
-    
-    var ret = new constructor;
+    var ret = [];
     ret.push.apply(ret, Array.prototype.slice.call(this, 0));
     return ret;
   };  

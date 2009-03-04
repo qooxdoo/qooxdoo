@@ -98,6 +98,14 @@ qx.Interface.define("qx.data.IListData",
      * 
      * @return {Number} The current length of the data structure.
      */
-    getLength : function() {}
+    getLength : function() {},
+    
+    
+    /**
+     * Returns the list data as native array.
+     *
+     * @return {Array} The native array.
+     */
+    toArray: function() {}
   }
 });
