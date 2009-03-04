@@ -52,7 +52,11 @@ qx.Class.define("qx.dev.unit.JsUnitTestResult",
 
     __testFunctionNames : null,
 
-    // overridden
+    /**
+     * Run the test
+     * @param test {TestFunction} The test.
+     * @param testFunction {Function} A reference to a test function.
+     */
     run : function(test, testFunction)
     {
       var testFunctionName = "$test_" + test.getFullName().replace(/\W/g, "_");

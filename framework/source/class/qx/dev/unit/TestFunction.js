@@ -129,7 +129,9 @@ qx.Class.define("qx.dev.unit.TestFunction",
       
     },
     
-    
+    /**
+     * Call the test class' <code>setUp</code> method.
+     */
     setUp : function() 
     {
       if (typeof (this.__inst.setUp) == "function") {
@@ -137,6 +139,9 @@ qx.Class.define("qx.dev.unit.TestFunction",
       }
     },
     
+    /**
+     * Call the test class' <code>tearDown</code> method.
+     */    
     tearDown : function() 
     {
       if (typeof (this.__inst.tearDown) == "function") {
