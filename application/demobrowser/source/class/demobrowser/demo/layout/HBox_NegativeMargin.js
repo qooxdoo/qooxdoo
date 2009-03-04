@@ -59,7 +59,7 @@ qx.Class.define("demobrowser.demo.layout.HBox_NegativeMargin",
 
       var w1 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "blue", maxHeight: 50, alignY:"top"});
       var w2 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green", maxHeight: 50, alignY:"middle"});
-      var w3 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "grey", maxHeight: 50, alignY:"bottom"});
+      var w3 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "gray", maxHeight: 50, alignY:"bottom"});
 
       container.add(w1);
       container.add(w2);
@@ -84,7 +84,7 @@ qx.Class.define("demobrowser.demo.layout.HBox_NegativeMargin",
 
       var w1 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "blue", maxHeight: 50, alignY:"top"});
       var w2 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green", maxHeight: 50, alignY:"middle"});
-      var w3 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "grey", maxHeight: 50, alignY:"bottom"});
+      var w3 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "gray", maxHeight: 50, alignY:"bottom"});
 
       container.add(w1);
       container.add(w2);
@@ -111,7 +111,7 @@ qx.Class.define("demobrowser.demo.layout.HBox_NegativeMargin",
 
       var w1 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "blue", maxHeight: 50, alignY:"top"});
       var w2 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green", maxHeight: 50, alignY:"middle"});
-      var w3 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "grey", maxHeight: 50, alignY:"bottom"});
+      var w3 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "gray", maxHeight: 50, alignY:"bottom"});
 
       container.add(w1, { flex : 1 });
       container.add(w2, { flex : 1 });
@@ -137,7 +137,7 @@ qx.Class.define("demobrowser.demo.layout.HBox_NegativeMargin",
 
       var w1 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "blue", maxHeight: 50, alignY:"top"});
       var w2 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green", maxHeight: 50, alignY:"middle"});
-      var w3 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "grey", maxHeight: 50, alignY:"bottom"});
+      var w3 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "gray", maxHeight: 50, alignY:"bottom"});
 
       container.add(w1, { flex : 1 });
       container.add(w2, { flex : 2 });
@@ -163,7 +163,7 @@ qx.Class.define("demobrowser.demo.layout.HBox_NegativeMargin",
 
       var w1 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "blue", maxHeight: 50, alignY:"top"});
       var w2 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green", maxHeight: 50, alignY:"middle"});
-      var w3 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "grey", maxHeight: 50, alignY:"bottom"});
+      var w3 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "gray", maxHeight: 50, alignY:"bottom"});
 
       container.add(w1, { flex : 1 });
       container.add(w2, { flex : 2 });
@@ -193,7 +193,7 @@ qx.Class.define("demobrowser.demo.layout.HBox_NegativeMargin",
 
       var w1 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "blue", maxHeight: 50, alignY:"top"});
       var w2 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green", maxHeight: 50, alignY:"middle"});
-      var w3 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "grey", maxHeight: 50, alignY:"bottom"});
+      var w3 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "gray", maxHeight: 50, alignY:"bottom"});
 
       container.add(w1, { flex : 1 });
       container.add(w2, { flex : 1 });
@@ -219,7 +219,7 @@ qx.Class.define("demobrowser.demo.layout.HBox_NegativeMargin",
 
       var w1 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "blue", maxHeight: 50, alignY:"top"});
       var w2 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green", maxHeight: 50, alignY:"middle"});
-      var w3 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "grey", maxHeight: 50, alignY:"bottom"});
+      var w3 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "gray", maxHeight: 50, alignY:"bottom"});
 
       container.add(w1, { flex : 1});
       container.add(w2, { flex : 2 });
