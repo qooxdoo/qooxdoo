@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
+     2008-2009 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -172,7 +172,7 @@ qx.Class.define("inspector.Application",
     
     /*
     -------------------------------------------------------------------------
-      Initializ helper
+      Initialize helper
     -------------------------------------------------------------------------
     */   
     
@@ -191,7 +191,8 @@ qx.Class.define("inspector.Application",
     
     __checkCookieFor: function(winRef, button, name) {
       // if the open cookie is set
-      if (qx.bom.Cookie.get(name + "Open") == "true") {
+      var cookie = qx.bom.Cookie.get(name + "Open");
+      if (cookie == "true" || cookie === null) {
         button.setChecked(true);
 
         // check the position
@@ -251,7 +252,7 @@ qx.Class.define("inspector.Application",
         // signal that the inspector is not working
         this._toolbar.setEnabled(false);
         this._selectedWidgetLabel.setContent(
-          "Can not access the javascript in the iframe!"
+          " Can not access the javascript in the iframe!"
         );
         // enable the text to make it more visible
         this._selectedWidgetLabel.setEnabled(true);
@@ -341,10 +342,11 @@ qx.Class.define("inspector.Application",
       }, this);      
       
       // add the second separator
-      this._toolbar.add(new qx.ui.toolbar.Separator());
+//      this._toolbar.add(new qx.ui.toolbar.Separator());
 
       // Lable showing the selected widget
       this._selectedWidgetLabel = new qx.ui.basic.Label();
+      this._selectedWidgetLabel.setRich(true);
       this._toolbar.add(this._selectedWidgetLabel);            
 
       // add a spacer to seperate the url
@@ -472,7 +474,7 @@ qx.Class.define("inspector.Application",
         return;
       }     
       // show the selected widget in the inspector bar
-      this._selectedWidgetLabel.setContent("Selected widget: " + object.toString());
+      this._selectedWidgetLabel.setContent(" : <tt>" + object.toString() + "</tt>");
       
       if (initiator != this._selector) {
         if (object !== this._selector.getSelection()) {
