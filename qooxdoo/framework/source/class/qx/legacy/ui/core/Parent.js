@@ -742,7 +742,7 @@ qx.Class.define("qx.legacy.ui.core.Parent",
      * @return {Widget|null} First child widget (null if this widget does not have any children)
      */
     getFirstChild : function() {
-      return qx.lang.Array.getFirst(this.getChildren()) || null;
+      return this.getChildren()[0] || null;
     },
 
 
@@ -753,7 +753,7 @@ qx.Class.define("qx.legacy.ui.core.Parent",
      *     not have any visible children)
      */
     getFirstVisibleChild : function() {
-      return qx.lang.Array.getFirst(this.getVisibleChildren()) || null;
+      return this.getVisibleChildren()[0] || null;
     },
 
 
@@ -783,8 +783,10 @@ qx.Class.define("qx.legacy.ui.core.Parent",
      * @return {Widget|null} Last child widget (null if this widget does
      *     not have any children)
      */
-    getLastChild : function() {
-      return qx.lang.Array.getLast(this.getChildren()) || null;
+    getLastChild : function() 
+    {
+      var children = this.getChildren()
+      return children[children.length-1] || null;
     },
 
 
@@ -794,8 +796,10 @@ qx.Class.define("qx.legacy.ui.core.Parent",
      * @return {Widget|null} Last visible child widget (null if this widget does
      *     not have any visible children)
      */
-    getLastVisibleChild : function() {
-      return qx.lang.Array.getLast(this.getVisibleChildren()) || null;
+    getLastVisibleChild : function() 
+    {
+      var children = this.getVisibleChildren()
+      return children[children.length-1] || null;
     },
 
 

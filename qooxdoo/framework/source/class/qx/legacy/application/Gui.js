@@ -64,6 +64,14 @@ qx.Class.define("qx.legacy.application.Gui",
     close : function(val)
     {
       // empty
+    },
+    
+    getRoot : function()
+    {
+      if (!this.__root) {
+        this.__root = new qx.ui.root.Page(document);
+      }
+      return this.__root;
     }
 
   }
