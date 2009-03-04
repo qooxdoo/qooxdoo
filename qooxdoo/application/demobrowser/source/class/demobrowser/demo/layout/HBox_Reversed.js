@@ -52,7 +52,7 @@ qx.Class.define("demobrowser.demo.layout.HBox_Reversed",
       });
       var w3 = new qx.ui.core.Widget().set({
         decorator: "main",
-        backgroundColor: "grey",
+        backgroundColor: "gray",
         maxHeight:60,
         alignY:"bottom"
       });
