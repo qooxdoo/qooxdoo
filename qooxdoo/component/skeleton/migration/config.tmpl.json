@@ -78,6 +78,26 @@
       "extend" : ["appconf::fix"]
     },
 
+    "inspector" :
+    {
+      "extend" : ["appconf::inspector"]
+    },
+    
+    "inspector-script" :
+    {
+      "extend" : ["appconf::inspector-script"]
+    },
+
+    "inspector-files" :
+    {
+      "extend" : ["appconf::inspector-files"]
+    },
+
+    "inspector-resources" :
+    {
+      "extend" : ["appconf::inspector-resources"]
+    },
+
     "lint" :
     {
       "extend" : ["appconf::lint"]
@@ -93,6 +113,11 @@
       "extend" : ["appconf::pretty"]
     },
 
+    "profiling" :
+    {
+      "extend" : ["appconf::profiling"]
+    },
+
     "publish" :
     {
       "extend" : ["appconf::publish"]
@@ -101,6 +126,11 @@
     "source" :
     {
       "extend" : ["common", "appconf::source"]
+    },
+
+    "source-all" :
+    {
+      "extend" : ["common", "appconf::source-all"]
     },
 
     "test" :
