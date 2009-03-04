@@ -308,7 +308,7 @@ qx.Class.define("qx.data.Array",
      *
      * @return {Array} The native array.
      */
-    getArray: function() {
+    toArray: function() {
       return this.__array;
     },
 
