@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.ui.ScrollContainer_Simple",
+qx.Class.define("demobrowser.demo.test.ScrollContainer_ResizeMatch",
 {
   extend : qx.application.Standalone,
 
@@ -30,45 +30,37 @@ qx.Class.define("demobrowser.demo.ui.ScrollContainer_Simple",
 
       scrollContainer = new qx.ui.container.Scroll();
       scrollContainer.set({
-        width: 300,
+        width: 200,
         height: 200
       });
 
-      scrollContainer.add(this.generateBoxes());
       this.getRoot().add(scrollContainer, {left: 10, top: 10});
+      scrollContainer.add(this.generateBox());
 
-      var toggle = new qx.ui.form.Button("Toggle size").set({
-        padding : 5
-      });
+      var toggle = new qx.ui.form.Button("Toggle size");
 
       var grow = true;
       toggle.addListener("execute", function()
       {
-        scrollContainer.setWidth(grow ? 800 : 300);
+        scrollContainer.setWidth(grow ? 300 : 200);
+        scrollContainer.setHeight(grow ? 300 : 200);
         grow = !grow;
       });
 
       this.getRoot().add(toggle, {left: 10, top: 400});
     },
 
-    generateBoxes : function()
+    generateBox : function()
     {
-      var box = new qx.ui.container.Composite(new qx.ui.layout.Grid());
-
-      for (var y=0; y<10; y++)
-      {
-        for (var x=0; x<10; x++)
-        {
-          box.add((new qx.ui.core.Widget()).set({
-            backgroundColor : ((x+y) % 2 == 0) ? "red" : "blue",
-            width : 60,
-            allowShrinkY : false,
-            allowShrinkX : false,
-            height : 60
-          }), {column: x, row: y});
-        }
-      }
-
+      var box = new qx.ui.basic.Label("Content size: 300x300").set({
+        width: 300,
+        height: 300,
+        allowShrinkX: false,
+        allowShrinkY: false,
+        backgroundColor: "brown",
+        textColor: "white",
+        padding: 10
+      });
       return box;
     }
   }

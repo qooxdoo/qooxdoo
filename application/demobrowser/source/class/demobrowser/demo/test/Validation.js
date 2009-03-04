@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.core.Validation",
+qx.Class.define("demobrowser.demo.test.Validation",
 {
   extend : qx.application.Standalone,
 
