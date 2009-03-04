@@ -247,6 +247,7 @@ qx.Class.define("qx.event.handler.Input",
      * @signature function(target, elementType)
      * @param target {Element} The event target
      * @param elementType {String} The type of element
+     * @return {void}
      */
     __changeEventOnEnterFix : qx.core.Variant.select("qx.client",
     {
