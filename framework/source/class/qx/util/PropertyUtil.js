@@ -18,7 +18,10 @@
 ************************************************************************ */
 
 /**
- * A helper class for debugging the property system
+ * A helper class for accessing the property system directly.
+ * 
+ * This class is rather to be used internally. For all regular usage of the
+ * property system the default API should be sufficient.
  */
 qx.Class.define("qx.util.PropertyUtil",
 {
@@ -33,7 +36,7 @@ qx.Class.define("qx.util.PropertyUtil",
     /**
      * Returns the user value of the given property
      * 
-     * @param object {Object} The object to debug
+     * @param object {Object} The object to access
      * @param propertyName {String} The name of the property
      * @return {var} The user value
      */
@@ -44,7 +47,7 @@ qx.Class.define("qx.util.PropertyUtil",
     /**
     * Sets the user value of the given property
     * 
-    * @param object {Object} The object to debug
+    * @param object {Object} The object to access
     * @param propertyName {String} The name of the property
     * @param value {var} The value to set
     * @return {void}
@@ -56,7 +59,7 @@ qx.Class.define("qx.util.PropertyUtil",
     /**
     * Deletes the user value of the given property
     * 
-    * @param object {Object} The object to debug
+    * @param object {Object} The object to access
     * @param propertyName {String} The name of the property
     * @return {void}
     */
@@ -74,7 +77,7 @@ qx.Class.define("qx.util.PropertyUtil",
     /**
      * Returns the init value of the given property
      * 
-     * @param object {Object} The object to debug
+     * @param object {Object} The object to access
      * @param propertyName {String} The name of the property
      * @return {var} The init value
      */
@@ -85,7 +88,7 @@ qx.Class.define("qx.util.PropertyUtil",
     /**
     * Sets the init value of the given property
     * 
-    * @param object {Object} The object to debug
+    * @param object {Object} The object to access
     * @param propertyName {String} The name of the property
     * @param value {var} The value to set
     * @return {void}
@@ -97,7 +100,7 @@ qx.Class.define("qx.util.PropertyUtil",
     /**
     * Deletes the init value of the given property
     * 
-    * @param object {Object} The object to debug
+    * @param object {Object} The object to access
     * @param propertyName {String} The name of the property
     * @return {void}
     */
@@ -115,7 +118,7 @@ qx.Class.define("qx.util.PropertyUtil",
     /**
      * Returns the theme value of the given property
      * 
-     * @param object {Object} The object to debug
+     * @param object {Object} The object to access
      * @param propertyName {String} The name of the property
      * @return {var} The theme value
      */
@@ -126,7 +129,7 @@ qx.Class.define("qx.util.PropertyUtil",
     /**
     * Sets the theme value of the given property
     * 
-    * @param object {Object} The object to debug
+    * @param object {Object} The object to access
     * @param propertyName {String} The name of the property
     * @param value {var} The value to set
     * @return {void}
@@ -138,7 +141,7 @@ qx.Class.define("qx.util.PropertyUtil",
     /**
     * Deletes the theme value of the given property
     * 
-    * @param object {Object} The object to debug
+    * @param object {Object} The object to access
     * @param propertyName {String} The name of the property
     * @return {void}
     */
@@ -156,7 +159,7 @@ qx.Class.define("qx.util.PropertyUtil",
     /**
      * Sets a themed property
      * 
-     * @param object {Object} The object to debug
+     * @param object {Object} The object to access
      * @param propertyName {String} The name of the property
     * @param value {var} The value to set
      * @return {void}
@@ -170,7 +173,7 @@ qx.Class.define("qx.util.PropertyUtil",
     /**
     * Resets a themed property
     * 
-    * @param object {Object} The object to debug
+    * @param object {Object} The object to access
     * @param propertyName {String} The name of the property
     * @return {void}
     */
