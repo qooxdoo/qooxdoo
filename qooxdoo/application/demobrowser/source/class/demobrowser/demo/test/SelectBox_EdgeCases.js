@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.ui.SelectBox_EdgeCases",
+qx.Class.define("demobrowser.demo.test.SelectBox_EdgeCases",
 {
   extend : qx.application.Standalone,
 

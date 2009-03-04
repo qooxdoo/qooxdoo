@@ -19,11 +19,11 @@
 ************************************************************************ */
 
 /**
- * Test the edge case were the available height is normally enough. The content
- * however requires a higher width than the available width. This means it creates
- * a horizontal scrollbar and this way stoles the height the required size.
+ * Test the edge case were the available width is normally enough. The content
+ * however requires a higher height than the available height. This means it creates
+ * a vertical scrollbar and this way stoles the width the required size.
  */
-qx.Class.define("demobrowser.demo.ui.ScrollContainer_EdgeCaseHeight",
+qx.Class.define("demobrowser.demo.test.ScrollContainer_EdgeCaseWidth",
 {
   extend : qx.application.Standalone,
 
@@ -35,8 +35,8 @@ qx.Class.define("demobrowser.demo.ui.ScrollContainer_EdgeCaseHeight",
 
       scrollContainer = new qx.ui.container.Scroll();
       scrollContainer.set({
-        width: 200,
-        height: 300
+        width: 300,
+        height: 200
       });
 
       this.getRoot().add(scrollContainer, {left: 10, top: 10});
@@ -47,7 +47,7 @@ qx.Class.define("demobrowser.demo.ui.ScrollContainer_EdgeCaseHeight",
       var grow1 = true;
       toggle1.addListener("execute", function()
       {
-        scrollContainer.setWidth(grow1 ? 300 : 200);
+        scrollContainer.setHeight(grow1 ? 300 : 200);
         grow1 = !grow1;
       });
       this.getRoot().add(toggle1, {left: 330, top: 20});
@@ -57,7 +57,7 @@ qx.Class.define("demobrowser.demo.ui.ScrollContainer_EdgeCaseHeight",
       var grow2 = true;
       toggle2.addListener("execute", function()
       {
-        scrollContainer.getChild().setWidth(grow2 ? 100 : 300);
+        scrollContainer.getChild().setHeight(grow2 ? 100 : 300);
         grow2 = !grow2;
       });
       this.getRoot().add(toggle2, {left: 430, top: 20});
