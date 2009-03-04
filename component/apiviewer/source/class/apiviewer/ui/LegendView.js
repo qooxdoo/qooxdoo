@@ -152,7 +152,7 @@ qx.Class.define("apiviewer.ui.LegendView",
      },
      {
        icon: "ICON_BLANK",
-       desc: 'deprecated'
+       desc: '<span style="text-decoration: line-through;color: #7193b9;">deprecated</span>'
      },
      {
        icon: "OVERLAY_WARN",
