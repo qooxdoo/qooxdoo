@@ -112,26 +112,6 @@ qx.Class.define("qx.ui.form.ComboBox",
   {
 
     __preSelectedItem : null,
-    __initialAfterOpen : null,
-
-    /**
-     * Returns the __initialAfterOpen flag
-     *
-     * @return {Boolean} The flag
-     */
-    _getInititalAfterOpen : function() {
-      return this.__initialAfterOpen;
-    },
-
-
-    /**
-     * Sets the __initialAfterOpen flag
-     *
-     * @param flag {Boolean} The flag
-     */
-    _setInitialAfterOpen : function(flag) {
-      this.__initialAfterOpen = flag;
-    },
 
     /*
     ---------------------------------------------------------------------------
@@ -299,12 +279,6 @@ qx.Class.define("qx.ui.form.ComboBox",
     // overridden
     _onListChangeSelection : function(e)
     {
-      if (this.__initialAfterOpen)
-      {
-        delete this.__initialAfterOpen;
-        return;
-      }
-
       var current = e.getData();
       if (current.length > 0)
       {
@@ -341,7 +315,6 @@ qx.Class.define("qx.ui.form.ComboBox",
       var popup = this.getChildControl("popup");
       if (popup.isVisible())
       {
-        this.__initialAfterOpen = true;
         var list = this.getChildControl("list");
         list.setValue(this.getValue());
       }
