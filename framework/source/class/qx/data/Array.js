@@ -62,7 +62,11 @@ qx.Class.define("qx.data.Array",
       this.__array = new Array(param);
     // check for a array itself
     } else if (param instanceof Array) {
-      this.__array = qx.lang.Array.clone(param);
+      this.__array = [];
+      for (var i = 0; i < param.length; i++) {
+        this.push(param[i]);
+      }
+      // this.__array = qx.lang.Array.clone(param);
 
     // error case
     } else {
