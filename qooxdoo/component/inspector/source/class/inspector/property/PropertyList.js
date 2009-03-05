@@ -18,8 +18,8 @@
 
 ************************************************************************ */
 /* ************************************************************************
-#asset(inspector/images/close.gif)
-#asset(inspector/images/open.gif)
+#asset(inspector/images/close.png)
+#asset(inspector/images/open.png)
 #asset(inspector/images/null.png)
 #asset(inspector/images/shell/errorIcon.png)
 #asset(qx/icon/Tango/16/actions/go-next.png)
@@ -240,7 +240,7 @@ qx.Class.define("inspector.property.PropertyList", {
           }
           
           // create the atom for the group and add it
-          var groupNameAtom = new qx.ui.basic.Atom("<b>" + groupNames[i] + "</b>", "inspector/images/close.gif");
+          var groupNameAtom = new qx.ui.basic.Atom("<b>" + groupNames[i] + "</b>", "inspector/images/close.png");
           groupNameAtom.setUserData("name", groupNames[i]);
           groupNameAtom.setRich(true);
           this.addAt(groupNameAtom, 0);
@@ -265,10 +265,10 @@ qx.Class.define("inspector.property.PropertyList", {
           groupNameAtom.addListener("click", function(e) {
             if(this.isVisible()) { 
                 this.setVisibility("excluded");
-                e.getTarget().setIcon("inspector/images/open.gif");              
+                e.getTarget().setIcon("inspector/images/open.png");              
             } else {
                 this.setVisibility("visible");
-                e.getTarget().setIcon("inspector/images/close.gif");              
+                e.getTarget().setIcon("inspector/images/close.png");              
             }
           }, groupLayout);         
 
