@@ -20,9 +20,6 @@
 
 qx.Mixin.define("qx.legacy.application.MGuiCompat",
 {
-  include : [qx.locale.MTranslation],
-
-
   /*
   *****************************************************************************
      MEMBERS
@@ -38,6 +35,11 @@ qx.Mixin.define("qx.legacy.application.MGuiCompat",
      */
     compat : function()
     {
+      if (this.__initialized) {
+        return;
+      }
+      this.__initialized = true;
+  
       this.debug("Enabling 0.7x application compat");
 
       // this is needed to verify that the application developer has called the
@@ -56,6 +58,13 @@ qx.Mixin.define("qx.legacy.application.MGuiCompat",
       // Force creation of client document
       qx.legacy.ui.core.ClientDocument.getInstance();
 
+      // include mtranslation into qx.core.Object and not just into qx.ui.core.Widget
+      qx.Class.include(qx.core.Object, qx.locale.MTranslation);
+      
+      // patch event handling
+      qx.Class.patch(qx.event.dispatch.MouseCapture, qx.legacy.application.MMouseCapturePatch);
+      qx.Class.patch(qx.event.Pool, qx.legacy.application.MEventPoolPatch);
+      
       // Call preloader
       qx.event.Timer.once(this._preload, this, 0);
     },

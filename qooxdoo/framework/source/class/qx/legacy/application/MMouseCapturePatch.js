@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2007-2008 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -14,31 +14,28 @@
 
    Authors:
      * Fabian Jakobs (fjakobs)
-     * Sebastian Werner (wpbasti)
 
 ************************************************************************ */
 
-/**
- * Central instance pool for event objects. All event objects dispatched by the
- * event loader are pooled using this class.
- */
-qx.Class.define("qx.event.Pool",
+qx.Mixin.define("qx.legacy.application.MMouseCapturePatch",
 {
-  extend : qx.util.ObjectPool,
-  type : "singleton",
-
-
-  // Even though this class contains almost no code it is required because the
-  // legacy code needs a place to patch the event pooling behavior.
-  
-
   /*
   *****************************************************************************
-     CONSTRUCTOR
+     MEMBERS
   *****************************************************************************
   */
 
-  construct : function() {
-    this.base(arguments, 30);
+  members :
+  {
+    // interface implementation
+    canDispatchEvent : function(target, event, type)
+    {      
+      return (
+        this.__captureElement && 
+        this.__captureEvents[type] && 
+        event.classname &&
+        event.classname.indexOf("qx.legacy") == -1
+      );
+    }    
   }
 });

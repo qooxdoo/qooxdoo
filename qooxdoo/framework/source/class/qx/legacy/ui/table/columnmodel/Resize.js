@@ -33,8 +33,6 @@
 qx.Class.define("qx.legacy.ui.table.columnmodel.Resize",
 {
   extend : qx.legacy.ui.table.columnmodel.Basic,
-  include : qx.locale.MTranslation,
-
 
 
 

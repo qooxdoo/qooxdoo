@@ -38,7 +38,6 @@ qx.Class.define("demobrowser.demo.legacy.EmbedFuture_Dialog",
     main: function()
     {
       this.base(arguments);
-      this.compat();
       qx.theme.manager.Meta.getInstance().initialize();
 
       // Create button
