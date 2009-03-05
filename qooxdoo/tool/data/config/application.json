@@ -52,7 +52,7 @@
     "QOOXDOO_PATH" : "../../..",
     "CACHE"        : "cache",
     "QXTHEME"      : "qx.theme.Modern",
-    "QXVERSION"    : "0.8.2-pre",
+    "QXVERSION"    : "0.8.2",
     "LOCALES"      : [ "en" ],
     "BUILD_PATH"   : "${ROOT}/build"
   },
