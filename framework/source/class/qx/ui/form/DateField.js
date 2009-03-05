@@ -313,8 +313,6 @@ qx.Class.define("qx.ui.form.DateField",
       var popup = this.getChildControl("popup");
       if (popup.isVisible())
       {
-
-        this._setInitialAfterOpen(true);
         var chooser = this.getChildControl("list");
         var date = this.getDate();
         chooser.setDate(date);
