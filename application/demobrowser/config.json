@@ -179,7 +179,8 @@
         },
         "code"  :
         {
-          "format" : true
+          "format" : true,
+          "optimize" : ["basecalls", "variables", "privates", "strings"]
         }
       }
     },
