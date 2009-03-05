@@ -29,8 +29,7 @@
  */
 qx.Class.define("demobrowser.demo.legacy.EmbedFuture_Layout",
 {
-  extend : qx.application.Inline,
-  include : [qx.legacy.application.MGuiCompat],
+  extend : qx.legacy.application.Gui,
 
   members :
   {
