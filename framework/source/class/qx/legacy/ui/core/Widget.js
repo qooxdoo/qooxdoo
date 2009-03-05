@@ -46,7 +46,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
 {
   extend : qx.core.Object,
   type : "abstract",
-  include : [ qx.locale.MTranslation ],
 
 
   /*
