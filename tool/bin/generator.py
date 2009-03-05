@@ -103,9 +103,6 @@ Arguments:
     config.resolveIncludes()
     console.outdent()
 
-    # Fix the "+key" override tags on feature names for non-merging keys
-    config.fixJobsTags()  # do this in all jobs so we don't have to worry which get run
-
     # Check jobs
     availableJobs = config.getExportedJobsList()
     if len(options.jobs) == 0:
