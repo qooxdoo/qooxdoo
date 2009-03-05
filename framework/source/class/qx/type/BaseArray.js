@@ -648,11 +648,8 @@ function createStackConstructor(stack)
   };
 
   // Add new "toArray" method for convert a base array to a native Array
-  Stack.prototype.toArray = function(constructor)
-  {
-    var ret = [];
-    ret.push.apply(ret, Array.prototype.slice.call(this, 0));
-    return ret;
+  Stack.prototype.toArray = function() {
+    return Array.prototype.slice.call(this, 0);
   };  
   
   // Add valueOf() to return the length
