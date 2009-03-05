@@ -28,7 +28,6 @@ qx.Class.define("demobrowser.demo.data.Gears",
       
       var personBox = new qx.ui.groupbox.GroupBox("Person");
       this.getRoot().add(personBox, {left: 10, top: 50});
-
       
       personBox.setLayout(new qx.ui.layout.Grid(0, 3));
       
@@ -150,6 +149,7 @@ qx.Class.define("demobrowser.demo.data.store.Gears",
         location.href = "http://code.google.com/apis/gears/install.html";
         return;
       }
+      return;
     }
     
     this.__db = this.initDB();
@@ -199,6 +199,10 @@ qx.Class.define("demobrowser.demo.data.store.Gears",
       person.firstname = "";
       person.lastname = "";
       person.age = 0;
+      
+      if (!google.gears.factory || !this.__db) {
+        return person;
+      }
       
       // Get the person entry
       var rs = this.__db.execute('select * from Persons');
