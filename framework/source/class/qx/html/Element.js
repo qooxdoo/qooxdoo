@@ -96,7 +96,7 @@ qx.Class.define("qx.html.Element",
     _scroll : {},
 
 
-    /** {Map} Map of post actions for elements. The key is the action name. The value the {@link qx.html.Element}. */
+    /** {Array} List of post actions for elements. The key is the action name. The value the {@link qx.html.Element}. */
     _actions : [],
 
 
