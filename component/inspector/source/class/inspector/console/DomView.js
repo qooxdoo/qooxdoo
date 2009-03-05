@@ -279,7 +279,7 @@ qx.Class.define("inspector.console.DomView",
           // if it is not the selected object (self reference)
           if (sortedValues[i].value != o) {
             // print out the objects key incl. the link to select it         
-            var imageURI = qx.util.ResourceManager.toUri("inspector/images/open.gif");
+            var imageURI = qx.util.ResourceManager.toUri("inspector/images/open.png");
             postString.add("<tr><td class='" + keyStyle + "'><a onclick='" +
                             "qx.core.Init.getApplication().inspectObjectByDomSelecet(" + index + ", \"" + sortedValues[i].key + "\")" + 
                             "'><img class='ins_dom_front_image' src='" + 
