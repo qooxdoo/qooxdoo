@@ -85,8 +85,8 @@
         },
         "uris"   :
         {
-          "script"   : "../inspector/script"
-          ,"resource" : "../inspector/resource"
+          "script"   : "./script"
+          ,"resource" : "./resource"
         },
         "code"   :
         {
