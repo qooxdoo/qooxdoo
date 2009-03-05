@@ -9,7 +9,7 @@
     "CACHE"        : "cache",
     "QXTHEME"      : "qx.theme.Modern",
     "QXICONTHEME"  : ["Tango"],
-    "QXVERSION"    : "0.8.2",
+    "QXVERSION"    : "0.8.3-pre",
     "OPTIMIZE"     : ["basecalls", "variables", "privates", "strings"],
     "LOCALES"      : [ "en" ],
     "BUILD_PATH"   : "${ROOT}/build"
