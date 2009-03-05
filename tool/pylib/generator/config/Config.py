@@ -69,6 +69,11 @@ class Config:
                     dat = letObj.expandMacros(self._data[key])
                     self._data[key] = dat
 
+        # fix job key tags (like "=key")
+        self.fixJobsTags()
+
+        return
+
     def __init__data(self, data, path):
         self._data = data
         if path:
