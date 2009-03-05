@@ -10,7 +10,7 @@
     "ICONTHEME"    : ["Tango"],    
     "INSPECTOR_ROOT"  : ".",
     "BUILD_PATH"   : "${ROOT}/build",    
-    "QXVERSION"    : "0.8.2",
+    "QXVERSION"    : "0.8.3-pre",
     "OPTIMIZE"     : ["basecalls", "variables", "privates", "strings"]
   },
 
