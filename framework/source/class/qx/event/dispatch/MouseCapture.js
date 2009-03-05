@@ -110,9 +110,7 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
     {      
       return (
         this.__captureElement && 
-        this.__captureEvents[type] && 
-        event.classname &&
-        event.classname.indexOf("qx.legacy") == -1
+        this.__captureEvents[type]
       );
     },
 
