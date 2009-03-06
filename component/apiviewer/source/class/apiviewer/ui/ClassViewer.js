@@ -540,7 +540,15 @@ qx.Class.define("apiviewer.ui.ClassViewer",
      */
     showItem : function(itemName)
     {
-      var itemNode = this.getDocNode().getItem(itemName);
+      var itemNode;
+
+      // special handling for constructor methods since the constructor
+      // cannot be obtained with the "getItem" (which works on lists)
+      if (itemName == "construct") {
+        itemNode = this.getDocNode().getConstructor();
+      } else {
+        itemNode = this.getDocNode().getItem(itemName);
+      }
 
       if (!itemNode) {
         return false;
