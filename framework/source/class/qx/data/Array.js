@@ -62,16 +62,17 @@ qx.Class.define("qx.data.Array",
       this.__array = new Array(param);
     // check for a array itself
     } else if (param instanceof Array) {
-      this.__array = [];
-      for (var i = 0; i < param.length; i++) {
-        this.push(param[i]);
-      }
-      // this.__array = qx.lang.Array.clone(param);
+      this.__array = qx.lang.Array.clone(param);
 
     // error case
     } else {
       this.__array = [];
       throw new Error("Type of the parameter not supported!");
+    }
+    
+    // propagate changes
+    for (var i=0; i<this.__array.length; i++) {
+      this._applyEventPropagation(this.__array[i], null, i);
     }
 
     // update the length at startup
