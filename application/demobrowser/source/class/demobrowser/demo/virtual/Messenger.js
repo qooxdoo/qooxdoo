@@ -191,6 +191,7 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
           buddy.setName(tfUsername.getValue());
           buddy.setGroup(tfGroup.getValue());
           this.messenger.getModel().push(buddy);
+          this.messenger.getSelection().setItem(0, buddy);
           win.close();
         }
         
