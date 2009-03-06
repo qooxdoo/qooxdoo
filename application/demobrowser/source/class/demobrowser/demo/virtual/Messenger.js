@@ -66,7 +66,7 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
       this.messenger.setModel(model);
       
       win.add(this.createToolbar());      
-      win.add(this.messenger);
+      win.add(this.messenger, {flex: 1});
            
       doc.add(this.createDetailsView(), {left: 20, top: 20});
     },
