@@ -139,6 +139,21 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Controller",
       this._syncRowCount();
     },
     
+    _onChangeSelection: function(e)
+    {
+      var targetSelection = e.getData();
+      var selection = [];
+
+      for (var i = 0; i < targetSelection.length; i++) {
+        var modelItem = this.__groupedData[targetSelection[i]];
+        selection.push(modelItem);
+      }
+
+      // put the first two parameter into the selection array
+      selection.unshift(this.getSelection().length);
+      selection.unshift(0);
+      this.getSelection().splice.apply(this.getSelection(), selection);
+    },    
     
     _onChangeModel: function(e) 
     {
