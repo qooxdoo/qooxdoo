@@ -84,11 +84,16 @@ qx.Class.define("qx.ui.virtual.form.ListController",
         this.__changeListenerId = value.addListener(
           "change", this._onChangeModel, this
         );
+        this.__changeBubbleListenerId = value.addListener(
+          "changeBubble", this._onChangeBubbleModel, this
+        );        
       }
 
-      if (old != null) {
+      if (old != null) 
+      {
         old.removeListenerById(this.__changeLengthListenerId);
         old.removeListenerById(this.__changeListenerId);
+        old.removeListenerById(this.__changeBubbleListenerId);
       }
 
       if (this.getTarget() != null) {
@@ -101,9 +106,16 @@ qx.Class.define("qx.ui.virtual.form.ListController",
     },
 
     
-    _onChangeSelection: function(e)
+    _syncViewSelectionToModel : function()
     {
-      var targetSelection = e.getData();
+      var target = this.getTarget();
+      if (!target) 
+      {
+        this.getSelection().removaeAll();
+        return;
+      }
+      
+      var targetSelection = target.getSelectionManager().getSelection();
       var selection = [];
 
       for (var i = 0; i < targetSelection.length; i++) {
@@ -114,7 +126,33 @@ qx.Class.define("qx.ui.virtual.form.ListController",
       // put the first two parameter into the selection array
       selection.unshift(this.getSelection().length);
       selection.unshift(0);
-      this.getSelection().splice.apply(this.getSelection(), selection);
+      this.getSelection().splice.apply(this.getSelection(), selection);    
+    },
+    
+    
+    _syncModelSelectionToView : function()
+    {
+      var target = this.getTarget();
+      
+      if (!target) {
+        return;
+      }
+      
+      var modelSelection = this.getSelection();
+      var selection = [];
+
+      for (var i = 0; i < modelSelection.length; i++)
+      {
+        var row = this.getModel().indexOf(modelSelection.getItem(i));
+        selection.push(row);
+      }
+
+      target.getSelectionManager().replaceSelection(selection);   
+    },
+    
+    
+    _onChangeSelection: function(e) {
+      this._syncViewSelectionToModel();
     },
 
     
@@ -131,6 +169,15 @@ qx.Class.define("qx.ui.virtual.form.ListController",
       }
     },    
 
+    
+    _onChangeBubbleModel : function(e)
+    {     
+      var target = this.getTarget();
+      if (target != null) {
+        target.update();
+      }
+    },
+    
     
     _syncRowCount: function()
     {
