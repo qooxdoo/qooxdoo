@@ -47,8 +47,15 @@ qx.Bootstrap.define("qx.event.Manager",
 
     // Register to the page unload event.
     // Only for iframes and other secondary documents.
-    this.__disposeWrapper = qx.lang.Function.bind(this.dispose, this);
-    qx.bom.Event.addNativeListener(win, "unload", this.__disposeWrapper);
+    if (win.qx !== qx)
+    {
+      var self = this;
+      qx.bom.Event.addNativeListener(win, "unload", function() 
+      {
+        qx.bom.Event.removeNativeListener(win, "unload", arguments.callee);
+        self.dispose();
+      });
+    }
 
     // Registry for event listeners
     this.__listeners = {};
@@ -103,28 +110,9 @@ qx.Bootstrap.define("qx.event.Manager",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * Local dispose method. Automatically executed when unloading of the
-     * attached window occours.
-     *
-     * @return {void}
-     */
-    dispose : function()
-    {
-      // Remove own unload listener
-      qx.bom.Event.removeNativeListener(this.__window, "unload", this.__disposeWrapper);
-
-      // Remove from manager list
-      qx.event.Registration.removeManager(this);
-
-      // Dispose data fields
-      this.__listeners = this.__window = this.__handlers =
-      this.__dispatchers = this.__disposeWrapper = this.__handlerCache = null;
-    },
-
 
     /**
-     * Get the window instance the event manager is reponsible for
+     * Get the window instance the event manager is responsible for
      *
      * @return {Window} DOM window instance
      */
@@ -180,7 +168,7 @@ qx.Bootstrap.define("qx.event.Manager",
      * Get a copy of all event listeners for the given combination
      * of target, event type and phase.
      *
-     * This method is especially useful and thoughtfor event handlers to
+     * This method is especially useful and for event handlers to
      * to query the listeners registered in the manager.
      *
      * @param target {Object} Any valid event target
@@ -572,6 +560,7 @@ qx.Bootstrap.define("qx.event.Manager",
      */
     removeListener : function(target, type, listener, self, capture)
     {
+       console.log("remove listener", type)
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         var msg = "Failed to remove event listener for type '" + type + "'" +
@@ -826,5 +815,22 @@ qx.Bootstrap.define("qx.event.Manager",
 
       return !preventDefault;
     }
+  },
+  
+  
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() 
+  {
+    // Remove from manager list
+    qx.event.Registration.removeManager(this);
+
+    // Dispose data fields
+    this.__listeners = this.__window = this.__handlers =
+    this.__dispatchers = this.__disposeWrapper = this.__handlerCache = null;
   }
 });
