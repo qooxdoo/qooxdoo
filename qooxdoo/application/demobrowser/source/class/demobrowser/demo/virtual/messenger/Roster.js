@@ -39,6 +39,7 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Roster",
     // Create controller
     var controller = new demobrowser.demo.virtual.messenger.Controller(null, this);
     this.bind("model", controller, "model");
+    this.setSelection(controller.getSelection());
     
     // configure row colors
     this.rowLayer = this.getChildControl("row-layer");
@@ -63,6 +64,11 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Roster",
       event : "changeModel",
       check : "qx.data.Array",
       nullable : true
+    },
+    
+    selection :
+    {
+      event : "changeSelection"
     }
   },
   

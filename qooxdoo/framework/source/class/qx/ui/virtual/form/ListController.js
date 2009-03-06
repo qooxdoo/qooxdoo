@@ -56,7 +56,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
         value.setDelegate(this);
 
         this.__changeSelectionListenerId = value.addListener(
-          "changeSelection", this.__onChangeSelection, this
+          "changeSelection", this._onChangeSelection, this
         );
       }
 
@@ -101,7 +101,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
     },
 
     
-    __onChangeSelection: function(e)
+    _onChangeSelection: function(e)
     {
       var targetSelection = e.getData();
       var selection = [];

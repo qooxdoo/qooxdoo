@@ -70,8 +70,52 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
 
       doc.add(btnAdd, {left : 20, top : 10});
       doc.add(btnRemove, {left : 20, top : 40});
+      
+      doc.add(this.createDetailsView(), {left: 20, top: 70});
     },
 
+    
+    createDetailsView : function()
+    {
+      var controller = new qx.data.controller.Object();
+      this.messenger.bind("selection[0]", controller, "model");
+      
+      var box = new qx.ui.groupbox.GroupBox("Contact Details");
+      var grid = new qx.ui.layout.Grid(5, 5);
+      grid.setColumnAlign(0, "right", "middle");
+      box.setLayout(grid);
+      
+      box.add(new qx.ui.basic.Label("Name: "), {row: 0, column: 0});
+      var inpName = new qx.ui.form.TextField();
+      controller.addTarget(inpName, "value", "name", true);
+      box.add(inpName, {row: 0, column:1});
+      
+      box.add(new qx.ui.basic.Label("Group: "), {row: 1, column: 0});
+      var inpGroup = new qx.ui.form.TextField();
+      controller.addTarget(inpGroup, "value", "group", true);
+      box.add(inpGroup, {row: 1, column:1});
+      
+      box.add(new qx.ui.basic.Label("Status: "), {row: 2, column: 0});
+      var inpStatus = new qx.ui.form.SelectBox();
+      inpStatus.add(new qx.ui.form.ListItem("online"));
+      inpStatus.add(new qx.ui.form.ListItem("away"));
+      inpStatus.add(new qx.ui.form.ListItem("busy"));
+      inpStatus.add(new qx.ui.form.ListItem("offline"));
+      controller.addTarget(inpStatus, "value", "status", true);
+      box.add(inpStatus, {row: 2, column:1});
+
+      box.add(new qx.ui.basic.Label("Avatar: ").set({
+        alignY: "top"
+      }), {row: 3, column: 0});
+      var inpAvatar = new qx.ui.basic.Image().set({
+        alignX: "center"
+      });
+      controller.addTarget(inpAvatar, "source", "avatar");
+      box.add(inpAvatar, {row: 3, column: 1});
+      
+      return box;
+    },
+    
     
     showAddContactWindow: function()
     {
