@@ -105,8 +105,6 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
       }, this);
       part.add(delButton);
 
-      
-      
       return part;
     },
     
@@ -186,13 +184,24 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
         win.addListener("appear", tfUsername.focus, tfUsername);
 
         btnCancel.addListener("execute", win.close, win);
-        btnAdd.addListener("execute", function()
+        
+        var addContact = function()
         {
           var buddy = new demobrowser.demo.virtual.messenger.BuddyModel();
           buddy.setName(tfUsername.getValue());
           buddy.setGroup(tfGroup.getValue());
           this.messenger.getModel().push(buddy);
           win.close();
+        }
+        
+        btnAdd.addListener("execute", addContact, this);
+        win.addListener("keypress", function(e) {
+          var key = e.getKeyIdentifier(); 
+          if (key == "Enter") {
+            addContact.call(this);
+          } else if (key == "Escape") {
+            win.close();
+          }
         }, this);
 
         win.add(lblUsername, {row : 0, column : 0});
