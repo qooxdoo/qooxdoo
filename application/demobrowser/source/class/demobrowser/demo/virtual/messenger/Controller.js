@@ -57,8 +57,8 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Controller",
     },
     
     
-    _getGroupModel : function(name) 
-    {
+    _getGroupModel : function(name, row) 
+    {      
       var group = this.__groupPool[name];
       if (!group)
       {
@@ -66,6 +66,7 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Controller",
         group.setName(name);
         this.__groupPool[name] = group;
       }
+      group.setRow(row);
       return group;
     },
     
@@ -139,29 +140,24 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Controller",
         });
         
         var firstItem = data[0];
-        var group = this._getGroupModel(firstItem.getGroup()).set({
-          row : 0
-        });
+        var group = this._getGroupModel(firstItem.getGroup(), 0);
         this.__groupedData.push(group);
         groups.push(group);
         
         for (var i=0; i<data.length; i++)
         {
           var item = data[i];
-          if (group.isOpen()) {
-            this.__groupedData.push(item);
-          }
           if (item.getGroup() !== group.getName()) 
           {
-            var group = this._getGroupModel(item.getGroup()).set({
-              row : this.__groupedData.length
-            });
+            var group = this._getGroupModel(item.getGroup(), this.__groupedData.length);
             this.__groupedData.push(group);
             groups.push(group);
           }
+          if (group.isOpen()) {
+            this.__groupedData.push(item);
+          }
         }
       }      
-
       this._visualizeGrouping(groups);
       this._syncModelSelectionToView();
     },
@@ -191,8 +187,10 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Controller",
       if (data.name)
       {
         var prop = data.name.toString().split(".")[1];
-        if (prop == "name" || prop == "group") {
+        if (prop == "name" || prop == "group") 
+        {
           this._updateGrouping();
+          this._syncRowCount();
         }
       }
       
