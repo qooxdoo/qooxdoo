@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 
-qx.Class.define("demobrowser.demo.virtual.messenger.GroupSeparator",
+qx.Class.define("demobrowser.demo.virtual.messenger.GroupModel",
 {
   extend : qx.core.Object,
 
@@ -47,10 +47,31 @@ qx.Class.define("demobrowser.demo.virtual.messenger.GroupSeparator",
       check : "String"
     },
     
-    index :
+    row :
     {
-      event : "changeIndex",
-      check : "Integer"
+      event : "changeRow",
+      check : "Integer",
+      apply : "_applyRow"
+    },
+    
+    open :
+    {
+      check : "Boolean",
+      init : true,
+      event : "changeOpen"
+    }
+  },
+  
+  
+  members : 
+  {
+    _applyRow : function(value, old) {
+      this.__oldRow = old
+    },
+    
+    
+    getOldRow : function() {
+      return this.__oldRow;
     }
   }
 });

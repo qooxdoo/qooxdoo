@@ -30,23 +30,60 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Controller",
     this.__groupCell = new demobrowser.demo.virtual.messenger.GroupCell();
     this.__groupCell.addListener("changeOpen", this._onChangeOpenGroup, this);
     
-    this.__groups = {};
+    this.__groups = [];
+    this.__groupPool = {};
     this.__groupedData = [];
   },
   
   members : 
   {
+    _getRowData : function(row) {
+      return this.__groupedData[row]
+    },
+    
+    
+    _getModelRow : function(modelItem) {
+      return this.__groupedData.indexOf(modelItem);
+    },
+    
+    
+    _getRowCount : function() {
+      return this.__groupedData.length;
+    },    
+    
+    
+    _isGroupHeader : function(row) {
+      return this.__groupedData[row] instanceof demobrowser.demo.virtual.messenger.GroupModel;
+    },
+    
+    
+    _getGroupModel : function(name) 
+    {
+      var group = this.__groupPool[name];
+      if (!group)
+      {
+        var group = new demobrowser.demo.virtual.messenger.GroupModel();
+        group.setName(name);
+        this.__groupPool[name] = group;
+      }
+      return group;
+    },
+    
+    
     _onChangeOpenGroup : function(e)
     {
-      var group = this.__groups[e.getData().getUserData("cell.row")];
-      this.debug("open " + group.getName());
+      var group = this.__groupedData[e.getData().getUserData("cell.row")];
+      group.toggleOpen();
+      
+      this._updateGrouping();
+      this._syncRowCount();
     },
     
     
     getCellRenderer: function(row)
     {
-      if (this.__groups[row]) {
-        return this.__groupCell
+      if (this._isGroupHeader(row)) {
+        return this.__groupCell;
       } else {
         return this.__buddyCell;
       }
@@ -54,7 +91,7 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Controller",
 
     
     isRowSelectable : function(row) {
-      return this.__groups[row] ? false : true;
+      return !this._isGroupHeader(row);
     },
     
     
@@ -63,19 +100,15 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Controller",
       var target = this.getTarget();
       if (target)
       {        
-        for (var row in this.__groups) 
+        for (var i=0; i<this.__groups.length; i++) 
         {
-          var row = parseInt(row);
-          if (!groups[row]) {
-            target.unstyleGroup(row);
-          }
+          var row = this.__groups[i].getOldRow();
+          target.unstyleGroup(row);
         }        
-        for (var row in groups) 
+        for (var i=0; i<groups.length; i++) 
         {
-          var row = parseInt(row);
-          if (!this.__groups[row]) {
-            target.styleGroup(row);
-          }
+          var row = groups[i].getRow();
+          target.styleGroup(row);
         }
       }
       this.__groups = groups;      
@@ -87,12 +120,13 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Controller",
       var model = this.getModel();
       
       this.__groupedData = [];
-      var groups = {};
+      var data = [];
+      var groups = [];
       
       if (model && model.length > 0) 
       {
-        this.__groupedData = qx.lang.Array.clone(model.toArray());
-        this.__groupedData.sort(function(a, b) 
+        data = qx.lang.Array.clone(model.toArray());
+        data.sort(function(a, b) 
         {
           var groupA = a.getGroup();
           var groupB = b.getGroup();
@@ -104,30 +138,28 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Controller",
           return groupA > groupB ? -1 : 1;
         });
         
-        var firstItem = this.__groupedData[0];
-        var group = new demobrowser.demo.virtual.messenger.GroupSeparator().set({
-          name : firstItem.getGroup(),
-          index : 0
+        var firstItem = data[0];
+        var group = this._getGroupModel(firstItem.getGroup()).set({
+          row : 0
         });
-        this.__groupedData.unshift(group);
-        groups[0] = group;
+        this.__groupedData.push(group);
+        groups.push(group);
         
-        var i=1;
-        do
+        for (var i=0; i<data.length; i++)
         {
-          var item = this.__groupedData[i];
+          var item = data[i];
+          if (group.isOpen()) {
+            this.__groupedData.push(item);
+          }
           if (item.getGroup() !== group.getName()) 
           {
-            var group = new demobrowser.demo.virtual.messenger.GroupSeparator().set({
-              name : item.getGroup(),
-              index : i
+            var group = this._getGroupModel(item.getGroup()).set({
+              row : this.__groupedData.length
             });
-            qx.lang.Array.insertAt(this.__groupedData, group, i);
-            groups[i] = group;
-            i++;
+            this.__groupedData.push(group);
+            groups.push(group);
           }
-          i++;
-        } while (i<this.__groupedData.length);
+        }
       }      
 
       this._visualizeGrouping(groups);
@@ -142,51 +174,6 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Controller",
       this._updateGrouping();
       this._syncRowCount();
     }, 
-    
-    
-    _syncViewSelectionToModel : function()
-    {
-      var target = this.getTarget();
-      if (!target) 
-      {
-        this.getSelection().removaeAll();
-        return;
-      }
-      
-      var targetSelection = target.getSelectionManager().getSelection();
-      var selection = [];
-
-      for (var i = 0; i < targetSelection.length; i++) {
-        var modelItem = this.__groupedData[targetSelection[i]];
-        selection.push(modelItem);
-      }
-
-      // put the first two parameter into the selection array
-      selection.unshift(this.getSelection().length);
-      selection.unshift(0);
-      this.getSelection().splice.apply(this.getSelection(), selection); 
-    },
-    
-    
-    _syncModelSelectionToView : function()
-    {
-      var target = this.getTarget();
-      
-      if (!target) {
-        return;
-      }
-      
-      var modelSelection = this.getSelection();
-      var selection = [];
-
-      for (var i = 0; i < modelSelection.length; i++)
-      {
-        var row = this.__groupedData.indexOf(modelSelection.getItem(i));
-        selection.push(row);
-      }
-
-      target.getSelectionManager().replaceSelection(selection);   
-    },     
     
     
     _onChangeModel: function(e) 
@@ -210,16 +197,6 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Controller",
       }
       
       this.base(arguments);
-    },
-    
-    
-    _syncRowCount: function() {
-      this.getTarget().setRowCount(this.__groupedData.length);
-    },
-    
-    
-    getCellData: function(row) {
-      return this.__groupedData[row] || "";
-    }     
+    }  
   }
 });
