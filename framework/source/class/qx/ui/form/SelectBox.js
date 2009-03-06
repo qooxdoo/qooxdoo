@@ -188,6 +188,19 @@ qx.Class.define("qx.ui.form.SelectBox",
     },
 
     
+    /**
+    * Resets the value to the default
+    */    
+    resetValue : function() 
+    {
+      var list = this.getChildControl("list");
+      var children = list.getChildren();
+      if (children[0]) {
+        list.setValue(children[0].getFormValue() || null);
+      }
+    },
+    
+    
     /*
     ---------------------------------------------------------------------------
       SINGLE SELECTION INTERFACE METHODS
