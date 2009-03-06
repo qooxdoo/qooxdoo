@@ -24,6 +24,8 @@
 qx.Class.define("demobrowser.demo.virtual.messenger.BuddyModel",
 {
   extend : qx.core.Object,
+  include : qx.data.marshal.MEventBubbling,
+  
 
   /*
   *****************************************************************************
@@ -38,28 +40,32 @@ qx.Class.define("demobrowser.demo.virtual.messenger.BuddyModel",
     {
       init : "(unnamed)",
       event : "changeName",
-      check : "String"
+      check : "String",
+      apply : "_applyEventPropagation"
     },
   
     avatar :
     {
       init : "icon/22/emotes/face-smile.png",
       event : "changeAvatar",
-      check : "String"
+      check : "String",
+      apply : "_applyEventPropagation"
     },
   
     status :
     {
       init : "offline",
       event : "changeStatus",
-      check : ["away", "busy", "online", "offline"]
+      check : ["away", "busy", "online", "offline"],
+      apply : "_applyEventPropagation"
     },
     
     group :
     {
       init : "Friends",
       event : "changeGroup",
-      check : "String"
+      check : "String",
+      apply : "_applyEventPropagation"
     }
   },
   

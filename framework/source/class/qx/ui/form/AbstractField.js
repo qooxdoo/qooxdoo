@@ -326,6 +326,14 @@ qx.Class.define("qx.ui.form.AbstractField",
     getValue : function() {
       return this.getContentElement().getValue();
     },
+    
+    
+    /**
+     * Resets the value to the default
+     */
+    resetValue : function() {
+      this.setValue("");
+    },
 
 
     /**

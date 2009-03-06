@@ -54,26 +54,62 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
         showMinimize: false
       });
 
-      win.setLayout(new qx.ui.layout.Grow());
+      var layout = new qx.ui.layout.VBox();
+      layout.setSeparator("separator-vertical")
+      win.setLayout(layout);
+
       win.moveTo(250, 20);
       win.open();
       
       this.messenger = new demobrowser.demo.virtual.messenger.Roster();
-      this.messenger.setModel(demobrowser.demo.virtual.messenger.BuddyModel.createBuddies(200));
+      var model = demobrowser.demo.virtual.messenger.BuddyModel.createBuddies(200);
+      this.messenger.setModel(model);
+      
+      win.add(this.createToolbar());      
       win.add(this.messenger);
-      
-      var btnAdd = new qx.ui.form.Button("Add a contact...");
-      var btnRemove = new qx.ui.form.Button("Remove last contact");
-
-      btnAdd.addListener("execute", this.showAddContactWindow, this);
-      btnRemove.addListener("execute", this.removeContact, this);
-
-      doc.add(btnAdd, {left : 20, top : 10});
-      doc.add(btnRemove, {left : 20, top : 40});
-      
-      doc.add(this.createDetailsView(), {left: 20, top: 70});
+           
+      doc.add(this.createDetailsView(), {left: 20, top: 20});
     },
 
+    
+    createToolbar : function()
+    {
+      var toolbar = new qx.ui.toolbar.ToolBar();
+      
+      var part = new qx.ui.toolbar.Part();
+      toolbar.add(part);
+      
+      var addButton = new qx.ui.toolbar.Button(
+        "", "demobrowser/demo/icons/imicons/user_add.png"
+      ).set({
+        show: "icon"
+      });
+      addButton.addListener("execute", this.showAddContactWindow, this);
+      part.add(addButton);
+      
+      
+      var delButton = new qx.ui.toolbar.Button(
+        "", "demobrowser/demo/icons/imicons/user_delete.png"
+      ).set({
+        show: "icon"
+      });
+
+      this.messenger.bind("selection[0]", delButton, "enabled", {
+        converter : function(value) {
+          return !!value;
+        }
+      });
+      
+      delButton.addListener("execute", function() {
+        this.messenger.getModel().remove(this.messenger.getSelection().getItem(0));
+      }, this);
+      part.add(delButton);
+
+      
+      
+      return part;
+    },
+    
     
     createDetailsView : function()
     {
@@ -176,6 +212,7 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
       }
 
       this.__tfUsername.setValue("");
+      this.__addUserDialog.center();
       this.__addUserDialog.open();
     },
 

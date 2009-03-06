@@ -32,7 +32,6 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Controller",
     
     this.__groups = {};
     this.__groupedData = [];
-    
   },
   
   members : 
@@ -43,6 +42,7 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Controller",
       this.debug("open " + group.getName());
     },
     
+    
     getCellRenderer: function(row)
     {
       if (this.__groups[row]) {
@@ -52,9 +52,11 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Controller",
       }
     },
 
+    
     isRowSelectable : function(row) {
       return this.__groups[row] ? false : true;
     },
+    
     
     _visualizeGrouping : function(groups)
     {
@@ -129,19 +131,29 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Controller",
       }      
 
       this._visualizeGrouping(groups);
+      this._syncModelSelectionToView();
     },
+    
     
     _applyModel: function(value, old)
     {
       this.base(arguments, value, old);
-            
+                 
       this._updateGrouping();
       this._syncRowCount();
-    },
+    }, 
     
-    _onChangeSelection: function(e)
+    
+    _syncViewSelectionToModel : function()
     {
-      var targetSelection = e.getData();
+      var target = this.getTarget();
+      if (!target) 
+      {
+        this.getSelection().removaeAll();
+        return;
+      }
+      
+      var targetSelection = target.getSelectionManager().getSelection();
       var selection = [];
 
       for (var i = 0; i < targetSelection.length; i++) {
@@ -152,8 +164,30 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Controller",
       // put the first two parameter into the selection array
       selection.unshift(this.getSelection().length);
       selection.unshift(0);
-      this.getSelection().splice.apply(this.getSelection(), selection);
-    },    
+      this.getSelection().splice.apply(this.getSelection(), selection); 
+    },
+    
+    
+    _syncModelSelectionToView : function()
+    {
+      var target = this.getTarget();
+      
+      if (!target) {
+        return;
+      }
+      
+      var modelSelection = this.getSelection();
+      var selection = [];
+
+      for (var i = 0; i < modelSelection.length; i++)
+      {
+        var row = this.__groupedData.indexOf(modelSelection.getItem(i));
+        selection.push(row);
+      }
+
+      target.getSelectionManager().replaceSelection(selection);   
+    },     
+    
     
     _onChangeModel: function(e) 
     {
@@ -163,9 +197,26 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Controller",
       this._syncRowCount();      
     },
     
+    
+    _onChangeBubbleModel : function(e)
+    {
+      var data = e.getData();
+      if (data.name)
+      {
+        var prop = data.name.toString().split(".")[1];
+        if (prop == "name" || prop == "group") {
+          this._updateGrouping();
+        }
+      }
+      
+      this.base(arguments);
+    },
+    
+    
     _syncRowCount: function() {
       this.getTarget().setRowCount(this.__groupedData.length);
     },
+    
     
     getCellData: function(row) {
       return this.__groupedData[row] || "";
