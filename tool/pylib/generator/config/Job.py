@@ -57,9 +57,9 @@ class Job(object):
         "merges another job into self"
 
         sData = sourceJob.getData()
-        target= self.getData()
+        tData = self.getData()
 
-        self.deepJsonMerge(sData, target)
+        self.deepJsonMerge(sData, tData)
 
 
     def mergeValues(self, source, target):
@@ -372,20 +372,36 @@ class Job(object):
 
         def isString(s):
             return isinstance(s, types.StringTypes)
+
         def isSpanningMacro(m):
             return self.MACRO_SPANNING_REGEXP.search(m)
+
+        def isProtected(key, amap):
+            if Job.OVERRIDE_KEY in amap and key in amap[Job.OVERRIDE_KEY]:
+                return True
+            else:
+                return False
+
+        def listAdd(target, listKey, element):
+            # make sure there is at least an empty list to add to
+            if listKey not in target:
+                target[listKey] = []
+            target[listKey].append(element)
+            return target[listKey]
+
 
         if not isinstance(source, types.DictType):
             raise TypeError, "Wrong argument to deepJsonMerge (must be Dict)"
 
+        # create a quick-access var
         override_keys = []
         if self.OVERRIDE_KEY in target:
             override_keys = target[self.OVERRIDE_KEY]
             assert isinstance(override_keys, types.ListType)
 
         for key in source:
-            if key == self.OVERRIDE_KEY:  # don't touch meta key
-                continue
+            if key == self.OVERRIDE_KEY:
+                pass  # pass here - these are treated when their corresponding key is treated
 
             elif key in target:  # we have to merge values
                 # skip protected keys
@@ -424,8 +440,13 @@ class Job(object):
 
                 else:
                     pass  # leave target key alone
-            else:
+            else:  # it's a new key, just add it
                 target[key] = source[key]
+                # carry over override protection:
+                # only add protection for new keys - don't add protection for keys that
+                # alreay exist in the target but are unprotected
+                if isProtected(key, source):
+                    target[Job.OVERRIDE_KEY] = listAdd(target, Job.OVERRIDE_KEY, key)
 
         return target
 
