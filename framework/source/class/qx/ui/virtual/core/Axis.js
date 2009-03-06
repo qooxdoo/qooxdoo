@@ -122,12 +122,11 @@ qx.Class.define("qx.ui.virtual.core.Axis",
           "'size' must be 'null' or an integer larger than 0."
         );
       }        
-      
       if (this.customSizes[index] == size) {
         return;
       }
       
-      if (index === null) {
+      if (size === null) {
         delete this.customSizes[index];
       } else {
         this.customSizes[index] = size;
