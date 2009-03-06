@@ -560,7 +560,6 @@ qx.Bootstrap.define("qx.event.Manager",
      */
     removeListener : function(target, type, listener, self, capture)
     {
-       console.log("remove listener", type)
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         var msg = "Failed to remove event listener for type '" + type + "'" +
