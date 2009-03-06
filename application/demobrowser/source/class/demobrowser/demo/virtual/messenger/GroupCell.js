@@ -44,18 +44,14 @@ qx.Class.define("demobrowser.demo.virtual.messenger.GroupCell",
     },
     
     
-    updateData : function(widget, data) {
-      widget.setLabel(data.getName());
-    },
-    
-    
-    updateStates : function(widget, states) 
+    updateData : function(widget, data) 
     {
-      if (states.closed) {
-        widget.setIcon("decoration/arrows/right-invert.png");
-      } else {
+      widget.setLabel(data.getName());
+      if (data.isOpen()) {
         widget.setIcon("decoration/arrows/down-invert.png");
+      } else {
+        widget.setIcon("decoration/arrows/right-invert.png");
       }
-    }
+    }    
   }
 });

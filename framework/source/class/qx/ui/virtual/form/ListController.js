@@ -49,6 +49,25 @@ qx.Class.define("qx.ui.virtual.form.ListController",
   
   members :
   {
+    _getRowData : function(row)
+    {
+      var model = this.getModel();
+      return model ? model.getItem(row) : null;
+    },
+    
+    
+    _getModelRow : function(modelItem) {
+      return this.getModel().indexOf(modelItem);
+    },
+    
+    
+    _getRowCount : function() 
+    {
+      var model = this.getModel();
+      return model ? model.length : 0;
+    },
+    
+    
     _applyTarget: function(value, old)
     {
       if (value != null)
@@ -56,7 +75,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
         value.setDelegate(this);
 
         this.__changeSelectionListenerId = value.addListener(
-          "changeSelection", this._onChangeSelection, this
+          "changeSelection", this._onChangeSelectionView, this
         );
       }
 
@@ -101,13 +120,33 @@ qx.Class.define("qx.ui.virtual.form.ListController",
       }
     },
 
-    _applySelection: function(value, old) {
+    
+    _applySelection: function(value, old) 
+    {
+      if (value != null)
+      {
+        this.__changeSelectionModelListenerId = value.addListener(
+          "change", this._onChangeSelectionModel, this
+        );
+        this.__changeSelectionLengthModelListenerId = value.addListener(
+            "changeLength", this._onChangeSelectionModel, this
+          );
+      }
 
+      if (old != null)
+      {
+        old.removeListenerById(this.__changeSelectionModelListenerId);
+        old.removeListenerById(this.__changeSelectionLengthModelListenerId);
+      }
     },
 
     
     _syncViewSelectionToModel : function()
     {
+      if (this._ignoreSelectionChange) {
+        return;
+      }
+     
       var target = this.getTarget();
       if (!target) 
       {
@@ -119,19 +158,26 @@ qx.Class.define("qx.ui.virtual.form.ListController",
       var selection = [];
 
       for (var i = 0; i < targetSelection.length; i++) {
-        var modelItem = this.getModel().getItem(targetSelection[i]);
+        var modelItem = this._getRowData(targetSelection[i]);
         selection.push(modelItem);
       }
 
       // put the first two parameter into the selection array
       selection.unshift(this.getSelection().length);
       selection.unshift(0);
-      this.getSelection().splice.apply(this.getSelection(), selection);    
+      
+      this._ignoreSelectionChange = true;
+      this.getSelection().splice.apply(this.getSelection(), selection);
+      this._ignoreSelectionChange = false;
     },
     
     
     _syncModelSelectionToView : function()
     {
+      if (this._ignoreSelectionChange) {
+        return;
+      }
+      
       var target = this.getTarget();
       
       if (!target) {
@@ -143,18 +189,25 @@ qx.Class.define("qx.ui.virtual.form.ListController",
 
       for (var i = 0; i < modelSelection.length; i++)
       {
-        var row = this.getModel().indexOf(modelSelection.getItem(i));
+        var row = this._getModelRow(modelSelection.getItem(i));
         selection.push(row);
       }
 
-      target.getSelectionManager().replaceSelection(selection);   
+      this._ignoreSelectionChange = true;
+      target.getSelectionManager().replaceSelection(selection);
+      this._ignoreSelectionChange = false;
     },
     
     
-    _onChangeSelection: function(e) {
+    _onChangeSelectionView: function(e) {
       this._syncViewSelectionToModel();
     },
 
+    
+    _onChangeSelectionModel : function(e) {
+      this._syncModelSelectionToView();
+    },
+    
     
     _onChangeLengthModel: function(e) {
       this._syncRowCount();
@@ -181,16 +234,13 @@ qx.Class.define("qx.ui.virtual.form.ListController",
     
     _syncRowCount: function()
     {
-      var model = this.getModel();
-      var length = model ? model.length : 0;
+      var length = this._getRowCount();
       this.getTarget().setRowCount(length);
     },
 
 
-    getCellData: function(row) 
-    {
-      var model = this.getModel();
-      return (model ? model.getItem(row) : "");
+    getCellData: function(row) {      
+      return this._getRowData(row) || "";
     }    
   }
 });
