@@ -1321,7 +1321,8 @@ qx.Class.define("testrunner.runner.TestRunner",
       "_labelDeco",
       "_progress",
       "logelem",
-      "currentTestData"
+      "currentTestData",
+      "_history"
     );
   },
 
