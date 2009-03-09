@@ -74,13 +74,11 @@ qx.Class.define("demobrowser.demo.showcase.Browser",
       // Firefox applies history changes to the main window
       // Opera throws a script error when trying to go forward or back
 
-      var ttIeNote = new qx.ui.tooltip.ToolTip("This feature is currently not supported.");
-
       btnForward.setEnabled(false);
       btnBack.setEnabled(false);
 
-      btnForward.setToolTip(ttIeNote)
-      btnBack.setToolTip(ttIeNote)
+      btnForward.setToolTipText("This feature is currently not supported.")
+      btnBack.setToolTipText("This feature is currently not supported.")
 
       this.txtUrl = new qx.ui.form.TextField().set({
         marginLeft: 1,

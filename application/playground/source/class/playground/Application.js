@@ -759,13 +759,13 @@ qx.Class.define("playground.Application",
       part1.add(runButton);
       this.widgets["toolbar.runButton"] = runButton;
       //this.widgets["toolbar.runButton"].setCommand(this._runSample);
-      runButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Run the source code")));
+      runButton.setToolTipText(this.tr("Run the source code"));
 
       // select sample button
       var selectSampleButton = new qx.ui.toolbar.MenuButton(this.tr("Samples"), "playground/image/document-folder.png");
       part1.add(selectSampleButton);
       this.widgets["toolbar.selectSampleButton"] = selectSampleButton;
-      selectSampleButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Select a sample")));
+      selectSampleButton.setToolTipText(this.tr("Select a sample"));
       selectSampleButton.setMenu(this.__createSampleMenu());
 
       var toggleButton = new qx.ui.form.ToggleButton(this.tr("Syntax Highlighting"), "icon/16/actions/check-spelling.png");
@@ -788,19 +788,19 @@ qx.Class.define("playground.Application",
       var logCheckButton = new qx.ui.toolbar.CheckBox(this.tr("Log"), "playground/image/utilities-log-viewer.png");
       part2.add(logCheckButton);
       this.widgets["toolbar.logCheckButton"] = logCheckButton;
-      logCheckButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Show log output")));
+      logCheckButton.setToolTipText(this.tr("Show log output"));
 
       // api button
       var apiButton = new qx.ui.toolbar.Button(this.tr("API Viewer"), "playground/image/help-contents.png");
       part2.add(apiButton);
       this.widgets["toolbar.apiButton"] = apiButton;
-      apiButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Open the qooxdoo API Viewer")));
+      apiButton.setToolTipText(this.tr("Open the qooxdoo API Viewer"));
 
       // help button
       var helpButton = new qx.ui.toolbar.Button(this.tr("Manual"), "playground/image/help-about.png");
       part2.add(helpButton);
       this.widgets["toolbar.helpButton"] = helpButton;
-      helpButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Open the qooxdoo Manual")));
+      helpButton.setToolTipText(this.tr("Open the qooxdoo Manual"));
 
       return toolbar;
     }
