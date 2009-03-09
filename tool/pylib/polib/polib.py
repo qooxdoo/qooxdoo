@@ -321,10 +321,10 @@ class _BaseFile(list):
         >>> entry.msgid
         u'Thursday'
         """
-        try:
-            return [e for e in self if getattr(e, by) == st][0]
-        except IndexError:
-            return None
+        for e in self:
+            if getattr(e, by) == st:
+                return e
+        return None
 
     def ordered_metadata(self):
         """
