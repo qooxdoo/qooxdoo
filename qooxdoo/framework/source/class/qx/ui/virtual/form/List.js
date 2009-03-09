@@ -314,11 +314,11 @@ qx.Class.define("qx.ui.virtual.form.List",
         }
         
         var cell = this._getCellRenderer(item);
-        
+          
         if (wasAdded) {
           cell.updateStates(widget, {selected: 1});
         } else {
-          cell.updateStates(widget, {});
+          cell.updateStates(widget, {});  
         }        
       }
     },      

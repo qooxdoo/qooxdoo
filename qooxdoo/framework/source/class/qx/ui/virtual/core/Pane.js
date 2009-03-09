@@ -467,7 +467,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
         documentY >= paneLocation.bottom ||
         documentX < paneLocation.left ||
         documentX >= paneLocation.right
-      ){
+      ) {
         return {
           row : null,
           column : null
@@ -621,6 +621,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       this.fullUpdate();
     },
     
+    
     /**
      * Event listener for mouse clicks. Fires an cellClick event.
      * @param e {qx.event.type.Mouse} The incoming mouse event.
@@ -631,6 +632,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       this.fireEvent("cellClick", qx.ui.virtual.core.CellEvent, [this, e, coords.row, coords.column], true);
     },
 
+    
     /**
      * Event listener for context menu clicks. Fires an cellContextmenu event.
      * @param e {qx.event.type.Mouse} The incoming mouse event.
@@ -641,6 +643,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       this.fireEvent("cellContextmenu", qx.ui.virtual.core.CellEvent, [this, e, coords.row, coords.column], true);
     },
 
+    
     /**
      * Event listener for double clicks. Fires an cellDblclick event.
      * @param e {qx.event.type.Mouse} The incoming mouse event.
@@ -651,6 +654,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       this.fireEvent("cellDblclick", qx.ui.virtual.core.CellEvent, [this, e, coords.row, coords.column], true);
     },
 
+    
     /**
      * Helper function to convert mouse coordinates into cell corrdinates.
      * @param e {qx.event.type.Mouse} The incoming mouse event.
