@@ -99,8 +99,8 @@ class Locale:
             
             if "plural" in strings[msgid]:
                 obj.msgid_plural = strings[msgid]["plural"]
-                obj.msgstr_plural[u'0'] = ""
-                obj.msgstr_plural[u'1'] = ""
+                #obj.msgstr_plural[u'0'] = ""    # cannot add empty templates since they would block real translations on merge
+                #obj.msgstr_plural[u'1'] = ""
 
         pot.sort()
 
