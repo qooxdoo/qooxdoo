@@ -46,7 +46,7 @@ qx.Class.define("demobrowser.demo.virtual.messenger.GroupCell",
     
     updateData : function(widget, data) 
     {
-      widget.setLabel(data.getName());
+      widget.setLabel(data.getName() + " (" + data.getItemCount() + ")");
       if (data.isOpen()) {
         widget.setIcon("decoration/arrows/down-invert.png");
       } else {

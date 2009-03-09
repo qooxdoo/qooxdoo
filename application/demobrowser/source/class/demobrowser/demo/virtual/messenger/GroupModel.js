@@ -59,6 +59,13 @@ qx.Class.define("demobrowser.demo.virtual.messenger.GroupModel",
       check : "Boolean",
       init : true,
       event : "changeOpen"
+    },
+    
+    itemCount : 
+    {
+      check : "Integer",
+      init : 0,
+      event : "changeItemCount"
     }
   },
   
