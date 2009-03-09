@@ -36,25 +36,39 @@ qx.Class.define("demobrowser.demo.widget.Tooltip",
       this.base(arguments);
       
       var scroller = new qx.ui.container.Scroll();
-      
-      var box = new qx.ui.layout.HBox(20);
-      var container = new qx.ui.container.Composite(box).set({
-        padding: 20,
-        allowStretchY : false
-      });
-
-      scroller.add(container);
       this.getRoot().add(scroller, {edge : 0});
       
-      this.createSharedToolTip(container);
-      this.createIconToolTip(container);
-      this.createToolTip(container);
-      this.createShortTimeoutToolTip(container);
-      this.createRichToolTip(container);
+      var layout = new qx.ui.layout.Grid(10, 10);
+      this.container = new qx.ui.container.Composite(layout).set({
+        padding: 20
+      });
+      scroller.add(this.container);
+      
+      this.createSharedToolTip();
+      this.createIconToolTip();
+      this.createToolTip();
+      this.createShortTimeoutToolTip();
+      this.createRichToolTip();
+      this.createToolTipText();
+      this.createToolTipIcon();
+      this.createToolTipTextIcon();
     },
       
     
-    createSharedToolTip : function(container)
+    __columns : 4,
+    __index : 0,
+    
+    add : function(widget) 
+    {
+      this.container.add(widget, {
+        row: Math.floor(this.__index / this.__columns),
+        column : this.__index % this.__columns
+      });
+      this.__index += 1;
+    },
+    
+    
+    createSharedToolTip : function()
     {
       var tooltip = new qx.ui.tooltip.ToolTip("Shared ToolTip");
       tooltip.addListener("appear", function(e)
@@ -70,53 +84,50 @@ qx.Class.define("demobrowser.demo.widget.Tooltip",
 
       var button1 = new qx.ui.form.Button("Button #1 (Shared ToolTip)");
       button1.setToolTip(tooltip);
-      container.add(button1);
+      this.add(button1);
 
       var button2 = new qx.ui.form.Button("Button #2 (Shared ToolTip)");
       button2.setToolTip(tooltip);
-      container.add(button2);
+      this.add(button2);
     },
     
     
-    createIconToolTip : function(container)
+    createIconToolTip : function()
     {
       var button = new qx.ui.form.Button("Icon only ToolTip").set({
         toolTip: new qx.ui.tooltip.ToolTip(null, "icon/16/actions/help-about.png")
       });
-      container.add(button);
+      this.add(button);
     },
     
     
-    createToolTip : function(container)
+    createToolTip : function()
     {
       var button = new qx.ui.form.Button("ToolTip with icon and label").set({
         toolTip: new qx.ui.tooltip.ToolTip(
           "Hello World #3", "icon/16/actions/help-about.png"
         ) 
       })
-      container.add(button);
+      this.add(button);
     },
     
     
-    createShortTimeoutToolTip : function(container)
+    createShortTimeoutToolTip : function()
     {
-      var button = new qx.ui.form.Button("Short timeout ToolTip");
-      container.add(button);
-
       var tooltip = new qx.ui.tooltip.ToolTip(
         "Such a great tooltip with a (show) timeout of 50ms.",
         "icon/32/actions/help-about.png"
       );
       tooltip.setShowTimeout(50);
+
+      var button = new qx.ui.form.Button("Short timeout ToolTip");
+      this.add(button);
       button.setToolTip(tooltip);
     },
     
     
-    createRichToolTip : function(container)
+    createRichToolTip : function()
     {
-      var button = new qx.ui.form.Button("ToolTip with icon and rich text");
-      container.add(button);
-
       var tooltip = new qx.ui.tooltip.ToolTip(
         "A long label text with auto-wrapping. " +
           "This also may contain <b style='color:red'>rich HTML</b> markup " +
@@ -127,7 +138,34 @@ qx.Class.define("demobrowser.demo.widget.Tooltip",
       tooltip.setRich(true);
       tooltip.setShowTimeout(50);
       
+      var button = new qx.ui.form.Button("ToolTip with icon and rich text");
+      this.add(button);
       button.setToolTip(tooltip);
-    }
+    },
+    
+    createToolTipText : function()
+    {
+      var button = new qx.ui.form.Button("Button with ToolTipText").set({
+        toolTipText : "Tooltip text"
+      });
+      this.add(button);
+    },
+    
+    createToolTipIcon : function()
+    {
+      var button = new qx.ui.form.Button("Button with ToolTipIcon").set({
+        toolTipIcon : "icon/16/actions/help-about.png"
+      });
+      this.add(button);
+    },
+    
+    createToolTipTextIcon : function()
+    {
+      var button = new qx.ui.form.Button("Button with ToolTipText and ToolTipIcon").set({
+        toolTipText : "Tooltip text",
+        toolTipIcon : "icon/16/actions/help-about.png"
+      });
+      this.add(button);
+    }     
   }
 });

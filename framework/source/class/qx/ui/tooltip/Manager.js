@@ -88,7 +88,27 @@ qx.Class.define("qx.ui.tooltip.Manager",
     __mousePosition : null,
     __hideTimer : null,
     __showTimer : null,
+    __sharedToolTip: null,
 
+    
+    /**
+     * Get the shared tooltip, which is used to display the 
+     * {@link qx.ui.core.Widget#toolTipText} and 
+     * {@link qx.ui.core.Widget#toolTipIcon} properties of widgets.
+     * 
+     * @return {qx.ui.tooltip.ToolTip} The shared tooltip
+     */
+    __getSharedTooltip : function()
+    {
+      if (!this.__sharedToolTip)
+      {
+        this.__sharedToolTip = new qx.ui.tooltip.ToolTip().set({
+          rich: true
+        });
+      }
+      return this.__sharedToolTip;
+    },
+    
 
     /*
     ---------------------------------------------------------------------------
@@ -223,7 +243,10 @@ qx.Class.define("qx.ui.tooltip.Manager",
       while (target != null)
       {
         var tooltip = target.getToolTip();
-        if (tooltip) {
+        var tooltipText = target.getToolTipText() || null;
+        var tooltipIcon = target.getToolTipIcon() || null;
+        
+        if (tooltip || tooltipText || tooltipIcon) {
           break;
         }
 
@@ -234,6 +257,15 @@ qx.Class.define("qx.ui.tooltip.Manager",
       if (tooltip)
       {
         tooltip.setOpener(target);
+        this.setCurrent(tooltip);
+      }
+      else if (tooltipText || tooltipIcon)
+      {
+        var tooltip = this.__getSharedTooltip().set({
+          label: tooltipText,
+          icon: tooltipIcon,
+          opener: target
+        });
         this.setCurrent(tooltip);
       }
     },
