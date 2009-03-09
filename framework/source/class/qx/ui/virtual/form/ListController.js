@@ -22,7 +22,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
   {
     target : 
     {
-      //check : "qx.ui.virtual.form.AbstractList",
+      check : "qx.ui.virtual.form.List",
       event: "changeTarget",
       nullable: true,
       init: null,
@@ -177,6 +177,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
       if (this._ignoreSelectionChange) {
         return;
       }
+      this._ignoreSelectionChange = true;
       
       var target = this.getTarget();
       
@@ -187,13 +188,16 @@ qx.Class.define("qx.ui.virtual.form.ListController",
       var modelSelection = this.getSelection();
       var selection = [];
 
-      for (var i = 0; i < modelSelection.length; i++)
+      for (var i = modelSelection.length; i >= 0; i--)
       {
         var row = this._getModelRow(modelSelection.getItem(i));
-        selection.push(row);
+        if (row !== -1) {
+          selection.push(row);
+        } else {
+          modelSelection.removeAt(i);
+        }
       }
 
-      this._ignoreSelectionChange = true;
       target.getSelectionManager().replaceSelection(selection);
       this._ignoreSelectionChange = false;
     },

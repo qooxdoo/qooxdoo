@@ -65,6 +65,9 @@ qx.Class.define("demobrowser.demo.virtual.messenger.GroupModel",
   
   members : 
   {
+    __oldRow : null,
+    
+    
     _applyRow : function(value, old) {
       this.__oldRow = old
     },
