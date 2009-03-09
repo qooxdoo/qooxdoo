@@ -18,12 +18,6 @@ qx.Class.define("qx.ui.virtual.form.List",
   },
 
   
-  events: 
-  {
-    "changeSelection": "qx.event.type.Data"
-  },
-
-  
   properties :
   {
     appearance :
@@ -184,10 +178,6 @@ qx.Class.define("qx.ui.virtual.form.List",
       );
       this.__manager.attachMouseEvents(this.getPane());
       this.__manager.attachKeyEvents(this);
-
-      this.__manager.addListener("changeSelection", function(e) {
-        this.fireDataEvent("changeSelection", e.getData());
-      }, this);
     },
 
     
