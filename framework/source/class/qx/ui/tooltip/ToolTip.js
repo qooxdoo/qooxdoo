@@ -85,7 +85,7 @@ qx.Class.define("qx.ui.tooltip.ToolTip",
     showTimeout :
     {
       check : "Integer",
-      init : 1000,
+      init : 700,
       themeable : true
     },
 
