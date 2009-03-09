@@ -39,6 +39,10 @@
       "variants" :
       {
         "=qx.debug" : ["on"]
+      },
+      "code" :
+      {
+        "optimize" : ["variables", "basecalls", "privates", "strings"]
       }
     },
     
