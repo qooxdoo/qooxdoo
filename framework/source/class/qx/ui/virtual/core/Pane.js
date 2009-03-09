@@ -803,6 +803,16 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     
     
     /**
+     * Whether a full update is scheduled
+     * 
+     * @return {Boolean} Whether a full update is scheduled
+     */
+    isUpdatePending : function() {
+      return !!this.__jobs._fullUpdate;
+    },
+    
+    
+    /**
      * Perform a full update on all visible layers. All cached data will be 
      * discarded.
      */
