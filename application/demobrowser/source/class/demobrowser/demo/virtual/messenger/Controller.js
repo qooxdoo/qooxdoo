@@ -155,6 +155,8 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Controller",
           }
           if (group.isOpen()) {
             this.__groupedData.push(item);
+          } else {
+            this.getSelection().remove(item);
           }
         }
       }      
