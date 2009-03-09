@@ -512,7 +512,7 @@ qx.Class.define("feedreader.Application",
      */
     showAddFeed : function()
     {
-      qx.io2.PartLoader.require(["add-feed-window"], function()
+      qx.io2.PartLoader.require(["addfeed"], function()
       {
         // if the window is not created
         if (!this._addFeedWindow)

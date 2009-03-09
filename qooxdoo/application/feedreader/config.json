@@ -32,8 +32,12 @@
         {
           "boot": ["${QXTHEME}", "feedreader.Application"],
           "settings": ["feedreader.view.PreferenceWindow"],
-          "add-feed-window": ["feedreader.view.AddFeedWindow"]
-        } 
+          "addfeed": ["feedreader.view.AddFeedWindow"]
+        },
+	"sizes" : 
+	{
+	  "min-package" : 10
+	} 
       }
     }
   }  
