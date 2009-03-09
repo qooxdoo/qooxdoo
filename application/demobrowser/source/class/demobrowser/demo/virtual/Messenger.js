@@ -171,7 +171,10 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
 
         var lblUsername = new qx.ui.basic.Label("Name:");
         var tfUsername = new qx.ui.form.TextField();
-        var tfGroup = new qx.ui.form.TextField("New Group");        
+        var tfGroup = new qx.ui.form.ComboBox("New Group");
+        tfGroup.add(new qx.ui.form.ListItem("qooxdoo"));
+        tfGroup.add(new qx.ui.form.ListItem("Friends"));
+        
         var lblGroup = new qx.ui.basic.Label("Group:");        
         var btnAdd = new qx.ui.form.Button("Add");
         var btnCancel = new qx.ui.form.Button("Cancel");

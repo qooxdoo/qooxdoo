@@ -33,6 +33,8 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Controller",
     this.__groups = [];
     this.__groupPool = {};
     this.__groupedData = [];
+    
+    this.__deferredUpdate = new qx.util.DeferredCall(this._updateGrouping, this);
   },
   
   members : 
@@ -76,8 +78,7 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Controller",
       var group = this.__groupedData[e.getData().getUserData("cell.row")];
       group.toggleOpen();
       
-      this._updateGrouping();
-      this._syncRowCount();
+      this.__deferredUpdate.schedule();
     },
     
     
@@ -171,24 +172,21 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Controller",
       
       this._visualizeGrouping(groups);
       this._syncModelSelectionToView();
+      this._syncRowCount();
     },
     
     
     _applyModel: function(value, old)
     {
       this.base(arguments, value, old);
-                 
-      this._updateGrouping();
-      this._syncRowCount();
+      this.__deferredUpdate.schedule();
     }, 
     
     
     _onChangeModel: function(e) 
     {
       this.base(arguments, e);
-            
-      this._updateGrouping();
-      this._syncRowCount();      
+      this.__deferredUpdate.schedule();
     },
     
     
@@ -198,10 +196,8 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Controller",
       if (data.name)
       {
         var prop = data.name.toString().split(".")[1];
-        if (prop == "name" || prop == "group") 
-        {
-          this._updateGrouping();
-          this._syncRowCount();
+        if (prop == "name" || prop == "group") {
+          this.__deferredUpdate.schedule();
         }
       }
       
