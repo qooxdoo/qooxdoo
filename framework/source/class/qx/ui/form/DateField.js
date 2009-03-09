@@ -19,7 +19,7 @@
 
 /**
  * A *date field* is like a combo box with the date as popup. As button to
- * open the calendeer a calender icon is shown at the right to the textfield.
+ * open the calendar a calendar icon is shown at the right to the textfield.
  *
  * To be conform with all form widgets, the {@link qx.ui.form.IFormElement} interface
  * is implemented.
@@ -51,7 +51,7 @@ qx.Class.define("qx.ui.form.DateField",
     this.base(arguments);
 
     // create a default date format
-    var currentDateFormat = qx.locale.Date.getDateFormat("short").toString();
+    var currentDateFormat = qx.locale.Date.getDateFormat("medium").toString();
     this.setDateFormat(new qx.util.format.DateFormat(currentDateFormat));
   },
 
