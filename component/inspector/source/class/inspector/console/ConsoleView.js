@@ -210,15 +210,25 @@ qx.Class.define("inspector.console.ConsoleView",
         // run it and store the result in the global ans value
         var iFrameWindow = qx.core.Init.getApplication().getIframeWindowObject();
         if (qx.core.Variant.isSet("qx.client", "webkit|mshtml|gecko")) {
-          if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+          if (qx.core.Variant.isSet("qx.client", "mshtml") ||
+              qx.core.Variant.isSet("qx.client", "webkit")) {
             text = text.replace(/^(\s*var\s+)(.*)$/, "$2");
+          }
+          
+          var returnCode = "";
+          // Fix for webkit version > nightly
+          if (qx.core.Variant.isSet("qx.client", "webkit") &&
+              qx.bom.client.Engine.FULLVERSION >= 528) {
+            returnCode = "return eval('" + text + "');"
+          } else {
+            returnCode = "return eval.call(window, '" + text + "');"
           }
           
           iFrameWindow.qx.lang.Function.globalEval([
             "window.top.inspector.$$inspector = function()",
             "{",
             "  try {",
-            "    return eval.call(window, '", text, "');",
+            returnCode,
             "  } catch (ex) {",
             "    return ex;",
             "  }",
