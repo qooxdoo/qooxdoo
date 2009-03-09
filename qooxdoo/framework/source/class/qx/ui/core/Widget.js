@@ -525,14 +525,48 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
-    /** Contains the tooltip object connected to the widget. */
+    /**
+     * Sets the tooltip instance to use for this widget. If only the tooltip
+     * text and icon have to be set its better to use the {@link #toolTipText} 
+     * and {@link #toolTipIcon} properties since they use a shared tooltip
+     * instance.
+     * 
+     * If this property is set the {@link #toolTipText} and {@link #toolTipIcon}
+     * properties are ignored.
+     */
     toolTip :
     {
       check : "qx.ui.tooltip.ToolTip",
       nullable : true
     },
+    
+    
+    /**
+     * The text of the widget's tooltip. This text can contain HTML markup.
+     * The text is displayed using a shared tooltip instance. If the tooltip 
+     * must be customized beyond the text and an icon {@link #toolTipIcon}, the 
+     * {@link #tooltip} property has to be used 
+     */
+    toolTipText :
+    {
+      check : "String",
+      nullable : true,
+      event : "changeToolTipText"
+    },
 
 
+    /**
+    * The icon URI of the widget's tooltip. This icon is displayed using a shared
+    * tooltip instance. If the tooltip must be customized beyond the tooltip text 
+    * {@link #toolTipText} and the icon, the {@link #tooltip} property has to be 
+    * used. 
+    */
+   toolTipIcon :
+   {
+     check : "String",
+     nullable : true,
+     event : "changeToolTipText"
+   },
 
 
     /*
