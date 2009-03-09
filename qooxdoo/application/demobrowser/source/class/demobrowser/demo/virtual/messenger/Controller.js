@@ -104,7 +104,9 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Controller",
         for (var i=0; i<this.__groups.length; i++) 
         {
           var row = this.__groups[i].getOldRow();
-          target.unstyleGroup(row);
+          if (row !== null) {
+            target.unstyleGroup(row);
+          }
         }        
         for (var i=0; i<groups.length; i++) 
         {

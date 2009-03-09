@@ -312,6 +312,10 @@ qx.Class.define("qx.ui.virtual.form.List",
         if (item !== cellRow) {
           continue;
         }
+
+        if (this.getPane().isUpdatePending()) {
+          continue;
+        }
         
         var cell = this._getCellRenderer(item);
           
