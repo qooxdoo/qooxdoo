@@ -74,7 +74,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
       {
         value.setDelegate(this);
 
-        this.__changeSelectionListenerId = value.addListener(
+        this.__changeSelectionListenerId = value.getSelectionManager().addListener(
           "changeSelection", this._onChangeSelectionView, this
         );
       }
@@ -82,7 +82,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
       if (old != null)
       {
         old.setDelegate(null);
-        old.removeListenerById(this.__changeSelectionListenerId);
+        old.getSelectionManager().removeListenerById(this.__changeSelectionListenerId);
       }
 
       if (this.getModel() == null) {

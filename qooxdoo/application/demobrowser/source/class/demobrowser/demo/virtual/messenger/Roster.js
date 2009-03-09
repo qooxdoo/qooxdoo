@@ -52,7 +52,7 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Roster",
     var prefetch = new qx.ui.virtual.behavior.Prefetch(
       this,
       0, 0, 0, 0,
-      200, 300, 600, 800
+      600, 800, 600, 800
     ).set({
       interval: 500
     });    
