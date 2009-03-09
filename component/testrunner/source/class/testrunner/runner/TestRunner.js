@@ -230,12 +230,12 @@ qx.Class.define("testrunner.runner.TestRunner",
       // -- reload button
       this.reloadbutton = new qx.ui.toolbar.Button(this.tr("Reload"), "icon/22/actions/view-refresh.png");
       part1.add(this.reloadbutton);
-      this.reloadbutton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Reload application under test")));
+      this.reloadbutton.setToolTipText(this.tr("Reload application under test"));
       this.reloadbutton.addListener("execute", this.reloadTestSuite, this);
 
       this.widgets["toolbar.runbutton"] = this.runbutton;
       this.runbutton.addListener("execute", this.runTest, this);
-      this.runbutton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Run selected test(s)")));
+      this.runbutton.setToolTipText(this.tr("Run selected test(s)"));
 
       this.widgets["toolbar.stopbutton"] = this.stopbutton;
       this.stopbutton.addListener("execute", function(e) {
@@ -243,7 +243,7 @@ qx.Class.define("testrunner.runner.TestRunner",
         this.runbutton.setVisibility("visible");
         this.stopbutton.setVisibility("excluded");
       }, this);
-      this.stopbutton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Stop running tests")));
+      this.stopbutton.setToolTipText(this.tr("Stop running tests"));
 
       var testUri   = qx.core.Setting.get("qx.testPageUri");
       var nameSpace = qx.core.Setting.get("qx.testNameSpace");
@@ -258,7 +258,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       toolbar.add(part2);
 
       part2.add(this.testSuiteUrl);
-      this.testSuiteUrl.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Application under test URL")));
+      this.testSuiteUrl.setToolTipText(this.tr("Application under test URL"));
 
       this.testSuiteUrl.set(
       {
@@ -283,7 +283,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       this.reloadswitch = new qx.ui.toolbar.CheckBox(this.tr("Auto Reload"), "icon/22/actions/system-run.png");
       part3.add(this.reloadswitch);
       this.reloadswitch.setShow("both");
-      this.reloadswitch.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Always reload application under test before testing")));
+      this.reloadswitch.setToolTipText(this.tr("Always reload application under test before testing"));
 
       // -- log level menu
       this.levelbox = new qx.ui.toolbar.MenuButton(this.tr("Log Level"), "icon/22/categories/system.png");

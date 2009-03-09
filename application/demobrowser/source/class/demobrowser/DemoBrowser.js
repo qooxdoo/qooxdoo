@@ -258,36 +258,31 @@ qx.Class.define("demobrowser.DemoBrowser",
       // -- run button
       this._runbutton = new qx.ui.toolbar.Button(this.tr("Run"), "icon/22/actions/media-playback-start.png");
       this._runbutton.addListener("execute", this.runSample, this);
-      var runTooltip = new qx.ui.tooltip.ToolTip("Run the selected demo(s)");
-      this._runbutton.setToolTip(runTooltip);
+      this._runbutton.setToolTipText("Run the selected demo(s)");
       this._navPart.add(this._runbutton);
       
       // -- stop button
       this._stopbutton = new qx.ui.toolbar.Button(this.tr("Stop"),
           "icon/22/actions/media-playback-stop.png");
       this._stopbutton.addListener("execute", this.stopSample, this);
-      var stopTooltip = new qx.ui.tooltip.ToolTip("Stop playback after current demo");
-      this._stopbutton.setToolTip(stopTooltip);
+      this._stopbutton.setToolTipText("Stop playback after current demo");
 
       // -- previous navigation
       var prevbutt = new qx.ui.toolbar.Button(this.tr("Previous"), "icon/22/actions/go-previous.png");
       prevbutt.addListener("execute", this.playPrev, this);
-      var prevTooltip = new qx.ui.tooltip.ToolTip("Run previous demo");
-      prevbutt.setToolTip(prevTooltip);
+      prevbutt.setToolTipText("Run previous demo");
       this._navPart.add(prevbutt);
 
       // -- next navigation
       var nextbutt = new qx.ui.toolbar.Button(this.tr("Next"), "icon/22/actions/go-next.png");
       nextbutt.addListener("execute", this.playNext, this);
-      var nextTooltip = new qx.ui.tooltip.ToolTip("Run next demo");
-      nextbutt.setToolTip(nextTooltip);
+      nextbutt.setToolTipText("Run next demo");
       this._navPart.add(nextbutt);
 
       // -- spin-out sample
       var sobutt = new qx.ui.toolbar.Button(this.tr("Own Window"), "icon/22/actions/edit-redo.png");
       sobutt.addListener("execute", this.__openWindow, this);
-      var soTooltip = new qx.ui.tooltip.ToolTip("Open demo in new window");
-      sobutt.setToolTip(soTooltip);
+      sobutt.setToolTipText("Open demo in new window");
       this._navPart.add(sobutt);
 
 
@@ -314,8 +309,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       themeMenu.add(t2);
 
       var themeButton = new qx.ui.toolbar.MenuButton(this.tr("Theme"), "icon/22/apps/utilities-color-chooser.png", themeMenu);
-      var themeTooltip = new qx.ui.tooltip.ToolTip("Choose theme");
-      themeButton.setToolTip(themeTooltip);
+      themeButton.setToolTipText("Choose theme");
       menuPart.add(themeButton);
 
 
@@ -338,8 +332,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       menu.add(disposeBtn);
 
       var debugButton = new qx.ui.toolbar.MenuButton(this.tr("Debug"), "icon/22/apps/office-spreadsheet.png", menu);
-      var debugTooltip = new qx.ui.tooltip.ToolTip("Debugging options");
-      debugButton.setToolTip(debugTooltip);
+      debugButton.setToolTipText("Debugging options");
       menuPart.add(debugButton);
 
 
@@ -352,14 +345,11 @@ qx.Class.define("demobrowser.DemoBrowser",
       bar.add(viewPart);
 
       var htmlView = new qx.ui.toolbar.RadioButton("HTML Code", "icon/22/apps/internet-web-browser.png");
-      var htmlTooltip = new qx.ui.tooltip.ToolTip("Display HTML source");
-      htmlView.setToolTip(htmlTooltip);
+      htmlView.setToolTipText("Display HTML source");
       var jsView = new qx.ui.toolbar.RadioButton("JS Code", "icon/22/mimetypes/executable.png");
-      var jsTooltip = new qx.ui.tooltip.ToolTip("Display JavaScript source");
-      jsView.setToolTip(jsTooltip);
+      jsView.setToolTipText("Display JavaScript source");
       var logView = new qx.ui.toolbar.RadioButton("Log File", "icon/22/apps/utilities-log-viewer.png");
-      var logTooltip = new qx.ui.tooltip.ToolTip("Display log file");
-      logView.setToolTip(logTooltip);
+      logView.setToolTipText("Display log file");
 
       htmlView.setValue("html");
       jsView.setValue("js");
