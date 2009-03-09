@@ -45,47 +45,89 @@ qx.Class.define("demobrowser.demo.widget.Tooltip",
 
       scroller.add(container);
       this.getRoot().add(scroller, {edge : 0});
+      
+      this.createSharedToolTip(container);
+      this.createIconToolTip(container);
+      this.createToolTip(container);
+      this.createShortTimeoutToolTip(container);
+      this.createRichToolTip(container);
+    },
+      
+    
+    createSharedToolTip : function(container)
+    {
+      var tooltip = new qx.ui.tooltip.ToolTip("Shared ToolTip");
+      tooltip.addListener("appear", function(e)
+      {
+        var label = "Shared tool tip of button #";
+        if (this.getOpener() == button1) {
+          label += "1";
+        } else {
+          label += "2";
+        }
+        tooltip.setLabel(label);
+      });
 
-      var c1 = new qx.ui.form.Button("Shared ToolTip");
-      container.add(c1);
+      var button1 = new qx.ui.form.Button("Button #1 (Shared ToolTip)");
+      button1.setToolTip(tooltip);
+      container.add(button1);
 
-      var c2 = new qx.ui.form.Button("Shared ToolTip");
-      container.add(c2);
+      var button2 = new qx.ui.form.Button("Button #2 (Shared ToolTip)");
+      button2.setToolTip(tooltip);
+      container.add(button2);
+    },
+    
+    
+    createIconToolTip : function(container)
+    {
+      var button = new qx.ui.form.Button("Icon only ToolTip").set({
+        toolTip: new qx.ui.tooltip.ToolTip(null, "icon/16/actions/help-about.png")
+      });
+      container.add(button);
+    },
+    
+    
+    createToolTip : function(container)
+    {
+      var button = new qx.ui.form.Button("ToolTip with icon and label").set({
+        toolTip: new qx.ui.tooltip.ToolTip(
+          "Hello World #3", "icon/16/actions/help-about.png"
+        ) 
+      })
+      container.add(button);
+    },
+    
+    
+    createShortTimeoutToolTip : function(container)
+    {
+      var button = new qx.ui.form.Button("Short timeout ToolTip");
+      container.add(button);
 
-      var c3 = new qx.ui.form.Button("Icon only ToolTip");
-      container.add(c3);
+      var tooltip = new qx.ui.tooltip.ToolTip(
+        "Such a great tooltip with a (show) timeout of 50ms.",
+        "icon/32/actions/help-about.png"
+      );
+      tooltip.setShowTimeout(50);
+      button.setToolTip(tooltip);
+    },
+    
+    
+    createRichToolTip : function(container)
+    {
+      var button = new qx.ui.form.Button("ToolTip with icon and rich text");
+      container.add(button);
 
-      var c4 = new qx.ui.form.Button("ToolTip with icon and label");
-      container.add(c4);
-
-      var c5 = new qx.ui.form.Button("Short timeout ToolTip");
-      container.add(c5);
-
-      var c6 = new qx.ui.form.Button("ToolTip with icon and rich text");
-      container.add(c6);
-
-      var tt1 = new qx.ui.tooltip.ToolTip("Hello World #1");
-      c1.setToolTip(tt1);
-      c2.setToolTip(tt1);
-
-      var tt2 = new qx.ui.tooltip.ToolTip(null, "icon/16/actions/help-about.png");
-      c3.setToolTip(tt2);
-
-      var tt3 = new qx.ui.tooltip.ToolTip("Hello World #3", "icon/16/actions/help-about.png");
-      c4.setToolTip(tt3);
-
-      var tt4 = new qx.ui.tooltip.ToolTip("Such a great tooltip with a (show) timeout of 50ms.", "icon/32/actions/help-about.png");
-      c5.setToolTip(tt4);
-      tt4.setShowTimeout(50);
-
-      var tt5 = new qx.ui.tooltip.ToolTip("A long label text with auto-wrapping. "
-          + "This also may contain <b style='color:red'>rich HTML</b> markup "
-          + "and with a (show) timeout of 50ms.",
-          "icon/32/actions/help-about.png");
-      tt5.setWidth(200);
-      tt5.setRich(true);
-      tt5.setShowTimeout(50);
-      c6.setToolTip(tt5);
+      var tooltip = new qx.ui.tooltip.ToolTip(
+        "A long label text with auto-wrapping. " +
+          "This also may contain <b style='color:red'>rich HTML</b> markup " +
+          "and with a (show) timeout of 50ms.",
+        "icon/32/actions/help-about.png");
+      
+      tooltip.setWidth(200);
+      tooltip.setRich(true);
+      tooltip.setShowTimeout(50);
+      
+      button.setToolTip(tooltip);
     }
   }
 });

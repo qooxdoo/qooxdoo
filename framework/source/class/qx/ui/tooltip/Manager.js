@@ -231,7 +231,9 @@ qx.Class.define("qx.ui.tooltip.Manager",
       }
 
       // Set Property
-      if (tooltip) {
+      if (tooltip)
+      {
+        tooltip.setOpener(target);
         this.setCurrent(tooltip);
       }
     },
