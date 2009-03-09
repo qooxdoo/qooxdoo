@@ -48,6 +48,14 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Roster",
       colorOdd: "rgb(238, 243, 255)"
     });
     this.getPane().addLayer(this.rowLayer);
+    
+    var prefetch = new qx.ui.virtual.behavior.Prefetch(
+      this,
+      0, 0, 0, 0,
+      200, 300, 600, 800
+    ).set({
+      interval: 500
+    });    
   },
 
 
