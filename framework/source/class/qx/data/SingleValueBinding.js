@@ -57,7 +57,7 @@ qx.Class.define("qx.data.SingleValueBinding",
      * new value (abc of the new child) will be in the textfield.
      * 
      * There is also a possibility of binding an array. Therefor the array
-     * {@link qx.data.Array} is needed because this array has change events 
+     * {@link qx.data.IListData} is needed because this array has change events 
      * which the native does not. Imagine a qooxdoo object a which has a 
      * children property containing an array holding more of its own kind. 
      * Every object has a name property as a string.
@@ -160,7 +160,7 @@ qx.Class.define("qx.data.SingleValueBinding",
             );
           }
 
-
+        // if its not the last property
         } else {
           
           // create the contenxt for the listener
@@ -249,7 +249,7 @@ qx.Class.define("qx.data.SingleValueBinding",
         // if its the last property
         if (j == context.propertyNames.length - 1) {
           // if its an array
-          if (source instanceof qx.data.Array) {
+          if (qx.Class.implementsInterface(source, qx.data.IListData)) {
             // set the inital value
             var itemIndex = context.arrayIndexValues[j] === "last" ? 
               source.length - 1 : context.arrayIndexValues[j];
@@ -282,7 +282,7 @@ qx.Class.define("qx.data.SingleValueBinding",
             context.listeners.push(listener);
           }
           // add a new listener
-          if (source instanceof qx.data.Array ) {
+          if (qx.Class.implementsInterface(source, qx.data.IListData)) {
             var eventName = "change";
           } else {
             var eventName = this.__getEventNameForProperty(source, context.propertyNames[j]);
