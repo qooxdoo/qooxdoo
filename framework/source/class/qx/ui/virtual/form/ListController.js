@@ -178,13 +178,13 @@ qx.Class.define("qx.ui.virtual.form.ListController",
       if (this._ignoreSelectionChange) {
         return;
       }
-      this._ignoreSelectionChange = true;
       
-      var target = this.getTarget();
-      
+      var target = this.getTarget();      
       if (!target) {
         return;
       }
+
+      this._ignoreSelectionChange = true;
       
       var modelSelection = this.getSelection();
       var selection = [];
