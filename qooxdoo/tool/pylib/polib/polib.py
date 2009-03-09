@@ -978,7 +978,7 @@ class POEntry(_BaseEntry):
                     # keep existing translation at pos if any
                     self.msgstr_plural[pos]
                 except KeyError:
-                    self.msgstr_plural[pos] = other.msgstr_plural[pos]
+                    self.msgstr_plural[pos] = ''
 
 # }}}
 # class MOEntry {{{
