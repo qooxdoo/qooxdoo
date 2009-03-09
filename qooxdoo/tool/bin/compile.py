@@ -65,8 +65,6 @@ def main():
     # Action modifier
     parser.add_option("--pretty", action="store_true", dest="pretty", default=False, help="print out pretty printed")            
     parser.add_option("--tree", action="store_true", dest="tree", default=False, help="print out tree")
-    parser.add_option("--apiXml", action="store_true", dest="apiXml", default=False, help="print out api data as XML")
-    parser.add_option("--apiJson", action="store_true", dest="apiJson", default=False, help="print out api data as JSON")
     parser.add_option("--lint", action="store_true", dest="lint", default=False, help="ecmalint the file")
     
     
@@ -95,7 +93,12 @@ def main():
     
     if len(options.variants) > 0:
         print ">>> Selecting variants..."
-        variantoptimizer.search(tree, options.variants, fileId)
+        varmap = {}
+        for entry in options.variants:
+            pos = entry.index(":")
+            varmap[entry[0:pos]] = entry[pos+1:]
+            
+        variantoptimizer.search(tree, varmap, fileId)
     
     if options.all or options.basecalls:
         print ">>> Optimizing basecalls..."
@@ -121,19 +124,8 @@ def main():
     #
     # Output the result
     #
-    
-    if options.apiXml or options.apiJson:
-        (data, hasError) = api.createDoc(tree)  
-        if hasError:
-            print "Error in API docs!"
-        elif options.apiXml:
-            print ">>> API data as XML..."
-            print data.toXml()
-        else:
-            print ">>> API data as JSON..."
-            print data.toJson()
             
-    elif options.lint:
+    if options.lint:
         print ">>> Executing ecmalint..."
         print "Needs implementation"
     
