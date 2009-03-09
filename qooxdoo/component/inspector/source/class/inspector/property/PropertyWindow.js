@@ -254,8 +254,9 @@ qx.Class.define("inspector.property.PropertyWindow",
       // create and add the reload button
       this._reloadButton = new qx.ui.toolbar.Button(null, 
         "icon/22/actions/view-refresh.png");
-      this._reloadButton.setToolTip(new qx.ui.tooltip.ToolTip(
-        this.self(arguments).RELOAD_BUTTON_TOOLTIP_TEXT));
+      this._reloadButton.setToolTipText(
+        this.self(arguments).RELOAD_BUTTON_TOOLTIP_TEXT
+      );
       this._reloadButton.addListener("execute", function() {
         this._propertyList.build();
       }, this);
@@ -267,8 +268,9 @@ qx.Class.define("inspector.property.PropertyWindow",
       // create the API button      
       var apiButton = new qx.ui.toolbar.Button(null,
         "inspector/images/icons/api.png");
-      apiButton.setToolTip(new qx.ui.tooltip.ToolTip(
-        this.self(arguments).SHOW_API_BUTTON_TOOLTIP_TEXT));
+      apiButton.setToolTipText(
+        this.self(arguments).SHOW_API_BUTTON_TOOLTIP_TEXT
+      );
       apiButton.addListener("execute", this._onOpenApiWindow, this);
       this._toolbar.add(apiButton);
       
@@ -278,8 +280,9 @@ qx.Class.define("inspector.property.PropertyWindow",
       // set null button
       this._setNullButton = new qx.ui.toolbar.Button(null, 
         "inspector/images/icons/setnull.png");
-      this._setNullButton.setToolTip(new qx.ui.tooltip.ToolTip(
-        this.self(arguments).SET_NULL_BUTTON_TOOLTIP_TEXT));
+      this._setNullButton.setToolTipText(
+        this.self(arguments).SET_NULL_BUTTON_TOOLTIP_TEXT
+      );
       this._setNullButton.addListener("execute", this._setNullButtonEventListener, this);
       this._setNullButton.setEnabled(false);
       this._toolbar.add(this._setNullButton);
@@ -287,8 +290,9 @@ qx.Class.define("inspector.property.PropertyWindow",
       // set to initial value button
       this._setPropertyToDefaultButton = new qx.ui.toolbar.Button(null, 
         "inspector/images/icons/setinit.png");
-      this._setPropertyToDefaultButton.setToolTip(new qx.ui.tooltip.ToolTip(
-        this.self(arguments).SET_DEFAULT_BUTTON_TOOLTIP_TEXT));
+      this._setPropertyToDefaultButton.setToolTipText(
+        this.self(arguments).SET_DEFAULT_BUTTON_TOOLTIP_TEXT
+      );
       this._setPropertyToDefaultButton.addListener("execute", this._setPropertyToDefaultButtonEventListener, this);
       this._setPropertyToDefaultButton.setEnabled(false);
       this._toolbar.add(this._setPropertyToDefaultButton);
@@ -296,8 +300,9 @@ qx.Class.define("inspector.property.PropertyWindow",
       // highlight property button
       this._highlightCurrentPropertyButton = new qx.ui.toolbar.Button(null,
         "inspector/images/icons/highlight.png");
-      this._highlightCurrentPropertyButton.setToolTip(new qx.ui.tooltip.ToolTip(
-        this.self(arguments).HIGHLIGHT_SELECTED_PROPERTY_BUTTON_TOOLTIP_TEXT));    
+      this._highlightCurrentPropertyButton.setToolTipText(
+        this.self(arguments).HIGHLIGHT_SELECTED_PROPERTY_BUTTON_TOOLTIP_TEXT
+      );    
       this._highlightCurrentPropertyButton.addListener("execute", this._highlightCurrentPropertyButtonEventListener, this);
       this._highlightCurrentPropertyButton.setEnabled(false);
       // TODO this._toolbar.add(this._highlightCurrentPropertyButton);
@@ -305,8 +310,9 @@ qx.Class.define("inspector.property.PropertyWindow",
       // go to property button
       this._gotoSelectedPropertyButton = new qx.ui.toolbar.Button(null,
         "inspector/images/icons/goto.png");
-      this._gotoSelectedPropertyButton.setToolTip(new qx.ui.tooltip.ToolTip(
-        this.self(arguments).GOTO_SELECTED_PROPERTY_BUTTON_TOOLTIP_TEXT));      
+      this._gotoSelectedPropertyButton.setToolTipText(
+        this.self(arguments).GOTO_SELECTED_PROPERTY_BUTTON_TOOLTIP_TEXT
+      );      
       this._gotoSelectedPropertyButton.addListener("execute", this._gotoSelectedPropertyButtonEventListener, this);
       this._gotoSelectedPropertyButton.setEnabled(false);
      // TODO this._toolbar.add(this._gotoSelectedPropertyButton);
