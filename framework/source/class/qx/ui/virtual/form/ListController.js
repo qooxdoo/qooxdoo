@@ -129,8 +129,9 @@ qx.Class.define("qx.ui.virtual.form.ListController",
           "change", this._onChangeSelectionModel, this
         );
         this.__changeSelectionLengthModelListenerId = value.addListener(
-            "changeLength", this._onChangeSelectionModel, this
-          );
+          "changeLength", this._onChangeSelectionModel, this
+        );
+        this._syncModelSelectionToView();
       }
 
       if (old != null)

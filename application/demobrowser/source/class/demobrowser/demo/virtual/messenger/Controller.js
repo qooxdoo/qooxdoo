@@ -146,11 +146,15 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Controller",
         this.__groupedData.push(group);
         groups.push(group);
         
+        var itemsInGroup = 0;
         for (var i=0; i<data.length; i++)
         {
           var item = data[i];
           if (item.getGroup() !== group.getName()) 
           {
+            group.setItemCount(itemsInGroup);
+            itemsInGroup = 0;
+            
             var group = this._getGroupModel(item.getGroup(), this.__groupedData.length);
             this.__groupedData.push(group);
             groups.push(group);
@@ -160,8 +164,11 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Controller",
           } else {
             this.getSelection().remove(item);
           }
+          itemsInGroup += 1;
         }
       }      
+      group.setItemCount(itemsInGroup);
+      
       this._visualizeGrouping(groups);
       this._syncModelSelectionToView();
     },
