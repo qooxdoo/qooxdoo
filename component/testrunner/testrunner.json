@@ -173,6 +173,10 @@
         "paths" :
         {
           "file"   : "${BUILD_PATH}/script/${TESTRUNNER}.js" // this should be relative to 'target'
+        },
+        "code" :
+        {
+          "optimize" : ["variables", "basecalls", "privates", "strings"]
         }
       }
     },
