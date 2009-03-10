@@ -279,10 +279,6 @@
     {
       "desc"    : "remove local cache and generated .js files (source/build)",
 
-      // scan-local-lib is here (like various similar others) only in for the cache setting;
-      // can be removed once the forced library scan for each job is disabled
-      "extend" : [ "scan-local-lib" ],
-
       "clean-files" :
       {
         "Cleaning up build" :
@@ -292,8 +288,11 @@
         ],
         "Cleaning up source" :
         [
-          "${ROOT}/cache",
           "${ROOT}/source/script/${APPLICATION}.js"
+        ],
+        "Deleting local cache" :
+        [
+          "${ROOT}/cache"
         ]
       }
     },
@@ -302,8 +301,6 @@
     "distclean" :
     {
       "desc"    : "remove the cache and all generated artefacts of this library (source, build, ...)",
-
-      "extend" : [ "scan-local-lib" ],
 
       "clean-files" :
       {
@@ -315,19 +312,19 @@
         [
           "${ROOT}/source/script"
         ],
-        "Deleting API Viewer" :
+        "Deleting api folder" :
         [
           "${ROOT}/api"
         ],
-        "Deleting Test Runner" :
+        "Deleting test folder" :
         [
           "${ROOT}/test"
         ],
-        "Deleting Build Tool" :
+        "Deleting inspector folder" :
         [
-          "${ROOT}/tool/buildtool"
+          "${ROOT}/inspector"
         ],
-        "Cleaning up cache" :
+        "Deleting cache" :
         [
           "${CACHE}"
         ]
