@@ -63,9 +63,11 @@ qx.Class.define("qx.ui.tabview.Page",
   *****************************************************************************
   */
 
-  /** Fired by {@link qx.ui.tabview.TabButton} if the close button is clicked. */
   events :
   {
+    /**
+     * Fired by {@link qx.ui.tabview.TabButton} if the close button is clicked.
+     */
     "close" : "qx.event.type.Data"
   },
 
@@ -202,9 +204,8 @@ qx.Class.define("qx.ui.tabview.Page",
     */
 
     /**
-     * Forwards the close event to the TabView widget.
-     *
-     * @param e {qx.event.type.MouseEvent} mouse click event
+     * Fires an "close" event when the close button of the TabButton of the page
+     * is clicked.
      */
     _onButtonClose : function() {
       this.fireEvent("close");
