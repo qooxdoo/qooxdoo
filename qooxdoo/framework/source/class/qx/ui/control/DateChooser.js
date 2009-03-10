@@ -115,7 +115,11 @@ qx.Class.define("qx.ui.control.DateChooser",
 
   events :
   {
-    /** Fired when the value was modified */
+    /** 
+     * Fired when the value was modified 
+     * 
+     * Event data: The value as a JavaScript date string.
+     */
     changeValue : "qx.event.type.Data"
   },
 
