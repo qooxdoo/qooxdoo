@@ -57,6 +57,16 @@ qx.Class.define("qx.ui.tabview.Page",
   },
 
 
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+
+  events :
+  {
+    "close" : "qx.event.type.Data"
+  },
 
 
   /*
@@ -169,10 +179,13 @@ qx.Class.define("qx.ui.tabview.Page",
       switch(id)
       {
         case "button":
-          control = new qx.ui.form.RadioButton;
+        // control = new qx.ui.form.RadioButton;
+          control = new qx.ui.tabview.TabButton;
           control.setAllowGrowX(true);
           control.setAllowGrowY(true);
           control.setValue(this.toHashCode());
+
+          control.addListener("close", this._onButtonClose, this);
 
           this._add(control);
           break;
@@ -181,7 +194,15 @@ qx.Class.define("qx.ui.tabview.Page",
       return control || this.base(arguments, id);
     },
 
+    /*
+    ---------------------------------------------------------------------------
+      EVENT LISTENERS
+    ---------------------------------------------------------------------------
+    */
 
+    _onButtonClose : function() {
+      this.fireEvent("close");
+    },
 
 
     /*
