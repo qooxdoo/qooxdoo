@@ -36,6 +36,15 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
 
   construct : function()
   {
+    var STDCR = qx.ui.treevirtual.SimpleTreeDataCellRenderer;
+
+    // Begin preloading of the tree images, if not already requested.
+    if (STDCR.__bVirgin)
+    {
+      STDCR.__preloadImages();
+      STDCR.__bVirgin = false;
+    }
+
     this.base(arguments);
 
     this.__am = qx.util.AliasManager.getInstance();
@@ -49,7 +58,72 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
 
   statics :
   {
-    __icon : { }
+    /** File names of each of the tree icons */
+    __icon : { },
+
+    /** Whether we have not yet requested pre-loading of images */
+    __bVirgin : true,
+
+    /**
+     * Request preloading of images so they appear immediately upon rendering
+     */
+    __preloadImages : function()
+    {
+      // Ensure that the theme is initialized
+      qx.theme.manager.Meta.getInstance().initialize();
+
+      var STDCR = qx.ui.treevirtual.SimpleTreeDataCellRenderer;
+
+      var ImageLoader = qx.io2.ImageLoader;
+
+      var am = qx.util.AliasManager.getInstance();
+      var rm = qx.util.ResourceManager;
+      var tm = qx.theme.manager.Appearance.getInstance();
+
+      var loadImage = function(f)
+      {
+        ImageLoader.load(rm.toUri(am.resolve(f)));
+      };
+
+      STDCR.__icon.line = tm.styleFrom("treevirtual-line");
+      loadImage(STDCR.__icon.line.icon);
+
+      STDCR.__icon.contract = tm.styleFrom("treevirtual-contract");
+      loadImage(STDCR.__icon.contract.icon);
+
+      STDCR.__icon.expand = tm.styleFrom("treevirtual-expand");
+      loadImage(STDCR.__icon.expand.icon);
+
+      STDCR.__icon.onlyContract = tm.styleFrom("treevirtual-only-contract");
+      loadImage(STDCR.__icon.onlyContract.icon);
+
+      STDCR.__icon.onlyExpand = tm.styleFrom("treevirtual-only-expand");
+      loadImage(STDCR.__icon.onlyExpand.icon);
+
+      STDCR.__icon.startContract = tm.styleFrom("treevirtual-start-contract");
+      loadImage(STDCR.__icon.startContract.icon);
+
+      STDCR.__icon.startExpand = tm.styleFrom("treevirtual-start-expand");
+      loadImage(STDCR.__icon.startExpand.icon);
+
+      STDCR.__icon.endContract = tm.styleFrom("treevirtual-end-contract");
+      loadImage(STDCR.__icon.endContract.icon);
+
+      STDCR.__icon.endExpand = tm.styleFrom("treevirtual-end-expand");
+      loadImage(STDCR.__icon.endExpand.icon);
+
+      STDCR.__icon.crossContract = tm.styleFrom("treevirtual-cross-contract");
+      loadImage(STDCR.__icon.crossContract.icon);
+
+      STDCR.__icon.crossExpand = tm.styleFrom("treevirtual-cross-expand");
+      loadImage(STDCR.__icon.crossExpand.icon);
+
+      STDCR.__icon.end = tm.styleFrom("treevirtual-end");
+      loadImage(STDCR.__icon.end.icon);
+
+      STDCR.__icon.cross = tm.styleFrom("treevirtual-cross");
+      loadImage(STDCR.__icon.cross.icon);
+    }
   },
 
 
@@ -626,64 +700,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
 
       return { icon : this.BLANK };
     }
-  },
-
-  defer : function()
-  {
-    // Ensure that the theme is initialized
-    qx.theme.manager.Meta.getInstance().initialize();
-
-    var STDCR = qx.ui.treevirtual.SimpleTreeDataCellRenderer;
-
-    var ImageLoader = qx.io2.ImageLoader;
-
-    var am = qx.util.AliasManager.getInstance();
-    var rm = qx.util.ResourceManager;
-    var tm = qx.theme.manager.Appearance.getInstance();
-
-    var loadImage = function(f)
-    {
-      ImageLoader.load(rm.toUri(am.resolve(f)));
-    };
-
-    STDCR.__icon.line = tm.styleFrom("treevirtual-line");
-    loadImage(STDCR.__icon.line.icon);
-
-    STDCR.__icon.contract = tm.styleFrom("treevirtual-contract");
-    loadImage(STDCR.__icon.contract.icon);
-
-    STDCR.__icon.expand = tm.styleFrom("treevirtual-expand");
-    loadImage(STDCR.__icon.expand.icon);
-
-    STDCR.__icon.onlyContract = tm.styleFrom("treevirtual-only-contract");
-    loadImage(STDCR.__icon.onlyContract.icon);
-
-    STDCR.__icon.onlyExpand = tm.styleFrom("treevirtual-only-expand");
-    loadImage(STDCR.__icon.onlyExpand.icon);
-
-    STDCR.__icon.startContract = tm.styleFrom("treevirtual-start-contract");
-    loadImage(STDCR.__icon.startContract.icon);
-
-    STDCR.__icon.startExpand = tm.styleFrom("treevirtual-start-expand");
-    loadImage(STDCR.__icon.startExpand.icon);
-
-    STDCR.__icon.endContract = tm.styleFrom("treevirtual-end-contract");
-    loadImage(STDCR.__icon.endContract.icon);
-
-    STDCR.__icon.endExpand = tm.styleFrom("treevirtual-end-expand");
-    loadImage(STDCR.__icon.endExpand.icon);
-
-    STDCR.__icon.crossContract = tm.styleFrom("treevirtual-cross-contract");
-    loadImage(STDCR.__icon.crossContract.icon);
-
-    STDCR.__icon.crossExpand = tm.styleFrom("treevirtual-cross-expand");
-    loadImage(STDCR.__icon.crossExpand.icon);
-
-    STDCR.__icon.end = tm.styleFrom("treevirtual-end");
-    loadImage(STDCR.__icon.end.icon);
-
-    STDCR.__icon.cross = tm.styleFrom("treevirtual-cross");
-    loadImage(STDCR.__icon.cross.icon);
   },
 
   destruct : function()
