@@ -4,8 +4,7 @@
   "include" :
   [
     {
-      "path" : "$${QOOXDOO_PATH}/tool/data/config/application.json",
-      "as"   : "appconf"
+      "path" : "$${QOOXDOO_PATH}/tool/data/config/application.json"
     }
   ],
 
@@ -33,6 +32,7 @@
     "APPLICATION"  : "${Namespace}",
     "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}",
     "QXTHEME"      : "qx.theme.Modern",
+    "API_EXCLUDE"  : ["qx.test.*"],
     "LOCALES"      : [ "en" ],
     "ROOT"         : "."
   },
@@ -41,7 +41,7 @@
   {
     "common" :
     {
-      "include" : 
+      "=include" : 
       [
         "$${QXTHEME}",
         "qx.legacy.theme.ClassicRoyale",
@@ -51,101 +51,6 @@
       {
         "qx.legacy.theme" : "qx.legacy.theme.ClassicRoyale"
       }
-    },
-
-    "api" :
-    {
-      "extend" : ["appconf::api"]
-    },
-
-    "build" :
-    {
-      "extend" : ["common", "appconf::build"]
-    },
-
-    "clean" :
-    {
-      "extend" : ["appconf::clean"]
-    },
-
-    "distclean" :
-    {
-      "extend" : ["appconf::distclean"]
-    },
-
-    "fix" :
-    {
-      "extend" : ["appconf::fix"]
-    },
-
-    "inspector" :
-    {
-      "extend" : ["appconf::inspector"]
-    },
-    
-    "inspector-script" :
-    {
-      "extend" : ["appconf::inspector-script"]
-    },
-
-    "inspector-files" :
-    {
-      "extend" : ["appconf::inspector-files"]
-    },
-
-    "inspector-resources" :
-    {
-      "extend" : ["appconf::inspector-resources"]
-    },
-
-    "lint" :
-    {
-      "extend" : ["appconf::lint"]
-    },
-
-    "migration" :
-    {
-      "extend" : ["appconf::migration"]
-    },
-
-    "pretty" :
-    {
-      "extend" : ["appconf::pretty"]
-    },
-
-    "profiling" :
-    {
-      "extend" : ["appconf::profiling"]
-    },
-
-    "publish" :
-    {
-      "extend" : ["appconf::publish"]
-    },
-
-    "source" :
-    {
-      "extend" : ["common", "appconf::source"]
-    },
-
-    "source-all" :
-    {
-      "extend" : ["common", "appconf::source-all"]
-    },
-
-    "test" :
-    {
-      "extend" : ["appconf::test"]
-    },
-
-    "test-source" :
-    {
-      "extend" : ["appconf::test-source"]
-    },
-
-    "translation" :
-    {
-      "extend" : ["appconf::translation"]
     }
   }
 }
