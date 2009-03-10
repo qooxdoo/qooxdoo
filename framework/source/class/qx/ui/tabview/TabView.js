@@ -169,7 +169,7 @@ qx.Class.define("qx.ui.tabview.TabView",
      *
      * @param page {qx.ui.tabview.Page} The page which should be added.
      */
-    add: function(page)
+    add : function(page)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -203,6 +203,8 @@ qx.Class.define("qx.ui.tabview.TabView",
       } else {
         children[children.length-2].removeState("lastTab");
       }
+
+      page.addListener("close", this._onPageClose, this);
     },
 
 
@@ -211,7 +213,7 @@ qx.Class.define("qx.ui.tabview.TabView",
      *
      * @param page {qx.ui.tabview.Page} The page to be removed.
      */
-    remove: function(page)
+    remove : function(page)
     {
       var pane = this.getChildControl("pane");
       var bar = this.getChildControl("bar");
@@ -262,6 +264,8 @@ qx.Class.define("qx.ui.tabview.TabView",
           children[children.length-1].addState("lastTab");
         }
       }
+
+      page.removeListener("close", this._onPageClose, this);
     },
 
 
@@ -410,7 +414,12 @@ qx.Class.define("qx.ui.tabview.TabView",
      */
     _onRadioChangeValue : function(e) {
       this.setSelected(qx.core.ObjectRegistry.fromHashCode(e.getData()));
+    },
+
+    _onPageClose : function(e) {
+      this.remove(e.getTarget());
     }
+
   },
 
 
