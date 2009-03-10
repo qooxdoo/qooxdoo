@@ -17,12 +17,10 @@
 
 ************************************************************************ */
 
-
-/* ************************************************************************
-#asset(qx/icon/${qx.icontheme}/16/actions/window-close.png)
-************************************************************************ */
-
-
+/**
+ * A TabButton is the clickable part sitting on the {@link qx.ui.tabview.Page}.
+ * By clicking on the TabButton the user can set a Page active.
+ */
 qx.Class.define("qx.ui.tabview.TabButton",
 {
   extend : qx.ui.form.RadioButton,
@@ -53,9 +51,11 @@ qx.Class.define("qx.ui.tabview.TabButton",
   *****************************************************************************
   */
 
-  /** Fired by {@link qx.ui.tabview.Page} if the close button is clicked. */
   events :
   {
+    /**
+     * Fired by {@link qx.ui.tabview.Page} if the close button is clicked.
+     */
     "close" : "qx.event.type.Data"
   },
 
@@ -112,6 +112,10 @@ qx.Class.define("qx.ui.tabview.TabButton",
     ---------------------------------------------------------------------------
     */
 
+
+    /**
+     * Fires a "close" event when the close button is clicked.
+     */
     _onCloseButtonClick : function()
     {
       this.fireDataEvent("close", this);
