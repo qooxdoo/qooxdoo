@@ -53,6 +53,7 @@ qx.Class.define("qx.ui.tabview.TabButton",
   *****************************************************************************
   */
 
+  /** Fired by {@link qx.ui.tabview.Page} if the close button is clicked. */
   events :
   {
     "close" : "qx.event.type.Data"
@@ -61,47 +62,20 @@ qx.Class.define("qx.ui.tabview.TabButton",
 
   /*
   *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
-  },
-
-
-
-
-  /*
-  *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
 
+
   members :
   {
-    /*
-    ---------------------------------------------------------------------------
-      WIDGET API
-    ---------------------------------------------------------------------------
-    */
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      APPLY ROUTINES
-    ---------------------------------------------------------------------------
-    */
-
-
-
 
     /*
     ---------------------------------------------------------------------------
       WIDGET API
     ---------------------------------------------------------------------------
     */
+
 
     // overridden
     _createChildControlImpl : function(id)
@@ -119,20 +93,16 @@ qx.Class.define("qx.ui.tabview.TabButton",
         case "icon":
           control = new qx.ui.basic.Image(this.getIcon());
           control.setAnonymous(true);
-          //control.setScale(true);
-          //control.set({"width":24,"height":24});
           this._add(control, {row: 0, column: 0});
           break;
 
         case "close-button":
-          control = new qx.ui.basic.Image("icon/16/actions/window-close.png").set({
-            alignY: "top"
-          });
+          control = new qx.ui.form.Button();
           control.addListener("click", this._onCloseButtonClick, this);
           this._add(control, {row: 0, column: 3});
           break;                    
       }
-      
+
       return control || this.base(arguments, id);
     },
 
@@ -146,13 +116,6 @@ qx.Class.define("qx.ui.tabview.TabButton",
     {
       this.fireDataEvent("close", this);
     }
-
-
-    /*
-    ---------------------------------------------------------------------------
-      PUBLIC API
-    ---------------------------------------------------------------------------
-    */
 
   }
 });

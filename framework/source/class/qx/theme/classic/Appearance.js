@@ -27,7 +27,7 @@
 #asset(qx/icon/Oxygen/16/places/folder.png)
 #asset(qx/icon/Oxygen/16/mimetypes/text-plain.png)
 #asset(qx/icon/Oxygen/16/actions/view-refresh.png)
-
+#asset(qx/icon/Oxygen/16/actions/window-close.png)
 #asset(qx/icon/Oxygen/16/actions/dialog-cancel.png)
 #asset(qx/icon/Oxygen/16/actions/dialog-ok.png)
 
@@ -930,6 +930,16 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
+    "tabview-page/button/close-button" :
+    {
+      alias : "atom",
+      style : function(states)
+      {
+        return {
+          icon : "qx/icon/Oxygen/16/actions/window-close.png"
+        };
+      }
+    },
 
 
 
