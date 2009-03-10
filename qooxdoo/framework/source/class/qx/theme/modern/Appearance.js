@@ -27,6 +27,8 @@
 #asset(qx/icon/Tango/16/places/folder.png)
 #asset(qx/icon/Tango/16/mimetypes/office-document.png)
 
+#asset(qx/icon/Tango/16/actions/window-close.png)
+
 #asset(qx/icon/Tango/22/places/folder-open.png)
 #asset(qx/icon/Tango/22/places/folder.png)
 #asset(qx/icon/Tango/22/mimetypes/office-document.png)
@@ -1025,10 +1027,16 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-
-
-
-
+    "tabview-page/button/close-button" :
+    {
+      alias : "atom",
+      style : function(states)
+      {
+        return {
+          icon : "qx/icon/Tango/16/actions/window-close.png"
+        };
+      }
+    },
 
     /*
     ---------------------------------------------------------------------------
