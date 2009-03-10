@@ -62,6 +62,24 @@ qx.Class.define("qx.ui.tabview.TabButton",
 
   /*
   *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    // overridden
+    appearance :
+    {
+      refine : true,
+      init : "tabview-tabbutton"
+    }
+  },
+
+
+
+  /*
+  *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
@@ -76,6 +94,10 @@ qx.Class.define("qx.ui.tabview.TabButton",
     ---------------------------------------------------------------------------
     */
 
+    _applyIconPosition : function(value, old) {
+      this.warn("Unsupported property 'iconPostion'!");
+    },
+    
 
     // overridden
     _createChildControlImpl : function(id)
@@ -116,8 +138,7 @@ qx.Class.define("qx.ui.tabview.TabButton",
     /**
      * Fires a "close" event when the close button is clicked.
      */
-    _onCloseButtonClick : function()
-    {
+    _onCloseButtonClick : function() {
       this.fireDataEvent("close", this);
     }
 
