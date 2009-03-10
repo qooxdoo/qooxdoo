@@ -126,7 +126,10 @@ qx.Class.define("qx.ui.form.RadioGroup",
 
   events :
   {
-    /** Fired when the value was modified (after selection change) */
+    /** Fired when the value was modified (after selection change) 
+     * 
+     * Event data: The new value. As defined in {@link qx.ui.menu.RadioButton#value}
+     */
     "changeValue" : "qx.event.type.Data"
   },
 

@@ -55,6 +55,8 @@ qx.Class.define("qx.ui.tabview.TabButton",
   {
     /**
      * Fired by {@link qx.ui.tabview.Page} if the close button is clicked.
+     * 
+     * Event data: The tab button.
      */
     "close" : "qx.event.type.Data"
   },

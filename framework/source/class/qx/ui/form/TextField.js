@@ -77,7 +77,11 @@ qx.Class.define("qx.ui.form.TextField",
 
   events :
   {
-    /** The input event is fired on every keystroke modifying the value of the field */
+    /** The input event is fired on every keystroke modifying the value of the field 
+     * 
+     * Event data: The field's new value as returned by 
+     * {@link qx.ui.form.AbstractField#getValue}
+     */
     "input" : "qx.event.type.Data"
   },
 

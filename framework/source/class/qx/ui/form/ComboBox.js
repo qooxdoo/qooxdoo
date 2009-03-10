@@ -92,10 +92,16 @@ qx.Class.define("qx.ui.form.ComboBox",
 
   events :
   {
-    /** The input event is fired on every keystroke modifying the value of the field */
+    /** The input event is fired on every keystroke modifying the value of the field 
+     *  
+     *  Event data: The new text value of the field.
+     */
     "input" : "qx.event.type.Data",
 
-    /** Whenever the value is changed this event is fired */
+    /** Whenever the value is changed this event is fired 
+     * 
+     *  Event data: The new text value of the field.
+     */
     "changeValue" : "qx.event.type.Data"
   },
 

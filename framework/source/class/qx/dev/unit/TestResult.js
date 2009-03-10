@@ -36,19 +36,38 @@ qx.Class.define("qx.dev.unit.TestResult",
 
   events :
   {
-    /** Fired before the test is started */
+    /**
+     * Fired before the test is started
+     * 
+     * Event data: The test {@link qx.dev.unit.TestFunction}
+     */
     startTest : "qx.event.type.Data",
 
-    /** Fired after the test has finished */
+    /** Fired after the test has finished
+     * 
+     * Event data: The test {@link qx.dev.unit.TestFunction}
+     */
     endTest   : "qx.event.type.Data",
 
-    /** Fired if the test raised an {@link qx.core.AssertionError} */
+    /** 
+     * Fired if the test raised an {@link qx.core.AssertionError}
+     *  
+     * Event data: The test {@link qx.dev.unit.TestFunction}
+     */
     error     : "qx.event.type.Data",
 
-    /** Fired if the test failed with a different exception */
+    /** 
+     * Fired if the test failed with a different exception
+     * 
+     * Event data: The test {@link qx.dev.unit.TestFunction}
+     */
     failure   : "qx.event.type.Data",
     
-		/** Fired if an asynchronous test sets a timeout */
+		/** 
+		 * Fired if an asynchronous test sets a timeout 
+		 * 
+		 * Event data: The test {@link qx.dev.unit.TestFunction}
+		 */
 		wait   : "qx.event.type.Data"
   },
 
