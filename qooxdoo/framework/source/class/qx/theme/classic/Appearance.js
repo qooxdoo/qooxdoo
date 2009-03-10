@@ -837,12 +837,10 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "tabview-page" : {},
+    "tabview-page" : "widget",
 
     "tabview-page/button" :
     {
-      alias : "button",
-
       style : function(states)
       {
         var decorator;
@@ -923,13 +921,14 @@ qx.Theme.define("qx.theme.classic.Appearance",
           zIndex : states.checked ? 10 : 5,
           decorator : decorator,
           backgroundColor : "background",
-          iconPosition : states.barLeft || states.barRight ? "top" : "left",
           padding : [ paddingTop, paddingRight, paddingBottom, paddingLeft ],
           margin : [ marginTop, marginRight, marginBottom, marginLeft ]
         };
       }
     },
 
+    "tabview-page/button/label" : "label",
+    "tabview-page/button/icon" : "image",
     "tabview-page/button/close-button" :
     {
       alias : "atom",
