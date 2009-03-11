@@ -58,6 +58,9 @@ qx.Class.define("qx.io2.part.Part",
   
   members :
   {
+    
+    __readyState : null,
+    
     /**
      * Get the ready state of the part. The value is one of
      * <ul>
