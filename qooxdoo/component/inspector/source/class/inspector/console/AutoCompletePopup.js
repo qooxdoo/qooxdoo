@@ -235,6 +235,10 @@ qx.Class.define("inspector.console.AutoCompletePopup", {
         } 
       }
       
+      if (data.length < 1) {
+        this._table.getSelectionModel().clearSelection();
+      }
+      
        // load the data
       this._tableModel.setData(data);
       // sort the data by name
