@@ -528,7 +528,9 @@ qx.Class.define("qx.ui.table.model.Simple",
      */
     setRows : function(rowArr, startIndex, clearSorting)
     {
-      if (startIndex == null) startIndex = 0; 
+      if (startIndex == null) {
+        startIndex = 0;
+      } 
 
       // Prepare the rowArr so it can be used for apply
       rowArr.splice(0, 0, startIndex, rowArr.length);
