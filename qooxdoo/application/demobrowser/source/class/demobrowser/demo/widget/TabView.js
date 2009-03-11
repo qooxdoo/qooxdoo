@@ -102,7 +102,8 @@ qx.Class.define("demobrowser.demo.widget.TabView",
       {
         var page = new qx.ui.tabview.Page("Page #" + i, "icon/16/apps/utilities-terminal.png");
         page.setLayout(new qx.ui.layout.VBox());
-        page.add(new qx.ui.basic.Label("Page #" + i));
+        page.setShowCloseButton(true);
+        page.add(new qx.ui.basic.Label("Page #" + i + " with close button."));
         tabView.add(page);
       }
       return tabView;
