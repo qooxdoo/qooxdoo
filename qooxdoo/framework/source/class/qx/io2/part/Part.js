@@ -89,6 +89,8 @@ qx.Class.define("qx.io2.part.Part",
       return this.__name;
     },
     
+    __packages : null,
+    
     
     /**
      * Loads the part asynchronously. The callback is called after the part and

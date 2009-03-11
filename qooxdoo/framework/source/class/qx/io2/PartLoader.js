@@ -125,6 +125,9 @@ qx.Class.define("qx.io2.PartLoader",
       }
     },
     
+    __packages : null,
+    
+    __parts : null,
     
     /**
      * Get the part instance of the part with the given name.
