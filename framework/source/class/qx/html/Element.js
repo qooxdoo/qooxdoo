@@ -165,6 +165,27 @@ qx.Class.define("qx.html.Element",
         }
       }
 
+      
+      // blur elements, which will be removed
+      var focusHandler = this.__getFocusHandler();
+      var focusedDomElement = focusHandler.getFocus();
+      if (focusedDomElement && this.__willBecomeInvisible(focusedDomElement)) {
+        focusHandler.blur(focusedDomElement);
+      }
+      
+      // decativate elements, which will be removed
+      var activeDomElement = focusHandler.getFocus();
+      if (activeDomElement && this.__willBecomeInvisible(activeDomElement)) {
+        qx.bom.Element.deactivate(activeDomElement);
+      }
+      
+      // release capture for elements, which will be removed
+      var captureDomElement = this.__getCaptureElement();
+      if (captureDomElement && this.__willBecomeInvisible(captureDomElement)) {
+        mouseCapture.releaseCapture();
+      }
+      
+      
       var later = [];
       var modified = this._modified;
 
@@ -177,8 +198,7 @@ qx.Class.define("qx.html.Element",
         if (obj.__willBeSeeable())
         {
           // Separately queue rendered elements
-          if (obj.__element && qx.dom.Hierarchy.isRendered(obj.__element))
-          {
+          if (obj.__element && qx.dom.Hierarchy.isRendered(obj.__element)) {
             later.push(obj);
           }
 
@@ -337,17 +357,61 @@ qx.Class.define("qx.html.Element",
       {
         var action = this._actions[i];
         var element = action.element.__element;
-        if (!element) {
+        if (!element || !action.element.__willBeSeeable()) {
           continue;
         }
         qx.bom.Element[action.type](element);
       }
       this._actions = [];
-
-
+      
 
       // Fire appear/disappear events
       qx.event.handler.Appear.refresh();
+    },
+    
+    
+    /**
+     * Get the focus handler
+     * 
+     * @return {qx.event.handler.Focus} The focus handler
+     */
+    __getFocusHandler : function()
+    {
+      if (!this.__focusHandler)
+      {
+        var eventManager = qx.event.Registration.getManager(window);
+        this.__focusHandler = eventManager.getHandler(qx.event.handler.Focus);
+      }
+      return this.__focusHandler;
+    },
+    
+    
+    /**
+     * Get the mouse capture element
+     * 
+     * @return {Element} The mouse capture DOM element
+     */
+    __getCaptureElement : function()
+    {
+      if (!this.__mouseCapture)
+      {
+        var eventManager = qx.event.Registration.getManager(window);
+        this.__mouseCapture = eventManager.getDispatcher(qx.event.dispatch.MouseCapture);
+      }
+      return this.__mouseCapture.getCaptureElement();
+    },
+    
+    
+    /**
+     * Whether the given DOM element will become invisible after the flush
+     * 
+     * @param domElement {Element} The DOM element to check
+     * @return {Boolean} Whether the element will become invisible
+     */
+    __willBecomeInvisible : function(domElement)
+    {
+      var element = qx.core.ObjectRegistry.fromHashCode(domElement.$$element);
+      return element && !element.__willBeSeeable();
     }
   },
 
@@ -470,7 +534,7 @@ qx.Class.define("qx.html.Element",
       if (!this.__element)
       {
         this.__element = this._createDomElement();
-        this.__element.$$hash = this.$$hash;
+        this.__element.$$element = this.$$hash;
 
         this._copyData(false);
 
@@ -570,7 +634,7 @@ qx.Class.define("qx.html.Element",
       for (var i=domChildren.length-1; i>=0; i--)
       {
         domEl = domChildren[i];
-        dataEl = ObjectRegistry.fromHashCode(domEl.$$hash);
+        dataEl = ObjectRegistry.fromHashCode(domEl.$$element);
 
         if (!dataEl || !dataEl.__included || dataEl.__parent !== this)
         {
@@ -826,8 +890,8 @@ qx.Class.define("qx.html.Element",
 
       return false;
     },
-
-
+    
+    
     /**
      * Internal helper for all children addition needs
      *
@@ -1353,7 +1417,7 @@ qx.Class.define("qx.html.Element",
       // Extract first element
       helper.innerHTML = html;
       this.__element = helper.firstChild;
-      this.__element.$$hash = this.$$hash;
+      this.__element.$$element = this.$$hash;
 
       // Copy currently existing data over to element
       this._copyData(true);
@@ -1377,7 +1441,7 @@ qx.Class.define("qx.html.Element",
 
       // Use incoming element
       this.__element = elem;
-      this.__element.$$hash = this.$$hash;
+      this.__element.$$element = this.$$hash;
 
       // Copy currently existing data over to element
       this._copyData(true);
@@ -1828,11 +1892,7 @@ qx.Class.define("qx.html.Element",
      */
     __performAction : function(action)
     {
-      var el = this.__element;
       var actions = qx.html.Element._actions;
-      if (el && actions.length == 0) {
-        return qx.bom.Element[action](el);
-      }
 
       actions.push({
         type: action,
@@ -2457,7 +2517,7 @@ qx.Class.define("qx.html.Element",
     if (el)
     {
       qx.event.Registration.getManager(el).removeAllListeners(el);
-      el.$$hash = "";
+      el.$$element = "";
     }
 
     if (!qx.core.ObjectRegistry.inShutDown)
