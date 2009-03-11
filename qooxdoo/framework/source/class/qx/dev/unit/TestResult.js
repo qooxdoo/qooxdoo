@@ -104,6 +104,9 @@ qx.Class.define("qx.dev.unit.TestResult",
 
   members :
   {
+
+    __timeout : null,
+
     /**
      * Run the test
      *
@@ -115,11 +118,11 @@ qx.Class.define("qx.dev.unit.TestResult",
     {
       this.fireDataEvent("startTest", test);
 			
-			if(!this._timeout) {
-				this._timeout = {};
+			if(!this.__timeout) {
+				this.__timeout = {};
 			}
-      if (this._timeout[test.getFullName()]) {
-        clearTimeout(this._timeout[test.getFullName()]);
+      if (this.__timeout[test.getFullName()]) {
+        clearTimeout(this.__timeout[test.getFullName()]);
       }
       else {
         try {
@@ -156,7 +159,7 @@ qx.Class.define("qx.dev.unit.TestResult",
 						}
 						var timeoutFunc = (ex.getDeferredFunction() ? ex.getDeferredFunction() : defaultTimeoutFunction);
 						this.fireDataEvent("wait", test);
-            this._timeout[test.getFullName()] = setTimeout(function() {
+            this.__timeout[test.getFullName()] = setTimeout(function() {
 							 that.run(test, timeoutFunc);
             }, ex.getDelay());
           }
