@@ -495,7 +495,9 @@ qx.Class.define("apiviewer.ui.SearchView",
     __handleNote : function(e)
     {
       if (this.__note) {
-        this.__note.show();
+        if (qx.lang.String.trim(this.sinput.getValue()).length == 0) {
+          this.__note.show();
+        }
       } else {
         this.__initNote();
       }
