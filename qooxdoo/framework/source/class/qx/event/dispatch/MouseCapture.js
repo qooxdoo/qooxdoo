@@ -193,6 +193,17 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
       qx.event.Registration.fireEvent(element, "capture", qx.event.type.Event, [true, false]);
     },
 
+    
+    /**
+     * The currant capture element
+     * 
+     * @return {Element|null} The current capture element. This value may be
+     *    null.
+     */
+    getCaptureElement : function() {
+      return this.__element;
+    },
+    
 
     /**
      * Stop capturing of mouse events.
