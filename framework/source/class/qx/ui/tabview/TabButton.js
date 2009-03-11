@@ -41,7 +41,7 @@ qx.Class.define("qx.ui.tabview.TabButton",
     layout.setRowAlign(0, "left", "middle");
     this._setLayout(layout);
     
-    this._createChildControl("close-button");
+    this.initShowCloseButton();
   },
 
 
@@ -75,7 +75,16 @@ qx.Class.define("qx.ui.tabview.TabButton",
     {
       refine : true,
       init : "tabview-tabbutton"
+    },
+
+    /** Indicates if the close button of a TabButton should be shown. */
+    showCloseButton :
+    {
+      check : "Boolean",
+      init : false,
+      apply : "_applyShowCloseButton"
     }
+
   },
 
 
@@ -124,6 +133,11 @@ qx.Class.define("qx.ui.tabview.TabButton",
           control = new qx.ui.form.Button();
           control.addListener("click", this._onCloseButtonClick, this);
           this._add(control, {row: 0, column: 3});
+
+          if (!this.getShowCloseButton()) {
+            control.exclude();
+          }
+
           break;                    
       }
 
@@ -142,6 +156,23 @@ qx.Class.define("qx.ui.tabview.TabButton",
      */
     _onCloseButtonClick : function() {
       this.fireDataEvent("close", this);
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTY APPLY
+    ---------------------------------------------------------------------------
+    */
+
+    // property apply
+    _applyShowCloseButton : function(value, old)
+    {
+      if (value) {
+        this._showChildControl("close-button");
+      } else {
+        this._excludeChildControl("close-button");
+      }
     }
 
   }

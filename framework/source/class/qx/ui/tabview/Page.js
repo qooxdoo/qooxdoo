@@ -103,7 +103,16 @@ qx.Class.define("qx.ui.tabview.Page",
       check : "String",
       init : "",
       apply : "_applyIcon"
+    },
+
+    /** Indicates if the close button of a TabButton should be shown. */
+    showCloseButton :
+    {
+      check : "Boolean",
+      init : false,
+      apply : "_applyShowCloseButton"
     }
+
   },
 
 
@@ -182,7 +191,6 @@ qx.Class.define("qx.ui.tabview.Page",
       switch(id)
       {
         case "button":
-        // control = new qx.ui.form.RadioButton;
           control = new qx.ui.tabview.TabButton;
           control.setAllowGrowX(true);
           control.setAllowGrowY(true);
@@ -196,6 +204,18 @@ qx.Class.define("qx.ui.tabview.Page",
 
       return control || this.base(arguments, id);
     },
+
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTY APPLY
+    ---------------------------------------------------------------------------
+    */
+
+    // property apply
+    _applyShowCloseButton : function(value, old) {
+      this.getChildControl("button").setShowCloseButton(value);
+    },
+
 
     /*
     ---------------------------------------------------------------------------
