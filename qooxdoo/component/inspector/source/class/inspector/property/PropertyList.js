@@ -813,7 +813,6 @@ qx.Class.define("inspector.property.PropertyList", {
             // if the item is found
             if (value == box.getChildren()[i].getLabel()) {
               // set the item as selected
-              var value = box.getChildren()[i].getValue();
               if (value) {
                 box.setValue(value);          
               }
