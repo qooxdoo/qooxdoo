@@ -77,9 +77,10 @@ qx.Class.define("qx.util.Json",
      * Converts the incoming value from Function to String.
      *
      * @param incoming {function} The incoming value
+     * @param key {String} The key under which the value is stored
      * @return {String} value converted to a JSON string
      */
-    __convertFunction : function(incoming) {
+    __convertFunction : function(incoming, key) {
       return String(incoming);
     },
 
@@ -88,9 +89,10 @@ qx.Class.define("qx.util.Json",
      * Converts the incoming value from Boolean to String.
      *
      * @param incoming {Boolean} The incoming value
+     * @param key {String} The key under which the value is stored     
      * @return {String} value converted to a JSON string
      */
-    __convertBoolean : function(incoming) {
+    __convertBoolean : function(incoming, key) {
       return String(incoming);
     },
 
@@ -99,9 +101,10 @@ qx.Class.define("qx.util.Json",
      * Converts the incoming value from Number to String.
      *
      * @param incoming {Number} The incoming value
+     * @param key {String} The key under which the value is stored     
      * @return {String} value converted to a JSON string
      */
-    __convertNumber : function(incoming) {
+    __convertNumber : function(incoming, key) {
       return isFinite(incoming) ? String(incoming) : "null";
     },
 
@@ -110,9 +113,10 @@ qx.Class.define("qx.util.Json",
      * Converts the incoming value from String to JSON String.
      *
      * @param incoming {String} The incoming value
+     * @param key {String} The key under which the value is stored     
      * @return {String} value converted to a JSON string
      */
-    __convertString : function(incoming)
+    __convertString : function(incoming, key)
     {
       var result;
 
@@ -161,9 +165,10 @@ qx.Class.define("qx.util.Json",
      * Converts the incoming value from Array to String.
      *
      * @param incoming {Array} The incoming value
+     * @param key {String} The key under which the value is stored     
      * @return {String} value converted to a JSON string
      */
-    __convertArray : function(incoming)
+    __convertArray : function(incoming, key)
     {
       var stringBuilder = [], first = true, func, obj;
 
@@ -183,7 +188,7 @@ qx.Class.define("qx.util.Json",
 
         if (func)
         {
-          obj = this[func](obj);
+          obj = this[func](obj, i+"");
 
           if (typeof obj == "string")
           {
@@ -273,9 +278,10 @@ qx.Class.define("qx.util.Json",
      * sent to it by the client.
      *
      * @param incoming {Date} incoming value
+     * @param key {String} The key under which the value is stored     
      * @return {String} value converted to a JSON string
      */
-    __convertDate : function(incoming)
+    __convertDate : function(incoming, key)
     {
       var dateParams = incoming.getUTCFullYear() + "," + incoming.getUTCMonth() + "," + incoming.getUTCDate() + "," + incoming.getUTCHours() + "," + incoming.getUTCMinutes() + "," + incoming.getUTCSeconds() + "," + incoming.getUTCMilliseconds();
       return "new Date(Date.UTC(" + dateParams + "))";
@@ -286,9 +292,10 @@ qx.Class.define("qx.util.Json",
      * Converts the incoming value from Map to String.
      *
      * @param incoming {Map} The incoming value
+     * @param key {String} The key under which the value is stored     
      * @return {String} value converted to a JSON string
      */
-    __convertMap : function(incoming)
+    __convertMap : function(incoming, key)
     {
       var stringBuilder = [], first = true, func, obj;
 
@@ -308,7 +315,7 @@ qx.Class.define("qx.util.Json",
 
         if (func)
         {
-          obj = this[func](obj);
+          obj = this[func](obj, key);
 
           if (typeof obj == "string")
           {
@@ -343,20 +350,23 @@ qx.Class.define("qx.util.Json",
      * Converts the incoming value from Object to String.
      *
      * @param incoming {Object} The incoming value
+     * @param key {String} The key under which the value is stored     
      * @return {String} value converted to a JSON string
      */
-    __convertObject : function(incoming)
+    __convertObject : function(incoming, key)
     {
       if (incoming)
       {
         // for objects defined in other frames the instanceof check failes.
         var constructorName = incoming.constructor.name;
-        if (incoming instanceof Array || constructorName == "Array") {
-          return this.__convertArray(incoming);
+        if (typeof incoming.toJSON == "function") {
+          return this.__convert(incoming.toJSON(key), key);
+        } else if (incoming instanceof Array || constructorName == "Array") {
+          return this.__convertArray(incoming, key);
         } else if (incoming instanceof Date || constructorName == "Date") {
-          return this.__convertDate(incoming);
+          return this.__convertDate(incoming, key);
         } else if (incoming instanceof Object || constructorName == "Object") {
-          return this.__convertMap(incoming);
+          return this.__convertMap(incoming, key);
         }
 
         return "";
@@ -370,9 +380,10 @@ qx.Class.define("qx.util.Json",
      * Converts the incoming value from undefined to String.
      *
      * @param incoming {undefined} The incoming value
+     * @param key {String} The key under which the value is stored     
      * @return {String} value converted to a JSON string
      */
-    __convertUndefined : function(incoming)
+    __convertUndefined : function(incoming, key)
     {
       if (qx.core.Setting.get("qx.jsonEncodeUndefined")) {
         return "null";
@@ -380,6 +391,18 @@ qx.Class.define("qx.util.Json",
     },
 
 
+    /**
+     * Converts any value to JSON
+     * 
+     * @param incoming {var} The incoming value
+     * @param key {String} The key under which the value is stored
+     * @return {String} value converted to a JSON string
+     */
+    __convert : function(incoming, key) {
+      return this[this.__map[typeof incoming]](incoming, key);
+    },
+    
+    
     /**
      * Stringify a JavaScript value, producing a JSON text.
      *
@@ -395,7 +418,7 @@ qx.Class.define("qx.util.Json",
       this.__indent = this.BEAUTIFYING_LINE_END;
 
       // Start convertion
-      var result = this[this.__map[typeof obj]](obj);
+      var result = this.__convert(obj, "");
       if (typeof result != "string") {
         result = null;
       }
@@ -429,38 +452,7 @@ qx.Class.define("qx.util.Json",
         throw new Error("Could not evaluate JSON string: " + ex.message);
       }
     },
-
-    // /*
-    //  * Recursively descend through an object looking for any class hints.  Right
-    //  * now, the only class hint we support is 'Date' which can not be easily sent
-    //  * from javascript to an arbitrary (e.g. PHP) JSON-RPC server and back again
-    //  * without truncation or modification.
-    //  */
-    // _fixObj : function(obj) {
-    //   /* If there's a class hint... */
-    //   if (obj.__jsonclass__)
-    //   {
-    //   /* ... then check for supported classes.  We support only Date. */
-    //   if (obj.__jsonclass__ == "Date" && obj.secSinceEpoch && obj.msAdditional)
-    //   {
-    //     /* Found a Date.  Replace class hint object with a Date object. */
-    //     obj = new Date((obj.secSinceEpoch * 1000) + obj.msAdditional);
-    //     return obj;
-    //   }
-    //   }
-    //
-    //   /*
-    //    * It wasn't something with a supported class hint, so recursively descend
-    //    */
-    //   for (var member in obj) {
-    //   thisObj = obj[member];
-    //   if (typeof thisObj == 'object' && thisObj !== null) {
-    //     obj[member] = qx.util.Json._fixObj(thisObj);
-    //   }
-    //   }
-    //
-    //   return obj;
-    // }
+    
 
     /**
      * Parse a JSON text, producing a JavaScript value.
@@ -478,17 +470,6 @@ qx.Class.define("qx.util.Json",
       }
 
       var obj = (text && text.length > 0) ? eval('(' + text + ')') : null;
-
-      // /*
-      //  * Something like this fixObj() call may be used later when we want to
-      //  * support class hints.  For now, ignore that code
-      //  */
-      //
-      // /* If it's an object, not null, and contains a "result" field.. */
-      // if (typeof obj == 'object' && obj !== null && obj.result) {
-      // /* ... then 'fix' the result by handling any supported class hints */
-      // obj.result = qx.util.Json._fixObj(obj.result);
-      // }
 
       return obj;
     }
