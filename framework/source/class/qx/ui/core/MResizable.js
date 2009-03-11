@@ -227,9 +227,9 @@ qx.Mixin.define("qx.ui.core.MResizable",
         viewportLeft : left,
         viewportTop : top,
 
-        parentLeft : bounds.left + left - start.left,
-        parentTop : bounds.top + top - start.top,
-
+        parentLeft : start.bounds.left + left - start.left,
+        parentTop : start.bounds.top + top - start.top,
+        
         width : width,
         height : height
       };
@@ -322,10 +322,13 @@ qx.Mixin.define("qx.ui.core.MResizable",
       // Cache bounds
       var location = this.getContainerLocation();
       var bounds   = this.getBounds();
-      this.__resizeStart = { top    : location.top,
-                             left   : location.left,
-                             width  : bounds.width,
-                             height : bounds.height };
+      this.__resizeStart = {
+        top : location.top,
+        left : location.left,
+        width : bounds.width,
+        height : bounds.height,
+        bounds : qx.lang.Object.clone(bounds)
+      };
 
       // Show frame if configured this way
       if (this.getUseResizeFrame()) {
