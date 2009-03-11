@@ -100,6 +100,9 @@ qx.Class.define("qx.dev.unit.TestFunction",
 
   members :
   {
+    
+    __inst : null,
+    
     _applyTestClass : function(value, old) {
       this.__inst = new value;
     },
