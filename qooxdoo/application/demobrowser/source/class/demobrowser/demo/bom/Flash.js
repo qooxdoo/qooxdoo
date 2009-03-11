@@ -15,6 +15,13 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Fabian Jakobs (fjakobs)
+     * Christian Schmidt (chris_schmidt)
+
+************************************************************************ */
+
+/* ************************************************************************
+
+#asset(demobrowser/demo/flash/fo_tester.swf)
 
 ************************************************************************ */
 
@@ -29,11 +36,25 @@ qx.Class.define("demobrowser.demo.bom.Flash",
       this.base(arguments);
 
       var domElement = new qx.bom.Element.create("div");
-      qx.bom.element.Style.set(domElement, "width", "300px");
-      qx.bom.element.Style.set(domElement, "height", "120px");
+      qx.bom.element.Style.set(domElement, "position", "absolute");
+      qx.bom.element.Style.set(domElement, "top", "20px");
+      qx.bom.element.Style.set(domElement, "bottom", "20px");
+      qx.bom.element.Style.set(domElement, "right", "20px");
+      qx.bom.element.Style.set(domElement, "left", "20px");
       document.body.appendChild(domElement);
-
-      qx.bom.Flash.create(domElement, "Flash.swf", "flashMovie");
+      
+      var movieUri = qx.util.ResourceManager.toUri("demobrowser/demo/flash/fo_tester.swf");
+      
+      var variables = {
+        flashVarText: "this is passed in via FlashVars"
+      };
+      
+      var params = {
+        bgcolor: "#FF6600",
+        scale: "noscale"
+      };
+      
+      qx.bom.Flash.create(domElement, movieUri, "movie", variables, params);
     }
   }
 });
