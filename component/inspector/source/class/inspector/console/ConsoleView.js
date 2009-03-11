@@ -171,7 +171,7 @@ qx.Class.define("inspector.console.ConsoleView",
       // get the value to add to the textfield
       var name = this._autoCompletePopup.getCurrentSelection();
       // if something is selected
-      if (name != "undefined") {
+      if (name) {
         // get the stuff after the dot in the textfield
         var afterDot = value.substring(value.lastIndexOf(".") + 1);
         // remove the characters which are already in the textfield
