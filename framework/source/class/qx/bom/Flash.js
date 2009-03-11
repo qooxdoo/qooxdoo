@@ -304,7 +304,7 @@ qx.Class.define("qx.bom.Flash",
         var param;
         for (var name in params)
         {
-          param = document.createElement("param");
+          param = qx.bom.Element.create("param", {}, win);
           param.setAttribute("name", name);
           param.setAttribute("value", params[name]);
           swf.appendChild(param);
