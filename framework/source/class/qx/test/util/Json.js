@@ -17,29 +17,26 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.Io",
+qx.Class.define("qx.test.util.Json",
 {
   extend : qx.dev.unit.TestCase,
 
   members :
   {
-    /**
-     * TODOC
-     *
-     * @return {void}
-     */
-    testIO : function() {
-      this.assertNotUndefined(qx.io);
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @return {void}
-     */
-    testJson : function() {
+    testStringifyJson : function() {
       this.assertEquals('{"test":123}', qx.util.Json.stringify({ test : 123 }, false));
+    },
+    
+    testToJson : function() 
+    {
+      var custom = {
+        toJSON : function(key) {
+          return "#" + key + "#";
+        }
+      }
+      
+      this.assertEquals('"##"', qx.util.Json.stringify(custom, false));
+      this.assertEquals('{"juhu":"#juhu#"}', qx.util.Json.stringify({ juhu : custom }, false));
     }
   }
 });
