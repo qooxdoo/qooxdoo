@@ -48,6 +48,11 @@ qx.Class.define("qx.io2.part.Package",
   
   members :
   {
+    
+    __urls : null,
+    
+    __readyState : null,
+    
     /**
      * Loads a list of scripts in the correct order.
      * 
