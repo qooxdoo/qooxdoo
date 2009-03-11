@@ -116,8 +116,6 @@ qx.Class.define("qx.io2.part.Part",
       }
       
       this.__readyState == "loading";
-      var packagesToLoad = 0;
-      var loadedPackages = 0;
 
       var onLoad = function() {
         this.load();

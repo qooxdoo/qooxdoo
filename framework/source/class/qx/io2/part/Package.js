@@ -76,7 +76,6 @@ qx.Class.define("qx.io2.part.Package",
         }
 
         var loader = new qx.io2.ScriptLoader()
-        var url = urls[0];
         loader.load(urls.shift(), function() 
         {
           urlsLoaded += 1;
