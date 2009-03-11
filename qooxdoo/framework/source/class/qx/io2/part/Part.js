@@ -78,6 +78,7 @@ qx.Class.define("qx.io2.part.Part",
       return this.__readyState;
     },
     
+    __name : null,
     
     /**
      * The part name as defined in the config file
