@@ -47,6 +47,8 @@ qx.Class.define("qx.test.type.BaseString",
       this.assertEquals("JUHU", s.toUpperCase());
       this.assertEquals(1, s.indexOf("u"));
       this.assertEquals("__Juhu__", ["__", s + "__"].join(""));
+      this.assertEquals(4, s.length);
+
 
       s.setText("Kinners");
       this.assertEquals("Kinners", s);
