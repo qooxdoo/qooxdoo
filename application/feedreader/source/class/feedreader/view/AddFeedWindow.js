@@ -139,7 +139,7 @@ qx.Class.define("feedreader.view.AddFeedWindow",
         return;
       }
 
-      this._controller.addFeed(title, url);
+      this._controller.addFeed(title, url, "user");
       this.close();
     }
   }
