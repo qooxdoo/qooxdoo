@@ -51,6 +51,14 @@
   margin: 0;
 }
 
+.trace{
+  display: inline;
+}
+
+.hiddenST{
+  display: none;
+}
+
 .error,
 .failure{
 	background-color: #FEF4F4;
