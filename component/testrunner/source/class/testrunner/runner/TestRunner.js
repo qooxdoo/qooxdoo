@@ -321,6 +321,16 @@ qx.Class.define("testrunner.runner.TestRunner",
       
       part3.add(this.levelbox);
 
+      // -- stack trace toggle
+      this.stacktoggle = new qx.ui.toolbar.CheckBox(this.tr("Show Stack Trace"), "icon/22/actions/document-properties.png");
+      part3.add(this.stacktoggle);
+      this.stacktoggle.setShow("both");
+      this.stacktoggle.setToolTipText(this.tr("Show stack trace information for exceptions"));
+      this.stacktoggle.setChecked(true);
+      this.stacktoggle.addListener("click",function(e) {
+        this.f1.setShowStackTrace(this.stacktoggle.getChecked());
+      }, this);
+
       return toolbar;
     },  // makeToolbar
 
@@ -1310,6 +1320,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       "testSuiteUrl",
       "reloadbutton",
       "reloadswitch",
+      "stacktoggle",
       "levelbox",
       "toolbar",
       "f1",
