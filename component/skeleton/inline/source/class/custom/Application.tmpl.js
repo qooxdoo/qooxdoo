@@ -66,12 +66,28 @@ qx.Class.define("${Namespace}.Application",
       // of the element should be respected or not.
       var htmlElement = document.getElementById("isle");
       var inlineIsle = new qx.ui.root.Inline(htmlElement, true, true);
+      
+      // use VBox layout instead of basic
+      inlineIsle.setLayout(new qx.ui.layout.VBox);
+      
+      // new container
+      var container = new qx.ui.container.Composite(new qx.ui.layout.HBox);
 
       // Create a button
       var button1 = new qx.ui.form.Button("First Button", "${Namespace}/test.png");
-
-      // Add button to the inline root widget
-      inlineIsle.add(button1, {left: 100, top: 50});
+      button1.setAllowStretchY(false);
+      container.add(button1);
+      
+      // spacer
+      var spacer = new qx.ui.core.Spacer();
+      container.add(spacer, { flex: 1 });
+      
+      // create a date chooser component
+      var dateChooser = new qx.ui.control.DateChooser;
+      container.add(dateChooser);
+      
+      // add container to the inline root
+      inlineIsle.add(container);
 
       // Add an event listener
       button1.addListener("execute", function(e) {
