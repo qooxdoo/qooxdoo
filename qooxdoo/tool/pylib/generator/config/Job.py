@@ -174,7 +174,7 @@ class Job(object):
                 newjob.setFeature('extend', [subjobObj]) # extend subjob
                 
                 # add to config
-                self._config.addJob(newjobname, newjob)
+                self._config.addJob(newjobname, newjob)  # TODO: why not config.addJob(...) ?!
                 
                 # add to job list
                 subJobs.append(newjob)
