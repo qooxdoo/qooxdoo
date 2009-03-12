@@ -389,8 +389,8 @@ class Config:
             newJob.mergeJob(extJob)    # now merge in the external guy
             newJob.setConfig(extJob.getConfig()) # retain link to original config
             if (newjobname != extJobEntry  # adapt modified names; otherwise, delay name resolution until resolveExtendsAndRun()
-                and not l.hasClash):       # don't fix job references if there is shadowing
-                renamedJobs[extJobEntry] = newJob
+                and not l.hasClash):       # keep job references if there is shadowing
+                renamedJobs[extJobEntry] = newjobname  # keep string reference for later binding
             self.addJob(newjobname, newJob)         # and add it
             newList.append(newJob)         # memorize jobs added from extConfig for later
 
