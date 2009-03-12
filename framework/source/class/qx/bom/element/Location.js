@@ -86,7 +86,11 @@ qx.Class.define("qx.bom.element.Location",
       // Use faster getBoundingClientRect() if available
       // Hint: The viewport workaround here only needs to be applied for
       // MSHTML and gecko clients currently.
-      if (elem.getBoundingClientRect)
+      //
+      // Opera 9.6+ supports this too, but has a few glitches:
+      // http://edvakf.googlepages.com/clientrect.html
+      // Until these are fixed we will not use this method in Opera.
+      if (elem.getBoundingClientRect && !qx.bom.client.Engine.OPERA)
       {
         // Find window
         var win = qx.dom.Node.getWindow(elem);
