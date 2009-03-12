@@ -89,6 +89,7 @@ qx.Class.define("qx.bom.element.Location",
       //
       // Opera 9.6+ supports this too, but has a few glitches:
       // http://edvakf.googlepages.com/clientrect.html
+      // http://tc.labs.opera.com/apis/cssom/clientrects/
       // Until these are fixed we will not use this method in Opera.
       if (elem.getBoundingClientRect && !qx.bom.client.Engine.OPERA)
       {
