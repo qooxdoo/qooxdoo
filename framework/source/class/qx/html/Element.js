@@ -172,9 +172,9 @@ qx.Class.define("qx.html.Element",
       if (focusedDomElement && this.__willBecomeInvisible(focusedDomElement)) {
         focusHandler.blur(focusedDomElement);
       }
-      
+
       // decativate elements, which will be removed
-      var activeDomElement = focusHandler.getFocus();
+      var activeDomElement = focusHandler.getActive();
       if (activeDomElement && this.__willBecomeInvisible(activeDomElement)) {
         qx.bom.Element.deactivate(activeDomElement);
       }
@@ -184,8 +184,8 @@ qx.Class.define("qx.html.Element",
       if (captureDomElement && this.__willBecomeInvisible(captureDomElement)) {
         mouseCapture.releaseCapture();
       }
-      
-      
+
+
       var later = [];
       var modified = this._modified;
 
@@ -351,13 +351,18 @@ qx.Class.define("qx.html.Element",
       }
 
 
+      var activityEndActions = {
+        "releaseCapture": 1,
+        "blur": 1,
+        "deactivate": 1
+      }
 
       // Process action list
       for (var i=0; i<this._actions.length; i++)
       {
         var action = this._actions[i];
         var element = action.element.__element;
-        if (!element || !action.element.__willBeSeeable()) {
+        if (!element || !activityEndActions[action.type] && !action.element.__willBeSeeable()) {
           continue;
         }
         qx.bom.Element[action.type](element);
