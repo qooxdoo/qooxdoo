@@ -47,8 +47,13 @@ qx.Class.define("qx.ui.form.ComboBox",
     this._createChildControl("textfield");
     this._createChildControl("button");
 
+    // Change selection mode
+    var list = this.getChildControl("list");
+    list.setSelectionMode("single");
+    
     this.addListener("click", this._onClick);
     this.addListener("keydown", this._onKeyDown);
+    this.addListener("appear", this._onAppear);
   },
 
 
@@ -79,6 +84,17 @@ qx.Class.define("qx.ui.form.ComboBox",
         return this.__defaultFormat(item);
       },
       nullable : true
+    },
+    
+    /**
+     * Set the <code>TextField</code> with the value from the firt item if the
+     * property is set to <code>true</code>, otherwise the <code>TextField</code>
+     * is empty. 
+     */
+    selectFirstItem :
+    {
+      check : "Boolean",
+      init : true 
     }
   },
 
@@ -368,7 +384,28 @@ qx.Class.define("qx.ui.form.ComboBox",
       // Fire event
       this.fireDataEvent("changeValue", value);
     },
-
+    
+    /**
+     * Set the <code>TextField</code> with the value from the firt item if the 
+     * property {@link #selectFirstItem} is set to <code>true</code>
+     * 
+     * @param e {qx.event.type.Event}
+     */
+    _onAppear : function (e)
+    {
+      if (!this.isSelectFirstItem()) {
+        return;
+      }
+      
+      var list = this.getChildControl("list");
+      var firstItem = list.getChildren()[0];
+    
+      if (firstItem && list.isSelectionEmpty())
+      {
+        list.setSelected(firstItem);
+      }
+    },
+    
     /*
     ---------------------------------------------------------------------------
       FORMAT HANDLING
