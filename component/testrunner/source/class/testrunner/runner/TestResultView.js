@@ -50,6 +50,21 @@ qx.Class.define("testrunner.runner.TestResultView",
 
 
 
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    showStackTrace : {
+      check : "Boolean",
+      init : true,
+      apply : "__applyShowStackTrace"
+    }
+  },
+
 
 
   /*
@@ -97,13 +112,35 @@ qx.Class.define("testrunner.runner.TestResultView",
 					html.add("Error message is: <br />", testResult.getMessage(), "<br />");
 					
 					if (testResult.getStackTrace().length > 0) {
-						html.add("Stack trace: <div class='trace'>", testResult.getStackTrace(), "</div>");
+						html.add("<div class='trace");
+            if (!this.getShowStackTrace()) {
+              html.add(" hiddenST");
+            }
+            html.add("'>Stack trace: <br />", testResult.getStackTrace(), "</div>");
 					}
 				}
 				
 				html.add("</div>");
 				return html.get();
 			}
+    },
+
+    /**
+     * Display or hide stack trace info for all test results.
+     *
+     * @param value {Boolean} Display (true) or hide (false) stack trace info.
+     * @return {void}
+     */
+    __applyShowStackTrace : function(value)
+    {
+      var oldHtml = this.getHtml();
+      if (this.getShowStackTrace()) {
+        var newHtml = oldHtml.replace(/class='trace hiddenST'/g, "class='trace'");
+      }
+      else {
+        var newHtml = oldHtml.replace(/class='trace'/g, "class='trace hiddenST'");
+      }
+      this.setHtml(newHtml);
     },
 
 
