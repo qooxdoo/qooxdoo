@@ -242,16 +242,13 @@ qx.Class.define("qx.ui.splitpane.Pane",
      */
     _onMouseDown : function(e)
     {
-      // Only proceed if left mouse button is pressed
-      if (!e.isLeftPressed()) {
+
+      // Only proceed if left mouse button is pressed and the splitter is active
+      if (!e.isLeftPressed() || !this.__isNear()) {
         return;
       }
 
-      // Only proceed if the splitter is active
       var splitter = this.getChildControl("splitter");
-      if (!splitter.hasState("active")) {
-        return;
-      }
 
       // Store offset between mouse event coordinates and splitter
       var splitterLocation = splitter.getContainerLocation();
@@ -344,6 +341,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
       // Hide the slider
       var slider = this.getChildControl("slider");
       slider.exclude();
+
 
       // Cleanup
       delete this.__activeDragSession;
