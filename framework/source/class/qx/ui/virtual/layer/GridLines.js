@@ -142,13 +142,13 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
       if (this._isHorizontal)
       {
         var firstColumn = this.getFirstColumn();
-        var lastColumn = fisrtColumn + this.getColumnSizes().length - 1;
+        var lastColumn = firstColumn + this.getColumnSizes().length - 1;
         return index >= firstColumn && index <= lastColumn;    
       }
       else
       {
         var firstRow = this.getFirstRow();
-        var lastRow = fisrtRow + this.getRowSizes().length - 1;
+        var lastRow = firstRow + this.getRowSizes().length - 1;
         return index >= firstRow && index <= lastRow;            
       }
     },

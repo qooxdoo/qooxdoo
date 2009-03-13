@@ -167,10 +167,10 @@ qx.Class.define("qx.ui.virtual.layer.Row",
     },
     
     
-    isRowRendered : function(index)
+    __isRowRendered : function(index)
     {
       var firstRow = this.getFirstRow();
-      var lastRow = fisrtRow + this.getRowSizes().length - 1;
+      var lastRow = firstRow + this.getRowSizes().length - 1;
       return index >= firstRow && index <= lastRow;    
     }
   }
