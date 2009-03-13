@@ -1209,19 +1209,28 @@ class Generator:
 
         qxlibs = {}
         for lib in libs:
+            # add library key
             result += 'qxlibraries["%s"]={' % lib['namespace']
             qxlibs[lib['namespace']] = {}
 
+            # add resource root URI
             if forceUri:
-                liburi = forceUri
+                resUriRoot = forceUri
             else:
-                liburi = self._computeResourceUri(lib, "", rType="resource", appRoot=self.approot)
+                resUriRoot = self._computeResourceUri(lib, "", rType="resource", appRoot=self.approot)
                 
-            result += '"resourceUri":"%s"' % urllib.quote(liburi)
-            qxlibs[lib['namespace']]['resourceUri'] = "%s" % urllib.quote(liburi)
+            result += '"resourceUri":"%s"' % urllib.quote(resUriRoot)
+            qxlibs[lib['namespace']]['resourceUri'] = "%s" % urllib.quote(resUriRoot)
+            
+            # add source root URI
+            sourceUriRoot = self._computeResourceUri(lib, "", rType="class", appRoot=self.approot)
+                
+            result += '"sourceUri":"%s"' % urllib.quote(sourceUriRoot)
+            qxlibs[lib['namespace']]['sourceUri'] = "%s" % urllib.quote(sourceUriRoot)
             
             # TODO: Add version, svn revision, maybe even authors, but at least homepage link, ...
 
+            # add version info
             if 'version' in lib:
                 result += ',"version":"%s"' % lib['version']
                 qxlibs[lib['namespace']]['version'] = "%s" % lib['version']
@@ -1640,6 +1649,7 @@ class Generator:
             raise RuntimeError, "No such resource type: \"%s\"" % rType
 
         uri = os.path.join(liburi, libInternalPath, resourcePath)
+        uri = os.path.normpath(uri)
         uri = Path.posifyPath(uri)
         return uri
 
