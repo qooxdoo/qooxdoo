@@ -58,7 +58,6 @@ qx.Class.define("demobrowser.demo.table.Table",
 
       // table
       var table = new qx.ui.table.Table(tableModel);
-      TABLE = table;
 
       table.set({
         width: 600,
