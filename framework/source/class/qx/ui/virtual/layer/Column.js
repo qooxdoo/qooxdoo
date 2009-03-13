@@ -158,7 +158,7 @@ qx.Class.define("qx.ui.virtual.layer.Column",
       this.base(arguments, index, color);   
       
       var firstColumn = this.getFirstColumn();
-      var lastColumn = fisrtColumn + this.getColumnSizes().length - 1;
+      var lastColumn = firstColumn + this.getColumnSizes().length - 1;
       if (index >= firstColumn && index <= lastColumn) {
         this.updateLayerData();
       }
