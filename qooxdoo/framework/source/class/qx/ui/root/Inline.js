@@ -119,6 +119,12 @@ qx.Class.define("qx.ui.root.Inline",
       {
         var rootEl = document.createElement("div");
         el.appendChild(rootEl);
+
+        // IE6 needs to have this style property to be set otherwise
+        // the whole layout will break on resize - see Bug #2035
+        // Since the child element is also forced to relative position there
+        // is no reason to also apply it here.
+        el.style.position = "relative";
       }
       else
       {
