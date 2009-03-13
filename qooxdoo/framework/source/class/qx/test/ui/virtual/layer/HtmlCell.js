@@ -35,10 +35,8 @@ qx.Class.define("qx.test.ui.virtual.layer.HtmlCell",
       return this.__cellRenderer.getCellProperties(row + " / " + column);
     },
     
-    _assertCells : function(firstRow, lastRow, firstColumn, lastColumn, msg) 
+    _assertCells : function(firstRow, firstColumn, rowCount, columnCount, msg) 
     {
-      var rowCount = lastRow - firstRow + 1;
-      var columnCount = lastColumn - firstColumn + 1;
       var children = this.layer.getContentElement().getDomElement().childNodes;
       
       this.assertEquals(rowCount * columnCount, children.length);

@@ -83,11 +83,7 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCell",
     
 
     // overridden
-    _fullUpdate : function(
-      firstRow, lastRow, 
-      firstColumn, lastColumn, 
-      rowSizes, columnSizes
-    )
+    _fullUpdate : function(firstRow, firstColumn, rowSizes, columnSizes)
     {
       var html = [];
       var left = 0;

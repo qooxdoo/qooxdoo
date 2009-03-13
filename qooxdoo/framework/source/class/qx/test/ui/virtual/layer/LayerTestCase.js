@@ -45,7 +45,7 @@ qx.Class.define("qx.test.ui.virtual.layer.LayerTestCase",
       this.getRoot().add(this.layer);
       this.flush();
       
-      this.layer.updateLayerWindow(10, 20, 15, 18, rowSizes, columnSizes);
+      this.layer.updateLayerWindow(10, 15, rowSizes, columnSizes);
       this.flush();
     },
   
@@ -77,30 +77,28 @@ qx.Class.define("qx.test.ui.virtual.layer.LayerTestCase",
       if (doFullUpdate)
       {
         this.layer.fullUpdate(
-            firstRow, lastRow, 
-            firstColumn, lastColumn,
-            rowSizes, columnSizes
+          firstRow, firstColumn,
+          rowSizes, columnSizes
         );        
       }
       else
       {      
         this.layer.updateLayerWindow(
-            firstRow, lastRow, 
-            firstColumn, lastColumn,
-            rowSizes, columnSizes
+          firstRow, firstColumn,
+          rowSizes, columnSizes
         );
       }
       
       this.flush();
-      this._assertCells(firstRow, lastRow, firstColumn, lastColumn);
+      this._assertCells(firstRow, firstColumn, rowSizes.length, columnSizes.length);
     },
     
     testInit : function() {
-      this._assertCells(10, 20, 15, 18);
+      this._assertCells(10, 15, 11, 4);
     },
     
     testFullUpdate : function() {
-      this._assertCells(10, 20, 15, 18, true);
+      this._assertCells(10, 15, 11, 4, true);
     },
     
     testNoOverlap : function() {
