@@ -23,7 +23,16 @@ qx.Class.define("qx.test.type.BaseString",
 
   members :
   {
-    testStringExtend : function()
+    testStringFunctions : function()
+    {
+      var s = new qx.type.BaseString("Juhu");
+      this.assertEquals("JUHU", s.toUpperCase());
+      this.assertEquals(1, s.indexOf("u"));
+      this.assertEquals("__Juhu__", ["__", s + "__"].join(""));
+      this.assertEquals(4, s.length);
+    },
+    
+    testExtend : function()
     {
       qx.Class.define("qx.String",
       {
@@ -32,10 +41,9 @@ qx.Class.define("qx.test.type.BaseString",
         members :
         {
           bold : function() {
-            //console.log("bold", this);
             return "<b>" + this.toString() + "</b>";
           },
-
+      
           setText : function(txt) {
             this.setValue(txt);
           }
@@ -44,12 +52,6 @@ qx.Class.define("qx.test.type.BaseString",
 
       var s = new qx.String("Juhu");
       this.assertEquals("<b>Juhu</b>", s.bold());
-      this.assertEquals("JUHU", s.toUpperCase());
-      this.assertEquals(1, s.indexOf("u"));
-      this.assertEquals("__Juhu__", ["__", s + "__"].join(""));
-      this.assertEquals(4, s.length);
-
-
       s.setText("Kinners");
       this.assertEquals("Kinners", s);
     }
@@ -72,12 +74,7 @@ qx.Class.define("qx.test.type.BaseString",
    toLocaleLowerCase ( )
    toUpperCase ( )
    toLocaleUpperCase ( )
-
-  TODO: Add test for this property:
-    length
-
 */
-
 
 
 
