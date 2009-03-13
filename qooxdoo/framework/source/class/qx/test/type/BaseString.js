@@ -14,6 +14,7 @@
 
    Authors:
      * Fabian Jakobs (fjakobs)
+     * Jonathan Weiß (jonathan_rass)
 
 ************************************************************************ */
 
@@ -23,15 +24,95 @@ qx.Class.define("qx.test.type.BaseString",
 
   members :
   {
-    testStringFunctions : function()
+    testUpperCase : function()
     {
       var s = new qx.type.BaseString("Juhu");
       this.assertEquals("JUHU", s.toUpperCase());
+    },
+
+    testIndexOf : function()
+    {
+      var s = new qx.type.BaseString("Juhu");
       this.assertEquals(1, s.indexOf("u"));
+    },
+
+    testPlusOperator : function()
+    {
+      var s = new qx.type.BaseString("Juhu");
       this.assertEquals("__Juhu__", ["__", s + "__"].join(""));
+    },
+
+
+    testCharAt : function()
+    {
+      var s = new qx.type.BaseString("Juhu");
+      this.assertEquals("h", s.charAt(2));
+    },
+
+
+    testcharCodeAt : function()
+    {
+      var s = new qx.type.BaseString("Juhu");
+      this.assertEquals(104, s.charCodeAt(2));
+    },
+
+
+    testlastIndexOf : function()
+    {
+      var s = new qx.type.BaseString("Juhu");
+      this.assertEquals(3, s.lastIndexOf("u"));
+    },
+
+
+    testLength : function()
+    {
+      var s = new qx.type.BaseString("Juhu");
       this.assertEquals(4, s.length);
     },
+
+
+    testLowerCase : function()
+    {
+      var s = new qx.type.BaseString("Juhu");
+      this.assertEquals("juhu", s.toLowerCase());
+    },
+
+
+    testSubstringOneArgument : function()
+    {
+      var s = new qx.type.BaseString("Juhu");
+      this.assertEquals("hu", s.substring(2));
+    },
+
+
+    testSubstringTwoArguments : function()
+    {
+      var s = new qx.type.BaseString("Juhu");
+      this.assertEquals("u", s.substring(2, 1));
+    },
     
+
+    testSearchString : function()
+    {
+      var s = new qx.type.BaseString("Juhu");
+      this.assertEquals(2, s.search("h"));
+    },
+
+
+    testSearchRegExp : function()
+    {
+      var s = new qx.type.BaseString("Juhu");
+      this.assertEquals(0, s.search(/J/));
+    },
+
+
+    testReplace : function()
+    {
+      var s = new qx.type.BaseString("Juhu");
+      this.assertEquals("Johu", s.replace("u", "o"));
+    },
+
+
     testExtend : function()
     {
       qx.Class.define("qx.String",
@@ -61,18 +142,10 @@ qx.Class.define("qx.test.type.BaseString",
  TODO: Add test for these functions:
    toString ( )
    valueOf ( )
-   charAt (pos)
-   charCodeAt (pos)
    concat ( [ string1 [ , string2 [ , … ] ] ] )
-   indexOf (searchString, position)
-   lastIndexOf (searchString, position)
    localeCompare (that)
    replace (searchValue, replaceValue)
-   search (regexp)
-   substring (start, end)
-   toLowerCase ( )
    toLocaleLowerCase ( )
-   toUpperCase ( )
    toLocaleUpperCase ( )
 */
 
