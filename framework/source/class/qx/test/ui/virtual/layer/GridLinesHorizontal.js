@@ -28,9 +28,8 @@ qx.Class.define("qx.test.ui.virtual.layer.GridLinesHorizontal",
       return new qx.ui.virtual.layer.GridLines("horizontal");
     },
        
-    _assertCells : function(firstRow, lastRow, firstColumn, lastColumn, msg) 
+    _assertCells : function(firstRow, firstColumn, rowCount, columnCount, msg) 
     {
-      var rowCount = lastRow - firstRow + 1;
       var children = this.layer.getContentElement().getDomElement().childNodes;
       
       this.assertEquals(rowCount-1, children.length);

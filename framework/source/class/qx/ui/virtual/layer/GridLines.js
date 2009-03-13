@@ -110,7 +110,7 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
       }
       this.__lineColors[index] = color;
 
-      if (index >= this.getFirstRow() && index <= this._lastRow) {
+      if (this.__isLineRendered(index)) {
         this.updateLayerData();
       }
     },
@@ -131,8 +131,25 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
       }
       this.__lineSizes[index] = size;
 
-      if (index >= this.getFirstRow() && index <= this._lastRow) {
+      if (this.__isLineRendered(index)) {
         this.updateLayerData();
+      }
+    },
+    
+    
+    __isLineRendered : function(index)
+    {
+      if (this._isHorizontal)
+      {
+        var firstColumn = this.getFirstColumn();
+        var lastColumn = fisrtColumn + this.getColumnSizes().length - 1;
+        return index >= firstColumn && index <= lastColumn;    
+      }
+      else
+      {
+        var firstRow = this.getFirstRow();
+        var lastRow = fisrtRow + this.getRowSizes().length - 1;
+        return index >= firstRow && index <= lastRow;            
       }
     },
 
@@ -223,11 +240,7 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
 
 
     // overridden
-    _fullUpdate : function(
-      firstRow, lastRow, 
-      firstColumn, lastColumn, 
-      rowSizes, columnSizes
-    )
+    _fullUpdate : function(firstRow, firstColumn, rowSizes, columnSizes)
     {
       var html = [];
       if (this._isHorizontal) {
@@ -240,24 +253,21 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
     
     
     // overridden
-    _updateLayerWindow : function(
-      firstRow, lastRow, 
-      firstColumn, lastColumn, 
-      rowSizes, columnSizes
-    ) 
+    _updateLayerWindow : function(firstRow, firstColumn, rowSizes, columnSizes) 
     {
-      var rowChanged = firstRow !== this.getFirstRow() || lastRow !== this._lastRow;
-      var columnChanged = firstColumn !== this.getFirstColumn() || lastColumn !== this.getLastColumn();
+      var rowChanged = 
+        firstRow !== this.getFirstRow() ||
+        rowSizes.length !== this.getRowSizes().length;
+      
+      var columnChanged =
+        firstColumn !== this.getFirstColumn() ||
+        columnSizes.length !== this.getColumnSizes().length;
       
       if (
         (this._isHorizontal && rowChanged) ||
         (!this._isHorizontal && columnChanged)
       ) {
-        this._fullUpdate(
-          firstRow, lastRow, 
-          firstColumn, lastColumn, 
-          rowSizes, columnSizes
-        );
+        this._fullUpdate(firstRow, firstColumn, rowSizes, columnSizes);
       }
     }
   }

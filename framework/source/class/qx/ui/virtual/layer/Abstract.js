@@ -86,16 +86,6 @@ qx.Class.define("qx.ui.virtual.layer.Abstract",
       return this.__firstRow;
     },
     
-
-    /**
-     * Get the last rendered row
-     * 
-     * @return {Integer} The last rendered row
-     */    
-    getLastRow : function() {
-      return this.__lastRow;
-    },
-    
     
     /**
      * Get the first rendered column
@@ -105,16 +95,6 @@ qx.Class.define("qx.ui.virtual.layer.Abstract",
     getFirstColumn : function() {
       return this.__firstColumn;
     },
-
-    
-    /**
-     * Get the last rendered column
-     * 
-     * @return {Integer} The last rendered column
-     */    
-    getLastColumn : function() {
-      return this.__lastColumn;
-    },
     
     
     /**
@@ -123,7 +103,7 @@ qx.Class.define("qx.ui.virtual.layer.Abstract",
      * @return {Integer[]} List of row heights
      */
     getRowSizes : function() {
-      return this.__rowSizes;
+      return this.__rowSizes || [];
     },
     
 
@@ -133,7 +113,7 @@ qx.Class.define("qx.ui.virtual.layer.Abstract",
      * @return {Integer[]} List of column widths
      */
     getColumnSizes : function() {
-      return this.__columnSizes;
+      return this.__columnSizes || [];
     },
     
     
@@ -166,11 +146,9 @@ qx.Class.define("qx.ui.virtual.layer.Abstract",
       {
         var args = this.__arguments;
         this.__firstRow = args[0];
-        this.__lastRow = args[1];
-        this.__firstColumn = args[2];
-        this.__lastColumn = args[3];
-        this.__rowSizes = args[4];
-        this.__columnSizes = args[5];
+        this.__firstColumn = args[1];
+        this.__rowSizes = args[2];
+        this.__columnSizes = args[3];
       }
       this.__jobs = {};
     },
@@ -185,8 +163,7 @@ qx.Class.define("qx.ui.virtual.layer.Abstract",
     _updateLayerData : function() 
     {
       this._fullUpdate(
-        this.__firstRow, this.__lastRow,
-        this.__firstColumn, this.__lastColumn,
+        this.__firstRow, this.__firstColumn,
         this.__rowSizes, this.__columnSizes
       );
     },
@@ -201,15 +178,12 @@ qx.Class.define("qx.ui.virtual.layer.Abstract",
      * has been rendered. 
      *  
      * @param firstRow {Integer} Index of the first row to display
-     * @param lastRow {Integer} Index of the last row to display
      * @param firstColumn {Integer} Index of the first column to display
-     * @param lastColumn {Integer} Index of the last column to display
      * @param rowSizes {Integer[]} Array of heights for each row to display
      * @param columnSizes {Integer[]} Array of widths for each column to display
      */    
     _fullUpdate : function(
-      firstRow, lastRow, 
-      firstColumn, lastColumn, 
+      firstRow, firstColumn, 
       rowSizes, columnSizes    
     ) {
       throw new Error("Abstract method '_fullUpdate' called!");
@@ -227,21 +201,17 @@ qx.Class.define("qx.ui.virtual.layer.Abstract",
      * has been rendered.
      * 
      * @param firstRow {Integer} Index of the first row to display
-     * @param lastRow {Integer} Index of the last row to display
      * @param firstColumn {Integer} Index of the first column to display
-     * @param lastColumn {Integer} Index of the last column to display
      * @param rowSizes {Integer[]} Array of heights for each row to display
      * @param columnSizes {Integer[]} Array of widths for each column to display
      */    
     _updateLayerWindow : function(
-      firstRow, lastRow, 
-      firstColumn, lastColumn, 
+      firstRow, firstColumn,
       rowSizes, columnSizes
     ) 
     {
       this._fullUpdate(
-        firstRow, lastRow, 
-        firstColumn, lastColumn, 
+        firstRow, firstColumn,
         rowSizes, columnSizes
       );
     },
@@ -257,8 +227,7 @@ qx.Class.define("qx.ui.virtual.layer.Abstract",
     
     // interface implementation
     fullUpdate : function(
-      firstRow, lastRow, 
-      firstColumn, lastColumn, 
+      firstRow, firstColumn, 
       rowSizes, columnSizes
     ) 
     {
@@ -270,8 +239,7 @@ qx.Class.define("qx.ui.virtual.layer.Abstract",
     
     // interface implementation
     updateLayerWindow : function(
-      firstRow, lastRow, 
-      firstColumn, lastColumn, 
+      firstRow, firstColumn, 
       rowSizes, columnSizes
     ) {
       this.__arguments = arguments;

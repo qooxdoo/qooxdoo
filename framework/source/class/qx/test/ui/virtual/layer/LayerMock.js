@@ -49,47 +49,38 @@ qx.Class.define("qx.test.ui.virtual.layer.LayerMock",
 
     
     fullUpdate : function(
-      firstRow, lastRow, 
-      firstColumn, lastColumn, 
+      firstRow, firstColumn,  
       rowSizes, columnSizes
     )
     {    
       this.calls.push(["fullUpdate", qx.lang.Array.fromArguments(arguments)]);
       this.base(
-        arguments, firstRow, lastRow, 
-        firstColumn, lastColumn, 
+        arguments, firstRow, firstColumn, 
         rowSizes, columnSizes
       );
     },
 
     
-    _fullUpdate : function(
-      firstRow, lastRow, 
-      firstColumn, lastColumn, 
-      rowSizes, columnSizes
-    ) {
+    _fullUpdate : function(firstRow, firstColumn, rowSizes, columnSizes) {
       this.calls.push(["_fullUpdate", qx.lang.Array.fromArguments(arguments)]);
     },    
     
     
     updateLayerWindow : function(
-      firstRow, lastRow, 
-      firstColumn, lastColumn, 
+      firstRow, firstColumn,  
       rowSizes, columnSizes  
     ) 
     {
       this.calls.push(["updateLayerWindow", qx.lang.Array.fromArguments(arguments)]);
       this.base(
-        arguments, firstRow, lastRow, 
-        firstColumn, lastColumn, 
+        arguments, firstRow, firstColumn, 
         rowSizes, columnSizes
       );      
     },
     
     
     _updateLayerWindow : function(
-      firstRow, lastRow, 
-      firstColumn, lastColumn, 
+      firstRow, firstColumn,  
       rowSizes, columnSizes  
     ) {
       this.calls.push(["_updateLayerWindow", qx.lang.Array.fromArguments(arguments)]);

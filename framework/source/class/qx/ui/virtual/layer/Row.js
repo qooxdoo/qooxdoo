@@ -54,11 +54,7 @@ qx.Class.define("qx.ui.virtual.layer.Row",
   members :
   {
     // overridden
-    _fullUpdate : function(
-      firstRow, lastRow, 
-      firstColumn, lastColumn, 
-      rowSizes, columnSizes
-    )
+    _fullUpdate : function(firstRow, firstColumn, rowSizes, columnSizes)
     {
       var html = [];
       
@@ -138,22 +134,14 @@ qx.Class.define("qx.ui.virtual.layer.Row",
     
     
     // overridden
-    _updateLayerWindow : function(
-      firstRow, lastRow, 
-      firstColumn, lastColumn, 
-      rowSizes, columnSizes
-    )
+    _updateLayerWindow : function(firstRow, firstColumn, rowSizes, columnSizes)
     {      
       if (
         firstRow !== this.getFirstRow() ||
-        lastRow !== this._lastRow || 
+        rowSizes.length !== this.getRowSizes().length || 
         this._width < qx.lang.Array.sum(columnSizes)
       ) {
-        this._fullUpdate(
-          firstRow, lastRow, 
-          firstColumn, lastColumn, 
-          rowSizes, columnSizes            
-        );
+        this._fullUpdate(firstRow, firstColumn, rowSizes, columnSizes);
       }
     },
         
@@ -161,8 +149,9 @@ qx.Class.define("qx.ui.virtual.layer.Row",
     // overridden
     setColor : function(index, color) 
     {
-      this.base(arguments, index, color);     
-      if (index >= this.getFirstRow() && index <= this._lastRow) {
+      this.base(arguments, index, color);
+      
+      if (this.__isRowRendered(index)) {        
         this.updateLayerData();
       }
     },
@@ -172,9 +161,17 @@ qx.Class.define("qx.ui.virtual.layer.Row",
     setDecorator : function(index, decorator) 
     {
       this.base(arguments, index, decorator);     
-      if (index >= this.getFirstRow() && index <= this._lastRow) {
+      if (this.__isRowRendered(index)) {
         this.updateLayerData();
       }
-    }    
+    },
+    
+    
+    isRowRendered : function(index)
+    {
+      var firstRow = this.getFirstRow();
+      var lastRow = fisrtRow + this.getRowSizes().length - 1;
+      return index >= firstRow && index <= lastRow;    
+    }
   }
 });

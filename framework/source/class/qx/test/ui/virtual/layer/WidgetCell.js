@@ -67,10 +67,8 @@ qx.Class.define("qx.test.ui.virtual.layer.WidgetCell",
     },
     
     
-    _assertCells : function(firstRow, lastRow, firstColumn, lastColumn, msg) 
+    _assertCells : function(firstRow, firstColumn, rowCount, columnCount, msg) 
     {
-      var rowCount = lastRow - firstRow + 1;
-      var columnCount = lastColumn - firstColumn + 1;
       var children = this.layer._getChildren();
       
       this.assertEquals(rowCount * columnCount, children.length);
@@ -105,7 +103,7 @@ qx.Class.define("qx.test.ui.virtual.layer.WidgetCell",
       this.getRoot().add(layer);
       this.flush();
       
-      layer.fullUpdate(0, 5, 0, 2, [10, 10, 10, 10, 10, 10], [30, 30, 30]);
+      layer.fullUpdate(0, 0, [10, 10, 10, 10, 10, 10], [30, 30, 30]);
       this.flush();
       
       var children = layer.getChildren();
