@@ -14,6 +14,16 @@
 
    Authors:
      * Fabian Jakobs (fjakobs)
+     * Jonathan Weiß (jonathan_rass)
+
+   ======================================================================
+
+     This class uses documentation of the native String methods from the MDC
+     documentation of Mozilla. 
+
+     License:
+       CC Attribution-Sharealike License: 
+       http://creativecommons.org/licenses/by-sa/2.5/
 
 ************************************************************************ */
 
@@ -38,11 +48,13 @@ qx.Class.define("qx.type.BaseString",
 
     // no base call needed
     this.__txt = txt;
+    this.length = txt.length;
   },
 
   members :
   {
     __txt : null,
+    lenght : null,
 
     /**
      * Returns the value as plain string.
@@ -60,8 +72,10 @@ qx.Class.define("qx.type.BaseString",
      * 
      *  @param value {String} the new value
      */
-    setValue : function(value) {
+    setValue : function(value)
+    {
       this.__txt = value;
+      this.length = value.length;
     },
 
 
@@ -95,10 +109,24 @@ qx.Class.define("qx.type.BaseString",
      */
     base : function(args, varags) {
       return qx.core.Object.prototype.base.apply(this, arguments);
-    }
+    },
+
+    // TODO: Add documentation from MDC.
+    charAt : null,
+    charCodeAt : null,
+    concat : null,
+    indexOf : null,
+    lastIndexOf : null,
+    localeCompare : null,
+    replace : null,
+    search : null,
+    substring : null,
+    toLowerCase : null,
+    toLocaleLowerCase : null,
+    toUpperCase : null,
+    toLocaleUpperCase : null
+
   },
-
-
 
   /*
    *****************************************************************************
