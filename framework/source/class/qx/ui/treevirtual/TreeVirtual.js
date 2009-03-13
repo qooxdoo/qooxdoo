@@ -195,9 +195,6 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
     // Set the data row renderer.
     this.setDataRowRenderer(custom.dataRowRenderer);
 
-    // We need our cell renderer called on selection change, to update the icon
-    this.setAlwaysUpdateCells(true);
-
     // Move the focus with the mouse.  This controls the ROW focus indicator.
     this.setFocusCellOnMouseMove(true);
 
