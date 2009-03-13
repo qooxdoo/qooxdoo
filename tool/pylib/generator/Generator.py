@@ -955,7 +955,6 @@ class Generator:
             self._imageClipper.slice(image, prefix, border_width)
 
 
-    # wpbasti: Contains too much low level code. Separate logic into extra class to keep this method a bit cleaner
     def runImageCombining(self):
         """Go through a list of images and create them as combination of other images"""
         if not self._job.get("combine-images", False):
@@ -978,11 +977,10 @@ class Generator:
             for sub in subconfigs:
                 x = ImgInfoFmt()
                 x.mappedId, x.left, x.top, x.width, x.height, x.type = (
-                   sub['combined'], sub['left'], sub['top'], sub['width'], sub['height'], sub['type'])
-                config[sub['file']] = x.meta_format()  # this could use 'flatten()' eventually!
+                   Path.posifyPath(sub['combined']), sub['left'], sub['top'], sub['width'], sub['height'], sub['type'])
+                config[Path.posifyPath(sub['file'])] = x.meta_format()  # this could use 'flatten()' eventually!
 
             # store meta data for this combined image
-            # wpbasti: Don't write to the image source folder. This is bad style. Let's find a better place.
             bname = os.path.basename(image)
             ri = bname.rfind('.')
             if ri > -1:
@@ -990,7 +988,7 @@ class Generator:
             bname += '.meta'
             meta_fname = os.path.join(os.path.dirname(image), bname)
             filetool.save(meta_fname, simplejson.dumps(config, ensure_ascii=False))
-            # cache meta data
+            
         return
 
 
