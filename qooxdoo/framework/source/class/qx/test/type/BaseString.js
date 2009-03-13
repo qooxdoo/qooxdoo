@@ -53,5 +53,33 @@ qx.Class.define("qx.test.type.BaseString",
       s.setText("Kinners");
       this.assertEquals("Kinners", s);
     }
+
+
+/*
+ TODO: Add test for these functions:
+   toString ( )
+   valueOf ( )
+   charAt (pos)
+   charCodeAt (pos)
+   concat ( [ string1 [ , string2 [ , … ] ] ] )
+   indexOf (searchString, position)
+   lastIndexOf (searchString, position)
+   localeCompare (that)
+   replace (searchValue, replaceValue)
+   search (regexp)
+   substring (start, end)
+   toLowerCase ( )
+   toLocaleLowerCase ( )
+   toUpperCase ( )
+   toLocaleUpperCase ( )
+
+  TODO: Add test for this property:
+    length
+
+*/
+
+
+
+
   }
 });
