@@ -109,22 +109,22 @@ qx.Class.define("qx.type.BaseString",
      */
     base : function(args, varags) {
       return qx.core.Object.prototype.base.apply(this, arguments);
-    },
+    }
 
     // TODO: Add documentation from MDC.
-    charAt : null,
-    charCodeAt : null,
-    concat : null,
-    indexOf : null,
-    lastIndexOf : null,
-    localeCompare : null,
-    replace : null,
-    search : null,
-    substring : null,
-    toLowerCase : null,
-    toLocaleLowerCase : null,
-    toUpperCase : null,
-    toLocaleUpperCase : null
+    // charAt : null,
+    // charCodeAt : null,
+    // concat : null,
+    // indexOf : null,
+    // lastIndexOf : null,
+    // localeCompare : null,
+    // replace : null,
+    // search : null,
+    // substring : null,
+    // toLowerCase : null,
+    // toLocaleLowerCase : null,
+    // toUpperCase : null,
+    // toLocaleUpperCase : null
 
   },
 
