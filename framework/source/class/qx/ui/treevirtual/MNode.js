@@ -344,7 +344,7 @@ qx.Mixin.define("qx.ui.treevirtual.MNode",
      * <p>
      * NOTE: As of 13 Mar 2009, this feature is disabled by default, by
      *       virtue of the fact that the tree's "alwaysUpdateCells" property
-     *       has a setting of 'true' now instead of 'false'. Setting this
+     *       has a setting of 'false' now instead of 'true'. Setting this
      *       property to true allows the icon to change upon selection, but
      *       causes problems such as single clicks not always selecting a
      *       row, and, in IE, double click operations failing
