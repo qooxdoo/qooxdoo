@@ -341,6 +341,17 @@ qx.Mixin.define("qx.ui.treevirtual.MNode",
 
     /**
      * Set the icon for a node when in its selected state.
+     * <p>
+     * NOTE: As of 13 Mar 2009, this feature is disabled by default, by
+     *       virtue of the fact that the tree's "alwaysUpdateCells" property
+     *       has a setting of 'true' now instead of 'false'. Setting this
+     *       property to true allows the icon to change upon selection, but
+     *       causes problems such as single clicks not always selecting a
+     *       row, and, in IE, double click operations failing
+     *       completely. (For more information, see bugs 605 and 2021.) To
+     *       re-enable the option to have a unique icon that is displayed
+     *       when the node is selected, issue
+     *       <code>tree.setAlwaysUpdateCells(true);</code>
      *
      * @param nodeReference {Object | Integer}
      *   The node for which the icon is being set.  The node can be
