@@ -94,7 +94,7 @@ qx.Class.define("qx.theme.manager.Font",
       var theme = this.getTheme();
       if (theme !== null && theme.fonts[value])
       {
-        return cache[value] = (new qx.bom.Font).set(theme.colors[value]);
+        return cache[value] = (new qx.bom.Font).set(theme.fonts[value]);
       }
 
       return value;
