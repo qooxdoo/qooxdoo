@@ -20,7 +20,7 @@
 ************************************************************************ */
 
 /**
- * A wrapper for CSS font styles. Fond objects can be aplpied to instances
+ * A wrapper for CSS font styles. Fond objects can be applied to instances
  * of {@link qx.html.Element}.
  */
 qx.Class.define("qx.bom.Font",
@@ -115,7 +115,7 @@ qx.Class.define("qx.bom.Font",
 
 
     /**
-     * Converts a map property definition into a border object.
+     * Converts a map property definition into a font object.
      *
      * @param config {Map} map of property values
      * @return {qx.bom.Font} the created instance
