@@ -440,6 +440,17 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      * @param iconSelected {String}
      *   The relative (subject to alias expansion) or full path of the icon to
      *   display for this node when it is a selected node.
+     *   <p>
+     *   NOTE: As of 13 Mar 2009, this feature is disabled by default, by
+     *         virtue of the fact that the tree's "alwaysUpdateCells" property
+     *         has a setting of 'true' now instead of 'false'. Setting this
+     *         property to true allows the icon to change upon selection, but
+     *         causes problems such as single clicks not always selecting a
+     *         row, and, in IE, double click operations failing
+     *         completely. (For more information, see bugs 605 and 2021.) To
+     *         re-enable the option to have a unique icon that is displayed
+     *         when the node is selected, issue
+     *         <code>tree.setAlwaysUpdateCells(true);</code>
      *
      * @return {Integer} The node id of the newly-added node.
      *
