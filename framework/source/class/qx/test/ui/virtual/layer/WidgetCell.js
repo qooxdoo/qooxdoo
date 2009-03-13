@@ -31,20 +31,23 @@ qx.Class.define("qx.test.ui.virtual.layer.WidgetCell",
       this.base(arguments);
     },
     
+    
     tearDown : function()
     {
       for (var i=0; i<this._pool.length; i++) {
         this._pool[i].destroy();
       }
+      this.flush();
+
       this._pool = null;      
       this.base(arguments);
-      
-      this.flush();
     },
+    
   
     _createLayer : function() {
       return new qx.ui.virtual.layer.WidgetCell(this);
     },
+    
     
     getCellWidget : function(row, column) 
     {
@@ -55,12 +58,14 @@ qx.Class.define("qx.test.ui.virtual.layer.WidgetCell",
       return widget;
     },
     
+    
     poolCellWidget : function(widget) 
     {      
       widget.setUserData("row", -1);
       widget.setUserData("column", -1);
       this._pool.push(widget);
     },
+    
     
     _assertCells : function(firstRow, lastRow, firstColumn, lastColumn, msg) 
     {

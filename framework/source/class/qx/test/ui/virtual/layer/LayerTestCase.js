@@ -30,7 +30,7 @@ qx.Class.define("qx.test.ui.virtual.layer.LayerTestCase",
       this.colWidth = 20;
       this.rowHeight = 10;
        
-      this.layer = this._createLayer(300, 30, this.rowHeight, this.colWidth);
+      this.layer = this._createLayer();
       
       var rowSizes = [];
       for (var i=10; i<=20; i++) {
