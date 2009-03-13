@@ -1104,6 +1104,15 @@ qx.Class.define("testrunner.runner.TestRunner",
       this.toolbar.setEnabled(false);
       this.widgets["statuspane.systeminfo"].setContent(this.tr("Reloading test suite..."));
 
+      // destroy widget and model trees to avoid leaking memory on reload.
+      var oldRoot = this.widgets["treeview.full"].getRoot();
+      this.widgets["treeview.full"].setRoot(null);
+      oldRoot.destroy();
+
+      this.tests.handler.ttree.widgetLinkFull = null;
+      this.tests.handler.ttree.widgetLinkFlat = null;
+      this.tests.handler.ttree.dispose();
+
       // reset status information
       this.resetGui();
 
