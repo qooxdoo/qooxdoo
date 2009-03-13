@@ -54,7 +54,7 @@ qx.Class.define("qx.data.marshal.Json",
       for (var key in data) {
         properties.push(key);
       }
-      return properties.sort().join(" ");
+      return properties.sort().join('"');
     },
     
     

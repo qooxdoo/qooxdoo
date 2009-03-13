@@ -57,9 +57,9 @@ qx.Class.define("qx.test.data.marshal.Json",
       this.__marshaler.jsonToClass(this.__data);
 
       // check if the class is defined
-      this.assertTrue(qx.Class.isDefined("qx.data.model.b n s"), "Class not created.");
+      this.assertTrue(qx.Class.isDefined('qx.data.model.b"n"s'), "Class not created.");
       
-      var clazz = qx.Class.getByName("qx.data.model.b n s");
+      var clazz = qx.Class.getByName('qx.data.model.b"n"s');
       // check for the properties
       var i = 0;
       for (var name in clazz.$$properties) {
