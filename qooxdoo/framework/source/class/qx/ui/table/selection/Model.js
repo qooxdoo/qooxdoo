@@ -590,13 +590,16 @@ qx.Class.define("qx.ui.table.selection.Model",
      */
     _fireChangeSelection : function()
     {
-      // In batch mode, remember event but do not throw (yet)
-      if (this.hasBatchMode()) {
+      if (this.hasBatchMode()) 
+      {
+        // In batch mode, remember event but do not throw (yet)
         this.__hadChangeEventInBatchMode = true;
       }
-
-      // If not in batch mode, throw event
-      this.fireEvent("changeSelection");
+      else
+      {
+        // If not in batch mode, throw event
+        this.fireEvent("changeSelection");
+      }
     }
   },
 
