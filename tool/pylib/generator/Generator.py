@@ -1223,7 +1223,8 @@ class Generator:
             qxlibs[lib['namespace']]['resourceUri'] = "%s" % urllib.quote(resUriRoot)
             
             # add source root URI
-            sourceUriRoot = self._computeResourceUri(lib, "", rType="class", appRoot=self.approot)
+            #sourceUriRoot = self._computeResourceUri(lib, "", rType="class", appRoot=self.approot)
+            sourceUriRoot = "source/class"  # TODO: this is bogus, just a work-around
                 
             result += '"sourceUri":"%s"' % urllib.quote(sourceUriRoot)
             qxlibs[lib['namespace']]['sourceUri'] = "%s" % urllib.quote(sourceUriRoot)
