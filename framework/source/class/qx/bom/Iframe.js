@@ -161,18 +161,28 @@ qx.Class.define("qx.bom.Iframe",
       try
       {
         // the guru says ...
-        // it is better to use 'replace' than 'src'-attribute, since 'replace' does not interfer
-        // with the history (which is taken care of by the history manager), but there
-        // has to be a loaded document
+        // it is better to use 'replace' than 'src'-attribute, since 'replace' 
+        // does not interfere with the history (which is taken care of by the 
+        // history manager), but there has to be a loaded document
         if (this.getWindow(iframe))
         {
           /*
-          Some gecko users might have an exception here:
+            Some gecko users might have an exception here:
             Exception... "Component returned failure code: 0x805e000a
             [nsIDOMLocation.replace]"  nsresult: "0x805e000a (<unknown>)"
           */
           try
           {
+            // Webkit on Mac can't set the source when the iframe is still 
+            // loading its current page
+            if (qx.core.Variant.isSet("qx.client", "webkit") && 
+                qx.bom.client.Platform.MAC)
+            {
+              var contentWindow = this.getContentWindow();
+              if (contentWindow) {
+                contentWindow.stop();
+              }
+            }
             this.getWindow(iframe).location.replace(source);
           }
           catch(ex)
