@@ -48,8 +48,7 @@ qx.Class.define("qx.test.ui.virtual.layer.LayerSimple",
     },
 
     _fullUpdate : function(
-      firstRow, lastRow, 
-      firstColumn, lastColumn, 
+      firstRow, firstColumn, 
       rowSizes, columnSizes
     )
     {

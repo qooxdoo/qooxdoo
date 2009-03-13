@@ -101,8 +101,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
     
     // overridden
     _fullUpdate : function(
-      firstRow, lastRow, 
-      firstColumn, lastColumn, 
+      firstRow, firstColumn, 
       rowSizes, columnSizes    
     )
     {
@@ -144,8 +143,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
     
     
     _updateLayerWindow : function(
-      firstRow, lastRow, 
-      firstColumn, lastColumn, 
+      firstRow, firstColumn, 
       rowSizes, columnSizes
     ) 
     {
@@ -157,27 +155,33 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
       //      +--##  |
       //         +---+
       //
+      
+      var lastRow = firstRow + rowSizes.length - 1;
+      var lastColumn = firstColumn + columnSizes.length - 1;
+      
       var overlap = {
         firstRow: Math.max(firstRow, this.getFirstRow()),
         lastRow: Math.min(lastRow, this._lastRow),
         firstColumn: Math.max(firstColumn, this.getFirstColumn()),
-        lastColumn: Math.min(lastColumn, this.getLastColumn())
+        lastColumn: Math.min(lastColumn, this._lastColumn)
       }
+      
+      this._lastColumn = lastColumn;
+      this._lastRow = lastRow;
       
       if (
         overlap.firstRow > overlap.lastRow || 
         overlap.firstColumn > overlap.lastColumn
       ) {
         return this._fullUpdate(
-          firstRow, lastRow, 
-          firstColumn, lastColumn, 
+          firstRow, firstColumn, 
           rowSizes, columnSizes            
         );
       }           
       
       // collect the widgets to move
       var children = this._getChildren();
-      var lineLength = this.getLastColumn() - this.getFirstColumn() + 1;
+      var lineLength = this.getColumnSizes().length;
       var widgetsToMove = [];
       var widgetsToMoveIndexes = {};
       for (var row=firstRow; row<=lastRow; row++)

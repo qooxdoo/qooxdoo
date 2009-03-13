@@ -710,9 +710,6 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       var rowSizes = this.__rowConfig.getItemSizes(firstRow, minHeight + rowCellData.offset);
       var columnSizes = this.__columnConfig.getItemSizes(firstColumn, minWidth + columnCellData.offset);
 
-      var lastRow = firstRow + rowSizes.length - 1;
-      var lastColumn = firstColumn + columnSizes.length - 1;
-
       var layerWidth = qx.lang.Array.sum(columnSizes);
       var layerHeight = qx.lang.Array.sum(rowSizes);
 
@@ -743,17 +740,9 @@ qx.Class.define("qx.ui.virtual.core.Pane",
         layer.setUserBounds(0, 0, layerWidth, layerHeight);
         
         if (doFullUpdate) {
-          layer.fullUpdate(
-            firstRow, lastRow, 
-            firstColumn, lastColumn, 
-            rowSizes, columnSizes              
-          );
+          layer.fullUpdate(firstRow, firstColumn, rowSizes, columnSizes);
         } else {
-          layer.updateLayerWindow(
-            firstRow, lastRow, 
-            firstColumn, lastColumn, 
-            rowSizes, columnSizes
-          );
+          layer.updateLayerWindow(firstRow, firstColumn, rowSizes, columnSizes);
         }
 
         // TODO: debugging code    

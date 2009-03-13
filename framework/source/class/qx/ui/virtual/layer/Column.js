@@ -55,8 +55,7 @@ qx.Class.define("qx.ui.virtual.layer.Column",
   {
     // overridden
     _fullUpdate : function(
-      firstRow, lastRow, 
-      firstColumn, lastColumn, 
+      firstRow, firstColumn, 
       rowSizes, columnSizes
     )
     {
@@ -138,20 +137,15 @@ qx.Class.define("qx.ui.virtual.layer.Column",
       this._height = height;
     },
     
-    updateLayerWindow : function(
-      firstRow, lastRow, 
-      firstColumn, lastColumn, 
-      rowSizes, columnSizes
-    )
+    updateLayerWindow : function(firstRow, firstColumn, rowSizes, columnSizes)
     {
       if (
         firstColumn !== this.getFirstColumn() ||
-        lastColumn !== this.getLastColumn() ||
+        columnSizes.length !== this.getColumnSizes().length ||
         this._height < qx.lang.Array.sum(rowSizes)
       ) {
         this._fullUpdate(
-          firstRow, lastRow, 
-          firstColumn, lastColumn, 
+          firstRow, firstColumn, 
           rowSizes, columnSizes            
         );
       }
@@ -161,8 +155,11 @@ qx.Class.define("qx.ui.virtual.layer.Column",
     // overridden
     setColor : function(index, color) 
     {
-      this.base(arguments, index, color);     
-      if (index >= this.getFirstColumn() && index <= this.getLastColumn()) {
+      this.base(arguments, index, color);   
+      
+      var firstColumn = this.getFirstColumn();
+      var lastColumn = fisrtColumn + this.getColumnSizes().length - 1;
+      if (index >= firstColumn && index <= lastColumn) {
         this.updateLayerData();
       }
     }
