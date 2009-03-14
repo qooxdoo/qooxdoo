@@ -749,7 +749,7 @@ class Generator:
             #bootBlocks.append(variantsCode)
             globalCodes["Variants"] = simplejson.dumps(mapInfo,ensure_ascii=False)
 
-            libinfoCode,mapInfo = self.generateLibInfoCode(libs,format, forceUri)
+            libinfoCode,mapInfo = self.generateLibInfoCode(libs,format, resourceUri, scriptUri)
             #bootBlocks.append(libinfoCode)
             globalCodes["Libinfo"] = simplejson.dumps(mapInfo,ensure_ascii=False)
 
@@ -789,6 +789,7 @@ class Generator:
 
         # Read in uri prefixes
         scriptUri = compConf.get('uris/script', 'script')
+        scriptUri = Path.posifyPath(scriptUri)
         fileUri = getFileUri(scriptUri)
 
         # Read in compiler options
@@ -1204,7 +1205,7 @@ class Generator:
         return result,variats
 
 
-    def generateLibInfoCode(self, libs, format, forceUri=None):
+    def generateLibInfoCode(self, libs, format, forceResourceUri=None, forceScriptUri=None):
         result = 'if(!window.qxlibraries)qxlibraries={};'
 
         qxlibs = {}
@@ -1214,18 +1215,20 @@ class Generator:
             qxlibs[lib['namespace']] = {}
 
             # add resource root URI
-            if forceUri:
-                resUriRoot = forceUri
+            if forceResourceUri:
+                resUriRoot = forceResourceUri
             else:
                 resUriRoot = self._computeResourceUri(lib, "", rType="resource", appRoot=self.approot)
                 
             result += '"resourceUri":"%s"' % urllib.quote(resUriRoot)
             qxlibs[lib['namespace']]['resourceUri'] = "%s" % urllib.quote(resUriRoot)
             
-            # add source root URI
-            #sourceUriRoot = self._computeResourceUri(lib, "", rType="class", appRoot=self.approot)
-            sourceUriRoot = "source/class"  # TODO: this is bogus, just a work-around
-                
+            # add code root URI
+            if forceScriptUri:
+                sourceUriRoot = forceScriptUri
+            else:
+                sourceUriRoot = self._computeResourceUri(lib, "", rType="class", appRoot=self.approot)
+            
             result += '"sourceUri":"%s"' % urllib.quote(sourceUriRoot)
             qxlibs[lib['namespace']]['sourceUri'] = "%s" % urllib.quote(sourceUriRoot)
             

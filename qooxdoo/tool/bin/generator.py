@@ -126,7 +126,7 @@ Arguments:
     config.resolveLibs(expandedjobs)
 
     # To see fully expanded config:
-    #console.debug(pprint.pformat(config.get(".")))
+    #console.info(pprint.pformat(config.get(".")))
 
     # Processing jobs...
     for job in expandedjobs:
