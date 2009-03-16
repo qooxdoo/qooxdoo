@@ -389,7 +389,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * Set the <code>TextField</code> with the value from the firt item if the 
      * property {@link #selectFirstItem} is set to <code>true</code>
      * 
-     * @param e {qx.event.type.Event}
+     * @param e {qx.event.type.Event} Appear event
      */
     _onAppear : function (e)
     {
