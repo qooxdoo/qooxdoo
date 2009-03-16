@@ -24,6 +24,7 @@ import os, sys, re, types, string, copy
 import simplejson
 from generator.config.Job import Job
 from generator.config.Manifest import Manifest
+from generator.config.Lang import Lang
 from generator.runtime.ShellCmd import ShellCmd
 from generator.action.ContribLoader import ContribLoader
 from misc.NameSpace import NameSpace
@@ -55,15 +56,15 @@ class Config:
             raise TypeError, str(data)
 
         # make sure there is at least an empty jobs map (for later filling)
-        if isinstance(self._data, types.DictType) and self.JOBS_KEY not in self._data:
-            self._data[self.JOBS_KEY] = {}
+        if isinstance(self._data, types.DictType) and Lang.JOBS_KEY not in self._data:
+            self._data[Lang.JOBS_KEY] = {}
 
         # expand macros for some top-level keys
-        if self.LET_KEY in self._data:
-            letObj = Let(self._data[self.LET_KEY])  # create a Let object from let map
+        if Lang.LET_KEY in self._data:
+            letObj = Let(self._data[Lang.LET_KEY])  # create a Let object from let map
             letObj.expandMacrosInLet()              # do self-expansion of macros
             for key in self._data:
-                if key == self.JOBS_KEY:            # skip 'jobs'; they expand later
+                if key == Lang.JOBS_KEY:            # skip 'jobs'; they expand later
                     continue
                 else:
                     dat = letObj.expandMacros(self._data[key])
@@ -92,14 +93,11 @@ class Config:
         self._fname = os.path.abspath(fname)
         self._dirname = os.path.dirname(self._fname)
 
-    JOBS_KEY          = "jobs"
-    LET_KEY           = "let"
+    # some constants
     NS_SEP            = "/"    # this is to reference jobs from nested configs
     COMPOSED_NAME_SEP = "::"   # this is to construct composed job names
-    SHADOW_PREFIX     = "XXX"
-    OVERRIDE_KEY      = "__override__"    # takes an array of keys to protect on merging
-    OVERRIDE_TAG      = "="    # tag for key names, to protect on merging
-    OVERRIDE_TAG_REGEXP = re.compile(r'^\%s(.*)$' % OVERRIDE_TAG)  # identify tag and extract orig. key
+    SHADOW_PREFIX     = "XXX"  # this is a fall-back prefix for shadowed jobs
+    OVERRIDE_TAG_REGEXP = re.compile(r'^\%s(.*)$' % Lang.OVERRIDE_TAG)  # identify tag and extract orig. key
 
     def get(self, key, default=None, confmap=None):
         """Returns a (possibly nested) data element from dict <conf>
@@ -163,8 +161,8 @@ class Config:
 
         # local job?
         # this also finds imported jobs, namespaced or not
-        if self._data.has_key(self.JOBS_KEY) and self._data[self.JOBS_KEY].has_key(job):
-            jobEntry = self._data[self.JOBS_KEY][job]
+        if self._data.has_key(Lang.JOBS_KEY) and self._data[Lang.JOBS_KEY].has_key(job):
+            jobEntry = self._data[Lang.JOBS_KEY][job]
             if isinstance(jobEntry, Job):
                 # make sure it has link to this config
                 if not jobEntry.getConfig():
@@ -173,7 +171,7 @@ class Config:
             else:
                 # create Job object
                 jobObj = Job(job, jobEntry, self._console, self)
-                self._data[self.JOBS_KEY][job] = jobObj # overwrite map with obj
+                self._data[Lang.JOBS_KEY][job] = jobObj # overwrite map with obj
                 return jobObj
         # job from included config? (to find required, but blocked jobs (e.g. through 'block' key)
         elif withIncludes:
@@ -200,8 +198,8 @@ class Config:
             return False
         
     def getJobsMap(self, default=None):
-        if self.JOBS_KEY in self._data:
-            return self._data[self.JOBS_KEY]
+        if Lang.JOBS_KEY in self._data:
+            return self._data[Lang.JOBS_KEY]
         else:
             return default
         
@@ -244,9 +242,9 @@ class Config:
                 jobsMap[cleankey] = jobsMap[jobName]
                 del jobsMap[jobName]
                 # add to override key
-                if not self.OVERRIDE_KEY in jobsMap:
-                    jobsMap[Job.OVERRIDE_KEY] = []
-                jobsMap[Job.OVERRIDE_KEY].append(cleankey)
+                if not Lang.OVERRIDE_KEY in jobsMap:
+                    jobsMap[Lang.OVERRIDE_KEY] = []
+                jobsMap[Lang.OVERRIDE_KEY].append(cleankey)
                 # fix Job object property
                 if isinstance(jobsMap[cleankey], Job):
                     jobsMap[cleankey].name = cleankey
@@ -350,8 +348,8 @@ class Config:
         def clashProcess():
             # check whether the local job is protected
             jobMap = self.getJobsMap()
-            if ((self.OVERRIDE_KEY not in jobMap) or
-                (l.clashname not in jobMap[self.OVERRIDE_KEY])):
+            if ((Lang.OVERRIDE_KEY not in jobMap) or
+                (l.clashname not in jobMap[Lang.OVERRIDE_KEY])):
                 # put shaddowed job in the local 'extend'
                 if not newJob:
                     raise Error, "unsuitable new job"
@@ -415,7 +413,7 @@ class Config:
         # go through the list of just added jobs again
         for job in newList:  # there is no easy way to get newList from other data
             # patch job references in 'run', 'extend', ... keys
-            for key in Job.KEYS_WITH_JOB_REFS:
+            for key in Lang.KEYS_WITH_JOB_REFS:
                 if job.hasFeature(key):
                     patchFeature(job, key, renamedJobs)
         
@@ -477,7 +475,7 @@ class Config:
         newJobList = []
         for jobName in jobNames:
             job = self.getJob(jobName)
-            if not job.hasFeature(Job.RUN_KEY):
+            if not job.hasFeature(Lang.RUN_KEY):
                 newJobList.append(job)
             else:
                 sublist = job.resolveRun(cfg=self)

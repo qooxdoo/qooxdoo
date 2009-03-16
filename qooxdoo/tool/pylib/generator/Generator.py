@@ -30,6 +30,7 @@ from ecmascript.transform.optimizer import variableoptimizer
 from ecmascript.transform.optimizer import privateoptimizer
 #from ecmascript.transform.optimizer import protectedoptimizer
 from generator.config.ExtMap import ExtMap
+from generator.config.Lang import Lang
 from generator.code.DependencyLoader import DependencyLoader
 from generator.code.PartBuilder import PartBuilder
 from generator.code.TreeLoader import TreeLoader
@@ -736,26 +737,7 @@ class Generator:
 
         def generateBootScript(bootPackage):
             self._console.info("Generating boot script...")
-
-            # wpbasti: Most of this stuff is identical between source/compile. Put together somewhere else.
             bootBlocks = []
-            #globalCodes  = {}
-
-            #settingsCode,mapInfo = self.generateSettingsCode(settings, format)
-            #globalCodes["Settings"] = simplejson.dumps(mapInfo, ensure_ascii=False)
-
-            #variantsCode,mapInfo = self.generateVariantsCode(variants, format)
-            #globalCodes["Variants"] = simplejson.dumps(mapInfo,ensure_ascii=False)
-
-            #mapInfo = self.generateLibInfoCode(libs,format, resourceUri, scriptUri)
-            #globalCodes["Libinfo"] = simplejson.dumps(mapInfo,ensure_ascii=False)
-
-            #resourceCode,mapInfo = self.generateResourceInfoCode(settings, libs, format)
-            #globalCodes["Resources"] = simplejson.dumps(mapInfo,ensure_ascii=False)
-
-            #localesCode,transInfo,localeInfo = self.generateLocalesCode(translationMaps, format)
-            #globalCodes["Translations"] = simplejson.dumps(transInfo,ensure_ascii=False)
-            #globalCodes["Locales"]      = simplejson.dumps(localeInfo,ensure_ascii=False)
 
             globalCodes = self.generateGlobalCodes(libs, translationMaps, settings, variants, format, resourceUri, scriptUri)
 
@@ -858,24 +840,24 @@ class Generator:
 
 
     def generateGlobalCodes(self, libs, translationMaps, settings, variants, format=False, resourceUri=None, scriptUri=None):
-        # generate the global structures like qxlibraries, qxresources, ...
+        # generate the global codes like qxlibraries, qxresources, ...
+        # and collect them in a common structure
+
         globalCodes  = {}
 
-        settingsCode,mapInfo = self.generateSettingsCode(settings, format)
-        globalCodes["Settings"] = simplejson.dumps(mapInfo, ensure_ascii=False)
+        globalCodes["Settings"] = simplejson.dumps(settings, ensure_ascii=False)
 
-        variantsCode,mapInfo = self.generateVariantsCode(variants, format)
-        globalCodes["Variants"] = simplejson.dumps(mapInfo,ensure_ascii=False)
+        variantInfo = [x for x in variants if x not in Lang.META_KEYS]
+        globalCodes["Variants"] = simplejson.dumps(variantInfo,ensure_ascii=False)
 
         mapInfo = self.generateLibInfoCode(libs,format, resourceUri, scriptUri)
         globalCodes["Libinfo"] = simplejson.dumps(mapInfo,ensure_ascii=False)
 
-        resourceCode,mapInfo = self.generateResourceInfoCode(settings, libs, format)
+        mapInfo = self.generateResourceInfoCode(settings, libs, format)
         globalCodes["Resources"] = simplejson.dumps(mapInfo,ensure_ascii=False)
 
-        localesCode,transInfo,localeInfo = self.generateLocalesCode(translationMaps, format)
-        globalCodes["Translations"] = simplejson.dumps(transInfo,ensure_ascii=False)
-        globalCodes["Locales"]      = simplejson.dumps(localeInfo,ensure_ascii=False)
+        globalCodes["Translations"] = simplejson.dumps(translationMaps[0],ensure_ascii=False) # 0: .po data
+        globalCodes["Locales"]      = simplejson.dumps(translationMaps[1],ensure_ascii=False) # 1: cldr data
 
         return globalCodes
 
@@ -911,26 +893,7 @@ class Generator:
 
         # Add data from settings, variants and packages
         sourceBlocks = []
-        #globalCodes  = {}
-
-        #settingsCode,mapInfo = self.generateSettingsCode(settings, format)
-        #globalCodes["Settings"] = simplejson.dumps(mapInfo, ensure_ascii=False)
-
-        #variantsCode,mapInfo = self.generateVariantsCode(variants, format)
-        #globalCodes["Variants"] = simplejson.dumps(mapInfo,ensure_ascii=False)
-
-        #mapInfo = self.generateLibInfoCode(self._job.get("library",[]),format)
-        #globalCodes["Libinfo"] = simplejson.dumps(mapInfo,ensure_ascii=False)
-
-        #resourceCode,mapInfo = self.generateResourceInfoCode(settings, libs, format)
-        #globalCodes["Resources"] = simplejson.dumps(mapInfo,ensure_ascii=False)
-
-        #localesCode,transInfo,localeInfo = self.generateLocalesCode(translationMaps, format)
-        #globalCodes["Translations"] = simplejson.dumps(transInfo,ensure_ascii=False)
-        #globalCodes["Locales"]      = simplejson.dumps(localeInfo,ensure_ascii=False)
-
         globalCodes = self.generateGlobalCodes(libs, translationMaps, settings, variants, format)
-
         sourceBlocks.append(self.generateSourcePackageCode(parts, packages, boot, globalCodes, format))
 
         # TODO: Do we really need this optimization here. Could this be solved
@@ -1189,37 +1152,9 @@ class Generator:
         return value
 
 
-    def generateSettingsCode(self, settings, format=False):
-        result = 'if(!window.qxsettings)qxsettings={};'
-
-        for key in settings:
-            if format:
-                result += "\n"
-
-            value = self._toJavaScript(settings[key])
-            result += 'qxsettings["%s"]=%s;' % (key, value)
-
-        return result,settings
-
-
-    def generateVariantsCode(self, variants, format=False):
-        result = 'if(!window.qxvariants)qxvariants={};'
-
-        variats = {}
-        for key in variants:
-            if key == "__override__":
-                continue
- 
-            variats[key] = variants[key]
-
-            if format:
-                result += "\n"
-
-            value = self._toJavaScript(variants[key])
-            result += 'qxvariants["%s"]=%s;' % (key, value)
-
-        return result,variats
-
+    ##
+    # generate the 'qxlocales',... JS bootstrap entries
+    #
 
     def generateLibInfoCode(self, libs, format, forceResourceUri=None, forceScriptUri=None):
         qxlibs = {}
@@ -1257,7 +1192,6 @@ class Generator:
         """Pre-calculate image information (e.g. sizes)"""
         data    = {}
         resdata = data
-        result  = ""
         imgpatt  = re.compile(r'\.(png|jpeg|jpg|gif)$', re.I)
         skippatt = re.compile(r'\.(meta|py)$', re.I)
 
@@ -1375,40 +1309,10 @@ class Generator:
 
 
         # wpbasti: Image data is not part relevant yet.
-        # Also: Simpejson does no allow unformatted output as far as I know. This result into additional spaces which is suboptimal.
-        result += 'if(!window.qxresources)qxresources=' + simplejson.dumps(resdata,ensure_ascii=False) + ";"
 
         self._console.outdent()
 
-        return result, resdata
-
-
-    ##
-    # generate the 'qxlocales',... JS bootstrap entries
-    #
-    def generateLocalesCode(self, translationMaps, format=False):
-        if translationMaps == None:
-            return ""
-
-        self._console.info("Generate translation code...")
-
-        result = ["", ""]
-        jskeys = ["qxtranslations", "qxlocales"]
-
-        for i in range(len(jskeys)):
-            result[i] = 'if(!window.'+jskeys[i]+')'+jskeys[i]+'={};'
-            locales = translationMaps[i]  # 0: .po data, 1: cldr data
-
-            for key in locales:
-                if format:
-                    result += "\n"
-
-                value = locales[key]
-                result[i] += jskeys[i]+'["%s"]=' % (key)
-                result[i] += simplejson.dumps(value)
-                result[i] += ';'
-
-        return "".join(result), translationMaps[0], translationMaps[1]
+        return resdata
 
 
     # wpbasti: This needs a lot of work. What's about the generation of a small bootstrap script
