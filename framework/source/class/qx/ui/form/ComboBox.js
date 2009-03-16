@@ -421,9 +421,10 @@ qx.Class.define("qx.ui.form.ComboBox",
      */
     __defaultFormat : function(item)
     {
-      var valueLabel = item.getLabel();
-
-      if (item.getRich()) {
+      var valueLabel = item ? item.getLabel() : "";
+      var rich = item ? item.getRich() : false; 
+      
+      if (rich) {
         valueLabel = valueLabel.replace(/<[^>]+?>/g, "");
         valueLabel = qx.bom.String.unescape(valueLabel);
       }
