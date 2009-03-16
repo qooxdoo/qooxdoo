@@ -37,6 +37,7 @@ from generator.code.TreeLoader import TreeLoader
 from generator.code.TreeCompiler import TreeCompiler
 from generator.code.LibraryPath import LibraryPath
 from generator.code.ResourceHandler import ResourceHandler
+from generator.action.CodeGenerator import CodeGenerator
 from generator.action.ImageInfo import ImageInfo, ImgInfoFmt
 from generator.action.ImageClipping import ImageClipping
 from generator.action.ApiLoader import ApiLoader
@@ -352,6 +353,7 @@ class Generator:
         # Create tool chain instances
         self._treeCompiler   = TreeCompiler(self._classes, self._cache, self._console, self._treeLoader)
         self._partBuilder    = PartBuilder(self._console, self._depLoader, self._treeCompiler)
+        self._codeGenerator  = CodeGenerator(self._cache, self._console, self._config, self._job, self._settings, self._locale, self._resourceHandler)
 
         # -- helpers for the variant loop  -------------------------------------
 
@@ -390,8 +392,10 @@ class Generator:
             )              = self._partsConfigFromClassList(self._classList, smartExclude, variants)
 
             # Execute real tasks
-            self.runSource(partPackages, packageClasses, boot, variants)
-            self.runCompiled(partPackages, packageClasses, boot, variants)
+            #self.runSource(partPackages, packageClasses, boot, variants)
+            self._codeGenerator.runSource(partPackages, packageClasses, boot, variants, self._classList, self._libs, self._classes)
+            #self.runCompiled(partPackages, packageClasses, boot, variants)
+            self._codeGenerator.runCompiled(partPackages, packageClasses, boot, variants, self._treeCompiler, self._classList)
 
             # Debug tasks
             self.runDependencyDebug(partPackages, packageClasses, variants)
