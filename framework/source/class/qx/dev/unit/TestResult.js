@@ -129,7 +129,13 @@ qx.Class.define("qx.dev.unit.TestResult",
           test.setUp();
         }
         catch(ex) {
-          test.tearDown();
+          try {
+            test.tearDown();
+          }
+          catch(ex) {
+            /* Any exceptions here are likely caused by setUp having failed
+               previously, so we'll ignore them. */
+          }
           var qxEx = new qx.type.BaseError("Error setting up test: " + ex.name, ex.message);                    
           this.__createError("failure", qxEx, test);
           return;
