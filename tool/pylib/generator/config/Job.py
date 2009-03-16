@@ -23,21 +23,14 @@ import os, sys, re, types, string, copy
 import simplejson
 
 from generator.config.ExtMap import ExtMap
+from generator.config.Lang import Lang
 
 console = None
 
 class Job(object):
 
-    # keys of the job data map
-    EXTEND_KEY   = "extend"
-    RUN_KEY      = "run"
-    LET_KEY      = "let"
-    LIBRARY_KEY  = "library"
-    RESOLVED_KEY = "resolved"
-    OVERRIDE_KEY = "__override__"
-    OVERRIDE_TAG = "="    # tag for key names, to protect on merging
-    OVERRIDE_TAG_REGEXP = re.compile(r'^\%s(.*)$' % OVERRIDE_TAG)  # identify tag and extract orig. key
-    KEYS_WITH_JOB_REFS  = [RUN_KEY, EXTEND_KEY]
+    # some constants
+    OVERRIDE_TAG_REGEXP = re.compile(r'^\%s(.*)$' % Lang.OVERRIDE_TAG)  # identify tag and extract orig. key
     MACRO_SPANNING_REGEXP = re.compile(r'^\$\{\w+\}$')  # e.g. "${PATH}"
     JSON_SCALAR_TYPES   = (types.StringTypes, types.IntType, types.LongType, types.FloatType,
                            types.BooleanType, types.NoneType)
@@ -86,16 +79,16 @@ class Job(object):
                     map[cleankey] = map[key]
                     del map[key]
                     # add to override key
-                    if not Job.OVERRIDE_KEY in map:
-                        map[Job.OVERRIDE_KEY] = []
-                    map[Job.OVERRIDE_KEY].append(cleankey)
+                    if not Lang.OVERRIDE_KEY in map:
+                        map[Lang.OVERRIDE_KEY] = []
+                    map[Lang.OVERRIDE_KEY].append(cleankey)
 
 
     def resolveExtend(self, entryTrace=[], cfg=None):
         # resolve the 'extend' entry of a job
         config = cfg or self._config
 
-        if self.hasFeature(self.RESOLVED_KEY):
+        if self.hasFeature(Lang.RESOLVED_KEY):
             return
 
         self.includeGlobalLet() # make sure potential global let is included first
@@ -118,7 +111,7 @@ class Job(object):
                 # now merge the fully expanded job into the current job
                 self.mergeJob(entryJob)
 
-        self.setFeature(self.RESOLVED_KEY, True)
+        self.setFeature(Lang.RESOLVED_KEY, True)
 
 
     ##                                                                              
@@ -186,11 +179,11 @@ class Job(object):
 
     def resolveMacros(self):
         self.includeGlobalLet() # make sure potential global let is included
-        if self.hasFeature(self.LET_KEY):
+        if self.hasFeature(Lang.LET_KEY):
             # exand macros in the let
-            letMap = self.getFeature(self.LET_KEY)
+            letMap = self.getFeature(Lang.LET_KEY)
             letMap = self._expandMacrosInLet(letMap)
-            self.setFeature(self.LET_KEY, letMap)
+            self.setFeature(Lang.LET_KEY, letMap)
             
             # separate strings from other values
             letmaps = {}
@@ -208,15 +201,15 @@ class Job(object):
 
     def includeGlobalLet(self, additionalLet=None):
         #import pydb; pydb.debugger()
-        newlet = self.mapMerge(self.getFeature(self.LET_KEY,{}),{}) # init with local let
+        newlet = self.mapMerge(self.getFeature(Lang.LET_KEY,{}),{}) # init with local let
         if additionalLet:
             newlet = self.mapMerge(additionalLet, newlet)
-        global_let = self._config.get(self.LET_KEY,False)
+        global_let = self._config.get(Lang.LET_KEY,False)
         if global_let:
             newlet = self.mapMerge(global_let, newlet)
 
         if newlet:
-            self.setFeature(self.LET_KEY, newlet) # set cumulative let value
+            self.setFeature(Lang.LET_KEY, newlet) # set cumulative let value
 
     
     def _getJob(self, job, cfg=None):
@@ -377,7 +370,7 @@ class Job(object):
             return self.MACRO_SPANNING_REGEXP.search(m)
 
         def isProtected(key, amap):
-            if Job.OVERRIDE_KEY in amap and key in amap[Job.OVERRIDE_KEY]:
+            if Lang.OVERRIDE_KEY in amap and key in amap[Lang.OVERRIDE_KEY]:
                 return True
             else:
                 return False
@@ -395,12 +388,12 @@ class Job(object):
 
         # create a quick-access var
         override_keys = []
-        if self.OVERRIDE_KEY in target:
-            override_keys = target[self.OVERRIDE_KEY]
+        if Lang.OVERRIDE_KEY in target:
+            override_keys = target[Lang.OVERRIDE_KEY]
             assert isinstance(override_keys, types.ListType)
 
         for key in source:
-            if key == self.OVERRIDE_KEY:
+            if key == Lang.OVERRIDE_KEY:
                 pass  # pass here - these are treated when their corresponding key is treated
 
             elif key in target:  # we have to merge values
@@ -419,7 +412,7 @@ class Job(object):
 
                 # treat "let" specially
                 # cruft: this should actually be done in mergeJob(), but it's easier here
-                elif key == self.LET_KEY:
+                elif key == Lang.LET_KEY:
                     target[key] = self.mapMerge(source[key], target[key])
 
                 # merge arrays rather than shadowing
@@ -446,7 +439,7 @@ class Job(object):
                 # only add protection for new keys - don't add protection for keys that
                 # alreay exist in the target but are unprotected
                 if isProtected(key, source):
-                    target[Job.OVERRIDE_KEY] = listAdd(target, Job.OVERRIDE_KEY, key)
+                    target[Lang.OVERRIDE_KEY] = listAdd(target, Lang.OVERRIDE_KEY, key)
 
         return target
 
