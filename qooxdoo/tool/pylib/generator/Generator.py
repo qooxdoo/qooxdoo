@@ -739,28 +739,25 @@ class Generator:
 
             # wpbasti: Most of this stuff is identical between source/compile. Put together somewhere else.
             bootBlocks = []
-            globalCodes  = {}
+            #globalCodes  = {}
 
-            settingsCode,mapInfo = self.generateSettingsCode(settings, format)
-            #bootBlocks.append(settingsCode)
-            globalCodes["Settings"] = simplejson.dumps(mapInfo, ensure_ascii=False)
+            #settingsCode,mapInfo = self.generateSettingsCode(settings, format)
+            #globalCodes["Settings"] = simplejson.dumps(mapInfo, ensure_ascii=False)
 
-            variantsCode,mapInfo = self.generateVariantsCode(variants, format)
-            #bootBlocks.append(variantsCode)
-            globalCodes["Variants"] = simplejson.dumps(mapInfo,ensure_ascii=False)
+            #variantsCode,mapInfo = self.generateVariantsCode(variants, format)
+            #globalCodes["Variants"] = simplejson.dumps(mapInfo,ensure_ascii=False)
 
-            libinfoCode,mapInfo = self.generateLibInfoCode(libs,format, resourceUri, scriptUri)
-            #bootBlocks.append(libinfoCode)
-            globalCodes["Libinfo"] = simplejson.dumps(mapInfo,ensure_ascii=False)
+            #mapInfo = self.generateLibInfoCode(libs,format, resourceUri, scriptUri)
+            #globalCodes["Libinfo"] = simplejson.dumps(mapInfo,ensure_ascii=False)
 
-            resourceCode,mapInfo = self.generateResourceInfoCode(settings, libs, format)
-            #bootBlocks.append(resourceCode)
-            globalCodes["Resources"] = simplejson.dumps(mapInfo,ensure_ascii=False)
+            #resourceCode,mapInfo = self.generateResourceInfoCode(settings, libs, format)
+            #globalCodes["Resources"] = simplejson.dumps(mapInfo,ensure_ascii=False)
 
-            localesCode,transInfo,localeInfo = self.generateLocalesCode(translationMaps, format)
-            #bootBlocks.append(localesCode)
-            globalCodes["Translations"] = simplejson.dumps(transInfo,ensure_ascii=False)
-            globalCodes["Locales"]      = simplejson.dumps(localeInfo,ensure_ascii=False)
+            #localesCode,transInfo,localeInfo = self.generateLocalesCode(translationMaps, format)
+            #globalCodes["Translations"] = simplejson.dumps(transInfo,ensure_ascii=False)
+            #globalCodes["Locales"]      = simplejson.dumps(localeInfo,ensure_ascii=False)
+
+            globalCodes = self.generateGlobalCodes(libs, translationMaps, settings, variants, format, resourceUri, scriptUri)
 
             bootBlocks.append(self.generateCompiledPackageCode(fileUri, parts, packages, boot, variants, settings, bootPackage, globalCodes, format))
 
@@ -860,6 +857,28 @@ class Generator:
         return
 
 
+    def generateGlobalCodes(self, libs, translationMaps, settings, variants, format=False, resourceUri=None, scriptUri=None):
+        # generate the global structures like qxlibraries, qxresources, ...
+        globalCodes  = {}
+
+        settingsCode,mapInfo = self.generateSettingsCode(settings, format)
+        globalCodes["Settings"] = simplejson.dumps(mapInfo, ensure_ascii=False)
+
+        variantsCode,mapInfo = self.generateVariantsCode(variants, format)
+        globalCodes["Variants"] = simplejson.dumps(mapInfo,ensure_ascii=False)
+
+        mapInfo = self.generateLibInfoCode(libs,format, resourceUri, scriptUri)
+        globalCodes["Libinfo"] = simplejson.dumps(mapInfo,ensure_ascii=False)
+
+        resourceCode,mapInfo = self.generateResourceInfoCode(settings, libs, format)
+        globalCodes["Resources"] = simplejson.dumps(mapInfo,ensure_ascii=False)
+
+        localesCode,transInfo,localeInfo = self.generateLocalesCode(translationMaps, format)
+        globalCodes["Translations"] = simplejson.dumps(transInfo,ensure_ascii=False)
+        globalCodes["Locales"]      = simplejson.dumps(localeInfo,ensure_ascii=False)
+
+        return globalCodes
+
 
     def runSource(self, parts, packages, boot, variants):
         if not self._job.get("compile-source/file"):
@@ -892,28 +911,25 @@ class Generator:
 
         # Add data from settings, variants and packages
         sourceBlocks = []
-        globalCodes  = {}
+        #globalCodes  = {}
 
-        settingsCode,mapInfo = self.generateSettingsCode(settings, format)
-        #sourceBlocks.append(settingsCode)
-        globalCodes["Settings"] = simplejson.dumps(mapInfo, ensure_ascii=False)
+        #settingsCode,mapInfo = self.generateSettingsCode(settings, format)
+        #globalCodes["Settings"] = simplejson.dumps(mapInfo, ensure_ascii=False)
 
-        variantsCode,mapInfo = self.generateVariantsCode(variants, format)
-        #sourceBlocks.append(variantsCode)
-        globalCodes["Variants"] = simplejson.dumps(mapInfo,ensure_ascii=False)
+        #variantsCode,mapInfo = self.generateVariantsCode(variants, format)
+        #globalCodes["Variants"] = simplejson.dumps(mapInfo,ensure_ascii=False)
 
-        libinfoCode,mapInfo = self.generateLibInfoCode(self._job.get("library",[]),format)
-        #sourceBlocks.append(libinfoCode)
-        globalCodes["Libinfo"] = simplejson.dumps(mapInfo,ensure_ascii=False)
+        #mapInfo = self.generateLibInfoCode(self._job.get("library",[]),format)
+        #globalCodes["Libinfo"] = simplejson.dumps(mapInfo,ensure_ascii=False)
 
-        resourceCode,mapInfo = self.generateResourceInfoCode(settings, libs, format)
-        #sourceBlocks.append(resourceCode)
-        globalCodes["Resources"] = simplejson.dumps(mapInfo,ensure_ascii=False)
+        #resourceCode,mapInfo = self.generateResourceInfoCode(settings, libs, format)
+        #globalCodes["Resources"] = simplejson.dumps(mapInfo,ensure_ascii=False)
 
-        localesCode,transInfo,localeInfo = self.generateLocalesCode(translationMaps, format)
-        #sourceBlocks.append(localesCode)
-        globalCodes["Translations"] = simplejson.dumps(transInfo,ensure_ascii=False)
-        globalCodes["Locales"]      = simplejson.dumps(localeInfo,ensure_ascii=False)
+        #localesCode,transInfo,localeInfo = self.generateLocalesCode(translationMaps, format)
+        #globalCodes["Translations"] = simplejson.dumps(transInfo,ensure_ascii=False)
+        #globalCodes["Locales"]      = simplejson.dumps(localeInfo,ensure_ascii=False)
+
+        globalCodes = self.generateGlobalCodes(libs, translationMaps, settings, variants, format)
 
         sourceBlocks.append(self.generateSourcePackageCode(parts, packages, boot, globalCodes, format))
 
@@ -1206,12 +1222,10 @@ class Generator:
 
 
     def generateLibInfoCode(self, libs, format, forceResourceUri=None, forceScriptUri=None):
-        result = 'if(!window.qxlibraries)qxlibraries={};'
-
         qxlibs = {}
+
         for lib in libs:
             # add library key
-            result += 'qxlibraries["%s"]={' % lib['namespace']
             qxlibs[lib['namespace']] = {}
 
             # add resource root URI
@@ -1220,7 +1234,6 @@ class Generator:
             else:
                 resUriRoot = self._computeResourceUri(lib, "", rType="resource", appRoot=self.approot)
                 
-            result += '"resourceUri":"%s"' % urllib.quote(resUriRoot)
             qxlibs[lib['namespace']]['resourceUri'] = "%s" % urllib.quote(resUriRoot)
             
             # add code root URI
@@ -1229,19 +1242,15 @@ class Generator:
             else:
                 sourceUriRoot = self._computeResourceUri(lib, "", rType="class", appRoot=self.approot)
             
-            result += '"sourceUri":"%s"' % urllib.quote(sourceUriRoot)
             qxlibs[lib['namespace']]['sourceUri'] = "%s" % urllib.quote(sourceUriRoot)
             
             # TODO: Add version, svn revision, maybe even authors, but at least homepage link, ...
 
             # add version info
             if 'version' in lib:
-                result += ',"version":"%s"' % lib['version']
                 qxlibs[lib['namespace']]['version'] = "%s" % lib['version']
 
-            result += '};'
-
-        return result, qxlibs
+        return qxlibs
 
 
     def generateResourceInfoCode(self, settings, libs, format=False):
