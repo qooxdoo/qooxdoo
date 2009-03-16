@@ -64,7 +64,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
     /**
      * The behavior to use.
      *
-     * The provided behavior must extend {link @qx.ui.table.columnmodel.resizebehavior.Abstract} and
+     * The provided behavior must extend {@link qx.ui.table.columnmodel.resizebehavior.Abstract} and
      * implement the <i>onAppear</i>, <i>onTableWidthChanged</i>,
      * <i>onColumnWidthChanged</i> and <i>onVisibilityChanged</i>methods.
      */
@@ -190,7 +190,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
      *
      * @param event {qx.event.type.Data}
      *   The "columnVisibilityMenuCreateEnd" event indicating that the menu is
-     *   being generated.  The data is a map containing propeties <i>table</i>
+     *   being generated.  The data is a map containing properties <i>table</i>
      *   and <i>menu</i>.
      *
      * @return {void}
