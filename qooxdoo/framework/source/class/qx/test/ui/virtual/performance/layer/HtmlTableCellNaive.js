@@ -38,8 +38,7 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.HtmlTableCellNaive",
   members :
   {
     _fullUpdate : function(
-      firstRow, lastRow, 
-      firstColumn, lastColumn, 
+      firstRow, firstColumn,
       rowSizes, columnSizes
     )
     {

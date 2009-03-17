@@ -29,11 +29,7 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.DomCell",
 
   members :
   {
-    _fullUpdate : function(
-      firstRow, lastRow, 
-      firstColumn, lastColumn, 
-      rowSizes, columnSizes
-    )
+    _fullUpdate : function(firstRow, firstColumn, rowSizes, columnSizes)
     {
       var el = this.getContainerElement().getDomElement();
       el.innerHTML = "";

@@ -31,8 +31,7 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.HtmlDivRelative",
   members :
   {
     _fullUpdate : function(
-      firstRow, lastRow, 
-      firstColumn, lastColumn, 
+      firstRow, firstColumn, 
       rowSizes, columnSizes
     )
     {
