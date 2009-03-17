@@ -34,7 +34,7 @@ qx.Class.define("inspector.objects.ObjectsWindow",
         "icon/22/actions/view-refresh.png");
     this._toolbar.add(this._reloadButton);
     this._reloadButton.addListener("execute", function() {
-      this.load();
+      this.load(null, this._filterTextField.getValue());
     }, this);
     this._toolbar.add(new qx.ui.toolbar.Separator());
     this._toolbar.addSpacer();
