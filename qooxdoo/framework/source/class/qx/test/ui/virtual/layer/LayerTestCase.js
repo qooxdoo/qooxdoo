@@ -96,7 +96,7 @@ qx.Class.define("qx.test.ui.virtual.layer.LayerTestCase",
     testInit : function() {
       this._assertCells(10, 15, 11, 4);
     },
-    
+       
     testFullUpdate : function() {
       this._assertCells(10, 15, 11, 4, true);
     },
