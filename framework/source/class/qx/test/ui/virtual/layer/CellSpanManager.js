@@ -117,42 +117,35 @@ qx.Class.define("qx.test.ui.virtual.layer.CellSpanManager",
       cellSpan.addCell("c5", 1, 9, 1, 13);
       cellSpan.addCell("c6", 10, 10, 1, 3);
       
-      var result = {};
-      cellSpan._findCellsInRange(result, "firstRow", 2, 6);
+      var result = cellSpan._findCellsInRange("firstRow", 2, 6);
       this.assertArrayEquals(
         ["c1", "c2", "c4"],
         qx.lang.Object.getKeys(result).sort()
       ); 
 
-      var result = {};
-      cellSpan._findCellsInRange(result, "firstRow", 11, 20);
+      var result = cellSpan._findCellsInRange("firstRow", 11, 20);
       this.assertArrayEquals([], qx.lang.Object.getKeys(result));
       
-      var result = {};
-      cellSpan._findCellsInRange(result, "firstRow", 0, 0);
+      var result = cellSpan._findCellsInRange("firstRow", 0, 0);
       this.assertArrayEquals([], qx.lang.Object.getKeys(result));
       
-      var result = {};
-      cellSpan._findCellsInRange(result, "firstRow", 0, 5);
+      var result = cellSpan._findCellsInRange("firstRow", 0, 5);
       this.assertArrayEquals(
         ["c2", "c4", "c5"], 
         qx.lang.Object.getKeys(result).sort()
       );
       
 
-      var result = {};
-      cellSpan._findCellsInRange(result, "lastRow", 3, 8);
+      var result = cellSpan._findCellsInRange("lastRow", 3, 8);
       this.assertArrayEquals(["c2", "c4"], qx.lang.Object.getKeys(result).sort());                         
 
-      var result = {};
-      cellSpan._findCellsInRange(result, "firstColumn", 3, 7);
+      var result = cellSpan._findCellsInRange("firstColumn", 3, 7);
       this.assertArrayEquals(
         ["c1", "c2", "c3"],
         qx.lang.Object.getKeys(result).sort()
       );                         
 
-      var result = {};
-      cellSpan._findCellsInRange(result, "lastColumn", 0, 22);
+      var result = cellSpan._findCellsInRange("lastColumn", 0, 22);
       this.assertArrayEquals(
         ["c1", "c2", "c3", "c4", "c5", "c6"],
         qx.lang.Object.getKeys(result).sort()
@@ -171,7 +164,7 @@ qx.Class.define("qx.test.ui.virtual.layer.CellSpanManager",
       cellSpan.addCell("c5", 1, 9, 1, 13);
       cellSpan.addCell("c6", 10, 10, 1, 3);    
       
-      var cells = cellSpan.findCellsInWindow(1, 5, 7, 20);
+      var cells = cellSpan.findCellsInWindow(1, 7, 5, 14);
       var ids = [];
       cells.forEach(function(cell) {
         ids.push(cell.id);
@@ -267,14 +260,14 @@ qx.Class.define("qx.test.ui.virtual.layer.CellSpanManager",
       cellSpan.addCell("c4", 4, 0, 2, 2);
       cellSpan.addCell("c5", 4, 4, 2, 2);
       
-      var cells = cellSpan.findCellsInWindow(1, 4, 1, 4);
+      var cells = cellSpan.findCellsInWindow(1, 1, 4, 4);
       var ids = [];
       cells.forEach(function(cell) {
         ids.push(cell.id);
       });
       this.assertJsonEquals(["c1", "c2", "c3", "c4", "c5"], ids.sort());
       
-      var map = cellSpan.computeCellSpanMap(cells, 1, 4, 1, 4);
+      var map = cellSpan.computeCellSpanMap(cells, 1, 1, 4, 4);
       this.assertJsonEquals([
        undefined,
        [undefined, 1, undefined, undefined, 1],

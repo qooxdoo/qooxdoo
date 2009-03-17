@@ -39,20 +39,20 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
   
   
   /**
-   * @param htmlCellProvider {qx.ui.virtual.core.IHtmlCellProvider} This class
-   *    provides the HTML markup for each cell.
+  * @param widgetCellProvider {qx.ui.virtual.core.IWidgetCellProvider} This
+   *    class manages the life cycle of the cell widgets.
    * @param rowConfig {qx.ui.virtual.core.Axis} The row configuration of the pane 
    *    in which the cells will be rendered
    * @param columnConfig {qx.ui.virtual.core.Axis} The column configuration of the pane 
    *    in which the cells will be rendered
    */    
-  construct : function(htmlCellProvider, rowConfig, columnConfig)
+  construct : function(widgetCellProvider, rowConfig, columnConfig)
   {
     this.base(arguments);
     this.setZIndex(2);
     
     this._spanManager = new qx.ui.virtual.layer.CellSpanManager(rowConfig, columnConfig);
-    this._cellProvider = htmlCellProvider;
+    this._cellProvider = widgetCellProvider;
     this.__spacerPool = [];
     
     this._cellLayer = new qx.ui.virtual.layer.WidgetCell(this);
@@ -141,15 +141,13 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
      * <code>_spanMap</code> according to the given grid window.
      * 
      * @param firstRow {PositiveInteger} first visible row
-     * @param lastRow {PositiveInteger} last visible row
      * @param firstColumn {PositiveInteger} first visible column
-     * @param lastColumn {PositiveInteger} last visible column
      */
-    __updateCellSpanData : function(firstRow, lastRow, firstColumn, lastColumn)
+    __updateCellSpanData : function(firstRow, firstColumn, rowCount, columnCount)
     {
       this._cells = this._spanManager.findCellsInWindow(
-        firstRow, lastRow,
-        firstColumn, lastColumn
+        firstRow, firstColumn, 
+        rowCount, columnCount
       );      
       
       if (this._cells.length > 0)
@@ -160,8 +158,8 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
         );
         this._spanMap = this._spanManager.computeCellSpanMap(
           this._cells,
-          firstRow, lastRow,
-          firstColumn, lastColumn
+          firstRow, firstColumn, 
+          rowCount, columnCount
         );
       }
       else
@@ -169,8 +167,8 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
         this._bounds = [];
         // create empty dummy map
         this._spanMap = [];
-        for (var i=firstRow; i<= lastRow; i++) {
-          this._spanMap[i] = [];
+        for (var i=0; i<rowCount; i++) {
+          this._spanMap[firstRow + i] = [];
         }
       }      
     },
@@ -214,38 +212,26 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
     
     
     // overridden
-    _fullUpdate : function(
-      firstRow, lastRow, 
-      firstColumn, lastColumn, 
-      rowSizes, columnSizes    
-    )
+    _fullUpdate : function(firstRow, firstColumn, rowSizes, columnSizes)
     {
-      this.__updateCellSpanData(firstRow, lastRow, firstColumn, lastColumn);
+      this.__updateCellSpanData(
+        firstRow, firstColumn,
+        rowSizes.length, columnSizes.length
+      );
       this.__updateCellSpanWidgets();
-      
-      this._cellLayer.fullUpdate(
-        firstRow, lastRow, 
-        firstColumn, lastColumn, 
-        rowSizes, columnSizes        
-      );            
+      this._cellLayer.fullUpdate(firstRow, firstColumn, rowSizes, columnSizes);            
     },
     
     
     // overridden
-    _updateLayerWindow : function(
-      firstRow, lastRow, 
-      firstColumn, lastColumn, 
-      rowSizes, columnSizes
-    ) 
+    _updateLayerWindow : function(firstRow, firstColumn, rowSizes, columnSizes) 
     {
-      this.__updateCellSpanData(firstRow, lastRow, firstColumn, lastColumn);
-      this.__updateCellSpanWidgets();
-      
-      this._cellLayer.updateLayerWindow(
-        firstRow, lastRow, 
-        firstColumn, lastColumn, 
-        rowSizes, columnSizes            
+      this.__updateCellSpanData(
+        firstRow, firstColumn,
+        rowSizes.length, columnSizes.length
       );
+      this.__updateCellSpanWidgets();
+      this._cellLayer.updateLayerWindow(firstRow, firstColumn, rowSizes, columnSizes);            
     }                 
   },
   
