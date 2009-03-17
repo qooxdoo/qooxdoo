@@ -2481,8 +2481,18 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     // property apply
-    _applyOpacity : function(value, old) {
+    _applyOpacity : function(value, old) 
+    {
       this.__containerElement.setStyle("opacity", value == 1 ? null : value);
+      
+      // IE8 already has a fix - see Bug #1894 for details
+      if (qx.core.Variant.isSet("qx.client", "mshtml") && 
+          qx.bom.client.Engine.VERSION <= 7) 
+      {        
+        // 0.99 is necessary since 1.0 is not applied
+        var contentElementOpacity = (value == 1 || value == null) ? null : 0.99;
+        this.__contentElement.setStyle("opacity", contentElementOpacity);
+      }
     },
 
 
