@@ -75,11 +75,7 @@ qx.Class.define("qx.test.ui.virtual.performance.AbstractLayerTest",
     {
       this.profile("fullUpdate (same window)", function()
       {
-        this.layer.fullUpdate(
-          0, this.rowCount - 1,
-          0, this.colCount-1,
-          this.rowSizes, this.colSizes
-        );
+        this.layer.fullUpdate(0, 0, this.rowSizes, this.colSizes);
       }, this, this.ITERATIONS);
     },
     
@@ -90,11 +86,7 @@ qx.Class.define("qx.test.ui.virtual.performance.AbstractLayerTest",
       
       this.profile("fullUpdate (scroll)", function()
       {
-        this.layer.fullUpdate(
-          startRow, startRow + this.rowCount - 1,
-          0, this.colCount-1,
-          this.rowSizes, this.colSizes
-        );
+        this.layer.fullUpdate(startRow, 0, this.rowSizes, this.colSizes);
         startRow ++;
       }, this, this.ITERATIONS);
     },    
@@ -106,11 +98,7 @@ qx.Class.define("qx.test.ui.virtual.performance.AbstractLayerTest",
       
       this.profile("scroll down 10 lines", function()
       {
-        this.layer.updateLayerWindow(
-          startRow, startRow + this.rowCount - 1,
-          0, this.colCount - 1,
-          this.rowSizes, this.colSizes
-        );
+        this.layer.updateLayerWindow(startRow, 0, this.rowSizes, this.colSizes);
         startRow += 10;
       }, this, this.ITERATIONS);
     },
@@ -122,11 +110,7 @@ qx.Class.define("qx.test.ui.virtual.performance.AbstractLayerTest",
       
       this.profile("scroll right 10 columns", function()
       {
-        this.layer.updateLayerWindow(
-          0, this.rowCount - 1,
-          startCol, startCol + this.colCount - 1,
-          this.rowSizes, this.colSizes
-        );
+        this.layer.updateLayerWindow(0, startCol, this.rowSizes, this.colSizes);
         startCol += 10;
       }, this, this.ITERATIONS);
     }, 
@@ -135,11 +119,7 @@ qx.Class.define("qx.test.ui.virtual.performance.AbstractLayerTest",
       
     testUpdateLayerData : function() 
     {
-      this.layer.fullUpdate(
-        0, this.rowCount - 1,
-        0, this.colCount-1,
-        this.rowSizes, this.colSizes
-      );
+      this.layer.fullUpdate(0, 0, this.rowSizes, this.colSizes);
       this.flush();
       
       this.profile("update layer data", function()

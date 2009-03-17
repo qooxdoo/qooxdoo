@@ -73,8 +73,7 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.HtmlTableCssCell",
   members :
   {
     _fullUpdate : function(
-      firstRow, lastRow, 
-      firstColumn, lastColumn, 
+      firstRow, firstColumn,
       rowSizes, columnSizes
     )
     {
@@ -120,13 +119,6 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.HtmlTableCssCell",
       html.push("</table>");
       
       this.getContentElement().setAttribute("html", html.join(""));
-      
-      this._firstRow = firstRow;
-      this._lastRow = lastRow;
-      this._firstColumn = firstColumn;
-      this._lastColumn = lastColumn;
-      this._rowSizes = rowSizes;
-      this._columnSizes = columnSizes;
     }
   }
 });
