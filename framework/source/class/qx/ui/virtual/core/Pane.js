@@ -702,22 +702,46 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     _setLayerWindow : function(layers, left, top, minWidth, minHeight, doFullUpdate)
     {
       var rowCellData = this.__rowConfig.getItemAtPosition(top);
-      var columnCellData = this.__columnConfig.getItemAtPosition(left);
-           
-      var firstRow = rowCellData.index;
-      var firstColumn = columnCellData.index;
+      if (rowCellData)
+      {
+        var firstRow = rowCellData.index;
+        var rowSizes = this.__rowConfig.getItemSizes(firstRow, minHeight + rowCellData.offset);
+        var layerHeight = qx.lang.Array.sum(rowSizes);
+        var layerTop = top - rowCellData.offset;
+        var layerBottom = top - rowCellData.offset + layerHeight;
+      }
+      else
+      {
+        var firstRow = 0;
+        var rowSizes = [];
+        var layerHeight = 0;
+        var layerTop = 0;
+        var layerBottom = 0;        
+      }
       
-      var rowSizes = this.__rowConfig.getItemSizes(firstRow, minHeight + rowCellData.offset);
-      var columnSizes = this.__columnConfig.getItemSizes(firstColumn, minWidth + columnCellData.offset);
-
-      var layerWidth = qx.lang.Array.sum(columnSizes);
-      var layerHeight = qx.lang.Array.sum(rowSizes);
+      var columnCellData = this.__columnConfig.getItemAtPosition(left);
+      if (columnCellData)
+      {
+        var firstColumn = columnCellData.index;
+        var columnSizes = this.__columnConfig.getItemSizes(firstColumn, minWidth + columnCellData.offset);
+        var layerWidth = qx.lang.Array.sum(columnSizes);
+        var layerLeft = left - columnCellData.offset;
+        var layerRight = left - columnCellData.offset + layerWidth;
+      }
+      else
+      {
+        var firstColumn = 0;
+        var columnSizes = [];
+        var layerWidth = 0;
+        var layerLeft = 0;
+        var layerRight = 0;        
+      }
 
       this.__layerWindow = {
-        top: top - rowCellData.offset,
-        bottom: top - rowCellData.offset + layerHeight,
-        left: left - columnCellData.offset,        
-        right: left - columnCellData.offset + layerWidth
+        top: layerTop,
+        bottom: layerBottom,
+        left: layerLeft,        
+        right: layerRight
       }      
       
       this.__layerContainer.setUserBounds(
