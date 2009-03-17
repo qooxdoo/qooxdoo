@@ -30,7 +30,6 @@ from ecmascript.transform.optimizer import variableoptimizer
 from ecmascript.transform.optimizer import privateoptimizer
 #from ecmascript.transform.optimizer import protectedoptimizer
 from generator.config.ExtMap import ExtMap
-from generator.config.Lang import Lang
 from generator.code.DependencyLoader import DependencyLoader
 from generator.code.PartBuilder import PartBuilder
 from generator.code.TreeLoader import TreeLoader
@@ -38,7 +37,7 @@ from generator.code.TreeCompiler import TreeCompiler
 from generator.code.LibraryPath import LibraryPath
 from generator.code.ResourceHandler import ResourceHandler
 from generator.action.CodeGenerator import CodeGenerator
-from generator.action.ImageInfo import ImageInfo, ImgInfoFmt
+from generator.action.ImageInfo import ImgInfoFmt
 from generator.action.ImageClipping import ImageClipping
 from generator.action.ApiLoader import ApiLoader
 from generator.action.Locale import Locale
