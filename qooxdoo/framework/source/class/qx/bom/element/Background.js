@@ -202,13 +202,17 @@ qx.Class.define("qx.bom.element.Background",
          */
         if (window.location.protocol === "https:")
         {
+          // Pass the url if it's absolute - also http urls
+          if (url.match(/^http/)) {
+            urlPrefix = ""
+          }
           /*
            * SPECIAL CASE
            * It is valid to to begin a URL with "//" so this case has to
            * be considered. If the to resolved URL begins with "//" the
            * manager prefixes it with "https:" to avoid any problems for IE
            */
-          if (url.match(/^\/\//) != null) {
+          else if (url.match(/^\/\//) != null) {
             urlPrefix = window.location.protocol;
           }
 
