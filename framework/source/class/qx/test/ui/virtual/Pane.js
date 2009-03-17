@@ -53,18 +53,18 @@ qx.Class.define("qx.test.ui.virtual.Pane",
     assertUpdateArgs : function(rowIndex, colIndex, rowSizes, colSizes, args, msg)
     {
       this.assertEquals(rowIndex, args[0], msg);
-      this.assertEquals(colIndex, args[2], msg);
-      this.assertArrayEquals(rowSizes, args[4], msg);
-      this.assertArrayEquals(colSizes, args[5], msg);      
+      this.assertEquals(colIndex, args[1], msg);
+      this.assertArrayEquals(rowSizes, args[2], msg);
+      this.assertArrayEquals(colSizes, args[3], msg);      
     },
 
     
     assertScrollArgs : function(rowIndex, colIndex, rowSizes, colSizes, args, msg)
     {
       this.assertEquals(rowIndex, args[0], msg);
-      this.assertEquals(colIndex, args[2], msg);
-      this.assertArrayEquals(rowSizes, args[4], msg);
-      this.assertArrayEquals(colSizes, args[5], msg);      
+      this.assertEquals(colIndex, args[1], msg);
+      this.assertArrayEquals(rowSizes, args[2], msg);
+      this.assertArrayEquals(colSizes, args[3], msg);      
     },    
     
     
