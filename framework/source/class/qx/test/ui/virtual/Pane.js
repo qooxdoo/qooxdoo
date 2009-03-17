@@ -230,6 +230,62 @@ qx.Class.define("qx.test.ui.virtual.Pane",
     },
     
     
+    testNoRows : function()
+    {
+      var layer = new qx.test.ui.virtual.layer.LayerMock();
+      this.pane.addLayer(layer);
+      
+      layer.calls = [];
+      this.pane.setWidth(100);
+      this.pane.getColumnConfig().setDefaultItemSize(100);
+      this.pane.getColumnConfig().setItemCount(1);
+      this.pane.getRowConfig().setItemCount(0);
+      this.flush();
+      
+      var args = layer.calls[0][1];
+      this.assertUpdateArgs(0, 0, [], [100], args);
+      this.assertScroll(0, 0, this.pane);
+            
+      // resize
+      layer.calls = [];
+      this.pane.setWidth(30);
+      this.pane.getColumnConfig().setDefaultItemSize(30);
+      this.flush();
+
+      var args = layer.calls[0][1];
+      this.assertUpdateArgs(0, 0, [], [30], args);
+      this.assertScroll(0, 0, this.pane);      
+    },
+    
+    
+    testNoColumns : function()
+    {
+      var layer = new qx.test.ui.virtual.layer.LayerMock();
+      this.pane.addLayer(layer);
+      
+      layer.calls = [];
+      this.pane.setHeight(100);
+      this.pane.getRowConfig().setDefaultItemSize(100);
+      this.pane.getRowConfig().setItemCount(1);
+      this.pane.getColumnConfig().setItemCount(0);
+      this.flush();
+      
+      var args = layer.calls[0][1];
+      this.assertUpdateArgs(0, 0, [100], [], args);
+      this.assertScroll(0, 0, this.pane);
+            
+      // resize
+      layer.calls = [];
+      this.pane.setHeight(30);
+      this.pane.getRowConfig().setDefaultItemSize(30);
+      this.flush();
+
+      var args = layer.calls[0][1];
+      this.assertUpdateArgs(0, 0, [30], [], args);
+      this.assertScroll(0, 0, this.pane);      
+    },
+    
+    
     testPrefetchYAtTop : function()
     {
       var layerHeight = 400;          
