@@ -349,13 +349,8 @@ qx.Class.define("qx.ui.form.Spinner",
     _applyEnabled : function(value, old)
     {
       this.base(arguments, value, old);
-      // if the spinner is disabled, disable the buttons for sure
-        if (!value) {
-          this.getChildControl("upbutton").setEnabled(false);
-          this.getChildControl("downbutton").setEnabled(false);
-        }
 
-        this._updateButtons();
+      this._updateButtons();
     },
 
 
@@ -435,17 +430,7 @@ qx.Class.define("qx.ui.form.Spinner",
      */
     _applyWrap : function(value, old)
     {
-      if (value)
-      {
-        var upButton = this.getChildControl("upbutton");
-        var downButton = this.getChildControl("downbutton");
-
-        if (this.getEnabled())
-        {
-          upButton.setEnabled(true);
-          downButton.setEnabled(true);
-        }
-      }
+      this._updateButtons();
     },
 
 
@@ -479,35 +464,35 @@ qx.Class.define("qx.ui.form.Spinner",
       var downButton = this.getChildControl("downbutton");
       var value = this.getValue();
 
-      // up button enabled/disabled
-      if (value !== null && value < this.getMax())
+      if (!this.getEnabled())
       {
-        // only enable the button if the spinner itself is enabled
-        if (this.getEnabled()) {
-          upButton.resetEnabled();
-        }
+        // If Spinner is disabled -> disable buttons
+        upButton.setEnabled(false);
+        downButton.setEnabled(false);
       }
-      else
+      else 
       {
-        // only disable the buttons if wrapping is disabled
-        if (!this.getWrap()) {
-          upButton.setEnabled(false);
+        if (this.getWrap())
+        {
+          // If wraped -> always enable buttons
+          upButton.setEnabled(true);
+          downButton.setEnabled(true);
         }
-      }
-
-      // down button enabled/disabled
-      if (value !== null && value > this.getMin())
-      {
-        // only enable the button if the spinner itself is enabled
-        if (this.getEnabled()) {
-          downButton.resetEnabled();
-        }
-      }
-      else
-      {
-        // only disable the buttons if wrapping is disabled
-        if (!this.getWrap()) {
-          downButton.setEnabled(false);
+        else
+        {
+          // check max value
+          if (value !== null && value < this.getMax()) {
+            upButton.setEnabled(true);
+          } else {
+            upButton.setEnabled(false);
+          }
+          
+          // check min value
+          if (value !== null && value > this.getMin()) {
+            downButton.setEnabled(true);
+          } else {
+            downButton.setEnabled(false);
+          }
         }
       }
     },
