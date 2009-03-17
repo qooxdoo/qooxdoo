@@ -195,13 +195,13 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
 
     
     /**
-     * The currant capture element
+     * Get the element currently capturing events.
      * 
      * @return {Element|null} The current capture element. This value may be
      *    null.
      */
     getCaptureElement : function() {
-      return this.__element;
+      return this.__captureElement;
     },
     
 
