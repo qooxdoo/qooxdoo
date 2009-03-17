@@ -403,7 +403,7 @@ qx.Class.define("qx.data.controller.List",
       if (this.getTarget() == null) {
         return;
       }
-      
+            
       // build up the look up table
       this.__buildUpLookupTable();
       
@@ -593,7 +593,7 @@ qx.Class.define("qx.data.controller.List",
       // update the reference to the model
       var itemModel = this.getModel().getItem(this.__lookup(index));
       targetObject.setUserData("model", itemModel);      
-      
+
       // update the selection
       this._updateSelection();
     },
