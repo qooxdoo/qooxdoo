@@ -59,7 +59,7 @@ qx.Class.define("qx.type.BaseString",
      */
     toString : qx.core.Variant.select("qx.client",
     {
-      "gecko": function()
+      "gecko|mshtml": function()
       {
         var charList = [];
         var i=0;
