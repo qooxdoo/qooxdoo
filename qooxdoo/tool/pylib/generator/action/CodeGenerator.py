@@ -20,9 +20,10 @@
 ################################################################################
 
 import os, sys, string, types, re, zlib
-import urllib
+import urllib, optparse
 import simplejson
 from misc import filetool, Path
+from ecmascript import compiler
 from generator.action.ImageInfo import ImageInfo, ImgInfoFmt
 from generator.config.ExtMap import ExtMap
 from generator.config.Lang import Lang
@@ -31,7 +32,7 @@ console = None
 
 class CodeGenerator(object):
 
-    def __init__(self, cache, console_, config, job, settings, locale, resourceHandler):
+    def __init__(self, cache, console_, config, job, settings, locale, resourceHandler, classes):
         global console
         self._cache   = cache
         self._console = console_
@@ -40,6 +41,7 @@ class CodeGenerator(object):
         self._settings     = settings
         self._locale     = locale
         self._resourceHandler = resourceHandler
+        self._classes = classes
 
         console = console_
 
@@ -263,7 +265,7 @@ class CodeGenerator(object):
         self._console.outdent()
 
 
-    def runPrettyPrinting(self, classes):
+    def runPrettyPrinting(self, classes, treeLoader):
         "Gather all relevant config settings and pass them to the compiler"
 
         if not isinstance(self._job.get("pretty-print", False), types.DictType):
@@ -299,11 +301,13 @@ class CodeGenerator(object):
         numClasses = len(classes)
         for pos, classId in enumerate(classes):
             self._console.progress(pos, numClasses)
-            tree = self._treeLoader.getTree(classId)
+            tree = treeLoader.getTree(classId)
             compiled = compiler.compile(tree, options)
             filetool.save(self._classes[classId]['path'], compiled)
 
         self._console.outdent()
+
+        return
 
 
     def getSettings(self):
