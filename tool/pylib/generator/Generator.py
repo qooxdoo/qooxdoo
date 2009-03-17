@@ -328,6 +328,7 @@ class Generator:
         self._locale         = Locale(self._classes, self._translations, self._cache, self._console, self._treeLoader)
         self._depLoader      = DependencyLoader(self._classes, self._cache, self._console, self._treeLoader, require, use)
         self._resourceHandler= ResourceHandler(self)
+        self._codeGenerator  = CodeGenerator(self._cache, self._console, self._config, self._job, self._settings, self._locale, self._resourceHandler, self._classes)
 
         # Preprocess include/exclude lists
         smartInclude, explicitInclude = self.getIncludes(self._job.get("include", []))
@@ -335,11 +336,14 @@ class Generator:
         # get a class list without variants
         classList = self._computeClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, {})
         
-        # Process simple job triggers
+        # Process class-dependend job triggers
         if classdepTriggers:
             for trigger in classdepTriggers:
                 if trigger == 'translate':
                     apply(triggersSet[trigger]['action'],(self, ))
+                elif trigger == 'pretty-print':
+                    #apply(triggersSet[trigger]['action'],(self, classList))
+                    self._codeGenerator.runPrettyPrinting(classList, self._treeLoader)
                 else:
                     apply(triggersSet[trigger]['action'],(self, classList))  # call the corresp. method
 
@@ -353,7 +357,6 @@ class Generator:
         # Create tool chain instances
         self._treeCompiler   = TreeCompiler(self._classes, self._cache, self._console, self._treeLoader)
         self._partBuilder    = PartBuilder(self._console, self._depLoader, self._treeCompiler)
-        self._codeGenerator  = CodeGenerator(self._cache, self._console, self._config, self._job, self._settings, self._locale, self._resourceHandler)
 
         # -- helpers for the variant loop  -------------------------------------
 
