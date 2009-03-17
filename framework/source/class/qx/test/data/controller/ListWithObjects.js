@@ -293,6 +293,103 @@ qx.Class.define("qx.test.data.controller.ListWithObjects",
       // check the icon binding
       var icon = this.__list.getChildren()[0].getIcon();
       this.assertEquals("icon2", icon, "Icon binding is wrong!");
+    },
+    
+    
+    testOnSetOkLabel: function() {        
+      // create the options map with the converter
+      var options = {};
+      var flag = false;
+      options.onSetOk = function() {
+        flag = true;
+      }
+      // create the controller
+      this.__controller = new qx.data.controller.List(this.__model, this.__list, "name");
+      this.__controller.setLabelOptions(options);
+      
+      // change something to inkoe a change of a binding
+      this.__data.pop();
+      this.__model.pop();
+      
+      // check the binding
+      for (var i = 0; i < this.__data.length; i++) {
+        var label = this.__list.getChildren()[i].getLabel();
+        this.assertEquals(this.__data[i].getName(), label, "Binding " + i + " is wrong!");
+      }
+      
+      // check if the flag is set
+      this.assertTrue(flag, "onSetOk not executed");
+    },
+    
+    
+    // Bug 2088
+    testDeepSelection : function() {
+      qx.Class.define("qx.demo.Kid",
+      {
+        extend : qx.core.Object,
+
+        properties :
+        {
+          name :
+          {
+            check : "String",
+            event : "changeName",
+            init : null
+          }
+        }
+      });
+
+      qx.Class.define("qx.demo.Parent",
+      {
+        extend : qx.core.Object,
+        construct : function()
+        {
+          this.base(arguments);
+          this.setKid(new qx.demo.Kid());
+        },
+
+        properties :
+        {
+          name : 
+          {
+            check : "String",
+            event : "changeName",
+            init : null
+          },
+          kid :
+          {
+            check : "qx.demo.Kid",
+            event : "changeKid"
+          }
+        }
+      });
+
+      var parentA = new qx.demo.Parent()
+      parentA.setName("parentA");
+      parentA.getKid().setName("kidA");
+
+      var parentB = new qx.demo.Parent();
+      parentB.setName("parentB");
+      parentB.getKid().setName("kidB");
+
+      var parentC = new qx.demo.Parent();
+      parentC.setName("parentC");
+      parentC.getKid().setName("kidC");
+
+      var parents = new qx.data.Array();
+      parents.push(parentA);
+      parents.push(parentB);
+      parents.push(parentC);
+
+
+      this.__controller = new qx.data.controller.List(parents, this.__list, "name");   
+
+      this.assertEquals(parentC.getName(), this.__list.getChildren()[2].getUserData("model").getName(), "Wrong model stored before the splice.");      
+      
+      parents.splice(parents.indexOf(parentB), 1);
+
+      this.assertEquals("parentC", this.__list.getChildren()[1].getLabel(), "Wrong name of the parent.");
+      this.assertEquals(parentC, this.__list.getChildren()[1].getUserData("model"), "Wrong model stored after the splice.");      
     }
     
   }

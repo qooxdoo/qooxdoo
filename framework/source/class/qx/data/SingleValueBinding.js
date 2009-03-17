@@ -216,6 +216,12 @@ qx.Class.define("qx.data.SingleValueBinding",
      * @param context {Map} The current context for the listener. 
      */
     __chainListener: function(context) {
+      
+      // invoke the onSetOk method
+      if (context.options && context.options.onSetOk) {
+        context.options.onSetOk(context.sources[context.index], context.targetObject);
+      }
+      
       // delete all listener after the current one
       for (var j = context.index + 1; j < context.propertyNames.length; j++) {
         // remove the old sources
