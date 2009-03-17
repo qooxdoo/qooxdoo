@@ -208,29 +208,6 @@ class CodeGenerator(object):
 
 
 
-    def generateGlobalCodes(self, libs, translationMaps, settings, variants, format=False, resourceUri=None, scriptUri=None):
-        # generate the global codes like qxlibraries, qxresources, ...
-        # and collect them in a common structure
-
-        globalCodes  = {}
-
-        globalCodes["Settings"] = simplejson.dumps(settings, ensure_ascii=False)
-
-        variantInfo = [x for x in variants if x not in Lang.META_KEYS]
-        globalCodes["Variants"] = simplejson.dumps(variantInfo,ensure_ascii=False)
-
-        mapInfo = self.generateLibInfoCode(libs,format, resourceUri, scriptUri)
-        globalCodes["Libinfo"] = simplejson.dumps(mapInfo,ensure_ascii=False)
-
-        mapInfo = self.generateResourceInfoCode(settings, libs, format)
-        globalCodes["Resources"] = simplejson.dumps(mapInfo,ensure_ascii=False)
-
-        globalCodes["Translations"] = simplejson.dumps(translationMaps[0],ensure_ascii=False) # 0: .po data
-        globalCodes["Locales"]      = simplejson.dumps(translationMaps[1],ensure_ascii=False) # 1: cldr data
-
-        return globalCodes
-
-
     def runSource(self, parts, packages, boot, variants, classList, libs, classes):
         if not self._job.get("compile-source/file"):
             return
@@ -451,6 +428,40 @@ class CodeGenerator(object):
             newname += "_%s:%s" % (str(key), str(variants[key]))
         newname += ext
         return newname
+
+
+    def generateGlobalCodes(self, libs, translationMaps, settings, variants, format=False, resourceUri=None, scriptUri=None):
+        # generate the global codes like qxlibraries, qxresources, ...
+        # and collect them in a common structure
+
+        globalCodes  = {}
+
+        globalCodes["Settings"] = simplejson.dumps(settings, ensure_ascii=False)
+
+        variantInfo = self.generateVariantsCode(variants)
+        globalCodes["Variants"] = simplejson.dumps(variantInfo,ensure_ascii=False)
+
+        mapInfo = self.generateLibInfoCode(libs,format, resourceUri, scriptUri)
+        globalCodes["Libinfo"] = simplejson.dumps(mapInfo,ensure_ascii=False)
+
+        mapInfo = self.generateResourceInfoCode(settings, libs, format)
+        globalCodes["Resources"] = simplejson.dumps(mapInfo,ensure_ascii=False)
+
+        globalCodes["Translations"] = simplejson.dumps(translationMaps[0],ensure_ascii=False) # 0: .po data
+        globalCodes["Locales"]      = simplejson.dumps(translationMaps[1],ensure_ascii=False) # 1: cldr data
+
+        return globalCodes
+
+
+    def generateVariantsCode(self, variants):
+        variats = {}
+
+        for key in variants:
+            if key in Lang.META_KEYS:
+                continue
+            variats[key] = variants[key]
+
+        return variats
 
 
     def getTranslationMaps(self, parts, packages, variants, locales):
