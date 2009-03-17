@@ -85,7 +85,18 @@ qx.Class.define("testrunner.runner.TestRunner",
 
     // Left -- is done when iframe is loaded
     var left = this.__makeLeft();
-    left.setWidth(250);
+
+    var leftPaneWidth = qx.bom.Cookie.get("leftPaneWidth");
+    if (leftPaneWidth !== null) {
+      left.setWidth(parseInt(leftPaneWidth));
+    }
+    else {
+      left.setWidth(250);
+    }
+
+    left.setUserData("pane", "left");
+    left.addListener("resize", this.__onPaneResize);
+    
     this.left = left;
     this.mainsplit.add(left, 0);
 
@@ -353,10 +364,20 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       // First Page
       var p1 = new qx.ui.container.Composite(layout).set({
-        width : 400,
         decorator : "main"
       });
       pane.add(p1, 0);
+
+      var centerPaneWidth = qx.bom.Cookie.get("centerPaneWidth");
+      if (centerPaneWidth !== null) {
+        p1.setWidth(parseInt(centerPaneWidth));
+      }
+      else {
+        p1.setWidth(400);
+      }
+
+      p1.setUserData("pane", "center");
+      p1.addListener("resize", this.__onPaneResize);
 
       var caption1 = new qx.ui.basic.Label(this.tr("Test Results")).set({
         font : "bold",
@@ -1211,6 +1232,12 @@ qx.Class.define("testrunner.runner.TestRunner",
         this.widgets["statuspane.systeminfo"].setContent(this.tr("No test file selected!"));
       }
     },  // _ehIframeOnLoad
+
+    __onPaneResize : function(e)
+    {
+      var pane = this.getUserData("pane");
+      qx.bom.Cookie.set(pane + "PaneWidth", e.getData().width, 365);
+    },
 
     // ------------------------------------------------------------------------
     //   MISC HELPERS
