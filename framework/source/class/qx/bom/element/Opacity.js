@@ -131,7 +131,7 @@ qx.Class.define("qx.bom.element.Opacity",
 
         // IE has trouble with opacity if it does not have layout (hasLayout)
         // Force it by setting the zoom level
-        if (!element.currentStyle.hasLayout) {
+        if (!element.currentStyle || !element.currentStyle.hasLayout) {
           element.style.zoom = 1;
         }
 
