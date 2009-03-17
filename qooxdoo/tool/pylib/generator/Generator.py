@@ -72,205 +72,293 @@ class Generator:
 
 
 
-    def scanLibrary(self, library):
-        self._console.info("Scanning libraries...")
-        self._console.indent()
-
-        _namespaces = []
-        _classes = {}
-        _docs = {}
-        _translations = {}
-        _libs = {}
-        if not isinstance(library, types.ListType):
-            return (_namespaces, _classes, _docs, _translations, _libs)
-
-        def getJobsLib(path):
-            lib = None
-            #path = os.path.abspath(os.path.normpath(path))  # this shouldn't be necessary, and breaks in some scenarios (s. bug#1861)
-            libMaps = self._job.getFeature("library")
-            for l in libMaps:
-                if l['path'] == path:
-                    lib = l
-                    break
-            if not lib:   # this must never happen
-                raise RuntimeError("Unable to look up library \"%s\" in Job definition" % path)
-            return lib
-
-        for entry in library:
-            key  = entry["path"]
-
-            if memcache.has_key(key):
-                self._console.debug("Use memory cache for %s" % key)
-                path = memcache[key]
-            else:
-                path = LibraryPath(entry, self._console)
-                namespace = getJobsLib(key)['namespace']
-                path._namespace = namespace  # patch namespace
-                path.scan()
-
-            namespace = path.getNamespace()
-            #namespace = getJobsLib(key)['namespace']
-            _namespaces.append(namespace)
-
-            classes = path.getClasses()
-            _classes.update(classes)
-
-            _docs.update(path.getDocs())
-            _translations[namespace] = path.getTranslations()
-            _libs[namespace] = entry
-
-            memcache[key] = path
-
-        self._console.outdent()
-        self._console.debug("Loaded %s libraries" % len(_namespaces))
-        self._console.debug("")
-
-        return (_namespaces, _classes, _docs, _translations, _libs)
-
-
-
-    def listJobTriggers(self): return {
-
-      "api" :
-      {
-        "action" :Generator.runApiData,
-        "type"   : "JClassDepJob"
-      },
-
-      "copy-files" :
-      {
-        "action" :Generator.runCopyFiles,
-        "type"   : "JSimpleJob"
-      },
-
-      "combine-images" :
-      {
-        "action" :Generator.runImageCombining,
-        "type"   : "JSimpleJob"
-      },
-
-      "clean-files" :
-      {
-        "action" :Generator.runClean,
-        "type"   : "JSimpleJob"
-      },
-
-      "copy-resources" :
-      {
-        "action" :Generator.runResources,
-        "type"   : "JClassDepJob"
-      },
-
-      "compile-source" :
-      {
-        "action" :Generator.runSource,
-        "type" : "JCompileJob",
-      },
-
-      "compile-dist" :
-      {
-        "action" :Generator.runCompiled,
-        "type" : "JCompileJob",
-      },
-
-      "fix-files" :
-      {
-        "action" :Generator.runFix,
-        "type" : "JClassDepJob",
-      },
-
-      "lint-check" :
-      {
-        "action" :Generator.runLint,
-        "type" : "JClassDepJob",
-      },
-
-      "migrate-files" :
-      {
-        "action" :Generator.runMigration,
-        "type"   : "JSimpleJob",           # this might change once we stop to shell exit to an external script
-      },
-
-      "pretty-print" :
-      {
-        "action" :Generator.runPrettyPrinting,
-        "type" : "JClassDepJob",
-      },
-
-      "shell" :
-      {
-        "action" :Generator.runShellCommands,
-        "type"   : "JSimpleJob"
-      },
-
-      "slice-images" :
-      {
-        "action" :Generator.runImageSlicing,
-        "type"   : "JSimpleJob"
-      },
-
-      "translate" :
-      {
-        "action" : Generator.runUpdateTranslation,
-        "type"   : "JClassDepJob"
-      },
-
-    }
-
-
-    def runCompiled1(self):
-
-        # Dist Generation
-
-        # Generate loader + compiled files
-
-        if hasParts:
-            # Insert new part which only contains the loader stuff
-            injectLoader(parts)
-
-            # Compute packages
-            parts, packages = self._partBuilder.getPackages(partIncludes, smartExclude, classList, collapseCfg, variants, sizeCfg)
-
-            # Build all individual packages
-            for pkg in packages:
-                fileName = "TODO"
-                compiled = self.compileClasses(pkgClasses, variants)
-                writeFile(fileName, compiled)
-
-        else:
-            # Generate one compiled file including all
-            fileName = "TODO"
-            compiled = self.compileClasses(classes)
-            writeFile(fileName, compiled)
-
-
-
-    def runSource1(self):
-
-        # Source Generation
-
-        # Insert new part which only contains the loader stuff
-        injectLoader(parts)
-
-        # Compute packages
-        parts, packages = self._partBuilder.getPackages(partIncludes, smartExclude, classList, collapseCfg, variants, sizeCfg)
-
-        # Compile first part
-        compiled = self._generateSourcePackageCode(part, packages)
-        for part in parts:
-            for pkg in part:
-                compiled += self.compileClasses(pkgClasses, variants)
-                break
-            break
-
-        writeFile(fileName, boot + compiled)
-
-
-
     # This is the main dispatch method to run a single job. It uses the top-
     # level keys of the job description to run all necessary methods. In order
     # to do so, it also sets up a lot of tool chain infrastructure.
     def run(self):
+
+        def listJobTriggers(): return {
+
+          "api" :
+          {
+            "action" :Generator.runApiData,
+            "type"   : "JClassDepJob"
+          },
+
+          "copy-files" :
+          {
+            "action" :Generator.runCopyFiles,
+            "type"   : "JSimpleJob"
+          },
+
+          "combine-images" :
+          {
+            "action" :Generator.runImageCombining,
+            "type"   : "JSimpleJob"
+          },
+
+          "clean-files" :
+          {
+            "action" :Generator.runClean,
+            "type"   : "JSimpleJob"
+          },
+
+          "copy-resources" :
+          {
+            "action" :Generator.runResources,
+            "type"   : "JClassDepJob"
+          },
+
+          "compile-source" :
+          {
+            "action" : None,
+            "type" : "JCompileJob",
+          },
+
+          "compile-dist" :
+          {
+            "action" : None,
+            "type" : "JCompileJob",
+          },
+
+          "fix-files" :
+          {
+            "action" :Generator.runFix,
+            "type" : "JClassDepJob",
+          },
+
+          "lint-check" :
+          {
+            "action" :Generator.runLint,
+            "type" : "JClassDepJob",
+          },
+
+          "migrate-files" :
+          {
+            "action" :Generator.runMigration,
+            "type"   : "JSimpleJob",           # this might change once we stop to shell exit to an external script
+          },
+
+          "pretty-print" :
+          {
+            "action" : None,
+            "type" : "JClassDepJob",
+          },
+
+          "shell" :
+          {
+            "action" :Generator.runShellCommands,
+            "type"   : "JSimpleJob"
+          },
+
+          "slice-images" :
+          {
+            "action" :Generator.runImageSlicing,
+            "type"   : "JSimpleJob"
+          },
+
+          "translate" :
+          {
+            "action" : Generator.runUpdateTranslation,
+            "type"   : "JClassDepJob"
+          },
+
+        }
+
+
+        def _computeClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, variants):
+            self._console.info("Resolving dependencies...")
+            self._console.indent()
+            classList = self._depLoader.getClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, variants)
+            self._console.outdent()
+
+            return classList
+
+
+        def scanLibrary(library):
+            self._console.info("Scanning libraries...")
+            self._console.indent()
+
+            _namespaces = []
+            _classes = {}
+            _docs = {}
+            _translations = {}
+            _libs = {}
+            if not isinstance(library, types.ListType):
+                return (_namespaces, _classes, _docs, _translations, _libs)
+
+            def getJobsLib(path):
+                lib = None
+                #path = os.path.abspath(os.path.normpath(path))  # this shouldn't be necessary, and breaks in some scenarios (s. bug#1861)
+                libMaps = self._job.getFeature("library")
+                for l in libMaps:
+                    if l['path'] == path:
+                        lib = l
+                        break
+                if not lib:   # this must never happen
+                    raise RuntimeError("Unable to look up library \"%s\" in Job definition" % path)
+                return lib
+
+            for entry in library:
+                key  = entry["path"]
+
+                if memcache.has_key(key):
+                    self._console.debug("Use memory cache for %s" % key)
+                    path = memcache[key]
+                else:
+                    path = LibraryPath(entry, self._console)
+                    namespace = getJobsLib(key)['namespace']
+                    path._namespace = namespace  # patch namespace
+                    path.scan()
+
+                namespace = path.getNamespace()
+                #namespace = getJobsLib(key)['namespace']
+                _namespaces.append(namespace)
+
+                classes = path.getClasses()
+                _classes.update(classes)
+
+                _docs.update(path.getDocs())
+                _translations[namespace] = path.getTranslations()
+                _libs[namespace] = entry
+
+                memcache[key] = path
+
+            self._console.outdent()
+            self._console.debug("Loaded %s libraries" % len(_namespaces))
+            self._console.debug("")
+
+            return (_namespaces, _classes, _docs, _translations, _libs)
+
+
+
+        def _partsConfigFromClassList(classList, smartExclude, variants,):
+
+            def evalPackagesConfig(smartExclude, classList, variants):
+                
+                # Reading configuration
+                partsCfg = self._job.get("packages/parts", {})
+                collapseCfg = self._job.get("packages/collapse", [])
+                minPackageSize = self._job.get("packages/sizes/min-package", 0)
+                minPackageSizeForUnshared = self._job.get("packages/sizes/min-package-unshared", None)
+                boot = self._job.get("packages/init", "boot")
+
+                # Automatically add boot part to collapse list
+                if boot in partsCfg and not boot in collapseCfg:
+                    collapseCfg.append(boot)
+
+                # Expanding expressions
+                self._console.debug("Expanding include expressions...")
+                partIncludes = {}
+                for partId in partsCfg:
+                    partIncludes[partId] = self._expandRegExps(partsCfg[partId])
+
+                # Computing packages
+                partPackages, packageClasses = self._partBuilder.getPackages(partIncludes, smartExclude, classList, collapseCfg, variants, minPackageSize, minPackageSizeForUnshared)
+
+                return boot, partPackages, packageClasses
+
+
+            # -- main --------------------------------------------------------------
+
+            # Check for package configuration
+            if self._job.get("packages"):
+                (boot,
+                partPackages,           # partPackages[partId]=[0,1,3]
+                packageClasses          # packageClasses[0]=['qx.Class','qx.bom.Stylesheet',...]
+                )              = evalPackagesConfig(smartExclude, classList, variants)
+            else:
+                # Emulate configuration
+                boot           = "boot"
+                partPackages   = { "boot" : [0] }
+                packageClasses = [classList]
+
+            return boot, partPackages, packageClasses
+
+
+        def getVariants():
+            # TODO: Runtime variants support is currently missing
+            variants = {}
+            variantsConfig = self._job.get("variants", {})
+            variantsRuntime = self._variants
+
+            for key in variantsConfig:
+                variants[key] = variantsConfig[key]
+
+            for key in variantsRuntime:
+                variants[key] = [variantsRuntime[key]]
+
+            return variants
+
+
+        def getExcludes(excludeCfg):
+            #excludeCfg = self._job.get("exclude", [])
+
+            # Splitting lists
+            self._console.debug("Preparing exclude configuration...")
+            smartExclude, explicitExclude = self._splitIncludeExcludeList(excludeCfg)
+
+            # Configuration feedback
+            self._console.indent()
+            self._console.debug("Excluding %s items smart, %s items explicit" % (len(smartExclude), len(explicitExclude)))
+
+            if len(excludeCfg) > 0:
+                self._console.warn("Excludes may break code!")
+
+            self._console.outdent()
+
+            # Resolve regexps
+            self._console.indent()
+            self._console.debug("Expanding expressions...")
+            smartExclude = self._expandRegExps(smartExclude)
+            explicitExclude = self._expandRegExps(explicitExclude)
+            self._console.outdent()
+
+            return smartExclude, explicitExclude
+
+
+
+        def getIncludes(includeCfg):
+            #includeCfg = self._job.get("include", [])
+
+            # Splitting lists
+            self._console.debug("Preparing include configuration...")
+            smartInclude, explicitInclude = self._splitIncludeExcludeList(includeCfg)
+            self._console.indent()
+
+            if len(smartInclude) > 0 or len(explicitInclude) > 0:
+                # Configuration feedback
+                self._console.debug("Including %s items smart, %s items explicit" % (len(smartInclude), len(explicitInclude)))
+
+                if len(explicitInclude) > 0:
+                    self._console.warn("Explicit included classes may not work")
+
+                # Resolve regexps
+                self._console.debug("Expanding expressions...")
+                smartInclude = self._expandRegExps(smartInclude)
+                explicitInclude = self._expandRegExps(explicitInclude)
+
+            elif self._job.get("packages"):
+                # Special part include handling
+                self._console.info("Including part classes...")
+                partsCfg = partsCfg = self._job.get("packages/parts", {})
+                smartInclude = []
+                for partId in partsCfg:
+                    smartInclude.extend(partsCfg[partId])
+
+                # Configuration feedback
+                self._console.debug("Including %s items smart, %s items explicit" % (len(smartInclude), len(explicitInclude)))
+
+                # Resolve regexps
+                self._console.debug("Expanding expressions...")
+                smartInclude = self._expandRegExps(smartInclude)
+
+            self._console.outdent()
+
+            return smartInclude, explicitInclude
+
+
+
         config = self._job
         job    = self._job
         require = config.get("require", {})
@@ -280,7 +368,7 @@ class Generator:
         # which actions have to be run, and in which order.
 
         # Known job trigger keys
-        triggersSet         = self.listJobTriggers()
+        triggersSet         = listJobTriggers()
 
         # some interesting categories
         triggersSimpleSet   = set((x for x in triggersSet if triggersSet[x]['type']=="JSimpleJob"))
@@ -321,7 +409,7 @@ class Generator:
          self._classes,
          self._docs,
          self._translations,
-         self._libs) = self.scanLibrary(config.get("library"))
+         self._libs) = scanLibrary(config.get("library"))
 
         # create tool chain instances
         self._treeLoader     = TreeLoader(self._classes, self._cache, self._console)
@@ -331,10 +419,10 @@ class Generator:
         self._codeGenerator  = CodeGenerator(self._cache, self._console, self._config, self._job, self._settings, self._locale, self._resourceHandler, self._classes)
 
         # Preprocess include/exclude lists
-        smartInclude, explicitInclude = self.getIncludes(self._job.get("include", []))
-        smartExclude, explicitExclude = self.getExcludes(self._job.get("exclude", []))
+        smartInclude, explicitInclude = getIncludes(self._job.get("include", []))
+        smartExclude, explicitExclude = getExcludes(self._job.get("exclude", []))
         # get a class list without variants
-        classList = self._computeClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, {})
+        classList = _computeClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, {})
         
         # Process class-dependend job triggers
         if classdepTriggers:
@@ -375,7 +463,7 @@ class Generator:
             return
 
         # Processing all combinations of variants
-        variantData = self.getVariants()  # e.g. {'qx.debug':['on','off'], 'qx.aspects':['on','off']}
+        variantData = getVariants()  # e.g. {'qx.debug':['on','off'], 'qx.aspects':['on','off']}
         variantSets = idlist.computeCombinations(variantData) # e.g. [{'qx.debug':'on','qx.aspects':'on'},...]
 
         # Iterate through variant sets
@@ -386,18 +474,16 @@ class Generator:
                 printVariantInfo(variantSetNum, variants, variantSets, variantData)
 
             # get current class list
-            self._classList = self._computeClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, variants)
+            self._classList = _computeClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, variants)
 
             # get parts config
             (boot,
             partPackages,           # partPackages[partId]=[0,1,3]
             packageClasses          # packageClasses[0]=['qx.Class','qx.bom.Stylesheet',...]
-            )              = self._partsConfigFromClassList(self._classList, smartExclude, variants)
+            )              = _partsConfigFromClassList(self._classList, smartExclude, variants)
 
             # Execute real tasks
-            #self.runSource(partPackages, packageClasses, boot, variants)
             self._codeGenerator.runSource(partPackages, packageClasses, boot, variants, self._classList, self._libs, self._classes)
-            #self.runCompiled(partPackages, packageClasses, boot, variants)
             self._codeGenerator.runCompiled(partPackages, packageClasses, boot, variants, self._treeCompiler, self._classList)
 
             # Debug tasks
@@ -408,59 +494,6 @@ class Generator:
         self._console.info("Done")
 
         return
-
-
-    def _computeClassList(self, smartInclude, smartExclude, explicitInclude, explicitExclude, variants):
-        self._console.info("Resolving dependencies...")
-        self._console.indent()
-        classList = self._depLoader.getClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, variants)
-        self._console.outdent()
-
-        return classList
-
-
-    def _partsConfigFromClassList(self, classList, smartExclude, variants,):
-
-        def evalPackagesConfig(smartExclude, classList, variants):
-            
-            # Reading configuration
-            partsCfg = self._job.get("packages/parts", {})
-            collapseCfg = self._job.get("packages/collapse", [])
-            minPackageSize = self._job.get("packages/sizes/min-package", 0)
-            minPackageSizeForUnshared = self._job.get("packages/sizes/min-package-unshared", None)
-            boot = self._job.get("packages/init", "boot")
-
-            # Automatically add boot part to collapse list
-            if boot in partsCfg and not boot in collapseCfg:
-                collapseCfg.append(boot)
-
-            # Expanding expressions
-            self._console.debug("Expanding include expressions...")
-            partIncludes = {}
-            for partId in partsCfg:
-                partIncludes[partId] = self._expandRegExps(partsCfg[partId])
-
-            # Computing packages
-            partPackages, packageClasses = self._partBuilder.getPackages(partIncludes, smartExclude, classList, collapseCfg, variants, minPackageSize, minPackageSizeForUnshared)
-
-            return boot, partPackages, packageClasses
-
-
-        # -- main --------------------------------------------------------------
-
-        # Check for package configuration
-        if self._job.get("packages"):
-            (boot,
-            partPackages,           # partPackages[partId]=[0,1,3]
-            packageClasses          # packageClasses[0]=['qx.Class','qx.bom.Stylesheet',...]
-            )              = evalPackagesConfig(smartExclude, classList, variants)
-        else:
-            # Emulate configuration
-            boot           = "boot"
-            partPackages   = { "boot" : [0] }
-            packageClasses = [classList]
-
-        return boot, partPackages, packageClasses
 
 
     def runPrivateDebug(self):
@@ -557,7 +590,6 @@ class Generator:
          self._console.outdent()
 
 
-
     ##
     # update .po files
     #
@@ -575,39 +607,6 @@ class Generator:
                                             locales)
 
         self._console.outdent()
-
-
-
-    ##
-    # generate localisation JS data
-    #
-    def getTranslationMaps(self, parts, packages, variants, locales):
-        if "C" not in locales:
-            locales.append("C")
-
-        self._console.info("Processing translation for %s locales..." % len(locales))
-        self._console.indent()
-
-        packageTranslation = []
-        for pos, classes in enumerate(packages):
-            self._console.debug("Package: %s" % pos)
-            self._console.indent()
-
-            # wpbasti: TODO: This code includes localization in every package. Bad idea.
-            # This needs further work
-            # Would also be better to let the translation code nothing know about parts
-
-            # Another thing: Why not generate both structures in different js-objects
-            # It's totally easy in JS to build a wrapper.
-            # [thron7] means: generate different data structs for locales and translations
-            pac_dat = self._locale.generatePackageData(classes, variants, locales) # .po data
-            loc_dat = self._locale.getLocalizationData(locales)  # cldr data
-            packageTranslation.extend((pac_dat,loc_dat))
-
-            self._console.outdent()
-
-        self._console.outdent()
-        return packageTranslation
 
 
 
@@ -716,217 +715,6 @@ class Generator:
         self._console.outdent()
 
 
-    def runCompiled(self, parts, packages, boot, variants):
-        if not self._job.get("compile-dist", False):
-            return
-
-        compConf = ExtMap(self._job.get("compile-dist"))
-
-        def getAppName(memo={}):
-            if not 'appname' in memo:
-                appname = self._job.get("let/APPLICATION")
-                if not appname:
-                    raise RuntimeError, "Need an application name in config (key let/APPLICATION)"
-                else:
-                    memo['appname'] = appname
-            return memo['appname']
-
-        def getOutputFile():
-            filePath = compConf.get("paths/file")
-            if not filePath:
-                filePath = os.path.join("build", "script", getAppName() + ".js")
-            return filePath
-
-        def getFileUri(scriptUri):
-            appfile = os.path.basename(fileRelPath)
-            fileUri = os.path.join(scriptUri, appfile)  # make complete with file name
-            fileUri = Path.posifyPath(fileUri)
-            return fileUri
-
-        def generateBootScript(bootPackage):
-            self._console.info("Generating boot script...")
-            bootBlocks = []
-
-            globalCodes = self.generateGlobalCodes(libs, translationMaps, settings, variants, format, resourceUri, scriptUri)
-
-            bootBlocks.append(self.generateCompiledPackageCode(fileUri, parts, packages, boot, variants, settings, bootPackage, globalCodes, format))
-
-            if format:
-                bootContent = "\n\n".join(bootBlocks)
-            else:
-                bootContent = "".join(bootBlocks)
-
-            # Resolve file name variables
-            resolvedFilePath = self._resolveFileName(filePath, variants, settings)
-
-            # Save result file
-            filetool.save(resolvedFilePath, bootContent)
-
-            if compConf.get("paths/gzip"):
-                filetool.gzip(resolvedFilePath, bootContent)
-
-            self._console.debug("Done: %s" % self._computeContentSize(bootContent))
-            self._console.debug("")
-
-            return
-
-        # Read in base file name
-        fileRelPath = getOutputFile()
-        filePath    = self._config.absPath(fileRelPath)
-
-        # Read in uri prefixes
-        scriptUri = compConf.get('uris/script', 'script')
-        scriptUri = Path.posifyPath(scriptUri)
-        fileUri = getFileUri(scriptUri)
-
-        # Read in compiler options
-        optimize = compConf.get("code/optimize", [])
-
-        # Whether the code should be formatted
-        format = compConf.get("code/format", False)
-
-        # Read in settings
-        settings = self.getSettings()
-
-        # For resource list
-        resourceUri = compConf.get('uris/resource', 'resource')
-        resourceUri = Path.posifyPath(resourceUri)
-        forceUri = resourceUri
-
-        # Get translation maps
-        locales = compConf.get("code/locales", [])
-        translationMaps = self.getTranslationMaps(parts, packages, variants, locales)
-
-        libs = self._job.get("library", [])
-
-
-        # Need to preprocess all classes first to correctly detect all
-        # fields before starting renaming them
-        # TODO: Needs for testing, better integration etc.
-        #self._console.info("Detecting protected fields...")
-        #for packageId, classes in enumerate(packages):
-        #    protectedoptimizer.process(classes, self._treeLoader)
-
-
-        # Generating packages
-        # TODO: Parts should be unknown at this stage. Would make code somewhat cleaner.
-        self._console.info("Generating packages...")
-        self._console.indent()
-
-        bootPackage = ""
-        for packageId, classes in enumerate(packages):
-            self._console.info("Compiling package #%s:" % packageId, False)
-            self._console.indent()
-
-            # Compile file content
-            compiledContent = self._treeCompiler.compileClasses(classes, variants, optimize, format)
-            if packageId == 0: # TODO: is this a valid assumption?
-                bootPackage = compiledContent
-                self._console.outdent()
-                continue
-
-            # Construct file name
-            resolvedFilePath = self._resolveFileName(filePath, variants, settings, packageId)
-
-            # Save result file
-            filetool.save(resolvedFilePath, compiledContent)
-
-            if compConf.get("paths/gzip"):
-                filetool.gzip(resolvedFilePath, compiledContent)
-
-            self._console.debug("Done: %s" % self._computeContentSize(compiledContent))
-            self._console.outdent()
-
-        self._console.outdent()
-
-        # Generating boot script
-        if not bootPackage:
-            raise RuntimeError("No valid boot package generated.")
-        generateBootScript(bootPackage)
-
-        return
-
-
-    def generateGlobalCodes(self, libs, translationMaps, settings, variants, format=False, resourceUri=None, scriptUri=None):
-        # generate the global codes like qxlibraries, qxresources, ...
-        # and collect them in a common structure
-
-        globalCodes  = {}
-
-        globalCodes["Settings"] = simplejson.dumps(settings, ensure_ascii=False)
-
-        variantInfo = [x for x in variants if x not in Lang.META_KEYS]
-        globalCodes["Variants"] = simplejson.dumps(variantInfo,ensure_ascii=False)
-
-        mapInfo = self.generateLibInfoCode(libs,format, resourceUri, scriptUri)
-        globalCodes["Libinfo"] = simplejson.dumps(mapInfo,ensure_ascii=False)
-
-        mapInfo = self.generateResourceInfoCode(settings, libs, format)
-        globalCodes["Resources"] = simplejson.dumps(mapInfo,ensure_ascii=False)
-
-        globalCodes["Translations"] = simplejson.dumps(translationMaps[0],ensure_ascii=False) # 0: .po data
-        globalCodes["Locales"]      = simplejson.dumps(translationMaps[1],ensure_ascii=False) # 1: cldr data
-
-        return globalCodes
-
-
-    def runSource(self, parts, packages, boot, variants):
-        if not self._job.get("compile-source/file"):
-            return
-
-        self._console.info("Generate source version...")
-        self._console.indent()
-
-        # Read in base file name
-        filePath = self._job.get("compile-source/file")
-        #if variants:
-        #    filePath = self._makeVariantsName(filePath, variants)
-        filePath = self._config.absPath(filePath)
-
-        # Whether the code should be formatted
-        format = self._job.get("compile-source/format", False)
-
-        # The place where the app HTML ("index.html") lives
-        self.approot = self._config.absPath(self._job.get("compile-source/root", ""))
-
-        # Read in settings
-        settings = self.getSettings()
-
-        # Get resource list
-        libs = self._job.get("library", [])
-
-        # Get translation maps
-        locales = self._job.get("compile-source/locales", [])
-        translationMaps = self.getTranslationMaps(parts, packages, variants, locales)
-
-        # Add data from settings, variants and packages
-        sourceBlocks = []
-        globalCodes = self.generateGlobalCodes(libs, translationMaps, settings, variants, format)
-        sourceBlocks.append(self.generateSourcePackageCode(parts, packages, boot, globalCodes, format))
-
-        # TODO: Do we really need this optimization here. Could this be solved
-        # with less resources just through directly generating "good" code?
-        self._console.info("Generating boot loader...")
-        if format:
-            sourceContent = "\n\n".join(sourceBlocks)
-        else:
-            #sourceContent = self._optimizeJavaScript("".join(sourceBlocks))
-            sourceContent = "".join(sourceBlocks)
-
-        # Construct file name
-        resolvedFilePath = self._resolveFileName(filePath, variants, settings)
-
-        # Save result file
-        filetool.save(resolvedFilePath, sourceContent)
-
-        if self._job.get("compile-source/gzip"):
-            filetool.gzip(resolvedFilePath, sourceContent)
-
-        self._console.outdent()
-        self._console.debug("Done: %s" % self._computeContentSize(sourceContent))
-        self._console.outdent()
-
-
     def runImageSlicing(self):
         """Go through a list of images and slice each one into subimages"""
         if not self._job.get("slice-images", False):
@@ -978,49 +766,6 @@ class Generator:
             filetool.save(meta_fname, simplejson.dumps(config, ensure_ascii=False))
             
         return
-
-
-    def runPrettyPrinting(self, classes):
-        "Gather all relevant config settings and pass them to the compiler"
-
-        if not isinstance(self._job.get("pretty-print", False), types.DictType):
-            return
-
-        self._console.info("Pretty-printing code...")
-        self._console.indent()
-        ppsettings = ExtMap(self._job.get("pretty-print"))  # get the pretty-print config settings
-
-        # init options
-        parser  = optparse.OptionParser()
-        compiler.addCommandLineOptions(parser)
-        (options, args) = parser.parse_args([])
-
-        # modify according to config
-        setattr(options, 'prettyPrint', True)  # turn on pretty-printing
-        if ppsettings.get('general/indent-string',False):
-            setattr(options, 'prettypIndentString', ppsettings.get('general/indent-string'))
-        if ppsettings.get('comments/trailing/keep-column',False):
-            setattr(options, 'prettypCommentsTrailingKeepColumn', ppsettings.get('comments/trailing/keep-column'))
-        if ppsettings.get('comments/trailing/comment-cols',False):
-            setattr(options, 'prettypCommentsTrailingCommentCols', ppsettings.get('comments/trailing/comment-cols'))
-        if ppsettings.get('comments/trailing/padding',False):
-            setattr(options, 'prettypCommentsInlinePadding', ppsettings.get('comments/trailing/padding'))
-        if ppsettings.get('blocks/align-with-curlies',False):
-            setattr(options, 'prettypAlignBlockWithCurlies', ppsettings.get('blocks/align-with-curlies'))
-        if ppsettings.get('blocks/open-curly/newline-before',False):
-            setattr(options, 'prettypOpenCurlyNewlineBefore', ppsettings.get('blocks/open-curly/newline-before'))
-        if ppsettings.get('blocks/open-curly/indent-before',False):
-            setattr(options, 'prettypOpenCurlyIndentBefore', ppsettings.get('blocks/open-curly/indent-before'))
-
-        self._console.info("Pretty-printing files: ", False)
-        numClasses = len(classes)
-        for pos, classId in enumerate(classes):
-            self._console.progress(pos, numClasses)
-            tree = self._treeLoader.getTree(classId)
-            compiled = compiler.compile(tree, options)
-            filetool.save(self._classes[classId]['path'], compiled)
-
-        self._console.outdent()
 
 
     def runClean(self):
@@ -1116,41 +861,6 @@ class Generator:
         self._console.outdent()
 
 
-
-    ######################################################################
-    #  SETTINGS/VARIANTS/PACKAGE DATA
-    ######################################################################
-
-    def getSettings(self):
-        # TODO: Runtime settings support is currently missing
-        settings = {}
-        settingsConfig = self._job.get("settings", {})
-        settingsRuntime = self._settings
-
-        for key in settingsConfig:
-            settings[key] = settingsConfig[key]
-
-        for key in settingsRuntime:
-            settings[key] = settingsRuntime[key]
-
-        return settings
-
-
-    def getVariants(self):
-        # TODO: Runtime variants support is currently missing
-        variants = {}
-        variantsConfig = self._job.get("variants", {})
-        variantsRuntime = self._variants
-
-        for key in variantsConfig:
-            variants[key] = variantsConfig[key]
-
-        for key in variantsRuntime:
-            variants[key] = [variantsRuntime[key]]
-
-        return variants
-
-
     def _toJavaScript(self, value):
         number = re.compile("^([0-9\-]+)$")
 
@@ -1158,331 +868,6 @@ class Generator:
             value = '"%s"' % value.replace("\"", "\\\"")
 
         return value
-
-
-    ##
-    # generate the 'qxlocales',... JS bootstrap entries
-    #
-
-    def generateLibInfoCode(self, libs, format, forceResourceUri=None, forceScriptUri=None):
-        qxlibs = {}
-
-        for lib in libs:
-            # add library key
-            qxlibs[lib['namespace']] = {}
-
-            # add resource root URI
-            if forceResourceUri:
-                resUriRoot = forceResourceUri
-            else:
-                resUriRoot = self._computeResourceUri(lib, "", rType="resource", appRoot=self.approot)
-                
-            qxlibs[lib['namespace']]['resourceUri'] = "%s" % urllib.quote(resUriRoot)
-            
-            # add code root URI
-            if forceScriptUri:
-                sourceUriRoot = forceScriptUri
-            else:
-                sourceUriRoot = self._computeResourceUri(lib, "", rType="class", appRoot=self.approot)
-            
-            qxlibs[lib['namespace']]['sourceUri'] = "%s" % urllib.quote(sourceUriRoot)
-            
-            # TODO: Add version, svn revision, maybe even authors, but at least homepage link, ...
-
-            # add version info
-            if 'version' in lib:
-                qxlibs[lib['namespace']]['version'] = "%s" % lib['version']
-
-        return qxlibs
-
-
-    def generateResourceInfoCode(self, settings, libs, format=False):
-        """Pre-calculate image information (e.g. sizes)"""
-        data    = {}
-        resdata = data
-        imgpatt  = re.compile(r'\.(png|jpeg|jpg|gif)$', re.I)
-        skippatt = re.compile(r'\.(meta|py)$', re.I)
-
-        self._console.info("Analysing assets...")
-        self._console.indent()
-
-        self._imageInfo      = ImageInfo(self._console, self._cache)
-
-        # some helper functions
-
-        def replaceWithNamespace(imguri, liburi, libns):
-            pre,libsfx,imgsfx = Path.getCommonPrefix(liburi, imguri)
-            if imgsfx[0] == os.sep: imgsfx = imgsfx[1:]  # strip leading '/'
-            imgshorturi = os.path.join("${%s}" % libns, imgsfx)
-            return imgshorturi
-
-        def extractAssetPart(libresuri, imguri):
-            pre,libsfx,imgsfx = Path.getCommonPrefix(libresuri, imguri) # split libresuri from imguri
-            if imgsfx[0] == os.sep: imgsfx = imgsfx[1:]  # strip leading '/'
-            return imgsfx                # use the bare img suffix as its asset Id
-
-        def normalizeImgUri(uriFromMetafile, trueCombinedUri, combinedUriFromMetafile):
-            # normalize paths (esp. "./x" -> "x")
-            (uriFromMetafile, trueCombinedUri, combinedUriFromMetafile) = map(os.path.normpath,(uriFromMetafile, trueCombinedUri, combinedUriFromMetafile))
-            # get the "wrong" prefix (in mappedUriPrefix)
-            trueUriPrefix, mappedUriPrefix, sfx = Path.getCommonSuffix(trueCombinedUri, combinedUriFromMetafile)
-            # ...and strip it from contained image uri, to get a correct suffix (in uriSuffix)
-            pre, mappedUriSuffix, uriSuffix = Path.getCommonPrefix(mappedUriPrefix, uriFromMetafile)
-            # ...then compose the correct prefix with the correct suffix
-            normalUri = os.path.normpath(os.path.join(trueUriPrefix, uriSuffix))
-            return normalUri
-
-        def processCombinedImg(data, meta_fname, cimguri, cimgshorturi, cimgfmt):
-            assert cimgfmt.lib, cimgfmt.type
-            # read meta file
-            cacheId = "imgcomb-%s" % cimgshorturi
-            imgDict = self._cache.read(cacheId, meta_fname)
-            if imgDict == None:
-                mfile = open(meta_fname)
-                imgDict = simplejson.loads(mfile.read())
-                mfile.close()
-                self._cache.write(cacheId, imgDict)
-            for mimg, mimgs in imgDict.items():
-                # sort of like this: mimg : [width, height, type, combinedUri, off-x, off-y]
-                mimgspec = ImgInfoFmt(mimgs)
-                # have to normalize the uri's from the meta file
-                # cimguri is relevant, like: "../../framework/source/resource/qx/decoration/Modern/panel-combined.png"
-                # mimg is an uri from when the meta file was generated, like: "./source/resource/qx/decoration/Modern/..."
-                mimguri = normalizeImgUri(mimg, cimguri, mimgspec.mappedId)
-                ## replace lib uri with lib namespace in mimguri
-                ##mimgshorturi = replaceWithNamespace(mimguri, libresuri, cimgfmt.lib)
-                #mimgshorturi = extractAssetPart(libresuri, mimguri)
-                mimgshorturi = extractAssetPart(librespath, mimguri)
-                mimgshorturi = Path.posifyPath(mimgshorturi)
-
-                mimgspec.mappedId = cimgshorturi        # correct the mapped uri of the combined image
-                mimgspec.lib      = cimgfmt.lib
-                mimgspec.mtype    = cimgfmt.type
-                mimgspec.mlib     = cimgfmt.lib
-                data[mimgshorturi] = mimgspec.flatten()  # this information takes precedence over existing
-
-
-        # main
-
-        resourceFilter= self._resourceHandler.getResourceFilterByAssets(self._classList)
-
-        for lib in libs:
-            #libresuri = self._computeResourceUri(lib, "", rType='resource', appRoot=self.approot)
-            librespath = os.path.normpath(os.path.join(lib['path'], lib['resource']))
-            resourceList = self._resourceHandler.findAllResources([lib], resourceFilter)
-            # resourceList = [[file1,uri1],[file2,uri2],...]
-            for resource in resourceList:
-                ##assetId = replaceWithNamespace(imguri, libresuri, lib['namespace'])
-                #assetId = extractAssetPart(libresuri, resource[1])
-                assetId = extractAssetPart(librespath,resource)
-                assetId = Path.posifyPath(assetId)
-
-                if imgpatt.search(resource): # handle images
-                    imgpath= resource
-                    #imguri = resource[1]
-                    imguri = resource
-                    imageInfo = self._imageInfo.getImageInfo(imgpath, assetId)
-
-                    # use an ImgInfoFmt object, to abstract from flat format
-                    imgfmt = ImgInfoFmt()
-                    imgfmt.lib = lib['namespace']
-                    if not 'type' in imageInfo:
-                        raise RuntimeError, "Unable to get image info from file: %s" % imgpath
-                    imgfmt.type = imageInfo['type']
-
-                    # check for a combined image and process the contained images
-                    meta_fname = os.path.splitext(imgpath)[0]+'.meta'
-                    if os.path.exists(meta_fname):  # add included imgs
-                        processCombinedImg(data, meta_fname, imguri, assetId, imgfmt)
-
-                    # add this image directly
-                    # imageInfo = {width, height, filetype}
-                    if not 'width' in imageInfo or not 'height' in imageInfo:
-                        raise RuntimeError, "Unable to get image info from file: %s" % imgpath
-                    imgfmt.width, imgfmt.height, imgfmt.type = (
-                        imageInfo['width'], imageInfo['height'], imageInfo['type'])
-                    # check if img is already registered as part of a combined image
-                    if assetId in data:
-                        x = ImgInfoFmt()
-                        x.fromFlat(data[assetId])
-                        if x.mappedId:
-                            continue  # don't overwrite the combined entry
-                    data[assetId] = imgfmt.flatten()
-
-                elif skippatt.search(resource[0]):
-                    continue
-
-                else:  # handle other resources
-                    resdata[assetId] = lib['namespace']
-
-
-        # wpbasti: Image data is not part relevant yet.
-
-        self._console.outdent()
-
-        return resdata
-
-
-    # wpbasti: This needs a lot of work. What's about the generation of a small bootstrap script
-    # from normal qooxdoo classes (include io2.ScriptLoader) and starting the variant selection etc.
-    # from there. This would be somewhat comparable to the GWT way.
-    # Finally "loader.js" should be completely removed.
-    def generateSourcePackageCode(self, parts, packages, boot, globalCodes, format=False):
-        if not parts:
-            return ""
-
-        # Translate part information to JavaScript
-        partData = "{"
-        for partId in parts:
-            partData += '"%s":' % (partId)
-            partData += ('%s,' % parts[partId]).replace(" ", "")
-
-        partData=partData[:-1] + "}"
-
-        # Translate URI data to JavaScript
-        allUris = []
-        for packageId, package in enumerate(packages):
-            packageUris = []
-            for fileId in package:
-                #cUri = Path.rel_from_to(self.approot, self._classes[fileId]["relpath"])
-                lib = self._libs[self._classes[fileId]["namespace"]]
-                cUri = self._computeResourceUri(lib, self._classes[fileId]["relpath"], rType='class', appRoot=self.approot)
-                packageUris.append('"%s"' % cUri)
-
-            allUris.append("[" + ",".join(packageUris) + "]")
-
-        uriData = "[" + ",\n".join(allUris) + "]"
-
-        # Locate and load loader basic script
-        loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader-source.tmpl.js")
-        result = filetool.read(loaderFile)
-
-        # Replace string.template macros
-        rmap = {}
-        rmap.update(globalCodes)
-        rmap["Parts"] = partData
-        rmap["Uris"]  = uriData
-        rmap["Boot"]  = '"%s"' % boot
-
-        templ  = MyTemplate(result)
-        result = templ.safe_substitute(rmap)
-
-        return result
-
-
-    def generateCompiledPackageCode(self, fileName, parts, packages, boot, variants, settings, bootCode, globalCodes, format=False):
-        if not parts:
-            return ""
-
-        # Translate part information to JavaScript
-        partData = "{"
-        for partId in parts:
-            partData += '"%s":' % (partId)
-            partData += ('%s,' % parts[partId]).replace(" ", "")
-
-        partData=partData[:-1] + "}"
-
-        # Translate URI data to JavaScript
-        allUris = []
-        for packageId, packages in enumerate(packages):
-            packageFileName = self._resolveFileName(fileName, variants, settings, packageId)
-            allUris.append('["' + packageFileName + '"]')
-
-        uriData = "[" + ",\n".join(allUris) + "]"
-
-        # Locate and load loader basic script
-        loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader-build.tmpl.js")
-        result = filetool.read(loaderFile)
-
-        # Replace string.template macros
-        rmap = {}
-        rmap.update(globalCodes)
-        rmap["Parts"] = partData
-        rmap["Uris"]  = uriData
-        rmap["Boot"]  = '"%s"' % boot
-        rmap["BootPart"] = bootCode
-
-        templ  = MyTemplate(result)
-        result = templ.safe_substitute(rmap)
-
-        return result
-
-
-
-
-
-
-
-    ######################################################################
-    #  DEPENDENCIES
-    ######################################################################
-
-    def getIncludes(self, includeCfg):
-        #includeCfg = self._job.get("include", [])
-
-        # Splitting lists
-        self._console.debug("Preparing include configuration...")
-        smartInclude, explicitInclude = self._splitIncludeExcludeList(includeCfg)
-        self._console.indent()
-
-        if len(smartInclude) > 0 or len(explicitInclude) > 0:
-            # Configuration feedback
-            self._console.debug("Including %s items smart, %s items explicit" % (len(smartInclude), len(explicitInclude)))
-
-            if len(explicitInclude) > 0:
-                self._console.warn("Explicit included classes may not work")
-
-            # Resolve regexps
-            self._console.debug("Expanding expressions...")
-            smartInclude = self._expandRegExps(smartInclude)
-            explicitInclude = self._expandRegExps(explicitInclude)
-
-        elif self._job.get("packages"):
-            # Special part include handling
-            self._console.info("Including part classes...")
-            partsCfg = partsCfg = self._job.get("packages/parts", {})
-            smartInclude = []
-            for partId in partsCfg:
-                smartInclude.extend(partsCfg[partId])
-
-            # Configuration feedback
-            self._console.debug("Including %s items smart, %s items explicit" % (len(smartInclude), len(explicitInclude)))
-
-            # Resolve regexps
-            self._console.debug("Expanding expressions...")
-            smartInclude = self._expandRegExps(smartInclude)
-
-        self._console.outdent()
-
-        return smartInclude, explicitInclude
-
-
-
-    def getExcludes(self, excludeCfg):
-        #excludeCfg = self._job.get("exclude", [])
-
-        # Splitting lists
-        self._console.debug("Preparing exclude configuration...")
-        smartExclude, explicitExclude = self._splitIncludeExcludeList(excludeCfg)
-
-        # Configuration feedback
-        self._console.indent()
-        self._console.debug("Excluding %s items smart, %s items explicit" % (len(smartExclude), len(explicitExclude)))
-
-        if len(excludeCfg) > 0:
-            self._console.warn("Excludes may break code!")
-
-        self._console.outdent()
-
-        # Resolve regexps
-        self._console.indent()
-        self._console.debug("Expanding expressions...")
-        smartExclude = self._expandRegExps(smartExclude)
-        explicitExclude = self._expandRegExps(explicitExclude)
-        self._console.outdent()
-
-        return smartExclude, explicitExclude
-
 
 
     def _splitIncludeExcludeList(self, data):
@@ -1527,58 +912,6 @@ class Generator:
 
 
 
-    def _resolveFileName(self, fileName, variants=None, settings=None, packageId=""):
-        if variants:
-            for key in variants:
-                pattern = "{%s}" % key
-                fileName = fileName.replace(pattern, variants[key])
-
-        if settings:
-            for key in settings:
-                pattern = "{%s}" % key
-                fileName = fileName.replace(pattern, settings[key])
-
-        if packageId != "":
-            fileName = fileName.replace(".js", "-%s.js" % packageId)
-
-        return fileName
-
-
-    def _computeContentSize(self, content):
-        # Convert to utf-8 first
-        content = unicode(content).encode("utf-8")
-
-        # Calculate sizes
-        origSize = len(content)
-        compressedSize = len(zlib.compress(content, 9))
-
-        return "%sKB / %sKB" % (origSize/1024, compressedSize/1024)
-
-
-    def _computeResourceUri(self, lib, resourcePath, rType="class", appRoot=None):
-        '''computes a complete resource URI for the given resource type rType, 
-           from the information given in lib and, if lib doesn't provide a
-           general uri prefix for it, use appRoot and lib path to construct
-           one'''
-        
-        if 'uri' in lib:
-            liburi = lib['uri']
-        elif appRoot:
-            liburi = Path.rel_from_to(self._config.absPath(appRoot), lib['path'])
-        else:
-            raise RuntimeError, "Need either lib['uri'] or appRoot, to calculate final URI"
-
-        if rType in lib:
-            libInternalPath = lib[rType]
-        else:
-            raise RuntimeError, "No such resource type: \"%s\"" % rType
-
-        uri = os.path.join(liburi, libInternalPath, resourcePath)
-        uri = os.path.normpath(uri)
-        uri = Path.posifyPath(uri)
-        return uri
-
-
     # wpbasti: TODO: Clean up compiler. Maybe split-off pretty-printing. These hard-hacked options, the pure
     # need of them is bad. Maybe options could be stored easier in a json-like config map instead of command line
     # args. This needs a rework of the compiler which is not that easy.
@@ -1618,11 +951,3 @@ class Generator:
         return newname
 
 
-# Helper class for string.Template, to overwrite the placeholder introducing delimiter
-class MyTemplate(string.Template):
-    delimiter = "%"
-
-# scratch pad:
-
-'''
-'''
