@@ -93,17 +93,13 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCellSpan",
     
     
     // overridden
-    _fullUpdate : function(
-      firstRow, lastRow, 
-      firstColumn, lastColumn, 
-      rowSizes, columnSizes
-    )
+    _fullUpdate : function(firstRow, firstColumn, rowSizes, columnSizes)
     {
       var html = [];
       
       var cells = this._spanManager.findCellsInWindow(
-        firstRow, lastRow,
-        firstColumn, lastColumn
+        firstRow, firstColumn, 
+        rowSizes.length, columnSizes.length
       );
       
       if (cells.length > 0)
@@ -111,8 +107,8 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCellSpan",
         var bounds = this._spanManager.getCellBounds(cells, firstRow, firstColumn);
         var spanMap = this._spanManager.computeCellSpanMap(
           cells,
-          firstRow, lastRow,
-          firstColumn, lastColumn
+          firstRow, firstColumn, 
+          rowSizes.length, columnSizes.length
         );
         
         // render spanning cells
@@ -132,8 +128,8 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCellSpan",
       {
         // create empty dummy map
         spanMap = [];
-        for (var i=firstRow; i<= lastRow; i++) {
-          spanMap[i] = [];
+        for (var i=0; i<rowSizes.length; i++) {
+          spanMap[firstRow+i] = [];
         }
       }
       

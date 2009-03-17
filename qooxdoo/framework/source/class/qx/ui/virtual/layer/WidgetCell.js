@@ -100,10 +100,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
     
     
     // overridden
-    _fullUpdate : function(
-      firstRow, firstColumn, 
-      rowSizes, columnSizes    
-    )
+    _fullUpdate : function(firstRow, firstColumn, rowSizes, columnSizes)
     {
       var cellProvider = this._cellProvider;
     

@@ -129,21 +129,20 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
      
     
     /**
-     * Finds all cells with a sort key within the given range. The result is
-     * added to the result map
+     * Finds all cells with a sort key within the given range.
      * 
      * Complexity: O(log n)
      * 
-     * @param result {Map} Map, which will contain the search results
      * @param key {String} The key to search for
      * @param min {Integer} minimum value 
      * @param max {Integer} maximum value (inclusive)
+     * @return {Map} Map, which will contain the search results
      */
-    _findCellsInRange : function(result, key, min, max)
+    _findCellsInRange : function(key, min, max)
     {
       var cells = this._getSortedCells(key);
       if (cells.length == 0) {
-        return;
+        return {};
       }
        
       var start = 0;
@@ -170,16 +169,18 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
         }
         if (start > end) {
           // nothing found
-          return;
+          return {};
         }
       }       
        
+      var result = {};
       var cell = cells[pivot];
       while (cell && cell[key] >= min && cell[key] <= max)
       {
         result[cell.id] = cell;
         cell = cells[pivot++];
-      }       
+      }     
+      return result;
     },
      
        
@@ -187,33 +188,54 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
      * Find all cells, which are visible in the given grid window.
      * 
      * @param firstRow {PositiveInteger} first visible row
-     * @param lastRow {PositiveInteger} last visible row
      * @param firstColumn {PositiveInteger} first visible column
-     * @param lastColumn {PositiveInteger} last visible column
-     * @return {Map[]} The array of found cells descriptions. A cell description
+     * @param rowCount {PositiveInteger} number of rows in the window
+     * @param columnCount {PositiveInteger} number of columns in the window
+     * @return {Map[]} The array of found cell descriptions. A cell description
      *    contains the keys <code>firstRow</code>, <code>lastRow</code>,
      *    <code>firstColumn</code> or <code>lastColumn</code>
      */
-    findCellsInWindow : function(firstRow, lastRow, firstColumn, lastColumn) 
+    findCellsInWindow : function(firstRow, firstColumn, rowCount, columnCount) 
     {
-      var horizontalInWindow = {};
-      this._findCellsInRange(horizontalInWindow, "firstColumn", firstColumn, lastColumn);
-      this._findCellsInRange(horizontalInWindow, "lastColumn", firstColumn, lastColumn);
-       
       var verticalInWindow = {};
-      this._findCellsInRange(verticalInWindow, "firstRow", firstRow, lastRow);
-      this._findCellsInRange(verticalInWindow, "lastRow", firstRow, lastRow);
-       
-      var cells = [];
-      // intersect
-      for (var id in verticalInWindow)
+      
+      if (rowCount > 0)
       {
-        if (horizontalInWindow[id]) {
-          cells.push(horizontalInWindow[id]);
+        var lastRow = firstRow + rowCount - 1;
+        qx.lang.Object.merge(
+          verticalInWindow,
+          this._findCellsInRange("firstRow", firstRow, lastRow),
+          this._findCellsInRange("lastRow", firstRow, lastRow)
+        );
+      }
+
+      var horizontalInWindow = {};
+      
+      if (columnCount > 0)
+      {
+        var lastColumn = firstColumn + columnCount - 1;
+        qx.lang.Object.merge(
+            horizontalInWindow,
+            this._findCellsInRange("firstColumn", firstColumn, lastColumn),
+            this._findCellsInRange("lastColumn", firstColumn, lastColumn)
+        );
+      }
+       
+      return this.__intersectionAsArray(horizontalInWindow, verticalInWindow);
+    },  
+    
+    
+    __intersectionAsArray : function(setA, setB)
+    {
+      var intersection = [];
+      for (var key in setA)
+      {
+        if (setB[key]) {
+          intersection.push(setB[key]);
         }
       }
-      return cells;
-    },     
+      return intersection;      
+    },
     
 
     /**
@@ -351,16 +373,28 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
      * @param firstRow {PositiveInteger} first visible row
      * @param lastRow {PositiveInteger} last visible row
      * @param firstColumn {PositiveInteger} first visible column
-     * @param lastColumn {PositiveInteger} last visible column
+     * @param rowCount {PositiveInteger} number of rows in the window
+     * @param columnCount {PositiveInteger} number of columns in the window
      * @return {Map[][]} Two dimensional array, which contains a <code>1</code>
      *    for each visible cell, which is covered by a spanned cell. 
      */
-    computeCellSpanMap : function(cells, firstRow, lastRow, firstColumn, lastColumn)
+    computeCellSpanMap : function(cells, firstRow, firstColumn, rowCount, columnCount)
     {
       var map = [];
+
+      if (rowCount <= 0) {
+        return map;
+      }
+      var lastRow = firstRow + rowCount - 1;
+       
       for (var i=firstRow; i<= lastRow; i++) {
         map[i] = [];
       }
+      
+      if (columnCount <= 0) {
+        return map;
+      }
+      var lastColumn = firstColumn + columnCount - 1;
       
       for (var i=0, l=cells.length; i<l; i++)
       {
