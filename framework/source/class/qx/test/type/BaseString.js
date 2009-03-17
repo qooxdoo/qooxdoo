@@ -113,6 +113,16 @@ qx.Class.define("qx.test.type.BaseString",
     },
 
 
+    testEmptyString : function()
+    {
+      var s = new qx.type.BaseString();
+      this.assertEquals("", s.toString());
+
+      var s = new qx.type.BaseString("");
+      this.assertEquals("", s.toString());
+    },
+    
+
     testExtend : function()
     {
       qx.Class.define("qx.String",
@@ -123,18 +133,12 @@ qx.Class.define("qx.test.type.BaseString",
         {
           bold : function() {
             return "<b>" + this.toString() + "</b>";
-          },
-      
-          setText : function(txt) {
-            this.setValue(txt);
           }
         }
       });
 
       var s = new qx.String("Juhu");
       this.assertEquals("<b>Juhu</b>", s.bold());
-      s.setText("Kinners");
-      this.assertEquals("Kinners", s);
     }
 
 
