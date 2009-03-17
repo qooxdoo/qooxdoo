@@ -38,56 +38,52 @@ qx.Class.define("qx.type.BaseString",
   extend : String,
 
   /**
-   * @param txt {String} Initialize with this string
+   * @param txt {String?""} Initialize with this string
    */
   construct : function(txt)
   {
-    if (qx.core.Variant.isSet("qx.debug", "on")) {
-      this.assertType(txt, "string", "Invalid argument 'txt'.");
-    }
-
+    var txt = txt || "";
+    
     // no base call needed
-    this.__txt = txt;
-    this.length = txt.length;
+    var push = Array.prototype.push;
+    push.apply(this, txt.split(""));    
   },
 
   members :
   {
-    __txt : null,
-    lenght : null,
-
     /**
      * Returns the value as plain string.
      * Overrides the default implementation.
      *
      * @return {String} The string value
      */
-    toString : function() {
-      return this.__txt;
-    },
-    
-    
-    /**
-     * Set the string's value
-     * 
-     *  @param value {String} the new value
-     */
-    setValue : function(value)
+    toString : qx.core.Variant.select("qx.client",
     {
-      this.__txt = value;
-      this.length = value.length;
-    },
-
-
+      "gecko": function()
+      {
+        var charList = [];
+        var i=0;
+        while (this[i] !== undefined) {
+          charList[i] = this[i];
+          i++;
+        }
+        
+        return charList.join("");        
+      },
+      
+      "default": function() {
+        return Array.prototype.join.call(this, "");
+      }
+    }),
+    
+    
     /**
      * Returns the value as plain string.
      * Overrides the default implementation.
      *
      * @return {String} The string value
      */
-    valueOf : function() {
-      return this.__txt;
-    },
+    valueOf : function() {},
 
 
     /**
@@ -134,11 +130,13 @@ qx.Class.define("qx.type.BaseString",
    *****************************************************************************
    */
 
-   defer : function(statics)
+   defer : function(statics, members)
    {
      // add asserts into each debug build
      if (qx.core.Variant.isSet("qx.debug", "on")) {
        qx.Class.include(statics, qx.core.MAssert);
      }
+     
+     members.valueOf = members.toString;
    }
 });
