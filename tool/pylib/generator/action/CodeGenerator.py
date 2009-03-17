@@ -181,6 +181,33 @@ class CodeGenerator(object):
         return
 
 
+    def runCompiled1(self):
+
+        # Dist Generation
+
+        # Generate loader + compiled files
+
+        if hasParts:
+            # Insert new part which only contains the loader stuff
+            injectLoader(parts)
+
+            # Compute packages
+            parts, packages = self._partBuilder.getPackages(partIncludes, smartExclude, classList, collapseCfg, variants, sizeCfg)
+
+            # Build all individual packages
+            for pkg in packages:
+                fileName = "TODO"
+                compiled = self.compileClasses(pkgClasses, variants)
+                writeFile(fileName, compiled)
+
+        else:
+            # Generate one compiled file including all
+            fileName = "TODO"
+            compiled = self.compileClasses(classes)
+            writeFile(fileName, compiled)
+
+
+
     def generateGlobalCodes(self, libs, translationMaps, settings, variants, format=False, resourceUri=None, scriptUri=None):
         # generate the global codes like qxlibraries, qxresources, ...
         # and collect them in a common structure
@@ -263,6 +290,28 @@ class CodeGenerator(object):
         self._console.outdent()
         self._console.debug("Done: %s" % self._computeContentSize(sourceContent))
         self._console.outdent()
+
+
+    def runSource1(self):
+
+        # Source Generation
+
+        # Insert new part which only contains the loader stuff
+        injectLoader(parts)
+
+        # Compute packages
+        parts, packages = self._partBuilder.getPackages(partIncludes, smartExclude, classList, collapseCfg, variants, sizeCfg)
+
+        # Compile first part
+        compiled = self._generateSourcePackageCode(part, packages)
+        for part in parts:
+            for pkg in part:
+                compiled += self.compileClasses(pkgClasses, variants)
+                break
+            break
+
+        writeFile(fileName, boot + compiled)
+
 
 
     def runPrettyPrinting(self, classes, treeLoader):
