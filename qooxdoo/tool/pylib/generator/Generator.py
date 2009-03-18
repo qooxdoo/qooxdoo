@@ -152,7 +152,7 @@ class Generator:
           }
 
 
-        def _computeClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, variants):
+        def computeClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, variants):
             self._console.info("Resolving dependencies...")
             self._console.indent()
             classList = self._depLoader.getClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, variants)
@@ -218,7 +218,7 @@ class Generator:
 
 
 
-        def _partsConfigFromClassList(classList, smartExclude, variants,):
+        def partsConfigFromClassList(classList, smartExclude, variants,):
 
             def evalPackagesConfig(smartExclude, classList, variants):
                 
@@ -433,7 +433,7 @@ class Generator:
         smartInclude, explicitInclude = getIncludes(self._job.get("include", []))
         smartExclude, explicitExclude = getExcludes(self._job.get("exclude", []))
         # get a class list without variants
-        classList = _computeClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, {})
+        classList = computeClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, {})
         
         # process job triggers
         if classdepTriggers:
@@ -477,13 +477,13 @@ class Generator:
                 printVariantInfo(variantSetNum, variants, variantSets, variantData)
 
             # get current class list
-            self._classList = _computeClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, variants)
+            self._classList = computeClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, variants)
 
             # get parts config
             (boot,
             partPackages,           # partPackages[partId]=[0,1,3]
             packageClasses          # packageClasses[0]=['qx.Class','qx.bom.Stylesheet',...]
-            )              = _partsConfigFromClassList(self._classList, smartExclude, variants)
+            )              = partsConfigFromClassList(self._classList, smartExclude, variants)
 
             # Execute real tasks
             self._codeGenerator.runSource(partPackages, packageClasses, boot, variants, self._classList, self._libs, self._classes)
