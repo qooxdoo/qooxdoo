@@ -37,10 +37,10 @@
           "settings": ["feedreader.view.PreferenceWindow"],
           "addfeed": ["feedreader.view.AddFeedWindow"]
         },
-	"sizes" : 
-	{
-	  "min-package" : 10
-	} 
+        "sizes" : 
+        {
+          "min-package" : 10
+        } 
       }
     }
   }  
