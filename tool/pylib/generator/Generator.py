@@ -243,8 +243,6 @@ class Generator:
                 return boot, partPackages, packageClasses
 
 
-            # -- main --------------------------------------------------------------
-
             # Check for package configuration
             if self._job.get("packages"):
                 (boot,
@@ -373,7 +371,7 @@ class Generator:
         # Create tool chain instances
         self._actionLib     = ActionLib(self._config, self._console)
 
-        # Process simple job triggers
+        # -- Process simple job triggers
         if simpleTriggers:
             for trigger in simpleTriggers:
                 if trigger == "copy-files":
@@ -398,7 +396,7 @@ class Generator:
         if not jobTriggers:
             return
 
-        # Process job triggers that require a class list (and some)
+        # -- Process job triggers that require a class list (and some)
 
         # scanning given library paths
         (self._namespaces,
@@ -420,7 +418,7 @@ class Generator:
         # get a class list without variants
         classList = _computeClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, {})
         
-        # Process class-dependend job triggers
+        # process job triggers
         if classdepTriggers:
             for trigger in classdepTriggers:
                 if trigger == "api":
@@ -443,7 +441,7 @@ class Generator:
         if not jobTriggers:
             return
 
-        # Process job triggers that require the full tool chain
+        # -- Process job triggers that require the full tool chain
 
         # Create tool chain instances
         self._treeCompiler   = TreeCompiler(self._classes, self._cache, self._console, self._treeLoader)
