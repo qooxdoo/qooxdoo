@@ -11,20 +11,30 @@
   <div id="logger"></div>
       
   <script type="text/javascript" charset="utf-8">
-    var logger = document.getElementById("logger");
+	// register callback
+    qx.bom.Lifecycle.onReady(onReady, window);
 
-    var loggerStyle = {
-        "width" : "80%",
-        "height" : "250px",
-        "border" : "1px solid lightgrey",
-        "overflow" : "auto"     
-    };
-    qx.bom.element.Style.setStyles(logger, loggerStyle); 
-  
-    qx.bom.Element.addListener(document.body, "keydown", function(e) {
-      logger.innerHTML += e.getKeyIdentifier() + "<br>";
-      e.preventDefault(); 
-    });
+    // executed when the application/scripts are loaded 
+    function onReady()
+    {
+	    var logger = document.getElementById("logger");
+	
+	    var loggerStyle = {
+	        "width" : "80%",
+	        "height" : "250px",
+	        "border" : "1px solid lightgrey",
+	        "overflow" : "auto"     
+	    };
+	    qx.bom.element.Style.setStyles(logger, loggerStyle);
+
+      // indicate startup
+	    logger.innerHTML += "Application ready ..."; 
+	  
+	    qx.bom.Element.addListener(document.body, "keydown", function(e) {
+	      logger.innerHTML += e.getKeyIdentifier() + "<br>";
+	      e.preventDefault(); 
+	    });
+    }
   </script>
 </body>
 </html>
