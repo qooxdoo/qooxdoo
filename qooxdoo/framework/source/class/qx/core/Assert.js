@@ -48,7 +48,7 @@ qx.Class.define("qx.core.Assert",
     __assert : function(condition, comment, msg)
     {
       if (!condition)
-      {        
+      {
         var errorMsg = "Assertion error! " + comment + ": " + msg;
         qx.log.Logger.error(errorMsg);
         if (qx.Class.isDefined("qx.core.AssertionError"))
@@ -467,7 +467,7 @@ qx.Class.define("qx.core.Assert",
      */
     assertString : function(value, msg) {
       this.__assert(
-        typeof value === "string" || value instanceof String,
+        typeof value === "string" || value instanceof String || value.$$isString,
         msg || "",
         "Expected value to be a string but found " + value + "!"
       );
