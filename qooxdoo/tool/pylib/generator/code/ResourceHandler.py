@@ -82,14 +82,16 @@ class ResourceHandler(object):
 
             # go through list of library resources and add suitable
             for resource in libList:
+                # scanResourcePath() yields absolute paths to a resource, but
+                # we only want to match against the 'resource' part of it
+                resourcePart = Path.getCommonPrefix(libObj._resourcePath, resource)[2]
                 if not inCache:
                     cacheList.append(resource)
                 if isSkipFile(resource):
                     continue
-                elif (filter and not filter(resource)):
+                elif (filter and not filter(resourcePart)):
                     continue
                 else:
-                    #result.append(resourceValue(resource))
                     result.append(resource)
 
             if not inCache:
