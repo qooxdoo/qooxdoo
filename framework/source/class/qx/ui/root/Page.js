@@ -172,11 +172,11 @@ qx.Class.define("qx.ui.root.Page",
      */
     __syncBlocker : function()
     {
-      var body = this.__doc.body;
+      var doc = this.__doc;
 
       this._getContentBlocker().setStyles({
-        height: body.offsetHeight + "px",
-        width: body.offsetWidth + "px"
+        height: doc.documentElement.scrollHeight + "px",
+        width: doc.documentElement.scrollWidth + "px"
       });
     },
 
@@ -220,7 +220,7 @@ qx.Class.define("qx.ui.root.Page",
       }
 
       this.base(arguments, zIndex);
-
+      
       // to block interaction we need to cover the HTML page with a div as well.
       // we do so by placing a div parallel to the page root with a slightly
       // lower zIndex and keep the size of this div in sync with the body
