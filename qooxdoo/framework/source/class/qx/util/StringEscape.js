@@ -35,66 +35,32 @@ qx.Bootstrap.define("qx.util.StringEscape",
      * @return {String} escaped string
      * @signature function(str, charCodeToEntities)
      */
-    escape : qx.core.Variant.select("qx.client",
+    escape : function(str, charCodeToEntities)
     {
-      // IE and Opera:
-      //  - use [].join() to build strings
-      "mshtml": function(str, charCodeToEntities)
+      var entity, result = "";
+
+      for (var i=0, l=str.length; i<l; i++)
       {
-        var entity, result = [];
+        var chr = str.charAt(i);
+        var code = chr.charCodeAt(0);
 
-        for (var i=0, l=str.length; i<l; i++)
+        if (charCodeToEntities[code]) {
+          entity = "&" + charCodeToEntities[code] + ";";
+        }
+        else
         {
-          var chr = str.charAt(i);
-          var code = chr.charCodeAt(0);
-
-          if (charCodeToEntities[code]) {
-            entity = "&" + charCodeToEntities[code] + ";";
+          if (code > 0x7F) {
+            entity = "&#" + code + ";";
+          } else {
+            entity = chr;
           }
-          else
-          {
-            if (code > 0x7F) {
-              entity = "&#" + code + ";";
-            } else {
-              entity = chr;
-            }
-          }
-
-          result[result.length] = entity;
         }
 
-        return result.join("");
-      },
-
-      // other browsers:
-      //  - use += to build strings
-      "default": function(str, charCodeToEntities)
-      {
-        var entity, result = "";
-
-        for (var i=0, l=str.length; i<l; i++)
-        {
-          var chr = str.charAt(i);
-          var code = chr.charCodeAt(0);
-
-          if (charCodeToEntities[code]) {
-            entity = "&" + charCodeToEntities[code] + ";";
-          }
-          else
-          {
-            if (code > 0x7F) {
-              entity = "&#" + code + ";";
-            } else {
-              entity = chr;
-            }
-          }
-
-          result += entity;
-        }
-
-        return result;
+        result += entity;
       }
-    }),
+
+      return result;
+    },
 
 
     /**
