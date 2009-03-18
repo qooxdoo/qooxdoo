@@ -295,6 +295,8 @@ qx.Class.define("qx.ui.basic.Image",
         // only try to load the image if it not already failed
         if(!qx.io2.ImageLoader.isFailed(source)) {
           qx.io2.ImageLoader.load(source, this.__loaderCallback, this);
+        } else {
+          el.resetSource();
         }
       }
     },
@@ -307,7 +309,7 @@ qx.Class.define("qx.ui.basic.Image",
      * @param size {Map} Dimensions of the loaded image
      * @return {void}
      */
-    __loaderCallback : function(source, size)
+    __loaderCallback : function(source, imageInfo)
     {
       // Ignore when the source has already been modified
       if (source !== qx.util.AliasManager.getInstance().resolve(this.getSource())) {
@@ -315,10 +317,8 @@ qx.Class.define("qx.ui.basic.Image",
       }
 
       // Output a warning if the image could not loaded and quit
-      if (!size)
-      {
+      if (imageInfo.failed) {
         this.warn("Image could not be loaded: " + source);
-        return;
       }
 
       // Update image (again)
