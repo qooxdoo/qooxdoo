@@ -210,21 +210,9 @@ qx.Class.define("qx.event.handler.Focus",
      */
     focus : function(element)
     {
-      // IE sometimes ignores newly created elements
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
-      {
-        window.setTimeout(function() {      
-          try {
-            element.focus();
-          } catch(ex) {};
-        }, 0);
-      }
-      else
-      {
-        try {
-          element.focus();
-        } catch(ex) {};
-      }
+      try {
+        element.focus();
+      } catch(ex) {};
 
       this.setFocus(element);
       this.setActive(element);
@@ -250,21 +238,9 @@ qx.Class.define("qx.event.handler.Focus",
      */
     blur : function(element)
     {
-      // IE sometimes ignores newly created elements
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
-      {
-        window.setTimeout(function() {      
-          try {
-            element.blur();
-          } catch(ex) {};
-        }, 0);
-      }
-      else
-      {
-        try {
-          element.blur();
-        } catch(ex) {};
-      }
+      try {
+        element.blur();
+      } catch(ex) {};
 
       if (this.getActive() === element) {
         this.resetActive();
