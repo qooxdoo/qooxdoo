@@ -149,6 +149,14 @@ qx.Class.define("qx.test.type.BaseArray",
     {
       var list = new qx.test.type.TestArray(1, 2, 3);
       this.assertEquals([1, 2, 3].toLocaleString(), list.toLocaleString());      
+    },
+
+    testArrayAccess : function()
+    {
+      var list = new qx.test.type.TestArray(1, 2, 3);
+      this.assertEquals(1, list[0]);      
+      this.assertEquals(2, list[1]);      
+      this.assertEquals(3, list[2]);      
     }
   }
 });
