@@ -434,6 +434,28 @@ class CodeGenerator(object):
         # generate the global codes like qxlibraries, qxresources, ...
         # and collect them in a common structure
 
+        def mergeTranslationMaps(transMaps):
+            # translationMaps is a pair (po-data, cldr-data) per package:
+            # translationMaps = [({'C':{},..},{'C':{},..}), (.,.), ..]
+            # this function merges all [0] elements into a common dict, and
+            # all [1] elements:
+            # return = ({'C':{},..}, {'C':{},..})
+            poData = {}
+            cldrData = {}
+
+            for pac_dat, loc_dat in transMaps:
+                for loc in pac_dat:
+                    if loc not in poData:
+                        poData[loc] = {}
+                    poData[loc].update(pac_dat[loc])
+                for loc in loc_dat:
+                    if loc not in cldrData:
+                        cldrData[loc] = {}
+                    cldrData[loc].update(loc_dat[loc])
+
+            return (poData, cldrData)
+
+
         globalCodes  = {}
 
         globalCodes["Settings"] = simplejson.dumps(settings, ensure_ascii=False)
@@ -447,8 +469,9 @@ class CodeGenerator(object):
         mapInfo = self.generateResourceInfoCode(settings, libs, format)
         globalCodes["Resources"] = simplejson.dumps(mapInfo,ensure_ascii=False)
 
-        globalCodes["Translations"] = simplejson.dumps(translationMaps[0],ensure_ascii=False) # 0: .po data
-        globalCodes["Locales"]      = simplejson.dumps(translationMaps[1],ensure_ascii=False) # 1: cldr data
+        locData = mergeTranslationMaps(translationMaps)
+        globalCodes["Translations"] = simplejson.dumps(locData[0],ensure_ascii=False) # 0: .po data
+        globalCodes["Locales"]      = simplejson.dumps(locData[1],ensure_ascii=False) # 1: cldr data
 
         return globalCodes
 
@@ -485,7 +508,7 @@ class CodeGenerator(object):
             # [thron7] means: generate different data structs for locales and translations
             pac_dat = self._locale.generatePackageData(classes, variants, locales) # .po data
             loc_dat = self._locale.getLocalizationData(locales)  # cldr data
-            packageTranslation.extend((pac_dat,loc_dat))
+            packageTranslation.append((pac_dat,loc_dat))
 
             self._console.outdent()
 
