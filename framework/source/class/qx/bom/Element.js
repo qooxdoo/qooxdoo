@@ -233,7 +233,7 @@ qx.Class.define("qx.bom.Element",
 
 
     /**
-     * Focusses the given element. The element needs to have a positive <code>tabIndex</code> value.
+     * Focuses the given element. The element needs to have a positive <code>tabIndex</code> value.
      *
      * @param element {Element} DOM element to focus
      * @return {void}
