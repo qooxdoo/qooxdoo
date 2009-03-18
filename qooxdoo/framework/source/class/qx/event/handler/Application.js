@@ -47,7 +47,6 @@ qx.Class.define("qx.event.handler.Application",
     // Define shorthands
     this._window = manager.getWindow();
 
-    this.__scriptLoaded = false;
     this.__domReady = false;
     this.__loaded = false;
     
@@ -91,6 +90,8 @@ qx.Class.define("qx.event.handler.Application",
     IGNORE_CAN_HANDLE : true,
 
 
+    __scriptLoaded : false,
+
     /**
      * Sends the currently running application the ready signal. Used
      * exclusively by package loader system.
@@ -100,10 +101,10 @@ qx.Class.define("qx.event.handler.Application",
      */
     onScriptLoaded : function()
     {
+      this.__scriptLoaded = true;
+
       var inst = qx.event.handler.Application.$$instance;
-      if (inst)
-      {
-        inst.__scriptLoaded = true;
+      if (inst) {
         inst.__fireReady();
       }
     }
@@ -158,14 +159,27 @@ qx.Class.define("qx.event.handler.Application",
      */
     __fireReady : function()
     {
+      var clazz = qx.event.handler.Application;
+      
       // Wrapper qxloader needed to be compatible with old generator
-      if (!this.__isReady && this.__domReady && this.__scriptLoaded)
+      if (!this.__isReady && this.__domReady && clazz.__scriptLoaded)
       {
         this.__isReady = true;
 
         // Fire user event
         qx.event.Registration.fireEvent(this._window, "ready");
       }
+    },
+    
+    
+    /**
+     * Whether the application is ready.
+     * 
+     * @return {Boolean} ready status
+     */
+    isApplicationReady : function()
+    {
+      return this.__isReady;
     },
 
 
