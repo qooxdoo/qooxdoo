@@ -25,6 +25,7 @@
 
       "include" : 
       [
+        "qx.bom.Lifecycle",
         "qx.bom.Element",
         "qx.bom.element.*",
         "qx.dom.*",
