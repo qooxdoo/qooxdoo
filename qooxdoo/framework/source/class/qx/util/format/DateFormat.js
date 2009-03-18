@@ -254,7 +254,11 @@ qx.Class.define("qx.util.format.DateFormat",
       var minutes = date.getMinutes();
       var seconds = date.getSeconds();
       var ms = date.getMilliseconds();
-      var timezone = date.getTimezoneOffset() / 60;
+      
+      var timezoneOffset = date.getTimezoneOffset();
+      var timezoneSign = timezoneOffset > 0 ? 1 : -1;
+      var timezoneHours = Math.floor(Math.abs(timezoneOffset) / 60);
+      var timezoneMinutes = Math.abs(timezoneOffset) % 60;
 
       // Create the output
       this.__initFormatTree();
@@ -359,18 +363,31 @@ qx.Class.define("qx.util.format.DateFormat",
               break;
 
             case 'z': // Time zone
-              if (wildcardSize == 1) {
-                replacement = "GMT" + ((timezone < 0) ? "-" : "+") + this.__fillNumber(timezone) + ":00";
-              } else if (wildcardSize == 2) {
+              if (wildcardSize == 1)
+              {
+                replacement = 
+                  "GMT" + 
+                  ((timezoneSign > 0) ? "-" : "+") +
+                  this.__fillNumber(Math.abs(timezoneHours)) +
+                  ":" + this.__fillNumber(timezoneMinutes, 2);
+              }
+              else if (wildcardSize == 2)
+              {
                 replacement = DateFormat.MEDIUM_TIMEZONE_NAMES[timezone];
-              } else if (wildcardSize == 3) {
+              }
+              else if (wildcardSize == 3)
+              {
                 replacement = DateFormat.FULL_TIMEZONE_NAMES[timezone];
               }
 
               break;
 
             case 'Z': // RFC 822 time zone
-              replacement = ((timezone < 0) ? "-" : "+") + this.__fillNumber(timezone, 2) + "00";
+              replacement = 
+                ((timezoneSign > 0) ? "-" : "+") + 
+                this.__fillNumber(Math.abs(timezoneHours), 2) + 
+                this.__fillNumber(timezoneMinutes, 2);
+              break;
           }
 
           output += replacement;
