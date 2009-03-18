@@ -78,76 +78,76 @@ class Generator:
 
         def listJobTriggers(): return {
           
-          "api" :
-          {
-            "type"   : "JClassDepJob"
-          },
+            "api" :
+            {
+              "type"   : "JClassDepJob"
+            },
 
-          "copy-files" :
-          {
-            "type"   : "JSimpleJob"
-          },
+            "copy-files" :
+            {
+              "type"   : "JSimpleJob"
+            },
 
-          "combine-images" :
-          {
-            "type"   : "JSimpleJob"
-          },
+            "combine-images" :
+            {
+              "type"   : "JSimpleJob"
+            },
 
-          "clean-files" :
-          {
-            "type"   : "JSimpleJob"
-          },
+            "clean-files" :
+            {
+              "type"   : "JSimpleJob"
+            },
 
-          "copy-resources" :
-          {
-            "type"   : "JClassDepJob"
-          },
+            "copy-resources" :
+            {
+              "type"   : "JClassDepJob"
+            },
 
-          "compile-source" :
-          {
-            "type" : "JCompileJob",
-          },
+            "compile-source" :
+            {
+              "type" : "JCompileJob",
+            },
 
-          "compile-dist" :
-          {
-            "type" : "JCompileJob",
-          },
+            "compile-dist" :
+            {
+              "type" : "JCompileJob",
+            },
 
-          "fix-files" :
-          {
-            "type" : "JClassDepJob",
-          },
+            "fix-files" :
+            {
+              "type" : "JClassDepJob",
+            },
 
-          "lint-check" :
-          {
-            "type" : "JClassDepJob",
-          },
+            "lint-check" :
+            {
+              "type" : "JClassDepJob",
+            },
 
-          "migrate-files" :
-          {
-            "type"   : "JSimpleJob",           # this might change once we stop to shell exit to an external script
-          },
+            "migrate-files" :
+            {
+              "type"   : "JSimpleJob",           # this might change once we stop to shell exit to an external script
+            },
 
-          "pretty-print" :
-          {
-            "type" : "JClassDepJob",
-          },
+            "pretty-print" :
+            {
+              "type" : "JClassDepJob",
+            },
 
-          "shell" :
-          {
-            "type"   : "JSimpleJob"
-          },
+            "shell" :
+            {
+              "type"   : "JSimpleJob"
+            },
 
-          "slice-images" :
-          {
-            "type"   : "JSimpleJob"
-          },
+            "slice-images" :
+            {
+              "type"   : "JSimpleJob"
+            },
 
-          "translate" :
-          {
-            "type"   : "JClassDepJob"
-          },
-        }
+            "translate" :
+            {
+              "type"   : "JClassDepJob"
+            },
+          }
 
 
         def _computeClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, variants):
