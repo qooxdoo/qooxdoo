@@ -182,7 +182,7 @@ qx.Class.define("qx.html.Element",
       // release capture for elements, which will be removed
       var captureDomElement = this.__getCaptureElement();
       if (captureDomElement && this.__willBecomeInvisible(captureDomElement)) {
-        mouseCapture.releaseCapture();
+        qx.bom.Element.releaseCapture(captureDomElement);
       }
 
 
