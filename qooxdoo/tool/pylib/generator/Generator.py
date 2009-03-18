@@ -76,6 +76,8 @@ class Generator:
     # to do so, it also sets up a lot of tool chain infrastructure.
     def run(self):
 
+        # -- Helpers ----------------------------------------------------------
+
         def listJobTriggers(): return {
           
             "api" :
@@ -340,6 +342,20 @@ class Generator:
             return smartInclude, explicitInclude
 
 
+        def printVariantInfo(variantSetNum, variants, variantSets, variantData):
+            variantStr = simplejson.dumps(variants,ensure_ascii=False)
+            self._console.head("Processing variant set %s/%s (%s)" % (variantSetNum+1, len(variantSets), variantStr))
+
+            # Debug variant combination
+            self._console.debug("Switched variants:")
+            self._console.indent()
+            for key in variants:
+                if len(variantData[key]) > 1:
+                    self._console.debug("%s = %s" % (key, variants[key]))
+            self._console.outdent()
+
+            return
+
 
         # -- Main --------------------------------------------------------------
 
@@ -359,7 +375,7 @@ class Generator:
         triggersClassDepSet = set((x for x in triggersSet if triggersSet[x]['type']=="JClassDepJob"))
         triggersCompileSet  = set((x for x in triggersSet if triggersSet[x]['type']=="JCompileJob"))
 
-        # This Job's Keys
+        # This job's triggers
         jobKeySet           = set(job.getData().keys())
         jobTriggers         = jobKeySet.intersection(triggersSet)
 
@@ -394,6 +410,7 @@ class Generator:
 
         # use early returns to avoid setting up costly, but unnecessary infrastructure
         if not jobTriggers:
+            self._console.info("Done")
             return
 
         # -- Process job triggers that require a class list (and some)
@@ -439,6 +456,7 @@ class Generator:
         # remove the keys we have processed, and check return
         jobTriggers = jobTriggers.difference(classdepTriggers)
         if not jobTriggers:
+            self._console.info("Done")
             return
 
         # -- Process job triggers that require the full tool chain
@@ -446,22 +464,6 @@ class Generator:
         # Create tool chain instances
         self._treeCompiler   = TreeCompiler(self._classes, self._cache, self._console, self._treeLoader)
         self._partBuilder    = PartBuilder(self._console, self._depLoader, self._treeCompiler)
-
-        # -- helpers for the variant loop  -------------------------------------
-
-        def printVariantInfo(variantSetNum, variants, variantSets, variantData):
-            variantStr = simplejson.dumps(variants,ensure_ascii=False)
-            self._console.head("Processing variant set %s/%s (%s)" % (variantSetNum+1, len(variantSets), variantStr))
-
-            # Debug variant combination
-            self._console.debug("Switched variants:")
-            self._console.indent()
-            for key in variants:
-                if len(variantData[key]) > 1:
-                    self._console.debug("%s = %s" % (key, variants[key]))
-            self._console.outdent()
-
-            return
 
         # Processing all combinations of variants
         variantData = getVariants()  # e.g. {'qx.debug':['on','off'], 'qx.aspects':['on','off']}
@@ -487,7 +489,7 @@ class Generator:
             self._codeGenerator.runSource(partPackages, packageClasses, boot, variants, self._classList, self._libs, self._classes)
             self._codeGenerator.runCompiled(partPackages, packageClasses, boot, variants, self._treeCompiler, self._classList)
 
-            # Debug tasks
+            # debug tasks
             self.runDependencyDebug(partPackages, packageClasses, variants)
             self.runPrivateDebug()
             self.runUnusedClasses(partPackages, packageClasses, variants)
