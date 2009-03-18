@@ -35,7 +35,7 @@
  */
 qx.Class.define("qx.type.BaseString",
 {
-  extend : String,
+  extend : Object,
 
   /**
    * @param txt {String?""} Initialize with this string
@@ -45,36 +45,19 @@ qx.Class.define("qx.type.BaseString",
     var txt = txt || "";
     
     // no base call needed
-    var push = Array.prototype.push;
-    push.apply(this, txt.split(""));    
+
+    this.__txt = txt;
+    this.length = txt.length;
   },
 
   members :
   {
-    /**
-     * Returns the value as plain string.
-     * Overrides the default implementation.
-     *
-     * @return {String} The string value
-     */
-    toString : qx.core.Variant.select("qx.client",
-    {
-      "gecko|mshtml": function()
-      {
-        var charList = [];
-        var i=0;
-        while (this[i] !== undefined) {
-          charList[i] = this[i];
-          i++;
-        }
-        
-        return charList.join("");        
-      },
-      
-      "default": function() {
-        return Array.prototype.join.call(this, "");
-      }
-    }),
+    $$isString : true,
+    length : 0,
+
+    toString : function() {
+      return this.__txt;
+    },
     
     
     /**
@@ -136,7 +119,30 @@ qx.Class.define("qx.type.BaseString",
      if (qx.core.Variant.isSet("qx.debug", "on")) {
        qx.Class.include(statics, qx.core.MAssert);
      }
+
+     var mappedFunctions = [
+       'charAt',
+       'charCodeAt',
+       'concat',
+       'indexOf',
+       'lastIndexOf',
+       'localeCompare',
+       'replace',
+       'search',
+       'substring',
+       'toLowerCase',
+       'toLocaleLowerCase',
+       'toUpperCase',
+       'toLocaleUpperCase'
+     ];
      
+
+
      members.valueOf = members.toString;
+     for (var i=0, l=mappedFunctions.length; i<l; i++) {
+       members[mappedFunctions[i]] = String.prototype[mappedFunctions[i]];
+     }
+     
    }
+
 });
