@@ -77,91 +77,76 @@ class Generator:
     def run(self):
 
         def listJobTriggers(): return {
-
+          
           "api" :
           {
-            "action" :Generator.runApiData,
             "type"   : "JClassDepJob"
           },
 
           "copy-files" :
           {
-            "action" :Generator.runCopyFiles,
             "type"   : "JSimpleJob"
           },
 
           "combine-images" :
           {
-            "action" :Generator.runImageCombining,
             "type"   : "JSimpleJob"
           },
 
           "clean-files" :
           {
-            "action" :Generator.runClean,
             "type"   : "JSimpleJob"
           },
 
           "copy-resources" :
           {
-            "action" :Generator.runResources,
             "type"   : "JClassDepJob"
           },
 
           "compile-source" :
           {
-            "action" : None,
             "type" : "JCompileJob",
           },
 
           "compile-dist" :
           {
-            "action" : None,
             "type" : "JCompileJob",
           },
 
           "fix-files" :
           {
-            "action" :Generator.runFix,
             "type" : "JClassDepJob",
           },
 
           "lint-check" :
           {
-            "action" :Generator.runLint,
             "type" : "JClassDepJob",
           },
 
           "migrate-files" :
           {
-            "action" :Generator.runMigration,
             "type"   : "JSimpleJob",           # this might change once we stop to shell exit to an external script
           },
 
           "pretty-print" :
           {
-            "action" : None,
             "type" : "JClassDepJob",
           },
 
           "shell" :
           {
-            "action" :Generator.runShellCommands,
             "type"   : "JSimpleJob"
           },
 
           "slice-images" :
           {
-            "action" :Generator.runImageSlicing,
             "type"   : "JSimpleJob"
           },
 
           "translate" :
           {
-            "action" : Generator.runUpdateTranslation,
             "type"   : "JClassDepJob"
           },
-
         }
 
 
@@ -358,6 +343,8 @@ class Generator:
 
 
 
+        # -- Main --------------------------------------------------------------
+
         config = self._job
         job    = self._job
         require = config.get("require", {})
@@ -389,10 +376,20 @@ class Generator:
         # Process simple job triggers
         if simpleTriggers:
             for trigger in simpleTriggers:
-                if trigger == 'migrate-files':
-                    apply(triggersSet[trigger]['action'],(self, config.get("library")))
+                if trigger == "copy-files":
+                    self.runCopyFiles()
+                elif trigger == "combine-images":
+                    self.runImageCombining()
+                elif trigger == "clean-files":
+                    self.runClean()
+                elif trigger == "migrate-files":
+                    self.runMigration(config.get("library"))
+                elif trigger == "shell":
+                    self.runShellCommands()
+                elif trigger == "slice-images":
+                    self.runImageSlicing()
                 else:
-                    apply(triggersSet[trigger]['action'],(self,))  # call the corresp. method from listJobTriggers()
+                    pass # there cannot be exceptions, due to the way simpleTriggers is constructed
 
         # remove the keys we have processed
         jobTriggers = jobTriggers.difference(simpleTriggers)
@@ -408,7 +405,7 @@ class Generator:
          self._classes,
          self._docs,
          self._translations,
-         self._libs) = scanLibrary(config.get("library"))
+         self._libs)         = scanLibrary(config.get("library"))
 
         # create tool chain instances
         self._treeLoader     = TreeLoader(self._classes, self._cache, self._console)
@@ -426,13 +423,20 @@ class Generator:
         # Process class-dependend job triggers
         if classdepTriggers:
             for trigger in classdepTriggers:
-                if trigger == 'translate':
-                    apply(triggersSet[trigger]['action'],(self, ))
-                elif trigger == 'pretty-print':
-                    #apply(triggersSet[trigger]['action'],(self, classList))
+                if trigger == "api":
+                    self.runApiData(classList)
+                elif trigger == "copy-resources":
+                    self.runResources(classList)
+                elif trigger == "fix-files":
+                    self.runFix(classList)
+                elif trigger == "lint-check":
+                    self.runLint(classList)
+                elif trigger == "translate":
+                    self.runUpdateTranslation()
+                elif trigger == "pretty-print":
                     self._codeGenerator.runPrettyPrinting(classList, self._treeLoader)
                 else:
-                    apply(triggersSet[trigger]['action'],(self, classList))  # call the corresp. method
+                    pass
 
         # remove the keys we have processed, and check return
         jobTriggers = jobTriggers.difference(classdepTriggers)
