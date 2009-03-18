@@ -224,6 +224,15 @@ qx.Class.define("demobrowser.demo.widget.Tree",
 
 
 
+      var vShowOpenItems = new qx.ui.form.Button("Show Open Items");
+      commandFrame.add(vShowOpenItems, {row: row++, column: 1});
+
+      vShowOpenItems.addListener("execute", function(e) {
+        alert(("" + tree.getItems(true, false)).replace(",", "\n", "g"));
+      });
+
+
+
       var vShowSelectedItems = new qx.ui.form.Button("Show Selected Items");
       commandFrame.add(vShowSelectedItems, {row: row++, column: 1});
 
@@ -239,11 +248,11 @@ qx.Class.define("demobrowser.demo.widget.Tree",
 
 
 
-      var vShowSelectedItems = new qx.ui.form.Button("Toggle Height");
-      commandFrame.add(vShowSelectedItems, {row: row++, column: 1});
+      var vToggleHeight = new qx.ui.form.Button("Toggle Height");
+      commandFrame.add(vToggleHeight, {row: row++, column: 1});
 
       var grow = true;
-      vShowSelectedItems.addListener("execute", function(e) {
+      vToggleHeight.addListener("execute", function(e) {
         tree.setHeight(grow ? 600: 400);
         grow = !grow;
       });
