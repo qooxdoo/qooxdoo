@@ -205,6 +205,10 @@ qx.Class.define("qx.theme.manager.Appearance",
         var sum = 0;
         for (var state in states)
         {
+          if (!states[state]) {
+            continue;
+          }
+          
           if (bits[state] == null) {
             bits[state] = 1<<entry.$$length++;
           }
