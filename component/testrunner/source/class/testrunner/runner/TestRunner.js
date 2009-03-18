@@ -16,6 +16,7 @@
      * Thomas Herchenroeder (thron7)
      * Fabian Jakobs (fjakobs)
      * Jonathan Weiß (jonathan_rass)
+     * Daniel Wagner (d_wagner)
 
 ************************************************************************ */
 
@@ -59,7 +60,7 @@ qx.Class.define("testrunner.runner.TestRunner",
     this.setLayout(layout);
 
     // Dependencies to loggers
-    qx.log.appender.Console;
+    qx.log.appender.Native;
 
     this.widgets = {};
     this.tests = {};
@@ -729,6 +730,11 @@ qx.Class.define("testrunner.runner.TestRunner",
       // -- not working!
 
       this.widgets["statuspane.systeminfo"].setContent(this.tr("Tests selected"));
+
+      if (parseInt(this.widgets["progresspane.succ_cnt"].getValue()) > 0 ||
+          parseInt(this.widgets["progresspane.fail_cnt"].getValue()) > 0) {
+        this.__scrollToResult();      
+      }
     },  // treeGetSelection
 
     // -------------------------------------------------------------------------
@@ -1316,6 +1322,29 @@ qx.Class.define("testrunner.runner.TestRunner",
         icons = testrunner.runner.TestRunner.TREEICONSERROR;
       }      
       node.setIcon(icons[type]);
+    },
+
+    /**
+     * Scroll the test result pane to display the currently selected test's
+     * entry. 
+     *
+     * @return {void}
+     */
+    __scrollToResult : function()
+    {
+      var modelNode = this.tree.getSelectedElement().getUserData("modelLink");
+      var dirname = modelNode.pwd();
+      dirname.shift();
+      var fullname = dirname.join(".");
+      fullname += ":" + modelNode.label;
+      var resultPane = this.f1.getContentElement().getDomElement();
+      var resultDivs = resultPane.childNodes;
+      for (var i=0; i<resultDivs.length; i++) {
+        if (resultDivs[i].firstChild.firstChild.nodeValue == fullname) {          
+          var dist = qx.bom.element.Location.getRelative(resultDivs[i], resultDivs[0]);
+          this.f1.getContentElement().scrollToY(dist.top);
+        }
+      }
     },
 
     // ------------------------------------------------------------------------
