@@ -178,6 +178,28 @@ qx.Class.define("testrunner.runner.TestRunner",
   },
 
 
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
+  statics :
+  {
+    TREEICONS : 
+    {
+      "package" : "testrunner/image/package18.gif",
+      "class" : "testrunner/image/class18.gif",
+      "test" : "testrunner/image/method_public18.gif"
+    },
+    
+    TREEICONSERROR : 
+    {
+      "package" : "testrunner/image/package_warning18.gif",
+      "class" : "testrunner/image/class_warning18.gif",
+      "test" : "testrunner/image/method_public_error18.gif"
+    }
+  },
 
 
   /*
@@ -763,11 +785,7 @@ qx.Class.define("testrunner.runner.TestRunner",
           var currNode = children[i];
           var firstChar = currNode.label.charAt(0);
 
-          var ns = {
-            "package" : "testrunner/image/package18.gif",
-            "class" : "testrunner/image/class18.gif",
-            "test" : "testrunner/image/method_public18.gif"
-          }
+         var ns = testrunner.runner.TestRunner.TREEICONS;
           
           if (currNode.hasChildren())
           {
@@ -949,6 +967,7 @@ qx.Class.define("testrunner.runner.TestRunner",
           that.appender(this.tr("Test '") + test.getFullName() + this.tr("' failed: ") + ex.message() + " - " + ex.getComment());
           that.widgets["progresspane.progressbar"].update(String(tstCurr + "/" + tstCnt));
           tstCurr++;
+          that.__markTree(e.getData().test.getFullName(), "failure");
         },
         that);
 
@@ -964,6 +983,7 @@ qx.Class.define("testrunner.runner.TestRunner",
           that.appender(this.tr("The test '") + e.getData().test.getFullName() + this.tr("' had an error: ") + ex, ex);
           that.widgets["progresspane.progressbar"].update(String(tstCurr + "/" + tstCnt));
           tstCurr++;
+          that.__markTree(e.getData().test.getFullName(), "error");
         },
         that);
 
@@ -982,7 +1002,9 @@ qx.Class.define("testrunner.runner.TestRunner",
             that.setQueCnt(that.getQueCnt() - 1);
             that.widgets["progresspane.progressbar"].update(String(tstCurr + "/" + tstCnt));
             tstCurr++;
+            that.__markTree(e.getData().getFullName(), "success");            
           }
+          
           if (!this.getStopped()) {
             qx.event.Timer.once(runtest, this, 0);
           } else {
@@ -1233,10 +1255,67 @@ qx.Class.define("testrunner.runner.TestRunner",
       }
     },  // _ehIframeOnLoad
 
+    /**
+     * Store pane width in cookie
+     *
+     * @param e {Event} Event data: The pane
+     * @return {void}
+     */
     __onPaneResize : function(e)
     {
       var pane = this.getUserData("pane");
       qx.bom.Cookie.set(pane + "PaneWidth", e.getData().width, 365);
+    },
+
+    /**
+     * Iterate over the (model) tree, searching for a specific test
+     *
+     * @param testName {String} The full name of a test, as returned by 
+     * {@link qx.dev.unit.TestFunction#getFullName()}
+     * @param status {String} The test's final status, one of "success", 
+     * "failure", "error"
+     * @return {void}
+     */    
+    __markTree : function(testName, status)
+    {
+      testName = testName.replace(/\:/, ".");
+      var iter = this.tests.handler.ttree.getIterator("depth");
+      var curr;
+      while (curr = iter()) {
+        var nodePath = curr.pwd();
+        nodePath.shift();
+        var nodeName = qx.lang.Array.clone(nodePath);
+        nodeName.push(curr.label);        
+        if (nodeName.join('.') == testName) {
+          var widgetNode = curr.widgetLinkFull;
+          var type = curr.type;
+          this.__setTreeIcon(widgetNode, type, status);          
+          //recurse up the parent chain
+          if (status != "success") {
+            this.__markTree(nodePath.join('.'), status);
+          }
+        }
+      }
+    },
+
+    /**
+     * Set the icon for a given (widget) tree node according to the node's type
+     * and the corresponding test's status.
+     *
+     * @param node {qx.ui.tree.AbstractTreeItem} The tree node to work with 
+     * @param type {String} The node's type, one of "package", "class", "test" 
+     * @param status {String} The test's final status, one of "success", 
+     * "failure", "error"
+     * @return {void}
+     */
+    __setTreeIcon : function(node, type, status) {      
+      var icons;
+      if (status == "success") {
+        icons = testrunner.runner.TestRunner.TREEICONS;
+      } else {
+        icons = testrunner.runner.TestRunner.TREEICONSERROR;
+      }      
+      node.setIcon(icons[type]);
     },
 
     // ------------------------------------------------------------------------
