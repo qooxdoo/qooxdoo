@@ -263,13 +263,16 @@ qx.Class.define("qx.core.Assert",
      * Assert that the given string matches the regular expression
      *
      * @param str {String} String, which should match the regular expression
-     * @param re {RegExp} Regular expression to match
+     * @param re {String|RegExp} Regular expression to match
      * @param msg {String} Message to be shown if the assertion fails.
      */
     assertMatch : function(str, re, msg)
     {
       this.assertString(str);
-      this.assertRegExp(re);
+      this.assert(
+        qx.lang.Type.isRegExp(re) || qx.lang.Type.isString(re),
+        "The parameter 're' must be a string or a regular expression."
+      );
       this.__assert(
         str.search(re) >= 0 ? true : false,
         msg || "",
@@ -642,7 +645,7 @@ qx.Class.define("qx.core.Assert",
      this.__assert(
        qx.lang.Type.isRegExp(value),
        msg || "",
-       "Expected value to be a map but found " + value + "!"
+       "Expected value to be a regular expression but found " + value + "!"
      );
    },
 
