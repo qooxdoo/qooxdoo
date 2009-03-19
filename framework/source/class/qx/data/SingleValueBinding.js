@@ -88,8 +88,8 @@ qx.Class.define("qx.data.SingleValueBinding",
      *       object, which is only set in case of the use of an controller.
      *       If no conversion has been done, the given value should be 
      *       returned.</li>
-     *   <li>onSetOk: A callback function can be given here. This method will be
-     *       called if the set of the value was successful. There will be 
+     *   <li>onUpdate: A callback function can be given here. This method will be
+     *       called if the binding was updated successful. There will be 
      *       three parameter you do get in that method call: the source object,
      *       the target object and the data as third parameter.</li>
      *   <li>onSetFail: A callback function can be given here. This method will
@@ -217,9 +217,9 @@ qx.Class.define("qx.data.SingleValueBinding",
      */
     __chainListener: function(context) {
       
-      // invoke the onSetOk method
-      if (context.options && context.options.onSetOk) {
-        context.options.onSetOk(context.sources[context.index], context.targetObject);
+      // invoke the onUpdate method
+      if (context.options && context.options.onUpdate) {
+        context.options.onUpdate(context.sources[context.index], context.targetObject);
       }
       
       // delete all listener after the current one
@@ -601,8 +601,8 @@ qx.Class.define("qx.data.SingleValueBinding",
           }
 
           // tell the user that the setter was invoked probably
-          if (options && options.onSetOk) {
-            options.onSetOk(sourceObject, targetObject, data);
+          if (options && options.onUpdate) {
+            options.onUpdate(sourceObject, targetObject, data);
           }
 
         } catch (e) {

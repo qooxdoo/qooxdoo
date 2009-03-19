@@ -86,10 +86,10 @@ qx.Class.define("qx.data.controller.List",
     // lookup table for filtering and sorting
     this.__lookupTable = [];
     
-    // register for bound target properties and onSetOk methods 
+    // register for bound target properties and onUpdate methods 
     // from the binding options
     this.__boundProperties = [];
-    this.__onSetOk = {};
+    this.__onUpdate = {};
       
     if (labelPath != null) {
       this.setLabelPath(labelPath);      
@@ -546,16 +546,16 @@ qx.Class.define("qx.data.controller.List",
       targetWidget.setUserData("model", this.getModel().getItem(index));
       
       // create the options for the binding containing the old options
-      // including the old onSetOk function
+      // including the old onUpdate function
       var options = qx.lang.Object.clone(options);
       if (options != null) {
-        this.__onSetOk[targetProperty] = options.onSetOk;
-        delete options.onSetOk;
+        this.__onUpdate[targetProperty] = options.onUpdate;
+        delete options.onUpdate;
       } else {
         options = {};
-        this.__onSetOk[targetProperty] = null;
+        this.__onUpdate[targetProperty] = null;
       }
-      options.onSetOk =  qx.lang.Function.bind(this._onBindingSet, this, index);
+      options.onUpdate =  qx.lang.Function.bind(this._onBindingSet, this, index);
 
       // build up the path for the binding
       var bindPath = "model[" + index + "]";
@@ -584,9 +584,9 @@ qx.Class.define("qx.data.controller.List",
     _onBindingSet: function(index, sourceObject, targetObject) {
       // go through all bound target properties
       for (var i = 0; i < this.__boundProperties.length; i++) {
-        // if there is an onSetOk for one of it, invoke it
-        if (this.__onSetOk[this.__boundProperties[i]] != null) {
-          this.__onSetOk[this.__boundProperties[i]]();
+        // if there is an onUpdate for one of it, invoke it
+        if (this.__onUpdate[this.__boundProperties[i]] != null) {
+          this.__onUpdate[this.__boundProperties[i]]();
         }
       } 
       

@@ -400,7 +400,7 @@ qx.Class.define("qx.test.data.controller.List",
     },
     
     
-    testOnSetOkLabel: function() {
+    testOnUpdateLabel: function() {
       this.__data = ["a", "b", "c", "d", "e"];
       // create a new array
       this.__model = new qx.data.Array(this.__data);
@@ -408,7 +408,7 @@ qx.Class.define("qx.test.data.controller.List",
       // create the options map with the converter
       var options = {};
       var flag = false;
-      options.onSetOk = function() {
+      options.onUpdate = function() {
         flag = true;
       }
       // create the controller
@@ -426,7 +426,7 @@ qx.Class.define("qx.test.data.controller.List",
       }
       
       // check if the flag is set
-      this.assertTrue(flag, "onSetOk not executed");
+      this.assertTrue(flag, "onUpdate not executed");
     },
     
     
