@@ -92,8 +92,7 @@ qx.Mixin.define("qx.ui.core.MMovable",
 
 
     /**
-     * Get the widget, which draws the resize/move frame. The resize frame is
-     * shared by all widgets and is added to the root widget.
+     * Get the widget, which draws the resize/move frame.
      *
      * @return {qx.ui.core.Widget} The resize frame
      */
@@ -171,7 +170,6 @@ qx.Mixin.define("qx.ui.core.MMovable",
      * appearance (translucent, frame or opaque) for the moving of the window.
      *
      * @param e {qx.event.type.MouseEvent} mouse down event
-     * @return {void}
      */
     _onMoveMouseDown : function(e)
     {
@@ -184,6 +182,14 @@ qx.Mixin.define("qx.ui.core.MMovable",
       var parentLocation = parent.getContentLocation();
       var parentBounds = parent.getBounds();
 
+      // Added a blocker, this solves the issue described in bug report #1462
+      if (qx.Class.implementsInterface(parent, qx.ui.window.IDesktop) &&
+          qx.Class.isSubClassOf(this.constructor, qx.ui.window.Window)) {
+        if (!this.getModal()) {
+          parent.blockContent(this.getZIndex() - 1);
+        }
+      }
+      
       this.__dragRange =
       {
         left : parentLocation.left,
@@ -221,7 +227,6 @@ qx.Mixin.define("qx.ui.core.MMovable",
      * of the window (or frame) at runtime using direct dom methods.
      *
      * @param e {qx.event.type.Event} mouse move event
-     * @return {void}
      */
     _onMoveMouseMove : function(e)
     {
@@ -246,7 +251,6 @@ qx.Mixin.define("qx.ui.core.MMovable",
      * of the window.
      *
      * @param e {qx.event.type.MouseEvent} mouse up event
-     * @return {void}
      */
     _onMoveMouseUp : function(e)
     {
@@ -258,6 +262,15 @@ qx.Mixin.define("qx.ui.core.MMovable",
       // Remove drag state
       this.removeState("move");
 
+      // Removed blocker, this solves the issue described in bug report #1462
+      var parent = this.getLayoutParent();
+      if (qx.Class.implementsInterface(parent, qx.ui.window.IDesktop) &&
+          qx.Class.isSubClassOf(this.constructor, qx.ui.window.Window)) {
+        if (!this.getModal()) {
+          parent.unblockContent();            
+        }
+      }
+      
       // Disable capturing
       this.__moveHandle.releaseCapture();
 
