@@ -168,7 +168,7 @@ qx.Mixin.define("qx.ui.core.MChildrenHandling",
      * @return {void}
      */
     removeAt : function(index) {
-      this._removeAt(index);
+      return this._removeAt(index);
     },
 
 
@@ -176,7 +176,7 @@ qx.Mixin.define("qx.ui.core.MChildrenHandling",
      * Remove all children.
      */
     removeAll : function() {
-      return this._removeAll();
+      this._removeAll();
     }
   },
 
