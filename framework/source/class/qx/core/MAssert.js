@@ -418,6 +418,17 @@ qx.Mixin.define("qx.core.MAssert",
 
 
     /**
+     * Assert that the value is a regular expression.
+     *
+     * @param value {var} Value to check
+     * @param msg {String} Message to be shown if the assertion fails.
+     */
+    assertRegExp : function(value, msg) {
+       qx.core.Assert.assertRegExp(value, msg);
+    },
+   
+   
+    /**
      * Assert the the value has the given type using the <code>typeof</code>
      * operator. Because the type is not always what it is supposed to be it is
      * better to use more explicit checks like {@link #assertString} or

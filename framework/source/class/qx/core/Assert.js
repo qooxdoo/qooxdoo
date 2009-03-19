@@ -269,6 +269,7 @@ qx.Class.define("qx.core.Assert",
     assertMatch : function(str, re, msg)
     {
       this.assertString(str);
+      this.assertRegExp(re);
       this.__assert(
         str.search(re) >= 0 ? true : false,
         msg || "",
@@ -452,7 +453,7 @@ qx.Class.define("qx.core.Assert",
     assertFunction : function(value, msg)
     {
       this.__assert(
-        typeof value === "function",
+        qx.lang.Type.isFunction(value),
         msg || "",
         "Expected value to be typeof function but found " + value + "!"
       );
@@ -483,7 +484,7 @@ qx.Class.define("qx.core.Assert",
     assertBoolean : function(value, msg)
     {
       this.__assert(
-        typeof value === "boolean" || value instanceof Boolean,
+        qx.lang.Type.isBoolean(value),
         msg || "",
         "Expected value to be a boolean but found " + value + "!"
       );
@@ -499,7 +500,7 @@ qx.Class.define("qx.core.Assert",
     assertNumber : function(value, msg)
     {
       this.__assert(
-        (typeof value === "number" || value instanceof Number) && isFinite(value),
+        qx.lang.Type.isNumber(value) && isFinite(value),
         msg || "",
         "Expected value to be a number but found " + value + "!"
       );
@@ -515,7 +516,7 @@ qx.Class.define("qx.core.Assert",
     assertPositiveNumber : function(value, msg)
     {
       this.__assert(
-        (typeof value === "number" || value instanceof Number) && isFinite(value) && value >= 0,
+        qx.lang.Type.isNumber(value) && isFinite(value) && value >= 0,
         msg || "",
         "Expected value to be a number >= 0 but found " + value + "!"
       );
@@ -532,7 +533,7 @@ qx.Class.define("qx.core.Assert",
     {
       this.__assert(
         (
-          (typeof value === "number" || value instanceof Number) &&
+          qx.lang.Type.isNumber(value) &&
           isFinite(value) &&
           value % 1 === 0
         ),
@@ -552,7 +553,7 @@ qx.Class.define("qx.core.Assert",
     {
       this.__assert(
         (
-          (typeof value === "number" || value instanceof Number) &&
+          qx.lang.Type.isNumber(value) &&
           isFinite(value) &&
           value % 1 === 0 &&
           value >= 0
@@ -590,7 +591,7 @@ qx.Class.define("qx.core.Assert",
     assertObject : function(value, msg)
     {
       this.__assert(
-        typeof value === "object" && value !== null,
+        value !== null && (qx.lang.Type.isObject(value) || typeof value === "object"),
         msg || "",
         "Expected value to be typeof object but found " + value + "!"
       );
@@ -622,13 +623,28 @@ qx.Class.define("qx.core.Assert",
      */
     assertMap : function(value, msg)
     {
-      var objConstructor = ({}).constructor;
       this.__assert(
         qx.lang.Type.isObject(value),
         msg || "",
         "Expected value to be a map but found " + value + "!"
       );
     },
+    
+    
+    /**
+    * Assert that the value is a regular expression.
+    *
+    * @param value {var} Value to check
+    * @param msg {String} Message to be shown if the assertion fails.
+    */
+   assertRegExp : function(value, msg)
+   {
+     this.__assert(
+       qx.lang.Type.isRegExp(value),
+       msg || "",
+       "Expected value to be a map but found " + value + "!"
+     );
+   },
 
 
     /**
