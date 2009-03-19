@@ -183,8 +183,7 @@ qx.Mixin.define("qx.ui.core.MMovable",
       var parentBounds = parent.getBounds();
 
       // Added a blocker, this solves the issue described in bug report #1462
-      if (qx.Class.implementsInterface(parent, qx.ui.window.IDesktop) &&
-          qx.Class.isSubClassOf(this.constructor, qx.ui.window.Window)) {
+      if (qx.Class.implementsInterface(parent, qx.ui.window.IDesktop)) {
         if (!this.getModal()) {
           parent.blockContent(this.getZIndex() - 1);
         }
@@ -264,8 +263,7 @@ qx.Mixin.define("qx.ui.core.MMovable",
 
       // Removed blocker, this solves the issue described in bug report #1462
       var parent = this.getLayoutParent();
-      if (qx.Class.implementsInterface(parent, qx.ui.window.IDesktop) &&
-          qx.Class.isSubClassOf(this.constructor, qx.ui.window.Window)) {
+      if (qx.Class.implementsInterface(parent, qx.ui.window.IDesktop)) {
         if (!this.getModal()) {
           parent.unblockContent();            
         }
