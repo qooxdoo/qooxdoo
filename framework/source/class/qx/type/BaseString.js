@@ -55,6 +55,18 @@ qx.Class.define("qx.type.BaseString",
     $$isString : true,
     length : 0,
 
+
+    /**
+     * Returns a string representing the specified object.
+     * 
+     * The valueOf method of String returns the primitive value of a String
+     * object as a string data type.
+     * This method is usually called internally by JavaScript and not
+     * explicitly in code.
+     * 
+     * @signature function()
+     * @return {String} A new string containing the string value.
+     */
     toString : function() {
       return this.__txt;
     },
@@ -75,6 +87,17 @@ qx.Class.define("qx.type.BaseString",
      */
      charAt : null,
 
+     /**
+      * Returns the primitive value of a String object.
+      * 
+      * The valueOf method of String returns the primitive value of a String
+      * object as a string data type.
+      * This method is usually called internally by JavaScript and not
+      * explicitly in code.
+      * 
+      * @signature function()
+      * @return {String} A new string containing the primitive value.
+      */
      valueOf : null,
 
 
@@ -105,7 +128,7 @@ qx.Class.define("qx.type.BaseString",
      * occurrence of the specified value, starting the search at fromIndex, 
      * returns -1 if the value is not found.
      *
-     * @signature function(searchValue, fromIndex)
+     * @signature function(index, offset)
      * @param index {String} A string representing the value to search for.
      * @param offset {Integer?0} The location within the calling string to start
      *   the search from. It can be any integer between 0 and the length of the 
@@ -120,7 +143,7 @@ qx.Class.define("qx.type.BaseString",
      * of the specified value, or -1 if not found. The calling string is 
      * searched backward, starting at fromIndex.
      * 
-     * @signature function(searchValue, fromIndex)
+     * @signature function(index, offset)
      * @param index {String} A string representing the value to search for.
      * @param offset {Integer?0} The location within the calling string to start
      *   the search from, indexed from left to right. It can be any integer 
@@ -129,10 +152,6 @@ qx.Class.define("qx.type.BaseString",
      * @return {Integer} The index or -1.
      */
     lastIndexOf : null,
-
-
-    // TODOC
-    localeCompare : null,
 
     /**
      * Used to retrieve the matches when matching a string against a regular 
@@ -143,7 +162,7 @@ qx.Class.define("qx.type.BaseString",
      * flag, the method returns an Array containing all matches.
      * 
      * @signature function(regexp)
-     * @param index {regexp} A regular expression object. If a non-RegExp object
+     * @param regexp {Object} A regular expression object. If a non-RegExp object
      *  obj is passed, it is implicitly converted to a RegExp by using
      *   new RegExp(obj).
      * @return {Object} The matching RegExp object or an array containing all
@@ -159,7 +178,7 @@ qx.Class.define("qx.type.BaseString",
      * @param regexp {Object} A RegExp object. The match is replaced by the 
      *   return value of parameter #2. Or a String that is to be replaced by 
      *   newSubStr.
-     * @param howMany {aFunction} A function to be invoked to create the new
+     * @param aFunction {Function} A function to be invoked to create the new
      *   substring (to put in place of the substring received from parameter
      *   #1).
      * @return {String} The new substring.
@@ -175,7 +194,7 @@ qx.Class.define("qx.type.BaseString",
      * the string. Otherwise, it returns -1.
      * 
      * @signature function(regexp)
-     * @param index {regexp} A regular expression object. If a non-RegExp object
+     * @param regexp {Object} A regular expression object. If a non-RegExp object
      *  obj is passed, it is implicitly converted to a RegExp by using
      *   new RegExp(obj).
      * @return {Object} The matching RegExp object or -1.
@@ -226,35 +245,70 @@ qx.Class.define("qx.type.BaseString",
      */
     split : null,
 
-  /**
-   * Returns the characters in a string beginning at the specified location
-   * through the specified number of characters.
-   * 
-   * Start is a character index. The index of the first character is 0, and the 
-   * index of the last character is 1 less than the length of the string. substr
-   *  begins extracting characters at start and collects length characters
-   * (unless it reaches the end of the string first, in which case it will
-   * return fewer).
-   * If start is positive and is greater than or equal to the length of the
-   * string, substr returns an empty string.
-   * 
-   * @signature function(start, length)
-   * @param start {Integer} Location at which to begin extracting characters
-   *   (an integer between 0 and one less than the length of the string).
-   * @param length {Integer?null} The number of characters to extract.
-   * @return {String} The substring.
-   */
+   /**
+    * Returns the characters in a string beginning at the specified location
+    * through the specified number of characters.
+    * 
+    * Start is a character index. The index of the first character is 0, and the 
+    * index of the last character is 1 less than the length of the string. substr
+    *  begins extracting characters at start and collects length characters
+    * (unless it reaches the end of the string first, in which case it will
+    * return fewer).
+    * If start is positive and is greater than or equal to the length of the
+    * string, substr returns an empty string.
+    * 
+    * @signature function(start, length)
+    * @param start {Integer} Location at which to begin extracting characters
+    *   (an integer between 0 and one less than the length of the string).
+    * @param length {Integer?null} The number of characters to extract.
+    * @return {String} The substring.
+    */
     substr : null,
 
+    /**
+     * Returns a subset of a String object.
+     * 
+     * substring extracts characters from indexA up to but not including indexB.
+     * In particular:
+     * If indexA equals indexB, substring returns an empty string.
+     * If indexB is omitted, substring extracts characters to the end of the
+     * string.
+     * If either argument is less than 0 or is NaN, it is treated as if it were
+     * 0.
+     * If either argument is greater than stringName.length, it is treated as if
+     * it were stringName.length.
+     * If indexA is larger than indexB, then the effect of substring is as if 
+     * the two arguments were swapped; for example, str.substring(1, 0) == str.substring(0, 1).
+     * 
+     * @signature function(indexA, indexB)
+     * @param indexA {Integer} An integer between 0 and one less than the
+     *   length of the string.
+     * @param indexB {Integer?null} (optional) An integer between 0 and the
+     *   length of the string.
+     * @return {String} The subset.
+     */
     substring : null,
 
+    /**
+     * Returns the calling string value converted to lowercase.
+     * The toLowerCase method returns the value of the string converted to
+     * lowercase. toLowerCase does not affect the value of the string itself.
+     * 
+     * @signature function()
+     * @return {String} The new string.
+     */
     toLowerCase : null,
 
-    toLocaleLowerCase : null,
-
+    /**
+     * Returns the calling string value converted to uppercase.
+     * The toUpperCase method returns the value of the string converted to
+     * uppercase. toUpperCase does not affect the value of the string itself.
+     * 
+     * @signature function()
+     * @return {String} The new string.
+     */
     toUpperCase : null,
 
-    toLocaleUpperCase : null,
 
     /**
      * Return unique hash code of object
@@ -265,6 +319,29 @@ qx.Class.define("qx.type.BaseString",
       return qx.core.ObjectRegistry.toHashCode(this);
     },
 
+
+   /**
+    * The characters within a string are converted to lower case while
+    * respecting the current locale.
+    * 
+    * The toLowerCase method returns the value of the string converted to
+    * lowercase. toLowerCase does not affect the value of the string itself.
+    * 
+    * @signature function()
+    * @return {String} The new string.
+    */
+    'toLocaleLowerCase' : null,
+
+   /**
+    * The characters within a string are converted to upper case while
+    * respecting the current locale.
+    * The toUpperCase method returns the value of the string converted to
+    * uppercase. toUpperCase does not affect the value of the string itself.
+    * 
+    * @signature function()
+    * @return {String} The new string.
+    */
+    'toLocaleUpperCase' : null,
 
     /**
      * Call the same method of the super class.
@@ -299,7 +376,6 @@ qx.Class.define("qx.type.BaseString",
        'concat',
        'indexOf',
        'lastIndexOf',
-       'localeCompare',
        'match',
        'replace',
        'search',
@@ -308,8 +384,8 @@ qx.Class.define("qx.type.BaseString",
        'substr',
        'substring',
        'toLowerCase',
-       'toLocaleLowerCase',
        'toUpperCase',
+       'toLocaleLowerCase',
        'toLocaleUpperCase'
      ];
      
