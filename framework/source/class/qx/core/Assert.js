@@ -467,7 +467,7 @@ qx.Class.define("qx.core.Assert",
      */
     assertString : function(value, msg) {
       this.__assert(
-        typeof value === "string" || value instanceof String || value.$$isString,
+        qx.lang.Type.isString(value),
         msg || "",
         "Expected value to be a string but found " + value + "!"
       );
@@ -606,10 +606,7 @@ qx.Class.define("qx.core.Assert",
     assertArray : function(value, msg)
     {
       this.__assert(
-        value instanceof Array ||
-        value.constructor.toString().indexOf("function Array(") === 0 ||
-        value.$$isArray,
-        
+        qx.lang.Type.isArray(value),        
         msg || "",
         "Expected value to be an array but found " + value + "!"
       );
@@ -627,7 +624,7 @@ qx.Class.define("qx.core.Assert",
     {
       var objConstructor = ({}).constructor;
       this.__assert(
-        value && value.constructor === objConstructor,
+        qx.lang.Type.isObject(value),
         msg || "",
         "Expected value to be a map but found " + value + "!"
       );

@@ -22,6 +22,7 @@
 
 #require(qx.core.Setting)
 #require(qx.lang.Object)
+#require(qx.lang.Type)
 #optional(qx.Interface)
 #optional(qx.Mixin)
 #optional(qx.core.Property)
