@@ -146,7 +146,7 @@ qx.Class.define("demobrowser.demo.data.SingleValueBinding",
       var validationDecorator = new qx.ui.decoration.Single(1, "solid", "red");
       // create the options with the converter
       var options = {
-        onSetOk : function() {
+        onUpdate : function() {
           labelValidation.setContent("");
           validationTextField.resetShadow();
         }, 
