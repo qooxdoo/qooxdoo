@@ -127,7 +127,7 @@ qx.Class.define("qx.ui.layout.Canvas",
         {
           if (typeof value === "number") {
             this.assertInteger(value);
-          } else if (typeof value == "string") {
+          } else if (qx.lang.type.isString(value)) {
             this.assertMatch(value, qx.ui.layout.Util.PERCENT_VALUE);
           } else {
             this.fail(
@@ -170,22 +170,22 @@ qx.Class.define("qx.ui.layout.Canvas",
         // **************************************
 
         left = props.left != null ? props.left : props.edge;
-        if (left && typeof left === "string") {
+        if (qx.lang.type.isString(left)) {
           left = Math.round(parseFloat(left) * availWidth / 100);
         }
 
         right = props.right != null ? props.right : props.edge;
-        if (right && typeof right === "string") {
+        if (qx.lang.type.isString(right)) {
           right = Math.round(parseFloat(right) * availWidth / 100);
         }
 
         top = props.top != null ? props.top : props.edge;
-        if (top && typeof top === "string") {
+        if (qx.lang.type.isString(top)) {
           top = Math.round(parseFloat(top) * availHeight / 100);
         }
 
         bottom = props.bottom != null ? props.bottom : props.edge;
-        if (bottom && typeof bottom === "string") {
+        if (qx.lang.type.isString(bottom)) {
           bottom = Math.round(parseFloat(bottom) * availHeight / 100);
         }
 
