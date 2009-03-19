@@ -89,14 +89,20 @@ qx.Class.define("apiviewer.Controller",
       req.addListener("completed", function(evt)
       {
         var loadEnd = new Date();
-        // this.debug("Time to load data from server: " + (loadEnd.getTime() - loadStart.getTime()) + "ms");
+
+        if (qx.core.Variant.isSet("qx.debug", "on")) {
+          this.debug("Time to load data from server: " + (loadEnd.getTime() - loadStart.getTime()) + "ms");
+        }
 
         var content = evt.getContent();
 
         var start = new Date();
         var treeData = eval("(" + content + ")");
         var end = new Date();
-        // this.debug("Time to eval tree data: " + (end.getTime() - start.getTime()) + "ms");
+        
+        if (qx.core.Variant.isSet("qx.debug", "on")) {
+          this.debug("Time to eval tree data: " + (end.getTime() - start.getTime()) + "ms");
+        }
 
         // give the browser a chance to update its UI before doing more
         qx.event.Timer.once(function() {
@@ -155,15 +161,6 @@ qx.Class.define("apiviewer.Controller",
           this._updateHistory(nodeName);
         }
       }, this);
-
-      /*
-      this._tree.addListener("appear", function(e) {
-        var item =  this._tree.getSelected();
-        if (item) {
-          this._tree.scrollChildIntoView(item);
-        }
-      }, this);
-      */
     },
 
 
@@ -218,12 +215,18 @@ qx.Class.define("apiviewer.Controller",
       var start = new Date();
       var rootPackage = new apiviewer.dao.Package(docTree);
       var end = new Date();
-      // this.debug("Time to build data tree: " + (end.getTime() - start.getTime()) + "ms");
+
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        this.debug("Time to build data tree: " + (end.getTime() - start.getTime()) + "ms");
+      }
 
       var start = new Date();
       this._tree.setTreeData(rootPackage);
       var end = new Date();
-      // this.debug("Time to update tree: " + (end.getTime() - start.getTime()) + "ms");
+
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        this.debug("Time to update tree: " + (end.getTime() - start.getTime()) + "ms");
+      }
 
       return true;
     },
@@ -311,7 +314,6 @@ qx.Class.define("apiviewer.Controller",
       }
 
       var nodeName = this._tree.getSelected().getUserData("nodeName");
-
 
       this._selectClass(apiviewer.dao.Class.getClassByName(nodeName), function()
       {
