@@ -287,10 +287,12 @@ qx.Class.define("qx.dev.Debug",
       
       var message = "";
             
-      var type = Object.prototype.toString.call(model).slice(8, -1);
       if (
-        type == "Number" || type == "String" 
-        || type == "Boolean" || model == null || maxLevel <= 0
+        qx.lang.Type.isNumber(data) 
+        || qx.lang.Type.isString(data) 
+        || qx.lang.Type.isBoolean(data) 
+        || data == null        
+        || maxLevel <= 0
       ) {        
         return model;
         

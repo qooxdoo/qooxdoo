@@ -73,13 +73,11 @@ qx.Class.define("qx.data.marshal.Json",
      *   the bubbling of change events or not.
      */
     jsonToClass: function(data, includeBubbleEvents) {
-      // get the proper type
-      var type = Object.prototype.toString.call(data).slice(8, -1);
       // break on all primitive json types
       if (
-        type == "String" 
-        || type == "Number" 
-        || type == "Boolean" 
+        qx.lang.Type.isNumber(data) 
+        || qx.lang.Type.isString(data) 
+        || qx.lang.Type.isBoolean(data) 
         || data == null
       ) {
         return;
@@ -130,7 +128,7 @@ qx.Class.define("qx.data.marshal.Json",
       if (this.__delegate && this.__delegate.getModelMixins) {
         var delegateMixins = this.__delegate.getModelMixins(hash);
         // check if its an array
-        if (Object.prototype.toString.call(delegateMixins).slice(8, -1) != "Array") {
+        if (!qx.lang.Type.isArray(delegateMixins)) {
           if (delegateMixins != null) {
             mixins = [delegateMixins];            
           }
@@ -185,23 +183,22 @@ qx.Class.define("qx.data.marshal.Json",
      * @param data {Object} The object for which models should be created.
      */
     jsonToModel: function(data) {   
-      var type = Object.prototype.toString.call(data).slice(8, -1);
       if (
-        type == "Number" 
-        || type == "String" 
-        || type == "Boolean" 
+        qx.lang.Type.isNumber(data) 
+        || qx.lang.Type.isString(data) 
+        || qx.lang.Type.isBoolean(data) 
         || data == null
       ) {
         return data;
         
-      } else if (type == "Array") {
+      } else if (qx.lang.Type.isArray(data)) {
         var array = new qx.data.Array();
         for (var i = 0; i < data.length; i++) {
           array.push(this.jsonToModel(data[i]));
         }
         return array;
         
-      } else if (type == "Object") {
+      } else if (qx.lang.Type.isObject(data)) {
         // create an instance for the object
         var hash = this.__jsonToHash(data);
         var model = this.__createInstance(hash);
