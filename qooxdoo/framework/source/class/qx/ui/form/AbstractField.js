@@ -302,7 +302,7 @@ qx.Class.define("qx.ui.form.AbstractField",
      */
     setValue : function(value)
     {
-      if (qx.lang.type.isString(value)
+      if (qx.lang.type.isString(value))
       {
         var elem = this.getContentElement();
         if (elem.getValue() != value)
