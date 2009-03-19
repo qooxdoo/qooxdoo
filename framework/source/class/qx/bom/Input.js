@@ -131,6 +131,7 @@ qx.Class.define("qx.bom.Input",
       var tag = element.nodeName.toLowerCase();
       var type = element.type;
       var Array = qx.lang.Array;
+      var Type = qx.lang.Type;
 
       if (typeof value === "number") {
         value += "";  
@@ -138,7 +139,7 @@ qx.Class.define("qx.bom.Input",
       
       if ((type === "checkbox" || type === "radio"))
       {
-        if (Array.isArray(value)) {
+        if (Type.isArray(value)) {
           element.checked = Array.contains(value, element.value);
         } else {
           element.checked = element.value == value;
@@ -146,7 +147,7 @@ qx.Class.define("qx.bom.Input",
       }
       else if (tag === "select") 
       {
-        var isArray = Array.isArray(value);
+        var isArray = Type.isArray(value);
         var options = element.options;
         var subel, subval;
         
