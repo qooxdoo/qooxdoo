@@ -51,7 +51,7 @@ qx.Mixin.define("qx.ui.core.MBlocker",
 
 
     /**
-     * Color of the blocker
+     * Opacity of the blocker
      */
     blockerOpacity :
     {
