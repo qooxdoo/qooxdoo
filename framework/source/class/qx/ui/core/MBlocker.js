@@ -84,25 +84,31 @@ qx.Mixin.define("qx.ui.core.MBlocker",
     // property apply
     _applyBlockerColor : function(value, old)
     {
-      var blockers = [];
-      this.__blocker && blockers.push(this.__blocker);
-      this.__contentBlocker && blockers.push(this.__contentBlocker);
-
-      for (var i=0; i<blockers.length; i++) {
-        blockers[i].setStyle("backgroundColor", qx.theme.manager.Color.getInstance().resolve(value));
-      }
+      var color = qx.theme.manager.Color.getInstance().resolve(value);
+      this.__setBlockersStyle("backgroundColor", color);
     },
 
 
     // property apply
     _applyBlockerOpacity : function(value, old)
     {
+      this.__setBlockersStyle("opacity", value);
+    },
+    
+    /**
+     * Set the style to all blockers (blocker and content blocker).
+     * 
+     * @param key {String} The name of the style attribute.
+     * @param value {String} The value. 
+     */
+    __setBlockersStyle : function(key, value)
+    {
       var blockers = [];
       this.__blocker && blockers.push(this.__blocker);
       this.__contentBlocker && blockers.push(this.__contentBlocker);
 
-      for (var i=0; i<blockers.length; i++) {
-        blockers[i].setStyle("opacity", value);
+      for (var i = 0; i < blockers.length; i++) {
+        blockers[i].setStyle(key, value);
       }
     },
 
