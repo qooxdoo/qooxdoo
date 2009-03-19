@@ -296,11 +296,11 @@ qx.Class.define("qx.test.data.controller.ListWithObjects",
     },
     
     
-    testOnSetOkLabel: function() {        
+    testOnUpdateLabel: function() {        
       // create the options map with the converter
       var options = {};
       var flag = false;
-      options.onSetOk = function() {
+      options.onUpdate = function() {
         flag = true;
       }
       // create the controller
@@ -318,7 +318,7 @@ qx.Class.define("qx.test.data.controller.ListWithObjects",
       }
       
       // check if the flag is set
-      this.assertTrue(flag, "onSetOk not executed");
+      this.assertTrue(flag, "onUpdate not executed");
     },
     
     
