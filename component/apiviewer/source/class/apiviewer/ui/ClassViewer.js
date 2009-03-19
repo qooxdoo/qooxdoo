@@ -554,19 +554,13 @@ qx.Class.define("apiviewer.ui.ClassViewer",
         return false;
       }
 
-      if(itemNode.isFromProperty && itemNode.isFromProperty())
-      {
-        var controller = qx.core.Init.getApplication().controller;
-        var btn_expand = controller._widgetRegistry.getWidgetById("btn_expand");
-        if (btn_expand.getChecked() === false) {
-          btn_expand.setChecked(true);
-          this.setExpandProperties(true);
-        }
-      }
+      // Show properties, private or protected methods if they are hidden
+      this.__enableSection(itemNode, itemName);
+
 
       var panel = this._getPanelForItemNode(itemNode);
-
       var itemElement = panel.getItemElement(itemNode.getName());
+
       if (!itemElement) {
         return false;
       }
@@ -592,6 +586,57 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       return true;
     },
 
+    /**
+     * Programatically enables the butto to show private, protected function or
+     * properties so that the selected item can be shown.
+     *
+     * @param itemName {String} the name of the item to highlight.
+     * @param itemName {String} The doc node of the item
+     */
+    __enableSection : function(itemNode, itemName)
+    {
+      // The particular button for properties, privates or protected
+      var buttonName = "";
+
+      // The method to show properties, privates or protected
+      var methodName = "";
+
+      // Check for property
+      if(itemNode.isFromProperty && itemNode.isFromProperty())
+      {
+        buttonName = "btn_expand";
+        methodName = "setShowProtected";
+      }
+      else if (itemNode.getListName() == "methods")
+      {
+        // Check for privates
+        if (itemName.indexOf("__") === 0)
+        {
+          buttonName = "btn_private";
+          methodName = "setShowPrivate";
+        }
+        // Check for protected
+        else if (itemName.indexOf("_") === 0)
+        {
+          buttonName = "btn_protected";
+          methodName = "setShowProtected";
+        }
+      }
+
+      // If the item is on of the above, enable button and call method to show
+      // category.
+      if (buttonName != "")
+      {
+        var controller = qx.core.Init.getApplication().controller;
+        var button = controller._widgetRegistry.getWidgetById(buttonName);
+        if (button.getChecked() === false)
+        {
+          button.setChecked(true);
+          this[methodName](true);
+        }
+      }
+
+    },
 
     /**
      * Callback for internal links to other classes/items.
