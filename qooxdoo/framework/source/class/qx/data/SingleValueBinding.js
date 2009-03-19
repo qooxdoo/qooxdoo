@@ -735,7 +735,7 @@ qx.Class.define("qx.data.SingleValueBinding",
      *   contains the target type.
      */
     __defaultConvertion : function(data, targetCheck) {
-      var dataType = Object.prototype.toString.call(data).slice(8, -1);
+      var dataType = qx.lang.Type.getClass(data);
 
       // to integer
       if ((dataType == "Number" || dataType == "String") &&
