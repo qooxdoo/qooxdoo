@@ -1,4 +1,4 @@
-/* ************************************************************************
+﻿/* ************************************************************************
 
    qooxdoo - the new era of web development
 
@@ -122,11 +122,11 @@ qx.Class.define("qx.legacy.log.appender.Abstract",
             break;
 
           case Logger.LEVEL_INFO:
-            text += " INFO:  ";
+            text += " INFO: ";
             break;
 
           case Logger.LEVEL_WARN:
-            text += " WARN:  ";
+            text += " WARN: ";
             break;
 
           case Logger.LEVEL_ERROR:
