@@ -373,11 +373,11 @@ qx.Class.define("qx.util.format.DateFormat",
               }
               else if (wildcardSize == 2)
               {
-                replacement = DateFormat.MEDIUM_TIMEZONE_NAMES[timezone];
+                replacement = DateFormat.MEDIUM_TIMEZONE_NAMES[timezoneHours];
               }
               else if (wildcardSize == 3)
               {
-                replacement = DateFormat.FULL_TIMEZONE_NAMES[timezone];
+                replacement = DateFormat.FULL_TIMEZONE_NAMES[timezoneHours];
               }
 
               break;
