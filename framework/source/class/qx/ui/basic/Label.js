@@ -217,6 +217,22 @@ qx.Class.define("qx.ui.basic.Label",
       return this.getRich();
     },
 
+    // overridden
+    _applySelectable : function(value)
+    {
+      this.base(arguments, value);
+
+      /*
+       * We have to set the value to "text" in Webkit for the container and
+       * content element
+       */
+      if (qx.core.Variant.isSet("qx.client", "webkit"))
+      {
+        this.__containerElement.setStyle("userSelect", value ? "text" : "none");
+        this.__contentElement.setStyle("userSelect", value ? "text" : "none");
+      }
+    },
+
 
     // overridden
     _getContentHeightForWidth : function(width)
