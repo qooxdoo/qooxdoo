@@ -221,8 +221,6 @@ qx.Mixin.define("qx.ui.core.MResizable",
         }
       }
 
-      var bounds = this.getBounds();
-
       return {
         viewportLeft : left,
         viewportTop : top,
