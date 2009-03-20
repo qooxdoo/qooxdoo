@@ -47,13 +47,18 @@ qx.Class.define("qx.ui.form.ComboBox",
     this._createChildControl("textfield");
     this._createChildControl("button");
 
-    // Change selection mode
-    var list = this.getChildControl("list");
-    list.setSelectionMode("single");
+    // HACK! Chris, please have a look at this:
+    if (this.classname != "qx.ui.form.DateField")
+    {
+      // Change selection mode
+      var list = this.getChildControl("list");
+      list.setSelectionMode("single");
+
+      this.addListener("appear", this._onAppear);
+    }
     
     this.addListener("click", this._onClick);
     this.addListener("keydown", this._onKeyDown);
-    this.addListener("appear", this._onAppear);
   },
 
 
