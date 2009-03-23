@@ -122,7 +122,8 @@ qx.Class.define("testrunner.profile.String",
       function mySplit1(str, splitter)
       {
         var res = [];
-        var start = end = 0;
+        var start = 0;
+        var end = 0;
 
         while (true)
         {
@@ -145,7 +146,8 @@ qx.Class.define("testrunner.profile.String",
       function mySplit2(str, splitter)
       {
         var res = [];
-        var start = end = 0;
+        var start = 0;
+        var end = 0;
 
         for (var i=0; i<str.length; i++)
         {
