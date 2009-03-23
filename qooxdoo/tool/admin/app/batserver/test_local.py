@@ -51,8 +51,7 @@ testConf = {
   'classPath'           : '/home/dwagner/qxselenium/selenium-java-client-driver.jar:/home/dwagner/rhino1_7R1/js.jar',
   'scriptTestrunner'    : '/home/dwagner/qxselenium/test_testrunner.js',
   'scriptDemobrowser'   : '/home/dwagner/qxselenium/test_demobrowser.js',
-  'scriptFeedreader'    : '/home/dwagner/qxselenium/test_feedreader.js',
-  'runLint'             : '/home/dwagner/qxselenium/lintRunner.py -m -w /var/www/qx/trunk/qooxdoo/framework/'
+  'scriptFeedreader'    : '/home/dwagner/qxselenium/test_feedreader.js'
 }
 
 autConf = {
@@ -68,6 +67,18 @@ browserConf = {
   'FF31b3'   : '*custom /home/dwagner/firefox-31b3/firefox -no-remote -P selenium-31b3',
   'FF2'      : '*custom /home/dwagner/firefox2/firefox -no-remote -P selenium-2',
   'Opera964' : '*opera'
+}
+
+lintConf = {
+  'lintRunner'      : '/home/dwagner/qxselenium/lintRunner.py',
+  'framework'       : '/var/www/qx/trunk/qooxdoo/framework',
+  'demobrowser'     : '/var/www/qx/trunk/qooxdoo/application/demobrowser',
+  'feedreader'      : '/var/www/qx/trunk/qooxdoo/application/feedreader',
+  'playground'      : '/var/www/qx/trunk/qooxdoo/application/playground',
+  'portal'          : '/var/www/qx/trunk/qooxdoo/application/portal',
+  'apiviewer'       : '/var/www/qx/trunk/qooxdoo/component/apiviewer',
+  'testrunner'      : '/var/www/qx/trunk/qooxdoo/component/testrunner',
+  'inspector'       : '/var/www/qx/trunk/qooxdoo/component/inspector'
 }
 
 mailConf = {
@@ -87,8 +98,13 @@ def main():
       
         clearLogs()
         invoke_external(testConf['buildTests'])
-        invoke_external(testConf['runLint'])
         trunkrev = get_rev().rstrip('\n')
+        
+        for key in lintConf:
+          if (key != "lintRunner"):
+            print("Running Lint for " + key.capitalize())
+            invoke_external(getLintCmd(lintConf[key], trunkrev))
+
         invoke_external(getStartCmd('Testrunner','FF307'))
         invoke_external(getStartCmd('Testrunner','FF2'))
         #CRASH invoke_external(getStartCmd('Testrunner','FF31b2'))
@@ -105,13 +121,11 @@ def main():
         invoke_external(testConf['logFormat'])
         sendReport("Demobrowser",trunkrev)
         
-        """
         clearLogs()
         trunkrev = get_rev().rstrip('\n')
         invoke_external(getStartCmd('Feedreader','FF307'))
         invoke_external(testConf['logFormat'])
         sendReport("Feedreader",trunkrev)
-        """
         
     else:
         print("Couldn't contact Selenium server.") 
@@ -184,6 +198,15 @@ def getStartCmd(aut, browser):
     cmd += " autPath=" + autConf['autPath' + aut]
     cmd += " testBrowser='" + browserConf[browser] + "'"
     return cmd
+
+def getLintCmd(target,trunkrev=None):
+    cmd = lintConf['lintRunner'] + ' -m -t ' + mailConf['mailTo'] + ' -w ' + target
+    
+    if (trunkrev):
+        cmd += ' -s ' + '"(trunk r' + trunkrev + ')"'
+    
+    return cmd
+    
 
 # Sends the generated test report file by email.
 def sendReport(aut,trunkrev):    
