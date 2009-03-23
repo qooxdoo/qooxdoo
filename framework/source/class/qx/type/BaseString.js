@@ -330,7 +330,7 @@ qx.Class.define("qx.type.BaseString",
     * @signature function()
     * @return {String} The new string.
     */
-    'toLocaleLowerCase' : null,
+    toLocaleLowerCase : null,
 
    /**
     * The characters within a string are converted to upper case while
@@ -341,7 +341,7 @@ qx.Class.define("qx.type.BaseString",
     * @signature function()
     * @return {String} The new string.
     */
-    'toLocaleUpperCase' : null,
+    toLocaleUpperCase : null,
 
     /**
      * Call the same method of the super class.
