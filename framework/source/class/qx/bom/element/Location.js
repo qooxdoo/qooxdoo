@@ -87,6 +87,7 @@ qx.Class.define("qx.bom.element.Location",
       // Hint: The viewport workaround here only needs to be applied for
       // MSHTML and gecko clients currently.
       //
+      // TODO: Make this a bug, add unit tests if feasible
       // Opera 9.6+ supports this too, but has a few glitches:
       // http://edvakf.googlepages.com/clientrect.html
       // http://tc.labs.opera.com/apis/cssom/clientrects/
