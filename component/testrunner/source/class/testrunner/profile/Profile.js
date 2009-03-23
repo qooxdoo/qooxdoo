@@ -46,6 +46,8 @@ qx.Class.define("testrunner.profile.Profile",
 
       console.profile("object create empty");
       var ex = "test.Empty1_";
+      // Date instance used in eval
+      var d = new Date();
 
       for (var i=0; i<loops; i++)
       {
