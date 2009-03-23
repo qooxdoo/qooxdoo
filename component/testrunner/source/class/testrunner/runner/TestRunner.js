@@ -41,7 +41,7 @@
  */
 qx.Class.define("testrunner.runner.TestRunner",
 {
-  extend : qx.ui.container.Composite,
+  extend : qx.ui.container.Native,
 
   /*
   *****************************************************************************
@@ -60,7 +60,7 @@ qx.Class.define("testrunner.runner.TestRunner",
     this.setLayout(layout);
 
     // Dependencies to loggers
-    qx.log.appender.Console;
+    qx.log.appender.Native;
 
     this.widgets = {};
     this.tests = {};
@@ -82,7 +82,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       backgroundColor : "background-medium"
     });
 
-    this._labelDeco = deco;
+    this.__labelDeco = deco;
 
     // Left -- is done when iframe is loaded
     var left = this.__makeLeft();
@@ -107,7 +107,7 @@ qx.Class.define("testrunner.runner.TestRunner",
     mainsplit.add(right, 1);
 
     // progress bar
-    this._progress = this.__makeProgress();
+    this.__progress = this.__makeProgress();
 
     // output views
     var buttview = this.__makeOutputViews();
@@ -122,9 +122,9 @@ qx.Class.define("testrunner.runner.TestRunner",
     this.add(statuspane);
     
     // history
-    this._history = qx.bom.History.getInstance();
-    if (this._history.getState()) {
-      this.__setCurrentTestArray(this._history.getState());
+    var history = qx.bom.History.getInstance();
+    if (history.getState()) {
+      this.__setCurrentTestArray(history.getState());
     }
   },
 
@@ -211,6 +211,32 @@ qx.Class.define("testrunner.runner.TestRunner",
 
   members :
   {
+    /**
+     * URL of the test application, with 'testclass' parameter (test namespace).
+     */
+    __testSuiteUrl : null,
+
+    /**
+     * Amount of attempts made to load the test application. Used to enforce
+     * a limit in order to avoid an endless loop if the test app is invalid.
+     */
+    __loadAttempts : null,
+
+    /**
+     * Timer used for repeated attempts to load the test application.
+     */
+    __loadTimer : null,
+
+    /**
+     * Background for pane labels.
+     */
+    __labelDeco : null,
+
+    /**
+     * Progress bar instance.
+     */
+    __progress : null,
+    
     /** This one is called by Application.js
      */
     load : function() {
@@ -404,7 +430,7 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       var caption1 = new qx.ui.basic.Label(this.tr("Test Results")).set({
         font : "bold",
-        decorator : this._labelDeco,
+        decorator : this.__labelDeco,
         padding : 5,
         allowGrowX : true,
         allowGrowY : true
@@ -413,7 +439,7 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       var f1 = new testrunner.runner.TestResultView();
       this.f1 = f1;
-      p1.add(this._progress);
+      p1.add(this.__progress);
       p1.add(f1, {flex : 1});
 
 
@@ -434,7 +460,7 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       var caption3 = new qx.ui.basic.Label(this.tr("Application under test")).set({
         font : "bold",
-        decorator : this._labelDeco,
+        decorator : this.__labelDeco,
         padding : 5,
         allowGrowX : true,
         allowGrowY : true
@@ -470,7 +496,7 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       var caption2 = new qx.ui.basic.Label("Log").set({
         font : "bold",
-        decorator : this._labelDeco,
+        decorator : this.__labelDeco,
         padding : [4, 3],
         allowGrowX : true,
         allowGrowY : true
@@ -522,7 +548,7 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       var caption = new qx.ui.basic.Label(this.tr("Tests")).set({
         font : "bold",
-        decorator : this._labelDeco,
+        decorator : this.__labelDeco,
         padding : 5,
         allowGrowX : true,
         allowGrowY : true
@@ -948,7 +974,7 @@ qx.Class.define("testrunner.runner.TestRunner",
           that.f1.addTestResult(that.currentTestData);
           that.appender(this.tr("Test '") + test.getFullName() + this.tr("' started."));
           // store current test in history - slows everything down
-          //that._history.addToHistory(test.getFullName().replace(":", "."));
+          //that.__history.addToHistory(test.getFullName().replace(":", "."));
         },
         that);
 				
@@ -1473,11 +1499,10 @@ qx.Class.define("testrunner.runner.TestRunner",
       "iframe",
       "tree1",
       "loader",
-      "_labelDeco",
-      "_progress",
+      "__labelDeco",
+      "__progress",
       "logelem",
-      "currentTestData",
-      "_history"
+      "currentTestData"
     );
   },
 
