@@ -165,7 +165,7 @@ qx.Mixin.define("qx.ui.core.MChildrenHandling",
      * ignore the children order for the layout process.
      *
      * @param index {Integer} Index of the widget to remove.
-     * @return {void}
+     * @return {LayoutItem} The child removed.
      */
     removeAt : function(index) {
       return this._removeAt(index);
