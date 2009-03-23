@@ -20,11 +20,7 @@
 #
 ################################################################################
 
-import re
-import os
-import sys
-import optparse
-import shutil, errno
+import re, os, sys, optparse, shutil, errno, stat
 from string import Template
 
 import qxenviron
@@ -133,7 +129,7 @@ def patchSkeleton(dir, name, namespace):
                         "Namespace": namespace,
                         "REL_QOOXDOO_PATH": relPath,
                         "ABS_QOOXDOO_PATH": absPath,
-                        "QOOXDOO_VERSION": "0.8.1"
+                        "QOOXDOO_VERSION": "0.8.2"
                     })
                 )
                 out.close()
@@ -141,7 +137,9 @@ def patchSkeleton(dir, name, namespace):
 
     for root, dirs, files in os.walk(dir):
         for file in [file for file in files if file.endswith(".py")]:
-            os.chmod(os.path.join(root, file), 0755)
+            os.chmod(os.path.join(root, file), (stat.S_IRWXU
+                                               |stat.S_IRGRP |stat.S_IXGRP
+                                               |stat.S_IROTH |stat.S_IXOTH)) # 0755
 
 
 
@@ -149,7 +147,7 @@ def handleRemoveReadonly(func, path, exc):
 # For Windows the 'readonly' must not be set for resources to be removed
     excvalue = exc[1]
     if func in (os.rmdir, os.remove) and excvalue.errno == errno.EACCES:
-        os.chmod(path, 0777)
+        os.chmod(path, stat.S_IRWXU| stat.S_IRWXG| stat.S_IRWXO) # 0777
         func(path)
     else:
         raise
