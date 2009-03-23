@@ -319,16 +319,18 @@ qx.Class.define("testrunner.runner.TestHandler",
      */
     hasTests : function(node)
     {
-      if (!this.isClass(node)) return false;
-      else
-      {
+      if (!this.isClass(node)) {
+        return false;
+      }
+      else {
         var children = node.getChildren();
-
-        for (var i=0; i<children.length; i++)
-        {
-          if (children[i].type && children[i].type == "test") return true;
+        
+        for (var i = 0; i < children.length; i++) {
+          if (children[i].type && children[i].type == "test") {
+            return true;
+          }
         }
-
+        
         return false;
       }
     },
