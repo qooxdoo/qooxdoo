@@ -1331,7 +1331,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           contentPadding : [ 10, 10, 10, 10 ],
           backgroundColor : "background",
           decorator : states.maximized ? undefined : "outset",
-          shadow : states.maximized ? null : "shadow-small"
+          shadow : states.maximized ? undefined : "shadow-small"
         };
       }
     },
