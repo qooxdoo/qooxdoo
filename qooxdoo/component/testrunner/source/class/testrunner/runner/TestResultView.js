@@ -37,7 +37,7 @@ qx.Class.define("testrunner.runner.TestResultView",
   construct : function()
   {
     this.base(arguments);
-    this._testResults = [];
+    this.__testResults = [];
 
     this.setBackgroundColor("white");
     this.setOverflowY("scroll");
@@ -75,6 +75,8 @@ qx.Class.define("testrunner.runner.TestResultView",
 
   members :
   {
+    __testResults : null,
+    
     /**
      * TODOC
      *
@@ -84,9 +86,9 @@ qx.Class.define("testrunner.runner.TestResultView",
     {
       var html = new qx.util.StringBuilder();
 
-      for (var i=this._testResults.length-1; i>=0; i--)
+      for (var i=this.__testResults.length-1; i>=0; i--)
       {
-        var result = this._testResults[i];
+        var result = this.__testResults[i];
         html.add(this.__createResultHtml(result));
       }
 
@@ -153,7 +155,7 @@ qx.Class.define("testrunner.runner.TestResultView",
     addTestResult : function(testResult)
     {
 
-      this._testResults.push(testResult);
+      this.__testResults.push(testResult);
 
       testResult.addListener("changeState", function() {
         this.__onStateChange(testResult);
@@ -181,11 +183,11 @@ qx.Class.define("testrunner.runner.TestResultView",
      */
     clear : function()
     {
-      for (var i=0; i<this._testResults.length; i++) {
-        this._testResults[i].dispose();
+      for (var i=0; i<this.__testResults.length; i++) {
+        this.__testResults[i].dispose();
       }
 
-      this._testResults = [];
+      this.__testResults = [];
       this.setHtml("");
     }
   },
