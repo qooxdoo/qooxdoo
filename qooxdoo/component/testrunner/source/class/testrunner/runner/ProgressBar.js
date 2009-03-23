@@ -181,7 +181,7 @@ qx.Class.define("testrunner.runner.ProgressBar",
     update : function(val)
     {
       var paramError = "Parameter to 'update' function must be a string representing a fraction or a percentage.";  // type error
-      var quotVal, pcntVal;
+      var quotVal;
 
       if (typeof (val) != 'string') {
         throw new Error(paramError);
@@ -190,7 +190,7 @@ qx.Class.define("testrunner.runner.ProgressBar",
       if (val.indexOf("/") > -1)
       {
         // handle curr/total spec
-        quot = val.split("/");
+        var quot = val.split("/");
 
         if ((quot.length != 2) || (isNaN(quot[0] = parseInt(quot[0]))) || (isNaN(quot[1] = parseInt(quot[1]))) || (quot[0] <= 0) || (quot[1] <= 0) || (quot[0] > quot[1])) {
           throw new Error(paramError);
