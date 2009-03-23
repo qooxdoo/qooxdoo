@@ -306,7 +306,7 @@ qx.Class.define("qx.ui.basic.Image",
      * Event handler fired after the preloader has finished loading the icon
      *
      * @param source {String} Image source which was loaded
-     * @param size {Map} Dimensions of the loaded image
+     * @param imageInfo {Map} Dimensions of the loaded image
      * @return {void}
      */
     __loaderCallback : function(source, imageInfo)
