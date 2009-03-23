@@ -41,7 +41,7 @@
  */
 qx.Class.define("testrunner.runner.TestRunner",
 {
-  extend : qx.ui.container.Native,
+  extend : qx.ui.container.Composite,
 
   /*
   *****************************************************************************
@@ -60,7 +60,7 @@ qx.Class.define("testrunner.runner.TestRunner",
     this.setLayout(layout);
 
     // Dependencies to loggers
-    qx.log.appender.Native;
+    qx.log.appender.Console;
 
     this.widgets = {};
     this.tests = {};
