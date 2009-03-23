@@ -63,8 +63,6 @@ qx.Class.define("testrunner.runner.TestHandler",
       {
         var mclass = el.classname;
         var path = mclass.split(".");
-        var dirname = path.slice(0, path.length - 1);
-        var basename = path[path.length - 1];
 
 
         /**
@@ -158,7 +156,7 @@ qx.Class.define("testrunner.runner.TestHandler",
       if (struct.children && struct.children.length)
       {
         for (var j=0; j<struct.children.length; j++) {
-          tree.add(readTree(struct.children[j]));
+          tree.add(this.readTree(struct.children[j]));
         }
       }
 
