@@ -47,6 +47,7 @@ testConf = {
   'svnRev'              : 'svnversion /var/www/qx/trunk',
   'buildTests'          : '/var/www/qx/trunk/qooxdoo/tool/admin/app/batserver/batbuild.py -z -C -p framework -g test -n',
   'buildDemobrowser'    : '/var/www/qx/trunk/qooxdoo/tool/admin/app/batserver/batbuild.py -z -C -p application/demobrowser -g build -n',
+  'buildDemobrowser'    : '/var/www/qx/trunk/qooxdoo/tool/admin/app/batserver/batbuild.py -z -C -p application/feedreader -g build -n',
   'classPath'           : '/home/dwagner/qxselenium/selenium-java-client-driver.jar:/home/dwagner/rhino1_7R1/js.jar',
   'scriptTestrunner'    : '/home/dwagner/qxselenium/test_testrunner.js',
   'scriptDemobrowser'   : '/home/dwagner/qxselenium/test_demobrowser.js',
@@ -175,7 +176,7 @@ def seleniumserver():
 # Assembles the shell command that launches the actual test in Rhino.
 def getStartCmd(aut, browser):
     cmd = "java"
-    if (testConf['classPath']):
+    if ('classPath' in testConf):
         cmd += " -cp " + testConf['classPath']
     cmd += " org.mozilla.javascript.tools.shell.Main"    
     cmd += " " + testConf['script' + aut]
