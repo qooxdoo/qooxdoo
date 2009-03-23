@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2007-2008 1&1 Internet AG, Germany, http://www.1und1.de
+     2009 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -23,36 +23,30 @@
 ************************************************************************ */
 
 /**
- * Low-level life cycle management.
- * One can use {@link #onReady} and {@link #onShutdown} to add callbacks function to get
- * informed about the ready status as well as the shutdown
- * of the application.
+ * Low-level application life-cycle management.
+ * 
+ * One can use the static methods {@link #onReady} and {@link #onShutdown} to 
+ * add callback functions, in order to get informed about the ready state or 
+ * the shutdown of the low-level application, respectively.
  */
 qx.Class.define("qx.bom.Lifecycle",
 {
   statics :
-  {
-    /* ***********************************************************************
-     *                        PUBLIC API
-     *********************************************************************** */
-    
+  {    
     /**
-     * Register a callback with an (optional) context method which should 
-     * informed when the application is ready.
+     * Register a callback function, which is called in the optionally provided 
+     * context, when the application is ready.
      * 
      * @param callback {Function} callback function
-     * @param context {Object} context in which the callback should be called
-     *                         default is <code>window</code> object
+     * @param context {Object?window} context in which the callback is called
      */
     onReady : function(callback, context)
     {
       var Registration = qx.event.Registration;
       var appHandler = Registration.getManager(window).getHandler(qx.event.handler.Application);
       
-      /* 
-       * If the application is already available inform the listener immediately
-       * Otherwise use the "ready" event to inform them 
-       */
+      // If the application is already available, execute the callback 
+      // immediately. Otherwise listen to the "ready" event to call it later. 
       if (appHandler && appHandler.isApplicationReady()) {
         callback.call(context);  
       } else {
@@ -62,15 +56,14 @@ qx.Class.define("qx.bom.Lifecycle",
     
     
     /**
-     * Register a callback with an (optional) context method which should 
-     * informed when the application is shutdown.
-     * <b>IMPORTANT NOTE</b>: since it is <b>not</b> guaranteed that a 
-     * <code>shutdown</code> event is fired you <b>cannot</b> fully rely on to
-     * get informed / your listener is called. 
+     * Register a callback function, which is called in the optionally provided 
+     * context, when the application is shutdown.
+     * <b>IMPORTANT NOTE</b>: Since it is <i>not</i> guaranteed that a 
+     * <code>shutdown</code> event is fired, you <i>cannot</i> fully rely on 
+     * getting informed. 
      * 
      * @param callback {Function} callback function
-     * @param context {Object} context in which the callback should be called
-     *                         default is <code>window</code> object
+     * @param context {Object?window} context in which the callback is called
      */
     onShutdown : function(callback, context) {
       qx.event.Registration.addListener(window, "shutdown", callback, context);
