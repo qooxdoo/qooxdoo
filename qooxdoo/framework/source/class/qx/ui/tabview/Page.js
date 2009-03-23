@@ -19,9 +19,8 @@
 ************************************************************************ */
 
 /**
- * A page is the wax to add content to a {@link TabView}. Each page
- * get a button to switch to the page. Only one page is visible at
- * each time.
+ * A page is the way to add content to a {@link TabView}. Each page gets a 
+ * button to switch to the page. Only one page is visible at a time.
  */
 qx.Class.define("qx.ui.tabview.Page",
 {
