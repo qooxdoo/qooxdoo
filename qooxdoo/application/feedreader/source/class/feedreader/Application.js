@@ -118,7 +118,7 @@ qx.Class.define("feedreader.Application",
       this._feedFolder.getFeeds().push(this._staticFeedFolder);
       this._staticFeedFolder.getFeeds().push(
         new feedreader.model.Feed(
-          "qooxdoo News", "http://feedproxy.feedburner.com/qooxdoo/news/content", "static"
+          "qooxdoo News", "http://feeds2.feedburner.com/qooxdoo/news/content", "static"
         )
       );      
       this._staticFeedFolder.getFeeds().push(
@@ -138,7 +138,7 @@ qx.Class.define("feedreader.Application",
       );
       this._staticFeedFolder.getFeeds().push(
         new feedreader.model.Feed(
-          "Ajaxian","http://feedproxy.feedburner.com/ajaxian", "static"
+          "Ajaxian","http://feeds2.feedburner.com/ajaxian", "static"
         )
       );
 
