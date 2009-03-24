@@ -228,8 +228,8 @@ qx.Class.define("qx.ui.basic.Label",
        */
       if (qx.core.Variant.isSet("qx.client", "webkit"))
       {
-        this.__containerElement.setStyle("userSelect", value ? "text" : "none");
-        this.__contentElement.setStyle("userSelect", value ? "text" : "none");
+        this.getContainerElement().setStyle("userSelect", value ? "text" : "none");
+        this.getContentElement().setStyle("userSelect", value ? "text" : "none");
       }
     },
 
