@@ -688,7 +688,9 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
           if (node.bFirstChild)
           {
             // ... then return a start line.
-            return STDCR.__icon.start;
+            return (node.bOpened
+                    ? STDCR.__icon.startContract
+                    : STDCR.__icon.startExpand);
           }
         }
 
