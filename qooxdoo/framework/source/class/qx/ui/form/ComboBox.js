@@ -47,7 +47,7 @@ qx.Class.define("qx.ui.form.ComboBox",
     this._createChildControl("textfield");
     this._createChildControl("button");
 
-    // HACK! Chris, please have a look at this:
+    // TODO Remove this hack for bug #2150
     if (this.classname != "qx.ui.form.DateField")
     {
       // Change selection mode
