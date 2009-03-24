@@ -352,9 +352,6 @@ qx.Class.define("qx.ui.core.LayoutItem",
      * Get the computed location and dimension as computed by
      * the layout manager.
      *
-     * This function is guaranteed to return a correct value
-     * during a {@link #changeSize} or {@link #changePosition} event dispatch.
-     *
      * @return {Map} The location and dimensions in pixel
      *    (if the layout is valid). Contains the keys
      *    <code>width</code>, <code>height</code>, <code>left</code> and
