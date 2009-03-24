@@ -296,7 +296,9 @@ qx.Class.define("qx.ui.basic.Image",
         if(!qx.io2.ImageLoader.isFailed(source)) {
           qx.io2.ImageLoader.load(source, this.__loaderCallback, this);
         } else {
-          el.resetSource();
+          if (el != null) {
+            el.resetSource();
+          }
         }
       }
     },
