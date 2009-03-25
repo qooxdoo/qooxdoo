@@ -89,7 +89,7 @@ qx.Class.define("demobrowser.demo.event.Event",
     },
 
     _onResize : function(e) {
-      this.log(["Resize:" + e]);
+      this._log(["Resize:" + e]);
     },
 
     _onKeydown: function(e) {
