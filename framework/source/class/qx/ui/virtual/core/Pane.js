@@ -452,10 +452,9 @@ qx.Class.define("qx.ui.virtual.core.Pane",
      *    origin.
      * @param documentY {Integer} The y coordinate relative to the viewport
      *    origin.
-     * @return {Map} A map containing th <code>row</code> and <code>column</code>
+     * @return {Map|null} A map containing the <code>row</code> and <code>column</code>
      *    of the found cell. If the coordinate is outside of the pane's bounds
-     *    of there is no cell at the coordinate the values of row and column
-     *    are <code>null</code>.
+     *    or there is no cell at the coordinate <code>null</code> is returned.
      */
     getCellAtPosition: function(documentX, documentY)
     {
@@ -463,28 +462,30 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       var paneLocation = this.getContentLocation();
 
       if (
+        !paneLocation ||
         documentY < paneLocation.top ||
         documentY >= paneLocation.bottom ||
         documentX < paneLocation.left ||
         documentX >= paneLocation.right
       ) {
-        return {
-          row : null,
-          column : null
-        };
+        return null;
       }
 
-      row = this.__rowConfig.getItemAtPosition(
+      rowData = this.__rowConfig.getItemAtPosition(
         this.getScrollY() + documentY - paneLocation.top
-      ).index;
+      );
 
-      column = this.__columnConfig.getItemAtPosition(
+      columnData = this.__columnConfig.getItemAtPosition(
         this.getScrollX() + documentX - paneLocation.left
-      ).index;
+      );
 
+      if (!rowData || !columnData) {
+        return null;
+      }
+      
       return {
-        row : row,
-        column : column
+        row : rowData.index,
+        column : columnData.index
       };
     },
 
