@@ -371,7 +371,7 @@ qx.Class.define("qx.test.ui.Destroy",
         this.flush();
 
         widget.destroy();
-      }, this, "Dispose tool tip");
+      }, this, "Dispose tree");
     },
 
 
@@ -390,7 +390,7 @@ qx.Class.define("qx.test.ui.Destroy",
         this.flush();
 
         widget.destroy();
-      }, this, "Dispose tool tip");
+      }, this, "Dispose window");
     },
 
     __createMenu : function()

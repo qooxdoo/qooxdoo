@@ -901,13 +901,13 @@ qx.Class.define("qx.ui.core.Widget",
         return;
       }
 
-      if (this.$$parent) {
+      if (this.$$parent && !this.$$parent.$$disposed) {
         this.$$parent.getContentElement().remove(this.__containerElement);
       }
 
       this.$$parent = parent || null;
 
-      if (parent) {
+      if (parent && !parent.$$disposed) {
         this.$$parent.getContentElement().add(this.__containerElement);
       }
 
