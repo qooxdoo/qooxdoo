@@ -20,6 +20,7 @@
 qx.Class.define("qx.test.ui.virtual.performance.DomPoolCell", 
 {
   extend : qx.test.ui.virtual.performance.AbstractLayerTest,
+  type : "abstract", // disabled
 
   members :
   {
