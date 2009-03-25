@@ -1340,13 +1340,14 @@ qx.Class.define("testrunner.runner.TestRunner",
      * "failure", "error"
      * @return {void}
      */
-    __setTreeIcon : function(node, type, status) {      
+    __setTreeIcon : function(node, type, status) {
       var icons;
       if (status == "success") {
         icons = testrunner.runner.TestRunner.TREEICONS;
       } else {
         icons = testrunner.runner.TestRunner.TREEICONSERROR;
-      }      
+        node.setTextColor("#ff0000");
+      }
       node.setIcon(icons[type]);
     },
 
