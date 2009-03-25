@@ -145,6 +145,10 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
         }
       }
 
+
+      if (this.getRoot().getChildren().length != 0) debugger;
+
+
       // check root children length
       this.assertIdentical(
         0, this.getRoot().getChildren().length,
