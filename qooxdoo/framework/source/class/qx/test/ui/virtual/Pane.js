@@ -682,11 +682,27 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.pane.addLayer(layer);
       this.flush();
 
-      this.assertJsonEquals({row : 0, column : 0}, this.pane.getCellAtPosition(0, 0))
-      this.assertJsonEquals({row : null, column : null}, this.pane.getCellAtPosition(400, 0))
-      this.assertJsonEquals({row : null, column : null}, this.pane.getCellAtPosition(0, 300))
-      this.assertJsonEquals({row : null, column : null}, this.pane.getCellAtPosition(400, 300))
-      this.assertJsonEquals({row : 2, column : 2}, this.pane.getCellAtPosition(89, 29))
+      this.assertJsonEquals({row : 0, column : 0}, this.pane.getCellAtPosition(0, 0));
+      this.assertEquals(null, this.pane.getCellAtPosition(400, 0));
+      this.assertEquals(null, this.pane.getCellAtPosition(0, 300));
+      this.assertEquals(null, this.pane.getCellAtPosition(400, 300));
+      this.assertJsonEquals({row : 2, column : 2}, this.pane.getCellAtPosition(89, 29));
+    },
+    
+    
+    testGetItemAtPositionEmptySpace : function()
+    {
+      var pane = this.pane;
+      
+      pane.setHeight(100);
+      pane.setWidth(50);
+      this.pane.getRowConfig().setItemCount(1);
+      this.pane.getRowConfig().setDefaultItemSize(50);
+      this.flush();
+      
+      this.assertJsonEquals({row : 0, column : 0}, this.pane.getCellAtPosition(1, 49));
+      this.assertEquals(null, this.pane.getCellAtPosition(1, 50));
+      this.assertEquals(null, this.pane.getCellAtPosition(1, 70));
     },
     
     
