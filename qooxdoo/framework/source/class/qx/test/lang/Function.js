@@ -29,7 +29,14 @@ qx.Class.define("qx.test.lang.Function",
       var fcn = arguments.callee;
 
       function f1(caller) {
-        self.assertIdentical(caller, qx.lang.Function.getCaller(arguments), "Wrong caller. (Fails in Opera < 9.6)");
+
+        if(qx.bom.client.Engine.OPERA && qx.bom.client.Engine.VERSION < 9.6)
+        {
+          qx.log.Logger.warn("This test is skipped in Opera < 9.6.");
+          return ;
+        }
+
+        self.assertIdentical(caller, qx.lang.Function.getCaller(arguments), "Wrong caller.");
       }
 
       function f2() {
