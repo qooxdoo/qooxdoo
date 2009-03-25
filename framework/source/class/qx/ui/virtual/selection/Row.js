@@ -62,6 +62,10 @@ qx.Class.define("qx.ui.virtual.selection.Row",
         event.getDocumentTop()
       );
       
+      if (!cell) {
+        return null;
+      }
+      
       return this._isSelectable(cell.row) ? cell.row : null;
     },        
     

@@ -60,6 +60,10 @@ qx.Class.define("qx.ui.virtual.selection.Column",
         event.getDocumentLeft(),
         event.getDocumentTop()
       );
+
+      if (!cell) {
+        return null;
+      }
       
       return this._isSelectable(cell.column) ? cell.column : null;
     },        

@@ -61,6 +61,10 @@ qx.Class.define("qx.ui.virtual.selection.CellRectangle",
         event.getDocumentTop()
       );
         
+      if (!cell) {
+        return null;
+      }
+      
       return this._isSelectable(cell) ? cell : null;
     },        
     
