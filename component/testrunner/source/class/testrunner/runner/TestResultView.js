@@ -111,7 +111,7 @@ qx.Class.define("testrunner.runner.TestResultView",
 				html.add("<h3>", testResult.getName(), "</h3>");
 				
 				if (testResult.getState() == "failure" || testResult.getState() == "error") {
-					html.add("Error message is: <br />", testResult.getMessage(), "<br />");
+					html.add("Error message is: <br />", qx.bom.String.escape(testResult.getMessage()), "<br />");
 					
 					if (testResult.getStackTrace().length > 0) {
 						html.add("<div class='trace");
