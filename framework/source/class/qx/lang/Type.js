@@ -64,6 +64,7 @@ qx.Bootstrap.define("qx.lang.Type",
       return (
         typeof value === "string" ||
         this.getClass(value) == "String" ||
+        value instanceof String ||
         (!!value && !!value.$$isString)
       );
     },
@@ -110,7 +111,10 @@ qx.Bootstrap.define("qx.lang.Type",
     * @return {Boolean} Whether the value is a number. 
     */    
     isNumber : function(value) {
-      return this.getClass(value) == "Number";
+      return (
+        this.getClass(value) == "Number" ||
+        value instanceof Number
+      );
     },
 
 
@@ -119,8 +123,12 @@ qx.Bootstrap.define("qx.lang.Type",
     * 
     * @return {Boolean} Whether the value is a boolean. 
     */    
-    isBoolean : function(value) {
-      return this.getClass(value) == "Boolean";
+    isBoolean : function(value) 
+    {
+      return (
+        this.getClass(value) == "Boolean" ||
+        value instanceof Boolean
+      );
     },
     
 
