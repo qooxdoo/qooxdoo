@@ -478,10 +478,16 @@ qx.Class.define("qx.ui.splitpane.Pane",
        "opera" : function()
        {
          var splitter = this.getChildControl("splitter");
-         if (this.__activeDragSession || this.__isNear()) {
+         if (this.__activeDragSession || this.__isNear())
+         {
            splitter.addState("active");
-         } else if (splitter.hasState("active")) {
+           var cursor = this.__isHorizontal ? "col-resize" : "row-resize";
+           this.setCursor(cursor);
+         }
+         else if (splitter.hasState("active"))
+         {
            splitter.removeState("active");
+           this.resetCursor();
          }
        },
        "default" : function()
