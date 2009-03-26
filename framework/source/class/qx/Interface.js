@@ -71,7 +71,7 @@ qx.Class.define("qx.Interface",
      *   {
      *     meth1: function() {},
      *     meth2: function(a, b) { this.assertArgumentsCount(arguments, 2, 2); },
-     *     meth3: function(c) { this.assertInterface(c.constructor, qx.some.IInterface); }
+     *     meth3: function(c) { this.assertInterface(c.constructor, qx.some.Interface); }
      *   },
      *
      *   events :
