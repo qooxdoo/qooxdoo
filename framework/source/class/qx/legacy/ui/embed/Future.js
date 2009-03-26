@@ -37,8 +37,9 @@ qx.Class.define("qx.legacy.ui.embed.Future",
     this.base(arguments);
 
     this.set({
-      backgroundColor: "yellow",
-      overflow: "hidden"
+      overflow: "hidden",
+      minWidth: 0,
+      minHeight: 0
     });
  },
 
@@ -165,7 +166,10 @@ qx.Class.define("qx.legacy.ui.embed.Future",
       var rootEl = document.createElement("div");
 
       el.appendChild(rootEl);
-      this._root = new qx.ui.root.Inline(rootEl);
+      this._root = new qx.ui.root.Inline(rootEl).set({
+        minWidth: 0,
+        minHeight: 0
+      });
       this._root.setLayout(new qx.ui.layout.Canvas());
 
       var content = this.getContent();
