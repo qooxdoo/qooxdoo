@@ -292,7 +292,7 @@ qx.Class.define("apiviewer.ui.SearchView",
               if (elemtype == "CLASS") {
                 icon = apiviewer.TreeUtil.getIconUrl(apiviewer.dao.Class.getClassByName(fullname));
               } else {
-                if (elemtype != "PACKAGE") {
+                if (elemtype != "PACKAGE" && elemtype != "INTERFACE") {  // just consider attribute types
                   fullname += key;
                 }
                 icon = apiviewer.TreeUtil["ICON_" + elemtype];
