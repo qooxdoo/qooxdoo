@@ -136,6 +136,12 @@ qx.Class.define("qx.ui.splitpane.Pane",
           control = new qx.ui.splitpane.Splitter(this);
           this._add(control, {type : id});
           control.addListener("move", this._onSplitterMove, this);
+
+          // Opera seems to skip mouse move events. In order notice if the
+          // mouse in on the splitter, a listener for mouseover is added.
+          if (qx.bom.client.Engine.OPERA) {
+            control.addListener("mouseover", this._onSplitterMouseOver, control);
+          }
           break;
       }
 
@@ -362,6 +368,14 @@ qx.Class.define("qx.ui.splitpane.Pane",
     },
 
 
+    /**
+     * Helper function for Opera to add an "active" state if the mouse if on
+     * the splitter.
+     *
+     */
+    _onSplitterMouseOver : function() {
+      this.addState("active");
+    },
 
 
     /*
@@ -473,44 +487,26 @@ qx.Class.define("qx.ui.splitpane.Pane",
      * Updates the pane's cursor based on the mouse position
      *
      */
-     // TODO: Rework global cursor in Opera and set it here:
-     __updateCursor : qx.core.Variant.select("qx.client", {
-       "opera" : function()
+     __updateCursor :  function()
+     {
+       var splitter = this.getChildControl("splitter");
+       var root = this.getApplicationRoot();
+   
+       // Whether the cursor is near enough to the splitter
+       if (this.__activeDragSession || this.__isNear())
        {
-         var splitter = this.getChildControl("splitter");
-         if (this.__activeDragSession || this.__isNear())
-         {
-           splitter.addState("active");
-           var cursor = this.__isHorizontal ? "col-resize" : "row-resize";
-           this.setCursor(cursor);
-         }
-         else if (splitter.hasState("active"))
-         {
-           splitter.removeState("active");
-           this.resetCursor();
-         }
-       },
-       "default" : function()
-       {
-         var splitter = this.getChildControl("splitter");
-         var root = this.getApplicationRoot();
-     
-         // Whether the cursor is near enough to the splitter
-         if (this.__activeDragSession || this.__isNear())
-         {
-           var cursor = this.__isHorizontal ? "col-resize" : "row-resize";
-           this.setCursor(cursor);
-           root.setGlobalCursor(cursor);
-           splitter.addState("active");
-         }
-         else if (splitter.hasState("active"))
-         {
-           this.resetCursor();
-           root.resetGlobalCursor();
-           splitter.removeState("active");
-         }
+         var cursor = this.__isHorizontal ? "col-resize" : "row-resize";
+         this.setCursor(cursor);
+         root.setGlobalCursor(cursor);
+         splitter.addState("active");
        }
-     }),
+       else if (splitter.hasState("active"))
+       {
+         this.resetCursor();
+         root.resetGlobalCursor();
+         splitter.removeState("active");
+       }
+     },
 
 
     /**
