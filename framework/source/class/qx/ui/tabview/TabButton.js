@@ -37,7 +37,7 @@ qx.Class.define("qx.ui.tabview.TabButton",
   {
     this.base(arguments);
 
-    var layout = new qx.ui.layout.Grid(6, 0);
+    var layout = new qx.ui.layout.Grid(2, 0);
     layout.setRowAlign(0, "left", "middle");
 
     this._getLayout().dispose();
