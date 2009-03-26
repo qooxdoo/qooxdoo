@@ -2505,7 +2505,8 @@ qx.Class.define("qx.ui.core.Widget",
         value = "default";
       }
 
-      this.__containerElement.setStyle("cursor", value);
+      // In Opera the cursor must be set directly.
+      this.__containerElement.setStyle("cursor", value, qx.bom.client.Engine.OPERA);
     },
 
 
