@@ -32,6 +32,10 @@ qx.Bootstrap.define("qx.lang.Object",
      */
     empty : function(map)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.core.Assert.assertMap(map, "Invalid argument 'map'");
+      }
+      
       for (var key in map) 
       {
         if (map.hasOwnProperty(key)) {
@@ -44,57 +48,113 @@ qx.Bootstrap.define("qx.lang.Object",
     /**
      * Check if the hash has any keys
      *
+     * @signature function(map)
      * @param map {Object} the map to check
      * @return {Boolean} whether the map has any keys
      */
-    isEmpty : function(map)
+    isEmpty : qx.core.Variant.select("qx.client",
     {
-      for (var key in map) {
-        return false;
-      }
-
-      return true;
-    },
+      "gecko" : function(map) 
+      {
+        if (qx.core.Variant.isSet("qx.debug", "on")) {
+          qx.core.Assert.assertMap(map, "Invalid argument 'map'");
+        }
+        return map.__count__ === 0;
+      },
+      
+      "default" : function(map) 
+      {
+        if (qx.core.Variant.isSet("qx.debug", "on")) {
+          qx.core.Assert.assertMap(map, "Invalid argument 'map'");
+        }
+        
+        for (var key in map) {
+          return false;
+        }
+        
+        return true;
+      }    
+    }),
 
 
     /**
      * Check whether the number of objects in the maps is at least "length"
      *
+     * @signature function(map, minLength)
      * @param map {Object} the map to check
      * @param minLength {Integer} minimum number of objects in the map
      * @return {Boolean} whether the map contains at least "length" objects.
      */
-    hasMinLength : function(map, minLength)
+    hasMinLength : qx.core.Variant.select("qx.client",
     {
-      var length = 0;
-
-      for (var key in map)
+      "gecko" : function(map, minLength)
       {
-        if ((++length) >= minLength) {
+        if (qx.core.Variant.isSet("qx.debug", "on")) 
+        {
+          qx.core.Assert.assertMap(map, "Invalid argument 'map'");
+          qx.core.Assert.assertInteger(minLength, "Invalid argument 'minLength'");
+        }
+        return map.__count__ >= minLength;
+      },
+      
+      "default" : function(map, minLength)
+      {
+        if (qx.core.Variant.isSet("qx.debug", "on")) 
+        {
+          qx.core.Assert.assertMap(map, "Invalid argument 'map'");
+          qx.core.Assert.assertInteger(minLength, "Invalid argument 'minLength'");
+        }
+  
+        if (minLength <= 0) {
           return true;
         }
+        
+        var length = 0;
+  
+        for (var key in map)
+        {
+          if ((++length) >= minLength) {
+            return true;
+          }
+        }
+  
+        return false;
       }
-
-      return false;
-    },
+    }),
 
 
     /**
      * Get the number of objects in the map
      *
+     * @signature function(map)
      * @param map {Object} the map
      * @return {Integer} number of objects in the map
      */
-    getLength : function(map)
+    getLength : qx.core.Variant.select("qx.client",
     {
-      var length = 0;
-
-      for (var key in map) {
-        length++;
+      "gecko" : function(map) 
+      {
+        if (qx.core.Variant.isSet("qx.debug", "on")) {
+          qx.core.Assert.assertMap(map, "Invalid argument 'map'");
+        }
+        return map.__count__;
+      },
+      
+      "default" : function(map)
+      {
+        if (qx.core.Variant.isSet("qx.debug", "on")) {
+          qx.core.Assert.assertMap(map, "Invalid argument 'map'");
+        }
+        
+        var length = 0;
+  
+        for (var key in map) {
+          length++;
+        }
+  
+        return length;
       }
-
-      return length;
-    },
+    }),
 
 
     _shadowedKeys :
@@ -110,6 +170,7 @@ qx.Bootstrap.define("qx.lang.Object",
     /**
      * Get the keys of a map as array as returned by a "for ... in" statement.
      *
+     * @signature function(map)
      * @param map {Object} the map
      * @return {Array} array of the keys of the map
      */
@@ -117,15 +178,8 @@ qx.Bootstrap.define("qx.lang.Object",
     {
       "mshtml" : function(map)
       {
-
-        // Check incoming value in debug version:
-        if (qx.core.Variant.isSet("qx.debug", "on"))
-        {
-          if (!(map && map.constructor && map.constructor === ({}).constructor))
-          {
-            qx.log.Logger.trace(this);
-            throw new Error("Invalid map: " + map);
-          }
+        if (qx.core.Variant.isSet("qx.debug", "on")) {
+          qx.core.Assert.assertMap(map, "Invalid argument 'map'");
         }
 
         var arr = [];
@@ -148,6 +202,10 @@ qx.Bootstrap.define("qx.lang.Object",
 
       "default" : function(map)
       {
+        if (qx.core.Variant.isSet("qx.debug", "on")) {
+          qx.core.Assert.assertMap(map, "Invalid argument 'map'");
+        }
+        
         var arr = [];
 
         for (var key in map) {
@@ -168,6 +226,10 @@ qx.Bootstrap.define("qx.lang.Object",
      */
     getKeysAsString : function(map)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.core.Assert.assertMap(map, "Invalid argument 'map'");
+      }
+      
       var keys = qx.lang.Object.getKeys(map);
       if (keys.length == 0) {
         return "";
@@ -185,6 +247,10 @@ qx.Bootstrap.define("qx.lang.Object",
      */
     getValues : function(map)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.core.Assert.assertMap(map, "Invalid argument 'map'");
+      }
+       
       var arr = [];
 
       for (var key in map) {
@@ -199,8 +265,6 @@ qx.Bootstrap.define("qx.lang.Object",
      * Inserts all keys of the source object into the
      * target objects. Attention: The target map gets modified.
      *
-     * TODO: Rename to update() like in python
-     *
      * @param target {Object} target object
      * @param source {Object} object to be merged
      * @param overwrite {Boolean ? true} If enabled existing keys will be overwritten
@@ -208,6 +272,12 @@ qx.Bootstrap.define("qx.lang.Object",
      */
     mergeWith : function(target, source, overwrite)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        qx.core.Assert.assertMap(target, "Invalid argument 'target'");
+        qx.core.Assert.assertMap(source, "Invalid argument 'source'");
+      }      
+      
       if (overwrite === undefined) {
         overwrite = true;
       }
@@ -231,7 +301,14 @@ qx.Bootstrap.define("qx.lang.Object",
      * @param source {Object} object to be merged
      * @return {Object} target with merged values from source
      */
-    carefullyMergeWith : function(target, source) {
+    carefullyMergeWith : function(target, source) 
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        qx.core.Assert.assertMap(target, "Invalid argument 'target'");
+        qx.core.Assert.assertMap(source, "Invalid argument 'source'");
+      } 
+       
       return qx.lang.Object.mergeWith(target, source, false);
     },
 
@@ -245,6 +322,10 @@ qx.Bootstrap.define("qx.lang.Object",
      */
     merge : function(target, varargs)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.core.Assert.assertMap(target, "Invalid argument 'target'");
+      } 
+       
       var len = arguments.length;
 
       for (var i=1; i<len; i++) {
@@ -281,6 +362,10 @@ qx.Bootstrap.define("qx.lang.Object",
      */
     clone : function(source)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.core.Assert.assertMap(source, "Invalid argument 'source'");
+      } 
+       
       var clone = {};
 
       for (var key in source) {
@@ -302,6 +387,10 @@ qx.Bootstrap.define("qx.lang.Object",
      */
     invert : function(map)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.core.Assert.assertMap(map, "Invalid argument 'map'");
+      }
+       
       var result = {};
 
       for (var key in map) {
@@ -317,15 +406,19 @@ qx.Bootstrap.define("qx.lang.Object",
      * If the map has more than one key matching the value the fist match is returned.
      * If the map does not contain the value <code>null</code> is returned.
      *
-     * @param obj {Object} Map to search for the key
+     * @param map {Object} Map to search for the key
      * @param value {var} Value to look for
      * @return {String|null} Name of the key (null if not found).
      */
-    getKeyFromValue: function(obj, value)
+    getKeyFromValue: function(map, value)
     {
-      for (var key in obj)
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.core.Assert.assertMap(map, "Invalid argument 'map'");
+      }
+       
+      for (var key in map)
       {
-        if (obj.hasOwnProperty(key) && obj[key] === value) {
+        if (map.hasOwnProperty(key) && map[key] === value) {
           return key;
         }
       }
@@ -337,12 +430,17 @@ qx.Bootstrap.define("qx.lang.Object",
     /**
      * Whether the map contains the given value.
      *
-     * @param obj {Object} Map to search for the value
+     * @param map {Object} Map to search for the value
      * @param value {var} Value to look for
      * @return {Boolean} Whether the value was found in the map.
      */
-    contains : function(obj, value) {
-      return this.getKeyFromValue(obj, value) !== null;
+    contains : function(obj, value)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.core.Assert.assertMap(map, "Invalid argument 'map'");
+      }
+      
+      return this.getKeyFromValue(map, value) !== null;
     },
 
 
@@ -353,7 +451,11 @@ qx.Bootstrap.define("qx.lang.Object",
     * @param map {Object} map to get the value from
     * @return {var} value for the given key from the map
     */
-    select: function(key, map) {
+    select: function(key, map)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.core.Assert.assertMap(map, "Invalid argument 'map'");
+      }
       return map[key];
     },
 
@@ -370,6 +472,10 @@ qx.Bootstrap.define("qx.lang.Object",
     */
     fromArray: function(array)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.core.Assert.assertMap(array, "Invalid argument 'array'");
+      }
+      
       var obj = {};
 
       for (var i=0, l=array.length; i<l; i++)

@@ -27,7 +27,125 @@ qx.Class.define("qx.test.lang.Object",
       this.assertNotUndefined(qx.lang.Object);
     },
 
+    
+    testEmpty : function()
+    {
+      var object = {a: 1};
+      qx.lang.Object.empty(object);
+      this.assertTrue(qx.lang.Object.isEmpty(object));
+      
+      var object = {};
+      qx.lang.Object.empty(object);
+      this.assertTrue(qx.lang.Object.isEmpty(object));
+    },
 
+    
+    testIsEmpty : function() 
+    {
+      this.assertEquals(true, qx.lang.Object.isEmpty({}));
+      this.assertEquals(false, qx.lang.Object.isEmpty({a:undefined}));
+      this.assertEquals(false, qx.lang.Object.isEmpty({a:null}));
+      this.assertEquals(false, qx.lang.Object.isEmpty({a:1}));
+    },
+    
+    
+    testHasMinLength : function()
+    {
+      var object = {};
+      this.assertTrue(qx.lang.Object.hasMinLength(object, 0));
+      this.assertFalse(qx.lang.Object.hasMinLength(object, 1));
+
+      var object = {a: 1};
+      this.assertTrue(qx.lang.Object.hasMinLength(object, 1));
+      this.assertFalse(qx.lang.Object.hasMinLength(object, 2));
+      
+      var object = {a:undefined, b: null, c: 1};
+      this.assertTrue(qx.lang.Object.hasMinLength(object, 3));
+      this.assertFalse(qx.lang.Object.hasMinLength(object, 4));      
+    },
+    
+    
+    testGetLength : function()
+    {
+      var object = {};
+      this.assertEquals(0, qx.lang.Object.getLength(object));
+
+      var object = {a: 1};
+      this.assertEquals(1, qx.lang.Object.getLength(object));
+      
+      var object = {a:undefined, b: null, c: 1};
+      this.assertEquals(3, qx.lang.Object.getLength(object));
+    },    
+    
+    
+    testGetKeys : function()
+    {
+      var object = {
+        a: undefined,
+        b: null,
+        c: 1
+      }
+      this.assertArrayEquals(
+        ["a", "b", "c"].sort(),
+        qx.lang.Object.getKeys(object).sort()
+      );
+      
+      var object = {}
+      this.assertArrayEquals(
+        [],
+        qx.lang.Object.getKeys(object)
+      );
+      
+      var object = {
+        "isPrototypeOf": 1,
+        "hasOwnProperty": 1,
+        "toLocaleString": 1,
+        "toString": function() {},
+        "valueOf": 1
+      };
+      this.assertArrayEquals(
+        [
+          "isPrototypeOf",
+          "hasOwnProperty",
+          "toLocaleString",
+          "toString",
+          "valueOf"
+        ].sort(),
+        qx.lang.Object.getKeys(object).sort()
+      );
+    },
+    
+    
+    testGetKeysAsString : function() {
+      this.warn("needs test!");
+    },
+    
+    
+    testGetValues : function() {
+      this.warn("needs test!");
+    },
+    
+    
+    testMergeWith : function() {
+      this.warn("needs test!");
+    },
+    
+    
+    testCarefullyMergeWith : function() {
+      this.warn("needs test!");
+    },
+    
+    
+    testMerge : function() {
+      this.warn("needs test!");
+    },
+    
+    
+    testClone : function() {
+      this.warn("needs test!");
+    },
+
+    
     testInvert : function()
     {
       this.assertNotUndefined(qx.lang.Object.invert);
@@ -46,6 +164,25 @@ qx.Class.define("qx.test.lang.Object",
     },
 
 
+    testGetKeyFromValue : function() {
+      this.warn("needs test!");
+    },
+    
+    
+    testContains : function() {
+      this.warn("needs test!");
+    },
+    
+    
+    testSelect : function() {
+      this.warn("needs test!");
+    },
+    
+    
+    testFromArray : function() {
+      this.warn("needs test!");
+    },
+    
     /**
      * Some behavior, which must be consistent in all browsers for some
      * assertions to work.
