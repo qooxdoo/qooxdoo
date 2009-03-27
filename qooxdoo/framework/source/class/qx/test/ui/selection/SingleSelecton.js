@@ -13,7 +13,7 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Fabian Jakobs (fjakobs)
+     * Christian Schmidt (chris_schmidt)
 
 ************************************************************************ */
 
@@ -156,7 +156,10 @@ qx.Class.define("qx.test.ui.selection.SingleSelecton",
         }
       }
       
-      this.assertArrayEquals(selectables, this.__list.getSelectables(), 
+      selectables.sort();
+      var found = this.__list.getSelectables();
+      found.sort();
+      this.assertArrayEquals(selectables, found, 
         "This list of the returned selectables are wrong");
     }
   }
