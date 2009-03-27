@@ -53,6 +53,9 @@ qx.Class.define("qx.ui.virtual.core.Axis",
 
   members :
   {
+    __ranges : null,
+    
+    
     /**
      * Get the default size of the items
      * 
@@ -195,7 +198,7 @@ qx.Class.define("qx.ui.virtual.core.Axis",
         return ranges;
       }
       
-      indexes.sort(function(a,b) { return a > b});
+      indexes.sort(function(a,b) { return a > b ? 1 : -1});
       
       var ranges = [];
       var correctionSum = 0;      
