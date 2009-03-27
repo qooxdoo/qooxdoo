@@ -38,8 +38,8 @@ qx.Class.define("qx.test.ui.virtual.Axis",
     
     assertItem : function(expectedItemIndex, expectedOffset, cellData, msg)
     {
-      this.assertEquals(expectedItemIndex, cellData.index, msg);
-      this.assertEquals(expectedOffset, cellData.offset, msg);
+      this.assertEquals(expectedItemIndex, cellData.index, msg + ": invalid item index");
+      this.assertEquals(expectedOffset, cellData.offset, msg + ": invalid item offset");
     },
     
     
