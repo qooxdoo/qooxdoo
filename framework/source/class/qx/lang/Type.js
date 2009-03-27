@@ -95,6 +95,7 @@ qx.Bootstrap.define("qx.lang.Type",
       return this.getClass(value) == "Object";
     },
     
+    
     /**
     * Whether the value is a regular expression.
     * 
