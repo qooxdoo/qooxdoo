@@ -632,84 +632,6 @@ def nodeToJsonString(node, prefix = "", childPrefix = "  ", newLine="\n"):
     return asString
 
 
-
-def nodeToIndexString(tree, prefix = "", childPrefix = "  ", newline="\n"):
-    types = []
-    fullNames = []
-    indexs = {}
-    currClass = [0]
-
-    def processNode(node,isLeaf):
-        # filters
-        if not node.hasAttributes():
-            return 0  # continue traversal
-        if node.type in ['state', 'param', 'see']:  # skip those currently
-            return 0
-
-        # construct a name string
-        if 'fullName' in node.attributes:
-            longestName = node.attributes['fullName']
-        elif 'name' in node.attributes :
-            longestName = node.attributes['name']
-        else: # cannot handle unnamed entities
-            return 0
-
-        # construct type string
-        if node.type == "method":
-            sfx = ""
-            if 'access' in node.attributes:
-                acc = node.attributes['access']
-                if acc == "public":
-                    sfx = "_pub"
-                elif acc == 'protected':
-                    sfx = '_prot'
-                elif acc == 'private':
-                    sfx = '_priv'
-                else:
-                    sfx = '_pub'  # there seem to be methods with weird access attribs
-            else:
-                sfx = "_pub"  # force unqualified to public
-            n_type = node.type + sfx
-        elif node.type == "property":
-            sfx = "_pub"
-            n_type = node.type + sfx
-        else:
-            n_type = node.type
-
-        # add type?
-        if n_type not in types:
-            types.append(n_type)
-        tyx = types.index(n_type)
-
-        if node.type in ['class','interface','package','mixin']:
-            # add to fullNames - assuming uniqueness
-            fullNames.append(longestName)
-            fnx = fullNames.index(longestName)
-            # commemorate current container
-            currClass[0] = fnx
-        else:  # must be a class feature
-            longestName = '#' + longestName
-            fnx = currClass[0]
-
-        # maintain index
-        if longestName in indexs:
-            indexs[longestName].append([tyx, fnx])
-        else:
-            indexs[longestName]=[[tyx, fnx]]
-
-        return 0
-
-    tree.nodeTreeMap(processNode)
-
-    index = { "__types__" : types,
-              "__fullNames__" : fullNames,
-              "__index__" : indexs }
-    asString = simplejson.dumps(index, separators=(',',':')) # compact encoding
-
-    return asString
-
-
-
 def escapeXmlChars(text, inAttribute, encoding="utf-8"):
     if isinstance(text, basestring):
         text = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
@@ -721,7 +643,6 @@ def escapeXmlChars(text, inAttribute, encoding="utf-8"):
         text = str(text)
 
     return text
-
 
 
 def escapeJsonChars(text):
