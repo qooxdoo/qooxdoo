@@ -238,6 +238,9 @@ class ApiLoader:
             else: # cannot handle unnamed entities
                 return 0
 
+            if longestName in fullNames:  # don't treat a node twice
+                return 0
+
             # construct type string
             if node.type == "method":
                 sfx = ""
