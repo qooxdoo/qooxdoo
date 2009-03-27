@@ -282,8 +282,42 @@ qx.Class.define("qx.test.Property",
         inst.lastApply = undefined;
       });
       this.assertNotUndefined(inst, "instance");
-    }
+    },
+    
+    testDefinesThanSubClassWithInterface : function()
+    {
+      // see bug #2162 for details
+      delete qx.test.A;
+      delete qx.test.B;
+      delete qx.test.IForm;
+      
+      qx.Class.define("qx.test.A",
+      {
+        extend : qx.core.Object,
+        
+        properties : {
+          enabled : {}
+        }
+      });
 
+      a = new qx.test.A();
+
+      qx.Interface.define("qx.test.IForm",
+      {
+        members : {
+          setEnabled : function(value) {}
+        }
+      });
+
+      qx.Class.define("qx.test.B", 
+      {
+        extend : qx.test.A,
+        implement : qx.test.IForm
+      });
+      
+      b = new qx.test.B();
+      b.setEnabled(true);
+    }
   }
 });
 
