@@ -231,7 +231,7 @@ qx.Class.define("qx.Interface",
       {        
         for (var key in members)
         {
-          if (typeof members[key] === "function")
+          if (qx.lang.Type.isFunction(members[key]))
           {
             var match = key.match(/^(get|set|reset)(.*)$/);
             var isPropertyMethod = match && qx.Class.hasProperty(clazz, qx.lang.String.firstLow(match[2]));            
