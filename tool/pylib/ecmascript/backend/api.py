@@ -208,7 +208,7 @@ def handleInterfaceExtend(valueItem, classNode, docTree, className):
 
     for superInterface in superInterfaceNames:
         superInterfaceNode = getClassNode(docTree, superInterface)
-        childInterfaces = superInterfaceNode.get("interfaces", False)
+        childInterfaces = superInterfaceNode.get("childClasses", False)
 
         if childInterfaces:
             childInterfaces += "," + className
@@ -220,6 +220,19 @@ def handleInterfaceExtend(valueItem, classNode, docTree, className):
         node = tree.Node("interface");
         node.set("name", superInterface)
         classNode.addListChild("superInterfaces", node)
+        #superInterfaceNode.type = "interface"
+        #classNode.addListChild("superInterfaces", superInterfaceNode)
+
+        # example for string-valued attributes["superInterfaces"] property
+
+        #superInterfaces = classNode.get("superInterfaces", False)
+        #if superInterfaces:
+        #    superInterfaces += "," + superInterface
+        #else:
+        #    superInterfaces = superInterface
+        #classNode.set("superInterfaces", superInterfaces)
+
+    return
 
 
 def handleMixins(item, classNode, docTree, className):
