@@ -627,6 +627,7 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.assertEquals("0 / 100", children[children.length-1].innerHTML)
     },
 
+    
     _testSrollRowIntoViewEdgeCase : function()
     {
       this.pane.set({
@@ -703,6 +704,87 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.assertJsonEquals({row : 0, column : 0}, this.pane.getCellAtPosition(1, 49));
       this.assertEquals(null, this.pane.getCellAtPosition(1, 50));
       this.assertEquals(null, this.pane.getCellAtPosition(1, 70));
+    },
+    
+    
+    testMouseCellEvents : function()
+    {
+      var rowCount = 2;
+      var colCount = 2;
+      var defaultHeight = 10;
+      var defaultWidth = 50;
+      
+      var pane = new qx.ui.virtual.core.Pane(
+        rowCount, colCount, 
+        defaultHeight, defaultWidth
+      ).set({
+        width: 150,
+        height: 30,
+      });
+        
+      this.getRoot().add(pane, {left: 100, top: 100});
+      this.flush();
+      
+      var calls = [];
+      var listener = function(e) {
+        calls.push(e);
+      }      
+      pane.addListener("cellClick", listener);
+      pane.addListener("cellDblclick", listener);
+      pane.addListener("cellContextmenu", listener);
+      
+      var MouseEventMock = qx.test.ui.virtual.MouseEventMock;
+      var eventMouseToCellEvents = {
+        "click" : "cellClick",
+        "dblclick" : "cellDblclick",
+        "contextmenu" : "cellContextmenu"
+      };
+
+      
+      for (var mouseEvent in eventMouseToCellEvents)
+      {
+        var cellEvent = eventMouseToCellEvents[mouseEvent];
+      
+        var calls = [];
+        pane.dispatchEvent(new MouseEventMock(mouseEvent, {documentLeft: 99, documentTop: 99}));
+        this.assertEquals(0, calls.length);
+  
+        var calls = [];
+        pane.dispatchEvent(new MouseEventMock(mouseEvent, {documentLeft: 100, documentTop: 100}));
+        this.assertEquals(1, calls.length);
+        this.assertEquals(0, calls[0].getRow());
+        this.assertEquals(0, calls[0].getColumn());
+        this.assertEquals(cellEvent, calls[0].getType());
+  
+        var calls = [];
+        pane.dispatchEvent(new MouseEventMock(mouseEvent, {documentLeft: 160, documentTop: 103}));
+        this.assertEquals(1, calls.length);
+        this.assertEquals(0, calls[0].getRow());
+        this.assertEquals(1, calls[0].getColumn());
+        this.assertEquals(cellEvent, calls[0].getType());
+  
+        var calls = [];
+        pane.dispatchEvent(new MouseEventMock(mouseEvent, {documentLeft: 105, documentTop: 110}));
+        this.assertEquals(1, calls.length);
+        this.assertEquals(1, calls[0].getRow());
+        this.assertEquals(0, calls[0].getColumn());
+        this.assertEquals(cellEvent, calls[0].getType());
+  
+        var calls = [];
+        pane.dispatchEvent(new MouseEventMock(mouseEvent, {documentLeft: 105, documentTop: 125}));
+        this.assertEquals(0, calls.length);
+  
+        var calls = [];
+        pane.dispatchEvent(new MouseEventMock(mouseEvent, {documentLeft: 275, documentTop: 105}));
+        this.assertEquals(0, calls.length);
+        
+        var calls = [];
+        pane.dispatchEvent(new MouseEventMock(mouseEvent, {documentLeft: 275, documentTop: 105}));
+        this.assertEquals(0, calls.length);
+      }
+      
+      pane.destroy();
+      this.flush();
     },
     
     
