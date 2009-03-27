@@ -100,7 +100,7 @@ qx.Class.define("qx.test.lang.Object",
         "isPrototypeOf": 1,
         "hasOwnProperty": 1,
         "toLocaleString": 1,
-        "toString": function() {},
+        "toString": 1,
         "valueOf": 1
       };
       this.assertArrayEquals(
