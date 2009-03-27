@@ -69,9 +69,9 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     this.addListener("resize", this._onResize, this);
     this.addListenerOnce("appear", this._onAppear, this);    
 
-    this.addListener("click", this._onCellClick, this);  
-    this.addListener("dblclick", this._onDblclickPane, this);
-    this.addListener("contextmenu", this._onContextMenu, this);
+    this.addListener("click", this._onClick, this);  
+    this.addListener("dblclick", this._onDblclick, this);
+    this.addListener("contextmenu", this._onContextmenu, this);
   },
    
   
@@ -627,10 +627,8 @@ qx.Class.define("qx.ui.virtual.core.Pane",
      * Event listener for mouse clicks. Fires an cellClick event.
      * @param e {qx.event.type.Mouse} The incoming mouse event.
      */
-    _onCellClick : function(e)
-    {
-      var coords = this.__getCoords(e);
-      this.fireEvent("cellClick", qx.ui.virtual.core.CellEvent, [this, e, coords.row, coords.column], true);
+    _onClick : function(e) {
+       this.__handleMouseCellEvent(e, "cellClick");
     },
 
     
@@ -638,10 +636,8 @@ qx.Class.define("qx.ui.virtual.core.Pane",
      * Event listener for context menu clicks. Fires an cellContextmenu event.
      * @param e {qx.event.type.Mouse} The incoming mouse event.
      */
-    _onContextMenu : function(e)
-    {
-      var coords = this.__getCoords(e);
-      this.fireEvent("cellContextmenu", qx.ui.virtual.core.CellEvent, [this, e, coords.row, coords.column], true);
+    _onContextmenu : function(e) {
+      this.__handleMouseCellEvent(e, "cellContextmenu");
     },
 
     
@@ -649,20 +645,30 @@ qx.Class.define("qx.ui.virtual.core.Pane",
      * Event listener for double clicks. Fires an cellDblclick event.
      * @param e {qx.event.type.Mouse} The incoming mouse event.
      */
-    _onDblclickPane : function(e)
-    {
-      var coords = this.__getCoords(e);
-      this.fireEvent("cellDblclick", qx.ui.virtual.core.CellEvent, [this, e, coords.row, coords.column], true);
+    _onDblclick : function(e) {
+       this.__handleMouseCellEvent(e, "cellDblclick");
     },
 
     
     /**
-     * Helper function to convert mouse coordinates into cell corrdinates.
-     * @param e {qx.event.type.Mouse} The incoming mouse event.
-     * @return {Map} An map containing row and column.
+     * Converts a mouse event into a cell event and fires the cell event if the
+     * mouse is over a cell.
+     * 
+     * @param e {qx.event.type.Mouse}
+     * @param cellEventType {String} The name of the cell event to fire
      */
-    __getCoords : function(e) {
-      return this.getCellAtPosition(e.getDocumentLeft(), e.getDocumentTop());
+    __handleMouseCellEvent : function(e, cellEventType)
+    {
+      var coords = this.getCellAtPosition(e.getDocumentLeft(), e.getDocumentTop());
+      if (!coords) {
+        return;
+      }
+      
+      this.fireNonBubblingEvent(
+        cellEventType,
+        qx.ui.virtual.core.CellEvent,
+        [this, e, coords.row, coords.column]
+      );      
     },
     
     
