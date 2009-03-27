@@ -233,26 +233,30 @@ qx.Class.define("qx.Interface",
         {
           if (typeof members[key] === "function")
           {
-            if (typeof object[key] === "function")
+            var match = key.match(/^(get|set|reset)(.*)$/);
+            var isPropertyMethod = match && qx.Class.hasProperty(clazz, qx.lang.String.firstLow(match[2]));            
+            var hasMemberFunction = isPropertyMethod || qx.lang.Type.isFunction(object[key]);
+
+            if (!hasMemberFunction)
             {
-              // Only wrap members if the interface was not applied yet which
-              // could be easily checked by the recursive hasInterface method.
-              if (wrap === true && !qx.Class.hasInterface(clazz, iface)) {
-                object[key] = this.__wrapInterfaceMember(
-                  iface, object[key], key, members[key]
-                );
-              }
-            }
-            else
-            {
-              var match = key.match(/^(get|set|reset)(.*)$/);
-              if (!match || !qx.Class.hasProperty(clazz, qx.lang.String.firstLow(match[2]))) {
-                throw new Error(
+              throw new Error(
                   'Implementation of method "' + key +
                   '" is missing in class "' + clazz.classname + 
                   '" required by interface "' + iface.name + '"'
-                );
-              }
+              );              
+            }
+            
+            // Only wrap members if the interface was not been applied yet. This
+            // can easily be checked by the recursive hasInterface method.
+            var shouldWrapFunction = 
+              wrap === true &&
+              !isPropertyMethod &&
+              !qx.Class.hasInterface(clazz, iface);
+              
+            if (shouldWrapFunction) {
+              object[key] = this.__wrapInterfaceMember(
+                iface, object[key], key, members[key]
+              );              
             }
           }
           else
