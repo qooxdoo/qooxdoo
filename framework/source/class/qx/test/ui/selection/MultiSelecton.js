@@ -13,7 +13,7 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Fabian Jakobs (fjakobs)
+     * Christian Schmidt (chris_schmidt)
 
 ************************************************************************ */
 
@@ -59,7 +59,7 @@ qx.Class.define("qx.test.ui.selection.MultiSelecton",
     testGetSelection : function()
     {
       var result = this.__list.getSelection();
-      this.assertArrayEquals(this.__selection, result, "Selection is wrong");
+      this.__assertArrayEquals(this.__selection, result, "Selection is wrong");
     },
     
     testSetSelection : function()
@@ -80,7 +80,7 @@ qx.Class.define("qx.test.ui.selection.MultiSelecton",
       }, function(event) {
         // Tests the result from the event
         var data = event.getData();
-        self.assertArrayEquals(self.__selection, data, "Selection is wrong");
+        self.__assertArrayEquals(self.__selection, data, "Selection is wrong");
       }, "'changeSelection' event not fired!");
       
       // A second selection with the same elements shouldn't fire a event
@@ -90,7 +90,7 @@ qx.Class.define("qx.test.ui.selection.MultiSelecton",
       
       // Tests the result from "getSelection"
       var result = this.__list.getSelection();
-      this.assertArrayEquals(this.__selection, result, "Selection is wrong");
+      this.__assertArrayEquals(this.__selection, result, "Selection is wrong");
       
       // Tests that items which are not in the list isn't selected
       var testElement1 = new qx.ui.form.ListItem("Test Element1");
@@ -100,7 +100,7 @@ qx.Class.define("qx.test.ui.selection.MultiSelecton",
       this.__list.setSelection(testElements);
       var expected = [this.__selection[0]];
       
-      this.assertArrayEquals(expected, this.__list.getSelection(), 
+      this.__assertArrayEquals(expected, this.__list.getSelection(), 
         "This element isn't in the list, so it isn't possible to select it.");
       
       testElement1.destroy();
@@ -125,14 +125,14 @@ qx.Class.define("qx.test.ui.selection.MultiSelecton",
         
       // Tests the result from "getSelection"
       var result = this.__list.getSelection();
-      this.assertArrayEquals(expected, result, "Selection is wrong");
+      this.__assertArrayEquals(expected, result, "Selection is wrong");
       
       // Test setSelection(), with one element from the selection before
       this.__list.setSelection(this.__selection);
       this.__list.setSelected(this.__selection[0]);
       result = this.__list.getSelection();
       expected = [this.__selection[0]];
-      this.assertArrayEquals(expected, result, "Selection is wrong");
+      this.__assertArrayEquals(expected, result, "Selection is wrong");
     },
     
     testResetSelection : function()
@@ -196,7 +196,7 @@ qx.Class.define("qx.test.ui.selection.MultiSelecton",
         list.selectAll();
       }, function(event) {
         // Tests the result from the event
-        self.assertArrayEquals(list.getChildren(), event.getData(),
+        self.__assertArrayEquals(list.getChildren(), event.getData(),
           "Selection is wrong A");
       }, "'changeSelection' event not fired!");
       
@@ -209,7 +209,7 @@ qx.Class.define("qx.test.ui.selection.MultiSelecton",
       
       // Tests the result from "getSelection"
       this.__selection = this.__list.getSelection();
-      this.assertArrayEquals(this.__list.getChildren(), this.__selection,
+      this.__assertArrayEquals(this.__list.getChildren(), this.__selection,
         "Selection is wrong B");
     },
     
@@ -226,7 +226,7 @@ qx.Class.define("qx.test.ui.selection.MultiSelecton",
         list.addToSelection(newValue);
       }, function(event) {
         // Tests the result from the event        
-        self.assertArrayEquals(self.__selection, event.getData(), 
+        self.__assertArrayEquals(self.__selection, event.getData(), 
           "The result of the selection is wrong");
       }, "'changeSelection' event not fired!");
       
@@ -236,13 +236,13 @@ qx.Class.define("qx.test.ui.selection.MultiSelecton",
       }, function(event) {}, "'changeSelection' event fired!");
       
       // Tests the result from "getSelection"
-      this.assertArrayEquals(this.__selection, this.__list.getSelection(),
+      this.__assertArrayEquals(this.__selection, this.__list.getSelection(),
         "Selection is wrong");
         
       // Tests that a item which isn't in the list, isn't selected.
       var testElement = new qx.ui.form.ListItem("Test Element");
       this.__list.addToSelection(testElement);
-      this.assertArrayEquals(this.__selection, this.__list.getSelection(),
+      this.__assertArrayEquals(this.__selection, this.__list.getSelection(),
         "This element isn't in the list, so it isn't possible to select it.");
       testElement.destroy();
     },
@@ -264,17 +264,17 @@ qx.Class.define("qx.test.ui.selection.MultiSelecton",
         self.__selection.length = self.__selection.length - 1;
         
         // Tests the result from the event
-        self.assertArrayEquals(self.__selection, event.getData(), "The result of the selection is wrong");
+        self.__assertArrayEquals(self.__selection, event.getData(), "The result of the selection is wrong");
       }, "'changeSelection' event not fired!");
       
       // Tests the result from "getSelection"
-      this.assertArrayEquals(this.__selection, this.__list.getSelection(),
+      this.__assertArrayEquals(this.__selection, this.__list.getSelection(),
         "Selection is wrong");
         
       // Tests that a item which isn't in the list, isn't removed
       var testElement = new qx.ui.form.ListItem("Test Element");
       this.__list.removeFromSelection(testElement);
-      this.assertArrayEquals(this.__selection, this.__list.getSelection(),
+      this.__assertArrayEquals(this.__selection, this.__list.getSelection(),
         "This element isn't in the list, so it isn't possible to select it.");
       testElement.destroy();
     },
@@ -293,8 +293,15 @@ qx.Class.define("qx.test.ui.selection.MultiSelecton",
         }
       }
       
-      this.assertArrayEquals(selectables, this.__list.getSelectables(), 
+      this.__assertArrayEquals(selectables, this.__list.getSelectables(), 
         "This list of the returned selectables are wrong");
+    },
+    
+    __assertArrayEquals : function(expected, found, message)
+    {
+      expected.sort();
+      found.sort();
+      this.assertArrayEquals(expected, found, message);
     }
   }
 });
