@@ -813,23 +813,20 @@ qx.Bootstrap.define("qx.event.Manager",
       qx.event.Pool.getInstance().poolObject(event);
 
       return !preventDefault;
+    },
+
+    
+    /**
+     * Dispose the event manager
+     */
+    dispose : function() 
+    {
+      // Remove from manager list
+      qx.event.Registration.removeManager(this);
+      
+      // Dispose data fields
+      this.__listeners = this.__window = this.__handlers =
+        this.__dispatchers = this.__disposeWrapper = this.__handlerCache = null;
     }
-  },
-  
-  
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function() 
-  {
-    // Remove from manager list
-    qx.event.Registration.removeManager(this);
-
-    // Dispose data fields
-    this.__listeners = this.__window = this.__handlers =
-    this.__dispatchers = this.__disposeWrapper = this.__handlerCache = null;
   }
 });
