@@ -62,6 +62,32 @@ qx.Class.define("qx.core.Assert",
       }
     },
 
+    
+    /**
+     * Convert an unknown value to a string to display in error messages
+     * 
+     * @param value {var} any value
+     * @return {String} a string representation of the value
+     */
+    __toString : function(value) 
+    {
+      var stringValue;
+      
+      if (qx.lang.Type.isArray(value) && value.length > 10)
+      {
+        stringValue = "Array[" + value.length + "]";
+      }
+      else
+      {
+        try {
+          stringValue = value.toString();
+        } catch(e) {
+          stringValue = "";
+        }
+      }
+      return stringValue;
+    },
+    
 
     /**
      * Assert that the condition evaluates to <code>true</code>.
@@ -122,7 +148,8 @@ qx.Class.define("qx.core.Assert",
       this.__assert(
         expected == found,
         msg || "",
-        "Expected '" + expected + "' but found '" + found + "'!"
+        "Expected '" + this.__toString(expected) + 
+        "' but found '" + this.__toString(found) + "'!"
       );
     },
 
@@ -139,7 +166,8 @@ qx.Class.define("qx.core.Assert",
       this.__assert(
         expected != found,
         msg || "",
-        "Expected '" + expected + "' to be not equal with '" + found + "'!"
+        "Expected '" + this.__toString(expected) +
+        "' to be not equal with '" + this.__toString(found) + "'!"
       );
     },
 
@@ -156,7 +184,8 @@ qx.Class.define("qx.core.Assert",
       this.__assert(
         expected === found,
         msg || "",
-        "Expected '" + expected + "' (identical) but found '" + found + "'!"
+        "Expected '" + this.__toString(expected) +
+        "' (identical) but found '" + this.__toString(found) + "'!"
       );
     },
 
@@ -174,7 +203,8 @@ qx.Class.define("qx.core.Assert",
       this.__assert(
         expected !== found,
         msg || "",
-        "Expected '" + expected + "' to be not identical with '" + found + "'!"
+        "Expected '" + this.__toString(expected) +
+        "' to be not identical with '" + this.__toString(found) + "'!"
       );
     },
 
@@ -190,7 +220,7 @@ qx.Class.define("qx.core.Assert",
       this.__assert(
         value !== undefined,
         msg || "",
-        "Expected value not to be undefined but found " + value + "!"
+        "Expected value not to be undefined but found " + this.__toString(value) + "!"
       );
     },
 
@@ -206,7 +236,7 @@ qx.Class.define("qx.core.Assert",
       this.__assert(
         value === undefined,
         msg || "",
-        "Expected value to be undefined but found " + value + "!"
+        "Expected value to be undefined but found " + this.__toString(value) + "!"
       );
     },
 
@@ -222,7 +252,7 @@ qx.Class.define("qx.core.Assert",
       this.__assert(
         value !== null,
         msg || "",
-        "Expected value not to be null but found " + value + "!"
+        "Expected value not to be null but found " + this.__toString(value) + "!"
       );
     },
 
@@ -237,7 +267,7 @@ qx.Class.define("qx.core.Assert",
     {
       this.__assert(value === null,
         msg || "",
-        "Expected value to be null but found " + value + "!"
+        "Expected value to be null but found " + this.__toString(value) + "!"
       );
     },
 
@@ -295,7 +325,8 @@ qx.Class.define("qx.core.Assert",
       this.__assert(
         (argCount >= minCount && argCount <= maxCount),
         msg || "",
-        "Wrong number of arguments given. Expected '" + minCount + "' to '" + maxCount + "' arguments but found '" + arguments.length + "' arguments."
+        "Wrong number of arguments given. Expected '" + minCount + "' to '" +
+        maxCount + "' arguments but found '" + arguments.length + "' arguments."
       )
     },
 
@@ -404,7 +435,8 @@ qx.Class.define("qx.core.Assert",
       this.__assert(
         array.indexOf(value) !== -1,
         msg || "",
-        "The value '" + value + "' must have any of the values defined in the array '"
+        "The value '" + this.__toString(value) +
+        "' must have any of the values defined in the array '"
         + array.join(", ") + "'"
       );
     },
@@ -441,7 +473,7 @@ qx.Class.define("qx.core.Assert",
       this.__assert(
         map[value] !== undefined,
         msg || "",
-        "The value '" + value + "' must must be a key of the map '"
+        "The value '" + this.__toString(value) + "' must must be a key of the map '"
         + qx.util.Json.stringify(map) + "'"
       );
     },
@@ -458,7 +490,7 @@ qx.Class.define("qx.core.Assert",
       this.__assert(
         qx.lang.Type.isFunction(value),
         msg || "",
-        "Expected value to be typeof function but found " + value + "!"
+        "Expected value to be typeof function but found " + this.__toString(value) + "!"
       );
     },
 
@@ -473,7 +505,7 @@ qx.Class.define("qx.core.Assert",
       this.__assert(
         qx.lang.Type.isString(value),
         msg || "",
-        "Expected value to be a string but found " + value + "!"
+        "Expected value to be a string but found " + this.__toString(value) + "!"
       );
     },
 
@@ -489,7 +521,7 @@ qx.Class.define("qx.core.Assert",
       this.__assert(
         qx.lang.Type.isBoolean(value),
         msg || "",
-        "Expected value to be a boolean but found " + value + "!"
+        "Expected value to be a boolean but found " + this.__toString(value) + "!"
       );
     },
 
@@ -505,7 +537,7 @@ qx.Class.define("qx.core.Assert",
       this.__assert(
         qx.lang.Type.isNumber(value) && isFinite(value),
         msg || "",
-        "Expected value to be a number but found " + value + "!"
+        "Expected value to be a number but found " + this.__toString(value) + "!"
       );
     },
 
@@ -521,7 +553,7 @@ qx.Class.define("qx.core.Assert",
       this.__assert(
         qx.lang.Type.isNumber(value) && isFinite(value) && value >= 0,
         msg || "",
-        "Expected value to be a number >= 0 but found " + value + "!"
+        "Expected value to be a number >= 0 but found " + this.__toString(value) + "!"
       );
     },
 
@@ -541,7 +573,7 @@ qx.Class.define("qx.core.Assert",
           value % 1 === 0
         ),
         msg || "",
-        "Expected value to be an integer but found " + value + "!"
+        "Expected value to be an integer but found " + this.__toString(value) + "!"
       );
     },
 
@@ -562,7 +594,7 @@ qx.Class.define("qx.core.Assert",
           value >= 0
         ),
         msg || "",
-        "Expected value to be an integer >= 0 but found " + value + "!"
+        "Expected value to be an integer >= 0 but found " + this.__toString(value) + "!"
       );
     },
 
@@ -596,7 +628,7 @@ qx.Class.define("qx.core.Assert",
       this.__assert(
         value !== null && (qx.lang.Type.isObject(value) || typeof value === "object"),
         msg || "",
-        "Expected value to be typeof object but found " + value + "!"
+        "Expected value to be typeof object but found " + this.__toString(value) + "!"
       );
     },
 
@@ -612,7 +644,7 @@ qx.Class.define("qx.core.Assert",
       this.__assert(
         qx.lang.Type.isArray(value),        
         msg || "",
-        "Expected value to be an array but found " + value + "!"
+        "Expected value to be an array but found " + this.__toString(value) + "!"
       );
     },
 
@@ -629,7 +661,7 @@ qx.Class.define("qx.core.Assert",
       this.__assert(
         qx.lang.Type.isObject(value),
         msg || "",
-        "Expected value to be a map but found " + value + "!"
+        "Expected value to be a map but found " + this.__toString(value) + "!"
       );
     },
     
@@ -645,7 +677,7 @@ qx.Class.define("qx.core.Assert",
      this.__assert(
        qx.lang.Type.isRegExp(value),
        msg || "",
-       "Expected value to be a regular expression but found " + value + "!"
+       "Expected value to be a regular expression but found " + this.__toString(value) + "!"
      );
    },
 
@@ -662,10 +694,12 @@ qx.Class.define("qx.core.Assert",
      */
     assertType : function(value, type, msg)
     {
+      this.assertString(type, "Invalid argument 'type'");
+      
       this.__assert(
         typeof(value) === type,
         msg || "",
-        "Expected value to be typeof '" + type + "' but found " + value + "!"
+        "Expected value to be typeof '" + type + "' but found " + this.__toString(value) + "!"
       );
     },
 
@@ -684,7 +718,7 @@ qx.Class.define("qx.core.Assert",
       this.__assert(
         value instanceof clazz,
         msg || "",
-        "Expected value to be instanceof '" + className + "' but found " + value + "!"
+        "Expected value to be instanceof '" + className + "' but found " + this.__toString(value) + "!"
       );
     },
 
@@ -700,7 +734,7 @@ qx.Class.define("qx.core.Assert",
       this.__assert(
         qx.Class.implementsInterface(value, iface),
         msg || "",
-        "Expected object '" + value + "' to implement the interface '" + iface + "'!"
+        "Expected object '" + this.__toString(value) + "' to implement the interface '" + iface + "'!"
       );
     },
 
@@ -730,7 +764,7 @@ qx.Class.define("qx.core.Assert",
           msg || "",
           qx.lang.String.format(
               "Expected value to be the CSS color '%1' (rgb(%2)), but found value '%3', which cannot be converted to a CSS color!",
-              [expected, expectedRgb.join(","), value]
+              [expected, expectedRgb.join(","), this.__toString(value)]
             )
         );
       }
@@ -740,7 +774,7 @@ qx.Class.define("qx.core.Assert",
         msg || "",
         qx.lang.String.format(
           "Expected value to be the CSS color '%1' (rgb(%2)), but found value '%3' (rgb(%4))!",
-          [expected, expectedRgb.join(","), value, valueRgb.join(",")]
+          [this.__toString(expected), expectedRgb.join(","), this.__toString(value), valueRgb.join(",")]
         )
       );
     },
@@ -757,7 +791,10 @@ qx.Class.define("qx.core.Assert",
       this.__assert(
         qx.dom.Node.isElement(value),
         msg || "",
-        qx.lang.String.format("Expected value to be a DOM element but found  '%1'!", [value])
+        qx.lang.String.format(
+          "Expected value to be a DOM element but found  '%1'!", 
+          [this.__toString(value)]
+        )
       );
     },
 
@@ -768,8 +805,13 @@ qx.Class.define("qx.core.Assert",
      * @param value {var} Value to check
      * @param msg {String} Message to be shown if the assertion fails.
      */
-    assertQxObject : function(value, msg) {
-      this.__assert(value instanceof qx.core.Object, msg || "", "Expected value to be a qooxdoo object but found " + value + "!");
+    assertQxObject : function(value, msg) 
+    {
+      this.__assert(
+        value instanceof qx.core.Object,
+        msg || "",
+        "Expected value to be a qooxdoo object but found " + this.__toString(value) + "!"
+      );
     },
 
 
@@ -779,8 +821,13 @@ qx.Class.define("qx.core.Assert",
      * @param value {var} Value to check
      * @param msg {String} Message to be shown if the assertion fails.
      */
-    assertQxWidget : function(value, msg) {
-      this.__assert(value instanceof qx.ui.core.Widget, msg || "", "Expected value to be a qooxdoo widget but found " + value + "!");
+    assertQxWidget : function(value, msg) 
+    {
+      this.__assert(
+        value instanceof qx.ui.core.Widget,
+        msg || "",
+        "Expected value to be a qooxdoo widget but found " + this.__toString(value) + "!"
+      );
     }
   }
 });
