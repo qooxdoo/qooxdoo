@@ -32,7 +32,7 @@ def getQxPath():
     # try updating from config file
     if os.path.exists('config.json'):
         # "using QOOXDOO_PATH from config.json"
-        qpathr=re.compile(r'"QOOXDOO_PATH"\s*:\s*"([^"]*)"\s*,')
+        qpathr=re.compile(r'"QOOXDOO_PATH"\s*:\s*"([^"]*)"\s*,?')
         conffile = open('config.json')
         aconffile = conffile.readlines()
         for line in aconffile:
