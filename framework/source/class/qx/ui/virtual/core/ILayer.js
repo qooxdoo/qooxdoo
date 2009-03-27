@@ -46,9 +46,7 @@ qx.Interface.define("qx.ui.virtual.core.ILayer",
     ) {
       this.assertArgumentsCount(arguments, 6, 6);
       this.assertPositiveInteger(firstRow);
-      this.assertPositiveInteger(lastRow);
       this.assertPositiveInteger(firstColumn);
-      this.assertPositiveInteger(lastColumn);
       this.assertArray(rowSizes);
       this.assertArray(columnSizes);
     },
@@ -75,9 +73,7 @@ qx.Interface.define("qx.ui.virtual.core.ILayer",
     ) {
       this.assertArgumentsCount(arguments, 6, 6);
       this.assertPositiveInteger(firstRow);
-      this.assertPositiveInteger(lastRow);
       this.assertPositiveInteger(firstColumn);
-      this.assertPositiveInteger(lastColumn);
       this.assertArray(rowSizes);
       this.assertArray(columnSizes);
     },

@@ -181,6 +181,16 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
 
   members :
   {
+    __themeStyles : null,
+    __userStyles : null,
+    
+    __userPaddings : null,
+    __themePaddings : null,
+    
+    __isThemed : false,
+    __stylesheet : null,
+    
+    
     _getCssProperties : function()
     {
       return [
@@ -219,10 +229,12 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
      */
     _storeStyle : function(propertyName, styles) 
     {
+      var store;
+      
       if (this.__isThemed) {
-        var store = this.__themeStyles;
+        store = this.__themeStyles;
       } else {
-        var store = this.__userStyles;
+        store = this.__userStyles;
       }
       
       if (styles === null) {
