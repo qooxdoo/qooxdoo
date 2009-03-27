@@ -719,7 +719,7 @@ qx.Class.define("qx.test.ui.virtual.Pane",
         defaultHeight, defaultWidth
       ).set({
         width: 150,
-        height: 30,
+        height: 30
       });
         
       this.getRoot().add(pane, {left: 100, top: 100});
