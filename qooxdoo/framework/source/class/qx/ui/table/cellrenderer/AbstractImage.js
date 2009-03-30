@@ -98,22 +98,64 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
     _getImageInfos : function(cellInfo)
     {
       // Query the subclass about image and tooltip
-      var urlAndTooltipMap = this._identifyImage(cellInfo);
+      var imageData = this._identifyImage(cellInfo);
 
       // If subclass refuses to give map, construct it
-      if (urlAndTooltipMap == null || typeof urlAndTooltipMap == "string")
+      if (imageData == null || typeof urlAndTooltipMap == "string")
       {
-        urlAndTooltipMap =
+        imageData =
         {
-          url : urlAndTooltipMap,
+          url : imageData,
           tooltip : null
         };
       }
 
-      return urlAndTooltipMap;
+      if (cellInfo.width && cellInfo.height) {
+        sizes = {width : cellInfo.imageWidth, height : cellInfo.imageHeight};
+      } else {
+        sizes = this.__getImageSize(imageData.url);
+      }
+      imageData.width = sizes.width;
+      imageData.height = sizes.height;
+      
+      return imageData;
     },
 
+    
+    /**
+     * Compute the size of the given image
+     * 
+     * @param source {String} the image URL
+     * @return {Map} A map containing the image's <code>width</code> and
+     *    <code>height</code>
+     */
+    __getImageSize : function(source)
+    {
+      var ResourceManager = qx.util.ResourceManager;
+      var ImageLoader = qx.io2.ImageLoader;
+      var width, height;
 
+      // Detect if the image registry knows this image
+      if (ResourceManager.has(source))
+      {
+        width = ResourceManager.getImageWidth(source),
+        height = ResourceManager.getImageHeight(source)
+      }
+      else if (ImageLoader.isLoaded(source))
+      {
+        width = ImageLoader.getWidth(source);
+        height = ImageLoader.getHeight(source);
+      }
+      else
+      {
+        width = this.__defaultWidth;
+        height = this.__defaultHeight;
+      }
+
+      return {width : width, height : height};
+    },    
+
+    
     // overridden
     _getCellClass : function(cellInfo) {
       return this.base(arguments) + " qooxdoo-table-cell-icon";
@@ -123,15 +165,15 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
     // overridden
     _getContentHtml : function(cellInfo)
     {
-      var urlAndToolTip = this._getImageInfos(cellInfo);
+      var imageData = this._getImageInfos(cellInfo);
 
       var content = "<div></div>";
 
       // set image
-      if (urlAndToolTip.url) {
-        var content = qx.bom.element.Decoration.create(urlAndToolTip.url, "no-repeat", {
-          width: urlAndToolTip.imageWidth ? urlAndToolTip.imageWidth + "px" : null,
-          height: urlAndToolTip.imageHeight ? urlAndToolTip.imageHeight + "px" : null,
+      if (imageData.url) {
+        var content = qx.bom.element.Decoration.create(imageData.url, "no-repeat", {
+          width: imageData.width + "px",
+          height: imageData.height + "px",
           display: qx.bom.client.Engine.GECKO && qx.bom.client.Engine.VERSION < 1.9 ? "-moz-inline-box" : "inline-block",
           verticalAlign: "top",
           position: "static"
@@ -139,7 +181,7 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
       };
 
       // set tool tip
-      var tooltip = urlAndToolTip.tooltip;
+      var tooltip = imageData.tooltip;
       if (tooltip != null) {
         var content = content.replace("></div>", "title='"+tooltip+"'></div>");
       }
