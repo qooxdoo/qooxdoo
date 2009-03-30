@@ -27,6 +27,17 @@ qx.Class.define("qx.util.PropertyUtil",
 {
   statics :
   {
+    /**
+     * Get the property map of the given class
+     * 
+     * @param class {Class} a qooxdoo class
+     * @return {Map} The properties map as defined in {@link qx.Class.define}.
+     */
+    getProperties : function(clazz) {
+      return clazz.$$properties;
+    },
+    
+  
     /*
     -------------------------------------------------------------------------
       USER VALUES

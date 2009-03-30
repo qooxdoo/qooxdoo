@@ -19,8 +19,13 @@
 
 
 /* ************************************************************************
+
 #asset(qx/icon/${qx.icontheme}/16/apps/internet-feed-reader.png)
 #asset(qx/icon/${qx.icontheme}/32/apps/utilities-notes.png)
+
+#asset(qx/icon/${qx.icontheme}/16/emotes/face-smile.png)
+#asset(qx/icon/${qx.icontheme}/16/emotes/face-sad.png)
+
 ************************************************************************ */
 
 
@@ -42,130 +47,189 @@ qx.Class.define("demobrowser.demo.virtual.Cells",
     {
       this.base(arguments);
 
-      var layout = new qx.ui.layout.Grid(5, 5);
-      var container = new qx.ui.container.Composite(layout);    
+      var layout = new qx.ui.layout.HBox(5);
+      this.topContainer = new qx.ui.container.Composite(layout);
+      
+      this.runTest("testStringCell");
+      this.runTest("testNumberCell");
+      this.runTest("testDateCell");
+      this.runTest("testHtmlCell");
+      this.runTest("testImageCell");
+      this.runTest("testBooleanCell"); 
+      this.runTest("testBooleanCellCustomImage");
 
-      container.add(this.createStringCell(), {row : 0, column : 0 });
-      container.add(this.createNumberCell(), {row : 0, column : 1 });
-      container.add(this.createDateCell(), {row : 0, column : 2 });
-      container.add(this.createHtmlCell(), {row : 1, column : 0 });
-      container.add(this.createSelectedCell(), {row : 1, column : 1 });
-      container.add(this.createImageCell(), {row : 1, column : 2 });
-      container.add(this.createImageCellSmall(), {row : 2, column : 0 });  
-      container.add(this.createBooleanCellTrue(), {row : 2, column : 1 });  
-      container.add(this.createBooleanCellFalse(), {row : 2, column : 2 });  
-
-      this.getRoot().add(container, {edge : 5});
+      this.getRoot().add(this.topContainer, {edge : 5});
     },
 
-    createStringCell : function(data)
+    
+    runTest : function(testName)
     {
-      var states = {};
-      var stringCell = new qx.ui.virtual.cell.String;
-      return this.__renderCell(stringCell, "test<br/>lala", states);
+      this.setUp();
+      this[testName]();
+      //this.tearDown();
     },
     
-    createNumberCell : function(data)
+    
+    setUp : function()
     {
-      var states = {};
-
-      var numberFormat = qx.util.format.NumberFormat.getInstance();
-      numberFormat.setMaximumFractionDigits(2);
-      var numberCell = new qx.ui.virtual.cell.Number(numberFormat);
-
-      return this.__renderCell(numberCell, 1.2345678, states);
+      this.container = new qx.ui.container.Composite(new qx.ui.layout.VBox(2));
+      this.topContainer.add(this.container);
     },
     
-    createDateCell : function(data)
-    {
-      var states = {};
-
-      var dateFormat = qx.util.format.DateFormat.getDateInstance();
-      var dateCell = new qx.ui.virtual.cell.Date(dateFormat);
-
-      return this.__renderCell(dateCell, new Date(), states);
-    },
-
-    createHtmlCell : function(data)
-    {
-      var states = {};
-      var htmlCell = new qx.ui.virtual.cell.Html;
-
-      return this.__renderCell(htmlCell, "<b>html</b><i>cell</i>", states);
+    
+    tearDown : function() {
+      this.container.destroy();
     },
     
-    createSelectedCell : function(data)
+    
+    testStringCell : function()
     {
-      var states = {selected: 1};
-      var htmlCell = new qx.ui.virtual.cell.Html;
-
-      return this.__renderCell(htmlCell, "selected", states);
-    },    
-
-    createImageCell : function(data)
-    {
-      var states = {};
-
-      var data = {
-        url : "icon/16/apps/internet-feed-reader.png",
-        tooltip : "This is a feed reader!"
-      };
-      var imageCell = new qx.ui.virtual.cell.Image;
-      return this.__renderCell(imageCell, data, states);
-    },
-
-    createImageCellSmall : function(data)
-    {
-      var states = {};
-
-      var data = {
-        url : "icon/32/apps/utilities-notes.png",
-        tooltip : "foobar!"
-      };
-      var imageCell = new qx.ui.virtual.cell.Image;
-      return this.__renderCell(imageCell, data, states);
-    },
-
-
-    createBooleanCellTrue : function(data)
-    {
-      var states = {};
-
-      var data = true;
-      var booleanCell = new qx.ui.virtual.cell.Boolean;
-      return this.__renderCell(booleanCell, data, states);
-    },
-
-    createBooleanCellFalse: function(data)
-    {
-      var states = {};
-
-      var data = false;
-      var booleanCell = new qx.ui.virtual.cell.Boolean;
-      return this.__renderCell(booleanCell, data, states);
-    },
-
-
-    _getCellSizeStyle : function(width, height, insetX, insetY)
-    {
-      var style = "";
-      if (qx.bom.client.Feature.CONTENT_BOX)
-      {
-        width -= insetX;
-        height -= insetY;
+      var cellData = {
+        value : ["Juhu", "<b>HTML</b>", "", null],
+        states : [{}, {selected: 1}]
       }
+      var stringCell = new qx.ui.virtual.cell.String;
 
-      style += "width:" +  width + "px;";
-      style += "height:" + height + "px;";
+      qx.util.Permutation.permute(cellData, function(cellData)
+      {
+        var cell = this.__renderCell(stringCell, cellData.value, cellData.states);
+        this.container.add(cell);
+      }, this);      
+    },
+    
+    
+    testNumberCell : function()
+    {
+      var cellData = {
+        value : [-1.666666, 0, null],
+        format : [
+          null,
+          new qx.util.format.NumberFormat().set({
+            maximumFractionDigits : 2
+          })
+        ],
+        states : [{}, {selected: 1}]
+      }
+      var cellRenderer = new qx.ui.virtual.cell.Number();
 
-      return style;
+      qx.util.Permutation.permute(cellData, function(cellData)
+      {
+        if (cellData.format) {
+          cellRenderer.setNumberFormat(cellData.format)
+        } else {
+          cellRenderer.resetNumberFormat();
+        }
+        var cell = this.__renderCell(cellRenderer, cellData.value, cellData.states);
+        this.container.add(cell);
+      }, this);      
+    },
+    
+    
+    testDateCell : function()
+    {
+      var cellData = {
+        value : [new Date(), null],
+        format : [
+          null,
+          new qx.util.format.DateFormat(qx.locale.Date.getDateFormat("medium"))
+        ],
+        states : [{}, {selected: 1}]
+      }
+      var cellRenderer = new qx.ui.virtual.cell.Date();
+      
+      qx.util.Permutation.permute(cellData, function(cellData)
+      {
+        if (cellData.format) {
+          cellRenderer.setDateFormat(cellData.format)
+        } else {
+          cellRenderer.resetDateFormat();
+        }
+        var cell = this.__renderCell(cellRenderer, cellData.value, cellData.states);
+        this.container.add(cell);
+      }, this);      
+    },
+    
+
+    testHtmlCell : function()
+    {
+      var cellData = {
+        value : ["Juhu", "<b>HTML</b>", "", null],
+        states : [{}, {selected: 1}]
+      }
+      var cellRenderer = new qx.ui.virtual.cell.Html;
+
+      qx.util.Permutation.permute(cellData, function(cellData)
+      {
+        var cell = this.__renderCell(cellRenderer, cellData.value, cellData.states);
+        this.container.add(cell);
+      }, this);      
+    },
+
+
+    testImageCell : function()
+    {
+      var cellData = {
+        value : [
+          {
+            url : "icon/16/apps/internet-feed-reader.png",
+            tooltip : "This is a feed reader!"
+          },
+          {
+            url : "icon/32/apps/utilities-notes.png",
+            tooltip : "foobar!"
+          },
+          null
+        ],
+        states : [{}, {selected: 1}]
+      }
+      var cellRenderer = new qx.ui.virtual.cell.Image;
+
+      qx.util.Permutation.permute(cellData, function(cellData)
+      {
+        var cell = this.__renderCell(cellRenderer, cellData.value, cellData.states);
+        this.container.add(cell);
+      }, this);      
+    },
+    
+
+    testBooleanCell : function()
+    {
+      var cellData = {
+        value : [true, false, null],
+        states : [{}, {selected: 1}]
+      }
+      var cellRenderer = new qx.ui.virtual.cell.Boolean;
+
+      qx.util.Permutation.permute(cellData, function(cellData)
+      {
+        var cell = this.__renderCell(cellRenderer, cellData.value, cellData.states);
+        this.container.add(cell);
+      }, this);      
+    },    
+    
+    
+    testBooleanCellCustomImage : function()
+    {
+      var cellData = {
+        value : [true, false, null],
+        states : [{}, {selected: 1}]
+      }
+      var cellRenderer = new qx.ui.virtual.cell.Boolean;
+      cellRenderer.setIconFalse("icon/16/emotes/face-sad.png");
+      cellRenderer.setIconTrue("icon/16/emotes/face-smile.png");
+
+      qx.util.Permutation.permute(cellData, function(cellData)
+      {
+        var cell = this.__renderCell(cellRenderer, cellData.value, cellData.states);
+        this.container.add(cell);
+      }, this);            
     },
     
 
     __renderCell : function(cell, value, states)
     {
       var width = 100;
-      var height = 40;
+      var height = 30;
 
       var embed = new qx.ui.embed.Html().set({
         width: width,
@@ -188,6 +252,22 @@ qx.Class.define("demobrowser.demo.virtual.Cells",
       
       embed.setHtml(html);
       return embed;
+    },
+    
+    
+    _getCellSizeStyle : function(width, height, insetX, insetY)
+    {
+      var style = "";
+      if (qx.bom.client.Feature.CONTENT_BOX)
+      {
+        width -= insetX;
+        height -= insetY;
+      }
+      
+      style += "width:" +  width + "px;";
+      style += "height:" + height + "px;";
+      
+      return style;
     }
   }
 });
