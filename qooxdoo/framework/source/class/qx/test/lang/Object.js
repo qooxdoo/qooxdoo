@@ -116,13 +116,67 @@ qx.Class.define("qx.test.lang.Object",
     },
     
     
-    testGetKeysAsString : function() {
-      this.warn("needs test!");
+    testGetKeysAsString : function() 
+    {
+      var object = {
+        a: undefined,
+        b: null,
+        c: 1
+      }
+      this.assertEquals(
+        '"a", "b", "c"',
+        qx.lang.Object.getKeysAsString(object)
+      );
+      
+      var object = {}
+      this.assertEquals(
+        '',
+        qx.lang.Object.getKeysAsString(object)
+      );
+      
+      var object = {
+        "isPrototypeOf": 1,
+        "hasOwnProperty": 1,
+        "toLocaleString": 1,
+        "toString": 1,
+        "valueOf": 1
+      };
+      this.assertEquals(
+        '"isPrototypeOf", "hasOwnProperty", "toLocaleString", "toString", "valueOf"',
+        qx.lang.Object.getKeysAsString(object)
+      );
     },
     
     
-    testGetValues : function() {
-      this.warn("needs test!");
+    testGetValues : function()
+    {
+      var object = {
+        a: undefined,
+        b: null,
+        c: 1
+      }
+      this.assertArrayEquals(
+        [undefined, null, 1].sort(),
+        qx.lang.Object.getValues(object).sort()
+      );
+      
+      var object = {}
+      this.assertArrayEquals(
+        [],
+        qx.lang.Object.getValues(object)
+      );
+      
+      var object = {
+        "isPrototypeOf": 1,
+        "hasOwnProperty": 2,
+        "toLocaleString": 3,
+        "toString": 4,
+        "valueOf": 5
+      };
+      this.assertArrayEquals(
+        [1, 2, 3, 4, 5].sort(),
+        qx.lang.Object.getValues(object).sort()
+      );
     },
     
     
