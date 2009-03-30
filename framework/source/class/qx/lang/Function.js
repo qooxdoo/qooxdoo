@@ -48,16 +48,17 @@ qx.Bootstrap.define("qx.lang.Function",
     /**
      * Returns whether the given object is a function
      *
+     * @deprecated Use qx.lang.Type.isArray() instead
      * @param obj {Object} Any object
      * @return {Boolean} whether the given object is a function
      */
     isFunction: function(obj)
     {
-      // Since version 1.3, DOM methods and functions like alert
-      // aren't supported. They return false on IE (see jQuery bug #2968).
-
-      return Object.prototype.toString.call(obj) === "[object Function]";
-    },    
+       qx.log.Logger.deprecatedMethodWarning(
+         arguments.callee, "Use qx.lang.Type.isArray() instead!"
+       );
+       return qx.lang.Type.isFunction(obj);
+     },    
     
     
     /**
