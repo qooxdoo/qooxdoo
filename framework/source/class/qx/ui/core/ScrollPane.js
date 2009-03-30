@@ -89,7 +89,7 @@ qx.Class.define("qx.ui.core.ScrollPane",
     /** The horizontal scroll position */
     scrollX :
     {
-      check : "typeof value=='number'&&value>=0&&value<=this.getScrollMaxX()",
+      check : "qx.lang.Type.isNumber(value)&&value>=0&&value<=this.getScrollMaxX()",
       apply : "_applyScrollX",
       event : "scrollX",
       init  : 0
@@ -98,7 +98,7 @@ qx.Class.define("qx.ui.core.ScrollPane",
     /** The vertical scroll position */
     scrollY :
     {
-      check : "typeof value=='number'&&value>=0&&value<=this.getScrollMaxY()",
+      check : "qx.lang.Type.isNumber(value)&&value>=0&&value<=this.getScrollMaxY()",
       apply : "_applyScrollY",
       event : "scrollY",
       init  : 0

@@ -137,7 +137,7 @@ qx.Class.define("qx.dev.unit.TestFunction",
      */
     setUp : function() 
     {
-      if (typeof (this.__inst.setUp) == "function") {
+      if (qx.lang.Type.isFunction(this.__inst.setUp)) {
         this.__inst.setUp();
       }
     },
@@ -147,7 +147,7 @@ qx.Class.define("qx.dev.unit.TestFunction",
      */    
     tearDown : function() 
     {
-      if (typeof (this.__inst.tearDown) == "function") {
+      if (qx.lang.Type.isFunction(this.__inst.tearDown)) {
         this.__inst.tearDown();
       }
     },

@@ -244,7 +244,7 @@ qx.Class.define("qx.core.Object",
     {
       var setter = qx.core.Property.$$method.set;
 
-      if (typeof data === "string")
+      if (qx.lang.Type.isString(data))
       {
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
