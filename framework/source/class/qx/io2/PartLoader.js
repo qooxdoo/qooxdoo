@@ -103,7 +103,7 @@ qx.Class.define("qx.io2.PartLoader",
       var callback = callback || function() {};
       var self = self || window;
 
-      if (typeof(partNames) == "string") {
+      if (qx.lang.Type.isString(partNames)) {
         partNames = [partNames];
       }
       

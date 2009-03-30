@@ -178,7 +178,7 @@ qx.Class.define("qx.io2.ScriptLoader",
 
       "default" : function(e)
       {
-        if (typeof e === "string" || e.type === "error") {
+        if (qx.lang.Type.isString(e) || e.type === "error") {
           this.__cleanup("fail");
         } else if (e.type === "load") {
           this.__cleanup("success");
