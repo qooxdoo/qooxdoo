@@ -308,6 +308,39 @@ def qt2javadoc(text):
     return res
 
 
+
+def findComment(node):
+    
+    def findCommentBefore(node):
+        while node:
+            if node.hasChild("commentsBefore"):
+                for comment in node.getChild("commentsBefore").children:
+                    if comment.get("detail") in ["javadoc", "qtdoc"]:
+                        comments = parseNode(node)
+                        return comments
+            if node.hasParent():
+                node = node.parent
+            else:
+                return None
+            
+    def findCommentAfter(node):
+        while node:
+            if node.hasChild("commentsBefore"):
+                for comment in node.getChild("commentsBefore").children:
+                    if comment.get("detail") in ["javadoc", "qtdoc"]:
+                        comments = parseNode(node)
+                        return comments
+            if node.hasChildren():
+                node = node.children[0]
+            else:
+                return None   
+            
+    if node.type == "file":
+        return findCommentAfter(node)
+    else:
+        return findCommentBefore(node)  
+
+
 def parseNode(node):
     """Takes the last doc comment from the commentsBefore child, parses it and
     returns a Node representing the doc comment"""
@@ -343,11 +376,11 @@ def parseText(intext, format=True):
     pos = 0
 
     while True:
-        # this is neccesary to match ^ at the beginning of a line
+        # this is necessary to match ^ at the beginning of a line
         if pos > 0 and  text[pos-1] == "\n": pos -= 1
-        mtch = R_ATTRIBUTE.search(text, pos)
+        match = R_ATTRIBUTE.search(text, pos)
 
-        if mtch == None:
+        if match == None:
             prevText = text[pos:].rstrip()
 
             if len(attribs) == 0:
@@ -357,15 +390,15 @@ def parseText(intext, format=True):
 
             break
 
-        prevText = text[pos:mtch.start(0)].rstrip()
-        pos = mtch.end(0)
+        prevText = text[pos:match.start(0)].rstrip()
+        pos = match.end(0)
 
         if len(attribs) == 0:
             desc["text"] = prevText
         else:
             attribs[-1]["text"] = prevText
 
-        attribs.append({ "category" : mtch.group(1), "text" : "" })
+        attribs.append({ "category" : match.group(1), "text" : "" })
 
     # parse details
     for attrib in attribs:
@@ -378,19 +411,19 @@ def parseDetail(attrib, format=True):
     text = attrib["text"]
 
     if attrib["category"] in ["param", "event", "see", "state", "appearance"]:
-        mtch = R_NAMED_TYPE.search(text)
+        match = R_NAMED_TYPE.search(text)
     else:
-        mtch = R_SIMPLE_TYPE.search(text)
+        match = R_SIMPLE_TYPE.search(text)
 
-    if mtch:
-        text = text[mtch.end(0):]
+    if match:
+        text = text[match.end(0):]
 
         if attrib["category"] in ["param", "event", "see", "state", "appearance"]:
-            attrib["name"] = mtch.group(1)
-            #print ">>> NAME: %s" % mtch.group(1)
-            remain = mtch.group(3)
+            attrib["name"] = match.group(1)
+            #print ">>> NAME: %s" % match.group(1)
+            remain = match.group(3)
         else:
-            remain = mtch.group(2)
+            remain = match.group(2)
 
         if remain != None:
             defIndex = remain.rfind("?")
