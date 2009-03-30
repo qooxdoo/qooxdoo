@@ -666,7 +666,7 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
-     * If this property if enabled, the widget and all of its child widgets
+     * If this property is enabled, the widget and all of its child widgets
      * will never get focused. The focus keeps at the currently
      * focused widget.
      *
