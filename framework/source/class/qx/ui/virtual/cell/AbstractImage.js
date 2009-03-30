@@ -36,9 +36,6 @@ qx.Class.define("qx.ui.virtual.cell.AbstractImage",
   construct : function()
   {
     this.base(arguments);
-
-    this.__defaultWidth = 16;
-    this.__defaultHeight = 16;
     this._aliasManager = qx.util.AliasManager.getInstance();
   },
 
@@ -51,10 +48,18 @@ qx.Class.define("qx.ui.virtual.cell.AbstractImage",
 
   members :
   {
-    __defaultWidth : null,
-    __defaultHeight : null,
+    __defaultWidth : 16,
+    __defaultHeight : 16,
     _aliasManager : null,
 
+    
+    /**
+     * Compute the size of the given image
+     * 
+     * @param source {String} the image URL
+     * @return {Map} A map containing the image's <code>width</code> and
+     *    <code>height</code>
+     */
     __getImageSize : function(source)
     {
       var ResourceManager = qx.util.ResourceManager;
@@ -81,6 +86,7 @@ qx.Class.define("qx.ui.virtual.cell.AbstractImage",
       return {width : width, height : height};
     },
 
+    
     __createImage : function(imageData)
     {
       if (typeof(imageData) == "string") {
@@ -126,6 +132,10 @@ qx.Class.define("qx.ui.virtual.cell.AbstractImage",
 
     getContent : function(value, states)
     {
+      if (value === null) {
+        return "";
+      }
+      
       var content = "";
       var imageData = this.__createImage(this._identifyImage(value));
       var isOldFireFox = qx.bom.client.Engine.GECKO && qx.bom.client.Engine.VERSION < 1.9;
