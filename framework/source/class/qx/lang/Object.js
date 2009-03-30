@@ -434,7 +434,7 @@ qx.Bootstrap.define("qx.lang.Object",
      * @param value {var} Value to look for
      * @return {Boolean} Whether the value was found in the map.
      */
-    contains : function(obj, value)
+    contains : function(map, value)
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         qx.core.Assert.assertMap(map, "Invalid argument 'map'");

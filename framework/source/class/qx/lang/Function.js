@@ -153,6 +153,8 @@ qx.Bootstrap.define("qx.lang.Function",
     /**
      * Evaluates JavaScript code globally
      *
+     * @lint ignoreDeprecated(eval)
+     *
      * @param data {String} JavaScript commands
      * @return {var} Result of the execution
      */

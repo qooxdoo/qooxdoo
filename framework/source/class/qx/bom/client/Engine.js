@@ -69,6 +69,7 @@ qx.Bootstrap.define("qx.bom.client.Engine",
     /**
      * Internal initialize helper
      *
+     * @lint ignoreDeprecated(alert)
      * @return {void}
      */
     __init : function()

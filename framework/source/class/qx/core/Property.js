@@ -613,6 +613,8 @@ qx.Class.define("qx.core.Property",
      * Compiles a string builder object to a function, executes the function and
      * returns the return value.
      *
+     * @lint ignoreDeprecated(alert)
+     *
      * @param instance {Object} Instance which have called the original method
      * @param members {Object} Prototype members map where the new function should be stored
      * @param name {String} Name of the property
