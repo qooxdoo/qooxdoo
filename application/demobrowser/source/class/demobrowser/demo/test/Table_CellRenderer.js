@@ -25,6 +25,9 @@
 #asset(qx/icon/${qx.icontheme}/16/actions/go-next.png)
 #asset(qx/icon/${qx.icontheme}/16/actions/go-down.png)
 
+#asset(qx/icon/${qx.icontheme}/16/emotes/face-smile.png)
+#asset(qx/icon/${qx.icontheme}/16/emotes/face-sad.png)
+
 ************************************************************************ */
 
 qx.Class.define("demobrowser.demo.test.Table_CellRenderer",
@@ -64,8 +67,17 @@ qx.Class.define("demobrowser.demo.test.Table_CellRenderer",
 
 
       // setup aliases
-      qx.util.AliasManager.getInstance().add("decoration", "qx/decoration/Classic");
+      qx.util.AliasManager.getInstance().add("decoration", "qx/decoration/Modern");
       qx.util.AliasManager.getInstance().add("icon", "qx/icon/Tango");
+    },
+    
+    
+    __renderCell : function(containerElement, top, width, cellRenderer, cellData)
+    {
+      var html = ["<div style='position:absolute;height:20px;width:", width, "px;top:",top, "px'>"];
+      cellRenderer.createDataCellHtml(cellData, html);
+      html.push("</div>");
+      containerElement.innerHTML += html.join("");      
     },
 
 
@@ -84,20 +96,18 @@ qx.Class.define("demobrowser.demo.test.Table_CellRenderer",
 
       var container = this._getNewTableDiv(width)
       var top = 0;
-      this.permute(cellDataOptions, function(cellData)
+      qx.util.Permutation.permute(cellDataOptions, function(cellData)
       {
-        var html = ["<div style='position:absolute;height:20px;width:", width, "px;top:",top, "px'>"];
+        this.__renderCell(container, top, width, renderer, cellData);
         top += 20;
-        renderer.createDataCellHtml(cellData, html);
-        html.push("</div>");
-        container.innerHTML += html.join("");
-      });
+      }, this);
     },
 
 
     testBooleanRenderer : function()
     {
-      var width = 50;
+      var width = 70;
+      var height = 30;
       var renderer = new qx.ui.table.cellrenderer.Boolean();
 
       var cellDataOptions =
@@ -105,20 +115,26 @@ qx.Class.define("demobrowser.demo.test.Table_CellRenderer",
         value : [null, true, false],
         styleLeft : [0],
         styleWidth : [width],
-        styleHeight : [20],
+        styleHeight : [height],
         style: [""]
       }
 
       var container = this._getNewTableDiv(width)
       var top = 0;
-      this.permute(cellDataOptions, function(cellData)
+      qx.util.Permutation.permute(cellDataOptions, function(cellData)
       {
-        var html = ["<div style='position:absolute;height:20px;width:", width, "px;top:",top, "px'>"];
-        top += 20;
-        renderer.createDataCellHtml(cellData, html);
-        html.push("</div>");
-        container.innerHTML += html.join("");
-      });
+        this.__renderCell(container, top, width, renderer, cellData);
+        top += height;
+      }, this);
+
+      
+      renderer.setIconFalse("icon/16/emotes/face-sad.png");
+      renderer.setIconTrue("icon/16/emotes/face-smile.png");
+      qx.util.Permutation.permute(cellDataOptions, function(cellData)
+      {
+        this.__renderCell(container, top, width, renderer, cellData);
+        top += height;
+      }, this);
     },
 
 
@@ -151,11 +167,8 @@ qx.Class.define("demobrowser.demo.test.Table_CellRenderer",
         var format = formats[i];
         renderer.setDateFormat(format);
 
-        var html = ["<div style='position:absolute;height:20px;width:", width, "px;top:",top, "px'>"];
+        this.__renderCell(container, top, width, renderer, cellData);
         top += 20;
-        renderer.createDataCellHtml(cellData, html);
-        html.push("</div>");
-        container.innerHTML += html.join("");
       }
     },
 
@@ -192,11 +205,8 @@ qx.Class.define("demobrowser.demo.test.Table_CellRenderer",
         var format = formats[i];
         renderer.setNumberFormat(format);
 
-        var html = ["<div style='position:absolute;height:20px;width:", width,"px;top:",top, "px'>"];
+        this.__renderCell(container, top, width, renderer, cellData);
         top += 20;
-        renderer.createDataCellHtml(cellData, html);
-        html.push("</div>");
-        container.innerHTML += html.join("");
       }
     },
 
@@ -223,14 +233,11 @@ qx.Class.define("demobrowser.demo.test.Table_CellRenderer",
 
       var container = this._getNewTableDiv(width)
       var top = 0;
-      this.permute(cellDataOptions, function(cellData)
+      qx.util.Permutation.permute(cellDataOptions, function(cellData)
       {
-        var html = ["<div style='position:absolute;height:20px;width:", width, "px;top:",top, "px'>"];
+        this.__renderCell(container, top, width, renderer, cellData);
         top += 20;
-        renderer.createDataCellHtml(cellData, html);
-        html.push("</div>");
-        container.innerHTML += html.join("");
-      });
+      }, this);
     },
 
 
@@ -255,14 +262,11 @@ qx.Class.define("demobrowser.demo.test.Table_CellRenderer",
 
       var container = this._getNewTableDiv(width)
       var top = 0;
-      this.permute(cellDataOptions, function(cellData)
+      qx.util.Permutation.permute(cellDataOptions, function(cellData)
       {
-        var html = ["<div style='position:absolute;height:",height,"px;width:", width, "px;top:",top, "px'>"];
-        top += height;
-        renderer.createDataCellHtml(cellData, html);
-        html.push("</div>");
-        container.innerHTML += html.join("");
-      });
+        this.__renderCell(container, top, width, renderer, cellData);
+        top += 20;
+      }, this);
     },
 
 
@@ -287,14 +291,11 @@ qx.Class.define("demobrowser.demo.test.Table_CellRenderer",
 
       var container = this._getNewTableDiv(width)
       var top = 0;
-      this.permute(cellDataOptions, function(cellData)
+      qx.util.Permutation.permute(cellDataOptions, function(cellData)
       {
-        var html = ["<div style='position:absolute;height:",height,"px;width:", width, "px;top:",top, "px'>"];
-        top += height;
-        renderer.createDataCellHtml(cellData, html);
-        html.push("</div>");
-        container.innerHTML += html.join("");
-      });
+        this.__renderCell(container, top, width, renderer, cellData);
+        top += 20;
+      }, this);
     },
 
 
@@ -320,14 +321,11 @@ qx.Class.define("demobrowser.demo.test.Table_CellRenderer",
 
       var container = this._getNewTableDiv(width)
       var top = 0;
-      this.permute(cellDataOptions, function(cellData)
+      qx.util.Permutation.permute(cellDataOptions, function(cellData)
       {
-        var html = ["<div style='position:absolute;height:",height,"px;width:", width, "px;top:",top, "px'>"];
-        top += height;
-        renderer.createDataCellHtml(cellData, html);
-        html.push("</div>");
-        container.innerHTML += html.join("");
-      });
+        this.__renderCell(container, top, width, renderer, cellData);
+        top += 20;
+      }, this);
     },
 
 
@@ -363,14 +361,11 @@ qx.Class.define("demobrowser.demo.test.Table_CellRenderer",
 
       var container = this._getNewTableDiv(width)
       var top = 0;
-      this.permute(cellDataOptions, function(cellData)
+      qx.util.Permutation.permute(cellDataOptions, function(cellData)
       {
-        var html = ["<div style='position:absolute;height:",height,"px;width:", width, "px;top:",top, "px'>"];
-        top += height;
-        renderer.createDataCellHtml(cellData, html);
-        html.push("</div>");
-        container.innerHTML += html.join("");
-      });
+        this.__renderCell(container, top, width, renderer, cellData);
+        top += 20;
+      }, this);
     },
 
 
@@ -428,14 +423,11 @@ qx.Class.define("demobrowser.demo.test.Table_CellRenderer",
 
       var container = this._getNewTableDiv(width)
       var top = 0;
-      this.permute(cellDataOptions, function(cellData)
+      qx.util.Permutation.permute(cellDataOptions, function(cellData)
       {
-        var html = ["<div style='position:absolute;height:",height,"px;width:", width, "px;top:",top, "px'>"];
-        top += height;
-        renderer.createDataCellHtml(cellData, html);
-        html.push("</div>");
-        container.innerHTML += html.join("");
-      });
+        this.__renderCell(container, top, width, renderer, cellData);
+        top += 20;
+      }, this);
     },
 
 
@@ -465,14 +457,11 @@ qx.Class.define("demobrowser.demo.test.Table_CellRenderer",
 
       var container = this._getNewTableDiv(width)
       var top = 0;
-      this.permute(cellDataOptions, function(cellData)
+      qx.util.Permutation.permute(cellDataOptions, function(cellData)
       {
-        var html = ["<div style='position:absolute;height:",height,"px;width:", width, "px;top:",top, "px'>"];
-        top += height;
-        renderer.createDataCellHtml(cellData, html);
-        html.push("</div>");
-        container.innerHTML += html.join("");
-      });
+        this.__renderCell(container, top, width, renderer, cellData);
+        top += 20;
+      }, this);
     }
   }
 });

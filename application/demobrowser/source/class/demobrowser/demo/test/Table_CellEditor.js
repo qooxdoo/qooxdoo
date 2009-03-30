@@ -101,7 +101,7 @@ qx.Class.define("demobrowser.demo.test.Table_CellEditor",
         value : [true, false]
       }
 
-      this.permute(cellInfoOptions, function(cellInfo) {
+      qx.util.Permutation.permute(cellInfoOptions, function(cellInfo) {
         this._addEditor(new qx.ui.table.celleditor.CheckBox(), cellInfo);
       }, this);
     },
@@ -120,7 +120,7 @@ qx.Class.define("demobrowser.demo.test.Table_CellEditor",
         "mouse"
       ]);
 
-      this.permute(cellInfoOptions, function(cellInfo) {
+      qx.util.Permutation.permute(cellInfoOptions, function(cellInfo) {
         this._addEditor(factory, cellInfo);
       }, this);
     },
@@ -139,7 +139,7 @@ qx.Class.define("demobrowser.demo.test.Table_CellEditor",
         "mouse"
       ]);
 
-      this.permute(cellInfoOptions, function(cellInfo) {
+      qx.util.Permutation.permute(cellInfoOptions, function(cellInfo) {
         this._addEditor(factory, cellInfo);
       }, this);
     },
@@ -150,7 +150,7 @@ qx.Class.define("demobrowser.demo.test.Table_CellEditor",
         value : [null, 10, "Juhu"]
       }
 
-      this.permute(cellInfoOptions, function(cellInfo) {
+      qx.util.Permutation.permute(cellInfoOptions, function(cellInfo) {
         this._addEditor(new qx.ui.table.celleditor.PasswordField(), cellInfo);
       }, this);
     },
@@ -161,7 +161,7 @@ qx.Class.define("demobrowser.demo.test.Table_CellEditor",
         value : [null, 10, "Juhu"]
       }
 
-      this.permute(cellInfoOptions, function(cellInfo) {
+      qx.util.Permutation.permute(cellInfoOptions, function(cellInfo) {
         this._addEditor(new qx.ui.table.celleditor.TextField(), cellInfo);
       }, this);
     },
@@ -182,7 +182,7 @@ qx.Class.define("demobrowser.demo.test.Table_CellEditor",
         }
       });
 
-      this.permute(cellInfoOptions, function(cellInfo) {
+      qx.util.Permutation.permute(cellInfoOptions, function(cellInfo) {
         this._addEditor(editorFactory, cellInfo);
       }, this);
     }
