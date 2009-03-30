@@ -256,6 +256,17 @@ qx.Bootstrap.define("qx.lang.Function",
 
       return function(event)
       {
+        if (qx.core.Variant.isSet("qx.debug", "on")) 
+        {
+          if (options.self instanceof qx.core.Object) 
+          {
+            qx.core.Assert.assertFalse(
+              options.self.isDisposed(), 
+              "Trying to call a bound function with a disposed object as context."
+            );
+          }
+        }
+        
         // Convert (and copy) incoming arguments
         var args = qx.lang.Array.fromArguments(arguments);
 
