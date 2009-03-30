@@ -38,15 +38,43 @@ qx.Class.define("qx.ui.table.cellrenderer.Boolean",
   {
     this.base(arguments);
 
-    var aliasManager = qx.util.AliasManager.getInstance();
+    this.__aliasManager = qx.util.AliasManager.getInstance();
 
-    this.__iconUrlTrue = aliasManager.resolve("decoration/table/boolean-true.png");
-    this.__iconUrlFalse = aliasManager.resolve("decoration/table/boolean-false.png");
+    this.initIconTrue();
+    this.initIconFalse();
   },
 
 
+  /*
+   *****************************************************************************
+     PROPERTIES
+   *****************************************************************************
+   */
+  
+  properties :
+  {
+    /**
+     * The icon used to indicate the true state
+     */
+    iconTrue : 
+    {
+      check : "String",
+      init : "decoration/table/boolean-true.png",
+      apply : "_applyIconTrue"
+    },
 
-
+    /**
+    * The icon used to indicate the false state
+    */
+    iconFalse : 
+    {
+      check : "String",
+      init : "decoration/table/boolean-false.png",
+      apply : "_applyIconFalse"
+    }
+  },
+  
+  
   /*
   *****************************************************************************
      MEMBERS
@@ -57,7 +85,21 @@ qx.Class.define("qx.ui.table.cellrenderer.Boolean",
   {
     __iconUrlTrue : null,
     __iconUrlFalse : false,
+    __aliasManager : null,
+    
+    
+    // property apply
+    _applyIconTrue : function(value) {
+      this.__iconUrlTrue = this.__aliasManager.resolve(value);
+    },
+    
+    
+    // property apply
+    _applyIconFalse : function(value) {
+      this.__iconUrlFalse = this.__aliasManager.resolve(value);
+    },
 
+    
     // overridden
     _insetY : 5,
 
