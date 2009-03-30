@@ -76,7 +76,7 @@ qx.Class.define("qx.dev.unit.TestSuite",
       // This try-block is needed to avoid errors (e.g. "too much recursion")
       try
       {
-        if (typeof (testClassOrNamespace) == "string")
+        if (qx.lang.Type.isString(testClassOrNamespace))
         {
           var evalTestClassOrNamespace = eval(testClassOrNamespace);
 
@@ -87,9 +87,9 @@ qx.Class.define("qx.dev.unit.TestSuite",
           testClassOrNamespace = evalTestClassOrNamespace;
         }
 
-        if (typeof (testClassOrNamespace) == "function") {
+        if (qx.lang.Type.isFunction(testClassOrNamespace)) {
           this.addTestClass(testClassOrNamespace);
-        } else if (typeof (testClassOrNamespace) == "object") {
+        } else if (qx.lang.Type.isObject(testClassOrNamespace)) {
           this.addTestNamespace(testClassOrNamespace);
         }
         else
@@ -112,7 +112,7 @@ qx.Class.define("qx.dev.unit.TestSuite",
      */
     addTestNamespace : function(namespace)
     {
-      if (typeof (namespace) == "function" && namespace.classname)
+      if (qx.lang.Type.isFunction(namespace) && namespace.classname)
       {
         if (qx.Class.isSubClassOf(namespace, qx.dev.unit.TestCase))
         {
@@ -122,7 +122,7 @@ qx.Class.define("qx.dev.unit.TestSuite",
           return;          
         }
       }
-      else if (typeof (namespace) == "object" && !(namespace instanceof Array))
+      else if (qx.lang.Type.isObject(namespace) && !(namespace instanceof Array))
       {
         for (var key in namespace) {
           this.addTestNamespace(namespace[key]);

@@ -77,7 +77,7 @@ qx.Class.define("qx.dev.unit.TestClass",
 
     for (var test in proto)
     {
-      if (typeof (proto[test]) == "function" && test.indexOf("test") == 0) {
+      if (qx.lang.Type.isFunction(proto[test]) && test.indexOf("test") == 0) {
         this.addTestMethod(clazz, test);
       }
     }

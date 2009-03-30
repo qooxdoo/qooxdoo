@@ -1351,21 +1351,22 @@ qx.Class.define("qx.ui.core.Widget",
 
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
-          if (typeof inset.top != "number") {
-            throw new Error("Invalid top decorator inset detected: " + inset.top);
-          }
-
-          if (typeof inset.right != "number") {
-            throw new Error("Invalid right decorator inset detected: " + inset.right);
-          }
-
-          if (typeof inset.bottom != "number") {
-            throw new Error("Invalid bottom decorator inset detected: " + inset.bottom);
-          }
-
-          if (typeof inset.left != "number") {
-            throw new Error("Invalid left decorator inset detected: " + inset.left);
-          }
+          this.assertNumber(
+            inset.top,
+            "Invalid top decorator inset detected: " + inset.top
+          );
+          this.assertNumber(
+            inset.right,
+            "Invalid right decorator inset detected: " + inset.right
+          );
+          this.assertNumber(
+            inset.bottom,
+            "Invalid bottom decorator inset detected: " + inset.bottom
+          );
+          this.assertNumber(
+            inset.left,
+            "Invalid left decorator inset detected: " + inset.left
+          );
         }
 
         top += inset.top;
