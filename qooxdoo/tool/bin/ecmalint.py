@@ -31,6 +31,7 @@ from ecmascript.frontend import tokenizer
 from ecmascript.frontend import treeutil
 from ecmascript.frontend import tree
 from ecmascript.frontend import lang
+from ecmascript.frontend import comment
 from ecmascript.frontend.Script import Script
 from ecmascript.frontend.Scope import Scope
 from misc import filetool
@@ -54,8 +55,8 @@ class Lint:
             self.logger = ConsoleLogger()
         else:
             self.logger = logger
-
-
+            
+            
     def log(self, node, msg):
         (row, column) = treeutil.getLineAndColumnFromSyntaxItem(node)
         self.logger.log(self.filename, row, column, msg)
@@ -124,16 +125,16 @@ class Lint:
                 self.log(node, "Implicit declaration of %s field '%s'. You should list this field in the members section." % (prot, field))
 
 
-
     def checkUnusedVariables(self):
         for scope in self.script.iterScopes():
             if scope.type != Scope.EXCEPTION:
                 for var in scope.variables:
                     if len(var.uses) == 0:
                         for node in var.nodes:
-                            self.log(node, "Unused identifier '%s'" % var.name)
+                            if self._shouldPrintUnusedWarning(node, var.name):
+                                self.log(node, "Unused identifier '%s'" % var.name)
 
-
+    
     def checkMultiDefinedVariables(self):
         for scope in self.script.iterScopes():
             if scope.type != Scope.EXCEPTION:
@@ -174,15 +175,39 @@ class Lint:
                     continue
 
                 if not use.definition:
-                    if self.isBadGlobal(use.name):
+                    if self.isBadGlobal(use.name) and self._shouldPrintDeprecatedWarning(use.node, use.name):
                         self.log(use.node, "Use of deprecated global identifier '%s'" % use.name)
-                    elif not self.isGoodGlobal(use.name):
+                    elif not self.isGoodGlobal(use.name) and self._shouldPrintUndefinedWarning(use.node, use.name):
                         self.log(use.node, "Use of undefined or global identifier '%s'" % use.name)
 
-                elif use.definition.scope == globalScope:
+                elif use.definition.scope == globalScope and self._shouldPrintUndefinedWarning(use.node, use.name):
                     self.log(use.node, "Use of global identifier '%s'" % use.name)
 
 
+    def _shouldPrintDeprecatedWarning(self, node, name):
+        return self._shouldPrintVariableWarning(node, "ignoreDeprecated", name)
+    
+    def _shouldPrintUndefinedWarning(self, node, name):
+        return self._shouldPrintVariableWarning(node, "ignoreUndefined", name)
+        
+    def _shouldPrintUnusedWarning(self, node, name):
+        return self._shouldPrintVariableWarning(node, "ignoreUnused", name)
+    
+    def _shouldPrintVariableWarning(self, node, docCommand, variableName):
+        comments = comment.findComment(node)
+        if comments is None:
+            return True
+        
+        lintAttribs = [x for x in comments if x["category"] == "lint"]
+        
+        unused_re = re.compile("<p>\s*%s\s*\(\s*((?:\w+)\s*(?:,\s*(?:\w+)\s*)*)\)" % docCommand)
+        for attrib in lintAttribs:
+            match = unused_re.match(attrib["text"])
+            if match:
+                variables = [var.strip() for var in match.group(1).split(",")]
+                return not variableName in variables            
+        return True
+            
 
 def main(argv=None):
 
