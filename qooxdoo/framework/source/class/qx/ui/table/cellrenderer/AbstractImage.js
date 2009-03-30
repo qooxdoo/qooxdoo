@@ -101,7 +101,7 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
       var imageData = this._identifyImage(cellInfo);
 
       // If subclass refuses to give map, construct it
-      if (imageData == null || typeof urlAndTooltipMap == "string")
+      if (imageData == null || typeof cellInfo == "string")
       {
         imageData =
         {
@@ -111,7 +111,7 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
       }
 
       if (cellInfo.width && cellInfo.height) {
-        sizes = {width : cellInfo.imageWidth, height : cellInfo.imageHeight};
+        var sizes = {width : cellInfo.imageWidth, height : cellInfo.imageHeight};
       } else {
         sizes = this.__getImageSize(imageData.url);
       }

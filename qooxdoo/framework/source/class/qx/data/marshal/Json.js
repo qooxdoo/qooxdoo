@@ -41,6 +41,9 @@ qx.Class.define("qx.data.marshal.Json",
 
   members :
   {
+    __delegate : null,
+    
+    
     /**
      * Converts a given object into a hash which will be used to identify the 
      * classes under the namespace <code>qx.data.model</code>.

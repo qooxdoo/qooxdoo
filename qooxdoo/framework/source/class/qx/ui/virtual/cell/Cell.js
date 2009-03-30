@@ -185,6 +185,11 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
 
   members :
   {
+    __themableProperties : null,
+    __statesKey : null,
+    __states : null,
+    
+    __themeValues : null,
     __themeStyles : null,
     __userStyles : null,
     
@@ -401,7 +406,7 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
         this.__cacheThemedValues();
         
         var themeStyles = qx.lang.Object.clone(this.__themeStyles);
-        this.__states[this.__statesKey] = themeStyles;
+        this.__states[this.__statesKey] = 1;
       }
       this.__applyThemeValues();
     },

@@ -104,6 +104,15 @@ qx.Bootstrap.define("qx.event.Manager",
 
   members :
   {
+    __listeners : null,
+    __dispatchers : null,
+    __disposeWrapper : null,
+    
+    __handlers : null,
+    __handlerCache : null,
+    __window : null,
+    
+    
     /*
     ---------------------------------------------------------------------------
       HELPERS
