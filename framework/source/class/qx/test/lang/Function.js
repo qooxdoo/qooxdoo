@@ -82,6 +82,22 @@ qx.Class.define("qx.test.lang.Function",
       result = addOne(4);
       this.assertEquals(context, this);
       this.assertEquals(5, result);
+    },
+    
+    testBindWithDisposedContext : function()
+    {
+      if (!this.isDebugOn()) {
+        return;
+      }  
+      
+      var obj = new qx.core.Object();
+      obj.dispose();
+      var callback = function() {};
+      
+      var bound = qx.lang.Function.bind(callback, obj);      
+      this.assertException(function() {
+        bound()
+      }, qx.core.AssertionError);
     }
   }
 });
