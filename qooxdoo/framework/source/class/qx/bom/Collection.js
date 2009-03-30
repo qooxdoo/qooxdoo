@@ -875,7 +875,7 @@
       {
         var res;
         
-        if (qx.lang.Function.isFunction(selector)) {
+        if (qx.lang.Type.isFunction(selector)) {
           res = qx.type.BaseArray.prototype.filter.call(this, selector, context);
         } else {
           res = qx.bom.Selector.matches(selector, this);
