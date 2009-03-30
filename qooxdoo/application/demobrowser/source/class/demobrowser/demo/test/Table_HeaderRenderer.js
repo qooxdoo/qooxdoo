@@ -63,7 +63,7 @@ qx.Class.define("demobrowser.demo.test.Table_HeaderRenderer",
       }
 
       var container = this._getNewHeaderContainer()
-      this.permute(cellDataOptions, function(cellData)
+      qx.util.Permutation.permute(cellDataOptions, function(cellData)
       {
         var header = renderer.createHeaderCell(cellData);
         container.add(header);
@@ -88,7 +88,7 @@ qx.Class.define("demobrowser.demo.test.Table_HeaderRenderer",
       }
 
       var container = this._getNewHeaderContainer()
-      this.permute(cellDataOptions, function(cellData)
+      qx.util.Permutation.permute(cellDataOptions, function(cellData)
       {
         var header = renderer.createHeaderCell(cellData);
         container.add(header);
@@ -114,7 +114,7 @@ qx.Class.define("demobrowser.demo.test.Table_HeaderRenderer",
       }
 
       var container = this._getNewHeaderContainer()
-      this.permute(cellDataOptions, function(cellData)
+      qx.util.Permutation.permute(cellDataOptions, function(cellData)
       {
         var header = renderer.createHeaderCell(cellData);
         container.add(header);
