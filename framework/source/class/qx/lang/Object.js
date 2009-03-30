@@ -473,7 +473,7 @@ qx.Bootstrap.define("qx.lang.Object",
     fromArray: function(array)
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
-        qx.core.Assert.assertMap(array, "Invalid argument 'array'");
+        qx.core.Assert.assertArray(array, "Invalid argument 'array'");
       }
       
       var obj = {};
