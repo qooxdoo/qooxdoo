@@ -33,9 +33,7 @@ qx.Class.define("qx.ui.virtual.cell.Boolean",
   construct : function()
   {
     this.base(arguments);
-
-    this.__imageTrue = this._aliasManager.resolve("decoration/table/boolean-true.png");
-    this.__imageFalse = this._aliasManager.resolve("decoration/table/boolean-false.png");
+    this.__aliasManager = qx.util.AliasManager.getInstance();
   },
 
 
@@ -51,7 +49,27 @@ qx.Class.define("qx.ui.virtual.cell.Boolean",
     {
       refine : true,
       init : "cell-boolean"
-    }
+    },
+    
+    /**
+    * The icon used to indicate the true state
+    */
+   iconTrue : 
+   {
+     check : "String",
+     themeable : true,
+     apply : "_applyIconTrue"
+   },
+
+   /**
+   * The icon used to indicate the false state
+   */
+   iconFalse : 
+   {
+     check : "String",
+     themeable : true,
+     apply : "_applyIconFalse"
+   }    
   },
 
 
@@ -67,6 +85,19 @@ qx.Class.define("qx.ui.virtual.cell.Boolean",
     __imageTrue : null,
     __imageFalse : null,
 
+    
+    // property apply
+    _applyIconTrue : function(value) {
+      this.__imageTrue = this.__aliasManager.resolve(value);
+    },
+    
+    
+    // property apply
+    _applyIconFalse : function(value) {      
+      this.__imageFalse = this.__aliasManager.resolve(value);
+    },
+    
+    
     // overridden
     _identifyImage : function(value) {
       return value == true ? this.__imageTrue : this.__imageFalse;

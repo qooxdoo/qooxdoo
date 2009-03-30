@@ -39,13 +39,11 @@ qx.Class.define("qx.ui.virtual.cell.String",
 
   properties :
   {
-
     appearance:
     {
       refine : true,
       init : "cell-string"
     }
-
   },
 
 
@@ -58,7 +56,6 @@ qx.Class.define("qx.ui.virtual.cell.String",
 
   members :
   {
-    
     /*
     ---------------------------------------------------------------------------
       IMPLEMENT CELL API
@@ -66,9 +63,8 @@ qx.Class.define("qx.ui.virtual.cell.String",
     */    
 
     getContent : function(value, states) {
-      return qx.bom.String.escape(value);
+      return value ? qx.bom.String.escape(value) : "";
     }
-
   }
 
 });
