@@ -17,6 +17,9 @@ qx.Class.define("qx.ui.virtual.cell.AbstractWidget",
   
   members :
   {
+    __pool : null,
+    
+    
     /**
      * Creates the widget instance.
      * 

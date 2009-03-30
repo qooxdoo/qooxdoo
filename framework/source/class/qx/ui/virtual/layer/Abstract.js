@@ -48,7 +48,6 @@ qx.Class.define("qx.ui.virtual.layer.Abstract",
      this.base(arguments);
      
      this.__jobs = {};
-     this.__arguments = null;
    },
 
    
@@ -77,6 +76,15 @@ qx.Class.define("qx.ui.virtual.layer.Abstract",
  
   members :
   {
+    __jobs : null,
+    __arguments : null,
+    
+    __firstRow : null,
+    __firstColumn : null,
+    __rowSizes : null,
+    __columnSizes : null,
+    
+    
     /**
      * Get the first rendered row
      * 

@@ -436,6 +436,8 @@ qx.Class.define("qx.util.Json",
      * Parse a JSON text, producing a JavaScript value.
      * It returns false if there is a syntax error.
      *
+     * @lint ignoreDeprecated(eval)
+     *
      * @param text {String} JSON string
      * @return {Object} Returns the object
      * @throws an error if the text could not be parsed or evaluated
@@ -457,6 +459,8 @@ qx.Class.define("qx.util.Json",
     /**
      * Parse a JSON text, producing a JavaScript value.
      * It triggers an exception if there is a syntax error.
+     *
+     * @lint ignoreDeprecated(eval)
      *
      * @param text {String} JSON string
      * @return {var} evaluated JSON string.

@@ -127,6 +127,10 @@ qx.Class.define("qx.event.Command",
 
   members :
   {
+    __modifier : "",
+    __key : "",
+    
+    
     /*
     ---------------------------------------------------------------------------
       USER METHODS

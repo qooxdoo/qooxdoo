@@ -67,6 +67,8 @@ qx.Class.define("qx.dev.unit.TestSuite",
     /**
      * Add a test class or namespace to the suite
      *
+     * @lint ignoreDeprecated(alert, eval)
+     *
      * @param testClassOrNamespace {var} Either a string with the name of the test
      *    class or test namespace or a reference to the the test class or namespace.
      *    All test in the given class/namespace will be aded to the suite.
