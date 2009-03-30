@@ -41,7 +41,11 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
     this.__userPaddings = {};
     this.__themePaddings = {};
     
+    this.__states = {};
+    this.__themeValues = {};
+    
     this.initAppearance();
+    this.__initializeThemableProperties();
   },
 
 
@@ -191,6 +195,27 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
     __stylesheet : null,
     
     
+    __initializeThemableProperties : function()
+    {
+      var PropertyUtil = qx.util.PropertyUtil;
+      
+      var cssProperties = qx.lang.Object.fromArray(this._getCssProperties());
+      this.__themableProperties = [];
+      
+      var clazz = this.constructor;
+      while(clazz)
+      {
+        var properties = PropertyUtil.getProperties(clazz);
+        for (var prop in properties) {
+          if (!cssProperties[prop]) {
+            this.__themableProperties.push(prop);
+          }
+        }
+        clazz = clazz.superclass; 
+      }
+    },
+    
+    
     _getCssProperties : function()
     {
       return [
@@ -329,6 +354,7 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
     
     getCellProperties : function(value, states)
     {
+      this.__setStates(states);
       return {
         classes : this.getCssClasses(value, states),
         style : this.getStyles(value, states),
@@ -338,42 +364,68 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
       };
     },
   
+    
     getAttributes : function(value, states) {
       return "";
     },
 
+    
     getContent : function(value, states) {
       return value;
     },
 
+    
     // overridden
     getCssClasses : function(value, states)
     {
+      var cssClass = this.__stylesheet.getCssClass(this.__statesKey) || "";
+      return "qx-cell " + cssClass; 
+    },
+    
+    
+    __setStates : function(states)
+    {
       var appearance = this.getAppearance();
-
-      if (!states) {
-        states = {};
-      }
-
       var statesKey = appearance + "-" + qx.lang.Object.getKeys(states).sort().join(" ");
-      
-      var cssClass = this.__stylesheet.getCssClass(statesKey);
-      if (cssClass) {
-        return "qx-cell " + cssClass; 
+      if (this.__statesKey == statesKey) {
+        return;
       }
+      this.__statesKey = statesKey;
       
-      var PropertyUtil = qx.util.PropertyUtil;   
-      this.__themeStyles = {};
-      
-      
-      // reset old themed values
+      var themeStyles = this.__states[this.__statesKey];
+      if (!themeStyles)
+      {
+        this.__clearThemedPropertyValues();
+        this.__updateThemeableProperties(states);       
+        this.__computeCssClassForStates(states);
+        this.__cacheThemedValues();
+        
+        var themeStyles = qx.lang.Object.clone(this.__themeStyles);
+        this.__states[this.__statesKey] = themeStyles;
+      }
+      this.__applyThemeValues();
+    },
+    
+
+    __clearThemedPropertyValues : function()
+    {
+      var PropertyUtil = qx.util.PropertyUtil;
       var themableProperties = this._getCssProperties();
       for (var i=0; i<themableProperties.length; i++) {
         PropertyUtil.deleteThemeValue(this, themableProperties[i]);
       }
-      
-      // set new themed values
+    },
+    
+    
+    __updateThemeableProperties : function(states)
+    {
+      this.__themeStyles = {};
+
       this.__isThemed = true;
+      
+      var appearance = this.getAppearance();  
+      var PropertyUtil = qx.util.PropertyUtil;
+      
       var styles = qx.theme.manager.Appearance.getInstance().styleFrom(appearance, states);      
       for (var prop in styles) 
       {
@@ -381,13 +433,46 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
           PropertyUtil.setThemed(this, prop, styles[prop]);
         }
       }
-      this.__isThemed = false;
-            
-      var styleString = qx.lang.Object.getValues(this.__themeStyles).join(";");
-      return "qx-cell " + this.__stylesheet.computeClassForStyles(appearance, styleString);
+      
+      this.__isThemed = false;      
     },
     
-
+    
+    __computeCssClassForStates : function()
+    {
+      var styleString = qx.lang.Object.getValues(this.__themeStyles).join(";");
+      this.__stylesheet.computeClassForStyles(this.__statesKey, styleString);      
+    },
+    
+    
+    __cacheThemedValues : function()
+    {
+      var properties = this.__themableProperties;
+      var PropertyUtil = qx.util.PropertyUtil;
+      
+      var themeValues = {};
+      for (var i=0; i<properties.length; i++) 
+      {
+        var key = properties[i];
+        var value = PropertyUtil.getThemeValue(this, key);
+        if (value !== undefined) {
+          themeValues[key] = value;
+        }
+      }
+      this.__themeValues[this.__statesKey] = themeValues;
+    },
+    
+    
+    __applyThemeValues : function()
+    {
+      var PropertyUtil = qx.util.PropertyUtil;
+      var themeValues = this.__themeValues[this.__statesKey] || {};
+      for (var key in themeValues) {
+        PropertyUtil.setThemed(this, key, themeValues[key]);
+      }
+    },
+    
+    
     // overridden
     getStyles: function(value, states) {
       return qx.lang.Object.getValues(this.__userStyles).join(";");

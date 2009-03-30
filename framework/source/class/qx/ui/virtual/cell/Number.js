@@ -31,10 +31,7 @@ qx.Class.define("qx.ui.virtual.cell.Number",
 
     if (numberFormat) {
       this.setNumberFormat(numberFormat);
-    } else {
-      this.setNumberFormat(qx.util.format.NumberFormat.getInstance());
     }
-
   },
 
 
@@ -46,10 +43,10 @@ qx.Class.define("qx.ui.virtual.cell.Number",
 
   properties :
   {
-
     numberFormat :
     {
-      check : "qx.util.format.NumberFormat"
+      check : "qx.util.format.NumberFormat",
+      init : qx.util.format.NumberFormat.getInstance()
     },
 
     appearance:
@@ -57,20 +54,17 @@ qx.Class.define("qx.ui.virtual.cell.Number",
       refine : true,
       init : "cell-number"
     }
-
   },
 
-
+  
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
 
-
   members :
   {
-    
     /*
     ---------------------------------------------------------------------------
       IMPLEMENT CELL API
@@ -78,11 +72,7 @@ qx.Class.define("qx.ui.virtual.cell.Number",
     */    
 
     getContent : function(value, states) {
-      return this.getNumberFormat().format(value);
+      return value !== null ? this.getNumberFormat().format(value) : "";
     }
-
-
-
   }
-
 });

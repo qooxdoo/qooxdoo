@@ -2555,7 +2555,17 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
     "cell-image" : "cell",
-    "cell-boolean" : "cell",
+    "cell-boolean" : 
+    {
+      include : "cell",
+      style : function(states)
+      {
+        return {
+          iconTrue : "decoration/table/boolean-true.png",
+          iconFalse : "decoration/table/boolean-false.png"
+        }
+      }
+    },
     "cell-atom" : "cell",
     "cell-date" : "cell",
     "cell-html" : "cell"
