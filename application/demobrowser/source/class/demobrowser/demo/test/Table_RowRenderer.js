@@ -58,7 +58,7 @@ qx.Class.define("demobrowser.demo.test.Table_RowRenderer",
       var container = this._getNewTableDiv(width)
       var top = 0;
       var self = this;
-      this.permute(rowDataOptions, function(rowInfo)
+      qx.util.Permutation.permute(rowDataOptions, function(rowInfo)
       {
         var content = [];
         for (var key in rowInfo) {
