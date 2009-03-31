@@ -505,8 +505,8 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
         item.addListChild("expression", readExpression(stream))
         stream.comment(item, True)
     elif stream.currIsType("reserved", "DELETE"):
+        # this covers both statement and expression context!
         item = createItemNode("delete", stream)
-        item.set("operator", "TYPEOF")
         item.set("left", True)
         stream.next(item)
         item.addListChild("expression", readExpression(stream))
