@@ -92,7 +92,11 @@ qx.Bootstrap.define("qx.lang.Type",
     * @return {Boolean} Whether the value is an object. 
     */    
     isObject : function(value) {
-      return this.getClass(value) == "Object";
+      return (
+        value !== undefined &&
+        value !== null && 
+        this.getClass(value) == "Object"
+      );
     },
     
     

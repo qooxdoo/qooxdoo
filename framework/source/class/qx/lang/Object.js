@@ -190,9 +190,10 @@ qx.Bootstrap.define("qx.lang.Object",
         // IE does not return "shadowed" keys even if they are defined directly
         // in the object. This is incompatible to the ECMA standard!!
         // This is why this checks are needed.
+        var hasOwnProperty = Object.prototype.hasOwnProperty;
         for (var i=0, a=this._shadowedKeys, l=a.length; i<l; i++)
         {
-          if (map.hasOwnProperty(a[i])) {
+          if (hasOwnProperty.call(map, a[i])) {
             arr.push(a[i]);
           }
         }
@@ -252,9 +253,10 @@ qx.Bootstrap.define("qx.lang.Object",
       }
        
       var arr = [];
-
-      for (var key in map) {
-        arr.push(map[key]);
+      var keys = this.getKeys(map);
+      
+      for (var i=0, l=keys.length; i<l; i++) {
+        arr.push(map[keys[i]]);
       }
 
       return arr;
