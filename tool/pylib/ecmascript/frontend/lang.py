@@ -50,6 +50,7 @@ BUILTIN = [
           "XMLSerializer",
           "XPathEvaluator",
           "XPathResult",
+          "Range"
           ]
 
 GLOBALS = BUILTIN + [
