@@ -547,8 +547,8 @@ qx.Class.define("qx.data.controller.List",
       
       // create the options for the binding containing the old options
       // including the old onUpdate function
-      var options = qx.lang.Object.clone(options);
       if (options != null) {
+        var options = qx.lang.Object.clone(options);
         this.__onUpdate[targetProperty] = options.onUpdate;
         delete options.onUpdate;
       } else {
