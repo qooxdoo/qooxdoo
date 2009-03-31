@@ -83,20 +83,12 @@ class Lint:
 
 
     def checkFields(self):
-        define = treeutil.findQxDefine(self.tree)
-        if not define:
-            return
-
-        classMapNode = treeutil.selectNode(define, "params/2")
-        if classMapNode is None:
-            return
-
-        classMap = treeutil.mapNodeToMap(classMapNode)
-        if not classMap.has_key("members"):
-            return
-
-        members = treeutil.mapNodeToMap(classMap["members"].children[0])
+        members = self._getMembersMap()
         restricted = [key for key in members if key.startswith("_")]
+        if len(restricted) == 0:
+            return
+
+        classMap = self._getClassMap()
 
         assignNodes = [node for node in treeutil.nodeIterator(classMap["members"], "assignment")]
         if classMap.has_key("construct"):
@@ -124,6 +116,44 @@ class Lint:
             elif not field in restricted:
                 self.log(node, "Implicit declaration of %s field '%s'. You should list this field in the members section." % (prot, field))
 
+
+    def checkReferenceFields(self):
+        members = self._getMembersMap()
+        for name in members:
+            valueNode = members[name].children[0]
+            if valueNode.type in ["map", "instantiation", "array"]:
+                if self._shouldPrintReferenceFieldWarning(valueNode, name):
+                    self.log(
+                        valueNode,
+                        ("Data field '%s' has a reference value. " +
+                        "If data fields are initialized in the members map with " +
+                        "reference values like arrays or maps they will be shared " + 
+                        "between all instances of the class. Usually it is better " +
+                        "to set the value to 'null' and initialize it in the constructor") % name
+                    )
+        
+
+    def _getClassMap(self):
+        define = treeutil.findQxDefine(self.tree)
+        if not define:
+            return {}
+
+        classMapNode = treeutil.selectNode(define, "params/2")
+        if classMapNode is None:
+            return {}
+
+        classMap = treeutil.mapNodeToMap(classMapNode)
+        return classMap
+        
+
+    def _getMembersMap(self):
+        classMap = self._getClassMap()
+        if not "members" in classMap:
+            return {}
+
+        members = treeutil.mapNodeToMap(classMap["members"].children[0])
+        return members
+        
 
     def checkUnusedVariables(self):
         for scope in self.script.iterScopes():
@@ -193,6 +223,9 @@ class Lint:
     def _shouldPrintUnusedWarning(self, node, name):
         return self._shouldPrintVariableWarning(node, "ignoreUnused", name)
     
+    def _shouldPrintReferenceFieldWarning(self, node, name):
+        return self._shouldPrintVariableWarning(node, "ignoreReferenceField", name)
+    
     def _shouldPrintVariableWarning(self, node, docCommand, variableName):
         comments = comment.findComment(node)
         if comments is None:
@@ -260,6 +293,7 @@ misspelled identifier and missing 'var' statements. You can use the '-g' flag to
 
         if checkAll or "fields" in options.actions:
             lint.checkFields()
+            lint.checkReferenceFields()
 
         lint.checkMultiDefinedVariables()
 
