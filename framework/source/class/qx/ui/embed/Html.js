@@ -163,6 +163,21 @@ qx.Class.define("qx.ui.embed.Html",
     },
 
 
+    // overridden
+    _applySelectable : function(value)
+    {
+      this.base(arguments, value);
+
+      /*
+       * We have to set the value to "text" in Webkit for the container and
+       * content element
+       */
+      if (qx.core.Variant.isSet("qx.client", "webkit"))
+      {
+        this.getContainerElement().setStyle("userSelect", value ? "text" : "none");
+        this.getContentElement().setStyle("userSelect", value ? "text" : "none");
+      }
+    },
 
 
     /*
