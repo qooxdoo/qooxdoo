@@ -519,8 +519,14 @@ qx.Class.define("qx.fx.Base",
       }
 
       this.__state = qx.fx.Base.EffectState.IDLE;
-    }
+    },
 
+    /**
+    * Resets the state to default.
+    */
+    resetState : function() {
+      this.__state = qx.fx.Base.EffectState.IDLE;
+    }
 
   },
 
