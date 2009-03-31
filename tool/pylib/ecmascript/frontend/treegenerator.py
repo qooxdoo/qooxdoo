@@ -504,8 +504,10 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
         stream.next(item)
         item.addListChild("expression", readExpression(stream))
         stream.comment(item, True)
-    elif not expressionMode and stream.currIsType("reserved", "DELETE"):
+    elif stream.currIsType("reserved", "DELETE"):
         item = createItemNode("delete", stream)
+        item.set("operator", "TYPEOF")
+        item.set("left", True)
         stream.next(item)
         item.addListChild("expression", readExpression(stream))
         stream.comment(item, True)
