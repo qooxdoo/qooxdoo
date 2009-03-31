@@ -449,7 +449,8 @@ qx.Class.define("qx.ui.layout.Grid",
         this.__buildGrid();
       }
 
-      return this.__grid[row][column] ||  null;
+      var row = this.__grid[row] || {}; 
+      return row[column] ||  null;
     },
 
 

@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.Grid",
+qx.Class.define("qx.test.ui.layout.Grid",
 {
   extend : qx.test.ui.LayoutTestCase,
 
@@ -56,6 +56,26 @@ qx.Class.define("qx.test.ui.Grid",
     },
 
 
+    testGetCellWidget : function()
+    {
+      var grid = this._gridLayout;
+      
+      this.assertNull(grid.getCellWidget(0, 0));
+      this.assertNull(grid.getCellWidget(1, 1));
+      
+      var w00 = this._getFixedWidget();
+      this._gridWidget.add(w00, {row: 0, column: 0});
+      this.assertEquals(w00, grid.getCellWidget(0, 0));
+      this.assertNull(grid.getCellWidget(1, 1));
+
+      var w11 = this._getFixedWidget();
+      this._gridWidget.add(w11, {row: 1, column: 1});
+      this.assertEquals(w00, grid.getCellWidget(0, 0));
+      this.assertEquals(w11, grid.getCellWidget(1, 1));
+      this.assertNull(grid.getCellWidget(1, 0));
+    },
+    
+    
     testAutoSize : function()
     {
       this._gridWidget.add(this._getFixedWidget(), {row: 0, column: 0});
