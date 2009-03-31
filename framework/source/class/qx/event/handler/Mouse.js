@@ -142,13 +142,13 @@ qx.Class.define("qx.event.handler.Mouse",
         // http://www.quirksmode.org/blog/archives/2008/08/iphone_events.html
         if (qx.bom.client.System.IPHONE)
         {
-          var listener = qx.lang.Function.returnNull;
-          target.addEventListener(type, listener, false);
-          target.removeEventListener(type, listener, false);
+          var listener = qx.lang.Function.returnNull
+          target["on" + type] = listener;
+          target["on" + type] = undefined;
         }
       },
       
-      "default" : qx.lang.Function.returnNull 
+      "default" : qx.lang.Function.returnNull
     }),       
 
 
