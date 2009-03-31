@@ -71,14 +71,14 @@ qx.Class.define("qx.test.lang.Type",
       this.assertTrue(Type.isObject(new Object()));
       this.assertTrue(Type.isObject(new qx.core.Object()));
       
-      this.assertFalse(Type.isObject());
-      this.assertFalse(Type.isObject(function() {}));
-      this.assertFalse(Type.isObject(""));
-      this.assertFalse(Type.isObject(null));
-      this.assertFalse(Type.isObject(2));
-      this.assertFalse(Type.isObject([]));    
-      this.assertFalse(Type.isObject(true));    
-      this.assertFalse(Type.isObject(/juhu/));    
+      this.assertFalse(Type.isObject(), "undefined is not an object");
+      this.assertFalse(Type.isObject(function() {}), "function is not an object");
+      this.assertFalse(Type.isObject(""), "string is not an object");
+      this.assertFalse(Type.isObject(null), "null is not an object");
+      this.assertFalse(Type.isObject(2), "number is not an object");
+      this.assertFalse(Type.isObject([]), "array is not an object");    
+      this.assertFalse(Type.isObject(true), "boolean is not an object");    
+      this.assertFalse(Type.isObject(/juhu/), "regexp is not an object");    
     },
     
     
