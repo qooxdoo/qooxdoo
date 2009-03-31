@@ -133,9 +133,23 @@ qx.Class.define("qx.event.handler.Mouse",
 
 
     // interface implementation
-    registerEvent : function(target, type, capture) {
-      // Nothing needs to be done here
-    },
+    registerEvent : qx.core.Variant.select("qx.client",
+    {
+      "webkit" : function(target, type, capture) 
+      {
+        // The iPhone requires that the mouse events are at least once
+        // registered directly at the element 
+        // http://www.quirksmode.org/blog/archives/2008/08/iphone_events.html
+        if (qx.bom.client.System.IPHONE)
+        {
+          var listener = qx.lang.Function.returnNull
+          target.addEventListener(type, listener, false);
+          target.removeEventListener(type, listener, false);
+        }
+      },
+      
+      "default" : qx.lang.Function.returnNull; 
+    }),       
 
 
     // interface implementation
