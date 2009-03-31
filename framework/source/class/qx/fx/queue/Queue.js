@@ -101,6 +101,8 @@ qx.Class.define("qx.fx.queue.Queue",
 
       if (this.__effects.length < this.getLimit()) {
         this.__effects.push(effect)
+      } else {
+        effect.resetState();
       }
 
       if (!this.__interval) {
