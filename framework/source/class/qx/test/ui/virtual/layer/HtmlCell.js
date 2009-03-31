@@ -32,7 +32,7 @@ qx.Class.define("qx.test.ui.virtual.layer.HtmlCell",
     
     
     getCellProperties : function(row, column) {
-      return this.__cellRenderer.getCellProperties(row + " / " + column);
+      return this.__cellRenderer.getCellProperties(row + " / " + column, {});
     },
     
     _assertCells : function(firstRow, firstColumn, rowCount, columnCount, msg) 

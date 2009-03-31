@@ -40,7 +40,7 @@ qx.Class.define("qx.test.ui.virtual.layer.HtmlCellSpan",
     
     
     getCellProperties : function(row, column) {
-      return this.__cellRenderer.getCellProperties(row + " / " + column);
+      return this.__cellRenderer.getCellProperties(row + " / " + column, {});
     },
     
     

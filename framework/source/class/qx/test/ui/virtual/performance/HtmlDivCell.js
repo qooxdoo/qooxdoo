@@ -31,7 +31,7 @@ qx.Class.define("qx.test.ui.virtual.performance.HtmlDivCell",
     },
     
     getCellProperties : function(row, column) {
-      return this.__cellRenderer.getCellProperties(row + " / " + column);
+      return this.__cellRenderer.getCellProperties(row + " / " + column, {});
     }          
   }
 
