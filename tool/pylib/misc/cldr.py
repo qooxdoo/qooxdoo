@@ -38,6 +38,8 @@ def extractMonth(calendarElement):
     		for month in monthWidth.findall("month"):
     			if month.attrib.has_key("alt"): continue
     			data["cldr_month_%s_%s" % (monthType, month.attrib["type"])] = month.text
+                #cldr_key = "cldr_month_%s_%s_%s" % (monthContext.attrib["type"], monthWidth.attrib["type"], month.attrib["type"])
+                #data[cldr_key] = month.text
     return data
 
 
