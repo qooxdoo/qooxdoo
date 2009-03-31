@@ -443,7 +443,6 @@ qx.Class.define("qx.ui.form.List",
 
       // Store timestamp
       this.__lastKeyPress = (new Date).valueOf();
-      e.preventDefault();
     },
 
 
