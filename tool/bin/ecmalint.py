@@ -154,7 +154,7 @@ class Lint:
                 return (first and
                         (first == "this" or first == "that") and 
                         second and
-                        second not in restricted)
+                        second not in restricted)     # <- this is bogus, too narrow
                 
             for var in allVars:
                 fullName = treeutil.assembleVariable(var)[0]
@@ -205,7 +205,7 @@ class Lint:
         restricted = [key for key in self._getMembersMap() if key.startswith("_")]
         allVars    = getVariables()
         
-        checkImplicit(allVars)
+        #checkImplicit(allVars)  # this check is overgenerating, doesn't honor all members/statics, nor inherited
         checkPrivate(allVars)
         checkProtected(allVars)
         #checkAll()
