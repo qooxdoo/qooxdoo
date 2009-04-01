@@ -36,7 +36,8 @@ qx.Class.define("qx.test.bom.Cookie",
       // Set and restore value
       qx.bom.Cookie.set(key, dataToSave);
       result = qx.bom.Cookie.get(key);
-      this.assertEquals(dataToSave, result, "Set and restore value");
+      this.assertEquals(dataToSave, result, "It is expected that this test fails" +
+          " if you start this test from a file system with Google Chrome.");
       
       // remove value
       qx.bom.Cookie.del(key);
@@ -62,8 +63,10 @@ qx.Class.define("qx.test.bom.Cookie",
       qx.bom.Cookie.set(key2, dataToSave2);
       result1 = qx.bom.Cookie.get(key1);
       result2 = qx.bom.Cookie.get(key2);
-      this.assertEquals(dataToSave1, result1, "Set and restore value (one)");
-      this.assertEquals(dataToSave2, result2, "Set and restore value (tow)");
+      this.assertEquals(dataToSave1, result1, "It is expected that this test fails" +
+          " if you start this test from a file system with Google Chrome.");
+      this.assertEquals(dataToSave2, result2, "It is expected that this test fails" +
+          " if you start this test from a file system with Google Chrome.");
       
       // remove values
       qx.bom.Cookie.del(key1);
@@ -72,41 +75,6 @@ qx.Class.define("qx.test.bom.Cookie",
       result2 = qx.bom.Cookie.get(key2);
       this.assertNull(result1, "Remove value (one)");
       this.assertNull(result2, "Remove value (tow)");
-    },
-    
-    testSaveExtendedData : function()
-    {
-      var key = "qx.test.bom.Cookie.testSaveExtendedData";
-      var dataToSave = "Qooxdoo";
-      var path = "/";
-      var domain = document.domain;
-      
-      /* 
-       * It isn't possible to set a domain for localhost or if the test is
-       * running from file system. Otherwise the domain must start with a
-       * "." (dot) as prefix.  
-       */
-      if (domain != "") {
-        if (domain === "localhost") {
-          domain = "";
-        } else {
-          domain = "." + domain;
-        }
-      }
-      
-      // Check that no value exists 
-      var result = qx.bom.Cookie.get(key);
-      this.assertNull(result, "Empty check before start");
-      
-      // Set and restore value
-      qx.bom.Cookie.set(key, dataToSave, null, path, domain);
-      result = qx.bom.Cookie.get(key);
-      this.assertEquals(dataToSave, result, "Set and restore value");
-      
-      // remove value
-      qx.bom.Cookie.del(key, path, domain);
-      result = qx.bom.Cookie.get(key);
-      this.assertNull(result, "Remove value");
     }
   }
 });
