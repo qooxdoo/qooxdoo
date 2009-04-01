@@ -94,6 +94,8 @@ class Lint:
             return variables
 
         classMap = self._getClassMap()
+        if len(className) == 0:
+            return
         
         variables = findVariables(classMap["members"])
         if "construct" in classMap:
