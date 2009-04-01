@@ -84,45 +84,131 @@ class Lint:
 
     def checkFields(self):
 
-        def findVariables(rootNode):
+        def getVariables():
+            # get all variable nodes from 'members' and (pot.) 'construct'
             variables = []
-            for node in treeutil.nodeIterator(rootNode, ["assignment", "call"]):
-                if node.type == "assignment":
-                    variables.append(node.getChild("left"))
-                elif node.type == "call":
-                    variables.append(node.getChild("operand"))
+            if "members" in classMap:
+                variables.extend([node for node in treeutil.nodeIterator(classMap["members"], ["variable"])])
+            if "construct" in classMap:
+                variables.extend([node for node in treeutil.nodeIterator(classMap["construct"], ["variable"])])
             return variables
 
-        classMap = self._getClassMap()
+        def checkPrivate(allVars):
+
+            privateElement = re.compile(r'\b__')
+
+            def findPrivate(allVars):
+                variables = []
+                for node in allVars:
+                    fullName, isComplete = treeutil.assembleVariable(node)
+                    if privateElement.search(fullName):
+                        variables.append(node)
+                return variables
+
+            def isLocalPrivate(var, fullName):
+                allIdentifier = fullName.split('.')
+                first = second = None
+                if len(allIdentifier) > 0:
+                    first  = allIdentifier[0]
+                if len(allIdentifier) > 1:
+                    second = allIdentifier[1]
+                allPrivatesInThisVar = privateElement.findall(fullName)
+                return (first and
+                        (first == "this" or first == "that") and 
+                        second and
+                        privateElement.match(second) and 
+                        len(allPrivatesInThisVar)==1)
+                
+            variables = findPrivate(allVars)
+            for var in variables:
+                fullName = treeutil.assembleVariable(var)[0]
+                if not isLocalPrivate(var, fullName): # local privates are ok, as long as they are declared, which is checked in checkImplicit()
+                    self.log(var, "Non-local private data field in '%s'! You should never do this." % treeutil.assembleVariable(var)[0])
+            return
+
+        def checkProtected(allVars):
+
+            def findProtected(allVars):
+                protectedElement = re.compile(r'\b_[^_]')
+                variables = []
+                for node in allVars:
+                    fullName, isComplete = treeutil.assembleVariable(node)
+                    if protectedElement.search(fullName):
+                        variables.append(node)
+                return variables
+
+            variables = findProtected(allVars)
+            for var in variables:
+                self.log(var, "Protected data field in '%s'. Protected fields are deprecated. Better use private fields in combination with getter and setter methods." % treeutil.assembleVariable(var)[0])
+            return
+
+        def checkImplicit(allVars):
+
+            def hasUndeclaredMember(fullName):
+                allIdentifier = fullName.split('.')
+                first = second = None
+                if len(allIdentifier) > 0:
+                    first  = allIdentifier[0]
+                if len(allIdentifier) > 1:
+                    second = allIdentifier[1]
+                return (first and
+                        (first == "this" or first == "that") and 
+                        second and
+                        second not in restricted)
+                
+            for var in allVars:
+                fullName = treeutil.assembleVariable(var)[0]
+                if hasUndeclaredMember(fullName):
+                    self.log(var, "Undeclared local data field in '%s'! You should list this field in the member section." % fullName)
+
+            return
+
+        def checkAll():
+
+            def findVariables(rootNode):
+                variables = []
+                for node in treeutil.nodeIterator(rootNode, ["assignment", "call"]):
+                    if node.type == "assignment":
+                        variables.append(node.getChild("left"))
+                    elif node.type == "call":
+                        variables.append(node.getChild("operand"))
+                return variables
+
+            variables = findVariables(classMap["members"])
+            if "construct" in classMap:
+                variables.extend(findVariables(classMap["construct"]))
+
+            for node in variables:
+                this = treeutil.selectNode(node, "variable/identifier[1]/@name")
+                if this != "this":
+                    continue
+
+                field = treeutil.selectNode(node, "variable/identifier[2]/@name")
+                if field is None:
+                    continue
+
+                if field[0] != "_":
+                    continue
+                elif field[1] == "_":
+                    prot = "private"
+                else:
+                    prot = "protected"
+
+                if prot == "protected":
+                    self.log(node, "Protected data field '%s'. Protected fields are deprecated. Better use private fields in combination with getter and setter methods." % field)
+                elif not field in restricted:
+                    self.log(node, "Implicit declaration of %s field '%s'. You should list this field in the members section." % (prot, field))
+
+        classMap   = self._getClassMap()
         if len(classMap) == 0:
             return
-        
-        variables = findVariables(classMap["members"])
-        if "construct" in classMap:
-            variables.extend(findVariables(classMap["construct"]))
-
         restricted = [key for key in self._getMembersMap() if key.startswith("_")]
-
-        for node in variables:
-            this = treeutil.selectNode(node, "variable/identifier[1]/@name")
-            if this != "this":
-                continue
-
-            field = treeutil.selectNode(node, "variable/identifier[2]/@name")
-            if field is None:
-                continue
-
-            if field[0] != "_":
-                continue
-            elif field[1] == "_":
-                prot = "private"
-            else:
-                prot = "protected"
-
-            if prot == "protected":
-                self.log(node, "Protected data field '%s'. Protected fields are deprecated. Better use private fields in combination with getter and setter methods." % field)
-            elif not field in restricted:
-                self.log(node, "Implicit declaration of %s field '%s'. You should list this field in the members section." % (prot, field))
+        allVars    = getVariables()
+        
+        checkImplicit(allVars)
+        checkPrivate(allVars)
+        checkProtected(allVars)
+        #checkAll()
 
 
     def checkReferenceFields(self):
