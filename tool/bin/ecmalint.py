@@ -344,13 +344,16 @@ def main(argv=None):
     parser = OptionParser(description="Checks ECMAScript/JavaScript files for common errors.")
     parser.add_option(
         "--action", "-a", dest="actions", metavar="ACTION",
-        choices=["ALL", "undefined_variables", "unused_variables", "maps", "blocks", "fields"], action="append", default=[],
+        choices=["ALL", "undefined_variables", "unused_variables", "multidefined_variables", "maps", "blocks", "fields"], action="append", default=[],
         help="""Performs the given checks on the input files. This parameter may be supplied multiple times.
 Valid arguments are: "ALL" (default): Perform all checks
 "undefined_variables": Look for identifier, which are referenced in the global scope. This action can find
 misspelled identifier and missing 'var' statements. You can use the '-g' flag to add valid global identifiers.
-  unused_variables: Look for identifier, which are defined but never used.
-"maps": Look for duplicate keys in map declarations. """
+  "unused_variables": Look for identifier, which are defined but never used.
+  "multidefined_variables": Look for identifier, which are defined multiple times.
+  "blocks" : Look for single statments in bodies of if's and loops that are not enclosed by braces.
+  "fields" : Look for class attributes, checking definedness, privates and protected fields.
+  "maps": Look for duplicate keys in map declarations. """
     )
     parser.add_option(
         "-g", dest="globals", help="Add an allowed global identifier GLOBAL",
@@ -379,6 +382,9 @@ misspelled identifier and missing 'var' statements. You can use the '-g' flag to
         if checkAll or "unused_variables" in options.actions:
             lint.checkUnusedVariables()
 
+        if "multidefined_variables" in options.actions:
+            lint.checkMultiDefinedVariables()
+
         if checkAll or "maps" in options.actions:
             lint.checkMaps()
 
@@ -388,8 +394,6 @@ misspelled identifier and missing 'var' statements. You can use the '-g' flag to
         if checkAll or "fields" in options.actions:
             lint.checkFields()
             lint.checkReferenceFields()
-
-        lint.checkMultiDefinedVariables()
 
 
 
