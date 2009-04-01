@@ -25,10 +25,10 @@
      http://groups.google.com/group/sizzlejs
      http://github.com/jeresig/sizzle/tree
 
-     Snapshot from February 20, 2009
-       commit  cc1213bc4d9402765d7699f2f9d2db2298830ff5
-       tree    3f8650c5fb6b173bba78f9d0c5af992244a8c6d7
-       parent  1836cc553704ef03a1ec77294585709cc748e581   
+     Snapshot from April 1, 2009
+ 			 commit  b6c492a33e9687e7793384bdb67f05bf3d57309d
+			 tree    4b89dde27810e343fb7943c68806737b3239af68
+			 parent  67551ef3a99ea683ec10f8f543c2fa6be9346c34   
 
      Copyright:
        (c) 2009, The Dojo Foundation
@@ -129,27 +129,29 @@ qx.Bootstrap.define("qx.bom.Selector",
 
 var chunker = /((?:\((?:\([^()]+\)|[^()]+)+\)|\[(?:\[[^[\]]*\]|['"][^'"]*['"]|[^[\]'"]+)+\]|\\.|[^ >+~,(\[\\]+)+|[>+~])(\s*,\s*)?/g,
   done = 0,
-  toString = Object.prototype.toString;
+  toString = Object.prototype.toString,
+  hasDuplicate = false;
 
 var Sizzle = function(selector, context, results, seed) {
   results = results || [];
-  context = context || document;
+  var origContext = context = context || document;
 
-  if ( context.nodeType !== 1 && context.nodeType !== 9 )
+  if ( context.nodeType !== 1 && context.nodeType !== 9 ) {
     return [];
-  
+  }
+
   if ( !selector || typeof selector !== "string" ) {
     return results;
   }
 
-  var parts = [], m, set, checkSet, check, mode, extra, prune = true;
-  
+  var parts = [], m, set, checkSet, check, mode, extra, prune = true, contextXML = isXML(context);
+
   // Reset the position of the chunker regexp (start from head)
   chunker.lastIndex = 0;
-  
+
   while ( (m = chunker.exec(selector)) !== null ) {
     parts.push( m[1] );
-    
+
     if ( m[2] ) {
       extra = RegExp.rightContext;
       break;
@@ -174,31 +176,43 @@ var Sizzle = function(selector, context, results, seed) {
       }
     }
   } else {
-    var ret = seed ?
-      { expr: parts.pop(), set: makeArray(seed) } :
-      Sizzle.find( parts.pop(), parts.length === 1 && context.parentNode ? context.parentNode : context, isXML(context) );
-    set = Sizzle.filter( ret.expr, ret.set );
-
-    if ( parts.length > 0 ) {
-      checkSet = makeArray(set);
-    } else {
-      prune = false;
+    // Take a shortcut and set the context if the root selector is an ID
+    // (but not if it'll be faster if the inner selector is an ID)
+    if ( !seed && parts.length > 1 && context.nodeType === 9 && !contextXML &&
+        Expr.match.ID.test(parts[0]) && !Expr.match.ID.test(parts[parts.length - 1]) ) {
+      var ret = Sizzle.find( parts.shift(), context, contextXML );
+      context = ret.expr ? Sizzle.filter( ret.expr, ret.set )[0] : ret.set[0];
     }
 
-    while ( parts.length ) {
-      var cur = parts.pop(), pop = cur;
+    if ( context ) {
+      var ret = seed ?
+        { expr: parts.pop(), set: makeArray(seed) } :
+        Sizzle.find( parts.pop(), parts.length === 1 && (parts[0] === "~" || parts[0] === "+") && context.parentNode ? context.parentNode : context, contextXML );
+      set = ret.expr ? Sizzle.filter( ret.expr, ret.set ) : ret.set;
 
-      if ( !Expr.relative[ cur ] ) {
-        cur = "";
+      if ( parts.length > 0 ) {
+        checkSet = makeArray(set);
       } else {
-        pop = parts.pop();
+        prune = false;
       }
 
-      if ( pop == null ) {
-        pop = context;
-      }
+      while ( parts.length ) {
+        var cur = parts.pop(), pop = cur;
 
-      Expr.relative[ cur ]( checkSet, pop, isXML(context) );
+        if ( !Expr.relative[ cur ] ) {
+          cur = "";
+        } else {
+          pop = parts.pop();
+        }
+
+        if ( pop == null ) {
+          pop = context;
+        }
+
+        Expr.relative[ cur ]( checkSet, pop, contextXML );
+      }
+    } else {
+      checkSet = parts = [];
     }
   }
 
@@ -213,7 +227,7 @@ var Sizzle = function(selector, context, results, seed) {
   if ( toString.call(checkSet) === "[object Array]" ) {
     if ( !prune ) {
       results.push.apply( results, checkSet );
-    } else if ( context.nodeType === 1 ) {
+    } else if ( context && context.nodeType === 1 ) {
       for ( var i = 0; checkSet[i] != null; i++ ) {
         if ( checkSet[i] && (checkSet[i] === true || checkSet[i].nodeType === 1 && contains(context, checkSet[i])) ) {
           results.push( set[i] );
@@ -231,23 +245,26 @@ var Sizzle = function(selector, context, results, seed) {
   }
 
   if ( extra ) {
-    Sizzle( extra, context, results, seed );
+    Sizzle( extra, origContext, results, seed );
+    Sizzle.uniqueSort( results );
+  }
 
-    if ( sortOrder ) {
-      hasDuplicate = false;
-      results.sort(sortOrder);
+  return results;
+};
 
-      if ( hasDuplicate ) {
-        for ( var i = 1; i < results.length; i++ ) {
-          if ( results[i] === results[i-1] ) {
-            results.splice(i--, 1);
-          }
+Sizzle.uniqueSort = function(results){
+  if ( sortOrder ) {
+    hasDuplicate = false;
+    results.sort(sortOrder);
+
+    if ( hasDuplicate ) {
+      for ( var i = 1; i < results.length; i++ ) {
+        if ( results[i] === results[i-1] ) {
+          results.splice(i--, 1);
         }
       }
     }
   }
-
-  return results;
 };
 
 Sizzle.matches = function(expr, set){
@@ -263,7 +280,7 @@ Sizzle.find = function(expr, context, isXML){
 
   for ( var i = 0, l = Expr.order.length; i < l; i++ ) {
     var type = Expr.order[i], match;
-    
+
     if ( (match = Expr.match[ type ].exec( expr )) ) {
       var left = RegExp.leftContext;
 
@@ -525,7 +542,7 @@ var Expr = Sizzle.selectors = {
     },
     ATTR: function(match, curLoop, inplace, result, not, isXML){
       var name = match[1].replace(/\\/g, "");
-      
+
       if ( !isXML && Expr.attrMap[name] ) {
         match[1] = Expr.attrMap[name];
       }
@@ -551,7 +568,7 @@ var Expr = Sizzle.selectors = {
       } else if ( Expr.match.POS.test( match[0] ) || Expr.match.CHILD.test( match[0] ) ) {
         return true;
       }
-      
+
       return match;
     },
     POS: function(match){
@@ -685,10 +702,10 @@ var Expr = Sizzle.selectors = {
           if ( first == 1 && last == 0 ) {
             return true;
           }
-          
+
           var doneName = match[0],
             parent = elem.parentNode;
-  
+
           if ( parent && (parent.sizcache !== doneName || !elem.nodeIndex) ) {
             var count = 0;
             for ( node = parent.firstChild; node; node = node.nextSibling ) {
@@ -698,7 +715,7 @@ var Expr = Sizzle.selectors = {
             } 
             parent.sizcache = doneName;
           }
-          
+
           var diff = elem.nodeIndex - last;
           if ( first == 0 ) {
             return diff == 0;
@@ -761,7 +778,7 @@ var Expr = Sizzle.selectors = {
 var origPOS = Expr.match.POS;
 
 for ( var type in Expr.match ) {
-  Expr.match[ type ] = RegExp( Expr.match[ type ].source + /(?![^\[]*\])(?![^\(]*\))/.source );
+  Expr.match[ type ] = new RegExp( Expr.match[ type ].source + /(?![^\[]*\])(?![^\(]*\))/.source );
 }
 
 var makeArray = function(array, results) {
@@ -771,7 +788,7 @@ var makeArray = function(array, results) {
     results.push.apply( results, array );
     return results;
   }
-  
+
   return array;
 };
 
@@ -840,9 +857,9 @@ if ( document.documentElement.compareDocumentPosition ) {
 // querying by getElementById (and provide a workaround)
 (function(){
   // We're going to inject a fake input element with a specified name
-  var form = document.createElement("form"),
+  var form = document.createElement("div"),
     id = "script" + (new Date).getTime();
-  form.innerHTML = "<input name='" + id + "'/>";
+  form.innerHTML = "<a name='" + id + "'/>";
 
   // Inject it into the root element, check its status, and remove it quickly
   var root = document.documentElement;
@@ -916,7 +933,7 @@ if ( document.querySelectorAll ) (function(){
   if ( div.querySelectorAll && div.querySelectorAll(".TEST").length === 0 ) {
     return;
   }
-  
+
   Sizzle = function(query, context, extra, seed){
     context = context || document;
 
@@ -927,14 +944,13 @@ if ( document.querySelectorAll ) (function(){
         return makeArray( context.querySelectorAll(query), extra );
       } catch(e){}
     }
-    
+
     return oldSizzle(query, context, extra, seed);
   };
 
-  Sizzle.find = oldSizzle.find;
-  Sizzle.filter = oldSizzle.filter;
-  Sizzle.selectors = oldSizzle.selectors;
-  Sizzle.matches = oldSizzle.matches;
+  for ( var prop in oldSizzle ) {
+    Sizzle[ prop ] = oldSizzle[ prop ];
+  }
 })();
 
 if ( document.getElementsByClassName && document.documentElement.getElementsByClassName ) (function(){
@@ -1046,7 +1062,7 @@ var contains = document.compareDocumentPosition ?  function(a, b){
 
 var isXML = function(elem){
   return elem.nodeType === 9 && elem.documentElement.nodeName !== "HTML" ||
-    !!elem.ownerDocument && isXML( elem.ownerDocument );
+    !!elem.ownerDocument && elem.ownerDocument.documentElement.nodeName !== "HTML";
 };
 
 var posProcess = function(selector, context){
