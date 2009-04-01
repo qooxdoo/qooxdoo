@@ -108,9 +108,36 @@ qx.Class.define("qx.ui.menu.Button",
      *
      * @param e {qx.event.type.Data} Property change event
      */
-    _onChangeCommand : function(e) {
-      this.getChildControl("shortcut").setContent(e.getData().toString());
+    _onChangeCommand : function(e) 
+    {
+      var command = e.getData();
+      var oldCommand = e.getOldData();
+
+      if (qx.core.Variant.isSet("qx.dynlocale", "on")) 
+      {
+        if (!oldCommand) {
+          qx.locale.Manager.getInstance().addListener("changeLocale", this._onChangeLocale, this);
+        }
+        if (!command) {
+          qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
+        }
+      }
+
+      this.getChildControl("shortcut").setContent(command.toString());
     },
+    
+    
+    /**
+     * Update command string on locale changes
+     */
+    _onChangeLocale : qx.core.Variant.select("qx.dynlocale",
+    {
+      "on" : function(e) {
+        this.getChildControl("shortcut").setContent(this.getCommand().toString());
+      },
+
+      "off" : null
+    }),    
 
 
     // overridden
