@@ -83,24 +83,30 @@ class Lint:
 
 
     def checkFields(self):
-        members = self._getMembersMap()
-        restricted = [key for key in members if key.startswith("_")]
-        if len(restricted) == 0:
-            return
+
+        def findVariables(rootNode):
+            variables = []
+            for node in treeutil.nodeIterator(rootNode, ["assignment", "call"]):
+                if node.type == "assignment":
+                    variables.append(node.getChild("left"))
+                elif node.type == "call":
+                    variables.append(node.getChild("operand"))
+            return variables
 
         classMap = self._getClassMap()
+        
+        variables = findVariables(classMap["members"])
+        if "construct" in classMap:
+            variables.extend(findVariables(classMap["construct"]))
 
-        assignNodes = [node for node in treeutil.nodeIterator(classMap["members"], "assignment")]
-        if classMap.has_key("construct"):
-            for node in treeutil.nodeIterator(classMap["construct"], "assignment"):
-                assignNodes.append(node)
+        restricted = [key for key in self._getMembersMap() if key.startswith("_")]
 
-        for node in assignNodes:
-            this = treeutil.selectNode(node, "left/variable/identifier[1]/@name")
+        for node in variables:
+            this = treeutil.selectNode(node, "variable/identifier[1]/@name")
             if this != "this":
                 continue
 
-            field = treeutil.selectNode(node, "left/variable/identifier[2]/@name")
+            field = treeutil.selectNode(node, "variable/identifier[2]/@name")
             if field is None:
                 continue
 
