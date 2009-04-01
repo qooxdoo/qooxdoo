@@ -94,7 +94,7 @@ class Lint:
             return variables
 
         classMap = self._getClassMap()
-        if len(className) == 0:
+        if len(classMap) == 0:
             return
         
         variables = findVariables(classMap["members"])
