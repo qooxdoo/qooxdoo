@@ -47,16 +47,6 @@ qx.Class.define("qx.ui.form.ComboBox",
     this._createChildControl("textfield");
     this._createChildControl("button");
 
-    // TODO Remove this hack for bug #2150
-    if (this.classname != "qx.ui.form.DateField")
-    {
-      // Change selection mode
-      var list = this.getChildControl("list");
-      list.setSelectionMode("single");
-
-      this.addListener("appear", this._onAppear);
-    }
-    
     this.addListener("click", this._onClick);
     this.addListener("keydown", this._onKeyDown);
   },
@@ -169,6 +159,15 @@ qx.Class.define("qx.ui.form.ComboBox",
           control.setKeepActive(true);
           control.addState("inner");
           this._add(control);
+          break;
+          
+        case "list":
+          // Get the list from the AbstractSelectBox
+          control = this.base(arguments, id)
+
+          // Change selection mode
+          control.setSelectionMode("single");
+          this.addListener("appear", this._onAppear);
           break;
       }
 
