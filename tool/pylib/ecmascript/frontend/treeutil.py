@@ -282,7 +282,7 @@ def inlineIfStatement(ifNode, conditionValue):
     """
 
     if ifNode.type != "loop" or ifNode.get("loopType") != "IF":
-        raise tree.NodeAccessException("Expected a the LOOP node of an if statement!", mapNode)
+        raise tree.NodeAccessException("Expected the LOOP node of an if statement!", mapNode)
 
     replacement = []
     newDefinitions = []
