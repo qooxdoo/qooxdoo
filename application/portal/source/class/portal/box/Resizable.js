@@ -46,6 +46,11 @@ qx.Class.define("portal.box.Resizable",
 
     this.__capturingPhase = false;
     this.__capturedElement = null;
+    
+    this.__mouseMoveData = { 
+        orientation : null,
+        lastCoord   : { left : null, top  : null }
+    };
 
     /* Set the options */
     this.__options =
@@ -75,14 +80,10 @@ qx.Class.define("portal.box.Resizable",
   members :
   {
     /** Hash to store the style properties of the box element */
-    _elementProperties : null,
+    __elementProperties : null,
 
     /** Hash to store the data of the mouse move events */
-    __mouseMoveData :
-    {
-      orientation : null,
-      lastCoord   : { left : null, top  : null }
-    },
+    __mouseMoveData : null,
 
     /**
      * Return the box
@@ -101,7 +102,7 @@ qx.Class.define("portal.box.Resizable",
      */
     __prepare : function()
     {
-      this._elementProperties = {
+      this.__elementProperties = {
         paddingTop    : parseInt(qx.bom.element.Style.get(this.__element, "paddingTop")),
         paddingRight  : parseInt(qx.bom.element.Style.get(this.__element, "paddingRight")),
         paddingBottom : parseInt(qx.bom.element.Style.get(this.__element, "paddingBottom")),
@@ -346,7 +347,7 @@ qx.Class.define("portal.box.Resizable",
           var elementWidth = this.__element.clientWidth;
 
           var newWidth = (elementWidth + mouseDiff) - 
-                         (this._elementProperties['paddingLeft'] + this._elementProperties['paddingRight']); 
+                         (this.__elementProperties['paddingLeft'] + this.__elementProperties['paddingRight']); 
 
           if ((this.__options.minWidth == null || newWidth > this.__options.minWidth) && (this.__options.maxWidth == null || newWidth <= this.__options.maxWidth))
           {
@@ -379,7 +380,7 @@ qx.Class.define("portal.box.Resizable",
           var elementHeight = this.__element.clientHeight;
         
           var newHeight = (elementHeight + mouseDiff) - 
-                          (this._elementProperties['paddingTop'] + this._elementProperties['paddingBottom']);
+                          (this.__elementProperties['paddingTop'] + this.__elementProperties['paddingBottom']);
           
           if ((this.__options.minHeight == null || newHeight > this.__options.minHeight) && (this.__options.maxHeight == null || newHeight <= this.__options.maxHeight)) {
             qx.bom.element.Style.set(this.__element, "height", newHeight + "px");
@@ -401,6 +402,6 @@ qx.Class.define("portal.box.Resizable",
       qx.event.Registration.removeListener(this.__box.getElement(), "mouseout", this.__mouseOutListener, this);
     }
     
-    this._disposeFields("__box", "__options", "__element", "__handles", "__capturedElement", "_elementProperties");
+    this._disposeFields("__box", "__options", "__element", "__handles", "__capturedElement", "___elementProperties");
   }
 });

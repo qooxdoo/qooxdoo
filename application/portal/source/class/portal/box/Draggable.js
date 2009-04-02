@@ -102,14 +102,14 @@ qx.Class.define("portal.box.Draggable",
      */
     __addListener : function()
     {
-      qx.bom.Element.addListener(this.__handle, "mousedown", this._onMouseDown, this);
+      qx.bom.Element.addListener(this.__handle, "mousedown", this.__onMouseDown, this);
       qx.bom.Element.addListener(this.__handle, "mouseover", function(e){
         qx.bom.element.Style.set(this, "cursor", "move");
       }, this.__handle);
       
-      qx.bom.Element.addListener(this.__handle, "dragstart", this._onDragStart, this);
+      qx.bom.Element.addListener(this.__handle, "dragstart", this.__onDragStart, this);
       qx.bom.Element.addListener(this.__handle, "dragend", portal.dragdrop.Manager.getInstance().stopSession, portal.dragdrop.Manager.getInstance());
-      qx.bom.Element.addListener(this.__handle, "drag", this._onDragMove, this);
+      qx.bom.Element.addListener(this.__handle, "drag", this.__onDragMove, this);
     },
 
 
@@ -120,7 +120,7 @@ qx.Class.define("portal.box.Draggable",
      * @param e {qx.event.type.Mouse} mouse event instance
      * @return {void}
      */
-    _onMouseDown : function(e)
+    __onMouseDown : function(e)
     {
       if (e.isLeftPressed()) {
         if (qx.core.Variant.isSet("qx.client", "mshtml"))
@@ -144,7 +144,7 @@ qx.Class.define("portal.box.Draggable",
         };
         
         // add "mouseup" event listener
-        qx.bom.Element.addListener(document.body, "mouseup", this._onMouseUp, this, true);
+        qx.bom.Element.addListener(document.body, "mouseup", this.__onMouseUp, this, true);
         
         // fire dragstart event
         qx.event.Registration.fireEvent(this.__handle, "dragstart", qx.event.type.Event);
@@ -159,18 +159,18 @@ qx.Class.define("portal.box.Draggable",
      * @param e {qx.event.type.Mouse} mouse event instance
      * @return {void}
      */
-    _onMouseUp : function(e)
+    __onMouseUp : function(e)
     {
       e.stopPropagation();
       
       if (portal.dragdrop.Manager.getInstance().isSessionActive()) 
       {
         // remove "mousemove" listener
-        qx.event.Registration.removeListener(document.body, "mousemove", this._onDragMove, this, true);
+        qx.event.Registration.removeListener(document.body, "mousemove", this.__onDragMove, this, true);
       }
       
       // remove "mouseup" event listener
-      qx.bom.Element.removeListener(document.body, "mouseup", this._onMouseUp, this, true);  
+      qx.bom.Element.removeListener(document.body, "mouseup", this.__onMouseUp, this, true);  
       
       portal.dragdrop.Manager.getInstance().stopSession();
     },
@@ -182,7 +182,7 @@ qx.Class.define("portal.box.Draggable",
      * @param e {qx.event.type.Drag} drag event instance
      * @return {void} 
      */
-    _onDragStart : function(e)
+    __onDragStart : function(e)
     {
       // set the current box as the active one
       portal.box.Manager.getInstance().setActiveBox(this.__box);
@@ -191,7 +191,7 @@ qx.Class.define("portal.box.Draggable",
       portal.dragdrop.Manager.getInstance().startSession(this.__box);
       
       // add "mousemove" listener
-      qx.event.Registration.addListener(document.body, "mousemove", this._onDragMove, this, true);
+      qx.event.Registration.addListener(document.body, "mousemove", this.__onDragMove, this, true);
     },
     
     
@@ -201,7 +201,7 @@ qx.Class.define("portal.box.Draggable",
      * @param e {qx.event.type.Drag} drag event instance
      * @return {void}
      */
-    _onDragMove : function(e)
+    __onDragMove : function(e)
     {
       e.stopPropagation();
       
