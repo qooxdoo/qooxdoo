@@ -27,6 +27,7 @@
 #asset(qx/icon/Tango/22/actions/go-previous.png)
 #asset(qx/icon/Tango/22/actions/go-next.png)
 #asset(qx/icon/Tango/22/actions/edit-redo.png)
+#asset(qx/icon/Tango/22/actions/edit-clear.png)
 
 #asset(qx/icon/Tango/22/apps/utilities-color-chooser.png)
 #asset(qx/icon/Tango/22/apps/office-spreadsheet.png)
@@ -385,6 +386,24 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     __makeLogView : function()
     {
+      var logBox = new qx.ui.layout.VBox(0, "middle", "main");      
+      logBox.setAlignX("right");  
+          
+      var logContainer = new qx.ui.container.Composite(logBox);      
+      var deco = new qx.ui.decoration.Background().set({
+        backgroundColor : "background-medium"
+      });      
+      logContainer.setDecorator(deco);
+      
+      var clearBtn = new qx.ui.form.Button(this.tr("Clear log"), "icon/22/actions/edit-clear.png");
+      clearBtn.setAllowGrowX(false);
+      clearBtn.setMargin(5);
+      clearBtn.addListener("execute", function() {
+        this.logappender.clear();
+      }, this);
+      
+      logContainer.add(clearBtn, {flex : 0});      
+      
       this.f2 = new qx.ui.embed.Html();
       this.f2.setOverflow("auto", "auto");
       this.f2.setFont("monospace");
@@ -404,7 +423,9 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       this.f2.getContentElement().useElement(wrap);
 
-      return this.f2;
+      logContainer.add(this.f2, {flex : 1});
+      //return this.f2;
+      return logContainer;
     },
 
     __makeHtmlCodeView : function()
