@@ -34,7 +34,7 @@ class Tests(object):
 
 class DummyTest(unittest.TestCase):
 
-    def runTest(self):
+    def testSomething(self):
         print 'Huhu!'
         self.assertEqual(4-3,1)
 
