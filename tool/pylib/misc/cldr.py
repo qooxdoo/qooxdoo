@@ -34,22 +34,23 @@ def extractMonth(calendarElement):
     data = {}
     for monthContext in calendarElement.findall(".//monthContext"):
     	for monthWidth in monthContext.findall("monthWidth"):
-    		monthType = monthWidth.attrib["type"]
     		for month in monthWidth.findall("month"):
     			if month.attrib.has_key("alt"): continue
-    			data["cldr_month_%s_%s" % (monthType, month.attrib["type"])] = month.text
-                #cldr_key = "cldr_month_%s_%s_%s" % (monthContext.attrib["type"], monthWidth.attrib["type"], month.attrib["type"])
-                #data[cldr_key] = month.text
+    			#data["cldr_month_%s_%s" % (monthWidth.attrib["type"], month.attrib["type"])] = month.text
+                cldr_key = "cldr_month_%s_%s_%s" % (monthContext.attrib["type"], monthWidth.attrib["type"], month.attrib["type"])
+                data[cldr_key] = month.text
     return data
 
 
 def extractDay(calendarElement):
     data = {}
-    for dayWidth in calendarElement.findall(".//dayWidth"):
-    	dayType = dayWidth.attrib["type"]
-    	for day in dayWidth.findall("day"):
-    		if day.attrib.has_key("alt"): continue
-    		data['cldr_day_%s_%s' % (dayType, day.attrib["type"])] = day.text
+    for dayContext in calendarElement.findall(".//dayContext"):
+        for dayWidth in calendarElement.findall(".//dayWidth"):
+            for day in dayWidth.findall("day"):
+                if day.attrib.has_key("alt"): continue
+                #data['cldr_day_%s_%s' % (dayWidth.attrib["type"], day.attrib["type"])] = day.text
+                cldr_key = "cldr_day_%s_%s_%s" % (dayContext.attrib["type"], dayWidth.attrib["type"], day.attrib["type"])
+                data[cldr_key] = day.text
     return data
 
 
