@@ -20,6 +20,10 @@
 
 /**
  * Provides move behavior to any widget.
+ * 
+ * The widget using the mixing must register a widget as move handle so that
+ * the mouse events needed for moving it are attached to this widget).
+ * <pre class='javascript'>this._activateMoveHandle(widget);</pre>
  */
 qx.Mixin.define("qx.ui.core.MMovable",
 {
