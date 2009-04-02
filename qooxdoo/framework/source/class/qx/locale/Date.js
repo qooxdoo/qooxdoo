@@ -58,12 +58,17 @@ qx.Class.define("qx.locale.Date",
      * @param length {String} format of the day names.
      *       Possible values: "abbreviated", "narrow", "wide"
      * @param locale {String} optional locale to be used
+     * @param context {String} (default: "format") intended context.
+     *       Possible values: "format", "stand-alone"
      * @return {String[]} array of localized day names starting with sunday.
      */
-    getDayNames : function(length, locale)
+    getDayNames : function(length, locale, context)
     {
+      var context = context ? context : "format";
+
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         qx.core.Assert.assertInArray(length, ["abbreviated", "narrow", "wide"]);
+        qx.core.Assert.assertInArray(context, ["format", "stand-alone"]);
       }
 
       var days = [ "sun", "mon", "tue", "wed", "thu", "fri", "sat" ];
@@ -72,7 +77,7 @@ qx.Class.define("qx.locale.Date",
 
       for (var i=0; i<days.length; i++)
       {
-        var key = "cldr_day_" + length + "_" + days[i];
+        var key = "cldr_day_" + context + "_" + length + "_" + days[i];
         names.push(this.__mgr.localize(key, [], locale));
 
       }
@@ -88,20 +93,25 @@ qx.Class.define("qx.locale.Date",
      *       Possible values: "abbreviated", "narrow", "wide"
      * @param day {Integer} day number. 0=sunday, 1=monday, ...
      * @param locale {String} optional locale to be used
+     * @param context {String} (default: "format") intended context.
+     *       Possible values: "format", "stand-alone" 
      * @return {String} localized day name
      */
-    getDayName : function(length, day, locale)
+    getDayName : function(length, day, locale, context)
     {
+      var context = context ? context : "format";
+
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         qx.core.Assert.assertInArray(length, ["abbreviated", "narrow", "wide"]);
         qx.core.Assert.assertInteger(day);
         qx.core.Assert.assertInRange(day, 0, 6);
+        qx.core.Assert.assertInArray(context, ["format", "stand-alone"]);
       }
 
       var days = [ "sun", "mon", "tue", "wed", "thu", "fri", "sat" ];
 
-      var key = "cldr_day_" + length + "_" + days[day];
+      var key = "cldr_day_" + context + "_" + length + "_" + days[day];
       return this.__mgr.localize(key, [], locale);
     },
 
@@ -112,19 +122,24 @@ qx.Class.define("qx.locale.Date",
      * @param length {String} format of the month names.
      *       Possible values: "abbreviated", "narrow", "wide"
      * @param locale {String} optional locale to be used
+     * @param context {String} (default: "format") intended context.
+     *       Possible values: "format", "stand-alone" 
      * @return {String[]} array of localized month names starting with january.
      */
-    getMonthNames : function(length, locale)
+    getMonthNames : function(length, locale, context)
     {
+      var context = context ? context : "format";
+      
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         qx.core.Assert.assertInArray(length, ["abbreviated", "narrow", "wide"]);
+        qx.core.Assert.assertInArray(context, ["format", "stand-alone"]);
       }
 
       var names = [];
 
       for (var i=0; i<12; i++)
       {
-        var key = "cldr_month_" + length + "_" + (i + 1);
+        var key = "cldr_month_" + context + "_" + length + "_" + (i + 1);
         names.push(this.__mgr.localize(key, [], locale));
       }
 
@@ -139,15 +154,20 @@ qx.Class.define("qx.locale.Date",
      *       Possible values: "abbreviated", "narrow", "wide"
      * @param month {Integer} index of the month. 0=january, 1=februrary, ...
      * @param locale {String} optional locale to be used
+     * @param context {String} (default: "format") intended context.
+     *       Possible values: "format", "stand-alone"      
      * @return {String} localized month name
      */
-    getMonthName : function(length, month, locale)
+    getMonthName : function(length, month, locale, context)
     {
+      var context = context ? context : "format";
+
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         qx.core.Assert.assertInArray(length, ["abbreviated", "narrow", "wide"]);
+        qx.core.Assert.assertInArray(context, ["format", "stand-alone"]);        
       }
 
-      var key = "cldr_month_" + length + "_" + (month + 1);
+      var key = "cldr_month_" + context + "_" + length + "_" + (month + 1);
       return this.__mgr.localize(key, [], locale)
     },
 
