@@ -27,6 +27,16 @@ qx.Class.define("portal.dragdrop.Manager",
   type : "singleton",
   extend : qx.core.Object,
   
+  
+  construct : function()
+  {
+    this.base(arguments);
+    
+    this.__activeBoxInfo = { top : null, height : null };
+    this.__positions = { top : 0, left : 0 };
+  },
+  
+  
   /* ******************************************************
    *    PROPERTIES
    * ******************************************************/
@@ -54,10 +64,10 @@ qx.Class.define("portal.dragdrop.Manager",
    * ******************************************************/
   members :
   {
-    __activeBoxInfo   : { top : null, height : null },
+    __activeBoxInfo   : null,
     __currentGroupBox : null,
     __groupBoxChange  : false,
-    __positions       : { top : 0, left : 0 },
+    __positions       : null,
     __groupBoxInfos   : null,
     
     
@@ -173,6 +183,7 @@ qx.Class.define("portal.dragdrop.Manager",
      * Stops a drag and drop session.
      * 
      * @param e {qx.event.type.Drag} Drag event instance
+     * @lint ignoreDeprecated(_applyActive)
      * @return {void}
      */
     stopSession : function(e)
@@ -220,17 +231,17 @@ qx.Class.define("portal.dragdrop.Manager",
       animMove.start();
 
       // listener for animation end 
-      var self = this;
+      var that = this;
       animMove.addListener("finish", function()
       {
         // switch back
-        self.__switchParent(self.__ghost, element);
+        that.__switchParent(that.__ghost, element);
         
         // reset the border
         qx.bom.element.Style.reset(element, "border");
 
         // remove ghost
-        self.__ghost.parentNode.removeChild(self.__ghost);
+        that.__ghost.parentNode.removeChild(that.__ghost);
 
         // check if the box is already the active one
         if (activeBox.isActive())

@@ -26,6 +26,15 @@ qx.Class.define("portal.box.Manager",
 {
   type : "singleton",
   extend : qx.core.Object,
+  
+  construct : function()
+  {
+    this.base(arguments);
+    
+    this.__members    = [];
+    this.__groupBoxes = [];
+    this.__boxLookup  = {};
+  },    
 
   
   /* ******************************************************
@@ -70,9 +79,9 @@ qx.Class.define("portal.box.Manager",
    * ******************************************************/
   members :
   {
-    __members    : [],
-    __groupBoxes : [],
-    __boxLookup  : {},
+    __members    : null,
+    __groupBoxes : null,
+    __boxLookup  : null,
     
     
     /**
@@ -103,7 +112,7 @@ qx.Class.define("portal.box.Manager",
     load : function()
     {
       // get the data from the global variable
-      this._init(window[portal.box.Manager.dataKeyRoot]);
+      this.__init(window[portal.box.Manager.dataKeyRoot]);
       
       // dispatch "loaded" event
       qx.event.Registration.fireEvent(this, "loaded");
@@ -116,7 +125,7 @@ qx.Class.define("portal.box.Manager",
      * @param boxData {Map} data structure of the boxes/groupBoxes
      * @return {void} 
      */
-    _init : function(boxData)
+    __init : function(boxData)
     {
       var groupBox, groupBoxId, groupBoxBoxes, groupBoxData, newBox, boxData;
       
