@@ -53,9 +53,6 @@ qx.Class.define("qx.ui.form.RadioGroup",
     if (varargs != null) {
       this.add.apply(this, arguments);
     }
-
-    // Add listener for selection to fire changeValue event
-    this.addListener("changeSelected", this._onChangeSelected);
   },
 
 
@@ -309,30 +306,6 @@ qx.Class.define("qx.ui.form.RadioGroup",
     },
 
 
-    /**
-     * Event listener for <code>changeSelected</code> event.
-     *
-     * @param e {qx.event.type.Data} Data event
-     */
-    _onChangeSelected : function(e)
-    {
-      var item = e.getData();
-      var value = null;
-
-      if (item)
-      {
-        value = item.getValue();
-        if (value == null) {
-          value = item.getLabel();
-        }
-      }
-
-      this.fireDataEvent("changeValue", value);
-    },
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       APPLY ROUTINES
@@ -351,12 +324,9 @@ qx.Class.define("qx.ui.form.RadioGroup",
       }
 
       // Fire value change event
-      var oldValue = old ? old.getValue() : null;
-      var newValue = value ? value.getValue() : null;
-
-      if (oldValue != newValue) {
-        this.fireNonBubblingEvent("changeValue", qx.event.type.Data, [newValue, oldValue]);
-      }
+      var oldValue = this.__getValue(old);
+      var newValue = this.__getValue(value);
+      this.fireDataEvent("changeValue", newValue, oldValue);
     },
 
 
@@ -397,7 +367,26 @@ qx.Class.define("qx.ui.form.RadioGroup",
       }
     },
 
+    /**
+     * Return the value from the item.
+     * 
+     * @param item {IRadioItem} The item
+     * @return {String|null} Value from the item. 
+     */
+    __getValue : function(item)
+    {
+      var value = null;
 
+      if (item)
+      {
+        value = item.getValue();
+        if (value == null) {
+          value = item.getLabel();
+        }
+      }
+      
+      return value;
+    },
 
 
     /*
