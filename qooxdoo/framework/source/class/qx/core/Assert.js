@@ -402,8 +402,6 @@ qx.Class.define("qx.core.Assert",
       var exception = exception || Error;
       var error;
 
-      qx.log.Logger.warn("This exception is expected: " + exception.classname);
-
       try {
         callback();
       } catch(ex) {
