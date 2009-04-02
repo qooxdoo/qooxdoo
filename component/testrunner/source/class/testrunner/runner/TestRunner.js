@@ -191,6 +191,13 @@ qx.Class.define("testrunner.runner.TestRunner",
     {
       "package" : "testrunner/image/package18.gif",
       "class" : "testrunner/image/class18.gif",
+      "test" : "testrunner/image/method_public18_grey.gif"
+    },
+    
+    TREEICONSOK : 
+    {
+      "package" : "testrunner/image/package18.gif",
+      "class" : "testrunner/image/class18.gif",
       "test" : "testrunner/image/method_public18.gif"
     },
     
@@ -480,7 +487,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       });
 
       // Get the TestLoader from the Iframe (in the event handler)
-      iframe.addListener("load", this._ehIframeOnLoad, this);
+      iframe.addListener("load", this.__ehIframeOnLoad, this);
 
 
 
@@ -1211,7 +1218,7 @@ qx.Class.define("testrunner.runner.TestRunner",
      * @param e {Event} TODOC
      * @return {void}
      */
-    _ehIframeOnLoad : function(e)
+    __ehIframeOnLoad : function(e)
     {
       if (!this.__loadAttempts) {
         this.__loadAttempts = 0; 
@@ -1232,7 +1239,7 @@ qx.Class.define("testrunner.runner.TestRunner",
         // Repeat until testrunner in iframe is loaded
         if (!this.frameWindow.testrunner) {
           //this.debug("no testrunner" + this.frameWindow);        
-          this.__loadTimer = qx.event.Timer.once(this._ehIframeOnLoad, this, 100);
+          this.__loadTimer = qx.event.Timer.once(this.__ehIframeOnLoad, this, 100);
           return;
         }
         
@@ -1241,13 +1248,13 @@ qx.Class.define("testrunner.runner.TestRunner",
         
         if (!this.loader) {
           //this.debug("no loader");
-          this.__loadTimer = qx.event.Timer.once(this._ehIframeOnLoad, this, 100);
+          this.__loadTimer = qx.event.Timer.once(this.__ehIframeOnLoad, this, 100);
           return;
         }
         
         if (!this.loader.getSuite()) {
           //this.debug("no test suite");
-          this.__loadTimer = qx.event.Timer.once(this._ehIframeOnLoad, this, 100);
+          this.__loadTimer = qx.event.Timer.once(this.__ehIframeOnLoad, this, 100);
           return;
         }
       }
@@ -1285,7 +1292,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       {
         this.widgets["statuspane.systeminfo"].setContent(this.tr("No test file selected!"));
       }
-    },  // _ehIframeOnLoad
+    },  // __ehIframeOnLoad
 
     /**
      * Store pane width in cookie
@@ -1343,7 +1350,7 @@ qx.Class.define("testrunner.runner.TestRunner",
     __setTreeIcon : function(node, type, status) {
       var icons;
       if (status == "success") {
-        icons = testrunner.runner.TestRunner.TREEICONS;
+        icons = testrunner.runner.TestRunner.TREEICONSOK;
       } else {
         icons = testrunner.runner.TestRunner.TREEICONSERROR;
         node.setTextColor("#ff0000");
