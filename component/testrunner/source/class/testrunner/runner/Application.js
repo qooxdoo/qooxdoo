@@ -56,10 +56,10 @@ qx.Class.define("testrunner.runner.Application",
       this.getRoot().add(this.viewer, {edge:0});      
 
       // Load data file
-      qx.event.Timer.once(this._load, this, 0);
+      qx.event.Timer.once(this.__load, this, 0);
     },
 
-    _load : function()
+    __load : function()
     {
       // Finally load the data
       this.viewer.load();
