@@ -42,11 +42,18 @@ qx.Class.define("qx.bom.element.Decoration",
      * {Boolean} Whether the alpha image loader is needed
      * We enable this for IE7 as well because of issues reported by Maria
      * Siebert and others in combination with the opacity filter applied
-     * to e.g. disabled icons. Hopefully this is better in IE8, that
-     * we do not need the AlphaImageLoader anymore. Thanks Maria.
+     * to e.g. disabled icons. Thanks Maria.
+     * 
+     * The situation for IE8 is that running in "IE8 Standards Mode" IE8 has a
+     * runtime performance issue. The updates are compared to IE7 (and IE8 in 
+     * "IE7 Standards Mode" as well) really slow. The cause for this is the 
+     * dynamic adding/removing of the IMG elements which are part of the 
+     * decorator. Using the alpha image loader does change this DOM structure
+     * to only use DIV elements which do not have a negative performance impact.
+     * See Bug #2185 for details.   
      */
     __enableAlphaFix : qx.core.Variant.isSet("qx.client", "mshtml") &&
-      qx.bom.client.Engine.VERSION < 8,
+      qx.bom.client.Engine.VERSION < 9,
 
 
     /** {Map} List of repeat modes which supports the IE AlphaImageLoader */
@@ -213,7 +220,7 @@ qx.Class.define("qx.bom.element.Decoration",
         }
       }
 
-      // Enable AlphaImageLoader in IE6
+      // Enable AlphaImageLoader in IE6/IE7/IE8
       if (this.__enableAlphaFix && this.__alphaFixRepeats[repeat] && format === "png")
       {
         if (style.width == null && width != null) {
