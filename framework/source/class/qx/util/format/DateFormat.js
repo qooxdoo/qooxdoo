@@ -309,26 +309,48 @@ qx.Class.define("qx.util.format.DateFormat",
 
             case 'E': // Day in week
               if (wildcardSize == 2) {
-                replacement = qx.locale.Date.getDayName("narrow", dayOfWeek, locale);
+                replacement = qx.locale.Date.getDayName("narrow", dayOfWeek, locale, "format");
               } else if (wildcardSize == 3) {
-                replacement = qx.locale.Date.getDayName("abbreviated", dayOfWeek, locale);
+                replacement = qx.locale.Date.getDayName("abbreviated", dayOfWeek, locale, "format");
               } else if (wildcardSize == 4) {
-                replacement = qx.locale.Date.getDayName("wide", dayOfWeek, locale);
+                replacement = qx.locale.Date.getDayName("wide", dayOfWeek, locale, "format");
               }
 
               break;
+              
+            case 'c': // Stand-alone local day in week
+              if (wildcardSize == 2) {
+                replacement = qx.locale.Date.getDayName("narrow", dayOfWeek, locale, "stand-alone");
+              } else if (wildcardSize == 3) {
+                replacement = qx.locale.Date.getDayName("abbreviated", dayOfWeek, locale, "stand-alone");
+              } else if (wildcardSize == 4) {
+                replacement = qx.locale.Date.getDayName("wide", dayOfWeek, locale, "stand-alone");
+              }
+
+              break;  
 
             case 'M': // Month
               if (wildcardSize == 1 || wildcardSize == 2) {
                 replacement = this.__fillNumber(month + 1, wildcardSize);
               } else if (wildcardSize == 3) {
-                replacement = qx.locale.Date.getMonthName("abbreviated", month, locale);
+                replacement = qx.locale.Date.getMonthName("abbreviated", month, locale, "format");
               } else if (wildcardSize == 4) {
-                replacement = qx.locale.Date.getMonthName("wide", month, locale);
+                replacement = qx.locale.Date.getMonthName("wide", month, locale, "format");
               }
 
               break;
 
+            case 'L': // Stand-alone month
+              if (wildcardSize == 1 || wildcardSize == 2) {
+                replacement = this.__fillNumber(month + 1, wildcardSize);
+              } else if (wildcardSize == 3) {
+                replacement = qx.locale.Date.getMonthName("abbreviated", month, locale, "stand-alone");
+              } else if (wildcardSize == 4) {
+                replacement = qx.locale.Date.getMonthName("wide", month, locale, "stand-alone");
+              }
+
+              break;
+            
             case 'a': // am/pm marker
               // NOTE: 0:00 is am, 12:00 is pm
               replacement = (hours < 12) ? qx.locale.Date.getAmMarker(locale) : qx.locale.Date.getPmMarker(locale);
@@ -784,7 +806,7 @@ qx.Class.define("qx.util.format.DateFormat",
         return;
       };
 
-      var shortMonthNames = qx.locale.Date.getMonthNames("abbreviated", this.__locale);
+      var shortMonthNames = qx.locale.Date.getMonthNames("abbreviated", this.__locale, "format");
       for (var i=0; i<shortMonthNames.length; i++) {
         shortMonthNames[i] = qx.lang.String.escapeRegexpChars(shortMonthNames[i].toString());
       }
@@ -794,7 +816,7 @@ qx.Class.define("qx.util.format.DateFormat",
         dateValues.month = shortMonthNames.indexOf(value);
       }
 
-      var fullMonthNames = qx.locale.Date.getMonthNames("wide", this.__locale);
+      var fullMonthNames = qx.locale.Date.getMonthNames("wide", this.__locale, "format");
       for (var i=0; i<fullMonthNames.length; i++) {
         fullMonthNames[i] = qx.lang.String.escapeRegexpChars(fullMonthNames[i].toString());
       }
@@ -804,7 +826,7 @@ qx.Class.define("qx.util.format.DateFormat",
         dateValues.month = fullMonthNames.indexOf(value);
       }
 
-      var narrowDayNames = qx.locale.Date.getDayNames("narrow", this.__locale);
+      var narrowDayNames = qx.locale.Date.getDayNames("narrow", this.__locale, "format");
       for (var i=0; i<narrowDayNames.length; i++) {
         narrowDayNames[i] = qx.lang.String.escapeRegexpChars(narrowDayNames[i].toString());
       }
@@ -814,7 +836,7 @@ qx.Class.define("qx.util.format.DateFormat",
         dateValues.month = narrowDayNames.indexOf(value);
       }
 
-      var abbrDayNames = qx.locale.Date.getDayNames("abbreviated", this.__locale);
+      var abbrDayNames = qx.locale.Date.getDayNames("abbreviated", this.__locale, "format");
       for (var i=0; i<abbrDayNames.length; i++) {
         abbrDayNames[i] = qx.lang.String.escapeRegexpChars(abbrDayNames[i].toString());
       }
@@ -824,7 +846,7 @@ qx.Class.define("qx.util.format.DateFormat",
         dateValues.month = abbrDayNames.indexOf(value);
       }
 
-      var fullDayNames = qx.locale.Date.getDayNames("wide", this.__locale);
+      var fullDayNames = qx.locale.Date.getDayNames("wide", this.__locale, "format");
       for (var i=0; i<fullDayNames.length; i++) {
         fullDayNames[i] = qx.lang.String.escapeRegexpChars(fullDayNames[i].toString());
       }
