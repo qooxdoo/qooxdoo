@@ -286,15 +286,15 @@ def inlineIfStatement(ifNode, conditionValue):
 
     replacement = []
     newDefinitions = []
-    reovedDefinitions = []
+    removedDefinitions = []
 
     if ifNode.getChild("elseStatement", False):
         if conditionValue:
-            reovedDefinitions = getDefinitions(ifNode.getChild("elseStatement"))
+            removedDefinitions = getDefinitions(ifNode.getChild("elseStatement"))
             newDefinitions = getDefinitions(ifNode.getChild("statement"))
             replacement = ifNode.getChild("statement").children
         else:
-            reovedDefinitions = getDefinitions(ifNode.getChild("statement"))
+            removedDefinitions = getDefinitions(ifNode.getChild("statement"))
             newDefinitions = getDefinitions(ifNode.getChild("elseStatement"))
             replacement = ifNode.getChild("elseStatement").children
     else:
@@ -302,11 +302,11 @@ def inlineIfStatement(ifNode, conditionValue):
             newDefinitions = getDefinitions(ifNode.getChild("statement"))
             replacement = ifNode.getChild("statement").children
         else:
-            reovedDefinitions = getDefinitions(ifNode.getChild("statement"))
+            removedDefinitions = getDefinitions(ifNode.getChild("statement"))
 
     newDefinitions = map(lambda x: x.get("identifier"), newDefinitions)
     definitions = []
-    for definition in reovedDefinitions:
+    for definition in removedDefinitions:
         if not definition.get("identifier") in newDefinitions:
             definitions.append(definition)
 
@@ -317,8 +317,17 @@ def inlineIfStatement(ifNode, conditionValue):
             if definition.hasChildren():
                 del definition.children
             defList.addChild(definition)
-        replacement.append(defList)
 
+        # move defList to higher node
+        node = ifNode
+        while node.type != "block":
+            if node.hasParent():
+                node = node.parent
+            else:
+                break
+        node.addChild(defList,0)
+
+    # move replacement
     if replacement != []:
         replaceChildWithNodes(ifNode.parent, ifNode, replacement)
     else:

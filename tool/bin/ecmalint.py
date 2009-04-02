@@ -123,7 +123,7 @@ class Lint:
             for var in variables:
                 fullName = treeutil.assembleVariable(var)[0]
                 if not isLocalPrivate(var, fullName): # local privates are ok, as long as they are declared, which is checked in checkImplicit()
-                    self.log(var, "Non-local private data field in '%s'! You should never do this." % treeutil.assembleVariable(var)[0])
+                    self.log(var, "Potentially non-local private data field in '%s'! You should never do this." % treeutil.assembleVariable(var)[0])
             return
 
         def checkProtected(allVars):
