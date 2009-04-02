@@ -95,6 +95,46 @@ qx.Class.define("demobrowser.demo.showcase.Translation",
       }, this);
 
 
+      // Plural Translate 1
+      var b2 = new qx.ui.form.Button("I have an apple (using singular)");
+      container.add(b2, {row:2,column:0});
+      var l2 = new qx.ui.form.TextField();
+      container.add(l2, {row:2, column:1});
+      b2.addListener("execute", function (e)
+      {
+        l2.setValue(this.trn("I have an apple", "I have %1 apples", 1, "two"));
+      }, this);
+
+
+      // Plural Translate 2
+      var b3 = new qx.ui.form.Button("I have an apple (using plural)");
+      container.add(b3, {row:3,column:0});
+      var l3 = new qx.ui.form.TextField();
+      container.add(l3, {row:3, column:1});
+      b3.addListener("execute", function (e)
+      {
+        l3.setValue(this.trn("I have an apple", "I have %1 apples", 2, "two"));
+      }, this);
+
+
+      // Translate with .po comment
+      var b4 = new qx.ui.form.Button("The quick brown fox (with .po comment)");
+      container.add(b4, {row:4,column:0});
+      var l4 = new qx.ui.form.TextField();
+      container.add(l4, {row:4, column:1});
+      b4.addListener("execute", function (e)
+      {
+        l4.setValue(this.trc("The mammal fox that is.", "The quick brown fox"));
+      }, this);
+
+      //this.tr("One can");         // simple use
+      //this.trc("Can contains a soft drink", "One can");   // add a comment for the tranlator
+      //this.trn("One can", "%1 canns", 2, "Many");  // plural form necessary later
+      //this.trn("One can", "%1 cans", 2, "Many");  // plural form necessary later
+      this.marktr("One can"); 
+
+
+
       return;
 
       grid.setColumnFlex(0, 1);
