@@ -1331,9 +1331,7 @@ qx.Class.define("testrunner.runner.TestRunner",
           curr.status = "fail";
         }
 
-        if (nodeName.join('.') == testName) {
-          
-          console.log("Parents: " + nodePath);
+        if (nodeName.join('.') == testName) {          
           
           var widgetNode = curr.widgetLinkFull;
           var type = curr.type;
