@@ -39,7 +39,6 @@ qx.Class.define("qx.test.bom.Selector",
         document.body.appendChild(el);
       }
     
-      debugger;
       this.assertEquals(250, qx.bom.Selector.query("ul.fromcode", document.body).length);
       this.assertEquals(750, qx.bom.Selector.query("ul > li").length);
       
