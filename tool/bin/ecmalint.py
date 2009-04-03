@@ -128,8 +128,9 @@ class Lint:
 
         def checkProtected(allVars):
 
+            protectedElement = re.compile(r'\b_[^_]')
+
             def findProtected(allVars):
-                protectedElement = re.compile(r'\b_[^_]')
                 variables = []
                 for node in allVars:
                     fullName, isComplete = treeutil.assembleVariable(node)
@@ -137,9 +138,27 @@ class Lint:
                         variables.append(node)
                 return variables
 
+            def protectedIsLastVarChild(var):
+                lastChild  = var.getLastChild(ignoreComments=True)  # like "this.a.b" -> b
+                if lastChild.type != "identifier":  # rules out this.a._prot[0] which isn't a call anyway
+                    return False
+                name = treeutil.selectNode(lastChild, "@name")
+                if name and protectedElement.match(name):
+                    return True
+                else:
+                    return False
+
             variables = findProtected(allVars)
             for var in variables:
-                self.log(var, "Protected data field in '%s'. Protected fields are deprecated. Better use private fields in combination with getter and setter methods." % treeutil.assembleVariable(var)[0])
+                # check call with protected "..._protected()..."
+                if (
+                    protectedIsLastVarChild(var) and   # like "this.a.b._protected()", not "this.a._protected.b()"
+                    var.hasParent() and var.parent.type == "operand" and  # parent is "operand"
+                    var.parent.hasParent() and var.parent.parent.type == "call"  # grandparent is "call"
+                    ):   # it's ok as method call
+                    pass
+                else:
+                    self.log(var, "Protected data field in '%s'. Protected data fields are deprecated. Better use private fields in combination with getter and setter methods." % treeutil.assembleVariable(var)[0])
             return
 
         def checkImplicit(allVars):
@@ -200,6 +219,7 @@ class Lint:
                     self.log(node, "Implicit declaration of %s field '%s'. You should list this field in the members section." % (prot, field))
 
         classMap   = self._getClassMap()
+        #print self.tree.toXml()
         if len(classMap) == 0:
             return
         restricted = [key for key in self._getMembersMap() if key.startswith("_")]
