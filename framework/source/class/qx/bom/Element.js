@@ -118,11 +118,7 @@ qx.Class.define("qx.bom.Element",
       }
       else
       {
-        if (win.document.createElementNS) {
-          element = win.document.createElementNS("http://www.w3.org/1999/xhtml", name);
-        } else {
-          element = win.document.createElement(name);
-        }
+        element = win.document.createElement(name);
       }
 
       for (var key in attributes)

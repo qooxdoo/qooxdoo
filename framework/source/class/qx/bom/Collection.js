@@ -1860,12 +1860,12 @@
        */
       empty : function()
       {
-        var Selector = qx.bom.Selector;
+        var Collection = qx.bom.Collection;
         
         for (var i=0, l=this.length; i<l; i++)
         {
           // Remove element nodes and prevent memory leaks
-          Selector.query(">*", this[i]).destroy();
+          Collection.query(">*", this[i]).destroy();
       
           // Remove any remaining nodes
           while (this.firstChild) {
