@@ -1324,13 +1324,26 @@ qx.Class.define("testrunner.runner.TestRunner",
         var nodePath = curr.pwd();
         nodePath.shift();
         var nodeName = qx.lang.Array.clone(nodePath);
-        nodeName.push(curr.label);        
+        nodeName.push(curr.label);
+
+        // Remember failures
+        if (status != "success") {
+          curr.status = "fail";
+        }
+
         if (nodeName.join('.') == testName) {
+          
+          console.log("Parents: " + nodePath);
+          
           var widgetNode = curr.widgetLinkFull;
           var type = curr.type;
           this.__setTreeIcon(widgetNode, type, status);          
-          //recurse up the parent chain
+          // recurse up the parent chain
           if (status != "success") {
+            this.__markTree(nodePath.join('.'), status);
+          }
+          // Don't mark packages/classes as successful if they've had failures.
+          else if (curr.status != "fail") {
             this.__markTree(nodePath.join('.'), status);
           }
         }
