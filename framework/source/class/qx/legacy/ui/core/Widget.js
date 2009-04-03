@@ -2424,11 +2424,11 @@ qx.Class.define("qx.legacy.ui.core.Widget",
         // Add to global queues
         qx.legacy.ui.core.Widget.addToGlobalStateQueue(this);
 
-        if (!qx.lang.Object.isEmpty(this._jobQueue)) {
+        if (this._jobQueue && !qx.lang.Object.isEmpty(this._jobQueue)) {
           qx.legacy.ui.core.Widget.addToGlobalJobQueue(this);
         }
 
-        if (!qx.lang.Object.isEmpty(this._childrenQueue)) {
+        if (this._childrenQueue && !qx.lang.Object.isEmpty(this._childrenQueue)) {
           qx.legacy.ui.core.Widget.addToGlobalLayoutQueue(this);
         }
       }
@@ -2891,7 +2891,7 @@ qx.Class.define("qx.legacy.ui.core.Widget",
         var vQueue = this._jobQueue;
         var vParent = this.getParent();
 
-        if (!vParent || qx.lang.Object.isEmpty(vQueue)) {
+        if (!vParent || !vQueue || qx.lang.Object.isEmpty(vQueue)) {
           return;
         }
 

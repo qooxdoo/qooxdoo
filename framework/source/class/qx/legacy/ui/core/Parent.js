@@ -51,7 +51,8 @@ qx.Class.define("qx.legacy.ui.core.Parent",
 
     // Contains all children
     this._children = [];
-
+    this._childrenQueue = {};
+    
     // Create instanceof layout implementation
     this._layoutImpl = this._createLayoutImpl();
   },
@@ -1084,11 +1085,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
       if (!vChild._isInParentChildrenQueue && vChild._isDisplayable)
       {
         qx.legacy.ui.core.Widget.addToGlobalLayoutQueue(this);
-
-        if (!this._childrenQueue) {
-          this._childrenQueue = {};
-        }
-
         this._childrenQueue[vChild.toHashCode()] = vChild;
       }
     },
@@ -1102,7 +1098,7 @@ qx.Class.define("qx.legacy.ui.core.Parent",
      */
     _removeChildFromChildrenQueue : function(vChild)
     {
-      if (this._childrenQueue && vChild._isInParentChildrenQueue)
+      if (vChild._isInParentChildrenQueue)
       {
         delete this._childrenQueue[vChild.toHashCode()];
 
@@ -1123,7 +1119,7 @@ qx.Class.define("qx.legacy.ui.core.Parent",
       if (!qx.lang.Object.isEmpty(this._childrenQueue))
       {
         this.getLayoutImpl().flushChildrenQueue(this._childrenQueue);
-        delete this._childrenQueue;
+        this._childrenQueue = {};
       }
     },
 
