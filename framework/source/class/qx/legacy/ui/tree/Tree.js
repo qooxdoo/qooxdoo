@@ -407,7 +407,7 @@ qx.Class.define("qx.legacy.ui.tree.Tree",
      */
     flushTreeQueue : function()
     {
-      if (!qx.lang.Object.isEmpty(this._treeQueue))
+      if (this._treeQueue && !qx.lang.Object.isEmpty(this._treeQueue))
       {
         for (var vHashCode in this._treeQueue)
         {
