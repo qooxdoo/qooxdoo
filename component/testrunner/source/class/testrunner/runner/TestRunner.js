@@ -189,8 +189,8 @@ qx.Class.define("testrunner.runner.TestRunner",
   {
     TREEICONS : 
     {
-      "package" : "testrunner/image/package18.gif",
-      "class" : "testrunner/image/class18.gif",
+      "package" : "testrunner/image/package18_grey.gif",
+      "class" : "testrunner/image/class18_grey.gif",
       "test" : "testrunner/image/method_public18_grey.gif"
     },
     
