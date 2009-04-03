@@ -550,7 +550,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       function buildSubTree(widgetR, modelR)
       {
         var children = modelR.getChildren();
-        var t, tt, desc;
+        var t;
 
         for (var i=0; i<children.length; i++)
         {
@@ -698,13 +698,6 @@ qx.Class.define("demobrowser.DemoBrowser",
         fpath = fpath.substring(0, splitIndex + 1);
       }
 
-      // local files in the IE6 use \ insted of /
-      if (window.location.protocol == "file:" && qx.bom.client.Engine.MSHTML == true && qx.bom.client.Engine.VERSION < 7) {
-        var path = fpath.split("\\");
-      } else {
-        var path = fpath.split("/");
-      }
-
       var furl = this.__iframe.getSource();
       if (furl != null && furl != this.defaultUrl)
       {
@@ -728,7 +721,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           var title = "qooxdoo " + div + " Demo Browser " + div + " Start";
         }
 
-
+        document.title = title;
       }            
       
       // Play the next sample after five seconds
@@ -765,7 +758,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           fwindow.qx.log.Logger.register(this.logappender);
 
           // update state on example change
-          this._history.addToHistory(this._currentSample.replace("/", "~"), this._currentSample);
+          this._history.addToHistory(this._currentSample.replace("/", "~"), document.title);
 
           // load sample source code
           if (this._currentSampleUrl != this.defaultUrl) {
@@ -859,7 +852,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         this.error("Couldn't load file: " + url);
       }, this);
       // send the request for the html file
-      var loadStart = new Date();
+
       req.send();
     },
 
@@ -906,7 +899,6 @@ qx.Class.define("demobrowser.DemoBrowser",
         this.error("Couldn't load file: " + url);
       }, this);
 
-      var loadStart = new Date();
       req.send();
     },
 
