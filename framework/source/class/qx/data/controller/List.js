@@ -582,6 +582,11 @@ qx.Class.define("qx.data.controller.List",
      * @param targetObject {qx.core.Object} The target object of the binding.
      */
     _onBindingSet: function(index, sourceObject, targetObject) {
+      // ignore the binding set if the model is already set to null
+      if (this.getModel() == null) {
+        return;
+      }
+      
       // go through all bound target properties
       for (var i = 0; i < this.__boundProperties.length; i++) {
         // if there is an onUpdate for one of it, invoke it
