@@ -288,10 +288,10 @@ qx.Class.define("qx.dev.Debug",
       var message = "";
             
       if (
-        qx.lang.Type.isNumber(data) 
-        || qx.lang.Type.isString(data) 
-        || qx.lang.Type.isBoolean(data) 
-        || data == null        
+        qx.lang.Type.isNumber(model) 
+        || qx.lang.Type.isString(model) 
+        || qx.lang.Type.isBoolean(model) 
+        || model == null        
         || maxLevel <= 0
       ) {        
         return model;
