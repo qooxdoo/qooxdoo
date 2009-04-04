@@ -63,7 +63,8 @@ qx.Class.define("qx.test.type.BaseArray",
     testArrayConcat : function()
     {
       var list = new qx.test.type.TestArray(1, 2, 3);
-      this.assertArrayEquals([1, 2, 3, 4, 5], list.concat(4, 5));     
+      this.assertArrayEquals([1, 2, 3, 4, 5], list.concat(4, 5));    
+      this.assertInstance(list.concat(4, 5), qx.test.type.TestArray);
     },
     
     testArrayPop : function()
@@ -116,6 +117,7 @@ qx.Class.define("qx.test.type.BaseArray",
       this.assertArrayEquals([3, 4], list.slice(2, 4));
       this.assertArrayEquals([2, 3, 4, 5], list.slice(1));
       this.assertArrayEquals([3, 4], list.slice(2, -1));
+      this.assertInstance(list.slice(2, 4), qx.test.type.TestArray);
     },
     
     testArraySort : function()
@@ -136,6 +138,7 @@ qx.Class.define("qx.test.type.BaseArray",
       var list = new qx.test.type.TestArray(1, 2, 3, 4, 5);
       var removed = list.splice(1, 2, 22, 33);
       this.assertArrayEquals([2, 3], removed);
+      this.assertInstance(removed, qx.test.type.TestArray);
       this.assertArrayEquals([1, 22, 33, 4, 5], list);
     },
     
@@ -157,6 +160,136 @@ qx.Class.define("qx.test.type.BaseArray",
       this.assertEquals(1, list[0]);      
       this.assertEquals(2, list[1]);      
       this.assertEquals(3, list[2]);      
+    },
+    
+    testIndexOf : function() 
+    {
+      var obj = {};
+      var arr = new qx.test.type.TestArray(1, obj, "str", 1);
+      
+      this.assertEquals(0, arr.indexOf(1));
+      this.assertEquals(1, arr.indexOf(obj));
+      this.assertEquals(2, arr.indexOf("str"));
+      this.assertEquals(-1, arr.indexOf(0));      
+    },
+    
+    testLastIndexOf : function() 
+    {
+      var obj = {};
+      var arr = new qx.test.type.TestArray(1, obj, "str", 1);
+      
+      this.assertEquals(3, arr.lastIndexOf(1));
+      this.assertEquals(1, arr.lastIndexOf(obj));
+      this.assertEquals(2, arr.lastIndexOf("str"));
+      this.assertEquals(-1, arr.lastIndexOf(0));      
+    },
+    
+    testForEach : function() 
+    {
+      var obj = {};
+      var arr = new qx.test.type.TestArray(1, obj, "str", 1);
+      
+      var values = [];
+      var indexes = [];
+      arr.forEach(function(element, index, array) {
+        values[index] = element;
+        indexes.push(index);
+        this.assertEquals(arr, array);
+      }, this);
+      
+      this.assertArrayEquals(arr, values);
+      this.assertArrayEquals([0, 1, 2, 3], indexes);      
+    },
+
+    testFilter : function() 
+    {
+      var arr = new qx.test.type.TestArray(1, 2, 3, 4);
+      
+      var values = [];
+      var indexes = [];
+      var odd = arr.filter(function(element, index, array) {
+        values[index] = element;
+        indexes.push(index);
+        this.assertEquals(arr, array);
+        
+        return index % 2 == 1;
+      }, this);
+      
+      this.assertInstance(odd, qx.test.type.TestArray);
+      this.assertArrayEquals(arr, values);
+      this.assertArrayEquals([0, 1, 2, 3], indexes);   
+      this.assertArrayEquals([2, 4], odd);      
+    },
+    
+    testMap : function() 
+    {
+      var arr = new qx.test.type.TestArray(1, 2, 3, 4);
+      
+      var values = [];
+      var indexes = [];
+      var result = arr.map(function(element, index, array) {
+        values[index] = element;
+        indexes.push(index);
+        this.assertEquals(arr, array);
+        
+        return element + 1;
+      }, this);
+      
+      this.assertInstance(result, qx.test.type.TestArray);
+      this.assertArrayEquals([2, 3, 4, 5], result);
+      this.assertArrayEquals(arr, values);
+      this.assertArrayEquals([0, 1, 2, 3], indexes);       
+    },   
+    
+    testSome : function()
+    {
+      var arr = new qx.test.type.TestArray(1, 2, 3, 4);
+      
+      var values = [];
+      var indexes = [];
+      var result = arr.some(function(element, index, array) {
+        values[index] = element;
+        indexes.push(index);
+        this.assertEquals(arr, array);
+      }, this);
+      
+      this.assertFalse(result);
+      this.assertArrayEquals(arr, values);
+      this.assertArrayEquals([0, 1, 2, 3], indexes);
+      
+      this.assertTrue(arr.some(function(element) {
+        return element == 3;
+      }));
+
+      this.assertFalse(arr.some(function(element, index) {
+        return index == 6;
+      }));      
+    },
+    
+    testEvery : function() 
+    {
+      var arr = new qx.test.type.TestArray(1, 2, 3, 4);
+      
+      var values = [];
+      var indexes = [];
+      var result = arr.every(function(element, index, array) {
+        values[index] = element;
+        indexes.push(index);
+        this.assertEquals(arr, array);
+        return true;
+      }, this);
+      
+      this.assertTrue(result);
+      this.assertArrayEquals(arr, values);
+      this.assertArrayEquals([0, 1, 2, 3], indexes);
+      
+      this.assertFalse(arr.every(function(element) {
+        return element == 3;
+      }));
+
+      this.assertTrue(arr.every(function(element, index) {
+        return element == index + 1;
+      }));
     }
   }
 });
