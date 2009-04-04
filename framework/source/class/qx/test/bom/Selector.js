@@ -30,7 +30,7 @@ qx.Class.define("qx.test.bom.Selector",
     
       for (var i=0; i<250; i++)
       {
-        var el1 = Element.create("ul", {
+        var el = Element.create("ul", {
           "class": "fromcode",
           "html": "<li>one</li><li>two</li><li>three</li>",
           "id": "setid"+ i
