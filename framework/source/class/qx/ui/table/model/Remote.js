@@ -186,7 +186,7 @@ qx.Class.define("qx.ui.table.model.Remote",
         rowCount = 0;
       }
 
-      this.__rowCount = rowCount;
+      this.__rowCount = Number(rowCount);
 
       // Inform the listeners
       var data =
