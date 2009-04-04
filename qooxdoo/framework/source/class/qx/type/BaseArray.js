@@ -484,138 +484,17 @@ function createStackConstructor(stack)
   // Fix constructor
   Stack.prototype.constructor = Stack;
 
-  // These are improved later upon, so we store the originals first
-  var filter = Array.prototype.filter;
-  var map = Array.prototype.map;  
   
   // Add JS 1.6 Array features
-  if (!Array.prototype.indexOf)
-  {
-    Stack.prototype.indexOf = function(searchElement, fromIndex)
-    {
-      if (fromIndex == null) {
-        fromIndex = 0;
-      } else if (fromIndex < 0) {
-        fromIndex = Math.max(0, this.length + fromIndex);
-      }
-  
-      for (var i=fromIndex; i<this.length; i++)
-      {
-        if (this[i] === searchElement) {
-          return i;
-        }
-      }
-  
-      return -1;
-    };
-  }
-  
-  if (!Array.prototype.lastIndexOf)
-  {
-    Stack.prototype.lastIndexOf = function(searchElement, fromIndex)
-    {
-      if (fromIndex == null) {
-        fromIndex = this.length - 1;
-      } else if (fromIndex < 0) {
-        fromIndex = Math.max(0, this.length + fromIndex);
-      }
-  
-      for (var i=fromIndex; i>=0; i--)
-      {
-        if (this[i] === searchElement) {
-          return i;
-        }
-      }
-  
-      return -1;
-    };
-  }
-  
-  if (!Array.prototype.forEach)
-  {
-    Stack.prototype.forEach = function(callback, obj)
-    {
-      // The array length should be fixed, like in the native implementation.
-      var l = this.length;
-  
-      for (var i=0; i<l; i++) {
-        callback.call(obj, this[i], i, this);
-      }
-    };
-  }
-  
-  if (!filter)
-  {
-    // This is applied to the prototype later for fix the native return value
-    filter = function(callback, obj)
-    {
-      // The array length should be fixed, like in the native implementation.
-      var l = this.length;
-      var res = [];
-  
-      for (var i=0; i<l; i++)
-      {
-        if (callback.call(obj, this[i], i, this)) {
-          res.push(this[i]);
-        }
-      }
-  
-      return res;
-    };
-  }
-  
-  if (!map)
-  {
-    // This is applied to the prototype later for fix the native return value
-    map = function(callback, obj)
-    {
-      // The array length should be fixed, like in the native implementation.
-      var l = this.length;
-      var res = [];
-  
-      for (var i=0; i<l; i++) {
-        res.push(callback.call(obj, this[i], i, this));
-      }
-  
-      return res;
-    };
-  }
-  
-  if (!Array.prototype.some)
-  {
-    Stack.prototype.some = function(callback, obj)
-    {
-      // The array length should be fixed, like in the native implementation.
-      var l = this.length;
-  
-      for (var i=0; i<l; i++)
-      {
-        if (callback.call(obj, this[i], i, this)) {
-          return true;
-        }
-      }
-  
-      return false;
-    };
-  }
-  
-  if (!Array.prototype.every)
-  {
-    Stack.prototype.every = function(callback, obj)
-    {
-      // The array length should be fixed, like in the native implementation.
-      var l = this.length;
-  
-      for (var i=0; i<l; i++)
-      {
-        if (!callback.call(obj, this[i], i, this)) {
-          return false;
-        }
-      }
-  
-      return true;
-    };
-  }    
+  Stack.prototype.indexOf = qx.lang.Core.arrayIndexOf;
+  Stack.prototype.lastIndexOf = qx.lang.Core.arrayLastIndexOf;
+  Stack.prototype.forEach = qx.lang.Core.arrayForEach;
+  Stack.prototype.some = qx.lang.Core.arraySome;
+  Stack.prototype.every = qx.lang.Core.arrayEvery;
+
+  var filter = qx.lang.Core.arrayFilter;
+  var map = qx.lang.Core.arrayMap;
+ 
   
   // Fix methods which generates a new instance 
   // to return an instance of the same class
