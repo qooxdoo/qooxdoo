@@ -86,7 +86,17 @@ qx.Class.define("qx.data.marshal.Json",
         return;
       }
       
+      // check for arrays
+      if (qx.lang.Type.isArray(data)) {
+        for (var i = 0; i < data.length; i++) {
+          this.jsonToClass(data[i], includeBubbleEvents);
+        }
+        // dont create an class for an array
+        return;
+      }
+      
       var hash = this.__jsonToHash(data);
+            
       // class is defined by the delegate
       if (
         this.__delegate 
@@ -95,21 +105,22 @@ qx.Class.define("qx.data.marshal.Json",
       ) {
         return;
       }
+      
+      // check for the possible child classes
+      for (var key in data) {
+        if (qx.lang.Type.isObject(data[key])) {
+          this.jsonToClass(data[key], includeBubbleEvents);
+        }
+      }
+      
       // class already exists
       if (qx.Class.isDefined("qx.data.model." + hash)) {
         return;
       }
       
+      // create the properties map
       var properties = {};
       for (var key in data) {
-        if (data[key] instanceof Array) {
-          for (var i = 0; i < data[key].length; i++) {
-            this.jsonToClass(data[key][i], includeBubbleEvents);
-          }
-        } else if (data[key] instanceof Object) {
-          this.jsonToClass(data[key], includeBubbleEvents);
-        }
-        
         properties[key] = {};
         properties[key].nullable = true;
         properties[key].event = "change" + qx.lang.String.firstUp(key);
