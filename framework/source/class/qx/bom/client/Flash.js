@@ -87,6 +87,7 @@ qx.Bootstrap.define("qx.bom.client.Flash",
      * Internal initialize helper
      *
      * @return {void}
+     * @signature function()
      */
     __init : qx.core.Variant.select("qx.client",
     {
