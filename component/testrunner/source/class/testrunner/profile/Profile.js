@@ -34,6 +34,7 @@ qx.Class.define("testrunner.profile.Profile",
     /**
      * TODOC
      *
+     * @lint ignoreUnused(d)
      * @return {void}
      */
     testProfileObjectCreate : function()
