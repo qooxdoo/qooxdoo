@@ -176,6 +176,9 @@ qx.Class.define("qx.ui.form.ComboBox",
 
 
     // overridden
+    /**
+     * @lint ignoreReferenceField(_forwardStates) 
+     */
     _forwardStates : {
       focused : true
     },

@@ -392,6 +392,9 @@ qx.Class.define("qx.ui.window.Window",
 
 
     // overridden
+    /**
+     * @lint ignoreReferenceField(_forwardStates) 
+     */
     _forwardStates :
     {
       active : true,

@@ -189,6 +189,9 @@ qx.Class.define("qx.ui.container.SlideBar",
     },
 
     // overridden
+    /**
+     * @lint ignoreReferenceField(_forwardStates) 
+     */
     _forwardStates :
     {
       barLeft : true,

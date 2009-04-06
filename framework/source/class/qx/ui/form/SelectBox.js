@@ -131,6 +131,9 @@ qx.Class.define("qx.ui.form.SelectBox",
     },
 
     // overridden
+    /**
+     * @lint ignoreReferenceField(_forwardStates) 
+     */
     _forwardStates : {
       focused : true
     },
