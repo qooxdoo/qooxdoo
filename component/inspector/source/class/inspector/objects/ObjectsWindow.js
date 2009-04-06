@@ -41,8 +41,21 @@ qx.Class.define("inspector.objects.ObjectsWindow",
     this._filterTextField = new qx.ui.form.TextField();
     this._filterTextField.setMarginRight(5);
     this._toolbar.add(this._filterTextField);
+    
     this._filterTextField.addListener("input", function(e) {
-      this.load(null, e.getData());
+      var timer = qx.util.TimerManager.getInstance();
+      // check for the old listener
+      if (this.__timerId != null) {
+        // stop the old one
+        timer.stop(this.__timerId);
+        this.__timerId = null;
+      }
+      // start a new listener to update the controller
+      this.__timerId = timer.start(function() {
+        // reload
+        this.load(null, e.getData());
+        this.__timerId = null;
+        }, 0, this, null, 200);    
     }, this);
 
     // table
