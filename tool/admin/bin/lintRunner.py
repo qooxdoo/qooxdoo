@@ -1,5 +1,33 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+
+################################################################################
+#
+#  qooxdoo - the new era of web development
+#
+#  http://qooxdoo.org
+#
+#  Copyright:
+#    2007-2009 1&1 Internet AG, Germany, http://www.1und1.de
+#
+#  License:
+#    LGPL: http://www.gnu.org/licenses/lgpl.html
+#    EPL: http://www.eclipse.org/org/documents/epl-v10.php
+#    See the LICENSE file in the project's top-level directory for details.
+#
+#  Authors:
+#    * Daniel Wagner (d_wagner)
+#
+################################################################################
+
+# NAME
+#  Lint Runner
+#
+# DESCRIPTION
+#  This script runs qooxdoo's "lint" generator job on a given directory and 
+#  outputs the result as either a JSON data structure or an HTML report which
+#  can optionally be sent by email.
+
 import optparse, re, sys, os, simplejson
 
 filter_errors = ["Use of deprecated global identifier", "Multiply declared identifier"]
