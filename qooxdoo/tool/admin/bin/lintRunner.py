@@ -100,7 +100,7 @@ def parse_log(text):
           info['path'] = ''
           info['line'] = ''
 
-          pathre = re.compile('^.*(\/source\/.*) \(')
+          pathre = re.compile('^.*([\\\/]source[\\\/].*) \(')
           pathma = pathre.match(line)
           if (pathma):
             info['path'] = pathma.group(1)
@@ -303,7 +303,7 @@ def main():
     log = open(options.inputfile, "r")
 
   else:
-    print("Please choose either: A working directory with the -w option, a file with the -f option, or an email report with the -m option")
+    print("Please choose either: A working directory with the -w option or a file containing ecmalint output with the -f option.")
     sys.exit(1)
 
   print("Parsing Lint output")  
