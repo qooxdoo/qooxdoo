@@ -86,9 +86,9 @@ def main():
 
         clearLogs()
         invoke_external("wscript proxyEnable.vbs")
-	invoke_external(getStartCmd('Demobrowser', 'IE'))
+        invoke_external(getStartCmd('Demobrowser', 'IE'))
         invoke_external("wscript proxyDisable.vbs")
-	invoke_external(testConf['logFormat'])
+        invoke_external(testConf['logFormat'])
         sendReport("Demobrowser")
         invoke_external("wscript ProcessKillLocalSaf.vbs")
 
