@@ -77,7 +77,7 @@ qx.Class.define("demobrowser.demo.showcase.Form",
       // radio group
       var radioButton1 = new qx.ui.form.RadioButton("RadioButton 1");
       var radioButton2 = new qx.ui.form.RadioButton("RadioButton 2");
-      var radioGroup = new qx.ui.form.RadioGroup(radioButton1, radioButton2);
+      new qx.ui.form.RadioGroup(radioButton1, radioButton2);
       container.add(new qx.ui.basic.Label("RadioGroup:"), {row: 7, column: 0});
       container.add(radioButton1, {row: 7, column: 1});
       container.add(radioButton2, {row: 8, column: 1});
