@@ -27,7 +27,7 @@ qx.Class.define("demobrowser.demo.test.Destructor_Flash",
 
   members :
   {
-    __data : [],
+    __data : null,
 
     __count : 0,
 
@@ -36,6 +36,8 @@ qx.Class.define("demobrowser.demo.test.Destructor_Flash",
       // Call super class
       this.base(arguments);
 
+      this.__data = [];
+      
       // Init timer
       var timer = new qx.event.Timer(5000);
       timer.addListener("interval", this.runTest, this);
