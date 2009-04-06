@@ -469,6 +469,9 @@ qx.Class.define("qx.ui.control.ColorPopup",
       }
     },
 
+    /**
+     * @lint ignoreReferenceField(_tables)
+     */
     _tables :
     {
       core :
