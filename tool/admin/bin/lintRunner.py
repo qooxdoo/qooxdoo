@@ -1,0 +1,350 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+import optparse, re, sys, os, simplejson
+
+filter_errors = ["Use of deprecated global identifier", "Multiply declared identifier"]
+filter_classes = ["qx/ui/virtual", "qx/bom/Selector"]
+
+mailConf = {
+  'mailFrom'        : 'qxlint@1und1.de',
+  'smtpHost'        : 'smtp.1und1.de',
+  'smtpPort'        : 587
+}
+
+def get_computed_conf():
+  parser = optparse.OptionParser()
+
+  parser.add_option(
+    "-w", "--workdir", dest="workdir", default=None, type="string",
+    help="Directory to run generate.py lint in."
+  )
+
+  parser.add_option(
+    "-f", "--inputfile", dest="inputfile", default=None, type="string",
+    help="Path/name of a lint output file to be processed."
+  )
+
+  parser.add_option(
+    "-o", "--outputfile", dest="outputfile", default=None, type="string",
+    help="Path/name of the log file to be written."
+  )
+
+  parser.add_option(
+    "-m", "--send-mail", dest="mail", default=False, action="store_true",
+    help="Send report by email."
+  )
+
+  parser.add_option(
+    "-t", "--mail-to", dest="mailto", default=None, type="string",
+    help="Address to send report mail to."
+  )
+
+  parser.add_option(
+    "-s", "--subject", dest="subject", default=None, type="string",
+    help="A string to be appended to the report email's subject."
+  )
+
+  (options, args) = parser.parse_args()
+
+  return (options, args)
+
+
+def invoke_piped(cmd):
+  import subprocess
+  p = subprocess.Popen(cmd, shell=True,
+                         stdout=subprocess.PIPE,
+                         stderr=subprocess.PIPE,
+                         universal_newlines=True)
+  output, errout = p.communicate()
+  rcode = p.returncode
+
+  return (rcode, output, errout)
+
+
+def parse_log(text):
+  log = ""
+  if (isinstance(text,str)):
+    import string
+    log = string.split(text,"\n")
+  else:
+    log = text
+    
+  data = {}
+  for line in log:
+    msgre = re.compile('.*\): (.*)$')
+    msgma = msgre.match(line)
+    msg = None
+    if (msgma):
+      msg = msgma.group(1)      
+      genericmsg = None
+      member = None
+      hint = None
+      #print("MESS: " + msg)
+      (genericmsg, member, hint) = getMessage(msg)      
+
+      if (genericmsg):
+        if (genericmsg[len(genericmsg)-3:] == " in"):
+          genericmsg = genericmsg[0:len(genericmsg)-3]
+        if (not(genericmsg in filter_errors)):
+          msgid = genericmsg
+          if (not msgid in data):
+            data[msgid] = []
+
+          if (hint[0:2] == "! "):
+            hint = hint[2:]
+
+          info = {}
+          info['member'] = member
+          if (hint != ""):
+            info['hint'] = hint
+          info['path'] = ''
+          info['line'] = ''
+
+          pathre = re.compile('^.*(\/source\/.*) \(')
+          pathma = pathre.match(line)
+          if (pathma):
+            info['path'] = pathma.group(1)
+
+          linecolre = re.compile('.*(\(.*\)).*')
+          linecolma = linecolre.match(line)
+          if (linecolma):
+            info['line'] = linecolma.group(1)
+
+          ignore = False
+          for cls in filter_classes:
+            clsre = re.compile("^.*" + cls + ".*$")
+            clsma = clsre.match(info['path'])
+            if (clsma):
+              ignore = True
+            #else:
+            #  print("Filtered class: " + info['path'])
+
+          if ( not(ignore) ):
+            data[msgid].append(info)
+
+        #else:
+        #  print("Filtered message: " + genericmsg)
+
+      else:
+        print("Couldn't extract generic message from line:\n" + line)
+
+  del_keys = []
+  for key, value in data.iteritems():
+    if (len(value) == 0):
+      del_keys.append(key)
+  for k in del_keys:
+    del data[k]
+
+  return data
+
+
+def getMessage(fullmsg):
+  genericmsg = None
+  member = None
+  hint = None
+
+  msgre = re.compile("^([\w\- ]+)'([^\s]*)'([\w ]*)[\. ]*(.*)$")
+  msgrma = msgre.match(fullmsg)
+  if (msgrma):
+    genericmsg = msgrma.group(1) + msgrma.group(3)
+    if (genericmsg[len(genericmsg)-1] == " "):
+      genericmsg = genericmsg[:-1]
+    member = msgrma.group(2)
+    hint = msgrma.group(4)
+
+  return (genericmsg, member, hint)
+
+
+def create_html(data):
+  html = '''<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>qooxdoo Test Report</title>
+    <style type="text/css">
+      body {
+        font-family: Arial, sans-serif;
+      }
+      div {
+        display: block;
+      }
+      h1 {
+        font-size: 18px;
+        padding: 8px;
+        margin: 0;
+      }
+      h2 {
+        font-size: 16px;
+        padding: 8px;
+        margin: 0;
+      }
+      table {
+        border-collapse: collapse;
+        margin-bottom: 25px;
+      }
+      td {
+        border: 1px solid black;
+      }
+      th {
+        font-size: 12px;
+        font-weight: bold;
+        color: white;
+        background-color: black;
+        border: 1px solid black;
+      }
+      p, td {
+        font-size: 12px;
+        padding: 8px;
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+  <h1>Lint Report</h1>\n'''
+
+  if (len(filter_errors) > 0):
+    html += '<p><strong>Ignored error categories:</strong> ' + repr(filter_errors) + '</p>'
+
+  if (len(filter_classes) > 0):
+    html += '<p><strong>Ignored class paths:</strong> ' + repr(filter_classes) + '</p>'
+
+  for k, v in data.iteritems():
+    import random
+    uid = 'i' + repr(random.randint(9999,99999))
+    html += '<h2>' + k + '</h2>\n'
+    html += '<div id="' + uid + '">\n'
+    if ("hint" in v[0]):
+      html += '  <p><em>' + v[0]["hint"] + '</em></p>\n'
+    html += '  <table border="0" cellpadding="0" cellspacing="0">\n'
+    html += '    <tr>\n'
+    html += '      <th>File</th>\n'
+    html += '      <th>Line/Column</th>\n'
+    if (v[0]["member"] and v[0]["member"] != "{}"):
+      html += '      <th>Member</th>\n'
+    #if (v[0]["hint"]):
+    #  html += '      <th>Hint</th>\n'
+    html += '    </tr>\n'
+    for entry in v:
+      html += '    <tr>\n'
+      html += '      <td>' + entry["path"] + '</td>\n'
+      html += '      <td>' + entry["line"] + '</td>\n'
+      if (entry["member"]):
+        html += '      <td>' + entry["member"] + '</td>\n'
+      #if (entry["hint"]):
+      #  html += '      <td>' + entry["hint"] + '</td>\n'
+      html += '    </tr>\n'
+    html += '  </table>\n'
+    html += '</div>\n'
+
+  html += '</body>\n'
+  html += '</html>\n'
+  return html
+
+
+def run_lint(workdir):
+  startdir = os.getcwd()
+  print("Changing dir to " + workdir)
+  os.chdir(workdir)
+  print("Running Lint")
+  ret,out,err = invoke_piped("python generate.py lint")
+  if (ret > 0):
+    raise RuntimeError, "Lint run failed. " + err
+  else:
+    print("Changing dir back to " + startdir)
+    os.chdir(startdir)
+  return out
+
+def send_mail(html, target=None, messages=None):
+  from email.MIMEMultipart import MIMEMultipart
+  from email.MIMEText import MIMEText
+  import smtplib, re  
+  arr = target.split('/')
+  app = ""
+  if (arr[len(arr)-1] != ""):
+    app = arr[len(arr)-1].capitalize()
+  else:
+    app = arr[len(arr)-2].capitalize()
+
+  mailSubject = "[qooxdoo-test] Lint " + app
+  if (options.subject):
+    mailSubject += ' ' + options.subject
+
+  if (messages):
+    mailSubject += ': ' + messages + ' messages'
+    
+
+  msg = MIMEMultipart()
+  msg['Subject'] = mailSubject
+  msg['From'] = mailConf['mailFrom']
+  msg['To'] = options.mailto
+  msg.preamble = 'Lint Results'
+  msgText = MIMEText(html, 'html')
+  msg.attach(msgText)
+
+  if (html !=""):
+    print("Sending Lint report to " + options.mailto + ". Subject: " + mailSubject)
+    mailServer = smtplib.SMTP(mailConf['smtpHost'], mailConf['smtpPort'])
+    mailServer.ehlo()
+    mailServer.starttls()
+    mailServer.ehlo()
+    mailServer.sendmail(mailConf['mailFrom'], options.mailto, msg.as_string())
+    mailServer.close()
+  else:
+    print("Report file seems incomplete, report not sent.")
+
+def main():
+  global options, args
+  (options,args) = get_computed_conf()  
+
+  if(options.workdir):
+    log = run_lint(options.workdir)
+
+  elif(options.inputfile):    
+    log = open(options.inputfile, "r")
+
+  else:
+    print("Please choose either: A working directory with the -w option, a file with the -f option, or an email report with the -m option")
+    sys.exit(1)
+
+  print("Parsing Lint output")  
+  data = parse_log(log)
+
+  categories = len(data)
+  messages = 0
+  for key in data:
+    messages += len(data[key])
+  print("Found " + repr(messages) + " lint messages in " + repr(categories) + " categories")
+
+  if (options.outputfile):
+    ext = options.outputfile[(len(options.outputfile)-4):len(options.outputfile)]
+    if (ext == "html"):
+      print("Generating HTML output")
+      html = create_html(data)
+      print("Writing HTML to file " + options.outputfile)
+      outfile = open(options.outputfile, "w")
+      outfile.write(html)
+
+    else:
+      print("Generating JSON output")
+      json = simplejson.dumps(data, sort_keys=True, indent=2)
+      print("Writing JSON to file " + options.outputfile)
+      outfile = open(options.outputfile, "w")
+      outfile.write(json)
+
+  elif (options.mailto):
+    print("Generating HTML output")
+    html = create_html(data)
+    send_mail(html,options.workdir,repr(messages))
+  else:
+    json = simplejson.dumps(data, sort_keys=True, indent=2)
+    print(json)
+
+  
+if __name__ == "__main__":
+  try:
+    rc = main()
+  except KeyboardInterrupt:
+    print
+    print "  * Keyboard Interrupt"
+    rc = 1
+  sys.exit(rc)
