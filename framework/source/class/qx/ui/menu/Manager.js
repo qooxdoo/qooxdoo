@@ -481,7 +481,10 @@ qx.Class.define("qx.ui.menu.Manager",
     ---------------------------------------------------------------------------
     */
 
-    /** {Map} Map of all keys working on an active menu selection */
+    /** 
+     * {Map} Map of all keys working on an active menu selection
+     * @lint ignoreReferenceField(__selectionKeys)
+     */
     __selectionKeys :
     {
       "Enter" : 1,
@@ -489,7 +492,10 @@ qx.Class.define("qx.ui.menu.Manager",
     },
 
 
-    /** {Map} Map of all keys working without a selection */
+    /** 
+     * {Map} Map of all keys working without a selection
+     * @lint ignoreReferenceField(__navigationKeys)
+     */
     __navigationKeys :
     {
       "Escape" : 1,
