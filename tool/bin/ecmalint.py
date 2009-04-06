@@ -112,18 +112,16 @@ class Lint:
                     first  = allIdentifier[0]
                 if len(allIdentifier) > 1:
                     second = allIdentifier[1]
-                allPrivatesInThisVar = privateElement.findall(fullName)
                 return (first and
                         (first == "this" or first == "that") and 
                         second and
-                        privateElement.match(second) and 
-                        len(allPrivatesInThisVar)==1)
+                        privateElement.match(second))
                 
             variables = findPrivate(allVars)
             for var in variables:
                 fullName = treeutil.assembleVariable(var)[0]
-                if not isLocalPrivate(var, fullName): # local privates are ok, as long as they are declared, which is checked in checkImplicit()
-                    self.log(var, "Potentially non-local private data field in '%s'! You should never do this." % treeutil.assembleVariable(var)[0])
+                if isLocalPrivate(var, fullName) and fullName.split('.')[1] not in restricted: # local privates are ok, as long as they are declared
+                    self.log(var, "Undeclared private data field '%s'. You should list this field in the members section." % fullName)
             return
 
         def checkProtected(allVars):
