@@ -337,6 +337,7 @@ qx.Class.define("testrunner.runner.TestHandler",
     /**
      * TODOC
      *
+     * @lint ignoreUndefined(classloop)
      * @param node {Node} TODOC
      * @return {var} TODOC
      */
