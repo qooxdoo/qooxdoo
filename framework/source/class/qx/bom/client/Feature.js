@@ -83,6 +83,7 @@ qx.Bootstrap.define("qx.bom.client.Feature",
       this.CANVAS = !!window.CanvasRenderingContext2D;
       this.VML = qx.bom.client.Engine.MSHTML;
 
+      // TODO Please check why it isn't defined in statics section
       this.AIR = navigator.userAgent.indexOf("adobeair") !== -1;
       this.GEARS = !!(window.google && window.google.gears);
 
