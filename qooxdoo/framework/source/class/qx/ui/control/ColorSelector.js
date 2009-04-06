@@ -164,6 +164,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
 
     /**
      * {Array} Map containing the preset colors.
+     * @lint ignoreReferenceField(__presetTable)
      */
     __presetTable : [ "maroon", "red", "orange", "yellow", "olive", "purple",
       "fuchsia", "lime", "green", "navy", "blue", "aqua", "teal", "black",
