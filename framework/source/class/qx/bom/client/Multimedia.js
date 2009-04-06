@@ -99,6 +99,7 @@ qx.Bootstrap.define("qx.bom.client.Multimedia",
      * Internal initialize helper
      *
      * @return {void}
+     * @signature function()
      */
     __init : qx.core.Variant.select("qx.client",
     {
