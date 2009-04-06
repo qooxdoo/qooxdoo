@@ -28,7 +28,7 @@
 #  outputs the result as either a JSON data structure or an HTML report which
 #  can optionally be sent by email.
 
-import optparse, re, sys, os, simplejson
+import optparse, re, sys, os
 
 filter_errors = ["Use of deprecated global identifier", "Multiply declared identifier"]
 filter_classes = ["qx/ui/virtual", "qx/bom/Selector"]
@@ -268,6 +268,9 @@ def create_html(data):
   html += '</html>\n'
   return html
 
+def get_json(data):
+  import simplejson  
+  return simplejson.dumps(data, sort_keys=True, indent=2)
 
 def run_lint(workdir):
   startdir = os.getcwd()
@@ -354,7 +357,7 @@ def main():
 
     else:
       print("Generating JSON output")
-      json = simplejson.dumps(data, sort_keys=True, indent=2)
+      json = get_json(data)
       print("Writing JSON to file " + options.outputfile)
       outfile = open(options.outputfile, "w")
       outfile.write(json)
@@ -364,7 +367,7 @@ def main():
     html = create_html(data)
     send_mail(html,options.workdir,repr(messages))
   else:
-    json = simplejson.dumps(data, sort_keys=True, indent=2)
+    json = get_json(data)
     print(json)
 
   
