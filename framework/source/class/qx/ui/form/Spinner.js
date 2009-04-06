@@ -275,6 +275,9 @@ qx.Class.define("qx.ui.form.Spinner",
 
 
     // overridden
+    /**
+     * @lint ignoreReferenceField(_forwardStates) 
+     */
     _forwardStates : {
       focused : true
     },

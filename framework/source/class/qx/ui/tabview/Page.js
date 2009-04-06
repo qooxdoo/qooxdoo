@@ -132,6 +132,9 @@ qx.Class.define("qx.ui.tabview.Page",
     */
 
     // overridden
+    /**
+     * @lint ignoreReferenceField(_forwardStates) 
+     */
     _forwardStates :
     {
       barTop : 1,

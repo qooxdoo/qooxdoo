@@ -208,6 +208,9 @@ qx.Class.define("qx.ui.form.SplitButton",
     },
 
     // overridden
+    /**
+     * @lint ignoreReferenceField(_forwardStates) 
+     */
     _forwardStates :
     {
       hovered : 1,
