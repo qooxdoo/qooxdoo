@@ -1118,18 +1118,18 @@ qx.Class.define("qx.ui.control.ColorSelector",
     /**
      * Sets previous color's to given values.
      *
-     * @param vRed {Number} Red color value.
-     * @param vGreen {Number} Green color value.
-     * @param vBlue {Number} Blue color value.
+     * @param red {Number} Red color value.
+     * @param green {Number} Green color value.
+     * @param blue {Number} Blue color value.
      */
-    setPreviousColor : function(vRed, vGreen, vBlue)
+    setPreviousColor : function(red, green, blue)
     {
-      this._oldColorPreview.setBackgroundImage(null);
-      this._oldColorPreview.setBackgroundColor(qx.util.ColorUtil.rgbToRgbString([ vRed, vGreen, vBlue ]));
+      var color = qx.util.ColorUtil.rgbToRgbString([red, green, blue]);
+      this.getChildControl("preview-content-old").setBackgroundColor(color);
 
-      this.setRed(vRed);
-      this.setGreen(vGreen);
-      this.setBlue(vBlue);
+      this.setRed(red);
+      this.setGreen(green);
+      this.setBlue(blue);
     },
 
     /**
