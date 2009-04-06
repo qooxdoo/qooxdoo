@@ -225,6 +225,9 @@ qx.Class.define("qx.ui.basic.Atom",
 
 
     // overridden
+    /**
+     * @lint ignoreReferenceField(_forwardStates) 
+     */
     _forwardStates :
     {
       focused : true,
