@@ -133,8 +133,10 @@ class Lint:
             def findProtected(allVars):
                 variables = []
                 for node in allVars:
-                    fullName, isComplete = treeutil.assembleVariable(node)
-                    if protectedElement.search(fullName):
+                    # only check protected in lval position
+                    if (node.hasParent() and node.parent.type == "left" and
+                        node.parent.hasParent() and node.parent.parent.type == "assignment" and
+                        protectedElement.search(treeutil.assembleVariable(node)[0])):
                         variables.append(node)
                 return variables
 
@@ -151,14 +153,14 @@ class Lint:
             variables = findProtected(allVars)
             for var in variables:
                 # check call with protected "..._protected()..."
-                if (
-                    protectedIsLastVarChild(var) and   # like "this.a.b._protected()", not "this.a._protected.b()"
-                    var.hasParent() and var.parent.type == "operand" and  # parent is "operand"
-                    var.parent.hasParent() and var.parent.parent.type == "call"  # grandparent is "call"
-                    ):   # it's ok as method call
-                    pass
-                else:
-                    self.log(var, "Protected data field in '%s'. Protected data fields are deprecated. Better use private fields in combination with getter and setter methods." % treeutil.assembleVariable(var)[0])
+                #if (
+                #    protectedIsLastVarChild(var) and   # like "this.a.b._protected()", not "this.a._protected.b()"
+                #    var.hasParent() and var.parent.type == "operand" and  # parent is "operand"
+                #    var.parent.hasParent() and var.parent.parent.type == "call"  # grandparent is "call"
+                #    ):   # it's ok as method call
+                #    pass
+                #else:
+                self.log(var, "Protected data field in '%s'. Protected data fields are deprecated. Better use private fields in combination with getter and setter methods." % treeutil.assembleVariable(var)[0])
             return
 
         def checkImplicit(allVars):
