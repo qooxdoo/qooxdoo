@@ -115,7 +115,7 @@ qx.Class.define("testrunner.profile.String",
      */
     testSplitOptimize : function()
     {
-      var strings = qx.lang.Object.getKeys(qx.Class.__registry);
+      var strings = qx.lang.Object.getKeys(qx.Class.$$registry);
       var loopCount = 100;
       var splitter = ".";
 
