@@ -283,6 +283,8 @@ qx.Class.define("apiviewer.Controller",
      *
      * @param fullItemName {String} the full name of the item to select.
      *          (e.g. "qx.mypackage.MyClass" or "qx.mypackage.MyClass#myProperty")
+     *
+     * @lint ignoreDeprecated(alert)
      */
     __selectItem : function(fullItemName)
     {
@@ -315,6 +317,9 @@ qx.Class.define("apiviewer.Controller",
 
       var nodeName = this._tree.getSelected().getUserData("nodeName");
 
+      /**
+       * @lint ignoreDeprecated(alert)
+       */
       this._selectClass(apiviewer.dao.Class.getClassByName(nodeName), function()
       {
         if (itemName)
