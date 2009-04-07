@@ -31,7 +31,7 @@
 import optparse, re, sys, os
 
 filter_errors = ["Use of deprecated global identifier", "Multiply declared identifier"]
-filter_classes = ["qx/ui/virtual", "qx/bom/Selector"]
+filter_classes = ["qx/bom/Selector"]
 
 mailConf = {
   'mailFrom'        : 'qxlint@1und1.de',
