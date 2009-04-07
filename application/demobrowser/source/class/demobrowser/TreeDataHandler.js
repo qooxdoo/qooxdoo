@@ -63,8 +63,6 @@ qx.Class.define("demobrowser.TreeDataHandler",
       {
         var mclass = el.classname;
         var path = mclass.split(".");
-        var dirname = path.slice(0, path.length - 1);
-        var basename = path[path.length - 1];
 
 
         /**
@@ -167,7 +165,7 @@ qx.Class.define("demobrowser.TreeDataHandler",
       if (struct.children && struct.children.length)
       {
         for (var j=0; j<struct.children.length; j++) {
-          tree.add(readTree(struct.children[j]));
+          tree.add(this.readTree(struct.children[j]));
         }
       }
 
@@ -332,14 +330,19 @@ qx.Class.define("demobrowser.TreeDataHandler",
      */
     hasTests : function(node)
     {
-      if (!this.isClass(node)) return false;
+      if (!this.isClass(node))
+      {
+        return false;
+      }
       else
       {
         var children = node.getChildren();
 
         for (var i=0; i<children.length; i++)
         {
-          if (children[i].type && children[i].type == "test") return true;
+          if (children[i].type && children[i].type == "test") {
+            return true;
+          }
         }
 
         return false;
@@ -352,6 +355,7 @@ qx.Class.define("demobrowser.TreeDataHandler",
      *
      * @param node {Node} TODOC
      * @return {var} TODOC
+     * @lint ignoreUnused(tests)
      */
     classFromTest : function(node)
     {
