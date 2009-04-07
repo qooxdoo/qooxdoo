@@ -285,6 +285,33 @@ win.addListener("keypress", function(e) {
 
 <!-- ********************************************************************** -->
 
+<textarea class="qx_samples" title="Data Binding">/**
+ * Bind a textfield to a label
+ */
+var textfield = new qx.ui.form.TextField("Change me...");
+this.getRoot().add(textfield, {left: 10, top: 10});
+var label = new qx.ui.basic.Label("Change me...");
+this.getRoot().add(label, {left: 120, top: 12});
+// bind the textfield to the label
+textfield.bind("input", label, "content");
+
+/**
+ * Bind two slider together
+ */
+var slider1 = new qx.ui.form.Slider("horizontal");
+slider1.setWidth(300);
+this.getRoot().add(slider1, {left: 10, top: 50});
+var slider2 = new qx.ui.form.Slider("horizontal");
+slider2.setWidth(200);
+this.getRoot().add(slider2, {left: 10, top: 80});
+// set up the bidirectional single value binding
+slider1.bind("value", slider2, "value");
+slider2.bind("value", slider1, "value");
+
+
+</textarea>
+
+<!-- ********************************************************************** -->
   <script type="text/javascript" src="script/playground.js"></script>
 </body>
 </html>
