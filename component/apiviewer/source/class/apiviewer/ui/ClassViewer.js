@@ -205,10 +205,18 @@ qx.Class.define("apiviewer.ui.ClassViewer",
      */
     createOverlayImageHtml : function(width, height, imgUrlArr, toolTip, styleAttributes)
     {
-      var html = '<span style="display:inline-block;display:inline;padding-right:18px;position:relative;top:-2px;left:0;width:' + width + 'px;height:' + height + 'px' + ((styleAttributes == null) ? '' : (';' + styleAttributes)) + '">';
+      var html = '';
       var style;
 
-      if(qx.bom.client.Engine.OPERA){
+      if(qx.bom.client.Engine.WEBKIT) {
+        html = '<span style="display:inline;padding-right:18px;position:relative;top:-2px;left:-30px;width:' + width + 'px;height:' + height + 'px' + ((styleAttributes == null) ? '' : (';' + styleAttributes)) + '">';
+      } else {
+        html = '<span style="display:inline-block;display:inline;padding-right:18px;position:relative;top:-2px;left:0;width:' + width + 'px;height:' + height + 'px' + ((styleAttributes == null) ? '' : (';' + styleAttributes)) + '">';
+      }
+
+      if(qx.bom.client.Engine.WEBKIT) {
+        style = "position:absolute;top:0px;left:0px;margin-left:18px;padding-right:18px;";
+      } else if(qx.bom.client.Engine.OPERA) {
         style = "margin-right:-18px;";
       }else{
         style = "position:absolute;top:0px;left:0px";
