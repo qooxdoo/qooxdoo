@@ -96,6 +96,7 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
 
     _infoPanelHash : {},
     _infoPanels : [],
+    __classNode : null,
 
     _init : function(pkg){
       this.__initHtml();
