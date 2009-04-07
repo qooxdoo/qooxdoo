@@ -46,7 +46,7 @@ qx.Interface.define("qx.data.store.IStoreDelegate",
      * called for the corresponding class.
      * 
      * @param properties {String} A sorted order of propertynames  
-     *   separated by spaces.
+     *   separated by ".
      * @return {Class|null} Returns the class containing the properties 
      *   corresponding to the given hash of the properties. If <code>null</code>
      *   will be returned, the store will create a class.
@@ -58,7 +58,7 @@ qx.Interface.define("qx.data.store.IStoreDelegate",
      * Returns the class which the created model class uses as superclass.
      * 
      * @param properties {String} A sorted order of propertynames  
-     *   separated by spaces.
+     *   separated by ".
      * @return {Class|null} Returns the class which should be used as superclass 
      *   corresponding to the given hash of the properties. If <code>null</code>
      *   will be returned, {@link qx.core.Object} will be used as superclass.
@@ -71,7 +71,7 @@ qx.Interface.define("qx.data.store.IStoreDelegate",
      * store and identified by the given properties string.
      * 
      * @param properties {String} A sorted order of propertynames  
-     *   separated by spaces.
+     *   separated by ".
      * @return {Array|Mixin|null} Returns an array of mixins or a single mixin which 
      *   will be included into the given class identified by the properties 
      *   given in the parameter. If <code>null</code> will be returned, no mixin
