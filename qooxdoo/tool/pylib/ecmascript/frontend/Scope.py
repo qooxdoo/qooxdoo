@@ -34,6 +34,8 @@ Function %s(%s):
 
 
     def computeVariableUses(self):
+        # find all nodes where a variable is referenced/used (rather than
+        # declared) in this scope
         self.uses = []
 
         if self.type == Scope.GLOBAL:
@@ -149,6 +151,8 @@ Function %s(%s):
 
     @staticmethod
     def usedVariablesIterator(node):
+        # generate all "identifier" nodes down from this one
+        # 
         if node.type in ["function", "catch"]:
             return
 
@@ -168,6 +172,51 @@ Function %s(%s):
                 yield (name, use)
                 return
 
+        def getVarParent(node):
+
+            varParent = node.parent.parent
+
+            # catch corner case: a().b(); var b;
+            if (
+                varParent.type == "operand" and
+                varParent.parent.type == "call" and
+                varParent.parent.parent.type == "right" and
+                varParent.parent.parent.parent.type == "accessor"
+            ):
+                varParent = varParent.parent.parent
+
+            # catch corner case a().b().length
+            if (
+                varParent.type == "operand" and
+                varParent.parent.type == "call" and
+                varParent.parent.parent.type == "left" and
+                varParent.parent.parent.parent.type == "accessor" and
+                varParent.parent.parent.parent.parent.type == "right"
+            ):
+                varParent = varParent.parent.parent.parent.parent
+
+            # catch corner case a().b()[0]
+            if (
+                varParent.type == "operand" and
+                varParent.parent.type == "call" and
+                varParent.parent.parent.type == "identifier" and
+                varParent.parent.parent.parent.type == "accessor" and
+                varParent.parent.parent.parent.parent.type == "right"
+            ):
+                varParent = varParent.parent.parent.parent.parent
+
+            # catch corner case a.b().c[0]
+            if (
+                varParent.type == "identifier" and
+                varParent.parent.type == "accessor" and
+                varParent.parent.parent.type == "right" and
+                varParent.parent.parent.parent.type == "accessor"
+            ):
+                varParent = varParent.parent.parent
+
+            return varParent
+
+
         # Handle all identifiers
         if node.type == "identifier":
             isFirstChild = False
@@ -175,45 +224,7 @@ Function %s(%s):
 
             if node.parent.type == "variable":
                 isVariableMember = True
-                varParent = node.parent.parent
-
-                # catch corner case: a().b(); var b;
-                if (
-                    varParent.type == "operand" and
-                    varParent.parent.type == "call" and
-                    varParent.parent.parent.type == "right" and
-                    varParent.parent.parent.parent.type == "accessor"
-                ):
-                    varParent = varParent.parent.parent
-
-                # catch corner case a().b().length
-                if (
-                    varParent.type == "operand" and
-                    varParent.parent.type == "call" and
-                    varParent.parent.parent.type == "left" and
-                    varParent.parent.parent.parent.type == "accessor" and
-                    varParent.parent.parent.parent.parent.type == "right"
-                ):
-                    varParent = varParent.parent.parent.parent.parent
-
-                # catch corner case a().b()[0]
-                if (
-                    varParent.type == "operand" and
-                    varParent.parent.type == "call" and
-                    varParent.parent.parent.type == "identifier" and
-                    varParent.parent.parent.parent.type == "accessor" and
-                    varParent.parent.parent.parent.parent.type == "right"
-                ):
-                    varParent = varParent.parent.parent.parent.parent
-
-                # catch corner case a.b().c[0]
-                if (
-                    varParent.type == "identifier" and
-                    varParent.parent.type == "accessor" and
-                    varParent.parent.parent.type == "right" and
-                    varParent.parent.parent.parent.type == "accessor"
-                ):
-                    varParent = varParent.parent.parent
+                varParent = getVarParent(node)
 
                 if not (varParent.type == "right" and varParent.parent.type == "accessor"):
                     isFirstChild = node.parent.getFirstChild(True, True) == node
