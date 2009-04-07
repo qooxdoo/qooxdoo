@@ -37,6 +37,9 @@ from urllib2 import Request, urlopen, URLError
 
 socket.setdefaulttimeout(10)
 
+qxApps = ['demobrowser', 'feedreader', 'playground', 'portal']
+qxComps = ['apiviewer', 'testrunner', 'inspector']
+
 testConf = {
   'seleniumLog'         : '/tmp/selenium.log',
   'seleniumReport'      : 'selenium-report.html',
@@ -45,40 +48,33 @@ testConf = {
   'startSelenium'       : 'java -jar /home/dwagner/qxselenium/selenium-server.jar -browserSideLog -log ',
   'seleniumHost'        : 'http://localhost:4444',
   'svnRev'              : 'svnversion /var/www/qx/trunk',
-  'buildTests'          : '/var/www/qx/trunk/qooxdoo/tool/admin/app/batserver/batbuild.py -z -C -p framework -g test -n',
-  'buildDemobrowser'    : '/var/www/qx/trunk/qooxdoo/tool/admin/app/batserver/batbuild.py -z -C -p application/demobrowser -g build -n',
-  'buildDemobrowser'    : '/var/www/qx/trunk/qooxdoo/tool/admin/app/batserver/batbuild.py -z -C -p application/feedreader -g build -n',
+  'qxPathAbs'           : '/var/www/qx/trunk/qooxdoo',
+  'buildTests'          : '/tool/admin/app/batserver/batbuild.py -z -C -p framework -g test -n',
+  'buildDemobrowser'    : '/tool/admin/app/batserver/batbuild.py -z -C -p application/demobrowser -g build -n',
+  'buildFeedreader'     : '/tool/admin/app/batserver/batbuild.py -z -C -p application/feedreader -g build -n',
+  'buildPlayground'     : '/tool/admin/app/batserver/batbuild.py -z -C -p application/playground -g source -n',
   'classPath'           : '/home/dwagner/qxselenium/selenium-java-client-driver.jar:/home/dwagner/rhino1_7R1/js.jar',
   'scriptTestrunner'    : '/home/dwagner/qxselenium/test_testrunner.js',
   'scriptDemobrowser'   : '/home/dwagner/qxselenium/test_demobrowser.js',
-  'scriptFeedreader'    : '/home/dwagner/qxselenium/test_feedreader.js'
+  'scriptFeedreader'    : '/home/dwagner/qxselenium/test_feedreader.js',
+  'scriptPlayground'    : '/home/dwagner/qxselenium/test_playground.js',
+  'lintRunner'          : '/home/dwagner/qxselenium/lintRunner.py',
 }
 
 autConf = {
   'autHost'             : 'http://172.17.12.142',
   'autPathTestrunner'   : '/qx/trunk/qooxdoo/framework/test/index.html',
   'autPathDemobrowser'  : '/qx/trunk/qooxdoo/application/demobrowser/build/index.html',
-  'autPathFeedreader'   : '/qx/trunk/qooxdoo/application/feedreader/build/index.html'
+  'autPathFeedreader'   : '/qx/trunk/qooxdoo/application/feedreader/build/index.html',
+  'autPathPlayground'   : '/qx/trunk/qooxdoo/application/playground/source/index.html'
 }
 
 browserConf = {
-  'FF307'    : '*custom /usr/lib/firefox-3.0.7/firefox -no-remote -P selenium-3',
+  'FF308'    : '*custom /usr/lib/firefox-3.0.8/firefox -no-remote -P selenium-3',
   'FF31b2'   : '*custom /home/dwagner/firefox-31b2/firefox -no-remote -P selenium-31b2',
   'FF31b3'   : '*custom /home/dwagner/firefox-31b3/firefox -no-remote -P selenium-31b3',
   'FF2'      : '*custom /home/dwagner/firefox2/firefox -no-remote -P selenium-2',
   'Opera964' : '*opera'
-}
-
-lintConf = {
-  'lintRunner'      : '/home/dwagner/qxselenium/lintRunner.py',
-  'framework'       : '/var/www/qx/trunk/qooxdoo/framework',
-  'demobrowser'     : '/var/www/qx/trunk/qooxdoo/application/demobrowser',
-  'feedreader'      : '/var/www/qx/trunk/qooxdoo/application/feedreader',
-  'playground'      : '/var/www/qx/trunk/qooxdoo/application/playground',
-  'portal'          : '/var/www/qx/trunk/qooxdoo/application/portal',
-  'apiviewer'       : '/var/www/qx/trunk/qooxdoo/component/apiviewer',
-  'testrunner'      : '/var/www/qx/trunk/qooxdoo/component/testrunner',
-  'inspector'       : '/var/www/qx/trunk/qooxdoo/component/inspector'
 }
 
 mailConf = {
@@ -95,38 +91,59 @@ def main():
     else:
         seleniumserver()
     if ( isSeleniumServer() ):
-      
-        clearLogs()
-        invoke_external(testConf['buildTests'])
-        trunkrev = get_rev().rstrip('\n')
-        
-        for key in lintConf:
-          if (key != "lintRunner"):
-            print("Running Lint for " + key.capitalize())
-            invoke_external(getLintCmd(lintConf[key], trunkrev))
 
-        invoke_external(getStartCmd('Testrunner','FF307'))
+        clearLogs()
+        invoke_external(testConf['qxPathAbs'] + testConf['buildTests'])
+        trunkrev = get_rev().rstrip('\n')
+        invoke_external(getStartCmd('Testrunner','FF308'))
         invoke_external(getStartCmd('Testrunner','FF2'))
-        #CRASH invoke_external(getStartCmd('Testrunner','FF31b2'))
         invoke_external(getStartCmd('Testrunner','FF31b3'))
         invoke_external(getStartCmd('Testrunner','Opera964'))
         invoke_external(testConf['logFormat'])
-        sendReport("Testrunner",trunkrev)        
-
+        sendReport("Testrunner",trunkrev)
+        invoke_external('pkill firefox')
+        
+        lintTargets = []
+        for app in qxApps:
+          lintTargets.append("application/" + app)
+        for comp in qxComps:
+          lintTargets.append("component/" + comp)        
+        lintTargets.append("framework")
+        trunkrev = get_rev().rstrip('\n')        
+        for target in lintTargets:
+          print("Running Lint for " + target)
+          invoke_external(getLintCmd(target, trunkrev))        
+        
         clearLogs()
-        invoke_external(testConf['buildDemobrowser'])
+        invoke_external(testConf['qxPathAbs'] + testConf['buildDemobrowser'])
         trunkrev = get_rev().rstrip('\n')
         invoke_external(getStartCmd('Demobrowser','Opera964'))
-        invoke_external(getStartCmd('Demobrowser','FF307'))
+        invoke_external(getStartCmd('Demobrowser','FF308'))
         invoke_external(testConf['logFormat'])
         sendReport("Demobrowser",trunkrev)
+        invoke_external('pkill firefox')
         
         clearLogs()
+        invoke_external(testConf['qxPathAbs'] + testConf['buildFeedreader'])
         trunkrev = get_rev().rstrip('\n')
-        invoke_external(getStartCmd('Feedreader','FF307'))
+        invoke_external(getStartCmd('Feedreader','FF308'))        
+        invoke_external(getStartCmd('Feedreader','FF2'))
+        invoke_external(getStartCmd('Feedreader','FF31b3'))
+        invoke_external(getStartCmd('Feedreader','Opera964'))
         invoke_external(testConf['logFormat'])
         sendReport("Feedreader",trunkrev)
+        invoke_external('pkill firefox')
         
+        clearLogs()
+        invoke_external(testConf['qxPathAbs'] + testConf['buildPlayground'])
+        trunkrev = get_rev().rstrip('\n')
+        invoke_external(getStartCmd('Playground','FF308'))
+        invoke_external(getStartCmd('Playground','FF2'))
+        invoke_external(getStartCmd('Playground','FF31b3'))
+        invoke_external(getStartCmd('Playground','Opera964'))
+        invoke_external(testConf['logFormat'])
+        sendReport("Playground",trunkrev)
+        invoke_external('pkill firefox')
     else:
         print("Couldn't contact Selenium server.") 
 
@@ -200,7 +217,8 @@ def getStartCmd(aut, browser):
     return cmd
 
 def getLintCmd(target,trunkrev=None):
-    cmd = lintConf['lintRunner'] + ' -m -t ' + mailConf['mailTo'] + ' -w ' + target
+    workdir = os.path.join(testConf['qxPathAbs'], target)
+    cmd = testConf['lintRunner'] + ' -m -t ' + mailConf['mailTo'] + ' -w ' + workdir
     
     if (trunkrev):
         cmd += ' -s ' + '"(trunk r' + trunkrev + ')"'
