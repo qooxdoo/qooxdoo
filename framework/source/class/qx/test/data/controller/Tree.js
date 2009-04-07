@@ -767,7 +767,26 @@ qx.Class.define("qx.test.data.controller.Tree",
       
       this.__model.setColor("black");
       this.assertEquals("black", tree.getRoot().getTextColor(), "Root node has a wrong name");      
-    }    
+    },
+    
+    
+    testDelegateAddItem: function() {
+      var a = new qx.test.TreeNode();
+      a.setName("new");
+      // set a delegate
+      this.__controller.setDelegate({
+        createItem : function() {
+          return new qx.ui.tree.TreeFolder();
+        }
+      });
+
+      // slush the dispose queue
+      qx.ui.core.queue.Dispose.flush();
+      // add the new model
+      this.__model.getChildren().push(a);
+      
+      a.dispose();
+    }
     
   }
 });
