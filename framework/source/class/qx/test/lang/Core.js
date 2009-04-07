@@ -27,7 +27,7 @@ qx.Class.define("qx.test.lang.Core",
     {
       var msg = "Dummer Fehler";
       var error = new Error(msg);
-      this.assertTrues(qx.lang.String.contains(error.toString(), msg));
+      this.assertTrue(qx.lang.String.contains(error.toString(), msg));
     },
     
     
