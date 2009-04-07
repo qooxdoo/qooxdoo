@@ -180,6 +180,11 @@ qx.Class.define("demobrowser.DemoBrowser",
     //   CONSTRUCTOR HELPERS
     // ------------------------------------------------------------------------
 
+    __iframe : null,
+    __currentTheme : null,
+    __logSync : null,
+    __logDone : null,
+
     __makeCommands : function()
     {
       this._cmdObjectSummary = new qx.event.Command("Ctrl+O");
@@ -204,6 +209,13 @@ qx.Class.define("demobrowser.DemoBrowser",
       this._cmdNamespacePollution.addListener("execute", this.__showPollution, this);
     },
 
+
+
+    /**
+     * TODOC
+     *
+     * @lint ignoreDeprecated(alert)
+     */
     __getObjectSummary : function()
     {
       var cw = this.__iframe.getWindow();
@@ -220,6 +232,11 @@ qx.Class.define("demobrowser.DemoBrowser",
       window.open(sampUrl, "_blank");
     },
 
+    /**
+     * TODOC
+     * @param e {Event} TODOC
+     * @lint ignoreDeprecated(alert)
+     */
     __disposeSample : function(e)
     {
       var cw = this.__iframe.getWindow();
@@ -234,6 +251,11 @@ qx.Class.define("demobrowser.DemoBrowser",
       }
     },
 
+    /**
+     * TODOC
+     * @param e {Event} TODOC
+     * @lint ignoreDeprecated(alert)
+     */
     __showPollution : function(e)
     {
       var cw = this.__iframe.getWindow();
@@ -870,6 +892,12 @@ qx.Class.define("demobrowser.DemoBrowser",
       req.setTimeout(180000);
       req.setProhibitCaching(false);
 
+      /**
+       * TODOC
+       *
+       * @param evt {var} TODOC
+       * @lint ignoreDeprecated(eval)
+       */
       req.addListener("completed", function(evt)
       {
         var content = evt.getContent();
@@ -933,6 +961,8 @@ qx.Class.define("demobrowser.DemoBrowser",
      *
      * @param e {Event} TODOC
      * @return {void}
+     * 
+     * @lint ignoreUndefined(getChildren)
      */
     playNext : function(e)
     {
