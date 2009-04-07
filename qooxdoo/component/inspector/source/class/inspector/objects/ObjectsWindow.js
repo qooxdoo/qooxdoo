@@ -81,6 +81,7 @@ qx.Class.define("inspector.objects.ObjectsWindow",
 
   members :
   {
+    __timerId : null,
     
     _addModel: function(model) {
       // add the button
