@@ -575,6 +575,7 @@ qx.Class.define("inspector.property.PropertyWindow",
      * widget and dedicates the highlighting task to the inspector class.
      */
     _highlightCurrentPropertyButtonEventListener: function() {
+      /* TODO reimplement old feature  
       // get the name of the property
       var key = this._currentlySelectedProperty.getUserData("key");
       // build the name of the getter
@@ -586,6 +587,7 @@ qx.Class.define("inspector.property.PropertyWindow",
       } catch (e) {
         alert("Error during highlighting the currently selected property widget: " + e);
       }
+      */
     },
     
     
@@ -595,6 +597,7 @@ qx.Class.define("inspector.property.PropertyWindow",
      * a widget and selects the new widget.
      */
     _gotoSelectedPropertyButtonEventListener: function() {
+      /* TODO reimplement old feature 
       // go only to the parent if the widget is not the client document (root)
       if (this._qxObject.classname != "qx.ui.core.ClientDocument") {
         // get the name of the property
@@ -612,6 +615,7 @@ qx.Class.define("inspector.property.PropertyWindow",
           alert("Error during selecting the property widget: " + e);
         }
       }
+      */
     },
     
     
