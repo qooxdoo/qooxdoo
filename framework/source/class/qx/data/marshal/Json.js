@@ -108,9 +108,7 @@ qx.Class.define("qx.data.marshal.Json",
       
       // check for the possible child classes
       for (var key in data) {
-        if (qx.lang.Type.isObject(data[key])) {
-          this.jsonToClass(data[key], includeBubbleEvents);
-        }
+        this.jsonToClass(data[key], includeBubbleEvents);
       }
       
       // class already exists
