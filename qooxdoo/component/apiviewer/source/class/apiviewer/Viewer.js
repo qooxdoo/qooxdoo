@@ -82,6 +82,9 @@ qx.Class.define("apiviewer.Viewer",
 
   members :
   {
+    
+    __toggleGroup : null,
+    
     /**
      * Creates the button view widget on the left
      *
