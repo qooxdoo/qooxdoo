@@ -502,7 +502,8 @@ qx.Class.define("qx.data.controller.Tree",
         this.getTarget().setRoot(null);
         this.__removeAllFolders(root);
         this.__removeBinding(root.getUserData("model"));
-        root.destroy();        
+        root.destroy();
+        this.__childrenRef = {};
       }
     },
     
@@ -686,16 +687,22 @@ qx.Class.define("qx.data.controller.Tree",
     
     
     /**
-     * Helper method for applying the delegate It checks if a createItem 
-     * is set end invokes the initial process to apply the the given function.
+     * Helper method for applying the delegate. It checks if a createItem 
+     * is set and invokes the initial process to apply the the given function.
      * 
      * @param value {Object} The new delegate.
      * @param old {Object} The old delegate.
      */
     _setCreateItem: function(value, old) {
+      // do nothing if no tree can be build
       if (this.getTarget() == null || this.getModel() == null) {
         return;
       }
+      // do nothing if no delegate function is set
+      if (value == null || value.createItem == null) {
+        return;
+      }
+      // do nothing it the delegate function has not changed
       if (old && old.createItem && value && value.createItem && old.createItem == value.createTtem) {
         return;
       }
