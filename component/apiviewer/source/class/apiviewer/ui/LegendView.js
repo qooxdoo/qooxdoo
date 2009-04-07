@@ -45,6 +45,98 @@ qx.Class.define("apiviewer.ui.LegendView",
 
     var content = new qx.ui.container.Composite(layout);
 
+    this.__legend = [
+      {
+        icon: "ICON_PACKAGE",
+        desc: "Package"
+      },
+      {
+        icon: "ICON_CLASS",
+        desc: "Class"
+      },
+      {
+        icon: "ICON_CLASS_STATIC",
+        desc: "Static Class"
+      },
+      {
+        icon: "ICON_CLASS_ABSTRACT",
+        desc: "Abstract Class"
+      },
+      {
+        icon: "ICON_CLASS_SINGLETON",
+        desc: "Singleton Class"
+      },
+      {
+        icon: "ICON_INTERFACE",
+        desc: "Interface"
+      },
+      {
+        icon: "ICON_MIXIN",
+        desc: "Mixin"
+      },
+      {
+        icon: "ICON_METHOD_PUB",
+        desc: "Public Method"
+      },
+      {
+        icon: "ICON_METHOD_PROT",
+        desc: "Protected Method"
+      },
+      {
+        icon: "ICON_METHOD_PRIV",
+        desc: "Private Method"
+      },
+      {
+        icon: "ICON_PROPERTY_PUB",
+        desc: "Public Property"
+      },
+      {
+        icon: "ICON_PROPERTY_PROT",
+        desc: "Protected Property"
+      },
+      {
+        icon: "ICON_PROPERTY_PRIV",
+        desc: "Private Property"
+      },
+      {
+        icon: "ICON_PROPERTY_PUB_THEMEABLE",
+        desc: "Themeable Property"
+      },
+      {
+        icon: "ICON_EVENT",
+        desc: "Event"
+      },
+      {
+        icon: "ICON_CONSTANT",
+        desc: "Constant"
+      },
+      {
+        icon: "ICON_BLANK",
+        desc: '<span style="text-decoration: line-through;color: #7193b9;">deprecated</span>'
+      },
+      {
+        icon: "OVERLAY_WARN",
+        desc: "Package/Class/Mixin/Interface is not fully documented"
+      },
+      {
+        icon: "OVERLAY_ERROR",
+        desc: "Method/Property/Event is not fully documented"
+      },
+      {
+        icon: "OVERLAY_MIXIN",
+        desc: "Method/Property is included from a mixin"
+      },
+      {
+        icon: "OVERLAY_INHERITED",
+        desc: "Method/Property/Event is inherited from one of the super classes"
+      },
+      {
+        icon: "OVERLAY_OVERRIDDEN",
+        desc: "Method/Property overrides the Method/Property of the super class"
+      }
+    ];
+
+
     var length = this.__legend.length;
     var entry, imageUrl;
 
@@ -85,96 +177,6 @@ qx.Class.define("apiviewer.ui.LegendView",
 
   members :
   {
-    __legend : [
-     {
-       icon: "ICON_PACKAGE",
-       desc: "Package"
-     },
-     {
-       icon: "ICON_CLASS",
-       desc: "Class"
-     },
-     {
-       icon: "ICON_CLASS_STATIC",
-       desc: "Static Class"
-     },
-     {
-       icon: "ICON_CLASS_ABSTRACT",
-       desc: "Abstract Class"
-     },
-     {
-       icon: "ICON_CLASS_SINGLETON",
-       desc: "Singleton Class"
-     },
-     {
-       icon: "ICON_INTERFACE",
-       desc: "Interface"
-     },
-     {
-       icon: "ICON_MIXIN",
-       desc: "Mixin"
-     },
-     {
-       icon: "ICON_METHOD_PUB",
-       desc: "Public Method"
-     },
-     {
-       icon: "ICON_METHOD_PROT",
-       desc: "Protected Method"
-     },
-     {
-       icon: "ICON_METHOD_PRIV",
-       desc: "Private Method"
-     },
-     {
-       icon: "ICON_PROPERTY_PUB",
-       desc: "Public Property"
-     },
-     {
-       icon: "ICON_PROPERTY_PROT",
-       desc: "Protected Property"
-     },
-     {
-       icon: "ICON_PROPERTY_PRIV",
-       desc: "Private Property"
-     },
-     {
-       icon: "ICON_PROPERTY_PUB_THEMEABLE",
-       desc: "Themeable Property"
-     },
-     {
-       icon: "ICON_EVENT",
-       desc: "Event"
-     },
-     {
-       icon: "ICON_CONSTANT",
-       desc: "Constant"
-     },
-     {
-       icon: "ICON_BLANK",
-       desc: '<span style="text-decoration: line-through;color: #7193b9;">deprecated</span>'
-     },
-     {
-       icon: "OVERLAY_WARN",
-       desc: "Package/Class/Mixin/Interface is not fully documented"
-     },
-     {
-       icon: "OVERLAY_ERROR",
-       desc: "Method/Property/Event is not fully documented"
-     },
-     {
-       icon: "OVERLAY_MIXIN",
-       desc: "Method/Property is included from a mixin"
-     },
-     {
-       icon: "OVERLAY_INHERITED",
-       desc: "Method/Property/Event is inherited from one of the super classes"
-     },
-     {
-       icon: "OVERLAY_OVERRIDDEN",
-       desc: "Method/Property overrides the Method/Property of the super class"
-     }
-   ]
-
+    __legend : null
   }
 });

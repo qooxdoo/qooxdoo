@@ -56,6 +56,8 @@ qx.Class.define("apiviewer.ui.PackageTree",
   members :
   {
 
+    __root : null,
+
     /**
      * Updates the tree on the left.
      *

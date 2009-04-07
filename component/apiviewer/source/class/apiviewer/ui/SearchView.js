@@ -61,6 +61,9 @@ qx.Class.define("apiviewer.ui.SearchView",
   {
 
     __note : null,
+    __button : null,
+    __initresult : null,
+    __table : null,
 
     /**
      * Generate the search form.
@@ -440,6 +443,11 @@ qx.Class.define("apiviewer.ui.SearchView",
         }
 
         // Highlight item
+
+        /**
+         * TODOC
+         * @lint ignoreDeprecated(alert)
+         */
         controller._selectClass(apiviewer.dao.Class.getClassByName(className), function()
         {
           if (itemName) {
