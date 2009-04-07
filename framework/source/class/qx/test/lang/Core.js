@@ -25,8 +25,9 @@ qx.Class.define("qx.test.lang.Core",
   {
     testErrorToString : function() 
     {
-      var error = new Error("Dummer Fehler");
-      this.assertEquals("Error: Dummer Fehler", error.toString());
+      var msg = "Dummer Fehler";
+      var error = new Error(msg);
+      this.assertTrues(qx.lang.String.contains(error.toString(), msg));
     },
     
     
