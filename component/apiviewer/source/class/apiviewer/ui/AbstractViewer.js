@@ -30,6 +30,9 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
   {
     this.base(arguments);
 
+    this._infoPanelHash = {};
+    this._infoPanels = [];
+
     this.setOverflowX("auto");
     this.setOverflowY("auto");
 
@@ -94,8 +97,8 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
   members :
   {
 
-    _infoPanelHash : {},
-    _infoPanels : [],
+    _infoPanelHash : null,
+    _infoPanels : null,
     __classNode : null,
 
     _init : function(pkg){
