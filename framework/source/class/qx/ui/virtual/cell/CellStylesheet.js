@@ -54,6 +54,10 @@ qx.Class.define("qx.ui.virtual.cell.CellStylesheet",
   
   members : 
   {
+    __stylesheet : null,
+    __classes : null,
+    __styles : null,
+
     getStylesheet : function() {
       return this.__stylesheet;
     },

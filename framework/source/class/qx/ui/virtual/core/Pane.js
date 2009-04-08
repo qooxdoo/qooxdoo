@@ -135,6 +135,20 @@ qx.Class.define("qx.ui.virtual.core.Pane",
 
   members :
   {
+    __rowConfig : null,
+    __columnConfig : null,
+    __scrollTop : null,
+    __scrollLeft : null,
+    __paneHeight : null,
+    __paneWidth : null,
+    __layerWindow : null,
+    __jobs : null,
+    __layerContainer : null,
+    __layers : null,
+    __dontFireUpdate : null,
+    __columnSizes : null,
+    __rowSizes : null,
+
     DEBUG : false,
     
     
@@ -458,7 +472,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
      */
     getCellAtPosition: function(documentX, documentY)
     {
-      var row, column;
+      var rowData, columnData;
       var paneLocation = this.getContentLocation();
 
       if (
