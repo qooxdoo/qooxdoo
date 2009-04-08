@@ -44,6 +44,25 @@ qx.Class.define("qx.fx.effect.core.Scale",
 
   extend : qx.fx.Base,
 
+  construct : function(element)
+  {
+    this.base(arguments, element);
+    this.__originalStyle = {
+      'top'      : null,
+      'left'     : null,
+      'width'    : null,
+      'height'   : null,
+      'fontSize' : null
+    };
+
+    this.__fontTypes = {
+      'em' : 'em',
+      'px' : 'px',
+      '%'  : '%',
+      'pt' : 'pt'
+    };
+    
+  },
 
   /*
    *****************************************************************************
@@ -146,23 +165,8 @@ qx.Class.define("qx.fx.effect.core.Scale",
      __fontSizeType : null,
      __factor : null,
      __dims : null,
-
-    __originalStyle :
-    {
-      'top'      : null,
-      'left'     : null,
-      'width'    : null,
-      'height'   : null,
-      'fontSize' : null
-    },
-
-    __fontTypes :
-    {
-      'em' : 'em',
-      'px' : 'px',
-      '%'  : '%',
-      'pt' : 'pt'
-    },
+    __originalStyle : null,
+    __fontTypes : null,
 
     setup : function()
     {

@@ -53,6 +53,7 @@ qx.Class.define("qx.fx.queue.Queue",
   construct : function()
   {
     this.base(arguments);
+    this.__effects = [];
   },
 
 
@@ -86,7 +87,7 @@ qx.Class.define("qx.fx.queue.Queue",
    {
 
      __interval : null,
-     __effects  : [],
+     __effects  : null,
 
     /**
      * This method adds the given effect to the queue and starts the timer (if necessary).
