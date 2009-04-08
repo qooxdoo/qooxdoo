@@ -396,16 +396,20 @@ qx.Class.define("qx.data.controller.Tree",
       // check for the old root node
       var oldRoot = this.getTarget().getRoot();
       if (oldRoot != null) {
+        this.getTarget().resetRoot();
         oldRoot.destroy();
       }
       
-      // add a new root node
-      var rootNode = this._createItem();
-      rootNode.setUserData("model", this.getModel());
-      this.getTarget().setRoot(rootNode);
-      // bind the root node
-      this.__addBinding(this.getModel(), rootNode);
-      this.__updateTreeChildren(rootNode, this.getModel());
+      // only build up a new tree if a model is given
+      if (this.getModel() != null) {
+        // add a new root node
+        var rootNode = this._createItem();
+        rootNode.setUserData("model", this.getModel());
+        this.getTarget().setRoot(rootNode);
+        // bind the root node
+        this.__addBinding(this.getModel(), rootNode);
+        this.__updateTreeChildren(rootNode, this.getModel());        
+      }
     },
     
     
