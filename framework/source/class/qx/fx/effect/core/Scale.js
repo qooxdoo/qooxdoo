@@ -158,13 +158,13 @@ qx.Class.define("qx.fx.effect.core.Scale",
    members :
    {
 
-     __elementPositioning : null,
-     __originalTop : null,
-     __originalLeft : null,
-     __fontSize : null,
-     __fontSizeType : null,
-     __factor : null,
-     __dims : null,
+    __elementPositioning : null,
+    __originalTop : null,
+    __originalLeft : null,
+    __fontSize : null,
+    __fontSizeType : null,
+    __factor : null,
+    __dims : null,
     __originalStyle : null,
     __fontTypes : null,
 
