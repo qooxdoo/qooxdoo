@@ -152,25 +152,9 @@ Function %s(%s):
     @staticmethod
     def usedVariablesIterator(node):
         # generate all "identifier" nodes down from this one
-        # 
-        if node.type in ["function", "catch"]:
-            return
-
-        # skip the identifier of catch clauses, e.g. the 'e' in 'catch(e)'
-        if node.type == "expression" and node.parent.type == "catch":
-            return
-
-        # treat variables used in for-in loops as used variables
-        if (
-            node.type == "first" and
-            node.parent.type == "operation" and
-            node.parent.get("operator") == "IN"
-        ):
-            use = treeutil.selectNode(node, "definitionList/definition")
-            if use:
-                name = use.get("identifier", False)
-                yield (name, use)
-                return
+        # which are bare identifiers (as in "var foo;" yielding "foo") or head
+        # a chain of identifiers (as in "tree.selection.Manager", yielding
+        # "tree")
 
         def getVarParent(node):
 
@@ -217,27 +201,108 @@ Function %s(%s):
             return varParent
 
 
+        # these are not all types that can show up in a chained expression,
+        # but the ones you come across when going from an identifier node
+        # upwards in the tree
+        chainTypes = set([
+            "identifier",
+            "accessor",
+            "left", "right",
+            "call", "operand",
+            "variable",
+            ])
+
+        def findChainRoot(node):
+            # find the root node for a chained expression like a.b().c()[0].d()
+
+            current = node
+
+            while current.hasParent() and current.parent.type in chainTypes:
+                current = current.parent
+
+            return current  # this must be the chain root
+
+        def findLeftmostIdentifier(node):
+            child = node
+
+            while child.hasChildren():
+                child = child.getFirstChild(ignoreComments=True)
+            #assert child.type == "identifier"
+
+            return child
+
+        def checkFirstChild(node):
+            # going up the tree, to find term root
+            chainRoot = findChainRoot(node)
+            #print "-- %s: %s(%d,%d)" % (node.get("name", False), chainRoot.type, chainRoot.get("line"), chainRoot.get("column"))
+            # going down the tree, to find "first child"
+            leftmostIdentifier = findLeftmostIdentifier(chainRoot)
+
+            # compare to current node
+            if leftmostIdentifier == node:
+                isFirstChild = True
+            else:
+                isFirstChild = False
+
+            return isFirstChild
+
+
+
+        # - main ---------------------------------------------------------------
+
+        if node.type in ["function", "catch"]:
+            return
+
+        # skip the identifier of catch clauses, e.g. the 'e' in 'catch(e)'
+        if node.type == "expression" and node.parent.type == "catch":
+            return
+
+        # treat variables used in for-in loops as used variables
+        if (
+            node.type == "first" and
+            node.parent.type == "operation" and
+            node.parent.get("operator") == "IN"
+           ):
+            use = treeutil.selectNode(node, "definitionList/definition")
+            if use:
+                name = use.get("identifier", False)
+                yield (name, use)
+                return
+
         # Handle all identifiers
         if node.type == "identifier":
-            isFirstChild = False
+            isFirstChild     = False
             isVariableMember = False
 
             if node.parent.type == "variable":
                 isVariableMember = True
-                varParent = getVarParent(node)
 
-                if not (varParent.type == "right" and varParent.parent.type == "accessor"):
-                    isFirstChild = node.parent.getFirstChild(True, True) == node
+                if False: # old stuff
+                    varParent = getVarParent(node)
+
+                    if not (varParent.type == "right" and varParent.parent.type == "accessor"):
+                        isFirstChild = node.parent.getFirstChild(True, True) == node
+                else:
+                    # NEW STUFF!
+                    isFstChld = checkFirstChild(node)
+                    #print "%s(%s,%s) : %r" % (node.get("name", False), node.get("line",False), node.get("column",False),isFstChld)
+                    isFirstChild = isFstChld
 
             # used in foo.bar.some[thing] where "some" is the identifier
             elif node.parent.type == "accessor":
                 isVariableMember = True
 
-                accessor = node.parent
-                while accessor.parent.type == "accessor":
-                    accessor = accessor.parent
+                if False: # old stuff
+                    accessor = node.parent
+                    while accessor.parent.type == "accessor":
+                        accessor = accessor.parent
 
-                isFirstChild = accessor.parent.getFirstChild(True, True) == accessor
+                    isFirstChild = accessor.parent.getFirstChild(True, True) == accessor
+                else:
+                    # NEW STUFF!
+                    isFstChld = checkFirstChild(node)
+                    #print "%s(%s,%s) : %r" % (node.get("name", False), node.get("line",False), node.get("column",False),isFstChld)
+                    isFirstChild = isFstChld
 
             # inside a variable parent only respect the first member
             if not isVariableMember or isFirstChild:
