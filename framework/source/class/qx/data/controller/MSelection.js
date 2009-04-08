@@ -83,6 +83,11 @@ qx.Mixin.define("qx.data.controller.MSelection",
   
   members :
   {
+    // private members
+    __modifingSelection : null,
+    __selectionListenerId : null,
+    __selectionArrayListenerId : null,
+    
     /*
     ---------------------------------------------------------------------------
        APPLY METHODS
@@ -97,11 +102,11 @@ qx.Mixin.define("qx.data.controller.MSelection",
      */
     _applySelection: function(value, old) {
       // remove the old listener if necesarry
-      if (this._selectionArrayListenerId != undefined && old != undefined) {
-        old.removeListenerById(this._selectionArrayListenerId);
+      if (this.__selectionArrayListenerId != undefined && old != undefined) {
+        old.removeListenerById(this.__selectionArrayListenerId);
       }
       // add a new change listener to the changeArray
-      this._selectionArrayListenerId = value.addListener(
+      this.__selectionArrayListenerId = value.addListener(
         "change", this.__changeSelectionArray, this
       );
     },

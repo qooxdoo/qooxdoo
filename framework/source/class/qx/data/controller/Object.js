@@ -106,6 +106,10 @@ qx.Class.define("qx.data.controller.Object",
   
   members :
   {
+    // private members
+    __targets : null,
+    __bindings : null,
+    
     /**
      * Apply-method which will be called if a new model has been set.
      * All bindings will be moved to the new model.

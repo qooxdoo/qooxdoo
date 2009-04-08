@@ -109,6 +109,10 @@ qx.Class.define("qx.data.Array",
 
   members :
   {
+    // private members
+    __array : null,
+    
+    
     /**
      * Concatenates the current and the given array into a new one.
      *

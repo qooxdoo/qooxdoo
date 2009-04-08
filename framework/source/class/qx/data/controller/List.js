@@ -202,6 +202,15 @@ qx.Class.define("qx.data.controller.List",
 
   members :
   {
+    // private members
+    __changeModelLengthListenerId : null,
+    __changeModelListenerId : null,
+    __lookupTable : null,
+    __onUpdate : null,
+    __boundProperties : null,
+    __modifingSelection : null,
+    
+    
     /*
     ---------------------------------------------------------------------------
        PUBLIC API
@@ -313,7 +322,7 @@ qx.Class.define("qx.data.controller.List",
         // add a new Listener      
         this.__changeModelLengthListenerId = 
           value.addListener("changeLength", this.__changeModelLength, this);
-        this.__changeModelListenerID = 
+        this.__changeModelListenerId = 
           value.addListener("change", this.__changeModel, this);
 
         // renew the index lookup table

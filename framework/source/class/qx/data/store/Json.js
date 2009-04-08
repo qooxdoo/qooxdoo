@@ -103,6 +103,9 @@ qx.Class.define("qx.data.store.Json",
 
   members :
   {
+    // private members
+    __request : null,
+    
     // apply function
     _applyUrl: function(value, old) {
       if (value != null) {
