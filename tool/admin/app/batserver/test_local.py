@@ -99,21 +99,9 @@ def main():
     if ( isSeleniumServer() ):
 
         invoke_external("svn up " + testConf["simulatorSvn"])
-        
         buildAll()
-        
         trunkrev = get_rev().rstrip('\n')
-        
-        """lintTargets = []
-        for app in qxApps:
-          lintTargets.append("application/" + app)
-        for comp in qxComps:
-          lintTargets.append("component/" + comp)        
-        lintTargets.append("framework")
-        trunkrev = get_rev().rstrip('\n')        
-        for target in lintTargets:
-          print("Running Lint for " + target)
-          invoke_external(getLintCmd(target, trunkrev))                
+        runLint()
 
         clearLogs()
         invoke_external(getStartCmd('Testrunner','FF308'))
@@ -138,7 +126,7 @@ def main():
         invoke_external(getStartCmd('Feedreader','Opera964'))
         invoke_external(testConf['logFormat'])
         sendReport("Feedreader",trunkrev)
-        invoke_external('pkill firefox')"""
+        invoke_external('pkill firefox')
         
         clearLogs()
         invoke_external(getStartCmd('Playground','FF308'))
@@ -251,6 +239,18 @@ def buildAll():
         print(target + " build finished without errors.")
       buildLogFile.write("\n========================================================\n\n")
   buildLogFile.close()
+  
+def runLint():
+  lintTargets = []
+  for app in qxApps:
+    lintTargets.append("application/" + app)
+  for comp in qxComps:
+    lintTargets.append("component/" + comp)        
+  lintTargets.append("framework")
+  trunkrev = get_rev().rstrip('\n')        
+  for target in lintTargets:
+    print("Running Lint for " + target)
+    invoke_external(getLintCmd(target, trunkrev))
 
 # Sends the generated test report file by email.
 def sendReport(aut,trunkrev):    
