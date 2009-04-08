@@ -202,6 +202,11 @@ qx.Class.define("qx.data.controller.Tree",
   
   members :
   {
+    // private members 
+    __childrenRef : null,
+    __bindings : null,
+    __boundProperties : null,
+    
     /*
     ---------------------------------------------------------------------------
        APPLY METHODS
