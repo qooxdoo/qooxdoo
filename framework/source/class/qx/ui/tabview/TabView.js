@@ -44,6 +44,13 @@ qx.Class.define("qx.ui.tabview.TabView",
   {
     this.base(arguments);
 
+    this.__barPositionToState = {
+      top : "barTop",
+      right : "barRight",
+      bottom : "barBottom",
+      left : "barLeft"
+    };
+
     this._createChildControl("bar");
     this._createChildControl("pane");
 
@@ -300,14 +307,7 @@ qx.Class.define("qx.ui.tabview.TabView",
     */
 
     /** {Map} Maps the bar position to an appearance state */
-    __barPositionToState :
-    {
-      top : "barTop",
-      right : "barRight",
-      bottom : "barBottom",
-      left : "barLeft"
-    },
-
+    __barPositionToState : null,
 
     /**
      * Apply method for the placeBarOnTop-Property.

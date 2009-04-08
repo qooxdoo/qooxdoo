@@ -81,7 +81,10 @@ qx.Class.define("qx.ui.virtual.form.List",
   members :
   {
     __defaultCellRenderer : null,
-    
+    __manager : null,
+    __cellLayer : null,
+    __useWidgetCells : null,
+
     _initWidgetLayer : function()
     {
       var self = this;
