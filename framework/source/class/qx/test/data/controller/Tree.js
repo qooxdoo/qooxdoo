@@ -786,6 +786,12 @@ qx.Class.define("qx.test.data.controller.Tree",
       this.__model.getChildren().push(a);
       
       a.dispose();
+    },
+    
+    
+    testResetModel: function() {
+      this.__controller.resetModel();
+      this.assertNull(this.__tree.getRoot(), "Tree is not empty.");
     }
     
   }
