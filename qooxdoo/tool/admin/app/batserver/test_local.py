@@ -52,13 +52,14 @@ testConf = {
   'buildTests'          : '/tool/admin/app/batserver/batbuild.py -z -C -p framework -g test -n',
   'buildDemobrowser'    : '/tool/admin/app/batserver/batbuild.py -z -C -p application/demobrowser -g build -n',
   'buildFeedreader'     : '/tool/admin/app/batserver/batbuild.py -z -C -p application/feedreader -g build -n',
-  'buildPlayground'     : '/tool/admin/app/batserver/batbuild.py -z -C -p application/playground -g source -n',
+  'buildPlayground'     : '/tool/admin/app/batserver/batbuild.py -z -C -p application/playground -g build -n',
   'classPath'           : '/home/dwagner/qxselenium/selenium-java-client-driver.jar:/home/dwagner/rhino1_7R1/js.jar',
   'scriptTestrunner'    : '/home/dwagner/qxselenium/test_testrunner.js',
   'scriptDemobrowser'   : '/home/dwagner/qxselenium/test_demobrowser.js',
   'scriptFeedreader'    : '/home/dwagner/qxselenium/test_feedreader.js',
   'scriptPlayground'    : '/home/dwagner/qxselenium/test_playground.js',
   'lintRunner'          : '/home/dwagner/qxselenium/lintRunner.py',
+  'simulatorSvn'        : '/home/dwagner/workspace/qooxdoo.contrib/Simulator'
 }
 
 autConf = {
@@ -66,7 +67,7 @@ autConf = {
   'autPathTestrunner'   : '/qx/trunk/qooxdoo/framework/test/index.html',
   'autPathDemobrowser'  : '/qx/trunk/qooxdoo/application/demobrowser/build/index.html',
   'autPathFeedreader'   : '/qx/trunk/qooxdoo/application/feedreader/build/index.html',
-  'autPathPlayground'   : '/qx/trunk/qooxdoo/application/playground/source/index.html'
+  'autPathPlayground'   : '/qx/trunk/qooxdoo/application/playground/build/index.html'
 }
 
 browserConf = {
@@ -92,16 +93,13 @@ def main():
         seleniumserver()
     if ( isSeleniumServer() ):
 
-        clearLogs()
+        invoke_external("svn up " + testConf["simulatorSvn"])
         invoke_external(testConf['qxPathAbs'] + testConf['buildTests'])
+        invoke_external(testConf['qxPathAbs'] + testConf['buildDemobrowser'])
+        invoke_external(testConf['qxPathAbs'] + testConf['buildFeedreader'])
+        invoke_external(testConf['qxPathAbs'] + testConf['buildPlayground'])        
+        
         trunkrev = get_rev().rstrip('\n')
-        invoke_external(getStartCmd('Testrunner','FF308'))
-        invoke_external(getStartCmd('Testrunner','FF2'))
-        invoke_external(getStartCmd('Testrunner','FF31b3'))
-        invoke_external(getStartCmd('Testrunner','Opera964'))
-        invoke_external(testConf['logFormat'])
-        sendReport("Testrunner",trunkrev)
-        invoke_external('pkill firefox')
         
         lintTargets = []
         for app in qxApps:
@@ -112,11 +110,18 @@ def main():
         trunkrev = get_rev().rstrip('\n')        
         for target in lintTargets:
           print("Running Lint for " + target)
-          invoke_external(getLintCmd(target, trunkrev))        
+          invoke_external(getLintCmd(target, trunkrev))                
+
+        clearLogs()
+        invoke_external(getStartCmd('Testrunner','FF308'))
+        invoke_external(getStartCmd('Testrunner','FF2'))
+        invoke_external(getStartCmd('Testrunner','FF31b3'))
+        invoke_external(getStartCmd('Testrunner','Opera964'))
+        invoke_external(testConf['logFormat'])
+        sendReport("Testrunner",trunkrev)
+        invoke_external('pkill firefox')        
         
         clearLogs()
-        invoke_external(testConf['qxPathAbs'] + testConf['buildDemobrowser'])
-        trunkrev = get_rev().rstrip('\n')
         invoke_external(getStartCmd('Demobrowser','Opera964'))
         invoke_external(getStartCmd('Demobrowser','FF308'))
         invoke_external(testConf['logFormat'])
@@ -124,8 +129,6 @@ def main():
         invoke_external('pkill firefox')
         
         clearLogs()
-        invoke_external(testConf['qxPathAbs'] + testConf['buildFeedreader'])
-        trunkrev = get_rev().rstrip('\n')
         invoke_external(getStartCmd('Feedreader','FF308'))        
         invoke_external(getStartCmd('Feedreader','FF2'))
         invoke_external(getStartCmd('Feedreader','FF31b3'))
@@ -135,8 +138,6 @@ def main():
         invoke_external('pkill firefox')
         
         clearLogs()
-        invoke_external(testConf['qxPathAbs'] + testConf['buildPlayground'])
-        trunkrev = get_rev().rstrip('\n')
         invoke_external(getStartCmd('Playground','FF308'))
         invoke_external(getStartCmd('Playground','FF2'))
         invoke_external(getStartCmd('Playground','FF31b3'))
@@ -144,6 +145,7 @@ def main():
         invoke_external(testConf['logFormat'])
         sendReport("Playground",trunkrev)
         invoke_external('pkill firefox')
+
     else:
         print("Couldn't contact Selenium server.") 
 
