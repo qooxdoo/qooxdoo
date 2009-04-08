@@ -48,11 +48,7 @@ testConf = {
   'startSelenium'       : 'java -jar /home/dwagner/qxselenium/selenium-server.jar -browserSideLog -log ',
   'seleniumHost'        : 'http://localhost:4444',
   'svnRev'              : 'svnversion /var/www/qx/trunk',
-  'qxPathAbs'           : '/var/www/qx/trunk/qooxdoo',
-  'buildTests'          : '/tool/admin/app/batserver/batbuild.py -z -C -p framework -g test -n',
-  'buildDemobrowser'    : '/tool/admin/app/batserver/batbuild.py -z -C -p application/demobrowser -g build -n',
-  'buildFeedreader'     : '/tool/admin/app/batserver/batbuild.py -z -C -p application/feedreader -g build -n',
-  'buildPlayground'     : '/tool/admin/app/batserver/batbuild.py -z -C -p application/playground -g build -n',
+  'qxPathAbs'           : '/var/www/qx/trunk/qooxdoo',  
   'classPath'           : '/home/dwagner/qxselenium/selenium-java-client-driver.jar:/home/dwagner/rhino1_7R1/js.jar',
   'scriptTestrunner'    : '/home/dwagner/qxselenium/test_testrunner.js',
   'scriptDemobrowser'   : '/home/dwagner/qxselenium/test_demobrowser.js',
@@ -60,6 +56,15 @@ testConf = {
   'scriptPlayground'    : '/home/dwagner/qxselenium/test_playground.js',
   'lintRunner'          : '/home/dwagner/qxselenium/lintRunner.py',
   'simulatorSvn'        : '/home/dwagner/workspace/qooxdoo.contrib/Simulator'
+}
+
+buildConf = {
+  'buildErrorLog'  : 'buildErrors.log',
+  'batbuild'       : '/tool/admin/app/batserver/batbuild.py -z -C',           
+  #'Tests'          : '-p framework -g test -n',
+  #'Demobrowser'    : '-p application/demobrowser -g build -n',
+  #'Feedreader'     : '-p application/feedreader -g build -n',
+  'Playground'     : '-p application/playground -g build -n',
 }
 
 autConf = {
@@ -80,8 +85,8 @@ browserConf = {
 
 mailConf = {
   'mailFrom'        : 'daniel.wagner@1und1.de',
-  #'mailTo'          : 'daniel.wagner@1und1.de',
-  'mailTo'          : 'webtechnologies@1und1.de',
+  'mailTo'          : 'daniel.wagner@1und1.de',
+  #'mailTo'          : 'webtechnologies@1und1.de',
   'smtpHost'        : 'smtp.1und1.de',
   'smtpPort'        : 587
 }
@@ -94,14 +99,12 @@ def main():
     if ( isSeleniumServer() ):
 
         invoke_external("svn up " + testConf["simulatorSvn"])
-        invoke_external(testConf['qxPathAbs'] + testConf['buildTests'])
-        invoke_external(testConf['qxPathAbs'] + testConf['buildDemobrowser'])
-        invoke_external(testConf['qxPathAbs'] + testConf['buildFeedreader'])
-        invoke_external(testConf['qxPathAbs'] + testConf['buildPlayground'])        
+        
+        buildAll()
         
         trunkrev = get_rev().rstrip('\n')
         
-        lintTargets = []
+        """lintTargets = []
         for app in qxApps:
           lintTargets.append("application/" + app)
         for comp in qxComps:
@@ -135,7 +138,7 @@ def main():
         invoke_external(getStartCmd('Feedreader','Opera964'))
         invoke_external(testConf['logFormat'])
         sendReport("Feedreader",trunkrev)
-        invoke_external('pkill firefox')
+        invoke_external('pkill firefox')"""
         
         clearLogs()
         invoke_external(getStartCmd('Playground','FF308'))
@@ -227,6 +230,27 @@ def getLintCmd(target,trunkrev=None):
     
     return cmd
     
+# Builds all targets listed in buildConf.
+def buildAll():
+  buildLogFile = open(buildConf['buildErrorLog'], 'w')
+  buildLogFile.write('')
+  buildLogFile.close()
+  
+  buildLogFile = open(buildConf['buildErrorLog'], 'a')
+  for target in buildConf:
+    cmd = testConf['qxPathAbs'] + buildConf['batbuild']
+    if (target != "batbuild" and target != "buildErrorLog"):
+      print("Building " + target)      
+      cmd += " " + buildConf[target]
+      status, std, err = invoke_piped(cmd)
+      if (status > 0):
+        print("Error while building " + target + ", see " 
+              + buildConf['buildErrorLog'] + " for details.")        
+        buildLogFile.write(target + "\n" + err)
+      else:
+        print(target + " build finished without errors.")
+      buildLogFile.write("\n========================================================\n\n")
+  buildLogFile.close()
 
 # Sends the generated test report file by email.
 def sendReport(aut,trunkrev):    
