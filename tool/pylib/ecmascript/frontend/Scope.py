@@ -226,7 +226,11 @@ Function %s(%s):
             child = node
 
             while child.hasChildren():
-                child = child.getFirstChild(ignoreComments=True)
+                c = child.getFirstChild(mandatory=False, ignoreComments=True)
+                if c:
+                    child = c
+                else:
+                    break
             #assert child.type == "identifier"
 
             return child
