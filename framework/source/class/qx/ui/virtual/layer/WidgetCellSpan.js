@@ -86,6 +86,9 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
  
   members :
   {    
+    
+    __spacerPool : null,
+    
     /**
      * Set the row and column span for a specific cell
      * 

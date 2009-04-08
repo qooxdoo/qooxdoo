@@ -88,6 +88,8 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
 
   members :
   {
+    __pane : null,
+    
     /*
     ---------------------------------------------------------------------------
       ACCESSOR METHODS

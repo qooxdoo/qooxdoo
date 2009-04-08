@@ -84,6 +84,7 @@ qx.Class.define("qx.ui.virtual.cell.Boolean",
   {
     __imageTrue : null,
     __imageFalse : null,
+    __aliasManager : null,
 
     
     // property apply

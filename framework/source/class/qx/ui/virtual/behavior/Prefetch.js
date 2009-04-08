@@ -84,6 +84,13 @@ qx.Class.define("qx.ui.virtual.behavior.Prefetch",
 
   members :
   {
+
+      __prefetchX : null,
+      __prefetchY : null,
+      __timer : null,
+      __onScrollXId : null,
+      __onScrollYId : null,
+
      setPrefetchX : function(minLeft, maxLeft, minRight, maxRight) {
        this.__prefetchX = [minLeft, maxLeft, minRight, maxRight];
      },
