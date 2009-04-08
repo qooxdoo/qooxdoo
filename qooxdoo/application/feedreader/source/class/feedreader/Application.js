@@ -43,6 +43,11 @@ qx.Class.define("feedreader.Application",
 
   members :
   {
+    // private memebers
+    __treeController : null,
+    __listController : null,
+    __commands : null,
+    
     /*
     ---------------------------------------------------------------------------
       APPLICATION METHODS
@@ -501,6 +506,7 @@ qx.Class.define("feedreader.Application",
 
     /**
      * Shows the about popup for the application.
+     * @lint ignoreDeprecated(alert)
      */
     showAbout : function() {
       alert(this.tr("FeedReader (qooxdoo powered)"));
