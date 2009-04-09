@@ -44,7 +44,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
     }
     
     // set the semaphore-like variable for the selection change
-    this.__modifingSelection = 0;
+    this._modifingSelection = 0;
     
     // create a default selection array
     this.setSelection(new qx.data.Array());
@@ -84,7 +84,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
   members :
   {
     // private members
-    __modifingSelection : null,
+    _modifingSelection : null,
     __selectionListenerId : null,
     __selectionArrayListenerId : null,
     
@@ -134,7 +134,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
      */
     __changeTargetSelection: function() {
       // if __changeSelectionArray is currently working, do nothing
-      if (this.__modifingSelection > 0 || this.getTarget() == null) {
+      if (this._modifingSelection > 0 || this.getTarget() == null) {
         return;
       }
       
@@ -316,7 +316,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
      * {@link #_endSelectionModification}
      */
     _startSelectionModification: function() {
-      this.__modifingSelection++;
+      this._modifingSelection++;
     },
     
     
@@ -326,7 +326,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
      * {@link #_startSelectionModification}
      */
     _endSelectionModification: function() {
-      this.__modifingSelection > 0 ? this.__modifingSelection-- : null;
+      this._modifingSelection > 0 ? this._modifingSelection-- : null;
     }
         
   }

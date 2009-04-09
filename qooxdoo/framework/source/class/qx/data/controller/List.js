@@ -208,7 +208,6 @@ qx.Class.define("qx.data.controller.List",
     __lookupTable : null,
     __onUpdate : null,
     __boundProperties : null,
-    __modifingSelection : null,
     
     
     /*
@@ -499,7 +498,7 @@ qx.Class.define("qx.data.controller.List",
       // remove the item
       this.getTarget().removeAt(index);
       oldItem.destroy();
-      this.__modifingSelection = false;  
+      this._modifingSelection = false;  
       this._endSelectionModification();
     },    
     
