@@ -156,51 +156,7 @@ Function %s(%s):
         # a chain of identifiers (as in "tree.selection.Manager", yielding
         # "tree")
 
-        def getVarParent(node):
-
-            varParent = node.parent.parent
-
-            # catch corner case: a().b(); var b;
-            if (
-                varParent.type == "operand" and
-                varParent.parent.type == "call" and
-                varParent.parent.parent.type == "right" and
-                varParent.parent.parent.parent.type == "accessor"
-            ):
-                varParent = varParent.parent.parent
-
-            # catch corner case a().b().length
-            if (
-                varParent.type == "operand" and
-                varParent.parent.type == "call" and
-                varParent.parent.parent.type == "left" and
-                varParent.parent.parent.parent.type == "accessor" and
-                varParent.parent.parent.parent.parent.type == "right"
-            ):
-                varParent = varParent.parent.parent.parent.parent
-
-            # catch corner case a().b()[0]
-            if (
-                varParent.type == "operand" and
-                varParent.parent.type == "call" and
-                varParent.parent.parent.type == "identifier" and
-                varParent.parent.parent.parent.type == "accessor" and
-                varParent.parent.parent.parent.parent.type == "right"
-            ):
-                varParent = varParent.parent.parent.parent.parent
-
-            # catch corner case a.b().c[0]
-            if (
-                varParent.type == "identifier" and
-                varParent.parent.type == "accessor" and
-                varParent.parent.parent.type == "right" and
-                varParent.parent.parent.parent.type == "accessor"
-            ):
-                varParent = varParent.parent.parent
-
-            return varParent
-
-
+        # chainTypes:
         # these are not all types that can show up in a chained expression,
         # but the ones you come across when going from an identifier node
         # upwards in the tree
@@ -280,17 +236,7 @@ Function %s(%s):
 
             if node.parent.type == "variable":
                 isVariableMember = True
-
-                if False: # old stuff
-                    varParent = getVarParent(node)
-
-                    if not (varParent.type == "right" and varParent.parent.type == "accessor"):
-                        isFirstChild = node.parent.getFirstChild(True, True) == node
-                else:
-                    # NEW STUFF!
-                    isFstChld = checkFirstChild(node)
-                    #print "%s(%s,%s) : %r" % (node.get("name", False), node.get("line",False), node.get("column",False),isFstChld)
-                    isFirstChild = isFstChld
+                isFirstChild = checkFirstChild(node)
 
             # used in foo.bar.some[thing] where "some" is the identifier
             elif node.parent.type == "accessor":
