@@ -61,9 +61,9 @@ testConf = {
 buildConf = {
   'buildErrorLog'  : 'buildErrors.log',
   'batbuild'       : '/tool/admin/app/batserver/batbuild.py -z -C',           
-  #'Tests'          : '-p framework -g test -n',
-  #'Demobrowser'    : '-p application/demobrowser -g build -n',
-  #'Feedreader'     : '-p application/feedreader -g build -n',
+  'Tests'          : '-p framework -g test -n',
+  'Demobrowser'    : '-p application/demobrowser -g build -n',
+  'Feedreader'     : '-p application/feedreader -g build -n',
   'Playground'     : '-p application/playground -g build -n',
 }
 
@@ -91,16 +91,18 @@ mailConf = {
   'smtpPort'        : 587
 }
 
-def main():    
+def main():
+    rc = 0    
     if ( isSeleniumServer() ):
         print("Selenium server seems to be running.")
     else:
         seleniumserver()
     if ( isSeleniumServer() ):
 
-        invoke_external("svn up " + testConf["simulatorSvn"])
+        #updateSimulator
         buildAll()
         trunkrev = get_rev().rstrip('\n')
+        storeRev(trunkrev)
         runLint()
 
         clearLogs()
@@ -110,7 +112,7 @@ def main():
         invoke_external(getStartCmd('Testrunner','Opera964'))
         invoke_external(testConf['logFormat'])
         sendReport("Testrunner",trunkrev)
-        invoke_external('pkill firefox')        
+        invoke_external('pkill firefox')
         
         clearLogs()
         invoke_external(getStartCmd('Demobrowser','Opera964'))
@@ -138,7 +140,10 @@ def main():
         invoke_external('pkill firefox')
 
     else:
-        print("Couldn't contact Selenium server.") 
+        rc = 1
+        print("Couldn't contact Selenium server.")
+
+    return rc
 
 # Returns the SVN checkout's revision number
 def get_rev():
@@ -235,9 +240,9 @@ def buildAll():
         print("Error while building " + target + ", see " 
               + buildConf['buildErrorLog'] + " for details.")        
         buildLogFile.write(target + "\n" + err)
+        buildLogFile.write("\n========================================================\n\n")
       else:
         print(target + " build finished without errors.")
-      buildLogFile.write("\n========================================================\n\n")
   buildLogFile.close()
   
 def runLint():
@@ -267,7 +272,7 @@ def sendReport(aut,trunkrev):
 
     reportFile = open(testConf['seleniumReport'], 'rb')
 
-    osRe = re.compile('<p>Browser: .* on (.*)</p>')
+    osRe = re.compile('<p>Platform: (.*)</p>')
     failedTestsRe = re.compile('<p class="failedtests">([\d]*)')
     totalErrorsRe = re.compile('<p class="totalerrors">Total errors in report: ([\d]*)</p>')
 
@@ -341,6 +346,17 @@ def clearLogs():
         print("Emptying Selenium report file " + testConf['seleniumReport'])
         f.write('')
         f.close()
+
+def updateSimulator():
+    print("Updating Simulator checkout")
+    invoke_external("svn up " + testConf["simulatorSvn"])
+
+def storeRev(trunkrev):
+    fPath = os.path.join(testConf['qxPathAbs'],'revision.txt')
+    print("Storing revision number in file " + fPath)
+    rFile = open(fPath, 'w')
+    rFile.write(trunkrev)
+    rFile.close()
 
 if __name__ == "__main__":
     try:
