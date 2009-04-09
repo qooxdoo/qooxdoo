@@ -49,7 +49,7 @@ qx.Class.define("feedreader.view.AddFeedWindow",
     this.base(arguments, this.tr("Add a feed"), "icon/16/actions/document-new.png");
 
     // Establish controller link
-    this._controller = controller;
+    this.__controller = controller;
 
     // set the properties of the window
     this.set(
@@ -75,6 +75,10 @@ qx.Class.define("feedreader.view.AddFeedWindow",
 
   members :
   {
+    // private members
+    __urlTextfield : null,
+    __titleTextfield : null,
+    __controller : null,
 
     /**
      * Adds the content of the window.
@@ -91,10 +95,10 @@ qx.Class.define("feedreader.view.AddFeedWindow",
       groupBox.setLayout(layout);
 
       var titleLabel = new qx.ui.basic.Label(this.tr("Title:"));
-      var titleTextfield = this._titleTextfield = new qx.ui.form.TextField();
+      var titleTextfield = this.__titleTextfield = new qx.ui.form.TextField();
 
       var urlLabel = new qx.ui.basic.Label(this.tr("URL:"));
-      var urlTextField = this._urlTextfield = new qx.ui.form.TextField();
+      var urlTextField = this.__urlTextfield = new qx.ui.form.TextField();
 
       groupBox.add(titleLabel, {row: 0, column: 0});
       groupBox.add(titleTextfield, {row: 0, column: 1});
@@ -126,7 +130,7 @@ qx.Class.define("feedreader.view.AddFeedWindow",
     _addFeed : function(e)
     {
       // break if no title is given
-      var title = this._titleTextfield.getValue();
+      var title = this.__titleTextfield.getValue();
       if (title == "")
       {
         alert(this.tr("Please enter a title."));
@@ -134,14 +138,14 @@ qx.Class.define("feedreader.view.AddFeedWindow",
       }
 
       // break if no url is given
-      var url = this._urlTextfield.getValue();
+      var url = this.__urlTextfield.getValue();
       if (url == "")
       {
         alert(this.tr("Please enter a url."));
         return;
       }
 
-      this._controller.addFeed(title, url, "user");
+      this.__controller.addFeed(title, url, "user");
       this.close();
     }
   }

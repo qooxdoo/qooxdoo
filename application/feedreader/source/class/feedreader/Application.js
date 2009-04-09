@@ -46,8 +46,24 @@ qx.Class.define("feedreader.Application",
     // private memebers
     __treeController : null,
     __listController : null,
+    
     __commands : null,
     
+    __treeView : null,
+    __header : null,
+    __toolBarView : null,
+    __listView : null,
+    __horizontalSplitPane : null,
+    __verticalSplitPane : null,
+    __prefWindow : null,
+    __articleView : null,
+    __addFeedWindow : null,
+        
+    __feedFolder : null,
+    __userFeedFolder : null,
+    __staticFeedFolder: null,
+    
+        
     /*
     ---------------------------------------------------------------------------
       APPLICATION METHODS
@@ -86,10 +102,10 @@ qx.Class.define("feedreader.Application",
       this._setUpBinding(); 
       
       // set up the default view of the tree
-      this._treeView.getRoot().setOpen(true);
-      this._treeView.getRoot().getChildren()[0].setOpen(true);
-      this._treeView.getRoot().getChildren()[1].setOpen(true);
-      this._treeView.setHideRoot(true);      
+      this.__treeView.getRoot().setOpen(true);
+      this.__treeView.getRoot().getChildren()[0].setOpen(true);
+      this.__treeView.getRoot().getChildren()[1].setOpen(true);
+      this.__treeView.setHideRoot(true);      
     },
 
 
@@ -115,58 +131,58 @@ qx.Class.define("feedreader.Application",
     _initializeModel : function()
     {
       // create the root folder
-      this._feedFolder = new feedreader.model.FeedFolder("Feeds");
+      this.__feedFolder = new feedreader.model.FeedFolder("Feeds");
       
       // Add static feeds
-      this._staticFeedFolder = 
+      this.__staticFeedFolder = 
         new feedreader.model.FeedFolder(this.tr("Static Feeds"));
-      this._feedFolder.getFeeds().push(this._staticFeedFolder);
-      this._staticFeedFolder.getFeeds().push(
+      this.__feedFolder.getFeeds().push(this.__staticFeedFolder);
+      this.__staticFeedFolder.getFeeds().push(
         new feedreader.model.Feed(
           "qooxdoo News", "http://feeds2.feedburner.com/qooxdoo/news/content", "static"
         )
       );      
-      this._staticFeedFolder.getFeeds().push(
+      this.__staticFeedFolder.getFeeds().push(
         new feedreader.model.Feed(
           "JScript Team Blog", "http://blogs.msdn.com/jscript/rss.xml", "static"
         )
       );
-      this._staticFeedFolder.getFeeds().push(
+      this.__staticFeedFolder.getFeeds().push(
         new feedreader.model.Feed(
           "Daring Fireball", "http://daringfireball.net/index.xml", "static"
         )
       );
-      this._staticFeedFolder.getFeeds().push(
+      this.__staticFeedFolder.getFeeds().push(
         new feedreader.model.Feed(
           "Surfin' Safari", "http://webkit.org/blog/?feed=rss2", "static"
         )
       );
-      this._staticFeedFolder.getFeeds().push(
+      this.__staticFeedFolder.getFeeds().push(
         new feedreader.model.Feed(
           "Ajaxian","http://feeds2.feedburner.com/ajaxian", "static"
         )
       );
 
       // Add user feeds
-      this._userFeedFolder = 
+      this.__userFeedFolder = 
         new feedreader.model.FeedFolder(this.tr("User Feeds"));
-      this._feedFolder.getFeeds().push(this._userFeedFolder);
-      this._userFeedFolder.getFeeds().push(
+      this.__feedFolder.getFeeds().push(this.__userFeedFolder);
+      this.__userFeedFolder.getFeeds().push(
         new feedreader.model.Feed(
           "Heise", "http://www.heise.de/newsticker/heise-atom.xml", "user"
         )
       );
-      this._userFeedFolder.getFeeds().push(
+      this.__userFeedFolder.getFeeds().push(
         new feedreader.model.Feed(
           "A List Apart", "http://www.alistapart.com/rss.xml", "user"
         )
       );
-      this._userFeedFolder.getFeeds().push(
+      this.__userFeedFolder.getFeeds().push(
         new feedreader.model.Feed(
           "Apple Insider", "http://www.appleinsider.com/appleinsider.rss", "user"
         )
       );
-      this._userFeedFolder.getFeeds().push(
+      this.__userFeedFolder.getFeeds().push(
         new feedreader.model.Feed(
           "Opera Desktop Blog", "http://my.opera.com/desktopteam/xml/rss/blog/", "user"
         )
@@ -197,7 +213,7 @@ qx.Class.define("feedreader.Application",
       // 3. Parameter: name of the children of the model items
       // 4. Parameter: name of the model property to show as label in the tree
       this.__treeController = new qx.data.controller.Tree(
-        this._feedFolder, this._treeView, "feeds", "title"
+        this.__feedFolder, this.__treeView, "feeds", "title"
       );
       // set the options for the icon binding
       this.__treeController.setIconOptions(iconOptions);      
@@ -210,7 +226,7 @@ qx.Class.define("feedreader.Application",
       // 2. Parameter: The view (the list widget)
       // 3. Parameter: name of the model property to show as label in the list      
       this.__listController = new qx.data.controller.List(
-        null, this._listView.getList(), "title"
+        null, this.__listView.getList(), "title"
       );
       // bind the first selection of the tree as the model of the list
       this.__treeController.bind(
@@ -219,7 +235,7 @@ qx.Class.define("feedreader.Application",
       
       // bind the article //
       // bind the first selection of the list to the article view
-      this.__listController.bind("selection[0]", this._articleView, "article"); 
+      this.__listController.bind("selection[0]", this.__articleView, "article"); 
       
       // register a handler for the change of the list selection
       this.__listController.getSelection().addListener(
@@ -233,13 +249,13 @@ qx.Class.define("feedreader.Application",
       // binding for showing the loading image in the list
       var options = {converter: this._state2loadingConverter};
       this.__treeController.bind(
-        "selection[0].state", this._listView, "loading", options
+        "selection[0].state", this.__listView, "loading", options
       );
       
       // bind the enabled property of the remove feed button
       options = {converter: this._category2enabledConverter};
       this.__treeController.bind(
-        "selection[0].category", this._toolBarView.getRemoveButton(), "enabled", options
+        "selection[0].category", this.__toolBarView.getRemoveButton(), "enabled", options
       );      
       
     },
@@ -344,38 +360,38 @@ qx.Class.define("feedreader.Application",
       this.getRoot().add(dockLayoutComposite, {edge:0});
 
       // Create header
-      this._header = new feedreader.view.Header();
-      dockLayoutComposite.add(this._header, {edge: "north"});
+      this.__header = new feedreader.view.Header();
+      dockLayoutComposite.add(this.__header, {edge: "north"});
 
       // Create toolbar
-      this._toolBarView = new feedreader.view.ToolBar(this);
-      dockLayoutComposite.add(this._toolBarView, {edge: "north"});
+      this.__toolBarView = new feedreader.view.ToolBar(this);
+      dockLayoutComposite.add(this.__toolBarView, {edge: "north"});
 
       // Create horizontal splitpane for tree and list+article view
-      this._horizontalSplitPane = new qx.ui.splitpane.Pane();
-      dockLayoutComposite.add(this._horizontalSplitPane);
+      this.__horizontalSplitPane = new qx.ui.splitpane.Pane();
+      dockLayoutComposite.add(this.__horizontalSplitPane);
 
       // Create tree view
-      this._treeView = new qx.ui.tree.Tree();
-      this._treeView.setWidth(250);
-      this._treeView.setBackgroundColor("white");
-      this._horizontalSplitPane.add(this._treeView, 0);
+      this.__treeView = new qx.ui.tree.Tree();
+      this.__treeView.setWidth(250);
+      this.__treeView.setBackgroundColor("white");
+      this.__horizontalSplitPane.add(this.__treeView, 0);
 
       // Create vertical splitpane for list and detail view
-      this._verticalSplitPane = new qx.ui.splitpane.Pane("vertical");
-      this._verticalSplitPane.setDecorator(null);
-      this._horizontalSplitPane.add(this._verticalSplitPane, 1);
+      this.__verticalSplitPane = new qx.ui.splitpane.Pane("vertical");
+      this.__verticalSplitPane.setDecorator(null);
+      this.__horizontalSplitPane.add(this.__verticalSplitPane, 1);
 
       // Create the list view
-      this._listView = new feedreader.view.List(this._feedFolder);
-      this._listView.setHeight(200);
-      this._listView.setDecorator("main");
-      this._verticalSplitPane.add(this._listView, 0);
+      this.__listView = new feedreader.view.List(this.__feedFolder);
+      this.__listView.setHeight(200);
+      this.__listView.setDecorator("main");
+      this.__verticalSplitPane.add(this.__listView, 0);
 
       // Create article view
-      this._articleView = new feedreader.view.Article();
-      this._articleView.setDecorator("main");
-      this._verticalSplitPane.add(this._articleView, 1);
+      this.__articleView = new feedreader.view.Article();
+      this.__articleView.setDecorator("main");
+      this.__verticalSplitPane.add(this.__articleView, 1);
     },
 
 
@@ -443,7 +459,7 @@ qx.Class.define("feedreader.Application",
     addFeed : function(title, url, category)
     {
       var feed = new feedreader.model.Feed(title, url, category);
-      this._userFeedFolder.getFeeds().push(feed);
+      this.__userFeedFolder.getFeeds().push(feed);
 
       var loader = feedreader.io.FeedLoader.getInstance();
       loader.load(feed);
@@ -459,7 +475,7 @@ qx.Class.define("feedreader.Application",
       var feed = this.__treeController.getSelection().getItem(0);
       // if there is a feed and its not static
       if (feed && feed.getCategory && feed.getCategory() !== "static") {
-        var userFeeds = this._userFeedFolder.getFeeds();
+        var userFeeds = this.__userFeedFolder.getFeeds();
         // remove it
         for (var i = 0; i < userFeeds.length; i++) {
           if (feed === userFeeds.getItem(i)) {
@@ -477,7 +493,7 @@ qx.Class.define("feedreader.Application",
     reload : function()
     {
       var loader = feedreader.io.FeedLoader.getInstance();
-      loader.loadAll(this._feedFolder);
+      loader.loadAll(this.__feedFolder);
     },
 
 
@@ -489,17 +505,17 @@ qx.Class.define("feedreader.Application",
       qx.io2.PartLoader.require(["settings"], function()
       {
         // if the window is not created
-        if (!this._prefWindow)
+        if (!this.__prefWindow)
         {
           // create it
-          this._prefWindow = new feedreader.view.PreferenceWindow();
-          this.getRoot().add(this._prefWindow);
+          this.__prefWindow = new feedreader.view.PreferenceWindow();
+          this.getRoot().add(this.__prefWindow);
           this.showPreferences();
         }
   
         // open the window
-        this._prefWindow.center();
-        this._prefWindow.open();
+        this.__prefWindow.center();
+        this.__prefWindow.open();
       }, this);
     },
 
@@ -521,16 +537,16 @@ qx.Class.define("feedreader.Application",
       qx.io2.PartLoader.require(["addfeed"], function()
       {
         // if the window is not created
-        if (!this._addFeedWindow)
+        if (!this.__addFeedWindow)
         {
             // create it
-          this._addFeedWindow = new feedreader.view.AddFeedWindow(this);
-          this.getRoot().add(this._addFeedWindow);
+          this.__addFeedWindow = new feedreader.view.AddFeedWindow(this);
+          this.getRoot().add(this.__addFeedWindow);
         }
   
         // open the window
-        this._addFeedWindow.center();
-        this._addFeedWindow.open();
+        this.__addFeedWindow.center();
+        this.__addFeedWindow.open();
       }, this);
     }
   },
@@ -547,7 +563,7 @@ qx.Class.define("feedreader.Application",
   destruct : function()
   {
     this._disposeFields("__commands");
-    this._disposeObjects("_toolBarView", "_listView", "_articleView", "_treeView",
-        "_feedFolder", "_horizontalSplitPane", "_verticalSplitPane", "_header");
+    this._disposeObjects("__toolBarView", "__listView", "__articleView", "__treeView",
+        "__feedFolder", "__horizontalSplitPane", "__verticalSplitPane", "__header");
   }
 });
