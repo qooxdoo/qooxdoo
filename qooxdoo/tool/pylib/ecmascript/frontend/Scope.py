@@ -170,7 +170,6 @@ Function %s(%s):
 
         def findChainRoot(node):
             # find the root node for a chained expression like a.b().c()[0].d()
-
             current = node
 
             while current.hasParent() and current.parent.type in chainTypes:
@@ -179,6 +178,7 @@ Function %s(%s):
             return current  # this must be the chain root
 
         def findLeftmostIdentifier(node):
+            # find the leftmost child, assumed to be an identifier
             child = node
 
             while child.hasChildren():
@@ -192,32 +192,30 @@ Function %s(%s):
             return child
 
         def checkFirstChild(node):
-            # going up the tree, to find term root
+            # check if the given identifier is the first in a chained expression "a.b.c().d[]"
             chainRoot = findChainRoot(node)
-            #print "-- %s: %s(%d,%d)" % (node.get("name", False), chainRoot.type, chainRoot.get("line"), chainRoot.get("column"))
-            # going down the tree, to find "first child"
             leftmostIdentifier = findLeftmostIdentifier(chainRoot)
 
             # compare to current node
             if leftmostIdentifier == node:
-                isFirstChild = True
+                return True
             else:
-                isFirstChild = False
-
-            return isFirstChild
-
+                return False
 
 
         # - main ---------------------------------------------------------------
 
+        # -- Switch on node context
+
+        # "function", "catch":
         if node.type in ["function", "catch"]:
             return
 
-        # skip the identifier of catch clauses, e.g. the 'e' in 'catch(e)'
+        # "catch": skip the identifier of catch clauses, e.g. the 'e' in 'catch(e)'
         if node.type == "expression" and node.parent.type == "catch":
             return
 
-        # treat variables used in for-in loops as used variables
+        # "for-in": treat variables used in for-in loops as used variables
         if (
             node.type == "first" and
             node.parent.type == "operation" and
@@ -229,30 +227,16 @@ Function %s(%s):
                 yield (name, use)
                 return
 
-        # Handle all identifiers
+        # "identifier": 
         if node.type == "identifier":
             isFirstChild     = False
             isVariableMember = False
 
-            if node.parent.type == "variable":
+            # not sure why the next would be relevant for "accessor" type parents, but the
+            # old code treated it like this, and I keep it that way.
+            if node.parent.type in ("variable", "accessor"):
                 isVariableMember = True
                 isFirstChild = checkFirstChild(node)
-
-            # used in foo.bar.some[thing] where "some" is the identifier
-            elif node.parent.type == "accessor":
-                isVariableMember = True
-
-                if False: # old stuff
-                    accessor = node.parent
-                    while accessor.parent.type == "accessor":
-                        accessor = accessor.parent
-
-                    isFirstChild = accessor.parent.getFirstChild(True, True) == accessor
-                else:
-                    # NEW STUFF!
-                    isFstChld = checkFirstChild(node)
-                    #print "%s(%s,%s) : %r" % (node.get("name", False), node.get("line",False), node.get("column",False),isFstChld)
-                    isFirstChild = isFstChld
 
             # inside a variable parent only respect the first member
             if not isVariableMember or isFirstChild:
@@ -260,7 +244,7 @@ Function %s(%s):
                 if name:
                     yield (name, node)
 
-        # Iterate over children
+        # -- Recurse over children
         if node.hasChildren():
             for child in node.children:
                 for (name, use) in Scope.usedVariablesIterator(child):
