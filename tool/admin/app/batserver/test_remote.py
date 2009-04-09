@@ -71,40 +71,46 @@ mailConf = {
 }
 
 def main():
+    rc = 0
     if ( isSeleniumServer() ):
         print("Selenium server seems to be running.")
     else:
         seleniumserver()
     if ( isSeleniumServer() ):
-        invoke_external("svn up " + testConf['simulatorSvn'])
+        print("Updating Simulator checkout")
+        invoke_external("svn up " + testConf['simulatorSvn'])        
+        trunkrev = getRevision()
+        print("Qooxdoo revision: " + trunkrev)
 
         clearLogs()
         invoke_external(getStartCmd('Testrunner', 'IE'))
         invoke_external(getStartCmd('Testrunner', 'Safari4b'))
         invoke_external(testConf['logFormat'])
-        sendReport("Testrunner")
+        sendReport("Testrunner",trunkrev)
 
         clearLogs()
         invoke_external("wscript proxyEnable.vbs")
         invoke_external(getStartCmd('Demobrowser', 'IE'))
         invoke_external("wscript proxyDisable.vbs")
         invoke_external(testConf['logFormat'])
-        sendReport("Demobrowser")
+        sendReport("Demobrowser",trunkrev)
         invoke_external("wscript ProcessKillLocalSaf.vbs")
 
         clearLogs()
         invoke_external(getStartCmd('Feedreader', 'IE'))
         invoke_external(testConf['logFormat'])
-        sendReport("Feedreader")
+        sendReport("Feedreader",trunkrev)
 
         clearLogs()
         invoke_external(getStartCmd('Playground', 'IE'))
         invoke_external(testConf['logFormat'])
-        sendReport("Playground")
+        sendReport("Playground",trunkrev)
 
     else:
+        rc = 1
         print("Couldn't contact Selenium server.") 
 
+    return rc
 
 def invoke_external(cmd):
     import subprocess    
@@ -173,7 +179,7 @@ def sendReport(aut,trunkrev=""):
 
     reportFile = open(testConf['seleniumReport'], 'rb')
 
-    osRe = re.compile('<p>Browser: .* on (.*)</p>')
+    osRe = re.compile('<p>Platform: (.*)</p>')
     failedTestsRe = re.compile('<p class="failedtests">([\d]*)')
     totalErrorsRe = re.compile('<p class="totalerrors">Total errors in report: ([\d]*)</p>')
 
@@ -247,6 +253,11 @@ def clearLogs():
         print("Emptying Selenium report file " + testConf['seleniumReport'])
         f.write('')
         f.close()
+        
+def getRevision():
+  import urllib
+  data = urllib.urlopen(autConf['autHost'] + '/revision.txt').read()
+  return data
 
 if __name__ == "__main__":
     try:
