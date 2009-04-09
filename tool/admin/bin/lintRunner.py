@@ -301,7 +301,7 @@ def send_mail(html, target=None, messages=None):
     mailSubject += ' ' + options.subject
 
   if (messages):
-    mailSubject += ': ' + messages + ' messages'
+    mailSubject += ': ' + messages + ' issues'
     
 
   msg = MIMEMultipart()
@@ -344,7 +344,7 @@ def main():
   messages = 0
   for key in data:
     messages += len(data[key])
-  print("Found " + repr(messages) + " lint messages in " + repr(categories) + " categories")
+  print("Found " + repr(messages) + " lint issues in " + repr(categories) + " categories")
 
   if (options.outputfile):
     ext = options.outputfile[(len(options.outputfile)-4):len(options.outputfile)]
