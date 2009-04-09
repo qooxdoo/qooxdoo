@@ -55,21 +55,21 @@ qx.Class.define("feedreader.view.List",
     this._add(listHeader);
 
     // Create the stack for the list
-    this._stack = new qx.ui.container.Stack();
-    this._add(this._stack, {flex: 1});
+    this.__stack = new qx.ui.container.Stack();
+    this._add(this.__stack, {flex: 1});
 
     // create list view
-    this._list = new qx.ui.form.List();
-    this._list.setDecorator(null);
-    this._list.setSelectionMode("single");
-    this._stack.add(this._list);
+    this.__list = new qx.ui.form.List();
+    this.__list.setDecorator(null);
+    this.__list.setSelectionMode("single");
+    this.__stack.add(this.__list);
 
     // Create the loading image for the list
-    this._listLoadImage = new qx.ui.container.Composite(new qx.ui.layout.HBox(0, "center"));
+    this.__listLoadImage = new qx.ui.container.Composite(new qx.ui.layout.HBox(0, "center"));
     var loadImage = new qx.ui.basic.Image("feedreader/images/loading66.gif");
     loadImage.setAlignY("middle");
-    this._listLoadImage.add(loadImage);
-    this._stack.add(this._listLoadImage);
+    this.__listLoadImage.add(loadImage);
+    this.__stack.add(this.__listLoadImage);
   },
 
   
@@ -93,12 +93,18 @@ qx.Class.define("feedreader.view.List",
 
   members :
   {
+    // private members
+    __stack : null,
+    __list : null,
+    __listLoadImage : null,
+    
+    
     // property apply
     _applyLoading: function(value, old) {
       if (value) {
-        this._stack.setSelected(this._listLoadImage);        
+        this.__stack.setSelected(this.__listLoadImage);        
       } else {
-        this._stack.setSelected(this._list);        
+        this.__stack.setSelected(this.__list);        
       }
     },
     
@@ -109,7 +115,7 @@ qx.Class.define("feedreader.view.List",
      * @return {qx.ui.form.List} The used List.
      */
     getList: function() {
-      return this._list;
+      return this.__list;
     }
   },
 
@@ -123,6 +129,6 @@ qx.Class.define("feedreader.view.List",
 
   destruct : function()
   {
-    this._disposeObjects("_list", "_stack", "_listLoadImage");
+    this._disposeObjects("__list", "__stack", "__listLoadImage");
   }
 });
