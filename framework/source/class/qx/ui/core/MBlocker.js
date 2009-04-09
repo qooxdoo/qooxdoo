@@ -152,7 +152,8 @@ qx.Mixin.define("qx.ui.core.MBlocker",
       if (!this.__blocker)
       {
         this.__blocker = this.__createBlockerElement();
-        this.getContentElement().add(this.__blocker);
+        this.__blocker.setStyle("zIndex", 15);
+        this.getContainerElement().add(this.__blocker);
         this.__blocker.exclude();
       }
       return this.__blocker;
