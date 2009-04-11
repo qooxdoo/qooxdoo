@@ -166,3 +166,20 @@ def find(rootpath, pattern=None):
 
             yield os.path.join(path,filename)
 
+
+def findYoungest(rootpath, pattern=None):
+    # find the node with the most recent modified date
+
+    def lastModified(path):
+        return os.stat(path).st_mtime
+
+    youngest = rootpath
+    ymodified= lastModified(rootpath)
+
+    for path in find(rootpath, pattern):
+        m = lastModified(path)
+        if m > ymodified:
+            ymodified = m
+            youngest  = path
+
+    return (youngest, ymodified)
