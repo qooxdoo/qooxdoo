@@ -1,3 +1,24 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+################################################################################
+#
+#  qooxdoo - the new era of web development
+#
+#  http://qooxdoo.org
+#
+#  Copyright:
+#    2006-2009 1&1 Internet AG, Germany, http://www.1und1.de
+#
+#  License:
+#    LGPL: http://www.gnu.org/licenses/lgpl.html
+#    EPL: http://www.eclipse.org/org/documents/epl-v10.php
+#    See the LICENSE file in the project's top-level directory for details.
+#
+#  Authors:
+#    * Sebastian Werner (wpbasti)
+#
+################################################################################
+
 import copy, optparse
 
 from ecmascript import compiler
@@ -39,10 +60,46 @@ class TreeCompiler:
     def compileClasses(self, classes, variants, optimize, format):
         content = ""
         length = len(classes)
-
+        
         for pos, classId in enumerate(classes):
             self._console.progress(pos, length)
             content += self.getCompiled(classId, variants, optimize, format)
+            
+        return content
+
+
+    def compileClassesMT(self, classes, variants, optimize, format):
+        # multi-threaded version of compileClasses()
+        import threading
+        contA = []
+        threads = []
+        
+        def compileClass(classId):
+            contA.append(self.getCompiled(classId, variants, optimize, format))
+
+        for pos, classId in enumerate(classes):
+            t = threading.Thread(target=compileClass, args=(classId,))
+            threads.append(t)
+            t.start()
+            
+        length = len(threads)
+        #print "-- started %d threads" % length
+        
+        #from time import sleep
+        #while True:
+        #    finished = len([t for t in threads if t.isAlive() == False])
+        #    if finished >= length:
+        #        break
+        #    else:
+        #        self._console.progress(finished, length)
+        #        sleep(0.05)
+        
+        
+        for pos, t in enumerate(threads):
+            self._console.progress(pos, length)
+            t.join()
+            
+        content = ''.join(contA)
 
         return content
 
