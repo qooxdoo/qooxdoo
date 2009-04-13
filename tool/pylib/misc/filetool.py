@@ -18,7 +18,7 @@
 #
 ################################################################################
 
-import os, codecs, cPickle, sys, re
+import os, codecs, cPickle, sys, re, time
 import gzip as sys_gzip
 import textutil
 import roothelper
@@ -183,3 +183,54 @@ def findYoungest(rootpath, pattern=None):
             youngest  = path
 
     return (youngest, ymodified)
+
+
+def lockFileName(path):
+    return '.'.join((path, "lock"))
+
+
+def lock(path, id=None, timeout=None):
+    # create a lock file and return when we can safely access path
+
+    def timeIsOut():
+        now = time.time()
+        if now - starttime > timeout:
+            return True
+        else:
+            return False
+
+    starttime = time.time()
+    lockfile  = lockFileName(path)
+    if not id:
+        id = os.getpid()
+    
+    while True:
+        # check timeout
+        if timeout and timeIsOut():
+            return False
+
+        # wait for non-existence
+        if os.path.exists(lockfile):
+            time.sleep(0.05)
+            continue
+
+        # create file and write pid
+        open(lockfile,"w").write(repr(id))
+
+        # re-open and read contents, compare with pid
+        c = open(lockfile,"r").read()
+        c = int(c)
+        if c == pid:
+            break
+
+    return True
+
+
+def unlock(path):
+    lockfile = lockFileName(path)
+    if os.path.exists(lockfile) and os.path.isFile(lockfile):
+        os.path.unlink(lockfile)
+        return True
+    else:
+        return False
+
