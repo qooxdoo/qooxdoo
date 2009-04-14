@@ -390,6 +390,7 @@ qx.Class.define("qx.data.controller.Tree",
       if (this.getTarget() == null || this.getChildPath() == null) {
         return;
       }
+
       // check for the binding knowledge
       if (
         (this.getLabelPath() == null && this.getDelegate() == null)
@@ -739,7 +740,7 @@ qx.Class.define("qx.data.controller.Tree",
         if (old != null && old.bindItem != null && value.bindItem == old.bindItem) {
           return;
         }
-        this.__renewBindings();
+        this.__buildTree();
       }
     }      
   }
