@@ -69,6 +69,9 @@ qx.Mixin.define("qx.ui.core.MMovable",
     __parentLeft : null,
     __parentTop : null,
 
+    __blockerAdded : false,
+    __oldBlockerColor : null,
+    __oldBlockerOpacity : null,
 
     /*
     ---------------------------------------------------------------------------
@@ -188,7 +191,14 @@ qx.Mixin.define("qx.ui.core.MMovable",
 
       // Added a blocker, this solves the issue described in bug report #1462
       if (qx.Class.implementsInterface(parent, qx.ui.window.IDesktop)) {
-        if (!this.getModal()) {
+        if (!parent.isContentBlocked()) {
+          this.__blockerAdded = true;
+          
+          this.__oldBlockerColor = parent.getBlockerColor();
+          this.__oldBlockerOpacity = parent.getBlockerOpacity();
+          parent.setBlockerColor(null);
+          parent.setBlockerOpacity(1);
+          
           parent.blockContent(this.getZIndex() - 1);
         }
       }
@@ -268,8 +278,13 @@ qx.Mixin.define("qx.ui.core.MMovable",
       // Removed blocker, this solves the issue described in bug report #1462
       var parent = this.getLayoutParent();
       if (qx.Class.implementsInterface(parent, qx.ui.window.IDesktop)) {
-        if (!this.getModal()) {
-          parent.unblockContent();            
+        if (this.__blockerAdded) {
+          parent.unblockContent();
+          
+          parent.setBlockerColor(this.__oldBlockerColor);
+          parent.setBlockerOpacity(this.__oldBlockerOpacity);
+          this.__oldBlockerColor = null;
+          this.__oldBlockerOpacity = null;
         }
       }
       
