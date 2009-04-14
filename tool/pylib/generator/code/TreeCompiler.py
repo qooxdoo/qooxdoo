@@ -71,35 +71,26 @@ class TreeCompiler:
     def compileClassesMT(self, classes, variants, optimize, format):
         # multi-threaded version of compileClasses()
         import threading
-        contA = []
+        contA = {}
         threads = []
         
-        def compileClass(classId):
-            contA.append(self.getCompiled(classId, variants, optimize, format))
+        def compileClass(classId, pos):
+            contA[pos] = (self.getCompiled(classId, variants, optimize, format))
 
         for pos, classId in enumerate(classes):
-            t = threading.Thread(target=compileClass, args=(classId,))
+            t = threading.Thread(target=compileClass, args=(classId, pos))
             threads.append(t)
             t.start()
             
         length = len(threads)
-        #print "-- started %d threads" % length
-        
-        #from time import sleep
-        #while True:
-        #    finished = len([t for t in threads if t.isAlive() == False])
-        #    if finished >= length:
-        #        break
-        #    else:
-        #        self._console.progress(finished, length)
-        #        sleep(0.05)
-        
-        
+
         for pos, t in enumerate(threads):
             self._console.progress(pos, length)
             t.join()
             
-        content = ''.join(contA)
+        content = u''
+        for i in sorted(contA.keys()):
+            content += contA[i]
 
         return content
 
