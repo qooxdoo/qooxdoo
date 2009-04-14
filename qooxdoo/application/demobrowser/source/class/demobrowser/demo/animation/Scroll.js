@@ -37,32 +37,27 @@ qx.Class.define("demobrowser.demo.animation.Scroll",
       // Only one effect should be executed at the same time in gloabl queue
       qx.fx.queue.Manager.getInstance().getDefaultQueue().setLimit(1);
 
-      var animScrollDown = new qx.fx.effect.core.Scroll(myElement).set(
-      {
+      var animScrollDown = new qx.fx.effect.core.Scroll(myElement).set({
         y          : 100,
         transition : "sinodial"
       });
 
-      var animScrollUp = new qx.fx.effect.core.Scroll(myElement).set(
-      {
+      var animScrollUp = new qx.fx.effect.core.Scroll(myElement).set({
         y          : -100,
         transition : "spring"
       });
 
-      var animScrollLeft = new qx.fx.effect.core.Scroll(myElement).set(
-      {
+      var animScrollLeft = new qx.fx.effect.core.Scroll(myElement).set({
         x          : -100,
         transition : "spring"
       });
 
-      var animScrollRight = new qx.fx.effect.core.Scroll(myElement).set(
-      {
+      var animScrollRight = new qx.fx.effect.core.Scroll(myElement).set({
         x          : 100,
         transition : "sinodial"
       });
 
-      var animScrollTo = new qx.fx.effect.core.Scroll(myElement).set(
-      {
+      var animScrollTo = new qx.fx.effect.core.Scroll(myElement).set({
         x          :  40,
         y          : 100,
         mode       : "absolute"
