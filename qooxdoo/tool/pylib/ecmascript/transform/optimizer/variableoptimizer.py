@@ -92,15 +92,18 @@ def search(node):
         for varUse in var.uses:  # varUse is a VariableUse object
             update(varUse.node, newname)
 
+    def getAllVarOccurrences(script):
+        # Collect the set of all used and declared ('var' + params) variables
+        varset = set(())
+        for scope in script.iterScopes():
+            varset.update((x.name for x in scope.arguments + scope.variables + scope.uses))
+        return varset
+
     global counter
     counter = 0 # reset repl name generation
 
-    # Collect the set of all used variables
-    script = Script(node)
-    varset = set([])
-
-    for scope in script.iterScopes():
-        varset.update((x.name for x in scope.uses))
+    script   = Script(node)
+    checkSet = getAllVarOccurrences(script)  # set of var names already in use, to check new names against
 
     # loop through declared vars of scopes
     for scope in script.iterScopes():
@@ -111,7 +114,7 @@ def search(node):
                 continue
 
             # get replacement name
-            newname = mapper(var.name, varset)
+            newname = mapper(var.name, checkSet)
 
             # update all occurrences in scope
             updateOccurences(var, newname)
