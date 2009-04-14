@@ -64,6 +64,12 @@ qx.Bootstrap.define("qx.bom.client.Feature",
 
     /** {Boolean} Flag to detect if the client supports XPATH queries */
     XPATH : false,
+    
+    /** {Boolean} Flag to detect if is an AIR client */
+    AIR : false,
+    
+    /** {Boolean} Flag to detect if is a Gears client */
+    GEARS : false,
 
 
     /**
@@ -83,7 +89,6 @@ qx.Bootstrap.define("qx.bom.client.Feature",
       this.CANVAS = !!window.CanvasRenderingContext2D;
       this.VML = qx.bom.client.Engine.MSHTML;
 
-      // TODO Please check why it isn't defined in statics section
       this.AIR = navigator.userAgent.indexOf("adobeair") !== -1;
       this.GEARS = !!(window.google && window.google.gears);
 
