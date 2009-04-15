@@ -260,7 +260,18 @@ qx.Class.define("qx.event.type.Mouse",
 
       "gecko" : function() {
         return this._native.detail;
+      },
+
+      "webkit" : function()
+      {
+        // TODO: Change this line as soon as bug #1783 is fixed!
+        if (window.navigator.userAgent.indexOf("Chrome") !== -1) {
+          return -(this._native.wheelDelta / 120);
+        } else {
+          return -(this._native.wheelDelta / 40);
+        }
       }
+
     })
   }
 });
