@@ -50,7 +50,6 @@ seleniumConf = {
 }
 
 testConf = {
-  'svnRev'              : 'svnversion /var/www/qx/trunk',
   'qxPathAbs'           : '/var/www/qx/trunk/qooxdoo',  
   'classPath'           : '/home/dwagner/qxselenium/selenium-java-client-driver.jar:/home/dwagner/rhino1_7R1/js.jar',
   'simulatorSvn'        : '/home/dwagner/workspace/qooxdoo.contrib/Simulator'
@@ -86,8 +85,8 @@ mailConf = {
   'reportFile'          : seleniumConf['seleniumReport'],
   'archiveDir'          : '/home/dwagner/qxselenium/reports',
   'mailFrom'            : 'daniel.wagner@1und1.de',
-  'mailTo'              : 'daniel.wagner@1und1.de',
-  #'mailTo'              : 'webtechnologies@1und1.de',
+  #'mailTo'              : 'daniel.wagner@1und1.de',
+  'mailTo'              : 'webtechnologies@1und1.de',
   'smtpHost'            : 'smtp.1und1.de',
   'smtpPort'            : 587
 }
@@ -98,66 +97,50 @@ lintConf = {
   'other'               : ['framework']
 }
 
+appConf = {
+  'Testrunner'          : {
+                            'clearLogs' : True,
+                            'sendReport' : True,
+                            'killBrowser' : True,
+                            'browsers' : ['FF15', 'FF2', 'FF308', 'FF31b3', 'Opera964']                            
+                          },
+  'Demobrowser'         : {
+                            'clearLogs' : True,
+                            'sendReport' : True,
+                            'killBrowser' : True,
+                            'browsers' : ['FF308', 'Opera964']                            
+                          },
+  'Feedreader'          : {
+                            'clearLogs' : True,
+                            'sendReport' : True,
+                            'killBrowser' : True,
+                            'browsers' : ['FF15', 'FF2', 'FF308', 'FF31b3', 'Opera964']                            
+                          },
+  'Playground'          : {
+                            'clearLogs' : True,
+                            'sendReport' : True,
+                            'killBrowser' : True,
+                            'browsers' : ['FF15', 'FF2', 'FF308', 'FF31b3', 'Opera964']
+                          }
+}
+
 def main():
   localTest = qxtest.QxTest("local", seleniumConf, testConf, autConf, browserConf, mailConf)
 
-  rc = 0    
+  rc = 0
   if ( localTest.isSeleniumServer() ):
     print("Selenium server seems to be running.")
   else:
     localTest.startSeleniumServer()
   if ( localTest.isSeleniumServer() ):
 
-    #print("Updating Simulator checkout")
-    #qxtest.invokeExternal("svn up " + testConf["simulatorSvn"])
-    #localTest.buildAll(buildConf)
+    print("Updating Simulator checkout")
+    qxtest.invokeExternal("svn up " + testConf["simulatorSvn"])
+    
+    localTest.buildAll(buildConf)
     localTest.runLint(lintConf)
-
-    """localTest.clearLogs()
-    qxtest.invokeExternal(localTest.getStartCmd('Testrunner','FF15'))
-    qxtest.invokeExternal('pkill firefox')
-    qxtest.invokeExternal(localTest.getStartCmd('Testrunner','FF2'))
-    qxtest.invokeExternal('pkill firefox')
-    qxtest.invokeExternal(localTest.getStartCmd('Testrunner','FF308'))
-    qxtest.invokeExternal('pkill firefox')
-    qxtest.invokeExternal(localTest.getStartCmd('Testrunner','FF31b3'))
-    qxtest.invokeExternal('pkill firefox')
-    qxtest.invokeExternal(localTest.getStartCmd('Testrunner','Opera964'))
-    localTest.formatLog()    
-    localTest.sendReport("Testrunner")        
     
-    localTest.clearLogs()
-    qxtest.invokeExternal(localTest.getStartCmd('Demobrowser','Opera964'))
-    qxtest.invokeExternal(localTest.getStartCmd('Demobrowser','FF308'))
-    qxtest.invokeExternal('pkill firefox')
-    localTest.formatLog()    
-    localTest.sendReport("Demobrowser")"""        
-    
-    """localTest.clearLogs()
-    qxtest.invokeExternal(localTest.getStartCmd('Feedreader','FF15'))
-    qxtest.invokeExternal('pkill firefox')
-    qxtest.invokeExternal(localTest.getStartCmd('Feedreader','FF2'))
-    qxtest.invokeExternal('pkill firefox')
-    qxtest.invokeExternal(localTest.getStartCmd('Feedreader','FF308'))
-    qxtest.invokeExternal('pkill firefox')                
-    qxtest.invokeExternal(localTest.getStartCmd('Feedreader','FF31b3'))
-    qxtest.invokeExternal('pkill firefox')
-    qxtest.invokeExternal(localTest.getStartCmd('Feedreader','Opera964'))
-    localTest.formatLog()    
-    localTest.sendReport("Feedreader")"""
-    
-    """localTest.clearLogs()
-    qxtest.invokeExternal(localTest.getStartCmd('Playground','FF15'))
-    qxtest.invokeExternal('pkill firefox')
-    qxtest.invokeExternal(localTest.getStartCmd('Playground','FF2'))
-    qxtest.invokeExternal('pkill firefox')
-    qxtest.invokeExternal(localTest.getStartCmd('Playground','FF308'))
-    qxtest.invokeExternal('pkill firefox')
-    qxtest.invokeExternal(localTest.getStartCmd('Playground','FF31b3'))
-    qxtest.invokeExternal('pkill firefox')
-    qxtest.invokeExternal(localTest.getStartCmd('Playground','Opera964'))
-    localTest.formatLog()
-    localTest.sendReport("Playground")"""
+    localTest.runTests(appConf)
 
   else:
     rc = 1
