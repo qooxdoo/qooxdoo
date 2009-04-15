@@ -129,6 +129,11 @@ qx.Class.define("portal.box.Box",
    * ******************************************************/
   members :
   {
+    __id : null,
+    __boxData : null,
+    __draggableComponent : null,
+    __resizableComponent : null,
+    
     /**
      * Apply method for the "active" property
      * 

@@ -64,12 +64,12 @@ qx.Class.define("portal.dragdrop.Manager",
    * ******************************************************/
   members :
   {
-    __activeBoxInfo   : null,
+    __activeBoxInfo : null,
     __currentGroupBox : null,
-    __groupBoxChange  : false,
-    __positions       : null,
-    __groupBoxInfos   : null,
-    
+    __groupBoxChange : false,
+    __positions : null,
+    __groupBoxInfos : null,
+    __ghost : null,
     
     
     /**
