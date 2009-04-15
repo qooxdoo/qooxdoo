@@ -96,7 +96,7 @@ qx.Class.define("qx.dev.unit.TestSuite",
         }
         else
         {
-          this.addFail("exsitsCheck", "Unkown test class '" + testClassOrNamespace + "'!");
+          this.addFail("exsitsCheck", "Unknown test class '" + testClassOrNamespace + "'!");
           return;
         }
       }
