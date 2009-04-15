@@ -297,7 +297,7 @@ class QxTest():
       procName = "iexplore"
       
     if "afari" in browserFull:
-      procName = "Safari"
+      procName = "safari"
     
     if "hrome" in browserFull:
       procName = "chrome"
@@ -308,26 +308,25 @@ class QxTest():
         invokeExternal("pkill " + procName)
       else:
         procName += ".exe"
-        print("TODO: Killing Windows browser process: " + procName)
+        print("Killing Windows browser process: " + procName)
+        invokeExternal("wscript kill" + procName + ".vbs")
     
     else:
       print("Unable to determine browser process name")    
 
 
   # Activate the proxy setting for browsers started with the *custom launcher
-  def setProxy(self, prox):
-    
-    
+  def setProxy(self, prox):        
     if (prox):
       if (self.os == "Windows"):
         print("Activating proxy setting in Windows registry")
-        invokeExternal("wscript proxyEnable.vbs")
+        invokeExternal(self.testConf['proxyEnable'])
       else:
         print("Error: Can't enable proxy on non-Windows system!")
     else:
       if (self.os == "Windows"):
         print("Deactivating proxy setting in Windows registry")
-        invokeExternal("wscript proxyDisable.vbs")
+        invokeExternal(self.testConf['proxyDisable'])
       else:
         print("Error: Can't disable proxy on non-Windows system!")
 
