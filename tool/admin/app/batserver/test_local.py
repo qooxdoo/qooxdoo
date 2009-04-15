@@ -73,20 +73,19 @@ autConf = {
 }
 
 browserConf = {
-  'FF308'               : '*custom /usr/lib/firefox-3.0.8/firefox -no-remote -P selenium-3',
-  'FF31b2'              : '*custom /home/dwagner/firefox-31b2/firefox -no-remote -P selenium-31b2',
-  'FF31b3'              : '*custom /home/dwagner/firefox-31b3/firefox -no-remote -P selenium-31b3',
+  'FF3'                 : '*custom /usr/lib/firefox-3.0.8/firefox -no-remote -P selenium-3',
+  'FF31'                : '*custom /home/dwagner/firefox-31b3/firefox -no-remote -P selenium-31b3',
   'FF2'                 : '*custom /home/dwagner/firefox2/firefox -no-remote -P selenium-2',
   'FF15'                : '*custom /home/dwagner/firefox-15/firefox -P selenium-15',
-  'Opera964'            : '*opera'
+  'Opera96'             : '*opera'
 }
 
 mailConf = {
   'reportFile'          : seleniumConf['seleniumReport'],
   'archiveDir'          : '/home/dwagner/qxselenium/reports',
   'mailFrom'            : 'daniel.wagner@1und1.de',
-  #'mailTo'              : 'daniel.wagner@1und1.de',
-  'mailTo'              : 'webtechnologies@1und1.de',
+  'mailTo'              : 'daniel.wagner@1und1.de',
+  #'mailTo'              : 'webtechnologies@1und1.de',
   'smtpHost'            : 'smtp.1und1.de',
   'smtpPort'            : 587
 }
@@ -97,31 +96,104 @@ lintConf = {
   'other'               : ['framework']
 }
 
-appConf = {
-  'Testrunner'          : {
-                            'clearLogs' : True,
-                            'sendReport' : True,
-                            'killBrowser' : True,
-                            'browsers' : ['FF15', 'FF2', 'FF308', 'FF31b3', 'Opera964']                            
-                          },
-  'Demobrowser'         : {
-                            'clearLogs' : True,
-                            'sendReport' : True,
-                            'killBrowser' : True,
-                            'browsers' : ['FF308', 'Opera964']                            
-                          },
-  'Feedreader'          : {
-                            'clearLogs' : True,
-                            'sendReport' : True,
-                            'killBrowser' : True,
-                            'browsers' : ['FF15', 'FF2', 'FF308', 'FF31b3', 'Opera964']                            
-                          },
-  'Playground'          : {
-                            'clearLogs' : True,
-                            'sendReport' : True,
-                            'killBrowser' : True,
-                            'browsers' : ['FF15', 'FF2', 'FF308', 'FF31b3', 'Opera964']
-                          }
+testrunnerConf = {
+  'appName' : 'Testrunner',
+  'clearLogs' : True,
+  'sendReport' : True,
+  'browsers' : [    
+    {
+       'browserId' : 'FF2',
+       'kill' : True
+    },
+    {
+       'browserId' : 'FF3',
+       'kill' : True
+    },
+    {
+       'browserId' : 'FF31',
+       'kill' : True
+    },
+    {
+       'browserId' : 'FF15',
+       'kill' : True
+    },
+    {
+       'browserId' : 'Opera96',
+       'kill' : True
+    }
+  ]         
+}
+
+demobrowserConf = {
+  'appName' : 'Demobrowser',
+  'clearLogs' : True,
+  'sendReport' : True,
+  'browsers' : [
+    {
+       'browserId' : 'FF3',
+       'kill' : True
+    },
+    {
+       'browserId' : 'Opera96',
+       'kill' : True
+    }
+  ]         
+}
+
+feedreaderConf = {
+  'appName' : 'Feedreader',
+  'clearLogs' : True,
+  'sendReport' : True,
+  'browsers' : [
+    {
+       'browserId' : 'FF2',
+       'kill' : True
+    },
+    {
+       'browserId' : 'FF3',
+       'kill' : True
+    },
+    {
+       'browserId' : 'FF31',
+       'kill' : True
+    },
+    {
+       'browserId' : 'FF15',
+       'kill' : True
+    },
+    {
+       'browserId' : 'Opera96',
+       'kill' : True
+    }
+  ]         
+}
+
+playgroundConf = {
+  'appName' : 'Playground',
+  'clearLogs' : True,
+  'sendReport' : True,
+  'browsers' : [
+    {
+       'browserId' : 'FF2',
+       'kill' : True
+    },
+    {
+       'browserId' : 'FF3',
+       'kill' : True
+    },
+    {
+       'browserId' : 'FF31',
+       'kill' : True
+    },
+    {
+       'browserId' : 'FF15',
+       'kill' : True
+    },
+    {
+       'browserId' : 'Opera96',
+       'kill' : True
+    }
+  ]         
 }
 
 def main():
@@ -140,7 +212,10 @@ def main():
     localTest.buildAll(buildConf)
     localTest.runLint(lintConf)
     
-    localTest.runTests(appConf)
+    localTest.runTests(testrunnerConf)
+    localTest.runTests(demobrowserConf)
+    localTest.runTests(feedreaderConf)
+    localTest.runTests(playgroundConf)
 
   else:
     rc = 1

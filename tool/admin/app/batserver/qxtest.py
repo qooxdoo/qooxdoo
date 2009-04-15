@@ -39,6 +39,17 @@ class QxTest():
     else:
       self.getRemoteRevision()
 
+    self.os = None
+    try:   
+      self.os = os.uname()[0]
+    except AttributeError:
+      try:
+        import platform
+        self.os = platform.system()
+      except:
+        self.os = "Unknown"
+        print("ERROR: Couldn't determine operating system!")
+
     import socket
     socket.setdefaulttimeout(10)
 
@@ -132,23 +143,38 @@ class QxTest():
 
   # Run tests for defined applications
   def runTests(self, appConf):
-    for app in appConf:
       
-      if appConf[app]['clearLogs']:
-        self.clearLogs()
+    if appConf['clearLogs']:
+      self.clearLogs()
+
+    for browser in appConf['browsers']:      
+      print("Testing: " + appConf['appName'] + " on " + browser['browserId'])        
+      cmd = self.getStartCmd(appConf['appName'], browser['browserId'])
       
-      for browser in appConf[app]['browsers']:
-        print("Testing: " + app + " on " + browser)        
-        cmd = self.getStartCmd(app, browser)
-        #print(cmd)
-        invokeExternal(cmd)
-        
-        if appConf[app]['killBrowser']:
-          self.killBrowser(browser)
+      try:
+        if (browser['setProxy']):
+          self.setProxy(True)
+      except KeyError:
+          pass
       
-      if (appConf[app]['sendReport']):
-        self.formatLog()
-        self.sendReport(app)
+      #print("Starting test with command:\n " + cmd)
+      invokeExternal(cmd)
+      
+      try:
+        if (browser['setProxy']):
+          self.setProxy(False)
+      except KeyError:
+          pass
+
+      try:
+        if (browser['kill']):
+          self.killBrowser(browser['browserId'])
+      except KeyError:
+          pass  
+
+    if (appConf['sendReport']):
+      self.formatLog()
+      self.sendReport(appConf['appName'])
 
 
   # Assembles the shell command that launches the actual test in Rhino.
@@ -277,7 +303,7 @@ class QxTest():
       procName = "chrome"
     
     if procName:
-      if os.uname()[0] == "Linux":
+      if self.os == "Linux":
         print("Killing Linux browser process: " + procName)      
         invokeExternal("pkill " + procName)
       else:
@@ -287,6 +313,23 @@ class QxTest():
     else:
       print("Unable to determine browser process name")    
 
+
+  # Activate the proxy setting for browsers started with the *custom launcher
+  def setProxy(self, prox):
+    
+    
+    if (prox):
+      if (self.os == "Windows"):
+        print("Activating proxy setting in Windows registry")
+        invokeExternal("wscript proxyEnable.vbs")
+      else:
+        print("Error: Can't enable proxy on non-Windows system!")
+    else:
+      if (self.os == "Windows"):
+        print("Deactivating proxy setting in Windows registry")
+        invokeExternal("wscript proxyDisable.vbs")
+      else:
+        print("Error: Can't disable proxy on non-Windows system!")
 
   # Run Ecmalint on targets defined in lintConf
   def runLint(self,lintConf):    
