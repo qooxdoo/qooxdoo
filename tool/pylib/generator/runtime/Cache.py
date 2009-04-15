@@ -75,6 +75,11 @@ class Cache:
         self.write(multiId, saved, True)
 
 
+    ##
+    # Read an object from cache.
+    # 
+    # @param dependsOn  file name to compare cache file against
+    # @param memory     if read from disk keep value also in memory; improves subsequent access
     def read(self, cacheId, dependsOn=None, memory=False):
         if memcache.has_key(cacheId):
             return memcache[cacheId]
@@ -106,6 +111,11 @@ class Cache:
             return None
 
 
+    ##
+    # Write an object to cache.
+    # 
+    # @param memory         keep value also in memory; improves subsequent access
+    # @param writeToFile    write value to disk
     def write(self, cacheId, content, memory=False, writeToFile=True):
         filetool.directory(self._path)
         cacheFile = os.path.join(self._path, self.filename(cacheId))
