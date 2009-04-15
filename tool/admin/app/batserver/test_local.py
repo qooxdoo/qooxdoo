@@ -52,7 +52,9 @@ seleniumConf = {
 testConf = {
   'qxPathAbs'           : '/var/www/qx/trunk/qooxdoo',  
   'classPath'           : '/home/dwagner/qxselenium/selenium-java-client-driver.jar:/home/dwagner/rhino1_7R1/js.jar',
-  'simulatorSvn'        : '/home/dwagner/workspace/qooxdoo.contrib/Simulator'
+  'simulatorSvn'        : '/home/dwagner/workspace/qooxdoo.contrib/Simulator',
+  'proxyEnable'         : 'wscript proxyEnable.vbs',
+  'proxyDisable'        : 'wscript proxyDisable.vbs'
 }
 
 buildConf = {
