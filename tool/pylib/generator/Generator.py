@@ -48,11 +48,6 @@ import simplejson
 from robocopy import robocopy
 
 
-# Used for library data caching in memory
-# Reduces execution time for multi-job calls
-memcache = {}
-
-
 class Generator:
     def __init__(self, config, job, console_):
         global console
@@ -185,17 +180,33 @@ class Generator:
                     raise RuntimeError("Unable to look up library \"%s\" in Job definition" % path)
                 return lib
 
-            for entry in library:
-                key  = entry["path"]
+            def mostRecentlyChangedIn(lib):  # this should go into another class
+                youngFiles = {}
+                # for each interesting library part
+                for category in ["class", "translation", "resource"]:
+                    catPath = os.path.normpath(os.path.join(lib["path"], lib[category]))
+                    # find youngest file
+                    file, mtime = filetool.findYoungest(catPath)
+                    youngFiles[mtime] = file
 
-                if memcache.has_key(key):
+                # and return the maximum of those
+                ytime = sorted(youngFiles.keys())[-1]
+                return (youngFiles[ytime], ytime)
+
+            for lib in library:
+                key  = lib["path"]
+
+                checkFile = mostRecentlyChangedIn(lib)[0]
+                cacheId   = "lib-%s" % key
+                path      = self._cache.read(cacheId, checkFile, memory=True)
+                if path:
                     self._console.debug("Use memory cache for %s" % key)
-                    path = memcache[key]
                 else:
-                    path = LibraryPath(entry, self._console)
+                    path = LibraryPath(lib, self._console)
                     namespace = getJobsLib(key)['namespace']
                     path._namespace = namespace  # patch namespace
                     path.scan()
+                    self._cache.write(cacheId, path, memory=True)
 
                 namespace = path.getNamespace()
                 #namespace = getJobsLib(key)['namespace']
@@ -206,9 +217,7 @@ class Generator:
 
                 _docs.update(path.getDocs())
                 _translations[namespace] = path.getTranslations()
-                _libs[namespace] = entry
-
-                memcache[key] = path
+                _libs[namespace] = lib
 
             self._console.outdent()
             self._console.debug("Loaded %s libraries" % len(_namespaces))
