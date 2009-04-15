@@ -47,6 +47,11 @@ qx.Class.define("portal.box.Draggable",
    * ******************************************************/
   members :
   {
+    __box : null,
+    __element : null,
+    __handle : null,
+    __offsets : null,
+    
     /**
      * Return the box
      *

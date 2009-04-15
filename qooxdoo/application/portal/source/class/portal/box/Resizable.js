@@ -84,6 +84,14 @@ qx.Class.define("portal.box.Resizable",
 
     /** Hash to store the data of the mouse move events */
     __mouseMoveData : null,
+    
+    __box : null,
+    __element : null,
+    __handles : null,
+    __options : null,
+    __capturingPhase : false,
+    __capturedElement : null,
+    
 
     /**
      * Return the box
