@@ -390,6 +390,12 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
     
     __setStates : function(states)
     {
+
+      // Avoid errors if no states are set
+      if (!states) {
+        states = {};
+      }
+
       var appearance = this.getAppearance();
       var statesKey = appearance + "-" + qx.lang.Object.getKeys(states).sort().join(" ");
       if (this.__statesKey == statesKey) {
