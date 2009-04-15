@@ -824,7 +824,11 @@ qx.Class.define("testrunner.runner.TestRunner",
           var currNode = children[i];
           var firstChar = currNode.label.charAt(0);
 
-         var ns = testrunner.runner.TestRunner.TREEICONS;
+          var ns = testrunner.runner.TestRunner.TREEICONS;
+
+          if (qx.bom.client.Engine.MSHTML) {
+            var ns = testrunner.runner.TestRunner.TREEICONSOK;
+          }          
           
           if (currNode.hasChildren())
           {
@@ -1006,7 +1010,9 @@ qx.Class.define("testrunner.runner.TestRunner",
           that.appender(this.tr("Test '") + test.getFullName() + this.tr("' failed: ") + ex.message() + " - " + ex.getComment());
           that.widgets["progresspane.progressbar"].update(String(tstCurr + "/" + tstCnt));
           tstCurr++;
-          that.__markTree(e.getData().test.getFullName(), "failure");
+          if (!qx.bom.client.Engine.MSHTML) {
+            that.__markTree(e.getData().test.getFullName(), "failure");
+          }
         },
         that);
 
@@ -1022,7 +1028,9 @@ qx.Class.define("testrunner.runner.TestRunner",
           that.appender(this.tr("The test '") + e.getData().test.getFullName() + this.tr("' had an error: ") + ex, ex);
           that.widgets["progresspane.progressbar"].update(String(tstCurr + "/" + tstCnt));
           tstCurr++;
-          that.__markTree(e.getData().test.getFullName(), "error");
+          if (!qx.bom.client.Engine.MSHTML) {
+            that.__markTree(e.getData().test.getFullName(), "error");
+          }
         },
         that);
 
@@ -1041,7 +1049,9 @@ qx.Class.define("testrunner.runner.TestRunner",
             that.setQueCnt(that.getQueCnt() - 1);
             that.widgets["progresspane.progressbar"].update(String(tstCurr + "/" + tstCnt));
             tstCurr++;
-            that.__markTree(e.getData().getFullName(), "success");            
+            if (!qx.bom.client.Engine.MSHTML) {
+              that.__markTree(e.getData().getFullName(), "success");
+            }            
           }
           
           if (!this.getStopped()) {
