@@ -42,6 +42,7 @@ class QxTest():
     import socket
     socket.setdefaulttimeout(10)
 
+
   # Start the Selenium RC server and check its status.
   def startSeleniumServer(self):
     import subprocess, time
@@ -60,6 +61,7 @@ class QxTest():
         print "Selenium server not responding."
         sys.exit(1)
 
+
   # Send an HTTP request to the Selenium proxy. A 403 response means it's running.
   def isSeleniumServer(self):
     from urllib2 import Request, urlopen, URLError
@@ -74,6 +76,7 @@ class QxTest():
         if (e.code == 403):
           status = True
     return status
+
 
   # Builds all targets listed in buildConf.
   def buildAll(self, buildConf):
@@ -99,6 +102,7 @@ class QxTest():
     self.trunkrev = self.getLocalRevision()
     self.storeRevision()
 
+
   # Returns the SVN checkout's revision number
   def getLocalRevision(self):
     ret,out,err = invokePiped(self.testConf["svnRev"])
@@ -107,6 +111,8 @@ class QxTest():
     print("Local qooxdoo checkout at revision " + self.trunkrev)
     return rev    
   
+
+  # Writes the revision number of a local qooxdoo checkout to a file
   def storeRevision(self):
     fPath = os.path.join(self.testConf['qxPathAbs'],'revision.txt')
     print("Storing revision number " + self.trunkrev + " in file " + fPath)
@@ -114,12 +120,36 @@ class QxTest():
     rFile.write(self.trunkrev)
     rFile.close()  
 
+
+  # Reads the qooxdoo checkout's revision number from a file on the test host
   def getRemoteRevision(self):
     import urllib
     rev = urllib.urlopen(self.autConf['autHost'] + '/revision.txt').read()
     self.trunkrev = rev
     print("Remote qooxdoo checkout at revision " + self.trunkrev)
     return rev
+
+
+  # Run tests for defined applications
+  def runTests(self, appConf):
+    for app in appConf:
+      
+      if appConf[app]['clearLogs']:
+        self.clearLogs()
+      
+      for browser in appConf[app]['browsers']:
+        print("Testing: " + app + " on " + browser)        
+        cmd = self.getStartCmd(app, browser)
+        #print(cmd)
+        #invokeExternal(cmd)
+        
+        if appConf[app]['killBrowser']:
+          self.killBrowser(browser)
+      
+      if (appConf[app]['sendReport']):
+        #self.formatLog()
+        self.sendReport(app)
+
 
   # Assembles the shell command that launches the actual test in Rhino.
   def getStartCmd(self, aut, browser):
@@ -138,7 +168,7 @@ class QxTest():
   def sendReport(self, aut):    
     import re
     
-    print("Report: " + self.mailConf['reportFile'])
+    print("Preparing to send " + aut + " report: " + self.mailConf['reportFile'])
     if ( not(os.path.exists(self.mailConf['reportFile'])) ):
       print "Report file not found, quitting."
       sys.exit(1)
@@ -198,6 +228,7 @@ class QxTest():
     shutil.move(newname, self.mailConf['archiveDir'])"""
 
 
+  # Run logFormatter on Selenium log file 
   def formatLog(self):
     
     class FormatterOpts():
@@ -206,9 +237,11 @@ class QxTest():
        self.htmlfile = htmlfile
        
     options = FormatterOpts(self.seleniumConf['seleniumLog'], self.seleniumConf['seleniumReport'])      
-      
+    print("Formatting log file " + self.seleniumConf['seleniumLog'])  
     logformat = QxLogFormat(options)
 
+
+  # Clear Selenium log file and report HTML file
   def clearLogs(self):
     if (os.path.exists(self.seleniumConf['seleniumLog'])):
       f = open(self.seleniumConf['seleniumLog'], 'w')
@@ -223,6 +256,39 @@ class QxTest():
       f.close()
 
 
+# Kill a browser process to make sure subsequent tests can launch the same browser
+  def killBrowser(self, browser):    
+    browserFull = self.browserConf[browser]
+    procName = None
+    
+    if "firefox" in browserFull:
+      procName = "firefox"
+      
+    if "opera" in browserFull:
+      procName = "opera"
+      
+    if "iexplore" in browserFull:
+      procName = "iexplore"
+      
+    if "afari" in browserFull:
+      procName = "Safari"
+    
+    if "hrome" in browserFull:
+      procName = "chrome"
+    
+    if procName:
+      if os.uname()[0] == "Linux":
+        print("Killing Linux browser process: " + procName)      
+        invokeExternal("pkill " + procName)
+      else:
+        procName += ".exe"
+        print("TODO: Killing Windows browser process: " + procName)
+    
+    else:
+      print("Unable to determine browser process name")    
+
+
+  # Run Ecmalint on targets defined in lintConf
   def runLint(self,lintConf):    
     lintTargets = []
     
