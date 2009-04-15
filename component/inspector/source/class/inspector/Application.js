@@ -64,7 +64,7 @@ qx.Class.define("inspector.Application",
     _propertyWindow : null,
     
     /*
-     * Insopactor
+     * Inspector
      */
     _container : null,
     _iFrame : null,
