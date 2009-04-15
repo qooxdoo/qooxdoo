@@ -105,7 +105,7 @@ class QxTest():
 
   # Returns the SVN checkout's revision number
   def getLocalRevision(self):
-    ret,out,err = invokePiped(self.testConf["svnRev"])
+    ret,out,err = invokePiped("svnversion" + self.testConf["qxPathAbs"])
     rev = out.rstrip('\n')
     self.trunkrev = rev
     print("Local qooxdoo checkout at revision " + self.trunkrev)
@@ -141,13 +141,13 @@ class QxTest():
         print("Testing: " + app + " on " + browser)        
         cmd = self.getStartCmd(app, browser)
         #print(cmd)
-        #invokeExternal(cmd)
+        invokeExternal(cmd)
         
         if appConf[app]['killBrowser']:
           self.killBrowser(browser)
       
       if (appConf[app]['sendReport']):
-        #self.formatLog()
+        self.formatLog()
         self.sendReport(app)
 
 
