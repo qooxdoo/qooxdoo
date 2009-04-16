@@ -93,7 +93,7 @@
 
           "cache" :
           {
-            "descr"  : "Define the paths to cache directories, particularly to the compile cache."
+            "descr"  : "Define the paths to cache directories, particularly to the compile cache.",
             "type"   : "map",
             "children" :
             {
@@ -229,97 +229,98 @@
                     "type" : "string"
                   }
                 ]
-              }
+              },
               "format"  :
               {
                 "descr" : "on/off, for simple output formatting (it adds some sensible line breaks to the output code)",
                 "type"  : ["on", "off"]
+              }
+            },
+      
+            "compile-source" :
+            {
+              "descr" : "Triggers generation of the source version of the application.",
+            },
+  
+            "copy-files" : 
+            {
+              "descr" : "Triggers files/directories to be copied, usually between source and build version.",
+            },
+  
+            "copy-resources" :
+            {
+              "descr" : "Triggers the copying of resources, usually between source and build version.",
+            },
+  
+            "extend" :
+            {
+              "descr" : "Extend the current job with other jobs. Takes an array of job names. The information of these jobs are merged into the current job description, so the current job sort of “inherits” their settings. (See the special section on 'extend' semantics).",
+            },
+  
+            "include" :
+            {
+              "descr" : "List classes to be processed in the job. Takes an array of class specifiers.",
+            },
+  
+            "let" :
+            {
+              "descr" : "Define macros. Takes a map where each key defines a macro and the value its expansion.",
+            },
+  
+            "library" :
+            {
+              "descr" : "Define libraries to be taken into account for this job. Takes an array of maps, each map specifying one library to consider. The most important part therein is the “manifest” specification. (See special section on Manifest files).",
+            },
+  
+            "packages" :
+            {
+              "descr" : "Define packages for the application. (See special section on packages).",
+            },
+  
+            "pretty-print" :
+            {
+              "descr" : "Triggers code beautification of source class files (in-place-editing). An empty map value triggers default formatting, but further keys can tailor the output.",
+            },
+  
+            "require" :
+            {
+              "descr" : "Define prerequisite classes. Takes a map, where the keys are class names and the values lists of prerequisite classes.",
+            },
+  
+            "run" :
+            {
+              "descr" : "Define a list of jobs to run in place of the current job. (See the special section on 'run' semantics).",
+            },
+  
+            "settings" :
+            {
+              "descr" : "Define qooxdoo settings for the generated application.",
+            },
+  
+            "shell" :
+            {
+              "descr" : "Triggers the execution of an external command.",
+            },
+  
+            "slice-images" :
+            {
+              "descr" : "Triggers cutting images into regions.",
+            },
+  
+            "asset-let" :
+            {
+              "descr" : "Defines theme keys that will be replaced in #asset hints in source files. (See special section on the 'themes' key).",
+            },
+  
+            "translate" :
+            {
+              "descr" : "(Re-)generate .po files from source classes.",
+            },
+  
+            "variants" :
+            {
+              "descr" : "Define variants for the generated application.",
             }
-          },
-    
-          "compile-source" :
-          {
-            "descr" : "Triggers generation of the source version of the application.",
-          },
-
-          "copy-files" : 
-          {
-            "descr" : "Triggers files/directories to be copied, usually between source and build version.",
-          },
-
-          "copy-resources" :
-          {
-            "descr" : "Triggers the copying of resources, usually between source and build version.",
-          },
-
-          "extend" :
-          {
-            "descr" : "Extend the current job with other jobs. Takes an array of job names. The information of these jobs are merged into the current job description, so the current job sort of “inherits” their settings. (See the special section on 'extend' semantics).",
-          },
-
-          "include" :
-          {
-            "descr" : "List classes to be processed in the job. Takes an array of class specifiers.",
-          },
-
-          "let" :
-          {
-            "descr" : "Define macros. Takes a map where each key defines a macro and the value its expansion.",
-          },
-
-          "library" :
-          {
-            "descr" : "Define libraries to be taken into account for this job. Takes an array of maps, each map specifying one library to consider. The most important part therein is the “manifest” specification. (See special section on Manifest files).",
-          },
-
-          "packages" :
-          {
-            "descr" : "Define packages for the application. (See special section on packages).",
-          },
-
-          "pretty-print" :
-          {
-            "descr" : "Triggers code beautification of source class files (in-place-editing). An empty map value triggers default formatting, but further keys can tailor the output.",
-          },
-
-          "require" :
-          {
-            "descr" : "Define prerequisite classes. Takes a map, where the keys are class names and the values lists of prerequisite classes.",
-          },
-
-          "run" :
-          {
-            "descr" : "Define a list of jobs to run in place of the current job. (See the special section on 'run' semantics).",
-          },
-
-          "settings" :
-          {
-            "descr" : "Define qooxdoo settings for the generated application.",
-          },
-
-          "shell" :
-          {
-            "descr" : "Triggers the execution of an external command.",
-          },
-
-          "slice-images" :
-          {
-            "descr" : "Triggers cutting images into regions.",
-          },
-
-          "asset-let" :
-          {
-            "descr" : "Defines theme keys that will be replaced in #asset hints in source files. (See special section on the 'themes' key).",
-          },
-
-          "translate" :
-          {
-            "descr" : "(Re-)generate .po files from source classes.",
-          },
-
-          "variants" :
-          {
-            "descr" : "Define variants for the generated application.",
           }
         }
       }
