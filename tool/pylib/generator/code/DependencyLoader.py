@@ -177,6 +177,9 @@ class DependencyLoader:
 
 
 
+    ##
+    # Interface method
+    #
     def getDeps(self, fileId, variants):
         if not self._classes.has_key(fileId):
             raise NameError("Could not find class to fulfil dependency: %s" % fileId)
@@ -316,9 +319,6 @@ class DependencyLoader:
                    ):
                    pass
                 else:
-                    #if assembled == "this.configureTreeItem" and False:
-                    #    import pydb
-                    #    pydb.debugger()
                     # skip scoped vars
                     isScopedVar = self._isScopedVar(assembled, node, fileId)
                     if isScopedVar:
