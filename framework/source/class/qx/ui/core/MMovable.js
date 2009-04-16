@@ -124,9 +124,10 @@ qx.Mixin.define("qx.ui.core.MMovable",
      */
     __showMoveFrame : function()
     {
+      var location = this.getContainerLocation();
       var bounds = this.getBounds();
       var frame = this.__getMoveFrame();
-      frame.setUserBounds(bounds.left, bounds.top, bounds.width, bounds.height);
+      frame.setUserBounds(location.left, location.top, bounds.width, bounds.height);
       frame.show();
       frame.setZIndex(this.getZIndex()+1);
     },
