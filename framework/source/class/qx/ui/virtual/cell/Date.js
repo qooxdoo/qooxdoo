@@ -28,10 +28,13 @@ qx.Class.define("qx.ui.virtual.cell.Date",
   construct : function(dateFormat)
   {
     this.base(arguments);
-    
+
     if (dateFormat) {
       this.setDateFormat(dateFormat);
+    } else {
+      this.initDateFormat(qx.util.format.DateFormat.getDateTimeInstance());
     }
+
   },
 
 
@@ -53,7 +56,7 @@ qx.Class.define("qx.ui.virtual.cell.Date",
     dateFormat:
     {
       check : "qx.util.format.DateFormat",
-      init : qx.util.format.DateFormat.getDateInstance()
+      deferredInit : true
     }
   },
 
@@ -77,7 +80,6 @@ qx.Class.define("qx.ui.virtual.cell.Date",
     getContent : function(value, states) {
       return value ? this.getDateFormat().format(value): "";
     }
-
 
   }
 
