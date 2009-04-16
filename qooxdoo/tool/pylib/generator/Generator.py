@@ -569,37 +569,84 @@ class Generator:
 
 
     def runDependencyDebug(self, parts, packages, variants):
-         if not self._job.get("debug/dependencies", False):
+        mode = self._job.get("debug/dependencies", False)
+        if not mode or mode == "off":
+           return
+
+        def usedByDeps():
+            for packageId, package in enumerate(packages):
+                self._console.info("Package %s" % packageId)
+                self._console.indent()
+
+                for partId in parts:
+                    if packageId in parts[partId]:
+                        self._console.info("Part %s" % partId)
+
+                for classId in package:
+                    #self._console.debug("Class: %s" % classId)
+                    self._console.info("Class: %s" % classId)
+                    self._console.indent()
+
+                    for otherClassId in package:
+                        otherClassDeps = self._depLoader.getDeps(otherClassId, variants)
+
+                        if classId in otherClassDeps["load"]:
+                            #self._console.debug("Used by: %s (load)" % otherClassId)
+                            self._console.info("Used by: %s (load)" % otherClassId)
+
+                        if classId in otherClassDeps["run"]:
+                            #self._console.debug("Used by: %s (run)" % otherClassId)
+                            self._console.info("Used by: %s (run)" % otherClassId)
+
+                    self._console.outdent()
+                self._console.outdent()
             return
 
-         self._console.info("Dependency debugging...")
-         self._console.indent()
+        def usingDeps():
+            for packageId, package in enumerate(packages):
+                self._console.info("Package %s" % packageId)
+                self._console.indent()
 
-         for packageId, packages in enumerate(packages):
-             self._console.info("Package %s" % packageId)
-             self._console.indent()
+                for partId in parts:
+                    if packageId in parts[partId]:
+                        self._console.info("Part %s" % partId)
 
-             for partId in parts:
-                 if packageId in parts[partId]:
-                     self._console.info("Part %s" % partId)
+                for classId in package:
+                    #self._console.debug("Class: %s" % classId)
+                    self._console.info("Class: %s" % classId)
+                    self._console.indent()
 
-             for classId in packages:
-                 self._console.debug("Class: %s" % classId)
-                 self._console.indent()
+                    classDeps = self._depLoader.getDeps(classId, variants)
+                    if classDeps["load"]:
+                        self._console.info("Uses (load):")
+                        self._console.indent()
+                        for classId in classDeps["load"]:
+                            self._console.info("%s" % classId)
+                        self._console.outdent()
+                    if classDeps["run"]:
+                        self._console.info("Uses (run):")
+                        self._console.indent()
+                        for classId in classDeps["run"]:
+                            self._console.info("%s" % classId)
+                        self._console.outdent()
 
-                 for otherClassId in packages:
-                     otherClassDeps = self._depLoader.getDeps(otherClassId, variants)
+                    self._console.outdent()
+                self._console.outdent()
+            return
 
-                     if classId in otherClassDeps["load"]:
-                         self._console.debug("Used by: %s (load)" % otherClassId)
+        self._console.info("Dependency debugging...")
+        self._console.indent()
 
-                     if classId in otherClassDeps["run"]:
-                         self._console.debug("Used by: %s (run)" % otherClassId)
+        if mode == "used-by":
+            usedByDeps()
+        elif mode == "using":
+            usingDeps()
+        else:
+            self._console.error('Dependency debug mode "%s" not in ["using", "used-by"]; skipping...' % mode)
 
-                 self._console.outdent()
-             self._console.outdent()
+        self._console.outdent()
 
-         self._console.outdent()
+        return
 
 
     ##
