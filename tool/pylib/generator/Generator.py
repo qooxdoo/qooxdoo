@@ -509,7 +509,7 @@ class Generator:
 
 
     def runPrivateDebug(self):
-        if not self._job.get("debug/privates", False):
+        if not self._job.get("log/privates", False):
             return
 
         self._console.info("Privates debugging...")
@@ -569,7 +569,7 @@ class Generator:
 
 
     def runDependencyDebug(self, parts, packages, variants):
-        mode = self._job.get("debug/dependencies", False)
+        mode = self._job.get("log/dependencies", False)
         if not mode or mode == "off":
            return
 
@@ -583,7 +583,6 @@ class Generator:
                         self._console.info("Part %s" % partId)
 
                 for classId in package:
-                    #self._console.debug("Class: %s" % classId)
                     self._console.info("Class: %s" % classId)
                     self._console.indent()
 
@@ -591,11 +590,9 @@ class Generator:
                         otherClassDeps = self._depLoader.getDeps(otherClassId, variants)
 
                         if classId in otherClassDeps["load"]:
-                            #self._console.debug("Used by: %s (load)" % otherClassId)
                             self._console.info("Used by: %s (load)" % otherClassId)
 
                         if classId in otherClassDeps["run"]:
-                            #self._console.debug("Used by: %s (run)" % otherClassId)
                             self._console.info("Used by: %s (run)" % otherClassId)
 
                     self._console.outdent()
@@ -612,7 +609,6 @@ class Generator:
                         self._console.info("Part %s" % partId)
 
                 for classId in package:
-                    #self._console.debug("Class: %s" % classId)
                     self._console.info("Class: %s" % classId)
                     self._console.indent()
 
@@ -645,7 +641,6 @@ class Generator:
             self._console.error('Dependency debug mode "%s" not in ["using", "used-by"]; skipping...' % mode)
 
         self._console.outdent()
-
         return
 
 
