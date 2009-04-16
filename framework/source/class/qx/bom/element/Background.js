@@ -227,7 +227,16 @@ qx.Class.define("qx.bom.element.Background",
           }
           else
           {
-            urlPrefix = window.location.href.substring(0, window.location.href.lastIndexOf("/") + 1);
+            // check for parameters with URLs as value
+            var index = window.location.href.indexOf("?");
+            var path;
+            if (index == -1) {
+              path = window.location.href;
+            } 
+            else {
+              path = window.location.href.substring(0, index);
+            }
+            urlPrefix = window.location.href.substring(0, path.lastIndexOf("/") + 1);
           }
         }
 
