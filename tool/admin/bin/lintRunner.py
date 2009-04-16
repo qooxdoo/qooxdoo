@@ -33,7 +33,7 @@ sys.path.append(os.path.join('..', 'app', 'batserver'))
 import qxtest
 
 
-filter_errors = ["Use of deprecated global identifier", "Multiply declared identifier"]
+filter_errors = ["Use of deprecated global identifier", "Multiply declared identifier", "Protected data field"]
 filter_classes = ["qx/bom/Selector"]
 
 mailConf = {
