@@ -857,8 +857,7 @@ qx.Class.define("qx.util.format.DateFormat",
       }
 
       // Unsupported: w (Week in year), W (Week in month), D (Day in year),
-      // F (Day of week in month), z (time zone) reason: no setter in Date class,
-      // Z (RFC 822 time zone) reason: no setter in Date class
+      // F (Day of week in month)
       this.__parseRules.push(
       {
         pattern     : "YYYY", //Year (must be 4 digits)
@@ -1056,15 +1055,13 @@ qx.Class.define("qx.util.format.DateFormat",
         field   : "ms"
       });
 
-      // TODO: Needs implementation
       this.__parseRules.push(
       {
         pattern     : "Z",
-        regex       : "((\\+|\\-)\\d\\d:?\\d\\d)",
+        regex       : "([\\+\\-]\\d\\d:?\\d\\d)",
         manipulator : ignoreManipulator
       });
 
-      // TODO: Needs implementation
       this.__parseRules.push(
       {
         pattern     : "z",
