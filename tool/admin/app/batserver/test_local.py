@@ -86,23 +86,58 @@ mailConf = {
   'reportFile'          : seleniumConf['seleniumReport'],
   'archiveDir'          : '/home/dwagner/qxselenium/reports',
   'mailFrom'            : 'daniel.wagner@1und1.de',
-  'mailTo'              : 'daniel.wagner@1und1.de',
-  #'mailTo'              : 'webtechnologies@1und1.de',
+  #'mailTo'              : 'daniel.wagner@1und1.de',
+  'mailTo'              : 'webtechnologies@1und1.de',
   'smtpHost'            : 'smtp.1und1.de',
   'smtpPort'            : 587
 }
 
 lintConf = {
-  'applications'        : ['demobrowser', 'feedreader', 'playground', 'portal'],
-  'components'          : ['apiviewer', 'testrunner', 'inspector'],
-  'other'               : ['framework']
+  'application' : 
+  [
+    {
+      'directory' : 'demobrowser'
+    },
+    {
+      'directory' : 'feedreader'
+    },
+    {
+      'directory' : 'playground'
+    },
+    {
+      'directory' : 'portal'
+    }
+  ],
+  'component' : 
+  [
+    {
+      'directory' : 'apiviewer'
+    }, 
+    {
+      'directory' : 'testrunner'
+    }, 
+    {
+      'directory' : 'inspector'
+    }
+  ],
+  'other' : 
+  [
+    { 
+      'directory' : 'framework',
+      'ignoreClasses' : ['qx/bom/Selector']
+    }
+  ]
 }
 
 testrunnerConf = {
   'appName' : 'Testrunner',
   'clearLogs' : True,
   'sendReport' : True,
-  'browsers' : [    
+  'browsers' : [
+    {
+       'browserId' : 'FF15',
+       'kill' : True
+    },                    
     {
        'browserId' : 'FF2',
        'kill' : True
@@ -114,11 +149,7 @@ testrunnerConf = {
     {
        'browserId' : 'FF31',
        'kill' : True
-    },
-    {
-       'browserId' : 'FF15',
-       'kill' : True
-    },
+    },    
     {
        'browserId' : 'Opera96',
        'kill' : True
@@ -211,9 +242,10 @@ def main():
     print("Updating Simulator checkout")
     qxtest.invokeExternal("svn up " + testConf["simulatorSvn"])
     
-    localTest.buildAll(buildConf)
-    localTest.runLint(lintConf)
+    qxtest.invokeExternal("pkill firefox")
     
+    localTest.buildAll(buildConf)
+    localTest.runLint(lintConf)    
     localTest.runTests(testrunnerConf)
     localTest.runTests(demobrowserConf)
     localTest.runTests(feedreaderConf)

@@ -34,7 +34,7 @@ import qxtest
 
 
 filter_errors = ["Use of deprecated global identifier", "Multiply declared identifier", "Protected data field"]
-filter_classes = ["qx/bom/Selector"]
+filter_classes = []
 
 mailConf = {
   'mailFrom'        : 'qxlint@1und1.de',
@@ -46,10 +46,16 @@ class QxLint():
   def __init__(self,options):
     self.options = options
     
-    if(options.workdir):
+    if ( not hasattr(options, "ignoreClasses") ):
+      self.options.ignoreClasses = filter_classes
+
+    if ( not hasattr(options, "ignoreErrors") ):
+      self.options.ignoreErrors = filter_errors      
+
+    if (options.workdir):
       log = self.runLint(options.workdir)
   
-    elif(options.inputfile):    
+    elif (options.inputfile):    
       log = open(options.inputfile, "r")
   
     else:
@@ -96,11 +102,12 @@ class QxLint():
     os.chdir(workdir)
     print("Running Lint")
     ret,out,err = qxtest.invokePiped("python generate.py lint")
+    
     if (ret > 0):
       raise RuntimeError, "Lint run failed. " + err
-    else:
-      print("Changing dir back to " + startdir)
-      os.chdir(startdir)
+    
+    print("Changing dir back to " + startdir)
+    os.chdir(startdir)
     return out
 
 
@@ -128,7 +135,7 @@ class QxLint():
         if (genericmsg):
           if (genericmsg[len(genericmsg)-3:] == " in"):
             genericmsg = genericmsg[0:len(genericmsg)-3]
-          if (not(genericmsg in filter_errors)):
+          if (not(genericmsg in self.options.ignoreErrors)):
             msgid = genericmsg
             if (not msgid in data):
               data[msgid] = []
@@ -154,7 +161,7 @@ class QxLint():
               info['line'] = linecolma.group(1)
   
             ignore = False
-            for cls in filter_classes:
+            for cls in self.options.ignoreClasses:
               clsre = re.compile("^.*" + cls + ".*$")
               clsma = clsre.match(info['path'])
               if (clsma):
@@ -245,11 +252,11 @@ class QxLint():
     <body>
     <h1>Lint Report</h1>\n'''
   
-    if (len(filter_errors) > 0):
-      html += '<p><strong>Ignored error categories:</strong> ' + repr(filter_errors) + '</p>'
+    if (len(self.options.ignoreErrors) > 0):
+      html += '<p><strong>Ignored error categories:</strong> ' + repr(self.options.ignoreErrors) + '</p>'
   
-    if (len(filter_classes) > 0):
-      html += '<p><strong>Ignored class paths:</strong> ' + repr(filter_classes) + '</p>'
+    if (len(self.options.ignoreClasses) > 0):
+      html += '<p><strong>Ignored class paths:</strong> ' + repr(self.options.ignoreClasses) + '</p>'
   
     for k, v in data.iteritems():
       import random
