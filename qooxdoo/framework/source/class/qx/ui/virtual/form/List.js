@@ -267,7 +267,8 @@ qx.Class.define("qx.ui.virtual.form.List",
     
     _applyUseWidgetCells : function(value, old) 
     {
-      if (this.__useWidgetCells !== undefined) 
+
+      if (this.__useWidgetCells !== null) 
       {
         throw new Error(
           "The property 'useWidgetCells' cannot be set after the list has " +
@@ -347,7 +348,7 @@ qx.Class.define("qx.ui.virtual.form.List",
 
     syncWidget : function()
     {
-      if (this.__useWidgetCells !== undefined) {
+      if (this.__useWidgetCells !== null) {
         return;
       }
       
