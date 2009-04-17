@@ -33,8 +33,9 @@
 ************************************************************************ */
 
 /**
- * Helper functions for arrays.
- *
+ * Static helper functions for arrays with a lot of often used convenience 
+ * methods like <code>remove</code> or <code>contains</code>.
+ * 
  * The native JavaScript Array is not modified by this class. However,
  * there are modifications to the native Array in {@link qx.lang.Core} for
  * browsers that do not support certain JavaScript 1.6 features natively .

@@ -20,9 +20,11 @@
 /**
  * EXPERIMENTAL!
  *
- * Mapping class of the native JavaScript array. This does have all the native
- * methods but fires events if the content of the array changes in any way.
- * Also the <code>.length</code> property is available on the array.
+ * The data array is a special array used in the data binding context of 
+ * qooxdoo. It does not extend the native array of JavaScript but its a wrapper 
+ * for it. All the native methods are included in the implementation and it 
+ * also fires events if the content or the length of the array changes in 
+ * any way. Also the <code>.length</code> property is available on the array.
  */
 qx.Class.define("qx.data.Array",
 {
