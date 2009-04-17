@@ -116,7 +116,7 @@ class QxTest():
 
   # Returns the SVN checkout's revision number
   def getLocalRevision(self):
-    ret,out,err = invokePiped("svnversion" + self.testConf["qxPathAbs"])
+    ret,out,err = invokePiped("svnversion " + self.testConf["qxPathAbs"])
     rev = out.rstrip('\n')
     self.trunkrev = rev
     print("Local qooxdoo checkout at revision " + self.trunkrev)
@@ -331,35 +331,34 @@ class QxTest():
         print("Error: Can't disable proxy on non-Windows system!")
 
   # Run Ecmalint on targets defined in lintConf
-  def runLint(self,lintConf):    
-    lintTargets = []
+  def runLint(self,lintConf):
+
+    class LintOpts():
+      def __init__(self,workdir,mailto):
+        self.workdir = workdir
+        self.mailto = mailto
+        self.outputfile = None
     
     for key in lintConf:
-      if (key == "applications"):
-        for target in lintConf[key]:
-          lintTargets.append("application/" + target)
-      
-      elif (key == "components"):
-        for target in lintConf[key]:
-          lintTargets.append("component/" + target)
-      
-      else:
-        for target in lintConf[key]:
-          lintTargets.append(target)
+      for target in lintConf[key]:
 
-    for target in lintTargets:
-      print("Running Lint for " + target)
-      workdir = os.path.join(self.testConf['qxPathAbs'], target)
-      
-      class LintOpts():
-        def __init__(self,workdir,mailto):
-          self.workdir = workdir
-          self.mailto = mailto
-          self.outputfile = None
-      
-      options = LintOpts(workdir,self.mailConf['mailTo'])      
-      
-      qxlint = QxLint(options)
+        options = LintOpts(None,self.mailConf['mailTo'])
+
+        if (key != "other"):
+          options.workdir = os.path.join(self.testConf['qxPathAbs'], key, target['directory'])
+        else:
+           options.workdir = os.path.join(self.testConf['qxPathAbs'], target['directory'])
+        print("Workdir: " + options.workdir)
+        
+        if ('ignoreClasses' in target):
+          options.ignoreClasses = target['ignoreClasses']
+
+        if ('ignoreErrors' in target):
+          options.ignoreErrors = target['ignoreErrors']
+
+        print("Running Lint for " + options.workdir)  
+
+        qxlint = QxLint(options)
 
 
 # Invoke an external command and return its STDOUT and STDERR output.
