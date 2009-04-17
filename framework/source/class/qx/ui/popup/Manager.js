@@ -191,10 +191,8 @@ qx.Class.define("qx.ui.popup.Manager",
 
   destruct : function()
   {
-    var root = qx.core.Init.getApplication().getRoot();
-    if (root) {
-      root.removeListener("mousedown", this.__onMouseDown, this, true);
-    }
+    qx.event.Registration.removeListener(document.documentElement, "mousedown",
+                                         this.__onMouseDown, this, true);
 
     this._disposeMap("__objects");
   }
