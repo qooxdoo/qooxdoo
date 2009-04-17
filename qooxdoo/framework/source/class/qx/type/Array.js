@@ -20,7 +20,8 @@
 
 /**
  * An extended array class which adds a lot of often used
- * convenience methods to the regular array like 'remove' or 'contains'.
+ * convenience methods to the regular array like <code>remove</code> or 
+ * <code>contains</code>.
  */
 qx.Class.define("qx.type.Array",
 {
