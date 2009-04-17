@@ -32,6 +32,7 @@
 #  - DependencyLoader.__init__()
 #  - DependencyLoader.getClassList()
 #  - DependencyLoader.getMeta()
+#  - DependencyLoader.getDeps()
 #
 ##
 
@@ -43,6 +44,7 @@ from misc import filetool, idlist
 
 
 class DependencyLoader:
+
     def __init__(self, classes, cache, console, treeLoader, require, use):
         self._classes = classes
         self._cache = cache
@@ -53,29 +55,38 @@ class DependencyLoader:
 
 
     def getClassList(self, include, block, explicitInclude, explicitExclude, variants):
-        # Resolve intelli include depdendencies
-        if len(include) == 0 and len(explicitInclude) > 0:
-            if len(block) > 0:
-                self._console.error("Blocking is not supported when only explicit includes are defined!");
-                sys.exit(1)
 
-            result = []
-        else:
-            result = self.resolveDependencies(include, block, variants)
+        def resolveDepsSmartCludes():
+            # Resolve intelli include/exclude depdendencies
+            if len(include) == 0 and len(explicitInclude) > 0:
+                if len(block) > 0:
+                    self._console.error("Blocking is not supported when only explicit includes are defined!");
+                    sys.exit(1)
 
+                result = []
+            else:
+                result = self.resolveDependencies(include, block, variants)
 
-        # Explicit include/exclude
-        if len(explicitInclude) > 0 or len(explicitExclude) > 0:
-            self._console.info("Processing explicitely configured includes/excludes...")
-            for entry in explicitInclude:
-                if not entry in result:
-                    result.append(entry)
-
-            for entry in explicitExclude:
-                if entry in result:
-                    result.remove(entry)
+            return result
 
 
+        def processExplicitCludes(result):
+            # Explicit include/exclude
+            if len(explicitInclude) > 0 or len(explicitExclude) > 0:
+                self._console.info("Processing explicitely configured includes/excludes...")
+                for entry in explicitInclude:
+                    if not entry in result:
+                        result.append(entry)
+
+                for entry in explicitExclude:
+                    if entry in result:
+                        result.remove(entry)
+            return result
+
+        # ---------------------------------------------------
+
+        result = resolveDepsSmartCludes()
+        result = processExplicitCludes(result)
         # Sort classes
         self._console.info("Sorting %s classes..." % len(result))
         result = self.sortClasses(result, variants)
@@ -186,6 +197,131 @@ class DependencyLoader:
     # Interface method
     #
     def getDeps(self, fileId, variants):
+
+        def analyzeClassDeps(fileId, variants):
+
+            def analyzeClassDepsNode(fileId, node, loadtime, runtime, warn, inFunction):
+
+                def isScopedVar(idString, node, fileId):
+
+                    def findScopeNodeAndRoot(node):
+                        node1 = node
+                        sNode = None
+                        rNode = None
+                        while True:
+                            if not sNode and node1.type in ["function", "catch"]:
+                                sNode = node1
+                            if node1.hasParent():
+                                node1 = node1.parent
+                            else:  # we're at the root
+                                if not sNode:
+                                    sNode = node1
+                                rNode = node1
+                                break
+                        return sNode, rNode
+
+                    # check composite id a.b.c, check only first part
+                    dotIdx = idString.find('.')
+                    if dotIdx > -1:
+                        idString = idString[:dotIdx]
+                    scopeNode, rootNode  = findScopeNodeAndRoot(node)  # find the node of the enclosing scope (function - catch - global)
+                    script = Script(rootNode, fileId)
+                    if scopeNode == rootNode:
+                        fcnScope = script.getGlobalScope()
+                    else:
+                        fcnScope = script.getScope(scopeNode)
+                    varDef = script.getVariableDefinition(idString, fcnScope)
+                    if varDef:
+                        return True
+                    return False
+
+                # -----------------------------------------------------------
+
+                if node.type == "variable":
+                    assembled = (treeutil.assembleVariable(node))[0]
+
+                    # treat dependencies in defer as requires
+                    if assembled == "qx.Class.define" or assembled == "qx.Bootstrap.define" or assembled == "qx.List.define":
+                        if node.parent.type == "operand" and node.parent.parent.type == "call":
+                            deferNode = treeutil.selectNode(node, "../../params/2/keyvalue[@key='defer']/value/function/body/block")
+                            if deferNode != None:
+                                analyzeClassDepsNode(fileId, deferNode, loadtime, runtime, warn, False)
+
+
+                    # try to reduce to a class name
+                    assembledId = None
+                    if self._classes.has_key(assembled):
+                        assembledId = assembled
+
+                    elif "." in assembled:
+                        for entryId in self._classes:
+                            if assembled.startswith(entryId) and re.match("%s\W" % entryId, assembled):
+                                assembledId = entryId
+                                break
+
+                    # warn about instantiations of unknown classes
+                    ##if not assembledId:
+                    ##    print assembled
+                    if ((not assembledId
+                        and 'parent' in node.__dict__
+                        and 'parent' in node.parent.__dict__
+                        and 'parent' in node.parent.parent.__dict__
+                        and 'parent' in node.parent.parent.parent.__dict__
+                        and node.parent.parent.parent.parent.type == 'instantiation'  # we're inside a 'new' expression
+                        and node.parent.type == 'operand' # and it's the class name
+                        ) or
+                        (not assembledId
+                        and 'parent' in node.__dict__
+                        and 'parent' in node.parent.__dict__
+                        and node.parent.parent.type == 'keyvalue'
+                        and node.parent.parent.get('key') == 'extend'        # it's the value of an 'extend' key
+                        )
+                       ):
+                        # skip built-in classes (Error, document, RegExp, ...)
+                        if (assembled in lang.BUILTIN + ['clazz']
+                            or re.match(r'this\b', assembled)
+                           ):
+                           pass
+                        else:
+                            # skip scoped vars
+                            isScopedVar = isScopedVar(assembled, node, fileId)
+                            if isScopedVar:
+                                pass
+                            else:
+                                warn.append(assembled)
+
+                    if assembledId and assembledId != fileId:
+                        if self._classes.has_key(assembledId):
+                            if inFunction:
+                                target = runtime
+                            else:
+                                target = loadtime
+
+                            if not assembledId in target:
+                                target.append(assembledId)
+
+                elif node.type == "body" and node.parent.type == "function":
+                    inFunction = True
+
+                if node.hasChildren():
+                    for child in node.children:
+                        analyzeClassDepsNode(fileId, child, loadtime, runtime, warn, inFunction)
+
+                return
+
+            # ---------------------------------------------------------
+
+            loadtimeDeps = []
+            runtimeDeps  = []
+            undefDeps    = []
+
+            tree = self._treeLoader.getTree(fileId, variants)
+            analyzeClassDepsNode(fileId, tree, loadtimeDeps, runtimeDeps, undefDeps, False)
+
+            return loadtimeDeps, runtimeDeps, undefDeps
+
+        # -----------------------------------------------------------------
+
         if not self._classes.has_key(fileId):
             raise NameError("Could not find class to fulfil dependency: %s" % fileId)
 
@@ -209,18 +345,18 @@ class DependencyLoader:
         self._console.indent()
 
         # Read meta data
-        meta = self.getMeta(fileId)
-        metaLoad = self._readDictKey(meta, "loadtimeDeps", [])
-        metaRun = self._readDictKey(meta, "runtimeDeps", [])
-        metaOptional = self._readDictKey(meta, "optionalDeps", [])
-        metaIgnore = self._readDictKey(meta, "ignoreDeps", [])
+        meta         = self.getMeta(fileId)
+        metaLoad     = meta.get("loadtimeDeps", [])
+        metaRun      = meta.get("runtimeDeps" , [])
+        metaOptional = meta.get("optionalDeps", [])
+        metaIgnore   = meta.get("ignoreDeps"  , [])
 
         # Process meta data
         load.extend(metaLoad)
         run.extend(metaRun)
 
         # Read content data
-        (autoLoad, autoRun, autoWarn) = self._analyzeClassDeps(fileId, variants)
+        (autoLoad, autoRun, autoWarn) = analyzeClassDeps(fileId, variants)
         
         # Process content data
         if not "auto-require" in metaIgnore:
@@ -254,142 +390,6 @@ class DependencyLoader:
         
         self._cache.writemulti(cacheId, deps)
         return deps
-
-
-
-    def _readDictKey(self, data, key, default=None):
-        if data.has_key(key):
-            return data[key]
-
-        return default
-
-
-
-    def _analyzeClassDeps(self, fileId, variants):
-
-        def analyzeClassDepsNode(fileId, node, loadtime, runtime, warn, inFunction):
-
-            def isScopedVar(idString, node, fileId):
-
-                def findScopeNodeAndRoot(node):
-                    node1 = node
-                    sNode = None
-                    rNode = None
-                    while True:
-                        if not sNode and node1.type in ["function", "catch"]:
-                            sNode = node1
-                        if node1.hasParent():
-                            node1 = node1.parent
-                        else:  # we're at the root
-                            if not sNode:
-                                sNode = node1
-                            rNode = node1
-                            break
-                    return sNode, rNode
-
-                # check composite id a.b.c, check only first part
-                dotIdx = idString.find('.')
-                if dotIdx > -1:
-                    idString = idString[:dotIdx]
-                scopeNode, rootNode  = findScopeNodeAndRoot(node)  # find the node of the enclosing scope (function - catch - global)
-                script = Script(rootNode, fileId)
-                if scopeNode == rootNode:
-                    fcnScope = script.getGlobalScope()
-                else:
-                    fcnScope = script.getScope(scopeNode)
-                varDef = script.getVariableDefinition(idString, fcnScope)
-                if varDef:
-                    return True
-                return False
-
-            # -----------------------------------------------------------
-
-            if node.type == "variable":
-                assembled = (treeutil.assembleVariable(node))[0]
-
-                # treat dependencies in defer as requires
-                if assembled == "qx.Class.define" or assembled == "qx.Bootstrap.define" or assembled == "qx.List.define":
-                    if node.parent.type == "operand" and node.parent.parent.type == "call":
-                        deferNode = treeutil.selectNode(node, "../../params/2/keyvalue[@key='defer']/value/function/body/block")
-                        if deferNode != None:
-                            analyzeClassDepsNode(fileId, deferNode, loadtime, runtime, warn, False)
-
-
-                # try to reduce to a class name
-                assembledId = None
-                if self._classes.has_key(assembled):
-                    assembledId = assembled
-
-                elif "." in assembled:
-                    for entryId in self._classes:
-                        if assembled.startswith(entryId) and re.match("%s\W" % entryId, assembled):
-                            assembledId = entryId
-                            break
-
-                # warn about instantiations of unknown classes
-                ##if not assembledId:
-                ##    print assembled
-                if ((not assembledId
-                    and 'parent' in node.__dict__
-                    and 'parent' in node.parent.__dict__
-                    and 'parent' in node.parent.parent.__dict__
-                    and 'parent' in node.parent.parent.parent.__dict__
-                    and node.parent.parent.parent.parent.type == 'instantiation'  # we're inside a 'new' expression
-                    and node.parent.type == 'operand' # and it's the class name
-                    ) or
-                    (not assembledId
-                    and 'parent' in node.__dict__
-                    and 'parent' in node.parent.__dict__
-                    and node.parent.parent.type == 'keyvalue'
-                    and node.parent.parent.get('key') == 'extend'        # it's the value of an 'extend' key
-                    )
-                   ):
-                    # skip built-in classes (Error, document, RegExp, ...)
-                    if (assembled in lang.BUILTIN + ['clazz']
-                        or re.match(r'this\b', assembled)
-                       ):
-                       pass
-                    else:
-                        # skip scoped vars
-                        isScopedVar = isScopedVar(assembled, node, fileId)
-                        if isScopedVar:
-                            pass
-                        else:
-                            warn.append(assembled)
-
-                if assembledId and assembledId != fileId:
-                    if self._classes.has_key(assembledId):
-                        if inFunction:
-                            target = runtime
-                        else:
-                            target = loadtime
-
-                        if not assembledId in target:
-                            target.append(assembledId)
-
-            elif node.type == "body" and node.parent.type == "function":
-                inFunction = True
-
-            if node.hasChildren():
-                for child in node.children:
-                    analyzeClassDepsNode(fileId, child, loadtime, runtime, warn, inFunction)
-
-            return
-
-        # ---------------------------------------------------------
-
-        loadtimeDeps = []
-        runtimeDeps  = []
-        undefDeps    = []
-
-        tree = self._treeLoader.getTree(fileId, variants)
-        analyzeClassDepsNode(fileId, tree, loadtimeDeps, runtimeDeps, undefDeps, False)
-
-        return loadtimeDeps, runtimeDeps, undefDeps
-
-
-
-
 
 
 
@@ -437,7 +437,7 @@ class DependencyLoader:
         # ---------------------------------
 
         result = []
-        path = []
+        path   = []
 
         for classId in include:
             sortClassesRecurser(classId, include, variants, result, path)
@@ -450,7 +450,78 @@ class DependencyLoader:
     #  META DATA SUPPORT
     ######################################################################
 
+    HEAD = {
+        "require"  : re.compile("^#require\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
+        "use"      : re.compile("^#use\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
+        "optional" : re.compile("^#optional\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
+        "ignore"   : re.compile("^#ignore\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
+        "embed"    : re.compile("^#embed\(\s*([\.\*a-zA-Z0-9/_-]+?)\s*\)", re.M),
+        "asset"    : re.compile("^#asset\(\s*([^)]+?)\s*\)", re.M)
+    }
+
+
     def getMeta(self, fileId):
+
+        def _extractLoadtimeDeps(data, fileId):
+            deps = []
+
+            for item in self.HEAD["require"].findall(data):
+                if item == fileId:
+                    raise NameError("Self-referring load dependency: %s" % item)
+                else:
+                    deps.append(item)
+
+            return deps
+
+
+        def _extractRuntimeDeps(data, fileId):
+            deps = []
+
+            for item in self.HEAD["use"].findall(data):
+                if item == fileId:
+                    self._console.error("Self-referring runtime dependency: %s" % item)
+                else:
+                    deps.append(item)
+
+            return deps
+
+
+        def _extractOptionalDeps(data):
+            deps = []
+
+            # Adding explicit requirements
+            for item in self.HEAD["optional"].findall(data):
+                if not item in deps:
+                    deps.append(item)
+
+            return deps
+
+
+        def _extractIgnoreDeps(data):
+            ignores = []
+
+            # Adding explicit requirements
+            for item in self.HEAD["ignore"].findall(data):
+                if not item in ignores:
+                    ignores.append(item)
+
+            return ignores
+
+
+        def _extractAssetDeps(data):
+            deps = []
+            asset_reg = re.compile("^[\$\.\*a-zA-Z0-9/{}_-]+$")
+            
+            for item in self.HEAD["asset"].findall(data):
+                if not asset_reg.match(item):
+                    raise ValueError, "Illegal asset declaration: %" % item
+                if not item in deps:
+                    deps.append(item)
+            
+            return deps
+
+        # ----------------------------------------------------------
+
         fileEntry = self._classes[fileId]
         filePath = fileEntry["path"]
         cacheId = "meta-%s" % fileId
@@ -465,11 +536,11 @@ class DependencyLoader:
 
         content = filetool.read(filePath, fileEntry["encoding"])
 
-        meta["loadtimeDeps"] = self._extractLoadtimeDeps(content, fileId)
-        meta["runtimeDeps"]  = self._extractRuntimeDeps(content, fileId)
-        meta["optionalDeps"] = self._extractOptionalDeps(content)
-        meta["ignoreDeps"]   = self._extractIgnoreDeps(content)
-        meta["assetDeps"]    = self._extractAssetDeps(content)
+        meta["loadtimeDeps"] = _extractLoadtimeDeps(content, fileId)
+        meta["runtimeDeps"]  = _extractRuntimeDeps(content, fileId)
+        meta["optionalDeps"] = _extractOptionalDeps(content)
+        meta["ignoreDeps"]   = _extractIgnoreDeps(content)
+        meta["assetDeps"]    = _extractAssetDeps(content)
 
         self._console.outdent()
 
@@ -493,73 +564,3 @@ class DependencyLoader:
         return result
 
 
-    HEAD = {
-        "require" : re.compile("^#require\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
-        "use" : re.compile("^#use\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
-        "optional" : re.compile("^#optional\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
-        "ignore" : re.compile("^#ignore\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
-        "embed" : re.compile("^#embed\(\s*([\.\*a-zA-Z0-9/_-]+?)\s*\)", re.M),
-        "asset" : re.compile("^#asset\(\s*([^)]+?)\s*\)", re.M)
-    }
-
-
-    def _extractLoadtimeDeps(self, data, fileId):
-        deps = []
-
-        for item in self.HEAD["require"].findall(data):
-            if item == fileId:
-                raise NameError("Self-referring load dependency: %s" % item)
-            else:
-                deps.append(item)
-
-        return deps
-
-
-
-    def _extractRuntimeDeps(self, data, fileId):
-        deps = []
-
-        for item in self.HEAD["use"].findall(data):
-            if item == fileId:
-                self._console.error("Self-referring runtime dependency: %s" % item)
-            else:
-                deps.append(item)
-
-        return deps
-
-
-
-    def _extractOptionalDeps(self, data):
-        deps = []
-
-        # Adding explicit requirements
-        for item in self.HEAD["optional"].findall(data):
-            if not item in deps:
-                deps.append(item)
-
-        return deps
-
-
-
-    def _extractIgnoreDeps(self, data):
-        ignores = []
-
-        # Adding explicit requirements
-        for item in self.HEAD["ignore"].findall(data):
-            if not item in ignores:
-                ignores.append(item)
-
-        return ignores
-
-
-    def _extractAssetDeps(self, data):
-        deps = []
-        asset_reg = re.compile("^[\$\.\*a-zA-Z0-9/{}_-]+$")
-        
-        for item in self.HEAD["asset"].findall(data):
-            if not asset_reg.match(item):
-                raise ValueError, "Illegal asset declaration: %" % item
-            if not item in deps:
-                deps.append(item)
-        
-        return deps
