@@ -57,7 +57,7 @@ qx.Theme.define("qx.theme.modern.Font",
     {
       size: 11,
       lineHeight : 1.4,
-      family : qx.bom.client.Platform.MAC ? [ "Lucida Grande" ] :
+      family : qx.bom.client.Platform.MAC ? [ "Lucida Console", "Monaco" ] :
         qx.bom.client.System.WINVISTA ? [ "Consolas" ] :
         [ "Consolas", "DejaVu Sans Mono", "Courier New", "monospace" ]
     }
