@@ -582,7 +582,7 @@ class Generator:
                     if packageId in parts[partId]:
                         self._console.info("Part %s" % partId)
 
-                for classId in package:
+                for classId in sorted(package):
                     self._console.info("Class: %s" % classId)
                     self._console.indent()
 
@@ -608,7 +608,7 @@ class Generator:
                     if packageId in parts[partId]:
                         self._console.info("Part %s" % partId)
 
-                for classId in package:
+                for classId in sorted(package):
                     self._console.info("Class: %s" % classId)
                     self._console.indent()
 
