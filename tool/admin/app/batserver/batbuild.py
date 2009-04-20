@@ -167,7 +167,7 @@ def svn_check(target,revision):
     # %svninfo <rootdir> # yields local 'overall' version
     # %svn status --show-updates  <rootdir> # compares local tree against repos
     #targetdir = options.stagedir+target
-    targetdir = os.path.join(buildconf['stage_dir'],target)
+    targetdir = os.path.join(options.stagedir,target)
     ret,out,err = invoke_piped('svn status --show-updates '+targetdir)
     if ret or len(err):
         raise RuntimeError, "Unable to get svn status of "+targetdir+": "+err
