@@ -285,35 +285,36 @@ class QxTest:
 
 # Kill a browser process to make sure subsequent tests can launch the same browser
   def killBrowser(self, browser):    
-    browserFull = self.browserConf[browser]
+    browserFull = self.browserConf[browser].lower()
     procName = None
-    
-    if "firefox" in browserFull:
-      procName = "firefox"
-      
+
     if "opera" in browserFull:
       procName = "opera"
-      
-    if "iexplore" in browserFull:
-      procName = "iexplore"
-      
-    if "afari" in browserFull:
+
+    if "safari" in browserFull:
       procName = "safari"
-    
-    if "hrome" in browserFull:
+
+    if "chrome" in browserFull:
       procName = "chrome"
-      
-    if "rora" in browserFull:
-      procName = "arora"  
+
+    if "arora" in browserFull:
+      procName = "arora"
+
+    if ("iexplore" in browserFull or "ie" in browserFull):
+      procName = "iexplore"
+
+    if ("firefox" in browserFull or "ff" in browserFull):
+      procName = "firefox"
     
     if procName:
       if self.os == "Linux":
         print("Killing Linux browser process: " + procName)      
         invokeExternal("pkill " + procName)
       else:
-        procName += ".exe"
-        print("Killing Windows browser process: " + procName)
-        invokeExternal("wscript kill" + procName + ".vbs")
+        script = "kill" + procName + ".vbs"
+        if (os.path.isfile(script)):
+          print("Killing Windows browser process: " + procName)
+          invokeExternal("wscript " + script)
     
     else:
       print("Unable to determine browser process name")    
