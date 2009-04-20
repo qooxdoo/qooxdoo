@@ -45,6 +45,7 @@ buildconf = {
    'checkInterval': 10, # 10min - beware of time it takes for a build before re-check
    'generate'     : False,
    'path'         : 'application/demobrowser',
+   'pycmd'        : './'
    #'disk_space' : '2G',
    #'cpu_consume' : '20%',
    #'time_limit' : '30m',
@@ -219,9 +220,9 @@ def build_packet(target,revision,generate):
             os.chdir(working_dir)
             if (options.distclean):
               print("Clearing cache")
-              clRc = invoke_external("./generate.py distclean")
+              clRc = invoke_external(buildconf['pycmd'] + "generate.py distclean")
             print("Starting generator")
-            genRc = invoke_external("./generate.py " + generate)
+            genRc = invoke_external(buildconf['pycmd'] + "generate.py " + generate)
             if (genRc != 0):
                 print ("Generator exited with status " + repr(genRc))
                 sys.exit(genRc)
@@ -256,6 +257,10 @@ def main():
     prepare_output(options.logfile)
     target = options.target
     release = options.release
+    
+    if (platform.system() == "Windows"):
+      buildconf['pycmd'] = "python "
+    
     if (options.demonMode):
         while (1):
             check_logfile(options.logfile)
