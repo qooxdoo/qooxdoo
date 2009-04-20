@@ -227,10 +227,14 @@ class QxTest:
       if (totalErrors):
         totalE = totalErrors.group(1)
   
+    self.mailConf['subject'] += " " + osystem
+    
+    if ('hostId' in self.mailConf):
+      self.mailConf['subject'] += " " + self.mailConf['hostId']
     if (self.trunkrev):
-      self.mailConf['subject'] += " " + osystem + " (trunk r" + self.trunkrev + "): "
+      self.mailConf['subject'] += " (trunk r" + self.trunkrev + "): "
     else:
-      self.mailConf['subject'] += " " + osystem + ": "
+      self.mailConf['subject'] += ": "
     if (failed != ""):
       self.mailConf['subject'] += failed + " test runs failed!"
     else:
