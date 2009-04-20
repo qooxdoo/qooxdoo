@@ -187,7 +187,10 @@ class QxTest:
     cmd += " " + self.testConf['simulatorSvn'] + "/trunk/tool/selenium/simulation/" + aut.lower() + "/test_" + aut.lower() + ".js"
     cmd += " autHost=" + self.autConf['autHost']
     cmd += " autPath=" + self.autConf['autPath' + aut]
-    cmd += " testBrowser='" + self.browserConf[browser] + "'"
+    if (self.os == "Windows"):
+      cmd += " testBrowser=" + self.browserConf[browser]
+    else:
+      cmd += " testBrowser='" + self.browserConf[browser] + "'"
     return cmd
 
 
