@@ -376,7 +376,12 @@ qx.Class.define("qx.ui.tree.Tree",
      * @return {AbstractTreeItem[]} list of children
      */
     getItems : function(recursive, invisible) {
-      return this.getRoot().getItems(recursive, invisible, this.getHideRoot());
+      if (this.getRoot() != null) {
+        return this.getRoot().getItems(recursive, invisible, this.getHideRoot());
+      }
+      else {
+        return [];
+      }
     },
 
 
