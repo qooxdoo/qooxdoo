@@ -21,10 +21,10 @@
 
 import sys, os
 sys.path.append( os.path.join('..', '..', 'bin') )
-from lintRunner import QxLint
-from logFormatter import QxLogFormat
+import lintRunner
+import logFormatter
 
-class QxTest():
+class QxTest:
   def __init__(self, testType="remote", seleniumConf=None, testConf=None, autConf=None, browserConf=None, mailConf=None):
     self.testType = testType
     self.seleniumConf = seleniumConf
@@ -257,14 +257,14 @@ class QxTest():
   # Run logFormatter on Selenium log file 
   def formatLog(self):
     
-    class FormatterOpts():
+    class FormatterOpts:
       def __init__(self,logfile,htmlfile):
        self.logfile = logfile
        self.htmlfile = htmlfile
        
     options = FormatterOpts(self.seleniumConf['seleniumLog'], self.seleniumConf['seleniumReport'])      
     print("Formatting log file " + self.seleniumConf['seleniumLog'])  
-    logformat = QxLogFormat(options)
+    logformat = logFormatter.QxLogFormat(options)
 
 
   # Clear Selenium log file and report HTML file
@@ -301,6 +301,9 @@ class QxTest():
     
     if "hrome" in browserFull:
       procName = "chrome"
+      
+    if "rora" in browserFull:
+      procName = "arora"  
     
     if procName:
       if self.os == "Linux":
@@ -333,7 +336,7 @@ class QxTest():
   # Run Ecmalint on targets defined in lintConf
   def runLint(self,lintConf):
 
-    class LintOpts():
+    class LintOpts:
       def __init__(self,workdir,mailto):
         self.workdir = workdir
         self.mailto = mailto
@@ -358,7 +361,7 @@ class QxTest():
 
         print("Running Lint for " + options.workdir)  
 
-        qxlint = QxLint(options)
+        qxlint = lintRunner.QxLint(options)
 
 
 # Invoke an external command and return its STDOUT and STDERR output.

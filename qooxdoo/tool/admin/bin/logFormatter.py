@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import re, sys, os
 
-class QxLogFormat():
+class QxLogFormat:
   def __init__(self,options):
     self.options = options
     

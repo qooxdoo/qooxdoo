@@ -42,7 +42,7 @@ mailConf = {
   'smtpPort'        : 587
 }
 
-class QxLint():
+class QxLint:
   def __init__(self,options):
     self.options = options
     
