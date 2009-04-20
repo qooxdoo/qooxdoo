@@ -583,26 +583,8 @@ class Generator:
                 if packageId in parts[partId]:
                     self._console.info("Part %s" % partId)
 
-                # create graph object
-                gr = graph.digraph()
-
-                # add classes as nodes
-                gr.add_nodes(package)
-
-                # for each load dependency add a directed edge
-                for classId in package:
-                    deps = self._depLoader.getCombinedDeps(classId, variants)
-                    for depClassId in deps["load"]:
-                        gr.add_edge(depClassId, classId)
-
-                #dot = gr.write(fmt='dot')
-                #open("/tmp/graph.dot","w").write(dot)
-                #os.system("dot /tmp/graph.dot -Tpng > /tmp/graph.png")
-
-                # cycle check?
-
+                classList = self._depLoader.sortClassesTopological(package, variants)
                 # report
-                classList = gr.topological_sorting()
                 self._console.info("Topologically sorted class list:")
                 self._console.indent()
                 for classId in classList:
