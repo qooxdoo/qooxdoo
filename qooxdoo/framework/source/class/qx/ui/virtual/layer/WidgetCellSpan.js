@@ -29,10 +29,6 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
 {
   extend : qx.ui.virtual.layer.Abstract,
   
-  implement : [
-    qx.ui.virtual.core.IWidgetCellProvider
-  ],
-  
   include : [
     qx.ui.core.MChildrenHandling
   ],
@@ -55,7 +51,11 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
     this._cellProvider = widgetCellProvider;
     this.__spacerPool = [];
     
-    this._cellLayer = new qx.ui.virtual.layer.WidgetCell(this);
+    this._cellLayer = new qx.ui.virtual.layer.WidgetCell(
+      this.__getCellProviderForNonSpanningCells()
+    )
+    this._cellLayer.setZIndex(0);
+    
     this._setLayout(new qx.ui.layout.Grow());
     this._add(this._cellLayer);
   },
@@ -108,35 +108,44 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
     },
     
     
-    // interface implementation
-    getCellWidget : function(row, column)
+    __getCellProviderForNonSpanningCells : function()
     {
-      if (!this._spanMap[row][column])
+      var self = this;
+      var cellProvider = this._cellProvider;
+      var spacerPool = this.__spacerPool;
+      
+      var nonSpanningCellProvider = 
       {
-        var widget = this._cellProvider.getCellWidget(row, column)
-      }
-      else
-      {
-        var widget = this.__spacerPool.pop();
-        if (!widget) 
+        getCellWidget : function(row, column)
         {
-          widget = new qx.ui.core.Spacer();
-          widget.setUserData("spannedcell", 1);
-        }
+          if (!self._spanMap[row][column])
+          {
+            var widget = cellProvider.getCellWidget(row, column)
+          }
+          else
+          {
+            var widget = spacerPool.pop();
+            if (!widget) 
+            {
+              widget = new qx.ui.core.Spacer();
+              widget.setUserData("spannedcell", 1);
+            }
+          }
+          return widget;
+        },
+          
+        poolCellWidget : function(widget)
+        {
+          if (widget.getUserData("spannedcell")) {
+            spacerPool.push(widget);
+          } else {
+            cellProvider.poolCellWidget(widget);
+          }
+        }      
       }
-      return widget;
+      
+      return nonSpanningCellProvider;
     },
-    
-    
-    // interface implementation
-    poolCellWidget : function(widget)
-    {
-      if (widget.getUserData("spannedcell")) {
-        this.__spacerPool.push(widget);
-      } else {
-        this._cellProvider.poolCellWidget(widget);
-      }
-    },      
     
 
     /**
