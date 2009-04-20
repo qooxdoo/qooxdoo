@@ -81,14 +81,6 @@ qx.Class.define("qx.ui.form.ListItem",
       init : "listitem"
     },
 
-    /** The assigned qx.ui.form.RadioGroup which handles the switching between registered buttons */
-    manager :
-    {
-      check  : "qx.ui.form.RadioGroup",
-      nullable : true,
-      apply : "_applyManager"
-    },
-
     /** Fires a "changeValue" (qx.event.type.Data) event */
     value :
     {
@@ -109,26 +101,6 @@ qx.Class.define("qx.ui.form.ListItem",
 
   members :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTY APPLY ROUTINES
-    ---------------------------------------------------------------------------
-    */
-
-    // property apply
-    _applyManager : function(value, old)
-    {
-      if (old) {
-        old.remove(this);
-      }
-
-      if (value) {
-        value.add(this);
-      }
-    },
-
-
-
     /*
     ---------------------------------------------------------------------------
       SEARCH VALUE
