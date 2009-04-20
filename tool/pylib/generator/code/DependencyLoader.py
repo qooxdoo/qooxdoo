@@ -90,6 +90,7 @@ class DependencyLoader:
         # Sort classes
         self._console.info("Sorting %s classes..." % len(result))
         result = self.sortClasses(result, variants)
+        #result = self.sortClassesTopological(result, variants)
 
 
         # Return list
@@ -455,6 +456,34 @@ class DependencyLoader:
             sortClassesRecurser(classId, include, variants, result, path)
 
         return result
+
+
+    def sortClassesTopological(self, include, variants):
+        
+        import graph
+
+        # create graph object
+        gr = graph.digraph()
+
+        # add classes as nodes
+        gr.add_nodes(include)
+
+        # for each load dependency add a directed edge
+        for classId in include:
+            deps = self.getCombinedDeps(classId, variants)
+            for depClassId in deps["load"]:
+                gr.add_edge(depClassId, classId)
+
+        #dot = gr.write(fmt='dot')
+        #open("/tmp/graph.dot","w").write(dot)
+        #os.system("dot /tmp/graph.dot -Tpng > /tmp/graph.png")
+
+        # cycle check?
+
+        classList = gr.topological_sorting()
+
+        return classList
+
 
 
 
