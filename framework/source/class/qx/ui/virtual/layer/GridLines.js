@@ -43,13 +43,13 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
     }
     
     if (lineSize !== undefined) {
-      this.setSetDefaultLineSize(lineSize);
+      this.setDefaultLineSize(lineSize);
     }    
     
     this.__lineColors = [];
     this.__lineSizes = [];
 
-    this._isHorizontal = (orientation || "vertical") == "horizontal";
+    this._isHorizontal = (orientation || "horizontal") == "horizontal";
   },
   
   
@@ -72,7 +72,7 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
     /** The default width/height for grid lines.*/
     defaultLineSize :
     {
-      init : "1",
+      init : 1,
       check : "PositiveInteger",
       themeable : true
     }
@@ -94,6 +94,16 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
     /** Stores the width/height for deviant grid lines. */
     __lineSizes : null,
 
+    
+    /**
+     * Whether horizontal lines are rendered
+     * 
+     * @return {Boolean} Whether horizontal lines are rendered
+     */
+    isHorizontal : function() {
+      return this._isHorizontal;
+    },
+    
     
     /**
      * Sets the color for the grid line with the given index.
