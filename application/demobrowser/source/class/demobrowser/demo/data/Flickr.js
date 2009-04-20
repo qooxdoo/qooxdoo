@@ -141,6 +141,9 @@ qx.Class.define("demobrowser.demo.data.store.Flickr",
     RESULT : null
   },
 
+  /**
+   * @lint ignoreUndefined(jsonFlickrApi)
+   */
   construct : function(tag)
   {
     // store a global function

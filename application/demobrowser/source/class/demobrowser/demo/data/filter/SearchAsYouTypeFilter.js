@@ -50,6 +50,9 @@ qx.Class.define("demobrowser.demo.data.filter.SearchAsYouTypeFilter",
 
   members :
   {
+    __timerId: null,
+    __controller: null,
+    
     _applySearchString : function(value, old) {
       // get the timer instance
       var timer = qx.util.TimerManager.getInstance();

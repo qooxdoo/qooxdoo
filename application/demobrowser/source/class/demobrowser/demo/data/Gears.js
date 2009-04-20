@@ -131,11 +131,17 @@ qx.Class.define("demobrowser.demo.data.Gears",
      // when that happens.
 
 ************************************************************************ */
+/**
+ * @lint ignoreUndefined(google, GearsFactory) 
+ */
 qx.Class.define("demobrowser.demo.data.store.Gears", 
 {
   extend : qx.data.store.Json,
 
-
+  /**
+   * @lint ignoreDeprecated(confirm)
+   * @lint ignoreUndefined(google)
+   */
   construct : function()
   {
     this.base(arguments);
@@ -206,7 +212,6 @@ qx.Class.define("demobrowser.demo.data.store.Gears",
       
       // Get the person entry
       var rs = this.__db.execute('select * from Persons');
-      var index = 0;
       if (rs.isValidRow()) {
         person.firstname = rs.field(0);
         person.lastname = rs.field(1);
