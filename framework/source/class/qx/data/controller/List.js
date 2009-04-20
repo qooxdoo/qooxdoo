@@ -398,7 +398,14 @@ qx.Class.define("qx.data.controller.List",
           this.getSelection().splice(i, 1);
         }
       }
-      this._updateSelection();
+
+	  // need a asynchron selection update bacause the bindings have to be 
+	  // executed to update the selection probably 
+      var self = this;
+      window.setTimeout(function() {
+        self._updateSelection();
+      }, 0);
+
     },
     
         
@@ -498,7 +505,6 @@ qx.Class.define("qx.data.controller.List",
       // remove the item
       this.getTarget().removeAt(index);
       oldItem.destroy();
-      this._modifingSelection = false;  
       this._endSelectionModification();
     },    
     

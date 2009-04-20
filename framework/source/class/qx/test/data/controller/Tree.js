@@ -87,6 +87,14 @@ qx.Class.define("qx.test.data.controller.Tree",
 
   members :
   {
+    
+    __tree: null,
+    __model: null,
+    __controller: null,
+    
+    __a: null,
+    __b: null,
+    __c: null,
 
     setUp : function()
     {
@@ -435,22 +443,24 @@ qx.Class.define("qx.test.data.controller.Tree",
     
     testSelectionAfterDelete: function() {
       // open the tree so that the selection can be done
-      this.__tree.getRoot().setOpen(true);      
+      this.__tree.getRoot().setOpen(true);
+      
       // add c to the selection
       this.__controller.getSelection().push(this.__c);
       // remove the c node
       this.__model.getChildren().splice(2, 1);
-
       // check if the selection is empty
       this.assertEquals(0, this.__controller.getSelection().length, "Remove from selection does not work!");
+      
       // add b to the selection
       this.__controller.getSelection().push(this.__b);
+      
       // remove the first element of the controller 'this.__a'
       this.__model.getChildren().shift();
 
       // check if the selected item in the list is "b"
       this.assertTrue(this.__controller.getSelection().contains(this.__b), "Selection array wrong!");
-      this.assertEquals("b", this.__tree.getSelection()[0].getLabel(), "Remove from selection does not work!");      
+      this.assertEquals("b", this.__tree.getSelection()[0].getLabel(), "Remove from selection does not work!");
     },
     
     
