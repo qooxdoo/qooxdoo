@@ -502,6 +502,7 @@ class Generator:
             self.runDependencyDebug(partPackages, packageClasses, variants)
             self.runPrivateDebug()
             self.runUnusedClasses(partPackages, packageClasses, variants)
+            #self.runGraphOrderClasses(partPackages, packageClasses, variants)
 
         self._console.info("Done")
 
@@ -566,6 +567,53 @@ class Generator:
             self._console.outdent()
         self._console.outdent()
 
+
+
+    def runGraphOrderClasses(self, parts, packages, variants):
+        import graph
+        self._console.info("Class ordering debugging...")
+        self._console.indent()
+
+
+        for packageId, package in enumerate(packages):
+            self._console.info("Package %s" % packageId)
+            self._console.indent()
+
+            for partId in parts:
+                if packageId in parts[partId]:
+                    self._console.info("Part %s" % partId)
+
+                # create graph object
+                gr = graph.digraph()
+
+                # add classes as nodes
+                gr.add_nodes(package)
+
+                # for each load dependency add a directed edge
+                for classId in package:
+                    deps = self._depLoader.getCombinedDeps(classId, variants)
+                    for depClassId in deps["load"]:
+                        gr.add_edge(depClassId, classId)
+
+                #dot = gr.write(fmt='dot')
+                #open("/tmp/graph.dot","w").write(dot)
+                #os.system("dot /tmp/graph.dot -Tpng > /tmp/graph.png")
+
+                # cycle check?
+
+                # report
+                classList = gr.topological_sorting()
+                self._console.info("Topologically sorted class list:")
+                self._console.indent()
+                for classId in classList:
+                    self._console.info(classId)
+                self._console.outdent()
+
+            self._console.outdent()
+
+        self._console.outdent()
+
+        return
 
 
     def runDependencyDebug(self, parts, packages, variants):
