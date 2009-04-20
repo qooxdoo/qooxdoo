@@ -163,7 +163,19 @@ demobrowserConf = {
   'sendReport' : True,
   'browsers' : [
     {
+       'browserId' : 'FF2',
+       'kill' : True
+    },
+    {
        'browserId' : 'FF3',
+       'kill' : True
+    },
+    {
+       'browserId' : 'FF31',
+       'kill' : True
+    },
+    {
+       'browserId' : 'FF15',
        'kill' : True
     },
     {
