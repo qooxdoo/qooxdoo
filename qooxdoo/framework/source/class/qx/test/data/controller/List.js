@@ -22,6 +22,11 @@ qx.Class.define("qx.test.data.controller.List",
 
   members :
   {
+    
+    __list: null,
+    __controller: null,
+    __data: null,
+    __model : null,
 
     setUp : function()
     {
@@ -313,9 +318,10 @@ qx.Class.define("qx.test.data.controller.List",
       this.__setUpString();
 
       // set the selection in the array
-      this.__controller.getSelection().push(this.__model.getItem(0));      
+      this.__controller.getSelection().push(this.__model.getItem(0));     
+ 
       // test the selection
-      this.assertEquals(this.__model.getItem(0), this.__list.getSelection()[0].getLabel(), "Change the selection array does not work.");            
+      this.assertEquals(this.__model.getItem(0), this.__list.getSelection()[0].getLabel(), "Change the selection array does not work.");
     },
     
     
@@ -337,7 +343,8 @@ qx.Class.define("qx.test.data.controller.List",
 
       // check if the selected item in the list is "b"
       this.assertTrue(this.__controller.getSelection().contains("b"), "Selection array wrong!");
-      this.assertEquals("b", this.__list.getSelection()[0].getLabel(), "Remove from selection does not work!");      
+
+      this.assertEquals("b", this.__list.getSelection()[0].getLabel(), "Remove from selection does not work!");
     },
     
     
@@ -711,6 +718,39 @@ qx.Class.define("qx.test.data.controller.List",
         var label = this.__list.getChildren()[i].getEnabled();
         this.assertEquals(this.__data[i], label, "Binding " + i + " is wrong!");
       }
+    },
+    
+    
+    testSelectionSequence: function() {
+      // "a", "b", "c", "d", "e"
+      this.__setUpString();
+      this.__list.setSelectionMode("multi");
+      
+      var selList = new qx.ui.form.List();
+      var selController = new qx.data.controller.List(this.__controller.getSelection(), selList);
+      
+      // add the last two to the selection of the first list
+      this.__list.addToSelection(this.__list.getChildren()[4]);
+      this.__list.addToSelection(this.__list.getChildren()[3]);
+      // check if the second list is filled right
+      this.assertEquals("e", selList.getChildren()[0].getLabel(), "e is not in the selection list.");
+      this.assertEquals("d", selList.getChildren()[1].getLabel(), "d is not in the selection list.");
+      
+      selList.addToSelection(selList.getChildren()[1]);
+      
+      this.assertEquals("d", selController.getSelection().getItem(0), "d not selected in the second list.");
+
+      // remove the lasdt element of the first list
+      this.__model.pop();
+
+      // is d still in the list?
+      this.assertEquals("d", selList.getChildren()[0].getLabel(), "d is not in the selection list anymore.");
+      // still in the selection?
+      this.assertEquals("d", selController.getSelection().getItem(0), "d not selected in the second list anymore.");
+
+      // get rid of that old stuff
+      selList.dispose();
+      selController.dispose();
     }
   }
 });

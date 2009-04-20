@@ -43,9 +43,6 @@ qx.Mixin.define("qx.data.controller.MSelection",
       throw new Error("Target property is needed.");
     }
     
-    // set the semaphore-like variable for the selection change
-    this._modifingSelection = 0;
-    
     // create a default selection array
     this.setSelection(new qx.data.Array());
   },
@@ -83,8 +80,9 @@ qx.Mixin.define("qx.data.controller.MSelection",
   
   members :
   {
-    // private members
-    _modifingSelection : null,
+    // private members //
+    // set the semaphore-like variable for the selection change
+    _modifingSelection : 0,
     __selectionListenerId : null,
     __selectionArrayListenerId : null,
     
@@ -258,7 +256,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
       }
       
       // reset the changing flag
-      this._endSelectionModification();       
+      this._endSelectionModification();
     },    
     
     
