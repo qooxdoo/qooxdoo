@@ -48,7 +48,7 @@ qx.Class.define("demobrowser.demo.data.ListControllerWith3Widgets",
       // create the controller
       var controller1 = new qx.data.controller.List(data, list);
       var controller2 = new qx.data.controller.List(data, selectBox);
-      var controller3 = new qx.data.controller.List(data, comboBox);
+      new qx.data.controller.List(data, comboBox);
       
       // sync the selections of the list and the selectbox
       controller2.setSelection(controller1.getSelection());
