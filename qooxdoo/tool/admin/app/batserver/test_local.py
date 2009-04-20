@@ -85,6 +85,7 @@ browserConf = {
 mailConf = {
   'reportFile'          : seleniumConf['seleniumReport'],
   'archiveDir'          : '/home/dwagner/qxselenium/reports',
+  #'hostId'              : 'HOSTID',
   'mailFrom'            : 'daniel.wagner@1und1.de',
   #'mailTo'              : 'daniel.wagner@1und1.de',
   'mailTo'              : 'webtechnologies@1und1.de',
@@ -242,7 +243,7 @@ playgroundConf = {
 }
 
 def main():
-  localTest = qxtest.QxTest("local", seleniumConf, testConf, autConf, browserConf, mailConf)
+  localTest = qxtest.QxTest("local", seleniumConf, testConf, autConf, browserConf, mailConf)  
 
   rc = 0
   if ( localTest.isSeleniumServer() ):
@@ -254,7 +255,8 @@ def main():
     print("Updating Simulator checkout")
     qxtest.invokeExternal("svn up " + testConf["simulatorSvn"])
     
-    qxtest.invokeExternal("pkill firefox")
+    for browser in browserConf:
+      localTest.killBrowser(browser)
     
     localTest.buildAll(buildConf)
     localTest.runLint(lintConf)    
