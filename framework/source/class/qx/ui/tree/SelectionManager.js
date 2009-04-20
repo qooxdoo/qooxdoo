@@ -60,13 +60,17 @@ qx.Class.define("qx.ui.tree.SelectionManager",
     getSelectables : function()
     {
       var widget = this._getWidget();
-      var items = widget.getRoot().getItems(true, false, widget.getHideRoot());
-      var result = []
+      var result = [];
       
-      for (var i = 0; i < items.length; i++)
+      if (widget.getRoot() != null)
       {
-        if (items[i].isEnabled()) {
-          result.push(items[i]);
+        var items = widget.getRoot().getItems(true, false, widget.getHideRoot());
+        
+        for (var i = 0; i < items.length; i++)
+        {
+          if (items[i].isEnabled()) {
+            result.push(items[i]);
+          }
         }
       }
       
