@@ -97,7 +97,8 @@ class QxTest:
     
     buildLogFile = open(buildConf['buildErrorLog'], 'a')
     for target in buildConf:
-      cmd = self.testConf['qxPathAbs'] + buildConf['batbuild']
+      cmd = self.testConf['qxPathAbs'] + buildConf['batbuild'] 
+      cmd += " -w " + self.testConf['qxPathAbs']
       if (target != "batbuild" and target != "buildErrorLog"):
         print("Building " + target)      
         cmd += " " + buildConf[target]
