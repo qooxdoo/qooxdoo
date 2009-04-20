@@ -166,6 +166,9 @@ class DependencyLoader:
 
 
     def getCombinedDeps(self, fileId, variants):
+        # return dependencies of class named <fileId>, both found in its code and
+        # expressed in config options
+
         # print "Get combined deps: %s" % fileId
 
         # init lists
@@ -197,6 +200,8 @@ class DependencyLoader:
     # Interface method
     #
     def getDeps(self, fileId, variants):
+        # find dependencies of class named <fileId> in its code (both meta hints as
+        # well as source code)
 
         def analyzeClassDeps(fileId, variants):
 
@@ -299,6 +304,13 @@ class DependencyLoader:
 
                             if not assembledId in target:
                                 target.append(assembledId)
+
+                            # an attempt to fix static initializers (bug#1455)
+                            # doesn't work for e.g. qx.lang.Core using qx.lang.Object.select(), but
+                            # qx.lang.Object run-deps include qx.lang.Core :-(
+                            #if target == loadtime:  # make run-time deps of the new item load-deps of the current
+                            #    deps = self.getCombinedDeps(assembledId, variants)
+                            #    target.extend(deps["run"])
 
                 elif node.type == "body" and node.parent.type == "function":
                     inFunction = True
