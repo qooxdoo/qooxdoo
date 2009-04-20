@@ -149,14 +149,19 @@ qx.Class.define("qx.ui.table.model.Filtered",
      * @param target {String}
      *    The text value of the column to compare against.
      *
+     * @param ignorecase {boolean}
+     *    If true, the regular expression will ignore case.
+     *
      * @return {void}
      *
      * @throws TODOC
      */
-    addRegex : function(regex, target)
+    addRegex : function(regex, target, ignorecase)
     {
+      var regexarg;
+      if (ignorecase) { regexarg ='gi'; } else { regexarg ='g'; }
       if (regex != null && target != null) {
-        var temp = new Array("regex", regex, target);
+        var temp = new Array("regex", regex, target, regexarg);
       }
 
       if (temp != null) {
@@ -168,6 +173,39 @@ qx.Class.define("qx.ui.table.model.Filtered",
 
 
     /**
+     * The addNotRegex method is used to add a regular expression filter to the
+     * table model and filter cells that do not match.
+     *
+     * @param regex {String}
+     *    The regular expression to match against.
+     *
+     * @param target {String}
+     *    The text value of the column to compare against.
+     *
+     * @param ignorecase {boolean}
+     *    If true, the regular expression will ignore case.
+     *
+     * @return {void}
+     *
+     * @throws TODOC
+     */
+    addNotRegex : function(regex, target, ignorecase)
+    {
+      var regexarg;
+      if (ignorecase) { regexarg ='gi'; } else { regexarg ='g'; }
+      if (regex != null && target != null) {
+        var temp = new Array("notregex", regex, target, regexarg);
+      }
+ 
+      if (temp != null) {
+        this.Filters.push(temp);
+      } else {
+        throw new Error("notregex cannot be null!");
+      }
+    },
+ 
+ 
+     /**
      * The applyFilters method is called to apply filters to the table model.
      */
     applyFilters : function()
@@ -262,10 +300,17 @@ qx.Class.define("qx.ui.table.model.Filtered",
           {
             compareValue = this.getValueById(this.Filters[i][2], row);
 
-            var the_pattern = new RegExp(this.Filters[i][1], 'g');
+            var the_pattern = new RegExp(this.Filters[i][1], this.Filters[i][3]);
             filter_test = the_pattern.test(compareValue);
           }
-        }
+          else if (this.Filters[i][0] == "notregex" && filter_test == false)
+          {
+            compareValue = this.getValueById(this.Filters[i][2], row);
+
+            var the_pattern = new RegExp(this.Filters[i][1], this.Filters[i][3]);
+            filter_test = !the_pattern.test(compareValue);
+          }
+        } 
 
         // Hide row if necessary.
         if (filter_test == true) {
