@@ -151,8 +151,8 @@ qx.Class.define("qx.ui.form.SelectBox",
     _applySelected : function(value, old)
     {
       var list = this.getChildControl("list");
-      if (list.getSelected() != value) {
-        list.setSelected(value);
+      if (list.getSelection()[0] != value) {
+        list.setSelection([value]);
       }
 
       var atom = this.getChildControl("atom");
@@ -471,7 +471,7 @@ qx.Class.define("qx.ui.form.SelectBox",
 
         // check if the list has any children before selecting
         if (list.hasChildren()) {
-          list.setSelected(this.getSelected());
+          list.setSelection([this.getSelected()]);
         }
       }
     }
