@@ -38,7 +38,7 @@ qx.Class.define("apiviewer.ui.PackageTree",
     this.__root = new qx.ui.tree.TreeFolder("Packages");
     this.__root.setOpen(true);
     this.setRoot(this.__root);
-    this.setSelected(this.__root);
+    this.setSelection([this.__root]);
 
     // TODO: Is this workaround still needed?
     // Workaround: Since navigating in qx.ui.tree.Tree doesn't work, we've to
@@ -112,7 +112,7 @@ qx.Class.define("apiviewer.ui.PackageTree",
         packageName += "." + nameParts[i];
       } while (i<nameParts.length);
 
-      this.setSelected(treeNode);
+      this.setSelection([treeNode]);
       this.scrollChildIntoView(treeNode);
 
       return true;
