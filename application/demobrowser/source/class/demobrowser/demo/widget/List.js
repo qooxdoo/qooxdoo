@@ -59,15 +59,14 @@ qx.Class.define("demobrowser.demo.widget.List",
       for( var i=1; i<=25; i++ )
       {
         item = new qx.ui.form.ListItem("Item No " + i, "icon/" + ((i % 4) ? "16" : "48") + "/places/folder.png");
-
+        configList.add(item);
+        
         !(i % 9) && (item.setEnabled(false));
 
         // Pre-Select "Item No 20"
         if (i==20) {
-          configList.setSelected(item);
+          configList.setSelection([item]);
         }
-
-        configList.add(item);
       };
 
       configList.addListener("changeValue", function(e) {
@@ -185,13 +184,12 @@ qx.Class.define("demobrowser.demo.widget.List",
       for( var i=1; i<=25; i++ )
       {
         item = new qx.ui.form.ListItem("Item No " + i, "icon/16/places/folder.png");
-
+        oneList.add(item);
+        
         // Pre-Select "Item No 16"
         if (i==16) {
-          oneList.setSelected(item);
+          oneList.setSelection([item]);
         }
-
-        oneList.add(item);
       };
 
       container.add(oneList, {left: 330, top: 40});
@@ -259,7 +257,7 @@ qx.Class.define("demobrowser.demo.widget.List",
         l4.add(item4);
 
         if (i == 12) {
-          l4.setSelected(item4);
+          l4.setSelection([item4]);
         }
       };
 
