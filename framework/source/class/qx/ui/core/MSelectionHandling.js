@@ -29,6 +29,10 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
   *****************************************************************************
   */
 
+  /*
+   * TODO check API dcumentation and overwork it if necessary!
+   */
+  
   construct : function()
   {
     // Create selection manager
@@ -153,11 +157,16 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
      * Use {@link #addToSelection} instead if you want to add new
      * items to an existing selection.
      *
+     * @deprecated Use 'setSelection' instead!
      * @param item {Object} Any valid item
      * @return {void}
      */
     select : function(item) {
-      this.setSelected(item);
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'setSelection' instead!"
+      );
+      this.setSelection([item]);
     },
 
     
@@ -167,11 +176,16 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
      * Selects the given item. Replaces current selection
      * completely with the new item.
      *
+     * @deprecated Use 'setSelection' instead!
      * @param item {Object} Any valid item
      * @return {void}
      */
     setSelected : function(item) {
-      this.__manager.selectItem(item);
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'setSelection' instead!"
+      );
+      this.setSelection([item]);
     },
 
     
@@ -182,6 +196,11 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
      * @return {Boolean} Whether the item is selected
      */
     isSelected : function(item) {
+      if (!qx.ui.core.Widget.contains(this, item)) {
+        throw new Error("Could not test if " + item + 
+          " is selected, because it is not a child element!");
+      }
+      
       return this.__manager.isItemSelected(item);
     },
 
@@ -196,6 +215,11 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
      * @return {void}
      */
     addToSelection : function(item) {
+      if (!qx.ui.core.Widget.contains(this, item)) {
+        throw new Error("Could not add + " + item + 
+          " to selection, because it is not a child element!");
+      }
+      
       this.__manager.addItem(item);
     },
 
@@ -210,6 +234,11 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
      * @return {void}
      */
     removeFromSelection : function(item) {
+      if (!qx.ui.core.Widget.contains(this, item)) {
+        throw new Error("Could not remove " + item + 
+          " from selection, because it is not a child element!");
+      }
+      
       this.__manager.removeItem(item);
     },
 
@@ -231,15 +260,17 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
      * resets the lead and anchor items and their
      * styles.
      *
-     * @return {void}
+     * @deprecated Use 'resetSelection' instead!
      */
     clearSelection : function() {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'resetSelection' instead!"
+      );
       this.resetSelection();
     },
 
     /**
-     * EXPERIMENTAL!!!
-     * 
      * Clears the whole selection at once.
      *
      * @return {void}
@@ -251,10 +282,15 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
     /**
      * Replaces current selection with the given items
      *
+     * @deprecated Use 'setSelection' instead!
      * @param items {Object} Items to select
      * @return {void}
      */
     replaceSelection : function(items) {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'setSelection' instead!"
+      );
       this.setSelection(items);
     },
 
@@ -267,6 +303,13 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
      * @return {void}
      */
     setSelection : function(items) {
+      for (var i = 0; i < items.length; i++) {
+        if (!qx.ui.core.Widget.contains(this, items[i])) {
+          throw new Error("Could not select " + items[i] + 
+            ", because it is not a child element!");
+        }
+      }
+      
       this.__manager.replaceSelection(items);
     },
     
@@ -274,10 +317,21 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
      * Get the selected item. This method does only work in <code>single</code>
      * selection mode.
      *
+     * @deprecated Use 'getSelection' instead!
      * @return {Object} The selected item.
      */
     getSelectedItem : function() {
-      return this.getSelected();
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'getSelection' instead!"
+      );
+      var result = this.getSelection();
+      
+      if (result.length > 0) {
+        return result[0];
+      } else {
+        return null;
+      }
     },
     
     /**
@@ -285,10 +339,21 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
      * 
      * Get the selected item.
      *
+     * @deprecated Use 'getSelection' instead!
      * @return {Object} The selected item.
      */
     getSelected : function() {
-      return this.__manager.getSelectedItem();
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'getSelection' instead!"
+      );
+      var result = this.getSelection();
+      
+      if (result.length > 0) {
+        return result[0];
+      } else {
+        return null;
+      }
     },
 
 

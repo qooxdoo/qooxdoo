@@ -19,25 +19,13 @@
 ************************************************************************ */
 
 /**
- * Each object, which should support single selection have to
+ * Each object, which should support multiselection selection have to
  * implement this interface.
  */
 qx.Interface.define("qx.ui.core.IMultiSelection",
 {
-  /*
-  *****************************************************************************
-     EVENTS
-  *****************************************************************************
-  */
-
-  events :
-  {
-    /** Fires after the selection was modified */
-    "changeSelection" : "qx.event.type.Data"
-  },
-
-
-
+  extend: qx.ui.core.ISingleSelection,
+  
   /*
   *****************************************************************************
      MEMBERS
@@ -46,53 +34,6 @@ qx.Interface.define("qx.ui.core.IMultiSelection",
 
   members :
   {
-    /**
-     * Returns an array of currently selected items.
-     *
-     * @return {Object[]} List of items.
-     */
-    getSelection : function() {
-      return true;
-    },
-    
-    /**
-     * Replaces current selection with the given items.
-     *
-     * @param items {Object} Items to select
-     * @return {void}
-     */
-    setSelection : function(items) {
-      return arguments.length == 1;
-    },
-    
-    /**
-     * Clears the whole selection at once.
-     *
-     * @return {void}
-     */
-    resetSelection : function() {
-      return true;
-    },
-    
-    /**
-     * Detects whether the given item is currently selected.
-     *
-     * @param item {Object} Any valid selectable item
-     * @return {Boolean} Whether the item is selected
-     */
-    isSelected : function(item) {
-      return arguments.length == 1;
-    },
-    
-    /**
-     * Whether the selection is empty.
-     *
-     * @return {Boolean} Whether the selection is empty
-     */
-    isSelectionEmpty : function() {
-      return true;
-    },
-    
     /**
      * Selects all items of the managed object.
      */
@@ -103,8 +44,7 @@ qx.Interface.define("qx.ui.core.IMultiSelection",
     /**
      * Adds the given item to the existing selection.
      *
-     * @param item {Object} Any valid item
-     * @return {void}
+     * @param item {qx.ui.core.Widget} Any valid item
      */
     addToSelection : function(item) {
       return arguments.length == 1;
@@ -116,21 +56,10 @@ qx.Interface.define("qx.ui.core.IMultiSelection",
      * Use {@link #resetSelection} when you want to clear
      * the whole selection at once.
      *
-     * @param item {Object} Any valid item
-     * @return {void}
+     * @param item {qx.ui.core.Widget} Any valid item
      */
     removeFromSelection : function(item) {
       return arguments.length == 1;
-    },
-    
-    
-    /**
-     * Returns all elements which are selectable.
-     * 
-     * @return {LayoutItem[]} The contained items.
-     */
-    getSelectables: function() {
-      return true;
     }
   }
 });
