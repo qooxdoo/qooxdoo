@@ -37,7 +37,6 @@ qx.Interface.define("qx.ui.core.ISingleSelection",
   },
 
 
-
   /*
   *****************************************************************************
      MEMBERS
@@ -47,29 +46,25 @@ qx.Interface.define("qx.ui.core.ISingleSelection",
   members :
   {
     /**
-     * Get the selected item.
+     * Returns an array of currently selected items.
      *
-     * @return {Object} The selected item.
+     * @return {qx.ui.core.Widget[]} List of items.
      */
-    getSelected : function() {
+    getSelection : function() {
       return true;
     },
     
     /**
-     * Selects the given item. Replaces current selection
-     * completely with the new item.
+     * Replaces current selection with the given items.
      *
-     * @param item {Object} Any valid item
-     * @return {void}
+     * @param items {qx.ui.core.Widget[]} Items to select
      */
-    setSelected : function(item) {
+    setSelection : function(items) {
       return arguments.length == 1;
     },
     
     /**
      * Clears the whole selection at once.
-     *
-     * @return {void}
      */
     resetSelection : function() {
       return true;
@@ -78,7 +73,7 @@ qx.Interface.define("qx.ui.core.ISingleSelection",
     /**
      * Detects whether the given item is currently selected.
      *
-     * @param item {Object} Any valid selectable item
+     * @param item {qx.ui.core.Widget} Any valid selectable item
      * @return {Boolean} Whether the item is selected
      */
     isSelected : function(item) {
@@ -98,7 +93,7 @@ qx.Interface.define("qx.ui.core.ISingleSelection",
     /**
      * Returns all elements which are selectable.
      * 
-     * @return {LayoutItem[]} The contained items.
+     * @return {qx.ui.core.Widget[]} The contained items.
      */
     getSelectables: function() {
       return true;
