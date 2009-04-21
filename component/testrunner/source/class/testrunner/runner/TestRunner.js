@@ -581,7 +581,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       var that = this;
 
       this.tree.getSelectedElement = function() {
-        return that.widgets["treeview.full"].getSelected();
+        return that.widgets["treeview.full"].getSelection()[0];
       };
 
       container.add(tree, {flex : 1});
@@ -910,7 +910,7 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       // Now select item:
       if (initalSelected) {
-        fulltree.setSelected(initalSelected);
+        fulltree.setSelection([initalSelected]);
       }
 
       if (selectedElement)  // try to re-select previously selected element
@@ -924,7 +924,7 @@ qx.Class.define("testrunner.runner.TestRunner",
         }
 
         // Finally select the element
-        selectedElement.widgetLinkFull.getTree().setSelected(selectedElement.widgetLinkFull);
+        selectedElement.widgetLinkFull.getTree().setSelection([selectedElement.widgetLinkFull]);
       }
 
     },  // leftReloadTree
