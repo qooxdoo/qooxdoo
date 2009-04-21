@@ -128,6 +128,8 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
       if (this.getBehavior() == null) {
         this.setBehavior(new qx.ui.table.columnmodel.resizebehavior.Default());
       }
+      
+      this.getBehavior().setTableColumnModel(this);
 
       // Save the table so we can get at its features, as necessary.
       this.__table = table;
@@ -244,7 +246,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
       }
 
       // this handler is also called by the "execute" event of the menu button
-      this.getBehavior().onAppear(this, event, event.getType() !== "appear");
+      this.getBehavior().onAppear(event, event.getType() !== "appear");
 
       this.__table._updateScrollerWidths();
       this.__table._updateScrollBarVisibility();
@@ -282,7 +284,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
         }
       }
 
-      this.getBehavior().onTableWidthChanged(this, event);
+      this.getBehavior().onTableWidthChanged(event);
       this.__bInProgress = false;
     },
 
@@ -315,7 +317,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
         }
       }
 
-      this.getBehavior().onVerticalScrollBarChanged(this, event);
+      this.getBehavior().onVerticalScrollBarChanged(event);
 
       qx.event.Timer.once(function()
       {
@@ -357,7 +359,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
         }
       }
 
-      this.getBehavior().onColumnWidthChanged(this, event);
+      this.getBehavior().onColumnWidthChanged(event);
       this.__bInProgress = false;
     },
 
@@ -389,7 +391,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
         }
       }
 
-      this.getBehavior().onVisibilityChanged(this, event);
+      this.getBehavior().onVisibilityChanged(event);
       this.__bInProgress = false;
     }
   },
