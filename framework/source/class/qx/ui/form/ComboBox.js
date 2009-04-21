@@ -209,7 +209,7 @@ qx.Class.define("qx.ui.form.ComboBox",
       var list = this.getChildControl("list");
       var item = list.findItem(value);
       if (item) {
-        list.setSelected(item);
+        list.setSelection([item]);
       } else {
         list.resetSelection();
       }
@@ -383,7 +383,7 @@ qx.Class.define("qx.ui.form.ComboBox",
       var list = this.getChildControl("list");
       var item = list.findItem(value);
       if (item) {
-        list.setSelected(item);
+        list.setSelection([item]);
       } else {
         list.resetSelection();
       }
@@ -409,7 +409,7 @@ qx.Class.define("qx.ui.form.ComboBox",
     
       if (firstItem && list.isSelectionEmpty())
       {
-        list.setSelected(firstItem);
+        list.setSelection([firstItem]);
       }
     },
     
