@@ -288,6 +288,9 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
       }
       
       this.close();
+      
+      // needed for ComboBox widget inside an inline application
+      e.preventDefault();
     },
 
     /**
