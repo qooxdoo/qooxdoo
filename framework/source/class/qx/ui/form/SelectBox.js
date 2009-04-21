@@ -373,6 +373,7 @@ qx.Class.define("qx.ui.form.SelectBox",
       // prevent any other widget from receiving this event
       // e.g. place a selectbox widget inside a scroll container widget
       e.stopPropagation();
+      e.preventDefault();
     },
 
 
