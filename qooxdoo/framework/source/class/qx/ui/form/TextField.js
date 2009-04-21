@@ -138,7 +138,7 @@ qx.Class.define("qx.ui.form.TextField",
 
     // property apply
     _applyMaxLength : function(value, old) {
-      this.getContentElement().setAttribute("maxLength", value == null ? "" : value);
+      this.getContentElement().setAttribute("maxLength", value);
     }
   }
 });
