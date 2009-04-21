@@ -264,7 +264,8 @@ qx.Class.define("qx.bom.element.Attribute",
       }
 
       // apply attribute
-      if (hints.property[name]) {
+      if (hints.property[name] && 
+          (value !== true && value !== false && value !== null)) {
         element[name] = value;
       } else if (value === true) {
         element.setAttribute(name, name);
