@@ -35,8 +35,11 @@ class QxTest:
     self.timeFormat = '%Y-%m-%d %H:%M:%S'
     self.logFile = False
 
-    if ('testLog' in self.testConf):
-      self.logFile = open(self.testConf['testLog'], 'a')
+    if ('testLogDir' in self.testConf):
+      tf = '%Y-%m-%d'
+      filename = "testLog_" + time.strftime(tf) + ".txt"
+      fullpath = os.path.join(self.testConf['testLogDir'], filename)
+      self.logFile = open(fullpath, 'a')
       self.logFile.write("################################################################################\n")
       self.log("Starting " + self.testType + " test session.")    
 
@@ -286,14 +289,15 @@ class QxTest:
       self.mailConf['subject'] += failed + " test runs failed!"
     else:
       self.mailConf['subject'] += totalE + " issues"    
-  
+
     # Send mail
+    if (self.sim):
+      self.log("SIMULATION; Prepared report email:\n" 
+               + "  Subject: " + self.mailConf['subject'] + "\n"
+               + "  Recipient: " + self.mailConf['mailTo'])    
     if (osystem !=""):
-      if (self.sim):
-        self.log("SIMULATION; Sending report email: " + repr(self.mailConf))
-      else:
-        sendMultipartMail(self.mailConf)
-      
+      sendMultipartMail(self.mailConf)
+
     else:
       self.log("ERROR: Report file seems incomplete, report not sent.")
 
