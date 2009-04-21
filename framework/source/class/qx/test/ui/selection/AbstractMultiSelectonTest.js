@@ -65,14 +65,14 @@ qx.Class.define("qx.test.ui.selection.AbstractMultiSelectonTest",
         
       // Tests the result from "getSelection"
       var result = this._widget.getSelection();
-      this.__assertArrayEquals(expected, result, "Selection is wrong");
+      this._assertArrayEquals(expected, result, "Selection is wrong");
       
       // Test setSelection(), with one element from the selection before
       this._widget.setSelection(this._selection);
       this._widget.setSelection([this._selection[0]]);
       result = this._widget.getSelection();
       expected = [this._selection[0]];
-      this.__assertArrayEquals(expected, result, "Selection is wrong");
+      this._assertArrayEquals(expected, result, "Selection is wrong");
       this.flush();
     },
     
@@ -89,7 +89,7 @@ qx.Class.define("qx.test.ui.selection.AbstractMultiSelectonTest",
         that.flush();
       }, function(event) {
         // Tests the result from the event
-        that.__assertArrayEquals(that._getChildren(), event.getData(),
+        that._assertArrayEquals(that._getChildren(), event.getData(),
           "Selection is wrong!");
       }, "'changeSelection' event not fired!");
       
@@ -100,7 +100,7 @@ qx.Class.define("qx.test.ui.selection.AbstractMultiSelectonTest",
       
       // Tests the result from "getSelection"
       this._selection = this._widget.getSelection();
-      this.__assertArrayEquals(this._getChildren(), this._selection,
+      this._assertArrayEquals(this._getChildren(), this._selection,
         "Selection is wrong!");
     },
     
@@ -118,7 +118,7 @@ qx.Class.define("qx.test.ui.selection.AbstractMultiSelectonTest",
         that.flush();
       }, function(event) {
         // Tests the result from the event        
-        that.__assertArrayEquals(that._selection, event.getData(), 
+        that._assertArrayEquals(that._selection, event.getData(), 
           "The result of the selection is wrong");
       }, "'changeSelection' event not fired!");
       
@@ -128,7 +128,7 @@ qx.Class.define("qx.test.ui.selection.AbstractMultiSelectonTest",
       }, function(event) {}, "'changeSelection' event fired!");
       
       // Tests the result from "getSelection"
-      this.__assertArrayEquals(this._selection, this._widget.getSelection(),
+      this._assertArrayEquals(this._selection, this._widget.getSelection(),
         "Selection is wrong");
     },
     
@@ -161,12 +161,12 @@ qx.Class.define("qx.test.ui.selection.AbstractMultiSelectonTest",
         that.flush();
       }, function(event) {
         // Tests the result from the event
-        that.__assertArrayEquals(that._selection, event.getData(), 
+        that._assertArrayEquals(that._selection, event.getData(), 
           "The result of the selection is wrong");
       }, "'changeSelection' event not fired!");
       
       // Tests the result from "getSelection"
-      this.__assertArrayEquals(this._selection, this._widget.getSelection(),
+      this._assertArrayEquals(this._selection, this._widget.getSelection(),
         "Selection is wrong");
     },
     
