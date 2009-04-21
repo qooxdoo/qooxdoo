@@ -50,6 +50,8 @@ seleniumConf = {
 }
 
 testConf = {
+  #'simulateTest'        : True,
+  'testLog'             : '/home/dwagner/qxselenium/testLog.txt',          
   'qxPathAbs'           : '/var/www/qx/trunk/qooxdoo',  
   'classPath'           : '/home/dwagner/qxselenium/selenium-java-client-driver.jar:/home/dwagner/rhino1_7R1/js.jar',
   'simulatorSvn'        : '/home/dwagner/workspace/qooxdoo.contrib/Simulator',
@@ -245,31 +247,21 @@ playgroundConf = {
 def main():
   localTest = qxtest.QxTest("local", seleniumConf, testConf, autConf, browserConf, mailConf)  
 
-  rc = 0
-  if ( localTest.isSeleniumServer() ):
-    print("Selenium server seems to be running.")
-  else:
-    localTest.startSeleniumServer()
-  if ( localTest.isSeleniumServer() ):
+  localTest.startSeleniumServer()
 
-    print("Updating Simulator checkout")
-    qxtest.invokeExternal("svn up " + testConf["simulatorSvn"])
+  localTest.updateSimulator()
     
-    for browser in browserConf:
-      localTest.killBrowser(browser)
-    
-    localTest.buildAll(buildConf)
-    localTest.runLint(lintConf)    
-    localTest.runTests(testrunnerConf)
-    localTest.runTests(demobrowserConf)
-    localTest.runTests(feedreaderConf)
-    localTest.runTests(playgroundConf)
+  for browser in browserConf:
+    localTest.killBrowser(browser)
+  
+  localTest.buildAll(buildConf)
+  localTest.runLint(lintConf)    
+  localTest.runTests(testrunnerConf)
+  localTest.runTests(demobrowserConf)
+  localTest.runTests(feedreaderConf)
+  localTest.runTests(playgroundConf)
 
-  else:
-    rc = 1
-    print("Couldn't contact Selenium server.")
-
-  return rc
+  return 0
 
 if __name__ == "__main__":
     try:
