@@ -80,7 +80,7 @@ qx.Class.define("inspector.widgets.WidgetsWindow", {
     
     getSelection: function() {
       // get the selected element
-      var selectedElement = this._tree.getSelected();
+      var selectedElement = this._tree.getSelection()[0];
       // return the id if an element is selected
       if (selectedElement != null) {
         return selectedElement.getUserData("instance");
@@ -128,7 +128,7 @@ qx.Class.define("inspector.widgets.WidgetsWindow", {
         if (items.length > 1) {
           for (var m = 0; m < items.length; m++) {
             // check if the selection is on a folder which should be deleted
-            if (items[m + 1] == this._tree.getSelected()) {
+            if (items[m + 1] == this._tree.getSelection()[0]) {
               this._tree.resetSelection();
             }          
             // remove all child folders
@@ -189,7 +189,7 @@ qx.Class.define("inspector.widgets.WidgetsWindow", {
             
             // check if the selection is on a folder which should be deleted
             if (parentTreeFolder.getItems()[i] != null) {
-              if (parentTreeFolder.getItems()[i] == this._tree.getSelected()) {
+              if (parentTreeFolder.getItems()[i] == this._tree.getSelection()[0]) {
                 this._tree.resetSelection();
               }
             }
