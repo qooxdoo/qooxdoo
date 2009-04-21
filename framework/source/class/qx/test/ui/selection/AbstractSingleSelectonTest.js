@@ -47,7 +47,7 @@ qx.Class.define("qx.test.ui.selection.AbstractSingleSelectonTest",
       throw new Error("Abstract method call: tearDown()");
     },
 
-    __assertArrayEquals : function(expected, found, message)
+    _assertArrayEquals : function(expected, found, message)
     {
       expected.sort();
       found.sort();
@@ -57,7 +57,7 @@ qx.Class.define("qx.test.ui.selection.AbstractSingleSelectonTest",
     testGetSelection : function()
     {
       var result = this._widget.getSelection();
-      this.__assertArrayEquals(this._selection, result,
+      this._assertArrayEquals(this._selection, result,
         "The result of the selection is wrong");
     },
     
@@ -81,13 +81,13 @@ qx.Class.define("qx.test.ui.selection.AbstractSingleSelectonTest",
       }, function(event)
       {
         var data = event.getData();
-        that.__assertArrayEquals(that._selection, data, "The result of the" +
+        that._assertArrayEquals(that._selection, data, "The result of the" +
           " 'changeSelection' event is wrong!");
       }, "'changeSelection' event not fired!");
       
       // Tests the result from "getSelection"
       var result = this._widget.getSelection();
-      this.__assertArrayEquals(this._selection, result, "The result of" +
+      this._assertArrayEquals(this._selection, result, "The result of" +
         " 'getSelection' method is wrong!");
     },
     
@@ -96,7 +96,7 @@ qx.Class.define("qx.test.ui.selection.AbstractSingleSelectonTest",
       var that = this;
       var widget = this._widget;
       
-      this.__assertArrayEquals(this._selection, this._widget.getSelection(),
+      this._assertArrayEquals(this._selection, this._widget.getSelection(),
         "The test setup is wrong!");
       
       this.assertEventNotFired(widget, "changeSelection", function() {
@@ -138,7 +138,7 @@ qx.Class.define("qx.test.ui.selection.AbstractSingleSelectonTest",
       }, function(event) {
         if (that._mode === "one")
         {
-          that.__assertArrayEquals([that._getChildren()[0]], event.getData(),
+          that._assertArrayEquals([that._getChildren()[0]], event.getData(),
             "The first element isn't selected!");
         } else {
           that.assertIdentical(0, event.getData().length, "Event isn't empty!");
@@ -149,7 +149,7 @@ qx.Class.define("qx.test.ui.selection.AbstractSingleSelectonTest",
       var result = this._widget.getSelection();
       if (this._mode === "one")
       {
-        this.__assertArrayEquals([this._getChildren()[0]], result,
+        this._assertArrayEquals([this._getChildren()[0]], result,
           "The first element isn't selected!");
       } else {
         this.assertIdentical(0, result.length, "The result isn't empty!");
@@ -213,7 +213,7 @@ qx.Class.define("qx.test.ui.selection.AbstractSingleSelectonTest",
       
       var found = this._widget.getSelectables();
 
-      this.__assertArrayEquals(selectables, found, 
+      this._assertArrayEquals(selectables, found, 
         "This list of the returned selectables are wrong!");
     }
   }
