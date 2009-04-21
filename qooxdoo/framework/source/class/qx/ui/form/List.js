@@ -279,8 +279,13 @@ qx.Class.define("qx.ui.form.List",
      */
     setValue : function(value)
     {
-      // Clear current selection
-      var splitted = value.split(",");
+      // only split the value in multi selection mode 
+      // (a , could be in the value as well)
+      var splitted = [value];
+      if (this.getSelectionMode() === "multi" ) {
+        // Clear current selection
+        splitted = value.split(",");
+      }
 
       // Building result list
       var result = [];
@@ -292,6 +297,7 @@ qx.Class.define("qx.ui.form.List",
           result.push(item);
         }
       }
+      
 
       // Replace current selection
       this.setSelection(result);
