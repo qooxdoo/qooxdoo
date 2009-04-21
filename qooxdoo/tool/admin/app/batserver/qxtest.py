@@ -488,7 +488,7 @@ def sendMultipartMail(configuration):
   msgText = MIMEText(configuration['html'], 'html')
   msg.attach(msgText)
   
-  self.log("Sending report. Subject: " + configuration['subject'] + " Recipient: " 
+  print("Sending report. Subject: " + configuration['subject'] + " Recipient: " 
         + configuration['mailTo'])
   mailServer = smtplib.SMTP(configuration['smtpHost'], configuration['smtpPort'])
   mailServer.ehlo()
