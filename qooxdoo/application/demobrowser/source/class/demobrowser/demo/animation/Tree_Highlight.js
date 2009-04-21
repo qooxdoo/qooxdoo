@@ -197,7 +197,7 @@ qx.Class.define("demobrowser.demo.animation.Tree_Highlight",
 
     _addFolder : function()
     {
-      var current = this._tree.getSelected();
+      var current = this._tree.getSelection()[0];
       var folder = new qx.ui.tree.TreeFolder(this.inputItemName.getValue());
 
       folder.addListenerOnce("appear", function(){
@@ -212,7 +212,7 @@ qx.Class.define("demobrowser.demo.animation.Tree_Highlight",
 
     _addFile : function()
     {
-      var current = this._tree.getSelected();
+      var current = this._tree.getSelection()[0];
       var file = new qx.ui.tree.TreeFile(this.inputItemName.getValue());
 
       file.addListenerOnce("appear", function(){
@@ -227,7 +227,7 @@ qx.Class.define("demobrowser.demo.animation.Tree_Highlight",
 
     _addBefore : function()
     {
-      var current = this._tree.getSelected();
+      var current = this._tree.getSelection()[0];
       var file = new qx.ui.tree.TreeFile(this.inputItemName.getValue());
 
       file.addListenerOnce("appear", function(){
@@ -241,7 +241,7 @@ qx.Class.define("demobrowser.demo.animation.Tree_Highlight",
 
     _addAfter : function()
     {
-      var current = this._tree.getSelected();
+      var current = this._tree.getSelection()[0];
       var file = new qx.ui.tree.TreeFile(this.inputItemName.getValue());
 
       file.addListenerOnce("appear", function(){
@@ -255,7 +255,7 @@ qx.Class.define("demobrowser.demo.animation.Tree_Highlight",
 
     _addBegin : function()
     {
-      var current = this._tree.getSelected();
+      var current = this._tree.getSelection()[0];
       var file = new qx.ui.tree.TreeFile(this.inputItemName.getValue());
 
       file.addListenerOnce("appear", function(){
@@ -269,7 +269,7 @@ qx.Class.define("demobrowser.demo.animation.Tree_Highlight",
 
     _removeTreeItem : function()
     {
-      var current = this._tree.getSelected();
+      var current = this._tree.getSelection()[0];
       var parent = current.getParent();
 
       parent.remove(current);
@@ -278,14 +278,14 @@ qx.Class.define("demobrowser.demo.animation.Tree_Highlight",
 
     _removeAll : function()
     {
-      var current = this._tree.getSelected();
+      var current = this._tree.getSelection()[0];
       current.removeAll();
     },
 
 
     _moveToParent : function()
     {
-      var current = this._tree.getSelected();
+      var current = this._tree.getSelection()[0];
       var parent = current.getParent();
       parent.remove(current);
       parent.getParent().add(current);
@@ -296,7 +296,7 @@ qx.Class.define("demobrowser.demo.animation.Tree_Highlight",
 
     _onChangeShowOpen : function()
     {
-      var current = this._tree.getSelected();
+      var current = this._tree.getSelection()[0];
       var mode = this.mgrShowRootOpen.getSelected().getValue();
       current.setOpenSymbolMode(mode);
     },
