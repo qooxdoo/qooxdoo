@@ -502,7 +502,7 @@ class Generator:
             self.runDependencyDebug(partPackages, packageClasses, variants)
             self.runPrivateDebug()
             self.runUnusedClasses(partPackages, packageClasses, variants)
-            #self.runGraphOrderClasses(partPackages, packageClasses, variants)
+            #self.runClassOrderingDebug(partPackages, packageClasses, variants)
 
         self._console.info("Done")
 
@@ -569,7 +569,7 @@ class Generator:
 
 
 
-    def runGraphOrderClasses(self, parts, packages, variants):
+    def runClassOrderingDebug(self, parts, packages, variants):
         import graph
         self._console.info("Class ordering debugging...")
         self._console.indent()
@@ -583,9 +583,10 @@ class Generator:
                 if packageId in parts[partId]:
                     self._console.info("Part %s" % partId)
 
-                classList = self._depLoader.sortClassesTopological(package, variants)
+                classList = self._depLoader.sortClasses(package, variants)
+                #classList = self._depLoader.sortClassesTopological(package, variants)
                 # report
-                self._console.info("Topologically sorted class list:")
+                self._console.info("Sorted class list:")
                 self._console.indent()
                 for classId in classList:
                     self._console.info(classId)
