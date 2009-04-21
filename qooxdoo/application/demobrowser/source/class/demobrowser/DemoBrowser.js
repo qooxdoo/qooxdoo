@@ -490,7 +490,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       var root = new qx.ui.tree.TreeFolder("Demos");
       tree1.setAppearance("demo-tree");
       tree1.setRoot(root);
-      tree1.setSelected(root);
+      tree1.setSelection([root]);
 
       this.tree = this.widgets["treeview.flat"] = tree1;
 
@@ -511,7 +511,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     treeGetSelection : function(e)
     {
-      var treeNode = this.tree.getSelected();
+      var treeNode = this.tree.getSelection()[0];
       var modelNode = treeNode.getUserData("modelLink");
       this.tests.selected = this.tests.handler.getFullName(modelNode);
     },
@@ -617,7 +617,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       buildSubTree(this.tree.getRoot(), ttree);
 
       if (_initialNode != null) {
-        this.tree.setSelected(_initialNode);
+        this.tree.setSelection([_initialNode]);
       }
 
     },
@@ -687,7 +687,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       var treeNode = this._sampleToTreeNodeMap[value];
       if (treeNode)
       {
-        treeNode.getTree().setSelected(treeNode);
+        treeNode.getTree().setSelection([treeNode]);
         url = 'demo/' + value + "?qx.theme=" + this.__currentTheme;
       }
       else
@@ -940,7 +940,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     playPrev : function(e)
     {
       this.setPlayDemos("current");
-      var currSamp = this.tree.getSelected();  // widget
+      var currSamp = this.tree.getSelection()[0];  // widget
 
       if (currSamp)
       {
@@ -948,7 +948,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           var otherSamp = currSamp.getUserData('modelLink').getPrevSibling().widgetLinkFull;
           
           if (otherSamp) {
-            this.tree.setSelected(otherSamp);
+            this.tree.setSelection([otherSamp]);
             this.runSample();
           }
         }
@@ -966,7 +966,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     playNext : function(e)
     {
-      var currSamp = this.tree.getSelected();  // widget
+      var currSamp = this.tree.getSelection()[0];  // widget
 
       if (currSamp)
       {
@@ -999,7 +999,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
         if (otherSamp)
         {
-          this.tree.setSelected(otherSamp);
+          this.tree.setSelection([otherSamp]);
           this.runSample();
         } else {          
           // Remove stop button, display run button
