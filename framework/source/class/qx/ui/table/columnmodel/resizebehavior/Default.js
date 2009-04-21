@@ -374,8 +374,8 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
         columns.push(colData[visibleColumns[i]]);
       }
       this.__layoutChildren = columns;
-      this.__layout.invalidateChildrenCache();
-
+      this.__clearLayoutCaches();
+      
       // Use a horizontal box layout to determine the available width.
       var width = this._getAvailableWidth(tableColumnModel);
       this.__layout.renderLayout(width, 100);
@@ -397,6 +397,19 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
     },
 
 
+    /**
+     * Clear all layout caches of the column datas.
+     */
+    __clearLayoutCaches : function()
+    {
+      this.__layout.invalidateChildrenCache();
+      var children = this.__layoutChildren;
+      for (i=0,l=children.length; i<l; i++) {
+        children[i].invalidateLayoutCache();
+      }      
+    },
+    
+    
     /**
      * Extend the visible column to right of the column which just changed
      * width, to fill any available space within the inner width of the table.
