@@ -19,7 +19,7 @@
 #
 ################################################################################
 
-import sys, os
+import sys, os, time
 sys.path.append( os.path.join('..', '..', 'bin') )
 
 class QxTest:
@@ -32,10 +32,22 @@ class QxTest:
     self.mailConf = mailConf
     self.trunkrev = None
 
+    self.timeFormat = '%Y-%m-%d %H:%M:%S'
+    self.logFile = False
+
+    if ('testLog' in self.testConf):
+      self.logFile = open(self.testConf['testLog'], 'a')
+      self.logFile.write("################################################################################\n")
+      self.log("Starting " + self.testType + " test session.")    
+
     if (self.testType == "local"):
       self.getLocalRevision()
     else:
       self.getRemoteRevision()
+    
+    self.sim = False      
+    if ('simulateTest' in self.testConf):
+      self.sim = testConf['simulateTest']
 
     self.os = None
     try:   
@@ -44,38 +56,48 @@ class QxTest:
       try:
         import platform
         self.os = platform.system()
+        self.log("Operating system: " + self.os)
       except:
         self.os = "Unknown"
-        print("ERROR: Couldn't determine operating system!")
+        self.log("ERROR: Couldn't determine operating system!")
+        sys.exit(1)
 
     import socket
     socket.setdefaulttimeout(10)
 
+  def log(self, msg):
+    if (self.logFile):      
+      self.logFile.write(time.strftime(self.timeFormat) + " " + msg + "\n")
+    else:
+      print(msg)
 
   # Start the Selenium RC server and check its status.
   def startSeleniumServer(self):
     import subprocess, time
-    print "Starting Selenium server..."
-    selserv = subprocess.Popen(self.seleniumConf['startSelenium'] 
-                               + self.seleniumConf['seleniumLog'], shell=True)
-  
-    # wait a while for the server to start up
-    time.sleep(20)
-  
-    # check if it's up and running
-    if ( not(self.isSeleniumServer()) ):
-      print "Selenium server not responding, waiting a little longer..."
+    if (self.isSeleniumServer()):
+      self.log("Selenium server already running.")
+    else:
+      self.log("Starting Selenium server...")
+      selserv = subprocess.Popen(self.seleniumConf['startSelenium'] 
+                                 + self.seleniumConf['seleniumLog'], shell=True)
+    
+      # wait a while for the server to start up
       time.sleep(20)
-      if ( not(isSeleniumServer()) ):
-        print "Selenium server not responding."
-        sys.exit(1)
+    
+      # check if it's up and running
+      if ( not(self.isSeleniumServer()) ):
+        self.log("Selenium server not responding, waiting a little longer...")
+        time.sleep(20)
+        if ( not(isSeleniumServer()) ):
+          self.log("ERROR: Selenium server not responding.")
+          sys.exit(1)
 
 
   # Send an HTTP request to the Selenium proxy. A 403 response means it's running.
   def isSeleniumServer(self):
     from urllib2 import Request, urlopen, URLError
     status = False
-    print("Checking Selenium server")
+    #self.log("Checking Selenium server")
     req = Request(self.seleniumConf['seleniumHost'])
     try:
       response = urlopen(req)
@@ -98,19 +120,38 @@ class QxTest:
       cmd = self.testConf['qxPathAbs'] + buildConf['batbuild'] 
       cmd += " -w " + self.testConf['qxPathAbs']
       if (target != "batbuild" and target != "buildErrorLog"):
-        print("Building " + target)      
+        self.log("Building " + target)      
         cmd += " " + buildConf[target]
-        status, std, err = invokePiped(cmd)
+
+        if (self.sim):
+          status = 0
+          self.log("SIMULATION: Invoking build command:\n" + cmd)
+        else:
+          status, std, err = invokePiped(cmd)
+
         if (status > 0):
-          print("Error while building " + target + ", see " 
+          self.log("Error while building " + target + ", see " 
                 + buildConf['buildErrorLog'] + " for details.")        
           buildLogFile.write(target + "\n" + err)
           buildLogFile.write("\n========================================================\n\n")
         else:
-          print(target + " build finished without errors.")
+          self.log(target + " build finished without errors.")
     buildLogFile.close()    
     self.trunkrev = self.getLocalRevision()
     self.storeRevision()
+
+
+  def updateSimulator(self):
+    if (self.sim):
+      self.log("SIMULATION: Updating Simulator checkout: "
+                + self.testConf["simulatorSvn"])
+    else:
+      self.log("Updating Simulator checkout.")
+      ret,out,err = invokePiped("svn up " + self.testConf["simulatorSvn"])
+      if (out):
+        self.log(out)
+      if (err):
+        self.log(err)  
 
 
   # Returns the SVN checkout's revision number
@@ -118,17 +159,21 @@ class QxTest:
     ret,out,err = invokePiped("svnversion " + self.testConf["qxPathAbs"])
     rev = out.rstrip('\n')
     self.trunkrev = rev
-    print("Local qooxdoo checkout at revision " + self.trunkrev)
+    self.log("Local qooxdoo checkout at revision " + self.trunkrev)
     return rev    
   
 
   # Writes the revision number of a local qooxdoo checkout to a file
   def storeRevision(self):
     fPath = os.path.join(self.testConf['qxPathAbs'],'revision.txt')
-    print("Storing revision number " + self.trunkrev + " in file " + fPath)
-    rFile = open(fPath, 'w')
-    rFile.write(self.trunkrev)
-    rFile.close()  
+    if (self.sim):
+      self.log("SIMULATION: Storing revision number " + self.trunkrev 
+               + " in file " + fPath)
+    else:  
+      self.log("Storing revision number " + self.trunkrev + " in file " + fPath)
+      rFile = open(fPath, 'w')
+      rFile.write(self.trunkrev)
+      rFile.close()  
 
 
   # Reads the qooxdoo checkout's revision number from a file on the test host
@@ -136,7 +181,7 @@ class QxTest:
     import urllib
     rev = urllib.urlopen(self.autConf['autHost'] + '/revision.txt').read()
     self.trunkrev = rev
-    print("Remote qooxdoo checkout at revision " + self.trunkrev)
+    self.log("Remote qooxdoo checkout at revision " + self.trunkrev)
     return rev
 
 
@@ -147,7 +192,6 @@ class QxTest:
       self.clearLogs()
 
     for browser in appConf['browsers']:      
-      print("Testing: " + appConf['appName'] + " on " + browser['browserId'])        
       cmd = self.getStartCmd(appConf['appName'], browser['browserId'])
       
       try:
@@ -156,8 +200,11 @@ class QxTest:
       except KeyError:
           pass
       
-      #print("Starting test with command:\n " + cmd)
-      invokeExternal(cmd)
+      if (self.sim):
+        self.log("SIMULATION: Starting test:\n" + cmd)
+      else:
+        self.log("Testing: " + appConf['appName'] + " on " + browser['browserId'])
+        invokeExternal(cmd)
       
       try:
         if (browser['setProxy']):
@@ -196,9 +243,9 @@ class QxTest:
   def sendReport(self, aut):    
     import re
     
-    print("Preparing to send " + aut + " report: " + self.mailConf['reportFile'])
+    self.log("Preparing to send " + aut + " report: " + self.mailConf['reportFile'])
     if ( not(os.path.exists(self.mailConf['reportFile'])) ):
-      print "Report file not found, quitting."
+      self.log("ERROR: Report file not found, quitting.")
       sys.exit(1)
   
     self.mailConf['subject'] = "[qooxdoo-test] " + aut
@@ -242,11 +289,13 @@ class QxTest:
   
     # Send mail
     if (osystem !=""):
-
-      sendMultipartMail(self.mailConf)
+      if (self.sim):
+        self.log("SIMULATION; Sending report email: " + repr(self.mailConf))
+      else:
+        sendMultipartMail(self.mailConf)
       
     else:
-      print("Report file seems incomplete, report not sent.")
+      self.log("ERROR: Report file seems incomplete, report not sent.")
 
     # Rename report file, adding current date.
     """from datetime import datetime
@@ -254,9 +303,9 @@ class QxTest:
     datestring = now.strftime("%Y-%m-%d_%H.%M")
     newname_temp = "selenium-report_" + datestring + ".html"
     newname = os.path.join(os.path.dirname(self.mailConf['reportFile']),newname_temp)
-    print("Renaming report file to " + newname)
+    self.log("Renaming report file to " + newname)
     os.rename(self.mailConf['reportFile'], newname)
-    print("Moving report file to " + self.mailConf['archiveDir'])    
+    self.log("Moving report file to " + self.mailConf['archiveDir'])    
     shutil.move(newname, self.mailConf['archiveDir'])"""
 
 
@@ -269,23 +318,33 @@ class QxTest:
        self.logfile = logfile
        self.htmlfile = htmlfile
        
-    options = FormatterOpts(self.seleniumConf['seleniumLog'], self.seleniumConf['seleniumReport'])      
-    print("Formatting log file " + self.seleniumConf['seleniumLog'])  
-    logformat = QxLogFormat(options)
+    options = FormatterOpts(self.seleniumConf['seleniumLog'], self.seleniumConf['seleniumReport'])
+    
+    if (self.sim):
+      self.log("SIMULATION: Formatting log file " + self.seleniumConf['seleniumLog'])
+    else:
+      self.log("Formatting log file " + self.seleniumConf['seleniumLog'])  
+      logformat = QxLogFormat(options)
 
 
   # Clear Selenium log file and report HTML file
   def clearLogs(self):
     if (os.path.exists(self.seleniumConf['seleniumLog'])):
       f = open(self.seleniumConf['seleniumLog'], 'w')
-      print("Emptying server log file " + self.seleniumConf['seleniumLog'])
-      f.write('')
+      if (self.sim):
+        self.log("SIMULATION: Emptying server log file " + self.seleniumConf['seleniumLog'])
+      else:  
+        self.log("Emptying server log file " + self.seleniumConf['seleniumLog'])
+        f.write('')
       f.close()
 
     if (os.path.exists(self.seleniumConf['seleniumReport'])):
       f = open(self.seleniumConf['seleniumReport'], 'w')
-      print("Emptying Selenium report file " + self.seleniumConf['seleniumReport'])
-      f.write('')
+      if (self.sim):
+        self.log("SIMULATION: Emptying Selenium report file " + self.seleniumConf['seleniumReport'])
+      else:
+        self.log("Emptying Selenium report file " + self.seleniumConf['seleniumReport'])
+        f.write('')
       f.close()
 
 
@@ -314,32 +373,46 @@ class QxTest:
     
     if procName:
       if self.os == "Linux":
-        print("Killing Linux browser process: " + procName)      
-        invokeExternal("pkill " + procName)
+        if (self.sim):
+          self.log("SIMULATION: Killing Linux browser process: " + procName)
+        else:  
+          self.log("Killing Linux browser process: " + procName)      
+          invokeExternal("pkill " + procName)
       else:
         script = "kill" + procName + ".vbs"
         if (os.path.isfile(script)):
-          print("Killing Windows browser process: " + procName)
-          invokeExternal("wscript " + script)
+          if (self.sim):
+            self.log("SIMULATION: Killing Windows browser process: " + procName)
+          else:  
+            self.log("Killing Windows browser process: " + procName)
+            invokeExternal("wscript " + script)
     
     else:
-      print("Unable to determine browser process name")    
+      self.log("ERROR: Unable to determine browser process name")    
 
 
   # Activate the proxy setting for browsers started with the *custom launcher
   def setProxy(self, prox):        
     if (prox):
       if (self.os == "Windows"):
-        print("Activating proxy setting in Windows registry")
-        invokeExternal(self.testConf['proxyEnable'])
+        if (self.sim):
+          self.log("SIMULATION: Activating proxy setting in Windows registry: "
+                   + self.testConf['proxyEnable'])
+        else:
+          self.log("Activating proxy setting in Windows registry")
+          invokeExternal(self.testConf['proxyEnable'])
       else:
-        print("Error: Can't enable proxy on non-Windows system!")
+        self.log("ERROR: Can't enable proxy on non-Windows system!")
     else:
       if (self.os == "Windows"):
-        print("Deactivating proxy setting in Windows registry")
-        invokeExternal(self.testConf['proxyDisable'])
+        if (self.sim):
+          self.log("SIMULATION: Deactivating proxy setting in Windows registry: " 
+                + self.testConf['proxyDisable'])
+        else:  
+          self.log("Deactivating proxy setting in Windows registry")
+          invokeExternal(self.testConf['proxyDisable'])
       else:
-        print("Error: Can't disable proxy on non-Windows system!")
+        self.log("Error: Can't disable proxy on non-Windows system!")
 
   # Run Ecmalint on targets defined in lintConf
   def runLint(self,lintConf):
@@ -360,7 +433,6 @@ class QxTest:
           options.workdir = os.path.join(self.testConf['qxPathAbs'], key, target['directory'])
         else:
            options.workdir = os.path.join(self.testConf['qxPathAbs'], target['directory'])
-        print("Workdir: " + options.workdir)
         
         if ('ignoreClasses' in target):
           options.ignoreClasses = target['ignoreClasses']
@@ -368,9 +440,11 @@ class QxTest:
         if ('ignoreErrors' in target):
           options.ignoreErrors = target['ignoreErrors']
 
-        print("Running Lint for " + options.workdir)  
-
-        qxlint = QxLint(options)
+        if (self.sim):
+          self.log("SIMULATION: Starting Lint runner:\n" + options.workdir)
+        else:
+          self.log("Running Lint for " + options.workdir)  
+          qxlint = QxLint(options)
 
 
 # Invoke an external command and return its STDOUT and STDERR output.
@@ -410,7 +484,7 @@ def sendMultipartMail(configuration):
   msgText = MIMEText(configuration['html'], 'html')
   msg.attach(msgText)
   
-  print("Sending report. Subject: " + configuration['subject'] + " Recipient: " 
+  self.log("Sending report. Subject: " + configuration['subject'] + " Recipient: " 
         + configuration['mailTo'])
   mailServer = smtplib.SMTP(configuration['smtpHost'], configuration['smtpPort'])
   mailServer.ehlo()
