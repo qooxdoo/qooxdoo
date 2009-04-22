@@ -161,7 +161,6 @@ qx.Class.define("qx.core.Object",
      */
     clone : function()
     {
-
       var clazz = this.constructor
       var clone = new clazz;
       var props = qx.Class.getProperties(clazz);
