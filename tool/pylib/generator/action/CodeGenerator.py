@@ -25,7 +25,7 @@ import simplejson
 from misc import filetool, Path
 from ecmascript import compiler
 from generator.action.ImageInfo import ImageInfo, ImgInfoFmt
-from generator.config.ExtMap import ExtMap
+from misc.ExtMap import ExtMap
 from generator.config.Lang import Lang
 
 console = None

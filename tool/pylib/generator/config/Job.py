@@ -22,7 +22,7 @@
 import os, sys, re, types, string, copy
 import simplejson
 
-from generator.config.ExtMap import ExtMap
+from misc.ExtMap import ExtMap
 from generator.config.Lang import Lang
 
 console = None
