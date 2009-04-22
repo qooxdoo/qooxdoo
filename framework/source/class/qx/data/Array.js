@@ -97,7 +97,7 @@ qx.Class.define("qx.data.Array",
      * <li>end: The end index of the change.</li>
      * <li>type: The type of the change as a String. This can be 'add',  
      * 'remove' or 'order'</li>
-     * <li>item: The item which has been changed.</li>
+     * <li>items: The items which has been changed (as a JavaScript array).</li>
      */
     "change" : "qx.event.type.Data",
     
@@ -155,8 +155,13 @@ qx.Class.define("qx.data.Array",
       this.__updateLength();
       // remove the possible added event listener
       this._applyEventPropagation(null, item);      
-      this.fireDataEvent("change", 
-        {start: this.length - 1, end: this.length - 1, type: "remove"}, null
+       this.fireDataEvent("change", 
+        {
+          start: this.length - 1, 
+          end: this.length - 1, 
+          type: "remove", 
+          items: [item]
+        }, null
       );
       return item;
     },
@@ -177,7 +182,12 @@ qx.Class.define("qx.data.Array",
         // apply to every pushed item an event listener for the bubbling
         this._applyEventPropagation(arguments[i], null, this.length - 1);
         this.fireDataEvent("change", 
-          {start: this.length - 1, end: this.length - 1, type: "add"}, null
+          {
+            start: this.length - 1, 
+            end: this.length - 1, 
+            type: "add",
+            items: [arguments[i]]
+          }, null
         );
       }
       return this.length;
@@ -190,7 +200,7 @@ qx.Class.define("qx.data.Array",
     reverse: function() {
       this.__array.reverse();
       this.fireDataEvent("change", 
-        {start: 0, end: this.length - 1, type: "order"}, null
+        {start: 0, end: this.length - 1, type: "order", items: null}, null
       );
     },
 
@@ -207,7 +217,12 @@ qx.Class.define("qx.data.Array",
       // remove the possible added event listener
       this._applyEventPropagation(null, item);      
       this.fireDataEvent("change", 
-        {start: 0, end: this.length -1, type: "remove", item: item}, null
+        {
+          start: 0,
+          end: this.length -1,
+          type: "remove",
+          items: [item]
+        }, null
       );
       return item;
     },
@@ -251,17 +266,22 @@ qx.Class.define("qx.data.Array",
       // fire an event for the change
       var removed = amount > 0;
       var added = arguments.length > 2;
+      var items = null;
       if (removed || added) {
         if (this.__array.length > oldLength) {
           var type = "add";
         } else if (this.__array.length < oldLength) {
           var type = "remove";
+          items = returnArray;
         } else {
           var type = "order";
         }
         this.fireDataEvent("change", 
           {
-            start: startIndex, end: this.length - 1, type: type, item: null
+            start: startIndex,
+            end: this.length - 1,
+            type: type,
+            items: items
           }, null
         );
       }
@@ -287,7 +307,7 @@ qx.Class.define("qx.data.Array",
     sort: function(func) {
       this.__array.sort.apply(this.__array, arguments);
       this.fireDataEvent("change", 
-        {start: 0, end: this.length - 1, type: "order", item: null}, null
+        {start: 0, end: this.length - 1, type: "order", items: null}, null
       );
     },
 
@@ -306,7 +326,10 @@ qx.Class.define("qx.data.Array",
         this._applyEventPropagation(arguments[i], null, 0);        
         this.fireDataEvent("change", 
           {
-            start: 0, end: this.length - 1, type: "add", item: arguments[i]
+            start: 0, 
+            end: this.length - 1, 
+            type: "add", 
+            items: [arguments[i]]
           }, null
         );
       }
@@ -351,7 +374,12 @@ qx.Class.define("qx.data.Array",
         this.__updateLength();        
       }
       this.fireDataEvent("change", 
-        {start: index, end: index, type: "add", item: item}, null
+        {
+          start: index, 
+          end: index, 
+          type: "add", 
+          items: [item]
+        }, null
       );
     },
     
