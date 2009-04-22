@@ -107,6 +107,21 @@ class Node:
     def hasParent(self):
         return hasattr(self, "parent") and self.parent != None
 
+    def hasParentContext(self, contextPath):
+        # checks whether the node hierarchy leading to node ends with contextPath, ie.
+        # if node.parent.type == contextPath[-1], node.parent.parent.type == contextPath[-2]
+        # asf. Example: varNode.hasParentContext("call/operand") checks whether varNode.parent
+        # is "operand" and varNode.parent.parent is "call" type, ie. it's a function being called
+        parents = contextPath.split('/')
+
+        currNode = self
+        for parent in reversed(parents):
+            if currNode.hasParent() and currNode.parent.type == parent:
+                currNode = currNode.parent
+            else:
+                return False
+        return True
+
     def hasChildren(self, ignoreComments = False):
         if not ignoreComments:
             return hasattr(self, "children") and len(self.children) > 0
