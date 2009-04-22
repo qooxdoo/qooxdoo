@@ -18,7 +18,7 @@
 ************************************************************************ */
 qx.Class.define("qx.test.data.controller.List", 
 {
-  extend : qx.dev.unit.TestCase,
+  extend : qx.test.ui.LayoutTestCase,
 
   members :
   {
@@ -36,6 +36,7 @@ qx.Class.define("qx.test.data.controller.List",
 
     tearDown : function()
     {
+      this.flush();      
       this.__controller = null;
       this.__model = null;
       this.__data = null;
@@ -749,6 +750,7 @@ qx.Class.define("qx.test.data.controller.List",
       this.assertEquals("d", selController.getSelection().getItem(0), "d not selected in the second list anymore.");
 
       // get rid of that old stuff
+      this.flush();
       selList.dispose();
       selController.dispose();
     }
