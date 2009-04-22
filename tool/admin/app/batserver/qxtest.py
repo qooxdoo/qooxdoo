@@ -68,12 +68,14 @@ class QxTest:
     import socket
     socket.setdefaulttimeout(10)
 
-  def log(self, msg):
-    if (self.logFile):      
-      self.logFile.write(time.strftime(self.timeFormat) + " " + msg + "\n")
-    else:
-      print(msg)
 
+  def log(self, msg):
+    logMsg = time.strftime(self.timeFormat) + " " + msg + "\n"
+    print(logMsg)
+    if (self.logFile):      
+      self.logFile.write(logMsg)    
+
+  
   # Start the Selenium RC server and check its status.
   def startSeleniumServer(self):
     import subprocess, time
