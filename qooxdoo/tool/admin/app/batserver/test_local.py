@@ -51,7 +51,7 @@ seleniumConf = {
 
 testConf = {
   #'simulateTest'        : True,
-  'testLog'             : '/home/dwagner/qxselenium/testLog.txt',          
+  'testLogDir'          : '/home/dwagner/qxselenium',          
   'qxPathAbs'           : '/var/www/qx/trunk/qooxdoo',  
   'classPath'           : '/home/dwagner/qxselenium/selenium-java-client-driver.jar:/home/dwagner/rhino1_7R1/js.jar',
   'simulatorSvn'        : '/home/dwagner/workspace/qooxdoo.contrib/Simulator',
@@ -60,12 +60,14 @@ testConf = {
 }
 
 buildConf = {
-  'buildErrorLog'       : 'buildErrors.log',
+  'stageDir'            : '/var/www/qx',             
+  'buildLogLevel'       : 'error',
+  'buildLogFile'        : '/home/dwagner/qxselenium/build.log',
   'batbuild'            : '/tool/admin/app/batserver/batbuild.py -z -C',           
   'Tests'               : '-p framework -g test -n',
   'Demobrowser'         : '-p application/demobrowser -g build -n',
   'Feedreader'          : '-p application/feedreader -g build -n',
-  'Playground'          : '-p application/playground -g build -n',
+  'Playground'          : '-p application/playground -g build -n'
 }
 
 autConf = {
@@ -256,10 +258,10 @@ def main():
   
   localTest.buildAll(buildConf)
   localTest.runLint(lintConf)    
-  localTest.runTests(testrunnerConf)
-  localTest.runTests(demobrowserConf)
+  localTest.runTests(testrunnerConf)  
   localTest.runTests(feedreaderConf)
   localTest.runTests(playgroundConf)
+  localTest.runTests(demobrowserConf)
 
   return 0
 
