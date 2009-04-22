@@ -167,7 +167,6 @@ class DependencyLoader:
                 except NameError, detail:
                     self._console.error("Dependencies resolving failed for %s with: \n%s" % (item, detail))
                     sys.exit(1)
-                    #raise
 
         return result
 
@@ -176,10 +175,10 @@ class DependencyLoader:
 
 
     def getMethodDeps(self, fileId, methodNameFQ, variants):
+        # find the dependencies of a specific method
         # get the fileId class, find the node of methodNameFQ, and extract its
         # dependencies (can only be runtime deps, since all inFunction)
         # return the deps
-        print("Looking for rundeps in '%s' of '%s'" % (methodNameFQ, fileId))
 
         def findMethodName(fileId, methodNameFQ):
             mo = re.match(r'^%s\.(.+)$' % fileId, methodNameFQ)
@@ -190,27 +189,34 @@ class DependencyLoader:
         
         def findMethod(tree, methodName):
             for node in treeutil.nodeIterator(tree, ["function"]):  # check function nodes
-                if (node.hasParent() and node.parent.type == "value" and  # its a 'key : function(){}'
-                    node.parent.hasParent() and node.parent.parent.type == "keyvalue"
-                    ):
+                if node.hasParentContext("keyvalue/value"): # it's a key : function() member
                     keyvalNode = node.parent.parent
                     key = keyvalNode.get("key", False)
                     if key and key == methodName:
                         return node
             return None
 
+        # get the method name
+        if fileId == methodNameFQ:  # corner case: the class is being called
+            methodName = "construct"
+        else:
+            methodName = findMethodName(fileId, methodNameFQ) # methodNameFQ - fileId = methodName
+        if methodName == "getInstance": # corner case: singletons get this from qx.Class
+            fileId = "qx.Class"
+
         # get the class code
         tree = self._treeLoader.getTree(fileId, variants)
 
-        # find the method
-        methodName = findMethodName(fileId, methodNameFQ)
+        # find the method node
         funcNode   = findMethod(tree, methodName)
         if not funcNode:
             raise RuntimeError, "No method named \"%s\" found in class \"%s\"." % (methodName, fileId)
 
         # get the deps of the method
-        runtime = loadtime = warn = []
-        self._analyzeClassDepsNode(fileId, funcNode, runtime, loadtime, warn, True)
+        runtime  = []
+        loadtime = []
+        warn     = []
+        self._analyzeClassDepsNode(fileId, funcNode, runtime, loadtime, warn, True, variants)
 
         return loadtime
 
@@ -262,7 +268,7 @@ class DependencyLoader:
             #undefDepsNV    = []
 
             #tree = self._treeLoader.getTree(fileId, {})
-            #self._analyzeClassDepsNode(fileId, tree, loadtimeDepsNV, runtimeDepsNV, undefDepsNV, False)
+            #self._analyzeClassDepsNode(fileId, tree, loadtimeDepsNV, runtimeDepsNV, undefDepsNV, False, variants)
 
             # now analyze with variants
 
@@ -271,7 +277,7 @@ class DependencyLoader:
             undefDeps    = []
 
             tree = self._treeLoader.getTree(fileId, variants)
-            self._analyzeClassDepsNode(fileId, tree, loadtimeDeps, runtimeDeps, undefDeps, False)
+            self._analyzeClassDepsNode(fileId, tree, loadtimeDeps, runtimeDeps, undefDeps, False, variants)
 
             ## this should be for *source* version only!
             #if "qx.core.Variant" in loadtimeDepsNV and "qx.core.Variant" not in loadtimeDeps:
@@ -352,7 +358,8 @@ class DependencyLoader:
         return deps
 
 
-    def _analyzeClassDepsNode(self, fileId, node, loadtime, runtime, warn, inFunction):
+    def _analyzeClassDepsNode(self, fileId, node, loadtime, runtime, warn, inFunction, variants):
+        # the "variants" param is only to support getMethodDeps()!
 
         def isScopedVar(idString, node, fileId):
 
@@ -394,10 +401,10 @@ class DependencyLoader:
 
             # treat dependencies in defer as requires
             if assembled == "qx.Class.define" or assembled == "qx.Bootstrap.define" or assembled == "qx.List.define":
-                if node.parent.type == "operand" and node.parent.parent.type == "call":
+                if node.hasParentContext("call/operand"):
                     deferNode = treeutil.selectNode(node, "../../params/2/keyvalue[@key='defer']/value/function/body/block")
                     if deferNode != None:
-                        self._analyzeClassDepsNode(fileId, deferNode, loadtime, runtime, warn, False)
+                        self._analyzeClassDepsNode(fileId, deferNode, loadtime, runtime, warn, False, variants)
 
 
             # try to reduce to a class name
@@ -453,20 +460,20 @@ class DependencyLoader:
                         target.append(assembledId)
 
                     # an attempt to fix static initializers (bug#1455)
-                    # doesn't work for e.g. qx.lang.Core using qx.lang.Object.select(), but
-                    # qx.lang.Object run-deps include qx.lang.Core :-(
-                    #if target == loadtime:  # make run-time deps of the new item load-deps of the current
-                        #self._console.info("LLLLLooking for rundeps in '%s' of '%s'" % (assembled, assembledId))
-                        #deps = self.getMethodDeps(assembledId, assembled, variants)
-                        #deps = self.getCombinedDeps(assembledId, variants)
-                        #target.extend(deps["run"])
+                    if (target == loadtime and False and
+                        node.hasParentContext("call/operand")  # it's a method call
+                       ):  
+                        # make run-time deps of the called method load-deps of the current
+                        self._console.debug("Looking for rundeps in '%s' of '%s'" % (assembled, assembledId))
+                        deps = self.getMethodDeps(assembledId, assembled, variants)
+                        target.extend([x for x in deps if x not in target]) # add uniquely
 
         elif node.type == "body" and node.parent.type == "function":
             inFunction = True
 
         if node.hasChildren():
             for child in node.children:
-                self._analyzeClassDepsNode(fileId, child, loadtime, runtime, warn, inFunction)
+                self._analyzeClassDepsNode(fileId, child, loadtime, runtime, warn, inFunction, variants)
 
         return
 
