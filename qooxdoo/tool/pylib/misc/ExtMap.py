@@ -27,8 +27,11 @@ import os, sys, re, types, string, copy
 class ExtMap(object):
     "Map class with path-like accessor"
 
-    def __init__(self, data):
-        assert isinstance(data, types.DictType)
+    def __init__(self, data=None):
+        if data:
+            assert isinstance(data, types.DictType)
+        else:
+            data = {}
 
         self._data = data
 
