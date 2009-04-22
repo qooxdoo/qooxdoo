@@ -127,7 +127,7 @@ class QxTest:
       cmd = self.testConf['qxPathAbs'] + buildConf['batbuild'] 
       cmd += " -w " + buildConf['stageDir']
       if target[0] == target[0].capitalize():
-        self.log("Building " + target)      
+        self.log("Building " + target + "\n  " + cmd)      
         cmd += " " + buildConf[target]
 
         if (self.sim):
@@ -143,7 +143,7 @@ class QxTest:
             if (status > 0):
               self.log("Error while building " + target + ", see " 
                     + buildConf['buildLogFile'] + " for details.")        
-              buildLogFile.write(target + "\n" + err)
+              buildLogFile.write(target + "\n" + cmd + "\n" + err)
               buildLogFile.write("\n========================================================\n\n")
             else:
               self.log(target + " build finished without errors.")
