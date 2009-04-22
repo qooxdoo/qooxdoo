@@ -18,7 +18,7 @@
 ************************************************************************ */
 qx.Class.define("qx.test.data.controller.ListWithObjects", 
 {
-  extend : qx.dev.unit.TestCase,
+  extend : qx.test.ui.LayoutTestCase,
 
   construct : function() {
     this.base(arguments);
@@ -47,6 +47,12 @@ qx.Class.define("qx.test.data.controller.ListWithObjects",
 
   members :
   {   
+    
+    __list: null,
+    __controller: null,
+    __data: null,
+    __model: null,
+    
 
     setUp : function()
     {
@@ -67,6 +73,7 @@ qx.Class.define("qx.test.data.controller.ListWithObjects",
 
     tearDown : function()
     {
+      this.flush();
       this.__controller = null;
       this.__model = null;
       this.__data = null;
