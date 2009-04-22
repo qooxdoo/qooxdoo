@@ -68,13 +68,6 @@ qx.Class.define("qx.test.bom.Attribute",
     
     testRemoveAttribute : function()
     {
-      var attributes = {
-          "maxLength" : 10,
-          "checked" : true,
-          "className" : "vanillebaer",
-          "tabIndex" : 5
-      };
-      
       var Attribute = qx.bom.element.Attribute;
       
       Attribute.set(this._el, "maxLength", 10);
@@ -84,6 +77,10 @@ qx.Class.define("qx.test.bom.Attribute",
       Attribute.set(this._el, "checked", true);
       Attribute.set(this._el, "checked", null);
       this.assertNull(this._el.getAttribute("checked"));
+      
+      Attribute.set(this._el, "html", "vanillebaer");
+      Attribute.set(this._el, "html", null);
+      this.assertNull(this._el.getAttribute("html"));
     },
     
     testResetAttribute : function()
