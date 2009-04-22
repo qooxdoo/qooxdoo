@@ -70,10 +70,10 @@ class QxTest:
 
 
   def log(self, msg):
-    logMsg = time.strftime(self.timeFormat) + " " + msg + "\n"
+    logMsg = time.strftime(self.timeFormat) + " " + msg
     print(logMsg)
     if (self.logFile):      
-      self.logFile.write(logMsg)    
+      self.logFile.write(logMsg + "\n")    
 
   
   # Start the Selenium RC server and check its status.
@@ -116,15 +116,18 @@ class QxTest:
 
   # Builds all targets listed in buildConf.
   def buildAll(self, buildConf):
-    buildLogFile = open(buildConf['buildErrorLog'], 'w')
-    buildLogFile.write('')
-    buildLogFile.close()
     
-    buildLogFile = open(buildConf['buildErrorLog'], 'a')
+    if ('buildLogFile' in buildConf):
+      buildLogFile = open(buildConf['buildLogFile'], 'w')
+      buildLogFile.write('')
+      buildLogFile.close()
+
+      buildLogFile = open(buildConf['buildLogFile'], 'a')
+
     for target in buildConf:
       cmd = self.testConf['qxPathAbs'] + buildConf['batbuild'] 
       cmd += " -w " + self.testConf['qxPathAbs']
-      if (target != "batbuild" and target != "buildErrorLog"):
+      if (target != "batbuild" and not('Log' in target)):
         self.log("Building " + target)      
         cmd += " " + buildConf[target]
 
@@ -132,15 +135,20 @@ class QxTest:
           status = 0
           self.log("SIMULATION: Invoking build command:\n" + cmd)
         else:
-          status, std, err = invokePiped(cmd)
+          if (buildConf['buildLogLevel'] == "debug"):
+            invokeLog(cmd, buildLogFile)             
 
-        if (status > 0):
-          self.log("Error while building " + target + ", see " 
-                + buildConf['buildErrorLog'] + " for details.")        
-          buildLogFile.write(target + "\n" + err)
-          buildLogFile.write("\n========================================================\n\n")
-        else:
-          self.log(target + " build finished without errors.")
+          else:
+            status, std, err = invokePiped(cmd)
+
+            if (status > 0):
+              self.log("Error while building " + target + ", see " 
+                    + buildConf['buildErrorLog'] + " for details.")        
+              buildLogFile.write(target + "\n" + err)
+              buildLogFile.write("\n========================================================\n\n")
+            else:
+              self.log(target + " build finished without errors.")
+
     buildLogFile.close()    
     self.trunkrev = self.getLocalRevision()
     self.storeRevision()
@@ -473,6 +481,24 @@ def invokeExternal(cmd):
                        stdout=sys.stdout,
                        stderr=sys.stderr)
   return p.wait()
+
+
+# Invoke an external command and get its STDOUT/STDERR output *while it's 
+# running*. Optionally write to file. 
+def invokeLog(cmd, file=None):
+  import subprocess
+  p = subprocess.Popen(cmd, shell=True,
+                         stdout=subprocess.PIPE,
+                         stderr=subprocess.STDOUT,
+                         universal_newlines=True)
+
+  while True:
+    line = p.stdout.readline()
+    if (not line): 
+      break
+    print(line.rstrip("\n"))
+    if file:
+      file.write(line)
 
 
 # Send a multipart text/html e-mail
