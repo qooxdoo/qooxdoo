@@ -186,7 +186,7 @@ qx.Class.define("qx.ui.virtual.core.Axis",
       {
         var index = parseInt(key);
         if (index < itemCount) {
-          indexes.push();
+          indexes.push(index);
         }
       }
       if (indexes.length == 0) 
