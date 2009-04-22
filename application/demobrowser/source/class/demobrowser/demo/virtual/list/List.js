@@ -24,9 +24,7 @@ qx.Class.define("demobrowser.demo.virtual.list.List",
   
   implement : [
     qx.ui.virtual.core.IWidgetCellProvider,
-    qx.ui.form.IFormElement,
-    qx.ui.core.ISingleSelection,
-    qx.ui.core.IMultiSelection
+    qx.ui.form.IFormElement
   ],
 
   
