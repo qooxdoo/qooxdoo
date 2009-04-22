@@ -6,7 +6,7 @@
 #  http://qooxdoo.org
 #
 #  Copyright:
-#    2006-2008 1&1 Internet AG, Germany, http://www.1und1.de
+#    2006-2009 1&1 Internet AG, Germany, http://www.1und1.de
 #
 #  License:
 #    LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -532,3 +532,19 @@ def createBlockComment(txt):
     com.set("detail", comment.getFormat(s))
 
     return bef
+
+def nodeHasContext(node, contextPath):
+    # checks whether the node hierarchy leading to node ends with contextPath, ie.
+    # if node.parent.type == contextPath[-1], node.parent.parent.type == contextPath[-2]
+    # asf. Example:
+    # nodeHasContext(varNode, "call/operand") checks whether the variable node varNode
+    # is actually the name of a function that is being called
+    parents = contextPath.split('/')
+
+    currNode = node
+    for parent in reversed(parents):
+        if currNode.hasParent() and currNode.parent.type == parent:
+            currNode = currNode.parent
+        else:
+            return False
+    return True
