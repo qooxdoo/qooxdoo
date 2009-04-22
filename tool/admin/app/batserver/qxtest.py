@@ -142,7 +142,7 @@ class QxTest:
 
             if (status > 0):
               self.log("Error while building " + target + ", see " 
-                    + buildConf['buildErrorLog'] + " for details.")        
+                    + buildConf['buildLogFile'] + " for details.")        
               buildLogFile.write(target + "\n" + err)
               buildLogFile.write("\n========================================================\n\n")
             else:
