@@ -264,7 +264,7 @@ qx.Class.define("qx.event.type.Mouse",
 
       "webkit" : function()
       {
-        // TODO: Change this line as soon as bug #1783 is fixed!
+        // TODO: Change this line as soon as bug #2274 is fixed!
         if (window.navigator.userAgent.indexOf("Chrome") !== -1) {
           return -(this._native.wheelDelta / 120);
         } else {
