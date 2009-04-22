@@ -160,6 +160,9 @@ qx.Class.define("qx.event.handler.Keyboard",
     __window : null,
     __root : null,
     __lastUpDownType : null,
+    __inputListeners : null,
+    __onKeyPressWrapper : null,
+
 
     /*
     ---------------------------------------------------------------------------
@@ -371,7 +374,7 @@ qx.Class.define("qx.event.handler.Keyboard",
       "gecko" : function(domEvent)
       {
         var keyCode = this._keyCodeFix[domEvent.keyCode] || domEvent.keyCode;
-        var charCode = domEvent.charCode;
+        var charCode = 0;
         var type = domEvent.type;
 
         // FF repeats under windows keydown events like IE
