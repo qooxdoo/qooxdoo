@@ -372,6 +372,7 @@ class Generator:
         job    = self._job
         require = config.get("require", {})
         use     = config.get("use", {})
+        context = {'jobconf': config, 'console': self._console, 'cache': self._cache}
 
         # We use some sets of Job keys, both well-known and actual, to determin
         # which actions have to be run, and in which order.
@@ -434,7 +435,7 @@ class Generator:
         # create tool chain instances
         self._treeLoader     = TreeLoader(self._classes, self._cache, self._console)
         self._locale         = Locale(self._classes, self._translations, self._cache, self._console, self._treeLoader)
-        self._depLoader      = DependencyLoader(self._classes, self._cache, self._console, self._treeLoader, require, use)
+        self._depLoader      = DependencyLoader(self._classes, self._cache, self._console, self._treeLoader, require, use, context)
         self._resourceHandler= ResourceHandler(self)
         self._codeGenerator  = CodeGenerator(self._cache, self._console, self._config, self._job, self._settings, self._locale, self._resourceHandler, self._classes)
 
