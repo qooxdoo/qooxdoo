@@ -124,11 +124,14 @@ class QxTest:
       buildLogFile = open(buildConf['buildLogFile'], 'a')
 
     for target in buildConf:
-      cmd = self.testConf['qxPathAbs'] + buildConf['batbuild'] 
+      if (os.path.isabs(buildConf['batbuild'])):
+        cmd = buildConf['batbuild']
+      else:
+        cmd = os.path.join(self.testConf['qxPathAbs'], buildConf['batbuild']) 
       cmd += " -w " + buildConf['stageDir']
       if target[0] == target[0].capitalize():
-        self.log("Building " + target + "\n  " + cmd)      
         cmd += " " + buildConf[target]
+        self.log("Building " + target + "\n  " + cmd)
 
         if (self.sim):
           status = 0
