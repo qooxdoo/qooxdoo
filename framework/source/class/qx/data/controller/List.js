@@ -399,13 +399,22 @@ qx.Class.define("qx.data.controller.List",
         }
       }
 
-	  // need a asynchron selection update bacause the bindings have to be 
-	  // executed to update the selection probably 
-      var self = this;
-      window.setTimeout(function() {
-        self._updateSelection();
-      }, 0);
-
+	    // need a asynchron selection update bacause the bindings have to be 
+	    // executed to update the selection probably (using the widget queue)
+      qx.ui.core.queue.Widget.add(this);
+    },
+    
+    
+    /**
+     * Internal method used to synt the selection. The controller uses the 
+     * widget queue to schedule the selection update. An asynchron handling of 
+     * the selection is needed because the bindings (event listeners for the 
+     * binding) need to be executed befor the selection is updated.
+     * @internal
+     */
+    syncWidget : function()
+    {
+      this._updateSelection();
     },
     
         
