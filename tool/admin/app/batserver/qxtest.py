@@ -116,7 +116,6 @@ class QxTest:
 
   # Builds all targets listed in buildConf.
   def buildAll(self, buildConf):
-    
     if ('buildLogFile' in buildConf):
       buildLogFile = open(buildConf['buildLogFile'], 'w')
       buildLogFile.write('')
@@ -126,7 +125,7 @@ class QxTest:
 
     for target in buildConf:
       cmd = self.testConf['qxPathAbs'] + buildConf['batbuild'] 
-      cmd += " -w " + self.testConf['qxPathAbs']
+      cmd += " -w " + self.buildConf['stageDir']
       if (target != "batbuild" and not('Log' in target)):
         self.log("Building " + target)      
         cmd += " " + buildConf[target]
