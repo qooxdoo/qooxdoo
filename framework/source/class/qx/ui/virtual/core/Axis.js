@@ -182,8 +182,12 @@ qx.Class.define("qx.ui.virtual.core.Axis",
       var itemCount = this.itemCount;
       
       var indexes = [];
-      for (var key in this.customSizes) {
-        indexes.push(parseInt(key));
+      for (var key in this.customSizes) 
+      {
+        var index = parseInt(key);
+        if (index < itemCount) {
+          indexes.push();
+        }
       }
       if (indexes.length == 0) 
       {
