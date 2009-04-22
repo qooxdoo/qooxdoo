@@ -298,7 +298,7 @@ qx.Class.define("qx.ui.layout.Grid",
     /**
      * Stores data for a grid column
      *
-    * @param column {Integer} The column index
+     * @param column {Integer} The column index
      * @param key {String} The key under which the data should be stored
      * @param value {var} data to store
      */
