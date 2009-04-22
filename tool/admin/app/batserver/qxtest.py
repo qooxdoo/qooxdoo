@@ -125,8 +125,8 @@ class QxTest:
 
     for target in buildConf:
       cmd = self.testConf['qxPathAbs'] + buildConf['batbuild'] 
-      cmd += " -w " + self.buildConf['stageDir']
-      if (target != "batbuild" and not('Log' in target)):
+      cmd += " -w " + buildConf['stageDir']
+      if target[0] == target[0].capitalize():
         self.log("Building " + target)      
         cmd += " " + buildConf[target]
 
