@@ -138,6 +138,14 @@ qx.Class.define("qx.bom.element.Attribute",
         href : 1,
         src  : 1,
         type : 1
+      },
+      
+      // Properties which are not removable
+      nonremovable :
+      {
+        innerHTML : 1,
+        innerText : 1,
+        textContent : 1
       }
     },
 
@@ -264,8 +272,8 @@ qx.Class.define("qx.bom.element.Attribute",
       }
 
       // apply attribute
-      if (hints.property[name] && 
-          (value !== true && value !== false && value !== null)) {
+      if ((hints.property[name] && hints.nonremovable[name]) || 
+          (hints.property[name] && (value !== true && value !== false && value !== null))) {
         element[name] = value;
       } else if (value === true) {
         element.setAttribute(name, name);
