@@ -41,14 +41,17 @@ import sys, re, os, types
 from ecmascript.frontend import treeutil, lang
 from ecmascript.frontend.Script import Script
 from misc import filetool, idlist
+from misc.ExtMap import ExtMap
 
 
 class DependencyLoader:
 
-    def __init__(self, classes, cache, console, treeLoader, require, use):
+    def __init__(self, classes, cache, console, treeLoader, require, use, context):
         self._classes = classes
         self._cache = cache
         self._console = console
+        self._context = context
+        self._jobconf = context.get('jobconf', ExtMap())
         self._treeLoader = treeLoader
         self._require = require
         self._use = use
@@ -460,13 +463,17 @@ class DependencyLoader:
                         target.append(assembledId)
 
                     # an attempt to fix static initializers (bug#1455)
-                    if (target == loadtime and False and
+                    if (not inFunction and  # only for loadtime items
+                        self._jobconf.get("dependencies/follow-static-initializers", False) and
                         node.hasParentContext("call/operand")  # it's a method call
                        ):  
                         # make run-time deps of the called method load-deps of the current
                         self._console.debug("Looking for rundeps in '%s' of '%s'" % (assembled, assembledId))
+                        # getMethodDeps is mutual recursive calling into the current function, but
+                        # only does so with inFunction=True, so this branch is never hit through the
+                        # recursive call
                         deps = self.getMethodDeps(assembledId, assembled, variants)
-                        target.extend([x for x in deps if x not in target]) # add uniquely
+                        loadtime.extend([x for x in deps if x not in target]) # add uniquely
 
         elif node.type == "body" and node.parent.type == "function":
             inFunction = True
