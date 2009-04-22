@@ -29,7 +29,7 @@ from ecmascript.frontend import treegenerator, tokenizer
 from ecmascript.transform.optimizer import variableoptimizer
 from ecmascript.transform.optimizer import privateoptimizer
 #from ecmascript.transform.optimizer import protectedoptimizer
-from generator.config.ExtMap import ExtMap
+from misc.ExtMap import ExtMap
 from generator.code.DependencyLoader import DependencyLoader
 from generator.code.PartBuilder import PartBuilder
 from generator.code.TreeLoader import TreeLoader
