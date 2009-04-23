@@ -67,9 +67,9 @@ qx.Class.define("inspector.console.ConsoleWindow",
     radioGround.addListener("changeValue", function(e) {
       // reset the filter field
       this._findField.setValue("");
-      if (radioGround.getSelected() == this._consoleButton) {
+      if (radioGround.getSelection()[0] == this._consoleButton) {
         this._stack.setSelected(this._consoleView);
-      } else if (radioGround.getSelected() == this._domButton) {
+      } else if (radioGround.getSelection()[0] == this._domButton) {
         this._stack.setSelected(this._domView);        
       } else {
         this._consoleButton.setChecked(true);
