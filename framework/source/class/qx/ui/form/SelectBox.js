@@ -26,9 +26,10 @@
 qx.Class.define("qx.ui.form.SelectBox",
 {
   extend : qx.ui.form.AbstractSelectBox,
-  implement : [qx.ui.form.IFormElement],
+  implement : [qx.ui.form.IFormElement, qx.ui.core.ISingleSelection],
+  include : qx.ui.core.MSingleSelectionHandling,
 
-
+  //TODO API doc
 
   /*
   *****************************************************************************
@@ -50,9 +51,24 @@ qx.Class.define("qx.ui.form.SelectBox",
     this.addListener("click", this._onClick, this);
     this.addListener("mousewheel", this._onMouseWheel, this);
     this.addListener("keyinput", this._onKeyInput, this);
+    this.addListener("changeSelection", this.__onChangeSelection, this);
   },
 
 
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+
+  events :
+  {
+    /** 
+     * Fires after the selection was modified
+     * @deprecated Use 'changeSelection' instead!
+     */
+    "changeSelected" : "qx.event.type.Data"
+  },
 
   /*
   *****************************************************************************
@@ -75,8 +91,7 @@ qx.Class.define("qx.ui.form.SelectBox",
     selected :
     {
       check : "qx.ui.form.ListItem",
-      apply : "_applySelected",
-      event : "changeSelected"
+      apply : "_applySelected"
     }
   },
 
@@ -150,23 +165,12 @@ qx.Class.define("qx.ui.form.SelectBox",
     // property apply
     _applySelected : function(value, old)
     {
-      var list = this.getChildControl("list");
-      if (list.getSelection()[0] != value) {
-        list.setSelection([value]);
-      }
-
-      var atom = this.getChildControl("atom");
-
-      var label = value ? value.getLabel() : "";
-      label == null ? atom.resetLabel() : atom.setLabel(label);
-
-      var icon = value ? value.getIcon() : "";
-      icon == null ? atom.resetIcon() : atom.setIcon(icon);
-
-      // Fire value event
-      if (this.hasListener("changeValue")) {
-        this.fireDataEvent("changeValue", list.getValue());
-      }
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'setSelection', 'getSelection' and 'resetSelection' instead!"
+      );
+      
+      this.setSelection([value]);
     },
 
 
@@ -186,7 +190,7 @@ qx.Class.define("qx.ui.form.SelectBox",
     // interface implementation
     getValue : function()
     {
-      var item = this.getSelected();
+      var item = this.getSelection()[0];
       return item ? item.getFormValue() : null;
     },
 
@@ -203,74 +207,48 @@ qx.Class.define("qx.ui.form.SelectBox",
       }
     },
     
-    
     /*
     ---------------------------------------------------------------------------
-      SINGLE SELECTION INTERFACE METHODS
+      HELPER METHODS FOR SELECTION API
     ---------------------------------------------------------------------------
     */
-    
-    /**
-     * Clears the whole selection at once.
-     *
-     * @return {void}
-     */
-    resetSelection : function() {
-      var firstElement = this.getChildControl("list").getChildren()[0]; 
-      
-      if (firstElement) {
-        this.setSelected(firstElement);
-      }
-    },
 
-    /**
-     * EXPERIMENTAL!!!
-     * 
-     * Detects whether the given item is currently selected.
-     *
-     * @param item {Object} Any valid selectable item
-     * @return {Boolean} Whether the item is selected
-     */
-    isSelected : function(item) {
-      var listElements = this.getChildControl("list").getChildren(); 
+    
+    _getItems : function() {
+      return this.getChildrenContainer().getChildren();
+    },
+    
+    _isAllowEmptySelection: function() {
+      return !this.getChildrenContainer().getSelectionMode() === "one";
+    },
+    
+    __onChangeSelection : function(e)
+    {
+      var value = e.getData()[0];
       
-      if (listElements.length > 0) {
-        return this.getSelected() === item;
-      } else {
-        return false;
-      }
-    },
-    
-    /**
-     * EXPERIMENTAL!!!
-     * 
-     * Whether the selection is empty.
-     *
-     * @return {Boolean} Whether the selection is empty
-     */
-    isSelectionEmpty : function() {
-      var listElements = this.getChildControl("list").getChildren(); 
-      
-      if (listElements.length > 0) {
-        return this.getSelected() ? false : true;
-      } else {
-        return true;
-      }
-    },
-    
-    
-    /**
-     * EXPERIMENTAL!!!
-     * 
-     * Returns all elements which are selectable.
-     * 
-     * @return {LayoutItem[]} The contained items.
-     */
-    getSelectables: function() {
-      return this.getChildControl("list").getChildren();
-    },
-    
+      var atom = this.getChildControl("atom");
 
+      var label = value ? value.getLabel() : "";
+      label == null ? atom.resetLabel() : atom.setLabel(label);
+
+      var icon = value ? value.getIcon() : "";
+      icon == null ? atom.resetIcon() : atom.setIcon(icon);
+
+      // Fire value event
+      var list = this.getChildControl("list");
+      if (this.hasListener("changeValue")) {
+        this.fireDataEvent("changeValue", list.getValue());
+      }
+      
+      // TODO remove this if the property 'selected' doesn't exist.
+      if (this.hasListener("changeSelected")) {
+        var newValue = e.getData()[0];
+        var oldValue = e.getOldData()[0];
+        this.fireDataEvent("changeSelected", newValue, oldValue);
+      }
+    },
+    
+    
     /*
     ---------------------------------------------------------------------------
       EVENT LISTENERS
@@ -351,7 +329,7 @@ qx.Class.define("qx.ui.form.SelectBox",
 
       var direction = e.getWheelDelta() > 0 ? 1 : -1;
       var children = this.getChildren();
-      var selected = this.getSelected();
+      var selected = this.getSelection()[0];
 
       if (!selected) {
         selected = children[0];
@@ -367,7 +345,7 @@ qx.Class.define("qx.ui.form.SelectBox",
         index = max;
       }
 
-      this.setSelected(children[index]);
+      this.setSelection([children[index]]);
 
       // stop the propagation
       // prevent any other widget from receiving this event
@@ -386,7 +364,7 @@ qx.Class.define("qx.ui.form.SelectBox",
         // Apply pre-selected item (translate quick selection to real selection)
         if (this.__preSelectedItem)
         {
-          this.setSelected(this.__preSelectedItem);
+          this.setSelecion([this.__preSelectedItem]);
           this.__preSelectedItem = null;
         }
 
@@ -422,7 +400,7 @@ qx.Class.define("qx.ui.form.SelectBox",
       // Apply pre-selected item (translate quick selection to real selection)
       if (this.__preSelectedItem)
       {
-        this.setSelected(this.__preSelectedItem);
+        this.setSelection([this.__preSelectedItem]);
         this.__preSelectedItem = null;
       }
     },
@@ -446,13 +424,13 @@ qx.Class.define("qx.ui.form.SelectBox",
         }
         else
         {
-          this.setSelected(current[0]);
+          this.setSelection([current[0]]);
           this.__preSelectedItem = null;
         }
       }
       else
       {
-        this.resetSelected();
+        this.resetSelection();
       }
     },
 
@@ -471,9 +449,37 @@ qx.Class.define("qx.ui.form.SelectBox",
 
         // check if the list has any children before selecting
         if (list.hasChildren()) {
-          list.setSelection([this.getSelected()]);
+          list.setSelection(this.getSelection());
         }
       }
+    },
+    
+     /**
+     * Add event listener to this object.
+     *
+     * This is only overriden, because the 'changeSelected' event is deprecated.
+     * @deprecated
+     *
+     * @param type {String} name of the event type
+     * @param listener {Function} event callback function
+     * @param self {Object ? null} reference to the 'this' variable inside the callback
+     * @param capture {Boolean ? false} Whether to attach the event to the
+     *         capturing phase of the bubbling phase of the event. The default is
+     *         to attach the event handler to the bubbling phase.
+     * @return {String} An opaque id, which can be used to remove the event listener
+     *         using the {@link #removeListenerById} method.
+     */
+    addListener : function(type, listener, self, capture)
+    {
+      // TODO this method must be removed if the property 'selected' doesn't exist.
+      
+      if (type === "changeSelected") {
+        qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'changeSelection' instead!");
+      }
+      
+      return this.base(arguments, type, listener, self, capture);
     }
   },
 
