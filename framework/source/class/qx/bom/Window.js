@@ -26,7 +26,7 @@ qx.Class.define("qx.bom.Window",
   {                                                       
      __availableOptions :
     {                  
-      "top"      : 1,  
+      top        : 1,  
       left       : 1,  
       width      : 1,  
       height     : 1,  
@@ -66,29 +66,29 @@ qx.Class.define("qx.bom.Window",
      */                          
     open : function(url, name, options)
     {                                  
-      if (url == null)                 
-      {                                
+      if (url == null) {                                
         url = "javascript:/";          
       }                                
 
-      if (name == null)
-      {                
+      if (name == null) {                 
         name = "qxNativeWindow" + new Date().getTime();
       }                                                
 
       var configuration = [];
-      var value;             
+      var value;   
+      var options = this.__availableOptions;          
+      var Type = qx.lang.Type;
 
       for (var key in options)
       {                       
-        if (qx.bom.Window.__availableOptions[key])                                 
+        if (options[key])                                 
         {                                                                         
-          if (qx.lang.Type.isBoolean(options[key])) {
-            value = key + "=" + options[key] ? "yes" : "no";
-          }
-          else {
+          if (Type.isBoolean(options[key])) {
+            value = key + "=" + (options[key] ? "yes" : "no");
+          } else {
             value = key + "=" + options[key];
           }
+          
           configuration.push(value);                                              
         }                                                                         
         else                                                                      
@@ -109,9 +109,8 @@ qx.Class.define("qx.bom.Window",
      */                         
     close : function(win)       
     {                           
-      if (win)                  
-      {                         
-        win.close();            
+      if (win) {                         
+        return win.close();            
       }                         
     },                          
 
@@ -124,18 +123,16 @@ qx.Class.define("qx.bom.Window",
      */                         
     isClosed : function(win)    
     {                           
-      var vClosed = true;       
+      var closed = true;       
 
       if (win)
       {       
-        try   
-        {     
-          vClosed = win.closed;
-        } catch(ex)            
-        {}                     
+        try {     
+          closed = win.closed;
+        } catch(ex) {}                     
       }                        
 
-      return vClosed;
+      return closed;
     },               
 
 
@@ -160,11 +157,9 @@ qx.Class.define("qx.bom.Window",
 
       if (!qx.bom.Window.isClosed(win))
       {                                
-        try                            
-        {                              
+        try {                              
           win.moveTo(left, top);       
-        } catch(ex)                    
-        {                              
+        } catch(ex) {                              
           qx.log.Logger.error("Cross-Domain Scripting problem: Could not move window!", ex);                                                                            
         }                                                                           
       }                                                                             
@@ -192,11 +187,9 @@ qx.Class.define("qx.bom.Window",
 
       if (!qx.bom.Window.isClosed(win))
       {
-        try
-        {
+        try {
           win.resizeTo(width, height);
-        } catch(ex)
-        {
+        } catch(ex) {
           qx.log.Logger.error("Cross-Domain Scripting problem: Could not resize window!", ex);
         }
       }
