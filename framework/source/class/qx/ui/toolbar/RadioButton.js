@@ -75,7 +75,7 @@ qx.Class.define("qx.ui.toolbar.RadioButton",
       {
         var grp = this.getGroup();
         if (grp) {
-          grp.select(this);
+          grp.setSelection([this]);
         }
       }
     },
