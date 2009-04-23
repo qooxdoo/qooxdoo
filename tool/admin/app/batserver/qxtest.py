@@ -37,7 +37,7 @@ class QxTest:
     self.logFile = False
 
     if ('testLogDir' in self.testConf):
-      tf = '%Y-%m-%d'
+      tf = '%Y-%m-%d_%H-%M-%S'
       filename = "testLog_" + time.strftime(tf) + ".txt"
       fullpath = os.path.join(self.testConf['testLogDir'], filename)
       self.logFile = open(fullpath, 'a')
