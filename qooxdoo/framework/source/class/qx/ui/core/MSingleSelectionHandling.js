@@ -30,27 +30,6 @@ qx.Mixin.define("qx.ui.core.MSingleSelectionHandling",
   
   /*
   *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function()
-  {
-    var that = this;
-    var manager = this.__manager = new qx.ui.core.SingleSelectionManager(
-    {
-      getItems : function() {
-        return that._getItems();
-      }
-    }
-    );
-    manager.setAllowEmptySelection(this._isAllowEmptySelection());
-    manager.addListener("changeSelected", this._onChangeSelected, this);
-  },
-
-  
-  /*
-  *****************************************************************************
      EVENTS
   *****************************************************************************
   */
@@ -86,7 +65,7 @@ qx.Mixin.define("qx.ui.core.MSingleSelectionHandling",
      * @return {qx.ui.core.Widget[]} List of items.
      */
     getSelection : function() {
-      var selected = this.__manager.getSelected();
+      var selected = this.__getManager().getSelected();
       
       if (selected) {
         return [selected];
@@ -106,14 +85,14 @@ qx.Mixin.define("qx.ui.core.MSingleSelectionHandling",
           " array contains " + items.length + " items!");
       }
       
-      this.__manager.setSelected(items[0]);
+      this.__getManager().setSelected(items[0]);
     },
     
     /**
      * Clears the whole selection at once.
      */
     resetSelection : function() {
-      this.__manager.resetSelected();
+      this.__getManager().resetSelected();
     },
     
     /**
@@ -123,7 +102,7 @@ qx.Mixin.define("qx.ui.core.MSingleSelectionHandling",
      * @return {Boolean} Whether the item is selected
      */
     isSelected : function(item) {
-      return this.__manager.isSelected(item);
+      return this.__getManager().isSelected(item);
     },
     
     /**
@@ -132,7 +111,7 @@ qx.Mixin.define("qx.ui.core.MSingleSelectionHandling",
      * @return {Boolean} Whether the selection is empty
      */
     isSelectionEmpty : function() {
-      return this.__manager.isSelectionEmpty();
+      return this.__getManager().isSelectionEmpty();
     },
     
     
@@ -142,7 +121,7 @@ qx.Mixin.define("qx.ui.core.MSingleSelectionHandling",
      * @return {qx.ui.core.Widget[]} The contained items.
      */
     getSelectables: function() {
-      return this.__manager.getSelectables();
+      return this.__getManager().getSelectables();
     },
     
     /*
@@ -166,6 +145,25 @@ qx.Mixin.define("qx.ui.core.MSingleSelectionHandling",
       oldVlaue == null ? oldVlaue = [] : oldVlaue = [oldVlaue];
       
       this.fireDataEvent("changeSelection", newValue, oldVlaue);
+    },
+    
+    __getManager : function()
+    {
+      if (this.__manager == null)
+      {
+        var that = this;
+        this.__manager = new qx.ui.core.SingleSelectionManager(
+          {
+            getItems : function() {
+              return that._getItems();
+          }
+        }
+        );
+        this.__manager.setAllowEmptySelection(this._isAllowEmptySelection());
+        this.__manager.addListener("changeSelected", this._onChangeSelected, this);
+      }
+      
+      return this.__manager;
     }
   },
 
