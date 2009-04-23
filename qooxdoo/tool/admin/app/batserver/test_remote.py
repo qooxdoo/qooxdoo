@@ -29,11 +29,16 @@
 #  dictionaries and by adding and removing method calls to and from the main()
 #  method.
 
-import qxtest, sys
+import sys, os
+sys.path.append(os.getcwd())
 
 testConf = {
-  #'classPath'           : '/home/dwagner/qxselenium/selenium-java-client-driver.jar:/home/dwagner/rhino1_7R1/js.jar',
-  'simulatorSvn'        : '/home/dwagner/workspace/qooxdoo.contrib/Simulator'
+  'simulateTest'        : False,
+  'testLogDir'          : '/home/dwagner/qxselenium/remote',
+  'simulatorSvn'        : '/home/dwagner/workspace/qooxdoo.contrib/Simulator',
+  'proxyEnable'         : 'wscript proxyEnable.vbs',
+  'proxyDisable'        : 'wscript proxyDisable.vbs',
+  'classPath'           : '/home/dwagner/qxselenium/selenium-java-client-driver.jar:/home/dwagner/rhino1_7R1/js.jar',
 }
 
 seleniumConf = {
@@ -52,71 +57,77 @@ autConf = {
 }
 
 browserConf = {
-  'IE'                  : '*iexplore',
-  'Safari4b'            : '"*custom C:\\Programme\\Safari\safari.exe"',
-  'Opera964'            : '*opera'
+  'FF3'                 : '*custom /usr/lib/firefox-3.0.9/firefox -no-remote -P selenium-3',
+  'FF31'                : '*custom /home/dwagner/firefox-31b3/firefox -no-remote -P selenium-31b3',
+  'FF2'                 : '*custom /home/dwagner/firefox2/firefox -no-remote -P selenium-2',
+  'FF15'                : '*custom /home/dwagner/firefox-15/firefox -P selenium-15',
+  'Opera96'             : '*opera'
 }
 
 mailConf = {
-  'archiveDir'          : 'C:/test/reports',
+  'reportFile'          : seleniumConf['seleniumReport'],
+  'archiveDir'          : '/home/dwagner/qxselenium/reports',
+  'hostId'              : 'LinRem',
   'mailFrom'            : 'daniel.wagner@1und1.de',
-  #'mailTo'              : 'daniel.wagner@1und1.de',
-  'mailTo'              : 'webtechnologies@1und1.de',
+  'mailTo'              : 'daniel.wagner@1und1.de',
+  #'mailTo'              : 'webtechnologies@1und1.de',
   'smtpHost'            : 'smtp.1und1.de',
   'smtpPort'            : 587
 }
 
+playgroundConf = {
+  'appName' : 'Playground',
+  'clearLogs' : True,
+  'sendReport' : True,
+  'browsers' : [    
+    {
+       'browserId' : 'FF3',
+       'kill' : True
+    },    
+    {
+       'browserId' : 'Opera96',
+       'kill' : True
+    }
+  ]
+}
+
 def main():
-    remoteTest = qxtest.QxTest("remote", seleniumConf, testConf, autConf, browserConf, mailConf)
-    rc = 0
-    if ( remoteTest.isSeleniumServer() ):
-        print("Selenium server seems to be running.")
-    else:
-        remoteTest.startSeleniumServer()
-    if ( remoteTest.isSeleniumServer() ):
+  download("http://qooxdoo.svn.sourceforge.net/viewvc/qooxdoo/trunk/qooxdoo/tool/admin/app/batserver/qxtest.py")
+  import qxtest
+  download("http://qooxdoo.svn.sourceforge.net/viewvc/qooxdoo/trunk/qooxdoo/tool/admin/bin/logFormatter.py")     
+  
+  remoteTest = qxtest.QxTest("remote", seleniumConf, testConf, autConf, browserConf, mailConf)
+  
+  remoteTest.startSeleniumServer()
+  
+  remoteTest.updateSimulator()    
+    
+  for browser in browserConf:
+    remoteTest.killBrowser(browser)
 
-        print("Updating Simulator checkout")
-        qxtest.invokeExternal("svn up " + testConf['simulatorSvn'])        
-        trunkrev = remoteTest.getRevision()
-        mailConf["trunkrev"] = trunkrev
-        print("Qooxdoo revision: " + trunkrev)
+  remoteTest.runTests(playgroundConf) 
 
-        remoteTest.clearLogs()
-        qxtest.invokeExternal(remoteTest.getStartCmd('Testrunner', 'IE'))
-        qxtest.invokeExternal(remoteTest.getStartCmd('Testrunner', 'Safari4b'))
-        remoteTest.formatLog()
-        remoteTest.sendReport("Testrunner")
+  return 0
 
-        remoteTest.clearLogs()
-        qxtest.invokeExternal("wscript proxyEnable.vbs")
-        qxtest.invokeExternal(remoteTest.getStartCmd('Demobrowser', 'IE'))
-        qxtest.invokeExternal("wscript proxyDisable.vbs")
-        remoteTest.formatLog()
-        remoteTest.sendReport("Demobrowser")
-        qxtest.invokeExternal("wscript ProcessKillLocalSaf.vbs")
 
-        remoteTest.clearLogs()
-        qxtest.invokeExternal(remoteTest.getStartCmd('Feedreader', 'IE'))
-        remoteTest.formatLog()        
-        remoteTest.sendReport("Feedreader")
+def download(url):
+  """Copy the contents of a file from a given URL
+  to a local file.
+  """
+  import urllib
+  webFile = urllib.urlopen(url)
+  localFile = open(url.split('/')[-1], 'w')
+  localFile.write(webFile.read())
+  webFile.close()
+  localFile.close()
 
-        remoteTest.clearLogs()
-        qxtest.invokeExternal(remoteTest.getStartCmd('Playground', 'IE'))
-        remoteTest.formatLog()
-        remoteTest.sendReport("Playground")
-
-    else:
-        rc = 1
-        print("Couldn't contact Selenium server.") 
-
-    return rc
 
 if __name__ == "__main__":
-    try:
-        rc = main()
-    except KeyboardInterrupt:
-        print
-        print "  * Keyboard Interrupt"
-        rc = 1
-    sys.exit(rc)
+  try:
+    rc = main()
+  except KeyboardInterrupt:
+    print
+    print "  * Keyboard Interrupt"
+    rc = 1
+  sys.exit(rc)
  
