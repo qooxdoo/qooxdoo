@@ -131,6 +131,24 @@ qx.Class.define("qx.bom.element.Attribute",
         tabIndex    : 1
       },
 
+      // Default values when "null" is given to a property
+      propertyDefault :
+      {
+        disabled : false,
+        checked : false,
+        readOnly : false,
+        multiple : false,
+        selected : false,
+        value : "",
+        maxLength : 10000000,
+        className : "",
+        innerHTML : "",
+        innerText : "",
+        textContent : "",
+        htmlFor : "",
+        tabIndex : 0
+      },
+
       // Use getAttribute(name, 2) for these to query for the real value, not
       // the interpreted one.
       original :
@@ -138,14 +156,6 @@ qx.Class.define("qx.bom.element.Attribute",
         href : 1,
         src  : 1,
         type : 1
-      },
-      
-      // Properties which are not removable
-      nonremovable :
-      {
-        innerHTML : 1,
-        innerText : 1,
-        textContent : 1
       }
     },
 
@@ -272,17 +282,27 @@ qx.Class.define("qx.bom.element.Attribute",
       }
 
       // apply attribute
-      if ((hints.property[name] && hints.nonremovable[name]) || 
-          (hints.property[name] && (value !== true && value !== false && value !== null))) {
+      if (hints.property[name])
+      {
+        if (value == null)
+        {
+          value = hints.propertyDefault[value];
+          if (value === undefined)
+          {
+            value = null;
+          }
+        }
         element[name] = value;
-      } else if (value === true) {
-        element.setAttribute(name, name);
-      } else if (value === false || value === null) {
-        element.removeAttribute(name);
-      } else if (qx.core.Variant.isSet("qx.client", "mshtml") && name == "style") {
-        element.style.setAttribute("cssText", value);
-      } else {
-        element.setAttribute(name, value);
+      }
+      else
+      {
+        if (value === true) {
+          element.setAttribute(name, name);
+        } else if (value === false || value === null) {
+          element.removeAttribute(name);
+        } else {
+          element.setAttribute(name, value);
+        }
       }
     },
 
