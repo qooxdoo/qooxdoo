@@ -57,7 +57,7 @@ qx.Class.define("demobrowser.demo.widget.RadioButton",
       var manager = new qx.ui.form.RadioGroup(rbRed, rbGreen, rbYellow, rbBlue);
 
       // Add a listener to the "changeSelected" event
-      manager.addListener("changeSelected", this._onChangeSelected, this);
+      manager.addListener("changeSelection", this._onChangeSelection, this);
     },
 
     /**
@@ -65,9 +65,9 @@ qx.Class.define("demobrowser.demo.widget.RadioButton",
      * raises a alert box with this information in it.
      * @param e {qx.event.type.Data} The incoming data event
      */
-    _onChangeSelected : function(e)
+    _onChangeSelection : function(e)
     {
-      var selectedButton = e.getData();
+      var selectedButton = e.getData()[0];
       var color = selectedButton.getLabel();
       alert("Your favorite color is: " + color);
     }
