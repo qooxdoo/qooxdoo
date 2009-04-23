@@ -384,7 +384,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       var viewGroup = this.viewGroup = new qx.ui.form.RadioGroup;
       viewGroup.add(htmlView, jsView, logView);
-      viewGroup.resetSelected();
+      viewGroup.resetSelection();
 
 
 

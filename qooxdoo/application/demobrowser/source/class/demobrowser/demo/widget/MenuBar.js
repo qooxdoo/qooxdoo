@@ -50,7 +50,7 @@ qx.Class.define("demobrowser.demo.widget.MenuBar",
 
 
     debugRadio : function(e) {
-      this.debug("Change selection: " + e.getData().getLabel());
+      this.debug("Change selection: " + e.getData()[0].getLabel());
     },
 
     debugCommand : function(e) {
@@ -291,7 +291,7 @@ qx.Class.define("demobrowser.demo.widget.MenuBar",
       langGroup.add(htmlButton, xmlButton, jsButton, perlButton, pythonButton);
       langGroup.add.apply(langGroup, cdialectButton.getMenu().getChildren());
 
-      langGroup.addListener("changeSelected", this.debugRadio);
+      langGroup.addListener("changeSelection", this.debugRadio);
 
       return menu;
     },
