@@ -297,7 +297,7 @@ qx.Class.define("demobrowser.demo.animation.Tree_Highlight",
     _onChangeShowOpen : function()
     {
       var current = this._tree.getSelection()[0];
-      var mode = this.mgrShowRootOpen.getSelected().getValue();
+      var mode = this.mgrShowRootOpen.getSelection()[0].getValue();
       current.setOpenSymbolMode(mode);
     },
 

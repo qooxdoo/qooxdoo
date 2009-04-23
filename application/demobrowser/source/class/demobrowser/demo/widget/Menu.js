@@ -64,7 +64,7 @@ qx.Class.define("demobrowser.demo.widget.Menu",
 
 
     debugRadio : function(e) {
-      this.debug("Change selection: " + e.getData().getLabel());
+      this.debug("Change selection: " + e.getData()[0].getLabel());
     },
 
     debugCommand : function(e) {
@@ -130,11 +130,11 @@ qx.Class.define("demobrowser.demo.widget.Menu",
       // create radio groups
       var groupOptions = new qx.ui.form.RadioGroup;
       groupOptions.add.apply(groupOptions, optionMenu.getChildren());
-      groupOptions.addListener("changeSelected", this.debugRadio);
+      groupOptions.addListener("changeSelection", this.debugRadio);
 
       var groupActions = new qx.ui.form.RadioGroup;
       groupActions.add.apply(groupActions, actionMenu.getChildren());
-      groupActions.addListener("changeSelected", this.debugRadio);
+      groupActions.addListener("changeSelection", this.debugRadio);
 
 
       // create main menu and buttons
@@ -482,7 +482,7 @@ qx.Class.define("demobrowser.demo.widget.Menu",
       langGroup.add(htmlButton, xmlButton, jsButton, perlButton, pythonButton);
       langGroup.add.apply(langGroup, cdialectButton.getMenu().getChildren());
 
-      langGroup.addListener("changeSelected", this.debugRadio);
+      langGroup.addListener("changeSelection", this.debugRadio);
 
       return menu;
     },

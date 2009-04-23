@@ -128,9 +128,9 @@ qx.Class.define("demobrowser.demo.widget.ToolBar",
       controlContainer.add(size48Button, {row:0, column:3});
 
       // register the handler
-      sizeManager.addListener("changeSelected", function(e)
+      sizeManager.addListener("changeSelection", function(e)
       {
-        var value = e.getData();
+        var value = e.getData()[0];
         var button, size, url;
         for (var i=0; i<buttons.length; i++)
         {
@@ -169,13 +169,13 @@ qx.Class.define("demobrowser.demo.widget.ToolBar",
       controlContainer.add(showLabelButton, {row:1, column:3});
 
       // register the handler
-      showManager.addListener("changeSelected", function(e)
+      showManager.addListener("changeSelection", function(e)
       {
-        if (e.getData() == showBothButton) {
+        if (e.getData()[0] == showBothButton) {
           toolbar.setShow("both");
-        } else if (e.getData() == showIconButton) {
+        } else if (e.getData()[0] == showIconButton) {
           toolbar.setShow("icon");
-        } else if (e.getData() == showLabelButton) {
+        } else if (e.getData()[0] == showLabelButton) {
           toolbar.setShow("label");
         }
       }, this);
