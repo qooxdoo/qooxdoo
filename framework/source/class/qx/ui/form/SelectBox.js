@@ -83,15 +83,6 @@ qx.Class.define("qx.ui.form.SelectBox",
     {
       refine : true,
       init : "selectbox"
-    },
-
-    /**
-     * The selected item inside the list.
-     */
-    selected :
-    {
-      check : "qx.ui.form.ListItem",
-      apply : "_applySelected"
     }
   },
 
@@ -158,21 +149,62 @@ qx.Class.define("qx.ui.form.SelectBox",
 
     /*
     ---------------------------------------------------------------------------
-      APPLY ROUTINES
+      OLD SELECTION PROPERTY METHDS
     ---------------------------------------------------------------------------
     */
 
-    // property apply
-    _applySelected : function(value, old)
+    /**
+     * Select the item in the list.
+     * 
+     * @deprecated Use 'setSelection' instead!
+     * @param item {qx.ui.form.ListItem} Item to select.
+     */
+    setSelected : function(item)
     {
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee,
-        "Use 'setSelection', 'getSelection' and 'resetSelection' instead!"
+        "Use 'setSelection' instead!"
       );
       
       this.setSelection([value]);
     },
-
+    
+    /**
+     * Returns the selected item in the list.
+     *
+     * @deprecated Use 'getSelection' instead!
+     * @return {qx.ui.form.ListItem} Selected item.
+     */
+    getSelected : function()
+    {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'getSelection' instead!"
+      );
+      
+      var item = this.getSelection()[0];
+      if (item) {
+        return item
+      } else {
+        return null;
+      }
+    },
+    
+    /**
+     * Reset the current selection.
+     * 
+     * @deprecated Use 'resetSelection' instead!
+     * @param item {qx.ui.form.ListItem} Item to select.
+     */
+    resetSelected : function(item)
+    {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'resetSelection' instead!"
+      );
+      
+      this.resetSelection();
+    },
 
 
     /*
@@ -240,7 +272,13 @@ qx.Class.define("qx.ui.form.SelectBox",
         this.fireDataEvent("changeValue", list.getValue());
       }
       
-      // TODO remove this if the property 'selected' doesn't exist.
+      /*
+       * TODO remove this if the methods and event for old selection API
+       * doesn't exist. 
+       * 
+       * Methods: 'getSelected', 'setSelected', 'resetSelected'
+       * Event: 'changeSelected'
+       */ 
       if (this.hasListener("changeSelected")) {
         var newValue = e.getData()[0];
         var oldValue = e.getOldData()[0];
@@ -471,7 +509,12 @@ qx.Class.define("qx.ui.form.SelectBox",
      */
     addListener : function(type, listener, self, capture)
     {
-      // TODO this method must be removed if the property 'selected' doesn't exist.
+      /*
+       * TODO this method must be removed if the old selection API doesn't exist. 
+       * 
+       * Methods: 'getSelected', 'setSelected', 'resetSelected'
+       * Event: 'changeSelected'
+       */ 
       
       if (type === "changeSelected") {
         qx.log.Logger.deprecatedMethodWarning(
