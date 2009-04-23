@@ -1338,25 +1338,33 @@ qx.Class.define("testrunner.runner.TestRunner",
         nodePath.shift();
         var nodeName = qx.lang.Array.clone(nodePath);
         nodeName.push(curr.label);
+        
+        if (nodeName.join('.') == testName) {
 
-        // Remember failures
-        if (status != "success") {
-          curr.status = "fail";
-        }
-
-        if (nodeName.join('.') == testName) {          
-          
           var widgetNode = curr.widgetLinkFull;
           var type = curr.type;
-          this.__setTreeIcon(widgetNode, type, status);          
-          // recurse up the parent chain
-          if (status != "success") {
-            this.__markTree(nodePath.join('.'), status);
+
+          if (type == "test") {
+
+            var that = this;
+            function markParentRec(treeNode, modelNode) {
+              if (modelNode.type != "root") {
+                if (!modelNode.status || status != "success") {
+                  modelNode.status = "fail";
+                  that.__setTreeIcon(treeNode, modelNode.type, status);
+                }
+              }
+
+              if (treeNode.getParent()) {
+                markParentRec(treeNode.getParent(), modelNode.parent);
+              }
+
+            }
+
+            markParentRec(widgetNode, curr);
+            
           }
-          // Don't mark packages/classes as successful if they've had failures.
-          else if (curr.status != "fail") {
-            this.__markTree(nodePath.join('.'), status);
-          }
+          
         }
       }
     },
