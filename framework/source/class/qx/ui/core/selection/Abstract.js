@@ -1283,7 +1283,11 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     ---------------------------------------------------------------------------
     */
 
-    /** {Map} All supported navigation keys */
+    /** 
+     * {Map} All supported navigation keys
+     * 
+     * @lint ignoreReferenceField(__navigationKeys)
+     */
     __navigationKeys :
     {
       Home : 1,
