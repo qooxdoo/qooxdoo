@@ -112,7 +112,7 @@ qx.Class.define("feedreader.view.PreferenceWindow",
 
         // Select entry containing current language
         if (localeManager.getLanguage() == lang) {
-          radioManager.setSelected(radioButton);
+          radioManager.setSelection([radioButton]);
         }
       }
 
@@ -125,7 +125,7 @@ qx.Class.define("feedreader.view.PreferenceWindow",
 
       var okButton = new qx.ui.form.Button(this.tr("OK"), "icon/16/actions/dialog-ok.png");
       okButton.addListener("execute", function(e){
-        var selectedLanguage = radioManager.getSelected().getValue();
+        var selectedLanguage = radioManager.getSelection()[0].getValue();
         qx.locale.Manager.getInstance().setLocale(selectedLanguage);
 
         this.close();
