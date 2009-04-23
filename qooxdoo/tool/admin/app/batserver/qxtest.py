@@ -214,6 +214,12 @@ class QxTest:
           self.setProxy(True)
       except KeyError:
           pass
+
+      try:
+        if (browser['setIE8Compatibility']):
+          self.setIE8Compatibility(True)
+      except KeyError:
+          pass
       
       if (self.sim):
         self.log("SIMULATION: Starting test:\n" + cmd)
@@ -224,6 +230,12 @@ class QxTest:
       try:
         if (browser['setProxy']):
           self.setProxy(False)
+      except KeyError:
+          pass
+
+      try:
+        if (browser['setIE8Compatibility']):
+          self.setIE8Compatibility(False)
       except KeyError:
           pass
 
@@ -407,7 +419,8 @@ class QxTest:
       self.log("ERROR: Unable to determine browser process name")    
 
 
-  # Activate the proxy setting for browsers started with the *custom launcher
+  # Call a VBScript that activates the proxy setting in the Windows registry for
+  # browsers started with the *custom launcher (Safari, Chrome, etc.)
   def setProxy(self, prox):        
     if (prox):
       if (self.os == "Windows"):
@@ -430,6 +443,31 @@ class QxTest:
       else:
         self.log("Error: Can't disable proxy on non-Windows system!")
 
+
+  # Call a VBScript that sets IE8 compatibility mode in the Windows registry. 
+  def setIE8Compatibility(self, compat):
+    if (compat):
+      if (self.os == "Windows"):
+        if (self.sim):
+          self.log("SIMULATION: Activating IE8 compatibility mode in Windows registry: "
+                   + self.testConf['compatEnable'])
+        else:
+          self.log("Activating IE8 compatibility mode in Windows registry")
+          invokeExternal(self.testConf['compatEnable'])
+      else:
+        self.log("ERROR: Can't enable IE8 compatibility mode on non-Windows system!")
+    else:
+      if (self.os == "Windows"):
+        if (self.sim):
+          self.log("SIMULATION: Deactivating IE8 compatibility mode in Windows registry: " 
+                + self.testConf['compatDisable'])
+        else:  
+          self.log("Deactivating IE8 compatibility mode in Windows registry")
+          invokeExternal(self.testConf['compatDisable'])
+      else:
+        self.log("Error: Can't disable IE8 compatibility mode on non-Windows system!")
+      
+  
   # Run Ecmalint on targets defined in lintConf
   def runLint(self,lintConf):
     from lintRunner import QxLint
