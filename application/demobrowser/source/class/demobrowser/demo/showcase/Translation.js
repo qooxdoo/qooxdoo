@@ -78,7 +78,7 @@ qx.Class.define("demobrowser.demo.showcase.Translation",
 
       select.addListener("changeSelection", function(e)
       {
-        var locale = e.getValue().getLabel();
+        var locale = e.getData()[0].getLabel();
         qx.locale.Manager.getInstance().setLocale(locale);
       });
 
