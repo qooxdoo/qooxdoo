@@ -141,7 +141,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
         var targetSelection = this.getTarget().getSelection();        
       } else if (this.__targetSupportsSingleSelection()) {
         // get the selection of the target as an array
-        var targetSelection = [this.getTarget().getSelected()];
+        var targetSelection = this.getTarget().getSelection();
       }  
       
       // go through the target selection
@@ -194,15 +194,13 @@ qx.Mixin.define("qx.data.controller.MSelection",
       }
 
       // if a selection API is supported
-      if (this.__targetSupportsMultiSelection()) {
+      if (
+        this.__targetSupportsMultiSelection() 
+        || this.__targetSupportsSingleSelection()
+      ) {
         // add a new selection listener
         this.__selectionListenerId = value.addListener(
           "changeSelection", this.__changeTargetSelection, this
-        );
-      } else if (this.__targetSupportsSingleSelection()) {
-        // add a new selection listener
-        this.__selectionListenerId = value.addListener(
-          "changeSelected", this.__changeTargetSelection, this
         );
       }
     },
@@ -276,8 +274,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
      */    
     __targetSupportsSingleSelection: function() {
       var targetClass = this.getTarget().constructor;
-      // return qx.Class.implementsInterface(targetClass, qx.ui.core.ISingleSelection);
-      return targetClass.classname == "qx.ui.form.SelectBox";
+      return qx.Class.implementsInterface(targetClass, qx.ui.core.ISingleSelection);
     },
     
     
@@ -300,7 +297,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
             this.getTarget().addToSelection(children[i]);
           // if the target is single selection able
           } else if (this.__targetSupportsSingleSelection()) {
-            this.getTarget().setSelected(children[i]);
+            this.getTarget().setSelection([children[i]]);
           }
           return;
         }
