@@ -29,10 +29,11 @@
 qx.Class.define("qx.ui.form.RadioGroup",
 {
   extend : qx.core.Object,
-  implement : qx.ui.form.IFormElement,
+  implement : [qx.ui.form.IFormElement, qx.ui.core.ISingleSelection],
+  include : qx.ui.core.MSingleSelectionHandling,
 
-
-
+  //TODO API doc
+  
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -50,13 +51,29 @@ qx.Class.define("qx.ui.form.RadioGroup",
     // create item array
     this.__items = [];
 
+    // add listener bevore call add!!!
+    this.addListener("changeSelection", this.__onChangeSelection, this);
+    
     if (varargs != null) {
       this.add.apply(this, arguments);
     }
   },
 
 
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
 
+  events :
+  {
+    /** 
+     * Fires after the selection was modified
+     * @deprecated Use 'changeSelection' instead!
+     */
+    "changeSelected" : "qx.event.type.Data"
+  },
 
   /*
   *****************************************************************************
@@ -75,19 +92,6 @@ qx.Class.define("qx.ui.form.RadioGroup",
       apply : "_applyEnabled",
       event : "changeEnabled"
     },
-
-
-    /**
-     * The currently selected item of the radio group
-     */
-    selected :
-    {
-      nullable : true,
-      apply : "_applySelected",
-      event : "changeSelected",
-      check : "qx.ui.form.IRadioItem"
-    },
-
 
     /**
      * The name of the radio group. Mainly used for seralization proposes.
@@ -163,10 +167,16 @@ qx.Class.define("qx.ui.form.RadioGroup",
     /**
      * Set the checked state of a given item
      *
+     * @deprecated Use 'setSelection' instead!
      * @param item {IRadioItem} The item to select
      */
     select : function(item) {
-      this.setSelected(item);
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'setSelection' instead!"
+      );
+      
+      this.setSelection([item]);
     },
 
 
@@ -186,7 +196,7 @@ qx.Class.define("qx.ui.form.RadioGroup",
 
         if (item.getValue() == value)
         {
-          this.setSelected(item);
+          this.setSelection([item]);
           break;
         }
       }
@@ -201,7 +211,7 @@ qx.Class.define("qx.ui.form.RadioGroup",
      */
     getValue : function()
     {
-      var selected = this.getSelected();
+      var selected = this.getSelection()[0];
       return selected ? selected.getValue() : null;
     },
 
@@ -246,13 +256,13 @@ qx.Class.define("qx.ui.form.RadioGroup",
 
         // Need to update internal value?
         if (item.getChecked()) {
-          this.setSelected(item);
+          this.setSelection([item]);
         }
       }
 
       // Select first item when only one is registered
-      if (items.length > 0 && !this.getSelected()) {
-        this.setSelected(items[0]);
+      if (items.length > 0 && !this.getSelection()[0]) {
+        this.setSelection([items[0]]);
       }
     },
 
@@ -277,7 +287,7 @@ qx.Class.define("qx.ui.form.RadioGroup",
 
         // if the radio was checked, set internal selection to null
         if (item.getChecked()) {
-          this.resetSelected();
+          this.resetSelection();
         }
       }
     },
@@ -299,36 +309,78 @@ qx.Class.define("qx.ui.form.RadioGroup",
     {
       var item = e.getTarget();
       if (item.getChecked()) {
-        this.setSelected(item);
-      } else if (this.getSelected() == item) {
-        this.resetSelected();
+        this.setSelection([item]);
+      } else if (this.getSelection()[0] == item) {
+        this.resetSelection();
       }
     },
 
 
     /*
     ---------------------------------------------------------------------------
-      APPLY ROUTINES
+      OLD SELECTION PROPERTY METHDS
     ---------------------------------------------------------------------------
     */
 
-    // property apply
-    _applySelected : function(value, old)
+    /**
+     * Select the item in the list.
+     * 
+     * @deprecated Use 'setSelection' instead!
+     * @param item {qx.ui.form.ListItem} Item to select.
+     */
+    setSelected : function(item)
     {
-      if (old) {
-        old.setChecked(false);
-      }
-
-      if (value) {
-        value.setChecked(true);
-      }
-
-      // Fire value change event
-      var oldValue = this.__getValue(old);
-      var newValue = this.__getValue(value);
-      this.fireDataEvent("changeValue", newValue, oldValue);
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'setSelection' instead!"
+      );
+      
+      this.setSelection([value]);
     },
-
+    
+    /**
+     * Returns the selected item in the list.
+     *
+     * @deprecated Use 'getSelection' instead!
+     * @return {qx.ui.form.ListItem} Selected item.
+     */
+    getSelected : function()
+    {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'getSelection' instead!"
+      );
+      
+      var item = this.getSelection()[0];
+      if (item) {
+        return item
+      } else {
+        return null;
+      }
+    },
+    
+    /**
+     * Reset the current selection.
+     * 
+     * @deprecated Use 'resetSelection' instead!
+     * @param item {qx.ui.form.ListItem} Item to select.
+     */
+    resetSelected : function(item)
+    {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'resetSelection' instead!"
+      );
+      
+      this.resetSelection();
+    },
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      APPLY ROUTINES
+    ---------------------------------------------------------------------------
+    */
 
     // property apply
     _applyEnabled : function(value, old)
@@ -400,7 +452,7 @@ qx.Class.define("qx.ui.form.RadioGroup",
      */
     selectNext : function()
     {
-      var item = this.getSelected();
+      var item = this.getSelection()[0];
       var items = this.__items;
       var index = items.indexOf(item);
       if (index == -1) {
@@ -423,7 +475,7 @@ qx.Class.define("qx.ui.form.RadioGroup",
         i++;
       }
 
-      this.setSelected(items[index]);
+      this.setSelection([items[index]]);
     },
 
 
@@ -432,7 +484,7 @@ qx.Class.define("qx.ui.form.RadioGroup",
      */
     selectPrevious : function()
     {
-      var item = this.getSelected();
+      var item = this.getSelection()[0];
       var items = this.__items;
       var index = items.indexOf(item);
       if (index == -1) {
@@ -455,7 +507,85 @@ qx.Class.define("qx.ui.form.RadioGroup",
         i++;
       }
 
-      this.setSelected(items[index]);
+      this.setSelection([items[index]]);
+    },
+    
+    /*
+    ---------------------------------------------------------------------------
+      HELPER METHODS FOR SELECTION API
+    ---------------------------------------------------------------------------
+    */
+
+    
+    _getItems : function() {
+      return this.getItems();
+    },
+    
+    _isAllowEmptySelection: function() {
+      return true;
+    },
+    
+    __onChangeSelection : function(e)
+    {
+      var value = e.getData()[0];
+      var old = e.getOldData()[0];
+      
+      if (old) {
+        old.setChecked(false);
+      }
+
+      if (value) {
+        value.setChecked(true);
+      }
+
+      // Fire value change event
+      var oldValue = this.__getValue(old);
+      var newValue = this.__getValue(value);
+      this.fireDataEvent("changeValue", newValue, oldValue);
+      
+      /*
+       * TODO remove this if the methods and event for old selection API
+       * doesn't exist. 
+       * 
+       * Methods: 'getSelected', 'setSelected', 'resetSelected'
+       * Event: 'changeSelected'
+       */ 
+      if (this.hasListener("changeSelected")) {
+        this.fireDataEvent("changeSelected", value, old);
+      }
+    },
+    
+    /**
+     * Add event listener to this object.
+     *
+     * This is only overriden, because the 'changeSelected' event is deprecated.
+     * @deprecated
+     *
+     * @param type {String} name of the event type
+     * @param listener {Function} event callback function
+     * @param self {Object ? null} reference to the 'this' variable inside the callback
+     * @param capture {Boolean ? false} Whether to attach the event to the
+     *         capturing phase of the bubbling phase of the event. The default is
+     *         to attach the event handler to the bubbling phase.
+     * @return {String} An opaque id, which can be used to remove the event listener
+     *         using the {@link #removeListenerById} method.
+     */
+    addListener : function(type, listener, self, capture)
+    {
+      /*
+       * TODO this method must be removed if the old selection API doesn't exist. 
+       * 
+       * Methods: 'getSelected', 'setSelected', 'resetSelected'
+       * Event: 'changeSelected'
+       */
+      
+      if (type === "changeSelected") {
+        qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'changeSelection' instead!");
+      }
+      
+      return this.base(arguments, type, listener, self, capture);
     }
   },
 
