@@ -451,7 +451,7 @@ qx.Class.define("qx.test.data.controller.List",
       this.__controller.getSelection().push("10");
       
       // check for the Selection
-      this.assertEquals("10", box.getSelected().getLabel(), "Wrong selection");
+      this.assertEquals("10", box.getSelection()[0].getLabel(), "Wrong selection");
     },
     
     
