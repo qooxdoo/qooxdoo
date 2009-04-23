@@ -23,7 +23,8 @@ import sys, os, time
 sys.path.append( os.path.join('..', '..', 'bin') )
 
 class QxTest:
-  def __init__(self, testType="remote", seleniumConf=None, testConf=None, autConf=None, browserConf=None, mailConf=None):
+  def __init__(self, testType="remote", seleniumConf=None, testConf=None, 
+               autConf=None, browserConf=None, mailConf=None):
     self.testType = testType
     self.seleniumConf = seleniumConf
     self.testConf = testConf
@@ -78,6 +79,10 @@ class QxTest:
   
   # Start the Selenium RC server and check its status.
   def startSeleniumServer(self):
+    if (self.sim):
+      self.log("SIMULATION: Starting Selenium RC server.")
+      return
+
     import subprocess, time
     if (self.isSeleniumServer()):
       self.log("Selenium server already running.")
@@ -135,7 +140,7 @@ class QxTest:
 
         if (self.sim):
           status = 0
-          self.log("SIMULATION: Invoking build command:\n" + cmd)
+          self.log("SIMULATION: Invoking build command:\n  " + cmd)
         else:
           if (buildConf['buildLogLevel'] == "debug"):
             invokeLog(cmd, buildLogFile)             
@@ -219,10 +224,10 @@ class QxTest:
         if (browser['setIE8Compatibility']):
           self.setIE8Compatibility(True)
       except KeyError:
-          pass
+        pass
       
       if (self.sim):
-        self.log("SIMULATION: Starting test:\n" + cmd)
+        self.log("SIMULATION: Starting test:\n  " + cmd)
       else:
         self.log("Testing: " + appConf['appName'] + " on " + browser['browserId'])
         invokeExternal(cmd)
@@ -495,7 +500,7 @@ class QxTest:
           options.ignoreErrors = target['ignoreErrors']
 
         if (self.sim):
-          self.log("SIMULATION: Starting Lint runner:\n" + options.workdir)
+          self.log("SIMULATION: Starting Lint runner:\n  " + options.workdir)
         else:
           self.log("Running Lint for " + options.workdir)  
           qxlint = QxLint(options)
