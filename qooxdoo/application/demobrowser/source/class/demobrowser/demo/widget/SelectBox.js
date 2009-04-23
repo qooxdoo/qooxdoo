@@ -61,7 +61,7 @@ qx.Class.define("demobrowser.demo.widget.SelectBox",
 
         // select sixth item
         if (i == 5) {
-          selectBox.setSelected(tempItem);
+          selectBox.setSelection([tempItem]);
         }
       }
 
@@ -69,8 +69,8 @@ qx.Class.define("demobrowser.demo.widget.SelectBox",
         this.debug("ChangeValue: " + e.getData());
       });
 
-      selectBox.addListener("changeSelected", function(e) {
-        this.debug("ChangeSelected: " + e.getData());
+      selectBox.addListener("changeSelection", function(e) {
+        this.debug("changeSelection: " + e.getData()[0]);
       });
 
       container.add(selectBox);
