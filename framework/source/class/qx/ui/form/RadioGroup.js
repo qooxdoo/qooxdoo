@@ -62,21 +62,6 @@ qx.Class.define("qx.ui.form.RadioGroup",
 
   /*
   *****************************************************************************
-     EVENTS
-  *****************************************************************************
-  */
-
-  events :
-  {
-    /** 
-     * Fires after the selection was modified
-     * @deprecated Use 'changeSelection' instead!
-     */
-    "changeSelected" : "qx.event.type.Data"
-  },
-
-  /*
-  *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
@@ -131,7 +116,13 @@ qx.Class.define("qx.ui.form.RadioGroup",
      * 
      * Event data: The new value. As defined in {@link qx.ui.menu.RadioButton#value}
      */
-    "changeValue" : "qx.event.type.Data"
+    "changeValue" : "qx.event.type.Data",
+    
+    /** 
+     * Fires after the selection was modified
+     * @deprecated Use 'changeSelection' instead!
+     */
+    "changeSelected" : "qx.event.type.Data"
   },
 
 
