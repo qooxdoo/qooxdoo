@@ -32,8 +32,8 @@ qx.Class.define("qx.test.ui.form.Label",
 
     tearDown : function()
     {
-      this.__formWidget.destroy();
       this.__label.destroy();
+      this.__formWidget.destroy();
     },
     
     
