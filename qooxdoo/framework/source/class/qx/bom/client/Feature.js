@@ -85,7 +85,7 @@ qx.Bootstrap.define("qx.bom.client.Feature",
       this.CONTENT_BOX = !qx.bom.client.Engine.MSHTML || this.STANDARD_MODE;
       this.BORDER_BOX = !this.CONTENT_BOX;
 
-      this.SVG = document.implementation && document.implementation.hasFeature && document.implementation.hasFeature("org.w3c.dom.svg", "1.0");
+      this.SVG = document.implementation && document.implementation.hasFeature && (document.implementation.hasFeature("org.w3c.dom.svg", "1.0") || document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1"));
       this.CANVAS = !!window.CanvasRenderingContext2D;
       this.VML = qx.bom.client.Engine.MSHTML;
 
