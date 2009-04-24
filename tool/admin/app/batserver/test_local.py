@@ -50,8 +50,8 @@ seleniumConf = {
 }
 
 testConf = {
-  #'simulateTest'        : True,
-  'testLogDir'          : '/home/dwagner/qxselenium',          
+  'simulateTest'        : False,
+  'testLogDir'          : '/home/dwagner/qxselenium',
   'qxPathAbs'           : '/var/www/qx/trunk/qooxdoo',  
   'classPath'           : '/home/dwagner/qxselenium/selenium-java-client-driver.jar:/home/dwagner/rhino1_7R1/js.jar',
   'simulatorSvn'        : '/home/dwagner/workspace/qooxdoo.contrib/Simulator',
@@ -63,7 +63,7 @@ buildConf = {
   'stageDir'            : '/var/www/qx',             
   'buildLogLevel'       : 'error',
   'buildLogFile'        : '/home/dwagner/qxselenium/build.log',
-  'batbuild'            : '/tool/admin/app/batserver/batbuild.py -z -C',           
+  'batbuild'            : 'tool/admin/app/batserver/batbuild.py -z -C',           
   'Tests'               : '-p framework -g test -n',
   'Demobrowser'         : '-p application/demobrowser -g build -n',
   'Feedreader'          : '-p application/feedreader -g build -n',
@@ -79,7 +79,7 @@ autConf = {
 }
 
 browserConf = {
-  'FF3'                 : '*custom /usr/lib/firefox-3.0.8/firefox -no-remote -P selenium-3',
+  'FF3'                 : '*custom /usr/lib/firefox-3.0.9/firefox -no-remote -P selenium-3',
   'FF31'                : '*custom /home/dwagner/firefox-31b3/firefox -no-remote -P selenium-31b3',
   'FF2'                 : '*custom /home/dwagner/firefox2/firefox -no-remote -P selenium-2',
   'FF15'                : '*custom /home/dwagner/firefox-15/firefox -P selenium-15',
@@ -251,7 +251,7 @@ def main():
 
   localTest.startSeleniumServer()
 
-  localTest.updateSimulator()
+  #localTest.updateSimulator()
     
   for browser in browserConf:
     localTest.killBrowser(browser)
