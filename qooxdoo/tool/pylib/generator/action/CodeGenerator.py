@@ -397,10 +397,29 @@ class CodeGenerator(object):
         else:
             raise RuntimeError, "No such resource type: \"%s\"" % rType
 
-        uri = os.path.join(liburi, libInternalPath, resourcePath)
+        #uri = os.path.join(liburi, libInternalPath, resourcePath)
+        uri = os.path.join(libInternalPath, resourcePath)
         uri = os.path.normpath(uri)
         uri = Path.posifyPath(uri)
+        if not re.search(r'^[a-zA-Z]+://', liburi): # it is without 'http://'
+            liburi = Path.posifyPath(liburi)  # have to apply path normalization
+        if not liburi.endswith('/'):  # if liburi is only a path, basejoin needs a trailing '/'
+            liburi += '/'
+        uri = urllib.basejoin(liburi, uri)
         return uri
+
+
+    def _encodeUri(self, uri):
+        import urlparse
+        parts = urlparse.urlparse(uri)
+        nparts= []
+        for i in range(len(parts)):
+            if i<=1:   # skip schema and netlock parts
+                nparts.append(parts[i])
+            else:
+                nparts.append(urllib.quote(parts[i]))
+        nuri  = urlparse.urlunparse(nparts)
+        return nuri
 
 
     # wpbasti: TODO: Clean up compiler. Maybe split-off pretty-printing. These hard-hacked options, the pure
@@ -529,7 +548,7 @@ class CodeGenerator(object):
             else:
                 resUriRoot = self._computeResourceUri(lib, "", rType="resource", appRoot=self.approot)
                 
-            qxlibs[lib['namespace']]['resourceUri'] = "%s" % urllib.quote(resUriRoot)
+            qxlibs[lib['namespace']]['resourceUri'] = "%s" % self._encodeUri(resUriRoot)
             
             # add code root URI
             if forceScriptUri:
@@ -699,6 +718,7 @@ class CodeGenerator(object):
                 #cUri = Path.rel_from_to(self.approot, self._classes[fileId]["relpath"])
                 lib = self._libs[self._classes[fileId]["namespace"]]
                 cUri = self._computeResourceUri(lib, self._classes[fileId]["relpath"], rType='class', appRoot=self.approot)
+                cUri = self._encodeUri(cUri)
                 packageUris.append('"%s"' % cUri)
 
             allUris.append("[" + ",".join(packageUris) + "]")
