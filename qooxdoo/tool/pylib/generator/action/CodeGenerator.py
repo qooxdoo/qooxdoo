@@ -561,7 +561,7 @@ class CodeGenerator(object):
             else:
                 sourceUriRoot = self._computeResourceUri(lib, "", rType="class", appRoot=self.approot)
             
-            qxlibs[lib['namespace']]['sourceUri'] = "%s" % urllib.quote(sourceUriRoot)
+            qxlibs[lib['namespace']]['sourceUri'] = "%s" % self._encodeUri(sourceUriRoot)
             
             # TODO: Add version, svn revision, maybe even authors, but at least homepage link, ...
 
