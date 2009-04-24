@@ -326,7 +326,7 @@ qx.Class.define("qx.ui.form.RadioGroup",
         "Use 'setSelection' instead!"
       );
       
-      this.setSelection([value]);
+      this.setSelection([item]);
     },
     
     /**
@@ -354,9 +354,8 @@ qx.Class.define("qx.ui.form.RadioGroup",
      * Reset the current selection.
      * 
      * @deprecated Use 'resetSelection' instead!
-     * @param item {qx.ui.form.ListItem} Item to select.
      */
-    resetSelected : function(item)
+    resetSelected : function()
     {
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee,
