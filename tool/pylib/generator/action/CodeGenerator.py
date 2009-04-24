@@ -20,7 +20,7 @@
 ################################################################################
 
 import os, sys, string, types, re, zlib
-import urllib, optparse
+import urllib, urlparse, optparse
 import simplejson
 from misc import filetool, Path
 from ecmascript import compiler
@@ -397,20 +397,25 @@ class CodeGenerator(object):
         else:
             raise RuntimeError, "No such resource type: \"%s\"" % rType
 
-        #uri = os.path.join(liburi, libInternalPath, resourcePath)
+        # process parts that are known to have path character or even stem from file system
         uri = os.path.join(libInternalPath, resourcePath)
         uri = os.path.normpath(uri)
         uri = Path.posifyPath(uri)
+
+        # process lib prefix - might be complete with scheme etc.
         if not re.search(r'^[a-zA-Z]+://', liburi): # it is without 'http://'
             liburi = Path.posifyPath(liburi)  # have to apply path normalization
         if not liburi.endswith('/'):  # if liburi is only a path, basejoin needs a trailing '/'
             liburi += '/'
+
+        # put them together
         uri = urllib.basejoin(liburi, uri)
+
         return uri
 
 
     def _encodeUri(self, uri):
-        import urlparse
+        # apply urllib.quote, but only to path part of uri
         parts = urlparse.urlparse(uri)
         nparts= []
         for i in range(len(parts)):
@@ -712,18 +717,33 @@ class CodeGenerator(object):
 
         # Translate URI data to JavaScript
         allUris = []
+        allUrisSmall = []
         for packageId, package in enumerate(packages):
             packageUris = []
+            packageUrisSmall = []
             for fileId in package:
                 #cUri = Path.rel_from_to(self.approot, self._classes[fileId]["relpath"])
-                lib = self._libs[self._classes[fileId]["namespace"]]
-                cUri = self._computeResourceUri(lib, self._classes[fileId]["relpath"], rType='class', appRoot=self.approot)
+                namespace = self._classes[fileId]["namespace"]
+                relpath   = self._classes[fileId]["relpath"]
+                lib       = self._libs[namespace]
+
+                cUri = self._computeResourceUri(lib, relpath, rType='class', appRoot=self.approot)
                 cUri = self._encodeUri(cUri)
+
+                sUri = relpath
+                sUri = os.path.normpath(sUri)
+                sUri = Path.posifyPath(sUri)
+                sUri = self._encodeUri(sUri)
+                sUri = '%s:%s' % (namespace, sUri)
+
                 packageUris.append('"%s"' % cUri)
+                packageUrisSmall.append('"%s"' % sUri)
 
             allUris.append("[" + ",".join(packageUris) + "]")
+            allUrisSmall.append("[" + ",".join(packageUrisSmall) + "]")
 
         uriData = "[" + ",\n".join(allUris) + "]"
+        uriDataSmall = "[" + ",\n".join(allUrisSmall) + "]"
 
         # Locate and load loader basic script
         loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader-source.tmpl.js")
@@ -734,6 +754,7 @@ class CodeGenerator(object):
         rmap.update(globalCodes)
         rmap["Parts"] = partData
         rmap["Uris"]  = uriData
+        rmap["Uris2"] = uriDataSmall
         rmap["Boot"]  = '"%s"' % boot
 
         templ  = MyTemplate(result)
