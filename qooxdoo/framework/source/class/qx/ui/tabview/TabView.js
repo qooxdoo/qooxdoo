@@ -385,7 +385,7 @@ qx.Class.define("qx.ui.tabview.TabView",
         var button = value.getButton();
 
         pane.setSelected(value);
-        group.setSelected(button);
+        group.setSelection([button]);
 
         button.focus();
         this.scrollChildIntoView(button, null, null, false);
@@ -393,7 +393,7 @@ qx.Class.define("qx.ui.tabview.TabView",
       else
       {
         pane.resetSelected();
-        group.resetSelected();
+        group.resetSelection();
       }
     },
 
