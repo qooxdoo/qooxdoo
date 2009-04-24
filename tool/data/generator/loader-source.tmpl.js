@@ -21,6 +21,7 @@ qx.$$locales = %{Locales}
 qx.$$loader = {
   parts : %{Parts},
   uris : %{Uris},
+  uris2 : %{Uris2},
   boot : %{Boot}
 };  
 
