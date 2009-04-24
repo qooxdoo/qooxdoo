@@ -269,6 +269,11 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
       } else {
         this.assertEquals(value, widgetStyle, msg);
       }
+    },
+    
+    
+    clickOn: function(widget) {
+      widget.fireEvent("click", qx.event.type.Mouse, [{}, widget, widget, false, true]);
     }
 
   }

@@ -15,6 +15,7 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Fabian Jakobs (fjakobs)
+     * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
 
@@ -123,6 +124,28 @@ qx.Class.define("qx.ui.basic.Label",
       event : "changeContent",
       nullable : true
     },
+    
+    
+    /**
+     * The buddy property can be used to connect the label to another widget.
+     * That causes two things:
+     * <ul>
+     *   <li>The label will alway take the same enabled state as the buddy
+     *       widget.
+     *   </li>
+     *   <li>A click on the label will focus the buddy widget.
+     *   </li>
+     * </ul>
+     * This is the behavior of the for attribute of HTML:
+     * http://www.w3.org/TR/html401/interact/forms.html#adef-for
+     */
+    buddy : 
+    {
+      check : "qx.ui.core.Widget",
+      apply : "_applyBuddy",
+      nullable : true,
+      init : null
+    },
 
 
     /** Control the text alignment */
@@ -187,6 +210,8 @@ qx.Class.define("qx.ui.basic.Label",
   {
     __font : null,
     __invalidContentSize : null,
+    __buddyEnabledBinding : null,
+    __clickListenerId : null,
 
 
 
@@ -340,7 +365,22 @@ qx.Class.define("qx.ui.basic.Label",
     ---------------------------------------------------------------------------
     */
 
-    // property apply
+    // property apply    
+    _applyBuddy : function(value, old) {
+      if (old != null) {
+        old.removeBinding(this.__buddyEnabledBinding);
+        this.removeListenerById(this.__clickListenerId);
+      }
+      
+      if (value != null) {
+        this.__buddyEnabledBinding = value.bind("enabled", this, "enabled");
+        this.__clickListenerId = this.addListener("click", function() {
+          value.focus();
+        }, this);
+      }
+    },
+
+
     _applyRich : function(value)
     {
       // Sync with content element
