@@ -437,6 +437,14 @@ qx.Class.define("qx.ui.basic.Label",
     if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
       qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
     }
+    
+    // remove the binding
+    if (this.__buddyEnabledBinding != null) {
+      var buddy = this.getBuddy();
+      if (buddy != null && !buddy.isDisposed()) {
+        buddy.removeBinding(this.__buddyEnabledBinding);
+      }
+    }
 
     this._disposeFields("__font", "__buddyEnabledBinding");
   }
