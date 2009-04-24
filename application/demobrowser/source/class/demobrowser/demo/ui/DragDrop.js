@@ -205,7 +205,7 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
       var labelBoth = new qx.ui.basic.Label("Reorderable");
       container.add(labelBoth, { left : 500, top: 20 });
 
-      var both = new qx.ui.form.List;
+      var both = this.__list = new qx.ui.form.List;
       both.setDraggable(true);
       both.setDroppable(true);
       both.setSelectionMode("multi");
@@ -225,6 +225,7 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
       indicator.setOpacity(0.5);
       indicator.setZIndex(100);
       indicator.setLayoutProperties({left: -1000, top: -1000});
+      indicator.setDroppable(true);
       this.getRoot().add(indicator);
 
 
@@ -242,8 +243,15 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
       both.addListener("drag", function(e)
       {
         var orig = e.getOriginalTarget();
-
-        if (!qx.ui.core.Widget.contains(this, orig)) {
+        
+        // store the current listitem - if the user drops on the indicator
+        // we can use this item instead of calculating the position of the 
+        // indicator
+        if (orig instanceof qx.ui.form.ListItem) {
+          qx.core.Init.getApplication().__currentListItem = orig;          
+        }
+        
+        if (!qx.ui.core.Widget.contains(this, orig) && orig != indicator) {
           return;
         }
 
@@ -261,19 +269,27 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
         }
       });
 
-      both.addListener("drop", function(e)
+      both.addListener("drop", function(e) {
+        this.__reorderList(e.getOriginalTarget());
+      }, this);
+      
+      indicator.addListener("drop", function(e) {
+        this.__reorderList(this.__currentListItem);
+      }, this);
+    },
+    
+    
+    __reorderList : function(listItem)
+    {
+      var sel = this.__list.getSortedSelection();
+      
+      for (var i=0, l=sel.length; i<l; i++)
       {
-        var sel = this.getSortedSelection();
-        var orig = e.getOriginalTarget();
+        this.__list.addBefore(sel[i], listItem);
 
-        for (var i=0, l=sel.length; i<l; i++)
-        {
-          this.addBefore(sel[i], orig);
-
-          // recover selection as it get lost during child move
-          this.addToSelection(sel[i]);
-        }
-      });
+        // recover selection as it get lost during child move
+        this.__list.addToSelection(sel[i]);
+      }
     }
   }
 });
