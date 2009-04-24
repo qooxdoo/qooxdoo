@@ -59,6 +59,26 @@ qx.Class.define("qx.test.core.Object",
       this.assertNull(o.getUserData("bar"));
       
       o.dispose();
+    },
+    
+    
+    testRemoveListenerByIdAsync: function() {
+      var executed = false;
+      var id = this.addListener("test", function() {
+        executed = true;
+      }, this);
+      this.removeListenerById(id);
+      
+      this.fireEvent("test");
+      
+      var self = this;
+      window.setTimeout(function() {
+        self.resume(function() {
+          this.assertFalse(executed, "Event has been executed.");
+        }, self);
+      }, 3000);
+      
+      this.wait();
     }
   }
 });
