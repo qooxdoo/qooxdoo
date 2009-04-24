@@ -204,15 +204,15 @@ qx.Class.define("qx.legacy.core.Client",
       var vGfxSvgPlugin = false;
 
       if (vEngine == "mshtml") {
+        // TODO: properly detect VML using its namespace:
+        // document.write('<style>v\:*{ behavior:url(#default#VML); }</style>');
+        // document.write('<xml:namespace ns="urn:schemas-microsoft-com:vml" prefix="v"/>');
         vGfxVml = true;
       }
 
-      // TODO: Namespace for VML:
-      // document.write('<style>v\:*{ behavior:url(#default#VML); }</style>');
-      // document.write('<xml:namespace ns="urn:schemas-microsoft-com:vml" prefix="v"/>');
       if (document.implementation && document.implementation.hasFeature)
       {
-        if (document.implementation.hasFeature("org.w3c.dom.svg", "1.0")) {
+        if (document.implementation.hasFeature("org.w3c.dom.svg", "1.0") || document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1")) {
           vGfxSvg = vGfxSvgBuiltin = true;
         }
       }
