@@ -135,9 +135,9 @@ class QxLogFormat:
       found = logre.match(line)
       if found:
         if found.group(1) in logs.keys():
-          logs[found.group(1)] = logs[found.group(1)] + found.group(2) + "\n"
+          logs[found.group(1)].append(found.group(2) + "\n")
         else:
-          logs[found.group(1)] = found.group(2) + "\n"
+          logs[found.group(1)] = [found.group(2) + "\n"]
     log.close
   
     if (not( len(logs.keys()) > 0 )):
@@ -168,13 +168,14 @@ class QxLogFormat:
     html.write('  </tr>')
   
     for k in sorted(logs.iterkeys()):
+      entry = "".join(logs[k])
       html.write('  <tr>\n')
       appName = "Unnamed application"
-      app = appre.search(logs[k])
+      app = appre.search(entry)
       if (app):
         appName = app.group(1)
   
-      agent = agentre.search(logs[k])
+      agent = agentre.search(entry)
   
       browserName = "unidentified browser"
       browser = False
@@ -185,12 +186,12 @@ class QxLogFormat:
         browserName = browser
       
       platform = "unidentified platform"  
-      platma = platre.search(logs[k])
+      platma = platre.search(entry)
       if (platma):
         platform = platma.group(1)
   
       dateString = "Date unknown"
-      date = datere.search(logs[k])
+      date = datere.search(entry)
       if (date):
         dateString = date.group(1)
   
@@ -199,7 +200,7 @@ class QxLogFormat:
       # if there is no "...with warnings or errors..." line in the log output,
       # assume the test didn't finish correctly.
       totalTestErrors = ""
-      errors = errorre.search(logs[k])
+      errors = errorre.search(entry)
       if (errors):
         print("Found " + errors.group(1) + " errors")
         totalTestErrors = errors.group(1)
@@ -229,7 +230,13 @@ class QxLogFormat:
   
     for k in sorted(logs.iterkeys()):
       html.write('\n<div id="t_' + k + '">\n')
-      html.write('  ' + logs[k])
+      for lineIndex, line in enumerate(logs[k]):
+        # Only log the last "Last demo loaded" line for Demobrowser runs.
+        if "Last loaded demo: " in line and lineIndex < ( len(logs[k])  - 1 ):
+          if not "Last loaded demo: " in logs[k][lineIndex + 1 ]:
+            html.write('  ' + line)
+        else:
+          html.write('  ' + line)
       html.write('</div>\n')
   
     if (failedTests > 0):
