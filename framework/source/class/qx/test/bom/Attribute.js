@@ -27,14 +27,21 @@ qx.Class.define("qx.test.bom.Attribute",
     {
       var div = document.createElement("div");
       div.id = "el";
-  
+      
       this._el = div;
       document.body.appendChild(div);
+      
+      var checkBox = document.createElement("input");
+      checkBox.type = "checkbox";
+      
+      this._checkBox = checkBox;
+      document.body.appendChild(checkBox);
     },
   
   
     tearDown : function() {
       document.body.removeChild(this._el);
+      document.body.removeChild(this._checkBox);
     },
   
     
@@ -45,8 +52,8 @@ qx.Class.define("qx.test.bom.Attribute",
       Attribute.set(this._el, "maxLength", 10);
       this.assertEquals(10, this._el["maxLength"]);
       
-      Attribute.set(this._el, "checked", true);
-      this.assertEquals("checked", this._el.getAttribute("checked"));
+      Attribute.set(this._checkBox, "checked", true);
+      this.assertTrue(this._checkBox["checked"]);
       
       Attribute.set(this._el, "className", "vanillebaer");
       this.assertEquals("vanillebaer", this._el["className"]);
@@ -59,8 +66,8 @@ qx.Class.define("qx.test.bom.Attribute",
       this._el.setAttribute("maxLength", 10);
       this.assertEquals(10, Attribute.get(this._el, "maxLength"));
       
-      this._el.setAttribute("checked", "checked");
-      this.assertEquals(true, Attribute.get(this._el, "checked"));
+      this._checkBox.setAttribute("checked", "checked");
+      this.assertEquals(true, Attribute.get(this._checkBox, "checked"));
       
       this._el["className"] = "vanillebaer";
       this.assertEquals("vanillebaer", Attribute.get(this._el, "className"));
@@ -72,11 +79,11 @@ qx.Class.define("qx.test.bom.Attribute",
       
       Attribute.set(this._el, "maxLength", 10);
       Attribute.set(this._el, "maxLength", null);
-      this.assertNull(this._el.getAttribute("maxLength"));
+      this.assertEquals(10000000, this._el["maxLength"]);
       
-      Attribute.set(this._el, "checked", true);
-      Attribute.set(this._el, "checked", null);
-      this.assertNull(this._el.getAttribute("checked"));
+      Attribute.set(this._checkBox, "checked", true);
+      Attribute.set(this._checkBox, "checked", null);
+      this.assertFalse(this._checkBox["checked"]);
       
       Attribute.set(this._el, "html", "vanillebaer");
       Attribute.set(this._el, "html", null);
@@ -89,11 +96,11 @@ qx.Class.define("qx.test.bom.Attribute",
       
       Attribute.set(this._el, "maxLength", 10);
       Attribute.reset(this._el, "maxLength");
-      this.assertNull(this._el.getAttribute("maxLength"));
+      this.assertEquals(10000000, this._el["maxLength"]);
       
-      Attribute.set(this._el, "checked", true);
-      Attribute.reset(this._el, "checked");
-      this.assertNull(this._el.getAttribute("checked"));
+      Attribute.set(this._checkBox, "checked", true);
+      Attribute.reset(this._checkBox, "checked");
+      this.assertFalse(this._checkBox["checked"]);
     }
   }
 });

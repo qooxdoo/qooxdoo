@@ -286,7 +286,7 @@ qx.Class.define("qx.bom.element.Attribute",
       {
         if (value == null)
         {
-          value = hints.propertyDefault[value];
+          value = hints.propertyDefault[name];
           if (value === undefined)
           {
             value = null;
