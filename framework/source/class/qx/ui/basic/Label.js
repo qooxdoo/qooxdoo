@@ -369,7 +369,9 @@ qx.Class.define("qx.ui.basic.Label",
     _applyBuddy : function(value, old) {
       if (old != null) {
         old.removeBinding(this.__buddyEnabledBinding);
+        this.__buddyEnabledBinding = null;
         this.removeListenerById(this.__clickListenerId);
+        this.__clickListenerId = null;
       }
       
       if (value != null) {
@@ -436,6 +438,6 @@ qx.Class.define("qx.ui.basic.Label",
       qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
     }
 
-    this._disposeFields("__font");
+    this._disposeFields("__font", "__buddyEnabledBinding");
   }
 });
