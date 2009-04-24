@@ -223,6 +223,52 @@ class DependencyLoader:
 
         return loadtime
 
+    '''
+    def _splitClassAttribute(self, classid, attribFQN):
+        return classId, attribute
+
+    def getMethodDeps(self, classId, methodName):
+
+        def getMethodDeps(startClass, methodName):
+            classId = findClassForMethod(startClass, methodName)
+            if not classId:
+                raise RuntimeError
+            deps    = analyzeMethodDeps(classId, methodName)
+
+
+        def findClassForMethod(class, method):
+            if class.hasOwnMethod(method):
+                return class
+            if class.has('extend' or 'include'):
+                for each classId in 'extend' + 'include':
+                    rclass = findClassForMethod(classId, method)
+                    if rclass:
+                        return rclass
+            return None
+
+        def analyzeMethodDeps(classId, methodName):
+            deps =  processExternalClassRefs(classId, methodName)
+            deps += processInternalMethodRefs(classId, methodName)
+            return deps
+
+        ----------------------
+
+        def processExternalClassRefs(classId, methodName):
+            deps = []
+            extRefs = findExternalClassRefs(classId, methodName)
+            for extref in extRefs:
+                class, attribute = classFromRef(extref)
+                deps.append(class)
+                if isFunction(attribute):
+                    deps += getMethodDeps(class, extref)  # recurse to top-level method
+
+        def processInternalMethodRefs(classId, methodName):
+            deps = []
+            localRefs = findLocalMethodRefs(classId, methodName)
+            for funcref in localRefs:
+                deps += getMethodDeps(classId, funcref)  # recurse to top-level method
+
+'''
 
     def getCombinedDeps(self, fileId, variants):
         # return dependencies of class named <fileId>, both found in its code and
