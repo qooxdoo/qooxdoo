@@ -48,7 +48,7 @@ qx.Class.define("demobrowser.demo.bom.Window",
                         menubar : true,
                         status : false };
         
-        this.window1 = qx.bom.Window.open(this.__urls[0], "window1", false, options);
+        this.window1 = qx.bom.Window.open(this.__urls[0], "window1", options);
       }, this);
       
       var button2 = qx.bom.Input.create("button");

@@ -76,12 +76,12 @@ qx.Class.define("qx.bom.Window",
 
       var configuration = [];
       var value;   
-      var options = this.__availableOptions;          
+      var availableOptions = this.__availableOptions;          
       var Type = qx.lang.Type;
 
       for (var key in options)
       {                       
-        if (options[key])                                 
+        if (availableOptions[key])
         {                                                                         
           if (Type.isBoolean(options[key])) {
             value = key + "=" + (options[key] ? "yes" : "no");
