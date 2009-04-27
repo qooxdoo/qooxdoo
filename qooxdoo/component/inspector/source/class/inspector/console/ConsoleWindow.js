@@ -29,7 +29,7 @@ qx.Class.define("inspector.console.ConsoleWindow",
     this._clearButton = new qx.ui.toolbar.Button("Clear");
     this._toolbar.add(this._clearButton);
     this._clearButton.addListener("execute", function() {
-      this._stack.getSelected().clear();
+      this._stack.getSelection()[0].clear();
     }, this);
     // separator
     this._toolbar.add(new qx.ui.toolbar.Separator());
@@ -47,7 +47,7 @@ qx.Class.define("inspector.console.ConsoleWindow",
     this._findField.setMarginRight(5);
     this._toolbar.add(this._findField);
     this._findField.addListener("input", function(e) {
-      this._stack.getSelected().filter(e.getData());
+      this._stack.getSelection()[0].filter(e.getData());
     }, this);
     
     // the stack
@@ -68,9 +68,9 @@ qx.Class.define("inspector.console.ConsoleWindow",
       // reset the filter field
       this._findField.setValue("");
       if (radioGround.getSelection()[0] == this._consoleButton) {
-        this._stack.setSelected(this._consoleView);
+        this._stack.setSelection([this._consoleView]);
       } else if (radioGround.getSelection()[0] == this._domButton) {
-        this._stack.setSelected(this._domView);        
+        this._stack.setSelection([this._domView]);        
       } else {
         this._consoleButton.setChecked(true);
       }
