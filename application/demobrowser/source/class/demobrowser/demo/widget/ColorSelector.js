@@ -31,6 +31,10 @@ qx.Class.define("demobrowser.demo.widget.ColorSelector",
     {
       this.base(arguments);
 
+      /* Set locale to english to avoid language mix if browser locale is 
+       * non-english. */
+      qx.locale.Manager.getInstance().setLocale("en");
+
       var selector = new qx.ui.control.ColorSelector();
       this.getRoot().add(selector, {left: 20, top: 20});
     }

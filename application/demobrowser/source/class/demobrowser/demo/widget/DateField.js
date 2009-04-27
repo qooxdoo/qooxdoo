@@ -31,6 +31,10 @@ qx.Class.define("demobrowser.demo.widget.DateField",
     {
       this.base(arguments);
 
+      /* Set locale to english to avoid language mix if browser locale is 
+       * non-english. */
+      qx.locale.Manager.getInstance().setLocale("en");
+
       // Default date field //////////////////////////////////////
       this.getRoot().add(new qx.ui.basic.Label("Default"), {top: 20, left: 20});
       var dateField = new qx.ui.form.DateField();
