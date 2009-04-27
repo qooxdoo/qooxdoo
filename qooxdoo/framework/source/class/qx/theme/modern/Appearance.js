@@ -18,6 +18,7 @@
    * Andreas Ecker (ecker)
    * Fabian Jakobs (fjakobs)
    * Alexander Back (aback)
+   * Martin Wittemann (martinwittemann)
 
 ************************************************************************* */
 
@@ -379,7 +380,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           decorator : states.focused ? "input-focused" :
-                      states.disabled ? "input-disabled" : "input"
+                      states.disabled ? "input-disabled" : "input",
+          shadow : states.invalid ? "shadow-invalid" : null
         };
       }
     },

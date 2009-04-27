@@ -18,6 +18,7 @@
    * Sebastian Werner (wpbasti)
    * Andreas Ecker (ecker)
    * Alexander Back (aback)
+   * Martin Wittemann (martinwittemann)
 
 ************************************************************************* */
 
@@ -142,6 +143,18 @@ qx.Theme.define("qx.theme.modern.Decoration",
         baseImage : "decoration/shadow/shadow-small.png",
         insets    : [ 0, 3, 3, 0 ]
       }
+    },
+    
+    
+    "shadow-invalid" : 
+    {
+      decorator: qx.ui.decoration.Uniform,
+
+      style :
+      {
+        width : 1,
+        color : "border-invalid"
+      }      
     },
 
 

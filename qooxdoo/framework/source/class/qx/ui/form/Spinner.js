@@ -53,8 +53,17 @@
 qx.Class.define("qx.ui.form.Spinner",
 {
   extend : qx.ui.core.Widget,
-  implement : qx.ui.form.IFormElement,
-  include : [qx.ui.core.MContentPadding],
+  implement : [
+    qx.ui.form.IFormElement, 
+    qx.ui.form.INumberForm, 
+    qx.ui.form.IRange,
+    qx.ui.form.IForm
+  ],
+  include : [
+    qx.ui.core.MContentPadding, 
+    qx.ui.form.MFormElement, 
+    qx.ui.form.MForm
+  ],
 
 
   /*
@@ -142,14 +151,6 @@ qx.Class.define("qx.ui.form.Spinner",
     {
       check : "Number",
       init : 10
-    },
-
-    /** The name of the widget. Mainly used for serialization proposes. */
-    name :
-    {
-      check : "String",
-      nullable : true,
-      event : "changeName"
     },
 
     /** minimal value of the Range object */

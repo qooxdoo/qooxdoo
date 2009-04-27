@@ -17,6 +17,7 @@
    * Sebastian Werner (wpbasti)
    * Andreas Ecker (ecker)
    * Til Schneider (til132)
+   * Martin Wittemann (martinwittemann)
 
 ************************************************************************* */
 
@@ -220,6 +221,18 @@ qx.Theme.define("qx.theme.classic.Decoration",
         insets    : [ 0, 3, 3, 0 ]
       }
     },
+    
+    
+    "shadow-invalid" : 
+    {
+      decorator: qx.ui.decoration.Uniform,
+
+      style :
+      {
+        width : 1,
+        color : "border-invalid"
+      }      
+    },    
 
 
 
