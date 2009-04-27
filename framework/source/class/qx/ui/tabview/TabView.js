@@ -465,7 +465,7 @@ qx.Class.define("qx.ui.tabview.TabView",
       {
         var button = value.getButton();
 
-        pane.setSelected(value);
+        pane.setSelection([value]);
         group.setSelection([button]);
 
         button.focus();
@@ -473,7 +473,7 @@ qx.Class.define("qx.ui.tabview.TabView",
       }
       else
       {
-        pane.resetSelected();
+        pane.resetSelection();
         group.resetSelection();
       }
       
