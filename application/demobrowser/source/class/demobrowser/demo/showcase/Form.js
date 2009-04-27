@@ -38,40 +38,54 @@ qx.Class.define("demobrowser.demo.showcase.Form",
 
       // text field
       var textField = new qx.ui.form.TextField("TextField");
-      container.add(new qx.ui.basic.Label("TextField:"), {row: 0, column: 0});
+      var label = new qx.ui.basic.Label("TextField:");
+      label.setBuddy(textField);
+      container.add(label, {row: 0, column: 0});
       container.add(textField, {row: 0, column: 1});
 
       // password field
       var passwordField = new qx.ui.form.PasswordField("PasswordField");
-      container.add(new qx.ui.basic.Label("PasswordField:"), {row: 1, column: 0});
+      label = new qx.ui.basic.Label("PasswordField:");
+      label.setBuddy(passwordField);
+      container.add(label, {row: 1, column: 0});
       container.add(passwordField, {row: 1, column: 1});
 
       // spinner
       var spinner = new qx.ui.form.Spinner(0, 50, 100);
-      container.add(new qx.ui.basic.Label("Spinner:"), {row: 2, column: 0});
+      label = new qx.ui.basic.Label("Spinner:");
+      label.setBuddy(spinner);
+      container.add(label, {row: 2, column: 0});
       container.add(spinner, {row: 2, column: 1});
 
       // date field
       var dateField = new qx.ui.form.DateField();
       dateField.setDate(new Date());
-      container.add(new qx.ui.basic.Label("DateField:"), {row: 3, column: 0});
+      label = new qx.ui.basic.Label("DateField:");
+      label.setBuddy(dateField);
+      container.add(label, {row: 3, column: 0});
       container.add(dateField, {row: 3, column: 1});
 
       // combo box
       var comboBox = new qx.ui.form.ComboBox();
-      container.add(new qx.ui.basic.Label("ComboBox:"), {row: 4, column: 0});
+      label = new qx.ui.basic.Label("ComboBox:");
+      label.setBuddy(comboBox);
+      container.add(label, {row: 4, column: 0});
       container.add(comboBox, {row: 4, column: 1});
       this.createItems(comboBox);
 
       // select box
       var selectBox = new qx.ui.form.SelectBox();
-      container.add(new qx.ui.basic.Label("SelectBox:"), {row: 5, column: 0});
+      label = new qx.ui.basic.Label("SelectBox:");
+      label.setBuddy(selectBox);
+      container.add(label, {row: 5, column: 0});
       container.add(selectBox, {row: 5, column: 1});
       this.createItems(selectBox);
 
       // check box
       var checkBox = new qx.ui.form.CheckBox("CheckBox");
-      container.add(new qx.ui.basic.Label("CheckBox:"), {row: 6, column: 0});
+      label = new qx.ui.basic.Label("CheckBox:");
+      label.setBuddy(checkBox);
+      container.add(label, {row: 6, column: 0});
       container.add(checkBox, {row: 6, column: 1});
 
       // radio group
@@ -84,44 +98,60 @@ qx.Class.define("demobrowser.demo.showcase.Form",
 
       // text area
       var textArea = new qx.ui.form.TextArea("TextArea");
-      container.add(new qx.ui.basic.Label("TextArea:"), {row: 9, column: 0});
+      label = new qx.ui.basic.Label("TextArea:");
+      label.setBuddy(textArea);
+      container.add(label, {row: 9, column: 0});
       container.add(textArea, {row: 9, column: 1});
 
       // list
       var list = new qx.ui.form.List();
-      container.add(new qx.ui.basic.Label("List:"), {row: 10, column: 0});
+      label = new qx.ui.basic.Label("List:");
+      label.setBuddy(list);
+      container.add(label, {row: 10, column: 0});
       container.add(list, {row: 10, column: 1});
       this.createItems(list);
       list.setHeight(60);
 
       // slider
       var slider = new qx.ui.form.Slider();
-      container.add(new qx.ui.basic.Label("Slider:"), {row: 11, column: 0});
+      label = new qx.ui.basic.Label("Slider:");
+      label.setBuddy(slider);
+      container.add(label, {row: 11, column: 0});
       container.add(slider, {row: 11, column: 1});
 
       // button
       var button = new qx.ui.form.Button("Button");
-      container.add(new qx.ui.basic.Label("Button:"), {row: 12, column: 0});
+      label = new qx.ui.basic.Label("Button:");
+      label.setBuddy(button);
+      container.add(label, {row: 12, column: 0});
       container.add(button, {row: 12, column: 1});
 
       // toggle button
       var toggleButton = new qx.ui.form.ToggleButton("ToggleButton");
-      container.add(new qx.ui.basic.Label("ToggleButton:"), {row: 13, column: 0});
+      label = new qx.ui.basic.Label("ToggleButton:");
+      label.setBuddy(toggleButton);
+      container.add(label, {row: 13, column: 0});
       container.add(toggleButton, {row: 13, column: 1});
 
       // toggle button
       var repeatButton = new qx.ui.form.RepeatButton("0");
-      container.add(new qx.ui.basic.Label("RepeatButton:"), {row: 14, column: 0});
+      label = new qx.ui.basic.Label("RepeatButton:");
+      label.setBuddy(repeatButton);
+      container.add(label, {row: 14, column: 0});
       container.add(repeatButton, {row: 14, column: 1});
 
       // menu button
       var menueButton = new qx.ui.form.MenuButton("MenuButton", null, this.createMenuForMenuButton());
-      container.add(new qx.ui.basic.Label("MenuButton:"), {row: 15, column: 0});
+      label = new qx.ui.basic.Label("MenuButton:");
+      label.setBuddy(menueButton);
+      container.add(label, {row: 15, column: 0});
       container.add(menueButton, {row: 15, column: 1});
 
       // split button
       var splitButton = new qx.ui.form.SplitButton("SplitButton", null, this.createMenuForSplitButton());
-      container.add(new qx.ui.basic.Label("SplitButton:"), {row: 16, column: 0});
+      label = new qx.ui.basic.Label("SplitButton:");
+      label.setBuddy(splitButton);
+      container.add(label, {row: 16, column: 0});
       container.add(splitButton, {row: 16, column: 1});
 
       // Listener
