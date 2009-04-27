@@ -15,6 +15,7 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
+     * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
 
@@ -47,6 +48,9 @@ qx.Theme.define("qx.theme.classic.Color",
     "border-focused-dark" : "#3E6CA8",
 
     "border-separator" : "#808080",
+    
+    // invalid form widgets
+    "border-invalid" : "#8d0616",    
 
     "text" : "black",
     "text-disabled" : "#A7A6AA",

@@ -21,6 +21,8 @@
 /**
  * Each object, which is in some way usable in a form or as a form element
  * should implement this interface.
+ * 
+ * @deprecated
  */
 qx.Interface.define("qx.ui.form.IFormElement",
 {
