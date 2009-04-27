@@ -61,8 +61,10 @@
 qx.Class.define("qx.ui.container.Stack",
 {
   extend : qx.ui.core.Widget,
+  implement : qx.ui.core.ISingleSelection,
+  include : qx.ui.core.MSingleSelectionHandling,
 
-
+  //TODO API doc
 
   /*
   *****************************************************************************
@@ -75,9 +77,25 @@ qx.Class.define("qx.ui.container.Stack",
     this.base(arguments);
 
     this._setLayout(new qx.ui.layout.Grow);
+    
+    this.addListener("changeSelection", this.__onChangeSelection, this);
   },
 
 
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+
+  events :
+  {
+    /** 
+     * Fires after the selection was modified
+     * @deprecated Use 'changeSelection' instead!
+     */
+    "change" : "qx.event.type.Data"
+  },
 
 
   /*
@@ -97,15 +115,6 @@ qx.Class.define("qx.ui.container.Stack",
       check : "Boolean",
       init : false,
       apply : "_applyDynamic"
-    },
-
-    /** The selected child */
-    selected :
-    {
-      check : "qx.ui.core.Widget",
-      apply : "_applySelected",
-      event : "change",
-      nullable : true
     }
   },
 
@@ -124,7 +133,7 @@ qx.Class.define("qx.ui.container.Stack",
     _applyDynamic : function(value)
     {
       var children = this._getChildren();
-      var selected = this.getSelected();
+      var selected = this.getSelection()[0];
       var child;
 
       for (var i=0, l=children.length; i<l; i++)
@@ -143,9 +152,84 @@ qx.Class.define("qx.ui.container.Stack",
     },
 
 
-    // property apply
-    _applySelected : function(value, old)
+    /*
+    ---------------------------------------------------------------------------
+      OLD SELECTION PROPERTY METHDS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Select the item in the list.
+     * 
+     * @deprecated Use 'setSelection' instead!
+     * @param item {qx.ui.form.ListItem} Item to select.
+     */
+    setSelected : function(item)
     {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'setSelection' instead!"
+      );
+      
+      this.setSelection([item]);
+    },
+    
+    /**
+     * Returns the selected item in the list.
+     *
+     * @deprecated Use 'getSelection' instead!
+     * @return {qx.ui.form.ListItem} Selected item.
+     */
+    getSelected : function()
+    {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'getSelection' instead!"
+      );
+      
+      var item = this.getSelection()[0];
+      if (item) {
+        return item
+      } else {
+        return null;
+      }
+    },
+    
+    /**
+     * Reset the current selection.
+     * 
+     * @deprecated Use 'resetSelection' instead!
+     */
+    resetSelected : function()
+    {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'resetSelection' instead!"
+      );
+      
+      this.resetSelection();
+    },
+    
+    /*
+    ---------------------------------------------------------------------------
+      HELPER METHODS FOR SELECTION API
+    ---------------------------------------------------------------------------
+    */
+
+    
+    _getItems : function() {
+      return this.getChildren();
+    },
+    
+    _isAllowEmptySelection: function() {
+      return true;
+    },
+    
+    __onChangeSelection : function(e)
+    {
+      var old = e.getOldData()[0];
+      var value = e.getData()[0];
+      
       if (old)
       {
         if (this.isDynamic()) {
@@ -158,6 +242,51 @@ qx.Class.define("qx.ui.container.Stack",
       if (value) {
         value.show();
       }
+      
+      /*
+       * TODO remove this if the methods and event for old selection API
+       * doesn't exist. 
+       * 
+       * Methods: 'getSelected', 'setSelected', 'resetSelected'
+       * Event: 'change'
+       */ 
+      if (this.hasListener("change")) {
+        this.fireDataEvent("change", value, old);
+      }
+    },
+    
+    /**
+     * Add event listener to this object.
+     *
+     * This is only overriden, because the 'change' event is deprecated.
+     * @deprecated
+     *
+     * @param type {String} name of the event type
+     * @param listener {Function} event callback function
+     * @param self {Object ? null} reference to the 'this' variable inside the callback
+     * @param capture {Boolean ? false} Whether to attach the event to the
+     *         capturing phase of the bubbling phase of the event. The default is
+     *         to attach the event handler to the bubbling phase.
+     * @return {String} An opaque id, which can be used to remove the event listener
+     *         using the {@link #removeListenerById} method.
+     */
+    addListener : function(type, listener, self, capture)
+    {
+      /*
+       * TODO this method must be removed if the old selection API doesn't exist. 
+       * 
+       * Methods: 'getSelected', 'setSelected', 'resetSelected'
+       * Event: 'change'
+       */
+      
+      if (type === "change") {
+        qx.log.Logger.deprecatedEventWarning(
+        arguments.callee,
+        "change",
+        "Use 'changeSelection' instead!");
+      }
+      
+      return this.base(arguments, type, listener, self, capture);
     },
 
 
@@ -170,10 +299,10 @@ qx.Class.define("qx.ui.container.Stack",
     {
       this._add(widget);
 
-      var selected = this.getSelected();
+      var selected = this.getSelection()[0];
 
       if (!selected) {
-        this.setSelected(widget);
+        this.setSelection([widget]);
       }
       else if (selected !== widget)
       {
@@ -195,13 +324,13 @@ qx.Class.define("qx.ui.container.Stack",
     {
       this._remove(widget);
 
-      if (this.getSelected() === widget)
+      if (this.getSelection()[0] === widget)
       {
         var first = this._getChildren()[0];
         if (first) {
-          this.setSelected(first);
+          this.setSelection([first]);
         } else {
-          this.resetSelected();
+          this.resetSelection();
         }
       }
     },
@@ -234,7 +363,7 @@ qx.Class.define("qx.ui.container.Stack",
      */
     previous : function()
     {
-      var selected = this.getSelected();
+      var selected = this.getSelection()[0];
       var go = this._indexOf(selected)-1;
       var children = this._getChildren();
 
@@ -243,7 +372,7 @@ qx.Class.define("qx.ui.container.Stack",
       }
 
       var prev = children[go];
-      this.setSelected(prev);
+      this.setSelection([prev]);
     },
 
 
@@ -252,13 +381,13 @@ qx.Class.define("qx.ui.container.Stack",
      */
     next : function()
     {
-      var selected = this.getSelected();
+      var selected = this.getSelection()[0];
       var go = this._indexOf(selected)+1;
       var children = this._getChildren();
 
       var next = children[go] || children[0];
 
-      this.setSelected(next);
+      this.setSelection([next]);
     }
   }
 });
