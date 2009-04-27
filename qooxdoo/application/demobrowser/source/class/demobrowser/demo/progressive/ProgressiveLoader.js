@@ -207,7 +207,7 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveLoader",
               context.currentPage.add(context.hBox);
 
               // Set this page active to watch it do its thing
-              context.tabview.setSelected(context.currentPage);
+              context.tabview.setSelection([context.currentPage]);
 
               // Reset the column number
               context.col = 0;
@@ -269,7 +269,7 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveLoader",
       dataModel.addElement(addFunc(
         function(userData)
         {
-          userData.context.tabview.setSelected(userData.context.firstPage);
+          userData.context.tabview.setSelection([userData.context.firstPage]);
         }));
 
       // Tell Progressive about its data model
