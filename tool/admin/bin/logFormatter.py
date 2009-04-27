@@ -157,6 +157,7 @@ class QxLogFormat:
     platre = re.compile('(?s).*<p>Platform: (.*?)</p>')
     datere = re.compile('from (.*)</h1>')
     errorre = re.compile('with warnings or errors: (\d*?)</p>')
+    timere = re.compile('<p>Test run finished in: (.*)</p>')
   
     html.write('<table class="jump">\n')
     html.write('  <tr>')
@@ -164,6 +165,7 @@ class QxLogFormat:
     html.write('    <th>Browser</th>')
     html.write('    <th>Test host</th>')
     html.write('    <th>Date</th>')
+    html.write('    <th>Test duration</th>')    
     html.write('    <th>Test result</th>')
     html.write('  </tr>')
   
@@ -194,6 +196,11 @@ class QxLogFormat:
       date = datere.search(entry)
       if (date):
         dateString = date.group(1)
+
+      timeString = "Unknown"
+      time = timere.search(entry)
+      if (time):
+        timeString = time.group(1)
   
       cellCol = '#FF0000'
   
@@ -223,6 +230,7 @@ class QxLogFormat:
       html.write('    <td>' + browserName + ' on ' + platform + '</td>\n')
       html.write('    <td>' + host + '</td>\n')
       html.write('    <td>' + dateString + '</td>\n')
+      html.write('    <td>' + timeString + '</td>\n')
       html.write('    <td style="align:center; background-color: ' + cellCol + '">' + totalTestErrors + '</td>\n')
       html.write('  </tr>\n')
   
