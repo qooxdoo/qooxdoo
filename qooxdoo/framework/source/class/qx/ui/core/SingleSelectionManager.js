@@ -19,6 +19,9 @@
 
 /**
  * Responsible for the single selection management.
+ * 
+ * The class manage a list of {@link qx.ui.core.Widget} which are returned from
+ * {@link qx.ui.core.ISingleSelectionProvider#getItems}.
  *
  * @internal
  */
@@ -26,7 +29,6 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
 {
   extend : qx.core.Object,
 
-  //TODO API doc
   
   /*
   *****************************************************************************
@@ -35,6 +37,12 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
   */
   
   
+  /**
+   * Construct the single selection manager.
+   * 
+   * @param selectionProvider {qx.ui.core.ISingleSelectionProvider} The provider
+   * for selection.
+   */
   construct : function(selectionProvider) {
     this.base(arguments);
     
@@ -71,6 +79,11 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
   
   properties :
   {
+    /**
+     * If the value is <code>true</code> the manager allows an empty selection, 
+     * otherwise the firt selectable element returned from the 
+     * <code>qx.ui.core.ISingleSelectionProvider</code> will be selected.
+     */
     allowEmptySelection : 
     {
       check : "Boolean",
@@ -89,8 +102,10 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
   
   members :
   {
+    /** {qx.ui.core.Widget} The selected widget. */
     __selected : null,
     
+    /** {qx.ui.core.ISingleSelectionProvider} The provider for selection management */ 
     __selectionProvider : null,
     
     
@@ -101,10 +116,22 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
     */
     
     
+    /**
+     * Returns the current selected element.
+     * 
+     * @return {qx.ui.core.Widget | null} The current selected widget or 
+     *    <code>null</code> if the selection is empty.
+     */
     getSelected : function() {
       return this.__selected;
     },
     
+    /**
+     * Selects the passed element.
+     * 
+     * @param item {qx.ui.core.Widget} Element to select.
+     * @throws Error if the element is not a child element.
+     */
     setSelected : function(item) {
       if (!this.__isChildElement(item)) {
         throw new Error("Could not select " + item +
@@ -114,10 +141,22 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
       this.__setSelected(item);
     },
     
+    /**
+     * Reset the current selection. If {@link #allowEmptySelection} is set to
+     * <code>true</code> the first element will be selected. 
+     */
     resetSelected : function(){
       this.__setSelected(null);
     },
     
+    /**
+     * Return <code>true</code> if the passed element is selected.
+     * 
+     * @param item {qx.ui.core.Widget} Element to check if selected. 
+     * @return {Boolean} <code>true</code> if passed element is selected, 
+     *    <code>false</code> otherwise.
+     * @throws Error if the element is not a child element.
+     */
     isSelected : function(item) {
       if (!this.__isChildElement(item)) {
         throw new Error("Could not check if " + item + " is selected," +
@@ -126,10 +165,21 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
       return this.__selected === item;
     },
     
+    /**
+     * Returns <code>true</code> if selection is empty.
+     * 
+     * @return {Boolean} <code>true</code> if selection is empty, 
+     *    <code>false</code> otherwise.
+     */
     isSelectionEmpty : function() {
       return this.__selected == null;
     },
     
+    /**
+     * Returns the selectable elements.
+     * 
+     * @return {qx.ui.core.Widget[]} The selectable elements.
+     */
     getSelectables : function()
     {
       var items = this.__selectionProvider.getItems();
@@ -152,6 +202,7 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
     */
     
     
+    // apply method
     __applyAllowEmptySelection : function(value, old)
     {
       if (!value) {
@@ -166,7 +217,14 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
     ---------------------------------------------------------------------------
     */
     
-    
+    /**
+     * Set selectet element.
+     * 
+     * If passes value is <code>null</code>, the selection will be reseted.  
+     * 
+     * @param item {qx.ui.core.Widget | null} element to select, or 
+     *    <code>null</code> to reset selection.
+     */
     __setSelected : function(item) {
       var oldSelected = this.__selected;
       var newSelected = item;
@@ -187,6 +245,13 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
       this.fireDataEvent("changeSelected", newSelected, oldSelected);
     },
     
+    /**
+     * Checks if passed element is a child element.
+     * 
+     * @param item {qx.ui.core.Widget} Elemet to check if child element.
+     * @return {Boolean} <code>true</code> if element is child element, 
+     *    <code>false</code> otherwise.
+     */
     __isChildElement : function(item)
     {
       var items = this.__selectionProvider.getItems();
