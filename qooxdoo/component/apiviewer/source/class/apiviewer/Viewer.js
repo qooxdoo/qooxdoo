@@ -105,12 +105,12 @@ qx.Class.define("apiviewer.Viewer",
         switch(e.getData())
         {
           case "packages":
-            stack.setSelected(treeWidget);
+            stack.setSelection([treeWidget]);
             stack.show();            
             break;
 
           case "search":
-            stack.setSelected(searchWidget);
+            stack.setSelection([searchWidget]);
             stack.show();
 
             /**
@@ -121,7 +121,7 @@ qx.Class.define("apiviewer.Viewer",
             break;
 
           case "legend":
-            stack.setSelected(infoWidget);
+            stack.setSelection([infoWidget]);
             stack.show();
             break;
             
