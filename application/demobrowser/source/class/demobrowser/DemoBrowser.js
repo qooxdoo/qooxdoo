@@ -109,28 +109,28 @@ qx.Class.define("demobrowser.DemoBrowser",
       switch(e.getData())
       {
         case "html":
-          this.setSelected(htmlView);
+          this.setSelection([htmlView]);
           stack.show();
           break;
 
         case "js":
-          this.setSelected(jsView);
+          this.setSelection([jsView]);
           stack.show();
           break;
 
         case "log":
-          this.setSelected(logView);
+          this.setSelection([logView]);
           stack.show();
           break;
 
         default:
-          this.resetSelected();
+          this.resetSelection();
           stack.exclude();
       }
     }, stack);
 
     infosplit.add(stack, 1);
-    stack.resetSelected();
+    stack.resetSelection();
     stack.exclude();
 
 

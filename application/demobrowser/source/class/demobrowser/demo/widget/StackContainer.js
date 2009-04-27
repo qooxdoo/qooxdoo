@@ -71,8 +71,8 @@ qx.Class.define("demobrowser.demo.widget.StackContainer",
         container.add(widget);
       }
 
-      container.addListener("change", function(e) {
-        this.debug("Selected: " + e.getData().getBackgroundColor());
+      container.addListener("changeSelection", function(e) {
+        this.debug("Selected: " + e.getData()[0].getBackgroundColor());
       });
     },
 
@@ -108,9 +108,9 @@ qx.Class.define("demobrowser.demo.widget.StackContainer",
         container.add(widget);
       }
 
-      container.addListener("change", function(e)
+      container.addListener("changeSelection", function(e)
       {
-        var selected = e.getData();
+        var selected = e.getData()[0];
         this.debug("Selected: " + selected.getBackgroundColor() + " (" + selected.getWidth() + "x" + selected.getHeight() + ")");
       });
 
