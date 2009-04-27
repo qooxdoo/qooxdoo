@@ -267,6 +267,9 @@ qx.Class.define("qx.ui.layout.Grid",
       this.__maxRowIndex = maxRowIndex;
       this.__maxColIndex = maxColIndex;
 
+      this.__colWidths = null;
+      this.__rowHeights = null;
+      
       // Clear invalidation marker
       delete this._invalidChildrenCache;
     },
@@ -1270,9 +1273,6 @@ qx.Class.define("qx.ui.layout.Grid",
           var marginBottom = widget.getMarginBottom();
           var marginRight = widget.getMarginRight();
 
-          //var cellWidth = Math.max(cellHint.minWidth, Math.min(spanWidth, cellHint.maxWidth));
-          //var cellHeight = Math.max(cellHint.minHeight, Math.min(spanHeight, cellHint.maxHeight));
-
           var cellWidth = Math.max(cellHint.minWidth, Math.min(spanWidth-marginLeft-marginRight, cellHint.maxWidth));
           var cellHeight = Math.max(cellHint.minHeight, Math.min(spanHeight-marginTop-marginBottom, cellHint.maxHeight));
 
@@ -1300,8 +1300,6 @@ qx.Class.define("qx.ui.layout.Grid",
     {
       this.base(arguments);
 
-      this.__colWidths = null;
-      this.__rowHeights = null;
     },
 
 
