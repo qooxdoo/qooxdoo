@@ -112,14 +112,16 @@ class Node:
         # if node.parent.type == contextPath[-1], node.parent.parent.type == contextPath[-2]
         # asf. Example: varNode.hasParentContext("call/operand") checks whether varNode.parent
         # is "operand" and varNode.parent.parent is "call" type, ie. it's a function being called
+        # wildcard '*' is allowed to indicate any parent type, like "call/*"
         parents = contextPath.split('/')
 
         currNode = self
         for parent in reversed(parents):
-            if currNode.hasParent() and currNode.parent.type == parent:
-                currNode = currNode.parent
-            else:
-                return False
+            if currNode.hasParent():
+                if parent == '*' or currNode.parent.type == parent:
+                    currNode = currNode.parent
+                else:
+                    return False
         return True
 
     def hasChildren(self, ignoreComments = False):
