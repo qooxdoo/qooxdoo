@@ -91,7 +91,7 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Selections",
       o.add(item);
       var item = new qx.ui.form.ListItem("Multiple Interval Selection");
       o.add(item);
-      o.setSelected(item);
+      o.setSelection([item]);
 
       // We want to be notified if the selection changes
       o.addListener(
