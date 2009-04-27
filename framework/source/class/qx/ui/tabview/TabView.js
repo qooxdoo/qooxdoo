@@ -28,9 +28,11 @@
 qx.Class.define("qx.ui.tabview.TabView",
 {
   extend : qx.ui.core.Widget,
-  include : [qx.ui.core.MContentPadding],
+  implement : qx.ui.core.ISingleSelection,
+  include : [qx.ui.core.MContentPadding, qx.ui.core.MSingleSelectionHandling],
 
-
+  //TODO API doc
+  
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -59,6 +61,8 @@ qx.Class.define("qx.ui.tabview.TabView",
     mgr.setWrap(false);
     mgr.addListener("changeValue", this._onRadioChangeValue, this);
 
+    this.addListener("changeSelection", this.__onChangeSelection, this);
+    
     // Initialize bar position
     if (barPosition != null) {
       this.setBarPosition(barPosition);
@@ -68,6 +72,20 @@ qx.Class.define("qx.ui.tabview.TabView",
   },
 
 
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+
+  events :
+  {
+    /** 
+     * Fires after the selection was modified
+     * @deprecated Use 'changeSelection' instead!
+     */
+    "changeSelected" : "qx.event.type.Data"
+  },
 
 
   /*
@@ -93,17 +111,6 @@ qx.Class.define("qx.ui.tabview.TabView",
       check : ["left", "right", "top", "bottom"],
       init : "top",
       apply : "_applyBarPosition"
-    },
-
-    /**
-     * The selected page inside the TabView.
-     */
-    selected :
-    {
-      check : "qx.ui.tabview.Page",
-      apply : "_applySelected",
-      event : "changeSelected",
-      nullable : true
     }
   },
 
@@ -192,12 +199,12 @@ qx.Class.define("qx.ui.tabview.TabView",
       // Exclude page
       page.exclude();
 
-      // Register button
-      this.__radioGroup.add(button);
-
       // Add button and page
       bar.add(button);
       pane.add(page);
+      
+      // Register button
+      this.__radioGroup.add(button);
 
       // Add state to page
       page.addState(this.__barPositionToState[this.getBarPosition()]);
@@ -228,20 +235,20 @@ qx.Class.define("qx.ui.tabview.TabView",
       var children = pane.getChildren();
 
       // Try to select next page
-      if (this.getSelected() == page)
+      if (this.getSelection()[0] == page)
       {
         var index = children.indexOf(page);
         if (index == 0)
         {
           if (children[1]) {
-            this.setSelected(children[1]);
+            this.setSelection([children[1]]);
           } else {
-            this.resetSelected();
+            this.resetSelection();
           }
         }
         else
         {
-          this.setSelected(children[index-1]);
+          this.setSelection([children[index-1]]);
         }
       }
 
@@ -373,13 +380,87 @@ qx.Class.define("qx.ui.tabview.TabView",
       }
     },
 
+    
+    /*
+    ---------------------------------------------------------------------------
+      OLD SELECTION PROPERTY METHDS
+    ---------------------------------------------------------------------------
+    */
 
-    // property apply
-    _applySelected : function(value, old)
+    /**
+     * Select the item in the list.
+     * 
+     * @deprecated Use 'setSelection' instead!
+     * @param item {qx.ui.form.ListItem} Item to select.
+     */
+    setSelected : function(item)
+    {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'setSelection' instead!"
+      );
+      
+      this.setSelection([item]);
+    },
+    
+    /**
+     * Returns the selected item in the list.
+     *
+     * @deprecated Use 'getSelection' instead!
+     * @return {qx.ui.form.ListItem} Selected item.
+     */
+    getSelected : function()
+    {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'getSelection' instead!"
+      );
+      
+      var item = this.getSelection()[0];
+      if (item) {
+        return item
+      } else {
+        return null;
+      }
+    },
+    
+    /**
+     * Reset the current selection.
+     * 
+     * @deprecated Use 'resetSelection' instead!
+     */
+    resetSelected : function()
+    {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'resetSelection' instead!"
+      );
+      
+      this.resetSelection();
+    },
+    
+    /*
+    ---------------------------------------------------------------------------
+      HELPER METHODS FOR SELECTION API
+    ---------------------------------------------------------------------------
+    */
+
+    
+    _getItems : function() {
+      return this.getChildren();
+    },
+    
+    _isAllowEmptySelection: function() {
+      return true;
+    },
+    
+    __onChangeSelection : function(e)
     {
       var pane = this.getChildControl("pane");
       var group = this.__radioGroup;
 
+      var value = e.getData()[0]
+      
       if (value)
       {
         var button = value.getButton();
@@ -395,12 +476,52 @@ qx.Class.define("qx.ui.tabview.TabView",
         pane.resetSelected();
         group.resetSelection();
       }
+      
+      /*
+       * TODO remove this if the methods and event for old selection API
+       * doesn't exist. 
+       * 
+       * Methods: 'getSelected', 'setSelected', 'resetSelected'
+       * Event: 'changeSelected'
+       */ 
+      if (this.hasListener("changeSelected")) {
+        this.fireDataEvent("changeSelected", value, old);
+      }
     },
-
-
-
-
-
+    
+    /**
+     * Add event listener to this object.
+     *
+     * This is only overriden, because the 'changeSelected' event is deprecated.
+     * @deprecated
+     *
+     * @param type {String} name of the event type
+     * @param listener {Function} event callback function
+     * @param self {Object ? null} reference to the 'this' variable inside the callback
+     * @param capture {Boolean ? false} Whether to attach the event to the
+     *         capturing phase of the bubbling phase of the event. The default is
+     *         to attach the event handler to the bubbling phase.
+     * @return {String} An opaque id, which can be used to remove the event listener
+     *         using the {@link #removeListenerById} method.
+     */
+    addListener : function(type, listener, self, capture)
+    {
+      /*
+       * TODO this method must be removed if the old selection API doesn't exist. 
+       * 
+       * Methods: 'getSelected', 'setSelected', 'resetSelected'
+       * Event: 'changeSelected'
+       */
+      
+      if (type === "changeSelected") {
+        qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'changeSelection' instead!");
+      }
+      
+      return this.base(arguments, type, listener, self, capture);
+    },
+    
 
     /*
     ---------------------------------------------------------------------------
@@ -413,7 +534,12 @@ qx.Class.define("qx.ui.tabview.TabView",
      * @param e {qx.event.type.Data} The data event
      */
     _onRadioChangeValue : function(e) {
-      this.setSelected(qx.core.ObjectRegistry.fromHashCode(e.getData()));
+      var element = qx.core.ObjectRegistry.fromHashCode(e.getData());
+      if (element) {
+        this.setSelection([element]);
+      } else {
+      	this.resetSelection();
+      }
     },
 
     /**
