@@ -315,7 +315,7 @@ qx.Class.define("apiviewer.Controller",
         return;
       }
 
-      var nodeName = this._tree.getSelected().getUserData("nodeName");
+      var nodeName = this._tree.getSelection()[0].getUserData("nodeName");
 
       /**
        * @lint ignoreDeprecated(alert)
