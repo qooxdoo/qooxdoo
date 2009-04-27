@@ -514,8 +514,9 @@ qx.Class.define("qx.ui.tabview.TabView",
        */
       
       if (type === "changeSelected") {
-        qx.log.Logger.deprecatedMethodWarning(
+        qx.log.Logger.deprecatedEventWarning(
         arguments.callee,
+        "changeSelected",
         "Use 'changeSelection' instead!");
       }
       
