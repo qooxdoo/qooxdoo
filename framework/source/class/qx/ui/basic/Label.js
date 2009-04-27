@@ -376,7 +376,7 @@ qx.Class.define("qx.ui.basic.Label",
       
       if (value != null) {
         this.__buddyEnabledBinding = value.bind("enabled", this, "enabled");
-        this.__clickListenerId = this.addListener("click", value.focus, this);
+        this.__clickListenerId = this.addListener("click", value.focus, value);
       }
     },
 
