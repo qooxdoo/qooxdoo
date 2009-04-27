@@ -80,7 +80,44 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
  
   members :
   {    
-    __spacerPool : null,
+     /**
+     * Returns the widget used to render the given cell. May return null if the
+     * cell isn’t rendered currently rendered.
+     * 
+     * @param row {Integer} The cell's row index
+     * @param column {Integer} The cell's column index
+     * @return {qx.ui.core.LayoutItem|null} the widget used to render the given
+     *    cell or <code>null</code> 
+     */
+     getRenderedCellWidget : function(row, column)
+     {
+       var columnCount = this.getColumnSizes().length;
+       var rowCount = this.getRowSizes().length;
+       
+       var firstRow = this.getFirstRow(); 
+       var firstColumn = this.getFirstColumn(); 
+       
+       if (
+         row < firstRow ||
+         row >= firstRow + rowCount || 
+         column < firstColumn ||
+         column >= firstColumn + columnCount
+       ) {
+         return null;
+       }
+       
+       var childIndex = (column - firstColumn) + (row - firstRow) * columnCount;         
+       var widget = this._getChildren()[childIndex];
+       
+       if (widget.getUserData("emptycell")) {
+         return null;
+       } else {
+         return widget;
+       }
+     },
+     
+     
+     __spacerPool : null,
     
     /**
      * Get the spacer widget, for empty cells
