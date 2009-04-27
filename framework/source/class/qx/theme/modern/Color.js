@@ -16,6 +16,7 @@
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
      * Alexander Back (aback)
+     * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
 
@@ -120,6 +121,8 @@ qx.Theme.define("qx.theme.modern.Color",
     // focus state of text fields
     "border-focused" : "#99C3FE",
 
+    // invalid form widgets
+    "border-invalid" : "#8d0616",
 
 
 
