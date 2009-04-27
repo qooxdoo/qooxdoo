@@ -52,8 +52,6 @@ qx.Class.define("qx.test.ui.virtual.layer.WidgetCell",
     getCellWidget : function(row, column) 
     {
       var widget = this._pool.pop() || new qx.ui.core.Widget();
-      widget.setUserData("row", row);
-      widget.setUserData("column", column);
       widget.setBackgroundColor((row + column) % 2 == 0 ? "red" : "green");
       return widget;
     },
@@ -81,8 +79,8 @@ qx.Class.define("qx.test.ui.virtual.layer.WidgetCell",
           var column = firstColumn + x;
           
           var widget = children[y*columnCount + x];
-          this.assertEquals(row, widget.getUserData("row"));
-          this.assertEquals(column, widget.getUserData("column"));
+          this.assertEquals(row, widget.getUserData("cell.row"));
+          this.assertEquals(column, widget.getUserData("cell.column"));
         }
       }
     },
@@ -121,6 +119,8 @@ qx.Class.define("qx.test.ui.virtual.layer.WidgetCell",
       this.assertEquals("1/3", layer.getRenderedCellWidget(1, 3).getUserData("test"));
       this.assertEquals("3/1", layer.getRenderedCellWidget(3, 1).getUserData("test"));
       this.assertEquals("3/3", layer.getRenderedCellWidget(3, 3).getUserData("test"));
+      
+      layer.destroy();
     },
     
     

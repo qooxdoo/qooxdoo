@@ -86,7 +86,49 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
  
   members :
   {    
+    /**
+     * Returns the widget used to render the given cell. May return null if the
+     * cell isn’t rendered currently rendered.
+     * 
+     * @param row {Integer} The cell's row index
+     * @param column {Integer} The cell's column index
+     * @return {qx.ui.core.LayoutItem|null} the widget used to render the given
+     *    cell or <code>null</code> 
+     */
+     getRenderedCellWidget : function(row, column)
+     {
+       var widget = this._cellLayer.getRenderedCellWidget(row, column);
+       if (!widget || widget.getUserData("cell.spanning"))
+       {
+         var children = this._getChildren();
+         for (var i=0, l=children.length; i<l; i++)
+         {
+           var child = children[i];
+           if (child == this._cellLayer) {
+             continue;
+           }
+           
+           var cell = {
+             row: child.getUserData("cell.row"),
+             column : child.getUserData("cell.column"),
+             rowSpan : child.getUserData("cell.rowspan"),
+             colSpan : child.getUserData("cell.colspan")
+           }
+
+           if (
+             cell.row <= row && row < cell.row + cell.rowSpan &&
+             cell.column <= column && column < cell.column + cell.colSpan
+           ) {
+             return child;
+           }
+         }
+         return null;
+       }
+       
+       return widget;
+     },    
     
+     
     __spacerPool : null,
     
     /**
@@ -128,7 +170,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
             if (!widget) 
             {
               widget = new qx.ui.core.Spacer();
-              widget.setUserData("spannedcell", 1);
+              widget.setUserData("cell.spanning", 1);
             }
           }
           return widget;
@@ -136,7 +178,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
           
         poolCellWidget : function(widget)
         {
-          if (widget.getUserData("spannedcell")) {
+          if (widget.getUserData("cell.spanning")) {
             spacerPool.push(widget);
           } else {
             cellProvider.poolCellWidget(widget);
@@ -217,6 +259,10 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
             cellBounds.left, cellBounds.top,
             cellBounds.width, cellBounds.height
           );
+          cellWidget.setUserData("cell.row", cell.firstRow);
+          cellWidget.setUserData("cell.column", cell.firstColumn);
+          cellWidget.setUserData("cell.rowspan", cell.lastRow - cell.firstRow + 1);
+          cellWidget.setUserData("cell.colspan", cell.lastColumn - cell.firstColumn + 1);
           this._add(cellWidget);
         }
       }

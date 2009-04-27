@@ -109,7 +109,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
        var childIndex = (column - firstColumn) + (row - firstRow) * columnCount;         
        var widget = this._getChildren()[childIndex];
        
-       if (widget.getUserData("emptycell")) {
+       if (widget.getUserData("cell.empty")) {
          return null;
        } else {
          return widget;
@@ -130,7 +130,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
       if (!spacer) 
       {
         spacer = new qx.ui.core.Spacer();
-        spacer.setUserData("emptycell", 1);
+        spacer.setUserData("cell.empty", 1);
       }
       return spacer;
     },
@@ -145,7 +145,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
       for (var i=0; i<children.length; i++) 
       {
         var child = children[i];
-        if (child.getUserData("emptycell")) {
+        if (child.getUserData("cell.empty")) {
           this.__spacerPool.push(child);
         } else {
           cellProvider.poolCellWidget(child);
@@ -166,6 +166,8 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
                 
           var item = cellProvider.getCellWidget(row, column) || this._getSpacer();
           item.setUserBounds(left, top, columnSizes[x], rowSizes[y]);
+          item.setUserData("cell.row", row);
+          item.setUserData("cell.column", column);
           this._add(item);
 
           left += columnSizes[x];
@@ -248,7 +250,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
         if (!widgetsToMoveIndexes[i]) 
         {
           var child = children[i];
-          if (child.getUserData("emptycell")) {
+          if (child.getUserData("cell.empty")) {
             this.__spacerPool.push(child);
           } else {
             cellProvider.poolCellWidget(child);
@@ -274,6 +276,8 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
             this._getSpacer();
           
           item.setUserBounds(left, top, columnSizes[x], rowSizes[y]);
+          item.setUserData("cell.row", row);
+          item.setUserData("cell.column", column);          
           this._add(item);
 
           left += columnSizes[x];
