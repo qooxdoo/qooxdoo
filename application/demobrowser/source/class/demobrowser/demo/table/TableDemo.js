@@ -35,6 +35,10 @@ qx.Class.define("demobrowser.demo.table.TableDemo",
     {
       this.base(arguments);
 
+      /* Set locale to english to avoid language mix if browser locale is 
+       * non-english. */
+      qx.locale.Manager.getInstance().setLocale("en");      
+
       this._container = new qx.ui.window.Window(this.getCaption(), "icon/16/apps/office-spreadsheet.png").set({
         width: 600,
         height: 400,
