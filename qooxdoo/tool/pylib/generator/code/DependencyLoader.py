@@ -519,7 +519,7 @@ class DependencyLoader:
                         # only does so with inFunction=True, so this branch is never hit through the
                         # recursive call
                         deps = self.getMethodDeps(assembledId, assembled, variants)
-                        loadtime.extend([x for x in deps if x not in target]) # add uniquely
+                        loadtime.extend([x for x in deps if x not in loadtime]) # add uniquely
 
         elif node.type == "body" and node.parent.type == "function":
             inFunction = True
