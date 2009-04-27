@@ -1299,7 +1299,9 @@ qx.Class.define("qx.ui.layout.Grid",
     invalidateLayoutCache : function()
     {
       this.base(arguments);
-
+      
+      this.__colWidths = null;
+      this.__rowHeights = null;
     },
 
 
