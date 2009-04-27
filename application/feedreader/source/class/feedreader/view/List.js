@@ -102,9 +102,9 @@ qx.Class.define("feedreader.view.List",
     // property apply
     _applyLoading: function(value, old) {
       if (value) {
-        this.__stack.setSelected(this.__listLoadImage);        
+        this.__stack.setSelection([this.__listLoadImage]);        
       } else {
-        this.__stack.setSelected(this.__list);        
+        this.__stack.setSelection([this.__list]);        
       }
     },
     
