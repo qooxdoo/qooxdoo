@@ -444,7 +444,7 @@ qx.Class.define("qx.ui.form.List",
 
       // if an item was found, select it
       if (matchedItem) {
-        this.setSelected(matchedItem);
+        this.setSelection([matchedItem]);
       }
 
       // Store timestamp
