@@ -241,7 +241,7 @@ qx.Bootstrap.define("qx.log.Logger",
         var className = fcn.self ? fcn.self.classname : "unknown";
         this.warn(
           "The method '"+ functionName +"' of class '"+className+"' is deprecated: " +
-          msg || "Please consult the API documentation of this method for alternatives."
+          (msg || "Please consult the API documentation of this method for alternatives.")
         );
         this.trace();
       }
@@ -262,7 +262,29 @@ qx.Bootstrap.define("qx.log.Logger",
         var className = clazz.self ? clazz.self.classname : "unknown";
         this.warn(
           "The method class '"+className+"' is deprecated: " +
-          msg || "Please consult the API documentation of this class for alternatives."
+          (msg || "Please consult the API documentation of this class for alternatives.")
+        );
+        this.trace();
+      }
+    },
+    
+    
+    /**
+     * Prints a event deprecation warning and a stack trace if the setting
+     * <code>qx.debug</code> is set to <code>on</code>.
+     *
+     * @param clazz {Class} reference to the deprecated class.
+     * @param event {String} deprecated event name.
+     * @param msg {String?} Optional message to be printed.
+     */
+    deprecatedEventWarning : function(clazz, event, msg)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        var className = clazz.self ? clazz.self.classname : "unknown";
+        this.warn(
+          "The event '"+(event || "unknown")+"' from class '"+className+"' is deprecated: " +
+          (msg || "Please consult the API documentation of this class for alternatives.")
         );
         this.trace();
       }
