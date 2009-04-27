@@ -570,8 +570,9 @@ qx.Class.define("qx.ui.form.RadioGroup",
        */
       
       if (type === "changeSelected") {
-        qx.log.Logger.deprecatedMethodWarning(
+        qx.log.Logger.deprecatedEventWarning(
         arguments.callee,
+        "changeSelected",
         "Use 'changeSelection' instead!");
       }
       
