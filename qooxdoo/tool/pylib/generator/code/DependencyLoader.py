@@ -469,23 +469,20 @@ class DependencyLoader:
             elif "." in assembled:
                 for entryId in self._classes:
                     if assembled.startswith(entryId) and re.match(r'%s\b' % entryId, assembled):
-                        if entryId > assembledId: # take the longest match
+                        if len(entryId) > len(assembledId): # take the longest match
                             assembledId = entryId
             return assembledId
 
         def isUnknownClass(assembled, node, fileId):
-            # check names in 'new XXX(...' position
-            if((node.hasParentContext("instantiation/*/*/operand")  # we're inside a 'new' expression and it's the class name
-               )
-            # check names in "'extend' : XXX" position
-            or (node.hasParentContext("keyvalue/*")
-                 and node.parent.parent.get('key') == 'extend'        # it's the value of an 'extend' key
-               )):
+            # check name in 'new XXX' position
+            if (node.hasParentContext("instantiation/*/*/operand")
+            # check name in "'extend' : XXX" position
+            or (node.hasParentContext("keyvalue/*") and node.parent.parent.get('key') == 'extend')):
                 # skip built-in classes (Error, document, RegExp, ...)
                 if (assembled in lang.BUILTIN + ['clazz'] or re.match(r'this\b', assembled)):
                    return False
-                # skip scoped vars
-                if isScopedVar(assembled, node, fileId):
+                # skip scoped vars - expensive, therefore last test
+                elif isScopedVar(assembled, node, fileId):
                     return False
                 else:
                     return True
@@ -501,16 +498,10 @@ class DependencyLoader:
             if not assembledId in target:
                 target.append(assembledId)
 
-            # an attempt to fix static initializers (bug#1455)
             if (not inFunction and  # only for loadtime items
                 self._jobconf.get("dependencies/follow-static-initializers", False) and
                 node.hasParentContext("call/operand")  # it's a method call
                ):  
-                # make run-time deps of the called method load-deps of the current
-                self._console.debug("Looking for rundeps in '%s' of '%s'" % (assembled, assembledId))
-                # getMethodDeps is mutual recursive calling into the current function, but
-                # only does so with inFunction=True, so this branch is never hit through the
-                # recursive call
                 deps = self.getMethodDeps(assembledId, assembled, variants)
                 if traceFlag:
                     if assembledId == "qx.lang.Object": print "-- qx.lang.Object1: %r" % loadtime
@@ -518,6 +509,17 @@ class DependencyLoader:
                 loadtime.extend([x for x in deps if x not in loadtime]) # add uniquely
 
             return
+
+
+        def followCallDeps(assembledId):
+            if (assembledId and
+                assembledId in self._classes and       # we have a class id
+                assembledId != fileId and
+                self._jobconf.get("dependencies/follow-static-initializers", False) and
+                node.hasParentContext("call/operand")  # it's a method call
+               ):
+                return True
+            return False
 
 
         # -----------------------------------------------------------
@@ -539,6 +541,16 @@ class DependencyLoader:
 
             if assembledId and assembledId in self._classes and assembledId != fileId:
                 addId(assembledId, runtime, loadtime)
+
+            # an attempt to fix static initializers (bug#1455)
+            if not inFunction and followCallDeps(assembledId):
+                self._console.debug("Looking for rundeps in '%s' of '%s'" % (assembled, assembledId))
+                ldeps = self.getMethodDeps(assembledId, assembled, variants)
+                # getMethodDeps is mutual recursive calling into the current function, but
+                # only does so with inFunction=True, so this branch is never hit through the
+                # recursive call
+                # make run-time deps of the called method load-deps of the current
+                loadtime.extend([x for x in ldeps if x not in loadtime]) # add uniquely
 
         elif node.type == "body" and node.parent.type == "function":
             inFunction = True
