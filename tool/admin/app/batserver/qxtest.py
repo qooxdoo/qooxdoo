@@ -199,10 +199,16 @@ class QxTest:
   # Reads the qooxdoo checkout's revision number from a file on the test host
   def getRemoteRevision(self):
     import urllib
-    rev = urllib.urlopen(self.autConf['autHost'] + '/revision.txt').read()
-    self.trunkrev = rev
-    self.log("Remote qooxdoo checkout at revision " + self.trunkrev)
-    return rev
+    remoteFile = self.autConf['autHost'] + '/revision.txt'
+    try:
+      rev = urllib.urlopen(remoteFile).read()
+    except IOError, e:
+      self.log("ERROR: Unable to open remote revision file " + remoteFile + ": "
+               + e.message)
+    else:
+      self.trunkrev = rev
+      self.log("Remote qooxdoo checkout at revision " + self.trunkrev)
+      return rev
 
 
   # Run tests for defined applications
