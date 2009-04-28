@@ -459,7 +459,7 @@ qx.Class.define("qx.ui.tabview.TabView",
       var pane = this.getChildControl("pane");
       var group = this.__radioGroup;
 
-      var value = e.getData()[0]
+      var value = e.getData()[0];
       
       if (value)
       {
@@ -485,6 +485,7 @@ qx.Class.define("qx.ui.tabview.TabView",
        * Event: 'changeSelected'
        */ 
       if (this.hasListener("changeSelected")) {
+        var old = e.getOldData()[0];
         this.fireDataEvent("changeSelected", value, old);
       }
     },
