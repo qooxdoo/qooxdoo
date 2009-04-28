@@ -16,6 +16,7 @@
      * Martin Wittemann (martinwittemann)
      * Sebastian Werner (wpbasti)
      * Jonathan Weiß (jonathan_rass)
+     * Christian Schmidt (chris_schmidt)
 
 ************************************************************************ */
 
@@ -29,7 +30,6 @@ qx.Class.define("qx.ui.form.SelectBox",
   implement : [qx.ui.form.IFormElement, qx.ui.core.ISingleSelection],
   include : qx.ui.core.MSingleSelectionHandling,
 
-  //TODO API doc
 
   /*
   *****************************************************************************
@@ -37,6 +37,7 @@ qx.Class.define("qx.ui.form.SelectBox",
   *****************************************************************************
   */
 
+  
   construct : function()
   {
     this.base(arguments);
@@ -61,6 +62,7 @@ qx.Class.define("qx.ui.form.SelectBox",
   *****************************************************************************
   */
 
+  
   events :
   {
     /** 
@@ -70,12 +72,14 @@ qx.Class.define("qx.ui.form.SelectBox",
     "changeSelected" : "qx.event.type.Data"
   },
 
+  
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
+  
   properties :
   {
     // overridden
@@ -87,15 +91,16 @@ qx.Class.define("qx.ui.form.SelectBox",
   },
 
 
-
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
 
+  
   members :
   {
+    /** {qx.ui.form.ListItem} instance */
     __preSelectedItem : null,
 
 
@@ -105,6 +110,7 @@ qx.Class.define("qx.ui.form.SelectBox",
     ---------------------------------------------------------------------------
     */
 
+    
     // overridden
     _createChildControlImpl : function(id)
     {
@@ -145,14 +151,13 @@ qx.Class.define("qx.ui.form.SelectBox",
     },
 
 
-
-
     /*
     ---------------------------------------------------------------------------
       OLD SELECTION PROPERTY METHDS
     ---------------------------------------------------------------------------
     */
 
+    
     /**
      * Select the item in the list.
      * 
@@ -212,11 +217,11 @@ qx.Class.define("qx.ui.form.SelectBox",
     ---------------------------------------------------------------------------
     */
 
+    
     // interface implementation
     setValue : function(value) {
       this.getChildControl("list").setValue(value);
     },
-
 
     // interface implementation
     getValue : function()
@@ -225,7 +230,6 @@ qx.Class.define("qx.ui.form.SelectBox",
       return item ? item.getFormValue() : null;
     },
 
-    
     /**
     * Resets the value to the default
     */    
@@ -238,6 +242,7 @@ qx.Class.define("qx.ui.form.SelectBox",
       }
     },
     
+    
     /*
     ---------------------------------------------------------------------------
       HELPER METHODS FOR SELECTION API
@@ -245,14 +250,30 @@ qx.Class.define("qx.ui.form.SelectBox",
     */
 
     
+    /**
+     * Returns the list items for the selection.
+     * 
+     * @return {qx.ui.form.ListItem[]} List itmes to select.
+     */
     _getItems : function() {
       return this.getChildrenContainer().getChildren();
     },
     
+    /**
+     * Returns if the selection could be empty or not.
+     * 
+     * @return {Boolean} <code>true</code> If selection could be empty, 
+     *    <code>false</code> otherwise.
+     */
     _isAllowEmptySelection: function() {
       return !this.getChildrenContainer().getSelectionMode() === "one";
     },
     
+    /**
+     * Event handler for <code>changeSelection</code>.
+     * 
+     * @param e {qx.event.type.Data} Data event.
+     */
     __onChangeSelection : function(e)
     {
       var value = e.getData()[0];
@@ -292,6 +313,7 @@ qx.Class.define("qx.ui.form.SelectBox",
     ---------------------------------------------------------------------------
     */
 
+    
     /**
      * Listener method for "mouseover" event
      * <ul>
@@ -300,7 +322,6 @@ qx.Class.define("qx.ui.form.SelectBox",
      * </ul>
      *
      * @param e {Event} Mouse event
-     * @return {void}
      */
     _onMouseOver : function(e)
     {
@@ -317,7 +338,6 @@ qx.Class.define("qx.ui.form.SelectBox",
       this.addState("hovered");
     },
 
-
     /**
      * Listener method for "mouseout" event
      * <ul>
@@ -326,7 +346,6 @@ qx.Class.define("qx.ui.form.SelectBox",
      * </ul>
      *
      * @param e {Event} Mouse event
-     * @return {void}
      */
     _onMouseOut : function(e)
     {
@@ -351,7 +370,6 @@ qx.Class.define("qx.ui.form.SelectBox",
     _onClick : function(e) {
       this.toggle();
     },
-
 
     /**
      * Event handler for mousewheel event
@@ -391,7 +409,6 @@ qx.Class.define("qx.ui.form.SelectBox",
       e.preventDefault();
     },
 
-
     // overridden
     _onKeyPress : function(e)
     {
@@ -413,7 +430,6 @@ qx.Class.define("qx.ui.form.SelectBox",
       }
     },
 
-
     /**
      * Forwards key event to list widget.
      *
@@ -430,7 +446,6 @@ qx.Class.define("qx.ui.form.SelectBox",
       this.getChildControl("list").dispatchEvent(clone);
     },
 
-
     // overridden
     _onListMouseDown : function(e)
     {
@@ -441,7 +456,6 @@ qx.Class.define("qx.ui.form.SelectBox",
         this.__preSelectedItem = null;
       }
     },
-
 
     // overridden
     _onListChangeSelection : function(e)
@@ -471,7 +485,6 @@ qx.Class.define("qx.ui.form.SelectBox",
       }
     },
 
-
     // overridden
     _onPopupChangeVisibility : function(e)
     {
@@ -491,21 +504,7 @@ qx.Class.define("qx.ui.form.SelectBox",
       }
     },
     
-     /**
-     * Add event listener to this object.
-     *
-     * This is only overriden, because the 'changeSelected' event is deprecated.
-     * @deprecated
-     *
-     * @param type {String} name of the event type
-     * @param listener {Function} event callback function
-     * @param self {Object ? null} reference to the 'this' variable inside the callback
-     * @param capture {Boolean ? false} Whether to attach the event to the
-     *         capturing phase of the bubbling phase of the event. The default is
-     *         to attach the event handler to the bubbling phase.
-     * @return {String} An opaque id, which can be used to remove the event listener
-     *         using the {@link #removeListenerById} method.
-     */
+    // overridden
     addListener : function(type, listener, self, capture)
     {
       /*
@@ -527,13 +526,13 @@ qx.Class.define("qx.ui.form.SelectBox",
   },
 
 
-
   /*
   *****************************************************************************
      DESTRUCT
   *****************************************************************************
   */
 
+  
   destruct : function() {
     this._disposeFields("__preSelectedItem");
   }
