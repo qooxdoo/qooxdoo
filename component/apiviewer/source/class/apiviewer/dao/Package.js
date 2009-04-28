@@ -53,6 +53,11 @@ qx.Class.define("apiviewer.dao.Package", {
     {
       return this._classes;
     },
+    
+    getFunctions : function()
+    {
+      return this._functions;
+    },
 
     getPackages : function()
     {
@@ -160,6 +165,7 @@ qx.Class.define("apiviewer.dao.Package", {
 
       this._classes = [];
       this._packages = [];
+      this._functions = [];
     },
 
 
@@ -168,6 +174,9 @@ qx.Class.define("apiviewer.dao.Package", {
       switch (node.type) {
         case "classes":
           this._classes = this._createNodeList(node, apiviewer.dao.Class, this);
+          break;
+        case "functions":
+          this._functions = this._createNodeList(node, apiviewer.dao.Method, this);
           break;
         case "packages":
           this._packages = this._createNodeList(node, apiviewer.dao.Package, this);

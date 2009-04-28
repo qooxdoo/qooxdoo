@@ -40,11 +40,11 @@ qx.Class.define("apiviewer.ui.ClassViewer",
   construct : function()
   {
     this.base(arguments);
-    this.addInfoPanel(new apiviewer.ui.panels.MethodPanel("constructor", "constructor", false, true));
+    this.addInfoPanel(new apiviewer.ui.panels.MethodPanel("constructor", "constructor"));
     this.addInfoPanel(new apiviewer.ui.panels.EventPanel("events", "events", true, true));
     this.addInfoPanel(new apiviewer.ui.panels.PropertyPanel("properties", "properties", true, true));
-    this.addInfoPanel(new apiviewer.ui.panels.MethodPanel("methods", "methods", true, true));
-    this.addInfoPanel(new apiviewer.ui.panels.MethodPanel("methods-static", "static methods", false, true));
+    this.addInfoPanel(new apiviewer.ui.panels.MethodPanel("methods", "methods"));
+    this.addInfoPanel(new apiviewer.ui.panels.MethodPanel("methods-static", "static methods"));
     this.addInfoPanel(new apiviewer.ui.panels.ConstantPanel("constants", "constants", false, true));
     this.addInfoPanel(new apiviewer.ui.panels.AppearancePanel("appearances", "appearances", false, true));
 
