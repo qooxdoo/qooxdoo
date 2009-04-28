@@ -30,11 +30,12 @@ qx.Class.define("qx.test.ui.form.INumberFormat",
       widget.setValue(10);
       this.assertEquals(10, widget.getValue(), "Set or get does not work.");
       
+      var self = this;
       this.assertEventFired(widget, "changeValue", function() {
         widget.setValue(11);
       }, function(e) {
-        this.assertEquals(11, e.getData(), "Not the right number in the event.");
-        this.assertEquals(10, e.getOldData(), "Wrong old data in the event.");
+        self.assertEquals(11, e.getData(), "Not the right number in the event.");
+        self.assertEquals(10, e.getOldData(), "Wrong old data in the event.");
       }, "Event is wrong!");
     },
     
