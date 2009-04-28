@@ -50,6 +50,11 @@
           //
                     
           // this is the input file
+          "${RESPATH}/source/Modern/tooltip-error.png" :
+          {
+            "prefix" : "../../${MODERN}/form/tooltip-error",
+            "border-width" : 6
+          },          
           "${RESPATH}/source/Modern/button-checked-focused.png" :
           {
             "prefix" : "../../${MODERN}/form/button-checked-focused",
@@ -325,6 +330,26 @@
           //
           
           // this is the output file
+          "${RESPATH}/${MODERN}/tooltip-error-tb-combined.png":
+          {
+            "input"  :
+            [
+              "${RESPATH}/${MODERN}/form/tooltip-error-*-[tb]*.png",
+              "${RESPATH}/${MODERN}/form/tooltip-error-[tb]*.png"
+            ],
+            "layout" : "vertical"
+          },
+
+          "${RESPATH}/${MODERN}/tooltip-error-lr-combined.png":
+          {
+            "input"  :
+            [
+              "${RESPATH}/${MODERN}/form/tooltip-error-*-[lr].png",
+              "${RESPATH}/${MODERN}/form/tooltip-error-[lr].png"
+            ],
+            "layout" : "horizontal"
+          },
+                    
           "${RESPATH}/${MODERN}/button-tb-combined.png":
           {
             "input"  :
