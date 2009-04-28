@@ -26,12 +26,14 @@ qx.Interface.define("qx.ui.core.IMultiSelection",
 {
   extend: qx.ui.core.ISingleSelection,
   
+  
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
 
+  
   members :
   {
     /**
@@ -45,6 +47,7 @@ qx.Interface.define("qx.ui.core.IMultiSelection",
      * Adds the given item to the existing selection.
      *
      * @param item {qx.ui.core.Widget} Any valid item
+     * @throws an exception if the item is not a child element.
      */
     addToSelection : function(item) {
       return arguments.length == 1;
@@ -53,10 +56,11 @@ qx.Interface.define("qx.ui.core.IMultiSelection",
     /**
      * Removes the given item from the selection.
      *
-     * Use {@link #resetSelection} when you want to clear
-     * the whole selection at once.
+     * Use {@link qx.ui.core.ISingleSelection#resetSelection} when you 
+     * want to clear the whole selection at once.
      *
      * @param item {qx.ui.core.Widget} Any valid item
+     * @throws an exception if the item is not a child element.
      */
     removeFromSelection : function(item) {
       return arguments.length == 1;
