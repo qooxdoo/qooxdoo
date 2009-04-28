@@ -16,6 +16,7 @@
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
      * Martin Wittemann (martinwittemann)
+     * Christian Schmidt (chris_schmidt)
 
 ************************************************************************ */
 
@@ -29,8 +30,6 @@ qx.Class.define("qx.ui.form.List",
   extend : qx.ui.core.AbstractScrollArea,
   implement : [qx.ui.form.IFormElement, qx.ui.core.IMultiSelection],
   include : [qx.ui.core.MRemoteChildrenHandling, qx.ui.core.MSelectionHandling],
-
-
 
 
   /*
@@ -75,13 +74,13 @@ qx.Class.define("qx.ui.form.List",
   },
 
 
-
   /*
   *****************************************************************************
      EVENTS
   *****************************************************************************
   */
 
+  
   events :
   {
     /**
@@ -91,14 +90,12 @@ qx.Class.define("qx.ui.form.List",
      */
     addItem : "qx.event.type.Data",
 
-
     /**
      * This event is fired after a list item has been removed from the list.
      * The {@link qx.event.type.Data#getData} method of the event returns the
      * removed item.
      */
     removeItem : "qx.event.type.Data",
-
 
     /**
      * Fired on every modification of the selection which also means that the
@@ -108,13 +105,12 @@ qx.Class.define("qx.ui.form.List",
   },
 
 
-
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
+  
 
   properties :
   {
@@ -125,14 +121,12 @@ qx.Class.define("qx.ui.form.List",
       init : "list"
     },
 
-
     // overridden
     focusable :
     {
       refine : true,
       init : true
     },
-
 
     /**
      * Whether the list should be rendered horizontal or vertical.
@@ -144,7 +138,6 @@ qx.Class.define("qx.ui.form.List",
       apply : "_applyOrientation"
     },
 
-
     /** Spacing between the items */
     spacing :
     {
@@ -154,14 +147,12 @@ qx.Class.define("qx.ui.form.List",
       themeable : true
     },
 
-
     /** Controls whether the inline-find feature is activated or not */
     enableInlineFind :
     {
       check : "Boolean",
       init : true
     },
-
 
     /** The name of the list. Mainly used for serialization proposes. */
     name :
@@ -173,14 +164,13 @@ qx.Class.define("qx.ui.form.List",
   },
 
 
-
-
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
 
+  
   members :
   {
     __pressedString : null,
@@ -189,17 +179,8 @@ qx.Class.define("qx.ui.form.List",
     /** {qx.ui.core.Widget} The children container */
     __content : null,
 
-
-    /*
-    ---------------------------------------------------------------------------
-      SELECTION API
-    ---------------------------------------------------------------------------
-    */
-
     /** {Class} Pointer to the selection manager to use */
     SELECTION_MANAGER : qx.ui.core.selection.ScrollArea,
-
-
 
 
     /*
@@ -208,11 +189,11 @@ qx.Class.define("qx.ui.form.List",
     ---------------------------------------------------------------------------
     */
 
+    
     // overridden
     getChildrenContainer : function() {
       return this.__content;
     },
-
 
     /**
      * Handle child widget adds on the content pane
@@ -222,7 +203,6 @@ qx.Class.define("qx.ui.form.List",
     _onAddChild : function(e) {
       this.fireDataEvent("addItem", e.getData());
     },
-
 
     /**
      * Handle child widget removes on the content pane
@@ -234,14 +214,13 @@ qx.Class.define("qx.ui.form.List",
     },
 
 
-
-
     /*
     ---------------------------------------------------------------------------
       FORM ELEMENT API
     ---------------------------------------------------------------------------
     */
 
+    
     /**
      * Returns the stringified value of the list. This is a comma
      * separated string with all the values (or labels as fallback).
@@ -269,7 +248,6 @@ qx.Class.define("qx.ui.form.List",
 
       return result.join(",");
     },
-
 
     /**
      * Applied new selection from a comma separated list of values (labels
@@ -304,20 +282,18 @@ qx.Class.define("qx.ui.form.List",
     },
 
 
-
-
     /*
     ---------------------------------------------------------------------------
       PUBLIC API
     ---------------------------------------------------------------------------
     */
 
+    
     /**
      * Used to route external <code>keypress</code> events to the list
      * handling (in fact the manager of the list)
      *
      * @param e {qx.event.type.KeyEvent} KeyPress event
-     * @return {void}
      */
     handleKeyPress : function(e)
     {
@@ -327,14 +303,13 @@ qx.Class.define("qx.ui.form.List",
     },
 
 
-
-
     /*
     ---------------------------------------------------------------------------
       PROPERTY APPLY ROUTINES
     ---------------------------------------------------------------------------
     */
 
+    
     // property apply
     _applyOrientation : function(value, old)
     {
@@ -352,14 +327,10 @@ qx.Class.define("qx.ui.form.List",
       this._applySpacing(this.getSpacing());
     },
 
-
     // property apply
     _applySpacing : function(value, old) {
       this.__content.getLayout().setSpacing(value);
     },
-
-
-
 
 
     /*
@@ -368,6 +339,7 @@ qx.Class.define("qx.ui.form.List",
     ---------------------------------------------------------------------------
     */
 
+    
     /**
      * Event listener for <code>keypress</code> events.
      *
@@ -390,7 +362,6 @@ qx.Class.define("qx.ui.form.List",
       return false;
     },
 
-
     /**
      * Reacts on change event to fire a changeValue event with the
      * value given through {@link #getValue}.
@@ -404,19 +375,17 @@ qx.Class.define("qx.ui.form.List",
     },
 
 
-
-
     /*
     ---------------------------------------------------------------------------
       FIND SUPPORT
     ---------------------------------------------------------------------------
     */
 
+    
     /**
      * Handles the inline find - if enabled
      *
      * @param e {qx.event.type.KeyEvent} keyInput event
-     * @return {void}
      */
     _onKeyInput : function(e)
     {
@@ -450,7 +419,6 @@ qx.Class.define("qx.ui.form.List",
       // Store timestamp
       this.__lastKeyPress = (new Date).valueOf();
     },
-
 
     /**
      * Takes the given string and tries to find a ListItem
@@ -487,7 +455,6 @@ qx.Class.define("qx.ui.form.List",
       return null;
     },
 
-
     /**
      * Find an item by its {@link #qx.ui.form.ListItem~getFormValue}. This method
      * is used for a HTML-like behavior where the
@@ -519,8 +486,6 @@ qx.Class.define("qx.ui.form.List",
       return null;
     }
   },
-
-
 
 
   /*
