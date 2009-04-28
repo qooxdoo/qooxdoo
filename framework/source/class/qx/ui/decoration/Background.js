@@ -26,6 +26,7 @@ qx.Class.define("qx.ui.decoration.Background",
 {
   extend : qx.core.Object,
   implement : [qx.ui.decoration.IDecorator],
+  include: [qx.ui.decoration.MInsets],
 
 
 
@@ -130,7 +131,6 @@ qx.Class.define("qx.ui.decoration.Background",
 
   members :
   {
-
     __markup : null,
 
     /*
@@ -179,24 +179,6 @@ qx.Class.define("qx.ui.decoration.Background",
 
       element.style.backgroundColor = Color.resolve(bgcolor) || "";
     },
-
-
-    // overridden
-    __insets :
-    {
-      top : 0,
-      right : 0,
-      bottom : 0,
-      left : 0
-    },
-
-
-    // interface implementation
-    getInsets : function() {
-      return this.__insets;
-    },
-
-
 
 
     /*
