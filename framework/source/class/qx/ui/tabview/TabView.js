@@ -17,6 +17,7 @@
      * Andreas Ecker (ecker)
      * Martin Wittemann (martinwittemann)
      * Jonathan Weiß (jonathan_rass)
+     * Christian Schmidt (chris_schmidt)
 
 ************************************************************************ */
 
@@ -31,7 +32,6 @@ qx.Class.define("qx.ui.tabview.TabView",
   implement : qx.ui.core.ISingleSelection,
   include : [qx.ui.core.MContentPadding, qx.ui.core.MSingleSelectionHandling],
 
-  //TODO API doc
   
   /*
   *****************************************************************************
@@ -39,6 +39,7 @@ qx.Class.define("qx.ui.tabview.TabView",
   *****************************************************************************
   */
 
+  
   /**
    * @param barPosition {String} Initial bar position ({@link #barPosition})
    */
@@ -78,6 +79,7 @@ qx.Class.define("qx.ui.tabview.TabView",
   *****************************************************************************
   */
 
+  
   events :
   {
     /** 
@@ -94,6 +96,7 @@ qx.Class.define("qx.ui.tabview.TabView",
   *****************************************************************************
   */
 
+  
   properties :
   {
     // overridden
@@ -115,16 +118,16 @@ qx.Class.define("qx.ui.tabview.TabView",
   },
 
 
-
-
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
 
+  
   members :
   {
+    /** {qx.ui.form.RadioGroup} instance containing the radio group */
     __radioGroup : null,
 
 
@@ -134,6 +137,7 @@ qx.Class.define("qx.ui.tabview.TabView",
     ---------------------------------------------------------------------------
     */
 
+    
     // overridden
     _createChildControlImpl : function(id)
     {
@@ -157,7 +161,6 @@ qx.Class.define("qx.ui.tabview.TabView",
       return control || this.base(arguments, id);
     },
 
-
     /**
      * Returns the element, to which the content padding should be applied.
      *
@@ -168,15 +171,13 @@ qx.Class.define("qx.ui.tabview.TabView",
     },
 
 
-
-
-
     /*
     ---------------------------------------------------------------------------
       CHILDREN HANDLING
     ---------------------------------------------------------------------------
     */
 
+    
     /**
      * Adds a page to the tabview including its needed button
      * (contained in the page).
@@ -220,7 +221,6 @@ qx.Class.define("qx.ui.tabview.TabView",
 
       page.addListener("close", this._onPageClose, this);
     },
-
 
     /**
      * Removes a page (and its corresponding button) from the TabView.
@@ -282,29 +282,24 @@ qx.Class.define("qx.ui.tabview.TabView",
       page.removeListener("close", this._onPageClose, this);
     },
 
-
     /**
      * Returns TabView's children widgets.
      *
-     * @return {Array} List of children.
+     * @return {qx.ui.tabview.Page[]} List of children.
      */
     getChildren : function() {
       return this.getChildControl("pane").getChildren();
     },
 
-
     /**
-     * Returns the positon of the given page in the TabView
+     * Returns the positon of the given page in the TabView.
      *
-     * @param page {qx.ui.tabview.Page} The page to query for
-     * @return {Integer} Position of the page in the TabView
+     * @param page {qx.ui.tabview.Page} The page to query for.
+     * @return {Integer} Position of the page in the TabView.
      */
     indexOf : function(page) {
       return this.getChildControl("pane").indexOf(page);
     },
-
-
-
 
 
     /*
@@ -313,6 +308,7 @@ qx.Class.define("qx.ui.tabview.TabView",
     ---------------------------------------------------------------------------
     */
 
+    
     /** {Map} Maps the bar position to an appearance state */
     __barPositionToState : null,
 
@@ -387,11 +383,12 @@ qx.Class.define("qx.ui.tabview.TabView",
     ---------------------------------------------------------------------------
     */
 
+    
     /**
-     * Select the item in the list.
+     * Select the page in the list.
      * 
      * @deprecated Use 'setSelection' instead!
-     * @param item {qx.ui.form.ListItem} Item to select.
+     * @param item {qx.ui.tabview.Page} page to select.
      */
     setSelected : function(item)
     {
@@ -404,10 +401,10 @@ qx.Class.define("qx.ui.tabview.TabView",
     },
     
     /**
-     * Returns the selected item in the list.
+     * Returns the selected page in the list.
      *
      * @deprecated Use 'getSelection' instead!
-     * @return {qx.ui.form.ListItem} Selected item.
+     * @return {qx.ui.tabview.Page} Selected page.
      */
     getSelected : function()
     {
@@ -439,21 +436,37 @@ qx.Class.define("qx.ui.tabview.TabView",
       this.resetSelection();
     },
     
+    
     /*
     ---------------------------------------------------------------------------
       HELPER METHODS FOR SELECTION API
     ---------------------------------------------------------------------------
     */
 
-    
+    /**
+     * Returns the pages for the selection.
+     * 
+     * @return {qx.ui.tabview.Page[]} Pages to select.
+     */
     _getItems : function() {
       return this.getChildren();
     },
     
+    /**
+     * Returns if the selection could be empty or not.
+     * 
+     * @return {Boolean} <code>true</code> If selection could be empty, 
+     *    <code>false</code> otherwise.
+     */
     _isAllowEmptySelection: function() {
       return true;
     },
     
+    /**
+     * Event handler for <code>changeSelection</code>.
+     * 
+     * @param e {qx.event.type.Data} Data event.
+     */
     __onChangeSelection : function(e)
     {
       var pane = this.getChildControl("pane");
@@ -490,21 +503,7 @@ qx.Class.define("qx.ui.tabview.TabView",
       }
     },
     
-    /**
-     * Add event listener to this object.
-     *
-     * This is only overriden, because the 'changeSelected' event is deprecated.
-     * @deprecated
-     *
-     * @param type {String} name of the event type
-     * @param listener {Function} event callback function
-     * @param self {Object ? null} reference to the 'this' variable inside the callback
-     * @param capture {Boolean ? false} Whether to attach the event to the
-     *         capturing phase of the bubbling phase of the event. The default is
-     *         to attach the event handler to the bubbling phase.
-     * @return {String} An opaque id, which can be used to remove the event listener
-     *         using the {@link #removeListenerById} method.
-     */
+    // overridden
     addListener : function(type, listener, self, capture)
     {
       /*
@@ -531,6 +530,7 @@ qx.Class.define("qx.ui.tabview.TabView",
     ---------------------------------------------------------------------------
     */
 
+    
     /**
      * Event handler for the change of the selected item of the radio group.
      * @param e {qx.event.type.Data} The data event
@@ -544,6 +544,7 @@ qx.Class.define("qx.ui.tabview.TabView",
       }
     },
 
+    
     /**
      * Removes the Page widget on which the close button was clicked.
      *
@@ -552,11 +553,7 @@ qx.Class.define("qx.ui.tabview.TabView",
     _onPageClose : function(e) {
       this.remove(e.getTarget());
     }
-
   },
-
-
-
 
 
   /*
@@ -565,6 +562,7 @@ qx.Class.define("qx.ui.tabview.TabView",
   *****************************************************************************
   */
 
+  
   destruct : function() {
     this._disposeObjects("__radioGroup");
   }
