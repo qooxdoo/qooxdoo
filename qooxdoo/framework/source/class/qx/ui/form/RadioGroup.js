@@ -15,6 +15,7 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
+     * Christian Schmidt (chris_schmidt)
 
 ************************************************************************ */
 
@@ -32,7 +33,6 @@ qx.Class.define("qx.ui.form.RadioGroup",
   implement : [qx.ui.form.IFormElement, qx.ui.core.ISingleSelection],
   include : qx.ui.core.MSingleSelectionHandling,
 
-  //TODO API doc
   
   /*
   *****************************************************************************
@@ -40,6 +40,7 @@ qx.Class.define("qx.ui.form.RadioGroup",
   *****************************************************************************
   */
 
+  
   /**
    * @param varargs {qx.core.Object} A variable number of items, which are
    *     intially added to the radio group.
@@ -66,6 +67,7 @@ qx.Class.define("qx.ui.form.RadioGroup",
   *****************************************************************************
   */
 
+  
   properties :
   {
     /**
@@ -89,7 +91,6 @@ qx.Class.define("qx.ui.form.RadioGroup",
       event : "changeName"
     },
 
-
     /**
      * Whether the selection should wrap arond. This means that the successor of
      * the last item is the first item.
@@ -102,8 +103,6 @@ qx.Class.define("qx.ui.form.RadioGroup",
   },
 
 
-
-
   /*
   *****************************************************************************
      EVENTS
@@ -112,7 +111,8 @@ qx.Class.define("qx.ui.form.RadioGroup",
 
   events :
   {
-    /** Fired when the value was modified (after selection change) 
+    /** 
+     * Fired when the value was modified (after selection change) 
      * 
      * Event data: The new value. As defined in {@link qx.ui.menu.RadioButton#value}
      */
@@ -126,40 +126,40 @@ qx.Class.define("qx.ui.form.RadioGroup",
   },
 
 
-
-
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
 
+  
   members :
   {
-    /** {IRadioItem[]} The items of the radio group */
+    /** {qx.ui.form.IRadioItem[]} The items of the radio group */
     __items : null,
 
+    
     /*
     ---------------------------------------------------------------------------
       UTILITIES
     ---------------------------------------------------------------------------
     */
 
+    
     /**
      * Get all managed items
      *
-     * @return {IRadioItem[]} All managed items
+     * @return {qx.ui.form.IRadioItem[]} All managed items.
      */
     getItems : function() {
       return this.__items;
     },
 
-
     /**
-     * Set the checked state of a given item
+     * Set the checked state of a given item.
      *
      * @deprecated Use 'setSelection' instead!
-     * @param item {IRadioItem} The item to select
+     * @param item {qx.ui.form.IRadioItem} The item to select.
      */
     select : function(item) {
       qx.log.Logger.deprecatedMethodWarning(
@@ -170,11 +170,10 @@ qx.Class.define("qx.ui.form.RadioGroup",
       this.setSelection([item]);
     },
 
-
     /**
      * Select the radio item, with the given value.
      *
-     * @param value {String} Value of the radio item to select
+     * @param value {String} Value of the radio item to select.
      */
     setValue : function(value)
     {
@@ -193,11 +192,10 @@ qx.Class.define("qx.ui.form.RadioGroup",
       }
     },
 
-
     /**
      * Get the value of the selected radio item
      *
-     * @return {String} The value of the selected radio item. Returns
+     * @return {String | null} The value of the selected radio item. Returns
      *     <code>null</code> if no item is selected.
      */
     getValue : function()
@@ -207,21 +205,17 @@ qx.Class.define("qx.ui.form.RadioGroup",
     },
 
 
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       REGISTRY
     ---------------------------------------------------------------------------
     */
 
+    
     /**
      * Add the passed items to the radio group.
      *
-     * @param varargs {IRadioItem} A variable number of items to add
-     * @return {void}
+     * @param varargs {qx.ui.form.IRadioItem} A variable number of items to add.
      */
     add : function(varargs)
     {
@@ -257,11 +251,10 @@ qx.Class.define("qx.ui.form.RadioGroup",
       }
     },
 
-
     /**
-     * Remove an item from the radio group
+     * Remove an item from the radio group.
      *
-     * @param item {IRadioItem} The item to remove
+     * @param item {qx.ui.form.IRadioItem} The item to remove.
      */
     remove : function(item)
     {
@@ -284,13 +277,13 @@ qx.Class.define("qx.ui.form.RadioGroup",
     },
 
 
-
     /*
     ---------------------------------------------------------------------------
       LISTENER FOR ITEM CHANGES
     ---------------------------------------------------------------------------
     */
 
+    
     /**
      * Event listener for <code>changeChecked</code> event of every managed item.
      *
@@ -313,11 +306,12 @@ qx.Class.define("qx.ui.form.RadioGroup",
     ---------------------------------------------------------------------------
     */
 
+    
     /**
      * Select the item in the list.
      * 
      * @deprecated Use 'setSelection' instead!
-     * @param item {qx.ui.form.ListItem} Item to select.
+     * @param item {qx.ui.form.IRadioItem} Item to select.
      */
     setSelected : function(item)
     {
@@ -333,7 +327,7 @@ qx.Class.define("qx.ui.form.RadioGroup",
      * Returns the selected item in the list.
      *
      * @deprecated Use 'getSelection' instead!
-     * @return {qx.ui.form.ListItem} Selected item.
+     * @return {qx.ui.form.IRadioItem} Selected item.
      */
     getSelected : function()
     {
@@ -372,6 +366,7 @@ qx.Class.define("qx.ui.form.RadioGroup",
     ---------------------------------------------------------------------------
     */
 
+    
     // property apply
     _applyEnabled : function(value, old)
     {
@@ -389,7 +384,6 @@ qx.Class.define("qx.ui.form.RadioGroup",
         }
       }
     },
-
 
     // property apply
     _applyName : function(value, old)
@@ -409,10 +403,11 @@ qx.Class.define("qx.ui.form.RadioGroup",
       }
     },
 
+    
     /**
      * Return the value from the item.
      * 
-     * @param item {IRadioItem} The item
+     * @param item {qx.ui.form.IRadioItem} The item.
      * @return {String|null} Value from the item. 
      */
     __getValue : function(item)
@@ -437,8 +432,9 @@ qx.Class.define("qx.ui.form.RadioGroup",
     ---------------------------------------------------------------------------
     */
 
+    
     /**
-     * Select the item following the given item
+     * Select the item following the given item.
      */
     selectNext : function()
     {
@@ -470,7 +466,7 @@ qx.Class.define("qx.ui.form.RadioGroup",
 
 
     /**
-     * Select the item previous the given item
+     * Select the item previous the given item.
      */
     selectPrevious : function()
     {
@@ -499,6 +495,7 @@ qx.Class.define("qx.ui.form.RadioGroup",
 
       this.setSelection([items[index]]);
     },
+
     
     /*
     ---------------------------------------------------------------------------
@@ -507,14 +504,30 @@ qx.Class.define("qx.ui.form.RadioGroup",
     */
 
     
+    /**
+     * Returns the items for the selection.
+     * 
+     * @return {qx.ui.form.IRadioItem[]} Itmes to select.
+     */
     _getItems : function() {
       return this.getItems();
     },
     
+    /**
+     * Returns if the selection could be empty or not.
+     * 
+     * @return {Boolean} <code>true</code> If selection could be empty, 
+     *    <code>false</code> otherwise.
+     */
     _isAllowEmptySelection: function() {
       return true;
     },
     
+    /**
+     * Event handler for <code>changeSelection</code>.
+     * 
+     * @param e {qx.event.type.Data} Data event.
+     */
     __onChangeSelection : function(e)
     {
       var value = e.getData()[0];
@@ -544,22 +557,8 @@ qx.Class.define("qx.ui.form.RadioGroup",
         this.fireDataEvent("changeSelected", value, old);
       }
     },
-    
-    /**
-     * Add event listener to this object.
-     *
-     * This is only overriden, because the 'changeSelected' event is deprecated.
-     * @deprecated
-     *
-     * @param type {String} name of the event type
-     * @param listener {Function} event callback function
-     * @param self {Object ? null} reference to the 'this' variable inside the callback
-     * @param capture {Boolean ? false} Whether to attach the event to the
-     *         capturing phase of the bubbling phase of the event. The default is
-     *         to attach the event handler to the bubbling phase.
-     * @return {String} An opaque id, which can be used to remove the event listener
-     *         using the {@link #removeListenerById} method.
-     */
+
+    // overridden
     addListener : function(type, listener, self, capture)
     {
       /*
@@ -581,14 +580,13 @@ qx.Class.define("qx.ui.form.RadioGroup",
   },
 
 
-
-
   /*
   *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
   */
 
+  
   destruct : function() {
     this._disposeArray("__items");
   }
