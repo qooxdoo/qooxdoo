@@ -42,10 +42,19 @@ qx.Mixin.define("qx.ui.form.MForm",
     required : {
       check : "Boolean",
       init : false
-    } 
+    },
+    
+    
+    /**
+     * Message which is shown in an invalid tooltip.
+     */
+    invalidMessage : {
+      check : "String",
+      init: ""
+    }
   },
   
-  members : {
+  members : {  
     // apply method
     _applyValid: function(value, old) {
       value ? this.removeState("invalid") : this.addState("invalid");
