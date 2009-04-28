@@ -16,27 +16,28 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.form.INumberFormat",
+qx.Class.define("qx.test.ui.form.Range",
 {
   extend : qx.test.ui.LayoutTestCase,
 
   members :
   {
     __test: function(widget) {
-      // just check if the method is available
-      widget.resetValue();
+      // min
+      widget.setMin(10);
+      this.assertEquals(10, widget.getMin(), "Set or get does not work. (min)");
       
-      // check the getter and setter
-      widget.setValue(10);
-      this.assertEquals(10, widget.getValue(), "Set or get does not work.");
+      // max
+      widget.setMax(20);
+      this.assertEquals(20, widget.getMax(), "Set or get does not work. (max)");
       
-      var self = this;
-      this.assertEventFired(widget, "changeValue", function() {
-        widget.setValue(11);
-      }, function(e) {
-        self.assertEquals(11, e.getData(), "Not the right number in the event.");
-        self.assertEquals(10, e.getOldData(), "Wrong old data in the event.");
-      }, "Event is wrong!");
+      // singleStep
+      widget.setSingleStep(2);
+      this.assertEquals(2, widget.getSingleStep(), "Set or get does not work. (singleStep)");
+      
+      // pageStep
+      widget.setPageStep(11);
+      this.assertEquals(11, widget.getPageStep(), "Set or get does not work. (pageStep)");      
     },
     
     testSpinner: function() {
