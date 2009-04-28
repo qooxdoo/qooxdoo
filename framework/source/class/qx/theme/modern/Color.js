@@ -122,8 +122,8 @@ qx.Theme.define("qx.theme.modern.Color",
     "border-focused" : "#99C3FE",
 
     // invalid form widgets
-    "border-invalid" : "#8d0616",
-
+    "border-invalid" : "#990000",
+    "border-focused-invalid" : "#FF9999",
 
 
     /*
