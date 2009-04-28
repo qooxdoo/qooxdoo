@@ -44,9 +44,6 @@ qx.Class.define("qx.ui.tooltip.ToolTip",
   {
     this.base(arguments);
 
-    // Initialize manager
-    qx.ui.tooltip.Manager.getInstance();
-
     // Use static layout
     this.setLayout(new qx.ui.layout.Grow);
 

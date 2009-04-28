@@ -77,6 +77,9 @@ qx.Class.define("qx.application.AbstractGui",
     {
       // Initialize themes
       qx.theme.manager.Meta.getInstance().initialize();
+      
+      // Initialize tooltip manager
+      qx.ui.tooltip.Manager.getInstance();
 
       this.__root = this._createRootWidget();
     },
