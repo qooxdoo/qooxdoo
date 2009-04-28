@@ -30,6 +30,7 @@ qx.Interface.define("qx.ui.core.ISingleSelection",
   *****************************************************************************
   */
 
+  
   events :
   {
     /** Fires after the selection was modified */
@@ -43,6 +44,7 @@ qx.Interface.define("qx.ui.core.ISingleSelection",
   *****************************************************************************
   */
 
+  
   members :
   {
     /**
@@ -57,7 +59,8 @@ qx.Interface.define("qx.ui.core.ISingleSelection",
     /**
      * Replaces current selection with the given items.
      *
-     * @param items {qx.ui.core.Widget[]} Items to select
+     * @param items {qx.ui.core.Widget[]} Items to select.
+     * @throws an exception if the item is not a child element.
      */
     setSelection : function(items) {
       return arguments.length == 1;
@@ -74,7 +77,8 @@ qx.Interface.define("qx.ui.core.ISingleSelection",
      * Detects whether the given item is currently selected.
      *
      * @param item {qx.ui.core.Widget} Any valid selectable item
-     * @return {Boolean} Whether the item is selected
+     * @return {Boolean} Whether the item is selected.
+     * @throws an exception if the item is not a child element.
      */
     isSelected : function(item) {
       return arguments.length == 1;
@@ -83,12 +87,11 @@ qx.Interface.define("qx.ui.core.ISingleSelection",
     /**
      * Whether the selection is empty.
      *
-     * @return {Boolean} Whether the selection is empty
+     * @return {Boolean} Whether the selection is empty.
      */
     isSelectionEmpty : function() {
       return true;
     },
-    
     
     /**
      * Returns all elements which are selectable.
