@@ -14,6 +14,7 @@
 
    Authors:
      * Sebastian Werner (wpbasti)
+     * Christian Schmidt (chris_schmidt)
 
 ************************************************************************ */
 
@@ -29,10 +30,6 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
   *****************************************************************************
   */
 
-  /*
-   * TODO check API dcumentation and overwork it if necessary!
-   */
-  
   construct : function()
   {
     // Create selection manager
@@ -55,8 +52,6 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
   },
 
 
-
-
   /*
   *****************************************************************************
      EVENTS
@@ -70,15 +65,13 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
   },
 
 
-
-
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
+  
   properties :
   {
     /**
@@ -94,7 +87,6 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
       apply : "_applySelectionMode"
     },
 
-
     /**
      * Enable drag selection (multi selection of items through
      * dragging the mouse in pressed states).
@@ -107,7 +99,6 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
       init : false,
       apply : "_applyDragSelection"
     },
-
 
     /**
      * Enable quick selection mode, where no click is needed to change the selection.
@@ -123,16 +114,16 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
   },
 
 
-
-
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
 
+  
   members :
   {
+    /** {qx.ui.core.selection.Abstract} The selection manager */
     __manager : null,
 
 
@@ -142,13 +133,13 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
     ---------------------------------------------------------------------------
     */
 
+    
     /**
      * Selects all items of the managed object.
      */
     selectAll : function() {
       this.__manager.selectAll();
     },
-
 
     /**
      * Selects the given item. Replaces current selection
@@ -158,8 +149,7 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
      * items to an existing selection.
      *
      * @deprecated Use 'setSelection' instead!
-     * @param item {Object} Any valid item
-     * @return {void}
+     * @param item {qx.ui.core.Widget} Any valid item.
      */
     select : function(item) {
       qx.log.Logger.deprecatedMethodWarning(
@@ -169,16 +159,12 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
       this.setSelection([item]);
     },
 
-    
     /**
-     * EXPERIMENTAL!!!
-     *
      * Selects the given item. Replaces current selection
      * completely with the new item.
      *
      * @deprecated Use 'setSelection' instead!
-     * @param item {Object} Any valid item
-     * @return {void}
+     * @param item {qx.ui.core.Widget} Any valid item.
      */
     setSelected : function(item) {
       qx.log.Logger.deprecatedMethodWarning(
@@ -187,13 +173,13 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
       );
       this.setSelection([item]);
     },
-
     
     /**
      * Detects whether the given item is currently selected.
      *
-     * @param item {Object} Any valid selectable item
-     * @return {Boolean} Whether the item is selected
+     * @param item {qx.ui.core.Widget} Any valid selectable item.
+     * @return {Boolean} Whether the item is selected.
+     * @throws an exception if the item is not a child element.
      */
     isSelected : function(item) {
       if (!qx.ui.core.Widget.contains(this, item)) {
@@ -204,15 +190,14 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
       return this.__manager.isItemSelected(item);
     },
 
-
     /**
      * Adds the given item to the existing selection.
      *
-     * Use {@link #selectItem} instead if you want to replace
+     * Use {@link #setSelection} instead if you want to replace
      * the current selection.
      *
-     * @param item {Object} Any valid item
-     * @return {void}
+     * @param item {qx.ui.core.Widget} Any valid item.
+     * @throws an exception if the item is not a child element.
      */
     addToSelection : function(item) {
       if (!qx.ui.core.Widget.contains(this, item)) {
@@ -223,15 +208,14 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
       this.__manager.addItem(item);
     },
 
-
     /**
      * Removes the given item from the selection.
      *
-     * Use {@link #clearSelection} when you want to clear
+     * Use {@link #resetSelection} when you want to clear
      * the whole selection at once.
      *
-     * @param item {Object} Any valid item
-     * @return {void}
+     * @param item {qx.ui.core.Widget} Any valid item
+     * @throws an exception if the item is not a child element.
      */
     removeFromSelection : function(item) {
       if (!qx.ui.core.Widget.contains(this, item)) {
@@ -242,18 +226,15 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
       this.__manager.removeItem(item);
     },
 
-
     /**
      * Selects an item range between two given items.
      *
-     * @param begin {Object} Item to start with
-     * @param end {Object} Item to end at
-     * @return {void}
+     * @param begin {qx.ui.core.Widget} Item to start with
+     * @param end {qx.ui.core.Widget} Item to end at
      */
     selectRange : function(begin, end) {
       this.__manager.selectItemRange(begin, end);
     },
-
 
     /**
      * Clears the whole selection at once. Also
@@ -271,9 +252,9 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
     },
 
     /**
-     * Clears the whole selection at once.
-     *
-     * @return {void}
+     * Clears the whole selection at once. Also
+     * resets the lead and anchor items and their
+     * styles.
      */
     resetSelection : function() {
       this.__manager.clearSelection();
@@ -283,8 +264,7 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
      * Replaces current selection with the given items
      *
      * @deprecated Use 'setSelection' instead!
-     * @param items {Object} Items to select
-     * @return {void}
+     * @param items {qx.ui.core.Widget} Items to select
      */
     replaceSelection : function(items) {
       qx.log.Logger.deprecatedMethodWarning(
@@ -295,12 +275,12 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
     },
 
     /**
-     * EXPERIMENTAL!!!
-     * 
      * Replaces current selection with the given items.
      *
-     * @param items {Object} Items to select
-     * @return {void}
+     * @param items {qx.ui.core.Widget[]} Items to select.
+     * @throws an exception if one of the itmes is not a child element and if 
+     *    the mode is set to <code>single</code> or <code>one</code> and 
+     *    the items contains more than one item. 
      */
     setSelection : function(items) {
       for (var i = 0; i < items.length; i++) {
@@ -318,7 +298,7 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
      * selection mode.
      *
      * @deprecated Use 'getSelection' instead!
-     * @return {Object} The selected item.
+     * @return {qx.ui.core.Widget} The selected item.
      */
     getSelectedItem : function() {
       qx.log.Logger.deprecatedMethodWarning(
@@ -335,12 +315,10 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
     },
     
     /**
-     * EXPERIMENTAL!!!
-     * 
      * Get the selected item.
      *
      * @deprecated Use 'getSelection' instead!
-     * @return {Object} The selected item.
+     * @return {qx.ui.core.Widget} The selected item.
      */
     getSelected : function() {
       qx.log.Logger.deprecatedMethodWarning(
@@ -356,27 +334,24 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
       }
     },
 
-
     /**
      * Returns an array of currently selected items.
      *
-     * @return {Object[]} List of items.
+     * @return {qx.ui.core.Widget[]} List of items.
      */
     getSelection : function() {
       return this.__manager.getSelection();
     },
 
-
     /**
      * Returns an array of currently selected items sorted
      * by their index in the container.
      *
-     * @return {Object[]} Sorted list of items
+     * @return {qx.ui.core.Widget[]} Sorted list of items
      */
     getSortedSelection : function() {
       return this.__manager.getSortedSelection();
     },
-
 
     /**
      * Whether the selection is empty
@@ -387,16 +362,15 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
       return this.__manager.isSelectionEmpty();
     },
 
-
     /**
-     * Returns the last selection context. One of <code>click</code>,
-     * <code>quick</code>, <code>drag</code> or <code>key</code> or
-     * <code>null</code>.
+     * Returns the last selection context.
+     * 
+     * @return {String | null} One of <code>click</code>, <code>quick</code>, 
+     *    <code>drag</code> or <code>key</code> or <code>null</code>.
      */
     getSelectionContext : function() {
       return this.__manager.getSelectionContext();
     },
-
 
     /**
      * Returns the internal selection manager. Use this with
@@ -408,13 +382,10 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
       return this.__manager;
     },
 
-
     /**
-     * EXPERIMENTAL!!!
-     *
      * Returns all elements which are selectable.
      * 
-     * @return {LayoutItem[]} The contained items.
+     * @return {qx.ui.core.Widget[]} The contained items.
      */
     getSelectables: function() {
       return this.__manager.getSelectables();
@@ -427,24 +398,21 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
     ---------------------------------------------------------------------------
     */
 
+    
     // property apply
     _applySelectionMode : function(value, old) {
       this.__manager.setMode(value);
     },
-
 
     // property apply
     _applyDragSelection : function(value, old) {
       this.__manager.setDrag(value);
     },
 
-
     // property apply
     _applyQuickSelection : function(value, old) {
       this.__manager.setQuick(value);
     },
-
-
 
 
     /*
@@ -453,18 +421,16 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
     ---------------------------------------------------------------------------
     */
 
+    
     /**
-     * Event listener for <code>change</code> event on selection manager.
+     * Event listener for <code>changeSelection</code> event on selection manager.
      *
      * @param e {qx.event.type.Data} Data event
-     * @return {void}
      */
     _onSelectionChange : function(e) {
       this.fireDataEvent("changeSelection", e.getData());
     }
   },
-
-
 
 
   /*
@@ -473,6 +439,7 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
   *****************************************************************************
   */
 
+  
   destruct : function() {
     this._disposeObjects("__manager");
   }
