@@ -144,17 +144,21 @@ qx.Theme.define("qx.theme.modern.Decoration",
         insets    : [ 0, 3, 3, 0 ]
       }
     },
-    
-    
+       
     "shadow-invalid" : 
     {
-      decorator: qx.ui.decoration.Uniform,
+      decorator : qx.ui.decoration.Beveled,
 
       style :
       {
-        width : 1,
-        color : "border-invalid"
-      }      
+        outerColor : "border-invalid",
+        innerColor : "white",
+        innerOpacity : 0.5,
+        backgroundImage : "decoration/form/input.png",
+        backgroundRepeat : "repeat-x",
+        backgroundColor : "background-light"
+      }
+
     },
 
 
@@ -365,6 +369,21 @@ qx.Theme.define("qx.theme.modern.Decoration",
         backgroundColor : "background-light"
       }
     },
+    
+    "input-focused-invalid" :
+    {
+      decorator : qx.ui.decoration.Beveled,
+
+      style :
+      {
+        outerColor : "border-invalid",
+        innerColor : "border-focused-invalid",
+        backgroundImage : "decoration/form/input-focused.png",
+        backgroundRepeat : "repeat-x",
+        backgroundColor : "background-light"
+      }
+    },    
+    
 
     "input-disabled" :
     {

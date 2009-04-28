@@ -379,7 +379,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : states.focused ? "input-focused" :
+          decorator : states.focused ? 
+                      states.invalid ? "input-focused-invalid" : "input-focused"
+                      :
                       states.disabled ? "input-disabled" : "input",
           shadow : states.invalid ? "shadow-invalid" : null
         };
