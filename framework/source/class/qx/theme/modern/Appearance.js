@@ -378,12 +378,26 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
+        var decorator;
+        
+        var focused = !!states.focused;
+        var invalid = !!states.invalid;
+        var disabled = !!states.disabled;
+        
+        if (focused && invalid && !disabled) {
+          decorator = "input-focused-invalid";
+        } else if (focused && !invalid && !disabled) {
+          decorator = "input-focused";
+        } else if (disabled) {
+          decorator = "input-disabled";
+        } else if (!focused && invalid && !disabled) {
+          decorator = "border-invalid";
+        } else {
+          decorator = "input";
+        }       
+        
         return {
-          decorator : states.focused ? 
-                      states.invalid ? "input-focused-invalid" : "input-focused"
-                      :
-                      states.disabled ? "input-disabled" : "input",
-          shadow : states.invalid ? "shadow-invalid" : null
+          decorator : decorator
         };
       }
     },
@@ -395,7 +409,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : undefined
+          decorator : states.invalid ? "input-invalid-snake" : undefined,
+          marginRight: 2
         };
       }
     },
@@ -1423,9 +1438,27 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
     "tooltip/atom" : "atom",
 
+    "tooltip-error" :
+    {
+      include : "tooltip",
 
-
-
+      style : function(states)
+      {
+        return {
+          textColor: "text-selected",
+          placeMethod: "widget",
+          offsetRight: 15,
+          position: "right-top",
+          showTimeout: 100,
+          hideTimeout: 10000,
+          decorator: "tooltip-error",
+          shadow: "tooltip-error-arrow",
+          font: "bold"
+        };
+      }
+    },
+    
+    "tooltip-error/atom" : "atom",
 
     /*
     ---------------------------------------------------------------------------

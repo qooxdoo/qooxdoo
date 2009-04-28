@@ -50,6 +50,9 @@ qx.Theme.define("qx.theme.modern.Color",
 
     // tooltip, ...
     "background-tip" : "#ffffdd",
+    
+    // error tooltip
+    "background-tip-error": "#C72B2B",
 
     // tables, ...
     "background-odd" : "#E4E4E4",
