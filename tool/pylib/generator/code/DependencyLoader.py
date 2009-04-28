@@ -92,8 +92,10 @@ class DependencyLoader:
         result = processExplicitCludes(result)
         # Sort classes
         self._console.info("Sorting %s classes..." % len(result))
-        result = self.sortClasses(result, variants)
-        #result = self.sortClassesTopological(result, variants)
+        if  self._jobconf.get("dependencies/sort-topological", False):
+            result = self.sortClassesTopological(result, variants)
+        else:
+            result = self.sortClasses(result, variants)
 
         if self._console.getLevel() == "debug":# or True:
             self._console.indent()
