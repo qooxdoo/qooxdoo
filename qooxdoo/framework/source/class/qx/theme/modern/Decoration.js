@@ -84,7 +84,32 @@ qx.Theme.define("qx.theme.modern.Decoration",
         baseImage : "decoration/groupbox/groupbox.png"
       }
     },
+    
+    "border-invalid" : 
+    {
+      decorator : qx.ui.decoration.Beveled,
 
+      style :
+      {
+        outerColor : "border-invalid",
+        innerColor : "white",
+        innerOpacity : 0.5,
+        backgroundImage : "decoration/form/input.png",
+        backgroundRepeat : "repeat-x",
+        backgroundColor : "background-light"
+      }
+    },    
+
+    "input-invalid-snake" : 
+    {
+      decorator: qx.ui.decoration.Background,
+      
+      style: {
+        backgroundImage: "decoration/form/input-invalid-snake.png",
+        backgroundPositionY: "bottom",
+        backgroundRepeat: "repeat-x"
+      }
+    },
 
 
 
@@ -118,6 +143,35 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      TOOLTIP
+    ---------------------------------------------------------------------------
+    */
+    
+    "tooltip-error" : 
+    {
+      decorator : qx.ui.decoration.Grid,
+
+      style : {
+        baseImage : "decoration/form/tooltip-error.png",
+        insets    : [ 2, 5, 5, 2 ]
+      }  
+    },
+    
+    
+    "tooltip-error-arrow" : 
+    {
+      decorator: qx.ui.decoration.Background,
+      
+      style: {
+        backgroundImage: "decoration/form/tooltip-error-arrow.png",
+        backgroundPositionY: "center",
+        backgroundRepeat: "no-repeat",
+        insets: [0, 0, 0, 10]        
+      }
+    },
+
 
     /*
     ---------------------------------------------------------------------------
@@ -143,22 +197,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
         baseImage : "decoration/shadow/shadow-small.png",
         insets    : [ 0, 3, 3, 0 ]
       }
-    },
-       
-    "shadow-invalid" : 
-    {
-      decorator : qx.ui.decoration.Beveled,
-
-      style :
-      {
-        outerColor : "border-invalid",
-        innerColor : "white",
-        innerOpacity : 0.5,
-        backgroundImage : "decoration/form/input.png",
-        backgroundRepeat : "repeat-x",
-        backgroundColor : "background-light"
-      }
-
     },
 
 
