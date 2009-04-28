@@ -15,6 +15,7 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Fabian Jakobs (fjakobs)
+     * Christian Schmidt (chris_schmidt)
 
 ************************************************************************ */
 
@@ -23,7 +24,7 @@
  * topmost widget is visible.
  *
  * This is used e.g. in the tab view widget. Which widget is visible can be
- * controlled by using the {@link #selected} property.
+ * controlled by using the {@link #getSelection} method.
  *
  * *Example*
  *
@@ -45,7 +46,7 @@
  *   }));
  *
  *   // select green widget
- *   stack.setSelected(stack.getChildren()[1]);
+ *   stack.setSelection([stack.getChildren()[1]]);
  *
  *   this.getRoot().add(stack);
  * </pre>
@@ -64,7 +65,6 @@ qx.Class.define("qx.ui.container.Stack",
   implement : qx.ui.core.ISingleSelection,
   include : qx.ui.core.MSingleSelectionHandling,
 
-  //TODO API doc
 
   /*
   *****************************************************************************
@@ -72,6 +72,7 @@ qx.Class.define("qx.ui.container.Stack",
   *****************************************************************************
   */
 
+  
   construct : function()
   {
     this.base(arguments);
@@ -88,6 +89,7 @@ qx.Class.define("qx.ui.container.Stack",
   *****************************************************************************
   */
 
+  
   events :
   {
     /** 
@@ -104,6 +106,7 @@ qx.Class.define("qx.ui.container.Stack",
   *****************************************************************************
   */
 
+  
   properties :
   {
     /**
@@ -119,14 +122,13 @@ qx.Class.define("qx.ui.container.Stack",
   },
 
 
-
-
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
 
+  
   members :
   {
     // property apply
@@ -158,11 +160,12 @@ qx.Class.define("qx.ui.container.Stack",
     ---------------------------------------------------------------------------
     */
 
+    
     /**
-     * Select the item in the list.
+     * Select the given widget.
      * 
      * @deprecated Use 'setSelection' instead!
-     * @param item {qx.ui.form.ListItem} Item to select.
+     * @param item {qx.ui.core.Widget} Widget to select.
      */
     setSelected : function(item)
     {
@@ -175,10 +178,10 @@ qx.Class.define("qx.ui.container.Stack",
     },
     
     /**
-     * Returns the selected item in the list.
+     * Returns the selected widget.
      *
      * @deprecated Use 'getSelection' instead!
-     * @return {qx.ui.form.ListItem} Selected item.
+     * @return {qx.ui.core.Widget} Selected widget.
      */
     getSelected : function()
     {
@@ -209,6 +212,7 @@ qx.Class.define("qx.ui.container.Stack",
       
       this.resetSelection();
     },
+   
     
     /*
     ---------------------------------------------------------------------------
@@ -217,14 +221,31 @@ qx.Class.define("qx.ui.container.Stack",
     */
 
     
+    /**
+     * Returns the widget for the selection.
+     * @return {qx.ui.core.Widget[]} Widgets to select.
+     */
     _getItems : function() {
       return this.getChildren();
     },
     
+    /**
+     * Returns if the selection could be empty or not.
+     * 
+     * @return {Boolean} <code>true</code> If selection could be empty, 
+     *    <code>false</code> otherwise.
+     */
     _isAllowEmptySelection: function() {
       return true;
     },
     
+    /**
+     * Event handler for <code>changeSelection</code>.
+     * 
+     * Shows the new selected widget and hide the old one.
+     * 
+     * @param e {qx.event.type.Data} Data event.
+     */
     __onChangeSelection : function(e)
     {
       var old = e.getOldData()[0];
@@ -255,21 +276,7 @@ qx.Class.define("qx.ui.container.Stack",
       }
     },
     
-    /**
-     * Add event listener to this object.
-     *
-     * This is only overriden, because the 'change' event is deprecated.
-     * @deprecated
-     *
-     * @param type {String} name of the event type
-     * @param listener {Function} event callback function
-     * @param self {Object ? null} reference to the 'this' variable inside the callback
-     * @param capture {Boolean ? false} Whether to attach the event to the
-     *         capturing phase of the bubbling phase of the event. The default is
-     *         to attach the event handler to the bubbling phase.
-     * @return {String} An opaque id, which can be used to remove the event listener
-     *         using the {@link #removeListenerById} method.
-     */
+    // overridden
     addListener : function(type, listener, self, capture)
     {
       /*
@@ -289,11 +296,18 @@ qx.Class.define("qx.ui.container.Stack",
       return this.base(arguments, type, listener, self, capture);
     },
 
+    
+    /*
+    ---------------------------------------------------------------------------
+      PUBLIC API
+    ---------------------------------------------------------------------------
+    */
+    
 
     /**
-     * Adds a new child to the stack
+     * Adds a new child to the stack.
      *
-     * @param widget {qx.ui.core.Widget} Any widget
+     * @param widget {qx.ui.core.Widget} Any widget.
      */
     add : function(widget)
     {
@@ -314,11 +328,10 @@ qx.Class.define("qx.ui.container.Stack",
       }
     },
 
-
     /**
-     * Removes the given widget from the stack
+     * Removes the given widget from the stack.
      *
-     * @param widget {qx.ui.core.Widget} Any widget
+     * @param widget {qx.ui.core.Widget} Any widget.
      */
     remove : function(widget)
     {
@@ -335,28 +348,25 @@ qx.Class.define("qx.ui.container.Stack",
       }
     },
 
-
     /**
      * Detects the position of the given widget in the
      * children list of this widget.
      *
-     * @param widget {qx.ui.core.Widget} Any child
-     * @return {Integer} The position
+     * @param widget {qx.ui.core.Widget} Any child.
+     * @return {Integer} The position.
      */
     indexOf : function(widget) {
       return this._indexOf(widget);
     },
 
-
     /**
-     * Returns all children
+     * Returns all children.
      *
-     * @return {Array} List of all children
+     * @return {qx.ui.core.Widget[]} List of all children.
      */
     getChildren : function() {
       return this._getChildren();
     },
-
 
     /**
      * Go to the previous child in the children list.
@@ -374,7 +384,6 @@ qx.Class.define("qx.ui.container.Stack",
       var prev = children[go];
       this.setSelection([prev]);
     },
-
 
     /**
      * Go to the next child in the children list.
