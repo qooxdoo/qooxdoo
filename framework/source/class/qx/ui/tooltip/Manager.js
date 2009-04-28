@@ -89,6 +89,7 @@ qx.Class.define("qx.ui.tooltip.Manager",
     __hideTimer : null,
     __showTimer : null,
     __sharedToolTip: null,
+    __sharedErrorToolTip: null,
 
     
     /**
@@ -108,6 +109,25 @@ qx.Class.define("qx.ui.tooltip.Manager",
       }
       return this.__sharedToolTip;
     },
+    
+    
+    /**
+     * Get the shared tooltip, which is used to display the 
+     * {@link qx.ui.core.Widget#toolTipText} and 
+     * {@link qx.ui.core.Widget#toolTipIcon} properties of widgets.
+     * 
+     * @return {qx.ui.tooltip.ToolTip} The shared tooltip
+     */
+    __getSharedErrorTooltip : function()
+    {
+      if (!this.__sharedErrorToolTip)
+      {
+        this.__sharedErrorToolTip = new qx.ui.tooltip.ToolTip().set({
+          appearance: "tooltip-error"
+        });
+      }
+      return this.__sharedErrorToolTip;
+    },    
     
 
     /*
@@ -175,7 +195,12 @@ qx.Class.define("qx.ui.tooltip.Manager",
       {
         this.__hideTimer.startWith(current.getHideTimeout());
 
-        current.placeToPoint(this.__mousePosition);
+        if (current.getPlaceMethod() == "widget") {
+          current.placeToWidget(current.getOpener());          
+        } else {
+          current.placeToPoint(this.__mousePosition);        
+        }
+        
         current.show();
       }
 
@@ -245,29 +270,37 @@ qx.Class.define("qx.ui.tooltip.Manager",
         var tooltip = target.getToolTip();
         var tooltipText = target.getToolTipText() || null;
         var tooltipIcon = target.getToolTipIcon() || null;
+        if (qx.Class.hasInterface(target.constructor, qx.ui.form.IForm) && !target.isValid()) {
+          var invalidMessage = target.getInvalidMessage();          
+        }
         
-        if (tooltip || tooltipText || tooltipIcon) {
+        if (tooltip || tooltipText || tooltipIcon || invalidMessage) {
           break;
         }
 
         target = target.getLayoutParent();
       }
+      
+      if (!target) {
+        return;  
+      }
 
       // Set Property
-      if (tooltip)
+      if (invalidMessage)
       {
-        tooltip.setOpener(target);
-        this.setCurrent(tooltip);
-      }
-      else if (tooltipText || tooltipIcon)
+        var tooltip = this.__getSharedErrorTooltip().set({
+          label: invalidMessage
+        });      
+      } 
+      else if (!tooltip)
       {
         var tooltip = this.__getSharedTooltip().set({
           label: tooltipText,
-          icon: tooltipIcon,
-          opener: target
-        });
-        this.setCurrent(tooltip);
+          icon: tooltipIcon
+        }); 
       }
+      this.setCurrent(tooltip);
+      tooltip.setOpener(target);
     },
 
 

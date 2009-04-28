@@ -14,6 +14,7 @@
 
    Authors:
      * Sebastian Werner (wpbasti)
+     * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
 
@@ -65,6 +66,16 @@ qx.Mixin.define("qx.ui.core.MPlacement",
       ],
       init : "bottom-left",
       themeable : true
+    },
+    
+    /**
+     * Weather the widget should be placed relative to an other widget or to
+     * the mouse cursor.s
+     */
+    placeMethod : {
+      check : ["widget", "mouse"],
+      init : "widget",
+      themeable: true
     },
 
     /** Whether the widget should moved using DOM methods. */
@@ -280,6 +291,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
 
       this.__place(coords);
     },
+
 
     /**
      * Places the widget to any (rendered) DOM element.
