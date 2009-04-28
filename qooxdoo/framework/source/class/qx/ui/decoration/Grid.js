@@ -36,6 +36,7 @@ qx.Class.define("qx.ui.decoration.Grid",
 {
   extend : qx.core.Object,
   implement : [qx.ui.decoration.IDecorator],
+  include: [qx.ui.decoration.MInsets],
 
 
 
@@ -100,45 +101,6 @@ qx.Class.define("qx.ui.decoration.Grid",
       check : "String",
       nullable : true,
       apply : "_applyBaseImage"
-    },
-
-    /** Width of the left inset (keep this margin to the outer box) */
-    insetLeft :
-    {
-      check : "Number",
-      init  : 0,
-      apply : "_applyInsets"
-    },
-
-    /** Width of the right inset (keep this margin to the outer box) */
-    insetRight :
-    {
-      check : "Number",
-      init  : 0,
-      apply : "_applyInsets"
-    },
-
-    /** Width of the bottom inset (keep this margin to the outer box) */
-    insetBottom :
-    {
-      check : "Number",
-      init  : 0,
-      apply : "_applyInsets"
-    },
-
-    /** Width of the top inset (keep this margin to the outer box) */
-    insetTop :
-    {
-      check : "Number",
-      init  : 0,
-      apply : "_applyInsets"
-    },
-
-    /** Property group for insets */
-    insets :
-    {
-      group : [ "insetTop", "insetRight", "insetBottom", "insetLeft" ],
-      mode  : "shorthand"
     }
   },
 
@@ -154,7 +116,6 @@ qx.Class.define("qx.ui.decoration.Grid",
   members :
   {
     __markup : null,
-    __insets : null,
     __images : null,
     __edges : null,
 
@@ -280,45 +241,12 @@ qx.Class.define("qx.ui.decoration.Grid",
     },
 
 
-    // interface implementation
-    getInsets : function()
-    {
-      if (this.__insets) {
-        return this.__insets;
-      }
-
-      return this.__insets =
-      {
-        left : this.getInsetLeft(),
-        right : this.getInsetRight(),
-        bottom : this.getInsetBottom(),
-        top : this.getInsetTop()
-      };
-    },
-
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
       PROPERTY APPLY ROUTINES
     ---------------------------------------------------------------------------
     */
-
-    // property apply
-    _applyInsets : function()
-    {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (this.__markup) {
-          throw new Error("This decorator is already in-use. Modification is not possible anymore!");
-        }
-      }
-
-      this.__insets = null;
-    },
 
 
     // property apply
