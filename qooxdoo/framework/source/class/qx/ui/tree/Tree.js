@@ -17,6 +17,7 @@
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
      * Derrell Lipman (derrell)
+     * Christian Schmidt (chris_schmidt)
 
 ************************************************************************ */
 
@@ -29,12 +30,11 @@
  * {@link #hideRoot} property.
  *
  * The handling of <b>selections</b> within a tree is somewhat distributed
- * between the root tree object and the attached {@link
- * qx.ui.tree.SelectionManager TreeSelectionManager}. To get the
- * currently selected element of a tree use the tree {@link #getSelectedItem
- * getSelectedItem} method and tree {@link #setSelectedItem
- * setSelectedItem} to set it. The TreeSelectionManager handles more
- * coars-grained issues like providing selectAll()/deselectAll() methods.
+ * between the root tree object and the attached {@link qx.ui.tree.SelectionManager}.
+ * To get the currently selected element of a tree use the tree {@link #getSelection}
+ * method and tree {@link #setSelection} to set it. The TreeSelectionManager
+ * handles more coars-grained issues like providing {@link #selectAll} and 
+ * {@link #resetSelection} methods.
  */
 qx.Class.define("qx.ui.tree.Tree",
 {
@@ -52,6 +52,7 @@ qx.Class.define("qx.ui.tree.Tree",
   *****************************************************************************
   */
 
+  
   construct : function()
   {
     this.base(arguments);
@@ -68,13 +69,13 @@ qx.Class.define("qx.ui.tree.Tree",
   },
 
 
-
   /*
   *****************************************************************************
      EVENTS
   *****************************************************************************
   */
 
+  
   events :
   {
     /**
@@ -84,7 +85,6 @@ qx.Class.define("qx.ui.tree.Tree",
      */
     addItem : "qx.event.type.Data",
 
-
     /**
      * This event is fired after a tree item has been removed from the tree.
      * The {@link qx.event.type.Data#getData} method of the event returns the
@@ -92,7 +92,6 @@ qx.Class.define("qx.ui.tree.Tree",
      */
     removeItem : "qx.event.type.Data"
   },
-
 
 
   /*
@@ -116,7 +115,6 @@ qx.Class.define("qx.ui.tree.Tree",
       themeable : true
     },
 
-
     /**
      * The root tree item of the tree to display
      */
@@ -129,7 +127,6 @@ qx.Class.define("qx.ui.tree.Tree",
       apply : "_applyRoot"
     },
 
-
     /**
      * Hide the root (Tree) node.  This differs from the visibility property in
      * that this property hides *only* the root node, not the node's children.
@@ -141,13 +138,12 @@ qx.Class.define("qx.ui.tree.Tree",
       apply :"_applyHideRoot"
     },
 
-
     /**
      * Whether the Root should have an open/close button.  This may also be
-     *  used in conjunction with the hideNode property to provide for virtual root
-     *  nodes.  In the latter case, be very sure that the virtual root nodes are
-     *  expanded programatically, since there will be no open/close button for the
-     *  user to open them.
+     * used in conjunction with the hideNode property to provide for virtual root
+     * nodes.  In the latter case, be very sure that the virtual root nodes are
+     * expanded programatically, since there will be no open/close button for the
+     * user to open them.
      */
     rootOpenClose :
     {
@@ -172,8 +168,6 @@ qx.Class.define("qx.ui.tree.Tree",
   },
 
 
-
-
   /*
   *****************************************************************************
      MEMBERS
@@ -183,13 +177,6 @@ qx.Class.define("qx.ui.tree.Tree",
   members :
   {
     __content : null,
-
-
-    /*
-    ---------------------------------------------------------------------------
-      SELECTION API
-    ---------------------------------------------------------------------------
-    */
 
     /** {Class} Pointer to the selection manager to use */
     SELECTION_MANAGER : qx.ui.tree.SelectionManager,
@@ -201,6 +188,7 @@ qx.Class.define("qx.ui.tree.Tree",
     ---------------------------------------------------------------------------
     */
 
+    
     /**
      * Get the widget, which containes the root tree item. This widget must
      * have a vertical box layout.
@@ -210,7 +198,6 @@ qx.Class.define("qx.ui.tree.Tree",
     getChildrenContainer : function() {
       return this.__content;
     },
-
 
     // property apply
     _applyRoot : function(value, old)
@@ -237,7 +224,6 @@ qx.Class.define("qx.ui.tree.Tree",
       }
     },
 
-
     // property apply
     _applyHideRoot : function(value, old)
     {
@@ -250,7 +236,6 @@ qx.Class.define("qx.ui.tree.Tree",
       root.recursiveAddToWidgetQueue();
     },
 
-
     // property apply
     _applyRootOpenClose : function(value, old)
     {
@@ -260,7 +245,6 @@ qx.Class.define("qx.ui.tree.Tree",
       }
       root.recursiveAddToWidgetQueue();
     },
-
 
     /**
      * Returns the element, to which the content padding should be applied.
@@ -278,6 +262,7 @@ qx.Class.define("qx.ui.tree.Tree",
     ---------------------------------------------------------------------------
     */
 
+    
     /**
      * Get the tree item after the given item
      *
@@ -310,7 +295,6 @@ qx.Class.define("qx.ui.tree.Tree",
       }
       return null;
     },
-
 
     /**
      * Get the tree item before the given item
@@ -362,7 +346,6 @@ qx.Class.define("qx.ui.tree.Tree",
       }
     },
 
-
     /**
      * Returns all children of the tree.
      *
@@ -381,7 +364,6 @@ qx.Class.define("qx.ui.tree.Tree",
       }
     },
 
-
     // overridden
     scrollChildIntoViewY : function(child, align, direct)
     {
@@ -395,13 +377,13 @@ qx.Class.define("qx.ui.tree.Tree",
     },
 
 
-
     /*
     ---------------------------------------------------------------------------
       MOUSE EVENT HANDLER
     ---------------------------------------------------------------------------
     */
 
+    
     /**
      * Returns the tree item, which contains the given widget.
      *
@@ -428,7 +410,6 @@ qx.Class.define("qx.ui.tree.Tree",
       return null;
     },
 
-
     // property apply
     _applyOpenMode : function(value, old)
     {
@@ -444,7 +425,6 @@ qx.Class.define("qx.ui.tree.Tree",
         this.addListener("dblclick", this._onOpen, this);
       }
     },
-
 
     /**
      * Event hander for click events, which could change a tree item's open
@@ -465,13 +445,13 @@ qx.Class.define("qx.ui.tree.Tree",
   },
 
 
-
   /*
   *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
   */
 
+  
   destruct : function() {
     this._disposeObjects("__content");
   }
