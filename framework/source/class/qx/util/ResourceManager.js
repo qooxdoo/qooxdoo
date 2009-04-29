@@ -130,7 +130,7 @@ qx.Bootstrap.define("qx.util.ResourceManager",
 
       if (typeof entry === "string")
       {
-        var lib = entry
+        var lib = entry;
       }
       else
       {
