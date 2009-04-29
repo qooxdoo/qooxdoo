@@ -46,6 +46,7 @@ from generator.runtime.Cache import Cache
 from generator.runtime.ShellCmd import ShellCmd
 import simplejson
 from robocopy import robocopy
+import graph
 
 
 class Generator:
@@ -118,6 +119,11 @@ class Generator:
             "lint-check" :
             {
               "type" : "JClassDepJob",
+            },
+
+            "log" :
+            {
+              "type" : "JCompileJob",
             },
 
             "migrate-files" :
@@ -500,9 +506,9 @@ class Generator:
             self._codeGenerator.runCompiled(partPackages, packageClasses, boot, variants, self._treeCompiler, self._classList)
 
             # debug tasks
-            self.runDependencyDebug(partPackages, packageClasses, variants)
+            self.runLogDependencies(partPackages, packageClasses, variants)
             self.runPrivateDebug()
-            self.runUnusedClasses(partPackages, packageClasses, variants)
+            self.runLogUnusedClasses(partPackages, packageClasses, variants)
             #self.runClassOrderingDebug(partPackages, packageClasses, variants)
 
         self._console.info("Done")
@@ -533,7 +539,7 @@ class Generator:
         return
 
 
-    def runUnusedClasses(self, parts, packages, variants):
+    def runLogUnusedClasses(self, parts, packages, variants):
         if not self._job.get("log/classes-unused", False):
             return
 
@@ -571,7 +577,6 @@ class Generator:
 
 
     def runClassOrderingDebug(self, parts, packages, variants):
-        import graph
         self._console.info("Class ordering debugging...")
         self._console.indent()
 
@@ -600,12 +605,14 @@ class Generator:
         return
 
 
-    def runDependencyDebug(self, parts, packages, variants):
-        mode = self._job.get("log/dependencies", False)
-        if not mode or mode == "off":
+    def runLogDependencies(self, parts, packages, variants):
+        logConf = self._job.get("log/dependencies", False)
+        if not logConf:
            return
+        
+        logConf = ExtMap(logConf)
 
-        def usedByDeps():
+        def usedByDeps(logConf):
             for packageId, package in enumerate(packages):
                 self._console.info("Package %s" % packageId)
                 self._console.indent()
@@ -631,7 +638,13 @@ class Generator:
                 self._console.outdent()
             return
 
-        def usingDeps():
+        def usingDeps(logConf, dset):
+            grLoad = graph.digraph()
+            grLoad.add_nodes(self._classList)
+
+            grRun = graph.digraph()
+            grRun.add_nodes(self._classList)
+
             for packageId, package in enumerate(packages):
                 self._console.info("Package %s" % packageId)
                 self._console.indent()
@@ -648,29 +661,56 @@ class Generator:
                     if classDeps["load"]:
                         self._console.info("Uses (load):")
                         self._console.indent()
-                        for classId in classDeps["load"]:
-                            self._console.info("%s" % classId)
+                        for depId in classDeps["load"]:
+                            self._console.info("%s" % depId)
+                            if depId in self._classList:
+                                grLoad.add_edge(classId, depId)
                         self._console.outdent()
                     if classDeps["run"]:
                         self._console.info("Uses (run):")
                         self._console.indent()
-                        for classId in classDeps["run"]:
-                            self._console.info("%s" % classId)
+                        for depId in classDeps["run"]:
+                            self._console.info("%s" % depId)
+                            if depId in self._classList:
+                                grRun.add_edge(depId, classId)
                         self._console.outdent()
 
                     self._console.outdent()
                 self._console.outdent()
+            
+            if logConf.get('format', None):
+                format = logConf.get('format')
+                if format == 'dot':
+                    if dset == "loadtime":
+                        gr = grLoad
+                        file = logConf.get('file', "loaddeps.dot")
+                    else:
+                        gr = grRun
+                        file = logConf.get('file', "rundeps.dot")
+                    classRoot = logConf.get('root')
+                    st, op = gr.breadth_first_search(root=classRoot)
+                    gr1 = graph.digraph()
+                    gr1.add_spanning_tree(st)
+                    dot = gr1.write(fmt='dot')
+                    open(file, 'w').write(dot)
+
             return
 
-        self._console.info("Dependency debugging...")
+        self._console.info("Dependency logging...")
         self._console.indent()
 
-        if mode == "used-by":
-            usedByDeps()
-        elif mode == "using":
-            usingDeps()
+        mode = dset = None
+        type = logConf.get('type', "using")
+        if type.find('/') > -1:
+            mode, dset = type.split('/',1)  # e.g. 'using/loadtime'
         else:
-            self._console.error('Dependency debug mode "%s" not in ["using", "used-by"]; skipping...' % mode)
+            mode = type
+        if mode == "used-by":
+            usedByDeps(logConf)
+        elif mode == "using":
+            usingDeps(logConf, dset)
+        else:
+            self._console.error('Dependency log type "%s" not in ["using", "used-by"]; skipping...' % mode)
 
         self._console.outdent()
         return
