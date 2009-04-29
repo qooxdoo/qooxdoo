@@ -12,6 +12,7 @@
     "QXVERSION"    : "0.8.3-pre",
     "OPTIMIZE"     : ["basecalls", "variables", "privates", "strings"],
     "LOCALES"      : [ "en" ],
+    "APPLICATION_MAIN_CLASS" : "${APPLICATION}.Application",
     "BUILD_PATH"   : "${ROOT}/build"
   },
 
@@ -62,7 +63,7 @@
       "include" :
       [
         "${QXTHEME}",
-        "${APPLICATION}.Application"
+        "${APPLICATION_MAIN_CLASS}"
       ],
 
       "cache" :
@@ -75,7 +76,7 @@
       {
         "qx.version"     : "${QXVERSION}",
         "qx.theme"       : "${QXTHEME}",
-        "qx.application" : "${APPLICATION}.Application"
+        "qx.application" : "${APPLICATION_MAIN_CLASS}"
       },
       
       "asset-let" :
