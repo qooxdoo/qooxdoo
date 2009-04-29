@@ -2433,6 +2433,8 @@ qx.Class.define("qx.ui.core.Widget",
 
           value.resize(elem.getDomElement(), shadowWidth, shadowHeight);
         }
+        
+        value.tint(elem.getDomElement(), null);
       }
       else
       {
@@ -2516,11 +2518,10 @@ qx.Class.define("qx.ui.core.Widget",
     _applyBackgroundColor : function(value, old)
     {
       var decorator = this.getDecorator();
-      var shadow = this.getShadow();
       var color = this.getBackgroundColor();
       var container = this.__containerElement;
 
-      if (decorator || shadow)
+      if (decorator)
       {
         // Apply to decoration element
         var elem = this.__decoratorElement;
@@ -2529,11 +2530,6 @@ qx.Class.define("qx.ui.core.Widget",
           var instance = qx.theme.manager.Decoration.getInstance().resolve(decorator);
           instance.tint(this.__decoratorElement.getDomElement(), color);
         }
-
-        // Please note:
-        // The else case is not handled handled currently, but it
-        // only comes true when there is a shadow but no decoration
-        // which is quite unlikely.
 
         // Remove from container
         container.setStyle("backgroundColor", null);
