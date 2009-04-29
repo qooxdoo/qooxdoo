@@ -1127,7 +1127,10 @@ qx.Class.define("testrunner.runner.TestRunner",
             if (children[i].hasChildren()) {
               tlist = tlist.concat(buildList(children[i]));
             } else {
-              tlist.push([ tclass, children[i].label ]);
+              // Don't add empty packages or classes to the list.
+              if (children[i].type == "test") {
+                tlist.push([tclass, children[i].label]);
+              }
             }
           }
         }
