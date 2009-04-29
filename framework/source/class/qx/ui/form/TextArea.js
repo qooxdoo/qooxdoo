@@ -80,12 +80,15 @@ qx.Class.define("qx.ui.form.TextArea",
 
   members :
   {
+    /*
+    ---------------------------------------------------------------------------
+      FIELD API
+    ---------------------------------------------------------------------------
+    */
 
     // overridden
-    _createInputElement : function()
-    {
-      var input = new qx.html.Input("textarea");
-      return input;
+    _createInputElement : function() {
+      return new qx.html.Input("textarea");
     },
 
 

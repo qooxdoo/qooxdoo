@@ -179,6 +179,9 @@ qx.Class.define("qx.ui.form.AbstractField",
     _createContentElement : function()
     {
       var el = this._createInputElement();
+      
+      // Add listener for input event
+      el.addListener("input", this._onHtmlInput, this);
 
       // Disable spellcheck in gecko
       if (qx.core.Variant.isSet("qx.client", "gecko")) {
@@ -287,6 +290,22 @@ qx.Class.define("qx.ui.form.AbstractField",
      */
     _getTextSize : function() {
       return this.__textSize;
+    },
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENTS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Event listener for native input events. Redirects the event
+     * to the widget.
+     *
+     * @param e {qx.event.type.Data} Input event
+     */
+    _onHtmlInput : function(e) {
+      this.fireDataEvent("input", e.getData());
     },
 
     /*
