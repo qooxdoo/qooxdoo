@@ -28,10 +28,7 @@
  */
 qx.Class.define("qx.ui.decoration.Beveled",
 {
-  extend : qx.core.Object,
-  implement : [qx.ui.decoration.IDecorator],
-
-
+  extend : qx.ui.decoration.Abstract,
 
 
   /*
@@ -149,8 +146,25 @@ qx.Class.define("qx.ui.decoration.Beveled",
 
   members :
   {
-
     __markup : null,
+
+    // overridden
+    _getDefaultInsets : function()
+    {
+      return {
+        top : 2,
+        right : 2,
+        bottom : 2,
+        left : 2
+      };
+    },
+    
+    
+    // overridden
+    _isInitialized: function() {
+      return !!this.__markup;      
+    },
+
 
     /*
     ---------------------------------------------------------------------------
@@ -304,22 +318,6 @@ qx.Class.define("qx.ui.decoration.Beveled",
       }
 
       element.childNodes[3].style.backgroundColor = Color.resolve(bgcolor) || "";
-    },
-
-
-    // interface implementation
-    getInsets : function() {
-      return this.__insets;
-    },
-
-
-    /** {Map} Static map with insets */
-    __insets :
-    {
-      top : 2,
-      right : 2,
-      bottom : 2,
-      left : 2
     }
   }
 });

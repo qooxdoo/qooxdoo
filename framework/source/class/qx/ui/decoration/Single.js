@@ -24,10 +24,7 @@
  */
 qx.Class.define("qx.ui.decoration.Single",
 {
-  extend : qx.core.Object,
-  implement : [qx.ui.decoration.IDecorator],
-
-
+  extend : qx.ui.decoration.Abstract,
 
 
   /*
@@ -300,9 +297,26 @@ qx.Class.define("qx.ui.decoration.Single",
 
   members :
   {
-
     __markup : null,
-    __insets : null,
+   
+   
+    // overridden
+    _getDefaultInsets : function()
+    {
+      return {
+        top : this.getWidthTop(),
+        right : this.getWidthRight(),
+        bottom : this.getWidthBottom(),
+        left : this.getWidthLeft()
+      };
+    },
+    
+    
+    // overridden
+    _isInitialized: function() {
+      return !!this.__markup;      
+    },
+       
 
     /*
     ---------------------------------------------------------------------------
@@ -409,27 +423,6 @@ qx.Class.define("qx.ui.decoration.Single",
     },
 
 
-    // interface implementation
-    getInsets : function()
-    {
-      if (this.__insets) {
-        return this.__insets;
-      }
-
-      this.__insets =
-      {
-        top : this.getWidthTop(),
-        right : this.getWidthRight(),
-        bottom : this.getWidthBottom(),
-        left : this.getWidthLeft()
-      };
-
-      return this.__insets;
-    },
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       PROPERTY APPLY ROUTINES
@@ -446,7 +439,7 @@ qx.Class.define("qx.ui.decoration.Single",
         }
       }
 
-      this.__insets = null;
+      this._resetInsets();
     },
 
 
@@ -471,6 +464,6 @@ qx.Class.define("qx.ui.decoration.Single",
   */
 
   destruct : function() {
-    this._disposeFields("__markup", "__insets");
+    this._disposeFields("__markup");
   }
 });

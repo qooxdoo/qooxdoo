@@ -17,15 +17,19 @@
      * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
-qx.Mixin.define("qx.ui.decoration.MInsets", 
+qx.Class.define("qx.ui.decoration.Abstract", 
 {
+  extend: qx.core.Object,
+  implement : [qx.ui.decoration.IDecorator],  
+  type: "abstract",
+  
   properties :
   {
     /** Width of the left inset (keep this margin to the outer box) */
     insetLeft :
     {
       check : "Number",
-      init  : 0,
+      nullable: true,
       apply : "_applyInsets"
     },
 
@@ -33,7 +37,7 @@ qx.Mixin.define("qx.ui.decoration.MInsets",
     insetRight :
     {
       check : "Number",
-      init  : 0,
+      nullable: true,
       apply : "_applyInsets"
     },
 
@@ -41,7 +45,7 @@ qx.Mixin.define("qx.ui.decoration.MInsets",
     insetBottom :
     {
       check : "Number",
-      init  : 0,
+      nullable: true,
       apply : "_applyInsets"
     },
 
@@ -49,7 +53,7 @@ qx.Mixin.define("qx.ui.decoration.MInsets",
     insetTop :
     {
       check : "Number",
-      init  : 0,
+      nullable: true,
       apply : "_applyInsets"
     },
 
@@ -66,6 +70,19 @@ qx.Mixin.define("qx.ui.decoration.MInsets",
   {
     __insets : null,
     
+    
+    _getDefaultInsets : function() {
+      throw new Error("Abstract method called.");
+    },
+    
+    
+    _isInitialized: function() {
+      throw new Error("Abstract method called.");
+    },
+
+    _resetInsets: function() {
+      this.__insets = null;
+    },
 
     // interface implementation
     getInsets : function()
@@ -74,12 +91,14 @@ qx.Mixin.define("qx.ui.decoration.MInsets",
         return this.__insets;
       }
 
+      var defaults = this._getDefaultInsets();
+
       return this.__insets =
       {
-        left : this.getInsetLeft(),
-        right : this.getInsetRight(),
-        bottom : this.getInsetBottom(),
-        top : this.getInsetTop()
+        left : this.getInsetLeft() == null ? defaults.left : this.getInsetLeft(),
+        right : this.getInsetRight() == null ? defaults.right : this.getInsetRight(),
+        bottom : this.getInsetBottom() == null ? defaults.bottom : this.getInsetBottom(),
+        top : this.getInsetTop() == null ? defaults.top : this.getInsetTop()
       };
     },
     
@@ -89,7 +108,7 @@ qx.Mixin.define("qx.ui.decoration.MInsets",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (this.__markup) {
+        if (this._isInitialized()) {
           throw new Error("This decorator is already in-use. Modification is not possible anymore!");
         }
       }
