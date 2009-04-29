@@ -117,6 +117,25 @@ qx.Theme.define("qx.theme.classic.Appearance",
     },
 
     "tooltip/atom" : "atom",
+    
+    "tooltip-error" :
+    {
+      include : "tooltip",
+
+      style : function(states)
+      {
+        return {
+          textColor: "text-selected",
+          showTimeout: 100,
+          hideTimeout: 10000,
+          decorator: "tooltip-error",
+          font: "bold",
+          backgroundColor: "tooltip-invalid"          
+        };
+      }
+    },
+    
+    "tooltip-error/atom" : "atom",    
 
     "iframe" :
     {
@@ -302,11 +321,28 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       style : function(states)
       {
+        var backgroundColor;
+        
+        var focused = !!states.focused;
+        var invalid = !!states.invalid;
+        var disabled = !!states.disabled;
+        
+        if (invalid && !disabled) {
+          backgroundColor = "background-invalid";
+        } else if (focused && !invalid && !disabled) {
+          backgroundColor = "background-focused";
+        } else if (disabled) {
+          backgroundColor = "background-disabled";
+        } else {
+          backgroundColor = "background-field";
+        }        
+        
+                
         return {
           decorator       : states.focused ? "focused-inset" : "inset",
           padding         : [ 2, 3 ],
           textColor       : states.disabled ? "text-disabled" : undefined,
-          backgroundColor : states.disabled ? "background-disabled" : states.focused ? "background-focused" : "background-field"
+          backgroundColor : backgroundColor
         };
       }
     },
@@ -401,8 +437,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           decorator : states.focused ? "focused-inset" : "inset",
-          textColor : states.disabled ? "text-disabled" : undefined,
-          shadow : states.invalid ? "shadow-invalid" : null
+          textColor : states.disabled ? "text-disabled" : undefined
         };
       }
     },
