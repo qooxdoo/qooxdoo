@@ -1133,7 +1133,10 @@ qx.Class.define("testrunner.runner.TestRunner",
         }
         else
         {
-          tlist.push([ tclass, node.label ]);
+          // Don't add empty packages or classes to the list.
+          if (node.type == "test") {
+            tlist.push([tclass, node.label]);
+          }
         }
 
         return tlist;
