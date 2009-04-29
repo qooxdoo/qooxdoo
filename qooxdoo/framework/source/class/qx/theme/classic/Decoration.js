@@ -162,6 +162,19 @@ qx.Theme.define("qx.theme.classic.Decoration",
         innerColor : [ "border-focused-light", "border-focused-dark-shadow", "border-focused-dark-shadow", "border-focused-light" ]
       }
     },
+    
+    "border-invalid" : 
+    {
+      decorator: qx.ui.decoration.Double,
+
+      style :
+      {
+        width : 1,
+        innerWidth: 1,
+        color : [ "border-dark-shadow", "border-light", "border-light", "border-dark-shadow" ],
+        innerColor : "border-invalid"
+      }      
+    },    
 
 
 
@@ -221,20 +234,6 @@ qx.Theme.define("qx.theme.classic.Decoration",
         insets    : [ 0, 3, 3, 0 ]
       }
     },
-    
-    
-    "shadow-invalid" : 
-    {
-      decorator: qx.ui.decoration.Uniform,
-
-      style :
-      {
-        width : 1,
-        color : "border-invalid"
-      }      
-    },    
-
-
 
 
     /*
@@ -274,6 +273,17 @@ qx.Theme.define("qx.theme.classic.Decoration",
         color : "tooltip-text"
       }
     },
+    
+    
+    "tooltip-error" : 
+    {
+      decorator : qx.ui.decoration.Uniform,
+
+      style : {
+        width : 1,
+        color : "tooltip-text"
+      }  
+    },    
 
 
 

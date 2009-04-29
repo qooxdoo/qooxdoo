@@ -34,6 +34,7 @@ qx.Theme.define("qx.theme.classic.Color",
     "background-selected" : "#3E6CA8",
     "background-field" : "white",
     "background-pane" : "#FAFBFE",
+    "background-invalid" : "#FFE0E0",
 
     "border-lead" : "#888888",
 
@@ -48,9 +49,6 @@ qx.Theme.define("qx.theme.classic.Color",
     "border-focused-dark" : "#3E6CA8",
 
     "border-separator" : "#808080",
-    
-    // invalid form widgets
-    "border-invalid" : "#8d0616",    
 
     "text" : "black",
     "text-disabled" : "#A7A6AA",
@@ -59,7 +57,8 @@ qx.Theme.define("qx.theme.classic.Color",
 
     "tooltip" : "#FFFFE1",
     "tooltip-text" : "black",
-
+    "tooltip-invalid" : "#C82C2C",
+    
     "button" : "#EBE9ED",
     "button-hovered" : "#F6F5F7",
     "button-abandoned" : "#F9F8E9",
