@@ -34,7 +34,7 @@ qx.Interface.define("qx.ui.form.IRange",
   {
     /*
     ---------------------------------------------------------------------------
-      MIN PROPERTY
+      MINIMUM PROPERTY
     ---------------------------------------------------------------------------
     */
 
@@ -43,7 +43,7 @@ qx.Interface.define("qx.ui.form.IRange",
      * 
      * @param min {Number} The minimum.
      */
-    setMin : function(min) {
+    setMinimum : function(min) {
       return arguments.length == 1;
     },
 
@@ -53,12 +53,12 @@ qx.Interface.define("qx.ui.form.IRange",
      * 
      * @return {Number} The current set minimum.
      */
-    getMin : function() {},
+    getMinimum : function() {},
     
     
     /*
     ---------------------------------------------------------------------------
-      MAX PROPERTY
+      MAXIMUM PROPERTY
     ---------------------------------------------------------------------------
     */
 
@@ -67,7 +67,7 @@ qx.Interface.define("qx.ui.form.IRange",
      * 
      * @param max {Number} The maximum.
      */
-    setMax : function(max) {
+    setMaximum : function(max) {
       return arguments.length == 1;
     },
 
@@ -77,7 +77,7 @@ qx.Interface.define("qx.ui.form.IRange",
      * 
      * @return {Number} The current set maximum.
      */
-    getMax : function() {},
+    getMaximum : function() {},
     
     
     /*
