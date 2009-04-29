@@ -647,7 +647,16 @@ class Generator:
             #    file = logConf.get('file', "rundeps.dot")
             #else:
             gr = graph.digraph()
-            gr.add_nodes(self._classList)
+            #gr.add_nodes(self._classList)
+            for cid in self._classList:
+                fsize = self._classes[cid]['size']
+                if fsize > 20000:
+                    color = "red"
+                elif fsize > 5000:
+                    color = "green"
+                else:
+                    color = "blue"
+                gr.add_node(cid, attrs=[("color", color)])
 
             grLoad = graph.digraph()
             grLoad.add_nodes(self._classList)
@@ -707,7 +716,19 @@ class Generator:
                     st, op = gr.breadth_first_search(root=classRoot)
                     gr1 = graph.digraph()
                     st_nodes = set(st.keys() + st.values())
-                    gr1.add_nodes(st_nodes)
+                    for cid in st_nodes:
+                        if cid not in self._classes:
+                            gr1.add_node(cid)
+                            continue
+                        fsize = self._classes[cid]['size']
+                        if fsize > 20000:
+                            color = "red"
+                        elif fsize > 5000:
+                            color = "green"
+                        else:
+                            color = "blue"
+                        gr1.add_node(cid, attrs=[("color", color)])
+                    #gr1.add_nodes(st_nodes)
                     for v in st.iteritems():
                         v2, v1 = v
                         if gr.has_edge(v1,v2):
