@@ -672,7 +672,7 @@ class Generator:
                         for depId in classDeps["run"]:
                             self._console.info("%s" % depId)
                             if depId in self._classList:
-                                grRun.add_edge(depId, classId)
+                                grRun.add_edge(classId, depId)
                         self._console.outdent()
 
                     self._console.outdent()
