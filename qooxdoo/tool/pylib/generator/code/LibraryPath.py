@@ -158,8 +158,9 @@ class LibraryPath:
 
                 # Process path data
                 filePath = os.path.join(root, fileName)
-                fileRel = filePath.replace(path + os.sep, "")
-                fileExt = os.path.splitext(fileName)[-1]
+                fileRel  = filePath.replace(path + os.sep, "")
+                fileExt  = os.path.splitext(fileName)[-1]
+                fileSize = os.stat(filePath).st_size
 
                 # Compute full URI from relative path
                 fileUri = uri + "/" + fileRel.replace(os.sep, "/")
@@ -179,7 +180,8 @@ class LibraryPath:
                         "encoding" : encoding,
                         "namespace" : self._namespace,
                         "id" : filePathId,
-                        "package" : filePackage
+                        "package" : filePackage,
+                        "size" : fileSize
                     }
 
                     # Stop further processing
@@ -215,7 +217,8 @@ class LibraryPath:
                     "encoding" : encoding,
                     "namespace" : self._namespace,
                     "id" : filePathId,
-                    "package" : filePackage
+                    "package" : filePackage,
+                    "size" : fileSize
                 }
 
         self._console.indent()
