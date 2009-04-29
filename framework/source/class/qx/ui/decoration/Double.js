@@ -28,8 +28,6 @@ qx.Class.define("qx.ui.decoration.Double",
   extend : qx.ui.decoration.Single,
 
 
-
-
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -168,9 +166,25 @@ qx.Class.define("qx.ui.decoration.Double",
   members :
   {
     __ownMarkup : null,
-    __ownInsets : null,
 
 
+    // overridden
+    _getDefaultInsets : function()
+    {
+      return {
+        top : this.getWidthTop() + this.getInnerWidthTop(),
+        right : this.getWidthRight() + this.getInnerWidthRight(),
+        bottom : this.getWidthBottom() + this.getInnerWidthBottom(),
+        left : this.getWidthLeft() + this.getInnerWidthLeft()
+      };
+    },
+    
+    
+    // overridden
+    _isInitialized: function() {
+      return !!this.__ownMarkup;      
+    },
+    
 
     /*
     ---------------------------------------------------------------------------
@@ -295,25 +309,6 @@ qx.Class.define("qx.ui.decoration.Double",
 
       element.firstChild.style.width = innerWidth + "px";
       element.firstChild.style.height = innerHeight + "px";
-    },
-
-
-    // interface implementation
-    getInsets : function()
-    {
-      if (this.__ownInsets) {
-        return this.__ownInsets;
-      }
-
-      this.__ownInsets =
-      {
-        top : this.getWidthTop() + this.getInnerWidthTop(),
-        right : this.getWidthRight() + this.getInnerWidthRight(),
-        bottom : this.getWidthBottom() + this.getInnerWidthBottom(),
-        left : this.getWidthLeft() + this.getInnerWidthLeft()
-      };
-
-      return this.__ownInsets;
     }
   },
 
@@ -326,6 +321,6 @@ qx.Class.define("qx.ui.decoration.Double",
   */
 
   destruct : function() {
-    this._disposeFields("__ownMarkup", "__ownInsets");
+    this._disposeFields("__ownMarkup");
   }
 });
