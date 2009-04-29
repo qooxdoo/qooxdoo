@@ -34,10 +34,7 @@
  */
 qx.Class.define("qx.ui.decoration.Grid",
 {
-  extend : qx.core.Object,
-  implement : [qx.ui.decoration.IDecorator],
-  include: [qx.ui.decoration.MInsets],
-
+  extend : qx.ui.decoration.Abstract,
 
 
   /*
@@ -120,6 +117,23 @@ qx.Class.define("qx.ui.decoration.Grid",
     __edges : null,
 
 
+    // overridden
+    _getDefaultInsets : function()
+    {
+      return {
+        top : 0,
+        right : 0,
+        bottom : 0,
+        left : 0
+      };
+    },
+    
+    
+    // overridden
+    _isInitialized: function() {
+      return !!this.__markup;      
+    },
+    
 
     /*
     ---------------------------------------------------------------------------
@@ -307,6 +321,6 @@ qx.Class.define("qx.ui.decoration.Grid",
   */
 
   destruct : function() {
-    this._disposeFields("__markup", "__insets", "__images", "__edges");
+    this._disposeFields("__markup", "__images", "__edges");
   }
 });
