@@ -669,6 +669,80 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
 
 
     /**
+     * Move a node in the tree.
+     *
+     * @param moveNodeReference {Object | Integer}
+     *   The node to be moved.  The node can be represented
+     *   either by the node object, or the node id (as would have been
+     *   returned by addBranch(), addLeaf(), etc.)
+     *
+     * @param parentNodeReference {Object | Integer}
+     *   The parent node, which must not be a LEAF.  The node can be
+     *   represented either by the node object, or the node id (as would have
+     *   been returned by addBranch(), addLeaf(), etc.)
+     *
+     * @return {Void}
+     */
+    move : function(moveNodeReference,
+                    parentNodeReference)
+    {
+      var moveNode;
+      var moveNodeId;
+      var parentNode;
+      var parentNodeId;
+
+      // Replace null parent with node id 0
+      parentNodeReference = parentNodeReference || 0;
+
+      if (typeof(moveNodeReference) == "object")
+      {
+        moveNode = moveNodeReference;
+        moveNodeId = moveNode.nodeId;
+      }
+      else if (typeof(moveNodeReference) == "number")
+      {
+        moveNodeId = moveNodeReference;
+        moveNode = this._nodeArr[moveNodeId];
+      }
+      else
+      {
+        throw new Error("Expected move node object or node id");
+      }
+
+      if (typeof(parentNodeReference) == "object")
+      {
+        parentNode = parentNodeReference;
+        parentNodeId = parentNode.nodeId;
+      }
+      else if (typeof(parentNodeReference) == "number")
+      {
+        parentNodeId = parentNodeReference;
+        parentNode = this._nodeArr[parentNodeId];
+      }
+      else
+      {
+        throw new Error("Expected parent node object or node id");
+      }
+
+      // Ensure parent isn't a leaf
+      if (parentNode.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF)
+      {
+        throw new Error("Sorry, a LEAF may not have children.");
+      }
+
+      // Remove the node from its current parent's children list
+      var oldParent = this._nodeArr[moveNode.parentNodeId];
+      qx.lang.Array.remove(oldParent.children, moveNodeId);
+
+      // Add the node to its new parent's children list
+      parentNode.children.push(moveNodeId);
+
+      // Replace this node's parent reference
+      this._nodeArr[moveNodeId].parentNodeId = parentNodeId;
+    },
+
+
+    /**
      * Sets the whole data en bulk, or notifies the data model that node
      * modifications are complete.
      *
