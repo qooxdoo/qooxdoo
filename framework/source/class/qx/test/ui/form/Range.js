@@ -42,7 +42,11 @@ qx.Class.define("qx.test.ui.form.Range",
     
     testSpinner: function() {
      this.__test(new qx.ui.form.Spinner()); 
-    }
+    },
+    
+    testSlider: function() {
+     this.__test(new qx.ui.form.Slider()); 
+    }    
     
   }
 });

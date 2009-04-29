@@ -41,7 +41,11 @@ qx.Class.define("qx.test.ui.form.NumberFormat",
     
     testSpinner: function() {
      this.__test(new qx.ui.form.Spinner()); 
-    }
+    },
+    
+    testSlider: function() {
+     this.__test(new qx.ui.form.Slider()); 
+    }    
     
   }
 });

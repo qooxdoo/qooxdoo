@@ -29,7 +29,7 @@
  * The Slider has very few of its own functions; most of the functionality
  * is in {@link BaseSlider}. The most useful functions are slideTo()
  * to set the slider directly to some value; setSingleStep(), setPageStep()
- * to set the steps; and setMinimum() and setMaximum() to define the
+ * to set the steps; and setMin() and setMax() to define the
  * range of the slider.
  *
  * A slider accepts focus on Tab and provides both a mouse wheel and
@@ -53,8 +53,13 @@
 qx.Class.define("qx.ui.form.Slider",
 {
   extend : qx.ui.core.Widget,
-  implement : qx.ui.form.IFormElement,
-
+  implement : [
+    qx.ui.form.IFormElement, 
+    qx.ui.form.IForm, 
+    qx.ui.form.INumberForm,
+    qx.ui.form.IRange
+  ],
+  include : [qx.ui.form.MFormElement, qx.ui.form.MForm],
 
 
   /*
@@ -130,15 +135,6 @@ qx.Class.define("qx.ui.form.Slider",
     },
 
 
-    /** The name of the widget. Mainly used for serialization proposes. */
-    name :
-    {
-      check : "String",
-      nullable : true,
-      event : "changeName"
-    },
-
-
     /**
      * The current slider value.
      *
@@ -148,7 +144,7 @@ qx.Class.define("qx.ui.form.Slider",
      */
     value :
     {
-      check : "typeof value==='number'&&value>=this.getMinimum()&&value<=this.getMaximum()",
+      check : "typeof value==='number'&&value>=this.getMin()&&value<=this.getMax()",
       init : 0,
       apply : "_applyValue",
       event : "changeValue"
@@ -157,25 +153,25 @@ qx.Class.define("qx.ui.form.Slider",
 
     /**
      * The minimum slider value (may be negative). This value must be smaller
-     * than {@link #maximum}.
+     * than {@link #max}.
      */
-    minimum :
+    min :
     {
       check : "Integer",
       init : 0,
-      apply : "_applyMinimum"
+      apply : "_applyMin"
     },
 
 
     /**
      * The maximum slider value (may be negative). This value must be larger
-     * than {@link #minimum}.
+     * than {@link #min}.
      */
-    maximum :
+    max :
     {
       check : "Integer",
       init : 100,
-      apply : "_applyMaximum"
+      apply : "_applyMax"
     },
 
 
@@ -234,6 +230,14 @@ qx.Class.define("qx.ui.form.Slider",
     __trackingEnd : null,
     __timer : null,
 
+
+    // overridden
+    /**
+     * @lint ignoreReferenceField(_forwardStates) 
+     */
+    _forwardStates : {
+      invalid : true
+    },
 
     // overridden
     _createChildControlImpl : function(id)
@@ -474,10 +478,10 @@ qx.Class.define("qx.ui.form.Slider",
       var value = this.getValue() + (this.__trackingDirection * this.getPageStep());
 
       // Limit value
-      if (value < this.getMinimum()) {
-        value = this.getMinimum();
-      } else if (value > this.getMaximum()) {
-        value = this.getMaximum();
+      if (value < this.getMin()) {
+        value = this.getMin();
+      } else if (value > this.getMax()) {
+        value = this.getMax();
       }
 
       // Stop at tracking position (where the mouse is pressed down)
@@ -558,8 +562,8 @@ qx.Class.define("qx.ui.form.Slider",
       // Compute stop value
       var value = this._positionToValue(position);
 
-      var min = this.getMinimum();
-      var max = this.getMaximum();
+      var min = this.getMin();
+      var max = this.getMax();
 
       if (value < min) {
         value = min;
@@ -609,10 +613,10 @@ qx.Class.define("qx.ui.form.Slider",
       }
 
       // Compute range
-      var range = this.getMaximum() - this.getMinimum();
+      var range = this.getMax() - this.getMin();
 
       // Compute value
-      return this.getMinimum() + Math.round(range * percent);
+      return this.getMin() + Math.round(range * percent);
     },
 
 
@@ -632,7 +636,7 @@ qx.Class.define("qx.ui.form.Slider",
       }
 
       // Computing range
-      var range = this.getMaximum() - this.getMinimum();
+      var range = this.getMax() - this.getMin();
 
       // Protect division by zero
       if (range == 0) {
@@ -640,7 +644,7 @@ qx.Class.define("qx.ui.form.Slider",
       }
 
       // Translating value to distance from minimum
-      var value = value - this.getMinimum();
+      var value = value - this.getMin();
 
       // Compute and limit percent
       var percent = value / range;
@@ -742,7 +746,7 @@ qx.Class.define("qx.ui.form.Slider",
      * @return {void}
      */
     slideToBegin : function() {
-      this.slideTo(this.getMinimum());
+      this.slideTo(this.getMin());
     },
 
 
@@ -752,7 +756,7 @@ qx.Class.define("qx.ui.form.Slider",
      * @return {void}
      */
     slideToEnd : function() {
-      this.slideTo(this.getMaximum());
+      this.slideTo(this.getMax());
     },
 
 
@@ -821,12 +825,12 @@ qx.Class.define("qx.ui.form.Slider",
     slideTo : function(value)
     {
       // Bring into allowed range or fix to single step grid
-      if (value < this.getMinimum()) {
-        value = this.getMinimum();
-      } else if (value > this.getMaximum()) {
-        value = this.getMaximum();
+      if (value < this.getMin()) {
+        value = this.getMin();
+      } else if (value > this.getMax()) {
+        value = this.getMax();
       } else {
-        value = this.getMinimum() + Math.round((value - this.getMinimum()) / this.getSingleStep()) * this.getSingleStep()
+        value = this.getMin() + Math.round((value - this.getMin()) / this.getSingleStep()) * this.getSingleStep()
       }
 
       // Sync with property
@@ -902,7 +906,7 @@ qx.Class.define("qx.ui.form.Slider",
 
 
     // property apply
-    _applyMinimum : function(value, old)
+    _applyMin : function(value, old)
     {
       if (this.getValue() < value) {
         this.setValue(value);
@@ -913,13 +917,107 @@ qx.Class.define("qx.ui.form.Slider",
 
 
     // property apply
-    _applyMaximum : function(value, old)
+    _applyMax : function(value, old)
     {
       if (this.getValue() > value) {
         this.setValue(value);
       }
 
       this._updateKnobPosition();
-    }
+    },
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      DEPRECATED OLD PROPERTY METHODS
+    ---------------------------------------------------------------------------
+    */
+    
+    /**
+     * Set the minimum of the slider.
+     * Please use the min property instead.
+     * @deprecated
+     */
+    setMinimum: function(min) {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use the min property instead.");
+      this.setMin(min);
+    },
+    
+    
+    /**
+     * Get the minimum of the slider.
+     * Please use the min property instead.
+     * @deprecated
+     */    
+    getMinimum: function() {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use the min property instead.");      
+      return this.getMin();
+    },
+    
+    
+    /**
+     * Reset the minimum of the slider.
+     * Please use the min property instead.
+     * @deprecated
+     */    
+    resetMinimum: function() {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use the min property instead.");      
+      this.resetMin();
+    },
+    
+    
+    /**
+     * Init the minimum of the slider.
+     * Please use the min property instead.
+     * @deprecated
+     */    
+    initMinimum: function() {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use the min property instead.");      
+      this.initMin();
+    },
+    
+    
+    /**
+     * Set the maximum of the slider.
+     * Please use the max property instead.
+     * @deprecated
+     */
+    setMaximum: function(max) {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use the max property instead.");
+      this.setMax(max);
+    },
+    
+    
+    /**
+     * Get the maximum of the slider.
+     * Please use the max property instead.
+     * @deprecated
+     */    
+    getMaximum: function() {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use the max property instead.");      
+      return this.getMax();
+    },
+    
+    
+    /**
+     * Reset the maximum of the slider.
+     * Please use the max property instead.
+     * @deprecated
+     */    
+    resetMaximum: function() {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use the max property instead.");      
+      this.resetMax();
+    },
+    
+    
+    /**
+     * Init the maximum of the slider.
+     * Please use the max property instead.
+     * @deprecated
+     */    
+    initMaximum: function() {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use the max property instead.");      
+      this.initMax();
+    }    
   }
 });

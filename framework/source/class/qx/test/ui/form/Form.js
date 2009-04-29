@@ -38,7 +38,7 @@ qx.Class.define("qx.test.ui.form.Form",
       
       // test for the default (true)
       this.assertTrue(widget.getValid(), "Default valid state is wrong.");
-      this.assertNull(widget.hasState("invalid"), "Should not have the invalid state.");
+      this.assertFalse(!!widget.hasState("invalid"), "Should not have the invalid state.");
 
       widget.setValid(false);
       
@@ -65,7 +65,15 @@ qx.Class.define("qx.test.ui.form.Form",
     
     testValidSpinner: function() {
      this.__testValid(new qx.ui.form.Spinner()); 
-    }
+    },
+    
+    testRequieredSlider: function() {
+      this.__testRequired(new qx.ui.form.Slider());      
+    },
+    
+    testValidSlider: function() {
+     this.__testValid(new qx.ui.form.Slider()); 
+    }    
     
 
     
