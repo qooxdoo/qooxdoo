@@ -639,6 +639,16 @@ class Generator:
             return
 
         def usingDeps(logConf, dset):
+            #if dset == "loadtime":
+            #    gr = grLoad
+            #    file = logConf.get('file', "loaddeps.dot")
+            #elif dset == "runtime":
+            #    gr = grRun
+            #    file = logConf.get('file', "rundeps.dot")
+            #else:
+            gr = graph.digraph()
+            gr.add_nodes(self._classList)
+
             grLoad = graph.digraph()
             grLoad.add_nodes(self._classList)
 
@@ -664,7 +674,9 @@ class Generator:
                         for depId in classDeps["load"]:
                             self._console.info("%s" % depId)
                             if depId in self._classList:
-                                grLoad.add_edge(classId, depId)
+                                #grLoad.add_edge(classId, depId)
+                                if dset != "runtime":
+                                    gr.add_edge(str(classId), str(depId), attrs=[('color','red')])
                         self._console.outdent()
                     if classDeps["run"]:
                         self._console.info("Uses (run):")
@@ -672,7 +684,9 @@ class Generator:
                         for depId in classDeps["run"]:
                             self._console.info("%s" % depId)
                             if depId in self._classList:
-                                grRun.add_edge(classId, depId)
+                                #grRun.add_edge(classId, depId)
+                                if dset != "loadtime":
+                                    gr.add_edge(classId, depId)
                         self._console.outdent()
 
                     self._console.outdent()
@@ -682,16 +696,30 @@ class Generator:
                 format = logConf.get('format')
                 if format == 'dot':
                     if dset == "loadtime":
-                        gr = grLoad
+                    #    gr = grLoad
                         file = logConf.get('file', "loaddeps.dot")
-                    else:
-                        gr = grRun
+                    elif dset == "runtime":
+                    #    gr = grRun
                         file = logConf.get('file', "rundeps.dot")
+                    else:
+                        file = logConf.get('file', "deps.dot")
                     classRoot = logConf.get('root')
                     st, op = gr.breadth_first_search(root=classRoot)
                     gr1 = graph.digraph()
-                    gr1.add_spanning_tree(st)
-                    dot = gr1.write(fmt='dot')
+                    st_nodes = set(st.keys() + st.values())
+                    gr1.add_nodes(st_nodes)
+                    for v in st.iteritems():
+                        v2, v1 = v
+                        if gr.has_edge(v1,v2):
+                            gr1.add_edge(v1, v2, attrs=gr.get_edge_attributes(v1, v2))
+                        else:
+                            gr1.add_edge(v1, v2, )
+                    for v1 in st_nodes:
+                        for v2 in st_nodes:
+                            if gr.has_edge(v1, v2): 
+                                gr1.add_edge(v1, v2, attrs=gr.get_edge_attributes(v1, v2))
+                    #gr1.add_spanning_tree(st)
+                    dot = gr1.write(fmt='dotwt')
                     open(file, 'w').write(dot)
 
             return
