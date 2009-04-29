@@ -677,7 +677,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      *   returned by addBranch(), addLeaf(), etc.)
      *
      * @param parentNodeReference {Object | Integer}
-     *   The parent node, which must not be a LEAF.  The node can be
+     *   The new parent node, which must not be a LEAF.  The node can be
      *   represented either by the node object, or the node id (as would have
      *   been returned by addBranch(), addLeaf(), etc.)
      *
