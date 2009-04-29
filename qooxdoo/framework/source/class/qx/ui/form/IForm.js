@@ -113,6 +113,31 @@ qx.Interface.define("qx.ui.form.IForm",
      * 
      * @return {Boolean} If the state of the widget is valid.
      */
-    getValid : function() {}
+    getValid : function() {},
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      INVALIDMESSAGE PROPERTY
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Sets the invalid message of the widget.
+     * 
+     * @param message {String} The invalid message.
+     */
+    setInvalidMessage : function(message) {
+      return arguments.length == 1;
+    },
+
+    
+    /**
+     * Returns the invalid message of the widget.
+     * 
+     * @return {String} The current set message.
+     */
+    getInvalidMessage : function() {}
+    
   }
 });
