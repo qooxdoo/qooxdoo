@@ -100,11 +100,11 @@ qx.Class.define("qx.ui.form.Spinner",
 
     // INITIALIZATION
     if (min != null) {
-      this.setMin(min);
+      this.setMinimum(min);
     }
 
     if (max != null) {
-      this.setMax(max);
+      this.setMaximum(max);
     }
 
     if (value !== undefined) {
@@ -154,10 +154,10 @@ qx.Class.define("qx.ui.form.Spinner",
     },
 
     /** minimal value of the Range object */
-    min:
+    minimum:
     {
       check : "Number",
-      apply : "_applyMin",
+      apply : "_applyMinimum",
       init : 0
     },
 
@@ -172,10 +172,10 @@ qx.Class.define("qx.ui.form.Spinner",
     },
 
     /** maximal value of the Range object */
-    max:
+    maximum:
     {
       check : "Number",
-      apply : "_applyMax",
+      apply : "_applyMaximum",
       init : 100
     },
 
@@ -305,7 +305,7 @@ qx.Class.define("qx.ui.form.Spinner",
     */
 
     /**
-     * Apply routine for the min property.
+     * Apply routine for the minimum property.
      *
      * It sets the value of the spinner to the maximum of the current spinner
      * value and the given min property value.
@@ -313,10 +313,10 @@ qx.Class.define("qx.ui.form.Spinner",
      * @param value {Number} The new value of the min property
      * @param old {Number} The old value of the min property
      */
-    _applyMin : function(value, old)
+    _applyMinimum : function(value, old)
     {
-      if (this.getMax() < value) {
-        this.setMax(value);
+      if (this.getMaximum() < value) {
+        this.setMaximum(value);
       }
 
       if (this.getValue() < value) {
@@ -328,7 +328,7 @@ qx.Class.define("qx.ui.form.Spinner",
 
 
     /**
-     * Apply routine for the max property.
+     * Apply routine for the maximum property.
      *
      * It sets the value of the spinner to the minimum of the current spinner
      * value and the given max property value.
@@ -336,9 +336,9 @@ qx.Class.define("qx.ui.form.Spinner",
      * @param value {Number} The new value of the max property
      * @param old {Number} The old value of the max property
      */
-    _applyMax : function(value, old)
+    _applyMaximum : function(value, old)
     {
-      if (this.getMin() > value) {
+      if (this.getMinimum() > value) {
         this.setMin(value);
       }
 
@@ -374,7 +374,7 @@ qx.Class.define("qx.ui.form.Spinner",
      *   <i>false> otherwise.
      */
     _checkValue : function(value) {
-      return typeof value === "number" && value >= this.getMin() && value <= this.getMax();
+      return typeof value === "number" && value >= this.getMinimum() && value <= this.getMaximum();
     },
 
 
@@ -486,14 +486,14 @@ qx.Class.define("qx.ui.form.Spinner",
         else
         {
           // check max value
-          if (value !== null && value < this.getMax()) {
+          if (value !== null && value < this.getMaximum()) {
             upButton.setEnabled(true);
           } else {
             upButton.setEnabled(false);
           }
           
           // check min value
-          if (value !== null && value > this.getMin()) {
+          if (value !== null && value > this.getMinimum()) {
             downButton.setEnabled(true);
           } else {
             downButton.setEnabled(false);
@@ -637,11 +637,11 @@ qx.Class.define("qx.ui.form.Spinner",
       if (!isNaN(value))
       {
         // Fix range
-        if (value > this.getMax()) {
-          textField.setValue(this.getMax() + "");
+        if (value > this.getMaximum()) {
+          textField.setValue(this.getMaximum() + "");
           return;
-        } else if (value < this.getMin()) {
-          textField.setValue(this.getMin() + "");
+        } else if (value < this.getMinimum()) {
+          textField.setValue(this.getMinimum() + "");
           return;
         }
 
@@ -682,10 +682,10 @@ qx.Class.define("qx.ui.form.Spinner",
       // handle the case where wrapping is enabled
       if (this.getWrap())
       {
-        if (newValue > this.getMax())
+        if (newValue > this.getMaximum())
         {
-          var diff = this.getMax() - newValue;
-          newValue = this.getMin() + diff;
+          var diff = this.getMaximum() - newValue;
+          newValue = this.getMinimum() + diff;
         }
       }
 
@@ -709,10 +709,10 @@ qx.Class.define("qx.ui.form.Spinner",
       // handle the case where wrapping is enabled
       if (this.getWrap())
       {
-        if (newValue < this.getMin())
+        if (newValue < this.getMinimum())
         {
-          var diff = this.getMin() + newValue;
-          newValue = this.getMax() - diff;
+          var diff = this.getMinimum() + newValue;
+          newValue = this.getMaximum() - diff;
         }
       }
 
@@ -728,7 +728,101 @@ qx.Class.define("qx.ui.form.Spinner",
      * @return {Number} The normalized number
      */
     gotoValue : function(value) {
-      return this.setValue(Math.min(this.getMax(), Math.max(this.getMin(), value)));
-    }
+      return this.setValue(Math.min(this.getMaximum(), Math.max(this.getMinimum(), value)));
+    },
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      DEPRECATED OLD PROPERTY METHODS
+    ---------------------------------------------------------------------------
+    */
+    
+    /**
+     * Set the minimum of the slider.
+     * Please use the minimum property instead.
+     * @deprecated
+     */
+    setMin: function(min) {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use the minimum property instead.");
+      this.setMinimum(min);
+    },
+    
+    
+    /**
+     * Get the minimum of the slider.
+     * Please use the minimum property instead.
+     * @deprecated
+     */    
+    getMin: function() {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use the minimum property instead.");      
+      return this.getMinimum();
+    },
+    
+    
+    /**
+     * Reset the minimum of the slider.
+     * Please use the minimum property instead.
+     * @deprecated
+     */    
+    resetMin: function() {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use the minimum property instead.");      
+      this.resetMinimum();
+    },
+    
+    
+    /**
+     * Init the minimum of the slider.
+     * Please use the minimum property instead.
+     * @deprecated
+     */    
+    initMin: function() {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use the minimum property instead.");      
+      this.initMinimum();
+    },
+    
+    
+    /**
+     * Set the maximum of the slider.
+     * Please use the maximum property instead.
+     * @deprecated
+     */
+    setMax: function(max) {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use the maximum property instead.");
+      this.setMaxiumum(max);
+    },
+    
+    
+    /**
+     * Get the maximum of the slider.
+     * Please use the maximum property instead.
+     * @deprecated
+     */    
+    getMax: function() {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use the maximum property instead.");      
+      return this.getMaximum();
+    },
+    
+    
+    /**
+     * Reset the maximum of the slider.
+     * Please use the maximum property instead.
+     * @deprecated
+     */    
+    resetMax: function() {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use the maximum property instead.");      
+      this.resetMaximum();
+    },
+    
+    
+    /**
+     * Init the maximum of the slider.
+     * Please use the maximum property instead.
+     * @deprecated
+     */    
+    initMaxi: function() {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use the maximum property instead.");      
+      this.initMaximum();
+    }    
   }
 });

@@ -24,12 +24,12 @@ qx.Class.define("qx.test.ui.form.Range",
   {
     __test: function(widget) {
       // min
-      widget.setMin(10);
-      this.assertEquals(10, widget.getMin(), "Set or get does not work. (min)");
+      widget.setMinimum(10);
+      this.assertEquals(10, widget.getMinimum(), "Set or get does not work. (min)");
       
       // max
-      widget.setMax(20);
-      this.assertEquals(20, widget.getMax(), "Set or get does not work. (max)");
+      widget.setMaximum(20);
+      this.assertEquals(20, widget.getMaximum(), "Set or get does not work. (max)");
       
       // singleStep
       widget.setSingleStep(2);
