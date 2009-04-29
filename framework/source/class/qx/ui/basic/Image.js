@@ -279,16 +279,20 @@ qx.Class.define("qx.ui.basic.Image",
       {
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
-          var self = this.self(arguments);
-
-          if (!self.__warned) {
-            self.__warned = {};
-          }
-
-          if (!self.__warned[source])
+          // loading external images via HTTP/HTTPS is a common usecase
+          if (!qx.lang.String.startsWith(source.toLowerCase(), "http"))
           {
-            this.debug("Unknown image: " + source);
-            self.__warned[source] = true;
+            var self = this.self(arguments);
+  
+            if (!self.__warned) {
+              self.__warned = {};
+            }
+  
+            if (!self.__warned[source])
+            {
+              this.debug("Unknown image: " + source);
+              self.__warned[source] = true;
+            }
           }
         }
 
