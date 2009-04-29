@@ -529,7 +529,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style :
       {
         baseImage : "decoration/tabview/tabview-pane.png",
-        insets    : [0, 2, 3, 0]
+        insets : [ 4, 6, 7, 4 ]
       }
     },
 
