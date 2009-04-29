@@ -49,7 +49,7 @@ qx.Class.define("qx.test.ui.form.Form",
       qx.ui.core.queue.Manager.flush();
       
       // check for the invalid shadow
-      this.assertEquals("shadow-invalid", widget.getShadow(), "Shadow not set!");
+      this.assertEquals("border-invalid", widget.getDecorator(), "Shadow not set!");
       
       // check the focus
       widget.focus();
