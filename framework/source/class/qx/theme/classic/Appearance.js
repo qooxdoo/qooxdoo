@@ -335,8 +335,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           backgroundColor = "background-disabled";
         } else {
           backgroundColor = "background-field";
-        }        
-        
+        }
                 
         return {
           decorator       : states.focused ? "focused-inset" : "inset",
@@ -1076,7 +1075,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "background-light",
+          backgroundColor : states.invalid ? "background-invalid" : "background-light",
           decorator : states.focused ? "focused-inset" : "inset"
         }
       }
