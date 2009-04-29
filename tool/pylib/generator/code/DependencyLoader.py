@@ -635,7 +635,6 @@ class DependencyLoader:
             for depClassId in deps["load"]:
                 if depClassId in include:
                     gr.add_edge(depClassId, classId)
-                    #print "-- adding edge: %s -> %s" % (depClassId, classId)
 
         #dot = gr.write(fmt='dot')
         #open("/tmp/graph.dot","w").write(dot)
