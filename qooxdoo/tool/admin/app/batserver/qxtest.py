@@ -235,7 +235,8 @@ class QxTest:
       if (self.sim):
         self.log("SIMULATION: Starting test:\n  " + cmd)
       else:
-        self.log("Testing: " + appConf['appName'] + " on " + browser['browserId'])
+        self.log("Testing: " + appConf['appName'] + " on " 
+                 + browser['browserId'] + "\n  " + cmd)
         invokeExternal(cmd)
       
       try:
@@ -270,6 +271,7 @@ class QxTest:
     cmd += " " + self.testConf['simulatorSvn'] + "/trunk/tool/selenium/simulation/" + aut.lower() + "/test_" + aut.lower() + ".js"
     cmd += " autHost=" + self.autConf['autHost']
     cmd += " autPath=" + self.autConf['autPath' + aut]
+    cmd += " simulatorSvn=" + self.testConf['simulatorSvn']
     if (self.os == "Windows"):
       cmd += " testBrowser=" + self.browserConf[browser]
     else:
