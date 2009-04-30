@@ -216,9 +216,14 @@ class QxTest:
       
     if appConf['clearLogs']:
       self.clearLogs()
+      
+    tf = '%Y-%m-%d_%H-%M-%S'
+    startTime = time.strftime(tf)
+    logFile = appConf['appName'] + "_" + startTime + ".log"
 
     for browser in appConf['browsers']:      
       cmd = self.getStartCmd(appConf['appName'], browser['browserId'])
+      cmd += " logFile=" + logFile
       
       try:
         if (browser['setProxy']):
@@ -258,7 +263,7 @@ class QxTest:
           pass  
 
     if (appConf['sendReport']):
-      self.formatLog()
+      self.formatLog(logFile)
       self.sendReport(appConf['appName'])
 
 
@@ -351,20 +356,30 @@ class QxTest:
 
 
   # Run logFormatter on Selenium log file 
-  def formatLog(self):
+  def formatLog(self,inputfile=None):
     from logFormatter import QxLogFormat
-    
+
     class FormatterOpts:
       def __init__(self,logfile,htmlfile):
-       self.logfile = logfile
-       self.htmlfile = htmlfile
-       
-    options = FormatterOpts(self.seleniumConf['seleniumLog'], self.seleniumConf['seleniumReport'])
-    
+        self.logfile = logfile
+        self.htmlfile = htmlfile
+
+    log = self.seleniumConf['seleniumLog']
+
+    if inputfile:      
+      try:
+        if os.path.isfile(inputfile):
+          if os.path.getsize(inputfile) != "0L":            
+            log = inputfile
+      except:        
+        pass    
+
+    options = FormatterOpts(log, self.seleniumConf['seleniumReport'])
+
     if (self.sim):
-      self.log("SIMULATION: Formatting log file " + self.seleniumConf['seleniumLog'])
+      self.log("SIMULATION: Formatting log file " + log)
     else:
-      self.log("Formatting log file " + self.seleniumConf['seleniumLog'])  
+      self.log("Formatting log file " + log)  
       logformat = QxLogFormat(options)
 
 
