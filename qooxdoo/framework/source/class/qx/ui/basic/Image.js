@@ -232,77 +232,114 @@ qx.Class.define("qx.ui.basic.Image",
         return;
       }
 
-      var ResourceManager = qx.util.ResourceManager;
-      var ImageLoader = qx.io2.ImageLoader;
-
       // Detect if the image registry knows this image
-      if (ResourceManager.has(source))
-      {
-        // Try to find a disabled image in registry
-        if (!this.getEnabled())
-        {
-          var disabled = source.replace(/\.([a-z]+)$/, "-disabled.$1");
-          if (ResourceManager.has(disabled))
-          {
-            source = disabled;
-            this.addState("replacement");
-          }
-          else
-          {
-            this.removeState("replacement");
-          }
-        }
-
-        // Optimize case for enabled changes when no disabled image was found
-        if (el.getSource() === source) {
-          return;
-        }
-
-        // Apply source
-        el.setSource(source);
-
-        // Compare with old sizes and relayout if necessary
-        this.__updateContentHint(ResourceManager.getImageWidth(source),
-          ResourceManager.getImageHeight(source));
+      if (qx.util.ResourceManager.has(source)) {
+        this.__setManagedImage(el, source);
+      } else if (qx.io2.ImageLoader.isLoaded(source)) {
+        this.__setUnmanagedImage(el, source);
+      } else {
+        this.__loadUnmanagedImage(el, source);
       }
-      else if (ImageLoader.isLoaded(source))
+    },
+    
+    
+    /**
+     * Use the ResourceManage to set a managed image
+     * 
+     * @param el {Element} image DOM element
+     * @param source {String} source path
+     * @return {void}
+     */
+    __setManagedImage : function(el, source)
+    {
+      var ResourceManager = qx.util.ResourceManager;
+      
+      // Try to find a disabled image in registry
+      if (!this.getEnabled())
       {
-        // Apply source
-        el.setSource(source);
-
-        // Compare with old sizes and relayout if necessary
-        var width = ImageLoader.getWidth(source);
-        var height = ImageLoader.getHeight(source);
-        this.__updateContentHint(width, height);
-      }
-      else
-      {
-        if (qx.core.Variant.isSet("qx.debug", "on"))
+        var disabled = source.replace(/\.([a-z]+)$/, "-disabled.$1");
+        if (ResourceManager.has(disabled))
         {
-          // loading external images via HTTP/HTTPS is a common usecase
-          if (!qx.lang.String.startsWith(source.toLowerCase(), "http"))
+          source = disabled;
+          this.addState("replacement");
+        }
+        else
+        {
+          this.removeState("replacement");
+        }
+      }
+
+      // Optimize case for enabled changes when no disabled image was found
+      if (el.getSource() === source) {
+        return;
+      }
+
+      // Apply source
+      el.setSource(source);
+
+      // Compare with old sizes and relayout if necessary
+      this.__updateContentHint(ResourceManager.getImageWidth(source),
+        ResourceManager.getImageHeight(source));
+    },
+    
+    
+    /**
+     * Use the infos of the ImageLoader to set an unmanaged image
+     * 
+     * @param el {Element} image DOM element
+     * @param source {String} source path
+     * @return {void}
+     */
+    __setUnmanagedImage : function(el, source)
+    {
+      var ImageLoader = qx.io2.ImageLoader;
+      
+      // Apply source
+      el.setSource(source);
+
+      // Compare with old sizes and relayout if necessary
+      var width = ImageLoader.getWidth(source);
+      var height = ImageLoader.getHeight(source);
+      this.__updateContentHint(width, height);
+    },
+    
+    
+    /**
+     * Use the ImageLoader to load an unmanaged image
+     * 
+     * @param el {Element} image DOM element
+     * @param source {String} source path
+     * @return {void}
+     */
+    __loadUnmanagedImage : function(el, source)
+    {
+      var ImageLoader = qx.io2.ImageLoader;
+      
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        // loading external images via HTTP/HTTPS is a common usecase
+        if (!qx.lang.String.startsWith(source.toLowerCase(), "http"))
+        {
+          var self = this.self(arguments);
+
+          if (!self.__warned) {
+            self.__warned = {};
+          }
+
+          if (!self.__warned[source])
           {
-            var self = this.self(arguments);
-  
-            if (!self.__warned) {
-              self.__warned = {};
-            }
-  
-            if (!self.__warned[source])
-            {
-              this.debug("Unknown image: " + source);
-              self.__warned[source] = true;
-            }
+            this.debug("Unknown image: " + source);
+            self.__warned[source] = true;
           }
         }
+      }
 
-        // only try to load the image if it not already failed
-        if(!qx.io2.ImageLoader.isFailed(source)) {
-          qx.io2.ImageLoader.load(source, this.__loaderCallback, this);
-        } else {
-          if (el != null) {
-            el.resetSource();
-          }
+      // only try to load the image if it not already failed
+      if(!ImageLoader.isFailed(source)) {
+        ImageLoader.load(source, this.__loaderCallback, this);
+      } else {
+        if (el != null) {
+          el.resetSource();
         }
       }
     },
