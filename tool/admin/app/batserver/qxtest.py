@@ -411,6 +411,8 @@ class QxTest:
 
     if ("firefox" in browserFull or "ff" in browserFull):
       procName = "firefox"
+
+    time.sleep(3)
     
     if procName:
       if self.os == "Linux":
