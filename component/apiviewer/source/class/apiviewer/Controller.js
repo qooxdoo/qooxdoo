@@ -52,8 +52,9 @@ qx.Class.define("apiviewer.Controller",
 
     this._classLoader = new apiviewer.ClassLoader("./script");
 
-    this._detailLoader = this._widgetRegistry.getWidgetById("detail_loader");
+    this._detailLoader = this._widgetRegistry.getWidgetById("detail_loader");    
     this._packageViewer = this._widgetRegistry.getWidgetById("package_viewer");
+    this.__bindViewer(this._packageViewer);
 
     this._classViewer = this._widgetRegistry.getWidgetById("class_viewer");
     this.__bindClassViewer();
@@ -143,6 +144,18 @@ qx.Class.define("apiviewer.Controller",
       this._classViewer.addListener("classLinkClicked", function(e) {
           this.__selectItem(e.getData());
       }, this);
+      
+      this.__bindViewer(this._classViewer);
+    },
+    
+    
+    __bindViewer : function(viewer)
+    {
+      var uiModel = apiviewer.UiModel.getInstance();
+      uiModel.bind("showInherited", viewer, "showInherited");
+      uiModel.bind("expandProperties", viewer, "expandProperties");
+      uiModel.bind("showProtected", viewer, "showProtected");
+      uiModel.bind("showPrivate", viewer, "showPrivate");      
     },
 
 
@@ -169,25 +182,24 @@ qx.Class.define("apiviewer.Controller",
      */
     __bindToolbar : function()
     {
+      var uiModel = apiviewer.UiModel.getInstance();
+      
       var btn_inherited = this._widgetRegistry.getWidgetById("btn_inherited");
-      btn_inherited.addListener("changeChecked", function(e) {
-        this._classViewer.setShowInherited(e.getData());
-      }, this);
+      btn_inherited.bind("checked", uiModel, "showInherited");
+      uiModel.bind("showInherited", btn_inherited, "checked");
+
 
       var btn_expand = this._widgetRegistry.getWidgetById("btn_expand");
-      btn_expand.addListener("changeChecked", function(e) {
-        this._classViewer.setExpandProperties(e.getData());
-      }, this);
+      btn_expand.bind("checked", uiModel, "expandProperties");
+      uiModel.bind("expandProperties", btn_expand, "checked");
 
       var btn_protected = this._widgetRegistry.getWidgetById("btn_protected");
-      btn_protected.addListener("changeChecked", function(e) {
-        this._classViewer.setShowProtected(e.getData());
-      }, this);
+      btn_protected.bind("checked", uiModel, "showProtected");
+      uiModel.bind("showProtected", btn_protected, "checked");
 
       var btn_private = this._widgetRegistry.getWidgetById("btn_private");
-      btn_private.addListener("changeChecked", function(e) {
-        this._classViewer.setShowPrivate(e.getData());
-      }, this);
+      btn_private.bind("checked", uiModel, "showPrivate");
+      uiModel.bind("showPrivate", btn_private, "checked");
     },
 
 

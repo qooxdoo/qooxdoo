@@ -68,44 +68,6 @@ qx.Class.define("apiviewer.ui.ClassViewer",
   },
 
 
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
-    /** whether to display inherited items */
-    showInherited : {
-      check: "Boolean",
-      init: false,
-      apply: "_updatePanels"
-    },
-
-    /** whether to display protected items */
-    expandProperties :  {
-      check: "Boolean",
-      init: false,
-      apply: "_updatePanels"
-    },
-
-    /** whether to display protected items */
-    showProtected :  {
-      check: "Boolean",
-      init: false,
-      apply: "_updatePanels"
-    },
-
-    /** whether to display private and internal items */
-    showPrivate : {
-      check: "Boolean",
-      init: false,
-      apply: "_updatePanels"
-    }
-  },
-
-
 
   /*
   *****************************************************************************
@@ -603,47 +565,23 @@ qx.Class.define("apiviewer.ui.ClassViewer",
      */
     __enableSection : function(itemNode, itemName)
     {
-      // The particular button for properties, privates or protected
-      var buttonName = "";
-
-      // The method to show properties, privates or protected
-      var methodName = "";
-
+       var uiModel = apiviewer.UiModel.getInstance();
+       
       // Check for property
-      if(itemNode.isFromProperty && itemNode.isFromProperty())
-      {
-        buttonName = "btn_expand";
-        methodName = "setShowProtected";
+      if(itemNode.isFromProperty && itemNode.isFromProperty()) {
+        uiModel.setExpandProperties(true);
       }
       else if (itemNode.getListName() == "methods")
       {
         // Check for privates
-        if (itemName.indexOf("__") === 0)
-        {
-          buttonName = "btn_private";
-          methodName = "setShowPrivate";
+        if (itemName.indexOf("__") === 0) {
+          uiModel.setShowPrivate(true);
         }
         // Check for protected
-        else if (itemName.indexOf("_") === 0)
-        {
-          buttonName = "btn_protected";
-          methodName = "setShowProtected";
+        else if (itemName.indexOf("_") === 0){
+          uiModel.setShowProtected(true);
         }
       }
-
-      // If the item is on of the above, enable button and call method to show
-      // category.
-      if (buttonName != "")
-      {
-        var controller = qx.core.Init.getApplication().controller;
-        var button = controller._widgetRegistry.getWidgetById(buttonName);
-        if (button.getChecked() === false)
-        {
-          button.setChecked(true);
-          this[methodName](true);
-        }
-      }
-
     },
 
     /**
