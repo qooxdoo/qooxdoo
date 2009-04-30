@@ -53,7 +53,35 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
       init : null,
       nullable : true,
       apply : "_applyDocNode"
-    }
+    },
+    
+    /** whether to display inherited items */
+    showInherited : {
+      check: "Boolean",
+      init: false,
+      apply: "_updatePanels"
+    },
+
+    /** whether to display protected items */
+    expandProperties :  {
+      check: "Boolean",
+      init: false,
+      apply: "_updatePanels"
+    },
+
+    /** whether to display protected items */
+    showProtected :  {
+      check: "Boolean",
+      init: false,
+      apply: "_updatePanels"
+    },
+
+    /** whether to display private and internal items */
+    showPrivate : {
+      check: "Boolean",
+      init: false,
+      apply: "_updatePanels"
+    }    
   },
 
 
@@ -96,7 +124,6 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
 
   members :
   {
-
     _infoPanelHash : null,
     _infoPanels : null,
     __classNode : null,

@@ -421,25 +421,15 @@ qx.Class.define("apiviewer.ui.SearchView",
         }
 
         var controller = qx.core.Init.getApplication().controller;
-        var classViewer = controller._classViewer;
+        var uiModel = apiviewer.UiModel.getInstance();
 
         // Display protected stated items
-        if (/protected/.test(itemType))
-        {
-          var btn_protected = controller._widgetRegistry.getWidgetById("btn_protected");
-          if (btn_protected.getChecked() === false) {
-            btn_protected.setChecked(true);
-            classViewer.setShowProtected(true);
-          }
+        if (/protected/.test(itemType)) {
+          uiModel.setShowProtected(true);
         }
         // Display private stated items
-        else if (/private/.test(itemType))
-        {
-          var btn_private = controller._widgetRegistry.getWidgetById("btn_private");
-          if (btn_private.getChecked() === false) {
-            btn_private.setChecked(true);
-            classViewer.setShowPrivate(true);
-          }
+        else if (/private/.test(itemType)) {
+          uiModel.setShowPrivate(true);
         }
 
         // Highlight item
