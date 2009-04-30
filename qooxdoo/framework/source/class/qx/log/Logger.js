@@ -290,6 +290,25 @@ qx.Bootstrap.define("qx.log.Logger",
       }
     },
 
+    /**
+     * Prints a mixin deprecation warning and a stack trace if the setting
+     * <code>qx.debug</code> is set to <code>on</code>.
+     *
+     * @param clazz {Class} reference to the deprecated mixin.
+     * @param msg {String?} Optional message to be printed.
+     */
+    deprecatedMixinWarning : function(clazz, msg)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        var mixinName = clazz ? clazz.name : "unknown";
+        this.warn(
+          "The mixin '"+mixinName+"' is deprecated: " +
+          (msg || "Please consult the API documentation of this class for alternatives.")
+        );
+        this.trace();
+      }
+    },
 
     /**
      * Deletes the current buffer. Does not influence message handling of the
