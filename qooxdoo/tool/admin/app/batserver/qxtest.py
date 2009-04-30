@@ -263,7 +263,8 @@ class QxTest:
           pass  
 
     if (appConf['sendReport']):
-      self.formatLog(logFile)
+      #self.formatLog(logFile)
+      self.formatLog()
       self.sendReport(appConf['appName'])
 
 
