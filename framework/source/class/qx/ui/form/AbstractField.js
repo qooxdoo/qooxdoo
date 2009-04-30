@@ -30,7 +30,15 @@
 qx.Class.define("qx.ui.form.AbstractField",
 {
   extend : qx.ui.core.Widget,
-  implement : qx.ui.form.IFormElement,
+  implement : [
+    qx.ui.form.IFormElement,
+    qx.ui.form.IStringForm,
+    qx.ui.form.IForm
+  ],
+  include : [
+    qx.ui.form.MFormElement,
+    qx.ui.form.MForm
+  ],
   type : "abstract",
 
 
@@ -95,15 +103,6 @@ qx.Class.define("qx.ui.form.AbstractField",
 
   properties :
   {
-    /** The name of the widget. Mainly used for serialization proposes. */
-    name :
-    {
-      check : "String",
-      nullable : true,
-      event : "changeName"
-    },
-
-
     /**
      * Alignment of the text
      */
@@ -326,8 +325,11 @@ qx.Class.define("qx.ui.form.AbstractField",
         var elem = this.getContentElement();
         if (elem.getValue() != value)
         {
+          var oldValue = elem.getValue();
           elem.setValue(value);
-          this.fireNonBubblingEvent("changeValue", qx.event.type.Data, [value]);
+          this.fireNonBubblingEvent(
+            "changeValue", qx.event.type.Data, [value, oldValue]
+          );
         }
 
         return value;

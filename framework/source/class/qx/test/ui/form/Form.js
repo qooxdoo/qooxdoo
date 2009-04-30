@@ -73,6 +73,14 @@ qx.Class.define("qx.test.ui.form.Form",
     
     testValidSlider: function() {
      this.__testValid(new qx.ui.form.Slider()); 
+    },
+    
+    testRequieredTextField: function() {
+      this.__testRequired(new qx.ui.form.Slider());      
+    },
+    
+    testValidTextField: function() {
+     this.__testValid(new qx.ui.form.Slider()); 
     }    
     
 

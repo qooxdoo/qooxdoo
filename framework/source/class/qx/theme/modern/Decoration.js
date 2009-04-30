@@ -96,7 +96,23 @@ qx.Theme.define("qx.theme.modern.Decoration",
         innerOpacity : 0.5,
         backgroundImage : "decoration/form/input.png",
         backgroundRepeat : "repeat-x",
-        backgroundColor : "background-light"
+        backgroundColor : "background-light"       
+      }
+    },    
+    
+    "border-invalid-shadow" : 
+    {
+      decorator : qx.ui.decoration.Beveled,
+
+      style :
+      {
+        outerColor : "border-invalid",
+        innerColor : "white",
+        innerOpacity : 0.5,
+        backgroundImage : "decoration/form/input.png",
+        backgroundRepeat : "repeat-x",
+        backgroundColor : "background-light",
+        insets: [0]
       }
     },    
 
@@ -110,7 +126,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
         backgroundRepeat: "repeat-x"
       }
     },
-
 
 
     /*
