@@ -25,6 +25,7 @@
 qx.Class.define("qx.ui.decoration.Background",
 {
   extend : qx.ui.decoration.Abstract,
+  include : [qx.ui.decoration.MBackgroundImage],
 
 
 
@@ -57,64 +58,12 @@ qx.Class.define("qx.ui.decoration.Background",
 
   properties :
   {
-    /** The URL of the background image */
-    backgroundImage :
-    {
-      check : "String",
-      nullable : true,
-      apply : "_applyStyle"
-    },
-
-    /** How the background image should be repeated */
-    backgroundRepeat :
-    {
-      check : ["repeat", "repeat-x", "repeat-y", "no-repeat", "scale"],
-      init : "repeat",
-      apply : "_applyStyle"
-    },
-
     /** Color of the background */
     backgroundColor :
     {
       check : "Color",
       nullable : true,
       apply : "_applyStyle"
-    },
-    
-    /**
-     * Either a string or a number, which define the the vertical position
-     * of the background image.
-     * 
-     * If the value is an integer it is interpreted as pixel value otherwise
-     * the value is taken as CSS value. CSS the values are "center", "left" and
-     * "right".
-     */
-    backgroundPositionX :
-    {
-      nullable : true,
-      apply : "_applyStyle" 
-    },
-    
-    /**
-     * Either a string or a number, which define the the horizontal position
-     * of the background image.
-     * 
-     * If the value is an integer it is interpreted as pixel value otherwise
-     * the value is taken as CSS value. CSS the values are "center", "left" and
-     * "right".
-     */    
-    backgroundPositionY :
-    {
-      nullable : true,
-      apply : "_applyStyle"
-    },    
-    
-    /**
-     * Property group to define the background position
-     */
-    backgroundPosition :
-    {
-      group : ["backgroundPositionY", "backgroundPositionX"]
     }
   },
 
@@ -161,14 +110,7 @@ qx.Class.define("qx.ui.decoration.Background",
         return this.__markup;
       }
 
-      // Generate markup
-      var html = qx.ui.decoration.Util.generateBackgroundMarkup(
-        this.getBackgroundImage(),
-        this.getBackgroundRepeat(),
-        this.getBackgroundPositionX(),
-        this.getBackgroundPositionY(),
-        "position:absolute;top:0;left:0"
-      );
+      var html = this._generateBackgroundMarkup();
 
       // Store
       return this.__markup = html;
@@ -207,7 +149,7 @@ qx.Class.define("qx.ui.decoration.Background",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (this.__markup) {
+        if (this._isInitialized()) {
           throw new Error("This decorator is already in-use. Modification is not possible anymore!");
         }
       }
