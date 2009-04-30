@@ -605,12 +605,155 @@ class Generator:
         return
 
 
+    ##
+    # A typical config entry to use this code:
+    # "log" : {
+    #    "dependencies" : {
+    #      "type"       : "using/loadtime",
+    #      "format"     : "dot",
+    #      "file"       : "deps.dot",
+    #      "root"       : "custom.Application"
+    # }}
     def runLogDependencies(self, parts, packages, variants):
+
         logConf = self._job.get("log/dependencies", False)
         if not logConf:
            return
         
         logConf = ExtMap(logConf)
+
+        def lookupUsingDeps(packages):
+            # a generator to yield all using-dependencies of classes in packages
+            for packageId, package in enumerate(packages):
+                for classId in sorted(package):
+                    classDeps = self._depLoader.getDeps(classId, variants)
+                    if classDeps["load"]:
+                        for depId in classDeps["load"]:
+                            yield (packageId, classId, depId, 'load')
+                    if classDeps["run"]:
+                        for depId in classDeps["run"]:
+                            yield (packageId, classId, depId, 'run')
+            return
+
+        def depsToDotFile(logConf, gr):
+            if logConf.get('format', None):
+                format = logConf.get('format')
+                if format == 'dot':
+                    if dset == "loadtime":
+                    #    gr = grLoad
+                        file = logConf.get('file', "loaddeps.dot")
+                    elif dset == "runtime":
+                    #    gr = grRun
+                        file = logConf.get('file', "rundeps.dot")
+                    else:
+                        file = logConf.get('file', "deps.dot")
+                    classRoot = logConf.get('root')
+                    st, op = gr.breadth_first_search(root=classRoot)
+                    gr1 = graph.digraph()
+                    st_nodes = set(st.keys() + st.values())
+                    # add nodes
+                    #gr1.add_nodes(st_nodes)
+                    for cid in st_nodes:
+                        if cid == None:  # None is introduced in st
+                            continue
+                        #if cid not in self._classes:
+                        #    gr1.add_node(cid)
+                        #    continue
+                        fsize = self._classes[cid]['size']
+                        if fsize > 20000:
+                            color = "red"
+                        elif fsize > 5000:
+                            color = "green"
+                        else:
+                            color = "blue"
+                        gr1.add_node(cid, attrs=[("color", color)])
+                    # add edges
+                    for v in st.iteritems():
+                        if None in v:  # drop edges with a None node
+                            continue
+                        v2, v1 = v
+                        if gr.has_edge(v1,v2):
+                            gr1.add_edge(v1, v2, attrs=gr.get_edge_attributes(v1, v2))
+                        else:
+                            gr1.add_edge(v1, v2, )
+                    for v1 in st_nodes:
+                        for v2 in st_nodes:
+                            if gr.has_edge(v1, v2): 
+                                gr1.add_edge(v1, v2, attrs=gr.get_edge_attributes(v1, v2))
+                    #gr1.add_spanning_tree(st)
+                    dot = gr1.write(fmt='dotwt')
+                    self._console.info("Writing dependency graph to file: %s" % file)
+                    open(file, 'w').write(dot)
+            return
+
+
+        def depsToConsole(classDepsIter):
+            oPackageId = oClassId = oLoadOrRun = ''
+            self._console.indent()
+            self._console.indent()
+
+            for (packageId, classId, depId, loadOrRun) in classDepsIter:
+                if packageId != oPackageId:
+                    oPackageId = packageId
+                    self._console.outdent()
+                    self._console.outdent()
+                    self._console.info("Package %s" % packageId)
+                    self._console.indent()
+                    for partId in parts:
+                        if packageId in parts[partId]:
+                            self._console.info("Part %s" % partId)
+                    self._console.indent()
+                    self._console.indent()
+                            
+                if classId != oClassId:
+                    oClassId = classId
+                    self._console.outdent()
+                    self._console.outdent()
+                    self._console.info("Class: %s" % classId)
+                    self._console.indent()
+                    self._console.indent()
+
+                if loadOrRun != oLoadOrRun:
+                    oLoadOrRun = loadOrRun
+                    self._console.outdent()
+                    if loadOrRun == 'load':
+                        self._console.info("Uses (load):")
+                    elif loadOrRun == 'run':
+                        self._console.info("Uses (run):")
+                    self._console.indent()
+
+                self._console.info("%s" % depId)
+
+            self._console.outdent()
+            self._console.outdent()
+            return
+
+
+        def graphAddEdges(classDepsIter, gr, pLoadOrRun):
+
+            loadAttrs = [('color','red')]
+            runAttrs  = []
+
+            for (packageId, classId, depId, loadOrRun) in classDepsIter:
+                if loadOrRun == 'load' and pLoadOrRun != "runtime":
+                    gr.add_edge(classId, depId, attrs = loadAttrs)
+                elif loadOrRun == 'run' and pLoadOrRun != "loadtime":
+                    gr.add_edge(classId, depId, attrs = runAttrs)
+
+            return
+
+
+        def graphAddNodes(gr, clsList):
+            for cid in clsList:
+                fsize = self._classes[cid]['size']
+                if fsize > 20000:
+                    color = "red"
+                elif fsize > 5000:
+                    color = "green"
+                else:
+                    color = "blue"
+                gr.add_node(cid, attrs=[("color", color)])
+            return
 
         def usedByDeps(logConf):
             for packageId, package in enumerate(packages):
@@ -636,114 +779,22 @@ class Generator:
 
                     self._console.outdent()
                 self._console.outdent()
+
             return
 
         def usingDeps(logConf, dset):
-            #if dset == "loadtime":
-            #    gr = grLoad
-            #    file = logConf.get('file', "loaddeps.dot")
-            #elif dset == "runtime":
-            #    gr = grRun
-            #    file = logConf.get('file', "rundeps.dot")
-            #else:
-            gr = graph.digraph()
-            #gr.add_nodes(self._classList)
-            for cid in self._classList:
-                fsize = self._classes[cid]['size']
-                if fsize > 20000:
-                    color = "red"
-                elif fsize > 5000:
-                    color = "green"
-                else:
-                    color = "blue"
-                gr.add_node(cid, attrs=[("color", color)])
 
-            grLoad = graph.digraph()
-            grLoad.add_nodes(self._classList)
-
-            grRun = graph.digraph()
-            grRun.add_nodes(self._classList)
-
-            for packageId, package in enumerate(packages):
-                self._console.info("Package %s" % packageId)
-                self._console.indent()
-
-                for partId in parts:
-                    if packageId in parts[partId]:
-                        self._console.info("Part %s" % partId)
-
-                for classId in sorted(package):
-                    self._console.info("Class: %s" % classId)
-                    self._console.indent()
-
-                    classDeps = self._depLoader.getDeps(classId, variants)
-                    if classDeps["load"]:
-                        self._console.info("Uses (load):")
-                        self._console.indent()
-                        for depId in classDeps["load"]:
-                            self._console.info("%s" % depId)
-                            if depId in self._classList:
-                                #grLoad.add_edge(classId, depId)
-                                if dset != "runtime":
-                                    gr.add_edge(str(classId), str(depId), attrs=[('color','red')])
-                        self._console.outdent()
-                    if classDeps["run"]:
-                        self._console.info("Uses (run):")
-                        self._console.indent()
-                        for depId in classDeps["run"]:
-                            self._console.info("%s" % depId)
-                            if depId in self._classList:
-                                #grRun.add_edge(classId, depId)
-                                if dset != "loadtime":
-                                    gr.add_edge(classId, depId)
-                        self._console.outdent()
-
-                    self._console.outdent()
-                self._console.outdent()
+            if logConf.get('format', None) == 'dot':
+                gr = graph.digraph()
+                graphAddNodes(gr, self._classList)
+                graphAddEdges(lookupUsingDeps(packages), gr, dset)
+                depsToDotFile(logConf, gr)
+            else:
+                depsToConsole(lookupUsingDeps(packages))
             
-            if logConf.get('format', None):
-                format = logConf.get('format')
-                if format == 'dot':
-                    if dset == "loadtime":
-                    #    gr = grLoad
-                        file = logConf.get('file', "loaddeps.dot")
-                    elif dset == "runtime":
-                    #    gr = grRun
-                        file = logConf.get('file', "rundeps.dot")
-                    else:
-                        file = logConf.get('file', "deps.dot")
-                    classRoot = logConf.get('root')
-                    st, op = gr.breadth_first_search(root=classRoot)
-                    gr1 = graph.digraph()
-                    st_nodes = set(st.keys() + st.values())
-                    for cid in st_nodes:
-                        if cid not in self._classes:
-                            gr1.add_node(cid)
-                            continue
-                        fsize = self._classes[cid]['size']
-                        if fsize > 20000:
-                            color = "red"
-                        elif fsize > 5000:
-                            color = "green"
-                        else:
-                            color = "blue"
-                        gr1.add_node(cid, attrs=[("color", color)])
-                    #gr1.add_nodes(st_nodes)
-                    for v in st.iteritems():
-                        v2, v1 = v
-                        if gr.has_edge(v1,v2):
-                            gr1.add_edge(v1, v2, attrs=gr.get_edge_attributes(v1, v2))
-                        else:
-                            gr1.add_edge(v1, v2, )
-                    for v1 in st_nodes:
-                        for v2 in st_nodes:
-                            if gr.has_edge(v1, v2): 
-                                gr1.add_edge(v1, v2, attrs=gr.get_edge_attributes(v1, v2))
-                    #gr1.add_spanning_tree(st)
-                    dot = gr1.write(fmt='dotwt')
-                    open(file, 'w').write(dot)
-
             return
+
+        # -----------------------------------------------
 
         self._console.info("Dependency logging...")
         self._console.indent()
