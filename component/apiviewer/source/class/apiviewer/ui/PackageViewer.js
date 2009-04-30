@@ -40,7 +40,7 @@ qx.Class.define("apiviewer.ui.PackageViewer",
   construct : function()
   {
     this.base(arguments);
-    this.addInfoPanel(new apiviewer.ui.panels.MethodPanel("methods", "functions"));
+    this.addInfoPanel(new apiviewer.ui.panels.MethodPanel("functions", "functions"));
     this.addInfoPanel(new apiviewer.ui.panels.ClassPanel("classes", "classes", "class"));
     this.addInfoPanel(new apiviewer.ui.panels.ClassPanel("classes", "interfaces", "interface"));
     this.addInfoPanel(new apiviewer.ui.panels.ClassPanel("classes", "mixins", "mixin"));

@@ -133,7 +133,8 @@ qx.Class.define("apiviewer.dao.Package", {
     {
       var methodMap = {
         "classes" : "getClasses",
-        "packages": "getPackages"
+        "packages": "getPackages",
+        "functions": "getFunctions"
       };
       return this[methodMap[listName]]();
     },

@@ -68,6 +68,10 @@ qx.Class.define("apiviewer.ui.panels.PackagePanel",
      */
     update : function(classViewer, currentClassDocNode)
     {
+      if (!this.getElement()) {
+        return;
+      }
+       
       this.setDocNode(currentClassDocNode);
 
       var nodeArr = currentClassDocNode.getPackages();

@@ -31,7 +31,7 @@
  *
  * Assertions are used in unit tests as well.
  */
-qx.Class.define("qx.core.Assert",
+qx.Bootstrap.define("qx.core.Assert",
 {
   statics :
   {
