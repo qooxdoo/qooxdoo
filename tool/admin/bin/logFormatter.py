@@ -128,13 +128,14 @@ class QxLogFormat:
     htmlFooter+= '</html>\n'
   
     logs = {}
-    logre = re.compile('.*browserSideLog - qxSimulator_(\d*): (.*)')
+    #logre = re.compile('.*browserSideLog - qxSimulator_(\d*): (.*)')
+    logre = re.compile('qxSimulator_(\d+):[ "\+\']+(.*)')
   
     # group log entries by date
     for line in log:
       found = logre.match(line)
       if found:
-        if found.group(1) in logs.keys():
+        if found.group(1) in logs.keys() and found.group(2) + "\n" not in logs[found.group(1)]:
           logs[found.group(1)].append(found.group(2) + "\n")
         else:
           logs[found.group(1)] = [found.group(2) + "\n"]
