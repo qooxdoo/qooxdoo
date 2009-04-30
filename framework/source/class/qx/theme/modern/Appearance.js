@@ -344,10 +344,35 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
+        var shadow;
+        var decorator;
+        var padding = [ 2, 4, 1 ];
+        
+        var focused = !!states.focused;
+        var invalid = !!states.invalid;
+        var disabled = !!states.disabled;
+        
+        if (focused && invalid && !disabled) {
+          shadow = "input-focused-invalid";
+          decorator = "input-invalid-snake";
+        } else if (focused && !invalid && !disabled) {
+          decorator = "input-focused";
+          shadow = undefined;
+        } else if (disabled) {
+          decorator = "input-disabled";
+          shadow = undefined;
+        } else if (!focused && invalid && !disabled) {
+          shadow = "border-invalid-shadow";
+          decorator = "input-invalid-snake";
+          padding = [ 4, 6, 3 ];
+        } else {
+          decorator = "input";
+        }
+        
         return {
-          decorator : states.focused ? "input-focused" :
-                      states.disabled ? "input-disabled" : "input",
-          padding   : [ 2, 4, 1 ],
+          shadow: shadow,
+          decorator : decorator,
+          padding   : padding,
           textColor : states.disabled ? "text-disabled" : "text-input"
         };
       }
@@ -404,13 +429,12 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
     "spinner/textfield" :
     {
-      include : "textfield",
-
       style : function(states)
       {
         return {
           decorator : states.invalid ? "input-invalid-snake" : undefined,
-          marginRight: 2
+          marginRight: 2,
+          padding: [2, 4, 1]
         };
       }
     },

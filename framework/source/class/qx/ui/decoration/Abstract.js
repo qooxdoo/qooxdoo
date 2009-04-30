@@ -80,9 +80,11 @@ qx.Class.define("qx.ui.decoration.Abstract",
       throw new Error("Abstract method called.");
     },
 
+
     _resetInsets: function() {
       this.__insets = null;
     },
+    
 
     // interface implementation
     getInsets : function()
