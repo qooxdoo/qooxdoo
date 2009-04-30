@@ -267,9 +267,6 @@ qx.Class.define("qx.ui.layout.Grid",
       this.__maxRowIndex = maxRowIndex;
       this.__maxColIndex = maxColIndex;
 
-      this.__colWidths = null;
-      this.__rowHeights = null;
-      
       // Clear invalidation marker
       delete this._invalidChildrenCache;
     },
