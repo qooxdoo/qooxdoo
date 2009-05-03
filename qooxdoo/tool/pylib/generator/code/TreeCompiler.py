@@ -19,7 +19,8 @@
 #
 ################################################################################
 
-import copy, optparse
+import os, sys, re, types, copy, optparse, codecs
+import time
 
 from ecmascript import compiler
 from ecmascript.frontend import treeutil
@@ -58,6 +59,11 @@ class TreeCompiler:
 
 
     def compileClasses(self, classes, variants, optimize, format):
+        return self.compileClassesXX(classes, variants, optimize, format)
+
+
+    #def compileClasses(self, classes, variants, optimize, format):
+    def compileClassesXX(self, classes, variants, optimize, format):
         content = ""
         length = len(classes)
         
@@ -68,7 +74,80 @@ class TreeCompiler:
         return content
 
 
+    def compileClassesMP(self, classes, variants, optimize, format):
+        # experimental
+        # improve by incorporating cache handling, as done in getCompiled()
+        # hangs on Windows in the last call to reap_processes from the main loop
+        import subprocess
+        maxproc = 8
+        contA = {}
+        processes = {}
+        length = len(classes)
+
+        def reap_processes(wait=False):
+            # reap the current processes (wait==False: if they are finished)
+            print "-- entering reap_processes with len: %d" % len(processes)
+            reaped = False
+            while True:
+                for pos, pid in enumerate(processes.keys()):
+                    if not wait and pid.poll() == None:  # None = process hasn't terminated
+                        print pid.poll()
+                        continue
+                    print "checking pos: %d" % pos
+                    #self._console.progress(pos, length)
+                    output, errout = pid.communicate()
+                    rcode = pid.returncode
+                    cpos = processes[pid][0]
+                    if rcode == 0:
+                        #tf   = processes[pid][1].read()
+                        #print output[:30]
+                        #print tf[:30]
+                        contA[cpos] = output.decode('utf-8')
+                        #contA[cpos] = tf
+                    else:
+                        raise RuntimeError("Problems compiling %s: %s" % (classes[cpos], errout))
+                    print "-- terminating process for class: %s" % classes[cpos]
+                    del processes[pid]
+                    reaped = True
+
+                if reaped: break
+                else: time.sleep(.050)
+
+            print "-- leaving reap_processes with len: %d" % len(processes)
+            return
+
+        # go through classes, start individual compiles, collect results
+        for pos, classId in enumerate(classes):
+            if len(processes) > maxproc:
+                reap_processes()  # collect finished processes' results to make room
+        
+            cmd = self.getCompileCommand(classId, variants, optimize, format)
+            #print cmd
+            tf = os.tmpfile()
+            print "-- starting process for class: %s" % classId
+            pid = subprocess.Popen(
+                        cmd, shell=True,
+                        stdout=subprocess.PIPE,
+                        #stdout=tf,
+                        stderr=subprocess.PIPE,
+                        universal_newlines=True)
+            processes[pid] = (pos, tf)
+
+        # collect outstanding processes
+        if len(processes):
+            print "++ cleaning up processes"
+            reap_processes(wait=True)
+
+        # join single results in one string
+        content = u''
+        for i in sorted(contA.keys()):
+            #print i, contA[i][:30]
+            content += contA[i] 
+
+        return content
+
     def compileClassesMT(self, classes, variants, optimize, format):
+        # experimental
         # multi-threaded version of compileClasses()
         import threading
         contA = {}
@@ -94,6 +173,24 @@ class TreeCompiler:
 
         return content
 
+    def getCompileCommand(self, fileId, variants, optimize, format):
+        m   = {}
+        cmd = ""
+        m['compilePath'] = os.path.normpath("compile.py -q")
+        m['filePath']    = os.path.normpath(self._classes[fileId]["path"])
+        # optimizations
+        optis = []
+        for opti in optimize:
+            optis.append("--" + opti)
+        m['optimizations'] = " ".join(optis)
+        # variants
+        varis = []
+        for vari in variants:
+            varis.append("--variant=" + vari + ":" + variants[vari])
+        m['variants'] = " ".join(varis)
+
+        cmd = "%(compilePath)s %(optimizations)s %(variants)s %(filePath)s" % m
+        return cmd
 
     def getCompiled(self, fileId, variants, optimize, format=False):
         fileEntry = self._classes[fileId]
