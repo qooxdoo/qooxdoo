@@ -50,6 +50,7 @@ def main():
     
     # General flags
     parser.add_option("-v", "--verbose", action="store_true", dest="verbose", default=False, help="verbose output mode (extra verbose)")
+    parser.add_option("-q", "--quiet", action="store_true", dest="quiet", default=False, help="quiet output")
 
     # Optimization flags
     parser.add_option("-n", "--variables", action="store_true", dest="variables", default=False, help="optimize variables")
@@ -77,13 +78,15 @@ def main():
         print ">>> Missing filename!"
         return
 
-    print ">>> Parsing file..."
+    if not options.quiet:
+        print ">>> Parsing file..."
     fileName = args[0]
     fileContent = filetool.read(fileName, "utf-8")
     fileId = "xxx"
     tokens = tokenizer.parseStream(fileContent, fileName)
     
-    print ">>> Creating tree..."
+    if not options.quiet:
+        print ">>> Creating tree..."
     tree = treegenerator.createSyntaxTree(tokens)
     
     
@@ -92,7 +95,8 @@ def main():
     #
     
     if len(options.variants) > 0:
-        print ">>> Selecting variants..."
+        if not options.quiet:
+            print ">>> Selecting variants..."
         varmap = {}
         for entry in options.variants:
             pos = entry.index(":")
@@ -101,23 +105,28 @@ def main():
         variantoptimizer.search(tree, varmap, fileId)
     
     if options.all or options.basecalls:
-        print ">>> Optimizing basecalls..."
+        if not options.quiet:
+            print ">>> Optimizing basecalls..."
         basecalloptimizer.patch(tree)   
 
     if options.all or options.inline:
-        print ">>> Optimizing inline..."
+        if not options.quiet:
+            print ">>> Optimizing inline..."
         inlineoptimizer.patch(tree)   
 
     if options.all or options.strings:
-        print ">>> Optimizing strings..."
+        if not options.quiet:
+            print ">>> Optimizing strings..."
         _optimizeStrings(tree, fileId)
 
     if options.all or options.variables:
-        print ">>> Optimizing variables..."
+        if not options.quiet:
+            print ">>> Optimizing variables..."
         variableoptimizer.search(tree)
 
     if options.all or options.privates:
-        print ">>> Optimizing privates..."
+        if not options.quiet:
+            print ">>> Optimizing privates..."
         privateoptimizer.patch(tree, fileId)
          
          
@@ -126,17 +135,20 @@ def main():
     #
             
     if options.lint:
-        print ">>> Executing ecmalint..."
+        if not options.quiet:
+            print ">>> Executing ecmalint..."
         print "Needs implementation"
     
     elif options.tree:
-        print ">>> Printing out tree..."
-        print tree.toXml()
+        if not options.quiet:
+            print ">>> Printing out tree..."
+        print tree.toXml().encode('utf-8')
         
     else:
-        print ">>> Compiling..."
+        if not options.quiet:
+            print ">>> Compiling..."
         compiled = _compileTree(tree, options.pretty)
-        print compiled
+        print compiled.encode('utf-8')
             
 
 #        
