@@ -789,7 +789,7 @@ qx.Class.define("qx.ui.form.Spinner",
      */
     setMax: function(max) {
       qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use the maximum property instead.");
-      this.setMaxiumum(max);
+      this.setMaximum(max);
     },
     
     
