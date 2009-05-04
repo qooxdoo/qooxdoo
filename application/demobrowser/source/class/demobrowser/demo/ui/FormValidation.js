@@ -40,9 +40,24 @@ qx.Class.define("demobrowser.demo.ui.FormValidation",
       this.getRoot().add(widgets[1], {left: 20, top: 100});
       
       // textfield
-      // widgets.push(new qx.ui.form.TextField());
-      // this.getRoot().add(widgets[2], {left: 20, top: 130});      
+      widgets.push(new qx.ui.form.TextField());
+      this.getRoot().add(widgets[2], {left: 20, top: 130});     
       
+      // textarea
+      widgets.push(new qx.ui.form.TextArea());
+      this.getRoot().add(widgets[3], {left: 20, top: 160});    
+      
+      // passwordfield
+      widgets.push(new qx.ui.form.PasswordField());
+      this.getRoot().add(widgets[4], {left: 20, top: 240});        
+      
+      // combobox
+      widgets.push(new qx.ui.form.ComboBox());
+      this.getRoot().add(widgets[5], {left: 20, top: 270}); 
+      
+      // selectbox
+      widgets.push(new qx.ui.form.SelectBox());
+      this.getRoot().add(widgets[6], {left: 20, top: 300});           
       
       /* ***********************************************
        * CONTROLLS
