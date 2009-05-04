@@ -323,7 +323,7 @@ qx.Class.define("qx.ui.container.SlideBar",
     },
 
 
-    /*
+    /**
      * Helper function for Gecko. Modifies the scroll offset when a child is
      * removed.
      */
