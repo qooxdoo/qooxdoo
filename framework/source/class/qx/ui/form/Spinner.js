@@ -741,6 +741,7 @@ qx.Class.define("qx.ui.form.Spinner",
     /**
      * Set the minimum of the slider.
      * Please use the minimum property instead.
+     * @param min {Number} The new minimum.
      * @deprecated
      */
     setMin: function(min) {
@@ -752,6 +753,7 @@ qx.Class.define("qx.ui.form.Spinner",
     /**
      * Get the minimum of the slider.
      * Please use the minimum property instead.
+     * @return {Number} The current set minimum.
      * @deprecated
      */    
     getMin: function() {
@@ -785,6 +787,7 @@ qx.Class.define("qx.ui.form.Spinner",
     /**
      * Set the maximum of the slider.
      * Please use the maximum property instead.
+     * @param max {Number} The new maximum.
      * @deprecated
      */
     setMax: function(max) {
@@ -796,6 +799,7 @@ qx.Class.define("qx.ui.form.Spinner",
     /**
      * Get the maximum of the slider.
      * Please use the maximum property instead.
+     * @return {Number} The current set maximum.
      * @deprecated
      */    
     getMax: function() {
