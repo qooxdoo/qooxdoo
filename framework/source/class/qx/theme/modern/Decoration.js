@@ -98,33 +98,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
         backgroundRepeat : "repeat-x",
         backgroundColor : "background-light"       
       }
-    },    
-    
-    "border-invalid-shadow" : 
-    {
-      decorator : qx.ui.decoration.Beveled,
-
-      style :
-      {
-        outerColor : "border-invalid",
-        innerColor : "white",
-        innerOpacity : 0.5,
-        backgroundImage : "decoration/form/input.png",
-        backgroundRepeat : "repeat-x",
-        backgroundColor : "background-light",
-        insets: [0]
-      }
-    },    
-
-    "input-invalid-snake" : 
-    {
-      decorator: qx.ui.decoration.Background,
-      
-      style: {
-        backgroundImage: "decoration/form/input-invalid-snake.png",
-        backgroundPositionY: "bottom",
-        backgroundRepeat: "repeat-x"
-      }
     },
 
 
@@ -385,6 +358,17 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
+    "button-invalid-shadow" :
+    {
+      decorator : qx.ui.decoration.Beveled,
+
+      style :
+      {
+        outerColor : "border-invalid",
+        innerColor : "border-focused-invalid",
+        insets: [1]
+      }
+    },
 
 
 
@@ -433,7 +417,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
         innerColor : "border-focused-invalid",
         backgroundImage : "decoration/form/input-focused.png",
         backgroundRepeat : "repeat-x",
-        backgroundColor : "background-light"
+        backgroundColor : "background-light",
+        insets: [2]
       }
     },    
     
