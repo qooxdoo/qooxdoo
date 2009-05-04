@@ -706,7 +706,8 @@ class Generator:
                     self._console.indent()
                             
                 if classId != oClassId:
-                    oClassId = classId
+                    oClassId   = classId
+                    oLoadOrRun = ''         # reset this
                     self._console.outdent()
                     self._console.outdent()
                     self._console.info("Class: %s" % classId)
