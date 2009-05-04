@@ -171,12 +171,12 @@ qx.Class.define("toolbox.configuration.ConfigurationDialog",
       page2.add(new qx.ui.basic.Label("Config.js"));
       tabView.add(page2);
 
-      tabView.addListener("changeSelected", function()
+      tabView.addListener("changeSelection", function()
       {
-        if (tabView.getSelected().getLabel().toString() == page2Name) {
+        if (tabView.getSelection()[0].getLabel().toString() == page2Name) {
           this.configFrame.setValue(qx.util.Json.stringify(toolbox.configuration.Configuration.JSON, true));
         }
-        else if (tabView.getSelected().getLabel().toString() == page1Name)
+        else if (tabView.getSelection()[0].getLabel().toString() == page1Name)
         {
           if (this.configFrame.getValue().toString() != qx.util.Json.stringify(toolbox.configuration.Configuration.JSON, true).toString() & !this.isApplied) {
             this.openSaveDialog();
