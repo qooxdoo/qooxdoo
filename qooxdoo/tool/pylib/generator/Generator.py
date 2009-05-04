@@ -637,28 +637,22 @@ class Generator:
 
         def depsToDotFile(logConf, gr):
             if logConf.get('format', None):
+                format = mode = None
                 format = logConf.get('format')
+                if format.find('/')>-1:
+                    format, mode = format.split('/',1)  # e.g. 'dot/span-tree-only'
                 if format == 'dot':
-                    if dset == "loadtime":
-                    #    gr = grLoad
-                        file = logConf.get('file', "loaddeps.dot")
-                    elif dset == "runtime":
-                    #    gr = grRun
-                        file = logConf.get('file', "rundeps.dot")
-                    else:
-                        file = logConf.get('file', "deps.dot")
                     classRoot = logConf.get('root')
+                    # get the spanning tree from the root node
                     st, op = gr.breadth_first_search(root=classRoot)
+                    # and create a new graph from it
                     gr1 = graph.digraph()
                     st_nodes = set(st.keys() + st.values())
                     # add nodes
-                    #gr1.add_nodes(st_nodes)
+                    # - rather gr.add_nodes(st), go through indiviudal nodes for coloring
                     for cid in st_nodes:
                         if cid == None:  # None is introduced in st
                             continue
-                        #if cid not in self._classes:
-                        #    gr1.add_node(cid)
-                        #    continue
                         fsize = self._classes[cid]['size']
                         if fsize > 20000:
                             color = "red"
@@ -668,6 +662,7 @@ class Generator:
                             color = "blue"
                         gr1.add_node(cid, attrs=[("color", color)])
                     # add edges
+                    # - rather gr.add_spanning_tree(st), go through individual edges for coloring
                     for v in st.iteritems():
                         if None in v:  # drop edges with a None node
                             continue
@@ -676,11 +671,18 @@ class Generator:
                             gr1.add_edge(v1, v2, attrs=gr.get_edge_attributes(v1, v2))
                         else:
                             gr1.add_edge(v1, v2, )
-                    for v1 in st_nodes:
-                        for v2 in st_nodes:
-                            if gr.has_edge(v1, v2): 
-                                gr1.add_edge(v1, v2, attrs=gr.get_edge_attributes(v1, v2))
-                    #gr1.add_spanning_tree(st)
+                    if not mode or not mode == "span-tree-only":  # add additional dependencies
+                        for v1 in st_nodes:                       # that are not covered by the span tree
+                            for v2 in st_nodes:
+                                if gr.has_edge(v1, v2): 
+                                    gr1.add_edge(v1, v2, attrs=gr.get_edge_attributes(v1, v2))
+                    # write dot file
+                    if dset == "loadtime":
+                        file = logConf.get('file', "loaddeps.dot")
+                    elif dset == "runtime":
+                        file = logConf.get('file', "rundeps.dot")
+                    else:
+                        file = logConf.get('file', "deps.dot")
                     dot = gr1.write(fmt='dotwt')
                     self._console.info("Writing dependency graph to file: %s" % file)
                     open(file, 'w').write(dot)
@@ -736,6 +738,8 @@ class Generator:
             runAttrs  = []
 
             for (packageId, classId, depId, loadOrRun) in classDepsIter:
+                if not gr.has_node(depId):         # skip dependencies outside includes/excludes
+                    continue
                 if loadOrRun == 'load' and pLoadOrRun != "runtime":
                     gr.add_edge(classId, depId, attrs = loadAttrs)
                 elif loadOrRun == 'run' and pLoadOrRun != "loadtime":
@@ -785,7 +789,10 @@ class Generator:
 
         def usingDeps(logConf, dset):
 
-            if logConf.get('format', None) == 'dot':
+            logformat = logConf.get('format', None)
+            if logformat and logformat.find('/')>-1:
+                mainformat = logformat.split('/')[0]
+            if mainformat == 'dot':
                 gr = graph.digraph()
                 graphAddNodes(gr, self._classList)
                 graphAddEdges(lookupUsingDeps(packages), gr, dset)
