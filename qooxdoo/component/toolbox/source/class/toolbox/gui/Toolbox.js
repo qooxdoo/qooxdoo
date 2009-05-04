@@ -77,7 +77,7 @@ qx.Class.define("toolbox.gui.Toolbox",
     this.mainStack.add(this.__makeAppDevelContent());
     this.mainStack.add(this.__makeBuiltInAppContent());
     this.mainStack.add(this.__makeHelpContent());
-    this.mainStack.setSelected(this.mainStack.getChildren()[0]);
+    this.mainStack.setSelection([this.mainStack.getChildren()[0]]);
 
     // Content of the toolbox
     var content = this.mainStack;
@@ -227,14 +227,14 @@ qx.Class.define("toolbox.gui.Toolbox",
      */
     __attachContent : function()
     {
-      this.widgets["radioButton.manager"].addListener("changeSelected", function(e)
+      this.widgets["radioButton.manager"].addListener("changeSelection", function(e)
       {
-        if (e.getData() != null)
+        if (e.getData()[0] != null)
         {
-          if (e.getData().getLabel().toString() == "Home")
+          if (e.getData()[0].getLabel().toString() == "Home")
           {
             this.logStack.exclude();
-            this.mainStack.setSelected(this.mainStack.getChildren()[0]);
+            this.mainStack.setSelection([this.mainStack.getChildren()[0]]);
 
             this.widgets["toolbar.homeButton"].addListener("click", function() {
               this.widgets["toolbar.homeButton"].setChecked(true);
@@ -242,23 +242,23 @@ qx.Class.define("toolbox.gui.Toolbox",
 
             this.widgets["toolbar.logCheckButton"].setEnabled(false);
           }
-          else if (e.getData().getLabel().toString() == "Application Development")
+          else if (e.getData()[0].getLabel().toString() == "Application Development")
           {
             if (this.widgets["toolbar.logCheckButton"].getChecked()) {
               this.logStack.show();
             }
 
             this.widgets["toolbar.logCheckButton"].setEnabled(true);
-            this.mainStack.setSelected(this.mainStack.getChildren()[1]);
+            this.mainStack.setSelection([this.mainStack.getChildren()[1]]);
 
             this.widgets["toolbar.appDevelButton"].addListener("click", function() {
               this.widgets["toolbar.appDevelButton"].setChecked(true);
             }, this);
           }
-          else if (e.getData().getLabel().toString() == "Built-in Applications")
+          else if (e.getData()[0].getLabel().toString() == "Built-in Applications")
           {
             // this.logStack.exclude();
-            this.mainStack.setSelected(this.mainStack.getChildren()[2]);
+            this.mainStack.setSelection([this.mainStack.getChildren()[2]]);
 
             this.widgets["toolbar.appBuiltButton"].addListener("click", function() {
               this.widgets["toolbar.appBuiltButton"].setChecked(true);
@@ -270,10 +270,10 @@ qx.Class.define("toolbox.gui.Toolbox",
 
             this.widgets["toolbar.logCheckButton"].setEnabled(true);
           }
-          else if (e.getData().getLabel().toString() == "Help")
+          else if (e.getData()[0].getLabel().toString() == "Help")
           {
             this.logStack.exclude();
-            this.mainStack.setSelected(this.mainStack.getChildren()[3]);
+            this.mainStack.setSelection([this.mainStack.getChildren()[3]]);
 
             this.widgets["toolbar.helpButton"].addListener("click", function() {
               this.widgets["toolbar.helpButton"].setChecked(true);
