@@ -26,6 +26,7 @@ qx.Class.define("qx.test.ui.selection.TreeSingleSelection",
     setUp : function()
     {
       var length = 10;
+      this._notInSelection = [];
       this._mode = "single";
       
       this._widget = new qx.ui.tree.Tree().set(
@@ -53,6 +54,8 @@ qx.Class.define("qx.test.ui.selection.TreeSingleSelection",
           
           this._widget.setSelection([file]);
           this._selection = [file];
+        } else {
+          this._notInSelection.push(file);
         }
       }   
       
@@ -65,6 +68,7 @@ qx.Class.define("qx.test.ui.selection.TreeSingleSelection",
       this._widget.destroy();
       this._widget = null;
       this._selection = null;
+      this._notInSelection = null;
     },
     
     _getChildren : function() 

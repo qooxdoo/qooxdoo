@@ -30,6 +30,7 @@ qx.Class.define("qx.test.ui.selection.RadioGroup",
       var length = 10;
       this._mode = "";
       this.__radioButtons = [];
+      this._notInSelection = [];
       
       this._widget = new qx.ui.form.RadioGroup();
       var root = this.getRoot();
@@ -43,6 +44,8 @@ qx.Class.define("qx.test.ui.selection.RadioGroup",
         if (i == 5) {
           this._widget.setSelection([item]);
           this._selection = [item];
+        } else {
+          this._notInSelection.push(item);
         }
       } 
       
@@ -58,6 +61,7 @@ qx.Class.define("qx.test.ui.selection.RadioGroup",
       this.__radioButtons = null;
       this._widget = null;
       this._selection = null;
+      this._notInSelection = null;
     },
     
     _getChildren : function() 

@@ -30,6 +30,8 @@ qx.Class.define("qx.test.ui.selection.AbstractSingleSelectonTest",
     
     _selection : null,
     
+    _notInSelection : null,
+    
     _getChildren : function() {
       throw new Error("Abstract method call: _getChildren()");
     },
@@ -63,7 +65,7 @@ qx.Class.define("qx.test.ui.selection.AbstractSingleSelectonTest",
     
     testSetSelection : function()
     {
-      this._testSetSelection([this._getChildren()[0]]);
+      this._testSetSelection([this._notInSelection[0]]);
     },
     
     _testSetSelection : function(selection)
@@ -119,10 +121,10 @@ qx.Class.define("qx.test.ui.selection.AbstractSingleSelectonTest",
     
     testSetSelectionWithTooMuchElements : function()
     {
-      var children = this._getChildren();
+      var newSelection = [this._selection[0], this._notInSelection[0]];
       var that = this;
       this.assertException(function() {
-        that._widget.setSelection([children[0], children[1]]);
+        that._widget.setSelection(newSelection);
       }, Error, null, "It isn't possible to select more than one element!");
     },
     
@@ -161,7 +163,7 @@ qx.Class.define("qx.test.ui.selection.AbstractSingleSelectonTest",
       var result = this._widget.isSelected(this._selection[0]);
       this.assertTrue(result, "The wrong item is selected!");
       
-      var notSelected = this._getChildren()[1];
+      var notSelected = this._notInSelection[0];
       result = this._widget.isSelected(notSelected);
       this.assertFalse(result, "The wrong item is selected!");
     },
