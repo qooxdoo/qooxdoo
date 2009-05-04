@@ -23,6 +23,9 @@ qx.Class.define("qx.test.ui.form.StringFormat",
   members :
   {
     __test: function(widget) {
+      // check if the interface is implemented
+      qx.Class.hasInterface(widget, qx.ui.form.IStringForm);
+      
       // just check if the method is available
       widget.resetValue();
       
@@ -41,7 +44,19 @@ qx.Class.define("qx.test.ui.form.StringFormat",
     
     testTextField: function() {
      this.__test(new qx.ui.form.TextField()); 
-    }
+    },
+    
+    testPasswordField: function() {
+     this.__test(new qx.ui.form.PasswordField()); 
+    },
+    
+    testTextArea: function() {
+     this.__test(new qx.ui.form.TextArea()); 
+    },
+    
+    testComboBox: function() {
+     this.__test(new qx.ui.form.ComboBox()); 
+    }    
     
   }
 });
