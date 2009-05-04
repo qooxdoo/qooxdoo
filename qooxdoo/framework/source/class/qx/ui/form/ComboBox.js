@@ -398,7 +398,7 @@ qx.Class.define("qx.ui.form.ComboBox",
       }
 
       // Fire event
-      this.fireDataEvent("changeValue", value);
+      this.fireDataEvent("changeValue", value, e.getOldData());
     },
     
     /**
