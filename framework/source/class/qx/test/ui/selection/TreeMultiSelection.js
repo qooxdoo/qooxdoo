@@ -27,6 +27,7 @@ qx.Class.define("qx.test.ui.selection.TreeMultiSelection",
     {
       var length = 10;
       this._selection = [];
+      this._notInSelection = [];
       this._mode = "multi"
       
       this._widget = new qx.ui.tree.Tree().set(
@@ -50,7 +51,9 @@ qx.Class.define("qx.test.ui.selection.TreeMultiSelection",
         
         if (i % 2 == 0) {
           this._widget.addToSelection(file);
-          this._selection[i / 2] = file;
+          this._selection.push(file);
+        } else {
+          this._notInSelection.push(file);
         }
       }   
       
@@ -63,6 +66,7 @@ qx.Class.define("qx.test.ui.selection.TreeMultiSelection",
       this._widget.destroy();
       this._widget = null;
       this._selection = null;
+      this._notInSelection = null;
     },
     
     _getChildren : function() 

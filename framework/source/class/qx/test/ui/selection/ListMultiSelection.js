@@ -27,6 +27,7 @@ qx.Class.define("qx.test.ui.selection.ListMultiSelection",
     {
       var length = 10;
       this._selection = [];
+      this._notInSelection = [];
       this._mode = "multi";
       
       this._widget = new qx.ui.form.List().set(
@@ -47,7 +48,9 @@ qx.Class.define("qx.test.ui.selection.ListMultiSelection",
         
         if (i % 2 == 0) {
           this._widget.addToSelection(item);
-          this._selection[i / 2] = item;
+          this._selection.push(item);
+        } else {
+          this._notInSelection.push(item);          
         }
       }
       
@@ -60,6 +63,7 @@ qx.Class.define("qx.test.ui.selection.ListMultiSelection",
       this._widget.destroy();
       this._widget = null;
       this._selection = null;
+      this._notInSelection = null;
     },
     
     _getChildren : function() 

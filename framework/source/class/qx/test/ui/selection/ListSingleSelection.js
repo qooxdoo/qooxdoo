@@ -26,6 +26,7 @@ qx.Class.define("qx.test.ui.selection.ListSingleSelection",
     setUp : function()
     {
       var length = 10;
+      this._notInSelection = [];
       this._mode = "single";
       
       this._widget = new qx.ui.form.List().set(
@@ -46,6 +47,8 @@ qx.Class.define("qx.test.ui.selection.ListSingleSelection",
           
           this._widget.setSelection([item]);
           this._selection = [item];
+        } else {
+          this._notInSelection.push(item);
         }
       }   
       
@@ -58,6 +61,7 @@ qx.Class.define("qx.test.ui.selection.ListSingleSelection",
       this._widget.destroy();
       this._widget = null;
       this._selection = null;
+      this._notInSelection = null;
     },
     
     _getChildren : function() 
