@@ -68,9 +68,9 @@ members :
    });
 
    spDuration.set({
-     max   : 10.0,
-     min   :  0.1,
-     value :  1.0
+     maximum : 10.0,
+     minimum :  0.1,
+     value   :  1.0
    });
 
    var animMove;
