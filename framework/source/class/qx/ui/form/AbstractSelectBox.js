@@ -26,7 +26,14 @@
 qx.Class.define("qx.ui.form.AbstractSelectBox",
 {
   extend  : qx.ui.core.Widget,
-  include : qx.ui.core.MRemoteChildrenHandling,
+  include : [
+    qx.ui.core.MRemoteChildrenHandling,
+    qx.ui.form.MFormElement,
+    qx.ui.form.MForm
+  ],
+  implement : [
+    qx.ui.form.IForm
+  ],  
   type : "abstract",
 
 
@@ -80,14 +87,6 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
     {
       refine : true,
       init : 120
-    },
-
-    /** The name of the widget. Mainly used for serialization proposes. */
-    name :
-    {
-      check : "String",
-      nullable : true,
-      event : "changeName"
     },
 
     /**

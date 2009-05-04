@@ -212,7 +212,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
         return {
           decorator : decorator,
-          textColor : textColor
+          textColor : textColor,
+          shadow : states.invalid ? "button-invalid-shadow" : undefined
         }
       }
     },
@@ -344,35 +345,27 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
-        var shadow;
         var decorator;
-        var padding = [ 2, 4, 1 ];
         
         var focused = !!states.focused;
         var invalid = !!states.invalid;
         var disabled = !!states.disabled;
         
         if (focused && invalid && !disabled) {
-          shadow = "input-focused-invalid";
-          decorator = "input-invalid-snake";
+          decorator = "input-focused-invalid";
         } else if (focused && !invalid && !disabled) {
           decorator = "input-focused";
-          shadow = undefined;
         } else if (disabled) {
           decorator = "input-disabled";
-          shadow = undefined;
         } else if (!focused && invalid && !disabled) {
-          shadow = "border-invalid-shadow";
-          decorator = "input-invalid-snake";
-          padding = [ 4, 6, 3 ];
+          decorator = "border-invalid";
         } else {
           decorator = "input";
         }
         
         return {
-          shadow: shadow,
           decorator : decorator,
-          padding   : padding,
+          padding   : [ 2, 4, 1 ],
           textColor : states.disabled ? "text-disabled" : "text-input"
         };
       }
@@ -432,7 +425,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : states.invalid ? "input-invalid-snake" : undefined,
           marginRight: 2,
           padding: [2, 4, 1]
         };
@@ -1759,7 +1751,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       include : "button-frame",
 
       style : function(states)
-      {
+      {    
         return {
           padding : [ 2, 8 ]
         };
@@ -1923,9 +1915,26 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
+        var decorator;
+        
+        var focused = !!states.focused;
+        var invalid = !!states.invalid;
+        var disabled = !!states.disabled;
+        
+        if (focused && invalid && !disabled) {
+          decorator = "input-focused-invalid";
+        } else if (focused && !invalid && !disabled) {
+          decorator = "input-focused";
+        } else if (disabled) {
+          decorator = "input-disabled";
+        } else if (!focused && invalid && !disabled) {
+          decorator = "border-invalid";
+        } else {
+          decorator = "input";
+        }
+                
         return {
-          decorator : states.focused ? "input-focused" : 
-                      states.disabled ? "input-disabled" : "input"
+          decorator : decorator
         };
       }
     },
