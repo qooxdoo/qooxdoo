@@ -30,7 +30,10 @@
 qx.Class.define("qx.ui.form.ComboBox",
 {
   extend  : qx.ui.form.AbstractSelectBox,
-  implement : qx.ui.form.IFormElement,
+  implement : [
+    qx.ui.form.IFormElement,
+    qx.ui.form.IStringForm
+  ],
 
 
 
@@ -127,8 +130,8 @@ qx.Class.define("qx.ui.form.ComboBox",
 
   members :
   {
-
     __preSelectedItem : null,
+
 
     /*
     ---------------------------------------------------------------------------
@@ -219,6 +222,12 @@ qx.Class.define("qx.ui.form.ComboBox",
     // interface implementation
     getValue : function() {
       return this.getChildControl("textfield").getValue();
+    },
+
+
+    // interface implementation    
+    resetValue : function() {
+      this.getChildControl("textfield").setValue("");
     },
 
 

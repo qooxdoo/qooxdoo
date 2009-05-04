@@ -218,23 +218,42 @@ qx.Class.define("qx.ui.form.SelectBox",
     */
 
     
-    // interface implementation
+    /**
+     * Trys to select an item of the list by using the given string to find one.
+     * @param value {String} The value to set
+     * @deprecated
+     */
     setValue : function(value) {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Please use the selection API instead."
+      );      
       this.getChildControl("list").setValue(value);
     },
 
-    // interface implementation
+    /**
+     * Returns the value selected by the list.
+     * @return {String|null} Returns the value of the current selected item
+     *   of the list.
+     * @deprecated
+     */    
     getValue : function()
     {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Please use the selection API instead."
+      );      
       var item = this.getSelection()[0];
       return item ? item.getFormValue() : null;
     },
 
     /**
     * Resets the value to the default
+    * @deprecated
     */    
     resetValue : function() 
     {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Please use the selection API instead."
+      );
       var list = this.getChildControl("list");
       var children = list.getChildren();
       if (children[0]) {
