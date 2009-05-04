@@ -28,6 +28,7 @@ qx.Class.define("qx.test.ui.selection.Stack",
     setUp : function()
     {
       var length = 10;
+      this._notInSelection = [];
       this._mode = "";
       
       var colors = [
@@ -53,6 +54,8 @@ qx.Class.define("qx.test.ui.selection.Stack",
         if (i == 5) {
           this._widget.setSelection([item]);
           this._selection = [item];
+        } else {
+          this._notInSelection.push(item);
         }
       } 
       
@@ -65,6 +68,7 @@ qx.Class.define("qx.test.ui.selection.Stack",
       this._widget.destroy();
       this._widget = null;
       this._selection = null;
+      this._notInSelection = null;
     },
     
     _getChildren : function() 

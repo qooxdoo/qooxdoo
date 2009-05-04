@@ -26,6 +26,7 @@ qx.Class.define("qx.test.ui.selection.SelectBox",
     setUp : function()
     {
       var length = 10;
+      this._notInSelection = [];
       this._mode = "one";
       
       this._widget = new qx.ui.form.SelectBox();
@@ -38,6 +39,8 @@ qx.Class.define("qx.test.ui.selection.SelectBox",
         if (i == 5) {
           this._widget.setSelection([item]);
           this._selection = [item];
+        } else {
+          this._notInSelection.push(item);
         }
       } 
       
@@ -50,6 +53,7 @@ qx.Class.define("qx.test.ui.selection.SelectBox",
       this._widget.destroy();
       this._widget = null;
       this._selection = null;
+      this._notInSelection = null;
     },
     
     _getChildren : function() 

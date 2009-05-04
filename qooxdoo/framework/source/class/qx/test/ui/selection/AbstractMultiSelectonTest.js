@@ -36,11 +36,11 @@ qx.Class.define("qx.test.ui.selection.AbstractMultiSelectonTest",
       
       // Sets up the new selection
       var selection = [];
-      selection[0] = this._getChildren()[1];
-      selection[1] = this._getChildren()[3];
-      selection[2] = this._getChildren()[5];
-      selection[3] = this._getChildren()[7];
-      selection[4] = this._getChildren()[9];
+      selection[0] = this._notInSelection[0];
+      selection[1] = this._notInSelection[1];
+      selection[2] = this._notInSelection[2];
+      selection[3] = this._notInSelection[3];
+      selection[4] = this._notInSelection[4];
       
       this._testSetSelection(selection);
       this.flush();
@@ -50,11 +50,11 @@ qx.Class.define("qx.test.ui.selection.AbstractMultiSelectonTest",
     {
       // Sets up the new selection
       this._selection = [];
-      this._selection[0] = this._getChildren()[0];
-      this._selection[1] = this._getChildren()[1];
-      this._selection[2] = this._getChildren()[2];
-      this._selection[3] = this._getChildren()[3];
-      this._selection[4] = this._getChildren()[4];
+      this._selection[0] = this._notInSelection[0];
+      this._selection[1] = this._notInSelection[1];
+      this._selection[2] = this._notInSelection[2];
+      this._selection[3] = this._notInSelection[3];
+      this._selection[4] = this._notInSelection[4];
       this._widget.setSelection(this._selection);
       this.flush();
       
@@ -107,7 +107,7 @@ qx.Class.define("qx.test.ui.selection.AbstractMultiSelectonTest",
     testAddToSelection : function()
     {
       // Sets up a new item for selection
-      var newValue = this._getChildren()[3];
+      var newValue = this._notInSelection[0];
       this._selection[this._selection.length] = newValue;
       
       // Tests event and adds item to the selection
@@ -149,7 +149,7 @@ qx.Class.define("qx.test.ui.selection.AbstractMultiSelectonTest",
     {
       // Sets up the item to remove and update the selection array
       var selection = this._selection
-      var itemToRemovet = selection[selection.length - 1];
+      var itemToRemove = selection[selection.length - 1];
       delete selection[selection.length - 1];
       selection.length = selection.length - 1;
       
@@ -157,7 +157,7 @@ qx.Class.define("qx.test.ui.selection.AbstractMultiSelectonTest",
       var widget = this._widget;
       var that = this;
       this.assertEventFired(widget, "changeSelection", function () {
-        widget.removeFromSelection(itemToRemovet);
+        widget.removeFromSelection(itemToRemove);
         that.flush();
       }, function(event) {
         // Tests the result from the event
@@ -181,6 +181,16 @@ qx.Class.define("qx.test.ui.selection.AbstractMultiSelectonTest",
         " which isn't a child element!");
       
       testElement.destroy();
+    },
+    
+    testRemoveFromSelectionWithNotSelectedElement : function()
+    {
+      var itemToRemove = this._notInSelection[0];
+      
+      var widget = this._widget;
+      this.assertEventNotFired(widget, "changeSelection", function () {
+        widget.removeFromSelection(itemToRemove);
+      }, function(event) {}, "'changeSelection' event fired!");      
     }
   }
 });
