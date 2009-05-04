@@ -216,14 +216,27 @@ class QxTest:
       
     if appConf['clearLogs']:
       self.clearLogs()
+
+    getReportFrom = 'serverLog'
+    try:
+      getReportFrom = self.testConf['getReportFrom']
+    except:
+      pass
+    
+    if getReportFrom == 'testLog':
+      logPath = os.path.join(self.testConf['testLogDir'], appConf['appName'])
+      if not os.path.isdir(logPath):
+        os.mkdir(logPath)
+        
+      tf = '%Y-%m-%d_%H-%M-%S'
+      startTime = time.strftime(tf)
       
-    tf = '%Y-%m-%d_%H-%M-%S'
-    startTime = time.strftime(tf)
-    logFile = appConf['appName'] + "_" + startTime + ".log"
+      logFile = os.path.join(logPath, startTime + ".log")
 
     for browser in appConf['browsers']:      
       cmd = self.getStartCmd(appConf['appName'], browser['browserId'])
-      cmd += " logFile=" + logFile
+      if getReportFrom == 'testLog':
+        cmd += " logFile=" + logFile
       
       try:
         if (browser['setProxy']):
@@ -263,8 +276,11 @@ class QxTest:
           pass  
 
     if (appConf['sendReport']):
-      #self.formatLog(logFile)
-      self.formatLog()
+      if getReportFrom == 'testLog':
+        self.formatLog(logFile)
+      else:
+        self.formatLog()
+        
       self.sendReport(appConf['appName'])
 
 
