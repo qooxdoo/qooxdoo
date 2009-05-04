@@ -16,6 +16,9 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+/**
+ * Mixin for supporting the background images on decorators.
+ */
 qx.Mixin.define("qx.ui.decoration.MBackgroundImage", 
 {
   properties : 
@@ -76,6 +79,12 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
   
   members :
   {
+    /**
+     * Responsible for generating the markup for the background. 
+     * This method just uses the settings in the properties and the 
+     * {@link qx.ui.decoration.Util#generateBackgroundMarkup} method to generate
+     *  the markup.
+     */
     _generateBackgroundMarkup: function() {
       // Generate markup
       var html = qx.ui.decoration.Util.generateBackgroundMarkup(

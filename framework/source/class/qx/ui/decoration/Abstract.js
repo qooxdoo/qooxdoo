@@ -17,6 +17,14 @@
      * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
+/**
+ * This class acts as abstract class for all decorators. It offers the 
+ * properties for the insets handling. Every decorator has to define its own 
+ * default insets by implementing the template method 
+ * (http://en.wikipedia.org/wiki/Template_Method) <code>_getDefaultInsets</code>
+ * . Another template method called <code>_isInitialized</code> should return 
+ * weather the decorator is initialized of not.
+ */
 qx.Class.define("qx.ui.decoration.Abstract", 
 {
   extend: qx.core.Object,
@@ -71,16 +79,37 @@ qx.Class.define("qx.ui.decoration.Abstract",
     __insets : null,
     
     
+    /**
+     * Abstract method. Should return a map contraining the default insets of 
+     * the decorator. This could look like this:
+     * <pre>
+     * return {
+     *   top : 0,
+     *   right : 0,
+     *   bottom : 0,
+     *   left : 0
+     * };
+     * </pre>
+     * @return {Map} Map containing the insets.
+     */
     _getDefaultInsets : function() {
       throw new Error("Abstract method called.");
     },
     
     
+    /**
+     * Abstract method. Should return an boolean value if the decorator is
+     * already initialized or not.
+     * @return {Boolean} True, if the decorator is initialized.
+     */
     _isInitialized: function() {
       throw new Error("Abstract method called.");
     },
 
 
+    /**
+     * Resets the insets.
+     */
     _resetInsets: function() {
       this.__insets = null;
     },
