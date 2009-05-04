@@ -1687,7 +1687,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     {
       var hash = this._selectableToHashCode(item);
 
-      if (this.__selection[hash] !== null)
+      if (this.__selection[hash] != null)
       {
         delete this.__selection[hash];
         this._styleSelectable(item, "selected", false);
