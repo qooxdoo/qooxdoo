@@ -1746,7 +1746,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           decorator       : states.focused ? "focused-inset" : "inset",
           textColor       : states.disabled ? "text-disabled" : undefined,
-          backgroundColor : states.invalid ? "background-invalid" : "background-field"
+          backgroundColor : states.invalid ? "background-invalid" : states.focused ? "background-focused" : "background-field"
         };
       }
     },
