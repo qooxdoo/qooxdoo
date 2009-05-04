@@ -624,7 +624,7 @@ qx.Class.define("toolbox.configuration.JsonAnalyzer",
         this.booleanTypeBox.add(tempItem3);
 
         if (i == 0) {
-          this.booleanTypeBox.setSelected(tempItem3);
+          this.booleanTypeBox.setSelection([tempItem3]);
         }
       }
 
@@ -641,7 +641,7 @@ qx.Class.define("toolbox.configuration.JsonAnalyzer",
 
         if (i == 0)
         {
-          this.typeBox.setSelected(tempItem);
+          this.typeBox.setSelection([tempItem]);
           this.__currentType = this.typeBox.getValue();
         }
       }
@@ -659,7 +659,7 @@ qx.Class.define("toolbox.configuration.JsonAnalyzer",
 
         if (i == 0)
         {
-          this.primitiveTypeBox.setSelected(tempItem2);
+          this.primitiveTypeBox.setSelection([tempItem2]);
           this.childKeyTextfield.show();
           this.childValueTextfield.show();
         }
@@ -921,9 +921,9 @@ qx.Class.define("toolbox.configuration.JsonAnalyzer",
      */
     __addChild : function()
     {
-      var json = this.__tree.getSelected().getUserData("json");
+      var json = this.__tree.getSelection()[0].getUserData("json");
 
-      if (this.__tree.getSelected().getLabel().toString() == "root") {
+      if (this.__tree.getSelection()[0].getLabel().toString() == "root") {
         var subTree = json.obj;
       } else {
         var subTree = json.obj[json.key];
@@ -995,13 +995,13 @@ qx.Class.define("toolbox.configuration.JsonAnalyzer",
       }
 
       var json2 = this.currentItem.getUserData("json");
-      var current = this.__tree.getSelected();
+      var current = this.__tree.getSelection()[0];
       current.removeAll();
 
-      if (this.__tree.getSelected().getLabel().toString() == "root") {
-        this[this.__map[typeof subTree]](subTree, this.__tree.getSelected());
+      if (this.__tree.getSelection()[0].getLabel().toString() == "root") {
+        this[this.__map[typeof subTree]](subTree, this.__tree.getSelection()[0]);
       } else {
-        this[this.__map[typeof json2.obj[json2.key]]](json2.obj[json2.key], this.__tree.getSelected());
+        this[this.__map[typeof json2.obj[json2.key]]](json2.obj[json2.key], this.__tree.getSelection()[0]);
       }
 
       this.resetAddChildDialog();
@@ -1020,11 +1020,11 @@ qx.Class.define("toolbox.configuration.JsonAnalyzer",
     {
       var resetTypeBoxSelection = new qx.ui.form.ListItem("Primitive type");
       resetTypeBoxSelection.setValue("primitive");
-      this.typeBox.setSelected(resetTypeBoxSelection);
+      this.typeBox.setSelection([resetTypeBoxSelection]);
 
       var resetPrimitiveSelection = new qx.ui.form.ListItem("String");
       resetPrimitiveSelection.setValue("string");
-      this.primitiveTypeBox.setSelected(resetPrimitiveSelection);
+      this.primitiveTypeBox.setSelection([resetPrimitiveSelection]);
 
       this.primitiveTypeLabel.show();
       this.primitiveTypeBox.show();
@@ -1095,16 +1095,16 @@ qx.Class.define("toolbox.configuration.JsonAnalyzer",
         var parMem = this.currentItem.getParent();
 
         // -----------------------------------OBJECT-------------------------------------
-        if (this.currentTypeAtom.getLabel().toString() == "object" || this.currentTypeAtom.getLabel().toString() == "array" || this.currentTypeAtom.getLabel().toString() == "null" || this.__tree.getSelected().getParent().getLabel().toString() == "root" || typeof json.obj[json.key] == "string" || typeof json.obj[json.key] == "number" || typeof json.obj[json.key] == "boolean")
+        if (this.currentTypeAtom.getLabel().toString() == "object" || this.currentTypeAtom.getLabel().toString() == "array" || this.currentTypeAtom.getLabel().toString() == "null" || this.__tree.getSelection()[0].getParent().getLabel().toString() == "root" || typeof json.obj[json.key] == "string" || typeof json.obj[json.key] == "number" || typeof json.obj[json.key] == "boolean")
         {  // Objekt in einem Arrays
           if (par.obj[par.key] instanceof Array)
           {
             for (var i=0; i<json.obj.length; i++)
             {
-              if (i == this.__tree.getSelected().getLabel().toString())
+              if (i == this.__tree.getSelection()[0].getLabel().toString())
               {
                 json.obj.splice(i, 1);
-                this[this.__map[typeof json.obj]](json.obj, this.__tree.getSelected().getParent());
+                this[this.__map[typeof json.obj]](json.obj, this.__tree.getSelection()[0].getParent());
 
                 for (var j=0; j<json.obj.length+1; j++) {
                   parMem.removeAt(0);
@@ -1114,11 +1114,11 @@ qx.Class.define("toolbox.configuration.JsonAnalyzer",
               }
             }
           }
-          else if (par.obj[par.key] instanceof Object || this.__tree.getSelected().getParent().getLabel().toString() == "root")
+          else if (par.obj[par.key] instanceof Object || this.__tree.getSelection()[0].getParent().getLabel().toString() == "root")
           {  // Object in einem Object
             delete json.obj[json.key];
             delete json.key;
-            this[this.__map[typeof json.obj]](json.obj, this.__tree.getSelected().getParent());
+            this[this.__map[typeof json.obj]](json.obj, this.__tree.getSelection()[0].getParent());
 
             for (var j=0; j<parMem.getItems(true, false).length+1; j++) {
               parMem.removeAt(0);
@@ -1126,17 +1126,17 @@ qx.Class.define("toolbox.configuration.JsonAnalyzer",
           }
         }
       }
-      else if (this.__tree.getSelected().getLabel().toString() == "root")
+      else if (this.__tree.getSelection()[0].getLabel().toString() == "root")
       {
-        this.__tree.getSelected().removeAll();
+        this.__tree.getSelection()[0].removeAll();
 
-        this.__tree.getSelected().setUserData("json",
+        this.__tree.getSelection()[0].setUserData("json",
         {
           obj : {},
           key : null
         });
 
-        var json = this.__tree.getSelected().getUserData("json");
+        var json = this.__tree.getSelection()[0].getUserData("json");
         toolbox.configuration.Configuration.JSON = json.obj;
       }
     },
@@ -1156,26 +1156,26 @@ qx.Class.define("toolbox.configuration.JsonAnalyzer",
       }
 
       var value = this.tCurrentInput.getValue().toString().replace(/\n/g, '').replace(/\\"/g, '"');
-      var json = this.__tree.getSelected().getUserData("json");
+      var json = this.__tree.getSelection()[0].getUserData("json");
 
       try
       {
         var parent = qx.util.Json.parse(value);
         json.obj[json.key] = parent;
 
-        this.__tree.getSelected().removeAll();
+        this.__tree.getSelection()[0].removeAll();
 
-        if (this.__tree.getSelected().getLabel().toString() == "root")
+        if (this.__tree.getSelection()[0].getLabel().toString() == "root")
         {
-          var json = this.__tree.getSelected().getUserData("json");
+          var json = this.__tree.getSelection()[0].getUserData("json");
           var subTree = json.obj[json.key];
-          this.__tree.getSelected().removeAll();
+          this.__tree.getSelection()[0].removeAll();
           this.createJsonTree(subTree);
           toolbox.configuration.Configuration.JSON = subTree;
         }
         else
         {
-          this[this.__map[typeof parent]](parent, this.__tree.getSelected());
+          this[this.__map[typeof parent]](parent, this.__tree.getSelection()[0]);
         }
       }
       catch(err)

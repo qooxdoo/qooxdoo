@@ -879,7 +879,7 @@ qx.Class.define("toolbox.content.DevelopmentContent",
 
         // select first item
         if (i == 0) {
-          selectBox.setSelected(tempItem);
+          selectBox.setSelection([tempItem]);
         }
       }
 
