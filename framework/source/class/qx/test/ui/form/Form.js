@@ -24,6 +24,9 @@ qx.Class.define("qx.test.ui.form.Form",
   {
     
     __testRequired: function(widget) {
+      // check if the interface is implemented
+      qx.Class.hasInterface(widget, qx.ui.form.IForm);
+            
       // test for the default (false)
       this.assertFalse(widget.getRequired(), "Default required state is wrong.");
 
@@ -33,7 +36,10 @@ qx.Class.define("qx.test.ui.form.Form",
       this.assertTrue(widget.getRequired(), "Setting of the required flag did not work.");
     },
     
-    __testValid: function(widget) {
+    __testValid: function(widget, where) {
+      // check if the interface is implemented
+      qx.Class.hasInterface(widget, qx.ui.form.IForm);      
+      
       this.getRoot().add(widget);
       
       // test for the default (true)
@@ -46,17 +52,34 @@ qx.Class.define("qx.test.ui.form.Form",
       this.assertFalse(widget.getValid(), "Setting of the valid flag did not work.");
       this.assertTrue(widget.hasState("invalid"), "Should have the invalid state.");
     
+      if (where == "shadow") {
+        this.__testInvalidShadow(widget);              
+      } else {
+        this.__testInvalidBorder(widget);      
+      }
+
+    },    
+    
+    
+    __testInvalidBorder: function(widget) {      
       qx.ui.core.queue.Manager.flush();
       
-      // check for the invalid shadow
-      this.assertEquals("border-invalid", widget.getDecorator(), "Shadow not set!");
+      // check for the invalid decorator
+      this.assertEquals("border-invalid", widget.getDecorator(), "Decorator not set!");
       
       // check the focus
       widget.focus();
       qx.ui.core.queue.Manager.flush();
-      this.assertEquals("input-focused-invalid", widget.getDecorator(), "Decorator not set!");
-    },    
+      this.assertEquals("input-focused-invalid", widget.getDecorator(), "Decorator not set!");      
+    },
     
+    
+    __testInvalidShadow: function(widget) {      
+      qx.ui.core.queue.Manager.flush();
+      
+      // check for the invalid shadow
+      this.assertEquals("button-invalid-shadow", widget.getShadow(), "Shadow not set!");
+    },    
     
     
     testRequieredSpinner: function() {
@@ -76,11 +99,43 @@ qx.Class.define("qx.test.ui.form.Form",
     },
     
     testRequieredTextField: function() {
-      this.__testRequired(new qx.ui.form.Slider());      
+      this.__testRequired(new qx.ui.form.TextField());      
     },
     
     testValidTextField: function() {
-     this.__testValid(new qx.ui.form.Slider()); 
+     this.__testValid(new qx.ui.form.TextField()); 
+    },
+    
+    testRequieredTextArea: function() {
+      this.__testRequired(new qx.ui.form.TextArea());      
+    },
+    
+    testValidTextArea: function() {
+     this.__testValid(new qx.ui.form.TextArea()); 
+    },
+    
+    testRequieredPasswordField: function() {
+      this.__testRequired(new qx.ui.form.PasswordField());      
+    },
+    
+    testValidPasswordField: function() {
+     this.__testValid(new qx.ui.form.PasswordField()); 
+    },
+    
+    testRequieredComboBox: function() {
+      this.__testRequired(new qx.ui.form.ComboBox());      
+    },
+    
+    testValidComboBox: function() {
+     this.__testValid(new qx.ui.form.ComboBox()); 
+    },
+    
+    testRequieredSelectBox: function() {
+      this.__testRequired(new qx.ui.form.SelectBox());      
+    },
+    
+    testValidSelectBox: function() {
+     this.__testValid(new qx.ui.form.SelectBox(), "shadow"); 
     }    
     
 
