@@ -129,7 +129,7 @@ qx.Class.define("demobrowser.demo.table.TableDemo",
         dlg.add(button, {row: 1, column: 0, colSpan: 2});
       }
 
-      this.__dlg.getChildren()[1].setContent(text);
+      this.__dlg.getChildren()[1].setValue(text);
       this.__dlg.open();
       this.__dlg.getChildren()[2].focus();
     }

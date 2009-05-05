@@ -56,7 +56,7 @@ qx.Class.define("demobrowser.demo.widget.ScrollBar",
       });
       hScrollBar.addListener("scroll", function(e) {
         vScrollBar.setPosition(e.getData());
-        label.setContent("Value: " + e.getData());
+        label.setValue("Value: " + e.getData());
       });
       container.add(hScrollBar, {row: 1, column: 0});
 

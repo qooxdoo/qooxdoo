@@ -72,7 +72,7 @@ qx.Class.define("demobrowser.demo.test.Table_CellEditor",
       var btnValue = new qx.ui.form.Button("Get value");
       box.add(btnValue);
       btnValue.addListener("execute", function() {
-        label.setContent(editorFactory.getCellEditorValue(editor) + "");
+        label.setValue(editorFactory.getCellEditorValue(editor) + "");
       });
 
       var btnAddRemove = new qx.ui.form.Button("Add/Remove editor");

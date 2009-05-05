@@ -396,7 +396,7 @@ qx.Class.define("demobrowser.demo.showcase.Calculator",
       buttonC.addListener("execute", function(e)
       {
         this.__cal.cleanDisplay();
-        this.__display.setContent(this.__cal.getCurrentValue().toString());
+        this.__display.setValue(this.__cal.getCurrentValue().toString());
       },
       this);
 
@@ -405,7 +405,7 @@ qx.Class.define("demobrowser.demo.showcase.Calculator",
         this.__cal.clearEntry();
 
         if (this.__cal.getResult() != null) {
-          this.__display.setContent(this.__cal.getCurrentValue().toString());
+          this.__display.setValue(this.__cal.getCurrentValue().toString());
         }
       },
       this);
@@ -413,7 +413,7 @@ qx.Class.define("demobrowser.demo.showcase.Calculator",
       buttonDelete.addListener("execute", function(e)
       {
         this.__cal.deleteNumber();
-        this.__display.setContent(this.__cal.getCurrentValue().toString());
+        this.__display.setValue(this.__cal.getCurrentValue().toString());
       },
       this);
 
@@ -422,7 +422,7 @@ qx.Class.define("demobrowser.demo.showcase.Calculator",
         this.__cal.setSign();
 
         if (this.__cal.getResult() != null) {
-          this.__display.setContent(this.__cal.getResult().toString());
+          this.__display.setValue(this.__cal.getResult().toString());
         }
       },
 
@@ -432,70 +432,70 @@ qx.Class.define("demobrowser.demo.showcase.Calculator",
       button0.addListener("execute", function(e)
       {
         this.__cal.setCurrentValue(0);
-        this.__display.setContent(this.__cal.getCurrentValue().toFixed(this.__cal.getZeroCounter()).toString());
+        this.__display.setValue(this.__cal.getCurrentValue().toFixed(this.__cal.getZeroCounter()).toString());
       },
       this);
 
       button1.addListener("execute", function(e)
       {
         this.__cal.setCurrentValue(1);
-        this.__display.setContent(this.__cal.getCurrentValue().toString());
+        this.__display.setValue(this.__cal.getCurrentValue().toString());
       },
       this);
 
       button2.addListener("execute", function(e)
       {
         this.__cal.setCurrentValue(2);
-        this.__display.setContent(this.__cal.getCurrentValue().toString());
+        this.__display.setValue(this.__cal.getCurrentValue().toString());
       },
       this);
 
       button3.addListener("execute", function(e)
       {
         this.__cal.setCurrentValue(3);
-        this.__display.setContent(this.__cal.getCurrentValue().toString());
+        this.__display.setValue(this.__cal.getCurrentValue().toString());
       },
       this);
 
       button4.addListener("execute", function(e)
       {
         this.__cal.setCurrentValue(4);
-        this.__display.setContent(this.__cal.getCurrentValue().toString());
+        this.__display.setValue(this.__cal.getCurrentValue().toString());
       },
       this);
 
       button5.addListener("execute", function(e)
       {
         this.__cal.setCurrentValue(5);
-        this.__display.setContent(this.__cal.getCurrentValue().toString());
+        this.__display.setValue(this.__cal.getCurrentValue().toString());
       },
       this);
 
       button6.addListener("execute", function(e)
       {
         this.__cal.setCurrentValue(6);
-        this.__display.setContent(this.__cal.getCurrentValue().toString());
+        this.__display.setValue(this.__cal.getCurrentValue().toString());
       },
       this);
 
       button7.addListener("execute", function(e)
       {
         this.__cal.setCurrentValue(7);
-        this.__display.setContent(this.__cal.getCurrentValue().toString());
+        this.__display.setValue(this.__cal.getCurrentValue().toString());
       },
       this);
 
       button8.addListener("execute", function(e)
       {
         this.__cal.setCurrentValue(8);
-        this.__display.setContent(this.__cal.getCurrentValue().toString());
+        this.__display.setValue(this.__cal.getCurrentValue().toString());
       },
       this);
 
       button9.addListener("execute", function(e)
       {
         this.__cal.setCurrentValue(9);
-        this.__display.setContent(this.__cal.getCurrentValue().toString());
+        this.__display.setValue(this.__cal.getCurrentValue().toString());
       },
       this);
 
@@ -504,7 +504,7 @@ qx.Class.define("demobrowser.demo.showcase.Calculator",
         this.__cal.calculate("+");
 
         if (this.__cal.getResult() != null) {
-          this.__display.setContent(this.__cal.getResult().toString());
+          this.__display.setValue(this.__cal.getResult().toString());
         }
 
         this.__cal.resetCurrentValue();
@@ -516,7 +516,7 @@ qx.Class.define("demobrowser.demo.showcase.Calculator",
         this.__cal.calculate("-");
 
         if (this.__cal.getResult() != null) {
-          this.__display.setContent(this.__cal.getResult().toString());
+          this.__display.setValue(this.__cal.getResult().toString());
         }
 
         this.__cal.resetCurrentValue();
@@ -528,7 +528,7 @@ qx.Class.define("demobrowser.demo.showcase.Calculator",
         this.__cal.calculate("*");
 
         if (this.__cal.getResult() != null) {
-          this.__display.setContent(this.__cal.getResult().toString());
+          this.__display.setValue(this.__cal.getResult().toString());
         }
 
         this.__cal.resetCurrentValue();
@@ -540,7 +540,7 @@ qx.Class.define("demobrowser.demo.showcase.Calculator",
         this.__cal.calculate("/");
 
         if (this.__cal.getResult() != null) {
-          this.__display.setContent(this.__cal.getResult().toString());
+          this.__display.setValue(this.__cal.getResult().toString());
         }
 
         this.__cal.resetCurrentValue();
@@ -552,7 +552,7 @@ qx.Class.define("demobrowser.demo.showcase.Calculator",
         this.__cal.calculate("=");
 
         if (this.__cal.getResult() != null) {
-          this.__display.setContent(this.__cal.getResult().toString());
+          this.__display.setValue(this.__cal.getResult().toString());
         }
 
         this.__cal.resetCurrentValue();

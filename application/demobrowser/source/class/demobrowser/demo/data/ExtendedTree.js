@@ -94,7 +94,7 @@ qx.Class.define("demobrowser.demo.data.ExtendedTree",
       var description = new qx.ui.basic.Label();
       description.setRich(true);
       description.setWidth(250);
-      description.setContent(
+      description.setValue(
         "<b>A tree configures with bindItem</b><br/>"
         + "The tree has bound its label to the name of the modeln and its " 
         + "textColor to some random colors."

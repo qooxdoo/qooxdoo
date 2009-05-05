@@ -82,8 +82,8 @@ qx.Class.define("demobrowser.demo.widget.Button",
       // Listener
       btnRepeat.addListener("execute", function()
       {
-        var tempValue = parseInt(l1.getContent()) + 1;
-        l1.setContent(tempValue.toString());
+        var tempValue = parseInt(l1.getValue()) + 1;
+        l1.setValue(tempValue.toString());
       });
     }
   }

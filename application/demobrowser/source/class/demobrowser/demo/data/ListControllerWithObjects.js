@@ -147,7 +147,7 @@ qx.Class.define("demobrowser.demo.data.ListControllerWithObjects",
        var syncListDescription = new qx.ui.basic.Label();
        syncListDescription.setRich(true);
        syncListDescription.setWidth(410);
-       syncListDescription.setContent(
+       syncListDescription.setValue(
          "<b>Displaying objects in a list</b><br/>"
          + "This list display a set of persons in a list. Every person does "
          + "have a name and an emotion, which is displayed with the help of " 

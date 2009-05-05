@@ -60,7 +60,7 @@ qx.Class.define("demobrowser.demo.data.ModelDebugging",
       var description = new qx.ui.basic.Label();
       description.setRich(true);
       description.setWidth(500);
-      description.setContent(
+      description.setValue(
         "<b>Debugging models</b><br/>"
         + "Every model created by the data stores consists only of qooxdoo "
         + "objects with properties. To see the properties, you can use the "

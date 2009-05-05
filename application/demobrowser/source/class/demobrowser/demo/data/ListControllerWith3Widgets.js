@@ -97,28 +97,28 @@ qx.Class.define("demobrowser.demo.data.ListControllerWith3Widgets",
        var listDescription = new qx.ui.basic.Label();
        listDescription.setRich(true);
        listDescription.setWidth(100);
-       listDescription.setContent("<b>List</b><br/>");
+       listDescription.setValue("<b>List</b><br/>");
        this.getRoot().add(listDescription, {left: 20, top: 10});   
        
        // SelectBox Description
        var selectBoxDescription = new qx.ui.basic.Label();
        selectBoxDescription.setRich(true);
        selectBoxDescription.setWidth(100);
-       selectBoxDescription.setContent("<b>SelectBox</b>");
+       selectBoxDescription.setValue("<b>SelectBox</b>");
        this.getRoot().add(selectBoxDescription, {left: 130, top: 10});       
        
        // ComboBox Description
        var comboBoxDescription = new qx.ui.basic.Label();
        comboBoxDescription.setRich(true);
        comboBoxDescription.setWidth(100);
-       comboBoxDescription.setContent("<b>ComboBox</b><br/>");
+       comboBoxDescription.setValue("<b>ComboBox</b><br/>");
        this.getRoot().add(comboBoxDescription, {left: 260, top: 10});
        
        // Common Description
        var commonDescription = new qx.ui.basic.Label();
        commonDescription.setRich(true);
        commonDescription.setWidth(360);
-       commonDescription.setContent(
+       commonDescription.setValue(
          "All 3 widgets share the same data model. The List and the SelectBox "
          + "also share the same selection."
         );
