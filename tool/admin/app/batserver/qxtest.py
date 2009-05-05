@@ -155,7 +155,8 @@ class QxTest:
             status, std, err = invokePiped(cmd)
             if (status > 0):
               self.log("Error while building " + target + ", see " 
-                    + buildLog + " for details.")        
+                    + buildLog + " for details.")
+              err = err.rstrip('\n')
               buildLogFile.write(target + "\n" + cmd + "\n" + err)
               buildLogFile.write("\n========================================================\n\n")
               
@@ -225,12 +226,33 @@ class QxTest:
       self.log("Remote qooxdoo checkout at revision " + self.trunkrev)
       return rev
 
+  # Generate a fake test log file so that a report email can be generated even
+  # if the test didn't run due to build errors.
+  def getDummyLog(self, appConf):
+    import random
+
+    dummyLogFile = os.path.join(self.testConf['testLogDir'], "DUMMY_" + appConf['appName'] + self.startTimeString + ".log")        
+    dummyLog = open(dummyLogFile, "w")
+
+    for browser in appConf['browsers']:
+      prefix = "qxSimulator_" + str(random.randint(100000, 999999)) + ": "
+      dummyLog.write(prefix + "<h1>" + appConf['appName'] + " results from " + self.startTimeString + "</h1>\n")
+      dummyLog.write(prefix + "<p>Platform: " + self.os + "</p>\n")
+      dummyLog.write(prefix + "<p>User agent: " + browser['browserId'] + "</p>\n")
+      dummyLog.write(prefix + "<DIV>BUILD ERROR: " + self.buildErrors[appConf['appName']] + "</DIV>\n")
+    dummyLog.close()
+
+    return dummyLogFile
 
   # Run tests for defined applications
   def runTests(self, appConf):
     if appConf['appName'] in self.buildErrors:
       self.log("ERROR: Skipping " + appConf['appName'] + " test because there "
                + "was an error during build:\n  " + self.buildErrors[appConf['appName']])
+      if (appConf['sendReport']):
+        dummyLogFile = self.getDummyLog(appConf)
+        self.formatLog(dummyLogFile)
+        self.sendReport(appConf['appName'])        
       return    
       
     if appConf['clearLogs']:
