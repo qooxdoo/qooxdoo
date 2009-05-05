@@ -32,13 +32,15 @@ class QxTest:
     self.browserConf = browserConf
     self.mailConf = mailConf
     self.trunkrev = None
+    self.buildErrors = {}
 
-    self.timeFormat = '%Y-%m-%d %H:%M:%S'
+    tf = '%Y-%m-%d_%H-%M-%S'
+    self.startTimeString = time.strftime(tf)
+
     self.logFile = False
 
     if ('testLogDir' in self.testConf):
-      tf = '%Y-%m-%d_%H-%M-%S'
-      filename = "testLog_" + time.strftime(tf) + ".txt"
+      filename = "testLog_" + self.startTimeString + ".txt"
       fullpath = os.path.join(self.testConf['testLogDir'], filename)
       self.logFile = open(fullpath, 'a')
       self.logFile.write("################################################################################\n")
@@ -71,6 +73,7 @@ class QxTest:
 
 
   def log(self, msg):
+    self.timeFormat = '%Y-%m-%d %H:%M:%S'
     logMsg = time.strftime(self.timeFormat) + " " + msg
     print(logMsg)
     if (self.logFile):      
@@ -121,42 +124,54 @@ class QxTest:
 
   # Builds all targets listed in buildConf.
   def buildAll(self, buildConf):
-    if ('buildLogFile' in buildConf):
-      buildLogFile = open(buildConf['buildLogFile'], 'w')
-      buildLogFile.write('')
-      buildLogFile.close()
-
-      buildLogFile = open(buildConf['buildLogFile'], 'a')
-
-    for target in buildConf:
+    for target in buildConf['targets']:
+      # Prepare log file
+      if ('buildLogDir' in buildConf):
+        if not os.path.isdir(buildConf['buildLogDir']):
+          os.mkdir(buildConf['buildLogDir'])
+        buildLog = os.path.join(buildConf['buildLogDir'], target + '_' + self.startTimeString + '.log')
+        self.log("Opening build log file " + buildLog)      
+        buildLogFile = open(buildLog, 'w')      
+      
+      # Assemble batbuild command line
       if (os.path.isabs(buildConf['batbuild'])):
         cmd = buildConf['batbuild']
       else:
         cmd = os.path.join(self.testConf['qxPathAbs'], buildConf['batbuild']) 
       cmd += " -w " + buildConf['stageDir']
       if target[0] == target[0].capitalize():
-        cmd += " " + buildConf[target]
+        cmd += " " + buildConf['targets'][target]
         self.log("Building " + target + "\n  " + cmd)
 
         if (self.sim):
           status = 0
           self.log("SIMULATION: Invoking build command:\n  " + cmd)
         else:
-          if (buildConf['buildLogLevel'] == "debug"):
+          if (buildConf['buildLogLevel'] == "debug" and 'buildLogDir' in buildConf):
+            # Start build with full logging
             invokeLog(cmd, buildLogFile)             
-
           else:
+            # Start build, only log errors
             status, std, err = invokePiped(cmd)
-
             if (status > 0):
               self.log("Error while building " + target + ", see " 
-                    + buildConf['buildLogFile'] + " for details.")        
+                    + buildLog + " for details.")        
               buildLogFile.write(target + "\n" + cmd + "\n" + err)
               buildLogFile.write("\n========================================================\n\n")
+              
+              """Get the last line of batbuild.py's STDERR output which contains
+              the actual error message. """
+              import re
+              nre = re.compile('\n(.*)$')
+              m = nre.search(err)
+              if m:
+                self.buildErrors[target] = m.group(1)
             else:
               self.log(target + " build finished without errors.")
+      
+      if ('buildLogDir' in buildConf):        
+        buildLogFile.close()
 
-    buildLogFile.close()    
     self.trunkrev = self.getLocalRevision()
     self.storeRevision()
 
@@ -171,7 +186,7 @@ class QxTest:
       if (out):
         self.log(out)
       if (err):
-        self.log(err)  
+        self.log(err)
 
 
   # Returns the SVN checkout's revision number
@@ -227,11 +242,8 @@ class QxTest:
       logPath = os.path.join(self.testConf['testLogDir'], appConf['appName'])
       if not os.path.isdir(logPath):
         os.mkdir(logPath)
-        
-      tf = '%Y-%m-%d_%H-%M-%S'
-      startTime = time.strftime(tf)
       
-      logFile = os.path.join(logPath, startTime + ".log")
+      logFile = os.path.join(logPath, self.startTimeString + ".log")
 
     for browser in appConf['browsers']:      
       cmd = self.getStartCmd(appConf['appName'], browser['browserId'])
@@ -341,13 +353,13 @@ class QxTest:
     if ('hostId' in self.mailConf):
       self.mailConf['subject'] += " " + self.mailConf['hostId']
     if (self.trunkrev):
-      self.mailConf['subject'] += " (trunk r" + self.trunkrev + "): "
-    else:
-      self.mailConf['subject'] += ": "
+      self.mailConf['subject'] += " (trunk r" + self.trunkrev + ")"
+    if (aut in self.buildErrors):
+      self.mailConf['subject'] += " BUILD ERROR"
     if (failed != ""):
-      self.mailConf['subject'] += failed + " test runs failed!"
+      self.mailConf['subject'] += ": " + failed + " test run(s) failed!"
     else:
-      self.mailConf['subject'] += totalE + " issues"    
+      self.mailConf['subject'] += ": " + totalE + " issues"    
 
     # Send mail
     if (self.sim):
