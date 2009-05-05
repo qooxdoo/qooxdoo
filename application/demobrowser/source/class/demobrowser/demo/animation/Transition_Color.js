@@ -64,7 +64,7 @@ members :
    }
 
    combo.addListener("changeValue", function(e) {
-     lblDesc.setContent(transitionData[lblDesc.setContent(e.getData())]);
+     lblDesc.setValue(transitionData[lblDesc.setValue(e.getData())]);
    });
 
    spDuration.set({

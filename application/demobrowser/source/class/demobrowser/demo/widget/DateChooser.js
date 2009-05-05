@@ -62,13 +62,13 @@ qx.Class.define("demobrowser.demo.widget.DateChooser",
 
       // listener for the change event
       chooser.addListener("changeDate", function(e) {
-        label.setContent("Change: " + e.getData());
+        label.setValue("Change: " + e.getData());
       }, this);
 
       // listener for the execute event
       chooser.addListener("execute", function(e) {
         var currentDate = chooser.getValue();
-        label.setContent("Execute: " + currentDate);
+        label.setValue("Execute: " + currentDate);
       }, this);
 
       // set current Date control

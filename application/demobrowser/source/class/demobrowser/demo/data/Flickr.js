@@ -103,7 +103,7 @@ qx.Class.define("demobrowser.demo.data.Flickr",
       var headline = new qx.ui.basic.Label();
       headline.setRich(true);
       headline.setWidth(260);
-      headline.setContent(
+      headline.setValue(
         "<span style='font-size: 20px'>Flickr</span>"
       );
       this.getRoot().add(headline, {left: 10, top: 10});      

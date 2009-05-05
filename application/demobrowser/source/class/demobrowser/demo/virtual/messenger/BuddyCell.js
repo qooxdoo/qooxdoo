@@ -31,7 +31,7 @@ qx.Class.define("demobrowser.demo.virtual.messenger.BuddyCell",
     
     updateData : function(widget, data)
     {
-      widget.label.setContent(data.getName());
+      widget.label.setValue(data.getName());
       widget.icon.setSource(data.getAvatar());
       widget.statusIcon.setSource("demobrowser/demo/icons/imicons/status_" + data.getStatus() + ".png");
     },  

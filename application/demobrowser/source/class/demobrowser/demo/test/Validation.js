@@ -176,7 +176,7 @@ qx.Class.define("demobrowser.demo.test.Validation",
       var description = new qx.ui.basic.Label();
       description.setRich(true);
       description.setWidth(250);
-      description.setContent(
+      description.setValue(
         "<b>Description</b><br/>"
         + "The demo creates an internal class containing three properties:<br/>"
         + "- name: Name is validated to a minimum length of two.<br/>"

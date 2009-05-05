@@ -147,11 +147,11 @@ qx.Class.define("demobrowser.demo.data.SingleValueBinding",
       // create the options with the converter
       var options = {
         onUpdate : function() {
-          labelValidation.setContent("");
+          labelValidation.setValue("");
           validationTextField.resetShadow();
         }, 
         onSetFail : function(e) {
-          labelValidation.setContent("No number!");
+          labelValidation.setValue("No number!");
           validationTextField.setShadow(validationDecorator);
         }
       };
@@ -173,7 +173,7 @@ qx.Class.define("demobrowser.demo.data.SingleValueBinding",
       var eventDescription = new qx.ui.basic.Label();
       eventDescription.setRich(true);
       eventDescription.setWidth(350);
-      eventDescription.setContent(
+      eventDescription.setValue(
         "<b>Description</b><br/>"
         + "Binding an data event, containing the change of the textfield to"
         + " the label."
@@ -184,7 +184,7 @@ qx.Class.define("demobrowser.demo.data.SingleValueBinding",
       var defaultDescription = new qx.ui.basic.Label();
       defaultDescription.setRich(true);
       defaultDescription.setWidth(350);
-      defaultDescription.setContent(
+      defaultDescription.setValue(
         "<b>Description</b><br/>"
         + "Binding a number value (slider value) to a labels string (content)."
         + " The default conversion will handle the type conversion."
@@ -195,7 +195,7 @@ qx.Class.define("demobrowser.demo.data.SingleValueBinding",
       var ownDescription = new qx.ui.basic.Label();
       ownDescription.setRich(true);
       ownDescription.setWidth(350);
-      ownDescription.setContent(
+      ownDescription.setValue(
         "<b>Description</b><br/>"
         + "Binding a slider value to a labels text but conversion the number " 
         + "with a self written converter to a string only saying it its "
@@ -207,7 +207,7 @@ qx.Class.define("demobrowser.demo.data.SingleValueBinding",
       var deepDescription = new qx.ui.basic.Label();
       deepDescription.setRich(true);
       deepDescription.setWidth(350);
-      deepDescription.setContent(
+      deepDescription.setValue(
         "<b>Description</b><br/>"
         + "Binding of node elements containing a node as child and an array " 
         + "of names.<br/>The reverse button reverses the current selected child " 
@@ -221,7 +221,7 @@ qx.Class.define("demobrowser.demo.data.SingleValueBinding",
       var validationDescription = new qx.ui.basic.Label();
       validationDescription.setRich(true);
       validationDescription.setWidth(350);
-      validationDescription.setContent(
+      validationDescription.setValue(
         "<b>Description</b><br/>"
         + "Binding the textfield to a property with a validation. The validator"
         + " in the object only accepts numbers. On a validation fail, a red "

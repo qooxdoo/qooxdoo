@@ -83,7 +83,7 @@ qx.Class.define("demobrowser.demo.ui.FormValidation",
       var listDescription = new qx.ui.basic.Label();
       listDescription.setRich(true);
       listDescription.setWidth(250);
-      listDescription.setContent("<b>Validation</b><br/>Press the button to"
+      listDescription.setValue("<b>Validation</b><br/>Press the button to"
         + " invalidate all shown widgets. Try the invalid focus and tooltip.");
       this.getRoot().add(listDescription, {left: 20, top: 10});      
     }

@@ -262,7 +262,7 @@ qx.Class.define("demobrowser.demo.showcase.Localization",
         info[(i++ * 2) + 1] = this.tr("Format of %1:", 10000.12);
         info[(i++ * 2) + 1] = qx.util.format.NumberFormat.getInstance().format(10000.12);
 
-        infoLabel.setContent(info.join(""));
+        infoLabel.setValue(info.join(""));
       };
 
       // update info box

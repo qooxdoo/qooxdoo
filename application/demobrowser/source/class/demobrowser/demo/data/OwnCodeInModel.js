@@ -100,7 +100,7 @@ qx.Class.define("demobrowser.demo.data.OwnCodeInModel",
       var syncListDescription = new qx.ui.basic.Label();
       syncListDescription.setRich(true);
       syncListDescription.setWidth(410);
-      syncListDescription.setContent(
+      syncListDescription.setValue(
         "<b>Adding own code to the model</b><br/>"
         + "Using the delegation to bring two sort function to the root model "
         + "class of this demo. The buttons just calling those sort functions." 

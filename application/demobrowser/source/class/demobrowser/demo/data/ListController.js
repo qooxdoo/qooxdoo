@@ -110,7 +110,7 @@ qx.Class.define("demobrowser.demo.data.ListController",
       var syncListDescription = new qx.ui.basic.Label();
       syncListDescription.setRich(true);
       syncListDescription.setWidth(200);
-      syncListDescription.setContent(
+      syncListDescription.setValue(
         "<b>Multi selection List</b><br/>"
         + "Bound to the same data and share the selection."
       );
@@ -120,7 +120,7 @@ qx.Class.define("demobrowser.demo.data.ListController",
       var selectionListDescription = new qx.ui.basic.Label();
       selectionListDescription.setRich(true);
       selectionListDescription.setWidth(100);
-      selectionListDescription.setContent(
+      selectionListDescription.setValue(
         "<b>Selection List</b><br/>"
         + "Bound to the selection of the list to the left."
       );
@@ -130,7 +130,7 @@ qx.Class.define("demobrowser.demo.data.ListController",
       var selectionLabelDescription = new qx.ui.basic.Label();
       selectionLabelDescription.setRich(true);
       selectionLabelDescription.setWidth(100);
-      selectionLabelDescription.setContent(
+      selectionLabelDescription.setValue(
         "<b>Selection Label</b><br/>"
         + "Bound to the selection of the list to the left."
       );

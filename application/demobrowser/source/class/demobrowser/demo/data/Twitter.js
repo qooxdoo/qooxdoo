@@ -137,7 +137,7 @@ qx.Class.define("demobrowser.demo.data.Twitter",
       var headline = new qx.ui.basic.Label();
       headline.setRich(true);
       headline.setWidth(260);
-      headline.setContent(
+      headline.setValue(
         "<span style='font-size: 20px'>Twitter</span>"
       );
       this.getRoot().add(headline, {left: 10, top: 10});   
@@ -146,7 +146,7 @@ qx.Class.define("demobrowser.demo.data.Twitter",
       var tweetThis = new qx.ui.basic.Label();
       tweetThis.setRich(true);
       tweetThis.setWidth(260);
-      tweetThis.setContent(
+      tweetThis.setValue(
         "<span style='font-size: 13px'>" + 
         "<a target='_blank' href='http://twitter.com/home?status=Check%20out%20the%20%23qooxdoo%20twitter%20demo%20at%20http://bit.ly/Mc4Of'>Tweet This</a></span>"
       );

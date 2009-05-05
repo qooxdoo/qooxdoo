@@ -73,7 +73,7 @@ qx.Class.define("demobrowser.demo.data.SearchAsYouType",
       var description = new qx.ui.basic.Label();
       description.setRich(true);
       description.setWidth(200);
-      description.setContent(
+      description.setValue(
         "<b>Search As You Type List</b><br/>"
         + "Type a name and the list will show only the fitting results."
       );

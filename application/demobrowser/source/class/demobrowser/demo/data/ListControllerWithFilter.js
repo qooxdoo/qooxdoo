@@ -139,7 +139,7 @@ qx.Class.define("demobrowser.demo.data.ListControllerWithFilter",
        var description = new qx.ui.basic.Label();
        description.setRich(true);
        description.setWidth(200);
-       description.setContent(
+       description.setValue(
          "<b>Filtered List</b><br/>"
          + "List showing numbered items, bound to a data array."
        );
