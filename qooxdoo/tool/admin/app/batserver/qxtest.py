@@ -228,6 +228,10 @@ class QxTest:
 
   # Run tests for defined applications
   def runTests(self, appConf):
+    if appConf['appName'] in self.buildErrors:
+      self.log("ERROR: Skipping " + appConf['appName'] + " test because there "
+               + "was an error during build:\n  " + self.buildErrors[appConf['appName']])
+      return    
       
     if appConf['clearLogs']:
       self.clearLogs()
