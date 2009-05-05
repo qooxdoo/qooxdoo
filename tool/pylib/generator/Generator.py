@@ -23,7 +23,8 @@
 import re, os, sys, zlib, optparse, types, string
 import urllib
 
-from misc import filetool, textutil, idlist, Path
+from misc import filetool, textutil, idlist, Path, PathType
+from misc.PathType import PathType
 from ecmascript import compiler
 from ecmascript.frontend import treegenerator, tokenizer
 from ecmascript.transform.optimizer import variableoptimizer
@@ -45,7 +46,6 @@ from generator.action.ActionLib import ActionLib
 from generator.runtime.Cache import Cache
 from generator.runtime.ShellCmd import ShellCmd
 import simplejson
-from simplejson import JSONEncoder
 from robocopy import robocopy
 import graph
 
@@ -617,11 +617,11 @@ class Generator:
     # }}
     def runLogDependencies(self, parts, packages, variants):
 
-        logConf = self._job.get("log/dependencies", False)
-        if not logConf:
+        depsLogConf = self._job.get("log/dependencies", False)
+        if not depsLogConf:
            return
         
-        logConf = ExtMap(logConf)
+        depsLogConf = ExtMap(depsLogConf)
 
         def lookupUsingDeps(packages):
             # a generator to yield all using-dependencies of classes in packages
@@ -636,7 +636,7 @@ class Generator:
                             yield (packageId, classId, depId, 'run')
             return
 
-        def depsToJsonFile(classDepsIter, logConf):
+        def depsToJsonFile(classDepsIter, depsLogConf):
             data = {}
             for (packageId, classId, depId, loadOrRun) in classDepsIter:                             
                 if classId not in data:
@@ -646,13 +646,20 @@ class Generator:
 
                 data[classId][loadOrRun].append(depId)
     
-            file = logConf.get('file', "deps.json")
+            file = depsLogConf.get('file', "deps.json")
             self._console.info("Writing dependency data to file: %s" % file)
-            open(file, 'w').write(JSONEncoder(False, True, True, True, True, 2).encode(data))
+            pretty = PathType(depsLogConf.get('format', None), '/').subkey()  # try to get .../pretty part
+            if pretty == 'pretty':
+                indent     = 2
+                separators = (', ', ': ')
+            else:
+                indent     = None
+                separators = (',', ':')
+            open(file, 'w').write(simplejson.dumps(data, sort_keys=True, indent=indent, separators=separators))
             
             return
 
-        def depsToFlareFile(classDepsIter, logConf):
+        def depsToFlareFile(classDepsIter, depsLogConf):
             data = {}
             for (packageId, classId, depId, loadOrRun) in classDepsIter:                             
                 if classId not in data:
@@ -668,20 +675,27 @@ class Generator:
             for cid in data.keys():
                 output.append(data[cid])
 
-            file = logConf.get('file', "flare.json")
+            file = depsLogConf.get('file', "flare.json")
             self._console.info("Writing dependency data to file: %s" % file)
-            open(file, 'w').write(JSONEncoder(False, True, True, True, True, 2).encode(output))
+            pretty = PathType(depsLogConf.get('format', None), '/').subkey()  # try to get .../pretty part
+            if pretty == 'pretty':
+                indent = 2
+                separators = (', ', ': ')
+            else:
+                indent = None
+                separators = (',', ':')
+            open(file, 'w').write(simplejson.dumps(output, sort_keys=True, indent=indent, separators=separators))
             
             return
 
-        def depsToDotFile(logConf, gr):
-            if logConf.get('format', None):
+        def depsToDotFile(depsLogConf, gr):
+            if depsLogConf.get('format', None):
                 format = mode = None
-                format = logConf.get('format')
+                format = depsLogConf.get('format')
                 if format.find('/')>-1:
                     format, mode = format.split('/',1)  # e.g. 'dot/span-tree-only'
                 if format == 'dot':
-                    classRoot = logConf.get('root')
+                    classRoot = depsLogConf.get('root')
                     # get the spanning tree from the root node
                     st, op = gr.breadth_first_search(root=classRoot)
                     # and create a new graph from it
@@ -717,11 +731,11 @@ class Generator:
                                     gr1.add_edge(v1, v2, attrs=gr.get_edge_attributes(v1, v2))
                     # write dot file
                     if dset == "loadtime":
-                        file = logConf.get('file', "loaddeps.dot")
+                        file = depsLogConf.get('file', "loaddeps.dot")
                     elif dset == "runtime":
-                        file = logConf.get('file', "rundeps.dot")
+                        file = depsLogConf.get('file', "rundeps.dot")
                     else:
-                        file = logConf.get('file', "deps.dot")
+                        file = depsLogConf.get('file', "deps.dot")
                     dot = gr1.write(fmt='dotwt')
                     self._console.info("Writing dependency graph to file: %s" % file)
                     open(file, 'w').write(dot)
@@ -799,7 +813,7 @@ class Generator:
                 gr.add_node(cid, attrs=[("color", color)])
             return
 
-        def usedByDeps(logConf):
+        def usedByDeps(depsLogConf):
             for packageId, package in enumerate(packages):
                 self._console.info("Package %s" % packageId)
                 self._console.indent()
@@ -826,9 +840,9 @@ class Generator:
 
             return
 
-        def usingDeps(logConf, dset):
+        def usingDeps(depsLogConf, dset):
 
-            logformat = logConf.get('format', None)
+            logformat = depsLogConf.get('format', None)
             mainformat = logformat
             if logformat and logformat.find('/')>-1:
                 mainformat = logformat.split('/')[0]
@@ -836,11 +850,11 @@ class Generator:
                 gr = graph.digraph()
                 graphAddNodes(gr, self._classList)
                 graphAddEdges(lookupUsingDeps(packages), gr, dset)
-                depsToDotFile(logConf, gr)
+                depsToDotFile(depsLogConf, gr)
             elif mainformat == 'json':
-                depsToJsonFile(lookupUsingDeps(packages), logConf)
+                depsToJsonFile(lookupUsingDeps(packages), depsLogConf)
             elif mainformat == 'flare':
-                depsToFlareFile(lookupUsingDeps(packages), logConf)
+                depsToFlareFile(lookupUsingDeps(packages), depsLogConf)
             else:
                 depsToConsole(lookupUsingDeps(packages))
             
@@ -852,15 +866,15 @@ class Generator:
         self._console.indent()
 
         mode = dset = None
-        type = logConf.get('type', "using")
+        type = depsLogConf.get('type', "using")
         if type.find('/') > -1:
             mode, dset = type.split('/',1)  # e.g. 'using/loadtime'
         else:
             mode = type
         if mode == "used-by":
-            usedByDeps(logConf)
+            usedByDeps(depsLogConf)
         elif mode == "using":
-            usingDeps(logConf, dset)
+            usingDeps(depsLogConf, dset)
         else:
             self._console.error('Dependency log type "%s" not in ["using", "used-by"]; skipping...' % mode)
 
