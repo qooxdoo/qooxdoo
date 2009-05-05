@@ -436,7 +436,7 @@ qx.Class.define("qx.ui.control.DateChooser",
           }
           else
           {
-            var day = parseInt(dayLabel.getContent());
+            var day = parseInt(dayLabel.getValue());
 
             if (day == newDay) {
               dayLabel.addState("selected");
@@ -695,7 +695,7 @@ qx.Class.define("qx.ui.control.DateChooser",
       var helpDate = new Date(this.getShownYear(), this.getShownMonth(), 1);
 
       var monthYearFormat = new qx.util.format.DateFormat(DateChooser.MONTH_YEAR_FORMAT);
-      this.getChildControl("month-year-label").setContent(monthYearFormat.format(helpDate));
+      this.getChildControl("month-year-label").setValue(monthYearFormat.format(helpDate));
 
       // Show the day names
       var firstDayOfWeek = helpDate.getDay();
@@ -709,7 +709,7 @@ qx.Class.define("qx.ui.control.DateChooser",
         var dayLabel = this.__weekdayLabelArr[i];
 
         helpDate.setDate(firstSundayInMonth + day);
-        dayLabel.setContent(weekDayFormat.format(helpDate));
+        dayLabel.setValue(weekDayFormat.format(helpDate));
 
         if (qx.locale.Date.isWeekend(day)) {
           dayLabel.addState("weekend");
@@ -727,7 +727,7 @@ qx.Class.define("qx.ui.control.DateChooser",
 
       for (var week=0; week<6; week++)
       {
-        this.__weekLabelArr[week].setContent(weekFormat.format(helpDate));
+        this.__weekLabelArr[week].setValue(weekFormat.format(helpDate));
 
         for (var i=0; i<7; i++)
         {
@@ -759,7 +759,7 @@ qx.Class.define("qx.ui.control.DateChooser",
             dayLabel.removeState("today");
           }
 
-          dayLabel.setContent("" + dayOfMonth);
+          dayLabel.setValue("" + dayOfMonth);
           dayLabel.dateTime = helpDate.getTime();
 
           // Go to the next day

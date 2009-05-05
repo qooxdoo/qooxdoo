@@ -240,7 +240,7 @@ qx.Class.define("qx.ui.menu.AbstractButton",
     _applyLabel : function(value, old)
     {
       if (value) {
-        this._showChildControl("label").setContent(value);
+        this._showChildControl("label").setValue(value);
       } else {
         this._excludeChildControl("label");
       }

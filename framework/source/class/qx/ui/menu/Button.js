@@ -123,7 +123,7 @@ qx.Class.define("qx.ui.menu.Button",
         }
       }
 
-      this.getChildControl("shortcut").setContent(command.toString());
+      this.getChildControl("shortcut").setValue(command.toString());
     },
     
     
@@ -133,7 +133,7 @@ qx.Class.define("qx.ui.menu.Button",
     _onChangeLocale : qx.core.Variant.select("qx.dynlocale",
     {
       "on" : function(e) {
-        this.getChildControl("shortcut").setContent(this.getCommand().toString());
+        this.getChildControl("shortcut").setValue(this.getCommand().toString());
       },
 
       "off" : null
