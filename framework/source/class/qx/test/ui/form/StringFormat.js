@@ -24,7 +24,7 @@ qx.Class.define("qx.test.ui.form.StringFormat",
   {
     __test: function(widget) {
       // check if the interface is implemented
-      qx.Class.hasInterface(widget, qx.ui.form.IStringForm);
+      this.assertTrue(qx.Class.hasInterface(widget.constructor, qx.ui.form.IStringForm), "Interface is not implemented.");
       
       // just check if the method is available
       widget.resetValue();
@@ -56,7 +56,11 @@ qx.Class.define("qx.test.ui.form.StringFormat",
     
     testComboBox: function() {
      this.__test(new qx.ui.form.ComboBox()); 
-    }    
+    },
+    
+    testLabel: function() {
+      this.__test(new qx.ui.basic.Label()); 
+    }
     
   }
 });

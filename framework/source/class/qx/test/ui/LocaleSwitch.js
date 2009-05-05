@@ -68,11 +68,11 @@ qx.Class.define("qx.test.ui.LocaleSwitch",
       var command = new qx.event.Command("Control-A");
       var menuButton = new qx.ui.menu.Button("Juhu", null, command);
       this.assertEquals("Ctrl+A", command.toString());
-      this.assertEquals("Ctrl+A", menuButton.getChildControl("shortcut").getContent());
+      this.assertEquals("Ctrl+A", menuButton.getChildControl("shortcut").getValue());
 
       this.manager.setLocale("de_QX");
       this.assertEquals("Strg+A", command.toString());
-      this.assertEquals("Strg+A", menuButton.getChildControl("shortcut").getContent());
+      this.assertEquals("Strg+A", menuButton.getChildControl("shortcut").getValue());
     },
     
     
@@ -83,21 +83,21 @@ qx.Class.define("qx.test.ui.LocaleSwitch",
       var label = new qx.ui.basic.Label(this.tr("test one"));
       this.getRoot().add(label);
 
-      this.assertEquals("test one", label.getContent());
+      this.assertEquals("test one", label.getValue());
       manager.setLocale("de_QX");
-      this.assertEquals("Eins", label.getContent());
+      this.assertEquals("Eins", label.getValue());
       manager.setLocale("en_QX");
 
-      label.setContent(this.tr("test Hello %1!", this.tr("test Jonny")));
-      this.assertEquals("test Hello test Jonny!", label.getContent());
+      label.setValue(this.tr("test Hello %1!", this.tr("test Jonny")));
+      this.assertEquals("test Hello test Jonny!", label.getValue());
       manager.setLocale("de_QX");
-      this.assertEquals("Servus Jonathan!", label.getContent());
+      this.assertEquals("Servus Jonathan!", label.getValue());
 
       // de -> en
-      label.setContent(this.tr("test two"));
-      this.assertEquals("Zwei", label.getContent());
+      label.setValue(this.tr("test two"));
+      this.assertEquals("Zwei", label.getValue());
       manager.setLocale("en_QX");
-      this.assertEquals("test two", label.getContent());
+      this.assertEquals("test two", label.getValue());
 
       this.getRoot().remove(label);
       label.dispose();

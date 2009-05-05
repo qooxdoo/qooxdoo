@@ -25,8 +25,7 @@ qx.Class.define("qx.test.ui.form.Form",
     
     __testRequired: function(widget) {
       // check if the interface is implemented
-      qx.Class.hasInterface(widget, qx.ui.form.IForm);
-            
+      this.assert(qx.Class.hasInterface(widget.constructor, qx.ui.form.IForm), "Interface not implemented.");            
       // test for the default (false)
       this.assertFalse(widget.getRequired(), "Default required state is wrong.");
 
@@ -38,7 +37,7 @@ qx.Class.define("qx.test.ui.form.Form",
     
     __testValid: function(widget, where) {
       // check if the interface is implemented
-      qx.Class.hasInterface(widget, qx.ui.form.IForm);      
+      this.assert(qx.Class.hasInterface(widget.constructor, qx.ui.form.IForm), "Interface not implemented.");
       
       this.getRoot().add(widget);
       

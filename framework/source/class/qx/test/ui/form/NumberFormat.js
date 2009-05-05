@@ -24,7 +24,7 @@ qx.Class.define("qx.test.ui.form.NumberFormat",
   {
     __test: function(widget) {
       // check if the interface is implemented
-      qx.Class.hasInterface(widget, qx.ui.form.INumberForm);
+      this.assertTrue(qx.Class.hasInterface(widget.constructor, qx.ui.form.INumberForm), "Interface not implemented");
       
       // just check if the method is available
       widget.resetValue();
