@@ -202,7 +202,7 @@ qx.Class.define("toolbox.content.DevelopmentContent",
       this.setCurrentFileName(appName);
       var appPath = label[1].replace("<br>", "");
       this.setCurrentFilePath(appPath);
-      this.appDevelCaption.setContent("Current application: " + appName);
+      this.appDevelCaption.setValue("Current application: " + appName);
       this.__setEnableAllFunctions(true, true);
 
       //Enables/disables the open button  
@@ -1060,7 +1060,7 @@ qx.Class.define("toolbox.content.DevelopmentContent",
       toolbox.builder.Builder.createNewApplication(this.__adminPath, this.getCurrentFileName(), this.getCurrentFilePath(), this.getCurrentNamespace(), this.getCurrentLogName(), this.getCurrentType(), this.__isGenerateSource.toString(), this.myLogFrame, this.develWidgets);
 
       this.develWidgets["development.selectAppMenuButton"].setEnabled(false);
-      this.appDevelCaption.setContent("Current application: " + this.getCurrentFileName());
+      this.appDevelCaption.setValue("Current application: " + this.getCurrentFileName());
       this.__cancelNewApplication();
       this.__setEnableAllFunctions(true, false);
       return;
@@ -1146,7 +1146,7 @@ qx.Class.define("toolbox.content.DevelopmentContent",
     {
       this.develWidgets["development.selectAppMenuButton"].setEnabled(false);
       toolbox.builder.Builder.removeCurrentApplication(this.__adminPath, this.getCurrentFileName(), this.getCurrentFilePath(), this.myLogFrame, this.develWidgets);
-      this.appDevelCaption.setContent("No Application selected");
+      this.appDevelCaption.setValue("No Application selected");
     },
 
 
