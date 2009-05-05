@@ -259,7 +259,7 @@ class QxLogFormat:
     html.close
 
   def getBrowser(self,agent):  
-    browser = agent
+    browser = False
     regFF = re.compile('.*(Firefox)\/([\d\.]*)')
     match = regFF.match(agent)
     if (match):
@@ -299,6 +299,9 @@ class QxLogFormat:
       match = regSa.match(agent)
       if (match):
         browser = match.group(2) + " " + match.group(1)
+        
+    if (not(browser)):
+      browser = agent
   
     return browser
 
