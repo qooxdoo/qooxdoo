@@ -354,7 +354,7 @@ qx.Class.define("qx.test.data.controller.List",
 
       // create the test label
       var label = new qx.ui.basic.Label();
-      this.__controller.bind("selection[0]", label, "content");
+      this.__controller.bind("selection[0]", label, "value");
       
       // add stuff to the selection  
       this.__controller.getSelection().push("c");
@@ -364,13 +364,13 @@ qx.Class.define("qx.test.data.controller.List",
       this.__model.shift();
       
       // check for the label
-      this.assertEquals("c", label.getContent(), "Label has not the right value.");
+      this.assertEquals("c", label.getValue(), "Label has not the right value.");
       
       // remove the selected element
       this.__model.shift();
 
       // check for null
-      this.assertNull(label.getContent(), "Label does still contain something!");
+      this.assertNull(label.getValue(), "Label does still contain something!");
     },
     
     
