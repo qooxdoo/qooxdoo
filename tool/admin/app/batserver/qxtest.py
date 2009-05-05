@@ -239,7 +239,7 @@ class QxTest:
       dummyLog.write(prefix + "<h1>" + appConf['appName'] + " results from " + self.startTimeString + "</h1>\n")
       dummyLog.write(prefix + "<p>Platform: " + self.os + "</p>\n")
       dummyLog.write(prefix + "<p>User agent: " + browser['browserId'] + "</p>\n")
-      dummyLog.write(prefix + "<DIV>BUILD ERROR: " + self.buildErrors[appConf['appName']] + "</DIV>\n")
+      dummyLog.write(prefix + "<div class=\"qxappender\"><div class=\"level-error\">BUILD ERROR: " + self.buildErrors[appConf['appName']] + "</div></div>\n")
     dummyLog.close()
 
     return dummyLogFile
