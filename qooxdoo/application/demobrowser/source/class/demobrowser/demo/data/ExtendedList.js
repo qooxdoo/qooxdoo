@@ -116,7 +116,7 @@ qx.Class.define("demobrowser.demo.data.ExtendedList",
        var syncListDescription = new qx.ui.basic.Label();
        syncListDescription.setRich(true);
        syncListDescription.setWidth(410);
-       syncListDescription.setContent(
+       syncListDescription.setValue(
          "<b>Displaying Checkboxes in a list</b><br/>"
          + "This list display a set of persons in a list as checkbox. Every " 
          + "person does have a name as label and an online status as checkbox."

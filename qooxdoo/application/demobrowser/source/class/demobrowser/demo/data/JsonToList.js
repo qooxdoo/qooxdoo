@@ -73,7 +73,7 @@ qx.Class.define("demobrowser.demo.data.JsonToList",
       var description = new qx.ui.basic.Label();
       description.setRich(true);
       description.setWidth(260);
-      description.setContent(
+      description.setValue(
         "<b>List bound to data in a json file</b><br/>"
         + "Loading the json file <a href='" + url +"' target='_blank'>"
         + "list.json</a> and bind the items to the list widget. The icons "

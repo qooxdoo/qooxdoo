@@ -61,7 +61,7 @@ qx.Class.define("demobrowser.demo.data.Gears",
       var headline = new qx.ui.basic.Label();
       headline.setRich(true);
       headline.setWidth(260);
-      headline.setContent(
+      headline.setValue(
         "<span style='font-size: 20px'>google Gears</span>"
       );
       this.getRoot().add(headline, {left: 10, top: 10});   

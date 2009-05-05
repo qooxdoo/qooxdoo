@@ -293,7 +293,7 @@ qx.Class.define("demobrowser.demo.util.PropertyEditor",
 
       this._widgetIndicator.setBackgroundColor(value.getBackgroundColor());
       this._widgetIndicator.setDecorator(value.getDecorator());
-      this._widgetIndicator.setContent(value.toString());
+      this._widgetIndicator.setValue(value.toString());
 
       this.updateLayoutPropertyEditor(value);
       this.updateWidgetLayoutPropertyEditor(value);

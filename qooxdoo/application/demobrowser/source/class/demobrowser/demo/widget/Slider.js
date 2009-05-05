@@ -188,7 +188,7 @@ qx.Class.define("demobrowser.demo.widget.Slider",
       };
 
       slider.addListener("changeValue", function(e) {
-        group.value.setContent(slider.getValue().toString());
+        group.value.setValue(slider.getValue().toString());
       });
 
       return group;

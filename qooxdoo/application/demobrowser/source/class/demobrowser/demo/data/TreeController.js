@@ -118,7 +118,7 @@ qx.Class.define("demobrowser.demo.data.TreeController",
        var treeDescription = new qx.ui.basic.Label();
        treeDescription.setRich(true);
        treeDescription.setWidth(240);
-       treeDescription.setContent(
+       treeDescription.setValue(
          "<b>Tree binding</b><br/>"
          + "This tree is bound to a set of randomly generated nodes. Every node"
          + " does have a name and a name2 property, containing 'Item i' and "
@@ -131,7 +131,7 @@ qx.Class.define("demobrowser.demo.data.TreeController",
        var selectionListDescription = new qx.ui.basic.Label();
        selectionListDescription.setRich(true);
        selectionListDescription.setWidth(100);
-       selectionListDescription.setContent(
+       selectionListDescription.setValue(
          "<b>Selected Items</b><br/>"
          + "A list containing the selected items of the tree."
        );
