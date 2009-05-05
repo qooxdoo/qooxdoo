@@ -1740,7 +1740,7 @@ qx.Class.define("qx.ui.table.Table",
         }
 
         if (text) {
-          this.getChildControl("statusbar").setContent(text);
+          this.getChildControl("statusbar").setValue(text);
         }
       }
     },

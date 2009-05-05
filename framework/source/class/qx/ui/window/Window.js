@@ -432,7 +432,7 @@ qx.Class.define("qx.ui.window.Window",
 
         case "statusbar-text":
           control = new qx.ui.basic.Label();
-          control.setContent(this.getStatus());
+          control.setValue(this.getStatus());
           break;
 
         case "pane":
@@ -858,14 +858,14 @@ qx.Class.define("qx.ui.window.Window",
     {
       var label = this.getChildControl("statusbar-text", true);
       if (label) {
-        label.setContent(value);
+        label.setValue(value);
       }
     },
 
 
     // property apply
     _applyCaption : function(value, old) {
-      this.getChildControl("title").setContent(value);
+      this.getChildControl("title").setValue(value);
     },
 
 

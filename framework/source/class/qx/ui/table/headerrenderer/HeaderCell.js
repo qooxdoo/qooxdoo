@@ -78,7 +78,7 @@ qx.Class.define("qx.ui.table.headerrenderer.HeaderCell",
     _applyLabel : function(value, old)
     {
       if (value) {
-        this._showChildControl("label").setContent(value);
+        this._showChildControl("label").setValue(value);
       } else {
         this._excludeChildControl("label");
       }
