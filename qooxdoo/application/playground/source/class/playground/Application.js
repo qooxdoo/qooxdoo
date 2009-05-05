@@ -193,7 +193,7 @@ qx.Class.define("playground.Application",
           this.updatePlayground(this.__playRoot);
 
           var newName = this.__decodeSampleId(newSample);
-          this.playAreaCaption.setContent(newName);
+          this.playAreaCaption.setValue(newName);
 
           // update state on sample change
           this.__history.addToHistory(newSample, this.__updateTitle(newName));
@@ -410,11 +410,11 @@ qx.Class.define("playground.Application",
           compareElem1.innerHTML != compareElem2.innerHTML) ||
           compareElem1.innerHTML.length != compareElem2.innerHTML.length)
       {
-        this.playAreaCaption.setContent(this.tr("%1 (modified)", label));
+        this.playAreaCaption.setValue(this.tr("%1 (modified)", label));
         //top.location.hash = "#";
       }
       else {
-        this.playAreaCaption.setContent(label);
+        this.playAreaCaption.setValue(label);
         this.__history.addToHistory(this.currentSample, this.__updateTitle(label));
       }
     },
@@ -533,7 +533,7 @@ qx.Class.define("playground.Application",
     __onSampleChanged : function(e)
     {
       var label = e.getTarget().getLabel().toString();
-      this.playAreaCaption.setContent(label);
+      this.playAreaCaption.setValue(label);
 
       this.currentSample = this.__encodeSampleId(label);
       var currentSource = this.__sampleContainer[this.currentSample];
