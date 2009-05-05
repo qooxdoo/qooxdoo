@@ -159,8 +159,8 @@ qx.Class.define("testrunner.runner.ProgressBar",
      */
     reset : function()
     {
-      this.stepStatus.setContent("");
-      this.pcntStatus.setContent("");
+      this.stepStatus.setValue("");
+      this.pcntStatus.setValue("");
       this.bar.setWidth(0);
     },
 
@@ -199,8 +199,8 @@ qx.Class.define("testrunner.runner.ProgressBar",
         {
           quotVal = Math.round(quot[0] / quot[1] * 100);
           this.bar.setWidth(quotVal * (this.hull.getWidth() / 100) );
-          this.stepStatus.setContent("(" + val + ")");
-          this.pcntStatus.setContent("(" + quotVal + "%)");
+          this.stepStatus.setValue("(" + val + ")");
+          this.pcntStatus.setValue("(" + quotVal + "%)");
         }
       }
 
@@ -219,9 +219,9 @@ qx.Class.define("testrunner.runner.ProgressBar",
         else
         {
           this.bar.setWidth(pcnt);
-          this.pcntStatus.setContent("(" + pcnt + "%)");
+          this.pcntStatus.setValue("(" + pcnt + "%)");
           quotVal = pcnt + "/100";
-          this.stepStatus.setContent("(" + quotVal + ")");
+          this.stepStatus.setValue("(" + quotVal + ")");
         }
       }
       else
@@ -241,7 +241,7 @@ qx.Class.define("testrunner.runner.ProgressBar",
      * @return {void}
      */
     _applyLabel : function(newLabel) {
-      this.label.setContent(newLabel);
+      this.label.setValue(newLabel);
     },
 
 
@@ -281,7 +281,7 @@ qx.Class.define("testrunner.runner.ProgressBar",
     _applyStepStatus : function(newStatus)
     {
       if (this.isShowStepStatus()) {
-        this.stepStatus.setContent(newStatus);
+        this.stepStatus.setValue(newStatus);
       }
     },
 
@@ -311,7 +311,7 @@ qx.Class.define("testrunner.runner.ProgressBar",
     _applyPcntStatus : function(newStatus)
     {
       if (this.isShowPcntStatus()) {
-        this.pcntStatus.setContent(newStatus);
+        this.pcntStatus.setValue(newStatus);
       }
     },
 

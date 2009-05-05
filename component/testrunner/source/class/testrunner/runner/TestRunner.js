@@ -730,7 +730,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       statuspane.add(l3);
       l3.set({ width : 150 });
       this.widgets["statuspane.systeminfo"] = l3;
-      this.widgets["statuspane.systeminfo"].setContent(this.tr("Loading..."));
+      this.widgets["statuspane.systeminfo"].setValue(this.tr("Loading..."));
       this.widgets["toolbar.runbutton"].setEnabled(false);
       this.toolbar.setEnabled(false);
 
@@ -765,7 +765,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       // update selection in other tree
       // -- not working!
 
-      this.widgets["statuspane.systeminfo"].setContent(this.tr("Tests selected"));
+      this.widgets["statuspane.systeminfo"].setValue(this.tr("Tests selected"));
 
       if (parseInt(this.widgets["progresspane.succ_cnt"].getValue()) > 0 ||
           parseInt(this.widgets["progresspane.fail_cnt"].getValue()) > 0) {
@@ -951,7 +951,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       }
 
       // this.tree.setEnabled(false);
-      this.widgets["statuspane.systeminfo"].setContent(this.tr("Preparing..."));
+      this.widgets["statuspane.systeminfo"].setValue(this.tr("Preparing..."));
 
       this.resetGui();
       var bar = this.widgets["progresspane.progressbar"];
@@ -1079,7 +1079,7 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       function runtest()
       {
-        that.widgets["statuspane.systeminfo"].setContent(that.tr("Running tests..."));
+        that.widgets["statuspane.systeminfo"].setValue(that.tr("Running tests..."));
         that.toolbar.setEnabled(true);
         that.widgets["toolbar.runbutton"].setVisibility("excluded");
         that.widgets["toolbar.stopbutton"].setVisibility("visible");
@@ -1099,11 +1099,11 @@ qx.Class.define("testrunner.runner.TestRunner",
           {
             that.reloadswitch.setChecked(true);
             that.tests.firstrun = false;
-            that.widgets["statuspane.systeminfo"].setContent(that.tr("Enabled auto-reload"));
+            that.widgets["statuspane.systeminfo"].setValue(that.tr("Enabled auto-reload"));
           }
           else
           {
-            that.widgets["statuspane.systeminfo"].setContent(that.tr("Ready"));
+            that.widgets["statuspane.systeminfo"].setValue(that.tr("Ready"));
           }
         }
       }
@@ -1203,7 +1203,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       var neu = this.testSuiteUrl.getValue();
       this.widgets["toolbar.runbutton"].setEnabled(false);
       this.toolbar.setEnabled(false);
-      this.widgets["statuspane.systeminfo"].setContent(this.tr("Reloading test suite..."));
+      this.widgets["statuspane.systeminfo"].setValue(this.tr("Reloading test suite..."));
 
       // destroy widget and model trees to avoid leaking memory on reload.
       var oldRoot = this.widgets["treeview.full"].getRoot();
@@ -1280,7 +1280,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       else {
         alert(this.tr("The selected test file is invalid."));
         this.toolbar.setEnabled(true);
-        this.widgets["statuspane.systeminfo"].setContent(this.tr("Invalid test file selected!"));
+        this.widgets["statuspane.systeminfo"].setValue(this.tr("Invalid test file selected!"));
         return;
       }
       
@@ -1304,12 +1304,12 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       if(this.widgets["treeview.full"].getRoot().getChildren().length > 0)
       {
-        this.widgets["statuspane.systeminfo"].setContent(this.tr("Ready"));
+        this.widgets["statuspane.systeminfo"].setValue(this.tr("Ready"));
         this.runbutton.setEnabled(true);
       }
       else
       {
-        this.widgets["statuspane.systeminfo"].setContent(this.tr("No test file selected!"));
+        this.widgets["statuspane.systeminfo"].setValue(this.tr("No test file selected!"));
       }
     },  // __ehIframeOnLoad
 
