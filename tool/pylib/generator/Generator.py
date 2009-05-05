@@ -45,6 +45,7 @@ from generator.action.ActionLib import ActionLib
 from generator.runtime.Cache import Cache
 from generator.runtime.ShellCmd import ShellCmd
 import simplejson
+from simplejson import JSONEncoder
 from robocopy import robocopy
 import graph
 
@@ -635,6 +636,44 @@ class Generator:
                             yield (packageId, classId, depId, 'run')
             return
 
+        def depsToJsonFile(classDepsIter, logConf):
+            data = {}
+            for (packageId, classId, depId, loadOrRun) in classDepsIter:                             
+                if classId not in data:
+                    data[classId] = {}
+                    data[classId]["load"] = []
+                    data[classId]["run"] = []
+
+                data[classId][loadOrRun].append(depId)
+    
+            file = logConf.get('file', "deps.json")
+            self._console.info("Writing dependency data to file: %s" % file)
+            open(file, 'w').write(JSONEncoder(False, True, True, True, True, 2).encode(data))
+            
+            return
+
+        def depsToFlareFile(classDepsIter, logConf):
+            data = {}
+            for (packageId, classId, depId, loadOrRun) in classDepsIter:                             
+                if classId not in data:
+                    data[classId] = {}
+                    data[classId]['name'] = classId
+                    data[classId]["size"] = 1000
+                    data[classId]["imports"] = []
+
+                if loadOrRun == 'load':
+                    data[classId]['imports'].append(depId)
+    
+            output = []
+            for cid in data.keys():
+                output.append(data[cid])
+
+            file = logConf.get('file', "flare.json")
+            self._console.info("Writing dependency data to file: %s" % file)
+            open(file, 'w').write(JSONEncoder(False, True, True, True, True, 2).encode(output))
+            
+            return
+
         def depsToDotFile(logConf, gr):
             if logConf.get('format', None):
                 format = mode = None
@@ -790,6 +829,7 @@ class Generator:
         def usingDeps(logConf, dset):
 
             logformat = logConf.get('format', None)
+            mainformat = logformat
             if logformat and logformat.find('/')>-1:
                 mainformat = logformat.split('/')[0]
             if mainformat == 'dot':
@@ -797,6 +837,10 @@ class Generator:
                 graphAddNodes(gr, self._classList)
                 graphAddEdges(lookupUsingDeps(packages), gr, dset)
                 depsToDotFile(logConf, gr)
+            elif mainformat == 'json':
+                depsToJsonFile(lookupUsingDeps(packages), logConf)
+            elif mainformat == 'flare':
+                depsToFlareFile(lookupUsingDeps(packages), logConf)
             else:
                 depsToConsole(lookupUsingDeps(packages))
             
