@@ -59,7 +59,7 @@
 qx.Class.define("qx.ui.basic.Label",
 {
   extend : qx.ui.core.Widget,
-
+  implement : [qx.ui.form.IStringForm],
 
 
 
@@ -70,14 +70,14 @@ qx.Class.define("qx.ui.basic.Label",
   */
 
   /**
-   * @param content {String} Text or HTML content to use
+   * @param value {String} Text or HTML content to use
    */
-  construct : function(content)
+  construct : function(value)
   {
     this.base(arguments);
 
-    if (content != null) {
-      this.setContent(content);
+    if (value != null) {
+      this.setValue(value);
     }
 
     if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
@@ -86,6 +86,20 @@ qx.Class.define("qx.ui.basic.Label",
   },
 
 
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+  events : {
+    /**
+     * The old content change event. Please use the value property instead.
+     * @deprecated
+     */
+    "changeContent" : "qx.event.type.Data"
+  },
 
 
 
@@ -117,11 +131,11 @@ qx.Class.define("qx.ui.basic.Label",
      * is not supported. But it is possible to use unicode escape sequences
      * to insert symbols and other non ASCII characters.
      */
-    content :
+    value :
     {
       check : "String",
-      apply : "_applyContent",
-      event : "changeContent",
+      apply : "_applyValue",
+      event : "changeValue",
       nullable : true
     },
     
@@ -268,7 +282,7 @@ qx.Class.define("qx.ui.basic.Label",
 
       var styles = this.__font ? this.__font.getStyles() : qx.bom.Font.getDefaultStyles();
 
-      return qx.bom.Label.getHtmlSize(this.getContent(), styles, width).height;
+      return qx.bom.Label.getHtmlSize(this.getValue(), styles, width).height;
     },
 
 
@@ -348,7 +362,7 @@ qx.Class.define("qx.ui.basic.Label",
       var font = this.getFont();
 
       var styles = font ? this.__font.getStyles() : qx.bom.Font.getDefaultStyles();
-      var content = this.getContent() || "A";
+      var content = this.getValue() || "A";
       var rich = this.getRich();
 
       this.__contentSize = rich ?
@@ -398,9 +412,9 @@ qx.Class.define("qx.ui.basic.Label",
     {
       "on" : function(e)
       {
-        var content = this.getContent();
+        var content = this.getValue();
         if (content && content.translate) {
-          this.setContent(content.translate());
+          this.setValue(content.translate());
         }
       },
 
@@ -409,7 +423,7 @@ qx.Class.define("qx.ui.basic.Label",
 
 
     // property apply
-    _applyContent : function(value)
+    _applyValue : function(value, old)
     {
       // Sync with content element
       this.getContentElement().setContent(value);
@@ -419,7 +433,77 @@ qx.Class.define("qx.ui.basic.Label",
 
       // Update layout
       qx.ui.core.queue.Layout.add(this);
+      
+      this.fireDataEvent("changeContent", value, old);
+    },
+    
+    
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      DEPRECATED STUFF
+    ---------------------------------------------------------------------------
+    */
+    /**
+     * Old set method for the content property. Please use the value 
+     * property instead.
+     * 
+     * @param value {String} The value of the label.
+     * @deprecated
+     */
+    setContent: function(value) {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Please use the value property instead."
+      );
+      
+      this.setValue(value);
+    },
+    
+    
+    /**
+     * Old get method for the content property. Please use the value 
+     * property instead.
+     * 
+     * @deprecated
+     */    
+    getContent: function() {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Please use the value property instead."
+      );      
+      
+      return this.getValue();
+    },
+    
+    
+    /**
+     * Old reset method for the content property. Please use the value 
+     * property instead.
+     * 
+     * @deprecated
+     */    
+    resetContent: function() {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Please use the value property instead."
+      );
+
+      this.resetValue();
+    },
+    
+    
+    // overridden
+    addListener: function(type, listener, self, capture) {
+      if (type == "changeContent") {
+        qx.log.Logger.deprecatedEventWarning(
+          arguments.callee, 
+          "changeContent",
+          "Please use the changeValue event instead."
+        );        
+      }
+      return this.base(arguments, type, listener, self, capture);
     }
+    
+    
   },
 
 
