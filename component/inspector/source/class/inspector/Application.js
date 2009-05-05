@@ -253,7 +253,7 @@ qx.Class.define("inspector.Application",
       } catch (ex) {
         // signal that the inspector is not working
         this._toolbar.setEnabled(false);
-        this._selectedWidgetLabel.setContent(
+        this._selectedWidgetLabel.setValue(
           " Can not access the javascript in the iframe!"
         );
         // enable the text to make it more visible
@@ -476,7 +476,7 @@ qx.Class.define("inspector.Application",
         return;
       }     
       // show the selected widget in the inspector bar
-      this._selectedWidgetLabel.setContent(" : <tt>" + object.toString() + "</tt>");
+      this._selectedWidgetLabel.setValue(" : <tt>" + object.toString() + "</tt>");
       
       if (initiator != this._selector) {
         if (object !== this._selector.getSelection()) {

@@ -95,7 +95,7 @@ qx.Class.define("inspector.bindings.BindingsWindow",
       }
 
       if (this._iFrameWindow.qx.data == undefined) {
-        this._errorLabel.setContent("No data binding found!");
+        this._errorLabel.setValue("No data binding found!");
         this._errorLabel.setEnabled(true);
         this._toolbar.setEnabled(false);
         return;
@@ -103,7 +103,7 @@ qx.Class.define("inspector.bindings.BindingsWindow",
       // if a data binding was found, enable the toolbar 
       // and reset the error message
       this._toolbar.setEnabled(true);
-      this._errorLabel.setContent("");
+      this._errorLabel.setValue("");
       
       // get all bindings
       var bindings = this._iFrameWindow.qx.data.SingleValueBinding.getAllBindings();
