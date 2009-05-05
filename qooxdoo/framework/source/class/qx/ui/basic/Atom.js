@@ -266,7 +266,7 @@ qx.Class.define("qx.ui.basic.Atom",
     {
       var label = this.getChildControl("label", true);
       if (label) {
-        label.setContent(value);
+        label.setValue(value);
       }
 
       this._handleLabel();

@@ -311,7 +311,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
       if (text) {
         this.setLabel(text);
       } else {
-        label.setContent(this.getLabel());
+        label.setValue(this.getLabel());
       }
 
       this._add(label);
@@ -371,7 +371,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
 
     // property apply
     _applyLabel : function(value, old) {
-      this.getChildControl("label").setContent(value);
+      this.getChildControl("label").setValue(value);
     },
 
 
