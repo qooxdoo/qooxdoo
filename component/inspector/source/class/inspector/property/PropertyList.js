@@ -747,14 +747,14 @@ qx.Class.define("inspector.property.PropertyList", {
           var property = properties[key];
           // if it is an array
           if (value instanceof Array) {
-            layout.getCellWidget(row, 2).setContent(value.length + " objects");
+            layout.getCellWidget(row, 2).setValue(value.length + " objects");
             
           // if it is a widget and not the client document  
           } else if ((property.check == "qx.ui.core.Widget")&& 
               (this._controller.getQxObject() instanceof qx.application.AbstractGui)) {
             
             // create the link to the widget
-            layout.getCellWidget(row, 2).setContent("<u>" + value.classname + " [" + value.toHashCode() + "]</u>");
+            layout.getCellWidget(row, 2).setValue("<u>" + value.classname + " [" + value.toHashCode() + "]</u>");
             layout.getCellWidget(row, 2).setStyleProperty("cursor", "pointer");
            
             // add only a event listener the first time
@@ -778,14 +778,14 @@ qx.Class.define("inspector.property.PropertyList", {
           } else if(property.check == "Font") {
             // set the font of the label
             layout.getCellWidget(row, 2).setFont(value);            
-            layout.getCellWidget(row, 2).setContent(value + "");
+            layout.getCellWidget(row, 2).setValue(value + "");
             
           } else {
-            layout.getCellWidget(row, 2).setContent(value + "");
+            layout.getCellWidget(row, 2).setValue(value + "");
           }
         // reset the label if the value is set null
         } else {
-          layout.getCellWidget(row, 2).setContent("");
+          layout.getCellWidget(row, 2).setValue("");
         }
         
       // text fields  
