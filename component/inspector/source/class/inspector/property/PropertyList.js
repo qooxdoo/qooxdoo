@@ -467,13 +467,13 @@ qx.Class.define("inspector.property.PropertyList", {
               } catch (ex) {
                 // alert the user if the sett could not be executed
                 alert(ex + " [" + setterName + "]");
-                checkBox.setChecked(!value);
+                checkBox.setValue(!value);
               }    
             }                
           };
           
           // register the handler for changing the checkbox
-          checkBox.addListener("changeChecked", checkBoxHandler, this);
+          checkBox.addListener("changeValue", checkBoxHandler, this);
           return checkBox;
                     
         // ComboBox
@@ -734,9 +734,9 @@ qx.Class.define("inspector.property.PropertyList", {
       // check box
       if (layout.getCellWidget(row, 2).classname == "qx.ui.form.CheckBox") {
         if (value == null) {
-          layout.getCellWidget(row, 2).setChecked(false);
+          layout.getCellWidget(row, 2).setValue(false);
         } else {
-          layout.getCellWidget(row, 2).setChecked(value);          
+          layout.getCellWidget(row, 2).setValue(value);          
         }
 
       // labels

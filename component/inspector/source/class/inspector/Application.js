@@ -195,7 +195,7 @@ qx.Class.define("inspector.Application",
       // if the open cookie is set
       var cookie = qx.bom.Cookie.get(name + "Open");
       if (cookie == "true" || cookie === null) {
-        button.setChecked(true);
+        button.setValue(true);
 
         // check the position
         var top = parseInt(qx.bom.Cookie.get(name + "Top"));
@@ -335,7 +335,7 @@ qx.Class.define("inspector.Application",
       // create the find button
       this._inspectButton = new qx.ui.toolbar.CheckBox("Inspect widget");
       this._toolbar.add(this._inspectButton);
-      this._inspectButton.addListener("changeChecked", function(e) {
+      this._inspectButton.addListener("changeValue", function(e) {
         if (e.getData()) {
           this._selector.start();
         } else {
@@ -383,7 +383,7 @@ qx.Class.define("inspector.Application",
       this[buttonRef] = new qx.ui.toolbar.CheckBox(buttonName);
       this._toolbar.add(this[buttonRef]);
       var wasOpen = false;
-      this[buttonRef].addListener("changeChecked", function(e) {
+      this[buttonRef].addListener("changeValue", function(e) {
         if (!wasOpen) {
           // create and add an instance
           this[winRef] = new winClass();
@@ -411,7 +411,7 @@ qx.Class.define("inspector.Application",
     __addWindowListener: function(win, button, name) {
       // add a close listener
       win.addListener("close", function() {
-        button.setChecked(false);
+        button.setValue(false);
       }, this);
       // add a move listener
       win.addListener("move", function(e) {
@@ -432,7 +432,7 @@ qx.Class.define("inspector.Application",
     -------------------------------------------------------------------------
     */    
     _changeSelection: function(e) {
-      this._inspectButton.setChecked(false);
+      this._inspectButton.setValue(false);
       this.select(e.getData(), this._selector);
     },
     
