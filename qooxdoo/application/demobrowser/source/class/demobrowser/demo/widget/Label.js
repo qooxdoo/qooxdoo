@@ -45,7 +45,7 @@ qx.Class.define("demobrowser.demo.widget.Label",
       this.getRoot().add(label3, {left:20, top:100});
 
       var label4 = new qx.ui.basic.Label().set({
-        content: "A long label text with auto-wrapping. This also may contain <b style='color:red'>rich HTML</b> markup.",
+        value: "A long label text with auto-wrapping. This also may contain <b style='color:red'>rich HTML</b> markup.",
         decorator: "main",
         rich : true,
         width: 120
