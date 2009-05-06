@@ -157,13 +157,14 @@ class QxTest:
               self.log("Error while building " + target + ", see " 
                     + buildLog + " for details.")
               err = err.rstrip('\n')
+              err = err.rstrip('\r')
               buildLogFile.write(target + "\n" + cmd + "\n" + err)
               buildLogFile.write("\n========================================================\n\n")
               
               """Get the last line of batbuild.py's STDERR output which contains
               the actual error message. """
               import re
-              nre = re.compile('\n(.*)$')
+              nre = re.compile('[\n\r](.*)$')
               m = nre.search(err)
               if m:
                 self.buildErrors[target] = m.group(1)
