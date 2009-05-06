@@ -252,13 +252,13 @@ class DependencyLoader:
             return None
 
         def analyzeMethodDeps(classId, methodName):
-            deps =  processExternalClassRefs(classId, methodName)
-            deps += processInternalMethodRefs(classId, methodName)
+            deps =  processRefsToExternalClasses(classId, methodName)
+            deps += processRefsToInternalMethods(classId, methodName)
             return deps
 
         # ----------------------
 
-        def processExternalClassRefs(classId, methodName):
+        def processRefsToExternalClasses(classId, methodName):
             deps = []
             extRefs = findExternalClassRefs(classId, methodName)
             for extref in extRefs:
@@ -267,7 +267,7 @@ class DependencyLoader:
                 if isFunction(attribute):
                     deps += getMethodDeps(clazz, extref)  # recurse to top-level method
 
-        def processInternalMethodRefs(classId, methodName):
+        def processRefsToInternalMethods(classId, methodName):
             deps = []
             localRefs = findLocalMethodRefs(classId, methodName)
             for funcref in localRefs:
