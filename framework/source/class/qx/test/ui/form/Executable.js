@@ -72,6 +72,10 @@ qx.Class.define("qx.test.ui.form.Executable",
     
     testToolbarButton: function() {
      this.__test(new qx.ui.toolbar.Button()); 
-    }
+    },
+    
+    testSplitButton: function() {
+     this.__test(new qx.ui.toolbar.SplitButton()); 
+    }    
   }
 });
