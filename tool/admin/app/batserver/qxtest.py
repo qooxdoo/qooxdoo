@@ -34,8 +34,8 @@ class QxTest:
     self.trunkrev = None
     self.buildErrors = {}
 
-    tf = '%Y-%m-%d_%H-%M-%S'
-    self.startTimeString = time.strftime(tf)
+    self.timeFormat = '%Y-%m-%d_%H-%M-%S'
+    self.startTimeString = time.strftime(self.timeFormat)
 
     self.logFile = False
 
@@ -73,8 +73,8 @@ class QxTest:
 
 
   def log(self, msg):
-    self.timeFormat = '%Y-%m-%d %H:%M:%S'
-    logMsg = time.strftime(self.timeFormat) + " " + msg
+    timeFormatLog = '%Y-%m-%d %H:%M:%S'
+    logMsg = time.strftime(timeFormatLog) + " " + msg
     print(logMsg)
     if (self.logFile):      
       self.logFile.write(logMsg + "\n")    
@@ -268,8 +268,9 @@ class QxTest:
       logPath = os.path.join(self.testConf['testLogDir'], appConf['appName'])
       if not os.path.isdir(logPath):
         os.mkdir(logPath)
-      
-      logFile = os.path.join(logPath, self.startTimeString + ".log")
+      tf = '%Y-%m-%d_%H-%M-%S'
+      testStartDate = time.strftime(self.timeFormat)
+      logFile = os.path.join(logPath, testStartDate + ".log")
 
     for browser in appConf['browsers']:      
       cmd = self.getStartCmd(appConf['appName'], browser['browserId'])
