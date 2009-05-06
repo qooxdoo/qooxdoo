@@ -11,6 +11,28 @@
     }
   ],
 
+  "export":
+  [
+    "api",
+    //"build",
+    "clean",
+    "distclean",
+    "fix",
+    "images",
+    "lint",
+    "lint-legacy",
+    "lint-test",
+    //"publish-api",
+    //"publish-framework",
+    //"publish-test",
+    //"source",
+    "test",
+    //"test-copy-files",
+    "test-source",
+    "translation"
+  ],
+
+
   "let" :
   {
     "APPLICATION"  : "qx",
