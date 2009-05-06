@@ -639,10 +639,10 @@ class Generator:
 
                 data[classId][loadOrRun].append(depId)
     
-            file = depsLogConf.get('file', "deps.json")
+            file = depsLogConf.get('json/file', "deps.json")
             self._console.info("Writing dependency data to file: %s" % file)
-            pretty = PathType(depsLogConf.get('format', None), '/').subkey()  # try to get .../pretty part
-            if pretty == 'pretty':
+            pretty = depsLogConf.get('json/pretty', None)
+            if pretty:
                 indent     = 2
                 separators = (', ', ': ')
             else:
@@ -668,10 +668,10 @@ class Generator:
             for cid in data.keys():
                 output.append(data[cid])
 
-            file = depsLogConf.get('file', "flare.json")
+            file = depsLogConf.get('flare/file', "flare.json")
             self._console.info("Writing dependency data to file: %s" % file)
-            pretty = PathType(depsLogConf.get('format', None), '/').subkey()  # try to get .../pretty part
-            if pretty == 'pretty':
+            pretty = depsLogConf.get('flare/pretty', None)
+            if pretty:
                 indent = 2
                 separators = (', ', ': ')
             else:
@@ -721,7 +721,7 @@ class Generator:
                 return
 
             def writeDotFile(gr1, depsLogConf):
-                file = depsLogConf.get('file', "deps.dot")
+                file = depsLogConf.get('dot/file', "deps.dot")
                 dot = gr1.write(fmt='dotwt')
                 self._console.info("Writing dependency graph to file: %s" % file)
                 open(file, 'w').write(dot)
