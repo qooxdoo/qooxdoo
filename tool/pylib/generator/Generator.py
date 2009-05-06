@@ -689,56 +689,71 @@ class Generator:
             return
 
         def depsToDotFile(depsLogConf, gr):
-            if depsLogConf.get('format', None):
+
+            def getNodeColor(classId):
+                # return color according to size
+                fsize = self._classes[classId]['size']
+                if fsize > 20000:
+                    color = "red"
+                elif fsize > 5000:
+                    color = "green"
+                else:
+                    color = "blue"
+                return color
+
+            def addEdges(gr, gr1, st, st_nodes, mode):
+                # rather gr.add_spanning_tree(st), go through individual edges for coloring
+                for v in st.iteritems():
+                    if None in v:  # drop edges with a None node
+                        continue
+                    v2, v1 = v
+                    if gr.has_edge(v1,v2):
+                        gr1.add_edge(v1, v2, attrs=gr.get_edge_attributes(v1, v2))
+                    else:
+                        gr1.add_edge(v1, v2, )
+                if not mode or not mode == "span-tree-only":  # add additional dependencies
+                    for v1 in st_nodes:                       # that are not covered by the span tree
+                        for v2 in st_nodes:
+                            if gr.has_edge(v1, v2): 
+                                gr1.add_edge(v1, v2, attrs=gr.get_edge_attributes(v1, v2))
+                return
+
+            def addNodes(gr, st_nodes):
+                # rather gr.add_nodes(st), go through indiviudal nodes for coloring
+                for cid in st_nodes:
+                    if cid == None:  # None is introduced in st
+                        continue
+                    color = getNodeColor(cid)
+                    gr.add_node(cid, attrs=[("color", color)])
+                return
+
+            def writeDotFile(gr1, depsLogConf):
+                file = depsLogConf.get('file', "deps.dot")
+                dot = gr1.write(fmt='dotwt')
+                self._console.info("Writing dependency graph to file: %s" % file)
+                open(file, 'w').write(dot)
+                return
+
+            def getFormatMode(depsLogConf):
                 format = mode = None
                 format = depsLogConf.get('format')
                 if format.find('/')>-1:
                     format, mode = format.split('/',1)  # e.g. 'dot/span-tree-only'
-                if format == 'dot':
-                    classRoot = depsLogConf.get('root')
-                    # get the spanning tree from the root node
-                    st, op = gr.breadth_first_search(root=classRoot)
-                    # and create a new graph from it
-                    gr1 = graph.digraph()
-                    st_nodes = set(st.keys() + st.values())
-                    # add nodes
-                    # - rather gr.add_nodes(st), go through indiviudal nodes for coloring
-                    for cid in st_nodes:
-                        if cid == None:  # None is introduced in st
-                            continue
-                        fsize = self._classes[cid]['size']
-                        if fsize > 20000:
-                            color = "red"
-                        elif fsize > 5000:
-                            color = "green"
-                        else:
-                            color = "blue"
-                        gr1.add_node(cid, attrs=[("color", color)])
-                    # add edges
-                    # - rather gr.add_spanning_tree(st), go through individual edges for coloring
-                    for v in st.iteritems():
-                        if None in v:  # drop edges with a None node
-                            continue
-                        v2, v1 = v
-                        if gr.has_edge(v1,v2):
-                            gr1.add_edge(v1, v2, attrs=gr.get_edge_attributes(v1, v2))
-                        else:
-                            gr1.add_edge(v1, v2, )
-                    if not mode or not mode == "span-tree-only":  # add additional dependencies
-                        for v1 in st_nodes:                       # that are not covered by the span tree
-                            for v2 in st_nodes:
-                                if gr.has_edge(v1, v2): 
-                                    gr1.add_edge(v1, v2, attrs=gr.get_edge_attributes(v1, v2))
-                    # write dot file
-                    if dset == "loadtime":
-                        file = depsLogConf.get('file', "loaddeps.dot")
-                    elif dset == "runtime":
-                        file = depsLogConf.get('file', "rundeps.dot")
-                    else:
-                        file = depsLogConf.get('file', "deps.dot")
-                    dot = gr1.write(fmt='dotwt')
-                    self._console.info("Writing dependency graph to file: %s" % file)
-                    open(file, 'w').write(dot)
+                return format, mode
+
+            def createPrinterGraph(gr, mode):
+                # create a helper graph for output
+                classRoot = depsLogConf.get('root')  # get the root node for the spanning tree
+                st, op = gr.breadth_first_search(root=classRoot) # get the spanning tree
+                gr1 = graph.digraph()
+                st_nodes = set(st.keys() + st.values())
+                addNodes(gr1, st_nodes)
+                addEdges(gr, gr1, st, st_nodes, mode)
+                return gr1
+
+            format, mode = getFormatMode(depsLogConf)
+            gr1 = createPrinterGraph(gr, mode)
+            writeDotFile(gr1, depsLogConf)
             return
 
 
