@@ -396,9 +396,9 @@ qx.Class.define("testrunner.runner.TestRunner",
       part3.add(this.stacktoggle);
       this.stacktoggle.setShow("both");
       this.stacktoggle.setToolTipText(this.tr("Show stack trace information for exceptions"));
-      this.stacktoggle.setChecked(true);
+      this.stacktoggle.setValue(true);
       this.stacktoggle.addListener("click",function(e) {
-        this.f1.setShowStackTrace(this.stacktoggle.getChecked());
+        this.f1.setShowStackTrace(this.stacktoggle.getValue());
       }, this);
 
       return toolbar;
@@ -1097,7 +1097,7 @@ qx.Class.define("testrunner.runner.TestRunner",
           this.__state == 0;
           if (that.tests.firstrun)
           {
-            that.reloadswitch.setChecked(true);
+            that.reloadswitch.setValue(true);
             that.tests.firstrun = false;
             that.widgets["statuspane.systeminfo"].setValue(that.tr("Enabled auto-reload"));
           }
@@ -1165,7 +1165,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       // build list of individual tests to perform
       var tlist = buildList(modelNode);
 
-      if (this.reloadswitch.getChecked())
+      if (this.reloadswitch.getValue())
       {
         // set up pending tests
         this.tests.run_pending = function()
@@ -1294,7 +1294,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       this.widgets["toolbar.runbutton"].setEnabled(true);
       this.widgets["toolbar.runbutton"].setVisibility("visible");
       this.widgets["toolbar.stopbutton"].setVisibility("excluded");
-      this.reloadswitch.setChecked(false);  // disable for first run
+      this.reloadswitch.setValue(false);  // disable for first run
 
       if (this.tests.run_pending)
       {  // do we have pending tests to run?

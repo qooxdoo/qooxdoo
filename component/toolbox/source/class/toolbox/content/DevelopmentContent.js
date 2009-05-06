@@ -1026,7 +1026,7 @@ qx.Class.define("toolbox.content.DevelopmentContent",
 
       this.develWidgets["createDialog.generateBox"].addListener("click", function()
       {
-        if (this.develWidgets["createDialog.generateBox"].getChecked()) {
+        if (this.develWidgets["createDialog.generateBox"].getValue()) {
           this.__isGenerateSource = true;
         } else {
           this.__isGenerateSource = false;
@@ -1321,7 +1321,7 @@ qx.Class.define("toolbox.content.DevelopmentContent",
     __showLogTextField : function()
     {
       // if the log checkbox is checked then show the log textfield
-      if (this.develWidgets["createDialog.logCheckBox"].getChecked())
+      if (this.develWidgets["createDialog.logCheckBox"].getValue())
       {
         this.develWidgets["createDialog.logText"].show();
         this.develWidgets["createDialog.logCheckBox"].setLabel("*");
@@ -1344,9 +1344,9 @@ qx.Class.define("toolbox.content.DevelopmentContent",
      */
     __checkInput : function()
     {
-      if (this.develWidgets["createDialog.fileNameText"].getValue().length > 0 & this.develWidgets["createDialog.filePathText"].getValue().length > 0 & !this.develWidgets["createDialog.logCheckBox"].getChecked()) {
+      if (this.develWidgets["createDialog.fileNameText"].getValue().length > 0 & this.develWidgets["createDialog.filePathText"].getValue().length > 0 & !this.develWidgets["createDialog.logCheckBox"].getValue()) {
         this.develWidgets["createDialog.createButton"].setEnabled(true);
-      } else if (this.develWidgets["createDialog.fileNameText"].getValue().length > 0 & this.develWidgets["createDialog.filePathText"].getValue().length > 0 & this.develWidgets["createDialog.logCheckBox"].getChecked() & this.develWidgets["createDialog.logText"].getValue().length > 0) {
+      } else if (this.develWidgets["createDialog.fileNameText"].getValue().length > 0 & this.develWidgets["createDialog.filePathText"].getValue().length > 0 & this.develWidgets["createDialog.logCheckBox"].getValue() & this.develWidgets["createDialog.logText"].getValue().length > 0) {
         this.develWidgets["createDialog.createButton"].setEnabled(true);
       } else {
         this.develWidgets["createDialog.createButton"].setEnabled(false);
