@@ -132,24 +132,24 @@ qx.Class.define("demobrowser.demo.table.Table",
 
       checkBox = new qx.ui.toolbar.CheckBox("Keep first row");
       checkBox.set({
-        checked: table.getKeepFirstVisibleRowComplete(),
+        value: table.getKeepFirstVisibleRowComplete(),
         toolTip: new qx.ui.tooltip.ToolTip(
           "Whether the the first visible row should " +
           "be rendered completely when scrolling."
         )
       });
-      checkBox.addListener("changeChecked", function(evt) {
-        table.setKeepFirstVisibleRowComplete(this.getChecked());
+      checkBox.addListener("changeValue", function(evt) {
+        table.setKeepFirstVisibleRowComplete(this.getValue());
       },
       checkBox);
       part.add(checkBox);
 
       checkBox = new qx.ui.toolbar.CheckBox("Change ID sort method");
       checkBox.set({
-        checked: table.getKeepFirstVisibleRowComplete(),
+        value: table.getKeepFirstVisibleRowComplete(),
         toolTip: new qx.ui.tooltip.ToolTip("Demonstrate use of alternate sorting algorithm.")
       });
-      checkBox.addListener("changeChecked", function(evt)
+      checkBox.addListener("changeValue", function(evt)
       {
         if (evt.getData())
         {

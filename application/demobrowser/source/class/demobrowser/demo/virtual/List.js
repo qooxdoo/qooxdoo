@@ -124,7 +124,7 @@ qx.Class.define("demobrowser.demo.virtual.List",
       this.getRoot().add(dragCheck, {left: 180, top: 220});
       this.getRoot().add(quickCheck, {left: 180, top: 240});
 
-      dragCheck.addListener("changeChecked", function(e)
+      dragCheck.addListener("changeValue", function(e)
       {
         if (e.getData())
         {
@@ -137,7 +137,7 @@ qx.Class.define("demobrowser.demo.virtual.List",
         configList.setDragSelection(e.getData());
       });
 
-      quickCheck.addListener("changeChecked", function(e)
+      quickCheck.addListener("changeValue", function(e)
       {
         if (e.getData())
         {

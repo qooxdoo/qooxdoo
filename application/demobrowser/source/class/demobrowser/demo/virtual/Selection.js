@@ -165,7 +165,7 @@ qx.Class.define("demobrowser.demo.virtual.Selection",
       
       var dragCheck = new qx.ui.form.CheckBox("Enable drag selection");
       controls.add(dragCheck, {row: 1, column: 1});
-      dragCheck.addListener("changeChecked", function(e)
+      dragCheck.addListener("changeValue", function(e)
       {
         if (e.getData())
         {
@@ -183,7 +183,7 @@ qx.Class.define("demobrowser.demo.virtual.Selection",
         enabled : false
       });
       controls.add(quickCheck, {row: 2, column: 1});
-      quickCheck.addListener("changeChecked", function(e)
+      quickCheck.addListener("changeValue", function(e)
       {
         if (e.getData())
         {

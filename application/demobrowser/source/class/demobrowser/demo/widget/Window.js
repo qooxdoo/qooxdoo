@@ -114,22 +114,22 @@ qx.Class.define("demobrowser.demo.widget.Window",
 
 
       var showClose = new qx.ui.form.CheckBox("Show Close");
-      showClose.setChecked(true);
-      showClose.addListener("changeChecked", function(e) {
+      showClose.setValue(true);
+      showClose.addListener("changeValue", function(e) {
         win.setShowClose(e.getData());
       });
       basicSettings.add(showClose);
 
       var showMaximize = new qx.ui.form.CheckBox("Show Maximize");
-      showMaximize.setChecked(true);
-      showMaximize.addListener("changeChecked", function(e) {
+      showMaximize.setValue(true);
+      showMaximize.addListener("changeValue", function(e) {
         win.setShowMaximize(e.getData());
       });
       basicSettings.add(showMaximize);
 
       var showMinimize = new qx.ui.form.CheckBox("Show Minimize");
-      showMinimize.setChecked(true);
-      showMinimize.addListener("changeChecked", function(e) {
+      showMinimize.setValue(true);
+      showMinimize.addListener("changeValue", function(e) {
         win.setShowMinimize(e.getData());
       });
       basicSettings.add(showMinimize);
@@ -137,22 +137,22 @@ qx.Class.define("demobrowser.demo.widget.Window",
 
 
       var allowClose = new qx.ui.form.CheckBox("Allow Close");
-      allowClose.setChecked(true);
-      allowClose.addListener("changeChecked", function(e) {
+      allowClose.setValue(true);
+      allowClose.addListener("changeValue", function(e) {
         win.setAllowClose(e.getData());
       });
       basicSettings.add(allowClose);
 
       var allowMaximize = new qx.ui.form.CheckBox("Allow Maximize");
-      allowMaximize.setChecked(true);
-      allowMaximize.addListener("changeChecked", function(e) {
+      allowMaximize.setValue(true);
+      allowMaximize.addListener("changeValue", function(e) {
         win.setAllowMaximize(e.getData());
       });
       basicSettings.add(allowMaximize);
 
       var allowMinimize = new qx.ui.form.CheckBox("Allow Minimize");
-      allowMinimize.setChecked(true);
-      allowMinimize.addListener("changeChecked", function(e) {
+      allowMinimize.setValue(true);
+      allowMinimize.addListener("changeValue", function(e) {
         win.setAllowMinimize(e.getData());
       });
       basicSettings.add(allowMinimize);
@@ -160,8 +160,8 @@ qx.Class.define("demobrowser.demo.widget.Window",
 
 
       var showStatusbar = new qx.ui.form.CheckBox("Show Statusbar");
-      showStatusbar.setChecked(false);
-      showStatusbar.addListener("changeChecked", function(e) {
+      showStatusbar.setValue(false);
+      showStatusbar.addListener("changeValue", function(e) {
         win.setShowStatusbar(e.getData());
       });
       basicSettings.add(showStatusbar);
@@ -173,36 +173,36 @@ qx.Class.define("demobrowser.demo.widget.Window",
       box.add(resizeMove, {flex:1});
 
       var resizable = new qx.ui.form.CheckBox("Resizable");
-      resizable.setChecked(true);
-      resizable.addListener("changeChecked", function(e) {
+      resizable.setValue(true);
+      resizable.addListener("changeValue", function(e) {
         win.setResizable(e.getData());
       });
       resizeMove.add(resizable);
 
       var resizeFrame = new qx.ui.form.CheckBox("Use resize frame");
-      resizeFrame.setChecked(true);
-      resizeFrame.addListener("changeChecked", function(e) {
+      resizeFrame.setValue(true);
+      resizeFrame.addListener("changeValue", function(e) {
         win.setUseResizeFrame(e.getData());
       });
       resizeMove.add(resizeFrame);
 
       var resizeAll = new qx.ui.form.CheckBox("Resize all edges");
-      resizeAll.setChecked(true);
-      resizeAll.addListener("changeChecked", function(e) {
+      resizeAll.setValue(true);
+      resizeAll.addListener("changeValue", function(e) {
         win.setResizeAllEdges(e.getData());
       });
       resizeMove.add(resizeAll);
 
 
       var movable = new qx.ui.form.CheckBox("Movable");
-      movable.setChecked(true);
-      movable.addListener("changeChecked", function(e) {
+      movable.setValue(true);
+      movable.addListener("changeValue", function(e) {
         win.setMovable(e.getData());
       });
       resizeMove.add(movable);
 
       var moveFrame = new qx.ui.form.CheckBox("Use move frame");
-      moveFrame.addListener("changeChecked", function(e) {
+      moveFrame.addListener("changeValue", function(e) {
         win.setUseMoveFrame(e.getData());
       });
       resizeMove.add(moveFrame);
@@ -241,10 +241,10 @@ qx.Class.define("demobrowser.demo.widget.Window",
       wm1.add(btn2);
 
       var chkm1 = new qx.ui.form.CheckBox("Modal");
-      chkm1.setChecked(true);
+      chkm1.setValue(true);
       wm1.add(chkm1);
 
-      chkm1.addListener("changeChecked", function(e) {
+      chkm1.addListener("changeValue", function(e) {
         wm1.setModal(e.getData());
       });
 

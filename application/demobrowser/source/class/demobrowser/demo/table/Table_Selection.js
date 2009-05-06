@@ -147,8 +147,8 @@ qx.Class.define("demobrowser.demo.table.Table_Selection",
       part.add(button);
 
       var btnHideCellFocus = new qx.ui.toolbar.CheckBox("Hide Cell Focus");
-      btnHideCellFocus.addListener("changeChecked", function(evt) {
-        this._table.setShowCellFocusIndicator(!btnHideCellFocus.isChecked());
+      btnHideCellFocus.addListener("changeValue", function(evt) {
+        this._table.setShowCellFocusIndicator(!btnHideCellFocus.isValue());
       }, this);
       part.add(btnHideCellFocus);
 

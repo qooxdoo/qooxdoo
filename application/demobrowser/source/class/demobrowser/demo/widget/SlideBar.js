@@ -58,7 +58,7 @@ qx.Class.define("demobrowser.demo.widget.SlideBar",
 
       var toggle = new qx.ui.form.ToggleButton("Toggle size");
 
-      toggle.addListener("changeChecked", function(e) {
+      toggle.addListener("changeValue", function(e) {
         slideBar.setWidth(e.getData() ? 800 : 300);
       });
 

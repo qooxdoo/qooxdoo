@@ -124,12 +124,12 @@ qx.Class.define("demobrowser.demo.table.Table_Events",
       bar.add(part);
 
       button = new qx.ui.toolbar.CheckBox("Capture events", "icon/22/actions/media-record.png").set({
-        checked: true
+        value: true
       });
       part.add(button);
 
-      button.addListener("changeChecked", function(e) {
-        if (button.isChecked())
+      button.addListener("changeValue", function(e) {
+        if (button.isValue())
         {
           this._events.setData([]);
           this._eventsWin.open();

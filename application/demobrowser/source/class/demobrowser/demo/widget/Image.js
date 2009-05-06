@@ -74,8 +74,8 @@ qx.Class.define("demobrowser.demo.widget.Image",
 
       // toggle button
       var btn = new qx.ui.form.ToggleButton("Toggle enabled");
-      btn.setChecked(true);
-      btn.addListener("changeChecked", function(e) {
+      btn.setValue(true);
+      btn.addListener("changeValue", function(e) {
         container.setEnabled(e.getData());
       });
 
