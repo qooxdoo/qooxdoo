@@ -52,7 +52,7 @@ qx.Class.define("demobrowser.demo.util.PropertyGroup",
       if (nullable)
       {
         var nullWidget = new qx.ui.form.CheckBox("null");
-        nullWidget.addListener("changeChecked", this._createOnNullPropertyChange(prop), this);
+        nullWidget.addListener("changeValue", this._createOnNullPropertyChange(prop), this);
 
         this._add(nullWidget, {row: row, column: 2});
         this._properties[prop].nullWidget = nullWidget;
@@ -70,7 +70,7 @@ qx.Class.define("demobrowser.demo.util.PropertyGroup",
       else if (type == "bool")
       {
         var formItem = new qx.ui.form.CheckBox();
-        formItem.addListener("changeChecked", this._createOnBoolPropertyChange(prop), this);
+        formItem.addListener("changeValue", this._createOnBoolPropertyChange(prop), this);
         this._add(formItem, {row: row++, column: 1});
       }
       else if (type == "enum")
@@ -237,7 +237,7 @@ qx.Class.define("demobrowser.demo.util.PropertyGroup",
       return function(e)
       {
         var widget = this.getSelected();
-        this._setProperty(widget, property, e.getTarget().getChecked());
+        this._setProperty(widget, property, e.getTarget().getValue());
       }
     },
 
@@ -259,7 +259,7 @@ qx.Class.define("demobrowser.demo.util.PropertyGroup",
         var widget = this.getSelected();
         var control = e.getTarget();
 
-        if (control.getChecked())
+        if (control.getValue())
         {
           this._setProperty(widget, property, null);
           this._properties[property].formItem.setEnabled(false);
@@ -307,7 +307,7 @@ qx.Class.define("demobrowser.demo.util.PropertyGroup",
           }
           else if (type == "bool")
           {
-            formItem.setChecked(!!propValue);
+            formItem.setValue(!!propValue);
           }
           else if (type == "enum")
           {
@@ -317,7 +317,7 @@ qx.Class.define("demobrowser.demo.util.PropertyGroup",
 
         if (nullable)
         {
-          this._properties[prop].nullWidget.setChecked(propValue == null);
+          this._properties[prop].nullWidget.setValue(propValue == null);
           this._properties[prop].nullWidget.setEnabled(true);
           formItem.setEnabled(propValue !== null);
         }

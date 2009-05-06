@@ -66,7 +66,7 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
       }
 
       var check = new qx.ui.form.CheckBox("Enable drag");
-      check.setChecked(true);
+      check.setValue(true);
       container.add(check, { left : 20, top : 260 });
 
 
@@ -74,7 +74,7 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
       {
         // dragstart is cancelable, you can put any runtime checks
         // here to dynamically disallow the drag feature on a widget
-        if (!check.isChecked()) {
+        if (!check.isValue()) {
           e.preventDefault();
         }
 
