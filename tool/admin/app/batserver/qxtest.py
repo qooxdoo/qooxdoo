@@ -132,7 +132,7 @@ class QxTest:
           os.mkdir(buildConf['buildLogDir'])
         buildLog = os.path.join(buildConf['buildLogDir'], target + '_' + self.startTimeString + '.log')
         self.log("Opening build log file " + buildLog)      
-        buildLogFile = open(buildLog, 'w')      
+        buildLogFile = codecs.open(buildLog, 'w', 'utf-8')      
       
       # Assemble batbuild command line
       if (os.path.isabs(buildConf['batbuild'])):
@@ -209,7 +209,7 @@ class QxTest:
       self.log("SIMULATION: Storing build status in file " + fPath)
     else:  
       self.log("Storing build status in file " + fPath)
-      rFile = open(fPath, 'w')
+      rFile = codecs.open(fPath, 'w', 'utf-8')
       rFile.write(json)
       rFile.close()
 
@@ -265,7 +265,7 @@ class QxTest:
                + " in file " + fPath)
     else:  
       self.log("Storing revision number " + self.trunkrev + " in file " + fPath)
-      rFile = open(fPath, 'w')
+      rFile = codecs.open(fPath, 'w', 'utf-8')
       rFile.write(self.trunkrev)
       rFile.close()
 
@@ -399,7 +399,7 @@ class QxTest:
     cmd += " autPath="
     if 'autQxPath' in self.autConf:
       cmd += self.autConf['autQxPath']
-    cmd + self.autConf['autPath' + aut]
+    cmd += self.autConf['autPath' + aut]
     cmd += " simulatorSvn=" + self.testConf['simulatorSvn']
     if (self.os == "Windows"):
       cmd += " testBrowser=" + self.browserConf[browser]
