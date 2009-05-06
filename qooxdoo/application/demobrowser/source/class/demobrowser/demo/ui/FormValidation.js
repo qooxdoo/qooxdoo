@@ -59,13 +59,19 @@ qx.Class.define("demobrowser.demo.ui.FormValidation",
       widgets.push(new qx.ui.form.SelectBox());
       this.getRoot().add(widgets[6], {left: 20, top: 300});           
       
+      // checkbox
+      widgets.push(new qx.ui.form.CheckBox());
+      this.getRoot().add(widgets[7], {left: 20, top: 330});      
+      
+      
+      
       /* ***********************************************
        * CONTROLLS
        * ********************************************* */      
       var toggleValidButton = new qx.ui.form.ToggleButton("invalid");
       this.getRoot().add(toggleValidButton, {left: 250, top: 70});
       
-      toggleValidButton.addListener("changeChecked", function(e) {
+      toggleValidButton.addListener("changeValue", function(e) {
         for (var i = 0; i < widgets.length; i++) {
           widgets[i].setInvalidMessage("Invalid...");
           widgets[i].setValid(!e.getData()); 

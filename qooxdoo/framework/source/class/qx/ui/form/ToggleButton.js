@@ -22,12 +22,21 @@
  *
  * If the user presses the button by clicking on it pressing the enter or
  * space key, the button toggles between the pressed an not pressed states.
- * There is no execute event, only a {@link qx.ui.form.ToggleButton#change} event.
+ * There is no execute event, only a {@link qx.ui.form.ToggleButton#change} 
+ * event.
  */
 qx.Class.define("qx.ui.form.ToggleButton",
 {
   extend : qx.ui.basic.Atom,
-  implement : qx.ui.form.IFormElement,
+  include : [
+    qx.ui.form.MFormElement,
+    qx.ui.core.MExecutable
+  ],
+  implement : [
+    qx.ui.form.IFormElement, 
+    qx.ui.form.IBooleanForm,
+    qx.ui.form.IExecutable
+  ],
 
 
 
@@ -60,7 +69,21 @@ qx.Class.define("qx.ui.form.ToggleButton",
 
 
 
-
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+  events : {
+    /**
+     * The old checked change event. Please use the value property instead.
+     * @deprecated
+     */
+    "changeChecked" : "qx.event.type.Data"
+  },
+  
+  
+  
   /*
   *****************************************************************************
      PROPERTIES
@@ -76,15 +99,6 @@ qx.Class.define("qx.ui.form.ToggleButton",
       init: "button"
     },
 
-    /** Boolean value signals if the button is checked */
-    checked:
-    {
-      check: "Boolean",
-      init: false,
-      apply: "_applyChecked",
-      event: "changeChecked"
-    },
-
     // overridden
     focusable :
     {
@@ -92,20 +106,14 @@ qx.Class.define("qx.ui.form.ToggleButton",
       init : true
     },
 
-    /** The name of the widget. Mainly used for serialization proposes. */
-    name :
-    {
-      check : "String",
-      nullable : true,
-      event : "changeName"
-    },
-
-    /** The value of the widget. Mainly used for serialization proposes. */
+    /** The value of the widget. True, if the widget is checked. */
     value :
     {
-      check : "String",
+      // TODO change the check to Boolean after the deprecation has been removed
+      check : "function(value) {return qx.lang.Type.isString(value) || qx.lang.Type.isBoolean(value)}",
       nullable : true,
-      event : "changeValue"
+      event : "changeValue",
+      apply : "_applyValue"
     }
   },
 
@@ -126,8 +134,18 @@ qx.Class.define("qx.ui.form.ToggleButton",
      * @param value {Boolean} Current value
      * @param old {Boolean} Previous value
      */
-    _applyChecked : function(value, old) {
+    _applyValue : function(value, old) {
+      if (qx.lang.Type.isString(value)) {
+        qx.log.Logger.deprecatedMethodWarning(
+          arguments.callee, "Please use boolean values instead."
+        );        
+        return;
+      }
+      
       value ? this.addState("checked") : this.removeState("checked");
+      
+      // @deprecated
+      this.fireDataEvent("changeChecked", value, old);      
     },
 
 
@@ -178,7 +196,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
 
       if (this.hasState("pressed"))
       {
-        if (!this.getChecked()) {
+        if (!this.getValue()) {
           this.removeState("pressed");
         }
 
@@ -220,7 +238,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
      * <li>Releases capturing</li>
      * <li>Removes "pressed" state (if not "abandoned" state is set and "pressed" state is set)</li>
      * <li>Removes "abandoned" state (if set)</li>
-     * <li>Toggles {@link #checked} (if state "abandoned" is not set and state "pressed" is set)</li>
+     * <li>Toggles {@link #value} (if state "abandoned" is not set and state "pressed" is set)</li>
      * </ul>
      *
      * @param e {Event} Mouse event
@@ -233,7 +251,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
       if (this.hasState("abandoned")) {
         this.removeState("abandoned");
       } else if (this.hasState("pressed")) {
-        this.toggleChecked();
+        this.setValue(!this.getValue());
       }
 
       this.removeState("pressed");
@@ -266,7 +284,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
     /**
      * Listener method for "keyup" event.<br/>
      * Removes "abandoned" and "pressed" state (if "pressed" state is set)
-     * for the keys "Enter" or "Space". It also toggles the {@link #checked} property.
+     * for the keys "Enter" or "Space". It also toggles the {@link #value} property.
      *
      * @param e {Event} Key event
      * @return {void}
@@ -282,11 +300,125 @@ qx.Class.define("qx.ui.form.ToggleButton",
         case "Enter":
         case "Space":
           this.removeState("abandoned");
-          this.toggleChecked();
+          this.setValue(!this.getValue());
 
           this.removeState("pressed");
           e.stopPropagation();
       }
+    },
+    
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      DEPRECATED STUFF
+    ---------------------------------------------------------------------------
+    */
+    /**
+     * Old set method for the checked property. Please use the value 
+     * property instead.
+     * 
+     * @param value {String} The value of the label.
+     * @deprecated
+     */
+    setChecked: function(value) {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Please use the value property instead."
+      );
+      
+      this.setValue(value);
+    },
+    
+    
+    /**
+     * Old is method for the checked property. Please use the value property 
+     * instead.
+     * 
+     * @deprecated
+     */
+    isChecked: function() {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Please use the value property instead."
+      );
+      
+      return this.getValue();      
+    },
+    
+    
+    /**
+     * Old toggle method for the checked property. Please use the value property 
+     * instead.
+     * 
+     * @deprecated
+     */
+    toggleChecked: function() {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Please use the value property instead."
+      );
+      
+      this.setChecked(!this.getChecked());
+    },
+    
+    
+    /**
+     * Old get method for the checked property. Please use the value 
+     * property instead.
+     * 
+     * @deprecated
+     */    
+    getChecked: function() {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Please use the value property instead."
+      );      
+      
+      return this.getValue();
+    },
+    
+    
+    /**
+     * Old reset method for the checked property. Please use the value 
+     * property instead.
+     * 
+     * @deprecated
+     */    
+    resetChecked: function() {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Please use the value property instead."
+      );
+
+      this.resetValue();
+    },
+    
+    
+    // overridden
+    addListener: function(type, listener, self, capture) {
+      if (type == "changeChecked") {
+        qx.log.Logger.deprecatedEventWarning(
+          arguments.callee, 
+          "changeChecked",
+          "Please use the changeValue event instead."
+        );        
+      }
+      return this.base(arguments, type, listener, self, capture);
+    },
+    
+    
+    // TODO can be removed when the check of the value property is set to Boolean
+    /**
+     * Toggles the state of the button.
+     */
+    toggleValue: function() {
+      this.setValue(!this.getValue());
+    },
+
+    // TODO can be removed when the check of the value property is set to Boolean
+    /**
+     * Returns if the value is true
+     * 
+     * @return {Boolean} True, if the button is checked.
+     */    
+    isValue: function() {
+      return this.getValue();
     }
   }
 });

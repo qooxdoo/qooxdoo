@@ -300,7 +300,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
         return {
           icon: "decoration/form/" + icon + ".png",
-          gap: 6
+          gap: 6,
+          shadow : states.invalid ? "checkbox-invalid-shadow" : undefined          
         }
       }
     },
@@ -440,7 +441,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           icon : "decoration/arrows/up-small.png",
-          padding : states.pressed ? [2, 2, 0, 4] : [1, 3, 1, 3]
+          padding : states.pressed ? [2, 2, 0, 4] : [1, 3, 1, 3],
+          shadow: undefined
         }
       }
     },
@@ -454,7 +456,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           icon : "decoration/arrows/down-small.png",
-          padding : states.pressed ? [2, 2, 0, 4] : [1, 3, 1, 3]
+          padding : states.pressed ? [2, 2, 0, 4] : [1, 3, 1, 3],
+          shadow: undefined
         };
       }
     },
@@ -774,6 +777,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           decorator : states.disabled ? "scrollbar-slider-horizontal-disabled" :
                                         "scrollbar-slider-horizontal", 
+          shadow: undefined,
           height : 14,
           width : 14
         };
