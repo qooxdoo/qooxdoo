@@ -683,16 +683,25 @@ class Generator:
 
         def depsToDotFile(depsLogConf, gr):
 
-            def getNodeColor(classId):
+            def getNodeAttribs(classId):
                 # return color according to size
+                attribs = []
+                color = fontsize = None
                 fsize = self._classes[classId]['size']
                 if fsize > 20000:
                     color = "red"
+                    fontsize = 15
                 elif fsize > 5000:
                     color = "green"
+                    fontsize = 13
                 else:
                     color = "blue"
-                return color
+                    fontsize = 10
+                if fontsize:
+                    attribs.append(("fontsize",fontsize))
+                if color:
+                    attribs.append(("color",color))
+                return attribs
 
             def addEdges(gr, gr1, st, st_nodes, mode):
                 # rather gr.add_spanning_tree(st), go through individual edges for coloring
@@ -716,8 +725,8 @@ class Generator:
                 for cid in st_nodes:
                     if cid == None:  # None is introduced in st
                         continue
-                    color = getNodeColor(cid)
-                    gr.add_node(cid, attrs=[("color", color)])
+                    attribs = getNodeAttribs(cid)
+                    gr.add_node(cid, attrs=attribs)
                 return
 
             def writeDotFile(gr1, depsLogConf):
