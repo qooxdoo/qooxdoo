@@ -607,14 +607,7 @@ class Generator:
 
 
     ##
-    # A typical config entry to use this code:
-    # "log" : {
-    #    "dependencies" : {
-    #      "type"       : "using/loadtime",
-    #      "format"     : "dot",
-    #      "file"       : "deps.dot",
-    #      "root"       : "custom.Application"
-    # }}
+    #
     def runLogDependencies(self, parts, packages, variants):
 
         depsLogConf = self._job.get("log/dependencies", False)
@@ -736,15 +729,15 @@ class Generator:
 
             def getFormatMode(depsLogConf):
                 format = mode = None
-                format = depsLogConf.get('format')
-                if format.find('/')>-1:
-                    format, mode = format.split('/',1)  # e.g. 'dot/span-tree-only'
+                mode = depsLogConf.get('dot/span-tree-only', None)
+                if mode:
+                    mode = "span-tree-only"
                 return format, mode
 
             def createPrinterGraph(gr, depsLogConf):
                 # create a helper graph for output
                 format, mode = getFormatMode(depsLogConf)
-                searchRoot   = depsLogConf.get('root')  # get the root node for the spanning tree
+                searchRoot   = depsLogConf.get('dot/root')  # get the root node for the spanning tree
                 searchRadius = depsLogConf.get('dot/radius', None)
                 if searchRadius:
                     filter    = graph.filters.radius(searchRadius)
@@ -860,12 +853,10 @@ class Generator:
 
             return
 
-        def usingDeps(depsLogConf, dset):
+        def usingDeps(depsLogConf):
 
-            logformat = depsLogConf.get('format', None)
-            mainformat = logformat
-            if logformat and logformat.find('/')>-1:
-                mainformat = logformat.split('/')[0]
+            dset       = depsLogConf.get('using/phase', None)
+            mainformat = depsLogConf.get('format', None)
             if mainformat == 'dot':
                 gr = graph.digraph()
                 graphAddNodes(gr, self._classList)
@@ -885,16 +876,11 @@ class Generator:
         self._console.info("Dependency logging...")
         self._console.indent()
 
-        mode = dset = None
-        type = depsLogConf.get('type', "using")
-        if type.find('/') > -1:
-            mode, dset = type.split('/',1)  # e.g. 'using/loadtime'
-        else:
-            mode = type
-        if mode == "used-by":
+        type = depsLogConf.get('type', None)
+        if type == "used-by":
             usedByDeps(depsLogConf)
-        elif mode == "using":
-            usingDeps(depsLogConf, dset)
+        elif type == "using":
+            usingDeps(depsLogConf)
         else:
             self._console.error('Dependency log type "%s" not in ["using", "used-by"]; skipping...' % mode)
 
