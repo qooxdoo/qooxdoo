@@ -376,8 +376,26 @@ qx.Class.define("qx.data.SingleValueBinding",
         var lastProperty = targetPropertyChain.substring(
           targetPropertyChain.lastIndexOf(".") + 1, targetPropertyChain.length
         );
-        // set the given value
-        target["set" + qx.lang.String.firstUp(lastProperty)](value);
+
+        // check for arrays
+        if (lastProperty[lastProperty.length - 1] == "]") {
+          // split up the chain into property and index
+          var index = lastProperty.substring(lastProperty.lastIndexOf("[") + 1, lastProperty.length - 1);
+          var prop = lastProperty.substring(0, lastProperty.lastIndexOf("["));
+          
+          // get the array
+          var targetArray = target["get" + qx.lang.String.firstUp(prop)]();
+          if (index == "last") {
+            index = targetArray.length - 1;
+          }
+          if (targetArray != null) {
+            targetArray.setItem(index, value);            
+          }
+          
+        } else {
+          // set the given value
+          target["set" + qx.lang.String.firstUp(lastProperty)](value);        
+        }
       }
     },
     
