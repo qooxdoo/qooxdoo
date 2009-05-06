@@ -52,7 +52,26 @@ qx.Class.define("qx.test.ui.form.Executable",
     
     testCheckBox: function() {
      this.__test(new qx.ui.form.CheckBox()); 
-    }
+    },
     
+    testButton: function() {
+     this.__test(new qx.ui.form.Button()); 
+    },
+   
+    testRepeatButton: function() {
+     this.__test(new qx.ui.form.RepeatButton()); 
+    },
+    
+    testMenuButton: function() {
+     this.__test(new qx.ui.form.MenuButton()); 
+    },
+    
+    testRadioButton: function() {
+     this.__test(new qx.ui.form.RadioButton()); 
+    },
+    
+    testToolbarButton: function() {
+     this.__test(new qx.ui.toolbar.Button()); 
+    }
   }
 });

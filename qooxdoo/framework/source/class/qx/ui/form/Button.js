@@ -53,8 +53,8 @@
 qx.Class.define("qx.ui.form.Button",
 {
   extend : qx.ui.basic.Atom,
-  include : qx.ui.core.MExecutable,
-  implement : qx.ui.form.IFormElement,
+  include : [qx.ui.core.MExecutable, qx.ui.form.MFormElement],
+  implement : [qx.ui.form.IFormElement, qx.ui.form.IExecutable],
 
 
 
@@ -93,6 +93,20 @@ qx.Class.define("qx.ui.form.Button",
 
 
 
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+  events : {
+    /**
+     * The old value change event.
+     * @deprecated
+     */
+    "changeValue" : "qx.event.type.Data"
+  },
+  
+
 
   /*
   *****************************************************************************
@@ -102,22 +116,6 @@ qx.Class.define("qx.ui.form.Button",
 
   properties :
   {
-    /** The name of the widget. Mainly used for serialization proposes. */
-    name :
-    {
-      check : "String",
-      nullable : true,
-      event : "changeName"
-    },
-
-    /** The value of the widget. Mainly used for serialization proposes. */
-    value :
-    {
-      check : "String",
-      nullable : true,
-      event : "changeValue"
-    },
-
     // overridden
     appearance :
     {
@@ -355,6 +353,68 @@ qx.Class.define("qx.ui.form.Button",
             e.stopPropagation();
           }
       }
-    }
+    },
+    
+    
+
+
+    /*
+    ---------------------------------------------------------------------------
+      DEPRECATED STUFF
+    ---------------------------------------------------------------------------
+    */
+    __value : null,
+    
+    
+    /**
+     * Old set method for the value property. 
+     * 
+     * @param value {String} The value of the label.
+     * @deprecated
+     */
+    setValue: function(value) {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee);
+      
+      var oldValue = this.__value;
+      this.__value = value;
+      this.fireDataEvent("changeValue", value, oldValue);
+    },
+    
+    
+    /**
+     * Old get method for the value property.
+     * 
+     * @deprecated
+     */    
+    getValue: function() {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee);      
+      
+      return this.__value;
+    },
+    
+    
+    /**
+     * Old reset method for the value property. 
+     * 
+     * @deprecated
+     */    
+    resetValue: function() {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee);
+
+      this.__value = null;
+    },
+    
+    
+    // overridden
+    addListener: function(type, listener, self, capture) {
+      if (type == "changeValue") {
+        qx.log.Logger.deprecatedEventWarning(
+          arguments.callee, 
+          "changeValue",
+          "The value property will be removed."
+        );        
+      }
+      return this.base(arguments, type, listener, self, capture);
+    }    
   }
 });
