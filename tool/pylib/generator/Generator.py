@@ -741,18 +741,23 @@ class Generator:
                     format, mode = format.split('/',1)  # e.g. 'dot/span-tree-only'
                 return format, mode
 
-            def createPrinterGraph(gr, mode):
+            def createPrinterGraph(gr, depsLogConf):
                 # create a helper graph for output
-                classRoot = depsLogConf.get('root')  # get the root node for the spanning tree
-                st, op = gr.breadth_first_search(root=classRoot) # get the spanning tree
+                format, mode = getFormatMode(depsLogConf)
+                searchRoot   = depsLogConf.get('root')  # get the root node for the spanning tree
+                searchRadius = depsLogConf.get('dot/radius', None)
+                if searchRadius:
+                    filter    = graph.filters.radius(searchRadius)
+                else:
+                    filter    = graph.filters.null()
+                st, op = gr.breadth_first_search(root=searchRoot, filter=filter) # get the spanning tree
                 gr1 = graph.digraph()
                 st_nodes = set(st.keys() + st.values())
                 addNodes(gr1, st_nodes)
                 addEdges(gr, gr1, st, st_nodes, mode)
                 return gr1
 
-            format, mode = getFormatMode(depsLogConf)
-            gr1 = createPrinterGraph(gr, mode)
+            gr1 = createPrinterGraph(gr, depsLogConf)
             writeDotFile(gr1, depsLogConf)
             return
 
