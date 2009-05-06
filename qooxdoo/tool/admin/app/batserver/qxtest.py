@@ -218,7 +218,10 @@ class QxTest:
   def getRemoteBuildStatus(self):
     import urllib, simplejson    
     status = {}
-    remoteFile = self.autConf['autHost'] + '/buildStatus.json'
+    remoteFile = self.autConf['autHost']
+    if 'autQxPath' in self.autConf:
+      remoteFile += self.autConf['autQxPath']
+    remoteFile += '/buildStatus.json'
     self.log("Retrieving remote build status from file " + remoteFile)
     try:
       json = urllib.urlopen(remoteFile)
@@ -270,7 +273,10 @@ class QxTest:
   # Reads the qooxdoo checkout's revision number from a file on the test host
   def getRemoteRevision(self):
     import urllib
-    remoteFile = self.autConf['autHost'] + '/revision.txt'
+    remoteFile = self.autConf['autHost']
+    if 'autQxPath' in self.autConf:
+      remoteFile += self.autConf['autQxPath']
+    remoteFile += '/revision.txt'
     try:
       rev = urllib.urlopen(remoteFile).read()
     except IOError, e:
@@ -390,7 +396,10 @@ class QxTest:
     cmd += " org.mozilla.javascript.tools.shell.Main"    
     cmd += " " + self.testConf['simulatorSvn'] + "/trunk/tool/selenium/simulation/" + aut.lower() + "/test_" + aut.lower() + ".js"
     cmd += " autHost=" + self.autConf['autHost']
-    cmd += " autPath=" + self.autConf['autPath' + aut]
+    cmd += " autPath="
+    if 'autQxPath' in self.autConf:
+      cmd += self.autConf['autQxPath']
+    cmd + self.autConf['autPath' + aut]
     cmd += " simulatorSvn=" + self.testConf['simulatorSvn']
     if (self.os == "Windows"):
       cmd += " testBrowser=" + self.browserConf[browser]
