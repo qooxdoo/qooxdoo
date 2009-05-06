@@ -40,7 +40,7 @@
  *
  *   // a HTML label with automatic line wrapping
  *   var label2 = new qx.ui.basic.Label().set({
- *     content: "A <b>long label</b> text with auto-wrapping. This also may contain <b style='color:red'>rich HTML</b> markup.",
+ *     value: "A <b>long label</b> text with auto-wrapping. This also may contain <b style='color:red'>rich HTML</b> markup.",
  *     rich : true,
  *     width: 120
  *   });
