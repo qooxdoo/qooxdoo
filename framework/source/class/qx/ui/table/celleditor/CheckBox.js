@@ -61,7 +61,7 @@ qx.Class.define("qx.ui.table.celleditor.CheckBox",
       });
 
       var checkbox = new qx.ui.form.CheckBox().set({
-        checked: cellInfo.value
+        value: cellInfo.value
       });
       editor.add(checkbox);
 
@@ -93,7 +93,7 @@ qx.Class.define("qx.ui.table.celleditor.CheckBox",
 
     // interface implementation
     getCellEditorValue : function(cellEditor) {
-      return cellEditor.getChildren()[0].getChecked();
+      return cellEditor.getChildren()[0].getValue();
     }
   }
 });
