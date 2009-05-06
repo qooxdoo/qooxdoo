@@ -485,7 +485,7 @@ qx.Class.define("playground.Application",
       if (exc)
       {
         this.error(exc);
-        this.__widgets["toolbar.logCheckButton"].setChecked(true);
+        this.__widgets["toolbar.logCheckButton"].setValue(true);
         this.stack.show();
       }
 
@@ -607,7 +607,7 @@ qx.Class.define("playground.Application",
    {
      this.__widgets["toolbar.logCheckButton"].addListener("click", function()
      {
-       var logState = this.__widgets["toolbar.logCheckButton"].getChecked();
+       var logState = this.__widgets["toolbar.logCheckButton"].getValue();
 
        if (logState == true) {
          this.stack.show();
@@ -782,11 +782,11 @@ qx.Class.define("playground.Application",
       toggleButton.setAppearance("toolbar-button");
       this.__widgets["toolbar.toggleButton"] = toggleButton;
 
-      toggleButton.addListener("changeChecked", function(e)
+      toggleButton.addListener("changeValue", function(e)
       {
         this.__toggleEditor(e);
       }, this);
-      toggleButton.setChecked(true);
+      toggleButton.setValue(true);
 
       toolbar.addSpacer();
 
