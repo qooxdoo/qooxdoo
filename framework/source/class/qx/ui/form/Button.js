@@ -415,6 +415,6 @@ qx.Class.define("qx.ui.form.Button",
         );        
       }
       return this.base(arguments, type, listener, self, capture);
-    }    
+    }
   }
 });
