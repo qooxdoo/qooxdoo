@@ -32,7 +32,7 @@ class QxTest:
     self.browserConf = browserConf
     self.mailConf = mailConf
     self.trunkrev = None
-    self.buildErrors = {}
+    self.buildStatus = {}
 
     self.timeFormat = '%Y-%m-%d_%H-%M-%S'
     self.startTimeString = time.strftime(self.timeFormat)
@@ -50,6 +50,7 @@ class QxTest:
       self.getLocalRevision()
     else:
       self.getRemoteRevision()
+      self.getRemoteBuildStatus()
     
     self.sim = False      
     if ('simulateTest' in self.testConf):
@@ -142,14 +143,17 @@ class QxTest:
       if target[0] == target[0].capitalize():
         cmd += " " + buildConf['targets'][target]
         self.log("Building " + target + "\n  " + cmd)
-
+        self.buildStatus[target] = {
+          "SVNRevision" : False,
+          "BuildError"  : False
+        }
         if (self.sim):
           status = 0
           self.log("SIMULATION: Invoking build command:\n  " + cmd)
         else:
           if (buildConf['buildLogLevel'] == "debug" and 'buildLogDir' in buildConf):
             # Start build with full logging
-            invokeLog(cmd, buildLogFile)             
+            invokeLog(cmd, buildLogFile)
           else:
             # Start build, only log errors
             status, std, err = invokePiped(cmd)
@@ -161,21 +165,26 @@ class QxTest:
               buildLogFile.write(target + "\n" + cmd + "\n" + err)
               buildLogFile.write("\n========================================================\n\n")
               
+              self.buildStatus[target]["BuildError"] = "Unknown build error"
+              
               """Get the last line of batbuild.py's STDERR output which contains
               the actual error message. """
               import re
               nre = re.compile('[\n\r](.*)$')
               m = nre.search(err)
               if m:
-                self.buildErrors[target] = m.group(1)
+                self.buildStatus[target]["BuildError"] = m.group(1)
             else:
               self.log(target + " build finished without errors.")
+              
+          self.buildStatus[target]["SVNRevision"] = self.getLocalRevision()
       
       if ('buildLogDir' in buildConf):        
         buildLogFile.close()
 
     self.trunkrev = self.getLocalRevision()
     self.storeRevision()
+    self.storeBuildStatus()
 
 
   def updateSimulator(self):
@@ -190,6 +199,51 @@ class QxTest:
       if (err):
         self.log(err)
 
+  # Converts the buildStatus map to JSON and stores it in a file in the root 
+  # directory of the local qooxdoo checkout. 
+  def storeBuildStatus(self):
+    import simplejson  
+    json = simplejson.dumps(self.buildStatus, sort_keys=True, indent=2)
+    fPath = os.path.join(self.testConf['qxPathAbs'],'buildStatus.json')
+    if (self.sim):
+      self.log("SIMULATION: Storing build status in file " + fPath)
+    else:  
+      self.log("Storing build status in file " + fPath)
+      rFile = open(fPath, 'w')
+      rFile.write(json)
+      rFile.close()
+
+      
+  # Reads the build status from a file on the test host
+  def getRemoteBuildStatus(self):
+    import urllib, simplejson    
+    status = {}
+    remoteFile = self.autConf['autHost'] + '/buildStatus.json'
+    self.log("Retrieving remote build status from file " + remoteFile)
+    try:
+      json = urllib.urlopen(remoteFile)
+    except IOError, e:
+      self.log("ERROR: Unable to open remote build status file " + remoteFile + ": "
+               + e.message)
+      return status
+    
+    # Try to determine the requests's HTTP status (Python >= 2.6 only).
+    try:
+      reqStat = json.getcode()
+      if (reqStat != 200):
+        self.log("ERROR: Request to remote build status file returned status " + reqStat)
+    except AttributeError:
+      pass
+    
+    try:
+      status = simplejson.load(json)
+      self.buildStatus = status
+      self.log("Remote build status retrieved successfully.")
+    except ValueError, e:    
+      self.log("ERROR: Unable to parse buildStatus JSON: " + json.read() + ": "
+               + e.message)
+      
+    return status
 
   # Returns the SVN checkout's revision number
   def getLocalRevision(self):
@@ -197,7 +251,7 @@ class QxTest:
     rev = out.rstrip('\n')
     self.trunkrev = rev
     self.log("Local qooxdoo checkout at revision " + self.trunkrev)
-    return rev    
+    return rev
   
 
   # Writes the revision number of a local qooxdoo checkout to a file
@@ -210,7 +264,7 @@ class QxTest:
       self.log("Storing revision number " + self.trunkrev + " in file " + fPath)
       rFile = open(fPath, 'w')
       rFile.write(self.trunkrev)
-      rFile.close()  
+      rFile.close()
 
 
   # Reads the qooxdoo checkout's revision number from a file on the test host
@@ -243,21 +297,22 @@ class QxTest:
         platform == "Win32"
       dummyLog.write(prefix + "<p>Platform: " + platform + "</p>\n")
       dummyLog.write(prefix + "<p>User agent: " + browser['browserId'] + "</p>\n")
-      dummyLog.write(prefix + "<div class=\"qxappender\"><div class=\"level-error\">BUILD ERROR: " + self.buildErrors[appConf['appName']] + "</div></div>\n")
+      dummyLog.write(prefix + "<div class=\"qxappender\"><div class=\"level-error\">BUILD ERROR: " + self.buildStatus[appConf['appName']]["BuildError"] + "</div></div>\n")
     dummyLog.close()
 
     return dummyLogFile
 
   # Run tests for defined applications
   def runTests(self, appConf):
-    if appConf['appName'] in self.buildErrors:
-      self.log("ERROR: Skipping " + appConf['appName'] + " test because there "
-               + "was an error during build:\n  " + self.buildErrors[appConf['appName']])
-      if (appConf['sendReport']):
-        dummyLogFile = self.getDummyLog(appConf)
-        self.formatLog(dummyLogFile)
-        self.sendReport(appConf['appName'])        
-      return    
+    if appConf['appName'] in self.buildStatus:
+      if self.buildStatus[appConf['appName']]["BuildError"]:
+        self.log("ERROR: Skipping " + appConf['appName'] + " test because there "
+                 + "was an error during build:\n  " + self.buildStatus[appConf['appName']]["BuildError"])
+        if (appConf['sendReport']):
+          dummyLogFile = self.getDummyLog(appConf)
+          self.formatLog(dummyLogFile)
+          self.sendReport(appConf['appName'])        
+        return    
       
     if appConf['clearLogs']:
       self.clearLogs()
@@ -385,8 +440,9 @@ class QxTest:
       self.mailConf['subject'] += " " + self.mailConf['hostId']
     if (self.trunkrev):
       self.mailConf['subject'] += " (trunk r" + self.trunkrev + ")"
-    if (aut in self.buildErrors):
-      self.mailConf['subject'] += " BUILD ERROR"
+    if (aut in self.buildStatus):
+      if (self.buildStatus[aut]["BuildError"]):
+        self.mailConf['subject'] += " BUILD ERROR"
     if (failed != ""):
       self.mailConf['subject'] += ": " + failed + " test run(s) failed!"
     else:
