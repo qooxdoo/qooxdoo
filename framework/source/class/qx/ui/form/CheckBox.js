@@ -25,7 +25,8 @@
 qx.Class.define("qx.ui.form.CheckBox",
 {
   extend : qx.ui.form.ToggleButton,
-
+  include : [qx.ui.form.MForm],
+  implement : [qx.ui.form.IForm],
 
   /*
   *****************************************************************************
