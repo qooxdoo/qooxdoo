@@ -249,6 +249,12 @@ qx.Class.define("qx.core.Object",
         {
           if (!this[setter[data]])
           {
+            // check for a fallback [BUG #2341]
+            if (this["set" + qx.lang.String.firstUp(data)] != undefined) {
+              this["set" + qx.lang.String.firstUp(data)](value);
+              return;
+            }
+                        
             this.error("No such property: " + data);
             return this;
           }
@@ -264,6 +270,12 @@ qx.Class.define("qx.core.Object",
           {
             if (!this[setter[prop]])
             {
+              // check for a fallback [BUG #2341]
+              if (this["set" + qx.lang.String.firstUp(prop)] != undefined) {
+                this["set" + qx.lang.String.firstUp(prop)](data[prop]);
+                continue;
+              }
+
               this.error("No such property: " + prop);
               continue;
             }
@@ -292,6 +304,11 @@ qx.Class.define("qx.core.Object",
       {
         if (!this[getter[prop]])
         {
+          // check for a fallback [BUG #2341]
+          if (this["get" + qx.lang.String.firstUp(prop)] != undefined) {
+            return this["get" + qx.lang.String.firstUp(prop)]();
+          }
+                    
           this.error("No such property: " + prop);
           return;
         }
@@ -315,6 +332,12 @@ qx.Class.define("qx.core.Object",
       {
         if (!this[resetter[prop]])
         {
+          // check for a fallback [BUG #2341]
+          if (this["reset" + qx.lang.String.firstUp(prop)] != undefined) {
+            this["reset" + qx.lang.String.firstUp(prop)]();
+            return;
+          }
+          
           this.error("No such property: " + prop);
           return;
         }
