@@ -330,8 +330,8 @@ qx.Class.define("inspector.property.PropertyWindow",
       
       // inherited checkbox
       this._inheritedButton = new qx.ui.menu.CheckBox("Show Inherited Porperties");
-      this._inheritedButton.addListener("changeChecked", this._switchInheritedStatus, this);
-      this._inheritedButton.setChecked(true);
+      this._inheritedButton.addListener("changeValue", this._switchInheritedStatus, this);
+      this._inheritedButton.setValue(true);
       this._menu.add(this._inheritedButton);
       
       // separator
@@ -624,7 +624,7 @@ qx.Class.define("inspector.property.PropertyWindow",
      * @param e {Event} Event created by a checkbox.
      */
     _switchInheritedStatus: function(e) {
-      this._showInherited = e.getCurrentTarget().getChecked();
+      this._showInherited = e.getCurrentTarget().getValue();
       if (this._propertyList) {
         this._propertyList.switchInheritedStatus(this._showInherited);
       }

@@ -208,7 +208,7 @@ qx.Class.define("toolbox.gui.Toolbox",
     {
       this.widgets["toolbar.logCheckButton"].addListener("click", function()
       {
-        var logState = this.widgets["toolbar.logCheckButton"].getChecked();
+        var logState = this.widgets["toolbar.logCheckButton"].getValue();
 
         if (logState == true) {
           this.logStack.show();
@@ -244,7 +244,7 @@ qx.Class.define("toolbox.gui.Toolbox",
           }
           else if (e.getData()[0].getLabel().toString() == "Application Development")
           {
-            if (this.widgets["toolbar.logCheckButton"].getChecked()) {
+            if (this.widgets["toolbar.logCheckButton"].getValue()) {
               this.logStack.show();
             }
 
@@ -264,7 +264,7 @@ qx.Class.define("toolbox.gui.Toolbox",
               this.widgets["toolbar.appBuiltButton"].setChecked(true);
             }, this);
 
-            if (this.widgets["toolbar.logCheckButton"].getChecked()) {
+            if (this.widgets["toolbar.logCheckButton"].getValue()) {
               this.logStack.show();
             }
 

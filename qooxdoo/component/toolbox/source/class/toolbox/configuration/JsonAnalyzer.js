@@ -516,7 +516,7 @@ qx.Class.define("toolbox.configuration.JsonAnalyzer",
       this.updateTypeLabel(tree);
 
       var btnHideRoot = new qx.ui.form.CheckBox("Hide root node");
-      btnHideRoot.setChecked(this.__tree.getHideRoot());
+      btnHideRoot.setValue(this.__tree.getHideRoot());
 
       this.commandFrame.add(btnHideRoot,
       {
@@ -524,7 +524,7 @@ qx.Class.define("toolbox.configuration.JsonAnalyzer",
         column : 0
       });
 
-      btnHideRoot.addListener("changeChecked", function(e) {
+      btnHideRoot.addListener("changeValue", function(e) {
         tree.setHideRoot(e.getData());
       }, this);
 
