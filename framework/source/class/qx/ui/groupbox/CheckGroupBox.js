@@ -65,8 +65,8 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
       {
         case "legend":
           control = new qx.ui.form.CheckBox;
-          control.setChecked(true);
-          control.addListener("changeChecked", this._onRadioChangeChecked, this);
+          control.setValue(true);
+          control.addListener("changeValue", this._onRadioChangeChecked, this);
           control.addListener("changeName", this._onRadioChangeName, this);
           control.addListener("changeValue", this._onRadioChangeValue, this);
           control.addListener("resize", this._repositionFrame, this);
@@ -187,7 +187,7 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
      * @return {Boolean} <code>true</code> when enabled
      */
     getChecked : function() {
-      return this.getChildControl("legend").getChecked();
+      return this.getChildControl("legend").getValue();
     },
 
 
@@ -200,7 +200,7 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
     setChecked : function(value)
     {
       var legend = this.getChildControl("legend");
-      return value ? legend.setChecked(value) : legend.resetChecked();
+      return value ? legend.setValue(value) : legend.resetValue();
     }
   }
 });
