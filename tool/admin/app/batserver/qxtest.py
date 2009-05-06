@@ -300,7 +300,7 @@ class QxTest:
       dummyLog.write(prefix + "<h1>" + appConf['appName'] + " results from " + self.startTimeString + "</h1>\n")
       platform = self.os
       if platform == "Windows":
-        platform == "Win32"
+        platform = "Win32"
       dummyLog.write(prefix + "<p>Platform: " + platform + "</p>\n")
       dummyLog.write(prefix + "<p>User agent: " + browser['browserId'] + "</p>\n")
       dummyLog.write(prefix + "<div class=\"qxappender\"><div class=\"level-error\">BUILD ERROR: " + self.buildStatus[appConf['appName']]["BuildError"] + "</div></div>\n")
