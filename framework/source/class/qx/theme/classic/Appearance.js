@@ -379,7 +379,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
         return {
           icon: "decoration/form/" + icon + ".png",
-          gap: 6
+          gap: 6,
+          shadow: states.invalid ? "checkbox-invalid-shadow" : undefined
         }
       }
     },

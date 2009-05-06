@@ -77,7 +77,7 @@ qx.Class.define("qx.test.ui.form.Form",
       qx.ui.core.queue.Manager.flush();
       
       // check for the invalid shadow
-      this.assertEquals("button-invalid-shadow", widget.getShadow(), "Shadow not set!");
+      this.assertMatch(widget.getShadow(), new RegExp("-invalid-shadow$") ,"Shadow not set!");
     },    
     
     
@@ -135,6 +135,14 @@ qx.Class.define("qx.test.ui.form.Form",
     
     testValidSelectBox: function() {
      this.__testValid(new qx.ui.form.SelectBox(), "shadow"); 
+    },
+    
+    testRequieredCheckBox: function() {
+      this.__testRequired(new qx.ui.form.CheckBox());      
+    },
+    
+    testValidCheckBox: function() {
+     this.__testValid(new qx.ui.form.CheckBox(), "shadow"); 
     }    
     
 

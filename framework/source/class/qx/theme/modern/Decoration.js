@@ -374,6 +374,26 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     /*
     ---------------------------------------------------------------------------
+      CHECKBOX
+    ---------------------------------------------------------------------------
+    */
+    
+    "checkbox-invalid-shadow" :
+    {
+      decorator : qx.ui.decoration.Beveled,
+
+      style :
+      {
+        outerColor : "border-invalid",
+        innerColor : "border-focused-invalid",
+        insets: [0]
+      }
+    },
+    
+        
+    
+    /*
+    ---------------------------------------------------------------------------
       TEXT FIELD
     ---------------------------------------------------------------------------
     */
