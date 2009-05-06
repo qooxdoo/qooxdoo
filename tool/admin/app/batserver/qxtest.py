@@ -19,7 +19,7 @@
 #
 ################################################################################
 
-import sys, os, time
+import sys, os, time, codecs
 sys.path.append( os.path.join('..', '..', 'bin') )
 
 class QxTest:
@@ -42,7 +42,7 @@ class QxTest:
     if ('testLogDir' in self.testConf):
       filename = "testLog_" + self.startTimeString + ".txt"
       fullpath = os.path.join(self.testConf['testLogDir'], filename)
-      self.logFile = open(fullpath, 'a')
+      self.logFile = codecs.open(fullpath, 'a', 'utf-8')
       self.logFile.write("################################################################################\n")
       self.log("Starting " + self.testType + " test session.")    
 
@@ -287,7 +287,7 @@ class QxTest:
     import random
 
     dummyLogFile = os.path.join(self.testConf['testLogDir'], "DUMMY_" + appConf['appName'] + self.startTimeString + ".log")        
-    dummyLog = open(dummyLogFile, "w")
+    dummyLog = codecs.open(dummyLogFile, "w", "utf-8")
 
     for browser in appConf['browsers']:
       prefix = "qxSimulator_" + str(random.randint(100000, 999999)) + ": "
