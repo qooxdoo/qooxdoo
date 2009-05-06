@@ -42,6 +42,8 @@ from ecmascript.frontend import treeutil, lang
 from ecmascript.frontend.Script import Script
 from misc import filetool, idlist
 from misc.ExtMap import ExtMap
+import graph
+
 
 
 class DependencyLoader:
@@ -176,9 +178,6 @@ class DependencyLoader:
         return result
 
 
-
-
-
     def getMethodDeps(self, fileId, methodNameFQ, variants):
         # find the dependencies of a specific method
         # get the fileId class, find the node of methodNameFQ, and extract its
@@ -227,15 +226,13 @@ class DependencyLoader:
         while fileId in loadtime:
             loadtime.remove(fileId)
 
-        #if fileId == "qx.lang.Object": print "-- qx.lang.Object2: %r" % loadtime
-
         return loadtime
 
-    '''
-    def _splitClassAttribute(self, classid, attribFQN):
-        return classId, attribute
 
-    def getMethodDeps(self, classId, methodName):
+    def getMethodDeps1(self, classId, methodName):
+
+        def _splitClassAttribute(self, classid, attribFQN):
+            return classId, attribute
 
         def getMethodDeps(startClass, methodName):
             classId = findClassForMethod(startClass, methodName)
@@ -244,11 +241,11 @@ class DependencyLoader:
             deps    = analyzeMethodDeps(classId, methodName)
 
 
-        def findClassForMethod(class, method):
-            if class.hasOwnMethod(method):
-                return class
-            if class.has('extend' or 'include'):
-                for each classId in 'extend' + 'include':
+        def findClassForMethod(clazz, method):
+            if clazz.hasOwnMethod(method):
+                return clazz
+            if clazz.has('extend' or 'include'):
+                for classId in 'extend' + 'include':
                     rclass = findClassForMethod(classId, method)
                     if rclass:
                         return rclass
@@ -259,16 +256,16 @@ class DependencyLoader:
             deps += processInternalMethodRefs(classId, methodName)
             return deps
 
-        ----------------------
+        # ----------------------
 
         def processExternalClassRefs(classId, methodName):
             deps = []
             extRefs = findExternalClassRefs(classId, methodName)
             for extref in extRefs:
-                class, attribute = classFromRef(extref)
-                deps.append(class)
+                clazz, attribute = classFromRef(extref)
+                deps.append(clazz)
                 if isFunction(attribute):
-                    deps += getMethodDeps(class, extref)  # recurse to top-level method
+                    deps += getMethodDeps(clazz, extref)  # recurse to top-level method
 
         def processInternalMethodRefs(classId, methodName):
             deps = []
@@ -276,7 +273,7 @@ class DependencyLoader:
             for funcref in localRefs:
                 deps += getMethodDeps(classId, funcref)  # recurse to top-level method
 
-'''
+
 
     def getCombinedDeps(self, fileId, variants):
         # return dependencies of class named <fileId>, both found in its code and
@@ -476,9 +473,9 @@ class DependencyLoader:
             return assembledId
 
         def isUnknownClass(assembled, node, fileId):
-            # check name in 'new XXX' position
+            # check name in 'new ...' position
             if (node.hasParentContext("instantiation/*/*/operand")
-            # check name in "'extend' : XXX" position
+            # check name in "'extend' : ..." position
             or (node.hasParentContext("keyvalue/*") and node.parent.parent.get('key') == 'extend')):
                 # skip built-in classes (Error, document, RegExp, ...)
                 if (assembled in lang.BUILTIN + ['clazz'] or re.match(r'this\b', assembled)):
@@ -621,8 +618,6 @@ class DependencyLoader:
 
     def sortClassesTopological(self, include, variants):
         
-        import graph
-
         # create graph object
         gr = graph.digraph()
 
@@ -636,15 +631,11 @@ class DependencyLoader:
                 if depClassId in include:
                     gr.add_edge(depClassId, classId)
 
-        #dot = gr.write(fmt='dot')
-        #open("/tmp/graph.dot","w").write(dot)
-        #os.system("dot /tmp/graph.dot -Tpng > /tmp/graph.png")
-
         # cycle check?
         cycle_nodes = gr.find_cycle()
         if cycle_nodes:
             self._console.error("Detected circular dependencies between nodes: %r" % cycle_nodes)
-            #sys.exit(1)
+            sys.exit(1)
 
         classList = gr.topological_sorting()
 
