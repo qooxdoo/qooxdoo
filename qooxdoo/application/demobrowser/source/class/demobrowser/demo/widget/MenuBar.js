@@ -219,8 +219,8 @@ qx.Class.define("demobrowser.demo.widget.MenuBar",
       var numbersButton = new qx.ui.menu.CheckBox("Show line numbers");
       var asciiButton = new qx.ui.menu.Button("ASCII table");
 
-      rulerButton.addListener("changeChecked", this.debugCheckBox);
-      numbersButton.addListener("changeChecked", this.debugCheckBox);
+      rulerButton.addListener("changeValue", this.debugCheckBox);
+      numbersButton.addListener("changeValue", this.debugCheckBox);
       asciiButton.addListener("execute", this.debugButton);
 
       menu.add(panesButton);
@@ -246,16 +246,16 @@ qx.Class.define("demobrowser.demo.widget.MenuBar",
       var tagCheckbox = new qx.ui.menu.CheckBox("Show tags");
       var consoleCheckbox = new qx.ui.menu.CheckBox("Show console");
 
-      tabsCheckbox.setChecked(true);
-      statusCheckbox.setChecked(true);
-      macroCheckbox.setChecked(true);
+      tabsCheckbox.setValue(true);
+      statusCheckbox.setValue(true);
+      macroCheckbox.setValue(true);
 
-      tabsCheckbox.addListener("changeChecked", this.debugCheckBox);
-      statusCheckbox.addListener("changeChecked", this.debugCheckBox);
-      treeCheckbox.addListener("changeChecked", this.debugCheckBox);
-      macroCheckbox.addListener("changeChecked", this.debugCheckBox);
-      tagCheckbox.addListener("changeChecked", this.debugCheckBox);
-      consoleCheckbox.addListener("changeChecked", this.debugCheckBox);
+      tabsCheckbox.addListener("changeValue", this.debugCheckBox);
+      statusCheckbox.addListener("changeValue", this.debugCheckBox);
+      treeCheckbox.addListener("changeValue", this.debugCheckBox);
+      macroCheckbox.addListener("changeValue", this.debugCheckBox);
+      tagCheckbox.addListener("changeValue", this.debugCheckBox);
+      consoleCheckbox.addListener("changeValue", this.debugCheckBox);
 
       menu.add(statusCheckbox);
       menu.add(tabsCheckbox);

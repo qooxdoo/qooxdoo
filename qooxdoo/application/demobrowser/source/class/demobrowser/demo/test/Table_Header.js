@@ -55,7 +55,7 @@ qx.Class.define("demobrowser.demo.test.Table_Header",
 
       var btnShowMove = new qx.ui.form.ToggleButton("Show move feedback");
       this.getRoot().add(btnShowMove, {left: 20, top: 100});
-      btnShowMove.addListener("changeChecked", function(e)
+      btnShowMove.addListener("changeValue", function(e)
       {
         var checked = e.getData();
         if (checked)

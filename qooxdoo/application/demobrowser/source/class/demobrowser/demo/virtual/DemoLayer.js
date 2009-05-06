@@ -95,12 +95,12 @@ qx.Class.define("demobrowser.demo.virtual.DemoLayer",
         if (!widget)
         {
           widget = new qx.ui.form.CheckBox();        
-          widget.addListener("changeChecked", function(){
+          widget.addListener("changeValue", function(){
             this.setLabel(this.getLabel() == "foobar!" ? widget.getUserData("row") + " / " + widget.getUserData("column") : "foobar!");
           }, widget);
         }
         widget.set({
-          checked : row % 2 == 0,
+          value : row % 2 == 0,
           label : row + " / " + column
         });        
       }

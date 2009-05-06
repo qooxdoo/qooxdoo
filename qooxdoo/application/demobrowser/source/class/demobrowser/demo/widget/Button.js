@@ -61,7 +61,7 @@ qx.Class.define("demobrowser.demo.widget.Button",
       btn3.focus();
       container.add(btn3);
 
-      btn3.addListener("changeChecked", function(e) {
+      btn3.addListener("changeValue", function(e) {
         this.debug("Checked: " + e.getData());
       }, this);
 

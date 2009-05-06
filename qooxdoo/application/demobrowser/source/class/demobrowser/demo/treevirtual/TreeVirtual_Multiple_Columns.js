@@ -125,39 +125,39 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Multiple_Columns",
         });
 
       o = new qx.ui.form.CheckBox("Use tree lines if theme supports them?");
-      o.set({ checked: true });
+      o.set({ value: true });
       commandFrame.add(o, { top : 80, left : 0 });
-      o.addListener("changeChecked",
+      o.addListener("changeValue",
                     function(e)
                     {
                       tree.setUseTreeLines(e.getData());
                     });
 
       o = new qx.ui.form.CheckBox("Exclude first-level tree lines?");
-      o.set({ checked: false });
+      o.set({ value: false });
       commandFrame.add(o, { top : 100, left : 0 });
-      o.addListener("changeChecked",
+      o.addListener("changeValue",
                     function(e)
                     {
                       tree.setExcludeFirstLevelTreeLines(e.getData());
                     });
 
       o = new qx.ui.form.CheckBox("Always show open/close symbol?");
-      o.set({ checked: true });
+      o.set({ value: true });
       commandFrame.add(o, { top : 120, left : 0 });
-      o.addListener("changeChecked",
+      o.addListener("changeValue",
                     function(e)
                     {
                       tree.setAlwaysShowOpenCloseSymbol(e.getData());
                     });
 
       o = new qx.ui.form.CheckBox("Remove open/close if found empty?");
-      o.set({ checked: true });
+      o.set({ value: true });
       commandFrame.add(o, { top : 140, left : 0 });
       tree.addListener("treeOpenWhileEmpty",
                        function(e)
                        {
-                         if (this.getChecked())
+                         if (this.getValue())
                          {
                            var node = e.getData();
                            tree.nodeSetHideOpenClose(node, true);
@@ -166,18 +166,18 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Multiple_Columns",
                        o);
 
       o = new qx.ui.form.CheckBox("Open/close click selects row?");
-      o.set({ checked: false });
+      o.set({ value: false });
       commandFrame.add(o, { top : 160, left : 0 });
-      o.addListener("changeChecked",
+      o.addListener("changeValue",
                     function(e)
                     {
                       tree.setOpenCloseClickSelectsRow(e.getData());
                     });
 
       o = new qx.ui.form.CheckBox("Disable the tree?");
-      o.set({ checked: false });
+      o.set({ value: false });
       commandFrame.add(o, { top : 180, left : 0 });
-      o.addListener("changeChecked",
+      o.addListener("changeValue",
                     function(e)
                     {
                       tree.setEnabled(! e.getData());

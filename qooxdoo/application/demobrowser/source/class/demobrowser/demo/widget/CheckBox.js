@@ -75,7 +75,7 @@ qx.Class.define("demobrowser.demo.widget.CheckBox",
 
       for (var i=0; i<cbs.length; i++)
       {
-        if (cbs[i].getChecked())
+        if (cbs[i].getValue())
         {
           count++;
           str += (cbs[i].getLabel()  + ", ");
