@@ -38,6 +38,8 @@ testConf = {
   'simulatorSvn'        : '/home/dwagner/workspace/qooxdoo.contrib/Simulator',
   'proxyEnable'         : 'wscript proxyEnable.vbs',
   'proxyDisable'        : 'wscript proxyDisable.vbs',
+  'compatEnable'        : 'wscript compatEnable.vbs',
+  'compatDisable'       : 'wscript compatDisable.vbs',  
   'classPath'           : '/home/dwagner/qxselenium/selenium-java-client-driver.jar:/home/dwagner/rhino1_7R1/js.jar',
 }
 
@@ -95,7 +97,7 @@ def main():
   download("http://qooxdoo.svn.sourceforge.net/viewvc/qooxdoo/trunk/qooxdoo/tool/admin/app/batserver/qxtest.py")
   import qxtest
   download("http://qooxdoo.svn.sourceforge.net/viewvc/qooxdoo/trunk/qooxdoo/tool/admin/bin/logFormatter.py")     
-  
+
   remoteTest = qxtest.QxTest("remote", seleniumConf, testConf, autConf, browserConf, mailConf)
   
   remoteTest.startSeleniumServer()
@@ -115,7 +117,12 @@ def download(url):
   to a local file.
   """
   import urllib
-  webFile = urllib.urlopen(url)
+  try:
+    webFile = urllib.urlopen(url)
+  except IOError, e:
+    print("ERROR: Unable to download file " + url + ": " + e.message)
+    return
+
   localFile = open(url.split('/')[-1], 'w')
   localFile.write(webFile.read())
   webFile.close()
