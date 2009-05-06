@@ -130,7 +130,7 @@ qx.Class.define("demobrowser.demo.virtual.CellSpan",
       });
       widget.set({
         backgroundColor: (row + column) % 2 == 0 ? "yellow" : "green",
-        content: row + "x" + column,
+        value: row + "x" + column,
         padding: 3
       });
       return widget;

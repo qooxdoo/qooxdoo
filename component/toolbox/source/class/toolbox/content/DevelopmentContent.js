@@ -828,13 +828,13 @@ qx.Class.define("toolbox.content.DevelopmentContent",
       var fileNameLabel = new qx.ui.basic.Label("").set(
       {
         rich    : true,
-        content : 'Application name:<font color="red">*</font> '
+        value : 'Application name:<font color="red">*</font> '
       });
 
       var filePathLabel = new qx.ui.basic.Label("").set(
       {
         rich    : true,
-        content : 'Output directory:<font color="red">*</font> '
+        value : 'Output directory:<font color="red">*</font> '
       });
 
       var namespaceLabel = new qx.ui.basic.Label("Namespace: ");
