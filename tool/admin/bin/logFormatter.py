@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import re, sys, os
+import re, sys, os, codecs
 
 class QxLogFormat:
   def __init__(self,options):
@@ -12,8 +12,8 @@ class QxLogFormat:
     self.formatLog()
 
   def formatLog(self):
-    log = open(self.options.logfile,"r")
-    html = open(self.options.htmlfile, "w")
+    log = codecs.open(self.options.logfile,"r", "utf-8")
+    html = codecs.open(self.options.htmlfile, "w", "utf-8")
   
     htmlHeader = '''<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
     <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
@@ -138,7 +138,7 @@ class QxLogFormat:
         found = logre2.match(line)
       
       if found:
-        if found.group(1) in logs.keys() and found.group(2) + "\n" not in logs[found.group(1)]:
+        if found.group(1) in logs.keys() and (found.group(2) + "\n") not in logs[found.group(1)]:
           logs[found.group(1)].append(found.group(2) + "\n")
         else:
           logs[found.group(1)] = [found.group(2) + "\n"]
