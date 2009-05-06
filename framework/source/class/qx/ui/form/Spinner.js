@@ -38,8 +38,8 @@
  * <pre class='javascript'>
  * var s = new qx.ui.form.Spinner();
  * s.set({
- *   max: 3000,
- *   min: -3000
+ *   maximum: 3000,
+ *   minimum: -3000
  * });
  * var nf = new qx.util.format.NumberFormat();
  * nf.setMaximumFractionDigits(2);
