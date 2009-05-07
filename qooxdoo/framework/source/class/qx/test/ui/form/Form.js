@@ -35,7 +35,7 @@ qx.Class.define("qx.test.ui.form.Form",
       this.assertTrue(widget.getRequired(), "Setting of the required flag did not work.");
     },
     
-    __testValid: function(widget, where) {
+    __testValidSync: function(widget, where) {
       // check if the interface is implemented
       this.assert(qx.Class.hasInterface(widget.constructor, qx.ui.form.IForm), "Interface not implemented.");
       
@@ -56,25 +56,55 @@ qx.Class.define("qx.test.ui.form.Form",
       } else {
         this.__testInvalidBorder(widget);      
       }
+    },
+    
 
+    __testValid: function(widget, where) {
+      // check if the interface is implemented
+      this.assert(qx.Class.hasInterface(widget.constructor, qx.ui.form.IForm), "Interface not implemented.");
+      
+      this.getRoot().add(widget);
+      
+      // test for the default (true)
+      this.assertTrue(widget.getValid(), "Default valid state is wrong.");
+      this.assertFalse(!!widget.hasState("invalid"), "Should not have the invalid state.");
+
+      widget.setValid(false);
+      
+      // check if the state is set
+      this.assertFalse(widget.getValid(), "Setting of the valid flag did not work.");
+      this.assertTrue(widget.hasState("invalid"), "Should have the invalid state.");
+    
+      if (where == "shadow") {        
+        this.__testInvalidShadow(widget);              
+      } else {
+        // needs to be tests async because of a strange behavior in opera 9
+        var self = this;
+        window.setTimeout(function() {
+          self.resume(function() {
+            this.__testInvalidBorder(widget);
+          }, self);
+        }, 0);
+        this.wait();
+      }
     },    
     
     
     __testInvalidBorder: function(widget) {      
-      qx.ui.core.queue.Manager.flush();
-      
+      this.flush();
+
       // check for the invalid decorator
-      this.assertEquals("border-invalid", widget.getDecorator(), "Decorator not set!");
+      this.assertEquals("border-invalid", widget.getDecorator(), "Decorator not set!");      
       
       // check the focus
       widget.focus();
-      qx.ui.core.queue.Manager.flush();
+      this.flush();
       this.assertEquals("input-focused-invalid", widget.getDecorator(), "Decorator not set!");      
     },
     
     
     __testInvalidShadow: function(widget) {      
-      qx.ui.core.queue.Manager.flush();
+      this.flush();
       
       // check for the invalid shadow
       this.assertMatch(widget.getShadow(), new RegExp("-invalid-shadow$") ,"Shadow not set!");
