@@ -111,10 +111,10 @@ qx.Class.define("qx.ui.menu.Button",
     _onChangeCommand : function(e) 
     {
       var command = e.getData();
-      var oldCommand = e.getOldData();
 
       if (qx.core.Variant.isSet("qx.dynlocale", "on")) 
       {
+        var oldCommand = e.getOldData();
         if (!oldCommand) {
           qx.locale.Manager.getInstance().addListener("changeLocale", this._onChangeLocale, this);
         }
