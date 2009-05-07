@@ -380,7 +380,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           icon: "decoration/form/" + icon + ".png",
           gap: 6,
-          shadow: states.invalid ? "checkbox-invalid-shadow" : undefined
+          shadow: states.invalid && !states.disabled ? "checkbox-invalid-shadow" : undefined
         }
       }
     },
@@ -1075,8 +1075,20 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       style : function(states)
       {
+        var backgroundColor;
+        
+        if (states.disabled) {
+          backgroundColor = "background-disabled";
+        } else if (states.invalid) {
+          backgroundColor = "background-invalid";
+        } else if (states.focused) {
+          backgroundColor = "background-light";
+        } else {
+          backgroundColor = "background-field";
+        }
+        
         return {
-          backgroundColor : states.invalid ? "background-invalid" : states.focused ? "background-light" : "background-field",
+          backgroundColor :  backgroundColor,
           decorator : states.focused ? "focused-inset" : "inset"
         }
       }
@@ -1557,7 +1569,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         var background = "button";
-        if (states.invalid) {
+        if (states.invalid && !states.disabled) {
           background = "background-invalid";
         } else if (states.abandoned) {
           background = "button-abandoned";
@@ -1744,10 +1756,22 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       style : function(states)
       {
+        var backgroundColor;
+        
+        if (states.disabled) {
+          backgroundColor = "background-disabled";
+        } else if (states.invalid) {
+          backgroundColor = "background-invalid";
+        } else if (states.focused) {
+          backgroundColor = "background-light";
+        } else {
+          backgroundColor = "background-field";
+        }
+        
         return {
           decorator       : states.focused ? "focused-inset" : "inset",
           textColor       : states.disabled ? "text-disabled" : undefined,
-          backgroundColor : states.invalid ? "background-invalid" : states.focused ? "background-focused" : "background-field"
+          backgroundColor : backgroundColor
         };
       }
     },
