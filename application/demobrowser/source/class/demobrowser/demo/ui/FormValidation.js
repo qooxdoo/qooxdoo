@@ -63,6 +63,9 @@ qx.Class.define("demobrowser.demo.ui.FormValidation",
       widgets.push(new qx.ui.form.CheckBox());
       this.getRoot().add(widgets[7], {left: 20, top: 330});      
       
+      // radiobutton
+      widgets.push(new qx.ui.form.RadioButton());
+      this.getRoot().add(widgets[8], {left: 20, top: 350});      
       
       
       /* ***********************************************
@@ -75,6 +78,15 @@ qx.Class.define("demobrowser.demo.ui.FormValidation",
         for (var i = 0; i < widgets.length; i++) {
           widgets[i].setInvalidMessage("Invalid...");
           widgets[i].setValid(!e.getData()); 
+        }
+      }, this);
+      
+      var disableButton = new qx.ui.form.ToggleButton("enabled");
+      this.getRoot().add(disableButton, {left: 250, top: 100});
+      
+      disableButton.addListener("changeValue", function(e) {
+        for (var i = 0; i < widgets.length; i++) {
+          widgets[i].setEnabled(!e.getData()); 
         }
       }, this);
       
