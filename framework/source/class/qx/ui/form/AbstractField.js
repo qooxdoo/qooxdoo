@@ -20,12 +20,12 @@
 ************************************************************************ */
 
 /**
- * The is a basic form field with common functionality between
+ * This is a basic form field with common functionality for 
  * {@link TextArea} and {@link TextField}.
  *
- * On each key stroke the value is synchronized with the
- * {@link #value} property. Value changes can be monitored by listening on the
- * {@link #input} or {@link #change} events.
+ * On every keystroke the value is synchronized with the
+ * {@link #value} property. Value changes can be monitored by listening to the
+ * {@link #input} or {@link #changeValue} events, respectively.
  */
 qx.Class.define("qx.ui.form.AbstractField",
 {
@@ -74,21 +74,20 @@ qx.Class.define("qx.ui.form.AbstractField",
   events :
   {
     /**
-     * This event is dispatched each time the user types a character into the
-     * text field.
+     * The event is fired on every keystroke modifying the value of the field.
      *
-     * The method {@link qx.event.type.Data#getData} return the
+     * The method {@link qx.event.type.Data#getData} returns the
      * current text value of the text field.
      */
     "input" : "qx.event.type.Data",
 
 
     /**
-     * This event is dispatched each time the text field looses focus and the
+     * The event is fired each time the text field looses focus and the
      * text field values has changed.
      *
-     * The method {@link qx.event.type.Data#getData} return the
-     * current text value of the text field.
+     * The method {@link qx.event.type.Data#getData} returns the
+     * current text value of the field.
      */
     "changeValue" : "qx.event.type.Data"
   },
