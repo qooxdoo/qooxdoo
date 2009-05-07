@@ -24,8 +24,6 @@
  */
 qx.Interface.define("qx.ui.form.IRadioItem",
 {
-  extend : qx.ui.form.IFormElement,
-
 
   /*
   *****************************************************************************
@@ -36,7 +34,7 @@ qx.Interface.define("qx.ui.form.IRadioItem",
   events :
   {
     /** Fired when the item was checked or unchecked */
-    "changeChecked" : "qx.event.type.Data"
+    "changeValue" : "qx.event.type.Data"
   },
 
 
@@ -54,7 +52,7 @@ qx.Interface.define("qx.ui.form.IRadioItem",
      *
      * @param value {Boolean} whether the item should be checked
      */
-    setChecked : function(value) {
+    setValue : function(value) {
       this.assertType(value, "boolean");
     },
 
@@ -64,7 +62,7 @@ qx.Interface.define("qx.ui.form.IRadioItem",
      *
      * @return {Boolean} whether the item it checked
      */
-    getChecked : function() {},
+    getValue : function() {},
 
 
     /**
