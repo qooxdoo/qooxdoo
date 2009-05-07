@@ -683,20 +683,31 @@ class Generator:
 
         def depsToDotFile(depsLogConf, gr):
 
-            def getNodeAttribs(classId):
+            def getNodeAttribs(classId, useCompiledSize=False, optimize=[]):
                 # return color according to size
                 attribs = []
                 color = fontsize = None
-                fsize = self._classes[classId]['size']
-                if fsize > 20000:
+                sizes = {      # (big-threshold, medium-threshold)
+                    'compiled' : (8000, 2000),
+                    'source'   : (20000, 5000)
+                }
+                if useCompiledSize:
+                    fsize = self._treeCompiler.getCompiledSize(classId, variants, optimize, recompile=True)
+                    mode  = 'compiled'
+                else:
+                    fsize = self._classes[classId]['size']
+                    mode  = 'source'
+
+                if fsize > sizes[mode][0]:
                     color = "red"
                     fontsize = 15
-                elif fsize > 5000:
+                elif fsize > sizes[mode][1]:
                     color = "green"
                     fontsize = 13
                 else:
                     color = "blue"
                     fontsize = 10
+
                 if fontsize:
                     attribs.append(("fontsize",fontsize))
                 if color:
@@ -722,10 +733,13 @@ class Generator:
 
             def addNodes(gr, st_nodes):
                 # rather gr.add_nodes(st), go through indiviudal nodes for coloring
+                if depsLogConf.get("dot/compiled-class-size", False):
+                    useCompiledSize = True
+                    optimize        = depsLogConf.get("dot/optimize", [])
                 for cid in st_nodes:
                     if cid == None:  # None is introduced in st
                         continue
-                    attribs = getNodeAttribs(cid)
+                    attribs = getNodeAttribs(cid, useCompiledSize, optimize)
                     gr.add_node(cid, attrs=attribs)
                 return
 

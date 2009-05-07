@@ -226,21 +226,28 @@ class TreeCompiler:
         return compiled
 
 
-    def getCompiledSize(self, fileId, variants):
+    def getCompiledSize(self, fileId, variants, optimize=[], recompile=True):
         fileEntry = self._classes[fileId]
         filePath = fileEntry["path"]
 
         variantsId = idlist.toString(variants)
-        cacheId = "compiledsize-%s-%s" % (fileId, variantsId)
+        if optimize:
+            optimizeId = self.generateOptimizeId(optimize)
+            cacheId = "compiledsize-%s-%s-%s" % (fileId, variantsId, optimizeId)
+        else:
+            cacheId = "compiledsize-%s-%s" % (fileId, variantsId)
 
         size = self._cache.readmulti(cacheId, filePath)
         if size != None:
             return size
 
-        tree = self._treeLoader.getTree(fileId, variants)
+        if recompile == False:
+            return -1
 
         self._console.debug("Computing compiled size: %s..." % fileId)
-        compiled = self.compileTree(tree)
+        #tree = self._treeLoader.getTree(fileId, variants)
+        #compiled = self.compileTree(tree)
+        compiled = self.getCompiled(fileId, variants, optimize, format=True) # TODO: format=True is a hack here, since it is most likely
         size = len(compiled)
 
         self._cache.writemulti(cacheId, size)
