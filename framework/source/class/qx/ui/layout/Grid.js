@@ -266,6 +266,9 @@ qx.Class.define("qx.ui.layout.Grid",
 
       this.__maxRowIndex = maxRowIndex;
       this.__maxColIndex = maxColIndex;
+      
+      this.__rowHeights = null;
+      this.__colWidths = null;
 
       // Clear invalidation marker
       delete this._invalidChildrenCache;
@@ -958,7 +961,7 @@ qx.Class.define("qx.ui.layout.Grid",
       if (this.__rowHeights != null) {
         return this.__rowHeights;
       }
-
+      
       var rowHeights = [];
 
       var maxRowIndex = this.__maxRowIndex;
@@ -1223,6 +1226,7 @@ qx.Class.define("qx.ui.layout.Grid",
       for (var row=0; row<=maxRowIndex; row++)
       {
         offset = rowStretchOffsets[row] ? rowStretchOffsets[row].offset : 0;
+        if (!prefHeights[row]) debugger;
         rowHeights[row] = prefHeights[row].height + offset;
       }
 
