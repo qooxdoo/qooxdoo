@@ -48,7 +48,11 @@ qx.Class.define("qx.test.ui.form.BooleanFormat",
     
     testToggleButton: function() {
      this.__test(new qx.ui.form.ToggleButton()); 
-    }    
+    },
+    
+    testMenuCheckBox: function() {
+     this.__test(new qx.ui.menu.CheckBox()); 
+    }      
     
   }
 });

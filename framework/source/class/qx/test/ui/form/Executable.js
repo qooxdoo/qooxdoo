@@ -76,6 +76,10 @@ qx.Class.define("qx.test.ui.form.Executable",
     
     testSplitButton: function() {
      this.__test(new qx.ui.toolbar.SplitButton()); 
+    },
+    
+    testMenuCheckBox: function() {
+     this.__test(new qx.ui.menu.CheckBox()); 
     }    
   }
 });
