@@ -213,7 +213,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           decorator : decorator,
           textColor : textColor,
-          shadow : states.invalid ? "button-invalid-shadow" : undefined
+          shadow : states.invalid && !states.disabled ? "button-invalid-shadow" : undefined
         }
       }
     },
@@ -301,7 +301,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           icon: "decoration/form/" + icon + ".png",
           gap: 6,
-          shadow : states.invalid ? "checkbox-invalid-shadow" : undefined          
+          shadow : states.invalid && !states.disabled ? "checkbox-invalid-shadow" : undefined          
         }
       }
     },
