@@ -33,31 +33,7 @@ qx.Class.define("qx.test.ui.form.Form",
       
       // check if the state is set
       this.assertTrue(widget.getRequired(), "Setting of the required flag did not work.");
-    },
-    
-    __testValidSync: function(widget, where) {
-      // check if the interface is implemented
-      this.assert(qx.Class.hasInterface(widget.constructor, qx.ui.form.IForm), "Interface not implemented.");
-      
-      this.getRoot().add(widget);
-      
-      // test for the default (true)
-      this.assertTrue(widget.getValid(), "Default valid state is wrong.");
-      this.assertFalse(!!widget.hasState("invalid"), "Should not have the invalid state.");
-
-      widget.setValid(false);
-      
-      // check if the state is set
-      this.assertFalse(widget.getValid(), "Setting of the valid flag did not work.");
-      this.assertTrue(widget.hasState("invalid"), "Should have the invalid state.");
-    
-      if (where == "shadow") {
-        this.__testInvalidShadow(widget);              
-      } else {
-        this.__testInvalidBorder(widget);      
-      }
-    },
-    
+    },    
 
     __testValid: function(widget, where) {
       // check if the interface is implemented
@@ -76,7 +52,9 @@ qx.Class.define("qx.test.ui.form.Form",
       this.assertTrue(widget.hasState("invalid"), "Should have the invalid state.");
     
       if (where == "shadow") {        
-        this.__testInvalidShadow(widget);              
+        this.__testInvalidShadow(widget);     
+      } else if (where == "dont") {
+        // ignore thiese tests         
       } else {
         // needs to be tests async because of a strange behavior in opera 9
         var self = this;
@@ -172,10 +150,16 @@ qx.Class.define("qx.test.ui.form.Form",
     },
     
     testValidCheckBox: function() {
-     this.__testValid(new qx.ui.form.CheckBox(), "shadow"); 
-    }    
+     this.__testValid(new qx.ui.form.CheckBox(), "dont"); 
+    },
     
-
+    testValidRadioButton: function() {
+     this.__testValid(new qx.ui.form.RadioButton(), "dont"); 
+    },
+    
+    testRequieredRadioButton: function() {
+      this.__testRequired(new qx.ui.form.RadioButton());      
+    }
     
   }
 });
