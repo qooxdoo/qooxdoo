@@ -1,4 +1,4 @@
-﻿/* ************************************************************************
+﻿﻿/* ************************************************************************
 
    qooxdoo - the new era of web development
 
@@ -146,6 +146,9 @@ qx.Class.define("qx.html.Flash",
      */
     getFlashElement : function()
     {
+      if (!this.__flash) {
+        this.__flash = this.getDomElement().firstChild;
+      }
       return this.__flash;
     }
   },
