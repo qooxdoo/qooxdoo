@@ -297,11 +297,12 @@ qx.Theme.define("qx.theme.modern.Appearance",
         } else {
           icon = "checkbox";
         }
+        
+        var invalid = states.invalid && !states.disabled ? "-invalid" : "";
 
         return {
-          icon: "decoration/form/" + icon + ".png",
-          gap: 6,
-          shadow : states.invalid && !states.disabled ? "checkbox-invalid-shadow" : undefined          
+          icon: "decoration/form/" + icon + invalid + ".png",
+          gap: 6
         }
       }
     },
@@ -334,9 +335,11 @@ qx.Theme.define("qx.theme.modern.Appearance",
         } else {
           icon = "radiobutton";
         }
+        
+        var invalid = states.invalid && !states.disabled ? "-invalid" : "";
 
         return {
-          icon: "decoration/form/" + icon + ".png",
+          icon: "decoration/form/" + icon + invalid + ".png",
           gap : 6
         }
       }
