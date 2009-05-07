@@ -24,6 +24,12 @@
  *
  * http://msdn.microsoft.com/library/default.asp?url=/library/en-us/xmlsdk/html/81f3de54-3b79-46dc-8e01-73ca2d94cdb5.asp
  * http://developer.mozilla.org/en/docs/Parsing_and_serializing_XML
+ * 
+ * Please note that nodes selected using the <code>selectSingleNode()</code> and
+ * <code>selectNodes()</code> methods remain in their document context so 
+ * <code>qx.xml.Element.selectNodes(foo, "//bar");</code> 
+ * will search the entire document for any nodes named "bar", not just the 
+ * <code>foo</code> node.  
  */
 qx.Class.define("qx.xml.Element",
 {
