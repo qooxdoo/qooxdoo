@@ -54,6 +54,7 @@ qx.Class.define("qx.test.ui.selection.SelectBox",
       this._widget = null;
       this._selection = null;
       this._notInSelection = null;
+      this.flush();
     },
     
     _getChildren : function() 
