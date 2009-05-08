@@ -22,6 +22,20 @@
 import sys, os, time, codecs
 sys.path.append( os.path.join('..', '..', 'bin') )
 
+##
+# <p>This class holds the test configuration and provides methods that set up 
+# and control the actual Selenium test runs. It can be used for tests against
+# a local qooxdoo trunk checkout as well as tests against qooxdoo applications 
+# located on a remote server.</p>
+# 
+# @param testType (st) "local" or "remote"
+# @param seleniumConf (dict) Selenium RC server configuration details
+# @param testConf (dict) Basic test settings
+# @param autConf (dict) Information about the applications to be tested
+# @param browserConf (dict) Information about the browsers to be used for 
+#   testing
+# @param mailConf (dict) Report email configuration
+
 class QxTest:
   def __init__(self, testType="remote", seleniumConf=None, testConf=None, 
                autConf=None, browserConf=None, mailConf=None):
@@ -72,7 +86,10 @@ class QxTest:
     import socket
     socket.setdefaulttimeout(10)
 
-
+  ##
+  # Writes a message to the test log file
+  #
+  # @param msg (str) The message to be logged 
   def log(self, msg):
     timeFormatLog = '%Y-%m-%d %H:%M:%S'
     logMsg = time.strftime(timeFormatLog) + " " + msg
@@ -81,7 +98,10 @@ class QxTest:
       self.logFile.write(logMsg + "\n")    
 
   
-  # Start the Selenium RC server and check its status.
+  ##
+  # Starts the Selenium RC server and checks its status. If the server doesn't
+  # respond correctly after 20 seconds, another attempt is made. If this also 
+  # fails the script is ended.
   def startSeleniumServer(self):
     if (self.sim):
       self.log("SIMULATION: Starting Selenium RC server.")
@@ -107,7 +127,10 @@ class QxTest:
           sys.exit(1)
 
 
-  # Send an HTTP request to the Selenium proxy. A 403 response means it's running.
+  ##
+  # Checks the status of the Selenium RC server by sending an HTTP request.
+  #
+  # @return Whether the server is running (Bool)
   def isSeleniumServer(self):
     from urllib2 import Request, urlopen, URLError
     status = False
@@ -123,7 +146,12 @@ class QxTest:
     return status
 
 
-  # Builds all targets listed in buildConf.
+  ##
+  # Starts the SVN udpdate/build process for one or more targets. Logs errors
+  # during build and writes the current trunk revision number and build status
+  # to files.
+  #
+  # @param buildConf (dict) Build configuration 
   def buildAll(self, buildConf):
     for target in buildConf['targets']:
       # Prepare log file
@@ -186,7 +214,8 @@ class QxTest:
     self.storeRevision()
     self.storeBuildStatus()
 
-
+  ##
+  # Runs an SVN update on a Simulator contribution checkout
   def updateSimulator(self):
     if (self.sim):
       self.log("SIMULATION: Updating Simulator checkout: "
@@ -199,8 +228,10 @@ class QxTest:
       if (err):
         self.log(err)
 
+  ##
   # Converts the buildStatus map to JSON and stores it in a file in the root 
-  # directory of the local qooxdoo checkout. 
+  # directory of the local qooxdoo checkout where remote test runs can access 
+  # it.
   def storeBuildStatus(self):
     import simplejson  
     json = simplejson.dumps(self.buildStatus, sort_keys=True, indent=2)
@@ -214,7 +245,10 @@ class QxTest:
       rFile.close()
 
       
-  # Reads the build status from a file on the test host
+  ##
+  # Reads the build status from a file on a remote test host
+  #
+  # @return Build status dictionary
   def getRemoteBuildStatus(self):
     import urllib, simplejson    
     status = {}
@@ -248,7 +282,11 @@ class QxTest:
       
     return status
 
-  # Returns the SVN checkout's revision number
+
+  ##
+  # Retrieves a local qooxdoo SVN checkout's revision number
+  #
+  # @return The revision number (String)
   def getLocalRevision(self):
     ret,out,err = invokePiped("svnversion " + self.testConf["qxPathAbs"])
     rev = out.rstrip('\n')
@@ -257,7 +295,9 @@ class QxTest:
     return rev
   
 
-  # Writes the revision number of a local qooxdoo checkout to a file
+  ##
+  # Writes the current revision number of the local qooxdoo checkout to a file
+  # named 'revision.txt' in the qooxdoo checkout's root directory.
   def storeRevision(self):
     fPath = os.path.join(self.testConf['qxPathAbs'],'revision.txt')
     if (self.sim):
@@ -270,7 +310,11 @@ class QxTest:
       rFile.close()
 
 
-  # Reads the qooxdoo checkout's revision number from a file on the test host
+  ##
+  # Reads the qooxdoo checkout's revision number from a file on a remote test 
+  # host
+  #
+  # @return The revision number (String)
   def getRemoteRevision(self):
     import urllib
     remoteFile = self.autConf['autHost']
@@ -287,8 +331,13 @@ class QxTest:
       self.log("Remote qooxdoo checkout at revision " + self.trunkrev)
       return rev
 
-  # Generate a fake test log file so that a report email can be generated even
+
+  ##
+  # Generates a fake test log file so that a report email can be generated even
   # if the test didn't run due to build errors.
+  #
+  # @param appConf (dict) Settings for the application(s) to be tested
+  # @return (file) The file handle of the dummy log 
   def getDummyLog(self, appConf):
     import random
 
@@ -308,7 +357,11 @@ class QxTest:
 
     return dummyLogFile
 
-  # Run tests for defined applications
+
+  ##
+  # Launches the actual tests (Simulations) for defined applications
+  #
+  # @param appConf (dict) Settings for the application(s) to be tested
   def runTests(self, appConf):
     if appConf['appName'] in self.buildStatus:
       if self.buildStatus[appConf['appName']]["BuildError"]:
@@ -388,7 +441,14 @@ class QxTest:
       self.sendReport(appConf['appName'])
 
 
-  # Assembles the shell command that launches the actual test in Rhino.
+  ##
+  # Assembles the shell command used to launch the Simulation
+  #
+  # @param aut (str) The name of the application to be tested. Must correspond 
+  #   to the name of a subdirectory of "/trunk/tool/selenium/simulation/" in the 
+  #   local Simulator contrib checkout
+  # @param browser (str) A browser identifier (one of the keys in browserConf)
+  # @return (str) The shell command
   def getStartCmd(self, aut, browser):
     cmd = "java"
     if ('classPath' in self.testConf):
@@ -408,7 +468,10 @@ class QxTest:
     return cmd
 
 
+  ##
   # Sends the generated test report file by email.
+  #
+  # @param aut (str) The name of the tested application
   def sendReport(self, aut):    
     import re
     
@@ -480,7 +543,12 @@ class QxTest:
     shutil.move(newname, self.mailConf['archiveDir'])"""
 
 
-  # Run logFormatter on Selenium log file 
+  ##
+  # Runs logFormatter on a file containg "qxSimulator" entries. Uses the 
+  # Selenium RC server's log file as a fallback if the specified file doesn't 
+  # exist or is empty.
+  #  
+  # @param inputfile (str) Path to the log file to be formatted. 
   def formatLog(self,inputfile=None):
     from logFormatter import QxLogFormat
 
@@ -508,7 +576,8 @@ class QxTest:
       logformat = QxLogFormat(options)
 
 
-  # Clear Selenium log file and report HTML file
+  ##
+  # Clears the Selenium RC server log file and the test report HTML file.
   def clearLogs(self):
     if (os.path.exists(self.seleniumConf['seleniumLog'])):
       f = open(self.seleniumConf['seleniumLog'], 'w')
@@ -528,8 +597,13 @@ class QxTest:
         f.write('')
       f.close()
 
-
-# Kill a browser process to make sure subsequent tests can launch the same browser
+  
+  ##
+  # Kills a browser process to make sure subsequent tests can launch the same 
+  # browser. This is somewhat unreliable as it tries to determine the process
+  # name from the command used to tell Selenium which browser to use.
+  #
+  # @param browser (str) A browser identifier (one of the keys in browserConf) 
   def killBrowser(self, browser):    
     browserFull = self.browserConf[browser].lower()
     procName = None
@@ -574,8 +648,12 @@ class QxTest:
       self.log("ERROR: Unable to determine browser process name")    
 
 
-  # Call a VBScript that activates the proxy setting in the Windows registry for
-  # browsers started with the *custom launcher (Safari, Chrome, etc.)
+  ##
+  # Executes a shell command that should (de)activate the proxy setting in the 
+  # Windows registry for browsers started with the *custom launcher (Safari, 
+  # Chrome, etc.)
+  #
+  # @param prox (bool) Enable (True) or disable (False) the proxy setting 
   def setProxy(self, prox):        
     if (prox):
       if (self.os == "Windows"):
@@ -599,7 +677,12 @@ class QxTest:
         self.log("Error: Can't disable proxy on non-Windows system!")
 
 
-  # Call a VBScript that sets IE8 compatibility mode in the Windows registry. 
+  ##
+  # Executes a shell command that should (de)activate the IE8 compatibility 
+  # setting in the Windows registry
+  #
+  # @param compat (bool) Enable (True) or disable (False) the compatibility
+  #   setting  
   def setIE8Compatibility(self, compat):
     if (compat):
       if (self.os == "Windows"):
@@ -623,7 +706,10 @@ class QxTest:
         self.log("Error: Can't disable IE8 compatibility mode on non-Windows system!")
       
   
-  # Run Ecmalint on targets defined in lintConf
+  ##
+  # Invokes lintRunner on one ore more targets
+  #
+  # @param lintConf (dict) Lint run configuration
   def runLint(self,lintConf):
     from lintRunner import QxLint
 
@@ -656,7 +742,12 @@ class QxTest:
           qxlint = QxLint(options)
 
 
-# Invoke an external command and return its STDOUT and STDERR output.
+##
+# Invokes a shell command, waits for it to finish, then returns its STDOUT and 
+# STDERR output.
+#
+# @param cmd (str) The command to be executed
+# @return (tuple) The command's return code, STDOUT output and STDERR output
 def invokePiped(cmd):
   import subprocess
   p = subprocess.Popen(cmd, shell=True,
@@ -669,7 +760,11 @@ def invokePiped(cmd):
   return (rcode, output, errout)
 
 
-# Invoke an external command and wait for it to finish.
+##
+# Invokes a shell command and waits for it to finish.
+#
+# @param cmd (str) The command to be executed
+# @return (int) The exit code of the process
 def invokeExternal(cmd):
   import subprocess
   p = subprocess.Popen(cmd, shell=True,
@@ -678,8 +773,11 @@ def invokeExternal(cmd):
   return p.wait()
 
 
-# Invoke an external command and get its STDOUT/STDERR output *while it's 
-# running*. Optionally write to file. 
+##
+# Invokes a shell command and get its STDOUT/STDERR output while the process is 
+# running. Optionally writes the output to  afile.
+#
+# @param cmd (str) The command to be executed
 def invokeLog(cmd, file=None):
   import subprocess
   p = subprocess.Popen(cmd, shell=True,
@@ -696,7 +794,10 @@ def invokeLog(cmd, file=None):
       file.write(line)
 
 
-# Send a multipart text/html e-mail
+##
+# Sends a multipart text/html e-mail
+#
+# @param configuration (dict) Mail settings 
 def sendMultipartMail(configuration):
   import smtplib
   from email.MIMEMultipart import MIMEMultipart
