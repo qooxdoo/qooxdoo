@@ -130,8 +130,6 @@ qx.Class.define("qx.ui.container.SlideBar",
 
   members :
   {
-    __isHorizontal : null,
-
     /*
     ---------------------------------------------------------------------------
       WIDGET API
@@ -201,6 +199,13 @@ qx.Class.define("qx.ui.container.SlideBar",
     },
 
 
+    /**
+     * Indicates if the orientation is horizontal or not.
+     * @return {Boolean} true if the orientation is horizontal, otherwise false.
+     */
+    _isHorizontal : function() {
+      return this.getOrientation() === "horizontal";
+    },
 
 
     /*
@@ -218,7 +223,7 @@ qx.Class.define("qx.ui.container.SlideBar",
     scrollBy : function(offset)
     {
       var pane = this.getChildControl("scrollpane");
-      if (this.__isHorizontal) {
+      if (this._isHorizontal()) {
         pane.scrollByX(offset);
       } else {
         pane.scrollByY(offset);
@@ -235,7 +240,7 @@ qx.Class.define("qx.ui.container.SlideBar",
     scrollTo : function(value)
     {
       var pane = this.getChildControl("scrollpane");
-      if (this.__isHorizontal) {
+      if (this._isHorizontal()) {
         pane.scrollToX(value);
       } else {
         pane.scrollToY(value);
@@ -254,17 +259,25 @@ qx.Class.define("qx.ui.container.SlideBar",
     // property apply
     _applyOrientation : function(value, old)
     {
+      var oldLayouts = [this.getLayout(), this._getLayout()];
+      
       if (value == "horizontal")
       {
         this._setLayout(new qx.ui.layout.HBox());
         this.setLayout(new qx.ui.layout.HBox());
-        this.__isHorizontal = true;
       }
       else
       {
         this._setLayout(new qx.ui.layout.VBox());
         this.setLayout(new qx.ui.layout.VBox());
-        this.__isHorizontal = false;
+      }
+
+      if (oldLayouts[0]) {
+        oldLayouts[0].dispose();
+      }
+
+      if (oldLayouts[1]) {
+        oldLayouts[1].dispose();
       }
     },
 
@@ -295,7 +308,7 @@ qx.Class.define("qx.ui.container.SlideBar",
       var innerSize = this.getInnerSize();
       var contentSize = content.getBounds();
 
-      var overflow = this.__isHorizontal ?
+      var overflow = this._isHorizontal() ?
         contentSize.width > innerSize.width :
         contentSize.height > innerSize.height;
 
