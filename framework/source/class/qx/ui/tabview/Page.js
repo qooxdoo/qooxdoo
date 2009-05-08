@@ -196,7 +196,11 @@ qx.Class.define("qx.ui.tabview.Page",
           control = new qx.ui.tabview.TabButton;
           control.setAllowGrowX(true);
           control.setAllowGrowY(true);
-          control.setValue(this.toHashCode());
+          
+          // TODO: Review why the following line was in the original code.
+          // It has been commented out to hotfix problems when creating a
+          // qx.ui.tabview.TabButton
+//          control.setValue(this.toHashCode());
 
           control.addListener("close", this._onButtonClose, this);
 
