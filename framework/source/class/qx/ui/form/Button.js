@@ -98,7 +98,8 @@ qx.Class.define("qx.ui.form.Button",
      EVENTS
   *****************************************************************************
   */
-  events : {
+  events :
+  {
     /**
      * The old value change event.
      * @deprecated
@@ -372,7 +373,8 @@ qx.Class.define("qx.ui.form.Button",
      * @param value {String} The value of the label.
      * @deprecated
      */
-    setValue: function(value) {
+    setValue: function(value)
+    {
       qx.log.Logger.deprecatedMethodWarning(arguments.callee);
       
       var oldValue = this.__value;
@@ -386,7 +388,8 @@ qx.Class.define("qx.ui.form.Button",
      * 
      * @deprecated
      */    
-    getValue: function() {
+    getValue: function()
+    {
       qx.log.Logger.deprecatedMethodWarning(arguments.callee);      
       
       return this.__value;
@@ -398,7 +401,8 @@ qx.Class.define("qx.ui.form.Button",
      * 
      * @deprecated
      */    
-    resetValue: function() {
+    resetValue: function()
+    {
       qx.log.Logger.deprecatedMethodWarning(arguments.callee);
 
       this.__value = null;
@@ -406,7 +410,8 @@ qx.Class.define("qx.ui.form.Button",
     
     
     // overridden
-    addListener: function(type, listener, self, capture) {
+    addListener: function(type, listener, self, capture)
+    {
       if (type == "changeValue") {
         qx.log.Logger.deprecatedEventWarning(
           arguments.callee, 
