@@ -102,7 +102,7 @@ class QxTest:
       if ( not(self.isSeleniumServer()) ):
         self.log("Selenium server not responding, waiting a little longer...")
         time.sleep(20)
-        if ( not(isSeleniumServer()) ):
+        if ( not(self.isSeleniumServer()) ):
           self.log("ERROR: Selenium server not responding.")
           sys.exit(1)
 
