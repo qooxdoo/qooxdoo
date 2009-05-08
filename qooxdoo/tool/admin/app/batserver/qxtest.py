@@ -28,13 +28,13 @@ sys.path.append( os.path.join('..', '..', 'bin') )
 # a local qooxdoo trunk checkout as well as tests against qooxdoo applications 
 # located on a remote server.</p>
 # 
-# @param testType (st) "local" or "remote"
-# @param seleniumConf (dict) Selenium RC server configuration details
-# @param testConf (dict) Basic test settings
-# @param autConf (dict) Information about the applications to be tested
-# @param browserConf (dict) Information about the browsers to be used for 
+# @param testType {str} "local" or "remote"
+# @param seleniumConf {dict} Selenium RC server configuration details
+# @param testConf {dict} Basic test settings
+# @param autConf {dict} Information about the applications to be tested
+# @param browserConf {dict} Information about the browsers to be used for 
 #   testing
-# @param mailConf (dict) Report email configuration
+# @param mailConf {dict} Report email configuration
 
 class QxTest:
   def __init__(self, testType="remote", seleniumConf=None, testConf=None, 
@@ -89,7 +89,7 @@ class QxTest:
   ##
   # Writes a message to the test log file
   #
-  # @param msg (str) The message to be logged 
+  # @param msg {str} The message to be logged 
   def log(self, msg):
     timeFormatLog = '%Y-%m-%d %H:%M:%S'
     logMsg = time.strftime(timeFormatLog) + " " + msg
@@ -151,7 +151,7 @@ class QxTest:
   # during build and writes the current trunk revision number and build status
   # to files.
   #
-  # @param buildConf (dict) Build configuration 
+  # @param buildConf {dict} Build configuration 
   def buildAll(self, buildConf):
     for target in buildConf['targets']:
       # Prepare log file
@@ -336,8 +336,8 @@ class QxTest:
   # Generates a fake test log file so that a report email can be generated even
   # if the test didn't run due to build errors.
   #
-  # @param appConf (dict) Settings for the application(s) to be tested
-  # @return (file) The file handle of the dummy log 
+  # @param appConf {dict} Settings for the application(s) to be tested
+  # @return {file} The file handle of the dummy log 
   def getDummyLog(self, appConf):
     import random
 
@@ -361,7 +361,7 @@ class QxTest:
   ##
   # Launches the actual tests (Simulations) for defined applications
   #
-  # @param appConf (dict) Settings for the application(s) to be tested
+  # @param appConf {dict} Settings for the application(s) to be tested
   def runTests(self, appConf):
     if appConf['appName'] in self.buildStatus:
       if self.buildStatus[appConf['appName']]["BuildError"]:
@@ -444,11 +444,11 @@ class QxTest:
   ##
   # Assembles the shell command used to launch the Simulation
   #
-  # @param aut (str) The name of the application to be tested. Must correspond 
+  # @param aut {str} The name of the application to be tested. Must correspond 
   #   to the name of a subdirectory of "/trunk/tool/selenium/simulation/" in the 
   #   local Simulator contrib checkout
-  # @param browser (str) A browser identifier (one of the keys in browserConf)
-  # @return (str) The shell command
+  # @param browser {str} A browser identifier (one of the keys in browserConf)
+  # @return {str} The shell command
   def getStartCmd(self, aut, browser):
     cmd = "java"
     if ('classPath' in self.testConf):
@@ -471,7 +471,7 @@ class QxTest:
   ##
   # Sends the generated test report file by email.
   #
-  # @param aut (str) The name of the tested application
+  # @param aut {str} The name of the tested application
   def sendReport(self, aut):    
     import re
     
@@ -548,7 +548,7 @@ class QxTest:
   # Selenium RC server's log file as a fallback if the specified file doesn't 
   # exist or is empty.
   #  
-  # @param inputfile (str) Path to the log file to be formatted. 
+  # @param inputfile {str} Path to the log file to be formatted. 
   def formatLog(self,inputfile=None):
     from logFormatter import QxLogFormat
 
@@ -603,7 +603,7 @@ class QxTest:
   # browser. This is somewhat unreliable as it tries to determine the process
   # name from the command used to tell Selenium which browser to use.
   #
-  # @param browser (str) A browser identifier (one of the keys in browserConf) 
+  # @param browser {str} A browser identifier (one of the keys in browserConf) 
   def killBrowser(self, browser):    
     browserFull = self.browserConf[browser].lower()
     procName = None
@@ -653,7 +653,7 @@ class QxTest:
   # Windows registry for browsers started with the *custom launcher (Safari, 
   # Chrome, etc.)
   #
-  # @param prox (bool) Enable (True) or disable (False) the proxy setting 
+  # @param prox {bool} Enable (True) or disable (False) the proxy setting 
   def setProxy(self, prox):        
     if (prox):
       if (self.os == "Windows"):
@@ -681,7 +681,7 @@ class QxTest:
   # Executes a shell command that should (de)activate the IE8 compatibility 
   # setting in the Windows registry
   #
-  # @param compat (bool) Enable (True) or disable (False) the compatibility
+  # @param compat {bool} Enable (True) or disable (False) the compatibility
   #   setting  
   def setIE8Compatibility(self, compat):
     if (compat):
@@ -709,7 +709,7 @@ class QxTest:
   ##
   # Invokes lintRunner on one ore more targets
   #
-  # @param lintConf (dict) Lint run configuration
+  # @param lintConf {dict} Lint run configuration
   def runLint(self,lintConf):
     from lintRunner import QxLint
 
@@ -746,8 +746,8 @@ class QxTest:
 # Invokes a shell command, waits for it to finish, then returns its STDOUT and 
 # STDERR output.
 #
-# @param cmd (str) The command to be executed
-# @return (tuple) The command's return code, STDOUT output and STDERR output
+# @param cmd {str} The command to be executed
+# @return {tuple} The command's return code, STDOUT output and STDERR output
 def invokePiped(cmd):
   import subprocess
   p = subprocess.Popen(cmd, shell=True,
@@ -763,8 +763,8 @@ def invokePiped(cmd):
 ##
 # Invokes a shell command and waits for it to finish.
 #
-# @param cmd (str) The command to be executed
-# @return (int) The exit code of the process
+# @param cmd {str} The command to be executed
+# @return {int} The exit code of the process
 def invokeExternal(cmd):
   import subprocess
   p = subprocess.Popen(cmd, shell=True,
@@ -777,7 +777,7 @@ def invokeExternal(cmd):
 # Invokes a shell command and get its STDOUT/STDERR output while the process is 
 # running. Optionally writes the output to  afile.
 #
-# @param cmd (str) The command to be executed
+# @param cmd {str} The command to be executed
 def invokeLog(cmd, file=None):
   import subprocess
   p = subprocess.Popen(cmd, shell=True,
@@ -797,7 +797,7 @@ def invokeLog(cmd, file=None):
 ##
 # Sends a multipart text/html e-mail
 #
-# @param configuration (dict) Mail settings 
+# @param configuration {dict} Mail settings 
 def sendMultipartMail(configuration):
   import smtplib
   from email.MIMEMultipart import MIMEMultipart
