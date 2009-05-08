@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * Form interface for all form widgets which have boolean as their primary 
+ * Form interface for all form widgets which have numeric as their primary 
  * data type like a spinner.
  */
 qx.Interface.define("qx.ui.form.INumberForm",
