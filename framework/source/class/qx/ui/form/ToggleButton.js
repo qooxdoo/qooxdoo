@@ -356,7 +356,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
         arguments.callee, "Please use the value property instead."
       );
       
-      this.setChecked(!this.getChecked());
+      this.setValue(!this.getValue());
     },
     
     

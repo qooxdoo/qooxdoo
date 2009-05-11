@@ -25,6 +25,8 @@
 qx.Class.define("qx.ui.menu.AbstractButton",
 {
   extend : qx.ui.core.Widget,
+  include : [qx.ui.core.MExecutable],
+  implement : [qx.ui.form.IExecutable],
   type : "abstract",
 
 

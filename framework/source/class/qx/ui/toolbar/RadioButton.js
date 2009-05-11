@@ -67,7 +67,7 @@ qx.Class.define("qx.ui.toolbar.RadioButton",
     */
 
     // overridden
-    _applyChecked : function(value, old)
+    _applyValue : function(value, old)
     {
       this.base(arguments, value, old);
 
