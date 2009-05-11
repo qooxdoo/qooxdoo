@@ -247,20 +247,21 @@ qx.Class.define("qx.core.Object",
 
       if (qx.lang.Type.isString(data))
       {
-        if (qx.core.Variant.isSet("qx.debug", "on"))
+        if (!this[setter[data]])
         {
-          if (!this[setter[data]])
-          {
-            // check for a fallback [BUG #2341]
-            if (this["set" + qx.lang.String.firstUp(data)] != undefined) {
-              this["set" + qx.lang.String.firstUp(data)](value);
-              return;
-            }
-                        
+          // check for a fallback [BUG #2341]
+          if (this["set" + qx.lang.String.firstUp(data)] != undefined) {
+            this["set" + qx.lang.String.firstUp(data)](value);
+            return;
+          }
+          
+          if (qx.core.Variant.isSet("qx.debug", "on"))
+          {                      
             this.error("No such property: " + data);
             return this;
           }
         }
+        
 
         return this[setter[data]](value);
       }
@@ -268,18 +269,18 @@ qx.Class.define("qx.core.Object",
       {
         for (var prop in data)
         {
-          if (qx.core.Variant.isSet("qx.debug", "on"))
+          if (!this[setter[prop]])
           {
-            if (!this[setter[prop]])
-            {
-              // check for a fallback [BUG #2341]
-              if (this["set" + qx.lang.String.firstUp(prop)] != undefined) {
-                this["set" + qx.lang.String.firstUp(prop)](data[prop]);
-                continue;
-              }
-
-              this.error("No such property: " + prop);
+            // check for a fallback [BUG #2341]
+            if (this["set" + qx.lang.String.firstUp(prop)] != undefined) {
+              this["set" + qx.lang.String.firstUp(prop)](data[prop]);
               continue;
+            }
+
+            if (qx.core.Variant.isSet("qx.debug", "on"))
+            {                      
+              this.error("No such property: " + prop);
+              return this;
             }
           }
 
@@ -303,19 +304,20 @@ qx.Class.define("qx.core.Object",
     {
       var getter = qx.core.Property.$$method.get;
 
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if (!this[getter[prop]])
       {
-        if (!this[getter[prop]])
-        {
-          // check for a fallback [BUG #2341]
-          if (this["get" + qx.lang.String.firstUp(prop)] != undefined) {
-            return this["get" + qx.lang.String.firstUp(prop)]();
-          }
+        // check for a fallback [BUG #2341]
+        if (this["get" + qx.lang.String.firstUp(prop)] != undefined) {
+          return this["get" + qx.lang.String.firstUp(prop)]();
+        }
                     
+        if (qx.core.Variant.isSet("qx.debug", "on"))
+        {                      
           this.error("No such property: " + prop);
-          return;
+          return this;
         }
       }
+
 
       return this[getter[prop]]();
     },
@@ -332,20 +334,21 @@ qx.Class.define("qx.core.Object",
     {
       var resetter = qx.core.Property.$$method.reset;
 
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if (!this[resetter[prop]])
       {
-        if (!this[resetter[prop]])
-        {
-          // check for a fallback [BUG #2341]
-          if (this["reset" + qx.lang.String.firstUp(prop)] != undefined) {
-            this["reset" + qx.lang.String.firstUp(prop)]();
-            return;
-          }
-          
-          this.error("No such property: " + prop);
+        // check for a fallback [BUG #2341]
+        if (this["reset" + qx.lang.String.firstUp(prop)] != undefined) {
+          this["reset" + qx.lang.String.firstUp(prop)]();
           return;
         }
+          
+        if (qx.core.Variant.isSet("qx.debug", "on"))
+        {                      
+          this.error("No such property: " + prop);
+          return this;
+        }
       }
+
 
       this[resetter[prop]]();
     },
