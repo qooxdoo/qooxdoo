@@ -43,7 +43,7 @@ sys.path.append('/home/dwagner/workspace/qooxdoo.trunk/tool/admin/bin')
 import qxtest
 
 seleniumConf = {
-  'startSelenium'       : 'java -jar /home/dwagner/qxselenium/selenium-server.jar -browserSideLog -log ',
+  'startSelenium'       : 'java -jar /home/dwagner/qxselenium/selenium-server1.jar -browserSideLog -log ',
   'seleniumHost'        : 'http://localhost:4444',                
   'seleniumLog'         : '/tmp/selenium.log',
   'seleniumReport'      : '/home/dwagner/qxselenium/selenium-report.html',  
@@ -51,7 +51,8 @@ seleniumConf = {
 
 testConf = {
   'simulateTest'        : False,
-  'testLogDir'          : '/home/dwagner/qxselenium',
+  'getReportFrom'       : 'testLog',
+  'testLogDir'          : '/home/dwagner/qxselenium/logs',
   'qxPathAbs'           : '/var/www/qx/trunk/qooxdoo',  
   'classPath'           : '/home/dwagner/qxselenium/selenium-java-client-driver.jar:/home/dwagner/rhino1_7R1/js.jar',
   'simulatorSvn'        : '/home/dwagner/workspace/qooxdoo.contrib/Simulator',
@@ -62,28 +63,31 @@ testConf = {
 buildConf = {
   'stageDir'            : '/var/www/qx',             
   'buildLogLevel'       : 'error',
-  'buildLogFile'        : '/home/dwagner/qxselenium/build.log',
-  'batbuild'            : 'tool/admin/app/batserver/batbuild.py -z -C',           
-  'Tests'               : '-p framework -g test -n',
-  'Demobrowser'         : '-p application/demobrowser -g build -n',
-  'Feedreader'          : '-p application/feedreader -g build -n',
-  'Playground'          : '-p application/playground -g build -n'
+  'buildLogDir'         : '/home/dwagner/qxselenium/logs/build',
+  'batbuild'            : 'tool/admin/app/batserver/batbuild.py -z -C',
+  'targets' : {           
+    'Testrunner'          : '-p framework -g test -n',
+    'Demobrowser'         : '-p application/demobrowser -g build -n',
+    'Feedreader'          : '-p application/feedreader -g build -n',
+    'Playground'          : '-p application/playground -g build -n'
+  }
 }
 
 autConf = {
   'autHost'             : 'http://172.17.12.142',
-  'autPathTestrunner'   : '/qx/trunk/qooxdoo/framework/test/index.html',
-  'autPathDemobrowser'  : '/qx/trunk/qooxdoo/application/demobrowser/build/index.html',
-  'autPathFeedreader'   : '/qx/trunk/qooxdoo/application/feedreader/build/index.html',
-  'autPathPlayground'   : '/qx/trunk/qooxdoo/application/playground/build/index.html'
+  'autQxPath'           : '/qx/trunk/qooxdoo',
+  'autPathTestrunner'   : '/framework/test/index.html',
+  'autPathDemobrowser'  : '/application/demobrowser/build/index.html',
+  'autPathFeedreader'   : '/application/feedreader/build/index.html',
+  'autPathPlayground'   : '/application/playground/build/index.html'
 }
 
 browserConf = {
-  'FF3'                 : '*custom /usr/lib/firefox-3.0.9/firefox -no-remote -P selenium-3',
-  'FF31'                : '*custom /home/dwagner/firefox-31b3/firefox -no-remote -P selenium-31b3',
-  'FF2'                 : '*custom /home/dwagner/firefox2/firefox -no-remote -P selenium-2',
-  'FF15'                : '*custom /home/dwagner/firefox-15/firefox -P selenium-15',
-  'Opera96'             : '*opera'
+  'Firefox 3.0.10'      : '*custom /usr/lib/firefox-3.0.10/firefox -no-remote -P selenium-3',
+  'Firefox 3.5b4'       : '*custom /home/dwagner/firefox-35b4/firefox -no-remote -P selenium-35b4',
+  'Firefox 2.0.0'       : '*custom /home/dwagner/firefox2/firefox -no-remote -P selenium-2',
+  'Firefox 1.5.0'       : '*custom /home/dwagner/firefox-15/firefox -P selenium-15',
+  'Opera 9.64'          : '*opera'
 }
 
 mailConf = {
@@ -140,23 +144,23 @@ testrunnerConf = {
   'sendReport' : True,
   'browsers' : [
     {
-       'browserId' : 'FF15',
+       'browserId' : 'Firefox 1.5.0',
        'kill' : True
     },                    
     {
-       'browserId' : 'FF2',
+       'browserId' : 'Firefox 2.0.0',
        'kill' : True
     },
     {
-       'browserId' : 'FF3',
+       'browserId' : 'Firefox 3.0.10',
        'kill' : True
     },
     {
-       'browserId' : 'FF31',
+       'browserId' : 'Firefox 3.5b4',
        'kill' : True
     },    
     {
-       'browserId' : 'Opera96',
+       'browserId' : 'Opera 9.64',
        'kill' : True
     }
   ]         
@@ -168,23 +172,23 @@ demobrowserConf = {
   'sendReport' : True,
   'browsers' : [
     {
-       'browserId' : 'FF2',
+       'browserId' : 'Firefox 2.0.0',
        'kill' : True
     },
     {
-       'browserId' : 'FF3',
+       'browserId' : 'Firefox 3.0.10',
        'kill' : True
     },
     {
-       'browserId' : 'FF31',
+       'browserId' : 'Firefox 3.5b4',
        'kill' : True
     },
     {
-       'browserId' : 'FF15',
+       'browserId' : 'Firefox 1.5.0',
        'kill' : True
     },
     {
-       'browserId' : 'Opera96',
+       'browserId' : 'Opera 9.64',
        'kill' : True
     }
   ]         
@@ -196,23 +200,23 @@ feedreaderConf = {
   'sendReport' : True,
   'browsers' : [
     {
-       'browserId' : 'FF2',
+       'browserId' : 'Firefox 2.0.0',
        'kill' : True
     },
     {
-       'browserId' : 'FF3',
+       'browserId' : 'Firefox 3.0.10',
        'kill' : True
     },
     {
-       'browserId' : 'FF31',
+       'browserId' : 'Firefox 3.5b4',
        'kill' : True
     },
     {
-       'browserId' : 'FF15',
+       'browserId' : 'Firefox 1.5.0',
        'kill' : True
     },
     {
-       'browserId' : 'Opera96',
+       'browserId' : 'Opera 9.64',
        'kill' : True
     }
   ]         
@@ -224,23 +228,23 @@ playgroundConf = {
   'sendReport' : True,
   'browsers' : [
     {
-       'browserId' : 'FF2',
+       'browserId' : 'Firefox 2.0.0',
        'kill' : True
     },
     {
-       'browserId' : 'FF3',
+       'browserId' : 'Firefox 3.0.10',
        'kill' : True
     },
     {
-       'browserId' : 'FF31',
+       'browserId' : 'Firefox 3.5b4',
        'kill' : True
     },
     {
-       'browserId' : 'FF15',
+       'browserId' : 'Firefox 1.5.0',
        'kill' : True
     },
     {
-       'browserId' : 'Opera96',
+       'browserId' : 'Opera 9.64',
        'kill' : True
     }
   ]         
