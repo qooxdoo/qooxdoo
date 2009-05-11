@@ -743,5 +743,18 @@ qx.Class.define("qx.data.controller.Tree",
         this.__buildTree();
       }
     }      
-  }
+  },
+  
+  
+  
+  /*
+   *****************************************************************************
+      DESTRUCTOR
+   *****************************************************************************
+   */
+
+   destruct : function() {
+     this._disposeFields("__bindings", "__childrenRef");
+     this._disposeArray("__boundProperties");
+   }
 });

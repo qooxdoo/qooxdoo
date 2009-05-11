@@ -834,5 +834,18 @@ qx.Class.define("qx.data.controller.List",
     __lookup: function(index) {
       return this.__lookupTable[index];
     }
-  }
+  },
+  
+  
+  
+  /*
+   *****************************************************************************
+      DESTRUCTOR
+   *****************************************************************************
+   */
+
+   destruct : function() {
+     this._disposeFields("__lookupTable", "__onUpdate");
+     this._disposeArray("__boundProperties");
+   }
 });

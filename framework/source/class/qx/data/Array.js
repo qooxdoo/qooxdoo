@@ -37,11 +37,11 @@ qx.Class.define("qx.data.Array",
    *
    * @param param {var} The parameter can be some types.<br/>
    *   Without a parameter a new blank array will be created.<br/>
-   *   If there is more than one parameter ist given, the parameter will be
+   *   If there is more than one parameter is given, the parameter will be
    *   added directly to the new array.<br/>
-   *   If the parameter is a number, a new Array with the given lenght will be
+   *   If the parameter is a number, a new Array with the given length will be
    *   created.<br/>
-   *   If the paramter is a javascript array, a new array containing the given
+   *   If the parameter is a javascript array, a new array containing the given
    *   elements will be created.
    */
   construct : function(param)
@@ -53,7 +53,7 @@ qx.Class.define("qx.data.Array",
 
     // check for elements (create the array)
     } else if (arguments.length > 1) {
-      // creaete an empty array and go through every argument and push it
+      // create an empty array and go through every argument and push it
       this.__array = [];
       for (var i = 0; i < arguments.length; i++) {
         this.__array.push(arguments[i]);
@@ -653,5 +653,18 @@ qx.Class.define("qx.data.Array",
       this.length = this.__array.length;
       this.fireEvent("changeLength", qx.event.type.Event);
     }
+  },
+  
+  
+  
+  /*
+   *****************************************************************************
+      DESTRUCTOR
+   *****************************************************************************
+  */
+  
+  destruct : function()
+  {
+    this._disposeObjects("__array");
   }
 });

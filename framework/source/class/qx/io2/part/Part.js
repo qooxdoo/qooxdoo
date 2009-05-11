@@ -152,5 +152,16 @@ qx.Class.define("qx.io2.part.Part",
       this.__readyState = "complete";
       this.fireEvent("load");
     }
-  }
+  },
+  
+  
+  /*
+   *****************************************************************************
+      DESTRUCTOR
+   *****************************************************************************
+   */
+
+   destruct : function() {
+     this._disposeObjects("__packages");
+   }
 });
