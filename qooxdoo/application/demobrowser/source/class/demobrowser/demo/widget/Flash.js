@@ -123,13 +123,13 @@ qx.Class.define("demobrowser.demo.widget.Flash",
         new qx.ui.layout.HBox(0, "right")
       );
       
-      __sendButton = new qx.ui.form.Button("Send to Flash");
-      __sendButton.setEnabled(false);
-      __sendButton.addListener("execute", function(e) {
+      this.__sendButton = new qx.ui.form.Button("Send to Flash");
+      this.__sendButton.setEnabled(false);
+      this.__sendButton.addListener("execute", function(e) {
         this.__flash.getFlashElement().sendMessage(this.__messageToFlash.getValue());
       }, this);
       
-      buttonBar.add(__sendButton); 
+      buttonBar.add(this.__sendButton); 
       qooxdooContainer.add(buttonBar);
       
       /*
@@ -170,7 +170,7 @@ qx.Class.define("demobrowser.demo.widget.Flash",
           count++;
           if (count < 50) {
             this.__flash.getFlashElement().setup("demobrowser.demo.widget.Flash.getCallBackInstance().sendMessage");
-            __sendButton.setEnabled(true);
+            this.__sendButton.setEnabled(true);
           } else {
             alert("Couldn't connect to Flash Player! Please make sure that:\n" 
                 + "1) no pop-up or advertising blocker is activated.\n"
