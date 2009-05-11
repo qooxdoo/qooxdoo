@@ -29,10 +29,12 @@ from ecmascript.transform.optimizer import privateoptimizer, protectedoptimizer,
 from misc import idlist
 
 class TreeCompiler:
-    def __init__(self, classes, cache, console, treeLoader):
+    def __init__(self, classes, treeLoader, context):
         self._classes = classes
-        self._cache = cache
-        self._console = console
+        self._context = context
+        self._cache   = context.get('cache')
+        self._console = context.get('console')
+        self._jobconf = context.get('jobconf')
         self._treeLoader = treeLoader
 
         self._loadFiles()
@@ -59,7 +61,10 @@ class TreeCompiler:
 
 
     def compileClasses(self, classes, variants, optimize, format):
-        return self.compileClassesXX(classes, variants, optimize, format)
+        if self._jobconf.get('run-time/num-processes', 0) > 0:
+            return self.compileClassesMP(classes, variants, optimize, format, self._jobconf.get('run-time/num-processes'))
+        else:
+            return self.compileClassesXX(classes, variants, optimize, format)
 
 
     #def compileClasses(self, classes, variants, optimize, format):
@@ -74,26 +79,30 @@ class TreeCompiler:
         return content
 
 
-    def compileClassesMP(self, classes, variants, optimize, format):
+    def compileClassesMP(self, classes, variants, optimize, format, maxproc=8):
         # experimental
         # improve by incorporating cache handling, as done in getCompiled()
         # hangs on Windows in the last call to reap_processes from the main loop
         import subprocess
-        maxproc = 8
         contA = {}
+        CACHEID = 0
+        INCACHE = 1
+        CONTENT = 2
         processes = {}
         length = len(classes)
 
+        self._console.debug("Compiling classes using %d sub-processes" % maxproc)
+
         def reap_processes(wait=False):
             # reap the current processes (wait==False: if they are finished)
-            print "-- entering reap_processes with len: %d" % len(processes)
+            #print "-- entering reap_processes with len: %d" % len(processes)
             reaped = False
             while True:
                 for pos, pid in enumerate(processes.keys()):
                     if not wait and pid.poll() == None:  # None = process hasn't terminated
-                        print pid.poll()
+                        #print pid.poll()
                         continue
-                    print "checking pos: %d" % pos
+                    #print "checking pos: %d" % pos
                     #self._console.progress(pos, length)
                     output, errout = pid.communicate()
                     rcode = pid.returncode
@@ -102,7 +111,7 @@ class TreeCompiler:
                         #tf   = processes[pid][1].read()
                         #print output[:30]
                         #print tf[:30]
-                        contA[cpos] = output.decode('utf-8')
+                        contA[cpos][CONTENT] = output.decode('utf-8')
                         #contA[cpos] = tf
                     else:
                         raise RuntimeError("Problems compiling %s: %s" % (classes[cpos], errout))
@@ -113,14 +122,23 @@ class TreeCompiler:
                 if reaped: break
                 else: time.sleep(.050)
 
-            print "-- leaving reap_processes with len: %d" % len(processes)
+            #print "-- leaving reap_processes with len: %d" % len(processes)
             return
 
         # go through classes, start individual compiles, collect results
         for pos, classId in enumerate(classes):
+            self._console.progress(pos, length)
+            contA[pos] = {}
+            contA[pos][INCACHE] = False
             if len(processes) > maxproc:
                 reap_processes()  # collect finished processes' results to make room
         
+            cacheId, content = self.checkCache(classId, variants, optimize, format)
+            contA[pos][CACHEID] = cacheId
+            if content:
+                contA[pos][CONTENT] = content
+                contA[pos][INCACHE] = True
+                continue
             cmd = self.getCompileCommand(classId, variants, optimize, format)
             #print cmd
             tf = os.tmpfile()
@@ -142,7 +160,10 @@ class TreeCompiler:
         content = u''
         for i in sorted(contA.keys()):
             #print i, contA[i][:30]
-            content += contA[i] 
+            classStuff = contA[i]
+            content += classStuff[CONTENT]
+            if not classStuff[INCACHE]:
+                self._cache.write(classStuff[CACHEID], classStuff[CONTENT])
 
         return content
 
@@ -192,7 +213,7 @@ class TreeCompiler:
         cmd = "%(compilePath)s %(optimizations)s %(variants)s %(filePath)s" % m
         return cmd
 
-    def getCompiled(self, fileId, variants, optimize, format=False):
+    def checkCache(self, fileId, variants, optimize, format=False):
         fileEntry = self._classes[fileId]
         filePath = fileEntry["path"]
 
@@ -200,8 +221,13 @@ class TreeCompiler:
         optimizeId = self.generateOptimizeId(optimize)
 
         cacheId = "compiled-%s-%s-%s-%s" % (fileId, variantsId, optimizeId, format)
-
         compiled = self._cache.read(cacheId, filePath)
+
+        return cacheId, compiled
+
+    def getCompiled(self, fileId, variants, optimize, format=False):
+
+        cacheId, compiled = self.checkCache(fileId, variants, optimize, format)
         if compiled != None:
             return compiled
 

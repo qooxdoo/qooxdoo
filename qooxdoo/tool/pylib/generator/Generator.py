@@ -479,7 +479,7 @@ class Generator:
         # -- Process job triggers that require the full tool chain
 
         # Create tool chain instances
-        self._treeCompiler   = TreeCompiler(self._classes, self._cache, self._console, self._treeLoader)
+        self._treeCompiler   = TreeCompiler(self._classes, self._treeLoader, context)
         self._partBuilder    = PartBuilder(self._console, self._depLoader, self._treeCompiler)
 
         # Processing all combinations of variants
