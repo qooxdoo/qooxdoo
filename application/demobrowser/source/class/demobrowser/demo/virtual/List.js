@@ -84,7 +84,7 @@ qx.Class.define("demobrowser.demo.virtual.List",
       mode3.setValue("additive");
       mode4.setValue("one");
 
-      mode2.setChecked(true);
+      mode2.setValue(true);
 
       this.getRoot().add(mode1, {left: 180, top: 40});
       this.getRoot().add(mode2, {left: 180, top: 60});
@@ -102,7 +102,7 @@ qx.Class.define("demobrowser.demo.virtual.List",
       show2.setValue("icon");
       show3.setValue("both");
 
-      show3.setChecked(true);
+      show3.setValue(true);
 
       this.getRoot().add(show1, {left: 180, top: 140});
       this.getRoot().add(show2, {left: 180, top: 160});

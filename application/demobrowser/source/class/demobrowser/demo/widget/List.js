@@ -86,7 +86,7 @@ qx.Class.define("demobrowser.demo.widget.List",
       mode3.setValue("additive");
       mode4.setValue("one");
 
-      mode2.setChecked(true);
+      mode2.setValue(true);
 
       container.add(mode1, {left: 180, top: 40});
       container.add(mode2, {left: 180, top: 60});
@@ -103,7 +103,7 @@ qx.Class.define("demobrowser.demo.widget.List",
       show2.setValue("icon");
       show3.setValue("both");
 
-      show3.setChecked(true);
+      show3.setValue(true);
 
       container.add(show1, {left: 180, top: 140});
       container.add(show2, {left: 180, top: 160});

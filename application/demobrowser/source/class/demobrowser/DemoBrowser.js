@@ -322,7 +322,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       var t2 = new qx.ui.menu.RadioButton("Classic Theme");
 
       t1.setValue("qx.theme.Modern");
-      t1.setChecked(true);
+      t1.setValue(true);
       t2.setValue("qx.theme.Classic");
 
       var group = new qx.ui.form.RadioGroup(t1, t2);

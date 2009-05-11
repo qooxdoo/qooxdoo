@@ -141,16 +141,16 @@ qx.Class.define("demobrowser.demo.widget.Tree",
       for (var mode in modes)
       {
         var radioButton = new qx.ui.form.RadioButton(modes[mode]).set({
-          value: mode,
-          checked: mode == tree.getOpenMode()
+          value: mode == tree.getOpenMode()
         });
+        radioButton.setUserData("mode", mode);
 
         modeMgr.add(radioButton);
         commandFrame.add(radioButton, {row: row++, column: 1})
       }
 
-      modeMgr.addListener("changeValue", function(e) {
-        tree.setOpenMode(e.getData());
+      modeMgr.addListener("changeSelection", function(e) {
+        tree.setOpenMode(e.getData()[0].getUserData("mode"));
       });
 
 
@@ -158,31 +158,25 @@ qx.Class.define("demobrowser.demo.widget.Tree",
       commandFrame.add(new qx.ui.basic.Label("Selection:"), {row: row, column: 0});
 
       var btnMultiSelect = new qx.ui.form.CheckBox("Enable multi selection");
-      btnMultiSelect.setValue(tree.getSelectionMode() == "multi");
       commandFrame.add(btnMultiSelect, {row: row++, column: 1});
 
       btnMultiSelect.addListener("changeValue", function(e)
       {
         var enable = e.getData();
         tree.setSelectionMode(enable ? "multi": "single");
-
-        if (!enable) {
-          btnDragSelect.setValue(false);
-        }
       });
 
 
 
       var btnDragSelect = new qx.ui.form.CheckBox("Enable drag selection");
-      btnDragSelect.setValue(tree.getDragSelection());
       commandFrame.add(btnDragSelect, {row: row++, column: 1});
 
       btnDragSelect.addListener("changeValue", function(e)
       {
         var enable = e.getData();
         tree.setDragSelection(enable);
-
-        if (enable) {
+        
+        if (!btnMultiSelect.getValue()) {
           btnMultiSelect.setValue(true);
         }
       });
@@ -193,7 +187,6 @@ qx.Class.define("demobrowser.demo.widget.Tree",
       commandFrame.add(new qx.ui.basic.Label("Root node:"), {row: row, column: 0});
 
       var btnHideRoot = new qx.ui.form.CheckBox("Hide Root Node");
-      btnHideRoot.setValue(tree.getHideRoot());
       commandFrame.add(btnHideRoot, {row: row++, column: 1});
 
       btnHideRoot.addListener("changeValue", function(e) {
@@ -204,7 +197,6 @@ qx.Class.define("demobrowser.demo.widget.Tree",
 
 
       var btnShowRootOpen = new qx.ui.form.CheckBox("Show root open button");
-      btnShowRootOpen.setValue(tree.getRootOpenClose());
       commandFrame.add(btnShowRootOpen, {row: row++, column: 1});
 
       btnShowRootOpen.addListener("changeValue", function(e) {

@@ -63,14 +63,16 @@ qx.Class.define("demobrowser.demo.widget.Iframe",
       // radio group
       //-------------
 
-      var rd1 = new qx.ui.form.RadioButton("GMX").set({value: "http://www.gmx.net"});
-      var rd2 = new qx.ui.form.RadioButton("web.de").set({value:"http://www.web.de"});
+      var rd1 = new qx.ui.form.RadioButton("GMX");
+      rd1.setUserData("url", "http://www.gmx.net");
+      var rd2 = new qx.ui.form.RadioButton("web.de");
+      rd2.setUserData("url", "http://www.web.de");
 
-      rd1.setChecked(true);
+      rd1.setValue(true);
 
       var rbm = new qx.ui.form.RadioGroup(rd1, rd2);
-      rbm.addListener("changeValue", function(e) {
-        this.setSource(e.getData());
+      rbm.addListener("changeSelection", function(e) {
+        this.setSource(e.getData()[0].getUserData("url"));
       }, frame);
 
       d.add(rd1, {
