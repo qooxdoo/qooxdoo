@@ -100,9 +100,11 @@ qx.Class.define("apiviewer.Viewer",
       stack.add(searchWidget);
       stack.add(infoWidget);
       
-      this.__toggleGroup.addListener("changeValue", function(e)
+      this.__toggleGroup.addListener("changeSelection", function(e)
       {
-        switch(e.getData())
+        var selected = e.getData()[0];
+        var show = selected != null ? selected.getUserData("value") : null;
+        switch(show)
         {
           case "packages":
             stack.setSelection([treeWidget]);
@@ -148,16 +150,16 @@ qx.Class.define("apiviewer.Viewer",
       toolbar.add(part);
 
       var showPackages = new qx.ui.toolbar.RadioButton(this.tr("Content"), "icon/22/apps/utilities-dictionary.png");
-      showPackages.setValue("packages");
+      showPackages.setUserData("value", "packages");
       showPackages.setValue(true);
       part.add(showPackages);
 
       var showSearch = new qx.ui.toolbar.RadioButton(this.tr("Search"), "icon/22/actions/edit-find.png");
-      showSearch.setValue("search");      
+      showSearch.setUserData("value", "search");      
       part.add(showSearch);
 
       var showLegend = new qx.ui.toolbar.RadioButton(this.tr("Legend"), "icon/22/apps/utilities-help.png");            
-      showLegend.setValue("legend");
+      showLegend.setUserData("value", "legend");
       part.add(showLegend);
       
       var group = new qx.ui.form.RadioGroup(showPackages, showSearch, showLegend);

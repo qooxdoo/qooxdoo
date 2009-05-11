@@ -64,7 +64,7 @@ qx.Class.define("inspector.console.ConsoleWindow",
     
     // radio group for switching views
     var radioGround = new qx.ui.form.RadioGroup(this._consoleButton, this._domButton);
-    radioGround.addListener("changeValue", function(e) {
+    radioGround.addListener("changeSelection", function(e) {
       // reset the filter field
       this._findField.setValue("");
       if (radioGround.getSelection()[0] == this._consoleButton) {
