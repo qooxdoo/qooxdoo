@@ -58,18 +58,35 @@ qx.Class.define("qx.xml.Element",
     /**
      * Selects the first XmlNode that matches the XPath expression.
      *
+     * <p>Note: XPath queries containing namespace prefixes won't work in 
+     * Chromium-based browsers until Chromium bug #671[1] is fixed. Opera 
+     * versions < 9.52 do not seem to support namespaces in XPath queries at
+     * all.</p>
+     * 
+     * [1]http://code.google.com/p/chromium/issues/detail?id=671     
+     *
      * @param element {Element | Document} root element for the search
      * @param query {String} XPath query
+     * @param namespaces {Map} optional map of prefixes and their namespace URIs
      * @return {Element} first matching element
-     * @signature function(element, query)
+     * @signature function(element, query, namespaces)
      */
     selectSingleNode : qx.core.Variant.select("qx.client",
     {
-      "mshtml|opera": function(element, query) {
+      "mshtml": function(element, query, namespaces) {
+        if (namespaces) {
+          var namespaceString = "";
+          for (var prefix in namespaces) {
+            namespaceString += "xmlns:" + prefix + "='" + namespaces[prefix] + "' ";
+          }
+
+          element.setProperty("SelectionNamespaces", namespaceString);
+        }
+
         return element.selectSingleNode(query);
       },
 
-      "default": function(element, query)
+      "default": function(element, query, namespaces)
       {
         if(!this.__xpe) {
           this.__xpe = new XPathEvaluator();
@@ -77,8 +94,19 @@ qx.Class.define("qx.xml.Element",
 
         var xpe = this.__xpe;
 
+        var resolver;
+        
+        if(namespaces) {
+          resolver = function(prefix){
+            return namespaces[prefix] || null;
+          };
+        }
+        else {
+          resolver = xpe.createNSResolver(element);
+        }
+
         try {
-          return xpe.evaluate(query, element, xpe.createNSResolver(element), XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+          return xpe.evaluate(query, element, resolver, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
         } catch(err) {
           throw new Error("selectSingleNode: query: " + query + ", element: " + element + ", error: " + err);
         }
@@ -89,18 +117,35 @@ qx.Class.define("qx.xml.Element",
     /**
      * Selects a list of nodes matching the XPath expression.
      *
+     * <p>Note: XPath queries containing namespace prefixes won't work in 
+     * Chromium-based browsers until Chromium bug #671[1] is fixed. Opera 
+     * versions < 9.52 do not seem to support namespaces in XPath queries at
+     * all.</p>
+     * 
+     * [1]http://code.google.com/p/chromium/issues/detail?id=671
+     *
      * @param element {Element | Document} root element for the search
      * @param query {String} XPath query
+     * @param namespaces {Map} optional map of prefixes and their namespace URIs 
      * @return {Element[]} List of matching elements
-     * @signature function(element, query)
+     * @signature function(element, query, namespaces)
      */
     selectNodes : qx.core.Variant.select("qx.client",
     {
-      "mshtml|opera": function(element, query) {
+      "mshtml": function(element, query, namespaces) {
+        if (namespaces) {
+          var namespaceString = "";
+          for (var prefix in namespaces) {
+            namespaceString += "xmlns:" + prefix + "='" + namespaces[prefix] + "' ";
+          }
+
+          element.setProperty("SelectionNamespaces", namespaceString);
+        }
+
         return element.selectNodes(query);
       },
 
-      "default": function(element, query)
+      "default": function(element, query, namespaces)
       {
         var xpe = this.__xpe;
 
@@ -108,8 +153,19 @@ qx.Class.define("qx.xml.Element",
           this.__xpe = xpe = new XPathEvaluator();
         }
 
+        var resolver;
+        
+        if(namespaces) {
+          resolver = function(prefix){
+            return namespaces[prefix] || null;
+          };
+        }
+        else {
+          resolver = xpe.createNSResolver(element);
+        }
+
         try {
-          var result = xpe.evaluate(query, element, xpe.createNSResolver(element), XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+          var result = xpe.evaluate(query, element, resolver, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
         } catch(err) {
           throw new Error("selectNodes: query: " + query + ", element: " + element + ", error: " + err);
         }
