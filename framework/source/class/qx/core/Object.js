@@ -746,7 +746,7 @@ qx.Class.define("qx.core.Object",
             value = this[key];
 
             // Check for Objects but respect values attached to the prototype itself
-            if (value !== null && typeof value === "object" && !(value instanceof String))
+            if (value !== null && typeof value === "object" && !(qx.lang.Type.isString(value)))
             {
               // Check prototype value
               // undefined is the best, but null may be used as a placeholder for
