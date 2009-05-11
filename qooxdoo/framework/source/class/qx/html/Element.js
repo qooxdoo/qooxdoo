@@ -18,15 +18,15 @@
 ************************************************************************ */
 
 /**
- * High-performance, high-level DOM element creation and managment.
+ * High-performance, high-level DOM element creation and management.
  *
  * Includes support for HTML and style attributes. Elements also have
- * got a powerful children and visibility managment.
+ * got a powerful children and visibility management.
  *
  * Processes DOM insertion and modification with a advanced logic
  * to reduce the real transactions.
  *
- * From the view of the parent you can use the following children managment
+ * From the view of the parent you can use the following children management
  * methods:
  * {@link #getChildren}, {@link #indexOf}, {@link #hasChild}, {@link #add},
  * {@link #addAt}, {@link #remove}, {@link #removeAt}, {@link #removeAll}
