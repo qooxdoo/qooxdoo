@@ -104,9 +104,11 @@ qx.Class.define("demobrowser.DemoBrowser",
     stack.add(jsView);
     stack.add(logView);
 
-    this.viewGroup.addListener("changeValue", function(e)
+    this.viewGroup.addListener("changeSelection", function(e)
     {
-      switch(e.getData())
+      var selected = e.getData()[0];
+      var show = selected != null ? selected.getUserData("value") : "";
+      switch(show)
       {
         case "html":
           this.setSelection([htmlView]);
@@ -321,12 +323,12 @@ qx.Class.define("demobrowser.DemoBrowser",
       var t1 = new qx.ui.menu.RadioButton("Modern Theme");
       var t2 = new qx.ui.menu.RadioButton("Classic Theme");
 
-      t1.setValue("qx.theme.Modern");
+      t1.setUserData("value", "qx.theme.Modern");
       t1.setValue(true);
-      t2.setValue("qx.theme.Classic");
+      t2.setUserData("value", "qx.theme.Classic");
 
       var group = new qx.ui.form.RadioGroup(t1, t2);
-      group.addListener("changeValue", this.__onChangeTheme, this);
+      group.addListener("changeSelection", this.__onChangeTheme, this);
 
       themeMenu.add(t1);
       themeMenu.add(t2);
@@ -374,9 +376,9 @@ qx.Class.define("demobrowser.DemoBrowser",
       var logView = new qx.ui.toolbar.RadioButton("Log File", "icon/22/apps/utilities-log-viewer.png");
       logView.setToolTipText("Display log file");
 
-      htmlView.setValue("html");
-      jsView.setValue("js");
-      logView.setValue("log");
+      htmlView.setUserData("value", "html");
+      jsView.setUserData("value", "js");
+      logView.setUserData("value", "log");
 
       viewPart.add(htmlView);
       viewPart.add(jsView);
@@ -1140,7 +1142,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     __onChangeTheme : function(e)
     {
-      this.__currentTheme = e.getData();
+      this.__currentTheme = e.getData()[0].getUserData("value");
       this.runSample();
     },
 

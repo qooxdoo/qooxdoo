@@ -96,9 +96,9 @@ qx.Class.define("demobrowser.demo.widget.SplitPane",
       var show2 = new qx.ui.form.RadioButton("Show second pane");
       var show3 = new qx.ui.form.RadioButton("Show both panes");
 
-      show1.setValue("first");
-      show2.setValue("second");
-      show3.setValue("both");
+      show1.setUserData("value", "first");
+      show2.setUserData("value", "second");
+      show3.setUserData("value", "both");
 
       show3.setValue(true);
 
@@ -108,7 +108,7 @@ qx.Class.define("demobrowser.demo.widget.SplitPane",
 
       var rbm = new qx.ui.form.RadioGroup(show1, show2, show3);
 
-      rbm.addListener("changeValue", this._changeVisiblity, this);
+      rbm.addListener("changeSelection", this._changeVisiblity, this);
 
       outerContainer.add(controlContainer, {left:490, top:42});
 
@@ -131,7 +131,7 @@ qx.Class.define("demobrowser.demo.widget.SplitPane",
      */
     _changeVisiblity : function(e)
     {
-      var data = e.getData();
+      var data = e.getData()[0].getUserData("value");
 
       if(data == "both")
       {

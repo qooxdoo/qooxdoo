@@ -293,7 +293,7 @@ this.getRoot().add(textfield, {left: 10, top: 10});
 var label = new qx.ui.basic.Label("Change me...");
 this.getRoot().add(label, {left: 120, top: 12});
 // bind the textfield to the label
-textfield.bind("input", label, "content");
+textfield.bind("input", label, "value");
 
 /**
  * Bind two slider together

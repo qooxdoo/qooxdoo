@@ -121,26 +121,26 @@ qx.Class.define("demobrowser.demo.virtual.Selection",
       }), {row: 0, column: 0});
       
       var mode1 = new qx.ui.form.RadioButton("Single Selection");
-      mode1.setValue("single");
+      mode1.setUserData("value", "single");
       controls.add(mode1, {row: 1, column: 0});
       
       var mode2 = new qx.ui.form.RadioButton("Multi Selection");
-      mode2.setValue("multi");
+      mode2.setUserData("value", "multi");
       mode2.setValue(true);
       controls.add(mode2, {row: 2, column: 0});
       
       var mode3 = new qx.ui.form.RadioButton("Additive Selection");
-      mode3.setValue("additive");
+      mode3.setUserData("value", "additive");
       controls.add(mode3, {row: 3, column: 0});
       
       var mode4 = new qx.ui.form.RadioButton("One Selection");
-      mode4.setValue("one");
+      mode4.setUserData("value", "one");
       controls.add(mode4, {row: 4, column: 0});
 
       var rbm1 = new qx.ui.form.RadioGroup(mode1, mode2, mode3, mode4);      
-      rbm1.addListener("changeValue", function(e)
+      rbm1.addListener("changeSelection", function(e)
       {
-        var value = e.getData();        
+        var value = e.getData()[0].getUserData("value");        
         managers.forEach(function(manager) {
           manager.setMode(value);
         });

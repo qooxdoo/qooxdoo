@@ -178,7 +178,7 @@ qx.Class.define("demobrowser.demo.animation.Tree_Highlight",
         commandFrame.add(radioButton, {row: row++, column: 1})
       }
 
-      this.mgrShowRootOpen.addListener("changeValue", this._onChangeShowOpen, this);
+      this.mgrShowRootOpen.addListener("changeSelection", this._onChangeShowOpen, this);
 
 
       commandFrame.add(new qx.ui.core.Spacer(5, 5), {row: row++, column: 0});

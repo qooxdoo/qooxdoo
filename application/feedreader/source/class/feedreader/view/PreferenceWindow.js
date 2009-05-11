@@ -104,7 +104,7 @@ qx.Class.define("feedreader.view.PreferenceWindow",
       for (var lang in languages )
       {
         radioButton = new qx.ui.form.RadioButton(languages[lang]);
-        radioButton.setValue(lang);
+        radioButton.setUserData("language", lang);
 
         // add to radioManager and groupBox
         radioManager.add(radioButton);
@@ -125,7 +125,7 @@ qx.Class.define("feedreader.view.PreferenceWindow",
 
       var okButton = new qx.ui.form.Button(this.tr("OK"), "icon/16/actions/dialog-ok.png");
       okButton.addListener("execute", function(e){
-        var selectedLanguage = radioManager.getSelection()[0].getValue();
+        var selectedLanguage = radioManager.getSelection()[0].getUserData("language");
         qx.locale.Manager.getInstance().setLocale(selectedLanguage);
 
         this.close();
