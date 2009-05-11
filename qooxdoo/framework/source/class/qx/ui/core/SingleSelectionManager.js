@@ -265,5 +265,17 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
       }
       return false;
     }
-  }
+  },
+  
+  
+  
+  /*
+   *****************************************************************************
+      DESTRUCTOR
+   *****************************************************************************
+   */
+
+   destruct : function() {
+     this._disposeObjects("__selectionProvider", "__selected");
+   }
 });

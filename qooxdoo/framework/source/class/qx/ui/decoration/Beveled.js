@@ -319,5 +319,17 @@ qx.Class.define("qx.ui.decoration.Beveled",
 
       element.childNodes[3].style.backgroundColor = Color.resolve(bgcolor) || "";
     }
-  }
+  },
+  
+  
+  
+  /*
+   *****************************************************************************
+      DESTRUCTOR
+   *****************************************************************************
+   */
+
+   destruct : function() {
+     this._disposeFields("__markup", "__insets");
+   }
 });
