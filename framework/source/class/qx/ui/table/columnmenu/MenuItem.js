@@ -51,8 +51,8 @@ qx.Class.define("qx.ui.table.columnmenu.MenuItem",
   {
     this.base(arguments, text);
 
-    // Mirror native "checked" property in our "visible" property
-    this.addListener("changeChecked",
+    // Mirror native "value" property in our "visible" property
+    this.addListener("changeValue",
                      function(e)
                      {
                        this.bInListener = true;
@@ -76,10 +76,10 @@ qx.Class.define("qx.ui.table.columnmenu.MenuItem",
      */
     _applyVisible : function(value, old)
     {
-      // avoid recursion if called from listener on "changeChecked" property
+      // avoid recursion if called from listener on "changeValue" property
       if (! this.bInListener)
       {
-        this.setChecked(value);
+        this.setValue(value);
       }
     }
   }

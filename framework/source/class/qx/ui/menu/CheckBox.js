@@ -27,10 +27,9 @@
 qx.Class.define("qx.ui.menu.CheckBox",
 {
   extend : qx.ui.menu.AbstractButton,
-  include : [qx.ui.form.MFormElement, qx.ui.core.MExecutable],
+  include : [qx.ui.form.MFormElement],
   implement : [
     qx.ui.form.IFormElement, 
-    qx.ui.form.IExecutable,
     qx.ui.form.IBooleanForm
   ],
 
@@ -186,7 +185,7 @@ qx.Class.define("qx.ui.menu.CheckBox",
         arguments.callee, "Please use the value property instead."
       );
       
-      this.setChecked(!this.getChecked());
+      this.setValue(!this.getValue());
     },
     
     

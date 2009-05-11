@@ -90,8 +90,8 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
       {
         case "legend":
           control = new qx.ui.form.RadioButton;
-          control.setChecked(true);
-          control.addListener("changeChecked", this._onRadioChangeChecked, this);
+          control.setValue(true);
+          control.addListener("changeValue", this._onRadioChangeChecked, this);
           control.addListener("changeName", this._onRadioChangeName, this);
           control.addListener("changeValue", this._onRadioChangeValue, this);
           control.addListener("resize", this._repositionFrame, this);
@@ -113,7 +113,7 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
     */
 
     /**
-     * Event listener for changeChecked event of radio button
+     * Event listener for changeValue event of radio button
      *
      * @param e {qx.event.type.Data} Data event which holds the current status
      */
@@ -235,7 +235,7 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
      * @return {Boolean} <code>true</code> when enabled
      */
     getChecked : function() {
-      return this.getChildControl("legend").getChecked();
+      return this.getChildControl("legend").getValue();
     },
 
 
@@ -248,7 +248,7 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
     setChecked : function(value)
     {
       var legend = this.getChildControl("legend");
-      return value ? legend.setChecked(value) : legend.resetChecked();
+      return value ? legend.setValue(value) : legend.resetValue();
     },
 
 

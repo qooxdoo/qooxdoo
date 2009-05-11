@@ -52,11 +52,15 @@ qx.Class.define("qx.test.ui.form.BooleanFormat",
     
     testMenuCheckBox: function() {
      this.__test(new qx.ui.menu.CheckBox()); 
-    }
+    },
     
-    // testRadioButton: function() {
-    //  this.__test(new qx.ui.form.RadioButton()); 
-    // }        
+    testRadioButton: function() {
+      this.__test(new qx.ui.form.RadioButton()); 
+    },
+    
+    testMenuRadioButton: function() {
+      this.__test(new qx.ui.menu.RadioButton()); 
+    }        
     
   }
 });

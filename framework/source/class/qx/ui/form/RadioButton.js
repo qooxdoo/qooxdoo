@@ -41,7 +41,10 @@ qx.Class.define("qx.ui.form.RadioButton",
 {
   extend : qx.ui.form.Button,
   include : [qx.ui.form.MForm],
-  implement : [qx.ui.form.IRadioItem, qx.ui.form.IForm],
+  implement : [
+    qx.ui.form.IRadioItem, 
+    qx.ui.form.IForm, 
+    qx.ui.form.IBooleanForm],
 
 
 
@@ -86,14 +89,14 @@ qx.Class.define("qx.ui.form.RadioButton",
       nullable : true,
       apply : "_applyGroup"
     },
-
-    /** Boolean value signals if the button is checked */
-    checked:
+    
+    /** The value of the widget. True, if the widget is checked. */
+    value :
     {
-      check: "Boolean",
-      init: false,
-      apply: "_applyChecked",
-      event: "changeChecked"
+      check : "Boolean",
+      nullable : true,
+      event : "changeValue",
+      apply : "_applyValue"
     },
 
     // overridden
@@ -116,6 +119,21 @@ qx.Class.define("qx.ui.form.RadioButton",
 
   /*
   *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+  events : {
+    /**
+     * The old checked change event. Please use the value property instead.
+     * @deprecated
+     */
+    "changeChecked" : "qx.event.type.Data"
+  },
+  
+  
+  
+  /*
+  *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
@@ -129,7 +147,7 @@ qx.Class.define("qx.ui.form.RadioButton",
     */
 
     isTabable : function() {
-      return this.isFocusable() && this.isChecked();
+      return this.isFocusable() && this.getValue();
     },
 
 
@@ -142,7 +160,7 @@ qx.Class.define("qx.ui.form.RadioButton",
     */
 
     // property apply
-    _applyChecked : function(value, old)
+    _applyValue : function(value, old)
     {
       value ?
         this.addState("checked") :
@@ -151,6 +169,9 @@ qx.Class.define("qx.ui.form.RadioButton",
       if (value && this.getFocusable()) {
         this.focus();
       }
+      
+      // @deprecated
+      this.fireDataEvent("changeChecked", value, old);      
     },
 
 
@@ -184,7 +205,7 @@ qx.Class.define("qx.ui.form.RadioButton",
      * @return {void}
      */
     _onExecute : function(e) {
-      this.setChecked(true);
+      this.setValue(true);
     },
 
 
@@ -217,6 +238,101 @@ qx.Class.define("qx.ui.form.RadioButton",
           grp.selectNext();
           break;
       }
-    }
+    },
+    
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      DEPRECATED STUFF
+    ---------------------------------------------------------------------------
+    */
+    /**
+     * Old set method for the checked property. Please use the value 
+     * property instead.
+     * 
+     * @param value {String} The value of the label.
+     * @deprecated
+     */
+    setChecked: function(value) {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Please use the value property instead."
+      );
+      
+      this.setValue(value);
+    },
+    
+    
+    /**
+     * Old is method for the checked property. Please use the value property 
+     * instead.
+     * 
+     * @deprecated
+     */
+    isChecked: function() {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Please use the value property instead."
+      );
+      
+      return this.getValue();      
+    },
+    
+    
+    /**
+     * Old toggle method for the checked property. Please use the value property 
+     * instead.
+     * 
+     * @deprecated
+     */
+    toggleChecked: function() {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Please use the value property instead."
+      );
+      
+      this.setValue(!this.getValue());
+    },
+    
+    
+    /**
+     * Old get method for the checked property. Please use the value 
+     * property instead.
+     * 
+     * @deprecated
+     */    
+    getChecked: function() {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Please use the value property instead."
+      );      
+      
+      return this.getValue();
+    },
+    
+    
+    /**
+     * Old reset method for the checked property. Please use the value 
+     * property instead.
+     * 
+     * @deprecated
+     */    
+    resetChecked: function() {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Please use the value property instead."
+      );
+
+      this.resetValue();
+    },
+    
+    
+    // overridden
+    addListener: function(type, listener, self, capture) {
+      if (type == "changeChecked") {
+        qx.log.Logger.deprecatedEventWarning(
+          arguments.callee, 
+          "changeChecked",
+          "Please use the changeValue event instead."
+        );        
+      }
+      return this.base(arguments, type, listener, self, capture);
+    }    
   }
 });

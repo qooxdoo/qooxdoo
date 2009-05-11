@@ -26,8 +26,6 @@
 qx.Class.define("qx.ui.menu.Button",
 {
   extend : qx.ui.menu.AbstractButton,
-  include : qx.ui.core.MExecutable,
-
 
 
   /*
