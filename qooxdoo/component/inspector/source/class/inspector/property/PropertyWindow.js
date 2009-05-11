@@ -199,7 +199,7 @@ qx.Class.define("inspector.property.PropertyWindow",
      * @return {boolean} True, if the properties should be grouped.
      */
     getGroupStatus: function() {
-      return this._groupButton.getChecked();
+      return this._groupButton.getValue();
     },
     
     
@@ -339,7 +339,7 @@ qx.Class.define("inspector.property.PropertyWindow",
       
       // non group radio button
       var nonGroupButton = new qx.ui.menu.RadioButton("Group by inheritance");
-      nonGroupButton.addListener("changeChecked", function(e) {
+      nonGroupButton.addListener("changeValue", function(e) {
         if (this._qxObject != null) {
           // reload the view          
           this._propertyList.build();
@@ -347,12 +347,12 @@ qx.Class.define("inspector.property.PropertyWindow",
         // enable the inheritance button
         this._inheritedButton.setEnabled(true); 
       }, this);
-      nonGroupButton.setChecked(true);
+      nonGroupButton.setValue(true);
       this._menu.add(nonGroupButton);
       
       // group radio button
       this._groupButton = new qx.ui.menu.RadioButton("Group by category");
-      this._groupButton.addListener("changeChecked", function(e) {
+      this._groupButton.addListener("changeValue", function(e) {
         if (this._qxObject != null) {
           // reload the view          
           this._propertyList.build();
