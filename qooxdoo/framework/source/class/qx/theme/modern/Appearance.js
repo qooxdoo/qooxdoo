@@ -544,7 +544,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           padding   : [1, 0, 1, 4],
-          textColor : "text-title",
+          textColor : states.invalid ? "invalid" : "text-title",
           font      : "bold"
         };
       }
@@ -573,7 +573,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           padding   : [1, 0, 1, 4],
-          textColor : "text-title",
+          textColor : states.invalid ? "invalid" : "text-title",
           font      : "bold"
         };
       }
@@ -590,7 +590,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           padding   : [1, 0, 1, 4],
-          textColor : "text-title"
+          textColor : states.invalid ? "invalid" : "text-title",
+          font      : "bold"
         };
       }
     },

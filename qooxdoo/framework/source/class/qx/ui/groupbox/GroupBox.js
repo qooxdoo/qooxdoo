@@ -26,12 +26,13 @@
 qx.Class.define("qx.ui.groupbox.GroupBox",
 {
   extend : qx.ui.core.Widget,
-
   include : [
     qx.ui.core.MRemoteChildrenHandling,
     qx.ui.core.MRemoteLayoutHandling,
-    qx.ui.core.MContentPadding
+    qx.ui.core.MContentPadding,
+    qx.ui.form.MForm
   ],
+  implement : [qx.ui.form.IForm],
 
 
 
@@ -107,6 +108,16 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
 
   members :
   {
+    // overridden
+    /**
+     * @lint ignoreReferenceField(_forwardStates) 
+     */
+    _forwardStates :
+    {
+      invalid : true
+    },
+    
+    
     // overridden
     _createChildControlImpl : function(id)
     {

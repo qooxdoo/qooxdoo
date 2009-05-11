@@ -159,7 +159,31 @@ qx.Class.define("qx.test.ui.form.Form",
     
     testRequieredRadioButton: function() {
       this.__testRequired(new qx.ui.form.RadioButton());      
-    }
+    },
+    
+    testValidGroupBox: function() {
+     this.__testValid(new qx.ui.groupbox.GroupBox(), "dont"); 
+    },
+    
+    testRequieredGroupBox: function() {
+      this.__testRequired(new qx.ui.groupbox.GroupBox());      
+    },
+    
+    testValidRadioGroupBox: function() {
+     this.__testValid(new qx.ui.groupbox.RadioGroupBox(), "dont"); 
+    },
+    
+    testRequieredRadioGroupBox: function() {
+      this.__testRequired(new qx.ui.groupbox.RadioGroupBox());      
+    },
+    
+    testValidCheckGroupBox: function() {
+     this.__testValid(new qx.ui.groupbox.CheckGroupBox(), "dont"); 
+    },
+    
+    testRequieredCheckGroupBox: function() {
+      this.__testRequired(new qx.ui.groupbox.CheckGroupBox());      
+    }            
     
   }
 });

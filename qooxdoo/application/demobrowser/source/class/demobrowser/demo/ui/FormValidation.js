@@ -65,14 +65,28 @@ qx.Class.define("demobrowser.demo.ui.FormValidation",
       
       // radiobutton
       widgets.push(new qx.ui.form.RadioButton());
-      this.getRoot().add(widgets[8], {left: 20, top: 350}); 
+      this.getRoot().add(widgets[8], {left: 20, top: 350});
       
+      // group box
+      widgets.push(new qx.ui.groupbox.GroupBox("I am a box"));
+      this.getRoot().add(widgets[9], {left: 240, top: 70});
       
+      // radio group box
+      widgets.push(new qx.ui.groupbox.RadioGroupBox("I am a box"));
+      this.getRoot().add(widgets[10], {left: 240, top: 170});
+      
+      // check group box
+      widgets.push(new qx.ui.groupbox.CheckGroupBox("I am a box"));
+      this.getRoot().add(widgets[11], {left: 240, top: 270});
+      
+                  
+                  
+
       /* ***********************************************
        * CONTROLLS
        * ********************************************* */      
       var toggleValidButton = new qx.ui.form.ToggleButton("invalid");
-      this.getRoot().add(toggleValidButton, {left: 250, top: 70});
+      this.getRoot().add(toggleValidButton, {left: 260, top: 20});
       
       toggleValidButton.addListener("changeValue", function(e) {
         for (var i = 0; i < widgets.length; i++) {
@@ -82,7 +96,7 @@ qx.Class.define("demobrowser.demo.ui.FormValidation",
       }, this);
       
       var disableButton = new qx.ui.form.ToggleButton("enabled");
-      this.getRoot().add(disableButton, {left: 250, top: 100});
+      this.getRoot().add(disableButton, {left: 330, top: 20});
       
       disableButton.addListener("changeValue", function(e) {
         for (var i = 0; i < widgets.length; i++) {
