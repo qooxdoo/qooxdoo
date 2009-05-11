@@ -233,6 +233,8 @@ qx.Class.define("qx.core.Object",
     /**
      * Sets multiple properties at once by using a property list or
      * sets one property and its value by the first and second argument.
+     * As a fallback, if no generated property setter could be found, a 
+     * handwritten setter will be searched and invoked if available.
      *
      * @param data {Map | String} a map of property values. The key is the name of the property.
      * @param value {var?} the value, only used when <code>data</code> is a string.
@@ -290,7 +292,8 @@ qx.Class.define("qx.core.Object",
 
 
     /**
-     * Returns the value of the given property.
+     * Returns the value of the given property. If no generated getter could be 
+     * found, a fallback tries to access a handwritten getter.
      *
      * @param prop {String} Name of the property.
      * @return {var} The value of the value
@@ -319,7 +322,8 @@ qx.Class.define("qx.core.Object",
 
 
     /**
-     * Resets the value of the given property.
+     * Resets the value of the given property. If no generated resetter could be
+     * found, a handwritten resetter will be invoked, if available.
      *
      * @param prop {String} Name of the property.
      * @throws an Exception if a property defined does not exist
