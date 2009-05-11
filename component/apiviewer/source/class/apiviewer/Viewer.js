@@ -149,7 +149,7 @@ qx.Class.define("apiviewer.Viewer",
 
       var showPackages = new qx.ui.toolbar.RadioButton(this.tr("Content"), "icon/22/apps/utilities-dictionary.png");
       showPackages.setValue("packages");
-      showPackages.setChecked(true);
+      showPackages.setValue(true);
       part.add(showPackages);
 
       var showSearch = new qx.ui.toolbar.RadioButton(this.tr("Search"), "icon/22/actions/edit-find.png");

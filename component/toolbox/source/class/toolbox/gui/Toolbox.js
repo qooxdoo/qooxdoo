@@ -146,7 +146,7 @@ qx.Class.define("toolbox.gui.Toolbox",
       part1.add(homeButton);
       this.widgets["toolbar.homeButton"] = homeButton;
       homeButton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Welcome page of the toolbox")));
-      homeButton.setChecked(true);
+      homeButton.setValue(true);
 
       // --Application development button (The development part of the toolbox)
       var appDevelButton = new qx.ui.toolbar.RadioButton("Application Development", "toolbox/image/development.png");
@@ -194,7 +194,7 @@ qx.Class.define("toolbox.gui.Toolbox",
     __assignHomeInitialListener : function()
     {
       this.widgets["toolbar.homeButton"].addListener("click", function() {
-        this.widgets["toolbar.homeButton"].setChecked(true);
+        this.widgets["toolbar.homeButton"].setValue(true);
       }, this);
     },
 
@@ -237,7 +237,7 @@ qx.Class.define("toolbox.gui.Toolbox",
             this.mainStack.setSelection([this.mainStack.getChildren()[0]]);
 
             this.widgets["toolbar.homeButton"].addListener("click", function() {
-              this.widgets["toolbar.homeButton"].setChecked(true);
+              this.widgets["toolbar.homeButton"].setValue(true);
             }, this);
 
             this.widgets["toolbar.logCheckButton"].setEnabled(false);
@@ -252,7 +252,7 @@ qx.Class.define("toolbox.gui.Toolbox",
             this.mainStack.setSelection([this.mainStack.getChildren()[1]]);
 
             this.widgets["toolbar.appDevelButton"].addListener("click", function() {
-              this.widgets["toolbar.appDevelButton"].setChecked(true);
+              this.widgets["toolbar.appDevelButton"].setValue(true);
             }, this);
           }
           else if (e.getData()[0].getLabel().toString() == "Built-in Applications")
@@ -261,7 +261,7 @@ qx.Class.define("toolbox.gui.Toolbox",
             this.mainStack.setSelection([this.mainStack.getChildren()[2]]);
 
             this.widgets["toolbar.appBuiltButton"].addListener("click", function() {
-              this.widgets["toolbar.appBuiltButton"].setChecked(true);
+              this.widgets["toolbar.appBuiltButton"].setValue(true);
             }, this);
 
             if (this.widgets["toolbar.logCheckButton"].getValue()) {
@@ -276,7 +276,7 @@ qx.Class.define("toolbox.gui.Toolbox",
             this.mainStack.setSelection([this.mainStack.getChildren()[3]]);
 
             this.widgets["toolbar.helpButton"].addListener("click", function() {
-              this.widgets["toolbar.helpButton"].setChecked(true);
+              this.widgets["toolbar.helpButton"].setValue(true);
             }, this);
 
             this.widgets["toolbar.logCheckButton"].setEnabled(false);
