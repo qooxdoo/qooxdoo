@@ -82,8 +82,14 @@ qx.Class.define("qx.test.ui.form.Executable",
      this.__test(new qx.ui.menu.CheckBox()); 
     },
     
-    testRadioButton: function() {
-     this.__test(new qx.ui.form.RadioButton()); 
-    }    
+    testMenuRadioButton: function() {
+     this.__test(new qx.ui.menu.RadioButton()); 
+    },    
+    
+    testButtonInMenu: function() {
+     this.__test(new qx.ui.menu.Button()); 
+    }
+    
+    
   }
 });
