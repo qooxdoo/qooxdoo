@@ -117,6 +117,30 @@ qx.Class.define("qx.test.Xml",
       this.assertEquals(this.serializeArray(doc2.getElementsByTagName("em")), this.serializeArray(qx.xml.Element.selectNodes(doc2.documentElement, '//em')));
     },
 
+    /**
+     * TODOC
+     *
+     * @return {void}
+     */
+    testXPathNS : function()
+    {
+      var xmlStr = '<html xmlns="http://www.w3.org/1999/xhtml"><body>Juhu <em id="toll">Kinners</em>. Wie geht es <em>Euch</em>?<foo xmlns="http://qooxdoo.org" id="bar"/></body></html>';
+      var doc = qx.xml.Document.fromString(xmlStr);
+      var em = doc.getElementsByTagName("em")[0];
+      var nsMap = {
+        "xhtml" : "http://www.w3.org/1999/xhtml",
+        "qx"    : "http://qooxdoo.org"
+      };
+      var q1 = "//xhtml:em";
+      var n1 = qx.xml.Element.selectSingleNode(doc, q1, nsMap);
+      this.assertEquals(qx.xml.Element.serialize(n1), qx.xml.Element.serialize(em));
+
+      var foo = doc.getElementsByTagName("foo")[0];
+      var q2 = "//qx:foo";
+      var n2 = qx.xml.Element.selectSingleNode(doc, q2, nsMap);
+      this.assertEquals(qx.xml.Element.serialize(n2), qx.xml.Element.serialize(foo));
+    },
+
 
     /**
      * TODOC
