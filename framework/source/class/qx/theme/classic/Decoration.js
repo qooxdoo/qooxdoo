@@ -172,7 +172,7 @@ qx.Theme.define("qx.theme.classic.Decoration",
         width : 1,
         innerWidth: 1,
         color : [ "border-dark-shadow", "border-light", "border-light", "border-dark-shadow" ],
-        innerColor : "border-invalid"
+        innerColor : "invalid"
       }      
     },    
 
@@ -241,7 +241,7 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
       style :
       {
-        outerColor : "border-invalid",
+        outerColor : "invalid",
         innerColor : "border-focused-invalid",
         insets: [0]
       }
