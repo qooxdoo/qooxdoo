@@ -321,6 +321,6 @@ qx.Class.define("qx.ui.decoration.Grid",
   */
 
   destruct : function() {
-    this._disposeFields("__markup", "__images", "__edges");
+    this._disposeFields("__markup", "__images", "__edges", "__insets");
   }
 });
