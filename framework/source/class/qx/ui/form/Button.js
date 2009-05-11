@@ -412,7 +412,7 @@ qx.Class.define("qx.ui.form.Button",
     // overridden
     addListener: function(type, listener, self, capture)
     {
-      if (type == "changeValue") {
+      if (type == "changeValue" && this.classname == "qx.ui.form.Button") {
         qx.log.Logger.deprecatedEventWarning(
           arguments.callee, 
           "changeValue",
