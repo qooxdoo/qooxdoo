@@ -83,7 +83,7 @@ qx.Class.define("demobrowser.demo.showcase.Dialog",
 
       page.add(female, {row:0, column:3});
       page.add(male, {row:1, column:3});
-      male.setChecked(true);
+      male.setValue(true);
 
 
       // check boxes

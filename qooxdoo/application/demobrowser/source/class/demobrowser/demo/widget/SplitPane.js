@@ -100,7 +100,7 @@ qx.Class.define("demobrowser.demo.widget.SplitPane",
       show2.setValue("second");
       show3.setValue("both");
 
-      show3.setChecked(true);
+      show3.setValue(true);
 
       controlContainer.add(show1);
       controlContainer.add(show2);
