@@ -145,7 +145,7 @@ qx.Class.define("demobrowser.demo.widget.Flash",
       }));
       
       this.__flash = new qx.ui.embed.Flash("demobrowser/demo/flash/TestFlash.swf");
-      this.__flash.addListener("appear", this.__onAppear, this);
+      this.__flash.addListenerOnce("appear", this.__onAppear, this);
       this.__flash.setWidth(400);
       this.__flash.setHeight(300);
       flashConteiner.add(this.__flash);
