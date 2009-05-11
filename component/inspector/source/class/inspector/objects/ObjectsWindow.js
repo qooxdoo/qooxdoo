@@ -89,7 +89,7 @@ qx.Class.define("inspector.objects.ObjectsWindow",
       this._toolbar.addAt(button, this._toolbar.getChildren().length - 2);
       // add the button to a radio manager
       this._modelRadio.add(button);
-      button.addListener("changeChecked", function(e) {
+      button.addListener("changeValue", function(e) {
         // only process the currently checked button
         if (!e.getData()) {
           return;

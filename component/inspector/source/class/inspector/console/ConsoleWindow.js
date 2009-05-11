@@ -72,7 +72,7 @@ qx.Class.define("inspector.console.ConsoleWindow",
       } else if (radioGround.getSelection()[0] == this._domButton) {
         this._stack.setSelection([this._domView]);        
       } else {
-        this._consoleButton.setChecked(true);
+        this._consoleButton.setValue(true);
       }
     }, this);  
     
@@ -134,13 +134,13 @@ qx.Class.define("inspector.console.ConsoleWindow",
       // give the object to the dom view
       this._domView.setObject(inputObject.object, inputObject.name);
       // show the dom view
-      this._domButton.setChecked(true);
+      this._domButton.setValue(true);
     },
     
     
     goToDefaultView: function() {
       // go to console view
-      this._consoleButton.setChecked(true);
+      this._consoleButton.setValue(true);
       // clear the dom view
       this._domView.clear();
     }
