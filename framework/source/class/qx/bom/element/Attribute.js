@@ -211,7 +211,12 @@ qx.Class.define("qx.bom.element.Attribute",
         }
 
         // respect properties
-        else if (hints.property[name]) {
+        else if (hints.property[name])
+        {
+          if (hints.propertyDefault[name] && value == hints.propertyDefault[name]) {
+            return null;
+          }
+          
           value = element[name];
         }
 
@@ -239,6 +244,10 @@ qx.Class.define("qx.bom.element.Attribute",
         // respect properties
         if (hints.property[name])
         {
+          if (hints.propertyDefault[name] && value == hints.propertyDefault[name]) {
+            return null;
+          }
+
           value = element[name];
 
           if (value == null) {
