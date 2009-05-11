@@ -121,5 +121,17 @@ qx.Class.define("feedreader.view.ToolBar",
     getRemoveButton: function() {
       return this.__removeBtn;
     }
+  },
+  
+  
+  
+  /*
+   *****************************************************************************
+      DESTRUCTOR
+   *****************************************************************************
+   */
+  
+  destruct : function() {
+    this._disposeObjects("__removeBtn");
   }
 });
