@@ -59,7 +59,7 @@ qx.Class.define("demobrowser.demo.widget.GroupBox",
 
 
       // create the second group box
-      box2 = new qx.ui.groupbox.CheckGroupBox("Expert Settings");
+      var box2 = new qx.ui.groupbox.CheckGroupBox("Expert Settings");
       container.add(box2);
 
       box2.setLayout(new qx.ui.layout.HBox(12));
@@ -85,11 +85,11 @@ qx.Class.define("demobrowser.demo.widget.GroupBox",
       radioButton2.setMarginLeft(4);
       box3Helper.add(radioButton2);
 
-      box3 = new qx.ui.groupbox.RadioGroupBox("Advanced Settings");
+      var box3 = new qx.ui.groupbox.RadioGroupBox("Advanced Settings");
       box3.setLayout(new qx.ui.layout.HBox(12));
       box3Helper.add(box3);
 
-      var manager = new qx.ui.form.RadioGroup(radioButton1, radioButton2, box3);
+      new qx.ui.form.RadioGroup(radioButton1, radioButton2, box3);
 
       var label3 = new qx.ui.basic.Label("Option #1");
       box3.add(label3);

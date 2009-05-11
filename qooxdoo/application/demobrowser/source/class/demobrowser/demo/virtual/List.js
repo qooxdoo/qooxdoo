@@ -79,10 +79,10 @@ qx.Class.define("demobrowser.demo.virtual.List",
       var mode3 = new qx.ui.form.RadioButton("Additive Selection");
       var mode4 = new qx.ui.form.RadioButton("One Selection");
 
-      mode1.setValue("single");
-      mode2.setValue("multi");
-      mode3.setValue("additive");
-      mode4.setValue("one");
+      mode1.setUserData("value", "single");
+      mode2.setUserData("value", "multi");
+      mode3.setUserData("value", "additive");
+      mode4.setUserData("value", "one");
 
       mode2.setValue(true);
 
@@ -110,7 +110,7 @@ qx.Class.define("demobrowser.demo.virtual.List",
 
       var rbm2 = new qx.ui.form.RadioGroup(show1, show2, show3);
 
-      rbm2.addListener("changeValue", function(e)
+      rbm2.addListener("changeSelection", function(e)
       {
         for( var i=0; i<configList.getChildren().length; i++ ) {
           configList.getChildren()[i].setShow(e.getData());
@@ -150,9 +150,9 @@ qx.Class.define("demobrowser.demo.virtual.List",
         configList.setQuickSelection(e.getData());
       });
 
-      rbm1.addListener("changeValue", function(e)
+      rbm1.addListener("changeSelection", function(e)
       {
-        var value = e.getData();
+        var value = e.getData()[0].getUserData("value");
         configList.setSelectionMode(value);
 
         if (value == "single" || value == "one")

@@ -65,7 +65,7 @@ qx.Class.define("demobrowser.demo.ui.FormValidation",
       
       // radiobutton
       widgets.push(new qx.ui.form.RadioButton());
-      this.getRoot().add(widgets[8], {left: 20, top: 350});      
+      this.getRoot().add(widgets[8], {left: 20, top: 350}); 
       
       
       /* ***********************************************
