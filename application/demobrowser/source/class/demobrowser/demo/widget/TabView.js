@@ -145,8 +145,8 @@ qx.Class.define("demobrowser.demo.widget.TabView",
       firstPage.add(barRightButton);
 
       var group = new qx.ui.form.RadioGroup(barTopButton, barBottomButton, barLeftButton, barRightButton);
-      group.addListener("changeValue", function(e){
-        this.setBarPosition(e.getData());
+      group.addListener("changeSelection", function(e){
+        this.setBarPosition(e.getData()[0].getLabel());
       }, tabView);
 
       barLeftButton.setValue(true);

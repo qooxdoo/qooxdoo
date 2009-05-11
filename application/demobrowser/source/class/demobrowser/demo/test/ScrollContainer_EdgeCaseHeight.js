@@ -66,12 +66,12 @@ qx.Class.define("demobrowser.demo.test.ScrollContainer_EdgeCaseHeight",
       var mgr1 = this.generateScrollbarConfig("ScrollbarX:", 100);
       var mgr2 = this.generateScrollbarConfig("ScrollbarY:", 120);
 
-      mgr1.addListener("changeValue", function(e) {
-        scrollContainer.setScrollbarX(e.getData());
+      mgr1.addListener("changeSelection", function(e) {
+        scrollContainer.setScrollbarX(e.getData()[0].getUserData("value"));
       });
 
-      mgr2.addListener("changeValue", function(e) {
-        scrollContainer.setScrollbarY(e.getData());
+      mgr2.addListener("changeSelection", function(e) {
+        scrollContainer.setScrollbarY(e.getData()[0].getUserData("value"));
       });
     },
 
@@ -86,9 +86,9 @@ qx.Class.define("demobrowser.demo.test.ScrollContainer_EdgeCaseHeight",
       var radio2 = new qx.ui.form.RadioButton("On");
       var radio3 = new qx.ui.form.RadioButton("Off");
 
-      radio1.setValue("auto");
-      radio2.setValue("on");
-      radio3.setValue("off");
+      radio1.setUserData("value", "auto");
+      radio2.setUserData("value", "on");
+      radio3.setUserData("value", "off");
 
       radio1.setValue(true);
 
