@@ -91,7 +91,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style :
       {
-        outerColor : "border-invalid",
+        outerColor : "invalid",
         innerColor : "white",
         innerOpacity : 0.5,
         backgroundImage : "decoration/form/input.png",
@@ -364,7 +364,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style :
       {
-        outerColor : "border-invalid",
+        outerColor : "invalid",
         innerColor : "border-focused-invalid",
         insets: [1]
       }
@@ -384,7 +384,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style :
       {
-        outerColor : "border-invalid",
+        outerColor : "invalid",
         innerColor : "border-focused-invalid",
         insets: [0]
       }
@@ -433,7 +433,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style :
       {
-        outerColor : "border-invalid",
+        outerColor : "invalid",
         innerColor : "border-focused-invalid",
         backgroundImage : "decoration/form/input-focused.png",
         backgroundRepeat : "repeat-x",

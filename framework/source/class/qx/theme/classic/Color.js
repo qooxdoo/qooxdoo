@@ -50,7 +50,7 @@ qx.Theme.define("qx.theme.classic.Color",
 
     "border-separator" : "#808080",
 
-    "border-invalid" : "#990000",
+    "invalid" : "#990000",
     "border-focused-invalid" : "#FF9999",
 
     "text" : "black",

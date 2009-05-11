@@ -555,6 +555,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           backgroundColor : "background",
+          textColor : states.invalid ? "invalid" : undefined,
           paddingRight    : 4,
           paddingLeft     : 4,
           marginRight     : 10,
@@ -585,6 +586,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           backgroundColor : "background",
+          textColor : states.invalid ? "invalid" : undefined,
           paddingRight    : 3,
           paddingLeft     : 3,
           marginRight     : 10,
@@ -604,6 +606,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           backgroundColor : "background",
+          textColor : states.invalid ? "invalid" : undefined,
           paddingRight    : 3,
           paddingLeft     : 3,
           marginRight     : 10,
