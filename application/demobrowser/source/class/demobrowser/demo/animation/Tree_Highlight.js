@@ -170,9 +170,9 @@ qx.Class.define("demobrowser.demo.animation.Tree_Highlight",
       {
         var mode = modes[i];
         var radioButton = new qx.ui.form.RadioButton(mode).set({
-          value: mode,
-          checked: mode == this._tree.getRootOpenClose()
+          value: mode == this._tree.getRootOpenClose()
         });
+        radioButton.setUserData("mode", mode);
         this.showOpenButtons[mode] = radioButton;
         this.mgrShowRootOpen.add(radioButton);
         commandFrame.add(radioButton, {row: row++, column: 1})
@@ -297,8 +297,10 @@ qx.Class.define("demobrowser.demo.animation.Tree_Highlight",
     _onChangeShowOpen : function()
     {
       var current = this._tree.getSelection()[0];
-      var mode = this.mgrShowRootOpen.getSelection()[0].getValue();
-      current.setOpenSymbolMode(mode);
+      if (current != null) {
+        var mode = this.mgrShowRootOpen.getSelection()[0].getUserData("mode");
+        current.setOpenSymbolMode(mode);        
+      }
     },
 
 
@@ -348,7 +350,7 @@ qx.Class.define("demobrowser.demo.animation.Tree_Highlight",
       this.btnRemove.setEnabled(!isTopLevel);
       this.btnRemoveAll.setEnabled(true);
       this.mgrShowRootOpen.setEnabled(isFolder);
-      this.showOpenButtons[current.getOpenSymbolMode()].setChecked(true);
+      this.showOpenButtons[current.getOpenSymbolMode()].setValue(true);
       this.btnMoveToParent.setEnabled(level > 0);
     }
   }

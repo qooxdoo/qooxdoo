@@ -90,7 +90,7 @@ qx.Class.define("demobrowser.demo.test.ScrollContainer_EdgeCaseHeight",
       radio2.setValue("on");
       radio3.setValue("off");
 
-      radio1.setChecked(true);
+      radio1.setValue(true);
 
       var mgr = new qx.ui.form.RadioGroup(radio1, radio2, radio3);
 

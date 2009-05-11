@@ -149,7 +149,7 @@ qx.Class.define("demobrowser.demo.widget.TabView",
         this.setBarPosition(e.getData());
       }, tabView);
 
-      barLeftButton.setChecked(true);
+      barLeftButton.setValue(true);
 
 
       // ADD/REMOVE BUTTONS

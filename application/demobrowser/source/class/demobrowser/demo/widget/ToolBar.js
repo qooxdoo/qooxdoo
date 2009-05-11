@@ -113,7 +113,7 @@ qx.Class.define("demobrowser.demo.widget.ToolBar",
       //////////////////////// icon size stuff
       // create the buttons
       var size22Button = new qx.ui.form.RadioButton("22px");
-      size22Button.setChecked(true);
+      size22Button.setValue(true);
       var size32Button = new qx.ui.form.RadioButton("32px");
       var size48Button = new qx.ui.form.RadioButton("48px");
 
@@ -154,7 +154,7 @@ qx.Class.define("demobrowser.demo.widget.ToolBar",
       //////////////////////// Show stuff
       // create the buttons
       var showBothButton = new qx.ui.form.RadioButton("Label and Icon");
-      showBothButton.setChecked(true);
+      showBothButton.setValue(true);
       var showIconButton = new qx.ui.form.RadioButton("Icon only");
       var showLabelButton = new qx.ui.form.RadioButton("Label only");
 

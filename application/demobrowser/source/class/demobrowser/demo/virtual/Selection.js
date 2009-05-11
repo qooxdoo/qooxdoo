@@ -126,7 +126,7 @@ qx.Class.define("demobrowser.demo.virtual.Selection",
       
       var mode2 = new qx.ui.form.RadioButton("Multi Selection");
       mode2.setValue("multi");
-      mode2.setChecked(true);
+      mode2.setValue(true);
       controls.add(mode2, {row: 2, column: 0});
       
       var mode3 = new qx.ui.form.RadioButton("Additive Selection");
