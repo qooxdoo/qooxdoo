@@ -85,6 +85,12 @@ qx.Class.define("demobrowser.demo.ui.FormValidation",
       for (var i = 0; i < 10; i++) {
         widgets[12].add(new qx.ui.form.ListItem("Item " + (i + 1)));
       }
+      
+      // date field
+      widgets.push(new qx.ui.form.DateField());
+      this.getRoot().add(widgets[13], {left: 390, top: 280});      
+
+
 
       /* ***********************************************
        * CONTROLLS

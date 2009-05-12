@@ -59,7 +59,7 @@ qx.Class.define("demobrowser.demo.showcase.Form",
 
       // date field
       var dateField = new qx.ui.form.DateField();
-      dateField.setDate(new Date());
+      dateField.setValue(new Date());
       label = new qx.ui.basic.Label("DateField:");
       label.setBuddy(dateField);
       container.add(label, {row: 3, column: 0});

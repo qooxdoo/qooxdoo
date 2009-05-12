@@ -167,7 +167,7 @@ qx.Class.define("demobrowser.demo.showcase.Translation",
       controls.add(l1,{row:2,column:0});
 
       var tf1 = new qx.ui.form.DateField();
-      tf1.setDate(new Date);
+      tf1.setValue(new Date);
       controls.add(tf1,{row:2,column:1});
 
       // DateChooser

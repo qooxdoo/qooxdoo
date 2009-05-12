@@ -524,7 +524,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           icon : "icon/16/apps/office-calendar.png",
           padding : [0, 3],
-          backgroundColor : states.disabled ? "background-disabled" : states.focused ? "background-focused" : "background-field",
+          backgroundColor : undefined,
           decorator : undefined
         };
       }

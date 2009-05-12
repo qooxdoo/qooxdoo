@@ -35,8 +35,8 @@
  */
 qx.Class.define("qx.ui.form.DateField",
 {
-  extend  : qx.ui.form.ComboBox,
-
+  extend : qx.ui.form.ComboBox,
+  implement : [qx.ui.form.IDateForm],
 
 
 
@@ -105,16 +105,55 @@ qx.Class.define("qx.ui.form.DateField",
      * date field. It will also select the date in the calender popup.
      *
      * @param date {Date} The date to set.
+     * 
+     * @deprecated
      */
     setDate : function(date)
     {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Please use the setValue instead."
+      );
+      
+      this.setValue(date);
+    },
+
+
+    /**
+     * Returns the current set date corresponding to the {@link dateFormat}.
+     * If the given text could not be parsed, <code>null</code> will be returned.
+     *
+     * @return {Date} The currently set date.
+     * 
+     * @deprecated
+     */
+    getDate : function()
+    {
+      return this.getValue();
+    },
+
+
+    /**
+    * This method sets the date corresponding to the {@link dateFormat} to the
+    * date field. It will also select the date in the calender popup.
+    *
+    * @param value {Date} The date to set.
+     */
+    setValue : function(value)
+    {
+      if (qx.lang.Type.isString(value)) {
+        qx.log.Logger.deprecatedMethodWarning(
+          arguments.callee, "Value property is used for setting dates now."
+        );
+        return;
+      }
+
       // set the date to the textfield
       var textField = this.getChildControl("textfield");
-      textField.setValue(this.getDateFormat().format(date));
+      textField.setValue(this.getDateFormat().format(value));
 
       // set the date in the datechooser
       var dateChooser = this.getChildControl("list");
-      dateChooser.setDate(date);
+      dateChooser.setDate(value);
     },
 
 
@@ -124,8 +163,7 @@ qx.Class.define("qx.ui.form.DateField",
      *
      * @return {Date} The currently set date.
      */
-    getDate : function()
-    {
+    getValue : function() {
       // get the value of the textfield
       var textfieldValue = this.getChildControl("textfield").getValue();
 
@@ -139,45 +177,18 @@ qx.Class.define("qx.ui.form.DateField",
 
 
     /**
-     * Sets the given value to the textfield. If the value could be
-     * a date corresponding to the set {@link dateFormat}, the date is
-     * selected in the calender popup.
-     *
-     * @param value {String} The String value to set.
+     * Resets the DateField. The textfield will be empty and the datechooser 
+     * will also have no selection.
      */
-    setValue : function(value)
-    {
-      var textfield = this.getChildControl("textfield");
-      if (textfield.getValue() == value) {
-        return;
-      }
+    resetValue: function() {
+      // set the date to the textfield
+      var textField = this.getChildControl("textfield");
+      textField.setValue("");
 
-      textfield.setValue(value);
-
-      try
-      {
-        var date = this.getDateFormat().parse(value);
-        this.getChildControl("list").setDate(date);
-      }
-      catch (ex)
-      {
-        // remove the selection of the date chooser
-        this.getChildControl("list").resetDate();
-      }
+      // set the date in the datechooser
+      var dateChooser = this.getChildControl("list");
+      dateChooser.setDate(null);      
     },
-
-
-    /**
-     * Returns the value in the textfield.
-     *
-     * @return {String} The string value of the textfield.
-     */
-    getValue : function() {
-      return this.getChildControl("textfield").getValue();
-    },
-
-
-
 
 
     /*
