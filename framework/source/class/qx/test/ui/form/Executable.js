@@ -88,8 +88,15 @@ qx.Class.define("qx.test.ui.form.Executable",
     
     testButtonInMenu: function() {
      this.__test(new qx.ui.menu.Button()); 
-    }
+    },
     
+    testCheckGroupBox: function() {
+     this.__test(new qx.ui.groupbox.CheckGroupBox()); 
+    },
+    
+    testRadioGroupBox: function() {
+     this.__test(new qx.ui.groupbox.RadioGroupBox()); 
+    }
     
   }
 });

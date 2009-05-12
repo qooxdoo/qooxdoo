@@ -25,7 +25,7 @@
 qx.Class.define("qx.ui.groupbox.RadioGroupBox",
 {
   extend : qx.ui.groupbox.GroupBox,
-  implement : qx.ui.form.IRadioItem,
+  implement : [qx.ui.form.IRadioItem, qx.ui.form.IExecutable],
 
 
 
@@ -62,7 +62,10 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
     "changeName" : "qx.event.type.Data",
 
     /** Fired when the included radiobutton changed its value */
-    "changeValue" : "qx.event.type.Data"
+    "changeValue" : "qx.event.type.Data",
+    
+    /** Fired if the {@link #execute} method is invoked.*/
+    "execute" : "qx.event.type.Event"    
   },
 
 
@@ -95,6 +98,8 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
           control.addListener("changeName", this._onRadioChangeName, this);
           control.addListener("changeValue", this._onRadioChangeValue, this);
           control.addListener("resize", this._repositionFrame, this);
+          control.addListener("execute", this._onExecute, this);
+
 
           this._add(control);
       }
@@ -111,6 +116,16 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
       EVENT LISTENERS
     ---------------------------------------------------------------------------
     */
+    
+    /**
+     * Event listener for execute event of checkbox.
+     * 
+     * @param e {qx.event.type.Event} Event which holds the current status
+     */
+    _onExecute: function(e) {
+      this.fireEvent("execute");
+    },
+    
 
     /**
      * Event listener for changeValue event of radio button
@@ -160,7 +175,25 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
       REDIRECTIONS TO LEGEND (FOR RADIO GROUP SUPPORT)
     ---------------------------------------------------------------------------
     */
+    
+    // interface implementation
+    execute: function() {
+      this.getChildControl("legend").execute();
+    },
 
+
+    // interface implementation    
+    setCommand : function(command) {
+      this.getChildControl("legend").setCommand(command);
+    },
+    
+    
+    // interface implementation    
+    getCommand : function() {
+      return this.getChildControl("legend").getCommand();
+    },
+    
+    
     /**
      * Returns the radio group
      *
