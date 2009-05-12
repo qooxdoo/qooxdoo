@@ -412,7 +412,10 @@ qx.Class.define("qx.data.Array",
      * @return {String} The array as a string.
      */
     toString: function() {
-      return this.__array.toString();
+      if (this.__array != null) {
+        return this.__array.toString();        
+      }
+      return "";
     },
     
     
@@ -665,6 +668,6 @@ qx.Class.define("qx.data.Array",
   
   destruct : function()
   {
-    this._disposeObjects("__array");
+    this._disposeFields("__array");
   }
 });
