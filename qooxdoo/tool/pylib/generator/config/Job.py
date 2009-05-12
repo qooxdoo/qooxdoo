@@ -270,9 +270,12 @@ class Job(object):
                 if ((isinstance(e, types.StringTypes) and
                         e.find(r'${')>-1)):
                     enew = self._expandString(e, maps['str'], {}) # no bin expand here!
-                    data[enew] = data[e]
-                    del data[e]
-                    console.debug("expanding key: %s ==> %s" % (e, enew))
+                    if enew == e:
+                        self._console.warn("! Empty expansion for macro in config key: \"%s\"" % e)
+                    else:
+                        data[enew] = data[e]
+                        del data[e]
+                        console.debug("expanding key: %s ==> %s" % (e, enew))
 
         # JobMergeValues
         elif isinstance(data, JobMergeValue):
@@ -283,7 +286,10 @@ class Job(object):
 
         # strings
         elif isinstance(data, types.StringTypes):
-            result = self._expandString(data, maps['str'], maps['bin'])
+            if data.find(r'${')>-1:
+                result = self._expandString(data, maps['str'], maps['bin'])
+                if result == data:
+                    self._console.warn("! Empty expansion for macro in config value: \"%s\"" % data)
 
         # leave everything else alone
         else:
