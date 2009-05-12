@@ -286,7 +286,7 @@ qx.Class.define("qx.ui.tooltip.Manager",
       }
 
       // Set Property
-      if (invalidMessage)
+      if (invalidMessage && target.getEnabled())
       {
         var tooltip = this.__getSharedErrorTooltip().set({
           label: invalidMessage
