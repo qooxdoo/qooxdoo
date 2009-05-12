@@ -168,12 +168,12 @@ qx.Class.define("qx.bom.Flash",
         if (element.readyState == 4) {
           this.__destroyObjectInIE(element);
         }
-        else 
+        else
         {
           if (!win) {
             win = window;
           }
-          
+
           win.attachEvent("onload", function() {
             qx.bom.Flash.__destroyObjectInIE(element);
           });
@@ -218,15 +218,15 @@ qx.Class.define("qx.bom.Flash",
      */
     __destroyObjectInIE : qx.core.Variant.select("qx.client",
     {
-      "mshtml" :  function(element) 
+      "mshtml" :  function(element)
       {
-        for (var i in element) 
+        for (var i in element)
         {
           if (typeof element[i] == "function") {
             element[i] = null;
           }
         }
-        
+
         element.parentNode.removeChild(element);
         delete this._flashObjects[element.id];
       },

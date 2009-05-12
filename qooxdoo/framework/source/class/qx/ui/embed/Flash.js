@@ -19,61 +19,61 @@
 
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
- * 
+ *
  * The Flash widget embeds the HMTL Flash element
- * 
+ *
  * @experimental Perhaps the API can change during the development process.
  */
 qx.Class.define("qx.ui.embed.Flash",
 {
   extend : qx.ui.core.Widget,
 
-  
+
   /*
   *****************************************************************************
      CONSTRUCTOR
   *****************************************************************************
   */
 
-  
+
   /**
-   * Constructs a flash widget. 
-   * 
+   * Constructs a flash widget.
+   *
    * @param source {String} The URL of the Flash movie to display.
    * @param id {String?null} The unique id for the Flash movie.
    */
   construct : function(source, id)
   {
     this.base(arguments);
-    
+
     if (qx.core.Variant.isSet("qx.debug", "on"))
     {
       qx.core.Assert.assertString(source, "Invalid parameter 'source'.");
-      
+
       if (id) {
         qx.core.Assert.assertString(id, "Invalid parameter 'id'.");
       }
     }
-    
+
     this.setSource(source);
-    
+
     if (id) {
       this.setId(id);
     } else {
       this.setId("flash" + this.toHashCode());
     }
-    
+
     //init properties
     this.initQuality();
     this.initWmode();
     this.initAllowScriptAccess();
     this.initLiveConnect();
-    
+
     /*
      * Creates the Flash DOM element (movie) on appear,
-     * because otherwise IE 7 and higher blocks the 
+     * because otherwise IE 7 and higher blocks the
      * ExternelInterface from Flash.
-     * 
+     *
      * TODO find a better solution, instead of adding on appear
      */
     this.addListenerOnce("appear", function()
@@ -81,15 +81,15 @@ qx.Class.define("qx.ui.embed.Flash",
       this.getContentElement().createFlash();
     }, this);
   },
-  
-  
+
+
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
-  
-  
+
+
   properties :
   {
     /**
@@ -171,8 +171,8 @@ qx.Class.define("qx.ui.embed.Flash",
       nullable : true,
       apply : "_applyMenu"
     },
-    
-    /** 
+
+    /**
      * Set allow script access
      **/
     allowScriptAccess :
@@ -182,8 +182,8 @@ qx.Class.define("qx.ui.embed.Flash",
       nullable : true,
       apply : "_applyAllowScriptAccess"
     },
-    
-    /** 
+
+    /**
      * Enable/disable live connection
      **/
     liveConnect :
@@ -193,7 +193,7 @@ qx.Class.define("qx.ui.embed.Flash",
       nullable : true,
       apply : "_applyLiveConnect"
     },
-    
+
     /**
      * Set the 'FlashVars' to pass variables to the Flash movie.
      */
@@ -205,14 +205,14 @@ qx.Class.define("qx.ui.embed.Flash",
     }
   },
 
-  
+
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
 
-  
+
   members :
   {
     /*
@@ -220,37 +220,37 @@ qx.Class.define("qx.ui.embed.Flash",
       PUBLIC WIDGET API
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Returns the DOM element of the Flash movie.
-     * 
+     *
      * @return {Element|null} The DOM element of the Flash movie.
      */
     getFlashElement : function()
     {
       var element = this.getContentElement();
-      
+
       if (element) {
         return element.getFlashElement();
       } else {
         return null;
       }
     },
-    
-    
+
+
     // overridden
     _createContentElement : function() {
       return new qx.html.Flash();
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
      APPLY METHODS
     ---------------------------------------------------------------------------
     */
-    
-    
+
+
     // property apply
     _applySource : function(value, old)
     {
@@ -265,69 +265,69 @@ qx.Class.define("qx.ui.embed.Flash",
       this.getContentElement().setId(value);
       qx.ui.core.queue.Layout.add(this);
     },
-    
+
     // property apply
     _applyVariables : function(value, old)
     {
       this.getContentElement().setVariables(value);
       qx.ui.core.queue.Layout.add(this);
     },
-    
+
     // property apply
     _applyQuality : function(value, old) {
       this.__flashParamHelper("quality", value);
     },
-    
+
     // property apply
     _applyScale : function(value, old) {
       this.__flashParamHelper("scale", value);
     },
-    
+
     // property apply
     _applyWmode : function(value, old) {
       this.__flashParamHelper("wmode", value);
     },
-    
+
     // property apply
     _applyPlay : function(value, old) {
       this.__flashParamHelper("play", value);
     },
-    
+
     // property apply
     _applyLoop : function(value, old) {
       this.__flashParamHelper("loop", value);
     },
-    
+
     // property apply
     _applyMenu : function(value, old) {
       this.__flashParamHelper("menu", value);
     },
-    
+
     // property apply
     _applyAllowScriptAccess : function(value, old) {
       this.__flashParamHelper("allowScriptAccess", value);
     },
-    
+
     // property apply
     _applyLiveConnect : function(value, old) {
       this.__flashParamHelper("swLiveConnect", value);
     },
-    
+
     // overridden
     _applyBackgroundColor : function(value, old) {
       value = this.__convertToHexString(value);
       this.__flashParamHelper("bgcolor", value);
     },
-    
+
     /*
     ---------------------------------------------------------------------------
      HELPER METHODS
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Set the attribute for the Flash DOM element.
-     * 
+     *
      * @param key {String} Flash Player attribute name.
      * @param value {String?null} The value for the attribute, <code>null</code>
      *    if the attribut should be removed from the DOM element.
@@ -337,10 +337,10 @@ qx.Class.define("qx.ui.embed.Flash",
       this.getContentElement().setParam(key, value);
       qx.ui.core.queue.Layout.add(this);
     },
-    
+
     /**
      * Convert the <code>Color</code> to a hex string like <code>#ABCDEF</code>.
-     * 
+     *
      * @param color {Color} Color to convert.
      * @return {String} Hex string starting with <code>#</code>.
      */
@@ -349,7 +349,7 @@ qx.Class.define("qx.ui.embed.Flash",
       if (!color) {
         return color;
       }
-        
+
       var rgb = qx.util.ColorUtil.stringToRgb(color);
       return "#" + qx.util.ColorUtil.rgbToHexString(rgb);
     }
