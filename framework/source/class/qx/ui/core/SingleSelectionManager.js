@@ -274,8 +274,13 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
       DESTRUCTOR
    *****************************************************************************
    */
-
-   destruct : function() {
-     this._disposeObjects("__selectionProvider", "__selected");
-   }
+  destruct : function() {
+    if (this.__selectionProvider.toHashCode) {
+      this._disposeObjects("__selectionProvider");
+    } else {
+      this._disposeFields("__selectionProvider");
+    }
+    
+    this._disposeObjects("__selected");
+  }
 });
