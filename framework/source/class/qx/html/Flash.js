@@ -1,4 +1,4 @@
-﻿﻿/* ************************************************************************
+/* ************************************************************************
 
    qooxdoo - the new era of web development
 
@@ -96,7 +96,10 @@ qx.Class.define("qx.html.Flash",
      */
     setSource : function(value)
     {
-      // TODO throw error if Flash already exists.
+      if (this.__flash) {
+        throw new Error("The source cannot be modified after initial creation");
+      }
+      
       this.__source = value;
     },
     
@@ -107,7 +110,10 @@ qx.Class.define("qx.html.Flash",
      */
     setId : function(value)
     {
-      // TODO throw error if Flash already exists.
+      if (this.__flash) {
+        throw new Error("The id cannot be modified after initial creation");
+      }
+      
       this.__id = value;
     },
     
@@ -119,7 +125,10 @@ qx.Class.define("qx.html.Flash",
      */
     setVariables : function(value)
     {
-      // TODO throw error if Flash already exists.
+      if (this.__flash) {
+        throw new Error("The variables cannot be modified after initial creation");
+      }
+      
       this.__variables = value;
     },
     
@@ -131,7 +140,10 @@ qx.Class.define("qx.html.Flash",
      */
     setParam : function(key, value)
     {
-      // TODO throw error if Flash already exists.
+      if (this.__flash) {
+        throw new Error("The " + key + " cannot be modified after initial creation");
+      }
+      
       if (value) {
         this.__params[key] = value;
       } else {
@@ -162,6 +174,10 @@ qx.Class.define("qx.html.Flash",
 
   destruct : function()
   {
-    // TODO destruct flash movie.
+    if (this.__flash)
+    {
+      qx.bom.Flash.destroy(this.__flash);
+      this._disposeFields("this.__flash");
+    }
   }
 });
