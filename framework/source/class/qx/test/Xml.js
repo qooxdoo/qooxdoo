@@ -127,18 +127,36 @@ qx.Class.define("qx.test.Xml",
       var xmlStr = '<html xmlns="http://www.w3.org/1999/xhtml"><body>Juhu <em id="toll">Kinners</em>. Wie geht es <em>Euch</em>?<foo xmlns="http://qooxdoo.org" id="bar"/></body></html>';
       var doc = qx.xml.Document.fromString(xmlStr);
       var em = doc.getElementsByTagName("em")[0];
+      var foo = doc.getElementsByTagName("foo")[0];
       var nsMap = {
         "xhtml" : "http://www.w3.org/1999/xhtml",
         "qx"    : "http://qooxdoo.org"
       };
       var q1 = "//xhtml:em";
-      var n1 = qx.xml.Element.selectSingleNode(doc, q1, nsMap);
-      this.assertEquals(qx.xml.Element.serialize(n1), qx.xml.Element.serialize(em));
-
-      var foo = doc.getElementsByTagName("foo")[0];
       var q2 = "//qx:foo";
-      var n2 = qx.xml.Element.selectSingleNode(doc, q2, nsMap);
-      this.assertEquals(qx.xml.Element.serialize(n2), qx.xml.Element.serialize(foo));
+      
+       // Chrome will throw an exception until Chromium bug #671 is fixed.
+       // See http://code.google.com/p/chromium/issues/detail?id=671 
+      if (navigator.userAgent.indexOf('Chrome') > 0) {
+        this.assertException(function () {
+          qx.xml.Element.selectSingleNode(doc, q1, nsMap);  
+        }, Error, "DOM Exception 14", "Namespaced XPath query worked in Chrome!");
+        this.assertException(function () {
+          qx.xml.Element.selectSingleNode(doc, q2, nsMap);  
+        }, Error, "DOM Exception 14", "Namespaced XPath query worked in Chrome!");
+      }
+      // Older versions of Opera don't support XPathEvaluate.
+      // TODO: Define XPathEvaluate as a requirement for this test once the 
+      // feature described in bug #1994 has been implemented.
+      else if (qx.bom.client.Engine.OPERA && qx.bom.client.Engine.VERSION < 9.5) {
+        return true;
+      }
+      else {
+        var n1 = qx.xml.Element.selectSingleNode(doc, q1, nsMap);
+        this.assertEquals(qx.xml.Element.serialize(n1), qx.xml.Element.serialize(em));
+        var n2 = qx.xml.Element.selectSingleNode(doc, q2, nsMap);
+        this.assertEquals(qx.xml.Element.serialize(n2), qx.xml.Element.serialize(foo));
+      }      
     },
 
 
