@@ -404,7 +404,10 @@ qx.Class.define("apiviewer.ui.SearchView",
     {
       var sel = this._selectionModel.getAnchorSelectionIndex();
       var selected = this._tableModel.getData()[sel];
-      
+      var controller = qx.core.Init.getApplication().controller;
+      var uiModel = apiviewer.UiModel.getInstance();
+      var classViewer = controller._classViewer;
+
       if (selected != undefined)
       {
         var fullItemName = selected[1];
@@ -419,9 +422,6 @@ qx.Class.define("apiviewer.ui.SearchView",
           className = fullItemName.substring(0, hashPos);
           itemName = fullItemName.substring(hashPos + 1);
         }
-
-        var controller = qx.core.Init.getApplication().controller;
-        var uiModel = apiviewer.UiModel.getInstance();
 
         // Display protected stated items
         if (/protected/.test(itemType)) {
