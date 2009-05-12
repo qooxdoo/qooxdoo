@@ -21,6 +21,7 @@
 
 #asset(demobrowser/demo/flash/fo_tester.swf)
 #asset(demobrowser/demo/flash/TestFlash.swf)
+#asset(demobrowser/demo/flash/FlashVersion.swf)
 
 ************************************************************************ */
 qx.Class.define("demobrowser.demo.widget.Flash",
@@ -29,11 +30,15 @@ qx.Class.define("demobrowser.demo.widget.Flash",
 
   members :
   {
+    __window : null,
+    
     main: function()
     {
       this.base(arguments);
 
       var tabView = new qx.ui.tabview.TabView();
+      tabView.setContentPadding([8,8,8,8]);
+      
       var doc = this.getRoot();
       doc.add(tabView, {edge: 0});
       
@@ -46,6 +51,27 @@ qx.Class.define("demobrowser.demo.widget.Flash",
       page2.setLayout(new qx.ui.layout.Canvas());
       page2.add(this.createFlashDemo2(), {edge: 0});
       tabView.add(page2);
+      
+      this.__window = this.createWindow();
+      doc.add(this.__window, {top: 20, left: 20});
+    },
+
+    createWindow : function()
+    {
+      var win = new qx.ui.window.Window("Flash Player Version").set(
+      {
+        width: 300,
+        height: 200,
+        contentPadding: [0,0,0,0]
+      });
+      
+      win.setLayout(new qx.ui.layout.Canvas());
+      win.add(
+        new qx.ui.embed.Flash("demobrowser/demo/flash/FlashVersion.swf"),
+        {edge: 0}
+      );
+            
+      return win;
     },
     
     
@@ -58,15 +84,29 @@ qx.Class.define("demobrowser.demo.widget.Flash",
     
     createFlashDemo1 : function ()
     {
+      var container = new qx.ui.container.Composite(
+        new qx.ui.layout.VBox(4)
+      );
+      
       var variables = {
         flashVarText: "this is passed in via FlashVars"
       };
       
-      return new qx.ui.embed.Flash("demobrowser/demo/flash/fo_tester.swf").set({
+      var flash = new qx.ui.embed.Flash("demobrowser/demo/flash/fo_tester.swf").set({
         scale: "noscale",
         variables : variables,
         backgroundColor : "#FF6600"
       });
+      container.add(flash, {flex: 1});
+     
+      var button = new qx.ui.form.Button("Show Flash Player version");
+      button.addListener("execute", function()
+      {
+        this.__window.open();
+      }, this);
+      container.add(button);
+            
+      return container;
     },
     
     
