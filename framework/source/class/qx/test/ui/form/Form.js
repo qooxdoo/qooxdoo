@@ -183,7 +183,15 @@ qx.Class.define("qx.test.ui.form.Form",
     
     testRequieredCheckGroupBox: function() {
       this.__testRequired(new qx.ui.groupbox.CheckGroupBox());      
-    }            
+    },
+    
+    testValidList: function() {
+     this.__testValid(new qx.ui.form.List()); 
+    },
+    
+    testRequieredList: function() {
+      this.__testRequired(new qx.ui.form.List());      
+    }             
     
   }
 });
