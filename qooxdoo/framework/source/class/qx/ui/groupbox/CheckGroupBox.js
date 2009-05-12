@@ -25,7 +25,8 @@
 qx.Class.define("qx.ui.groupbox.CheckGroupBox",
 {
   extend : qx.ui.groupbox.GroupBox,
-  implement : [qx.ui.form.IExecutable],
+  include : [qx.ui.form.MFormElement],  
+  implement : [qx.ui.form.IExecutable, qx.ui.form.IBooleanForm],
 
   properties :
   {
@@ -39,11 +40,12 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
 
   events :
   {
-    /** Fired when the included checkbox changed its status */
+    /**
+     * Fired when the included checkbox changed its status.
+     *
+     * @deprecated
+     */
     "changeChecked" : "qx.event.type.Data",
-
-    /** Fired when the included checkbox changed its name */
-    "changeName" : "qx.event.type.Data",
 
     /** Fired when the included checkbox changed its value */
     "changeValue" : "qx.event.type.Data",
@@ -68,11 +70,10 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
       switch(id)
       {
         case "legend":
-          control = new qx.ui.form.CheckBox;
+          control = new qx.ui.form.CheckBox();
           control.setValue(true);
-          control.addListener("changeValue", this._onRadioChangeChecked, this);
-          control.addListener("changeName", this._onRadioChangeName, this);
           control.addListener("changeValue", this._onRadioChangeValue, this);
+          control.addListener("changeName", this._onRadioChangeName, this);
           control.addListener("resize", this._repositionFrame, this);
           control.addListener("execute", this._onExecute, this);
 
@@ -106,15 +107,15 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
      *
      * @param e {qx.event.type.Data} Data event which holds the current status
      */
-    _onRadioChangeChecked : function(e)
+    _onRadioChangeValue : function(e)
     {
-      var checked = e.getData();
-
+      var checked = e.getData() ? true : false;
       // Disable content
       this.getChildrenContainer().setEnabled(checked);
 
       // Fire event to the outside
-      this.fireDataEvent("changeChecked", checked);
+      this.fireDataEvent("changeChecked", checked); // TODO deprecated
+      this.fireDataEvent("changeValue", checked, e.getOldData());      
     },
 
 
@@ -122,25 +123,13 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
      * Event listener for changeName event of checkbox
      *
      * @param e {qx.event.type.Data} Data event which holds the current status
+     * 
+     * @deprecated
      */
     _onRadioChangeName : function(e)
     {
-      // Fire event to the outside
-      this.fireDataEvent("changeName", e.getData());
+      this.setName(e.getData());
     },
-
-
-    /**
-     * Event listener for changeValue event of checkbox
-     *
-     * @param e {qx.event.type.Data} Data event which holds the current status
-     */
-    _onRadioChangeValue : function(e)
-    {
-      // Fire event to the outside
-      this.fireDataEvent("changeValue", e.getData());
-    },
-
 
 
 
@@ -166,35 +155,12 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
     getCommand : function() {
       return this.getChildControl("legend").getCommand();
     },
-    
-    
-    /**
-     * The name of the groupbox. Mainly used for serialization proposes.
-     *
-     * @return {String} The name
-     */
-    getName : function() {
-      return this.getChildControl("legend").getName();
-    },
 
 
     /**
-     * Configures the name of the groupbox. Mainly used for serialization proposes.
+     * The value of the groupbox. 
      *
-     * @param value {String} the name to use
-     * @return {String} the incoming value
-     */
-    setName : function(value)
-    {
-      var legend = this.getChildControl("legend");
-      return value ? legend.setName(value) : legend.resetName();
-    },
-
-
-    /**
-     * The value of the groupbox. Mainly used for serialization proposes.
-     *
-     * @return {String} the value
+     * @return {Boolean} <code>true</code> when enabled.
      */
     getValue : function() {
       return this.getChildControl("legend").getValue();
@@ -202,15 +168,28 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
 
 
     /**
-     * Configures the value of the groupbox. Mainly used for serialization proposes.
+     * Configures the value of the groupbox.
      *
-     * @param value {String} the value to use
-     * @return {String} the incoming value
+     * @param value {Boolean} <code>true</code> when enabled.
      */
     setValue : function(value)
     {
-      var legend = this.getChildControl("legend");
-      return value ? legend.setValue(value) : legend.resetValue();
+      if (qx.lang.Type.isString(value)) {
+        qx.log.Logger.deprecatedMethodWarning(
+          arguments.callee, "Please use boolean values instead."
+        );        
+        return;
+      }
+      
+      this.getChildControl("legend").setValue(value);
+    },
+    
+    
+    /**
+     * Resets the value.
+     */
+    resetValue: function() {
+      this.getChildControl("legend").resetValue();
     },
 
 
@@ -220,7 +199,11 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
      * @return {Boolean} <code>true</code> when enabled
      */
     getChecked : function() {
-      return this.getChildControl("legend").getValue();
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Please use the value property instead."
+      );
+      
+      return this.getValue();
     },
 
 
@@ -232,8 +215,11 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
      */
     setChecked : function(value)
     {
-      var legend = this.getChildControl("legend");
-      return value ? legend.setValue(value) : legend.resetValue();
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Please use the value property instead."
+      );
+      
+      this.setValue(value);
     }
   }
 });
