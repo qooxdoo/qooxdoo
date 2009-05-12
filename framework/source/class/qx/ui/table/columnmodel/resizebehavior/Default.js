@@ -141,7 +141,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
     __layout : null,
     __layoutChildren : null,
     __resizeColumnData : null,
-
+    __deferredComputeColumnsFlexWidth : null,
 
     /**
      * Whether we have initialized widths on the first appear yet
@@ -402,7 +402,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
     {
       this.__layout.invalidateChildrenCache();
       var children = this.__layoutChildren;
-      for (i=0,l=children.length; i<l; i++) {
+      for (var i=0,l=children.length; i<l; i++) {
         children[i].invalidateLayoutCache();
       }      
     },
