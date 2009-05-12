@@ -1,4 +1,4 @@
-﻿﻿/* ************************************************************************
+/* ************************************************************************
 
    qooxdoo - the new era of web development
 
@@ -46,7 +46,15 @@ qx.Class.define("qx.ui.embed.Flash",
   {
     this.base(arguments);
     
-    // TODO check incoming parameters
+    if (qx.core.Variant.isSet("qx.debug", "on"))
+    {
+      qx.core.Assert.assertString(source, "Invalid parameter 'source'.");
+      
+      if (id) {
+        qx.core.Assert.assertString(id, "Invalid parameter 'id'.");
+      }
+    }
+    
     this.setSource(source);
     
     if (id) {
@@ -55,10 +63,18 @@ qx.Class.define("qx.ui.embed.Flash",
       this.setId("flash" + this.toHashCode());
     }
     
+    //init properties
+    this.initQuality();
+    this.initWmode();
+    this.initAllowScriptAccess();
+    this.initLiveConnect();
+    
     /*
      * Creates the Flash DOM element (movie) on appear,
      * because otherwise IE 7 and higher blocks the 
      * ExternelInterface from Flash.
+     * 
+     * TODO find a better solution, instead of adding on appear
      */
     this.addListenerOnce("appear", function()
     {
@@ -100,6 +116,7 @@ qx.Class.define("qx.ui.embed.Flash",
     quality :
     {
       check : ["low", "autolow", "autohigh", "medium", "high", "best"],
+      init : "best",
       nullable : true,
       apply : "_applyQuality"
     },
@@ -120,6 +137,7 @@ qx.Class.define("qx.ui.embed.Flash",
     wmode :
     {
       check : ["window", "opaque", "transparent"],
+      init : "opaque",
       nullable : true,
       apply : "_applyWmode"
     },
@@ -154,6 +172,28 @@ qx.Class.define("qx.ui.embed.Flash",
       apply : "_applyMenu"
     },
     
+    /** 
+     * Set allow script access
+     **/
+    allowScriptAccess :
+    {
+      check : ["sameDomain", "always", "never"],
+      init : "sameDomain",
+      nullable : true,
+      apply : "_applyAllowScriptAccess"
+    },
+    
+    /** 
+     * Enable/disable live connection
+     **/
+    liveConnect :
+    {
+      check : "Boolean",
+      init : true,
+      nullable : true,
+      apply : "_applyLiveConnect"
+    },
+    
     /**
      * Set the 'FlashVars' to pass variables to the Flash movie.
      */
@@ -175,6 +215,12 @@ qx.Class.define("qx.ui.embed.Flash",
   
   members :
   {
+    /*
+    ---------------------------------------------------------------------------
+      PUBLIC WIDGET API
+    ---------------------------------------------------------------------------
+    */
+    
     /**
      * Returns the DOM element of the Flash movie.
      * 
@@ -208,7 +254,6 @@ qx.Class.define("qx.ui.embed.Flash",
     // property apply
     _applySource : function(value, old)
     {
-      // TODO check if the resource manager is enough to get the URL
       var source = qx.util.ResourceManager.toUri(value);
       this.getContentElement().setSource(source);
       qx.ui.core.queue.Layout.add(this);
@@ -256,6 +301,16 @@ qx.Class.define("qx.ui.embed.Flash",
     // property apply
     _applyMenu : function(value, old) {
       this.__flashParamHelper("menu", value);
+    },
+    
+    // property apply
+    _applyAllowScriptAccess : function(value, old) {
+      this.__flashParamHelper("allowScriptAccess", value);
+    },
+    
+    // property apply
+    _applyLiveConnect : function(value, old) {
+      this.__flashParamHelper("swLiveConnect", value);
     },
     
     // overridden
