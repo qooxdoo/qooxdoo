@@ -191,7 +191,15 @@ qx.Class.define("qx.test.ui.form.Form",
     
     testRequieredList: function() {
       this.__testRequired(new qx.ui.form.List());      
-    }             
+    },
+    
+    testRequieredDateField: function() {
+      this.__testRequired(new qx.ui.form.DateField());      
+    },
+    
+    testValidDateField: function() {
+     this.__testValid(new qx.ui.form.DateField()); 
+    }        
     
   }
 });

@@ -39,7 +39,7 @@ qx.Class.define("demobrowser.demo.widget.DateField",
       this.getRoot().add(new qx.ui.basic.Label("Default"), {top: 20, left: 20});
       var dateField = new qx.ui.form.DateField();
       this.getRoot().add(dateField, {top: 35, left: 20});
-      dateField.setDate(new Date());
+      dateField.setValue(new Date());
       dateField.addListener("changeValue", function(e) {
         this.debug("Change Value: " + e.getData());
       });
@@ -49,7 +49,7 @@ qx.Class.define("demobrowser.demo.widget.DateField",
       this.getRoot().add(new qx.ui.basic.Label("With date formater"), {top: 20, left: 150});
       var dateFieldFormat = new qx.ui.form.DateField();
       this.getRoot().add(dateFieldFormat, {top: 35, left: 150});
-      dateFieldFormat.setDate(new Date());
+      dateFieldFormat.setValue(new Date());
 
 
       var format1 = new qx.util.format.DateFormat("MM-yyyy");
@@ -89,7 +89,7 @@ qx.Class.define("demobrowser.demo.widget.DateField",
       setCurrentButton.setWidth(120);
       this.getRoot().add(setCurrentButton, {top: 60, left: 280});
       setCurrentButton.addListener("execute", function(e) {
-        dateFieldManipulation.setDate(new Date());
+        dateFieldManipulation.setValue(new Date());
       });
 
       var setValueTestButton = new qx.ui.form.Button("Set 'TEST'");
@@ -123,7 +123,7 @@ qx.Class.define("demobrowser.demo.widget.DateField",
       getDateButton.setWidth(120);
       this.getRoot().add(getDateButton, {left: 410, top: 88});
       getDateButton.addListener("execute", function(e) {
-        alert(dateFieldGet.getDate());
+        alert(dateFieldGet.getValue());
       });
       ////////////////////////////////////////////////////////////
     }
