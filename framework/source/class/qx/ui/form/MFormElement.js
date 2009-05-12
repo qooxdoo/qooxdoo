@@ -25,7 +25,11 @@
 qx.Mixin.define("qx.ui.form.MFormElement", 
 {  
   events : {
-    /** Change event for the replacement name property. */
+    /** 
+     * Change event for the replacement name property. 
+     * 
+     * @deprecated
+     */
     "changeName" : "qx.event.type.Data"
   },
   

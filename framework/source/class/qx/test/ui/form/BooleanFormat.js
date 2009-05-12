@@ -60,7 +60,15 @@ qx.Class.define("qx.test.ui.form.BooleanFormat",
     
     testMenuRadioButton: function() {
       this.__test(new qx.ui.menu.RadioButton()); 
-    }        
+    },
+    
+    testRadioGroupBox: function() {
+      this.__test(new qx.ui.groupbox.RadioGroupBox()); 
+    },
+    
+    testCheckGroupBox: function() {
+      this.__test(new qx.ui.groupbox.CheckGroupBox()); 
+    }
     
   }
 });
