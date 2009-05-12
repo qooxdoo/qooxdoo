@@ -284,9 +284,25 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
       style : function(states)
       {
+        var backgroundColor;
+
+        var focused = !!states.focused;
+        var invalid = !!states.invalid;
+        var disabled = !!states.disabled;
+
+        if (invalid && !disabled) {
+          backgroundColor = "background-invalid";
+        } else if (focused && !invalid && !disabled) {
+          backgroundColor = "background-focused";
+        } else if (disabled) {
+          backgroundColor = "background-disabled";
+        } else {
+          backgroundColor = "white";
+        }        
+        
         return {
           decorator       : states.focused ? "focused-inset" : "inset",
-          backgroundColor : states.focused ? "background-focused" : "white"
+          backgroundColor : backgroundColor
         };
       }
     },

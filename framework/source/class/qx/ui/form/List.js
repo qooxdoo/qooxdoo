@@ -28,8 +28,18 @@
 qx.Class.define("qx.ui.form.List",
 {
   extend : qx.ui.core.AbstractScrollArea,
-  implement : [qx.ui.form.IFormElement, qx.ui.core.IMultiSelection],
-  include : [qx.ui.core.MRemoteChildrenHandling, qx.ui.core.MMultiSelectionHandling],
+  implement : [
+    qx.ui.form.IFormElement, 
+    qx.ui.core.IMultiSelection,
+    qx.ui.form.IForm
+  ],
+  // deprecated : MFormElement
+  include : [
+    qx.ui.core.MRemoteChildrenHandling, 
+    qx.ui.core.MMultiSelectionHandling,
+    qx.ui.form.MFormElement,
+    qx.ui.form.MForm
+  ],
 
 
   /*
@@ -100,6 +110,8 @@ qx.Class.define("qx.ui.form.List",
     /**
      * Fired on every modification of the selection which also means that the
      * value has been modified.
+     * 
+     * @deprecated
      */
     changeValue : "qx.event.type.Data"
   },
@@ -152,14 +164,6 @@ qx.Class.define("qx.ui.form.List",
     {
       check : "Boolean",
       init : true
-    },
-
-    /** The name of the list. Mainly used for serialization proposes. */
-    name :
-    {
-      check : "String",
-      nullable : true,
-      event : "changeName"
     }
   },
 
@@ -226,9 +230,15 @@ qx.Class.define("qx.ui.form.List",
      * separated string with all the values (or labels as fallback).
      *
      * @return {String} Value of the list
+     * 
+     * @deprecated
      */
     getValue : function()
     {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Please use the selection instead."
+      );
+      
       var selected = this.getSelection();
       var result = [];
       var value;
@@ -254,9 +264,15 @@ qx.Class.define("qx.ui.form.List",
      * as fallback) of the list items.
      *
      * @param value {String} Comma separated list
+     * 
+     * @deprecated
      */
     setValue : function(value)
     {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Please use the selection instead."
+      );
+      
       // only split the value in multi selection mode 
       // (a , could be in the value as well)
       var splitted = [value];
@@ -484,6 +500,20 @@ qx.Class.define("qx.ui.form.List",
       }
 
       return null;
+    },
+    
+    
+    // deprecated
+    // overridden
+    addListener: function(type, listener, self, capture) {
+      if (type == "changeValue") {
+        qx.log.Logger.deprecatedEventWarning(
+          arguments.callee, 
+          "changeValue",
+          "Please use the changeSelection event instead."
+        );        
+      }
+      return this.base(arguments, type, listener, self, capture);
     }
   },
 
