@@ -79,8 +79,12 @@ qx.Class.define("demobrowser.demo.ui.FormValidation",
       widgets.push(new qx.ui.groupbox.CheckGroupBox("I am a box"));
       this.getRoot().add(widgets[11], {left: 240, top: 270});
       
-                  
-                  
+      // list
+      widgets.push(new qx.ui.form.List());
+      this.getRoot().add(widgets[12], {left: 390, top: 70});
+      for (var i = 0; i < 10; i++) {
+        widgets[12].add(new qx.ui.form.ListItem("Item " + (i + 1)));
+      }
 
       /* ***********************************************
        * CONTROLLS
@@ -90,7 +94,7 @@ qx.Class.define("demobrowser.demo.ui.FormValidation",
       
       toggleValidButton.addListener("changeValue", function(e) {
         for (var i = 0; i < widgets.length; i++) {
-          widgets[i].setInvalidMessage("Invalid...");
+          widgets[i].setInvalidMessage("Invalid (" + i + ")...");
           widgets[i].setValid(!e.getData()); 
         }
       }, this);

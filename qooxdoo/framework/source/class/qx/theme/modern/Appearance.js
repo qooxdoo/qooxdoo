@@ -804,10 +804,27 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
       style : function(states)
       {
+        var decorator;
+        
+        var focused = !!states.focused;
+        var invalid = !!states.invalid;
+        var disabled = !!states.disabled;
+        
+        if (focused && invalid && !disabled) {
+          decorator = "input-focused-invalid";
+        } else if (focused && !invalid && !disabled) {
+          decorator = "input-focused";
+        } else if (disabled) {
+          decorator = "input-disabled";
+        } else if (!focused && invalid && !disabled) {
+          decorator = "border-invalid";
+        } else {
+          decorator = "input";
+        }
+                
         return {
           backgroundColor : "background-light",
-          decorator : states.focused ? "input-focused" :
-                      states.disabled ? "input-disabled" : "input"
+          decorator : decorator
         };
       }
     },
