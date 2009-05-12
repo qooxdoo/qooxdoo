@@ -182,8 +182,8 @@ qx.Class.define("demobrowser.demo.widget.Slider",
       var group =
       {
         slider: slider,
-        min: new qx.ui.basic.Label("Min: " + slider.getMin().toString()),
-        max: new qx.ui.basic.Label("Max: " + slider.getMax().toString()),
+        min: new qx.ui.basic.Label("Min: " + slider.getMinimum().toString()),
+        max: new qx.ui.basic.Label("Max: " + slider.getMaximum().toString()),
         value: new qx.ui.basic.Label(slider.getValue().toString())
       };
 
