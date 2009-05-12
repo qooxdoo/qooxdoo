@@ -845,7 +845,6 @@ qx.Class.define("qx.data.controller.List",
    */
 
    destruct : function() {
-     this._disposeFields("__lookupTable", "__onUpdate");
-     this._disposeArray("__boundProperties");
+     this._disposeFields("__lookupTable", "__onUpdate", "__boundProperties");
    }
 });
