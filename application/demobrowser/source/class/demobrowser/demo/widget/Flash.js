@@ -40,7 +40,6 @@ qx.Class.define("demobrowser.demo.widget.Flash",
       var page1 = new qx.ui.tabview.Page("Flash Demo 1");
       page1.setLayout(new qx.ui.layout.Canvas());
       page1.add(this.createFlashDemo1(), {edge: 0});
-      page1.add(new qx.ui.basic.Label("Flash Demo 1"));
       tabView.add(page1);
       
       var page2 = new qx.ui.tabview.Page("Flash Demo 2");
@@ -101,7 +100,7 @@ qx.Class.define("demobrowser.demo.widget.Flash",
       var qooxdooContainer = new qx.ui.container.Composite(
         new qx.ui.layout.VBox(4)
       );
-      container.add(qooxdooContainer);
+      container.add(qooxdooContainer, {flex: 1});
       
       qooxdooContainer.add(new qx.ui.basic.Label("<b>Qooxdoo:</b>").set({
         rich: true
@@ -109,15 +108,11 @@ qx.Class.define("demobrowser.demo.widget.Flash",
       qooxdooContainer.add(new qx.ui.basic.Label("Message from Flash:"));
       this.__messageFromFlash = new qx.ui.form.TextArea("No message.");
       this.__messageFromFlash.setEnabled(false);
-      this.__messageFromFlash.setWidth(300);
-      this.__messageFromFlash.setHeight(100);
-      qooxdooContainer.add(this.__messageFromFlash);
+      qooxdooContainer.add(this.__messageFromFlash, {flex: 1});
       
       qooxdooContainer.add(new qx.ui.basic.Label("Message to Flash:"));
       this.__messageToFlash = new qx.ui.form.TextArea("Qooxdoo is the best!");
-      this.__messageToFlash.setWidth(300);
-      this.__messageToFlash.setHeight(100);
-      qooxdooContainer.add(this.__messageToFlash);
+      qooxdooContainer.add(this.__messageToFlash, {flex: 1});
       
       var buttonBar = new qx.ui.container.Composite(
         new qx.ui.layout.HBox(0, "right")
@@ -138,7 +133,7 @@ qx.Class.define("demobrowser.demo.widget.Flash",
       var flashConteiner = new qx.ui.container.Composite(
         new qx.ui.layout.VBox(4)
       );
-      container.add(flashConteiner);
+      container.add(flashConteiner, {flex: 1});
       
       flashConteiner.add(new qx.ui.basic.Label("Flash:").set({
         rich: true
@@ -146,9 +141,7 @@ qx.Class.define("demobrowser.demo.widget.Flash",
       
       this.__flash = new qx.ui.embed.Flash("demobrowser/demo/flash/TestFlash.swf");
       this.__flash.addListenerOnce("appear", this.__onAppear, this);
-      this.__flash.setWidth(400);
-      this.__flash.setHeight(300);
-      flashConteiner.add(this.__flash);
+      flashConteiner.add(this.__flash, {flex: 1});
       
       return container;
     },
