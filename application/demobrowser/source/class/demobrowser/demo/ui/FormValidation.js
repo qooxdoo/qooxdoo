@@ -90,7 +90,10 @@ qx.Class.define("demobrowser.demo.ui.FormValidation",
       widgets.push(new qx.ui.form.DateField());
       this.getRoot().add(widgets[13], {left: 390, top: 280});      
 
-
+      // date chooser
+      widgets.push(new qx.ui.control.DateChooser());
+      this.getRoot().add(widgets[14], {left: 520, top: 70});
+      
 
       /* ***********************************************
        * CONTROLLS

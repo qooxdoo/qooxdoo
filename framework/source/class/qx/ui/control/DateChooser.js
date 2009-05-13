@@ -45,8 +45,18 @@
 qx.Class.define("qx.ui.control.DateChooser",
 {
   extend : qx.ui.core.Widget,
-  include : qx.ui.core.MExecutable,
-  implement : qx.ui.form.IFormElement,
+  include : [
+    qx.ui.core.MExecutable, 
+    qx.ui.form.MForm,
+    qx.ui.form.MFormElement
+  ],
+  // decrepated IFormElement
+  implement : [
+    qx.ui.form.IFormElement, 
+    qx.ui.form.IExecutable, 
+    qx.ui.form.IForm,
+    qx.ui.form.IDateForm
+  ],
 
 
   /*
@@ -118,9 +128,11 @@ qx.Class.define("qx.ui.control.DateChooser",
     /** 
      * Fired when the value was modified 
      * 
-     * Event data: The value as a JavaScript date string.
+     * Event data: The value as a JavaScript date.
+     * 
+     * @deprecated
      */
-    changeValue : "qx.event.type.Data"
+    changeDate : "qx.event.type.Data"
   },
 
 
@@ -172,23 +184,15 @@ qx.Class.define("qx.ui.control.DateChooser",
       nullable : true,
       event : "changeShownYear"
     },
-
-    /** The currently selected date. */
-    date :
+    
+    /** The date value of the widget. */
+    value : 
     {
       check : "Date",
       init : null,
       nullable : true,
-      apply : "_applyDate",
-      event : "changeDate"
-    },
-
-    /** The name of the widget. Mainly used for serialization proposes. */
-    name :
-    {
-      check : "String",
-      nullable : true,
-      event : "changeName"
+      event : "changeValue",
+      apply : "_applyValue"
     }
   },
 
@@ -208,42 +212,14 @@ qx.Class.define("qx.ui.control.DateChooser",
     __weekLabelArr : null,
 
 
-
-
-    /*
-    ---------------------------------------------------------------------------
-      FORM API IMPLEMENTATION
-    ---------------------------------------------------------------------------
-    */
-
+    // overridden
     /**
-     * Sets the element's string value. The String should by excepted by the
-     * JavaScript Date-Object.
-     *
-     * @param value {String} The new date value as a JavaScript confrom date string.
-     * @return {String} the value
+     * @lint ignoreReferenceField(_forwardStates) 
      */
-    setValue : function(value)
+    _forwardStates :
     {
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
-        this.assertType(value, "string");
-      }
-
-      this.setDate(new Date(value));
-      return value;
+      invalid : true
     },
-
-
-    /**
-     * The element's user set value (date) as a String.
-     *
-     * @return {String} The current set date.
-     */
-    getValue : function() {
-      return this.getDate().toString();
-    },
-
-
 
 
     /*
@@ -409,10 +385,10 @@ qx.Class.define("qx.ui.control.DateChooser",
 
 
     // apply methods
-    _applyDate : function(value, old)
+    _applyValue : function(value, old)
     {
       // fire the changeValue event
-      this.fireDataEvent("changeValue", value == null ? "" : value.toString());
+      this.fireDataEvent("changeDate", value); // deprecated
 
       if ((value != null) && (this.getShownMonth() != value.getMonth() || this.getShownYear() != value.getFullYear()))
       {
@@ -770,7 +746,65 @@ qx.Class.define("qx.ui.control.DateChooser",
       monthYearFormat.dispose();
       weekDayFormat.dispose();
       weekFormat.dispose();
-    }
+    },
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      DEPRECATED STUFF
+    ---------------------------------------------------------------------------
+    */
+    /**
+     * Sets the date. {@see #value}
+     * @param value {Date} The new date.
+     * @deprecated
+     */
+    setDate: function(value) {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Please use setValue instead."
+      );
+      
+      this.setValue(value);
+    },
+    
+    
+    /**
+     * Returns the date. {@see #value}
+     * @deprecated
+     */
+    getDate: function() {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Please use getValue instead."
+      );
+      
+      return this.getValue();
+    },
+    
+    
+    /**
+     * Resets the date. {@see #value}
+     * @deprecated
+     */
+    resetDate: function() {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Please use resetValue instead."
+      );
+      
+      this.resetValue();
+    },
+    
+    
+    /**
+     * Initializes the date. {@see #value}
+     * @deprecated
+     */
+    initDate: function() {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Please use initValue instead."
+      );
+      
+      this.initValue();
+    }             
   },
 
 
