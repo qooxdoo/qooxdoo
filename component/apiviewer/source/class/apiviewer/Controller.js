@@ -185,21 +185,21 @@ qx.Class.define("apiviewer.Controller",
       var uiModel = apiviewer.UiModel.getInstance();
       
       var btn_inherited = this._widgetRegistry.getWidgetById("btn_inherited");
-      btn_inherited.bind("checked", uiModel, "showInherited");
-      uiModel.bind("showInherited", btn_inherited, "checked");
+      btn_inherited.bind("value", uiModel, "showInherited");
+      uiModel.bind("showInherited", btn_inherited, "value");
 
 
       var btn_expand = this._widgetRegistry.getWidgetById("btn_expand");
-      btn_expand.bind("checked", uiModel, "expandProperties");
-      uiModel.bind("expandProperties", btn_expand, "checked");
+      btn_expand.bind("value", uiModel, "expandProperties");
+      uiModel.bind("expandProperties", btn_expand, "value");
 
       var btn_protected = this._widgetRegistry.getWidgetById("btn_protected");
-      btn_protected.bind("checked", uiModel, "showProtected");
-      uiModel.bind("showProtected", btn_protected, "checked");
+      btn_protected.bind("value", uiModel, "showProtected");
+      uiModel.bind("showProtected", btn_protected, "value");
 
       var btn_private = this._widgetRegistry.getWidgetById("btn_private");
-      btn_private.bind("checked", uiModel, "showPrivate");
-      uiModel.bind("showPrivate", btn_private, "checked");
+      btn_private.bind("value", uiModel, "showPrivate");
+      uiModel.bind("showPrivate", btn_private, "value");
     },
 
 

@@ -354,7 +354,9 @@ qx.Class.define("qx.ui.form.ComboBox",
       if (popup.isVisible())
       {
         var list = this.getChildControl("list");
-        list.setValue(this.getValue());
+        var value = this.getValue();
+        
+        list.setSelection([list.findItem(value)]);
       }
       else
       {
