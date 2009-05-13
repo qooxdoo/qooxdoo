@@ -96,7 +96,11 @@ qx.Class.define("qx.test.ui.form.Executable",
     
     testRadioGroupBox: function() {
      this.__test(new qx.ui.groupbox.RadioGroupBox()); 
-    }
+    },
+    
+    testDateChooser: function() {
+     this.__test(new qx.ui.control.DateChooser()); 
+    }    
     
   }
 });

@@ -76,7 +76,7 @@ qx.Class.define("demobrowser.demo.widget.DateChooser",
       setDateButton.setAlignX("center");
       containerButtons.add(setDateButton);
       setDateButton.addListener("execute", function(e) {
-        chooser.setDate(new Date());
+        chooser.setValue(new Date());
       });
 
       // show a specific month
@@ -90,7 +90,7 @@ qx.Class.define("demobrowser.demo.widget.DateChooser",
       var removeSelectionButton = new qx.ui.form.Button("Remove the selection");
       containerButtons.add(removeSelectionButton);
       removeSelectionButton.addListener("execute", function(e) {
-        chooser.setDate(null);
+        chooser.setValue(null);
       });
 
       // set value stuff

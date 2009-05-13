@@ -30,7 +30,7 @@
  * <pre class='javascript'>
  * var dateField = new qx.ui.form.DateField();
  * this.getRoot().add(dateField, {top: 20, left: 20});
- * dateField.setDate(new Date());
+ * dateField.setValue(new Date());
  * </pre>
  */
 qx.Class.define("qx.ui.form.DateField",
@@ -128,6 +128,10 @@ qx.Class.define("qx.ui.form.DateField",
      */
     getDate : function()
     {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Please use the getValue instead."
+      );
+      
       return this.getValue();
     },
 
@@ -153,7 +157,7 @@ qx.Class.define("qx.ui.form.DateField",
 
       // set the date in the datechooser
       var dateChooser = this.getChildControl("list");
-      dateChooser.setDate(value);
+      dateChooser.setValue(value);
     },
 
 
@@ -187,7 +191,7 @@ qx.Class.define("qx.ui.form.DateField",
 
       // set the date in the datechooser
       var dateChooser = this.getChildControl("list");
-      dateChooser.setDate(null);      
+      dateChooser.setValue(null);      
     },
 
 
@@ -265,7 +269,7 @@ qx.Class.define("qx.ui.form.DateField",
     {
       var textField = this.getChildControl("textfield");
 
-      var selectedDate = this.getChildControl("list").getDate();
+      var selectedDate = this.getChildControl("list").getValue();
 
       textField.setValue(this.getDateFormat().format(selectedDate));
       this.close();
@@ -325,8 +329,8 @@ qx.Class.define("qx.ui.form.DateField",
       if (popup.isVisible())
       {
         var chooser = this.getChildControl("list");
-        var date = this.getDate();
-        chooser.setDate(date);
+        var date = this.getValue();
+        chooser.setValue(date);
       }
     },
 
@@ -340,11 +344,11 @@ qx.Class.define("qx.ui.form.DateField",
     _onTextFieldChangeValue : function(e)
     {
       // Apply to popup
-      var date = this.getDate();
+      var date = this.getValue();
       if (date != null)
       {
         var list = this.getChildControl("list");
-        list.setDate(date);
+        list.setValue(date);
       }
 
       // Fire event
