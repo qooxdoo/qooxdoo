@@ -40,6 +40,9 @@ qx.Class.define("qx.test.lang.Type",
       this.assertFalse(Type.isString({}));
       this.assertFalse(Type.isString([]));
       this.assertFalse(Type.isString(/juhu/));
+      
+      // test IE issue with a null returned from DOM
+      this.assertFalse(Type.isString(document.getElementById("ReturenedNull")));
     },
     
     
@@ -60,6 +63,9 @@ qx.Class.define("qx.test.lang.Type",
       this.assertFalse(Type.isArray({}));
       this.assertFalse(Type.isArray(true));
       this.assertFalse(Type.isArray(/juhu/));
+      
+      // test IE issue with a null returned from DOM
+      this.assertFalse(Type.isArray(document.getElementById("ReturenedNull")));
     },
     
     
@@ -78,7 +84,10 @@ qx.Class.define("qx.test.lang.Type",
       this.assertFalse(Type.isObject(2), "number is not an object");
       this.assertFalse(Type.isObject([]), "array is not an object");    
       this.assertFalse(Type.isObject(true), "boolean is not an object");    
-      this.assertFalse(Type.isObject(/juhu/), "regexp is not an object");    
+      this.assertFalse(Type.isObject(/juhu/), "regexp is not an object");
+      
+      // test IE issue with a null returned from DOM
+      this.assertFalse(Type.isObject(document.getElementById("ReturenedNull")));
     },
     
     
@@ -116,7 +125,10 @@ qx.Class.define("qx.test.lang.Type",
       this.assertFalse(Type.isNumber(/g/));
       this.assertFalse(Type.isNumber([]));    
       this.assertFalse(Type.isNumber(true));    
-      this.assertFalse(Type.isNumber({}));       
+      this.assertFalse(Type.isNumber({})); 
+      
+      // test IE issue with a null returned from DOM
+      this.assertFalse(Type.isNumber(document.getElementById("ReturenedNull")));
     },
     
     
@@ -135,7 +147,10 @@ qx.Class.define("qx.test.lang.Type",
       this.assertFalse(Type.isBoolean(/g/));
       this.assertFalse(Type.isBoolean([]));    
       this.assertFalse(Type.isBoolean(2));    
-      this.assertFalse(Type.isBoolean({}));       
+      this.assertFalse(Type.isBoolean({})); 
+      
+      // test IE issue with a null returned from DOM
+      this.assertFalse(Type.isBoolean(document.getElementById("ReturenedNull")));
     },
     
     
@@ -154,7 +169,10 @@ qx.Class.define("qx.test.lang.Type",
       this.assertFalse(Type.isFunction(/g/));
       this.assertFalse(Type.isFunction([]));    
       this.assertFalse(Type.isFunction(2));    
-      this.assertFalse(Type.isFunction({}));       
+      this.assertFalse(Type.isFunction({})); 
+      
+      // test IE issue with a null returned from DOM
+      this.assertFalse(Type.isFunction(document.getElementById("ReturenedNull")));
     }
   }
 });
