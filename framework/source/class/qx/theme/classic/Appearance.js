@@ -775,7 +775,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          icon : "decoration/arrows/next.gif"
+          icon : states.vertical ?
+            "decoration/arrows/down.gif" :
+            "decoration/arrows/next.gif"
         };
       }
     },
@@ -788,7 +790,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          icon : "decoration/arrows/left.gif"
+          icon : states.vertical ?
+            "decoration/arrows/up.gif" :
+           "decoration/arrows/left.gif"
         };
       }
     },

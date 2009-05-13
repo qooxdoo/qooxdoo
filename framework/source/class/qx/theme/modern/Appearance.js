@@ -869,7 +869,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           padding : 5,
           center : true,
-          icon : states.barLeft || states.barRight ?
+          icon : states.vertical ?
             "decoration/arrows/down.png" :
             "decoration/arrows/right.png"
         };
@@ -886,7 +886,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           padding : 5,
           center : true,
-          icon : states.barLeft || states.barRight ?
+          icon : states.vertical ?
             "decoration/arrows/up.png" :
             "decoration/arrows/left.png"
         };
