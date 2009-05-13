@@ -39,6 +39,7 @@ qx.Class.define("qx.ui.tabview.TabButton",
 
     var layout = new qx.ui.layout.Grid(2, 0);
     layout.setRowAlign(0, "left", "middle");
+    layout.setColumnAlign(0, "right", "middle");  
 
     this._getLayout().dispose();
     this._setLayout(layout);
@@ -175,6 +176,15 @@ qx.Class.define("qx.ui.tabview.TabButton",
       } else {
         this._excludeChildControl("close-button");
       }
+    },
+
+    // property apply
+    _applyCenter : function(value)
+    {
+      var layout = this._getLayout();
+      layout.setColumnFlex(0,  value);
+      layout.setColumnFlex(2, value);
+      layout.setColumnFlex(3,  value);
     }
 
   }
