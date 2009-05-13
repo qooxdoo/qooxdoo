@@ -49,10 +49,10 @@ class Config:
         
         # dispatch on argument
         if isinstance(data, (types.DictType, types.ListType)):
-            self._console.debug("Creating config from data")
+            #self._console.debug("Creating config from data")
             self.__init__data(data, path)
         elif isinstance(data, types.StringTypes):
-            self._console.debug("Reading config file \"%s\"" % data)
+            #self._console.debug("Reading config file \"%s\"" % data)
             self.__init_fname(data)
         else:
             raise TypeError, str(data)
