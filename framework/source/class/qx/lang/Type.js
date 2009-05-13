@@ -61,11 +61,17 @@ qx.Bootstrap.define("qx.lang.Type",
      */
     isString : function(value)
     {
+      // Added "value !== null" because IE throws an exception "Object expected"
+      // by executing "value instanceof Array" if value is a DOM element that 
+      // doesn't exist. It seems that there is a internal different between a 
+      // JavaScript null and a null returned from calling DOM. 
+      // e.q. by document.getElementById("ReturnedNull").
       return (
+        value !== null && (
         typeof value === "string" ||
         this.getClass(value) == "String" ||
         value instanceof String ||
-        (!!value && !!value.$$isString)
+        (!!value && !!value.$$isString))
       );
     },
     
@@ -122,9 +128,15 @@ qx.Bootstrap.define("qx.lang.Type",
     * @return {Boolean} Whether the value is a number. 
     */    
     isNumber : function(value) {
+      // Added "value !== null" because IE throws an exception "Object expected"
+      // by executing "value instanceof Array" if value is a DOM element that 
+      // doesn't exist. It seems that there is a internal different between a 
+      // JavaScript null and a null returned from calling DOM. 
+      // e.q. by document.getElementById("ReturnedNull").
       return (
+        value !== null && (
         this.getClass(value) == "Number" ||
-        value instanceof Number
+        value instanceof Number)
       );
     },
 
@@ -136,9 +148,15 @@ qx.Bootstrap.define("qx.lang.Type",
     */    
     isBoolean : function(value) 
     {
+      // Added "value !== null" because IE throws an exception "Object expected"
+      // by executing "value instanceof Array" if value is a DOM element that 
+      // doesn't exist. It seems that there is a internal different between a 
+      // JavaScript null and a null returned from calling DOM. 
+      // e.q. by document.getElementById("ReturnedNull").
       return (
+        value !== null && (
         this.getClass(value) == "Boolean" ||
-        value instanceof Boolean
+        value instanceof Boolean)
       );
     },
     
