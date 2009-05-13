@@ -181,8 +181,8 @@ qx.Class.define("qx.data.controller.Tree",
     
     
     /**
-     * Delegation object, which can have one ore more functionf defined by the
-     * {@link #IControllerDelegate} Interface.  
+     * Delegation object, which can have one ore more function defined by the
+     * {@link #IControllerDelegate} interface.  
      */
     delegate : 
     {
