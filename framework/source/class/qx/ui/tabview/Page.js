@@ -197,11 +197,10 @@ qx.Class.define("qx.ui.tabview.Page",
           control.setAllowGrowX(true);
           control.setAllowGrowY(true);
           
-          // TODO: Review why the following line was in the original code.
-          // It has been commented out to hotfix problems when creating a
-          // qx.ui.tabview.TabButton
-//          control.setValue(this.toHashCode());
-
+          // TODO: implement a better solution for
+          // storage depency information between Button and Page 
+          control.setUserData("page", this);
+          
           control.addListener("close", this._onButtonClose, this);
 
           this._add(control);
