@@ -30,6 +30,7 @@
 qx.Class.define("qx.ui.control.ColorSelector",
 {
   extend : qx.ui.core.Widget,
+  implement : [qx.ui.form.IColorForm],
 
 
 
@@ -137,6 +138,14 @@ qx.Class.define("qx.ui.control.ColorSelector",
       check : "Number",
       init : 100,
       apply : "_applyBrightness"
+    },
+    
+    /** The hex value of the selected color. */
+    value :
+    {
+      nullable : true,
+      apply : "_applyValue",
+      event : "changeValue"
     }
   },
 
@@ -440,7 +449,23 @@ qx.Class.define("qx.ui.control.ColorSelector",
 
 
 
-
+    // Property apply
+    _applyValue : function(value, old)
+    {
+      if (value === null)
+      {
+        this.setRed(null);
+        this.setGreen(null);
+        this.setBlue(null);
+      }
+      else
+      {
+        var rgb = qx.util.ColorUtil.stringToRgb(value);
+        this.setRed(rgb[0]);
+        this.setGreen(rgb[1]);
+        this.setBlue(rgb[2]);
+      }
+    },
 
 
     /*
