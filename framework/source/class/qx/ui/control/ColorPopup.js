@@ -27,6 +27,7 @@
 qx.Class.define("qx.ui.control.ColorPopup",
 {
   extend : qx.ui.popup.Popup,
+  implement : [qx.ui.form.IColorForm],
 
   /*
   *****************************************************************************
