@@ -199,7 +199,17 @@ qx.Class.define("qx.test.ui.form.Form",
     
     testValidDateField: function() {
      this.__testValid(new qx.ui.form.DateField()); 
+    },
+    
+    testRequieredDateChooser: function() {
+      this.__testRequired(new qx.ui.form.DateField());      
+    },
+    
+    testValidDateChooser: function() {
+     this.__testValid(new qx.ui.form.DateField()); 
     }        
+    
+    
     
   }
 });

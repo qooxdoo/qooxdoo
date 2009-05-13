@@ -1817,9 +1817,27 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
+        var decorator;
+        
+        var focused = !!states.focused;
+        var invalid = !!states.invalid;
+        var disabled = !!states.disabled;
+        
+        if (focused && invalid && !disabled) {
+          decorator = "input-focused-invalid";
+        } else if (focused && !invalid && !disabled) {
+          decorator = "input-focused";
+        } else if (disabled) {
+          decorator = "input-disabled";
+        } else if (!focused && invalid && !disabled) {
+          decorator = "border-invalid";
+        } else {
+          decorator = "input";
+        }
+                
         return {
           padding : 2,
-          decorator : "main",
+          decorator : decorator,
           backgroundColor : "background-light"
         };
       }
@@ -1835,7 +1853,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         var result = {
-          padding : [ 2, 4 ]
+          padding : [ 2, 4 ],
+          shadow : undefined
         };
 
         if (states.lastYear) {

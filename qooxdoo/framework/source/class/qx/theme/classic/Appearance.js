@@ -1648,6 +1648,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           backgroundColor : "date-chooser",
+          textColor : states.invalid && !states.disabled ? "invalid" : undefined,
           padding : [2, 10]
         };
       }
