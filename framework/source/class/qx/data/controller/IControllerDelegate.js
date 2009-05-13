@@ -45,7 +45,7 @@ qx.Interface.define("qx.data.controller.IControllerDelegate",
     
     /**
      * Filter checks the current data and returns a boolean if the data should 
-     * appera in the filtered data set or not.
+     * appear in the filtered data set or not.
      * 
      * The filter currently works only with the {@link qx.data.controller.List}
      * controller!
