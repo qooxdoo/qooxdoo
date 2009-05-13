@@ -211,6 +211,7 @@ class LibraryPath:
                     sys.exit(1)
 
                 # Store file data
+                self._console.debug("Adding class %s" % filePathId)
                 self._classes[filePathId] = {
                     "relpath" : fileRel,
                     "path" : filePath,
