@@ -81,6 +81,7 @@ qx.Class.define("qx.ui.container.SlideBar",
     this.base(arguments);
 
     var scrollPane = this.getChildControl("scrollpane");
+    this._add(scrollPane, {flex: 1});
 
     if (orientation != null) {
       this.setOrientation(orientation);
@@ -88,7 +89,6 @@ qx.Class.define("qx.ui.container.SlideBar",
       this.initOrientation();
     }
 
-    this._add(scrollPane, {flex: 1});
   },
 
 
@@ -153,7 +153,7 @@ qx.Class.define("qx.ui.container.SlideBar",
           control = new qx.ui.form.RepeatButton;
           control.addListener("execute", this._onExecuteForward, this);
           control.setFocusable(false);
-          this._add(control);
+          this._addAt(control, 2);
           break;
 
         case "button-backward":
@@ -198,16 +198,6 @@ qx.Class.define("qx.ui.container.SlideBar",
       barBottom : true
     },
 
-
-    /**
-     * Indicates if the orientation is horizontal or not.
-     * @return {Boolean} true if the orientation is horizontal, otherwise false.
-     */
-    _isHorizontal : function() {
-      return this.getOrientation() === "horizontal";
-    },
-
-
     /*
     ---------------------------------------------------------------------------
       PUBLIC SCROLL API
@@ -223,7 +213,7 @@ qx.Class.define("qx.ui.container.SlideBar",
     scrollBy : function(offset)
     {
       var pane = this.getChildControl("scrollpane");
-      if (this._isHorizontal()) {
+      if (this.getOrientation() === "horizontal") {
         pane.scrollByX(offset);
       } else {
         pane.scrollByY(offset);
@@ -240,7 +230,7 @@ qx.Class.define("qx.ui.container.SlideBar",
     scrollTo : function(value)
     {
       var pane = this.getChildControl("scrollpane");
-      if (this._isHorizontal()) {
+      if (this.getOrientation() === "horizontal") {
         pane.scrollToX(value);
       } else {
         pane.scrollToY(value);
@@ -260,7 +250,27 @@ qx.Class.define("qx.ui.container.SlideBar",
     _applyOrientation : function(value, old)
     {
       var oldLayouts = [this.getLayout(), this._getLayout()];
-      
+      var buttonForward = this.getChildControl("button-forward");
+      var buttonBackward = this.getChildControl("button-backward");
+
+      // old can also be null, so we have to check both explicitly to set
+      // the states correctly.
+      if (old == "vertical")
+      {
+        buttonForward.removeState("vertical");  
+        buttonBackward.removeState("vertical");  
+        buttonForward.addState("horizontal");  
+        buttonBackward.addState("horizontal");  
+      }
+      else if (old == "horizontal")
+      {
+        buttonForward.removeState("horizontal");  
+        buttonBackward.removeState("horizontal");  
+        buttonForward.addState("vertical");  
+        buttonBackward.addState("vertical");  
+      }
+
+
       if (value == "horizontal")
       {
         this._setLayout(new qx.ui.layout.HBox());
@@ -308,7 +318,7 @@ qx.Class.define("qx.ui.container.SlideBar",
       var innerSize = this.getInnerSize();
       var contentSize = content.getBounds();
 
-      var overflow = this._isHorizontal() ?
+      var overflow = (this.getOrientation() === "horizontal") ?
         contentSize.width > innerSize.width :
         contentSize.height > innerSize.height;
 
