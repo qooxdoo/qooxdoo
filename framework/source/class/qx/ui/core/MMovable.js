@@ -71,7 +71,7 @@ qx.Mixin.define("qx.ui.core.MMovable",
 
     __blockerAdded : false,
     __oldBlockerColor : null,
-    __oldBlockerOpacity : o,
+    __oldBlockerOpacity : 0,
 
     /*
     ---------------------------------------------------------------------------
