@@ -105,7 +105,10 @@ qx.Class.define("qx.test.lang.Type",
       this.assertFalse(Type.isRegExp(2));
       this.assertFalse(Type.isRegExp([]));    
       this.assertFalse(Type.isRegExp(true));    
-      this.assertFalse(Type.isRegExp({}));        
+      this.assertFalse(Type.isRegExp({}));    
+      
+      // test IE issue with a null returned from DOM
+      this.assertFalse(Type.isRegExp(document.getElementById("ReturenedNull")));
     },
     
     
