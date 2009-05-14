@@ -59,7 +59,7 @@ qx.Class.define("demobrowser.demo.data.NamesList",
       store.bind("model.persons", controller, "model");
   
       // bind the status label
-      store.bind("state", status, "content");  
+      store.bind("state", status, "value");  
       
       
       

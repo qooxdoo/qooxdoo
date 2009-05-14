@@ -61,8 +61,8 @@ qx.Class.define("demobrowser.demo.util.PropertyGroup",
       if (type == "int")
       {
         var formItem = new qx.ui.form.Spinner().set({
-          min: this._properties[prop].min || 0,
-          max: this._properties[prop].max !== undefined ? this._properties[prop].max : 1000
+          minimum: this._properties[prop].min || 0,
+          maximum: this._properties[prop].max !== undefined ? this._properties[prop].max : 1000
         });
         formItem.addListener("changeValue", this._createOnIntPropertyChange(prop), this);
         this._add(formItem, {row: row++, column: 1});
@@ -79,9 +79,8 @@ qx.Class.define("demobrowser.demo.util.PropertyGroup",
         var formItem = new qx.ui.form.RadioGroup();
         for (var i=0; i<values.length; i++)
         {
-          var widget = new qx.ui.form.RadioButton(values[i]).set({
-            value: values[i]
-          });
+          var widget = new qx.ui.form.RadioButton(values[i]);
+          widget.setUserData("value", values[i]);
           formItem.add(widget);
           this._add(widget, {row: row++, column:1});
         }
@@ -227,7 +226,7 @@ qx.Class.define("demobrowser.demo.util.PropertyGroup",
       return function(e)
       {
         var widget = this.getSelected();
-        this._setProperty(widget, property, e.getTarget().getValue());
+        this._setProperty(widget, property, e.getTarget().getUserData("value"));
       }
     },
 
@@ -237,7 +236,7 @@ qx.Class.define("demobrowser.demo.util.PropertyGroup",
       return function(e)
       {
         var widget = this.getSelected();
-        this._setProperty(widget, property, e.getTarget().getValue());
+        this._setProperty(widget, property, e.getTarget().getUserData("value"));
       }
     },
 
@@ -247,7 +246,7 @@ qx.Class.define("demobrowser.demo.util.PropertyGroup",
       return function(e)
       {
         var widget = this.getSelected();
-        this._setProperty(widget, property, mgr.getSelected().getValue());
+        this._setProperty(widget, property, mgr.getSelection()[0].getUserData("value"));
       }
     },
 
@@ -259,14 +258,14 @@ qx.Class.define("demobrowser.demo.util.PropertyGroup",
         var widget = this.getSelected();
         var control = e.getTarget();
 
-        if (control.getValue())
+        if (control.getUserData("value"))
         {
           this._setProperty(widget, property, null);
           this._properties[property].formItem.setEnabled(false);
         }
         else
         {
-          this._setProperty(widget, property, this._properties[property].formItem.getValue());
+          this._setProperty(widget, property, this._properties[property].formItem.getUserData("value"));
           this._properties[property].formItem.setEnabled(true);
         }
       }
@@ -299,25 +298,25 @@ qx.Class.define("demobrowser.demo.util.PropertyGroup",
         {
           if (type == "int")
           {
-            formItem.setValue(parseInt(propValue));
+            formItem.setUserData("value", parseInt(propValue));
           }
           else if (type == "string")
           {
-            formItem.setValue(propValue.toString());
+            formItem.setUserData("value", propValue.toString());
           }
           else if (type == "bool")
           {
-            formItem.setValue(!!propValue);
+            formItem.setUserData("value", !!propValue);
           }
           else if (type == "enum")
           {
-            formItem.setValue(propValue);
+            formItem.setUserData("value", propValue);
           }
         }
 
         if (nullable)
         {
-          this._properties[prop].nullWidget.setValue(propValue == null);
+          this._properties[prop].nullWidget.setUserData("value", propValue == null);
           this._properties[prop].nullWidget.setEnabled(true);
           formItem.setEnabled(propValue !== null);
         }
