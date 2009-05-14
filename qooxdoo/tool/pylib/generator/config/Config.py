@@ -68,6 +68,8 @@ class Config:
             for key in self._data:
                 if key == Lang.JOBS_KEY:            # skip 'jobs'; they expand later
                     continue
+                elif key == Lang.LET_KEY:           # macro definitions have to remain re-evaluable
+                    continue
                 else:
                     dat = letObj.expandMacros(self._data[key])
                     self._data[key] = dat
