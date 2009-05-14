@@ -90,9 +90,9 @@ qx.Class.define("demobrowser.demo.widget.Slider",
 
         container.add(group.slider, {row: 0, column: col, rowSpan: 3, colSpan: 1});
 
-        container.add(group.min, {row: 0, column: col+1});
+        container.add(group.minimum, {row: 0, column: col+1});
         container.add(group.value, {row: 1, column: col+1});
-        container.add(group.max, {row: 2, column: col+1});
+        container.add(group.maximum, {row: 2, column: col+1});
 
         grid.setColumnMinWidth(col+1, 80);
         grid.setColumnWidth(col+2, 20);
@@ -182,8 +182,8 @@ qx.Class.define("demobrowser.demo.widget.Slider",
       var group =
       {
         slider: slider,
-        min: new qx.ui.basic.Label("Min: " + slider.getMinimum().toString()),
-        max: new qx.ui.basic.Label("Max: " + slider.getMaximum().toString()),
+        minimum: new qx.ui.basic.Label("Min: " + slider.getMinimum().toString()),
+        maximum: new qx.ui.basic.Label("Max: " + slider.getMaximum().toString()),
         value: new qx.ui.basic.Label(slider.getValue().toString())
       };
 

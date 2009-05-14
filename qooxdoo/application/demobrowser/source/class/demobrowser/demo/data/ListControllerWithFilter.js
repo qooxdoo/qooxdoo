@@ -66,7 +66,7 @@ qx.Class.define("demobrowser.demo.data.ListControllerWithFilter",
           return "Show all numbers."
         }
       };
-      controller.bind("delegate", filterNameLabel, "content", options);
+      controller.bind("delegate", filterNameLabel, "value", options);
       
             
             

@@ -52,7 +52,7 @@ qx.Class.define("demobrowser.demo.data.Flickr",
        * ********************************************* */
       var status = new qx.ui.basic.Label("loading");
       this.getRoot().add(status, {left: 210, top: 52});
-      store.bind("state", status, "content");
+      store.bind("state", status, "value");
       
       
       /* ***********************************************

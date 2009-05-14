@@ -114,10 +114,10 @@ qx.Class.define("demobrowser.demo.data.Twitter",
       
       // create the controller for the detail view
       var detailsController = new qx.data.controller.Object();
-      detailsController.addTarget(name, "content", "user.name");
-      detailsController.addTarget(location, "content", "user.location");
-      detailsController.addTarget(message, "content", "text");
-      detailsController.addTarget(posted, "content", "source");
+      detailsController.addTarget(name, "value", "user.name");
+      detailsController.addTarget(location, "value", "user.location");
+      detailsController.addTarget(message, "value", "text");
+      detailsController.addTarget(posted, "value", "source");
       if (!qx.core.Variant.isSet("qx.client", "mshtml")) {
         detailsBox.add(new qx.ui.basic.Label("Avatar: "), {row: 4, column: 0});   
         var avatar = new qx.ui.basic.Image();
