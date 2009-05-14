@@ -200,6 +200,7 @@
           "index.html"
         ],
 
+        "source" : "${ROOT}/source",
         "target" : "${BUILD_PATH}"
       }
     },
