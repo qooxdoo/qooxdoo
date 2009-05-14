@@ -60,7 +60,7 @@ qx.Class.define("demobrowser.demo.data.ListController",
       var selectedLabel = new qx.ui.basic.Label("");
       this.getRoot().add(selectedLabel, {left: 370, top: 80});
       // bind the label with single value binding to the current selection
-      controller3.bind("selection[0]", selectedLabel, "content");
+      controller3.bind("selection[0]", selectedLabel, "value");
       // style the textfield
       selectedLabel.setWidth(120);
       selectedLabel.setDecorator("main");

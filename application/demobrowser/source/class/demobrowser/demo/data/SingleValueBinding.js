@@ -38,7 +38,7 @@ qx.Class.define("demobrowser.demo.data.SingleValueBinding",
       var labelSimple = new qx.ui.basic.Label("Change me...");
       this.getRoot().add(labelSimple, {top: 32, left: 120});
       // bind the input event of the textfield to the label content
-      textFieldSimple.bind("input", labelSimple, "content");
+      textFieldSimple.bind("input", labelSimple, "value");
       
       
       
@@ -55,7 +55,7 @@ qx.Class.define("demobrowser.demo.data.SingleValueBinding",
       var labelConvert = new qx.ui.basic.Label("");
       this.getRoot().add(labelConvert, {top: 80, left: 120});
       // bind the slider value to the label content
-      sliderConvert.bind("value", labelConvert, "content");
+      sliderConvert.bind("value", labelConvert, "value");
       
       
       
@@ -81,7 +81,7 @@ qx.Class.define("demobrowser.demo.data.SingleValueBinding",
         }
       }};
       // bind the slider value to the label content
-      sliderSelfConvert.bind("value", labelSelfConvert, "content", options);   
+      sliderSelfConvert.bind("value", labelSelfConvert, "value", options);   
       
       
 
@@ -126,8 +126,8 @@ qx.Class.define("demobrowser.demo.data.SingleValueBinding",
       this.getRoot().add(labelArrayLast, {top: 250, left: 60});
       
       // bind the target lables
-      rootNode.bind("child.names[0]", labelArrayFirst, "content");  // first
-      rootNode.bind("child.names[last]", labelArrayLast, "content");
+      rootNode.bind("child.names[0]", labelArrayFirst, "value");  // first
+      rootNode.bind("child.names[last]", labelArrayLast, "value");
       
       
       
@@ -142,17 +142,16 @@ qx.Class.define("demobrowser.demo.data.SingleValueBinding",
       // create the validation label
       var labelValidation = new qx.ui.basic.Label("");
       this.getRoot().add(labelValidation, {top: 332, left: 120});
-      // create the validation decorator
-      var validationDecorator = new qx.ui.decoration.Single(1, "solid", "red");
+
       // create the options with the converter
       var options = {
         onUpdate : function() {
           labelValidation.setValue("");
-          validationTextField.resetShadow();
+          validationTextField.setValid(true);
         }, 
         onSetFail : function(e) {
           labelValidation.setValue("No number!");
-          validationTextField.setShadow(validationDecorator);
+          validationTextField.setValid(false);
         }
       };
       // bind the slider value to the label content

@@ -56,7 +56,7 @@ qx.Class.define("demobrowser.demo.data.JsonToTree",
       store.bind("model", controller, "model");      
   
       // bind the status label
-      store.bind("state", status, "content");
+      store.bind("state", status, "value");
     
       // show the data in the list when loaded
       store.addListener("loaded", function(ev) {

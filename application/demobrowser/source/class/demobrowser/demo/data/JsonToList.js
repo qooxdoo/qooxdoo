@@ -61,7 +61,7 @@ qx.Class.define("demobrowser.demo.data.JsonToList",
       store.bind("model.items", controller, "model");
   
       // bind the status label
-      store.bind("state", status, "content");  
+      store.bind("state", status, "value");  
       
       
       
