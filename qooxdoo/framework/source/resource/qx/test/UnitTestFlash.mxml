@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="init()" width="100%" height="100%" horizontalAlign="left">
+	<mx:Script>
+		<![CDATA[
+			import flash.external.ExternalInterface;
+
+			private function init():void {
+				ExternalInterface.marshallExceptions = true;
+				ExternalInterface.addCallback("echo", echo);
+			}
+			
+			private function echo(message:String):String {
+				logger.text = "Echo called with '" + message + "'";
+				return message;
+			}
+		]]>
+	</mx:Script>
+	
+	<mx:Label text="No echo called!" id="logger"/>
+</mx:Application>
