@@ -383,7 +383,7 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
     // overridden
     getCssClasses : function(value, states)
     {
-      var cssClass = this.__stylesheet.getCssClass(this.__statesKey) || "";
+      var cssClass = this.__stylesheet.getCssClass(this.__statesKey) || "";
       return "qx-cell " + cssClass; 
     },
     

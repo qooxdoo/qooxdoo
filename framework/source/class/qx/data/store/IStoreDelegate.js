@@ -61,7 +61,7 @@ qx.Interface.define("qx.data.store.IStoreDelegate",
      *   separated by ".
      * @return {Class|null} Returns the class which should be used as superclass 
      *   corresponding to the given hash of the properties. If <code>null</code>
-     *   will be returned, {@link qx.core.Object} will be used as superclass.
+     *   will be returned, {@link qx.core.Object} will be used as superclass.
      */
     getModelSuperClass : function(properties) {},
     
