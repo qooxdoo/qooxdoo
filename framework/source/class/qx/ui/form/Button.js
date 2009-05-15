@@ -143,6 +143,19 @@ qx.Class.define("qx.ui.form.Button",
 
   members :
   {
+    // overridden
+    /**
+     * @lint ignoreReferenceField(_forwardStates) 
+     */
+    _forwardStates :
+    {
+      focused : true,
+      hovered : true,
+      pressed : true,
+      disabled : true
+    },
+    
+    
     /*
     ---------------------------------------------------------------------------
       USER API
