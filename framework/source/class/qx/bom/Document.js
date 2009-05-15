@@ -81,13 +81,16 @@ qx.Class.define("qx.bom.Document",
      *
      * @param win {Window?window} The window to query
      * @return {Integer} The width of the actual document (which includes the body and its margin).
+     * 
+     * NOTE: Opera 9.6 has a wrong value for the scrollWidth property!
      */
     getWidth : function(win)
     {
       var doc = (win||window).document;
       var view = qx.bom.Viewport.getWidth(win);
+      var buggyOpera = (qx.bom.client.Engine.OPERA && qx.bom.client.Engine.VERSION > 9.5 && qx.bom.client.Engine.VERSION <= 10);
       var scroll = doc.compatMode === "CSS1Compat" ? doc.documentElement.scrollWidth : doc.body.scrollWidth;
-      return Math.max(scroll, view);
+      return buggyOpera ? view : Math.max(scroll, view);
     },
 
 
@@ -112,13 +115,16 @@ qx.Class.define("qx.bom.Document",
      *
      * @param win {Window?window} The window to query
      * @return {Integer} The height of the actual document (which includes the body and its margin).
+     * 
+     * NOTE: Opera 9.6 has a wrong value for the scrollHeight property!
      */
     getHeight : function(win)
     {
       var doc = (win||window).document;
       var view = qx.bom.Viewport.getHeight(win);
+      var buggyOpera = (qx.bom.client.Engine.OPERA && qx.bom.client.Engine.VERSION > 9.5 && qx.bom.client.Engine.VERSION <= 10);
       var scroll = doc.compatMode === "CSS1Compat" ? doc.documentElement.scrollHeight : doc.body.scrollHeight;
-      return Math.max(scroll, view);
+      return buggyOpera ? view : Math.max(scroll, view);
     }
   }
 });
