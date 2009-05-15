@@ -274,7 +274,7 @@ qx.Class.define("qx.ui.tooltip.Manager",
           var invalidMessage = target.getInvalidMessage();          
         }
         
-        if (tooltip || tooltipText || tooltipIcon || invalidMessage) {
+        if (tooltip || tooltipText || tooltipIcon || invalidMessage) {
           break;
         }
 

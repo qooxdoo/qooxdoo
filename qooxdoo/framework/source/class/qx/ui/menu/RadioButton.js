@@ -93,7 +93,7 @@ qx.Class.define("qx.ui.menu.RadioButton",
     value :
     {
       // TODO change the check to Boolean after the deprecation has been removed
-      check : "function(value) {return qx.lang.Type.isString(value) || qx.lang.Type.isBoolean(value)}",
+      check : "function(value) {return qx.lang.Type.isString(value) || qx.lang.Type.isBoolean(value)}",
       nullable : true,
       event : "changeValue",
       apply : "_applyValue"

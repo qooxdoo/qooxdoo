@@ -61,7 +61,7 @@ qx.Mixin.define("qx.data.marshal.MEventBubbling",
 
       // if the child supports chaining
       if ((value instanceof qx.core.Object) 
-        && qx.Class.hasMixin(value.constructor, qx.data.marshal.MEventBubbling)
+        && qx.Class.hasMixin(value.constructor, qx.data.marshal.MEventBubbling)
       ) {
         // create the listener
         var listener = qx.lang.Function.bind(

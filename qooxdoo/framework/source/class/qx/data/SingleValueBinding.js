@@ -408,7 +408,7 @@ qx.Class.define("qx.data.SingleValueBinding",
      *   starts.
      * @param targetPropertyChain {String} The names of the properties, 
      *   separated with a dot.
-     * @return {qx.core.Object | null} The object on which the last property
+     * @return {qx.core.Object | null} The object on which the last property
      *   should be set.
      */
     __getTargetFromChain: function(targetObject, targetPropertyChain) {
