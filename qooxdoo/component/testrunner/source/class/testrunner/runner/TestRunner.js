@@ -53,6 +53,29 @@ qx.Class.define("testrunner.runner.TestRunner",
   {
     this.base(arguments);
 
+    this.nameSpace = qx.core.Setting.get("qx.testNameSpace");
+
+    var params = location.search;
+
+    // Determine test to preselect: Use the test namespace as a default
+    this.__setCurrentTestArray(this.nameSpace);
+    // then check the history
+    var history = qx.bom.History.getInstance();
+    if (history.getState()) {
+      this.__setCurrentTestArray(history.getState());
+    }
+    // then look for a "testclass" URI parameter    
+    else if (params.indexOf("testclass=") > 0 ) {
+      this.__setCurrentTestArray(params.substr(params.indexOf("testclass=") + 10));
+    }
+    // finally check for the cookie
+    else {            
+      var cookieSelection = qx.bom.Cookie.get("selectedTest");
+      if (cookieSelection !== null) {
+        this.__setCurrentTestArray(cookieSelection);
+      }  
+    }
+
     var layout = new qx.ui.layout.VBox().set({
       separator :"separator-vertical"
     });
@@ -120,12 +143,6 @@ qx.Class.define("testrunner.runner.TestRunner",
     var statuspane = this.__makeStatus();
     this.widgets["statuspane"] = statuspane;
     this.add(statuspane);
-    
-    // history
-    var history = qx.bom.History.getInstance();
-    if (history.getState()) {
-      this.__setCurrentTestArray(history.getState());
-    }
   },
 
 
@@ -313,15 +330,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       this.stopbutton.setToolTipText(this.tr("Stop running tests"));
 
       var testUri   = qx.core.Setting.get("qx.testPageUri");
-      var nameSpace = qx.core.Setting.get("qx.testNameSpace");
-      var params = location.search;
-      if (params.indexOf("testclass=") >=0) {
-        nameSpace = params.substr(params.indexOf("testclass=") + 10);
-        if (!qx.bom.History.getInstance().getState()) {
-          this.__setCurrentTestArray(nameSpace);
-        }
-      }
-      this.__testSuiteUrl = testUri+"?testclass="+nameSpace;
+      this.__testSuiteUrl = testUri+"?testclass="+this.nameSpace;
       this.testSuiteUrl = new qx.ui.form.TextField(this.__testSuiteUrl);
 
       var part2 = new qx.ui.toolbar.Part();
@@ -771,6 +780,9 @@ qx.Class.define("testrunner.runner.TestRunner",
           parseInt(this.widgets["progresspane.fail_cnt"].getValue()) > 0) {
         this.__scrollToResult();      
       }
+
+      // store selected test in cookie 
+      qx.bom.Cookie.set("selectedTest", this.tests.selected);
     },  // treeGetSelection
 
     // -------------------------------------------------------------------------
