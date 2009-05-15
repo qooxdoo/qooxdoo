@@ -296,6 +296,11 @@ qx.Class.define("qx.ui.form.SelectBox",
     __onChangeSelection : function(e)
     {
       var value = e.getData()[0];
+     
+      var list = this.getChildControl("list");
+      if (list.getSelection()[0] != value) {
+        list.setSelection([value]);
+      }
       
       var atom = this.getChildControl("atom");
 
@@ -306,7 +311,6 @@ qx.Class.define("qx.ui.form.SelectBox",
       icon == null ? atom.resetIcon() : atom.setIcon(icon);
 
       // Fire value event
-      var list = this.getChildControl("list");
       if (this.hasListener("changeValue")) {
         this.fireDataEvent("changeValue", list.getValue());
       }
