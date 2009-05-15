@@ -366,6 +366,11 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
     _computeColumnsFlexWidth : function()
     {
       this.__deferredComputeColumnsFlexWidth.cancel();
+      var width = this._getAvailableWidth();
+      
+      if (width === null) {
+        return;
+      }
       
       var tableColumnModel = this.getTableColumnModel();      
       var visibleColumns = tableColumnModel.getVisibleColumns();
@@ -383,7 +388,6 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       this.__clearLayoutCaches();
       
       // Use a horizontal box layout to determine the available width.
-      var width = this._getAvailableWidth();
       this.__layout.renderLayout(width, 100);
 
       // Now that we've calculated the width, set it.
