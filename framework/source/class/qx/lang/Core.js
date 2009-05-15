@@ -201,7 +201,7 @@ qx.Bootstrap.define("qx.lang.Core",
         {
           var value = this[i];
           if (value !== undefined)  {
-            callback.call(obj || window, value, i, this);
+            callback.call(obj || window, value, i, this);
           }
         }
       }
@@ -258,7 +258,7 @@ qx.Bootstrap.define("qx.lang.Core",
           var value = this[i];
           if (value !== undefined) 
           {
-            if (callback.call(obj || window, value, i, this)) {
+            if (callback.call(obj || window, value, i, this)) {
               res.push(this[i]);
             }
           }
@@ -367,7 +367,7 @@ qx.Bootstrap.define("qx.lang.Core",
           var value = this[i];
           if (value !== undefined) 
           {
-            if (callback.call(obj || window, value, i, this)) {
+            if (callback.call(obj || window, value, i, this)) {
               return true;
             }
           }
@@ -423,7 +423,7 @@ qx.Bootstrap.define("qx.lang.Core",
           var value = this[i];
           if (value !== undefined) 
           {
-            if (!callback.call(obj || window, value, i, this)) {
+            if (!callback.call(obj || window, value, i, this)) {
               return false;
             }
           }
