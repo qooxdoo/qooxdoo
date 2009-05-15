@@ -307,6 +307,13 @@ qx.Class.define("qx.ui.table.Table",
       refine : true,
       init : true
     },
+    
+    
+    minWidth : 
+    {
+      refine : true,
+      init : 50
+    },
 
 
     /** The selection model. */
@@ -1759,7 +1766,7 @@ qx.Class.define("qx.ui.table.Table",
       {
         var isLast = (i == (scrollerArr.length - 1));
         var width = scrollerArr[i].getTablePaneModel().getTotalWidth();
-        scrollerArr[i].setWidth(width);
+        scrollerArr[i].setPaneWidth(width);
 
         var flex = isLast ? 1 : 0;
         scrollerArr[i].setLayoutProperties({flex: flex});
