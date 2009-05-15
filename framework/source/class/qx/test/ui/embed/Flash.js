@@ -129,7 +129,7 @@ qx.Class.define("qx.test.ui.embed.Flash",
       var result = "";
       
       var that = this;
-      this.wait(2000, function()
+      this.wait(5000, function()
       {
         var flash = that.__flash.getFlashElement();
         if (flash.echo) {
