@@ -28,7 +28,7 @@
 #  outputs the result as either a JSON data structure or an HTML report which
 #  can optionally be sent by email.
 
-import optparse, re, sys, os
+import optparse, re, sys, os, codecs
 sys.path.append(os.path.join('..', 'app', 'batserver'))
 import qxtest
 
@@ -56,7 +56,7 @@ class QxLint:
       log = self.runLint(options.workdir)
   
     elif (options.inputfile):    
-      log = open(options.inputfile, "r")
+      log = codecs.open(options.inputfile, "r", "utf-8")
   
     else:
       print("Please choose either: A working directory with the -w option or a file containing ecmalint output with the -f option.")
@@ -77,14 +77,14 @@ class QxLint:
         print("Generating HTML output")
         html = self.createHtml(data)
         print("Writing HTML to file " + options.outputfile)
-        outfile = open(options.outputfile, "w")
+        outfile = codecs.open(options.outputfile, "w", "utf-8")
         outfile.write(html)
   
       else:
         print("Generating JSON output")
         json = self.getJson(data)
         print("Writing JSON to file " + options.outputfile)
-        outfile = open(options.outputfile, "w")
+        outfile = codecs.open(options.outputfile, "w", "utf-8")
         outfile.write(json)
   
     elif (options.mailto):
