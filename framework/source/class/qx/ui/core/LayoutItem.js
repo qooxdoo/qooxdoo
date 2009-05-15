@@ -569,13 +569,13 @@ qx.Class.define("qx.ui.core.LayoutItem",
       // Support shrink
       if (!this.getAllowShrinkX()) {
         hint.minWidth = hint.width;
-      } else if (hint.minWidth > hint.width) {
+      } else if (hint.minWidth > hint.width && this.getAllowGrowX()) {
         hint.width = hint.minWidth;
       }
 
       if (!this.getAllowShrinkY()) {
         hint.minHeight = hint.height;
-      } else if (hint.minHeight > hint.height) {
+      } else if (hint.minHeight > hint.height && this.getAllowGrowY()) {
         hint.height = hint.minHeight;
       }
 

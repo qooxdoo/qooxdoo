@@ -139,17 +139,14 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
       var table = tableColumnModel.getTable();
 
       var scrollerArr = table._getPaneScrollerArr();
+      if (!scrollerArr[0] || !scrollerArr[0].getLayoutParent().getBounds()) {
+        return null;
+      };
       var scrollerParentWidth = scrollerArr[0].getLayoutParent().getBounds().width;
 
       var lastScroller = scrollerArr[scrollerArr.length-1];
-      if (lastScroller.getVerticalScrollBarVisible())
-      {
-        var topRight = lastScroller.getTopRightWidget();
-        var topRightWidth = topRight && topRight.getBounds() ? topRight.getBounds().width : 0;
-        var scrollBarWidth = lastScroller.getVerticalScrollBarWidth();
-  
-        scrollerParentWidth -= Math.max(topRightWidth, scrollBarWidth);     
-      }
+      scrollerParentWidth -= lastScroller.getPaneInsetRight();  
+
       return scrollerParentWidth;
     }
   }});
