@@ -15,11 +15,11 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
-     
+
    ======================================================================
 
    This class contains code based on the following work:
-     
+
    * jQuery
      http://jquery.com
      Version 1.3.1
@@ -28,14 +28,14 @@
        2009 John Resig
 
      License:
-       MIT: http://www.opensource.org/licenses/mit-license.php         
+       MIT: http://www.opensource.org/licenses/mit-license.php
 
 ************************************************************************ */
 
 /**
- * Static helper functions for arrays with a lot of often used convenience 
+ * Static helper functions for arrays with a lot of often used convenience
  * methods like <code>remove</code> or <code>contains</code>.
- * 
+ *
  * The native JavaScript Array is not modified by this class. However,
  * there are modifications to the native Array in {@link qx.lang.Core} for
  * browsers that do not support certain JavaScript 1.6 features natively .
@@ -54,21 +54,21 @@ qx.Bootstrap.define("qx.lang.Array",
      *
      * @param obj {Object} Any object
      * @return {Boolean} whether the given object is an array
-     */    
-    isArray: function(obj) 
+     */
+    isArray: function(obj)
     {
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee, "Use qx.lang.Type.isArray() instead!"
-      );       
+      );
 
       return qx.lang.Type.isArray(obj);
     },
-    
-    
-    /** 
+
+
+    /**
      * Converts array like constructions like the <code>argument</code> object,
      * node collections like the ones returned by <code>getElementsByTagName</code>
-     * or extended array objects like <code>qx.type.BaseArray</code> to an 
+     * or extended array objects like <code>qx.type.BaseArray</code> to an
      * native Array instance.
      *
      * @param object {var} any array like object
@@ -78,11 +78,11 @@ qx.Bootstrap.define("qx.lang.Array",
     toArray : function(object, offset) {
       return this.cast(object, Array, offset);
     },
-    
-    
-    /** 
+
+
+    /**
      * Converts an array like object to any other array like
-     * object. 
+     * object.
      *
      * Attention: The returned array may be same
      * instance as the incoming one if the constructor is identical!
@@ -95,16 +95,16 @@ qx.Bootstrap.define("qx.lang.Array",
     cast : function(object, constructor, offset)
     {
       if (object.constructor === constructor) {
-        return object; 
+        return object;
       }
-      
+
       if (qx.Class.hasInterface(object, qx.data.IListData)) {
         var object = object.toArray();
       }
-      
+
       // Create from given constructor
       var ret = new constructor;
-      
+
       // Some collections in mshtml are not able to be sliced.
       // These lines are a special workaround for this client.
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
@@ -117,18 +117,18 @@ qx.Bootstrap.define("qx.lang.Array",
 
           return ret;
         }
-      }      
-      
+      }
+
       // Copy over items
       if (Object.prototype.toString.call(object) === "[object Array]" && offset == null) {
         ret.push.apply(ret, object);
       } else {
-        ret.push.apply(ret, Array.prototype.slice.call(object, offset||0));  
+        ret.push.apply(ret, Array.prototype.slice.call(object, offset||0));
       }
-      
-      return ret;      
+
+      return ret;
     },
-      
+
 
     /**
      * Convert an arguments object into an array
@@ -205,7 +205,7 @@ qx.Bootstrap.define("qx.lang.Array",
      * Return a copy of the given array
      *
      * @deprecated Use clone() instead
-     * 
+     *
      * @param arr {Array} the array to copy
      * @return {Array} copy of the array
      */
@@ -231,9 +231,9 @@ qx.Bootstrap.define("qx.lang.Array",
 
 
     /**
-     * Return the last element of an array. 
-     * 
-     * @deprecated For performance reasons it is recommended to omit the 
+     * Return the last element of an array.
+     *
+     * @deprecated For performance reasons it is recommended to omit the
      *   function call and instead use <code>arr[arr.length - 1]</code>
      *
      * @param arr {Array} the array
@@ -251,8 +251,8 @@ qx.Bootstrap.define("qx.lang.Array",
 
     /**
      * Return the first element of an array.
-     * 
-     * @deprecated For performance reasons it is recommended to omit the 
+     *
+     * @deprecated For performance reasons it is recommended to omit the
      *   function call and instead use <code>arr[0]</code>
      *
      * @param arr {Array} the array
@@ -346,7 +346,7 @@ qx.Bootstrap.define("qx.lang.Array",
      * @param arr {Array} the array
      * @return {Array} empty array
      */
-    removeAll : function(arr) 
+    removeAll : function(arr)
     {
       arr.length = 0;
       return this;
@@ -365,7 +365,7 @@ qx.Bootstrap.define("qx.lang.Array",
     {
       // this check is important because opera throws an uncatchable error if apply is called without
       // an arr as second argument.
-      if (qx.core.Variant.isSet("qx.debug", "on")) 
+      if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         qx.core.Assert.assertArray(arr1, "The first parameter must be an array.");
         qx.core.Assert.assertArray(arr2, "The second parameter must be an array.");
@@ -374,8 +374,8 @@ qx.Bootstrap.define("qx.lang.Array",
       Array.prototype.push.apply(arr1, arr2);
       return arr1;
     },
-    
-    
+
+
     /**
      * Modifies the first array as it removes all elements
      * which are listed in the second array as well.
@@ -389,12 +389,12 @@ qx.Bootstrap.define("qx.lang.Array",
     {
       // this check is important because opera throws an uncatchable error if apply is called without
       // an arr as second argument.
-      if (qx.core.Variant.isSet("qx.debug", "on")) 
+      if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         qx.core.Assert.assertArray(arr1, "The first parameter must be an array.");
         qx.core.Assert.assertArray(arr2, "The second parameter must be an array.");
       }
-      
+
       for (var i=0, il=arr2.length, index; i<il; i++)
       {
         index = arr1.indexOf(arr2[i]);
@@ -402,7 +402,7 @@ qx.Bootstrap.define("qx.lang.Array",
           arr1.splice(index, 1);
         }
       }
-      
+
       return arr1;
     },
 
@@ -533,28 +533,30 @@ qx.Bootstrap.define("qx.lang.Array",
 
       return result === undefined ? null : result;
     },
-    
-      
+
+
     /**
      * Recreates an array which is free of all duplicate elements from the original.
-     * 
+     *
      * This method do not modifies the original array!
+     *
+     * Keep in mind that this methods deletes undefined indexes.
      *
      * @param arr {Array} Incoming array
      * @return {Array} Returns a copy with no duplicates or the original array if no duplicates were found
      */
-    unique: function(arr) 
+    unique: function(arr)
     {
       var ret=[], doneStrings={}, doneNumbers={}, doneObjects={};
       var value, count=0;
       var key = "qx" + qx.lang.Date.now();
       var hasNull=false, hasFalse=false, hasTrue=false;
-  
+
       // Rebuild array and omit duplicates
-      for (var i=0, len=arr.length; i<len; i++) 
+      for (var i=0, len=arr.length; i<len; i++)
       {
         value = arr[i];
-        
+
         // Differ between null, primitives and reference types
         if (value === null)
         {
@@ -564,7 +566,11 @@ qx.Bootstrap.define("qx.lang.Array",
             ret.push(value);
           }
         }
-        else if (value === false) 
+        else if (value === undefined)
+        {
+          // pass
+        }
+        else if (value === false)
         {
           if (!hasFalse)
           {
@@ -572,17 +578,17 @@ qx.Bootstrap.define("qx.lang.Array",
             ret.push(value);
           }
         }
-        else if (value === true) 
+        else if (value === true)
         {
           if (!hasTrue)
           {
             hasTrue = true;
             ret.push(value);
           }
-        }        
+        }
         else if (typeof value === "string")
         {
-          if (!doneStrings[value]) 
+          if (!doneStrings[value])
           {
             doneStrings[value] = 1;
             ret.push(value);
@@ -590,7 +596,7 @@ qx.Bootstrap.define("qx.lang.Array",
         }
         else if (typeof value === "number")
         {
-          if (!doneNumbers[value]) 
+          if (!doneNumbers[value])
           {
             doneNumbers[value] = 1;
             ret.push(value);
@@ -599,12 +605,12 @@ qx.Bootstrap.define("qx.lang.Array",
         else
         {
           hash = value[key]
-          
+
           if (hash == null) {
             hash = value[key] = count++;
           }
-          
-          if (!doneObjects[hash]) 
+
+          if (!doneObjects[hash])
           {
             doneObjects[hash] = value;
             ret.push(value);
@@ -612,28 +618,28 @@ qx.Bootstrap.define("qx.lang.Array",
         }
       }
 
-      // Clear object hashs      
-      for (var hash in doneObjects) 
+      // Clear object hashs
+      for (var hash in doneObjects)
       {
-        try 
+        try
         {
           // TODO: The following delete seems to fail in IE7
           delete doneObjects[hash][key];
-        } 
-        catch(ex) 
+        }
+        catch(ex)
         {
-          try 
+          try
           {
             doneObjects[hash][key] = null;
           }
           catch(ex)
-          { 
+          {
             throw new Error("Cannot clean-up map entry doneObjects[" + hash + "][" + key + "]");
           }
         }
       }
-  
+
       return ret;
-    }  
+    }
   }
 });
