@@ -504,7 +504,7 @@ qx.Class.define("qx.ui.control.DateChooser",
     _onDayClicked : function(evt)
     {
       var time = evt.getCurrentTarget().dateTime;
-      this.setDate(new Date(time));
+      this.setValue(new Date(time));
     },
 
 
@@ -556,9 +556,9 @@ qx.Class.define("qx.ui.control.DateChooser",
             break;
 
           case "Escape":
-            if (this.getDate() != null)
+            if (this.getValue() != null)
             {
-              this.setDate(null);
+              this.setValue(null);
               return true;
             }
 
@@ -566,7 +566,7 @@ qx.Class.define("qx.ui.control.DateChooser",
 
           case "Enter":
           case "Space":
-            if (this.getDate() != null) {
+            if (this.getValue() != null) {
               this.execute();
             }
 
@@ -589,7 +589,7 @@ qx.Class.define("qx.ui.control.DateChooser",
 
       if (dayIncrement != null || monthIncrement != null || yearIncrement != null)
       {
-        var date = this.getDate();
+        var date = this.getValue();
 
         if (date != null) {
           date = new Date(date.getTime()); // TODO: Do cloning in getter
@@ -605,7 +605,7 @@ qx.Class.define("qx.ui.control.DateChooser",
           if (yearIncrement != null){date.setFullYear(date.getFullYear() + yearIncrement);}
         }
 
-        this.setDate(date);
+        this.setValue(date);
       }
     },
 
@@ -657,7 +657,7 @@ qx.Class.define("qx.ui.control.DateChooser",
       var todayMonth = today.getMonth();
       var todayDayOfMonth = today.getDate();
 
-      var selDate = this.getDate();
+      var selDate = this.getValue();
       var selYear = (selDate == null) ? -1 : selDate.getFullYear();
       var selMonth = (selDate == null) ? -1 : selDate.getMonth();
       var selDayOfMonth = (selDate == null) ? -1 : selDate.getDate();
