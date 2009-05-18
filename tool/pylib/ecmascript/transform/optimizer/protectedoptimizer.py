@@ -19,6 +19,7 @@
 ################################################################################
 
 import re
+from misc.util import convert
 
 names = {}
 
@@ -43,20 +44,6 @@ def process(classes, loader):
         lookup(id, node, names)
     
     
-def convert(current):
-    table = u"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-
-    res = u""
-    length = len(table) - 1
-
-    if current / length > 0:
-        res += convert(current / length)
-
-    res += table[current % length]
-
-    return res
-        
-
 def crypt(name):
     if names.has_key(name):
         return names[name]

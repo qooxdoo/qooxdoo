@@ -21,6 +21,7 @@
 
 import time, datetime
 
+##
 # create a suitable date and time string of now
 def nowString():
     # we want something like '2007-10-18 14:00+0100'
@@ -29,3 +30,16 @@ def nowString():
     dts = dt.strftime('%Y-%m-%d %H:%M')  # %Z (timezone) would be empty
     nowstring="%s%s" % (dts,mytz)
     return nowstring
+
+ctable  = u"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+clength = len(ctable) - 1
+
+##
+# convert a non-negative integer into a short string
+def convert(index):
+    res = u""
+    if index / clength > 0:
+        res += convert(index / clength)
+    res += ctable[index % clength]
+    return res
+        
