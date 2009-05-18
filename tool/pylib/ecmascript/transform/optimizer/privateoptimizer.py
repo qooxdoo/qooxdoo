@@ -20,8 +20,8 @@
 
 import os, sys, re, types
 
-names = {}
-used = {}
+names = {}  # names = { "<classId>:<private>" : "<repl>", ...}
+used = {}   # used  = { "<private>" : [ "<classId>", ...], ...}
 
 
 def load(data):
@@ -90,6 +90,7 @@ def crypt(id, name):
         
     
 def lookup(id, node, privates):
+    # privates = { "<private>" : "<repl>", ... }
     name = None
     
     if node.type == "definition":
