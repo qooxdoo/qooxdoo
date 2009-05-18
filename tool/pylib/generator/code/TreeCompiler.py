@@ -115,7 +115,7 @@ class TreeCompiler:
                         #contA[cpos] = tf
                     else:
                         raise RuntimeError("Problems compiling %s: %s" % (classes[cpos], errout))
-                    print "-- terminating process for class: %s" % classes[cpos]
+                    #print "-- terminating process for class: %s" % classes[cpos]
                     del processes[pid]
                     reaped = True
 
@@ -142,7 +142,7 @@ class TreeCompiler:
             cmd = self.getCompileCommand(classId, variants, optimize, format)
             #print cmd
             tf = os.tmpfile()
-            print "-- starting process for class: %s" % classId
+            #print "-- starting process for class: %s" % classId
             pid = subprocess.Popen(
                         cmd, shell=True,
                         stdout=subprocess.PIPE,
@@ -153,7 +153,7 @@ class TreeCompiler:
 
         # collect outstanding processes
         if len(processes):
-            print "++ cleaning up processes"
+            #print "++ cleaning up processes"
             reap_processes(wait=True)
 
         # join single results in one string
@@ -209,8 +209,10 @@ class TreeCompiler:
         for vari in variants:
             varis.append("--variant=" + vari + ":" + variants[vari])
         m['variants'] = " ".join(varis)
+        # cache
+        m['cache'] = "-c " + self._cache._path
 
-        cmd = "%(compilePath)s %(optimizations)s %(variants)s %(filePath)s" % m
+        cmd = "%(compilePath)s %(optimizations)s %(variants)s %(cache)s %(filePath)s" % m
         return cmd
 
     def checkCache(self, fileId, variants, optimize, format=False):
