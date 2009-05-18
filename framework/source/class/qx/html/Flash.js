@@ -84,7 +84,7 @@ qx.Class.define("qx.html.Flash",
     {
       var element = this.getDomElement();
 
-      qx.bom.Flash.create(element, this.__source, this.__id,
+      this.__flash = qx.bom.Flash.create(element, this.__source, this.__id,
         this.__variables, this.__params
       );
     },
@@ -158,9 +158,6 @@ qx.Class.define("qx.html.Flash",
      */
     getFlashElement : function()
     {
-      if (!this.__flash) {
-        this.__flash = this.getDomElement().firstChild;
-      }
       return this.__flash;
     }
   },
@@ -174,10 +171,7 @@ qx.Class.define("qx.html.Flash",
 
   destruct : function()
   {
-    if (this.__flash)
-    {
-      qx.bom.Flash.destroy(this.__flash);
-      this._disposeFields("this.__flash");
-    }
+    qx.bom.Flash.destroy(this.__flash);
+    this._disposeFields("this.__flash");
   }
 });

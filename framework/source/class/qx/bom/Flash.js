@@ -89,7 +89,7 @@ qx.Class.define("qx.bom.Flash",
      * @param variables {Map?null} Flash variable data (these are available in the movie later)
      * @param params {Map?null} Flash parameter data (these are used to configure the movie itself)
      * @param win {Window?null} Window to create the element for
-     * @return {void}
+     * @return {Element} The created Flash element
      */
     create : function(element, movie, id, variables, params, win)
     {
@@ -135,7 +135,10 @@ qx.Class.define("qx.bom.Flash",
       }
 
       // Finally create the SWF
-      this.__createSwf(element, attributes, params, win);
+      var flash = this.__createSwf(element, attributes, params, win);
+      this._flashObjects[id] = flash;
+      
+      return flash;
     },
 
 
@@ -183,6 +186,7 @@ qx.Class.define("qx.bom.Flash",
       "default" : function(element, win) {
         element = this.__getFlashObject(element);
         element.parentNode.removeChild(element);
+        delete this._flashObjects[element.id];
       }
     }),
 
@@ -288,7 +292,7 @@ qx.Class.define("qx.bom.Flash",
           element.firstChild.setAttribute(name, attributes[name]);
         }
 
-        this._flashObjects[attributes.id] = element.firstChild;
+        return element.firstChild;
       },
 
       "default" : function(element, attributes, params, win)
@@ -310,7 +314,9 @@ qx.Class.define("qx.bom.Flash",
           swf.appendChild(param);
         }
 
-        element.appendChild(swf)
+        element.appendChild(swf);
+        
+        return swf;
       }
     })
   },
