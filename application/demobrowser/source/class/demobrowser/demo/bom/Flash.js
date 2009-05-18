@@ -51,7 +51,8 @@ qx.Class.define("demobrowser.demo.bom.Flash",
       
       var params = {
         bgcolor: "#FF6600",
-        scale: "noscale"
+        scale: "noscale",
+        wmode: "opaque"
       };
       
       qx.bom.Flash.create(domElement, movieUri, "movie", variables, params);
