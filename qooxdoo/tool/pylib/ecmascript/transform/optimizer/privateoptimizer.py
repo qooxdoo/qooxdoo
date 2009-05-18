@@ -19,9 +19,10 @@
 ################################################################################
 
 import os, sys, re, types
+from misc.util import convert
 
 names = {}  # names = { "<classId>:<private>" : "<repl>", ...}
-used = {}   # used  = { "<private>" : [ "<classId>", ...], ...}
+used = {}   # used  = { "<private>" : [ "<classId>", ...], ...} -- only maintained for debug() function, not relevant for optimization
 
 
 def load(data):
@@ -64,20 +65,6 @@ def patch(tree, id):
     update(tree, privates)
     
     
-def convert(current):
-    table = u"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-
-    res = u""
-    length = len(table) - 1
-
-    if current / length > 0:
-        res += convert(current / length)
-
-    res += table[current % length]
-
-    return res
-        
-
 def crypt(id, name):
     combined = "%s:%s" % (id, name)
     if names.has_key(combined):

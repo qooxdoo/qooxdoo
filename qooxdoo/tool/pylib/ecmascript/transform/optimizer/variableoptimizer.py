@@ -23,6 +23,7 @@ import sys, os, re, types
 
 from ecmascript.frontend.Script import Script
 from ecmascript.frontend import lang, treeutil
+from misc.util import convert
 
 counter = 0
 
@@ -30,20 +31,6 @@ counter = 0
 reservedWords = set(())
 reservedWords.update(lang.GLOBALS)
 reservedWords.update(lang.RESERVED.keys())
-
-
-def convert(current):
-    table = u"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-
-    res = u""
-    length = len(table) - 1
-
-    if current / length > 0:
-        res += convert(current / length)
-
-    res += table[current % length]
-
-    return res
 
 
 def mapper(name, checkset):
