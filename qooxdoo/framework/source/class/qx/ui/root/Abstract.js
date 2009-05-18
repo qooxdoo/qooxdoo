@@ -50,6 +50,8 @@ qx.Class.define("qx.ui.root.Abstract",
 
     // Directly add to visibility queue
     qx.ui.core.queue.Visibility.add(this);
+    
+    this.initNativeHelp();
   },
 
 
@@ -127,9 +129,21 @@ qx.Class.define("qx.ui.root.Abstract",
     nativeContextMenu :
     {
       check : "Boolean",
-      nullable : true,
       apply : "_applyNativeContextMenu",
       init : true
+    },
+    
+    
+    /**
+     * If the user presses F1 in IE by default the onhelp event is fired and
+     * IE’s help window is opened. Setting this property to <code>false</code>
+     * prevents this behavior.
+     */
+    nativeHelp :
+    {
+      check : "Boolean",
+      init : false,
+      apply : "_applyNativeHelp"
     }
   },
 
@@ -208,7 +222,25 @@ qx.Class.define("qx.ui.root.Abstract",
      */
     _onNativeContextMenu : function(e) {
       e.preventDefault();
-    }
+    },
+    
+    
+    // property apply
+    _applyNativeHelp : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function(value, old)
+      {
+        if (old === false) {
+          qx.bom.Event.removeNativeListener(document, "help", qx.lang.Function.returnFalse);
+        }
+        
+        if (value === false) {
+          qx.bom.Event.addNativeListener(document, "help", qx.lang.Function.returnFalse);
+        }
+      },
+      
+      "default" : function() {}
+    })
   },
 
 
