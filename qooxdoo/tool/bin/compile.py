@@ -40,6 +40,8 @@ from ecmascript.frontend import tokenizer, treegenerator, treeutil
 from ecmascript.transform.optimizer import basecalloptimizer, privateoptimizer, stringoptimizer, variableoptimizer, variantoptimizer, inlineoptimizer
 from ecmascript.backend import api
 from misc import filetool
+from generator.runtime.Log import Log
+from generator.runtime.Cache import Cache
 
             
 def main():
@@ -67,6 +69,9 @@ def main():
     parser.add_option("--pretty", action="store_true", dest="pretty", default=False, help="print out pretty printed")            
     parser.add_option("--tree", action="store_true", dest="tree", default=False, help="print out tree")
     parser.add_option("--lint", action="store_true", dest="lint", default=False, help="ecmalint the file")
+
+    # Cache support
+    parser.add_option("-c", "--cache", dest="cache", metavar="CACHEPATH", type="string", default="", help="path to cache directory")
     
     
     #
@@ -127,7 +132,14 @@ def main():
     if options.all or options.privates:
         if not options.quiet:
             print ">>> Optimizing privates..."
+        if options.cache:
+            cache = Cache(options.cache, Log())
+            privates = cache.read("privates")
+            if privates != None:
+                privateoptimizer.load(privates)
         privateoptimizer.patch(tree, fileId)
+        if options.cache:
+            cache.write("privates", privateoptimizer.get())
          
          
     #
