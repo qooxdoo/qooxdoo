@@ -355,12 +355,12 @@ class CodeGenerator(object):
         if variants:
             for key in variants:
                 pattern = "{%s}" % key
-                fileName = fileName.replace(pattern, variants[key])
+                fileName = fileName.replace(pattern, str(variants[key]))
 
         if settings:
             for key in settings:
                 pattern = "{%s}" % key
-                fileName = fileName.replace(pattern, settings[key])
+                fileName = fileName.replace(pattern, str(settings[key]))
 
         if packageId != "":
             fileName = fileName.replace(".js", "-%s.js" % packageId)
