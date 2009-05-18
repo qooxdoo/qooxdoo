@@ -42,12 +42,12 @@ qx.Class.define("demobrowser.demo.widget.Flash",
       var doc = this.getRoot();
       doc.add(tabView, {edge: 0});
       
-      var page1 = new qx.ui.tabview.Page("Flash Demo 1");
+      var page1 = new qx.ui.tabview.Page("Simple demo with FlashVars");
       page1.setLayout(new qx.ui.layout.Canvas());
       page1.add(this.createFlashDemo1(), {edge: 0});
       tabView.add(page1);
       
-      var page2 = new qx.ui.tabview.Page("Flash Demo 2");
+      var page2 = new qx.ui.tabview.Page("Two way communication (ActionScript <-> JavaScript)");
       page2.setLayout(new qx.ui.layout.Canvas());
       page2.add(this.createFlashDemo2(), {edge: 0});
       tabView.add(page2);
@@ -142,7 +142,7 @@ qx.Class.define("demobrowser.demo.widget.Flash",
       );
       container.add(qooxdooContainer, {flex: 1});
       
-      qooxdooContainer.add(new qx.ui.basic.Label("<b>Qooxdoo:</b>").set({
+      qooxdooContainer.add(new qx.ui.basic.Label("<b>qooxdoo:</b>").set({
         rich: true
       }));
       qooxdooContainer.add(new qx.ui.basic.Label("Message from Flash:"));
@@ -151,7 +151,7 @@ qx.Class.define("demobrowser.demo.widget.Flash",
       qooxdooContainer.add(this.__messageFromFlash, {flex: 1});
       
       qooxdooContainer.add(new qx.ui.basic.Label("Message to Flash:"));
-      this.__messageToFlash = new qx.ui.form.TextArea("Qooxdoo is the best!");
+      this.__messageToFlash = new qx.ui.form.TextArea("qooxdoo is the best!");
       qooxdooContainer.add(this.__messageToFlash, {flex: 1});
       
       var buttonBar = new qx.ui.container.Composite(
