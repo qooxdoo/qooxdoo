@@ -28,7 +28,6 @@ qx.Class.define("qx.ui.form.ListItem",
 
 
 
-
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -61,7 +60,13 @@ qx.Class.define("qx.ui.form.ListItem",
   events:
   {
     /** (Fired by {@link qx.ui.form.List}) */
-    "action" : "qx.event.type.Event"
+    "action" : "qx.event.type.Event",
+    
+    /**
+     * Old change event for the value property.
+     * @deprecated
+     */
+    "changeValue" : "qx.event.type.Data"
   },
 
 
@@ -79,14 +84,6 @@ qx.Class.define("qx.ui.form.ListItem",
     {
       refine : true,
       init : "listitem"
-    },
-
-    /** Fires a "changeValue" (qx.event.type.Data) event */
-    value :
-    {
-      check : "String",
-      nullable : true,
-      event : "changeValue"
     }
   },
 
@@ -112,6 +109,8 @@ qx.Class.define("qx.ui.form.ListItem",
      *
      * This is normally the real value with a fallback to the label like in HTML
      * select boxes.
+     * 
+     * @deprecated
      */
     getFormValue : function()
     {
@@ -121,6 +120,41 @@ qx.Class.define("qx.ui.form.ListItem",
       }
 
       return value;
+    },
+    
+    
+    // deprecated
+    __value : null,
+    
+    
+    /**
+     * Sets the value of the ListItem.
+     * @@param value {String} The sting value of the listitem.
+     * @deprecated
+     */
+    setValue: function(value) {
+      var oldValue = this.__value;
+      this.__value = value;
+      this.fireDataEvent("changeValue", value, oldValue);
+    },
+    
+    
+    /**
+     * Returns the set value.
+     * @return {String|null} The set value.
+     * @deprecated
+     */
+    getValue: function() {
+      return this.__value;
+    },
+    
+    
+    /**
+     * Resets the value of the listitem.
+     * @deprecated
+     */
+    resetValue: function() {
+      this.setValue(null);
     }
   }
 });
