@@ -170,6 +170,17 @@ qx.Class.define("qx.event.handler.Focus",
 
   members :
   {
+    __onNativeMouseDownWrapper : null,
+    __onNativeMouseUpWrapper : null,
+    __onNativeFocusWrapper : null,
+    __onNativeBlurWrapper : null,
+    __onNativeDragGestureWrapper : null,
+    __onNativeSelectStartWrapper : null,
+    __onNativeFocusInWrapper : null,
+    __onNativeFocusOutWrapper : null,
+    __previousFocus : null,
+    __previousActive : null,
+
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLER INTERFACE
@@ -965,7 +976,8 @@ qx.Class.define("qx.event.handler.Focus",
     {
       "mshtml|webkit" : function(e)
       {
-        if (!this.__isSelectable(e.srcElement)) {
+        var target = qx.bom.client.Engine.MSHTML ? e.srcElement : e.target;
+        if (!this.__isSelectable(target)) {
           qx.bom.Event.preventDefault(e);
         }
       },
