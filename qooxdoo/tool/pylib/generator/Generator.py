@@ -1068,7 +1068,10 @@ class Generator:
             input  = []
             for f in inp:
                 input.append(self._config.absPath(f))
-            layout = imgspec['layout'] == "horizontal"
+            if 'layout' in imgspec:
+                layout = imgspec['layout'] == "horizontal"
+            else:
+                layout = "horizontal" == "horizontal" # default horzontal=True
             # create the combined image
             subconfigs = self._imageClipper.combine(image, input, layout)
             for sub in subconfigs:
