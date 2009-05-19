@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="flare" default="build" basedir=".">
+
+  <property name="FLEX_HOME" value="C:/flex/flex_sdk_3/"/>
+  <taskdef resource="flexTasks.tasks"
+           classpath="${FLEX_HOME}ant/lib/flexTasks.jar" />
+
+  <target name="build">
+    <mxmlc file="${basedir}/UnitTestFlash.mxml"
+      output="${basedir}/UnitTestFlash.swf">
+    </mxmlc>
+
+  </target>
+</project>
