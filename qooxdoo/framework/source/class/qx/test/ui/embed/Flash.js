@@ -124,20 +124,142 @@ qx.Class.define("qx.test.ui.embed.Flash",
       });
     },
     
+    testProperties : function()
+    {
+      var that = this;
+      this.wait(5000, function()
+      {
+        that.assertException(function()
+        {
+          that.__flash.setSource("new.swf");
+        }, Error, null, "Error expected by calling 'setSource'!");
+        
+        that.assertException(function()
+        {
+          that.__flash.setId("newId");
+        }, Error, null, "Error expected by calling 'setId'!");
+        
+        that.assertException(function()
+        {
+          that.__flash.setQuality("low");
+        }, Error, null, "Error expected by calling 'setQuality'!");
+        
+        that.assertException(function()
+        {
+          that.__flash.setScale("excactfit");
+        }, Error, null, "Error expected by calling 'setScale'!");
+        
+        that.assertException(function()
+        {
+          that.__flash.setWmode("transparent");
+        }, Error, null, "Error expected by calling 'setWmode'!");
+        
+        that.assertException(function()
+        {
+          that.__flash.setPlay(false);
+        }, Error, null, "Error expected by calling 'setPlay'!");
+        
+        that.assertException(function()
+        {
+          that.__flash.setLoop(false);
+        }, Error, null, "Error expected by calling 'setLoop'!");
+        
+        that.assertException(function()
+        {
+          that.__flash.setMenu(false);
+        }, Error, null, "Error expected by calling 'setMenu'!");
+        
+        that.assertException(function()
+        {
+          that.__flash.setAllowScriptAccess("never");
+        }, Error, null, "Error expected by calling 'setAllowScriptAccess'!");
+        
+        that.assertException(function()
+        {
+          that.__flash.setLiveConnect(false);
+        }, Error, null, "Error expected by calling 'setLiveConnect'!");
+        
+        that.assertException(function()
+        {
+          that.__flash.setVariables({key: "value"});
+        }, Error, null, "Error expected by calling 'setVariables'!");
+        
+        that.assertException(function()
+        {
+          that.__flash.setBackgroundColor("black");
+        }, Error, null, "Error expected by calling 'setBackgroundColor'!");
+      }); 
+    },
+    
+    testReloadWithExclude : function()
+    {
+      // TODO activate test if bug #2367 is fixed
+      //this.__testReload("exclude");
+    },
+    
+    testReloadWithHide : function()
+    {
+      // TODO activate test if bug #2367 is fixed
+      //this.__testReload("hide");
+    },
+    
+    __testReload : function(method)
+    {
+      // skip this test, because runs only with a webserver
+      if (location.protocol != "http:") {
+        this.warn("Sciped test 'testReload', because a webserver " +
+          "is needed to run this test.");
+        return
+      }
+      
+      var result = 0;
+      
+      var that = this;
+      this.wait(5000, function()
+      {
+        var flash = that.__flash.getFlashElement();
+        
+        if (flash.setValue) {
+          flash.setValue(99);
+          result = flash.getValue();
+        }
+        
+        that.assertIdentical(99, result, "Test setup error!");
+        
+        that.__flash[method]();
+        that.flush();
+        that.__flash.show();
+        that.flush();
+        
+        that.wait(5000, function()
+        {
+          result = flash.getValue();
+          that.assertIdentical(99, result, "Flash is reinitialized!!");
+        });
+      });
+    },
+    
     testExternalInterface : function()
     {
+      // skip this test, because runs only with a webserver
+      if (location.protocol != "http:") {
+        this.warn("Sciped test 'testExternalInterface', because a webserver " +
+          "is needed to run this test.");
+        return
+      }
+      
       var result = "";
       
       var that = this;
       this.wait(5000, function()
       {
         var flash = that.__flash.getFlashElement();
+        
         if (flash.echo) {
           result = flash.echo("hello echo!");
         }
         
-        that.assertIdentical("hello echo!", result, "This error is expected if" +
-          " you run the test from a filesystem and not from a webserver.");
+        that.assertIdentical("hello echo!", result);
       });
     }    
   }
