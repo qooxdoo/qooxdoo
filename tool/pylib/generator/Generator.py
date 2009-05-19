@@ -1057,11 +1057,14 @@ class Generator:
         if not self._job.get("combine-images", False):
             return
 
+        self._console.info("Combining images...")
+        self._console.indent()
         self._imageClipper   = ImageClipping(self._console, self._cache)
 
         images = self._job.get("combine-images/images", {})
         for image, imgspec in images.iteritems():
             image  = self._config.absPath(image)  # abs output path
+            self._console.info("Creating image %s" % image)
             config = {}
             # abs input paths
             inp    = imgspec['input']
@@ -1089,6 +1092,8 @@ class Generator:
             meta_fname = os.path.join(os.path.dirname(image), bname)
             filetool.save(meta_fname, simplejson.dumps(config, ensure_ascii=False))
             
+        self._console.outdent()
+
         return
 
 
