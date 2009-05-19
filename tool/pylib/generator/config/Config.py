@@ -546,9 +546,21 @@ class Config:
         console.outdent()
 
 
+    def includeSystemDefaults(self, jobs):
+        console = self._console
+
+        console.info("Incorporating job defaults...")
+        console.indent()
+
+        for job in jobs:
+            jobObj = self.getJob(job)
+            jobObj.includeSystemDefaults()
+
+        console.outdent()
+
+
     def resolveMacros(self, jobs):
         console = self._console
-        jobsMap  = self.get("jobs")
 
         console.info("Resolving macros...")
         console.indent()

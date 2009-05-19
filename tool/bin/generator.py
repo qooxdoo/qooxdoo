@@ -119,6 +119,9 @@ Arguments:
     # Resolve "extend"- and "run"-Keys
     expandedjobs = config.resolveExtendsAndRuns(options.jobs[:])
 
+    # Include system defaults
+    config.includeSystemDefaults(expandedjobs)
+    
     # Resolve "let"-Keys
     config.resolveMacros(expandedjobs)
 

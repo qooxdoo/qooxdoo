@@ -24,6 +24,7 @@ import simplejson
 
 from misc.ExtMap import ExtMap
 from generator.config.Lang import Lang
+from generator.config.Defaults import Defaults
 
 console = None
 
@@ -212,6 +213,20 @@ class Job(object):
             self.setFeature(Lang.LET_KEY, newlet) # set cumulative let value
 
     
+    def includeSystemDefaults(self, ):
+        # Add system supplied features to Job
+        # call this on fully expanded jobs *before* macro expansion is called,
+        # so default let macros can take effect
+
+        # add default let macros
+        defaultLet = Defaults.let
+        if defaultLet:
+            mylet = self.getFeature(Lang.LET_KEY, {})
+            mylet = self.mergeValues(defaultLet, mylet) # existing values in mylet will take precedence
+            self.setFeature(Lang.LET_KEY, mylet)
+
+
+
     def _getJob(self, job, cfg=None):
         '''search a job in given, then in original config'''
         config = cfg or self._config
