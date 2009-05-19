@@ -66,7 +66,9 @@ qx.Class.define("testrunner.runner.TestRunner",
     }
     // then look for a "testclass" URI parameter    
     else if (params.indexOf("testclass=") > 0 ) {
-      this.__setCurrentTestArray(params.substr(params.indexOf("testclass=") + 10));
+      var uri = params.substr(params.indexOf("testclass=") + 10);
+      this.__setCurrentTestArray(uri);
+      this.nameSpace = uri;
     }
     // finally check for the cookie
     else {            
