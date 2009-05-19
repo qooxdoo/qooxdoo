@@ -362,7 +362,7 @@ qx.Class.define("qx.ui.form.DateField",
      * @return {Boolean} True, if the textfield of the DateField is empty.
      */
     isEmpty: function() {
-      return this.getChildcontroll("textfield").getValue() == "";
+      return this.getChildControl("textfield").getValue() == "";
     }    
   }
 });

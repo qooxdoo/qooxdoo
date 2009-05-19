@@ -48,6 +48,12 @@ qx.Class.define("qx.test.ui.form.Date",
     
     testDateChooser: function() {
      this.__test(new qx.ui.control.DateChooser()); 
+    },
+    
+    testDateFieldIsEmpty: function() {
+      var field = new qx.ui.form.DateField();
+      
+      this.assertTrue(field.isEmpty(), "DateField should be empty on initialization.");
     }
     
   }
