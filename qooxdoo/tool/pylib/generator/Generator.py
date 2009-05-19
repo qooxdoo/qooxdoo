@@ -1070,7 +1070,9 @@ class Generator:
             inp    = imgspec['input']
             input  = []
             for f in inp:
-                input.append(self._config.absPath(f))
+                fl = self._config.absPath(f)
+                self._console.debug("adding image %s" % fl)
+                input.append(fl)
             if 'layout' in imgspec:
                 layout = imgspec['layout'] == "horizontal"
             else:
@@ -1090,6 +1092,7 @@ class Generator:
                 bname = bname[:ri]
             bname += '.meta'
             meta_fname = os.path.join(os.path.dirname(image), bname)
+            self._console.debug("writing meta file %s" % meta_fname)
             filetool.save(meta_fname, simplejson.dumps(config, ensure_ascii=False))
             
         self._console.outdent()
