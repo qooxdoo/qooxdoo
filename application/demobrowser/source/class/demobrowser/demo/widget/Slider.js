@@ -162,9 +162,9 @@ qx.Class.define("demobrowser.demo.widget.Slider",
         group.value.setWidth(100);
         group.value.setTextAlign("center");
 
-        container.add(group.min, {row: row, column: 0});
+        container.add(group.minimum, {row: row, column: 0});
         container.add(group.value, {row: row, column: 1});
-        container.add(group.max, {row: row, column: 2});
+        container.add(group.maximum, {row: row, column: 2});
 
         container.add(group.slider, {row: row+1, column: 0, colSpan: 3, rowSpan: 1});
 
