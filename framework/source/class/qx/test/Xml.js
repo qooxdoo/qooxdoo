@@ -126,8 +126,12 @@ qx.Class.define("qx.test.Xml",
     {
       var xmlStr = '<html xmlns="http://www.w3.org/1999/xhtml"><body>Juhu <em id="toll">Kinners</em>. Wie geht es <em>Euch</em>?<foo xmlns="http://qooxdoo.org" id="bar"/></body></html>';
       var doc = qx.xml.Document.fromString(xmlStr);
-      var em = doc.getElementsByTagName("em")[0];
-      var foo = doc.getElementsByTagName("foo")[0];
+      var em = qx.xml.Element.getElementsByTagNameNS(doc, "http://www.w3.org/1999/xhtml", "em")[0];
+      var foo = qx.xml.Element.getElementsByTagNameNS(doc, "http://qooxdoo.org", "foo")[0];
+
+      var emStr = qx.xml.Element.serialize(em);
+      var fooStr = qx.xml.Element.serialize(foo);
+
       var nsMap = {
         "xhtml" : "http://www.w3.org/1999/xhtml",
         "qx"    : "http://qooxdoo.org"
@@ -153,10 +157,12 @@ qx.Class.define("qx.test.Xml",
       }
       else {
         var n1 = qx.xml.Element.selectSingleNode(doc, q1, nsMap);
-        this.assertEquals(qx.xml.Element.serialize(n1), qx.xml.Element.serialize(em));
+        var s1 = qx.xml.Element.serialize(n1);
+        this.assertEquals(s1, emStr);
         var n2 = qx.xml.Element.selectSingleNode(doc, q2, nsMap);
-        this.assertEquals(qx.xml.Element.serialize(n2), qx.xml.Element.serialize(foo));
-      }      
+        var s2 = qx.xml.Element.serialize(n2);
+        this.assertEquals(s2, fooStr);
+      }
     },
 
 
