@@ -4,15 +4,27 @@
 		<![CDATA[
 			import flash.external.ExternalInterface;
 
+      private var value:Number = 0;
+
 			private function init():void {
 				ExternalInterface.marshallExceptions = true;
 				ExternalInterface.addCallback("echo", echo);
+        ExternalInterface.addCallback("setValue", setValue);
+        ExternalInterface.addCallback("getValue", getValue);
 			}
 			
 			private function echo(message:String):String {
 				logger.text = "Echo called with '" + message + "'";
 				return message;
 			}
+      
+      private function setValue(value:Number):void {
+        this.value = value;
+      }
+      
+      private function getValue():Number {
+        return this.value;
+      }
 		]]>
 	</mx:Script>
 	
