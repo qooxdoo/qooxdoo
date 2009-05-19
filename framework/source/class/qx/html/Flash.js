@@ -19,8 +19,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * Managed wrapper for the HTML Flash tag.
  *
  * @experimental Perhaps the API can change during the development process.
@@ -37,7 +35,10 @@ qx.Class.define("qx.html.Flash",
   */
 
 
-  construct : function(variables)
+  /**
+   * Default constructor
+   */
+  construct : function()
   {
     this.base(arguments);
 
