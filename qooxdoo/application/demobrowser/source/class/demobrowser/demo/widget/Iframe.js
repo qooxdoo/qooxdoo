@@ -67,10 +67,12 @@ qx.Class.define("demobrowser.demo.widget.Iframe",
       rd1.setUserData("url", "http://www.gmx.net");
       var rd2 = new qx.ui.form.RadioButton("web.de");
       rd2.setUserData("url", "http://www.web.de");
+      var rd3 = new qx.ui.form.RadioButton("local");
+      rd3.setUserData("url", "../welcome.html");
 
       rd1.setValue(true);
 
-      var rbm = new qx.ui.form.RadioGroup(rd1, rd2);
+      var rbm = new qx.ui.form.RadioGroup(rd1, rd2, rd3);
       rbm.addListener("changeSelection", function(e) {
         this.setSource(e.getData()[0].getUserData("url"));
       }, frame);
@@ -82,6 +84,11 @@ qx.Class.define("demobrowser.demo.widget.Iframe",
 
       d.add(rd2, {
         left : 120,
+        top : 48
+      });
+
+      d.add(rd3, {
+        left : 220,
         top : 48
       });
     }
