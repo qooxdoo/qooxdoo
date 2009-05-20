@@ -19,6 +19,7 @@
 
 /* ************************************************************************
 #asset(qx/icon/Tango/22/actions/view-refresh.png)
+#asset(qx/icon/Tango/22/actions/document-properties.png)
 ************************************************************************ */
 
 /**
@@ -40,11 +41,21 @@ qx.Class.define("inspector.widgets.WidgetsWindow", {
     // create and add the reload button
     this._reloadButton = new qx.ui.toolbar.Button(null, 
         "icon/22/actions/view-refresh.png");
+    this._reloadButton.setToolTipText("Reload the window.");
     this._toolbar.add(this._reloadButton);
     // add the event listener for the reload
     this._reloadButton.addListener("click", function() {
       this.load();
-    }, this); 
+    }, this);
+
+    this._toolbar.addSpacer();
+
+    // create and add the widget structure toggle button
+    this._structureToggle = new qx.ui.toolbar.CheckBox(null, 
+        "icon/22/actions/document-properties.png");
+    this._structureToggle.setToolTipText("Display internal widget structure.");
+    this._toolbar.add(this._structureToggle);
+    this._structureToggle.setValue(false);
     
     // initialize tree
     this._tree = new qx.ui.tree.Tree();
@@ -117,14 +128,17 @@ qx.Class.define("inspector.widgets.WidgetsWindow", {
     _fillTree: function(parentWidget, parentTreeFolder, recursive)  {
       // get the current items of the tree folder
       var items = parentTreeFolder.getItems(false, true);
-      
+
+      var kids = this._structureToggle.isValue() ? "_getChildren" : "getChildren";
+
       // ignore all objects without children (spacer e.g.)
-      if (parentWidget._getChildren == undefined) {
+      if (parentWidget[kids] == undefined) {
+        console.log(parentWidget.classname + " has no " + kids);
         return;
       }
       
       // if parent widget contains no more widgets
-      if (parentWidget._getChildren().length == 0) {
+      if (parentWidget[kids]().length == 0) {
         if (items.length > 1) {
           for (var m = 0; m < items.length; m++) {
             // check if the selection is on a folder which should be deleted
@@ -145,10 +159,10 @@ qx.Class.define("inspector.widgets.WidgetsWindow", {
       recursive--;        
       
       // visit all children     
-      for (var k = 0; k < parentWidget._getChildren().length; k++) {
+      for (var k = 0; k < parentWidget[kids]().length; k++) {
                 
         // get the current child
-        var childWidget = parentWidget._getChildren()[k]; 
+        var childWidget = parentWidget[kids]()[k]; 
         
         // check if the childwidget is a component of this application
         var cont = false;  
@@ -217,7 +231,7 @@ qx.Class.define("inspector.widgets.WidgetsWindow", {
           this._fillTree(childWidget, childTreeFolder, recursive);          
         }
         // if the last child of the folder has been created
-        if (i + 1 == parentWidget._getChildren().length) {
+        if (i + 1 == parentWidget[kids]().length) {
           // get the new child folders of the current parent
           var newItems = parentTreeFolder.getItems(false, true);
           // if there are more folders than should be
