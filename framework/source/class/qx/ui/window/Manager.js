@@ -44,6 +44,16 @@ qx.Class.define("qx.ui.window.Manager",
       this.__desktop = desktop;
       this.updateStack();
     },
+    
+    
+    /**
+     * Returns the connected desktop
+     * 
+     * @return {qx.ui.window.IDesktop} The desktop
+     */
+    getDesktop : function() {
+      return this.__desktop;
+    },
 
 
     // interface implementation

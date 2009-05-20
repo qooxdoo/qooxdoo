@@ -118,27 +118,8 @@ qx.Mixin.define("qx.ui.core.MBlocker",
      *
      * @return {qx.html.Element} The blocker element
      */
-    __createBlockerElement : function()
-    {
-       var blocker = new qx.html.Element().setStyles({
-        position: "absolute",
-        width: "100%",
-        height: "100%",
-        opacity : this.getBlockerOpacity(),
-        backgroundColor : qx.theme.manager.Color.getInstance().resolve(this.getBlockerColor())
-      });
-
-      // IE needs some extra love here to convince him to
-      // block events.
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
-      {
-        blocker.setStyles({
-          backgroundImage: "url(" + qx.util.ResourceManager.toUri("qx/static/blank.gif") + ")",
-          backgroundRepeat: "repeat"
-        });
-      }
-
-      return blocker;
+    __createBlockerElement : function() {
+      return new qx.html.Blocker(this.getBlockerColor(), this.getBlockerOpacity());
     },
 
 
