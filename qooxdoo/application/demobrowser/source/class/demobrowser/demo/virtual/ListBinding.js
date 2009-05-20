@@ -45,7 +45,7 @@ qx.Class.define("demobrowser.demo.virtual.ListBinding",
       this.getRoot().add(list, {left: 10, top: 10});
       
       // build up the data
-      model = [];
+      var model = [];
       for (var i = 0; i < 10000; i++) {
         model.push("Affe " + i);
       }
@@ -53,6 +53,13 @@ qx.Class.define("demobrowser.demo.virtual.ListBinding",
       
       // define a controller for the binding
       var controller = new qx.ui.virtual.form.ListController(model, list);
+      controller.setDelegate({
+        filter : function(model) {
+          var inFilter;
+          parseInt(model[model.length - 1]) % 2 ? inFilter = true : inFilter = false;
+          return inFilter;
+        }
+      });
       
       // create a list for the selection    
       var selectedList = new qx.ui.virtual.form.List().set({

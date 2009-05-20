@@ -180,8 +180,8 @@ qx.Class.define("qx.data.controller.List",
     
     
     /**
-     * Delegation object, which can have one ore more functionf defined by the
-     * {@link #IControllerDelegate} Interface.  
+     * Delegation object, which can have one ore more functions defined by the
+     * {@link #IControllerDelegate} interface.  
      */
     delegate : 
     {
