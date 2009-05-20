@@ -419,7 +419,24 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       return qx.lang.Object.isEmpty(this.__selection);
     },
 
+    
+    /**
+     * Invert the selection. Select the non selected and deselect the selected.
+     */
+    invertSelection: function() {
+      var mode = this.getMode();
+      if (mode === "single" || mode === "one") {
+        throw new Error("The method invertSelection() is only supported in 'multi' and 'additive' selection mode!");
+      }
 
+      var selectables = this.getSelectables();
+      for (var i = 0; i < selectables.length; i++)
+      {
+        this._toggleInSelection(selectables[i]);  
+      }
+      
+      this._fireChange();
+    },
 
 
 

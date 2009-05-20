@@ -390,6 +390,13 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
     getSelectables: function() {
       return this.__manager.getSelectables();
     },
+    
+    /**
+     * Invert the selection. Select the non selected and deselect the selected.
+     */
+    invertSelection: function() {
+      this.__manager.invertSelection();
+    },
 
 
     /*
