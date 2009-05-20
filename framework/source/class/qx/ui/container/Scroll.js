@@ -123,10 +123,26 @@ qx.Class.define("qx.ui.container.Scroll",
      * Scroll containers may only have one child. This
      * method returns exactly this one child or <code>null</code>.
      *
+     * @deprecated
      * @return {qx.ui.core.Widget} The child
      */
     getChild : function() {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Please use getChildren instead."
+      );
       return this.getChildControl("pane").getChild();
+    },
+
+    /**
+     * Returns the content of the scroll container.
+     *
+     * Scroll containers may only have one child. This
+     * method returns an array containing the child or an empty array.
+     *
+     * @return {Object[]} The child array
+     */
+    getChildren : function() {
+      return this.getChildControl("pane").getChildren();      
     },
 
 
