@@ -41,10 +41,12 @@ qx.Class.define("qx.test.ui.selection.TreeMultiSelection",
       var root = new qx.ui.tree.TreeFolder("Root");
       root.setOpen(true);
       this._widget.setRoot(root);
+      this._notInSelection.push(root);
       
       for (var i = 0; i < length; i++) {
         var folder = new qx.ui.tree.TreeFolder("Folder" + i);
         folder.setOpen(true);
+        this._notInSelection.push(folder);
         var file = new qx.ui.tree.TreeFile("File" + i);
         folder.add(file);
         root.add(folder);
