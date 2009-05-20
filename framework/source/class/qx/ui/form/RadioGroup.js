@@ -277,6 +277,11 @@ qx.Class.define("qx.ui.form.RadioGroup",
       }
     },
 
+    getChildren : function()
+    {
+      return this.__items;
+    },
+
 
     /*
     ---------------------------------------------------------------------------

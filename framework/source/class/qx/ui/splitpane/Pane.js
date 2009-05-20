@@ -47,6 +47,8 @@ qx.Class.define("qx.ui.splitpane.Pane",
   {
     this.base(arguments);
 
+    this.__children = [];
+
     // Initialize orientation
     if (orientation) {
       this.setOrientation(orientation);
@@ -217,6 +219,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
       } else {
         this._add(widget, {flex : flex});
       }
+      this.__children.push(widget);
     },
 
 
@@ -227,9 +230,13 @@ qx.Class.define("qx.ui.splitpane.Pane",
      */
     remove : function(widget) {
       this._remove(widget);
+      qx.lang.Array.remove(this.__children, widget);
     },
 
 
+    getChildren : function() {
+      return this.__children;
+    },
 
 
 
