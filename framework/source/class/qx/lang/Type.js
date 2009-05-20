@@ -91,7 +91,7 @@ qx.Bootstrap.define("qx.lang.Type",
       return (
         value !== null && (
         value instanceof Array ||
-        qx.Class.hasInterface(value.constructor, qx.data.IListData) ||
+        (value && qx.Class.hasInterface(value.constructor, qx.data.IListData) ) ||
         this.getClass(value) == "Array" ||
         (!!value && !!value.$$isArray))
       );
