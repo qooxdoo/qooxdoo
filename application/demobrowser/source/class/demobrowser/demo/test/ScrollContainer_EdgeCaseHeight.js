@@ -57,7 +57,7 @@ qx.Class.define("demobrowser.demo.test.ScrollContainer_EdgeCaseHeight",
       var grow2 = true;
       toggle2.addListener("execute", function()
       {
-        scrollContainer.getChild().setWidth(grow2 ? 100 : 300);
+        scrollContainer.getChildren()[0].setWidth(grow2 ? 100 : 300);
         grow2 = !grow2;
       });
       this.getRoot().add(toggle2, {left: 430, top: 20});
