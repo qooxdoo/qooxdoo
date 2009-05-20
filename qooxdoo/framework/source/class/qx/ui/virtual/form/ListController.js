@@ -134,14 +134,26 @@ qx.Class.define("qx.ui.virtual.form.ListController",
       var delegate = this.getDelegate();
       if (delegate != null) {
         var filter = delegate.filter;
+        var sorter = delegate.sorter;        
       }
       
       this.__lookupTable = [];
+      // apply the filter
       for (var i = 0; i < model.length; i++) {
         if (filter == null || filter(model.getItem(i))) {
           this.__lookupTable.push(i);
         }
       }
+      // apply the sorting
+      if (sorter != null && this.__lookupTable.length > 0) {
+        var model = this.getModel();
+        this.__lookupTable.sort(function(a, b) {
+          var modelA = model.getItem(a);
+          var modelB = model.getItem(b);
+          return sorter(modelA, modelB);
+        });        
+      }
+      
       if (this.getTarget() != null) {
         this._syncRowCount();        
       }
@@ -150,7 +162,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
 
     __lookup: function(index) {
       return this.__lookupTable[index];
-    }, 
+    },
       
     
 
@@ -165,7 +177,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
         return;
       }
       
-      if (value.filter != undefined) {
+      if (value.sorter != undefined || value.filter != undefined) {
         this.__buildUpLookupTable();        
       }     
     },    
