@@ -495,7 +495,7 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
     _computeScrollbars : function()
     {
       var pane = this.getChildControl("pane");
-      var content = pane.getChild();
+      var content = pane.getChildren()[0];
       if (!content)
       {
         this._excludeChildControl("scrollbar-x");

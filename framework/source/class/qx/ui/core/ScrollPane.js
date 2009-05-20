@@ -341,7 +341,7 @@ qx.Class.define("qx.ui.core.ScrollPane",
      * @return {Map} Size of the content (keys: <code>width</code> and <code>height</code>)
      */
     getScrollSize : function() {
-      return this.getChild().getBounds();
+      return this.getChildren()[0].getBounds();
     },
 
 
