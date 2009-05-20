@@ -127,7 +127,37 @@ qx.Class.define("qx.ui.embed.Iframe",
       check : "String",
       init : "",
       apply : "_applyFrameName"
-    }
+    },
+    
+    
+    /**
+     * Whether to show the frame's native context menu.
+     *
+     * Note: This only works if the iframe source is served from the same domain
+     * as the main application.
+     */
+    nativeContextMenu :
+    {
+      check : "Boolean",
+      apply : "_applyNativeContextMenu",
+      init : false
+    },
+   
+   
+    /**
+     * If the user presses F1 in IE by default the onhelp event is fired and
+     * IE’s help window is opened. Setting this property to <code>false</code>
+     * prevents this behavior.
+     *
+     * Note: This only works if the iframe source is served from the same domain
+     * as the main application.     
+     */
+    nativeHelp :
+    {
+      check : "Boolean",
+      init : false,
+      apply : "_applyNativeHelp"
+    }    
   },
 
 
@@ -201,7 +231,11 @@ qx.Class.define("qx.ui.embed.Iframe",
      *
      * @param e {qx.event.type.Event} Native load event
      */
-    _onIframeLoad : function(e) {
+    _onIframeLoad : function(e)
+    {
+      this._applyNativeContextMenu(this.getNativeContextMenu(), null);
+      this._applyNativeHelp(this.getNativeHelp(), null);
+      
       this.fireNonBubblingEvent("load");
     },
 
@@ -299,7 +333,78 @@ qx.Class.define("qx.ui.embed.Iframe",
     // property apply
     _applyFrameName : function(value, old) {
       this.getContentElement().setAttribute("name", value);
-    }
+    },
+    
+    
+    // property apply
+    _applyNativeContextMenu : function(value, old)
+    {
+      var document = this.getDocument();
+      if (!document) {
+        return;
+      }
+      
+      try {        
+        var documentElement = document.documentElement
+      } catch(e) {
+        // this may fail due to security restrictions
+        return;
+      }
+      
+      if (old === false)
+      {
+        qx.event.Registration.removeListener(
+          documentElement, "contextmenu",
+          this._onNativeContextMenu, this, true
+        );
+      }
+      
+      if (value === false) 
+      {
+        qx.event.Registration.addListener(
+          documentElement, "contextmenu", 
+          this._onNativeContextMenu, this, true
+        );
+      }      
+    },
+    
+    
+    /**
+     * Stops the <code>contextmenu</code> event from showing the native context menu
+     *
+     * @param e {qx.event.type.Mouse} The event object
+     */
+    _onNativeContextMenu : function(e) {
+      e.preventDefault();
+    },
+   
+   
+    // property apply
+    _applyNativeHelp : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function(value, old)
+      {
+        var document = this.getDocument();
+        if (!document) {
+          return;
+        }
+        
+        try
+        {
+          if (old === false) {
+            qx.bom.Event.removeNativeListener(document, "help", qx.lang.Function.returnFalse);
+          }
+         
+          if (value === false) {
+            qx.bom.Event.addNativeListener(document, "help", qx.lang.Function.returnFalse);
+          }
+        } catch (e) {
+          // this may fail due to security restrictions
+        };
+      },
+     
+      "default" : function() {}
+    })
   },
 
 
