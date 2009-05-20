@@ -56,8 +56,12 @@ qx.Class.define("demobrowser.demo.virtual.ListBinding",
       controller.setDelegate({
         filter : function(model) {
           var inFilter;
-          parseInt(model[model.length - 1]) % 2 ? inFilter = true : inFilter = false;
+          parseInt(model[model.length - 1]) % 2 ? inFilter = false : inFilter = true;
           return inFilter;
+        },
+        
+        sorter : function(modelA, modelB) {
+          return modelA > modelB;
         }
       });
       
