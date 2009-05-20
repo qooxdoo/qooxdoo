@@ -191,6 +191,65 @@ qx.Class.define("qx.test.ui.selection.AbstractMultiSelectonTest",
       this.assertEventNotFired(widget, "changeSelection", function () {
         widget.removeFromSelection(itemToRemove);
       }, function(event) {}, "'changeSelection' event fired!");      
+    },
+    
+    testInvertSelection : function()
+    {
+      var that = this;
+      var widget = this._widget;
+      this.assertEventFired(widget, "changeSelection", function () {
+        widget.invertSelection();
+        that.flush();
+      }, function(event) {
+        // Tests the result from the event
+        that._assertArrayEquals(that._notInSelection, event.getData(), 
+          "The result of the selection is wrong");
+      }, "'changeSelection' event not fired!");
+      
+      // Tests the result from "getSelection"
+      this._assertArrayEquals(this._notInSelection, this._widget.getSelection(),
+        "Selection is wrong");  
+    },
+    
+    testInvertSelectionWithErrors : function()
+    {
+      var widget = this._widget;
+      widget.setSelectionMode("single");
+      
+      this.assertException(function() {
+        widget.invertSelection();
+      }, Error, null, "No error occurs by trying to invert elements" +
+        " in 'single' selection mode!");
+    },
+    
+    testInvertSelectionWithDisabledChildElements : function()
+    {
+      // test setup
+      var tempNotInSelection = [];
+      for (var i = 0; i < this._notInSelection.length; i++)
+      {
+        if (i % 2 == 0) {
+          tempNotInSelection.push(this._notInSelection[i]);
+        } else {
+          this._notInSelection[i].setEnabled(false);
+        }
+      }
+      this._notInSelection = tempNotInSelection;
+      
+      var that = this;
+      var widget = this._widget;
+      this.assertEventFired(widget, "changeSelection", function () {
+        widget.invertSelection();
+        that.flush();
+      }, function(event) {
+        // Tests the result from the event
+        that._assertArrayEquals(that._notInSelection, event.getData(), 
+          "The result of the selection is wrong");
+      }, "'changeSelection' event not fired!");
+      
+      // Tests the result from "getSelection"
+      this._assertArrayEquals(this._notInSelection, this._widget.getSelection(),
+        "Selection is wrong");  
     }
   }
 });
