@@ -29,7 +29,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
 
   construct : function(model, target)
   {
-    this.base(arguments);
+    this.base(arguments);  
 
     this.setSelection(new qx.data.Array());
 
@@ -67,6 +67,19 @@ qx.Class.define("qx.ui.virtual.form.ListController",
       check : "qx.data.IListData",
       event : "changeSelection",
       apply: "_applySelection"
+    },
+    
+    
+    /**
+     * Delegation object, which can have one ore more functions defined by the
+     * {@link #IControllerDelegate} interface.  
+     */
+    delegate : 
+    {
+      apply: "_applyDelegate",
+      event: "changeDelegate",
+      init: null,
+      nullable: true
     }
   },
 
@@ -80,10 +93,18 @@ qx.Class.define("qx.ui.virtual.form.ListController",
     __changeSelectionModelListenerId : null,
     __changeSelectionLengthModelListenerId : null,
 
+    __lookupTable : null,
+
+
+    /*
+    ---------------------------------------------------------------------------
+       DATA PROVIDER
+    ---------------------------------------------------------------------------
+    */
     _getRowData : function(row)
     {
       var model = this.getModel();
-      return model ? model.getItem(row) : null;
+      return model ? model.getItem(this.__lookup(row)) : null;
     },
     
     
@@ -94,9 +115,60 @@ qx.Class.define("qx.ui.virtual.form.ListController",
     
     _getRowCount : function() 
     {
-      var model = this.getModel();
-      return model ? model.length : 0;
+      return this.__lookupTable.length;
     },
+    
+    
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+       LOOKUP STUFF
+    ---------------------------------------------------------------------------
+    */    
+    __buildUpLookupTable: function() {
+      var model = this.getModel();
+      if (model == null) {
+        return;
+      }
+      var delegate = this.getDelegate();
+      if (delegate != null) {
+        var filter = delegate.filter;
+      }
+      
+      this.__lookupTable = [];
+      for (var i = 0; i < model.length; i++) {
+        if (filter == null || filter(model.getItem(i))) {
+          this.__lookupTable.push(i);
+        }
+      }
+      if (this.getTarget() != null) {
+        this._syncRowCount();        
+      }
+    },
+    
+
+    __lookup: function(index) {
+      return this.__lookupTable[index];
+    }, 
+      
+    
+
+    /*
+    ---------------------------------------------------------------------------
+       APPLY METHODS
+    ---------------------------------------------------------------------------
+    */    
+    _applyDelegate: function(value, old) {
+      // TODO add other delegate functions
+      if (this.getTarget() == null || this.getModel() == null) {
+        return;
+      }
+      
+      if (value.filter != undefined) {
+        this.__buildUpLookupTable();        
+      }     
+    },    
     
     
     _applyTarget: function(value, old)
@@ -120,7 +192,8 @@ qx.Class.define("qx.ui.virtual.form.ListController",
         return;
       }
 
-      this._syncRowCount();
+      this.__buildUpLookupTable();
+      this._syncRowCount();        
     },
 
 
@@ -128,6 +201,8 @@ qx.Class.define("qx.ui.virtual.form.ListController",
     {
       if (value != null)
       {
+        this.__buildUpLookupTable();
+        
         this.__changeLengthListenerId = value.addListener(
           "changeLength", this._onChangeLengthModel, this
         );
@@ -136,7 +211,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
         );
         this.__changeBubbleListenerId = value.addListener(
           "changeBubble", this._onChangeBubbleModel, this
-        );        
+        );  
       }
 
       if (old != null) 
@@ -173,6 +248,56 @@ qx.Class.define("qx.ui.virtual.form.ListController",
     },
 
     
+    
+
+    /*
+    ---------------------------------------------------------------------------
+       EVENT HANDLER
+    ---------------------------------------------------------------------------
+    */    
+    _onChangeSelectionView: function(e) {
+      this._syncViewSelectionToModel();
+    },
+
+    
+    _onChangeSelectionModel : function(e) {
+      this._syncModelSelectionToView();
+    },
+    
+    
+    _onChangeLengthModel: function(e) {
+      this.__buildUpLookupTable();
+      this._syncRowCount();
+    },
+
+
+    _onChangeModel: function(e) 
+    {
+      var target = this.getTarget();
+      if (target != null) {
+        this.__buildUpLookupTable();
+        target.update();
+      }
+    },    
+
+    
+    _onChangeBubbleModel : function(e)
+    {     
+      var target = this.getTarget();
+      if (target != null) {
+        this.__buildUpLookupTable();
+        target.update();
+      }
+    },
+    
+    
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+       SYNC STUFF
+    ---------------------------------------------------------------------------
+    */
     _syncViewSelectionToModel : function()
     {
       if (this._ignoreSelectionChange) {
@@ -203,7 +328,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
       this._ignoreSelectionChange = false;
     },
     
-    
+        
     _syncModelSelectionToView : function()
     {
       if (this._ignoreSelectionChange) {
@@ -232,41 +357,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
 
       target.getSelectionManager().replaceSelection(selection);
       this._ignoreSelectionChange = false;
-    },
-    
-    
-    _onChangeSelectionView: function(e) {
-      this._syncViewSelectionToModel();
-    },
-
-    
-    _onChangeSelectionModel : function(e) {
-      this._syncModelSelectionToView();
-    },
-    
-    
-    _onChangeLengthModel: function(e) {
-      this._syncRowCount();
-    },
-
-
-    _onChangeModel: function(e) 
-    {
-      var target = this.getTarget();
-      if (target != null) {
-        target.update();
-      }
     },    
-
-    
-    _onChangeBubbleModel : function(e)
-    {     
-      var target = this.getTarget();
-      if (target != null) {
-        target.update();
-      }
-    },
-    
     
     _syncRowCount: function()
     {
