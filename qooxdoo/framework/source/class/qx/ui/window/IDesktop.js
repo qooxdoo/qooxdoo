@@ -61,6 +61,13 @@ qx.Interface.define("qx.ui.window.IDesktop",
     /**
      * Remove the content blocker.
      */
-    unblockContent : function() {}
+    unblockContent : function() {},
+    
+    /**
+     * Whether the content is currently blocked
+     * 
+     * @return {Boolean} whether the content is blocked.
+     */
+    isContentBlocked : function() {}
   }
 });
