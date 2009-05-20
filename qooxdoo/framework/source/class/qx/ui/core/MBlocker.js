@@ -76,10 +76,11 @@ qx.Mixin.define("qx.ui.core.MBlocker",
   {
     __blocker : null,
     __isBlocked : null,
-    __oldAnonymous : null,
     __contentBlocker : null,
     __isContentBlocked : null,
 
+    __oldAnonymous : null,
+    __anonymousCounter : 0,
 
     // property apply
     _applyBlockerColor : function(value, old)
@@ -112,7 +113,34 @@ qx.Mixin.define("qx.ui.core.MBlocker",
       }
     },
 
-
+    /**
+     * Remember current value and make widget anonymous. This prevents
+     * "capturing events". 
+     */
+    _saveAndSetAnonymousState : function()
+    {
+      this.__anonymousCounter += 1;
+      if (this.__anonymousCounter == 1)
+      {
+        this.__oldAnonymous = this.getAnonymous();
+        this.setAnonymous(true);
+      }
+    },
+    
+    
+    /**
+     * Reset the value of the anonymous property to its previous state. Each call
+     * to this method must have a matching call to {@link #_saveAndSetAnonymousState}.
+     */
+    _restoreAnonymousState : function()
+    {
+      this.__anonymousCounter -= 1;
+      if (this.__anonymousCounter == 0) {
+        this.setAnonymous(this.__oldAnonymous);
+      }
+    },
+    
+    
     /**
      * Creates the blocker element.
      *
@@ -156,10 +184,7 @@ qx.Mixin.define("qx.ui.core.MBlocker",
       // this prevents bubbling events
       this._getBlocker().include();
 
-      // remember old value and set make widget anonymous. This prevents
-      // "capturing events"
-      this.__oldAnonymous = this.getAnonymous();
-      this.setAnonymous(true);
+      this._saveAndSetAnonymousState();
     },
 
 
@@ -183,7 +208,7 @@ qx.Mixin.define("qx.ui.core.MBlocker",
       }
       this.__isBlocked = false;
 
-      this.setAnonymous(this.__oldAnonymous);
+      this._restoreAnonymousState();
       this._getBlocker().exclude();
     },
 
