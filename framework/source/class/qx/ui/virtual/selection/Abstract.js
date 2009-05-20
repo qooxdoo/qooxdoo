@@ -98,12 +98,12 @@ qx.Class.define("qx.ui.virtual.selection.Abstract",
      */
     attachMouseEvents : function()
     {
-      var pane = this._pane;
-      pane.addListener("mousedown", this.handleMouseDown, this);
-      pane.addListener("mouseup", this.handleMouseUp, this);
-      pane.addListener("mouseover", this.handleMouseOver, this);
-      pane.addListener("mousemove", this.handleMouseMove, this);
-      pane.addListener("losecapture", this.handleLoseCapture, this);
+      var paneElement = this._pane.getContainerElement();
+      paneElement.addListener("mousedown", this.handleMouseDown, this);
+      paneElement.addListener("mouseup", this.handleMouseUp, this);
+      paneElement.addListener("mouseover", this.handleMouseOver, this);
+      paneElement.addListener("mousemove", this.handleMouseMove, this);
+      paneElement.addListener("losecapture", this.handleLoseCapture, this);
     },
     
     
@@ -112,13 +112,13 @@ qx.Class.define("qx.ui.virtual.selection.Abstract",
      */    
     detatchMouseEvents : function()
     {
-      var pane = this._pane;
-      pane.removeListener("mousedown", this.handleMouseDown, this);
-      pane.removeListener("mouseup", this.handleMouseUp, this);
-      pane.removeListener("mouseover", this.handleMouseOver, this);
-      pane.removeListener("mousemove", this.handleMouseMove, this);
-      pane.removeListener("losecapture", this.handleLoseCapture, this);
-    },    
+      var paneElement = this._pane.getContainerElement();
+      paneElement.removeListener("mousedown", this.handleMouseDown, this);
+      paneElement.removeListener("mouseup", this.handleMouseUp, this);
+      paneElement.removeListener("mouseover", this.handleMouseOver, this);
+      paneElement.removeListener("mousemove", this.handleMouseMove, this);
+      paneElement.removeListener("losecapture", this.handleLoseCapture, this);
+    },
     
     
     /**
