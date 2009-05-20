@@ -15,6 +15,7 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
+     * Jonathan Weiß (jonathan_rass)
 
 ************************************************************************ */
 
@@ -40,6 +41,8 @@ qx.Class.define("qx.ui.form.TextArea",
   {
     this.base(arguments, value);
     this.initWrap();
+    this.addListener("keyup", this._onkeyup, this);
+    this.addListener("changeValue", this._onChangeValue, this);
   },
 
 
@@ -66,6 +69,13 @@ qx.Class.define("qx.ui.form.TextArea",
     {
       refine : true,
       init : "textarea"
+    },
+
+    /** Maximal number of characters that can be entered in the TextArea. */
+    maxlength :
+    {
+      check : "PositiveInteger",
+      init : Infinity
     }
   },
 
@@ -100,12 +110,10 @@ qx.Class.define("qx.ui.form.TextArea",
     ---------------------------------------------------------------------------
     */
 
+    // overridden
     _applyWrap : function(value, old) {
       this.getContentElement().setWrap(value);
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -125,6 +133,54 @@ qx.Class.define("qx.ui.form.TextArea",
       hint.width = this._getTextSize().width * 20;
 
       return hint;
+    },
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENT HANDLER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Event listener for the <code>keyup</code> event of the TextArea.
+     *
+     * @param e {qx.event.type.KeySequence} Event object
+     */
+    _onkeyup : function(e) {
+      this.setValue(this.__trim(this.getValue()));
+    },
+
+    /**
+     * Event listener for the <code>changeValue</code> event of the TextArea.
+     *
+     * @param e {qx.event.type.Data} Incoming data event
+     */
+    _onChangeValue : function(e) {
+      this.setValue(this.__trim(e.getData()));
+    },
+    
+    /*
+    ---------------------------------------------------------------------------
+      INTERNALS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Trims the incoming value according to the maxlength.
+     *
+     * @internal
+     * @param value {String} Incoming string value.
+     * @return {String} The trimmed string.
+     */
+    __trim : function(value)
+    {
+      var maxLength = this.getMaxlength();
+      if (value.length > maxLength) {
+        value = value.substr(0, maxLength);
+      }
+      return value;
     }
+
+
   }
 });
