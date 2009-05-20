@@ -277,6 +277,12 @@ qx.Class.define("qx.ui.form.RadioGroup",
       }
     },
 
+
+    /**
+     * Returns an array containing the group's items.
+     *
+     * @return {Object[]} The item array
+     */
     getChildren : function()
     {
       return this.__items;
