@@ -234,6 +234,11 @@ qx.Class.define("qx.ui.splitpane.Pane",
     },
 
 
+    /**
+     * Returns an array containing the pane's content.
+     *
+     * @return {Object[]} The content array
+     */
     getChildren : function() {
       return this.__children;
     },
