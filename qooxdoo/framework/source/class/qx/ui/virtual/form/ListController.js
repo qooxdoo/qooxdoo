@@ -113,7 +113,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
     },
     
     
-    _getRowCount : function() 
+    getRowCount : function() 
     {
       return this.__lookupTable.length;
     },
@@ -373,7 +373,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
     
     _syncRowCount: function()
     {
-      var length = this._getRowCount();
+      var length = this.getRowCount();
       this.getTarget().setRowCount(length);
     },
 
