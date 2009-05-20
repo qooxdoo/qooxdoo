@@ -93,16 +93,6 @@ qx.Class.define("demobrowser.demo.widget.DateChooser",
         chooser.setValue(null);
       });
 
-      // set value stuff
-      var textField = new qx.ui.form.TextField(new Date().toString());
-      textField.setWidth(200);
-      containerRightBottom.add(textField);
-      var setValueButton = new qx.ui.form.Button("Set Value");
-      containerRightBottom.add(setValueButton);
-      setValueButton.addListener("execute", function(e) {
-        chooser.setValue(textField.getValue());
-      }, this);
-
       // Description
       var headerLabel = new qx.ui.basic.Label("Description");
       headerLabel.setFont("bold");
