@@ -92,19 +92,13 @@ qx.Class.define("demobrowser.demo.widget.DateField",
         dateFieldManipulation.setValue(new Date());
       });
 
-      var setValueTestButton = new qx.ui.form.Button("Set 'TEST'");
-      setValueTestButton.setWidth(120);
-      this.getRoot().add(setValueTestButton, {top: 88, left: 280});
-      setValueTestButton.addListener("execute", function(e) {
-        dateFieldManipulation.setValue("TEST");
+      var resetDateButton = new qx.ui.form.Button("Reset");
+      resetDateButton.setWidth(120);
+      this.getRoot().add(resetDateButton, {top: 88, left: 280});
+      resetDateButton.addListener("execute", function(e) {
+        dateFieldManipulation.resetValue();
       });
 
-      var setValueDateButton = new qx.ui.form.Button("Set '01.01.08'");
-      setValueDateButton.setWidth(120);
-      this.getRoot().add(setValueDateButton, {top: 116, left: 280});
-      setValueDateButton.addListener("execute", function(e) {
-        dateFieldManipulation.setValue("01.01.08");
-      });
       ////////////////////////////////////////////////////////////
 
       // Get stuff of the date field /////////////////////////////
@@ -112,18 +106,14 @@ qx.Class.define("demobrowser.demo.widget.DateField",
       var dateFieldGet = new qx.ui.form.DateField();
       this.getRoot().add(dateFieldGet, {top: 35, left: 410});
 
-      var getValueButton = new qx.ui.form.Button("Get value");
-      getValueButton.setWidth(120);
-      this.getRoot().add(getValueButton, {left: 410, top: 60});
-      getValueButton.addListener("execute", function(e) {
-        alert(dateFieldGet.getValue());
-      });
-
+      var dateLabel = new qx.ui.basic.Label();
+      this.getRoot().add(dateLabel, {left: 410, top: 88});
+      
       var getDateButton = new qx.ui.form.Button("Get date");
       getDateButton.setWidth(120);
-      this.getRoot().add(getDateButton, {left: 410, top: 88});
+      this.getRoot().add(getDateButton, {left: 410, top: 60});
       getDateButton.addListener("execute", function(e) {
-        alert(dateFieldGet.getValue());
+        dateLabel.setValue(dateFieldGet.getValue() + "");
       });
       ////////////////////////////////////////////////////////////
     }
