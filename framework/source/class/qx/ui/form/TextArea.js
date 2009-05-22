@@ -90,10 +90,10 @@ qx.Class.define("qx.ui.form.TextArea",
   members :
   {
     /**
-      * {Boolean} Flag indicating whether listeneres for input and changeValue
+      * {Boolean} Flag indicating whether listeners for input and changeValue
       * are attachted.
       */
-    __listeneresAttached : false,
+    __listenersAttached : false,
     
     /*
     ---------------------------------------------------------------------------
@@ -141,15 +141,18 @@ qx.Class.define("qx.ui.form.TextArea",
     {
       if (value == Infinity)
       {
-        this.removeListener("input", this._processValue, this);
-        this.removeListener("changeValue", this._processValue, this);
-        this.__listeneresAttached = false;
+        if (this.__listenersAttached)
+        {
+          this.removeListener("input", this._processValue, this);
+          this.removeListener("changeValue", this._processValue, this);
+          this.__listenersAttached = false;
+        }
       }
-      else if (!this.__listeneresAttached)
+      else if (!this.__listenersAttached)
       {
         this.addListener("input", this._processValue, this);
         this.addListener("changeValue", this._processValue, this);
-        this.__listeneresAttached = true;
+        this.__listenersAttached = true;
       }
     },
 
