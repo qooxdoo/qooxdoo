@@ -437,8 +437,11 @@ qx.Class.define("playground.Application",
       // While this is ok for many simple scenarios, it cannot account for
       // application code that generates temporary objects without adding them
       // to the application (as widgets for instance). There is no real
-      // for such a multi-application scenario that is playground specific.
-      for (var i=0, ch=root.getChildren(), chl=ch.length; i<chl; i++)
+      // solution for such a multi-application scenario that is playground 
+      // specific.
+      var ch = root.getChildren();
+      var i = ch.length;
+      while(i--)
       {
         if (ch[i]) {
           ch[i].destroy();
