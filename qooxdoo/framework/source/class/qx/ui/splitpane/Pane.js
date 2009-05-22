@@ -118,6 +118,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
     __isHorizontal : null,
     __beginSize : null,
     __endSize : null,
+    __children : null,
 
     // overridden
     _createChildControlImpl : function(id)
