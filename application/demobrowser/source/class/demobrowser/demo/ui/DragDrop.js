@@ -112,7 +112,7 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
             break;
 
           case "value":
-            result = this.getValue();
+            result = this.getSelection()[0].getLabel();
             break;
         }
 
