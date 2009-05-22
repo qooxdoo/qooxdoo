@@ -90,16 +90,24 @@ class CodeGenerator(object):
             else:
                 bootContent = "".join(bootBlocks)
 
-            # Resolve file name variables
-            resolvedFilePath = self._resolveFileName(filePath, variants, settings)
+            return bootContent
+
+        def writePackages(compiledPackages, startId=0):
+            for packageId, content in enumerate(compiledPackages):
+                writePackage(content, startId + packageId)
+            return
+
+        def writePackage(content, packageId=""):
+            # Construct file name
+            resolvedFilePath = self._resolveFileName(filePath, variants, settings, packageId)
 
             # Save result file
-            filetool.save(resolvedFilePath, bootContent)
+            filetool.save(resolvedFilePath, content)
 
             if compConf.get("paths/gzip"):
-                filetool.gzip(resolvedFilePath, bootContent)
+                filetool.gzip(resolvedFilePath, content)
 
-            self._console.debug("Done: %s" % self._computeContentSize(bootContent))
+            self._console.debug("Done: %s" % self._computeContentSize(content))
             self._console.debug("")
 
             return
@@ -148,25 +156,14 @@ class CodeGenerator(object):
         self._console.indent()
 
         bootPackage = ""
+        compiledPackages = []
         for packageId, classes in enumerate(packages):
             self._console.info("Compiling package #%s:" % packageId, False)
             self._console.indent()
 
             # Compile file content
             compiledContent = self._treeCompiler.compileClasses(classes, variants, optimize, format)
-            if packageId == 0: # TODO: is this a valid assumption?
-                bootPackage = compiledContent
-                self._console.outdent()
-                continue
-
-            # Construct file name
-            resolvedFilePath = self._resolveFileName(filePath, variants, settings, packageId)
-
-            # Save result file
-            filetool.save(resolvedFilePath, compiledContent)
-
-            if compConf.get("paths/gzip"):
-                filetool.gzip(resolvedFilePath, compiledContent)
+            compiledPackages.append(compiledContent)
 
             self._console.debug("Done: %s" % self._computeContentSize(compiledContent))
             self._console.outdent()
@@ -174,38 +171,19 @@ class CodeGenerator(object):
         self._console.outdent()
 
         # Generating boot script
-        if not bootPackage:
+        if not len(compiledPackages):
             raise RuntimeError("No valid boot package generated.")
-        generateBootScript(bootPackage)
+
+        if True: # with_boot:
+            content = generateBootScript(compiledPackages[0])
+            writePackage(content)
+            writePackages(compiledPackages[1:], 1)
+        else:
+            content = generateBootScript()
+            writePackages({0: content})
+            writePackages(compiledPackages)
 
         return
-
-
-    def runCompiled1(self):
-
-        # Dist Generation
-
-        # Generate loader + compiled files
-
-        if hasParts:
-            # Insert new part which only contains the loader stuff
-            injectLoader(parts)
-
-            # Compute packages
-            parts, packages = self._partBuilder.getPackages(partIncludes, smartExclude, classList, collapseCfg, variants, sizeCfg)
-
-            # Build all individual packages
-            for pkg in packages:
-                fileName = "TODO"
-                compiled = self.compileClasses(pkgClasses, variants)
-                writeFile(fileName, compiled)
-
-        else:
-            # Generate one compiled file including all
-            fileName = "TODO"
-            compiled = self.compileClasses(classes)
-            writeFile(fileName, compiled)
-
 
 
     def runSource(self, parts, packages, boot, variants, classList, libs, classes):
