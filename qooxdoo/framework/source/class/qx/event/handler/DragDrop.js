@@ -103,6 +103,20 @@ qx.Class.define("qx.event.handler.DragDrop",
 
   members :
   {
+    __manager : null,
+    __root : null,
+    __dropTarget : null,
+    __dragTarget : null,
+    __types : null,
+    __actions : null,
+    __keys : null,
+    __cache : null,
+    __currentType : null,
+    __currentAction : null,
+    __sessionActive : false,
+    __startLeft : 0,
+    __startTop : 0,
+
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLER INTERFACE
