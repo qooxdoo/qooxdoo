@@ -134,7 +134,12 @@ qx.Class.define("inspector.widgets.WidgetsWindow", {
       // ignore all objects without children (spacer e.g.)
       if (parentWidget[kids] == undefined) {
         console.log(parentWidget.classname + " has no " + kids);
-        return;
+        
+        if (kids === "getChildren") {
+          kids = "_getChildren";
+        } else {
+          return;
+        }
       }
       
       // if parent widget contains no more widgets
