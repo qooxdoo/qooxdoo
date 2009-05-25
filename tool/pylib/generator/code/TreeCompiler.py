@@ -195,9 +195,16 @@ class TreeCompiler:
         return content
 
     def getCompileCommand(self, fileId, variants, optimize, format):
+
+        def getToolBinPath():
+            path = sys.argv[0]
+            path = os.path.abspath(os.path.normpath(os.path.dirname(path)))
+            return path
+
         m   = {}
         cmd = ""
-        m['compilePath'] = os.path.normpath("compile.py -q")
+        toolBinPath      = getToolBinPath()
+        m['compilePath'] = os.path.join(toolBinPath, "compile.py -q")
         m['filePath']    = os.path.normpath(self._classes[fileId]["path"])
         # optimizations
         optis = []
