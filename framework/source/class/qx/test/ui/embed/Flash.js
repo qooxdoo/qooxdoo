@@ -27,6 +27,16 @@ qx.Class.define("qx.test.ui.embed.Flash",
 {
   extend : qx.test.ui.LayoutTestCase,
 
+  statics :
+  {
+    isFlashReady : false,
+    
+    flashCallback : function()
+    {
+      qx.test.ui.embed.Flash.isFlashReady = true;
+    }
+  },
+  
   members :
   {
     __flash : null,
@@ -49,6 +59,7 @@ qx.Class.define("qx.test.ui.embed.Flash",
       };
       
       this.__variables = {
+        init : "qx.test.ui.embed.Flash.flashCallback",
         flashVar1: "bli bla blub",
         flashVar2: "bulb alb ilb"
       };
@@ -66,6 +77,7 @@ qx.Class.define("qx.test.ui.embed.Flash",
     },
     
     tearDown : function() {
+      qx.test.ui.embed.Flash.isFlashReady = false;
       this.getRoot().removeAll();
       this.__flash.destroy();
       this.__flash = null;
@@ -103,7 +115,7 @@ qx.Class.define("qx.test.ui.embed.Flash",
         
         // test parmas and flashvars
         var params = that.__params;
-        params.flashvars = "flashVar1=bli bla blub&flashVar2=bulb alb ilb";
+        params.flashvars = "init=qx.test.ui.embed.Flash.flashCallback&flashVar1=bli bla blub&flashVar2=bulb alb ilb";
         
         var children = flash.childNodes;
         for(var name in params)
@@ -209,7 +221,7 @@ qx.Class.define("qx.test.ui.embed.Flash",
       if (location.protocol != "http:") {
         this.warn("Sciped test 'testReload', because a webserver " +
           "is needed to run this test.");
-        return
+        return;
       }
       
       var result = 0;
@@ -217,6 +229,12 @@ qx.Class.define("qx.test.ui.embed.Flash",
       var that = this;
       this.wait(5000, function()
       {
+        if (!qx.test.ui.embed.Flash.isFlashReady)
+        {
+          that.warn("ExternalInterface not ready -> skipped test");
+          return;
+        }
+        
         var flash = that.__flash.getFlashElement();
         
         if (flash.setValue) {
@@ -245,7 +263,7 @@ qx.Class.define("qx.test.ui.embed.Flash",
       if (location.protocol != "http:") {
         this.warn("Sciped test 'testExternalInterface', because a webserver " +
           "is needed to run this test.");
-        return
+        return;
       }
       
       var result = "";
@@ -253,6 +271,12 @@ qx.Class.define("qx.test.ui.embed.Flash",
       var that = this;
       this.wait(5000, function()
       {
+        if (!qx.test.ui.embed.Flash.isFlashReady)
+        {
+          that.warn("ExternalInterface not ready -> skipped test");
+          return;
+        }
+        
         var flash = that.__flash.getFlashElement();
         
         if (flash.echo) {
