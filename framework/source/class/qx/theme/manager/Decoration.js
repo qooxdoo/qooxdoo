@@ -58,7 +58,6 @@ qx.Class.define("qx.theme.manager.Decoration",
 
   members :
   {
-
     __dynamic : null,
 
     /**
@@ -159,6 +158,10 @@ qx.Class.define("qx.theme.manager.Decoration",
     {
       var alias = qx.util.AliasManager.getInstance();
       value ? alias.add("decoration", value.resource) : alias.remove("decoration");
+      
+      if (!value) {
+        this.__dynamic = {};
+      }
     }
   },
 
