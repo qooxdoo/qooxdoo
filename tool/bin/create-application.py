@@ -33,6 +33,8 @@ FRAMEWORK_DIR = os.path.normpath(os.path.join(SCRIPT_DIR, os.pardir, os.pardir))
 SKELETON_DIR  = os.path.normpath(os.path.join(FRAMEWORK_DIR, "component", "skeleton"))
 APP_TYPES     = [x for x in os.listdir(SKELETON_DIR) if not re.match(r'^\.',x)]
 
+R_ILLEGAL_NS_CHAR = re.compile(r'[^a-zA-Z0-9_]')
+
 
 def createApplication(name, out, namespace, app_type, skeleton_path):
     if sys.platform == 'win32' and re.match( r'^[a-zA-Z]:$', out):
@@ -229,12 +231,17 @@ Example: For creating a regular GUI application \'myapp\' you could execute:
         parser.print_help()
         sys.exit(1)
 
-    if not options.namespace:
-        options.namespace = options.name.lower().replace(" ", "_")
-
     # Initialize console
     global console
     console = Log(options.logfile, "info")
+
+    if not options.namespace:
+        options.namespace = options.name.lower()
+
+    if R_ILLEGAL_NS_CHAR.search(options.namespace):
+        convertedNamespace = R_ILLEGAL_NS_CHAR.sub("_", options.namespace)
+        console.log("WARNING: Converted illegal characters in namespace (from %s to %s)" % (options.namespace, convertedNamespace))
+        options.namespace = convertedNamespace
 
     createApplication(
         options.name,
