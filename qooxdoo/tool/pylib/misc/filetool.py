@@ -23,6 +23,11 @@ import gzip as sys_gzip
 import textutil
 import roothelper
 
+if sys.platform == "win32":
+    import msvcrt
+else:
+    import fcntl
+
 def gzip(filePath, content, encoding="utf-8"):
     if not filePath.endswith(".gz"):
         filePath = filePath + ".gz"
@@ -189,7 +194,7 @@ def lockFileName(path):
     return '.'.join((path, "lock"))
 
 
-def lock(path, id=None, timeout=None):
+def lock1(path, id=None, timeout=None):
     # create a lock file and return when we can safely access path
 
     def timeIsOut():
@@ -226,11 +231,34 @@ def lock(path, id=None, timeout=None):
     return True
 
 
-def unlock(path):
+def unlock1(path):
     lockfile = lockFileName(path)
     if os.path.exists(lockfile) and os.path.isFile(lockfile):
         os.path.unlink(lockfile)
         return True
     else:
         return False
+
+
+def lock(fd, write=False):
+    if sys.platform == "win32":
+        if write:
+            flag = msvcrt.LK_RLCK
+        else:
+            flag = msvcrt.LK_LOCK
+        msvcrt.locking(fd, flag, 10)  # assuming the first 10 bytes; throws IOError after 10secs
+    
+    else:  # some *ix system
+        fcntl.flock(fd, fcntl.LOCK_EX) # blocking
+
+    return
+
+
+def unlock(fd):
+    if sys.platform == "win32":
+        msvcrt.locking(fd, LK_UNLCK, 10) # assuming first 10 bytes!
+    else:
+        fcntl.flock(fd, fcntl.LOCK_UN)
+
+    return
 

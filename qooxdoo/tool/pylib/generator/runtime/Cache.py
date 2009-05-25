@@ -99,7 +99,13 @@ class Cache:
                 return None
 
         try:
-            content = cPickle.load(open(cacheFile, 'rb'))
+            fobj = open(cacheFile, 'rb')
+            filetool.lock(fobj.fileno())
+
+            content = cPickle.load(fobj)
+
+            filetool.unlock(fobj.fileno())
+            fobj.close()
 
             if memory:
                 memcache[cacheId] = content
@@ -122,7 +128,13 @@ class Cache:
 
         if writeToFile:
             try:
-                cPickle.dump(content, open(cacheFile, 'wb'), 2)
+                fobj = open(cacheFile, 'wb')
+                filetool.lock(fobj.fileno(), write=True)
+
+                cPickle.dump(content, fobj, 2)
+
+                filetool.unlock(fobj.fileno())
+                fobj.close()
     
             except (IOError, EOFError, cPickle.PickleError, cPickle.PicklingError):
                 self._console.error("Could not store cache to %s" % self._path)
