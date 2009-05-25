@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="init()" width="100%" height="100%" horizontalAlign="left">
-	<mx:Script>
-		<![CDATA[
-			import flash.external.ExternalInterface;
+  <mx:Script>
+    <![CDATA[
+      import flash.external.ExternalInterface;
 
       private var value:Number = 0;
 
-			private function init():void {
-				ExternalInterface.marshallExceptions = true;
-				ExternalInterface.addCallback("echo", echo);
+      private function init():void {
+        ExternalInterface.marshallExceptions = true;
+        ExternalInterface.addCallback("echo", echo);
         ExternalInterface.addCallback("setValue", setValue);
         ExternalInterface.addCallback("getValue", getValue);
         
         if (Application.application.parameters.init) {
           ExternalInterface.call(Application.application.parameters.init);
         }
-			}
-			
-			private function echo(message:String):String {
-				logger.text = "Echo called with '" + message + "'";
-				return message;
-			}
-      
+      }
+
+      private function echo(message:String):String {
+        logger.text = "Echo called with '" + message + "'";
+        return message;
+      }
+
       private function setValue(value:Number):void {
         this.value = value;
       }
-      
+
       private function getValue():Number {
         return this.value;
       }
-		]]>
-	</mx:Script>
-	
-	<mx:Label text="No echo called!" id="logger"/>
+    ]]>
+  </mx:Script>
+
+  <mx:Label text="No echo called!" id="logger"/>
 </mx:Application>
