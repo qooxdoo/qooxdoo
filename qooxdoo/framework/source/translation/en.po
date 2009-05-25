@@ -13,40 +13,24 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: qx/legacy/ui/component/ColorPopup.js:159 qx/ui/control/ColorPopup.js:148
+#: qx/legacy/ui/component/ColorPopup.js:159 qx/ui/control/ColorPopup.js:138
 msgid "Automatic"
 msgstr ""
 
-#: qx/legacy/ui/component/ColorPopup.js:257 qx/ui/control/ColorPopup.js:228
+#: qx/legacy/ui/component/ColorPopup.js:257 qx/ui/control/ColorPopup.js:146
 msgid "Open ColorSelector"
 msgstr ""
 
-#: qx/legacy/ui/component/ColorPopup.js:277 qx/ui/control/ColorPopup.js:243
+#: qx/legacy/ui/component/ColorPopup.js:277 qx/ui/control/ColorPopup.js:233
 msgid "Color Selector"
 msgstr ""
 
-#: qx/legacy/ui/component/ColorSelector.js:225 qx/ui/control/ColorPopup.js:257
+#: qx/legacy/ui/component/ColorSelector.js:225 qx/ui/control/ColorPopup.js:176
 msgid "Cancel"
 msgstr ""
 
-#: qx/legacy/ui/component/ColorSelector.js:226 qx/ui/control/ColorPopup.js:262
+#: qx/legacy/ui/component/ColorSelector.js:226 qx/ui/control/ColorPopup.js:171
 msgid "OK"
-msgstr ""
-
-#: qx/legacy/ui/component/DateChooser.js:85 qx/ui/control/DateChooser.js:276
-msgid "Last year"
-msgstr ""
-
-#: qx/legacy/ui/component/DateChooser.js:92 qx/ui/control/DateChooser.js:284
-msgid "Last month"
-msgstr ""
-
-#: qx/legacy/ui/component/DateChooser.js:98 qx/ui/control/DateChooser.js:292
-msgid "Next month"
-msgstr ""
-
-#: qx/legacy/ui/component/DateChooser.js:104 qx/ui/control/DateChooser.js:300
-msgid "Next year"
 msgstr ""
 
 #: qx/legacy/ui/component/DateChooserButton.js:61
@@ -77,18 +61,17 @@ msgstr ""
 msgid "Search items in list"
 msgstr ""
 
-#: qx/legacy/ui/table/Table.js:1541 qx/ui/table/Table.js:1513
+#: qx/legacy/ui/table/Table.js:1541 qx/ui/table/Table.js:1734
 msgid "one row"
-msgstr ""
+msgid_plural "%1 rows"
+msgstr[0] ""
+msgstr[1] ""
 
-#: qx/legacy/ui/table/Table.js:1543 qx/ui/table/Table.js:1515
+#: qx/legacy/ui/table/Table.js:1543 qx/ui/table/Table.js:1736
 msgid "one of one row"
-msgstr ""
-
-#: qx/legacy/ui/table/columnmodel/Resize.js:205
-#: qx/ui/table/columnmodel/Resize.js:209
-msgid "Reset column widths"
-msgstr ""
+msgid_plural "%1 of %2 rows"
+msgstr[0] ""
+msgstr[1] ""
 
 #: qx/locale/Key.js:76
 msgid "key_short_Backspace"
@@ -301,51 +284,78 @@ msgstr ""
 #: qx/test/locale/Locale.js:72 qx/test/locale/Locale.js:75
 #: qx/test/locale/Locale.js:78
 msgid "test One car"
-msgstr ""
+msgid_plural "test %1 cars"
+msgstr[0] ""
+msgstr[1] ""
 
-#: qx/test/ui/LocaleSwitch.js:62 qx/test/locale/Locale.js:60
+#: qx/test/ui/LocaleSwitch.js:83 qx/test/locale/Locale.js:60
 msgid "test one"
 msgstr ""
 
-#: qx/test/ui/LocaleSwitch.js:70 qx/test/locale/Locale.js:64
+#: qx/test/ui/LocaleSwitch.js:91 qx/test/locale/Locale.js:64
 #: qx/test/locale/Locale.js:68
 msgid "test Hello %1!"
 msgstr ""
 
-#: qx/test/ui/LocaleSwitch.js:70 qx/test/locale/Locale.js:68
+#: qx/test/ui/LocaleSwitch.js:91 qx/test/locale/Locale.js:68
 msgid "test Jonny"
 msgstr ""
 
-#: qx/test/ui/LocaleSwitch.js:76
+#: qx/test/ui/LocaleSwitch.js:97
 msgid "test two"
 msgstr ""
 
-#: qx/ui/control/ColorSelector.js:275
+#: qx/ui/control/ColorSelector.js:232
+msgid "Visual"
+msgstr ""
+
+#: qx/ui/control/ColorSelector.js:292
 #: qx/legacy/ui/component/ColorSelector.js:335
 msgid "Presets"
 msgstr ""
 
-#: qx/ui/control/ColorSelector.js:301
+#: qx/ui/control/ColorSelector.js:323
 #: qx/legacy/ui/component/ColorSelector.js:385
 msgid "Details"
 msgstr ""
 
-#: qx/ui/control/ColorSelector.js:312 qx/legacy/ui/component/ColorPopup.js:225
-#: qx/legacy/ui/component/ColorSelector.js:403 qx/ui/control/ColorPopup.js:199
+#: qx/ui/control/ColorSelector.js:334 qx/legacy/ui/component/ColorPopup.js:225
+#: qx/legacy/ui/component/ColorSelector.js:403 qx/ui/control/ColorPopup.js:153
 msgid "Preview (Old/New)"
 msgstr ""
 
-#: qx/ui/control/ColorSelector.js:331
+#: qx/ui/control/ColorSelector.js:352
 #: qx/legacy/ui/component/ColorSelector.js:437
 msgid "Hex"
 msgstr ""
 
-#: qx/ui/control/ColorSelector.js:351
+#: qx/ui/control/ColorSelector.js:372
 #: qx/legacy/ui/component/ColorSelector.js:465
 msgid "RGB"
 msgstr ""
 
-#: qx/ui/control/ColorSelector.js:383
+#: qx/ui/control/ColorSelector.js:404
 #: qx/legacy/ui/component/ColorSelector.js:499
 msgid "HSB"
+msgstr ""
+
+#: qx/ui/control/DateChooser.js:253 qx/legacy/ui/component/DateChooser.js:85
+msgid "Last year"
+msgstr ""
+
+#: qx/ui/control/DateChooser.js:265 qx/legacy/ui/component/DateChooser.js:92
+msgid "Last month"
+msgstr ""
+
+#: qx/ui/control/DateChooser.js:277 qx/legacy/ui/component/DateChooser.js:98
+msgid "Next month"
+msgstr ""
+
+#: qx/ui/control/DateChooser.js:289 qx/legacy/ui/component/DateChooser.js:104
+msgid "Next year"
+msgstr ""
+
+#: qx/ui/table/columnmodel/Resize.js:214
+#: qx/legacy/ui/table/columnmodel/Resize.js:203
+msgid "Reset column widths"
 msgstr ""
