@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
+     2009 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -28,15 +28,16 @@ qx.Class.define("qx.html.Blocker",
   extend : qx.html.Element,
   
   /**
-   * @param backgroundColor {Color?null} the blocker's background color. This color
-   *    can be themed and will be resolved by the blocker.
+   * @param backgroundColor {Color?null} the blocker's background color. This 
+   *    color can be themed and will be resolved by the blocker.
    * @param opacity {Number?0} The blocker's opacity
    */
   construct : function(backgroundColor, opacity) 
   {
     this.base(arguments);
     
-    var backgroundColor = backgroundColor ? qx.theme.manager.Color.getInstance().resolve(backgroundColor) : null; 
+    var backgroundColor = backgroundColor ? 
+        qx.theme.manager.Color.getInstance().resolve(backgroundColor) : null; 
     
     this.setStyles({
       position: "absolute",
@@ -46,8 +47,7 @@ qx.Class.define("qx.html.Blocker",
       backgroundColor : backgroundColor 
     });
 
-    // IE needs some extra love here to convince him to
-    // block events.
+    // IE needs some extra love here to convince it to block events.
     if (qx.core.Variant.isSet("qx.client", "mshtml"))
     {
       this.setStyles({

@@ -2183,8 +2183,7 @@ qx.Class.define("qx.ui.core.Widget",
         });
       }
 
-      // IE needs some extra love here to convince him to
-      // block events.
+      // IE needs some extra love here to convince it to block events.
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
         protect.setStyles({
