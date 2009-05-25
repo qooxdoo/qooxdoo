@@ -154,7 +154,7 @@ qx.Class.define("qx.ui.layout.VBox",
      */
     alignX :
     {
-      check : [ "left", "center", "right", "baseline" ],
+      check : [ "left", "center", "right" ],
       init : "left",
       apply : "_applyLayoutChange"
     },
