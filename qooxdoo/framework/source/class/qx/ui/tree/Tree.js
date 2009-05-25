@@ -364,6 +364,20 @@ qx.Class.define("qx.ui.tree.Tree",
       }
     },
 
+    /**
+     * Returns the tree's only "external" child, namely the root node.
+     *
+     * @return {AbstractTreeItem[]} Array containing the root node
+     */
+    getChildren : function() {
+      if (this.getRoot() != null) {
+        return [this.getRoot()];
+      }
+      else {
+        return [];
+      }
+    },
+
     // overridden
     scrollChildIntoViewY : function(child, align, direct)
     {
