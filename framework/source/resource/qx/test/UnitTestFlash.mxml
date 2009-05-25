@@ -11,6 +11,10 @@
 				ExternalInterface.addCallback("echo", echo);
         ExternalInterface.addCallback("setValue", setValue);
         ExternalInterface.addCallback("getValue", getValue);
+        
+        if (Application.application.parameters.init) {
+          ExternalInterface.call(Application.application.parameters.init);
+        }
 			}
 			
 			private function echo(message:String):String {
