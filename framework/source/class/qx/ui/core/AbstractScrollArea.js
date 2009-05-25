@@ -559,8 +559,10 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
         var barX = this.getChildControl("scrollbar-x");
 
         barX.show();
-        barX.setMaximum(Math.max(0, scrollSize.width - paneSize.width - 1));
-        barX.setKnobFactor(paneSize.width / scrollSize.width);
+
+        var max = Math.max(0, scrollSize.width - paneSize.width - 1);
+        barX.setMaximum(max);
+        barX.setKnobFactor(max > 0 ? paneSize.width / scrollSize.width : 0);
       }
       else
       {
@@ -572,8 +574,10 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
         var barY = this.getChildControl("scrollbar-y");
 
         barY.show();
-        barY.setMaximum(Math.max(0, scrollSize.height - paneSize.height - 1));
-        barY.setKnobFactor(paneSize.height / scrollSize.height);
+
+        var max = Math.max(0, scrollSize.height - paneSize.height - 1);
+        barY.setMaximum(max);
+        barY.setKnobFactor(max > 0 ? paneSize.height / scrollSize.height : 0);
       }
       else
       {
