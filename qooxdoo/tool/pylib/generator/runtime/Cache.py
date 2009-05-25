@@ -100,11 +100,11 @@ class Cache:
 
         try:
             fobj = open(cacheFile, 'rb')
-            filetool.lock(fobj.fileno())
+            #filetool.lock(fobj.fileno())
 
             content = cPickle.load(fobj)
 
-            filetool.unlock(fobj.fileno())
+            #filetool.unlock(fobj.fileno())
             fobj.close()
 
             if memory:
@@ -119,7 +119,7 @@ class Cache:
 
     ##
     # Write an object to cache.
-    # 
+    #
     # @param memory         keep value also in memory; improves subsequent access
     # @param writeToFile    write value to disk
     def write(self, cacheId, content, memory=False, writeToFile=True):
@@ -129,13 +129,13 @@ class Cache:
         if writeToFile:
             try:
                 fobj = open(cacheFile, 'wb')
-                filetool.lock(fobj.fileno(), write=True)
+                #filetool.lock(fobj.fileno(), write=True)
 
                 cPickle.dump(content, fobj, 2)
 
-                filetool.unlock(fobj.fileno())
+                #filetool.unlock(fobj.fileno())
                 fobj.close()
-    
+
             except (IOError, EOFError, cPickle.PickleError, cPickle.PicklingError):
                 self._console.error("Could not store cache to %s" % self._path)
                 sys.exit(1)
