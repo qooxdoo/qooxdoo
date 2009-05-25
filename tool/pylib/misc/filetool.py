@@ -247,6 +247,7 @@ def lock(fd, write=False):
         else:
             flag = msvcrt.LK_LOCK
         msvcrt.locking(fd, flag, 10)  # assuming the first 10 bytes; throws IOError after 10secs
+        os.lseek(fd, 0, 0)  # make sure we're at the beginning
     
     else:  # some *ix system
         fcntl.flock(fd, fcntl.LOCK_EX) # blocking
@@ -256,7 +257,8 @@ def lock(fd, write=False):
 
 def unlock(fd):
     if sys.platform == "win32":
-        msvcrt.locking(fd, LK_UNLCK, 10) # assuming first 10 bytes!
+        os.lseek(fd, 0, 0)  # make sure we're at the beginning
+        msvcrt.locking(fd, msvcrt.LK_UNLCK, 10) # assuming first 10 bytes!
     else:
         fcntl.flock(fd, fcntl.LOCK_UN)
 
