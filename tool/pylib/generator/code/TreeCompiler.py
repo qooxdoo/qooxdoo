@@ -96,7 +96,8 @@ class TreeCompiler:
         def reap_processes(wait=False):
             # reap the current processes (wait==False: if they are finished)
             #print "-- entering reap_processes with len: %d" % len(processes)
-            reaped = False
+            reaped  = False
+            counter = 0
             while True:
                 for pos, pid in enumerate(processes.keys()):
                     if not wait and pid.poll() == None:  # None = process hasn't terminated
@@ -120,7 +121,14 @@ class TreeCompiler:
                     reaped = True
 
                 if reaped: break
-                else: time.sleep(.050)
+                else:
+                    #print "-- waiting for some process to terminate"
+                    if counter > 100: # arbitrary limit, to break deadlocks because of full pipes
+                        #print "-- switching to wait=True"
+                        wait = True
+                    else:
+                        counter += 1
+                    time.sleep(.050)
 
             #print "-- leaving reap_processes with len: %d" % len(processes)
             return
@@ -132,7 +140,7 @@ class TreeCompiler:
             contA[pos][INCACHE] = False
             if len(processes) > maxproc:
                 reap_processes()  # collect finished processes' results to make room
-        
+
             cacheId, content = self.checkCache(classId, variants, optimize, format)
             contA[pos][CACHEID] = cacheId
             if content:
