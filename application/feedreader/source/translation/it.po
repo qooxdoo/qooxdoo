@@ -14,7 +14,15 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: feedreader/Application.js:350
+#: feedreader/Application.js:138
+msgid "Static Feeds"
+msgstr "Feed statici"
+
+#: feedreader/Application.js:168
+msgid "User Feeds"
+msgstr "Feed utente"
+
+#: feedreader/Application.js:528
 msgid "FeedReader (qooxdoo powered)"
 msgstr "FeedReader (realizzato con qooxdoo)"
 
@@ -22,27 +30,27 @@ msgstr "FeedReader (realizzato con qooxdoo)"
 msgid "Add a feed"
 msgstr "Aggiungi un feed"
 
-#: feedreader/view/AddFeedWindow.js:86
+#: feedreader/view/AddFeedWindow.js:90
 msgid "Feed Information"
 msgstr "Informazioni sul Feed"
 
-#: feedreader/view/AddFeedWindow.js:93
+#: feedreader/view/AddFeedWindow.js:97
 msgid "Title:"
 msgstr "Titolo:"
 
-#: feedreader/view/AddFeedWindow.js:96
+#: feedreader/view/AddFeedWindow.js:100
 msgid "URL:"
 msgstr "URL:"
 
-#: feedreader/view/AddFeedWindow.js:108
+#: feedreader/view/AddFeedWindow.js:112
 msgid "Add"
 msgstr "Aggiungi"
 
-#: feedreader/view/AddFeedWindow.js:130
+#: feedreader/view/AddFeedWindow.js:136
 msgid "Please enter a title."
 msgstr "Inserisci un titolo."
 
-#: feedreader/view/AddFeedWindow.js:138
+#: feedreader/view/AddFeedWindow.js:144
 msgid "Please enter a url."
 msgstr "Inserisci un URL."
 
@@ -50,7 +58,7 @@ msgstr "Inserisci un URL."
 msgid "Posts"
 msgstr "Messaggi"
 
-#: feedreader/view/PreferenceWindow.js:48 feedreader/view/ToolBar.js:86
+#: feedreader/view/PreferenceWindow.js:48 feedreader/view/ToolBar.js:87
 msgid "Preferences"
 msgstr "Preferenze"
 
@@ -74,26 +82,18 @@ msgstr "Aggiungi un feed"
 msgid "Remove feed"
 msgstr "Rimuovi il feed"
 
-#: feedreader/view/ToolBar.js:74
+#: feedreader/view/ToolBar.js:75
 msgid "Reload"
 msgstr "Ricarica"
 
-#: feedreader/view/ToolBar.js:77
+#: feedreader/view/ToolBar.js:78
 msgid "Reload the feeds. (%1)"
 msgstr "Ricarica i feed. (%1)"
 
-#: feedreader/view/ToolBar.js:88
+#: feedreader/view/ToolBar.js:89
 msgid "Open preferences window."
 msgstr "Apri la finestra delle preferenze."
 
-#: feedreader/view/ToolBar.js:101
+#: feedreader/view/ToolBar.js:102
 msgid "Help"
 msgstr "Aiuto"
-
-#: feedreader/view/Tree.js:65
-msgid "Static Feeds"
-msgstr "Feed statici"
-
-#: feedreader/view/Tree.js:69
-msgid "User Feeds"
-msgstr "Feed utente"
