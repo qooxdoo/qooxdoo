@@ -154,7 +154,7 @@ qx.Class.define("qx.ui.layout.HBox",
      */
     alignY :
     {
-      check : [ "top", "middle", "bottom", "baseline" ],
+      check : [ "top", "middle", "bottom" ],
       init : "top",
       apply : "_applyLayoutChange"
     },
