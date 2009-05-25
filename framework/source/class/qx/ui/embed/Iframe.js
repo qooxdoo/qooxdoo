@@ -212,8 +212,7 @@ qx.Class.define("qx.ui.embed.Iframe",
       el.setStyle("position", "absolute");
       el.setStyle("display", "none");
 
-      // IE needs some extra love here to convince him to
-      // block events.
+      // IE needs some extra love here to convince it to block events.
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
         el.setStyles({
