@@ -168,7 +168,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
           break;
 
         case "colorselector-okbutton":
-          control = new qx.ui.form.Button(this.tr("Ok"));
+          control = new qx.ui.form.Button(this.tr("OK"));
           control.addListener("execute", this._onColorSelectorOk, this);
           break;
 
