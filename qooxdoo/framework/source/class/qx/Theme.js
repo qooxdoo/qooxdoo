@@ -419,7 +419,7 @@ qx.Class.define("qx.Theme",
       }
 
       var source = mixinTheme[type];
-      var target = theme[type];
+      var target = theme.$$clazz.prototype;
 
       for (var key in source) {
         target[key] = source[key];
@@ -443,7 +443,7 @@ qx.Class.define("qx.Theme",
       }
 
       var source = mixinTheme[type];
-      var target = theme[type];
+      var target = theme.$$clazz.prototype;
 
       for (var key in source)
       {
