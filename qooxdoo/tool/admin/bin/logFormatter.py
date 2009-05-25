@@ -16,115 +16,12 @@ class QxLogFormat:
     html = codecs.open(self.options.htmlfile, "w", "utf-8")
   
     htmlHeader = '''<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-    <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-      <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>qooxdoo Test Report</title>
-        <style type="text/css">
-          body {
-            font-family: Arial, sans-serif;
-          }
-          h1 {
-            font-size: 18px;
-            padding: 8px;
-            margin: 0;
-          }
-          h2 {
-            font-size: 16px;
-            padding: 8px;
-            margin: 0;
-          }
-          h3 {
-            font-size: 14px;
-            padding: 8px;
-            margin: 0;
-          }
-          .jump {
-            border-collapse: collapse;
-            margin-bottom: 25px;
-          }
-          .jump td {
-            border: 1px solid black;
-          }
-          .jump th {
-            font-size: 12px;
-            font-weight: bold;
-            color: white;
-            background-color: black;
-            border: 1px solid black;
-          }
-          p, td {
-            font-size: 12px;
-            padding: 8px;
-            margin: 0;
-          }
-          .qxappender{
-            font-family:Consolas,"Bitstream Vera Sans Mono","Courier New",monospace;
-            font-size:11px;
-          }
-          .qxappender .level-debug{background:white}
-          .qxappender .level-info{background:#DEEDFA}
-          .qxappender .level-warn{background:#FFF7D5}
-          .qxappender .level-error{background:#FFE2D5}
-          .qxappender .level-user{background:#E3EFE9}
-          .qxappender .type-string{color:black;font-weight:normal;}
-          .qxappender .type-number{color:#155791;font-weight:normal;}
-          .qxappender .type-boolean{color:#15BC91;font-weight:normal;}
-          .qxappender .type-array{color:#CC3E8A;font-weight:bold;}
-          .qxappender .type-map{color:#CC3E8A;font-weight:bold;}
-          .qxappender .type-key{color:#565656;font-style:italic}
-          .qxappender .type-class{color:#5F3E8A;font-weight:bold}
-          .qxappender .type-instance{color:#565656;font-weight:bold}
-          .qxappender .type-stringify{color:#565656;font-weight:bold}
-          .qxappender .noerror{background-color:#A9FF93}
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>qooxdoo Test Report</title><style type="text/css">
+body{font-family:Arial,sans-serif}h1{font-size:18px}h1,h2,h3,td,p{padding:8px}h1,h2,h3,td,p,.testResult h3{margin:0}h2{font-size:16px}h3{font-size:14px}.jump{border-collapse:collapse;margin-bottom:25px}.jump td,.jump th{border:1px solid black}.jump th{background:black;color:white}.jump th,td,p{font-size:12px}.jump th,.qxappender .type-array,.qxappender .type-map,.qxappender .type-class,.qxappender .type-instance,.qxappender .type-stringify,.totalerrors,.testResult h3{font-weight:bold}.qxappender{font:11px consolas,"bitstream vera sans mono","courier new",monospace}.qxappender .level-debug{background:white}.qxappender .level-info{background:#deedfa}.qxappender .level-warn{background:#fff7d5}.qxappender .level-error{background:#ffe2d5}.qxappender .level-user{background:#e3efe9}.qxappender .type-string{color:black}.qxappender .type-string,.qxappender .type-number,.qxappender .type-boolean{font-weight:normal}.qxappender .type-number{color:#155791}.qxappender .type-boolean{color:#15bc91}.qxappender .type-array,.qxappender .type-map{color:#cc3e8a}.qxappender .type-key,.qxappender .type-instance,.qxappender .type-stringify{color:#565656}.qxappender .type-key{font-style:italic}.qxappender .type-class{color:#5f3e8a}.qxappender .noerror{background:#a9ff93}.testResult,#sessionlog{font:11px "consolas","courier new",monospace}.testResult{background:lime;padding-top:4px}.testResult,.level-error,.level-warn,.level-info,.level-debug{margin:4px}.testResult h3{font-size:11px;color:#134275;padding-left:4px}.failure,.error{background:#fef4f4;border-left:3px solid #9d1111}.success{background:#faffed;border-left:3px solid #deff83}
+</style></head><body>'''
   
-          .testResult{
-            font-family: "Consolas", "Courier New", monospace;
-            font-size: 11px;
-            margin: 4px;
-            padding-top:4px;
-            background-color:lime;
-          }
-  
-          .totalerrors {
-            font-weight: bold;
-          }
-  
-          .testResult h3{
-            font-size: 11px;
-            font-weight: bold;
-            color: #134275;
-            padding-left:4px;
-            margin: 0;
-          }
-  
-          .error,
-          .failure{
-            background-color: #FEF4F4;
-            border-left: 3px solid #9D1111;
-          }
-  
-          .success{
-            background-color: #FAFFED;
-            border-left: 3px solid #DEFF83;
-          }
-  
-          #sessionlog{
-            font-family: "Consolas", "Courier New", monospace;
-            font-size: 11px;
-          }
-  
-          .level-debug,
-          .level-info,
-          .level-warn,
-          .level-error{
-            margin: 4px;
-          }
-        </style>
-      </head>
-      <body>\n'''
-  
-    htmlFooter = '  </body>\n'
+    htmlFooter = '  </body>'
     htmlFooter+= '</html>\n'
   
     logs = {}
@@ -163,19 +60,19 @@ class QxLogFormat:
     errorre = re.compile('with warnings or errors: (\d*?)</p>')
     timere = re.compile('<p>Test run finished in: (.*)</p>')
   
-    html.write('<table class="jump">\n')
-    html.write('  <tr>')
-    html.write('    <th>App under test</th>')
-    html.write('    <th>Browser</th>')
-    html.write('    <th>Test host</th>')
-    html.write('    <th>Date</th>')
-    html.write('    <th>Test duration</th>')    
-    html.write('    <th>Test result</th>')
-    html.write('  </tr>')
+    html.write('<table class="jump">')
+    html.write('<tr>')
+    html.write('<th>App under test</th>')
+    html.write('<th>Browser</th>')
+    html.write('<th>Test host</th>')
+    html.write('<th>Date</th>')
+    html.write('<th>Test duration</th>')    
+    html.write('<th>Test result</th>')
+    html.write('</tr>')
   
     for k in sorted(logs.iterkeys()):
       entry = "".join(logs[k])
-      html.write('  <tr>\n')
+      html.write('<tr>')
       appName = "Unnamed application"
       app = appre.search(entry)
       if (app):
@@ -230,18 +127,18 @@ class QxLogFormat:
         host = '172.17.12.142'
   
   
-      html.write('    <td><a href="#t_' + k + '">' + appName + '</a></td>\n')
-      html.write('    <td>' + browserName + ' on ' + platform + '</td>\n')
-      html.write('    <td>' + host + '</td>\n')
-      html.write('    <td>' + dateString + '</td>\n')
-      html.write('    <td>' + timeString + '</td>\n')
-      html.write('    <td style="align:center; background-color: ' + cellCol + '">' + totalTestErrors + '</td>\n')
-      html.write('  </tr>\n')
+      html.write('<td><a href="#t_' + k + '">' + appName + '</a></td>')
+      html.write('<td>' + browserName + ' on ' + platform + '</td>')
+      html.write('<td>' + host + '</td>')
+      html.write('<td>' + dateString + '</td>')
+      html.write('<td>' + timeString + '</td>')
+      html.write('<td style="align:center; background-color: ' + cellCol + '">' + totalTestErrors + '</td>')
+      html.write('</tr>')
   
-    html.write('</table>\n')
+    html.write('</table>')
   
     for k in sorted(logs.iterkeys()):
-      html.write('\n<div id="t_' + k + '">\n')
+      html.write('<div id="t_' + k + '">')
       for lineIndex, line in enumerate(logs[k]):
         # Only log the last "Last demo loaded" line for Demobrowser runs.
         if "Last loaded demo: " in line and lineIndex < ( len(logs[k])  - 1 ):
@@ -249,7 +146,7 @@ class QxLogFormat:
             html.write('  ' + line)
         else:
           html.write('  ' + line)
-      html.write('</div>\n')
+      html.write('</div>')
   
     if (failedTests > 0):
       html.write('<p class="failedtests">' + str(failedTests) + ' Test runs didn\'t finish correctly!</p>')
