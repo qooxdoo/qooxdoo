@@ -72,7 +72,14 @@ def main():
 
     JSON = open(fJSON,"w")
     JSON.write('// This file is dynamically created by the generator!\n')
-    JSON.write('{\n  "jobs":\n  {\n')
+    JSON.write('{\n')
+    # check top-level includes
+    jsontmplf = os.path.join('tool','tl-tmpl.json')
+    if os.path.exists(jsontmplf):
+        json_tmpl = open(jsontmplf,"rU").read()
+        JSON.write(json_tmpl)
+    JSON.write('  "jobs":\n')
+    JSON.write('  {\n')
 
     jsontmplf = open(os.path.join('tool','tmpl.json'),"rU")
     json_tmpl = jsontmplf.read()
