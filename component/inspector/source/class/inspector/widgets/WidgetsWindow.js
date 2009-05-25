@@ -65,7 +65,7 @@ qx.Class.define("inspector.widgets.WidgetsWindow", {
     
     this._tree.addListener("changeSelection", function(e) {
       if (e.getData()[0]) {
-        var widget = e.getData()[0].getUserData("instance")
+        var widget = e.getData()[0].getUserData("instance");
         qx.core.Init.getApplication().select(widget, this);        
       }
     }, this);
@@ -132,9 +132,7 @@ qx.Class.define("inspector.widgets.WidgetsWindow", {
       var kids = this._structureToggle.isValue() ? "_getChildren" : "getChildren";
 
       // ignore all objects without children (spacer e.g.)
-      if (parentWidget[kids] == undefined) {
-        console.log(parentWidget.classname + " has no " + kids);
-        
+      if (parentWidget[kids] == undefined) {        
         if (kids === "getChildren") {
           kids = "_getChildren";
         } else {
@@ -361,9 +359,28 @@ qx.Class.define("inspector.widgets.WidgetsWindow", {
       var parents = [];
       // save the parents in that array
       var w = widget;
-      while(w.getLayoutParent() != null) {
-        parents.push(w);
-        w = w.getLayoutParent();
+      if (this._structureToggle.isValue()) {
+        // internal widget structure        
+        while(w.getLayoutParent() != null) {
+          parents.push(w);
+          w = w.getLayoutParent();
+        }
+      }
+      else {
+       // external widget structure 
+        while ( w.getParent != undefined && w.getParent() != null 
+                || w.getLayoutParent() != null ) {          
+          if (w.getParent != undefined && w.getParent() != null) {
+            parents.push(w);
+            w = w.getParent();
+          }
+          // use layout parent as a fallback if there is no external parent
+          else if (w.getLayoutParent() != null) {
+            parents.push(w);
+            w = w.getLayoutParent();
+          }
+          
+        }
       }
       // Go backwards threw all parents
       for (var i = parents.length - 1; i > 0; i--) {
