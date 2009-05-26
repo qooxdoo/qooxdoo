@@ -156,6 +156,9 @@ qx.Class.define("qx.ui.core.Widget",
     /** Widget is clicked using the right mouse button. */
     contextmenu : "qx.event.type.Mouse",
 
+    /** Fired before the context menu is opened. */
+    beforeContextmenuOpen : "qx.event.type.Mouse",
+
     /** Fired if the mouse wheel is used over the widget. */
     mousewheel : "qx.event.type.Mouse",
 
@@ -3140,8 +3143,10 @@ qx.Class.define("qx.ui.core.Widget",
           old.resetOpener();
         }
 
-        if (!value) {
+        if (!value)
+        {
           this.removeListener("contextmenu", this._onContextMenuOpen);
+          old.removeListener("changeVisibility", this._onBeforeContextMenuOpen, this);
         }
       }
 
@@ -3150,8 +3155,10 @@ qx.Class.define("qx.ui.core.Widget",
         value.setOpener(this);
         value.addState("contextmenu");
 
-        if (!old) {
+        if (!old)
+        {
           this.addListener("contextmenu", this._onContextMenuOpen);
+          value.addListener("changeVisibility", this._onBeforeContextMenuOpen, this);
         }
       }
     },
@@ -3172,6 +3179,17 @@ qx.Class.define("qx.ui.core.Widget",
       e.preventDefault();
     },
 
+    /**
+     * Event listener for <code>beforeContextmenuOpen</code> event
+     *
+     * @param e {qx.event.type.Data} The data event
+     */
+    _onBeforeContextMenuOpen : function(e)
+    {
+      if (e.getData() == "visible" && this.hasListener("beforeContextmenuOpen")) {
+        this.fireDataEvent("beforeContextmenuOpen", e);
+      }
+    },
 
 
 
