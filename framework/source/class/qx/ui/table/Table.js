@@ -657,7 +657,13 @@ qx.Class.define("qx.ui.table.Table",
           });
 
         // Create the initial menu too
-        control.setMenu(control.factory("menu", { table : this }));
+        var menu = control.factory("menu", { table : this });
+
+        // Add a listener to initialize the column menu when it becomes visible
+        menu.addListener("appear",
+                         this._initColumnMenu,
+                         this);
+
         break;
       }
 
@@ -736,8 +742,6 @@ qx.Class.define("qx.ui.table.Table",
 
       // Update the status bar
       this._updateStatusBar();
-
-      this._initColumnMenu();
 
       this._updateTableData(
         0, value.getRowCount(),
