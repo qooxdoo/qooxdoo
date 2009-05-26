@@ -69,6 +69,19 @@ qx.Class.define("qx.ui.root.Inline",
 
     this.__dynX = dynamicX || false;
     this.__dynY = dynamicY || false;
+
+    // Check the DOM element for a usable width and height.
+    var elementDimensions = qx.bom.element.Dimension.getSize(el);
+    if (dynamicX && elementDimensions.width < 1) {
+      throw new Error("The root element " + el + " of " + this +
+        " needs a width when its width size should be used!");
+    }
+
+    if (dynamicY && elementDimensions.height < 1) {
+      throw new Error("The root element " + el + " of " + this +
+        " needs a height when its height size should be used!");
+    }
+
     this.__initDynamic();
 
     // Base call
