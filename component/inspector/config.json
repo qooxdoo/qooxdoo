@@ -24,7 +24,7 @@
   {
     "APPLICATION"  : "inspector",
     "QOOXDOO_PATH" : "../..",
-    "CACHE"        : "../../cache",
+    "CACHE"        : "${TMPDIR}/cache",
     "QXTHEME"      : "inspector.theme.Theme",
     "API_EXCLUDE"  : ["qx.legacy.*","qx.test.*"],
     "LOCALES"      : [ "en" ],
