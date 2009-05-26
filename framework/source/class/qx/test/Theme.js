@@ -73,6 +73,33 @@ qx.Class.define("qx.test.Theme",
     },    
     
     
+    testPatchTheme : function()
+    {
+      qx.Theme.define("qx.test.Theme.themes.A", {
+        decorations : {
+          "basic" : {
+            decorator : qx.ui.decoration.Uniform,
+            style : {}
+          }
+        }
+      });
+      
+      qx.Theme.define("qx.test.Theme.themes.B", {
+        patch : qx.test.Theme.themes.A,
+        decorations : {
+          "basic" : {
+            decorator : qx.ui.decoration.Single,
+            style : {}
+          }
+        }
+      });
+      
+      var decorationManager = qx.theme.manager.Decoration.getInstance();
+      decorationManager.setTheme(qx.test.Theme.themes.B);
+      this.assertInstance(decorationManager.resolve("basic"), qx.ui.decoration.Uniform);
+    },
+    
+    
     testIncludeThemeWithIncludes : function()
     {
       qx.Theme.define("qx.test.Theme.themes.A", {
