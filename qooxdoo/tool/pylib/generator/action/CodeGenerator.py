@@ -589,7 +589,7 @@ class CodeGenerator(object):
         def processCombinedImg(data, meta_fname, cimguri, cimgshorturi, cimgfmt):
             assert cimgfmt.lib, cimgfmt.type
             # read meta file
-            cacheId = "imgcomb-%s" % cimgshorturi
+            cacheId = "imgcomb-%s" % meta_fname
             imgDict = self._cache.read(cacheId, meta_fname)
             if imgDict == None:
                 mfile = open(meta_fname)
