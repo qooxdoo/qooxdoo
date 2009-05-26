@@ -16,7 +16,7 @@
   {
     "APPLICATION"  : "feedreader",
     "QOOXDOO_PATH" : "../..",
-    "CACHE"        : "../../cache",
+    "CACHE"        : "${TMPDIR}/cache",
     "QXTHEME"      : "qx.theme.Modern",
     "LOCALES"      : ["en", "de", "es", "fr", "it", "sv"],
     "TEST_INCLUDE" : "${APPLICATION}.*",

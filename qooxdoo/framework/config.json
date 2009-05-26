@@ -38,9 +38,9 @@
     "APPLICATION"  : "qx",
     "QOOXDOO_PATH" : "..",
     "API_EXCLUDE"  : ["qx.legacy.*", "qx.test.*"],
-    "TEST_INCLUDE" : "qx.test.Theme",
+    "TEST_INCLUDE" : "qx.test.*",
     "LOCALES"      : [ "de", "en", "es", "fr", "it", "sv" ],
-    "CACHE"        : "../cache"
+    "CACHE"        : "${TMPDIR}/cache"
   },
 
   "jobs":
