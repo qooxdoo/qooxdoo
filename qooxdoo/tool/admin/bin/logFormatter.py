@@ -35,8 +35,9 @@ body{font-family:Arial,sans-serif}h1{font-size:18px}h1,h2,h3,td,p{padding:8px}h1
         found = logre2.match(line)
       
       if found:
-        if found.group(1) in logs.keys() and (found.group(2) + "\n") not in logs[found.group(1)]:
-          logs[found.group(1)].append(found.group(2) + "\n")
+        if found.group(1) in logs.keys():
+          if not (found.group(2) + "\n") in logs[found.group(1)]:
+            logs[found.group(1)].append(found.group(2) + "\n")
         else:
           logs[found.group(1)] = [found.group(2) + "\n"]
     log.close
