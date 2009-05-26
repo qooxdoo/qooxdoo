@@ -82,6 +82,10 @@ qx.Class.define("qx.util.AliasManager",
           return value;
         }
 
+        if (this.__aliases[value]) {
+          return this.__aliases[value];
+        }
+        
         var alias = value.substring(0, value.indexOf("/"));
         var resolved = this.__aliases[alias];
 

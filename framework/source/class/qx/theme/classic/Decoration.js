@@ -32,7 +32,9 @@
  */
 qx.Theme.define("qx.theme.classic.Decoration",
 {
-  resource : "qx/decoration/Classic",
+  aliases : {
+    decoration : "qx/decoration/Classic"
+  },
 
   decorations :
   {

@@ -21,6 +21,8 @@
 qx.Theme.define("qx.legacy.theme.icon.CrystalClear",
 {
   title : "CrystalClear",
-  resource : "qx/compat/icon/CrystalClear",
+  aliases : {
+    "icon" : "qx/compat/icon/CrystalClear"
+  },
   icons : {}
 });

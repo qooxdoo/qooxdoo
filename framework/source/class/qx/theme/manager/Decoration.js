@@ -154,10 +154,30 @@ qx.Class.define("qx.theme.manager.Decoration",
 
 
     // property apply
-    _applyTheme : function(value)
+    _applyTheme : function(value, old)
     {
-      var alias = qx.util.AliasManager.getInstance();
-      value ? alias.add("decoration", value.resource) : alias.remove("decoration");
+      var aliasManager = qx.util.AliasManager.getInstance();
+      
+      // @deprecated
+      if (value) {
+        aliasManager.add("decoration", value.resource);
+      } else {
+        aliasManager.remove("decoration");
+      }
+
+      if (old)
+      {
+        for (var alias in old.aliases) {
+          aliasManager.remove(alias);
+        }
+      }
+      
+      if (value)
+      {
+        for (var alias in value.aliases) {
+          aliasManager.add(alias, value.aliases[alias]);
+        }        
+      }
       
       if (!value) {
         this.__dynamic = {};
