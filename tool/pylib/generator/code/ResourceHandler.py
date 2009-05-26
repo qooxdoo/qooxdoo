@@ -37,7 +37,7 @@ class ResourceHandler(object):
         # - Helpers -----------------------------------------------------------
 
         def getCache(lib):
-            cacheId = "resinlib-%s" % lib.getNamespace()
+            cacheId = "resinlib-%s" % lib._path
             liblist = self._genobj._cache.read(cacheId, dependsOn=None, memory=True)
             return liblist, cacheId
 

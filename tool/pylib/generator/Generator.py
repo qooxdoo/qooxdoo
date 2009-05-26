@@ -379,7 +379,7 @@ class Generator:
         job    = self._job
         require = config.get("require", {})
         use     = config.get("use", {})
-        context = {'jobconf': config, 'console': self._console, 'cache': self._cache}
+        context = {'config': self._config, 'jobconf': self._job, 'console': self._console, 'cache': self._cache}
 
         # We use some sets of Job keys, both well-known and actual, to determin
         # which actions have to be run, and in which order.

@@ -16,9 +16,9 @@ class TreeLoader:
         filePath = fileEntry["path"]
 
         if variants:
-            cacheId = "tree-%s-%s" % (fileId, idlist.toString(variants))
+            cacheId = "tree-%s-%s" % (filePath, idlist.toString(variants))
         else:
-            cacheId = "tree-%s" % fileId
+            cacheId = "tree-%s" % filePath
 
         tree = self._cache.read(cacheId, filePath)
         if tree != None:
@@ -33,7 +33,6 @@ class TreeLoader:
             self._console.debug("Parsing file: %s..." % fileId)
             self._console.indent()
 
-            fileEntry = self._classes[fileId]
             fileContent = filetool.read(fileEntry["path"], fileEntry["encoding"])
             tokens = tokenizer.parseStream(fileContent, fileId)
             
