@@ -67,14 +67,6 @@ qx.Class.define("qx.ui.form.TextArea",
     {
       refine : true,
       init : "textarea"
-    },
-
-    /** Maximal number of characters that can be entered in the TextArea. */
-    maxLength :
-    {
-      check : "PositiveInteger",
-      init : Infinity,
-      apply : "_applyMaxLength"
     }
   },
 
@@ -89,28 +81,6 @@ qx.Class.define("qx.ui.form.TextArea",
 
   members :
   {
-    /**
-      * {Boolean} Flag indicating whether listeners for input and changeValue
-      * are attachted.
-      */
-    __listenersAttached : false,
-    
-    /*
-    ---------------------------------------------------------------------------
-      TEXTFIELD VALUE API
-    ---------------------------------------------------------------------------
-    */
-
-    // overridden
-    setValue : function(value)
-    {
-      if (qx.lang.Type.isString(value) && value.length < this.getMaxLength()) {
-        this.base(arguments, value);
-      } else {
-        this.getContentElement().setValue(value.substr(0, this.getMaxLength()));
-      }
-    },    
-    
     /*
     ---------------------------------------------------------------------------
       FIELD API
@@ -123,8 +93,6 @@ qx.Class.define("qx.ui.form.TextArea",
     },
 
 
-
-
     /*
     ---------------------------------------------------------------------------
       APPLY ROUTINES
@@ -134,26 +102,6 @@ qx.Class.define("qx.ui.form.TextArea",
     // property apply
     _applyWrap : function(value, old) {
       this.getContentElement().setWrap(value);
-    },
-
-    // property apply
-    _applyMaxLength : function(value, old)
-    {
-      if (value == Infinity)
-      {
-        if (this.__listenersAttached)
-        {
-          this.removeListener("input", this._processValue, this);
-          this.removeListener("changeValue", this._processValue, this);
-          this.__listenersAttached = false;
-        }
-      }
-      else if (!this.__listenersAttached)
-      {
-        this.addListener("input", this._processValue, this);
-        this.addListener("changeValue", this._processValue, this);
-        this.__listenersAttached = true;
-      }
     },
 
     /*
@@ -174,30 +122,6 @@ qx.Class.define("qx.ui.form.TextArea",
       hint.width = this._getTextSize().width * 20;
 
       return hint;
-    },
-
-    /*
-    ---------------------------------------------------------------------------
-      INTERNALS
-    ---------------------------------------------------------------------------
-    */
-
-
-    /**
-     * Trims the incoming value according to the maxLength propery, if needed.
-     *
-     * @param e {qx.event.type.Data} Incoming data event
-     */
-    _processValue : function(e)
-    {
-      var value = e.getData();
-      var maxLength = this.getMaxLength();
-      if (value.length > maxLength) {
-        value = value.substr(0, maxLength);
-      }
-
-      this.setValue(value);
     }
-
   }
 });

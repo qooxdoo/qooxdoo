@@ -136,7 +136,15 @@ qx.Class.define("qx.ui.form.AbstractField",
     {
       refine : true,
       init : true
+    },
+
+    /** Maximal number of characters that can be entered in the TextArea. */
+    maxLength :
+    {
+      check : "PositiveInteger",
+      init : Infinity
     }
+
   },
 
 
@@ -150,6 +158,7 @@ qx.Class.define("qx.ui.form.AbstractField",
 
   members :
   {
+
     /*
     ---------------------------------------------------------------------------
       WIDGET API
@@ -302,8 +311,14 @@ qx.Class.define("qx.ui.form.AbstractField",
      *
      * @param e {qx.event.type.Data} Input event
      */
-    _onHtmlInput : function(e) {
-      this.fireDataEvent("input", e.getData());
+    _onHtmlInput : function(e)
+    {
+      var value = e.getData();
+      if (value.length < this.getMaxLength()) {
+        this.fireDataEvent("input", e.getData());
+      } else {
+        this.getContentElement().setValue(value.substr(0, this.getMaxLength()));
+      }
     },
 
     /*
@@ -322,18 +337,19 @@ qx.Class.define("qx.ui.form.AbstractField",
       if (qx.lang.Type.isString(value))
       {
         var elem = this.getContentElement();
-        if (elem.getValue() != value)
+        if (value.length > this.getMaxLength()) {
+          value = value.substr(0, this.getMaxLength());
+        }
+        else if (elem.getValue() != value)
         {
           var oldValue = elem.getValue();
-          elem.setValue(value);
           this.fireNonBubblingEvent(
             "changeValue", qx.event.type.Data, [value, oldValue]
           );
         }
-
+        elem.setValue(value);
         return value;
       }
-
       throw new Error("Invalid value type: " + value);
     },
 
@@ -469,5 +485,6 @@ qx.Class.define("qx.ui.form.AbstractField",
         this.setFocusable(true);
       }
     }
+
   }
 });
