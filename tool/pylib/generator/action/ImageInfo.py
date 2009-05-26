@@ -52,7 +52,7 @@ class ImageInfo(object):
         #if memcache.has_key(img):
         #    return memcache[img]
 
-        cacheId = "img-%s" % assetId
+        cacheId = "img-%s" % fileName
 
         imgInfo = self._cache.readmulti(cacheId, fileName)
         if imgInfo != None:

@@ -50,7 +50,7 @@ class Locale:
                 locale = entry
 
             locFile = os.path.join(root, "%s.xml" % locale)
-            cacheId = "locale-%s" % locale
+            cacheId = "locale-%s-%s" % (root, locale)
 
             locDat = self._cache.read(cacheId, locFile)
             if locDat == None:
@@ -294,7 +294,7 @@ class Locale:
 
         variantsId = idlist.toString(variants)
 
-        cacheId = "translation-%s-%s" % (fileId, variantsId)
+        cacheId = "translation-%s-%s" % (filePath, variantsId)
 
         translation = self._cache.readmulti(cacheId, filePath)
         if translation != None:

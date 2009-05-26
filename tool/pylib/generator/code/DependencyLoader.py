@@ -351,7 +351,7 @@ class DependencyLoader:
             raise NameError("Could not find class to fulfil dependency: %s" % fileId)
 
         filePath = self._classes[fileId]["path"]
-        cacheId = "deps-%s-%s" % (fileId, idlist.toString(variants))
+        cacheId = "deps-%s-%s" % (filePath, idlist.toString(variants))
 
         # print "Read from cache: %s" % fileId
         
@@ -722,7 +722,7 @@ class DependencyLoader:
 
         fileEntry = self._classes[fileId]
         filePath = fileEntry["path"]
-        cacheId = "meta-%s" % fileId
+        cacheId = "meta-%s" % filePath
 
         meta = self._cache.readmulti(cacheId, filePath)
         if meta != None:

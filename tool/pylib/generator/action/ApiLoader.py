@@ -41,7 +41,7 @@ class ApiLoader:
         fileEntry = self._classes[fileId]
         filePath = fileEntry["path"]
 
-        cacheId = "api-%s" % fileId
+        cacheId = "api-%s" % filePath
         data = self._cache.read(cacheId, filePath)
         if data != None:
             return data

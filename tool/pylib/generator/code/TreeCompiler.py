@@ -53,11 +53,13 @@ class TreeCompiler:
 
 
     def _storePrivateFields(self):
-        self._cache.write("privates", privateoptimizer.get())
+        cacheId = "privates-%s" % self._context['config']._fname  # use path to main config file for context
+        self._cache.write(cacheId, privateoptimizer.get())
 
 
     def _storeProtectedFields(self):
-        self._cache.write("protected", protectedoptimizer.get())
+        cacheId = "protected-%s" % self._context['jobconf']._fname  # use path to main config file for context
+        self._cache.write(cacheId, protectedoptimizer.get())
 
 
     def compileClasses(self, classes, variants, optimize, format):
@@ -226,18 +228,18 @@ class TreeCompiler:
         m['variants'] = " ".join(varis)
         # cache
         m['cache'] = "-c " + self._cache._path
+        m['privateskey'] = "--privateskey " + self._jobconf._fname
 
-        cmd = "%(compilePath)s %(optimizations)s %(variants)s %(cache)s %(filePath)s" % m
+        cmd = "%(compilePath)s %(optimizations)s %(variants)s %(cache)s %(privateskey)s %(filePath)s" % m
         return cmd
 
     def checkCache(self, fileId, variants, optimize, format=False):
-        fileEntry = self._classes[fileId]
-        filePath = fileEntry["path"]
+        filePath = self._classes[fileId]["path"]
 
         variantsId = idlist.toString(variants)
         optimizeId = self.generateOptimizeId(optimize)
 
-        cacheId = "compiled-%s-%s-%s-%s" % (fileId, variantsId, optimizeId, format)
+        cacheId = "compiled-%s-%s-%s-%s" % (filePath, variantsId, optimizeId, format)
         compiled = self._cache.read(cacheId, filePath)
 
         return cacheId, compiled
@@ -276,9 +278,9 @@ class TreeCompiler:
         variantsId = idlist.toString(variants)
         if optimize:
             optimizeId = self.generateOptimizeId(optimize)
-            cacheId = "compiledsize-%s-%s-%s" % (fileId, variantsId, optimizeId)
+            cacheId = "compiledsize-%s-%s-%s" % (filePath, variantsId, optimizeId)
         else:
-            cacheId = "compiledsize-%s-%s" % (fileId, variantsId)
+            cacheId = "compiledsize-%s-%s" % (filePath, variantsId)
 
         size = self._cache.readmulti(cacheId, filePath)
         if size != None:

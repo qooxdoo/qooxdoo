@@ -72,6 +72,7 @@ def main():
 
     # Cache support
     parser.add_option("-c", "--cache", dest="cache", metavar="CACHEPATH", type="string", default="", help="path to cache directory")
+    parser.add_option("--privateskey", dest="privateskey", metavar="CACHEKEY", type="string", default="", help="cache key for privates")
     
     
     #
@@ -134,12 +135,12 @@ def main():
             print ">>> Optimizing privates..."
         if options.cache:
             cache = Cache(options.cache, Log())
-            privates = cache.read("privates")
+            privates = cache.read(options.privateskey)
             if privates != None:
                 privateoptimizer.load(privates)
         privateoptimizer.patch(tree, fileId)
         if options.cache:
-            cache.write("privates", privateoptimizer.get())
+            cache.write(options.privateskey, privateoptimizer.get())
          
          
     #
