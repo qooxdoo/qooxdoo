@@ -33,7 +33,9 @@
  */
 qx.Theme.define("qx.theme.modern.Decoration",
 {
-  resource : "qx/decoration/Modern",
+  aliases : {
+    decoration : "qx/decoration/Modern"
+  },
 
   decorations :
   {

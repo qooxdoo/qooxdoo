@@ -24,6 +24,8 @@
 qx.Theme.define("qx.theme.icon.Tango",
 {
   title : "Tango",
-  resource : "qx/icon/Tango",
+  aliases : {
+    "icon" : "qx/icon/Tango"
+  },
   icons : {}
 });

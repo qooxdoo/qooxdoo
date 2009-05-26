@@ -61,8 +61,28 @@ qx.Class.define("qx.theme.manager.Icon",
     // property apply
     _applyTheme : function(value, old)
     {
-      var alias = qx.util.AliasManager.getInstance();
-      value ? alias.add("icon", value.resource) : alias.remove("icon");
+      var aliasManager = qx.util.AliasManager.getInstance();
+    
+      // @deprecated
+      if (value) {
+        aliasManager.add("icon", value.resource);
+      } else {
+        aliasManager.remove("icon");
+      }
+  
+      if (old)
+      {
+        for (var alias in old.aliases) {
+          aliasManager.remove(alias);
+        }
+      }
+      
+      if (value)
+      {
+        for (var alias in value.aliases) {
+          aliasManager.add(alias, value.aliases[alias]);
+        }        
+      }
     }
   }
 });

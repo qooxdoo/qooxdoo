@@ -45,7 +45,9 @@ qx.Class.define("qx.Theme",
      * <pre class='javascript'>
      * qx.Theme.define("name",
      * {
-     *   resource : "resourceFolderOrUri",
+     *   aliases : {
+     *     "aliasKey" : "resourceFolderOrUri"
+     *   },
      *   extend : otherTheme,
      *   include : [MMixinTheme],
      *   colors : {},
@@ -93,21 +95,14 @@ qx.Class.define("qx.Theme",
         theme.supertheme = config.extend;
       }
 
-      // Copy over resource path
-      if (config.resource)
-      {
-        theme.resource = config.resource;
-      }
-      else if (config.extend && config.extend.resource)
-      {
-        theme.resource = config.extend.resource;
-      }
-
       // Assign to namespace
       theme.basename = qx.Bootstrap.createNamespace(name, theme);
 
       // Convert theme entry from Object to Function (for prototype inheritance)
       this.__convert(theme, config);
+
+      this.__initializeResources(theme, config);
+      this.__initializeAliases(theme, config);
 
       // Store class reference in global class registry
       this.$$registry[name] = theme;
@@ -121,7 +116,56 @@ qx.Class.define("qx.Theme",
       }
     },
 
-
+    
+    /**
+     * Initialize resource inheritance
+     * 
+     * @deprecated 'resources' will be replaced by 'aliases'
+     * @param theme {Map} The theme
+     * @param config {Map} config structure
+     */
+    __initializeResources : function(theme, config)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (config.resource)
+        {
+          var aliasKey = theme.type == "icons" ? "icon" : "decoration";
+          qx.log.Logger.warn(
+            "The configuration key 'resource' in the " + aliasKey + " theme" +
+            " '" + theme.name + "' is deprecated. Please replace " +
+            "'resource: \"" + config.resource + "\"' with " + 
+            "'" + aliasKey + ": { decoration: \"" + config.resource + "\"}'" 
+          );
+          qx.log.Logger.trace();
+        }
+      }
+      
+      if (config.resource) {
+        theme.resource = config.resource;
+      } else if (config.extend && config.extend.resource) {
+        theme.resource = config.extend.resource;
+      }
+    },
+    
+    
+    /**
+     * Initialize alias inheritance
+     * 
+     * @param theme {Map} The theme
+     * @param config {Map} config structure
+     */
+    __initializeAliases : function(theme, config)
+    {
+      var aliases = config.aliases || {};
+      if (config.extend && config.extend.aliases) {
+        qx.lang.Object.mergeWith(aliases, config.extend.aliases, false);
+      }
+      
+      theme.aliases = aliases;
+    },
+    
+    
     /**
      * Return a map of all known themes
      *
@@ -277,7 +321,8 @@ qx.Class.define("qx.Theme",
       "on":
       {
         "title"       : "string", // String
-        "resource"    : "string", // String
+        "resource"    : "string", // String, @deprecated
+        "aliases"     : "object", // Map
         "type"        : "string", // String
         "extend"      : "object", // Theme
         "colors"      : "object", // Map
