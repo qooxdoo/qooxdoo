@@ -19,7 +19,7 @@
 
 ************************************************************************ */
 
-/**
+/*
  * Provides a Remote Procedure Call (RPC) implementation.
  *
  * Each instance of this class represents a "Service". These services can
@@ -66,6 +66,17 @@
  * </pre>
  * __fss.getBaseDir__ is the remote procedure in this case, potential arguments
  * would be listed after the procedure name.
+ * <p>
+ * Passing data from the client (qooxdoo) side is demonstrated in the
+ * qooxdoo-contrib project RpcExample. There are three ways to issue a remote
+ * procedure call: synchronously (qx.io.remote.Rpc.callSync -- dangerous
+ * because it blocks the whole browser, not just your application, so is
+ * highly discouraged); async with results via a callback function
+ * (qx.io.remote.Rpc.callAsync) and async with results via an event listener
+ * (qx.io.remote.Rpc.callAsyncListeners).
+ * <p>
+ * You may also find the server writer's guide helpful:
+ *   http://qooxdoo.org/documentation/Rpc_server_writer_guide
  */
 qx.Class.define("qx.io.remote.Rpc",
 {
