@@ -58,7 +58,7 @@ class TreeCompiler:
 
 
     def _storeProtectedFields(self):
-        cacheId = "protected-%s" % self._context['jobconf']._fname  # use path to main config file for context
+        cacheId = "protected-%s" % self._context['config']._fname  # use path to main config file for context
         self._cache.write(cacheId, protectedoptimizer.get())
 
 
