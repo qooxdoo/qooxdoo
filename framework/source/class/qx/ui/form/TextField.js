@@ -27,8 +27,6 @@ qx.Class.define("qx.ui.form.TextField",
   extend : qx.ui.form.AbstractField,
 
 
-
-
   /*
   *****************************************************************************
      PROPERTIES
@@ -37,14 +35,6 @@ qx.Class.define("qx.ui.form.TextField",
 
   properties :
   {
-    /** Maximum number of characters in the text field. */
-    maxLength :
-    {
-      check : "Integer",
-      apply : "_applyMaxLength",
-      nullable : true
-    },
-
     // overridden
     appearance :
     {
@@ -64,28 +54,6 @@ qx.Class.define("qx.ui.form.TextField",
     {
       refine : true,
       init : false
-    }
-  },
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
-  members :
-  {
-
-    /*
-    ---------------------------------------------------------------------------
-      TEXTFIELD API
-    ---------------------------------------------------------------------------
-    */
-
-    // property apply
-    _applyMaxLength : function(value, old) {
-      this.getContentElement().setAttribute("maxLength", value);
     }
   }
 });
