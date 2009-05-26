@@ -50,6 +50,7 @@ qx.Class.define("qx.Theme",
      *   },
      *   extend : otherTheme,
      *   include : [MMixinTheme],
+     *   patch : [MMixinTheme],
      *   colors : {},
      *   decorations : {},
      *   fonts : {},
@@ -70,9 +71,8 @@ qx.Class.define("qx.Theme",
         var config = {};
       }
 
-      if (config.include && !(config.include instanceof Array)) {
-        config.include = [config.include];
-      }
+      config.include = this.__normalizeArray(config.include);
+      config.patch = this.__normalizeArray(config.patch);
 
       // Validate incoming data
       if (qx.core.Variant.isSet("qx.debug", "on")) {
@@ -108,14 +108,29 @@ qx.Class.define("qx.Theme",
       this.$$registry[name] = theme;
 
       // Include mixin themes
-      if (config.include)
-      {
-        for (var i=0, a=config.include, l=a.length; i<l; i++) {
-          this.include(theme, a[i]);
-        }
+      for (var i=0, a=config.include, l=a.length; i<l; i++) {
+        this.include(theme, a[i]);
       }
+
+      for (var i=0, a=config.patch, l=a.length; i<l; i++) {
+        this.patch(theme, a[i]);
+      }      
     },
 
+    
+    __normalizeArray : function(objectOrArray)
+    {
+      if (!objectOrArray) {
+        return [];
+      }
+        
+      if (!qx.lang.Type.isArray(objectOrArray)) {
+        return [objectOrArray];
+      } else {
+        return objectOrArray;
+      }
+    },
+    
     
     /**
      * Initialize resource inheritance
@@ -333,7 +348,8 @@ qx.Class.define("qx.Theme",
         "widgets"     : "object", // Map
         "appearances" : "object", // Map
         "meta"        : "object", // Map
-        "include"     : "object"  // Array
+        "include"     : "object", // Array
+        "patch"       : "object"  // Array
       },
 
       "default" : null
