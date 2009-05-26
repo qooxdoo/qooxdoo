@@ -29,7 +29,7 @@
   {
     "APPLICATION"  : "apiviewer",
     "QOOXDOO_PATH" : "../..",
-    "CACHE"        : "../../cache",
+    "CACHE"        : "${TMPDIR}/cache",
     "TEST_INCLUDE" : "${APPLICATION}.*"
   },
 
