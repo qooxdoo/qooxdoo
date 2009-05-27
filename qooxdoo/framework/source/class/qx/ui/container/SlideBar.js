@@ -310,7 +310,7 @@ qx.Class.define("qx.ui.container.SlideBar",
      */
     _onResize : function(e)
     {
-      var content = this.getChildControl("scrollpane").getChild();
+      var content = this.getChildControl("scrollpane").getChildren()[0];
       if (!content) {
         return;
       }
