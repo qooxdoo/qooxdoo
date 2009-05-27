@@ -398,7 +398,7 @@ qx.Bootstrap.define("qx.event.Manager",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         var msg = "Failed to add event listener for type '"+ type +"'" +
-          " to the target '" + target + "': ";
+          " to the target '" + target.classname + "': ";
 
         qx.core.Assert.assertObject(target, msg + "Invalid Target.");
         qx.core.Assert.assertString(type, msg + "Invalid event type.");
@@ -549,7 +549,11 @@ qx.Bootstrap.define("qx.event.Manager",
       }
 
       if (qx.core.Variant.isSet("qx.debug", "on")) {
-        qx.log.Logger.warn(this, "There is no event handler for the event '" + type + "' on target '" + target + "'!");
+        qx.log.Logger.warn(
+          this,
+          "There is no event handler for the event '" + type + 
+          "' on target '" + target.classname + "'!"
+        );
       }
     },
 
@@ -572,7 +576,7 @@ qx.Bootstrap.define("qx.event.Manager",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         var msg = "Failed to remove event listener for type '" + type + "'" +
-          " from the target '" + target + "': ";
+          " from the target '" + target.classname + "': ";
 
         qx.core.Assert.assertObject(target, msg + "Invalid Target.");
         qx.core.Assert.assertString(type, msg + "Invalid event type.");
@@ -634,7 +638,7 @@ qx.Bootstrap.define("qx.event.Manager",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         var msg = "Failed to remove event listener for id '" + id + "'" +
-          " from the target '" + target + "': ";
+          " from the target '" + target.classname + "': ";
 
         qx.core.Assert.assertObject(target, msg + "Invalid Target.");
         qx.core.Assert.assertString(id, msg + "Invalid id type.");
@@ -736,8 +740,13 @@ qx.Bootstrap.define("qx.event.Manager",
         return;
       }
 
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
-        qx.log.Logger.warn(this, "There is no event handler for the event '" + type + "' on target '" + target + "'!");
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        qx.log.Logger.warn(
+          this, 
+          "There is no event handler for the event '" + type + 
+          "' on target '" + target.classname + "'!"
+        );
       }
     },
 
@@ -768,7 +777,7 @@ qx.Bootstrap.define("qx.event.Manager",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        var msg = "Could not dispatch event '" + event + "' on target '" + target +"': ";
+        var msg = "Could not dispatch event '" + event + "' on target '" + target.classname +"': ";
 
         qx.core.Assert.assertNotUndefined(target, msg + "Invalid event target.")
         qx.core.Assert.assertNotNull(target, msg + "Invalid event target.")
