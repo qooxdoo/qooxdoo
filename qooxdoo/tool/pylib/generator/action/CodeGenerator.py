@@ -77,13 +77,17 @@ class CodeGenerator(object):
             fileUri = Path.posifyPath(fileUri)
             return fileUri
 
-        def generateBootScript(bootPackage):
+        def generateBootScript(bootPackage=""):
             self._console.info("Generating boot script...")
             bootBlocks = []
 
+            # For resource list
+            resourceUri = compConf.get('uris/resource', 'resource')
+            resourceUri = Path.posifyPath(resourceUri)
+
             globalCodes = self.generateGlobalCodes(libs, translationMaps, settings, variants, format, resourceUri, scriptUri)
 
-            bootBlocks.append(self.generateCompiledPackageCode(fileUri, parts, packages, boot, variants, settings, bootPackage, globalCodes, format))
+            bootBlocks.append(self.generateBootCode(fileUri, parts, packages, boot, variants, settings, bootPackage, globalCodes, format))
 
             if format:
                 bootContent = "\n\n".join(bootBlocks)
@@ -130,28 +134,13 @@ class CodeGenerator(object):
         # Read in settings
         settings = self.getSettings()
 
-        # For resource list
-        resourceUri = compConf.get('uris/resource', 'resource')
-        resourceUri = Path.posifyPath(resourceUri)
-        forceUri = resourceUri
-
         # Get translation maps
         locales = compConf.get("code/locales", [])
-        translationMaps = self.getTranslationMaps(parts, packages, variants, locales)
+        translationMaps = self.getTranslationMaps(packages, variants, locales)
 
         libs = self._job.get("library", [])
 
-
-        # Need to preprocess all classes first to correctly detect all
-        # fields before starting renaming them
-        # TODO: Needs for testing, better integration etc.
-        #self._console.info("Detecting protected fields...")
-        #for packageId, classes in enumerate(packages):
-        #    protectedoptimizer.process(classes, self._treeLoader)
-
-
         # Generating packages
-        # TODO: Parts should be unknown at this stage. Would make code somewhat cleaner.
         self._console.info("Generating packages...")
         self._console.indent()
 
@@ -174,13 +163,13 @@ class CodeGenerator(object):
         if not len(compiledPackages):
             raise RuntimeError("No valid boot package generated.")
 
-        if True: # with_boot:
+        if self._job.get("packages/loader-with-boot", True):
             content = generateBootScript(compiledPackages[0])
             writePackage(content)
             writePackages(compiledPackages[1:], 1)
         else:
             content = generateBootScript()
-            writePackages({0: content})
+            writePackage(content)
             writePackages(compiledPackages)
 
         return
@@ -217,7 +206,7 @@ class CodeGenerator(object):
 
         # Get translation maps
         locales = self._job.get("compile-source/locales", [])
-        translationMaps = self.getTranslationMaps(parts, packages, variants, locales)
+        translationMaps = self.getTranslationMaps(packages, variants, locales)
 
         # Add data from settings, variants and packages
         sourceBlocks = []
@@ -489,7 +478,7 @@ class CodeGenerator(object):
         return variats
 
 
-    def getTranslationMaps(self, parts, packages, variants, locales):
+    def getTranslationMaps(self, packages, variants, locales):
         if "C" not in locales:
             locales.append("C")
 
@@ -503,7 +492,6 @@ class CodeGenerator(object):
 
             # wpbasti: TODO: This code includes localization in every package. Bad idea.
             # This needs further work
-            # Would also be better to let the translation code nothing know about parts
 
             # Another thing: Why not generate both structures in different js-objects
             # It's totally easy in JS to build a wrapper.
@@ -741,7 +729,7 @@ class CodeGenerator(object):
         return result
 
 
-    def generateCompiledPackageCode(self, fileName, parts, packages, boot, variants, settings, bootCode, globalCodes, format=False):
+    def generateBootCode(self, fileName, parts, packages, boot, variants, settings, bootCode, globalCodes, format=False):
         if not parts:
             return ""
 
@@ -762,7 +750,10 @@ class CodeGenerator(object):
         uriData = "[" + ",\n".join(allUris) + "]"
 
         # Locate and load loader basic script
-        loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader-build.tmpl.js")
+        if bootCode:
+            loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader-build.tmpl.js")
+        else:
+            loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader-source.tmpl.js")
         result = filetool.read(loaderFile)
 
         # Replace string.template macros
@@ -770,6 +761,7 @@ class CodeGenerator(object):
         rmap.update(globalCodes)
         rmap["Parts"] = partData
         rmap["Uris"]  = uriData
+        rmap["Uris2"]  = '""'
         rmap["Boot"]  = '"%s"' % boot
         rmap["BootPart"] = bootCode
 
