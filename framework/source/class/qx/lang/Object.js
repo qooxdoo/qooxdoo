@@ -276,8 +276,9 @@ qx.Bootstrap.define("qx.lang.Object",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        qx.core.Assert.assertMap(target, "Invalid argument 'target'");
-        qx.core.Assert.assertMap(source, "Invalid argument 'source'");
+        // TODO: temp. commented out, due to unresolved dependencies
+        //qx.core.Assert.assertMap(target, "Invalid argument 'target'");
+        //qx.core.Assert.assertMap(source, "Invalid argument 'source'");
       }      
       
       if (overwrite === undefined) {
