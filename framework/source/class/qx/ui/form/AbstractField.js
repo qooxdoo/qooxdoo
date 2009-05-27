@@ -340,14 +340,14 @@ qx.Class.define("qx.ui.form.AbstractField",
         if (value.length > this.getMaxLength()) {
           value = value.substr(0, this.getMaxLength());
         }
-        else if (elem.getValue() != value)
+        if (elem.getValue() != value)
         {
           var oldValue = elem.getValue();
+          elem.setValue(value);
           this.fireNonBubblingEvent(
             "changeValue", qx.event.type.Data, [value, oldValue]
           );
         }
-        elem.setValue(value);
         return value;
       }
       throw new Error("Invalid value type: " + value);
