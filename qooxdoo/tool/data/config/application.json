@@ -189,6 +189,7 @@
       {
         "TESTRUNNER_ROOT" : "${QOOXDOO_PATH}/component/testrunner",
         "TEST_INCLUDE"    : "${APPLICATION}.test.*",
+        "QXTHEME"         : "qx.theme.Modern",
         "BUILD_PATH"      : "./test"
       },
 
@@ -210,6 +211,7 @@
       {
         "TESTRUNNER_ROOT" : "${QOOXDOO_PATH}/component/testrunner",
         "TEST_INCLUDE"    : "${APPLICATION}.test.*",
+        "QXTHEME"         : "qx.theme.Modern",
         "BUILD_PATH"      : "./test"
       },
 
