@@ -228,7 +228,7 @@ class TreeCompiler:
         m['variants'] = " ".join(varis)
         # cache
         m['cache'] = "-c " + self._cache._path
-        m['privateskey'] = "--privateskey " + self._jobconf._fname
+        m['privateskey'] = "--privateskey " + '"privates-' + self._context['config']._fname + '"'
 
         cmd = "%(compilePath)s %(optimizations)s %(variants)s %(cache)s %(privateskey)s %(filePath)s" % m
         return cmd
