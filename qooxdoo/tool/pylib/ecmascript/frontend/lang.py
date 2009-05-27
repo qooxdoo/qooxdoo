@@ -242,5 +242,5 @@ SPACE_AFTER_USAGE = ["RETURN", "FUNCTION"]
 PARANTHESIS_BEFORE = ["ELSE", "FINALLY", "CATCH", "WHILE"]
 
 #IDENTIFIER_REGEXP = r'[\.a-zA-Z0-9_-]+'
-IDENTIFIER_REGEXP = r'[\.\w$-]+'
+IDENTIFIER_REGEXP = r'(?u)[\.\w$]+'
 #IDENTIFIER_REGEXP = re.compile(r'[\.\w$-]+', re.U)
