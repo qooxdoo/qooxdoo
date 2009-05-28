@@ -671,7 +671,7 @@ qx.Class.define("qx.ui.menu.Manager",
       // Goto the previous toolbar button
       else if (menuOpener instanceof qx.ui.menubar.Button)
       {
-        var buttons = menuOpener.getToolBar().getMenuButtons();
+        var buttons = menuOpener.getMenuBar().getMenuButtons();
         var index = buttons.indexOf(menuOpener);
 
         // This should not happen, definitely!
@@ -767,7 +767,7 @@ qx.Class.define("qx.ui.menu.Manager",
       // Ask the toolbar for the next menu button
       if (menuOpener instanceof qx.ui.menubar.Button)
       {
-        var buttons = menuOpener.getToolBar().getMenuButtons();
+        var buttons = menuOpener.getMenuBar().getMenuButtons();
         var index = buttons.indexOf(menuOpener);
 
         // This should not happen, definitely!
