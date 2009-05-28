@@ -25,6 +25,7 @@
 qx.Class.define("qx.ui.decoration.Uniform",
 {
   extend : qx.ui.decoration.Abstract,
+  include : [qx.ui.decoration.MBackgroundImage],
 
 
   /*
@@ -75,7 +76,6 @@ qx.Class.define("qx.ui.decoration.Uniform",
       apply : "_applyWidth"
     },
 
-
     /** The border style of all sides */
     style :
     {
@@ -85,7 +85,6 @@ qx.Class.define("qx.ui.decoration.Uniform",
       apply : "_applyStyle"
     },
 
-
     /** Set the border color of all sides */
     color :
     {
@@ -93,25 +92,7 @@ qx.Class.define("qx.ui.decoration.Uniform",
       check : "Color",
       apply : "_applyStyle"
     },
-
-
-    /** The URL of the background image */
-    backgroundImage :
-    {
-      check : "String",
-      nullable : true,
-      apply : "_applyStyle"
-    },
-
-
-    /** How the background image should be repeated */
-    backgroundRepeat :
-    {
-      check : ["repeat", "repeat-x", "repeat-y", "no-repeat", "scale"],
-      init : "repeat",
-      apply : "_applyStyle"
-    },
-
+    
     /** Color of the background */
     backgroundColor :
     {
@@ -183,15 +164,8 @@ qx.Class.define("qx.ui.decoration.Uniform",
       var Color = qx.theme.manager.Color.getInstance();
       styles += "border:" + width + "px " + this.getStyle() + " " + Color.resolve(this.getColor()) + ";";
 
-      // Generate markup
-      var html = qx.ui.decoration.Util.generateBackgroundMarkup(
-        this.getBackgroundImage(),
-        this.getBackgroundRepeat(),
-        0, 0, 
-        styles
-      );
+      var html = this._generateBackgroundMarkup(styles);
 
-      // Store
       return this.__markup = html;
     },
 
