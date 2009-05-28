@@ -1,0 +1,52 @@
+{
+  "name"    : "${Name} Demo",
+
+  "include" :
+  [
+    {
+      "path" : "$${QOOXDOO_PATH}/tool/data/config/application.json"
+    }
+  ],
+
+  "export" :
+  [
+    "api",
+    "build",
+    "clean",
+    "distclean",
+    "fix",
+    "inspector",
+    "lint",
+    "migration",
+    "pretty",
+    "profiling",
+    "source",
+    "source-all",
+    "test",
+    "test-source",
+    "translation"
+  ],
+
+  "let" :
+  {
+    "APPLICATION"  : "${Namespace}.demo",
+    "QOOXDOO_PATH" : "../../${REL_QOOXDOO_PATH}",
+    "QXTHEME"      : "${Namespace}.demo.theme.Theme",
+    "API_EXCLUDE"  : ["qx.legacy.*","qx.test.*"],
+    "LOCALES"      : [ "en" ],
+    "ROOT"         : "."
+  },
+
+  "jobs" :
+  {
+    "libraries" : 
+    {
+      "library" :
+      [
+        {
+          "manifest" : "../../Manifest.json"
+        }
+      ]
+    }
+  }
+}
