@@ -52,7 +52,11 @@ def createApplication(name, out, namespace, app_type, skeleton_path):
 
     outDir = os.path.join(out, name)
     copySkeleton(skeleton_path, app_type, outDir, namespace)
-    patchSkeleton(outDir, name, namespace)
+
+    if app_type == "contribution":
+        patchSkeleton(os.path.join(outDir, "trunk"), FRAMEWORK_DIR, name, namespace, app_type)
+    else:
+        patchSkeleton(outDir, FRAMEWORK_DIR, name, namespace, app_type)
 
 
 def copySkeleton(skeleton_path, app_type, dir, namespace):
@@ -69,20 +73,33 @@ def copySkeleton(skeleton_path, app_type, dir, namespace):
         console.error("Failed to copy skeleton, maybe the directory already exists")
         sys.exit(1)
 
+    if app_type == "contribution":
+        app_dir = os.path.join(dir, "trunk")
+    else:
+        app_dir = dir
+
     # rename namespace
-    source_dir = os.path.join(dir, "source", "class", "custom")
+    source_dir = os.path.join(app_dir, "source", "class", "custom")
     if os.path.isdir(source_dir):
         os.rename(
             source_dir,
-            os.path.join(dir, "source", "class", namespace)
+            os.path.join(app_dir, "source", "class", namespace)
         )
 
-    resource_dir = os.path.join(dir, "source", "resource", "custom")
+    resource_dir = os.path.join(app_dir, "source", "resource", "custom")
     if os.path.isdir(resource_dir):
         os.rename(
             resource_dir,
-            os.path.join(dir, "source", "resource", namespace)
+            os.path.join(app_dir, "source", "resource", namespace)
         )
+
+    if app_type == "contribution":
+        demo_dir = os.path.join(app_dir, "demo", "default", "source", "class", "custom")
+        if os.path.isdir(demo_dir):
+            os.rename(
+                demo_dir,
+                os.path.join(app_dir, "demo", "default", "source", "class", namespace)
+            )
 
     #clean svn directories
     for root, dirs, files in os.walk(dir, topdown=False):
@@ -91,20 +108,20 @@ def copySkeleton(skeleton_path, app_type, dir, namespace):
             shutil.rmtree(filename, ignore_errors=False, onerror=handleRemoveReadonly)
 
 
-def patchSkeleton(dir, name, namespace):
-    absPath = normalizePath(FRAMEWORK_DIR)
+def patchSkeleton(dir, framework_dir, name, namespace, app_type):
+    absPath = normalizePath(framework_dir)
     if absPath[-1] == "/":
         absPath = absPath[:-1]
 
     if sys.platform == 'cygwin':
         if re.match( r'^\.{1,2}\/', dir ):
-            relPath = Path.rel_from_to(normalizePath(dir), FRAMEWORK_DIR)
+            relPath = Path.rel_from_to(normalizePath(dir), framework_dir)
         elif re.match( r'^/cygdrive\b', dir):
-            relPath = Path.rel_from_to(dir, FRAMEWORK_DIR)
+            relPath = Path.rel_from_to(dir, framework_dir)
         else:
-            relPath = Path.rel_from_to(normalizePath(dir), normalizePath(FRAMEWORK_DIR))
+            relPath = Path.rel_from_to(normalizePath(dir), normalizePath(framework_dir))
     else:
-        relPath = Path.rel_from_to(normalizePath(dir), normalizePath(FRAMEWORK_DIR))
+        relPath = Path.rel_from_to(normalizePath(dir), normalizePath(framework_dir))
 
     relPath = re.sub(r'\\', "/", relPath)
     if relPath[-1] == "/":
@@ -114,6 +131,11 @@ def patchSkeleton(dir, name, namespace):
         console.error("Relative path to qooxdoo directory is not correct: '%s'" % relPath)
         sys.exit(1)
 
+    if app_type == "contribution":
+        # TODO: in a final release the following "trunk" would need to be changed 
+        # to an actual version number like "0.8.2"
+        relPath = os.path.join(os.pardir, os.pardir, "qooxdoo", "trunk")
+        relPath = re.sub(r'\\', "/", relPath)
 
     for root, dirs, files in os.walk(dir):
         for file in files:
