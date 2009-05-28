@@ -73,12 +73,6 @@ qx.Class.define("qx.ui.tabview.TabButton",
 
   properties :
   {
-    // overridden
-    appearance :
-    {
-      refine : true,
-      init : "tabview-tabbutton"
-    },
 
     /** Indicates if the close button of a TabButton should be shown. */
     showCloseButton :
