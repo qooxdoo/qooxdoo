@@ -112,8 +112,10 @@ class QxTest:
       self.log("Selenium server already running.")
     else:
       self.log("Starting Selenium server...")
-      selserv = subprocess.Popen(self.seleniumConf['startSelenium'] 
-                                 + self.seleniumConf['seleniumLog'], shell=True)
+      cmd = self.seleniumConf['startSelenium']
+      if 'seleniumLog' in self.seleniumConf:
+        cmd += " -browserSideLog -log " + self.seleniumConf['seleniumLog']
+      selserv = subprocess.Popen(cmd, shell=True)
     
       # wait a while for the server to start up
       time.sleep(20)
@@ -557,15 +559,19 @@ class QxTest:
         self.logfile = logfile
         self.htmlfile = htmlfile
 
-    log = self.seleniumConf['seleniumLog']
+    log = False
 
-    if inputfile:      
+    if inputfile:
       try:
         if os.path.isfile(inputfile):
           if os.path.getsize(inputfile) != "0L":            
             log = inputfile
       except:        
         pass    
+
+    if not log:
+      if 'seleniumLog' in self.seleniumConf:
+        log = self.seleniumConf['seleniumLog']
 
     options = FormatterOpts(log, self.seleniumConf['seleniumReport'])
 
@@ -579,7 +585,7 @@ class QxTest:
   ##
   # Clears the Selenium RC server log file and the test report HTML file.
   def clearLogs(self):
-    if (os.path.exists(self.seleniumConf['seleniumLog'])):
+    if ('seleniumLog' in self.seleniumConf and os.path.exists(self.seleniumConf['seleniumLog'])):
       f = open(self.seleniumConf['seleniumLog'], 'w')
       if (self.sim):
         self.log("SIMULATION: Emptying server log file " + self.seleniumConf['seleniumLog'])
