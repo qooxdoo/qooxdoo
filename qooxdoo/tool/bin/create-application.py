@@ -33,7 +33,7 @@ FRAMEWORK_DIR = os.path.normpath(os.path.join(SCRIPT_DIR, os.pardir, os.pardir))
 SKELETON_DIR  = os.path.normpath(os.path.join(FRAMEWORK_DIR, "component", "skeleton"))
 APP_TYPES     = [x for x in os.listdir(SKELETON_DIR) if not re.match(r'^\.',x)]
 
-R_ILLEGAL_NS_CHAR = re.compile(r'[^a-zA-Z0-9_]')
+R_ILLEGAL_NS_CHAR = re.compile(r'(?u)[^\.\w]')  # allow unicode, but disallow $
 
 
 def createApplication(name, out, namespace, app_type, skeleton_path):
@@ -132,7 +132,7 @@ def patchSkeleton(dir, name, namespace):
                         "REL_QOOXDOO_PATH": relPath,
                         "ABS_QOOXDOO_PATH": absPath,
                         "QOOXDOO_VERSION": "0.8.2"
-                    })
+                    }).encode('utf-8')
                 )
                 out.close()
                 os.remove(inFile)
@@ -230,6 +230,8 @@ Example: For creating a regular GUI application \'myapp\' you could execute:
     if not options.name:
         parser.print_help()
         sys.exit(1)
+    else:
+        options.name = options.name.decode('utf-8')
 
     # Initialize console
     global console
@@ -237,6 +239,8 @@ Example: For creating a regular GUI application \'myapp\' you could execute:
 
     if not options.namespace:
         options.namespace = options.name.lower()
+    else:
+        options.namespace = options.namespace.decode('utf-8')
 
     if R_ILLEGAL_NS_CHAR.search(options.namespace):
         convertedNamespace = R_ILLEGAL_NS_CHAR.sub("_", options.namespace)
