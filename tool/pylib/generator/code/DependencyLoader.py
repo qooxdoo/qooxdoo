@@ -712,7 +712,7 @@ class DependencyLoader:
             
             for item in self.HEAD["asset"].findall(data):
                 if not asset_reg.match(item):
-                    raise ValueError, "Illegal asset declaration: %" % item
+                    raise ValueError, "Illegal asset declaration: %s" % item
                 if not item in deps:
                     deps.append(item)
             
