@@ -92,13 +92,39 @@ qx.Class.define("qx.ui.menubar.Button",
      * Inspects the parent chain to find a ToolBar instance.
      *
      * @return {qx.ui.toolbar.ToolBar} Toolbar instance or <code>null</code>.
+     * @deprecated
      */
     getToolBar : function()
     {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Please use 'getMenuBar' to access the connected menubar widget"
+      );
+    
       var parent = this;
       while (parent)
       {
         if (parent instanceof qx.ui.toolbar.ToolBar) {
+          return parent;
+        }
+
+        parent = parent.getLayoutParent();
+      }
+
+      return null;
+    },
+    
+    
+    /**
+     * Inspects the parent chain to find the MenuBar
+     *
+     * @return {qx.ui.menubar.MenuBar} MenuBar instance or <code>null</code>.
+     */
+    getMenuBar : function()
+    {
+      var parent = this;
+      while (parent)
+      {
+        if (parent instanceof qx.ui.menubar.MenuBar) {
           return parent;
         }
 
@@ -126,15 +152,15 @@ qx.Class.define("qx.ui.menubar.Button",
     _onMenuChange : function(e)
     {
       var menu = this.getMenu();
-      var toolbar = this.getToolBar();
+      var menubar = this.getMenuBar();
 
       if (menu.isVisible())
       {
         this.addState("pressed");
 
         // Sync with open menu property
-        if (toolbar) {
-          toolbar.setOpenMenu(menu);
+        if (menubar) {
+          menubar.setOpenMenu(menu);
         }
       }
       else
@@ -142,8 +168,8 @@ qx.Class.define("qx.ui.menubar.Button",
         this.removeState("pressed");
 
         // Sync with open menu property
-        if (toolbar && toolbar.getOpenMenu() == menu) {
-          toolbar.resetOpenMenu();
+        if (menubar && menubar.getOpenMenu() == menu) {
+          menubar.resetOpenMenu();
         }
       }
     },
@@ -162,8 +188,8 @@ qx.Class.define("qx.ui.menubar.Button",
       // Open submenu
       if (this.getMenu())
       {
-        var toolbar = this.getToolBar();
-        var open = toolbar.getOpenMenu();
+        var menubar = this.getMenuBar();
+        var open = menubar.getOpenMenu();
 
         if (open && open != this.getMenu())
         {
