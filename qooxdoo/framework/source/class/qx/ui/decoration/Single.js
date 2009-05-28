@@ -25,6 +25,7 @@
 qx.Class.define("qx.ui.decoration.Single",
 {
   extend : qx.ui.decoration.Abstract,
+  include : [qx.ui.decoration.MBackgroundImage],
 
 
   /*
@@ -106,8 +107,6 @@ qx.Class.define("qx.ui.decoration.Single",
     },
 
 
-
-
     /*
     ---------------------------------------------------------------------------
       PROPERTY: STYLE
@@ -151,8 +150,6 @@ qx.Class.define("qx.ui.decoration.Single",
     },
 
 
-
-
     /*
     ---------------------------------------------------------------------------
       PROPERTY: COLOR
@@ -192,31 +189,11 @@ qx.Class.define("qx.ui.decoration.Single",
     },
 
 
-
-
     /*
     ---------------------------------------------------------------------------
-      PROPERTY: BACKGROUND IMAGE
+      PROPERTY: BACKGROUND COLOR
     ---------------------------------------------------------------------------
     */
-
-    /** The URL of the background image */
-    backgroundImage :
-    {
-      check : "String",
-      nullable : true,
-      apply : "_applyStyle"
-    },
-
-
-    /** How the background image should be repeated */
-    backgroundRepeat :
-    {
-      check : ["repeat", "repeat-x", "repeat-y", "no-repeat", "scale"],
-      init : "repeat",
-      apply : "_applyStyle"
-    },
-
 
     /** Color of the background */
     backgroundColor :
@@ -225,8 +202,6 @@ qx.Class.define("qx.ui.decoration.Single",
       nullable : true,
       apply : "_applyStyle"
     },
-
-
 
 
     /*
@@ -254,8 +229,6 @@ qx.Class.define("qx.ui.decoration.Single",
     bottom : {
       group : [ "widthBottom", "styleBottom", "colorBottom" ]
     },
-
-
 
 
     /*
@@ -369,15 +342,8 @@ qx.Class.define("qx.ui.decoration.Single",
       // Add basic styles
       styles += "position:absolute;top:0;left:0;";
 
-      // Generate markup
-      var html = qx.ui.decoration.Util.generateBackgroundMarkup(
-        this.getBackgroundImage(), 
-        this.getBackgroundRepeat(),
-        0, 0,
-        styles
-      );
-
-      // Store
+      var html = this._generateBackgroundMarkup(styles);
+      
       return this.__markup = html;
     },
 

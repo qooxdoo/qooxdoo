@@ -31,6 +31,7 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
       apply : "_applyBackground"
     },
 
+    
     /** How the background image should be repeated */
     backgroundRepeat :
     {
@@ -38,6 +39,7 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
       init : "repeat",
       apply : "_applyBackground"
     },
+    
     
     /**
      * Either a string or a number, which define the the vertical position
@@ -53,6 +55,7 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
       apply : "_applyBackground" 
     },
     
+    
     /**
      * Either a string or a number, which define the the horizontal position
      * of the background image.
@@ -66,6 +69,7 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
       nullable : true,
       apply : "_applyBackground"
     },    
+    
     
     /**
      * Property group to define the background position
@@ -84,15 +88,18 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
      * This method just uses the settings in the properties and the 
      * {@link qx.ui.decoration.Util#generateBackgroundMarkup} method to generate
      *  the markup.
+     * 
+     * @param styles {String} CSS styles as string
+     * @return {String} The generated HTML fragment
      */
-    _generateBackgroundMarkup: function() {
+    _generateBackgroundMarkup: function(styles) {
       // Generate markup
       var html = qx.ui.decoration.Util.generateBackgroundMarkup(
         this.getBackgroundImage(),
         this.getBackgroundRepeat(),
         this.getBackgroundPositionX(),
         this.getBackgroundPositionY(),
-        "position:absolute;top:0;left:0"
+        styles
       );      
       return html;
     },
