@@ -196,7 +196,7 @@ qx.Class.define("qx.type.BaseArray",
      *
      * @signature function(varargs)
      * @param varargs {Array|var} Arrays and/or values to concatenate to the resulting array. 
-     * @return {Array} New array built of the given arrays or values.
+     * @return {qx.type.BaseArray} New array built of the given arrays or values.
      */
     concat : null,    
     
