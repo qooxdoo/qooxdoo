@@ -234,12 +234,7 @@ qx.Class.define("qx.ui.decoration.Double",
       }
 
       // Generate inner HTML
-      var innerHtml = qx.ui.decoration.Util.generateBackgroundMarkup(
-        this.getBackgroundImage(),
-        this.getBackgroundRepeat(),
-        0, 0,
-        innerStyles
-      );
+      var innerHtml = this._generateBackgroundMarkup(innerStyles);
 
 
       // Generate outer HTML

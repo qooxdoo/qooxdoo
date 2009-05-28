@@ -29,7 +29,8 @@
 qx.Class.define("qx.ui.decoration.Beveled",
 {
   extend : qx.ui.decoration.Abstract,
-
+  include : [qx.ui.decoration.MBackgroundImage],
+  
 
   /*
   *****************************************************************************
@@ -103,28 +104,6 @@ qx.Class.define("qx.ui.decoration.Beveled",
       nullable : true,
       apply : "_applyStyle"
     },
-
-
-    /**
-     * A background image to show. The background image is rendered
-     * behind the inner frame.
-     */
-    backgroundImage :
-    {
-      check : "String",
-      nullable : true,
-      apply : "_applyStyle"
-    },
-
-
-    /** How the background should be repeated */
-    backgroundRepeat :
-    {
-      check : ["repeat", "repeat-x", "repeat-y", "no-repeat", "scale"],
-      init : "repeat",
-      apply : "_applyStyle"
-    },
-
 
     /** Color of the background */
     backgroundColor :
@@ -230,12 +209,7 @@ qx.Class.define("qx.ui.decoration.Beveled",
       html.push('"></div>');
 
       // Inner background frame
-      html.push(qx.ui.decoration.Util.generateBackgroundMarkup(
-        this.getBackgroundImage(),
-        this.getBackgroundRepeat(),
-        0, 0,
-        "position:absolute;top:1px;left:1px;"
-      ));
+      html.push(this._generateBackgroundMarkup("position:absolute;top:1px;left:1px;"));
 
       // Inner overlay frame
       html.push('<div style="position:absolute;top:1px;left:1px;');
