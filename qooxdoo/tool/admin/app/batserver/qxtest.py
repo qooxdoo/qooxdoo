@@ -252,8 +252,13 @@ class QxTest:
   #
   # @return Build status dictionary
   def getRemoteBuildStatus(self):
-    import urllib, simplejson    
+    import urllib
     status = {}
+    try:
+      import simplejson
+    except ImportError, e:
+      self.log("ERROR: " + e + " Unable to retrieve remote build status!")
+      return status
     remoteFile = self.autConf['autHost']
     if 'autQxPath' in self.autConf:
       remoteFile += self.autConf['autQxPath']
