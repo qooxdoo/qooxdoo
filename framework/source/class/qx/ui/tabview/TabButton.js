@@ -102,8 +102,58 @@ qx.Class.define("qx.ui.tabview.TabButton",
     ---------------------------------------------------------------------------
     */
 
-    _applyIconPosition : function(value, old) {
-      this.warn("Unsupported property 'iconPostion'!");
+    _applyIconPosition : function(value, old)
+    {
+
+      var children = {
+        icon : this.getChildControl("icon"),
+        label : this.getChildControl("label"),
+        closeButton : this.getShowCloseButton() ? this.getChildControl("close-button") : null
+      }
+
+      // Remove all children before adding them again
+      for (var child in children)
+      {
+        if (children[child]) {
+          this._remove(children[child]);
+        }
+      }
+
+      switch (value)
+      {
+        case "top":
+          this._add(children.label, {row: 3, column: 2});
+          this._add(children.icon, {row: 1, column: 2});
+          if (children.closeButton) {
+            this._add(children.closeButton, {row: 0, column: 4});
+          }
+          break;
+
+        case "bottom":
+          this._add(children.label, {row: 1, column: 2});
+          this._add(children.icon, {row: 3, column: 2});
+          if (children.closeButton) {
+            this._add(children.closeButton, {row: 0, column: 4});
+          }
+          break;
+
+        case "left":
+          this._add(children.label, {row: 0, column: 2});
+          this._add(children.icon, {row: 0, column: 0});
+          if (children.closeButton) {
+            this._add(children.closeButton, {row: 0, column: 4});
+          }
+          break;
+
+        case "right":
+          this._add(children.label, {row: 0, column: 0});
+          this._add(children.icon, {row: 0, column: 2});
+          if (children.closeButton) {
+            this._add(children.closeButton, {row: 0, column: 4});
+          }
+          break;
+      }
+
     },
     
 
@@ -129,7 +179,7 @@ qx.Class.define("qx.ui.tabview.TabButton",
         case "close-button":
           control = new qx.ui.form.Button();
           control.addListener("click", this._onCloseButtonClick, this);
-          this._add(control, {row: 0, column: 3});
+          this._add(control, {row: 0, column: 4});
 
           if (!this.getShowCloseButton()) {
             control.exclude();
@@ -176,9 +226,8 @@ qx.Class.define("qx.ui.tabview.TabButton",
     _applyCenter : function(value)
     {
       var layout = this._getLayout();
-      layout.setColumnFlex(0,  value);
-      layout.setColumnFlex(2, value);
-      layout.setColumnFlex(3,  value);
+      layout.setColumnFlex(1, value);
+      layout.setColumnFlex(3, !value);
     }
 
   }
