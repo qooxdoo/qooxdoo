@@ -46,23 +46,5 @@ qx.Class.define("${Namespace}.Contribution",
   construct : function(label, icon) 
   {
     this.base(arguments, label.toUpperCase(), icon);
-  },
-
-  
-  
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
-    // overridden
-    appearance :
-    {
-      refine : true,
-      init : "contribution-${Namespace}"
-    }
   }
 });
