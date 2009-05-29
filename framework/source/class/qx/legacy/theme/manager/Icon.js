@@ -80,13 +80,6 @@ qx.Class.define("qx.legacy.theme.manager.Icon",
         aliasManager.remove("icon");
       }
   
-      if (old)
-      {
-        for (var alias in old.aliases) {
-          aliasManager.remove(alias);
-        }
-      }
-      
       if (value)
       {
         for (var alias in value.aliases) {
