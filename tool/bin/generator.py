@@ -90,9 +90,9 @@ Arguments:
 
     # Initial user feedback
     appname = ((os.path.dirname(os.path.abspath(options.config)).split(os.sep)))[-1]
-    console.head("Initializing: %s" % appname, True)
-    console.info("Configuration: %s" % options.config)
-    console.info("Jobs: %s" % ", ".join(options.jobs))
+    console.head(u"Initializing: %s" % appname.decode('utf-8'), True)
+    console.info(u"Configuration: %s" % options.config)
+    console.info(u"Jobs: %s" % ", ".join(options.jobs))
 
     # Load configuration
     config = Config(console, options.config)

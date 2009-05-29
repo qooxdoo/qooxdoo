@@ -269,7 +269,7 @@ class Job(object):
             for e in range(len(data)):
                 enew = self._expandMacrosInValues(data[e], maps)
                 if enew != data[e]:
-                    console.debug("expanding: %s ==> %s" % (str(data[e]), str(enew)))
+                    console.debug("expanding: %r ==> %r" % (data[e], enew))
                     data[e] = enew
                     
         # dicts
@@ -278,7 +278,8 @@ class Job(object):
                 # expand in values
                 enew = self._expandMacrosInValues(data[e], maps)
                 if enew != data[e]:
-                    console.debug("expanding: %s ==> %s" % (str(data[e]), str(enew)))
+                    #console.debug("expanding: %s ==> %s" % (str(data[e]), str(enew)))
+                    console.debug("expanding: %r ==> %r" % (data[e], enew))
                     data[e] = enew
 
                 # expand in keys
@@ -332,7 +333,8 @@ class Job(object):
                 if k != k1: # no expansion with itself!
                     enew = self._expandMacrosInValues(letDict[k1], kdicts)
                     if enew != letDict[k1]:
-                        console.debug("expanding: %s ==> %s" % (k1, str(enew)))
+                        #console.debug("expanding: %s ==> %s" % (k1.encode('utf-8'), (enew.encode('utf-8'))))
+                        console.debug("expanding: %s ==> %s" % (k1, repr(enew)))
                         letDict[k1] = enew
         return letDict
 

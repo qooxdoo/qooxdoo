@@ -32,6 +32,7 @@ class Cache:
 
 
     def filename(self, cacheId):
+        cacheId = cacheId.encode('utf-8')
         splittedId = cacheId.split("-")
         
         if len(splittedId) == 1:
