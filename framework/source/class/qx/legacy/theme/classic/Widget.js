@@ -30,7 +30,7 @@
 qx.Theme.define("qx.legacy.theme.classic.Widget",
 {
   title : "Windows",
-  aliases {
+  aliases : {
     widget : "qx/compat/widget/Windows"
   },
   widgets : {}
