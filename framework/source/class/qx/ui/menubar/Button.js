@@ -124,8 +124,9 @@ qx.Class.define("qx.ui.menubar.Button",
       var parent = this;
       while (parent)
       {
-        if (parent instanceof qx.ui.menubar.MenuBar
-            || parent instanceof qx.ui.toolbar.ToolBar) {
+        /* this method is also used by toolbar.MenuButton, so we need to check 
+           for a ToolBar instance. */
+        if (parent instanceof qx.ui.toolbar.ToolBar) {
           return parent;
         }
 
