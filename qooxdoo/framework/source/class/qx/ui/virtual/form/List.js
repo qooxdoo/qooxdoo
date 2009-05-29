@@ -235,8 +235,11 @@ qx.Class.define("qx.ui.virtual.form.List",
     },
     
     
-    update : function() {
-      this.__cellLayer.updateLayerData();
+    update : function()
+    {
+      if (this.__cellLayer) {
+        this.__cellLayer.updateLayerData();
+      }
     },
 
 
