@@ -72,8 +72,27 @@ qx.Class.define("qx.legacy.theme.manager.Icon",
     syncIconTheme : function()
     {
       var value = this.getIconTheme();
-      var alias = qx.legacy.util.AliasManager.getInstance();
-      value ? alias.add("icon", value.resource) : alias.remove("icon");
+      var aliasManager = qx.legacy.util.AliasManager.getInstance();
+      
+      if (value) {
+        aliasManager.add("icon", value.resource);
+      } else {
+        aliasManager.remove("icon");
+      }
+  
+      if (old)
+      {
+        for (var alias in old.aliases) {
+          aliasManager.remove(alias);
+        }
+      }
+      
+      if (value)
+      {
+        for (var alias in value.aliases) {
+          aliasManager.add(alias, value.aliases[alias]);
+        }        
+      }
     }
   }
 });

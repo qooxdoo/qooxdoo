@@ -150,7 +150,7 @@ qx.Class.define("qx.Theme",
             "The configuration key 'resource' in the " + aliasKey + " theme" +
             " '" + theme.name + "' is deprecated. Please replace " +
             "'resource: \"" + config.resource + "\"' with " + 
-            "'" + aliasKey + ": { decoration: \"" + config.resource + "\"}'" 
+            "'aliases : { " + aliasKey + ": \"" + config.resource + "\"}'" 
           );
           qx.log.Logger.trace();
         }
