@@ -389,7 +389,7 @@ class CodeGenerator(object):
             if i<=1:   # skip schema and netlock parts
                 nparts.append(parts[i])
             else:
-                nparts.append(urllib.quote(parts[i]))
+                nparts.append(urllib.quote(parts[i].encode('utf-8')))
         nuri  = urlparse.urlunparse(nparts)
         return nuri
 

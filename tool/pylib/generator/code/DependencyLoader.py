@@ -708,7 +708,8 @@ class DependencyLoader:
 
         def _extractAssetDeps(data):
             deps = []
-            asset_reg = re.compile("^[\$\.\*a-zA-Z0-9/{}_-]+$")
+            #asset_reg = re.compile("^[\$\.\*a-zA-Z0-9/{}_-]+$")
+            asset_reg = re.compile(r"^[\$\.\*\w/{}-]+$", re.U)  # have to include "-", which is permissible in paths, e.g. "folder-open.png"
             
             for item in self.HEAD["asset"].findall(data):
                 if not asset_reg.match(item):
@@ -738,7 +739,10 @@ class DependencyLoader:
         meta["runtimeDeps"]  = _extractRuntimeDeps(content, fileId)
         meta["optionalDeps"] = _extractOptionalDeps(content)
         meta["ignoreDeps"]   = _extractIgnoreDeps(content)
-        meta["assetDeps"]    = _extractAssetDeps(content)
+        try:
+            meta["assetDeps"]    = _extractAssetDeps(content)
+        except ValueError, e:
+            raise ValueError, e.message + u' in: %r' % filePath
 
         self._console.outdent()
 
