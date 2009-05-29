@@ -30,6 +30,8 @@
 qx.Theme.define("qx.legacy.theme.classic.Widget",
 {
   title : "Windows",
-  resource : "qx/compat/widget/Windows",
+  aliases {
+    widget : "qx/compat/widget/Windows"
+  },
   widgets : {}
 });

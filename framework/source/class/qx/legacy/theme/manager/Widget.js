@@ -71,8 +71,27 @@ qx.Class.define("qx.legacy.theme.manager.Widget",
     syncWidgetTheme : function()
     {
       var value = this.getWidgetTheme();
-      var alias = qx.legacy.util.AliasManager.getInstance();
-      value ? alias.add("widget", value.resource) : alias.remove("widget");
+      var aliasManager = qx.legacy.util.AliasManager.getInstance();
+      
+      if (value) {
+        aliasManager.add("widget", value.resource);
+      } else {
+        aliasManager.remove("widget");
+      }
+
+      if (old)
+      {
+        for (var alias in old.aliases) {
+          aliasManager.remove(alias);
+        }
+      }
+      
+      if (value)
+      {
+        for (var alias in value.aliases) {
+          aliasManager.add(alias, value.aliases[alias]);
+        }        
+      }
     }
   }
 });
