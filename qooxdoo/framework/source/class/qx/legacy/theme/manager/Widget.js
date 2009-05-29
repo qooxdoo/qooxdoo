@@ -79,13 +79,6 @@ qx.Class.define("qx.legacy.theme.manager.Widget",
         aliasManager.remove("widget");
       }
 
-      if (old)
-      {
-        for (var alias in old.aliases) {
-          aliasManager.remove(alias);
-        }
-      }
-      
       if (value)
       {
         for (var alias in value.aliases) {
