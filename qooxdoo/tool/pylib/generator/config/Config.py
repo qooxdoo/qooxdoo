@@ -256,7 +256,7 @@ class Config:
 
     def resolveIncludes(self, includeTrace=[]):
 
-        console.debug("including %s" % (self._fname or "<unknown>",))
+        console.debug("including %s" % (self._fname.decode('utf-8') or "<unknown>",))
         config  = self._data
         jobsmap = self.getJobsMap({})
 
@@ -272,6 +272,8 @@ class Config:
                     fname = incspec['path']
                 else:
                     raise RuntimeError, "Unknown include spec: %s" % repr(incspec)
+
+                fname = fname.encode('utf-8')
 
                 # cycle check
                 if os.path.abspath(fname) in includeTrace:
@@ -289,7 +291,7 @@ class Config:
                 else:
                     namespace = ""
 
-                econfig = Config(self._console, fpath)
+                econfig = Config(self._console, fpath.decode('utf-8'))
                 econfig.resolveIncludes(includeTrace)   # recursive include
                 # check include/import
                 if incspec.has_key('import'):
@@ -601,6 +603,7 @@ class Config:
     def absPath(self, path):
         'Take a path relative to config file location, and return it absolute'
         assert isinstance(path, types.StringTypes)
+        path = path.encode('utf-8')
         if os.path.isabs(path):
             return path
         elif not self.getConfigDir():
@@ -608,7 +611,7 @@ class Config:
         else:
             p = os.path.normpath(os.path.abspath(
                     os.path.join(self.getConfigDir(), path)))
-            return p
+            return p.decode('utf-8')
 
 
 
