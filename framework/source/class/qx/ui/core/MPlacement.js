@@ -69,8 +69,8 @@ qx.Mixin.define("qx.ui.core.MPlacement",
     },
     
     /**
-     * Weather the widget should be placed relative to an other widget or to
-     * the mouse cursor.s
+     * Whether the widget should be placed relative to an other widget or to
+     * the mouse cursor.
      */
     placeMethod : {
       check : ["widget", "mouse"],
