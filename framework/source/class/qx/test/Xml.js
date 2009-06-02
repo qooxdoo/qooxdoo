@@ -138,6 +138,7 @@ qx.Class.define("qx.test.Xml",
       };
       var q1 = "//xhtml:em";
       var q2 = "//qx:foo";
+      var q3 = "//xhtml:body";
       
        // Chrome will throw an exception until Chromium bug #671 is fixed.
        // See http://code.google.com/p/chromium/issues/detail?id=671 
@@ -158,10 +159,17 @@ qx.Class.define("qx.test.Xml",
       else {
         var n1 = qx.xml.Element.selectSingleNode(doc, q1, nsMap);
         var s1 = qx.xml.Element.serialize(n1);
+        this.debug("Found node: " + s1);
         this.assertEquals(s1, emStr);
         var n2 = qx.xml.Element.selectSingleNode(doc, q2, nsMap);
         var s2 = qx.xml.Element.serialize(n2);
+        this.debug("Found node: " + s2);
         this.assertEquals(s2, fooStr);
+        var n3 = qx.xml.Element.selectNodes(doc, q3, nsMap);
+        var n4 = qx.xml.Element.selectNodes(n3[0], q2, nsMap);
+        var s4 = qx.xml.Element.serialize(n4[0]);
+        this.debug("Found node: " + s4);
+        this.assertEquals(s4, fooStr);
       }
     },
 
