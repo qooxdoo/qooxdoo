@@ -80,7 +80,15 @@ qx.Class.define("qx.xml.Element",
             namespaceString += "xmlns:" + prefix + "='" + namespaces[prefix] + "' ";
           }
 
-          element.setProperty("SelectionNamespaces", namespaceString);
+          // If the element is a node, set the selection namespace on its parent document.
+          if (element.ownerDocument) {
+            element.ownerDocument.setProperty("SelectionNamespaces", namespaceString);
+          }
+          // element is a document
+          else {
+            element.setProperty("SelectionNamespaces", namespaceString);
+          }
+
         }
 
         return element.selectSingleNode(query);
@@ -139,7 +147,15 @@ qx.Class.define("qx.xml.Element",
             namespaceString += "xmlns:" + prefix + "='" + namespaces[prefix] + "' ";
           }
 
-          element.setProperty("SelectionNamespaces", namespaceString);
+          // If the element is a node, set the selection namespace on its parent document.
+          if (element.ownerDocument) {
+            element.ownerDocument.setProperty("SelectionNamespaces", namespaceString);
+          }
+          // element is a document
+          else {
+            element.setProperty("SelectionNamespaces", namespaceString);
+          }
+
         }
 
         return element.selectNodes(query);
