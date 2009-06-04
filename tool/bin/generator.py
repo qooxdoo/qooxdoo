@@ -26,6 +26,11 @@ from generator.Generator import Generator
 from generator.config.Config import Config
 from generator.runtime.Log import Log
 
+## TODO: The next on is a hack, and should be removed once all string handling is
+## properly done in unicode; it is advisable to comment out the call to setdefaultencoding()
+## when working on string handling in other parts of the generator
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 def listJobs(console, jobs, config):
     console.info("Available jobs:")
