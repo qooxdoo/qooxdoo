@@ -3,6 +3,7 @@
   {
     "APPLICATION"  : "bom",
     "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}",
+    "CACHE"        : "${Cache}",
     "ROOT"         : "."
   },
 

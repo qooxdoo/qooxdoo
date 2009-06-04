@@ -34,6 +34,7 @@
     "QXTHEME"      : "${Namespace}.theme.Theme",
     "API_EXCLUDE"  : ["qx.legacy.*","qx.test.*"],
     "LOCALES"      : [ "en" ],
+    "CACHE"        : "${Cache}",
     "ROOT"         : "."
   }
 
