@@ -7,7 +7,7 @@
 #  http://qooxdoo.org
 #
 #  Copyright:
-#    2008 1&1 Internet AG, Germany, http://www.1und1.de
+#    2008 - 2009 1&1 Internet AG, Germany, http://www.1und1.de
 #
 #  License:
 #    LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -20,7 +20,7 @@
 #
 ################################################################################
 
-import re, os, sys, optparse, shutil, errno, stat
+import re, os, sys, optparse, shutil, errno, stat, codecs
 from string import Template
 
 import qxenviron
@@ -30,13 +30,14 @@ from misc import Path
 
 SCRIPT_DIR    = qxenviron.scriptDir
 FRAMEWORK_DIR = os.path.normpath(os.path.join(SCRIPT_DIR, os.pardir, os.pardir))
-SKELETON_DIR  = os.path.normpath(os.path.join(FRAMEWORK_DIR, "component", "skeleton"))
+SKELETON_DIR  = unicode(os.path.normpath(os.path.join(FRAMEWORK_DIR, "component", "skeleton")))
 APP_TYPES     = [x for x in os.listdir(SKELETON_DIR) if not re.match(r'^\.',x)]
 
 R_ILLEGAL_NS_CHAR = re.compile(r'(?u)[^\.\w]')  # allow unicode, but disallow $
 
 
-def createApplication(name, out, namespace, app_type, skeleton_path):
+def createApplication(options):
+    out = options.out
     if sys.platform == 'win32' and re.match( r'^[a-zA-Z]:$', out):
         out = out + '\\'
     else:
@@ -50,13 +51,15 @@ def createApplication(name, out, namespace, app_type, skeleton_path):
             sys.exit(1)
 
 
-    outDir = os.path.join(out, name)
-    copySkeleton(skeleton_path, app_type, outDir, namespace)
+    outDir = os.path.join(out, options.name)
+    copySkeleton(options.skeleton_path, options.type, outDir, options.namespace)
 
-    if app_type == "contribution":
-        patchSkeleton(os.path.join(outDir, "trunk"), FRAMEWORK_DIR, name, namespace, app_type)
+    if options.type == "contribution":
+        patchSkeleton(os.path.join(outDir, "trunk"), FRAMEWORK_DIR, options)
     else:
-        patchSkeleton(outDir, FRAMEWORK_DIR, name, namespace, app_type)
+        patchSkeleton(outDir, FRAMEWORK_DIR, options)
+
+    return
 
 
 def copySkeleton(skeleton_path, app_type, dir, namespace):
@@ -108,7 +111,7 @@ def copySkeleton(skeleton_path, app_type, dir, namespace):
             shutil.rmtree(filename, ignore_errors=False, onerror=handleRemoveReadonly)
 
 
-def patchSkeleton(dir, framework_dir, name, namespace, app_type):
+def patchSkeleton(dir, framework_dir, options):
     absPath = normalizePath(framework_dir)
     if absPath[-1] == "/":
         absPath = absPath[:-1]
@@ -131,7 +134,7 @@ def patchSkeleton(dir, framework_dir, name, namespace, app_type):
         console.error("Relative path to qooxdoo directory is not correct: '%s'" % relPath)
         sys.exit(1)
 
-    if app_type == "contribution":
+    if options.type == "contribution":
         # TODO: in a final release the following "trunk" would need to be changed 
         # to an actual version number like "0.8.2"
         relPath = os.path.join(os.pardir, os.pardir, "qooxdoo", "trunk")
@@ -149,11 +152,12 @@ def patchSkeleton(dir, framework_dir, name, namespace, app_type):
                 out = open(outFile, "w")
                 out.write(
                     config.substitute({
-                        "Name": name,
-                        "Namespace": namespace,
+                        "Name": options.name,
+                        "Namespace": options.namespace,
                         "REL_QOOXDOO_PATH": relPath,
                         "ABS_QOOXDOO_PATH": absPath,
-                        "QOOXDOO_VERSION": "0.8.2"
+                        "QOOXDOO_VERSION": "0.8.3-pre",
+                        "Cache" : options.cache,
                     }).encode('utf-8')
                 )
                 out.close()
@@ -235,7 +239,6 @@ Example: For creating a regular GUI application \'myapp\' you could execute:
           "'bom' can be used " +
           "to build low-level qooxdoo applications. (Default: %default)"
      )
-
     parser.add_option(
         "-l", "--logfile", dest="logfile", metavar="LOGFILE",
         default=None, type="string", help="Log file"
@@ -245,6 +248,10 @@ Example: For creating a regular GUI application \'myapp\' you could execute:
         help="(Advanced) Path where the script looks for skeletons. " +
           "The directory must contain sub directories named by " +
           "the application types. (Default: %default)"
+    )
+    parser.add_option(
+        "--cache", dest="cache", metavar="PATH", default="${TMPDIR}/cache",
+        help="Path to the cache directory; will be entered into config.json's CACHE macro (Default: %default)"
     )
 
     (options, args) = parser.parse_args(sys.argv[1:])
@@ -269,13 +276,7 @@ Example: For creating a regular GUI application \'myapp\' you could execute:
         console.log("WARNING: Converted illegal characters in namespace (from %s to %s)" % (options.namespace, convertedNamespace))
         options.namespace = convertedNamespace
 
-    createApplication(
-        options.name,
-        options.out,
-        options.namespace,
-        options.type,
-        options.skeleton_path
-    )
+    createApplication(options)
 
     console.log("DONE")
 
