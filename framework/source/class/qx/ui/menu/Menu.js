@@ -246,8 +246,13 @@ qx.Class.define("qx.ui.menu.Menu",
      */
     open : function()
     {
-      this.placeToWidget(this.getOpener());
-      this.show();
+      if (this.getOpener() != null)
+      {
+        this.placeToWidget(this.getOpener());
+        this.show();
+      } else {
+        this.warn("The menu instance needs a configured 'opener' widget!");
+      }
     },
 
 
