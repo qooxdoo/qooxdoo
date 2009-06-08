@@ -21,7 +21,6 @@
 ################################################################################
 
 import re, os, sys, zlib, optparse, types, string
-import urllib
 
 from misc import filetool, textutil, idlist, Path, PathType
 from misc.PathType import PathType
