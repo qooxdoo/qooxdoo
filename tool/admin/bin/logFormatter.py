@@ -167,7 +167,7 @@ body{font-family:Arial,sans-serif}h1{font-size:18px}h1,h2,h3,td,p{padding:8px}h1
       regOp = re.compile('.*(Opera)\/([\d\.]*)')
       match = regOp.match(agent)
       if (match):
-        regOpTen = re.compile('.*(Opera).*\/([\d\.]+)$')
+        regOpTen = re.compile('.*(Opera).*Version\/([\d\.]+)$')
         matchTen = regOpTen.match(agent)
         if matchTen:
           browser = matchTen.group(1) + " " + matchTen.group(2)
