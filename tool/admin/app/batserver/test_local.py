@@ -69,7 +69,8 @@ buildConf = {
     'Testrunner'          : '-p framework -g test -n',
     'Demobrowser'         : '-p application/demobrowser -g build -n',
     'Feedreader'          : '-p application/feedreader -g build -n',
-    'Playground'          : '-p application/playground -g build -n'
+    'Playground'          : '-p application/playground -g build -n',
+    'APIViewer'           : '-p framework -g api -n',
   }
 }
 
@@ -79,7 +80,8 @@ autConf = {
   'autPathTestrunner'   : '/framework/test/index.html',
   'autPathDemobrowser'  : '/application/demobrowser/build/index.html',
   'autPathFeedreader'   : '/application/feedreader/build/index.html',
-  'autPathPlayground'   : '/application/playground/build/index.html'
+  'autPathPlayground'   : '/application/playground/build/index.html',
+  'autPathAPIViewer'    : '/framework/api/index.html'
 }
 
 browserConf = {
@@ -250,6 +252,22 @@ playgroundConf = {
   ]         
 }
 
+apiviewerConf = {
+  'appName' : 'APIViewer',
+  'clearLogs' : True,
+  'sendReport' : True,
+  'browsers' : [
+    {
+       'browserId' : 'Opera 9.64',
+       'kill' : True
+    },
+    {
+       'browserId' : 'Firefox 3.0.10',
+       'kill' : True
+    }
+  ]
+}
+
 def main():
   localTest = qxtest.QxTest("local", seleniumConf, testConf, autConf, browserConf, mailConf)  
 
@@ -266,6 +284,7 @@ def main():
   localTest.runTests(feedreaderConf)
   localTest.runTests(playgroundConf)
   localTest.runTests(demobrowserConf)
+  localTest.runTests(apiviewerConf)
 
   return 0
 
