@@ -178,10 +178,6 @@ qx.Bootstrap.define("qx.lang.Object",
     {
       "mshtml" : function(map)
       {
-        if (qx.core.Variant.isSet("qx.debug", "on")) {
-          qx.core.Assert.assertMap(map, "Invalid argument 'map'");
-        }
-
         var arr = [];
         for (var key in map) {
           arr.push(key);
@@ -203,10 +199,6 @@ qx.Bootstrap.define("qx.lang.Object",
 
       "default" : function(map)
       {
-        if (qx.core.Variant.isSet("qx.debug", "on")) {
-          qx.core.Assert.assertMap(map, "Invalid argument 'map'");
-        }
-        
         var arr = [];
 
         for (var key in map) {

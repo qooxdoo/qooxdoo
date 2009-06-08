@@ -93,16 +93,21 @@ qx.Class.define("qx.Mixin",
         }
 
         // Create Interface from statics
-        var mixin = config.statics ? config.statics : {};
+        var mixin = config.statics ? config.statics : {};    
+        qx.Bootstrap.setDisplayNames(mixin, name);
+        
         for(var key in mixin) {
-          if (mixin[key] instanceof Function) {
+          if (mixin[key] instanceof Function)
+          {
             mixin[key].$$mixin = mixin;
           }
         }
 
         // Attach configuration
-        if (config.construct) {
+        if (config.construct)
+        {
           mixin.$$constructor = config.construct;
+          qx.Bootstrap.setDisplayName(config.construct, name, "constructor");
         }
 
         if (config.include) {
@@ -113,8 +118,10 @@ qx.Class.define("qx.Mixin",
           mixin.$$properties = config.properties;
         }
 
-        if (config.members) {
+        if (config.members)
+        {
           mixin.$$members = config.members;
+          qx.Bootstrap.setDisplayNames(config.members, name);
         }
 
         for(var key in mixin.$$members)
@@ -128,8 +135,10 @@ qx.Class.define("qx.Mixin",
           mixin.$$events = config.events;
         }
 
-        if (config.destruct) {
+        if (config.destruct)
+        {
           mixin.$$destructor = config.destruct;
+          qx.Bootstrap.setDisplayName(config.destruct, name, "destruct");
         }
       }
       else
