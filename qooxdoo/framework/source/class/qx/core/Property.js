@@ -650,6 +650,8 @@ qx.Class.define("qx.core.Property",
       if (qx.core.Variant.isSet("qx.aspects", "on")) {
         members[store] = qx.core.Aspect.wrap(instance.classname + "." + store, members[store], "property");
       }
+      
+      qx.Bootstrap.setDisplayName(members[store], instance.classname, store)
 
       // Executing new function
       if (args === undefined) {

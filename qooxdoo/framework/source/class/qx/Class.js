@@ -960,20 +960,23 @@ qx.Bootstrap.define("qx.Class",
 
           // Wrap constructor to handle mixin constructors and property initialization
           clazz = this.__wrapConstructor(construct, name, type);
+          qx.Bootstrap.setDisplayName(name, "constructor");
         }
 
         // Copy statics
         if (statics)
         {
+          qx.Bootstrap.setDisplayNames(statics, name);
+          
           var key;
 
           for (var i=0, a=qx.lang.Object.getKeys(statics), l=a.length; i<l; i++)
           {
             key = a[i];
-
+            var staticValue = statics[key];
+           
             if (qx.core.Variant.isSet("qx.aspects", "on"))
             {
-              var staticValue = statics[key];
 
               if (staticValue instanceof Function) {
                 staticValue = qx.core.Aspect.wrap(name + "." + key, staticValue, "static");
@@ -983,7 +986,7 @@ qx.Bootstrap.define("qx.Class",
             }
             else
             {
-              clazz[key] = statics[key];
+              clazz[key] = staticValue;
             }
           }
         }
@@ -1045,6 +1048,7 @@ qx.Bootstrap.define("qx.Class",
           }
 
           clazz.$$destructor = destruct;
+          qx.Bootstrap.setDisplayName(destruct, name, "destruct");
         }
       }
 
@@ -1274,6 +1278,8 @@ qx.Bootstrap.define("qx.Class",
     {
       var proto = clazz.prototype;
       var key, member;
+      
+      qx.Bootstrap.setDisplayNames(members, clazz.classname);
 
       for (var i=0, a=qx.lang.Object.getKeys(members), l=a.length; i<l; i++)
       {
