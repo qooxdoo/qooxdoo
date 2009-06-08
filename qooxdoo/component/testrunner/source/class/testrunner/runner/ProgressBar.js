@@ -192,7 +192,14 @@ qx.Class.define("testrunner.runner.ProgressBar",
         // handle curr/total spec
         var quot = val.split("/");
 
-        if ((quot.length != 2) || (isNaN(quot[0] = parseInt(quot[0]))) || (isNaN(quot[1] = parseInt(quot[1]))) || (quot[0] <= 0) || (quot[1] <= 0) || (quot[0] > quot[1])) {
+        if (
+          (quot.length != 2) ||
+          (isNaN(quot[0] = parseInt(quot[0]))) ||
+          (isNaN(quot[1] = parseInt(quot[1]))) ||
+          (quot[0] <= 0) || 
+          (quot[1] <= 0) || 
+          (quot[0] > quot[1])
+        ) {
           throw new Error(paramError);
         }
         else

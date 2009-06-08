@@ -35,8 +35,13 @@ qx.Class.define("qx.io.remote.transport.Abstract",
   *****************************************************************************
   */
 
-  construct : function() {
+  construct : function() 
+  {
     this.base(arguments);
+    
+    this.setRequestHeaders({});
+    this.setParameters({});
+    this.setFormFields({});
   },
 
 
@@ -96,7 +101,8 @@ qx.Class.define("qx.io.remote.transport.Abstract",
     method :
     {
       check : "String",
-      nullable : true
+      nullable : true,
+      init : "GET"
     },
 
 
@@ -104,7 +110,8 @@ qx.Class.define("qx.io.remote.transport.Abstract",
     asynchronous :
     {
       check : "Boolean",
-      nullable : true
+      nullable : true,
+      init : true
     },
 
 
