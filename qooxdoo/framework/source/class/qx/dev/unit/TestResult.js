@@ -137,7 +137,7 @@ qx.Class.define("qx.dev.unit.TestResult",
                previously, so we'll ignore them. */
           }
           var qxEx = new qx.type.BaseError("Error setting up test: " + ex.name, ex.message);                    
-          this.__createError("failure", qxEx, test);
+          this.__createError("error", qxEx, test);
           return;
         }
       }
