@@ -427,6 +427,14 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
         // (Important for Opera since it goes through other states before
         // reaching 4, and the status code is not valid before 4 is reached.)
         if (!qx.io.remote.Exchange.wasSuccessful(this.getStatusCode(), vReadyState, this.__localRequest)) {
+          // Fix for bug #2272
+          // The IE doesn't set the state to 'sending' even though the send method
+          // is called. This only occurs if the server (which is called) goes 
+          // down or a network failure occurs.
+          if (this.getState() === "configured") {
+            this.setState("sending");
+          }
+          
           return this.failed();
         }
       }
