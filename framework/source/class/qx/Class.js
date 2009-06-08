@@ -946,6 +946,7 @@ qx.Bootstrap.define("qx.Class",
       {
         // Create empty/non-empty class
         clazz = statics || {};
+        qx.Bootstrap.setDisplayNames(clazz, name);
       }
       else
       {
@@ -960,7 +961,7 @@ qx.Bootstrap.define("qx.Class",
 
           // Wrap constructor to handle mixin constructors and property initialization
           clazz = this.__wrapConstructor(construct, name, type);
-          qx.Bootstrap.setDisplayName(name, "constructor");
+          qx.Bootstrap.setDisplayName(construct, name, "constructor");
         }
 
         // Copy statics
