@@ -167,7 +167,12 @@ body{font-family:Arial,sans-serif}h1{font-size:18px}h1,h2,h3,td,p{padding:8px}h1
       regOp = re.compile('.*(Opera)\/([\d\.]*)')
       match = regOp.match(agent)
       if (match):
-        browser = match.group(1) + " " + match.group(2)
+        regOpTen = re.compile('.*(Opera).*\/([\d\.]+)$')
+        matchTen = regOpTen.match(agent)
+        if matchTen:
+          browser = matchTen.group(1) + " " + matchTen.group(2)
+        else:
+          browser = match.group(1) + " " + match.group(2)
   
     if (not(browser)):
       regIe8Comp = re.compile('.*MSIE 7\.0.*(Trident)')
