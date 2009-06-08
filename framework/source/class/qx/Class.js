@@ -146,7 +146,6 @@ qx.Bootstrap.define("qx.Class",
      *       <tr><th>defer</th><td>Function</td><td>Function that is called at the end of processing the class declaration. It allows access to the declared statics, members and properties.</td></tr>
      *       <tr><th>destruct</th><td>Function</td><td>The destructor of the class.</td></tr>
      *     </table>
-     * @return {void}
      */
     define : function(name, config)
     {
@@ -647,7 +646,7 @@ qx.Bootstrap.define("qx.Class",
      * or any of its super classes using the "implement"
      * key.
      *
-     * @param clazz {Class|Object} class or instance to check
+     * @param clazz {Class} class to check
      * @param iface {Interface} the interface to check for
      * @return {Boolean} whether the class includes the interface.
      */
@@ -657,13 +656,13 @@ qx.Bootstrap.define("qx.Class",
 
 
     /**
-     * Whether a given class or object conforms to an interface.
+     * Whether a given class to an interface.
      *
      * Checks whether all methods defined in the interface are
      * implemented. The class does not need to implement
      * the interface explicitly in the <code>extend</code> key.
      *
-     * @param obj {Object|Class} class or object to check
+     * @param obj {Object} class to check
      * @param iface {Interface} the interface to check for
      * @return {Boolean} whether the class conforms to the interface.
      */
@@ -697,7 +696,6 @@ qx.Bootstrap.define("qx.Class",
      * Helper method to handle singletons
      *
      * @internal
-     * @return {var} TODOC
      */
     getInstance : function()
     {
@@ -782,8 +780,6 @@ qx.Bootstrap.define("qx.Class",
      *
      * @param name {String} The name of the class
      * @param config {Map} Configuration map
-     * @return {void}
-     * @throws TODOC
      */
     __validateConfig : qx.core.Variant.select("qx.debug",
     {
@@ -904,7 +900,6 @@ qx.Bootstrap.define("qx.Class",
      * Validates the interfaces required by abstract base classes
      *
      * @param clazz {Class} The configured class.
-     * @return {void}
      */
     __validateAbstractInterfaces : qx.core.Variant.select("qx.debug",
     {
@@ -1274,7 +1269,6 @@ qx.Bootstrap.define("qx.Class",
      *     of this class
      * @param wrap {Boolean ? false} Whether the member method should be wrapped.
      *     this is needed to allow base calls in patched mixin members.
-     * @return {void}
      */
     __addMembers : function(clazz, members, patch, base, wrap)
     {
@@ -1362,7 +1356,6 @@ qx.Bootstrap.define("qx.Class",
      *
      * @param clazz {Class} class to add interface to
      * @param iface {Interface} the Interface to add
-     * @return {void}
      */
     __addInterface : function(clazz, iface)
     {
