@@ -481,7 +481,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      * @return {void}
      */
     setRequestHeader : function(vLabel, vValue) {
-      this.__req.setRequestHeader(vLabel, vValue);
+      this.getRequestHeaders()[vLabel] = vValue;
     },
 
 
@@ -501,14 +501,14 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      * in Gecko.
      *
      * @param vLabel {String} Response header name
-     * @return {var} Response header value
+     * @return {String|null} Response header value
      */
     getResponseHeader : function(vLabel)
     {
       var vResponseHeader = null;
 
       try {
-        this.getRequest().getResponseHeader(vLabel) || null;
+        vResponseHeader = this.getRequest().getResponseHeader(vLabel) || null;
       } catch(ex) {}
 
       return vResponseHeader;
