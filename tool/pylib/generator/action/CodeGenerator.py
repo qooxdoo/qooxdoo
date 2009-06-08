@@ -22,11 +22,13 @@
 import os, sys, string, types, re, zlib
 import urllib, urlparse, optparse
 import simplejson
-from misc import filetool, Path
-from ecmascript import compiler
 from generator.action.ImageInfo import ImageInfo, ImgInfoFmt
-from misc.ExtMap import ExtMap
 from generator.config.Lang import Lang
+from ecmascript import compiler
+from misc import filetool, Path
+from misc.ExtMap import ExtMap
+from misc.Path import OsPath, Uri
+        
 
 console = None
 
@@ -346,7 +348,7 @@ class CodeGenerator(object):
         return "%sKB / %sKB" % (origSize/1024, compressedSize/1024)
 
 
-    def _computeResourceUri(self, lib, resourcePath, rType="class", appRoot=None):
+    def _computeResourceUri0(self, lib, resourcePath, rType="class", appRoot=None):
         '''computes a complete resource URI for the given resource type rType, 
            from the information given in lib and, if lib doesn't provide a
            general uri prefix for it, use appRoot and lib path to construct
@@ -379,6 +381,33 @@ class CodeGenerator(object):
         uri = urllib.basejoin(liburi, uri)
 
         return uri
+
+
+    def _computeResourceUri(self, lib, resourcePath, rType="class", appRoot=None):
+        '''computes a complete resource URI for the given resource type rType, 
+           from the information given in lib and, if lib doesn't provide a
+           general uri prefix for it, use appRoot and lib path to construct
+           one'''
+
+        if 'uri' in lib:
+            libBaseUri = Uri(lib['uri'])
+        elif appRoot:
+            libBaseUri = Uri(Path.rel_from_to(self._config.absPath(appRoot), lib['path']))
+        else:
+            raise RuntimeError, "Need either lib['uri'] or appRoot, to calculate final URI"
+
+        if rType in lib:
+            libInternalPath = OsPath(lib[rType])
+        else:
+            raise RuntimeError, "No such resource type: \"%s\"" % rType
+
+        # process the second part of the target uri
+        uri = libInternalPath.join(OsPath(resourcePath))
+
+        libBaseUri.ensureTrailingSlash()
+        uri = libBaseUri.join(uri)
+
+        return uri.value()
 
 
     def _encodeUri(self, uri):
@@ -669,7 +698,7 @@ class CodeGenerator(object):
     # from normal qooxdoo classes (include io2.ScriptLoader) and starting the variant selection etc.
     # from there. This would be somewhat comparable to the GWT way.
     # Finally "loader.js" should be completely removed.
-    def generateSourcePackageCode(self, parts, packages, boot, globalCodes, format=False):
+    def generateSourcePackageCode0(self, parts, packages, boot, globalCodes, format=False):
         if not parts:
             return ""
 
@@ -701,6 +730,62 @@ class CodeGenerator(object):
                 sUri = Path.posifyPath(sUri)
                 sUri = self._encodeUri(sUri)
                 sUri = '%s:%s' % (namespace, sUri)
+
+                packageUris.append('"%s"' % cUri)
+                packageUrisSmall.append('"%s"' % sUri)
+
+            allUris.append("[" + ",".join(packageUris) + "]")
+            allUrisSmall.append("[" + ",".join(packageUrisSmall) + "]")
+
+        uriData = "[" + ",\n".join(allUris) + "]"
+        uriDataSmall = "[" + ",\n".join(allUrisSmall) + "]"
+
+        # Locate and load loader basic script
+        loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader-source.tmpl.js")
+        result = filetool.read(loaderFile)
+
+        # Replace string.template macros
+        rmap = {}
+        rmap.update(globalCodes)
+        rmap["Parts"] = partData
+        rmap["Uris"]  = uriData
+        rmap["Uris2"] = uriDataSmall
+        rmap["Boot"]  = '"%s"' % boot
+
+        templ  = MyTemplate(result)
+        result = templ.safe_substitute(rmap)
+
+        return result
+
+
+    def generateSourcePackageCode(self, parts, packages, boot, globalCodes, format=False):
+        if not parts:
+            return ""
+
+        # Translate part information to JavaScript
+        partData = "{"
+        for partId in parts:
+            partData += '"%s":' % (partId)
+            partData += ('%s,' % parts[partId]).replace(" ", "")
+
+        partData=partData[:-1] + "}"
+
+        # Translate URI data to JavaScript
+        allUris = []
+        allUrisSmall = []
+        for packageId, package in enumerate(packages):
+            packageUris = []
+            packageUrisSmall = []
+            for fileId in package:
+                #cUri = Path.rel_from_to(self.approot, self._classes[fileId]["relpath"])
+                namespace = self._classes[fileId]["namespace"]
+                relpath   = self._classes[fileId]["relpath"]
+                lib       = self._libs[namespace]
+
+                cUri = self._computeResourceUri(lib, relpath, rType='class', appRoot=self.approot)
+
+                sUri = Uri(OsPath(relpath).toUri())
+                sUri = '%s:%s' % (namespace, sUri.value())
 
                 packageUris.append('"%s"' % cUri)
                 packageUrisSmall.append('"%s"' % sUri)
