@@ -22,6 +22,8 @@
 '''provide extra path functions beyond os.path'''
 
 import os, sys, re, types
+import urllib, urlparse
+from misc.NameSpace import NameSpace
 
 def getCommonSuffix(p1, p2):
     return getCommonSuffixS(p1, p2)  # dispatch to real implementation
@@ -285,4 +287,82 @@ def _testCS():
     for t in tests:
         x = getCommonSuffix(*t[0])
         assert x == t[1], "%r != %r" % (x, t[1])
+        
+
+
+class BasePath(object):
+
+    def __init__ (self, val=None):
+        self._data = None
+        self.value(val)
+    
+    def value(self, val=None):
+        mval = self._data
+        if val != None:
+            assert isinstance(val, types.StringTypes)
+            self._data = unicode(val)
+        return mval
+
+URL          = NameSpace()
+URL.PROT_SCH = 0
+URL.NET_LOC  = 1
+URL.PATH     = 2
+URL.PARAMS   = 3
+URL.QUERY    = 4
+URL.FRAG     = 5
+
+class OsPath(BasePath):
+
+    def __init(self, val=None):
+        super(OsPath, self).__init__(val)
+        self._data = os.path.normpath(self._data)
+
+    def join(self, other):
+        val = os.path.join(self.value(), other.value())
+        val = os.path.normpath(val)
+        return OsPath(val)
+
+    def toUri(self):
+        uri = self.value()
+        #if os.path.abspath(uri):
+        if os.path.splitdrive(uri)[0] != u'':
+            uri = u'file:' + urllib.pathname2url(uri)
+        uri = posifyPath(uri)
+        return uri
+
+
+class Uri(BasePath):
+
+    def __init(self, val=None):
+        super(Uri, self).__init__(val)
+        if not re.search(r'^[a-zA-Z]+://', self._data): # it is without 'http://'
+            self._data = posifyPath(self._data)
+
+    def join(self, other):
+        return Uri(urlparse.urljoin(self.value(), other.value()))
+
+    def ensureTrailingSlash(self):
+        'ensure trailing /'
+        val = self.value()
+        if not val.endswith('/'):
+            self.value(val + '/')
+
+    def value(self, val=None):
+        v = super(Uri, self).value(val)
+        return self._encodeUri(v)
+
+    def _encodeUri(self, uri=None):
+        # apply urllib.quote, but only to path part of uri
+        if not uri:
+            uri   = self._data
+        parts = urlparse.urlparse(uri)
+        nparts= []
+        for i in range(len(parts)):
+            if i<=1:   # skip schema and netlock parts
+                nparts.append(parts[i])
+            else:
+                nparts.append(urllib.quote(parts[i].encode('utf-8')))
+        nuri  = urlparse.urlunparse(nparts)
+        return nuri
+
 
