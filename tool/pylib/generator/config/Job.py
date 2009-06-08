@@ -287,7 +287,8 @@ class Job(object):
                         e.find(r'${')>-1)):
                     enew = self._expandString(e, maps['str'], {}) # no bin expand here!
                     if enew == e:
-                        self._console.warn("! Empty expansion for macro in config key: \"%s\"" % e)
+                        #self._console.warn("! Empty expansion for macro in config key: \"%s\"" % e)
+                        pass  # TODO: the above warning produces too many false positives
                     else:
                         data[enew] = data[e]
                         del data[e]
@@ -305,7 +306,8 @@ class Job(object):
             if data.find(r'${')>-1:
                 result = self._expandString(data, maps['str'], maps['bin'])
                 if result == data:
-                    self._console.warn("! Empty expansion for macro in config value: \"%s\"" % data)
+                    #self._console.warn("! Empty expansion for macro in config value: \"%s\"" % data)
+                    pass # TODO: see other Empty expansion warning
 
         # leave everything else alone
         else:
