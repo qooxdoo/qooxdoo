@@ -1631,7 +1631,9 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       {        
         // If already selected try to find out if this is the only item
         var current = this.__selection;
-        if (!current[item.$$hash] || qx.lang.Object.hasMinLength(current, 2)) 
+        var hash = this._selectableToHashCode(item);
+
+        if (!current[hash] || qx.lang.Object.hasMinLength(current, 2)) 
         {
           this._clearSelection();
           this._addToSelection(item);
