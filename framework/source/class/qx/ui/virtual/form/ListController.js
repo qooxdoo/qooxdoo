@@ -36,6 +36,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
     if (model != null) {
       this.setModel(model);
     }
+
     if (target != null) {
       this.setTarget(target);
     }
@@ -94,95 +95,218 @@ qx.Class.define("qx.ui.virtual.form.ListController",
     __changeSelectionLengthModelListenerId : null,
 
     __lookupTable : null,
-
+    _validDelegates : ["sorter", "filter"],
 
     /*
     ---------------------------------------------------------------------------
        DATA PROVIDER
     ---------------------------------------------------------------------------
     */
+
+    /**
+     * @type member
+     * @param row {Number} index of lookup table
+     * @return {Object}
+     */
     _getRowData : function(row)
     {
       var model = this.getModel();
       return model ? model.getItem(this.__lookup(row)) : null;
     },
-    
-    
-    _getModelRow : function(modelItem) {
+
+
+    /**
+     * @type member
+     * @param modelItem {Object}
+     * @return {Number} 
+     */
+    _getModelRow : function(modelItem)
+    {
       return this.getModel().indexOf(modelItem);
     },
-    
-    
+
+
+    /**
+     * @type member
+     * @return {Number} length of lookup table
+     */
     getRowCount : function() 
     {
       return this.__lookupTable.length;
     },
-    
-    
-    
-    
+
+
+
     /*
     ---------------------------------------------------------------------------
        LOOKUP STUFF
     ---------------------------------------------------------------------------
-    */    
-    __buildUpLookupTable: function() {
+    */
+
+    /**
+     * updates the lookup table
+     * 
+     * @return {void}
+     */
+    update : function () {
+      this.__buildUpLookupTable();
+    },
+
+
+    /**
+     * @return {void}
+     */
+    __buildUpLookupTable : function()
+    {
       var model = this.getModel();
+
       if (model == null) {
         return;
       }
-      var delegate = this.getDelegate();
-      if (delegate != null) {
-        var filter = delegate.filter;
-        var sorter = delegate.sorter;        
-      }
-      
+
+      // clear lookup table
       this.__lookupTable = [];
+
       // apply the filter
-      for (var i = 0; i < model.length; i++) {
+      // run filter first to get a smaller list for other delegates
+      this._runDelegateFilter(model);
+
+      // apply the sorting
+      this._runDelegateSorter(model);
+
+      if (this.getTarget() != null) {
+        this._syncRowCount();
+      }
+    },
+
+
+    /**
+     * @param model {qx.data.IListData}
+     * @return {void}
+     */
+    _runDelegateSorter : function (model)
+    {
+      if (!this._containsDelegateMethod(this.getDelegate(), "sorter") ||
+          qx.lang.Type.isObject(model))
+      {
+        return;
+      }
+
+      if (this.__lookupTable.length == 0) {
+        return;
+      }
+
+      var sorter = this._getDelegate("sorter");
+
+      if (sorter != null) 
+      {
+        this.__lookupTable.sort(function(a, b)
+        {
+          return sorter(model.getItem(a), model.getItem(b));
+        });
+      }
+    },
+
+
+    /**
+     * @param model {qx.data.IListData}
+     * @return {void}
+     */
+    _runDelegateFilter : function (model)
+    {
+      if (typeof model !== "object")
+      {
+        return;
+      }
+
+      var filter = this._getDelegate("filter");
+
+      for (var i = 0,l = model.length; i < l; ++i)
+      {
         if (filter == null || filter(model.getItem(i))) {
           this.__lookupTable.push(i);
         }
       }
-      // apply the sorting
-      if (sorter != null && this.__lookupTable.length > 0) {
-        var model = this.getModel();
-        this.__lookupTable.sort(function(a, b) {
-          var modelA = model.getItem(a);
-          var modelB = model.getItem(b);
-          return sorter(modelA, modelB);
-        });        
-      }
-      
-      if (this.getTarget() != null) {
-        this._syncRowCount();        
-      }
     },
-    
 
+
+    /**
+     * @type member
+     * @param delegate {Object}
+     * @return {Boolean}
+     */
+    _containsDelegateMethod : function (delegate, specificMethod)
+    {
+      var Type = qx.lang.Type;
+
+      if (Type.isObject(delegate))
+      {
+        if (Type.isString(specificMethod)) 
+        {
+          return Type.isFunction(delegate[specificMethod]);
+        }
+        else 
+        {
+          for (var methodName in this._validDelegates) 
+          {
+            if (Type.isFunction(delegate[methodName]))
+            {
+              return true;
+            }
+          }
+        }
+      }
+
+      return false;
+    },
+
+
+    /**
+     * @type member
+     * @param method {String}
+     * @return {Function}
+     */
+    _getDelegate : function (method)
+    {
+      var delegate = this.getDelegate();
+
+      if (this._containsDelegateMethod(delegate, method))
+      {
+        return delegate[method];
+      }
+
+      return null;
+    },
+
+
+    /**
+     * @type member
+     * @param index {Number}
+     */
     __lookup: function(index) {
       return this.__lookupTable[index];
     },
-      
-    
+
 
     /*
     ---------------------------------------------------------------------------
        APPLY METHODS
     ---------------------------------------------------------------------------
     */    
-    _applyDelegate: function(value, old) {
+
+    _applyDelegate: function(value, old)
+    {
       // TODO add other delegate functions
       if (this.getTarget() == null || this.getModel() == null) {
         return;
       }
-      
-      if (value.sorter != undefined || value.filter != undefined) {
-        this.__buildUpLookupTable();        
-      }     
-    },    
-    
-    
+
+      if (this._containsDelegateMethod(value)) {
+        this.__buildUpLookupTable();
+      }
+    },
+
+
     _applyTarget: function(value, old)
     {
       if (value != null)
@@ -205,7 +329,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
       }
 
       this.__buildUpLookupTable();
-      this._syncRowCount();        
+      this._syncRowCount();
     },
 
 
@@ -214,13 +338,15 @@ qx.Class.define("qx.ui.virtual.form.ListController",
       if (value != null)
       {
         this.__buildUpLookupTable();
-        
+
         this.__changeLengthListenerId = value.addListener(
           "changeLength", this._onChangeLengthModel, this
         );
+
         this.__changeListenerId = value.addListener(
           "change", this._onChangeModel, this
         );
+
         this.__changeBubbleListenerId = value.addListener(
           "changeBubble", this._onChangeBubbleModel, this
         );  
@@ -238,7 +364,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
       }
     },
 
-    
+
     _applySelection: function(value, old) 
     {
       if (value != null)
@@ -259,30 +385,41 @@ qx.Class.define("qx.ui.virtual.form.ListController",
       }
     },
 
-    
-    
 
     /*
     ---------------------------------------------------------------------------
        EVENT HANDLER
     ---------------------------------------------------------------------------
-    */    
+    */
+
+    /**
+     * TODOC
+     */
     _onChangeSelectionView: function(e) {
       this._syncViewSelectionToModel();
     },
 
-    
+
+    /**
+     * TODOC
+     */
     _onChangeSelectionModel : function(e) {
       this._syncModelSelectionToView();
     },
-    
-    
+
+
+    /**
+     * TODOC
+     */
     _onChangeLengthModel: function(e) {
       this.__buildUpLookupTable();
       this._syncRowCount();
     },
 
 
+    /**
+     * TODOC
+     */
     _onChangeModel: function(e) 
     {
       var target = this.getTarget();
@@ -290,39 +427,45 @@ qx.Class.define("qx.ui.virtual.form.ListController",
         this.__buildUpLookupTable();
         target.update();
       }
-    },    
+    },
 
-    
+
+    /**
+     * TODOC
+     */
     _onChangeBubbleModel : function(e)
-    {     
+    {
       var target = this.getTarget();
       if (target != null) {
         this.__buildUpLookupTable();
         target.update();
       }
     },
-    
-    
-    
-    
+
+
+
     /*
     ---------------------------------------------------------------------------
        SYNC STUFF
     ---------------------------------------------------------------------------
     */
+
+    /**
+     * TODOC
+     */
     _syncViewSelectionToModel : function()
     {
       if (this._ignoreSelectionChange) {
         return;
       }
-     
+
       var target = this.getTarget();
       if (!target) 
       {
         this.getSelection().removaeAll();
         return;
       }
-      
+
       var targetSelection = target.getSelectionManager().getSelection();
       var selection = [];
 
@@ -334,26 +477,29 @@ qx.Class.define("qx.ui.virtual.form.ListController",
       // put the first two parameter into the selection array
       selection.unshift(this.getSelection().length);
       selection.unshift(0);
-      
+
       this._ignoreSelectionChange = true;
       this.getSelection().splice.apply(this.getSelection(), selection);
       this._ignoreSelectionChange = false;
     },
-    
-        
+
+
+    /**
+     * TODOC
+     */
     _syncModelSelectionToView : function()
     {
       if (this._ignoreSelectionChange) {
         return;
       }
-      
-      var target = this.getTarget();      
+
+      var target = this.getTarget();
       if (!target) {
         return;
       }
 
       this._ignoreSelectionChange = true;
-      
+
       var modelSelection = this.getSelection();
       var selection = [];
 
@@ -369,8 +515,12 @@ qx.Class.define("qx.ui.virtual.form.ListController",
 
       target.getSelectionManager().replaceSelection(selection);
       this._ignoreSelectionChange = false;
-    },    
-    
+    },
+
+
+    /**
+     * TODOC
+     */
     _syncRowCount: function()
     {
       var length = this.getRowCount();
@@ -378,8 +528,12 @@ qx.Class.define("qx.ui.virtual.form.ListController",
     },
 
 
-    getCellData: function(row) {      
+    /**
+     * TODOC
+     */
+    getCellData: function(row) {
       return this._getRowData(row) || "";
-    }    
+    }
+
   }
 });
