@@ -347,7 +347,7 @@ class Uri(BasePath):
         if not val.endswith('/'):
             self.value(val + '/')
 
-    def value(self, val=None):
+    def encodedValue(self, val=None):
         v = super(Uri, self).value(val)
         return self._encodeUri(v)
 

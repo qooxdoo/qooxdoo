@@ -390,11 +390,12 @@ class CodeGenerator(object):
            one'''
 
         if 'uri' in lib:
-            libBaseUri = Uri(lib['uri'])
+            libBaseUri = OsPath(lib['uri'])
         elif appRoot:
-            libBaseUri = Uri(Path.rel_from_to(self._config.absPath(appRoot), lib['path']))
+            libBaseUri = OsPath(Path.rel_from_to(self._config.absPath(appRoot), lib['path']))
         else:
             raise RuntimeError, "Need either lib['uri'] or appRoot, to calculate final URI"
+        libBaseUri = Uri(libBaseUri.toUri())
 
         if rType in lib:
             libInternalPath = OsPath(lib[rType])
@@ -405,9 +406,9 @@ class CodeGenerator(object):
         uri = libInternalPath.join(OsPath(resourcePath))
 
         libBaseUri.ensureTrailingSlash()
-        uri = libBaseUri.join(uri)
+        uri = libBaseUri.join(Uri(uri.toUri()))
 
-        return uri.value()
+        return uri.encodedValue()
 
 
     def _encodeUri(self, uri):
@@ -548,7 +549,8 @@ class CodeGenerator(object):
             else:
                 resUriRoot = self._computeResourceUri(lib, "", rType="resource", appRoot=self.approot)
                 
-            qxlibs[lib['namespace']]['resourceUri'] = "%s" % self._encodeUri(resUriRoot)
+            #qxlibs[lib['namespace']]['resourceUri'] = "%s" % self._encodeUri(resUriRoot)
+            qxlibs[lib['namespace']]['resourceUri'] = "%s" % (resUriRoot,)
             
             # add code root URI
             if forceScriptUri:
@@ -556,7 +558,8 @@ class CodeGenerator(object):
             else:
                 sourceUriRoot = self._computeResourceUri(lib, "", rType="class", appRoot=self.approot)
             
-            qxlibs[lib['namespace']]['sourceUri'] = "%s" % self._encodeUri(sourceUriRoot)
+            #qxlibs[lib['namespace']]['sourceUri'] = "%s" % self._encodeUri(sourceUriRoot)
+            qxlibs[lib['namespace']]['sourceUri'] = "%s" % (sourceUriRoot,)
             
             # TODO: Add version, svn revision, maybe even authors, but at least homepage link, ...
 
