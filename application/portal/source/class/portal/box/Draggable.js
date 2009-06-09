@@ -150,11 +150,31 @@ qx.Class.define("portal.box.Draggable",
         
         // add "mouseup" event listener
         qx.bom.Element.addListener(document.body, "mouseup", this.__onMouseUp, this, true);
-        
+
+        this.__monitorMouseLeaveViewport();
+
         // fire dragstart event
         qx.event.Registration.fireEvent(this.__handle, "dragstart", qx.event.type.Event);
       }
     },
+
+
+    /**
+     * Call the mouseup listener method if the cursor leaves the viewport since
+     * IE won't fire a mouseup event while the cursor is outside the viewport.
+     * 
+     * @return {void}
+     */    
+    __monitorMouseLeaveViewport : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function()
+      {
+        var that = this;
+        var bound = qx.lang.Function.bind(this.__onMouseUp, that);
+        document.getElementsByTagName("html")[0].onmouseleave = bound;
+      },
+      "default" : function() {}  
+    }),
     
     
     /**
@@ -166,18 +186,20 @@ qx.Class.define("portal.box.Draggable",
      */
     __onMouseUp : function(e)
     {
-      e.stopPropagation();
+      try {
+        e.stopPropagation();
+      }
+      catch (ex) {}
       
       if (portal.dragdrop.Manager.getInstance().isSessionActive()) 
       {
         // remove "mousemove" listener
         qx.event.Registration.removeListener(document.body, "mousemove", this.__onDragMove, this, true);
+        portal.dragdrop.Manager.getInstance().stopSession();
       }
       
       // remove "mouseup" event listener
       qx.bom.Element.removeListener(document.body, "mouseup", this.__onMouseUp, this, true);  
-      
-      portal.dragdrop.Manager.getInstance().stopSession();
     },
     
     
