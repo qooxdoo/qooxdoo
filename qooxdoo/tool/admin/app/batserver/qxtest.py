@@ -631,10 +631,10 @@ class QxTest:
     if "arora" in browserFull:
       procName = "arora"
 
-    if ("iexplore" in browserFull or "ie" in browserFull):
+    if "iexplore" in browserFull:
       procName = "iexplore"
 
-    if ("firefox" in browserFull or "ff" in browserFull):
+    if "firefox" in browserFull:
       procName = "firefox"
 
     time.sleep(3)
