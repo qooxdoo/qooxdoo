@@ -313,7 +313,7 @@ URL.FRAG     = 5
 
 class OsPath(BasePath):
 
-    def __init(self, val=None):
+    def __init__(self, val=None):
         super(OsPath, self).__init__(val)
         self._data = os.path.normpath(self._data)
 
@@ -324,22 +324,45 @@ class OsPath(BasePath):
 
     def toUri(self):
         uri = self.value()
-        #if os.path.abspath(uri):
-        if os.path.splitdrive(uri)[0] != u'':
-            uri = u'file:' + urllib.pathname2url(uri)
         uri = posifyPath(uri)
         return uri
 
 
 class Uri(BasePath):
 
-    def __init(self, val=None):
+    def __init__(self, val=None):
+        self._is_encoded = False
         super(Uri, self).__init__(val)
-        if not re.search(r'^[a-zA-Z]+://', self._data): # it is without 'http://'
-            self._data = posifyPath(self._data)
+        uri = self._data
+        if os.path.splitdrive(uri)[0] != u'':
+            nuri = u'file:' + urllib.pathname2url(uri)
+            self._is_encoded = True
+        elif not re.search(r'^[a-zA-Z]+://', uri): # it is without 'http://'
+            nuri = posifyPath(uri)
+        else:
+            nuri = uri
+        self._data = nuri
 
     def join(self, other):
-        return Uri(urlparse.urljoin(self.value(), other.value()))
+        some_encoded = False
+        if self._is_encoded or other._is_encoded:
+            some_encoded = True
+        if not some_encoded:  # use values verbatim for urljoin
+            val1 = self.value()
+            val2 = other.value()
+        else:                 # use all encoded values for urljoin
+            if self._is_encoded:
+                val1 = self.value()
+            else:
+                val1 = self.encodedValue()
+            if other._is_encoded:
+                val2 = other.value()
+            else:
+                val2 = other.encodedValue()
+        nuri = Uri(urlparse.urljoin(val1, val2))
+        if some_encoded:
+            nuri._is_encoded = True
+        return nuri
 
     def ensureTrailingSlash(self):
         'ensure trailing /'
@@ -349,20 +372,24 @@ class Uri(BasePath):
 
     def encodedValue(self, val=None):
         v = super(Uri, self).value(val)
-        return self._encodeUri(v)
+        if self._is_encoded:
+            return v
+        else:
+            return self._encodeUri(v)
 
     def _encodeUri(self, uri=None):
         # apply urllib.quote, but only to path part of uri
         if not uri:
             uri   = self._data
-        parts = urlparse.urlparse(uri)
-        nparts= []
-        for i in range(len(parts)):
-            if i<=1:   # skip schema and netlock parts
-                nparts.append(parts[i])
-            else:
-                nparts.append(urllib.quote(parts[i].encode('utf-8')))
-        nuri  = urlparse.urlunparse(nparts)
+        if True:
+            parts = urlparse.urlparse(uri)
+            nparts= []
+            for i in range(len(parts)):
+                if i<=1:   # skip schema and netlock parts
+                    nparts.append(parts[i])
+                else:
+                    nparts.append(urllib.quote(parts[i].encode('utf-8')))
+            nuri  = urlparse.urlunparse(nparts)
         return nuri
 
 
