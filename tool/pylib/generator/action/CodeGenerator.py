@@ -221,7 +221,6 @@ class CodeGenerator(object):
         if format:
             sourceContent = "\n\n".join(sourceBlocks)
         else:
-            #sourceContent = self._optimizeJavaScript("".join(sourceBlocks))
             sourceContent = "".join(sourceBlocks)
 
         # Construct file name
@@ -236,28 +235,6 @@ class CodeGenerator(object):
         self._console.outdent()
         self._console.debug("Done: %s" % self._computeContentSize(sourceContent))
         self._console.outdent()
-
-
-    def runSource1(self):
-
-        # Source Generation
-
-        # Insert new part which only contains the loader stuff
-        injectLoader(parts)
-
-        # Compute packages
-        parts, packages = self._partBuilder.getPackages(partIncludes, smartExclude, classList, collapseCfg, variants, sizeCfg)
-
-        # Compile first part
-        compiled = self._generateSourcePackageCode(part, packages)
-        for part in parts:
-            for pkg in part:
-                compiled += self.compileClasses(pkgClasses, variants)
-                break
-            break
-
-        writeFile(fileName, boot + compiled)
-
 
 
     def runPrettyPrinting(self, classes, treeLoader):
@@ -348,41 +325,6 @@ class CodeGenerator(object):
         return "%sKB / %sKB" % (origSize/1024, compressedSize/1024)
 
 
-    def _computeResourceUri0(self, lib, resourcePath, rType="class", appRoot=None):
-        '''computes a complete resource URI for the given resource type rType, 
-           from the information given in lib and, if lib doesn't provide a
-           general uri prefix for it, use appRoot and lib path to construct
-           one'''
-        
-        if 'uri' in lib:
-            liburi = lib['uri']
-        elif appRoot:
-            liburi = Path.rel_from_to(self._config.absPath(appRoot), lib['path'])
-        else:
-            raise RuntimeError, "Need either lib['uri'] or appRoot, to calculate final URI"
-
-        if rType in lib:
-            libInternalPath = lib[rType]
-        else:
-            raise RuntimeError, "No such resource type: \"%s\"" % rType
-
-        # process parts that are known to have path character or even stem from file system
-        uri = os.path.join(libInternalPath, resourcePath)
-        uri = os.path.normpath(uri)
-        uri = Path.posifyPath(uri)
-
-        # process lib prefix - might be complete with scheme etc.
-        if not re.search(r'^[a-zA-Z]+://', liburi): # it is without 'http://'
-            liburi = Path.posifyPath(liburi)  # have to apply path normalization
-        if not liburi.endswith('/'):  # if liburi is only a path, basejoin needs a trailing '/'
-            liburi += '/'
-
-        # put them together
-        uri = urllib.basejoin(liburi, uri)
-
-        return uri
-
-
     def _computeResourceUri(self, lib, resourcePath, rType="class", appRoot=None):
         '''computes a complete resource URI for the given resource type rType, 
            from the information given in lib and, if lib doesn't provide a
@@ -403,44 +345,13 @@ class CodeGenerator(object):
             raise RuntimeError, "No such resource type: \"%s\"" % rType
 
         # process the second part of the target uri
-        uri = libInternalPath.join(OsPath(resourcePath))
+        uri = libInternalPath.join(resourcePath)
+        uri = Uri(uri.toUri())
 
         libBaseUri.ensureTrailingSlash()
-        uri = libBaseUri.join(Uri(uri.toUri()))
+        uri = libBaseUri.join(uri)
 
-        return uri.encodedValue()
-
-
-    def _encodeUri(self, uri):
-        # apply urllib.quote, but only to path part of uri
-        parts = urlparse.urlparse(uri)
-        nparts= []
-        for i in range(len(parts)):
-            if i<=1:   # skip schema and netlock parts
-                nparts.append(parts[i])
-            else:
-                nparts.append(urllib.quote(parts[i].encode('utf-8')))
-        nuri  = urlparse.urlunparse(nparts)
-        return nuri
-
-
-    # wpbasti: TODO: Clean up compiler. Maybe split-off pretty-printing. These hard-hacked options, the pure
-    # need of them is bad. Maybe options could be stored easier in a json-like config map instead of command line
-    # args. This needs a rework of the compiler which is not that easy.
-    def _optimizeJavaScript(self, code):
-        restree = treegenerator.createSyntaxTree(tokenizer.parseStream(code))
-        variableoptimizer.search(restree)
-
-        # Emulate options
-        parser = optparse.OptionParser()
-        parser.add_option("--p1", action="store_true", dest="prettyPrint", default=False)
-        parser.add_option("--p2", action="store_true", dest="prettypIndentString", default="  ")
-        parser.add_option("--p3", action="store_true", dest="prettypCommentsInlinePadding", default="  ")
-        parser.add_option("--p4", action="store_true", dest="prettypCommentsTrailingCommentCols", default="")
-
-        (options, args) = parser.parse_args([])
-
-        return compiler.compile(restree, options)
+        return uri
 
 
     def _makeVariantsName(self, pathName, variants):
@@ -547,18 +458,18 @@ class CodeGenerator(object):
             if forceResourceUri:
                 resUriRoot = forceResourceUri
             else:
-                resUriRoot = self._computeResourceUri(lib, "", rType="resource", appRoot=self.approot)
+                resUriRoot = self._computeResourceUri(lib, OsPath(""), rType="resource", appRoot=self.approot)
+                resUriRoot = resUriRoot.encodedValue()
                 
-            #qxlibs[lib['namespace']]['resourceUri'] = "%s" % self._encodeUri(resUriRoot)
             qxlibs[lib['namespace']]['resourceUri'] = "%s" % (resUriRoot,)
             
             # add code root URI
             if forceScriptUri:
                 sourceUriRoot = forceScriptUri
             else:
-                sourceUriRoot = self._computeResourceUri(lib, "", rType="class", appRoot=self.approot)
+                sourceUriRoot = self._computeResourceUri(lib, OsPath(""), rType="class", appRoot=self.approot)
+                sourceUriRoot = sourceUriRoot.encodedValue()
             
-            #qxlibs[lib['namespace']]['sourceUri'] = "%s" % self._encodeUri(sourceUriRoot)
             qxlibs[lib['namespace']]['sourceUri'] = "%s" % (sourceUriRoot,)
             
             # TODO: Add version, svn revision, maybe even authors, but at least homepage link, ...
@@ -697,70 +608,6 @@ class CodeGenerator(object):
         return resdata
 
 
-    # wpbasti: This needs a lot of work. What's about the generation of a small bootstrap script
-    # from normal qooxdoo classes (include io2.ScriptLoader) and starting the variant selection etc.
-    # from there. This would be somewhat comparable to the GWT way.
-    # Finally "loader.js" should be completely removed.
-    def generateSourcePackageCode0(self, parts, packages, boot, globalCodes, format=False):
-        if not parts:
-            return ""
-
-        # Translate part information to JavaScript
-        partData = "{"
-        for partId in parts:
-            partData += '"%s":' % (partId)
-            partData += ('%s,' % parts[partId]).replace(" ", "")
-
-        partData=partData[:-1] + "}"
-
-        # Translate URI data to JavaScript
-        allUris = []
-        allUrisSmall = []
-        for packageId, package in enumerate(packages):
-            packageUris = []
-            packageUrisSmall = []
-            for fileId in package:
-                #cUri = Path.rel_from_to(self.approot, self._classes[fileId]["relpath"])
-                namespace = self._classes[fileId]["namespace"]
-                relpath   = self._classes[fileId]["relpath"]
-                lib       = self._libs[namespace]
-
-                cUri = self._computeResourceUri(lib, relpath, rType='class', appRoot=self.approot)
-                cUri = self._encodeUri(cUri)
-
-                sUri = relpath
-                sUri = os.path.normpath(sUri)
-                sUri = Path.posifyPath(sUri)
-                sUri = self._encodeUri(sUri)
-                sUri = '%s:%s' % (namespace, sUri)
-
-                packageUris.append('"%s"' % cUri)
-                packageUrisSmall.append('"%s"' % sUri)
-
-            allUris.append("[" + ",".join(packageUris) + "]")
-            allUrisSmall.append("[" + ",".join(packageUrisSmall) + "]")
-
-        uriData = "[" + ",\n".join(allUris) + "]"
-        uriDataSmall = "[" + ",\n".join(allUrisSmall) + "]"
-
-        # Locate and load loader basic script
-        loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader-source.tmpl.js")
-        result = filetool.read(loaderFile)
-
-        # Replace string.template macros
-        rmap = {}
-        rmap.update(globalCodes)
-        rmap["Parts"] = partData
-        rmap["Uris"]  = uriData
-        rmap["Uris2"] = uriDataSmall
-        rmap["Boot"]  = '"%s"' % boot
-
-        templ  = MyTemplate(result)
-        result = templ.safe_substitute(rmap)
-
-        return result
-
-
     def generateSourcePackageCode(self, parts, packages, boot, globalCodes, format=False):
         if not parts:
             return ""
@@ -780,18 +627,17 @@ class CodeGenerator(object):
             packageUris = []
             packageUrisSmall = []
             for fileId in package:
-                #cUri = Path.rel_from_to(self.approot, self._classes[fileId]["relpath"])
-                namespace = self._classes[fileId]["namespace"]
-                relpath   = self._classes[fileId]["relpath"]
-                lib       = self._libs[namespace]
+                ##classUri = Path.rel_from_to(self.approot, self._classes[fileId]["relpath"])
+                ##shortUri = self._classes[fileId]["relpath"]
+                namespace  = self._classes[fileId]["namespace"]
+                relpath    = OsPath(self._classes[fileId]["relpath"])
+                lib        = self._libs[namespace]
 
-                cUri = self._computeResourceUri(lib, relpath, rType='class', appRoot=self.approot)
+                classUri = self._computeResourceUri(lib, relpath, rType='class', appRoot=self.approot)
+                shortUri = Uri(relpath.toUri())
 
-                sUri = Uri(OsPath(relpath).toUri())
-                sUri = '%s:%s' % (namespace, sUri.value())
-
-                packageUris.append('"%s"' % cUri)
-                packageUrisSmall.append('"%s"' % sUri)
+                packageUris.append('"%s"' % classUri.encodedValue())
+                packageUrisSmall.append('"%s:%s"' % (namespace, shortUri.encodedValue()))
 
             allUris.append("[" + ",".join(packageUris) + "]")
             allUrisSmall.append("[" + ",".join(packageUrisSmall) + "]")
