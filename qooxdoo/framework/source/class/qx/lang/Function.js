@@ -169,6 +169,12 @@ qx.Bootstrap.define("qx.lang.Function",
 
 
     /**
+     * empty function
+     */
+    empty : function() {},
+    
+    
+    /**
      * Simply return true.
      *
      * @return {Boolean} Always returns true.

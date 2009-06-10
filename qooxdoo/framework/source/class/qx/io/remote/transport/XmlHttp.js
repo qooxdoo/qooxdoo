@@ -30,23 +30,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
   extend : qx.io.remote.transport.Abstract,
 
 
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function()
-  {
-    this.base(arguments);
-
-    this.__req = qx.io.remote.transport.XmlHttp.createRequestObject();
-    this.__req.onreadystatechange = qx.lang.Function.bind(this._onreadystatechange, this);
-  },
-
-
   /*
   *****************************************************************************
      STATICS
@@ -111,13 +94,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      */
     isSupported : function() {
       return !!this.createRequestObject();
-    },
-
-
-    /**
-     * Dummy function to use for onreadystatechange after disposal
-     */
-    __dummy : function() {}
+    }
   },
 
 
@@ -139,7 +116,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
 
     __localRequest : false,
     __lastReadyState : 0,
-    __req : null,
+    __request : null,
 
 
     /**
@@ -147,8 +124,15 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      *
      * @return {Object} native XmlHTTPRequest object
      */
-    getRequest : function() {
-      return this.__req;
+    getRequest : function()
+    {
+      if (this.__request === null) 
+      {
+        this.__request = qx.io.remote.XmlHttpTransport.createRequestObject();
+        this.__request.onreadystatechange = qx.lang.Function.bind(this._onreadystatechange, this);
+      }
+
+      return this.__request;
     },
 
 
@@ -272,8 +256,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
 
         return output;
       };
-
-      vRequest.onreadystatechange = qx.lang.Function.bind(this._onreadystatechange, this);
 
       // --------------------------------------
       //   Opening connection
@@ -434,7 +416,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
           if (this.getState() === "configured") {
             this.setState("sending");
           }
-          
+
           return this.failed();
         }
       }
@@ -466,7 +448,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       var vReadyState = null;
 
       try {
-        vReadyState = this.__req.readyState;
+        vReadyState = this.getRequest().readyState;
       } catch(ex) {}
 
       return vReadyState;
@@ -534,7 +516,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
 
       try
       {
-        var vLoadHeader = this.__req.getAllResponseHeaders();
+        var vLoadHeader = this.getRequest().getAllResponseHeaders();
 
         if (vLoadHeader) {
           vSourceHeader = vLoadHeader;
@@ -937,6 +919,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       }
     }
 
-    this._disposeFields("__req");
+    this._disposeFields("__request");
   }
 });
