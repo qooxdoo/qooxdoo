@@ -19,6 +19,11 @@
 #
 ################################################################################
 
+##
+# This is a currently unused module, as a first step in replacing bin/migrator.py
+# It's mostly a copy of its code.
+##
+
 import re, os, sys, shutil, logging, optparse
 from optparseext import ExtendAction
 from misc import filetool
