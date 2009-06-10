@@ -129,7 +129,7 @@ def read(filePath, encoding="utf_8"):
 
 
 def root():
-    modulepath = str(sys.modules[__name__]).split(None,3)[3][1:-2]
+    modulepath = unicode(__file__)
     
     miscfolder = os.path.dirname(modulepath)
     toolfolder = os.path.dirname(miscfolder)
