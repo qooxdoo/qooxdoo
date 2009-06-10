@@ -128,7 +128,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     {
       if (this.__request === null) 
       {
-        this.__request = qx.io.remote.XmlHttpTransport.createRequestObject();
+        this.__request = qx.io.remote.transport.XmlHttp.createRequestObject();
         this.__request.onreadystatechange = qx.lang.Function.bind(this._onreadystatechange, this);
       }
 
