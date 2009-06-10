@@ -30,8 +30,9 @@
   "let" :
   {
     "APPLICATION"  : "${Namespace}",
+    "APPLICATION_MAIN_CLASS" : "$${APPLICATION}.Contribution",
     "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}",
-    "QXTHEME"      : "${Namespace}.theme.Theme",
+    "QXTHEME"      : "${Namespace}.theme.modern.Theme",
     "API_EXCLUDE"  : ["qx.legacy.*","qx.test.*"],
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${Cache}",
