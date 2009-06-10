@@ -168,12 +168,19 @@ qx.Mixin.define("qx.ui.core.MSingleSelectionHandling",
       {
         var that = this;
         this.__manager = new qx.ui.core.SingleSelectionManager(
-          {
-            getItems : function() {
-              return that._getItems();
+        {
+          getItems : function() {
+            return that._getItems();
+          },
+          
+          isItemSelectable : function(item) {
+            if (that._isItemSelectable) {
+              return that._isItemSelectable(item);
+            } else {
+              return item.isEnabled() && item.isVisible();
+            }
           }
-        }
-        );
+        });
         this.__manager.setAllowEmptySelection(this._isAllowEmptySelection());
         this.__manager.addListener("changeSelected", this._onChangeSelected, this);
       }

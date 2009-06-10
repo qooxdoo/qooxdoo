@@ -416,7 +416,7 @@ qx.Class.define("qx.ui.form.ComboBox",
       }
       
       var list = this.getChildControl("list");
-      var firstItem = list.getChildren()[0];
+      var firstItem = list.getSelectables()[0];
     
       if (firstItem && list.isSelectionEmpty())
       {

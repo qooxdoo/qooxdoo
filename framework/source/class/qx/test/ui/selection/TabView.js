@@ -70,6 +70,11 @@ qx.Class.define("qx.test.ui.selection.TabView",
     
     _createTestElement : function(name) {
       return new qx.ui.tabview.Page(name);
+    },
+    
+    _setNotSelectable : function(item, i)
+    {
+      item.setEnabled(false);
     }
   }
 });

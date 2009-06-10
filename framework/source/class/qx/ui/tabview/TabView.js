@@ -463,6 +463,16 @@ qx.Class.define("qx.ui.tabview.TabView",
     },
     
     /**
+     * Returns whether the given item is selectable.
+     * 
+     * @param item {qx.ui.core.Widget} The item to be checked
+     * @return {Boolean} Whether the given item is selectable
+     */
+    _isItemSelectable : function(item) {
+      return item.isEnabled();
+    },
+    
+    /**
      * Event handler for <code>changeSelection</code>.
      * 
      * @param e {qx.event.type.Data} Data event.

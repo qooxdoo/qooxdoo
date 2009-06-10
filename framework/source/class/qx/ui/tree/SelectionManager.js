@@ -45,7 +45,7 @@ qx.Class.define("qx.ui.tree.SelectionManager",
 
     // overridden
     _isSelectable : function(item) {
-      return item instanceof qx.ui.tree.AbstractTreeItem && item.isEnabled();
+      return item instanceof qx.ui.tree.AbstractTreeItem && item.isEnabled() && item.isVisible();
     },
 
 
@@ -68,7 +68,7 @@ qx.Class.define("qx.ui.tree.SelectionManager",
         
         for (var i = 0; i < items.length; i++)
         {
-          if (items[i].isEnabled()) {
+          if (items[i].isEnabled() && items[i].isVisible()) {
             result.push(items[i]);
           }
         }
