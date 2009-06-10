@@ -163,6 +163,7 @@ qx.Class.define("apiviewer.Viewer",
       part.add(showLegend);
       
       var group = new qx.ui.form.RadioGroup(showPackages, showSearch, showLegend);
+      group.setAllowEmptySelection(true);
       this.__toggleGroup = group;
       
       

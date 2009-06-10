@@ -229,7 +229,7 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
       var oldSelected = this.__selected;
       var newSelected = item;
       
-      if (oldSelected === newSelected) {
+      if (newSelected != null && oldSelected === newSelected) {
         return;
       }
       

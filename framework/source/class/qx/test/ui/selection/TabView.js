@@ -29,7 +29,7 @@ qx.Class.define("qx.test.ui.selection.TabView",
     {
       var length = 10;
       this._notInSelection = [];
-      this._mode = "";
+      this._mode = "one";
       
       this._widget = new qx.ui.tabview.TabView();
       this.getRoot().add(this._widget);

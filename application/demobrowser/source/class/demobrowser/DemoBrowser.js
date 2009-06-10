@@ -385,8 +385,8 @@ qx.Class.define("demobrowser.DemoBrowser",
       viewPart.add(logView);
 
       var viewGroup = this.viewGroup = new qx.ui.form.RadioGroup;
+      viewGroup.setAllowEmptySelection(true);
       viewGroup.add(htmlView, jsView, logView);
-      viewGroup.resetSelection();
 
 
 
