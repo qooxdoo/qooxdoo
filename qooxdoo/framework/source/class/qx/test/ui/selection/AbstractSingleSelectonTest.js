@@ -56,6 +56,15 @@ qx.Class.define("qx.test.ui.selection.AbstractSingleSelectonTest",
       this.assertArrayEquals(expected, found, message);
     },
     
+    _setNotSelectable : function(item, i)
+    {
+      if (i % 4 == 0) {
+        item.setEnabled(false);
+      } else {
+        item.exclude();
+      }
+    },
+    
     testGetSelection : function()
     {
       var result = this._widget.getSelection();
@@ -208,7 +217,7 @@ qx.Class.define("qx.test.ui.selection.AbstractSingleSelectonTest",
         if (i % 2 == 0) {
           selectables.push(items[i]);
         } else {
-          items[i].setEnabled(false);
+          this._setNotSelectable(items[i], i);
         }
       }
       this.flush();
