@@ -30,10 +30,11 @@
   "let" :
   {
     "APPLICATION"  : "${Namespace}",
-    "APPLICATION_MAIN_CLASS" : "$${APPLICATION}.Contribution",
+    "APPLICATION_MAIN_CLASS" : "$${APPLICATION}.Demo",
     "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}",
-    "QXTHEME"      : "${Namespace}.theme.modern.Theme",
-    "API_EXCLUDE"  : ["qx.legacy.*","qx.test.*"],
+    //"QXTHEME"      : "${Namespace}.theme.modern.Theme",
+    "QXTHEME"      : "qx.theme.Modern",
+    "API_EXCLUDE"  : ["qx.legacy.*", "qx.test.*", "${Namespace}.Demo"],
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${Cache}",
     "ROOT"         : "."

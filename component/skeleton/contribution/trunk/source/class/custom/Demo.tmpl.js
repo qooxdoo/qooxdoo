@@ -10,14 +10,14 @@
 
 /* ************************************************************************
 
-#asset(${Namespace}.demo/*)
+#asset(${Namespace}/*)
 
 ************************************************************************ */
 
 /**
  * This is the main application class of your custom application "${Namespace}"
  */
-qx.Class.define("${Namespace}.demo.Application",
+qx.Class.define("${Namespace}.Demo",
 {
   extend : qx.application.Standalone,
 
