@@ -1192,15 +1192,6 @@ class Generator:
         self._console.outdent()
 
 
-    def _toJavaScript(self, value):
-        number = re.compile("^([0-9\-]+)$")
-
-        if not (value == "false" or value == "true" or value == "null" or number.match(value)):
-            value = '"%s"' % value.replace("\"", "\\\"")
-
-        return value
-
-
     def _splitIncludeExcludeList(self, data):
         intelli = []
         explicit = []
