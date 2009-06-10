@@ -89,7 +89,8 @@ qx.Class.define("demobrowser.demo.widget.ToolBar",
       toolbar.add(part3);
 
       // Manager for part 3 (Radio example)
-      new qx.ui.form.RadioGroup(radioButton1, radioButton2, radioButton3);
+      var radioGroup = new qx.ui.form.RadioGroup(radioButton1, radioButton2, radioButton3);
+      radioGroup.setAllowEmptySelection(true);
 
       // create Help Button and add it to the toolbar
       toolbar.addSpacer();

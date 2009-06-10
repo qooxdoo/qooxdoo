@@ -50,7 +50,7 @@ qx.Class.define("qx.ui.form.RadioGroup",
   
   /**
    * @param varargs {qx.core.Object} A variable number of items, which are
-   *     intially added to the radio group.
+   *     intially added to the radio group, the first item will be selected.
    */
   construct : function(varargs)
   {
@@ -95,6 +95,17 @@ qx.Class.define("qx.ui.form.RadioGroup",
     {
       check : "Boolean",
       init: true
+    },
+    
+    /**
+     * If is set to <code>true</code> the selection could be empty, 
+     * otherwise is always one <code>RadioButton</code> selected.
+     */
+    allowEmptySelection :
+    {
+      check : "Boolean",
+      init : false,
+      apply : "_applyAllowEmptySelection"
     }
   },
 
@@ -247,7 +258,7 @@ qx.Class.define("qx.ui.form.RadioGroup",
       }
 
       // Select first item when only one is registered
-      if (items.length > 0 && !this.getSelection()[0]) {
+      if (!this.isAllowEmptySelection() && items.length > 0 && !this.getSelection()[0]) {
         this.setSelection([items[0]]);
       }
     },
@@ -397,6 +408,13 @@ qx.Class.define("qx.ui.form.RadioGroup",
       }
     },
 
+    // property apply
+    _applyAllowEmptySelection : function(value, old)
+    {
+      if (!value && this.isSelectionEmpty()) {
+        this.resetSelection();
+      }
+    },
     
     /**
      * Return the value from the item.
@@ -516,7 +534,7 @@ qx.Class.define("qx.ui.form.RadioGroup",
      *    <code>false</code> otherwise.
      */
     _isAllowEmptySelection: function() {
-      return true;
+      return this.isAllowEmptySelection();
     },
     
     /**
