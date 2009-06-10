@@ -2,7 +2,7 @@ import sys
 
 from ecmascript.frontend import tokenizer, treegenerator
 from ecmascript.transform.optimizer import variantoptimizer
-from misc import filetool, idlist
+from misc import filetool, util
 
 class TreeLoader:
     def __init__(self, classes, cache, console):
@@ -16,7 +16,7 @@ class TreeLoader:
         filePath = fileEntry["path"]
 
         if variants:
-            cacheId = "tree-%s-%s" % (filePath, idlist.toString(variants))
+            cacheId = "tree-%s-%s" % (filePath, util.toString(variants))
         else:
             cacheId = "tree-%s" % filePath
 

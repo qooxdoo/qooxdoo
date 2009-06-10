@@ -40,7 +40,7 @@ import sys, re, os, types
 
 from ecmascript.frontend import treeutil, lang
 from ecmascript.frontend.Script import Script
-from misc import filetool, idlist
+from misc import filetool, util
 from misc.ExtMap import ExtMap
 import graph
 
@@ -351,7 +351,7 @@ class DependencyLoader:
             raise NameError("Could not find class to fulfil dependency: %s" % fileId)
 
         filePath = self._classes[fileId]["path"]
-        cacheId = "deps-%s-%s" % (filePath, idlist.toString(variants))
+        cacheId = "deps-%s-%s" % (filePath, util.toString(variants))
 
         # print "Read from cache: %s" % fileId
         

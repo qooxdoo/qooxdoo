@@ -22,7 +22,7 @@
 
 import re, os, sys, zlib, optparse, types, string
 
-from misc import filetool, textutil, idlist, Path, PathType
+from misc import filetool, textutil, util, Path, PathType
 from misc.PathType import PathType
 from ecmascript import compiler
 from ecmascript.frontend import treegenerator, tokenizer
@@ -483,7 +483,7 @@ class Generator:
 
         # Processing all combinations of variants
         variantData = getVariants()  # e.g. {'qx.debug':['on','off'], 'qx.aspects':['on','off']}
-        variantSets = idlist.computeCombinations(variantData) # e.g. [{'qx.debug':'on','qx.aspects':'on'},...]
+        variantSets = util.computeCombinations(variantData) # e.g. [{'qx.debug':'on','qx.aspects':'on'},...]
 
         # Iterate through variant sets
         for variantSetNum, variants in enumerate(variantSets):
