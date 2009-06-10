@@ -95,7 +95,7 @@ qx.Class.define("demobrowser.demo.widget.TabView",
 
     getTabView2 : function()
     {
-      tabView = new qx.ui.tabview.TabView();
+      var tabView = new qx.ui.tabview.TabView();
       tabView.setWidth(500);
 
       for (var i=1; i<=20; i++)
@@ -112,7 +112,7 @@ qx.Class.define("demobrowser.demo.widget.TabView",
 
     getTabView3 : function()
     {
-      tabView = new qx.ui.tabview.TabView();
+      var tabView = new qx.ui.tabview.TabView();
       tabView.setWidth(500);
       tabView.setHeight(300);
 
