@@ -30,8 +30,6 @@ from ecmascript import compiler
 
 #sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), os.pardir, os.pardir, 'framework', 'tool'))
 
-from misc import loader
-
 
 LOGFILE = "migration.log"
 
@@ -64,6 +62,268 @@ MIGRATION_ORDER = [
 
 
 LOGGING_READY = False
+
+#
+# QOOXDOO HEADER SUPPORT
+#
+
+QXHEAD = {
+    # 0.6 class style
+    "defineClass" : re.compile('qx.OO.defineClass\s*\(\s*["\']([\.a-zA-Z0-9_]+)["\'](\s*\,\s*([\.a-zA-Z0-9_]+))?', re.M),
+
+    # 0.7 class style
+    "classDefine" : re.compile('qx.(Bootstrap|List|Class|Locale|Mixin|Interface|Theme).define\s*\(\s*["\']([\.a-zA-Z0-9_]+)["\']?', re.M),
+
+    # Loader hints
+    "module" : re.compile("^#module\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
+    "require" : re.compile("^#require\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
+    "use" : re.compile("^#use\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
+    "optional" : re.compile("^#optional\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
+    "ignore" : re.compile("^#ignore\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
+
+    # Resource hints
+    "resource" : re.compile("^#resource\(\s*([a-zA-Z0-9]+?)\.([a-zA-Z0-9]+?):(.*?)\s*\)", re.M),
+    "embed" : re.compile("^#embed\(\s*([a-zA-Z0-9]+?)\.([a-zA-Z0-9]+?)/(.+?)\s*\)", re.M)
+}
+
+
+
+def extractFileContentId(data, fileId=""):
+    for item in QXHEAD["classDefine"].findall(data):
+        return item[1]
+
+    return None
+
+
+##
+# FILE EXTENSIONS
+#
+
+JSEXT = ".js"
+PYEXT = ".py"
+XMLEXT = ".xml"
+TOKENEXT = ".txt"
+DIRIGNORE = [".svn", "CVS"]
+
+
+def indexClassPath(classPath, listIndex, options, fileDb={}, moduleDb={}):
+    classPath = filetool.normalize(classPath)
+    counter = 0
+
+    # Search for other indexed lists
+    if len(options.classEncoding) > listIndex:
+        classEncoding = options.classEncoding[listIndex]
+    else:
+        classEncoding = "utf-8"
+
+    if len(options.classUri) > listIndex:
+        classUri = options.classUri[listIndex]
+    else:
+        classUri = None
+
+    if len(options.resourceInput) > listIndex:
+        resourceInput = options.resourceInput[listIndex]
+    else:
+        resourceInput = None
+
+    if len(options.resourceOutput) > listIndex:
+        resourceOutput = options.resourceOutput[listIndex]
+    else:
+        resourceOutput = None
+
+    for root, dirs, files in os.walk(classPath):
+
+        # Filter ignored directories
+        for ignoredDir in DIRIGNORE:
+            if ignoredDir in dirs:
+                dirs.remove(ignoredDir)
+
+        # Searching for files
+        for fileName in files:
+            if os.path.splitext(fileName)[1] == JSEXT and not fileName.startswith("."):
+                filePath = os.path.join(root, fileName)
+                filePathId = filePath.replace(classPath + os.sep, "").replace(JSEXT, "").replace(os.sep, ".")
+
+                indexFile(filePath, filePathId, classPath, listIndex, classEncoding, classUri, resourceInput, resourceOutput, options, fileDb, moduleDb)
+                counter += 1
+
+    return counter
+
+
+def indexFile(filePath, filePathId, classPath, listIndex, classEncoding, classUri, resourceInput, resourceOutput, options, fileDb={}, moduleDb={}):
+
+    ########################################
+    # Checking cache
+    ########################################
+
+    useCache = False
+    loadCache = False
+    cachePath = None
+
+    if options.cacheDirectory != None:
+        cachePath = os.path.join(filetool.normalize(options.cacheDirectory), filePathId + "-entry.pcl")
+        useCache = True
+
+        if not filetool.checkCache(filePath, cachePath):
+            loadCache = True
+
+
+
+    ########################################
+    # Loading file content / cache
+    ########################################
+
+    if loadCache:
+        fileEntry = filetool.readCache(cachePath)
+        fileId = filePathId
+
+    else:
+        fileContent = filetool.read(filePath, classEncoding)
+
+        # Extract ID
+        fileContentId = extractFileContentId(fileContent)
+
+        # Search for valid ID
+        if fileContentId == None:
+            if not filePathId.endswith("__init__"):
+                print "    - Could not extract ID from file: %s. Fallback to path %s!" % (filePath, filePathId)
+            fileId = filePathId
+
+        else:
+            fileId = fileContentId
+
+        if fileId != filePathId:
+            print "    - ID mismatch: CONTENT=%s != PATH=%s" % (fileContentId, filePathId)
+            if not options.migrateSource:
+                sys.exit(1)
+
+        fileEntry = {
+            "autoDependencies" : False,
+            "cached" : False,
+            "cachePath" : cachePath,
+            "meta" : fileId.endswith("__init__"),
+            "ignoreDeps" : extractIgnore(fileContent, fileId),
+            "optionalDeps" : extractOptional(fileContent, fileId),
+            "loadtimeDeps" : extractLoadtimeDeps(fileContent, fileId),
+            "runtimeDeps" : extractRuntimeDeps(fileContent, fileId),
+            "resources" : extractResources(fileContent, fileId),
+            "embeds" : extractEmbeds(fileContent, fileId),
+            "modules" : extractModules(fileContent, fileId)
+        }
+
+
+
+    ########################################
+    # Additional data
+    ########################################
+
+    # We don't want to cache these items
+    fileEntry["path"] = filePath
+    fileEntry["pathId"] = filePathId
+    fileEntry["encoding"] = classEncoding
+    fileEntry["resourceInput"] = resourceInput
+    fileEntry["resourceOutput"] = resourceOutput
+    fileEntry["classUri"] = classUri
+    fileEntry["listIndex"] = listIndex
+    fileEntry["classPath"] = classPath
+
+
+    ########################################
+    # Registering file
+    ########################################
+
+    # Register to file database
+    fileDb[fileId] = fileEntry
+
+    # Register to module database
+    for moduleId in fileEntry["modules"]:
+        if moduleDb.has_key(moduleId):
+            moduleDb[moduleId].append(fileId)
+        else:
+            moduleDb[moduleId] = [fileId]
+
+
+def extractFileContentId(data, fileId=""):
+    for item in QXHEAD["classDefine"].findall(data):
+        return item[1]
+
+    return None
+
+
+def extractLoadtimeDeps(data, fileId=""):
+    deps = []
+
+    for item in QXHEAD["require"].findall(data):
+        if item == fileId:
+            print "    - Error: Self-referring load dependency: %s" % item
+            sys.exit(1)
+        else:
+            deps.append(item)
+
+    return deps
+
+
+def extractRuntimeDeps(data, fileId=""):
+    deps = []
+
+    for item in QXHEAD["use"].findall(data):
+        if item == fileId:
+            print "    - Self-referring runtime dependency: %s" % item
+        else:
+            deps.append(item)
+
+    return deps
+
+
+def extractOptional(data, fileId=""):
+    deps = []
+
+    # Adding explicit requirements
+    for item in QXHEAD["optional"].findall(data):
+        if not item in deps:
+            deps.append(item)
+
+    return deps
+
+
+def extractIgnore(data, fileId=""):
+    ignores = []
+
+    # Adding explicit requirements
+    for item in QXHEAD["ignore"].findall(data):
+        if not item in ignores:
+            ignores.append(item)
+
+    return ignores
+
+
+def extractModules(data, fileId=""):
+    mods = []
+
+    for item in QXHEAD["module"].findall(data):
+        if not item in mods:
+            mods.append(item)
+
+    return mods
+
+
+def extractResources(data, fileId=""):
+    res = []
+
+    for item in QXHEAD["resource"].findall(data):
+        res.append({ "namespace" : item[0], "id" : item[1], "entry" : item[2] })
+
+    return res
+
+
+def extractEmbeds(data, fileId=""):
+    emb = []
+
+    for item in QXHEAD["embed"].findall(data):
+        emb.append({ "namespace" : item[0], "id" : item[1], "entry" : item[2] })
+
+    return emb
+
 
 def setupLogging(verbose=False):
     global LOGGING_READY
@@ -277,7 +537,7 @@ def migrateFile(
     # Read in original content
     fileContent = filetool.read(filePath, encoding)
 
-    fileId = loader.extractFileContentId(fileContent);
+    fileId = extractFileContentId(fileContent);
 
     # Apply patches
     patchedContent = fileContent
@@ -537,7 +797,7 @@ ERROR: The class path is empty. Please specify the class pass using the
     fileDb = {}
     listIndex = 0
     for path in options.classPath:
-        loader.indexClassPath(path, listIndex, options, fileDb)
+        indexClassPath(path, listIndex, options, fileDb)
         listIndex += 1
 
 
