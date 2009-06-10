@@ -97,6 +97,11 @@ qx.Class.define("qx.test.ui.selection.Stack",
         padding: 10
       });
       return item;
+    },
+    
+    _setNotSelectable : function(item, i)
+    {
+      item.setEnabled(false);
     }
   }
 });

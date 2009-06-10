@@ -65,7 +65,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
 
     // overridden
     _isSelectable : function(item) {
-      return item.isEnabled() && item.getLayoutParent() === this.__widget;
+      return item.isEnabled() && item.isVisible() && item.getLayoutParent() === this.__widget;
     },
 
 
@@ -205,7 +205,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
       {
         child = children[i];
 
-        if (child.isEnabled()) {
+        if (child.isEnabled() && child.isVisible()) {
           result.push(child);
         }
       }
@@ -246,7 +246,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
           }
         }
 
-        if (active && child.isEnabled()) {
+        if (active && child.isEnabled() && child.isVisible()) {
           result.push(child);
         }
       }
@@ -261,7 +261,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
       var children = this.__widget.getChildren();
       for (var i=0, l=children.length; i<l; i++)
       {
-        if (children[i].isEnabled()) {
+        if (children[i].isEnabled() && children[i].isVisible()) {
           return children[i];
         }
       }
@@ -276,7 +276,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
       var children = this.__widget.getChildren();
       for (var i=children.length-1; i>0; i--)
       {
-        if (children[i].isEnabled()) {
+        if (children[i].isEnabled() && children[i].isVisible()) {
           return children[i];
         }
       }
@@ -298,7 +298,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
         for (var i=index-1; i>=0; i--)
         {
           sibling = children[i];
-          if (sibling.isEnabled()) {
+          if (sibling.isEnabled() && sibling.isVisible()) {
             return sibling;
           }
         }
@@ -308,7 +308,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
         for (var i=index+1; i<children.length; i++)
         {
           sibling = children[i];
-          if (sibling.isEnabled()) {
+          if (sibling.isEnabled() && sibling.isVisible()) {
             return sibling;
           }
         }

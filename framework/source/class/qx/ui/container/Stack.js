@@ -235,8 +235,18 @@ qx.Class.define("qx.ui.container.Stack",
      * @return {Boolean} <code>true</code> If selection could be empty, 
      *    <code>false</code> otherwise.
      */
-    _isAllowEmptySelection: function() {
+    _isAllowEmptySelection : function() {
       return true;
+    },
+    
+    /**
+     * Returns whether the given item is selectable.
+     * 
+     * @param item {qx.ui.core.Widget} The item to be checked
+     * @return {Boolean} Whether the given item is selectable
+     */
+    _isItemSelectable : function(item) {
+      return item.isEnabled();
     },
     
     /**

@@ -187,7 +187,7 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
       
       for (var i = 0; i < items.length; i++)
       {
-        if (items[i].isEnabled()) {
+        if (this.__selectionProvider.isItemSelectable(items[i])) {
           result.push(items[i]);
         }
       }

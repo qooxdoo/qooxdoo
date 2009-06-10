@@ -36,8 +36,14 @@ qx.Interface.define("qx.ui.core.ISingleSelectionProvider",
      * 
      * @return {qx.ui.core.Widget[]} The widgets for the selection.
      */
-    getItems: function() {
-      return true;
-    }    
+    getItems: function() {},
+    
+    /**
+     * Returns whether the given item is selectable.
+     * 
+     * @param item {qx.ui.core.Widget} The item to be checked
+     * @return {Boolean} Whether the given item is selectable
+     */
+    isItemSelectable : function(item) {}
   }
 });
