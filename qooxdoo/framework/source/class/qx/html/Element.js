@@ -470,6 +470,8 @@ qx.Class.define("qx.html.Element",
 
     __children : null,
     __modifiedChildren : null,
+    
+    __parent : null,
 
     /**
      * Add the element to the global modification list.
