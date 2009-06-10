@@ -459,7 +459,7 @@ qx.Class.define("qx.ui.tabview.TabView",
      *    <code>false</code> otherwise.
      */
     _isAllowEmptySelection: function() {
-      return true;
+      return this.__radioGroup.isAllowEmptySelection();
     },
     
     /**
