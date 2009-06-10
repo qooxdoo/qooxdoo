@@ -83,26 +83,32 @@ def copySkeleton(skeleton_path, app_type, dir, namespace):
 
     # rename namespace
     source_dir = os.path.join(app_dir, "source", "class", "custom")
-    if os.path.isdir(source_dir):
-        os.rename(
-            source_dir,
-            os.path.join(app_dir, "source", "class", namespace)
-        )
+    out_dir    = os.path.join(app_dir, "source", "class")
+    expand_dir(source_dir, out_dir, namespace)
+    #if os.path.isdir(source_dir):
+    #    os.rename(
+    #        source_dir,
+    #        os.path.join(app_dir, "source", "class", namespace)
+    #    )
 
     resource_dir = os.path.join(app_dir, "source", "resource", "custom")
-    if os.path.isdir(resource_dir):
-        os.rename(
-            resource_dir,
-            os.path.join(app_dir, "source", "resource", namespace)
-        )
+    out_dir      = os.path.join(app_dir, "source", "resource")
+    expand_dir(resource_dir, out_dir, namespace)
+    #if os.path.isdir(resource_dir):
+    #    os.rename(
+    #        resource_dir,
+    #        os.path.join(app_dir, "source", "resource", namespace)
+    #    )
 
     if app_type == "contribution":
         demo_dir = os.path.join(app_dir, "demo", "default", "source", "class", "custom")
-        if os.path.isdir(demo_dir):
-            os.rename(
-                demo_dir,
-                os.path.join(app_dir, "demo", "default", "source", "class", namespace)
-            )
+        out_dir  = os.path.join(app_dir, "demo", "default", "source", "class")
+        expand_dir(demo_dir, out_dir, namespace)
+        #if os.path.isdir(demo_dir):
+        #    os.rename(
+        #        demo_dir,
+        #        os.path.join(app_dir, "demo", "default", "source", "class", namespace)
+        #    )
 
     #clean svn directories
     for root, dirs, files in os.walk(dir, topdown=False):
@@ -110,6 +116,19 @@ def copySkeleton(skeleton_path, app_type, dir, namespace):
             filename = os.path.join(root, ".svn")
             shutil.rmtree(filename, ignore_errors=False, onerror=handleRemoveReadonly)
 
+
+def expand_dir(indir, outroot, namespace):
+    "appends namespace parts to outroot, and renames indir to the last part"
+    if not (os.path.isdir(indir) and os.path.isdir(outroot)):
+        return
+    ns_parts = namespace.split('.')
+    target   = outroot
+    for part in ns_parts:
+        target = os.path.join(target, part)
+        if part == ns_parts[-1]: # it's the last part
+            os.rename(indir, target)
+        else:
+            os.mkdir(target)
 
 def patchSkeleton(dir, framework_dir, options):
     absPath = normalizePath(framework_dir)
