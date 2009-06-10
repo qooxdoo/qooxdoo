@@ -21,7 +21,6 @@
 import os, codecs, cPickle, sys, re, time
 import gzip as sys_gzip
 import textutil
-import roothelper
 
 if sys.platform == "win32":
     import msvcrt
@@ -130,7 +129,7 @@ def read(filePath, encoding="utf_8"):
 
 
 def root():
-    modulepath = str(roothelper).split(None,3)[3][1:-2]
+    modulepath = str(sys.modules[__name__]).split(None,3)[3][1:-2]
     
     miscfolder = os.path.dirname(modulepath)
     toolfolder = os.path.dirname(miscfolder)

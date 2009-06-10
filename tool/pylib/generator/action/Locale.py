@@ -24,7 +24,7 @@ import time, datetime
 
 from polib import polib
 from ecmascript.frontend import treeutil, tree
-from misc import cldr, idlist, filetool, util
+from misc import cldr, util, filetool, util
 from generator.code.LibraryPath import LibraryPath
 
 class Locale:
@@ -292,7 +292,7 @@ class Locale:
         fileEntry = self._classes[fileId]
         filePath = fileEntry["path"]
 
-        variantsId = idlist.toString(variants)
+        variantsId = util.toString(variants)
 
         cacheId = "translation-%s-%s" % (filePath, variantsId)
 
