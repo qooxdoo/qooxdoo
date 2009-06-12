@@ -83,18 +83,17 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
         if (window.XMLHttpRequest) {
           return new XMLHttpRequest;
         }
-      },
-      
-      
-      /**
-       * Dummy function as fallback for internal ready state listener
-       *
-       * @return {void}
-       */
-      __dummy : function() {
-        // empty
       }
     }),
+
+    /**
+     * Dummy function as fallback for internal ready state listener
+     *
+     * @return {void}
+     */
+    __dummy : function() {
+      // empty
+    },
 
 
     /**
