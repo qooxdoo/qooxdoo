@@ -125,7 +125,11 @@ qx.Class.define("qx.data.Array",
      *   arrays.
      */
     concat: function(array) {
-      var newArray = this.__array.concat(array);
+      if (array) {
+        var newArray = this.__array.concat(array);        
+      } else {
+        var newArray = this.__array.concat();
+      }
       return new qx.data.Array(newArray);
     },
 
