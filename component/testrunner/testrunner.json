@@ -79,7 +79,8 @@
 
       "settings" :
       {
-        "qx.theme" : "${QXTHEME}"
+        "qx.theme" : "${QXTHEME}",
+        "qx.globalErrorHandling" : "on"
       },
 
       "cache" :
