@@ -278,23 +278,23 @@ qx.Class.define("qx.event.handler.Input",
     /**
      * Internal function called by input elements created using {@link qx.bom.Input}.
      *
+     * @signature function(e)
      * @param e {Event} Native DOM event
-     * @return {void}
      */
-    _onInput : function(e)
+    _onInput : qx.event.GlobalError.observeMethod(function(e)
     {
       var target = e.target;
       qx.event.Registration.fireEvent(target, "input", qx.event.type.Data, [target.value]);
-    },
+    }),
 
 
     /**
      * Internal function called by input elements created using {@link qx.bom.Input}.
      *
+     * @signature function(e)
      * @param e {Event} Native DOM event
-     * @return {void}
      */
-    _onChangeValue : function(e)
+    _onChangeValue : qx.event.GlobalError.observeMethod(function(e)
     {
       var target = e.target || e.srcElement;
       var data = target.value;
@@ -311,16 +311,16 @@ qx.Class.define("qx.event.handler.Input",
       }
 
       qx.event.Registration.fireEvent(target, "change", qx.event.type.Data, [data]);
-    },
+    }),
 
 
     /**
      * Internal function called by input elements created using {@link qx.bom.Input}.
      *
+     * @signature function(e)
      * @param e {Event} Native DOM event
-     * @return {void}
      */
-    _onChangeChecked : function(e)
+    _onChangeChecked : qx.event.GlobalError.observeMethod(function(e)
     {
       var target = e.target;
 
@@ -334,7 +334,7 @@ qx.Class.define("qx.event.handler.Input",
       {
         qx.event.Registration.fireEvent(target, "change", qx.event.type.Data, [target.checked]);
       }
-    },
+    }),
 
 
     /**
@@ -342,11 +342,10 @@ qx.Class.define("qx.event.handler.Input",
      *
      * @signature function(e)
      * @param e {Event} Native DOM event
-     * @return {void}
      */
     _onProperty : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(e)
+      "mshtml" : qx.event.GlobalError.observeMethod(function(e)
       {
         var target = e.target || e.srcElement;
         var prop = e.propertyName;
@@ -365,7 +364,7 @@ qx.Class.define("qx.event.handler.Input",
             qx.event.Registration.fireEvent(target, "change", qx.event.type.Data, [target.value]);
           }
         }
-      },
+      }),
 
       "default" : function() {}
     })

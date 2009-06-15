@@ -87,6 +87,7 @@ qx.Class.define("qx.test.lang.Function",
       this.assertEquals(5, result);
     },
     
+    
     testBindWithDisposedContext : function()
     {
       if (!this.isDebugOn()) {
@@ -101,6 +102,25 @@ qx.Class.define("qx.test.lang.Function",
       this.assertException(function() {
         bound()
       }, qx.core.AssertionError);
-    }
+    },
+    
+    
+    testCreateDelayGlobalError : function()
+    {
+      var fail = function() {
+        throw new Error("fail");
+      };
+      
+      var onError = function() { this.resume(function() {}); };
+      qx.event.GlobalError.setErrorHandler(onError, this);
+      
+      var delayed = qx.lang.Function.create(fail, {
+        self: this,
+        delay: 20
+      });
+      
+      delayed();
+      this.wait(100);
+    }        
   }
 });

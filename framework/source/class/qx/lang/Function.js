@@ -285,16 +285,16 @@ qx.Bootstrap.define("qx.lang.Function",
 
         if (options.delay || options.periodical)
         {
-          var returns = function() {
+          var returns = qx.event.GlobalError.observeMethod(function() {
             return func.apply(options.self||this, args);
-          };
+          });
 
           if (options.delay) {
-            return setTimeout(returns, options.delay);
+            return window.setTimeout(returns, options.delay);
           }
 
           if (options.periodical) {
-            return setInterval(returns, options.periodical);
+            return window.setInterval(returns, options.periodical);
           }
         }
         else if (options.attempt)

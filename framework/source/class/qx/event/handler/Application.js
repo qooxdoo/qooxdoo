@@ -226,7 +226,7 @@ qx.Class.define("qx.event.handler.Application",
               this._onNativeLoadWrapped();
             }
             catch(error) {
-              setTimeout(timer, 100);
+              window.setTimeout(timer, 100);
             }
           };
 
@@ -271,23 +271,21 @@ qx.Class.define("qx.event.handler.Application",
     /**
      * Event listener for native load event
      *
-     * @param e {Event} Native event object
-     * @return {void}
+     * @signature function()
      */
-    _onNativeLoad : function(e)
+    _onNativeLoad : qx.event.GlobalError.observeMethod(function()
     {
       this.__domReady = true;
       this.__fireReady();
-    },
+    }),
 
 
     /**
      * Event listener for native unload event
      *
-     * @param e {Event} Native event object
-     * @return {void}
+     * @signature function()
      */
-    _onNativeUnload : function(e)
+    _onNativeUnload : qx.event.GlobalError.observeMethod(function()
     {
       if (!this.__isUnloaded)
       {
@@ -305,7 +303,7 @@ qx.Class.define("qx.event.handler.Application",
         }
 
       }
-    }
+    })
 
   },
 

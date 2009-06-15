@@ -378,10 +378,10 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      * Listener method for change of the "readystate".
      * Sets the internal state and informs the transport layer.
      *
+     * @signature function(e)
      * @param e {Event} native event
-     * @return {void}
      */
-    _onreadystatechange : function(e)
+    _onreadystatechange : qx.event.GlobalError.observeMethod(function(e)
     {
       // Ignoring already stopped requests
       switch(this.getState())
@@ -425,7 +425,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       while (this.__lastReadyState < vReadyState) {
         this.setState(qx.io.remote.Exchange._nativeMap[++this.__lastReadyState]);
       }
-    },
+    }),
 
 
 

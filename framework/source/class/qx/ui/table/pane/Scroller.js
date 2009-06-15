@@ -2126,15 +2126,17 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * Timer event handler. Periodically checks whether a table update is
      * required. The update interval is controlled by the {@link #scrollTimeout}
      * property.
+     *
+     * @signature function()
      */
-    _oninterval : function()
+    _oninterval : qx.event.GlobalError.observeMethod(function()
     {
       if (this.__updateContentPlanned && !this.__tablePane._layoutPending)
       {
         this.__updateContentPlanned = false;
         this._updateContent();
       }
-    },
+    }),
 
 
     /**

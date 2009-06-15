@@ -263,35 +263,34 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     /**
      * Converting complete state to numeric value and update state property
      *
+     * @signature function(e)
      * @param e {qx.event.type.Event} event object
-     * @return {void}
      */
-    _onload : function(e)
+    _onload : qx.event.GlobalError.observeMethod(function(e)
     {
       if (this.__form.src) {
         return;
       }
 
       this._switchReadyState(qx.io.remote.transport.Iframe._numericMap.complete);
-    },
+    }),
 
 
     /**
      * Converting named readyState to numeric value and update state property
      *
+     * @signature function(e)
      * @param e {qx.event.type.Event} event object
-     * @return {void}
      */
-    _onreadystatechange : function(e) {
+    _onreadystatechange : qx.event.GlobalError.observeMethod(function(e) {
       this._switchReadyState(qx.io.remote.transport.Iframe._numericMap[this.__frame.readyState]);
-    },
+    }),
 
 
     /**
      * Switches the readystate by setting the internal state.
      *
      * @param vReadyState {String} readystate value
-     * @return {void}
      */
     _switchReadyState : function(vReadyState)
     {
@@ -352,8 +351,6 @@ qx.Class.define("qx.io.remote.transport.Iframe",
       return null;
     },
 
-    // TODO
-    // this.error("Need implementation", "getResponseHeader");
     /**
      * Provides an hash of all response headers.
      *
@@ -365,8 +362,6 @@ qx.Class.define("qx.io.remote.transport.Iframe",
       return {};
     },
 
-    // TODO
-    // throw new Error("getResponseHeaders is abstract");
     /*
     ---------------------------------------------------------------------------
       STATUS SUPPORT
@@ -383,8 +378,6 @@ qx.Class.define("qx.io.remote.transport.Iframe",
       return 200;
     },
 
-    // TODO
-    // this.error("Need implementation", "getStatusCode");
     /**
      * Provides the status text for the current request if available and null otherwise.
      * This method needs implementation (returns always an empty string)
@@ -395,8 +388,6 @@ qx.Class.define("qx.io.remote.transport.Iframe",
       return "";
     },
 
-    // TODO
-    // this.error("Need implementation", "getStatusText");
     /*
     ---------------------------------------------------------------------------
       FRAME UTILITIES
@@ -491,8 +482,6 @@ qx.Class.define("qx.io.remote.transport.Iframe",
       return 0;
     },
 
-    // TODO
-    // throw new Error("getFetchedLength is abstract");
     /**
      * Returns the content of the response
      *

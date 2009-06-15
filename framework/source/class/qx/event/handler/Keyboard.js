@@ -339,11 +339,11 @@ qx.Class.define("qx.event.handler.Keyboard",
     /**
      * Low level handler for "keyup" and "keydown" events
      *
-     * @param domEvent {Event} DOM event object
      * @internal
      * @signature function(domEvent)
+     * @param domEvent {Event} DOM event object
      */
-    __onKeyUpDown : qx.core.Variant.select("qx.client",
+    __onKeyUpDown : qx.event.GlobalError.observeMethod(qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(domEvent)
       {
@@ -451,7 +451,7 @@ qx.Class.define("qx.event.handler.Keyboard",
       "opera" : function(domEvent) {
         this._idealKeyHandler(domEvent.keyCode, 0, domEvent.type, domEvent);
       }
-    }),
+    })),
 
     
     /**
@@ -494,7 +494,8 @@ qx.Class.define("qx.event.handler.Keyboard",
               self.__onKeyPress(domEvent);
             }
           };
-          qx.bom.Event.addNativeListener(target, "keypress", this.__inputListeners[hash].callback);
+          var listener = qx.event.GlobalError.observeMethod(this.__inputListeners[hash].callback);
+          qx.bom.Event.addNativeListener(target, "keypress", listener);
         }
       },
       
@@ -505,10 +506,10 @@ qx.Class.define("qx.event.handler.Keyboard",
     /**
      * Low level key press handler
      *
-     * @param domEvent {Event} DOM event object
      * @signature function(domEvent)
+     * @param domEvent {Event} DOM event object
      */
-    __onKeyPress : qx.core.Variant.select("qx.client",
+    __onKeyPress : qx.event.GlobalError.observeMethod(qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(domEvent)
       {
@@ -573,7 +574,7 @@ qx.Class.define("qx.event.handler.Keyboard",
           this._idealKeyHandler(0, domEvent.keyCode, domEvent.type, domEvent);
         }
       }
-    }),
+    })),
 
 
 

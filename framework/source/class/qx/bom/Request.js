@@ -361,9 +361,9 @@ qx.Bootstrap.define("qx.bom.Request",
     /**
      * Internal callback for native <code>readystatechange</code> event.
      *
-     * @return {void}
+     * @signature function()
      */
-    __onNativeReadyStateChange : function()
+    __onNativeReadyStateChange : qx.event.GlobalError.observeMethod(function()
     {
       if (qx.core.Variant.isSet("qx.client", "gecko"))
       {
@@ -402,9 +402,9 @@ qx.Bootstrap.define("qx.bom.Request",
     /**
      * Internal callback for native <code>timeout</code> event.
      *
-     * @return {void}
+     * @signature function()
      */
-    __onNativeTimeout : function()
+    __onNativeTimeout : qx.event.GlobalError.observeMethod(function()
     {
       // Execute abort helper
       this.__abortHelper();
@@ -697,7 +697,7 @@ qx.Bootstrap.define("qx.bom.Request",
       // BUGFIX: IE - memory leak (on-page leak)
       if (this.__xmlhttp)
       {
-        this.__xmlhttp.onreadystatechange = this.__dummyFunction;
+        this.__xmlhttp.onreadystatechange = qx.lang.Function.empty;
       }
 
       // Remove user listeners
@@ -713,16 +713,6 @@ qx.Bootstrap.define("qx.bom.Request",
       delete this.__timeoutListener;
       delete this.__xmlhttp;
       delete this.__headers;
-    },
-
-
-    /**
-     * Dummy function as fallback for internal ready state listener
-     *
-     * @return {void}
-     */
-    __dummyFunction : function() {
-      // empty
     }
   }
 });
