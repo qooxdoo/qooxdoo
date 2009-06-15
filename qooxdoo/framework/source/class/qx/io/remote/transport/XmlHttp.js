@@ -86,15 +86,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       }
     }),
 
-    /**
-     * Dummy function as fallback for internal ready state listener
-     *
-     * @return {void}
-     */
-    __dummy : function() {
-      // empty
-    },
-
 
     /**
      * Whether the transport type is supported by the client.
@@ -917,7 +908,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       // Note that for IE the proper way to do this is to set it to a
       // dummy function, not null (Google on "onreadystatechange dummy IE unhook")
       // http://groups.google.com/group/Google-Web-Toolkit-Contributors/browse_thread/thread/7e7ee67c191a6324
-      vRequest.onreadystatechange = qx.io.remote.transport.XmlHttp.__dummy;
+      vRequest.onreadystatechange = qx.lang.Function.empty;
       // Aborting
       switch(vRequest.readyState)
       {
