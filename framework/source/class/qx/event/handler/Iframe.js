@@ -55,13 +55,13 @@ qx.Class.define("qx.event.handler.Iframe",
     /**
      * Internal function called by iframes created using {@link qx.bom.Iframe}.
      *
+     * @signature function()
      * @internal
      * @param target {Element} DOM element which is the target of this event
-     * @return {void}
      */
-    onevent : function(target) {
+    onevent : qx.event.GlobalError.observeMethod(function(target) {
       qx.event.Registration.fireEvent(target, "load");
-    }
+    })
   },
 
 

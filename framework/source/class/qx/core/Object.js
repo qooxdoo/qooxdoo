@@ -811,7 +811,7 @@ qx.Class.define("qx.core.Object",
      * Disposes all members of the given map and deletes
      * the field which refers to the map afterwards.
      *
-     * @param field {String} Name of the field which refers to the array
+     * @param field {String} Name of the field which refers to the map
      * @return {void}
      */
     _disposeMap : function(field) {

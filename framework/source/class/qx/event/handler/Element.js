@@ -148,11 +148,11 @@ qx.Class.define("qx.event.handler.Element",
     /**
      * Default event handler.
      *
+     * @signature function(nativeEvent, eventId)
      * @param nativeEvent {Event} Native event
      * @param eventId {Integer} ID of the event (as stored internally)
-     * @return {void}
      */
-    _onNative : function(nativeEvent, eventId)
+    _onNative : qx.event.GlobalError.observeMethod(function(nativeEvent, eventId)
     {
       var events = this._registeredEvents;
       if (!events) {
@@ -165,7 +165,7 @@ qx.Class.define("qx.event.handler.Element",
         eventData.element, eventData.type,
         qx.event.type.Native, [nativeEvent]
       );
-    }
+    })
   },
 
 

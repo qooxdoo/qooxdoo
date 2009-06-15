@@ -278,14 +278,15 @@ qx.Class.define("qx.event.Timer",
 
     /**
      * timer callback
-     *
+     * 
+     * @signature function()
      */
-    _oninterval : function()
+    _oninterval : qx.event.GlobalError.observeMethod(function()
     {
       if (this.getEnabled()) {
         this.fireEvent("interval");
       }
-    }
+    })
   },
 
 

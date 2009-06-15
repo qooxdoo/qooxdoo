@@ -106,12 +106,8 @@ qx.Class.define("qx.test.event.GlobalError",
     
     
     // timer setTimeout/setInterval - OK
-    
     // addNativeListener - OK
     // attachEvent - OK
-    
-    // enabled but no error handler
-    
     // mouse - OK
     // key - OK
     // focus - OK

@@ -172,10 +172,10 @@ qx.Class.define("qx.event.handler.Window",
     /**
      * Native listener for all supported events.
      *
+     * @signature function(e)
      * @param e {Event} Native event
-     * @return {void}
      */
-    _onNative : function(e)
+    _onNative : qx.event.GlobalError.observeMethod(function(e)
     {
       if (this.isDisposed()) {
         return;
@@ -204,7 +204,7 @@ qx.Class.define("qx.event.handler.Window",
           return result;
         }
       }
-    }
+    })
   },
 
 

@@ -488,7 +488,6 @@ qx.Class.define("qx.event.handler.Focus",
      * Disconnects event listeners.
      *
      * @signature function()
-     * @return {void}
      */
     _stopObserver : qx.core.Variant.select("qx.client",
     {
@@ -557,9 +556,8 @@ qx.Class.define("qx.event.handler.Focus",
      * @see http://developer.mozilla.org/en/docs/Drag_and_Drop
      * @signature function(e)
      * @param e {Event} Native event
-     * @return {void}
      */
-    __onNativeDragGesture : qx.core.Variant.select("qx.client",
+    __onNativeDragGesture : qx.event.GlobalError.observeMethod(qx.core.Variant.select("qx.client",
     {
       "gecko" : function(e)
       {
@@ -569,7 +567,7 @@ qx.Class.define("qx.event.handler.Focus",
       },
 
       "default" : null
-    }),
+    })),
 
 
     /**
@@ -580,7 +578,7 @@ qx.Class.define("qx.event.handler.Focus",
      * @param e {Event} Native event
      * @return {void}
      */
-    __onNativeFocusIn : qx.core.Variant.select("qx.client",
+    __onNativeFocusIn : qx.event.GlobalError.observeMethod(qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(e)
       {
@@ -635,7 +633,7 @@ qx.Class.define("qx.event.handler.Focus",
       },
 
       "default" : null
-    }),
+    })),
 
 
     /**
@@ -644,9 +642,8 @@ qx.Class.define("qx.event.handler.Focus",
      *
      * @signature function(e)
      * @param e {Event} Native event
-     * @return {void}
      */
-    __onNativeFocusOut : qx.core.Variant.select("qx.client",
+    __onNativeFocusOut : qx.event.GlobalError.observeMethod(qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(e)
       {
@@ -704,7 +701,7 @@ qx.Class.define("qx.event.handler.Focus",
       },
 
       "default" : null
-    }),
+    })),
 
 
     /**
@@ -712,9 +709,8 @@ qx.Class.define("qx.event.handler.Focus",
      *
      * @signature function(e)
      * @param e {Event} Native event
-     * @return {void}
      */
-    __onNativeBlur : qx.core.Variant.select("qx.client",
+    __onNativeBlur : qx.event.GlobalError.observeMethod(qx.core.Variant.select("qx.client",
     {
       "gecko" : function(e)
       {
@@ -745,7 +741,7 @@ qx.Class.define("qx.event.handler.Focus",
       },
 
       "default" : null
-    }),
+    })),
 
 
     /**
@@ -753,9 +749,8 @@ qx.Class.define("qx.event.handler.Focus",
      *
      * @signature function(e)
      * @param e {Event} Native event
-     * @return {void}
      */
-    __onNativeFocus : qx.core.Variant.select("qx.client",
+    __onNativeFocus : qx.event.GlobalError.observeMethod(qx.core.Variant.select("qx.client",
     {
       "gecko" : function(e)
       {
@@ -800,16 +795,15 @@ qx.Class.define("qx.event.handler.Focus",
       },
 
       "default" : null
-    }),
+    })),
 
 
     /**
      * Native event listener for <code>mousedown</code>.
      *
      * @param e {Event} Native event
-     * @return {void}
      */
-    __onNativeMouseDown : qx.core.Variant.select("qx.client",
+    __onNativeMouseDown : qx.event.GlobalError.observeMethod(qx.core.Variant.select("qx.client",
     {
       "gecko" : function(e)
       {
@@ -921,16 +915,15 @@ qx.Class.define("qx.event.handler.Focus",
       },
 
       "default" : null
-    }),
+    })),
 
 
     /**
      * Native event listener for <code>mouseup</code>.
      *
      * @param e {Event} Native event
-     * @return {void}
      */
-    __onNativeMouseUp : qx.core.Variant.select("qx.client",
+    __onNativeMouseUp : qx.event.GlobalError.observeMethod(qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(e)
       {
@@ -963,16 +956,15 @@ qx.Class.define("qx.event.handler.Focus",
       },
 
       "default" : null
-    }),
+    })),
 
 
     /**
      * Native event listener for <code>selectstart</code>.
      *
      * @param e {Event} Native event
-     * @return {void}
      */
-    __onNativeSelectStart : qx.core.Variant.select("qx.client",
+    __onNativeSelectStart : qx.event.GlobalError.observeMethod(qx.core.Variant.select("qx.client",
     {
       "mshtml|webkit" : function(e)
       {
@@ -983,7 +975,7 @@ qx.Class.define("qx.event.handler.Focus",
       },
 
       "default" : null
-    }),
+    })),
 
 
 

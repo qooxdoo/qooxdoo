@@ -116,12 +116,13 @@ qx.Class.define("qx.io.remote.transport.Script",
      * This method can be called by the script loaded by the ScriptTransport
      * class.
      *
+     * @signature function()
      * @param id {String} Id of the corresponding transport object,
      *     which is passesd as an URL parameter to the server an
      * @param content {String} This string is passed to the content property
      *     of the {@link #Response} object.
      */
-    _requestFinished : function(id, content)
+    _requestFinished : qx.event.GlobalError.observeMethod(function(id, content)
     {
       var vInstance = qx.io.remote.transport.Script._instanceRegistry[id];
 
@@ -139,7 +140,7 @@ qx.Class.define("qx.io.remote.transport.Script",
         vInstance._responseContent = content;
         vInstance._switchReadyState(qx.io.remote.transport.Script._numericMap.complete);
       }
-    }
+    })
   },
 
 
@@ -280,8 +281,6 @@ qx.Class.define("qx.io.remote.transport.Script",
      */
     setRequestHeader : function(vLabel, vValue) {},
 
-    // TODO
-    // throw new Error("setRequestHeader is abstract");
     /*
     ---------------------------------------------------------------------------
       RESPONSE HEADER SUPPORT
@@ -300,8 +299,6 @@ qx.Class.define("qx.io.remote.transport.Script",
       return null;
     },
 
-    // TODO
-    // this.error("Need implementation", "getResponseHeader");
     /**
      * Provides an hash of all response headers.
      *
@@ -313,8 +310,6 @@ qx.Class.define("qx.io.remote.transport.Script",
       return {};
     },
 
-    // TODO
-    // throw new Error("getResponseHeaders is abstract");
     /*
     ---------------------------------------------------------------------------
       STATUS SUPPORT
@@ -331,8 +326,6 @@ qx.Class.define("qx.io.remote.transport.Script",
       return 200;
     },
 
-    // TODO
-    // this.error("Need implementation", "getStatusCode");
     /**
      * Provides the status text for the current request if available and null otherwise.
      * This method needs implementation (returns always an empty string)
@@ -343,8 +336,6 @@ qx.Class.define("qx.io.remote.transport.Script",
       return "";
     },
 
-    // TODO
-    // this.error("Need implementation", "getStatusText");
     /*
     ---------------------------------------------------------------------------
       RESPONSE DATA SUPPORT
@@ -361,8 +352,6 @@ qx.Class.define("qx.io.remote.transport.Script",
       return 0;
     },
 
-    // TODO
-    // throw new Error("getFetchedLength is abstract");
     /**
      * Returns the content of the response.
      *

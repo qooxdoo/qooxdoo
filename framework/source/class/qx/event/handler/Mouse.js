@@ -338,20 +338,22 @@ qx.Class.define("qx.event.handler.Mouse",
      * Global handler for all mouse move related events like "mousemove",
      * "mouseout" and "mouseover".
      *
+     * @signature function(domEvent)
      * @param domEvent {Event} DOM event
      */
-    _onMoveEvent : function(domEvent) {
+    _onMoveEvent : qx.event.GlobalError.observeMethod(function(domEvent) {
       this.__fireEvent(domEvent);
-    },
+    }),
 
 
     /**
      * Global handler for all mouse button related events like "mouseup",
      * "mousedown", "click", "dblclick" and "contextmenu".
      *
+     * @signature function(domEvent)
      * @param domEvent {Event} DOM event
      */
-    _onButtonEvent : function(domEvent)
+    _onButtonEvent : qx.event.GlobalError.observeMethod(function(domEvent)
     {
       var type = domEvent.type;
       var target = domEvent.target || domEvent.srcElement;
@@ -384,17 +386,18 @@ qx.Class.define("qx.event.handler.Mouse",
       }
 
       this.__lastEventType = type;
-    },
+    }),
 
 
     /**
      * Global handler for the mouse wheel event.
      *
+     * @signature function(domEvent)
      * @param domEvent {Event} DOM event
      */
-    _onWheelEvent : function(domEvent) {
+    _onWheelEvent : qx.event.GlobalError.observeMethod(function(domEvent) {
       this.__fireEvent(domEvent, "mousewheel");
-    },
+    }),
 
 
 
