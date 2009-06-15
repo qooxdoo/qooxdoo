@@ -119,6 +119,27 @@ qx.Bootstrap.define("qx.core.Setting",
 
       return cache.defaultValue;
     },
+    
+    
+    /**
+     * Set a settings value
+     * 
+     * @internal Only to be used in unit tests.
+     * @param key {String} The setting name
+     * @param value {var} The new setting's value
+     */
+    set : function(key, value)
+    {
+      if ((key.split(".")).length < 2) {
+        throw new Error('Malformed settings key "' + key + '". Must be following the schema "namespace.key".');
+      }
+
+      if (!this.__settings[key]) {
+        this.__settings[key] = {};
+      }
+
+      this.__settings[key].value = value;      
+    },
 
 
     /**
@@ -131,17 +152,8 @@ qx.Bootstrap.define("qx.core.Setting",
     {
       if (window.qxsettings)
       {
-        for (var key in qxsettings)
-        {
-          if ((key.split(".")).length < 2) {
-            throw new Error('Malformed settings key "' + key + '". Must be following the schema "namespace.key".');
-          }
-
-          if (!this.__settings[key]) {
-            this.__settings[key] = {};
-          }
-
-          this.__settings[key].value = qxsettings[key];
+        for (var key in qxsettings) {
+          this.set(key, qxsettings[key]);
         }
 
         window.qxsettings = undefined;
@@ -174,12 +186,7 @@ qx.Bootstrap.define("qx.core.Setting",
           continue;
         }
 
-        var key = setting[1];
-        if (!this.__settings[key]) {
-          this.__settings[key] = {};
-        }
-
-        this.__settings[key].value = decodeURIComponent(setting[2]);
+        this.set(setting[1], decodeURIComponent(setting[2]));
       }
     }
   },

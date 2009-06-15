@@ -570,9 +570,9 @@ qx.Class.define("qx.io2.HttpRequest",
     /**
      * Internal change listener
      *
-     * @return {void}
+     * @signature function()
      */
-    __onchange : function()
+    __onchange : qx.event.GlobalError.observeMethod(function()
     {
       // Fire user event
       this.fireDataEvent("change", this.getReadyState());
@@ -587,59 +587,59 @@ qx.Class.define("qx.io2.HttpRequest",
           qx.io2.HttpRequest.__modified[this.getUrl()] = modified;
         }
       }
-    },
+    }),
 
 
     /**
      * Internal timeout listener
      *
-     * @return {void}
+     * @signature function()
      */
-    __ontimeout : function()
+    __ontimeout : qx.event.GlobalError.observeMethod(function()
     {
       if (this.hasListener("timeout")) {
         this.fireEvent("timeout");
       }
-    },
+    }),
 
 
     /**
      * Internal timeout listener
      *
-     * @return {void}
+     * @signature function()
      */
-    __onload : function()
+    __onload : qx.event.GlobalError.observeMethod(function()
     {
       if (this.hasListener("load")) {
         this.fireEvent("load");
       }
-    },
+    }),
 
 
     /**
      * Internal timeout listener
      *
-     * @return {void}
+     * @signature function()
      */
-    __onerror : function()
+    __onerror : qx.event.GlobalError.observeMethod(function()
     {
       if (this.hasListener("error")) {
         this.fireEvent("error");
       }
-    },
+    }),
 
 
     /**
      * Internal timeout listener
      *
-     * @return {void}
+     * @signature function()
      */
-    __onabort : function()
+    __onabort : qx.event.GlobalError.observeMethod(function()
     {
       if (this.hasListener("abort")) {
         this.fireEvent("abort");
       }
-    }
+    })
   },
 
 

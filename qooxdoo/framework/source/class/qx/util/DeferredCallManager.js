@@ -68,7 +68,6 @@ qx.Class.define("qx.util.DeferredCallManager",
     {
       if (this.__timeoutId == null)
       {
-        // this.debug("Configure timeout...");
         this.__timeoutId = window.setTimeout(this.__timeoutWrapper, 0);
       }
 
@@ -107,7 +106,6 @@ qx.Class.define("qx.util.DeferredCallManager",
       // stop timer if no other calls are waiting
       if(qx.lang.Object.isEmpty(this.__calls) && this.__timeoutId != null)
       {
-        // this.debug("Clear timeout...");
         window.clearTimeout(this.__timeoutId);
         this.__timeoutId = null;
       }
@@ -117,9 +115,9 @@ qx.Class.define("qx.util.DeferredCallManager",
     /**
      * Helper function for the timer.
      *
-     * @return {void}
+     * @signature function()
      */
-    __timeout : function()
+    __timeout : qx.event.GlobalError.observeMethod(function()
     {
       this.__timeoutId = null;
 
@@ -143,7 +141,7 @@ qx.Class.define("qx.util.DeferredCallManager",
       }
 
       this.__currentQueue = null;
-    }
+    })
 
   },
 

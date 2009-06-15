@@ -207,12 +207,13 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
     /**
      * Internal event listener for all load/error events.
      *
+     * @signature function(event, element, source)
+     *
      * @param event {Event} Native event object
      * @param element {Element} DOM element which represents the image
      * @param source {String} The image source loaded
-     * @return {void}
      */
-    __onload : function(event, element, source)
+    __onload : qx.event.GlobalError.observeMethod(function(event, element, source)
     {
       // Shorthand
       var entry = this.__data[source];
@@ -250,7 +251,7 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
       for (var i=0, l=callbacks.length; i<l; i+=2) {
         callbacks[i].call(callbacks[i+1], source, entry);
       }
-    },
+    }),
 
 
     /**

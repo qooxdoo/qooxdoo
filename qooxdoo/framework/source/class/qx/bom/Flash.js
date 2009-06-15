@@ -177,7 +177,7 @@ qx.Class.define("qx.bom.Flash",
             win = window;
           }
 
-          win.attachEvent("onload", function() {
+          qx.bom.Event.addNativeListener(win, "load", function() {
             qx.bom.Flash.__destroyObjectInIE(element);
           });
         }
@@ -216,13 +216,12 @@ qx.Class.define("qx.bom.Flash",
     /**
      * Destroy the flash object and remove from DOM, to fix memory leaks.
      *
-     * @param element {Element} Flash object element to destroy.
-     * @return {void}
      * @signature function(element)
+     * @param element {Element} Flash object element to destroy.
      */
     __destroyObjectInIE : qx.core.Variant.select("qx.client",
     {
-      "mshtml" :  function(element)
+      "mshtml" : qx.event.GlobalError.observeMethod(function(element)
       {
         for (var i in element)
         {
@@ -233,7 +232,7 @@ qx.Class.define("qx.bom.Flash",
 
         element.parentNode.removeChild(element);
         delete this._flashObjects[element.id];
-      },
+      }),
 
       "default" : null
     }),
@@ -241,9 +240,9 @@ qx.Class.define("qx.bom.Flash",
     /**
      * Internal helper to prevent leaks in IE
      *
-     * @return {void}
+     * @signature function()
      */
-    __fixOutOfMemoryError : function()
+    __fixOutOfMemoryError : qx.event.GlobalError.observeMethod(function()
     {
       // IE Memory Leak Fix
       for (var key in qx.bom.Flash._flashObjects) {
@@ -255,7 +254,7 @@ qx.Class.define("qx.bom.Flash",
 
       // Remove listener again
       window.detachEvent("onbeforeunload", qx.bom.Flash.__fixOutOfMemoryError);
-    },
+    }),
 
 
     /**
@@ -330,7 +329,7 @@ qx.Class.define("qx.bom.Flash",
   defer : function(statics)
   {
     if (qx.core.Variant.isSet("qx.client", "mshtml")) {
-      window.attachEvent("onbeforeunload", statics.__fixOutOfMemoryError);
+      qx.bom.Event.addNativeListener(window, "beforeunload", statics.__fixOutOfMemoryError);
     }
   }
 });

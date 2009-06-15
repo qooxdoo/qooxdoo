@@ -158,12 +158,12 @@ qx.Class.define("qx.io2.ScriptLoader",
     /**
      * Internal event listener for load and error events.
      *
+     * @signature function(e)
      * @param e {Event} Native event object
-     * @return {void}
      */
-    __onevent : qx.core.Variant.select("qx.client",
+    __onevent : qx.event.GlobalError.observeMethod(qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function()
+      "mshtml" : function(e)
       {
         var state = this.__elem.readyState;
 
@@ -188,7 +188,7 @@ qx.Class.define("qx.io2.ScriptLoader",
           return;
         }
       }
-    })
+    }))
   },
   
   

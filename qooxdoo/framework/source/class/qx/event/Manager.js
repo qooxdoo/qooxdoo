@@ -50,11 +50,11 @@ qx.Bootstrap.define("qx.event.Manager",
     if (win.qx !== qx)
     {
       var self = this;
-      qx.bom.Event.addNativeListener(win, "unload", function() 
+      qx.bom.Event.addNativeListener(win, "unload", qx.event.GlobalError.observeMethod(function() 
       {
         qx.bom.Event.removeNativeListener(win, "unload", arguments.callee);
         self.dispose();
-      });
+      }));
     }
 
     // Registry for event listeners
@@ -842,9 +842,11 @@ qx.Bootstrap.define("qx.event.Manager",
       // Remove from manager list
       qx.event.Registration.removeManager(this);
       
+      this._disposeMap("__handlers");
+      this._disposeMap("__dispatchers");
+      
       // Dispose data fields
-      this.__listeners = this.__window = this.__handlers =
-        this.__dispatchers = this.__disposeWrapper = this.__handlerCache = null;
+      this.__listeners = this.__window = this.__disposeWrapper = this.__handlerCache = null;
     }
   }
 });
