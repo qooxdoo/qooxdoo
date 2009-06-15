@@ -533,3 +533,40 @@ def createBlockComment(txt):
 
     return bef
 
+
+def getClassMap(classNode):
+    # return a map {'extend':..., 'include':..., 'members':...}, with nested keys present in the map,
+    # and code given as a tree nodes
+    classMap = {}
+
+    # check start node
+    if classNode.type == "call":
+        qxDefine = selectNode(classNode, "operand/variable")
+        if qxDefine:
+            qxDefineParts = qxDefine.children
+    else:
+        qxDefineParts = []
+    if (qxDefineparts and 
+        len(qxDefineParts) > 2 and
+        qxDefineParts[0].name == "qx" and
+        qxDefineParts[2].name == "define"
+       ):
+        pass  # ok
+    else:
+        raise tree.NodeAccessException("Expected qx define node (as from findQxDefine())")
+
+    # get top-level class map
+    mapNode = selectNode(classNode, "params/map")
+
+    if mapNode.type != "map":
+        raise tree.NodeAccessException("Expected a map node!", mapNode)
+
+    if mapNode.hasChildren():
+        for child in mapNode.children:
+            if child.type == "keyvalue":
+                keyvalue = child.getChild("value")
+                if keyvalue.type == "map":
+                    keyvalue = mapNodeToMap(keyvalue)
+                classMap[child.get("key")] = keyvalue
+
+    return classMap
