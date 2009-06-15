@@ -336,6 +336,8 @@ qx.Class.define("feedreader.Application",
         feed.getArticles().contains(feed.getSelectedArticle())
       ) {
         this.__listController.getSelection().push(feed.getSelectedArticle());
+      } else {
+        this.__listView.getList().scrollToY(0);
       }
     },
     
