@@ -121,7 +121,7 @@ qx.Class.define("qx.test.event.GlobalError",
       
       wrappedFail();
       this.assertEquals(this, self);
-    },    
+    }  
     
     
     // timer setTimeout/setInterval - OK
