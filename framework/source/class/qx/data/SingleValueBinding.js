@@ -352,8 +352,13 @@ qx.Class.define("qx.data.SingleValueBinding",
         var lastProperty = targetPropertyChain.substring(
           targetPropertyChain.lastIndexOf(".") + 1, targetPropertyChain.length
         );
-        // reset the property
-        target["reset" + qx.lang.String.firstUp(lastProperty)]();
+        // try to reset the property
+        if (target["reset" + qx.lang.String.firstUp(lastProperty)] != undefined) {
+          target["reset" + qx.lang.String.firstUp(lastProperty)]();
+        } else {
+          // fallback if no resetter is given (see bug #2456) 
+          target["set" + qx.lang.String.firstUp(lastProperty)](null);
+        }
       }
     },
     
