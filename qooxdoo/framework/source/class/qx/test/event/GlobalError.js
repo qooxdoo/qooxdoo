@@ -102,7 +102,26 @@ qx.Class.define("qx.test.event.GlobalError",
             
       this.errorHandler.setErrorHandler(this.onError, this);
       wrappedFail();
-    }
+    },
+    
+    
+    testHandlerContext : function()
+    {
+      var fail = function() {
+        throw new Error("fail"); 
+      }
+      
+      var self = null;
+      var handler = function(ex) {
+        self = this;
+      }
+      
+      this.errorHandler.setErrorHandler(handler, this)      
+      var wrappedFail = this.errorHandler.observeMethod(fail);
+      
+      wrappedFail();
+      this.assertEquals(this, self);
+    },    
     
     
     // timer setTimeout/setInterval - OK
