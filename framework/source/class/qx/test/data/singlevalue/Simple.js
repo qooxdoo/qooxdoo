@@ -354,6 +354,21 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
     
     
     testNullWithConverter: function() {
+      // create a test class
+      qx.Class.define("qx.Test", {
+        extend : qx.core.Object,
+        members : {
+          __a : null,
+          setA : function(data) {
+            this.__a = data;
+          },
+          getA : function() {
+            return this.__a;
+          }
+        }
+      });
+      var t = new qx.Test();
+      
       // define the converter 
       var options = {
         converter : function(data) {
@@ -363,14 +378,17 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
           return data + "";
         }
       };
+      
       // starting point
       this.__a.setZIndex(10);
-      this.__a.bind("zIndex", this.__b, "appearance", options);
-      this.assertEquals(this.__a.getZIndex() + "", this.__b.getAppearance(), "Wrong start binding.");
+      this.__a.bind("zIndex", t, "a", options);
+      this.assertEquals(this.__a.getZIndex() + "", t.getA(), "Wrong start binding.");
       
       // set the zIndex to null
       this.__a.setZIndex(null);
-      this.assertEquals("affe", this.__b.getAppearance(), "Converter will not be executed.");      
+      this.assertEquals("affe", t.getA(), "Converter will not be executed.");
+
+      t.dispose();
     }
   }
 });
