@@ -648,7 +648,7 @@ qx.Class.define("qx.event.handler.DragDrop",
         this.__dropTarget = null;
         this.__validDrop = false;
 
-        this.__detectAction();
+        qx.event.Timer.once(this.__detectAction, this, 0);
       }
     }
   },
