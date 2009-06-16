@@ -396,7 +396,7 @@ qx.Bootstrap.define("qx.bom.Request",
       if (this.readyState == qx.bom.Request.DONE) {
         this.__cleanTransport();
       }
-    },
+    }),
 
 
     /**
@@ -411,7 +411,7 @@ qx.Bootstrap.define("qx.bom.Request",
 
       // Fire user visible event
       this.ontimeout();
-    },
+    }),
 
 
 
