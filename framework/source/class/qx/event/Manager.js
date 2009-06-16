@@ -842,8 +842,8 @@ qx.Bootstrap.define("qx.event.Manager",
       // Remove from manager list
       qx.event.Registration.removeManager(this);
       
-      this._disposeMap("__handlers");
-      this._disposeMap("__dispatchers");
+      qx.util.DisposeUtil.disposeMap(this, "__handlers");
+      qx.util.DisposeUtil.disposeMap(this, "__dispatchers");
       
       // Dispose data fields
       this.__listeners = this.__window = this.__disposeWrapper = this.__handlerCache = null;
