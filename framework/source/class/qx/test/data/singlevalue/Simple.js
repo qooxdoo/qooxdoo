@@ -380,8 +380,11 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
       };
       
       // starting point
-      this.__a.setZIndex(10);
+      this.__a.setZIndex(null);
       this.__a.bind("zIndex", t, "a", options);
+      this.assertEquals("affe", t.getA(), "Converter will not be executed.");
+      
+      this.__a.setZIndex(10);
       this.assertEquals(this.__a.getZIndex() + "", t.getA(), "Wrong start binding.");
       
       // set the zIndex to null
