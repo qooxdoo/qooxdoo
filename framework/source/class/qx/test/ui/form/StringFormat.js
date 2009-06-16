@@ -40,6 +40,9 @@ qx.Class.define("qx.test.ui.form.StringFormat",
         self.assertEquals("affen", e.getData(), "Not the right number in the event.");
         self.assertEquals("affe", e.getOldData(), "Wrong old data in the event.");
       }, "Event is wrong!");
+      
+      // test for null values
+      widget.setValue(null);
     },
     
     testTextField: function() {

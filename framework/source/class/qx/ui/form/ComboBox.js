@@ -200,6 +200,11 @@ qx.Class.define("qx.ui.form.ComboBox",
     // interface implementation
     setValue : function(value)
     {
+      // handle null values
+      if (value === null) {
+        value = "";
+      }
+      
       var textfield = this.getChildControl("textfield");
       if (textfield.getValue() == value) {
         return;

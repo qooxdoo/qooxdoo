@@ -334,6 +334,10 @@ qx.Class.define("qx.ui.form.AbstractField",
      */
     setValue : function(value)
     {
+      // handle null values
+      if (value === null) {
+        value = "";
+      }
       if (qx.lang.Type.isString(value))
       {
         var elem = this.getContentElement();
