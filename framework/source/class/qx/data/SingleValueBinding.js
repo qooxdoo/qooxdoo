@@ -457,13 +457,14 @@ qx.Class.define("qx.data.SingleValueBinding",
      */
     __setInitialValue: function(value, targetObject, targetPropertyChain, options)
     {
-      if (value == null) {
-        this.__resetTargetValue(targetObject, targetPropertyChain);
-      }
-      // convert the initial value
+      // first convert the initial value
       value = this.__convertValue(
         value, targetObject, targetPropertyChain, options
       );
+      // check if the converted value is null
+      if (value == null) {
+        this.__resetTargetValue(targetObject, targetPropertyChain);
+      }      
       // only set the initial value if one is given
       if (value != undefined) {
         this.__setTargetValue(targetObject, targetPropertyChain, value);              
