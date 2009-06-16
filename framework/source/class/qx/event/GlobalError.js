@@ -65,9 +65,9 @@ qx.Bootstrap.define("qx.event.GlobalError",
           try {
             return method.apply(this, arguments);
           } catch(ex) {
-            this.__callback.call(this.__context, ex);
+            self.__callback.call(self.__context, ex);
           }
-        }
+        };
       }
       else
       {
