@@ -350,6 +350,27 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
       
       this.__a.setZIndex(123);
       this.assertEquals(this.__a.getZIndex(), this.__b.getZIndex(), "Event binding is not working.");            
+    },
+    
+    
+    testNullWithConverter: function() {
+      // define the converter 
+      var options = {
+        converter : function(data) {
+          if (data == null) {
+            return "affe";
+          }
+          return data + "";
+        }
+      };
+      // starting point
+      this.__a.setZIndex(10);
+      this.__a.bind("zIndex", this.__b, "appearance", options);
+      this.assertEquals(this.__a.getZIndex() + "", this.__b.getAppearance(), "Wrong start binding.");
+      
+      // set the zIndex to null
+      this.__a.setZIndex(null);
+      this.assertEquals("affe", this.__b.getAppearance(), "Converter will not be executed.");      
     }
   }
 });
