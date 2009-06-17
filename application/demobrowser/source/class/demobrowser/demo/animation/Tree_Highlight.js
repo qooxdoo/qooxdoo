@@ -68,7 +68,6 @@ qx.Class.define("demobrowser.demo.animation.Tree_Highlight",
       var te1 = new qx.ui.tree.TreeFolder("Desktop");
       te1.setOpen(true)
       root.add(te1);
-      desktop = te1;
 
       var te1_1 = new qx.ui.tree.TreeFolder("Files");
       var te1_2 = new qx.ui.tree.TreeFolder("Workspace");
@@ -80,12 +79,10 @@ qx.Class.define("demobrowser.demo.animation.Tree_Highlight",
       var te1_2_1 = new qx.ui.tree.TreeFile("Windows (C:)");
       var te1_2_2 = new qx.ui.tree.TreeFile("Documents (D:)");
       te1_2.add(te1_2_1, te1_2_2);
-      arbeitsplatz = te1_2;
 
 
 
       var te2 = new qx.ui.tree.TreeFolder("Inbox");
-      posteingang = te2;
 
       var te2_1 = new qx.ui.tree.TreeFolder("Presets");
       var te2_2 = new qx.ui.tree.TreeFolder("Sent");
