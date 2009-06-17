@@ -546,10 +546,10 @@ def getClassMap(classNode):
             qxDefineParts = qxDefine.children
     else:
         qxDefineParts = []
-    if (qxDefineparts and 
+    if (qxDefineParts and 
         len(qxDefineParts) > 2 and
-        qxDefineParts[0].name == "qx" and
-        qxDefineParts[2].name == "define"
+        qxDefineParts[0].get('name') == "qx" and
+        qxDefineParts[2].get('name') == "define"
        ):
         pass  # ok
     else:
@@ -564,7 +564,7 @@ def getClassMap(classNode):
     if mapNode.hasChildren():
         for child in mapNode.children:
             if child.type == "keyvalue":
-                keyvalue = child.getChild("value")
+                keyvalue = child.getChild("value").getFirstChild(True, True)
                 if keyvalue.type == "map":
                     keyvalue = mapNodeToMap(keyvalue)
                 classMap[child.get("key")] = keyvalue
