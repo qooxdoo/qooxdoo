@@ -47,9 +47,9 @@ qx.Class.define("demobrowser.demo.ui.Opacity",
     {
       var border = new qx.ui.decoration.Single(1, "solid", "black");
 
-      columns = 30;
-      rows = 30;
-      boxSize = 15;
+      var columns = 30;
+      var rows = 30;
+      var boxSize = 15;
 
       // auto size
       var box = new qx.ui.container.Composite(new qx.ui.layout.Grid());
