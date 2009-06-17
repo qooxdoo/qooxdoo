@@ -201,7 +201,7 @@ qx.Class.define("demobrowser.demo.animation.Tree_Highlight",
       var folder = new qx.ui.tree.TreeFolder(this.inputItemName.getValue());
 
       folder.addListenerOnce("appear", function(){
-        effect = new qx.fx.effect.core.Highlight(folder.getContainerElement().getDomElement());
+        var effect = new qx.fx.effect.core.Highlight(folder.getContainerElement().getDomElement());
         effect.start();
       }, this);
 
@@ -216,7 +216,7 @@ qx.Class.define("demobrowser.demo.animation.Tree_Highlight",
       var file = new qx.ui.tree.TreeFile(this.inputItemName.getValue());
 
       file.addListenerOnce("appear", function(){
-        effect = new qx.fx.effect.core.Highlight(file.getContainerElement().getDomElement());
+        var effect = new qx.fx.effect.core.Highlight(file.getContainerElement().getDomElement());
         effect.start();
       }, this);
 
@@ -231,7 +231,7 @@ qx.Class.define("demobrowser.demo.animation.Tree_Highlight",
       var file = new qx.ui.tree.TreeFile(this.inputItemName.getValue());
 
       file.addListenerOnce("appear", function(){
-        effect = new qx.fx.effect.core.Highlight(file.getContainerElement().getDomElement());
+        var effect = new qx.fx.effect.core.Highlight(file.getContainerElement().getDomElement());
         effect.start();
       }, this);
 
@@ -245,7 +245,7 @@ qx.Class.define("demobrowser.demo.animation.Tree_Highlight",
       var file = new qx.ui.tree.TreeFile(this.inputItemName.getValue());
 
       file.addListenerOnce("appear", function(){
-        effect = new qx.fx.effect.core.Highlight(file.getContainerElement().getDomElement());
+        var effect = new qx.fx.effect.core.Highlight(file.getContainerElement().getDomElement());
         effect.start();
       }, this);
 
@@ -259,7 +259,7 @@ qx.Class.define("demobrowser.demo.animation.Tree_Highlight",
       var file = new qx.ui.tree.TreeFile(this.inputItemName.getValue());
 
       file.addListenerOnce("appear", function(){
-        effect = new qx.fx.effect.core.Highlight(file.getContainerElement().getDomElement());
+        var effect = new qx.fx.effect.core.Highlight(file.getContainerElement().getDomElement());
         effect.start();
       }, this);
 
