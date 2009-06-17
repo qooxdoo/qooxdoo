@@ -104,6 +104,13 @@ qx.Class.define("qx.ui.core.Widget",
      * Fired after the widget disappears from the screen.
      */
     disappear : "qx.event.type.Event",
+    
+    
+    /**
+     * Fired after the creation of a child control. The passed data is the
+     * newly created child widget.
+     */
+    createChildControl : "qx.event.type.Data",
 
 
 
@@ -3645,7 +3652,6 @@ qx.Class.define("qx.ui.core.Widget",
         throw new Error("Child control '" + id + "' already created!");
       }
 
-      // this.debug("Create child control: " + id);
       var pos = id.indexOf("#");
       if (pos == -1) {
         var control = this._createChildControlImpl(id);
@@ -3674,6 +3680,8 @@ qx.Class.define("qx.ui.core.Widget",
           }
         }
       }
+
+      this.fireDataEvent("createChildControl", control);
 
       // Register control and return
       return this.__childControls[id] = control;
