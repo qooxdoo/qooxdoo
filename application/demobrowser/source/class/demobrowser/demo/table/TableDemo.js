@@ -31,6 +31,8 @@ qx.Class.define("demobrowser.demo.table.TableDemo",
 
   members :
   {
+    __dlg : null,
+    
     main : function()
     {
       this.base(arguments);
