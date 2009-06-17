@@ -49,7 +49,7 @@ qx.Class.define("demobrowser.demo.showcase.Dialog",
 
       this.getRoot().add(container, {left:40, top:40});
 
-      labels = ["First Name", "Last Name", "City", "Country", "Notes"];
+      var labels = ["First Name", "Last Name", "City", "Country", "Notes"];
       for (var i=0; i<labels.length; i++) {
         page.add(new qx.ui.basic.Label(labels[i]).set({
           allowShrinkX: false,
@@ -57,7 +57,7 @@ qx.Class.define("demobrowser.demo.showcase.Dialog",
         }), {row: i, column : 0});
       }
 
-      inputs = ["John", "Smith", "New York", "USA"];
+      var inputs = ["John", "Smith", "New York", "USA"];
       for (var i=0; i<inputs.length; i++) {
         page.add(new qx.ui.form.TextField(inputs[i]), {row:i, column:1});
       }
@@ -107,11 +107,11 @@ qx.Class.define("demobrowser.demo.showcase.Dialog",
       });
       page.add(buttonPane, {row:5, column: 0, colSpan: 4});
 
-      okButton = new qx.ui.form.Button("OK", "icon/22/actions/dialog-apply.png");
+      var okButton = new qx.ui.form.Button("OK", "icon/22/actions/dialog-apply.png");
       okButton.addState("default");
       buttonPane.add(okButton);
 
-      cancelButton = new qx.ui.form.Button("Cancel", "icon/22/actions/dialog-cancel.png");
+      var cancelButton = new qx.ui.form.Button("Cancel", "icon/22/actions/dialog-cancel.png");
       buttonPane.add(cancelButton);
     }
   }
