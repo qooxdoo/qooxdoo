@@ -30,6 +30,9 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
 
   members :
   {
+    __list : null,
+    __currentListItem : null,
+    
     main: function()
     {
       this.base(arguments);
