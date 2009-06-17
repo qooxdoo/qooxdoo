@@ -17,7 +17,7 @@
 /**
  * This is the main application class of your custom application "${Namespace}"
  */
-qx.Class.define("${Namespace}.Demo",
+qx.Class.define("${Namespace}.demo.Demo",
 {
   extend : qx.application.Standalone,
 
