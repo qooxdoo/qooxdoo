@@ -23,7 +23,11 @@ qx.Class.define("demobrowser.demo.animation.Save_Dialog",
 
   members :
   {
-
+    __showEffect : null,
+    __dialog : null,
+    __hideEffect : null,
+    __container : null,
+    
     __prepareEffects : function()
     {
 
