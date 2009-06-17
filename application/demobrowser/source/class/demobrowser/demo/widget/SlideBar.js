@@ -34,7 +34,7 @@ qx.Class.define("demobrowser.demo.widget.SlideBar",
     {
       this.base(arguments);
 
-      slideBar = new qx.ui.container.SlideBar();
+      var slideBar = new qx.ui.container.SlideBar();
       slideBar.set({
         width: 300
       });
