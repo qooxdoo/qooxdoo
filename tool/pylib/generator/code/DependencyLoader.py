@@ -231,20 +231,31 @@ class DependencyLoader:
         return loadtime
 
 
+    ##
+    # find all run time dependencies of a given method, recursively
+    #
+    # this is supposed to be an improved version of getMethodDeps() that should be really
+    # exhaustive (and therefore reliable):
+    # - get the immediate runtime dependencies of the current method; for each of those dependencies:
+    # - if it is a "<name>.xxx" method/attribute:
+    #   - find the defining class (<name>, ancestor of <name>, or mixin of <name>): findClassForMethod()
+    #   - add this class#method to dependencies
+    #   - recurse on dependencies of this class#method, adding them to the current dependencies
+    # currently only a thin wrapper around its recursive sibling, getMethodDepsR
+
     def getMethodDeps1(self, classId, methodId, variants):
-        # this is supposed to be an improved version of getMethodDeps() that should be really
-        # exhaustive (and therefore reliable):
-        # - get the immediate runtime dependencies of the current method; for each of those dependencies:
-        # - if it is a "<name>.xxx" method/attribute:
-        #   - if <name> == "this", then <name> = current class name
-        #   - find the defining class (<name>, ancestor of <name>, or mixin of <name>): findClassForMethod()
-        #   - add this class#method to dependencies
-        #   - recurse on dependencies of this class#method, adding them to the current dependencies
-        #     (could e.g. contain further calls to external methods)
+
+        ##
+        # find the class the given <methodId> is defined in; start with the
+        # given class, inspecting its class map to find the method; if
+        # unsuccessful, recurse on the potential super class and mixins; return
+        # the defining class name, and the tree node defining the method
+        # (actually, the map value of the method name key, whatever that is)
+        #
+        # @out <string> class that defines method
+        # @out <tree>   tree node value of methodId in the class map
 
         def findClassForMethod(clazzId, methodId, variants):
-            # @out <string> class that defines method
-            # @out <string> isolated method name
 
             def classHasOwnMethod(classAttribs, methId):
                 candidates = {}
@@ -289,26 +300,10 @@ class DependencyLoader:
                     return rclass, keyval
             return None, None
 
-        def findMethod(tree, methodName):
-            for node in treeutil.nodeIterator(tree, ["function"]):  # check function nodes
-                if node.hasParentContext("keyvalue/value"): # it's a key : function() member
-                    keyvalNode = node.parent.parent
-                    key = keyvalNode.get("key", False)
-                    if key and key == methodName:
-                        return node
-            return None
+        ##
+        # split a composed identifier into its class and attribute part, so that
+        # <assembled> = <assembledId>.<attribute>
 
-        def fnodeFromName(fileId, methodName, variants):
-            # get the class code
-            tree = self._treeLoader.getTree(fileId, variants)
-
-            # find the method node
-            funcNode   = findMethod(tree, methodName)
-            if not funcNode:
-                raise RuntimeError, "No method named \"%s\" found in class \"%s\"." % (methodName, fileId)
-
-            return funcNode
-            
         def splitClassAttribute(assembledId, assembled):
             if assembledId == assembled:  # just a class id
                 clazzId   = assembledId
@@ -320,6 +315,10 @@ class DependencyLoader:
             return clazzId, attribute
 
 
+        ##
+        # extract the class name from a composed identifier
+        # "qx.Class.define" -> "qx.Class"
+
         def reduceAssembled(assembled):
             assembledId = ''
             if assembled in self._classes:
@@ -330,6 +329,11 @@ class DependencyLoader:
                         if len(entryId) > len(assembledId): # take the longest match
                             assembledId = entryId
             return assembledId
+
+        ##
+        # find interesting identifiers in a (method) source tree; "interesting"
+        # means references to other methods within the qooxdoo world;
+        # returns the full identifiers
 
         def getReferencesFromSource(fileId, node, runtime):
             # the "variants" param is only to support getMethodDeps()!
@@ -367,12 +371,10 @@ class DependencyLoader:
                     return True
                 return False
 
-            def checkDeferNode(assembled, node):
-                deferNode = None
-                if assembled in ("qx.Class.define", "qx.Bootstrap.define", "qx.List.define"):
-                    if node.hasParentContext("call/operand"):
-                        deferNode = treeutil.selectNode(node, "../../params/2/keyvalue[@key='defer']/value/function/body/block")
-                return deferNode
+            ##
+            # currently interesting are 
+            # - 'new' operands ("new qx.ui.form.Button(...)"), and 
+            # - call operands ("qx.core.Variant.select(...)")
 
             def isInterestingReference(assembled, node, fileId):
                 # check name in 'new ...' position
@@ -391,46 +393,6 @@ class DependencyLoader:
 
                 return False
             
-            def addId(assembledId, runtime, loadtime):
-                if inFunction:
-                    target = runtime
-                else:
-                    target = loadtime
-
-                if not assembledId in target:
-                    target.append(assembledId)
-
-                if (not inFunction and  # only for loadtime items
-                    self._jobconf.get("dependencies/follow-static-initializers", False) and
-                    node.hasParentContext("call/operand")  # it's a method call
-                   ):  
-                    deps = self.getMethodDeps(assembledId, assembled, variants)
-                    loadtime.extend([x for x in deps if x not in loadtime]) # add uniquely
-
-                return
-
-
-            def followCallDeps(assembledId):
-                if (assembledId and
-                    assembledId in self._classes and       # we have a class id
-                    assembledId != fileId and
-                    self._jobconf.get("dependencies/follow-static-initializers", False) and
-                    node.hasParentContext("call/operand")  # it's a method call
-                   ):
-                    return True
-                return False
-
-
-            def splitClassAttribute(assembledId, assembled):
-                if assembledId == assembled:  # just a class id
-                    clazzId   = assembledId
-                    attribute = u''
-                else:
-                    clazzId   = assembledId
-                    attribute = assembled[ len(assembledId) +1 :] # a.b.c.d = a.b.c + '.' + d
-                    
-                return clazzId, attribute
-
             # -----------------------------------------------------------
 
             if node.type == "variable":
@@ -447,23 +409,37 @@ class DependencyLoader:
 
 
 
+        ##
+        # find dependencies of a method <methodId> that has been referenced from
+        # <classId>. recurse on the immediate dependencies in the method code.
+        #
+        # @param deps accumulator variable set((c1,m1), (c2,m2),...)
+        #
+        # returns a set of pairs each representing a signature (classId,
+        # methodId)
+
         def getMethodDepsR(classId, methodId, variants, deps):
             self._console.debug("%s#%s dependencies:" % (classId, methodId))
 
+            # Check cache
             filePath= self._classes[classId]["path"]
             cacheId = "methoddeps-%r-%r-%r" % (classId, methodId, util.toString(variants))
-            ndeps   = self._cache.read(cacheId, memory=True)
+            ndeps   = self._cache.read(cacheId, memory=True)  # no use to put this into a file, due to transitive dependencies to other files
             if ndeps != None:
                 deps.update(ndeps)
                 return
 
+            # Calculate deps
             self._console.indent()
 
+            # find the defining class
             clazzId, attribValNode = findClassForMethod(classId, methodId, variants)
-            # get the current method's deps
+
+            # Get the method's immediate deps
             deps_rt = []
             getReferencesFromSource(clazzId, attribValNode, deps_rt)
             ndeps= set(())
+            # put into right format
             for dep in deps_rt:
                 assId = reduceAssembled(dep)
                 if assId == u'':  # unknown class
@@ -474,6 +450,7 @@ class DependencyLoader:
 
             self._console.debug("Code references: %r" % list(ndeps))
 
+            # Recurse on the immediate deps
             ndepslist = list(ndeps)
             ndeps     = set(())
             for dep in ndepslist:
@@ -484,10 +461,10 @@ class DependencyLoader:
                 nclazzId, methValNode = findClassForMethod(clazzId, methId, variants) # find the original class methId was defined in
                 if not nclazzId:
                     self._console.warn("Skipping unknown class dependency: %s.%s" % (clazzId, methId))
+                elif nclazzId == True:  # this must be a known global (like Error, Regexp, ...)
+                    self._console.debug("Dependency automatically fullfilled: %s.%s" % (clazzId, methId))
+                    continue
                 else:
-                    if nclazzId == True:
-                        self._console.debug("Dependency automatically fullfilled: %s.%s" % (clazzId, methId))
-                        continue
                     clazzId = nclazzId
                     # cyclic check
                     if (clazzId, methId) in deps:
@@ -499,7 +476,9 @@ class DependencyLoader:
                         assert clazzId in self._classes
                         getMethodDepsR(clazzId, methId, variants, deps.union(ndeps))  # recursive call
 
+            # Cache update
             self._cache.write(cacheId, ndeps, memory=True, writeToFile=False)
+            # accumulator update
             deps.update(ndeps)
             self._console.debug("Recursive dependencies: %r" % list(ndeps))
             self._console.outdent()
