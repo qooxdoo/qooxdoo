@@ -3527,6 +3527,17 @@ qx.Class.define("qx.ui.core.Widget",
     /** {Map} Map of instantiated child controls */
     __childControls : null,
 
+
+    /**
+     * Returns a map of all already created child controls
+     * 
+     * @return {Map} mapping of child control id to the child widget.
+     */
+    _getCreatedChildControls : function() {
+      return this.__childControls;
+    },
+
+
     /**
      * Returns the child control from the given ID. Returns
      * <code>null</code> when the child control is unknown.
