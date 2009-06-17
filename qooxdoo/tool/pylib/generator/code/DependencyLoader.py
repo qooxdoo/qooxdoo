@@ -247,25 +247,47 @@ class DependencyLoader:
             # @out <string> isolated method name
 
             def classHasOwnMethod(classAttribs, methId):
-                if methId in classAttribs["members"] + classAttribs["statics"] + ["construct"]:
-                    return True
+                candidates = {}
+                candidates.update(classAttribs.get("members",{}))
+                candidates.update(classAttribs.get("statics",{}))
+                if "construct" in classAttribs:
+                    candidates.update(dict((("construct", classAttribs.get("construct")),)))
+                if methId in candidates.keys():
+                    return candidates[methId]  # return the definition of the attribute
                 else:
-                    return False
+                    return None
+
+            # get the method name
+            if  methodId == u'':  # corner case: the class is being called
+                methodId = "construct"
+            elif methodId == "getInstance": # corner case: singletons get this from qx.Class
+                clazzId = "qx.Class"
+            # TODO: getter/setter are also not statically available!
 
             tree = self._treeLoader.getTree(clazzId, variants)
             clazz = treeutil.findQxDefine(tree)
             classAttribs = treeutil.getClassMap(clazz)
-            if classHasOwnMethod(classAttibs, methodId):
-                return classId
+            keyval = classHasOwnMethod(classAttribs, methodId)
+            if keyval:
+                return clazzId, keyval
             # inspect inheritance/mixins
             parents = []
-            parents.extend(classAttribs.get('extend', []))
-            parents.extend(classAttribs.get('include', []))
+            extendVal = classAttribs.get('extend', None)
+            if extendVal:
+                extendVal = treeutil.variableOrArrayNodeToArray(extendVal)
+                parents.extend(extendVal)
+            includeVal = classAttribs.get('include', None)
+            if includeVal:
+                includeVal = treeutil.variableOrArrayNodeToArray(includeVal)
+                parents.extend(includeVal)
             for parClass in parents:
-                rclass = findClassForMethod(parClass, methodId, variants)
+                if parClass in self._classes:
+                    rclass, keyval = findClassForMethod(parClass, methodId, variants)
+                elif parClass in lang.BUILTIN:
+                    rclass, keyval = True, True
                 if rclass:
-                    return rclass
-            return None
+                    return rclass, keyval
+            return None, None
 
         def findMethod(tree, methodName):
             for node in treeutil.nodeIterator(tree, ["function"]):  # check function nodes
@@ -298,8 +320,18 @@ class DependencyLoader:
             return clazzId, attribute
 
 
+        def reduceAssembled(assembled):
+            assembledId = ''
+            if assembled in self._classes:
+                assembledId = assembled
+            elif "." in assembled:
+                for entryId in self._classes.keys() + ["this"]:
+                    if assembled.startswith(entryId) and re.match(r'%s\b' % entryId, assembled):
+                        if len(entryId) > len(assembledId): # take the longest match
+                            assembledId = entryId
+            return assembledId
 
-        def getFuncDeps(fileId, node, loadtime, runtime, warn, inFunction):
+        def getReferencesFromSource(fileId, node, runtime):
             # the "variants" param is only to support getMethodDeps()!
 
             def isScopedVar(idString, node, fileId):
@@ -337,32 +369,22 @@ class DependencyLoader:
 
             def checkDeferNode(assembled, node):
                 deferNode = None
-                if assembled == "qx.Class.define" or assembled == "qx.Bootstrap.define" or assembled == "qx.List.define":
+                if assembled in ("qx.Class.define", "qx.Bootstrap.define", "qx.List.define"):
                     if node.hasParentContext("call/operand"):
                         deferNode = treeutil.selectNode(node, "../../params/2/keyvalue[@key='defer']/value/function/body/block")
                 return deferNode
 
-            def reduceAssembled(assembled):
-                assembledId = ''
-                if assembled in self._classes:
-                    assembledId = assembled
-                elif "." in assembled:
-                    for entryId in self._classes:
-                        if assembled.startswith(entryId) and re.match(r'%s\b' % entryId, assembled):
-                            if len(entryId) > len(assembledId): # take the longest match
-                                assembledId = entryId
-                return assembledId
-
-            def isUnknownClass(assembled, node, fileId):
+            def isInterestingReference(assembled, node, fileId):
                 # check name in 'new ...' position
                 if (node.hasParentContext("instantiation/*/*/operand")
-                # check name in "'extend' : ..." position
-                or (node.hasParentContext("keyvalue/*") and node.parent.parent.get('key') == 'extend')):
+                # check name in call position
+                or (node.hasParentContext("call/operand"))):
                     # skip built-in classes (Error, document, RegExp, ...)
-                    if (assembled in lang.BUILTIN + ['clazz'] or re.match(r'this\b', assembled)):
-                       return False
+                    for bi in lang.BUILTIN + ['clazz']:
+                        if re.search(r'^%s\b' % bi, assembled):
+                            return False
                     # skip scoped vars - expensive, therefore last test
-                    elif isScopedVar(assembled, node, fileId):
+                    if isScopedVar(assembled, node, fileId):
                         return False
                     else:
                         return True
@@ -383,9 +405,6 @@ class DependencyLoader:
                     node.hasParentContext("call/operand")  # it's a method call
                    ):  
                     deps = self.getMethodDeps(assembledId, assembled, variants)
-                    if traceFlag:
-                        if assembledId == "qx.lang.Object": print "-- qx.lang.Object1: %r" % loadtime
-                        if assembledId == "qx.lang.Object": print "-- qx.lang.Object1.a: %r" % deps
                     loadtime.extend([x for x in deps if x not in loadtime]) # add uniquely
 
                 return
@@ -417,60 +436,78 @@ class DependencyLoader:
             if node.type == "variable":
                 assembled = (treeutil.assembleVariable(node))[0]
 
-                # treat dependencies in defer as requires
-                deferNode = checkDeferNode(assembled, node)
-                if deferNode != None:
-                    self._analyzeClassDepsNode(fileId, deferNode, loadtime, runtime, warn, False, variants)
-
-                # try to reduce to a class name
-                assembledId = reduceAssembled(assembled)
-                classId, methodId = splitClassAttribute(assembledId, assembled)
-
-                # warn about instantiations of unknown classes
-                if not assembledId and isUnknownClass(assembled, node, fileId):
-                    warn.append(assembled)
-
-                if assembledId and assembledId in self._classes and assembledId != fileId:
-                    addId((classId, methodId), runtime, loadtime)
-
-            elif node.type == "body" and node.parent.type == "function":
-                inFunction = True
+                if isInterestingReference(assembled, node, fileId):
+                    runtime.append(assembled)
 
             if node.hasChildren():
                 for child in node.children:
-                    self._analyzeClassDepsNode(fileId, child, loadtime, runtime, warn, inFunction, variants)
-
-            if traceFlag:
-                print "-- (%s : %r)" % (fileId, loadtime)
+                    getReferencesFromSource(fileId, child, runtime)
 
             return
 
 
+
+        def getMethodDepsR(classId, methodId, variants, deps):
+            self._console.debug("%s#%s dependencies:" % (classId, methodId))
+
+            filePath= self._classes[classId]["path"]
+            cacheId = "methoddeps-%r-%r-%r" % (classId, methodId, util.toString(variants))
+            ndeps   = self._cache.read(cacheId, memory=True)
+            if ndeps != None:
+                deps.update(ndeps)
+                return
+
+            self._console.indent()
+
+            clazzId, attribValNode = findClassForMethod(classId, methodId, variants)
+            # get the current method's deps
+            deps_rt = []
+            getReferencesFromSource(clazzId, attribValNode, deps_rt)
+            ndeps= set(())
+            for dep in deps_rt:
+                assId = reduceAssembled(dep)
+                if assId == u'':  # unknown class
+                    self._console.info("Skipping unknown id: %r" % dep)
+                    continue
+                clazzId, methId = splitClassAttribute(assId, dep)
+                ndeps.add((clazzId,methId))
+
+            self._console.debug("Code references: %r" % list(ndeps))
+
+            ndepslist = list(ndeps)
+            ndeps     = set(())
+            for dep in ndepslist:
+                clazzId, methId = dep
+                if clazzId == "this":
+                    clazzId = classId
+                ndeps.add((clazzId, methId))
+                nclazzId, methValNode = findClassForMethod(clazzId, methId, variants) # find the original class methId was defined in
+                if not nclazzId:
+                    self._console.warn("Skipping unknown class dependency: %s.%s" % (clazzId, methId))
+                else:
+                    if nclazzId == True:
+                        self._console.debug("Dependency automatically fullfilled: %s.%s" % (clazzId, methId))
+                        continue
+                    clazzId = nclazzId
+                    # cyclic check
+                    if (clazzId, methId) in deps:
+                    #if (clazzId, methId) == (classId, methodId):
+                        self._console.debug("Class.method alredy seen, skipping: %s.%s" % (clazzId, methId))
+                        continue
+                    else:
+                        ndeps.add((clazzId, methId))
+                        assert clazzId in self._classes
+                        getMethodDepsR(clazzId, methId, variants, deps.union(ndeps))  # recursive call
+
+            self._cache.write(cacheId, ndeps, memory=True, writeToFile=False)
+            deps.update(ndeps)
+            self._console.debug("Recursive dependencies: %r" % list(ndeps))
+            self._console.outdent()
+            return
+
         # - Main ---------------------
-
-        deps_rt = []
-        deps_lt = []
-        deps_wn = []
-
-        # get the method name
-        if  methodId == u'':  # corner case: the class is being called
-            methodId = "construct"
-        elif methodId == "getInstance": # corner case: singletons get this from qx.Class
-            classId = "qx.Class"
-        # TODO: getter/setter are also not statically available!
-
-        funcNode = fnodeFromName(classId, methodId, variants)
-        getFuncDeps(classId, funcNode, deps_rt, deps_lt, deps_wn, True)
-        deps = set(deps_rt)
-
-        for clazzId, methId in deps:
-            if clazzId == "this":
-                clazzId = classId
-            clazzId, methId = findClassForMethod(clazzId, methId) # find the original class methId was defined in
-            deps.add(clazzId + '#' + methId)
-            rdeps = self.getMethodDeps1(clazzId, methId)  # recursive call
-            deps.update(rdeps)  # add uniquely
-
+        deps = set(())
+        getMethodDepsR(classId, methodId, variants, deps)
         return deps
 
 
@@ -531,12 +568,6 @@ class DependencyLoader:
             undefDeps    = []
 
             tree = self._treeLoader.getTree(fileId, variants)
-            global traceFlag
-            if fileId == "qx.lang.Object": 
-                #traceFlag = True
-                traceFlag = False
-            else:
-                traceFlag = False
             self._analyzeClassDepsNode(fileId, tree, loadtimeDeps, runtimeDeps, undefDeps, False, variants)
 
             ## this should be for *source* version only!
@@ -702,9 +733,6 @@ class DependencyLoader:
                 node.hasParentContext("call/operand")  # it's a method call
                ):  
                 deps = self.getMethodDeps(assembledId, assembled, variants)
-                if traceFlag:
-                    if assembledId == "qx.lang.Object": print "-- qx.lang.Object1: %r" % loadtime
-                    if assembledId == "qx.lang.Object": print "-- qx.lang.Object1.a: %r" % deps
                 loadtime.extend([x for x in deps if x not in loadtime]) # add uniquely
 
             return
@@ -754,16 +782,20 @@ class DependencyLoader:
             # an attempt to fix static initializers (bug#1455)
             if not inFunction and followCallDeps(assembledId):
                 self._console.debug("Looking for rundeps in '%s' of '%s'" % (assembled, assembledId))
-                #classId, attribId = splitClassAttribute(assembledId, assembled)
-                #ldeps = self.getMethodDeps1(classId, attribId, variants)
-                ldeps = self.getMethodDeps(assembledId, assembled, variants)
-                # getMethodDeps is mutual recursive calling into the current function, but
-                # only does so with inFunction=True, so this branch is never hit through the
-                # recursive call
-                # make run-time deps of the called method load-deps of the current
-                loadtime.extend([x for x in ldeps if x not in loadtime]) # add uniquely
-                #ld = [x.split('#')[0] for x in ldeps]
-                #loadtime.extend([x for x in ld if x not in loadtime]) # add uniquely
+                if False: # use old getMethodDeps()
+                    ldeps = self.getMethodDeps(assembledId, assembled, variants)
+                    # getMethodDeps is mutual recursive calling into the current function, but
+                    # only does so with inFunction=True, so this branch is never hit through the
+                    # recursive call
+                    # make run-time deps of the called method load-deps of the current
+                    loadtime.extend([x for x in ldeps if x not in loadtime]) # add uniquely
+                else: # new getMethodDeps()
+                    self._console.indent()
+                    classId, attribId = splitClassAttribute(assembledId, assembled)
+                    ldeps = self.getMethodDeps1(classId, attribId, variants)
+                    ld = [x[0] for x in ldeps]
+                    loadtime.extend([x for x in ld if x not in loadtime]) # add uniquely
+                    self._console.outdent()
 
         elif node.type == "body" and node.parent.type == "function":
             inFunction = True
@@ -771,9 +803,6 @@ class DependencyLoader:
         if node.hasChildren():
             for child in node.children:
                 self._analyzeClassDepsNode(fileId, child, loadtime, runtime, warn, inFunction, variants)
-
-        if traceFlag:
-            print "-- (%s : %r)" % (fileId, loadtime)
 
         return
 
@@ -979,4 +1008,3 @@ class DependencyLoader:
         return result
 
 
-traceFlag = False
