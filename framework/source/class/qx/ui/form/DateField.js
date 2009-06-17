@@ -144,7 +144,8 @@ qx.Class.define("qx.ui.form.DateField",
      */
     setValue : function(value)
     {
-      if (qx.lang.Type.isString(value)) {
+      if (qx.lang.Type.isString(value))
+      {
         qx.log.Logger.deprecatedMethodWarning(
           arguments.callee, "Value property is used for setting dates now."
         );
@@ -167,7 +168,8 @@ qx.Class.define("qx.ui.form.DateField",
      *
      * @return {Date} The currently set date.
      */
-    getValue : function() {
+    getValue : function()
+    {
       // get the value of the textfield
       var textfieldValue = this.getChildControl("textfield").getValue();
 
@@ -184,7 +186,8 @@ qx.Class.define("qx.ui.form.DateField",
      * Resets the DateField. The textfield will be empty and the datechooser 
      * will also have no selection.
      */
-    resetValue: function() {
+    resetValue: function()
+    {
       // set the date to the textfield
       var textField = this.getChildControl("textfield");
       textField.setValue("");
