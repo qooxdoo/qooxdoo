@@ -504,6 +504,9 @@ class QxTest:
       osys = osRe.search(line)
       if (osys):
         osystem = osys.group(1)
+        # Some browsers return "Linux i686" as the platform 
+        if "Linux" in osystem:
+          osystem = "Linux"
   
       failedTests = failedTestsRe.search(line)
       if (failedTests):
