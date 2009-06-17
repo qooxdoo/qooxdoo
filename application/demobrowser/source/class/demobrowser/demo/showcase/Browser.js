@@ -93,7 +93,7 @@ qx.Class.define("demobrowser.demo.showcase.Browser",
       }, this);
       toolbar.add(this.txtUrl, {flex: 1});
 
-      btnGo = new qx.ui.toolbar.Button(null, "icon/16/actions/media-playback-start.png");
+      var btnGo = new qx.ui.toolbar.Button(null, "icon/16/actions/media-playback-start.png");
       btnGo.addListener("execute", function(e) {
         this.surfTo(this.txtUrl.getValue());
       }, this);
