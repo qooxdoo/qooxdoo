@@ -74,7 +74,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
      */
     placeMethod : {
       check : ["widget", "mouse"],
-      init : "widget",
+      init : "mouse",
       themeable: true
     },
 
