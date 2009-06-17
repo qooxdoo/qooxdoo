@@ -111,7 +111,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           decorator : "tooltip",
           shadow : "shadow-small",
           padding : [ 1, 3, 2, 3 ],
-          offset : [ 1, 1, 20, 1 ]
+          offset : [ 5, 5, 20, 5 ]
         };
       }
     },
