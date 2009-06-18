@@ -472,6 +472,7 @@ class QxTest:
       cmd += " testBrowser=" + self.browserConf[browser]
     else:
       cmd += " testBrowser='" + self.browserConf[browser] + "'"
+    cmd += " browserId='" + browser + "'"
     return cmd
 
 
