@@ -20,8 +20,6 @@
 
 /**
  * Managed wrapper for the HTML Flash tag.
- *
- * @experimental Perhaps the API can change during the development process.
  */
 qx.Class.define("qx.html.Flash",
 {

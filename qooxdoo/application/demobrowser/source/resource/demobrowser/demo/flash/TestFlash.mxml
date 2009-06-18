@@ -3,13 +3,31 @@
 	<mx:Script>
 		<![CDATA[
 			import flash.external.ExternalInterface;
+      import mx.controls.Alert;
 
 			private var callBack:String = "";
 			
 			private function init():void {
-        ExternalInterface.marshallExceptions = true;
-				ExternalInterface.addCallback("setup", setup);
-				ExternalInterface.addCallback("sendMessage", sendMessage);
+        try {
+          ExternalInterface.marshallExceptions = true;
+				  ExternalInterface.addCallback("setup", setup);
+				  ExternalInterface.addCallback("sendMessage", sendMessage);
+        
+          if (Application.application.parameters.init) {
+            try {
+              ExternalInterface.call(Application.application.parameters.init);
+            } catch (error:Error) {
+              Alert.show("Coudn't access: " + Application.application.parameters.init, "Error");
+            }
+          } else {
+            Alert.show("Missing init param", "Error");
+          }
+        } catch (error:Error) {
+          Alert.show("Couldn't connect to Flash Player! Please make sure that:\n" 
+            + "1) no pop-up or advertising blocker is activated.\n"
+            + "2) this html page is not loaded from the file system, but a webserver.",
+            "Error");
+        }
 			}
 			
 			private function setup(callBack:String):void {
