@@ -18,11 +18,7 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * The Flash widget embeds the HMTL Flash element
- *
- * @experimental Perhaps the API can change during the development process.
  */
 qx.Class.define("qx.ui.embed.Flash",
 {
