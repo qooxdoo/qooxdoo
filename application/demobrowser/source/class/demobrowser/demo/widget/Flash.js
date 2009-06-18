@@ -180,7 +180,9 @@ qx.Class.define("demobrowser.demo.widget.Flash",
       }));
       
       this.__flash = new qx.ui.embed.Flash("demobrowser/demo/flash/TestFlash.swf");
-      this.__flash.addListenerOnce("appear", this.__onAppear, this);
+      this.__flash.setVariables({
+        init : "demobrowser.demo.widget.Flash.flashReady"
+      });
       flashConteiner.add(this.__flash, {flex: 1});
       
       return container;
@@ -190,30 +192,20 @@ qx.Class.define("demobrowser.demo.widget.Flash",
     { 
       this.__messageFromFlash.setValue(message);  
     },
-      
-    __onAppear : function(e)
+    
+    initFlash : function()
     {
-      var timer = new qx.event.Timer(100);
-      var count = 0;
-      
-      timer.addListener("interval", function()
+      if (this.__flash.getFlashElement().setup)
       {
-        try
-        {
-          count++;
-          if (count < 50) {
-            this.__flash.getFlashElement().setup("demobrowser.demo.widget.Flash.getCallBackInstance().sendMessage");
-            this.__sendButton.setEnabled(true);
-          } else {
-            alert("Couldn't connect to Flash Player! Please make sure that:\n" 
-                + "1) no pop-up or advertising blocker is activated.\n"
-                + "2) this html page is not loaded from the file system, but a webserver.");
-          }
-          timer.stop();
-        } catch(e) {}
-      }, this);
-      
-      timer.start();
+        this.__flash.getFlashElement().setup("demobrowser.demo.widget.Flash.sendMessage");
+        this.__sendButton.setEnabled(true);
+      } 
+      else
+      {
+        alert("Couldn't connect to Flash Player! Please make sure that:\n" 
+          + "1) no pop-up or advertising blocker is activated.\n"
+          + "2) this html page is not loaded from the file system, but a webserver.");
+      }
     }
   },
   
@@ -226,14 +218,19 @@ qx.Class.define("demobrowser.demo.widget.Flash",
   {
     __callBackInstance : null,
     
-    setCallBackInstance : function (CallBackInstance)
+    setCallBackInstance : function(callBackInstance)
     {
-      demobrowser.demo.widget.Flash.__callBackInstance = CallBackInstance;
+      demobrowser.demo.widget.Flash.__callBackInstance = callBackInstance;
     },
     
-    getCallBackInstance : function () 
+    sendMessage : function(message) 
     {
-      return demobrowser.demo.widget.Flash.__callBackInstance;
+      demobrowser.demo.widget.Flash.__callBackInstance.sendMessage(message);
+    },
+    
+    flashReady : function()
+    {
+      demobrowser.demo.widget.Flash.__callBackInstance.initFlash();
     }
   }
 });
