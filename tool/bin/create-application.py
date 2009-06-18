@@ -65,6 +65,19 @@ def createApplication(options):
 def copySkeleton(skeleton_path, app_type, dir, namespace):
     console.log("Copy skeleton into the output directory: %s" % dir)
 
+    def rename_folders(root_dir):
+        # rename name space parts of paths
+
+        # rename in class path
+        source_dir = os.path.join(root_dir, "source", "class", "custom")
+        out_dir    = os.path.join(root_dir, "source", "class")
+        expand_dir(source_dir, out_dir, namespace)
+
+        # rename in resource path
+        resource_dir = os.path.join(root_dir, "source", "resource", "custom")
+        out_dir      = os.path.join(root_dir, "source", "resource")
+        expand_dir(resource_dir, out_dir, namespace)
+
     template = os.path.join(skeleton_path, app_type)
     if not os.path.isdir(template):
         console.error("Unknown application type '%s'." % app_type)
@@ -81,34 +94,9 @@ def copySkeleton(skeleton_path, app_type, dir, namespace):
     else:
         app_dir = dir
 
-    # rename namespace
-    source_dir = os.path.join(app_dir, "source", "class", "custom")
-    out_dir    = os.path.join(app_dir, "source", "class")
-    expand_dir(source_dir, out_dir, namespace)
-    #if os.path.isdir(source_dir):
-    #    os.rename(
-    #        source_dir,
-    #        os.path.join(app_dir, "source", "class", namespace)
-    #    )
-
-    resource_dir = os.path.join(app_dir, "source", "resource", "custom")
-    out_dir      = os.path.join(app_dir, "source", "resource")
-    expand_dir(resource_dir, out_dir, namespace)
-    #if os.path.isdir(resource_dir):
-    #    os.rename(
-    #        resource_dir,
-    #        os.path.join(app_dir, "source", "resource", namespace)
-    #    )
-
+    rename_folders(app_dir)
     if app_type == "contribution":
-        demo_dir = os.path.join(app_dir, "demo", "default", "source", "class", "custom")
-        out_dir  = os.path.join(app_dir, "demo", "default", "source", "class")
-        expand_dir(demo_dir, out_dir, namespace)
-        #if os.path.isdir(demo_dir):
-        #    os.rename(
-        #        demo_dir,
-        #        os.path.join(app_dir, "demo", "default", "source", "class", namespace)
-        #    )
+        rename_folders(os.path.join(app_dir, "demo", "default"))
 
     #clean svn directories
     for root, dirs, files in os.walk(dir, topdown=False):
