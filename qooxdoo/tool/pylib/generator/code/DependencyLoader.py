@@ -425,17 +425,19 @@ class DependencyLoader:
 
         def getMethodDepsR(classId, methodId, variants, deps):
             self._console.debug("%s#%s dependencies:" % (classId, methodId))
+            self._console.indent()
 
             # Check cache
             filePath= self._classes[classId]["path"]
             cacheId = "methoddeps-%r-%r-%r" % (classId, methodId, util.toString(variants))
             ndeps   = self._cache.read(cacheId, memory=True)  # no use to put this into a file, due to transitive dependencies to other files
             if ndeps != None:
-                deps.update(ndeps)
-                return
+                self._console.debug("using cached result")
+                #deps.update(ndeps)
+                self._console.outdent()
+                return ndeps
 
             # Calculate deps
-            self._console.indent()
 
             # find the defining class
             clazzId, attribValNode = findClassForMethod(classId, methodId, variants)
@@ -457,41 +459,40 @@ class DependencyLoader:
 
             # Recurse on the immediate deps
             ndepslist = list(ndeps)
-            ndeps     = set(())
-            for dep in ndepslist:
-                clazzId, methId = dep
+            ndeps     = set(())   # will be re-populated with brushed values (e.g. 'this' gone)
+            for clazzId, methId in ndepslist:
                 if clazzId == "this":
                     clazzId = classId
                 ndeps.add((clazzId, methId))
                 nclazzId, methValNode = findClassForMethod(clazzId, methId, variants) # find the original class methId was defined in
                 if not nclazzId:
-                    self._console.warn("Skipping unknown class dependency: %s.%s" % (clazzId, methId))
+                    self._console.warn("Skipping unknown class dependency: %s#%s" % (clazzId, methId))
                 elif nclazzId == True:  # this must be a known global (like Error, Regexp, ...)
-                    self._console.debug("Dependency automatically fullfilled: %s.%s" % (clazzId, methId))
+                    self._console.debug("Dependency automatically fullfilled: %s#%s" % (clazzId, methId))
                     continue
                 else:
                     clazzId = nclazzId
                     # cyclic check
                     if (clazzId, methId) in deps:
                     #if (clazzId, methId) == (classId, methodId):
-                        self._console.debug("Class.method alredy seen, skipping: %s.%s" % (clazzId, methId))
+                        self._console.debug("Class.method already seen, skipping: %s#%s" % (clazzId, methId))
                         continue
                     else:
                         ndeps.add((clazzId, methId))
                         assert clazzId in self._classes
-                        getMethodDepsR(clazzId, methId, variants, deps.union(ndeps))  # recursive call
+                        r = getMethodDepsR(clazzId, methId, variants, deps.union(ndeps))  # recursive call
+                        ndeps.update(r)
 
             # Cache update
             self._cache.write(cacheId, ndeps, memory=True, writeToFile=False)
             # accumulator update
-            deps.update(ndeps)
+            #deps.update(ndeps)
             self._console.debug("Recursive dependencies: %r" % list(ndeps))
             self._console.outdent()
-            return
+            return ndeps
 
         # - Main ---------------------
-        deps = set(())
-        getMethodDepsR(classId, methodId, variants, deps)
+        deps = getMethodDepsR(classId, methodId, variants, set(()))
         return deps
 
 
