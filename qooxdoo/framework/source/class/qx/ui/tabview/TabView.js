@@ -497,7 +497,6 @@ qx.Class.define("qx.ui.tabview.TabView",
       else
       {
         pane.resetSelection();
-        group.resetSelection();
       }
       
       /*
