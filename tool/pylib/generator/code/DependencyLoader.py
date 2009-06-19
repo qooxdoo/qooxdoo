@@ -274,6 +274,11 @@ class DependencyLoader:
             elif methodId == "getInstance": # corner case: singletons get this from qx.Class
                 clazzId = "qx.Class"
             # TODO: getter/setter are also not statically available!
+            # handle .call() ?!
+            if clazzId in lang.BUILTIN:  # these are automatically fullfilled, signal this
+                return True, True
+            elif clazzId not in self._classes: # can't further process non-qooxdoo classes
+                return None, None
 
             tree = self._treeLoader.getTree(clazzId, variants)
             clazz = treeutil.findQxDefine(tree)
@@ -281,6 +286,7 @@ class DependencyLoader:
             keyval = classHasOwnMethod(classAttribs, methodId)
             if keyval:
                 return clazzId, keyval
+
             # inspect inheritance/mixins
             parents = []
             extendVal = classAttribs.get('extend', None)
@@ -291,11 +297,10 @@ class DependencyLoader:
             if includeVal:
                 includeVal = treeutil.variableOrArrayNodeToArray(includeVal)
                 parents.extend(includeVal)
+
+            # go through all ancestors
             for parClass in parents:
-                if parClass in self._classes:
-                    rclass, keyval = findClassForMethod(parClass, methodId, variants)
-                elif parClass in lang.BUILTIN:
-                    rclass, keyval = True, True
+                rclass, keyval = findClassForMethod(parClass, methodId, variants)
                 if rclass:
                     return rclass, keyval
             return None, None
