@@ -44,6 +44,10 @@ qx.Class.define("qx.ui.form.CheckBox",
     }
 
     this.base(arguments, label);
+
+    // Initialize the checkbox to a valid value (the default is null which
+    // is invalid)
+    this.setValue(false);
   },
 
 
