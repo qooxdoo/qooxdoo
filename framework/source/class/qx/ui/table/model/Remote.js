@@ -109,6 +109,27 @@ qx.Class.define("qx.ui.table.model.Remote",
     {
       check : "Boolean",
       init : false
+    },
+
+    /*
+     * Whether to block remote requests for the row count while a request for
+     * the row count is pending. Row counts are requested at various times and
+     * from various parts of the code, resulting in numerous requests to the
+     * user-provided _loadRowCount() method, often while other requests are
+     * already pending. The default behavior now ignores requests to load a
+     * new row count if such a request is already pending. It is therefore now
+     * conceivable that the row count changes between an initial request for
+     * the row count and a later (ignored) request. Since the chance of this
+     * is low, the desirability of reducing the server requests outweighs the
+     * slight possibility of an altered count (which will, by the way, be
+     * detected soon thereafter upon the next request for the row count). If
+     * the old behavior is desired, set this property to false.
+     *
+     */
+    blockConcurrentLoadRowCount:
+    {
+      check : "Boolean",
+      init  : true
     }
   },
 
@@ -139,13 +160,19 @@ qx.Class.define("qx.ui.table.model.Remote",
     __editableColArr : null,
     __sortableColArr : null,
 
+    __loadRowCountRequestRunning : false,
 
     // overridden
     getRowCount : function()
     {
       if (this.__rowCount == -1)
       {
-        this._loadRowCount();
+        if (! this.__loadRowCountRequestRunning ||
+            ! this.getBlockConcurrentLoadRowCount())
+        {
+          this.__loadRowCountRequestRunning = true;
+          this._loadRowCount();
+        }
 
         // NOTE: _loadRowCount may set this.__rowCount
         return (this.__rowCount == -1) ? 0 : this.__rowCount;
@@ -181,6 +208,12 @@ qx.Class.define("qx.ui.table.model.Remote",
      */
     _onRowCountLoaded : function(rowCount)
     {
+      if (this.getBlockConcurrentLoadRowCount())
+      {
+        // There's no longer a loadRowCount() in progress
+        this.__loadRowCountRequestRunning = false;
+      }
+
       // this.debug("row count loaded: " + rowCount);
       if (rowCount == null || rowCount < 0) {
         rowCount = 0;
@@ -230,7 +263,12 @@ qx.Class.define("qx.ui.table.model.Remote",
       this.__lastRowToLoad = -1;
 
       // NOTE: This will inform the listeners as soon as the new row count is known
-      this._loadRowCount();
+      if (! this.__loadRowCountRequestRunning ||
+          ! this.getBlockConcurrentLoadRowCount())
+      {
+        this.__loadRowCountRequestRunning = true;
+        this._loadRowCount();
+      }
     },
 
 
