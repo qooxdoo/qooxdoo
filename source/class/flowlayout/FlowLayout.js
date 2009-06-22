@@ -377,95 +377,128 @@ qx.Class.define("flowlayout.FlowLayout",
     },
 
 
-	//-------------------------------------------------------------------
-	/**
-	* Protected helper method for renderLayout(). Looks forward in the list of this
-	* FlowLayout's children to see how many will fit in a Line (using availWidth).
-	* 
-	* @param children {Array} List of children elements passed from renderLayout().
-	* @param startIndex {Integer} The index number to start calculating Children widths with.
-	* @param availWidth {Integer} Layout's available width for the content (in pixels). Passed directly from renderLayout().
-	* @return childIndexList {Integer[]} Simple list of integers [4,5,6,7] that correspond to children in renderLayout's children list.
-	*/
-	_getIndexesOfChildrenOnALine : function(children, startIndex, availWidth)
-	{
-		var childIndexList = [];
-		var child, size, childW;
-		var marginL, marginR, marginT, marginB;
-		var currLeft = 0;
-		var tallestChildInLine = 0;
+  	//-------------------------------------------------------------------
+  	/**
+  	* Protected helper method for renderLayout(). Looks forward in the list of this
+  	* FlowLayout's children to see how many will fit in a Line (using availWidth).
+  	* 
+  	* @param children {Array} List of children elements passed from renderLayout().
+  	* @param startIndex {Integer} The index number to start calculating Children widths with.
+  	* @param availWidth {Integer} Layout's available width for the content (in pixels). Passed directly from renderLayout().
+  	* @return childIndexList {Integer[]} Simple list of integers [4,5,6,7] that correspond to children in renderLayout's children list.
+  	*/
+  	_getIndexesOfChildrenOnALine : function(children, startIndex, availWidth)
+  	{
+  		var childIndexList = [];
+  		var child, size, childW;
+  		var marginL, marginR, marginT, marginB;
+  		var currLeft = 0;
+  		var tallestChildInLine = 0;
+  
+  		for ( var i=startIndex, l=children.length; i<l; i++ )
+  		{
+  			// Add children indexes, until their accumulated widths
+  			// won't fit on a single line anymore.
+  			child = children[i];
+  			size = child.getSizeHint();
+  			marginL = child.getMarginLeft();
+  			marginR = child.getMarginRight();
+  			marginT = child.getMarginTop();
+  			marginB = child.getMarginBottom();
+  			childW = marginL + size.width + marginR;
+  			if ( currLeft + childW > availWidth ) {
+  				// Don't save this child and return this lines list of Child index numbers.
+  				break;
+  			}
+  			// Calc Tallest child on line.
+  			if ( (marginT + size.height + marginB) > tallestChildInLine ) {
+  				tallestChildInLine = (marginT + size.height + marginB);
+  			}
+  			childIndexList.push(i);
+  			currLeft += childW;
+  
+  			// This child is marked as breaking the current Line.
+  			// As we want to break the line after this child, we break out of the loop
+  			// after adding this child to childIndexList and updating currLeft. 
+  			if ( child.getLayoutProperties().lineBreak ) {
+  				//this.info( "LineBreak: " + child.getLayoutProperties().lineBreak );
+  				// Don't save this child and return this lines list of Child index numbers.
+  				break;
+  			}
+  			
+  		}
+  
+  		// keep track of the total width of all this line's children, so
+  		// renderLayout() can calculate the starting left position of the first child,
+  		// so that alignX works.
+  		this.__currLinesTotalChildWidth = currLeft;
+  		// Same for alignY
+  		this.__currLinesTallestChild = tallestChildInLine;
+  
+  		return childIndexList;
+  	},
 
-		for ( var i=startIndex, l=children.length; i<l; i++ )
-		{
-			// Add children indexes, until their accumulated widths
-			// won't fit on a single line anymore.
-			child = children[i];
-			size = child.getSizeHint();
-			marginL = child.getMarginLeft();
-			marginR = child.getMarginRight();
-			marginT = child.getMarginTop();
-			marginB = child.getMarginBottom();
-			childW = marginL + size.width + marginR;
-			if ( currLeft + childW > availWidth ) {
-				// Don't save this child and return this lines list of Child index numbers.
-				break;
-			}
-			// Calc Tallest child on line.
-			if ( (marginT + size.height + marginB) > tallestChildInLine ) {
-				tallestChildInLine = (marginT + size.height + marginB);
-			}
-			childIndexList.push(i);
-			currLeft += childW;
-
-			// This child is marked as breaking the current Line.
-			// As we want to break the line after this child, we break out of the loop
-			// after adding this child to childIndexList and updating currLeft. 
-			if ( child.getLayoutProperties().lineBreak ) {
-				//this.info( "LineBreak: " + child.getLayoutProperties().lineBreak );
-				// Don't save this child and return this lines list of Child index numbers.
-				break;
-			}
-			
-		}
-
-		// keep track of the total width of all this line's children, so
-		// renderLayout() can calculate the starting left position of the first child,
-		// so that alignX works.
-		this.__currLinesTotalChildWidth = currLeft;
-		// Same for alignY
-		this.__currLinesTallestChild = tallestChildInLine;
-
-		return childIndexList;
-	},
-
-	// overridden
-	//-------------------------------------------------------------------
-	/**
-	* Todo: Return the size of the layout assuming all items fit onto one single line (no wrapping).
-	* @return {Map} The size hint.
-	*/
-	_computeSizeHint : function()
-	{
-		return {
-			width : 0,
-			height : 0
-		};
-	}
+  	// overridden
+  	//-------------------------------------------------------------------
+  	/**
+  	* Todo: Return the size of the layout assuming all items fit onto one single line (no wrapping).
+  	* @return {Map} The size hint.
+  	*/
+  	_computeSizeHint : function()
+  	{
+  	  var children = this._getLayoutChildren();
+  	  
+  	  var width = 0;
+  	  var height = 0;
+  	  for (var i=0; i<children.length; i++)
+  	  {
+  	    var child = children[i];
+  	    var size = child.getSizeHint();
+  	    width += size.width;
+  	    height = Math.max(height, size.height);
+  	  }
+  	  
+  	  width += this.getSpacing() * (children.length-1);
+  	  
+  		return {
+  			width : width,
+  			height : height
+  		};
+  	},
 	
-	// @todo:
-	//-------------------------------------------------------------------
-	/**
-	* Calculate the height, for a given width. Not yet implemented in qx...
-	*/
-	//_getHeightForWidth : function(width)
-	//{
-	//	return {
-	//		width : 0,
-	//		height : 0
-	//	};
-	//}
-	
-	
-	
+  	    
+    hasHeightForWidth : function() {
+      return true;
+    },
+  	
+    
+  	// @todo:
+  	//-------------------------------------------------------------------
+  	/**
+  	* Calculate the height, for a given width. Not yet implemented in qx...
+  	*/
+  	getHeightForWidth : function(width)
+  	{
+      var util = qx.ui.layout.Util;
+      var children = this._getLayoutChildren();
+  
+      var height = 0;
+      
+      var currChildIndex = 0;
+      var lineCounter = 0;
+      while ( currChildIndex < children.length )
+      {
+        lineCounter++;
+        tallestChildInLine = 0;
+  
+        linesChildrenIndexes = this._getIndexesOfChildrenOnALine(children, currChildIndex, width);
+        currChildIndex += linesChildrenIndexes.length;
+    
+        height += this.__currLinesTallestChild;
+      }	  
+  	  
+      return height + lineCounter * this.getSpacing();
+  	}
   }
+	
 });

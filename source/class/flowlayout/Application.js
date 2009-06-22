@@ -62,10 +62,13 @@ qx.Class.define("flowlayout.Application",
         Below is your actual application code...
       -------------------------------------------------------------------------
       */
-	  var fl = new flowlayout.FlowLayout();
-	  // Change a few things on how the FlowLayout displays its children...
-	  fl.setAlignX( "center" );	// Align children to the X axis of the container (left|center|right)
-	  //fl.setReversed( true );	// draws children elements in reverse order.
+
+      this._createFlowWindow();
+      
+      var fl = new flowlayout.FlowLayout();
+  	  // Change a few things on how the FlowLayout displays its children...
+  	  fl.setAlignX( "center" );	// Align children to the X axis of the container (left|center|right)
+  	  //fl.setReversed( true );	// draws children elements in reverse order.
       var container = new qx.ui.container.Composite( fl );
 	  
 
@@ -102,6 +105,34 @@ qx.Class.define("flowlayout.Application",
 
 
       this.getRoot().add(container, {edge: 0});
+    },
+
+    
+    _createFlowWindow : function()
+    {
+      var win = new qx.ui.window.Window("Flow Layout").set({
+        contentPadding: 0
+      });
+      win.setLayout(new qx.ui.layout.Grow());
+      
+      var scroller = new qx.ui.container.Scroll();
+      win.add(scroller);
+      
+      var container = new qx.ui.container.Composite(new flowlayout.FlowLayout()).set({
+        allowShrinkY: false       
+      });
+      scroller.add(container);
+      
+      for (var i=0; i<30; i++)
+      {
+        container.add(new qx.ui.basic.Atom("item #" + (i+1), "flowlayout/test.png").set({
+          iconPosition: "top",
+          width: 60,
+          padding: 5
+        }));
+      }
+      
+      win.open();
     }
   }
 });
