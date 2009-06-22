@@ -13,6 +13,7 @@
 
    Authors:
      * Chris Banford (zermattchris)
+     * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
 
@@ -30,7 +31,7 @@
  *
  * <pre class="javascript">
 
-	var fl = new flowlayout.FlowLayout();
+	var fl = new qx.ui.layout.Flow();
 	// Change a few things on how the FlowLayout displays its children...
 	fl.setAlignX( "center" );	// Align children to the X axis of the container (left|center|right)
 	//fl.setReversed( true );	// draws children elements in reverse order.
@@ -75,7 +76,7 @@
  *
  */
 
-qx.Class.define("flowlayout.FlowLayout",
+qx.Class.define("qx.ui.layout.Flow",
 {
   extend : qx.ui.layout.Abstract,
 
