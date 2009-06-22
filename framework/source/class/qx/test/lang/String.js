@@ -76,6 +76,18 @@ qx.Class.define("qx.test.lang.String",
 
       this.assert(error);
     },
+    
+    
+    testStartsWith : function()
+    {
+      var String = qx.lang.String;
+      
+      this.assertTrue(String.startsWith("123", "1"));
+      this.assertTrue(String.startsWith("123", "123"));
+      this.assertTrue(String.startsWith("1231", "1"));
+      this.assertFalse(String.startsWith("123", "3"));
+      this.assertFalse(String.startsWith("123", "4"));
+    },
 
 
     testEscape : function()
