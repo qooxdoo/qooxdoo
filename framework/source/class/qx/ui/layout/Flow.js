@@ -220,7 +220,6 @@ qx.Class.define("qx.ui.layout.Flow",
     {
       var util = qx.ui.layout.Util;
 
-      // Alignment X support
       var left = 0;             
       if (this.getAlignX() != "left") {
         left = availWidth - line.width;
