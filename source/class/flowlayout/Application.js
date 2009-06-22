@@ -65,7 +65,7 @@ qx.Class.define("flowlayout.Application",
 	  var fl = new flowlayout.FlowLayout();
 	  // Change a few things on how the FlowLayout displays its children...
 	  fl.setAlignX( "center" );	// Align children to the center of the container (left/right)
-	  fl.setReversed( true );	// draws children elements in reverse order.
+	  //fl.setReversed( true );	// draws children elements in reverse order.
       var container = new qx.ui.container.Composite( fl );
 	  
 

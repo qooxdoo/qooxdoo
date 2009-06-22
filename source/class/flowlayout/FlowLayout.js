@@ -30,46 +30,44 @@
  *
  * <pre class="javascript">
 
- 	  var fl = new flowlayout.FlowLayout();
-	  // Change a few things on how the FlowLayout displays its children...
-	  fl.setAlignX( "center" );	// Align children to the center of the container (left/right)
-	  fl.setReversed( true );	// draws children elements in reverse order.
-      var container = new qx.ui.container.Composite( fl );
-	  
+	var fl = new flowlayout.FlowLayout();
+	// Change a few optional things on how the FlowLayout displays its children...
+	fl.setAlignX( "center" );	// Align children to the center of the container (left/right)
+	fl.setReversed( true );	// draws children elements in reverse order.
+	var container = new qx.ui.container.Composite( fl );
 
-      var button1 = new qx.ui.form.Button("1. First Button", "flowlayout/test.png");
-      container.add(button1);
+	var button1 = new qx.ui.form.Button("1. First Button", "flowlayout/test.png");
+	container.add(button1);
 
-      var button2 = new qx.ui.form.Button("2. Second longer Button...", "flowlayout/test.png");
-      //this.info( " -> Button 2's Left margin: " + button2.getMarginLeft() );
-      container.add(button2);
+	var button2 = new qx.ui.form.Button("2. Second longer Button...", "flowlayout/test.png");
+	container.add(button2);
 
 
-      var button3 = new qx.ui.form.Button("3rd really, really, really long Button", "flowlayout/test.png");
-      button3.setHeight(100);  // tall button
-      container.add(button3);
+	var button3 = new qx.ui.form.Button("3rd really, really, really long Button", "flowlayout/test.png");
+	button3.setHeight(100);  // tall button
+	container.add(button3);
 
-      var button4 = new qx.ui.form.Button("Number 4", "flowlayout/test.png");
-      button4.setAlignY("bottom");
-      container.add(button4);
-
-
-      var button5 = new qx.ui.form.Button("20px Margins around the great big 5th button!");
-      button5.setHeight(100);  // tall button
-      button5.setMargin(20);
-      container.add(button5);
-
-      var button6 = new qx.ui.form.Button("Number 6", "flowlayout/test.png");
-      button6.setAlignY("middle");	// Align this child to the vertical center of this line.
-      container.add(button6);
+	var button4 = new qx.ui.form.Button("Number 4", "flowlayout/test.png");
+	button4.setAlignY("bottom");
+	container.add(button4);
 
 
-      var button7 = new qx.ui.form.Button("7th a wide, short button", "flowlayout/test.png");
-      button7.setMaxHeight(20);  // short button
-      container.add(button7);
+	var button5 = new qx.ui.form.Button("20px Margins around the great big 5th button!");
+	button5.setHeight(100);  // tall button
+	button5.setMargin(20);
+	container.add(button5);
+
+	var button6 = new qx.ui.form.Button("Number 6", "flowlayout/test.png");
+	button6.setAlignY("middle");	// Align this child to the vertical center of this line.
+	container.add(button6);
 
 
-      this.getRoot().add(container, {edge: 0});
+	var button7 = new qx.ui.form.Button("7th a wide, short button", "flowlayout/test.png");
+	button7.setMaxHeight(20);  // short button
+	container.add(button7);
+
+
+	this.getRoot().add(container, {edge: 0});
  *
  * </pre>
  *
