@@ -238,7 +238,7 @@ qx.Class.define("qx.ui.form.RadioGroup",
       {
         item = arguments[i];
 
-        if (item.getGroup() === this) {
+        if (qx.lang.Array.contains(items, item)) {
           continue;
         }
 
@@ -270,13 +270,15 @@ qx.Class.define("qx.ui.form.RadioGroup",
      */
     remove : function(item)
     {
-      if (item.getGroup() === this)
+      var items = this.__items;
+      if (qx.lang.Array.contains(items, item))
       {
         // Remove RadioButton from array
-        qx.lang.Array.remove(this.__items, item);
+        qx.lang.Array.remove(items, item);
 
         // Inform radio button about new group
-        item.resetGroup();
+        if (item.getGroup() === this)
+          item.resetGroup();
 
         // Deregister listeners
         item.removeListener("changeValue", this._onItemChangeChecked, this);

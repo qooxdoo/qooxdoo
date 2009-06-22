@@ -116,6 +116,24 @@ qx.Class.define("qx.test.ui.selection.RadioGroup",
       
       widget.dispose();
       item.destroy();
+    },
+    
+    
+    testSetGroup: function() {
+      var radioButton1 = new qx.ui.form.RadioButton();
+      var radioButton2 = new qx.ui.form.RadioButton();
+      
+      var radioGroup = new qx.ui.form.RadioGroup();
+      
+      radioButton1.setGroup(radioGroup);
+      radioButton2.setGroup(radioGroup);
+      
+      this.assertEquals(radioButton1, radioGroup.getItems()[0], "First button not in the group.");
+      this.assertEquals(radioButton2, radioGroup.getItems()[1], "Second button not in the group.");
+      
+      radioGroup.dispose();
+      radioButton2.dispose();
+      radioButton1.dispose();
     }
   }
 });
