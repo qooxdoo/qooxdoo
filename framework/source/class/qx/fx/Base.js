@@ -539,7 +539,7 @@ qx.Class.define("qx.fx.Base",
 
   destruct : function()
   {
-    this._disposeFields("__element");
+    this._disposeFields("__element", "__state");
   }
 
 });

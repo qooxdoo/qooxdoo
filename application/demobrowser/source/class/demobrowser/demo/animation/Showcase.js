@@ -429,6 +429,17 @@ qx.Class.define("demobrowser.demo.animation.Showcase",
 
     }
 
-  }
+  },
+  
+  /*
+   *****************************************************************************
+      DESTRUCTOR
+   *****************************************************************************
+   */
 
+  destruct : function()
+  {
+    this._disposeFields("_demoElement", "_demoImage");
+    this._disposeArray("_vBoxes");
+  }
 });
