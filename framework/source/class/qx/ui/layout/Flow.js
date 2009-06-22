@@ -124,7 +124,7 @@ qx.Class.define("qx.ui.layout.Flow",
      */
     alignY :
     {
-	    check : [ "top", "middle", "bottom", "baseline" ],
+	    check : [ "top", "middle", "bottom"],
 	    init : "top",
 	    apply : "_applyLayoutChange"
     },
@@ -142,7 +142,7 @@ qx.Class.define("qx.ui.layout.Flow",
     {
       check : "Boolean",
       init : false,
-      apply : "_applyReversed"
+      apply : "_applyLayoutChange"
     }
     
   },
@@ -160,24 +160,6 @@ qx.Class.define("qx.ui.layout.Flow",
     __currLinesTotalChildWidth : 0,
     __currLinesTallestChild : 0,
 
-    /*
-    ---------------------------------------------------------------------------
-      HELPER METHODS
-    ---------------------------------------------------------------------------
-    */
-
-    // property apply
-    _applyReversed : function(value, old)
-    {
-      // easiest way is to invalidate the cache
-      //this._invalidChildrenCache = true;
-
-      // call normal layout change
-      this._applyLayoutChange();
-    },
-	
-	
-	
     /*
     ---------------------------------------------------------------------------
       LAYOUT INTERFACE
@@ -266,11 +248,6 @@ qx.Class.define("qx.ui.layout.Flow",
           if (this.getAlignX() == "center") {
             thisLineCurrLeft = Math.round(thisLineCurrLeft / 2);  // AlignX -> "center"
           }
-          // reverse this Line's children, so the Flow starts from the
-          // right edge of the container, with the proper child order (I think)
-          if (this.getAlignX() == "right") {
-            linesChildrenIndexes = linesChildrenIndexes.concat().reverse();
-          }
         }
 
 
@@ -296,10 +273,19 @@ qx.Class.define("qx.ui.layout.Flow",
           marginR = child.getMarginRight();
 		  
           // Respect vertical alignment - alignY
-          top = util.computeVerticalAlignOffset(child.getAlignY()||this.getAlignY(), (marginT + size.height + marginB), this.__currLinesTallestChild, marginT, marginB);
+          top = util.computeVerticalAlignOffset(
+            child.getAlignY() || this.getAlignY(),
+            marginT + size.height + marginB, 
+            this.__currLinesTallestChild, 
+            marginT, marginB
+          );
 
-
-          child.renderLayout( (thisLineCurrLeft + marginL), (lineTop + top), size.width, size.height);
+          child.renderLayout(
+            thisLineCurrLeft + marginL, 
+            lineTop + top, 
+            size.width, 
+            size.height
+          );
 
           thisLineCurrLeft += (marginL + size.width + marginR);
           currChildIndex++;
@@ -418,19 +404,47 @@ qx.Class.define("qx.ui.layout.Flow",
   	// overridden
   	_computeSizeHint : function()
   	{
+  	  var Util = qx.ui.layout.Util;
   	  var children = this._getLayoutChildren();
+  	  var spacing = this.getSpacing();
+  	  
+  	  var lineHeight, lineWidth, lineChildren;
+      
+  	  var initializeLine = function() {
+  	    lineHeight = 0;
+  	    lineWidth = 0;
+  	    lineChildren = [];
+  	  };
+  	  
+  	  var computeLine = function()
+  	  {
+        lineWidth += Util.computeHorizontalGaps(lineChildren, spacing, true);     
+        width = Math.max(width, lineWidth);
+        height += lineHeight;   	    
+  	  };
   	  
   	  var width = 0;
   	  var height = 0;
+  	  initializeLine();
+
   	  for (var i=0; i<children.length; i++)
   	  {
   	    var child = children[i];
   	    var size = child.getSizeHint();
-  	    width += size.width;
-  	    height = Math.max(height, size.height);
+  	    
+  	    if (child.getLayoutProperties().lineBreak)
+  	    { 
+  	      computeLine();  
+  	      initializeLine();
+  	    }
+  	    
+  	    lineChildren.push(child);
+  	    lineWidth += size.width;
+  	    var childHeight = size.height + child.getMarginTop() + child.getMarginBottom();
+  	    lineHeight = Math.max(lineHeight, childHeight);
   	  }
-  	  
-  	  width += this.getSpacing() * (children.length-1);
+
+  	  computeLine();
   	  
   		return {
   			width : width,
