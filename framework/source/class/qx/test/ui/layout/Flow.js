@@ -355,6 +355,42 @@ qx.Class.define("qx.test.ui.layout.Flow",
     },
     
     
+    testMarginXCollapse : function()
+    {
+      var layout = new qx.ui.layout.Flow().set();
+      var container = new qx.test.ui.layout.LayoutItem(300, null).set({
+        layout: layout
+      });
+      this.root.add(container);
+      
+      var c1 = new qx.test.ui.layout.LayoutItem(100, 50).set({
+        margin: [5, 10, 15, 20]
+      })
+      container.add(c1);
+      var c2 = new qx.test.ui.layout.LayoutItem(100, 50).set({
+        margin: [10, 20, 30, 40]
+      });
+      container.add(c2);
+      var c3 = new qx.test.ui.layout.LayoutItem(100, 50).set({
+        margin: [15]
+      })
+      container.add(c3);
+      
+      this.flush();
+      
+      // no Y collapsing of margins
+      this.assertJsonEquals({
+        left: 0,
+        top: 0,
+        width: 300,
+        height: 50+40 + 50+30
+      }, container.bounds);
+      
+      this.assertEquals(20, c1.bounds.left);
+      this.assertEquals(160, c2.bounds.left);
+    },
+    
+    
     testHeightForWidth : function()
     {
       var layout = new qx.ui.layout.Flow();
@@ -382,6 +418,27 @@ qx.Class.define("qx.test.ui.layout.Flow",
       this.assertEquals(0, c1.bounds.top);
       this.assertEquals(50, c2.bounds.top);
       this.assertEquals(100, c3.bounds.top);
+    },
+    
+    
+    testLargeChildInLine : function()
+    {
+      var layout = new qx.ui.layout.Flow();
+      var container = new qx.test.ui.layout.LayoutItem(100, null).set({
+        layout: layout
+      });
+      this.root.add(container);
+      
+      var c1 = new qx.test.ui.layout.LayoutItem(150, 50);
+      container.add(c1);
+      var c2 = new qx.test.ui.layout.LayoutItem(80, 50);
+      container.add(c2);
+      
+      this.flush();
+      
+      this.assertEquals(0, c1.bounds.top);
+      this.assertEquals(0, c1.bounds.left);
+      this.assertEquals(50, c2.bounds.top);
     }
   }
 });
