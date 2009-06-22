@@ -31,3 +31,5 @@ root = root <root@users.sourceforge.net>
 skloiber = skloiber <skloiber@users.sourceforge.net>
 vpauli = vpauli <vpauli@users.sourceforge.net>
 ybeser = ybeser <ybeser@users.sourceforge.net>
+zermattchris = Chris Benford <dev@bsoft.ch>
+noggin182 = Matthew Gregory <noggin182@users.sourceforge.net>
