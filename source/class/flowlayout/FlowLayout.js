@@ -420,7 +420,7 @@ qx.Class.define("flowlayout.FlowLayout",
 	// overridden
 	//-------------------------------------------------------------------
 	/**
-	* Return the size of the layout assuming all items fit onto one single line (no wrapping).
+	* Todo: Return the size of the layout assuming all items fit onto one single line (no wrapping).
 	* @return {Map} The size hint.
 	*/
 	_computeSizeHint : function()
