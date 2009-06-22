@@ -406,7 +406,7 @@ qx.Class.define("flowlayout.FlowLayout",
   			marginT = child.getMarginTop();
   			marginB = child.getMarginBottom();
   			childW = marginL + size.width + marginR;
-  			if ( currLeft + childW > availWidth ) {
+  			if ( currLeft + childW > availWidth && childIndexList.length) {
   				// Don't save this child and return this lines list of Child index numbers.
   				break;
   			}
@@ -490,7 +490,7 @@ qx.Class.define("flowlayout.FlowLayout",
       {
         lineCounter++;
         tallestChildInLine = 0;
-  
+
         linesChildrenIndexes = this._getIndexesOfChildrenOnALine(children, currChildIndex, width);
         currChildIndex += linesChildrenIndexes.length;
     
@@ -500,5 +500,5 @@ qx.Class.define("flowlayout.FlowLayout",
       return height + lineCounter * this.getSpacing();
   	}
   }
-	
+
 });
