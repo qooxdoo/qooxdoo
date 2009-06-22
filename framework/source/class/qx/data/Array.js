@@ -291,8 +291,10 @@ qx.Class.define("qx.data.Array",
       }
       // add listeners 
       for (var i = 2; i < arguments.length; i++) {
-        this._applyEventPropagation(arguments[i], null, startIndex + i);
+        this._registerEventChaining(arguments[i], null, startIndex + i);
       }
+      this.fireDataEvent("changeBubble", {value: this});        
+      
       // remove the listeners
       for (var i = 0; i < returnArray.length; i++) {
         this._applyEventPropagation(null, returnArray[i]);
