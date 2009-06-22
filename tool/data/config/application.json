@@ -48,7 +48,7 @@
 
   "let" :
   {
-    //"ROOT"         : ".",
+    "ROOT"         : ".",
     "QOOXDOO_PATH" : "../../.."
     //"CACHE"        : "cache",
     //"CACHE"        : "${TMPDIR}/cache",
@@ -190,13 +190,13 @@
         "TESTRUNNER_ROOT" : "${QOOXDOO_PATH}/component/testrunner",
         "TEST_INCLUDE"    : "${APPLICATION}.test.*",
         "QXTHEME"         : "qx.theme.Modern",
-        "BUILD_PATH"      : "./test"
+        "BUILD_PATH"      : "${ROOT}/test"
       },
 
       "library" :
       [
         {
-          "manifest" : "Manifest.json"
+          "manifest" : "${ROOT}/Manifest.json"
         }
       ]
     },
@@ -212,13 +212,13 @@
         "TESTRUNNER_ROOT" : "${QOOXDOO_PATH}/component/testrunner",
         "TEST_INCLUDE"    : "${APPLICATION}.test.*",
         "QXTHEME"         : "qx.theme.Modern",
-        "BUILD_PATH"      : "./test"
+        "BUILD_PATH"      : "${ROOT}/test"
       },
 
       "library" :
       [
         {
-          "manifest" : "Manifest.json"
+          "manifest" : "${ROOT}/Manifest.json"
         }
       ]
     }
