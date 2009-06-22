@@ -6,7 +6,7 @@
     "summary" : "FlowLayout",
     "description" : "FlowLayout",
     
-    "keywords" : ["ui", "layout"],
+    "keywords" : ["ui", "layout", "flow", "float"],
     "homepage" : "http://contrib.qooxdoo.org/FlowLayout",
 
     "license" : "LGPL/EPL",

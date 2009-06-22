@@ -26,7 +26,7 @@
  *
  * *Example*
  *
- * Here is a little example of how to use the grid layout.
+ * Here is a little example of how to use the Flow layout.
  *
  * <pre class="javascript">
  * var flow = new qx.ui.layout.FlowLayout("center")      // defaults to "left"
@@ -51,8 +51,6 @@
  *
  * </pre>
  *
- * *External Documentation*
-  *
  */
 
 qx.Class.define("flowlayout.FlowLayout",
@@ -123,7 +121,17 @@ qx.Class.define("flowlayout.FlowLayout",
     check : "Integer",
     init : 0,
     apply : "_applyLayoutChange"
+    },
+
+
+    /** Whether the actual children list should be layouted in reversed order. */
+    reversed :
+    {
+      check : "Boolean",
+      init : false,
+      apply : "_applyReversed"
     }
+    
   },
 
 
@@ -139,6 +147,24 @@ qx.Class.define("flowlayout.FlowLayout",
     __currLinesTotalChildWidth : 0,
     __currLinesTallestChild : 0,
 
+    /*
+    ---------------------------------------------------------------------------
+      HELPER METHODS
+    ---------------------------------------------------------------------------
+    */
+
+    // property apply
+    _applyReversed : function()
+    {
+      // easiest way is to invalidate the cache
+      //this._invalidChildrenCache = true;
+
+      // call normal layout change
+      this._applyLayoutChange();
+    },
+	
+	
+	
     /*
     ---------------------------------------------------------------------------
       LAYOUT INTERFACE
@@ -158,6 +184,17 @@ qx.Class.define("flowlayout.FlowLayout",
 
     //-------------------------------------------------------------------
     // overridden
+	//-------------------------------------------------------------------
+    /**
+     * The FlowLayout tries to add as many Children as possible to the current 'Line'
+     * and when it sees that the next Child won't fit, it starts on a new Line, continuing
+     * until all the Children have been added.
+     * To enable alignX "left", "center", "right" renderLayout has to calculate the positions
+     * of all a Line's children before it draws them.
+     * @param availWidth {Integer} Final width available for the content (in pixel)
+     * @param availHeight {Integer} Final height available for the content (in pixel)
+     * @return {void}
+     */
     renderLayout : function( availWidth, availHeight )
     {
       var util = qx.ui.layout.Util;
@@ -171,15 +208,23 @@ qx.Class.define("flowlayout.FlowLayout",
       var lineLeft = 0, lineTop = 0;
       var tallestChildInLine = 0;
 
+
+      // Reverse support.
+      // Todo: move this to the _cache like with HBox...
+      if (this.getReversed()) {
+        children = children.concat().reverse();
+      }
+
+      
       // Compute gaps
-      var spacing = this.getSpacing();
+      //var spacing = this.getSpacing();
       //var separator = this.getSeparator();
       //if (separator) {
       //  var gaps = util.computeHorizontalSeparatorGaps(children, spacing, separator);
       //} else {
       //var gaps = util.computeHorizontalGaps(children, spacing, true);
       //}
-      this.info( "   >> Layout spacing: " + spacing );
+     // this.info( "   >> Layout spacing: " + spacing );
 
       // Flow Render children
       //if ( qx.core.Variant.get("qx.debug") == "on" ){ this.info( "*** Render Start ***" ); }
@@ -300,61 +345,86 @@ qx.Class.define("flowlayout.FlowLayout",
     },
 
 
-    /**
-     * Take a list of children and a starting index and see how many of the
-     * buggers will fit on a line of availWidth space.
-     */
-    _getIndexesOfChildrenOnALine : function(children, startIndex, availWidth)
-    {
-      var childIndexList = [];
-      var child, size, childW;
-      var marginL, marginR, marginT, marginB;
-      var currLeft = 0;
-      var tallestChildInLine = 0;
+	//-------------------------------------------------------------------
+	/**
+	* Protected helper method for renderLayout(). Looks forward in the list of this
+	* FlowLayout's children to see how many will fit in a Line (using availWidth).
+	* 
+	* @param children {Array} List of children elements passed from renderLayout().
+	* @param startIndex {Integer} The index number to start calculating Children widths with.
+	* @param availWidth {Integer} Layout's available width for the content (in pixels). Passed directly from renderLayout().
+	* @return childIndexList {Integer[]} Simple list of integers [4,5,6,7] that correspond to children in renderLayout's children list.
+	*/
+	_getIndexesOfChildrenOnALine : function(children, startIndex, availWidth)
+	{
+		var childIndexList = [];
+		var child, size, childW;
+		var marginL, marginR, marginT, marginB;
+		var currLeft = 0;
+		var tallestChildInLine = 0;
 
-      for ( var i=startIndex, l=children.length; i<l; i++ )
-      {
-        // Add children indexes, until their accumulated widths
-        // won't fit on a single line anymore.
-        child = children[i];
-        size = child.getSizeHint();
-        marginL = child.getMarginLeft();
-        marginR = child.getMarginRight();
-        marginT = child.getMarginTop();
-        marginB = child.getMarginBottom();
-        childW = marginL + size.width + marginR;
-        if ( currLeft + childW > availWidth ) {
-          // Don't save this child and return this lines list of Child index numbers.
-          break;
-        }
-        // Calc Tallest child on line.
-        if ( (marginT + size.height + marginB) > tallestChildInLine ) {
-          tallestChildInLine = (marginT + size.height + marginB);
-        }
-        childIndexList.push(i);
-        currLeft += childW;
+		for ( var i=startIndex, l=children.length; i<l; i++ )
+		{
+			// Add children indexes, until their accumulated widths
+			// won't fit on a single line anymore.
+			child = children[i];
+			size = child.getSizeHint();
+			marginL = child.getMarginLeft();
+			marginR = child.getMarginRight();
+			marginT = child.getMarginTop();
+			marginB = child.getMarginBottom();
+			childW = marginL + size.width + marginR;
+			if ( currLeft + childW > availWidth ) {
+				// Don't save this child and return this lines list of Child index numbers.
+				break;
+			}
+			// Calc Tallest child on line.
+			if ( (marginT + size.height + marginB) > tallestChildInLine ) {
+				tallestChildInLine = (marginT + size.height + marginB);
+			}
+			childIndexList.push(i);
+			currLeft += childW;
 
-      }
+		}
 
-      // keep track of the total width of all this line's children, so
-      // renderLayout() can calculate the starting left position of the first child,
-      // so that alignX works.
-      this.__currLinesTotalChildWidth = currLeft;
-      // Same for alignY
-      this.__currLinesTallestChild = tallestChildInLine;
+		// keep track of the total width of all this line's children, so
+		// renderLayout() can calculate the starting left position of the first child,
+		// so that alignX works.
+		this.__currLinesTotalChildWidth = currLeft;
+		// Same for alignY
+		this.__currLinesTallestChild = tallestChildInLine;
 
-      return childIndexList;
-    },
+		return childIndexList;
+	},
 
-    // overridden
-    // Don't need hints for a Flow box (I think)
-    // Sebastian's tip is to return null, but that's yakking, so returning 0 instead.
-    _computeSizeHint : function()
-    {
-      return {
-        width : 0,
-        height : 0
-      };
-    }
+	// overridden
+	//-------------------------------------------------------------------
+	/**
+	* Return the size of the layout assuming all items fit onto one single line (no wrapping).
+	* @return {Map} The size hint.
+	*/
+	_computeSizeHint : function()
+	{
+		return {
+			width : 0,
+			height : 0
+		};
+	}
+	
+	// @todo:
+	//-------------------------------------------------------------------
+	/**
+	* Calculate the height, for a given width. Not yet implemented in qx...
+	*/
+	//_getHeightForWidth : function(width)
+	//{
+	//	return {
+	//		width : 0,
+	//		height : 0
+	//	};
+	//}
+	
+	
+	
   }
 });

@@ -62,9 +62,12 @@ qx.Class.define("flowlayout.Application",
         Below is your actual application code...
       -------------------------------------------------------------------------
       */
-
-      var container = new qx.ui.container.Composite( new flowlayout.FlowLayout() );
-
+	  var fl = new flowlayout.FlowLayout();
+	  // Change a few things on how the FlowLayout displays its children...
+	  fl.setAlignX( "center" );	// Align children to the center of the container (left/right)
+	  fl.setReversed( true );	// draws children elements in reverse order.
+      var container = new qx.ui.container.Composite( fl );
+	  
 
       var button1 = new qx.ui.form.Button("1. First Button", "flowlayout/test.png");
       container.add(button1);
@@ -89,11 +92,11 @@ qx.Class.define("flowlayout.Application",
       container.add(button5);
 
       var button6 = new qx.ui.form.Button("Number 6", "flowlayout/test.png");
-      button6.setAlignY("middle");
+      button6.setAlignY("middle");	// Align this child to the vertical center of this line.
       container.add(button6);
 
 
-      var button7 = new qx.ui.form.Button("7th a wide, skinny button", "flowlayout/test.png");
+      var button7 = new qx.ui.form.Button("7th a wide, short button", "flowlayout/test.png");
       button7.setMaxHeight(20);  // short button
       container.add(button7);
 
