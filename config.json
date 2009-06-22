@@ -1,0 +1,21 @@
+{
+  "name"    : "FlowLayout",
+
+  "include" :
+  [
+    {
+      "path" : "../../../qooxdoo.trunk/tool/data/config/application.json"
+    }
+  ],
+
+
+  "let" :
+  {
+    "APPLICATION"  : "flowlayout",
+    "QOOXDOO_PATH" : "../../../qooxdoo.trunk/framework",
+    "QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
+    "CACHE"        : "./cache",
+    "QXTHEME"      : "qx.theme.Modern",
+    "ROOT"         : "."
+  }
+}

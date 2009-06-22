@@ -1,0 +1,35 @@
+{
+  "info" : 
+  {
+    "name" : "FlowLayout",
+
+    "summary" : "FlowLayout",
+    "description" : "FlowLayout",
+    
+    "keywords" : ["ui", "layout"],
+    "homepage" : "http://contrib.qooxdoo.org/FlowLayout",
+
+    "license" : "LGPL/EPL",
+    "authors" : 
+    [
+      {
+        "name" : "Chris Banford (zermattchris)",
+        "email" : "dev@bsoft.ch"
+      }
+    ],
+
+    "version" : "trunk",
+    "qooxdoo-versions": ["0.8"]
+  },
+  
+  "provides" : 
+  {
+    "namespace"   : "flowlayout",
+    "encoding"    : "utf-8",
+    "class"       : "source/class",
+    "resource"    : "source/resource",
+    "translation" : "source/translation",
+    "type"        : "application"
+  }
+}
+
