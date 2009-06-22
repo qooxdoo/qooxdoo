@@ -57,8 +57,22 @@ qx.Mixin.define("qx.data.marshal.MEventBubbling",
      * @param name {String} The name of the changed property.
      */
     _applyEventPropagation: function(value, old, name) {
-      this.fireDataEvent("changeBubble", {value: value, name: name, old: old});
+      this.fireDataEvent("changeBubble", {value: value, name: name, old: old});        
 
+      this._registerEventChaining(value, old, name);
+    },
+    
+    
+    /**
+     * Registers for the given parameters the changeBubble listener, if 
+     * possible. It also removes the old listener, if an old item with 
+     * a changeBubble event is given.
+     * 
+     * @param value {var} The new value of the property.
+     * @param old {var} The old value of the property.
+     * @param name {String} The name of the changed property.
+     */
+    _registerEventChaining: function(value, old, name) {
       // if the child supports chaining
       if ((value instanceof qx.core.Object) 
         && qx.Class.hasMixin(value.constructor, qx.data.marshal.MEventBubbling)
@@ -74,8 +88,7 @@ qx.Mixin.define("qx.data.marshal.MEventBubbling",
       // if an old value is given, remove the old listener if possible
       if (old != null && old.getUserData && old.getUserData("idBubble") != null) {
         old.removeListenerById(old.getUserData("idBubble"));
-      }
-
+      }      
     },
 
 
