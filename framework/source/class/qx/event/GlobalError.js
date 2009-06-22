@@ -41,6 +41,21 @@ qx.Bootstrap.define("qx.event.GlobalError",
     {
       this.__callback = callback || null;
       this.__context = context || window;
+      
+      if (callback && !window.onerror) {
+        window.onerror = qx.lang.Function.bind(this.__onErrorWindow, this);
+      }
+      
+      if (!callback && window.onerror) {
+        window.onerror = null;
+      }
+    },
+    
+    
+    __onErrorWindow : function(msg, uri, lineNumber)
+    {
+      this.handleError(new qx.core.WindowError(msg, uri, lineNumber));
+      return true;
     },
     
     
@@ -65,13 +80,21 @@ qx.Bootstrap.define("qx.event.GlobalError",
           try {
             return method.apply(this, arguments);
           } catch(ex) {
-            self.__callback.call(self.__context, ex);
+            self.handleError(ex);
           }
         };
       }
       else
       {
         return method;
+      }
+    },
+    
+    
+    handleError : function(ex)
+    {
+      if (this.__callback) {
+        this.__callback.call(this.__context, ex);
       }
     }
   },
@@ -81,5 +104,7 @@ qx.Bootstrap.define("qx.event.GlobalError",
   {
     statics.setErrorHandler(null, null);
     qx.core.Setting.define("qx.globalErrorHandling", "on");
+    
+    statics.__onErrorWindow = statics.observeMethod(statics.__onErrorWindow);
   }
 });
