@@ -895,10 +895,11 @@ qx.Class.define("qx.ui.core.LayoutItem",
      */
     setLayoutParent : function(parent)
     {
-      // Store parent
+      if (this.$$parent === parent) {
+        return;
+      }
+      
       this.$$parent = parent || null;
-
-      // Update visibility cache
       qx.ui.core.queue.Visibility.add(this);
     },
 
