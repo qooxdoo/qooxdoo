@@ -172,5 +172,16 @@ qx.Class.define("demobrowser.demo.animation.Save_Dialog",
       }
 
     }
+  },
+  
+  /*
+   *****************************************************************************
+      DESTRUCTOR
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeObjects("__container", "__dialog", "__showEffect", "__hideEffect");
   }
 });

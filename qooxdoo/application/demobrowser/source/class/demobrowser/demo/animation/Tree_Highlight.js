@@ -350,5 +350,19 @@ qx.Class.define("demobrowser.demo.animation.Tree_Highlight",
       this.showOpenButtons[current.getOpenSymbolMode()].setValue(true);
       this.btnMoveToParent.setEnabled(level > 0);
     }
+  },
+  
+  /*
+   *****************************************************************************
+      DESTRUCTOR
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeFields("_container", "_treeGroup", "_tree", "inputItemName",
+      "btnAddFolder", "btnAddFile", "btnAddAfter", "btnAddBefore", "btnAddBegin",
+      "btnRemove", "btnRemoveAll", "btnMoveToParent", "showOpenButtons",
+      "mgrShowRootOpen", "btnReset");
   }
 });

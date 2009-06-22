@@ -105,5 +105,16 @@ qx.Class.define("demobrowser.demo.animation.Login",
       this.__container.addListener("appear", this.__prepareEffect, this);
 
     }
+  },
+  
+  /*
+   *****************************************************************************
+      DESTRUCTOR
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeObjects("__container", "__okButton", "__effect");
   }
 });
