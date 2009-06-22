@@ -31,16 +31,18 @@
  * <pre class="javascript">
 
 	var fl = new flowlayout.FlowLayout();
-	// Change a few optional things on how the FlowLayout displays its children...
-	fl.setAlignX( "center" );	// Align children to the center of the container (left/right)
-	fl.setReversed( true );	// draws children elements in reverse order.
+	// Change a few things on how the FlowLayout displays its children...
+	fl.setAlignX( "right" );	// Align children to the center of the container (left/right)
+	//fl.setReversed( true );	// draws children elements in reverse order.
 	var container = new qx.ui.container.Composite( fl );
+
 
 	var button1 = new qx.ui.form.Button("1. First Button", "flowlayout/test.png");
 	container.add(button1);
 
 	var button2 = new qx.ui.form.Button("2. Second longer Button...", "flowlayout/test.png");
-	container.add(button2);
+	// Have this child create a break in the current Line (next child will always start a new Line)
+	container.add(button2, {lineBreak: true});
 
 
 	var button3 = new qx.ui.form.Button("3rd really, really, really long Button", "flowlayout/test.png");
@@ -55,7 +57,7 @@
 	var button5 = new qx.ui.form.Button("20px Margins around the great big 5th button!");
 	button5.setHeight(100);  // tall button
 	button5.setMargin(20);
-	container.add(button5);
+	container.add(button5, {lineBreak: true});		// Line break after this button.
 
 	var button6 = new qx.ui.form.Button("Number 6", "flowlayout/test.png");
 	button6.setAlignY("middle");	// Align this child to the vertical center of this line.
@@ -113,15 +115,27 @@ qx.Class.define("flowlayout.FlowLayout",
   properties :
   {
     /**
+     * Creates a Line Break for the child its applied on.
+  	 */
+    lineBreak :
+    {
+		check : "Boolean",
+		init : false,
+		apply : "_applyLayoutChange"
+    },
+   
+   
+   
+    /**
      * Horizontal alignment of the whole children block. The horizontal
      * alignment of the child is completely ignored in HBoxes (
      * {@link qx.ui.core.LayoutItem#alignX}).
      */
     alignX :
     {
-    check : [ "left", "center", "right" ],
-    init : "left",
-    apply : "_applyLayoutChange"
+	    check : [ "left", "center", "right" ],
+	    init : "left",
+	    apply : "_applyLayoutChange"
     },
 
     /**
@@ -130,17 +144,17 @@ qx.Class.define("flowlayout.FlowLayout",
      */
     alignY :
     {
-    check : [ "top", "middle", "bottom", "baseline" ],
-    init : "top",
-    apply : "_applyLayoutChange"
+	    check : [ "top", "middle", "bottom", "baseline" ],
+	    init : "top",
+	    apply : "_applyLayoutChange"
     },
 
     /** Horizontal spacing between two children */
     spacing :
     {
-    check : "Integer",
-    init : 0,
-    apply : "_applyLayoutChange"
+	    check : "Integer",
+	    init : 0,
+	    apply : "_applyLayoutChange"
     },
 
 
@@ -196,7 +210,7 @@ qx.Class.define("flowlayout.FlowLayout",
     {
       "on" : function(item, name, value)
       {
-            this.assert( false, "The property '"+name+"' is not supported by the flow layout!" );
+            this.assert( name === "lineBreak", "The property '"+name+"' is not supported by the flow layout!" );
       },
 
       "off" : null
@@ -267,8 +281,7 @@ qx.Class.define("flowlayout.FlowLayout",
           }
         }
         */
-
-
+		
         // Alignment X support
         var thisLineCurrLeft = 0;        // AlignX -> "left"
         if (this.getAlignX() != "left") {
@@ -304,8 +317,7 @@ qx.Class.define("flowlayout.FlowLayout",
           }
           marginL = child.getMarginLeft();
           marginR = child.getMarginRight();
-
-
+		  
           // Respect vertical alignment - alignY
           top = util.computeVerticalAlignOffset(child.getAlignY()||this.getAlignY(), (marginT + size.height + marginB), this.__currLinesTallestChild, marginT, marginB);
 
@@ -405,6 +417,15 @@ qx.Class.define("flowlayout.FlowLayout",
 			childIndexList.push(i);
 			currLeft += childW;
 
+			// This child is marked as breaking the current Line.
+			// As we want to break the line after this child, we break out of the loop
+			// after adding this child to childIndexList and updating currLeft. 
+			if ( child.getLayoutProperties().lineBreak ) {
+				//this.info( "LineBreak: " + child.getLayoutProperties().lineBreak );
+				// Don't save this child and return this lines list of Child index numbers.
+				break;
+			}
+			
 		}
 
 		// keep track of the total width of all this line's children, so

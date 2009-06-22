@@ -64,7 +64,7 @@ qx.Class.define("flowlayout.Application",
       */
 	  var fl = new flowlayout.FlowLayout();
 	  // Change a few things on how the FlowLayout displays its children...
-	  fl.setAlignX( "center" );	// Align children to the center of the container (left/right)
+	  fl.setAlignX( "right" );	// Align children to the center of the container (left/right)
 	  //fl.setReversed( true );	// draws children elements in reverse order.
       var container = new qx.ui.container.Composite( fl );
 	  
@@ -73,8 +73,8 @@ qx.Class.define("flowlayout.Application",
       container.add(button1);
 
       var button2 = new qx.ui.form.Button("2. Second longer Button...", "flowlayout/test.png");
-      //this.info( " -> Button 2's Left margin: " + button2.getMarginLeft() );
-      container.add(button2);
+      // Have this child create a break in the current Line (next child will always start a new Line)
+      container.add(button2, {lineBreak: true});
 
 
       var button3 = new qx.ui.form.Button("3rd really, really, really long Button", "flowlayout/test.png");
@@ -89,7 +89,7 @@ qx.Class.define("flowlayout.Application",
       var button5 = new qx.ui.form.Button("20px Margins around the great big 5th button!");
       button5.setHeight(100);  // tall button
       button5.setMargin(20);
-      container.add(button5);
+      container.add(button5, {lineBreak: true});		// Line break after this button.
 
       var button6 = new qx.ui.form.Button("Number 6", "flowlayout/test.png");
       button6.setAlignY("middle");	// Align this child to the vertical center of this line.
