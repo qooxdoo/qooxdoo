@@ -52,8 +52,8 @@ qx.Class.define("qx.test.data.singlevalue.Array",
 
         name : {
           check : "String",
-          init : "Juhu",
-          event : "changeName"
+          event : "changeName",
+          nullable: true
         },
 
         array : {
@@ -316,6 +316,36 @@ qx.Class.define("qx.test.data.singlevalue.Array",
       
       // check the binding
       this.assertNull(this.__label.getValue(), "Array[last] binding does not work!");
+    },
+    
+    
+    testBidirectional: function() {
+      // two way binding 
+      // model.name <-- bind --> model.child.array[0]
+    
+      // create model: model.child.array
+      var model = new qx.test.data.singlevalue.Array_MultiBinding();
+      model.setChild(new qx.test.data.singlevalue.Array_MultiBinding());
+      
+      // set up the two way binding
+      model.bind("name", model, "child.array[0]");
+      model.bind("child.array[0]", model, "name");
+      
+      // set the value of the textfield
+      model.setName("affe");
+      this.assertEquals("affe", model.getChild().getArray().getItem(0), "affe not set in the model array.");
+      
+      // set the value in the model
+      model.getChild().getArray().setItem(0, "stadtaffe");
+      this.assertEquals("stadtaffe", model.getName(), "stadtaffe not set in the model.");
+      
+      // set the textfield to null
+      model.setName(null);
+      this.assertEquals(null, model.getChild().getArray().getItem(0), "model array not reseted to initial.");
+      
+      // set the model to null
+      model.getChild().getArray().setItem(0, null);
+      this.assertEquals(null, model.getName(), "model not reseted.");      
     }
 
   }

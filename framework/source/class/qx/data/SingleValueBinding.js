@@ -352,6 +352,11 @@ qx.Class.define("qx.data.SingleValueBinding",
         var lastProperty = targetPropertyChain.substring(
           targetPropertyChain.lastIndexOf(".") + 1, targetPropertyChain.length
         );
+        // check for an array and set the value to null
+        if (lastProperty[lastProperty.length - 1] == "]") {
+          this.__setTargetValue(targetObject, targetPropertyChain, null);
+          return;
+        }
         // try to reset the property
         if (target["reset" + qx.lang.String.firstUp(lastProperty)] != undefined) {
           target["reset" + qx.lang.String.firstUp(lastProperty)]();
