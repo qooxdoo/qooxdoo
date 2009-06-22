@@ -156,7 +156,7 @@ qx.Bootstrap.define("qx.lang.String",
      * @return {Boolean} whether the string starts with the given substring
      */
     startsWith : function(fullstr, substr) {
-      return fullstr.substring(0, substr.length) === substr;
+      return fullstr.indexOf(substr) === 0;
     },
 
 
