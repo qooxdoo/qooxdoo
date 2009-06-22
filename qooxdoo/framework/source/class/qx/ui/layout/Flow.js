@@ -157,9 +157,6 @@ qx.Class.define("qx.ui.layout.Flow",
 
   members :
   {
-    __currLinesTotalChildWidth : 0,
-    __currLinesTallestChild : 0,
-
     /*
     ---------------------------------------------------------------------------
       LAYOUT INTERFACE
@@ -190,261 +187,91 @@ qx.Class.define("qx.ui.layout.Flow",
      */
     renderLayout : function( availWidth, availHeight )
     {
-      var util = qx.ui.layout.Util;
       var children = this._getLayoutChildren();
-      var child, size, left, top, childW;
-      var marginL, marginR, marginT, marginB;
 
-      var linesChildrenIndexes =[];
-      var newLineFlag = false;
-
-      var lineLeft = 0, lineTop = 0;
-      var tallestChildInLine = 0;
-
-
-      // Reverse support.
-      // Todo: move this to the _cache like with HBox...
       if (this.getReversed()) {
         children = children.concat().reverse();
       }
-
       
-      // Compute gaps
-      //var spacing = this.getSpacing();
-      //var separator = this.getSeparator();
-      //if (separator) {
-      //  var gaps = util.computeHorizontalSeparatorGaps(children, spacing, separator);
-      //} else {
-      //var gaps = util.computeHorizontalGaps(children, spacing, true);
-      //}
-     // this.info( "   >> Layout spacing: " + spacing );
-
-      // Flow Render children
-      //if ( qx.core.Variant.get("qx.debug") == "on" ){ this.info( "*** Render Start ***" ); }
-      var lineCounter = 0;
-      var currChildIndex = 0
-      while ( currChildIndex < children.length )
+      var lineCalculator = new qx.ui.layout.LineSizeCalculator(
+        children,
+        this.getSpacing()
+      );
+      
+      var lineTop = 0;
+      while (lineCalculator.hasMoreLines())
       {
-        lineCounter++;
-        tallestChildInLine = 0;
-
-        linesChildrenIndexes = this._getIndexesOfChildrenOnALine(children, currChildIndex, availWidth);
-
-        /*
-        // Debug msgs
-        if ( qx.core.Variant.get("qx.debug") == "on" ){
-          if ( linesChildrenIndexes.length > 0 ) {
-            this.info( "Line #"+ (lineCounter) +" is "+this.getAlignX()+" aligned and has " + linesChildrenIndexes.length + "x children" );
-          } else {
-            this.info( "Line #"+ (lineCounter) +" is "+this.getAlignX()+" aligned and has 1 child" );
-          }
-        }
-        */
-		
-        // Alignment X support
-        var thisLineCurrLeft = 0;        // AlignX -> "left"
-        if (this.getAlignX() != "left") {
-          thisLineCurrLeft = availWidth - this.__currLinesTotalChildWidth;  // AlignX -> "right"
-          if (this.getAlignX() == "center") {
-            thisLineCurrLeft = Math.round(thisLineCurrLeft / 2);  // AlignX -> "center"
-          }
-        }
-
-
-
-        // If there are multiple children that have place on this Line,
-        // then loop through them and render each one after calculating
-        // the correct left starting position due to alignX.
-        var thisLineNr;
-        var len = linesChildrenIndexes.length;
-        for ( var x=0; x<len; x++ )
-        {
-          thisLineNr = linesChildrenIndexes[x];
-          child = children[thisLineNr];
-          //this.info( "   >> Render child: " + child.getLabel() );
-          size = child.getSizeHint();
-          // Keep track of the tallest child on this Line.
-          marginT = child.getMarginTop();
-          marginB = child.getMarginBottom();
-          if ( (marginT + size.height + marginB) > tallestChildInLine ) {
-            tallestChildInLine = (marginT + size.height + marginB);
-          }
-          marginL = child.getMarginLeft();
-          marginR = child.getMarginRight();
-		  
-          // Respect vertical alignment - alignY
-          top = util.computeVerticalAlignOffset(
-            child.getAlignY() || this.getAlignY(),
-            marginT + size.height + marginB, 
-            this.__currLinesTallestChild, 
-            marginT, marginB
-          );
-
-          child.renderLayout(
-            thisLineCurrLeft + marginL, 
-            lineTop + top, 
-            size.width, 
-            size.height
-          );
-
-          thisLineCurrLeft += (marginL + size.width + marginR);
-          currChildIndex++;
-        }
-
-        // Single child on Line
-        // If this line contain's a single element that is wider than then
-        // available space, then it still needs to be rendered to this Line,
-        // and the line counter increased to the next line (otherwise any
-        // element wider than availWidth wouldn't be shown...)
-        // AlignX will have special meaning here! Will prob mean negative left pos...
-        if ( len < 1 )
-        {
-          child = children[currChildIndex];
-          //this.info( "   >> Render child wider than window on its own line: " + child.getLabel() );
-          size = child.getSizeHint();
-          // Only a single child on this line, so its automatically the tallest.
-          marginT = child.getMarginTop();
-          marginB = child.getMarginBottom();
-          tallestChildInLine = (marginT + size.height + marginB);
-          marginL = child.getMarginLeft();
-          marginR = child.getMarginRight();
-
-
-          // Adjust this single, possibly overflowing child for alignX.
-          if ( (marginL + size.width + marginR) > availWidth )
-          {
-            // Child is overflowing.
-            if (this.getAlignX() == "center")
-            {
-              var centeredLeft = Math.round((availWidth - (marginL + size.width + marginR)) / 2)
-              //this.info( ">> Single centered overflow: " + centeredLeft );
-              thisLineCurrLeft = centeredLeft;      // AlignX -> "center"
-            }
-            if (this.getAlignX() == "right")
-            {
-              var rightLeft = Math.round(availWidth - (marginL + size.width + marginR))
-              //this.info( ">> Single centered overflow: " + centeredLeft );
-              thisLineCurrLeft = rightLeft;      // AlignX -> "right"
-            }
-          }
-
-          // alignY -> When a single child is displayed alone on a line,
-          // there is no alignY applied, as this child's hieght is the Line's height.
-          child.renderLayout( (thisLineCurrLeft + marginL), (lineTop + marginT), size.width, size.height);
-          currChildIndex++;
-        }
-
-        // update the next line's top starting point.
-        lineTop += tallestChildInLine;
+        var line = lineCalculator.computeNextLine(availWidth);     
+        this.__renderLine(line, lineTop, availWidth);
+        lineTop += line.height;
       }
     },
 
+    
+    /**
+     * Render a line in the flow layout
+     * 
+     * @param line {Map} A line configuration as returned by
+     *    {@link LineSizeCalculator#computeNextLine}.
+     * @param lineTop {Integer} The line's top position
+     * @param availWidth {Integer} The available line width
+     */
+    __renderLine : function(line, lineTop, availWidth)
+    {
+      var util = qx.ui.layout.Util;
 
-  	/**
-  	* Protected helper method for renderLayout(). Looks forward in the list of this
-  	* FlowLayout's children to see how many will fit in a Line (using availWidth).
-  	* 
-  	* @param children {Array} List of children elements passed from renderLayout().
-  	* @param startIndex {Integer} The index number to start calculating Children widths with.
-  	* @param availWidth {Integer} Layout's available width for the content (in pixels). Passed directly from renderLayout().
-  	* @return childIndexList {Integer[]} Simple list of integers [4,5,6,7] that correspond to children in renderLayout's children list.
-  	*/
-  	_getIndexesOfChildrenOnALine : function(children, startIndex, availWidth)
-  	{
-  		var childIndexList = [];
-  		var child, size, childW;
-  		var marginL, marginR, marginT, marginB;
-  		var currLeft = 0;
-  		var tallestChildInLine = 0;
+      // Alignment X support
+      var left = 0;             
+      if (this.getAlignX() != "left") {
+        left = availWidth - line.width;
+        if (this.getAlignX() == "center") {
+          left = Math.round(left / 2);
+        }
+      }  
   
-  		for ( var i=startIndex, l=children.length; i<l; i++ )
-  		{
-  			// Add children indexes, until their accumulated widths
-  			// won't fit on a single line anymore.
-  			child = children[i];
-  			size = child.getSizeHint();
-  			marginL = child.getMarginLeft();
-  			marginR = child.getMarginRight();
-  			marginT = child.getMarginTop();
-  			marginB = child.getMarginBottom();
-  			childW = marginL + size.width + marginR;
-  			if ( currLeft + childW > availWidth && childIndexList.length) {
-  				// Don't save this child and return this lines list of Child index numbers.
-  				break;
-  			}
-  			// Calc Tallest child on line.
-  			if ( (marginT + size.height + marginB) > tallestChildInLine ) {
-  				tallestChildInLine = (marginT + size.height + marginB);
-  			}
-  			childIndexList.push(i);
-  			currLeft += childW;
+      for (var i=0; i<line.children.length; i++)
+      {
+        var child = line.children[i];
+        var size = child.getSizeHint();
+        var marginTop = child.getMarginTop();
+        var marginBottom = child.getMarginBottom();
+    
+        top = util.computeVerticalAlignOffset(
+          child.getAlignY() || this.getAlignY(),
+          marginTop + size.height + marginBottom, 
+          line.height, 
+          marginTop, marginBottom
+        );
   
-  			// This child is marked as breaking the current Line.
-  			// As we want to break the line after this child, we break out of the loop
-  			// after adding this child to childIndexList and updating currLeft. 
-  			if ( child.getLayoutProperties().lineBreak ) {
-  				//this.info( "LineBreak: " + child.getLayoutProperties().lineBreak );
-  				// Don't save this child and return this lines list of Child index numbers.
-  				break;
-  			}
-  			
-  		}
+        child.renderLayout(
+          left + line.gapsBefore[i], 
+          lineTop + top, 
+          size.width, 
+          size.height
+        );
   
-  		// keep track of the total width of all this line's children, so
-  		// renderLayout() can calculate the starting left position of the first child,
-  		// so that alignX works.
-  		this.__currLinesTotalChildWidth = currLeft;
-  		// Same for alignY
-  		this.__currLinesTallestChild = tallestChildInLine;
-  
-  		return childIndexList;
-  	},
-
-
+        left += line.gapsBefore[i] + size.width;
+      }
+    },
+      
+  	
   	// overridden
   	_computeSizeHint : function()
   	{
-  	  var Util = qx.ui.layout.Util;
-  	  var children = this._getLayoutChildren();
-  	  var spacing = this.getSpacing();
+  	  var lineCalculator = new qx.ui.layout.LineSizeCalculator(
+  	    this._getLayoutChildren(),
+  	    this.getSpacing()
+  	  );
   	  
-  	  var lineHeight, lineWidth, lineChildren;
-      
-  	  var initializeLine = function() {
-  	    lineHeight = 0;
-  	    lineWidth = 0;
-  	    lineChildren = [];
-  	  };
-  	  
-  	  var computeLine = function()
-  	  {
-        lineWidth += Util.computeHorizontalGaps(lineChildren, spacing, true);     
-        width = Math.max(width, lineWidth);
-        height += lineHeight;   	    
-  	  };
-  	  
-  	  var width = 0;
   	  var height = 0;
-  	  initializeLine();
-
-  	  for (var i=0; i<children.length; i++)
+  	  var width = 0;
+  	  
+  	  while (lineCalculator.hasMoreLines())
   	  {
-  	    var child = children[i];
-  	    var size = child.getSizeHint();
-  	    
-  	    if (child.getLayoutProperties().lineBreak)
-  	    { 
-  	      computeLine();  
-  	      initializeLine();
-  	    }
-  	    
-  	    lineChildren.push(child);
-  	    lineWidth += size.width;
-  	    var childHeight = size.height + child.getMarginTop() + child.getMarginBottom();
-  	    lineHeight = Math.max(lineHeight, childHeight);
+  	    var line = lineCalculator.computeNextLine();
+  	    width = Math.max(width, line.width);
+  	    height += line.height;
   	  }
-
-  	  computeLine();
   	  
   		return {
   			width : width,
@@ -462,25 +289,17 @@ qx.Class.define("qx.ui.layout.Flow",
     // overridden
     getHeightForWidth : function(width)
   	{
-      var util = qx.ui.layout.Util;
-      var children = this._getLayoutChildren();
-  
-      var height = 0;
+      var lineCalculator = new qx.ui.layout.LineSizeCalculator(
+        this._getLayoutChildren(),
+        this.getSpacing()
+      );
       
-      var currChildIndex = 0;
-      var lineCounter = 0;
-      while ( currChildIndex < children.length )
-      {
-        lineCounter++;
-        tallestChildInLine = 0;
-
-        linesChildrenIndexes = this._getIndexesOfChildrenOnALine(children, currChildIndex, width);
-        currChildIndex += linesChildrenIndexes.length;
-    
-        height += this.__currLinesTallestChild;
-      }	  
-  	  
-      return height + lineCounter * this.getSpacing();
+      var height = 0;      
+      while (lineCalculator.hasMoreLines()) {
+        height += lineCalculator.computeNextLine(width).height;
+      }
+      
+      return height;
   	}
   }
 
