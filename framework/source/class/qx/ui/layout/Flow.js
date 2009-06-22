@@ -30,52 +30,43 @@
  * Here is a little example of how to use the Flow layout.
  *
  * <pre class="javascript">
-
-	var fl = new qx.ui.layout.Flow();
-	// Change a few things on how the FlowLayout displays its children...
-	fl.setAlignX( "center" );	// Align children to the X axis of the container (left|center|right)
-	//fl.setReversed( true );	// draws children elements in reverse order.
-	var container = new qx.ui.container.Composite( fl );
-
-
-	var button1 = new qx.ui.form.Button("1. First Button", "flowlayout/test.png");
-	container.add(button1);
-
-	var button2 = new qx.ui.form.Button("2. Second longer Button...", "flowlayout/test.png");
-	// Have this child create a break in the current Line (next child will always start a new Line)
-	container.add(button2, {lineBreak: true});
-
-
-	var button3 = new qx.ui.form.Button("3rd really, really, really long Button", "flowlayout/test.png");
-	button3.setHeight(100);  // tall button
-	container.add(button3);
-
-	var button4 = new qx.ui.form.Button("Number 4", "flowlayout/test.png");
-	button4.setAlignY("bottom");
-	container.add(button4);
-
-
-	var button5 = new qx.ui.form.Button("20px Margins around the great big 5th button!");
-	button5.setHeight(100);  // tall button
-	button5.setMargin(20);
-	container.add(button5, {lineBreak: true});		// Line break after this button.
-
-	var button6 = new qx.ui.form.Button("Number 6", "flowlayout/test.png");
-	button6.setAlignY("middle");	// Align this child to the vertical center of this line.
-	container.add(button6);
-
-
-	var button7 = new qx.ui.form.Button("7th a wide, short button", "flowlayout/test.png");
-	button7.setMaxHeight(20);  // short button
-	container.add(button7);
-
-
-	this.getRoot().add(container, {edge: 0});
+ *  var flowlayout = new qx.ui.layout.Flow();
+ *  
+ *	flowlayout.setAlignX( "center" );	// Align children to the X axis of the container (left|center|right)
+ *	//flowlayout.setReversed( true );	// draws children elements in reverse order.
  *
+ *	var container = new qx.ui.container.Composite(flowlayout);
+ *	this.getRoot().add(container, {edge: 0});
+ *
+ *	var button1 = new qx.ui.form.Button("1. First Button", "flowlayout/test.png");
+ *	container.add(button1);
+ *
+ *	var button2 = new qx.ui.form.Button("2. Second longer Button...", "flowlayout/test.png");
+ *	// Have this child create a break in the current Line (next child will always start a new Line)
+ *	container.add(button2, {lineBreak: true});
+ *
+ *	var button3 = new qx.ui.form.Button("3rd really, really, really long Button", "flowlayout/test.png");
+ *	button3.setHeight(100);  // tall button
+ *	container.add(button3);
+ *
+ *	var button4 = new qx.ui.form.Button("Number 4", "flowlayout/test.png");
+ *	button4.setAlignY("bottom");
+ *	container.add(button4);
+ *
+ *	var button5 = new qx.ui.form.Button("20px Margins around the great big 5th button!");
+ *	button5.setHeight(100);  // tall button
+ *	button5.setMargin(20);
+ *	container.add(button5, {lineBreak: true});		// Line break after this button.
+ *
+ *	var button6 = new qx.ui.form.Button("Number 6", "flowlayout/test.png");
+ *	button6.setAlignY("middle");	// Align this child to the vertical center of this line.
+ *	container.add(button6);
+ *
+ *	var button7 = new qx.ui.form.Button("7th a wide, short button", "flowlayout/test.png");
+ *	button7.setMaxHeight(20);  // short button
+ *	container.add(button7);
  * </pre>
- *
  */
-
 qx.Class.define("qx.ui.layout.Flow",
 {
   extend : qx.ui.layout.Abstract,
@@ -116,18 +107,6 @@ qx.Class.define("qx.ui.layout.Flow",
   properties :
   {
     /**
-     * Creates a Line Break for the child its applied on.
-  	 */
-    lineBreak :
-    {
-		check : "Boolean",
-		init : false,
-		apply : "_applyLayoutChange"
-    },
-   
-   
-   
-    /**
      * Horizontal alignment of the whole children block. The horizontal
      * alignment of the child is completely ignored in HBoxes (
      * {@link qx.ui.core.LayoutItem#alignX}).
@@ -157,7 +136,6 @@ qx.Class.define("qx.ui.layout.Flow",
 	    init : 0,
 	    apply : "_applyLayoutChange"
     },
-
 
     /** Whether the actual children list should be layouted in reversed order. */
     reversed :
@@ -189,7 +167,7 @@ qx.Class.define("qx.ui.layout.Flow",
     */
 
     // property apply
-    _applyReversed : function()
+    _applyReversed : function(value, old)
     {
       // easiest way is to invalidate the cache
       //this._invalidChildrenCache = true;
@@ -209,23 +187,21 @@ qx.Class.define("qx.ui.layout.Flow",
     // overridden
     verifyLayoutProperty : qx.core.Variant.select("qx.debug",
     {
-      "on" : function(item, name, value)
-      {
-            this.assert( name === "lineBreak", "The property '"+name+"' is not supported by the flow layout!" );
+      "on" : function(item, name, value) {
+        this.assertEquals("lineBreak", name, "The property '"+name+"' is not supported by the flow layout!" );
       },
 
       "off" : null
     }),
 
-    //-------------------------------------------------------------------
-    // overridden
-	//-------------------------------------------------------------------
+    
     /**
      * The FlowLayout tries to add as many Children as possible to the current 'Line'
      * and when it sees that the next Child won't fit, it starts on a new Line, continuing
      * until all the Children have been added.
      * To enable alignX "left", "center", "right" renderLayout has to calculate the positions
      * of all a Line's children before it draws them.
+     * 
      * @param availWidth {Integer} Final width available for the content (in pixel)
      * @param availHeight {Integer} Final height available for the content (in pixel)
      * @return {void}
@@ -378,7 +354,6 @@ qx.Class.define("qx.ui.layout.Flow",
     },
 
 
-  	//-------------------------------------------------------------------
   	/**
   	* Protected helper method for renderLayout(). Looks forward in the list of this
   	* FlowLayout's children to see how many will fit in a Line (using availWidth).
@@ -439,12 +414,8 @@ qx.Class.define("qx.ui.layout.Flow",
   		return childIndexList;
   	},
 
+
   	// overridden
-  	//-------------------------------------------------------------------
-  	/**
-  	* Todo: Return the size of the layout assuming all items fit onto one single line (no wrapping).
-  	* @return {Map} The size hint.
-  	*/
   	_computeSizeHint : function()
   	{
   	  var children = this._getLayoutChildren();
@@ -467,18 +438,15 @@ qx.Class.define("qx.ui.layout.Flow",
   		};
   	},
 	
-  	    
+  	
+  	// overridden
     hasHeightForWidth : function() {
       return true;
     },
   	
     
-  	// @todo:
-  	//-------------------------------------------------------------------
-  	/**
-  	* Calculate the height, for a given width. Not yet implemented in qx...
-  	*/
-  	getHeightForWidth : function(width)
+    // overridden
+    getHeightForWidth : function(width)
   	{
       var util = qx.ui.layout.Util;
       var children = this._getLayoutChildren();
