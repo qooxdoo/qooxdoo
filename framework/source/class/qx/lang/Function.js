@@ -55,7 +55,7 @@ qx.Bootstrap.define("qx.lang.Function",
     isFunction: function(obj)
     {
        qx.log.Logger.deprecatedMethodWarning(
-         arguments.callee, "Use qx.lang.Type.isArray() instead!"
+         arguments.callee, "Use qx.lang.Type.isFunction() instead!"
        );
        return qx.lang.Type.isFunction(obj);
      },    
