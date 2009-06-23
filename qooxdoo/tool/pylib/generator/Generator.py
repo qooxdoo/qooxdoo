@@ -240,8 +240,6 @@ class Generator:
                 # Reading configuration
                 partsCfg = self._job.get("packages/parts", {})
                 collapseCfg = self._job.get("packages/collapse", [])
-                minPackageSize = self._job.get("packages/sizes/min-package", 0)
-                minPackageSizeForUnshared = self._job.get("packages/sizes/min-package-unshared", None)
                 boot = self._job.get("packages/init", "boot")
 
                 # Automatically add boot part to collapse list
@@ -255,7 +253,7 @@ class Generator:
                     partIncludes[partId] = self._expandRegExps(partsCfg[partId])
 
                 # Computing packages
-                partPackages, packageClasses = self._partBuilder.getPackages(partIncludes, smartExclude, classList, collapseCfg, variants, minPackageSize, minPackageSizeForUnshared)
+                partPackages, packageClasses = self._partBuilder.getPackages(partIncludes, smartExclude, classList, collapseCfg, variants, self._context)
 
                 return boot, partPackages, packageClasses
 
@@ -379,6 +377,7 @@ class Generator:
         require = config.get("require", {})
         use     = config.get("use", {})
         context = {'config': self._config, 'jobconf': self._job, 'console': self._console, 'cache': self._cache}
+        self._context = context
 
         # We use some sets of Job keys, both well-known and actual, to determin
         # which actions have to be run, and in which order.
