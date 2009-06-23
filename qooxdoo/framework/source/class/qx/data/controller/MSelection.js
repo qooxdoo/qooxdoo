@@ -132,7 +132,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
      */
     __changeTargetSelection: function() {
       // if __changeSelectionArray is currently working, do nothing
-      if (this._modifingSelection > 0 || this.getTarget() == null) {
+      if (this._inSelectionModification() || this.getTarget() == null) {
         return;
       }
       
@@ -322,6 +322,16 @@ qx.Mixin.define("qx.data.controller.MSelection",
      */
     _endSelectionModification: function() {
       this._modifingSelection > 0 ? this._modifingSelection-- : null;
+    },
+    
+    
+    /**
+     * Helper-Method for checking the state of the selection modification.
+     * {@link #_startSelectionModification}
+     * {@link #_endSelectionModification}
+     */
+    _inSelectionModification: function() {
+      return this._modifingSelection > 0;
     }
         
   }
