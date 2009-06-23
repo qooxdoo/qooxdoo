@@ -466,6 +466,8 @@ qx.Class.define("qx.data.SingleValueBinding",
      *   target object.
      * @param options {Map} The options map perhaps containing the user defined
      *   converter.
+     * @param sourceObject {qx.core.Object} The shource object of the binding (
+     *   used for the onUpdate callback).
      */
     __setInitialValue: function(value, targetObject, targetPropertyChain, options, sourceObject)
     {
@@ -883,8 +885,8 @@ qx.Class.define("qx.data.SingleValueBinding",
      *   be returned.
      *
      * @return {Array} An array of binding informations. Every binding
-     *   information is an array itself containing id, sourceObject, sourceEvent,
-     *   targetObject and targetProperty in that order.
+     *   information is an array itself containing id, sourceObject, 
+     *   sourceEvent, targetObject and targetProperty in that order.
      */
     getAllBindingsForObject : function(object) {
       // create an empty array if no binding exists
