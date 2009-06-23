@@ -323,7 +323,7 @@ class QxTest:
   #
   # @return The revision number (String)
   def getRemoteRevision(self):
-    import urllib
+    import urllib, re
     remoteFile = self.autConf['autHost']
     if 'autQxPath' in self.autConf:
       remoteFile += self.autConf['autQxPath']
@@ -334,9 +334,14 @@ class QxTest:
       self.log("ERROR: Unable to open remote revision file " + remoteFile + ": "
                + e.message)
     else:
-      self.trunkrev = rev
-      self.log("Remote qooxdoo checkout at revision " + self.trunkrev)
-      return rev
+      reg = re.compile("\D+")
+      found = reg.search(rev)
+      if found:
+        self.log("ERROR: Unexpected character(s) in remote revision file")
+      else:
+        self.trunkrev = rev
+        self.log("Remote qooxdoo checkout at revision " + self.trunkrev)
+        return rev
 
 
   ##
