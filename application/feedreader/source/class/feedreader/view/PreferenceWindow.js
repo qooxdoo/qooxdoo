@@ -96,9 +96,23 @@ qx.Class.define("feedreader.view.PreferenceWindow",
                         "es" : "Espanol",
                         "fr" : "Français",
                         "it" : "Italiano",
+                        "nl" : "Nederlands",
                         "sv" : "Svenska" };
 
       var localeManager = qx.locale.Manager.getInstance();
+
+      // Check for a mismatch of available and used locales
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        var availableLocales = localeManager.getAvailableLocales().sort().join(", ");
+        var usedLocales = qx.lang.Object.getKeys(languages).sort().join(", ");
+        
+        if(availableLocales !== usedLocales)
+        {
+          this.warn("Mismatch of locales: \navailable: " + availableLocales + 
+            "\nused     : " + usedLocales);
+        }
+      }
 
       var radioButton;
       for (var lang in languages )
