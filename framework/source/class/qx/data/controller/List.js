@@ -606,7 +606,7 @@ qx.Class.define("qx.data.controller.List",
      */
     _onBindingSet: function(index, sourceObject, targetObject) {
       // ignore the binding set if the model is already set to null
-      if (this.getModel() == null) {
+      if (this.getModel() == null || this._inSelectionModification()) {
         return;
       }
       
@@ -616,14 +616,16 @@ qx.Class.define("qx.data.controller.List",
         if (this.__onUpdate[this.__boundProperties[i]] != null) {
           this.__onUpdate[this.__boundProperties[i]]();
         }
-      } 
+      }
       
       // update the reference to the model
       var itemModel = this.getModel().getItem(this.__lookup(index));
       targetObject.setUserData("model", itemModel);      
 
       // update the selection
-      this._updateSelection();
+      if (this.getSelection() != null) {
+        this._updateSelection();
+      }
     },
     
     
@@ -714,20 +716,20 @@ qx.Class.define("qx.data.controller.List",
      * @param old {Object} The old delegate.
      */
     _setCreateItem: function(value, old) {
-      if (this.getTarget() == null || this.getModel() == null) {
+      if (
+        this.getTarget() == null || 
+        this.getModel() == null || 
+        value == null ||
+        value.createItem == null
+      ) {
         return;
       }
       this._startSelectionModification();
       
       // remove all bindings
       var children = this.getTarget().getChildren();
-      for (var i = 0, l = this.getTarget().length; i < l; i++) {
-        var id = children[i].getUserData("labelBindingId");
-        this.removeBinding(id);
-        id = children[i].getUserData("iconBindingId");
-        if (id != null) {
-          this.removeBinding(id);
-        }
+      for (var i = 0, l = children.length; i < l; i++) {
+        this._removeBindingsFrom(children[i]);
       }
       
       // remove all elements of the target
@@ -751,20 +753,20 @@ qx.Class.define("qx.data.controller.List",
      * @param old {Function|null} The old filter function.
      */
     _setFilter: function(value, old) {
-      if (this.getTarget() == null || this.getModel() == null) {
+      if (
+        this.getTarget() == null || 
+        this.getModel() == null || 
+        value == null ||
+        value.filter == null
+      ) {
         return;
       }
       this._startSelectionModification();
 
       // remove all bindings
       var children = this.getTarget().getChildren();
-      for (var i = 0, l = this.getTarget().length; i < l; i++) {
-        var id = children[i].getUserData("labelBindingId");
-        this.removeBinding(id);
-        id = children[i].getUserData("iconBindingId");
-        if (id != null) {
-          this.removeBinding(id);
-        }
+      for (var i = 0, l = children.length; i < l; i++) {
+        this._removeBindingsFrom(children[i]);
       }
 
       // store the old lookup table
@@ -794,7 +796,7 @@ qx.Class.define("qx.data.controller.List",
       }        
       
       this._endSelectionModification();
-      this._updateSelection();        
+      this._updateSelection();
     },    
     
     
