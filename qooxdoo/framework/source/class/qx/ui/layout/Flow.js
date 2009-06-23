@@ -24,7 +24,28 @@
  * out of room on the current line of elements, a new line is started, cleared
  * below the tallest child of the preceeding line -- a bit like using 'float'
  * in CSS, except that a new line wraps all the way back to the left.
+ * 
+ * *Features*
  *
+ * <ul>
+ * <li> Reversing children order </li>
+ * <li> Manual line breaks </li>
+ * <li> Horizontal alignment of lines </li>
+ * <li> Vertical alignment of individual widgets within a line </li>
+ * <li> Margins with horizontal margin collapsing </li>
+ * <li> Horizontal and vertical spacing </li>
+ * <li> Height for width calculations </li>
+ * <li> Auto-sizing </li>
+ * </ul>
+ * 
+ * *Item Properties*
+ *
+ * <ul>
+ * <li><strong>lineBreak</strong> <em>(Boolean)</em>: If set to <code>true</code>
+ *   a forced line break will happen after this child widget.
+ * </li>
+ * </ul>
+ * 
  * *Example*
  *
  * Here is a little example of how to use the Flow layout.
@@ -33,7 +54,6 @@
  *  var flowlayout = new qx.ui.layout.Flow();
  *  
  *	flowlayout.setAlignX( "center" );	// Align children to the X axis of the container (left|center|right)
- *	//flowlayout.setReversed( true );	// draws children elements in reverse order.
  *
  *	var container = new qx.ui.container.Composite(flowlayout);
  *	this.getRoot().add(container, {edge: 0});
@@ -66,6 +86,11 @@
  *	button7.setMaxHeight(20);  // short button
  *	container.add(button7);
  * </pre>
+ *
+ * *External Documentation*
+ *
+ * <a href='http://qooxdoo.org/documentation/0.8/layout/Flow'>
+ * Extended documentation</a> and links to demos of this layout in the qooxdoo wiki.
  */
 qx.Class.define("qx.ui.layout.Flow",
 {
@@ -79,18 +104,23 @@ qx.Class.define("qx.ui.layout.Flow",
   */
 
   /**
-   * @param spacing {Integer?0} The spacing between child widgets {@link #spacing}.
+   * @param spacingX {Integer?0} The spacing between child widgets {@link #spacingX}.
+   * @param spacingY {Integer?0} The spacing between the lines {@link #spacingY}.
    * @param alignX {String?"left"} Horizontal alignment of the whole children
    *     block {@link #alignX}.
    */
-  construct : function(spacing, alignX)
+  construct : function(spacingX, spacingY, alignX)
   {
     this.base(arguments);
 
-    if (spacing) {
-      this.setSpacing(spacing);
+    if (spacingX) {
+      this.setSpacingX(spacingX);
     }
 
+    if (spacingY) {
+      this.setSpacingY(spacingY);
+    }
+    
     if (alignX) {
       this.setAlignX(alignX);
     }
@@ -130,11 +160,21 @@ qx.Class.define("qx.ui.layout.Flow",
     },
 
     /** Horizontal spacing between two children */
-    spacing :
+    spacingX :
     {
 	    check : "Integer",
 	    init : 0,
 	    apply : "_applyLayoutChange"
+    },
+
+    /**
+     * The vertical spacing between the lines.
+     */
+    spacingY :
+    {
+      check : "Integer",
+      init : 0,
+      apply : "_applyLayoutChange"
     },
 
     /** Whether the actual children list should be layouted in reversed order. */
@@ -185,7 +225,7 @@ qx.Class.define("qx.ui.layout.Flow",
      * @param availHeight {Integer} Final height available for the content (in pixel)
      * @return {void}
      */
-    renderLayout : function( availWidth, availHeight )
+    renderLayout : function(availWidth, availHeight)
     {
       var children = this._getLayoutChildren();
 
@@ -193,9 +233,9 @@ qx.Class.define("qx.ui.layout.Flow",
         children = children.concat().reverse();
       }
       
-      var lineCalculator = new qx.ui.layout.LineSizeCalculator(
+      var lineCalculator = new qx.ui.layout.LineSizeIterator(
         children,
-        this.getSpacing()
+        this.getSpacingX()
       );
       
       var lineTop = 0;
@@ -203,7 +243,7 @@ qx.Class.define("qx.ui.layout.Flow",
       {
         var line = lineCalculator.computeNextLine(availWidth);     
         this.__renderLine(line, lineTop, availWidth);
-        lineTop += line.height;
+        lineTop += line.height + this.getSpacingY();
       }
     },
 
@@ -212,7 +252,7 @@ qx.Class.define("qx.ui.layout.Flow",
      * Render a line in the flow layout
      * 
      * @param line {Map} A line configuration as returned by
-     *    {@link LineSizeCalculator#computeNextLine}.
+     *    {@link LineSizeIterator#computeNextLine}.
      * @param lineTop {Integer} The line's top position
      * @param availWidth {Integer} The available line width
      */
@@ -255,27 +295,8 @@ qx.Class.define("qx.ui.layout.Flow",
       
   	
   	// overridden
-  	_computeSizeHint : function()
-  	{
-  	  var lineCalculator = new qx.ui.layout.LineSizeCalculator(
-  	    this._getLayoutChildren(),
-  	    this.getSpacing()
-  	  );
-  	  
-  	  var height = 0;
-  	  var width = 0;
-  	  
-  	  while (lineCalculator.hasMoreLines())
-  	  {
-  	    var line = lineCalculator.computeNextLine();
-  	    width = Math.max(width, line.width);
-  	    height += line.height;
-  	  }
-  	  
-  		return {
-  			width : width,
-  			height : height
-  		};
+  	_computeSizeHint : function() {
+      return this.__computeSize(Infinity);
   	},
 	
   	
@@ -286,20 +307,40 @@ qx.Class.define("qx.ui.layout.Flow",
   	
     
     // overridden
-    getHeightForWidth : function(width)
+    getHeightForWidth : function(width) {
+      return this.__computeSize(width).height;
+  	},
+  	
+  	
+  	/**
+  	 * Compute the preferred size optionally constrained by the available width
+  	 * 
+  	 * @param availWidth {Integer} The available width
+  	 * @return {Map} Map containing the preferred height and width of the layout
+  	 */
+  	__computeSize : function(availWidth)
   	{
-      var lineCalculator = new qx.ui.layout.LineSizeCalculator(
+      var lineCalculator = new qx.ui.layout.LineSizeIterator(
         this._getLayoutChildren(),
-        this.getSpacing()
+        this.getSpacingX()
       );
       
-      var height = 0;      
-      while (lineCalculator.hasMoreLines()) {
-        height += lineCalculator.computeNextLine(width).height;
+      var height = 0;
+      var width = 0;
+      var lineCount = 0;
+      
+      while (lineCalculator.hasMoreLines())
+      {
+        var line = lineCalculator.computeNextLine(availWidth);
+        lineCount += 1;
+        width = Math.max(width, line.width);
+        height += line.height;
       }
       
-      return height;
+      return {
+        width : width,
+        height : height + this.getSpacingY() * (lineCount-1)
+      };  	  
   	}
   }
-
 });
