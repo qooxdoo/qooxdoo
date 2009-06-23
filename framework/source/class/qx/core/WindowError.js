@@ -17,6 +17,10 @@
 
 ************************************************************************ */
 
+/**
+ * This exception is thrown by the {@link qx.event.GlobalError} handler if a
+ * <code>window.onerror</code> event occurs in the browser.
+ */
 qx.Class.define("qx.core.WindowError",
 {
   extend : Error,
@@ -31,6 +35,9 @@ qx.Class.define("qx.core.WindowError",
   */
 
   /**
+   * @param failMessage {String} The error message
+   * @param uri {String} URI where error was raised
+   * @param lineNumber {Integer} The line number where the error was raised
    */
   construct : function(failMessage, uri, lineNumber)
   {
@@ -51,16 +58,32 @@ qx.Class.define("qx.core.WindowError",
 
   members :
   {
+    __failMessage : null,
+    __uri : null,
+    __lineNumber : null,
+    
+    
+    // overridden
     toString : function() {
       return this.__failMessage;
     },
     
     
+    /**
+     * Get the URI where error was raised
+     * 
+     * @return {String} URI where error was raised
+     */
     getUri : function() {
       return this.__uri;
     },
     
     
+    /**
+     * Get the line number where the error was raised
+     * 
+     * @return {Integer} The line number where the error was raised
+     */    
     getLineNumber : function() {
       return this.__lineNumber;
     }
