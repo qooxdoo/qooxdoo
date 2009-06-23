@@ -199,6 +199,7 @@ qx.Class.define("qx.data.marshal.Json",
         qx.lang.Type.isNumber(data) 
         || qx.lang.Type.isString(data) 
         || qx.lang.Type.isBoolean(data) 
+        || qx.lang.Type.isDate(data) 
         || data == null
       ) {
         return data;

@@ -32,6 +32,7 @@ qx.Bootstrap.define("qx.lang.Type",
       "[object RegExp]": "RegExp",
       "[object Number]": "Number",
       "[object Boolean]": "Boolean",
+      "[object Date]": "Date",      
       "[object Function]": "Function"
     },
     
@@ -161,6 +162,27 @@ qx.Bootstrap.define("qx.lang.Type",
       );
     },
     
+    
+    /**
+    * Whether the value is a date.
+    * 
+    * @return {Boolean} Whether the value is a date. 
+    */    
+    isDate : function(value)
+    {
+      // Added "value !== null" because IE throws an exception "Object expected"
+      // by executing "value instanceof Array" if value is a DOM element that 
+      // doesn't exist. It seems that there is a internal different between a 
+      // JavaScript null and a null returned from calling DOM. 
+      // e.q. by document.getElementById("ReturnedNull").
+      return (
+        value !== null && (
+        typeof value === "date" ||
+        this.getClass(value) == "Date" ||
+        value instanceof Date)
+      );
+    },    
+
 
     /**
     * Whether the value is a function.
