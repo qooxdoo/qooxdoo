@@ -391,6 +391,89 @@ qx.Class.define("qx.test.ui.layout.Flow",
     },
     
     
+    testSpacingX : function()
+    {
+      var layout = new qx.ui.layout.Flow();
+      var container = new qx.test.ui.layout.LayoutItem(null, null).set({
+        layout: layout
+      });
+      this.root.add(container);
+      
+      var c1 = new qx.test.ui.layout.LayoutItem(100, 50);
+      container.add(c1);
+      var c2 = new qx.test.ui.layout.LayoutItem(100, 50);
+      container.add(c2);
+      var c3 = new qx.test.ui.layout.LayoutItem(100, 50);
+      container.add(c3);
+      
+      this.flush();
+      layout.setSpacingX(10);
+
+      this.flush();
+      this.assertEquals(320, container.bounds.width);
+      this.assertEquals(0, c1.bounds.left);
+      this.assertEquals(110, c2.bounds.left);
+      this.assertEquals(220, c3.bounds.left);
+    },
+    
+    
+    testSpacingXAndMarginCollapsing : function()
+    {
+      var layout = new qx.ui.layout.Flow();
+      var container = new qx.test.ui.layout.LayoutItem(null, null).set({
+        layout: layout
+      });
+      this.root.add(container);
+      
+      var c1 = new qx.test.ui.layout.LayoutItem(100, 50).set({
+        margin: 5
+      });
+      container.add(c1);
+      var c2 = new qx.test.ui.layout.LayoutItem(100, 50).set({
+        margin: 5
+      });
+      container.add(c2);
+      var c3 = new qx.test.ui.layout.LayoutItem(100, 50).set({
+        margin: 15
+      });
+      container.add(c3);
+      
+      layout.setSpacingX(10);
+
+      this.flush();
+      this.assertEquals(5+100+10+100+15+100, container.bounds.width);
+      this.assertEquals(5, c1.bounds.left);
+      this.assertEquals(5+100+10, c2.bounds.left);
+      this.assertEquals(5+100+10+100+15, c3.bounds.left);
+    },    
+    
+    
+    testSpacingY : function()
+    {
+      var layout = new qx.ui.layout.Flow();
+      var container = new qx.test.ui.layout.LayoutItem(110, null).set({
+        layout: layout
+      });
+      this.root.add(container);
+      
+      var c1 = new qx.test.ui.layout.LayoutItem(100, 50);
+      container.add(c1);
+      var c2 = new qx.test.ui.layout.LayoutItem(100, 50);
+      container.add(c2);
+      var c3 = new qx.test.ui.layout.LayoutItem(100, 50);
+      container.add(c3);
+      
+      this.flush();
+      layout.setSpacingY(10);
+      
+      this.flush();
+      this.assertEquals(170, container.bounds.height);
+      this.assertEquals(0, c1.bounds.top);
+      this.assertEquals(60, c2.bounds.top);
+      this.assertEquals(120, c3.bounds.top);
+    },
+    
+    
     testHeightForWidth : function()
     {
       var layout = new qx.ui.layout.Flow();

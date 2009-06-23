@@ -17,10 +17,20 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.layout.LineSizeCalculator",
+/**
+ * This class iterates over the lines in a flow layout.
+ * 
+ * @internal
+ */
+qx.Class.define("qx.ui.layout.LineSizeIterator",
 {
   extend : Object,
   
+  /**
+   * @param children {qx.ui.core.Widget[]} The children of the flow layout to
+   *    compute the lines from
+   * @param spacing {Integer} The horizontal spacing between the children
+   */
   construct : function(children, spacing)
   {
     this.__children = children;
@@ -32,6 +42,19 @@ qx.Class.define("qx.ui.layout.LineSizeCalculator",
   
   members :
   {
+    __children : null,
+    __spacing : null,
+    __hasMoreLines : null,
+    __childIndex : null,
+    
+    
+    /**
+     * Computes the properties of the next line taking the available width into
+     * account
+     * 
+     * @param availWidth {Integer} The available width for the next line
+     * @return {Map} A map containing the line's properties. 
+     */
     computeNextLine : function(availWidth)
     {
       var availWidth = availWidth || Infinity;
@@ -85,6 +108,12 @@ qx.Class.define("qx.ui.layout.LineSizeCalculator",
     },
       
       
+    /**
+     * Computes the gap before the child at the given index
+     * 
+     * @param childIndex {Integer} The index of the child widget
+     * @return {Integer} The gap before the given child
+     */
     __computeGapBeforeChild : function(childIndex)
     {
       var isFirstInLine = childIndex == this.__childIndex
@@ -100,6 +129,11 @@ qx.Class.define("qx.ui.layout.LineSizeCalculator",
     },
   
     
+    /**
+     * Whether there are more lines
+     * 
+     * @return {Boolean} Whether there are more lines
+     */
     hasMoreLines : function() {
       return this.__hasMoreLines;
     }
