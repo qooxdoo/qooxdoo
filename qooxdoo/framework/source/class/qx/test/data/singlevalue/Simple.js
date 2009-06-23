@@ -392,6 +392,63 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
       this.assertEquals("affe", t.getA(), "Converter will not be executed.");
 
       t.dispose();
+    },
+    
+    
+    testCallbacksOnInitialSet: function() {
+      // create a test class
+      qx.Class.define("qx.Target",
+      {
+        extend : qx.core.Object,
+
+        properties :
+        {
+          value : {
+            init: "Some String!",
+            validate: qx.util.Validate.string()
+          }
+        }
+      });      
+      var target = new qx.Target();
+      
+      // some test flags
+      var ok = false;
+      var fail = false;
+      
+      // callback methods
+      var that = this;
+      var options = {
+        onUpdate : function(sourceObject, targetObject, value) {
+          ok = true;
+          that.assertEquals(sourceObject, that.__a, "Wrong source object.");
+          that.assertEquals(targetObject, target, "Wrong target object.");
+          that.assertEquals(value, "affe", "Wrong value.");
+        },
+        onSetFail : function() {
+          fail = true;
+        }
+      };
+      
+      // set a valid initial value
+      this.__a.setValue("affe");
+      this.__a.bind("value", target, "value", options);
+      
+      this.assertEquals("affe", target.getValue(), "Binding not set anyway!");
+      this.assertTrue(ok, "onUpdate not called.");
+      this.assertFalse(fail, "onSetFail called?!");
+      
+      
+      // reset the checks
+      this.__a.removeAllBindings();
+      ok = false;
+      fail = false;
+      
+      // set an invalid initial value
+      this.__a.setZIndex(10);
+      this.__a.bind("zIndex", target, "value", options);      
+      
+      this.assertTrue(fail, "onSetFail not called.");
+      this.assertFalse(ok, "onUpdate called?!");
     }
   }
 });
