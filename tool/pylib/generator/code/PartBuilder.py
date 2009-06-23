@@ -33,6 +33,7 @@ class Part(object):
     def __init__(self, name):
         self.name      = name
         self.bit_mask  = -1   # power of 2 identifying this part
+        self.initial_deps = []   # initial deps, as defined in config
         self.deps      = []   # list of classes this part depends on, with defining classes from other parts excluded
         self.packages  = []   # list of packages constituting this part
 
@@ -65,7 +66,7 @@ class PartBuilder:
         #partDeps = self._getPartDeps(partIncludes, variants, smartExclude, classList)
 
         parts    = self._getParts(partIncludes)
-        parts    = self._getPartDeps1(partIncludes, variants, smartExclude, classList, parts)
+        parts    = self._getPartDeps1(parts, variants, smartExclude, classList)
 
         packages = {}  # map of Packages
 
@@ -137,6 +138,7 @@ class PartBuilder:
         for partPos, partId in enumerate(partIncludes):
             npart          = Part(partId)    # create new Part object
             npart.bit_mask = 1<<partPos      # add unique bit
+            npart.initial_deps = partIncludes[partId][:]  # defining classes from config
             npart.deps     = partIncludes[partId][:]  # initialize dependencies with defining classes
             parts[partId]  = npart
             self._console.debug("Part #%s => %s" % (partId, npart.bit_mask))
@@ -194,7 +196,7 @@ class PartBuilder:
     ##
     # create the complete list of class dependencies for each part
 
-    def _getPartDeps1(self, partIncludes, variants, smartExclude, classList, parts):
+    def _getPartDeps1(self, parts, variants, smartExclude, classList):
         self._console.debug("")
         self._console.info("Resolving part dependencies...")
         self._console.indent()
@@ -207,7 +209,7 @@ class PartBuilder:
             partExcludes = []
             for otherPartId in parts:
                 if otherPartId != partId:
-                    partExcludes.extend(partIncludes[otherPartId])
+                    partExcludes.extend(parts[otherPartId].initial_deps)
 
             # Extend with smart excludes
             partExcludes.extend(smartExclude)
