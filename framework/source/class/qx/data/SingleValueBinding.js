@@ -142,7 +142,7 @@ qx.Class.define("qx.data.SingleValueBinding",
             var currentValue = source.getItem(itemIndex);
 
             // set the initial value
-            this.__setInitialValue(currentValue, targetObject, targetProperty, options);
+            this.__setInitialValue(currentValue, targetObject, targetProperty, options, sourceObject);
 
             // bind the event
             listenerIds[i] = this.__bindEventToProperty(
@@ -152,7 +152,7 @@ qx.Class.define("qx.data.SingleValueBinding",
             // try to set the initial value
             if (propertyNames[i] != null && source["get" + qx.lang.String.firstUp(propertyNames[i])] != null) {
               var currentValue = source["get" + qx.lang.String.firstUp(propertyNames[i])]();
-              this.__setInitialValue(currentValue, targetObject, targetProperty, options);                  
+              this.__setInitialValue(currentValue, targetObject, targetProperty, options, sourceObject);
             }
             // bind the property
             listenerIds[i] = this.__bindEventToProperty(
@@ -219,7 +219,9 @@ qx.Class.define("qx.data.SingleValueBinding",
       
       // invoke the onUpdate method
       if (context.options && context.options.onUpdate) {
-        context.options.onUpdate(context.sources[context.index], context.targetObject);
+        context.options.onUpdate(
+          context.sources[context.index], context.targetObject
+        );
       }
       
       // delete all listener after the current one
@@ -261,7 +263,7 @@ qx.Class.define("qx.data.SingleValueBinding",
               source.length - 1 : context.arrayIndexValues[j];
             var currentValue = source.getItem(itemIndex);
             this.__setInitialValue(
-              currentValue, context.targetObject, context.targetProperty, context.options
+              currentValue, context.targetObject, context.targetProperty, context.options, context.sources[context.index]
             );
 
             // bind the item event to the new target
@@ -272,7 +274,7 @@ qx.Class.define("qx.data.SingleValueBinding",
           } else {
             if (context.propertyNames[j] != null && source["get" + qx.lang.String.firstUp(context.propertyNames[j])] != null) {
               var currentValue = source["get" + qx.lang.String.firstUp(context.propertyNames[j])]();
-              this.__setInitialValue(currentValue, context.targetObject, context.targetProperty, context.options);                  
+              this.__setInitialValue(currentValue, context.targetObject, context.targetProperty, context.options, context.sources[context.index]);
             }
             var eventName = this.__getEventNameForProperty(source, context.propertyNames[j]);
             // bind the last property to the new target
@@ -465,7 +467,7 @@ qx.Class.define("qx.data.SingleValueBinding",
      * @param options {Map} The options map perhaps containing the user defined
      *   converter.
      */
-    __setInitialValue: function(value, targetObject, targetPropertyChain, options)
+    __setInitialValue: function(value, targetObject, targetPropertyChain, options, sourceObject)
     {
       // first convert the initial value
       value = this.__convertValue(
@@ -477,7 +479,28 @@ qx.Class.define("qx.data.SingleValueBinding",
       }      
       // only set the initial value if one is given
       if (value != undefined) {
-        this.__setTargetValue(targetObject, targetPropertyChain, value);              
+        try {
+          this.__setTargetValue(targetObject, targetPropertyChain, value);          
+          
+          // tell the user that the setter was invoked probably
+          if (options && options.onUpdate) {
+            options.onUpdate(sourceObject, targetObject, value);
+          }          
+        } catch (e) {
+          if (! (e instanceof qx.core.ValidationError)) {
+            throw e;
+          }
+    
+          if (options && options.onSetFail) {
+            options.onSetFail(e);
+          } else {
+            this.warn(
+              "Failed so set value " + value + " on " + targetObject
+               + ". Error message: " + e
+            );
+          }        
+        }
+
       }
     },
 
