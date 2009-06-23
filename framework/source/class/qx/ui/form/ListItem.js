@@ -114,6 +114,11 @@ qx.Class.define("qx.ui.form.ListItem",
      */
     getFormValue : function()
     {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, 
+        "The value is deprecated. Please use label or userData instead."
+      );
+            
       var value = this.getValue();
       if (value == null) {
         value = this.getLabel();
@@ -129,10 +134,15 @@ qx.Class.define("qx.ui.form.ListItem",
     
     /**
      * Sets the value of the ListItem.
-     * @@param value {String} The sting value of the listitem.
+     * @param value {String} The sting value of the listitem.
      * @deprecated
      */
     setValue: function(value) {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, 
+        "The value is deprecated. Please use label or userData instead."
+      );
+            
       var oldValue = this.__value;
       this.__value = value;
       this.fireDataEvent("changeValue", value, oldValue);
@@ -145,6 +155,11 @@ qx.Class.define("qx.ui.form.ListItem",
      * @deprecated
      */
     getValue: function() {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, 
+        "The value is deprecated. Please use label or userData instead."
+      );
+            
       return this.__value;
     },
     
@@ -154,6 +169,11 @@ qx.Class.define("qx.ui.form.ListItem",
      * @deprecated
      */
     resetValue: function() {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, 
+        "The value is deprecated. Please use label or userData instead."
+      );
+            
       this.setValue(null);
     }
   }
