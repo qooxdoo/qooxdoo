@@ -12,7 +12,7 @@ class QxLogFormat:
     self.formatLog()
 
   def formatLog(self):
-    log = codecs.open(self.options.logfile,"r", "utf-8")
+    log = open(self.options.logfile,"r")
     html = codecs.open(self.options.htmlfile, "w", "utf-8")
   
     htmlHeader = '''<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
