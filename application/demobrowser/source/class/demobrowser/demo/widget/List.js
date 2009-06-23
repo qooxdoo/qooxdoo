@@ -69,8 +69,8 @@ qx.Class.define("demobrowser.demo.widget.List",
         }
       };
 
-      configList.addListener("changeValue", function(e) {
-        this.debug("Value: " + e.getData());
+      configList.addListener("changeSelection", function(e) {
+        this.debug("Value: " + e.getData()[0].getLabel());
       });
 
       container.add(configList, {left: 20, top: 40});
