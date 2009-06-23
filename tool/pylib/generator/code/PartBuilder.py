@@ -1,24 +1,53 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+################################################################################
+#
+#  qooxdoo - the new era of web development
+#
+#  http://qooxdoo.org
+#
+#  Copyright:
+#    2006-2009 1&1 Internet AG, Germany, http://www.1und1.de
+#
+#  License:
+#    LGPL: http://www.gnu.org/licenses/lgpl.html
+#    EPL: http://www.eclipse.org/org/documents/epl-v10.php
+#    See the LICENSE file in the project's top-level directory for details.
+#
+#  Authors:
+#    * Sebastian Werner (wpbasti)
+#    * Thomas Herchenroeder (thron7)
+#
+################################################################################
+
+##
+# PartBuilder -- create packages and associates parts to packages, from parts configuration and class list
+#
+# Interface:
+# - PartBuilder.getPackages()
+##
+
 import sys
+
+class Part(object):
+    def __init__(self, name):
+        self.name      = name
+        self.bit_mask  = -1   # power of 2 identifying this part
+        self.deps      = []   # list of classes this part depends on, with defining classes from other parts excluded
+        self.packages  = []   # list of packages constituting this part
+
+class Package(object):
+    def __init__(self, id):
+        self.id         = id   # int representing bit mask for each using part turned on
+        self.class_list = []   # list of classes in this package
+        self.part_count = 0    # number of parts using this package
+
 
 class PartBuilder:
     def __init__(self, console, depLoader, compiler):
         self._console = console
         self._depLoader = depLoader
         self._compiler = compiler
-
-
-    class Part(object):
-        def __init__(self, name):
-            self.name      = name
-            self.bit_mask  = -1   # power of 2 identifying this part
-            self.deps      = []   # list of classes this part depends on, with defining classes from other parts excluded
-            self.packages  = []   # list of packages constituting this part
-
-    class Package(object):
-        def __init__(self, id):
-            self.id         = id   # int representing bit mask for each using part turned on
-            self.class_list = []   # list of classes in this package
-            self.part_count = 0    # number of parts using this package
 
 
     def getPackages(self, partIncludes, smartExclude, classList, collapseParts, variants, jobContext):
@@ -29,14 +58,13 @@ class PartBuilder:
 
         parts = {}  # map of Parts
 
-
         # Preprocess part data
         # {Map} partBits = { partName : power_of_2 }
         # {Map} partDeps = { partName : [class1,...] }
-        partBits = self._getPartBits(partIncludes)
-        partDeps = self._getPartDeps(partIncludes, variants, smartExclude, classList)
+        #partBits = self._getPartBits(partIncludes)
+        #partDeps = self._getPartDeps(partIncludes, variants, smartExclude, classList)
 
-        parts    = self._getPartBits1(partIncludes)
+        parts    = self._getParts(partIncludes)
         parts    = self._getPartDeps1(partIncludes, variants, smartExclude, classList, parts)
 
         packages = {}  # map of Packages
@@ -45,33 +73,33 @@ class PartBuilder:
         # {Map} packageClasses = { packageNumber : [class1, ...] }
         # {Map} packageUsers   = { packageNumber : part_count }
         # {Map} partPackages   = { partName      : [packageNumber1, ...] }
-        packageClasses = self._getPackageClasses(partDeps, partBits)
-        packageUsers, partPackages = self._getPackageUsers(packageClasses, partBits)
+        #packageClasses = self._getPackageClasses(partDeps, partBits)
+        #packageUsers, partPackages = self._getPackageUsers(packageClasses, partBits)
 
         packages        = self._getPackageClasses1(parts)
         packages, parts = self._getPackageUsers1(packages, parts)
 
-        self._printPartStats(packageClasses, partPackages)
+        #self._printPartStats(packageClasses, partPackages)
         self._printPartStats1(packages, parts)
 
         # Collapse parts
         if len(collapseParts) > 0:
-            self._collapseParts(partPackages, packageClasses, collapseParts)
+        #    self._collapseParts(partPackages, packageClasses, collapseParts)
             self._collapseParts1(parts, packages, collapseParts)
 
         # Optimize packages
         if minPackageSize != None and minPackageSize != 0:
-            self._optimizePackages(packageClasses, packageUsers, partPackages, variants, minPackageSize, minPackageSizeForUnshared)
+        #    self._optimizePackages(packageClasses, packageUsers, partPackages, variants, minPackageSize, minPackageSizeForUnshared)
             self._optimizePackages1(packages, parts, variants, minPackageSize, minPackageSizeForUnshared)
 
-        self._printPartStats(packageClasses, partPackages)
+        #self._printPartStats(packageClasses, partPackages)
         self._printPartStats1(packages, parts)
 
         # Post process results
-        resultParts1 = self._getFinalPartData(packageClasses, packageUsers, partPackages)
+        #resultParts1 = self._getFinalPartData(packageClasses, packageUsers, partPackages)
         resultParts = self._getFinalPartData1(packages, parts)
 
-        resultClasses1 = self._getFinalClassList(packageClasses, packageUsers, variants)
+        #resultClasses1 = self._getFinalClassList(packageClasses, packageUsers, variants)
         resultClasses = self._getFinalClassList1(packages, variants)
 
         # Return
@@ -97,18 +125,21 @@ class PartBuilder:
         return partBits
 
 
-    def _getPartBits1(self, partIncludes):
-        # Build bitmask ids for parts
-        self._console.debug("Assigning bits to parts...")
+    ##
+    # create the set of parts, each part with a unique single-bit bit mask
+    # @returns {Map} parts = { partName : Part() }
 
-        # References partId -> bitId of that part
+    def _getParts(self, partIncludes):
+        self._console.debug("Creating part structures...")
+
         self._console.indent()
         parts = {}
         for partPos, partId in enumerate(partIncludes):
-            self._console.debug("Part #%s => %s" % (partId, 1<<partPos))
-            npart          = self.Part(partId)
-            npart.bit_mask = 1<<partPos
+            npart          = Part(partId)    # create new Part object
+            npart.bit_mask = 1<<partPos      # add unique bit
+            npart.deps     = partIncludes[partId][:]  # initialize dependencies with defining classes
             parts[partId]  = npart
+            self._console.debug("Part #%s => %s" % (partId, npart.bit_mask))
 
         self._console.outdent()
 
@@ -160,18 +191,21 @@ class PartBuilder:
         return partDeps
 
 
+    ##
+    # create the complete list of class dependencies for each part
+
     def _getPartDeps1(self, partIncludes, variants, smartExclude, classList, parts):
         self._console.debug("")
         self._console.info("Resolving part dependencies...")
         self._console.indent()
 
-        for partId in partIncludes:
+        for partId in parts:
             # Exclude all features of other parts
             # and handle dependencies the smart way =>
             # also exclude classes only needed by the
             # already excluded features
             partExcludes = []
-            for otherPartId in partIncludes:
+            for otherPartId in parts:
                 if otherPartId != partId:
                     partExcludes.extend(partIncludes[otherPartId])
 
@@ -179,17 +213,17 @@ class PartBuilder:
             partExcludes.extend(smartExclude)
 
             # Remove classes before checking dependencies
-            for classId in partIncludes[partId]:
+            for classId in parts[partId].deps:
                 if not classId in classList:
-                    partIncludes[partId].remove(classId)
+                    parts[partId].remove(classId)
 
             # Checking part includes
-            if len(partIncludes[partId]) == 0:
+            if len(parts[partId].deps) == 0:
                 self._console.info("Part #%s is ignored in current configuration" % partId)
                 continue
 
             # Finally resolve the dependencies
-            partClasses = self._depLoader.resolveDependencies(partIncludes[partId], partExcludes, variants)
+            partClasses = self._depLoader.resolveDependencies(parts[partId].deps, partExcludes, variants)
 
             # Remove all non-included files
             # Need to work on a copy because of runtime changes
@@ -253,7 +287,7 @@ class PartBuilder:
                     partCount += 1
 
             if not packages.has_key(pkgId):
-                package           = self.Package(pkgId)
+                package           = Package(pkgId)
                 package.part_count= partCount
                 packages[pkgId] = package
 
