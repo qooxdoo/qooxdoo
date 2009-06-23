@@ -256,10 +256,8 @@ class QxTest:
     status = {}
     try:
       import simplejson
-    except ImportError, e:
-      a,b = e.args
-      x,y = b.args
-      self.log("ERROR: Unable to retrieve remote build status! " + repr(x) + " " + y)
+    except ImportError, e:      
+      self.log("ERROR: Unable to retrieve remote build status!")
       return status
     remoteFile = self.autConf['autHost']
     if 'autQxPath' in self.autConf:
