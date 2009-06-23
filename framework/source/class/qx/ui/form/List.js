@@ -472,12 +472,9 @@ qx.Class.define("qx.ui.form.List",
     },
 
     /**
-     * Find an item by its {@link #qx.ui.form.ListItem~getFormValue}. This method
-     * is used for a HTML-like behavior where the
-     * fallback is the label automatically for selectbox options as well. If
-     * a value is given the label is ignored, even if it would match!
+     * Find an item by its {@link #qx.ui.form.ListItem~getLabel}.
      *
-     * @param search {String} A value or label or any item
+     * @param search {String} A label or any item
      * @return {qx.ui.form.ListItem} The found ListItem or null
      */
     findItem : function(search)
@@ -494,7 +491,10 @@ qx.Class.define("qx.ui.form.List",
       {
         item = items[i];
 
-        if (item.getFormValue().toLowerCase() == search) {
+        if (
+          (item.getLabel() != null) && 
+          (item.getLabel().toLowerCase() == search)
+        ) {
           return item;
         }
       }
