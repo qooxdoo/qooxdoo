@@ -158,7 +158,7 @@ qx.Class.define("qx.data.Array",
       var item = this.__array.pop();
       this.__updateLength();
       // remove the possible added event listener
-      this._applyEventPropagation(null, item);      
+      this._applyEventPropagation(null, item, this.length - 1);      
        this.fireDataEvent("change", 
         {
           start: this.length - 1, 
@@ -297,7 +297,7 @@ qx.Class.define("qx.data.Array",
       
       // remove the listeners
       for (var i = 0; i < returnArray.length; i++) {
-        this._applyEventPropagation(null, returnArray[i]);
+        this._applyEventPropagation(null, returnArray[i], i);
       }
       return (new qx.data.Array(returnArray));
     },
@@ -516,7 +516,7 @@ qx.Class.define("qx.data.Array",
     removeAll : function() {
       // remove all possible added event listeners
       for (var i = 0; i < this.__array.length; i++) {
-        this._applyEventPropagation(null, this.__array[i]);
+        this._applyEventPropagation(null, this.__array[i], i);
       }
       this.__array.length = 0;
       this.__updateLength();
