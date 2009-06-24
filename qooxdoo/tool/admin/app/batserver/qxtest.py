@@ -275,7 +275,7 @@ class QxTest:
     try:
       reqStat = json.getcode()
       if (reqStat != 200):
-        self.log("ERROR: Request to remote build status file returned status " + reqStat)
+        self.log("ERROR: Request to remote build status file returned status " + repr(reqStat))
     except AttributeError:
       pass
     
@@ -327,13 +327,14 @@ class QxTest:
     remoteFile = self.autConf['autHost']
     if 'autQxPath' in self.autConf:
       remoteFile += self.autConf['autQxPath']
-    remoteFile += '/revision.txt'
-    try:
-      rev = urllib.urlopen(remoteFile).read()
-    except IOError, e:
-      self.log("ERROR: Unable to open remote revision file " + remoteFile + ": "
-               + e.message)
-    else:
+      remoteFile += '/revision.txt'
+      try:
+        rev = urllib.urlopen(remoteFile).read()
+      except IOError, e:
+        self.log("ERROR: Unable to open remote revision file " + remoteFile + ": "
+                 + e.message)
+        return False
+
       reg = re.compile("\D+")
       found = reg.search(rev)
       if found:
