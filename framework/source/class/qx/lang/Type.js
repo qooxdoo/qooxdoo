@@ -184,7 +184,6 @@ qx.Bootstrap.define("qx.lang.Type",
       // e.q. by document.getElementById("ReturnedNull").
       return (
         value !== null && (
-        typeof value === "date" ||
         this.getClass(value) == "Date" ||
         value instanceof Date)
       );
