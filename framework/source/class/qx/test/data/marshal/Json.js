@@ -29,6 +29,9 @@ qx.Class.define("qx.test.data.marshal.Json",
 
   members :
   {
+    __marshaler : null,
+    __data : null,
+    __propertyNames : null,
 
     setUp : function()
     {
@@ -484,7 +487,40 @@ qx.Class.define("qx.test.data.marshal.Json",
         self.assertEquals("AFFE", e.getData().value, "Not the right value in the event.");
         self.assertEquals("a[0]", e.getData().name, "Not the right name in the event.");
       }, "Change event not fired!");
-    }      
+    },
+    
+    testBubbleEventsWithRemove: function() {
+      qx.Class.define("qx.Test", {
+        extend : qx.core.Object,
+        include : qx.data.marshal.MEventBubbling,
+        properties : {
+          fonts: {
+            "event": "changeFonts", 
+            "check": "qx.data.Array",
+            "apply": "_applyEventPropagation"
+          }
+        }
+      });
+      
+      var model = new qx.Test();
+      model.setFonts(new qx.data.Array());
+      model.getFonts().push("one", "two", "three");
+      
+      var i = 0;
+      var names = ["fonts[0]", "fonts[1]", "fonts[2]"];
+      var olds = ["one", "two", "three"];
+      model.addListener("changeBubble", function(e) {
+        this.assertEquals(names[i], e.getData().name, "Wrong name in " + i);
+        this.assertEquals(olds[i], e.getData().old, "Wrong old data in " + i);
+        this.assertNull(e.getData().value, "Wrong data in " + i);
+        i++;
+      }, this);
+      
+      // remove all
+      model.getFonts().removeAll();
+      
+      this.assertEquals(0, model.getFonts().length, "The remove did not work.");      
+    }  
 
   }
 });
