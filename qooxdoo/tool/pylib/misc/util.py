@@ -108,3 +108,17 @@ def _getSortedCopy(entries):
     result.sort(_compare)
 
     return result
+    
+
+##
+# count bits in an int - long seems to work fine too
+
+def countBitsOn(x):
+    b   = 0
+    bit = 1
+    while bit <= x:
+        b += int(x & bit > 0)
+        bit = bit << 1
+
+    return b
+
