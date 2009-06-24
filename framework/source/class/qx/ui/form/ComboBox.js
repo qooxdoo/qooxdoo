@@ -151,6 +151,7 @@ qx.Class.define("qx.ui.form.ComboBox",
           control.setFocusable(false);
           control.addState("inner");
           control.addListener("changeValue", this._onTextFieldChangeValue, this);
+          // @deprecated: remove the input event listener
           control.addListener("input", this._onTextFieldInput, this);
           control.addListener("blur", this.close, this);
           this._add(control, {flex: 1});
@@ -379,6 +380,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * Redirects the input event of the textfield to the combobox.
      *
      * @param e {qx.event.type.Data} Input event
+     * @deprecated
      */
     _onTextFieldInput : function(e) {
       this.fireDataEvent("input", e.getData());

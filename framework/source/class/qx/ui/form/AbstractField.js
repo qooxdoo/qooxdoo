@@ -78,6 +78,8 @@ qx.Class.define("qx.ui.form.AbstractField",
      *
      * The method {@link qx.event.type.Data#getData} returns the
      * current text value of the text field.
+     * 
+     * @deprecated
      */
     "input" : "qx.event.type.Data",
 
@@ -143,8 +145,17 @@ qx.Class.define("qx.ui.form.AbstractField",
     {
       check : "PositiveInteger",
       init : Infinity
+    },
+    
+    /** 
+     * Whether the {@link #changeValue} event should be fired on every key 
+     * input.
+     */
+    liveUpdate : 
+    {
+      check : "Boolean",
+      init : false
     }
-
   },
 
 
@@ -315,7 +326,14 @@ qx.Class.define("qx.ui.form.AbstractField",
     {
       var value = e.getData();
       if (value.length < this.getMaxLength()) {
+        // @deprecated: remove the input event
         this.fireDataEvent("input", e.getData());
+        // check for the live change event
+        if (this.getLiveUpdate()) {
+          this.fireNonBubblingEvent(
+            "changeValue", qx.event.type.Data, [value]
+          );
+        }
       } else {
         this.getContentElement().setValue(value.substr(0, this.getMaxLength()));
       }
@@ -385,6 +403,18 @@ qx.Class.define("qx.ui.form.AbstractField",
       this.fireNonBubblingEvent("changeValue", qx.event.type.Data, [e.getData()]);
     },
 
+    // @deprecated
+    // overridden
+    addListener: function(type, listener, self, capture) {
+      if (type == "input") {
+        qx.log.Logger.deprecatedEventWarning(
+          arguments.callee, 
+          "input",
+          "Please use the changeValue event instead."
+        );        
+      }
+      return this.base(arguments, type, listener, self, capture);
+    },
 
 
     /*
