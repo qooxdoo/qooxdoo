@@ -135,5 +135,15 @@ qx.Class.define("qx.ui.table.cellrenderer.Boolean",
 
       return imageHints;
     }
+  },
+  
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeFields("__aliasManager");
   }
 });
