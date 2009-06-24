@@ -58,6 +58,7 @@ qx.Bootstrap.define("qx.lang.Type",
     /**
      * Whether the value is a string.
      * 
+     * @param value {var} Value to check.
      * @return {Boolean} Whether the value is a string. 
      */
     isString : function(value)
@@ -80,6 +81,7 @@ qx.Bootstrap.define("qx.lang.Type",
     /**
     * Whether the value is an array.
     * 
+    * @param value {var} Value to check.
     * @return {Boolean} Whether the value is an array. 
     */    
     isArray : function(value)
@@ -103,6 +105,7 @@ qx.Bootstrap.define("qx.lang.Type",
     * Whether the value is an object. Note that buildin types like Window are 
     * not reported to be objects.
     * 
+    * @param value {var} Value to check.
     * @return {Boolean} Whether the value is an object. 
     */    
     isObject : function(value) {
@@ -117,6 +120,7 @@ qx.Bootstrap.define("qx.lang.Type",
     /**
     * Whether the value is a regular expression.
     * 
+    * @param value {var} Value to check.
     * @return {Boolean} Whether the value is a regular expression. 
     */
     isRegExp : function(value) {
@@ -127,6 +131,7 @@ qx.Bootstrap.define("qx.lang.Type",
     /**
     * Whether the value is a number.
     * 
+    * @param value {var} Value to check.
     * @return {Boolean} Whether the value is a number. 
     */    
     isNumber : function(value) {
@@ -146,6 +151,7 @@ qx.Bootstrap.define("qx.lang.Type",
     /**
     * Whether the value is a boolean.
     * 
+    * @param value {var} Value to check.
     * @return {Boolean} Whether the value is a boolean. 
     */    
     isBoolean : function(value) 
@@ -166,6 +172,7 @@ qx.Bootstrap.define("qx.lang.Type",
     /**
     * Whether the value is a date.
     * 
+    * @param value {var} Value to check.
     * @return {Boolean} Whether the value is a date. 
     */    
     isDate : function(value)
@@ -187,6 +194,7 @@ qx.Bootstrap.define("qx.lang.Type",
     /**
     * Whether the value is a function.
     * 
+    * @param value {var} Value to check.
     * @return {Boolean} Whether the value is a function. 
     */    
     isFunction : function(value) {
