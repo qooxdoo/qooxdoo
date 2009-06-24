@@ -177,5 +177,16 @@ qx.Class.define("qx.ui.menu.Layout",
     getColumnSizes : function() {
       return this.__columnSizes || null;
     }
+  },
+  
+  /*
+   *****************************************************************************
+      DESTRUCT
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeFields("__columnSizes");
   }
 });
