@@ -63,10 +63,10 @@ class PartBuilder:
         # {Map} partBits = { partName : power_of_2 }
         # {Map} partDeps = { partName : [class1,...] }
         #partBits = self._getPartBits(partIncludes)
-        #partDeps = self._getPartDeps(partIncludes, variants, smartExclude, classList)
+        #partDeps = self._getPartDeps1(partIncludes, variants, smartExclude, classList)
 
         parts    = self._getParts(partIncludes)
-        parts    = self._getPartDeps1(parts, variants, smartExclude, classList)
+        parts    = self._getPartDeps(parts, variants, smartExclude, classList)
 
         packages = {}  # map of Packages
 
@@ -148,7 +148,7 @@ class PartBuilder:
         return parts
 
 
-    def _getPartDeps(self, partIncludes, variants, smartExclude, classList):
+    def _getPartDeps1(self, partIncludes, variants, smartExclude, classList):
         self._console.debug("")
         self._console.info("Resolving part dependencies...")
         self._console.indent()
@@ -196,46 +196,42 @@ class PartBuilder:
     ##
     # create the complete list of class dependencies for each part
 
-    def _getPartDeps1(self, parts, variants, smartExclude, classList):
+    def _getPartDeps(self, parts, variants, smartExclude, classList):
         self._console.debug("")
         self._console.info("Resolving part dependencies...")
         self._console.indent()
 
-        for partId in parts:
-            # Exclude all features of other parts
-            # and handle dependencies the smart way =>
-            # also exclude classes only needed by the
-            # already excluded features
+        for part in parts.values():
+            # Exclude initial classes of other parts
             partExcludes = []
             for otherPartId in parts:
-                if otherPartId != partId:
+                if otherPartId != part.name:
                     partExcludes.extend(parts[otherPartId].initial_deps)
 
             # Extend with smart excludes
             partExcludes.extend(smartExclude)
 
-            # Remove classes before checking dependencies
-            for classId in parts[partId].deps:
+            # Remove unknown classes before checking dependencies
+            for classId in part.deps:
                 if not classId in classList:
-                    parts[partId].remove(classId)
+                    part.deps.remove(classId)
 
-            # Checking part includes
-            if len(parts[partId].deps) == 0:
-                self._console.info("Part #%s is ignored in current configuration" % partId)
+            # Checking we have something to include
+            if len(part.deps) == 0:
+                self._console.info("Part #%s is ignored in current configuration" % part.name)
                 continue
 
             # Finally resolve the dependencies
-            partClasses = self._depLoader.resolveDependencies(parts[partId].deps, partExcludes, variants)
+            partClasses = self._depLoader.resolveDependencies(part.deps, partExcludes, variants)
 
-            # Remove all non-included files
-            # Need to work on a copy because of runtime changes
-            for classId in partClasses[:]:
+            # Remove all unknown classes
+            for classId in partClasses[:]:  # need to work on a copy because of changes in the loop
                 if not classId in classList:
                     partClasses.remove(classId)
 
             # Store
-            self._console.debug("Part #%s depends on %s classes" % (partId, len(partClasses)))
-            parts[partId].deps = partClasses
+            self._console.debug("Part #%s depends on %s classes" % (part.name, len(partClasses)))
+            part.deps = partClasses
 
         return parts
 
