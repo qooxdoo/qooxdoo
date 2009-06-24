@@ -32,7 +32,16 @@ qx.Interface.define("qx.ui.form.IForm",
   events :
   {
     /** Fired when the enabled state was modified */
-    "changeEnabled" : "qx.event.type.Data"
+    "changeEnabled" : "qx.event.type.Data",
+    
+    /** Fired when the valid state was modified */
+    "changeValid" : "qx.event.type.Data",
+    
+    /** Fired when the invalidMessage was modified */
+    "changeInvalidMessage" : "qx.event.type.Data",
+    
+    /** Fired when the required was modified */
+    "changeRequired" : "qx.event.type.Data"           
   },  
   
 
