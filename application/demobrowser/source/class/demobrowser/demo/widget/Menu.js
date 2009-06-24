@@ -615,5 +615,18 @@ qx.Class.define("demobrowser.demo.widget.Menu",
 
       return menu;
     }
+  },
+  
+  /*
+   *****************************************************************************
+      DESTRUCT
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeObjects("__newCommand", "__openCommand", "__saveCommand",
+      "__undoCommand", "__redoCommand", "__cutCommand", "__copyCommand",
+      "__pasteCommand");
   }
 });
