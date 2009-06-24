@@ -117,6 +117,13 @@ qx.Class.define("demobrowser.demo.ui.FormValidation",
         }
       }, this);
       
+      var disableTooltipButton = new qx.ui.form.ToggleButton("disable tooltips");
+      this.getRoot().add(disableTooltipButton, {left: 410, top: 20});
+      
+      disableTooltipButton.addListener("changeValue", function(e) {
+        qx.ui.tooltip.Manager.getInstance().setShowInvalidTooltips(!e.getData());
+      }, this);      
+      
       
       
       
