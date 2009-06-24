@@ -23,11 +23,8 @@ qx.Class.define("qx.test.core.Property",
 
   members :
   {
-    /**
-     * TODOC
-     *
-     * @return {void}
-     */
+
+
     testInherited : function()
     {
       qx.Class.define("qx.Node",
@@ -124,6 +121,25 @@ qx.Class.define("qx.test.core.Property",
       root.setValue(-100);
       this.assertEquals(0, root.getValue());
 
+    },
+    
+    
+    __testEventWithInitOldData: function() {
+      // create any form widget
+      var widget = new qx.ui.form.TextField(); 
+      
+      // test for the default (false)
+      this.assertFalse(widget.getRequired(), "Default required state is wrong.");
+
+      // check for the event
+      var self = this;
+      this.assertEventFired(widget, "changeRequired", function () {
+        // change the required property (init value is false)
+        widget.setRequired(true);
+      }, function(e) {
+        self.assertTrue(e.getData(), "Wrong data in the event!");
+        self.assertFalse(e.getOldData(), "Wrong old data in the event!");        
+      }, "Change event not fired!");      
     }
   }
 });
