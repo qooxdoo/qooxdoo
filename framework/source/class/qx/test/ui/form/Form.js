@@ -29,7 +29,15 @@ qx.Class.define("qx.test.ui.form.Form",
       // test for the default (false)
       this.assertFalse(widget.getRequired(), "Default required state is wrong.");
 
-      widget.setRequired(true);
+      // check for the event
+      var self = this;
+      widget.setRequired(false);
+      this.assertEventFired(widget, "changeRequired", function () {
+        widget.setRequired(true);
+      }, function(e) {
+        self.assertTrue(e.getData(), "Wrong data in the event!");
+        self.assertFalse(e.getOldData(), "Wrong old data in the event!");        
+      }, "Change event not fired!");
       
       // check if the state is set
       this.assertTrue(widget.getRequired(), "Setting of the required flag did not work.");
@@ -50,7 +58,27 @@ qx.Class.define("qx.test.ui.form.Form",
       // check if the state is set
       this.assertFalse(widget.getValid(), "Setting of the valid flag did not work.");
       this.assertTrue(widget.hasState("invalid"), "Should have the invalid state.");
-    
+      
+      // check for the event
+      var self = this;
+      this.assertEventFired(widget, "changeValid", function () {
+        widget.setValid(true);
+      }, function(e) {
+        self.assertTrue(e.getData(), "Wrong data in the event.");
+        self.assertFalse(e.getOldData(), "Wrong old data in the event.");        
+      }, "Change event not fired!");
+      
+      // check for the event
+      this.assertEventFired(widget, "changeInvalidMessage", function () {
+        widget.setInvalidMessage("affe");
+      }, function(e) {
+        self.assertEquals("affe", e.getData(), "Wrong data in the event.");
+        self.assertNull(e.getOldData(), "Wrong old data in the event.");
+      }, "Change event not fired!");      
+      
+      // set the widget to invalid
+      widget.setValid(false);
+         
       if (where == "shadow") {        
         this.__testInvalidShadow(widget);     
       } else if (where == "dont") {
@@ -87,6 +115,7 @@ qx.Class.define("qx.test.ui.form.Form",
       // check for the invalid shadow
       this.assertMatch(widget.getShadow(), new RegExp("-invalid-shadow$") ,"Shadow not set!");
     },    
+    
     
     
     testRequieredSpinner: function() {
