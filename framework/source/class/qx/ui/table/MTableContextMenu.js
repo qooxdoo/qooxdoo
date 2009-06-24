@@ -133,5 +133,16 @@ qx.Mixin.define("qx.ui.table.MTableContextMenu",
     {
       return this.__contextMenuHandler[col];
     }
+  },
+  
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeFields("__contextMenuHandler");
   }
 });
