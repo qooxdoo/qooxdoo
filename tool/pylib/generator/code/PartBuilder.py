@@ -29,6 +29,8 @@
 
 import sys
 
+from misc import util
+
 class Part(object):
     def __init__(self, name):
         self.name      = name
@@ -74,11 +76,11 @@ class PartBuilder:
         # {Map} packageClasses = { packageNumber : [class1, ...] }
         # {Map} packageUsers   = { packageNumber : part_count }
         # {Map} partPackages   = { partName      : [packageNumber1, ...] }
-        #packageClasses = self._getPackageClasses(partDeps, partBits)
-        #packageUsers, partPackages = self._getPackageUsers(packageClasses, partBits)
+        #packageClasses = self._getPackageClasses1(partDeps, partBits)
+        #packageUsers, partPackages = self._getPackageUsers1(packageClasses, partBits)
 
-        packages        = self._getPackageClasses1(parts)
-        packages, parts = self._getPackageUsers1(packages, parts)
+        packages        = self._getPackageClasses(parts)
+        packages, parts = self._getPackageUsers(packages, parts)
 
         #self._printPartStats(packageClasses, partPackages)
         self._printPartStats1(packages, parts)
@@ -237,7 +239,7 @@ class PartBuilder:
 
 
     # Returns a map with packageId -> classes of the package
-    def _getPackageClasses(self, partDeps, partBits):
+    def _getPackageClasses1(self, partDeps, partBits):
         # Generating list of all classes
         allClasses = {}
         for partId in partDeps:
@@ -264,30 +266,31 @@ class PartBuilder:
 
     ##
     # cut an initial set of packages out of the set of classes needed by the parts
+    # @returns {Map} { packageId : Package }
 
-    def _getPackageClasses1(self, parts):
+    def _getPackageClasses(self, parts):
         # Generating list of all classes
         allClasses = {}
         for part in parts.values():
             for classId in part.deps:
                 allClasses[classId] = True
 
-        # Detecting packageId for each class and register
-        # the class into the matching data structure
+        # Check for each class which part is using it;
+        # create a package for each set of classes which
+        # are used by the same combination of parts;
+        # track how many parts are using a particular package
         packages = {}
         for classId in allClasses.keys():
             pkgId     = 0
-            partCount = 0
 
             for part in parts.values():
                 if classId in part.deps:
-                    pkgId     += part.bit_mask
-                    partCount += 1
+                    pkgId     |= part.bit_mask
 
             if not packages.has_key(pkgId):
-                package           = Package(pkgId)
-                package.part_count= partCount
-                packages[pkgId] = package
+                package            = Package(pkgId)
+                package.part_count = util.countBitsOn(pkgId)
+                packages[pkgId]    = package
 
             packages[pkgId].class_list.append(classId)
 
@@ -303,7 +306,7 @@ class PartBuilder:
 
     # Returns a map with packageId -> number of parts using the package
     # and a map with partId -> list of package ids
-    def _getPackageUsers(self, pkgClasses, partBits):
+    def _getPackageUsers1(self, pkgClasses, partBits):
         packageUsers = {}
         partPackages = {}
 
@@ -329,7 +332,7 @@ class PartBuilder:
         return packageUsers, partPackages
 
 
-    def _getPackageUsers1(self, packages, parts):
+    def _getPackageUsers(self, packages, parts):
 
         # Sorting package list
         for part in parts.values():
