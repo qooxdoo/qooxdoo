@@ -71,6 +71,12 @@ qx.Class.define("qx.ui.tooltip.Manager",
       check : "qx.ui.tooltip.ToolTip",
       nullable : true,
       apply : "_applyCurrent"
+    },
+    
+    showInvalidTooltips : 
+    {
+      check : "Boolean",
+      init : true
     }
   },
 
@@ -288,6 +294,10 @@ qx.Class.define("qx.ui.tooltip.Manager",
       // Set Property
       if (invalidMessage && target.getEnabled())
       {
+        // do nothing if the invalid tooltips are disabled
+        if (!this.getShowInvalidTooltips()) {
+          return;
+        }
         var tooltip = this.__getSharedErrorTooltip().set({
           label: invalidMessage
         });      
