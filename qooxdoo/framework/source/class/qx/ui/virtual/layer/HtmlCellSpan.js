@@ -166,5 +166,16 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCellSpan",
       
       this.getContentElement().setAttribute("html", html.join(""));        
     }
+  },
+  
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeObjects("_spanManager");
   }
 });

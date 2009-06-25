@@ -189,5 +189,16 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
       this.__pane.setScrollY(e.getData());
     }
 
+  },
+  
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeObjects("__pane");
   }
 });

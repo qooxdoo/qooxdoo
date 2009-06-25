@@ -43,6 +43,7 @@ qx.Class.define("qx.html.Flash",
     this.__source = "";
     this.__id = "";
     this.__params = {};
+    this.__variables = {};
   },
 
 
@@ -170,7 +171,10 @@ qx.Class.define("qx.html.Flash",
 
   destruct : function()
   {
-    qx.bom.Flash.destroy(this.__flash);
-    this._disposeFields("this.__flash");
+    if (this.__flash) {
+      qx.bom.Flash.destroy(this.__flash);
+    }
+    
+    this._disposeFields("__params", "__variables");
   }
 });

@@ -254,5 +254,16 @@ qx.Class.define("qx.ui.virtual.layer.Abstract",
       this.__jobs.updateLayerWindow = true;
       qx.ui.core.queue.Widget.add(this);      
     }        
+  },
+  
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeFields("__jobs", "__arguments", "__rowSizes", "__columnSizes");
   }
 });

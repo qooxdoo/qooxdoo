@@ -225,5 +225,16 @@ qx.Class.define("qx.data.marshal.Json",
       
       throw new Error("Unsupported type!");
     }    
+  },
+  
+  /*
+   *****************************************************************************
+      DESTRUCT
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeFields("__delegate");
   }
 });

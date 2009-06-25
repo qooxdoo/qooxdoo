@@ -86,5 +86,16 @@ qx.Class.define("qx.ui.virtual.cell.AbstractWidget",
     pool : function(widget) {
       this.__pool.push(widget);
     }
+  },
+  
+  /*
+   *****************************************************************************
+      DESTRUCT
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeFields("__pool");
   }
 })

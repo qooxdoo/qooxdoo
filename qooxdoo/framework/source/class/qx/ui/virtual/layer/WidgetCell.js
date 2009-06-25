@@ -294,5 +294,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
     for (var i=0; i<children.length; i++) {
       children[i].dispose();
     }
+    
+    this._disposeFields("_cellProvider", "__spacerPool");
   }
 });
