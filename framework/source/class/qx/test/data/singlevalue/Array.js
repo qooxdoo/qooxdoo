@@ -339,13 +339,13 @@ qx.Class.define("qx.test.data.singlevalue.Array",
       model.getChild().getArray().setItem(0, "stadtaffe");
       this.assertEquals("stadtaffe", model.getName(), "stadtaffe not set in the model.");
       
-      // set the textfield to null
+      // set the models name to null
       model.setName(null);
       this.assertEquals(null, model.getChild().getArray().getItem(0), "model array not reseted to initial.");
       
-      // set the model to null
+      // set the model array item to null
       model.getChild().getArray().setItem(0, null);
-      this.assertEquals(null, model.getName(), "model not reseted.");      
+      this.assertEquals(null, model.getName(), "model not reseted.");
     }
 
   }
