@@ -103,5 +103,16 @@ qx.Class.define("demobrowser.demo.test.TimerManager",
 
       this.getRoot().add(container, {left : 20, top : 10});
     }
+  },
+  
+  /*
+   *****************************************************************************
+      DESTRUCT
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeObjects("__textarea");
   }
 });

@@ -107,5 +107,18 @@ qx.Class.define("demobrowser.demo.test.ChildrenHandling",
 
       return button;
     }
+  },
+  
+  /*
+   *****************************************************************************
+      DESTRUCT
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeObjects("_hbox", "_grid");
+    this._disposeArray("_widgets");
+    this._disposeArray("_gridWidgets");
   }
 });

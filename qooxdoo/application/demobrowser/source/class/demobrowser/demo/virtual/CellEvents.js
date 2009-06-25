@@ -87,5 +87,16 @@ qx.Class.define("demobrowser.demo.virtual.CellEvents",
       this.logger.setHtml(this.logger.getHtml() + msg)
     }
 
+  },
+  
+  /*
+   *****************************************************************************
+      DESTRUCT
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeObjects("layer", "logger");
   }
 });

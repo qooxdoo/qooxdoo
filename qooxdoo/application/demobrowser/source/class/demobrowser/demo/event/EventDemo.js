@@ -83,5 +83,16 @@ qx.Class.define("demobrowser.demo.event.EventDemo",
       this.__logDiv.scrollTop = 0;
     }
 
+  },
+  
+  /*
+   *****************************************************************************
+      DESTRUCT
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeFields("__logDiv", "__logs");
   }
 });

@@ -294,5 +294,16 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
         this.__list.addToSelection(sel[i]);
       }
     }
+  },
+  
+  /*
+   *****************************************************************************
+      DESTRUCT
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeObjects("__list");
   }
 });

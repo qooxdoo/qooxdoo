@@ -150,5 +150,16 @@ qx.Class.define("demobrowser.demo.virtual.DemoLayer",
 
       return (prefix + 16 + "/" + suffix + iconImages[imageId]);
     }
+  },
+  
+  /*
+   *****************************************************************************
+      DESTRUCT
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeFields("_pool", "__rowData");
   }
 });

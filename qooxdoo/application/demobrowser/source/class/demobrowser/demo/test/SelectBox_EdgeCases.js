@@ -88,5 +88,16 @@ qx.Class.define("demobrowser.demo.test.SelectBox_EdgeCases",
       }
       this.container.add(selectBox5, {left: 200, top: 40});
     }
+  },
+  
+  /*
+   *****************************************************************************
+      DESTRUCT
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeObjects("container");
   }
 });
