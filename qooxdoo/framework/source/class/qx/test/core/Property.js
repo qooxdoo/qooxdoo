@@ -124,21 +124,132 @@ qx.Class.define("qx.test.core.Property",
     },
     
     
-    __testEventWithInitOldData: function() {
-      // create any form widget
-      var widget = new qx.ui.form.TextField(); 
+    testEventWithInitOldData: function()
+    {
+      qx.Class.define("qx.TestProperty",
+      {
+        extend : qx.core.Object,
+  
+        properties :
+        {
+          prop : {
+            check : "Boolean",
+            init : false,
+            event : "changeProp"
+          }
+        }
+      });
+      
+      var object = new qx.TestProperty(); 
       
       // test for the default (false)
-      this.assertFalse(widget.getRequired(), "Default required state is wrong.");
+      this.assertFalse(object.getProp());
 
       // check for the event
       var self = this;
-      this.assertEventFired(widget, "changeRequired", function () {
-        // change the required property (init value is false)
-        widget.setRequired(true);
+      this.assertEventFired(object, "changeProp", function () {
+        object.setProp(true);
       }, function(e) {
         self.assertTrue(e.getData(), "Wrong data in the event!");
         self.assertFalse(e.getOldData(), "Wrong old data in the event!");        
+      }, "Change event not fired!");      
+    },
+    
+    
+    testEventWithoutInitOldData: function()
+    {
+      qx.Class.define("qx.TestProperty",
+      {
+        extend : qx.core.Object,
+        
+        properties :
+        {
+          prop : {
+            check : "Boolean",
+            nullable : true,
+            event : "changeProp"
+          }
+        }
+      });
+      
+      var object = new qx.TestProperty(); 
+      
+      // test for the default (false)
+      this.assertNull(object.getProp());
+      
+      // check for the event
+      var self = this;
+      this.assertEventFired(object, "changeProp", function () {
+        object.setProp(true);
+      }, function(e) {
+        self.assertTrue(e.getData(), "Wrong data in the event!");
+        self.assertNull(e.getOldData(), "Wrong old data in the event!");        
+      }, "Change event not fired!");      
+    },
+    
+    
+    testEventWithInitAndInheritableOldData: function()
+    {
+      qx.Class.define("qx.TestProperty",
+      {
+        extend : qx.core.Object,
+        
+        properties :
+        {
+          prop : {
+            check : "Boolean",
+            init : false,
+            inheritable : true,
+            event : "changeProp"
+          }
+        }
+      });
+      
+      var object = new qx.TestProperty(); 
+      
+      // test for the default (false)
+      this.assertFalse(object.getProp());
+      
+      // check for the event
+      var self = this;
+      this.assertEventFired(object, "changeProp", function () {
+        object.setProp(true);
+      }, function(e) {
+        self.assertTrue(e.getData(), "Wrong data in the event!");
+        self.assertFalse(e.getOldData(), "Wrong old data in the event!");        
+      }, "Change event not fired!");      
+    },
+    
+    
+    testEventWithoutInitAndInheritableOldData: function()
+    {
+      qx.Class.define("qx.TestProperty",
+      {
+        extend : qx.core.Object,
+        
+        properties :
+        {
+          prop : {
+            check : "Boolean",
+            nullable : true,
+            inheritable : true,
+            event : "changeProp"
+          }
+        }
+      });
+      
+      var object = new qx.TestProperty(); 
+      
+      // test for the default (false)
+      this.assertNull(object.getProp());
+      
+      // check for the event
+      var self = this;
+      this.assertEventFired(object, "changeProp", function () {
+        object.setProp(true);
+      }, function(e) {
+        self.assertTrue(e.getData(), "Wrong data in the event!");
+        self.assertNull(e.getOldData(), "Wrong old data in the event!");        
       }, "Change event not fired!");      
     }
   }

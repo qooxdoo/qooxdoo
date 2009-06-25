@@ -638,7 +638,7 @@ qx.Class.define("qx.core.Property",
         try{
           members[store] = new Function("value", code.join(""));
         } catch(ex) {
-          alert("Malformed generated code to unwrap method: " + this.$$method[variant][name] + "\n" + code.join(""));
+          throw new Error("Malformed generated code to unwrap method: " + this.$$method[variant][name] + "\n" + code.join(""));
         }
       }
       else
@@ -759,6 +759,7 @@ qx.Class.define("qx.core.Property",
       var incomingValue = variant === "set" || variant === "setThemed" || variant === "setRuntime" || (variant === "init" && config.init === undefined);
       var resetValue = variant === "reset" || variant === "resetThemed" || variant === "resetRuntime";
       var hasCallback = config.apply || config.event || config.inheritable;
+
 
       if (variant === "setRuntime" || variant === "resetRuntime") {
         var store = this.$$store.runtime[name];
@@ -1321,7 +1322,11 @@ qx.Class.define("qx.core.Property",
         code.push('var backup=computed;');
 
         // After storage finally normalize computed and old value
-        code.push('if(old===undefined)old=null;');
+        if (config.init !== undefined) {
+          code.push('if(old===undefined)old=this.', this.$$store.init[name], ";");
+        } else {
+          code.push('if(old===undefined)old=null;');
+        }
         code.push('if(computed===undefined||computed==inherit)computed=null;');
       }
       else if (hasCallback)
@@ -1336,7 +1341,11 @@ qx.Class.define("qx.core.Property",
         code.push('if(old===computed)return value;');
 
         // Normalize old value
-        code.push('if(old===undefined)old=null;');
+        if (config.init !== undefined) {
+          code.push('if(old===undefined)old=this.', this.$$store.init[name], ";");
+        } else {
+          code.push('if(old===undefined)old=null;');
+        }
       }
 
 
