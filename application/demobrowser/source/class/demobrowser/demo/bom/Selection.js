@@ -118,5 +118,16 @@ qx.Class.define("demobrowser.demo.bom.Selection",
     {
       qx.bom.Selection.set(this, 0, 7);
     }
+  },
+  
+  /*
+   *****************************************************************************
+      DESTRUCT
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeFields("_input", "_textArea");
   }
 });

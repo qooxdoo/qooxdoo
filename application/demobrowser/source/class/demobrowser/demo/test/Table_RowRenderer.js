@@ -111,5 +111,16 @@ qx.Class.define("demobrowser.demo.test.Table_RowRenderer",
       parent.appendChild(div);
       return div;
     }
+  },
+  
+  /*
+   *****************************************************************************
+      DESTRUCT
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeFields("tableMock");
   }
 });

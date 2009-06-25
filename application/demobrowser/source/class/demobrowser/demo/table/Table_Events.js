@@ -158,6 +158,17 @@ qx.Class.define("demobrowser.demo.table.Table_Events",
 
       return menu;
     }
+  },
+  
+  /*
+   *****************************************************************************
+      DESTRUCT
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeObjects("_tableModel", "_eventsWin", "_events");
   }
 });
 

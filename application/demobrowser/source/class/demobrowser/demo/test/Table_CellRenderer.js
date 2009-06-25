@@ -463,5 +463,16 @@ qx.Class.define("demobrowser.demo.test.Table_CellRenderer",
         top += 20;
       }, this);
     }
+  },
+  
+  /*
+   *****************************************************************************
+      DESTRUCT
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeFields("tableMock");
   }
 });

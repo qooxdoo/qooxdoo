@@ -139,5 +139,17 @@ qx.Class.define("demobrowser.demo.virtual.CellSpan",
     poolCellWidget : function(widget) {
       this._pool.push(widget);
     }
+  },
+  
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeObjects("__cellRenderer");
+    this._disposeFields("_pool");
   }
 });

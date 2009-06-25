@@ -92,5 +92,16 @@ qx.Class.define("demobrowser.demo.widget.CheckBox",
         alert("Are you sure you need nothing for the beach?");
       }
     }
+  },
+  
+  /*
+   *****************************************************************************
+      DESTRUCT
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeArray("_checkBoxes");
   }
 });

@@ -199,5 +199,16 @@ qx.Class.define("demobrowser.demo.widget.SplitPane",
       return tree;
     }
 
+  },
+  
+  /*
+   *****************************************************************************
+      DESTRUCT
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeObjects("__pane", "_container1", "_container2");
   }
 });

@@ -78,5 +78,16 @@ qx.Class.define("demobrowser.demo.table.Table_Huge",
 
       return table;
     }
+  },
+  
+  /*
+   *****************************************************************************
+      DESTRUCT
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeObjects("_tableModel");
   }
 });

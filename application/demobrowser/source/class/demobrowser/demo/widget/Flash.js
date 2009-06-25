@@ -232,5 +232,17 @@ qx.Class.define("demobrowser.demo.widget.Flash",
     {
       demobrowser.demo.widget.Flash.__callBackInstance.initFlash();
     }
+  },
+  
+  /*
+   *****************************************************************************
+      DESTRUCT
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeObjects("__messageFromFlash", "__messageToFlash",
+      "__sendButton", "__flash", "__window");
   }
 });

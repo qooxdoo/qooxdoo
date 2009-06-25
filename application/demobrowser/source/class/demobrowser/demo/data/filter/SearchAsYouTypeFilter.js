@@ -70,5 +70,16 @@ qx.Class.define("demobrowser.demo.data.filter.SearchAsYouTypeFilter",
     },
     
     filter: null
+  },
+  
+  /*
+   *****************************************************************************
+      DESTRUCT
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeFields("__controller");
   }
 });

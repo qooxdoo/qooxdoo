@@ -87,5 +87,16 @@ qx.Class.define("demobrowser.demo.test.Destructor_Flash",
         }
         data.length = 0;
     }
+  },
+  
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeFields("__data");
   }
 });

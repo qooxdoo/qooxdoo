@@ -55,5 +55,16 @@ qx.Class.define("demobrowser.demo.virtual.Table",
     getCellProperties : function(row, column) {
       return this.__cellRenderer.getCellProperties(row + " / " + column);
     }  
+  },
+  
+  /*
+   *****************************************************************************
+      DESTRUCT
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeObjects("__cellRenderer");
   }
 });
