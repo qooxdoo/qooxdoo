@@ -357,5 +357,16 @@ qx.Class.define("qx.ui.table.cellrenderer.Conditional",
       }
       return styleString.join("");
     }
+  },
+  
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeFields("numericAllowed", "betweenAllowed", "conditions");
   }
 });

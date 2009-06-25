@@ -198,5 +198,16 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
     getDecorator : function(index) {
       return this.__decorators[index];
     }    
+  },
+  
+  /*
+   *****************************************************************************
+      DESTRUCT
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeFields("__customColors", "__decorators");
   }
 });

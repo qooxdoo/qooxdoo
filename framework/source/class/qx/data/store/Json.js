@@ -167,5 +167,16 @@ qx.Class.define("qx.data.store.Json",
         this._createRequest(url);        
       }
     }
+  },
+  
+  /*
+   *****************************************************************************
+      DESTRUCT
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeObjects("_marshaler", "__request");
   }
 });

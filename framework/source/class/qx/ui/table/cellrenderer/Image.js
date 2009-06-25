@@ -84,5 +84,16 @@ qx.Class.define("qx.ui.table.cellrenderer.Image",
 
       return imageHints;
     }
+  },
+  
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeFields("__am");
   }
 });

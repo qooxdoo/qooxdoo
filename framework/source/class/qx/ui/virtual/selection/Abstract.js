@@ -222,5 +222,16 @@ qx.Class.define("qx.ui.virtual.selection.Abstract",
     _getDimension : function() {
       return this._pane.getInnerSize();
     }    
+  },
+  
+  /*
+   *****************************************************************************
+      DESTRUCT
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeFields("_pane", "_delegate");
   }
 });

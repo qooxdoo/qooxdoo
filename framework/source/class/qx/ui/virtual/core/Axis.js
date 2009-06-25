@@ -420,5 +420,16 @@ qx.Class.define("qx.ui.virtual.core.Axis",
       }
       return sizes;
     }
+  },
+  
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeFields("customSizes", "__ranges");
   }
 });
