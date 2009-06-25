@@ -79,7 +79,11 @@ qx.Bootstrap.define("qx.core.Assert",
     {
       var stringValue;
       
-      if (qx.lang.Type.isArray(value) && value.length > 10)
+      if (value === null)
+      {
+        stringValue = "null";
+      }
+      else if (qx.lang.Type.isArray(value) && value.length > 10)
       {
         stringValue = "Array[" + value.length + "]";
       }
@@ -125,7 +129,7 @@ qx.Bootstrap.define("qx.core.Assert",
      * @param msg {String} Message to be shown if the assertion fails.
      */
     assertTrue : function(value, msg) {
-      this.__assert(value === true, msg || "", "Called assertTrue with 'false'");
+      this.__assert(value === true, msg || "", "Called assertTrue with '" + this.__toString(value) + "'");
     },
 
 
@@ -137,7 +141,7 @@ qx.Bootstrap.define("qx.core.Assert",
      * @param msg {String} Message to be shown if the assertion fails.
      */
     assertFalse : function(value, msg) {
-      this.__assert(value === false, msg || "", "Called assertFalse with 'true'");
+      this.__assert(value === false, msg || "", "Called assertFalse with '" + this.__toString(value) + "'");
     },
 
 
