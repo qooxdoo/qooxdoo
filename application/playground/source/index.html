@@ -289,11 +289,12 @@ win.addListener("keypress", function(e) {
  * Bind a textfield to a label
  */
 var textfield = new qx.ui.form.TextField("Change me...");
+textfield.setLiveUpdate(true);
 this.getRoot().add(textfield, {left: 10, top: 10});
 var label = new qx.ui.basic.Label("Change me...");
 this.getRoot().add(label, {left: 120, top: 12});
 // bind the textfield to the label
-textfield.bind("input", label, "value");
+textfield.bind("changeValue", label, "value");
 
 /**
  * Bind two slider together
