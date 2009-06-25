@@ -485,6 +485,31 @@ qx.Class.define("qx.test.Interface",
         }
       });
 
+    },
+    
+    
+    testGeneratedIsMethods: function() {
+      qx.Interface.define("qx.IIs",
+      {
+        members :
+        {
+          isProp : function() {}
+        }
+      });
+      
+      qx.Class.define("qx.Is", {
+        extend : qx.core.Object,
+        implement : qx.IIs,
+        
+        properties : {
+          prop : {
+            check : "Boolean",
+            init : true
+          }
+        }
+      });
+      
+      
     }
   }
 });

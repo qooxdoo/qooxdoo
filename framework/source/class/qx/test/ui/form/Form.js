@@ -73,7 +73,7 @@ qx.Class.define("qx.test.ui.form.Form",
         widget.setInvalidMessage("affe");
       }, function(e) {
         self.assertEquals("affe", e.getData(), "Wrong data in the event.");
-        self.assertNull(e.getOldData(), "Wrong old data in the event.");
+        self.assertEquals("", e.getOldData(), "Wrong old data in the event.");
       }, "Change event not fired!");      
       
       // set the widget to invalid
