@@ -130,5 +130,16 @@ qx.Class.define("qx.ui.table.celleditor.Dynamic",
       var value = this.__cellEditorFactory.getCellEditorValue(cellEditor);
       return value;
     }
+  },
+  
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeFields("__cellEditorFactory");
   }
 });

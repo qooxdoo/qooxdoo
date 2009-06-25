@@ -280,5 +280,16 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
         this._fullUpdate(firstRow, firstColumn, rowSizes, columnSizes);
       }
     }
+  },
+  
+  /*
+   *****************************************************************************
+      DESTRUCT
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeFields("__lineColors", "__lineSizes");
   }
 });

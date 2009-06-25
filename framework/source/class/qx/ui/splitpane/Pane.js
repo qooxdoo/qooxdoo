@@ -573,5 +573,16 @@ qx.Class.define("qx.ui.splitpane.Pane",
       this.__beginSize = beginSize;
       this.__endSize = endSize;
     }
+  },
+  
+  /*
+   *****************************************************************************
+      DESTRUCT
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeFields("__children");
   }
 });

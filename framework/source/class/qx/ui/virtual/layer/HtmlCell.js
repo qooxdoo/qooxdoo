@@ -123,5 +123,16 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCell",
       
       this.getContentElement().setAttribute("html", html.join(""));
     }
+  },
+  
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeFields("_cellProvider");
   }
 });
