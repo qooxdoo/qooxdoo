@@ -288,6 +288,17 @@ qx.Class.define("demobrowser.demo.table.Table_Context_Menu",
 
       return bar;
     }
+  },
+  
+  /*
+   *****************************************************************************
+      DESTRUCT
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeObjects("_tableModel");
   }
 });
 

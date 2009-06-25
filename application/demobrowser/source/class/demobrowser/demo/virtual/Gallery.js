@@ -170,6 +170,12 @@ qx.Class.define("demo.AbstractGallery",
       
       return items;
     }
+  },
+  
+  destruct : function()
+  {
+    this._disposeFields("items");
+    this._disposeObjects("manager");
   }
 });
 
@@ -312,6 +318,17 @@ qx.Class.define("demo.WidgetGallery",
     poolCellWidget : function(widget) {
       this.__cell.pool(widget);
     }    
+  },
+  
+  /*
+   *****************************************************************************
+      DESTRUCT
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeObjects("__cell", "layer");
   }
 });
 
@@ -390,5 +407,16 @@ qx.Class.define("demo.HtmlGallery",
         ].join("")
       };
     }          
+  },
+  
+  /*
+   *****************************************************************************
+      DESTRUCT
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeObjects("layer");
   }
 });

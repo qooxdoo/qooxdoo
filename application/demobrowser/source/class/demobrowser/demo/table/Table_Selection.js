@@ -165,6 +165,17 @@ qx.Class.define("demobrowser.demo.table.Table_Selection",
 
       return bar;
     }
+  },
+  
+  /*
+   *****************************************************************************
+      DESTRUCT
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeObjects("_tableModel");
   }
 });
 

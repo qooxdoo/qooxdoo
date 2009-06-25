@@ -60,5 +60,16 @@ qx.Class.define("demobrowser.demo.bom.Window",
         alert(qx.bom.Window.isClosed(this.window1));
       }, this);
     }
+  },
+  
+  /*
+   *****************************************************************************
+      DESTRUCT
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeFields("__urls");
   }
 });

@@ -137,5 +137,16 @@ qx.Class.define("demobrowser.demo.test.Table_HeaderRenderer",
       this._container.add(headerContainer);
       return headerContainer;
     }
+  },
+  
+  /*
+   *****************************************************************************
+      DESTRUCT
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeObjects("_container");
   }
 });

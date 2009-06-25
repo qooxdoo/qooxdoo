@@ -167,5 +167,16 @@ qx.Class.define("demobrowser.demo.widget.Tooltip",
       });
       this.add(button);
     }     
+  },
+  
+  /*
+   *****************************************************************************
+      DESTRUCT
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeObjects("container");
   }
 });

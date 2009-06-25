@@ -100,5 +100,16 @@ qx.Class.define("demobrowser.demo.test.Destructor",
         this.__data.push(win);
       }
     }
+  },
+  
+  /*
+   *****************************************************************************
+      DESTRUCT
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeObjects("__timer");
   }
 });

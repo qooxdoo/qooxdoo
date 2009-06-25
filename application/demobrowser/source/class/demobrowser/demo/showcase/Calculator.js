@@ -563,6 +563,17 @@ qx.Class.define("demobrowser.demo.showcase.Calculator",
         this.__cal.setComma();
       }, this);
     }
+  },
+  
+  /*
+   *****************************************************************************
+      DESTRUCT
+   *****************************************************************************
+   */
+
+  destruct : function()
+  {
+    this._disposeObjects("__cal", "__display");
   }
 });
 

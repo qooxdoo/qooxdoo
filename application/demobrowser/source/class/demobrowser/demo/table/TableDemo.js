@@ -139,7 +139,7 @@ qx.Class.define("demobrowser.demo.table.TableDemo",
 
 
   destruct : function() {
-    this._disposeFields("_table", "_controls", "_container");
+    this._disposeObjects("_table", "_controls", "_container");
   }
 });
 
