@@ -202,7 +202,7 @@ class PartBuilder:
 
         # Sorting package list
         for part in parts.values():
-            self._sortPackages1(part, packages)
+            part.packages = self._sortPackages1(part.packages, packages)
 
         return packages, parts
 
@@ -263,9 +263,10 @@ class PartBuilder:
 
         # Start at the end with the sorted list
         # e.g. merge 4->7 etc.
-        packageIds = packages.keys()
+        #packageIds = packages.keys()
         packageUsers = dict([(x.id,x.part_count) for x in packages.values()])
-        self._sortPackages(packageIds, packageUsers)
+        #self._sortPackages(packageIds, packageUsers)
+        packageIds = self._sortPackages1(packages.keys(), packages)
         packageIds.reverse()
 
         packageClasses = dict([(x.id,x.class_list) for x in packages.values()])
@@ -281,6 +282,7 @@ class PartBuilder:
 
             partPackages = dict([(x.name, x.packages) for x in parts.values()])
             toId = self._getPreviousCommonPackage(fromId, partPackages, packageUsers)
+            #toId = self._getPreviousCommonPackage1(fromId, parts, packages)
             if toId != None:
                 self._console.indent()
                 self._console.debug("Merge package #%s into #%s" % (fromId, toId))
@@ -306,7 +308,7 @@ class PartBuilder:
         return packageIds
 
 
-    def _sortPackages1(self, part, packages):
+    def _sortPackages1(self, packageIds, packages):
         def _cmpPackageIds(pkgId1, pkgId2):
             if packages[pkgId2].part_count > packages[pkgId1].part_count:
                 return 1
@@ -314,15 +316,42 @@ class PartBuilder:
                 return -1
 
             return pkgId2 - pkgId1
+            
+        def keyFunc (pkgId):
+            return packages[pkgId].part_count
 
-        part.packages.sort(_cmpPackageIds)
+        print "xxx sorting..."
+        #packageIds.sort(_cmpPackageIds)
+        packageIds.sort(key=keyFunc, reverse=True)
 
-        return part.packages
+        return packageIds
 
 
 
 
     def _getPreviousCommonPackage(self, searchId, partPackages, packageUsers):
+        relevantParts = []
+        relevantPackages = []
+
+        for partId in partPackages:
+            packages = partPackages[partId]
+            if searchId in packages:
+                relevantParts.append(partId)
+                relevantPackages.extend(packages[:packages.index(searchId)])
+
+        # Sorted by priority, but start from end
+        self._sortPackages(relevantPackages, packageUsers)
+        relevantPackages.reverse()
+
+        # Check if a package is available identical times to the number of parts
+        for packageId in relevantPackages:
+            if relevantPackages.count(packageId) == len(relevantParts):
+                return packageId
+
+        return None
+
+
+    def _getPreviousCommonPackage1(self, searchId, parts, packages):
         relevantParts = []
         relevantPackages = []
 
@@ -395,8 +424,9 @@ class PartBuilder:
 
 
     def _getFinalPartData(self, packages, parts):
-        packageUsers = dict([(x.id, x.part_count) for x in packages.values()])
-        packageIds = self._sortPackages(packages.keys(), packageUsers)
+        #packageUsers = dict([(x.id, x.part_count) for x in packages.values()])
+        #packageIds = self._sortPackages(packages.keys(), packageUsers)
+        packageIds = self._sortPackages1(packages.keys(), packages)
 
         resultParts = {}
         for toId, fromId in enumerate(packageIds):
@@ -412,8 +442,9 @@ class PartBuilder:
 
 
     def _getFinalClassList(self, packages, variants):
-        packageUsers = dict([(x.id, x.part_count) for x in packages.values()])
-        packageIds = self._sortPackages(packages.keys(), packageUsers)
+        #packageUsers = dict([(x.id, x.part_count) for x in packages.values()])
+        #packageIds = self._sortPackages(packages.keys(), packageUsers)
+        packageIds = self._sortPackages1(packages.keys(), packages)
 
         resultClasses = []
         for pkgId in packageIds:
