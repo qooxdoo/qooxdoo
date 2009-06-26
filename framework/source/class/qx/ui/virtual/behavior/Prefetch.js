@@ -173,12 +173,6 @@ qx.Class.define("qx.ui.virtual.behavior.Prefetch",
     }
   },
   
-  destruct : function()
-  {
-    this.setScroller(null);
-    this._disposeObjects("__timer");
-  },
-  
   /*
    *****************************************************************************
       DESTRUCT
@@ -187,6 +181,7 @@ qx.Class.define("qx.ui.virtual.behavior.Prefetch",
 
   destruct : function()
   {
+    this.setScroller(null);
     this._disposeFields("__prefetchX", "__prefetchY");
     this._disposeObjects("__timer");
   }
