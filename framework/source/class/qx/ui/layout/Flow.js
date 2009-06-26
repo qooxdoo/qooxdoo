@@ -275,7 +275,7 @@ qx.Class.define("qx.ui.layout.Flow",
         var marginTop = child.getMarginTop();
         var marginBottom = child.getMarginBottom();
     
-        top = util.computeVerticalAlignOffset(
+        var top = util.computeVerticalAlignOffset(
           child.getAlignY() || this.getAlignY(),
           marginTop + size.height + marginBottom, 
           line.height, 
