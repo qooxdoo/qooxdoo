@@ -55,7 +55,7 @@ qx.Class.define("qx.event.handler.Iframe",
     /**
      * Internal function called by iframes created using {@link qx.bom.Iframe}.
      *
-     * @signature function()
+     * @signature function(target)
      * @internal
      * @param target {Element} DOM element which is the target of this event
      */

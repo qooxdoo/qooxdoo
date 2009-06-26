@@ -63,7 +63,11 @@ qx.Class.define("qx.core.WindowError",
     __lineNumber : null,
     
     
-    // overridden
+    /**
+     * Returns the error message.
+     *
+     * @return {String} error message
+     */
     toString : function() {
       return this.__failMessage;
     },

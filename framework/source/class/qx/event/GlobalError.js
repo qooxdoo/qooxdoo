@@ -55,6 +55,15 @@ qx.Bootstrap.define("qx.event.GlobalError",
     },
     
     
+    /**
+     * Catches all errors of the <code>window.onerror</code> handler
+     * and passes an {@link qx.core.WindowError} object to the error
+     * handling.
+     *
+     * @param msg {String} browser error message
+     * @param uri {String} uri to errornous script
+     * @param lineNumber {Integer} line number of error 
+     */ 
     __onErrorWindow : function(msg, uri, lineNumber)
     {
       if (this.__callback)
@@ -96,7 +105,12 @@ qx.Bootstrap.define("qx.event.GlobalError",
       }
     },
     
-    
+   
+    /**
+     * Delegates every given exception to the registered error handler
+     *
+     * @param ex {qx.core.WindowError|exception} Exception to delegate
+     */ 
     handleError : function(ex)
     {
       if (this.__callback) {
