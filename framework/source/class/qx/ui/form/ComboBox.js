@@ -150,9 +150,10 @@ qx.Class.define("qx.ui.form.ComboBox",
           control = new qx.ui.form.TextField();
           control.setFocusable(false);
           control.addState("inner");
+          control.setLiveUpdate(true);
           control.addListener("changeValue", this._onTextFieldChangeValue, this);
-          // @deprecated: remove the input event listener
-          control.addListener("input", this._onTextFieldInput, this);
+          // @deprecated: remove the following event listener
+          control.addListener("changeValue", this._onTextFieldInput, this);
           control.addListener("blur", this.close, this);
           this._add(control, {flex: 1});
           break;
