@@ -164,6 +164,10 @@ qx.Bootstrap.define("qx.log.appender.Native",
   */
 
   defer : function(statics) {
+    if (window.console && window.console.clear) {
+      console.clear();
+    }
+    
     qx.log.Logger.register(statics);
   }
 });
