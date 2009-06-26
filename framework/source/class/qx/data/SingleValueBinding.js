@@ -355,7 +355,7 @@ qx.Class.define("qx.data.SingleValueBinding",
           targetPropertyChain.lastIndexOf(".") + 1, targetPropertyChain.length
         );
         // check for an array and set the value to null
-        if (lastProperty[lastProperty.length - 1] == "]") {
+        if (lastProperty.charAt(lastProperty.length - 1) == "]") {
           this.__setTargetValue(targetObject, targetPropertyChain, null);
           return;
         }
@@ -390,7 +390,7 @@ qx.Class.define("qx.data.SingleValueBinding",
         );
 
         // check for arrays
-        if (lastProperty[lastProperty.length - 1] == "]") {
+        if (lastProperty.charAt(lastProperty.length - 1) == "]") {
           // split up the chain into property and index
           var index = lastProperty.substring(lastProperty.lastIndexOf("[") + 1, lastProperty.length - 1);
           var prop = lastProperty.substring(0, lastProperty.lastIndexOf("["));
