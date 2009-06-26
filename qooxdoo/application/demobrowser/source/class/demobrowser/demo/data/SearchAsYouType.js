@@ -42,6 +42,7 @@ qx.Class.define("demobrowser.demo.data.SearchAsYouType",
 
       // create the textfield
       var textfield = new qx.ui.form.TextField();
+      textfield.setLiveUpdate(true);
       this.getRoot().add(textfield, {top: 70, left: 10});
       
       // create the list
@@ -60,7 +61,7 @@ qx.Class.define("demobrowser.demo.data.SearchAsYouType",
       controller.setDelegate(filterObj);
       
       // make every input in the textfield update the controller
-      textfield.bind("input", filterObj, "searchString");
+      textfield.bind("changeValue", filterObj, "searchString");
 
 
 

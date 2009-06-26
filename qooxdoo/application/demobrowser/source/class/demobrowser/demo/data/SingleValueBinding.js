@@ -33,12 +33,13 @@ qx.Class.define("demobrowser.demo.data.SingleValueBinding",
       this.getRoot().add(new qx.ui.basic.Label("Event binding"), {top: 10, left: 10});
       // source textfield
       var textFieldSimple = new qx.ui.form.TextField("Change me...");
+      textFieldSimple.setLiveUpdate(true);
       this.getRoot().add(textFieldSimple, {top: 30, left: 10});
       // target label
       var labelSimple = new qx.ui.basic.Label("Change me...");
       this.getRoot().add(labelSimple, {top: 32, left: 120});
       // bind the input event of the textfield to the label content
-      textFieldSimple.bind("input", labelSimple, "value");
+      textFieldSimple.bind("changeValue", labelSimple, "value");
       
       
       
@@ -138,6 +139,7 @@ qx.Class.define("demobrowser.demo.data.SingleValueBinding",
       this.getRoot().add(new qx.ui.basic.Label("With validation"), {top: 310, left: 10});
       // create the source slider
       var validationTextField = new qx.ui.form.TextField("10");
+      validationTextField.setLiveUpdate(true);
       this.getRoot().add(validationTextField, {top: 330, left: 10});
       // create the validation label
       var labelValidation = new qx.ui.basic.Label("");
@@ -155,7 +157,7 @@ qx.Class.define("demobrowser.demo.data.SingleValueBinding",
         }
       };
       // bind the slider value to the label content
-      validationTextField.bind("input", rootNode, "number", options);      
+      validationTextField.bind("changeValue", rootNode, "number", options);      
       
       
       

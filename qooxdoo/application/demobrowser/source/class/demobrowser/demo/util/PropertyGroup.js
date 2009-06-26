@@ -89,7 +89,8 @@ qx.Class.define("demobrowser.demo.util.PropertyGroup",
       else if (type == "string")
       {
         var formItem = new qx.ui.form.TextField();
-        formItem.addListener("input", this._createOnIntPropertyChange(prop), this);
+        formItem.setLiveUpdate(true);
+        formItem.addListener("changeValue", this._createOnIntPropertyChange(prop), this);
         this._add(formItem, {row: row++, column: 1});
       }
 
