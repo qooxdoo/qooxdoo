@@ -277,8 +277,9 @@ qx.Class.define("qx.ui.form.RadioGroup",
         qx.lang.Array.remove(items, item);
 
         // Inform radio button about new group
-        if (item.getGroup() === this)
+        if (item.getGroup() === this) {
           item.resetGroup();
+        }
 
         // Deregister listeners
         item.removeListener("changeValue", this._onItemChangeChecked, this);
