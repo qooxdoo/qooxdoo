@@ -170,6 +170,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
      */
     _applyOrientation : function(value, old)
     {
+      console.log(value, old);
       var slider = this.getChildControl("slider");
       var splitter = this.getChildControl("splitter")
 
@@ -188,9 +189,12 @@ qx.Class.define("qx.ui.splitpane.Pane",
       this._setLayout(newLayout);
 
       // Update states for splitter and slider
-      splitter.replaceState(old, value);
-      splitter.getChildControl("knob").replaceState(old, value);
-      slider.replaceState(old, value);
+      splitter.removeState(old);
+      splitter.addState(value);
+      splitter.getChildControl("knob").removeState(old);
+      splitter.getChildControl("knob").addState(value);
+      slider.removeState(old);
+      slider.addState(value);      
     },
 
 
