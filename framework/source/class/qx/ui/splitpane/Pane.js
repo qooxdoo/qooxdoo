@@ -170,7 +170,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
      */
     _applyOrientation : function(value, old)
     {
-      console.log(value, old);
       var slider = this.getChildControl("slider");
       var splitter = this.getChildControl("splitter")
 
