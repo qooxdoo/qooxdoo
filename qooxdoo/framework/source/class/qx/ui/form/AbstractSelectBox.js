@@ -113,7 +113,11 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
   events :
   {
-    /** Fired everytime the selection has been modified and this way the value */
+    /** 
+      * Fired everytime the selection has been modified and this way the value 
+      * 
+      * @deprecated
+      */
     "changeValue" : "qx.event.type.Data"
   },
 
