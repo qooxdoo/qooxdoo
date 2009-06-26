@@ -29,8 +29,6 @@
 
 import sys
 
-from misc import util
-
 class Part(object):
     def __init__(self, name):
         self.name      = name
@@ -42,34 +40,32 @@ class Part(object):
 class Package(object):
     def __init__(self, id):
         self.id         = id   # int representing bit mask for each using part turned on
-        self.class_list = []   # list of classes in this package
+        self.classes    = []   # list of classes in this package
         self.part_count = 0    # number of parts using this package
+        self.parts      = []
 
 
 class PartBuilder:
     def __init__(self, console, depLoader, compiler):
-        self._console = console
+        self._console   = console
         self._depLoader = depLoader
-        self._compiler = compiler
+        self._compiler  = compiler
 
 
     def getPackages(self, partIncludes, smartExclude, classList, collapseParts, variants, jobContext):
         # Get config settings
-        jobConfig = jobContext["jobconf"]
-        minPackageSize = jobConfig.get("packages/sizes/min-package", 0)
+        jobConfig                 = jobContext["jobconf"]
+        minPackageSize            = jobConfig.get("packages/sizes/min-package", 0)
         minPackageSizeForUnshared = jobConfig.get("packages/sizes/min-package-unshared", None)
 
-        parts = {}  # map of Parts
-
         # Preprocess part data
+        parts    = {}  # map of Parts
         parts    = self._getParts(partIncludes)
         parts    = self._getPartDeps(parts, variants, smartExclude, classList)
 
-        packages = {}  # map of Packages
-
         # Compute packages
-        packages        = self._getPackageClasses(parts)
-        packages, parts = self._getPackageUsers(packages, parts)
+        packages = {}  # map of Packages
+        packages = self._getPackages(parts)
 
         self._printPartStats(packages, parts)
 
@@ -163,7 +159,7 @@ class PartBuilder:
     # cut an initial set of packages out of the set of classes needed by the parts
     # @returns {Map} { packageId : Package }
 
-    def _getPackageClasses(self, parts):
+    def _getPackages(self, parts):
         # Generating list of all classes
         allClasses = {}
         for part in parts.values():
@@ -184,28 +180,24 @@ class PartBuilder:
 
             if not packages.has_key(pkgId):
                 package            = Package(pkgId)
-                package.part_count = util.countBitsOn(pkgId)
                 packages[pkgId]    = package
 
-            packages[pkgId].class_list.append(classId)
+            packages[pkgId].classes.append(classId)
 
-        # which packages does a part use?
+        # Which packages does a part use - and vice versa
         for package in packages.values():
             for part in parts.values():
                 if package.id & part.bit_mask:
                     part.packages.append(package.id)
+                    package.parts.append(part.name)
+                    
+            package.part_count = len(package.parts)
 
-        return packages
-
-
-    def _getPackageUsers(self, packages, parts):
-
-        # Sorting package list
+        # Sorting packages of parts
         for part in parts.values():
             part.packages = self._sortPackages(part.packages, packages)
 
-        return packages, parts
-
+        return packages
 
 
     def _collapseParts(self, parts, packages, collapseParts):
@@ -267,7 +259,7 @@ class PartBuilder:
         packageIds = self._sortPackages(packages.keys(), packages)
         packageIds.reverse()
 
-        packageClasses = dict([(x.id,x.class_list) for x in packages.values()])
+        packageClasses = dict([(x.id,x.classes) for x in packages.values()])
 
         # Test and optimize 'fromId'
         for fromId in packageIds:
@@ -367,7 +359,7 @@ class PartBuilder:
                 part.packages.remove(fromPackageName)
 
         # Merging package content
-        packages[toPackageName].class_list.extend(packages[fromPackageName].class_list)
+        packages[toPackageName].classes.extend(packages[fromPackageName].classes)
         del packages[fromPackageName]
 
 
@@ -393,7 +385,7 @@ class PartBuilder:
 
         resultClasses = []
         for pkgId in packageIds:
-            resultClasses.append(self._depLoader.sortClasses(packages[pkgId].class_list, variants))
+            resultClasses.append(self._depLoader.sortClasses(packages[pkgId].classes, variants))
 
         return resultClasses
 
@@ -408,7 +400,7 @@ class PartBuilder:
         self._console.debug("Package summary")
         self._console.indent()
         for packageId in packageIds:
-            self._console.debug("Package #%s contains %s classes" % (packageId, len(packages[packageId].class_list)))
+            self._console.debug("Package #%s contains %s classes" % (packageId, len(packages[packageId].classes)))
         self._console.outdent()
 
         self._console.debug("")
