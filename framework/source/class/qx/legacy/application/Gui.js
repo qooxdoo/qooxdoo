@@ -74,5 +74,9 @@ qx.Class.define("qx.legacy.application.Gui",
       return this.__root;
     }
 
+  },
+  
+  destruct : function() {
+    this._disposeObjects("__root");
   }
 });
