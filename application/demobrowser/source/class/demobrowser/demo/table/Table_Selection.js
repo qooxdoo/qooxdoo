@@ -101,12 +101,12 @@ qx.Class.define("demobrowser.demo.table.Table_Selection",
       };
       for (var key in selections)
       {
-        selectBox.add(new qx.ui.form.ListItem(key).set({
-          value: selections[key] + ""
-        }));
+        var item = new qx.ui.form.ListItem(key);
+        item.setUserData("value", selections[key] + "");
+        selectBox.add(item);
       }
-      selectBox.addListener("changeValue", function(e) {
-        this._table.getSelectionModel().setSelectionMode(parseInt(selectBox.getValue()));
+      selectBox.addListener("changeSelection", function(e) {
+        this._table.getSelectionModel().setSelectionMode(parseInt(e.getData()[0].getUserData("value")));
       }, this);
       part.add(selectBox);
 
