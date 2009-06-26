@@ -40,9 +40,6 @@ qx.Class.define("demobrowser.demo.widget.TextField",
         maxLength: 15
       });
       input1.focus();
-      input1.addListener("input", function(e) {
-        this.debug("Input: " + e.getData());
-      }, this);
       input1.addListener("changeValue", function(e) {
         this.debug("ChangeValue: " + e.getData());
       }, this);
@@ -76,6 +73,13 @@ qx.Class.define("demobrowser.demo.widget.TextField",
 
       var controls = new qx.ui.container.Composite(new qx.ui.layout.VBox(8));
       controls.setPadding(20);
+
+      var btnLiveUpdate = new qx.ui.form.Button("Toggle live update");
+      btnLiveUpdate.addListener("execute", function() {
+        input1.toggleLiveUpdate()   
+      });
+      controls.add(btnLiveUpdate);
+
 
       var btnEnabled = new qx.ui.form.Button("Toggle enabled");
       var enable = false;

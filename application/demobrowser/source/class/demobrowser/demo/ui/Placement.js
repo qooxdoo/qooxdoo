@@ -15,6 +15,7 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Fabian Jakobs (fjakobs)
+     * Christian Schmidt (chris_schmidt)
 
 ************************************************************************ */
 
@@ -24,12 +25,17 @@ qx.Class.define("demobrowser.demo.ui.Placement",
 
   members :
   {
+    __positions : null,
+    
     main: function()
     {
       this.base(arguments);
 
       var root = this.getRoot();
 
+      this.__positions = ["bottom-left", "bottom-right", "top-left",
+        "top-right", "right-top", "right-bottom", "left-top", "left-bottom"];
+      
       // Corners
       root.add(this.createTestField("bottom-left"), { left: 20, top: 20 });
       root.add(this.createTestField("bottom-right"), { right: 20, top: 20 });
@@ -54,21 +60,24 @@ qx.Class.define("demobrowser.demo.ui.Placement",
       popup.setPadding(20);
 
       var selectBox = new qx.ui.form.SelectBox;
-      selectBox.add(new qx.ui.form.ListItem("bottom-left"));
-      selectBox.add(new qx.ui.form.ListItem("bottom-right"));
-      selectBox.add(new qx.ui.form.ListItem("top-left"));
-      selectBox.add(new qx.ui.form.ListItem("top-right"));
-      selectBox.add(new qx.ui.form.ListItem("right-top"));
-      selectBox.add(new qx.ui.form.ListItem("right-bottom"));
-      selectBox.add(new qx.ui.form.ListItem("left-top"));
-      selectBox.add(new qx.ui.form.ListItem("left-bottom"));
+      var itemToSelect = null;
+      
+      for (var i = 0; i < this.__positions.length; i++)
+      {
+        var item = new qx.ui.form.ListItem(this.__positions[i]);
+        selectBox.add(item);
+        
+        if (this.__positions[i] == init) {
+          itemToSelect = item;
+        }
+      }
       composite.add(selectBox);
 
-      selectBox.addListener("changeValue", function(e) {
-        popup.setPosition(e.getData());
+      selectBox.addListener("changeSelection", function(e) {
+        popup.setPosition(e.getData()[0].getLabel());
       });
 
-      selectBox.setValue(init);
+      selectBox.setSelection([itemToSelect]);
 
       var button = new qx.ui.form.Button("Open Popup");
       composite.add(button);
@@ -94,18 +103,13 @@ qx.Class.define("demobrowser.demo.ui.Placement",
       popup.setPadding(20);
 
       var selectBox = new qx.ui.form.SelectBox;
-      selectBox.add(new qx.ui.form.ListItem("bottom-left"));
-      selectBox.add(new qx.ui.form.ListItem("bottom-right"));
-      selectBox.add(new qx.ui.form.ListItem("top-left"));
-      selectBox.add(new qx.ui.form.ListItem("top-right"));
-      selectBox.add(new qx.ui.form.ListItem("right-top"));
-      selectBox.add(new qx.ui.form.ListItem("right-bottom"));
-      selectBox.add(new qx.ui.form.ListItem("left-top"));
-      selectBox.add(new qx.ui.form.ListItem("left-bottom"));
+      for (var i = 0; i < this.__positions.length; i++) {
+        selectBox.add(new qx.ui.form.ListItem(this.__positions[i]));
+      }
       composite.add(selectBox);
 
-      selectBox.addListener("changeValue", function(e) {
-        popup.setPosition(e.getData());
+      selectBox.addListener("changeSelection", function(e) {
+        popup.setPosition(e.getData()[0].getLabel());
       });
 
       var button = new qx.ui.form.Button("Open DOM-Popup");
@@ -118,5 +122,9 @@ qx.Class.define("demobrowser.demo.ui.Placement",
 
       return composite;
     }
+  },
+  
+  destruct : function() {
+    this._disposeField("__positions");
   }
 });
