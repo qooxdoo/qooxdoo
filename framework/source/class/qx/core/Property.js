@@ -1322,7 +1322,7 @@ qx.Class.define("qx.core.Property",
         code.push('var backup=computed;');
 
         // After storage finally normalize computed and old value
-        if (config.init !== undefined) {
+        if (config.init !== undefined && variant !== "init") {
           code.push('if(old===undefined)old=this.', this.$$store.init[name], ";");
         } else {
           code.push('if(old===undefined)old=null;');
@@ -1341,7 +1341,7 @@ qx.Class.define("qx.core.Property",
         code.push('if(old===computed)return value;');
 
         // Normalize old value
-        if (config.init !== undefined) {
+        if (config.init !== undefined && variant !== "init") {
           code.push('if(old===undefined)old=this.', this.$$store.init[name], ";");
         } else {
           code.push('if(old===undefined)old=null;');
