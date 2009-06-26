@@ -66,6 +66,8 @@ qx.Class.define("qx.ui.root.Inline",
     this.__elem = el;
     // Avoid any problems with dynamic resizing
     el.style.overflow = "hidden";
+    // Avoid any problems with broken layout
+    el.style.textAlign = "left";
 
     this.__dynX = dynamicX || false;
     this.__dynY = dynamicY || false;
