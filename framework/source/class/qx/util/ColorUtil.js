@@ -38,7 +38,8 @@ qx.Class.define("qx.util.ColorUtil",
     {
       hex3 : /^#([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/,
       hex6 : /^#([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/,
-      rgb : /^rgb\(\s*([0-9]{1,3}\.{0,1}[0-9]*)\s*,\s*([0-9]{1,3}\.{0,1}[0-9]*)\s*,\s*([0-9]{1,3}\.{0,1}[0-9]*)\s*\)$/
+      rgb : /^rgb\(\s*([0-9]{1,3}\.{0,1}[0-9]*)\s*,\s*([0-9]{1,3}\.{0,1}[0-9]*)\s*,\s*([0-9]{1,3}\.{0,1}[0-9]*)\s*\)$/,
+      rgba : /^rgba\(\s*([0-9]{1,3}\.{0,1}[0-9]*)\s*,\s*([0-9]{1,3}\.{0,1}[0-9]*)\s*,\s*([0-9]{1,3}\.{0,1}[0-9]*)\s*,\s*([0-9]{1,3}\.{0,1}[0-9]*)\s*\)$/
     },
 
 
@@ -221,6 +222,10 @@ qx.Class.define("qx.util.ColorUtil",
       {
         return this.__rgbStringToRgb();
       }
+      else if (this.isRgbaString(str))
+      {
+        return this.__rgbaStringToRgb();
+      }
       else if (this.isHex3String(str))
       {
         return this.__hex3StringToRgb();
@@ -332,6 +337,17 @@ qx.Class.define("qx.util.ColorUtil",
 
 
     /**
+     * Detects if a string is a valid RGBA string
+     *
+     * @param str {String} any string
+     * @return {Boolean} true when the incoming value is a valid RGBA string
+     */
+    isRgbaString : function(str) {
+      return this.REGEXP.rgba.test(str);
+    },
+
+
+    /**
      * Converts a regexp object match of a rgb string to an RGB array.
      *
      * @return {Array} an array with red, green, blue
@@ -342,6 +358,21 @@ qx.Class.define("qx.util.ColorUtil",
       var green = parseInt(RegExp.$2, 10);
       var blue = parseInt(RegExp.$3, 10);
 
+      return [red, green, blue];
+    },
+
+   /**
+    * Detects if a string is a valid RGBA string
+    *
+    * @param str {String} any string
+    * @return {Boolean} true when the incoming value is a valid RGBA string
+    */
+    __rgbaStringToRgb : function()
+    {
+      var red = parseInt(RegExp.$1, 10);
+      var green = parseInt(RegExp.$2, 10);
+      var blue = parseInt(RegExp.$3, 10);
+    
       return [red, green, blue];
     },
 
