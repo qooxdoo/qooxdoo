@@ -489,6 +489,13 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      *
      * Only available at readyState 3 and 4 universally and in readyState 2
      * in Gecko.
+     * 
+     * Please note: Some servers/proxies (such as Selenium RC) will capitalize 
+     * response header names. This is in accordance with RFC 2616[1], which 
+     * states that HTTP 1.1 header names are case-insensitive, so your 
+     * application should be case-agnostic when dealing with response headers.
+     * 
+     * [1]{@link http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.2}
      *
      * @param vLabel {String} Response header name
      * @return {String|null} Response header value
