@@ -383,7 +383,12 @@ qx.Class.define("qx.ui.form.ComboBox",
         var list = this.getChildControl("list");
         var value = this.getValue();
         
-        list.setSelection([list.findItem(value)]);
+        var item = list.findItem(value);
+        if (item) {
+          list.setSelection([item]);
+        } else {
+          list.resetSelection();
+        }
       }
       else
       {
