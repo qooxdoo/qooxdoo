@@ -364,7 +364,6 @@ qx.Class.define("qx.util.ColorUtil",
    /**
     * Detects if a string is a valid RGBA string
     *
-    * @param str {String} any string
     * @return {Boolean} true when the incoming value is a valid RGBA string
     */
     __rgbaStringToRgb : function()

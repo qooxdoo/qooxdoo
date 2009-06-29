@@ -125,6 +125,11 @@ qx.Class.define("qx.ui.decoration.AbstractBox",
     },
     
     
+    /**
+     * Helper to set the orientation.
+     * 
+     * @param orientation {String} horizontal or vertical
+     */
     _setOrientation : function(orientation) {
       this._isHorizontal = orientation == "horizontal";
     },
