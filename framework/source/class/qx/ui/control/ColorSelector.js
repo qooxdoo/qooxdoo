@@ -71,7 +71,10 @@ qx.Class.define("qx.ui.control.ColorSelector",
     "dialogok"     : "qx.event.type.Event",
 
     /** Fired when the "Cancel" button is clicked. */
-    "dialogcancel" : "qx.event.type.Event"
+    "dialogcancel" : "qx.event.type.Event",
+    
+    /** Fired when the value changes */
+    "changeValue" : "qx.event.type.Data"
   },
 
 
@@ -138,14 +141,6 @@ qx.Class.define("qx.ui.control.ColorSelector",
       check : "Number",
       init : 100,
       apply : "_applyBrightness"
-    },
-    
-    /** The hex value of the selected color. */
-    value :
-    {
-      nullable : true,
-      apply : "_applyValue",
-      event : "changeValue"
     }
   },
 
@@ -199,7 +194,12 @@ qx.Class.define("qx.ui.control.ColorSelector",
      */
     __hueSaturationSubtractLeft : 0,
 
-
+    // internal boolean flag to signal, that the value is set to null
+    __nullValue : true,
+    
+    // internal mutex to prevent the changeValue event to be fired too often
+    __preventChangeValueEvent : false,
+    
 
     // overridden
     _createChildControlImpl : function(id)
@@ -447,23 +447,65 @@ qx.Class.define("qx.ui.control.ColorSelector",
     },
 
 
-
-
-    // Property apply
-    _applyValue : function(value, old)
-    {
-      if (value === null)
-      {
-        this.setRed(255);
-        this.setGreen(255);
-        this.setBlue(255);
+    /**
+     * The value of the ColorSelector is a string containing the HEX value of 
+     * the currently selected color. Take a look at 
+     * {@link qx.util.ColorUtil.stringToRgb} to see what kind of input the 
+     * method can handle.
+     * 
+     * @param value {String} The value of a color.
+     */
+    setValue: function(value) {
+      var rgb;
+      if (value == null) {
+        this.__nullValue = true;
+        rgb = [255, 255, 255];
+      } else {
+        rgb = qx.util.ColorUtil.stringToRgb(value);
+        this.__nullValue = false;
       }
-      else
-      {
-        var rgb = qx.util.ColorUtil.stringToRgb(value);
-        this.setRed(rgb[0]);
-        this.setGreen(rgb[1]);
-        this.setBlue(rgb[2]);
+      // block the first tow events
+      this.__preventChangeValueEvent = true;
+      this.setRed(rgb[0]);
+      this.setGreen(rgb[1]);
+      // only allow the final change event
+      this.__preventChangeValueEvent = false;
+      this.setBlue(rgb[2]);
+    },
+    
+    
+    /**
+     * Returns the currently selected color.
+     * 
+     * @return {String | null} The HEX value of the color of if not color 
+     *   is set, null.
+     */
+    getValue: function() {
+      return this.__nullValue ? null : "#" + qx.util.ColorUtil.rgbToHexString(
+        [this.getRed(), this.getGreen(), this.getBlue()]
+      );
+    },
+    
+    /**
+     * Resets the color to null.
+     */
+    resetValue: function() {
+      this.__nullValue = true;
+      this.__preventChangeValueEvent = true;
+      this.setRed(255);
+      this.setGreen(255);
+      this.__preventChangeValueEvent = false;
+      this.setBlue(255);      
+    },
+    
+    
+    /**
+     * Helper for firing the changeValue event and checking for the mutex.
+     */
+    __fireChangeValueEvent: function() {
+      if (!this.__preventChangeValueEvent) {
+        this.__nullValue = false;
+        this.fireDataEvent("changeValue", this.getValue());        
       }
     },
 
@@ -498,7 +540,8 @@ qx.Class.define("qx.ui.control.ColorSelector",
           this._setHueFromRgb();
       }
 
-      this._setPreviewFromRgb();
+      this._setPreviewFromRgb();      
+      this.__fireChangeValueEvent();
 
       if (this.__updateContext === "redModifier") {
         this.__updateContext = null;
@@ -530,6 +573,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
       }
 
       this._setPreviewFromRgb();
+      this.__fireChangeValueEvent();
 
       if (this.__updateContext === "greenModifier") {
         this.__updateContext = null;
@@ -561,6 +605,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
       }
 
       this._setPreviewFromRgb();
+      this.__fireChangeValueEvent();   
 
       if (this.__updateContext === "blueModifier") {
         this.__updateContext = null;
