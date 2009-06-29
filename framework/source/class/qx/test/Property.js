@@ -274,7 +274,7 @@ qx.Class.define("qx.test.Property",
       var inst = new qx.test.PropertyHelper(function(inst) {
 
         inst.initInitApplyProp1();
-        self.assertJsonEquals(["juhu", "juhu"], inst.lastApply);
+        self.assertJsonEquals(["juhu", null], inst.lastApply);
         inst.lastApply = undefined;
 
         inst.initInitApplyProp2();
