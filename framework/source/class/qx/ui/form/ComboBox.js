@@ -82,17 +82,6 @@ qx.Class.define("qx.ui.form.ComboBox",
         return this.__defaultFormat(item);
       },
       nullable : true
-    },
-    
-    /**
-     * Set the <code>TextField</code> with the value from the firt item if the
-     * property is set to <code>true</code>, otherwise the <code>TextField</code>
-     * is empty. 
-     */
-    selectFirstItem :
-    {
-      check : "Boolean",
-      init : true 
     }
   },
 
@@ -171,7 +160,7 @@ qx.Class.define("qx.ui.form.ComboBox",
 
           // Change selection mode
           control.setSelectionMode("single");
-          this.addListener("appear", this._onAppear);
+          control.addListener("addItem", this._onAddItem, this);
           break;
       }
 
@@ -213,15 +202,6 @@ qx.Class.define("qx.ui.form.ComboBox",
 
       // Apply to text field
       textfield.setValue(value);
-
-      // Sync to list
-      var list = this.getChildControl("list");
-      var item = list.findItem(value);
-      if (item) {
-        list.setSelection([item]);
-      } else {
-        list.resetSelection();
-      }
     },
 
 
@@ -437,23 +417,19 @@ qx.Class.define("qx.ui.form.ComboBox",
     },
     
     /**
-     * Initialize the <code>TextField</code> with the value of the first item, 
-     * if the property {@link #selectFirstItem} is set to <code>true</code>.
+     * Initialize the <code>TextField</code> with the value of the first item,
+     * if the current value form the <code>TextField</code> is an empty string.
      * 
-     * @param e {qx.event.type.Event} Appear event
+     * @param e {qx.event.type.Data} Appear event
      */
-    _onAppear : function (e)
+    _onAddItem : function (e)
     {
-      if (!this.isSelectFirstItem()) {
-        return;
-      }
-      
       var list = this.getChildControl("list");
-      var firstItem = list.getSelectables()[0];
-    
-      if (firstItem && list.isSelectionEmpty())
+      
+      if (this.getValue() == "" && list.getSelectables().length <= 1)
       {
-        list.setSelection([firstItem]);
+        var item = e.getData();
+        this.setValue(item.getLabel());
       }
     },
     
