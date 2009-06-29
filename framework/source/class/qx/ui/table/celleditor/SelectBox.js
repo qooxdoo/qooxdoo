@@ -144,7 +144,7 @@ qx.Class.define("qx.ui.table.celleditor.SelectBox",
       var value = "";
       
       if (selection && selection[0]) {
-        value = selection[0].getLabel();
+        value = selection[0].getUserData("row") || selection[0].getLabel();
       }
 
       // validation function will be called with new and old value

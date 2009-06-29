@@ -112,10 +112,8 @@ qx.Class.define("qx.ui.table.celleditor.ComboBox",
           var row = list[i];
           if ( row instanceof Array ) {
             item = new qx.ui.form.ListItem(row[0], row[1]);
-            item.setUserData("row", row[2]);
           } else {
             item = new qx.ui.form.ListItem(row, null);
-            item.setUserData("row", row);
           }
           cellEditor.add(item);
         };
