@@ -122,7 +122,7 @@ qx.Class.define("qx.legacy.ui.table.cellrenderer.Abstract",
       if (cr.__clazz)
       {
         qx.legacy.html.StyleSheet.removeRule(cr.__clazz.stylesheet,
-                                      ".qooxdoo-table-cell");
+                                   ".qooxdoo-table-cell");
         cr.__tableCellStyleSheet = style;
         qx.legacy.html.StyleSheet.addRule(cr.__clazz.stylesheet,
                                    ".qooxdoo-table-cell",
