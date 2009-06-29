@@ -120,6 +120,10 @@ qx.Class.define("qx.test.io.remote.transport.XmlHttp",
       this.request.setUrl(this.getUrl("qx/test/xmlhttp/send_known_header.php"));
 
       this.request.addListener("completed", function(e) { this.resume(function() {
+        if (qx.bom.client.Engine.WEBKIT && qx.bom.client.Engine.VERSION == 525.28) {
+          this.fail("Test succeeded in Safari 3, exemption can be removed!");
+          return;
+        }
         var juhu = this.request.getResponseHeader("juhu") || this.request.getResponseHeader("Juhu");
         this.assertEquals("kinners", juhu);
       }, this); }, this);
