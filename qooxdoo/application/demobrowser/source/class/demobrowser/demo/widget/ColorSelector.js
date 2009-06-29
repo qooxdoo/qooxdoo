@@ -37,6 +37,18 @@ qx.Class.define("demobrowser.demo.widget.ColorSelector",
 
       var selector = new qx.ui.control.ColorSelector();
       this.getRoot().add(selector, {left: 20, top: 20});
+
+      
+      // value property
+      var label = new qx.ui.basic.Label("<b>value:</b>");
+      label.setRich(true);
+      this.getRoot().add(label, {left: 20, top: 340});
+      
+      var valueLabel = new qx.ui.basic.Label();
+      this.getRoot().add(valueLabel, {left: 60, top: 340});
+      
+      selector.bind("value", valueLabel, "value");
+      
     }
   }
 });
