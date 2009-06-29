@@ -89,7 +89,7 @@ qx.Class.define("qx.test.io.remote.transport.XmlHttp",
       this.request.setRequestHeader("juhu", "kinners");
       
       this.request.addListener("completed", function(e) { this.resume(function() {
-        var response = qx.util.Json.parse(this.request.getResponseText());  
+        var response = qx.util.Json.parse(this.request.getResponseText().toLowerCase());  
         this.assertEquals("kinners", response["juhu"]);
         this.assertEquals("bar", response["foo"]);
       }, this); }, this);
@@ -109,11 +109,12 @@ qx.Class.define("qx.test.io.remote.transport.XmlHttp",
       this.request.setUrl(this.getUrl("qx/test/xmlhttp/send_known_header.php"));
 
       this.request.addListener("completed", function(e) { this.resume(function() {
-        this.assertEquals("kinners", this.request.getResponseHeader("juhu"));
+        var juhu = this.request.getResponseHeader("juhu") || this.request.getResponseHeader("Juhu");
+        this.assertEquals("kinners", juhu);
       }, this); }, this);
 
       this.request.send();
-      this.wait(2000)      
+      this.wait(2000);
     }
   }
 });
