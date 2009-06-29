@@ -118,8 +118,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
     __isHorizontal : null,
     __beginSize : null,
     __endSize : null,
-    __lastBeginSize : null,
-    __lastEndSize : null,
     __children : null,
 
     // overridden
@@ -445,8 +443,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
           secondWidget.setHeight(endSize);
         }
       }
-      this.__lastBeginSize = beginSize;
-      this.__lastEndSize = endSize;
     },
 
 
