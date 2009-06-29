@@ -22,9 +22,12 @@ qx.Class.define("qx.test.ui.form.BooleanFormat",
 
   members :
   {
-    __test: function(widget) {
+    __test: function(widget, initValue) {
       // check if the interface is implemented
       this.assertTrue(qx.Class.hasInterface(widget.constructor, qx.ui.form.IBooleanForm), "Interface is not implemented.");
+      
+      // check for the init value
+      this.assertEquals(initValue, widget.getValue(), "Wrong init value set.");
       
       // just check if the method is available
       widget.resetValue();
@@ -40,34 +43,37 @@ qx.Class.define("qx.test.ui.form.BooleanFormat",
         self.assertEquals(false, e.getData(), "Not the right data in the event.");
         self.assertEquals(true, e.getOldData(), "Wrong old data in the event.");
       }, "Event is wrong!");
+      
+      // test for null values
+      widget.setValue(null);      
     },
     
     testCheckBox: function() {
-     this.__test(new qx.ui.form.CheckBox()); 
+     this.__test(new qx.ui.form.CheckBox(), false); 
     },
     
     testToggleButton: function() {
-     this.__test(new qx.ui.form.ToggleButton()); 
+     this.__test(new qx.ui.form.ToggleButton(), false); 
     },
     
     testMenuCheckBox: function() {
-     this.__test(new qx.ui.menu.CheckBox()); 
+     this.__test(new qx.ui.menu.CheckBox(), false); 
     },
     
     testRadioButton: function() {
-      this.__test(new qx.ui.form.RadioButton()); 
+      this.__test(new qx.ui.form.RadioButton(), false); 
     },
     
     testMenuRadioButton: function() {
-      this.__test(new qx.ui.menu.RadioButton()); 
+      this.__test(new qx.ui.menu.RadioButton(), false); 
     },
     
     testRadioGroupBox: function() {
-      this.__test(new qx.ui.groupbox.RadioGroupBox()); 
+      this.__test(new qx.ui.groupbox.RadioGroupBox(), true); 
     },
     
     testCheckGroupBox: function() {
-      this.__test(new qx.ui.groupbox.CheckGroupBox()); 
+      this.__test(new qx.ui.groupbox.CheckGroupBox(), true); 
     }
     
   }

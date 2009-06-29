@@ -52,9 +52,7 @@ qx.Interface.define("qx.ui.form.IRadioItem",
      *
      * @param value {Boolean} whether the item should be checked
      */
-    setValue : function(value) {
-      this.assertType(value, "boolean");
-    },
+    setValue : function(value) {},
 
 
     /**

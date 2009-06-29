@@ -147,7 +147,8 @@ qx.Class.define("qx.ui.form.Slider",
       check : "typeof value==='number'&&value>=this.getMinimum()&&value<=this.getMaximum()",
       init : 0,
       apply : "_applyValue",
-      event : "changeValue"
+      event : "changeValue",
+      nullable: true
     },
 
 
@@ -901,7 +902,11 @@ qx.Class.define("qx.ui.form.Slider",
 
     // property apply
     _applyValue : function(value, old) {
-      this._updateKnobPosition();
+      if (value != null) {
+        this._updateKnobPosition();        
+      } else {
+        this.resetValue();
+      }
     },
 
 

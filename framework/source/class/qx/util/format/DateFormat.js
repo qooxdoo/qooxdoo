@@ -243,6 +243,11 @@ qx.Class.define("qx.util.format.DateFormat",
      */
     format : function(date)
     {
+      // check for null dates
+      if (date == null) {
+        return null;
+      }
+      
       var DateFormat = qx.util.format.DateFormat;
       var locale = this.__locale;
 

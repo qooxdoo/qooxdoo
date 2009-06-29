@@ -26,6 +26,9 @@ qx.Class.define("qx.test.ui.form.StringFormat",
       // check if the interface is implemented
       this.assertTrue(qx.Class.hasInterface(widget.constructor, qx.ui.form.IStringForm), "Interface is not implemented.");
       
+      // check for the init value
+      this.assertNull(widget.getValue(), "Wrong init value set.");
+      
       // just check if the method is available
       widget.resetValue();
       
