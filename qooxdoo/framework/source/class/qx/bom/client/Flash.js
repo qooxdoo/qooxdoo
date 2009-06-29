@@ -79,7 +79,16 @@ qx.Bootstrap.define("qx.bom.client.Flash",
       var input = input.split(".");
       var system = this.FULLVERSION.split(".");
 
-      return (system[0] > input[0] || (system[0] == input[0] && system[1] > input[1]) || (system[0] == input[0] && system[1] == input[1] && system[2] >= input[2])) ? true : false;
+      for (var i=0; i<input.length; i++)
+      {
+        var diff = parseInt(system[i]) - parseInt(input[i]);    
+        if (diff > 0) {
+          return true;
+        } else if (diff < 0) {
+          return false;
+        }
+      }
+      return true;
     },
 
 
