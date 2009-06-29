@@ -655,7 +655,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
      * @param e {qx.event.type.Mouse} The incoming mouse event.
      */
     _onClick : function(e) {
-       this.__handleMouseCellEvent(e, "cellClick");
+      this.__handleMouseCellEvent(e, "cellClick");
     },
 
     
