@@ -745,40 +745,40 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       {
         var cellEvent = eventMouseToCellEvents[mouseEvent];
       
-        var calls = [];
+        calls = [];
         pane.dispatchEvent(new MouseEventMock(mouseEvent, {documentLeft: 99, documentTop: 99}));
         this.assertEquals(0, calls.length);
   
-        var calls = [];
+        calls = [];
         pane.dispatchEvent(new MouseEventMock(mouseEvent, {documentLeft: 100, documentTop: 100}));
-        this.assertEquals(1, calls.length);
-        this.assertEquals(0, calls[0].getRow());
-        this.assertEquals(0, calls[0].getColumn());
-        this.assertEquals(cellEvent, calls[0].getType());
+        this.assertEquals(1, calls.length, cellEvent);
+        this.assertEquals(0, calls[0].getRow(), cellEvent);
+        this.assertEquals(0, calls[0].getColumn(), cellEvent);
+        this.assertEquals(cellEvent, calls[0].getType(), cellEvent);
   
-        var calls = [];
+        calls = [];
         pane.dispatchEvent(new MouseEventMock(mouseEvent, {documentLeft: 160, documentTop: 103}));
-        this.assertEquals(1, calls.length);
-        this.assertEquals(0, calls[0].getRow());
-        this.assertEquals(1, calls[0].getColumn());
-        this.assertEquals(cellEvent, calls[0].getType());
+        this.assertEquals(1, calls.length, cellEvent);
+        this.assertEquals(0, calls[0].getRow(), cellEvent);
+        this.assertEquals(1, calls[0].getColumn(), cellEvent);
+        this.assertEquals(cellEvent, calls[0].getType(), cellEvent);
   
-        var calls = [];
+        calls = [];
         pane.dispatchEvent(new MouseEventMock(mouseEvent, {documentLeft: 105, documentTop: 110}));
-        this.assertEquals(1, calls.length);
-        this.assertEquals(1, calls[0].getRow());
-        this.assertEquals(0, calls[0].getColumn());
-        this.assertEquals(cellEvent, calls[0].getType());
+        this.assertEquals(1, calls.length, cellEvent);
+        this.assertEquals(1, calls[0].getRow(), cellEvent);
+        this.assertEquals(0, calls[0].getColumn(), cellEvent);
+        this.assertEquals(cellEvent, calls[0].getType(), cellEvent);
   
-        var calls = [];
+        calls = [];
         pane.dispatchEvent(new MouseEventMock(mouseEvent, {documentLeft: 105, documentTop: 125}));
         this.assertEquals(0, calls.length);
   
-        var calls = [];
+        calls = [];
         pane.dispatchEvent(new MouseEventMock(mouseEvent, {documentLeft: 275, documentTop: 105}));
         this.assertEquals(0, calls.length);
         
-        var calls = [];
+        calls = [];
         pane.dispatchEvent(new MouseEventMock(mouseEvent, {documentLeft: 275, documentTop: 105}));
         this.assertEquals(0, calls.length);
       }
