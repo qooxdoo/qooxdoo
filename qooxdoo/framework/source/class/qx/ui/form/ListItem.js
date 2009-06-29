@@ -35,9 +35,12 @@ qx.Class.define("qx.ui.form.ListItem",
   */
 
   /**
+   * The value property is deprecated so is the value parameter in the 
+   * constructor.
+   * 
    * @param label {String} Label to use
    * @param icon {String?null} Icon to use
-   * @param value {String?null} The items string value
+   * @param value {String?null} The items string value (DEPRECATED)
    */
   construct : function(label, icon, value)
   {
