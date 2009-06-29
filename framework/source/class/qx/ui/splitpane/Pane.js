@@ -575,6 +575,12 @@ qx.Class.define("qx.ui.splitpane.Pane",
       // Store sizes
       this.__beginSize = beginSize;
       this.__endSize = endSize;
+    },
+
+
+    _isActiveDragSession : function()
+    {
+      return this.__activeDragSession;
     }
   },
   
