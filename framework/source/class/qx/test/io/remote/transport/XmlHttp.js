@@ -51,11 +51,18 @@ qx.Class.define("qx.test.io.remote.transport.XmlHttp",
       
       qx.event.Timer.once(function() {
         this.resume(function() {
-          this.fail(
-            "Response error: " + type + " " +
-            request.getStatusCode() + " " + 
-            request.getStatusText()
-          );
+          // These tests will always fail in Safari 3 due to the behavior
+          // described in qooxdoo bug #2529.
+          if (qx.bom.client.Engine.WEBKIT && qx.bom.client.Engine.VERSION == 525.28) {
+            this.warn("Test skipped in Safari 3, see bug #2529");
+          }
+          else {
+            this.fail(
+              "Response error: " + type + " " +
+              request.getStatusCode() + " " + 
+              request.getStatusText()
+            );
+          }
         }, this);
       }, this);
     },
@@ -89,6 +96,10 @@ qx.Class.define("qx.test.io.remote.transport.XmlHttp",
       this.request.setRequestHeader("juhu", "kinners");
       
       this.request.addListener("completed", function(e) { this.resume(function() {
+        if (qx.bom.client.Engine.WEBKIT && qx.bom.client.Engine.VERSION == 525.28) {
+          this.fail("Test succeeded in Safari 3, exemption can be removed!");
+          return;
+        }
         var response = qx.util.Json.parse(this.request.getResponseText().toLowerCase());  
         this.assertEquals("kinners", response["juhu"]);
         this.assertEquals("bar", response["foo"]);
