@@ -36,6 +36,7 @@ class TreeCompiler:
         self._console = context.get('console')
         self._jobconf = context.get('jobconf')
         self._treeLoader = treeLoader
+        self._optimize   = []
 
         self._loadFiles()
 
@@ -50,6 +51,12 @@ class TreeCompiler:
         #if protected != None:
         #    self._console.info("Loaded %s protected fields" % len(protected))
         #    protectedoptimizer.load(protected)
+
+
+    def setOptimize(self, optimize=None):  # combined getter/setter
+        if optimize != None:
+            self._optimize = optimize
+        return self._optimize
 
 
     def _storePrivateFields(self):
@@ -271,7 +278,9 @@ class TreeCompiler:
         return compiled
 
 
-    def getCompiledSize(self, fileId, variants, optimize=[], recompile=True):
+    def getCompiledSize(self, fileId, variants, optimize=None, recompile=True):
+        if optimize == None:
+            optimize = self._optimize      # use object setting as default
         fileEntry = self._classes[fileId]
         filePath = fileEntry["path"]
 

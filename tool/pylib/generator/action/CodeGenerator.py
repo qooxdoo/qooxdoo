@@ -129,6 +129,7 @@ class CodeGenerator(object):
 
         # Read in compiler options
         optimize = compConf.get("code/optimize", [])
+        self._treeCompiler.setOptimize(optimize)
 
         # Whether the code should be formatted
         format = compConf.get("code/format", False)
