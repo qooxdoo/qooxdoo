@@ -454,9 +454,9 @@ qx.Class.define("qx.ui.control.ColorSelector",
     {
       if (value === null)
       {
-        this.setRed(null);
-        this.setGreen(null);
-        this.setBlue(null);
+        this.setRed(255);
+        this.setGreen(255);
+        this.setBlue(255);
       }
       else
       {
@@ -1036,9 +1036,10 @@ qx.Class.define("qx.ui.control.ColorSelector",
      * Sets hexfield value to it's corresponding red, green and blue value.
      */
     _setHexFromRgb : function() {
-      this.getChildControl("hex-field").setValue(
-        qx.util.ColorUtil.rgbToHexString([this.getRed(),this.getGreen(),this.getBlue()])
-      );
+      var value = qx.util.ColorUtil.rgbToHexString(
+        [this.getRed(),this.getGreen(),this.getBlue()]
+      );  
+      this.getChildControl("hex-field").setValue(value);
     },
 
 

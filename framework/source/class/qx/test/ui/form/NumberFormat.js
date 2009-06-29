@@ -26,6 +26,9 @@ qx.Class.define("qx.test.ui.form.NumberFormat",
       // check if the interface is implemented
       this.assertTrue(qx.Class.hasInterface(widget.constructor, qx.ui.form.INumberForm), "Interface not implemented");
       
+      // check for the init value
+      this.assertEquals(0, widget.getValue(), "Wrong init value set.");
+      
       // just check if the method is available
       widget.resetValue();
       
@@ -40,6 +43,9 @@ qx.Class.define("qx.test.ui.form.NumberFormat",
         self.assertEquals(11, e.getData(), "Not the right number in the event.");
         self.assertEquals(10, e.getOldData(), "Wrong old data in the event.");
       }, "Event is wrong!");
+      
+      // test for null values
+      widget.setValue(null);      
     },
     
     testSpinner: function() {

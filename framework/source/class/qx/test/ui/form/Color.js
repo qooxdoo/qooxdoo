@@ -26,6 +26,9 @@ qx.Class.define("qx.test.ui.form.Color",
       // check if the interface is implemented
       this.assertTrue(qx.Class.hasInterface(widget.constructor, qx.ui.form.IColorForm), "Interface is not implemented.");
       
+      // check for the init value
+      this.assertNull(widget.getValue(), "Wrong init value set.");
+      
       // just check if the method is available
       widget.resetValue();
       
@@ -40,6 +43,9 @@ qx.Class.define("qx.test.ui.form.Color",
         self.assertEquals("blue", e.getData(), "Wrong data in the event.");
         self.assertEquals("green", e.getOldData(), "Wrong old data in the event.");
       }, "Event is wrong!");      
+      
+      // test for null values
+      widget.setValue(null);
     },
     
     testColorPopup: function() {

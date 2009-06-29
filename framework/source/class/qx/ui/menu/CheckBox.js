@@ -98,7 +98,8 @@ qx.Class.define("qx.ui.menu.CheckBox",
       // TODO change the check to Boolean after the deprecation has been removed
       check : "function(value) {return qx.lang.Type.isString(value) || qx.lang.Type.isBoolean(value)}",      init : false,
       apply : "_applyValue",
-      event: "changeValue"
+      event : "changeValue",
+      nullable : true
     }
   },
 

@@ -96,7 +96,8 @@ qx.Class.define("qx.ui.form.RadioButton",
       check : "Boolean",
       nullable : true,
       event : "changeValue",
-      apply : "_applyValue"
+      apply : "_applyValue",
+      init: false
     },
 
     // overridden

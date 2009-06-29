@@ -26,6 +26,9 @@ qx.Class.define("qx.test.ui.form.Date",
       // check if the interface is implemented
       this.assertTrue(qx.Class.hasInterface(widget.constructor, qx.ui.form.IDateForm), "Interface is not implemented.");
       
+      // check for the init value
+      this.assertNull(widget.getValue(), "Wrong init value set.");
+      
       // just check if the method is available
       widget.resetValue();
       
@@ -39,7 +42,10 @@ qx.Class.define("qx.test.ui.form.Date",
         widget.setValue(date2);
       }, function(e) {
         // do nothing
-      }, "Event is wrong!");      
+      }, "Event is wrong!");     
+      
+      // test for null values
+      widget.setValue(null);       
     },
     
     testDateField: function() {
