@@ -118,6 +118,8 @@ qx.Class.define("qx.ui.splitpane.Pane",
     __isHorizontal : null,
     __beginSize : null,
     __endSize : null,
+    __lastBeginSize : null,
+    __lastEndSize : null,
     __children : null,
 
     // overridden
@@ -266,7 +268,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
     {
 
       // Only proceed if left mouse button is pressed and the splitter is active
-      if (!e.isLeftPressed() || !this.__isNear()) {
+      if (!e.isLeftPressed() || !this._isNear()) {
         return;
       }
 
@@ -358,7 +360,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
       }
 
       // Set sizes to both widgets
-      this.__finalizeSizes();
+      this._finalizeSizes();
 
       // Hide the slider
       var slider = this.getChildControl("slider");
@@ -404,12 +406,13 @@ qx.Class.define("qx.ui.splitpane.Pane",
      * Updates widgets' sizes bases on slider position.
      *
      */
-    __finalizeSizes : function()
+    _finalizeSizes : function()
     {
       var beginSize = this.__beginSize;
       var endSize = this.__endSize;
 
-      if (beginSize == null) {
+      if (beginSize == null ||
+        (this.__lastBeginSize == beginSize && this.__lastEndSize == endSize)) {
         return;
       }
 
@@ -443,6 +446,8 @@ qx.Class.define("qx.ui.splitpane.Pane",
           secondWidget.setHeight(endSize);
         }
       }
+      this.__lastBeginSize = beginSize;
+      this.__lastEndSize = endSize;
     },
 
 
@@ -452,7 +457,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
      *
      * @return {Boolean} True if mouse cursor is near to splitter, otherwise false.
      */
-    __isNear : function()
+    _isNear : function()
     {
       var splitter = this.getChildControl("splitter");
       var splitterBounds = splitter.getBounds();
@@ -509,7 +514,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
        var root = this.getApplicationRoot();
    
        // Whether the cursor is near enough to the splitter
-       if (this.__activeDragSession || this.__isNear())
+       if (this.__activeDragSession || this._isNear())
        {
          var cursor = this.__isHorizontal ? "col-resize" : "row-resize";
          this.setCursor(cursor);
