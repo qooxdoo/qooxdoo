@@ -411,8 +411,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
       var beginSize = this.__beginSize;
       var endSize = this.__endSize;
 
-      if (beginSize == null ||
-        (this.__lastBeginSize == beginSize && this.__lastEndSize == endSize)) {
+      if (beginSize == null) {
         return;
       }
 
