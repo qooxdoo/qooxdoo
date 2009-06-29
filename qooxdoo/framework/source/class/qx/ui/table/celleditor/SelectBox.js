@@ -112,15 +112,23 @@ qx.Class.define("qx.ui.table.celleditor.SelectBox",
         {
           var row = list[i];
           if ( row instanceof Array ) {
-            item = new qx.ui.form.ListItem(row[0], row[1], row[2]);
+            item = new qx.ui.form.ListItem(row[0], row[1]);
+            item.setUserData("row", row[2]);
           } else {
-            item = new qx.ui.form.ListItem(row, null, row)
+            item = new qx.ui.form.ListItem(row, null);
+            item.setUserData("row", row);
           }
           cellEditor.add(item);
         };
       }
 
-      cellEditor.setValue("" + value);
+      var itemToSelect = cellEditor.getChildrenContainer().findItem("" + value);
+      
+      if (itemToSelect) {
+        cellEditor.setSelection([itemToSelect]);
+      } else {
+        cellEditor.resetSelection();
+      }
       cellEditor.addListener("appear", function() {
         cellEditor.open();
       });
@@ -132,7 +140,12 @@ qx.Class.define("qx.ui.table.celleditor.SelectBox",
     // interface implementation
     getCellEditorValue : function(cellEditor)
     {
-      var value = cellEditor.getValue() || "";
+      var selection = cellEditor.getSelection();
+      var value = "";
+      
+      if (selection && selection[0]) {
+        value = selection[0].getLabel();
+      }
 
       // validation function will be called with new and old value
       var validationFunc = this.getValidationFunction();
