@@ -169,7 +169,8 @@ qx.Class.define("qx.ui.form.AbstractField",
 
   members :
   {
-
+    __nullValue : true,
+    
     /*
     ---------------------------------------------------------------------------
       WIDGET API
@@ -355,6 +356,9 @@ qx.Class.define("qx.ui.form.AbstractField",
       // handle null values
       if (value === null) {
         value = "";
+        this.__nullValue = true;
+      } else {
+        this.__nullValue = false;
       }
       if (qx.lang.Type.isString(value))
       {
@@ -382,7 +386,7 @@ qx.Class.define("qx.ui.form.AbstractField",
      * @return {String} The current value
      */
     getValue : function() {
-      return this.getContentElement().getValue();
+      return this.__nullValue ? null : this.getContentElement().getValue();
     },
     
     
@@ -391,6 +395,7 @@ qx.Class.define("qx.ui.form.AbstractField",
      */
     resetValue : function() {
       this.setValue("");
+      this.__nullValue = true;
     },
 
 
