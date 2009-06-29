@@ -207,7 +207,7 @@ qx.Class.define("qx.ui.form.ComboBox",
 
     // interface implementation
     getValue : function() {
-      return this.getChildControl("textfield").getValue();
+      return this.getChildControl("textfield").getValue() || "";
     },
 
 
