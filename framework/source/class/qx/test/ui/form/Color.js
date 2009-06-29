@@ -33,26 +33,25 @@ qx.Class.define("qx.test.ui.form.Color",
       widget.resetValue();
       
       // check the getter and setter
-      widget.setValue("green");
-      this.assertEquals("green", widget.getValue(), "Set or get does not work.");
+      widget.setValue("#008000");
+      this.assertEquals("#008000", widget.getValue(), "Set or get does not work.");
       
       var self = this;
       this.assertEventFired(widget, "changeValue", function() {
-        widget.setValue("blue");
+        widget.setValue("#CCCCCC");
       }, function(e) {
-        self.assertEquals("blue", e.getData(), "Wrong data in the event.");
-        self.assertEquals("green", e.getOldData(), "Wrong old data in the event.");
+        self.assertEquals("#CCCCCC", e.getData(), "Wrong data in the event.");
       }, "Event is wrong!");      
       
       // test for null values
       widget.setValue(null);
     },
     
-    testColorPopup: function() {
+    testColorSelector: function() {
      this.__test(new qx.ui.control.ColorSelector()); 
     },
     
-    testColorSelector: function() {
+    testColorPopup: function() {
      this.__test(new qx.ui.control.ColorPopup()); 
     }
     
