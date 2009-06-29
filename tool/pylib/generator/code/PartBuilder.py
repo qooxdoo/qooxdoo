@@ -218,7 +218,7 @@ class PartBuilder:
             toId = parts[partId].packages[collapsePos]
             for fromId in parts[partId].packages[collapsePos+1:]:
                 self._console.debug("Merging package #%s into #%s" % (fromId, toId))
-                self._mergePackage1(fromId, toId, parts, packages, collapseParts)
+                self._mergePackage(fromId, toId, parts, packages, collapseParts)
 
             self._console.outdent()
         self._console.outdent()
@@ -275,7 +275,7 @@ class PartBuilder:
             if toId != None:
                 self._console.indent()
                 self._console.debug("Merge package #%s into #%s" % (fromId, toId))
-                self._mergePackage1(fromId, toId, parts, packages, None)
+                self._mergePackage(fromId, toId, parts, packages, None)
                 self._console.outdent()
 
         self._console.outdent()
@@ -314,48 +314,20 @@ class PartBuilder:
         return None
 
 
+    def _mergePackage(self, fromPackageName, toPackageName, parts, packages, collapseParts=None):
 
-    def _mergePackage(self, fromId, toId, partPackages, packageClasses, collapseParts=None):
-        # Update part information
-        for partId in partPackages:
-            partContent = partPackages[partId]
-
-            if fromId in partContent:
-                # When collapsing parts, check if the toId is available in the packages of
-                # the parts that should be collapsed. In all other parts beside the parts 
-                # that should be collapsed, the toId is allowed to be not available.
-                if collapseParts != None and partId in collapseParts and not toId in partPackages[partId]:
-                    self._console.error("Could not merge these packages!")
-                    sys.exit(0)
-
-                # fromPos = partContent.index(fromId)
-                # toPos = partContent.index(toId)
-                # self._console.debug("Merging package at position #%s into #%s" % (fromPos, toPos))
-
-                partPackages[partId].remove(fromId)
-
-        # Merging package content
-        packageClasses[toId].extend(packageClasses[fromId])
-        del packageClasses[fromId]
-
-
-    def _mergePackage1(self, fromPackageName, toPackageName, parts, packages, collapseParts=None):
         # Update part information
         for part in parts.values():
-            partContent = part.packages
-
-            if fromPackageName in partContent:
+            if fromPackageName in part.packages:
                 # When collapsing parts, check if the toPackageName is available in the packages of
                 # the parts that should be collapsed. In all other parts beside the parts 
                 # that should be collapsed, the toPackageName is allowed to be not available.
-                if collapseParts != None and part.name in collapseParts and not toPackageName in part.packages:
-                    self._console.error("Could not merge these packages!")
-                    sys.exit(0)
-
-                # fromPos = partContent.index(fromPackageName)
-                # toPos = partContent.index(toPackageName)
-                # self._console.debug("Merging package at position #%s into #%s" % (fromPos, toPos))
-
+                # TODO: Why is that so?! Aren't you loosing dependency information that way?!
+                if (collapseParts != None 
+                    and part.name in collapseParts 
+                    and not toPackageName in part.packages
+                   ):
+                    raise RuntimeError, "Could not merge these packages (%s, %s)!" % (fromPackageName, toPackageName)
                 part.packages.remove(fromPackageName)
 
         # Merging package content
