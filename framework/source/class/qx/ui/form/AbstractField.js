@@ -246,10 +246,19 @@ qx.Class.define("qx.ui.form.AbstractField",
       this.base(arguments, value, old);
 
       this.getContentElement().setAttribute("disabled", value===false);
+      
+      if (!value) {
+        this._removePlaceholder();
+      } else {
+        this._showPlaceholder();
+      }
     },
 
 
     // default text sizes
+    /**
+     * @lint ignoreReferenceField(__textSize) 
+     */    
     __textSize :
     {
       width : 16,
@@ -526,8 +535,8 @@ qx.Class.define("qx.ui.form.AbstractField",
         !this.hasState("disabled")
       )
       {
+        this.addState("showingPlaceholder");
         this.getContentElement().setValue(placeholder);
-        this.addState("showingPlaceholder");        
       }
     },
     
@@ -538,18 +547,8 @@ qx.Class.define("qx.ui.form.AbstractField",
      */
     _removePlaceholder: function() {
       if (this.hasState("showingPlaceholder")) {
-        this.getContentElement().setValue("");        
-        this.removeState("showingPlaceholder");        
-      }
-    },
-    
-    // overridden
-    _applyEnabled: function(value, old) {
-      this.base(arguments, value, old);
-      if (!value) {
-        this._removePlaceholder();
-      } else {
-        this._showPlaceholder();
+        this.getContentElement().setValue("");
+        this.removeState("showingPlaceholder");
       }
     },
     
