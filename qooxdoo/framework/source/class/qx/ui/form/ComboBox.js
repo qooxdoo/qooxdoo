@@ -189,11 +189,6 @@ qx.Class.define("qx.ui.form.ComboBox",
     // interface implementation
     setValue : function(value)
     {
-      // handle null values
-      if (value === null) {
-        value = "";
-      }
-      
       var textfield = this.getChildControl("textfield");
       if (textfield.getValue() == value) {
         return;
@@ -206,7 +201,7 @@ qx.Class.define("qx.ui.form.ComboBox",
 
     // interface implementation
     getValue : function() {
-      return this.getChildControl("textfield").getValue() || "";
+      return this.getChildControl("textfield").getValue();
     },
 
 
@@ -361,8 +356,12 @@ qx.Class.define("qx.ui.form.ComboBox",
       {
         var list = this.getChildControl("list");
         var value = this.getValue();
+        var item = null;
+
+        if (value) {
+          item = list.findItem(value);
+        }
         
-        var item = list.findItem(value);
         if (item) {
           list.setSelection([item]);
         } else {
