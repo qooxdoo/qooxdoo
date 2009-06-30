@@ -480,6 +480,14 @@ class Generator:
         self._treeCompiler   = TreeCompiler(self._classes, self._treeLoader, context)
         self._partBuilder    = PartBuilder(self._console, self._depLoader, self._treeCompiler)
 
+        # TODO: the next is a kludge to optimize compile behaviour
+        if "log" in jobTriggers:
+            optimize = config.get("log/dependencies/dot/optimize", [])
+            self._treeCompiler.setOptimize(optimize)
+        if "compile-dist" in jobTriggers:  # let the compile-dist settings win
+            optimize = config.get("compile-dist/code/optimize", [])
+            self._treeCompiler.setOptimize(optimize)
+
         # Processing all combinations of variants
         variantData = getVariants()  # e.g. {'qx.debug':['on','off'], 'qx.aspects':['on','off']}
         variantSets = util.computeCombinations(variantData) # e.g. [{'qx.debug':'on','qx.aspects':'on'},...]
