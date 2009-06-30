@@ -352,11 +352,20 @@ qx.Theme.define("qx.theme.classic.Appearance",
         } else {
           backgroundColor = "background-field";
         }
+        
+        var textColor;
+        if (states.disabled) {
+          textColor = "text-disabled";
+        } else if (!states.disabled && states.showingPlaceholder) {
+          textColor = "text-placeholder";
+        } else {
+          textColor = undefined;
+        }        
                 
         return {
           decorator       : states.focused ? "focused-inset" : "inset",
           padding         : [ 2, 3 ],
-          textColor       : states.disabled ? "text-disabled" : undefined,
+          textColor       : textColor,
           backgroundColor : backgroundColor
         };
       }

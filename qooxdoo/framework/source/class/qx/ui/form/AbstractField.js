@@ -155,6 +155,17 @@ qx.Class.define("qx.ui.form.AbstractField",
     {
       check : "Boolean",
       init : false
+    },
+    
+    /**
+     * String value which will be shown as hint if the field is empty, 
+     * unfocused and enabled. Use null to disbale the placeholder test.
+     */
+    placeholder : 
+    {
+      check : "String",
+      nullable : true,
+      apply : "_applyPlaceholder"
     }
   },
 
@@ -360,7 +371,9 @@ qx.Class.define("qx.ui.form.AbstractField",
         this.__nullValue = true;
       } else {
         this.__nullValue = false;
+        this._removePlaceholder();
       }
+      
       if (qx.lang.Type.isString(value))
       {
         var elem = this.getContentElement();
@@ -375,6 +388,7 @@ qx.Class.define("qx.ui.form.AbstractField",
             "changeValue", qx.event.type.Data, [value, oldValue]
           );
         }
+        this._showPlaceholder();        
         return value;
       }
       throw new Error("Invalid value type: " + value);
@@ -387,7 +401,9 @@ qx.Class.define("qx.ui.form.AbstractField",
      * @return {String} The current value
      */
     getValue : function() {
-      return this.__nullValue ? null : this.getContentElement().getValue();
+      var showingPlaceholder = this.hasState("showingPlaceholder");
+      var value = showingPlaceholder ? "" : this.getContentElement().getValue();
+      return this.__nullValue ? null : value;
     },
     
     
@@ -395,8 +411,7 @@ qx.Class.define("qx.ui.form.AbstractField",
      * Resets the value to the default
      */
     resetValue : function() {
-      this.setValue("");
-      this.__nullValue = true;
+      this.setValue(null);
     },
 
 
@@ -491,6 +506,53 @@ qx.Class.define("qx.ui.form.AbstractField",
     },
 
 
+    /*
+    ---------------------------------------------------------------------------
+      PLACEHOLDER HELPER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Helper to show the placeholder text in the field. It checks for all 
+     * states and possible conditions and shows the placeholder only if allowed.
+     */
+    _showPlaceholder : function() {
+      var fieldValue = this.getValue() || "";
+      var placeholder = this.getPlaceholder();
+      if (
+        placeholder != null && 
+        !this.hasState("focused") && 
+        fieldValue == "" && 
+        !this.hasState("disabled")
+      )
+      {
+        this.getContentElement().setValue(placeholder);
+        this.addState("showingPlaceholder");        
+      }
+    },
+    
+    
+    /**
+     * Helper to remove the placeholder. Deletes the placeholder text from the 
+     * field and removes the state.
+     */
+    _removePlaceholder: function() {
+      if (this.hasState("showingPlaceholder")) {
+        this.getContentElement().setValue("");        
+        this.removeState("showingPlaceholder");        
+      }
+    },
+    
+    // overridden
+    _applyEnabled: function(value, old) {
+      this.base(arguments, value, old);
+      if (!value) {
+        this._removePlaceholder();
+      } else {
+        this._showPlaceholder();
+      }
+    },
+    
 
     /*
     ---------------------------------------------------------------------------
@@ -498,6 +560,20 @@ qx.Class.define("qx.ui.form.AbstractField",
     ---------------------------------------------------------------------------
     */
 
+    // property apply
+    _applyPlaceholder : function(value, old) {
+      if (value != null) {
+        this.addListener("focusin", this._removePlaceholder, this);
+        this.addListener("focusout", this._showPlaceholder, this);        
+        this._showPlaceholder();        
+      } else {
+        this.removeListener("focusin", this._removePlaceholder, this);
+        this.removeListener("focusout", this._showPlaceholder, this);
+        this._removePlaceholder();
+      }
+    },
+    
+    
     // property apply
     _applyTextAlign : function(value, old) {
       this.getContentElement().setStyle("textAlign", value);

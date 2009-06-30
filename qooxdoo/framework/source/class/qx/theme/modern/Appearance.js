@@ -367,10 +367,19 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator = "input";
         }
         
+        var textColor;
+        if (states.disabled) {
+          textColor = "text-disabled";
+        } else if (!states.disabled && states.showingPlaceholder) {
+          textColor = "text-placeholder";
+        } else {
+          textColor = "text-input";
+        }
+        
         return {
           decorator : decorator,
-          padding   : [ 2, 4, 1 ],
-          textColor : states.disabled ? "text-disabled" : "text-input"
+          padding : [ 2, 4, 1 ],
+          textColor : textColor
         };
       }
     },
