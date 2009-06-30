@@ -326,6 +326,7 @@ qx.Class.define("qx.ui.form.AbstractField",
     _onHtmlInput : function(e)
     {
       var value = e.getData();
+      this.__nullValue = false;
       if (value.length < this.getMaxLength()) {
         // @deprecated: remove the input event
         this.fireDataEvent("input", e.getData());
