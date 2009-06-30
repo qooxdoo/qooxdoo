@@ -220,14 +220,20 @@ class PartBuilder:
         self._console.indent()
 
         for collapsePos, partId in enumerate(collapseParts):
+            part = parts[partId]
             self._console.debug("Part %s..." % (partId))
             self._console.indent()
 
-            toId = parts[partId].packages[collapsePos]
-            for fromId in parts[partId].packages[collapsePos+1:]:
+            toId = part.packages[collapsePos]  # TODO: why shifting the 'to' position with each part??
+            for fromId in part.packages[collapsePos+1:]:
                 self._console.debug("Merging package #%s into #%s" % (fromId, toId))
                 self._mergePackage(packages[fromId], packages[toId], parts, packages, collapseParts)
 
+            # creates:
+            # part#1 : [package]
+            # part#2 : [package, package]
+            # part#3 : [package, package, package]
+            # ...
             self._console.outdent()
         self._console.outdent()
 
@@ -337,7 +343,7 @@ class PartBuilder:
         # Update part information
         for part in parts.values():
             if fromPackage.id in part.packages:
-                # When collapsing parts, check if the toPackage.id is available in the packages of
+                # when collapsing parts, check if the toPackage.id is available in the packages of
                 # the parts that should be collapsed. In all other parts, the toPackage.id is allowed
                 # to be not available.
                 # TODO: Why is that so?! Aren't you loosing dependency information that way?!
@@ -346,6 +352,7 @@ class PartBuilder:
                     and not toPackage.id in part.packages
                    ):
                     raise RuntimeError, "Could not merge these packages (%s, %s)!" % (fromPackage.id, toPackage.id)
+                # remove package
                 part.packages.remove(fromPackage.id)
 
         # Merging package content
