@@ -218,18 +218,18 @@ class PartBuilder:
             toId = parts[partId].packages[collapsePos]
             for fromId in parts[partId].packages[collapsePos+1:]:
                 self._console.debug("Merging package #%s into #%s" % (fromId, toId))
-                self._mergePackage(fromId, toId, parts, packages, collapseParts)
+                self._mergePackage(packages[fromId], packages[toId], parts, packages, collapseParts)
 
             self._console.outdent()
         self._console.outdent()
 
 
 
-    def _computePackageSize(self, packageClasses, packageId, variants):
+    def _computePackageSize(self, package, variants):
         packageSize = 0
 
         self._console.indent()
-        for classId in packageClasses[packageId]:
+        for classId in package.classes:
             packageSize += self._compiler.getCompiledSize(classId, variants)
         self._console.outdent()
 
@@ -242,7 +242,7 @@ class PartBuilder:
         # The first common package before the selected package between two
         # or more parts is allowed to merge with. As the package which should be merged
         # may have requirements, these must be solved. The easiest way to be sure regarding
-        # this issue, is to look out for another common package.
+        # this issue, is to look out for another common package. (TODO: ???)
 
         self._console.debug("")
         self._console.info("Optimizing package sizes...")
@@ -255,28 +255,30 @@ class PartBuilder:
 
         # Start at the end with the sorted list
         # e.g. merge 4->7 etc.
-        packageUsers = dict([(x.id,x.part_count) for x in packages.values()])
-        packageIds = self._sortPackages(packages.keys(), packages)
-        packageIds.reverse()
-
-        packageClasses = dict([(x.id,x.classes) for x in packages.values()])
+        allPackages = self._sortPackages(packages.keys(), packages)
+        allPackages.reverse()
 
         # Test and optimize 'fromId'
-        for fromId in packageIds:
-            packageSize = self._computePackageSize(packageClasses, fromId, variants) / 1024
-            self._console.debug("Package #%s: %sKB" % (fromId, packageSize))
-            if (packageUsers[fromId] == 1) and (packageSize >= minPackageSizeForUnshared):
+        for fromId in allPackages:
+            fromPackage = packages[fromId]
+            packageSize = self._computePackageSize(fromPackage, variants) / 1024
+            self._console.debug("Package #%s: %sKB" % (fromPackage.id, packageSize))
+            # check selectablility
+            if (fromPackage.part_count == 1) and (packageSize >= minPackageSizeForUnshared):
                 continue
-            if (packageUsers[fromId] > 1) and (packageSize >= minPackageSize):
+            if (fromPackage.part_count > 1) and (packageSize >= minPackageSize):
                 continue
 
-            partPackages = dict([(x.name, x.packages) for x in parts.values()])
-            toId = self._getPreviousCommonPackage(fromId, parts, packages)
-            if toId != None:
-                self._console.indent()
-                self._console.debug("Merge package #%s into #%s" % (fromId, toId))
-                self._mergePackage(fromId, toId, parts, packages, None)
-                self._console.outdent()
+            # assert: the package is shared and smaller than minPackageSize
+            #     or: the package is unshared and smaller than minPackageSizeForUnshared
+            self._console.indent()
+            self._console.debug("Search a target package for package #%s" % (fromPackage.id,))
+            toPackage = self._getPreviousCommonPackage(fromPackage, parts, packages)
+            if toPackage != None:
+                self._console.debug("Merge package #%s into #%s" % (fromPackage.id, toPackage.id))
+                self._mergePackage(fromPackage, toPackage, parts, packages, None)
+
+            self._console.outdent()
 
         self._console.outdent()
         self._console.outdent()
@@ -292,47 +294,55 @@ class PartBuilder:
         return packageIds
 
 
-    def _getPreviousCommonPackage(self, searchId, parts, packages):
-        relevantParts = []
-        relevantPackages = []
+    def _getPreviousCommonPackage(self, searchPackage, parts, packages):
+        # get a package that is in all parts that searchPackage is in, and is earlier in the
+        # corresponding packages lists
+        searchId            = searchPackage.id
+        relevantParts       = []
+        relevantPackages    = []
 
         for part in parts.values():
             pkges = part.packages
             if searchId in pkges:
-                relevantParts.append(part.name)
+                relevantParts.append(part.name)      # the searchPackage appears in this part
                 relevantPackages.extend(pkges[:pkges.index(searchId)])
+                                                     # all packages *preceding* the searchPackage in this part
 
-        # Sorted by priority, but start from end
+        # Sort relevant packages by priority, but start from end
         self._sortPackages(relevantPackages, packages)
         relevantPackages.reverse()
 
         # Check if a package is available identical times to the number of parts
+        # This means:
+        # - the package is in all parts where the searchPackage is
+        # - therefore, it's a safe package to merge the searchPackage into, since all affected parts will
+        #   still have the classes from the searchPackage
         for packageId in relevantPackages:
             if relevantPackages.count(packageId) == len(relevantParts):
-                return packageId
+                return packages[packageId]
 
         return None
 
 
-    def _mergePackage(self, fromPackageName, toPackageName, parts, packages, collapseParts=None):
+    def _mergePackage(self, fromPackage, toPackage, parts, packages, collapseParts=None):
 
         # Update part information
         for part in parts.values():
-            if fromPackageName in part.packages:
-                # When collapsing parts, check if the toPackageName is available in the packages of
-                # the parts that should be collapsed. In all other parts beside the parts 
-                # that should be collapsed, the toPackageName is allowed to be not available.
+            if fromPackage.id in part.packages:
+                # When collapsing parts, check if the toPackage.id is available in the packages of
+                # the parts that should be collapsed. In all other parts, the toPackage.id is allowed
+                # to be not available.
                 # TODO: Why is that so?! Aren't you loosing dependency information that way?!
                 if (collapseParts != None 
                     and part.name in collapseParts 
-                    and not toPackageName in part.packages
+                    and not toPackage.id in part.packages
                    ):
-                    raise RuntimeError, "Could not merge these packages (%s, %s)!" % (fromPackageName, toPackageName)
-                part.packages.remove(fromPackageName)
+                    raise RuntimeError, "Could not merge these packages (%s, %s)!" % (fromPackage.id, toPackage.id)
+                part.packages.remove(fromPackage.id)
 
         # Merging package content
-        packages[toPackageName].classes.extend(packages[fromPackageName].classes)
-        del packages[fromPackageName]
+        toPackage.classes.extend(fromPackage.classes)
+        del packages[fromPackage.id]
 
 
 
