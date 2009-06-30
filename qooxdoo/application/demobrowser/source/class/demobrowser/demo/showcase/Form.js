@@ -61,7 +61,7 @@ qx.Class.define("demobrowser.demo.showcase.Form",
 
       // date field
       var dateField = new qx.ui.form.DateField();
-      dateField.setValue(new Date());
+      dateField.setPlaceholder("dd.mm.YYYY");
       label = new qx.ui.basic.Label("DateField:");
       label.setBuddy(dateField);
       container.add(label, {row: 3, column: 0});
@@ -69,6 +69,7 @@ qx.Class.define("demobrowser.demo.showcase.Form",
 
       // combo box
       var comboBox = new qx.ui.form.ComboBox();
+      comboBox.setPlaceholder("placeholder");
       label = new qx.ui.basic.Label("ComboBox:");
       label.setBuddy(comboBox);
       container.add(label, {row: 4, column: 0});

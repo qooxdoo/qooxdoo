@@ -27,12 +27,13 @@ qx.Class.define("qx.test.ui.form.Placeholder",
       var widget = new clazz();
       widget.setPlaceholder("abc");
       
-      this.assertEquals("abc", widget.getContentElement().getValue(), "placeholder not visible");
+      this.assertEquals("abc", this.__getVisibleValueOf(widget), "placeholder not visible");
       this.assertNull(widget.getValue(), "Wrong value returned.");
       
-      widget = new clazz("affe");
+      widget = new clazz();
+      widget.setValue("affe");
       widget.setPlaceholder("aaa");
-      this.assertEquals("affe", widget.getContentElement().getValue(), "placeholder not visible");
+      this.assertEquals("affe", this.__getVisibleValueOf(widget), "placeholder visible");
       this.assertEquals("affe", widget.getValue(), "Wrong value returned.");      
     },
     
@@ -43,12 +44,12 @@ qx.Class.define("qx.test.ui.form.Placeholder",
       // set a value
       widget.setValue("def");
       this.assertEquals("def", widget.getValue(), "wrong value");
-      this.assertEquals("def", widget.getContentElement().getValue(), "wrong visible value");
+      this.assertEquals("def", this.__getVisibleValueOf(widget), "wrong visible value");
 
       // remove the value
       widget.resetValue();
       this.assertNull(widget.getValue(), "wrong value");
-      this.assertEquals("abc", widget.getContentElement().getValue(), "wrong visible value");      
+      this.assertEquals("abc", this.__getVisibleValueOf(widget), "wrong visible value");      
     },
     
     
@@ -56,16 +57,26 @@ qx.Class.define("qx.test.ui.form.Placeholder",
       var widget = new clazz();
       widget.setPlaceholder("abc");
       this.getRoot().add(widget);
-      
+
       // test focus in
       widget.focus();
       this.flush();
-      this.assertEquals("", widget.getContentElement().getValue(), "wrong visible value after focus");
-      
+      this.assertEquals("", this.__getVisibleValueOf(widget), "wrong visible value after focus");
+
       // test focus out
-      widget.blur();
+      this.getRoot().focus();
       this.flush();
-      this.assertEquals("abc", widget.getContentElement().getValue(), "wrong visible value after blur");      
+      
+      var timer = qx.util.TimerManager.getInstance();
+      timer.start(function() {
+        this.resume(function() {
+          this.getRoot().focus();
+          this.flush();          
+          this.assertEquals("abc", this.__getVisibleValueOf(widget), "wrong visible value after blur");          
+        }, this);
+      }, 0, this, null, 100);
+      
+      this.wait();
     },
     
     
@@ -74,7 +85,7 @@ qx.Class.define("qx.test.ui.form.Placeholder",
       widget.setPlaceholder("abc");
       widget.setPlaceholder(null);
       this.assertNull(widget.getValue(), "wrong value");
-      this.assertEquals("", widget.getContentElement().getValue(), "wrong visible value after focus");       
+      this.assertEquals("", this.__getVisibleValueOf(widget), "wrong visible value after focus");       
     },
     
     
@@ -84,11 +95,20 @@ qx.Class.define("qx.test.ui.form.Placeholder",
       
       widget.setEnabled(false);
       this.assertNull(widget.getValue(), "wrong value");
-      this.assertEquals("", widget.getContentElement().getValue(), "wrong visible value");
+      this.assertEquals("", this.__getVisibleValueOf(widget), "wrong visible value");
       
       widget.setEnabled(true);
       this.assertNull(widget.getValue(), "wrong value");
-      this.assertEquals("abc", widget.getContentElement().getValue(), "wrong visible value");      
+      this.assertEquals("abc", this.__getVisibleValueOf(widget), "wrong visible value");      
+    },
+    
+    
+    __getVisibleValueOf: function(widget) {
+      if (qx.Class.isSubClassOf(widget.constructor, qx.ui.form.AbstractField)) {
+        return widget.getContentElement().getValue();
+      } else if (qx.Class.isSubClassOf(widget.constructor, qx.ui.form.ComboBox)) {
+        return widget.getChildControl("textfield").getContentElement().getValue();
+      }
     },
 
     
@@ -162,24 +182,38 @@ qx.Class.define("qx.test.ui.form.Placeholder",
     
     
     /////////// ComboBox ///////////
-    _testInitComboBox : function() {
+    testInitComboBox : function() {
       this.__testInit(qx.ui.form.ComboBox);
     },
     
-    _testChangeValueComboBox : function() {
+    testChangeValueComboBox : function() {
       this.__testChangeValue(qx.ui.form.ComboBox);
     },
     
-    _testFocusComboBox: function() {
+    testFocusComboBox: function() {
       this.__testFocus(qx.ui.form.ComboBox);
     },
     
-    _testRemovePlaceholderComboBox: function() {
+    testRemovePlaceholderComboBox: function() {
       this.__testRemovePlaceholder(qx.ui.form.ComboBox);
     },
     
-    _testDisabledComboBox: function() {
+    testDisabledComboBox: function() {
       this.__testDisabled(qx.ui.form.ComboBox);
+    },
+    
+    
+    /////////// DateField ///////////  
+    testFocusDateField: function() {
+      this.__testFocus(qx.ui.form.DateField);
+    },
+    
+    testRemovePlaceholderDateField: function() {
+      this.__testRemovePlaceholder(qx.ui.form.DateField);
+    },
+    
+    testDisabledDateField: function() {
+      this.__testDisabled(qx.ui.form.DateField);
     }    
 
   }

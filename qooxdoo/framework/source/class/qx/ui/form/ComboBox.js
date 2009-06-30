@@ -47,11 +47,21 @@ qx.Class.define("qx.ui.form.ComboBox",
   {
     this.base(arguments);
 
-    this._createChildControl("textfield");
+    var textField = this._createChildControl("textfield");
     this._createChildControl("button");
 
     this.addListener("click", this._onClick);
     this.addListener("keydown", this._onKeyDown);
+    
+    // forward the focusin and focusout events to the textfield. The textfield 
+    // is not focusable so the events need to be forwared manually.
+    this.addListener("focusin", function(e) {
+      textField.fireNonBubblingEvent("focusin", qx.event.type.Focus);
+    }, this);
+    
+    this.addListener("focusout", function(e) {
+      textField.fireNonBubblingEvent("focusout", qx.event.type.Focus);
+    }, this);   
   },
 
 
@@ -82,7 +92,18 @@ qx.Class.define("qx.ui.form.ComboBox",
         return this.__defaultFormat(item);
       },
       nullable : true
-    }
+    },
+    
+    /**
+     * String value which will be shown as hint if the field is empty, 
+     * unfocused and enabled. Use null to disbale the placeholder text.
+     */
+    placeholder : 
+    {
+      check : "String",
+      nullable : true,
+      apply : "_applyPlaceholder"
+    }    
   },
 
 
@@ -123,6 +144,12 @@ qx.Class.define("qx.ui.form.ComboBox",
   {
     __preSelectedItem : null,
     __onInputId : null,
+
+
+    // property apply
+    _applyPlaceholder : function(value, old) {
+      this.getChildControl("textfield").setPlaceholder(value);
+    },
 
     /*
     ---------------------------------------------------------------------------
@@ -207,7 +234,7 @@ qx.Class.define("qx.ui.form.ComboBox",
 
     // interface implementation    
     resetValue : function() {
-      this.getChildControl("textfield").setValue("");
+      this.getChildControl("textfield").setValue(null);
     },
 
 
