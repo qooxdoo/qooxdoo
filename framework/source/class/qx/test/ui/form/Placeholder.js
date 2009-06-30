@@ -16,7 +16,7 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.form.TextFieldPlaceholder", 
+qx.Class.define("qx.test.ui.form.Placeholder", 
 {
   extend : qx.test.ui.LayoutTestCase,
 
@@ -157,7 +157,30 @@ qx.Class.define("qx.test.ui.form.TextFieldPlaceholder",
     
     testDisabledPasswordField: function() {
       this.__testDisabled(qx.ui.form.PasswordField);
-    }       
+    },
+    
+    
+    
+    /////////// ComboBox ///////////
+    _testInitComboBox : function() {
+      this.__testInit(qx.ui.form.ComboBox);
+    },
+    
+    _testChangeValueComboBox : function() {
+      this.__testChangeValue(qx.ui.form.ComboBox);
+    },
+    
+    _testFocusComboBox: function() {
+      this.__testFocus(qx.ui.form.ComboBox);
+    },
+    
+    _testRemovePlaceholderComboBox: function() {
+      this.__testRemovePlaceholder(qx.ui.form.ComboBox);
+    },
+    
+    _testDisabledComboBox: function() {
+      this.__testDisabled(qx.ui.form.ComboBox);
+    }    
 
   }
 });
