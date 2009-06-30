@@ -212,6 +212,7 @@ qx.Class.define("demobrowser.demo.widget.ComboBox",
         var tempItem = new qx.ui.form.ListItem(i + "'s Item");
         comboBox.add(tempItem);
       }
+      comboBox.setValue(comboBox.getChildrenContainer().getSelectables()[0].getLabel());
 
       // add the combobox to the documents root
       this.getRoot().add(comboBox,
