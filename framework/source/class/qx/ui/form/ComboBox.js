@@ -122,7 +122,7 @@ qx.Class.define("qx.ui.form.ComboBox",
   members :
   {
     __preSelectedItem : null,
-
+    __onInputId : null,
 
     /*
     ---------------------------------------------------------------------------
