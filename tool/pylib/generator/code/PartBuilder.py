@@ -52,11 +52,19 @@ class PartBuilder:
         self._compiler  = compiler
 
 
-    def getPackages(self, partIncludes, smartExclude, classList, collapseParts, variants, jobContext):
+    def getPackages(self, partIncludes, smartExclude, classList, variants, jobContext):
         # Get config settings
         jobConfig                 = jobContext["jobconf"]
         minPackageSize            = jobConfig.get("packages/sizes/min-package", 0)
         minPackageSizeForUnshared = jobConfig.get("packages/sizes/min-package-unshared", None)
+        partsCfg                  = jobConfig.get("packages/parts", {})
+        collapseCfg               = jobConfig.get("packages/collapse", [])
+        boot                      = jobConfig.get("packages/init", "boot")
+
+        # Automatically add boot part to collapse list
+        collapseParts             = []
+        if boot in partsCfg and not boot in collapseCfg:
+            collapseParts.append(boot)
 
         # Preprocess part data
         parts    = {}  # map of Parts
@@ -87,7 +95,7 @@ class PartBuilder:
         # Return
         # {Map}   resultParts[partId] = [packageId1, packageId2]
         # {Array} resultClasses[packageId] = [class1, class2]
-        return resultParts, resultClasses
+        return boot, resultParts, resultClasses
 
 
     ##

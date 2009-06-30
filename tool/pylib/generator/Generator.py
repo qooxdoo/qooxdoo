@@ -239,12 +239,6 @@ class Generator:
                 
                 # Reading configuration
                 partsCfg = self._job.get("packages/parts", {})
-                collapseCfg = self._job.get("packages/collapse", [])
-                boot = self._job.get("packages/init", "boot")
-
-                # Automatically add boot part to collapse list
-                if boot in partsCfg and not boot in collapseCfg:
-                    collapseCfg.append(boot)
 
                 # Expanding expressions
                 self._console.debug("Expanding include expressions...")
@@ -253,7 +247,7 @@ class Generator:
                     partIncludes[partId] = self._expandRegExps(partsCfg[partId])
 
                 # Computing packages
-                partPackages, packageClasses = self._partBuilder.getPackages(partIncludes, smartExclude, classList, collapseCfg, variants, self._context)
+                boot, partPackages, packageClasses = self._partBuilder.getPackages(partIncludes, smartExclude, classList, variants, self._context)
 
                 return boot, partPackages, packageClasses
 
