@@ -160,7 +160,6 @@ qx.Class.define("qx.ui.form.ComboBox",
 
           // Change selection mode
           control.setSelectionMode("single");
-          control.addListener("addItem", this._onAddItem, this);
           break;
       }
 
@@ -414,23 +413,6 @@ qx.Class.define("qx.ui.form.ComboBox",
 
       // Fire event
       this.fireDataEvent("changeValue", value, e.getOldData());
-    },
-    
-    /**
-     * Initialize the <code>TextField</code> with the value of the first item,
-     * if the current value form the <code>TextField</code> is an empty string.
-     * 
-     * @param e {qx.event.type.Data} Appear event
-     */
-    _onAddItem : function (e)
-    {
-      var list = this.getChildControl("list");
-      
-      if (this.getValue() == "" && list.getSelectables().length <= 1)
-      {
-        var item = e.getData();
-        this.setValue(item.getLabel());
-      }
     },
     
     /*
