@@ -57,6 +57,7 @@ qx.Theme.define("qx.theme.classic.Color",
     "text-disabled" : "#A7A6AA",
     "text-selected" : "white",
     "text-focused" : "#3E5B97",
+    "text-placeholder" : "#CBC8CD",
 
     "tooltip" : "#FFFFE1",
     "tooltip-text" : "black",

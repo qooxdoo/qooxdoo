@@ -87,7 +87,7 @@ qx.Theme.define("qx.theme.modern.Color",
     "text-selected" : "#fffefe",
     "text-active"   : "#26364D",
     "text-inactive" : "#404955",
-
+    "text-placeholder" : "#CBC8CD",
 
 
 
