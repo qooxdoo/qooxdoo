@@ -81,10 +81,6 @@ qx.Class.define("demobrowser.demo.widget.ComboBox",
         comboBox.add(tempItem);
       }
 
-      comboBox.addListener("input", function(e) {
-        this.debug("Input: " + e.getData());
-      });
-
       comboBox.addListener("changeValue", function(e) {
         this.debug("ChangeValue: " + e.getData());
       });
