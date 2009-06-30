@@ -37,14 +37,16 @@ qx.Class.define("demobrowser.demo.showcase.Form",
       this.getRoot().add(container, {top: 20, left: 20});
 
       // text field
-      var textField = new qx.ui.form.TextField("TextField");
+      var textField = new qx.ui.form.TextField();
+      textField.setPlaceholder("placeholder");
       var label = new qx.ui.basic.Label("TextField:");
       label.setBuddy(textField);
       container.add(label, {row: 0, column: 0});
       container.add(textField, {row: 0, column: 1});
 
       // password field
-      var passwordField = new qx.ui.form.PasswordField("PasswordField");
+      var passwordField = new qx.ui.form.PasswordField();
+      passwordField.setPlaceholder("password");
       label = new qx.ui.basic.Label("PasswordField:");
       label.setBuddy(passwordField);
       container.add(label, {row: 1, column: 0});
@@ -97,7 +99,8 @@ qx.Class.define("demobrowser.demo.showcase.Form",
       container.add(radioButton2, {row: 8, column: 1});
 
       // text area
-      var textArea = new qx.ui.form.TextArea("TextArea");
+      var textArea = new qx.ui.form.TextArea();
+      textArea.setPlaceholder("placeholder");
       label = new qx.ui.basic.Label("TextArea:");
       label.setBuddy(textArea);
       container.add(label, {row: 9, column: 0});
