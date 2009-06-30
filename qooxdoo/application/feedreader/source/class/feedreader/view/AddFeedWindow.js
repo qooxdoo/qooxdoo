@@ -131,7 +131,7 @@ qx.Class.define("feedreader.view.AddFeedWindow",
     {
       // break if no title is given
       var title = this.__titleTextfield.getValue();
-      if (title == "")
+      if (title == null || title == "")
       {
         alert(this.tr("Please enter a title."));
         return;
@@ -139,7 +139,7 @@ qx.Class.define("feedreader.view.AddFeedWindow",
 
       // break if no url is given
       var url = this.__urlTextfield.getValue();
-      if (url == "")
+      if (url == null || title == "")
       {
         alert(this.tr("Please enter a url."));
         return;
