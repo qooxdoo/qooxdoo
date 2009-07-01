@@ -62,9 +62,8 @@ class PartBuilder:
         boot                      = jobConfig.get("packages/init", "boot")
 
         # Automatically add boot part to collapse list
-        collapseParts             = []
         if boot in partsCfg and not boot in collapseCfg:
-            collapseParts.append(boot)
+            collapseCfg.append(boot)
 
         # Preprocess part data
         parts    = {}  # map of Parts
@@ -78,8 +77,8 @@ class PartBuilder:
         self._printPartStats(packages, parts)
 
         # Collapse parts
-        if len(collapseParts) > 0:
-            self._collapseParts(parts, packages, collapseParts)
+        if len(collapseCfg) > 0:
+            self._collapseParts(parts, packages, collapseCfg)
 
         # Optimize packages
         if minPackageSize != None and minPackageSize != 0:
