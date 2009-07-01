@@ -37,9 +37,10 @@ qx.Class.define("inspector.bindings.BindingsWindow",
     // add the spacer and the filter field
     this._toolbar.addSpacer();
     this._filterTextField = new qx.ui.form.TextField();
+    this._filterTextField.setLiveUpdate(true);
     this._filterTextField.setMarginRight(5);
     this._toolbar.add(this._filterTextField);
-    this._filterTextField.addListener("input", function(e) {
+    this._filterTextField.addListener("changeValue", function(e) {
       this.load(null, e.getData());
     }, this);
 
