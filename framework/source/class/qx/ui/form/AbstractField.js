@@ -431,6 +431,7 @@ qx.Class.define("qx.ui.form.AbstractField",
      * @param e {qx.event.type.Data} Incoming change event
      */
     _onChangeContent : function(e) {
+      this.__nullValue = e.getData() === null;
       this.fireNonBubblingEvent("changeValue", qx.event.type.Data, [e.getData()]);
     },
 
