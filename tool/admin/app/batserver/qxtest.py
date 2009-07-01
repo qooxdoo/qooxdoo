@@ -127,6 +127,18 @@ class QxTest:
         if ( not(self.isSeleniumServer()) ):
           self.log("ERROR: Selenium server not responding.")
           sys.exit(1)
+    
+  def killSeleniumServer(self):
+    if (self.sim):
+      self.log("SIMULATION: Killing Selenium server process")
+      return
+    else:
+      self.log("Killling Selenium server process")
+    
+    if self.os == "Linux":      
+      invokeExternal("pkill -f selenium-server")
+    else:
+      invokeExternal("wscript killselenium.vbs")
 
 
   ##
@@ -402,8 +414,20 @@ class QxTest:
       tf = '%Y-%m-%d_%H-%M-%S'
       testStartDate = time.strftime(self.timeFormat)
       logFile = os.path.join(logPath, testStartDate + ".log")
+      
+    if 'individualServer' in appConf:
+      if not appConf['individualServer']:
+        self.log("individualServer set to False, using one server instance for "
+                 + "all tests")
+        self.startSeleniumServer()
 
-    for browser in appConf['browsers']:      
+    for browser in appConf['browsers']:
+      if 'individualServer' in appConf:
+        if appConf['individualServer']:
+          self.log("individualServer set to True, using one server instance per "
+                   + "test run")
+      self.startSeleniumServer()
+
       cmd = self.getStartCmd(appConf['appName'], browser['browserId'])
       if getReportFrom == 'testLog':
         cmd += " logFile=" + logFile
@@ -443,7 +467,15 @@ class QxTest:
         if (browser['kill']):
           self.killBrowser(browser['browserId'])
       except KeyError:
-          pass  
+          pass
+      
+      if 'individualServer' in appConf:
+        if appConf['individualServer']:
+          self.killSeleniumServer()
+
+    if 'individualServer' in appConf:
+      if not appConf['individualServer']:
+        self.killSeleniumServer()
 
     if (appConf['sendReport']):
       if getReportFrom == 'testLog':
