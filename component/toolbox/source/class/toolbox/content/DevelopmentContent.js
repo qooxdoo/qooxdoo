@@ -845,15 +845,19 @@ qx.Class.define("toolbox.content.DevelopmentContent",
       // ------Labels End-------------------------------------------------------
       // ------Textfield Start--------------------------------------------------
       var fileNameText = new qx.ui.form.TextField("").set({ maxLength : 30 });
+      fileNameText.setLiveUpdate(true);
       this.develWidgets["createDialog.fileNameText"] = fileNameText;
 
       var filePathText = new qx.ui.form.TextField("C:\\tmp\\");  // Initial path
+      filePathText.setLiveUpdate(true);
       this.develWidgets["createDialog.filePathText"] = filePathText;
 
       var namespaceText = new qx.ui.form.TextField("");
+      namespaceText.setLiveUpdate(true);
       this.develWidgets["createDialog.namespaceText"] = namespaceText;
 
       var logText = new qx.ui.form.TextField("");
+      logText.setLiveUpdate(true);
       this.develWidgets["createDialog.logText"] = logText;
 
       // ------Textfield End----------------------------------------------------
@@ -1017,12 +1021,12 @@ qx.Class.define("toolbox.content.DevelopmentContent",
       });
 
       this.develWidgets["createDialog.logCheckBox"].addListener("click", this.__showLogTextField, this);
-      this.develWidgets["createDialog.fileNameText"].addListener("input", this.__checkInput, this);
-      this.develWidgets["createDialog.namespaceText"].addListener("input", this.__checkNamespace, this);
-      this.develWidgets["createDialog.filePathText"].addListener("input", this.__checkInput, this);
-      this.develWidgets["createDialog.logText"].addListener("input", this.__checkInput, this);
+      this.develWidgets["createDialog.fileNameText"].addListener("changeValue", this.__checkInput, this);
+      this.develWidgets["createDialog.namespaceText"].addListener("changeValue", this.__checkNamespace, this);
+      this.develWidgets["createDialog.filePathText"].addListener("changeValue", this.__checkInput, this);
+      this.develWidgets["createDialog.logText"].addListener("changeValue", this.__checkInput, this);
       this.develWidgets["createDialog.logCheckBox"].addListener("click", this.__checkInput, this);
-      this.develWidgets["createDialog.fileNameText"].addListener("input", this.__copyContent, this);
+      this.develWidgets["createDialog.fileNameText"].addListener("changeValue", this.__copyContent, this);
 
       this.develWidgets["createDialog.generateBox"].addListener("click", function()
       {

@@ -39,10 +39,11 @@ qx.Class.define("inspector.objects.ObjectsWindow",
     this._toolbar.add(new qx.ui.toolbar.Separator());
     this._toolbar.addSpacer();
     this._filterTextField = new qx.ui.form.TextField();
+    this._filterTextField.setLiveUpdate(true);
     this._filterTextField.setMarginRight(5);
     this._toolbar.add(this._filterTextField);
     
-    this._filterTextField.addListener("input", function(e) {
+    this._filterTextField.addListener("changeValue", function(e) {
       var timer = qx.util.TimerManager.getInstance();
       // check for the old listener
       if (this.__timerId != null) {
