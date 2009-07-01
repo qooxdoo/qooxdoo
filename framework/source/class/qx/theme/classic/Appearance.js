@@ -356,7 +356,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         var textColor;
         if (states.disabled) {
           textColor = "text-disabled";
-        } else if (!states.disabled && states.showingPlaceholder) {
+        } else if (states.showingPlaceholder) {
           textColor = "text-placeholder";
         } else {
           textColor = undefined;
