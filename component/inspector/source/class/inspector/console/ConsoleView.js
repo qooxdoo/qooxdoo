@@ -68,6 +68,7 @@ qx.Class.define("inspector.console.ConsoleView",
     leadingLabel.setFont(font);
     inputComposite.add(leadingLabel);
     this._inputTextField = new qx.ui.form.TextField();
+    this._inputTextField.setLiveUpdate(true);
     this._inputTextField.setDecorator(null);
     this._inputTextField.setFont(font);
     inputComposite.add(this._inputTextField, {flex: 1});
@@ -77,7 +78,7 @@ qx.Class.define("inspector.console.ConsoleView",
     this._inputTextField.addListener("keyup", this._keyUpHandler, this);
     this._inputTextField.addListener("keypress", this._keyPressHandler, this);
     
-    this._inputTextField.addListener("input", function(e) {
+    this._inputTextField.addListener("changeValue", function(e) {
       if (this._autoCompletePopup.isOnScreen()) {
         this._autoCompletePopup.load(e.getData());
       }
