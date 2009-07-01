@@ -158,8 +158,9 @@ qx.Class.define("qx.ui.form.AbstractField",
     },
     
     /**
-     * String value which will be shown as hint if the field is empty, 
-     * unfocused and enabled. Use null to disbale the placeholder test.
+     * String value which will be shown as a hint if the field is all of: 
+     * unset, unfocused and enabled. Set to null to not show a placeholder 
+     * text.
      */
     placeholder : 
     {
@@ -247,10 +248,10 @@ qx.Class.define("qx.ui.form.AbstractField",
 
       this.getContentElement().setAttribute("disabled", value===false);
       
-      if (!value) {
-        this._removePlaceholder();
-      } else {
+      if (value) {
         this._showPlaceholder();
+      } else {
+        this._removePlaceholder();
       }
     },
 
@@ -551,7 +552,7 @@ qx.Class.define("qx.ui.form.AbstractField",
         this.removeState("showingPlaceholder");
       }
     },
-    
+
 
     /*
     ---------------------------------------------------------------------------
