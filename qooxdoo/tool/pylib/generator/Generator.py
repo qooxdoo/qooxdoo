@@ -207,6 +207,7 @@ class Generator:
                 path      = self._cache.read(cacheId, checkFile, memory=True)
                 if path:
                     self._console.debug("Use memory cache for %s" % key)
+                    path._console = self._console  # TODO: this is a hack to compensate LibraryPath.__getstate__ when pickeling
                 else:
                     path = LibraryPath(lib, self._console)
                     namespace = getJobsLib(key)['namespace']

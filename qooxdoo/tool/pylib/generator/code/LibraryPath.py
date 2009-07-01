@@ -58,6 +58,14 @@ class LibraryPath:
 
         self._detectNamespace(self._classPath)
 
+    def __getstate__(self):
+        # for pickling, stripp the Log object (the StreamWriter for a potential log file makes
+        # problems on unpickling;
+        # client code has to restore self._console on unpickling
+        d = self.__dict__.copy()
+        del d['_console']
+        return d
+
     _codeExpr = re.compile('qx.(Bootstrap|List|Class|Mixin|Interface|Theme).define\s*\(\s*["\'](%s)["\']?' % lang.IDENTIFIER_REGEXP, re.M)
     _ignoredDirectories = [".svn", "CVS"]
     _docFilename = "__init__.js"
