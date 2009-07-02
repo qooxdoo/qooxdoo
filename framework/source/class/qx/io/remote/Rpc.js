@@ -19,7 +19,7 @@
 
 ************************************************************************ */
 
-/*
+/**
  * Provides a Remote Procedure Call (RPC) implementation.
  *
  * Each instance of this class represents a "Service". These services can
