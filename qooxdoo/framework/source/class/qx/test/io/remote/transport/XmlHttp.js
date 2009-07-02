@@ -36,6 +36,17 @@ qx.Class.define("qx.test.io.remote.transport.XmlHttp",
       this.request.addListener("timeout", this.responseError, this);
       
       this.resourceBase = qx.util.AliasManager.getInstance().resolve("qx/test/");
+      
+      // These tests will always fail in Safari 3/FF1.5 due to the behavior
+      // described in qooxdoo bug #2529, so they will be skipped.
+      this.buggyBrowser = false;
+      var engineString = qx.bom.client.Engine.FULLVERSION;
+      var engineFloat = parseFloat(engineString);
+      if ( (qx.bom.client.Engine.WEBKIT && engineVersion < 526) 
+            || (qx.bom.client.Engine.GECKO && engineString.indexOf("1.8.0") == 0 ) ) {
+        this.buggyBrowser = true;
+        this.warn("Tests skipped in Safari 3/FF 1.5, see bug #2529");
+      }
     },
     
     
@@ -50,13 +61,8 @@ qx.Class.define("qx.test.io.remote.transport.XmlHttp",
       var type = e.getType();
       
       qx.event.Timer.once(function() {
-        this.resume(function() {
-          // These tests will always fail in Safari 3 due to the behavior
-          // described in qooxdoo bug #2529.
-          if (qx.bom.client.Engine.WEBKIT && qx.bom.client.Engine.VERSION == 525.28) {
-            this.warn("Test skipped in Safari 3, see bug #2529");
-          }
-          else {
+        this.resume(function() {          
+          if (!this.buggyBrowser) {
             this.fail(
               "Response error: " + type + " " +
               request.getStatusCode() + " " + 
@@ -96,8 +102,8 @@ qx.Class.define("qx.test.io.remote.transport.XmlHttp",
       this.request.setRequestHeader("juhu", "kinners");
       
       this.request.addListener("completed", function(e) { this.resume(function() {
-        if (qx.bom.client.Engine.WEBKIT && qx.bom.client.Engine.VERSION == 525.28) {
-          this.fail("Test succeeded in Safari 3, exemption can be removed!");
+        if (this.buggyBrowser) {
+          this.fail("Test succeeded in Safari 3 or FF 1.5, exemption can be removed!");
           return;
         }
         var response = qx.util.Json.parse(this.request.getResponseText().toLowerCase());  
@@ -120,8 +126,8 @@ qx.Class.define("qx.test.io.remote.transport.XmlHttp",
       this.request.setUrl(this.getUrl("qx/test/xmlhttp/send_known_header.php"));
 
       this.request.addListener("completed", function(e) { this.resume(function() {
-        if (qx.bom.client.Engine.WEBKIT && qx.bom.client.Engine.VERSION == 525.28) {
-          this.fail("Test succeeded in Safari 3, exemption can be removed!");
+        if (this.buggyBrowser) {
+          this.fail("Test succeeded in Safari 3 or FF 1.5, exemption can be removed!");
           return;
         }
         var juhu = this.request.getResponseHeader("juhu") || this.request.getResponseHeader("Juhu");
