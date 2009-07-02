@@ -39,7 +39,7 @@ def getQxPath():
             mo = qpathr.search(line)
             if mo:
                 path = mo.group(1)
-                break # assume first occurance is ok
+                break # assume first occurrence is ok
     path = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), path))
 
     return path
