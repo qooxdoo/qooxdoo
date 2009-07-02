@@ -19,7 +19,8 @@
 #
 ################################################################################
 
-import os, sys, time, cPickle
+import os, sys, time
+import cPickle as pickle
 from misc import filetool
 from misc.securehash import sha_construct
 
@@ -103,7 +104,7 @@ class Cache:
             fobj = open(cacheFile, 'rb')
             #filetool.lock(fobj.fileno())
 
-            content = cPickle.load(fobj)
+            content = pickle.load(fobj)
 
             #filetool.unlock(fobj.fileno())
             fobj.close()
@@ -113,7 +114,7 @@ class Cache:
 
             return content
 
-        except (IOError, EOFError, cPickle.PickleError, cPickle.UnpicklingError):
+        except (IOError, EOFError, pickle.PickleError, pickle.UnpicklingError):
             self._console.error("Could not read cache from %s" % self._path)
             return None
 
@@ -132,12 +133,12 @@ class Cache:
                 fobj = open(cacheFile, 'wb')
                 #filetool.lock(fobj.fileno(), write=True)
 
-                cPickle.dump(content, fobj, 2)
+                pickle.dump(content, fobj, 2)
 
                 #filetool.unlock(fobj.fileno())
                 fobj.close()
 
-            except (IOError, EOFError, cPickle.PickleError, cPickle.PicklingError):
+            except (IOError, EOFError, pickle.PickleError, pickle.PicklingError):
                 self._console.error("Could not store cache to %s" % self._path)
                 sys.exit(1)
 
