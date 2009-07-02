@@ -131,6 +131,17 @@ qx.Class.define("qx.io.remote.RequestQueue",
     ---------------------------------------------------------------------------
     */
 
+    
+    /**
+     * Get the number of queued requests
+     * 
+     * @return {Integer} The number of queued requests
+     */
+    getQueueLength : function() {
+      return this.__queue.length;
+    },
+    
+    
     /**
      * Generates debug output
      */
