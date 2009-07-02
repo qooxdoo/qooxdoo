@@ -388,6 +388,7 @@ class QxTest:
   #
   # @param appConf {dict} Settings for the application(s) to be tested
   def runTests(self, appConf):
+    import time
     if appConf['appName'] in self.buildStatus:
       if self.buildStatus[appConf['appName']]["BuildError"]:
         self.log("ERROR: Skipping " + appConf['appName'] + " test because there "
@@ -472,10 +473,12 @@ class QxTest:
       if 'individualServer' in appConf:
         if appConf['individualServer']:
           self.killSeleniumServer()
+          time.sleep(5)
 
     if 'individualServer' in appConf:
       if not appConf['individualServer']:
         self.killSeleniumServer()
+        time.sleep(5)
 
     if (appConf['sendReport']):
       if getReportFrom == 'testLog':
