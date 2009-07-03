@@ -170,6 +170,20 @@ qx.Class.define("qx.ui.form.AbstractField",
       check : "String",
       nullable : true,
       apply : "_applyPlaceholder"
+    },
+    
+    
+    /**
+     * RegExp responsible for filtering the value of the textfield. the RegExp 
+     * gives the range of valid values.
+     * The following example only allows digits in the textfield.
+     * <pre class='javascript'>field.setFilter(/[0-9]/);</pre> 
+     */
+    filter : 
+    {
+      check : "RegExp",
+      nullable : true,
+      init : null
     }
   },
 
@@ -343,27 +357,59 @@ qx.Class.define("qx.ui.form.AbstractField",
 
     /**
      * Event listener for native input events. Redirects the event
-     * to the widget.
+     * to the widget. Also checks for the filter and max length.
      *
      * @param e {qx.event.type.Data} Input event
      */
     _onHtmlInput : function(e)
     {
       var value = e.getData();
+      var fireEvents = true;
+
       this.__nullValue = false;
-      if (value.length <= this.getMaxLength())
+      
+      // check for the filter
+      if (this.getFilter() != null) 
       {
-        this.fireDataEvent("input", e.getData());
+        var filteredValue = "";
+        var index = value.search(this.getFilter());
+        var processedValue = value;
+        while(index >= 0) 
+        {
+          filteredValue = filteredValue + (processedValue.charAt(index));
+          processedValue = processedValue.substring(index + 1, processedValue.length);
+          index = processedValue.search(this.getFilter());
+        }
+ 
+        if (filteredValue != value) 
+        {
+          fireEvents = false;
+          value = filteredValue;
+          this.getContentElement().setValue(value);
+        }
+      }      
+      
+      // check for the max length
+      if (value.length > this.getMaxLength()) 
+      {
+        var fireEvents = false;
+        this.getContentElement().setValue(value.substr(0, this.getMaxLength()));
+      }
+      
+      // fire the events, if necessary
+      if (fireEvents) 
+      {
+        this.fireDataEvent("input", value);
         // check for the live change event
-        if (this.getLiveUpdate()) {
+        if (this.getLiveUpdate()) 
+        {
           this.fireNonBubblingEvent(
             "changeValue", qx.event.type.Data, [value]
           );
         }
-      } else {
-        this.getContentElement().setValue(value.substr(0, this.getMaxLength()));
       }
     },
+
 
     /*
     ---------------------------------------------------------------------------
