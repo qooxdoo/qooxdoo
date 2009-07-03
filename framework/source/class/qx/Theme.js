@@ -117,17 +117,25 @@ qx.Class.define("qx.Theme",
       }      
     },
 
-    
+    /**
+     * Normalize an object to an array
+     * 
+     * @param objectOrArray {Object|Array} Either an object that is to be 
+     *   normalized to an array, or an array, which is just passed through
+     * 
+     * @return {Array} Either an array that has the original object as its 
+     *   single item, or the original array itself
+     */
     __normalizeArray : function(objectOrArray)
     {
       if (!objectOrArray) {
         return [];
       }
         
-      if (!qx.lang.Type.isArray(objectOrArray)) {
-        return [objectOrArray];
-      } else {
+      if (qx.lang.Type.isArray(objectOrArray)) {
         return objectOrArray;
+      } else {
+        return [objectOrArray];
       }
     },
     
