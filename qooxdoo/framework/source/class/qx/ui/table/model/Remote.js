@@ -111,7 +111,7 @@ qx.Class.define("qx.ui.table.model.Remote",
       init : false
     },
 
-    /*
+    /**
      * Whether to block remote requests for the row count while a request for
      * the row count is pending. Row counts are requested at various times and
      * from various parts of the code, resulting in numerous requests to the
@@ -124,7 +124,6 @@ qx.Class.define("qx.ui.table.model.Remote",
      * slight possibility of an altered count (which will, by the way, be
      * detected soon thereafter upon the next request for the row count). If
      * the old behavior is desired, set this property to false.
-     *
      */
     blockConcurrentLoadRowCount:
     {

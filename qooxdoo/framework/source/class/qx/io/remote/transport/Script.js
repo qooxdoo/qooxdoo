@@ -116,9 +116,9 @@ qx.Class.define("qx.io.remote.transport.Script",
      * This method can be called by the script loaded by the ScriptTransport
      * class.
      *
-     * @signature function()
+     * @signature function(id, content)
      * @param id {String} Id of the corresponding transport object,
-     *     which is passesd as an URL parameter to the server an
+     *     which is passed as an URL parameter to the server an
      * @param content {String} This string is passed to the content property
      *     of the {@link #Response} object.
      */
