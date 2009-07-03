@@ -90,7 +90,7 @@ qx.Class.define("qx.test.ui.embed.Flash",
       this.wait(2000, function()
       {
         var flash = that.__flash.getFlashElement();
-        that.assertNotNull(flash);
+        that.assertNotNull(flash, "DOM element for Flash movie is not created!");
         
         that.assertIdentical("object", flash.nodeName.toLowerCase());
         
