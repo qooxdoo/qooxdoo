@@ -351,7 +351,7 @@ qx.Class.define("qx.ui.form.AbstractField",
     {
       var value = e.getData();
       this.__nullValue = false;
-      if (value.length < this.getMaxLength()) {
+      if (value.length <= this.getMaxLength()) {
         this.fireDataEvent("input", e.getData());
         // check for the live change event
         if (this.getLiveUpdate()) {
