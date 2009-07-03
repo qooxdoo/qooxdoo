@@ -398,10 +398,15 @@ class QxTest:
       if self.buildStatus[appConf['appName']]["BuildError"]:
         self.log("ERROR: Skipping " + appConf['appName'] + " test because there "
                  + "was an error during build:\n  " + self.buildStatus[appConf['appName']]["BuildError"])
+
         if (appConf['sendReport']):
           dummyLogFile = self.getDummyLog(appConf)
-          self.formatLog(dummyLogFile)
-          self.sendReport(appConf['appName'])        
+          logFormatted = self.formatLog(dummyLogFile)
+          if logFormatted:
+            self.sendReport(appConf['appName'])
+          else:
+            self.log("No report HTML to send.")        
+
         return    
       
     if appConf['clearLogs']:
@@ -491,12 +496,15 @@ class QxTest:
         time.sleep(5)
 
     if (appConf['sendReport']):
-      if getReportFrom == 'testLog':
-        self.formatLog(logFile)
+      if (self.sim):
+        self.log("SIMULATION: Formatting log and sending report.\n")
       else:
-        self.formatLog()
-        
-      self.sendReport(appConf['appName'])
+        if getReportFrom == 'testLog':
+          self.formatLog(logFile)
+        else:
+          self.formatLog()
+
+        self.sendReport(appConf['appName'])
 
 
   ##
@@ -636,6 +644,10 @@ class QxTest:
       if 'seleniumLog' in self.seleniumConf:
         log = self.seleniumConf['seleniumLog']
 
+    if not log:
+      self.log("ERROR: No log file to work with")
+      return False
+
     options = FormatterOpts(log, self.seleniumConf['seleniumReport'])
 
     if (self.sim):
@@ -643,6 +655,8 @@ class QxTest:
     else:
       self.log("Formatting log file " + log)  
       logformat = QxLogFormat(options)
+
+    return True
 
 
   ##
