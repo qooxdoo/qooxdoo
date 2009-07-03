@@ -102,9 +102,12 @@ class QxTest:
   # Starts the Selenium RC server and checks its status. If the server doesn't
   # respond correctly after 20 seconds, another attempt is made. If this also 
   # fails the script is ended.
-  def startSeleniumServer(self):
+  def startSeleniumServer(self, single=False):
     if (self.sim):
-      self.log("SIMULATION: Starting Selenium RC server.")
+      if single:
+        self.log("SIMULATION: Starting Selenium RC server in single window mode.")
+      else:
+        self.log("SIMULATION: Starting Selenium RC server in multi window mode.")
       return
 
     import subprocess, time
@@ -115,6 +118,8 @@ class QxTest:
       cmd = self.seleniumConf['startSelenium']
       if 'seleniumLog' in self.seleniumConf:
         cmd += " -browserSideLog -log " + self.seleniumConf['seleniumLog']
+      if single:
+        cmd += " -singlewindow"
       selserv = subprocess.Popen(cmd, shell=True)
     
       # wait a while for the server to start up
@@ -427,7 +432,12 @@ class QxTest:
         if appConf['individualServer']:
           self.log("individualServer set to True, using one server instance per "
                    + "test run")
-      self.startSeleniumServer()
+
+      single = False
+      if "iexplore" in self.browserConf[browser['browserId']]:
+        single = True
+
+      self.startSeleniumServer(single)
 
       cmd = self.getStartCmd(appConf['appName'], browser['browserId'])
       if getReportFrom == 'testLog':
