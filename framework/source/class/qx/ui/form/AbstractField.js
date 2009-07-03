@@ -77,9 +77,7 @@ qx.Class.define("qx.ui.form.AbstractField",
      * The event is fired on every keystroke modifying the value of the field.
      *
      * The method {@link qx.event.type.Data#getData} returns the
-     * current text value of the text field.
-     * 
-     * @deprecated
+     * current value of the text field.
      */
     "input" : "qx.event.type.Data",
 
@@ -87,6 +85,10 @@ qx.Class.define("qx.ui.form.AbstractField",
     /**
      * The event is fired each time the text field looses focus and the
      * text field values has changed.
+     * 
+     * If you change {@link #liveUpdate} to true, the changeValue event will
+     * be fired after every keystroke and not only after every focus loss. In 
+     * that mode, the changeValue event is equal to the {@link #input} event.
      *
      * The method {@link qx.event.type.Data#getData} returns the
      * current text value of the field.
@@ -149,7 +151,8 @@ qx.Class.define("qx.ui.form.AbstractField",
     
     /** 
      * Whether the {@link #changeValue} event should be fired on every key 
-     * input.
+     * input. If set to true, the changeValue event is equal to the 
+     * {@link #input} event.
      */
     liveUpdate : 
     {
@@ -349,7 +352,6 @@ qx.Class.define("qx.ui.form.AbstractField",
       var value = e.getData();
       this.__nullValue = false;
       if (value.length < this.getMaxLength()) {
-        // @deprecated: remove the input event
         this.fireDataEvent("input", e.getData());
         // check for the live change event
         if (this.getLiveUpdate()) {
@@ -433,19 +435,6 @@ qx.Class.define("qx.ui.form.AbstractField",
     _onChangeContent : function(e) {
       this.__nullValue = e.getData() === null;
       this.fireNonBubblingEvent("changeValue", qx.event.type.Data, [e.getData()]);
-    },
-
-    // @deprecated
-    // overridden
-    addListener: function(type, listener, self, capture) {
-      if (type == "input") {
-        qx.log.Logger.deprecatedEventWarning(
-          arguments.callee, 
-          "input",
-          "Please use the changeValue event instead."
-        );        
-      }
-      return this.base(arguments, type, listener, self, capture);
     },
 
 
