@@ -118,7 +118,7 @@ class QxTest:
       self.log("Starting Selenium server...")      
       if 'seleniumLog' in self.seleniumConf:
         cmd += " -browserSideLog -log " + self.seleniumConf['seleniumLog']
-      if single:
+      if single and '102' in cmd:
         cmd += " -singlewindow"
       selserv = subprocess.Popen(cmd, shell=True)
     
