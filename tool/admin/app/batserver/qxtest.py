@@ -103,7 +103,8 @@ class QxTest:
   # respond correctly after 20 seconds, another attempt is made. If this also 
   # fails the script is ended.
   def startSeleniumServer(self, single=False):
-    if (self.sim):
+    cmd = self.seleniumConf['startSelenium']
+    if (self.sim and '101' in cmd):
       if single:
         self.log("SIMULATION: Starting Selenium RC server in single window mode.")
       else:
@@ -114,8 +115,7 @@ class QxTest:
     if (self.isSeleniumServer()):
       self.log("Selenium server already running.")
     else:
-      self.log("Starting Selenium server...")
-      cmd = self.seleniumConf['startSelenium']
+      self.log("Starting Selenium server...")      
       if 'seleniumLog' in self.seleniumConf:
         cmd += " -browserSideLog -log " + self.seleniumConf['seleniumLog']
       if single:
