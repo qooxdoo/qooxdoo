@@ -246,6 +246,7 @@ qx.Class.define("qx.ui.form.Spinner",
       {
         case "textfield":
           control = new qx.ui.form.TextField();
+          control.setFilter(/[0-9,]/);
           control.addState("inner");
           control.setWidth(40);
           control.setFocusable(false);
