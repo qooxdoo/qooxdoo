@@ -477,7 +477,7 @@ qx.Class.define("qx.ui.layout.HBox",
       var children = this.__children;
 
       // Initialize
-      var minWidth=0, width=0;
+      var minWidth=0, width=0, percentMinWidth=0;
       var minHeight=0, height=0;
       var child, hint, margin;
 
@@ -490,9 +490,17 @@ qx.Class.define("qx.ui.layout.HBox",
         // Sum up widths
         width += hint.width;
 
-        // Detect if child is shrinkable and update minWidth
-        minWidth += this.__flexs[i] > 0 ? hint.minWidth : hint.width;
-
+        // Detect if child is shrinkable or has percent width and update minWidth
+        var flex = this.__flexs[i];
+        var percent = this.__widths[i];       
+        if (flex) {
+          minWidth += hint.minWidth;
+        } else if (percent) {
+          percentMinWidth = Math.max(percentMinWidth, Math.round(hint.minWidth/percent));
+        } else {
+          minWidth += hint.width;
+        }
+        
         // Build vertical margin sum
         margin = child.getMarginTop() + child.getMarginBottom();
 
@@ -506,7 +514,9 @@ qx.Class.define("qx.ui.layout.HBox",
           minHeight = hint.minHeight + margin;
         }
       }
-
+      
+      minWidth += percentMinWidth;
+      
       // Respect gaps
       var spacing = this.getSpacing();
       var separator = this.getSeparator();
