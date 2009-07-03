@@ -399,7 +399,6 @@ qx.Class.define("qx.ui.layout.VBox",
 
       // Layouting children
       var hint, left, width, height, marginBottom, marginLeft, marginRight;
-      var spacing = this.getSpacing();
 
       // Pre configure separators
       this._clearSeparators();
@@ -478,7 +477,7 @@ qx.Class.define("qx.ui.layout.VBox",
       var children = this.__children;
 
       // Initialize
-      var minHeight=0, height=0;
+      var minHeight=0, height=0, percentMinHeight=0;
       var minWidth=0, width=0;
       var child, hint, margin;
 
@@ -491,8 +490,16 @@ qx.Class.define("qx.ui.layout.VBox",
         // Sum up heights
         height += hint.height;
 
-        // Detect if child is shrinkable and update minHeight
-        minHeight += this.__flexs[i] > 0 ? hint.minHeight : hint.height;
+        // Detect if child is shrinkable or has percent height and update minHeight
+        var flex = this.__flexs[i];
+        var percent = this.__heights[i];       
+        if (flex) {
+          minHeight += hint.minHeight;
+        } else if (percent) {
+          percentMinHeight = Math.max(percentMinHeight, Math.round(hint.minHeight/percent));
+        } else {
+          minHeight += hint.height;
+        }
 
         // Build horizontal margin sum
         margin = child.getMarginLeft() + child.getMarginRight();
@@ -508,6 +515,8 @@ qx.Class.define("qx.ui.layout.VBox",
         }
       }
 
+      minHeight += percentMinHeight;
+      
       // Respect gaps
       var spacing = this.getSpacing();
       var separator = this.getSeparator();
