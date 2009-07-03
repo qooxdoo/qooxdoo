@@ -42,7 +42,7 @@ qx.Class.define("qx.test.io.remote.transport.XmlHttp",
       this.buggyBrowser = false;
       var engineString = qx.bom.client.Engine.FULLVERSION;
       var engineFloat = parseFloat(engineString);
-      if ( (qx.bom.client.Engine.WEBKIT && engineVersion < 526) 
+      if ( (qx.bom.client.Engine.WEBKIT && engineFloat < 526) 
             || (qx.bom.client.Engine.GECKO && engineString.indexOf("1.8.0") == 0 ) ) {
         this.buggyBrowser = true;
         this.warn("Tests skipped in Safari 3/FF 1.5, see bug #2529");
