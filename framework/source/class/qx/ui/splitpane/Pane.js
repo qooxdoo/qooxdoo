@@ -112,7 +112,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
   {
 
     __splitterOffset : null,
-    __activeDragSession : null,
+    __activeDragSession : false,
     __lastMouseX : null,
     __lastMouseY : null,
     __isHorizontal : null,
@@ -366,7 +366,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
 
       // Cleanup
-      delete this.__activeDragSession;
+      this.__activeDragSession = false;
       this.releaseCapture();
 
       // Update the cursor
@@ -577,9 +577,12 @@ qx.Class.define("qx.ui.splitpane.Pane",
       this.__endSize = endSize;
     },
 
-
-    _isActiveDragSession : function()
-    {
+    /**
+     * Determines whether this is an active drag session
+     * 
+     * @return {Boolean} True if active drag session, otherwise false.
+     */
+    _isActiveDragSession : function() {
       return this.__activeDragSession;
     }
   },
