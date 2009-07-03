@@ -360,6 +360,8 @@ qx.Class.define("qx.ui.control.ColorSelector",
 
         case "hex-field":
           control = new qx.ui.form.TextField("FFFFFF");
+          control.setMaxLength(6);
+          control.setFilter(/[0-9A-Fa-f]/);
           control.setWidth(55);
           control.addListener("changeValue", this._onHexFieldChange, this);
           break;
