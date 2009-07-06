@@ -160,5 +160,10 @@ qx.Class.define("qx.test.ui.virtual.layer.LayerTestCase",
     testOverlapBottomRight : function() {
       this._updateLayerWindow(18, 22, 17, 20);
     }
+  },
+  
+  destruct : function()
+  {
+  	this._disposeFields("layer");
   }
 });
