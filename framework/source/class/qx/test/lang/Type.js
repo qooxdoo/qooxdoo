@@ -176,6 +176,55 @@ qx.Class.define("qx.test.lang.Type",
       
       // test IE issue with a null returned from DOM
       this.assertFalse(Type.isFunction(document.getElementById("ReturenedNull")));
+    },
+    
+    
+    testIsDate: function() {
+      var Type = qx.lang.Type;
+      
+      this.assertTrue(Type.isDate(new Date()));
+      this.assertTrue(Type.isDate(new Date(1981, 1, 10)));
+      this.assertTrue(Type.isDate(new Date(1981, 1, 10, 6, 1, 2)));
+      this.assertTrue(Type.isDate(new Date(516848615165861)));
+      
+      this.assertFalse(Type.isDate());
+      this.assertFalse(Type.isDate(true));
+      this.assertFalse(Type.isDate(""));
+      this.assertFalse(Type.isDate(null));
+      this.assertFalse(Type.isDate(undefined));
+      this.assertFalse(Type.isDate(/g/));
+      this.assertFalse(Type.isDate([]));
+      this.assertFalse(Type.isDate(2));
+      this.assertFalse(Type.isDate({}));
+      this.assertFalse(Type.isDate(new Error()));
+      
+      // test IE issue with a null returned from DOM
+      this.assertFalse(Type.isDate(document.getElementById("ReturenedNull")));      
+    },
+    
+    
+    testIsError: function() {
+      var Type = qx.lang.Type;
+      
+      this.assertTrue(Type.isError(new Error()));
+      this.assertTrue(Type.isError(new Error("")));
+      this.assertTrue(Type.isError(new Error("test")));
+      this.assertTrue(Type.isError(new EvalError()));
+      this.assertTrue(Type.isError(new RangeError()));
+            
+      this.assertFalse(Type.isError());
+      this.assertFalse(Type.isError(true));
+      this.assertFalse(Type.isError(""));
+      this.assertFalse(Type.isError(null));
+      this.assertFalse(Type.isError(undefined));
+      this.assertFalse(Type.isError(/g/));
+      this.assertFalse(Type.isError([]));
+      this.assertFalse(Type.isError(2));
+      this.assertFalse(Type.isError({}));
+      this.assertFalse(Type.isError(new Date()));
+      
+      // test IE issue with a null returned from DOM
+      this.assertFalse(Type.isError(document.getElementById("ReturenedNull")));      
     }
   }
 });
