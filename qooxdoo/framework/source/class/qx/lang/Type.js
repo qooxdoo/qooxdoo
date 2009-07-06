@@ -33,7 +33,8 @@ qx.Bootstrap.define("qx.lang.Type",
       "[object Number]": "Number",
       "[object Boolean]": "Boolean",
       "[object Date]": "Date",      
-      "[object Function]": "Function"
+      "[object Function]": "Function",
+      "[object Error]": "Error"
     },
     
     
@@ -170,11 +171,11 @@ qx.Bootstrap.define("qx.lang.Type",
     
     
     /**
-    * Whether the value is a date.
-    * 
-    * @param value {var} Value to check.
-    * @return {Boolean} Whether the value is a date. 
-    */    
+     * Whether the value is a date.
+     * 
+     * @param value {var} Value to check.
+     * @return {Boolean} Whether the value is a date. 
+     */    
     isDate : function(value)
     {
       // Added "value !== null" because IE throws an exception "Object expected"
@@ -186,6 +187,27 @@ qx.Bootstrap.define("qx.lang.Type",
         value !== null && (
         this.getClass(value) == "Date" ||
         value instanceof Date)
+      );
+    },    
+    
+    
+    /**
+     * Whether the value is a Error.
+     * 
+     * @param value {var} Value to check.
+     * @return {Boolean} Whether the value is a Error. 
+     */    
+    isError : function(value)
+    {
+      // Added "value !== null" because IE throws an exception "Object expected"
+      // by executing "value instanceof Error" if value is a DOM element that 
+      // doesn't exist. It seems that there is a internal different between a 
+      // JavaScript null and a null returned from calling DOM. 
+      // e.q. by document.getElementById("ReturnedNull").
+      return (
+        value !== null && (
+        this.getClass(value) == "Error" ||
+        value instanceof Error)
       );
     },    
 
