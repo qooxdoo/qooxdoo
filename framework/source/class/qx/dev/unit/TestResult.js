@@ -206,5 +206,9 @@ qx.Class.define("qx.dev.unit.TestResult",
       this.fireDataEvent(eventName, error);
       this.fireDataEvent("endTest", test);
     }
+  },
+  
+  destruct : function() {
+    this._disposeFields("__timeout");
   }
 });
