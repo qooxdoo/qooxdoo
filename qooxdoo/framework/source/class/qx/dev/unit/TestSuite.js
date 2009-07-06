@@ -234,5 +234,9 @@ qx.Class.define("qx.dev.unit.TestSuite",
 
       return methods;
     }
+  },
+  
+  destruct : function() {
+    this._disposeArray("__tests");
   }
 });
