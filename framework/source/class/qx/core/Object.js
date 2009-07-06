@@ -541,7 +541,12 @@ qx.Class.define("qx.core.Object",
     fireDataEvent : function(type, data, oldData, cancelable)
     {
       if (!this.$$disposed) {
-        return this.__Registration.fireNonBubblingEvent(this, type, qx.event.type.Data, [data, oldData || null, !!cancelable]);
+        if (oldData === undefined) {
+          oldData = null;
+        }
+        return this.__Registration.fireNonBubblingEvent(
+          this, type, qx.event.type.Data, [data, oldData, !!cancelable]
+        );
       }
 
       return true;
