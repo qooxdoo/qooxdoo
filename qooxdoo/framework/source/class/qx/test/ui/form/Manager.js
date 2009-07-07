@@ -264,6 +264,74 @@ qx.Class.define("qx.test.ui.form.Manager",
       this.assertTrue(this.__username.getValid());
       this.assertTrue(this.__password1.getValid());
       this.assertTrue(this.__password2.getValid());            
-    }  
+    },
+    
+    
+    testReset: function() {
+      // set the initla values
+      this.__username.setValue("A");
+      this.__password1.setValue("B");
+      this.__password2.setValue("C");
+      // add the fields to the form manager
+      this.__manager.add(this.__username);
+      this.__manager.add(this.__password1);
+      this.__manager.add(this.__password2);
+      // change the values of the fields
+      this.__username.setValue("a");
+      this.__password1.setValue("b");
+      this.__password2.setValue("c");      
+      // reset the manager
+      this.__manager.reset();
+      
+      // check if the initial values are reset
+      this.assertEquals("A", this.__username.getValue());
+      this.assertEquals("B", this.__password1.getValue());
+      this.assertEquals("C", this.__password2.getValue());
+      // check if the fields are valid
+      this.assertTrue(this.__username.isValid());
+      this.assertTrue(this.__password1.isValid());
+      this.assertTrue(this.__password2.isValid());            
+      // check the form
+      this.assertNull(this.__manager.isValid());
+    },
+    
+    
+    testRequired: function() {
+      // set all 3 fields to required
+      this.__username.setRequired(true);
+      this.__password1.setRequired(true);
+      this.__password2.setRequired(true);
+
+      // add the fields to the form manager
+      this.__manager.add(this.__username);
+      this.__manager.add(this.__password1);
+      this.__manager.add(this.__password2);      
+      
+      // validate = fail (no text entered)
+      this.assertFalse(this.__manager.validate());
+      this.assertFalse(this.__username.getValid());
+      this.assertFalse(this.__password1.getValid());
+      this.assertFalse(this.__password2.getValid());
+      
+      // enter text to the two passwordfields
+      this.__password1.setValue("1");
+      this.__password2.setValue("2");
+      
+      // validate again = fail (username empty)
+      this.assertFalse(this.__manager.validate());
+      this.assertFalse(this.__username.getValid());
+      this.assertTrue(this.__password1.getValid());
+      this.assertTrue(this.__password2.getValid());            
+      
+      // enter text in the usernamen
+      this.__username.setValue("affe");
+      
+      // validate last time = true
+      this.assertTrue(this.__manager.validate());
+      this.assertTrue(this.__username.getValid());
+      this.assertTrue(this.__password1.getValid());
+      this.assertTrue(this.__password2.getValid());    
+    }
+    
   }
 });
