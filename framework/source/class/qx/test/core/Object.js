@@ -79,6 +79,30 @@ qx.Class.define("qx.test.core.Object",
       }, 3000);
       
       this.wait();
+    },
+    
+    
+    testFireDataEvent: function() {
+      var self = this;
+      var data = [];
+      data.push({value: "a", old: "b"});
+      data.push({value: "a", old: ""});      
+      data.push({value: 1, old: 0});
+      data.push({value: 12, old: -123});
+      data.push({value: true, old: false});
+      data.push({value: false, old: true});
+      data.push({value: /^a/, old: null});
+      data.push({value: ["a"], old: []});
+      
+      for (var i = 0; i < data.length; i++) {
+        this.assertEventFired(this, "eventName", function() {
+          self.fireDataEvent("eventName", data[i].value, data[i].old);
+        }, function(e) {
+          self.assertEquals(data[i].value, e.getData());
+          self.assertEquals(data[i].old, e.getOldData());
+        });        
+      }
     }
+    
   }
 });
