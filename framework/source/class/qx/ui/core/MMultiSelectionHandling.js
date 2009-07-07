@@ -290,7 +290,11 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
         }
       }
       
-      this.__manager.replaceSelection(items);
+      if (items.length === 0) {
+        this.resetSelection();
+      } else {
+        this.__manager.replaceSelection(items);
+      }
     },
     
     /**
