@@ -65,7 +65,8 @@ qx.Class.define("qx.ui.form.Manager",
       {
         item : formItem, 
         name : name,
-        validator : validator
+        validator : validator,
+        init : formItem.getValue()
       };
       this.__formItems.push(dataEntry);
     },
@@ -85,6 +86,13 @@ qx.Class.define("qx.ui.form.Manager",
         
         // ignore all form items without a validator
         if (!qx.lang.Type.isFunction(validator)) {
+          // check for the required property
+          if (formItem.getRequired()) {
+            var validatorResult = !!formItem.getValue();
+            formItem.setValid(validatorResult);
+            formItem.setInvalidMessage("Field is required.");
+            valid = valid && validatorResult;            
+          }
           continue;
         }
         
@@ -99,7 +107,7 @@ qx.Class.define("qx.ui.form.Manager",
         } catch (e) {
           if (e instanceof qx.core.ValidationError) {
             validatorResult = false;
-            formItem.setInvalidMessage(e.getComment());
+            formItem.setInvalidMessage(e.message() || e.getComment());
           } else {
             throw e;
           }
@@ -132,7 +140,7 @@ qx.Class.define("qx.ui.form.Manager",
         } catch (e) {
           if (e instanceof qx.core.ValidationError) {
             formValid = false;
-            this.setInvalidMessage(e.getComment());
+            this.setInvalidMessage(e.message() || e.getComment());
           }
         }
         return formValid;
@@ -155,6 +163,10 @@ qx.Class.define("qx.ui.form.Manager",
       return this.__valid;
     },
     
+    isValid: function() {
+      return this.getValid();
+    },
+    
     
     getInvalidMessages: function() {
       var messages = [];
@@ -171,6 +183,20 @@ qx.Class.define("qx.ui.form.Manager",
       }
       
       return messages;
+    },
+    
+    
+    reset: function() {
+      // reset all form items
+      for (var i = 0; i < this.__formItems.length; i++) {
+        var dataEntry = this.__formItems[i];
+        // set the init value        
+        dataEntry.item.setValue(dataEntry.init);
+        // set the field to valid
+        dataEntry.item.setValid(true);
+      }
+      // set the manager to its inital valid value
+      this.__valid = null;
     }
   }
 });
