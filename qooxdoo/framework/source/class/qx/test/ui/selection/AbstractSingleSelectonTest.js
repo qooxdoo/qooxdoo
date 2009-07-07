@@ -167,6 +167,36 @@ qx.Class.define("qx.test.ui.selection.AbstractSingleSelectonTest",
       }
     },
     
+    testResetSelectionWithEmptySelection : function()
+    {
+      var widget = this._widget;
+      var that = this;
+
+      //Tests that the event is fired and the event contains nothing
+      this.assertEventFired(widget, "changeSelection", function () {
+        widget.setSelection([]);
+        that.flush();
+      }, function(event) {
+        if (that._mode === "one")
+        {
+          that._assertArrayEquals([that._getChildren()[0]], event.getData(),
+            "The first element isn't selected!");
+        } else {
+          that.assertIdentical(0, event.getData().length, "Event isn't empty!");
+        }
+      }, "'changeSelection' event not fired!");
+      
+      // Tests that no item is selected
+      var result = this._widget.getSelection();
+      if (this._mode === "one")
+      {
+        this._assertArrayEquals([this._getChildren()[0]], result,
+          "The first element isn't selected!");
+      } else {
+        this.assertIdentical(0, result.length, "The result isn't empty!");
+      }
+    },
+    
     testIsSelected : function()
     {
       var result = this._widget.isSelected(this._selection[0]);
