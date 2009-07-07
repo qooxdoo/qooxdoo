@@ -199,7 +199,6 @@ qx.Class.define("qx.ui.layout.Atom",
       else
       {
         var remainingWidth = availWidth;
-        var allocatedWidth = 0;
         var shrinkTarget = null;
 
         var count=0;
@@ -210,16 +209,12 @@ qx.Class.define("qx.ui.layout.Atom",
 
           if (width > 0)
           {
-            if (!shrinkTarget && child instanceof qx.ui.basic.Label)
-            {
+            if (!shrinkTarget && child instanceof qx.ui.basic.Label) {
               shrinkTarget = child;
-            }
-            else
-            {
+            } else {
               remainingWidth -= width;
             }
 
-            allocatedWidth += width;
             count++;
           }
         }
@@ -228,11 +223,17 @@ qx.Class.define("qx.ui.layout.Atom",
         {
           var gapSum = (count - 1) * gap;
           remainingWidth -= gapSum;
-          allocatedWidth += gapSum;
         }
 
-        if (center && allocatedWidth < availWidth) {
-          left = Math.round((availWidth - allocatedWidth) / 2);
+        if (shrinkTarget)
+        {
+          var hint = shrinkTarget.getSizeHint();
+          var shrinkTargetWidth = Math.max(hint.minWidth, Math.min(remainingWidth, hint.maxWidth));
+          remainingWidth -= shrinkTargetWidth;
+        }
+        
+        if (center && remainingWidth > 0) {
+          left = Math.round(remainingWidth / 2);
         } else {
           left = 0;
         }
@@ -245,7 +246,7 @@ qx.Class.define("qx.ui.layout.Atom",
           height = Math.min(hint.maxHeight, Math.max(availHeight, hint.minHeight));
 
           if (child === shrinkTarget) {
-            width = Math.max(hint.minWidth, Math.min(remainingWidth, hint.width));
+            width = shrinkTargetWidth;
           } else {
             width = hint.width;
           }
