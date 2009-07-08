@@ -36,7 +36,7 @@ qx.Class.define("qx.log.appender.Util",
       var output = [];
       var item, msg, sub, list;
 
-      output.push("<span class='offset'>", this.formatOffset(entry.offset), "</span> ");
+      output.push("<span class='offset'>", this.formatOffset(entry.offset, 6), "</span> ");
 
       if (entry.object)
       {
@@ -97,10 +97,10 @@ qx.Class.define("qx.log.appender.Util",
 
 
     /**
-     * Formats a numeric time offset to 8 characters.
+     * Formats a numeric time offset to 6 characters.
      *
      * @param offset {Integer} Current offset value
-     * @param length {Integer?8} Refine the length
+     * @param length {Integer?6} Refine the length
      * @return {String} Padded string
      */
     formatOffset : function(offset, length)
@@ -146,6 +146,70 @@ qx.Class.define("qx.log.appender.Util",
       };
 
       return map[ch] || "?";
-    }
+    },
+    
+    
+    /**
+     * Converts a single log entry to plain text
+     *
+     * @param entry {Map} The entry to process
+     * @return {String} the formatted log entry
+     */    
+    toText : function(entry) {
+      return this.toTextArray(entry).join(" ");
+    },
+    
+    
+    /**
+     * Converts a single log entry to an array of plain text
+     *
+     * @param entry {Map} The entry to process
+     * @return {Array} Argument list ready message array.
+     */
+    toTextArray : function(entry)
+    {
+      var output = [];
+
+      output.push(this.formatOffset(entry.offset, 6));
+
+      if (entry.object)
+      {
+        var obj = entry.win.qx.core.ObjectRegistry.fromHashCode(entry.object);
+        if (obj) {
+          output.push(obj.classname + "[" + obj.$$hash + "]:");
+        }
+      }
+      else if (entry.clazz) {
+        output.push(entry.clazz.classname + ":");
+      }
+
+      var items = entry.items;
+      var item, msg;
+      for (var i=0, il=items.length; i<il; i++)
+      {
+        item = items[i];
+        msg = item.text;
+
+        if (msg instanceof Array)
+        {
+          var list = [];
+          for (var j=0, jl=msg.length; j<jl; j++) {
+            list.push(msg[j].text);
+          }
+
+          if (item.type === "map") {
+            output.push("{", list.join(", "), "}");
+          } else {
+            output.push("[", list.join(", "), "]");
+          }
+        }
+        else
+        {
+          output.push(msg);
+        }
+      }
+
+      return output;
+    }    
   }
 })

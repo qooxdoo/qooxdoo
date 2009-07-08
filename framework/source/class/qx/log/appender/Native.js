@@ -48,7 +48,7 @@ qx.Bootstrap.define("qx.log.appender.Native",
       "gecko" : function(entry)
       {
         if (window.console && console.firebug) {
-          console[entry.level].apply(console, this.__toArguments(entry));
+          console[entry.level].apply(console, qx.log.appender.Util.toTextArray(entry));
         }
       },
       
@@ -62,7 +62,7 @@ qx.Bootstrap.define("qx.log.appender.Native",
           }
 
           // IE8 as of RC1 do not support "apply" on the console object methods
-          var args = this.__toArguments(entry).join(" ");
+          var args = qx.log.appender.Util.toText(entry).join(" ");
           console[level](args);
         }
       },      
@@ -77,7 +77,7 @@ qx.Bootstrap.define("qx.log.appender.Native",
           }
 
           // Webkit do not support "apply" on the console object methods
-          var args = this.__toArguments(entry).join(" ");
+          var args = qx.log.appender.Util.toText(entry);
           console[level](args);
         }
       },
@@ -89,68 +89,10 @@ qx.Bootstrap.define("qx.log.appender.Native",
 
         /*
         if (window.opera && opera.postError) {
-          opera.postError.apply(opera, this.__toArguments(entry));
+          opera.postError.apply(opera, qx.log.appender.Util.toTextArray(entry));
         }
         */
       }
-    }),
-
-
-    /**
-     * Internal helper to convert an log entry to a arguments list.
-     *
-     * @param entry {Map} The entry to process
-     * @return {Array} Argument list ready message array.
-     */
-    __toArguments : qx.core.Variant.select("qx.client",
-    {
-      "gecko|webkit|mshtml" : function(entry)
-      {
-        var output = [];
-
-        output.push(entry.offset + "ms");
-
-        if (entry.object)
-        {
-          var obj = entry.win.qx.core.ObjectRegistry.fromHashCode(entry.object);
-          if (obj) {
-            output.push(obj.classname + "[" + obj.$$hash + "]:");
-          }
-        }
-        else if (entry.clazz) {
-          output.push(entry.clazz.classname + ":");
-        }
-
-        var items = entry.items;
-        var item, msg;
-        for (var i=0, il=items.length; i<il; i++)
-        {
-          item = items[i];
-          msg = item.text;
-
-          if (msg instanceof Array)
-          {
-            var list = [];
-            for (var j=0, jl=msg.length; j<jl; j++) {
-              list.push(msg[j].text);
-            }
-
-            if (item.type === "map") {
-              output.push("{", list.join(", "), "}");
-            } else {
-              output.push("[", list.join(", "), "]");
-            }
-          }
-          else
-          {
-            output.push(msg);
-          }
-        }
-
-        return output;
-      },
-
-      "default" : null
     })
   },
 
