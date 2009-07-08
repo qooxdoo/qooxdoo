@@ -286,7 +286,7 @@ class PartBuilder:
             #     or: the package is unshared and smaller than minPackageSizeForUnshared
             self._console.indent()
             self._console.debug("Search a target package for package #%s" % (fromPackage.id,))
-            toPackage = self._getPreviousCommonPackage(fromPackage, parts, packages)
+            toPackage = self._getPreviousCommonPackage1(fromPackage, parts, packages)
             if toPackage != None:
                 self._console.debug("Merge package #%s into #%s" % (fromPackage.id, toPackage.id))
                 self._mergePackage(fromPackage, toPackage, parts, packages, None)
@@ -333,6 +333,21 @@ class PartBuilder:
         for packageId in relevantPackages:
             if relevantPackages.count(packageId) == len(relevantParts):
                 return packages[packageId]
+
+        return None
+
+
+    def _getPreviousCommonPackage1(self, searchPackage, parts, packages):
+        # get a package that is in all parts the searchPackage is in, and is earlier in the
+        # corresponding packages lists
+        searchId            = searchPackage.id
+        allPackages         = reversed(self._sortPackages(packages.keys(), packages))
+
+        for packageId in allPackages:
+            package = packages[packageId]
+            if (searchId & package.id == searchId and
+                package.id != searchId):
+                return package
 
         return None
 
