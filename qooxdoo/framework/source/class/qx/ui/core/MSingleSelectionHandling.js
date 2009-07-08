@@ -88,18 +88,17 @@ qx.Mixin.define("qx.ui.core.MSingleSelectionHandling",
      *    items contains more than one elements. 
      */
     setSelection : function(items) {
-      if (items.length === 0)
+      switch(items.length) 
       {
-        this.resetSelection();
-      }
-      else
-      {
-        this.__getManager().setSelected(items[0]);
-        
-        if (items.length > 1) {
-            throw new Error("Could only select one item, but the selection " +
-              " array contains " + items.length + " items!");
-        }
+        case 0:
+          this.resetSelection();
+          break;
+        case 1:
+          this.__getManager().setSelected(items[0]);
+          break;
+        default:
+          throw new Error("Could only select one item, but the selection " +
+            " array contains " + items.length + " items!");
       }
     },
     
