@@ -23,8 +23,8 @@
  *
  * * Firefox using an installed FireBug.
  * * Safari using new features of Web Inspector.
- * * Opera using the <code>postError</code> (currently disbled through missing funcionality).
- * * Internet Explorer is not yet supported.
+ * * Opera using the <code>postError</code> (currently disabled through missing funcionality).
+ * * Internet Explorer 8.
  */
 qx.Bootstrap.define("qx.log.appender.Native",
 {
@@ -163,7 +163,8 @@ qx.Bootstrap.define("qx.log.appender.Native",
   *****************************************************************************
   */
 
-  defer : function(statics) {
+  defer : function(statics) 
+  {
     if (window.console && window.console.clear) {
       console.clear();
     }
