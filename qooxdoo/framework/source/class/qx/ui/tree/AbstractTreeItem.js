@@ -169,15 +169,15 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
       {
         case "label":
           control = new qx.ui.basic.Label().set({
-            appearance: this.getAppearance() + "-label",
-            alignY: "middle"
+            alignY: "middle",
+            value: this.getLabel()
           });
           break;
 
         case "icon":
           control = new qx.ui.basic.Image().set({
-            appearance: this.getAppearance() + "-icon",
-            alignY: "middle"
+            alignY: "middle",
+            source: this.getIcon()
           });
           break;
 
@@ -364,14 +364,22 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     */
 
     // property apply
-    _applyIcon : function(value, old) {
-      this.getChildControl("icon").setSource(value);
+    _applyIcon : function(value, old)
+    {
+      var icon = this.getChildControl("icon", true);
+      if (icon) {
+        icon.setSource(value);
+      }
     },
 
 
     // property apply
-    _applyLabel : function(value, old) {
-      this.getChildControl("label").setValue(value);
+    _applyLabel : function(value, old)
+    {
+      var label = this.getChildControl("label", true);
+      if (label) {
+        label.setValue(value);
+      }
     },
 
 
@@ -482,7 +490,9 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
         }
       }
 
-      this.__spacer.setWidth((this.getLevel()+1) * this.getIndent() - openWidth);
+      if (this.__spacer) {
+        this.__spacer.setWidth((this.getLevel()+1) * this.getIndent() - openWidth);
+      }
     },
 
 
@@ -690,6 +700,9 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
       {
         var treeItem = arguments[i];
 
+        if (!treeItem.getParent) {
+          debugger;
+        }
         var oldParent = treeItem.getParent();
         if (oldParent) {
           oldParent.remove(treeItem);
@@ -742,6 +755,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
         return;
       }
 
+      if (!treeItem.getParent) debugger;
       var oldParent = treeItem.getParent();
       if (oldParent) {
         oldParent.remove(treeItem);

@@ -48,7 +48,7 @@ qx.Bootstrap.define("qx.log.appender.Native",
       "gecko" : function(entry)
       {
         if (window.console && console.firebug) {
-          console[entry.level].apply(console, qx.log.appender.Util.toTextArray(entry));
+          console[entry.level].call(console, qx.log.appender.Util.toText(entry));
         }
       },
       
