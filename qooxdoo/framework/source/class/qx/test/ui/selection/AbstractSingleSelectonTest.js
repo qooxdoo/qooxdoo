@@ -135,6 +135,9 @@ qx.Class.define("qx.test.ui.selection.AbstractSingleSelectonTest",
       this.assertException(function() {
         that._widget.setSelection(newSelection);
       }, Error, null, "It isn't possible to select more than one element!");
+      
+      this._assertArrayEquals(this._selection, this._widget.getSelection(),
+        "The wrong setSelection call has changed the old seclection!");
     },
     
     testResetSelection : function()
