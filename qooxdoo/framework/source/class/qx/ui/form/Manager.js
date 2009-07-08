@@ -16,6 +16,11 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+/**
+ * EXPERIMENTAL
+ * 
+ * This form manager is responsible for validation and synchronisation.
+ */
 qx.Class.define("qx.ui.form.Manager", 
 {
   extend : qx.core.Object,
