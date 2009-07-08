@@ -133,13 +133,23 @@ qx.Class.define("qx.io.remote.RequestQueue",
 
     
     /**
-     * Get the number of queued requests
+     * Get the queued requests
      * 
-     * @return {Integer} The number of queued requests
+     * @return {Request[} The queued requests
      */
-    getQueueLength : function() {
-      return this.__queue.length;
-    },
+    getRequestQueue : function() {
+      return this.__queue;
+    },    
+    
+    
+    /**
+     * Get the active queued requests
+     * 
+     * @return {Request[} The active queued requests
+     */
+    getActiveQueue : function() {
+      return this.__active;
+    },    
     
     
     /**
