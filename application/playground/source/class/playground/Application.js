@@ -126,7 +126,11 @@ qx.Class.define("playground.Application",
       var playRootEl = this.dummy.getContainerElement().getDomElement();
       this.__playRoot = new qx.ui.root.Inline(playRootEl);
       this.__playRoot._setLayout(new qx.ui.layout.Canvas());
-
+      
+      this.__playRoot.getLayoutParent = function() { return self.playarea; };
+      this.playarea.getChildren = this.playarea._getChildren = 
+        function() { return [self.__playRoot]; };
+      
       this.playarea.addListener("resize", function(e)
       {
         var data = e.getData();
