@@ -1375,19 +1375,16 @@ qx.Class.define("qx.ui.core.selection.Abstract",
           current = this._getLeadItem();
         }
 
-        var first = this._getFirstSelectable();
-        var last = this._getLastSelectable();
-
         if (current !== null)
         {
           switch(key)
           {
             case "Home":
-              next = first;
+              next = this._getFirstSelectable();
               break;
 
             case "End":
-              next = last;
+              next = this._getLastSelectable();
               break;
 
             case "Up":
@@ -1423,14 +1420,14 @@ qx.Class.define("qx.ui.core.selection.Abstract",
             case "Down":
             case "Right":
             case "PageDown":
-              next = first;
+              next = this._getFirstSelectable();
               break;
 
             case "End":
             case "Up":
             case "Left":
             case "PageUp":
-              next = last;
+              next = this._getLastSelectable();
               break;
           }
         }

@@ -68,7 +68,7 @@ qx.Class.define("qx.ui.tree.SelectionManager",
         
         for (var i = 0; i < items.length; i++)
         {
-          if (items[i].isEnabled() && items[i].isVisible()) {
+          if (this._isSelectable(items[i])) {
             result.push(items[i]);
           }
         }
@@ -123,16 +123,18 @@ qx.Class.define("qx.ui.tree.SelectionManager",
     // overridden
     _getRelatedSelectable : function(item, relation)
     {
-
       var widget = this._getWidget();
+      var related = null;
 
       switch (relation)
       {
         case "above":
-          return widget.getPreviousSiblingOf(item, false);
+          related = widget.getPreviousSiblingOf(item, false);
+          break;
 
         case "under":
-          return widget.getNextSiblingOf(item, false);
+          related = widget.getNextSiblingOf(item, false);
+          break;
 
         case "left":
           if (item.isOpenable() && item.isOpen()) {
@@ -146,7 +148,16 @@ qx.Class.define("qx.ui.tree.SelectionManager",
           }
           break;
       }
-      return null;
+      
+      if (!related) {
+        return null;
+      }
+      
+      if (this._isSelectable(related)) {
+        return related;
+      } else {
+        return this._getRelatedSelectable(related, relation); 
+      }
     }
   }
 });
