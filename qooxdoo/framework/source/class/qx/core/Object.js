@@ -540,7 +540,8 @@ qx.Class.define("qx.core.Object",
      */
     fireDataEvent : function(type, data, oldData, cancelable)
     {
-      if (!this.$$disposed) {
+      if (!this.$$disposed)
+      {
         if (oldData === undefined) {
           oldData = null;
         }

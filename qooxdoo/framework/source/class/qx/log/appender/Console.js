@@ -225,7 +225,8 @@ qx.Class.define("qx.log.appender.Console",
      * 
      * @return {void}
      */
-    show: function() {
+    show : function() 
+    {
       if (!this.__main) {
         this.init();
       } else {
