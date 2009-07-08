@@ -464,6 +464,7 @@ qx.Bootstrap.define("qx.log.Logger",
     {
       var type = this.__detect(value);
       var text = "unknown";
+      var trace = [];
 
       switch(type)
       {
@@ -510,10 +511,14 @@ qx.Bootstrap.define("qx.log.Logger",
 
         case "class":
         case "stringify":
-        case "error":
           text = value.toString();
           break;
 
+        case "error":
+          trace = qx.dev.StackTrace.getStackTraceFromError(value);
+          text = value.toString();
+          break;
+          
         case "array":
           if (deep)
           {
@@ -577,7 +582,8 @@ qx.Bootstrap.define("qx.log.Logger",
 
       return {
         type : type,
-        text : text
+        text : text,
+        trace : trace
       };
     }
   }
