@@ -72,26 +72,33 @@ qx.Class.define("demobrowser.demo.showcase.Localization",
       controls.moveTo(50,50);
       controls.open();
 
-      var locales = qx.locale.Manager.getInstance().getAvailableLocales().sort();
+      var localeManager = qx.locale.Manager.getInstance();
+      var locales = localeManager.getAvailableLocales().sort();
+      var currentLocale = localeManager.getLocale();
 
       var l2 = new qx.ui.basic.Label(this.tr("Choose a locale:"));
       controls.add(l2, {row:0,column:0});
 
       var select = new qx.ui.form.SelectBox();
-
+      var defaultListItem = null;
+      
       for (var i=0; i<locales.length; i++) {
         var listItem =new qx.ui.form.ListItem(locales[i]);
         select.add(listItem);
-        if (locales[i]=="en"){
-          var defaultListItem = listItem;
+        if ((!defaultListItem && locales[i] == "en") || locales[i] == currentLocale) {
+          defaultListItem = listItem;
         }
       }
-
+      
       select.addListener("changeSelection", function(e)
       {
         var locale = e.getData()[0].getLabel();
         qx.locale.Manager.getInstance().setLocale(locale);
       });
+
+      if (defaultListItem) {
+      	select.setSelection([defaultListItem]);  
+      }
 
       controls.add(select, {row:0,column:1});
 
