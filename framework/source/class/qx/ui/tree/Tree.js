@@ -199,6 +199,7 @@ qx.Class.define("qx.ui.tree.Tree",
       return this.__content;
     },
 
+    
     // property apply
     _applyRoot : function(value, old)
     {
@@ -224,6 +225,7 @@ qx.Class.define("qx.ui.tree.Tree",
       }
     },
 
+    
     // property apply
     _applyHideRoot : function(value, old)
     {
@@ -236,6 +238,7 @@ qx.Class.define("qx.ui.tree.Tree",
       root.recursiveAddToWidgetQueue();
     },
 
+    
     // property apply
     _applyRootOpenClose : function(value, old)
     {
@@ -246,6 +249,7 @@ qx.Class.define("qx.ui.tree.Tree",
       root.recursiveAddToWidgetQueue();
     },
 
+    
     /**
      * Returns the element, to which the content padding should be applied.
      *
@@ -296,6 +300,7 @@ qx.Class.define("qx.ui.tree.Tree",
       return null;
     },
 
+    
     /**
      * Get the tree item before the given item
      *
@@ -346,6 +351,7 @@ qx.Class.define("qx.ui.tree.Tree",
       }
     },
 
+    
     /**
      * Returns all children of the tree.
      *
@@ -364,6 +370,7 @@ qx.Class.define("qx.ui.tree.Tree",
       }
     },
 
+    
     /**
      * Returns the tree's only "external" child, namely the root node.
      *
@@ -378,6 +385,7 @@ qx.Class.define("qx.ui.tree.Tree",
       }
     },
 
+    
     // overridden
     scrollChildIntoViewY : function(child, align, direct)
     {
@@ -424,6 +432,7 @@ qx.Class.define("qx.ui.tree.Tree",
       return null;
     },
 
+    
     // property apply
     _applyOpenMode : function(value, old)
     {
@@ -440,6 +449,7 @@ qx.Class.define("qx.ui.tree.Tree",
       }
     },
 
+    
     /**
      * Event hander for click events, which could change a tree item's open
      * state.
