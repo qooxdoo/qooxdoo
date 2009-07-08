@@ -338,15 +338,32 @@ class PartBuilder:
 
 
     def _getPreviousCommonPackage1(self, searchPackage, parts, packages):
-        # get a package that is in all parts the searchPackage is in, and is earlier in the
-        # corresponding packages lists
+        # get the "smallest" package (in the sense of _sortPackages()) that is 
+        # in all parts searchPackage is in, and is earlier in the corresponding
+        # packages lists
+
+        def isCommonAndGreaterPackage(searchId, package):  
+            # the same package is not "greater"
+            if package.id == searchId:
+                return False
+            # the next takes advantage of the fact that the package id encodes
+            # the parts a package is used by. if another package id has the
+            # same bits turned on, it is in the same packages. this is only
+            # true for the searchId package itself and package id's that have
+            # more bits turned on (ie. are "greater"); hence, and due to 
+            # _sortPackages, they are earlier in the packages list of the
+            # corresponding parts
+            if searchId & package.id == searchId:
+                return True
+            return False
+
         searchId            = searchPackage.id
         allPackages         = reversed(self._sortPackages(packages.keys(), packages))
+                                # sorting and reversing assures we try "smaller" package id's first
 
         for packageId in allPackages:
             package = packages[packageId]
-            if (searchId & package.id == searchId and
-                package.id != searchId):
+            if isCommonAndGreaterPackage(searchId, package):
                 return package
 
         return None
