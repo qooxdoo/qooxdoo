@@ -40,7 +40,6 @@ qx.Bootstrap.define("qx.log.Logger",
     ---------------------------------------------------------------------------
     */
 
-    __treshold : 50,
     __level : "debug",
 
 
@@ -73,7 +72,7 @@ qx.Bootstrap.define("qx.log.Logger",
      * @return {void}
      */
     setTreshold : function(value) {
-      this.__treshold = value;
+      this.__buffer.setMaxMessages(value);
     },
 
 
@@ -84,7 +83,7 @@ qx.Bootstrap.define("qx.log.Logger",
      * @return {Integer} Treshold value
      */
     getTreshold : function() {
-      return this.__treshold;
+      return this.__buffer.getMaxMessages();
     },
 
 
@@ -124,9 +123,9 @@ qx.Bootstrap.define("qx.log.Logger",
       appender.$$id = id;
 
       // Insert previous messages
-      var buffer = this.__buffer;
-      for (var i=0, l=buffer.length; i<l; i++) {
-        appender.process(buffer[i]);
+      var entries = this.__buffer.getAllLogEvents();
+      for (var i=0, l=entries.length; i<l; i++) {
+        appender.process(entries[i]);
       }
     },
 
@@ -290,6 +289,7 @@ qx.Bootstrap.define("qx.log.Logger",
       }
     },
 
+    
     /**
      * Prints a mixin deprecation warning and a stack trace if the setting
      * <code>qx.debug</code> is set to <code>on</code>.
@@ -310,6 +310,7 @@ qx.Bootstrap.define("qx.log.Logger",
       }
     },
 
+    
     /**
      * Deletes the current buffer. Does not influence message handling of the
      * connected appenders.
@@ -317,7 +318,7 @@ qx.Bootstrap.define("qx.log.Logger",
      * @return {void}
      */
     clear : function() {
-      this.__buffer = [];
+      this.__buffer.clearHistory();
     },
 
 
@@ -329,8 +330,8 @@ qx.Bootstrap.define("qx.log.Logger",
     ---------------------------------------------------------------------------
     */
 
-    /** {Array} Message buffer of previously fired messages. */
-    __buffer : [],
+    /** {qx.log.appender.RingBuffer} Message buffer of previously fired messages. */
+    __buffer : new qx.log.appender.RingBuffer(50),
 
 
     /** {Map} Numeric translation of log levels */
@@ -389,13 +390,8 @@ qx.Bootstrap.define("qx.log.Logger",
         }
       }
 
-      // Update buffer
-      var buffer = this.__buffer;
-      buffer.push(entry);
-      if (buffer.length>(this.__treshold+10)) {
-        buffer.splice(this.__treshold, buffer.length);
-      }
-
+      this.__buffer.process(entry);
+      
       // Send to appenders
       var appender = this.__appender;
       for (var id in appender) {
