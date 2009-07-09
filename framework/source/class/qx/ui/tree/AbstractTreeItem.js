@@ -598,7 +598,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     /**
      * Get all child items.
      *
-     * Note: Don't modifiy the returned array, since this function does not
+     * Note: Don not modify the returned array, since this function does not
      * return a copy!
      *
      * @return {AbstractTreeItem[]} An array of all child items.
@@ -700,9 +700,6 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
       {
         var treeItem = arguments[i];
 
-        if (!treeItem.getParent) {
-          debugger;
-        }
         var oldParent = treeItem.getParent();
         if (oldParent) {
           oldParent.remove(treeItem);
@@ -755,7 +752,6 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
         return;
       }
 
-      if (!treeItem.getParent) debugger;
       var oldParent = treeItem.getParent();
       if (oldParent) {
         oldParent.remove(treeItem);
@@ -798,7 +794,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
         this.assert(this.__children.indexOf(before) >= 0)
       }
 
-      this.addAt(treeItem, this.__children.indexOf(before))
+      this.addAt(treeItem, this.__children.indexOf(before));
     },
 
 
@@ -814,7 +810,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
         this.assert(this.__children.indexOf(after) >= 0)
       }
 
-      this.addAt(treeItem, this.__children.indexOf(after)+1)
+      this.addAt(treeItem, this.__children.indexOf(after)+1);
     },
 
 
