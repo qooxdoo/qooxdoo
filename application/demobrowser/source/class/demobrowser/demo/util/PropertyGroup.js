@@ -227,7 +227,7 @@ qx.Class.define("demobrowser.demo.util.PropertyGroup",
       return function(e)
       {
         var widget = this.getSelected();
-        this._setProperty(widget, property, e.getTarget().getUserData("value"));
+        this._setProperty(widget, property, e.getTarget().getValue());
       }
     },
 
@@ -237,7 +237,7 @@ qx.Class.define("demobrowser.demo.util.PropertyGroup",
       return function(e)
       {
         var widget = this.getSelected();
-        this._setProperty(widget, property, e.getTarget().getUserData("value"));
+        this._setProperty(widget, property, e.getTarget().getValue());
       }
     },
 
@@ -259,14 +259,22 @@ qx.Class.define("demobrowser.demo.util.PropertyGroup",
         var widget = this.getSelected();
         var control = e.getTarget();
 
-        if (control.getUserData("value"))
+        if (control.getValue())
         {
           this._setProperty(widget, property, null);
           this._properties[property].formItem.setEnabled(false);
         }
         else
         {
-          this._setProperty(widget, property, this._properties[property].formItem.getUserData("value"));
+          var value = null;
+          
+          if (this._properties[property].type == "enum") {
+            value = this._properties[property].formItem.getSelection()[0].getUserData("value");
+          } else {
+            value = this._properties[property].formItem.getValue();
+          }
+          
+          this._setProperty(widget, property, value);
           this._properties[property].formItem.setEnabled(true);
         }
       }
@@ -299,25 +307,33 @@ qx.Class.define("demobrowser.demo.util.PropertyGroup",
         {
           if (type == "int")
           {
-            formItem.setUserData("value", parseInt(propValue));
+            formItem.setValue(parseInt(propValue));
           }
           else if (type == "string")
           {
-            formItem.setUserData("value", propValue.toString());
+            formItem.setValue(propValue.toString());
           }
           else if (type == "bool")
           {
-            formItem.setUserData("value", !!propValue);
+            formItem.setValue(!!propValue);
           }
           else if (type == "enum")
           {
-            formItem.setUserData("value", propValue);
+            var items = formItem.getItems();
+            for (var i = 0, l = items.length; i < l; i++)
+            {
+              var item = items[i];
+              if (item.getUserData("value") == propValue) {
+                formItem.setSelection([item]);
+                break;
+              }
+            }
           }
         }
 
         if (nullable)
         {
-          this._properties[prop].nullWidget.setUserData("value", propValue == null);
+          this._properties[prop].nullWidget.setValue(propValue == null);
           this._properties[prop].nullWidget.setEnabled(true);
           formItem.setEnabled(propValue !== null);
         }
