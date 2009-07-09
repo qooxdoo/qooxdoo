@@ -58,7 +58,7 @@ qx.Class.define("demobrowser.demo.util.PropertyEditor",
     }));
 
     var props = qx.lang.Object.clone(demobrowser.demo.util.PropertyGroup.WIDGET_PROPERTIES);
-    props.content = {type:"string", nullable: true};
+    props.value = {type:"string", nullable: true};
 
     this._layoutControls = new demobrowser.demo.util.PropertyGroup(props);
     pane.add(this._layoutControls);
