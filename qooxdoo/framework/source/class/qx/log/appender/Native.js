@@ -18,13 +18,17 @@
 ************************************************************************ */
 
 /**
- * Processes the incoming log entry and displays it to the native
- * logging capabilities of this client.
+ * Processes the incoming log entry and displays it by means of the native
+ * logging capabilities of the client.
  *
+ * Supported browsers:
  * * Firefox using an installed FireBug.
- * * Safari using new features of Web Inspector.
- * * Opera using the <code>postError</code> (currently disabled through missing funcionality).
+ * * Safari using newer features of Web Inspector.
  * * Internet Explorer 8.
+ * 
+ * Currently unsupported browsers:
+ * * Opera using the <code>postError</code> (disabled due to missing 
+ *     functionality in opera as of version 9.6).
  */
 qx.Bootstrap.define("qx.log.appender.Native",
 {
@@ -61,8 +65,8 @@ qx.Bootstrap.define("qx.log.appender.Native",
             level = "log";
           }
 
-          // IE8 as of RC1 do not support "apply" on the console object methods
-          var args = qx.log.appender.Util.toText(entry).join(" ");
+          // IE8 as of RC1 does not support "apply" on the console object methods
+          var args = qx.log.appender.Util.toText(entry);
           console[level](args);
         }
       },      
@@ -76,7 +80,7 @@ qx.Bootstrap.define("qx.log.appender.Native",
             level = "log";
           }
 
-          // Webkit do not support "apply" on the console object methods
+          // Webkit does not support "apply" on the console object methods
           var args = qx.log.appender.Util.toText(entry);
           console[level](args);
         }
@@ -84,8 +88,8 @@ qx.Bootstrap.define("qx.log.appender.Native",
 
       "opera" : function(entry)
       {
-        // Opera's debugging as of 9.6 is not really useful
-        // Our own console makes a lot more sense
+        // Opera's debugging as of 9.6 is not really useful, so currently 
+        // qooxdoo's own console makes more sense
 
         /*
         if (window.opera && opera.postError) {
