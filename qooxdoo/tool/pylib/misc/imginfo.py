@@ -129,10 +129,11 @@ class JpegFile(ImgFile):
             pos  = cont.find("\xFF\xC2")
         if pos < 0:  # no SOF found - give up
             return None
+        pos += 4 # skip marker and length
         
         # extract values from SOF payload
         try:
-            (precision, height, width) = struct.unpack("!BHH", cont[pos+2:pos+7])
+            (precision, height, width) = struct.unpack("!BHH", cont[pos:pos+5])
         except struct.error:
             return None
         return (width, height)
