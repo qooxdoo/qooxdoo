@@ -100,7 +100,7 @@ class JpegFile(ImgFile):
     def type(self):
         return "jpeg"
 
-    def size(self):
+    def size1(self):
         self.fp.seek(2)
 
         while True:
@@ -116,6 +116,26 @@ class JpegFile(ImgFile):
                 return None
 
             self.fp.seek(length-2, 1)  # 1 = SEEK_CUR (2.5)
+
+    def size(self):
+        self.fp.seek(2)
+        
+        # find FFC0 marker
+        cont = self.fp.read()
+        # try Baseline DCT Start-of-frame marker (SOF0) (http://en.wikipedia.org/wiki/Jpeg)
+        pos  = cont.find("\xFF\xC0")
+        if pos < 0:
+            # try Progressive DCT Start-of-frame marker (SOF2)
+            pos  = cont.find("\xFF\xC2")
+        if pos < 0:  # no SOF found - give up
+            return None
+        
+        # extract values from SOF payload
+        try:
+            (precision, height, width) = struct.unpack("!BHH", cont[pos+2:pos+7])
+        except struct.error:
+            return None
+        return (width, height)
 
 
 class ImgInfo(object):
