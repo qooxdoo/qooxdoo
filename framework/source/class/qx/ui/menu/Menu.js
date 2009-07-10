@@ -320,9 +320,12 @@ qx.Class.define("qx.ui.menu.Menu",
 
         // Mark opened in parent menu
         var opener = this.getOpener();
-        var parentMenu = opener.getLayoutParent();
-        if (parentMenu && parentMenu instanceof qx.ui.menu.Menu) {
-          parentMenu.setOpenedButton(opener);
+        if (opener)
+        {
+          var parentMenu = opener.getLayoutParent();
+          if (parentMenu && parentMenu instanceof qx.ui.menu.Menu) {
+            parentMenu.setOpenedButton(opener);
+          }
         }
       }
       else if (old === "visible")
@@ -332,9 +335,12 @@ qx.Class.define("qx.ui.menu.Menu",
 
         // Unmark opened in parent menu
         var opener = this.getOpener();
-        var parentMenu = opener.getLayoutParent();
-        if (parentMenu && parentMenu instanceof qx.ui.menu.Menu && parentMenu.getOpenedButton() == opener) {
-          parentMenu.resetOpenedButton();
+        if (opener)
+        {
+          var parentMenu = opener.getLayoutParent();
+          if (parentMenu && parentMenu instanceof qx.ui.menu.Menu && parentMenu.getOpenedButton() == opener) {
+            parentMenu.resetOpenedButton();
+          }
         }
 
         // Clear properties
