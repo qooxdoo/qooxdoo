@@ -42,7 +42,8 @@ class TreeCompiler:
 
 
     def _loadFiles(self):
-        privates = self._cache.read("privates")
+        cacheId = "privates-%s" % self._context['config']._fname  # use path to main config file for context
+        privates = self._cache.read(cacheId)
         if privates != None:
             self._console.info("Loaded %s private fields" % len(privates))
             privateoptimizer.load(privates)
