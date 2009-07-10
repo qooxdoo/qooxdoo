@@ -37,6 +37,8 @@ qx.Bootstrap.define("qx.log.appender.RingBuffer",
   {
     __nextIndexToStoreTo : 0,
     __history : null,
+    __maxMessages : 50,
+    
     
     /**
      * Set the maximum number of messages to hold. If null the number of
