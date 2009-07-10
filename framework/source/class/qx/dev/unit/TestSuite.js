@@ -147,11 +147,11 @@ qx.Class.define("qx.dev.unit.TestSuite",
     /**
      * Add a method from a class as test to the suite
      *
-     * @param clazz {Class} The class containing the test method
+     * @param testCase {qx.dev.unit.TestCase} The class containing the test method
      * @param functionName {String} The name of the test method
      */
-    addTestMethod : function(clazz, functionName) {
-      this.__tests.push(new qx.dev.unit.TestFunction(clazz, functionName));
+    addTestMethod : function(testCase, functionName) {
+      this.__tests.push(new qx.dev.unit.TestFunction(testCase, functionName));
     },
 
 

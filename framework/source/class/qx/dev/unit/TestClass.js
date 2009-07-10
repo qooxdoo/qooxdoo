@@ -74,11 +74,12 @@ qx.Class.define("qx.dev.unit.TestClass",
     }
 
     var proto = clazz.prototype;
+    var testCase = new clazz;
 
     for (var test in proto)
     {
       if (qx.lang.Type.isFunction(proto[test]) && test.indexOf("test") == 0) {
-        this.addTestMethod(clazz, test);
+        this.addTestMethod(testCase, test);
       }
     }
 
