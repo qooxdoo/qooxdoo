@@ -207,8 +207,10 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
      */
     setGroup : function(value)
     {
-      var legend = this.getChildControl("legend");
-      return value ? legend.setGroup(value) : legend.resetGroup();
+      if (value != null) {
+        value.add(this);
+      }
+      return;
     },
 
 
