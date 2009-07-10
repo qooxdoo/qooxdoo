@@ -38,20 +38,20 @@ qx.Class.define("qx.dev.unit.TestFunction",
    * and a method name to the contructor or second by giving a the method
    * directly.
    *
-   * @param clazz {Class?null} The test class, which contains the test method
+   * @param testCase {qx.dev.unit.TestCase?null} The test class, which contains the test method
    * @param methodName {String?null} The name of the method
    * @param testFunction {Function?null} A reference to a test function. If this
    *    parameter is set the other parameters are ignored.
    */
-  construct : function(clazz, methodName, testFunction)
+  construct : function(testCase, methodName, testFunction)
   {
     if (testFunction) {
       this.setTestFunction(testFunction);
     }
 
-    if (clazz) {
-      this.setClassName(clazz.classname);
-      this.setTestClass(clazz);
+    if (testCase) {
+      this.setClassName(testCase.classname);
+      this.setTestClass(testCase);
     }
 
     this.setName(methodName);
@@ -84,9 +84,8 @@ qx.Class.define("qx.dev.unit.TestFunction",
     /** The test class */
     testClass : 
     { 
-      check : "Class",
-      init : null,
-      apply : "_applyTestClass"
+      check : "qx.dev.unit.TestCase",
+      init : null
     }
   },
 
@@ -101,13 +100,6 @@ qx.Class.define("qx.dev.unit.TestFunction",
   members :
   {
     
-    __inst : null,
-    
-    _applyTestClass : function(value, old) {
-      this.__inst = new value;
-    },
-    
-    
     /**
      * Runs the test and logs the test result to a {@link TestResult} instance,
      *
@@ -115,7 +107,7 @@ qx.Class.define("qx.dev.unit.TestFunction",
      */
     run : function(testResult) 
 		{
-      var inst = this.__inst;
+      var inst = this.getTestClass();
       var method = this.getName();
       var testFunc = this;
       testResult.run(this, function()
@@ -124,9 +116,9 @@ qx.Class.define("qx.dev.unit.TestFunction",
         inst.setTestResult(testResult);
 
         try {
-            inst[method]();
+          inst[method]();
         } catch (ex) {
-            throw ex;
+          throw ex;
         }
       });
       
@@ -137,8 +129,9 @@ qx.Class.define("qx.dev.unit.TestFunction",
      */
     setUp : function() 
     {
-      if (qx.lang.Type.isFunction(this.__inst.setUp)) {
-        this.__inst.setUp();
+      var inst = this.getTestClass();
+      if (qx.lang.Type.isFunction(inst.setUp)) {
+        inst.setUp();
       }
     },
     
@@ -147,8 +140,9 @@ qx.Class.define("qx.dev.unit.TestFunction",
      */    
     tearDown : function() 
     {
-      if (qx.lang.Type.isFunction(this.__inst.tearDown)) {
-        this.__inst.tearDown();
+      var inst = this.getTestClass();
+      if (qx.lang.Type.isFunction(inst.tearDown)) {
+        inst.tearDown();
       }
     },
 
