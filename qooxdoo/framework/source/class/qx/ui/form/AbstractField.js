@@ -574,7 +574,7 @@ qx.Class.define("qx.ui.form.AbstractField",
       )
       {
         this.addState("showingPlaceholder");
-        this.syncAppearance();
+        qx.ui.core.queue.Manager.flush();
         this.getContentElement().setValue(placeholder);
       }
     },
