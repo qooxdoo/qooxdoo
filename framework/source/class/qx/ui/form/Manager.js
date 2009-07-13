@@ -37,7 +37,7 @@ qx.Class.define("qx.ui.form.Manager",
   events : 
   {
     "changeValid" : "qx.event.type.Data",
-    "comlete" : "qx.event.type.Event"
+    "complete" : "qx.event.type.Event"
   },
   
   
@@ -101,7 +101,8 @@ qx.Class.define("qx.ui.form.Manager",
             var validatorResult = !!formItem.getValue();
             formItem.setValid(validatorResult);
             formItem.setInvalidMessage("Field is required.");
-            valid = valid && validatorResult;            
+            valid = valid && validatorResult;
+            this.__syncValid = validatorResult && this.__syncValid;           
           }
           continue;
         }
@@ -118,9 +119,17 @@ qx.Class.define("qx.ui.form.Manager",
       
       // check the form validator (be sure to invoke it even if the form 
       // items are already false, so keep the order!)
-      valid = this.__validateForm(items) && valid;
+      var formValid = this.__validateForm(items);
+      if (qx.lang.Type.isBoolean(formValid)) {
+        this.__syncValid = formValid && this.__syncValid;           
+      }
+      valid = formValid && valid;
       
       this.__setValid(valid);
+
+      if (qx.lang.Object.isEmpty(this.__asyncResults)) {
+        this.fireEvent("complete");
+      }
       return valid;
     },
 

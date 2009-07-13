@@ -37,7 +37,7 @@ qx.Class.define("demobrowser.demo.ui.FormManager",
       this.getRoot().add(username, {left: 20, top: 70});
       
       // create a textfield for the email address
-      var email = new qx.ui.form.TextField();
+      var email = new qx.ui.form.TextField("fakeMailAddress");
       email.setPlaceholder("email address");
       email.setWidth(150);      
       this.getRoot().add(email, {left: 20, top: 100});
@@ -70,8 +70,22 @@ qx.Class.define("demobrowser.demo.ui.FormManager",
         return valid;
       };
       
-      // add the username without validator (required flag is set)
-      manager.add(username);
+      // create a async validator function
+      var userNameValidator = new qx.ui.form.AsyncValidator(
+        function(validator, value) {
+          // use a timeout instad of a server request (async)
+          window.setTimeout(function() {
+            if (value == null || value.length == 0) {
+              validator.setValid(false, "Server said no!");
+            } else {
+              validator.setValid(true);
+            }
+          }, 1000);
+        }
+      );
+      
+      // add the username with a async validator
+      manager.add(username, null, userNameValidator);
       // add the email with a predefined email validator
       manager.add(email, null, qx.util.Validate.email());
       // add the password fields with the notEmpty validator
@@ -95,20 +109,34 @@ qx.Class.define("demobrowser.demo.ui.FormManager",
 
       
       // create the buttons for validation and reset
+      var reset = new qx.ui.form.Button("Reset");
+      this.getRoot().add(reset, {left: 20, top: 215});
+      reset.addListener("execute", function() {
+        manager.reset();
+      }, this);
+
       var send = new qx.ui.form.Button("Send");
-      this.getRoot().add(send, {left: 20, top: 215});
+      this.getRoot().add(send, {left: 80, top: 215});
       send.addListener("execute", function() {
-        if (manager.validate()) {
+        // configure the send button
+        send.setEnabled(false);
+        send.setLabel("Validating...");        
+        // return type can not be used because of async validation
+        manager.validate()
+      }, this);
+
+
+      // add a listener to the form manager for the validation complete
+      manager.addListener("complete", function() {
+        // configure the send button
+        send.setEnabled(true);
+        send.setLabel("Send");
+        // check the validation status
+        if (manager.getValid()) {
           alert("You can send...");
         } else {
           alert(manager.getInvalidMessages().join("\n"));
         }
-      }, this);
-      
-      var reset = new qx.ui.form.Button("Reset");
-      this.getRoot().add(reset, {left: 80, top: 215});
-      reset.addListener("execute", function() {
-        manager.reset();
       }, this);
       
       

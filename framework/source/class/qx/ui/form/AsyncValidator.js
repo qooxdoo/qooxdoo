@@ -51,7 +51,7 @@ qx.Class.define("qx.ui.form.AsyncValidator",
       this.__item = item;
       this.__manager = manager;
       // invoke the user set validator function
-      this.__validatorFunction(this, value, item);
+      this.__validatorFunction(this, value);
     },
     
     
@@ -65,10 +65,19 @@ qx.Class.define("qx.ui.form.AsyncValidator",
     },
     
     
-    setValid: function(valid) {
+    setValid: function(valid, message) {
+      // valid processing
       if (this.__usedForForm) {
+        // message processing
+        if (message !== undefined) {
+          this.__manager.setInvalidMessage(message);
+        }
         this.__manager.setFormValid(valid);
       } else {
+        // message processing
+        if (message !== undefined) {
+          this.__item.setInvalidMessage(message);
+        }
         this.__manager.setItemValid(this.__item, valid);        
       }
     }
