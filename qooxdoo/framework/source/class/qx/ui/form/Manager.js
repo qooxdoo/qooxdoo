@@ -45,8 +45,7 @@ qx.Class.define("qx.ui.form.Manager",
   {
     validator : 
     {  
-      check : "value instanceof Function || " + 
-        "qx.Class.isSubClassOf(value.constructor, qx.ui.form.AsyncValidator)",
+      check : "value instanceof Function || qx.Class.isSubClassOf(value.constructor, qx.ui.form.AsyncValidator)",
       init : null,
       nullable : true
     },
