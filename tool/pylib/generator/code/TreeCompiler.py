@@ -48,7 +48,8 @@ class TreeCompiler:
             self._console.info("Loaded %s private fields" % len(privates))
             privateoptimizer.load(privates)
 
-        #protected = self._cache.read("protected")
+        #cacheId = "protected-%s" % self._context['config']._fname
+        #protected = self._cache.read(cacheId)
         #if protected != None:
         #    self._console.info("Loaded %s protected fields" % len(protected))
         #    protectedoptimizer.load(protected)
