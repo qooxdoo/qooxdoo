@@ -63,13 +63,10 @@ qx.Class.define("qx.test.ui.form.Manager",
       }
     },
     
-    __asyncValidator : function(validator, value, formItem) {
+    __asyncValidator : function(validator, value) {
       window.setTimeout(function() {
         var valid = value != null && value.length > 0;
-        if (!valid) {
-          formItem.setInvalidMessage("fail");
-        }
-        validator.setValid(valid);
+        validator.setValid(valid, "fail");
       }, 100);
     },
     
@@ -91,10 +88,18 @@ qx.Class.define("qx.test.ui.form.Manager",
       // enter text in the usernamen
       this.__username.setValue("affe");
       
-      // validate last time = true
+      // validate = true
       this.assertTrue(this.__manager.validate());
       this.assertTrue(this.__manager.getValid());      
-      this.assertTrue(this.__username.getValid());      
+      this.assertTrue(this.__username.getValid());
+      
+      // remove the username
+      this.__username.resetValue();
+      
+      // validate = faíl
+      this.assertFalse(this.__manager.validate());
+      this.assertFalse(this.__manager.getValid());      
+      this.assertFalse(this.__username.getValid());      
     },
     
     
@@ -160,13 +165,22 @@ qx.Class.define("qx.test.ui.form.Manager",
       // enter text in the usernamen
       this.__username.setValue("affe");
       
-      // validate last time = true
+      // validate = true
       this.assertTrue(this.__manager.validate());
       this.assertTrue(this.__username.getValid());
       this.assertTrue(this.__password1.getValid());
       this.assertTrue(this.__password2.getValid());    
-      
       this.assertEquals(0, this.__manager.getInvalidMessages().length);
+      
+      // remove the username
+      this.__username.resetValue();
+      
+      // validate last time = false
+      this.assertFalse(this.__manager.validate());
+      this.assertFalse(this.__username.getValid());
+      this.assertTrue(this.__password1.getValid());
+      this.assertTrue(this.__password2.getValid());    
+      this.assertEquals(1, this.__manager.getInvalidMessages().length);      
     },
     
     
@@ -273,13 +287,22 @@ qx.Class.define("qx.test.ui.form.Manager",
       this.assertEquals(0, this.__manager.getInvalidMessages().length);
       this.assertTrue(this.__username.getValid());
       this.assertTrue(this.__password1.getValid());
-      this.assertTrue(this.__password2.getValid());            
+      this.assertTrue(this.__password2.getValid());  
+      
+      // change back to not valid
+      this.__password1.setValue("user");
+      
+      // not ok
+      this.assertFalse(this.__manager.validate());
+      this.assertFalse(this.__manager.getValid());
+      this.assertEquals(1, this.__manager.getInvalidMessages().length);
+      this.assertTrue(this.__username.getValid());         
     },
     
     // //////////////////////////////
 
 
-  // reset and required ///////////
+    // reset and required ///////////
     
     testReset: function() {
       // set the initla values
@@ -599,7 +622,7 @@ qx.Class.define("qx.test.ui.form.Manager",
       
       this.__manager.add(this.__username, null, asyncValidator1);
       this.__manager.add(this.__password1, null, this.__notEmptyValidator);
-      this.__manager.add(this.__password2, null, this.__notEmptyValidator);            
+      this.__manager.add(this.__password2, null, this.__notEmptyValidator);
       
       this.__manager.addListener("complete", function() {
         this.resume(function() {
@@ -644,6 +667,30 @@ qx.Class.define("qx.test.ui.form.Manager",
       this.__manager.validate();
       
       this.wait();
+    },
+    
+    
+    testMixedSelfContained2SyncRequired : function(attribute) {
+      var asyncValidator1 = new qx.ui.form.AsyncValidator(this.__asyncValidator);
+      
+      this.__password1.setRequired(true);
+      this.__manager.add(this.__username, null, asyncValidator1);
+      this.__manager.add(this.__password1);
+      
+      this.__manager.addListener("complete", function() {
+        this.resume(function() {
+          // check the status after the complete
+          this.assertFalse(this.__manager.isValid());
+          this.assertTrue(this.__username.getValid());
+          this.assertFalse(this.__password1.getValid());
+        }, this);
+      }, this);
+      
+      this.__username.setValue("a");
+      
+      this.__manager.validate();
+      
+      this.wait();      
     },
     // //////////////////////////////
     
@@ -793,7 +840,8 @@ qx.Class.define("qx.test.ui.form.Manager",
       this.wait();
     }    
     
-    
-        
+    // //////////////////////////////
+
+
   }
 });
