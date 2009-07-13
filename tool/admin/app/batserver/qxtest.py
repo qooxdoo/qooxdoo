@@ -301,8 +301,7 @@ class QxTest:
       self.buildStatus = status
       self.log("Remote build status retrieved successfully.")
     except ValueError, e:    
-      self.log("ERROR: Unable to parse buildStatus JSON: " + json.read() + ": "
-               + e.message)
+      self.log("ERROR: Unable to parse buildStatus JSON: " + repr(e))
       
     return status
 
