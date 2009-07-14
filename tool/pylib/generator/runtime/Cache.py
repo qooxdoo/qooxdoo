@@ -29,6 +29,7 @@ memcache = {}
 class Cache:
     def __init__(self, path, console):
         self._path = path
+        self._check_path(self._path)
         self._lock_file = self._lock_cache(self._path)
         if not self._lock_file:
             raise RuntimeError, "The cache is currently in use by another process"
@@ -36,6 +37,16 @@ class Cache:
 
     def __del__(self):
         self._unlock_cache(self._lock_file)
+
+    def _check_path(self, path):
+        if not os.path.exists(path):
+            filetool.directory(path)
+        elif not os.path.isdir(path):
+            raise RuntimeError, "The cache path is not a directory: %s" % path
+        else: # it's an existing directory
+            # defer read/write access to the first call of read()/write()
+            pass
+
 
     def _unlock_cache(self, path):
         #filetool.unlock(path)
