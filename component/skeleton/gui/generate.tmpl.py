@@ -68,4 +68,5 @@ else:
     argList = ['"%s"' % x for x in argList]  # quote argv elements
     
 cmd = " ".join(argList)
-subprocess.call(cmd, shell=True)
+retval = subprocess.call(cmd, shell=True)
+sys.exit(retval)
