@@ -429,10 +429,13 @@ qx.Class.define("qx.event.handler.Mouse",
     {
       "webkit" : function(domEvent, type, target)
       {
-        if (type == "contextmenu")
+        if (qx.bom.client.Engine.VERSION < 530)
         {
-          this.__fireEvent(domEvent, "mousedown", target);
-          this.__fireEvent(domEvent, "mouseup", target);
+          if (type == "contextmenu")
+          {
+            this.__fireEvent(domEvent, "mousedown", target);
+            this.__fireEvent(domEvent, "mouseup", target);
+          }
         }
       },
 
