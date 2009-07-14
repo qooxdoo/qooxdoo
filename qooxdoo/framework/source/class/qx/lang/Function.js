@@ -395,7 +395,7 @@ qx.Bootstrap.define("qx.lang.Function",
      */
     listener : function(func, self, varargs)
     {
-      if (arguments.length > 2)
+      if (arguments.length < 3)
       {
         return function(event)
         {
