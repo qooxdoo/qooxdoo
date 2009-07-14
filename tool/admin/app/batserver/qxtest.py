@@ -411,7 +411,7 @@ class QxTest:
     if appConf['clearLogs']:
       self.clearLogs()
 
-    getReportFrom = 'serverLog'
+    getReportFrom = 'testLog'
     try:
       getReportFrom = self.testConf['getReportFrom']
     except:
