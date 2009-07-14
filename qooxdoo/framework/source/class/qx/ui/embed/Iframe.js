@@ -138,8 +138,7 @@ qx.Class.define("qx.ui.embed.Iframe",
      */
     nativeContextMenu :
     {
-      check : "Boolean",
-      apply : "_applyNativeContextMenu",
+      refine: true,
       init : false
     },
    
