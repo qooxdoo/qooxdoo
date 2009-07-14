@@ -328,7 +328,7 @@ qx.Class.define("qx.ui.basic.Image",
 
           if (!self.__warned[source])
           {
-            this.debug("Unknown image: " + source);
+            this.debug("try to load a unmanaged relative image: " + source);
             self.__warned[source] = true;
           }
         }
