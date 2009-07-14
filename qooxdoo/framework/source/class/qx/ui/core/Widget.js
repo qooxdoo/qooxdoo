@@ -82,6 +82,7 @@ qx.Class.define("qx.ui.core.Widget",
     // Initialize properties
     this.initFocusable();
     this.initSelectable();
+    this.initNativeContextMenu();
   },
 
 
@@ -755,6 +756,21 @@ qx.Class.define("qx.ui.core.Widget",
       apply : "_applyContextMenu",
       nullable : true,
       event : "changeContextMenu"
+    },
+    
+    
+    /**
+     * Whether the native context menu should be enabled for this widget. To
+     * globally enable the native context menu set the {@link #nativeContextMenu}
+     * property of the root widget ({@link qx.ui.root.Abstract}) to
+     * <code>true</code>. 
+     */
+    nativeContextMenu :
+    {
+      check : "Boolean",
+      init : false,
+      themeable : true, 
+      apply : "_applyNativeContextMenu"
     },
 
 
@@ -3099,7 +3115,7 @@ qx.Class.define("qx.ui.core.Widget",
       // Apply qooxdoo attribute
       this.__containerElement.setAttribute("qxSelectable", value ? "on" : "off");
 
-      // Webkit, as of Safari 3.0, is the only client who supports 	 
+      // Webkit, as of Safari 3.0, is the only client which supports 	 
       // CSS userSelect the right way. 	 
       if (qx.core.Variant.isSet("qx.client", "webkit")) { 	 
         this.__containerElement.setStyle("userSelect", value ? "normal" : "none"); 	 
@@ -3149,6 +3165,12 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
     */
 
+    // property apply
+    _applyNativeContextMenu : function(value, old, name) {
+      // empty body to allow overriding
+    },
+    
+    
     // property apply
     _applyContextMenu : function(value, old)
     {
