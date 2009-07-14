@@ -28,6 +28,9 @@ qx.Bootstrap.define("qx.util.ResourceManager",
   {
     /** {Map} the shared image registry */
     __registry : qx.$$resources || {},
+    
+    /** {Map} prefix per library used in HTTPS mode for IE */
+    __urlPrefix : {},
 
 
     /**
@@ -128,8 +131,7 @@ qx.Bootstrap.define("qx.util.ResourceManager",
         return id;
       }
 
-      if (typeof entry === "string")
-      {
+      if (typeof entry === "string") {
         var lib = entry;
       }
       else
@@ -142,8 +144,52 @@ qx.Bootstrap.define("qx.util.ResourceManager",
           return id;
         }
       }
-
-      return window.qxlibraries[lib].resourceUri + "/" + id;
+      
+      var urlPrefix;
+      if (qx.core.Variant.isSet("qx.ssl", "on") && qx.core.Variant.isSet("qx.client", "mshtml")) {
+        urlPrefix = this.__urlPrefix[lib];
+      } else {
+        urlPrefix = "";
+      }
+      
+      return urlPrefix + window.qxlibraries[lib].resourceUri + "/" + id;
+    }
+  },
+  
+  
+  defer : function(statics)
+  {
+    if (qx.core.Variant.isSet("qx.ssl", "on") && qx.core.Variant.isSet("qx.client", "mshtml"))
+    {
+      if (window.location.protocol === "https:")
+      {
+        for (var lib in window.qxlibraries)
+        {
+          var resourceUri = window.qxlibraries[lib].resourceUri;
+        
+          // It is valid to to begin a URL with "//" so this case has to
+          // be considered. If the to resolved URL begins with "//" the
+          // manager prefixes it with "https:" to avoid any problems for IE
+          if (resourceUri.match(/^\/\//) != null) {
+            statics.__urlPrefix[lib] = window.location.protocol;
+          }
+          // If the resolved URL begins with "./" the final URL has to be
+          // put together using the document.URL property.
+          // IMPORTANT: this is only applicable for the source version
+          else if (resourceUri.match(/^\.\//) != null && qx.core.Setting.get("qx.isSource"))
+          {
+            var url = document.URL;
+            statics.__urlPrefix[lib] = url.substring(0, url.lastIndexOf("/"));
+          } else if (resourceUri.match(/^https:/) != null) {
+            // Let absolute URLs pass through
+          } 
+          else 
+          {
+            var href = window.location.href;
+            statics.__urlPrefix[lib] = href.substring(0, href.lastIndexOf("/") + 1);
+          }
+        }
+      }
     }
   }
 });
