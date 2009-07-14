@@ -52,6 +52,23 @@ qx.Class.define("qx.ui.table.pane.Pane",
   },
 
 
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+
+
+  events : 
+  { 
+    /** 
+     * Whether the current view port of the pane has not loaded data.
+     * The data object of the event indicates if the table pane has to reload
+     * data or not. Can be used to give the user feedback of the loading state
+     * of the rows.
+     */
+    "paneReloadsData" : "qx.event.type.Data"
+  },
 
 
   /*
@@ -484,6 +501,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
       }
 
       var rowsArr = [];
+      var paneReloadsData = false;
       for (var row=firstRow; row < firstRow + rowCount; row++)
       {
         var selected = selectionModel.isSelectedIndex(row);
@@ -504,6 +522,10 @@ qx.Class.define("qx.ui.table.pane.Pane",
         cellInfo.selected = selected;
         cellInfo.focusedRow = focusedRow;
         cellInfo.rowData = tableModel.getRowData(row);
+        
+        if (!cellInfo.rowData) {
+          paneReloadsData = true;
+        }
 
         rowHtml.push('<div ');
 
@@ -542,6 +564,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
         this.__rowCacheSet(row, rowString, selected, focusedRow);
         rowsArr.push(rowString);
       }
+      this.fireDataEvent("paneReloadsData", paneReloadsData);
       return rowsArr.join("");
     },
 
