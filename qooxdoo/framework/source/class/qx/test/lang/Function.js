@@ -105,6 +105,17 @@ qx.Class.define("qx.test.lang.Function",
     },
     
     
+    testBindWithUndefinedArguments : function()
+    {
+      var undef;
+      var callback = function(undef, arg) {
+        this.assertTrue(arg)
+      }
+      var bound = qx.lang.Function.bind(callback, this, undef, true);
+      bound();
+    },
+    
+    
     testCreateDelayGlobalError : function()
     {
       var fail = function() {
