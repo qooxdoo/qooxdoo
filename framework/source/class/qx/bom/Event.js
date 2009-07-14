@@ -176,6 +176,32 @@ qx.Bootstrap.define("qx.bom.Event",
       }
 
       e.cancelBubble = true;
+    },
+    
+    
+    /**
+     * Fires a synthetic native event on the given element.
+     *
+     * @param target {Element} DOM element to fire event on
+     * @param type {String} Name of the event to fire
+     */
+    fire : function(target, type)
+    {
+      // dispatch for IE
+      if (document.createEventObject)
+      {
+        var evt = document.createEventObject();
+        return target.fireEvent("on" + type, evt);
+      }
+
+      // dispatch for others
+      else
+      {
+        var evt = document.createEvent("HTMLEvents");
+        evt.initEvent(type, true, true);
+        
+        return !target.dispatchEvent(evt);
+      }
     }
   }
 });
