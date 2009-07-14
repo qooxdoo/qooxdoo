@@ -124,13 +124,14 @@ qx.Class.define("qx.ui.root.Abstract",
 
 
     /**
-     * Whether to show the native context menu
+     * Whether the native context menu should be globally enabled. Setting this
+     * property to <code>true</code> will allow native context menus in all
+     * child widgets of this root.
      */
     nativeContextMenu :
     {
-      check : "Boolean",
-      apply : "_applyNativeContextMenu",
-      init : true
+      refine : true,
+      init : false
     },
     
     
@@ -220,7 +221,11 @@ qx.Class.define("qx.ui.root.Abstract",
      *
      * @param e {qx.event.type.Mouse} The event object
      */
-    _onNativeContextMenu : function(e) {
+    _onNativeContextMenu : function(e)
+    {
+      if (e.getTarget().getNativeContextMenu()) {
+        return;
+      }
       e.preventDefault();
     },
     
