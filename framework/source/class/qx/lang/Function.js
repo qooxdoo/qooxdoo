@@ -346,7 +346,7 @@ qx.Bootstrap.define("qx.lang.Function",
       return this.create(func,
       {
         self  : self,
-        args  : varargs !== undefined ? qx.lang.Array.fromArguments(arguments, 2) : null
+        args  : arguments.length > 2 ? qx.lang.Array.fromArguments(arguments, 2) : null
       });
     },
 
@@ -376,7 +376,7 @@ qx.Bootstrap.define("qx.lang.Function",
     curry : function(func, varargs)
     {
       return this.create(func, {
-        args  : varargs !== undefined ? qx.lang.Array.fromArguments(arguments, 1) : null
+        args  : arguments.length > 1 ? qx.lang.Array.fromArguments(arguments, 1) : null
       });
     },
 
@@ -395,7 +395,7 @@ qx.Bootstrap.define("qx.lang.Function",
      */
     listener : function(func, self, varargs)
     {
-      if (varargs === undefined)
+      if (arguments.length > 2)
       {
         return function(event)
         {
@@ -456,7 +456,7 @@ qx.Bootstrap.define("qx.lang.Function",
       {
         self    : self,
         attempt : true,
-        args    : varargs !== undefined ? qx.lang.Array.fromArguments(arguments, 2) : null
+        args    : arguments.length > 2 ? qx.lang.Array.fromArguments(arguments, 2) : null
       })();
     },
 
@@ -491,7 +491,7 @@ qx.Bootstrap.define("qx.lang.Function",
       {
         delay : delay,
         self  : self,
-        args  : varargs !== undefined ? qx.lang.Array.fromArguments(arguments, 3) : null
+        args  : arguments.length > 3 ? qx.lang.Array.fromArguments(arguments, 3) : null
       })();
     },
 
@@ -523,7 +523,7 @@ qx.Bootstrap.define("qx.lang.Function",
       {
         periodical : interval,
         self       : self,
-        args       : varargs !== undefined ? qx.lang.Array.fromArguments(arguments, 3) : null
+        args       : arguments.length > 3 ? qx.lang.Array.fromArguments(arguments, 3) : null
       })();
     }
   }
