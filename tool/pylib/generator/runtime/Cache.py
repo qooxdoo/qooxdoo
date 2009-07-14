@@ -29,8 +29,32 @@ memcache = {}
 class Cache:
     def __init__(self, path, console):
         self._path = path
+        self._lock_file = self._lock_cache(self._path)
+        if not self._lock_file:
+            raise RuntimeError, "The cache is currently in use by another process"
         self._console = console
 
+    def __del__(self):
+        self._unlock_cache(self._lock_file)
+
+    def _unlock_cache(self, path):
+        #filetool.unlock(path)
+        if path and os.path.exists(path):
+            #print "xxx releasing cache lock"
+            os.unlink(path)
+
+    def _lock_cache(self, path):
+        #print "xxx creating cache lock"
+        lockfile = os.path.join(path, "lock-generator")
+        try:
+            fd = os.open(lockfile, os.O_CREAT|os.O_EXCL|os.O_RDWR)
+        except:
+            return None
+        if fd:
+            os.close(fd)
+            return lockfile
+        else:
+            return None
 
     def filename(self, cacheId):
         cacheId = cacheId.encode('utf-8')

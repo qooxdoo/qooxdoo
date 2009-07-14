@@ -141,7 +141,9 @@ Arguments:
         console.head("Executing: %s" % job.name, True)
         console.debug("Expanded job config:")
         console.debug(pprint.pformat(config.getJob(job).getData()))
-        Generator(config, job, console).run()
+        generatorObj = Generator(config, job, console)
+        generatorObj.run()
+        generatorObj._cache.__del__()   # clean-up cache object
 
 
 if __name__ == '__main__':
