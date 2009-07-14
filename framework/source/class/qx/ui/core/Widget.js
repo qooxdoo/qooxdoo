@@ -105,26 +105,34 @@ qx.Class.define("qx.ui.core.Widget",
      */
     disappear : "qx.event.type.Event",
     
-    
     /**
      * Fired after the creation of a child control. The passed data is the
      * newly created child widget.
      */
     createChildControl : "qx.event.type.Data",
+    
 
-
-
-    /** Fired on resize (after layouting) of the widget. 
-     *  The data property of the event contains the widget's computed location
-     *  and dimension as returned by {@link qx.ui.core.LayoutItem#getBounds}
+    /**
+     * Fired on resize (after layouting) of the widget. 
+     * The data property of the event contains the widget's computed location
+     * and dimension as returned by {@link qx.ui.core.LayoutItem#getBounds}
      */
     resize : "qx.event.type.Data",
 
-    /** Fired on move (after layouting) of the widget.
-     *  The data property of the event contains the widget's computed location
-     *  and dimension as returned by {@link qx.ui.core.LayoutItem#getBounds}
+    /** 
+     * Fired on move (after layouting) of the widget.
+     * The data property of the event contains the widget's computed location
+     * and dimension as returned by {@link qx.ui.core.LayoutItem#getBounds}
      */
     move : "qx.event.type.Data",
+    
+    /**
+     * Fired after the appearance has been applied. This happens before the 
+     * widget becomes visible, on state and appearance changes. The data field
+     * contains the state map. This can be used to react on state changes or to
+     * read properties set by the appearance. 
+     */
+    syncAppearance : "qx.event.type.Data",
 
 
 
@@ -2848,6 +2856,8 @@ qx.Class.define("qx.ui.core.Widget",
           this[unstyler[prop]]();
         }
       }
+      
+      this.fireDataEvent("syncAppearance", this.__states);
     },
 
 
