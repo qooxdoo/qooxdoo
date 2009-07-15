@@ -442,8 +442,12 @@ class QxTest:
         single = True
 
       self.startSeleniumServer(single)
+      
+      options = False
+      if "options" in browser:
+        options = browser["options"]
 
-      cmd = self.getStartCmd(appConf['appName'], browser['browserId'])
+      cmd = self.getStartCmd(appConf['appName'], browser['browserId'], options)
       if getReportFrom == 'testLog':
         cmd += " logFile=" + logFile
       
@@ -514,23 +518,34 @@ class QxTest:
   #   local Simulator contrib checkout
   # @param browser {str} A browser identifier (one of the keys in browserConf)
   # @return {str} The shell command
-  def getStartCmd(self, aut, browser):
+  def getStartCmd(self, aut, browser, options):
     cmd = "java"
+
     if ('classPath' in self.testConf):
         cmd += " -cp " + self.testConf['classPath']
+
     cmd += " org.mozilla.javascript.tools.shell.Main"    
     cmd += " " + self.testConf['simulatorSvn'] + "/trunk/tool/selenium/simulation/" + aut.lower() + "/test_" + aut.lower() + ".js"
     cmd += " autHost=" + self.autConf['autHost']
     cmd += " autPath="
+
     if 'autQxPath' in self.autConf:
       cmd += self.autConf['autQxPath']
+
     cmd += self.autConf['autPath' + aut]
     cmd += " simulatorSvn=" + self.testConf['simulatorSvn']
+
     if (self.os == "Windows"):
       cmd += " testBrowser=" + self.browserConf[browser]
     else:
       cmd += " testBrowser='" + self.browserConf[browser] + "'"
+
     cmd += " browserId='" + browser + "'"
+
+    if options:
+      for opt in options:
+        cmd += " " + opt
+
     return cmd
 
 
