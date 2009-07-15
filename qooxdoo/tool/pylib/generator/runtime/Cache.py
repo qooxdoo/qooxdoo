@@ -62,7 +62,7 @@ class Cache:
     def lock(self):
         #print "xxx creating cache lock"
         path = self._path
-        lockfile = os.path.join(path, "lock-cache")
+        lockfile = os.path.join(path, "cache.lock")
         try:
             fd = os.open(lockfile, os.O_CREAT|os.O_EXCL|os.O_RDWR)
         except:
