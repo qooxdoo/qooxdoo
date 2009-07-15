@@ -37,7 +37,7 @@ qx.Class.define("qx.test.log.Logger",
       
       if (qx.core.Variant.isSet("qx.client", "webkit|gecko"))
       {
-        if (window.navigator.userAgent.indexOf("Chrome") !== -1) {
+        if (window.navigator.userAgent.indexOf("Chrome") === -1) {
           this.assert(events[0].items[0].trace.length > 0);
         }
       }
