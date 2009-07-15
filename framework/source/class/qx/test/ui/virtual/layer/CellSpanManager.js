@@ -296,5 +296,10 @@ qx.Class.define("qx.test.ui.virtual.layer.CellSpanManager",
       columnConfig.dispose();              
     }
     
+  },
+  
+  destruct : function()
+  {
+    this._disposeFields("cellSpan", "rowConfig", "columnConfig");
   }
 });
