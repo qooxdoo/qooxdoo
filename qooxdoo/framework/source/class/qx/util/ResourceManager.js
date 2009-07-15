@@ -146,7 +146,8 @@ qx.Bootstrap.define("qx.util.ResourceManager",
       }
       
       var urlPrefix = "";
-      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+      if (qx.core.Variant.isSet("qx.client", "mshtml") &&
+          qx.bom.client.Feature.SSL) {
         urlPrefix = this.__urlPrefix[lib];
       }
       
