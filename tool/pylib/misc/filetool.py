@@ -264,7 +264,7 @@ def unlock2(fd):
     return
 
 def lock(path):
-    print "xxx creating file lock: %r" % path
+    #print "xxx creating file lock on: %r" % path
     lockfile = lockFileName(path)
     try:
         fd = os.open(lockfile, os.O_CREAT|os.O_EXCL|os.O_RDWR)
@@ -276,3 +276,8 @@ def lock(path):
     else:
         return None
 
+def unlock(path):
+    lockfile = lockFileName(path)
+    if lockfile and os.path.exists(lockfile):
+        #print "xxx releasing file lock on: %r" % path
+        os.unlink(lockfile)
