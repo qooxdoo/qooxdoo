@@ -50,21 +50,30 @@ import graph
 
 
 class Generator:
-    def __init__(self, config, job, console_):
+    #def __init__(self, config, job, console_):
+    def __init__(self, context):
         global console
-        self._config    = config
-        self._job       = config.getJob(job)
-        self._console   = console_
+        self._config    = context['config']  #config
+        self._job       = context['jobconf'] #config.getJob(job)
+        self._console   = context['console'] #console_
         self._variants  = {}
         self._settings  = {}
         self.approot    = None
 
-        cache_path      = self._job.get("cache/compile", "cache")
-        cache_path      = self._config.absPath(cache_path)
-        self._cache     = Cache(cache_path, self._console)
+        if 'cache' in context:
+            self._cache = context['cache']
+        else:
+            cache_path  = self._job.get("cache/compile", "cache")
+            cache_path  = self._config.absPath(cache_path)
+            self._cache = Cache(cache_path, self._console)
 
-        console = console_
+        console = self._console
 
+
+
+    def close(self):
+        # do some clean-up when this object is no longer used
+        self._cache.close()  # needed to cleanly remove the cache lock
 
 
     # This is the main dispatch method to run a single job. It uses the top-
@@ -1030,9 +1039,11 @@ class Generator:
         self._console.info("Executing shell command \"%s\"..." % shellcmd)
         self._console.indent()
 
+        self._cache.unlock()   # give up cache, since the next is synchronous
         rc = self._shellCmd.execute(shellcmd, self._config.getConfigDir())
         if rc != 0:
             raise RuntimeError, "Shell command returned error code: %s" % repr(rc)
+        self._cache.lock()     # re-acquire cache
         self._console.outdent()
 
 

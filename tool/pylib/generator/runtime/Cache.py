@@ -30,13 +30,19 @@ class Cache:
     def __init__(self, path, console):
         self._path = path
         self._check_path(self._path)
-        self._lock_file = self._lock_cache(self._path)
+        self._lock_file = self.lock()
         if not self._lock_file:
             raise RuntimeError, "The cache is currently in use by another process"
+        self._closed  = False
         self._console = console
 
     def __del__(self):
-        self._unlock_cache(self._lock_file)
+        if getattr(self, '_closed', None) and not self._closed:
+            self.unlock()
+
+    def close(self):
+        self.unlock()
+        self._closed = True
 
     def _check_path(self, path):
         if not os.path.exists(path):
@@ -47,16 +53,16 @@ class Cache:
             # defer read/write access to the first call of read()/write()
             pass
 
-
-    def _unlock_cache(self, path):
-        #filetool.unlock(path)
+    def unlock(self):
+        path = getattr(self, "_lock_file", None)
         if path and os.path.exists(path):
             #print "xxx releasing cache lock"
             os.unlink(path)
 
-    def _lock_cache(self, path):
+    def lock(self):
         #print "xxx creating cache lock"
-        lockfile = os.path.join(path, "lock-generator")
+        path = self._path
+        lockfile = os.path.join(path, "lock-cache")
         try:
             fd = os.open(lockfile, os.O_CREAT|os.O_EXCL|os.O_RDWR)
         except:

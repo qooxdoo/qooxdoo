@@ -25,6 +25,7 @@ from optparseext.ExtendAction import ExtendAction
 from generator.Generator import Generator
 from generator.config.Config import Config
 from generator.runtime.Log import Log
+from generator.runtime.Cache import Cache
 
 ## TODO: The next on is a hack, and should be removed once all string handling is
 ## properly done in unicode; it is advisable to comment out the call to setdefaultencoding()
@@ -136,14 +137,44 @@ Arguments:
     # To see fully expanded config:
     #console.info(pprint.pformat(config.get(".")))
 
+    # Acquire a cache lock
+    cache_path = getCachePath(config, expandedjobs) # try to find a cache path
+    if cache_path:
+        cache = Cache(cache_path, console)
+    else:
+        cache = None
+
     # Processing jobs...
+    context = {'config': config, 'console':console, 'cache':cache, 'jobconf':None}
     for job in expandedjobs:
         console.head("Executing: %s" % job.name, True)
         console.debug("Expanded job config:")
         console.debug(pprint.pformat(config.getJob(job).getData()))
-        generatorObj = Generator(config, job, console)
+
+        ctx = context.copy()
+        ctx['jobconf'] = config.getJob(job)
+
+        # is this job running against the common cache?
+        if ctx['cache']: 
+            curr_cache = ctx['jobconf'].get("cache/compile", None)
+            if curr_cache and curr_cache != ctx['cache']._path:  # if this job has a different cache path
+                del ctx['cache']  # leave out cache setting for this job, so it creates its own cache object
+        generatorObj = Generator(ctx)
         generatorObj.run()
-        generatorObj._cache.__del__()   # clean-up cache object
+        if 'cache' not in ctx:
+            generatorObj.close()  # make sure an individual cache object is unlocked
+
+    if cache:
+        cache.unlock()
+
+
+def getCachePath(config, jobnames):
+    for jobname in jobnames:
+        jobconf = config.getJob(jobname)
+        cache_path = jobconf.get("cache/compile", None)
+        if cache_path:
+            return cache_path  # take the first we get 
+    return None
 
 
 if __name__ == '__main__':
