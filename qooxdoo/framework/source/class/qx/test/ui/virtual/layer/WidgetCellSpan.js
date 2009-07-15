@@ -28,7 +28,12 @@ qx.Class.define("qx.test.ui.virtual.layer.WidgetCellSpan",
     {
       this._pool = [];
       this.base(arguments);
-    },  
+    }, 
+    
+    tearDown : function() {
+      this._disposeArray("_pool");
+      this.__cellRenderer.dispose();
+    },
   
     
     _createLayer : function() 
@@ -136,5 +141,10 @@ qx.Class.define("qx.test.ui.virtual.layer.WidgetCellSpan",
       
       layer.destroy();
     }
+  },
+  
+  destruct : function()
+  {
+    this._disposeFields("__cellRenderer");
   }
 });
