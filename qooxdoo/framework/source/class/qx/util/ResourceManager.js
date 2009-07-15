@@ -159,6 +159,12 @@ qx.Bootstrap.define("qx.util.ResourceManager",
   {
     if (qx.core.Variant.isSet("qx.client", "mshtml"))
     {
+      // To avoid a "mixed content" warning in IE when the application is
+      // delivered via HTTPS a prefix has to be added. This will transform the
+      // relative URL to an absolute one in IE.
+      // Though this warning is only displayed in conjunction with images which
+      // are referenced as a CSS "background-image", every resource path is
+      // changed when the application is served with HTTPS.
       if (qx.bom.client.Feature.SSL)
       {
         for (var lib in window.qxlibraries)
