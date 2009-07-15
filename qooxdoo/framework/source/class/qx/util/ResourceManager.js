@@ -145,11 +145,9 @@ qx.Bootstrap.define("qx.util.ResourceManager",
         }
       }
       
-      var urlPrefix;
-      if (qx.core.Variant.isSet("qx.ssl", "on") && qx.core.Variant.isSet("qx.client", "mshtml")) {
+      var urlPrefix = "";
+      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
         urlPrefix = this.__urlPrefix[lib];
-      } else {
-        urlPrefix = "";
       }
       
       return urlPrefix + window.qxlibraries[lib].resourceUri + "/" + id;
@@ -159,9 +157,9 @@ qx.Bootstrap.define("qx.util.ResourceManager",
   
   defer : function(statics)
   {
-    if (qx.core.Variant.isSet("qx.ssl", "on") && qx.core.Variant.isSet("qx.client", "mshtml"))
+    if (qx.core.Variant.isSet("qx.client", "mshtml"))
     {
-      if (window.location.protocol === "https:")
+      if (qx.bom.client.Feature.SSL)
       {
         for (var lib in window.qxlibraries)
         {
