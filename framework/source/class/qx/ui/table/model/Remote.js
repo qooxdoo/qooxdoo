@@ -161,6 +161,16 @@ qx.Class.define("qx.ui.table.model.Remote",
 
     __loadRowCountRequestRunning : false,
 
+    /**
+     * Returns whether the current request is ignored by the model.
+     * 
+     * @return {Boolean} true when the current request is ignored by the model.
+     */
+    _getIgnoreCurrentRequest : function()
+    {
+      return this.__ignoreCurrentRequest;
+    },
+
     // overridden
     getRowCount : function()
     {
