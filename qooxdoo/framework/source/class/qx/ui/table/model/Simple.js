@@ -307,19 +307,48 @@ qx.Class.define("qx.ui.table.model.Simple",
      *   The index of the column or which the sort methods are being
      *   provided.
      *
-     * @param methods {Map}
-     *   Map with two properties: "ascending" and "descending".  The
-     *   property value of each is a comparator function which takes two
-     *   parameters: the two arrays of row data, row1 and row2, being
-     *   compared.  It may determine which column to of the row data to sort
-     *   on by accessing arguments.callee.columnIndex.  Each comparator
-     *   function must return 1, 0 or -1, when the column in row1 is greater
-     *   than, equal to, or less than, respectively, the column in row2.
+     * @param compare {Function|Map}
+     *   If provided as a Function, this is the comparator function to sort in
+     *   ascending order. It takes two parameters: the two arrays of row data,
+     *   row1 and row2, being compared. It may determine which column of the
+     *   row data to sort on by accessing arguments.callee.columnIndex.  The
+     *   comparator function must return 1, 0 or -1, when the column in row1
+     *   is greater than, equal to, or less than, respectively, the column in
+     *   row2.
+     *
+     *   If this parameter is a Map, it shall have two properties: "ascending"
+     *   and "descending". The property valuee of each is a comparator
+     *   function, as described above.
+     *
+     *   If only the "ascending" function is provided (i.e. this parameter is
+     *   a Function, not a Map), then the "descending" function is built
+     *   dynamically by passing the two parameters to the "ascending" function
+     *   in reversed order. <i>Use of a dynamically-built "descending" function
+     *   generates at least one extra function call for each row in the table,
+     *   and possibly many more. If the table is expected to have more than
+     *   about 1000 rows, you will likely want to provide a map with a custom
+     *   "descending" sort function as well as the "ascending" one.</i>
      *
      * @return {void}
      */
-    setSortMethods : function(columnIndex, methods)
+    setSortMethods : function(columnIndex, compare)
     {
+      var methods;
+      if (qx.lang.Type.isFunction(compare))
+      {
+        methods =
+          {
+            ascending  : compare,
+            descending : function(row1, row2)
+            {
+              return compare(row2, row1);
+            }
+          };
+      }
+      else
+      {
+        methods = compare;
+      }
       this.__sortMethods[columnIndex] = methods;
     },
 
