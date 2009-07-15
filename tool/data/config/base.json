@@ -305,6 +305,8 @@
     {
       "desc"    : "remove the cache and all generated artefacts of this library (source, build, ...)",
 
+      "cache"   : { "compile" : "${CACHE}" },    // this is to check cache lock
+
       "clean-files" :
       {
         "Deleting build" :
