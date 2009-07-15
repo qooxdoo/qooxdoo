@@ -239,7 +239,7 @@ def unlock1(path):
         return False
 
 
-def lock(fd, write=False):
+def lock2(fd, write=False):
     if sys.platform == "win32":
         if write:
             flag = msvcrt.LK_RLCK
@@ -254,7 +254,7 @@ def lock(fd, write=False):
     return
 
 
-def unlock(fd):
+def unlock2(fd):
     if sys.platform == "win32":
         os.lseek(fd, 0, 0)  # make sure we're at the beginning
         msvcrt.locking(fd, msvcrt.LK_UNLCK, 10) # assuming first 10 bytes!
@@ -262,4 +262,17 @@ def unlock(fd):
         fcntl.flock(fd, fcntl.LOCK_UN)
 
     return
+
+def lock(path):
+    print "xxx creating file lock: %r" % path
+    lockfile = lockFileName(path)
+    try:
+        fd = os.open(lockfile, os.O_CREAT|os.O_EXCL|os.O_RDWR)
+    except:
+        return None
+    if fd:
+        os.close(fd)
+        return lockfile
+    else:
+        return None
 
