@@ -193,6 +193,12 @@ qx.Bootstrap.define("qx.util.ResourceManager",
             statics.__urlPrefix[lib] = href.substring(0, href.lastIndexOf("/") + 1);
           }
         }
+      } 
+      else 
+      {
+        for (var lib in window.qxlibraries) {  
+          statics.__urlPrefix[lib] = "";
+        }
       }
     }
   }
