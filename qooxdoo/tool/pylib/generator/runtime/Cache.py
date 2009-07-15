@@ -142,6 +142,7 @@ class Cache:
                 return None
 
         try:
+            #filetool.lock(cacheFile)
             fobj = open(cacheFile, 'rb')
             #filetool.lock(fobj.fileno())
 
@@ -149,6 +150,7 @@ class Cache:
 
             #filetool.unlock(fobj.fileno())
             fobj.close()
+            #filetool.unlock(cacheFile)
 
             if memory:
                 memcache[cacheId] = content
@@ -171,13 +173,15 @@ class Cache:
 
         if writeToFile:
             try:
-                fobj = open(cacheFile, 'wb')
                 #filetool.lock(fobj.fileno(), write=True)
+                #filetool.lock(cacheFile)
+                fobj = open(cacheFile, 'wb')
 
                 pickle.dump(content, fobj, 2)
 
                 #filetool.unlock(fobj.fileno())
                 fobj.close()
+                #filetool.unlock(cacheFile)
 
             except (IOError, EOFError, pickle.PickleError, pickle.PicklingError):
                 self._console.error("Could not store cache to %s" % self._path)
