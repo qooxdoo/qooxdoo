@@ -394,7 +394,6 @@ qx.Bootstrap.define("qx.core.Variant",
     statics.define("qx.debug", [ "on", "off" ], "on");
     statics.define("qx.aspects", [ "on", "off" ], "off");
     statics.define("qx.dynlocale", [ "on", "off" ], "on");
-    statics.define("qx.ssl", [ "on", "off" ], "off");
 
     statics.__init();
   }
