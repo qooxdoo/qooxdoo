@@ -544,7 +544,7 @@ class QxTest:
 
     if options:
       for opt in options:
-        cmd += " " + opt
+        cmd += ' "' + opt + '"'
 
     return cmd
 
