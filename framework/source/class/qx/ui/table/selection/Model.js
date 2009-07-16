@@ -205,6 +205,17 @@ qx.Class.define("qx.ui.table.selection.Model",
     getAnchorSelectionIndex : function() {
       return this.__anchorSelectionIndex;
     },
+    
+    
+    /**
+     * Sets the anchor selection index. Only use this function, if you want manipulate
+     * the selection manually.
+     * 
+     * @param index {Integer} the index to set. 
+     */
+    _setAnchorSelectionIndex : function(index) {
+      this.__anchorSelectionIndex = index;
+    },
 
 
     /**
@@ -215,6 +226,29 @@ qx.Class.define("qx.ui.table.selection.Model",
      */
     getLeadSelectionIndex : function() {
       return this.__leadSelectionIndex;
+    },
+
+
+    /**
+     * Sets the lead selection index. Only use this function, if you want manipulate
+     * the selection manually.
+     * 
+     * @param index {Integer} the index to set.
+     */
+    _setLeadSelectionIndex : function(index) {
+      this.__leadSelectionIndex = index;
+    },
+
+
+    /**
+     * Returns an array that holds all the selected ranges of the table. Each
+     * entry is a map holding information about the "minIndex" and "maxIndex" of the
+     * selection range.
+     * 
+     * @return {Map[]} array with all the selected ranges.
+     */
+    _getSelectedRangeArr : function() {
+      return this.__selectedRangeArr;
     },
 
 
