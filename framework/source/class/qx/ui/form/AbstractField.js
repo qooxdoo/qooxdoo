@@ -563,7 +563,8 @@ qx.Class.define("qx.ui.form.AbstractField",
      * Helper to show the placeholder text in the field. It checks for all 
      * states and possible conditions and shows the placeholder only if allowed.
      */
-    _showPlaceholder : function() {
+    _showPlaceholder : function() 
+    {
       var fieldValue = this.getValue() || "";
       var placeholder = this.getPlaceholder();
       if (

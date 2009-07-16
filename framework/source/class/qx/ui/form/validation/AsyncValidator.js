@@ -20,7 +20,7 @@
  * <h3>EXPERIMENTAL!</h3>
  * 
  * This class is responsible for validation in all asynchronous cases and 
- * should always be used with {@link qx.ui.form.Manager}.
+ * should always be used with {@link qx.ui.form.validation.Manager}.
  * 
  * 
  * It acts like a wrapper for asynchron validation functions. These 
@@ -38,7 +38,7 @@
  * *Warning:* Instances of this class can only be used with one input 
  * field at a time. Multi usage is not supported!
  */
-qx.Class.define("qx.ui.form.AsyncValidator", 
+qx.Class.define("qx.ui.form.validation.AsyncValidator", 
 {
   extend : qx.core.Object,
 
@@ -62,7 +62,7 @@ qx.Class.define("qx.ui.form.AsyncValidator",
     
     /**
      * The validate function should only be called by 
-     * {@link qx.ui.form.Manager}.
+     * {@link qx.ui.form.validation.Manager}.
      * 
      * It stores the given information and calls the validation function set in
      * the constructor. The method is used for form fields only. Validating a 
@@ -70,7 +70,8 @@ qx.Class.define("qx.ui.form.AsyncValidator",
      * 
      * @param item {qx.ui.core.Widget} The form item which should be validated.
      * @param value {var} The value of the form item.
-     * @param manager {qx.ui.form.Manager} A reference to the form manager.
+     * @param manager {qx.ui.form.validation.Manager} A reference to the form 
+     *   manager.
      * 
      * @internal
      */
@@ -87,14 +88,15 @@ qx.Class.define("qx.ui.form.AsyncValidator",
     
     /**
      * The validateForm function should only be called by 
-     * {@link qx.ui.form.Manager}.
+     * {@link qx.ui.form.validation.Manager}.
      * 
      * It stores the given information and calls the validation function set in
      * the constructor. The method is used for forms only. Validating a 
      * form item will be invokes with {@link #validate}.
      * 
      * @param items {qx.ui.core.Widget[]} All form items of the form manager.
-     * @param manager {qx.ui.form.Manager} A reference to the form manager.
+     * @param manager {qx.ui.form.validation.Manager} A reference to the form 
+     *   manager.
      * 
      * @internal
      */
@@ -127,17 +129,17 @@ qx.Class.define("qx.ui.form.AsyncValidator",
         }
         this.__manager.setItemValid(this.__item, valid);        
       }
+    },
+
+
+    /*
+     *****************************************************************************
+        DESTRUCT
+     *****************************************************************************
+     */
+
+    destruct : function() {
+      this._disposeFields("__manager", "__item");      
     }
-  },
-  
-  
-  /*
-   *****************************************************************************
-      DESTRUCT
-   *****************************************************************************
-   */
-  
-  destruct : function() {
-    this._disposeFields("__manager", "__item");
   }
 });
