@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.ui.FormValidation",
+qx.Class.define("demobrowser.demo.ui.FormInvalids",
 {
   extend : qx.application.Standalone,
 
