@@ -39,12 +39,33 @@ sys.path.append( os.path.join('..', '..', 'bin') )
 class QxTest:
   def __init__(self, testType="remote", seleniumConf=None, testConf=None, 
                autConf=None, browserConf=None, mailConf=None):
+    
+    defaultSeleniumConf = {
+      'startSelenium'       : 'java -jar ../../selenium/current/selenium-server.jar',
+      'seleniumHost'        : 'http://localhost:4444',
+      'seleniumReport'      : '../../reports/selenium-report.html'
+    }
+    
+    defaultTestConf = {
+      'simulateTest'        : False,
+      'getReportFrom'       : 'testLog',
+      'testLogDir'          : '../../logs',
+      'classPath'           : '../../selenium/current/selenium-java-client-driver.jar:../../rhino/current/js.jar',
+      'proxyEnable'         : 'wscript ../../tool/proxyEnable.vbs',
+      'proxyDisable'        : 'wscript ../../tool/proxyDisable.vbs'
+    }
+    
+    defaultMailConf = {
+      'reportFile'          : '../../reports/selenium-report.html',
+      'archiveDir'          : '../../reports'
+    }
+    
     self.testType = testType
-    self.seleniumConf = seleniumConf
-    self.testConf = testConf
+    self.seleniumConf = self.getConfig(defaultSeleniumConf, seleniumConf)
+    self.testConf = self.getConfig(defaultTestConf, testConf)
+    self.mailConf = self.getConfig(defaultMailConf, mailConf)    
     self.autConf = autConf
     self.browserConf = browserConf
-    self.mailConf = mailConf
     self.trunkrev = None
     self.buildStatus = {}
 
@@ -85,6 +106,19 @@ class QxTest:
 
     import socket
     socket.setdefaulttimeout(10)
+
+
+  ##
+  # Adds options from the default configuration dictionary to the custom
+  # configuration dictionary if they're not already defined. 
+  #
+  # @param default {dict} The default configuration
+  # @param custom {dict} The custom configuration 
+  def getConfig(self, default, custom):
+    for option in default:
+      if not option in custom:
+        custom[option] = default[option]
+    return custom
 
   ##
   # Writes a message to the test log file
@@ -172,6 +206,14 @@ class QxTest:
   #
   # @param buildConf {dict} Build configuration 
   def buildAll(self, buildConf):
+    defaultBuildConf = {
+      'buildLogLevel'       : 'error',
+      'buildLogDir'         : '../../logs/build',
+      'batbuild'            : 'tool/admin/app/batserver/batbuild.py'
+    }
+    
+    buildConf = self.getConfig(defaultBuildConf, buildConf)
+    
     for target in buildConf['targets']:
       # Prepare log file
       if ('buildLogDir' in buildConf):
