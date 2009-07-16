@@ -336,5 +336,9 @@ qx.Class.define("qx.test.ui.Focus",
       
       this.input.show();
     }    
+  },
+  
+  destruct : function() {
+    this._disposeFields("ref", "input")
   }
 });

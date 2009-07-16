@@ -216,5 +216,10 @@ qx.Class.define("qx.test.ui.virtual.Scroller",
       this.configureScroller(300, 201, 350, 250);
       this.assertScrollbars(false, false);      
     }
+  },
+  
+  destruct : function()
+  {
+    this._disposeFields("scroller");
   }
 });

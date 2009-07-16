@@ -423,5 +423,10 @@ qx.Class.define("qx.test.ui.virtual.Axis",
       this.warn("find time (worst case): " + ((end - start) / this.FIND_ITER) + "ms");        
     }
     
+  },
+  
+  destruct : function()
+  {
+    this._disposeFields("axis");
   }
 });
