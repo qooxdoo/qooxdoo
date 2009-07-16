@@ -371,13 +371,18 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
             readParamList(item, stream)
             item = readObjectOperation(stream, item)
     elif stream.currIsType("reserved", "VOID"):
-        stream.next(item)
+        #stream.next(item)
+        #item = createItemNode("void", stream)
+        #stream.next(item)
+        #item.addChild(readStatement(stream, expressionMode))
+        #stream.expectCurrType("token", "RP")
+        #stream.next(item, True)
+        #item = readObjectOperation(stream, item)
+        ## [BUG #2599] ported this from TYPEOF operator
         item = createItemNode("void", stream)
+        item.set("left", True)
         stream.next(item)
-        item.addChild(readStatement(stream, expressionMode))
-        stream.expectCurrType("token", "RP")
-        stream.next(item, True)
-        item = readObjectOperation(stream, item)
+        item.addListChild("first", readExpression(stream))
     elif stream.currIsType("token", "LP"):
         igroup = createItemNode("group", stream)
         stream.next(igroup)
@@ -586,6 +591,7 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
 
     # check whether this is a combined statement, e.g. "bla(), i++"
     if not expressionMode and not inStatementList and stream.currIsType("token", "COMMA"):
+    #[BUG #2599] if not inStatementList and stream.currIsType("token", "COMMA"):
         statementList = createItemNode("statementList", stream)
         statementList.addChild(item)
         while stream.currIsType("token", "COMMA"):
