@@ -575,7 +575,12 @@ qx.Class.define("qx.ui.form.AbstractField",
       )
       {
         this.addState("showingPlaceholder");
-        qx.ui.core.queue.Manager.flush();
+
+        // only flash the queues on available widgets
+        if (this.getContentElement().getDomElement()) {
+          qx.ui.core.queue.Manager.flush();          
+        }
+
         this.getContentElement().setValue(placeholder);
       }
     },
