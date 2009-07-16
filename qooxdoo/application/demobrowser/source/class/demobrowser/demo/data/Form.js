@@ -37,6 +37,7 @@ qx.Class.define("demobrowser.demo.data.Form",
       
       // groupbox
       var groupBox = new qx.ui.groupbox.GroupBox("Registration");
+      groupBox.setWidth(200);
       this.getRoot().add(groupBox, {left: 10, top: 10});
       var grid = new qx.ui.layout.Grid();
       grid.setSpacing(5);
@@ -129,8 +130,8 @@ qx.Class.define("demobrowser.demo.data.Form",
       okCheckBox.setRequired(true);
       
       // create the manager
-      var manager = new qx.ui.form.Manager();
-      manager.add(nameTextfield, "name", qx.util.Validate.required, serializer);
+      var manager = new qx.ui.form.validation.Manager();
+      manager.add(nameTextfield, qx.util.Validate.required);
       manager.add(okCheckBox);     
 
       // validate the select box
