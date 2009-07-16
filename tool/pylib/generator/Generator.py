@@ -1039,11 +1039,18 @@ class Generator:
         self._console.info("Executing shell command \"%s\"..." % shellcmd)
         self._console.indent()
 
-        self._cache.unlock()   # give up cache, since the next is synchronous
+        if getattr(self, "_cache", None):
+          hasCache = True
+        else:
+          hasCache = False
+        
+        if hasCache:
+          self._cache.unlock()   # give up cache, since the next is synchronous
         rc = self._shellCmd.execute(shellcmd, self._config.getConfigDir())
         if rc != 0:
             raise RuntimeError, "Shell command returned error code: %s" % repr(rc)
-        self._cache.lock()     # re-acquire cache
+        if hasCache:
+          self._cache.lock()     # re-acquire cache
         self._console.outdent()
 
 
