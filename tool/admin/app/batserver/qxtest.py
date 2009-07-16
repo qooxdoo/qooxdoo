@@ -133,11 +133,11 @@ class QxTest:
   # fails the script is ended.
   def startSeleniumServer(self, single=False):
     cmd = self.seleniumConf['startSelenium']
-    if (self.sim and '101' in cmd):
+    if (self.sim):
       if single:
         self.log("SIMULATION: Starting Selenium RC server in single window mode.")
       else:
-        self.log("SIMULATION: Starting Selenium RC server in multi window mode.")
+        self.log("SIMULATION: Starting Selenium RC server in default mode.")
       return
 
     import subprocess, time
