@@ -16,7 +16,7 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.form.Manager", 
+qx.Class.define("qx.test.ui.form.FormValidator", 
 {
   extend : qx.test.ui.LayoutTestCase,
   
@@ -35,7 +35,7 @@ qx.Class.define("qx.test.ui.form.Manager",
       this.__username = new qx.ui.form.TextField();
       this.__password1 = new qx.ui.form.TextField();
       this.__password2 = new qx.ui.form.TextField();    
-      this.__manager = new qx.ui.form.Manager();
+      this.__manager = new qx.ui.form.validation.Manager();
     },
       
     tearDown: function() {
@@ -74,7 +74,7 @@ qx.Class.define("qx.test.ui.form.Manager",
     
     //  sync self contained ///////////////
     testSyncSelfContained1NotNull: function() {
-      this.__manager.add(this.__username, null, this.__notEmptyValidator);
+      this.__manager.add(this.__username, this.__notEmptyValidator);
       
       // validate = fail (no text entered)
       this.assertFalse(this.__manager.validate());
@@ -104,7 +104,7 @@ qx.Class.define("qx.test.ui.form.Manager",
     
     
     testSyncSelfContained1NotNullEvents: function(attributes) {
-      this.__manager.add(this.__username, null, this.__notEmptyValidator);
+      this.__manager.add(this.__username, this.__notEmptyValidator);
 
       var self = this;
       this.assertEventFired(this.__manager, "changeValid", function() {
@@ -127,9 +127,9 @@ qx.Class.define("qx.test.ui.form.Manager",
     
     
     __testSyncSelfContained3NotNull: function(validator) {
-      this.__manager.add(this.__username, null, validator);
-      this.__manager.add(this.__password1, null, validator);
-      this.__manager.add(this.__password2, null, validator);
+      this.__manager.add(this.__username, validator);
+      this.__manager.add(this.__password1, validator);
+      this.__manager.add(this.__password2, validator);
       
       // validate = fail (no text entered)
       this.assertFalse(this.__manager.validate());
@@ -243,9 +243,9 @@ qx.Class.define("qx.test.ui.form.Manager",
     
     
     testSyncRelatedWithIndividual: function() {
-      this.__manager.add(this.__username, null, this.__notEmptyValidator);
-      this.__manager.add(this.__password1, null, this.__notEmptyValidator);
-      this.__manager.add(this.__password2, null, this.__notEmptyValidator);
+      this.__manager.add(this.__username, this.__notEmptyValidator);
+      this.__manager.add(this.__password1, this.__notEmptyValidator);
+      this.__manager.add(this.__password2, this.__notEmptyValidator);
       
       this.__password1.setValue("affe");
       
@@ -377,9 +377,9 @@ qx.Class.define("qx.test.ui.form.Manager",
     // Async self contained //////////
 
     testAsyncSelfContained1NotNullFail: function(){
-      var asyncValidator = new qx.ui.form.AsyncValidator(this.__asyncValidator);
+      var asyncValidator = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
     
-      this.__manager.add(this.__username, null, asyncValidator);
+      this.__manager.add(this.__username, asyncValidator);
       
       this.__manager.addListener("complete", function() {
         this.resume(function() {
@@ -397,9 +397,9 @@ qx.Class.define("qx.test.ui.form.Manager",
     
     
     testAsyncSelfContained1NotNull: function(){
-      var asyncValidator = new qx.ui.form.AsyncValidator(this.__asyncValidator);
+      var asyncValidator = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
     
-      this.__manager.add(this.__username, null, asyncValidator);
+      this.__manager.add(this.__username, asyncValidator);
       this.__username.setValue("affe");
       
       this.__manager.addListener("complete", function() {
@@ -417,13 +417,13 @@ qx.Class.define("qx.test.ui.form.Manager",
     
     
     testAsyncSelfContained3NotNullFail: function(){
-      var asyncValidator1 = new qx.ui.form.AsyncValidator(this.__asyncValidator);
-      var asyncValidator2 = new qx.ui.form.AsyncValidator(this.__asyncValidator);
-      var asyncValidator3 = new qx.ui.form.AsyncValidator(this.__asyncValidator);    
+      var asyncValidator1 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
+      var asyncValidator2 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
+      var asyncValidator3 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);    
       
-      this.__manager.add(this.__username, null, asyncValidator1);
-      this.__manager.add(this.__password1, null, asyncValidator2);
-      this.__manager.add(this.__password2, null, asyncValidator3);            
+      this.__manager.add(this.__username, asyncValidator1);
+      this.__manager.add(this.__password1, asyncValidator2);
+      this.__manager.add(this.__password2, asyncValidator3);            
       
       this.__manager.addListener("complete", function() {
         this.resume(function() {
@@ -449,13 +449,13 @@ qx.Class.define("qx.test.ui.form.Manager",
     
     
     testAsyncSelfContained3NotNull: function(){
-      var asyncValidator1 = new qx.ui.form.AsyncValidator(this.__asyncValidator);
-      var asyncValidator2 = new qx.ui.form.AsyncValidator(this.__asyncValidator);
-      var asyncValidator3 = new qx.ui.form.AsyncValidator(this.__asyncValidator);    
+      var asyncValidator1 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
+      var asyncValidator2 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
+      var asyncValidator3 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);    
       
-      this.__manager.add(this.__username, null, asyncValidator1);
-      this.__manager.add(this.__password1, null, asyncValidator2);
-      this.__manager.add(this.__password2, null, asyncValidator3);            
+      this.__manager.add(this.__username, asyncValidator1);
+      this.__manager.add(this.__password1, asyncValidator2);
+      this.__manager.add(this.__password2, asyncValidator3);            
       
       this.__manager.addListener("complete", function() {
         this.resume(function() {
@@ -477,13 +477,13 @@ qx.Class.define("qx.test.ui.form.Manager",
     
     
     testAsyncSelfContained3NotNullHalfFail: function(){
-      var asyncValidator1 = new qx.ui.form.AsyncValidator(this.__asyncValidator);
-      var asyncValidator2 = new qx.ui.form.AsyncValidator(this.__asyncValidator);
-      var asyncValidator3 = new qx.ui.form.AsyncValidator(this.__asyncValidator);    
+      var asyncValidator1 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
+      var asyncValidator2 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
+      var asyncValidator3 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);    
       
-      this.__manager.add(this.__username, null, asyncValidator1);
-      this.__manager.add(this.__password1, null, asyncValidator2);
-      this.__manager.add(this.__password2, null, asyncValidator3);            
+      this.__manager.add(this.__username, asyncValidator1);
+      this.__manager.add(this.__password1, asyncValidator2);
+      this.__manager.add(this.__password2, asyncValidator3);            
       
       this.__manager.addListener("complete", function() {
         this.resume(function() {
@@ -513,13 +513,13 @@ qx.Class.define("qx.test.ui.form.Manager",
     // Async related //////////
 
     testAsyncRelated3NotNullFail: function(){
-      var asyncValidator1 = new qx.ui.form.AsyncValidator(this.__asyncValidator);
-      var asyncValidator2 = new qx.ui.form.AsyncValidator(this.__asyncValidator);
-      var asyncValidator3 = new qx.ui.form.AsyncValidator(this.__asyncValidator);    
+      var asyncValidator1 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
+      var asyncValidator2 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
+      var asyncValidator3 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);    
       
-      this.__manager.add(this.__username, null, asyncValidator1);
-      this.__manager.add(this.__password1, null, asyncValidator2);
-      this.__manager.add(this.__password2, null, asyncValidator3);            
+      this.__manager.add(this.__username, asyncValidator1);
+      this.__manager.add(this.__password1, asyncValidator2);
+      this.__manager.add(this.__password2, asyncValidator3);            
       
       this.__manager.addListener("complete", function() {
         this.resume(function() {
@@ -531,7 +531,7 @@ qx.Class.define("qx.test.ui.form.Manager",
         }, this);
       }, this);
 
-      this.__manager.setValidator(new qx.ui.form.AsyncValidator(
+      this.__manager.setValidator(new qx.ui.form.validation.AsyncValidator(
         function(formItems, validator) {
           window.setTimeout(function() {
             validator.setValid(formItems[1].getValue() == formItems[2].getValue());
@@ -550,13 +550,13 @@ qx.Class.define("qx.test.ui.form.Manager",
     
     
     testAsyncRelated3NotNull: function(){
-      var asyncValidator1 = new qx.ui.form.AsyncValidator(this.__asyncValidator);
-      var asyncValidator2 = new qx.ui.form.AsyncValidator(this.__asyncValidator);
-      var asyncValidator3 = new qx.ui.form.AsyncValidator(this.__asyncValidator);    
+      var asyncValidator1 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
+      var asyncValidator2 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
+      var asyncValidator3 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);    
       
-      this.__manager.add(this.__username, null, asyncValidator1);
-      this.__manager.add(this.__password1, null, asyncValidator2);
-      this.__manager.add(this.__password2, null, asyncValidator3);            
+      this.__manager.add(this.__username, asyncValidator1);
+      this.__manager.add(this.__password1, asyncValidator2);
+      this.__manager.add(this.__password2, asyncValidator3);            
       
       this.__manager.addListener("complete", function() {
         this.resume(function() {
@@ -569,7 +569,7 @@ qx.Class.define("qx.test.ui.form.Manager",
         }, this);
       }, this);
 
-      this.__manager.setValidator(new qx.ui.form.AsyncValidator(
+      this.__manager.setValidator(new qx.ui.form.validation.AsyncValidator(
         function(formItems, validator) {
           window.setTimeout(function() {
             validator.setValid(formItems[1].getValue() == formItems[2].getValue());
@@ -592,11 +592,11 @@ qx.Class.define("qx.test.ui.form.Manager",
     
     // Mixed self contaned //////////    
     testMixedSelfContained3NotNullAsyncFail: function(){
-      var asyncValidator1 = new qx.ui.form.AsyncValidator(this.__asyncValidator);
+      var asyncValidator1 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
       
-      this.__manager.add(this.__username, null, asyncValidator1);
-      this.__manager.add(this.__password1, null, this.__notEmptyValidator);
-      this.__manager.add(this.__password2, null, this.__notEmptyValidator);            
+      this.__manager.add(this.__username, asyncValidator1);
+      this.__manager.add(this.__password1, this.__notEmptyValidator);
+      this.__manager.add(this.__password2, this.__notEmptyValidator);            
       
       this.__manager.addListener("complete", function() {
         this.resume(function() {
@@ -618,11 +618,11 @@ qx.Class.define("qx.test.ui.form.Manager",
   
   
     testMixedSelfContained3NotNullSyncFail: function(){
-      var asyncValidator1 = new qx.ui.form.AsyncValidator(this.__asyncValidator);
+      var asyncValidator1 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
       
-      this.__manager.add(this.__username, null, asyncValidator1);
-      this.__manager.add(this.__password1, null, this.__notEmptyValidator);
-      this.__manager.add(this.__password2, null, this.__notEmptyValidator);
+      this.__manager.add(this.__username, asyncValidator1);
+      this.__manager.add(this.__password1, this.__notEmptyValidator);
+      this.__manager.add(this.__password2, this.__notEmptyValidator);
       
       this.__manager.addListener("complete", function() {
         this.resume(function() {
@@ -644,11 +644,11 @@ qx.Class.define("qx.test.ui.form.Manager",
     
     
     testMixedSelfContained3NotNullSync: function(){
-      var asyncValidator1 = new qx.ui.form.AsyncValidator(this.__asyncValidator);
+      var asyncValidator1 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
       
-      this.__manager.add(this.__username, null, asyncValidator1);
-      this.__manager.add(this.__password1, null, this.__notEmptyValidator);
-      this.__manager.add(this.__password2, null, this.__notEmptyValidator);            
+      this.__manager.add(this.__username, asyncValidator1);
+      this.__manager.add(this.__password1, this.__notEmptyValidator);
+      this.__manager.add(this.__password2, this.__notEmptyValidator);            
       
       this.__manager.addListener("complete", function() {
         this.resume(function() {
@@ -671,10 +671,10 @@ qx.Class.define("qx.test.ui.form.Manager",
     
     
     testMixedSelfContained2SyncRequired : function(attribute) {
-      var asyncValidator1 = new qx.ui.form.AsyncValidator(this.__asyncValidator);
+      var asyncValidator1 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
       
       this.__password1.setRequired(true);
-      this.__manager.add(this.__username, null, asyncValidator1);
+      this.__manager.add(this.__username, asyncValidator1);
       this.__manager.add(this.__password1);
       
       this.__manager.addListener("complete", function() {
@@ -698,12 +698,12 @@ qx.Class.define("qx.test.ui.form.Manager",
     
     // Mixed related //////////    
     testMixedRelated3NotNull: function(){
-      var asyncValidator1 = new qx.ui.form.AsyncValidator(this.__asyncValidator);
-      var asyncValidator3 = new qx.ui.form.AsyncValidator(this.__asyncValidator);    
+      var asyncValidator1 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
+      var asyncValidator3 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);    
       
-      this.__manager.add(this.__username, null, asyncValidator1);
-      this.__manager.add(this.__password1, null, this.__notEmptyValidator);
-      this.__manager.add(this.__password2, null, asyncValidator3);            
+      this.__manager.add(this.__username, asyncValidator1);
+      this.__manager.add(this.__password1, this.__notEmptyValidator);
+      this.__manager.add(this.__password2, asyncValidator3);            
       
       this.__manager.addListener("complete", function() {
         this.resume(function() {
@@ -716,7 +716,7 @@ qx.Class.define("qx.test.ui.form.Manager",
         }, this);
       }, this);
 
-      this.__manager.setValidator(new qx.ui.form.AsyncValidator(
+      this.__manager.setValidator(new qx.ui.form.validation.AsyncValidator(
         function(formItems, validator) {
           window.setTimeout(function() {
             validator.setValid(formItems[1].getValue() == formItems[2].getValue());
@@ -735,12 +735,12 @@ qx.Class.define("qx.test.ui.form.Manager",
     
     
     testMixedRelated3NotNullSyncFail: function(){
-      var asyncValidator1 = new qx.ui.form.AsyncValidator(this.__asyncValidator);
-      var asyncValidator3 = new qx.ui.form.AsyncValidator(this.__asyncValidator);    
+      var asyncValidator1 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
+      var asyncValidator3 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);    
       
-      this.__manager.add(this.__username, null, asyncValidator1);
-      this.__manager.add(this.__password1, null, this.__notEmptyValidator);
-      this.__manager.add(this.__password2, null, asyncValidator3);            
+      this.__manager.add(this.__username, asyncValidator1);
+      this.__manager.add(this.__password1, this.__notEmptyValidator);
+      this.__manager.add(this.__password2, asyncValidator3);            
       
       this.__manager.addListener("complete", function() {
         this.resume(function() {
@@ -753,7 +753,7 @@ qx.Class.define("qx.test.ui.form.Manager",
         }, this);
       }, this);
 
-      this.__manager.setValidator(new qx.ui.form.AsyncValidator(
+      this.__manager.setValidator(new qx.ui.form.validation.AsyncValidator(
         function(formItems, validator) {
           window.setTimeout(function() {
             validator.setValid(formItems[1].getValue() == formItems[2].getValue());
@@ -770,12 +770,12 @@ qx.Class.define("qx.test.ui.form.Manager",
     },
     
     testMixedRelated3NotNullAsyncFail: function(){
-      var asyncValidator1 = new qx.ui.form.AsyncValidator(this.__asyncValidator);
-      var asyncValidator3 = new qx.ui.form.AsyncValidator(this.__asyncValidator);    
+      var asyncValidator1 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
+      var asyncValidator3 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);    
       
-      this.__manager.add(this.__username, null, asyncValidator1);
-      this.__manager.add(this.__password1, null, this.__notEmptyValidator);
-      this.__manager.add(this.__password2, null, asyncValidator3);            
+      this.__manager.add(this.__username, asyncValidator1);
+      this.__manager.add(this.__password1, this.__notEmptyValidator);
+      this.__manager.add(this.__password2, asyncValidator3);            
       
       this.__manager.addListener("complete", function() {
         this.resume(function() {
@@ -788,7 +788,7 @@ qx.Class.define("qx.test.ui.form.Manager",
         }, this);
       }, this);
 
-      this.__manager.setValidator(new qx.ui.form.AsyncValidator(
+      this.__manager.setValidator(new qx.ui.form.validation.AsyncValidator(
         function(formItems, validator) {
           window.setTimeout(function() {
             validator.setValid(formItems[1].getValue() == formItems[2].getValue());
@@ -805,12 +805,12 @@ qx.Class.define("qx.test.ui.form.Manager",
     },
     
     testMixedRelated3NotNullAsyncFormFail: function(){
-      var asyncValidator1 = new qx.ui.form.AsyncValidator(this.__asyncValidator);
-      var asyncValidator3 = new qx.ui.form.AsyncValidator(this.__asyncValidator);    
+      var asyncValidator1 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
+      var asyncValidator3 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);    
       
-      this.__manager.add(this.__username, null, asyncValidator1);
-      this.__manager.add(this.__password1, null, this.__notEmptyValidator);
-      this.__manager.add(this.__password2, null, asyncValidator3);            
+      this.__manager.add(this.__username, asyncValidator1);
+      this.__manager.add(this.__password1, this.__notEmptyValidator);
+      this.__manager.add(this.__password2, asyncValidator3);            
       
       this.__manager.addListener("complete", function() {
         this.resume(function() {
@@ -823,7 +823,7 @@ qx.Class.define("qx.test.ui.form.Manager",
         }, this);
       }, this);
 
-      this.__manager.setValidator(new qx.ui.form.AsyncValidator(
+      this.__manager.setValidator(new qx.ui.form.validation.AsyncValidator(
         function(formItems, validator) {
           window.setTimeout(function() {
             validator.setValid(formItems[1].getValue() == formItems[2].getValue());

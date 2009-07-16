@@ -21,7 +21,7 @@
  * 
  * This form manager is responsible for validation and synchronisation.
  */
-qx.Class.define("qx.ui.form.Manager", 
+qx.Class.define("qx.ui.form.validation.Manager", 
 {
   extend : qx.core.Object,
 
@@ -45,7 +45,7 @@ qx.Class.define("qx.ui.form.Manager",
   {
     validator : 
     {  
-      check : "value instanceof Function || qx.Class.isSubClassOf(value.constructor, qx.ui.form.AsyncValidator)",
+      check : "value instanceof Function || qx.Class.isSubClassOf(value.constructor, qx.ui.form.validation.AsyncValidator)",
       init : null,
       nullable : true
     },
@@ -68,11 +68,10 @@ qx.Class.define("qx.ui.form.Manager",
     /**
      * validator return boolean or throw ValidationError
      */
-    add: function(formItem, name, validator) {
+    add: function(formItem, validator) {
       var dataEntry = 
       {
         item : formItem, 
-        name : name,
         validator : validator,
         init : formItem.getValue(),
         valid : null
@@ -205,7 +204,7 @@ qx.Class.define("qx.ui.form.Manager",
       var async = false;
       if (!qx.lang.Type.isFunction(validator)) {
         async = qx.Class.isSubClassOf(
-          validator.constructor, qx.ui.form.AsyncValidator
+          validator.constructor, qx.ui.form.validation.AsyncValidator
         );
       }
       return async;      

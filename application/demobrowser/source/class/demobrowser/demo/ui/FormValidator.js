@@ -19,7 +19,7 @@
 /**
  * @lint ignoreDeprecated(alert)
  */
-qx.Class.define("demobrowser.demo.ui.FormManager", 
+qx.Class.define("demobrowser.demo.ui.FormValidator", 
 {
   extend : qx.application.Standalone,
 
@@ -60,7 +60,7 @@ qx.Class.define("demobrowser.demo.ui.FormManager",
       
       
       // create the form manager
-      var manager = new qx.ui.form.Manager();
+      var manager = new qx.ui.form.validation.Manager();
       // create a validator function
       var passwordLengthValidator = function(value, item) {
         var valid = value != null && value.length > 2;
@@ -71,7 +71,7 @@ qx.Class.define("demobrowser.demo.ui.FormManager",
       };
       
       // create a async validator function
-      var userNameValidator = new qx.ui.form.AsyncValidator(
+      var userNameValidator = new qx.ui.form.validation.AsyncValidator(
         function(validator, value) {
           // use a timeout instad of a server request (async)
           window.setTimeout(function() {
@@ -85,12 +85,12 @@ qx.Class.define("demobrowser.demo.ui.FormManager",
       );
       
       // add the username with a async validator
-      manager.add(username, null, userNameValidator);
+      manager.add(username, userNameValidator);
       // add the email with a predefined email validator
-      manager.add(email, null, qx.util.Validate.email());
+      manager.add(email, qx.util.Validate.email());
       // add the password fields with the notEmpty validator
-      manager.add(password1, null, passwordLengthValidator);
-      manager.add(password2, null, passwordLengthValidator);
+      manager.add(password1, passwordLengthValidator);
+      manager.add(password2, passwordLengthValidator);
       // add the checkbox (required flag is set)
       manager.add(accepted);
       
