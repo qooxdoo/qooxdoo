@@ -58,7 +58,7 @@ class QxTest:
     self.testType = testType
     self.seleniumConf = self.getConfig(defaultSeleniumConf, seleniumConf)
     self.testConf = self.getConfig(defaultTestConf, testConf)
-    self.mailConf = mailConf    
+    self.mailConf = mailConf
     self.autConf = autConf
     self.browserConf = browserConf
     self.trunkrev = None
@@ -488,8 +488,15 @@ class QxTest:
       else:
         if "options" in appConf:
           options = appConf["options"]
+          
+      simulationScript = False
+      if "simulationScript" in browser:
+        simulationScript = browser["simulationScript"]
+      else:
+        if "simulationScript" in appConf:
+          simulationScript = appConf["simulationScript"]
 
-      cmd = self.getStartCmd(appConf['appName'], browser['browserId'], options)
+      cmd = self.getStartCmd(appConf['appName'], browser['browserId'], options, simulationScript)
       if getReportFrom == 'testLog':
         cmd += " logFile=" + logFile
       
@@ -559,15 +566,28 @@ class QxTest:
   #   to the name of a subdirectory of "/trunk/tool/selenium/simulation/" in the 
   #   local Simulator contrib checkout
   # @param browser {str} A browser identifier (one of the keys in browserConf)
+  # @param options {arr} An array of options to be passed to the test script,
+  # e.g. ["ignore=qx.test.ui","foo=bar"]
+  # @param scriptPath {str} Optional: Path to the Simulation script to be used.
+  # By default, the script found in the Simulator contrib checkout under 
+  # /trunk/tool/selenium/simulation/[APPNAME]/test_[APPNAME].js is used
   # @return {str} The shell command
-  def getStartCmd(self, aut, browser, options):
+  def getStartCmd(self, aut, browser, options, simulationScript=None):
     cmd = "java"
 
     if ('classPath' in self.testConf):
         cmd += " -cp " + self.testConf['classPath']
 
-    cmd += " org.mozilla.javascript.tools.shell.Main"    
-    cmd += " " + self.testConf['simulatorSvn'] + "/trunk/tool/selenium/simulation/" + aut.lower() + "/test_" + aut.lower() + ".js"
+    cmd += " org.mozilla.javascript.tools.shell.Main"
+    
+    script = ""
+    if simulationScript:
+      script = simulationScript
+    else:
+      script = self.testConf['simulatorSvn'] + "/trunk/tool/selenium/simulation/" + aut.lower() + "/test_" + aut.lower() + ".js"
+        
+    cmd += " " + script
+    
     cmd += " autHost=" + self.autConf['autHost']
     cmd += " autPath="
 
