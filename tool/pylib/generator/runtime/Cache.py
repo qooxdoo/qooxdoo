@@ -30,9 +30,9 @@ class Cache:
     def __init__(self, path, console):
         self._path = path
         self._check_path(self._path)
-        self._lock_file = self.lock()
+        self._lock_file, attempted_file = self.lock()
         if not self._lock_file:
-            raise RuntimeError, "The cache is currently in use by another process"
+            raise RuntimeError, "The cache is currently in use by another process (%r)" % attempted_file
         self._closed  = False
         self._console = console
 
@@ -63,15 +63,16 @@ class Cache:
         #print "xxx creating cache lock"
         path = self._path
         lockfile = os.path.join(path, "cache.lock")
+        successfile = None
         try:
             fd = os.open(lockfile, os.O_CREAT|os.O_EXCL|os.O_RDWR)
         except:
-            return None
+            return successfile, lockfile
         if fd:
             os.close(fd)
-            return lockfile
-        else:
-            return None
+            successfile = lockfile
+
+        return successfile, lockfile
 
     def filename(self, cacheId):
         cacheId = cacheId.encode('utf-8')
