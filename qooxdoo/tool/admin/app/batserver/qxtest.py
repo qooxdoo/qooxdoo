@@ -446,6 +446,9 @@ class QxTest:
       options = False
       if "options" in browser:
         options = browser["options"]
+      else:
+        if "options" in appConf:
+          options = appConf["options"]
 
       cmd = self.getStartCmd(appConf['appName'], browser['browserId'], options)
       if getReportFrom == 'testLog':
