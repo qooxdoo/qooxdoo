@@ -37,5 +37,10 @@ qx.Class.define("qx.test.ui.virtual.MouseEventMock",
     getDocumentTop : function() {
       return this.__config.documentTop || 0;
     }
+  },
+  
+  destruct : function()
+  {
+    this._disposeFields("__config");
   }
 });

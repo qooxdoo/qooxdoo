@@ -804,5 +804,10 @@ qx.Class.define("qx.test.ui.virtual.Pane",
         pane.destroy();              
       }, this);      
     }
+  },
+  
+  destruct : function()
+  {
+    this._disposeFields("pane");
   }
 });

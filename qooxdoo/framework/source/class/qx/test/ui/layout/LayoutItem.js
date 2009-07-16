@@ -40,6 +40,9 @@ qx.Class.define("qx.test.ui.layout.LayoutItem",
   {
     bounds : null,
 
+    __layout : null,
+    __layoutChildren : null,
+    
     renderLayout : function(left, top, width, height)
     {      
       var changes = this.base(arguments, left, top, width, height);
@@ -211,5 +214,9 @@ qx.Class.define("qx.test.ui.layout.LayoutItem",
         child.addChildrenToQueue(queue);
       }
     }
+  },
+  
+  destruct : function() {
+    this._disposeFields("bounds", "__layout", "__layoutChildren");
   }
 })
