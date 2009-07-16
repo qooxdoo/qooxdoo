@@ -38,6 +38,7 @@ qx.Class.define("qx.test.ui.layout.Grid",
     {
       this.getRoot().remove(this._gridWidget);
       this._gridWidget.dispose();
+      this._gridLayout.dispose();
     },
 
 
@@ -205,5 +206,9 @@ qx.Class.define("qx.test.ui.layout.Grid",
     }
 
 
+  },
+  
+  destruct : function() {
+    this._disposeFields("_gridWidget", "_gridLayout");
   }
 });

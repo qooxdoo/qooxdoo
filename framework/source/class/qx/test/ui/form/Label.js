@@ -196,5 +196,10 @@ qx.Class.define("qx.test.ui.form.Label",
       this.__testFocusRemove();
     }    
     
+  },
+  
+  destruct : function()
+  {
+    this._disposeFields("__label", "__formWidget");
   }
 });

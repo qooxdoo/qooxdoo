@@ -24,6 +24,11 @@ qx.Class.define("qx.test.ui.virtual.layer.HtmlCellSpan",
 
   members :
   { 
+    tearDown : function() {
+      this.base(arguments);
+      this.__cellRenderer.dispose();
+    },
+    
     _createLayer : function() 
     {
       this.__cellRenderer = new qx.ui.virtual.cell.Cell();
@@ -62,5 +67,10 @@ qx.Class.define("qx.test.ui.virtual.layer.HtmlCellSpan",
         }
       }
     }
+  },
+  
+  destruct : function()
+  {
+    this._disposeFields("__cellRenderer");
   }
 });

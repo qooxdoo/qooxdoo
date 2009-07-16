@@ -523,5 +523,9 @@ qx.Class.define("qx.test.ui.layout.Flow",
       this.assertEquals(0, c1.bounds.left);
       this.assertEquals(50, c2.bounds.top);
     }
+  },
+  
+  destruct : function() {
+    this._disposeFields("root");
   }
 });
