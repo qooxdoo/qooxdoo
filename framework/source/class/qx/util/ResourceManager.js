@@ -195,12 +195,6 @@ qx.Bootstrap.define("qx.util.ResourceManager",
           }
         }
       } 
-      else 
-      {
-        for (var lib in window.qxlibraries) {  
-          statics.__urlPrefix[lib] = "";
-        }
-      }
     }
   }
 });
