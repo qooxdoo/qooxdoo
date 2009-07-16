@@ -263,18 +263,26 @@ def unlock2(fd):
 
     return
 
-def lock(path):
+def lock(path, retries=4, timeout=0.5):
     #print "xxx creating file lock on: %r" % path
     lockfile = lockFileName(path)
-    try:
-        fd = os.open(lockfile, os.O_CREAT|os.O_EXCL|os.O_RDWR)
-    except:
-        return None
-    if fd:
-        os.close(fd)
-        return lockfile
-    else:
-        return None
+    retry    = 0
+    while True:
+        try:
+            fd = os.open(lockfile, os.O_CREAT|os.O_EXCL|os.O_RDWR)
+        except:
+            #print "xxx cache lock collision (%d)" % retry
+            retry += 1
+            if retry > retries:
+                return None
+            else:
+                time.sleep(timeout)
+                continue
+        if fd:
+            os.close(fd)
+            return lockfile
+        else:
+            return None
 
 def unlock(path):
     lockfile = lockFileName(path)
