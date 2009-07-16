@@ -42,28 +42,23 @@ class QxTest:
     
     defaultSeleniumConf = {
       'startSelenium'       : 'java -jar ../../selenium/current/selenium-server.jar',
-      'seleniumHost'        : 'http://localhost:4444',
-      'seleniumReport'      : '../../reports/selenium-report.html'
+      'seleniumHost'        : 'http://localhost:4444'
     }
     
     defaultTestConf = {
       'simulateTest'        : False,
       'getReportFrom'       : 'testLog',
       'testLogDir'          : '../../logs',
+      'testReportDir'       : '../../reports',
       'classPath'           : '../../selenium/current/selenium-java-client-driver.jar:../../rhino/current/js.jar',
       'proxyEnable'         : 'wscript ../../tool/proxyEnable.vbs',
       'proxyDisable'        : 'wscript ../../tool/proxyDisable.vbs'
     }
     
-    defaultMailConf = {
-      'reportFile'          : '../../reports/selenium-report.html',
-      'archiveDir'          : '../../reports'
-    }
-    
     self.testType = testType
     self.seleniumConf = self.getConfig(defaultSeleniumConf, seleniumConf)
     self.testConf = self.getConfig(defaultTestConf, testConf)
-    self.mailConf = self.getConfig(defaultMailConf, mailConf)    
+    self.mailConf = mailConf    
     self.autConf = autConf
     self.browserConf = browserConf
     self.trunkrev = None
@@ -172,7 +167,7 @@ class QxTest:
       self.log("SIMULATION: Killing Selenium server process")
       return
     else:
-      self.log("Killling Selenium server process")
+      self.log("Killing Selenium server process")
     
     if self.os == "Linux":      
       invokeExternal("pkill -f selenium-server")
@@ -412,7 +407,7 @@ class QxTest:
   def getDummyLog(self, appConf):
     import random
 
-    dummyLogFile = os.path.join(self.testConf['testLogDir'], "DUMMY_" + appConf['appName'] + self.startTimeString + ".log")        
+    dummyLogFile = os.path.join(self.testConf['testLogDir'], appConf['appName'], "DUMMY_" + appConf['appName'] + self.startTimeString + ".log")        
     dummyLog = codecs.open(dummyLogFile, "w", "utf-8")
 
     for browser in appConf['browsers']:
@@ -435,29 +430,8 @@ class QxTest:
   # @param appConf {dict} Settings for the application(s) to be tested
   def runTests(self, appConf):
     import time
-    if appConf['appName'] in self.buildStatus:
-      if self.buildStatus[appConf['appName']]["BuildError"]:
-        self.log("ERROR: Skipping " + appConf['appName'] + " test because there "
-                 + "was an error during build:\n  " + self.buildStatus[appConf['appName']]["BuildError"])
 
-        if (appConf['sendReport']):
-          dummyLogFile = self.getDummyLog(appConf)
-          logFormatted = self.formatLog(dummyLogFile)
-          if logFormatted:
-            self.sendReport(appConf['appName'])
-          else:
-            self.log("No report HTML to send.")        
-
-        return    
-      
-    if appConf['clearLogs']:
-      self.clearLogs()
-
-    getReportFrom = 'testLog'
-    try:
-      getReportFrom = self.testConf['getReportFrom']
-    except:
-      pass
+    getReportFrom = self.testConf['getReportFrom']
     
     if getReportFrom == 'testLog':
       logPath = os.path.join(self.testConf['testLogDir'], appConf['appName'])
@@ -466,6 +440,29 @@ class QxTest:
       tf = '%Y-%m-%d_%H-%M-%S'
       testStartDate = time.strftime(self.timeFormat)
       logFile = os.path.join(logPath, testStartDate + ".log")
+    
+    reportPath = os.path.join(self.testConf['testReportDir'], appConf['appName'])
+    if not os.path.isdir(reportPath):
+        os.mkdir(reportPath)
+    reportFile = os.path.join( reportPath, testStartDate + '.html')
+
+    if appConf['appName'] in self.buildStatus:
+      if self.buildStatus[appConf['appName']]["BuildError"]:
+        self.log("ERROR: Skipping " + appConf['appName'] + " test because there "
+                 + "was an error during build:\n  " + self.buildStatus[appConf['appName']]["BuildError"])
+
+        if (appConf['sendReport']):
+          dummyLogFile = self.getDummyLog(appConf)
+          logFormatted = self.formatLog(dummyLogFile, reportFile)
+          if logFormatted:
+            self.sendReport(appConf['appName'], reportFile)
+          else:
+            self.log("No report HTML to send.")        
+
+        return    
+      
+    if appConf['clearLogs']:
+      self.clearLogs()
       
     if 'individualServer' in appConf:
       if not appConf['individualServer']:
@@ -548,11 +545,11 @@ class QxTest:
         self.log("SIMULATION: Formatting log and sending report.\n")
       else:
         if getReportFrom == 'testLog':
-          self.formatLog(logFile)
+          self.formatLog(logFile, reportFile)
         else:
-          self.formatLog()
+          self.formatLog(None, reportFile)
 
-        self.sendReport(appConf['appName'])
+        self.sendReport(appConf['appName'], reportFile)
 
 
   ##
@@ -598,17 +595,17 @@ class QxTest:
   # Sends the generated test report file by email.
   #
   # @param aut {str} The name of the tested application
-  def sendReport(self, aut):    
+  def sendReport(self, aut, reportfile):    
     import re
     
-    self.log("Preparing to send " + aut + " report: " + self.mailConf['reportFile'])
-    if ( not(os.path.exists(self.mailConf['reportFile'])) ):
+    self.log("Preparing to send " + aut + " report: " + reportfile)
+    if ( not(os.path.exists(reportfile)) ):
       self.log("ERROR: Report file not found, quitting.")
       sys.exit(1)
   
     self.mailConf['subject'] = "[qooxdoo-test] " + aut
   
-    reportFile = open(self.mailConf['reportFile'], 'rb')
+    reportFile = open(reportfile, 'rb')
     self.mailConf['html'] = reportFile.read()
     reportFile.seek(0)    
   
@@ -663,17 +660,6 @@ class QxTest:
     else:
       self.log("ERROR: Report file seems incomplete, report not sent.")
 
-    # Rename report file, adding current date.
-    """from datetime import datetime
-    now = datetime.today()
-    datestring = now.strftime("%Y-%m-%d_%H.%M")
-    newname_temp = "selenium-report_" + datestring + ".html"
-    newname = os.path.join(os.path.dirname(self.mailConf['reportFile']),newname_temp)
-    self.log("Renaming report file to " + newname)
-    os.rename(self.mailConf['reportFile'], newname)
-    self.log("Moving report file to " + self.mailConf['archiveDir'])    
-    shutil.move(newname, self.mailConf['archiveDir'])"""
-
 
   ##
   # Runs logFormatter on a file containg "qxSimulator" entries. Uses the 
@@ -681,7 +667,7 @@ class QxTest:
   # exist or is empty.
   #  
   # @param inputfile {str} Path to the log file to be formatted. 
-  def formatLog(self,inputfile=None):
+  def formatLog(self, inputfile=None, reportfile=None):
     from logFormatter import QxLogFormat
 
     class FormatterOpts:
@@ -689,7 +675,9 @@ class QxTest:
         self.logfile = logfile
         self.htmlfile = htmlfile
 
-    log = False
+    if not inputfile:
+      if 'seleniumLog' in self.seleniumConf:
+        inputfile = self.seleniumConf['seleniumLog']
 
     if inputfile:
       try:
@@ -700,26 +688,22 @@ class QxTest:
         pass    
 
     if not log:
-      if 'seleniumLog' in self.seleniumConf:
-        log = self.seleniumConf['seleniumLog']
-
-    if not log:
       self.log("ERROR: No log file to work with")
       return False
 
-    options = FormatterOpts(log, self.seleniumConf['seleniumReport'])
+    options = FormatterOpts(inputfile, reportfile)
 
     if (self.sim):
-      self.log("SIMULATION: Formatting log file " + log)
+      self.log("SIMULATION: Formatting log file " + inputfile)
     else:
-      self.log("Formatting log file " + log)  
+      self.log("Formatting log file " + inputfile)  
       logformat = QxLogFormat(options)
 
     return True
 
 
   ##
-  # Clears the Selenium RC server log file and the test report HTML file.
+  # Clears the Selenium RC server log file.
   def clearLogs(self):
     if ('seleniumLog' in self.seleniumConf and os.path.exists(self.seleniumConf['seleniumLog'])):
       f = open(self.seleniumConf['seleniumLog'], 'w')
@@ -727,15 +711,6 @@ class QxTest:
         self.log("SIMULATION: Emptying server log file " + self.seleniumConf['seleniumLog'])
       else:  
         self.log("Emptying server log file " + self.seleniumConf['seleniumLog'])
-        f.write('')
-      f.close()
-
-    if (os.path.exists(self.seleniumConf['seleniumReport'])):
-      f = open(self.seleniumConf['seleniumReport'], 'w')
-      if (self.sim):
-        self.log("SIMULATION: Emptying Selenium report file " + self.seleniumConf['seleniumReport'])
-      else:
-        self.log("Emptying Selenium report file " + self.seleniumConf['seleniumReport'])
         f.write('')
       f.close()
 
