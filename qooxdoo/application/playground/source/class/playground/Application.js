@@ -15,6 +15,7 @@
    Authors:
      * Andreas Ecker (ecker)
      * Yuecel Beser (ybeser)
+     * Jonathan Weiß (jonathan_rass)
 
 ************************************************************************ */
 
@@ -539,6 +540,17 @@ qx.Class.define("playground.Application",
      */
     __onSampleChanged : function(e)
     {
+      var userCode = this.showSyntaxHighlighting ?
+                     this.editor.getCode() :
+                     this.textarea.getValue();
+
+      if (!qx.bom.client.Engine.MSHTML && escape(userCode) != escape(this.__sampleContainer[this.currentSample]))
+      {
+        if (!confirm("You changed the code of the current sample.\nClick OK discard changes.")) {
+          return ;
+        }
+      }
+
       var label = e.getTarget().getLabel().toString();
       this.playAreaCaption.setValue(label);
 
