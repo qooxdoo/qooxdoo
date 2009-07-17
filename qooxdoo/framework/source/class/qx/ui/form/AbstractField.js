@@ -61,6 +61,13 @@ qx.Class.define("qx.ui.form.AbstractField",
     }
 
     this.getContentElement().addListener("change", this._onChangeContent, this);
+    
+    // assign the placeholder text after the appearance has been applied
+    this.addListener("syncAppearance", function(e) {
+      if (this.hasState("showingPlaceholder")) {
+        this.getContentElement().setValue(this.getPlaceholder());
+      }
+    }, this);
   },
 
 
@@ -575,13 +582,7 @@ qx.Class.define("qx.ui.form.AbstractField",
       )
       {
         this.addState("showingPlaceholder");
-
-        // only flash the queues on available widgets
-        if (this.getContentElement().getDomElement()) {
-          qx.ui.core.queue.Manager.flush();          
-        }
-
-        this.getContentElement().setValue(placeholder);
+        // the placeholder will be set as soons as the appearance is applied
       }
     },
     
