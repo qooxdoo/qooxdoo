@@ -369,6 +369,42 @@ class PartBuilder:
         return None
 
 
+    def collapsePartsByOrder(parts, packages):
+
+        def getCollapseGroupsOrdered():
+            # returns list of parts grouped by collapse index
+            collapsGroups = {}
+            # boot part is always collapse index 0
+            collapseGroups[0] = set((parts['boot'],))
+
+            for partname in parts:
+                part = parts[partname]
+                collidx = getattr(part, 'collapse_index', None)
+                if collidx:
+                    if collidx < 1 :  # not allowed
+                        raise RuntimeError, "Collapse index must be 1 or greater (Part: %s)" % partname
+                    else:
+                        if collidx not in collapseGroups:
+                            collapseGroups[collidx] = set(())
+                        collapseGroups[collidx].add(part)
+
+            return
+
+        def mergeUniquePackages(parts, packages):
+            return parts, packages
+
+        def mergeCommonPackages(parts, packages):
+            return parts, packages
+
+        collapse_groups = getCollapseGroupsOrdered(parts, packages)
+
+        for collgrp in collapse_groups:
+            parts, packages = mergeUniquePackages(parts, packages)
+            parts, packages = mergeCommonPackages(parts, packages)
+
+        return
+
+
     def _mergePackage(self, fromPackage, toPackage, parts, packages, collapseParts=None):
 
         # Update part information
