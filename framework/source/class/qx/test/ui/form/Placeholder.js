@@ -25,21 +25,30 @@ qx.Class.define("qx.test.ui.form.Placeholder",
 
     __testInit : function(clazz) {
       var widget = new clazz();
-      widget.setPlaceholder("abc");
-      
-      this.assertEquals("abc", this.__getVisibleValueOf(widget), "placeholder not visible");
-      this.assertNull(widget.getValue(), "Wrong value returned.");
-      
-      widget = new clazz();
       widget.setValue("affe");
       widget.setPlaceholder("aaa");
       this.assertEquals("affe", this.__getVisibleValueOf(widget), "placeholder visible");
-      this.assertEquals("affe", widget.getValue(), "Wrong value returned.");      
+      this.assertEquals("affe", widget.getValue(), "Wrong value returned.");
+      
+      widget = new clazz();
+      widget.setPlaceholder("abc");
+      this.getRoot().add(widget);
+      
+      var timer = qx.util.TimerManager.getInstance();
+      timer.start(function() {
+        this.resume(function() {
+          this.assertEquals("abc", this.__getVisibleValueOf(widget), "placeholder not visible");
+          this.assertNull(widget.getValue(), "Wrong value returned.");            
+        }, this);
+      }, 0, this, null, 100);
+      
+      this.wait();
     },
     
     __testChangeValue: function(clazz) {
       var widget = new clazz();
       widget.setPlaceholder("abc");
+      this.getRoot().add(widget);
       
       // set a value
       widget.setValue("def");
@@ -48,8 +57,16 @@ qx.Class.define("qx.test.ui.form.Placeholder",
 
       // remove the value
       widget.resetValue();
-      this.assertNull(widget.getValue(), "wrong value");
-      this.assertEquals("abc", this.__getVisibleValueOf(widget), "wrong visible value");      
+            
+      var timer = qx.util.TimerManager.getInstance();
+      timer.start(function() {
+        this.resume(function() {
+          this.assertNull(widget.getValue(), "wrong value");
+          this.assertEquals("abc", this.__getVisibleValueOf(widget), "wrong visible value");
+        }, this);
+      }, 0, this, null, 100);
+      
+      this.wait();
     },
     
     
@@ -91,6 +108,7 @@ qx.Class.define("qx.test.ui.form.Placeholder",
     
     __testDisabled: function(clazz) {
       var widget = new clazz();
+      this.getRoot().add(widget);
       widget.setPlaceholder("abc");   
       
       widget.setEnabled(false);
@@ -98,8 +116,16 @@ qx.Class.define("qx.test.ui.form.Placeholder",
       this.assertEquals("", this.__getVisibleValueOf(widget), "wrong visible value");
       
       widget.setEnabled(true);
-      this.assertNull(widget.getValue(), "wrong value");
-      this.assertEquals("abc", this.__getVisibleValueOf(widget), "wrong visible value");      
+      
+      var timer = qx.util.TimerManager.getInstance();
+      timer.start(function() {
+        this.resume(function() {
+          this.assertNull(widget.getValue(), "wrong value");
+          this.assertEquals("abc", this.__getVisibleValueOf(widget), "wrong visible value");
+        }, this);
+      }, 0, this, null, 100);
+      
+      this.wait();
     },
     
     
