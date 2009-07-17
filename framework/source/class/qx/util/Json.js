@@ -56,6 +56,8 @@ qx.Class.define("qx.util.Json",
 {
   statics :
   {
+    __nativeDateToJSON : null,
+  
     /** indent string for JSON pretty printing */
     BEAUTIFYING_INDENT : "  ",
 
@@ -357,10 +359,12 @@ qx.Class.define("qx.util.Json",
     {
       if (incoming)
       {
-        if (qx.lang.Type.isDate(incoming)) {
-          return this.__convertDate(incoming, key);
-        } else if (typeof incoming.toJSON == "function") {
+        // we ignore the native toJSON of Date objects in favour of our own
+        // date serializer
+        if (qx.lang.Type.isFunction(incoming.toJSON) && incoming.toJSON !== this.__nativeDateToJSON) {
           return this.__convert(incoming.toJSON(key), key);
+        } else if (qx.lang.Type.isDate(incoming)) {
+          return this.__convertDate(incoming, key);
         } else if (qx.lang.Type.isArray(incoming)) {
           return this.__convertArray(incoming, key);
         } else if (qx.lang.Type.isObject(incoming)) {
@@ -478,17 +482,14 @@ qx.Class.define("qx.util.Json",
   },
 
 
-
-
-  /*
-  *****************************************************************************
-     SETTINGS
-  *****************************************************************************
-  */
-
   settings :
   {
     "qx.jsonEncodeUndefined" : true,
     "qx.jsonDebugging"       : false
-  }
+  },
+  
+  
+  defer : function(statics) {
+    statics.__nativeDateToJSON = Date.prototype.toJSON;
+  }   
 });
