@@ -129,17 +129,17 @@ qx.Class.define("qx.ui.form.validation.AsyncValidator",
         }
         this.__manager.setItemValid(this.__item, valid);        
       }
-    },
-
-
-    /*
-     *****************************************************************************
-        DESTRUCT
-     *****************************************************************************
-     */
-
-    destruct : function() {
-      this._disposeFields("__manager", "__item");      
     }
+  },
+
+
+  /*
+   *****************************************************************************
+      DESTRUCT
+   *****************************************************************************
+   */
+
+  destruct : function() {
+    this._disposeFields("__manager", "__item");      
   }
 });
