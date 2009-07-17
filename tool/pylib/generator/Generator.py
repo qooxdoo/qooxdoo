@@ -60,7 +60,7 @@ class Generator:
         self._settings  = {}
         self.approot    = None
 
-        if 'cache' in context:
+        if 'cache' in context:  # in case the Generator want to use a common cache object
             self._cache = context['cache']
         else:
             cache_path  = self._job.get("cache/compile", "cache")
@@ -69,11 +69,6 @@ class Generator:
 
         console = self._console
 
-
-
-    def close(self):
-        # do some clean-up when this object is no longer used
-        self._cache.close()  # needed to cleanly remove the cache lock
 
 
     # This is the main dispatch method to run a single job. It uses the top-
@@ -1039,18 +1034,9 @@ class Generator:
         self._console.info("Executing shell command \"%s\"..." % shellcmd)
         self._console.indent()
 
-        if getattr(self, "_cache", None):
-          hasCache = True
-        else:
-          hasCache = False
-        
-        if hasCache:
-          self._cache.unlock()   # give up cache, since the next is synchronous
         rc = self._shellCmd.execute(shellcmd, self._config.getConfigDir())
         if rc != 0:
             raise RuntimeError, "Shell command returned error code: %s" % repr(rc)
-        if hasCache:
-          self._cache.lock()     # re-acquire cache
         self._console.outdent()
 
 
