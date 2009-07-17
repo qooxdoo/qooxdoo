@@ -131,6 +131,8 @@ class QxTest:
   # Starts the Selenium RC server and checks its status. If the server doesn't
   # respond correctly after 20 seconds, another attempt is made. If this also 
   # fails the script is ended.
+  #
+  # @param single {bool} Start the server with the -singleWindow option 
   def startSeleniumServer(self, single=False):
     cmd = self.seleniumConf['startSelenium']
     if (self.sim):
@@ -161,7 +163,10 @@ class QxTest:
         if ( not(self.isSeleniumServer()) ):
           self.log("ERROR: Selenium server not responding.")
           sys.exit(1)
-    
+
+  ##
+  # Terminates the Selenium server process using a VBScript (Windows) or the
+  # pkill shell command (Linux)
   def killSeleniumServer(self):
     if (self.sim):
       self.log("SIMULATION: Killing Selenium server process")
@@ -174,6 +179,29 @@ class QxTest:
     else:
       invokeExternal("wscript killselenium.vbs")
 
+  ##
+  # Sends a shutdown command to the Selenium server 
+  #
+  # @return Whether the server was shut down (Bool)
+  def shutdownSeleniumServer(self):
+    from urllib2 import Request, urlopen, URLError
+    
+    if (self.sim):
+      self.log("SIMULATION: Shutting down Selenium server")
+    else:
+      self.log("Shutting down Selenium server")
+    
+    isServerShutdown = False
+    req = Request(self.seleniumConf['seleniumHost'] + "/selenium-server/driver/?cmd=shutDownSeleniumServer")
+    try:
+      response = urlopen(req)
+    except URLError, e:
+      if hasattr(e, 'code'):
+        if (e.code == 200):
+          content = response.read()
+          if "OK" in content:
+            isServerShutdown = True
+    return isServerShutdown
 
   ##
   # Checks the status of the Selenium RC server by sending an HTTP request.
@@ -539,12 +567,14 @@ class QxTest:
       
       if 'individualServer' in appConf:
         if appConf['individualServer']:
-          self.killSeleniumServer()
+          if not self.shutdownSeleniumServer():
+            self.killSeleniumServer()
           time.sleep(5)
 
     if 'individualServer' in appConf:
       if not appConf['individualServer']:
-        self.killSeleniumServer()
+        if not self.shutdownSeleniumServer():
+            self.killSeleniumServer()
         time.sleep(5)
 
     if (appConf['sendReport']):
