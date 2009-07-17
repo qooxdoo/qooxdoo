@@ -33,8 +33,17 @@ qx.Class.define("qx.test.util.Json",
       var data = {
         start: new Date(0)
       }
-      
       this.assertEquals('{"start":new Date(Date.UTC(1970,0,1,0,0,0,0))}', qx.util.Json.stringify(data, false));
+    },
+    
+    
+    testCustomDateSerializer : function()
+    {
+      var start = new Date(0);
+      start.toJSON = function(key) {
+        return this.getTime();
+      }
+      this.assertEquals('0', qx.util.Json.stringify(start, false));
     },
     
     
@@ -45,7 +54,6 @@ qx.Class.define("qx.test.util.Json",
           return "#" + key + "#";
         }
       }
-      
       this.assertEquals('"##"', qx.util.Json.stringify(custom, false));
       this.assertEquals('{"juhu":"#juhu#"}', qx.util.Json.stringify({ juhu : custom }, false));
     }
