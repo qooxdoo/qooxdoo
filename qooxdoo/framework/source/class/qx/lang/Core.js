@@ -114,6 +114,7 @@ qx.Bootstrap.define("qx.lang.Core",
       }
     }),
     
+    
     /**
      * Returns the last index at which a given element can be found in the array, or <code>-1</code>
      * if it is not present. The array is searched backwards, starting at <code>fromIndex</code>.
