@@ -357,15 +357,13 @@ qx.Class.define("qx.util.Json",
     {
       if (incoming)
       {
-        // for objects defined in other frames the instanceof check failes.
-        var constructorName = incoming.constructor.name;
-        if (typeof incoming.toJSON == "function") {
-          return this.__convert(incoming.toJSON(key), key);
-        } else if (incoming instanceof Array || constructorName == "Array") {
-          return this.__convertArray(incoming, key);
-        } else if (incoming instanceof Date || constructorName == "Date") {
+        if (qx.lang.Type.isDate(incoming)) {
           return this.__convertDate(incoming, key);
-        } else if (incoming instanceof Object || constructorName == "Object") {
+        } else if (typeof incoming.toJSON == "function") {
+          return this.__convert(incoming.toJSON(key), key);
+        } else if (qx.lang.Type.isArray(incoming)) {
+          return this.__convertArray(incoming, key);
+        } else if (qx.lang.Type.isObject(incoming)) {
           return this.__convertMap(incoming, key);
         }
 

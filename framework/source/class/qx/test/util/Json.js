@@ -27,6 +27,17 @@ qx.Class.define("qx.test.util.Json",
       this.assertEquals('{"test":123}', qx.util.Json.stringify({ test : 123 }, false));
     },
     
+    
+    testStringifyDate : function()
+    {
+      var data = {
+        start: new Date(0)
+      }
+      
+      this.assertEquals('{"start":new Date(Date.UTC(1970,0,1,0,0,0,0))}', qx.util.Json.stringify(data, false));
+    },
+    
+    
     testToJson : function() 
     {
       var custom = {
