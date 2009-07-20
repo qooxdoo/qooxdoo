@@ -25,7 +25,7 @@ from optparseext.ExtendAction import ExtendAction
 from generator.Generator import Generator
 from generator.config.Config import Config
 from generator.runtime.Log import Log
-from generator.runtime.Cache import Cache
+from generator.runtime.InterruptRegistry import InterruptRegistry
 
 ## TODO: The next on is a hack, and should be removed once all string handling is
 ## properly done in unicode; it is advisable to comment out the call to setdefaultencoding()
@@ -33,6 +33,15 @@ from generator.runtime.Cache import Cache
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
+interruptRegistry = InterruptRegistry()
+
+def interruptCleanup():
+    for func in interruptRegistry.Callbacks:
+        try:
+            func()
+        except Error, e:
+            print >>sys.stderr, e  # just keep on with the others
+    
 def listJobs(console, jobs, config):
     console.info("Available jobs:")
     console.indent()
@@ -138,7 +147,7 @@ Arguments:
     #console.info(pprint.pformat(config.get(".")))
 
     # Processing jobs...
-    context = {'config': config, 'console':console, 'jobconf':None}
+    context = {'config': config, 'console':console, 'jobconf':None, 'interruptRegistry':interruptRegistry}
     for job in expandedjobs:
         console.head("Executing: %s" % job.name, True)
         console.debug("Expanded job config:")
@@ -158,4 +167,5 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         print
         print "Keyboard interrupt!"
+        interruptCleanup()
         sys.exit(1)
