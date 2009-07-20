@@ -2849,6 +2849,7 @@ qx.Class.define("qx.ui.core.Widget",
 
         // Apply new data
         // TODO: Compat mode to 0.8 final, remove this warning with 0.8.2
+        // @deprecated
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
           for (var prop in newData)
