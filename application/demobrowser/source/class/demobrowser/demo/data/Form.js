@@ -147,7 +147,7 @@ qx.Class.define("demobrowser.demo.data.Form",
       // invoke the serialization
       sendButton.addListener("execute", function() {
         if (manager.validate()) {
-          alert("You are sending: " + qx.util.Serializer.toURIParameter(model));
+          alert("You are sending: " + qx.util.Serializer.toUriParameter(model));
         }
       }, this);
       ////////////////////////////////////
