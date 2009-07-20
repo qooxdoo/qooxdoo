@@ -36,7 +36,7 @@ qx.Class.define("qx.util.Serializer",
      * @param object {qx.core.Object} Any qooxdoo object
      * @return {String} The serialized object.
      */
-    toURIParameter : function(object) {
+    toUriParameter : function(object) {
       var result = "";
       var properties = qx.util.PropertyUtil.getProperties(object.constructor);
       
