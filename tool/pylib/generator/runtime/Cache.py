@@ -27,10 +27,12 @@ from misc.securehash import sha_construct
 memcache = {}
 
 class Cache:
-    def __init__(self, path, console):
-        self._path = path
+    def __init__(self, path, context):
+        self._path         = path
         self._check_path(self._path)
-        self._console = console
+        self._console      = context['console']
+        self._locked_files = set(())
+        context['interruptRegistry'].register(self._unlock_files)
 
     def _check_path(self, path):
         if not os.path.exists(path):
@@ -40,6 +42,15 @@ class Cache:
         else: # it's an existing directory
             # defer read/write access to the first call of read()/write()
             pass
+
+    def _unlock_files(self):
+        # this is for an interrupt handler
+        for file in self._locked_files:
+            try:
+                filetool.unlock(file)
+                self._console.debug("Cleaned up lock for file: %r" % file)
+            except: # file might not exists since adding to _lock_files and actually locking is not atomic
+                pass   # no sense to do much fancy in an interrupt handler
 
     def filename(self, cacheId):
         cacheId = cacheId.encode('utf-8')
@@ -110,7 +121,9 @@ class Cache:
                 return None
 
         try:
+            self._locked_files.add(cacheFile)
             filetool.lock(cacheFile)
+
             fobj = open(cacheFile, 'rb')
             #filetool.lock(fobj.fileno())
 
@@ -119,6 +132,7 @@ class Cache:
             #filetool.unlock(fobj.fileno())
             fobj.close()
             filetool.unlock(cacheFile)
+            self._locked_files.remove(cacheFile)
 
             if memory:
                 memcache[cacheId] = content
@@ -141,15 +155,15 @@ class Cache:
 
         if writeToFile:
             try:
-                #filetool.lock(fobj.fileno(), write=True)
+                self._locked_files.add(cacheFile)  # this is not atomic with the next one!
                 filetool.lock(cacheFile)
                 fobj = open(cacheFile, 'wb')
 
                 pickle.dump(content, fobj, 2)
 
-                #filetool.unlock(fobj.fileno())
                 fobj.close()
                 filetool.unlock(cacheFile)
+                self._locked_files.remove(cacheFile)  # not atomic with the previous one!
 
             except (IOError, EOFError, pickle.PickleError, pickle.PicklingError):
                 self._console.error("Could not store cache to %s" % self._path)

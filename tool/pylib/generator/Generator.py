@@ -50,9 +50,9 @@ import graph
 
 
 class Generator:
-    #def __init__(self, config, job, console_):
     def __init__(self, context):
-        global console
+        global console, interruptRegistry
+        interruptRegistry = context['interruptRegistry']
         self._config    = context['config']  #config
         self._job       = context['jobconf'] #config.getJob(job)
         self._console   = context['console'] #console_
@@ -65,7 +65,7 @@ class Generator:
         else:
             cache_path  = self._job.get("cache/compile", "cache")
             cache_path  = self._config.absPath(cache_path)
-            self._cache = Cache(cache_path, self._console)
+            self._cache = Cache(cache_path, context)
 
         console = self._console
 
