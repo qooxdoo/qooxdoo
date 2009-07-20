@@ -40,7 +40,7 @@ qx.Class.define("qx.test.ui.form.Placeholder",
           this.assertEquals("abc", this.__getVisibleValueOf(widget), "placeholder not visible");
           this.assertNull(widget.getValue(), "Wrong value returned.");            
         }, this);
-      }, 0, this, null, 100);
+      }, 0, this, null, 300);
       
       this.wait();
     },
@@ -64,7 +64,7 @@ qx.Class.define("qx.test.ui.form.Placeholder",
           this.assertNull(widget.getValue(), "wrong value");
           this.assertEquals("abc", this.__getVisibleValueOf(widget), "wrong visible value");
         }, this);
-      }, 0, this, null, 100);
+      }, 0, this, null, 300);
       
       this.wait();
     },
@@ -91,7 +91,7 @@ qx.Class.define("qx.test.ui.form.Placeholder",
           this.flush();          
           this.assertEquals("abc", this.__getVisibleValueOf(widget), "wrong visible value after blur");          
         }, this);
-      }, 0, this, null, 100);
+      }, 0, this, null, 300);
       
       this.wait();
     },
