@@ -145,21 +145,11 @@ qx.Class.define("demobrowser.demo.data.Form",
 
 
       // serialization ///////////////////
-      
-      // prototype serializer
-      var serializer = function(object) {
-        var result = "";
-        var properties = object.constructor.$$properties;
-        for (var name in properties) {
-          result += name + "=" + object["get" + qx.lang.String.firstUp(name)]() + "&";
-        }
-        return result.substring(0, result.length - 1);
-      }
 
       // invoke the serialization
       sendButton.addListener("execute", function() {
         if (manager.validate()) {
-          alert("You are sending: " + serializer(model));
+          alert("You are sending: " + qx.util.Serializer.toURIParameter(model));
         }
       }, this);
       ////////////////////////////////////
