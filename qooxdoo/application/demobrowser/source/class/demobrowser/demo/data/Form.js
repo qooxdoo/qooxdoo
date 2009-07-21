@@ -81,7 +81,7 @@ qx.Class.define("demobrowser.demo.data.Form",
       
       // create a model
       var modelSkeleton = {name: null, gender: null, ok: 0, hidden: "x"};
-      var model = qx.data.marshal.Marshaler.jsonToModel(modelSkeleton);
+      var model = qx.data.marshal.Json.createModel(modelSkeleton);
       
       // create the controller
       var controller = new qx.data.controller.Object(model);

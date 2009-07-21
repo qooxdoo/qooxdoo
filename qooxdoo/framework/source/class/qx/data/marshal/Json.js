@@ -26,6 +26,7 @@
 qx.Class.define("qx.data.marshal.Json", 
 {
   extend : qx.core.Object,
+  implement : [qx.data.marshal.IMarshaler],
 
   /**
    * @param delegate {Object} An object containing one of the mehtods described 
@@ -37,6 +38,33 @@ qx.Class.define("qx.data.marshal.Json",
     
     this.__delegate = delegate;
   },
+  
+  statics : 
+  {
+    __instance : null,
+    
+    /**
+     * Creates a qooxdoo object based on the given json data. This function
+     * is just a static wrapper. If you want to configure the creation
+     * process of the class, use {@link qx.data.marshal.Json} directly.
+     * 
+     * @param data {Object} The object for which classes should be created.
+     * @param includeBubbleEvents {Boolean} Whether the model should support
+     *   the bubbling of change events or not. 
+     * 
+     * @return {qx.core.Object} An instance of the corresponding class.
+     */    
+    createModel : function(data, includeBubbleEvents) {
+      // singleton for the json marshaler
+      if (this.__instance === null) {
+        this.__instance = new qx.data.marshal.Json();
+      }
+      // be sure to create the classes first
+      this.__instance.toClass(data, includeBubbleEvents);
+      // return the model
+      return this.__instance.toModel(data);      
+    }
+  },  
 
 
   members :
@@ -75,7 +103,7 @@ qx.Class.define("qx.data.marshal.Json",
      * @param includeBubbleEvents {Boolean} Whether the model should support
      *   the bubbling of change events or not.
      */
-    jsonToClass: function(data, includeBubbleEvents) {
+    toClass: function(data, includeBubbleEvents) {
       // break on all primitive json types
       if (
         qx.lang.Type.isNumber(data) 
@@ -89,7 +117,7 @@ qx.Class.define("qx.data.marshal.Json",
       // check for arrays
       if (qx.lang.Type.isArray(data)) {
         for (var i = 0; i < data.length; i++) {
-          this.jsonToClass(data[i], includeBubbleEvents);
+          this.toClass(data[i], includeBubbleEvents);
         }
         // dont create an class for an array
         return;
@@ -108,7 +136,7 @@ qx.Class.define("qx.data.marshal.Json",
       
       // check for the possible child classes
       for (var key in data) {
-        this.jsonToClass(data[key], includeBubbleEvents);
+        this.toClass(data[key], includeBubbleEvents);
       }
       
       // class already exists
@@ -168,7 +196,7 @@ qx.Class.define("qx.data.marshal.Json",
      * 
      * @param hash {String} The hash of the data for which an instance should 
      *   be created.
-     * @return {var} An instance of the corresponding class.
+     * @return {qx.core.Object} An instance of the corresponding class.
      */
     __createInstance: function(hash) {
       var delegateClass;
@@ -187,14 +215,16 @@ qx.Class.define("qx.data.marshal.Json",
 
     /**
      * Creates for the given data the needed models. Be sure to have the classes
-     * created with {@link #jsonToClass} before calling this method. The creation 
+     * created with {@link #toClass} before calling this method. The creation 
      * of the class itself is delegated to the {@link #__createInstance} method,
      * which could use the {@link qx.data.store.IStoreDelegate} methods, if 
      * given.
      * 
      * @param data {Object} The object for which models should be created.
+     * 
+     * @return {qx.core.Object} The created model object.
      */
-    jsonToModel: function(data) {   
+    toModel: function(data) {   
       if (
         qx.lang.Type.isNumber(data) 
         || qx.lang.Type.isString(data) 
@@ -207,7 +237,7 @@ qx.Class.define("qx.data.marshal.Json",
       } else if (qx.lang.Type.isArray(data)) {
         var array = new qx.data.Array();
         for (var i = 0; i < data.length; i++) {
-          array.push(this.jsonToModel(data[i]));
+          array.push(this.toModel(data[i]));
         }
         return array;
         
@@ -218,7 +248,7 @@ qx.Class.define("qx.data.marshal.Json",
         
         // go threw all element in the data
         for (var key in data) {
-          model["set" + qx.lang.String.firstUp(key)](this.jsonToModel(data[key]));
+          model["set" + qx.lang.String.firstUp(key)](this.toModel(data[key]));
         }
         return model;
       }
