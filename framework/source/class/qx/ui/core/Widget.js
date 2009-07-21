@@ -105,39 +105,39 @@ qx.Class.define("qx.ui.core.Widget",
      * Fired after the widget disappears from the screen.
      */
     disappear : "qx.event.type.Event",
-    
+
     /**
      * Fired after the creation of a child control. The passed data is the
      * newly created child widget.
      */
     createChildControl : "qx.event.type.Data",
-    
+
 
     /**
-     * Fired on resize (after layouting) of the widget. 
+     * Fired on resize (after layouting) of the widget.
      * The data property of the event contains the widget's computed location
      * and dimension as returned by {@link qx.ui.core.LayoutItem#getBounds}
      */
     resize : "qx.event.type.Data",
 
-    /** 
+    /**
      * Fired on move (after layouting) of the widget.
      * The data property of the event contains the widget's computed location
      * and dimension as returned by {@link qx.ui.core.LayoutItem#getBounds}
      */
     move : "qx.event.type.Data",
-    
+
     /**
-     * Fired after the appearance has been applied. This happens before the 
+     * Fired after the appearance has been applied. This happens before the
      * widget becomes visible, on state and appearance changes. The data field
      * contains the state map. This can be used to react on state changes or to
-     * read properties set by the appearance. 
+     * read properties set by the appearance.
      */
     syncAppearance : "qx.event.type.Data",
 
 
 
-    /** Fired if the mouse cursor moves over the widget. 
+    /** Fired if the mouse cursor moves over the widget.
      *  The data property of the event contains the widget's computed location
      *  and dimension as returned by {@link qx.ui.core.LayoutItem#getBounds}
      */
@@ -555,10 +555,10 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * Sets the tooltip instance to use for this widget. If only the tooltip
-     * text and icon have to be set its better to use the {@link #toolTipText} 
+     * text and icon have to be set its better to use the {@link #toolTipText}
      * and {@link #toolTipIcon} properties since they use a shared tooltip
      * instance.
-     * 
+     *
      * If this property is set the {@link #toolTipText} and {@link #toolTipIcon}
      * properties are ignored.
      */
@@ -567,13 +567,13 @@ qx.Class.define("qx.ui.core.Widget",
       check : "qx.ui.tooltip.ToolTip",
       nullable : true
     },
-    
-    
+
+
     /**
      * The text of the widget's tooltip. This text can contain HTML markup.
-     * The text is displayed using a shared tooltip instance. If the tooltip 
-     * must be customized beyond the text and an icon {@link #toolTipIcon}, the 
-     * {@link #tooltip} property has to be used 
+     * The text is displayed using a shared tooltip instance. If the tooltip
+     * must be customized beyond the text and an icon {@link #toolTipIcon}, the
+     * {@link #tooltip} property has to be used
      */
     toolTipText :
     {
@@ -585,9 +585,9 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
     * The icon URI of the widget's tooltip. This icon is displayed using a shared
-    * tooltip instance. If the tooltip must be customized beyond the tooltip text 
-    * {@link #toolTipText} and the icon, the {@link #tooltip} property has to be 
-    * used. 
+    * tooltip instance. If the tooltip must be customized beyond the tooltip text
+    * {@link #toolTipText} and the icon, the {@link #tooltip} property has to be
+    * used.
     */
    toolTipIcon :
    {
@@ -743,6 +743,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : "Boolean",
       init : false,
+      event : "changeSelectable",
       apply : "_applySelectable"
     },
 
@@ -757,19 +758,20 @@ qx.Class.define("qx.ui.core.Widget",
       nullable : true,
       event : "changeContextMenu"
     },
-    
-    
+
+
     /**
      * Whether the native context menu should be enabled for this widget. To
      * globally enable the native context menu set the {@link #nativeContextMenu}
      * property of the root widget ({@link qx.ui.root.Abstract}) to
-     * <code>true</code>. 
+     * <code>true</code>.
      */
     nativeContextMenu :
     {
       check : "Boolean",
       init : false,
-      themeable : true, 
+      themeable : true,
+      event : "changeNativeContextMenu",
       apply : "_applyNativeContextMenu"
     },
 
@@ -1982,7 +1984,7 @@ qx.Class.define("qx.ui.core.Widget",
 
       qx.lang.Array.removeAt(this.__widgetChildren, index);
       this.__removeHelper(child);
-      
+
       return child;
     },
 
@@ -2466,7 +2468,7 @@ qx.Class.define("qx.ui.core.Widget",
 
           value.resize(elem.getDomElement(), shadowWidth, shadowHeight);
         }
-        
+
         value.tint(elem.getDomElement(), null);
       }
       else
@@ -2517,15 +2519,15 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     // property apply
-    _applyOpacity : function(value, old) 
+    _applyOpacity : function(value, old)
     {
       this.__containerElement.setStyle("opacity", value == 1 ? null : value);
-      
+
       // IE8 already has a fix - see Bug #1894 for details
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
-        if (qx.bom.client.Engine.VERSION <= 7) 
-        {        
+        if (qx.bom.client.Engine.VERSION <= 7)
+        {
           // 0.99 is necessary since 1.0 is ignored and not being applied
           var contentElementOpacity = (value == 1 || value == null) ? null : 0.99;
           this.__contentElement.setStyle("opacity", contentElementOpacity);
@@ -2873,7 +2875,7 @@ qx.Class.define("qx.ui.core.Widget",
           this[unstyler[prop]]();
         }
       }
-      
+
       this.fireDataEvent("syncAppearance", this.__states);
     },
 
@@ -3116,10 +3118,10 @@ qx.Class.define("qx.ui.core.Widget",
       // Apply qooxdoo attribute
       this.__containerElement.setAttribute("qxSelectable", value ? "on" : "off");
 
-      // Webkit, as of Safari 3.0, is the only client which supports 	 
-      // CSS userSelect the right way. 	 
-      if (qx.core.Variant.isSet("qx.client", "webkit")) { 	 
-        this.__containerElement.setStyle("userSelect", value ? "normal" : "none"); 	 
+      // Webkit, as of Safari 3.0, is the only client which supports
+      // CSS userSelect the right way.
+      if (qx.core.Variant.isSet("qx.client", "webkit")) {
+        this.__containerElement.setStyle("userSelect", value ? "normal" : "none");
       }
     },
 
@@ -3170,8 +3172,8 @@ qx.Class.define("qx.ui.core.Widget",
     _applyNativeContextMenu : function(value, old, name) {
       // empty body to allow overriding
     },
-    
-    
+
+
     // property apply
     _applyContextMenu : function(value, old)
     {
@@ -3539,8 +3541,8 @@ qx.Class.define("qx.ui.core.Widget",
       );
       return this.hasChildControl(id);
     },
-    
-    
+
+
     /**
      * Whether the given ID is assigned to a child control.
      *
@@ -3563,7 +3565,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * Returns a map of all already created child controls
-     * 
+     *
      * @return {Map} mapping of child control id to the child widget.
      */
     _getCreatedChildControls : function() {
@@ -3586,24 +3588,24 @@ qx.Class.define("qx.ui.core.Widget",
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee,
         "Use public 'getChildControl' instead!"
-      );      
+      );
       return this.getChildControl(id, notcreate);
     },
-    
-    
+
+
     /**
      * Returns the child control from the given ID. Returns
      * <code>null</code> when the child control is unknown.
-     * 
+     *
      * It is designed for widget authors, who want to access child controls,
-     * which are created by the widget itself. 
-     * 
+     * which are created by the widget itself.
+     *
      * <b>Warning</b>: This method exposes widget internals and modifying the
      * returned sub widget may bring the widget into an inconsistent state.
-     * Accessing child controls defined in a super class or in an foreign class 
-     * is not supported. Do not use it if the result can be achieved using public 
+     * Accessing child controls defined in a super class or in an foreign class
+     * is not supported. Do not use it if the result can be achieved using public
      * API or theming.
-     * 
+     *
      * @param id {String} ID of the child control
      * @param notcreate {Boolean?false} Whether the child control
      *    should not be created dynamically if not yet available.
@@ -3631,8 +3633,8 @@ qx.Class.define("qx.ui.core.Widget",
 
       return this._createChildControl(id);
     },
-    
-    
+
+
     /**
      * Shows the given child control by ID
      *
@@ -3646,7 +3648,7 @@ qx.Class.define("qx.ui.core.Widget",
       return control;
     },
 
- 
+
     /**
      * Excludes the given child control by ID
      *
@@ -3659,8 +3661,8 @@ qx.Class.define("qx.ui.core.Widget",
         control.exclude();
       }
     },
-    
-    
+
+
     /**
      * Whether the given child control is visible.
      *

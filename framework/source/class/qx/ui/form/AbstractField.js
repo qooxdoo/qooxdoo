@@ -20,7 +20,7 @@
 ************************************************************************ */
 
 /**
- * This is a basic form field with common functionality for 
+ * This is a basic form field with common functionality for
  * {@link TextArea} and {@link TextField}.
  *
  * On every keystroke the value is synchronized with the
@@ -61,7 +61,7 @@ qx.Class.define("qx.ui.form.AbstractField",
     }
 
     this.getContentElement().addListener("change", this._onChangeContent, this);
-    
+
     // assign the placeholder text after the appearance has been applied
     this.addListener("syncAppearance", function(e) {
       if (this.hasState("showingPlaceholder")) {
@@ -92,9 +92,9 @@ qx.Class.define("qx.ui.form.AbstractField",
     /**
      * The event is fired each time the text field looses focus and the
      * text field values has changed.
-     * 
+     *
      * If you change {@link #liveUpdate} to true, the changeValue event will
-     * be fired after every keystroke and not only after every focus loss. In 
+     * be fired after every keystroke and not only after every focus loss. In
      * that mode, the changeValue event is equal to the {@link #input} event.
      *
      * The method {@link qx.event.type.Data#getData} returns the
@@ -155,38 +155,38 @@ qx.Class.define("qx.ui.form.AbstractField",
       check : "PositiveInteger",
       init : Infinity
     },
-    
-    /** 
-     * Whether the {@link #changeValue} event should be fired on every key 
-     * input. If set to true, the changeValue event is equal to the 
+
+    /**
+     * Whether the {@link #changeValue} event should be fired on every key
+     * input. If set to true, the changeValue event is equal to the
      * {@link #input} event.
      */
-    liveUpdate : 
+    liveUpdate :
     {
       check : "Boolean",
       init : false
     },
-    
+
     /**
-     * String value which will be shown as a hint if the field is all of: 
-     * unset, unfocused and enabled. Set to null to not show a placeholder 
+     * String value which will be shown as a hint if the field is all of:
+     * unset, unfocused and enabled. Set to null to not show a placeholder
      * text.
      */
-    placeholder : 
+    placeholder :
     {
       check : "String",
       nullable : true,
       apply : "_applyPlaceholder"
     },
-    
-    
+
+
     /**
-     * RegExp responsible for filtering the value of the textfield. the RegExp 
+     * RegExp responsible for filtering the value of the textfield. the RegExp
      * gives the range of valid values.
      * The following example only allows digits in the textfield.
-     * <pre class='javascript'>field.setFilter(/[0-9]/);</pre> 
+     * <pre class='javascript'>field.setFilter(/[0-9]/);</pre>
      */
-    filter : 
+    filter :
     {
       check : "RegExp",
       nullable : true,
@@ -206,7 +206,7 @@ qx.Class.define("qx.ui.form.AbstractField",
   members :
   {
     __nullValue : true,
-    
+
     /*
     ---------------------------------------------------------------------------
       WIDGET API
@@ -234,7 +234,7 @@ qx.Class.define("qx.ui.form.AbstractField",
     _createContentElement : function()
     {
       var el = this._createInputElement();
-      
+
       // Add listener for input event
       el.addListener("input", this._onHtmlInput, this);
 
@@ -271,7 +271,7 @@ qx.Class.define("qx.ui.form.AbstractField",
       this.base(arguments, value, old);
 
       this.getContentElement().setAttribute("disabled", value===false);
-      
+
       if (value) {
         this._showPlaceholder();
       } else {
@@ -282,8 +282,8 @@ qx.Class.define("qx.ui.form.AbstractField",
 
     // default text sizes
     /**
-     * @lint ignoreReferenceField(__textSize) 
-     */    
+     * @lint ignoreReferenceField(__textSize)
+     */
     __textSize :
     {
       width : 16,
@@ -374,41 +374,41 @@ qx.Class.define("qx.ui.form.AbstractField",
       var fireEvents = true;
 
       this.__nullValue = false;
-      
+
       // check for the filter
-      if (this.getFilter() != null) 
+      if (this.getFilter() != null)
       {
         var filteredValue = "";
         var index = value.search(this.getFilter());
         var processedValue = value;
-        while(index >= 0) 
+        while(index >= 0)
         {
           filteredValue = filteredValue + (processedValue.charAt(index));
           processedValue = processedValue.substring(index + 1, processedValue.length);
           index = processedValue.search(this.getFilter());
         }
- 
-        if (filteredValue != value) 
+
+        if (filteredValue != value)
         {
           fireEvents = false;
           value = filteredValue;
           this.getContentElement().setValue(value);
         }
-      }      
-      
+      }
+
       // check for the max length
-      if (value.length > this.getMaxLength()) 
+      if (value.length > this.getMaxLength())
       {
         var fireEvents = false;
         this.getContentElement().setValue(value.substr(0, this.getMaxLength()));
       }
-      
+
       // fire the events, if necessary
-      if (fireEvents) 
+      if (fireEvents)
       {
         this.fireDataEvent("input", value);
         // check for the live change event
-        if (this.getLiveUpdate()) 
+        if (this.getLiveUpdate())
         {
           this.fireNonBubblingEvent(
             "changeValue", qx.event.type.Data, [value]
@@ -439,7 +439,7 @@ qx.Class.define("qx.ui.form.AbstractField",
         this.__nullValue = false;
         this._removePlaceholder();
       }
-      
+
       if (qx.lang.Type.isString(value))
       {
         var elem = this.getContentElement();
@@ -454,7 +454,7 @@ qx.Class.define("qx.ui.form.AbstractField",
             "changeValue", qx.event.type.Data, [value, oldValue]
           );
         }
-        this._showPlaceholder();        
+        this._showPlaceholder();
         return value;
       }
       throw new Error("Invalid value type: " + value);
@@ -471,8 +471,8 @@ qx.Class.define("qx.ui.form.AbstractField",
       var value = showingPlaceholder ? "" : this.getContentElement().getValue();
       return this.__nullValue ? null : value;
     },
-    
-    
+
+
     /**
      * Resets the value to the default
      */
@@ -486,7 +486,8 @@ qx.Class.define("qx.ui.form.AbstractField",
      *
      * @param e {qx.event.type.Data} Incoming change event
      */
-    _onChangeContent : function(e) {
+    _onChangeContent : function(e)
+    {
       this.__nullValue = e.getData() === null;
       this.fireNonBubblingEvent("changeValue", qx.event.type.Data, [e.getData()]);
     },
@@ -567,17 +568,17 @@ qx.Class.define("qx.ui.form.AbstractField",
     */
 
     /**
-     * Helper to show the placeholder text in the field. It checks for all 
+     * Helper to show the placeholder text in the field. It checks for all
      * states and possible conditions and shows the placeholder only if allowed.
      */
-    _showPlaceholder : function() 
+    _showPlaceholder : function()
     {
       var fieldValue = this.getValue() || "";
       var placeholder = this.getPlaceholder();
       if (
-        placeholder != null && 
-        !this.hasState("focused") && 
-        fieldValue == "" && 
+        placeholder != null &&
+        !this.hasState("focused") &&
+        fieldValue == "" &&
         !this.hasState("disabled")
       )
       {
@@ -585,10 +586,10 @@ qx.Class.define("qx.ui.form.AbstractField",
         // the placeholder will be set as soons as the appearance is applied
       }
     },
-    
-    
+
+
     /**
-     * Helper to remove the placeholder. Deletes the placeholder text from the 
+     * Helper to remove the placeholder. Deletes the placeholder text from the
      * field and removes the state.
      */
     _removePlaceholder: function() {
@@ -609,16 +610,16 @@ qx.Class.define("qx.ui.form.AbstractField",
     _applyPlaceholder : function(value, old) {
       if (value != null) {
         this.addListener("focusin", this._removePlaceholder, this);
-        this.addListener("focusout", this._showPlaceholder, this);        
-        this._showPlaceholder();        
+        this.addListener("focusout", this._showPlaceholder, this);
+        this._showPlaceholder();
       } else {
         this.removeListener("focusin", this._removePlaceholder, this);
         this.removeListener("focusout", this._showPlaceholder, this);
         this._removePlaceholder();
       }
     },
-    
-    
+
+
     // property apply
     _applyTextAlign : function(value, old) {
       this.getContentElement().setStyle("textAlign", value);
