@@ -14,6 +14,7 @@
 
    Authors:
      * Sebastian Werner (wpbasti)
+     * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
 
@@ -280,9 +281,23 @@ qx.Class.define("qx.bom.Label",
 
       // insert content
       element.innerHTML = content;
-      
+
       // detect size
-      return qx.bom.element.Dimension.getSize(element);
+      var size = qx.bom.element.Dimension.getSize(element);
+
+      if (qx.core.Variant.isSet("qx.client", "gecko"))
+      {
+        // Under Mac at least with Firefox 3.0 alpha 6 and earlier
+        // there was an issue that the text size calculation returns
+        // a size which is a bit too small and results into ellipsis
+        // even under the measured size.
+        // Linux shows the same bug (FF 3.0.6)
+        // https://bugzilla.mozilla.org/show_bug.cgi?id=450422
+        if (!qx.bom.client.Platform.WIN) {
+          size.width++;
+        }
+      }
+      return size;
     },
 
 
@@ -323,7 +338,7 @@ qx.Class.define("qx.bom.Label",
       {
         // Under Mac at least with Firefox 3.0 alpha 6 and earlier
         // there was an issue that the text size calculation returns
-        // a size which is a bit to small and results into ellipsis
+        // a size which is a bit too small and results into ellipsis
         // even under the measured size.
         // Linux shows the same bug (FF 3.0.6)
         // https://bugzilla.mozilla.org/show_bug.cgi?id=450422
