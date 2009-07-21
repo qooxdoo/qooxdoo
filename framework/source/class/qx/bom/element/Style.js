@@ -358,7 +358,7 @@ qx.Class.define("qx.bom.element.Style",
       }
 
       for (var name in styles) {
-        this.set(element, name, styles[name], smart)
+        this.set(element, name, styles[name], smart);
       }
     },
 
