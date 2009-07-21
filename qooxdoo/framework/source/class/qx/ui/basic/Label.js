@@ -121,6 +121,7 @@ qx.Class.define("qx.ui.basic.Label",
     {
       check : "Boolean",
       init : false,
+      event : "changeRich",
       apply : "_applyRich"
     },
 
@@ -138,8 +139,8 @@ qx.Class.define("qx.ui.basic.Label",
       event : "changeValue",
       nullable : true
     },
-    
-    
+
+
     /**
      * The buddy property can be used to connect the label to another widget.
      * That causes two things:
@@ -153,7 +154,7 @@ qx.Class.define("qx.ui.basic.Label",
      * This is the behavior of the for attribute of HTML:
      * http://www.w3.org/TR/html401/interact/forms.html#adef-for
      */
-    buddy : 
+    buddy :
     {
       check : "qx.ui.core.Widget",
       apply : "_applyBuddy",
@@ -180,6 +181,8 @@ qx.Class.define("qx.ui.basic.Label",
       init: "label"
     },
 
+
+    // overridden
     selectable :
     {
       refine : true,
@@ -379,7 +382,7 @@ qx.Class.define("qx.ui.basic.Label",
     ---------------------------------------------------------------------------
     */
 
-    // property apply    
+    // property apply
     _applyBuddy : function(value, old) {
       if (old != null) {
         old.removeBinding(this.__buddyEnabledBinding);
@@ -387,7 +390,7 @@ qx.Class.define("qx.ui.basic.Label",
         this.removeListenerById(this.__clickListenerId);
         this.__clickListenerId = null;
       }
-      
+
       if (value != null) {
         this.__buddyEnabledBinding = value.bind("enabled", this, "enabled");
         this.__clickListenerId = this.addListener("click", value.focus, value);
@@ -433,22 +436,22 @@ qx.Class.define("qx.ui.basic.Label",
 
       // Update layout
       qx.ui.core.queue.Layout.add(this);
-      
+
       this.fireDataEvent("changeContent", value, old);
     },
-    
-    
-    
-    
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       DEPRECATED STUFF
     ---------------------------------------------------------------------------
     */
     /**
-     * Old set method for the content property. Please use the value 
+     * Old set method for the content property. Please use the value
      * property instead.
-     * 
+     *
      * @param value {String} The value of the label.
      * @deprecated
      */
@@ -456,32 +459,32 @@ qx.Class.define("qx.ui.basic.Label",
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee, "Please use the value property instead."
       );
-      
+
       this.setValue(value);
     },
-    
-    
+
+
     /**
-     * Old get method for the content property. Please use the value 
+     * Old get method for the content property. Please use the value
      * property instead.
-     * 
+     *
      * @deprecated
-     */    
+     */
     getContent: function() {
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee, "Please use the value property instead."
-      );      
-      
+      );
+
       return this.getValue();
     },
-    
-    
+
+
     /**
-     * Old reset method for the content property. Please use the value 
+     * Old reset method for the content property. Please use the value
      * property instead.
-     * 
+     *
      * @deprecated
-     */    
+     */
     resetContent: function() {
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee, "Please use the value property instead."
@@ -489,21 +492,21 @@ qx.Class.define("qx.ui.basic.Label",
 
       this.resetValue();
     },
-    
-    
+
+
     // overridden
     addListener: function(type, listener, self, capture) {
       if (type == "changeContent") {
         qx.log.Logger.deprecatedEventWarning(
-          arguments.callee, 
+          arguments.callee,
           "changeContent",
           "Please use the changeValue event instead."
-        );        
+        );
       }
       return this.base(arguments, type, listener, self, capture);
     }
-    
-    
+
+
   },
 
 
@@ -519,7 +522,7 @@ qx.Class.define("qx.ui.basic.Label",
     if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
       qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
     }
-    
+
     // remove the binding
     if (this.__buddyEnabledBinding != null) {
       var buddy = this.getBuddy();
