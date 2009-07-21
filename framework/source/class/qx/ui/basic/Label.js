@@ -259,6 +259,7 @@ qx.Class.define("qx.ui.basic.Label",
       return this.getRich();
     },
 
+
     // overridden
     _applySelectable : function(value)
     {
@@ -283,9 +284,8 @@ qx.Class.define("qx.ui.basic.Label",
         return null;
       }
 
-      var styles = this.__font ? this.__font.getStyles() : qx.bom.Font.getDefaultStyles();
-
-      return qx.bom.Label.getHtmlSize(this.getValue(), styles, width).height;
+      this.__computeContentSize(width);
+      return this.__contentSize.height;
     },
 
 
@@ -359,7 +359,7 @@ qx.Class.define("qx.ui.basic.Label",
      *
      * @return {void}
      */
-    __computeContentSize : function()
+    __computeContentSize : function(width)
     {
       var Label = qx.bom.Label;
       var font = this.getFont();
@@ -369,7 +369,7 @@ qx.Class.define("qx.ui.basic.Label",
       var rich = this.getRich();
 
       this.__contentSize = rich ?
-        Label.getHtmlSize(content, styles) :
+        Label.getHtmlSize(content, styles, width) :
         Label.getTextSize(content, styles);
     },
 
@@ -383,15 +383,18 @@ qx.Class.define("qx.ui.basic.Label",
     */
 
     // property apply
-    _applyBuddy : function(value, old) {
-      if (old != null) {
+    _applyBuddy : function(value, old)
+    {
+      if (old != null)
+      {
         old.removeBinding(this.__buddyEnabledBinding);
         this.__buddyEnabledBinding = null;
         this.removeListenerById(this.__clickListenerId);
         this.__clickListenerId = null;
       }
 
-      if (value != null) {
+      if (value != null)
+      {
         this.__buddyEnabledBinding = value.bind("enabled", this, "enabled");
         this.__clickListenerId = this.addListener("click", value.focus, value);
       }
