@@ -332,9 +332,9 @@ class PartBuilder:
         for packageId in allPackages:
             package = packages[packageId]
             if isCommonAndGreaterPackage(searchId, package):
-                return package
+                yield package
 
-        return None
+        yield None
 
 
     def collapsePartsByOrder(self, parts, packages):
@@ -375,25 +375,25 @@ class PartBuilder:
                     seen += 1
             return seen == len(collapse_group)
 
-        def mergeUniquePackages(collapse_group, parts, packages):
+        def mergeUniquePackages(collapse_group, parts, packages, seen_targets):
             self._console.debug("collapsing unique packages...")
             self._console.indent()
             for part in collapse_group:
                 for packId in reversed(part.packages):   # start with "smallest" package
                     package = packages[packId]
                     if isUnique(package, collapse_group):
-                        self._mergePackage1(package, parts, packages)
+                        self._mergePackage1(package, parts, packages, seen_targets)
             self._console.outdent()
             return parts, packages
 
-        def mergeCommonPackages(collapse_group, parts, packages):
+        def mergeCommonPackages(collapse_group, parts, packages, seen_targets):
             self._console.debug("collapsing common packages...")
             self._console.indent()
             for part in collapse_group:
                 for packId in reversed(part.packages):
                     package = packages[packId]
                     if isCommon(package, collapse_group):
-                        self._mergePackage1(package, parts, packages)
+                        self._mergePackage1(package, parts, packages, seen_targets)
             self._console.outdent()
             return parts, packages
 
@@ -402,14 +402,15 @@ class PartBuilder:
         self._console.indent()
 
         collapse_groups = getCollapseGroupsOrdered(parts, packages)
+        seen_targets    = set(())
 
-        for collidx in sorted(collapse_groups.keys()):
+        for collidx in sorted(collapse_groups.keys()): # go through groups in load order
             collgrp         = collapse_groups[collidx]
             self._console.debug("Collapse group %d %r" % (collidx, [x.name for x in collgrp]))
             self._console.indent()
 
-            parts, packages = mergeUniquePackages(collgrp, parts, packages)
-            parts, packages = mergeCommonPackages(collgrp, parts, packages)
+            parts, packages = mergeUniquePackages(collgrp, parts, packages, seen_targets)
+            parts, packages = mergeCommonPackages(collgrp, parts, packages, seen_targets)
 
             self._console.outdent()
 
@@ -440,12 +441,22 @@ class PartBuilder:
 
 
 
-    def _mergePackage1(self, fromPackage, parts, packages):
+    def _mergePackage1(self, fromPackage, parts, packages, seen_targets=None):
         # find toPackage
-        toPackage = self._getPreviousCommonPackage(fromPackage, parts, packages)
+        toPackage = None
+        for toPackage in self._getPreviousCommonPackage(fromPackage, parts, packages):
+            if toPackage == None:
+                break
+            elif seen_targets:
+                if toPackage not in seen_targets:
+                    break
+            else:
+                break
         if toPackage == None:
             return
         self._console.debug("Merge package #%s into #%s" % (fromPackage.id, toPackage.id))
+        if seen_targets:
+            seen_targets.add(toPackage)
 
         # Update part information
         for part in parts.values():
