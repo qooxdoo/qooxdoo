@@ -286,7 +286,7 @@ class PartBuilder:
             #     or: the package is unshared and smaller than minPackageSizeForUnshared
             self._console.indent()
             self._console.debug("Search a target package for package #%s" % (fromPackage.id,))
-            toPackage = self._getPreviousCommonPackage1(fromPackage, parts, packages)
+            toPackage = self._getPreviousCommonPackage(fromPackage, parts, packages)
             if toPackage != None:
                 self._console.debug("Merge package #%s into #%s" % (fromPackage.id, toPackage.id))
                 self._mergePackage(fromPackage, toPackage, parts, packages, None)
@@ -308,36 +308,6 @@ class PartBuilder:
 
 
     def _getPreviousCommonPackage(self, searchPackage, parts, packages):
-        # get a package that is in all parts that searchPackage is in, and is earlier in the
-        # corresponding packages lists
-        searchId            = searchPackage.id
-        relevantParts       = []
-        relevantPackages    = []
-
-        for part in parts.values():
-            pkges = part.packages
-            if searchId in pkges:
-                relevantParts.append(part.name)      # the searchPackage appears in this part
-                relevantPackages.extend(pkges[:pkges.index(searchId)])
-                                                     # all packages *preceding* the searchPackage in this part
-
-        # Sort relevant packages by priority, but start from end
-        self._sortPackages(relevantPackages, packages)
-        relevantPackages.reverse()
-
-        # Check if a package is available identical times to the number of parts
-        # This means:
-        # - the package is in all parts where the searchPackage is
-        # - therefore, it's a safe package to merge the searchPackage into, since all affected parts will
-        #   still have the classes from the searchPackage
-        for packageId in relevantPackages:
-            if relevantPackages.count(packageId) == len(relevantParts):
-                return packages[packageId]
-
-        return None
-
-
-    def _getPreviousCommonPackage1(self, searchPackage, parts, packages):
         # get the "smallest" package (in the sense of _sortPackages()) that is 
         # in all parts searchPackage is in, and is earlier in the corresponding
         # packages lists
@@ -390,17 +360,19 @@ class PartBuilder:
 
             return
 
-        def mergeUniquePackages(parts, packages):
+        def mergeUniquePackages(collapse_group, parts, packages):
+            for part in collapse_group:
+                pass
             return parts, packages
 
-        def mergeCommonPackages(parts, packages):
+        def mergeCommonPackages(collapse_group, parts, packages):
             return parts, packages
 
         collapse_groups = getCollapseGroupsOrdered(parts, packages)
 
         for collgrp in collapse_groups:
-            parts, packages = mergeUniquePackages(parts, packages)
-            parts, packages = mergeCommonPackages(parts, packages)
+            parts, packages = mergeUniquePackages(collgrp, parts, packages)
+            parts, packages = mergeCommonPackages(collgrp, parts, packages)
 
         return
 
