@@ -23,7 +23,7 @@ qx.Class.define("qx.test.ui.form.Placeholder",
   members :
   {    
 
-    __testInit : function(clazz) {
+    __testInit : function(clazz, childControlName) {
       var widget = new clazz();
       widget.setValue("affe");
       widget.setPlaceholder("aaa");
@@ -34,13 +34,14 @@ qx.Class.define("qx.test.ui.form.Placeholder",
       widget.setPlaceholder("abc");
       this.getRoot().add(widget);
       
-      var timer = qx.util.TimerManager.getInstance();
-      timer.start(function() {
+      // var cc = childControlName ? widget.getChildControl(childControlName) : widget;
+      
+      widget.addListener("syncAppearance", function() {
         this.resume(function() {
           this.assertEquals("abc", this.__getVisibleValueOf(widget), "placeholder not visible");
           this.assertNull(widget.getValue(), "Wrong value returned.");            
         }, this);
-      }, 0, this, null, 300);
+      }, this);
       
       this.wait();
     },
@@ -58,13 +59,12 @@ qx.Class.define("qx.test.ui.form.Placeholder",
       // remove the value
       widget.resetValue();
             
-      var timer = qx.util.TimerManager.getInstance();
-      timer.start(function() {
+      widget.addListener("syncAppearance", function() {
         this.resume(function() {
           this.assertNull(widget.getValue(), "wrong value");
           this.assertEquals("abc", this.__getVisibleValueOf(widget), "wrong visible value");
         }, this);
-      }, 0, this, null, 300);
+      }, this);
       
       this.wait();
     },
@@ -117,13 +117,12 @@ qx.Class.define("qx.test.ui.form.Placeholder",
       
       widget.setEnabled(true);
       
-      var timer = qx.util.TimerManager.getInstance();
-      timer.start(function() {
+      widget.addListener("syncAppearance", function() {
         this.resume(function() {
           this.assertNull(widget.getValue(), "wrong value");
           this.assertEquals("abc", this.__getVisibleValueOf(widget), "wrong visible value");
         }, this);
-      }, 0, this, null, 100);
+      }, this);
       
       this.wait();
     },
