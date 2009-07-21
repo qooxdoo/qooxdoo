@@ -1231,7 +1231,7 @@ qx.Class.define("qx.ui.core.Widget",
         if (contentHint.maxWidth == null) {
           maxWidth = Infinity;
         } else {
-          maxWidth = contentHint.maxWidth + insetX
+          maxWidth = contentHint.maxWidth + insetX;
         }
       }
 
@@ -2816,7 +2816,7 @@ qx.Class.define("qx.ui.core.Widget",
 
         do {
           id.push(obj.$$subcontrol||obj.getAppearance());
-        } while (obj = obj.$$subparent)
+        } while (obj = obj.$$subparent);
 
         // Combine parent control IDs, add top level appearance, filter result
         // to not include positioning information anymore (e.g. #3)
