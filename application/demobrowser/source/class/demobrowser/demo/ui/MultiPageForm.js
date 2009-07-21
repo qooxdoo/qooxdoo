@@ -92,9 +92,7 @@ qx.Class.define("demobrowser.demo.ui.MultiPageForm",
       
       // create the data model
       var skeleton = {name: null, password: null, email: null, birthdate: null};
-      var marshaler = new qx.data.marshal.Json();
-      marshaler.jsonToClass(skeleton, true);
-      var model = marshaler.jsonToModel(skeleton);
+      var model = qx.data.marshal.Json.createModel(skeleton, true);
       
       // create the controller and connect all fields
       var controller = new qx.data.controller.Object(model);
@@ -121,7 +119,6 @@ qx.Class.define("demobrowser.demo.ui.MultiPageForm",
       
       // validate on every change of the model
       model.addListener("changeBubble", function(e) {
-        console.log("validate");
         validator.validate();
       }, this);
       

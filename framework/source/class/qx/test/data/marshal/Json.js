@@ -57,7 +57,7 @@ qx.Class.define("qx.test.data.marshal.Json",
   
   
     testClassCreationSingle: function() {
-      this.__marshaler.jsonToClass(this.__data);
+      this.__marshaler.toClass(this.__data);
 
       // check if the class is defined
       this.assertTrue(qx.Class.isDefined('qx.data.model.b"n"s'), "Class not created.");
@@ -76,7 +76,7 @@ qx.Class.define("qx.test.data.marshal.Json",
     testClassCreationArray: function() {
       this.__data = eval("({a: ['a', 'b', 'c']})");
       
-      this.__marshaler.jsonToClass(this.__data);
+      this.__marshaler.toClass(this.__data);
       
       // check if the class is defined
       this.assertTrue(qx.Class.isDefined("qx.data.model.a"), "Class not created.");
@@ -90,7 +90,7 @@ qx.Class.define("qx.test.data.marshal.Json",
     testClassCreationObject: function() {
       this.__data = eval("({a: {b: 'test'}})");
       
-      this.__marshaler.jsonToClass(this.__data);
+      this.__marshaler.toClass(this.__data);
       
       // check if the classes are defined
       this.assertTrue(qx.Class.isDefined("qx.data.model.a"), "Class not created.");
@@ -108,7 +108,7 @@ qx.Class.define("qx.test.data.marshal.Json",
     testClassCreationArrayWithObject: function() {
       this.__data = eval("({a: [{b: 'test'}, {b: 'test'}]})");
       
-      this.__marshaler.jsonToClass(this.__data);
+      this.__marshaler.toClass(this.__data);
       
       // check if the classes are defined
       this.assertTrue(qx.Class.isDefined("qx.data.model.a"), "Class not created.");
@@ -124,16 +124,16 @@ qx.Class.define("qx.test.data.marshal.Json",
     
     testClassCreationAllSmoke: function() {
       this.__data = eval("({a: [{b: 'test', c: ['f', 'x', 'e']}, {b: 'test', affe: false}], t: {f: null, r: 152, q: true}})");      
-      this.__marshaler.jsonToClass(this.__data);
+      this.__marshaler.toClass(this.__data);
     },
     
     
     testModelWithNumber: function() {
       this.__data = eval("({a: 10, b: -15, c: 10.5e10})");
       // first create the classes befor setting the data
-      this.__marshaler.jsonToClass(this.__data);
+      this.__marshaler.toClass(this.__data);
       // set the data
-      var model = this.__marshaler.jsonToModel(this.__data);
+      var model = this.__marshaler.toModel(this.__data);
       
       // check the model
       this.assertEquals(10, model.getA(), "getA does not work.");
@@ -145,9 +145,9 @@ qx.Class.define("qx.test.data.marshal.Json",
     testModelWithBoolean: function() {
       this.__data = eval("({a: true, b: false})");
       // first create the classes befor setting the data
-      this.__marshaler.jsonToClass(this.__data);
+      this.__marshaler.toClass(this.__data);
       // set the data
-      var model = this.__marshaler.jsonToModel(this.__data);
+      var model = this.__marshaler.toModel(this.__data);
       
       // check the model
       this.assertEquals(true, model.getA(), "getA does not work.");
@@ -158,9 +158,9 @@ qx.Class.define("qx.test.data.marshal.Json",
     testModelWithString: function() {
       this.__data = eval("({a: 'affe', b: 'AFFE'})");
       // first create the classes befor setting the data
-      this.__marshaler.jsonToClass(this.__data);
+      this.__marshaler.toClass(this.__data);
       // set the data
-      var model = this.__marshaler.jsonToModel(this.__data);
+      var model = this.__marshaler.toModel(this.__data);
       
       // check the model
       this.assertEquals("affe", model.getA(), "getA does not work.");
@@ -171,9 +171,9 @@ qx.Class.define("qx.test.data.marshal.Json",
     testModelWithPrimitive: function() {
       this.__data = eval("({a: 'affe', b: true, c: 156})");
       // first create the classes befor setting the data
-      this.__marshaler.jsonToClass(this.__data);
+      this.__marshaler.toClass(this.__data);
       // set the data
-      var model = this.__marshaler.jsonToModel(this.__data);
+      var model = this.__marshaler.toModel(this.__data);
       
       // check the model
       this.assertEquals("affe", model.getA(), "getA does not work.");
@@ -185,9 +185,9 @@ qx.Class.define("qx.test.data.marshal.Json",
     testModelWithArrayPrimitive: function() {
       this.__data = eval("({a: ['affe', 'affen', 'AFFE']})");
       // first create the classes befor setting the data
-      this.__marshaler.jsonToClass(this.__data);
+      this.__marshaler.toClass(this.__data);
       // set the data
-      var model = this.__marshaler.jsonToModel(this.__data);
+      var model = this.__marshaler.toModel(this.__data);
       
       // check the model
       var a = model.getA();
@@ -202,9 +202,9 @@ qx.Class.define("qx.test.data.marshal.Json",
     testModelWithArrayArray: function() {
       this.__data = eval("({a: [[true, false], [10, 15]]})");
       // first create the classes befor setting the data
-      this.__marshaler.jsonToClass(this.__data);
+      this.__marshaler.toClass(this.__data);
       // set the data
-      var model = this.__marshaler.jsonToModel(this.__data);
+      var model = this.__marshaler.toModel(this.__data);
       
       // check the model
       var a = model.getA();
@@ -226,9 +226,9 @@ qx.Class.define("qx.test.data.marshal.Json",
     testModelWithObjectPrimitive: function() {
       this.__data = eval("({a: {b: true, bb: false}, aa: {c: 15, cc: -89}})");
       // first create the classes befor setting the data
-      this.__marshaler.jsonToClass(this.__data);
+      this.__marshaler.toClass(this.__data);
       // set the data
-      var model = this.__marshaler.jsonToModel(this.__data);
+      var model = this.__marshaler.toModel(this.__data);
       
       // check the model
       var a = model.getA();
@@ -246,9 +246,9 @@ qx.Class.define("qx.test.data.marshal.Json",
     testModelWithObjectArray: function() {
       this.__data = eval("({a: {b: ['affe', 'AFFE']}})");
       // first create the classes befor setting the data
-      this.__marshaler.jsonToClass(this.__data);
+      this.__marshaler.toClass(this.__data);
       // set the data
-      var model = this.__marshaler.jsonToModel(this.__data);
+      var model = this.__marshaler.toModel(this.__data);
       
       // check the model
       var a = model.getA();
@@ -264,9 +264,9 @@ qx.Class.define("qx.test.data.marshal.Json",
     testModelWithArrayObject: function() {
       this.__data = eval("({a: [{a: 15}, {a: true}]})");
       // first create the classes befor setting the data
-      this.__marshaler.jsonToClass(this.__data);
+      this.__marshaler.toClass(this.__data);
       // set the data
-      var model = this.__marshaler.jsonToModel(this.__data);
+      var model = this.__marshaler.toModel(this.__data);
       
       // check the model
       var a = model.getA();
@@ -286,9 +286,9 @@ qx.Class.define("qx.test.data.marshal.Json",
     testModelWithObjectObject: function() {
       this.__data = eval("({a: {a: {a: 'affe'}}})");
       // first create the classes befor setting the data
-      this.__marshaler.jsonToClass(this.__data);
+      this.__marshaler.toClass(this.__data);
       // set the data
-      var model = this.__marshaler.jsonToModel(this.__data);
+      var model = this.__marshaler.toModel(this.__data);
       
       // check the model      
       this.assertEquals("affe", model.getA().getA().getA(), "No affe is there!");
@@ -298,9 +298,9 @@ qx.Class.define("qx.test.data.marshal.Json",
     testModelWithAllSmoke: function() {
       this.__data = eval("({a: [{aa: ['affe'], ab: false, ac: []}, {}, true, 15, 'affe'], b: 'Affe', c: {ca: 156, cb: [null, null], cc: true}})");
       // first create the classes befor setting the data
-      this.__marshaler.jsonToClass(this.__data);
+      this.__marshaler.toClass(this.__data);
       // set the data
-      var model = this.__marshaler.jsonToModel(this.__data);
+      var model = this.__marshaler.toModel(this.__data);
       
       this.assertNotNull(model, "No model set.");      
     },
@@ -309,9 +309,9 @@ qx.Class.define("qx.test.data.marshal.Json",
     testBubbleEventsDepth1: function() {
       this.__data = eval("({a: 10, b: -15, c: 10.5e10})");
       // first create the classes befor setting the data
-      this.__marshaler.jsonToClass(this.__data, true);
+      this.__marshaler.toClass(this.__data, true);
       // set the data
-      var model = this.__marshaler.jsonToModel(this.__data);
+      var model = this.__marshaler.toModel(this.__data);
 
       // check the event for a
       var self = this;
@@ -337,9 +337,9 @@ qx.Class.define("qx.test.data.marshal.Json",
     testBubbleEventsDepth2: function() {
       this.__data = eval("({a: {b: 10, c: 20}})");
       // first create the classes befor setting the data
-      this.__marshaler.jsonToClass(this.__data, true);
+      this.__marshaler.toClass(this.__data, true);
       // set the data
-      var model = this.__marshaler.jsonToModel(this.__data);
+      var model = this.__marshaler.toModel(this.__data);
 
       // check the event for b
       var self = this;
@@ -364,9 +364,9 @@ qx.Class.define("qx.test.data.marshal.Json",
     testBubbleEventsDepth3: function() {
       this.__data = eval("({a: {b: {c: 10}}})");
       // first create the classes befor setting the data
-      this.__marshaler.jsonToClass(this.__data, true);
+      this.__marshaler.toClass(this.__data, true);
       // set the data
-      var model = this.__marshaler.jsonToModel(this.__data);
+      var model = this.__marshaler.toModel(this.__data);
 
       // check the event for c
       var self = this;
@@ -383,9 +383,9 @@ qx.Class.define("qx.test.data.marshal.Json",
     testBubbleEventsArrayDepth1: function() {
       this.__data = eval("({a: [12, 23, 34]})");
       // first create the classes befor setting the data
-      this.__marshaler.jsonToClass(this.__data, true);
+      this.__marshaler.toClass(this.__data, true);
       // set the data
-      var model = this.__marshaler.jsonToModel(this.__data);
+      var model = this.__marshaler.toModel(this.__data);
 
       // check the event for the first array element
       var self = this;
@@ -401,9 +401,9 @@ qx.Class.define("qx.test.data.marshal.Json",
     testBubbleEventsArrayDepth2: function() {
       this.__data = eval("({a: [{b: 10}, {b: 11}]})");
       // first create the classes befor setting the data
-      this.__marshaler.jsonToClass(this.__data, true);
+      this.__marshaler.toClass(this.__data, true);
       // set the data
-      var model = this.__marshaler.jsonToModel(this.__data);
+      var model = this.__marshaler.toModel(this.__data);
 
       // check the event for the first array element
       var self = this;
@@ -419,9 +419,9 @@ qx.Class.define("qx.test.data.marshal.Json",
     testBubbleEventsArrayDepthAlot: function() {
       this.__data = eval("({a: [[[[{b:10}]]]]})");
       // first create the classes befor setting the data
-      this.__marshaler.jsonToClass(this.__data, true);
+      this.__marshaler.toClass(this.__data, true);
       // set the data
-      var model = this.__marshaler.jsonToModel(this.__data);
+      var model = this.__marshaler.toModel(this.__data);
 
       // check the event for the first array element
       var self = this;
@@ -437,9 +437,9 @@ qx.Class.define("qx.test.data.marshal.Json",
     testBubbleEventsArrayDepthAlotMix: function() {
       this.__data = eval("({a: [ {b: [ [{c: {d: [0, 1]}}] ]} ]})");
       // first create the classes befor setting the data
-      this.__marshaler.jsonToClass(this.__data, true);
+      this.__marshaler.toClass(this.__data, true);
       // set the data
-      var model = this.__marshaler.jsonToModel(this.__data);
+      var model = this.__marshaler.toModel(this.__data);
 
       // check the event for the first array element
       var self = this;
@@ -455,9 +455,9 @@ qx.Class.define("qx.test.data.marshal.Json",
     testBubbleEventsArrayLong: function() {
       this.__data = eval("({a: [0, 1, 2, 3, 4, 5, 6 , 7, 8, 9, 10]})");
       // first create the classes befor setting the data
-      this.__marshaler.jsonToClass(this.__data, true);
+      this.__marshaler.toClass(this.__data, true);
       // set the data
-      var model = this.__marshaler.jsonToModel(this.__data);
+      var model = this.__marshaler.toModel(this.__data);
 
       // check the event for the first array element
       var self = this;
@@ -473,9 +473,9 @@ qx.Class.define("qx.test.data.marshal.Json",
     testBubbleEventsArrayReorder: function() {
       this.__data = eval("({a: [11, 1, 2, 3, 4, 5, 6 , 7, 8, 9, 10]})");
       // first create the classes befor setting the data
-      this.__marshaler.jsonToClass(this.__data, true);
+      this.__marshaler.toClass(this.__data, true);
       // set the data
-      var model = this.__marshaler.jsonToModel(this.__data);
+      var model = this.__marshaler.toModel(this.__data);
       
       model.getA().sort();
 
