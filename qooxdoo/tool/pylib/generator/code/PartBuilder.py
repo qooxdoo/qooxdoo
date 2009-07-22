@@ -67,7 +67,7 @@ class PartBuilder:
 
         # Preprocess part data
         parts    = {}  # map of Parts
-        parts    = self._getParts(partIncludes)
+        parts    = self._getParts(partIncludes, partsCfg)
         parts    = self._getPartDeps(parts, variants, smartExclude, classList)
 
         # Compute packages
@@ -102,7 +102,7 @@ class PartBuilder:
     # create the set of parts, each part with a unique single-bit bit mask
     # @returns {Map} parts = { partName : Part() }
 
-    def _getParts(self, partIncludes):
+    def _getParts(self, partIncludes, partsCfg):
         self._console.debug("Creating part structures...")
 
         self._console.indent()
@@ -112,6 +112,8 @@ class PartBuilder:
             npart.bit_mask = 1<<partPos      # add unique bit
             npart.initial_deps = partIncludes[partId][:]  # defining classes from config
             npart.deps     = partIncludes[partId][:]  # initialize dependencies with defining classes
+            if 'expected-load-order' in partsCfg[partId]:
+                npart.collapse_index = partsCfg[partId]['expected-load-order']
             parts[partId]  = npart
             self._console.debug("Part #%s => %s" % (partId, npart.bit_mask))
 
@@ -375,25 +377,39 @@ class PartBuilder:
                     seen += 1
             return seen == len(collapse_group)
 
-        def mergeUniquePackages(collapse_group, parts, packages, seen_targets):
-            self._console.debug("collapsing unique packages...")
+        def getUniquePackages(part, collapse_group, packages):
+            uniques = {}
+            for packId in part.packages:
+                package = packages[packId]
+                if isUnique(package.id, collapse_group):
+                    uniques[package.id] = package
+            return uniques
+
+        getUniquePackages.key = 'unique'
+
+        def getCommonPackages(part, collapse_group, packages):
+            commons = {}
+            for packId in part.packages:
+                package = packages[packId]
+                if isCommon(package.id, collapse_group):
+                    commons[package.id] = package
+            return commons
+
+        getCommonPackages.key = 'common'
+
+
+        def mergeGroupPackages(selectFunc, collapse_group, parts, packages, seen_targets):
+            self._console.debug("collapsing %s packages..." % selectFunc.key)
             self._console.indent()
             for part in collapse_group:
+                selected_packages = selectFunc(part, collapse_group, packages)
+                #print "xxx selecteds: %r" % selected_packages
                 for packId in reversed(part.packages):   # start with "smallest" package
                     package = packages[packId]
-                    if isUnique(package, collapse_group):
-                        self._mergePackage1(package, parts, packages, seen_targets)
-            self._console.outdent()
-            return parts, packages
-
-        def mergeCommonPackages(collapse_group, parts, packages, seen_targets):
-            self._console.debug("collapsing common packages...")
-            self._console.indent()
-            for part in collapse_group:
-                for packId in reversed(part.packages):
-                    package = packages[packId]
-                    if isCommon(package, collapse_group):
-                        self._mergePackage1(package, parts, packages, seen_targets)
+                    if package.id in selected_packages:
+                        mergedPackage = self._mergePackage1(package, parts, selected_packages, seen_targets)
+                        if mergedPackage:  # on success == package
+                            del packages[package.id]  # since we didn't pass in the whole packages struct to _mergePackage
             self._console.outdent()
             return parts, packages
 
@@ -409,8 +425,8 @@ class PartBuilder:
             self._console.debug("Collapse group %d %r" % (collidx, [x.name for x in collgrp]))
             self._console.indent()
 
-            parts, packages = mergeUniquePackages(collgrp, parts, packages, seen_targets)
-            parts, packages = mergeCommonPackages(collgrp, parts, packages, seen_targets)
+            parts, packages = mergeGroupPackages(getUniquePackages, collgrp, parts, packages, seen_targets)
+            parts, packages = mergeGroupPackages(getCommonPackages, collgrp, parts, packages, seen_targets)
 
             self._console.outdent()
 
@@ -447,15 +463,15 @@ class PartBuilder:
         for toPackage in self._getPreviousCommonPackage(fromPackage, parts, packages):
             if toPackage == None:
                 break
-            elif seen_targets:
+            elif seen_targets != None:
                 if toPackage not in seen_targets:
                     break
             else:
                 break
         if toPackage == None:
-            return
+            return None
         self._console.debug("Merge package #%s into #%s" % (fromPackage.id, toPackage.id))
-        if seen_targets:
+        if seen_targets != None:
             seen_targets.add(toPackage)
 
         # Update part information
@@ -466,6 +482,8 @@ class PartBuilder:
         # Merging package content
         toPackage.classes.extend(fromPackage.classes)
         del packages[fromPackage.id]
+        
+        return fromPackage  # to allow caller check for merging and further clean-up fromPackage
 
 
 

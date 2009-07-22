@@ -249,7 +249,7 @@ class Generator:
                 self._console.debug("Expanding include expressions...")
                 partIncludes = {}
                 for partId in partsCfg:
-                    partIncludes[partId] = self._expandRegExps(partsCfg[partId])
+                    partIncludes[partId] = self._expandRegExps(partsCfg[partId]['include'])
 
                 # Computing packages
                 boot, partPackages, packageClasses = self._partBuilder.getPackages(partIncludes, smartExclude, classList, variants, self._context)
