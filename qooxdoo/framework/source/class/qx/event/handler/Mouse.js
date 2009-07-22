@@ -429,6 +429,7 @@ qx.Class.define("qx.event.handler.Mouse",
     {
       "webkit" : function(domEvent, type, target)
       {
+        // The webkit bug has been fixed in Safari 4
         if (qx.bom.client.Engine.VERSION < 530)
         {
           if (type == "contextmenu") {
