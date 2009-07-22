@@ -111,7 +111,6 @@ qx.Class.define("qx.Interface",
 
         // Create interface from statics
         var iface = config.statics ? config.statics : {};
-        qx.Bootstrap.setDisplayNames(iface, name);
 
         // Attach configuration
         if (config.extend) {

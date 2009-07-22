@@ -121,7 +121,7 @@ qx.Class.define("qx.Mixin",
         if (config.members)
         {
           mixin.$$members = config.members;
-          qx.Bootstrap.setDisplayNames(config.members, name);
+          qx.Bootstrap.setDisplayNames(config.members, name + ".prototype");
         }
 
         for(var key in mixin.$$members)

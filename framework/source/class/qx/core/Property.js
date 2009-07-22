@@ -651,7 +651,7 @@ qx.Class.define("qx.core.Property",
         members[store] = qx.core.Aspect.wrap(instance.classname + "." + store, members[store], "property");
       }
       
-      qx.Bootstrap.setDisplayName(members[store], instance.classname, store)
+      qx.Bootstrap.setDisplayName(members[store], instance.classname + ".prototype", store)
 
       // Executing new function
       if (args === undefined) {

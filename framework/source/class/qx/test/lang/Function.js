@@ -132,6 +132,47 @@ qx.Class.define("qx.test.lang.Function",
       
       delayed();
       this.wait(100);
-    }        
+    },
+    
+    
+    testGetName : function()
+    {
+      qx.Class.define("qx.test.Name",
+      {
+        extend : qx.core.Object,
+        construct : function() {},
+        
+        properties : {
+          prop : {}
+        },
+        
+        statics : {
+          foo : function() {}
+        },
+        
+        members : {
+          bar : function() {}
+        },
+        
+        destruct : function() {}
+      });
+      
+      var name = new qx.test.Name();
+      this.assertEquals("qx.test.Name.constructor()", qx.lang.Function.getName(qx.test.Name));
+      this.assertEquals("qx.test.Name.destruct()", qx.lang.Function.getName(qx.test.Name.$$destructor));
+
+      name.setProp(1);
+      name.getProp();
+      this.assertEquals("qx.test.Name.prototype.setProp()", qx.lang.Function.getName(name.setProp));
+      this.assertEquals("qx.test.Name.prototype.getProp()", qx.lang.Function.getName(name.getProp));
+
+      this.assertEquals("qx.test.Name.foo()", qx.lang.Function.getName(qx.test.Name.foo));
+      this.assertEquals("qx.test.Name.prototype.bar()", qx.lang.Function.getName(name.bar));
+
+      this.assertEquals("anonymous()", qx.lang.Function.getName(function() {}));
+      
+      function named() {};
+      this.assertEquals("named()", qx.lang.Function.getName(named));      
+    }    
   }
 });
