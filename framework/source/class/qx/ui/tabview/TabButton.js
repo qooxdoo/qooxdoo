@@ -233,8 +233,10 @@ qx.Class.define("qx.ui.tabview.TabButton",
         layout.setColumnAlign(2, "left", "middle");
       }
 
-      layout.setColumnFlex(1, value);
+      layout.setColumnFlex(1, !value);
+      layout.setColumnFlex(2, value);
       layout.setColumnFlex(3, !value);
+      layout.setColumnFlex(4, !value);
     }
 
   }
