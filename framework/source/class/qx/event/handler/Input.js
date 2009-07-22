@@ -170,7 +170,7 @@ qx.Class.define("qx.event.handler.Input",
       {
         if (type === "input")
         {
-          qx.bom.Event.addNativeListener(target, "input", this._onInputWrapper);
+          this.__registerInputListener(target);
         }
         else if (type === "change")
         {
@@ -185,6 +185,29 @@ qx.Class.define("qx.event.handler.Input",
           
           this.__changeEventOnEnterFix(target, target.type);
         }
+      }
+    }),
+    
+    
+    __registerInputListener : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : null,
+      
+      "webkit" : function(target)
+      {
+        // TODO: remove listener
+        var tag = target.tagName.toLowerCase();
+      
+        // the change event is not fired while typing
+        // this has been fixed in the latest nightlies
+        if (qx.bom.client.Engine.VERSION < 532 && tag == "textarea") {
+          qx.bom.Event.addNativeListener(target, "keypress", this._onInputWrapper);
+        }
+        qx.bom.Event.addNativeListener(target, "input", this._onInputWrapper);
+      },
+      
+      "default" : function(target) {
+        qx.bom.Event.addNativeListener(target, "input", this._onInputWrapper);
       }
     }),
 
@@ -222,7 +245,7 @@ qx.Class.define("qx.event.handler.Input",
       {
         if (type === "input")
         {
-          qx.bom.Event.removeNativeListener(target, "input", this._onInputWrapper);
+          this.__registerInputListener(target);
         }
         else if (type === "change")
         {
@@ -237,6 +260,30 @@ qx.Class.define("qx.event.handler.Input",
         }
       }
     }),
+    
+    
+    __unregisterInputListener : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : null,
+      
+      "webkit" : function(target)
+      {
+        // TODO: remove listener
+        var tag = target.tagName.toLowerCase();
+      
+        // the change event is not fired while typing
+        // this has been fixed in the latest nightlies
+        if (qx.bom.client.Engine.VERSION < 532 && tag == "textarea") {
+          qx.bom.Event.removeNativeListener(target, "keypress", this._onInputWrapper);
+        }
+        qx.bom.Event.removeNativeListener(target, "input", this._onInputWrapper);
+      },
+      
+      "default" : function(target) {
+        qx.bom.Event.removeNativeListener(target, "input", this._onInputWrapper);
+      }
+    }),
+    
     
     /**
      * Fix the different behavior when pressing the enter key. 
