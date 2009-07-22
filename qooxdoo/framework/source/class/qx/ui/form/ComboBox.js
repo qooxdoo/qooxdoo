@@ -51,7 +51,6 @@ qx.Class.define("qx.ui.form.ComboBox",
     this._createChildControl("button");
 
     this.addListener("click", this._onClick);
-    this.addListener("keydown", this._onKeyDown);
     
     // forward the focusin and focusout events to the textfield. The textfield 
     // is not focusable so the events need to be forwared manually.
@@ -267,21 +266,6 @@ qx.Class.define("qx.ui.form.ComboBox",
       return this.base(arguments, type, listener, self, capture);
     },
 
-    
-    /**
-     * Event listener for <code>keydown</code> event.
-     *
-     * @param e {qx.event.type.KeySequence} Key event
-     */
-    _onKeyDown : function(e)
-    {
-      if (e.isAltPressed())
-      {
-        this.getChildControl("button").addState("selected");
-        this.focus();
-      }
-    },
-
 
     // overridden
     _onKeyPress : function(e)
@@ -291,6 +275,7 @@ qx.Class.define("qx.ui.form.ComboBox",
 
       if (iden == "Down" && e.isAltPressed())
       {
+        this.getChildControl("button").addState("selected");
         this.toggle();
         e.stopPropagation();
       }
