@@ -401,15 +401,20 @@ class PartBuilder:
         def mergeGroupPackages(selectFunc, collapse_group, parts, packages, seen_targets):
             self._console.debug("collapsing %s packages..." % selectFunc.key)
             self._console.indent()
+            curr_targets = set(())
+
             for part in collapse_group:
                 selected_packages = selectFunc(part, collapse_group, packages)
                 #print "xxx selecteds: %r" % selected_packages
                 for packId in reversed(part.packages):   # start with "smallest" package
                     package = packages[packId]
                     if package.id in selected_packages:
-                        mergedPackage = self._mergePackage1(package, parts, selected_packages, seen_targets)
+                        mergedPackage, targetPackage = self._mergePackage1(package, parts, selected_packages, seen_targets)
                         if mergedPackage:  # on success == package
                             del packages[package.id]  # since we didn't pass in the whole packages struct to _mergePackage
+                            curr_targets.add(targetPackage)
+
+            seen_targets.update(curr_targets)
             self._console.outdent()
             return parts, packages
 
@@ -469,10 +474,8 @@ class PartBuilder:
             else:
                 break
         if toPackage == None:
-            return None
+            return None, None
         self._console.debug("Merge package #%s into #%s" % (fromPackage.id, toPackage.id))
-        if seen_targets != None:
-            seen_targets.add(toPackage)
 
         # Update part information
         for part in parts.values():
@@ -483,7 +486,7 @@ class PartBuilder:
         toPackage.classes.extend(fromPackage.classes)
         del packages[fromPackage.id]
         
-        return fromPackage  # to allow caller check for merging and further clean-up fromPackage
+        return fromPackage, toPackage  # to allow caller check for merging and further clean-up fromPackage
 
 
 
