@@ -97,7 +97,7 @@ qx.Bootstrap = {
 
     if (config.members)
     {
-      qx.Bootstrap.setDisplayNames(config.members, name);
+      qx.Bootstrap.setDisplayNames(config.members, name + ".prototype");
       
       clazz = config.construct || new Function;
       var statics = config.statics;

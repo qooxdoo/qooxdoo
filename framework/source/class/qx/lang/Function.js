@@ -83,16 +83,12 @@ qx.Bootstrap.define("qx.lang.Function",
      */
     getName : function(fcn)
     {
-      if (fcn.$$original) {
-        return fcn.classname + ":constructor wrapper";
+      if (fcn.displayName) {
+        return fcn.displayName;
       }
-
-      if (fcn.wrapper) {
-        return fcn.wrapper.classname + ":constructor";
-      }
-
-      if (fcn.classname) {
-        return fcn.classname + ":constructor";
+      
+      if (fcn.$$original || fcn.wrapper || fcn.classname) {
+        return fcn.classname + ".constructor()";
       }
 
       if (fcn.$$mixin)
@@ -101,7 +97,7 @@ qx.Bootstrap.define("qx.lang.Function",
         for(var key in fcn.$$mixin.$$members)
         {
           if (fcn.$$mixin.$$members[key] == fcn) {
-            return fcn.$$mixin.name + ":" + key;
+            return fcn.$$mixin.name + ".prototype." + key + "()";
           }
         }
 
@@ -109,7 +105,7 @@ qx.Bootstrap.define("qx.lang.Function",
         for(var key in fcn.$$mixin)
         {
           if (fcn.$$mixin[key] == fcn) {
-            return fcn.$$mixin.name + ":" + key;
+            return fcn.$$mixin.name + "." + key + "()";
           }
         }
       }
@@ -123,30 +119,25 @@ qx.Bootstrap.define("qx.lang.Function",
           for(var key in clazz.prototype)
           {
             if (clazz.prototype[key] == fcn) {
-              return clazz.classname + ":" + key;
+              return clazz.classname + ".prototype." + key + "()";
             }
           }
           // statics
           for(var key in clazz)
           {
             if (clazz[key] == fcn) {
-              return clazz.classname + ":" + key;
+              return clazz.classname + "." + key + "()";
             }
           }
         }
       }
 
-      var fcnReResult = fcn.toString().match(/(function\s*\w*\(.*?\))/);
+      var fcnReResult = fcn.toString().match(/function\s*(\w*)\s*\(.*/);
       if (fcnReResult && fcnReResult.length >= 1 && fcnReResult[1]) {
-        return fcnReResult[1];
+        return fcnReResult[1] + "()";
       }
       
-      var fcnReResult = fcn.toString().match(/(function\s*\(.*?\))/);
-      if (fcnReResult && fcnReResult.length >= 1 && fcnReResult[1]) {
-        return "anonymous: " + fcnReResult[1];
-      }
-
-      return 'anonymous';
+      return 'anonymous()';
     },
 
 
