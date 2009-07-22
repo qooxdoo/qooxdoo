@@ -1280,7 +1280,7 @@ qx.Bootstrap.define("qx.Class",
       var proto = clazz.prototype;
       var key, member;
       
-      qx.Bootstrap.setDisplayNames(members, clazz.classname);
+      qx.Bootstrap.setDisplayNames(members, clazz.classname + ".prototype");
 
       for (var i=0, a=qx.lang.Object.getKeys(members), l=a.length; i<l; i++)
       {
