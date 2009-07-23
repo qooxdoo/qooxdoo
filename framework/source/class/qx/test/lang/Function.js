@@ -170,9 +170,13 @@ qx.Class.define("qx.test.lang.Function",
       this.assertEquals("qx.test.Name.prototype.bar()", qx.lang.Function.getName(name.bar));
 
       this.assertEquals("anonymous()", qx.lang.Function.getName(function() {}));
-      
+            
       function named() {};
-      this.assertEquals("named()", qx.lang.Function.getName(named));      
+      // the variable optimizer renames the "named" function. Only perform this
+      // test if variable optimization is off.
+      if (named.toString().indexOf("named") !== -1) {
+        this.assertEquals("named()", qx.lang.Function.getName(named));
+      }
     }    
   }
 });
