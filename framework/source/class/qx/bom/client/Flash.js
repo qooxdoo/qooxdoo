@@ -61,12 +61,19 @@ qx.Bootstrap.define("qx.bom.client.Flash",
     /** {String} Full version string with multiple dots (major.minor.revision) e.g. 1.8.1, 8.5.4, ... */
     FULLVERSION : "0.0.0",
 
+    /** {String} Revision string e.g. 0, 124, ... */
+    REVISION : "0",
+
     /** {Float} Version of the installed flash player e.g. 9.0, 6.0, ... */
     VERSION : 0.0,
 
     /** {Boolean} Whether the system supports express installation */
     EXPRESSINSTALL : false,
 
+    /** {Boolean} Whether the flash version uses the new security model or not (since 9.0.151.0 && 10.0.12.36) */
+    STRICT_SECURITY_MODEL : false,
+
+    _cachedSupportsVersion : {},
 
     /**
      * If the system support the given version of Flash(TM) movie.
@@ -76,19 +83,27 @@ qx.Bootstrap.define("qx.bom.client.Flash",
      */
     supportsVersion : function(input)
     {
-      var input = input.split(".");
-      var system = this.FULLVERSION.split(".");
-
-      for (var i=0; i<input.length; i++)
+      if (typeof this._cachedSupportsVersion[input] === "boolean")
       {
-        var diff = parseInt(system[i]) - parseInt(input[i]);    
-        if (diff > 0) {
-          return true;
-        } else if (diff < 0) {
-          return false;
-        }
+        return this._cachedSupportsVersion[input];
       }
-      return true;
+      else
+      {
+        var splitInput = input.split(".");
+        var system = this.FULLVERSION.split(".");
+
+        for (var i=0; i<splitInput.length; i++)
+        {
+          var diff = parseInt(system[i]) - parseInt(splitInput[i]);
+          if (diff > 0) {
+            return (this._cachedSupportsVersion[input] = true);
+          } else if (diff < 0) {
+            return (this._cachedSupportsVersion[input] = false);
+          }
+        }
+
+        return (this._cachedSupportsVersion[input] = true);
+      }
     },
 
 
@@ -184,6 +199,13 @@ qx.Bootstrap.define("qx.bom.client.Flash",
       this.FULLVERSION = full.join(".");
       this.VERSION = parseFloat(full);
       this.AVAILABLE = this.VERSION > 0;
+      this.REVISION = full[full.length-1];
+
+      if (full[0] < 10) {
+        this.STRICT_SECURITY_MODEL = this.supportsVersion("9.0.151");
+      } else {
+        this.STRICT_SECURITY_MODEL = this.supportsVersion("10.0.12");
+      }
 
       var platform = qx.bom.client.Platform;
       this.EXPRESSINSTALL = (platform.WIN || platform.MAC) && this.supportsVersion("6.0.65");
