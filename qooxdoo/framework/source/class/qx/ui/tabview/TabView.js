@@ -30,7 +30,7 @@ qx.Class.define("qx.ui.tabview.TabView",
 {
   extend : qx.ui.core.Widget,
   implement : qx.ui.core.ISingleSelection,
-  include : [qx.ui.core.MContentPadding, qx.ui.core.MSingleSelectionHandling],
+  include : [qx.ui.core.MContentPadding],
 
   
   /*
@@ -60,9 +60,7 @@ qx.Class.define("qx.ui.tabview.TabView",
     // Create manager
     var mgr = this.__radioGroup = new qx.ui.form.RadioGroup;
     mgr.setWrap(false);
-    mgr.addListener("changeSelection", this._onRadioChangeSelection, this);
-
-    this.addListener("changeSelection", this.__onChangeSelection, this);
+    mgr.addListener("changeSelection", this._onChangeSelection, this);
     
     // Initialize bar position
     if (barPosition != null) {
@@ -86,7 +84,10 @@ qx.Class.define("qx.ui.tabview.TabView",
      * Fires after the selection was modified
      * @deprecated Use 'changeSelection' instead!
      */
-    "changeSelected" : "qx.event.type.Data"
+    "changeSelected" : "qx.event.type.Data",
+    
+    /** Fires after the selection was modified */
+    "changeSelection" : "qx.event.type.Data"
   },
 
 
@@ -439,37 +440,84 @@ qx.Class.define("qx.ui.tabview.TabView",
     
     /*
     ---------------------------------------------------------------------------
-      HELPER METHODS FOR SELECTION API
+      SELECTION API
     ---------------------------------------------------------------------------
     */
 
     /**
-     * Returns the pages for the selection.
-     * 
-     * @return {qx.ui.tabview.Page[]} Pages to select.
+     * Returns an array of currently selected items.
+     *
+     * @return {qx.ui.tabview.Page[]} List of items.
      */
-    _getItems : function() {
-      return this.getChildren();
+    getSelection : function() {
+      var buttons = this.__radioGroup.getSelection();
+      var result = [];
+      
+      for (var i = 0; i < buttons.length; i++) {
+        result.push(buttons[i].getUserData("page")); 
+      }    
+      
+      return result;
     },
     
     /**
-     * Returns if the selection could be empty or not.
-     * 
-     * @return {Boolean} <code>true</code> If selection could be empty, 
-     *    <code>false</code> otherwise.
+     * Replaces current selection with the given items.
+     *
+     * @param items {qx.ui.tabview.Page[]} Items to select.
+     * @throws an exception if one of the items is not a child element and if 
+     *    items contains more than one elements. 
      */
-    _isAllowEmptySelection: function() {
-      return this.__radioGroup.isAllowEmptySelection();
+    setSelection : function(items) {
+      var buttons = []
+      
+      for (var i = 0; i < items.length; i++) {
+        buttons.push(items[i].getChildControl("button"));
+      }
+      this.__radioGroup.setSelection(buttons);
     },
     
     /**
-     * Returns whether the given item is selectable.
-     * 
-     * @param item {qx.ui.core.Widget} The item to be checked
-     * @return {Boolean} Whether the given item is selectable
+     * Clears the whole selection at once.
      */
-    _isItemSelectable : function(item) {
-      return item.isEnabled();
+    resetSelection : function() {
+      this.__radioGroup.resetSelection();
+    },
+    
+    /**
+     * Detects whether the given item is currently selected.
+     *
+     * @param item {qx.ui.tabview.Page} Any valid selectable item.
+     * @return {Boolean} Whether the item is selected.
+     * @throws an exception if one of the items is not a child element.
+     */
+    isSelected : function(item) {
+      var button = item.getChildControl("button");
+      return this.__radioGroup.isSelected(button);
+    },
+    
+    /**
+     * Whether the selection is empty.
+     *
+     * @return {Boolean} Whether the selection is empty.
+     */
+    isSelectionEmpty : function() {
+      return this.__radioGroup.isSelectionEmpty();
+    },
+    
+    /**
+     * Returns all elements which are selectable.
+     * 
+     * @return {qx.ui.tabview.Page[]} The contained items.
+     */
+    getSelectables: function() {
+      var buttons = this.__radioGroup.getSelectables();
+      var result = [];
+      
+      for (var i = 0; i <buttons.length; i++) {
+        result.push(buttons[i].getUserData("page"));
+      }
+      
+      return result;
     },
     
     /**
@@ -477,20 +525,14 @@ qx.Class.define("qx.ui.tabview.TabView",
      * 
      * @param e {qx.event.type.Data} Data event.
      */
-    __onChangeSelection : function(e)
+    _onChangeSelection : function(e)
     {
       var pane = this.getChildControl("pane");
-      var group = this.__radioGroup;
-
-      var value = e.getData()[0];
+      var button = e.getData()[0];
       
-      if (value)
+      if (button)
       {
-        var button = value.getButton();
-
-        pane.setSelection([value]);
-        group.setSelection([button]);
-
+        pane.setSelection([button.getUserData("page")]);
         button.focus();
         this.scrollChildIntoView(button, null, null, false);
       }
@@ -499,6 +541,11 @@ qx.Class.define("qx.ui.tabview.TabView",
         pane.resetSelection();
       }
       
+      var value = pane.getSelection();
+      var old = e.getOldData();
+      
+      this.fireDataEvent("changeSelection", value, old);
+      
       /*
        * TODO remove this if the methods and event for old selection API
        * doesn't exist. 
@@ -506,9 +553,19 @@ qx.Class.define("qx.ui.tabview.TabView",
        * Methods: 'getSelected', 'setSelected', 'resetSelected'
        * Event: 'changeSelected'
        */ 
-      if (this.hasListener("changeSelected")) {
-        var old = e.getOldData()[0];
-        this.fireDataEvent("changeSelected", value, old);
+      this.fireDataEvent("changeSelected", value[0], old[0]);
+    },
+    
+    /**
+     * Event handler for <code>beforeChangeSelection</code>.
+     * 
+     * @param e {qx.event.type.Event} Data event.
+     */
+    _onBeforeChangeSelection : function(e)
+    {
+      if (!this.fireNonBubblingEvent("beforeChangeSelection", 
+          qx.event.type.Event, [false, true])) {
+        e.preventDefault();
       }
     },
     
