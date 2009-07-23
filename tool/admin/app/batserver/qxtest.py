@@ -57,7 +57,8 @@ class QxTest:
       'proxyEnable'         : 'wscript ../../tool/proxyEnable.vbs',
       'proxyDisable'        : 'wscript ../../tool/proxyDisable.vbs',
       'compatEnable'        : 'wscript ../../tool/compatEnable.vbs',
-      'compatDisable'       : 'wscript ../../tool/compatDisable.vbs'
+      'compatDisable'       : 'wscript ../../tool/compatDisable.vbs',
+      'killSelenium'        : 'wscript ../../tool/killselenium.vbs'
     }
     
     self.testType = testType
@@ -182,7 +183,7 @@ class QxTest:
     if self.os == "Linux":      
       invokeExternal("pkill -f selenium-server")
     else:
-      invokeExternal("wscript killselenium.vbs")
+      invokeExternal(self.testConf['killSelenium'])
 
   ##
   # Sends a shutdown command to the Selenium server 
