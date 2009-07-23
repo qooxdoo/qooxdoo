@@ -357,6 +357,7 @@ qx.Class.define("qx.ui.basic.Label",
     /**
      * Internal utility to compute the content dimensions.
      *
+     * @param width {Integer?null} Optional width constraint
      * @return {void}
      */
     __computeContentSize : function(width)
@@ -401,6 +402,7 @@ qx.Class.define("qx.ui.basic.Label",
     },
 
 
+    // property apply
     _applyRich : function(value)
     {
       // Sync with content element
@@ -414,6 +416,12 @@ qx.Class.define("qx.ui.basic.Label",
     },
 
 
+    /**
+     * Locale change event handler
+     * 
+     * @signature function(e)
+     * @param e {Event} the change event
+     */
     _onChangeLocale : qx.core.Variant.select("qx.dynlocale",
     {
       "on" : function(e)
@@ -458,7 +466,8 @@ qx.Class.define("qx.ui.basic.Label",
      * @param value {String} The value of the label.
      * @deprecated
      */
-    setContent: function(value) {
+    setContent: function(value) 
+    {
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee, "Please use the value property instead."
       );
@@ -473,7 +482,8 @@ qx.Class.define("qx.ui.basic.Label",
      *
      * @deprecated
      */
-    getContent: function() {
+    getContent: function() 
+    {
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee, "Please use the value property instead."
       );
@@ -488,7 +498,8 @@ qx.Class.define("qx.ui.basic.Label",
      *
      * @deprecated
      */
-    resetContent: function() {
+    resetContent: function() 
+    {
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee, "Please use the value property instead."
       );
