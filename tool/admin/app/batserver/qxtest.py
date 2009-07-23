@@ -52,7 +52,9 @@ class QxTest:
       'testReportDir'       : '../../reports',
       'classPath'           : '../../selenium/current/selenium-java-client-driver.jar:../../rhino/current/js.jar',
       'proxyEnable'         : 'wscript ../../tool/proxyEnable.vbs',
-      'proxyDisable'        : 'wscript ../../tool/proxyDisable.vbs'
+      'proxyDisable'        : 'wscript ../../tool/proxyDisable.vbs',
+      'compatEnable'         : 'wscript ../../tool/compatEnable.vbs',
+      'compatDisable'        : 'wscript ../../tool/compatDisable.vbs'
     }
     
     self.testType = testType
@@ -154,12 +156,12 @@ class QxTest:
       selserv = subprocess.Popen(cmd, shell=True)
     
       # wait a while for the server to start up
-      time.sleep(20)
+      time.sleep(10)
     
       # check if it's up and running
       if ( not(self.isSeleniumServer()) ):
         self.log("Selenium server not responding, waiting a little longer...")
-        time.sleep(20)
+        time.sleep(30)
         if ( not(self.isSeleniumServer()) ):
           self.log("ERROR: Selenium server not responding.")
           sys.exit(1)
