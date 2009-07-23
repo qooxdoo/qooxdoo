@@ -544,7 +544,7 @@ qx.Class.define("playground.Application",
                      this.editor.getCode() :
                      this.textarea.getValue();
 
-      if (!qx.bom.client.Engine.MSHTML && escape(userCode) != escape(this.__sampleContainer[this.currentSample]))
+      if (escape(userCode) != escape(this.__sampleContainer[this.currentSample]).replace(/%0D/g, ""))
       {
         if (!confirm("You changed the code of the current sample.\nClick OK discard changes.")) {
           return ;
