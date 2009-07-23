@@ -43,7 +43,7 @@ class QxTest:
     defaultSeleniumConf = {
       'startSelenium'       : 'java -jar ../../selenium/current/selenium-server.jar',
       'seleniumHost'        : 'http://localhost:4444',
-      'ieSingleWindow'      : False
+      'ieSingleWindow'      : True
     }
     
     defaultTestConf = {
