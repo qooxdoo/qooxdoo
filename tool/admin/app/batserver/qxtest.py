@@ -42,7 +42,8 @@ class QxTest:
     
     defaultSeleniumConf = {
       'startSelenium'       : 'java -jar ../../selenium/current/selenium-server.jar',
-      'seleniumHost'        : 'http://localhost:4444'
+      'seleniumHost'        : 'http://localhost:4444',
+      'ieSingleWindow'      : False
     }
     
     defaultTestConf = {
@@ -155,7 +156,7 @@ class QxTest:
       self.log("Starting Selenium server...")      
       if 'seleniumLog' in self.seleniumConf:
         cmd += " -browserSideLog -log " + self.seleniumConf['seleniumLog']
-      if single and '101' in cmd:
+      if single:
         cmd += " -singlewindow"
       selserv = subprocess.Popen(cmd, shell=True)
     
@@ -511,7 +512,7 @@ class QxTest:
                    + "test run")
 
       single = False
-      if "iexplore" in self.browserConf[browser['browserId']]:
+      if "iexplore" in self.browserConf[browser['browserId']] and self.seleniumConf['ieSingleWindow']:
         single = True
 
       self.startSeleniumServer(single)
