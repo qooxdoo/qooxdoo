@@ -197,10 +197,7 @@ qx.Class.define("qx.ui.tabview.Page",
           control.setAllowGrowX(true);
           control.setAllowGrowY(true);
           
-          // TODO: implement a better solution for
-          // storage depency information between Button and Page 
           control.setUserData("page", this);
-          
           control.addListener("close", this._onButtonClose, this);
 
           this._add(control);
