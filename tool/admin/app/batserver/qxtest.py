@@ -50,11 +50,14 @@ class QxTest:
       'getReportFrom'       : 'testLog',
       'testLogDir'          : '../../logs',
       'testReportDir'       : '../../reports',
-      'classPath'           : '../../selenium/current/selenium-java-client-driver.jar:../../rhino/current/js.jar',
+      #'classPath'           : '../../selenium/current/selenium-java-client-driver.jar:../../rhino/current/js.jar',
+      'seleniumClientDriverJar' : '../../selenium/current/selenium-java-client-driver.jar',
+      'rhinoJar'            : '../../rhino/current/js.jar',
+      'classPathSeparator'  : ';', 
       'proxyEnable'         : 'wscript ../../tool/proxyEnable.vbs',
       'proxyDisable'        : 'wscript ../../tool/proxyDisable.vbs',
-      'compatEnable'         : 'wscript ../../tool/compatEnable.vbs',
-      'compatDisable'        : 'wscript ../../tool/compatDisable.vbs'
+      'compatEnable'        : 'wscript ../../tool/compatEnable.vbs',
+      'compatDisable'       : 'wscript ../../tool/compatDisable.vbs'
     }
     
     self.testType = testType
@@ -607,8 +610,17 @@ class QxTest:
   def getStartCmd(self, aut, browser, options, simulationScript=None):
     cmd = "java"
 
-    if ('classPath' in self.testConf):
-        cmd += " -cp " + self.testConf['classPath']
+    if ('seleniumClientDriverJar' in self.testConf or 'rhinoJar' in self.testConf):
+      cmd += " -cp "
+      if ('seleniumClientDriverJar' in self.testConf):
+        cmd += self.testConf['seleniumClientDriverJar']
+      if ('seleniumClientDriverJar' in self.testConf and 'rhinoJar' in self.testConf):
+        if ('classPathSeparator' in self.testConf):
+          cmd += self.testConf['classPathSeparator']
+        else:
+          cmd += ";"  
+      if ('rhinoJar' in self.testConf):
+        cmd += self.testConf['rhinoJar']
 
     cmd += " org.mozilla.javascript.tools.shell.Main"
     
