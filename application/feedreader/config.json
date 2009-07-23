@@ -33,9 +33,20 @@
       {
         "parts" : 
         {
-          "boot": ["${QXTHEME}", "feedreader.Application"],
-          "settings": ["feedreader.view.PreferenceWindow"],
-          "addfeed": ["feedreader.view.AddFeedWindow"]
+          "boot": 
+          {
+            "include" : ["${QXTHEME}", "feedreader.Application"]
+          },
+          "settings": 
+          {
+            "include" : ["feedreader.view.PreferenceWindow"]
+            //,"expected-load-order" : 1
+          },
+          "addfeed": 
+          {
+            "include" : ["feedreader.view.AddFeedWindow"]
+            //,"expected-load-order" : 1
+          }
         },
         "sizes" : 
         {
