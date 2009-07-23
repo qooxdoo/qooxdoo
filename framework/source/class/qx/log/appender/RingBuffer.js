@@ -26,6 +26,9 @@
  */
 qx.Bootstrap.define("qx.log.appender.RingBuffer",
 {
+  /**
+   * @param maxMessages {Integer?50} Maximum number of messages in the buffer
+   */
   construct : function(maxMessages)
   {
     this.__history = [];    
