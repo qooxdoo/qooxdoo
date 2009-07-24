@@ -151,7 +151,7 @@ qx.Bootstrap.define("qx.util.ResourceManager",
         urlPrefix = this.__urlPrefix[lib];
       }
       
-      return urlPrefix + window.qxlibraries[lib].resourceUri + "/" + id;
+      return urlPrefix + qx.$$libraries[lib].resourceUri + "/" + id;
     }
   },
   
@@ -168,9 +168,9 @@ qx.Bootstrap.define("qx.util.ResourceManager",
       // changed when the application is served with HTTPS.
       if (qx.bom.client.Feature.SSL)
       {
-        for (var lib in window.qxlibraries)
+        for (var lib in qx.$$libraries)
         {
-          var resourceUri = window.qxlibraries[lib].resourceUri;
+          var resourceUri = qx.$$libraries[lib].resourceUri;
         
           // It is valid to to begin a URL with "//" so this case has to
           // be considered. If the to resolved URL begins with "//" the
