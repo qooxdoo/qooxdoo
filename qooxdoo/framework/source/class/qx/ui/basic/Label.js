@@ -283,7 +283,6 @@ qx.Class.define("qx.ui.basic.Label",
       if (!this.getRich()) {
         return null;
       }
-
       this.__computeContentSize(width);
       return this.__contentSize.height;
     },
