@@ -32,7 +32,7 @@ qx.Class.define("qx.io2.PartLoader",
     this.base(arguments);
 
     this.__packages = [];
-    var uris = qx.$$loader.uris;
+    var uris = this._getUris();
     for (var i=0; i<uris.length; i++) {
       this.__packages.push(new qx.io2.part.Package(uris[i], i==0));
     };
@@ -145,7 +145,39 @@ qx.Class.define("qx.io2.PartLoader",
       }
 
       return part;
-    }
+    },
+    
+    
+    /**
+     * Get the URI lists of all packages
+     * 
+     * @return {String[][]} Array of URI lists for each package
+     */
+    _getUris : function()
+    {
+      // TODO: #1648 remove this block
+      if (qx.$$loader.urisOld) {
+        return qx.$$loader.urisOld
+      }
+      
+      var packages = qx.$$loader.uris;
+      var uris = [];
+      for (var i=0; i<packages.length; i++) {
+        uris.push(this._decodeUris(packages[i]));
+      }
+      return uris;
+    },
+    
+    
+    /**
+     * Decodes a list of source URIs. The function is defined in the loader
+     * script.
+     * 
+     * @signature function(compressedUris)
+     * @param compressedUris {String[]} Array of compressed URIs
+     * @return {String[]} decompressed URIs
+     */
+    _decodeUris : qx.$$loader.decodeUris
   },
   
   
