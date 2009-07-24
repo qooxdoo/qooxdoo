@@ -654,8 +654,10 @@ class CodeGenerator(object):
         rmap = {}
         rmap.update(globalCodes)
         rmap["Parts"] = partData
-        rmap["Uris"]  = uriData
-        rmap["Uris2"] = uriDataSmall
+        
+        # TODO: #1648 remove UrisOld
+        rmap["UrisOld"]  = uriData
+        rmap["Uris"] = uriDataSmall
         rmap["Boot"]  = '"%s"' % boot
 
         templ  = MyTemplate(result)
@@ -695,8 +697,10 @@ class CodeGenerator(object):
         rmap = {}
         rmap.update(globalCodes)
         rmap["Parts"] = partData
-        rmap["Uris"]  = uriData
-        rmap["Uris2"]  = '""'
+        
+        # TODO: #1648 remove "UrisOld" and implement "Uris"
+        rmap["UrisOld"]  = uriData
+        rmap["Uris"]  = '""'
         rmap["Boot"]  = '"%s"' % boot
         rmap["BootPart"] = bootCode
 
