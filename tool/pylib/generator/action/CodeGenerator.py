@@ -654,9 +654,6 @@ class CodeGenerator(object):
         rmap = {}
         rmap.update(globalCodes)
         rmap["Parts"] = partData
-        
-        # TODO: #1648 remove UrisOld
-        rmap["UrisOld"]  = uriData
         rmap["Uris"] = uriDataSmall
         rmap["Boot"]  = '"%s"' % boot
 
@@ -680,11 +677,23 @@ class CodeGenerator(object):
 
         # Translate URI data to JavaScript
         allUris = []
-        for packageId, packages in enumerate(packages):
+        allUrisSmall = []
+        for packageId, package in enumerate(packages):
+            packageUris = []
+            packageUrisSmall = []
+
             packageFileName = self._resolveFileName(fileName, variants, settings, packageId)
             allUris.append('["' + packageFileName + '"]')
 
+            shortUri = os.path.basename(packageFileName)
+            shortUri = Uri(shortUri)
+            # TODO: gosh, the next is an ugly hack!
+            namespace= self._resourceHandler._genobj._namespaces[0]  # all name spaces point to the same paths in the libinfo struct, so any of them will do
+            packageUrisSmall.append('"%s:%s"' % (namespace, shortUri.encodedValue()))
+            allUrisSmall.append("[" + ",".join(packageUrisSmall) + "]")
+
         uriData = "[" + ",\n".join(allUris) + "]"
+        uriDataSmall = "[" + ",\n".join(allUrisSmall) + "]"
 
         # Locate and load loader basic script
         if bootCode:
@@ -697,10 +706,7 @@ class CodeGenerator(object):
         rmap = {}
         rmap.update(globalCodes)
         rmap["Parts"] = partData
-        
-        # TODO: #1648 remove "UrisOld" and implement "Uris"
-        rmap["UrisOld"]  = uriData
-        rmap["Uris"]  = '""'
+        rmap["Uris"]  = uriDataSmall
         rmap["Boot"]  = '"%s"' % boot
         rmap["BootPart"] = bootCode
 

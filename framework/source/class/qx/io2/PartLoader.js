@@ -155,11 +155,6 @@ qx.Class.define("qx.io2.PartLoader",
      */
     _getUris : function()
     {
-      // TODO: #1648 remove this block
-      if (qx.$$loader.urisOld) {
-        return qx.$$loader.urisOld
-      }
-      
       var packages = qx.$$loader.uris;
       var uris = [];
       for (var i=0; i<packages.length; i++) {
