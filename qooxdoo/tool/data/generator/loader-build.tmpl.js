@@ -23,7 +23,6 @@ qx.$$locales = %{Locales}
 qx.$$loader = {
   parts : %{Parts},
   uris : %{Uris},
-  urisOld : %{UrisOld}, // TODO: #1648 remove urisOld
   boot : %{Boot},
   
   decodeUris : function(compressedUris)
