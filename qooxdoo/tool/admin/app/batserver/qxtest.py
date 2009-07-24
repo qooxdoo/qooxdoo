@@ -753,7 +753,7 @@ class QxTest:
       except:        
         pass    
 
-    if not log:
+    if not inputfile:
       self.log("ERROR: No log file to work with")
       return False
 
