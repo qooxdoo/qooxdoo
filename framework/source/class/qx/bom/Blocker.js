@@ -34,7 +34,7 @@ qx.Class.define("qx.bom.Blocker",
     __iframeElement : null,
     __blockerElement : null,
     __blockedElement : null,
-    __defaultZIndex: 10000,
+    __defaultZIndex: 1000,
     __defaultBlockerOpacity: 0,
     __defaultBlockerColor: "transparent",
     
@@ -75,6 +75,16 @@ qx.Class.define("qx.bom.Blocker",
       }
       
       this.__removeBlocker();
+    },
+    
+    
+    /**
+     * Returns the blocker element. Useful if the element should be animated.
+     * 
+     * @return {Element} DOM element
+     */
+    getBlockerElement : function() {
+      return this.__blockerElement;
     },
     
     
