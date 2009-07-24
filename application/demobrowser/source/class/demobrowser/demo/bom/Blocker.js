@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2009 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -32,10 +32,10 @@ qx.Class.define("demobrowser.demo.bom.Blocker",
                                               left: "100px",
                                               top: "100px" });
       
+      qx.bom.Blocker.setBlockerOpacity(0.5);
       qx.event.Registration.addListener(input, "click", function(e){
         var Blocker = qx.bom.Blocker;
         Blocker.setBlockerColor("red");
-        Blocker.setBlockerOpacity(0.5);
   
         Blocker.block();
   
@@ -66,9 +66,6 @@ qx.Class.define("demobrowser.demo.bom.Blocker",
       
       qx.event.Registration.addListener(input2, "click", function(e){
         var Blocker = qx.bom.Blocker;
-        Blocker.setBlockerColor("red");
-        Blocker.setBlockerOpacity(0.5);
-  
         Blocker.block(elementToBlock);
   
         qx.event.Timer.once(function(e){

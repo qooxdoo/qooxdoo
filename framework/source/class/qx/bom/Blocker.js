@@ -19,6 +19,7 @@
 
 /* ************************************************************************
 #require(qx.bom.Element)
+#require(qx.bom.Iframe)
  ************************************************************************ */
 
 /**
@@ -53,6 +54,8 @@ qx.Class.define("qx.bom.Blocker",
     {
       this.__blockedElement = element;
       
+      // it's easier to set a zIndex for the element to block to not mix up
+      // the zIndex of the blocker and iframe blocker element
       if (!this.__isWholeDocumentBlockTarget()) {
         qx.bom.element.Style.set(this.__blockedElement, "zIndex", this.__defaultZIndex);
       }
@@ -71,7 +74,6 @@ qx.Class.define("qx.bom.Blocker",
         qx.bom.element.Style.reset(this.__blockedElement, "zIndex");
       }
       
-      qx.bom.element.Opacity.set(this.__blockerElement, 0);
       this.__removeBlocker();
     },
     
@@ -178,31 +180,22 @@ qx.Class.define("qx.bom.Blocker",
     
     /**
      * Create iframe blocker element and set initial styles.
-     * Only executed for IE browsers.
      * 
      * Needed to block native form elements 
      * // see: http://www.macridesweb.com/oltest/IframeShim.html
      */
-    __setupIframeElement : qx.core.Variant.select("qx.client",
+    __setupIframeElement : function()
     {
-      "mshtml" : function()
-      {
-        if (qx.core.Variant.isSet("qx.client", "mshtml"))
-        {
-          this.__iframeElement = qx.bom.Iframe.create({ id: "__qxBlockerIframeElement" });
-          
-          qx.bom.element.Attribute.set(this.__iframeElement, "allowTransparency", false);
-          qx.bom.element.Attribute.set(this.__iframeElement, "src", "javascript:false;");
-          qx.bom.element.Style.setStyles(this.__iframeElement, 
-          {
-            display: "block",
-            opacity: this.__defaultBlockerOpacity
-          });
-        }
-      },
+      this.__iframeElement = qx.bom.Iframe.create({ id: "__qxBlockerIframeElement" });
       
-      "default" : function() {}
-    }),
+      qx.bom.element.Attribute.set(this.__iframeElement, "allowTransparency", false);
+      qx.bom.element.Attribute.set(this.__iframeElement, "src", "javascript:false;");
+      qx.bom.element.Style.setStyles(this.__iframeElement, 
+      {
+        display: "block",
+        opacity: this.__defaultBlockerOpacity
+      });
+    },
     
     
     /**
@@ -259,28 +252,21 @@ qx.Class.define("qx.bom.Blocker",
       }
         
       qx.bom.element.Style.setStyles(this.__blockerElement, styles);
-      qx.dom.Element.insertBegin(this.__blockerElement, target);
+      qx.dom.Element.insertBegin(this.__blockerElement, target);      
       
-      
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
-      { 
-        styles.zIndex = styles.zIndex - 1;
-        qx.bom.element.Style.setStyles(this.__iframeElement, styles);
-        qx.dom.Element.insertBegin(this.__iframeElement, target);
-      }      
+      styles.zIndex = styles.zIndex - 1;
+      qx.bom.element.Style.setStyles(this.__iframeElement, styles);
+      qx.dom.Element.insertBegin(this.__iframeElement, target);
     },
     
     
     /**
-     * Remove the blocker. For IE also removes the iframe blocker element.
+     * Remove the blocker elements.
      */
     __removeBlocker: function()
     {
       qx.dom.Element.remove(this.__blockerElement);
-      
-      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
-        qx.dom.Element.remove(this.__iframeElement);
-      }
+      qx.dom.Element.remove(this.__iframeElement);
     },
     
     
@@ -310,10 +296,7 @@ qx.Class.define("qx.bom.Blocker",
     __resizeBlocker : function(dimension)
     {
       qx.bom.element.Style.setStyles(this.__blockerElement, dimension);
-        
-      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
-        qx.bom.element.Style.setStyles(this.__iframeElement, dimension);
-      }
+      qx.bom.element.Style.setStyles(this.__iframeElement, dimension);
     },
     
     

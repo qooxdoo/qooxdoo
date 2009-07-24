@@ -55,14 +55,10 @@ qx.Class.define("qx.test.bom.Blocker",
       this.assertEquals(qx.bom.Document.getWidth(), qx.bom.element.Dimension.getWidth(blockerElement));
       this.assertEquals(qx.bom.Document.getHeight(), qx.bom.element.Dimension.getHeight(blockerElement));
                       
-                      
-      if (qx.bom.client.Engine.MSHTML)
-      {
-        var blockerIframeElement = qx.bom.Collection.query("#__qxBlockerIframeElement")[0];
-        this.assertTrue(blockerIframeElement, "Blocker iframe element not inserted");
-        this.assertEquals(qx.bom.Document.getWidth(), qx.bom.element.Dimension.getWidth(blockerIframeElement));
-        this.assertEquals(qx.bom.Document.getHeight(), qx.bom.element.Dimension.getHeight(blockerIframeElement));
-      } 
+      var blockerIframeElement = qx.bom.Collection.query("#__qxBlockerIframeElement")[0];
+      this.assertNotNull(blockerIframeElement, "Blocker iframe element not inserted");
+      this.assertEquals(qx.bom.Document.getWidth(), qx.bom.element.Dimension.getWidth(blockerIframeElement));
+      this.assertEquals(qx.bom.Document.getHeight(), qx.bom.element.Dimension.getHeight(blockerIframeElement));       
       
       qx.bom.Blocker.unblock();
     },
@@ -76,11 +72,8 @@ qx.Class.define("qx.test.bom.Blocker",
       var blockerElement = qx.bom.Collection.query("#__qxBlockerElement")[0];
       this.assertUndefined(blockerElement, "Blocker not correctly removed");
                       
-      if (qx.bom.client.Engine.MSHTML)
-      {
-        var blockerIframeElement = qx.bom.Collection.query("#__qxBlockerIframeElement")[0];
-        this.assertUndefined(blockerIframeElement, "Blocker iframe not correctly removed");
-      }
+      var blockerIframeElement = qx.bom.Collection.query("#__qxBlockerIframeElement")[0];
+      this.assertUndefined(blockerIframeElement, "Blocker iframe not correctly removed");
     },
     
     
@@ -100,23 +93,25 @@ qx.Class.define("qx.test.bom.Blocker",
       
       this.assertEquals(qx.bom.element.Style.get(this.__blockedElement, "zIndex") - 1, qx.bom.element.Style.get(blockerElement, "zIndex"));
       
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
-      {
-        var blockerIframeElement = qx.bom.Collection.query("#__qxBlockerIframeElement")[0];
-        this.assertEquals(qx.bom.element.Style.get(this.__blockedElement, "zIndex") - 2, qx.bom.element.Style.get(blockerIframeElement, "zIndex"));
-      }
-      
+      var blockerIframeElement = qx.bom.Collection.query("#__qxBlockerIframeElement")[0];
+      this.assertEquals(qx.bom.element.Style.get(this.__blockedElement, "zIndex") - 2, qx.bom.element.Style.get(blockerIframeElement, "zIndex"));
+            
       qx.bom.Blocker.unblock();
     },
     
     
     testBlockerColor : function()
     {
-      qx.bom.Blocker.setBlockerColor("rgb(255, 0, 0)");
+      qx.bom.Blocker.setBlockerColor("#FF0000");
       qx.bom.Blocker.block();
       
       var blockerElement = qx.bom.Collection.query("#__qxBlockerElement")[0];
-      this.assertEquals(qx.bom.element.Style.get(blockerElement, "backgroundColor"), "rgb(255, 0, 0)");
+      
+      if (qx.bom.client.Engine.MSHTML || qx.bom.client.Engine.OPERA) {
+        this.assertEquals(qx.bom.element.Style.get(blockerElement, "backgroundColor"), "#ff0000");
+      } else {
+        this.assertEquals(qx.bom.element.Style.get(blockerElement, "backgroundColor"), "rgb(255, 0, 0)");
+      }
       
       qx.bom.Blocker.unblock();
     },
