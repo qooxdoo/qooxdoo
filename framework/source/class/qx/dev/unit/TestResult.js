@@ -122,7 +122,8 @@ qx.Class.define("qx.dev.unit.TestResult",
 				this.__timeout = {};
 			}
       if (this.__timeout[test.getFullName()]) {
-        clearTimeout(this.__timeout[test.getFullName()]);
+        this.__timeout[test.getFullName()].stop();
+        delete this.__timeout[test.getFullName()];
       }
       else {
         try {
@@ -164,10 +165,10 @@ qx.Class.define("qx.dev.unit.TestResult",
 						  );
 						}
 						var timeoutFunc = (ex.getDeferredFunction() ? ex.getDeferredFunction() : defaultTimeoutFunction);
-						this.fireDataEvent("wait", test);
-            this.__timeout[test.getFullName()] = window.setTimeout(function() {
-							 that.run(test, timeoutFunc);
-            }, ex.getDelay());
+            this.__timeout[test.getFullName()] = qx.event.Timer.once(function() {
+							 this.run(test, timeoutFunc);
+            }, that, ex.getDelay());
+            this.fireDataEvent("wait", test);
           }
 
         } else if (ex.classname == "qx.core.AssertionError") {
