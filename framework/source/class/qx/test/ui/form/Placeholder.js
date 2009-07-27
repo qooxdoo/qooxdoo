@@ -34,17 +34,16 @@ qx.Class.define("qx.test.ui.form.Placeholder",
       widget.setPlaceholder("abc");
       this.getRoot().add(widget);
       
-      // var cc = childControlName ? widget.getChildControl(childControlName) : widget;
-      
-      widget.addListener("syncAppearance", function() {
+      widget.addListenerOnce("syncAppearance", function() {
         this.resume(function() {
-          this.assertEquals("abc", this.__getVisibleValueOf(widget), "placeholder not visible");
+        this.assertEquals("abc", this.__getVisibleValueOf(widget), "placeholder not visible");
           this.assertNull(widget.getValue(), "Wrong value returned.");            
         }, this);
       }, this);
       
       this.wait();
     },
+    
     
     __testChangeValue: function(clazz) {
       var widget = new clazz();
@@ -59,7 +58,7 @@ qx.Class.define("qx.test.ui.form.Placeholder",
       // remove the value
       widget.resetValue();
             
-      widget.addListener("syncAppearance", function() {
+      widget.addListenerOnce("syncAppearance", function() {
         this.resume(function() {
           this.assertNull(widget.getValue(), "wrong value");
           this.assertEquals("abc", this.__getVisibleValueOf(widget), "wrong visible value");
@@ -117,7 +116,7 @@ qx.Class.define("qx.test.ui.form.Placeholder",
       
       widget.setEnabled(true);
       
-      widget.addListener("syncAppearance", function() {
+      widget.addListenerOnce("syncAppearance", function() {
         this.resume(function() {
           this.assertNull(widget.getValue(), "wrong value");
           this.assertEquals("abc", this.__getVisibleValueOf(widget), "wrong visible value");
