@@ -332,6 +332,36 @@ qx.Class.define("qx.test.ui.form.FormValidator",
       this.assertNull(this.__manager.isValid());
     },
     
+    testResetWithSelectBox : function() {
+      var box = new qx.ui.form.SelectBox();
+      var item1 = new qx.ui.form.ListItem("1");
+      var item2 = new qx.ui.form.ListItem("2");      
+      
+      box.add(item1);
+      box.add(item2);
+      box.setSelection([item2]);
+      
+      // check the initial selection
+      this.assertEquals(item2, box.getSelection()[0], "1");
+      
+      // add the box to the manager
+      this.__manager.add(box);
+      // change the selection
+      box.setSelection([item1]);
+      // check the new selection
+      this.assertEquals(item1, box.getSelection()[0], "");
+      
+      // reset the manager
+      this.__manager.reset();
+      
+      // check if the selection has been reseted
+      this.assertEquals(item2, box.getSelection()[0], "3");
+      
+      item2.dispose();
+      item1.dispose();
+      box.dispose();
+    },
+    
     
     testRequired: function() {
       // set all 3 fields to required
@@ -838,8 +868,32 @@ qx.Class.define("qx.test.ui.form.FormValidator",
       this.__manager.validate();
       
       this.wait();
-    }    
+    },
     
+    // //////////////////////////////
+
+    // add error ////////////////////
+    testAddWrong : function() {
+      this.assertException(function() {
+        this.__manager.add(new qx.core.Object());
+      });
+      this.assertException(function() {
+        this.__manager.add(123);
+      });
+      this.assertException(function() {
+        this.__manager.add({});
+      });
+
+    },
+    
+    testAddSelectBoxWithValidator : function() {
+      var box = new qx.ui.form.SelectBox();
+      this.assertException(function() {
+        this.__manager.add(box, function() {});
+      });      
+      box.dispose();
+    }
+
     // //////////////////////////////
 
 
