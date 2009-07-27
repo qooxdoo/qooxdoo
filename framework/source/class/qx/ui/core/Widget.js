@@ -1046,8 +1046,6 @@ qx.Class.define("qx.ui.core.Widget",
           var instance = manager.resolve(shadow);
           var insets = instance.getInsets();
           
-          console.log("shadow insets", insets, shadow);
-          
           var shadowWidth = width + insets.left + insets.right;
           var shadowHeight = height + insets.top + insets.bottom;
 
