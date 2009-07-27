@@ -246,7 +246,13 @@ qx.Class.define("qx.ui.form.Spinner",
       {
         case "textfield":
           control = new qx.ui.form.TextField();
-          control.setFilter(/[0-9,]/);
+          var decimalSeparator = qx.locale.Number.getDecimalSeparator(
+            qx.locale.Manager.getInstance().getLocale()
+          );
+          var filterRegExp = new RegExp("[0-9" + 
+            qx.lang.String.escapeRegexpChars(decimalSeparator) + "]"
+          );          
+          control.setFilter(filterRegExp);
           control.addState("inner");
           control.setWidth(40);
           control.setFocusable(false);
