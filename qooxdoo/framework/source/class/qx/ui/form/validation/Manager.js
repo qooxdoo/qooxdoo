@@ -120,11 +120,26 @@ qx.Class.define("qx.ui.form.validation.Manager",
      *   The validator.
      */
     add: function(formItem, validator) {
+      // check for the form API
+      if (!this.__supportsInvalid(formItem)) {
+        throw new Error("Added widget not supported.");
+      }
+      // check for the data type
+      if (this.__supportsValue(formItem)) {
+        var initValue = formItem.getValue();
+      } else if (this.__supportsSingleSelection(formItem)) {
+        var initValue = formItem.getSelection();
+        // check for a validator
+        if (validator != null) {
+          throw new Error("Widgets suporting selection can only be validated " + 
+          "in the form validator");
+        }
+      }
       var dataEntry = 
       {
         item : formItem, 
         validator : validator,
-        init : formItem.getValue(),
+        init : initValue,
         valid : null
       };
       this.__formItems.push(dataEntry);
@@ -317,6 +332,53 @@ qx.Class.define("qx.ui.form.validation.Manager",
     
     
     /**
+     * Returns true, if the given item implements the {@link qx.ui.form.IForm}
+     * interface.
+     * 
+     * @param formItem {qx.core.Object} The item to check.
+     * @return {boolean} true, if the given item implements the 
+     *   necessary interface. 
+     */
+    __supportsInvalid : function(formItem) {
+      var clazz = formItem.constructor;
+      return qx.Class.hasInterface(clazz, qx.ui.form.IForm);
+    },
+    
+    
+    /**
+     * Returns true, if the given item implements the 
+     * {@link qx.ui.core.ISingleSelection} interface.
+     *
+     * @param formItem {qx.core.Object} The item to check.
+     * @return {boolean} true, if the given item implements the 
+     *   necessary interface. 
+     */    
+    __supportsSingleSelection : function(formItem) {
+      var clazz = formItem.constructor;
+      return qx.Class.hasInterface(clazz, qx.ui.core.ISingleSelection);      
+    },
+    
+    
+    /**
+     * Returns true, if the value property is supplied by the form item.
+     * 
+     * @param formItem {qx.core.Object} The item to check.
+     * @return {boolean} true, if the given item implements the 
+     *   necessary interface. 
+     */    
+    __supportsValue : function(formItem) {
+      var clazz = formItem.constructor;
+      return (
+        qx.Class.hasInterface(clazz, qx.ui.form.IBooleanForm) ||
+        qx.Class.hasInterface(clazz, qx.ui.form.IColorForm) ||
+        qx.Class.hasInterface(clazz, qx.ui.form.IDateForm) ||
+        qx.Class.hasInterface(clazz, qx.ui.form.INumberForm) ||
+        qx.Class.hasInterface(clazz, qx.ui.form.IStringForm)
+      );
+    },
+    
+    
+    /**
      * Internal setter for the valid member. It generates the event if 
      * necessary and stores the new value
      * 
@@ -385,7 +447,11 @@ qx.Class.define("qx.ui.form.validation.Manager",
       for (var i = 0; i < this.__formItems.length; i++) {
         var dataEntry = this.__formItems[i];
         // set the init value        
-        dataEntry.item.setValue(dataEntry.init);
+        if (this.__supportsValue(dataEntry.item)) {
+          dataEntry.item.setValue(dataEntry.init);          
+        } else if (this.__supportsSingleSelection(dataEntry.item)) {
+          dataEntry.item.setSelection(dataEntry.init)
+        }
         // set the field to valid
         dataEntry.item.setValid(true);
       }
