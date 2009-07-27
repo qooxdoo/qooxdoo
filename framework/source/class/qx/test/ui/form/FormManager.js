@@ -95,10 +95,12 @@ qx.Class.define("qx.test.ui.form.FormManager",
     
     
     testWrongRenderer : function() {
+      // add a form item so the view contains something
+      this.__form.add(this.__tf1, "TF1");
       var self = this;
       this.assertException(function() {
         self.__form.createView(qx.core.Object);
-      }, Error, null, "Boolean not supported!");
+      }, Error, null);
     },
     
     
