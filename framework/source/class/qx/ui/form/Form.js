@@ -76,6 +76,16 @@ qx.Class.define("qx.ui.form.Form",
     __isFirstAdd : function() {
       return this.__groups.length === 0;
     },
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+       RESET
+    ---------------------------------------------------------------------------
+    */
+    reset : function() {
+      this.__validationManager.reset();
+    },
         
     
     /*
