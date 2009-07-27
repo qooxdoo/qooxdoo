@@ -854,7 +854,10 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /** {Map} Contains all pooled decorators for reuse */
-    __decoratorPool : {}
+    __decoratorPool : {},
+    
+    /** {Map} Contains all pooled shadows for reuse */
+    __shadowPool : {}
   },
 
 
@@ -1042,6 +1045,9 @@ qx.Class.define("qx.ui.core.Widget",
           var element = this.__shadowElement;
           var instance = manager.resolve(shadow);
           var insets = instance.getInsets();
+          
+          console.log("shadow insets", insets, shadow);
+          
           var shadowWidth = width + insets.left + insets.right;
           var shadowHeight = height + insets.top + insets.bottom;
 
@@ -2387,7 +2393,7 @@ qx.Class.define("qx.ui.core.Widget",
     // property apply
     _applyShadow : function(value, old)
     {
-      var pool = qx.ui.core.Widget.__decoratorPool;
+      var pool = qx.ui.core.Widget.__shadowPool;
       var mgr = qx.theme.manager.Decoration.getInstance();
       var container = this.__containerElement;
 
