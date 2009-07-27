@@ -190,7 +190,15 @@ qx.Bootstrap.define("qx.util.ResourceManager",
           } 
           else 
           {
-            var href = window.location.href;
+            // check for parameters with URLs as value
+            var index = window.location.href.indexOf("?");
+            var href;
+            if (index == -1) {
+              href = window.location.href;
+            } else {
+              href = window.location.href.substring(0, index);
+            }
+            
             statics.__urlPrefix[lib] = href.substring(0, href.lastIndexOf("/") + 1);
           }
         }
