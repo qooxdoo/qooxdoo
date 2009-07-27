@@ -27,12 +27,12 @@ qx.Interface.define("qx.ui.form.renderer.IFormRenderer",
     /**
      * Add a group of form items with the corresponding names. The names should 
      * be displayed as hint for the user what to do with the form item.
-     * The titele is optional and can be used as grouping for the given form 
+     * The title is optional and can be used as grouping for the given form 
      * items.
      * 
      * @param items {qx.ui.core.Widget[]} An array of form items to render.
      * @param names {String[]} An array of names for the form items.
-     * @param titel {String?} A title of the group you are adding.
+     * @param title {String?} A title of the group you are adding.
      */
     addItems : function(items, names, title) {},
     
