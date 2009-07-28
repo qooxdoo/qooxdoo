@@ -45,7 +45,8 @@ qx.Class.define("qx.test.ui.form.NumberFormat",
       }, "Event is wrong!");
       
       // test for null values
-      widget.setValue(null);      
+      widget.setValue(null);
+      widget.destroy();
     },
     
     testSpinner: function() {
