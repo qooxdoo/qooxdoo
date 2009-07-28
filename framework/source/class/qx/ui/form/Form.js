@@ -33,7 +33,7 @@ qx.Class.define("qx.ui.form.Form",
     this.__groups = [];
     this.__buttons = [];
     this.__validationManager = new qx.ui.form.validation.Manager();
-    
+    this.__resetter = new qx.ui.form.Resetter();
   },
 
   members :
@@ -42,7 +42,7 @@ qx.Class.define("qx.ui.form.Form",
     __validationManager : null,
     __groupCounter : 0,
     __buttons : null,
-    
+    __resetter : null,
     
     /*
     ---------------------------------------------------------------------------
@@ -60,6 +60,8 @@ qx.Class.define("qx.ui.form.Form",
       
       // add the item to the validation manager
       this.__validationManager.add(item, validator);
+      // add the item to the reset manager
+      this.__resetter.add(item);
     },
     
     addGroupHeader : function(title) {
@@ -84,7 +86,7 @@ qx.Class.define("qx.ui.form.Form",
     ---------------------------------------------------------------------------
     */
     reset : function() {
-      this.__validationManager.reset();
+      this.__resetter.reset();
     },
         
     

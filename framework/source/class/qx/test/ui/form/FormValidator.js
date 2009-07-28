@@ -302,67 +302,7 @@ qx.Class.define("qx.test.ui.form.FormValidator",
     // //////////////////////////////
 
 
-    // reset and required ///////////
-    
-    testReset: function() {
-      // set the initla values
-      this.__username.setValue("A");
-      this.__password1.setValue("B");
-      this.__password2.setValue("C");
-      // add the fields to the form manager
-      this.__manager.add(this.__username);
-      this.__manager.add(this.__password1);
-      this.__manager.add(this.__password2);
-      // change the values of the fields
-      this.__username.setValue("a");
-      this.__password1.setValue("b");
-      this.__password2.setValue("c");      
-      // reset the manager
-      this.__manager.reset();
-      
-      // check if the initial values are reset
-      this.assertEquals("A", this.__username.getValue());
-      this.assertEquals("B", this.__password1.getValue());
-      this.assertEquals("C", this.__password2.getValue());
-      // check if the fields are valid
-      this.assertTrue(this.__username.isValid());
-      this.assertTrue(this.__password1.isValid());
-      this.assertTrue(this.__password2.isValid());            
-      // check the form
-      this.assertNull(this.__manager.isValid());
-    },
-    
-    testResetWithSelectBox : function() {
-      var box = new qx.ui.form.SelectBox();
-      var item1 = new qx.ui.form.ListItem("1");
-      var item2 = new qx.ui.form.ListItem("2");      
-      
-      box.add(item1);
-      box.add(item2);
-      box.setSelection([item2]);
-      
-      // check the initial selection
-      this.assertEquals(item2, box.getSelection()[0], "1");
-      
-      // add the box to the manager
-      this.__manager.add(box);
-      // change the selection
-      box.setSelection([item1]);
-      // check the new selection
-      this.assertEquals(item1, box.getSelection()[0], "");
-      
-      // reset the manager
-      this.__manager.reset();
-      
-      // check if the selection has been reseted
-      this.assertEquals(item2, box.getSelection()[0], "3");
-      
-      item2.dispose();
-      item1.dispose();
-      box.dispose();
-    },
-    
-    
+    // required /////////////////////    
     testRequired: function() {
       // set all 3 fields to required
       this.__username.setRequired(true);
