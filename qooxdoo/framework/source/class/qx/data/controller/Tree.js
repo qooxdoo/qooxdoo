@@ -350,6 +350,47 @@ qx.Class.define("qx.data.controller.Tree",
     },
     
     
+    /**
+     * Handler function taking care of the changes of the chidren array itself.
+     *  
+     * @param e {qx.event.Type.Data} Change event for the children property.
+     */
+    __changeChildrenArray: function(e) {
+      var children = e.getData();
+      var oldChildren = e.getOldData();
+      
+      // get the old ref and delete it
+      var oldRef = this.__childrenRef[oldChildren.toHashCode()];
+      delete this.__childrenRef[oldChildren.toHashCode()];
+      // remove th old change listener for the children
+      oldRef.modelNode.removeListenerById(oldRef.changeChildernListenerId);
+      
+      // add a new change listener
+      var modelNode = oldRef.modelNode;
+      var properties = qx.util.PropertyUtil.getProperties(oldRef.modelNode.constructor);
+      var eventName = properties[this.getChildPath()].event;
+      var changeChildernListenerId = modelNode.addListener(
+        eventName, this.__changeChildrenArray, this
+      );
+      
+      // add the new ref
+      var treeNode = oldRef.treeNode;
+      this.__childrenRef[children.toHashCode()] = 
+      {
+        modelNode: modelNode, 
+        treeNode: treeNode, 
+        changeListenerId: oldRef.changeListenerId,
+        changeChildernListenerId : changeChildernListenerId
+      };
+            
+      // update the subtree
+      this.__updateTreeChildren(treeNode, modelNode);
+      
+      // update the selection in case a selected element has been removed
+      this._updateSelection();
+    },
+    
+    
     /*
     ---------------------------------------------------------------------------
        ITEM HANDLING
@@ -444,8 +485,19 @@ qx.Class.define("qx.data.controller.Tree",
         var changeListenerId = children.addListener(
           "change", this.__changeModelChildren, this
         );
+        // add a listener for the change of the children array itself
+        var properties = qx.util.PropertyUtil.getProperties(modelNode.constructor);
+        var eventName = properties[this.getChildPath()].event;
+        var changeChildernListenerId = modelNode.addListener(
+          eventName, this.__changeChildrenArray, this
+        );
         this.__childrenRef[children.toHashCode()] = 
-          {modelNode: modelNode, treeNode: rootNode, changeListenerId: changeListenerId};        
+        {
+          modelNode: modelNode, 
+          treeNode: rootNode, 
+          changeListenerId: changeListenerId,
+          changeChildernListenerId : changeChildernListenerId
+        };
       }
           
       // go threw all children in the model
