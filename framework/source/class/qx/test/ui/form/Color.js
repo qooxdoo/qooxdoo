@@ -45,6 +45,8 @@ qx.Class.define("qx.test.ui.form.Color",
       
       // test for null values
       widget.setValue(null);
+      
+      widget.destroy();      
     },
     
     testColorSelector: function() {

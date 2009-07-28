@@ -38,6 +38,9 @@ qx.Class.define("qx.test.ui.form.Range",
       // pageStep
       widget.setPageStep(11);
       this.assertEquals(11, widget.getPageStep(), "Set or get does not work. (pageStep)");      
+      
+      // get rid of the widget
+      widget.destroy();      
     },
     
     testSpinner: function() {
