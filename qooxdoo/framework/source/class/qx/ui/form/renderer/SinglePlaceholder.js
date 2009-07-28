@@ -16,6 +16,10 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+/**
+ * Rendere using the placeholder property of {@link qx.ui.form.AbstractField}
+ * to visualize the name.
+ */
 qx.Class.define("qx.ui.form.renderer.SinglePlaceholder", 
 {
   extend : qx.ui.form.renderer.Single,
