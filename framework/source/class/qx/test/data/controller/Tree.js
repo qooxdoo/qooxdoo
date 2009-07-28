@@ -802,6 +802,31 @@ qx.Class.define("qx.test.data.controller.Tree",
     testResetModel: function() {
       this.__controller.resetModel();
       this.assertNull(this.__tree.getRoot(), "Tree is not empty.");
+    },
+    
+    
+    testChangeChildrenArray : function() {
+      // create the new children array
+      var children = new qx.data.Array();
+      var a = new qx.test.TreeNode();
+      a.setName("new");
+      children.push(a);
+
+      // change the children array
+      //        this.__model
+      //        /    |      \
+      // this.__a  this.__b  this.__c
+      //    |
+      //   a      
+      this.__a.setChildren(children);
+      
+      // Test if the tree nodes exist
+      this.assertNotUndefined(this.__tree.getRoot(), "Root node does not exist");
+      this.assertNotUndefined(this.__tree.getRoot().getChildren()[0], "First node does not exist");
+      this.assertNotUndefined(this.__tree.getRoot().getChildren()[0].getChildren()[0], "New node does not exist");      
+      
+      // test if its the proper node
+      this.assertEquals("new", this.__tree.getRoot().getChildren()[0].getChildren()[0].getLabel());
     }
     
   }
