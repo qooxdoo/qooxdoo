@@ -126,10 +126,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
         throw new Error("Added widget not supported.");
       }
       // check for the data type
-      if (this.__supportsValue(formItem)) {
-        var initValue = formItem.getValue();
-      } else if (this.__supportsSingleSelection(formItem)) {
-        var initValue = formItem.getSelection();
+      if (this.__supportsSingleSelection(formItem)) {
         // check for a validator
         if (validator != null) {
           throw new Error("Widgets suporting selection can only be validated " + 
@@ -140,7 +137,6 @@ qx.Class.define("qx.ui.form.validation.Manager",
       {
         item : formItem, 
         validator : validator,
-        init : initValue,
         valid : null
       };
       this.__formItems.push(dataEntry);
@@ -436,28 +432,6 @@ qx.Class.define("qx.ui.form.validation.Manager",
       }
       
       return messages;
-    },
-    
-    
-    /**
-     * Resets all added form items to their initial value. The initial value 
-     * is the value in the widget during the {@link #add}.
-     */
-    reset: function() {
-      // reset all form items
-      for (var i = 0; i < this.__formItems.length; i++) {
-        var dataEntry = this.__formItems[i];
-        // set the init value        
-        if (this.__supportsValue(dataEntry.item)) {
-          dataEntry.item.setValue(dataEntry.init);          
-        } else if (this.__supportsSingleSelection(dataEntry.item)) {
-          dataEntry.item.setSelection(dataEntry.init)
-        }
-        // set the field to valid
-        dataEntry.item.setValid(true);
-      }
-      // set the manager to its inital valid value
-      this.__valid = null;
     },
     
     

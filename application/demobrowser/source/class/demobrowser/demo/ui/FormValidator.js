@@ -37,7 +37,7 @@ qx.Class.define("demobrowser.demo.ui.FormValidator",
       this.getRoot().add(username, {left: 20, top: 70});
       
       // create a textfield for the email address
-      var email = new qx.ui.form.TextField("fakeMailAddress");
+      var email = new qx.ui.form.TextField();
       email.setPlaceholder("email address");
       email.setWidth(150);      
       this.getRoot().add(email, {left: 20, top: 100});
@@ -107,16 +107,8 @@ qx.Class.define("demobrowser.demo.ui.FormValidator",
         return valid;
       });
 
-      
-      // create the buttons for validation and reset
-      var reset = new qx.ui.form.Button("Reset");
-      this.getRoot().add(reset, {left: 20, top: 215});
-      reset.addListener("execute", function() {
-        manager.reset();
-      }, this);
-
       var send = new qx.ui.form.Button("Send");
-      this.getRoot().add(send, {left: 80, top: 215});
+      this.getRoot().add(send, {left: 20, top: 215});
       send.addListener("execute", function() {
         // configure the send button
         send.setEnabled(false);
