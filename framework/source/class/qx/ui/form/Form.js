@@ -87,6 +87,7 @@ qx.Class.define("qx.ui.form.Form",
     */
     reset : function() {
       this.__resetter.reset();
+      this.__validationManager.reset();
     },
         
     
