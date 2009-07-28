@@ -23,7 +23,7 @@
 qx.Class.define("qx.ui.form.renderer.Single", 
 {
   extend : qx.ui.core.Widget,
-
+  implement : qx.ui.form.renderer.IFormRenderer,
 
   construct : function()
   {
@@ -38,8 +38,8 @@ qx.Class.define("qx.ui.form.renderer.Single",
 
   members :
   {
-    __row : 0,
-    __buttonRow : null,
+    _row : 0,
+    _buttonRow : null,
     
     /**
      * Add a group of form items with the corresponding names. The names are
@@ -52,21 +52,20 @@ qx.Class.define("qx.ui.form.renderer.Single",
      * @param title {String?} A title of the group you are adding.
      */
     addItems : function(items, names, title) {
-      this.__buttonRow = null;
       // add the header
       if (title != null) {
         this._add(
-          this._createHeader(title), {row: this.__row, column: 0, colSpan: 2}
+          this._createHeader(title), {row: this._row, column: 0, colSpan: 2}
         );
-        this.__row++;
+        this._row++;
       }
       
       // add the items
       for (var i = 0; i < items.length; i++) {
         var label = this._createLabel(names[i], items[i]);
-        this._add(label, {row: this.__row, column: 0});
-        this._add(items[i], {row: this.__row, column: 1});
-        this.__row++;
+        this._add(label, {row: this._row, column: 0});
+        this._add(items[i], {row: this._row, column: 1});
+        this._row++;
       }
     },
     
@@ -77,21 +76,21 @@ qx.Class.define("qx.ui.form.renderer.Single",
      * @param button {qx.ui.form.Button} The button to add.
      */
     addButton : function(button) {
-      if (this.__buttonRow == null) {
+      if (this._buttonRow == null) {
         // create button row
-        this.__buttonRow = new qx.ui.container.Composite();
+        this._buttonRow = new qx.ui.container.Composite();
         var hbox = new qx.ui.layout.HBox();
         hbox.setAlignX("right");
         hbox.setSpacing(5);
-        this.__buttonRow.setLayout(hbox);
+        this._buttonRow.setLayout(hbox);
         // add the button row
-        this._add(this.__buttonRow, {row: this.__row, column: 0, colSpan: 2});
+        this._add(this._buttonRow, {row: this._row, column: 0, colSpan: 2});
         // increase the row
-        this.__row++;
+        this._row++;
       } 
       
       // add the button
-      this.__buttonRow.add(button);      
+      this._buttonRow.add(button);      
     },
       
     
