@@ -173,7 +173,7 @@ class QxTest:
 
   ##
   # Terminates the Selenium server process using a VBScript (Windows) or the
-  # pkill shell command (Linux)
+  # pkill shell command (Linux/OS X)
   def killSeleniumServer(self):
     if (self.sim):
       self.log("SIMULATION: Killing Selenium server process")
@@ -181,7 +181,7 @@ class QxTest:
     else:
       self.log("Killing Selenium server process")
     
-    if self.os == "Linux":      
+    if self.os == "Linux" or self.os == "Darwin":      
       invokeExternal("pkill -f selenium-server")
     else:
       invokeExternal(self.testConf['killSelenium'])
@@ -812,7 +812,7 @@ class QxTest:
     time.sleep(3)
     
     if procName:
-      if self.os == "Linux":
+      if self.os == "Linux" or self.os == "Darwin":
         if (self.sim):
           self.log("SIMULATION: Killing Linux browser process: " + procName)
         else:  
