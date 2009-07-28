@@ -682,10 +682,12 @@ qx.Class.define("qx.ui.form.Spinner",
 
     _onChangeLocale : function(ev)
     {
-      this.setNumberFormat(this.getNumberFormat());
-      var textfield = this.getChildControl("textfield");
-      textfield.setFilter(this._getFilterRegExp());
-      textfield.setValue(this.getNumberFormat().format(this.getValue()));
+      if (this.getNumberFormat() !== null) {
+        this.setNumberFormat(this.getNumberFormat());
+        var textfield = this.getChildControl("textfield");
+        textfield.setFilter(this._getFilterRegExp());
+        textfield.setValue(this.getNumberFormat().format(this.getValue()));
+      }
     },
 
 
