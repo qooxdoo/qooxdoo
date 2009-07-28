@@ -55,6 +55,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
   properties : 
   {
     /**
+     * {Function | AsyncValidator}
      * The validator of the form itself. You can set a function (for 
      * synchronous validation) or a {@link qx.ui.form.validation.AsyncValidator}.
      * In both cases, the function can have all added form items as first 
