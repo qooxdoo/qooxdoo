@@ -44,6 +44,8 @@ qx.Class.define("qx.test.ui.form.Executable",
       }, function(e) {
         // do nothgin
       }, "Execute event on the command is wrong!");      
+      
+      widget.destroy();
     },
     
     testToggleButton: function() {

@@ -41,6 +41,8 @@ qx.Class.define("qx.test.ui.form.Form",
       
       // check if the state is set
       this.assertTrue(widget.getRequired(), "Setting of the required flag did not work.");
+      
+      widget.destroy();
     },    
 
     __testValid: function(widget, where) {
@@ -93,6 +95,8 @@ qx.Class.define("qx.test.ui.form.Form",
         }, 0);
         this.wait();
       }
+      
+      widget.destroy();      
     },    
     
     
