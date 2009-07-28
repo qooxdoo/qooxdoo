@@ -622,28 +622,20 @@ class CodeGenerator(object):
         partData=partData[:-1] + "}"
 
         # Translate URI data to JavaScript
-        allUris = []
         allUrisSmall = []
         for packageId, package in enumerate(packages):
-            packageUris = []
             packageUrisSmall = []
             for fileId in package:
-                ##classUri = Path.rel_from_to(self.approot, self._classes[fileId]["relpath"])
-                ##shortUri = self._classes[fileId]["relpath"]
                 namespace  = self._classes[fileId]["namespace"]
                 relpath    = OsPath(self._classes[fileId]["relpath"])
                 lib        = self._libs[namespace]
 
-                classUri = self._computeResourceUri(lib, relpath, rType='class', appRoot=self.approot)
                 shortUri = Uri(relpath.toUri())
 
-                packageUris.append('"%s"' % classUri.encodedValue())
                 packageUrisSmall.append('"%s:%s"' % (namespace, shortUri.encodedValue()))
 
-            allUris.append("[" + ",".join(packageUris) + "]")
             allUrisSmall.append("[" + ",".join(packageUrisSmall) + "]")
 
-        uriData = "[" + ",\n".join(allUris) + "]"
         uriDataSmall = "[" + ",\n".join(allUrisSmall) + "]"
 
         # Locate and load loader basic script
@@ -676,14 +668,11 @@ class CodeGenerator(object):
         partData=partData[:-1] + "}"
 
         # Translate URI data to JavaScript
-        allUris = []
         allUrisSmall = []
         for packageId, package in enumerate(packages):
-            packageUris = []
             packageUrisSmall = []
 
             packageFileName = self._resolveFileName(fileName, variants, settings, packageId)
-            allUris.append('["' + packageFileName + '"]')
 
             shortUri = os.path.basename(packageFileName)
             shortUri = Uri(shortUri)
@@ -692,7 +681,6 @@ class CodeGenerator(object):
             packageUrisSmall.append('"%s:%s"' % (namespace, shortUri.encodedValue()))
             allUrisSmall.append("[" + ",".join(packageUrisSmall) + "]")
 
-        uriData = "[" + ",\n".join(allUris) + "]"
         uriDataSmall = "[" + ",\n".join(allUrisSmall) + "]"
 
         # Locate and load loader basic script
@@ -712,6 +700,60 @@ class CodeGenerator(object):
 
         templ  = MyTemplate(result)
         result = templ.safe_substitute(rmap)
+
+        return result
+
+    
+    def generateBootCode1():
+        # returns the Javascript code for the initial ("boot") script as a string 
+        result = ""
+
+        def fillTemplate(vals, template):
+            # Fill the code template with various vals 
+            rmap = {}
+            rmap.update(globalCodes)
+            rmap["Parts"] = vals.partData
+            rmap["Uris"]  = vals.uriDataSmall
+            rmap["Boot"]  = '"%s"' % vals.boot
+            rmap["BootPart"] = vals.bootCode
+
+            templ  = MyTemplate(result)
+            result = templ.safe_substitute(rmap)
+
+            return result
+
+        def packageUrisToJS():
+            # Translate URI data to JavaScript
+            
+            allUris = []
+            allUrisSmall = []
+            for packageId, package in enumerate(packages):
+                packageUris = []
+                packageUrisSmall = []
+
+                packageFileName = self._resolveFileName(fileName, variants, settings, packageId)
+                allUris.append('["' + packageFileName + '"]')
+
+                shortUri = os.path.basename(packageFileName)
+                shortUri = Uri(shortUri)
+                # TODO: gosh, the next is an ugly hack!
+                namespace= self._resourceHandler._genobj._namespaces[0]  # all name spaces point to the same paths in the libinfo struct, so any of them will do
+                packageUrisSmall.append('"%s:%s"' % (namespace, shortUri.encodedValue()))
+                allUrisSmall.append("[" + ",".join(packageUrisSmall) + "]")
+
+            uriData = "[" + ",\n".join(allUris) + "]"
+            uriDataSmall = "[" + ",\n".join(allUrisSmall) + "]"
+
+            return uriData
+
+        # Locate and load loader basic script
+        if bootCode:
+            loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader-build.tmpl.js")
+        else:
+            loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader-source.tmpl.js")
+        result = filetool.read(loaderFile)
+
+        result = fillTemplate(vals, result)
 
         return result
 
