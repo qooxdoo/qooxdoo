@@ -236,6 +236,27 @@ qx.Class.define("qx.test.ui.form.FormManager",
       
       b2.dispose();
       b1.dispose();         
+    },
+    
+    
+    testResetter : function() {
+      // set the init values of the textfields
+      this.__tf1.setValue("aaaa");
+      this.__tf2.setValue("bbbb");
+      
+      // add the widgets
+      this.__form.add(this.__tf1, "TF1");
+      this.__form.add(this.__tf2, "TF2");      
+      
+      // set some other values
+      this.__tf1.setValue("111");
+      this.__tf2.setValue("222");      
+      
+      this.__form.reset();
+      
+      // check
+      this.assertEquals("aaaa", this.__tf1.getValue());
+      this.assertEquals("bbbb", this.__tf2.getValue());
     }
   }
 });
