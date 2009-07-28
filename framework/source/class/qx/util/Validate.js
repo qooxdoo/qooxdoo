@@ -89,7 +89,7 @@ qx.Class.define("qx.util.Validate",
         || (!(isFinite(value))))
       {
         throw new qx.core.ValidationError(
-          "Validation Error: ", value + " is not a Number!"
+          "Validation Error: ", value + " is not a number."
         );
       }
     },
@@ -121,7 +121,7 @@ qx.Class.define("qx.util.Validate",
       if (reg.test(value) === false)
       {
         throw new qx.core.ValidationError(
-          "Validation Error", value + " is not a E-Mail address!"
+          "Validation Error", value + " is not an email address."
         );
       }
     },
@@ -151,7 +151,7 @@ qx.Class.define("qx.util.Validate",
       if (typeof value !== "string" && (!(value instanceof String)))
       {
         throw new qx.core.ValidationError(
-          "Validation Error", value + " is not a String!"
+          "Validation Error", value + " is not a string."
         );
       }
     },
@@ -182,7 +182,7 @@ qx.Class.define("qx.util.Validate",
       if (reg.test(value) === false)
       {
         throw new qx.core.ValidationError(
-          "Validation Error", value + " is not an url!"
+          "Validation Error", value + " is not an url."
         );
       }
     },
@@ -240,7 +240,7 @@ qx.Class.define("qx.util.Validate",
         {
           throw new qx.core.ValidationError(
             "Validation Error", value + " is not in the range from [" +
-            from + ", " + to + "]!"
+            from + ", " + to + "]."
           );
         }
       }
@@ -262,7 +262,7 @@ qx.Class.define("qx.util.Validate",
         if (array.indexOf(value) === -1)
         {
           throw new qx.core.ValidationError(
-            "Validation Error", value + " is not in " + array + "!"
+            "Validation Error", value + " is not in " + array + ""
           );
         }
       }
