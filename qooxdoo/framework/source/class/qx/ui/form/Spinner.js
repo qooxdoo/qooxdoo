@@ -93,9 +93,9 @@ qx.Class.define("qx.ui.form.Spinner",
     this.addListener("keyup", this._onKeyUp, this);
     this.addListener("mousewheel", this._onMouseWheel, this);
     qx.locale.Manager.getInstance().addListener("changeLocale", function(ev) {
-      this.debug("locale changed!");
       this.setNumberFormat(this.getNumberFormat());
       var textfield = this.getChildControl("textfield");
+      textfield.setFilter(this._getFilterRegExp());
       textfield.setValue(this.getNumberFormat().format(this.getValue()));
     }, this);
 
@@ -252,13 +252,7 @@ qx.Class.define("qx.ui.form.Spinner",
       {
         case "textfield":
           control = new qx.ui.form.TextField();
-          var decimalSeparator = qx.locale.Number.getDecimalSeparator(
-            qx.locale.Manager.getInstance().getLocale()
-          );
-          var filterRegExp = new RegExp("[0-9" + 
-            qx.lang.String.escapeRegexpChars(decimalSeparator) + "]"
-          );          
-          control.setFilter(filterRegExp);
+          control.setFilter(this._getFilterRegExp());
           control.addState("inner");
           control.setWidth(40);
           control.setFocusable(false);
@@ -285,6 +279,19 @@ qx.Class.define("qx.ui.form.Spinner",
       }
 
       return control || this.base(arguments, id);
+    },
+    
+    
+    _getFilterRegExp : function()
+    {
+      var decimalSeparator = qx.locale.Number.getDecimalSeparator(
+        qx.locale.Manager.getInstance().getLocale()
+      );
+      var filterRegExp = new RegExp("[0-9" + 
+        qx.lang.String.escapeRegexpChars(decimalSeparator) + "]"
+      );
+      
+      return filterRegExp;
     },
 
 
