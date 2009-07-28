@@ -46,6 +46,9 @@ qx.Class.define("qx.test.ui.form.StringFormat",
       
       // test for null values
       widget.setValue(null);
+      
+      // get rid of the widget
+      widget.destroy();
     },
     
     testTextField: function() {

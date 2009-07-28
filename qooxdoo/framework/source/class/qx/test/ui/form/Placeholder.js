@@ -37,7 +37,9 @@ qx.Class.define("qx.test.ui.form.Placeholder",
       widget.addListenerOnce("syncAppearance", function() {
         this.resume(function() {
         this.assertEquals("abc", this.__getVisibleValueOf(widget), "placeholder not visible");
-          this.assertNull(widget.getValue(), "Wrong value returned.");            
+          this.assertNull(widget.getValue(), "Wrong value returned.");
+          // get rid of the widget
+          widget.destroy();
         }, this);
       }, this);
       
@@ -62,6 +64,8 @@ qx.Class.define("qx.test.ui.form.Placeholder",
         this.resume(function() {
           this.assertNull(widget.getValue(), "wrong value");
           this.assertEquals("abc", this.__getVisibleValueOf(widget), "wrong visible value");
+          // get rid of the widget
+          widget.destroy();          
         }, this);
       }, this);
       
@@ -89,6 +93,8 @@ qx.Class.define("qx.test.ui.form.Placeholder",
           this.getRoot().focus();
           this.flush();          
           this.assertEquals("abc", this.__getVisibleValueOf(widget), "wrong visible value after blur");          
+          // get rid of the widget
+          widget.destroy();          
         }, this);
       }, 0, this, null, 300);
       
@@ -102,6 +108,8 @@ qx.Class.define("qx.test.ui.form.Placeholder",
       widget.setPlaceholder(null);
       this.assertNull(widget.getValue(), "wrong value");
       this.assertEquals("", this.__getVisibleValueOf(widget), "wrong visible value after focus");       
+      // get rid of the widget
+      widget.destroy();
     },
     
     
@@ -120,6 +128,8 @@ qx.Class.define("qx.test.ui.form.Placeholder",
         this.resume(function() {
           this.assertNull(widget.getValue(), "wrong value");
           this.assertEquals("abc", this.__getVisibleValueOf(widget), "wrong visible value");
+          // get rid of the widget
+          widget.destroy();          
         }, this);
       }, this);
       
