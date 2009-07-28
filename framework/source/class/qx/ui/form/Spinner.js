@@ -92,12 +92,10 @@ qx.Class.define("qx.ui.form.Spinner",
     this.addListener("keydown", this._onKeyDown, this);
     this.addListener("keyup", this._onKeyUp, this);
     this.addListener("mousewheel", this._onMouseWheel, this);
-    qx.locale.Manager.getInstance().addListener("changeLocale", function(ev) {
-      this.setNumberFormat(this.getNumberFormat());
-      var textfield = this.getChildControl("textfield");
-      textfield.setFilter(this._getFilterRegExp());
-      textfield.setValue(this.getNumberFormat().format(this.getValue()));
-    }, this);
+
+    if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
+      qx.locale.Manager.getInstance().addListener("changeLocale", this._onChangeLocale, this);
+    }
 
     // CREATE CONTROLS
     this._createChildControl("textfield");
@@ -676,6 +674,19 @@ qx.Class.define("qx.ui.form.Spinner",
     },
 
 
+    /**
+     * Callback method for the locale Manager's "changeLocale" event.
+     *
+     * @param e {qx.ui.event.type.Event} locale change event
+     */
+
+    _onChangeLocale : function(ev)
+    {
+      this.setNumberFormat(this.getNumberFormat());
+      var textfield = this.getChildControl("textfield");
+      textfield.setFilter(this._getFilterRegExp());
+      textfield.setValue(this.getNumberFormat().format(this.getValue()));
+    },
 
 
 
@@ -848,5 +859,13 @@ qx.Class.define("qx.ui.form.Spinner",
       qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use the maximum property instead.");      
       this.initMaximum();
     }    
+  },
+
+
+  destruct : function()
+  {
+    if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
+      qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
+    }
   }
 });
