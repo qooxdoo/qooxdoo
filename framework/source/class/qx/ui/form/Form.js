@@ -141,7 +141,7 @@ qx.Class.define("qx.ui.form.Form",
         var rendererInterface = qx.ui.form.renderer.IFormRenderer;
         if (!qx.Class.hasInterface(rendererClass, rendererInterface)) {
           throw new Error(
-            rendererClass + " need to implement " + rendererInterface.classname
+            rendererClass + " need to implement " + rendererInterface
           );
         }
       }      
