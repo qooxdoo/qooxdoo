@@ -436,6 +436,21 @@ qx.Class.define("qx.ui.form.validation.Manager",
     
     
     /**
+     * Resets the validator.
+     */
+    reset: function() {
+      // reset all form items
+      for (var i = 0; i < this.__formItems.length; i++) {
+        var dataEntry = this.__formItems[i];
+        // set the field to valid
+        dataEntry.item.setValid(true);
+      }
+      // set the manager to its inital valid value
+      this.__valid = null;
+    },
+    
+    
+    /**
      * Internal helper method to set the given item to valid for asynchronous 
      * validation calls. This indirection is used to determinate if the 
      * validation process is completed or if other asynchronous validators 
