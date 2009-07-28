@@ -50,6 +50,7 @@ qx.Class.define("qx.test.ui.virtual.layer.LayerTestCase",
     },
   
     tearDown : function() {
+      this.base(arguments);
       this.layer.destroy();
     },
 
