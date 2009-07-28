@@ -31,6 +31,7 @@ qx.Class.define("qx.test.ui.virtual.layer.WidgetCellSpan",
     }, 
     
     tearDown : function() {
+      this.base(arguments);
       this._disposeArray("_pool");
       this.__cellRenderer.dispose();
     },
