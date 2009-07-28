@@ -80,6 +80,17 @@ class CodeGenerator(object):
             return fileUri
 
         def generateBootScript(bootPackage=""):
+
+            def packagesOfFiles(fileUri, packages):
+                # returns list of lists, each containing destination file name of the corresp. part
+                # npackages = [['script/gui-0.js'], ['script/gui-1.js'],...]
+                npackages = []
+                file = os.path.basename(fileUri)
+                for packageId in range(len(packages)):
+                    packageFileName = self._resolveFileName(file, variants, settings, packageId)
+                    npackages.append((packageFileName,))
+                return npackages
+
             self._console.info("Generating boot script...")
             bootBlocks = []
 
@@ -89,7 +100,8 @@ class CodeGenerator(object):
 
             globalCodes = self.generateGlobalCodes(libs, translationMaps, settings, variants, format, resourceUri, scriptUri)
 
-            bootBlocks.append(self.generateBootCode(fileUri, parts, packages, boot, variants, settings, bootPackage, globalCodes, format))
+            filesPackages = packagesOfFiles(fileUri, packages)
+            bootBlocks.append(self.generateBootCode(parts, filesPackages, boot, variants, settings, bootPackage, globalCodes, format))
 
             if format:
                 bootContent = "\n\n".join(bootBlocks)
@@ -214,7 +226,8 @@ class CodeGenerator(object):
         # Add data from settings, variants and packages
         sourceBlocks = []
         globalCodes = self.generateGlobalCodes(libs, translationMaps, settings, variants, format)
-        sourceBlocks.append(self.generateSourcePackageCode(parts, packages, boot, globalCodes, format))
+        #sourceBlocks.append(self.generateSourcePackageCode(parts, packages, boot, globalCodes, format))
+        sourceBlocks.append(self.generateBootCode(parts, packages, boot, variants={}, settings={}, bootCode=None, globalCodes=globalCodes, format=format))
 
         # TODO: Do we really need this optimization here. Could this be solved
         # with less resources just through directly generating "good" code?
@@ -609,151 +622,80 @@ class CodeGenerator(object):
         return resdata
 
 
-    def generateSourcePackageCode(self, parts, packages, boot, globalCodes, format=False):
-        if not parts:
-            return ""
-
-        # Translate part information to JavaScript
-        partData = "{"
-        for partId in parts:
-            partData += '"%s":' % (partId)
-            partData += ('%s,' % parts[partId]).replace(" ", "")
-
-        partData=partData[:-1] + "}"
-
-        # Translate URI data to JavaScript
-        allUrisSmall = []
-        for packageId, package in enumerate(packages):
-            packageUrisSmall = []
-            for fileId in package:
-                namespace  = self._classes[fileId]["namespace"]
-                relpath    = OsPath(self._classes[fileId]["relpath"])
-                lib        = self._libs[namespace]
-
-                shortUri = Uri(relpath.toUri())
-
-                packageUrisSmall.append('"%s:%s"' % (namespace, shortUri.encodedValue()))
-
-            allUrisSmall.append("[" + ",".join(packageUrisSmall) + "]")
-
-        uriDataSmall = "[" + ",\n".join(allUrisSmall) + "]"
-
-        # Locate and load loader basic script
-        loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader-source.tmpl.js")
-        result = filetool.read(loaderFile)
-
-        # Replace string.template macros
-        rmap = {}
-        rmap.update(globalCodes)
-        rmap["Parts"] = partData
-        rmap["Uris"] = uriDataSmall
-        rmap["Boot"]  = '"%s"' % boot
-
-        templ  = MyTemplate(result)
-        result = templ.safe_substitute(rmap)
-
-        return result
-
-
-    def generateBootCode(self, fileName, parts, packages, boot, variants, settings, bootCode, globalCodes, format=False):
-        if not parts:
-            return ""
-
-        # Translate part information to JavaScript
-        partData = "{"
-        for partId in parts:
-            partData += '"%s":' % (partId)
-            partData += ('%s,' % parts[partId]).replace(" ", "")
-
-        partData=partData[:-1] + "}"
-
-        # Translate URI data to JavaScript
-        allUrisSmall = []
-        for packageId, package in enumerate(packages):
-            packageUrisSmall = []
-
-            packageFileName = self._resolveFileName(fileName, variants, settings, packageId)
-
-            shortUri = os.path.basename(packageFileName)
-            shortUri = Uri(shortUri)
-            # TODO: gosh, the next is an ugly hack!
-            namespace= self._resourceHandler._genobj._namespaces[0]  # all name spaces point to the same paths in the libinfo struct, so any of them will do
-            packageUrisSmall.append('"%s:%s"' % (namespace, shortUri.encodedValue()))
-            allUrisSmall.append("[" + ",".join(packageUrisSmall) + "]")
-
-        uriDataSmall = "[" + ",\n".join(allUrisSmall) + "]"
-
-        # Locate and load loader basic script
-        if bootCode:
-            loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader-build.tmpl.js")
-        else:
-            loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader-source.tmpl.js")
-        result = filetool.read(loaderFile)
-
-        # Replace string.template macros
-        rmap = {}
-        rmap.update(globalCodes)
-        rmap["Parts"] = partData
-        rmap["Uris"]  = uriDataSmall
-        rmap["Boot"]  = '"%s"' % boot
-        rmap["BootPart"] = bootCode
-
-        templ  = MyTemplate(result)
-        result = templ.safe_substitute(rmap)
-
-        return result
-
-    
-    def generateBootCode1():
+    def generateBootCode(self, parts, packages, boot, variants, settings, bootCode, globalCodes, format=False):
         # returns the Javascript code for the initial ("boot") script as a string 
-        result = ""
+
+        def partsMap(parts):
+            # create a map with part names as key and array of package id's and
+            # return as string
+
+            # <parts> is already a suitable map; just serialize it
+            partData = simplejson.dumps(parts, ensure_ascii=False, separators=(',', ':'))
+
+            return partData
 
         def fillTemplate(vals, template):
             # Fill the code template with various vals 
-            rmap = {}
-            rmap.update(globalCodes)
-            rmap["Parts"] = vals.partData
-            rmap["Uris"]  = vals.uriDataSmall
-            rmap["Boot"]  = '"%s"' % vals.boot
-            rmap["BootPart"] = vals.bootCode
-
-            templ  = MyTemplate(result)
-            result = templ.safe_substitute(rmap)
+            templ  = MyTemplate(template)
+            result = templ.safe_substitute(vals)
 
             return result
 
-        def packageUrisToJS():
+        def packageUrisToJS(packages):
             # Translate URI data to JavaScript
             
             allUris = []
-            allUrisSmall = []
             for packageId, package in enumerate(packages):
                 packageUris = []
-                packageUrisSmall = []
+                for fileId in package:
 
-                packageFileName = self._resolveFileName(fileName, variants, settings, packageId)
-                allUris.append('["' + packageFileName + '"]')
+                    if bootCode:  # TODO: this is a hack
+                        # TODO: gosh, the next is an ugly hack!
+                        namespace= self._resourceHandler._genobj._namespaces[0]  # all name spaces point to the same paths in the libinfo struct, so any of them will do
+                        relpath    = OsPath(fileId)
+                    else:
+                        namespace  = self._classes[fileId]["namespace"]
+                        relpath    = OsPath(self._classes[fileId]["relpath"])
 
-                shortUri = os.path.basename(packageFileName)
-                shortUri = Uri(shortUri)
-                # TODO: gosh, the next is an ugly hack!
-                namespace= self._resourceHandler._genobj._namespaces[0]  # all name spaces point to the same paths in the libinfo struct, so any of them will do
-                packageUrisSmall.append('"%s:%s"' % (namespace, shortUri.encodedValue()))
-                allUrisSmall.append("[" + ",".join(packageUrisSmall) + "]")
+                    shortUri = Uri(relpath.toUri())
+                    packageUris.append("%s:%s" % (namespace, shortUri.encodedValue()))
+                allUris.append(packageUris)
 
-            uriData = "[" + ",\n".join(allUris) + "]"
-            uriDataSmall = "[" + ",\n".join(allUrisSmall) + "]"
+            uriData = simplejson.dumps(allUris, ensure_ascii=False)
 
             return uriData
 
-        # Locate and load loader basic script
-        if bootCode:
-            loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader-build.tmpl.js")
-        else:
-            loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader-source.tmpl.js")
-        result = filetool.read(loaderFile)
+        def loadTemplate(bootCode):
+            if bootCode:
+                loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader-build.tmpl.js")
+            else:
+                loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader-source.tmpl.js")
+            template = filetool.read(loaderFile)
 
-        result = fillTemplate(vals, result)
+            return template
+
+        # ---------------------------------------------------------------
+
+        if not parts:
+            return ""
+
+        result = ""
+        vals   = {}
+        vals.update(globalCodes)
+        vals["Boot"] = '"%s"' % boot
+        vals["BootPart"] = bootCode
+
+        # Translate part information to JavaScript
+        vals["Parts"] = partsMap(parts)
+
+        # Translate URI data to JavaScript
+        vals["Uris"] = packageUrisToJS(packages)
+        
+        # Locate and load loader basic script
+        template = loadTemplate(bootCode)
+
+        # Fill template gives result
+        result = fillTemplate(vals, template)
 
         return result
 
