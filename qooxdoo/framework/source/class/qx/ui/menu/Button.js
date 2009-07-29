@@ -131,7 +131,10 @@ qx.Class.define("qx.ui.menu.Button",
     _onChangeLocale : qx.core.Variant.select("qx.dynlocale",
     {
       "on" : function(e) {
-        this.getChildControl("shortcut").setValue(this.getCommand().toString());
+        var command = this.getCommand();
+        if (command != null) {
+          this.getChildControl("shortcut").setValue(command.toString());          
+        }
       },
 
       "off" : null
@@ -157,5 +160,16 @@ qx.Class.define("qx.ui.menu.Button",
     _onKeyPress : function(e) {
       this.execute();
     }
+  },
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
   }
 });
