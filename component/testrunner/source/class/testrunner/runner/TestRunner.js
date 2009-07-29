@@ -1024,7 +1024,7 @@ qx.Class.define("testrunner.runner.TestRunner",
           var val = that.getFailCnt();
           that.setFailCnt(++val);
           that.setQueCnt(that.getQueCnt() - 1);
-          that.appender(this.tr("Test '") + test.getFullName() + this.tr("' failed: ") + ex.message() + " - " + ex.getComment());
+          that.appender(this.tr("Test '") + test.getFullName() + this.tr("' failed: ") + ex.message + " - " + ex.getComment());
           that.widgets["progresspane.progressbar"].update(String(tstCurr + "/" + tstCnt));
           tstCurr++;
           if (!qx.bom.client.Engine.MSHTML) {
