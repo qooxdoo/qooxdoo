@@ -73,6 +73,8 @@ qx.Class.define("qx.test.ui.LocaleSwitch",
       this.manager.setLocale("de_QX");
       this.assertEquals("Strg+A", command.toString());
       this.assertEquals("Strg+A", menuButton.getChildControl("shortcut").getValue());
+      menuButton.destroy();
+      command.dispose();
     },
     
     
@@ -100,6 +102,7 @@ qx.Class.define("qx.test.ui.LocaleSwitch",
       this.assertEquals("test two", label.getValue());
 
       this.getRoot().remove(label);
+      
       label.dispose();
     }
   }
