@@ -253,7 +253,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
       } catch (e) {
         if (e instanceof qx.core.ValidationError) {
           validatorResult = false;
-          formItem.setInvalidMessage(e.message() || e.getComment());
+          formItem.setInvalidMessage(e.message || e.getComment());
         } else {
           throw e;
         }
@@ -300,7 +300,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
       } catch (e) {
         if (e instanceof qx.core.ValidationError) {
           formValid = false;
-          this.setInvalidMessage(e.message() || e.getComment());
+          this.setInvalidMessage(e.message || e.getComment());
         } else {
           throw e;
         }
