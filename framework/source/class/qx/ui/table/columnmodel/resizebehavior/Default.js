@@ -553,9 +553,9 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
 
 
     /**
-     * Returns the data of all the columns that are visible and will be resized.
+     * Returns an array of the resizing information of a column.
      * 
-     * @return {Map[]} the resize column data.
+     * @return {qx.ui.core.ColumnData[]} array of the resizing information of a column.
      */
     _getResizeColumnData : function()
     {
