@@ -28,6 +28,14 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
   extend : qx.core.Object,
 
 
+  construct : function()
+  {
+    this.base(arguments);
+
+    this.__overallColumnArr = [];
+    this.__visibleColumnArr = [];
+  },
+
 
   /*
   *****************************************************************************
