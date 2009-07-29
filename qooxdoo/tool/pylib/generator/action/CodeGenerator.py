@@ -101,7 +101,7 @@ class CodeGenerator(object):
             globalCodes = self.generateGlobalCodes(libs, translationMaps, settings, variants, format, resourceUri, scriptUri)
 
             filesPackages = packagesOfFiles(fileUri, packages)
-            bootBlocks.append(self.generateBootCode(parts, filesPackages, boot, variants, settings, bootPackage, globalCodes, format))
+            bootBlocks.append(self.generateBootCode(parts, filesPackages, boot, variants, settings, bootPackage, globalCodes, "build", format))
 
             if format:
                 bootContent = "\n\n".join(bootBlocks)
@@ -622,7 +622,7 @@ class CodeGenerator(object):
         return resdata
 
 
-    def generateBootCode(self, parts, packages, boot, variants, settings, bootCode, globalCodes, format=False):
+    def generateBootCode(self, parts, packages, boot, variants, settings, bootCode, globalCodes, version="source", format=False):
         # returns the Javascript code for the initial ("boot") script as a string 
 
         def partsMap(parts):
@@ -641,7 +641,7 @@ class CodeGenerator(object):
 
             return result
 
-        def packageUrisToJS(packages):
+        def packageUrisToJS(packages, version):
             # Translate URI data to JavaScript
             
             allUris = []
@@ -649,7 +649,7 @@ class CodeGenerator(object):
                 packageUris = []
                 for fileId in package:
 
-                    if bootCode:  # TODO: this is a hack
+                    if version == "build":
                         # TODO: gosh, the next is an ugly hack!
                         namespace= self._resourceHandler._genobj._namespaces[0]  # all name spaces point to the same paths in the libinfo struct, so any of them will do
                         relpath    = OsPath(fileId)
@@ -689,7 +689,7 @@ class CodeGenerator(object):
         vals["Parts"] = partsMap(parts)
 
         # Translate URI data to JavaScript
-        vals["Uris"] = packageUrisToJS(packages)
+        vals["Uris"] = packageUrisToJS(packages, version)
         
         # Locate and load loader basic script
         template = loadTemplate(bootCode)
