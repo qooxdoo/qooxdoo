@@ -1,4 +1,4 @@
-/* ************************************************************************
+﻿/* ************************************************************************
 
    qooxdoo - the new era of web development
 
@@ -44,7 +44,7 @@ qx.Class.define("qx.type.BaseError",
     Error.call(this, failMessage);
 
     this.__comment = comment || "";
-    this.__msg = failMessage || "";
+    this.message = failMessage || "";
   },
 
 
@@ -58,7 +58,9 @@ qx.Class.define("qx.type.BaseError",
   members :
   {
     __comment : null,
-    __msg : null,
+    
+    /** {String} Fail message provided by the assertion */
+    message : null,
 
 
     /**
@@ -72,22 +74,12 @@ qx.Class.define("qx.type.BaseError",
 
 
     /**
-     * Fail message provided by the assertion
-     *
-     * @return {String} Fail message provided by the assertion
-     */
-    message : function() {
-      return this.__msg;
-    },
-
-
-    /**
      * Get the error message
      *
      * @return {String} The error message
      */
     toString : function() {
-      return this.__comment + ": " + this.__msg;
+      return this.__comment + ": " + this.message;
     }
   }
 });

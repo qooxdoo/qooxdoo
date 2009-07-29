@@ -134,7 +134,7 @@ qx.Class.define("qx.dev.unit.TestLoader",
       {
         var ex = e.getData().exception;
         var test = e.getData().test;
-        this.error("Test '" + test.getFullName() + "' failed: " + ex.getMessage() + " - " + ex.getComment());
+        this.error("Test '" + test.getFullName() + "' failed: " + ex.message + " - " + ex.getComment());
         this.error("Stack trace: " + ex.getStackTrace().join("\n"));
       });
 
