@@ -497,9 +497,10 @@ qx.Class.define("qx.Theme",
 
 
     /**
-     * Include all keys of the given mixin theme into the theme. The mixin must
-     * not include any keys that are already available in the
-     * class. This would only be possible using the {@link #patch} method.
+     * Include all keys of the given mixin theme into the theme. If the 
+     * mixin includes any keys that are already available in the
+     * class, they will be silently ignored. Use the {@link #patch} method 
+     * if you need to overwrite keys in the current class. 
      *
      * @param theme {Theme} An existing theme which should be modified by including the mixin theme.
      * @param mixinTheme {Theme} The theme to be included.
@@ -516,8 +517,9 @@ qx.Class.define("qx.Theme",
 
       for (var key in source)
       {
+        //Skip keys already present
         if (target[key] !== undefined) {
-          throw new Error("It is not allowed to overwrite the key '" + key + "' of theme '" + theme.name + "' by mixin theme '"+mixinTheme.name+"'.");
+          continue;
         }
 
         target[key] = source[key];
