@@ -549,6 +549,17 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
           (width - (widthUsed - tableColumnModel.getColumnWidth(lastCol)));
         tableColumnModel.setColumnWidth(lastCol, newWidth);
       }
+    },
+
+
+    /**
+     * Returns the data of all the columns that are visible and will be resized.
+     * 
+     * @return {Map[]} the resize column data.
+     */
+    _getResizeColumnData : function()
+    {
+      return this.__resizeColumnData;
     }
   },
 
