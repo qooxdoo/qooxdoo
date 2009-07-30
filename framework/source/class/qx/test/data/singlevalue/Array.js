@@ -34,6 +34,14 @@ qx.Class.define("qx.test.data.singlevalue.Array",
       construct : function() {
         this.setArray(new qx.data.Array(["one", "two", "three"]));
       },
+      
+      destruct : function() {
+        this.getArray().dispose();
+        var children = this.getChildren();
+        if (children != null) {
+          children.dispose();
+        }
+      },
 
       properties :
       {
@@ -98,7 +106,7 @@ qx.Class.define("qx.test.data.singlevalue.Array",
       this.__b1.dispose();
       this.__b2.dispose();
       this.__a.dispose();
-      this.__label.dispose();
+      this.__label.destroy();
     },
 
 
@@ -189,6 +197,9 @@ qx.Class.define("qx.test.data.singlevalue.Array",
       this.__a.setChild(this.__b2);
       // check the binding
       this.assertEquals("1", this.__label.getValue(), "child.array[0] binding does not work!");
+      
+      this.__b1.getArray().dispose();
+      this.__b2.getArray().dispose();      
     },
 
 
@@ -236,10 +247,12 @@ qx.Class.define("qx.test.data.singlevalue.Array",
       qx.data.SingleValueBinding.bind(this.__a, "array[0]", this.__label, "value"); 
       
       // remove the first and add "eins" at popsition 0
-      this.__a.getArray().splice(0, 1, "eins");
+      var array = this.__a.getArray().splice(0, 1, "eins");
       
       // check the binding
       this.assertEquals("eins", this.__label.getValue(), "Array[last] binding does not work!");
+      
+      array.dispose();
     },
     
     
@@ -346,6 +359,9 @@ qx.Class.define("qx.test.data.singlevalue.Array",
       // set the model array item to null
       model.getChild().getArray().setItem(0, null);
       this.assertEquals(null, model.getName(), "model not reseted.");
+      
+      model.getChild().dispose();
+      model.dispose();
     }
 
   }
