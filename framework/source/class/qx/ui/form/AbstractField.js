@@ -433,6 +433,10 @@ qx.Class.define("qx.ui.form.AbstractField",
     {
       // handle null values
       if (value === null) {
+        // just do nothing if null is already set
+        if (this.__nullValue) {
+          return value;
+        }
         value = "";
         this.__nullValue = true;
       } else {
