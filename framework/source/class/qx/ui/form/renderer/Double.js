@@ -31,10 +31,10 @@ qx.Class.define("qx.ui.form.renderer.Double",
     
     var layout = new qx.ui.layout.Grid();
     layout.setSpacing(6);
-    layout.setColumnAlign(0, "left", "middle");
-    layout.setColumnAlign(1, "left", "middle");    
-    layout.setColumnAlign(2, "left", "middle");
-    layout.setColumnAlign(3, "left", "middle");        
+    layout.setColumnAlign(0, "left", "top");
+    layout.setColumnAlign(1, "left", "top");    
+    layout.setColumnAlign(2, "left", "top");
+    layout.setColumnAlign(3, "left", "top");        
     this._setLayout(layout);
   },
   
@@ -88,6 +88,7 @@ qx.Class.define("qx.ui.form.renderer.Double",
       if (this._buttonRow == null) {
         // create button row
         this._buttonRow = new qx.ui.container.Composite();
+        this._buttonRow.setMarginTop(5);
         var hbox = new qx.ui.layout.HBox();
         hbox.setAlignX("right");
         hbox.setSpacing(5);
@@ -131,6 +132,9 @@ qx.Class.define("qx.ui.form.renderer.Double",
     _createHeader : function(title) {
       var header = new qx.ui.basic.Label(title);
       header.setFont("bold");
+      if (this._row != 0) {
+        header.setMarginTop(10);        
+      }      
       return header;
     }
   }
