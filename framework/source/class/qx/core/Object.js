@@ -704,6 +704,8 @@ qx.Class.define("qx.core.Object",
 
       // Mark as disposed (directly, not at end, to omit recursions)
       this.$$disposed = true;
+      this.$$instance = null;
+      this.$$allowconstruct = null;
 
       // Debug output
       if (qx.core.Variant.isSet("qx.debug", "on"))
