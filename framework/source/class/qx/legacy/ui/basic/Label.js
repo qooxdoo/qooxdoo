@@ -376,7 +376,6 @@ qx.Class.define("qx.legacy.ui.basic.Label",
     {
       "on" : function(e)
       {
-        //debugger;
         var text = this.getText();
         if (text.translate) {
           this.setText(text.translate());
