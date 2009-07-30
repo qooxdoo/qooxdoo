@@ -132,6 +132,8 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
       qx.data.SingleValueBinding.bind(s, "value", this.__b, "appearance");
       s.setValue(13.5);
       this.assertEquals("13.5", this.__b.getAppearance(), "Float --> String does not work!");
+      
+      s.destroy();
     },
 
 
