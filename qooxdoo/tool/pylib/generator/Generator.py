@@ -207,7 +207,8 @@ class Generator:
                 key  = lib["path"]
 
                 checkFile = mostRecentlyChangedIn(lib)[0]
-                cacheId   = "lib-%s" % key
+                cacheId   = "lib-%s" % self._config.absPath(lib["manifest"]) #key
+                #print "xxx %s: %s" % (lib["namespace"], cacheId)
                 path      = self._cache.read(cacheId, checkFile, memory=True)
                 if path:
                     self._console.debug("Use memory cache for %s" % key)
