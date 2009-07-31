@@ -155,7 +155,8 @@ qx.Class.define("qx.util.format.NumberFormat",
     prefix :
     {
       check : "String",
-      init : ""
+      init : "",
+      event : "changeNumberFormat"
     },
 
 
@@ -163,7 +164,8 @@ qx.Class.define("qx.util.format.NumberFormat",
     postfix :
     {
       check : "String",
-      init : ""
+      init : "",
+      event : "changeNumberFormat"
     }
   },
 
