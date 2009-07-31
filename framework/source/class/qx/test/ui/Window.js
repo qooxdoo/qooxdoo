@@ -16,12 +16,6 @@
      * Christian Schmidt (chris_schmidt)
 
 ************************************************************************ */
-
-/*
-#require qx.locale.data.de_DE
-#require qx.locale.data.C
-*/
-
 qx.Class.define("qx.test.ui.Window",
 {
   extend : qx.test.ui.LayoutTestCase,
