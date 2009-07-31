@@ -180,6 +180,14 @@ qx.Class.define("qx.test.util.Serializer",
       this.assertEquals('{"data1":[],"data2":[],"data3":{}}', this.__s.toJson(this.__model));      
       
       this.__model.getData1().dispose();
+    },
+    
+    
+    testJsonEscape : function() {
+      this.__model.setData1("''");
+      this.__model.setData2('""');
+      this.__model.setData3("\b\t\n\f\r\\");
+      this.assertEquals('{"data1":"\'\'","data2":"\\"\\"","data3":"\\b\\t\\n\\f\\r\\\\"}', this.__s.toJson(this.__model));
     }
     
   }
