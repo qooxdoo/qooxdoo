@@ -18,6 +18,8 @@
 ************************************************************************ */
 
 /**
+ * <h3>EXPERIMENTAL!</h3>
+ *
  * The form object is responsible for managing form items. The view code can be 
  * found in the used renderer.
  */
@@ -35,6 +37,7 @@ qx.Class.define("qx.ui.form.Form",
     this.__validationManager = new qx.ui.form.validation.Manager();
     this.__resetter = new qx.ui.form.Resetter();
   },
+
 
   members :
   {
