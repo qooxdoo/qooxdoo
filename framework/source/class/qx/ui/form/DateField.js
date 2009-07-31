@@ -147,7 +147,8 @@ qx.Class.define("qx.ui.form.DateField",
       if (qx.lang.Type.isString(value))
       {
         qx.log.Logger.deprecatedMethodWarning(
-          arguments.callee, "Value property is used for setting dates now."
+          arguments.callee, "Wrong data type detected. setValue is " + 
+          "used with Dates now."
         );
         return;
       }
