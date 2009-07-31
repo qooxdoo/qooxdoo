@@ -45,7 +45,8 @@ class Package(object):
         self.parts      = []
 
 
-class PartBuilder:
+class PartBuilder(object):
+
     def __init__(self, console, depLoader, compiler):
         self._console   = console
         self._depLoader = depLoader
