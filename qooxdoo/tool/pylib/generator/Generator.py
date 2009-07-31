@@ -49,7 +49,8 @@ from robocopy import robocopy
 import graph
 
 
-class Generator:
+class Generator(object):
+
     def __init__(self, context):
         global console, interruptRegistry
         interruptRegistry = context['interruptRegistry']
