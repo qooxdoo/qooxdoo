@@ -45,6 +45,66 @@ qx.Class.define("qx.util.Serializer",
         result += encodeURIComponent(name) + "=" + encodeURIComponent(value) + "&";
       }
       return result.substring(0, result.length - 1);
+    },
+    
+    
+    /**
+     * Serializes the properties of the given qooxdoo object into a json object.
+     * 
+     * @param object {qx.core.Object} Any qooxdoo object
+     * @return {String} The serialized object.
+     */
+    toJson : function(object) {
+      var result = "";
+      
+      // null or undefined
+      if (object == null) {
+        return "null";
+      // data array
+      } else if (qx.Class.hasInterface(object.constructor, qx.data.IListData)) {
+        result += "[";
+        for (var i = 0; i < object.getLength(); i++) {
+          result += qx.util.Serializer.toJson(object.getItem(i)) + ",";
+        }
+        if (result != "[") {
+          result = result.substring(0, result.length - 1);
+        }        
+        return result + "]";
+                
+      // other arrays
+      } else if (qx.lang.Type.isArray(object)) {
+        result += "[";
+        for (var i = 0; i < object.length; i++) {
+          result += qx.util.Serializer.toJson(object[i]) + ",";
+        }
+        if (result != "[") {
+          result = result.substring(0, result.length - 1);
+        }        
+        return result + "]";
+        
+      // qooxdoo object  
+      } else if (object instanceof qx.core.Object) {
+        result += "{";
+        var properties = qx.util.PropertyUtil.getProperties(object.constructor);
+        for (var name in properties) {
+          // ignore property groups
+          if (properties[name].group != undefined) {
+            continue;
+          }
+          var value = object["get" + qx.lang.String.firstUp(name)]();
+          result += name + ":" + qx.util.Serializer.toJson(value) + ",";
+        }
+        if (result != "{") {
+          result = result.substring(0, result.length - 1);
+        }
+        return result + "}";        
+        
+      // strings
+      } else if (qx.lang.Type.isString(object)) {        
+        return '"' + object + '"';
+      }
+      // all other stuff
+      return object + "";      
     }
     
   }

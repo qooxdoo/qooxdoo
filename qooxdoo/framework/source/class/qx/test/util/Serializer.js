@@ -37,7 +37,7 @@ qx.Class.define("qx.test.util.Serializer",
           nullable: true
         }
       }
-    });    
+    });
     
     this.__s = qx.util.Serializer;
   },
@@ -57,7 +57,7 @@ qx.Class.define("qx.test.util.Serializer",
     },
     
     
-    testString : function() {
+    testUrlString : function() {
       this.__model.setData1("a");
       this.__model.setData2("b");
       this.__model.setData3("c");
@@ -74,7 +74,7 @@ qx.Class.define("qx.test.util.Serializer",
       this.assertEquals("data1=1&data2=11&data3=111", this.__s.toUriParameter(this.__model));
     },
     
-    testStringEncoded : function() {
+    testUrlStringEncoded : function() {
       this.__model.setData1("ä");
       this.__model.setData2("ö");
       this.__model.setData3("ü");
@@ -86,14 +86,14 @@ qx.Class.define("qx.test.util.Serializer",
       this.assertEquals("data1=%E2%80%93&data2=%20&data3=%C3%9F", this.__s.toUriParameter(this.__model));      
     },
     
-    testBoolean : function() {
+    testUrlBoolean : function() {
       this.__model.setData1(true);
       this.__model.setData2(false);
       this.__model.setData3(null);
       this.assertEquals("data1=true&data2=false&data3=null", this.__s.toUriParameter(this.__model));    
     },
     
-    testNumber : function() {
+    testUrlNumber : function() {
       this.__model.setData1(10);
       this.__model.setData2(-15.3443);
       this.__model.setData3(Number.NaN);
@@ -101,7 +101,7 @@ qx.Class.define("qx.test.util.Serializer",
     },
     
     
-    testKeyEncoded : function() {
+    testUrlKeyEncoded : function() {
       qx.Class.define("qx.test.SerializModelEnc", {
         extend: qx.core.Object,
         properties : {
@@ -115,6 +115,72 @@ qx.Class.define("qx.test.util.Serializer",
       this.assertEquals("%C3%A4%C3%BC%C3%B6=%C3%84%C3%9C%C3%96", this.__s.toUriParameter(model));      
       
       model.dispose();
+    },
+    
+    
+    testJsonFlat : function() {
+      this.__model.setData1("a");
+      this.__model.setData2(10.456);
+      this.__model.setData3(true);
+      this.assertEquals('{data1:"a",data2:10.456,data3:true}', this.__s.toJson(this.__model));
+    },
+    
+    
+    testJsonExp : function() {
+      this.__model.setData1(new Date(1000));
+      this.__model.setData2(/[0]/);
+      this.__model.setData3(45e12);
+      this.assertEquals('{data1:Thu Jan 01 1970 01:00:01 GMT+0100 (CET),data2:/[0]/,data3:45000000000000}', this.__s.toJson(this.__model));      
+    },
+    
+    
+    testJsonDeep2 : function() {
+      var model = new qx.test.SerializModel();
+      model.setData1("a");
+      model.setData2(11);
+      model.setData3(false);      
+      
+      this.__model.setData1(model);
+      this.__model.setData3(null);
+      this.assertEquals('{data1:{data1:"a",data2:11,data3:false},data2:null,data3:null}', this.__s.toJson(this.__model));      
+      
+      model.dispose();
+    },
+  
+  
+    testJsonArray : function() {
+      this.__model.setData1([12, 1]);
+      this.__model.setData2(["a", "b"]);
+      this.__model.setData3([true, false]);
+      this.assertEquals('{data1:[12,1],data2:["a","b"],data3:[true,false]}', this.__s.toJson(this.__model));      
+    },
+    
+    testJsonDataArray : function() {
+      this.__model.setData1(new qx.data.Array([12, 1]));
+      this.__model.setData2(new qx.data.Array(["a", "b"]));
+      this.__model.setData3(new qx.data.Array([true, false]));
+      this.assertEquals('{data1:[12,1],data2:["a","b"],data3:[true,false]}', this.__s.toJson(this.__model));
+      
+      this.__model.getData1().dispose();
+      this.__model.getData2().dispose();
+      this.__model.getData3().dispose();
+    },
+    
+    testJsonBig : function() {
+      var model = new qx.ui.core.Widget();
+      this.__s.toJson(model);
+      model.dispose();
+    },
+    
+    
+    testJsonEmpty : function() {
+      this.__model.setData1(new qx.data.Array());
+      this.__model.setData2([]);
+      this.__model.setData3(this);
+      this.assertEquals('{data1:[],data2:[],data3:{}}', this.__s.toJson(this.__model));      
+      
+      this.__model.getData1().dispose();
     }
+    
   }
 });
