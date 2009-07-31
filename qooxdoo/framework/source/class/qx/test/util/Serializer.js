@@ -177,7 +177,7 @@ qx.Class.define("qx.test.util.Serializer",
       this.__model.setData1(new qx.data.Array());
       this.__model.setData2([]);
       this.__model.setData3(this);
-      this.assertEquals('{" data1":[],"data2":[],"data3":{}}', this.__s.toJson(this.__model));      
+      this.assertEquals('{"data1":[],"data2":[],"data3":{}}', this.__s.toJson(this.__model));      
       
       this.__model.getData1().dispose();
     }
