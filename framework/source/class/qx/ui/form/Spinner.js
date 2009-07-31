@@ -54,14 +54,14 @@ qx.Class.define("qx.ui.form.Spinner",
 {
   extend : qx.ui.core.Widget,
   implement : [
-    qx.ui.form.IFormElement, 
-    qx.ui.form.INumberForm, 
+    qx.ui.form.IFormElement,
+    qx.ui.form.INumberForm,
     qx.ui.form.IRange,
     qx.ui.form.IForm
   ],
   include : [
-    qx.ui.core.MContentPadding, 
-    qx.ui.form.MFormElement, 
+    qx.ui.core.MContentPadding,
+    qx.ui.form.MFormElement,
     qx.ui.form.MForm
   ],
 
@@ -290,17 +290,32 @@ qx.Class.define("qx.ui.form.Spinner",
       var decimalSeparator = qx.locale.Number.getDecimalSeparator(
         qx.locale.Manager.getInstance().getLocale()
       );
-      var filterRegExp = new RegExp("[0-9" + 
-        qx.lang.String.escapeRegexpChars(decimalSeparator) + "]"
+      var groupSeparator = qx.locale.Number.getGroupSeparator(
+        qx.locale.Manager.getInstance().getLocale()
       );
-      
+
+      var prefix = "";
+      var postfix = "";
+      if (this.getNumberFormat() !== null) {
+        prefix = this.getNumberFormat().getPrefix() || "";
+        postfix = this.getNumberFormat().getPostfix() || "";
+      }
+
+      var filterRegExp = new RegExp("[0-9" +
+        qx.lang.String.escapeRegexpChars(decimalSeparator) +
+        qx.lang.String.escapeRegexpChars(groupSeparator) +
+        qx.lang.String.escapeRegexpChars(prefix) +
+        qx.lang.String.escapeRegexpChars(postfix) +
+        "\-]"
+      );
+
       return filterRegExp;
     },
 
 
     // overridden
     /**
-     * @lint ignoreReferenceField(_forwardStates) 
+     * @lint ignoreReferenceField(_forwardStates)
      */
     _forwardStates : {
       focused : true,
@@ -471,7 +486,13 @@ qx.Class.define("qx.ui.form.Spinner",
      * @param old {Boolean} The former value of the numberFormat property
      */
     _applyNumberFormat : function(value, old) {
-        this._applyValue(this.__lastValidValue, undefined);
+      var textfield = this.getChildControl("textfield");
+      textfield.setFilter(this._getFilterRegExp());
+
+      this.getNumberFormat().addListener("changeNumberFormat",
+        this._onChangeNumberFormat, this);
+
+      this._applyValue(this.__lastValidValue, undefined);
     },
 
     /**
@@ -696,6 +717,18 @@ qx.Class.define("qx.ui.form.Spinner",
     },
 
 
+    /**
+     * Callback method for the number format's "changeNumberFormat" event.
+     *
+     * @param e {qx.ui.event.type.Event} number format change event
+     */
+    _onChangeNumberFormat : function(ev) {
+      var textfield = this.getChildControl("textfield");
+      textfield.setFilter(this._getFilterRegExp());
+      textfield.setValue(this.getNumberFormat().format(this.getValue()));
+    },
+
+
 
 
     /*
@@ -775,7 +808,7 @@ qx.Class.define("qx.ui.form.Spinner",
       DEPRECATED OLD PROPERTY METHODS
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Set the minimum of the slider.
      * Please use the minimum property instead.
@@ -786,42 +819,42 @@ qx.Class.define("qx.ui.form.Spinner",
       qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use the minimum property instead.");
       this.setMinimum(min);
     },
-    
-    
+
+
     /**
      * Get the minimum of the slider.
      * Please use the minimum property instead.
      * @return {Number} The current set minimum.
      * @deprecated
-     */    
+     */
     getMin: function() {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use the minimum property instead.");      
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use the minimum property instead.");
       return this.getMinimum();
     },
-    
-    
+
+
     /**
      * Reset the minimum of the slider.
      * Please use the minimum property instead.
      * @deprecated
-     */    
+     */
     resetMin: function() {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use the minimum property instead.");      
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use the minimum property instead.");
       this.resetMinimum();
     },
-    
-    
+
+
     /**
      * Init the minimum of the slider.
      * Please use the minimum property instead.
      * @deprecated
-     */    
+     */
     initMin: function() {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use the minimum property instead.");      
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use the minimum property instead.");
       this.initMinimum();
     },
-    
-    
+
+
     /**
      * Set the maximum of the slider.
      * Please use the maximum property instead.
@@ -832,40 +865,40 @@ qx.Class.define("qx.ui.form.Spinner",
       qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use the maximum property instead.");
       this.setMaximum(max);
     },
-    
-    
+
+
     /**
      * Get the maximum of the slider.
      * Please use the maximum property instead.
      * @return {Number} The current set maximum.
      * @deprecated
-     */    
+     */
     getMax: function() {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use the maximum property instead.");      
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use the maximum property instead.");
       return this.getMaximum();
     },
-    
-    
+
+
     /**
      * Reset the maximum of the slider.
      * Please use the maximum property instead.
      * @deprecated
-     */    
+     */
     resetMax: function() {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use the maximum property instead.");      
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use the maximum property instead.");
       this.resetMaximum();
     },
-    
-    
+
+
     /**
      * Init the maximum of the slider.
      * Please use the maximum property instead.
      * @deprecated
-     */    
+     */
     initMaxi: function() {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use the maximum property instead.");      
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use the maximum property instead.");
       this.initMaximum();
-    }    
+    }
   },
 
 
