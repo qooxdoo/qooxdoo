@@ -92,7 +92,7 @@ qx.Class.define("qx.util.Serializer",
             continue;
           }
           var value = object["get" + qx.lang.String.firstUp(name)]();
-          result += name + ":" + qx.util.Serializer.toJson(value) + ",";
+          result += '"' + name + '":' + qx.util.Serializer.toJson(value) + ",";
         }
         if (result != "{") {
           result = result.substring(0, result.length - 1);
@@ -100,7 +100,11 @@ qx.Class.define("qx.util.Serializer",
         return result + "}";        
         
       // strings
-      } else if (qx.lang.Type.isString(object)) {        
+      } else if (
+        qx.lang.Type.isString(object) || 
+        qx.lang.Type.isDate(object) || 
+        qx.lang.Type.isRegExp(object)
+      ) {
         return '"' + object + '"';
       }
       // all other stuff
