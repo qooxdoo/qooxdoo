@@ -18,6 +18,8 @@
 ************************************************************************ */
 
 /**
+ * <h3>EXPERIMENTAL!</h3>
+ *
  * Double column rendere for {@link qx.ui.form.Form}.
  */
 qx.Class.define("qx.ui.form.renderer.Double", 

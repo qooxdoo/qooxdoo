@@ -17,6 +17,8 @@
 
 ************************************************************************ */
 /**
+ * <h3>EXPERIMENTAL!</h3>
+ *
  * Rendere using the placeholder property of {@link qx.ui.form.AbstractField}
  * to visualize the name.
  */
