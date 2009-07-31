@@ -337,13 +337,17 @@ qx.Class.define("qx.ui.embed.Iframe",
     // property apply
     _applyNativeContextMenu : function(value, old)
     {
-      var document = this.getDocument();
-      if (!document) {
+      if (value !== false && old !== false) {
+        return;
+      }
+      
+      var doc = this.getDocument();
+      if (!doc) {
         return;
       }
       
       try {        
-        var documentElement = document.documentElement
+        var documentElement = doc.documentElement
       } catch(e) {
         // this may fail due to security restrictions
         return;
