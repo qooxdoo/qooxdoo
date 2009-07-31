@@ -30,7 +30,7 @@
  *   var female = new qx.ui.form.RadioButton("female");
  *   var male = new qx.ui.form.RadioButton("male");
  *
- *   var mgr = new qx.ui.form.RadioGroup;
+ *   var mgr = new qx.ui.form.RadioGroup();
  *   mgr.add(female, male);
  *
  *   container.add(male);
