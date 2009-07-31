@@ -122,7 +122,7 @@ qx.Class.define("qx.test.util.Serializer",
       this.__model.setData1("a");
       this.__model.setData2(10.456);
       this.__model.setData3(true);
-      this.assertEquals('{data1:"a",data2:10.456,data3:true}', this.__s.toJson(this.__model));
+      this.assertEquals('{"data1":"a","data2":10.456,"data3":true}', this.__s.toJson(this.__model));
     },
     
     
@@ -130,7 +130,7 @@ qx.Class.define("qx.test.util.Serializer",
       this.__model.setData1(new Date(1000));
       this.__model.setData2(/[0]/);
       this.__model.setData3(45e12);
-      this.assertEquals('{data1:Thu Jan 01 1970 01:00:01 GMT+0100 (CET),data2:/[0]/,data3:45000000000000}', this.__s.toJson(this.__model));      
+      this.assertEquals('{"data1":"Thu Jan 01 1970 01:00:01 GMT+0100 (CET)","data2":"/[0]/","data3":45000000000000}', this.__s.toJson(this.__model));      
     },
     
     
@@ -142,7 +142,7 @@ qx.Class.define("qx.test.util.Serializer",
       
       this.__model.setData1(model);
       this.__model.setData3(null);
-      this.assertEquals('{data1:{data1:"a",data2:11,data3:false},data2:null,data3:null}', this.__s.toJson(this.__model));      
+      this.assertEquals('{"data1":{"data1":"a","data2":11,"data3":false},"data2":null,"data3":null}', this.__s.toJson(this.__model));      
       
       model.dispose();
     },
@@ -152,14 +152,14 @@ qx.Class.define("qx.test.util.Serializer",
       this.__model.setData1([12, 1]);
       this.__model.setData2(["a", "b"]);
       this.__model.setData3([true, false]);
-      this.assertEquals('{data1:[12,1],data2:["a","b"],data3:[true,false]}', this.__s.toJson(this.__model));      
+      this.assertEquals('{"data1":[12,1],"data2":["a","b"],"data3":[true,false]}', this.__s.toJson(this.__model));      
     },
     
     testJsonDataArray : function() {
       this.__model.setData1(new qx.data.Array([12, 1]));
       this.__model.setData2(new qx.data.Array(["a", "b"]));
       this.__model.setData3(new qx.data.Array([true, false]));
-      this.assertEquals('{data1:[12,1],data2:["a","b"],data3:[true,false]}', this.__s.toJson(this.__model));
+      this.assertEquals('{"data1":[12,1],"data2":["a","b"],"data3":[true,false]}', this.__s.toJson(this.__model));
       
       this.__model.getData1().dispose();
       this.__model.getData2().dispose();
@@ -177,7 +177,7 @@ qx.Class.define("qx.test.util.Serializer",
       this.__model.setData1(new qx.data.Array());
       this.__model.setData2([]);
       this.__model.setData3(this);
-      this.assertEquals('{data1:[],data2:[],data3:{}}', this.__s.toJson(this.__model));      
+      this.assertEquals('{" data1":[],"data2":[],"data3":{}}', this.__s.toJson(this.__model));      
       
       this.__model.getData1().dispose();
     }
