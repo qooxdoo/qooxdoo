@@ -58,7 +58,9 @@ qx.Class.define("qx.ui.window.Manager",
 
     // interface implementation
     changeActiveWindow : function(active, oldActive) {
-      this.bringToFront(active);
+      if (active) {
+      	this.bringToFront(active);
+      }
     },
 
 
@@ -86,7 +88,7 @@ qx.Class.define("qx.ui.window.Manager",
       var windows = this.__desktop.getWindows();
       var zIndex = this._minZIndex - 1;
       var hasActive = false;
-      var win, last;
+      var win, last = null;
 
       for (var i=0, l=windows.length; i<l; i++)
       {
@@ -110,8 +112,8 @@ qx.Class.define("qx.ui.window.Manager",
         last = win;
       }
 
-      if (!hasActive && last) {
-        last.setActive(true);
+      if (!hasActive) {
+        this.__desktop.setActiveWindow(last);
       }
     },
 

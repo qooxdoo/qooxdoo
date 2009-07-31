@@ -44,7 +44,9 @@ qx.Mixin.define("qx.ui.window.MDesktop",
     activeWindow :
     {
       check : "qx.ui.window.Window",
-      apply : "_applyActiveWindow"
+      apply : "_applyActiveWindow",
+      init  : null,
+      nullable : true
     }
   },
 
@@ -112,7 +114,9 @@ qx.Mixin.define("qx.ui.window.MDesktop",
     {
       if (e.getData()) {
         this.setActiveWindow(e.getTarget());
-      }
+      } else if (this.getActiveWindow() == e.getTarget()) {
+        this.setActiveWindow(null);
+      }      
     },
 
 
@@ -120,7 +124,9 @@ qx.Mixin.define("qx.ui.window.MDesktop",
     _applyActiveWindow : function(value, old)
     {
       this.getWindowManager().changeActiveWindow(value, old);
-      value.setActive(true);
+      if (value) {
+      	value.setActive(true);
+      }
       if (old) {
         old.resetActive();
       }
@@ -166,12 +172,13 @@ qx.Mixin.define("qx.ui.window.MDesktop",
      */
     _addWindow : function(win)
     {
-      this.getWindows().push(win);
-
-      win.addListener("changeActive", this._onChangeActive, this);
-      win.addListener("changeModal", this._onChangeModal, this);
-      win.addListener("changeVisibility", this._onChangeVisibility, this);
-
+      if (!qx.lang.Array.contains(this.getWindows(), win))
+      {
+        this.getWindows().push(win);
+        win.addListener("changeActive", this._onChangeActive, this);
+        win.addListener("changeModal", this._onChangeModal, this);
+        win.addListener("changeVisibility", this._onChangeVisibility, this);
+      }
       if (win.getActive()) {
         this.setActiveWindow(win);
       }
