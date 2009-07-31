@@ -893,11 +893,7 @@ qx.Class.define("qx.ui.core.Widget",
     __layoutManager : null,
 
 
-    /**
-     * Get the widget's layout manager.
-     *
-     * @return {qx.ui.layout.Abstract} The widget's layout manager
-     */
+    // overridden
     _getLayout : function() {
       return this.__layoutManager;
     },
@@ -2606,7 +2602,7 @@ qx.Class.define("qx.ui.core.Widget",
     $$stateChanges : null,
 
 
-    /** {Map} Can be overridden to forward states to the childes. */
+    /** {Map} Can be overridden to forward states to the child controls. */
     _forwardStates : null,
 
 

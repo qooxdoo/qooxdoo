@@ -96,6 +96,7 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
     {
       check : ["auto", "on", "off"],
       init : "auto",
+      themeable : true,
       apply : "_computeScrollbars"
     },
 
@@ -112,6 +113,7 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
     {
       check : ["auto", "on", "off"],
       init : "auto",
+      themeable : true,
       apply : "_computeScrollbars"
     },
 
