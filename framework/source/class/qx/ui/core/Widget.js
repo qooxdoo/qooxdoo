@@ -181,13 +181,12 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
-     * This event if fired if a keyboard button is released. This event is
-     * only fired once if the user keeps the key pressed for a while.
+     * This event if fired if a keyboard key is released.
      **/
     keyup : "qx.event.type.KeySequence",
 
     /**
-     * This event if fired if a keyboard button is pushed down. This event is
+     * This event if fired if a keyboard key is pressed down. This event is
      * only fired once if the user keeps the key pressed for a while.
      */
     keydown : "qx.event.type.KeySequence",

@@ -355,6 +355,7 @@ qx.Class.define("qx.ui.layout.Grid",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
+        this.assertInteger(column, "Invalid parameter 'column'");
         this.assertInArray(hAlign, ["left", "center", "right"]);
         this.assertInArray(vAlign, ["top", "middle", "bottom"]);
       }
@@ -406,6 +407,7 @@ qx.Class.define("qx.ui.layout.Grid",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
+        this.assertInteger(row, "Invalid parameter 'row'");
         this.assertInArray(hAlign, ["left", "center", "right"]);
         this.assertInArray(vAlign, ["top", "middle", "bottom"]);
       }
