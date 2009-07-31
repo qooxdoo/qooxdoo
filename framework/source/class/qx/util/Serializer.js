@@ -100,8 +100,21 @@ qx.Class.define("qx.util.Serializer",
         return result + "}";        
         
       // strings
+      } else if (qx.lang.Type.isString(object)) {
+        // escape 
+        object = object.replace(/([\\])/g, '\\\\');
+        object = object.replace(/(["])/g, '\\"');
+        object = object.replace(/([\r])/g, '\\r');
+        object = object.replace(/([\f])/g, '\\f');
+        object = object.replace(/([\n])/g, '\\n');
+        object = object.replace(/([\t])/g, '\\t');
+        object = object.replace(/([\b])/g, '\\b');
+                                                        
+        return '"' + object + '"';
+        
+      // Date and RegExp
       } else if (
-        qx.lang.Type.isString(object) || 
+
         qx.lang.Type.isDate(object) || 
         qx.lang.Type.isRegExp(object)
       ) {
