@@ -278,8 +278,13 @@ qx.Class.define("qx.ui.form.Spinner",
 
       return control || this.base(arguments, id);
     },
-    
-    
+
+
+    /**
+     * Returns the regular expression used as the text field's filter
+     *
+     * @return {RegExp} The filter RegExp.
+     */
     _getFilterRegExp : function()
     {
       var decimalSeparator = qx.locale.Number.getDecimalSeparator(
