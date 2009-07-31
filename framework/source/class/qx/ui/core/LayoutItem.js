@@ -562,33 +562,36 @@ qx.Class.define("qx.ui.core.LayoutItem",
       hint = this.__sizeHint = this._computeSizeHint();
 
       // Respect height for width
-      if (this.__computedHeightForWidth && this.getHeight() == null) {
+      if (this._hasHeightForWidth() && this.__computedHeightForWidth && this.getHeight() == null) {
         hint.height = this.__computedHeightForWidth;
       }
 
       // Support shrink
       if (!this.getAllowShrinkX()) {
-        hint.minWidth = hint.width;
+        hint.minWidth = Math.max(hint.minWidth, hint.width);
       } else if (hint.minWidth > hint.width && this.getAllowGrowX()) {
         hint.width = hint.minWidth;
       }
 
       if (!this.getAllowShrinkY()) {
-        hint.minHeight = hint.height;
-      } else if (hint.minHeight > hint.height && this.getAllowGrowY()) {
+        hint.minHeight = Math.max(hint.minHeight, hint.height);
+      }
+      if (hint.minHeight > hint.height && this.getAllowGrowY()) {
         hint.height = hint.minHeight;
       }
 
       // Support grow
       if (!this.getAllowGrowX()) {
-        hint.maxWidth = hint.width;
-      } else if (hint.width > hint.maxWidth) {
+        hint.maxWidth = Math.min(hint.maxWidth, hint.width);
+      } 
+      if (hint.width > hint.maxWidth) {
         hint.width = hint.maxWidth;
       }
 
       if (!this.getAllowGrowY()) {
-        hint.maxHeight = hint.height;
-      } else if (hint.height > hint.maxHeight) {
+        hint.maxHeight = Math.min(hint.maxHeight, hint.height);
+      }
+      if (hint.height > hint.maxHeight) {
         hint.height = hint.maxHeight;
       }
 
@@ -659,6 +662,16 @@ qx.Class.define("qx.ui.core.LayoutItem",
       return null;
     },
 
+    
+    /**
+     * Get the widget's layout manager.
+     *
+     * @return {qx.ui.layout.Abstract} The widget's layout manager
+     */
+    _getLayout : function() {
+      return null;
+    },
+    
 
     // property apply
     _applyMargin : function()
