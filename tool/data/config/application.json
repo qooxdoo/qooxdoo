@@ -82,7 +82,6 @@
       ]
     },
 
-    /* 
     "inspector":
     {
       "desc"   : "create an inspector instance in the current library",
@@ -91,43 +90,8 @@
 
       "let"    :
       {
-        "INSPECTOR_ROOT" : "${QOOXDOO_PATH}/component/inspector",
-        "BUILD_PATH"  : "./inspector"
-      }
-    },
-
-    "inspector::build-script":
-    {
-      "compile-dist": 
-      {
-        "uris" : 
-        { 
-          "resource" : "../inspector/resource",
-          "script"   : "../inspector/script"
-        }
-      }
-    },
-
-    "inspector::build-files":
-    {
-      "copy-files" :
-      {
-        "target" : "${ROOT}/source"
-      }
-    },
-    */
-
-
-    "inspector":
-    {
-      "desc"   : "create an inspector instance in the current library",
-
-      "extend" : ["inspector::build"],
-
-      "let"    :
-      {
-        "INSPECTOR_ROOT" : "${QOOXDOO_PATH}/component/inspector",
-        "BUILD_PATH"  : "./inspector"
+        "INSPECTOR_ROOT" : "${QOOXDOO_PATH}/component/inspector"
+        ,"BUILD_PATH"    : "${ROOT}/inspector"
       },
 
       "=run" : ["inspector-resources", "inspector-script", "inspector-files"]
