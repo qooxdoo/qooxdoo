@@ -628,11 +628,13 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       var vStatus = this.getStatusCode();
       var vReadyState = this.getReadyState();
 
-      if (qx.io.remote.Exchange.wasSuccessful(vStatus, vReadyState, this.__localRequest))
+      try
       {
-        try {
-          vResponseText = this.getRequest().responseText;
-        } catch(ex) {}
+        vResponseText = this.getRequest().responseText;
+      }
+      catch(ex)
+      {
+        vResponseText = null;
       }
 
       return vResponseText;
@@ -712,12 +714,13 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      */
     getResponseContent : function()
     {
-      if (this.getState() !== "completed")
+      var state = this.getState();
+      if (state !== "completed" && state != "failed")
       {
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
           if (qx.core.Setting.get("qx.ioRemoteDebug")) {
-            this.warn("Transfer not complete, ignoring content!");
+            this.warn("Transfer not complete or failed, ignoring content!");
           }
         }
 
@@ -732,6 +735,19 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       }
 
       var vText = this.getResponseText();
+
+      if (state == "failed")
+      {
+          if (qx.core.Variant.isSet("qx.debug", "on"))
+          {
+            if (qx.core.Setting.get("qx.ioRemoteDebugData"))
+            {
+              this.debug("Failed: " + vText);
+            }
+          }
+
+          return vText;
+      }
 
       switch(this.getResponseType())
       {

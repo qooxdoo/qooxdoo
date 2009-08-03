@@ -904,6 +904,10 @@ qx.Class.define("qx.io.remote.Exchange",
                 value = "failed";
               }
             }
+            else if (value == "failed")
+            {
+              vResponse.setContent(vImpl.getResponseContent());
+            }
 
             vResponse.setStatusCode(vImpl.getStatusCode());
             vResponse.setResponseHeaders(vImpl.getResponseHeaders());
