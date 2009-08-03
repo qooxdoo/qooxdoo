@@ -187,6 +187,7 @@ qx.Class.define("qx.bom.Label",
         var xulel = win.document.createElementNS("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul", "label");
 
         xulel.style.cursor = "inherit";
+        xulel.style.color = "inherit";
         xulel.style.overflow = "hidden";
         xulel.style.maxWidth = "100%";
 
