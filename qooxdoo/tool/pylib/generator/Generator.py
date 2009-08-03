@@ -199,7 +199,11 @@ class Generator(object):
                     # find youngest file
                     file, mtime = filetool.findYoungest(catPath)
                     youngFiles[mtime] = file
-
+                    
+                # also check the Manifest file
+                file, mtime = filetool.findYoungest(lib["manifest"])
+                youngFiles[mtime] = file
+                
                 # and return the maximum of those
                 ytime = sorted(youngFiles.keys())[-1]
                 return (youngFiles[ytime], ytime)
@@ -208,7 +212,7 @@ class Generator(object):
                 key  = lib["path"]
 
                 checkFile = mostRecentlyChangedIn(lib)[0]
-                cacheId   = "lib-%s" % self._config.absPath(lib["manifest"]) #key
+                cacheId   = "lib-%s" % lib["manifest"] #key
                 #print "xxx %s: %s" % (lib["namespace"], cacheId)
                 path      = self._cache.read(cacheId, checkFile, memory=True)
                 if path:
