@@ -228,6 +228,104 @@ class QxTest:
           status = True
     return status
 
+  ##
+  # Starts the build process for one or more targets. Logs errors during build 
+  # and writes the current trunk revision number and build status to files.
+  #
+  # @param buildConf {dict} Build configuration 
+  def build(self, buildConf):
+    defaultBuildConf = {
+      'buildLogLevel'       : 'error',
+      'buildLogDir'         : '../../logs/build'
+    }
+    
+    buildConf = self.getConfig(defaultBuildConf, buildConf)
+
+    generate = "./generate.py "
+    if self.os == "Windows":
+      generate = "generate.py "
+
+    for target in buildConf['targets']:
+      targetConf = buildConf["targets"][target]
+      # Prepare log file
+      if not os.path.isdir(buildConf['buildLogDir']):
+        os.mkdir(buildConf['buildLogDir'])
+      buildLog = os.path.join(buildConf['buildLogDir'], target + '_' + self.startTimeString + '.log')
+      self.log("Opening build log file " + buildLog)      
+      buildLogFile = codecs.open(buildLog, 'a', 'utf-8')
+      
+      if target[0] == target[0].capitalize():
+        targetDir = os.path.join(self.testConf["qxPathAbs"], targetConf["path"])
+        os.chdir(targetDir)
+      
+      buildLogLevel = "error"
+      if "buildLogLevel" in targetConf:
+        buildLogLevel = targetConf["buildLogLevel"]
+      else:
+        if "buildLogLevel" in buildConf:
+          buildLogLevel = buildConf["buildLogLevel"]
+        
+        distclean = False
+        if "distclean" in targetConf:
+          distclean = targetConf["distclean"]
+        else: 
+          if "distclean" in buildConf:
+            distclean = buildConf["distclean"]
+          
+        if distclean:
+          if (self.sim):
+            self.log("SIMULATION: Running distclean in directory " + targetDir)
+          else:
+            self.log("Running distclean in directory " + targetDir)
+            if buildLogLevel == "debug":
+              invokeLog(generate + "distclean", buildLogFile)
+            else:
+              invokeExternal(generate + "distclean")
+        
+        cmd = generate + targetConf["job"]
+        
+        self.buildStatus[target] = {
+          "SVNRevision" : False,
+          "BuildError"  : False
+        }
+        
+        if self.sim:
+          self.log("SIMULATION: Building " + target + "\n  " + cmd)
+        else:
+          self.log("Building " + target + "\n  " + cmd)
+          if buildLogLevel == "debug":
+              invokeLog(cmd, buildLogFile)
+          else:
+            # Start build, only log errors
+            status, std, err = invokePiped(cmd)
+            if (status > 0):
+              self.log("Error while building " + target + ", see " 
+                    + buildLog + " for details.")
+              err = err.rstrip('\n')
+              err = err.rstrip('\r')
+              buildLogFile.write(target + "\n" + cmd + "\n" + err)
+              buildLogFile.write("\n========================================================\n\n")
+              
+              self.buildStatus[target]["BuildError"] = "Unknown build error"
+              
+              """Get the last line of batbuild.py's STDERR output which contains
+              the actual error message. """
+              import re
+              nre = re.compile('[\n\r](.*)$')
+              m = nre.search(err)
+              if m:
+                self.buildStatus[target]["BuildError"] = m.group(1)
+            else:
+              self.log(target + " build finished without errors.")
+              
+          self.buildStatus[target]["SVNRevision"] = self.getLocalRevision()
+      
+      buildLogFile.close()
+
+    self.trunkrev = self.getLocalRevision()
+    self.storeRevision()
+    self.storeBuildStatus()
+
 
   ##
   # Starts the SVN udpdate/build process for one or more targets. Logs errors
@@ -958,7 +1056,7 @@ def invokeExternal(cmd):
 
 ##
 # Invokes a shell command and get its STDOUT/STDERR output while the process is 
-# running. Optionally writes the output to  afile.
+# running. Optionally writes the output to a file.
 #
 # @param cmd {str} The command to be executed
 def invokeLog(cmd, file=None):
