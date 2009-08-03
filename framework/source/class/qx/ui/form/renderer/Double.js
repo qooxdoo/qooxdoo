@@ -69,7 +69,11 @@ qx.Class.define("qx.ui.form.renderer.Double",
       for (var i = 0; i < items.length; i++) {
         var label = this._createLabel(names[i], items[i]);
         this._add(label, {row: this._row, column: (i * 2) % 4});
-        this._add(items[i], {row: this._row, column: ((i * 2) % 4) + 1});
+        var item = items[i];
+        if (item instanceof qx.ui.form.RadioGroup) {
+          item = this._createWidgetForRadioGroup(item);
+        }
+        this._add(item, {row: this._row, column: ((i * 2) % 4) + 1});
         if (i % 2 == 1) {  
           this._row++;
         }
@@ -138,6 +142,26 @@ qx.Class.define("qx.ui.form.renderer.Double",
         header.setMarginTop(10);        
       }      
       return header;
+    },
+    
+    
+    /**
+     * Takes the items of the given RadioGroup and adds the to a Composite. 
+     * The composite has a VBox layout so the RadioButtons will be alligned
+     * vertically.
+     * 
+     * @param group {qx.ui.form.RadioGroup} The RadioGroup which needs to be 
+     *   added.
+     * @return {qx.ui.container.Composite} A composite containing the items of 
+     *   the RadioGroup.
+     */
+    _createWidgetForRadioGroup : function(group) {
+      var widget = new qx.ui.container.Composite(new qx.ui.layout.VBox());
+      var items = group.getItems();
+      for (var i = 0; i < items.length; i++) {
+        widget.add(items[i]);
+      }
+      return widget;
     }
   }
 });
