@@ -51,11 +51,11 @@ qx.Class.define("demobrowser.demo.ui.FormRendererDouble",
       
       // add some additional widgets
       form.add(new qx.ui.form.Spinner(), "Age");
-      var genderBox = new qx.ui.form.SelectBox();
-      genderBox.add(new qx.ui.form.ListItem("male"));
-      genderBox.add(new qx.ui.form.ListItem("female"));      
-      form.add(genderBox, "Gender");
       form.add(new qx.ui.form.TextField(), "Country");
+      var radioGroup = new qx.ui.form.RadioGroup();
+      radioGroup.add(new qx.ui.form.RadioButton("Male"));
+      radioGroup.add(new qx.ui.form.RadioButton("Female"));
+      form.add(radioGroup, "Gender");
       form.add(new qx.ui.form.TextArea(), "Bio");
       
       // send button with validation
