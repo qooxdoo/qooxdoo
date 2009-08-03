@@ -33,7 +33,8 @@ qx.Class.define("qx.ui.form.RadioGroup",
   extend : qx.core.Object,
   implement : [
     qx.ui.form.IFormElement, 
-    qx.ui.core.ISingleSelection
+    qx.ui.core.ISingleSelection,
+    qx.ui.form.IForm
   ],
   include : [
     qx.ui.core.MSingleSelectionHandling,
@@ -106,6 +107,36 @@ qx.Class.define("qx.ui.form.RadioGroup",
       check : "Boolean",
       init : false,
       apply : "_applyAllowEmptySelection"
+    },
+    
+    /**
+     * Flag signaling if the group at all is valid. All children will have the 
+     * same state.
+     */
+    valid : {
+      check : "Boolean",
+      init : true,
+      apply : "_applyValid",
+      event : "changeValid"
+    },
+        
+    /**
+     * Flag signaling if the group is required.
+     */
+    required : {
+      check : "Boolean",
+      init : false,
+      event : "changeRequired"
+    },
+    
+    /**
+     * Message which is shown in an invalid tooltip.
+     */
+    invalidMessage : {
+      check : "String",
+      init: "",
+      event : "changeInvalidMessage",
+      apply : "_applyInvalidMessage"
     }
   },
 
@@ -392,7 +423,19 @@ qx.Class.define("qx.ui.form.RadioGroup",
       APPLY ROUTINES
     ---------------------------------------------------------------------------
     */
-
+    // property apply
+    _applyInvalidMessage : function(value, old) {
+      for (var i = 0; i < this.__items.length; i++) {
+        this.__items[i].setInvalidMessage(value);
+      }
+    },
+    
+    // property apply
+    _applyValid: function(value, old) {
+      for (var i = 0; i < this.__items.length; i++) {
+        this.__items[i].setValid(value);
+      }
+    },
     
     // property apply
     _applyEnabled : function(value, old)
@@ -407,7 +450,7 @@ qx.Class.define("qx.ui.form.RadioGroup",
       else
       {
         for (var i=0, l=items.length; i<l; i++) {
-          items[i].setEnabled(true);
+          items[i].setEnabled(value);
         }
       }
     },
