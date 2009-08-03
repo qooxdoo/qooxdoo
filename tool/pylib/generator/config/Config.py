@@ -528,6 +528,7 @@ class Config:
                             lib['manifest'] = manifest  # patch 'manifest' entry to download path
                         else:  # patch the path which is local to the current config
                             pass # TODO: use manidir and config._dirname, or fix it when including the config
+                        lib['manifest'] = self.absPath(lib['manifest'])  # abs manifest path
                             
                         # get the local Manifest
                         manifest = Manifest(self.absPath(manifest))
