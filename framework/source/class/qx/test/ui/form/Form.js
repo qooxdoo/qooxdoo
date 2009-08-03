@@ -42,7 +42,7 @@ qx.Class.define("qx.test.ui.form.Form",
       // check if the state is set
       this.assertTrue(widget.getRequired(), "Setting of the required flag did not work.");
       
-      widget.destroy();
+      widget.dispose();
     },    
 
     __testValid: function(widget, where) {
@@ -240,9 +240,56 @@ qx.Class.define("qx.test.ui.form.Form",
     
     testValidDateChooser: function() {
      this.__testValid(new qx.ui.form.DateField()); 
-    }        
+    },
     
+    testValidRadioGroup : function() {
+      var group = new qx.ui.form.RadioGroup();
+      var rb = new qx.ui.form.RadioButton();
+      group.add(rb);
+      
+      // check if the interface is implemented
+      this.assert(qx.Class.hasInterface(group.constructor, qx.ui.form.IForm), "Interface not implemented.");
+      
+      // test for the default (true)
+      this.assertTrue(group.getValid(), "Default valid state is wrong.");
+
+      group.setValid(false);
+      
+      // check if the state is set
+      this.assertFalse(group.getValid(), "Setting of the valid flag did not work.");
+      
+      // check for the event
+      var self = this;
+      this.assertEventFired(group, "changeValid", function () {
+        group.setValid(true);
+      }, function(e) {
+        self.assertTrue(e.getData(), "Wrong data in the event.");
+        self.assertFalse(e.getOldData(), "Wrong old data in the event.");        
+      }, "Change event not fired!");
+      
+      // check for the event
+      this.assertEventFired(group, "changeInvalidMessage", function () {
+        group.setInvalidMessage("affe");
+      }, function(e) {
+        self.assertEquals("affe", e.getData(), "Wrong data in the event.");
+        self.assertEquals("", e.getOldData(), "Wrong old data in the event.");
+      }, "Change event not fired!");      
+      
+      // set the widget to invalid
+      group.setValid(false);
+         
+      // check if the child is invalid
+      this.assertFalse(rb.getValid(), "Child is valid!");
+      // check the invalid message of the child
+      this.assertEquals("affe", rb.getInvalidMessage(), "Invalid messages not set on child.");
+      
+      group.dispose();
+      rb.destroy();
+    },
     
-    
+    testRequiredRadioGroup : function() {
+      this.__testRequired(new qx.ui.form.RadioGroup());
+    }
+
   }
 });

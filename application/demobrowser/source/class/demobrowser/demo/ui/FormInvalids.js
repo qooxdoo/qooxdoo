@@ -94,6 +94,18 @@ qx.Class.define("demobrowser.demo.ui.FormInvalids",
       widgets.push(new qx.ui.control.DateChooser());
       this.getRoot().add(widgets[14], {left: 520, top: 70});
       
+      // radioGroup
+      var radioGroup = new qx.ui.form.RadioGroup();
+      var r1 = new qx.ui.form.RadioButton("RadioGroup 1");
+      radioGroup.add(r1);
+      this.getRoot().add(r1, {left: 530, top: 250});
+      var r2 = new qx.ui.form.RadioButton("RadioGroup 2");
+      radioGroup.add(r2);
+      this.getRoot().add(r2, {left: 530, top: 270});
+
+      
+      widgets.push(radioGroup);
+      
 
       /* ***********************************************
        * CONTROLLS
