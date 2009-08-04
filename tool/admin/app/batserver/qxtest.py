@@ -181,8 +181,10 @@ class QxTest:
     else:
       self.log("Killing Selenium server process")
     
-    if self.os == "Linux" or self.os == "Darwin":      
+    if self.os == "Linux":      
       invokeExternal("pkill -f selenium-server")
+    if self.os == "Darwin":
+      invokeExternal("pkill selenium-server")
     else:
       invokeExternal(self.testConf['killSelenium'])
 
