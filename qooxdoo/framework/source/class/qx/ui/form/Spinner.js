@@ -703,7 +703,7 @@ qx.Class.define("qx.ui.form.Spinner",
     /**
      * Callback method for the locale Manager's "changeLocale" event.
      *
-     * @param e {qx.ui.event.type.Event} locale change event
+     * @param ev {qx.ui.event.type.Event} locale change event
      */
 
     _onChangeLocale : function(ev)
@@ -720,7 +720,7 @@ qx.Class.define("qx.ui.form.Spinner",
     /**
      * Callback method for the number format's "changeNumberFormat" event.
      *
-     * @param e {qx.ui.event.type.Event} number format change event
+     * @param ev {qx.ui.event.type.Event} number format change event
      */
     _onChangeNumberFormat : function(ev) {
       var textfield = this.getChildControl("textfield");
