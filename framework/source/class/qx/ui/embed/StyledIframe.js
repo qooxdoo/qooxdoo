@@ -191,6 +191,7 @@ qx.Class.define("qx.ui.embed.StyledIframe",
       var body = this._getIframeElement().getBody();
       if (body) {
         this._startIframeObserver();
+        this._addWheelListener();
       }
       
       this.fireEvent("load");
@@ -215,6 +216,39 @@ qx.Class.define("qx.ui.embed.StyledIframe",
       this._excludeChildControl("corner");
       
       this._stopIframeObserver();
+    },
+    
+    
+    /**
+     * Attach mouse wheel listener to the iframe
+     */
+    _addWheelListener : function()
+    {
+      try
+      {
+        var body = this._getIframeElement().getBody();
+        qx.bom.Element.addListener(body, "mousewheel", this._onMouseWheel, this);
+      } catch (e) {
+        console.log(e);
+        this._disableScollbars();
+      }
+    },
+    
+    
+    /**
+     * Mouse wheel event handler
+     */
+    _onMouseWheel : function(e)
+    {
+      var showY = this._isChildControlVisible("scrollbar-y");
+      if (!showY) {
+        return;
+      }
+
+      var scrollbar = this.getChildControl("scrollbar-y", true);
+      scrollbar.scrollBySteps(e.getWheelDelta());
+
+      e.stop();      
     },
     
     
