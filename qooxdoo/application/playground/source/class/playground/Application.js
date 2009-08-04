@@ -170,21 +170,33 @@ qx.Class.define("playground.Application",
       this.__history = qx.bom.History.getInstance();
 
       // Handle bookmarks
-      var sample = this.__history.getState();
+      var state = this.__history.getState();
 
       // checks if the state corresponds to a sample. If yes, the application
       // will be initialized with the selected sample
-      if (sample && this.__sampleContainer[sample] != undefined) {
-        this.textarea.setValue(this.__sampleContainer[sample]);
+      if (state && this.__sampleContainer[state] != undefined) {
+        this.textarea.setValue(this.__sampleContainer[state]);
         if (this.editor != undefined) {
-          this.editor.setCode(this.__sampleContainer[sample]);
+          this.editor.setCode(this.__sampleContainer[state]);
         }
-        this.currentSample = sample;
+        this.currentSample = state;
         this.updatePlayground(this.__playRoot);
+        var title = state;
+        this.playAreaCaption.setValue(this.__decodeSampleId(title));        
+        
+      // if there is a state given
+      } else if (state != "") {
+        var code = decodeURIComponent(state);
+        this.currentSample = "";
+        this.textarea.setValue(code);
+        this.__widgets["toolbar.runButton"].execute();
+        var title = "Custom Code"
+      
       } else {
-        sample = qx.lang.Object.getKeys(this.__sampleContainer)[0];
-        this.currentSample = sample;
-        this.textarea.setValue(this.__sampleContainer[sample]);
+        state = qx.lang.Object.getKeys(this.__sampleContainer)[0];
+        this.currentSample = state;
+        this.textarea.setValue(this.__sampleContainer[state]);
+        var title = state;
       }
 
       this.__history.addListener("request", function(e)
@@ -206,8 +218,8 @@ qx.Class.define("playground.Application",
       }, this);
 
       qx.event.Timer.once(function() {
-        this.__history.addToHistory(sample,
-            this.__updateTitle(this.__decodeSampleId(sample)));
+        this.__history.addToHistory(state,
+            this.__updateTitle(this.__decodeSampleId(title)));
       }, this, 0);
     },
 
@@ -563,7 +575,7 @@ qx.Class.define("playground.Application",
       } else {
         this.textarea.setValue(currentSource);
       }
-
+  
       this.__history.addToHistory(this.currentSample, this.__updateTitle(label));
     },
 
@@ -579,9 +591,22 @@ qx.Class.define("playground.Application",
       this.__widgets["toolbar.runButton"].addListener("execute", function()
       {
         this.updatePlayground(root);
-
-        if (this.editor != undefined) {
+        
+        if (this.currentSample != "" && this.editor != undefined) {
           this.__isSourceCodeChanged();
+        }
+        // get the curren set code
+        if (this.showSyntaxHighlighting) {
+          var code = this.editor.getCode();
+        } else {
+          var code = this.textarea.getValue();
+        }
+        
+        var userCode = this.showSyntaxHighlighting ?
+                       this.editor.getCode() :
+                       this.textarea.getValue();        
+        if (escape(userCode) != escape(this.__sampleContainer[this.currentSample]).replace(/%0D/g, "")) {
+          this.__history.addToHistory(encodeURIComponent(code));
         }
       },
       this);
