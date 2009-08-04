@@ -144,8 +144,15 @@ qx.Class.define("qx.bom.Iframe",
      */
     getBody : function(iframe)
     {
-      var doc = this.getDocument(iframe);
-      return doc ? doc.getElementsByTagName("body")[0] : null;
+      try 
+      {
+        var doc = this.getDocument(iframe);
+        return doc ? doc.getElementsByTagName("body")[0] : null;
+      }
+      catch(ex) 
+      {
+        return null
+      }
     },
 
 

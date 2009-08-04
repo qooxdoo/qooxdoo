@@ -289,7 +289,6 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
      * Scrolls the element's content to the given left coordinate
      *
      * @param value {Integer} The vertical position to scroll to.
-     * @return {void}
      */
     scrollToX : function(value) {
       // First flush queue before scroll
@@ -303,7 +302,6 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
      * Scrolls the element's content by the given left offset
      *
      * @param value {Integer} The vertical position to scroll to.
-     * @return {void}
      */
     scrollByX : function(value) {
       // First flush queue before scroll
@@ -329,7 +327,6 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
      * Scrolls the element's content to the given top coordinate
      *
      * @param value {Integer} The horizontal position to scroll to.
-     * @return {void}
      */
     scrollToY : function(value) {
       // First flush queue before scroll
@@ -429,10 +426,8 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
       var showX = this._isChildControlVisible("scrollbar-x");
       var showY = this._isChildControlVisible("scrollbar-y");
 
-      /*
-       * If vertical scrollbar is present, scroll vertically, otherwise check if
-       * horizontal scrollbar is present to scroll horizontally, else do not scroll at all.
-       */
+      // If vertical scrollbar is present, scroll vertically, otherwise check if
+      // horizontal scrollbar is present to scroll horizontally, else do not scroll at all.
       var scrollbar = (showY) ? this.getChildControl("scrollbar-y", true) : ( showX ? this.getChildControl("scrollbar-x", true) : null );
       if (scrollbar) {
         scrollbar.scrollBySteps(e.getWheelDelta());
