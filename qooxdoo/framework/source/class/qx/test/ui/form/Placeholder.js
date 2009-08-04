@@ -34,16 +34,14 @@ qx.Class.define("qx.test.ui.form.Placeholder",
       widget.setPlaceholder("abc");
       this.getRoot().add(widget);
       
-      widget.addListenerOnce("syncAppearance", function() {
-        this.resume(function() {
-        this.assertEquals("abc", this.__getVisibleValueOf(widget), "placeholder not visible");
-          this.assertNull(widget.getValue(), "Wrong value returned.");
-          // get rid of the widget
-          widget.destroy();
-        }, this);
-      }, this);
+      // sync the appearance
+      this.__syncAppearance(widget);
       
-      this.wait();
+      this.assertEquals("abc", this.__getVisibleValueOf(widget), "placeholder not visible");
+      this.assertNull(widget.getValue(), "Wrong value returned.");
+      
+      // get rid of the widget
+      widget.destroy();
     },
     
     
@@ -60,16 +58,14 @@ qx.Class.define("qx.test.ui.form.Placeholder",
       // remove the value
       widget.resetValue();
             
-      widget.addListenerOnce("syncAppearance", function() {
-        this.resume(function() {
-          this.assertNull(widget.getValue(), "wrong value");
-          this.assertEquals("abc", this.__getVisibleValueOf(widget), "wrong visible value");
-          // get rid of the widget
-          widget.destroy();          
-        }, this);
-      }, this);
-      
-      this.wait();
+      // sync the appearance
+      this.__syncAppearance(widget);
+
+      this.assertNull(widget.getValue(), "wrong value");
+      this.assertEquals("abc", this.__getVisibleValueOf(widget), "wrong visible value");
+
+      // get rid of the widget
+      widget.destroy();          
     },
     
     
@@ -124,18 +120,23 @@ qx.Class.define("qx.test.ui.form.Placeholder",
       
       widget.setEnabled(true);
       
-      widget.addListenerOnce("syncAppearance", function() {
-        this.resume(function() {
-          this.assertNull(widget.getValue(), "wrong value");
-          this.assertEquals("abc", this.__getVisibleValueOf(widget), "wrong visible value");
-          // get rid of the widget
-          widget.destroy();          
-        }, this);
-      }, this);
+      // sync the appearance
+      this.__syncAppearance(widget);
       
-      this.wait();
+      this.assertNull(widget.getValue(), "wrong value");
+      this.assertEquals("abc", this.__getVisibleValueOf(widget), "wrong visible value");
+
+      // get rid of the widget
+      widget.destroy();
     },
     
+    __syncAppearance : function(widget) {
+      if (qx.Class.isSubClassOf(widget.constructor, qx.ui.form.AbstractField)) {
+        widget.syncAppearance();
+      } else if (qx.Class.isSubClassOf(widget.constructor, qx.ui.form.ComboBox)) {
+        widget.getChildControl("textfield").syncAppearance();
+      }      
+    },
     
     __getVisibleValueOf: function(widget) {
       if (qx.Class.isSubClassOf(widget.constructor, qx.ui.form.AbstractField)) {
