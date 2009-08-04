@@ -597,23 +597,25 @@ class QxTest:
     if appConf['clearLogs']:
       self.clearLogs()
       
+    individual = True
     if 'individualServer' in appConf:
-      if not appConf['individualServer']:
-        self.log("individualServer set to False, using one server instance for "
-                 + "all tests")
-        self.startSeleniumServer()
+      individual = appConf['individualServer']      
+    
+    if not individual:
+      self.log("individualServer set to False, using one server instance for "
+               + "all tests")
+      self.startSeleniumServer()
 
     for browser in appConf['browsers']:
-      if 'individualServer' in appConf:
-        if appConf['individualServer']:
-          self.log("individualServer set to True, using one server instance per "
-                   + "test run")
-
+      # Use single window mode? (Necessary for IE with Selenium 1.*)
       single = False
       if "iexplore" in self.browserConf[browser['browserId']] and self.seleniumConf['ieSingleWindow']:
-        single = True
-
-      self.startSeleniumServer(single)
+        single = True  
+      
+      if individual:
+        self.log("individualServer set to True, using one server instance per "
+                 + "test run")
+        self.startSeleniumServer(single)
       
       options = False
       if "options" in browser:
@@ -670,17 +672,15 @@ class QxTest:
       except KeyError:
           pass
       
-      if 'individualServer' in appConf:
-        if appConf['individualServer']:
-          if not self.shutdownSeleniumServer():
-            self.killSeleniumServer()
-          time.sleep(5)
-
-    if 'individualServer' in appConf:
-      if not appConf['individualServer']:
+      if individual:
         if not self.shutdownSeleniumServer():
-            self.killSeleniumServer()
+          time.sleep(5)
+          self.killSeleniumServer()
+
+    if not individual:
+      if not self.shutdownSeleniumServer():
         time.sleep(5)
+        self.killSeleniumServer()
 
     if (appConf['sendReport']):
       if (self.sim):
