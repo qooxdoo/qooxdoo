@@ -127,10 +127,11 @@ qx.Class.define("qx.test.util.Serializer",
     
     
     testJsonExp : function() {
-      this.__model.setData1(new Date(1000));
+      var date = new Date(1000);
+      this.__model.setData1(date);
       this.__model.setData2(/[0]/);
       this.__model.setData3(45e12);
-      this.assertEquals('{"data1":"Thu Jan 01 1970 01:00:01 GMT+0100 (CET)","data2":"/[0]/","data3":45000000000000}', this.__s.toJson(this.__model));      
+      this.assertEquals('{"data1":"' + date + '","data2":"/[0]/","data3":45000000000000}', this.__s.toJson(this.__model));
     },
     
     
