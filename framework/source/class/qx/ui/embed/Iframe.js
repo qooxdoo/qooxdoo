@@ -42,7 +42,7 @@
  */
 qx.Class.define("qx.ui.embed.Iframe",
 {
-  extend : qx.ui.core.Widget,
+  extend : qx.ui.embed.AbstractIframe,
   include : qx.ui.core.MNativeOverflow,
 
 
@@ -55,7 +55,6 @@ qx.Class.define("qx.ui.embed.Iframe",
   */
 
   /**
-   * Creates a new instance of Iframe.
    * @param source {String} URL which should initally set.
    */
   construct : function(source)
@@ -64,7 +63,7 @@ qx.Class.define("qx.ui.embed.Iframe",
       this.__source = source;
     }
 
-    this.base(arguments);
+    this.base(arguments, source);
 
     qx.event.Registration.addListener(document.body, "mousedown", this.block, this, true);
     qx.event.Registration.addListener(document.body, "mouseup", this.release, this, true);
@@ -75,31 +74,6 @@ qx.Class.define("qx.ui.embed.Iframe",
   },
 
 
-
-
-  /*
-  *****************************************************************************
-     EVENTS
-  *****************************************************************************
-  */
-
-  events:
-  {
-    /**
-     * The "load" event is fired after the iframe content has successfully been loaded.
-     */
-    "load" : "qx.event.type.Event"
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
   properties :
   {
     // overridden
@@ -107,26 +81,6 @@ qx.Class.define("qx.ui.embed.Iframe",
     {
       refine : true,
       init : "iframe"
-    },
-
-    /**
-     * Source URL of the iframe.
-     */
-    source :
-    {
-      check : "String",
-      apply : "_applySource",
-      nullable : true
-    },
-
-    /**
-     * Name of the iframe.
-     */
-    frameName :
-    {
-      check : "String",
-      init : "",
-      apply : "_applyFrameName"
     },
     
     
@@ -196,6 +150,12 @@ qx.Class.define("qx.ui.embed.Iframe",
       iframe.addListener("load", this._onIframeLoad, this);
       return iframe;
     },
+    
+    
+    // overridden
+    _getIframeElement : function() {
+      return this.getContentElement();
+    }, 
 
 
     /**
@@ -247,46 +207,6 @@ qx.Class.define("qx.ui.embed.Iframe",
     */
 
     /**
-     * Get the DOM window object of an iframe.
-     *
-     * @return {DOMWindow} The DOM window object of the iframe.
-     */
-    getWindow : function() {
-      return this.getContentElement().getWindow();
-    },
-
-
-    /**
-     * Get the DOM document object of an iframe.
-     *
-     * @return {DOMDocument} The DOM document object of the iframe.
-     */
-    getDocument : function() {
-      return this.getContentElement().getDocument();
-    },
-
-
-    /**
-     * Get the HTML body element of the iframe.
-     *
-     * @return {Element} The DOM node of the <code>body</code> element of the iframe.
-     */
-    getBody : function() {
-      return this.getContentElement().getBody();
-    },
-
-
-    /**
-     * Get the current name.
-     *
-     * @return {String} The iframe's name.
-     */
-    getName : function() {
-      return this.getContentElement().getName();
-    },
-
-
-    /**
      * Cover the iframe with a transparent blocker div element. This prevents
      * mouse or key events to be handled by the iframe. To release the blocker
      * use {@link #release}.
@@ -306,34 +226,12 @@ qx.Class.define("qx.ui.embed.Iframe",
     },
 
 
-    /**
-     * Reload the contents of the iframe.
-     *
-     */
-    reload : function() {
-      this.getContentElement().reload();
-    },
-
-
-
-
     /*
     ---------------------------------------------------------------------------
-      APPLY ROUTINES
+      EVENT HANDLER
     ---------------------------------------------------------------------------
     */
 
-    // property apply
-    _applySource : function(value, old) {
-      this.getContentElement().setSource(value);
-    },
-
-    // property apply
-    _applyFrameName : function(value, old) {
-      this.getContentElement().setAttribute("name", value);
-    },
-    
-    
     // property apply
     _applyNativeContextMenu : function(value, old)
     {
