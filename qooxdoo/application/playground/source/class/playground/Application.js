@@ -214,6 +214,17 @@ qx.Class.define("playground.Application",
 
           // update state on sample change
           this.__history.addToHistory(newSample, this.__updateTitle(newName));
+        } else {
+          if (this.showSyntaxHighlighting) {
+            if (newSample != this.editor.getCode()) {
+              this.editor.setCode(decodeURIComponent(newSample));
+            }
+          } else {
+            if (newSample != this.textarea.getValue()) {
+              this.textarea.setValue(decodeURIComponent(newSample));
+            }
+          }
+          this.__widgets["toolbar.runButton"].execute();          
         }
       }, this);
 
