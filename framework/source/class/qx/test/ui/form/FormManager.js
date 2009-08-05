@@ -257,6 +257,45 @@ qx.Class.define("qx.test.ui.form.FormManager",
       // check
       this.assertEquals("aaaa", this.__tf1.getValue());
       this.assertEquals("bbbb", this.__tf2.getValue());
+    },
+    
+    
+    testAll : function() {
+      var widgets = [];
+      widgets.push(new qx.ui.control.DateChooser());
+      widgets.push(new qx.ui.form.CheckBox());
+      widgets.push(new qx.ui.form.ComboBox());
+      widgets.push(new qx.ui.form.DateField());
+      widgets.push(new qx.ui.form.List());
+      widgets.push(new qx.ui.form.PasswordField());
+      widgets.push(new qx.ui.form.RadioButton());
+      widgets.push(new qx.ui.form.SelectBox());
+      widgets.push(new qx.ui.form.Slider());
+      widgets.push(new qx.ui.form.Spinner());
+      widgets.push(new qx.ui.form.TextArea());
+      widgets.push(new qx.ui.form.TextField());
+      widgets.push(new qx.ui.groupbox.CheckGroupBox());
+      widgets.push(new qx.ui.form.RadioGroup());
+      widgets.push(new qx.ui.groupbox.RadioGroupBox());
+
+      // add all
+      for (var i = 0; i < widgets.length; i++) {
+        this.__form.add(widgets[i], "name" + i);
+      }
+      
+      // create a test renderer (default)
+      this.__form.createView();
+      
+      // reset
+      this.__form.reset();
+      
+      // validate
+      this.assertTrue(this.__form.validate());
+      
+      // get rid of the widgets
+      for (var i = 0; i < widgets.length; i++) {
+        widgets[i].dispose();
+      }
     }
   }
 });
