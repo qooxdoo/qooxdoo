@@ -115,6 +115,7 @@ qx.Class.define("qx.test.ui.form.Form",
     
     __testInvalidShadow: function(widget) {      
       this.flush();
+      this.flush();
       
       // check for the invalid shadow
       this.assertMatch(widget.getShadow(), new RegExp("-invalid-shadow$") ,"Shadow not set!");
