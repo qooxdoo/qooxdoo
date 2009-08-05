@@ -138,7 +138,7 @@ qx.Class.define("qx.test.ui.form.FormValidator",
       this.assertFalse(this.__password2.getValid());
       
       // check the invalid messages
-      this.assertEquals("fail", this.__username.getInvalidMessage());      
+      this.assertEquals("fail", this.__username.getInvalidMessage());
       this.assertEquals("fail", this.__password1.getInvalidMessage());
       this.assertEquals("fail", this.__password2.getInvalidMessage());
       this.assertEquals("fail", this.__manager.getInvalidMessages()[0]);
@@ -190,7 +190,15 @@ qx.Class.define("qx.test.ui.form.FormValidator",
     
     
     testSyncSelfContained3NotNullError : function() {
-      this.__testSyncSelfContained3NotNull(this.__notEmptyValidatorError);      
+      // Fix for OPERA bug in 10 beta 2    
+      if (qx.bom.client.Engine.OPERA && qx.bom.client.Engine.VERSION == "9.8") {
+        var self = this;
+        this.assertException(function() {
+          self.__testSyncSelfContained3NotNull(self.__notEmptyValidatorError);          
+        }, Error, null, "Opera has fixed the bug!");
+      } else {
+        this.__testSyncSelfContained3NotNull(this.__notEmptyValidatorError);
+      }
     },
     
     // //////////////////////////////
@@ -234,11 +242,23 @@ qx.Class.define("qx.test.ui.form.FormValidator",
     
     
     testSyncRelatedNoIndividualError : function() {
-      this.__testSyncRelatedNoIndividual(function(formItems, manager) {
-        if (formItems[1].getValue() != formItems[2].getValue()) {
-          throw new qx.core.ValidationError("fail");
-        }
-      });
+      // Fix for OPERA bug in 10 beta 2    
+      if (qx.bom.client.Engine.OPERA && qx.bom.client.Engine.VERSION == "9.8") {
+        var self = this;
+        this.assertException(function() {
+          self.__testSyncRelatedNoIndividual(function(formItems, manager) {
+            if (formItems[1].getValue() != formItems[2].getValue()) {
+              throw new qx.core.ValidationError("fail");
+            }
+          });
+        }, Error, null, "Opera has fixed the bug!");
+      } else {
+        this.__testSyncRelatedNoIndividual(function(formItems, manager) {
+          if (formItems[1].getValue() != formItems[2].getValue()) {
+            throw new qx.core.ValidationError("fail");
+          }
+        });
+      }
     },
     
     
