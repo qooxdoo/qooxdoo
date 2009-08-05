@@ -534,11 +534,7 @@ class PartBuilder(object):
         self._console.debug("Part summary")
         self._console.indent()
         for part in parts.values():
-            pkgList = []
-            for entry in part.packages:
-                pkgList.append("#%s" % entry)
-
-            self._console.debug("Part #%s uses these packages: %s" % (part.name, ", ".join(pkgList)))
+            self._console.debug("Part #%s packages(%d): %s" % (part.name, len(part.packages), ", ".join('#'+str(x) for x in part.packages)))
 
         self._console.outdent()
         self._console.debug("")
