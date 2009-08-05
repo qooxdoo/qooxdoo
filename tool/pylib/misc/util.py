@@ -19,7 +19,7 @@
 #
 ################################################################################
 
-import time, datetime
+import time, datetime, math
 
 ##
 # create a suitable date and time string of now
@@ -121,4 +121,11 @@ def countBitsOn(x):
         bit = bit << 1
 
     return b
+
+##
+# detect powers of 2
+
+def is2pow(i):
+    l = math.log(i, 2)
+    return int(l) == l
 
