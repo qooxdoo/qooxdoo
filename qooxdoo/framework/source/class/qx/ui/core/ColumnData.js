@@ -56,6 +56,17 @@ qx.Class.define("qx.ui.core.ColumnData",
 
 
     /**
+     * Get the column's flex value
+     * 
+     * @return {Integer} The column's flex value
+     */
+    getFlex : function()
+    {
+      return this.getLayoutProperties().flex || 0;
+    },
+    
+    
+    /**
      * Set the column width. The column width can be one of the following
      * values:
      *
@@ -65,10 +76,11 @@ qx.Class.define("qx.ui.core.ColumnData",
      * * Percent: e.g. <code>"33%"</code>
      *
      * @param width {Integer|String} The column width
+     * @param flex {Integer?0} Optional flex value of the column
      */
-    setColumnWidth : function(width)
+    setColumnWidth : function(width, flex)
     {
-      var flex = null;
+      var flex = flex || 0;
       var percent = null;
 
       if (typeof width == "number")

@@ -159,12 +159,12 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
      *   of the inner width of the Table (e.g. "25%"), or a string
      *   representing a flex width (e.g. "1*").
      *
-     * @return {void}
-     *
+     * @param flex {Integer?0} Optional flex value of the column
+     * 
      * @throws {Error}
      *   Error is thrown if the provided column number is out of the range.
      */
-    setWidth : function(col, width)
+    setWidth : function(col, width, flex)
     {
       // Ensure the column is within range
       if (col >= this.__resizeColumnData.length) {
@@ -172,7 +172,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       }
 
       // Set the new width
-      this.__resizeColumnData[col].setColumnWidth(width);
+      this.__resizeColumnData[col].setColumnWidth(width, flex);
       this.__deferredComputeColumnsFlexWidth.schedule();
     },
 
