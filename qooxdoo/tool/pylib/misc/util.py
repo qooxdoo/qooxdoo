@@ -126,6 +126,7 @@ def countBitsOn(x):
 # detect powers of 2
 
 def is2pow(i):
-    l = math.log(i, 2)
-    return int(l) == l
+    #l = math.log(i, 2)  # inaccurate for e.g. log(2**31,2) = 31.00000004
+    #return int(l) == l
+    return countBitsOn(i) == 1
 
