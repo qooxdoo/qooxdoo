@@ -79,8 +79,8 @@ class PartBuilder(object):
 
         # Collapse parts
         self.collapsePartsByOrder(parts, packages)
-        if len(collapseCfg) > 0:
-            self._collapseParts(parts, packages, collapseCfg)
+        #if len(collapseCfg) > 0:
+        #    self._collapseParts(parts, packages, collapseCfg)
 
         # Optimize packages
         if minPackageSize != None and minPackageSize != 0:
