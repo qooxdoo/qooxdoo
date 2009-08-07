@@ -243,7 +243,7 @@ qx.Class.define("qx.ui.basic.Label",
     {
       if (this.__invalidContentSize)
       {
-        this.__computeContentSize();
+        this.__contentSize = this.__computeContentSize();
         delete this.__invalidContentSize;
       }
 
@@ -283,8 +283,7 @@ qx.Class.define("qx.ui.basic.Label",
       if (!this.getRich()) {
         return null;
       }
-      this.__computeContentSize(width);
-      return this.__contentSize.height;
+      return this.__computeContentSize(width).height;
     },
 
 
@@ -368,7 +367,7 @@ qx.Class.define("qx.ui.basic.Label",
       var content = this.getValue() || "A";
       var rich = this.getRich();
 
-      this.__contentSize = rich ?
+      return rich ?
         Label.getHtmlSize(content, styles, width) :
         Label.getTextSize(content, styles);
     },
