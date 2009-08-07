@@ -207,7 +207,7 @@ class QxTest:
     except URLError, e:
       self.log("Selenium server shutdown failed: " + repr(e))
       if hasattr(e, 'code'):
-        self.log("Shutdown request status code: " + e.code)
+        self.log("Shutdown request status code: " + repr(e.code))
 
     return False
 
@@ -585,7 +585,11 @@ class QxTest:
         self.log("ERROR: Skipping " + appConf['appName'] + " test because there "
                  + "was an error during build:\n  " + self.buildStatus[appConf['appName']]["BuildError"])
 
-        if (appConf['sendReport']):
+        sendReport = True
+        if 'sendReport' in appConf:
+          sendReport = appConf['sendReport']
+        
+        if sendReport:
           dummyLogFile = self.getDummyLog(appConf)
           logFormatted = self.formatLog(dummyLogFile, reportFile)
           if logFormatted:
@@ -594,8 +598,12 @@ class QxTest:
             self.log("No report HTML to send.")        
 
         return    
-      
-    if appConf['clearLogs']:
+    
+    clearLogs = True
+    if 'clearLogs' in appConf:
+      clearLogs = appConf['clearLogs']
+    
+    if clearLogs:
       self.clearLogs()
       
     individual = True
@@ -686,7 +694,11 @@ class QxTest:
       if self.isSeleniumServer(): 
         self.killSeleniumServer()
 
-    if (appConf['sendReport']):
+    sendReport = True
+    if 'sendReport' in appConf:
+      sendReport = appConf['sendReport']
+    
+    if sendReport:
       if (self.sim):
         self.log("SIMULATION: Formatting log and sending report.\n")
       else:
