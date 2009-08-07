@@ -186,7 +186,8 @@ qx.Class.define("playground.Application",
         
       // if there is a state given
       } else if (state != "") {
-        var code = decodeURIComponent(state);
+        var data = qx.util.Json.parse(state);
+        var code = decodeURIComponent(data.code);
         this.currentSample = "";
         this.textarea.setValue(code);
         this.__widgets["toolbar.runButton"].execute();
@@ -201,27 +202,29 @@ qx.Class.define("playground.Application",
 
       this.__history.addListener("request", function(e)
       {
-        var newSample = e.getData();
+        var state = e.getData();
 
-        if (this.__sampleContainer[newSample] != undefined)
+        if (this.__sampleContainer[state] != undefined)
         {
-          this.editor.setCode(this.__sampleContainer[newSample]);
+          this.editor.setCode(this.__sampleContainer[state]);
 
           this.updatePlayground(this.__playRoot);
 
-          var newName = this.__decodeSampleId(newSample);
+          var newName = this.__decodeSampleId(state);
           this.playAreaCaption.setValue(newName);
 
           // update state on sample change
-          this.__history.addToHistory(newSample, this.__updateTitle(newName));
+          this.__history.addToHistory(state, this.__updateTitle(newName));
         } else {
+          var data = qx.util.Json.parse(state);
+          var code = decodeURIComponent(data.code);
           if (this.showSyntaxHighlighting) {
-            if (newSample != this.editor.getCode()) {
-              this.editor.setCode(decodeURIComponent(newSample));
+            if (state != this.editor.getCode()) {
+              this.editor.setCode(code);
             }
           } else {
-            if (newSample != this.textarea.getValue()) {
-              this.textarea.setValue(decodeURIComponent(newSample));
+            if (state != this.textarea.getValue()) {
+              this.textarea.setValue(code);
             }
           }
           this.__widgets["toolbar.runButton"].execute();          
@@ -617,7 +620,7 @@ qx.Class.define("playground.Application",
                        this.editor.getCode() :
                        this.textarea.getValue();        
         if (escape(userCode) != escape(this.__sampleContainer[this.currentSample]).replace(/%0D/g, "")) {
-          this.__history.addToHistory(encodeURIComponent(code));
+          this.__history.addToHistory('{"code": ' + '"' + encodeURIComponent(code) + '"}');
         }
       },
       this);
