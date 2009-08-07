@@ -190,28 +190,26 @@ class QxTest:
       invokeExternal(self.testConf['killSelenium'])
 
   ##
-  # Sends a shutdown command to the Selenium server 
+  # Sends a shutdown command to the Selenium server
   #
   # @return Whether the server was shut down (Bool)
   def shutdownSeleniumServer(self):
     from urllib2 import Request, urlopen, URLError
-    
-    if (self.sim):
-      self.log("SIMULATION: Shutting down Selenium server")
-    else:
-      self.log("Shutting down Selenium server")
-    
-    isServerShutdown = False
+    self.log("Shutting down Selenium server")
+
     req = Request(self.seleniumConf['seleniumHost'] + "/selenium-server/driver/?cmd=shutDownSeleniumServer")
     try:
       response = urlopen(req)
+      content = response.read()
+      if "OK" in content:
+        self.log("Selenium server acknowledged shutdown request.")
+        return True
     except URLError, e:
+      self.log("Selenium server shutdown failed: " + repr(e))
       if hasattr(e, 'code'):
-        if (e.code == 200):
-          content = response.read()
-          if "OK" in content:
-            isServerShutdown = True
-    return isServerShutdown
+        self.log("Shutdown request status code: " + e.code)
+
+    return False
 
   ##
   # Checks the status of the Selenium RC server by sending an HTTP request.
@@ -676,13 +674,16 @@ class QxTest:
           pass
       
       if individual:
-        if not self.shutdownSeleniumServer():
-          time.sleep(5)
+        self.shutdownSeleniumServer()
+        time.sleep(5)
+        if self.isSeleniumServer(): 
           self.killSeleniumServer()
+            
 
     if not individual:
-      if not self.shutdownSeleniumServer():
-        time.sleep(5)
+      self.shutdownSeleniumServer()
+      time.sleep(5)
+      if self.isSeleniumServer(): 
         self.killSeleniumServer()
 
     if (appConf['sendReport']):
