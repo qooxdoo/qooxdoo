@@ -237,9 +237,8 @@ qx.Bootstrap.define("qx.log.Logger",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         var functionName = qx.lang.Function.getName(fcn);
-        var className = fcn.self ? fcn.self.classname : "unknown";
         this.warn(
-          "The method '"+ functionName +"' of class '"+className+"' is deprecated: " +
+          "The method '"+ functionName + "' is deprecated: " +
           (msg || "Please consult the API documentation of this method for alternatives.")
         );
         this.trace();

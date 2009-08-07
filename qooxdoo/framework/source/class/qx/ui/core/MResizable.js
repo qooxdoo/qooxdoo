@@ -52,26 +52,44 @@ qx.Mixin.define("qx.ui.core.MResizable",
   */
 
   properties :
-  {
-    /** Whether the widget is resizable */
+  {   
+    /** Whether the top edge is resizable */
+    resizableTop : 
+    {
+      check : "Boolean",
+      init : true
+    },
+
+    /** Whether the right edge is resizable */
+    resizableRight : 
+    {
+      check : "Boolean",
+      init : true
+    },
+    
+    /** Whether the bottom edge is resizable */
+    resizableBottom : 
+    {
+      check : "Boolean",
+      init : true
+    },
+    
+    /** Whether the left edge is resizable */
+    resizableLeft : 
+    {
+      check : "Boolean",
+      init : true
+    },
+    
+    /**
+     * Property group to configure the resize behaviour for all edges at once
+     */
     resizable :
     {
-      check : "Boolean",
-      init : true
+      group : [ "resizableTop", "resizableRight", "resizableBottom", "resizableLeft" ],
+      mode  : "shorthand"
     },
-
-    /**
-     * Which edges are function as resizable handles.
-     *
-     * Enabled means that all edges are enabled for resizing (Windows mode)
-     * Disabled means that only the right/bottom edges are enabled (Mac mode)
-     */
-    resizeAllEdges :
-    {
-      check : "Boolean",
-      init : true
-    },
-
+    
     /** The tolerance to activate resizing */
     resizeSensitivity :
     {
@@ -105,7 +123,70 @@ qx.Mixin.define("qx.ui.core.MResizable",
     __resizeTop : null,
     __resizeStart : null,
 
+    
+    RESIZE_TOP : 1,
+    RESIZE_BOTTOM : 2,
+    RESIZE_LEFT : 4,
+    RESIZE_RIGHT : 8,
+    
 
+    /*
+    ---------------------------------------------------------------------------
+      DEPRECATED API
+    ---------------------------------------------------------------------------
+    */
+    
+    /**
+     * Get whether all edges are resizable
+     *
+     * @deprecated Use the properties 'resizableTop', 'resizableRight',
+     *     'resizableBottom', 'resizableLeft' separately
+     *     
+     * @return {Boolean} Whether all edges are resizable
+     */
+    getResizeAllEdges : function()
+    {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Please use the properties 'resizableTop', 'resizableRight', 'resizableBottom', 'resizableLeft' separately."
+      );
+      
+      return (
+        this.getResizableTop() &&
+        this.getResizableRight() &&
+        this.getResizableBottom() &&
+        this.getResizableLeft()
+      );
+    },
+    
+    
+    /**
+     * Set the resize mode.
+     *
+     * <code>true</code> means that all edges are enabled for resizing (Windows mode)
+     * <code>false</code> means that only the right/bottom edges are enabled (Mac mode)
+     * 
+     * @deprecated Use the properties 'resizableTop', 'resizableRight',
+     *     'resizableBottom', 'resizableLeft' separately
+     *      
+     * @param value {Boolean} The mode
+     */
+    setResizeAllEdges : function(value)
+    {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Please use the properties 'resizableTop', 'resizableRight', 'resizableBottom', 'resizableLeft' separately."
+      );
+
+      this.set({
+        resizableTop: value,
+        resizableRight: true,
+        resizableBottom: true,
+        resizableLeft: value        
+      }); 
+    },
+    
+    
     /*
     ---------------------------------------------------------------------------
       CORE FEATURES
@@ -177,12 +258,14 @@ qx.Mixin.define("qx.ui.core.MResizable",
       var top = start.top;
       var diff;
 
-      // North or south
-      if (resizeActive&1 || resizeActive&2)
+      if (
+        (resizeActive & this.RESIZE_TOP) || 
+        (resizeActive & this.RESIZE_BOTTOM)
+      )
       {
         diff = e.getDocumentTop() - this.__resizeTop;
 
-        if (resizeActive&1) {
+        if (resizeActive & this.RESIZE_TOP) {
           height -= diff;
         } else {
           height += diff;
@@ -194,17 +277,19 @@ qx.Mixin.define("qx.ui.core.MResizable",
           height = hint.maxHeight;
         }
 
-        if (resizeActive&1) {
+        if (resizeActive & this.RESIZE_TOP) {
           top += start.height - height;
         }
       }
 
-      // West or east
-      if (resizeActive&4 || resizeActive&8)
+      if (
+        (resizeActive & this.RESIZE_LEFT) || 
+        (resizeActive & this.RESIZE_RIGHT)
+      )
       {
         diff = e.getDocumentLeft() - this.__resizeLeft;
 
-        if (resizeActive&4) {
+        if (resizeActive & this.RESIZE_LEFT) {
           width -= diff;
         } else {
           width += diff;
@@ -216,7 +301,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
           width = hint.maxWidth;
         }
 
-        if (resizeActive&4) {
+        if (resizeActive & this.RESIZE_LEFT) {
           left += start.width - width;
         }
       }
@@ -256,30 +341,25 @@ qx.Mixin.define("qx.ui.core.MResizable",
      */
     __computeResizeMode : function(e)
     {
-      if (!this.getResizable()) {
-        return;
-      }
-
       var contentLocation = this.getContentLocation();
 
-      var resizeAll = this.getResizeAllEdges();
       var mouseTolerance = this.getResizeSensitivity();
 
       var mouseLeft = e.getDocumentLeft();
       var mouseTop = e.getDocumentTop();
-
+      
       var resizeActive = 0;
 
-      if (resizeAll && Math.abs(contentLocation.top - mouseTop) < mouseTolerance) {
-        resizeActive += 1;
-      } else if (Math.abs(contentLocation.bottom - mouseTop) < mouseTolerance) {
-        resizeActive += 2;
+      if (this.getResizableTop() && Math.abs(contentLocation.top - mouseTop) < mouseTolerance) {
+        resizeActive += this.RESIZE_TOP;
+      } else if (this.getResizableBottom() && Math.abs(contentLocation.bottom - mouseTop) < mouseTolerance) {
+        resizeActive += this.RESIZE_BOTTOM;
       }
 
-      if (resizeAll && Math.abs(contentLocation.left - mouseLeft) < mouseTolerance) {
-        resizeActive += 4;
-      } else if (Math.abs(contentLocation.right - mouseLeft) < mouseTolerance) {
-        resizeActive += 8;
+      if (this.getResizableLeft() && Math.abs(contentLocation.left - mouseLeft) < mouseTolerance) {
+        resizeActive += this.RESIZE_LEFT;
+      } else if (this.getResizableRight() && Math.abs(contentLocation.right - mouseLeft) < mouseTolerance) {
+        resizeActive += this.RESIZE_RIGHT;
       }
 
       this.__resizeActive = resizeActive;
@@ -364,7 +444,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
       this.setHeight(bounds.height);
 
       // Update coordinate in canvas
-      if (this.getResizeAllEdges())
+      if (this.getResizableLeft() || this.getResizableTop())
       {
         this.setLayoutProperties({
           left : bounds.parentLeft,
@@ -439,7 +519,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
           this.setHeight(bounds.height);
 
           // Update coordinate in canvas
-          if (this.getResizeAllEdges())
+          if (this.getResizableLeft() || this.getResizableTop())
           {
             this.setLayoutProperties({
               left : bounds.parentLeft,
