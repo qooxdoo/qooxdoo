@@ -230,7 +230,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * Sets the header renderer of a column.
      *
      * @param col {Integer} the model index of the column.
-     * @param renderer {HeaderCellRenderer} the new header renderer the column
+     * @param renderer {qx.ui.table.IHeaderRenderer} the new header renderer the column
      *      should get.
      * @return {void}
      */
@@ -249,7 +249,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * Returns the header renderer of a column.
      *
      * @param col {Integer} the model index of the column.
-     * @return {HeaderCellRenderer} the header renderer of the column.
+     * @return {qx.ui.table.IHeaderRenderer} the header renderer of the column.
      */
     getHeaderCellRenderer : function(col) {
       return this.__columnDataArr[col].headerRenderer;
