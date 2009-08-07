@@ -168,44 +168,44 @@ qx.Class.define("demobrowser.demo.widget.Window",
 
 
 
-      var resizeMove = new qx.ui.groupbox.GroupBox("Resizable/Moveable");
-      resizeMove.setLayout(new qx.ui.layout.VBox(4));
-      box.add(resizeMove, {flex:1});
-
-      var resizable = new qx.ui.form.CheckBox("Resizable");
-      resizable.setValue(true);
-      resizable.addListener("changeValue", function(e) {
-        win.setResizable(e.getData());
-      });
-      resizeMove.add(resizable);
+      var resize = new qx.ui.groupbox.GroupBox("Resizable");
+      resize.setLayout(new qx.ui.layout.VBox(4));
+      box.add(resize, {flex:1});
 
       var resizeFrame = new qx.ui.form.CheckBox("Use resize frame");
       resizeFrame.setValue(true);
       resizeFrame.addListener("changeValue", function(e) {
         win.setUseResizeFrame(e.getData());
       });
-      resizeMove.add(resizeFrame);
+      resize.add(resizeFrame);
 
-      var resizeAll = new qx.ui.form.CheckBox("Resize all edges");
-      resizeAll.setValue(true);
-      resizeAll.addListener("changeValue", function(e) {
-        win.setResizeAllEdges(e.getData());
-      });
-      resizeMove.add(resizeAll);
-
-
+      var edges = ["top", "right", "bottom", "left"];
+      for (var i=0; i<edges.length; i++)
+      {
+        var edge = edges[i];
+        var resizable = new qx.ui.form.CheckBox("Resizable " + edge).set({
+          value: true
+        });
+        resizable.bind("value", win, "resizable" + qx.lang.String.firstUp(edge));
+        resize.add(resizable);
+      }
+      
+      var move = new qx.ui.groupbox.GroupBox("Moveable");
+      move.setLayout(new qx.ui.layout.VBox(4));
+      box.add(move, {flex:1});
+      
       var movable = new qx.ui.form.CheckBox("Movable");
       movable.setValue(true);
       movable.addListener("changeValue", function(e) {
         win.setMovable(e.getData());
       });
-      resizeMove.add(movable);
+      move.add(movable);
 
       var moveFrame = new qx.ui.form.CheckBox("Use move frame");
       moveFrame.addListener("changeValue", function(e) {
         win.setUseMoveFrame(e.getData());
       });
-      resizeMove.add(moveFrame);
+      move.add(moveFrame);
     },
 
 
