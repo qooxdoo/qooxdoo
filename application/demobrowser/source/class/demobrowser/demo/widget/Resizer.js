@@ -68,7 +68,8 @@ qx.Class.define("demobrowser.demo.widget.Resizer",
         minHeight: 50,
         width: 200,
         height: 100,
-        resizeAllEdges : false
+        resizableTop : false,
+        resizableLeft : false
       });
 
       resizer.setLayout(new qx.ui.layout.Canvas());
