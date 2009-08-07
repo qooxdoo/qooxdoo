@@ -186,15 +186,21 @@ qx.Class.define("qx.bom.History",
      *          the "request" event.
      * @param newTitle {String ? null} the page title to set after the history entry
      *          is done. This title should represent the new state of the application.
+     * @param encode {Boolean} Boolean which determinates, the the given state 
+     *          should be encodede with the encodeURIComponent function. The 
+     *          default is to use the encoding.
      */
-    addToHistory : function(state, newTitle)
+    addToHistory : function(state, newTitle, encode)
     {
       if (newTitle != null) {
         document.title = newTitle;
         this.__titles[state] = newTitle;
       }
       if (state != this.__state) {
-        top.location.hash = "#" + encodeURIComponent(state)
+        if (encode == undefined || encode == true) {
+          state = encodeURIComponent(state);
+        }
+        top.location.hash = "#" + state;
         this.__storeState(state);
       }
     },
