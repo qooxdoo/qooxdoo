@@ -298,10 +298,10 @@ qx.Class.define("qx.fx.Base",
     afterSetupInternal : function(){},
 
     /**
-     * This internal function is after
+     * This internal function is called after
      * the effect's "setup" method has been called.
      */
-    afertSetup : function(){},
+    afterSetup : function(){},
 
 
     /**
@@ -452,7 +452,7 @@ qx.Class.define("qx.fx.Base",
         this.setup();
 
         this.afterSetupInternal();
-        this.afertSetup();
+        this.afterSetup();
       }
 
       if(this.__state == qx.fx.Base.EffectState.RUNNING)
