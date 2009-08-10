@@ -174,17 +174,6 @@ qx.Class.define("qx.bom.element.Location",
         var left = body.offsetLeft;
         var top = body.offsetTop;
 
-        // Correct substracted border
-        left += this.__num(body, "borderLeftWidth");
-        top += this.__num(body, "borderTopWidth");
-
-        // Add the margin when running in standard mode
-        if (doc.compatMode === "CSS1Compat")
-        {
-          left += this.__num(body, "marginLeft");
-          top += this.__num(body, "marginTop");
-        }
-
         return {
           left : left,
           top : top
@@ -217,7 +206,10 @@ qx.Class.define("qx.bom.element.Location",
 
             while (elem)
             {
-              if (this.__style(elem, "position") === "absolute" || this.__style(elem, "position") === "fixed")
+              if (
+                this.__style(elem, "position") === "absolute" ||
+                this.__style(elem, "position") === "fixed"
+              )
               {
                 hasAbs = true;
                 break;
@@ -336,8 +328,7 @@ qx.Class.define("qx.bom.element.Location",
 
           // Firefox 3.0 alpha 6 (gecko 1.9) returns floating point numbers
           // use Math.round() to round them to style compatible numbers
-          // MSHTML returns integer numbers, maybe gecko will fix this in
-          // the future, too
+          // MSHTML returns integer numbers
           var left = Math.round(rect.left);
           var top = Math.round(rect.top);
         }
@@ -438,24 +429,21 @@ qx.Class.define("qx.bom.element.Location",
      */
     get : function(elem, mode)
     {
-      var body = this.__computeBody(elem);
-
       if (elem.tagName == "BODY")
       {
-        var left = body.left;
-        var top = body.top;
+        var location = this.__getBodyLocation(elem);
+        var left = location.left;
+        var top = location.top;
       }
       else
       {
+        var body = this.__computeBody(elem);
         var offset = this.__computeOffset(elem);
         var scroll = this.__computeScroll(elem);
 
         var left = offset.left + body.left - scroll.left;
         var top = offset.top + body.top - scroll.top;
       }
-
-      // qx.log.Logger.debug(this, "Details left: " + offset.left + " | " + body.left + " | " + scroll.left);
-      // qx.log.Logger.debug(this, "Details top: " + offset.top + " | " + body.top + " | " + scroll.top);
 
       var right = left + elem.offsetWidth;
       var bottom = top + elem.offsetHeight;
@@ -516,6 +504,36 @@ qx.Class.define("qx.bom.element.Location",
         bottom : bottom
       };
     },
+    
+    
+    /**
+     * Get the location of the body element relative to the document.
+     * @param body {Element} The body element.
+     */
+    __getBodyLocation : qx.core.Variant.select("qx.client",
+    {
+      "default" : function(body)
+      {
+        var top = body.offsetTop + this.__num(body, "marginTop");
+        var left = body.offsetLeft + this.__num(body, "marginLeft");
+        return {left: left, top: top};
+      },
+      
+      "gecko" : function(body)
+      {
+        var top = 
+          body.offsetTop + 
+          this.__num(body, "marginTop") +
+          this.__num(body, "borderLeftWidth");
+          
+        var left = 
+          body.offsetLeft + 
+          this.__num(body, "marginLeft") + 
+          this.__num(body, "borderTopWidth");
+        
+        return {left: left, top: top};
+      }
+    }),
 
 
     /**
