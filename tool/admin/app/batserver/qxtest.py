@@ -74,14 +74,9 @@ class QxTest:
     self.timeFormat = '%Y-%m-%d_%H-%M-%S'
     self.startTimeString = time.strftime(self.timeFormat)
 
-    self.logFile = False
-
-    if ('testLogDir' in self.testConf):
-      filename = "testLog_" + self.startTimeString + ".txt"
-      fullpath = os.path.join(self.testConf['testLogDir'], filename)
-      self.logFile = codecs.open(fullpath, 'a', 'utf-8')
-      self.logFile.write("################################################################################\n")
-      self.log("Starting " + self.testType + " test session.")    
+    self.logFile = self.getLogFile(self.testConf["testLogDir"])
+    self.logFile.write("################################################################################\n")
+    self.log("Starting " + self.testType + " test session.")    
 
     if (self.testType == "local"):
       self.getLocalRevision()
@@ -110,6 +105,20 @@ class QxTest:
     socket.setdefaulttimeout(10)
 
 
+  def getLogFile(self, logDirectory):
+    try:
+      filename = "testLog_" + self.startTimeString + ".txt"
+      fullpath = os.path.join(logDirectory, filename)
+      logFile = codecs.open(fullpath, 'a', 'utf-8')
+      return logFile 
+    except Exception, e:
+      errMsg = ""
+      if (e.args):
+        errMsg = repr(e.args)
+      print("ERROR: Unable to open log file, quitting " + errMsg)
+      sys.exit(1)
+
+  
   ##
   # Adds options from the default configuration dictionary to the custom
   # configuration dictionary if they're not already defined. 
@@ -208,6 +217,8 @@ class QxTest:
       self.log("Selenium server shutdown failed: " + repr(e))
       if hasattr(e, 'code'):
         self.log("Shutdown request status code: " + repr(e.code))
+    except Exception, e:
+      self.logError(e, "Shutting down Selenium server")
 
     return False
 
@@ -227,6 +238,9 @@ class QxTest:
       if hasattr(e, 'code'):
         if (e.code == 403):
           status = True
+    except Exception, e:
+      self.logError(e, "Checking if Selenium server is active")
+
     return status
 
   ##
@@ -445,7 +459,7 @@ class QxTest:
     try:
       import simplejson
     except ImportError, e:      
-      self.log("ERROR: Unable to retrieve remote build status!")
+      self.log("ERROR: simplejson module not found, unable to retrieve remote build status!")
       return status
     remoteFile = self.autConf['autHost']
     if 'autQxPath' in self.autConf:
@@ -457,6 +471,9 @@ class QxTest:
     except IOError, e:
       self.log("ERROR: Unable to open remote build status file " + remoteFile + ": "
                + e.message)
+      return status
+    except Exception, e:
+      self.logError(e, "Opening remote build file")
       return status
     
     # Try to determine the requests's HTTP status (Python >= 2.6 only).
@@ -473,6 +490,8 @@ class QxTest:
       self.log("Remote build status retrieved successfully.")
     except ValueError, e:    
       self.log("ERROR: Unable to parse buildStatus JSON: " + repr(e))
+    except Exception, e:
+      self.logError(e, "Parsing remote build file")
       
     return status
 
@@ -520,6 +539,9 @@ class QxTest:
       except IOError, e:
         self.log("ERROR: Unable to open remote revision file " + remoteFile + ": "
                  + e.message)
+        return False
+      except Exception, e:
+        self.logError(e, "Opening remote revision file")
         return False
 
       reg = re.compile("\D+")
@@ -839,7 +861,12 @@ class QxTest:
                + "  Subject: " + self.mailConf['subject'] + "\n"
                + "  Recipient: " + self.mailConf['mailTo'])    
     if (osystem !=""):
-      sendMultipartMail(self.mailConf)
+      try:
+        sendMultipartMail(self.mailConf)
+      except Exception, e:    
+        self.logError(e, "Sending report email")
+      else:
+        self.log("Report email sent successfully")
 
     else:
       self.log("ERROR: Report file seems incomplete, report not sent.")
@@ -1043,6 +1070,22 @@ class QxTest:
           qxlint = QxLint(options)
 
 
+  def logError(self, e, desc=""):
+    msg ="ERROR: " + desc
+    if not desc == "":
+      msg += " "    
+    if type(e).__name__ == "str":
+      self.log(msg + e)
+
+    if e.__class__:      
+      msg += e.__class__.__name__
+      if (e.args):
+        msg += " " + repr(e.args)        
+        
+    self.log(msg)
+    
+
+
 ##
 # Invokes a shell command, waits for it to finish, then returns its STDOUT and 
 # STDERR output.
@@ -1115,9 +1158,11 @@ def sendMultipartMail(configuration):
   
   print("Sending report. Subject: " + configuration['subject'] + " Recipient: " 
         + configuration['mailTo'])
-  mailServer = smtplib.SMTP(configuration['smtpHost'], configuration['smtpPort'])
+  
+  mailServer = smtplib.SMTP(configuration['smtpHost'], configuration['smtpPort'])  
   mailServer.ehlo()
   mailServer.starttls()
   mailServer.ehlo()
   mailServer.sendmail(configuration['mailFrom'], configuration['mailTo'], msg.as_string())
   mailServer.close()
+
