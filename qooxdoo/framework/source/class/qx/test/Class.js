@@ -195,7 +195,7 @@ qx.Class.define("qx.test.Class",
         }
       });
 
-      this.assertEquals(qx.Single1.getInstance()._date, qx.Single1.getInstance()._date, "getInstance sould always return the same object!");
+      this.assertEquals(qx.Single1.getInstance()._date, qx.Single1.getInstance()._date, "getInstance should always return the same object!");
 
       // direct instanctiation should fail
       if (this.isDebugOn())

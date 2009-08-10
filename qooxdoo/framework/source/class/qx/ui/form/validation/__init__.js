@@ -1,7 +1,7 @@
 /*
  * <h3>EXPERIMENTAL!</h3>
  *
- * The *qx.ui.form.validation* namespace contains all classe necessary for 
+ * The *qx.ui.form.validation* namespace contains all classes necessary for 
  * validation. 
  * 
  * The {@link qx.ui.form.validation.Manager} is responsible for the whole 

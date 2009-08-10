@@ -293,7 +293,7 @@ qx.Class.define("qx.ui.tabview.TabView",
     },
 
     /**
-     * Returns the positon of the given page in the TabView.
+     * Returns the position of the given page in the TabView.
      *
      * @param page {qx.ui.tabview.Page} The page to query for.
      * @return {Integer} Position of the page in the TabView.
@@ -380,7 +380,7 @@ qx.Class.define("qx.ui.tabview.TabView",
     
     /*
     ---------------------------------------------------------------------------
-      OLD SELECTION PROPERTY METHDS
+      OLD SELECTION PROPERTY METHODS
     ---------------------------------------------------------------------------
     */
 

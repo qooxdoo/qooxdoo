@@ -259,8 +259,8 @@ qx.Class.define("qx.ui.table.model.Simple",
     // overridden
     sortByColumn : function(columnIndex, ascending)
     {
-      // NOTE: We use different comperators for ascending and descending,
-      //     because comperators should be really fast.
+      // NOTE: We use different comparators for ascending and descending,
+      //     because comparators should be really fast.
       var comparator;
 
       var sortMethods = this.__sortMethods[columnIndex];

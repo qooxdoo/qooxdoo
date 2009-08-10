@@ -219,7 +219,7 @@ qx.Class.define("qx.util.format.DateFormat",
       // Get the thursday of the week the date belongs to
       var thursdayDate = this.__thursdayOfSameWeek(date);
 
-      // Get the year the thursday (and therefor the week) belongs to
+      // Get the year the thursday (and therefore the week) belongs to
       var weekYear = thursdayDate.getFullYear();
 
       // Get the thursday of the week january 4th belongs to

@@ -35,7 +35,7 @@
  * * Lazy creation on first open.
  * * Clearing the console using a button.
  * * Display of offset (time after loading) of each message
- * * Supports keyboard shortscuts F7 or Ctrl+D to toggle the visibility
+ * * Supports keyboard shortcuts F7 or Ctrl+D to toggle the visibility
  */
 qx.Class.define("qx.log.appender.Console",
 {

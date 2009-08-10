@@ -388,7 +388,7 @@ qx.Class.define("qx.io2.HttpRequest",
     */
 
     /**
-     * Wether the currently running or finished request returns modified results.
+     * Whether the currently running or finished request returns modified results.
      *
      * @return {Boolean} Returns <code>true</code> when the request contains modified results.
      */
@@ -406,7 +406,7 @@ qx.Class.define("qx.io2.HttpRequest",
 
 
     /**
-     * Wether the currently running or finished request is successful.
+     * Whether the currently running or finished request is successful.
      *
      * @return {Boolean} Returns <code>true</code> when the request is successful.
      */

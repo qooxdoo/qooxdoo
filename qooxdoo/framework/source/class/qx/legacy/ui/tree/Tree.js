@@ -39,7 +39,7 @@
  * currently selected element of a tree use the Tree{@link #getSelectedElement
  * getSelectedElement} method and Tree{@link #setSelectedElement
  * setSelectedElement} to set it. The TreeSelectionManager handles more
- * coars-grained issues like providing selectAll()/deselectAll() methods.
+ * coarse-grained issues like providing selectAll()/deselectAll() methods.
  *
  * @appearance tree {qx.legacy.ui.layout.HorizontalBoxLayout}
  * @appearance tree-icon {qx.legacy.ui.basic.Image}

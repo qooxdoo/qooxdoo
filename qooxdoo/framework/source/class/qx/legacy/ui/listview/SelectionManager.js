@@ -214,7 +214,7 @@ qx.Class.define("qx.legacy.ui.listview.SelectionManager",
 
     /*
     ---------------------------------------------------------------------------
-      ITEM STATE MANAGMENT
+      ITEM STATE MANAGEMENT
     ---------------------------------------------------------------------------
     */
 

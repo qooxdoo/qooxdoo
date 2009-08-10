@@ -297,7 +297,7 @@ qx.Bootstrap.define("qx.event.Registration",
 
     /**
      * Create an event object and dispatch it on the given target.
-     * The event dispached with this method does never bubble! Use only if you
+     * The event dispatched with this method does never bubble! Use only if you
      * are sure that bubbling is not required.
      *
      * @param target {Object} Any valid event target

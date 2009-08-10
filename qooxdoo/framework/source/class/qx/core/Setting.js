@@ -36,7 +36,7 @@
  *
  * This is where qooxdoo's new sophisticated settings system comes in.
  * And the best is that this feature is directly built into the core of
- * qooxdoo. This means that many intial settings are easily controlable
+ * qooxdoo. This means that many initial settings are easily controllable
  * using a simple hash map structure or using simple generator flags.
  *
  * For example you can control the following things in qooxdoo:

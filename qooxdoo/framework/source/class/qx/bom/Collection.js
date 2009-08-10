@@ -125,7 +125,7 @@
    *   .setStyle("visibility", "visible").setAttribute("html", "foo");
    * </pre>
    *
-   * *Content Manipulatioon*
+   * *Content Manipulation*
    *
    * Most methods that accept "content" will accept one or more
    * arguments of any of the following:

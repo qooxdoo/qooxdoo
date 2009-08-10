@@ -145,7 +145,7 @@ qx.Class.define("qx.ui.basic.Label",
      * The buddy property can be used to connect the label to another widget.
      * That causes two things:
      * <ul>
-     *   <li>The label will alway take the same enabled state as the buddy
+     *   <li>The label will always take the same enabled state as the buddy
      *       widget.
      *   </li>
      *   <li>A click on the label will focus the buddy widget.

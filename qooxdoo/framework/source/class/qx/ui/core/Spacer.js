@@ -32,7 +32,7 @@
  * <pre class='javascript'>
  *   var container = new qx.ui.container.Composite(new qx.ui.layout.HBox());
  *   container.add(new qx.ui.core.Widget());
- *   conainer.add(new qx.ui.core.Spacer(50));
+ *   container.add(new qx.ui.core.Spacer(50));
  *   container.add(new qx.ui.core.Widget());
  * </pre>
  *
@@ -87,7 +87,7 @@ qx.Class.define("qx.ui.core.Spacer",
      * @internal
      */
     checkAppearanceNeeds : function() {
-      // placeholder to improve compability with Widget.
+      // placeholder to improve compatibility with Widget.
     },
 
 
@@ -97,7 +97,7 @@ qx.Class.define("qx.ui.core.Spacer",
      * @param queue {Map} The queue to add widgets to
      */
     addChildrenToQueue : function(queue) {
-      // placeholder to improve compability with Widget.
+      // placeholder to improve compatibility with Widget.
     },
 
 

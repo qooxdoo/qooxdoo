@@ -269,7 +269,7 @@ qx.Bootstrap.define("qx.lang.Function",
         // Convert (and copy) incoming arguments
         var args = qx.lang.Array.fromArguments(arguments);
 
-        // Prepand static arguments
+        // Prepend static arguments
         if (options.args) {
           args = options.args.concat(args);
         }

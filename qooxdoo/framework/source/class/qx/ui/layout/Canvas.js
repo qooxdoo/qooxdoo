@@ -67,7 +67,7 @@
  * // simple positioning
  * container.add(new qx.ui.core.Widget(), {top: 10, left: 10});
  *
- * // strech vertically with 10 pixel distance to the parent's top
+ * // stretch vertically with 10 pixel distance to the parent's top
  * // and bottom border
  * container.add(new qx.ui.core.Widget(), {top: 10, left: 10, bottom: 10});
  *

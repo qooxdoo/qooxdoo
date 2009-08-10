@@ -475,7 +475,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
 
     /**
-     * Wether the item should be excluded from the layout
+     * Whether the item should be excluded from the layout
      *
      * @return {Boolean} Should the item be excluded by the layout
      */
@@ -751,7 +751,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
 
     /**
-     * Clear the user bounds. After this call the layout item is layouted by
+     * Clear the user bounds. After this call the layout item is laid out by
      * the layout manager again.
      *
      * @return {void}

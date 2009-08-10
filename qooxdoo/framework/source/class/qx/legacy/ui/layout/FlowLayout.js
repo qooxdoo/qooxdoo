@@ -73,7 +73,7 @@ qx.Class.define("qx.legacy.ui.layout.FlowLayout",
     },
 
 
-    /** Should the children be layouted in reverse order? */
+    /** Should the children be laid out in reverse order? */
     reverseChildrenOrder :
     {
       check : "Boolean",

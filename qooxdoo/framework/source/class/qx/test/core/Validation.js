@@ -144,7 +144,7 @@ qx.Class.define("qx.test.core.Validation",
       // test some wrong inputs
       this.assertException(function() {model.setString(1)}, qx.core.ValidationError, null, "A number is not a string!");
       this.assertException(function() {model.setString(this)}, qx.core.ValidationError, null, "This test is not a string!");
-      this.assertException(function() {model.setString(true)}, qx.core.ValidationError, null, "A bolean is not a string!");
+      this.assertException(function() {model.setString(true)}, qx.core.ValidationError, null, "A boolean is not a string!");
       this.assertException(function() {model.setString(new Date())}, qx.core.ValidationError, null, "A Date-Object is not a string!");
 
       // Test some working inputs

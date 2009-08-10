@@ -253,7 +253,7 @@ qx.Class.define("qx.dev.StackTrace",
      * the qooxdoo naming conventions.
      *
      * @param fileName {String} URL of the JavaScript file
-     * @return {String} class name of the file if conversion was possible. Otherwhise the
+     * @return {String} class name of the file if conversion was possible. Otherwise the
      *     fileName is returned unmodified.
      */
     __fileNameToClassName : function(fileName)

@@ -214,7 +214,7 @@ qx.Class.define("qx.dev.Tokenizer",
     /**
      * Create a colored HTML string for a string of JavaScript code.
      * The colored elements are placed in <code>span</code> elements
-     * with class names correponding to the token types. The returned code
+     * with class names corresponding to the token types. The returned code
      * should be placed into <code>pre</code> tags to preserve the
      * indentation.
      *

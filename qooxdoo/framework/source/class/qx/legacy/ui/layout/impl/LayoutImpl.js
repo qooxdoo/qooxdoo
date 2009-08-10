@@ -396,7 +396,7 @@ qx.Class.define("qx.legacy.ui.layout.impl.LayoutImpl",
 
     /**
      * Has full control of the order in which the registered
-     * (or non-registered) children should be layouted.
+     * (or non-registered) children should be laid out.
      *
      * @param vChildrenQueue {Object} TODOC
      * @return {void}

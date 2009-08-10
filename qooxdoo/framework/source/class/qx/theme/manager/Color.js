@@ -114,7 +114,7 @@ qx.Class.define("qx.theme.manager.Color",
       }
 
       // If the font instance is not yet cached create a new one to return
-      // This is true whenever a runtime include occured (using "qx.Theme.include"
+      // This is true whenever a runtime include occurred (using "qx.Theme.include"
       // or "qx.Theme.patch"), since these methods only merging the keys of
       // the theme and are not updating the cache
       var theme = this.getTheme();
@@ -142,7 +142,7 @@ qx.Class.define("qx.theme.manager.Color",
       }
 
       // If the font instance is not yet cached create a new one to return
-      // This is true whenever a runtime include occured (using "qx.Theme.include"
+      // This is true whenever a runtime include occurred (using "qx.Theme.include"
       // or "qx.Theme.patch"), since these methods only merging the keys of
       // the theme and are not updating the cache
       var theme = this.getTheme();

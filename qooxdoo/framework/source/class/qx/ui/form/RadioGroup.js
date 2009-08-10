@@ -51,7 +51,7 @@ qx.Class.define("qx.ui.form.RadioGroup",
   
   /**
    * @param varargs {qx.core.Object} A variable number of items, which are
-   *     intially added to the radio group, the first item will be selected.
+   *     initially added to the radio group, the first item will be selected.
    */
   construct : function(varargs)
   {
@@ -60,7 +60,7 @@ qx.Class.define("qx.ui.form.RadioGroup",
     // create item array
     this.__items = [];
 
-    // add listener bevore call add!!!
+    // add listener before call add!!!
     this.addListener("changeSelection", this.__onChangeSelection, this);
     
     if (varargs != null) {
@@ -89,7 +89,7 @@ qx.Class.define("qx.ui.form.RadioGroup",
     },
 
     /**
-     * Whether the selection should wrap arond. This means that the successor of
+     * Whether the selection should wrap around. This means that the successor of
      * the last item is the first item.
      */
     wrap :
@@ -360,7 +360,7 @@ qx.Class.define("qx.ui.form.RadioGroup",
 
     /*
     ---------------------------------------------------------------------------
-      OLD SELECTION PROPERTY METHDS
+      OLD SELECTION PROPERTY METHODS
     ---------------------------------------------------------------------------
     */
 
@@ -568,7 +568,7 @@ qx.Class.define("qx.ui.form.RadioGroup",
     /**
      * Returns the items for the selection.
      * 
-     * @return {qx.ui.form.IRadioItem[]} Itmes to select.
+     * @return {qx.ui.form.IRadioItem[]} Items to select.
      */
     _getItems : function() {
       return this.getItems();

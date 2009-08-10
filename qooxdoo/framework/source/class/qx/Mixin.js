@@ -165,7 +165,7 @@ qx.Class.define("qx.Mixin",
 
 
     /**
-     * Check compatiblity between mixins (including their includes)
+     * Check compatibility between mixins (including their includes)
      *
      * @param mixins {Mixin[]} an array of mixins
      * @throws an exception when there is a conflict between the mixins

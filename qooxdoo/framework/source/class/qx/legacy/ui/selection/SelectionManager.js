@@ -458,7 +458,7 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
 
     /*
     ---------------------------------------------------------------------------
-      ITEM STATE MANAGMENT
+      ITEM STATE MANAGEMENT
     ---------------------------------------------------------------------------
     */
 
@@ -1658,7 +1658,7 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
         }
 
         // If the nextItem is not anymore the leadItem
-        // Means: There has occured a change.
+        // Means: There has occurred a change.
         // We break here. This is normally the second step.
         if (nextItem != this.getLeadItem())
         {
@@ -1726,7 +1726,7 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
         }
 
         // If the nextItem is not anymore the leadItem
-        // Means: There has occured a change.
+        // Means: There has occurred a change.
         // We break here. This is normally the second step.
         if (nextItem != this.getLeadItem()) {
           break;

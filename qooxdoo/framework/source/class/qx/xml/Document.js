@@ -145,7 +145,7 @@ qx.Bootstrap.define("qx.xml.Document",
         try
         {
           // Keep both objects in sync with the same version.
-          // This is important as there were compabilitiy issues detected.
+          // This is important as there were compatibility issues detected.
           new ActiveXObject(domDoc[i]);
           new ActiveXObject(httpReq[i]);
         }

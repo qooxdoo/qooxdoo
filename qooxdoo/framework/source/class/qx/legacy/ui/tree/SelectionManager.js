@@ -265,7 +265,7 @@ qx.Class.define("qx.legacy.ui.tree.SelectionManager",
 
     /*
     ---------------------------------------------------------------------------
-      ITEM STATE MANAGMENT
+      ITEM STATE MANAGEMENT
     ---------------------------------------------------------------------------
     */
 

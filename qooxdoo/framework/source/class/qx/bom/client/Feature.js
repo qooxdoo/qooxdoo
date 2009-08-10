@@ -24,7 +24,7 @@
 ************************************************************************ */
 
 /**
- * This class comes with all relevant informations regarding
+ * This class comes with all relevant information regarding
  * the client's implemented features.
  *
  * The listed constants are automatically filled on the initialization

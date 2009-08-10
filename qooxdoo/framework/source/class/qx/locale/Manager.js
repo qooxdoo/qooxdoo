@@ -77,7 +77,7 @@ qx.Class.define("qx.locale.Manager",
      * Translate a message
      *
      * @param messageId {String} message id (may contain format strings)
-     * @param varargs {Object} variable number of argumes applied to the format string
+     * @param varargs {Object} variable number of arguments applied to the format string
      * @return {String} The translated string
      * @see qx.lang.String.format
      */
@@ -123,7 +123,7 @@ qx.Class.define("qx.locale.Manager",
      *
      * @param hint {String} hint for the translator of the message. Will be included in the .po file.
      * @param messageId {String} message id (may contain format strings)
-     * @param varargs {Object} variable number of argumes applied to the format string
+     * @param varargs {Object} variable number of arguments applied to the format string
      * @return {String} The translated string
      * @see qx.lang.String.format
      */

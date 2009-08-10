@@ -244,7 +244,7 @@ qx.Class.define("qx.ui.basic.Image",
     
     
     /**
-     * Use the ResourceManage to set a managed image
+     * Use the ResourceManager to set a managed image
      * 
      * @param el {Element} image DOM element
      * @param source {String} source path

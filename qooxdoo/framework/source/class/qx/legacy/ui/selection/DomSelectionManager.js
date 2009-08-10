@@ -347,7 +347,7 @@ qx.Class.define("qx.legacy.ui.selection.DomSelectionManager",
 
     /*
     ---------------------------------------------------------------------------
-      ITEM CSS STATE MANAGMENT
+      ITEM CSS STATE MANAGEMENT
     ---------------------------------------------------------------------------
     */
 

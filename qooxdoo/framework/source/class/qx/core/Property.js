@@ -71,7 +71,7 @@
  *     the method is <code>function(newValue, oldValue)</code>.
  *   </td></tr>
  *   <tr><th>event</th><td>String</td><td>
- *     On change of the property value an event with the given name will be dispached. The event type is
+ *     On change of the property value an event with the given name will be dispatched. The event type is
  *     {@link qx.event.type.Data}.
  *   </td></tr>
  *   <tr><th>themeable</th><td>Boolean</td><td>
@@ -82,11 +82,11 @@
  *     init value, the property will try to get the value from the parent of the current object.
  *   </td></tr>
  *   <tr><th>nullable</th><td>Boolean</td><td>
- *     Whether <code>null</code> is an allowed value of the property. This is complemental to the check
+ *     Whether <code>null</code> is an allowed value of the property. This is complementary to the check
  *     defined using the <code>check</code> key.
  *   </td></tr>
  *   <tr><th>refine</th><td>Boolean</td><td>
- *     Whether the property definition is a refinemnet of a property in one of the super classes of the class.
+ *     Whether the property definition is a refinement of a property in one of the super classes of the class.
  *     Only the <code>init</code> value can be changed using refine.
  *   </td></tr>
  *   <tr><th>transform</th><td>String</td><td>
@@ -121,7 +121,7 @@
  * <table>
  *   <tr><th>Name</th><th>Type</th><th>Description</th></tr>
  *   <tr><th>group</th><td>String[]</td><td>
- *     A list of property names which should be set using the propery group.
+ *     A list of property names which should be set using the property group.
  *   </td></tr>
  *   <tr><th>mode</th><td>String</td><td>
  *     If mode is set to <code>"shorthand"</code>, the properties can be set using a CSS like shorthand mode.
@@ -854,7 +854,7 @@ qx.Class.define("qx.core.Property",
 
       // [4] COMPARING (LOCAL) NEW AND OLD VALUE
 
-      // Old/new comparision
+      // Old/new comparison
       if (hasCallback)
       {
         if (incomingValue) {

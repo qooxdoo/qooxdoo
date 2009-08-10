@@ -206,7 +206,7 @@ qx.Class.define("qx.legacy.util.ValueManager",
 
     /**
      * Calls the callbacks of all objects connected to this value.
-     * All argumants passed to this function (including <code>value</code>) are
+     * All arguments passed to this function (including <code>value</code>) are
      * also the arguments of the callbacks.
      *
      * @param value {var} a dynamic value

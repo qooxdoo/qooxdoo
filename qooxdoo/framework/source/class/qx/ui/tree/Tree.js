@@ -22,7 +22,7 @@
 ************************************************************************ */
 
 /**
- * The Tree class implements a tree widget, with collapsable and expandable
+ * The Tree class implements a tree widget, with collapsible and expandable
  * container nodes and terminal leaf nodes. You instantiate a Tree object and
  * then assign the tree a root folder using the {@link #root} property.
  *
@@ -33,7 +33,7 @@
  * between the root tree object and the attached {@link qx.ui.tree.SelectionManager}.
  * To get the currently selected element of a tree use the tree {@link #getSelection}
  * method and tree {@link #setSelection} to set it. The TreeSelectionManager
- * handles more coars-grained issues like providing {@link #selectAll} and 
+ * handles more coarse-grained issues like providing {@link #selectAll} and
  * {@link #resetSelection} methods.
  */
 qx.Class.define("qx.ui.tree.Tree",
@@ -190,7 +190,7 @@ qx.Class.define("qx.ui.tree.Tree",
 
     
     /**
-     * Get the widget, which containes the root tree item. This widget must
+     * Get the widget, which contains the root tree item. This widget must
      * have a vertical box layout.
      *
      * @return {qx.ui.core.Widget} the children container
@@ -451,7 +451,7 @@ qx.Class.define("qx.ui.tree.Tree",
 
     
     /**
-     * Event hander for click events, which could change a tree item's open
+     * Event handler for click events, which could change a tree item's open
      * state.
      *
      * @param e {qx.event.type.Mouse} The mouse click event object

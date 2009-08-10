@@ -104,7 +104,7 @@ qx.Bootstrap.define("qx.log.appender.RingBuffer",
     /**
      * Returns log events which have been logged previously.
      *
-     * @param count {Integer} The number of events to retreive. If there are
+     * @param count {Integer} The number of events to retrieve. If there are
      *    more events than the given count, the oldest ones will not be returned.
      * @return {array} array of stored log events
      */    

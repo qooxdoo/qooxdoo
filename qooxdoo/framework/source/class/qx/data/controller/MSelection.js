@@ -99,7 +99,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
      * @param old {qx.data.Array|null} The old data array for the selection.
      */
     _applySelection: function(value, old) {
-      // remove the old listener if necesarry
+      // remove the old listener if necessary
       if (this.__selectionArrayListenerId != undefined && old != undefined) {
         old.removeListenerById(this.__selectionArrayListenerId);
       }
@@ -170,7 +170,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
         }
       }
 
-      // fire the change event manualy
+      // fire the change event manually
       this.fireDataEvent("changeSelection", this.getSelection());
     },
     
@@ -316,7 +316,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
     
     
     /**
-     * Helper-Method signaling that the the the internal changing of the targets
+     * Helper-Method signaling that the internal changing of the targets
      * selection is over.
      * {@link #_startSelectionModification}
      */

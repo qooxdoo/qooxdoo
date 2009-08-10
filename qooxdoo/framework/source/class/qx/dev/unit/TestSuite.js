@@ -36,7 +36,7 @@ qx.Class.define("qx.dev.unit.TestSuite",
 
   /**
    * @param testClassOrNamespace {var} Either a string with the name of the test
-   *    class or test namespace or a reference to the the test class or namespace.
+   *    class or test namespace or a reference to the test class or namespace.
    *    All test in the given class/namespace will be aded to the suite.
    */
   construct : function(testClassOrNamespace)
@@ -70,7 +70,7 @@ qx.Class.define("qx.dev.unit.TestSuite",
      * @lint ignoreDeprecated(alert, eval)
      *
      * @param testClassOrNamespace {var} Either a string with the name of the test
-     *    class or test namespace or a reference to the the test class or namespace.
+     *    class or test namespace or a reference to the test class or namespace.
      *    All test in the given class/namespace will be aded to the suite.
      */
     add : function(testClassOrNamespace)

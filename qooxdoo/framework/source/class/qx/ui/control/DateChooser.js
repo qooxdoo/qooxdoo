@@ -50,7 +50,7 @@ qx.Class.define("qx.ui.control.DateChooser",
     qx.ui.form.MForm,
     qx.ui.form.MFormElement
   ],
-  // decrepated IFormElement
+  // deprecated IFormElement
   implement : [
     qx.ui.form.IFormElement, 
     qx.ui.form.IExecutable, 

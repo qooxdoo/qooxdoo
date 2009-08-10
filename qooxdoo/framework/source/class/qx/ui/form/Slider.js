@@ -39,7 +39,7 @@
  * * Up/Down move a vertical slider by one single step.
  * * PageUp moves up one page.
  * * PageDown moves down one page.
- * * Home moves to the start (mininum).
+ * * Home moves to the start (minimum).
  * * End moves to the end (maximum).
  *
  * Here are the main properties of the class:
@@ -440,7 +440,7 @@ qx.Class.define("qx.ui.form.Slider",
 
 
     /**
-     * Listener of mousmove event for the knob. Only used in drag mode.
+     * Listener of mousemove event for the knob. Only used in drag mode.
      *
      * @param e {qx.event.type.Mouse} Incoming event object
      * @return {void}
@@ -531,7 +531,7 @@ qx.Class.define("qx.ui.form.Slider",
     ---------------------------------------------------------------------------
     */
 
-    /** {Boolean} Whether the slider is layouted horizontally */
+    /** {Boolean} Whether the slider is laid out horizontally */
     __isHorizontal : false,
 
 
@@ -675,7 +675,7 @@ qx.Class.define("qx.ui.form.Slider",
     /**
      * Moves the knob to the given position.
      *
-     * @param position {Integer} Any valid posititon (needs to be
+     * @param position {Integer} Any valid position (needs to be
      *   greater or equal than zero)
      * @return {void}
      */
