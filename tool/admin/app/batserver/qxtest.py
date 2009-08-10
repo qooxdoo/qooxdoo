@@ -619,7 +619,11 @@ class QxTest:
       # Use single window mode? (Necessary for IE with Selenium 1.*)
       single = False
       if "iexplore" in self.browserConf[browser['browserId']] and self.seleniumConf['ieSingleWindow']:
-        single = True  
+        single = True
+      
+      killBrowser = True 
+      if "kill" in browser:
+        killBrowser = browser['kill'] 
       
       if individual:
         self.log("individualServer set to True, using one server instance per "
@@ -676,7 +680,7 @@ class QxTest:
           pass
 
       try:
-        if (browser['kill']):
+        if (killBrowser):
           self.killBrowser(browser['browserId'])
       except KeyError:
           pass
