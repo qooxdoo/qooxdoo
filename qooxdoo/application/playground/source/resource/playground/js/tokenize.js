@@ -1,4 +1,4 @@
-// A frame for simple tokenizers. Takes care of newlines and
+// A framework for simple tokenizers. Takes care of newlines and
 // white-space, and of getting the text from the source stream into
 // the token object. A state is a function of two arguments -- a
 // string stream and a setState function. The second can be used to
