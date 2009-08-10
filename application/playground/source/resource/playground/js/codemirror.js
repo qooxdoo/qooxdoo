@@ -30,12 +30,13 @@ var CodeMirror = (function(){
     path: "",
     parserfile: [],
     basefiles: ["util.js", "stringstream.js", "select.js", "undo.js", "editor.js", "tokenize.js"],
-    linesPerPass: 15,
+    iframeClass: null,
     passDelay: 200,
+    passTime: 50,
     continuousScanning: false,
     saveFunction: null,
     onChange: null,
-    undoDepth: 20,
+    undoDepth: 50,
     undoDelay: 800,
     disableSpellcheck: true,
     textWrapping: true,
@@ -44,15 +45,85 @@ var CodeMirror = (function(){
     height: "300px",
     autoMatchParens: false,
     parserConfig: null,
-    dumbTabs: false
+    tabMode: "indent", // or "spaces", "default", "shift"
+    reindentOnLoad: false,
+    activeTokens: null,
+    cursorActivity: null,
+    lineNumbers: false,
+    indentUnit: 2
   });
 
+  function wrapLineNumberDiv(place) {
+    return function(node) {
+      var container = document.createElement("DIV"),
+          nums = document.createElement("DIV"),
+          scroller = document.createElement("DIV");
+      container.style.position = "relative";
+      nums.style.position = "absolute";
+      nums.style.height = "100%";
+      if (nums.style.setExpression) {
+        try {nums.style.setExpression("height", "this.previousSibling.offsetHeight + 'px'");}
+        catch(e) {} // Seems to throw 'Not Implemented' on some IE8 versions
+      }
+      nums.style.top = "0px";
+      nums.style.overflow = "hidden";
+      place(container);
+      container.appendChild(node);
+      container.appendChild(nums);
+      scroller.className = "CodeMirror-line-numbers";
+      nums.appendChild(scroller);
+    }
+  }
+
+  function applyLineNumbers(frame) {
+    var win = frame.contentWindow, doc = win.document,
+        nums = frame.nextSibling, scroller = nums.firstChild;
+
+    var nextNum = 1, barWidth = null;
+    function sizeBar() {
+      if (!frame.offsetWidth || !win.Editor) {
+        for (var cur = frame; cur.parentNode; cur = cur.parentNode) {
+          if (cur != document) {
+            clearInterval(sizeInterval);
+            return;
+          }
+        }
+      }
+
+      if (nums.offsetWidth != barWidth) {
+        barWidth = nums.offsetWidth;
+        nums.style.left = "-" + (frame.parentNode.style.marginLeft = barWidth + "px");
+      }
+    }
+    function update() {
+      var diff = 20 + Math.max(doc.body.offsetHeight, frame.offsetHeight) - scroller.offsetHeight;
+      for (var n = Math.ceil(diff / 10); n > 0; n--) {
+        var div = document.createElement("DIV");
+        div.appendChild(document.createTextNode(nextNum++));
+        scroller.appendChild(div);
+      }
+      nums.scrollTop = doc.body.scrollTop || doc.documentElement.scrollTop || 0;
+    }
+    sizeBar();
+    update();
+    win.addEventHandler(win, "scroll", update);
+    win.addEventHandler(win, "resize", update);
+    var sizeInterval = setInterval(sizeBar, 500);
+  }
+
   function CodeMirror(place, options) {
+    // Backward compatibility for deprecated options.
+    if (options.dumbTabs) options.tabMode = "spaces";
+    else if (options.normalTab) options.tabMode = "default";
+
     // Use passed options, if any, to override defaults.
     this.options = options = options || {};
     setDefaults(options, CodeMirrorConfig);
 
     var frame = this.frame = document.createElement("IFRAME");
+    if (options.iframeClass) frame.className = options.iframeClass;
+    frame.frameBorder = 0;
+    frame.src = "javascript:false;";
     frame.style.border = "0";
     frame.style.width = options.width;
     frame.style.height = options.height;
@@ -60,10 +131,12 @@ var CodeMirror = (function(){
     // always add it, redundant as it sounds.
     frame.style.display = "block";
 
-    if (place.appendChild)
-      place.appendChild(frame);
-    else
-      place(frame);
+    if (place.appendChild) {
+      var node = place;
+      place = function(n){node.appendChild(n);};
+    }
+    if (options.lineNumbers) place = wrapLineNumberDiv(place);
+    place(frame);
 
     // Link back to this object, so that the editor can fetch options
     // and add a reference to itself.
@@ -75,7 +148,9 @@ var CodeMirror = (function(){
     if (typeof options.stylesheet == "string")
       options.stylesheet = [options.stylesheet];
 
-    var html = ["<html><head>"];
+    var html = ["<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\"><html><head>"];
+    // Hack to work around a bunch of IE8-specific problems.
+    html.push("<meta http-equiv=\"X-UA-Compatible\" content=\"IE=EmulateIE7\"/>");
     forEach(options.stylesheet, function(file) {
       html.push("<link rel=\"stylesheet\" type=\"text/css\" href=\"" + file + "\"/>");
     });
@@ -92,6 +167,12 @@ var CodeMirror = (function(){
   }
 
   CodeMirror.prototype = {
+    init: function() {
+      if (this.options.initCallback) this.options.initCallback(this);
+      if (this.options.lineNumbers) applyLineNumbers(this.frame);
+      if (this.options.reindentOnLoad) this.reindent();
+    },
+
     getCode: function() {
       // TODO: qooxdoo modification
       if(this.editor) {
@@ -104,38 +185,78 @@ var CodeMirror = (function(){
         this.editor.importCode(code);
       }
     },
+    selection: function() {return this.editor.selectedText();},
+    reindent: function() {this.editor.reindent();},
+    reindentSelection: function() {this.editor.reindentSelection(null);},
+
     focus: function() {
       this.win.focus();
+      if (this.editor.selectionSnapshot) // IE hack
+        this.win.select.selectCoords(this.win, this.editor.selectionSnapshot);
     },
-    jumpToChar: function(start, end) {
-      this.editor.jumpToChar(start, end);
+    replaceSelection: function(text) {
       this.focus();
-    },
-    jumpToLine: function(line) {
-      this.editor.jumpToLine(line);
-      this.focus();
-    },
-    currentLine: function() {
-      return this.editor.currentLine();
-    },
-    selection: function() {
-      return this.editor.selectedText();
-    },
-    reindent: function() {
-      this.editor.reindent();
-    },
-    replaceSelection: function(text, focus) {
-      var result = this.editor.replaceSelection(text);
-      if (focus) this.focus();
-      return result;
+      this.editor.replaceSelection(text);
+      return true;
     },
     replaceChars: function(text, start, end) {
       this.editor.replaceChars(text, start, end);
     },
     getSearchCursor: function(string, fromCursor) {
       return this.editor.getSearchCursor(string, fromCursor);
+    },
+
+    undo: function() {this.editor.history.undo();},
+    redo: function() {this.editor.history.redo();},
+    historySize: function() {return this.editor.history.historySize();},
+    clearHistory: function() {this.editor.history.clear();},
+
+    grabKeys: function(callback, filter) {this.editor.grabKeys(callback, filter);},
+    ungrabKeys: function() {this.editor.ungrabKeys();},
+
+    setParser: function(name) {this.editor.setParser(name);},
+
+    cursorPosition: function(start) {
+      if (this.win.select.ie_selection) this.focus();
+      return this.editor.cursorPosition(start);
+    },
+    firstLine: function() {return this.editor.firstLine();},
+    lastLine: function() {return this.editor.lastLine();},
+    nextLine: function(line) {return this.editor.nextLine(line);},
+    prevLine: function(line) {return this.editor.prevLine(line);},
+    lineContent: function(line) {return this.editor.lineContent(line);},
+    setLineContent: function(line, content) {this.editor.setLineContent(line, content);},
+    insertIntoLine: function(line, position, content) {this.editor.insertIntoLine(line, position, content);},
+    selectLines: function(startLine, startOffset, endLine, endOffset) {
+      this.win.focus();
+      this.editor.selectLines(startLine, startOffset, endLine, endOffset);
+    },
+    nthLine: function(n) {
+      var line = this.firstLine();
+      for (; n > 1 && line !== false; n--)
+        line = this.nextLine(line);
+      return line;
+    },
+    lineNumber: function(line) {
+      var num = 0;
+      while (line !== false) {
+        num++;
+        line = this.prevLine(line);
+      }
+      return num;
+    },
+
+    // Old number-based line interface
+    jumpToLine: function(n) {
+      this.selectLines(this.nthLine(n), 0);
+      this.win.focus();
+    },
+    currentLine: function() {
+      return this.lineNumber(this.cursorPosition().line);
     }
   };
+
+  CodeMirror.InvalidLineHandle = {toString: function(){return "CodeMirror.InvalidLineHandle";}};
 
   CodeMirror.replace = function(element) {
     if (typeof element == "string")
@@ -150,8 +271,10 @@ var CodeMirror = (function(){
       area = document.getElementById(area);
 
     options = options || {};
-    if (area.style.width) options.width = area.style.width;
-    if (area.style.height) options.height = area.style.height;
+    if (area.style.width && options.width == null)
+      options.width = area.style.width;
+    if (area.style.height && options.height == null)
+      options.height = area.style.height;
     if (options.content == null) options.content = area.value;
 
     if (area.form) {
@@ -187,6 +310,8 @@ var CodeMirror = (function(){
       return Number(match[1]) >= 6;
     else if (match = navigator.userAgent.match(/gecko\/(\d{8})/i))
       return Number(match[1]) >= 20050901;
+    else if (match = navigator.userAgent.match(/AppleWebKit\/(\d+)/))
+      return Number(match[1]) >= 525;
     else
       return null;
   };
