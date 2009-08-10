@@ -43,7 +43,7 @@ qx.Class.define("qx.event.Command",
    * @param shortcut {String} shortcuts can be composed of optional modifier
    *    keys Control, Alt, Shift, Meta and a non modifier key.
    *    If no non modifier key is specified, the second paramater is evaluated.
-   *    The key must be seperated by a <code>+</code> or <code>-</code> character.
+   *    The key must be separated by a <code>+</code> or <code>-</code> character.
    *    Examples: Alt+F1, Control+C, Control+Alt+Delete
    */
   construct : function(shortcut)

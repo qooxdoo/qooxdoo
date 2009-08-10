@@ -97,7 +97,7 @@ qx.Class.define("qx.bom.Document",
     /**
      * Returns the height of the document.
      *
-     * Internet Explorer in standard mode stores the properitary <code>scrollHeight</code> property
+     * Internet Explorer in standard mode stores the proprietary <code>scrollHeight</code> property
      * on the <code>documentElement</code>, but in quirks mode on the body element. All
      * other known browsers simply store the correct value on the <code>documentElement</code>.
      *

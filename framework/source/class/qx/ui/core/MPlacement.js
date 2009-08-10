@@ -39,7 +39,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
      * when re-aligning the widget.
      *
      * The first part of the value is the edge to attach to. The second
-     * part the the alignment of the orthogonal edge after the widget
+     * part the alignment of the orthogonal edge after the widget
      * has been attached.
      *
      * The default value "bottom-left" for example means that the
@@ -235,7 +235,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
 
 
     /**
-     * Places the widget to another (at least layouted) widget. The DOM
+     * Places the widget to another (at least laid out) widget. The DOM
      * element is not needed, but the bounds are needed to compute the
      * location of the widget to align to.
      *

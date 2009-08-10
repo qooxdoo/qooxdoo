@@ -21,7 +21,7 @@
 ************************************************************************ */
 
 /**
- * A popup which contains paletts of colors and the possibility to open the
+ * A popup which contains palettes of colors and the possibility to open the
  * Colorselector to choose a color.
  */
 qx.Class.define("qx.ui.control.ColorPopup",

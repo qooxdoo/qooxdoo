@@ -153,7 +153,7 @@ qx.Class.define("qx.ui.form.SelectBox",
 
     /*
     ---------------------------------------------------------------------------
-      OLD SELECTION PROPERTY METHDS
+      OLD SELECTION PROPERTY METHODS
     ---------------------------------------------------------------------------
     */
 

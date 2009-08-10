@@ -85,7 +85,7 @@ qx.Class.define("qx.ui.form.renderer.Double",
     },
     
     /**
-     * Adds a button the the form renderer. All buttons will be added in a 
+     * Adds a button the form renderer. All buttons will be added in a 
      * single row at the bottom of the form.
      * 
      * @param button {qx.ui.form.Button} The button to add.
@@ -119,11 +119,11 @@ qx.Class.define("qx.ui.form.renderer.Double",
      * @return {qx.uiu.basic.Label} The label for the given item.
      */
     _createLabel : function(name, item) {
-      var reqired = "";
+      var required = "";
       if (item.getRequired()) {
-       reqired = " <span style='color:red'>*</span> "; 
+       required = " <span style='color:red'>*</span> "; 
       }
-      var label =  new qx.ui.basic.Label(name + reqired + " :");
+      var label =  new qx.ui.basic.Label(name + required + " :");
       label.setRich(true);
       return label;
     },

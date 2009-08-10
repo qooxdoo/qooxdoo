@@ -204,7 +204,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
     
     
     /**
-     * Checks if the form item is requiered. If so, the the value is checked 
+     * Checks if the form item is requiered. If so, the value is checked 
      * and the result will be returned. If the form item is not required, true 
      * will be returned.
      * 
@@ -508,7 +508,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
       this.__setValid(valid);
       // reset the results
       this.__asyncResults = {};
-      // fire the comlete event (no entry in the results with null)
+      // fire the complete event (no entry in the results with null)
       this.fireEvent("complete");      
     }
   }

@@ -1,5 +1,5 @@
 /**
- * The qx.io.remote package provides classes for remote communiction, i.e.
+ * The qx.io.remote package provides classes for remote communication, i.e.
  * communication of the client with a server. Bear in mind that this usually
  * means communication with the server the client application was loaded from.
  * Cross-domain communication on the other hand has to be treated specially.
@@ -38,7 +38,7 @@
  * IframeTransport}, {@link qx.io.remote.transport.Script ScriptTransport} and
  * {@link qx.io.remote.transport.XmlHttp XmlHttpTransport} specialize them,
  * depending of their interaction model with the server. Usually, you will
- * use one of these classes to taylor the implementation details of a specific
+ * use one of these classes to tailor the implementation details of a specific
  * client-server communication in your application. Mind that the
  * IframeTransport and ScriptTransport classes are still abstract, so you have
  * to provide a subclass implementation to make use of them.
@@ -48,7 +48,7 @@
  * Exchange object can be bound to the {@link qx.io.remote.Request#transport
  * <i>.transport</i>} property of a Request, and takes care
  * that the particular request is realised over the specific Transport. This
- * allows you to accommodate a wide varity of transport options without
+ * allows you to accommodate a wide variety of transport options without
  * overloading the Request object with the details.
  *
  * <h4> Cross-Domain Requests </h4>
@@ -58,7 +58,7 @@
  * since the security concept of most browsers restrict such requests.
  * <p>
  * Currently, those requests are realised through the dynamic insertion of a
- * "script" tag into the current document (this is the beforementioned {@link
+ * "script" tag into the current document (this is the aforementioned {@link
  * qx.io.remote.transport.Script ScriptTransport}). The "src" attribute of the
  * script tag is set to the requested URL. On insertion of the script tag the
  * browser will load the source URL and parse and execute the returned content
@@ -74,7 +74,7 @@
  * "_ScriptTransport_data" variable). In the response data, you also have to
  * take care of proper string escaping.
  * <p>
- * So the request you might see in your server log from a script tansport
+ * So the request you might see in your server log from a script transport
  * may look like this:
  * <pre>
  * "GET /cgi-bin/qxresponse.cgi?_ScriptTransport_id=10&_ScriptTransport_data=action%3Ddoit HTTP/1.1" 200 -

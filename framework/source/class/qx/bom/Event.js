@@ -19,7 +19,7 @@
 ************************************************************************ */
 
 /**
- * Wrapper around native event managment capabilities of the browser.
+ * Wrapper around native event management capabilities of the browser.
  * This class should not be used directly normally. It's better
  * to use {@link qx.event.Registration} instead.
  */
@@ -111,7 +111,7 @@ qx.Bootstrap.define("qx.bom.Event",
      * Prevent the native default of the event to be processed.
      *
      * This is useful to stop native keybindings, native selection
-     * and other native funtionality behind events.
+     * and other native functionality behind events.
      *
      * @signature function(e)
      * @param e {Event} Native event object

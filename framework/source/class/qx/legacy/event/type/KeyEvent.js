@@ -20,7 +20,7 @@
 ************************************************************************ */
 
 /**
- * A key event instance contains all data for each occured key event
+ * A key event instance contains all data for each occurred key event
  */
 qx.Class.define("qx.legacy.event.type.KeyEvent",
 {

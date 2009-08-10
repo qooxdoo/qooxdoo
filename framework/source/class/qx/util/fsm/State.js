@@ -37,7 +37,7 @@ qx.Class.define("qx.util.fsm.State",
    * @param stateName {String}
    *   The name of this state.  This is the name which may be referenced in
    *   objects of class qx.util.fsm.Transition, when passing of
-   *   the the transition's predicate means transition to this state.
+   *   the transition's predicate means transition to this state.
    *
    * @param stateInfo {Map}
    *   <pre>

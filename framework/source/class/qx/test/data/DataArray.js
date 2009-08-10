@@ -76,8 +76,8 @@ qx.Class.define("qx.test.data.DataArray",
       this.assertEquals("three", this.__a.getItem(2), "IndexAt does not work at position 2");
 
       // try some wrong inputs
-      this.assertUndefined(this.__a.getItem(-1), "There sould be no element at -1");
-      this.assertUndefined(this.__a.getItem(3), "There sould be no element at 3");
+      this.assertUndefined(this.__a.getItem(-1), "There should be no element at -1");
+      this.assertUndefined(this.__a.getItem(3), "There should be no element at 3");
     },
 
 

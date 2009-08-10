@@ -148,13 +148,13 @@ qx.Class.define("qx.ui.form.RepeatButton",
     /**
      * Calling this function is like a click from the user on the
      * button with all consequences.
-     * <span style='color: red'>Be shure to call the {@link #release} function.</span>
+     * <span style='color: red'>Be sure to call the {@link #release} function.</span>
      *
      * @return {void}
      */
     press : function()
     {
-      // only if the button is enabeld
+      // only if the button is enabled
       if (this.isEnabled())
       {
         // if the state pressed must be applied (first call)

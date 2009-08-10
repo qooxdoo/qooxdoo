@@ -25,7 +25,7 @@
 ************************************************************************ */
 
 /**
- * This class comes with all relevant informations regarding
+ * This class comes with all relevant information regarding
  * the client's operating system. This class is examining the userAgent of
  * the browser's build-in navigator object. Currently there are more than
  * <b>4000</b> (in words: four thousand) different userAgent strings, so this class

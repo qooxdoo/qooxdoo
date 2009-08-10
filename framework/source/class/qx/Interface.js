@@ -440,9 +440,9 @@ qx.Class.define("qx.Interface",
      *   was defined. (Used in error messages).
      * @param origFunction {Function} function to wrap.
      * @param functionName {String} name of the function. (Used in error messages).
-     * @param preCondition {Fucntion}. This function gets called with the arguments of the
-     *   original function. If this fucntion return true the original function is called.
-     *   Otherwhise an exception is thrown.
+     * @param preCondition {Function}. This function gets called with the arguments of the
+     *   original function. If this function return true the original function is called.
+     *   Otherwise an exception is thrown.
      * @return {Function} wrapped function
      */
     __wrapInterfaceMember : qx.core.Variant.select("qx.debug",

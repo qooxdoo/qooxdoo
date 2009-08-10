@@ -136,7 +136,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
      * value of one and will stretch to the available space.
      *
      * @return {qx.ui.core.Spacer} The newly added spacer object. A reference
-     *   to the spacer is needed to remove ths spacer from the layout.
+     *   to the spacer is needed to remove this spacer from the layout.
      */
     addSpacer : function()
     {

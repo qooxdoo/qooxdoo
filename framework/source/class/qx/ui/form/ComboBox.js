@@ -53,7 +53,7 @@ qx.Class.define("qx.ui.form.ComboBox",
     this.addListener("click", this._onClick);
     
     // forward the focusin and focusout events to the textfield. The textfield 
-    // is not focusable so the events need to be forwared manually.
+    // is not focusable so the events need to be forwarded manually.
     this.addListener("focusin", function(e) {
       textField.fireNonBubblingEvent("focusin", qx.event.type.Focus);
     }, this);

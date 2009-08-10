@@ -20,7 +20,7 @@
   *   height : 400
   * });
   * 
-  * // Creat a folder and set it the root folder
+  * // Create a folder and set it the root folder
   * var root = new qx.ui.tree.TreeFolder("root");
   * tree.setRoot(root);
   * 
@@ -38,7 +38,7 @@
   * // Add the content to the root folder
   * root.add(te1_1, te1_2, te1_3, te1_4);
   * 
-  * // Add the root widget to the appliation
+  * // Add the root widget to the application
   * this.getRoot().add(tree);
   * </pre>
   *

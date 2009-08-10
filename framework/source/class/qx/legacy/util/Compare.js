@@ -152,7 +152,7 @@ qx.Class.define("qx.legacy.util.Compare",
 
 
     /**
-     * Compare two Strings representing IPv4 adresses.
+     * Compare two Strings representing IPv4 addresses.
      * Example: "192.168.1.2"
      *
      * @param a {String} first value

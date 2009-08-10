@@ -156,7 +156,7 @@ qx.Class.define("qx.ui.container.Stack",
 
     /*
     ---------------------------------------------------------------------------
-      OLD SELECTION PROPERTY METHDS
+      OLD SELECTION PROPERTY METHODS
     ---------------------------------------------------------------------------
     */
 

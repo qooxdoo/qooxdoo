@@ -47,7 +47,7 @@ class ContribLoader(object):
             try:
                 externalRevision = self.getRevision(contrib)
             except IOError:
-                print >> sys.stderr, "Could not conncet to the internet. Will use cached contributions."
+                print >> sys.stderr, "Could not connect to the internet. Will use cached contributions."
                 return
 
         # get local revision nr

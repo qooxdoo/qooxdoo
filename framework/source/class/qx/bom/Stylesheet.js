@@ -211,7 +211,7 @@ qx.Class.define("qx.bom.Stylesheet",
      * Removes an import from a stylesheet
      *
      * @param sheet {Object} the stylesheet object
-     * @param url {String} URL of the importet CSS file
+     * @param url {String} URL of the imported CSS file
      * @return {void}
      * @signature function(sheet, url)
      */

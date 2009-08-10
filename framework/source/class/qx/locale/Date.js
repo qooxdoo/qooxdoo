@@ -152,7 +152,7 @@ qx.Class.define("qx.locale.Date",
      *
      * @param length {String} format of the month names.
      *       Possible values: "abbreviated", "narrow", "wide"
-     * @param month {Integer} index of the month. 0=january, 1=februrary, ...
+     * @param month {Integer} index of the month. 0=january, 1=february, ...
      * @param locale {String} optional locale to be used
      * @param context {String} (default: "format") intended context.
      *       Possible values: "format", "stand-alone"      
@@ -194,7 +194,7 @@ qx.Class.define("qx.locale.Date",
     /**
      * Try to localize a date/time format string.
      *
-     * If now localization is availible take the fallback format string
+     * If now localization is available take the fallback format string
      *
      * @param canonical {String} format string containing only field information, and in a canonical order.
      *       Examples are "yyyyMMMM" for year + full month, or "MMMd" for abbreviated month + day.

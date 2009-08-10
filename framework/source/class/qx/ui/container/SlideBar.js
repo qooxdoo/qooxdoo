@@ -302,7 +302,7 @@ qx.Class.define("qx.ui.container.SlideBar",
 
     /**
      * Listener for resize event. This event is fired after the
-     * first flush of the element which leads to another queueing
+     * first flush of the element which leads to another queuing
      * when the changes modify the visibility of the scroll buttons.
      *
      * @param e {Event} Event object

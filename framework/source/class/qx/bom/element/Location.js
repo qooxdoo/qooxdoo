@@ -270,7 +270,7 @@ qx.Class.define("qx.bom.element.Location",
      * much faster access to the offset position.
      *
      * Please note: When gecko 1.9 does not use the <code>getBoundingClientRect</code>
-     * implementation, and therefor use the tranditional offset calculation
+     * implementation, and therefore use the traditional offset calculation
      * the gecko 1.9 fix in <code>__computeBody</code> must not be applied.
      *
      * @signature function(elem)

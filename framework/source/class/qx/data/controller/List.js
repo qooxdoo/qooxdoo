@@ -352,7 +352,7 @@ qx.Class.define("qx.data.controller.List",
     
     /**
      * Apply-method which will be called if the target has been changed. 
-     * When the target changes, every binding needs to be reseted and the old 
+     * When the target changes, every binding needs to be reset and the old
      * target needs to be cleaned up. If there is a model, the target will be 
      * filled with the data of the model.
      * 
@@ -399,14 +399,14 @@ qx.Class.define("qx.data.controller.List",
         }
       }
 
-	    // need a asynchron selection update bacause the bindings have to be 
+	    // need a asynchron selection update because the bindings have to be
 	    // executed to update the selection probably (using the widget queue)
       qx.ui.core.queue.Widget.add(this);
     },
     
     
     /**
-     * Internal method used to synt the selection. The controller uses the 
+     * Internal method used to sync the selection. The controller uses the
      * widget queue to schedule the selection update. An asynchron handling of 
      * the selection is needed because the bindings (event listeners for the 
      * binding) need to be executed befor the selection is updated.
@@ -488,7 +488,7 @@ qx.Class.define("qx.data.controller.List",
     __addItem: function(index) {
       // create a new ListItem
       var listItem = this._createItem();
-      // store the coresponding model element as user data
+      // store the corresponding model element as user data
       listItem.setUserData("model", 
         this.getModel().getItem(this.__lookup(index))
       );
@@ -500,7 +500,7 @@ qx.Class.define("qx.data.controller.List",
     
     
     /**
-     * Internal helper to remove ListItems from the target. Also the bidning 
+     * Internal helper to remove ListItems from the target. Also the binding
      * will be removed properly.
      */
     __removeItem: function() {
@@ -557,7 +557,7 @@ qx.Class.define("qx.data.controller.List",
      * {@link qx.data.controller.IControllerDelegate#bindItem} function 
      * implemented by the {@link #delegate} property. 
      * 
-     * @param sourcePath {String | null} The path to the propety in the model.
+     * @param sourcePath {String | null} The path to the property in the model.
      * @param targetProperty {String} The name of the property in the target 
      *   widget.
      * @param options {Map | null} The options to use for the binding.
@@ -674,7 +674,7 @@ qx.Class.define("qx.data.controller.List",
     */    
     /**
      * Helper method for applying the delegate It checks if a configureItem 
-     * is set end invokes the initial process to apply the the given function.
+     * is set end invokes the initial process to apply the given function.
      * 
      * @param value {Object} The new delegate.
      * @param old {Object} The old delegate.
@@ -691,7 +691,7 @@ qx.Class.define("qx.data.controller.List",
     
     /**
      * Helper method for applying the delegate It checks if a bindItem 
-     * is set end invokes the initial process to apply the the given function.
+     * is set end invokes the initial process to apply the given function.
      * 
      * @param value {Object} The new delegate.
      * @param old {Object} The old delegate.
@@ -710,7 +710,7 @@ qx.Class.define("qx.data.controller.List",
     
     /**
      * Helper method for applying the delegate It checks if a createItem 
-     * is set end invokes the initial process to apply the the given function.
+     * is set end invokes the initial process to apply the given function.
      * 
      * @param value {Object} The new delegate.
      * @param old {Object} The old delegate.

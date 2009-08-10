@@ -831,7 +831,7 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
-     * Whether the "parent" widget contains the the "child" widget.
+     * Whether the "parent" widget contains the "child" widget.
      *
      * @param parent {qx.ui.core.Widget} The parent widget
      * @param child {qx.ui.core.Widget} The child widget
@@ -1272,7 +1272,7 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * For labels and images this may be their natural size when defined without
      * any dimensions. For containers this may be the recommended size of the
-     * underlaying layout manager.
+     * underlying layout manager.
      *
      * Developer note: This can be overwritten by the derived classes to allow
      * a custom handling here.
@@ -1558,7 +1558,7 @@ qx.Class.define("qx.ui.core.Widget",
       // TODO
       // What was the reason for this (wpbasti)?
       // Seems that it at least fixes issue with the SplitPane
-      // where the slider is not seeable during dragging it around.
+      // where the slider is not visible during dragging it around.
       el.setStyle("zIndex", 0);
 
       // Store "weak" reference to the widget in the DOM element.
@@ -1698,7 +1698,7 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
-     * Resets the cache for children which should be layouted.
+     * Resets the cache for children which should be laid out.
      */
     invalidateLayoutChildren : function()
     {
@@ -1740,7 +1740,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * Returns the widget which contains the children and
-     * is relevant for layouting them. This is from the user point of
+     * is relevant for laying them out. This is from the user point of
      * view and may not be identical to the technical structure.
      *
      * @return {qx.ui.core.Widget} Widget which contains the children.
@@ -2104,7 +2104,7 @@ qx.Class.define("qx.ui.core.Widget",
         this.assertNotIdentical(child.getLayoutParent, this, "Remove Error: " + child + " is not a child of this widget!");
       }
 
-      // Clear paren connection
+      // Clear parent connection
       child.setLayoutParent(null);
 
       // clear the layout's children cache

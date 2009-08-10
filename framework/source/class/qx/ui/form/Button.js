@@ -22,8 +22,8 @@
  * A Button widget which supports various states and allows it to be used
  * via the mouse and the keyboard.
  *
- * If the user presses the button by clicking on ito pressing the <code>Enter</code> or
- * <code>Space</code> key, the button fires an {@link qx.ui.core.MExecutable#execute} event.
+ * If the user presses the button by clicking on it, or the <code>Enter</code> or
+ * <code>Space</code> keys, the button fires an {@link qx.ui.core.MExecutable#execute} event.
  *
  * If the {@link qx.ui.core.MExecutable#command} property is set, the
  * command is executed as well.
@@ -42,7 +42,7 @@
  *   this.getRoot.add(button);
  * </pre>
  *
- * This example creates a button with the label "Hello World" and atached an
+ * This example creates a button with the label "Hello World" and attaches an
  * event listener to the {@link #execute} event.
  *
  * *External Documentation*

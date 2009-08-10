@@ -184,7 +184,7 @@ qx.Bootstrap.define("qx.lang.Object",
         }
 
         // IE does not return "shadowed" keys even if they are defined directly
-        // in the object. This is incompatible to the ECMA standard!!
+        // in the object. This is incompatible with the ECMA standard!!
         // This is why this checks are needed.
         var hasOwnProperty = Object.prototype.hasOwnProperty;
         for (var i=0, a=this._shadowedKeys, l=a.length; i<l; i++)
@@ -375,7 +375,7 @@ qx.Bootstrap.define("qx.lang.Object",
      * Inverts a map by exchanging the keys with the values.
      *
      * If the map has the same values for different keys, information will get lost.
-     * The values will be converted to strings using the toString methos.
+     * The values will be converted to strings using the toString methods.
      *
      * @param map {Object} Map to invert
      * @return {Object} inverted Map

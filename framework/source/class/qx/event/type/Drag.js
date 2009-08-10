@@ -79,7 +79,7 @@ qx.Class.define("qx.event.type.Drag",
 
 
     /**
-     * Get the horizontal position at which the event occured relative to the
+     * Get the horizontal position at which the event occurred relative to the
      * left of the document. This property takes into account any scrolling of
      * the page.
      *
@@ -111,7 +111,7 @@ qx.Class.define("qx.event.type.Drag",
 
 
     /**
-     * Get the vertical position at which the event occured relative to the
+     * Get the vertical position at which the event occurred relative to the
      * top of the document. This property takes into account any scrolling of
      * the page.
      *

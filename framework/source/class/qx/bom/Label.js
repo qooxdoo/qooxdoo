@@ -152,8 +152,8 @@ qx.Class.define("qx.bom.Label",
     /**
      * Creates a label.
      *
-     * The default mode is 'text' which means that the overlapping text is cutted of
-     * using the ellipsis sign automatically. Text wrapping is disabled in this mode
+     * The default mode is 'text' which means that the overlapping text is cut off
+     * using ellipsis automatically. Text wrapping is disabled in this mode
      * as well. Spaces are normalized. Umlauts and other special symbols are only
      * allowed in unicode mode as normal characters.
      *

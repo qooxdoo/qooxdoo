@@ -113,7 +113,7 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     */
 
     /**
-     * Wether the widget has its own focus handler or uses one of its parent's
+     * Whether the widget has its own focus handler or uses one of its parent's
      * focus handler.
      *
      * @return {Boolean} whether the widget has its own focus handler
@@ -366,7 +366,7 @@ qx.Class.define("qx.legacy.ui.core.Parent",
 
     /*
     ---------------------------------------------------------------------------
-      CHILDREN MANAGMENT: MANAGE ALL
+      CHILDREN MANAGEMENT: MANAGE ALL
     ---------------------------------------------------------------------------
     */
 
@@ -448,7 +448,7 @@ qx.Class.define("qx.legacy.ui.core.Parent",
 
     /*
     ---------------------------------------------------------------------------
-      CHILDREN MANAGMENT: MANAGE VISIBLE ONES
+      CHILDREN MANAGEMENT: MANAGE VISIBLE ONES
 
       uses a cached private property
     ---------------------------------------------------------------------------
@@ -519,7 +519,7 @@ qx.Class.define("qx.legacy.ui.core.Parent",
 
     /*
     ---------------------------------------------------------------------------
-      CHILDREN MANAGMENT: ADD
+      CHILDREN MANAGEMENT: ADD
     ---------------------------------------------------------------------------
     */
 
@@ -668,7 +668,7 @@ qx.Class.define("qx.legacy.ui.core.Parent",
 
     /*
     ---------------------------------------------------------------------------
-      CHILDREN MANAGMENT: REMOVE
+      CHILDREN MANAGEMENT: REMOVE
     ---------------------------------------------------------------------------
     */
 
@@ -733,7 +733,7 @@ qx.Class.define("qx.legacy.ui.core.Parent",
 
     /*
     ---------------------------------------------------------------------------
-      CHILDREN MANAGMENT: FIRST CHILD
+      CHILDREN MANAGEMENT: FIRST CHILD
     ---------------------------------------------------------------------------
     */
 
@@ -774,7 +774,7 @@ qx.Class.define("qx.legacy.ui.core.Parent",
 
     /*
     ---------------------------------------------------------------------------
-      CHILDREN MANAGMENT: LAST CHILD
+      CHILDREN MANAGEMENT: LAST CHILD
     ---------------------------------------------------------------------------
     */
 
@@ -820,7 +820,7 @@ qx.Class.define("qx.legacy.ui.core.Parent",
 
     /*
     ---------------------------------------------------------------------------
-      CHILDREN MANAGMENT: LOOP UTILS
+      CHILDREN MANAGEMENT: LOOP UTILS
     ---------------------------------------------------------------------------
     */
 

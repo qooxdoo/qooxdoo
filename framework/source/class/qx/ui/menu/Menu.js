@@ -203,7 +203,7 @@ qx.Class.define("qx.ui.menu.Menu",
     ---------------------------------------------------------------------------
     */
 
-    /** Interval in ms after which sub menus should be openend */
+    /** Interval in ms after which sub menus should be opened */
     openInterval :
     {
       check : "Integer",

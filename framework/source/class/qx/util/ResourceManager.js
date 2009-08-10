@@ -34,7 +34,7 @@ qx.Bootstrap.define("qx.util.ResourceManager",
 
 
     /**
-     * Whether the registry has informations about the given resource.
+     * Whether the registry has information about the given resource.
      *
      * @param id {String} The resource to get the information for
      * @return {Boolean} <code>true</code> when the resource is known.

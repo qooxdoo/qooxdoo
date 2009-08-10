@@ -608,7 +608,7 @@ qx.Class.define("qx.legacy.ui.layout.impl.VerticalBoxLayoutImpl",
     /**
      * This method have full control of the order in which the
      *  registered (or also non-registered) children should be
-     *  layouted on the horizontal axis.
+     *  laid out on the horizontal axis.
      *
      * @param vChildrenQueue {var} TODOC
      * @return {void}

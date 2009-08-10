@@ -694,7 +694,7 @@ qx.Class.define("qx.data.SingleValueBinding",
      * This method stores the given value as a binding in the internal structure
      * of all bindings.
      *
-     * @param id {var} The listener id of the id for a deeper bingin.
+     * @param id {var} The listener id of the id for a deeper binding.
      * @param sourceObject {qx.core.Object} The source Object of the binding.
      * @param sourceEvent {String} The name of the source event.
      * @param targetObject {qx.core.Object} The target object.

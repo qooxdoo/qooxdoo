@@ -416,7 +416,7 @@ qx.Class.define("qx.bom.String",
      * * unescapes HTML entities
      *
      * @param str {String} HTML string to converts
-     * @return {String} plain text representaion of the HTML string
+     * @return {String} plain text representation of the HTML string
      */
     toText : function(str)
     {

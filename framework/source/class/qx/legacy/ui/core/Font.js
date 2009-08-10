@@ -19,7 +19,7 @@
 ************************************************************************ */
 
 /**
- * A wrapper for CSS font styles. Fond objects can be aplpied to widgets
+ * A wrapper for CSS font styles. Fond objects can be applied to widgets
  * or DOM elements.
  */
 qx.Class.define("qx.legacy.ui.core.Font",

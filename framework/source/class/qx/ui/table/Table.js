@@ -186,7 +186,7 @@ qx.Class.define("qx.ui.table.Table",
     this.addListener("blur", this._onFocusChanged);
 
     // attach the resize listener to the last child of the layout. This
-    // ensures that all other children are layouted before
+    // ensures that all other children are laid out before
     var spacer = new qx.ui.core.Widget().set({
       height: 0
     });

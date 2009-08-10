@@ -35,7 +35,7 @@ qx.Class.define("qx.ui.form.CheckBox",
   */
 
   /**
-   * @param label {String?null} An optional label for the ckeck box.
+   * @param label {String?null} An optional label for the check box.
    */
   construct : function(label)
   {
