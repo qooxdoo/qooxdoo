@@ -69,7 +69,7 @@ qx.Class.define("qx.ui.virtual.form.List",
     
     showGridLines :
     {
-      check : "Booelean",
+      check : "Boolean",
       event : "changeShowGridLines",
       init : false,
       apply : "_changeShowGridLines",
