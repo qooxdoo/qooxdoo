@@ -40,7 +40,7 @@ qx.Interface.define("qx.ui.form.renderer.IFormRenderer",
     
     
     /**
-     * Adds a button the the form renderer.
+     * Adds a button the form renderer.
      * 
      * @param button {qx.ui.form.Button} A button which should be added to 
      *   the form.

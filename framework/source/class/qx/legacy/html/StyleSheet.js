@@ -285,7 +285,7 @@ qx.Class.define("qx.legacy.html.StyleSheet",
      * removes an import from a stylesheet
      *
      * @param vSheet {Object} the stylesheet object
-     * @param vUrl {String} URL of the importet CSS file
+     * @param vUrl {String} URL of the imported CSS file
      * @return {void}
      * @signature function(vSheet, vUrl)
      */

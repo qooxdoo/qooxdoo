@@ -164,7 +164,7 @@ qx.Class.define("qx.ui.virtual.core.Axis",
     
     
     /**
-     * Split the the position range into disjunct intervals. Each interval starts
+     * Split the position range into disjunct intervals. Each interval starts
      * with a custom sized cell. Each position is contained in exactly one range.
      * The ranges are sorted according to their start position.
      * 

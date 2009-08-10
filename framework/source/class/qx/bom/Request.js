@@ -323,7 +323,7 @@ qx.Bootstrap.define("qx.bom.Request",
 
 
     /**
-     * Wether the currently running or finished request is successful.
+     * Whether the currently running or finished request is successful.
      *
      * @return {Boolean} Returns <code>true</code> when the request is successful.
      */

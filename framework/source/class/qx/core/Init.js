@@ -39,7 +39,7 @@ qx.Class.define("qx.core.Init",
   statics :
   {
     /**
-     * Returns the instanciated qooxdoo application.
+     * Returns the instantiated qooxdoo application.
      *
      * @return {qx.core.Object} The application instance.
      */

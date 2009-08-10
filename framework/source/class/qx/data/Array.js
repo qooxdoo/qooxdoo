@@ -118,7 +118,7 @@ qx.Class.define("qx.data.Array",
     /**
      * Concatenates the current and the given array into a new one.
      *
-     * @param array {Array} The javaScript array which should be concatinated
+     * @param array {Array} The javaScript array which should be concatenated
      *   to the current array.
      *
      * @return {qx.data.Array} A new array containing the values of both former
@@ -135,7 +135,7 @@ qx.Class.define("qx.data.Array",
 
 
     /**
-     * Returns the array as a string usting the given connerctor string to
+     * Returns the array as a string using the given connector string to
      * connect the values.
      *
      * @param connector {String} the string which should be used to past in
@@ -310,7 +310,7 @@ qx.Class.define("qx.data.Array",
      * compare the items.
      *
      * @param func {Function} A compare function comparing two parameters and
-     *   sould return a number.
+     *   should return a number.
      */
     sort: function(func) {
       this.__array.sort.apply(this.__array, arguments);
@@ -366,7 +366,7 @@ qx.Class.define("qx.data.Array",
 
     /**
      * Replacement function for the setting of a array value.
-     * array[0] = "a" sould be array.setItem(0, "a").
+     * array[0] = "a" should be array.setItem(0, "a").
      * A change event will be fired.
      *
      * @param index {Number} The index of the array element.
@@ -393,7 +393,7 @@ qx.Class.define("qx.data.Array",
     
     
     /**
-     * This method returns the current lengthalso stored under .length on each
+     * This method returns the current length stored under .length on each
      * array.
      * 
      * @return {Number} The current length of the array.
@@ -656,7 +656,7 @@ qx.Class.define("qx.data.Array",
     ---------------------------------------------------------------------------
     */
     /**
-     * Internal function wich updates the length property of the array.
+     * Internal function which updates the length property of the array.
      * Every time the length will be updated, a {@link #changeLength} data 
      * event will be fired.
      */

@@ -587,7 +587,7 @@ qx.Class.define("qx.ui.form.AbstractField",
       )
       {
         this.addState("showingPlaceholder");
-        // the placeholder will be set as soons as the appearance is applied
+        // the placeholder will be set as soon as the appearance is applied
       }
     },
 

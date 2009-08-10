@@ -47,7 +47,7 @@ qx.Bootstrap.define("qx.lang.String",
   statics :
   {
     /**
-     * Converts a hyphenated string (seperated by '-') to camel case.
+     * Converts a hyphenated string (separated by '-') to camel case.
      *
      * Example:
      * <pre class='javascript'>qx.lang.String.camelCase("I-like-cookies"); //returns "ILikeCookies"</pre>
@@ -64,7 +64,7 @@ qx.Bootstrap.define("qx.lang.String",
 
 
     /**
-     * Converts a camelcased string to a hyphenated (seperated by '-') string.
+     * Converts a camelcased string to a hyphenated (separated by '-') string.
      *
      * Example:
      * <pre class='javascript'>qx.lang.String.camelCase("ILikeCookies"); //returns "I-like-cookies"</pre>
@@ -232,7 +232,7 @@ qx.Bootstrap.define("qx.lang.String",
 
     /**
      * Print a list of arguments using a format string
-     * In the format string occurences of %n are replaced by the n'th element of the args list.
+     * In the format string occurrences of %n are replaced by the n'th element of the args list.
      * Example:
      * <pre class='javascript'>qx.lang.String.format("Hello %1, my name is %2", ["Egon", "Franz"]) == "Hello Egon, my name is Franz"</pre>
      *
@@ -267,7 +267,7 @@ qx.Bootstrap.define("qx.lang.String",
      * Converts a string to an array of characters.
      * <pre>"hello" => [ "h", "e", "l", "l", "o" ];</pre>
      *
-     * @param str {String} the string which should be splitted
+     * @param str {String} the string which should be split
      * @return {Array} the result array of characters
      */
     toArray : function(str) {

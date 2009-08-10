@@ -169,7 +169,7 @@ qx.Class.define("qx.bom.Html",
      * create new DOM elements.
      *
      * When a <code>fragment</code> is given the nodes are appended to this
-     * fragment except the script tags. These are returned in a seperate Array.
+     * fragment except the script tags. These are returned in a separate Array.
      *
      * @param objs {Element[]|String[]} Array of DOM elements or HTML strings
      * @param context {Document?document} Context in which the elements should be created

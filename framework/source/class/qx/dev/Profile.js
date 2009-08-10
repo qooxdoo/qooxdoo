@@ -150,7 +150,7 @@ qx.Bootstrap.define("qx.dev.Profile",
 
 
     /**
-     * Measure the overhead of calling a wrapped function vs. callling a
+     * Measure the overhead of calling a wrapped function vs. calling an
      * unwrapped function.
      *
      * @param count {Integer} Number of iterations to measure.
@@ -201,7 +201,7 @@ qx.Bootstrap.define("qx.dev.Profile",
 
 
     /**
-     * Normalize profiling data by substracting the overhead of wrapping from the
+     * Normalize profiling data by subtracting the overhead of wrapping from the
      * function's own time.
      */
     normalizeProfileData : function()

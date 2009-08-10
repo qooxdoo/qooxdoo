@@ -162,7 +162,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
     */
 
     /**
-     * {String} The context in which an update has occured.
+     * {String} The context in which an update has occurred.
      */
     __updateContext : null,
 
@@ -826,7 +826,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
     /**
      * Sets the brightness and moves the brightness handle.
      *
-     * @param e {qx.event.type.Mouse} Incomingming event object
+     * @param e {qx.event.type.Mouse} Incoming event object
      */
     _setBrightnessOnFieldEvent : function(e)
     {
@@ -1207,7 +1207,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
     },
 
     /**
-     * Updates the background of the brightness field to give a nicer gradiant
+     * Updates the background of the brightness field to give a nicer gradient
      */
     _setBrightnessGradiant : function()
     {

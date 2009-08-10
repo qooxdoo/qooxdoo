@@ -459,7 +459,7 @@ qx.Class.define("qx.legacy.event.handler.KeyEventHandler",
      * Checks whether the keyCode represents a non printable key
      *
      * @param keyCode {String} key code to check.
-     * @return {Boolean} Wether the keyCode represents a non printable key.
+     * @return {Boolean} Whether the keyCode represents a non printable key.
      */
     _isNonPrintableKeyCode : function(keyCode) {
       return this._keyCodeToIdentifierMap[keyCode] ? true : false;
@@ -470,7 +470,7 @@ qx.Class.define("qx.legacy.event.handler.KeyEventHandler",
      * Check whether the keycode can be reliably detected in keyup/keydown events
      *
      * @param keyCode {String} key code to check.
-     * @return {Boolean} Wether the keycode can be reliably detected in keyup/keydown events.
+     * @return {Boolean} Whether the keycode can be reliably detected in keyup/keydown events.
      */
     _isIdentifiableKeyCode : function(keyCode)
     {

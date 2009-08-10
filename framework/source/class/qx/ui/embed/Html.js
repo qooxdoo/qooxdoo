@@ -85,7 +85,7 @@ qx.Class.define("qx.ui.embed.Html",
     /**
      * The css classname for the html embed.
      * <b>IMPORTANT</b> Paddings and borders does not work
-     * in the css class. These ttyles coause conflicts with
+     * in the css class. These styles cause conflicts with
      * the layout engine.
      */
     cssClass :

@@ -177,7 +177,7 @@ qx.Class.define("qx.ui.layout.Flow",
       apply : "_applyLayoutChange"
     },
 
-    /** Whether the actual children list should be layouted in reversed order. */
+    /** Whether the actual children list should be laid out in reversed order. */
     reversed :
     {
       check : "Boolean",

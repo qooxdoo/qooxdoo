@@ -42,7 +42,7 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
     
     
     /**
-     * Either a string or a number, which define the the vertical position
+     * Either a string or a number, which define the vertical position
      * of the background image.
      * 
      * If the value is an integer it is interpreted as pixel value otherwise
@@ -57,7 +57,7 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
     
     
     /**
-     * Either a string or a number, which define the the horizontal position
+     * Either a string or a number, which define the horizontal position
      * of the background image.
      * 
      * If the value is an integer it is interpreted as pixel value otherwise

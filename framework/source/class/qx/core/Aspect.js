@@ -24,7 +24,7 @@
  * This class makes it possible to attach functions (aspects) before or
  * after each function call of any function defined in {@link qx.Class#define}.
  *
- * Classes, which define own aspects must add an explicit require to ths class
+ * Classes, which define own aspects must add an explicit require to this class
  * in the header comment using the following code:
  *
  * <pre>

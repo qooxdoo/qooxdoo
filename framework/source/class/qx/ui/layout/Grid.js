@@ -251,7 +251,7 @@ qx.Class.define("qx.ui.layout.Grid",
         }
       }
 
-      // make sure all columns are defined so that acessing the grid using
+      // make sure all columns are defined so that accessing the grid using
       // this.__grid[column][row] will never raise an exception
       for (var y=0; y<=maxRowIndex; y++) {
         if (grid[y] == undefined) {
@@ -322,7 +322,7 @@ qx.Class.define("qx.ui.layout.Grid",
 
 
     /**
-     * Shortcut to set both horizonatal and vertical spacing between grid cells
+     * Shortcut to set both horizontal and vertical spacing between grid cells
      * to the same value.
      *
      * @param spacing {Integer} new horizontal and vertical spacing
@@ -392,7 +392,7 @@ qx.Class.define("qx.ui.layout.Grid",
      * overridden on a per cell basis by setting the cell's content widget's
      * <code>alignX</code> and <code>alignY</code> properties.
      *
-     * If on a grid cell both row and a column alignmnet is set, the horizontal
+     * If on a grid cell both row and a column alignment is set, the horizontal
      * alignmnet is taken from the column and the vertical alignment is taken
      * from the row.
      *
@@ -461,7 +461,7 @@ qx.Class.define("qx.ui.layout.Grid",
 
     /**
      * Get a map of the cell's alignment. For vertical alignment the row alignment
-     * takes precedence over the column alignmnet. For horizontal alignment it is
+     * takes precedence over the column alignment. For horizontal alignment it is
      * the over way round. If an alignment is set on the cell widget using
      * {@link qx.ui.layout.Abstract#setLayoutProperty}, this alignment takes
      * always precedence over row or column alignment.
@@ -864,7 +864,7 @@ qx.Class.define("qx.ui.layout.Grid",
 
 
     /**
-     * Check whether all col spans fit with their prefferred width into the
+     * Check whether all col spans fit with their preferred width into the
      * preferred column widths. If there is not enough space the preferred
      * column sizes are increased. The distribution respects the flex and max
      * values of the columns.
@@ -1150,7 +1150,7 @@ qx.Class.define("qx.ui.layout.Grid",
      * the row flex values and min/max heights into account.
      *
      * @param height {Integer} The grid height
-     * @return {Integer[]} Sparse array of offsets to add to each row heigth. If
+     * @return {Integer[]} Sparse array of offsets to add to each row height. If
      *     an array entry is empty nothing should be added to the row.
      */
     _getRowFlexOffsets : function(height)

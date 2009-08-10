@@ -209,7 +209,7 @@ qx.Class.define("qx.legacy.ui.core.Widget",
         return;
       }
 
-      // Also used for inline event handling to seperate 'real' events
+      // Also used for inline event handling to separate 'real' events
       qx.legacy.ui.core.Widget._inFlushGlobalQueues = true;
 
       qx.legacy.ui.core.Widget.flushGlobalWidgetQueue();
@@ -4481,7 +4481,7 @@ qx.Class.define("qx.legacy.ui.core.Widget",
 
     /*
     ---------------------------------------------------------------------------
-      CHILDREN MANAGMENT
+      CHILDREN MANAGEMENT
     ---------------------------------------------------------------------------
     */
 

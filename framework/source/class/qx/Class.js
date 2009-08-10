@@ -313,7 +313,7 @@ qx.Bootstrap.define("qx.Class",
      * Include all features of the given mixin into the class. The mixin may
      * include features which are already defined in the target class. Existing
      * features of equal name will be overwritten.
-     * Please keep in mind that this functionality is not intented for regular
+     * Please keep in mind that this functionality is not intended for regular
      * use, but as a formalized way (and a last resort) in order to patch
      * existing classes.
      *
@@ -1471,7 +1471,7 @@ qx.Bootstrap.define("qx.Class",
 
     /**
      * Returns the default constructor.
-     * This constructor just calles the constructor of the base class.
+     * This constructor just calls the constructor of the base class.
      *
      * @return {Function} The default constructor.
      */

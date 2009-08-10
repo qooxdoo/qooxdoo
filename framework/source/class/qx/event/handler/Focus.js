@@ -278,7 +278,7 @@ qx.Class.define("qx.event.handler.Focus",
 
 
     /**
-     * Tries to activate the given element. This checks wether
+     * Tries to activate the given element. This checks whether
      * the activation is allowed first.
      *
      * @param element {Element} DOM element to activate

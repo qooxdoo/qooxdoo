@@ -20,7 +20,7 @@
 ************************************************************************ */
 
 /**
- * Provides information about locale-dependend string formatting (like quotation
+ * Provides information about locale-dependent string formatting (like quotation
  * signs).
  */
 

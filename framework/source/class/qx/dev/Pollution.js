@@ -102,7 +102,7 @@ qx.Class.define("qx.dev.Pollution",
 
 
     /**
-     * Show the namespace pollution of a given object or the golbal namespace.
+     * Show the namespace pollution of a given object or the global namespace.
      *
      * @param objectName {String ? "window"} name of the object to inspect. Valid Names are:
      *     <ul>

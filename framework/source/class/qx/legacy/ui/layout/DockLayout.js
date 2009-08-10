@@ -46,7 +46,7 @@ qx.Class.define("qx.legacy.ui.layout.DockLayout",
 
   properties :
   {
-    /** The layout mode (in which order the children should be layouted) */
+    /** The layout mode (in which order the children should be laid out) */
     mode :
     {
       check : [ "vertical", "horizontal", "ordered" ],

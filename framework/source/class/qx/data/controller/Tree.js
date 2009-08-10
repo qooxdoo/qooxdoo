@@ -307,7 +307,7 @@ qx.Class.define("qx.data.controller.Tree",
      * changed. This method invoke a new building of the tree.
      * 
      * @param value {String|null} The new path to the icon property.
-     * @param old {String|null} The old path ot the icon property.
+     * @param old {String|null} The old path or the icon property.
      */    
     _applyIconPath: function(value, old) {
       this.__renewBindings();      
@@ -351,7 +351,7 @@ qx.Class.define("qx.data.controller.Tree",
     
     
     /**
-     * Handler function taking care of the changes of the chidren array itself.
+     * Handler function taking care of the changes of the children array itself.
      *  
      * @param e {qx.event.Type.Data} Change event for the children property.
      */
@@ -362,7 +362,7 @@ qx.Class.define("qx.data.controller.Tree",
       // get the old ref and delete it
       var oldRef = this.__childrenRef[oldChildren.toHashCode()];
       delete this.__childrenRef[oldChildren.toHashCode()];
-      // remove th old change listener for the children
+      // remove the old change listener for the children
       oldRef.modelNode.removeListenerById(oldRef.changeChildernListenerId);
       
       // add a new change listener
@@ -427,7 +427,7 @@ qx.Class.define("qx.data.controller.Tree",
      */ 
     __buildTree: function() {
       // only fill the target if there is a target, its known how to 
-      // access the children and what needs to be desplayed as label 
+      // access the children and what needs to be displayed as label
       if (this.getTarget() == null || this.getChildPath() == null) {
         return;
       }
@@ -471,7 +471,7 @@ qx.Class.define("qx.data.controller.Tree",
      *   data in the current subtree.
      */
     __updateTreeChildren: function(rootNode, modelNode) {
-      // ignore items which dont have children
+      // ignore items which don't have children
       if (modelNode["get" + qx.lang.String.firstUp(this.getChildPath())] == undefined) {
         return;
       }
@@ -505,7 +505,7 @@ qx.Class.define("qx.data.controller.Tree",
         // if there is no node in the tree or the current node does not fit
         if (rootNode.getChildren()[i] == null || children.getItem(i) != rootNode.getChildren()[i].getUserData("model"))
         {
-          //chech if the node was just moved
+          //check if the node was just moved
           for (var j = i; j < rootNode.getChildren().length; j++) {
             if (rootNode.getChildren()[j].getUserData("model") === children.getItem(i)) {
               var oldIndex = j;
@@ -514,7 +514,7 @@ qx.Class.define("qx.data.controller.Tree",
           }
           // if it is in the tree
           if (oldIndex != undefined) {
-            // get the coresponding node
+            // get the corresponding node
             var currentNode = rootNode.getChildren()[oldIndex];
             // check if it is selected
             if (this.getTarget().isSelected(currentNode)) {
@@ -571,7 +571,7 @@ qx.Class.define("qx.data.controller.Tree",
     
     
     /**
-     * Removes all child forlders of the given tree node. Also removes all 
+     * Removes all child folders of the given tree node. Also removes all
      * bindings for the removed folders.
      * 
      * @param node {qx.ui.tree.AbstractTreeItem} The used tree folder. 
@@ -632,7 +632,7 @@ qx.Class.define("qx.data.controller.Tree",
      * {@link qx.data.controller.IControllerDelegate#bindItem} function 
      * implemented by the {@link #delegate} property. 
      * 
-     * @param sourcePath {String | null} The path to the propety in the model.
+     * @param sourcePath {String | null} The path to the property in the model.
      * @param targetPath {String} The name of the property in the target 
      *   widget.
      * @param options {Map | null} The options to use for the binding.
@@ -642,7 +642,7 @@ qx.Class.define("qx.data.controller.Tree",
     bindProperty: function(sourcePath, targetPath, options, targetWidget, modelNode) {
       // set up the binding
       var id = modelNode.bind(sourcePath, targetWidget, targetPath, options);
-      // check for the storeage for the references
+      // check for the storage for the references
       if (this.__bindings[targetPath] == null) {
         this.__bindings[targetPath] = {};
       }
@@ -668,7 +668,7 @@ qx.Class.define("qx.data.controller.Tree",
         break;
       }
       // go through all stored bindings for that property
-      // (should have all the same amount of entrys and tree nodes)
+      // (should have all the same amount of entries and tree nodes)
       for (var hash in this.__bindings[firstProp]) {
         // get the data 
         var treeNode = this.__bindings[firstProp][hash].treeNode;
@@ -733,7 +733,7 @@ qx.Class.define("qx.data.controller.Tree",
     */
     /**
      * Helper method for applying the delegate It checks if a configureItem 
-     * is set end invokes the initial process to apply the the given function.
+     * is set end invokes the initial process to apply the given function.
      * 
      * @param value {Object} The new delegate.
      * @param old {Object} The old delegate.
@@ -750,7 +750,7 @@ qx.Class.define("qx.data.controller.Tree",
     
     /**
      * Helper method for applying the delegate. It checks if a createItem 
-     * is set and invokes the initial process to apply the the given function.
+     * is set and invokes the initial process to apply the given function.
      * 
      * @param value {Object} The new delegate.
      * @param old {Object} The old delegate.
@@ -780,7 +780,7 @@ qx.Class.define("qx.data.controller.Tree",
     
     /**
      * Helper method for applying the delegate It checks if a bindItem 
-     * is set end invokes the initial process to apply the the given function.
+     * is set end invokes the initial process to apply the given function.
      * 
      * @param value {Object} The new delegate.
      * @param old {Object} The old delegate.

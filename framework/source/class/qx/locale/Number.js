@@ -20,7 +20,7 @@
 ************************************************************************ */
 
 /**
- * Provides information about local-dependend number formatting (like the decimal
+ * Provides information about locale-dependent number formatting (like the decimal
  * separator).
  */
 

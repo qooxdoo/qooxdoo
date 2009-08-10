@@ -106,9 +106,9 @@ qx.Class.define("qx.legacy.event.type.DomEvent",
     */
 
     /**
-     * Returns whether the the ctrl key is pressed.
+     * Returns whether the ctrl key is pressed.
      *
-     * @return {Boolean} whether the the ctrl key is pressed.
+     * @return {Boolean} whether the ctrl key is pressed.
      */
     isCtrlPressed : function() {
       return this.getDomEvent().ctrlKey;
@@ -116,9 +116,9 @@ qx.Class.define("qx.legacy.event.type.DomEvent",
 
 
     /**
-     * Returns whether the the shift key is pressed.
+     * Returns whether the shift key is pressed.
      *
-     * @return {Boolean} whether the the shift key is pressed.
+     * @return {Boolean} whether the shift key is pressed.
      */
     isShiftPressed : function() {
       return this.getDomEvent().shiftKey;
@@ -126,9 +126,9 @@ qx.Class.define("qx.legacy.event.type.DomEvent",
 
 
     /**
-     * Returns whether the the alt key is pressed.
+     * Returns whether the alt key is pressed.
      *
-     * @return {Boolean} whether the the alt key is pressed.
+     * @return {Boolean} whether the alt key is pressed.
      */
     isAltPressed : function() {
       return this.getDomEvent().altKey;
@@ -136,9 +136,9 @@ qx.Class.define("qx.legacy.event.type.DomEvent",
 
 
     /**
-     * Returns whether the the meta key is pressed.
+     * Returns whether the meta key is pressed.
      *
-     * @return {Boolean} whether the the meta key is pressed.
+     * @return {Boolean} whether the meta key is pressed.
      */
     isMetaPressed : function() {
       return this.getDomEvent().metaKey;

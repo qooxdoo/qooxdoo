@@ -263,7 +263,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
 
 
     /**
-     * Event handler, which listentes to open state changes of the open button
+     * Event handler, which listens to open state changes of the open button
      *
      * @param e {qx.event.type.Data} The event object
      */
@@ -552,7 +552,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     */
 
     /**
-     * Returns the widget, which atcs as container for the child items.
+     * Returns the widget, which acts as container for the child items.
      * This widget must have a vertical box layout.
      *
      * @return {qx.ui.core.Widget} The children container
@@ -675,7 +675,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
 
 
     /**
-     * Adds the item's children container the the parent's children container.
+     * Adds the item's children container to the parent's children container.
      */
     __addChildrenToParent : function()
     {

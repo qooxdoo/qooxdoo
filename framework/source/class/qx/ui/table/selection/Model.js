@@ -200,7 +200,7 @@ qx.Class.define("qx.ui.table.selection.Model",
      * Returns the first argument of the last call to {@link #setSelectionInterval()},
      * {@link #addSelectionInterval()} or {@link #removeSelectionInterval()}.
      *
-     * @return {Integer} the ancor selection index.
+     * @return {Integer} the anchor selection index.
      */
     getAnchorSelectionIndex : function() {
       return this.__anchorSelectionIndex;

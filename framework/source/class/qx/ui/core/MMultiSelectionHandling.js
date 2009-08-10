@@ -278,7 +278,7 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
      * Replaces current selection with the given items.
      *
      * @param items {qx.ui.core.Widget[]} Items to select.
-     * @throws an exception if one of the itmes is not a child element and if 
+     * @throws an exception if one of the items is not a child element and if
      *    the mode is set to <code>single</code> or <code>one</code> and 
      *    the items contains more than one item. 
      */

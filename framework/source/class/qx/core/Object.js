@@ -104,7 +104,7 @@ qx.Class.define("qx.core.Object",
 
 
     /**
-     * Returns a string represantation of the qooxdoo object.
+     * Returns a string representation of the qooxdoo object.
      *
      * @return {String} string representation of the object
      */
@@ -503,7 +503,7 @@ qx.Class.define("qx.core.Object",
 
     /**
      * Create an event object and dispatch it on this object.
-     * The event dispached with this method does never bubble! Use only if you
+     * The event dispatched with this method does never bubble! Use only if you
      * are sure that bubbling is not required.
      *
      * @param type {String} Event type to fire
@@ -661,7 +661,7 @@ qx.Class.define("qx.core.Object",
 
 
     /**
-     * Prints the current stak trace
+     * Prints the current stack trace
      *
      * @return {void}
      */

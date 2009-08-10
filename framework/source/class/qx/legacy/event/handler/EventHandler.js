@@ -169,7 +169,7 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
      * Search for the container qooxdoo widget of a DOM node by searching the DOM tree
      * from the given DOM node up to the root element.
      *
-     * @param vNode {Element} DOM Element to get the the container qooxdoo widget of
+     * @param vNode {Element} DOM Element to get the container qooxdoo widget of
      * @return {qx.legacy.ui.core.Widget} qooxdoo widget containing the DOM node.
      */
     getOriginalTargetObject : function(vNode)
