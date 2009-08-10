@@ -472,7 +472,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
           continue;
         }
 
-        if (!this.isFocusRoot(child) && child.isEnabled())
+        if (!this.isFocusRoot(child) && child.isEnabled() && child.isVisible())
         {
           if (child.isTabable() && this.__compareTabOrder(widget, child) < 0) {
             result.push(child);
@@ -508,7 +508,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
           continue;
         }
 
-        if (!this.isFocusRoot(child) && child.isEnabled())
+        if (!this.isFocusRoot(child) && child.isEnabled() && child.isVisible())
         {
           if (child.isTabable() && this.__compareTabOrder(widget, child) > 0) {
             result.push(child);
