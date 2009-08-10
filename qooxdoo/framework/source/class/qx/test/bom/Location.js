@@ -174,8 +174,8 @@ qx.Class.define("qx.test.bom.Location",
       
     	var div2 = document.getElementById("div2");
       var pos = qx.bom.element.Location.get(div2);
-      this.assertEquals(10 + 5 + 2 + 3 + 5, pos.left);
-      this.assertEquals(10 + 5 + 2 + 3 + 5, pos.top);  
+      this.assertEquals(10 + 5 + 2 + 3 + 5, pos.left, "left");
+      this.assertEquals(10 + 5 + 2 + 3 + 5, pos.top, "top");  
       
     	var div3 = document.getElementById("div3");
       var pos = qx.bom.element.Location.get(div3);
@@ -279,21 +279,31 @@ qx.Class.define("qx.test.bom.Location",
   	  
     	var div = document.getElementById("div");
       var pos = qx.bom.element.Location.get(div);
+      
       this.assertEquals(10, pos.left);
-      this.assertEquals(10, pos.top);
+      this.assertEquals(10, pos.top);      
     },
     
     
     testDivWithBodyBorder : function() 
     {
       this.__bodyStyles.border = "10px solid black";
-      document.body.innerHTML = '<div id="div"></div>';
+      document.body.innerHTML = '<div id="div">juhu</div>';
   	  
     	var div = document.getElementById("div");
-      
       var pos = qx.bom.element.Location.get(div);
-      this.assertEquals(10, pos.left);
-      this.assertEquals(10, pos.top);
+      
+      // IE quirks mode puts the border outside of the body
+      if (qx.bom.client.Engine.MSHTML && qx.bom.client.Feature.QUIRKS_MODE)
+      {
+        this.assertEquals(0, pos.left);
+        this.assertEquals(0, pos.top);        
+      } 
+      else
+      {
+        this.assertEquals(10, pos.left);
+        this.assertEquals(10, pos.top);        
+      }    
     },
     
     
@@ -327,18 +337,18 @@ qx.Class.define("qx.test.bom.Location",
     testDivInline : function() 
     {
       document.body.innerHTML =
-       '<span id="span1" style="margin-left: 10px"></span>' +
-       '<span id="span2" style="margin-left: 10px"></span>';
-  	  
+      '<div style="width:100px">' +
+       '<span id="span1" style="margin-left: 10px"><img src="about:blank" width="10px" height="10px" style="border: 0px"></img></span>' +
+       '<span id="span2" style="margin-left: 10px">a</span>' +
+       '</div>';  	  
+  	    	  
     	var span1 = document.getElementById("span1");
       var pos = qx.bom.element.Location.get(span1);
       this.assertEquals(10, pos.left);
-      this.assertEquals(0, pos.top);      
       
     	var span2 = document.getElementById("span2");
       var pos = qx.bom.element.Location.get(span2);
-      this.assertEquals(20, pos.left);
-      this.assertEquals(0, pos.top);      
+      this.assertEquals(30, pos.left);
     }
   }
 });
