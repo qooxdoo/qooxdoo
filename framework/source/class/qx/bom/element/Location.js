@@ -519,6 +519,19 @@ qx.Class.define("qx.bom.element.Location",
         return {left: left, top: top};
       },
       
+      "mshtml" : function(body) 
+      {
+        var top = body.offsetTop;
+        var left = body.offsetLeft;
+        if (!(qx.bom.client.Engine.VERSION < 8 && !qx.bom.client.Feature.QUIRKS_MODE))
+        {
+          top += this.__num(body, "marginTop");
+          left += this.__num(body, "marginLeft");
+        }
+
+        return {left: left, top: top};        
+      },
+      
       "gecko" : function(body)
       {
         var top = 
