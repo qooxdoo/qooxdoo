@@ -2101,7 +2101,7 @@ qx.Class.define("qx.ui.core.Widget",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         this.assertNotUndefined(child);
-        this.assertNotIdentical(child.getLayoutParent, this, "Remove Error: " + child + " is not a child of this widget!");
+        this.assertNotIdentical(child.getLayoutParent(), this, "Remove Error: " + child + " is not a child of this widget!");
       }
 
       // Clear parent connection
