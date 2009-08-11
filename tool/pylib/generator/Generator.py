@@ -517,9 +517,9 @@ class Generator(object):
             script.classes  = self._classList
 
             # get parts config
-            (boot,
-            partPackages,           # partPackages[partId]=[0,1,3]
-            packageClasses          # packageClasses[0]=['qx.Class','qx.bom.Stylesheet',...]
+            (script.boot,
+            script.parts,            # script.parts['boot']=[0,1,3]
+            script.packages          # script.packages[0]=['qx.Class','qx.bom.Stylesheet',...]
             )               = partsConfigFromClassList(smartExclude, script)
 
             # Execute real tasks
