@@ -307,7 +307,7 @@ qx.Class.define("qx.test.bom.Location",
       this.__bodyStyles.marginLeft = "10px";
       this.__bodyStyles.marginTop = "20px";
       
-      document.body.innerHTML = '<div id="div"></div>';
+      document.body.innerHTML = '<div id="div">affe</div>';
   	  
     	var div = document.getElementById("div");
       var pos = qx.bom.element.Location.get(div);
