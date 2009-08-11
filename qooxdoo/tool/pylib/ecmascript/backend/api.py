@@ -1309,6 +1309,8 @@ def postWorkItemList(docTree, classNode, listName, overridable):
             # look for documentation in interfaces
             if (not docFound):
                 for item in dependendClassIterator(docTree, classNode):
+                    if item == classNode:
+                       continue
                     if item.get("type", False) == "interface":
                         interfaceItemNode = item.getListChildByAttribute(listName, "name", name, False)
                         if not interfaceItemNode:
