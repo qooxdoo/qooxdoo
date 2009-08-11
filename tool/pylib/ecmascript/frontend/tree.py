@@ -122,6 +122,9 @@ class Node:
                     currNode = currNode.parent
                 else:
                     return False
+            else:
+                return False  # no parent, no match
+
         return True
 
     def hasChildren(self, ignoreComments = False):
