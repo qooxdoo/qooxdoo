@@ -43,12 +43,20 @@ class Locale:
 
         data = {}
         root = os.path.join(filetool.root(), os.pardir, "data", "cldr", "main")
-        for entry in locales:
+
+        newlocales = locales
+        for locale in locales:
+            if len(locale) > 2 and locale[2] == "_":
+              topLevelLocale = locale[0:2]
+              if not topLevelLocale in locales:
+                self._console.warn("Base locale %s not specified, trying to add it." % topLevelLocale)
+                newlocales[:0] = [topLevelLocale]
+
+        for entry in newlocales:
             if entry == "C":
                 locale = "en"
             else:
                 locale = entry
-
             locFile = os.path.join(root, "%s.xml" % locale)
             cacheId = "locale-%s-%s" % (root, locale)
 
