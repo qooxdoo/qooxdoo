@@ -49,9 +49,15 @@ class CodeGenerator(object):
 
 
 
-    def runCompiled(self, parts, packages, boot, variants, treeCompiler, classList):
+    def runCompiled(self, script, treeCompiler):
         if not self._job.get("compile-dist", False):
             return
+
+        packages   = script.packages
+        parts      = script.parts
+        boot       = script.boot
+        variants   = script.variants
+        classList  = script.classes
 
         self._treeCompiler = treeCompiler
         self._classList    = classList
@@ -190,12 +196,18 @@ class CodeGenerator(object):
         return
 
 
-    def runSource(self, parts, packages, boot, variants, classList, libs, classes):
+    def runSource(self, script, libs, classes):
         if not self._job.get("compile-source/file"):
             return
 
         self._console.info("Generate source version...")
         self._console.indent()
+
+        packages   = script.packages
+        parts      = script.parts
+        boot       = script.boot
+        variants   = script.variants
+        classList  = script.classes
 
         self._classList = classList
         self._libs      = libs
