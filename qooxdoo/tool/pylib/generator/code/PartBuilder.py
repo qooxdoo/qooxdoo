@@ -28,22 +28,9 @@
 ##
 
 import sys
-
-class Part(object):
-    def __init__(self, name):
-        self.name      = name
-        self.bit_mask  = -1   # power of 2 identifying this part
-        self.initial_deps = []   # initial deps, as defined in config
-        self.deps      = []   # list of classes this part depends on, with defining classes from other parts excluded
-        self.packages  = []   # list of packages constituting this part
-
-class Package(object):
-    def __init__(self, id):
-        self.id         = id   # int representing bit mask for each using part turned on
-        self.classes    = []   # list of classes in this package
-        self.part_count = 0    # number of parts using this package
-        self.parts      = []
-
+from misc                   import util
+from generator.code.Part    import Part
+from generator.code.Package import Package
 
 class PartBuilder(object):
 
@@ -53,7 +40,7 @@ class PartBuilder(object):
         self._compiler  = compiler
 
 
-    def getPackages(self, partIncludes, smartExclude, classList, variants, jobContext):
+    def getPackages(self, partIncludes, smartExclude, classList, variants, jobContext, script):
         # Get config settings
         jobConfig                 = jobContext["jobconf"]
         minPackageSize            = jobConfig.get("packages/sizes/min-package", 0)
@@ -70,6 +57,7 @@ class PartBuilder(object):
         parts    = {}  # map of Parts
         parts    = self._getParts(partIncludes, partsCfg)
         parts    = self._getPartDeps(parts, variants, smartExclude, classList)
+        script.parts = parts
 
         # Compute packages
         packages = {}  # map of Packages
@@ -92,6 +80,7 @@ class PartBuilder(object):
         resultParts = self._getFinalPartData(packages, parts)
 
         resultClasses = self._getFinalClassList(packages, variants)
+        #resultClasses = util.dictToList(resultClasses) # turn map into list, easier for upstream methods
 
         # Return
         # {Map}   resultParts[partId] = [packageId1, packageId2]
@@ -510,8 +499,10 @@ class PartBuilder(object):
     def _getFinalClassList(self, packages, variants):
         packageIds = self._sortPackages(packages.keys(), packages)
 
+        #resultClasses = {}
         resultClasses = []
         for pkgId in packageIds:
+            #resultClasses[pkgId] = self._depLoader.sortClasses(packages[pkgId].classes, variants)
             resultClasses.append(self._depLoader.sortClasses(packages[pkgId].classes, variants))
 
         return resultClasses

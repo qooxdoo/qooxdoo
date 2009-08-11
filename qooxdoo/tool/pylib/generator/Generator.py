@@ -25,25 +25,26 @@ import re, os, sys, zlib, optparse, types, string
 from misc import filetool, textutil, util, Path, PathType
 from misc.PathType import PathType
 from ecmascript import compiler
-from ecmascript.frontend import treegenerator, tokenizer
-from ecmascript.transform.optimizer import variableoptimizer
-from ecmascript.transform.optimizer import privateoptimizer
+from ecmascript.frontend             import treegenerator, tokenizer
+from ecmascript.transform.optimizer  import variableoptimizer
+from ecmascript.transform.optimizer  import privateoptimizer
 #from ecmascript.transform.optimizer import protectedoptimizer
-from misc.ExtMap import ExtMap
+from misc.ExtMap                     import ExtMap
 from generator.code.DependencyLoader import DependencyLoader
-from generator.code.PartBuilder import PartBuilder
-from generator.code.TreeLoader import TreeLoader
-from generator.code.TreeCompiler import TreeCompiler
-from generator.code.LibraryPath import LibraryPath
-from generator.code.ResourceHandler import ResourceHandler
-from generator.action.CodeGenerator import CodeGenerator
-from generator.action.ImageInfo import ImgInfoFmt
-from generator.action.ImageClipping import ImageClipping
-from generator.action.ApiLoader import ApiLoader
-from generator.action.Locale import Locale
-from generator.action.ActionLib import ActionLib
-from generator.runtime.Cache import Cache
-from generator.runtime.ShellCmd import ShellCmd
+from generator.code.PartBuilder      import PartBuilder
+from generator.code.TreeLoader       import TreeLoader
+from generator.code.TreeCompiler     import TreeCompiler
+from generator.code.LibraryPath      import LibraryPath
+from generator.code.ResourceHandler  import ResourceHandler
+from generator.code.Script           import Script
+from generator.action.CodeGenerator  import CodeGenerator
+from generator.action.ImageInfo      import ImgInfoFmt
+from generator.action.ImageClipping  import ImageClipping
+from generator.action.ApiLoader      import ApiLoader
+from generator.action.Locale         import Locale
+from generator.action.ActionLib      import ActionLib
+from generator.runtime.Cache         import Cache
+from generator.runtime.ShellCmd      import ShellCmd
 import simplejson
 from robocopy import robocopy
 import graph
@@ -244,7 +245,7 @@ class Generator(object):
 
 
 
-        def partsConfigFromClassList(classList, smartExclude, variants,):
+        def partsConfigFromClassList(classList, smartExclude, variants, script):
 
             def evalPackagesConfig(smartExclude, classList, variants):
                 
@@ -258,7 +259,7 @@ class Generator(object):
                     partIncludes[partId] = self._expandRegExps(partsCfg[partId]['include'])
 
                 # Computing packages
-                boot, partPackages, packageClasses = self._partBuilder.getPackages(partIncludes, smartExclude, classList, variants, self._context)
+                boot, partPackages, packageClasses = self._partBuilder.getPackages(partIncludes, smartExclude, classList, variants, self._context, script)
 
                 return boot, partPackages, packageClasses
 
@@ -383,6 +384,7 @@ class Generator(object):
         use     = config.get("use", {})
         context = {'config': self._config, 'jobconf': self._job, 'console': self._console, 'cache': self._cache}
         self._context = context
+        script  = Script()
 
         # We use some sets of Job keys, both well-known and actual, to determin
         # which actions have to be run, and in which order.
@@ -510,7 +512,7 @@ class Generator(object):
             (boot,
             partPackages,           # partPackages[partId]=[0,1,3]
             packageClasses          # packageClasses[0]=['qx.Class','qx.bom.Stylesheet',...]
-            )              = partsConfigFromClassList(self._classList, smartExclude, variants)
+            )              = partsConfigFromClassList(self._classList, smartExclude, variants, script)
 
             # Execute real tasks
             self._codeGenerator.runSource(partPackages, packageClasses, boot, variants, self._classList, self._libs, self._classes)
