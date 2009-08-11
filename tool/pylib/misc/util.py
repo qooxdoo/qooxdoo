@@ -20,6 +20,7 @@
 ################################################################################
 
 import time, datetime, math
+from warnings import warn
 
 ##
 # create a suitable date and time string of now
@@ -130,3 +131,11 @@ def is2pow(i):
     #return int(l) == l
     return countBitsOn(i) == 1
 
+##
+# convert a dict of ints into a list
+
+def dictToList(d):
+    keys = sorted(d.keys())
+    if keys != range(max(keys)+1):  # make sure it's a contiguous, 0-based list
+        warn("dict keys: %r" % keys)
+    return [d[x] for x in keys]
