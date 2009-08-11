@@ -245,7 +245,10 @@ class Generator(object):
 
 
 
-        def partsConfigFromClassList(classList, smartExclude, variants, script):
+        def partsConfigFromClassList(smartExclude, script):
+
+            classList  = script.classes
+            variants   = script.variants
 
             def evalPackagesConfig(smartExclude, classList, variants):
                 
@@ -259,7 +262,7 @@ class Generator(object):
                     partIncludes[partId] = self._expandRegExps(partsCfg[partId]['include'])
 
                 # Computing packages
-                boot, partPackages, packageClasses = self._partBuilder.getPackages(partIncludes, smartExclude, classList, variants, self._context, script)
+                boot, partPackages, packageClasses = self._partBuilder.getPackages(partIncludes, smartExclude, self._context, script)
 
                 return boot, partPackages, packageClasses
 
@@ -362,6 +365,8 @@ class Generator(object):
 
 
         def printVariantInfo(variantSetNum, variants, variantSets, variantData):
+            if len(variantSets) < 2:  # only log when more than 1 set
+                return
             variantStr = simplejson.dumps(variants,ensure_ascii=False)
             self._console.head("Processing variant set %s/%s (%s)" % (variantSetNum+1, len(variantSets), variantStr))
 
@@ -384,7 +389,6 @@ class Generator(object):
         use     = config.get("use", {})
         context = {'config': self._config, 'jobconf': self._job, 'console': self._console, 'cache': self._cache}
         self._context = context
-        script  = Script()
 
         # We use some sets of Job keys, both well-known and actual, to determin
         # which actions have to be run, and in which order.
@@ -502,26 +506,30 @@ class Generator(object):
         for variantSetNum, variants in enumerate(variantSets):
 
             # some console output
-            if len(variantSets) > 1:
-                printVariantInfo(variantSetNum, variants, variantSets, variantData)
+            printVariantInfo(variantSetNum, variants, variantSets, variantData)
+
+            script          = Script()  # a new Script object represents the target code
+            script.variants = variants
 
             # get current class list
-            self._classList = computeClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, variants)
+            self._classList = computeClassList(smartInclude, smartExclude, explicitInclude, 
+                                               explicitExclude, variants)
+            script.classes  = self._classList
 
             # get parts config
             (boot,
             partPackages,           # partPackages[partId]=[0,1,3]
             packageClasses          # packageClasses[0]=['qx.Class','qx.bom.Stylesheet',...]
-            )              = partsConfigFromClassList(self._classList, smartExclude, variants, script)
+            )               = partsConfigFromClassList(smartExclude, script)
 
             # Execute real tasks
-            self._codeGenerator.runSource(partPackages, packageClasses, boot, variants, self._classList, self._libs, self._classes)
-            self._codeGenerator.runCompiled(partPackages, packageClasses, boot, variants, self._treeCompiler, self._classList)
+            self._codeGenerator.runSource  (script, self._libs, self._classes)
+            self._codeGenerator.runCompiled(script, self._treeCompiler)
 
             # debug tasks
-            self.runLogDependencies(partPackages, packageClasses, variants)
+            self.runLogDependencies(script)
             self.runPrivateDebug()
-            self.runLogUnusedClasses(partPackages, packageClasses, variants)
+            self.runLogUnusedClasses(script)
             #self.runClassOrderingDebug(partPackages, packageClasses, variants)
 
         self._console.info("Done")
@@ -552,9 +560,13 @@ class Generator(object):
         return
 
 
-    def runLogUnusedClasses(self, parts, packages, variants):
+    def runLogUnusedClasses(self, script):
         if not self._job.get("log/classes-unused", False):
             return
+
+        packages   = script.packages
+        parts      = script.parts
+        variants   = script.variants
 
         namespaces = self._job.get("log/classes-unused", [])
         
@@ -620,11 +632,16 @@ class Generator(object):
 
     ##
     #
-    def runLogDependencies(self, parts, packages, variants):
+    def runLogDependencies(self, script):
 
         depsLogConf = self._job.get("log/dependencies", False)
         if not depsLogConf:
            return
+
+        packages   = script.packages
+        parts      = script.parts
+        variants   = script.variants
+
         
         depsLogConf = ExtMap(depsLogConf)
 

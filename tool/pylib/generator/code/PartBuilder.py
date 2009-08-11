@@ -40,7 +40,7 @@ class PartBuilder(object):
         self._compiler  = compiler
 
 
-    def getPackages(self, partIncludes, smartExclude, classList, variants, jobContext, script):
+    def getPackages(self, partIncludes, smartExclude, jobContext, script):
         # Get config settings
         jobConfig                 = jobContext["jobconf"]
         minPackageSize            = jobConfig.get("packages/sizes/min-package", 0)
@@ -49,38 +49,43 @@ class PartBuilder(object):
         collapseCfg               = jobConfig.get("packages/collapse", [])
         boot                      = jobConfig.get("packages/init", "boot")
 
+        script.boot               = boot
+
         # Automatically add boot part to collapse list
         if boot in partsCfg and not boot in collapseCfg:
             collapseCfg.append(boot)
 
         # Preprocess part data
-        parts    = {}  # map of Parts
-        parts    = self._getParts(partIncludes, partsCfg)
-        parts    = self._getPartDeps(parts, variants, smartExclude, classList)
-        script.parts = parts
+        script.parts    = {}  # map of Parts
+        script.parts    = self._getParts(partIncludes, partsCfg)
+        script.parts    = self._getPartDeps(script, smartExclude)
 
         # Compute packages
         packages = {}  # map of Packages
-        packages = self._getPackages(parts)
+        packages = self._getPackages(script)
+        script.packages = packages
 
-        self._printPartStats(packages, parts)
+        self._printPartStats(script)
 
         # Collapse parts
-        self.collapsePartsByOrder(parts, packages)
+        self.collapsePartsByOrder(script)
         #if len(collapseCfg) > 0:
         #    self._collapseParts(parts, packages, collapseCfg)
 
         # Optimize packages
         if minPackageSize != None and minPackageSize != 0:
-            self._optimizePackages(packages, parts, variants, minPackageSize, minPackageSizeForUnshared)
+            self._optimizePackages(script, minPackageSize, minPackageSizeForUnshared)
 
-        self._printPartStats(packages, parts)
+        self._printPartStats(script)
 
         # Post process results
-        resultParts = self._getFinalPartData(packages, parts)
+        resultParts = self._getFinalPartData(script)
 
-        resultClasses = self._getFinalClassList(packages, variants)
+        resultClasses = self._getFinalClassList(script)
         #resultClasses = util.dictToList(resultClasses) # turn map into list, easier for upstream methods
+
+        script.parts    = resultParts
+        script.packages = resultClasses
 
         # Return
         # {Map}   resultParts[partId] = [packageId1, packageId2]
@@ -115,7 +120,11 @@ class PartBuilder(object):
     ##
     # create the complete list of class dependencies for each part
 
-    def _getPartDeps(self, parts, variants, smartExclude, classList):
+    def _getPartDeps(self, script, smartExclude):
+        parts    = script.parts
+        variants = script.variants
+        classList= script.classes
+
         self._console.debug("")
         self._console.info("Resolving part dependencies...")
         self._console.indent()
@@ -159,7 +168,8 @@ class PartBuilder(object):
     # cut an initial set of packages out of the set of classes needed by the parts
     # @returns {Map} { packageId : Package }
 
-    def _getPackages(self, parts):
+    def _getPackages(self, script):
+        parts = script.parts
         # Generating list of all classes
         allClasses = {}
         for part in parts.values():
@@ -243,13 +253,16 @@ class PartBuilder(object):
 
 
 
-    def _optimizePackages(self, packages, parts, variants, minPackageSize, minPackageSizeForUnshared):
+    def _optimizePackages(self, script, minPackageSize, minPackageSizeForUnshared):
         # Support for merging small packages
         # The first common package before the selected package between two
         # or more parts is allowed to merge with. As the package which should be merged
         # may have requirements, these must be solved. The easiest way to be sure regarding
         # this issue, is to look out for another common package. (TODO: ???)
 
+        packages  = script.packages
+        parts     = script.parts
+        variants  = script.variants
         self._console.debug("")
         self._console.info("Optimizing package sizes...")
         self._console.indent()
@@ -329,7 +342,10 @@ class PartBuilder(object):
         yield None
 
 
-    def collapsePartsByOrder(self, parts, packages):
+    def collapsePartsByOrder(self, script):
+        
+        parts    = script.parts
+        packages = script.packages
 
         def getCollapseGroupsOrdered(parts, packages):
             # returns dict of parts grouped by collapse index
@@ -480,7 +496,9 @@ class PartBuilder(object):
 
 
 
-    def _getFinalPartData(self, packages, parts):
+    def _getFinalPartData(self, script):
+        packages   = script.packages
+        parts      = script.parts
         packageIds = self._sortPackages(packages.keys(), packages)
 
         resultParts = {}
@@ -496,7 +514,9 @@ class PartBuilder(object):
 
 
 
-    def _getFinalClassList(self, packages, variants):
+    def _getFinalClassList(self, script):
+        packages   = script.packages
+        variants   = script.variants
         packageIds = self._sortPackages(packages.keys(), packages)
 
         #resultClasses = {}
@@ -509,7 +529,10 @@ class PartBuilder(object):
 
 
 
-    def _printPartStats(self, packages, parts):
+    def _printPartStats(self, script):
+        packages = script.packages
+        parts    = script.parts
+
         packageIds = packages.keys()
         packageIds.sort()
         packageIds.reverse()
