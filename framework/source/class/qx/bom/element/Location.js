@@ -173,6 +173,13 @@ qx.Class.define("qx.bom.element.Location",
         // Start with the offset
         var left = body.offsetLeft;
         var top = body.offsetTop;
+        
+        // only for safari < version 4.0
+        if (qx.bom.client.Engine.VERSION < 530.17)
+        {
+          left += this.__num(body, "borderLeftWidth");
+          top += this.__num(body, "borderTopWidth");
+        }        
 
         return {
           left : left,
@@ -189,41 +196,17 @@ qx.Class.define("qx.bom.element.Location",
         var left = body.offsetLeft;
         var top = body.offsetTop;
 
+        // add the body margin for firefox 3.0 and below
+        if (qx.bom.client.Engine.VERSION < 1.9) {
+          left += this.__num(body, "marginLeft");
+          top += this.__num(body, "marginTop");
+        }
+
         // Correct substracted border (only in content-box mode)
         if (qx.bom.element.BoxSizing.get(body) !== "border-box")
         {
           left += this.__num(body, "borderLeftWidth");
           top += this.__num(body, "borderTopWidth");
-
-          // For some unknown reason we must add the border two times
-          // when there is no absolute positioned element in the DOM tree
-
-          // This is not neededd if the offset is computed using
-          // <code>getBoundingClientRect</code>
-          if (!elem.getBoundingClientRect)
-          {
-            var hasAbs;
-
-            while (elem)
-            {
-              if (
-                this.__style(elem, "position") === "absolute" ||
-                this.__style(elem, "position") === "fixed"
-              )
-              {
-                hasAbs = true;
-                break;
-              }
-
-              elem = elem.offsetParent;
-            }
-
-            if (!hasAbs)
-            {
-              left += this.__num(body, "borderLeftWidth");
-              top += this.__num(body, "borderTopWidth");
-            }
-          }
         }
 
         return {
