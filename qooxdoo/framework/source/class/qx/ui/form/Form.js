@@ -65,17 +65,20 @@ qx.Class.define("qx.ui.form.Form",
      * 
      * @param item {qx.ui.form.IForm} A supported form item.
      * @param label {String} The string, which should be used as label.
-     * @param validator {Function | qx.ui.form.validation.AsyncValidator} 
+     * @param validator {Function | qx.ui.form.validation.AsyncValidator | null} 
      *   The validator which is used by the validation 
      *   {@link qx.ui.form.validation.Manager}.
+     * @param name {String|null} The name which is used by the data binding
+     *   controller {@link qx.data.controller.Form}.
      */
-    add : function(item, label, validator) {
+    add : function(item, label, validator, name) {
       if (this.__isFirstAdd()) {
-        this.__groups.push({title: null, items: [], labels: []});
+        this.__groups.push({title: null, items: [], labels: [], names: []});
       }
       // save the given arguments
       this.__groups[this.__groupCounter].items.push(item);
       this.__groups[this.__groupCounter].labels.push(label);
+      this.__groups[this.__groupCounter].names.push(name);      
       
       // add the item to the validation manager
       this.__validationManager.add(item, validator);
@@ -95,7 +98,7 @@ qx.Class.define("qx.ui.form.Form",
       if (!this.__isFirstAdd()) {
         this.__groupCounter++;
       }      
-      this.__groups.push({title: title, items: [], labels: []});
+      this.__groups.push({title: title, items: [], labels: [], names: []});
     },
     
     
@@ -222,6 +225,38 @@ qx.Class.define("qx.ui.form.Form",
           );
         }
       }      
+    },
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+       INTERNAL
+    ---------------------------------------------------------------------------
+    */
+    
+    /**
+     * Returns all added items as a map.
+     * 
+     * @return {Map} A map containing for every item a entry with its name.
+     * 
+     * @internal
+     */
+    getItems : function() {
+      var items = {};
+      // go threw all groups
+      for (var i = 0; i < this.__groups.length; i++) {
+        var group = this.__groups[i];
+        // get all items
+        for (var j = 0; j < group.names.length; j++) {
+          var name = group.names[j];
+          if (name == null) {
+            name = group.labels[j];
+          }
+          items[name] = group.items[j];
+        }
+      }
+      return items;
     }
+    
   }
 });
