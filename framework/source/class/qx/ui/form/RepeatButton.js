@@ -302,7 +302,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * starts the timer. Additionally removes the state "abandoned" and adds the
      * state "pressed".
      *
-     * @param e {qx.event.type.MouseEvent} mouseDown event
+     * @param e {qx.event.type.Mouse} mouseDown event
      * @return {void}
      */
     _onMouseDown : function(e)
@@ -327,7 +327,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * before the timer interval method got executed. This way the
      * "execute" method get executed at least one time.
      *
-     * @param e {qx.event.type.MouseEvent} mouseUp event
+     * @param e {qx.event.type.Mouse} mouseUp event
      * @return {void}
      */
     _onMouseUp : function(e)

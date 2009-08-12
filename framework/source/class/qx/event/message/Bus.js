@@ -89,7 +89,7 @@ qx.Class.define("qx.event.message.Bus",
     /**
      * dispatch message and call subscribed functions
      *
-     * @param msg {qx.messagebus.Message|String} message which is being dispatched
+     * @param msg {qx.event.message.Message|String} message which is being dispatched
      * @return {boolean} TODOC
      */
     dispatch : function(msg)
@@ -247,7 +247,7 @@ qx.Class.define("qx.event.message.Bus",
     /**
      * dispatch message and call subscribed functions
      *
-     * @param msg {qx.messagebus.Message|String} message which is being dispatched
+     * @param msg {qx.event.message.Message|String} message which is being dispatched
      * @return {boolean} TODOC
      */
     dispatch : function(msg)

@@ -76,7 +76,7 @@ qx.Class.define("qx.Interface",
      *
      *   events :
      *   {
-     *     keydown : "qx.event.type.KeyEvent"
+     *     keydown : "qx.event.type.KeySequence"
      *   }
      * });
      * </pre>

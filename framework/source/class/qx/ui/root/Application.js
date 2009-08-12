@@ -127,7 +127,7 @@ qx.Class.define("qx.ui.root.Application",
     /**
      * Listener for window's resize event
      *
-     * @param e {qx.type.Event} Event object
+     * @param e {qx.event.type.Event} Event object
      * @return {void}
      */
     _onResize : function(e) {

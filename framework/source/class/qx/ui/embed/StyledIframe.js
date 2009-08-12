@@ -23,12 +23,12 @@
  * 
  * An iframe can display any HTML page inside the widget. Note that custom
  * scroll bars do only work if the iframe's source points to the same domain
- * as the applications.
+ * as the application.
  * 
  *
  * *Example*
  *
- * Here is a little example of how to use the widget.
+ * Here is a little example of how to use the widget:
  *
  * <pre class='javascript'>
  * var document = this.getRoot();
@@ -237,6 +237,8 @@ qx.Class.define("qx.ui.embed.StyledIframe",
     
     /**
      * Mouse wheel event handler
+     * 
+     * @param e {qx.event.type.Mouse} Mouse event
      */
     _onMouseWheel : function(e)
     {

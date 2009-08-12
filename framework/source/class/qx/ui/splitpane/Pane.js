@@ -260,7 +260,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
      *
      * Shows slider widget and starts drag session if mouse is near/on splitter widget.
      *
-     * @param e {qx.event.type.MouseEvent} mouseDown event
+     * @param e {qx.event.type.Mouse} mouseDown event
      */
     _onMouseDown : function(e)
     {
@@ -297,7 +297,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
     /**
      * Handler for mousemove event.
      *
-     * @param e {qx.event.type.MouseEvent} mouseMove event
+     * @param e {qx.event.type.Mouse} mouseMove event
      */
     _onMouseMove : function(e)
     {
@@ -331,7 +331,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
     /**
      * Handler for mouseout event
      *
-     * @param e {qx.event.type.MouseEvent} mouseout event
+     * @param e {qx.event.type.Mouse} mouseout event
      */
     _onMouseOut : function(e)
     {
@@ -349,7 +349,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
      *
      * Sets widget sizes if dragging session has been active.
      *
-     * @param e {qx.event.type.MouseEvent} mouseup event
+     * @param e {qx.event.type.Mouse} mouseup event
      */
     _onMouseUp : function(e)
     {

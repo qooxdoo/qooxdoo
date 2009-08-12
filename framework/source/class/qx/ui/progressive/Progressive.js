@@ -444,7 +444,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
     /**
      * Event callback for the "dataAvailable" event.
      *
-     * @param e {qx.ui.event.Data}
+     * @param e {qx.event.type.Data}
      *   A "dataAvailable" event's data contains the initial number of elements
      *
      * @return {Void}
