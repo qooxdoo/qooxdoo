@@ -232,7 +232,7 @@ class PartBuilder(object):
         parts     = script.parts
         variants  = script.variants
         self._console.debug("")
-        self._console.info("Optimizing package sizes...")
+        self._console.info("Collapsing parts by package sizes...")
         self._console.indent()
         self._console.debug("Minimum size: %sKB" % minPackageSize)
         self._console.indent()
