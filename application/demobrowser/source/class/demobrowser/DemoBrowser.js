@@ -758,8 +758,10 @@ qx.Class.define("demobrowser.DemoBrowser",
         }        
       } else {
         // Remove stop button, display run button
-        this._navPart.remove(this._stopbutton);
-        this._navPart.addAt(this._runbutton, 0);
+        if (this._stopbutton.getLayoutParent() == this._navPart) {
+          this._navPart.remove(this._stopbutton);
+          this._navPart.addAt(this._runbutton, 0);
+        }
       }
       
     },
