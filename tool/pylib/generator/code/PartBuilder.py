@@ -217,13 +217,14 @@ class PartBuilder(object):
         return packageSize
 
 
+    ##
+    # Support for merging small packages.
+    #
+    # Small (as specified in the config) packages are detected, starting with 
+    # those that are used by the least parts, and are merged into packages that
+    # are used by the same and more parts.
 
     def collapsePartsBySize(self, script, minPackageSize, minPackageSizeForUnshared):
-        # Support for merging small packages
-        # The first common package before the selected package between two
-        # or more parts is allowed to merge with. As the package which should be merged
-        # may have requirements, these must be solved. The easiest way to be sure regarding
-        # this issue, is to look out for another common package. (TODO: ???)
 
         if minPackageSize == None or minPackageSize == 0:
             return
@@ -310,11 +311,20 @@ class PartBuilder(object):
         yield None
 
 
+    ##
+    # Support for collapsing parts along their expected load order
+    #
+    # Packages are merged in parts that define an expected load order, starting
+    # with the boot part and continuing with groups of parts that have the same
+    # load index, in increasing order. Within a group, packages are merged from
+    # least used to more often used, and with packages unique to one of the parts
+    # in the group to packages that are common to all parts.
+    # Target packages for one group are blocked for the merge process of the next,
+    # to avoid merging all packages into one "monster" package that all parts
+    # share eventually.
+
     def collapsePartsByOrder(self, script):
         
-        parts    = script.parts
-        packages = script.packages
-
         def getCollapseGroupsOrdered(parts, packages):
             # returns dict of parts grouped by collapse index
             # { 0 : set('boot'), 1 : set(part1, part2), 2 : ... }
@@ -391,6 +401,11 @@ class PartBuilder(object):
             seen_targets.update(curr_targets)
             self._console.outdent()
             return parts, packages
+        
+        # ---------------------------------------------------------------------
+
+        parts    = script.parts
+        packages = script.packages
 
         self._console.debug("")
         self._console.info("Collapsing parts by collapse order...")
