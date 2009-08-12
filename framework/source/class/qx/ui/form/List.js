@@ -309,7 +309,7 @@ qx.Class.define("qx.ui.form.List",
      * Used to route external <code>keypress</code> events to the list
      * handling (in fact the manager of the list)
      *
-     * @param e {qx.event.type.KeyEvent} KeyPress event
+     * @param e {qx.event.type.KeySequence} KeyPress event
      */
     handleKeyPress : function(e)
     {
@@ -359,7 +359,7 @@ qx.Class.define("qx.ui.form.List",
     /**
      * Event listener for <code>keypress</code> events.
      *
-     * @param e {qx.event.type.KeyEvent} KeyPress event
+     * @param e {qx.event.type.KeySequence} KeyPress event
      * @return {Boolean} Whether the event was processed
      */
     _onKeyPress : function(e)
@@ -401,7 +401,7 @@ qx.Class.define("qx.ui.form.List",
     /**
      * Handles the inline find - if enabled
      *
-     * @param e {qx.event.type.KeyEvent} keyInput event
+     * @param e {qx.event.type.KeyInput} key input event
      */
     _onKeyInput : function(e)
     {

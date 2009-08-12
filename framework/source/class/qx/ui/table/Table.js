@@ -1194,7 +1194,7 @@ qx.Class.define("qx.ui.table.Table",
     /**
      * Event handler. Called when a key was pressed.
      *
-     * @param evt {qx.event.type.Key} the event.
+     * @param evt {qx.event.type.KeySequence} the event.
      * @return {void}
      */
     _onKeyPress : function(evt)

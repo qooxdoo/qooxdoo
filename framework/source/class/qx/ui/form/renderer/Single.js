@@ -117,7 +117,7 @@ qx.Class.define("qx.ui.form.renderer.Single",
      * @param name {String} The content of the label without the 
      *   trailing * and :
      * @param item {qx.ui.core.Widget} The item, which has the required state.
-     * @return {qx.uiu.basic.Label} The label for the given item.
+     * @return {qx.ui.basic.Label} The label for the given item.
      */
     _createLabel : function(name, item) {
       var required = "";

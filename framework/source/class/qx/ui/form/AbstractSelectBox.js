@@ -249,7 +249,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
     /**
      * Reacts on special keys and forwards other key events to the list widget.
      *
-     * @param e {qx.event.type.KeyEvent} Keypress event
+     * @param e {qx.event.type.KeySequence} Keypress event
      */
     _onKeyPress : function(e)
     {

@@ -161,7 +161,7 @@ qx.Class.define("qx.ui.root.Inline",
     /**
      * Listener for the element's resize event
      *
-     * @param e {qx.type.Event} Event object
+     * @param e {qx.event.type.Event} Event object
      */
     _onResize : function(e)
     {

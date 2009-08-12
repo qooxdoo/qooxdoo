@@ -32,8 +32,6 @@
  *     <li>{@link qx.ui.treevirtual.MFamily}</li>
  *   </ul>
  * </p>
- *
- * @appearance treevirtual-focus-indicator {qx.ui.layout.HorizontalBoxLayout}
  */
 qx.Class.define("qx.ui.treevirtual.TreeVirtual",
 {

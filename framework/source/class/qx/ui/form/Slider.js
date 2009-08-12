@@ -286,7 +286,7 @@ qx.Class.define("qx.ui.form.Slider",
      *
      * Adds support for arrow keys, page up, page down, home and end keys.
      *
-     * @param e {qx.event.type.Keypress} Incoming keypress event
+     * @param e {qx.event.type.KeySequence} Incoming keypress event
      * @return {void}
      */
     _onKeyPress : function(e)
