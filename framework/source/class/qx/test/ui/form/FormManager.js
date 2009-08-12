@@ -296,6 +296,51 @@ qx.Class.define("qx.test.ui.form.FormManager",
       for (var i = 0; i < widgets.length; i++) {
         widgets[i].dispose();
       }
-    }
+    },
+    
+    
+    testGetItems : function() {
+      // add the widgets
+      this.__form.add(this.__tf1, "TF1", null, "a");
+      this.__form.add(this.__tf2, "TF2", null, "b");      
+      
+      var items = this.__form.getItems();
+      
+      this.assertEquals(items.a, this.__tf1);
+      this.assertEquals(items.b, this.__tf2);
+    },
+    
+    
+    testGetItemsFallback : function() {
+      // add the widgets
+      this.__form.add(this.__tf1, "TF1");
+      this.__form.add(this.__tf2, "TF2");      
+      
+      var items = this.__form.getItems();
+      
+      this.assertEquals(items.TF1, this.__tf1);
+      this.assertEquals(items.TF2, this.__tf2);      
+    },
+    
+    
+    testGetItemsMixedWithGroups : function() {
+      // add the widgets
+      this.__form.add(this.__tf1, "TF1");
+      this.__form.add(this.__tf2, "TF2", null, "b");
+      this.__form.addGroupHeader("x");
+      var tf3 = new qx.ui.form.TextField();
+      this.__form.add(tf3, "TF3");
+      
+      var items = this.__form.getItems();
+      
+      this.assertEquals(items.TF1, this.__tf1);
+      this.assertEquals(items.b, this.__tf2);
+      this.assertEquals(items.TF3, tf3);
+      
+      tf3.destroy();   
+    }    
+    
+    
+    
   }
 });
