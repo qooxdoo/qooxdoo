@@ -61,20 +61,16 @@ class PartBuilder(object):
         script.parts    = self._getPartDeps(script, smartExclude)
 
         # Compute packages
-        packages = {}  # map of Packages
-        packages = self._getPackages(script)
-        script.packages = packages
+        script.packages = {}  # map of Packages
+        script.packages = self._getPackages(script)
 
         self._printPartStats(script)
 
-        # Collapse parts
+        # Collapse parts by collapse order
         self.collapsePartsByOrder(script)
-        #if len(collapseCfg) > 0:
-        #    self._collapseParts(parts, packages, collapseCfg)
 
-        # Optimize packages
-        if minPackageSize != None and minPackageSize != 0:
-            self._optimizePackages(script, minPackageSize, minPackageSizeForUnshared)
+        # Collapse parts by package size
+        self.collapsePartsBySize(script, minPackageSize, minPackageSizeForUnshared)
 
         self._printPartStats(script)
 
@@ -210,37 +206,6 @@ class PartBuilder(object):
         return packages
 
 
-    def _collapseParts(self, parts, packages, collapseParts):
-        # Support for package collapsing
-        # Could improve latency when initial loading an application
-        # Merge all packages of a specific part into one (also supports multiple parts)
-        # Hint: Part packages are sorted by priority, this way we can
-        # easily merge all following packages with the first one, because
-        # the first one is always the one with the highest priority
-        self._console.debug("")
-        self._console.info("Collapsing part packages...")
-        self._console.indent()
-
-        for collapsePos, partId in enumerate(collapseParts):
-            part = parts[partId]
-            self._console.debug("Part %s..." % (partId))
-            self._console.indent()
-
-            toId = part.packages[collapsePos]  # TODO: why shifting the 'to' position with each part??
-            for fromId in part.packages[collapsePos+1:]:
-                self._console.debug("Merging package #%s into #%s" % (fromId, toId))
-                self._mergePackage(packages[fromId], packages[toId], parts, packages, collapseParts)
-
-            # creates:
-            # part#1 : [package]
-            # part#2 : [package, package]
-            # part#3 : [package, package, package]
-            # ...
-            self._console.outdent()
-        self._console.outdent()
-
-
-
     def _computePackageSize(self, package, variants):
         packageSize = 0
 
@@ -253,12 +218,15 @@ class PartBuilder(object):
 
 
 
-    def _optimizePackages(self, script, minPackageSize, minPackageSizeForUnshared):
+    def collapsePartsBySize(self, script, minPackageSize, minPackageSizeForUnshared):
         # Support for merging small packages
         # The first common package before the selected package between two
         # or more parts is allowed to merge with. As the package which should be merged
         # may have requirements, these must be solved. The easiest way to be sure regarding
         # this issue, is to look out for another common package. (TODO: ???)
+
+        if minPackageSize == None or minPackageSize == 0:
+            return
 
         packages  = script.packages
         parts     = script.parts
@@ -291,7 +259,7 @@ class PartBuilder(object):
             # assert: the package is shared and smaller than minPackageSize
             #     or: the package is unshared and smaller than minPackageSizeForUnshared
             self._console.indent()
-            self._mergePackage1(fromPackage, parts, packages)
+            self._mergePackage(fromPackage, parts, packages)
 
             self._console.outdent()
 
@@ -415,7 +383,7 @@ class PartBuilder(object):
                 for packId in reversed(part.packages):   # start with "smallest" package
                     package = packages[packId]
                     if package.id in selected_packages:
-                        mergedPackage, targetPackage = self._mergePackage1(package, parts, selected_packages, seen_targets)
+                        mergedPackage, targetPackage = self._mergePackage(package, parts, selected_packages, seen_targets)
                         if mergedPackage:  # on success == package
                             del packages[package.id]  # since we didn't pass in the whole packages struct to _mergePackage
                             curr_targets.add(targetPackage)
@@ -445,30 +413,7 @@ class PartBuilder(object):
         return
 
 
-    def _mergePackage(self, fromPackage, toPackage, parts, packages, collapseParts=None):
-
-        # Update part information
-        for part in parts.values():
-            if fromPackage.id in part.packages:
-                # when collapsing parts, check if the toPackage.id is available in the packages of
-                # the parts that should be collapsed. In all other parts, the toPackage.id is allowed
-                # to be not available.
-                # TODO: Why is that so?! Aren't you loosing dependency information that way?!
-                if (collapseParts != None 
-                    and part.name in collapseParts 
-                    and not toPackage.id in part.packages
-                   ):
-                    raise RuntimeError, "Could not merge these packages (%s, %s)!" % (fromPackage.id, toPackage.id)
-                # remove package
-                part.packages.remove(fromPackage.id)
-
-        # Merging package content
-        toPackage.classes.extend(fromPackage.classes)
-        del packages[fromPackage.id]
-
-
-
-    def _mergePackage1(self, fromPackage, parts, packages, seen_targets=None):
+    def _mergePackage(self, fromPackage, parts, packages, seen_targets=None):
         # find toPackage
         toPackage = None
         for toPackage in self._getPreviousCommonPackage(fromPackage, parts, packages):
