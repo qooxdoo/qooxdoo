@@ -601,7 +601,7 @@ qx.Class.define("qx.legacy.ui.form.ComboBox",
      * clicked on the list. Hides the popup and release the event capturing if
      * the user is clicking outside the combo box.
      *
-     * @param e {qx.event.type.MouseEvent} MouseDown event
+     * @param e {qx.legacy.event.type.MouseEvent} MouseDown event
      * @return {void}
      */
     _onclick : function(e)

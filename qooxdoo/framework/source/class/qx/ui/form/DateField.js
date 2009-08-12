@@ -286,7 +286,7 @@ qx.Class.define("qx.ui.form.DateField",
      * the popup.
      * If the list is cloned, all key events will not be processed further.
      *
-     * @param e {qx.event.type.KeyEvent} Keypress event
+     * @param e {qx.event.type.KeySequence} Keypress event
      */
     _onKeyPress : function(e)
     {

@@ -41,12 +41,12 @@ qx.Class.define("qx.event.type.KeySequence",
   members :
   {
     /**
-     * Initialize the fileds of the event.
+     * Initialize the fields of the event.
      *
      * @param domEvent {Event} DOM event
      * @param target {Object} The event target
      * @param identifier {String} Key identifier
-     * @return {qx.event.type.KeyEvent} The initialized key event instance
+     * @return {qx.event.type.KeySequence} The initialized key event instance
      */
     init : function(domEvent, target, identifier)
     {

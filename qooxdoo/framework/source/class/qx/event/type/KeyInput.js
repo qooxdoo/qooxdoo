@@ -41,12 +41,12 @@ qx.Class.define("qx.event.type.KeyInput",
   members :
   {
     /**
-     * Initialize the fileds of the event.
+     * Initialize the fields of the event.
      *
      * @param domEvent {Event} DOM event
      * @param target {Object} The event target
      * @param charCode {Integer} the character code
-     * @return {qx.event.type.KeyEvent} The initialized key event instance
+     * @return {qx.event.type.KeyInput} The initialized key event instance
      */
     init : function(domEvent, target, charCode)
     {

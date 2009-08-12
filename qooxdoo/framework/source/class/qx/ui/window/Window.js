@@ -899,7 +899,7 @@ qx.Class.define("qx.ui.window.Window",
     /**
      * Focuses the window instance.
      *
-     * @param e {qx.event.type.MouseEvent} mouse down event
+     * @param e {qx.event.type.Mouse} mouse down event
      * @return {void}
      */
     _onWindowMouseDown : function(e) {
@@ -934,7 +934,7 @@ qx.Class.define("qx.ui.window.Window",
      * Maximizes the window or restores it if it is already
      * maximized.
      *
-     * @param e {qx.event.type.MouseEvent} double click event
+     * @param e {qx.event.type.Mouse} double click event
      * @return {void}
      */
     _onCaptionMouseDblClick : function(e)
@@ -957,7 +957,7 @@ qx.Class.define("qx.ui.window.Window",
      * Minimizes the window, removes all states from the minimize button and
      * stops the further propagation of the event (calling {@link qx.event.type.Event#stopPropagation}).
      *
-     * @param e {qx.event.type.MouseEvent} mouse click event
+     * @param e {qx.event.type.Mouse} mouse click event
      * @return {void}
      */
     _onMinimizeButtonClick : function(e)
@@ -971,7 +971,7 @@ qx.Class.define("qx.ui.window.Window",
      * Restores the window, removes all states from the restore button and
      * stops the further propagation of the event (calling {@link qx.event.type.Event#stopPropagation}).
      *
-     * @param e {qx.event.type.MouseEvent} mouse click event
+     * @param e {qx.event.type.Mouse} mouse click event
      * @return {void}
      */
     _onRestoreButtonClick : function(e)
@@ -985,7 +985,7 @@ qx.Class.define("qx.ui.window.Window",
      * Maximizes the window, removes all states from the maximize button and
      * stops the further propagation of the event (calling {@link qx.event.type.Event#stopPropagation}).
      *
-     * @param e {qx.event.type.MouseEvent} mouse click event
+     * @param e {qx.event.type.Mouse} mouse click event
      * @return {void}
      */
     _onMaximizeButtonClick : function(e)
@@ -999,7 +999,7 @@ qx.Class.define("qx.ui.window.Window",
      * Closes the window, removes all states from the close button and
      * stops the further propagation of the event (calling {@link qx.event.type.Event#stopPropagation}).
      *
-     * @param e {qx.event.type.MouseEvent} mouse click event
+     * @param e {qx.event.type.Mouse} mouse click event
      * @return {void}
      */
     _onCloseButtonClick : function(e)

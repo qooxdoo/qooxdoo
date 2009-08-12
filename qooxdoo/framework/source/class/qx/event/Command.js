@@ -150,7 +150,7 @@ qx.Class.define("qx.event.Command",
     /**
      * Key press event handler.
      *
-     * @param event {qx.event.type.KeyEvent} The key event object
+     * @param event {qx.event.type.KeySequence} The key event object
      */
     __onKeyPress : function(event)
     {
@@ -266,7 +266,7 @@ qx.Class.define("qx.event.Command",
     /**
      * Checks whether the given key event matches the command's shortcut
      *
-     * @param e {qx.event.type.KeySequenceEvent} the key event object
+     * @param e {qx.event.type.KeySequence} the key event object
      * @return {Boolean} whether the commands shortcut matches the key event
      */
     matchesKeyEvent : function(e)

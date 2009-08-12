@@ -559,7 +559,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * and "PageUp"/"PageDown" keys.<br/>
      * The corresponding button will be pressed.
      *
-     * @param e {qx.event.type.KeyEvent} keyDown event
+     * @param e {qx.event.type.KeySequence} keyDown event
      */
     _onKeyDown: function(e)
     {
@@ -596,7 +596,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * Detecting "Up"/"Down" and "PageUp"/"PageDown" keys.<br/>
      * Releases the button and disabled the page mode, if necessary.
      *
-     * @param e {qx.event.type.KeyEvent} keyUp event
+     * @param e {qx.event.type.KeySequence} keyUp event
      * @return {void}
      */
     _onKeyUp: function(e)
@@ -636,7 +636,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * Callback method for the "mouseWheel" event.<br/>
      * Increments or decrements the value of the spinner.
      *
-     * @param e {qx.event.type.MouseEvent} mouseWheel event
+     * @param e {qx.event.type.Mouse} mouseWheel event
      */
     _onMouseWheel: function(e)
     {
@@ -653,7 +653,7 @@ qx.Class.define("qx.ui.form.Spinner",
     /**
      * Callback method for the "change" event of the textfield.
      *
-     * @param e {qx.ui.event.type.Event} text change event or blur event
+     * @param e {qx.event.type.Event} text change event or blur event
      */
     _onTextChange : function(e)
     {
@@ -703,7 +703,7 @@ qx.Class.define("qx.ui.form.Spinner",
     /**
      * Callback method for the locale Manager's "changeLocale" event.
      *
-     * @param ev {qx.ui.event.type.Event} locale change event
+     * @param ev {qx.event.type.Event} locale change event
      */
 
     _onChangeLocale : function(ev)
@@ -720,7 +720,7 @@ qx.Class.define("qx.ui.form.Spinner",
     /**
      * Callback method for the number format's "changeNumberFormat" event.
      *
-     * @param ev {qx.ui.event.type.Event} number format change event
+     * @param ev {qx.event.type.Event} number format change event
      */
     _onChangeNumberFormat : function(ev) {
       var textfield = this.getChildControl("textfield");

@@ -614,7 +614,7 @@ qx.Class.define("qx.ui.tabview.TabView",
     /**
      * Removes the Page widget on which the close button was clicked.
      *
-     * @param e {qx.event.type.MouseEvent} mouse click event
+     * @param e {qx.event.type.Mouse} mouse click event
      */
     _onPageClose : function(e) {
       this.remove(e.getTarget());

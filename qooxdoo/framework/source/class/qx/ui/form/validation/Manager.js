@@ -273,7 +273,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
      * validation result will be returned. In asynchronous cases, null will be 
      * returned cause the result is not available.
      * 
-     * @param items {qx.ui.coare.Widget[]} An array of all form items.
+     * @param items {qx.ui.core.Widget[]} An array of all form items.
      * @return {Boolean|null} description
      */ 
     __validateForm: function(items) {

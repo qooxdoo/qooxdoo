@@ -355,8 +355,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
 
     
     /**
-     * Computes the width of all flexible children (based loosely on the
-     * method of the same name in HorizontalBoxLayoutImpl).
+     * Computes the width of all flexible children.
      *
      * @return {void}
      */
