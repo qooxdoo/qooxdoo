@@ -111,6 +111,16 @@ qx.Class.define("qx.ui.form.renderer.Double",
       
     
     /**
+     * Returns the set layout for configuration.
+     * 
+     * @return {qx.ui.layout.Grid} The grid layout of the widget.
+     */  
+    getLayout : function() {
+      return this._getLayout();
+    },
+        
+    
+    /**
      * Creates a label for the given form item.
      *  
      * @param name {String} The content of the label without the 
