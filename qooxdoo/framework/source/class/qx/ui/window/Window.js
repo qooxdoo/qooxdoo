@@ -603,7 +603,7 @@ qx.Class.define("qx.ui.window.Window",
       {
         this.hide();
         this.fireEvent("close");
-      };
+      }
     },
 
 
@@ -719,7 +719,7 @@ qx.Class.define("qx.ui.window.Window",
       {
         this.hide();
         this.fireEvent("minimize");
-      };
+      }
     },
 
 
@@ -754,7 +754,7 @@ qx.Class.define("qx.ui.window.Window",
 
         // Fire user event
         this.fireEvent("restore");
-      };
+      }
     },
 
 
