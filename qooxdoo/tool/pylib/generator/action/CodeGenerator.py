@@ -50,19 +50,6 @@ class CodeGenerator(object):
 
 
     def runCompiled(self, script, treeCompiler):
-        if not self._job.get("compile-dist", False):
-            return
-
-        packages   = script.packages
-        parts      = script.parts
-        boot       = script.boot
-        variants   = script.variants
-        classList  = script.classes
-
-        self._treeCompiler = treeCompiler
-        self._classList    = classList
-
-        compConf = ExtMap(self._job.get("compile-dist"))
 
         def getAppName(memo={}):
             if not 'appname' in memo:
@@ -135,6 +122,22 @@ class CodeGenerator(object):
             self._console.debug("")
 
             return
+
+        # ----------------------------------------------------------------------
+
+        if not self._job.get("compile-dist", False):
+            return
+
+        packages   = script.packages
+        parts      = script.parts
+        boot       = script.boot
+        variants   = script.variants
+        classList  = script.classes
+
+        self._treeCompiler = treeCompiler
+        self._classList    = classList
+
+        compConf = ExtMap(self._job.get("compile-dist"))
 
         # Read in base file name
         fileRelPath = getOutputFile()
