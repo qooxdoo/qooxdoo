@@ -190,7 +190,7 @@ qx.Class.define("qx.test.ui.layout.LayoutItem",
     
     
     getLayoutChildren : function() {
-      return this.__layoutChildren || [];
+      return this.__layoutChildren || [];
     },
     
     

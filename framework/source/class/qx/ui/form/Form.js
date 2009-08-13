@@ -65,7 +65,7 @@ qx.Class.define("qx.ui.form.Form",
      * 
      * @param item {qx.ui.form.IForm} A supported form item.
      * @param label {String} The string, which should be used as label.
-     * @param validator {Function | qx.ui.form.validation.AsyncValidator | null} 
+     * @param validator {Function | qx.ui.form.validation.AsyncValidator | null} 
      *   The validator which is used by the validation 
      *   {@link qx.ui.form.validation.Manager}.
      * @param name {String|null} The name which is used by the data binding

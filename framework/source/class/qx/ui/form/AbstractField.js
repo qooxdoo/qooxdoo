@@ -577,7 +577,7 @@ qx.Class.define("qx.ui.form.AbstractField",
      */
     _showPlaceholder : function()
     {
-      var fieldValue = this.getValue() || "";
+      var fieldValue = this.getValue() || "";
       var placeholder = this.getPlaceholder();
       if (
         placeholder != null &&

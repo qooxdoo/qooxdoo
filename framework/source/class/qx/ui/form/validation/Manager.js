@@ -67,7 +67,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
      */
     validator : 
     {  
-      check : "value instanceof Function || qx.Class.isSubClassOf(value.constructor, qx.ui.form.validation.AsyncValidator)",
+      check : "value instanceof Function || qx.Class.isSubClassOf(value.constructor, qx.ui.form.validation.AsyncValidator)",
       init : null,
       nullable : true
     },
@@ -117,7 +117,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
      * plain function. 
      * 
      * @param formItem {qx.ui.core.Widget} The form item to add.
-     * @param validator {Function | qx.ui.form.validation.AsyncValidator} 
+     * @param validator {Function | qx.ui.form.validation.AsyncValidator} 
      *   The validator.
      */
     add: function(formItem, validator) {
@@ -253,7 +253,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
       } catch (e) {
         if (e instanceof qx.core.ValidationError) {
           validatorResult = false;
-          formItem.setInvalidMessage(e.message || e.getComment());
+          formItem.setInvalidMessage(e.message || e.getComment());
         } else {
           throw e;
         }
@@ -300,7 +300,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
       } catch (e) {
         if (e instanceof qx.core.ValidationError) {
           formValid = false;
-          this.setInvalidMessage(e.message || e.getComment());
+          this.setInvalidMessage(e.message || e.getComment());
         } else {
           throw e;
         }
