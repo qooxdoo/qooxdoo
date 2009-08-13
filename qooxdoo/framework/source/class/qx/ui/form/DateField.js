@@ -367,7 +367,7 @@ qx.Class.define("qx.ui.form.DateField",
      */
     isEmpty: function() {
       var value = this.getChildControl("textfield").getValue();
-      return value == null || value == "";
+      return value == null || value == "";
     }    
   }
 });
