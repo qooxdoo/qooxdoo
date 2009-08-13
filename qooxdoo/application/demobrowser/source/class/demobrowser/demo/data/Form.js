@@ -17,12 +17,9 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#asset(demobrowser/demo/data/finder.json)
-
-************************************************************************ */
-
+/**
+ * @lint ignoreDeprecated(alert)
+ */
 qx.Class.define("demobrowser.demo.data.Form", 
 {
   extend : qx.application.Standalone,
