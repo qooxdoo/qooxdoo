@@ -291,6 +291,8 @@ qx.Class.define("demobrowser.DemoBrowser",
           "icon/22/actions/media-playback-stop.png");
       this._stopbutton.addListener("execute", this.stopSample, this);
       this._stopbutton.setToolTipText("Stop playback after current demo");
+      this._navPart.add(this._stopbutton);
+      this._stopbutton.setVisibility("excluded");
 
       // -- previous navigation
       var prevbutt = new qx.ui.toolbar.Button(this.tr("Previous"), "icon/22/actions/go-previous.png");
@@ -643,9 +645,9 @@ qx.Class.define("demobrowser.DemoBrowser",
           this.setPlayDemos("category");
         }
       }
-            
-      this._navPart.remove(this._runbutton);
-      this._navPart.addAt(this._stopbutton, 0);
+
+      this._runbutton.setVisibility("excluded");
+      this._stopbutton.setVisibility("visible");
       
       if (this.tests.selected != "") {
         var file = this.tests.selected.replace(".", "/");
@@ -664,8 +666,8 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     stopSample : function(e) {
       this.setPlayDemos("current");
-      this._navPart.remove(this._stopbutton);
-      this._navPart.addAt(this._runbutton, 0);
+      this._stopbutton.setVisibility("excluded");
+      this._runbutton.setVisibility("visible");
     },
 
 
@@ -758,10 +760,8 @@ qx.Class.define("demobrowser.DemoBrowser",
         }        
       } else {
         // Remove stop button, display run button
-        if (this._stopbutton.getLayoutParent() == this._navPart) {
-          this._navPart.remove(this._stopbutton);
-          this._navPart.addAt(this._runbutton, 0);
-        }
+        this._stopbutton.setVisibility("excluded");
+        this._runbutton.setVisibility("visible");
       }
       
     },
@@ -1007,8 +1007,8 @@ qx.Class.define("demobrowser.DemoBrowser",
           this.runSample();
         } else {          
           // Remove stop button, display run button
-          this._navPart.remove(this._stopbutton);
-          this._navPart.addAt(this._runbutton, 0);
+          this._stopbutton.setVisibility("excluded");
+          this._runbutton.setVisibility("visible");
         }
       }
     },
