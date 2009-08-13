@@ -506,7 +506,7 @@ qx.Class.define("qx.bom.element.Location",
       {
         var top = body.offsetTop;
         var left = body.offsetLeft;
-        if (!(qx.bom.client.Engine.VERSION < 8 && !qx.bom.client.Feature.QUIRKS_MODE))
+        if (!(qx.bom.client.Engine.VERSION < 8 && !qx.bom.client.Feature.QUIRKS_MODE))
         {
           top += this.__num(body, "marginTop");
           left += this.__num(body, "marginLeft");

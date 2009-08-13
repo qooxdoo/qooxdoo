@@ -40,7 +40,7 @@ qx.Bootstrap.define("qx.event.GlobalError",
     setErrorHandler : function(callback, context)
     {
       this.__callback = callback || null;
-      this.__context = context || window;
+      this.__context = context || window;
       
       if (qx.core.Setting.get("qx.globalErrorHandling") === "on")
       {

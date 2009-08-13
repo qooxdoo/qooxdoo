@@ -169,7 +169,7 @@ qx.Class.define("qx.data.controller.Form",
     
     __tearDownBinding : function(oldTarget) {
       // do nothing if the object controller has not been created
-      if (this.__objectController == null) {
+      if (this.__objectController == null) {
         return;
       }
       

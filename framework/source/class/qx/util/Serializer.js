@@ -42,7 +42,7 @@ qx.Class.define("qx.util.Serializer",
       
       for (var name in properties) {
         var value = object["get" + qx.lang.String.firstUp(name)]();
-        result += encodeURIComponent(name) + "=" + encodeURIComponent(value) + "&";
+        result += encodeURIComponent(name) + "=" + encodeURIComponent(value) + "&";
       }
       return result.substring(0, result.length - 1);
     },
@@ -115,7 +115,7 @@ qx.Class.define("qx.util.Serializer",
       // Date and RegExp
       } else if (
 
-        qx.lang.Type.isDate(object) || 
+        qx.lang.Type.isDate(object) || 
         qx.lang.Type.isRegExp(object)
       ) {
         return '"' + object + '"';

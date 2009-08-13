@@ -606,7 +606,7 @@ qx.Class.define("qx.data.controller.List",
      */
     _onBindingSet: function(index, sourceObject, targetObject) {
       // ignore the binding set if the model is already set to null
-      if (this.getModel() == null || this._inSelectionModification()) {
+      if (this.getModel() == null || this._inSelectionModification()) {
         return;
       }
       
@@ -718,7 +718,7 @@ qx.Class.define("qx.data.controller.List",
     _setCreateItem: function(value, old) {
       if (
         this.getTarget() == null || 
-        this.getModel() == null || 
+        this.getModel() == null || 
         value == null ||
         value.createItem == null
       ) {
@@ -755,7 +755,7 @@ qx.Class.define("qx.data.controller.List",
     _setFilter: function(value, old) {
       if (
         this.getTarget() == null || 
-        this.getModel() == null || 
+        this.getModel() == null || 
         value == null ||
         value.filter == null
       ) {
