@@ -249,8 +249,9 @@ qx.Class.define("qx.ui.form.Form",
         // get all items
         for (var j = 0; j < group.names.length; j++) {
           var name = group.names[j];
+          // if no name is given, use the label without whitespaces
           if (name == null) {
-            name = group.labels[j];
+            name = group.labels[j].replace(/\s+/g, "");
           }
           items[name] = group.items[j];
         }

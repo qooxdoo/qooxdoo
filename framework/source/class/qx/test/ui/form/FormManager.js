@@ -234,6 +234,7 @@ qx.Class.define("qx.test.ui.form.FormManager",
       // get the view
       var view = this.__form.createView();
       
+      view.destroy();
       b2.dispose();
       b1.dispose();         
     },
@@ -314,7 +315,7 @@ qx.Class.define("qx.test.ui.form.FormManager",
     testGetItemsFallback : function() {
       // add the widgets
       this.__form.add(this.__tf1, "TF1");
-      this.__form.add(this.__tf2, "TF2");      
+      this.__form.add(this.__tf2, "T F 2");      
       
       var items = this.__form.getItems();
       
@@ -338,9 +339,7 @@ qx.Class.define("qx.test.ui.form.FormManager",
       this.assertEquals(items.TF3, tf3);
       
       tf3.destroy();   
-    }    
-    
-    
+    }
     
   }
 });
