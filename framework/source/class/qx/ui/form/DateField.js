@@ -356,7 +356,7 @@ qx.Class.define("qx.ui.form.DateField",
       }
 
       // Fire event
-      this.fireDataEvent("changeValue", e.getData());
+      this.fireDataEvent("changeValue", this.getValue());
     },
     
     
