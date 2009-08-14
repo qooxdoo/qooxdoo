@@ -88,25 +88,20 @@ class QxTest:
     if ('simulateTest' in self.testConf):
       self.sim = testConf['simulateTest']
 
-    self.os = None
-    try:   
-      self.os = os.uname()[0]
-    except AttributeError:
-      try:
-        import platform
-        self.os = platform.system()
-        self.log("Operating system: " + self.os)
-      except:
-        self.os = "Unknown"
-        self.log("ERROR: Couldn't determine operating system!")
-        sys.exit(1)
+    self.os = self.getOperatingSystem()
 
     import socket
     socket.setdefaulttimeout(10)
 
-
+  ##
+  # Opens a new log file and returns the file object. Attempts to create the log
+  # directory if it doesn't already exist. 
+  #
+  # @param logDirectory {str} The directory to create the log file in
   def getLogFile(self, logDirectory):
     try:
+      if not os.path.isdir(logDirectory):
+        os.mkdir(logDirectory)
       filename = "testLog_" + self.startTimeString + ".txt"
       fullpath = os.path.join(logDirectory, filename)
       logFile = codecs.open(fullpath, 'a', 'utf-8')
@@ -142,6 +137,27 @@ class QxTest:
     if (self.logFile):      
       self.logFile.write(logMsg + "\n")    
 
+
+  ##
+  # Attempts to determine the name of the operating system by using os.uname(),
+  # falling back to platform.system()
+  def getOperatingSystem(self):
+    oSys = "Unknown"
+    msg = "ERROR: Couldn't determine operating system!"
+
+    try:   
+      oSys = os.uname()[0]      
+    except AttributeError:
+      try:
+        import platform
+        oSys = platform.system()
+        self.log("Operating system: " + oSys)
+      except:
+        self.logError(e, msg)
+    except Exception, e:
+      self.logError(e, msg)
+
+    return oSys
   
   ##
   # Starts the Selenium RC server and checks its status. If the server doesn't
@@ -263,11 +279,7 @@ class QxTest:
     for target in buildConf['targets']:
       targetConf = buildConf["targets"][target]
       # Prepare log file
-      if not os.path.isdir(buildConf['buildLogDir']):
-        os.mkdir(buildConf['buildLogDir'])
-      buildLog = os.path.join(buildConf['buildLogDir'], target + '_' + self.startTimeString + '.log')
-      self.log("Opening build log file " + buildLog)      
-      buildLogFile = codecs.open(buildLog, 'a', 'utf-8')
+      buildLogFile = self.getBuildLogFile(buildConf["buildLogDir"])
       
       if target[0] == target[0].capitalize():
         targetDir = os.path.join(self.testConf["qxPathAbs"], targetConf["path"])
@@ -314,12 +326,7 @@ class QxTest:
             # Start build, only log errors
             status, std, err = invokePiped(cmd)
             if (status > 0):
-              self.log("Error while building " + target + ", see " 
-                    + buildLog + " for details.")
-              err = err.rstrip('\n')
-              err = err.rstrip('\r')
-              buildLogFile.write(target + "\n" + cmd + "\n" + err)
-              buildLogFile.write("\n========================================================\n\n")
+              self.logBuildErrors(buildLogFile, cmd, err)
               
               self.buildStatus[target]["BuildError"] = "Unknown build error"
               
@@ -342,6 +349,40 @@ class QxTest:
     self.storeBuildStatus()
 
 
+  ##
+  # Opens a new build log file and returns the file object. Attempts to create 
+  # the log directory if it doesn't already exist. 
+  #
+  # @param buildLogDir {str} The directory to create the log file in
+  def getBuildLogFile(self, buildLogDir):
+    try:
+      if not os.path.isdir(buildLogDir):
+        os.mkdir(buildLogDir)
+    except Exception, e:
+      self.logError(e, "Creating build log directory")
+      return False
+    
+    buildLog = os.path.join(buildLogDir, target + '_' + self.startTimeString + '.log')
+    self.log("Opening build log file " + buildLog)
+    try:      
+      buildLogFile = codecs.open(buildLog, 'a', 'utf-8')
+    except Exception, e:
+      self.logError(e, "Opening build log file")
+    
+    return buildLogFile
+
+
+  ##
+  # Writes build Errors to the log file
+  def logBuildErrors(self, buildLogFile, cmd, err):
+    self.log("Error while building " + target + ", see " 
+          + buildLog + " for details.")
+    err = err.rstrip('\n')
+    err = err.rstrip('\r')
+    buildLogFile.write(target + "\n" + cmd + "\n" + err)
+    buildLogFile.write("\n========================================================\n\n")
+  
+  
   ##
   # Starts the SVN udpdate/build process for one or more targets. Logs errors
   # during build and writes the current trunk revision number and build status
@@ -390,12 +431,7 @@ class QxTest:
             # Start build, only log errors
             status, std, err = invokePiped(cmd)
             if (status > 0):
-              self.log("Error while building " + target + ", see " 
-                    + buildLog + " for details.")
-              err = err.rstrip('\n')
-              err = err.rstrip('\r')
-              buildLogFile.write(target + "\n" + cmd + "\n" + err)
-              buildLogFile.write("\n========================================================\n\n")
+              self.logBuildErrors(buildLogFile, cmd, err)
               
               self.buildStatus[target]["BuildError"] = "Unknown build error"
               
