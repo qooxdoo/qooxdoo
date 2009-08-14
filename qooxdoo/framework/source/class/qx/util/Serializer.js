@@ -34,17 +34,52 @@ qx.Class.define("qx.util.Serializer",
      * serialized string.
      * 
      * @param object {qx.core.Object} Any qooxdoo object
+     * @param qxSerializer {Function} Function used for serializing qooxdoo
+     *   objects stored in the propertys of the object. Check for the type of 
+     *   classes <ou want to serialize and return the serialized value. In all 
+     *   other cases, just return nothing.
      * @return {String} The serialized object.
      */
-    toUriParameter : function(object) {
+    toUriParameter : function(object, qxSerializer) {
       var result = "";
       var properties = qx.util.PropertyUtil.getProperties(object.constructor);
       
       for (var name in properties) {
         var value = object["get" + qx.lang.String.firstUp(name)]();
-        result += encodeURIComponent(name) + "=" + encodeURIComponent(value) + "&";
+        
+        // handle arrays
+        if (qx.lang.Type.isArray(value)) {
+          for (var i = 0; i < value.length; i++) {
+            result += this.__toUriParameter(name, value[i], qxSerializer);            
+          };
+        } else {
+          result += this.__toUriParameter(name, value, qxSerializer);          
+        }
       }
       return result.substring(0, result.length - 1);
+    },
+    
+    
+    /**
+     * Helper method for {@link #toUriParameter}. Check for qooxdoo objects 
+     * and returns the serialized name value pair for the given parameter.
+     * 
+     * @param name {String} The name of the value
+     * @param value {var} The value itself
+     * @param qxSerializer {Function} The serializer for qooxdoo objects.
+     * @return {String} The serialized name value pair.
+     */
+    __toUriParameter : function(name, value, qxSerializer) 
+    {
+      if (value instanceof qx.core.Object && qxSerializer != null) {
+        var encValue = encodeURIComponent(qxSerializer(value));
+        if (encValue === undefined) {
+          var encValue = encodeURIComponent(value);
+        }
+      } else {
+        var encValue = encodeURIComponent(value);
+      }
+      return encodeURIComponent(name) + "=" + encValue + "&";
     },
     
     
@@ -52,11 +87,15 @@ qx.Class.define("qx.util.Serializer",
      * Serializes the properties of the given qooxdoo object into a json object.
      * 
      * @param object {qx.core.Object} Any qooxdoo object
+     * @param qxSerializer {Function} Function used for serializing qooxdoo
+     *   objects stored in the propertys of the object. Check for the type of 
+     *   classes <ou want to serialize and return the serialized value. In all 
+     *   other cases, just return nothing.
      * @return {String} The serialized object.
      */
-    toJson : function(object) {
+    toJson : function(object, qxSerializer) {
       var result = "";
-      
+
       // null or undefined
       if (object == null) {
         return "null";
@@ -64,7 +103,7 @@ qx.Class.define("qx.util.Serializer",
       } else if (qx.Class.hasInterface(object.constructor, qx.data.IListData)) {
         result += "[";
         for (var i = 0; i < object.getLength(); i++) {
-          result += qx.util.Serializer.toJson(object.getItem(i)) + ",";
+          result += qx.util.Serializer.toJson(object.getItem(i), qxSerializer) + ",";
         }
         if (result != "[") {
           result = result.substring(0, result.length - 1);
@@ -75,7 +114,7 @@ qx.Class.define("qx.util.Serializer",
       } else if (qx.lang.Type.isArray(object)) {
         result += "[";
         for (var i = 0; i < object.length; i++) {
-          result += qx.util.Serializer.toJson(object[i]) + ",";
+          result += qx.util.Serializer.toJson(object[i], qxSerializer) + ",";
         }
         if (result != "[") {
           result = result.substring(0, result.length - 1);
@@ -84,6 +123,14 @@ qx.Class.define("qx.util.Serializer",
         
       // qooxdoo object  
       } else if (object instanceof qx.core.Object) {
+        if (qxSerializer != null) {
+          var returnValue = qxSerializer(object);
+          // if we have something returned, ruturn that
+          if (returnValue != undefined) {
+            return '"' + returnValue + '"';
+          }
+          // continue otherwise
+        }
         result += "{";
         var properties = qx.util.PropertyUtil.getProperties(object.constructor);
         for (var name in properties) {
@@ -92,12 +139,12 @@ qx.Class.define("qx.util.Serializer",
             continue;
           }
           var value = object["get" + qx.lang.String.firstUp(name)]();
-          result += '"' + name + '":' + qx.util.Serializer.toJson(value) + ",";
+          result += '"' + name + '":' + qx.util.Serializer.toJson(value, qxSerializer) + ",";
         }
         if (result != "{") {
           result = result.substring(0, result.length - 1);
         }
-        return result + "}";        
+        return result + "}";
         
       // strings
       } else if (qx.lang.Type.isString(object)) {
@@ -121,7 +168,7 @@ qx.Class.define("qx.util.Serializer",
         return '"' + object + '"';
       }
       // all other stuff
-      return object + "";      
+      return object + "";
     }
     
   }

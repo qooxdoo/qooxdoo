@@ -22,6 +22,8 @@ qx.Class.define("qx.test.util.Serializer",
   extend : qx.dev.unit.TestCase,
   
   construct : function() {
+    this.__s = qx.util.Serializer;
+
     qx.Class.define("qx.test.SerializModel", {
       extend : qx.core.Object,
       properties : {
@@ -37,9 +39,7 @@ qx.Class.define("qx.test.util.Serializer",
           nullable: true
         }
       }
-    });
-    
-    this.__s = qx.util.Serializer;
+    });    
   },
 
   members :
@@ -118,6 +118,22 @@ qx.Class.define("qx.test.util.Serializer",
     },
     
     
+    testUrlQxSerializer : function() 
+    {
+      var qxSerializer = function(object) {
+        return object.getLabel();
+      }
+      
+      var item = new qx.ui.form.ListItem("a");
+      this.__model.setData1(item);
+      this.__model.setData2("b");
+      this.__model.setData3("c");
+      this.assertEquals("data1=a&data2=b&data3=c", this.__s.toUriParameter(this.__model, qxSerializer));      
+      
+      item.dispose();
+    },
+    
+    
     testJsonFlat : function() {
       this.__model.setData1("a");
       this.__model.setData2(10.456);
@@ -189,6 +205,23 @@ qx.Class.define("qx.test.util.Serializer",
       this.__model.setData2('""');
       this.__model.setData3("\b\t\n\f\r\\");
       this.assertEquals('{"data1":"\'\'","data2":"\\"\\"","data3":"\\b\\t\\n\\f\\r\\\\"}', this.__s.toJson(this.__model));
+    },
+    
+    testJsonQxSerializer : function() 
+    {
+      var qxSerializer = function(object) {
+        if (object instanceof qx.ui.form.ListItem) {
+          return object.getLabel();
+        }
+      }
+      
+      var item = new qx.ui.form.ListItem("a");
+      this.__model.setData1(item);
+      this.__model.setData2(10.456);
+      this.__model.setData3(true);
+      this.assertEquals('{"data1":"a","data2":10.456,"data3":true}', this.__s.toJson(this.__model, qxSerializer));      
+      
+      item.dispose();
     }
     
   }
