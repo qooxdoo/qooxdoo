@@ -690,8 +690,12 @@ class QxTest:
       if "iexplore" in self.browserConf[browser['browserId']] and self.seleniumConf['ieSingleWindow']:
         single = True
       
+      seleniumVersion = self.seleniumConf["seleniumVersion"]
+      if 'seleniumVersion' in appConf:
+        seleniumVersion = appConf["seleniumVersion"]
+      
       if "seleniumVersion" in browser:
-        seleniumVersion = browser["seleniumVersion"] 
+        seleniumVersion = browser["seleniumVersion"]
       
       killBrowser = True 
       if "kill" in browser:
