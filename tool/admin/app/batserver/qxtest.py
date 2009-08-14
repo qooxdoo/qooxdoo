@@ -41,7 +41,9 @@ class QxTest:
                autConf=None, browserConf=None, mailConf=None):
     
     defaultSeleniumConf = {
-      'startSelenium'       : 'java -jar ../../selenium/current/selenium-server.jar',
+      'seleniumDir'         : '../../selenium',
+      'seleniumVersion'     : 'current',
+      'seleniumJar'         : 'selenium-server.jar',
       'seleniumHost'        : 'http://localhost:4444',
       'ieSingleWindow'      : True
     }
@@ -165,8 +167,13 @@ class QxTest:
   # fails the script is ended.
   #
   # @param single {bool} Start the server with the -singleWindow option 
-  def startSeleniumServer(self, single=False):
-    cmd = self.seleniumConf['startSelenium']
+  def startSeleniumServer(self, single=False, version=None):
+    seleniumVersion = version or self.seleniumConf["seleniumVersion"]
+    
+    cmd = "java -jar " + self.seleniumConf["seleniumDir"] + "/" 
+    cmd += seleniumVersion + "/"
+    cmd += self.seleniumConf["seleniumJar"]
+
     if (self.sim):
       if single:
         self.log("SIMULATION: Starting Selenium RC server in single window mode.")
@@ -664,6 +671,10 @@ class QxTest:
     if clearLogs:
       self.clearLogs()
       
+    seleniumVersion = self.seleniumConf["seleniumVersion"]
+    if 'seleniumVersion' in appConf:
+      seleniumVersion = appConf["seleniumVersion"]
+    
     individual = True
     if 'individualServer' in appConf:
       individual = appConf['individualServer']      
@@ -671,13 +682,16 @@ class QxTest:
     if not individual:
       self.log("individualServer set to False, using one server instance for "
                + "all tests")
-      self.startSeleniumServer()
+      self.startSeleniumServer(False, seleniumVersion)
 
     for browser in appConf['browsers']:
       # Use single window mode? (Necessary for IE with Selenium 1.*)
       single = False
       if "iexplore" in self.browserConf[browser['browserId']] and self.seleniumConf['ieSingleWindow']:
         single = True
+      
+      if "seleniumVersion" in browser:
+        seleniumVersion = browser["seleniumVersion"] 
       
       killBrowser = True 
       if "kill" in browser:
@@ -686,7 +700,7 @@ class QxTest:
       if individual:
         self.log("individualServer set to True, using one server instance per "
                  + "test run")
-        self.startSeleniumServer(single)
+        self.startSeleniumServer(single, seleniumVersion)
       
       options = False
       if "options" in browser:
