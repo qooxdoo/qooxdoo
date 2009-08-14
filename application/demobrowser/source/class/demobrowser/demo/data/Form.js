@@ -86,6 +86,11 @@ qx.Class.define("demobrowser.demo.data.Form",
       // connect the name
       controller.addTarget(nameTextfield, "value", "name", true);
       
+      // connect the select box
+      controller.addTarget(
+        genderSelectBox, "selection", "gender", true //, genderModel2Selection, genderSelection2Model
+      );      
+      
       // connect the checkbox (boolean to int conversion)
       var okModel2CheckBox = {converter: function(data) {
         return data === 1;
@@ -96,25 +101,6 @@ qx.Class.define("demobrowser.demo.data.Form",
       controller.addTarget(
         okCheckBox, "value", "ok", true, okModel2CheckBox, okCheckBox2Model
       );
-
-      // connect the selectbox (convert selection to string)
-      var genderSelection2Model = {converter : function(data) {
-        return data[0].getLabel();
-      }}
-      var genderModel2Selection = {converter : function(data) {
-        var selectables = genderSelectBox.getSelectables();
-        for (var i = 0; i < selectables.length; i++) {
-          if (selectables[i].getLabel() == data) {
-            return [selectables[i]];
-          }
-        }
-        return [selectables[0]];
-      }}
-      controller.addTarget(
-        genderSelectBox, "selection", "gender", true, 
-        genderModel2Selection, genderSelection2Model
-      );
-      
       ////////////////////////////////////
 
 
@@ -140,11 +126,18 @@ qx.Class.define("demobrowser.demo.data.Form",
 
 
       // serialization ///////////////////
+      
+      // serializer for qooxdoo objects
+      var qxSerializer = function(object) {
+        if (object instanceof qx.ui.form.ListItem) {
+          return object.getLabel();          
+        }
+      }
 
       // invoke the serialization
       sendButton.addListener("execute", function() {
         if (manager.validate()) {
-          alert("You are sending: " + qx.util.Serializer.toUriParameter(model));
+          alert("You are sending: " + qx.util.Serializer.toUriParameter(model, qxSerializer));
         }
       }, this);
       ////////////////////////////////////
