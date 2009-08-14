@@ -102,8 +102,12 @@ qx.Class.define("qx.data.controller.Form",
      * Remember that this method can only work if the form is set. The created 
      * model will fit exactly that form. Changing the form or adding an item to
      * the form will need a new model creation.
+     * 
+     * @param includeBubbleEvents {Boolean} Whether the model should support
+     *   the bubbling of change events or not.
+     * @return {qx.core.Object} The created model.
      */
-    createModel : function() {
+    createModel : function(includeBubbleEvents) {
       var target = this.getTarget();
       
       // throw an error if no target is set
@@ -117,7 +121,7 @@ qx.Class.define("qx.data.controller.Form",
         data[name] = null;
       }
       
-      var model = qx.data.marshal.Json.createModel(data);
+      var model = qx.data.marshal.Json.createModel(data, includeBubbleEvents);
       this.setModel(model);
       
       return model;
