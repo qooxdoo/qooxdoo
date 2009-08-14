@@ -23,18 +23,25 @@
  *
  * *General idea*
  *
- * TODO
+ * The form controller is responsible for connecting a from with a model. If no
+ * model is given, a model can be created. This created form will fit exactly 
+ * to the given form and can be used for serialization. All the connections 
+ * between the form items and the model are handled by an internal 
+ * {@link qx.data.controller.Object}.
  *
  * *Features*
  *
- * * TODO
+ * * Connect a form to a model (bidirectional)
+ * * Create a model for a given form
  *
  * *Usage*
  * 
- * TODO
+ * The controller only work if both, a controller and a model are set. 
+ * Creating a model will automatically set the created model.
  *
  * *Cross reference*
  *
+ * * If you want to bind single values, use {@link qx.data.controller.Object}
  * * If you want to bind a list like widget, use {@link qx.data.controller.List}
  * * If you want to bind a tree widget, use {@link qx.data.controller.Tree}
  */
@@ -42,7 +49,12 @@ qx.Class.define("qx.data.controller.Form",
 {
   extend : qx.core.Object,
 
-
+  /**
+   * @param model {qx.core.Object | null} The model to bind the target to. The
+   *   given object will be set as {@link #model} property.
+   * @param target {qx.ui.form.Form | null} The form which contains the form 
+   *   items. The given form will be set as {@link #target} property.
+   */
   construct : function(model, target)
   {
     this.base(arguments);
@@ -85,7 +97,12 @@ qx.Class.define("qx.data.controller.Form",
   {
     __objectController : null,    
     
-
+    /**
+     * Creates and sets a model using the {@link qx.data.marshal.Json} object.
+     * Remember that this method can only work if the form is set. The created 
+     * model will fit exactly that form. Changing the form or adding an item to
+     * the form will need a new model creation.
+     */
     createModel : function() {
       var target = this.getTarget();
       
@@ -107,6 +124,7 @@ qx.Class.define("qx.data.controller.Form",
     },
     
     
+    // apply method
     _applyTarget : function(value, old) {
       // if an old target is given, remove the binding
       if (old != null) {
@@ -125,6 +143,7 @@ qx.Class.define("qx.data.controller.Form",
     },
     
     
+    // apply method
     _applyModel : function(value, old) {
       // set the model of the object controller if available
       if (this.__objectController != null) {
@@ -143,6 +162,11 @@ qx.Class.define("qx.data.controller.Form",
     },
     
     
+    /**
+     * Internal helper for setting up the bindings using 
+     * {@link qx.data.controller.Object#addTarget}. All bindings are set 
+     * up bidirectional.
+     */
     __setUpBinding : function() {
       // create the object controller
       if (this.__objectController == null) {
@@ -167,6 +191,12 @@ qx.Class.define("qx.data.controller.Form",
     },
     
     
+    /**
+     * Internal helper for removing all set up bindings using 
+     * {@link qx.data.controller.Object#removeTarget}.
+     * 
+     * @param oldTarget {qx.ui.form.Form} The form which has been removed.
+     */
     __tearDownBinding : function(oldTarget) {
       // do nothing if the object controller has not been created
       if (this.__objectController == null) {
@@ -181,7 +211,6 @@ qx.Class.define("qx.data.controller.Form",
         this.__objectController.removeTarget(items[name], "value", name);
       }
     }
-    
-    
+
   }
 });
