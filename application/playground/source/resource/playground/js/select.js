@@ -253,7 +253,15 @@ var select = {};
           else range.moveToElementText(node.parentNode);
           if (count) range.move("character", count);
         }
-        else range.moveToElementText(node);
+        else
+        {
+          // [BUG #2676] Added try-catch as a possible hotfix
+          try {
+            range.moveToElementText(node);
+          } catch(ex) {
+            // intentionally left blank
+          }
+        }
       }
 
       // Do a binary search through the container object, comparing
