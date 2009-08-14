@@ -47,6 +47,7 @@
  * 
  * * If you want to bind single values, use {@link qx.data.controller.Object}
  * * If you want to bind a list like widget, use {@link qx.data.controller.List}
+ * * If you want to bin a form widget, use {@link qx.data.controller.Form}
  */
 qx.Class.define("qx.data.controller.Tree", 
 {
