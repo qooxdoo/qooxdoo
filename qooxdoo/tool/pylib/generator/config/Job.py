@@ -97,6 +97,7 @@ class Job(object):
         if self.hasFeature("extend"):
             # loop through 'extend' entries
             extends = self.getFeature("extend")
+            self._console.indent()
             for entry in extends:
                 # cyclic check: have we seen this already?
                 if entry in entryTrace:
@@ -106,11 +107,13 @@ class Job(object):
                 if not entryJob:
                     raise RuntimeError, "No such job: \"%s\" (trace: %s)" % (entry, entryTrace+[self.name])
 
+                self._console.debug('Including "%s" into "%s"' % (entryJob.name, self.name))
                 # make sure this entry job is fully resolved in its context
                 entryJob.resolveExtend(entryTrace + [self.name], config)
 
                 # now merge the fully expanded job into the current job
                 self.mergeJob(entryJob)
+            self._console.outdent()
 
         self.setFeature(Lang.RESOLVED_KEY, True)
 
