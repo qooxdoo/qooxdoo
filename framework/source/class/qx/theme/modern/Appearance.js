@@ -1890,7 +1890,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           font      : "bold",
-          textAlign : "center"
+          textAlign : "center",
+          textColor: states.disabled ? "text-disabled" : undefined
         };
       }
     },
@@ -1900,6 +1901,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
+          textColor: states.disabled ? "text-disabled" : undefined,          
           marginTop : 2
         };
       }
@@ -1910,7 +1912,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          textColor : states.weekend ? "text-light" : undefined,
+          textColor : states.disabled ? "text-disabled" : states.weekend ? "text-light" : undefined,
           textAlign : "center",
           paddingTop : 2,
           backgroundColor : "background-medium"
@@ -1936,8 +1938,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           textAlign : "center",
-          decorator : states.selected ? "selected" : undefined,
-          textColor : states.selected ? "text-selected" : states.otherMonth ? "text-light" : undefined,
+          decorator : states.disabled ? undefined : states.selected ? "selected" : undefined,
+          textColor : states.disabled ? "text-disabled" : states.selected ? "text-selected" : states.otherMonth ? "text-light" : undefined,
           font      : states.today ? "bold" : undefined,
           padding   : [ 2, 4 ]
         };
