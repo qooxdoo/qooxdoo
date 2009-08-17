@@ -222,6 +222,20 @@ qx.Class.define("qx.test.util.Serializer",
       this.assertEquals('{"data1":"a","data2":10.456,"data3":true}', this.__s.toJson(this.__model, qxSerializer));      
       
       item.dispose();
+    },
+    
+    testJsonWithMarshaler : function() 
+    {
+      this.__model.setData1("a");
+      this.__model.setData2(["b"]);
+      this.__model.setData3("c");
+
+      var json = this.__s.toJson(this.__model);
+      var model = qx.data.marshal.Json.createModel(qx.util.Json.parse(json));
+
+      this.assertEquals(this.__model.getData1(), model.getData1());
+      this.assertEquals(this.__model.getData2()[0], model.getData2().getItem(0));
+      this.assertEquals(this.__model.getData3(), model.getData3());
     }
     
   }
