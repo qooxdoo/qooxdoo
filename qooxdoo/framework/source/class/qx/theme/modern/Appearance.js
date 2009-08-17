@@ -375,7 +375,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         } else {
           textColor = "text-input";
         }
-        
+
         return {
           decorator : decorator,
           padding : [ 2, 4, 1 ],
@@ -439,7 +439,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           marginRight: 2,
-          padding: [2, 4, 1]
+          padding: [2, 4, 1],
+          textColor: states.disabled ? "text-disabled" : "text-input"
         };
       }
     },
