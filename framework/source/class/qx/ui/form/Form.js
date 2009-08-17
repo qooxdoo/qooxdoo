@@ -78,6 +78,10 @@ qx.Class.define("qx.ui.form.Form",
       // save the given arguments
       this.__groups[this.__groupCounter].items.push(item);
       this.__groups[this.__groupCounter].labels.push(label);
+      // if no name is given, use the label without whitespaces
+      if (name == null) {
+        name = label.replace(/\s+/g, "");
+      }      
       this.__groups[this.__groupCounter].names.push(name);      
       
       // add the item to the validation manager
@@ -249,10 +253,6 @@ qx.Class.define("qx.ui.form.Form",
         // get all items
         for (var j = 0; j < group.names.length; j++) {
           var name = group.names[j];
-          // if no name is given, use the label without whitespaces
-          if (name == null) {
-            name = group.labels[j].replace(/\s+/g, "");
-          }
           items[name] = group.items[j];
         }
       }
