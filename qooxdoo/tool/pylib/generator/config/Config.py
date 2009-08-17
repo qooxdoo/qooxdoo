@@ -570,7 +570,10 @@ class Config:
 
         for job in jobs:
             jobObj = self.getJob(job)
+            console.debug("for job: %s" % jobObj.name)
+            console.indent()
             jobObj.resolveMacros()
+            console.outdent()
 
         console.outdent()
 
