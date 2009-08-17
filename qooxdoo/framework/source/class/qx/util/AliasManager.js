@@ -113,16 +113,12 @@ qx.Class.define("qx.util.AliasManager",
       // Localify stores
       var dynamics = this._getDynamic();
 
-      // Temporary data structure to optimize performance of update
-      var paths = {};
-
       // Update old entries which use this alias
       for (var path in dynamics)
       {
         if (path.substring(0, path.indexOf("/")) === alias)
         {
           dynamics[path] = base + path.substring(alias.length);
-          paths[path] = true;
         }
       }
     },
