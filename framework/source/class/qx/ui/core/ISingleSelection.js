@@ -100,6 +100,6 @@ qx.Interface.define("qx.ui.core.ISingleSelection",
      */
     getSelectables: function() {
       return true;
-    }    
+    }
   }
 });
