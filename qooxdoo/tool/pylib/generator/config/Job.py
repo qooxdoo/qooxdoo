@@ -200,7 +200,8 @@ class Job(object):
                     letmaps['bin'][k] = letMap[k]
                     
             # apply dict to other values
-            self._expandMacrosInValues(self._data, letmaps)
+            newdata = self._expandMacrosInValues(self._data, letmaps)
+            self._data = newdata
 
 
     def includeGlobalLet(self, additionalLet=None):
@@ -261,29 +262,37 @@ class Job(object):
         return sub
 
 
+    ##
+    # apply macro expansion on arbitrary values; takes care of recursive data like
+    # lists and dicts; only actually applies macros when a string is encountered on 
+    # the way (look for calls to _expandString()); returns a *new* data
+    # structure that holds the expanded version (so the input data is unchanged)
+
     def _expandMacrosInValues(self, data, maps):
-        """ apply macro expansion on arbitrary values; takes care of recursive data like
-            lists and dicts; only actually applies macros when a string is encountered on 
-            the way (look for calls to _expandString())"""
-        result = data  # intialize result
+        #result = data  # intialize result
+        #print "IN: %r" % data
         
         # arrays
         if isinstance(data, types.ListType):
+            result = []
             for e in range(len(data)):
                 enew = self._expandMacrosInValues(data[e], maps)
                 if enew != data[e]:
                     console.debug("expanding: %r ==> %r" % (data[e], enew))
-                    data[e] = enew
+                    #data[e] = enew
+                result.append(enew)
                     
         # dicts
         elif isinstance(data, types.DictType):
+            result = {}
             for e in data.keys(): # have to use keys() explicitly since i modify data in place
                 # expand in values
                 enew = self._expandMacrosInValues(data[e], maps)
                 if enew != data[e]:
                     #console.debug("expanding: %s ==> %s" % (str(data[e]), str(enew)))
                     console.debug("expanding: %r ==> %r" % (data[e], enew))
-                    data[e] = enew
+                    #data[e] = enew
+                result[e] = enew
 
                 # expand in keys
                 if ((isinstance(e, types.StringTypes) and
@@ -293,8 +302,8 @@ class Job(object):
                         #self._console.warn("! Empty expansion for macro in config key: \"%s\"" % e)
                         pass  # TODO: the above warning produces too many false positives
                     else:
-                        data[enew] = data[e]
-                        del data[e]
+                        result[enew] = result[e]
+                        del result[e]
                         console.debug("expanding key: %s ==> %s" % (e, enew))
 
         # JobMergeValues
@@ -311,11 +320,14 @@ class Job(object):
                 if result == data:
                     #self._console.warn("! Empty expansion for macro in config value: \"%s\"" % data)
                     pass # TODO: see other Empty expansion warning
+            else:
+                result = data
 
         # leave everything else alone
         else:
             result = data
 
+        #print "OUT: %r" % result
         return result
 
 
