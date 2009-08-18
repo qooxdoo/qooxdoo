@@ -19,7 +19,7 @@
 
 /**
  * A filtered table model to provide support for hiding and filtering table
- * rows.
+ * rows. Any rows that match any applied filters will be hidden.
  */
 qx.Class.define("qx.ui.table.model.Filtered",
 {
