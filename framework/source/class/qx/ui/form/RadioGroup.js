@@ -194,6 +194,7 @@ qx.Class.define("qx.ui.form.RadioGroup",
       return this.__items;
     },
 
+
     /**
      * Set the checked state of a given item.
      *
@@ -208,6 +209,7 @@ qx.Class.define("qx.ui.form.RadioGroup",
       
       this.setSelection([item]);
     },
+
 
     /**
      * Select the radio item, with the given value.
@@ -326,7 +328,7 @@ qx.Class.define("qx.ui.form.RadioGroup",
     /**
      * Returns an array containing the group's items.
      *
-     * @return {Object[]} The item array
+     * @return {qx.ui.form.IRadioItem[]} The item array
      */
     getChildren : function()
     {
