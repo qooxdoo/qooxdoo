@@ -72,7 +72,13 @@ qx.Class.define("qx.bom.element.Style",
           "gecko" : "MozUserSelect",
           "webkit" : "WebkitUserSelect",
           "default" : "userSelect"
-        })
+        }),
+        
+        "userModify" : qx.core.Variant.select("qx.client", {
+          "gecko" : "MozUserModify",
+          "webkit" : "WebkitUserModify",
+          "default" : "userSelect"
+        })        
       },
 
       // CSS property name correction (at HTML/CSS level)
@@ -90,6 +96,12 @@ qx.Class.define("qx.bom.element.Style",
           "default" : "user-select"
         }),
 
+       "userModify" : qx.core.Variant.select("qx.client", {
+          "gecko" : "-moz-user-modify",
+          "webkit" : "-webkit-user-modify",
+          "default" : "user-select"
+        }),
+        
         "textOverflow" : qx.core.Variant.select("qx.client", {
           "opera" : "-o-text-overflow",
           "default" : "text-overflow"
