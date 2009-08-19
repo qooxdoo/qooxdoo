@@ -36,6 +36,10 @@ qx.Class.define("qx.event.type.Data",
 
   members :
   {
+    __data : null,
+    __old : null,
+
+
     /**
      * Initializes an event object.
      *
