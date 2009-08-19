@@ -270,7 +270,7 @@ qx.Class.define("qx.ui.form.AbstractField",
     {
       this.base(arguments, value, old);
 
-      this.getContentElement().setAttribute("disabled", value===false);
+      this.getContentElement().setEnabled(value);        
 
       if (value) {
         this._showPlaceholder();
