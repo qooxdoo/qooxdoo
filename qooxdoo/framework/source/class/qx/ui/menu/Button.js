@@ -170,6 +170,8 @@ qx.Class.define("qx.ui.menu.Button",
   */
 
   destruct : function() {
-    qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
+    if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
+      qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
+    }
   }
 });
