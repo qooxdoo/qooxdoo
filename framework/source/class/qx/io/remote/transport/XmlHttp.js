@@ -625,9 +625,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     {
       var vResponseText = null;
 
-      var vStatus = this.getStatusCode();
-      var vReadyState = this.getReadyState();
-
       try
       {
         vResponseText = this.getRequest().responseText;
