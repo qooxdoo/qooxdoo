@@ -142,6 +142,12 @@ qx.Class.define("qx.event.handler.Application",
     unregisterEvent : function(target, type, capture) {
       // Nothing needs to be done here
     },
+    
+    __isReady : null,
+    __domReady : null,
+    __loaded : null,
+    __isUnloaded : null,
+    
 
 
 

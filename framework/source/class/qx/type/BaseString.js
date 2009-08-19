@@ -54,6 +54,7 @@ qx.Class.define("qx.type.BaseString",
   {
     $$isString : true,
     length : 0,
+    __txt : null,
 
 
     /**
