@@ -535,6 +535,12 @@ class CodeGenerator(object):
             if imgsfx[0] == os.sep: imgsfx = imgsfx[1:]  # strip leading '/'
             return imgsfx                # use the bare img suffix as its asset Id
 
+        ##
+        # normalize the uri of a clipped image in the following way:
+        # - uriFromMetafile is a path from when the meta file was generated,
+        #   like: "./source/resource/qx/decoration/Modern/..."
+        # - trueCombinedUri is like: 
+        #   "../../framework/source/resource/qx/decoration/Modern/panel-combined.png"
         def normalizeImgUri(uriFromMetafile, trueCombinedUri, combinedUriFromMetafile):
             # normalize paths (esp. "./x" -> "x")
             (uriFromMetafile, trueCombinedUri, combinedUriFromMetafile) = map(os.path.normpath,(uriFromMetafile, trueCombinedUri, combinedUriFromMetafile))
@@ -546,9 +552,26 @@ class CodeGenerator(object):
             normalUri = os.path.normpath(os.path.join(trueUriPrefix, uriSuffix))
             return normalUri
 
-        def processCombinedImg(data, meta_fname, cimguri, cimgshorturi, cimgfmt):
-            assert cimgfmt.lib, cimgfmt.type
-            # read meta file
+        ##
+        # - reads through the entries of a .meta file, which is the contents of a combined image
+        # - for each contained image:
+        #   - computes the image id ("short uri")
+        #   - collects the list of interesting values (width, height, ..., combined image, ...)
+        #   - and adds these as key:value to the general data map of images
+        #
+        # @param data |{imageId:[width, height, ...]}|  general map for qx.$$resource in loader
+        # @param meta_fname |String| file path of the .meta file
+        # @param combinedImageUri |String| uri of the combined image
+        # @param combinedImageShortUri |String| short uri (image/asset id) of the combined image
+        #                              these are necessary to compute the image id's of the contained imgs
+        # @param combinedImageObject |ImgInfoFmt| an ImgInfoFmt wrapper object for the combined image
+        #                             (interesting for the lib and type info)
+
+        def processCombinedImg(data, meta_fname, combinedImageUri, combinedImageShortUri, combinedImageObject):
+            # make sure lib and type info for the combined image are present
+            assert combinedImageObject.lib, combinedImageObject.type
+
+            # see if we have cached the contents (json) of this .meta file
             cacheId = "imgcomb-%s" % meta_fname
             imgDict = self._cache.read(cacheId, meta_fname)
             if imgDict == None:
@@ -556,27 +579,33 @@ class CodeGenerator(object):
                 imgDict = simplejson.loads(mfile.read())
                 mfile.close()
                 self._cache.write(cacheId, imgDict)
-            for mimg, mimgs in imgDict.items():
-                # sort of like this: mimg : [width, height, type, combinedUri, off-x, off-y]
-                mimgspec = ImgInfoFmt(mimgs)
+
+            # now loop through the dict structure from the .meta file
+            for imagePath, imageSpec_ in imgDict.items():
+                # sort of like this: imagePath : [width, height, type, combinedUri, off-x, off-y]
+
+                imageObject = ImgInfoFmt(imageSpec_) # turn this into an ImgInfoFmt object, to abstract from representation in .meta file and loader script
+
                 # have to normalize the uri's from the meta file
-                # cimguri is relevant, like: "../../framework/source/resource/qx/decoration/Modern/panel-combined.png"
-                # mimg is an uri from when the meta file was generated, like: "./source/resource/qx/decoration/Modern/..."
-                mimguri = normalizeImgUri(mimg, cimguri, mimgspec.mappedId)
-                ## replace lib uri with lib namespace in mimguri
-                ##mimgshorturi = replaceWithNamespace(mimguri, libresuri, cimgfmt.lib)
-                #mimgshorturi = extractAssetPart(libresuri, mimguri)
-                mimgshorturi = extractAssetPart(librespath, mimguri)
-                mimgshorturi = Path.posifyPath(mimgshorturi)
+                imageUri = normalizeImgUri(imagePath, combinedImageUri, imageObject.mappedId)
 
-                mimgspec.mappedId = cimgshorturi        # correct the mapped uri of the combined image
-                mimgspec.lib      = cimgfmt.lib
-                mimgspec.mtype    = cimgfmt.type
-                mimgspec.mlib     = cimgfmt.lib
-                data[mimgshorturi] = mimgspec.flatten()  # this information takes precedence over existing
+                ## replace lib uri with lib namespace in imageUri
+                imageShortUri = extractAssetPart(librespath, imageUri)
+                imageShortUri = Path.posifyPath(imageShortUri)
+
+                # now put all elements of the image object together
+                imageObject.mappedId = combinedImageShortUri        # correct the mapped uri of the combined image
+                imageObject.lib      = combinedImageObject.lib
+                imageObject.mtype    = combinedImageObject.type
+                imageObject.mlib     = combinedImageObject.lib
+
+                # and store it in the data structure
+                data[imageShortUri]  = imageObject.flatten()  # this information takes precedence over existing
+
+            return
 
 
-        # main
+        # -- main --------------------------------------------------------------
 
         resourceFilter= self._resourceHandler.getResourceFilterByAssets(self._classList)
 
