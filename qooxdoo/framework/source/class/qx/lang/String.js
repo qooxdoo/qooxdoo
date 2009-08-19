@@ -111,7 +111,7 @@ qx.Bootstrap.define("qx.lang.String",
      * @return Cleaned up string
      */
     clean: function(str){
-      return str.replace(/\s+/g, ' ').trim();
+      return this.trim(str.replace(/\s+/g, ' '));
     },
   
 
