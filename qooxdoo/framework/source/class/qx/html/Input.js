@@ -53,6 +53,10 @@ qx.Class.define("qx.html.Input",
     } else {
       this.setNodeName("input");
     }
+    
+    if (this.__attachEnabledListener != null) {
+      this.__attachEnabledListener();
+    }
   },
 
 
@@ -68,6 +72,8 @@ qx.Class.define("qx.html.Input",
   {
 
     __type : null,
+    // only used for webkit
+    __enabled : true,
 
     /*
     ---------------------------------------------------------------------------
@@ -94,8 +100,63 @@ qx.Class.define("qx.html.Input",
       }
     },
 
+    
+    /**
+     * Set the input element enabled / disabled. 
+     * Webkit needs a special treatment because the set color of the input 
+     * field changes automatically. Therefore, we use 
+     * <code>-webkit-user-modify: read-only</code> and
+     * <code>-webkit-user-select: none</code>
+     * for disabling the fields in webkit. All other browsers use the disabled
+     * attribute.
+     * 
+     * @param value {Boolean} true, if the inpout element should be enabled.
+     */
+    setEnabled : qx.core.Variant.select("qx.client",
+    {
+      "webkit" : function(value)
+      {
+        this.__enabled = value;
+        var element = this.getDomElement();
+        if (element != null && !value) {
+          qx.bom.element.Style.set(element, "-webkit-user-modify", "read-only");
+          qx.bom.element.Style.set(element, "-webkit-user-select", "none");
+        } else if (element != null) {
+          qx.bom.element.Style.set(element, "-webkit-user-modify", "");
+          qx.bom.element.Style.set(element, "-webkit-user-select", "");          
+        }        
+      },
 
+      "default" : function(value) 
+      {
+        this.setAttribute("disabled", value===false);
+      }
+    }),
+    
+    
+    /**
+     * Attaches a listener to the appear event which handles the setting of the 
+     * css disabled state in webkit browsers. In all other browsers, the 
+     * function is null.
+     */
+    __attachEnabledListener : qx.core.Variant.select("qx.client",
+    {
+      "webkit" : function()
+      {
+        this.addListener("appear", function() {
+          var element = this.getDomElement();
+          if (!this.__enabled) {
+            qx.bom.element.Style.set(element, "-webkit-user-modify", "read-only");
+            qx.bom.element.Style.set(element, "-webkit-user-select", "none");
+          } else {
+            qx.bom.element.Style.set(element, "-webkit-user-modify", "");
+            qx.bom.element.Style.set(element, "-webkit-user-select", "");          
+          }        
+        }, this);        
+      },
 
+      "default" : null
+    }),    
 
 
     /*
