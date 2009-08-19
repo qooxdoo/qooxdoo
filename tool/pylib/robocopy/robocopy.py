@@ -142,7 +142,7 @@ class PyRobocopier:
         if self.__dir1=='' or self.__dir2=='':
             sys.exit("Argument Error: Directory arguments not given!")
         if ((not os.path.isdir(self.__dir1)) and (not os.path.isfile(self.__dir1))):
-            sys.exit("Argument Error: Source directory does not exist!")
+            sys.exit("Argument Error: Source directory does not exist! %s" % self.__dir1)
         if not self.__maketarget and (not os.path.isdir(self.__dir2) or not os.path.isdir(os.path.dirname(self.__dir2))):
             sys.exit("Argument Error: Target directory %s does not exist! (Try the -c option)." % self.__dir2)
         if self.__mainfunc is None:
