@@ -136,6 +136,12 @@ qx.Class.define("qx.test.lang.String",
       this.assertEquals("<div id='1'>&nbsp; €</div>", qx.xml.String.unescape("&lt;div id=&apos;1&apos;&gt;&amp;nbsp; &#8364;&lt;/div&gt;"));
 
       this.assertEquals('"bread" & "butter"', qx.xml.String.unescape("&quot;bread&quot; &amp; &quot;butter&quot;"));
+    },
+    
+    testClean: function()
+    {
+      var str = "  a  b\tc\rd\fe\vf\n\ng\nh\ri ";
+      this.assertEquals("a b c d e f g h i", qx.lang.String.clean(str));
     }
   }
 });
