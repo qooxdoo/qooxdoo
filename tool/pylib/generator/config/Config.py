@@ -90,7 +90,12 @@ class Config:
         obj = open(fname)
         jsonstr = obj.read()
         jsonstr = self._stripComments(jsonstr)
-        data = simplejson.loads(jsonstr)
+        try:
+            data = simplejson.loads(jsonstr)
+        except ValueError:
+            print "Invalid JSON content: %s" % fname
+            raise
+            
         obj.close()
 
         self._data  = data
