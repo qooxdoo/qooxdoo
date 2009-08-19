@@ -80,4 +80,3 @@ qx.Class.define("demobrowser.demo.data.FormController",
     }
   }
 });
-
