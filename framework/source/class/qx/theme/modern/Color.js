@@ -83,8 +83,7 @@ qx.Theme.define("qx.theme.modern.Color",
 
     // states
     "text-hovered"  : "#001533",
-    // webkit changes the set text color of disabled input elements
-    "text-disabled" : qx.bom.client.Engine.WEBKIT ? "#CDCCD0" : "#7B7A7E",
+    "text-disabled" : "#7B7A7E",
     "text-selected" : "#fffefe",
     "text-active"   : "#26364D",
     "text-inactive" : "#404955",
