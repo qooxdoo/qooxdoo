@@ -441,7 +441,7 @@ qx.Class.define("qx.ui.form.SelectBox",
         // Apply pre-selected item (translate quick selection to real selection)
         if (this.__preSelectedItem)
         {
-          this.setSelecion([this.__preSelectedItem]);
+          this.setSelection([this.__preSelectedItem]);
           this.__preSelectedItem = null;
         }
 
