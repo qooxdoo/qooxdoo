@@ -277,7 +277,7 @@ qx.Class.define("qx.html.Element",
           }
         }
 
-        obj.__element.style.visibility = obj.__visible ? "" : "hidden";
+        obj.__element.style.display = obj.__visible ? "" : "none";
         delete visibility[hc];
       }
 
