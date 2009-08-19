@@ -276,7 +276,7 @@ qx.Class.define("qx.test.ui.form.FormManager",
       widgets.push(new qx.ui.form.TextArea());
       widgets.push(new qx.ui.form.TextField());
       widgets.push(new qx.ui.groupbox.CheckGroupBox());
-      widgets.push(new qx.ui.form.RadioGroup());
+      widgets.push(new qx.ui.form.RadioButtonGroup());
       widgets.push(new qx.ui.groupbox.RadioGroupBox());
 
       // add all
