@@ -290,6 +290,55 @@ qx.Class.define("qx.test.ui.form.Form",
     
     testRequiredRadioGroup : function() {
       this.__testRequired(new qx.ui.form.RadioGroup());
+    },
+    
+    testRequieredRadioButtonGroup: function() {
+      this.__testRequired(new qx.ui.form.RadioButtonGroup());      
+    },
+    
+    testValidRadioButtonGroup: function() {
+      var cont = new qx.ui.form.RadioButtonGroup();
+      var rb = new qx.ui.form.RadioButton();
+      cont.add(rb);
+      
+      // check if the interface is implemented
+      this.assert(qx.Class.hasInterface(cont.constructor, qx.ui.form.IForm), "Interface not implemented.");
+      
+      // test for the default (true)
+      this.assertTrue(cont.getValid(), "Default valid state is wrong.");
+
+      cont.setValid(false);
+      
+      // check if the state is set
+      this.assertFalse(cont.getValid(), "Setting of the valid flag did not work.");
+      
+      // check for the event
+      var self = this;
+      this.assertEventFired(cont, "changeValid", function () {
+        cont.setValid(true);
+      }, function(e) {
+        self.assertTrue(e.getData(), "Wrong data in the event.");
+        self.assertFalse(e.getOldData(), "Wrong old data in the event.");        
+      }, "Change event not fired!");
+      
+      // check for the event
+      this.assertEventFired(cont, "changeInvalidMessage", function () {
+        cont.setInvalidMessage("affe");
+      }, function(e) {
+        self.assertEquals("affe", e.getData(), "Wrong data in the event.");
+        self.assertEquals("", e.getOldData(), "Wrong old data in the event.");
+      }, "Change event not fired!");      
+      
+      // set the widget to invalid
+      cont.setValid(false);
+         
+      // check if the child is invalid
+      this.assertFalse(rb.getValid(), "Child is valid!");
+      // check the invalid message of the child
+      this.assertEquals("affe", rb.getInvalidMessage(), "Invalid messages not set on child.");
+      
+      cont.dispose();
+      rb.destroy();
     }
 
   }
