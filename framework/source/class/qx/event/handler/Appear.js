@@ -113,6 +113,9 @@ qx.Class.define("qx.event.handler.Appear",
 
   members :
   {
+    __manager : null,
+    __targets : null,
+    
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLER INTERFACE
