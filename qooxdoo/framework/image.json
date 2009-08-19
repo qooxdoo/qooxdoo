@@ -216,9 +216,16 @@
           // shadows combined - top and bottom
           "${RESPATH}/${CLASSIC}/shadow-tb-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
             [
-              "${RESPATH}/${CLASSIC}/shadow/shadow-[tb]*.png"
+              {
+                "prefix" : [ "${RESPATH}" ],
+                "files"  :
+                [
+                  "${RESPATH}/${CLASSIC}/shadow/shadow-[tb]*.png"
+                ]
+              }
             ],
             "layout" : "vertical"
           },
@@ -226,9 +233,16 @@
           // shadows combined - left and right
           "${RESPATH}/${CLASSIC}/shadow-lr-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
             [
-              "${RESPATH}/${CLASSIC}/shadow/shadow-[lr].png"
+              {
+                "prefix" : [ "${RESPATH}" ],
+                "files"  :
+                [
+                  "${RESPATH}/${CLASSIC}/shadow/shadow-[lr].png"
+                ]
+              }
             ],
             "layout" : "horizontal"
           },
@@ -236,9 +250,16 @@
           // small shadows combined - top and bottom
           "${RESPATH}/${CLASSIC}/shadow-small-tb-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
             [
-              "${RESPATH}/${CLASSIC}/shadow/shadow-small-[tb]*.png"
+              {
+                "prefix" : [ "${RESPATH}" ],
+                "files"  :
+                [
+                  "${RESPATH}/${CLASSIC}/shadow/shadow-small-[tb]*.png"
+                ]
+              }
             ],
             "layout" : "vertical"
           },
@@ -246,9 +267,16 @@
           // small shadows combined - left and right
           "${RESPATH}/${CLASSIC}/shadow-small-lr-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
             [
-              "${RESPATH}/${CLASSIC}/shadow/shadow-small-[lr].png"
+              {
+                "prefix" : [ "${RESPATH}" ],
+                "files"  :
+                [
+                  "${RESPATH}/${CLASSIC}/shadow/shadow-small-[lr].png"
+                ]
+              }
             ],
             "layout" : "horizontal"
           },
@@ -256,9 +284,16 @@
           // cursor images combined
           "${RESPATH}/${CLASSIC}/cursors-combined.gif":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${CLASSIC}/cursors/*.gif"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${CLASSIC}/cursors/*.gif"
+                  ]
+                }
               ],
              "layout" : "horizontal"
           },
@@ -266,9 +301,16 @@
           // window captionbar buttons combined
           "${RESPATH}/${CLASSIC}/window-captionbar-buttons-combined.gif":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${CLASSIC}/window/*.gif"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${CLASSIC}/window/*.gif"
+                  ]
+                }
               ],
              "layout" : "horizontal"
           },
@@ -276,9 +318,16 @@
           // colorselector images combined
           "${RESPATH}/${CLASSIC}/colorselector-combined.gif":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${CLASSIC}/colorselector/*.gif"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${CLASSIC}/colorselector/*.gif"
+                  ]
+                }
               ],
              "layout" : "horizontal"
           },
@@ -286,9 +335,16 @@
           // arrow images
           "${RESPATH}/${CLASSIC}/arrows-combined.gif":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${CLASSIC}/arrows/*.gif"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${CLASSIC}/arrows/*.gif"
+                  ]
+                }
               ],
              "layout" : "horizontal"
           },
@@ -296,9 +352,16 @@
           // checkboxes/radiobuttons
           "${RESPATH}/${CLASSIC}/checkbox-radiobutton-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${CLASSIC}/form/*.png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${CLASSIC}/form/*.png"
+                  ]
+                }
               ],
              "layout" : "horizontal"
           },
@@ -306,9 +369,16 @@
           // images used in table widget
           "${RESPATH}/${CLASSIC}/table-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${CLASSIC}/table/*.png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${CLASSIC}/table/*.png"
+                  ]
+                }
               ],
              "layout" : "horizontal"
           },
@@ -316,9 +386,16 @@
           // menu images
           "${RESPATH}/${CLASSIC}/menu-combined.gif":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${CLASSIC}/menu/*.gif"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${CLASSIC}/menu/*.gif"
+                  ]
+                }
               ],
              "layout" : "horizontal"
           },
@@ -332,70 +409,119 @@
           // this is the output file
           "${RESPATH}/${MODERN}/tooltip-error-tb-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
             [
-              "${RESPATH}/${MODERN}/form/tooltip-error-*-[tb]*.png",
-              "${RESPATH}/${MODERN}/form/tooltip-error-[tb]*.png"
+              {
+                "prefix" : [ "${RESPATH}" ],
+                "files"  :
+                [
+                  "${RESPATH}/${MODERN}/form/tooltip-error-*-[tb]*.png",
+                  "${RESPATH}/${MODERN}/form/tooltip-error-[tb]*.png"
+                ]
+              }
             ],
             "layout" : "vertical"
           },
 
           "${RESPATH}/${MODERN}/tooltip-error-lr-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
             [
-              "${RESPATH}/${MODERN}/form/tooltip-error-*-[lr].png",
-              "${RESPATH}/${MODERN}/form/tooltip-error-[lr].png"
+              {
+                "prefix" : [ "${RESPATH}" ],
+                "files"  :
+                [
+                  "${RESPATH}/${MODERN}/form/tooltip-error-*-[lr].png",
+                  "${RESPATH}/${MODERN}/form/tooltip-error-[lr].png"
+                ]
+              }
             ],
             "layout" : "horizontal"
           },
                     
           "${RESPATH}/${MODERN}/button-tb-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
             [
-              "${RESPATH}/${MODERN}/form/button-*-[tb]*.png",
-              "${RESPATH}/${MODERN}/form/button-[tb]*.png"
+              {
+                "prefix" : [ "${RESPATH}" ],
+                "files"  :
+                [
+                  "${RESPATH}/${MODERN}/form/button-*-[tb]*.png",
+                  "${RESPATH}/${MODERN}/form/button-[tb]*.png"
+                ]
+              }
             ],
             "layout" : "vertical"
           },
 
           "${RESPATH}/${MODERN}/button-lr-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
             [
-              "${RESPATH}/${MODERN}/form/button-*-[lr].png",
-              "${RESPATH}/${MODERN}/form/button-[lr].png"
+              {
+                "prefix" : [ "${RESPATH}" ],
+                "files"  :
+                [
+                  "${RESPATH}/${MODERN}/form/button-*-[lr].png",
+                  "${RESPATH}/${MODERN}/form/button-[lr].png"
+                ]
+              }
             ],
             "layout" : "horizontal"
           },
 
           "${RESPATH}/${MODERN}/pane-tb-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/pane/pane-t*.png",
-                "${RESPATH}/${MODERN}/pane/pane-b*.png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/pane/pane-t*.png",
+                    "${RESPATH}/${MODERN}/pane/pane-b*.png"
+                  ]
+                }
               ],
              "layout" : "vertical"
           },
 
           "${RESPATH}/${MODERN}/pane-lr-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/pane/pane-[lr].png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/pane/pane-[lr].png"
+                  ]
+                }
               ],
              "layout" : "horizontal"
           },
 
           "${RESPATH}/${MODERN}/inputcheckradio-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/form/checkbox*.png",
-                "${RESPATH}/${MODERN}/form/radiobutton*.png",
-                "${RESPATH}/${MODERN}/form/input*.png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/form/checkbox*.png",
+                    "${RESPATH}/${MODERN}/form/radiobutton*.png",
+                    "${RESPATH}/${MODERN}/form/input*.png"
+                  ]
+                }
               ],
              "layout" : "horizontal"
           },
@@ -403,12 +529,19 @@
           // window captionbar buttons
           "${RESPATH}/${MODERN}/window-captionbar-buttons-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/window/close-*.png",
-                "${RESPATH}/${MODERN}/window/minimize-*.png",
-                "${RESPATH}/${MODERN}/window/maximize-*.png",
-                "${RESPATH}/${MODERN}/window/restore-*.png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/window/close-*.png",
+                    "${RESPATH}/${MODERN}/window/minimize-*.png",
+                    "${RESPATH}/${MODERN}/window/maximize-*.png",
+                    "${RESPATH}/${MODERN}/window/restore-*.png"
+                  ]
+                }
               ],
              "layout" : "horizontal"
           },
@@ -416,10 +549,17 @@
           // window captionbar-active - top and bottom
           "${RESPATH}/${MODERN}/window-captionbar-tb-active-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/window/captionbar-active-b*.png",
-                "${RESPATH}/${MODERN}/window/captionbar-active-t*.png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/window/captionbar-active-b*.png",
+                    "${RESPATH}/${MODERN}/window/captionbar-active-t*.png"
+                  ]
+                }
               ],
              "layout" : "vertical"
           },
@@ -427,10 +567,17 @@
           // window captionbar-active - left and right
           "${RESPATH}/${MODERN}/window-captionbar-lr-active-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/window/captionbar-active-l.png",
-                "${RESPATH}/${MODERN}/window/captionbar-active-r.png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/window/captionbar-active-l.png",
+                    "${RESPATH}/${MODERN}/window/captionbar-active-r.png"
+                  ]
+                }
               ],
              "layout" : "horizontal"
           },
@@ -438,10 +585,17 @@
           // window captionbar-inactive - top and bottom
           "${RESPATH}/${MODERN}/window-captionbar-tb-inactive-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/window/captionbar-inactive-b*.png",
-                "${RESPATH}/${MODERN}/window/captionbar-inactive-t*.png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/window/captionbar-inactive-b*.png",
+                    "${RESPATH}/${MODERN}/window/captionbar-inactive-t*.png"
+                  ]
+                }
               ],
              "layout" : "vertical"
           },
@@ -449,10 +603,17 @@
           // window captionbar-inactive - left and right
           "${RESPATH}/${MODERN}/window-captionbar-lr-inactive-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/window/captionbar-inactive-l.png",
-                "${RESPATH}/${MODERN}/window/captionbar-inactive-r.png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/window/captionbar-inactive-l.png",
+                    "${RESPATH}/${MODERN}/window/captionbar-inactive-r.png"
+                  ]
+                }
               ],
              "layout" : "horizontal"
           },
@@ -460,10 +621,17 @@
           // window statusbar - top and bottom
           "${RESPATH}/${MODERN}/window-statusbar-tb-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/window/statusbar-b*.png",
-                "${RESPATH}/${MODERN}/window/statusbar-t*.png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/window/statusbar-b*.png",
+                    "${RESPATH}/${MODERN}/window/statusbar-t*.png"
+                  ]
+                }
               ],
              "layout" : "vertical"
           },
@@ -471,46 +639,81 @@
           // window statusbar - left and right
           "${RESPATH}/${MODERN}/window-statusbar-lr-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/window/statusbar-l.png",
-                "${RESPATH}/${MODERN}/window/statusbar-r.png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/window/statusbar-l.png",
+                    "${RESPATH}/${MODERN}/window/statusbar-r.png"
+                  ]
+                }
               ],
              "layout" : "horizontal"
           },
 
           "${RESPATH}/${MODERN}/shadow-tb-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
             [
-              "${RESPATH}/${MODERN}/shadow/shadow-[tb]*.png"
+              {
+                "prefix" : [ "${RESPATH}" ],
+                "files"  :
+                [
+                  "${RESPATH}/${MODERN}/shadow/shadow-[tb]*.png"
+                ]
+              }
             ],
             "layout" : "vertical"
           },
 
           "${RESPATH}/${MODERN}/shadow-lr-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
             [
-              "${RESPATH}/${MODERN}/shadow/shadow-[lr].png"
+              {
+                "prefix" : [ "${RESPATH}" ],
+                "files"  :
+                [
+                  "${RESPATH}/${MODERN}/shadow/shadow-[lr].png"
+                ]
+              }
             ],
             "layout" : "horizontal"
           },
 
           "${RESPATH}/${MODERN}/shadow-small-tb-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
             [
-              "${RESPATH}/${MODERN}/shadow/shadow-small-[tb]*.png"
+              {
+                "prefix" : [ "${RESPATH}" ],
+                "files"  :
+                [
+                  "${RESPATH}/${MODERN}/shadow/shadow-small-[tb]*.png"
+                ]
+              }
             ],
             "layout" : "vertical"
           },
 
           "${RESPATH}/${MODERN}/shadow-small-lr-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
             [
-              "${RESPATH}/${MODERN}/shadow/shadow-small-[lr].png"
+              {
+                "prefix" : [ "${RESPATH}" ],
+                "files"  :
+                [
+                  "${RESPATH}/${MODERN}/shadow/shadow-small-[lr].png"
+                ]
+              }
             ],
             "layout" : "horizontal"
           },
@@ -518,9 +721,16 @@
 
           "${RESPATH}/${MODERN}/cursors-combined.gif":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/cursors/*.gif"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/cursors/*.gif"
+                  ]
+                }
               ],
              "layout" : "horizontal"
           },
@@ -528,9 +738,16 @@
           // scrollbar images
           "${RESPATH}/${MODERN}/scrollbar-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/scrollbar/*.png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/scrollbar/*.png"
+                  ]
+                }
               ],
              "layout" : "horizontal"
           },
@@ -538,9 +755,16 @@
           // toolbar images
           "${RESPATH}/${MODERN}/toolbar-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/toolbar/*.png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/toolbar/*.png"
+                  ]
+                }
               ],
              "layout" : "horizontal"
           },
@@ -548,9 +772,16 @@
           // arrow images
           "${RESPATH}/${MODERN}/arrows-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/arrows/*.png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/arrows/*.png"
+                  ]
+                }
               ],
              "layout" : "horizontal"
           },
@@ -558,9 +789,16 @@
           // tree images
           "${RESPATH}/${MODERN}/tree-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/tree/*.png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/tree/*.png"
+                  ]
+                }
               ],
              "layout" : "horizontal"
           },
@@ -568,10 +806,17 @@
           // menu and menubar background images
           "${RESPATH}/${MODERN}/menu-background-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/menu/background.png",
-                "${RESPATH}/${MODERN}/menu/bar-background.png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/menu/background.png",
+                    "${RESPATH}/${MODERN}/menu/bar-background.png"
+                  ]
+                }
               ],
              "layout" : "horizontal"
           },
@@ -579,9 +824,16 @@
           // menu checkbox and radiobutton
           "${RESPATH}/${MODERN}/menu-checkradio-combined.gif":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/menu/*.gif"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/menu/*.gif"
+                  ]
+                }
               ],
              "layout" : "horizontal"
           },
@@ -589,9 +841,16 @@
           // table images
           "${RESPATH}/${MODERN}/table-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/table/*.png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/table/*.png"
+                  ]
+                }
               ],
              "layout" : "horizontal"
           },
@@ -599,9 +858,16 @@
           // colorselector images
           "${RESPATH}/${MODERN}/colorselector-combined.gif":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/colorselector/*.gif"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/colorselector/*.gif"
+                  ]
+                }
               ],
              "layout" : "horizontal"
           },
@@ -609,10 +875,17 @@
           // groupbox - top and bottom
           "${RESPATH}/${MODERN}/groupbox-tb-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/groupbox/groupbox-t*.png",
-                "${RESPATH}/${MODERN}/groupbox/groupbox-b*.png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/groupbox/groupbox-t*.png",
+                    "${RESPATH}/${MODERN}/groupbox/groupbox-b*.png"
+                  ]
+                }
               ],
              "layout" : "vertical"
           },
@@ -620,10 +893,17 @@
           // groupbox - left and right
           "${RESPATH}/${MODERN}/groupbox-lr-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/groupbox/groupbox-l.png",
-                "${RESPATH}/${MODERN}/groupbox/groupbox-r.png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/groupbox/groupbox-l.png",
+                    "${RESPATH}/${MODERN}/groupbox/groupbox-r.png"
+                  ]
+                }
               ],
              "layout" : "horizontal"
           },
@@ -631,10 +911,17 @@
           // tabview-pane - top and bottom
           "${RESPATH}/${MODERN}/tabview-pane-tb-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/tabview/tabview-pane-t*.png",
-                "${RESPATH}/${MODERN}/tabview/tabview-pane-b*.png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/tabview/tabview-pane-t*.png",
+                    "${RESPATH}/${MODERN}/tabview/tabview-pane-b*.png"
+                  ]
+                }
               ],
              "layout" : "vertical"
           },
@@ -642,9 +929,16 @@
           // tabview-pane - left and right
           "${RESPATH}/${MODERN}/tabview-pane-lr-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/tabview/tabview-pane-[lr].png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/tabview/tabview-pane-[lr].png"
+                  ]
+                }
               ],
              "layout" : "horizontal"
           },
@@ -658,10 +952,17 @@
           // tabview-button-active-top - top and bottom
           "${RESPATH}/${MODERN}/tabview-button-top-active-tb-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/tabview/tab-button-top-active-t*.png",
-                "${RESPATH}/${MODERN}/tabview/tab-button-top-active-b*.png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/tabview/tab-button-top-active-t*.png",
+                    "${RESPATH}/${MODERN}/tabview/tab-button-top-active-b*.png"
+                  ]
+                }
               ],
              "layout" : "vertical"
           },
@@ -669,10 +970,17 @@
           // tabview-button-active-top - left and right
           "${RESPATH}/${MODERN}/tabview-button-top-active-lr-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/tabview/tab-button-top-active-l.png",
-                "${RESPATH}/${MODERN}/tabview/tab-button-top-active-r.png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/tabview/tab-button-top-active-l.png",
+                    "${RESPATH}/${MODERN}/tabview/tab-button-top-active-r.png"
+                  ]
+                }
               ],
              "layout" : "horizontal"
           },
@@ -680,10 +988,17 @@
           // tabview-button-active-bottom - top and bottom
           "${RESPATH}/${MODERN}/tabview-button-bottom-active-tb-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/tabview/tab-button-bottom-active-t*.png",
-                "${RESPATH}/${MODERN}/tabview/tab-button-bottom-active-b*.png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/tabview/tab-button-bottom-active-t*.png",
+                    "${RESPATH}/${MODERN}/tabview/tab-button-bottom-active-b*.png"
+                  ]
+                }
               ],
              "layout" : "vertical"
           },
@@ -691,10 +1006,17 @@
           // tabview-button-active-bottom - left and right
           "${RESPATH}/${MODERN}/tabview-button-bottom-active-lr-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/tabview/tab-button-bottom-active-l.png",
-                "${RESPATH}/${MODERN}/tabview/tab-button-bottom-active-r.png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/tabview/tab-button-bottom-active-l.png",
+                    "${RESPATH}/${MODERN}/tabview/tab-button-bottom-active-r.png"
+                  ]
+                }
               ],
              "layout" : "horizontal"
           },
@@ -702,10 +1024,17 @@
           // tabview-button-active-left - top and bottom
           "${RESPATH}/${MODERN}/tabview-button-left-active-tb-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/tabview/tab-button-left-active-t*.png",
-                "${RESPATH}/${MODERN}/tabview/tab-button-left-active-b*.png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/tabview/tab-button-left-active-t*.png",
+                    "${RESPATH}/${MODERN}/tabview/tab-button-left-active-b*.png"
+                  ]
+                }
               ],
              "layout" : "vertical"
           },
@@ -713,10 +1042,17 @@
           // tabview-button-active-left - left and right
           "${RESPATH}/${MODERN}/tabview-button-left-active-lr-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/tabview/tab-button-left-active-l.png",
-                "${RESPATH}/${MODERN}/tabview/tab-button-left-active-r.png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/tabview/tab-button-left-active-l.png",
+                    "${RESPATH}/${MODERN}/tabview/tab-button-left-active-r.png"
+                  ]
+                }
               ],
              "layout" : "horizontal"
           },
@@ -724,10 +1060,17 @@
           // tabview-button-active-right - top and bottom
           "${RESPATH}/${MODERN}/tabview-button-right-active-tb-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/tabview/tab-button-right-active-t*.png",
-                "${RESPATH}/${MODERN}/tabview/tab-button-right-active-b*.png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/tabview/tab-button-right-active-t*.png",
+                    "${RESPATH}/${MODERN}/tabview/tab-button-right-active-b*.png"
+                  ]
+                }
               ],
              "layout" : "vertical"
           },
@@ -735,10 +1078,17 @@
           // tabview-button-active-right - left and right
           "${RESPATH}/${MODERN}/tabview-button-right-active-lr-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/tabview/tab-button-right-active-l.png",
-                "${RESPATH}/${MODERN}/tabview/tab-button-right-active-r.png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/tabview/tab-button-right-active-l.png",
+                    "${RESPATH}/${MODERN}/tabview/tab-button-right-active-r.png"
+                  ]
+                }
               ],
              "layout" : "horizontal"
           },
@@ -746,9 +1096,16 @@
           // tabview-button-inactive-top - top images
           "${RESPATH}/${MODERN}/tabview-button-top-inactive-t-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/tabview/tab-button-top-inactive-t*.png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/tabview/tab-button-top-inactive-t*.png"
+                  ]
+                }
               ],
              "layout" : "vertical"
           },
@@ -756,9 +1113,16 @@
           // tabview-button-inactive-top - bottom images
           "${RESPATH}/${MODERN}/tabview-button-top-inactive-b-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/tabview/tab-button-top-inactive-b*.png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/tabview/tab-button-top-inactive-b*.png"
+                  ]
+                }
               ],
              "layout" : "vertical"
           },
@@ -766,10 +1130,17 @@
           // tabview-button-inactive-top - left and right
           "${RESPATH}/${MODERN}/tabview-button-top-inactive-lr-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/tabview/tab-button-top-inactive-l.png",
-                "${RESPATH}/${MODERN}/tabview/tab-button-top-inactive-r.png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/tabview/tab-button-top-inactive-l.png",
+                    "${RESPATH}/${MODERN}/tabview/tab-button-top-inactive-r.png"
+                  ]
+                }
               ],
              "layout" : "horizontal"
           },
@@ -777,9 +1148,16 @@
           // tabview-button-inactive-bottom - top images
           "${RESPATH}/${MODERN}/tabview-button-bottom-inactive-t-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/tabview/tab-button-bottom-inactive-t*.png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/tabview/tab-button-bottom-inactive-t*.png"
+                  ]
+                }
               ],
              "layout" : "vertical"
           },
@@ -787,9 +1165,16 @@
           // tabview-button-inactive-bottom - bottom images
           "${RESPATH}/${MODERN}/tabview-button-bottom-inactive-b-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/tabview/tab-button-bottom-inactive-b*.png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/tabview/tab-button-bottom-inactive-b*.png"
+                  ]
+                }
               ],
              "layout" : "vertical"
           },
@@ -797,10 +1182,17 @@
           // tabview-button-inactive-bottom - left and right
           "${RESPATH}/${MODERN}/tabview-button-bottom-inactive-lr-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/tabview/tab-button-bottom-inactive-l.png",
-                "${RESPATH}/${MODERN}/tabview/tab-button-bottom-inactive-r.png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/tabview/tab-button-bottom-inactive-l.png",
+                    "${RESPATH}/${MODERN}/tabview/tab-button-bottom-inactive-r.png"
+                  ]
+                }
               ],
              "layout" : "horizontal"
           },
@@ -808,9 +1200,16 @@
           // tabview-button-inactive-left - top images
           "${RESPATH}/${MODERN}/tabview-button-left-inactive-t-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/tabview/tab-button-left-inactive-t*.png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/tabview/tab-button-left-inactive-t*.png"
+                  ]
+                }
               ],
              "layout" : "vertical"
           },
@@ -818,9 +1217,16 @@
           // tabview-button-inactive-left - bottom images
           "${RESPATH}/${MODERN}/tabview-button-left-inactive-b-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/tabview/tab-button-left-inactive-b*.png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/tabview/tab-button-left-inactive-b*.png"
+                  ]
+                }
               ],
              "layout" : "vertical"
           },
@@ -828,10 +1234,17 @@
           // tabview-button-inactive-left - left and right
           "${RESPATH}/${MODERN}/tabview-button-left-inactive-lr-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/tabview/tab-button-left-inactive-l.png",
-                "${RESPATH}/${MODERN}/tabview/tab-button-left-inactive-r.png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/tabview/tab-button-left-inactive-l.png",
+                    "${RESPATH}/${MODERN}/tabview/tab-button-left-inactive-r.png"
+                  ]
+                }
               ],
              "layout" : "horizontal"
           },
@@ -839,9 +1252,16 @@
           // tabview-button-inactive-right - top images
           "${RESPATH}/${MODERN}/tabview-button-right-inactive-t-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/tabview/tab-button-right-inactive-t*.png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/tabview/tab-button-right-inactive-t*.png"
+                  ]
+                }
               ],
              "layout" : "vertical"
           },
@@ -849,9 +1269,16 @@
           // tabview-button-inactive-right - bottom images
           "${RESPATH}/${MODERN}/tabview-button-right-inactive-b-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/tabview/tab-button-right-inactive-b*.png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/tabview/tab-button-right-inactive-b*.png"
+                  ]
+                }
               ],
              "layout" : "vertical"
           },
@@ -859,10 +1286,17 @@
           // tabview-button-inactive-right - left and right
           "${RESPATH}/${MODERN}/tabview-button-right-inactive-lr-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/tabview/tab-button-right-inactive-l.png",
-                "${RESPATH}/${MODERN}/tabview/tab-button-right-inactive-r.png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/tabview/tab-button-right-inactive-l.png",
+                    "${RESPATH}/${MODERN}/tabview/tab-button-right-inactive-r.png"
+                  ]
+                }
               ],
              "layout" : "horizontal"
           },
@@ -871,9 +1305,16 @@
           // splitpane-knobs
           "${RESPATH}/${MODERN}/splitpane-knobs-combined.png":
           {
+            "prefix" : [ "${RESPATH}" ],
             "input"  :
               [
-                "${RESPATH}/${MODERN}/splitpane/*.png"
+                {
+                  "prefix" : [ "${RESPATH}" ],
+                  "files"  :
+                  [
+                    "${RESPATH}/${MODERN}/splitpane/*.png"
+                  ]
+                }
               ],
              "layout" : "vertical"
           }
