@@ -536,18 +536,29 @@ class CodeGenerator(object):
             return imgsfx                # use the bare img suffix as its asset Id
 
         ##
-        # normalize the uri of a clipped image in the following way:
-        # - uriFromMetafile is a path from when the meta file was generated,
-        #   like: "./source/resource/qx/decoration/Modern/..."
-        # - trueCombinedUri is like: 
-        #   "../../framework/source/resource/qx/decoration/Modern/panel-combined.png"
+        # calculate the uri of the clipped image, by taking the uri of the combined image,
+        # "substracting" its asset id (the right end), taking what remains (the left
+        # part), extracting the asset id of the clipped image, and pre-fixing it with the
+        # left part of the combined image uri.
+        # imageUri = (combinedUri - combinedAssetId) + imageAssetId
+        #
+        # @param uriFromMetafile |String| the path of the clipped image from when the meta file was generated,
+        #                                 like: "./source/resource/qx/decoration/Modern/..."
+        # @param trueCombinedUri |String| the uri of the combined image, as returned from
+        #                                 the library scan and adapted for the current
+        #                                 application, like: 
+        #                                 "../../framework/source/resource/qx/decoration/Modern/panel-combined.png"
+        # @param combinedUriFromMetafile |String| the path of the combined image, as
+        #                                         recorded in the .meta file
+
         def normalizeImgUri(uriFromMetafile, trueCombinedUri, combinedUriFromMetafile):
             # normalize paths (esp. "./x" -> "x")
-            (uriFromMetafile, trueCombinedUri, combinedUriFromMetafile) = map(os.path.normpath,(uriFromMetafile, trueCombinedUri, combinedUriFromMetafile))
-            # get the "wrong" prefix (in mappedUriPrefix)
-            trueUriPrefix, mappedUriPrefix, sfx = Path.getCommonSuffix(trueCombinedUri, combinedUriFromMetafile)
-            # ...and strip it from contained image uri, to get a correct suffix (in uriSuffix)
-            pre, mappedUriSuffix, uriSuffix = Path.getCommonPrefix(mappedUriPrefix, uriFromMetafile)
+            (uriFromMetafile, trueCombinedUri, combinedUriFromMetafile) = map(os.path.normpath,
+                                                    (uriFromMetafile, trueCombinedUri, combinedUriFromMetafile))
+            # get the "wrong" left part of the combined image, as used in the .meta file (in mappedUriPrefix)
+            trueUriPrefix, mappedUriPrefix, _ = Path.getCommonSuffix(trueCombinedUri, combinedUriFromMetafile)
+            # ...and strip it from clipped image, to get a correct image id (in uriSuffix)
+            _, _, uriSuffix = Path.getCommonPrefix(mappedUriPrefix, uriFromMetafile)
             # ...then compose the correct prefix with the correct suffix
             normalUri = os.path.normpath(os.path.join(trueUriPrefix, uriSuffix))
             return normalUri
@@ -587,7 +598,8 @@ class CodeGenerator(object):
                 imageObject = ImgInfoFmt(imageSpec_) # turn this into an ImgInfoFmt object, to abstract from representation in .meta file and loader script
 
                 # have to normalize the uri's from the meta file
-                imageUri = normalizeImgUri(imagePath, combinedImageUri, imageObject.mappedId)
+                #imageUri = normalizeImgUri(imagePath, combinedImageUri, imageObject.mappedId)
+                imageUri = imagePath
 
                 ## replace lib uri with lib namespace in imageUri
                 imageShortUri = extractAssetPart(librespath, imageUri)
