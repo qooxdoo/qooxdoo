@@ -20,7 +20,7 @@
 #
 ################################################################################
 
-import re, os, sys, zlib, optparse, types, string
+import re, os, sys, zlib, optparse, types, string, glob
 
 from misc import filetool, textutil, util, Path, PathType
 from misc.PathType import PathType
@@ -1083,6 +1083,47 @@ class Generator(object):
 
     def runImageCombining(self):
         """Go through a list of images and create them as combination of other images"""
+
+        def extractFromPrefixSpec(prefixSpec):
+            prefix = altprefix = ""
+            if len(prefixSpec) == 2 :  # prefixSpec = [ prefix, altprefix ]
+                prefix, altprefix = prefixSpec
+            elif len(prefixSpec) == 1:
+                prefix            = prefixSpec[0]
+                altprefix         = ""
+            return prefix, altprefix
+                
+        def getImageId(imagePath, prefixSpec):
+            "strip prefix - if available - from imagePath, and replace by altprefix"
+            prefix, altprefix = extractFromPrefixSpec(prefixSpec)
+            imageId = imagePath # init
+            _, imageId, _ = Path.getCommonPrefix(imagePath, prefix) # assume: imagePath = prefix "/" imageId
+            if altprefix:
+                imageId   = altprefix + "/" + imageId
+                
+            imageId = Path.posifyPath(imageId)
+            return imageId
+
+        def getClippedImagesDict(imageSpec):
+            "create a dict with the clipped image file path as key, and an ImgInfoFmt object as value"
+            imgDict = {}
+            inputStruct = imageSpec['input']
+            for group in inputStruct:
+                prefixSpec = group.get('prefix')
+                prefix, altprefix = extractFromPrefixSpec(prefixSpec)
+                if prefix:
+                    prefix = self._config.absPath(prefix)
+                for filepatt in group['files']:
+                    for file in glob.glob(self._config.absPath(filepatt)):  # resolve file globs - TODO: can be removed in generator.action.ImageClipping
+                        imgObject        = ImgInfoFmt()
+                        imgObject.prefix = [prefix, altprefix]
+                        self._console.debug("adding image %s" % file)
+                        imgDict[file]  = imgObject
+
+            return imgDict
+
+        # ----------------------------------------------------------------------
+
         if not self._job.get("combine-images", False):
             return
 
@@ -1092,27 +1133,35 @@ class Generator(object):
 
         images = self._job.get("combine-images/images", {})
         for image, imgspec in images.iteritems():
+            imageId= getImageId(image, imgspec.get('prefix', None))
             image  = self._config.absPath(image)  # abs output path
             self._console.info("Creating image %s" % image)
             config = {}
-            # abs input paths
-            inp    = imgspec['input']
-            input  = []
-            for f in inp:
-                fl = self._config.absPath(f)
-                self._console.debug("adding image %s" % fl)
-                input.append(fl)
+
+            # create a dict of clipped image objects - for later look-up
+            clippedImages = getClippedImagesDict(imgspec)
+
+            # collect list of all input files, no matter where the come from
+            input = clippedImages.keys()
+
+            # collect layout property
             if 'layout' in imgspec:
                 layout = imgspec['layout'] == "horizontal"
             else:
-                layout = "horizontal" == "horizontal" # default horzontal=True
+                layout = "horizontal" == "horizontal" # default horizontal=True
+            
             # create the combined image
             subconfigs = self._imageClipper.combine(image, input, layout)
+
+            # for the meta information, go through the list of returned subconfigs (one per clipped image)
             for sub in subconfigs:
                 x = ImgInfoFmt()
                 x.mappedId, x.left, x.top, x.width, x.height, x.type = (
-                   Path.posifyPath(sub['combined']), sub['left'], sub['top'], sub['width'], sub['height'], sub['type'])
-                config[Path.posifyPath(sub['file'])] = x.meta_format()  # this could use 'flatten()' eventually!
+                   #Path.posifyPath(sub['combined']), sub['left'], sub['top'], sub['width'], sub['height'], sub['type'])
+                   imageId, sub['left'], sub['top'], sub['width'], sub['height'], sub['type'])
+                #config[Path.posifyPath(sub['file'])] = x.meta_format()  # this could use 'flatten()' eventually!
+                subId         = getImageId(sub['file'], getattr(clippedImages[sub['file']], 'prefix', None))
+                config[subId] = x.meta_format()  # this could use 'flatten()' eventually!
 
             # store meta data for this combined image
             bname = os.path.basename(image)
