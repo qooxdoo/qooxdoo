@@ -141,7 +141,12 @@ qx.Class.define("qx.test.lang.String",
     testClean: function()
     {
       var str = "  a  b\tc\rd\fe\vf\n\ng\nh\ri ";
-      this.assertEquals("a b c d e f g h i", qx.lang.String.clean(str));
+      var cleanStr = "a b c d e f g h i";
+      // IE sees \v as "v"      
+      if (qx.bom.client.Engine.MSHTML) {
+        cleanStr = "a b c d evf g h i";  
+      }
+      this.assertEquals(cleanStr, qx.lang.String.clean(str));
     }
   }
 });
