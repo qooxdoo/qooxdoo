@@ -80,7 +80,8 @@ qx.Bootstrap.define("qx.bom.client.Engine",
       var unknownEngine = false;
       var unknownVersion = false;
 
-      if (window.opera)
+      if (window.opera && 
+          Object.prototype.toString.call(window.opera) == "[object Opera]")
       {
         engine = "opera";
         this.OPERA = true;
