@@ -70,7 +70,7 @@
       "let" :
       {
         "APIVIEWER_ROOT" : "${QOOXDOO_PATH}/component/apiviewer",
-        "BUILD_PATH" : "./api",
+        "BUILD_PATH" : "${ROOT}/api",
         "API_INCLUDE" : ["qx.*", "${APPLICATION}.*"]
       },
 
