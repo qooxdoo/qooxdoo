@@ -159,6 +159,16 @@ qx.Class.define("qx.ui.embed.Flash",
     },
 
     /**
+     * Set the mayscript attribute for the Flash movie.
+     */
+    mayScript :
+    {
+      check : "Boolean",
+      nullable : false,
+      apply : "_applyMayScript"
+    },
+
+    /**
      * Set the menu attribute for the Flash movie.
      */
     menu :
@@ -266,6 +276,12 @@ qx.Class.define("qx.ui.embed.Flash",
     _applyVariables : function(value, old)
     {
       this.getContentElement().setVariables(value);
+      qx.ui.core.queue.Layout.add(this);
+    },
+
+    _applyMayScript : function (value, old)
+    {
+      this.getContentElement().setAttribute("mayscript", value ? "TRUE" : false);
       qx.ui.core.queue.Layout.add(this);
     },
 

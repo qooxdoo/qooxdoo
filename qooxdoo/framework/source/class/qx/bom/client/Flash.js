@@ -210,9 +210,8 @@ qx.Bootstrap.define("qx.bom.client.Flash",
       var platform = qx.bom.client.Platform;
       this.EXPRESSINSTALL = (platform.WIN || platform.MAC) && this.supportsVersion("6.0.65");
     }
+
   },
-
-
 
 
   /*
