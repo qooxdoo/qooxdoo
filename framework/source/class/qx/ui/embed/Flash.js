@@ -281,7 +281,7 @@ qx.Class.define("qx.ui.embed.Flash",
 
     _applyMayScript : function (value, old)
     {
-      this.getContentElement().setAttribute("mayscript", value ? "TRUE" : false);
+      this.getContentElement().setAttribute("mayscript", value ? "" : false);
       qx.ui.core.queue.Layout.add(this);
     },
 

@@ -102,7 +102,7 @@ qx.Class.define("qx.bom.Flash",
           "Please only use the following arguments for this method: qx.bom.Flash.create(element, attributes, variables, params, win)");
 
         attributes = {
-          id : arguments[2],
+          id    : arguments[2],
           movie : arguments[1]
         };
 
@@ -138,6 +138,13 @@ qx.Class.define("qx.bom.Flash",
 
       // Work on param copy
       params = params ? qx.lang.Object.clone(params) : {};
+
+      if (!params["movie"]) {
+        params["movie"] = attributes.movie;
+      }
+
+      attributes["data"] = attributes.movie;
+      delete attributes.movie;
 
       // Copy over variables (into params)
       if (variables)
