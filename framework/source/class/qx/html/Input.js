@@ -53,10 +53,6 @@ qx.Class.define("qx.html.Input",
     } else {
       this.setNodeName("input");
     }
-    
-    if (this.__attachEnabledListener != null) {
-      this.__attachEnabledListener();
-    }
   },
 
 
@@ -117,13 +113,12 @@ qx.Class.define("qx.html.Input",
       "webkit" : function(value)
       {
         this.__enabled = value;
-        var element = this.getDomElement();
-        if (element != null && !value) {
-          qx.bom.element.Style.set(element, "-webkit-user-modify", "read-only");
-          qx.bom.element.Style.set(element, "-webkit-user-select", "none");
-        } else if (element != null) {
-          qx.bom.element.Style.set(element, "-webkit-user-modify", "");
-          qx.bom.element.Style.set(element, "-webkit-user-select", "");          
+        if (!value) {
+          this.setStyle("userModify", "read-only");
+          this.setStyle("userSelect", "none");
+        } else {
+          this.setStyle("userModify", null);
+          this.setStyle("userSelect", null);
         }        
       },
 
@@ -131,32 +126,7 @@ qx.Class.define("qx.html.Input",
       {
         this.setAttribute("disabled", value===false);
       }
-    }),
-    
-    
-    /**
-     * Attaches a listener to the appear event which handles the setting of the 
-     * css disabled state in webkit browsers. In all other browsers, the 
-     * function is null.
-     */
-    __attachEnabledListener : qx.core.Variant.select("qx.client",
-    {
-      "webkit" : function()
-      {
-        this.addListener("appear", function() {
-          var element = this.getDomElement();
-          if (!this.__enabled) {
-            qx.bom.element.Style.set(element, "-webkit-user-modify", "read-only");
-            qx.bom.element.Style.set(element, "-webkit-user-select", "none");
-          } else {
-            qx.bom.element.Style.set(element, "-webkit-user-modify", "");
-            qx.bom.element.Style.set(element, "-webkit-user-select", "");          
-          }        
-        }, this);        
-      },
-
-      "default" : null
-    }),    
+    }), 
 
 
     /*
