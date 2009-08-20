@@ -59,25 +59,25 @@
     //"BUILD_PATH"   : "${ROOT}/build"
   },
 
-  "jobs" :
+  "jobs"  :
   {
     "api" :
     {
-      "desc"    : "create api doc for the current library",
+      "desc"   : "create api doc for the current library",
 
       "extend" : ["apiconf::build"],
 
-      "let" :
+      "let"    :
       {
         "APIVIEWER_ROOT" : "${QOOXDOO_PATH}/component/apiviewer",
-        "BUILD_PATH" : "${ROOT}/api",
-        "API_INCLUDE" : ["qx.*", "${APPLICATION}.*"]
+        "BUILD_PATH"     : "${ROOT}/api",
+        "API_INCLUDE"    : ["qx.*", "${APPLICATION}.*"]
       },
 
-      "library" :
+      "library":
       [
         {
-          "manifest" : "${ROOT}/Manifest.json"
+          "manifest"     : "${ROOT}/Manifest.json"
         }
       ]
     },
