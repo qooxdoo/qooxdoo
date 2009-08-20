@@ -40,10 +40,9 @@ qx.Class.define("qx.html.Flash",
   {
     this.base(arguments);
 
-    this.__source = "";
-    this.__id = "";
     this.__params = {};
     this.__variables = {};
+    this.__attributes = {};
   },
 
 
@@ -55,14 +54,12 @@ qx.Class.define("qx.html.Flash",
 
   members :
   {
-    /** {String} The URL of the Flash movie. */
-    __source : null,
-
-    /** {String} The unique Flash movie id. */
-    __id : null,
 
     /** {Map} The attributes for the Flash movie. */
     __params : null,
+
+    /** {Map} the attributes for the object tag */
+    __attributes : null,
 
     /** {Map} The <code>FlashVars</code> to pass variables to the Flash movie. */
     __variables : null,
@@ -71,8 +68,7 @@ qx.Class.define("qx.html.Flash",
     __flash : null,
 
     // overridden
-    _createDomElement : function()
-    {
+    _createDomElement : function() {
       return qx.bom.Element.create("div");
     },
 
@@ -82,11 +78,8 @@ qx.Class.define("qx.html.Flash",
      */
     createFlash : function()
     {
-      var element = this.getDomElement();
-
-      this.__flash = qx.bom.Flash.create(element, this.__source, this.__id,
-        this.__variables, this.__params
-      );
+      this.__flash = qx.bom.Flash.create(this.getDomElement(), this.getAttributes(), 
+                                         this.__variables, this.__params);
     },
 
     /**
@@ -100,7 +93,7 @@ qx.Class.define("qx.html.Flash",
         throw new Error("The source cannot be modified after initial creation");
       }
 
-      this.__source = value;
+      this.setAttribute("movie", value);
     },
 
     /**
@@ -114,7 +107,7 @@ qx.Class.define("qx.html.Flash",
         throw new Error("The id cannot be modified after initial creation");
       }
 
-      this.__id = value;
+      this.setAttribute("id", value);
     },
 
     /**
@@ -130,6 +123,31 @@ qx.Class.define("qx.html.Flash",
       }
 
       this.__variables = value;
+    },
+
+    /**
+     * @return {Map}
+     */
+    getAttributes : function () {
+      return this.__attributes;
+    },
+
+    /**
+     * @param key {String}
+     * @param value {String}
+     * @return {void}
+     */
+    setAttribute : function (key, value)
+    {
+      if (this.__flash) {
+        throw new Error("The attributes cannot be modified after initial creation");
+      }
+
+      if (value) {
+        this.__attributes[key] = value;
+      } else {
+        delete this.__attributes[key];
+      }
     },
 
     /**
@@ -156,10 +174,10 @@ qx.Class.define("qx.html.Flash",
      *
      * @return {Element|null} The DOM Flash element, otherwise <code>null</code>.
      */
-    getFlashElement : function()
-    {
+    getFlashElement : function() {
       return this.__flash;
     }
+
   },
 
 
@@ -174,7 +192,7 @@ qx.Class.define("qx.html.Flash",
     if (this.__flash) {
       qx.bom.Flash.destroy(this.__flash);
     }
-    
-    this._disposeFields("__params", "__variables");
+
+    this._disposeFields("__params", "__variables", "__attributes");
   }
 });
