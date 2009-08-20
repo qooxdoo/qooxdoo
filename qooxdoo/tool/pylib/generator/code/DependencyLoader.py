@@ -564,7 +564,7 @@ class DependencyLoader:
         # -----------------------------------------------------------------
 
         if not self._classes.has_key(fileId):
-            raise NameError("Could not find class to fulfil dependency: %s" % fileId)
+            raise NameError("Could not find class to fulfill dependency: %s" % fileId)
 
         filePath = self._classes[fileId]["path"]
         cacheId = "deps-%s-%s" % (filePath, util.toString(variants))
