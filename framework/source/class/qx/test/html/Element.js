@@ -767,7 +767,7 @@ qx.Class.define("qx.test.html.Element",
       this.assertIdentical(this._doc.getDomElement().childNodes[2], el3.getDomElement());
       this.assertIdentical(this._doc.getDomElement().childNodes[3], el5.getDomElement());
       this.assertIdentical(this._doc.getDomElement().childNodes[4], undefined);
-      this.assertIdentical(el3.getDomElement().style.visibility, "hidden");
+      this.assertIdentical(el3.getDomElement().style.display, "none");
 
       /**
        * Current:
@@ -794,7 +794,7 @@ qx.Class.define("qx.test.html.Element",
       this.assertIdentical(this._doc.getDomElement().childNodes[1], el2.getDomElement());
       this.assertIdentical(this._doc.getDomElement().childNodes[2], el5.getDomElement());
       this.assertIdentical(this._doc.getDomElement().childNodes[3], undefined);
-      this.assertIdentical(el3.getDomElement().style.visibility, "");
+      this.assertIdentical(el3.getDomElement().style.display, "");
 
       /**
        * Current:
@@ -820,8 +820,8 @@ qx.Class.define("qx.test.html.Element",
       this.assertIdentical(this._doc.getDomElement().childNodes[2], el3.getDomElement());
       this.assertIdentical(this._doc.getDomElement().childNodes[3], el5.getDomElement());
       this.assertIdentical(this._doc.getDomElement().childNodes[4], undefined);
-      this.assertIdentical(el2.getDomElement().style.visibility, "hidden");
-      this.assertIdentical(el3.getDomElement().style.visibility, "");
+      this.assertIdentical(el2.getDomElement().style.display, "none");
+      this.assertIdentical(el3.getDomElement().style.display, "");
 
       /**
        * Current:
