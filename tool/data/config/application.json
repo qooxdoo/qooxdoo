@@ -77,7 +77,7 @@
       "library" :
       [
         {
-          "manifest" : "Manifest.json"
+          "manifest" : "${ROOT}/Manifest.json"
         }
       ]
     },
