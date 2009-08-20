@@ -55,7 +55,7 @@ qx.Class.define("demobrowser.demo.bom.Flash",
         wmode: "opaque"
       };
       
-      qx.bom.Flash.create(domElement, movieUri, "movie", variables, params);
+      qx.bom.Flash.create(domElement, { moview : movieUri, id : "movie" }, variables, params);
     }
   }
 });

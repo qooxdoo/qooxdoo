@@ -83,16 +83,34 @@ qx.Class.define("qx.bom.Flash",
      * It is possible to add these parameters as supported by Flash movies:
      * http://kb.adobe.com/selfservice/viewContent.do?externalId=tn_12701
      *
+     * @TODO: don't use the seperate argument "variables" to set flashvars, this belongs 
+     *        to the "params" argument.
+     * @TODO: remove deprication warning after next major version was build
+     * 
      * @param element {Element} Parent DOM element node to add flash movie
-     * @param movie {String} URI to the movie
-     * @param id {String} Id for the flash element
+     * @param attributes {Map} attributes for the object tag like id or mayscript
      * @param variables {Map?null} Flash variable data (these are available in the movie later)
      * @param params {Map?null} Flash parameter data (these are used to configure the movie itself)
      * @param win {Window?null} Window to create the element for
      * @return {Element} The created Flash element
      */
-    create : function(element, movie, id, variables, params, win)
+    create : function(element, attributes, variables, params, win)
     {
+      if (typeof attributes === "string")
+      {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+          "Please only use the following arguments for this method: qx.bom.Flash.create(element, attributes, variables, params, win)");
+
+        attributes = {
+          id : arguments[2],
+          movie : arguments[1]
+        };
+
+        variables = arguments[3];
+        params = arguments[4];
+        win = arguments[5];
+      }
+
       if (!win) {
         win = window;
       }
@@ -101,25 +119,25 @@ qx.Class.define("qx.bom.Flash",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         qx.core.Assert.assertElement(element, "Invalid parameter 'element'.");
-        qx.core.Assert.assertString(movie, "Invalid parameter 'movie'.");
-        qx.core.Assert.assertString(id, "Invalid parameter 'id'.");
+        qx.core.Assert.assertMap(attributes, "Invalid parameter 'attributes'.");
+        qx.core.Assert.assertString(attributes.movie, "Invalid attribute 'movie'.");
+        qx.core.Assert.assertString(attributes.id, "Invalid attribute 'id'.");
 
         if (!qx.dom.Element.isInDom(element, win)) {
           qx.log.Logger.warn(this, "The parent DOM element isn't in DOM! The External Interface doesn't work in IE!");
         }
       }
 
-      // Generates attributes for flash movie
-      var attributes =
-      {
-        data : movie,
-        id : id,
-        width : "100%",
-        height : "100%"
-      };
+      if (!attributes.width) {
+        attributes.width  = "100%";
+      }
+
+      if (!attributes.height) {
+        attributes.height = "100%";
+      }
 
       // Work on param copy
-      var params = params ? qx.lang.Object.clone(params) : {};
+      params = params ? qx.lang.Object.clone(params) : {};
 
       // Copy over variables (into params)
       if (variables)
@@ -136,8 +154,8 @@ qx.Class.define("qx.bom.Flash",
 
       // Finally create the SWF
       var flash = this.__createSwf(element, attributes, params, win);
-      this._flashObjects[id] = flash;
-      
+      this._flashObjects[attributes.id] = flash;
+
       return flash;
     },
 
@@ -150,7 +168,7 @@ qx.Class.define("qx.bom.Flash",
      *  var div = qx.bom.Element.create("div");
      *  document.body.appendChild(div);
      *
-     *  var flashObject = qx.bom.Flash.create(div, "Flash.swf", "id");
+     *  var flashObject = qx.bom.Flash.create(div, { movie : "Flash.swf", id : "id" });
      *  div.removeChild(div.firstChild);
      * </pre>
      * involve memory leaks in Internet Explorer.
@@ -314,7 +332,7 @@ qx.Class.define("qx.bom.Flash",
         }
 
         element.appendChild(swf);
-        
+
         return swf;
       }
     })
