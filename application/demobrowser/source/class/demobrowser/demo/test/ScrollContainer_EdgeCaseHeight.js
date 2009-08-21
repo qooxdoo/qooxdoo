@@ -33,7 +33,7 @@ qx.Class.define("demobrowser.demo.test.ScrollContainer_EdgeCaseHeight",
     {
       this.base(arguments);
 
-      scrollContainer = new qx.ui.container.Scroll();
+      var scrollContainer = new qx.ui.container.Scroll();
       scrollContainer.set({
         width: 200,
         height: 300

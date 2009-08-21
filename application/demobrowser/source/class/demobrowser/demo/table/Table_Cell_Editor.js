@@ -184,7 +184,7 @@ qx.Class.define("demobrowser.demo.table.Table_Cell_Editor",
       }
 
       // create the  "meta" cell renderer object
-      propertyCellRendererFactory =
+      var propertyCellRendererFactory =
         new qx.ui.table.cellrenderer.Dynamic(propertyCellRendererFactoryFunc);
 
       // cell editor factory function
@@ -279,7 +279,7 @@ qx.Class.define("demobrowser.demo.table.Table_Cell_Editor",
       }
 
       // create a "meta" cell editor object
-      propertyCellEditorFactory =
+      var propertyCellEditorFactory =
         new qx.ui.table.celleditor.Dynamic(propertyCellEditorFactoryFunc);
 
       // create table

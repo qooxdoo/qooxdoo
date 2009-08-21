@@ -73,7 +73,7 @@ qx.Class.define("demobrowser.demo.event.EventDemo",
       this.__logs.unshift(values);
       this.__logs = this.__logs.slice(0, this.__maxLogSize);
 
-      str = [this.__tableHead];
+      var str = [this.__tableHead];
       for (var i=0; i<this.__logs.length; i++) {
         str.push("<tr><td>", this.__logs[i].join("</td><td>"), "</td></tr>");
       }
