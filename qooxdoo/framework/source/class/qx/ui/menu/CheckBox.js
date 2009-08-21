@@ -51,7 +51,12 @@ qx.Class.define("qx.ui.menu.CheckBox",
 
     // Initialize with incoming arguments
     if (label != null) {
-      this.setLabel(label);
+      // try to translate every time you create a checkbox [BUG #2699]
+      if (label.translate) {
+        this.setLabel(label.translate());
+      } else {
+        this.setLabel(label);        
+      }
     }
 
     if (menu != null) {

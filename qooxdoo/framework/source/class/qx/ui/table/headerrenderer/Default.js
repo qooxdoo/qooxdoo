@@ -101,7 +101,12 @@ qx.Class.define("qx.ui.table.headerrenderer.Default",
     {
       var DefaultHeaderCellRenderer = qx.ui.table.headerrenderer.Default;
 
-      cellWidget.setLabel(cellInfo.name);
+      // check for localization [BUG #2699]
+      if (cellInfo.name && cellInfo.name.translate) {
+        cellWidget.setLabel(cellInfo.name.translate());
+      } else {
+        cellWidget.setLabel(cellInfo.name);
+      }
 
       // Set image tooltip if given
       var widgetToolTip = cellWidget.getToolTip();
