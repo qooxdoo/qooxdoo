@@ -93,7 +93,12 @@ class ImageClipping(object):
                 left += width
             else:
                 top += height
-        os.system(montage_cmd % (orientation, " ".join(clips), combined))
+
+        cmd = montage_cmd % (orientation, " ".join(clips), combined)
+        rc = os.system(cmd)
+        
+        if rc != 0:
+            raise RuntimeError, "The montage command (%s) failed with the following return code: %d" % (cmd, rc)
 
         return config
 
