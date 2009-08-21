@@ -46,7 +46,7 @@ qx.Class.define("demobrowser.demo.root.Inline_Dynamic_Resize",
       });
       isle2.setLayout(new qx.ui.layout.Canvas());
 
-      slideBar = new qx.ui.container.SlideBar();
+      var slideBar = new qx.ui.container.SlideBar();
       slideBar.setLayout(new qx.ui.layout.HBox(3));
       isle2.add(slideBar, {edge: 0});
 
