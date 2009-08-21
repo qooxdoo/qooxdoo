@@ -63,7 +63,7 @@ qx.Class.define("demobrowser.demo.table.Scroller.DummyTable",
       height: 400
     });
 
-    scroller = new qx.ui.table.pane.Scroller(this.getTableMock());
+    var scroller = new qx.ui.table.pane.Scroller(this.getTableMock());
     this.add(scroller, {edge: 0});
 
     var paneModel = new qx.ui.table.pane.Model(this.getColumnModelMock());

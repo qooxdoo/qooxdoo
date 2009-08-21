@@ -51,7 +51,7 @@ qx.Class.define("demobrowser.demo.data.FormController",
       form.add(new qx.ui.form.DateField(), "Date");
       
       // buttons
-      saveButton = new qx.ui.form.Button("Save");
+      var saveButton = new qx.ui.form.Button("Save");
       saveButton.setWidth(70);
       form.addButton(saveButton);
       var cancelButton = new qx.ui.form.Button("Cancel");

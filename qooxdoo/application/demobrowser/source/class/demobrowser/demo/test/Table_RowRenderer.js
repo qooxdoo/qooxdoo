@@ -53,9 +53,9 @@ qx.Class.define("demobrowser.demo.test.Table_RowRenderer",
         selected : [true, false],
         row : [1,2],
         table : [this.tableMock]
-      }
+      };
 
-      var container = this._getNewTableDiv(width)
+      var container = this._getNewTableDiv(width);
       var top = 0;
       var self = this;
       qx.util.Permutation.permute(rowDataOptions, function(rowInfo)
@@ -78,7 +78,7 @@ qx.Class.define("demobrowser.demo.test.Table_RowRenderer",
         renderer.updateDataRowElement(rowInfo, row);
 
         // init
-        rowHtml = [];
+        var rowHtml = [];
         rowHtml.push('<div ');
 
         if (rowClass) {
