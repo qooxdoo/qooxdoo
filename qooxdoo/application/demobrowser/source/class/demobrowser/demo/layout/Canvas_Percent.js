@@ -30,32 +30,32 @@ qx.Class.define("demobrowser.demo.layout.Canvas_Percent",
 
       var border = new qx.ui.decoration.Single(3, "solid", "black");
 
-      w1 = new qx.ui.core.Widget().set({
+      var w1 = new qx.ui.core.Widget().set({
         backgroundColor: "red",
         decorator: border
       });
 
-      w2 = new qx.ui.core.Widget().set({
+      var w2 = new qx.ui.core.Widget().set({
         backgroundColor: "blue",
         decorator: border
       });
 
-      w3 = new qx.ui.core.Widget().set({
+      var w3 = new qx.ui.core.Widget().set({
         backgroundColor: "green",
         decorator: border
       });
 
-      w4 = new qx.ui.core.Widget().set({
+      var w4 = new qx.ui.core.Widget().set({
         backgroundColor: "yellow",
         decorator: border
       });
 
-      w5 = new qx.ui.core.Widget().set({
+      var w5 = new qx.ui.core.Widget().set({
         backgroundColor: "orange",
         decorator: border
       });
 
-      w6 = new qx.ui.core.Widget().set({
+      var w6 = new qx.ui.core.Widget().set({
         backgroundColor: "teal",
         decorator: border
       });

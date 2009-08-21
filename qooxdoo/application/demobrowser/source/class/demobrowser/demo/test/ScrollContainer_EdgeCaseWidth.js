@@ -117,6 +117,8 @@ qx.Class.define("demobrowser.demo.test.ScrollContainer_EdgeCaseWidth",
         decorator: new qx.ui.decoration.Single(4, "solid", "black")
       });
       return box;
-    }
+    },
+    
+    __scrollContainer : null
   }
 });

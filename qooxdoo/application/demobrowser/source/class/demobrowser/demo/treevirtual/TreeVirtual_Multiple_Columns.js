@@ -57,7 +57,7 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Multiple_Columns",
       dataModel.addBranch(te1, "Files", true);
 
       te1_1 = dataModel.addBranch(te1, "Workspace", true);
-      te = dataModel.addLeaf(te1_1, "Windows (C:)");
+      var te = dataModel.addLeaf(te1_1, "Windows (C:)");
       dataModel.setColumnData(te, 1, "-rwxr-xr-x");
       dataModel.setColumnData(te, 2, "2007-01-30 22:54:03");
       te = dataModel.addLeaf(te1_1, "Documents (D:)");
@@ -88,7 +88,7 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Multiple_Columns",
       var commandFrame = new qx.ui.groupbox.GroupBox("Control");
       commandFrame.setLayout(new qx.ui.layout.Canvas());
 
-      hBox.add(commandFrame)
+      hBox.add(commandFrame);
 
       var o = new qx.ui.basic.Atom("Current Selection: ");
       commandFrame.add(o, { left: 0, top: 6 });
@@ -116,7 +116,7 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Multiple_Columns",
         "execute",
         function(e)
         {
-          selectedNodes = tree.getSelectedNodes();
+          var selectedNodes = tree.getSelectedNodes();
           for (var i = 0; i < selectedNodes.length; i++)
           {
             dataModel.prune(selectedNodes[i].nodeId, true);
