@@ -31,7 +31,7 @@ qx.Class.define("demobrowser.demo.layout.ManualLayout",
       var borderColor = "black";
       var border = new qx.ui.decoration.Single(3, "solid", borderColor);
 
-      w1 = new qx.ui.core.Widget().set({
+      var w1 = new qx.ui.core.Widget().set({
         backgroundColor: "red",
         decorator: border,
         paddingLeft: 10,
@@ -39,20 +39,20 @@ qx.Class.define("demobrowser.demo.layout.ManualLayout",
       });
       w1.setUserBounds(10, 10, 100, 30);
 
-      w2 = new qx.ui.core.Widget().set({
+      var w2 = new qx.ui.core.Widget().set({
         backgroundColor: "blue",
         decorator: border
       });
       w2.setUserBounds(200, 20, 150, 100);
 
-      w3 = new qx.ui.core.Widget().set({
+      var w3 = new qx.ui.core.Widget().set({
         backgroundColor: "green",
         decorator: border,
         padding: 3
       });
       w3.setUserBounds(380, 50, 150, 100);
 
-      w4 = new qx.ui.core.Widget().set({
+      var w4 = new qx.ui.core.Widget().set({
         backgroundColor: "yellow",
         decorator: border,
         padding: 10

@@ -30,25 +30,25 @@ qx.Class.define("demobrowser.demo.layout.Canvas_LeftRight",
 
       var border = new qx.ui.decoration.Single(3, "solid", "black");
 
-      w1 = new qx.ui.core.Widget().set({
+      var w1 = new qx.ui.core.Widget().set({
         backgroundColor: "red",
         decorator: border,
         width: 400
       });
 
-      w2 = new qx.ui.core.Widget().set({
+      var w2 = new qx.ui.core.Widget().set({
         backgroundColor: "blue",
         decorator: border,
         minWidth: 400
       });
 
-      w3 = new qx.ui.core.Widget().set({
+      var w3 = new qx.ui.core.Widget().set({
         backgroundColor: "green",
         decorator: border,
         width: 400
       });
 
-      w4 = new qx.ui.core.Widget().set({
+      var w4 = new qx.ui.core.Widget().set({
         backgroundColor: "yellow",
         decorator: border,
         minWidth: 400
