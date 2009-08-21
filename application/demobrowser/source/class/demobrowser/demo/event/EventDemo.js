@@ -81,7 +81,12 @@ qx.Class.define("demobrowser.demo.event.EventDemo",
       str.push("</table>");
       this.__logDiv.innerHTML = str.join("");
       this.__logDiv.scrollTop = 0;
-    }
+    },
+    
+    __tableHead : null,
+    __maxLogSize : null,
+    __logDiv : null,
+    __logs : null
 
   },
   

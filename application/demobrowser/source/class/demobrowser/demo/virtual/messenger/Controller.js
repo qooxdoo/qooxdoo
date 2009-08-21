@@ -39,6 +39,13 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Controller",
   
   members : 
   {
+    __groupedData : null,
+    __groupPool : null,
+    __deferredUpdate : null,
+    __groups : null,
+    __buddyCell : null,
+    __groupCell : null,
+    
     _getRowData : function(row) {
       return this.__groupedData[row]
     },
