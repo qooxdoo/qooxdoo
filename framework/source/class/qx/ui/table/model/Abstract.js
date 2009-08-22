@@ -45,7 +45,12 @@ qx.Class.define("qx.ui.table.model.Abstract",
     /**
      * Fired when the meta data changed (the stuff shown in the table header).
      */
-    "metaDataChanged" : "qx.event.type.Event"
+    "metaDataChanged" : "qx.event.type.Event",
+
+    /**
+     * Fired after the table is sorted (but before the metaDataChanged event)
+     */
+    "sorted" : "qx.event.type.Data"
   },
 
 
