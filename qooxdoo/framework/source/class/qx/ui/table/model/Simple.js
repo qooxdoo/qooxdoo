@@ -295,6 +295,13 @@ qx.Class.define("qx.ui.table.model.Simple",
       this.__sortColumnIndex = columnIndex;
       this.__sortAscending = ascending;
 
+      var data =
+        {
+          columnIndex : columnIndex,
+          ascending   : ascending
+        };
+      this.fireDataEvent("sorted", data);
+
       this.fireEvent("metaDataChanged");
     },
 

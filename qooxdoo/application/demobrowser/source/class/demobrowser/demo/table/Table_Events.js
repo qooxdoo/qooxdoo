@@ -101,6 +101,18 @@ qx.Class.define("demobrowser.demo.table.Table_Events",
         this._events.addRows([[e.getType(), e.getRow(), e.getColumn()]], 0);
       };
 
+      var logSortedEvent = function(e) {
+        var data = e.getData();
+        this._events.addRows(
+          [
+            [
+              e.getType(),
+              data.ascending ? "asc" : "desc",
+              data.columnIndex
+            ]
+          ], 0);
+      };
+
       table.addListener("columnVisibilityMenuCreateStart", logTableEvent, this);
       table.addListener("columnVisibilityMenuCreateEnd", logTableEvent, this);
       table.addListener("tableWidthChanged", logTableEvent, this);
@@ -108,6 +120,9 @@ qx.Class.define("demobrowser.demo.table.Table_Events",
       table.addListener("cellClick", logCellEvent, this);
       table.addListener("cellDblclick", logCellEvent, this);
       table.addListener("cellContextmenu", logCellEvent, this);
+
+      tableModel.addListener("sorted", logSortedEvent, this);
+      tableModel.addListener("metaDataChanged", logTableEvent, this);
 
       table.setContextMenu(this.getContextMenu());
 
