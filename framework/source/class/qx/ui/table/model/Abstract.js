@@ -160,7 +160,7 @@ qx.Class.define("qx.ui.table.model.Abstract",
 
       // Inform the listeners
       if (!this.__internalChange) {
-        this.fireEvent(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
+        this.fireEvent("metaDataChanged");
       }
     },
 
@@ -185,7 +185,7 @@ qx.Class.define("qx.ui.table.model.Abstract",
       this.__columnNameArr = columnNameArr;
 
       // Inform the listeners
-      this.fireEvent(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
+      this.fireEvent("metaDataChanged");
     },
 
 

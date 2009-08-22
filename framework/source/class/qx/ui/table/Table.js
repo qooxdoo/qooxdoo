@@ -720,25 +720,25 @@ qx.Class.define("qx.ui.table.Table",
       if (old != null)
       {
         old.removeListener(
-          qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED,
+          "metaDataChanged",
           this._onTableModelMetaDataChanged, this
         );
 
         old.removeListener(
-          qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED,
-          this._onTableModelDataChanged, this
-        );
+          "dataChanged",
+          this._onTableModelDataChanged,
+          this);
       }
 
       value.addListener(
-        qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED,
+        "metaDataChanged",
         this._onTableModelMetaDataChanged, this
       );
 
       value.addListener(
-        qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED,
-        this._onTableModelDataChanged, this
-      );
+        "dataChanged",
+        this._onTableModelDataChanged,
+        this);
 
       // Update the status bar
       this._updateStatusBar();
