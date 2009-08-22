@@ -45,7 +45,7 @@ qx.Class.define("qx.ui.table.model.Abstract",
     /**
      * Fired when the meta data changed (the stuff shown in the table header).
      */
-    "metaDataChanged" : "qx.event.type.Data"
+    "metaDataChanged" : "qx.event.type.Event"
   },
 
 
