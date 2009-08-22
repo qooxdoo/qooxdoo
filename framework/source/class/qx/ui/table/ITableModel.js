@@ -44,7 +44,7 @@ qx.Interface.define("qx.ui.table.ITableModel",
     /**
      * Fired when the meta data changed (the stuff shown in the table header).
      */
-    "metaDataChanged" : "qx.event.type.Data"
+    "metaDataChanged" : "qx.event.type.Event"
   },
 
 
