@@ -51,25 +51,6 @@ qx.Interface.define("qx.ui.table.ITableModel",
 
   /*
   *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-
-    /** {string} The type of the event fired when the data changed. */
-    EVENT_TYPE_DATA_CHANGED      : "dataChanged",
-
-    /** {string} The type of the event fired when the meta data changed. */
-    EVENT_TYPE_META_DATA_CHANGED : "metaDataChanged"
-  },
-
-
-
-
-  /*
-  *****************************************************************************
      MEMBERS
   *****************************************************************************
   */

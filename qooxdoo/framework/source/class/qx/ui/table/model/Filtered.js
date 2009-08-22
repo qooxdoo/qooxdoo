@@ -329,7 +329,7 @@ qx.Class.define("qx.ui.table.model.Filtered",
       };
 
       // Inform the listeners
-      this.fireDataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
+      this.fireDataEvent("dataChanged", data);
     },
 
 
@@ -379,7 +379,7 @@ qx.Class.define("qx.ui.table.model.Filtered",
           lastColumn  : this.getColumnCount() - 1
         };
 
-        this.fireDataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
+        this.fireDataEvent("dataChanged", data);
       }
     },
 
