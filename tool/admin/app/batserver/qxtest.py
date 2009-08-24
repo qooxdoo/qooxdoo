@@ -390,7 +390,15 @@ class QxTest:
   # directory of the local qooxdoo checkout where remote test runs can access 
   # it.
   def storeBuildStatus(self):
-    import simplejson
+    try:
+      import json
+    except ImportError, e:
+      try:
+        import simplejson as json
+      except ImportError, e:
+        self.log("ERROR: simplejson module not found, unable to store build status!")
+        return false
+    
     json = simplejson.dumps(self.buildStatus, sort_keys=True, indent=2)
     fPath = os.path.join(self.testConf['qxPathAbs'],'buildStatus.json')
     if (self.sim):
@@ -410,10 +418,14 @@ class QxTest:
     import urllib
     status = {}
     try:
-      import simplejson
-    except ImportError, e:      
-      self.log("ERROR: simplejson module not found, unable to retrieve remote build status!")
-      return status
+      import json
+    except ImportError, e:
+      try:
+        import simplejson as json
+      except ImportError, e:
+        self.log("ERROR: simplejson module not found, unable to retrieve remote build status!")
+        return status
+
     remoteFile = self.autConf['autHost']
     if 'autQxPath' in self.autConf:
       remoteFile += self.autConf['autQxPath']
