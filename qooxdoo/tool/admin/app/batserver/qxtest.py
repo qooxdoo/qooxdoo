@@ -397,7 +397,7 @@ class QxTest:
         import simplejson as json
       except ImportError, e:
         self.log("ERROR: simplejson module not found, unable to store build status!")
-        return false
+        return False
     
     json = simplejson.dumps(self.buildStatus, sort_keys=True, indent=2)
     fPath = os.path.join(self.testConf['qxPathAbs'],'buildStatus.json')
