@@ -215,17 +215,9 @@ qx.Class.define("qx.io.remote.RequestQueue",
       // Debug output
       this._debug();
 
-      // Establish event connection between qx.io.remote.Exchange instance and
-      // qx.io.remote.Request
-      vTransport.addListener("sending", vRequest._onsending, vRequest);
-      vTransport.addListener("receiving", vRequest._onreceiving, vRequest);
-      vTransport.addListener("completed", vRequest._oncompleted, vRequest);
-      vTransport.addListener("aborted", vRequest._onaborted, vRequest);
-      vTransport.addListener("timeout", vRequest._ontimeout, vRequest);
-      vTransport.addListener("failed", vRequest._onfailed, vRequest);
-
       // Establish event connection between qx.io.remote.Exchange and me.
       vTransport.addListener("sending", this._onsending, this);
+      vTransport.addListener("receiving", this._onreceiving, this);
       vTransport.addListener("completed", this._oncompleted, this);
       vTransport.addListener("aborted", this._oncompleted, this);
       vTransport.addListener("timeout", this._oncompleted, this);
@@ -294,6 +286,20 @@ qx.Class.define("qx.io.remote.RequestQueue",
           this.debug("ActiveCount: " + this.__activeCount);
         }
       }
+      
+      e.getTarget().getRequest()._onsending(e.clone());
+    },
+    
+    
+    /**
+     * Listens for the "receiving" event of the transport object and delegate
+     * the event to the current request object. 
+     *
+     * @param e {qx.event.type.Event} event object
+     * @return {void}
+     */
+    _onreceiving : function(e) {
+      e.getTarget().getRequest()._onreceiving(e.clone());
     },
 
 
@@ -319,6 +325,14 @@ qx.Class.define("qx.io.remote.RequestQueue",
       }
 
       this._remove(e.getTarget());
+
+      // delegate the event to the handler method of the request depending
+      // on the current type of the event ( completed|aborted|timeout|failed )
+      var request = e.getTarget().getRequest();
+      var requestHandler = "_on" + e.getType();
+      if (request[requestHandler]) {
+        request[requestHandler](e.clone());
+      }
     },
 
 
