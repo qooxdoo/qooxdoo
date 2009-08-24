@@ -52,9 +52,8 @@ class QxTest:
       'simulateTest'        : False,
       'getReportFrom'       : 'testLog',
       'testLogDir'          : '../../logs',
-      'testReportDir'       : '../../reports',
-      #'classPath'           : '../../selenium/current/selenium-java-client-driver.jar:../../rhino/current/js.jar',
-      'seleniumClientDriverJar' : '../../selenium/current/selenium-java-client-driver.jar',
+      'testReportDir'       : '../../reports',      
+      'seleniumClientDriverJar' : 'selenium-java-client-driver.jar',      
       'rhinoJar'            : '../../rhino/current/js.jar',
       'classPathSeparator'  : ';', 
       'proxyEnable'         : 'wscript ../../tool/proxyEnable.vbs',
@@ -480,7 +479,7 @@ class QxTest:
   # directory of the local qooxdoo checkout where remote test runs can access 
   # it.
   def storeBuildStatus(self):
-    import simplejson  
+    import simplejson
     json = simplejson.dumps(self.buildStatus, sort_keys=True, indent=2)
     fPath = os.path.join(self.testConf['qxPathAbs'],'buildStatus.json')
     if (self.sim):
@@ -629,6 +628,7 @@ class QxTest:
   # @param appConf {dict} Settings for the application(s) to be tested
   def runTests(self, appConf):
     import time
+    testStartDate = time.strftime(self.timeFormat)
 
     getReportFrom = self.testConf['getReportFrom']
     
@@ -637,7 +637,6 @@ class QxTest:
       if not os.path.isdir(logPath):
         os.mkdir(logPath)
       tf = '%Y-%m-%d_%H-%M-%S'
-      testStartDate = time.strftime(self.timeFormat)
       logFile = os.path.join(logPath, testStartDate + ".log")
     
     reportPath = os.path.join(self.testConf['testReportDir'], appConf['appName'])
@@ -719,8 +718,15 @@ class QxTest:
       else:
         if "simulationScript" in appConf:
           simulationScript = appConf["simulationScript"]
+          
+      seleniumVersion = self.seleniumConf["seleniumVersion"]
+      if "seleniumVersion" in browser:
+        seleniumVersion = browser["seleniumVersion"]
+      else:
+        if "seleniumVersion" in appConf:
+          seleniumVersion = appConf["seleniumVersion"]
 
-      cmd = self.getStartCmd(appConf['appName'], browser['browserId'], options, simulationScript)
+      cmd = self.getStartCmd(appConf['appName'], browser['browserId'], options, simulationScript, seleniumVersion)
       if getReportFrom == 'testLog':
         cmd += " logFile=" + logFile
       
@@ -788,6 +794,9 @@ class QxTest:
           self.formatLog(None, reportFile)
 
         self.sendReport(appConf['appName'], reportFile)
+        
+    if "reportServerUrl" in self.testConf:
+      self.reportResults(appConf['appName'], testStartDate, reportFile)
 
 
   ##
@@ -799,17 +808,19 @@ class QxTest:
   # @param browser {str} A browser identifier (one of the keys in browserConf)
   # @param options {arr} An array of options to be passed to the test script,
   # e.g. ["ignore=qx.test.ui","foo=bar"]
-  # @param scriptPath {str} Optional: Path to the Simulation script to be used.
+  # @param simulationScript {str} Optional: Path to the Simulation script to be used.
   # By default, the script found in the Simulator contrib checkout under 
   # /trunk/tool/selenium/simulation/[APPNAME]/test_[APPNAME].js is used
+  # @param seleniumVersion {str} Optional: Selenium Client Driver version to be used.
   # @return {str} The shell command
-  def getStartCmd(self, aut, browser, options, simulationScript=None):
+  def getStartCmd(self, aut, browser, options, simulationScript=None, seleniumVersion=None):
+    path = self.seleniumConf["seleniumDir"] + "/" + seleniumVersion
     cmd = "java"
 
     if ('seleniumClientDriverJar' in self.testConf or 'rhinoJar' in self.testConf):
       cmd += " -cp "
       if ('seleniumClientDriverJar' in self.testConf):
-        cmd += self.testConf['seleniumClientDriverJar']
+        cmd += path + "/" + self.testConf['seleniumClientDriverJar']
       if ('seleniumClientDriverJar' in self.testConf and 'rhinoJar' in self.testConf):
         if ('classPathSeparator' in self.testConf):
           cmd += self.testConf['classPathSeparator']
