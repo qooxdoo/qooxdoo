@@ -399,14 +399,14 @@ class QxTest:
         self.log("ERROR: simplejson module not found, unable to store build status!")
         return False
     
-    json = json.dumps(self.buildStatus, sort_keys=True, indent=2)
+    jsonData = json.dumps(self.buildStatus, sort_keys=True, indent=2)
     fPath = os.path.join(self.testConf['qxPathAbs'],'buildStatus.json')
     if (self.sim):
       self.log("SIMULATION: Storing build status in file " + fPath)
     else:  
       self.log("Storing build status in file " + fPath)
       rFile = codecs.open(fPath, 'w', 'utf-8')
-      rFile.write(json)
+      rFile.write(jsonData)
       rFile.close()
 
       
@@ -432,7 +432,7 @@ class QxTest:
     remoteFile += '/buildStatus.json'
     self.log("Retrieving remote build status from file " + remoteFile)
     try:
-      json = urllib.urlopen(remoteFile)
+      jsonData = urllib.urlopen(remoteFile)
     except IOError, e:
       self.log("ERROR: Unable to open remote build status file " + remoteFile + ": "
                + e.message)
@@ -443,14 +443,14 @@ class QxTest:
     
     # Try to determine the requests's HTTP status (Python >= 2.6 only).
     try:
-      reqStat = json.getcode()
+      reqStat = jsonData.getcode()
       if (reqStat != 200):
         self.log("ERROR: Request to remote build status file returned status " + repr(reqStat))
     except AttributeError:
       pass
     
     try:
-      status = json.load(json)
+      status = json.load(jsonData)
       self.buildStatus = status
       self.log("Remote build status retrieved successfully.")
     except ValueError, e:    
