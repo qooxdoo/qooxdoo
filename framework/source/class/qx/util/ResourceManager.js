@@ -185,7 +185,7 @@ qx.Bootstrap.define("qx.util.ResourceManager",
           {
             var url = document.URL;
             statics.__urlPrefix[lib] = url.substring(0, url.lastIndexOf("/"));
-          } else if (resourceUri.match(/^https:/) != null) {
+          } else if (resourceUri.match(/^http:/) != null) {
             // Let absolute URLs pass through
           } 
           else 
