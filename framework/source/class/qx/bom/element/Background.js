@@ -99,12 +99,7 @@ qx.Class.define("qx.bom.element.Background",
     compile : function(source, repeat, left, top)
     {
       var position = this.__computePosition(left, top);
-
-      // for IE check the given url for "HTTPS" to avoid "Mixed content" warnings
       var backgroundImageUrl = qx.util.ResourceManager.toUri(source);
-      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
-        backgroundImageUrl = this.__checkImageUrl(backgroundImageUrl);
-      }
 
       // Updating template
       var tmpl = this.__tmpl;
@@ -141,13 +136,8 @@ qx.Class.define("qx.bom.element.Background",
       }
 
       var position = this.__computePosition(left, top);
-
-      // for IE check the given url for "HTTPS" to avoid "Mixed content" warnings
       var backgroundImageUrl = qx.util.ResourceManager.toUri(source);
-      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
-        backgroundImageUrl = this.__checkImageUrl(backgroundImageUrl);
-      }
-
+      
       var map = {
         backgroundPosition : position,
         backgroundImage : "url(" + backgroundImageUrl + ")"
@@ -179,71 +169,6 @@ qx.Class.define("qx.bom.element.Background",
       for (var prop in styles) {
         element.style[prop] = styles[prop];
       }
-    },
-
-
-    /**
-     *
-     * @param url {Object} The image URL
-     */
-    __checkImageUrl : qx.core.Variant.select("qx.client",
-    {
-      "mshtml" : function(url)
-      {
-        var urlPrefix = "";
-
-        /*
-         * To avoid a "mixed content" warning in IE when the application is
-         * delivered via HTTPS a prefix has to be added. This will transform the
-         * relative URL to an absolute one in IE.
-         * Though this warning is only displayed in conjunction with images which
-         * are referenced as a CSS "background-image", every resource path is
-         * changed when the application is served with HTTPS.
-         */
-        if (window.location.protocol === "https:")
-        {
-          // Pass the url if it's absolute - also http urls
-          if (url.match(/^http/)) {
-            urlPrefix = ""
-          }
-          /*
-           * SPECIAL CASE
-           * It is valid to to begin a URL with "//" so this case has to
-           * be considered. If the to resolved URL begins with "//" the
-           * manager prefixes it with "https:" to avoid any problems for IE
-           */
-          else if (url.match(/^\/\//) != null) {
-            urlPrefix = window.location.protocol;
-          }
-
-          /*
-           * If the resolved URL begins with "./" the final URL has to be
-           * put together using the document.URL property.
-           */
-          else if (url.match(/^\.\//) != null)
-          {
-            url  = url.substring(url.indexOf("/"));
-            urlPrefix = document.URL.substring(0, document.URL.lastIndexOf("/"));
-          }
-          else
-          {
-            // check for parameters with URLs as value
-            var index = window.location.href.indexOf("?");
-            var path;
-            if (index == -1) {
-              path = window.location.href;
-            } 
-            else {
-              path = window.location.href.substring(0, index);
-            }
-            urlPrefix = window.location.href.substring(0, path.lastIndexOf("/") + 1);
-          }
-        }
-
-        return urlPrefix + url;
-      },
-
-      "default" : function(){}
-    })
+    }
   }
 });
