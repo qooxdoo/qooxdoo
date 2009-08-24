@@ -399,7 +399,7 @@ class QxTest:
         self.log("ERROR: simplejson module not found, unable to store build status!")
         return False
     
-    json = simplejson.dumps(self.buildStatus, sort_keys=True, indent=2)
+    json = json.dumps(self.buildStatus, sort_keys=True, indent=2)
     fPath = os.path.join(self.testConf['qxPathAbs'],'buildStatus.json')
     if (self.sim):
       self.log("SIMULATION: Storing build status in file " + fPath)
@@ -450,7 +450,7 @@ class QxTest:
       pass
     
     try:
-      status = simplejson.load(json)
+      status = json.load(json)
       self.buildStatus = status
       self.log("Remote build status retrieved successfully.")
     except ValueError, e:    
