@@ -1474,6 +1474,26 @@ qx.Class.define("qx.html.Element",
 
       return false;
     },
+    
+    
+    /**
+     * Set whether the element is selectable. It uses the qooxdoo attribute 
+     * qxSelectable with the values 'on' or 'off'.
+     * In webkit, a special css property will be used (-webkit-user-select).
+     * 
+     * @param value {Boolean} True, if the element should be selectable.
+     */
+    setSelectable : function(value) 
+    {
+      // Apply qooxdoo attribute
+      this.setAttribute("qxSelectable", value ? "on" : "off");
+
+      // Webkit, as of Safari 3.0, is the only client which supports
+      // CSS userSelect the right way.
+      if (qx.core.Variant.isSet("qx.client", "webkit")) {
+        this.setStyle("userSelect", value ? "normal" : "none");
+      }      
+    },
 
 
     /**
