@@ -68,8 +68,9 @@ qx.Class.define("qx.html.Input",
   {
 
     __type : null,
-    // only used for webkit
-    __enabled : true,
+    // used for webkit only
+    __selectable : null,
+    __enabled : null,
 
     /*
     ---------------------------------------------------------------------------
@@ -113,12 +114,13 @@ qx.Class.define("qx.html.Input",
       "webkit" : function(value)
       {
         this.__enabled = value;
+        
         if (!value) {
           this.setStyle("userModify", "read-only");
           this.setStyle("userSelect", "none");
         } else {
           this.setStyle("userModify", null);
-          this.setStyle("userSelect", null);
+          this.setStyle("userSelect", this.__selectable ? null : "none");
         }        
       },
 
@@ -127,6 +129,38 @@ qx.Class.define("qx.html.Input",
         this.setAttribute("disabled", value===false);
       }
     }), 
+    
+    
+    /**
+     * Set whether the element is selectable. It uses the qooxdoo attribute 
+     * qxSelectable with the values 'on' or 'off'.
+     * In webkit, a special css property will be used and checks for the 
+     * enabled state.
+     * 
+     * @param value {Boolean} True, if the element should be selectable.
+     */
+    setSelectable : qx.core.Variant.select("qx.client",
+    {
+      "webkit" : function(value)
+      {
+        this.__selectable = value;
+
+        this.setAttribute("qxSelectable", value ? "on" : "off");
+
+        // Webkit, as of Safari 3.0, is the only client which supports
+        // CSS userSelect the right way.
+        if (qx.core.Variant.isSet("qx.client", "webkit")) {
+          var selectable = this.__enabled ? value ? null : "none" : "none";          
+          this.setStyle("userSelect", selectable);
+        }      
+      },
+
+      "default" : function(value) 
+      {
+        this.setAttribute("qxSelectable", value ? "on" : "off");
+      }
+    }),
+    
 
 
     /*
