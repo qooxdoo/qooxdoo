@@ -659,6 +659,7 @@ qx.Class.define("inspector.property.PropertyList", {
      */
     _setPropertyValueFull: function(key, classname, keepArrow) {      
       // get the layout containing the property 
+      var iFrameWindow = qx.core.Init.getApplication().getIframeWindowObject();
       var layout = this._propertyRows[classname + "." + key].container.getLayout();
       var row = this._propertyRows[classname + "." + key].row;
       
@@ -742,8 +743,7 @@ qx.Class.define("inspector.property.PropertyList", {
       // labels
       } else if (layout.getCellWidget(row, 2).classname == "qx.ui.basic.Label") {
         if (value != null) {
-          
-          var properties = qx.Class.getByName(classname).$$properties;
+          var properties = iFrameWindow.qx.Class.getByName(classname).$$properties;
           var property = properties[key];
           // if it is an array
           if (value instanceof Array) {
@@ -822,7 +822,12 @@ qx.Class.define("inspector.property.PropertyList", {
       
       // color
       } else if (layout.getCellWidget(row, 2).classname == "qx.ui.container.Composite") {        
-        layout.getCellWidget(row, 2).getChildren()[0].setBackgroundColor(value);
+        try {
+          var color = iFrameWindow.qx.theme.manager.Color.getInstance().resolve(value);
+          layout.getCellWidget(row, 2).getChildren()[0].setBackgroundColor(color);
+        } catch (ex) {
+          layout.getCellWidget(row, 2).getChildren()[0].setBackgroundColor("#FFFFFF");
+        }
       }
     },    
     
