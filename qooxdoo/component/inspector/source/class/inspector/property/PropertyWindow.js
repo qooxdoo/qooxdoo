@@ -398,7 +398,8 @@ qx.Class.define("inspector.property.PropertyWindow",
       // get the name of the currently selected property
       var key = this._currentlySelectedProperty.getUserData("key");
       // get the properties array of the selected class
-      var properties = qx.Class.getByName(classname).$$properties;
+      var iFrameWindow = qx.core.Init.getApplication().getIframeWindowObject();
+      var properties = iFrameWindow.qx.Class.getByName(classname).$$properties;
       // get the property array of the currently selected property
       var property = properties[key];
       
@@ -551,7 +552,8 @@ qx.Class.define("inspector.property.PropertyWindow",
       // get the name of the property
       var key = this._currentlySelectedProperty.getUserData("key");
       // get the property array of the selected property
-      var properties = qx.Class.getByName(classname).$$properties;
+      var iFrameWindow = qx.core.Init.getApplication().getIframeWindowObject();
+      var properties = iFrameWindow.qx.Class.getByName(classname).$$properties;
       var property = properties[key];            
       // get the setter name
       var setterName = "set" + qx.lang.String.firstUp(key);
