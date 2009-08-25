@@ -13,7 +13,7 @@
 
       "cache" :
       {
-        "compile" : "../cache"
+        "compile" : "${TMPDIR}/cache"
       }
     },
 
