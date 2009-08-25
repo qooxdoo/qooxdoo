@@ -69,6 +69,7 @@ class ImageClipping(object):
 
 
     def combine(self, combined, files, horizontal):
+        self._console.indent()
         montage_cmd = "montage -geometry +0+0 -gravity NorthWest -tile %s -background None %s %s"
         if horizontal:
             orientation = "x1"
@@ -83,6 +84,7 @@ class ImageClipping(object):
         allfiles = []
         for file in files:
             allfiles.extend(glob.glob(file))
+        #self._console.debug("Combining the following images: %r" % allfiles)
         for file in allfiles:
             clips.append(file)
             imginfo = self._imageInfo.getImageInfo(file, file)
@@ -94,12 +96,15 @@ class ImageClipping(object):
             else:
                 top += height
 
-        cmd = montage_cmd % (orientation, " ".join(clips), combined)
-        rc = os.system(cmd)
-        
-        if rc != 0:
-            raise RuntimeError, "The montage command (%s) failed with the following return code: %d" % (cmd, rc)
+        if len(clips) == 0:
+            self._console.warn("No images to combine; skipping")
+        else:
+            cmd = montage_cmd % (orientation, " ".join(clips), combined)
+            rc = os.system(cmd)
+            if rc != 0:
+                raise RuntimeError, "The montage command (%s) failed with the following return code: %d" % (cmd, rc)
 
+        self._console.outdent()
         return config
 
 
