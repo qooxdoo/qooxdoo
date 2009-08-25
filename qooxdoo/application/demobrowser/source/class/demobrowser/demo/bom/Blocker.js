@@ -31,16 +31,17 @@ qx.Class.define("demobrowser.demo.bom.Blocker",
       qx.bom.element.Style.setStyles(input, { position: "absolute",
                                               left: "100px",
                                               top: "100px" });
+                                              
+      var blocker = new qx.bom.Blocker;
+      blocker.setBlockerOpacity(0.5);
       
-      qx.bom.Blocker.setBlockerOpacity(0.5);
       qx.event.Registration.addListener(input, "click", function(e){
-        var Blocker = qx.bom.Blocker;
-        Blocker.setBlockerColor("red");
+        blocker.setBlockerColor("red");
   
-        Blocker.block();
+        blocker.block();
   
         qx.event.Timer.once(function(e){
-         Blocker.unblock();
+         blocker.unblock();
         }, window, 5000);
       });
       
@@ -65,11 +66,10 @@ qx.Class.define("demobrowser.demo.bom.Blocker",
       qx.dom.Element.insertBegin(elementToBlock, document.body);
       
       qx.event.Registration.addListener(input2, "click", function(e){
-        var Blocker = qx.bom.Blocker;
-        Blocker.block(elementToBlock);
+        blocker.block(elementToBlock);
   
         qx.event.Timer.once(function(e){
-         Blocker.unblock();
+         blocker.unblock();
         }, window, 5000);
       });
       
