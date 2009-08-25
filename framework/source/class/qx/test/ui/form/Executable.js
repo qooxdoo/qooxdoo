@@ -36,13 +36,13 @@ qx.Class.define("qx.test.ui.form.Executable",
       this.assertEventFired(widget, "execute", function() {
         widget.execute();
       }, function(e) {
-        // do nothgin
-      }, "Execute event on the widget is wrong!");
+        // do nothing
+      }, "Execute event on the widget is wrong!");   
       
       this.assertEventFired(command, "execute", function() {
         widget.execute();
       }, function(e) {
-        // do nothgin
+        // do nothing
       }, "Execute event on the command is wrong!");      
       
       command.dispose();
