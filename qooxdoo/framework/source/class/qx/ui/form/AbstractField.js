@@ -235,6 +235,10 @@ qx.Class.define("qx.ui.form.AbstractField",
     {
       var el = this._createInputElement();
 
+      // initialize the html input
+      el.setSelectable(this.getSelectable());
+      el.setEnabled(this.getEnabled());
+
       // Add listener for input event
       el.addListener("input", this._onHtmlInput, this);
 
@@ -636,9 +640,6 @@ qx.Class.define("qx.ui.form.AbstractField",
       var element = this.getContentElement();
 
       element.setAttribute("readOnly", value);
-
-      // Prevent native focus
-      element.setAttribute("qxKeepFocus", value ? "on" : "off");
 
       if (value)
       {
