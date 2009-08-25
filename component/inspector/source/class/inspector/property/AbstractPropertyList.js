@@ -158,6 +158,8 @@ qx.Class.define("inspector.property.AbstractPropertyList", {
       // the first superclass is the class of the selected widget
       var superclass = qxObject;
       
+      var iFrameWindow = qx.core.Init.getApplication().getIframeWindowObject();
+      
       // create new properties array to store the property of a class
       var properties = [];
       // create new classnames array to store the classnames
@@ -168,7 +170,7 @@ qx.Class.define("inspector.property.AbstractPropertyList", {
       // go threw the inheritance of the selected widget
       for (var i = 1; ; i++) {
         // store the properties and classnames in separate array
-        properties[i] = qx.Class.getByName(superclass.classname).$$properties;
+        properties[i] = iFrameWindow.qx.Class.getByName(superclass.classname).$$properties;
         // sorte the classname in the groupnames array        
         groupNames[i] = superclass.classname;
         // create an array for the classes for the property
@@ -178,11 +180,11 @@ qx.Class.define("inspector.property.AbstractPropertyList", {
           classnames[i][j] = superclass.classname;
         }
         // go threw all classes to the qx.core.Object class
-        if(qx.Class.getByName("qx.core.Object") == superclass) {
+        if(iFrameWindow.qx.Class.getByName("qx.core.Object") == superclass) {
           break;  
         }       
         // set the new class
-        superclass = qx.Class.getByName(superclass.classname).superclass;
+        superclass = iFrameWindow.qx.Class.getByName(superclass.classname).superclass;
       }
       // return the data as an object
       return {names: groupNames, props: properties, classes: classnames};
