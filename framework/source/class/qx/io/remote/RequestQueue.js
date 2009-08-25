@@ -323,9 +323,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
           }
         }
       }
-
-      this._remove(e.getTarget());
-
+      
       // delegate the event to the handler method of the request depending
       // on the current type of the event ( completed|aborted|timeout|failed )
       var request = e.getTarget().getRequest();
@@ -333,6 +331,8 @@ qx.Class.define("qx.io.remote.RequestQueue",
       if (request[requestHandler]) {
         request[requestHandler](e.clone());
       }
+      
+      this._remove(e.getTarget());
     },
 
 
