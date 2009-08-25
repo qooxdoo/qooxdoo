@@ -2,8 +2,11 @@
   // IMAGE CLIPPING AND COMBINING JOBS
   "jobs" :
   {
-    "icommon" :
+    
+    "image-combine" :
     {
+      "desc" : "Feedreader image combining",
+
       "let" :
       {
         "RESPATH" : "./source/resource"
@@ -13,43 +16,52 @@
       {
         // path to your cache folder
         "compile" : "../../cache"
-      }
-    },
-    
-    "image-combine" :
-    {
-      "extend" : ["icommon"],
- 
+      },
+
       "combine-images" :
       {
         "images" :
         {
           "${RESPATH}/feedreader/images/combined/icons22.png" :
           {
+            "prefix": [ "${RESPATH}" ],
             "input" :
             [
-              "${RESPATH}/qx/icon/Tango/22/actions/dialog-ok.png",
-              "${RESPATH}/qx/icon/Tango/22/actions/dialog-cancel.png",
-              "${RESPATH}/qx/icon/Tango/22/actions/view-refresh.png",
-              "${RESPATH}/qx/icon/Tango/22/actions/help-about.png",
-              "${RESPATH}/qx/icon/Tango/22/places/folder-open.png",
-              "${RESPATH}/qx/icon/Tango/22/places/folder.png",
-              "${RESPATH}/qx/icon/Tango/22/apps/internet-feed-reader.png",
-              "${RESPATH}/qx/icon/Tango/22/actions/process-stop.png"
+              {
+                "prefix": [ "${RESPATH}" ],
+                "files" :
+                [
+                  "${RESPATH}/qx/icon/Tango/22/actions/dialog-ok.png",
+                  "${RESPATH}/qx/icon/Tango/22/actions/dialog-cancel.png",
+                  "${RESPATH}/qx/icon/Tango/22/actions/view-refresh.png",
+                  "${RESPATH}/qx/icon/Tango/22/actions/help-about.png",
+                  "${RESPATH}/qx/icon/Tango/22/places/folder-open.png",
+                  "${RESPATH}/qx/icon/Tango/22/places/folder.png",
+                  "${RESPATH}/qx/icon/Tango/22/apps/internet-feed-reader.png",
+                  "${RESPATH}/qx/icon/Tango/22/actions/process-stop.png"
+                ]
+              }
             ],
             "layout" : "vertical"
           },
           
           "${RESPATH}/feedreader/images/combined/icons16.png" :
           {
+            "prefix": [ "${RESPATH}" ],
             "input" :
             [
-              "${RESPATH}/qx/icon/Tango/16/actions/document-new.png",
-              "${RESPATH}/qx/icon/Tango/16/actions/dialog-apply.png",
-              "${RESPATH}/qx/icon/Tango/16/apps/preferences-theme.png",
-              "${RESPATH}/qx/icon/Tango/16/apps/preferences-locale.png",
-              "${RESPATH}/qx/icon/Tango/16/actions/dialog-cancel.png",
-              "${RESPATH}/qx/icon/Tango/16/actions/dialog-ok.png"
+              {
+                "prefix": [ "${RESPATH}" ],
+                "files" :
+                [
+                  "${RESPATH}/qx/icon/Tango/16/actions/document-new.png",
+                  "${RESPATH}/qx/icon/Tango/16/actions/dialog-apply.png",
+                  "${RESPATH}/qx/icon/Tango/16/apps/preferences-theme.png",
+                  "${RESPATH}/qx/icon/Tango/16/apps/preferences-locale.png",
+                  "${RESPATH}/qx/icon/Tango/16/actions/dialog-cancel.png",
+                  "${RESPATH}/qx/icon/Tango/16/actions/dialog-ok.png"
+                ]
+              }
             ],
             "layout" : "vertical"
           }
