@@ -4,9 +4,13 @@
   "include" :
   [
     {
-      "path" : "./api.json",
+      "path" : "${ROOT}/api.json",
       "as"   : "apicnf"
     }, 
+
+    {
+      "path" : "${ROOT}/image.json"
+    },
 
     {
       "path"   : "${QOOXDOO_PATH}/tool/data/config/application.json",
@@ -30,6 +34,7 @@
     "APPLICATION"  : "apiviewer",
     "QOOXDOO_PATH" : "../..",
     "CACHE"        : "${TMPDIR}/cache",
+    "ROOT"         : ".",
     "TEST_INCLUDE" : "${APPLICATION}.*"
   },
 
