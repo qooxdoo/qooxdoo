@@ -458,8 +458,9 @@ qx.Class.define("qx.ui.form.AbstractField",
         {
           var oldValue = elem.getValue();
           elem.setValue(value);
+          var data = this.__nullValue ? null : value;
           this.fireNonBubblingEvent(
-            "changeValue", qx.event.type.Data, [value, oldValue]
+            "changeValue", qx.event.type.Data, [data, oldValue]
           );
         }
         this._showPlaceholder();
