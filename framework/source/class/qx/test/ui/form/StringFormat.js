@@ -37,6 +37,7 @@ qx.Class.define("qx.test.ui.form.StringFormat",
       this.assertEquals("affe", widget.getValue(), "Set or get does not work.");
       
       var self = this;
+      // event with value
       this.assertEventFired(widget, "changeValue", function() {
         widget.setValue("affen");
       }, function(e) {
@@ -44,8 +45,13 @@ qx.Class.define("qx.test.ui.form.StringFormat",
         self.assertEquals("affe", e.getOldData(), "Wrong old data in the event.");
       }, "Event is wrong!");
       
-      // test for null values
-      widget.setValue(null);
+      // event with null
+      this.assertEventFired(widget, "changeValue", function() {
+        widget.setValue(null);
+      }, function(e) {
+        self.assertEquals(null, e.getData(), "Not the right number in the event.");
+        self.assertEquals("affen", e.getOldData(), "Wrong old data in the event.");
+      }, "Event is wrong!");
       
       // get rid of the widget
       widget.destroy();

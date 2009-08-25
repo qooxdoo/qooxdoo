@@ -414,11 +414,15 @@ qx.Class.define("qx.ui.form.ComboBox",
     {
       var value = e.getData();
 
-      // Select item when possible
       var list = this.getChildControl("list");
-      var item = list.findItem(value);
-      if (item) {
-        list.setSelection([item]);
+      if (value != null) {
+        // Select item when possible
+        var item = list.findItem(value);
+        if (item) {
+          list.setSelection([item]);
+        } else {
+          list.resetSelection();
+        }        
       } else {
         list.resetSelection();
       }
