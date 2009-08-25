@@ -29,7 +29,17 @@
  */
 qx.Class.define("qx.bom.Blocker", 
 {
-  statics : 
+  extend : qx.core.Object,
+  
+  construct : function()
+  {
+    this.base(arguments);
+    
+    this.__init();
+  },
+  
+  
+  members : 
   {
     __iframeElement : null,
     __blockerElement : null,
@@ -66,7 +76,7 @@ qx.Class.define("qx.bom.Blocker",
     
     
     /**
-     * Releases the block
+     * Releases the blocking
      */
     unblock : function()
     {
@@ -320,10 +330,5 @@ qx.Class.define("qx.bom.Blocker",
               qx.dom.Node.isWindow(this.__blockedElement) || 
               qx.dom.Node.isDocument(this.__blockedElement));
     }
-  },
-  
-  
-  defer : function(statics) {
-    statics.__init();
   }
 });
