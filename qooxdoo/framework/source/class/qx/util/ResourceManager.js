@@ -22,8 +22,17 @@
  * Contains information about images (size, format, clipping, ...) and
  * other resources like CSS files, local data, ...
  */
-qx.Bootstrap.define("qx.util.ResourceManager",
+qx.Class.define("qx.util.ResourceManager",
 {
+  extend  : qx.core.Object,
+  type    : "singleton",
+  
+  /*
+  ***************************************************************************** 
+     STATICS
+  ***************************************************************************** 
+  */
+
   statics :
   {
     /** {Map} the shared image registry */
@@ -32,6 +41,138 @@ qx.Bootstrap.define("qx.util.ResourceManager",
     /** {Map} prefix per library used in HTTPS mode for IE */
     __urlPrefix : {},
 
+   /**
+     * Whether the registry has information about the given resource.
+     *
+     * @deprecated Use '.getInstance().has' instead!
+     * @param id {String} The resource to get the information for
+     * @return {Boolean} <code>true</code> when the resource is known.
+     */
+    has : function(id) {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'getInstance().has' instead!"
+      );
+      return this.getInstance().has(id);
+    },
+
+
+    /**
+     * Get information about an resource.
+     *
+     * @deprecated Use '.getInstance().getData' instead!
+     * @param id {String} The resource to get the information for
+     * @return {Array} Registered data or <code>null</code>
+     */
+    getData : function(id) {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'getInstance().getData' instead!"
+      );
+      return this.getInstance().getData(id);
+    },
+
+
+    /**
+     * Returns the width of the given resource ID,
+     * when it is not a known image <code>0</code> is
+     * returned.
+     *
+     * @deprecated Use '.getInstance().getImageWidth' instead!
+     * @param id {String} Resource identifier
+     * @return {Integer} The image width, maybe <code>null</code> when the width is unknown
+     */
+    getImageWidth : function(id)
+    {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'getInstance().getImageWidth' instead!"
+      );
+      return this.getInstance().getImageWidth(id);
+    },
+
+
+    /**
+     * Returns the height of the given resource ID,
+     * when it is not a known image <code>0</code> is
+     * returned.
+     *
+     * @deprecated Use '.getInstance().getImageHeight' instead!
+     * @param id {String} Resource identifier
+     * @return {Integer} The image height, maybe <code>null</code> when the height is unknown
+     */
+    getImageHeight : function(id)
+    {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'getInstance().getImageHeight' instead!"
+      );
+      return this.getInstance().getImageHeight(id);
+    },
+
+
+    /**
+     * Returns the format of the given resource ID,
+     * when it is not a known image <code>null</code>
+     * is returned.
+     *
+     * @deprecated Use '.getInstance().getImageFormat' instead!
+     * @param id {String} Resource identifier
+     * @return {String} File format of the image
+     */
+    getImageFormat : function(id)
+    {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'getInstance().getImageFormat' instead!"
+      );
+      return this.getInstance().getImageFormat(id);
+    },
+
+
+    /**
+     * Whether the given resource identifier is a image
+     * with clipping information available.
+     *
+     * @deprecated Use '.getInstance().isClippedImage' instead!
+     * @param id {String} Resource identifier
+     * @return {Boolean} Whether the resource ID is known as a clipped image
+     */
+    isClippedImage : function(id)
+    {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'getInstance().isClippedImage' instead!"
+      );
+      return this.getInstance().isClippedImage(id);
+    },
+
+
+    /**
+     * Converts the given resource ID to a full qualified URI
+     *
+     * @deprecated Use '.getInstance().toUri' instead!
+     * @param id {String} Resource ID
+     * @return {String} Resulting URI
+     */
+    toUri : function(id)
+    {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'getInstance().toUri' instead!"
+      );
+      return this.getInstance().toUri(id);
+    }
+  },
+  
+  /*
+  ***************************************************************************** 
+     MEMBERS
+  ***************************************************************************** 
+  */
+
+  members :
+  {
 
     /**
      * Whether the registry has information about the given resource.
@@ -40,7 +181,7 @@ qx.Bootstrap.define("qx.util.ResourceManager",
      * @return {Boolean} <code>true</code> when the resource is known.
      */
     has : function(id) {
-      return !!this.__registry[id];
+      return !!this.self(arguments).__registry[id];
     },
 
 
@@ -51,7 +192,7 @@ qx.Bootstrap.define("qx.util.ResourceManager",
      * @return {Array} Registered data or <code>null</code>
      */
     getData : function(id) {
-      return this.__registry[id] || null;
+      return this.self(arguments).__registry[id] || null;
     },
 
 
@@ -65,7 +206,7 @@ qx.Bootstrap.define("qx.util.ResourceManager",
      */
     getImageWidth : function(id)
     {
-      var entry = this.__registry[id];
+      var entry = this.self(arguments).__registry[id];
       return entry ? entry[0] : null;
     },
 
@@ -80,7 +221,7 @@ qx.Bootstrap.define("qx.util.ResourceManager",
      */
     getImageHeight : function(id)
     {
-      var entry = this.__registry[id];
+      var entry = this.self(arguments).__registry[id];
       return entry ? entry[1] : null;
     },
 
@@ -95,7 +236,7 @@ qx.Bootstrap.define("qx.util.ResourceManager",
      */
     getImageFormat : function(id)
     {
-      var entry = this.__registry[id];
+      var entry = this.self(arguments).__registry[id];
       return entry ? entry[2] : null;
     },
 
@@ -109,7 +250,7 @@ qx.Bootstrap.define("qx.util.ResourceManager",
      */
     isClippedImage : function(id)
     {
-      var entry = this.__registry[id];
+      var entry = this.self(arguments).__registry[id];
       return entry && entry.length > 4;
     },
 
@@ -126,7 +267,7 @@ qx.Bootstrap.define("qx.util.ResourceManager",
         return id;
       }
 
-      var entry = this.__registry[id];
+      var entry = this.self(arguments).__registry[id];
       if (!entry) {
         return id;
       }
@@ -148,7 +289,7 @@ qx.Bootstrap.define("qx.util.ResourceManager",
       var urlPrefix = "";
       if (qx.core.Variant.isSet("qx.client", "mshtml") &&
           qx.bom.client.Feature.SSL) {
-        urlPrefix = this.__urlPrefix[lib];
+        urlPrefix = this.self(arguments).__urlPrefix[lib];
       }
       
       return urlPrefix + qx.$$libraries[lib].resourceUri + "/" + id;
@@ -185,7 +326,7 @@ qx.Bootstrap.define("qx.util.ResourceManager",
           {
             var url = document.URL;
             statics.__urlPrefix[lib] = url.substring(0, url.lastIndexOf("/"));
-          } else if (resourceUri.match(/^http:/) != null) {
+          } else if (resourceUri.match(/^http/) != null) {
             // Let absolute URLs pass through
           } 
           else 
