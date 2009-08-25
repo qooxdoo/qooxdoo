@@ -60,7 +60,7 @@ qx.Class.define("demobrowser.demo.test.Destructor_Flash",
         this.__count++;
 
         // Create flash movie
-        qx.bom.Flash.create(flash, { moview : "TestFlash.swf", id : id });
+        qx.bom.Flash.create(flash, { movie : "TestFlash.swf", id : id });
 
         this.debug("created: " + id);
         this.__data.push(flash);
