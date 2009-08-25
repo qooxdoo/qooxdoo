@@ -1136,6 +1136,7 @@ class Generator(object):
             imageId= getImageId(image, imgspec.get('prefix', None))
             image  = self._config.absPath(image)  # abs output path
             self._console.info("Creating image %s" % image)
+            self._console.indent()
             config = {}
 
             # create a dict of clipped image objects - for later look-up
@@ -1172,6 +1173,7 @@ class Generator(object):
             meta_fname = os.path.join(os.path.dirname(image), bname)
             self._console.debug("writing meta file %s" % meta_fname)
             filetool.save(meta_fname, simplejson.dumps(config, ensure_ascii=False))
+            self._console.outdent()
             
         self._console.outdent()
 
