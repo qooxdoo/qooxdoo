@@ -86,32 +86,19 @@ qx.Mixin.define("qx.ui.core.MBlocker",
     _applyBlockerColor : function(value, old)
     {
       var color = qx.theme.manager.Color.getInstance().resolve(value);
-      this.__setBlockersStyle("backgroundColor", color);
+
+      this.__blocker && this.__blocker.setBlockerColor(color);
+      this.__contentBlocker && this.__contentBlocker.setBlockerColor(color);
     },
 
 
     // property apply
     _applyBlockerOpacity : function(value, old)
     {
-      this.__setBlockersStyle("opacity", value);
+      this.__blocker && this.__blocker.setBlockerOpacity(value);
+      this.__contentBlocker && this.__contentBlocker.setBlockerOpacity(value);
     },
-    
-    /**
-     * Set the style to all blockers (blocker and content blocker).
-     * 
-     * @param key {String} The name of the style attribute.
-     * @param value {String} The value. 
-     */
-    __setBlockersStyle : function(key, value)
-    {
-      var blockers = [];
-      this.__blocker && blockers.push(this.__blocker);
-      this.__contentBlocker && blockers.push(this.__contentBlocker);
 
-      for (var i = 0; i < blockers.length; i++) {
-        blockers[i].setStyle(key, value);
-      }
-    },
 
     /**
      * Remember current value and make widget anonymous. This prevents
@@ -161,9 +148,7 @@ qx.Mixin.define("qx.ui.core.MBlocker",
       if (!this.__blocker)
       {
         this.__blocker = this.__createBlockerElement();
-        this.__blocker.setStyle("zIndex", 15);
-        this.getContainerElement().add(this.__blocker);
-        this.__blocker.exclude();
+        this.__blocker.setBlockerZIndex(15);
       }
       return this.__blocker;
     },
@@ -182,7 +167,7 @@ qx.Mixin.define("qx.ui.core.MBlocker",
 
       // overlay the blocker widget
       // this prevents bubbling events
-      this._getBlocker().include();
+      this._getBlocker().block(this.getContainerElement().getDomElement());
 
       this._saveAndSetAnonymousState();
     },
@@ -209,7 +194,7 @@ qx.Mixin.define("qx.ui.core.MBlocker",
       this.__isBlocked = false;
 
       this._restoreAnonymousState();
-      this._getBlocker().exclude();
+      this._getBlocker().unblock();
     },
 
 
@@ -220,11 +205,8 @@ qx.Mixin.define("qx.ui.core.MBlocker",
      */
     _getContentBlocker : function()
     {
-      if (!this.__contentBlocker)
-      {
+      if (!this.__contentBlocker) {
         this.__contentBlocker = this.__createBlockerElement();
-        this.getContentElement().add(this.__contentBlocker);
-        this.__contentBlocker.exclude();
       }
       return this.__contentBlocker;
     },
@@ -239,14 +221,14 @@ qx.Mixin.define("qx.ui.core.MBlocker",
     blockContent : function(zIndex)
     {
       var blocker = this._getContentBlocker();
-      blocker.setStyle("zIndex", zIndex);
+      blocker.setBlockerZIndex(zIndex);
 
       if (this.__isContentBlocked) {
         return;
       }
       this.__isContentBlocked = true;
 
-      blocker.include();
+      blocker.block(this.getContentElement().getDomElement());
     },
 
 
@@ -270,7 +252,7 @@ qx.Mixin.define("qx.ui.core.MBlocker",
       }
       this.__isContentBlocked = false;
 
-      this._getContentBlocker().exclude();
+      this._getContentBlocker().unblock();
     }
   },
 

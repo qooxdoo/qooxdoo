@@ -44,7 +44,7 @@ qx.Class.define("qx.bom.Blocker",
     __iframeElement : null,
     __blockerElement : null,
     __blockedElement : null,
-    __defaultZIndex: 1000,
+    __defaultZIndex: 10000,
     __defaultBlockerOpacity: 0,
     __defaultBlockerColor: "transparent",
     
@@ -64,12 +64,6 @@ qx.Class.define("qx.bom.Blocker",
     {
       this.__blockedElement = element;
       
-      // it's easier to set a zIndex for the element to block to not mix up
-      // the zIndex of the blocker and iframe blocker element
-      if (!this.__isWholeDocumentBlockTarget()) {
-        qx.bom.element.Style.set(this.__blockedElement, "zIndex", this.__defaultZIndex);
-      }
-      
       var styles = this.__calculateStyles();  
       this.__styleAndInsertBlocker(styles);
     },
@@ -78,12 +72,7 @@ qx.Class.define("qx.bom.Blocker",
     /**
      * Releases the blocking
      */
-    unblock : function()
-    {
-      if (!this.__isWholeDocumentBlockTarget()) {
-        qx.bom.element.Style.reset(this.__blockedElement, "zIndex");
-      }
-      
+    unblock : function() {
       this.__removeBlocker();
     },
     
@@ -177,7 +166,10 @@ qx.Class.define("qx.bom.Blocker",
     __init : function()
     {
       this.__setupBlockerElement();
-      this.__setupIframeElement();
+      
+      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+        this.__setupIframeElement();
+      }
       
       qx.event.Registration.addListener(window, "resize", this.__onResize, this);
     },
@@ -195,6 +187,17 @@ qx.Class.define("qx.bom.Blocker",
         opacity: this.__defaultBlockerOpacity,
         backgroundColor: this.__defaultBlockerColor
       });
+      this.setBlockerZIndex(this.__defaultZIndex);
+      
+      // IE needs some extra love here to convince it to block events.
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      {
+        qx.bom.element.Style.setStyles(this.__blockerElement, 
+        {
+          backgroundImage: "url(" + qx.util.ResourceManager.toUri("qx/static/blank.gif") + ")",
+          backgroundRepeat: "repeat"
+        });
+      }
     },
     
     
@@ -236,21 +239,12 @@ qx.Class.define("qx.bom.Blocker",
         styles.bottom = null;
         styles.width = qx.bom.Document.getWidth() + "px";
         styles.height = qx.bom.Document.getHeight() + "px";
-        styles.zIndex = this.__defaultZIndex;
       }
       else
       {
-        var location = qx.bom.element.Location.get(this.__blockedElement);
-        for (var key in location) {
-          styles[key] = location[key] + "px";
-        }
-        
-        var dimension = qx.bom.element.Dimension.getSize(this.__blockedElement);
-        for (var key in dimension) {
-          styles[key] = dimension[key] + "px";
-        }
-        
-        styles.zIndex = this.__defaultZIndex - 1;
+        styles.position = "absolute";
+        styles.width = "100%";
+        styles.height = "100%";
       }
       
       return styles;
@@ -268,15 +262,17 @@ qx.Class.define("qx.bom.Blocker",
       if(this.__isWholeDocumentBlockTarget()) {
         target = document.body;
       } else {
-        target = qx.dom.Node.getBodyElement(this.__blockedElement);
+        target = this.__blockedElement;
       }
         
       qx.bom.element.Style.setStyles(this.__blockerElement, styles);
       qx.dom.Element.insertBegin(this.__blockerElement, target);      
       
-      styles.zIndex = styles.zIndex - 1;
-      qx.bom.element.Style.setStyles(this.__iframeElement, styles);
-      qx.dom.Element.insertBegin(this.__iframeElement, target);
+      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+        styles.zIndex = this.getBlockerZIndex() - 1;
+        qx.bom.element.Style.setStyles(this.__iframeElement, styles);
+        qx.dom.Element.insertBegin(this.__iframeElement, target);
+      }
     },
     
     
@@ -286,7 +282,10 @@ qx.Class.define("qx.bom.Blocker",
     __removeBlocker: function()
     {
       qx.dom.Element.remove(this.__blockerElement);
-      qx.dom.Element.remove(this.__iframeElement);
+      
+      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+        qx.dom.Element.remove(this.__iframeElement);
+      }
     },
     
     
@@ -302,8 +301,10 @@ qx.Class.define("qx.bom.Blocker",
       {
         // reset the blocker to get the right calculated document dimension
         this.__resizeBlocker({ width: "0px", height: "0px" });
-        this.__resizeBlocker({ width: qx.bom.Document.getWidth() + "px",
-                               height: qx.bom.Document.getHeight() + "px" });
+        
+        var dimension = { width: qx.bom.Document.getWidth() + "px",
+                          height: qx.bom.Document.getHeight() + "px" };
+        this.__resizeBlocker(dimension);
       }
     },
     
@@ -316,7 +317,10 @@ qx.Class.define("qx.bom.Blocker",
     __resizeBlocker : function(dimension)
     {
       qx.bom.element.Style.setStyles(this.__blockerElement, dimension);
-      qx.bom.element.Style.setStyles(this.__iframeElement, dimension);
+      
+      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+        qx.bom.element.Style.setStyles(this.__iframeElement, dimension);
+      }
     },
     
     
