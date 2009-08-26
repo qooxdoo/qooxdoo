@@ -138,7 +138,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
     createImageHtml : function(imgUrl, tooltip, styleAttributes)
     {
       if (typeof imgUrl == "string") {
-        return '<img src="' + qx.util.ResourceManager.toUri(imgUrl) + '" class="img"' + (styleAttributes ? ' style="' + styleAttributes + '"' : "") + '/>';
+        return '<img src="' + qx.util.ResourceManager.getInstance().toUri(imgUrl) + '" class="img"' + (styleAttributes ? ' style="' + styleAttributes + '"' : "") + '/>';
       }
       else
       {
@@ -192,7 +192,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
           html += ' title="' + toolTip + '"';
         }
 
-        html += ' style="' + style + '" src="' + qx.util.ResourceManager.toUri(imgUrlArr[i]) + '"/>';
+        html += ' style="' + style + '" src="' + qx.util.ResourceManager.getInstance().toUri(imgUrlArr[i]) + '"/>';
       }
 
       html += '</span>';

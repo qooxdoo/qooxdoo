@@ -527,7 +527,7 @@ qx.Class.define("inspector.console.ConsoleView",
       var text = text;
       // handle the icon uri
       if (icon == "info" || icon == "error" || icon == "warning") {
-        var imageURI = qx.util.ResourceManager.toUri("inspector/images/shell/" + 
+        var imageURI = qx.util.ResourceManager.getInstance().toUri("inspector/images/shell/" + 
                        icon + "Icon.png");
         var iconHtml = "<img src='" + imageURI + "' class='ins_console_icon'>";
         text = iconHtml + "&nbsp;" + text;
