@@ -230,7 +230,7 @@ qx.Class.define("inspector.console.DomView",
         try {
           sortedValues[i].value instanceof this._iFrameWindow.Object
         }catch(ex) {
-          var imageURI = qx.util.ResourceManager.toUri("inspector/images/spacer.gif");
+          var imageURI = qx.util.ResourceManager.getInstance().toUri("inspector/images/spacer.gif");
           returnString.add("<tr><td class='" + keyStyle + "'><img class='ins_dom_front_image' src='" + 
                           imageURI + 
                           "'>" + this._console.escapeHtml(sortedValues[i].key) + "</td>");
@@ -242,7 +242,7 @@ qx.Class.define("inspector.console.DomView",
         if (!(sortedValues[i].value instanceof this._iFrameWindow.Object) &&
             sortedValues[i].value != this._iFrameWindow.window &&
             sortedValues[i].value != this._iFrameWindow.document) {
-          var imageURI = qx.util.ResourceManager.toUri("inspector/images/spacer.gif");
+          var imageURI = qx.util.ResourceManager.getInstance().toUri("inspector/images/spacer.gif");
           returnString.add("<tr><td class='" + keyStyle + "'><img class='ins_dom_front_image' src='" + 
                           imageURI + 
                           "'>" + this._console.escapeHtml(sortedValues[i].key) + "</td>");
@@ -279,7 +279,7 @@ qx.Class.define("inspector.console.DomView",
           // if it is not the selected object (self reference)
           if (sortedValues[i].value != o) {
             // print out the objects key incl. the link to select it         
-            var imageURI = qx.util.ResourceManager.toUri("inspector/images/open.png");
+            var imageURI = qx.util.ResourceManager.getInstance().toUri("inspector/images/open.png");
             postString.add("<tr><td class='" + keyStyle + "'><a onclick='" +
                             "qx.core.Init.getApplication().inspectObjectByDomSelecet(" + index + ", \"" + sortedValues[i].key + "\")" + 
                             "'><img class='ins_dom_front_image' src='" + 
@@ -290,7 +290,7 @@ qx.Class.define("inspector.console.DomView",
           // if the object holds a reference to itself
           if (sortedValues[i].value == o) {
             // print out the objects key without the link to select it        
-            var imageURI = qx.util.ResourceManager.toUri("inspector/images/spacer.gif");
+            var imageURI = qx.util.ResourceManager.getInstance().toUri("inspector/images/spacer.gif");
             returnString.add("<tr><td class='ins_dom_key'><img class='ins_dom_front_image' src='" + 
                             imageURI + 
                             "'>" + sortedValues[i].key + "</td>");            
@@ -316,7 +316,7 @@ qx.Class.define("inspector.console.DomView",
               returnString.add(postString.get());
               returnString.add("<td class='ins_dom_object'>" + stringValue + "</td></tr>"); 
             } catch (ex) {
-              var imageURI = qx.util.ResourceManager.toUri("inspector/images/spacer.gif");
+              var imageURI = qx.util.ResourceManager.getInstance().toUri("inspector/images/spacer.gif");
               returnString.add("<tr><td class='ins_dom_key'><img class='ins_dom_front_image' src='" + 
                             imageURI + 
                             "'>" + sortedValues[i].key + "</td>");
