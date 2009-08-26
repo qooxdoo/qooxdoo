@@ -42,7 +42,7 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveTable_VarRowHeight",
       this.__loadCount = 0;
 
       var aliasManager = qx.util.AliasManager.getInstance();
-      var resourceManager = qx.util.ResourceManager;
+      var resourceManager = qx.util.ResourceManager.getInstance();
       var resolved;
       var source;
 
