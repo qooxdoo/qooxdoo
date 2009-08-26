@@ -271,7 +271,7 @@ class QxTest:
   # the log directory if it doesn't already exist. 
   #
   # @param buildLogDir {str} The directory to create the log file in
-  def getBuildLogFile(self, buildLogDir):
+  def getBuildLogFile(self, buildLogDir, target):
     try:
       if not os.path.isdir(buildLogDir):
         os.mkdir(buildLogDir)
@@ -291,7 +291,7 @@ class QxTest:
 
   ##
   # Writes build Errors to the log file
-  def logBuildErrors(self, buildLogFile, cmd, err):
+  def logBuildErrors(self, buildLogFile, target, cmd, err):
     self.log("Error while building " + target + ", see " 
           + buildLog + " for details.")
     err = err.rstrip('\n')
@@ -317,12 +317,8 @@ class QxTest:
     
     for target in buildConf['targets']:
       # Prepare log file
-      if ('buildLogDir' in buildConf):
-        if not os.path.isdir(buildConf['buildLogDir']):
-          os.mkdir(buildConf['buildLogDir'])
-        buildLog = os.path.join(buildConf['buildLogDir'], target + '_' + self.startTimeString + '.log')
-        self.log("Opening build log file " + buildLog)      
-        buildLogFile = codecs.open(buildLog, 'w', 'utf-8')      
+      if ('buildLogDir' in buildConf):      
+        buildLogFile = self.getBuildLogFile(buildConf["buildLogDir"], target)      
       
       # Assemble batbuild command line
       if (os.path.isabs(buildConf['batbuild'])):
@@ -348,7 +344,7 @@ class QxTest:
             # Start build, only log errors
             status, std, err = invokePiped(cmd)
             if (status > 0):
-              self.logBuildErrors(buildLogFile, cmd, err)
+              self.logBuildErrors(buildLogFile, target, cmd, err)
               
               self.buildStatus[target]["BuildError"] = "Unknown build error"
               
@@ -650,6 +646,7 @@ class QxTest:
           seleniumVersion = appConf["seleniumVersion"]
 
       cmd = self.getStartCmd(appConf['appName'], browser['browserId'], options, simulationScript, seleniumVersion)
+
       if getReportFrom == 'testLog':
         cmd += " logFile=" + logFile
       
