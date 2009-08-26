@@ -63,7 +63,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
     this.base(arguments);
 
     this.__am = qx.util.AliasManager.getInstance();
-    this.__rm = qx.util.ResourceManager;
+    this.__rm = qx.util.ResourceManager.getInstance();
     this.__tm = qx.theme.manager.Appearance.getInstance();
 
     // Base URL used for indentation
@@ -92,7 +92,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       var ImageLoader = qx.io2.ImageLoader;
 
       var am = qx.util.AliasManager.getInstance();
-      var rm = qx.util.ResourceManager;
+      var rm = qx.util.ResourceManager.getInstance();
       var tm = qx.theme.manager.Appearance.getInstance();
 
       var loadImage = function(f)

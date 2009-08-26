@@ -273,7 +273,7 @@ qx.Class.define("qx.ui.decoration.Grid",
         }
       }
 
-      var ResourceManager = qx.util.ResourceManager;
+      var ResourceManager = qx.util.ResourceManager.getInstance();
 
       if (value)
       {

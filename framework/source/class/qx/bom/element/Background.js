@@ -99,7 +99,7 @@ qx.Class.define("qx.bom.element.Background",
     compile : function(source, repeat, left, top)
     {
       var position = this.__computePosition(left, top);
-      var backgroundImageUrl = qx.util.ResourceManager.toUri(source);
+      var backgroundImageUrl = qx.util.ResourceManager.getInstance().toUri(source);
 
       // Updating template
       var tmpl = this.__tmpl;
@@ -136,7 +136,7 @@ qx.Class.define("qx.bom.element.Background",
       }
 
       var position = this.__computePosition(left, top);
-      var backgroundImageUrl = qx.util.ResourceManager.toUri(source);
+      var backgroundImageUrl = qx.util.ResourceManager.getInstance().toUri(source);
       
       var map = {
         backgroundPosition : position,

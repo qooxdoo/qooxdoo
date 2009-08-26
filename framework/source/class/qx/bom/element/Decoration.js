@@ -182,7 +182,7 @@ qx.Class.define("qx.bom.element.Decoration",
      */
     getAttributes : function(source, repeat, style)
     {
-      var ResourceManager = qx.util.ResourceManager;
+      var ResourceManager = qx.util.ResourceManager.getInstance();
       var ImageLoader = qx.io2.ImageLoader;
       var Background = qx.bom.element.Background;
 

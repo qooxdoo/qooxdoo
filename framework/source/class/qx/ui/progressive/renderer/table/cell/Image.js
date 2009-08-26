@@ -102,7 +102,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Image",
       {
 
         var aliasManager = qx.util.AliasManager.getInstance();
-        var resourceManager = qx.util.ResourceManager;
+        var resourceManager = qx.util.ResourceManager.getInstance();
         var resolved = aliasManager.resolve(imageData.url);
         imageData.url = resourceManager.toUri(resolved);
       }

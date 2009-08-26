@@ -64,7 +64,7 @@ qx.Class.define("qx.test.data.store.Json",
         }, this);
       }, this);
       
-      var url = qx.util.ResourceManager.toUri("qx/test/primitive.json");
+      var url = qx.util.ResourceManager.getInstance().toUri("qx/test/primitive.json");
       var self = this;
       window.setTimeout(function(){
         self.__store.setUrl(url);        
@@ -86,7 +86,7 @@ qx.Class.define("qx.test.data.store.Json",
         }, this);
       }, this);
       
-      var url = qx.util.ResourceManager.toUri("qx/test/array.json");
+      var url = qx.util.ResourceManager.getInstance().toUri("qx/test/array.json");
       var self = this;
       window.setTimeout(function(){
         self.__store.setUrl(url);        
@@ -106,7 +106,7 @@ qx.Class.define("qx.test.data.store.Json",
         }, this);
       }, this);
       
-      var url = qx.util.ResourceManager.toUri("qx/test/object.json");
+      var url = qx.util.ResourceManager.getInstance().toUri("qx/test/object.json");
       var self = this;
       window.setTimeout(function(){
         self.__store.setUrl(url);        
@@ -158,7 +158,7 @@ qx.Class.define("qx.test.data.store.Json",
         }, this);
       }, this);
       
-      var url = qx.util.ResourceManager.toUri("qx/test/object.json");
+      var url = qx.util.ResourceManager.getInstance().toUri("qx/test/object.json");
       var self = this;
       window.setTimeout(function(){
         self.__store.setUrl(url);        
@@ -187,7 +187,7 @@ qx.Class.define("qx.test.data.store.Json",
         }, this);
       }, this);
       
-      var url = qx.util.ResourceManager.toUri("qx/test/object.json");
+      var url = qx.util.ResourceManager.getInstance().toUri("qx/test/object.json");
       var self = this;
       window.setTimeout(function(){
         self.__store.setUrl(url);        
@@ -221,7 +221,7 @@ qx.Class.define("qx.test.data.store.Json",
         }, this);
       }, this);
       
-      var url = qx.util.ResourceManager.toUri("qx/test/object.json");
+      var url = qx.util.ResourceManager.getInstance().toUri("qx/test/object.json");
       var self = this;
       window.setTimeout(function(){
         self.__store.setUrl(url);        
@@ -254,7 +254,7 @@ qx.Class.define("qx.test.data.store.Json",
         }, this);
       }, this);
       
-      var url = qx.util.ResourceManager.toUri("qx/test/object.json");
+      var url = qx.util.ResourceManager.getInstance().toUri("qx/test/object.json");
       var self = this;
       window.setTimeout(function(){
         self.__store.setUrl(url);        
@@ -281,7 +281,7 @@ qx.Class.define("qx.test.data.store.Json",
         }, this);
       }, this);
       
-      var url = qx.util.ResourceManager.toUri("qx/test/object.json");
+      var url = qx.util.ResourceManager.getInstance().toUri("qx/test/object.json");
       var self = this;
       window.setTimeout(function(){
         self.__store.setUrl(url);        
@@ -321,7 +321,7 @@ qx.Class.define("qx.test.data.store.Json",
         }, this);
       }, this);
       
-      var url = qx.util.ResourceManager.toUri("qx/test/object.json");
+      var url = qx.util.ResourceManager.getInstance().toUri("qx/test/object.json");
       var self = this;
       window.setTimeout(function(){
         self.__store.setUrl(url);        

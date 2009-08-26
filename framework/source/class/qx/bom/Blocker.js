@@ -194,7 +194,7 @@ qx.Class.define("qx.bom.Blocker",
       {
         qx.bom.element.Style.setStyles(this.__blockerElement, 
         {
-          backgroundImage: "url(" + qx.util.ResourceManager.toUri("qx/static/blank.gif") + ")",
+          backgroundImage: "url(" + qx.util.ResourceManager.getInstance().toUri("qx/static/blank.gif") + ")",
           backgroundRepeat: "repeat"
         });
       }
