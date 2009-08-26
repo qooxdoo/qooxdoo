@@ -23,9 +23,29 @@
  ************************************************************************ */
 
 /**
- * This class provides a unified blocker to block either the whole document
- * or acts as underlying layer for DIV elements to block native browser controls
- * like select boxes.
+ * This class provides an unified blocker which offers three different modes.
+ * 
+ * *Blocker modes*
+ * 
+ * * block the whole document
+ * * block the content of an element
+ * * act as an underlying blocker for an element to shim native controls
+ * 
+ *   
+ * The third mode is mainly necessary for IE browsers.
+ * 
+ * 
+ * The first mode is the easiest to use. Just use the {@link #block} method
+ * without a parameter.
+ * The second and third mode are taking a DOM element as parameter for the 
+ * {@link #block} method. Additionally one need to setup the "zIndex" value 
+ * correctly to get the right results (see at {@link #setBlockerZIndex} method).
+ * 
+ * 
+ * The zIndex value defaults to the value "10000". Either you set an appropiate 
+ * value for the blocker zIndex or for your DOM element to block. If you want
+ * to block the content of your DOM element it has to have at least the zIndex 
+ * value of "10001" with default blocker values. 
  */
 qx.Class.define("qx.bom.Blocker", 
 {
