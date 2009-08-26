@@ -32,6 +32,14 @@ qx.Class.define("demobrowser.Application",
 {
   extend : qx.application.Standalone,
 
+  construct : function() 
+  {
+    this.base(arguments);
+    
+    // Include CSS files
+    qx.bom.Stylesheet.includeFile("demobrowser/css/style.css");
+    qx.bom.Stylesheet.includeFile("demobrowser/css/sourceview.css");    
+  },
 
 
   /*
@@ -67,22 +75,6 @@ qx.Class.define("demobrowser.Application",
       this.viewer.dataLoader("script/demodata.js");
     }
   },
-
-
-
-  /*
-  *****************************************************************************
-     DEFER
-  *****************************************************************************
-  */
-
-  defer : function()
-  {
-    // Include CSS files
-    qx.bom.Stylesheet.includeFile("demobrowser/css/style.css");
-    qx.bom.Stylesheet.includeFile("demobrowser/css/sourceview.css");
-  },
-
 
 
   /*

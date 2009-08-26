@@ -34,7 +34,11 @@ qx.Class.define("apiviewer.Application",
 {
   extend : qx.application.Standalone,
 
-
+  construct : function() 
+  {
+    this.base(arguments);
+    qx.bom.Stylesheet.includeFile("apiviewer/css/apiviewer.css");    
+  },
 
   /*
   *****************************************************************************
@@ -74,20 +78,5 @@ qx.Class.define("apiviewer.Application",
       // Finally load the data
       this.controller.load("script/apidata.js");
     }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     DEFER
-  *****************************************************************************
-  */
-
-  defer : function()
-  {
-    // Include CSS file
-    qx.bom.Stylesheet.includeFile("apiviewer/css/apiviewer.css");
   }
 });
