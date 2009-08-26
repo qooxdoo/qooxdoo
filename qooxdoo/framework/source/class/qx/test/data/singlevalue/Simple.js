@@ -451,6 +451,69 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
       
       this.assertTrue(fail, "onSetFail not called.");
       this.assertFalse(ok, "onUpdate called?!");
+    },
+    
+    
+    testConversionClass : function() 
+    {
+      qx.Class.define("qx.test.TwoProperties", {
+        extend : qx.core.Object,
+        properties : 
+        {
+          a : { event : "changeA", nullable : true },
+          b : { event : "changeB", nullable : true }
+        }
+      });
+      
+      var o = new qx.test.TwoProperties();
+      
+      // number to string
+      var id = qx.data.SingleValueBinding.bind(
+        o, "a", o, "b", qx.data.Conversion.TOSTRINGOPTIONS
+      );
+      o.setA(10);
+      this.assertEquals("10", o.getB(), "Number -> String");
+      qx.data.SingleValueBinding.removeBindingFromObject(o, id);
+      
+      // boolean to string
+      var id = qx.data.SingleValueBinding.bind(
+        o, "a", o, "b", qx.data.Conversion.TOSTRINGOPTIONS
+      );
+      o.setA(true);
+      this.assertEquals("true", o.getB(), "Boolean -> String");
+      qx.data.SingleValueBinding.removeBindingFromObject(o, id);    
+      
+      // date to string
+      var id = qx.data.SingleValueBinding.bind(
+        o, "a", o, "b", qx.data.Conversion.TOSTRINGOPTIONS
+      );
+      o.setA(new Date());
+      this.assertTrue(qx.lang.Type.isString(o.getB()), "Date -> String");
+      qx.data.SingleValueBinding.removeBindingFromObject(o, id);
+      
+      // string to number
+      var id = qx.data.SingleValueBinding.bind(
+        o, "a", o, "b", qx.data.Conversion.TONUMBEROPTIONS
+      );
+      o.setA("123");
+      this.assertEquals(123, o.getB(), "String -> Number");
+      qx.data.SingleValueBinding.removeBindingFromObject(o, id);
+      
+      // string to boolean
+      var id = qx.data.SingleValueBinding.bind(
+        o, "a", o, "b", qx.data.Conversion.TOBOOLEANOPTIONS
+      );
+      o.setA("123");
+      this.assertEquals(true, o.getB(), "String -> Boolean");
+      qx.data.SingleValueBinding.removeBindingFromObject(o, id);      
+      
+      // number to boolean
+      var id = qx.data.SingleValueBinding.bind(
+        o, "a", o, "b", qx.data.Conversion.TOBOOLEANOPTIONS
+      );
+      o.setA(0);
+      this.assertEquals(false, o.getB(), "Number -> Boolean");
+      qx.data.SingleValueBinding.removeBindingFromObject(o, id);      
     }
   }
 });
