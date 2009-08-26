@@ -126,16 +126,19 @@ qx.Class.define("qx.html.Flash",
     },
 
     /**
-     * @return {Map}
+     * Returns the attributes for the Flash DOM element.
+     * 
+     * @return {Map} Attributes for the DOM element.
      */
     getAttributes : function () {
       return this.__attributes;
     },
 
     /**
-     * @param key {String}
-     * @param value {String}
-     * @return {void}
+     * Set an attribute for the Flash DOM element.
+     * 
+     * @param key {String} Key name.
+     * @param value {String|null} Value or <code>null</code> to remove attribute.
      */
     setAttribute : function (key, value)
     {
