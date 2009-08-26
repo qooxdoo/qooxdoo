@@ -39,7 +39,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean",
     this.base(arguments);
 
     var aliasManager = qx.util.AliasManager.getInstance();
-    var resourceManager = qx.util.ResourceManager;
+    var resourceManager = qx.util.ResourceManager.getInstance();
     var boolTrueImg =
       aliasManager.resolve("decoration/table/boolean-true.png");
     var boolFalseImg =

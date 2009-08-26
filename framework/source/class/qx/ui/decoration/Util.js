@@ -85,7 +85,7 @@ qx.Class.define("qx.ui.decoration.Util",
         // Scaled image
         if (repeat == "scale")
         {
-          var uri = qx.util.ResourceManager.toUri(resolved);
+          var uri = qx.util.ResourceManager.getInstance().toUri(resolved);
           return '<img src="' + uri + '" style="vertical-align:top;' + styles + '"/>';
         }
 

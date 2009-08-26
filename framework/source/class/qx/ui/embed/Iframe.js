@@ -175,7 +175,7 @@ qx.Class.define("qx.ui.embed.Iframe",
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
         el.setStyles({
-          backgroundImage: "url(" + qx.util.ResourceManager.toUri("qx/static/blank.gif") + ")",
+          backgroundImage: "url(" + qx.util.ResourceManager.getInstance().toUri("qx/static/blank.gif") + ")",
           backgroundRepeat: "repeat"
         });
       }
