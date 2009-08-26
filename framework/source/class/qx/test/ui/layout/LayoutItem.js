@@ -36,12 +36,24 @@ qx.Class.define("qx.test.ui.layout.LayoutItem",
     this.bounds = {};
   },
   
+  
+  properties :
+  {
+    visibility :
+    {
+      check : ["visible", "hidden", "excluded"],
+      init : "visible",
+      apply : "_applyVisibility",
+      event : "changeVisibility"
+    }
+  },
+  
   members :
   {
     bounds : null,
 
     __layout : null,
-    __layoutChildren : null,
+    __children : null,
     
     renderLayout : function(left, top, width, height)
     {      
@@ -92,6 +104,31 @@ qx.Class.define("qx.test.ui.layout.LayoutItem",
       }
     },
       
+    
+    invalidateLayoutChildren : function()
+    {
+      var layout = this.__layout;
+      if (layout) {
+        layout.invalidateChildrenCache();
+      }
+
+      qx.ui.core.queue.Layout.add(this);
+    },
+    
+    
+    // property apply
+    _applyVisibility : function(value, old)
+    {
+      // only force a layout update if visibility change from/to "exclude"
+      var parent = this.$$parent;
+      if (parent && (old == null || value == null || old === "excluded" || value === "excluded")) {
+        parent.invalidateLayoutChildren();
+      }
+
+      // Update visibility cache
+      qx.ui.core.queue.Visibility.add(this);
+    },
+    
     
     _getContentHint : function()
     {
@@ -172,10 +209,10 @@ qx.Class.define("qx.test.ui.layout.LayoutItem",
     
     add : function(child, options)
     {
-      if (!this.__layoutChildren) {
-        this.__layoutChildren = [];
+      if (!this.__children) {
+        this.__children = [];
       }
-      this.__layoutChildren.push(child);
+      this.__children.push(child);
       this.__layout.invalidateChildrenCache();
       
       if (options) {
@@ -189,8 +226,45 @@ qx.Class.define("qx.test.ui.layout.LayoutItem",
     },
     
     
+<<<<<<< HEAD:qooxdoo/framework/source/class/qx/test/ui/layout/LayoutItem.js
     getLayoutChildren : function() {
       return this.__layoutChildren || [];
+=======
+    remove : function(child)
+    {
+      if (!this.__children) {
+        this.__children = [];
+      }
+      
+      qx.lang.Array.remove(this.__children, child);
+      
+      // Clear parent connection
+      child.setLayoutParent(null);
+
+      // clear the layout's children cache
+      if (this.__layout) {
+        this.__layout.invalidateChildrenCache();
+      }
+
+      // Add to layout queue
+      qx.ui.core.queue.Layout.add(this);      
+    },
+    
+    
+    getLayoutChildren : function()
+    {
+      var children = this.__children || [];
+      var layoutChildren = [];
+      
+      for (var i=0; i<children.length; i++) 
+      {
+        var child = children[i];
+        if (child.getVisibility() !== "excluded") {
+          layoutChildren.push(child);
+        }
+      }
+      return layoutChildren;
+>>>>>>> grid:qooxdoo/framework/source/class/qx/test/ui/layout/LayoutItem.js
     },
     
     
@@ -200,7 +274,7 @@ qx.Class.define("qx.test.ui.layout.LayoutItem",
     // copied from qx.ui.core.Widget
     addChildrenToQueue : function(queue)
     {
-      var children = this.__layoutChildren;
+      var children = this.__children;
       if (!children) {
         return;
       }
@@ -217,6 +291,6 @@ qx.Class.define("qx.test.ui.layout.LayoutItem",
   },
   
   destruct : function() {
-    this._disposeFields("bounds", "__layout", "__layoutChildren");
+    this._disposeFields("bounds", "__layout", "__children");
   }
 })
