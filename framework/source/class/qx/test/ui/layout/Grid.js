@@ -83,11 +83,13 @@ qx.Class.define("qx.test.ui.layout.Grid",
       this._gridWidget.add(this._getFixedWidget(), {row: 0, column: 1});
       this._gridWidget.add(this._getFixedWidget(), {row: 1, column: 0});
       this._gridWidget.add(this._getFixedWidget(), {row: 1, column: 1});
+      
       this.assertSize(this._gridWidget, 400, 200);
 
       // spacing
       this._gridLayout.setSpacingY(10);
       this._gridLayout.setSpacingX(20);
+      
       this.assertSize(this._gridWidget, 420, 210);
     },
 
@@ -174,6 +176,7 @@ qx.Class.define("qx.test.ui.layout.Grid",
       b.setVisibility("excluded");
       c.setVisibility("visible");
       d.setVisibility("visible");
+      
       this.assertSize(this._gridWidget, 420, 110);
       this.assertStyle(b, "display", "none");
       this.assertStyle(b, "display", "none");
