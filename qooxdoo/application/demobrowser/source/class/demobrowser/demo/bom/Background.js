@@ -35,7 +35,7 @@ qx.Class.define("demobrowser.demo.bom.Background",
       this.base(arguments);
       var q = qx.bom.Collection;
       
-      var resolved = qx.util.ResourceManager.toUri("qx/icon/Tango/48/devices/drive-optical.png");
+      var resolved = qx.util.ResourceManager.getInstance().toUri("qx/icon/Tango/48/devices/drive-optical.png");
       
       q.query("#box1_1").setCss(qx.bom.element.Background.compile(resolved));
       q.query("#box1_2").setCss(qx.bom.element.Background.compile(resolved, "repeat-x"));
