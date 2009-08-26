@@ -582,7 +582,7 @@ qx.Class.define("qx.data.SingleValueBinding",
      * @return {var} Returns the internal id for that binding. This can be used
      *   for referencing the binding or e.g. for removing. This is not an atomic
      *   id so you can't you use it as a hash-map index. It's the id which will
-     *   be returned b< the {@link qx.core.Object#addListener} method.
+     *   be returned by the {@link qx.core.Object#addListener} method.
      * @throws {qx.core.AssertionError} If the event is no data event or
      *   there is no property definition for the target object and target
      *   property.
