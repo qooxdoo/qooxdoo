@@ -75,7 +75,7 @@ qx.Class.define("qx.test.io.remote.transport.XmlHttp",
     
     
     getUrl : function(path) {
-      return qx.util.ResourceManager.toUri(path);
+      return qx.util.ResourceManager.getInstance().toUri(path);
     },
     
     

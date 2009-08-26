@@ -55,7 +55,7 @@ qx.Class.define("qx.bom.Stylesheet",
       var el = doc.createElement("link");
       el.type = "text/css";
       el.rel = "stylesheet";
-      el.href = qx.util.ResourceManager.toUri(href);
+      el.href = qx.util.ResourceManager.getInstance().toUri(href);
 
       var head = doc.getElementsByTagName("head")[0];
       head.appendChild(el);

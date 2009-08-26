@@ -233,7 +233,7 @@ qx.Class.define("qx.ui.basic.Image",
       }
 
       // Detect if the image registry knows this image
-      if (qx.util.ResourceManager.has(source)) {
+      if (qx.util.ResourceManager.getInstance().has(source)) {
         this.__setManagedImage(el, source);
       } else if (qx.io2.ImageLoader.isLoaded(source)) {
         this.__setUnmanagedImage(el, source);
@@ -252,7 +252,7 @@ qx.Class.define("qx.ui.basic.Image",
      */
     __setManagedImage : function(el, source)
     {
-      var ResourceManager = qx.util.ResourceManager;
+      var ResourceManager = qx.util.ResourceManager.getInstance();
       
       // Try to find a disabled image in registry
       if (!this.getEnabled())

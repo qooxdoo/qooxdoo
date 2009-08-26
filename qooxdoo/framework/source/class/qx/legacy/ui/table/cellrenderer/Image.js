@@ -57,7 +57,7 @@ qx.Class.define("qx.legacy.ui.table.cellrenderer.Image",
     }
 
     this._am = qx.legacy.util.AliasManager.getInstance();
-    this._rm = qx.util.ResourceManager;
+    this._rm = qx.util.ResourceManager.getInstance();
   },
 
 
