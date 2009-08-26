@@ -292,8 +292,7 @@ class QxTest:
   ##
   # Writes build Errors to the log file
   def logBuildErrors(self, buildLogFile, target, cmd, err):
-    self.log("Error while building " + target + ", see " 
-          + buildLog + " for details.")
+    self.log("Error while building " + target + ", see build log file for details.")
     err = err.rstrip('\n')
     err = err.rstrip('\r')
     buildLogFile.write(target + "\n" + cmd + "\n" + err)
@@ -780,6 +779,75 @@ class QxTest:
         cmd += ' "' + opt + '"'
 
     return cmd
+
+
+  def reportResults(self, aut, start_date, report_file):
+    import simulationLogParser
+    
+    if (self.sim):
+      self.log("SIMULATION: Getting report data for " + aut)
+      return
+    else:
+      self.log("Getting report data for " + aut)
+    
+    import simplejson
+    from urllib2 import *
+    from urllib import urlencode
+    testRunDict = self.getTestRunDict(aut, start_date)
+    
+    simulationData = simulationLogParser.parse(report_file)
+    testRunDict["simulations"] = simulationData
+    
+    testRunJson = simplejson.dumps(testRunDict)
+    
+    self.log("Report data aggregated, sending request")
+    postdata = urlencode({"testRun": testRunJson})  
+    req = Request(self.testConf["reportServerUrl"], postdata)
+    
+    try:
+      response = urlopen(req)
+    except URLError, e:
+      errMsg = ""
+      if (e.args):
+        errMsg = repr(e.args)
+      print("ERROR: Unable to contact report server " + errMsg)
+      return    
+    except HTTPError, e:
+      errMsg = ""
+      if (e.args):
+        errMsg = repr(e.args)
+      print("ERROR: Unable to send report data " + errMsg)
+      return
+      
+    content = response.read()    
+    self.log("Report server response: " + content)
+
+  
+  def getTestRunDict(self, aut, start_date):
+    import socket
+    hostname = socket.gethostname()
+    try:
+      test_host = socket.gethostbyname(hostname)
+    except socket.gaierror:
+      test_host = '172.17.12.142'
+    
+    testRun = {
+      "aut_name" : aut,
+      "aut_host" : self.autConf["autHost"], 
+      "aut_qxpath" : self.autConf["autQxPath"],
+      "aut_path" : self.autConf["autPath" + aut],
+      "test_host" : test_host,
+      "test_hostos" : self.os,
+      "test_hostid" : "",
+      "start_date" : start_date,
+      "end_date" : time.strftime(self.timeFormat),
+      "simulations": []
+    }
+    
+    if "hostId" in self.mailConf:
+      testRun["test_hostid"] = self.mailConf["hostId"]
+    
+    return testRun
 
 
   ##
