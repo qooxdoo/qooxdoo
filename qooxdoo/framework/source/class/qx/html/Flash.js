@@ -156,10 +156,10 @@ qx.Class.define("qx.html.Flash",
         throw new Error("The attributes cannot be modified after initial creation");
       }
 
-      if (typeof value === "undefined" || value === null) {
-        delete this.__attributes[key];
+      if (value) {
+        this.__attributes[key] = value;        
       } else {
-        this.__attributes[key] = value;
+        delete this.__attributes[key];
       }
     },
 
@@ -181,7 +181,7 @@ qx.Class.define("qx.html.Flash",
     setParam : function(key, value)
     {
       if (this.__flash) {
-        throw new Error("The " + key + " cannot be modified after initial creation");
+        throw new Error("The params cannot be modified after initial creation");
       }
 
       if (value) {
