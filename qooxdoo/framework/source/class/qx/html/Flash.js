@@ -111,6 +111,16 @@ qx.Class.define("qx.html.Flash",
     },
 
     /**
+     * Returns the <code>FlashVars</code> for the Flash movie.
+     * 
+     * @return {Map} Map with key/value pairs for passing
+     *    <code>FlashVars</code>}
+     */
+    getVariables : function() {
+      return this.__variables;
+    },
+    
+    /**
      * Set the <code>FlashVars</code> to pass variables to the Flash movie.
      *
      * @param value {Map} Map with key/value pairs for passing
@@ -153,6 +163,15 @@ qx.Class.define("qx.html.Flash",
       }
     },
 
+    /**
+     * Returns the params for the Flash DOM element.
+     * 
+     * @return {Map} Map with key/value pairs for the Flash DOM element.
+     */
+    getParams : function() {
+      return this.__params;
+    },
+    
     /**
      * Set the param for the Flash DOM element, also called attribute.
      *
