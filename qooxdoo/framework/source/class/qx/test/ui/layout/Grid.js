@@ -19,35 +19,47 @@
 
 qx.Class.define("qx.test.ui.layout.Grid",
 {
-  extend : qx.test.ui.LayoutTestCase,
+  extend : qx.dev.unit.TestCase,
 
   members :
   {
 
     setUp : function()
     {
-      this._gridWidget = new qx.ui.container.Composite();
+      this._gridWidget = new qx.test.ui.layout.LayoutItem(100, 50);
       this._gridLayout = new qx.ui.layout.Grid();
-
       this._gridWidget.setLayout(this._gridLayout);
-      this.getRoot().add(this._gridWidget);
+      
+      this.root = new qx.test.ui.layout.LayoutRoot();
+      this.root.add(this._gridWidget);
     },
 
 
     tearDown : function()
     {
-      this.getRoot().remove(this._gridWidget);
+      this.root.dispose();
       this._gridWidget.dispose();
       this._gridLayout.dispose();
+    },
+    
+    
+    flush : function() {
+      qx.ui.core.queue.Manager.flush();
+    },
+    
+    
+    assertSize : function(layoutItem, width, height)
+    {
+      this.flush();
+      this.assertEquals(width, layoutItem.bounds.width);
+      this.assertEquals(height, layoutItem.bounds.height);
     },
 
 
     _getFixedWidget : function()
     {
-      var widget = new qx.ui.core.Widget();
+      var widget = new qx.test.ui.layout.LayoutItem(200, 100);
       widget.set({
-        width: 200,
-        height: 100,
         allowGrowX: false,
         allowShrinkX: false,
         allowGrowY: false,
@@ -93,6 +105,7 @@ qx.Class.define("qx.test.ui.layout.Grid",
       this.assertSize(this._gridWidget, 420, 210);
     },
 
+    
     testAddRemove : function()
     {
       var a = this._getFixedWidget();
@@ -155,9 +168,12 @@ qx.Class.define("qx.test.ui.layout.Grid",
       b.setVisibility("hidden");
       c.setVisibility("hidden");
       this.assertSize(this._gridWidget, 420, 210);
+<<<<<<< HEAD:qooxdoo/framework/source/class/qx/test/ui/layout/Grid.js
       this.assertStyle(a, "display", "none");
       this.assertStyle(b, "display", "none");
       this.assertStyle(c, "display", "none");
+=======
+>>>>>>> grid:qooxdoo/framework/source/class/qx/test/ui/layout/Grid.js
 
 
       // layout:
@@ -166,9 +182,12 @@ qx.Class.define("qx.test.ui.layout.Grid",
       c.setVisibility("excluded");
       d.setVisibility("excluded");
       this.assertSize(this._gridWidget, 420, 100);
+<<<<<<< HEAD:qooxdoo/framework/source/class/qx/test/ui/layout/Grid.js
       this.assertStyle(b, "display", "");
       this.assertStyle(c, "display", "none");
       this.assertStyle(d, "display", "none");
+=======
+>>>>>>> grid:qooxdoo/framework/source/class/qx/test/ui/layout/Grid.js
 
       // layout:
       // cd
@@ -178,10 +197,13 @@ qx.Class.define("qx.test.ui.layout.Grid",
       d.setVisibility("visible");
       
       this.assertSize(this._gridWidget, 420, 110);
+<<<<<<< HEAD:qooxdoo/framework/source/class/qx/test/ui/layout/Grid.js
       this.assertStyle(b, "display", "none");
       this.assertStyle(b, "display", "none");
       this.assertStyle(c, "display", "");
       this.assertStyle(d, "display", "");
+=======
+>>>>>>> grid:qooxdoo/framework/source/class/qx/test/ui/layout/Grid.js
     },
 
 
@@ -192,10 +214,10 @@ qx.Class.define("qx.test.ui.layout.Grid",
       this._gridLayout.setColumnWidth(0, 70);
       this._gridLayout.setColumnWidth(1, 290);
 
-      var a = new qx.ui.core.Widget();
-      var b = new qx.ui.core.Widget();
-      var c = new qx.ui.core.Widget();
-      var d = new qx.ui.core.Widget();
+      var a = new qx.test.ui.layout.LayoutItem(100, 50);
+      var b = new qx.test.ui.layout.LayoutItem(100, 50);
+      var c = new qx.test.ui.layout.LayoutItem(100, 50);
+      var d = new qx.test.ui.layout.LayoutItem(100, 50);
 
       this._gridWidget.add(a, {row: 0, column: 0});
       this._gridWidget.add(b, {row: 0, column: 1});
@@ -207,8 +229,6 @@ qx.Class.define("qx.test.ui.layout.Grid",
       this.assertSize(c, 70, 150);
       this.assertSize(d, 290, 150);
     }
-
-
   },
   
   destruct : function() {
