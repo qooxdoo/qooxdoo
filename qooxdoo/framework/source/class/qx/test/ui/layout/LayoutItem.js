@@ -226,10 +226,6 @@ qx.Class.define("qx.test.ui.layout.LayoutItem",
     },
     
     
-<<<<<<< HEAD:qooxdoo/framework/source/class/qx/test/ui/layout/LayoutItem.js
-    getLayoutChildren : function() {
-      return this.__layoutChildren || [];
-=======
     remove : function(child)
     {
       if (!this.__children) {
@@ -264,7 +260,6 @@ qx.Class.define("qx.test.ui.layout.LayoutItem",
         }
       }
       return layoutChildren;
->>>>>>> grid:qooxdoo/framework/source/class/qx/test/ui/layout/LayoutItem.js
     },
     
     

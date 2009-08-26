@@ -168,12 +168,6 @@ qx.Class.define("qx.test.ui.layout.Grid",
       b.setVisibility("hidden");
       c.setVisibility("hidden");
       this.assertSize(this._gridWidget, 420, 210);
-<<<<<<< HEAD:qooxdoo/framework/source/class/qx/test/ui/layout/Grid.js
-      this.assertStyle(a, "display", "none");
-      this.assertStyle(b, "display", "none");
-      this.assertStyle(c, "display", "none");
-=======
->>>>>>> grid:qooxdoo/framework/source/class/qx/test/ui/layout/Grid.js
 
 
       // layout:
@@ -182,12 +176,6 @@ qx.Class.define("qx.test.ui.layout.Grid",
       c.setVisibility("excluded");
       d.setVisibility("excluded");
       this.assertSize(this._gridWidget, 420, 100);
-<<<<<<< HEAD:qooxdoo/framework/source/class/qx/test/ui/layout/Grid.js
-      this.assertStyle(b, "display", "");
-      this.assertStyle(c, "display", "none");
-      this.assertStyle(d, "display", "none");
-=======
->>>>>>> grid:qooxdoo/framework/source/class/qx/test/ui/layout/Grid.js
 
       // layout:
       // cd
@@ -197,13 +185,6 @@ qx.Class.define("qx.test.ui.layout.Grid",
       d.setVisibility("visible");
       
       this.assertSize(this._gridWidget, 420, 110);
-<<<<<<< HEAD:qooxdoo/framework/source/class/qx/test/ui/layout/Grid.js
-      this.assertStyle(b, "display", "none");
-      this.assertStyle(b, "display", "none");
-      this.assertStyle(c, "display", "");
-      this.assertStyle(d, "display", "");
-=======
->>>>>>> grid:qooxdoo/framework/source/class/qx/test/ui/layout/Grid.js
     },
 
 
