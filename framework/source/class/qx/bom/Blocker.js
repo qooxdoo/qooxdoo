@@ -188,7 +188,7 @@ qx.Class.define("qx.bom.Blocker",
      */
     __setupBlockerElement : function()
     {
-      this.__blockerElement = qx.bom.Element.create("div", { id: "__qxBlockerElement" });
+      this.__blockerElement = qx.bom.Element.create("div");
       qx.bom.element.Style.setStyles(this.__blockerElement, 
       {
         display: "block",
@@ -206,7 +206,7 @@ qx.Class.define("qx.bom.Blocker",
      */
     __setupIframeElement : function()
     {
-      this.__iframeElement = qx.bom.Iframe.create({ id: "__qxBlockerIframeElement" });
+      this.__iframeElement = qx.bom.Iframe.create();
       
       qx.bom.element.Attribute.set(this.__iframeElement, "allowTransparency", false);
       qx.bom.element.Attribute.set(this.__iframeElement, "src", "javascript:false;");
