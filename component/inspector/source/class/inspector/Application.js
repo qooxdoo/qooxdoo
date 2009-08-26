@@ -30,7 +30,15 @@ qx.Class.define("inspector.Application",
 {
   extend : qx.application.Standalone,
 
-
+  construct : function() 
+  {
+    this.base(arguments);
+    
+    qx.bom.Stylesheet.includeFile("inspector/css/domview.css");        
+    qx.bom.Stylesheet.includeFile("inspector/css/consoleview.css");
+    qx.bom.Stylesheet.includeFile("inspector/css/sourceview.css");
+    qx.bom.Stylesheet.includeFile("inspector/css/propertylisthtml.css");    
+  },
 
   /*
   *****************************************************************************
@@ -520,16 +528,5 @@ qx.Class.define("inspector.Application",
     getExcludes: function() {
       return this._selector.getAddedWidgets();
     } 
-  },
-  
-  
-  
-  defer : function()
-  {
-    // Include CSS file
-    qx.bom.Stylesheet.includeFile("inspector/css/domview.css");        
-    qx.bom.Stylesheet.includeFile("inspector/css/consoleview.css");
-    qx.bom.Stylesheet.includeFile("inspector/css/sourceview.css");
-    qx.bom.Stylesheet.includeFile("inspector/css/propertylisthtml.css");
   }
 });

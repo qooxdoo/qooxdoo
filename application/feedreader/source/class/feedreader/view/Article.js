@@ -37,6 +37,13 @@ qx.Class.define("feedreader.view.Article",
   {
     this.base(arguments);
 
+    // Include CSS file
+    if (!feedreader.view.Article.__styleSheetIncluded) 
+    {
+      feedreader.view.Article.__styleSheetIncluded = true;
+      qx.bom.Stylesheet.includeFile("feedreader/css/reader.css");      
+    }
+    
     // Configure
     this.setCssClass("blogEntry");
     this.setOverflowY("auto");
@@ -79,7 +86,7 @@ qx.Class.define("feedreader.view.Article",
   */
 
   members :
-  {
+  {    
     // property apply
     _applyArticle : function(value, old)
     {
@@ -133,19 +140,5 @@ qx.Class.define("feedreader.view.Article",
 
       return html.get();
     }
-  },
-
-
-
-  /*
-  *****************************************************************************
-     DEFER
-  *****************************************************************************
-  */
-
-  defer : function()
-  {
-    // Include CSS file
-    qx.bom.Stylesheet.includeFile("feedreader/css/reader.css");
   }
 });
