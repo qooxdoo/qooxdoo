@@ -100,13 +100,17 @@ qx.Class.define("qx.ui.menu.ButtonLayout",
     {
       var children = this._getLayoutChildren();
       var neededHeight = 0;
-
-      for (var i=0, l=children.length; i<l; i++) {
-        neededHeight = Math.max(neededHeight, children[i].getSizeHint().height);
+      var neededWidth = 0;
+      
+      for (var i=0, l=children.length; i<l; i++) 
+      {
+        var hint = children[i].getSizeHint();
+        neededWidth += hint.width;
+        neededHeight = Math.max(neededHeight, hint.height);
       }
 
       return {
-        width : 0,
+        width : neededWidth,
         height : neededHeight
       }
     }
