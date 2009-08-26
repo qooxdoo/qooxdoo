@@ -153,7 +153,7 @@ qx.Class.define("demo.AbstractGallery",
       ];
       
       var aliasManager = qx.util.AliasManager.getInstance();
-      var resourceManager = qx.util.ResourceManager;
+      var resourceManager = qx.util.ResourceManager.getInstance();
       
       for (var i=0; i<count; i++)
       {
