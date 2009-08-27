@@ -387,6 +387,10 @@ qx.Class.define("qx.ui.table.selection.Model",
           return;
 
         case me.SINGLE_SELECTION:
+          // Ensure there is actually a change of selection
+          if (isSelectedIndex(toIndex))
+            return;
+
           fromIndex = toIndex;
           break;
 
