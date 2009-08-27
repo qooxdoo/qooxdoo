@@ -229,7 +229,6 @@ qx.Class.define("qx.ui.embed.StyledIframe",
         var body = this._getIframeElement().getBody();
         qx.bom.Element.addListener(body, "mousewheel", this._onMouseWheel, this);
       } catch (e) {
-        console.log(e);
         this._disableScollbars();
       }
     },
