@@ -102,16 +102,15 @@ qx.Class.define("qx.theme.manager.Appearance",
      * Returns the appearance entry ID to use
      * when all aliases etc. are processed.
      *
-     * @param id {String} ID to resolve
+     * @param id {String} ID to resolve.
      * @param theme {Theme} Theme to use for lookup.
+     * @param defaultId {String} ID for a fallback.
      * @return {String} Resolved ID
      */
-    __resolveId : function(id, theme)
+    __resolveId : function(id, theme, defaultId)
     {
       var db = theme.appearances;
       var entry = db[id];
-
-      // this.debug("Resolve: " + id);
 
       if (!entry)
       {
@@ -133,20 +132,25 @@ qx.Class.define("qx.theme.manager.Appearance",
             if (typeof alias === "string")
             {
               var mapped = alias + divider + end.join(divider);
-              return this.__resolveId(mapped, theme);
+              return this.__resolveId(mapped, theme, defaultId);
             }
           }
         }
 
+        // check for the fallback
+        if (defaultId != null) {
+          return this.__resolveId(defaultId, theme);
+        }
+        
         return null;
       }
       else if (typeof entry === "string")
       {
-        return this.__resolveId(entry, theme);
+        return this.__resolveId(entry, theme, defaultId);
       }
       else if (entry.include && !entry.style)
       {
-        return this.__resolveId(entry.include, theme);
+        return this.__resolveId(entry.include, theme, defaultId);
       }
 
       return id;
@@ -159,9 +163,10 @@ qx.Class.define("qx.theme.manager.Appearance",
      * @param id {String} id of the appearance (e.g. "button", "label", ...)
      * @param states {Map} hash map defining the set states
      * @param theme {Theme?} appearance theme
+     * @param defaultId {String} fallback id.
      * @return {Map} map of widget properties as returned by the "state" function
      */
-    styleFrom : function(id, states, theme)
+    styleFrom : function(id, states, theme, defaultId)
     {
       if (!theme) {
         theme = this.getTheme();
@@ -171,7 +176,7 @@ qx.Class.define("qx.theme.manager.Appearance",
       var aliasMap = this.__aliasMap;
       var resolved = aliasMap[id];
       if (!resolved) {
-        resolved = aliasMap[id] = this.__resolveId(id, theme);
+        resolved = aliasMap[id] = this.__resolveId(id, theme, defaultId);
       }
 
       // Query theme for ID
@@ -249,7 +254,7 @@ qx.Class.define("qx.theme.manager.Appearance",
         // Gather included data
         var incl;
         if (entry.include) {
-          incl = this.styleFrom(entry.include, states, theme);
+          incl = this.styleFrom(entry.include, states, theme, defaultId);
         }
 
         // Create new map
@@ -258,7 +263,7 @@ qx.Class.define("qx.theme.manager.Appearance",
         // Copy base data, but exclude overwritten local and included stuff
         if (entry.base)
         {
-          var base = this.styleFrom(resolved, states, entry.base);
+          var base = this.styleFrom(resolved, states, entry.base, defaultId);
 
           if (entry.include)
           {
