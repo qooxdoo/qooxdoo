@@ -57,6 +57,9 @@ qx.Class.define("qx.ui.menu.Menu",
     this.initVisibility();
     this.initKeepFocus();
     this.initKeepActive();
+    
+    var root = qx.core.Init.getApplication().getRoot();
+    this._blocker = new qx.ui.core.Blocker(root);
   },
 
 
@@ -117,8 +120,7 @@ qx.Class.define("qx.ui.menu.Menu",
       refine : true,
       init : true
     },
-
-
+    
 
     /*
     ---------------------------------------------------------------------------
@@ -162,8 +164,30 @@ qx.Class.define("qx.ui.menu.Menu",
       apply : "_applyArrowColumnWidth"
     },
 
+   /**
+     * Color of the blocker
+     */
+    blockerColor :
+    {
+      check : "Color",
+      init : null,
+      nullable: true,
+      apply : "_applyBlockerColor",
+      themeable: true
+    },
 
 
+    /**
+     * Opacity of the blocker
+     */
+    blockerOpacity :
+    {
+      check : "Number",
+      init : 1,
+      apply : "_applyBlockerOpacity",
+      themeable: true
+    },
+    
 
     /*
     ---------------------------------------------------------------------------
@@ -219,6 +243,14 @@ qx.Class.define("qx.ui.menu.Menu",
       themeable : true,
       init : 250,
       apply : "_applyCloseInterval"
+    },
+    
+    /** Blocks the Bachground if value is <code>true<code> */
+    blockBackground :
+    {
+      check : "Boolean",
+      themeable : true,
+      init : false
     }
   },
 
@@ -234,6 +266,9 @@ qx.Class.define("qx.ui.menu.Menu",
   {
 
     __scheduledOpen : null,
+    
+    /** {qx.ui.core.Blocker} blocker for background blocking */
+    _blocker : null,
 
     /*
     ---------------------------------------------------------------------------
@@ -241,6 +276,37 @@ qx.Class.define("qx.ui.menu.Menu",
     ---------------------------------------------------------------------------
     */
 
+    // overridden
+    show : function()
+    {
+      this.base(arguments);
+      
+      if (this.getBlockBackground()) {
+        var zIndex = this.getZIndex();     
+        this._blocker.blockContent(zIndex - 1);        
+      }
+    },
+    
+    // overridden
+    hide : function()
+    {
+      this.base(arguments);
+      
+      if (this._blocker.isContentBlocked()) {
+        this._blocker.unblockContent();
+      }
+    },    
+    
+    // overridden
+    exclude : function()
+    {
+      this.base(arguments);
+      
+      if (this._blocker.isContentBlocked()) {
+        this._blocker.unblockContent();
+      }
+    },
+    
     /**
      * Opens the menu and configures the opener
      */
@@ -254,7 +320,6 @@ qx.Class.define("qx.ui.menu.Menu",
         this.warn("The menu instance needs a configured 'opener' widget!");
       }
     },
-
 
     /**
      * Convenience method to add a separator to the menu
@@ -375,8 +440,17 @@ qx.Class.define("qx.ui.menu.Menu",
       }
     },
 
+    
+    // property apply
+    _applyBlockerColor : function(value, old) {
+      this._blocker.setColor(value);
+    },
 
-
+    
+    // property apply
+    _applyBlockerOpacity : function(value, old) {
+      this._blocker.setOpacity(value);
+    },
 
     /*
     ---------------------------------------------------------------------------

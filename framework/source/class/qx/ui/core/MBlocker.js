@@ -29,12 +29,11 @@
  */
 qx.Mixin.define("qx.ui.core.MBlocker",
 {
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
+  construct: function() {
+    this.__blocker = new qx.ui.core.Blocker(this);
+  },
+  
+  
   properties :
   {
     /**
@@ -62,129 +61,30 @@ qx.Mixin.define("qx.ui.core.MBlocker",
     }
   },
 
-
-
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
+  
   members :
   {
     __blocker : null,
-    __isBlocked : null,
-    __contentBlocker : null,
-    __isContentBlocked : null,
-
-    __oldAnonymous : null,
-    __anonymousCounter : 0,
 
     // property apply
-    _applyBlockerColor : function(value, old)
-    {
-      var color = qx.theme.manager.Color.getInstance().resolve(value);
-      this.__setBlockersStyle("backgroundColor", color);
+    _applyBlockerColor : function(value, old) {
+      this.__blocker.setColor(value);
     },
 
 
     // property apply
     _applyBlockerOpacity : function(value, old)
     {
-      this.__setBlockersStyle("opacity", value);
+      this.__blocker.setOpacity(value);
     },
     
-    /**
-     * Set the style to all blockers (blocker and content blocker).
-     * 
-     * @param key {String} The name of the style attribute.
-     * @param value {String} The value. 
-     */
-    __setBlockersStyle : function(key, value)
-    {
-      var blockers = [];
-      this.__blocker && blockers.push(this.__blocker);
-      this.__contentBlocker && blockers.push(this.__contentBlocker);
-
-      for (var i = 0; i < blockers.length; i++) {
-        blockers[i].setStyle(key, value);
-      }
-    },
-
-    /**
-     * Remember current value and make widget anonymous. This prevents
-     * "capturing events". 
-     */
-    _saveAndSetAnonymousState : function()
-    {
-      this.__anonymousCounter += 1;
-      if (this.__anonymousCounter == 1)
-      {
-        this.__oldAnonymous = this.getAnonymous();
-        this.setAnonymous(true);
-      }
-    },
-    
-    
-    /**
-     * Reset the value of the anonymous property to its previous state. Each call
-     * to this method must have a matching call to {@link #_saveAndSetAnonymousState}.
-     */
-    _restoreAnonymousState : function()
-    {
-      this.__anonymousCounter -= 1;
-      if (this.__anonymousCounter == 0) {
-        this.setAnonymous(this.__oldAnonymous);
-      }
-    },
-    
-    
-    /**
-     * Creates the blocker element.
-     *
-     * @return {qx.html.Element} The blocker element
-     */
-    __createBlockerElement : function() {
-      return new qx.html.Blocker(this.getBlockerColor(), this.getBlockerOpacity());
-    },
-
-
-    /**
-     * Get/create the blocker element
-     *
-     * @return {qx.html.Element} The blocker element
-     */
-    _getBlocker : function()
-    {
-      if (!this.__blocker)
-      {
-        this.__blocker = this.__createBlockerElement();
-        this.__blocker.setStyle("zIndex", 15);
-        this.getContainerElement().add(this.__blocker);
-        this.__blocker.exclude();
-      }
-      return this.__blocker;
-    },
-
-
     /**
      * Block all events from this widget by placing a transparent overlay widget,
      * which receives all events, exactly over the widget.
      */
     block : function()
     {
-      if (this.__isBlocked) {
-        return;
-      }
-      this.__isBlocked = true;
-
-      // overlay the blocker widget
-      // this prevents bubbling events
-      this._getBlocker().include();
-
-      this._saveAndSetAnonymousState();
+      this.__blocker.block();
     },
 
 
@@ -194,7 +94,7 @@ qx.Mixin.define("qx.ui.core.MBlocker",
      * @return {Boolean} Whether the widget is blocked.
      */
     isBlocked : function() {
-      return !!this.__isBlocked;
+      return this.__blocker.isBlocked();
     },
 
 
@@ -203,30 +103,7 @@ qx.Mixin.define("qx.ui.core.MBlocker",
      */
     unblock : function()
     {
-      if (!this.__isBlocked) {
-        return;
-      }
-      this.__isBlocked = false;
-
-      this._restoreAnonymousState();
-      this._getBlocker().exclude();
-    },
-
-
-    /**
-     * Get/create the content blocker element
-     *
-     * @return {qx.html.Element} The blocker element
-     */
-    _getContentBlocker : function()
-    {
-      if (!this.__contentBlocker)
-      {
-        this.__contentBlocker = this.__createBlockerElement();
-        this.getContentElement().add(this.__contentBlocker);
-        this.__contentBlocker.exclude();
-      }
-      return this.__contentBlocker;
+      this.__blocker.unblock();
     },
 
 
@@ -238,15 +115,7 @@ qx.Mixin.define("qx.ui.core.MBlocker",
      */
     blockContent : function(zIndex)
     {
-      var blocker = this._getContentBlocker();
-      blocker.setStyle("zIndex", zIndex);
-
-      if (this.__isContentBlocked) {
-        return;
-      }
-      this.__isContentBlocked = true;
-
-      blocker.include();
+      this.__blocker.blockContent(zIndex);
     },
 
 
@@ -256,7 +125,7 @@ qx.Mixin.define("qx.ui.core.MBlocker",
      * @return {Boolean} Whether the content is blocked
      */
     isContentBlocked : function() {
-      return !!this.__isContentBlocked;
+      return this.__blocker.isContentBlocked();
     },
 
 
@@ -265,25 +134,12 @@ qx.Mixin.define("qx.ui.core.MBlocker",
      */
     unblockContent : function()
     {
-      if (!this.__isContentBlocked) {
-        return;
-      }
-      this.__isContentBlocked = false;
-
-      this._getContentBlocker().exclude();
+      this.__blocker.unblockContent();
     }
   },
 
 
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
   destruct : function() {
-    this._disposeObjects("__contentBlocker");
+    this._disposeObjects("__blocker");
   }
 });
