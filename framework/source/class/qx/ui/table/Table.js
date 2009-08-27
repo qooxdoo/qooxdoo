@@ -432,6 +432,15 @@ qx.Class.define("qx.ui.table.Table",
     },
 
     /**
+     * Whether row focus change by keyboard also modifies selection
+     */
+    rowFocusChangeModifiesSelection :
+    {
+      check : "Boolean",
+      init : true
+    },
+
+    /**
      * Whether the cell focus indicator should be shown
      */
     showCellFocusIndicator :
@@ -1320,7 +1329,8 @@ qx.Class.define("qx.ui.table.Table",
         }
       }
 
-      if (oldFocusedRow != this.__focusedRow)
+      if (oldFocusedRow != this.__focusedRow &&
+          this.getRowFocusChangeModifiesSelection())
       {
         // The focus moved -> Let the selection manager handle this event
         this.__selectionManager.handleMoveKeyDown(this.__focusedRow, evt);
@@ -1444,6 +1454,10 @@ qx.Class.define("qx.ui.table.Table",
     {
       if (!this.isEditing() && (col != this.__focusedCol || row != this.__focusedRow))
       {
+        if (col === null) {
+          col = 0;
+        }
+
         this.__focusedCol = col;
         this.__focusedRow = row;
 
