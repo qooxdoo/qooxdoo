@@ -134,13 +134,13 @@ qx.Class.define("demobrowser.demo.test.UIDeclaration",
           {
             event : "move",
             handler : function(e) {
-              console.log("Moved to: " + e.getData().left + "x" + e.getData().top);
+              this.debug("Moved to: " + e.getData().left + "x" + e.getData().top);
             }
           },
           {
             event : "resize",
             handler : function(e) {
-              console.log("Resized to: " + e.getData().width + "x" + e.getData().height);
+              this.debug("Resized to: " + e.getData().width + "x" + e.getData().height);
             }
           }
         ],
