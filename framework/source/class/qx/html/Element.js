@@ -98,6 +98,10 @@ qx.Class.define("qx.html.Element",
 
     /** {Array} List of post actions for elements. The key is the action name. The value the {@link qx.html.Element}. */
     _actions : [],
+    
+    
+    /**	{Map} List of all selections. */
+    __selection : {},
 
 
 
@@ -152,7 +156,6 @@ qx.Class.define("qx.html.Element",
 
     /**
      * Flush the global modified list
-     *
      */
     flush : function()
     {
@@ -281,8 +284,6 @@ qx.Class.define("qx.html.Element",
         delete visibility[hc];
       }
 
-
-
       // Process scroll list
       var scroll = this._scroll;
       for (var hc in scroll)
@@ -369,6 +370,17 @@ qx.Class.define("qx.html.Element",
       }
       this._actions = [];
       
+      // Process selection
+      for (var hc in this.__selection) 
+      {
+        var selection = this.__selection[hc];
+        var elem = selection.element.__element;
+        if (elem) 
+        {
+          qx.bom.Selection.set(elem, selection.start, selection.end);
+          delete this.__selection[hc];
+        }
+      }
 
       // Fire appear/disappear events
       qx.event.handler.Appear.refresh();
@@ -1881,8 +1893,17 @@ qx.Class.define("qx.html.Element",
     {
       var el = this.__element;
       if (el) {
-        qx.bom.Selection.set(el, start, end);
+        qx.bom.Selection.set(el, start, end);        
+        return;
       }
+      
+      // if element not created, save the selection for flushing
+      qx.html.Element.__selection[this.toHashCode()] = {
+        element : this,
+        start : start,
+        end : end
+      };
+      qx.html.Element._scheduleFlush("element");
     },
 
 
@@ -1899,6 +1920,7 @@ qx.Class.define("qx.html.Element",
       if (el) {
         qx.bom.Selection.clear(el);
       }
+      delete qx.html.Element.__selection[this.toHashCode()];
     },
 
 
