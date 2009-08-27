@@ -26,6 +26,7 @@ qx.Class.define("qx.test.bom.Blocker",
 
     setUp : function() {
       this.__blocker = new qx.bom.Blocker;
+      this.__blocker.setBlockerZIndex(199);
       
       this.__blockedElement = qx.bom.Element.create("div");
       qx.bom.element.Style.setStyles(this.__blockedElement, {
@@ -49,16 +50,21 @@ qx.Class.define("qx.test.bom.Blocker",
     {
       this.__blocker.block();
       
-      var blockerElement = qx.bom.Collection.query("#__qxBlockerElement")[0];
+      var blockerElement = this.__blocker.getBlockerElement();
       
       this.assertNotNull(blockerElement, "Blocker element not inserted.");
       this.assertEquals(qx.bom.Document.getWidth(), qx.bom.element.Dimension.getWidth(blockerElement));
       this.assertEquals(qx.bom.Document.getHeight(), qx.bom.element.Dimension.getHeight(blockerElement));
-                      
-      var blockerIframeElement = qx.bom.Collection.query("#__qxBlockerIframeElement")[0];
-      this.assertNotNull(blockerIframeElement, "Blocker iframe element not inserted");
-      this.assertEquals(qx.bom.Document.getWidth(), qx.bom.element.Dimension.getWidth(blockerIframeElement));
-      this.assertEquals(qx.bom.Document.getHeight(), qx.bom.element.Dimension.getHeight(blockerIframeElement));       
+      
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      {
+        var childElements = qx.dom.Hierarchy.getChildElements(document.body);
+        var blockerIframeElement = childElements[0];
+
+        this.assertNotNull(blockerIframeElement, "Blocker iframe element not inserted");
+        this.assertEquals(qx.bom.Document.getWidth(), qx.bom.element.Dimension.getWidth(blockerIframeElement));
+        this.assertEquals(qx.bom.Document.getHeight(), qx.bom.element.Dimension.getHeight(blockerIframeElement));       
+      }
       
       this.__blocker.unblock();
     },
@@ -67,13 +73,21 @@ qx.Class.define("qx.test.bom.Blocker",
     testUnblockWholeDocument : function()
     {
       this.__blocker.block();
+      
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      {
+        var childElements = qx.dom.Hierarchy.getChildElements(document.body);
+        var blockerIframeElement = childElements[0];
+      }
+      
       this.__blocker.unblock();
       
-      var blockerElement = qx.bom.Collection.query("#__qxBlockerElement")[0];
-      this.assertUndefined(blockerElement, "Blocker not correctly removed");
-                      
-      var blockerIframeElement = qx.bom.Collection.query("#__qxBlockerIframeElement")[0];
-      this.assertUndefined(blockerIframeElement, "Blocker iframe not correctly removed");
+      var blockerElement = this.__blocker.getBlockerElement();
+      this.assertFalse(qx.dom.Element.isInDom(blockerElement, window), "Blocker element not correctly removed");
+      
+      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+        this.assertFalse(qx.dom.Element.isInDom(blockerIframeElement, window), "Blocker iframe element not correctly removed");
+      }
     },
     
     
@@ -81,7 +95,7 @@ qx.Class.define("qx.test.bom.Blocker",
     {
       this.__blocker.block(this.__blockedElement);
       
-      var blockerElement = qx.bom.Collection.query("#__qxBlockerElement")[0];
+      var blockerElement = this.__blocker.getBlockerElement();
       
       this.assertNotNull(blockerElement, "Blocker element not inserted.");
       
@@ -93,8 +107,12 @@ qx.Class.define("qx.test.bom.Blocker",
       
       this.assertEquals(qx.bom.element.Style.get(this.__blockedElement, "zIndex") - 1, qx.bom.element.Style.get(blockerElement, "zIndex"));
       
-      var blockerIframeElement = qx.bom.Collection.query("#__qxBlockerIframeElement")[0];
-      this.assertEquals(qx.bom.element.Style.get(this.__blockedElement, "zIndex") - 2, qx.bom.element.Style.get(blockerIframeElement, "zIndex"));
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      {
+        var childElements = qx.dom.Hierarchy.getChildElements(this.__blockedElement);
+        var blockerIframeElement = childElements[0];
+        this.assertEquals(qx.bom.element.Style.get(this.__blockedElement, "zIndex") - 2, qx.bom.element.Style.get(blockerIframeElement, "zIndex"));
+      }
             
       this.__blocker.unblock();
     },
@@ -105,7 +123,7 @@ qx.Class.define("qx.test.bom.Blocker",
       this.__blocker.setBlockerColor("#FF0000");
       this.__blocker.block();
       
-      var blockerElement = qx.bom.Collection.query("#__qxBlockerElement")[0];
+      var blockerElement = this.__blocker.getBlockerElement();
       
       if (qx.bom.client.Engine.MSHTML || qx.bom.client.Engine.OPERA) {
         this.assertEquals(qx.bom.element.Style.get(blockerElement, "backgroundColor"), "#ff0000");
@@ -122,7 +140,7 @@ qx.Class.define("qx.test.bom.Blocker",
       this.__blocker.setBlockerOpacity(0.7);
       this.__blocker.block();
       
-      var blockerElement = qx.bom.Collection.query("#__qxBlockerElement")[0];
+      var blockerElement = this.__blocker.getBlockerElement();
       this.assertEquals(qx.bom.element.Opacity.get(blockerElement), 0.7);
       
       this.__blocker.unblock();
@@ -131,11 +149,20 @@ qx.Class.define("qx.test.bom.Blocker",
     
     testDoubleBlocking : function()
     {
-      this.__blocker.block();
-      this.__blocker.block();
+      var before = qx.dom.Hierarchy.getChildElements(this.__blockedElement);
       
-      var blockerCollection = qx.bom.Collection.query("#__qxBlockerElement");
-      this.assertTrue(blockerCollection.length == 1, "Only one blocker element should be inserted");
+      this.__blocker.block(this.__blockedElement);
+      this.__blocker.block(this.__blockedElement);
+      
+      var after = qx.dom.Hierarchy.getChildElements(this.__blockedElement);
+      
+      this.assertEquals(before.length, 0);
+      
+      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+        this.assertEquals(after.length, 2);
+      } else {
+        this.assertEquals(after.length, 1);
+      }
       
       this.__blocker.unblock();
     },
@@ -143,12 +170,12 @@ qx.Class.define("qx.test.bom.Blocker",
     
     testDoubleUnBlocking : function()
     {
-      this.__blocker.block();
+      this.__blocker.block(this.__blockedElement);
       this.__blocker.unblock();
       this.__blocker.unblock();
       
-      var blockerCollection = qx.bom.Collection.query("#__qxBlockerElement");
-      this.assertTrue(blockerCollection.length == 0);
+      var blockerElement = this.__blocker.getBlockerElement();
+      this.assertNotEquals(blockerElement.parentNode, this.__blockedElement);
     }
   }
 });
