@@ -147,37 +147,6 @@ qx.Class.define("qx.ui.root.Page",
         width: 0,
         height: 0
       });
-
-      // adjust the size of the blocker
-      if (this.isContentBlocked())
-      {
-        this._getContentBlocker().setStyles({
-          width: data.width,
-          height: data.height
-        });
-      }
-      if (this.isBlocked())
-      {
-        this._getBlocker().setStyles({
-          width: data.width,
-          height: data.height
-        });
-      }
-    },
-
-
-    /**
-     * Synchronize the size of the background blocker with the size of the
-     * body element
-     */
-    __syncBlocker : function()
-    {
-      var doc = this.__doc;
-
-      this._getContentBlocker().setStyles({
-        height: doc.documentElement.scrollHeight + "px",
-        width: doc.documentElement.scrollWidth + "px"
-      });
     },
 
 
@@ -189,49 +158,6 @@ qx.Class.define("qx.ui.root.Page",
      */
     supportsMaximize : function() {
       return false;
-    },
-
-
-    /**
-     * Remove the content blocker.
-     */
-    unblockContent : function()
-    {
-      if (!this.isContentBlocked()) {
-        return;
-      }
-
-      this.base(arguments);
-      this.__timer.stop();
-    },
-
-
-    /**
-     * Block direct child widgets with a zIndex below <code>zIndex</code>
-     *
-     * @param zIndex {zIndex} All child widgets with a zIndex below this value
-     *     will be blocked
-     */
-    blockContent : function(zIndex)
-    {
-      if (this.isContentBlocked()) {
-        this.base(arguments, zIndex);
-        return;
-      }
-
-      this.base(arguments, zIndex);
-      
-      // to block interaction we need to cover the HTML page with a div as well.
-      // we do so by placing a div parallel to the page root with a slightly
-      // lower zIndex and keep the size of this div in sync with the body
-      // size.
-      if (!this.__timer)
-      {
-        this.__timer = new qx.event.Timer(300);
-        this.__timer.addListener("interval", this.__syncBlocker, this);
-      }
-      this.__timer.start();
-      this.__syncBlocker();
     }
   },
 
