@@ -72,6 +72,10 @@ qx.Class.define("qx.test.html.Flash",
       this.__flash.setAttribute("attrib1");
       this.assertUndefined(this.__flash.getAttributes().attrib1);
       this.assertIdentical("gogo", this.__flash.getAttributes().attrib2);
+      
+      this.__flash.setAttribute("attrib2", null);
+      this.assertUndefined(this.__flash.getAttributes().attrib1);
+      this.assertUndefined(this.__flash.getAttributes().attrib2);
     },
 
     testSetParam : function(key, value)
@@ -86,6 +90,10 @@ qx.Class.define("qx.test.html.Flash",
       this.__flash.setParam("param1");
       this.assertUndefined(this.__flash.getParams().param1);
       this.assertIdentical("gogo", this.__flash.getParams().param2);
+      
+      this.__flash.setParam("param2", null);
+      this.assertUndefined(this.__flash.getParams().param1);
+      this.assertUndefined(this.__flash.getParams().param2);
     }
   }
 });
