@@ -37,102 +37,23 @@ qx.Class.define("qx.html.Blocker",
     this.base(arguments);
     
     var backgroundColor = backgroundColor ? 
-        qx.theme.manager.Color.getInstance().resolve(backgroundColor) : null;        
-    var opacity = opacity || 0;
+        qx.theme.manager.Color.getInstance().resolve(backgroundColor) : null; 
     
-    this.__blockerInstance = new qx.bom.Blocker;
-    this.__blockerInstance.setBlockerColor(backgroundColor);
-    this.__blockerInstance.setBlockerOpacity(opacity);    
-  },
-  
-  
-  members :
-  {
-    __blockerInstance : null,
-    
-    // overwritten
-    _createDomElement : function() {
-      return this.__blockerInstance.getBlockerElement();
-    },
-    
-    
-    /**
-     * Sets the background color of the blocker element
-     *
-     * @param color {String} CSS color value
-     * @return {void}
-     */
-    setBlockerColor : function(color) {
-      this.__blockerInstance.setBlockerColor(color);
-    },
-    
-    /**
-     * Returns the background color of the blocker element
-     *
-     * @return {String} CSS color value
-     */
-    getBlockerColor : function(color) {
-      this.__blockerInstance.getBlockerColor();
-    },    
-    
-    /**
-     * Sets the opacity of the blocker element
-     *
-     * @param opacity {Number} CSS opacity value
-     * @return {void}
-     */
-    setBlockerOpacity : function(opacity) {
-      this.__blockerInstance.setBlockerOpacity(opacity);
-    },
-    
-    
-    /**
-     * Returns the opacity of the blocker element
-     *
-     * @return opacity {Number} CSS opacity value
-     */
-    getBlockerOpacity : function(opacity) {
-      this.__blockerInstance.getBlockerOpacity();
-    },
-    
-    /**
-     * Sets the zIndex of the blocker element
-     *
-     * @param zIndex {Number} CSS zIndex value
-     * @return {void}
-     */
-    setBlockerZIndex : function(zIndex) {
-      this.__blockerInstance.setBlockerZIndex(zIndex);
-    },
-    
-    /**
-     * Returns the zIndex of the blocker element
-     *
-     * @return {Number} CSS zIndex value
-     */
-    getBlockerZIndex : function() {
-      this.__blockerInstance.getBlockerZIndex();
-    },
-    
-    
-    /**
-     * Blocks the whole document or the given element.
-     *
-     * @param element {Element?null} DOM element to block or null to block the 
-     *                               whole document
-     * @return {void}
-     */
-    block : function(element) {
-      this.__blockerInstance.block(element);
-    },
-    
-    /**
-     * Release the blocker
-     * 
-     * @return {void}
-     */
-    unblock : function() {
-      this.__blockerInstance.unblock();
-    }
+    this.setStyles({
+      position: "absolute",
+      width: "100%",
+      height: "100%",
+      opacity : opacity || 0,
+      backgroundColor : backgroundColor 
+    });
+
+    // IE needs some extra love here to convince it to block events.
+    if (qx.core.Variant.isSet("qx.client", "mshtml"))
+    {
+      this.setStyles({
+        backgroundImage: "url(" + qx.util.ResourceManager.toUri("qx/static/blank.gif") + ")",
+        backgroundRepeat: "repeat"
+      });
+    }    
   }
 });
