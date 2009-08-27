@@ -89,6 +89,10 @@ qx.Class.define("qx.html.Flash",
      */
     setSource : function(value)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.core.Assert.assertString(value, "Invalid attribute 'value'.");
+      }
+      
       if (this.__flash) {
         throw new Error("The source cannot be modified after initial creation");
       }
@@ -103,6 +107,10 @@ qx.Class.define("qx.html.Flash",
      */
     setId : function(value)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.core.Assert.assertString(value, "Invalid attribute 'value'.");
+      }
+      
       if (this.__flash) {
         throw new Error("The id cannot be modified after initial creation");
       }
@@ -128,6 +136,10 @@ qx.Class.define("qx.html.Flash",
      */
     setVariables : function(value)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.core.Assert.assertMap(value, "Invalid attribute 'value'.");
+      }
+      
       if (this.__flash) {
         throw new Error("The variables cannot be modified after initial creation");
       }
@@ -152,6 +164,14 @@ qx.Class.define("qx.html.Flash",
      */
     setAttribute : function (key, value)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.core.Assert.assertString(key, "Invalid attribute 'key'.");
+        
+        if (arguments.length > 1 && value !== null) {
+          qx.core.Assert.assertString(value, "Invalid attribute 'value'.");
+        }
+      }
+      
       if (this.__flash) {
         throw new Error("The attributes cannot be modified after initial creation");
       }
@@ -180,6 +200,14 @@ qx.Class.define("qx.html.Flash",
      */
     setParam : function(key, value)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.core.Assert.assertString(key, "Invalid attribute 'key'.");
+        
+        if (arguments.length > 1 && value !== null) {
+          qx.core.Assert.assertString(value, "Invalid attribute 'value'.");
+        }
+      }
+      
       if (this.__flash) {
         throw new Error("The params cannot be modified after initial creation");
       }
