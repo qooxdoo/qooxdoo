@@ -64,6 +64,7 @@ qx.Class.define("qx.bom.Blocker",
     __iframeElement : null,
     __blockerElement : null,
     __blockedElement : null,
+    __isActive : false,
     __defaultZIndex: 10000,
     __defaultBlockerOpacity: 0,
     __defaultBlockerColor: "transparent",
@@ -82,18 +83,37 @@ qx.Class.define("qx.bom.Blocker",
      */
     block : function(element)
     {
-      this.__blockedElement = element;
+      if (!this.__isActive)
+      {
+        this.__blockedElement = element;
       
-      var styles = this.__calculateStyles();  
-      this.__styleAndInsertBlocker(styles);
+        var styles = this.__calculateStyles();  
+        this.__styleAndInsertBlocker(styles);
+        this.__isActive = true;
+      }
     },
     
     
     /**
      * Releases the blocking
      */
-    unblock : function() {
-      this.__removeBlocker();
+    unblock : function()
+    {
+      if (this.__isActive)
+      {
+        this.__removeBlocker();
+        this.__isActive = false;
+      }
+    },
+    
+    
+    /**
+     * Whether the blocker is already active.
+     * 
+     * @return {Boolean} Blocker active
+     */
+    isBlocked : function() {
+      return this.__isActive;
     },
     
     
