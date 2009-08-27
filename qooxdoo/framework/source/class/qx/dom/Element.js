@@ -93,6 +93,10 @@ qx.Class.define("qx.dom.Element",
      */
     isInDom :function(element, win)
     {
+      if (!win) {
+        win = window;
+      }
+      
       var domElements = win.document.getElementsByTagName(element.nodeName);
 
       for (var i=0, l=domElements.length; i<l; i++)
