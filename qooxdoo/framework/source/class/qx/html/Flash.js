@@ -198,7 +198,7 @@ qx.Class.define("qx.html.Flash",
      * Set the param for the Flash DOM element, also called attribute.
      *
      * @param key {String} Key name.
-     * @param value {String|null} Value or <code>null</code> to remove param
+     * @param value {String|Boolean|null} Value or <code>null</code> to remove param
      */
     setParam : function(key, value)
     {
@@ -206,7 +206,9 @@ qx.Class.define("qx.html.Flash",
         qx.core.Assert.assertString(key, "Invalid attribute 'key'.");
         
         if (arguments.length > 1 && value !== null) {
-          qx.core.Assert.assertString(value, "Invalid attribute 'value'.");
+          if (!qx.lang.Type.isBoolean(value) && !qx.lang.Type.isString(value)) {
+            throw new Error("Invalid attribute 'value' expected String, Boolean or null.");
+          }
         }
       }
       
@@ -214,10 +216,10 @@ qx.Class.define("qx.html.Flash",
         throw new Error("The params cannot be modified after initial creation");
       }
 
-      if (value) {
-        this.__params[key] = value;
-      } else {
+      if (value === null || value === undefined) {
         delete this.__params[key];
+      } else {
+        this.__params[key] = value;
       }
     },
 
