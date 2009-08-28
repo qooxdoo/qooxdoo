@@ -378,6 +378,7 @@ qx.Class.define("qx.ui.core.Blocker",
     if (this._isPageRoot) {
       this._widget.removeListener("resize", this.__onResize, this);
     }
-    this._disposeObjects("__contentBlocker");
+    this._disposeObjects("__contentBlocker", "__blocker", "__timer");
+    this._disposeFields("__oldAnonymous");
   }
 });
