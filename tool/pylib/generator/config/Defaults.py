@@ -21,8 +21,15 @@
 
 import os, sys, re, types, string, copy, tempfile
 
+def getQooxdooVersion():
+    versionFile = os.path.join(os.path.dirname(__file__), "../../../../version.txt")   # TODO: get rid of hard-coded path
+    version = open(versionFile).read()
+    version = version.strip()
+    return version
+
 class Defaults(object):
 
     let = {
-        "TMPDIR" : tempfile.gettempdir()
+        "TMPDIR"          : tempfile.gettempdir(),
+        "QOOXDOO_VERSION" : getQooxdooVersion()
     }
