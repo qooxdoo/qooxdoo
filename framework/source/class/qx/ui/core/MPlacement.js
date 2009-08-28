@@ -153,11 +153,13 @@ qx.Mixin.define("qx.ui.core.MPlacement",
     __updater : null,
 
     /**
-     * Returns the location data like {qx.bom.element.Location#get} does
-     * but do not rely on DOM elements coords be rendered. Instead this method
-     * works with the available layout data in the moment executed. This works
-     * best when called in some type of <code>resize</code> or <code>move</code>
-     * event which are supported by all widgets out of the box.
+     * Returns the location data like {qx.bom.element.Location#get} does,
+     * but does not rely on DOM elements coordinatess to be rendered. Instead,
+     * this method works with the available layout data available in the moment
+     * when it is executed.
+     * This works best when called in some type of <code>resize</code> or
+     * <code>move</code> event which are supported by all widgets out of the
+     * box.
      *
      * @param widget {qx.ui.core.Widget} Any widget
      * @return {Map} Returns a map with <code>left</code>, <code>top</code>,
@@ -218,7 +220,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
 
 
     /**
-     * Set the position. Used low-level high-performance DOM
+     * Sets the position. Uses low-level, high-performance DOM
      * methods when the property {@link #domMove} is enabled.
      *
      * @param left {Integer} The left position
