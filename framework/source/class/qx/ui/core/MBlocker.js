@@ -135,6 +135,50 @@ qx.Mixin.define("qx.ui.core.MBlocker",
     unblockContent : function()
     {
       this.__blocker.unblockContent();
+    },
+    
+    /**
+     * Get/create the content blocker element
+     *
+     * @return {qx.html.Element} The blocker element
+     */
+    _getContentBlocker : function() {
+      return this.__blocker._getContentBlocker();
+    },
+    
+    /**
+     * Get/create the blocker element
+     *
+     * @return {qx.html.Element} The blocker element
+     */
+    _getBlocker : function() {
+      return this.__blocker._getBlocker();
+    },
+    
+    /**
+     * Reset the value of the anonymous property to its previous state. Each call
+     * to this method must have a matching call to {@link #_saveAndSetAnonymousState}.
+     * 
+     * @deprecated
+     */
+    _restoreAnonymousState : function()
+    {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee);
+      
+      this.__blocker._restoreAnonymousState();
+    },
+    
+    /**
+     * Remember current value and make widget anonymous. This prevents
+     * "capturing events".
+     * 
+     * @deprecated
+     */
+    _saveAndSetAnonymousState : function()
+    {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee);
+      
+      this.__blocker._saveAndSetAnonymousState();
     }
   },
 
