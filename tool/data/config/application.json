@@ -50,13 +50,6 @@
   {
     "ROOT"         : ".",
     "QOOXDOO_PATH" : "../../.."
-    //"CACHE"        : "cache",
-    //"CACHE"        : "${TMPDIR}/cache",
-    //"QXTHEME"      : "qx.theme.Modern",
-    //"QXICONTHEME"  : ["Tango"],
-    //"QXVERSION"    : "0.8.3-pre",
-    //"LOCALES"      : [ "en" ],
-    //"BUILD_PATH"   : "${ROOT}/build"
   },
 
   "jobs"  :
