@@ -102,6 +102,8 @@ qx.Class.define("qx.ui.core.Blocker",
 
     __oldAnonymous : null,
     __anonymousCounter : 0,
+    
+    __timer : null,
 
     
     /**
