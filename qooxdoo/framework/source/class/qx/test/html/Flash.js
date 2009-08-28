@@ -64,18 +64,28 @@ qx.Class.define("qx.test.html.Flash",
     {
       this.__flash.setAttribute("attrib1", "hoho");
       this.__flash.setAttribute("attrib2", "gogo");
+      this.__flash.setAttribute("attrib3", true);
+      this.__flash.setAttribute("attrib4", false);
       
       var map = this.__flash.getAttribute();
       this.assertIdentical("hoho", this.__flash.getAttributes().attrib1);
       this.assertIdentical("gogo", this.__flash.getAttributes().attrib2);
+      this.assertTrue(this.__flash.getAttributes().attrib3);
+      this.assertFalse(this.__flash.getAttributes().attrib4);
       
       this.__flash.setAttribute("attrib1");
+      this.__flash.setAttribute("attrib3");
       this.assertUndefined(this.__flash.getAttributes().attrib1);
       this.assertIdentical("gogo", this.__flash.getAttributes().attrib2);
+      this.assertUndefined(this.__flash.getAttributes().attrib3);
+      this.assertFalse(this.__flash.getAttributes().attrib4);
       
       this.__flash.setAttribute("attrib2", null);
-      this.assertUndefined(this.__flash.getAttributes().attrib1);
-      this.assertUndefined(this.__flash.getAttributes().attrib2);
+      this.__flash.setAttribute("attrib4", null);
+      this.assertUndefined(this.__flash.getAttributes().attrib1, "1");
+      this.assertUndefined(this.__flash.getAttributes().attrib2, "2");
+      this.assertUndefined(this.__flash.getAttributes().attrib3, "3");
+      this.assertUndefined(this.__flash.getAttributes().attrib4, "4");
     },
 
     testSetParam : function(key, value)
