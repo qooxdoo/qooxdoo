@@ -70,7 +70,8 @@ qx.Class.define("qx.theme.manager.Appearance",
     {
       check : "Theme",
       nullable : true,
-      event : "changeTheme"
+      event : "changeTheme",
+      apply : "_applyTheme"
     }
   },
 
@@ -91,6 +92,13 @@ qx.Class.define("qx.theme.manager.Appearance",
     __aliasMap : null,
 
 
+    // property apply
+    _applyTheme : function(value, old) {
+      // empty the caches
+      this.__aliasMap = {};
+      this.__styleCache = {};
+    },
+    
 
     /*
     ---------------------------------------------------------------------------

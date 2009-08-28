@@ -43,7 +43,9 @@ qx.Class.define("qx.test.ui.core.Appearance",
 
       this.assertEquals("red", a.getBackgroundColor());
       this.assertEquals("blue", a.getChildControl("text").getBackgroundColor());
+      a.destroy();
     },
+    
     
     testFallback : function() 
     {
@@ -55,7 +57,9 @@ qx.Class.define("qx.test.ui.core.Appearance",
 
       this.assertEquals("yellow", a.getBackgroundColor());
       this.assertEquals("green", a.getChildControl("text").getBackgroundColor());
+      a.destroy();
     },
+    
     
     testChange : function() 
     {
@@ -73,6 +77,7 @@ qx.Class.define("qx.test.ui.core.Appearance",
 
       this.assertEquals("red", a.getBackgroundColor());
       this.assertEquals("blue", a.getChildControl("text").getBackgroundColor());
+      a.destroy();
     }
     
   }
