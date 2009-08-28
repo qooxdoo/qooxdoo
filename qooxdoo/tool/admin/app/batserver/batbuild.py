@@ -215,8 +215,8 @@ def date():
 #rc = build_packet('branches/legacy_0_7_x',0)
 #rc = build_packet('trunc',0)
 def build_packet(target,revision,generate):
-    cleanup(target)
     if not options.noSvnUpdate:
+      cleanup(target)
       print("Updating SVN")
       svn_checkout(target,revision)
     if (generate != None):
