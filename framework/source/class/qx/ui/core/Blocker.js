@@ -35,6 +35,11 @@ qx.Class.define("qx.ui.core.Blocker",
 {
   extend : qx.core.Object,
   
+  /**
+   * Creates a blocker for the passed widget.
+   * 
+   * @param widget {qx.ui.core.Widget} Widget which should be added the blocker 
+   */
   construct: function(widget)
   {
     this.base(arguments);    
