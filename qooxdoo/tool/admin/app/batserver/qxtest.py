@@ -1136,7 +1136,45 @@ class QxTest:
         msg += " " + repr(e.args)        
         
     self.log(msg)
+
+  ##
+  # Adds options from a dictionary to a specified Generator config file. Options
+  # must be specified in a dictionary using the same structure as a Generator
+  # config file.  
+  #
+  # @param configFilePath {str} Path of the config file to be edited
+  # @param newConfig {dict} Generator config options to be added
+  def editConfigJson(self, configFilePath=None, newConfig=None):
+    import demjson
     
+    if not configFilePath or not newConfig:
+      raise Exception("Missing parameter for editJobConfig!")
+    
+    configFile = codecs.open(configFilePath, 'r', 'utf-8')
+    configJson = configFile.read()
+    configFile.close()
+
+    parsedConfig = demjson.decode(configJson, allow_comments=True)
+    
+    self.mergeDict(parsedConfig, newConfig)
+
+    newConfigJson = demjson.encode(parsedConfig, strict=False, compactly=False, escape_unicode=True, encoding="utf-8")
+
+    configFile = codecs.open(configFilePath, 'w', 'utf-8')
+    print("Writing new config to file: " + configFilePath)
+    configFile.write(newConfigJson)
+
+  
+  def mergeDict(self, oldDict, newDict):
+    for key, value in newDict.iteritems():
+      if not key in oldDict:
+        oldDict[key] = value    
+      else:
+        # key exists, need to recurse
+        if type(value).__name__ == "dict":
+          mergeDict(oldDict[key], value)
+        else:
+          oldDict[key] = value
 
 
 ##
