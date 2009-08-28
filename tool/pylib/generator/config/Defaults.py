@@ -19,11 +19,11 @@
 #
 ################################################################################
 
-import os, sys, re, types, string, copy, tempfile
+import os, sys, re, types, string, codecs, copy, tempfile
 
 def getQooxdooVersion():
     versionFile = os.path.join(os.path.dirname(__file__), "../../../../version.txt")   # TODO: get rid of hard-coded path
-    version = open(versionFile).read()
+    version = codecs.open(versionFile,"r", "utf-8").read()
     version = version.strip()
     return version
 
