@@ -108,6 +108,11 @@ def get_computed_conf():
         "-n", "--no-svn-check", dest="noSvnCheck", default=False, action="store_true",
         help="Start generate process even if there were no changes in the repository."
     )
+    
+    parser.add_option(
+        "-N", "--no-svn-update", dest="noSvnUpdate", default=False, action="store_true",
+        help="Do not update the repository before starting the generate process."
+    )
 
     parser.add_option(
         "-C", "--clean", dest="distclean", default=False, action="store_true",
@@ -211,8 +216,9 @@ def date():
 #rc = build_packet('trunc',0)
 def build_packet(target,revision,generate):
     cleanup(target)
-    print("Updating SVN")
-    svn_checkout(target,revision)
+    if not options.noSvnUpdate:
+      print("Updating SVN")
+      svn_checkout(target,revision)
     if (generate != None):
         if (generate != "release"):
             working_dir = os.path.join(options.stagedir, target,"qooxdoo",options.path)
