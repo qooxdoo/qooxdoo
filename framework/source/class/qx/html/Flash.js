@@ -160,7 +160,7 @@ qx.Class.define("qx.html.Flash",
      * Set an attribute for the Flash DOM element.
      * 
      * @param key {String} Key name.
-     * @param value {String|null} Value or <code>null</code> to remove attribute.
+     * @param value {String|Boolean|null} Value or <code>null</code> to remove attribute.
      */
     setAttribute : function (key, value)
     {
@@ -168,7 +168,9 @@ qx.Class.define("qx.html.Flash",
         qx.core.Assert.assertString(key, "Invalid attribute 'key'.");
         
         if (arguments.length > 1 && value !== null) {
-          qx.core.Assert.assertString(value, "Invalid attribute 'value'.");
+          if (!qx.lang.Type.isBoolean(value) && !qx.lang.Type.isString(value)) {
+            throw new Error("Invalid attribute 'value' expected String, Boolean or null.");
+          }
         }
       }
       
@@ -176,10 +178,10 @@ qx.Class.define("qx.html.Flash",
         throw new Error("The attributes cannot be modified after initial creation");
       }
 
-      if (value) {
-        this.__attributes[key] = value;        
-      } else {
+      if (value === null || value === undefined) {
         delete this.__attributes[key];
+      } else {
+        this.__attributes[key] = value;
       }
     },
 
