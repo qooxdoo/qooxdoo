@@ -558,5 +558,7 @@ qx.Class.define("qx.ui.menu.Menu",
     if (!qx.core.ObjectRegistry.inShutDown) {
       qx.ui.menu.Manager.getInstance().remove(this);
     }
+    
+    this._disposeObjects("_blocker");
   }
 });
