@@ -24,7 +24,7 @@
 # VARIABLES
 ################################################################################
 
-FRAMEWORK_VERSION := $(shell svn propget qx:version .)
+FRAMEWORK_VERSION := $(shell cat version.txt)
 FRAMEWORK_SVNINFO := $(shell python tool/admin/bin/svninfo.py .)
 
 CMD_LINE = echo "----------------------------------------------------------------------------"
