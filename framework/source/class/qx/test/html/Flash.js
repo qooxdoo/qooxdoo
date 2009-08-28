@@ -82,28 +82,38 @@ qx.Class.define("qx.test.html.Flash",
       
       this.__flash.setAttribute("attrib2", null);
       this.__flash.setAttribute("attrib4", null);
-      this.assertUndefined(this.__flash.getAttributes().attrib1, "1");
-      this.assertUndefined(this.__flash.getAttributes().attrib2, "2");
-      this.assertUndefined(this.__flash.getAttributes().attrib3, "3");
-      this.assertUndefined(this.__flash.getAttributes().attrib4, "4");
+      this.assertUndefined(this.__flash.getAttributes().attrib1);
+      this.assertUndefined(this.__flash.getAttributes().attrib2);
+      this.assertUndefined(this.__flash.getAttributes().attrib3);
+      this.assertUndefined(this.__flash.getAttributes().attrib4);
     },
 
     testSetParam : function(key, value)
     {
       this.__flash.setParam("param1", "hoho");
       this.__flash.setParam("param2", "gogo");
+      this.__flash.setParam("param3", true);
+      this.__flash.setParam("param4", false);
       
       var map = this.__flash.getParams();
       this.assertIdentical("hoho", this.__flash.getParams().param1);
       this.assertIdentical("gogo", this.__flash.getParams().param2);
+      this.assertTrue(this.__flash.getParams().param3);
+      this.assertFalse(this.__flash.getParams().param4);
       
       this.__flash.setParam("param1");
+      this.__flash.setParam("param3");
       this.assertUndefined(this.__flash.getParams().param1);
       this.assertIdentical("gogo", this.__flash.getParams().param2);
+      this.assertUndefined(this.__flash.getParams().param3);
+      this.assertFalse(this.__flash.getParams().param4);
       
       this.__flash.setParam("param2", null);
+      this.__flash.setParam("param4", null);
       this.assertUndefined(this.__flash.getParams().param1);
       this.assertUndefined(this.__flash.getParams().param2);
+      this.assertUndefined(this.__flash.getParams().param3);
+      this.assertUndefined(this.__flash.getParams().param4);
     }
   }
 });
