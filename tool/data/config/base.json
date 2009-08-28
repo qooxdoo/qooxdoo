@@ -10,7 +10,6 @@
     "CACHE"        : "${TMPDIR}/cache",
     "QXTHEME"      : "qx.theme.Modern",
     "QXICONTHEME"  : ["Tango"],
-    "QXVERSION"    : "0.8.3-pre",
     "OPTIMIZE"     : ["basecalls", "variables", "privates", "strings"],
     "LOCALES"      : [ "en" ],
     "APPLICATION_MAIN_CLASS" : "${APPLICATION}.Application",
@@ -75,7 +74,7 @@
 
       "settings" :
       {
-        "qx.version"     : "${QXVERSION}",
+        "qx.version"     : "${QOOXDOO_VERSION}",
         "qx.theme"       : "${QXTHEME}",
         "qx.application" : "${APPLICATION_MAIN_CLASS}"
       },
@@ -372,7 +371,7 @@
 
       "shell" :
       {
-        "command" : "rsync --checksum --compress --recursive --delete --inplace --links --safe-links --exclude .svn ${BUILD_PATH}/* root@qooxdoo.org:/var/www/qooxdoo/demo/${QXVERSION}/${APPLICATION}"
+        "command" : "rsync --checksum --compress --recursive --delete --inplace --links --safe-links --exclude .svn ${BUILD_PATH}/* root@qooxdoo.org:/var/www/qooxdoo/demo/${QOOXDOO_VERSION}/${APPLICATION}"
       }
     },
 
