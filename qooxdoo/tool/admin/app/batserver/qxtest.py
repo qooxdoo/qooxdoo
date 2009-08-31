@@ -1172,7 +1172,7 @@ class QxTest:
       else:
         # key exists, need to recurse
         if type(value).__name__ == "dict":
-          mergeDict(oldDict[key], value)
+          self.mergeDict(oldDict[key], value)
         else:
           oldDict[key] = value
 
