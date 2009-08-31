@@ -260,7 +260,7 @@ qx.Class.define("qx.ui.embed.Flash",
     // property apply
     _applySource : function(value, old)
     {
-      var source = qx.util.ResourceManager.toUri(value);
+      var source = qx.util.ResourceManager.getInstance().toUri(value);
       this.getContentElement().setSource(source);
       qx.ui.core.queue.Layout.add(this);
     },
