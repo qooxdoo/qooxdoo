@@ -36,9 +36,12 @@ qx.Class.define("qx.test.ui.form.Field",
 
       this.flush();
 
-      this.assertEquals("affe", textfield.getSelection());
-      
-      textfield.destroy();
+      // test this asynchron because opera 9.x seems to cache the creation of DOM elements
+      var self = this;
+      this.wait(1000, function() {
+        self.assertEquals("affe", textfield.getSelection());
+        textfield.destroy();        
+      });
     },
     
     
@@ -52,9 +55,12 @@ qx.Class.define("qx.test.ui.form.Field",
       
       textfield.selectAll();      
 
-      this.assertEquals("affe", textfield.getSelection());
-      
-      textfield.destroy();
+      // test this asynchron because opera 9.x seems to cache the creation of DOM elements
+      var self = this;
+      this.wait(1000, function() {
+        self.assertEquals("affe", textfield.getSelection());
+        textfield.destroy();        
+      });
     },
     
     
@@ -68,10 +74,13 @@ qx.Class.define("qx.test.ui.form.Field",
       textfield.clearSelection()
 
       this.flush();
-
-      this.assertEquals("", textfield.getSelection());
       
-      textfield.destroy();      
+      // test this asynchron because opera 9.x seems to cache the creation of DOM elements
+      var self = this;
+      this.wait(100, function() {
+        self.assertEquals("", textfield.getSelection());
+        textfield.destroy();        
+      });
     },
     
     
@@ -83,12 +92,14 @@ qx.Class.define("qx.test.ui.form.Field",
       textfield.focus();      
       this.flush();
       
-      textfield.selectAll();
-      textfield.clearSelection()
-
-      this.assertEquals("", textfield.getSelection());
-      
-      textfield.destroy();      
+      // test this asynchron because opera 9.x seems to cache the creation of DOM elements
+      var self = this;
+      this.wait(1000, function() {
+        textfield.selectAll();
+        textfield.clearSelection()
+        self.assertEquals("", textfield.getSelection());
+        textfield.destroy();        
+      });
     }    
   }
 });
