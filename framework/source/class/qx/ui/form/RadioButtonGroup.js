@@ -48,7 +48,7 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
     
     // if no layout is given, use the default layout (VBox)
     if (layout == null) {
-      this.setLayout(new qx.ui.layout.VBox());
+      this.setLayout(new qx.ui.layout.VBox(4));
     }
     
     // create the radio group
