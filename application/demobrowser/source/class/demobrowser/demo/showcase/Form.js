@@ -14,6 +14,7 @@
 
    Authors:
      * Christian Schmidt (chris_schmidt)
+     * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
 
@@ -32,131 +33,135 @@ qx.Class.define("demobrowser.demo.showcase.Form",
     {
       this.base(arguments);
 
-      // container
-      var container = new qx.ui.container.Composite(new qx.ui.layout.Grid(8, 8));
-      this.getRoot().add(container, {top: 20, left: 20});
 
+
+      /** **************************************
+       * TEXT INPUT
+       * **************************************/
+
+      var textGroupBox = new qx.ui.groupbox.GroupBox("Text");
+      textGroupBox.setLayout(new qx.ui.layout.Grid(8, 8));
+      textGroupBox.setWidth(290);
+      this.getRoot().add(textGroupBox, {left: 20, top: 10});
+       
       // text field
       var textField = new qx.ui.form.TextField();
       textField.setPlaceholder("placeholder");
       var label = new qx.ui.basic.Label("TextField:");
       label.setBuddy(textField);
-      container.add(label, {row: 0, column: 0});
-      container.add(textField, {row: 0, column: 1});
+      textGroupBox.add(label, {row: 0, column: 0});
+      textGroupBox.add(textField, {row: 0, column: 1});
 
       // password field
       var passwordField = new qx.ui.form.PasswordField();
       passwordField.setPlaceholder("password");
       label = new qx.ui.basic.Label("PasswordField:");
       label.setBuddy(passwordField);
-      container.add(label, {row: 1, column: 0});
-      container.add(passwordField, {row: 1, column: 1});
-
-      // spinner
-      var spinner = new qx.ui.form.Spinner(0, 50, 100);
-      label = new qx.ui.basic.Label("Spinner:");
-      label.setBuddy(spinner);
-      container.add(label, {row: 2, column: 0});
-      container.add(spinner, {row: 2, column: 1});
-
-      // date field
-      var dateField = new qx.ui.form.DateField();
-      dateField.setPlaceholder("dd.mm.YYYY");
-      label = new qx.ui.basic.Label("DateField:");
-      label.setBuddy(dateField);
-      container.add(label, {row: 3, column: 0});
-      container.add(dateField, {row: 3, column: 1});
-
-      // combo box
-      var comboBox = new qx.ui.form.ComboBox();
-      comboBox.setPlaceholder("placeholder");
-      label = new qx.ui.basic.Label("ComboBox:");
-      label.setBuddy(comboBox);
-      container.add(label, {row: 4, column: 0});
-      container.add(comboBox, {row: 4, column: 1});
-      this.createItems(comboBox);
-
-      // select box
-      var selectBox = new qx.ui.form.SelectBox();
-      label = new qx.ui.basic.Label("SelectBox:");
-      label.setBuddy(selectBox);
-      container.add(label, {row: 5, column: 0});
-      container.add(selectBox, {row: 5, column: 1});
-      this.createItems(selectBox);
-
-      // check box
-      var checkBox = new qx.ui.form.CheckBox("CheckBox");
-      label = new qx.ui.basic.Label("CheckBox:");
-      label.setBuddy(checkBox);
-      container.add(label, {row: 6, column: 0});
-      container.add(checkBox, {row: 6, column: 1});
-
-      // radio group
-      var radioButton1 = new qx.ui.form.RadioButton("RadioButton 1");
-      var radioButton2 = new qx.ui.form.RadioButton("RadioButton 2");
-      new qx.ui.form.RadioGroup(radioButton1, radioButton2);
-      container.add(new qx.ui.basic.Label("RadioGroup:"), {row: 7, column: 0});
-      container.add(radioButton1, {row: 7, column: 1});
-      container.add(radioButton2, {row: 8, column: 1});
+      textGroupBox.add(label, {row: 1, column: 0});
+      textGroupBox.add(passwordField, {row: 1, column: 1});
 
       // text area
       var textArea = new qx.ui.form.TextArea();
       textArea.setPlaceholder("placeholder");
       label = new qx.ui.basic.Label("TextArea:");
       label.setBuddy(textArea);
-      container.add(label, {row: 9, column: 0});
-      container.add(textArea, {row: 9, column: 1});
+      textGroupBox.add(label, {row: 2, column: 0});
+      textGroupBox.add(textArea, {row: 2, column: 1});
+
+      // combo box
+      var comboBox = new qx.ui.form.ComboBox();
+      comboBox.setPlaceholder("placeholder");
+      label = new qx.ui.basic.Label("ComboBox:");
+      label.setBuddy(comboBox);
+      textGroupBox.add(label, {row: 3, column: 0});
+      textGroupBox.add(comboBox, {row: 3, column: 1});
+      this.createItems(comboBox);
+      
+      // date field
+      var dateField = new qx.ui.form.DateField();
+      dateField.setPlaceholder("dd.mm.YYYY");
+      label = new qx.ui.basic.Label("DateField:");
+      label.setBuddy(dateField);
+      textGroupBox.add(label, {row: 4, column: 0});
+      textGroupBox.add(dateField, {row: 4, column: 1});
+      
+    
+    
+      /** **************************************
+       * SELECTION
+       * **************************************/
+
+      var selectionGroupBox = new qx.ui.groupbox.GroupBox("Selection");
+      selectionGroupBox.setLayout(new qx.ui.layout.Grid(8, 8));
+      selectionGroupBox.setWidth(290);
+      this.getRoot().add(selectionGroupBox, {left: 20, top: 250});
+      
+      // select box
+      var selectBox = new qx.ui.form.SelectBox();
+      label = new qx.ui.basic.Label("SelectBox:");
+      label.setBuddy(selectBox);
+      selectionGroupBox.add(label, {row: 0, column: 0});
+      selectionGroupBox.add(selectBox, {row: 0, column: 1});
+      this.createItems(selectBox);
 
       // list
       var list = new qx.ui.form.List();
+      list.setHeight(60);
+      list.setWidth(200)
       label = new qx.ui.basic.Label("List:");
       label.setBuddy(list);
-      container.add(label, {row: 10, column: 0});
-      container.add(list, {row: 10, column: 1});
+      selectionGroupBox.add(label, {row: 1, column: 0});
+      selectionGroupBox.add(list, {row: 1, column: 1});
       this.createItems(list);
-      list.setHeight(60);
 
-      // slider
-      var slider = new qx.ui.form.Slider();
-      label = new qx.ui.basic.Label("Slider:");
-      label.setBuddy(slider);
-      container.add(label, {row: 11, column: 0});
-      container.add(slider, {row: 11, column: 1});
+      
+
+
+
+
+      /** **************************************
+       * BUTTOS
+       * **************************************/
+
+      var buttonGroupBox = new qx.ui.groupbox.GroupBox("Buttons");
+      buttonGroupBox.setLayout(new qx.ui.layout.Grid(8, 8));
+      buttonGroupBox.setWidth(210);
+      this.getRoot().add(buttonGroupBox, {left: 330, top: 10});
 
       // button
       var button = new qx.ui.form.Button("Button");
       label = new qx.ui.basic.Label("Button:");
       label.setBuddy(button);
-      container.add(label, {row: 12, column: 0});
-      container.add(button, {row: 12, column: 1});
+      buttonGroupBox.add(label, {row: 0, column: 0});
+      buttonGroupBox.add(button, {row: 0, column: 1});
 
       // toggle button
       var toggleButton = new qx.ui.form.ToggleButton("ToggleButton");
       label = new qx.ui.basic.Label("ToggleButton:");
       label.setBuddy(toggleButton);
-      container.add(label, {row: 13, column: 0});
-      container.add(toggleButton, {row: 13, column: 1});
+      buttonGroupBox.add(label, {row: 1, column: 0});
+      buttonGroupBox.add(toggleButton, {row: 1, column: 1});
 
       // toggle button
       var repeatButton = new qx.ui.form.RepeatButton("0");
       label = new qx.ui.basic.Label("RepeatButton:");
       label.setBuddy(repeatButton);
-      container.add(label, {row: 14, column: 0});
-      container.add(repeatButton, {row: 14, column: 1});
+      buttonGroupBox.add(label, {row: 2, column: 0});
+      buttonGroupBox.add(repeatButton, {row: 2, column: 1});
 
       // menu button
       var menueButton = new qx.ui.form.MenuButton("MenuButton", null, this.createMenuForMenuButton());
       label = new qx.ui.basic.Label("MenuButton:");
       label.setBuddy(menueButton);
-      container.add(label, {row: 15, column: 0});
-      container.add(menueButton, {row: 15, column: 1});
+      buttonGroupBox.add(label, {row: 3, column: 0});
+      buttonGroupBox.add(menueButton, {row: 3, column: 1});
 
       // split button
       var splitButton = new qx.ui.form.SplitButton("SplitButton", null, this.createMenuForSplitButton());
       label = new qx.ui.basic.Label("SplitButton:");
       label.setBuddy(splitButton);
-      container.add(label, {row: 16, column: 0});
-      container.add(splitButton, {row: 16, column: 1});
+      buttonGroupBox.add(label, {row: 4, column: 0});
+      buttonGroupBox.add(splitButton, {row: 4, column: 1});
 
       // Listener
       repeatButton.addListener("execute", function()
@@ -164,15 +169,70 @@ qx.Class.define("demobrowser.demo.showcase.Form",
         var tempValue = parseInt(repeatButton.getLabel()) + 1;
         repeatButton.setLabel(tempValue.toString());
       });
+      
+      
+    
+      /** **************************************
+       * BOOLEAN INPUT
+       * **************************************/
+
+      var booleanGroupBox = new qx.ui.groupbox.GroupBox("Boolean");
+      booleanGroupBox.setLayout(new qx.ui.layout.Grid(8, 8));
+      booleanGroupBox.setWidth(210);
+      this.getRoot().add(booleanGroupBox, {left: 330, top: 210});
+
+      // check box
+      var checkBox = new qx.ui.form.CheckBox("CheckBox");
+      label = new qx.ui.basic.Label("CheckBox:");
+      label.setBuddy(checkBox);
+      booleanGroupBox.add(label, {row: 0, column: 0});
+      booleanGroupBox.add(checkBox, {row: 0, column: 1});
+
+      // radio button
+      var radioButton1 = new qx.ui.form.RadioButton("RadioButton 1");
+      var radioButton2 = new qx.ui.form.RadioButton("RadioButton 2");
+      var radioButtonGroup = new qx.ui.form.RadioButtonGroup();
+      radioButtonGroup.add(radioButton1);
+      radioButtonGroup.add(radioButton2);
+      booleanGroupBox.add(new qx.ui.basic.Label("RadioButtons:"), {row: 1, column: 0});
+      booleanGroupBox.add(radioButtonGroup, {row: 1, column: 1});
+      
+      
+          
+      /** **************************************
+       * NUMBER INPUT
+       * **************************************/
+
+      var numberGroupBox = new qx.ui.groupbox.GroupBox("Number");
+      numberGroupBox.setLayout(new qx.ui.layout.Grid(8, 8));
+      numberGroupBox.setWidth(210);
+      this.getRoot().add(numberGroupBox, {left: 330, top: 320});           
+
+      // spinner
+      var spinner = new qx.ui.form.Spinner(0, 50, 100);
+      label = new qx.ui.basic.Label("Spinner:");
+      label.setBuddy(spinner);
+      numberGroupBox.add(label, {row: 0, column: 0});
+      numberGroupBox.add(spinner, {row: 0, column: 1});
+
+      // slider
+      var slider = new qx.ui.form.Slider();
+      slider.setWidth(130);
+      label = new qx.ui.basic.Label("Slider:");
+      label.setBuddy(slider);
+      numberGroupBox.add(label, {row: 1, column: 0});
+      numberGroupBox.add(slider, {row: 1, column: 1});      
     },
+
 
     createItems: function(widget)
     {
       for (var i = 0; i < this.self(arguments).ITEM_SIZE; i++) {
-        var tempItem = new qx.ui.form.ListItem("ListItem " + i);
+        var tempItem = new qx.ui.form.ListItem("Item " + i);
         widget.add(tempItem);
       }
     },
+
 
     createMenuForMenuButton : function()
     {
@@ -200,6 +260,7 @@ qx.Class.define("demobrowser.demo.showcase.Form",
 
       return menu;
     },
+
 
     createMenuForSplitButton : function()
     {
