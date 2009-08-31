@@ -154,7 +154,7 @@ qx.Class.define("feedreader.Application",
       );
       this.__staticFeedFolder.getFeeds().push(
         new feedreader.model.Feed(
-          "Surfin' Safari", "http://webkit.org/blog/?feed=rss2", "static"
+          "Surfin' Safari", "http://webkit.org/blog/feed", "static"
         )
       );
       this.__staticFeedFolder.getFeeds().push(
