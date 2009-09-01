@@ -28,7 +28,8 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
 {
   extend : qx.ui.core.Widget,
   type : "abstract",
-
+  include : [qx.ui.form.MModelProperty],
+  implement : [qx.ui.form.IModel],
 
 
   /*

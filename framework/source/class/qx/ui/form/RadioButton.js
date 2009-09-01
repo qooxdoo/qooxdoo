@@ -40,13 +40,16 @@
 qx.Class.define("qx.ui.form.RadioButton",
 {
   extend : qx.ui.form.Button,
-  include : [qx.ui.form.MForm],
+  include : [
+    qx.ui.form.MForm,
+    qx.ui.form.MModelProperty
+  ],
   implement : [
     qx.ui.form.IRadioItem, 
     qx.ui.form.IForm, 
-    qx.ui.form.IBooleanForm],
-
-
+    qx.ui.form.IBooleanForm,
+    qx.ui.form.IModel
+  ],
 
 
   /*

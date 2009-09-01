@@ -25,6 +25,8 @@
 qx.Class.define("qx.ui.form.ListItem",
 {
   extend : qx.ui.basic.Atom,
+  implement : [qx.ui.form.IModel],
+  include : [qx.ui.form.MModelProperty],
 
 
 
@@ -119,7 +121,7 @@ qx.Class.define("qx.ui.form.ListItem",
     {
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee, 
-        "The value is deprecated. Please use label or userData instead."
+        "The value is deprecated. Please use model instead."
       );
             
       var value = this.getValue();
@@ -143,7 +145,7 @@ qx.Class.define("qx.ui.form.ListItem",
     setValue: function(value) {
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee, 
-        "The value is deprecated. Please use label or userData instead."
+        "The value is deprecated. Please use model instead."
       );
             
       var oldValue = this.__value;
@@ -160,7 +162,7 @@ qx.Class.define("qx.ui.form.ListItem",
     getValue: function() {
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee, 
-        "The value is deprecated. Please use label or userData instead."
+        "The value is deprecated. Please use model instead."
       );
             
       return this.__value;
@@ -174,7 +176,7 @@ qx.Class.define("qx.ui.form.ListItem",
     resetValue: function() {
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee, 
-        "The value is deprecated. Please use label or userData instead."
+        "The value is deprecated. Please use model instead."
       );
             
       this.setValue(null);
