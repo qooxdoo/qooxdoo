@@ -31,10 +31,11 @@
 qx.Class.define("qx.ui.form.RadioButtonGroup", 
 {
   extend : qx.ui.core.Widget,
-  include : qx.ui.core.MLayoutHandling,
+  include : [qx.ui.core.MLayoutHandling, qx.ui.form.MModelSelection],
   implement : [
     qx.ui.form.IForm,
-    qx.ui.core.ISingleSelection
+    qx.ui.core.ISingleSelection,
+    qx.ui.form.IModelSelection
   ],
 
   
