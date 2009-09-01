@@ -27,8 +27,12 @@
 qx.Class.define("qx.ui.form.SelectBox",
 {
   extend : qx.ui.form.AbstractSelectBox,
-  implement : [qx.ui.form.IFormElement, qx.ui.core.ISingleSelection],
-  include : qx.ui.core.MSingleSelectionHandling,
+  implement : [
+    qx.ui.form.IFormElement, 
+    qx.ui.core.ISingleSelection,
+    qx.ui.form.IModelSelection
+  ],
+  include : [qx.ui.core.MSingleSelectionHandling, qx.ui.form.MModelSelection],
 
 
   /*
@@ -225,7 +229,7 @@ qx.Class.define("qx.ui.form.SelectBox",
      */
     setValue : function(value) {
       qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee, "Please use the selection API instead."
+        arguments.callee, "Please use setModelSelection instead."
       );      
       this.getChildControl("list").setValue(value);
     },
@@ -239,7 +243,7 @@ qx.Class.define("qx.ui.form.SelectBox",
     getValue : function()
     {
       qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee, "Please use the selection API instead."
+        arguments.callee, "Please use getModelSelection instead."
       );      
       var item = this.getSelection()[0];
       return item ? item.getFormValue() : null;
@@ -252,7 +256,7 @@ qx.Class.define("qx.ui.form.SelectBox",
     resetValue : function() 
     {
       qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee, "Please use the selection API instead."
+        arguments.callee, "Please use resetSelection instead."
       );
       var list = this.getChildControl("list");
       var children = list.getChildren();
