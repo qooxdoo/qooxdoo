@@ -87,6 +87,15 @@ qx.Class.define("qx.ui.splitpane.Pane",
       init : "splitpane"
     },
 
+    /**
+     * Distance between mouse cursor and splitter when the cursor should change
+     * and enable resizing.
+     */
+    offset :
+    {
+      check : "Integer",
+      init: 6
+    },
 
     /**
      * The orientation of the splitpane control.
@@ -457,7 +466,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
       var splitter = this.getChildControl("splitter");
       var splitterBounds = splitter.getBounds();
       var splitterLocation = splitter.getContainerLocation();
-      var min = 6;
+      var min = this.getOffset();
 
       // Check whether created
       if (!splitterLocation) {
