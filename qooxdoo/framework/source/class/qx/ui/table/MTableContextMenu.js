@@ -101,6 +101,8 @@ qx.Mixin.define("qx.ui.table.MTableContextMenu",
 
   members :
   {
+    __contextMenuHandler : null,
+    
     /**
      * Add a handler for a context menu which is initiated in a specific
      * column.
