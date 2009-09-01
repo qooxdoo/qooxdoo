@@ -117,7 +117,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean",
             /\.png$/i.test(this.__iconUrlTrue))
         {
           imageData.extras +=
-            "  this.src='" + this.__imageBlank + "'; " +
+            "  this.src='" + this.getBlankImage() + "'; " +
             "  var loader = 'DXImageTransform.Microsoft.AlphaImageLoader'; " +
             "  var filters = this.filters.item(loader); " +
             "  filters.src='" + this.__iconUrlTrue + "'; " +
@@ -139,7 +139,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean",
             /\.png$/i.test(this.__iconUrlFalse))
         {
           imageData.extras +=
-            "  this.src='" + this.__imageBlank + "'; " +
+            "  this.src='" + this.getBlankImage() + "'; " +
             "  var loader = 'DXImageTransform.Microsoft.AlphaImageLoader'; " +
             "  var filters = this.filters.item(loader); " +
             "  filters.src='" + this.__iconUrlFalse + "'; " +
