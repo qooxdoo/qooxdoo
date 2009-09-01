@@ -123,7 +123,7 @@ qx.Class.define("qx.test.ui.form.Form",
     
     
     
-    testRequieredSpinner: function() {
+    testRequiredSpinner: function() {
       this.__testRequired(new qx.ui.form.Spinner());      
     },
     
@@ -131,7 +131,7 @@ qx.Class.define("qx.test.ui.form.Form",
      this.__testValid(new qx.ui.form.Spinner()); 
     },
     
-    testRequieredSlider: function() {
+    testRequiredSlider: function() {
       this.__testRequired(new qx.ui.form.Slider());      
     },
     
@@ -139,7 +139,7 @@ qx.Class.define("qx.test.ui.form.Form",
      this.__testValid(new qx.ui.form.Slider()); 
     },
     
-    testRequieredTextField: function() {
+    testRequiredTextField: function() {
       this.__testRequired(new qx.ui.form.TextField());      
     },
     
@@ -147,7 +147,7 @@ qx.Class.define("qx.test.ui.form.Form",
      this.__testValid(new qx.ui.form.TextField()); 
     },
     
-    testRequieredTextArea: function() {
+    testRequiredTextArea: function() {
       this.__testRequired(new qx.ui.form.TextArea());      
     },
     
@@ -155,7 +155,7 @@ qx.Class.define("qx.test.ui.form.Form",
      this.__testValid(new qx.ui.form.TextArea()); 
     },
     
-    testRequieredPasswordField: function() {
+    testRequiredPasswordField: function() {
       this.__testRequired(new qx.ui.form.PasswordField());      
     },
     
@@ -163,7 +163,7 @@ qx.Class.define("qx.test.ui.form.Form",
      this.__testValid(new qx.ui.form.PasswordField()); 
     },
     
-    testRequieredComboBox: function() {
+    testRequiredComboBox: function() {
       this.__testRequired(new qx.ui.form.ComboBox());      
     },
     
@@ -171,7 +171,7 @@ qx.Class.define("qx.test.ui.form.Form",
      this.__testValid(new qx.ui.form.ComboBox()); 
     },
     
-    testRequieredSelectBox: function() {
+    testRequiredSelectBox: function() {
       this.__testRequired(new qx.ui.form.SelectBox());      
     },
     
@@ -179,7 +179,7 @@ qx.Class.define("qx.test.ui.form.Form",
      this.__testValid(new qx.ui.form.SelectBox(), "shadow"); 
     },
     
-    testRequieredCheckBox: function() {
+    testRequiredCheckBox: function() {
       this.__testRequired(new qx.ui.form.CheckBox());      
     },
     
@@ -191,7 +191,7 @@ qx.Class.define("qx.test.ui.form.Form",
      this.__testValid(new qx.ui.form.RadioButton(), "dont"); 
     },
     
-    testRequieredRadioButton: function() {
+    testRequiredRadioButton: function() {
       this.__testRequired(new qx.ui.form.RadioButton());      
     },
     
@@ -199,7 +199,7 @@ qx.Class.define("qx.test.ui.form.Form",
      this.__testValid(new qx.ui.groupbox.GroupBox(), "dont"); 
     },
     
-    testRequieredGroupBox: function() {
+    testRequiredGroupBox: function() {
       this.__testRequired(new qx.ui.groupbox.GroupBox());      
     },
     
@@ -207,7 +207,7 @@ qx.Class.define("qx.test.ui.form.Form",
      this.__testValid(new qx.ui.groupbox.RadioGroupBox(), "dont"); 
     },
     
-    testRequieredRadioGroupBox: function() {
+    testRequiredRadioGroupBox: function() {
       this.__testRequired(new qx.ui.groupbox.RadioGroupBox());      
     },
     
@@ -215,7 +215,7 @@ qx.Class.define("qx.test.ui.form.Form",
      this.__testValid(new qx.ui.groupbox.CheckGroupBox(), "dont"); 
     },
     
-    testRequieredCheckGroupBox: function() {
+    testRequiredCheckGroupBox: function() {
       this.__testRequired(new qx.ui.groupbox.CheckGroupBox());      
     },
     
@@ -223,11 +223,11 @@ qx.Class.define("qx.test.ui.form.Form",
      this.__testValid(new qx.ui.form.List()); 
     },
     
-    testRequieredList: function() {
+    testRequiredList: function() {
       this.__testRequired(new qx.ui.form.List());      
     },
     
-    testRequieredDateField: function() {
+    testRequiredDateField: function() {
       this.__testRequired(new qx.ui.form.DateField());      
     },
     
@@ -235,7 +235,7 @@ qx.Class.define("qx.test.ui.form.Form",
      this.__testValid(new qx.ui.form.DateField()); 
     },
     
-    testRequieredDateChooser: function() {
+    testRequiredDateChooser: function() {
       this.__testRequired(new qx.ui.form.DateField());      
     },
     
@@ -292,7 +292,7 @@ qx.Class.define("qx.test.ui.form.Form",
       this.__testRequired(new qx.ui.form.RadioGroup());
     },
     
-    testRequieredRadioButtonGroup: function() {
+    testRequiredRadioButtonGroup: function() {
       this.__testRequired(new qx.ui.form.RadioButtonGroup());      
     },
     

@@ -170,7 +170,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
         // ignore all form items without a validator
         if (validator == null) {
           // check for the required property
-          var validatorResult = this.__validateRequiered(formItem);
+          var validatorResult = this.__validateRequired(formItem);
           valid = valid && validatorResult;
           this.__syncValid = validatorResult && this.__syncValid;
           continue;
@@ -204,13 +204,13 @@ qx.Class.define("qx.ui.form.validation.Manager",
     
     
     /**
-     * Checks if the form item is requiered. If so, the value is checked 
+     * Checks if the form item is required. If so, the value is checked 
      * and the result will be returned. If the form item is not required, true 
      * will be returned.
      * 
      * @param formItem {qx.ui.core.Widget} The form item to check.
      */
-    __validateRequiered : function(formItem) {
+    __validateRequired : function(formItem) {
       if (formItem.getRequired()) {
         var validatorResult = !!formItem.getValue();
         formItem.setValid(validatorResult);
