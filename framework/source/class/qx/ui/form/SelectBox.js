@@ -295,23 +295,23 @@ qx.Class.define("qx.ui.form.SelectBox",
      */
     __onChangeSelection : function(e)
     {
-      var value = e.getData()[0];
+      var listItem = e.getData()[0];
 
       var list = this.getChildControl("list");
-      if (list.getSelection()[0] != value) {
-        list.setSelection([value]);
+      if (list.getSelection()[0] != listItem) {
+        list.setSelection([listItem]);
       }
       
       var atom = this.getChildControl("atom");
 
-      var label = value ? value.getLabel() : "";
+      var label = listItem ? listItem.getLabel() : "";
       // check for translation
       if (label && label.translate) {
         label = label.translate();
       }      
       label == null ? atom.resetLabel() : atom.setLabel(label);
 
-      var icon = value ? value.getIcon() : "";
+      var icon = listItem ? listItem.getIcon() : "";
       icon == null ? atom.resetIcon() : atom.setIcon(icon);
 
       // Fire value event
