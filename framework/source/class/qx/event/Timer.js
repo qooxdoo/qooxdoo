@@ -224,7 +224,7 @@ qx.Class.define("qx.event.Timer",
 
 
     /**
-     * Start the timer with a giben interval
+     * Start the timer with a given interval
      *
      * @param interval {Integer} Time in milliseconds between two callback calls.
      */
