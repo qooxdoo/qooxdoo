@@ -31,14 +31,16 @@ qx.Class.define("qx.ui.form.List",
   implement : [
     qx.ui.form.IFormElement, 
     qx.ui.core.IMultiSelection,
-    qx.ui.form.IForm
+    qx.ui.form.IForm,
+    qx.ui.form.IModelSelection
   ],
   // deprecated : MFormElement
   include : [
     qx.ui.core.MRemoteChildrenHandling, 
     qx.ui.core.MMultiSelectionHandling,
     qx.ui.form.MFormElement,
-    qx.ui.form.MForm
+    qx.ui.form.MForm,
+    qx.ui.form.MModelSelection
   ],
 
 
