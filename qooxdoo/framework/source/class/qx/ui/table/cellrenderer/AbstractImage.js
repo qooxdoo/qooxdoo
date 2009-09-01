@@ -62,6 +62,8 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
 
   members :
   {
+    __defaultWidth : null,
+    __defaultHeight : null,
     _insetY : 2,
 
     /**
