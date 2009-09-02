@@ -1530,6 +1530,31 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
+    /**
+     * Detects if the widget and all its parents are visible.
+     * 
+     * @return {Boolean} true, if the widget is currenlty on the screen
+     */
+    isSeeable : function() {
+      // if the element is already renderd, a check for the offsetWidth is enough
+      var element = this.getContainerElement().getDomElement();
+      if (element) {
+        return element.offsetWidth > 0;        
+      }
+      // otherwise, check the visibility of the parents
+      var current = this;
+      do {
+        if (!current.isVisible()) {
+          return false;
+        }
+        if (current.isRootWidget()) {
+          return true;
+        }
+        current = current.getLayoutParent();
+      } while (current);
+      
+      return false;
+    },
 
 
 
