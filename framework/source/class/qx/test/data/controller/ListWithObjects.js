@@ -391,12 +391,12 @@ qx.Class.define("qx.test.data.controller.ListWithObjects",
 
       this.__controller = new qx.data.controller.List(parents, this.__list, "name");   
 
-      this.assertEquals(parentC.getName(), this.__list.getChildren()[2].getUserData("model").getName(), "Wrong model stored before the splice.");      
+      this.assertEquals(parentC.getName(), this.__list.getChildren()[2].getModel().getName(), "Wrong model stored before the splice.");      
       
       parents.splice(parents.indexOf(parentB), 1);
 
       this.assertEquals("parentC", this.__list.getChildren()[1].getLabel(), "Wrong name of the parent.");
-      this.assertEquals(parentC, this.__list.getChildren()[1].getUserData("model"), "Wrong model stored after the splice.");      
+      this.assertEquals(parentC, this.__list.getChildren()[1].getModel(), "Wrong model stored after the splice.");      
     }
     
   }

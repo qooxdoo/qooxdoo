@@ -736,7 +736,11 @@ qx.Class.define("qx.data.SingleValueBinding",
     __convertValue : function(value, targetObject, targetPropertyChain, options) {
       // do the conversion given by the user
       if (options && options.converter) {
-        return options.converter(value, targetObject.getUserData("model"));
+        var model;
+        if (targetObject.getModel) {
+          model = targetObject.getModel();
+        }
+        return options.converter(value, model);
       // try default conversion
       } else {
         var target = this.__getTargetFromChain(targetObject, targetPropertyChain);
