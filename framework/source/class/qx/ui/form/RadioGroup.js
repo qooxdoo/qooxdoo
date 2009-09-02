@@ -226,6 +226,10 @@ qx.Class.define("qx.ui.form.RadioGroup",
      */
     setValue : function(value)
     {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Please use setModelSelection instead."
+      );
+            
       var items = this.__items;
       var item;
 
@@ -251,6 +255,10 @@ qx.Class.define("qx.ui.form.RadioGroup",
      */
     getValue : function()
     {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Please use getModelSelection instead."
+      );
+      
       var selected = this.getSelection()[0];
       return selected ? selected.getValue() : null;
     },

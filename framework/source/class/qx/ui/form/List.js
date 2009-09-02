@@ -238,7 +238,7 @@ qx.Class.define("qx.ui.form.List",
     getValue : function()
     {
       qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee, "Please use the selection instead."
+        arguments.callee, "Please use getModelSelection instead."
       );
       
       var selected = this.getSelection();
@@ -272,7 +272,7 @@ qx.Class.define("qx.ui.form.List",
     setValue : function(value)
     {
       qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee, "Please use the selection instead."
+        arguments.callee, "Please use setModelSelection instead."
       );
       
       // only split the value in multi selection mode 
