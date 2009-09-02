@@ -44,7 +44,8 @@ qx.Class.define("qx.type.BaseError",
     Error.call(this, failMessage);
 
     this.__comment = comment || "";
-    this.message = failMessage || "";
+    // opera 10 crashes if the message is an empty string!!!?!?!
+    this.message = failMessage || "error";
   },
 
 
