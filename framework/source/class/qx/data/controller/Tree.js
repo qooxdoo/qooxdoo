@@ -452,7 +452,7 @@ qx.Class.define("qx.data.controller.Tree",
       if (this.getModel() != null) {
         // add a new root node
         var rootNode = this._createItem();
-        rootNode.setUserData("model", this.getModel());
+        rootNode.setModel(this.getModel());
         this.getTarget().setRoot(rootNode);
         // bind the root node
         this.__addBinding(this.getModel(), rootNode);
@@ -504,11 +504,11 @@ qx.Class.define("qx.data.controller.Tree",
       // go threw all children in the model
       for (var i = 0; i < children.length; i++) {
         // if there is no node in the tree or the current node does not fit
-        if (rootNode.getChildren()[i] == null || children.getItem(i) != rootNode.getChildren()[i].getUserData("model"))
+        if (rootNode.getChildren()[i] == null || children.getItem(i) != rootNode.getChildren()[i].getModel())
         {
           //check if the node was just moved
           for (var j = i; j < rootNode.getChildren().length; j++) {
-            if (rootNode.getChildren()[j].getUserData("model") === children.getItem(i)) {
+            if (rootNode.getChildren()[j].getModel() === children.getItem(i)) {
               var oldIndex = j;
               break;
             }
@@ -534,7 +534,7 @@ qx.Class.define("qx.data.controller.Tree",
           } else {
             // add the child node
             var treeNode = this._createItem();
-            treeNode.setUserData("model", children.getItem(i));
+            treeNode.setModel(children.getItem(i));
             rootNode.addAt(treeNode, i);
             this.__addBinding(children.getItem(i), treeNode);
 
@@ -564,7 +564,7 @@ qx.Class.define("qx.data.controller.Tree",
       if (root != null) {
         this.getTarget().setRoot(null);
         this.__removeAllFolders(root);
-        this.__removeBinding(root.getUserData("model"));
+        this.__removeBinding(root.getModel());
         root.destroy();
         this.__childrenRef = {};
       }
@@ -600,7 +600,7 @@ qx.Class.define("qx.data.controller.Tree",
      */
     __removeFolder: function(treeFolder, rootNode) {
       // get the model
-      var model = treeFolder.getUserData("model");
+      var model = treeFolder.getModel();
       
       // if the model does have a child path
       if (

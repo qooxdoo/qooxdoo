@@ -339,7 +339,7 @@ qx.Class.define("qx.data.controller.List",
           for (var i = 0, l = this.__lookupTable.length; i < l; i++) {
             var modelNode = model.getItem(this.__lookup(i));
             var listItem = children[i];
-            listItem.setUserData("model", modelNode);
+            listItem.setModel(modelNode);
           }
         }
       }
@@ -489,10 +489,8 @@ qx.Class.define("qx.data.controller.List",
     __addItem: function(index) {
       // create a new ListItem
       var listItem = this._createItem();
-      // store the corresponding model element as user data
-      listItem.setUserData("model", 
-        this.getModel().getItem(this.__lookup(index))
-      );
+      // store the corresponding model element
+      listItem.setModel(this.getModel().getItem(this.__lookup(index)) || null);
       // set up the binding
       this._bindListItem(listItem, index);
       // add the ListItem to the target
@@ -567,7 +565,7 @@ qx.Class.define("qx.data.controller.List",
      */
     bindProperty: function(sourcePath, targetProperty, options, targetWidget, index) {
       // set right model to the target widget
-      targetWidget.setUserData("model", this.getModel().getItem(index));
+      targetWidget.setModel(this.getModel().getItem(index));
       
       // create the options for the binding containing the old options
       // including the old onUpdate function
@@ -621,7 +619,7 @@ qx.Class.define("qx.data.controller.List",
       
       // update the reference to the model
       var itemModel = this.getModel().getItem(this.__lookup(index));
-      targetObject.setUserData("model", itemModel);      
+      targetObject.setModel(itemModel || null);      
 
       // update the selection
       if (this.getSelection() != null) {

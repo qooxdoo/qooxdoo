@@ -147,7 +147,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
       // go through the target selection
       for (var i = 0; i < targetSelection.length; i++) {
         // get the fitting item
-        var item = targetSelection[i].getUserData("model");
+        var item = targetSelection[i].getModel();
         if (!this.getSelection().contains(item)) {
           this.getSelection().splice(this.getSelection().length, 0, item);
         }
@@ -156,7 +156,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
       // get all items selected in the list
       var targetSelectionItems = [];
       for (var i = 0; i < targetSelection.length; i++) {
-        targetSelectionItems[i] = targetSelection[i].getUserData("model");
+        targetSelectionItems[i] = targetSelection[i].getModel();
       }
       
       // go through the controller selection
@@ -231,7 +231,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
         // get all items selected in the list
         var targetSelectionItems = [];
         for (var i = 0; i < targetSelection.length; i++) {
-          targetSelectionItems[i] = targetSelection[i].getUserData("model");
+          targetSelectionItems[i] = targetSelection[i].getModel();
         }
 
         // go through the controller selection
@@ -290,7 +290,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
     
       // go through all children and search for the child to select
       for (var i = 0; i < children.length; i++) {
-        if (children[i].getUserData("model") == item) {
+        if (children[i].getModel() == item) {
           // if the target is multi selection able
           if (this.__targetSupportsMultiSelection()) {            
             // select the item in the target
