@@ -194,7 +194,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
       }
 
       // Checking active queue fill
-      if (this.__active.length >= this.getMaxConcurrentRequests() || this.__queue.length == 0) {
+      if ( this.__queue.length == 0 ||(this.__queue[0].isAsynchronous() && this.__active.length >= this.getMaxConcurrentRequests())) {
         return;
       }
 
@@ -439,7 +439,12 @@ qx.Class.define("qx.io.remote.RequestQueue",
     {
       vRequest.setState("queued");
 
-      this.__queue.push(vRequest);
+      if (vRequest.isAsynchronous()) {
+        this.__queue.push(vRequest);
+      } else {
+        this.__queue.unshift(vRequest);
+      }
+
       this._check();
 
       if (this.getEnabled()) {
