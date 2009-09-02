@@ -1,7 +1,22 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+################################################################################
 #
-# License: MIT (see LICENSE file provided)
+#  polib - library to parse and manage gettext catalogs 
+#
+#  http://code.google.com/p/polib/
+#
+#  Copyright:
+#    2006-2007 David JEAN LOUIS
+#
+#  License:
+#    MIT: http://www.opensource.org/licenses/mit-license.php
+#    See the LICENSE.txt file for details.
+#
+#  Authors:
+#    * David JEAN LOUIS
+#
+################################################################################
 # vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4:
 
 """
