@@ -672,7 +672,7 @@ qx.Class.define("qx.test.data.controller.List",
       
       var delegate = {};
       delegate.createItem = function() {
-        return new qx.ui.basic.Atom();
+        return new qx.ui.form.CheckBox();
       }
       
       delegate.bindItem = function(controller, item, id) {
@@ -686,7 +686,7 @@ qx.Class.define("qx.test.data.controller.List",
       // check the binding
       // check the binding
       for (var i = 0; i < this.__data.length; i++) {
-        this.assertEquals("qx.ui.basic.Atom", this.__list.getChildren()[i].classname);
+        this.assertEquals("qx.ui.form.CheckBox", this.__list.getChildren()[i].classname);
         var label = this.__list.getChildren()[i].getEnabled();
         this.assertEquals(this.__data[i], label, "Binding " + i + " is wrong!");
       }     
@@ -704,7 +704,7 @@ qx.Class.define("qx.test.data.controller.List",
             
       var delegate = {};
       delegate.createItem = function() {
-        return new qx.ui.basic.Atom();
+        return new qx.ui.form.CheckBox();
       }
       
       delegate.bindItem = function(controller, item, id) {
@@ -715,7 +715,7 @@ qx.Class.define("qx.test.data.controller.List",
       
       // check the binding
       for (var i = 0; i < this.__data.length; i++) {
-        this.assertEquals("qx.ui.basic.Atom", this.__list.getChildren()[i].classname);
+        this.assertEquals("qx.ui.form.CheckBox", this.__list.getChildren()[i].classname);
         var label = this.__list.getChildren()[i].getEnabled();
         this.assertEquals(this.__data[i], label, "Binding " + i + " is wrong!");
       }
