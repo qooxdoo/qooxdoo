@@ -45,7 +45,19 @@ qx.Class.define("qx.type.BaseError",
 
     this.__comment = comment || "";
     // opera 10 crashes if the message is an empty string!!!?!?!
-    this.message = failMessage || "error";
+    this.message = failMessage || qx.type.BaseError.DEFAULTMESSAGE;
+  },
+
+
+
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+  statics :
+  {
+    DEFAULTMESSAGE : "error"
   },
 
 
@@ -55,7 +67,7 @@ qx.Class.define("qx.type.BaseError",
      MEMBERS
   *****************************************************************************
   */
-
+  
   members :
   {
     __comment : null,
