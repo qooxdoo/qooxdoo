@@ -52,7 +52,6 @@ qx.Class.define("qx.test.io.remote.Request",
       if ( (qx.bom.client.Engine.WEBKIT && engineFloat < 526) 
             || (qx.bom.client.Engine.GECKO && engineString.indexOf("1.8.0") == 0 ) ) {
         this.buggyBrowser = true;
-        this.warn("Tests skipped in Safari 3/FF 1.5, see bug #2529");
       }
     },
     
@@ -104,6 +103,11 @@ qx.Class.define("qx.test.io.remote.Request",
         return;
       }
       
+      if (this.buggyBrowser) {
+        this.warn("Tests skipped in Safari 3/FF 1.5, see bug #2529");
+        return;
+      }
+      
       var completedCount = 0; 
       
       for (var i = 0; i < this.__requests.length; i++)
@@ -115,11 +119,6 @@ qx.Class.define("qx.test.io.remote.Request",
           
         request.addListener("completed", function(e)
         {
-          if (this.buggyBrowser) {
-            this.fail("Test succeeded in Safari 3 or FF 1.5, exemption can be removed!");
-            return;
-          }
-          
           completedCount++;
           
           var response = qx.util.Json.parse(e.getContent());
@@ -140,6 +139,11 @@ qx.Class.define("qx.test.io.remote.Request",
         return;
       }
       
+      if (this.buggyBrowser) {
+        this.warn("Tests skipped in Safari 3/FF 1.5, see bug #2529");
+        return;
+      }
+      
       var completedCount = 0; 
       
       for (var i = 0; i < this.__requests.length; i++)
@@ -150,11 +154,6 @@ qx.Class.define("qx.test.io.remote.Request",
           
         request.addListener("completed", function(e)
         {
-          if (this.buggyBrowser) {
-            this.fail("Test succeeded in Safari 3 or FF 1.5, exemption can be removed!");
-            return;
-          }
-          
           completedCount++;
           
           var response = qx.util.Json.parse(e.getContent());
@@ -180,6 +179,11 @@ qx.Class.define("qx.test.io.remote.Request",
         return;
       }
       
+      if (this.buggyBrowser) {
+        this.warn("Tests skipped in Safari 3/FF 1.5, see bug #2529");
+        return;
+      }
+      
       var asynchronousRequest = this.__requests[0];
       var synchronousRequest = this.__requests[1];
       
@@ -195,10 +199,6 @@ qx.Class.define("qx.test.io.remote.Request",
       {
         //this.resume(function()
         //{
-          if (this.buggyBrowser) {
-            this.fail("Test succeeded in Safari 3 or FF 1.5, exemption can be removed!");
-            return;
-          }
           asynchronousRequestFinished = true;
         
           var response = qx.util.Json.parse(e.getContent());
@@ -209,10 +209,6 @@ qx.Class.define("qx.test.io.remote.Request",
       
       synchronousRequest.addListener("completed", function(e)
       {
-        if (this.buggyBrowser) {
-          this.fail("Test succeeded in Safari 3 or FF 1.5, exemption can be removed!");
-          return;
-        }
         synchronousRequestFinished = true;
         
         var response = qx.util.Json.parse(e.getContent());
