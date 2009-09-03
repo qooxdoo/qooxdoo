@@ -34,7 +34,7 @@ qx.Class.define("qx.test.bom.Blocker",
         top: "100px",
         left: "100px",
         width: "500px",
-        height: "500px",
+        height: "400px",
         zIndex: 200
       });
       
@@ -43,7 +43,7 @@ qx.Class.define("qx.test.bom.Blocker",
 
 
     tearDown : function() {
-      
+      this.__blocker.dispose();
     },
 
     testBlockWholeDocument : function()
@@ -95,26 +95,36 @@ qx.Class.define("qx.test.bom.Blocker",
     {
       this.__blocker.block(this.__blockedElement);
       
-      var blockerElement = this.__blocker.getBlockerElement();
-      
-      this.assertNotNull(blockerElement, "Blocker element not inserted.");
-      
-      this.assertEquals(qx.bom.element.Dimension.getWidth(this.__blockedElement), qx.bom.element.Dimension.getWidth(blockerElement));
-      this.assertEquals(qx.bom.element.Dimension.getHeight(this.__blockedElement), qx.bom.element.Dimension.getHeight(blockerElement));
-      
-      this.assertEquals(qx.bom.element.Location.getLeft(this.__blockedElement), qx.bom.element.Location.getLeft(blockerElement));
-      this.assertEquals(qx.bom.element.Location.getTop(this.__blockedElement), qx.bom.element.Location.getTop(blockerElement));
-      
-      this.assertEquals(qx.bom.element.Style.get(this.__blockedElement, "zIndex") - 1, qx.bom.element.Style.get(blockerElement, "zIndex"));
-      
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
-      {
-        var childElements = qx.dom.Hierarchy.getChildElements(this.__blockedElement);
-        var blockerIframeElement = childElements[0];
-        this.assertEquals(qx.bom.element.Style.get(this.__blockedElement, "zIndex") - 2, qx.bom.element.Style.get(blockerIframeElement, "zIndex"));
-      }
+      // Timer is needed for IE6, otherwise the test will fail because IE6
+      // is not able to resize the blockerElement fast enough
+      qx.event.Timer.once(function() {
+        var self = this;
+        this.resume(function() {
+          var blockerElement = self.__blocker.getBlockerElement();
+          
+          self.assertNotNull(blockerElement, "Blocker element not inserted.");
+          
+          self.assertEquals(qx.bom.element.Dimension.getWidth(self.__blockedElement), qx.bom.element.Dimension.getWidth(blockerElement));
+          self.assertEquals(qx.bom.element.Dimension.getHeight(self.__blockedElement), qx.bom.element.Dimension.getHeight(blockerElement));
+          
+          self.assertEquals(qx.bom.element.Location.getLeft(self.__blockedElement), qx.bom.element.Location.getLeft(blockerElement));
+          self.assertEquals(qx.bom.element.Location.getTop(self.__blockedElement), qx.bom.element.Location.getTop(blockerElement));
+          
+          self.assertEquals(qx.bom.element.Style.get(self.__blockedElement, "zIndex") - 1, qx.bom.element.Style.get(blockerElement, "zIndex"));
+          
+          if (qx.core.Variant.isSet("qx.client", "mshtml"))
+          {
+            var childElements = qx.dom.Hierarchy.getChildElements(self.__blockedElement);
+            var blockerIframeElement = childElements[0];
+            self.assertEquals(qx.bom.element.Style.get(self.__blockedElement, "zIndex") - 2, qx.bom.element.Style.get(blockerIframeElement, "zIndex"));
+          }
+          
+          self.__blocker.unblock();
+        }, self);
+      }, this, 1000);
             
-      this.__blocker.unblock();
+      
+      this.wait();
     },
     
     
