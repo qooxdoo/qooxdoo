@@ -94,7 +94,8 @@ qx.Class.define("qx.ui.splitpane.Pane",
     offset :
     {
       check : "Integer",
-      init: 6
+      init : 6,
+      apply : "_applyOffset"
     },
 
     /**
@@ -206,6 +207,47 @@ qx.Class.define("qx.ui.splitpane.Pane",
     },
 
 
+    // property apply
+    _applyOffset : function(value, old)
+    {
+      var splitter = this.getChildControl("splitter")
+
+      if (old === 0)
+      {
+        // Remove listeners from splitter
+        splitter.removeListener("mousedown", this._onMouseDown, this);
+        splitter.removeListener("mousemove", this._onMouseMove, this);
+        splitter.removeListener("mouseout", this._onMouseOut, this);
+        splitter.removeListener("mouseup", this._onMouseUp, this);
+        splitter.removeListener("losecapture", this._onMouseUp, this);
+
+
+        // Add listeners to pane
+        this.addListener("mousedown", this._onMouseDown);
+        this.addListener("mouseup", this._onMouseUp);
+        this.addListener("mousemove", this._onMouseMove);
+        this.addListener("mouseout", this._onMouseOut);
+        this.addListener("losecapture", this._onMouseUp);
+      }
+
+      if (value === 0)
+      {
+        // Remove listeners from pane
+        this.removeListener("mousedown", this._onMouseDown);
+        this.removeListener("mouseup", this._onMouseUp);
+        this.removeListener("mousemove", this._onMouseMove);
+        this.removeListener("mouseout", this._onMouseOut);
+        this.removeListener("losecapture", this._onMouseUp);
+
+        // Add listeners to splitter
+        splitter.addListener("mousedown", this._onMouseDown, this);
+        splitter.addListener("mousemove", this._onMouseMove, this);
+        splitter.addListener("mouseout", this._onMouseOut, this);
+        splitter.addListener("mouseup", this._onMouseUp, this);
+        splitter.addListener("losecapture", this._onMouseUp, this);
+      }
+    },
+
 
 
     /*
@@ -299,7 +341,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
       // Enable session
       this.__activeDragSession = true;
-      this.capture();
+      e.getCurrentTarget().capture();
     },
 
 
