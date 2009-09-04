@@ -64,6 +64,16 @@ qx.Bootstrap.define("qx.bom.client.Engine",
 
     /** {Boolean} Flag to detect if the client engine version is assumed */
     UNKNOWN_VERSION: false,
+    
+    /** 
+     * {Integer|null} Flag to detect the document mode from the Internet Explorer 8
+     * 
+     * <code>null</code> The document mode is not supported.
+     * <code>5</code> Microsoft Internet Explorer 5 mode (also known as "quirks mode").
+     * <code>7</code> Internet Explorer 7 Standards mode.
+     * <code>8</code> Internet Explorer 8 Standards mode.
+     */
+    DOCUMENT_MODE : null,
 
 
     /**
@@ -142,9 +152,19 @@ qx.Bootstrap.define("qx.bom.client.Engine",
         engine = "mshtml";
         version = RegExp.$1;
 
-        // To handle the IE8 in IE7 standard mode as IE7.
-        if (version >= 8 && document.documentMode < 8) {
-          version = "7.0";
+        if (document.documentMode) {
+          this.DOCUMENT_MODE = document.documentMode;
+        }
+        
+        // If the IE8 is running in the compatibility mode, the MSIE value
+        // is set to IE7, but we need the correct verion. The only way is to
+        // compare the trident version. 
+        if (version < 8 && /Trident\/([^\);]+)(\)|;)/.test(agent)) {
+          if (RegExp.$1 === "4.0") {
+            version = "8.0";
+          } else {
+            alert("Unknown tredent version: " + RegExp.$1);
+          }
         }
 
         this.MSHTML = true;
