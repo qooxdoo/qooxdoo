@@ -107,13 +107,22 @@ qx.Class.define("demobrowser.demo.showcase.Form",
       // list
       var list = new qx.ui.form.List();
       list.setHeight(60);
-      list.setWidth(200)
+      list.setWidth(155)
       label = new qx.ui.basic.Label("List:");
       label.setBuddy(list);
       selectionGroupBox.add(label, {row: 1, column: 0});
       selectionGroupBox.add(list, {row: 1, column: 1});
       this.createItems(list);
-
+      
+      // radio button group
+      var radioButtonGroup = new qx.ui.form.RadioButtonGroup();
+      radioButtonGroup.add(new qx.ui.form.RadioButton("RadioButton 1"));
+      radioButtonGroup.add(new qx.ui.form.RadioButton("RadioButton 2"));
+      radioButtonGroup.add(new qx.ui.form.RadioButton("RadioButton 3"));            
+      label = new qx.ui.basic.Label("RadioButtonGroup:");
+      label.setBuddy(radioButtonGroup);
+      selectionGroupBox.add(label, {row: 2, column: 0});
+      selectionGroupBox.add(radioButtonGroup, {row: 2, column: 1});
       
 
 
@@ -189,13 +198,9 @@ qx.Class.define("demobrowser.demo.showcase.Form",
       booleanGroupBox.add(checkBox, {row: 0, column: 1});
 
       // radio button
-      var radioButton1 = new qx.ui.form.RadioButton("RadioButton 1");
-      var radioButton2 = new qx.ui.form.RadioButton("RadioButton 2");
-      var radioButtonGroup = new qx.ui.form.RadioButtonGroup();
-      radioButtonGroup.add(radioButton1);
-      radioButtonGroup.add(radioButton2);
+      var radioButton = new qx.ui.form.RadioButton("RadioButton");
       booleanGroupBox.add(new qx.ui.basic.Label("RadioButtons:"), {row: 1, column: 0});
-      booleanGroupBox.add(radioButtonGroup, {row: 1, column: 1});
+      booleanGroupBox.add(radioButton, {row: 1, column: 1});
       
       
           
@@ -206,7 +211,7 @@ qx.Class.define("demobrowser.demo.showcase.Form",
       var numberGroupBox = new qx.ui.groupbox.GroupBox("Number");
       numberGroupBox.setLayout(new qx.ui.layout.Grid(8, 8));
       numberGroupBox.setWidth(210);
-      this.getRoot().add(numberGroupBox, {left: 330, top: 320});           
+      this.getRoot().add(numberGroupBox, {left: 330, top: 310});           
 
       // spinner
       var spinner = new qx.ui.form.Spinner(0, 50, 100);
