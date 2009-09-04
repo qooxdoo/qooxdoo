@@ -58,8 +58,10 @@ qx.Mixin.define("qx.ui.form.MModelSelection",
      */
     setModelSelection : function(modelSelection) 
     {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        this.assertArray(modelSelection, "Please use an array as parameter.");
+      }
       var selectables = this.getSelectables();
-      
       var itemSelection = [];
       
       for (var i = 0; i < modelSelection.length; i++) {
