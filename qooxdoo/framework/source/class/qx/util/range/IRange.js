@@ -48,6 +48,11 @@ qx.Interface.define("qx.util.range.IRange",
 
   members :
   {
+    /**
+     * Limits the given value according to the set properties.
+     * 
+     * @param value {Number} The value to limit.
+     */
     limit : function(value)
     {
       return true;
