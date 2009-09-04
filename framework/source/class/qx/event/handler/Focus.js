@@ -819,8 +819,25 @@ qx.Class.define("qx.event.handler.Focus",
           // Is we have a focusTarget we need to manually focus
           // it as the event is already prevented to be processed
           // by the browser
-          if (focusTarget) {
-            focusTarget.focus();
+          if (focusTarget)
+          {
+            var performFocus = true;
+            
+            // do not perform the focus if the focusTarget is a root element
+            // (qx.ui.root.Page in this case) since Gecko scrolls to the top in
+            // this scenario.
+            // Setting the root widget as unfocusable is not an option because
+            // it breaks the core eventhandler code
+            // see Bug #2740
+            if (qx.core.Variant.isSet("qx.client", "gecko"))
+            {
+              var isElementOfRootPage = qx.bom.element.Attribute.get(focusTarget, "qxIsRootPage") == 1;
+              performFocus = !isElementOfRootPage;
+            }
+            
+            if (performFocus) {
+              focusTarget.focus();
+            }
           }
         }
         else if (!focusTarget)
