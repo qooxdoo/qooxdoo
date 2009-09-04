@@ -46,7 +46,7 @@ qx.Class.define("demobrowser.demo.bom.Client",
         {
           if (/^[A-Z_0-9]+$/.test(key)) {
             output.add("<tr><td>", key, "</td><td>",
-              classes[i][key], "</td></tr>");
+              new String(classes[i][key]).toString(), "</td></tr>");
           }
         }
         output.add("<tr><td colspan='2'>&nbsp;</td></tr>");
