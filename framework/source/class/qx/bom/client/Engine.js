@@ -162,8 +162,6 @@ qx.Bootstrap.define("qx.bom.client.Engine",
         if (version < 8 && /Trident\/([^\);]+)(\)|;)/.test(agent)) {
           if (RegExp.$1 === "4.0") {
             version = "8.0";
-          } else {
-            alert("Unknown tredent version: " + RegExp.$1);
           }
         }
 
