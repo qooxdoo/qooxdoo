@@ -821,8 +821,6 @@ qx.Class.define("qx.event.handler.Focus",
           // by the browser
           if (focusTarget)
           {
-            var performFocus = true;
-            
             // do not perform the focus if the focusTarget is a root element
             // (qx.ui.root.Page in this case) since Gecko scrolls to the top in
             // this scenario.
@@ -831,11 +829,11 @@ qx.Class.define("qx.event.handler.Focus",
             // see Bug #2740
             if (qx.core.Variant.isSet("qx.client", "gecko"))
             {
-              var isElementOfRootPage = qx.bom.element.Attribute.get(focusTarget, "qxIsRootPage") == 1;
-              performFocus = !isElementOfRootPage;
-            }
-            
-            if (performFocus) {
+              var isElementOfRootPage = qx.bom.element.Attribute.get(focusTarget, "qxIsRootPage") === "1";
+              if (!isElementOfRootPage) {
+                focusTarget.focus();
+              }
+            } else {
               focusTarget.focus();
             }
           }
