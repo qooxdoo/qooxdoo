@@ -912,6 +912,22 @@ qx.Class.define("qx.test.html.Element",
       qx.html.Element.flush();
       
       this.assertEquals(el.getTextSelection(), "");
+    },
+    
+    testSelectAllText : function()
+    {
+      var el = new qx.html.Element("input");
+      el.setAttribute("value", "vanillebaer");
+      this._doc.add(el);
+      
+      qx.html.Element.flush();
+      qx.bom.Selection.set(el.getDomElement(), 0);
+      qx.html.Element.flush();
+      
+      this.assertEquals(el.getTextSelection(), "vanillebaer");
+      
+      el.clearTextSelection();
+      qx.html.Element.flush();
     }
   }
 });
