@@ -397,7 +397,7 @@ class QxTest:
       else:  
         # generate the application
         buildcmd = os.path.join(buildConf["stageDir"], target + "application", "generate.py")
-        status, std, err = invokePiped(buildcmd + " buildBLARG")
+        status, std, err = invokePiped(buildcmd + " build")
 
         if err != "":          
           self.logBuildErrors(buildLogFile, target, buildcmd, err)              
