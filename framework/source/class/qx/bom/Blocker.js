@@ -342,9 +342,14 @@ qx.Class.define("qx.bom.Blocker",
         // reset the blocker to get the right calculated document dimension
         this.__resizeBlocker({ width: "0px", height: "0px" });
         
-        var dimension = { width: qx.bom.Document.getWidth() + "px",
+        // If the HTML document is very large, the getWidth() and getHeight()
+        // returns the old size (it seems that the rendering engine is to slow).
+        qx.event.Timer.once(function()
+        {
+          var dimension = { width: qx.bom.Document.getWidth() + "px",
                           height: qx.bom.Document.getHeight() + "px" };
-        this.__resizeBlocker(dimension);
+          this.__resizeBlocker(dimension);
+        }, this, 0);
       }
     },
     
