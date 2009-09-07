@@ -947,6 +947,13 @@ qx.Class.define("qx.event.handler.Focus",
           target.unselectable = "off";
         }
 
+        // Bug fix for bug #2602
+        var focusedElement = this.getFocus();
+        if (focusedElement && target != focusedElement && 
+            focusedElement.nodeName.toLowerCase() === "input") {
+          target = focusedElement;
+        }
+        
         this.tryActivate(target);
       },
 
