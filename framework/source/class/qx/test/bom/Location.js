@@ -149,8 +149,11 @@ qx.Class.define("qx.test.bom.Location",
     	var div2 = document.getElementById("div2");
       var pos = qx.bom.element.Location.get(div2);
       this.assertEquals(5 + 2 + 3 + 5, pos.left, "left2");
+      
       var badIE = qx.bom.client.Engine.MSHTML && 
-        (qx.bom.client.Engine.VERSION < 8 || qx.bom.client.Feature.QUIRKS_MODE);
+        (qx.bom.client.Engine.VERSION < 8 || qx.bom.client.Feature.QUIRKS_MODE ||
+         qx.bom.client.Engine.DOCUMENT_MODE === 7);
+         
       if (badIE) {
         this.assertEquals(12, pos.top, "top2 (IE)");  
       } else {
@@ -188,7 +191,9 @@ qx.Class.define("qx.test.bom.Location",
       this.assertEquals(10 + 5 + 2 + 3 + 5, pos.left, "left2");
       
       var badIE = qx.bom.client.Engine.MSHTML && 
-        (qx.bom.client.Engine.VERSION < 8 || qx.bom.client.Feature.QUIRKS_MODE);
+        (qx.bom.client.Engine.VERSION < 8 || qx.bom.client.Feature.QUIRKS_MODE ||
+         qx.bom.client.Engine.DOCUMENT_MODE === 7);
+         
       if (badIE) {
         this.assertEquals(10 + 5 + 2 + 5, pos.top, "top2 (IE)");        
       } else  {
@@ -256,8 +261,11 @@ qx.Class.define("qx.test.bom.Location",
     	var relative1 = document.getElementById("relative1");
       var pos = qx.bom.element.Location.get(relative1);
       this.assertEquals(405 + 2 + 3 + 50 + 5, pos.left);
+      
       var badIE = qx.bom.client.Engine.MSHTML && 
-        (qx.bom.client.Engine.VERSION < 8 || qx.bom.client.Feature.QUIRKS_MODE);
+        (qx.bom.client.Engine.VERSION < 8 || qx.bom.client.Feature.QUIRKS_MODE ||
+         qx.bom.client.Engine.DOCUMENT_MODE === 7);
+        
       if (badIE) {
         this.assertEquals(362, pos.top, "top2 (IE)");
       } else {
