@@ -1846,10 +1846,91 @@ qx.Class.define("qx.html.Element",
      *
      * If the underlaying DOM element is not yet created, this methods returns
      * a null value.
-     *
+     * 
+     * @deprecated Use public method 'getTextSelection' instead
      * @return {String|null}
      */
     getSelection : function()
+    {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use public 'getTextSelection' instead!"
+      );
+      
+      return this.getTextSelection();
+    },
+
+
+    /**
+     * Get the length of selection of the element.
+     *
+     * If the underlaying DOM element is not yet created, this methods returns
+     * a null value.
+     *
+     * @deprecated Use public method 'getTextSelectionLength' instead
+     * @return {Integer|null}
+     */
+    getSelectionLength : function()
+    {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use public 'getTextSelectionLength' instead!"
+      );
+      
+      return this.getTextSelectionLength();
+    },
+
+
+    /**
+     * Set the selection of the element with the given start and end value.
+     * If no end value is passed the selection will extend to the end.
+     *
+     * This method only works if the underlying DOM element is already created.
+     * 
+     * @deprecated Use public method 'setTextSelection' instead
+     * @param start {Integer} start of the selection (zero based)
+     * @param end {Integer} end of the selection
+     * @return {void}
+     */
+    setSelection : function(start, end)
+    {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use public 'setTextSelection' instead!"
+      );
+      
+      this.setTextSelection();
+    },
+
+
+    /**
+     * Clears the selection of the element.
+     *
+     * This method only works if the underlying DOM element is already created.
+     * 
+     * @deprecated Use public method 'clearTextSelection' instead
+     * @return {void}
+     */
+    clearSelection : function()
+    {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use public 'clearTextSelection' instead!"
+      );
+      
+      this.clearTextSelection();
+    },
+    
+    
+    /**
+     * Get the selection of the element.
+     *
+     * If the underlaying DOM element is not yet created, this methods returns
+     * a null value.
+     *
+     * @return {String|null}
+     */
+    getTextSelection : function()
     {
       var el = this.__element;
       if (el) {
@@ -1868,7 +1949,7 @@ qx.Class.define("qx.html.Element",
      *
      * @return {Integer|null}
      */
-    getSelectionLength : function()
+    getTextSelectionLength : function()
     {
       var el = this.__element;
       if (el) {
@@ -1889,7 +1970,7 @@ qx.Class.define("qx.html.Element",
      * @param end {Integer} end of the selection
      * @return {void}
      */
-    setSelection : function(start, end)
+    setTextSelection : function(start, end)
     {
       var el = this.__element;
       if (el) {
@@ -1914,7 +1995,7 @@ qx.Class.define("qx.html.Element",
      *
      * @return {void}
      */
-    clearSelection : function()
+    clearTextSelection : function()
     {
       var el = this.__element;
       if (el) {
