@@ -170,8 +170,7 @@ qx.Class.define("qx.bom.Selection",
         var rng;
 
         // if the node is the document itself then work on with the body element
-        if (qx.dom.Node.isDocument(node))
-        {
+        if (qx.dom.Node.isDocument(node)) {
           node = node.body;
         }
 
@@ -193,7 +192,7 @@ qx.Class.define("qx.bom.Selection",
                 rng.collapse(true);
 
                 rng.moveStart("character", start);
-                rng.moveEnd("character", end);
+                rng.moveEnd("character", end - start);
                 rng.select();
 
                 return true;
@@ -216,7 +215,7 @@ qx.Class.define("qx.bom.Selection",
                 rng.collapse(true);
 
                 rng.moveStart("character", start);
-                rng.moveEnd("character", end);
+                rng.moveEnd("character", end - start);
                 rng.select();
 
                 return true;
