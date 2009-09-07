@@ -362,6 +362,42 @@ qx.Class.define("qx.test.data.singlevalue.Array",
       
       model.getChild().dispose();
       model.dispose();
+    },
+    
+    
+    testDirect : function() 
+    {
+      // bind the first element of the array
+      qx.data.SingleValueBinding.bind(this.__a.getArray(), "[0]", this.__label, "value");
+
+      // check the binding
+      this.assertEquals("one", this.__label.getValue(), "[0] binding does not work!");
+      // change the value
+      this.__a.getArray().setItem(0, "ONE");
+      this.assertEquals("ONE", this.__label.getValue(), "[0] binding does not work!");      
+    },
+    
+    
+    testChildrenDirect : function() 
+    {
+      // create the objects
+      this.__a.getChildren().push(this.__b1);
+      this.__a.getChildren().push(this.__b2);
+
+      // bind the element
+      qx.data.SingleValueBinding.bind(this.__a.getChildren(), "[0].name", this.__label, "value");
+      // check the binding
+      this.assertEquals("b1", this.__label.getValue(), "[0].name binding does not work!");
+
+      // remove the first element
+      this.__a.getChildren().shift();
+      // check the binding
+      this.assertEquals("b2", this.__label.getValue(), "[0].name binding does not work!");
+
+      // change the name of b2
+      this.__b2.setName("AFFE");
+      // check the binding
+      this.assertEquals("AFFE", this.__label.getValue(), "[0].name binding does not work!");
     }
 
   }
