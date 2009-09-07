@@ -876,6 +876,12 @@ qx.Class.define("qx.io.remote.Exchange",
             break;
           }
 
+          // Disable future timeouts in case user handler blocks
+          var vRequest = this.getRequest();
+          if (vRequest) {
+            vRequest.setTimeout(0);
+          }
+
           if (this.hasListener(value))
           {
             var vResponse = qx.event.Registration.createEvent(value, qx.io.remote.Response);
