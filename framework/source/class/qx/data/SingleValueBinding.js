@@ -540,15 +540,24 @@ qx.Class.define("qx.data.SingleValueBinding",
             }
           }
 
-          // store the property name without the array notation
-          propertyNames[i] = name.substring(0, name.indexOf("["));
-          // store the values in the array for the current iteration
-          arrayIndexValues[i] = "";
-          // store the properties for the next iteration (the item of the array)
-          arrayIndexValues[i + 1] = arrayIndex;
-          propertyNames.splice(i + 1, 0, "item");
-          // skip the next iteration. its the array item and its already set
-          i++;
+          // if a property is infront of the array notation
+          if (name.indexOf("[") != 0) {
+            // store the property name without the array notation
+            propertyNames[i] = name.substring(0, name.indexOf("["));
+            // store the values in the array for the current iteration
+            arrayIndexValues[i] = "";
+            // store the properties for the next iteration (the item of the array)
+            arrayIndexValues[i + 1] = arrayIndex;
+            propertyNames.splice(i + 1, 0, "item");
+            // skip the next iteration. its the array item and its already set
+            i++;   
+          // it the array notation is the beginning         
+          } else {
+            // store the array index and override the entry in the property names
+            arrayIndexValues[i] = arrayIndex;
+            propertyNames.splice(i, 1, "item");
+          }
+
         } else {
           arrayIndexValues[i] = "";
         }
