@@ -79,9 +79,9 @@ class QxTest:
     self.logFile.write("################################################################################\n")
     self.log("Starting " + self.testType + " test session.")    
 
-    if (self.testType == "local"):
+    if self.testType == "local":
       self.getLocalRevision()
-    else:
+    elif self.testType == "remote":
       self.getRemoteRevision()
       self.getRemoteBuildStatus()
     
@@ -300,7 +300,7 @@ class QxTest:
   
   
   ##
-  # Starts the SVN udpdate/build process for one or more targets. Logs errors
+  # Starts the SVN update/build process for one or more targets. Logs errors
   # during build and writes the current trunk revision number and build status
   # to files.
   #
@@ -342,7 +342,7 @@ class QxTest:
           else:
             # Start build, only log errors
             status, std, err = invokePiped(cmd)
-            if (status > 0):
+            if err != "":
               self.logBuildErrors(buildLogFile, target, cmd, err)
               
               self.buildStatus[target]["BuildError"] = "Unknown build error"
@@ -364,6 +364,45 @@ class QxTest:
 
     self.trunkrev = self.getLocalRevision()
     self.storeRevision()
+    self.storeBuildStatus()
+    
+    
+  ##
+  # Generates one or more application skeletons. Logs any 
+  # errors encountered during the build and stores the build status.
+  #
+  # @param buildConf {dict} Build configuration. Must have a key "targets" 
+  # containing an array of qooxdoo application types, e.g. "bom", "gui", "inline"
+  def buildSkeletonApps(self, buildConf):
+    self.log("Building skeleton applications")
+    
+    if not os.path.isdir(buildConf["buildLogDir"]):
+      self.log("Creating build log directory %s" %buildConf["buildLogDir"])
+      os.mkdir(buildConf["buildLogDir"])
+    
+    for target in buildConf["targets"]:
+      self.buildStatus[target] = {
+        "BuildError"  : False
+      }
+      # generate the skeleton
+      buildLogFile = self.getBuildLogFile(buildConf["buildLogDir"], target)
+      cmd = buildConf["createApplication"] + " --type " + target 
+      cmd += " --name " + target + "application" 
+      #cmd += " --logfile " + buildLogFile.name
+      cmd += " --out " + buildConf["stageDir"]
+      status, std, err = invokePiped(cmd)
+      if err != "":
+        self.logBuildErrors(buildLogFile, target, cmd, err)
+        self.buildStatus[target]["BuildError"] = err
+      else:  
+        # generate the application
+        buildcmd = os.path.join(buildConf["stageDir"], target + "application", "generate.py")
+        status, std, err = invokePiped(buildcmd + " buildBLARG")
+
+        if err != "":          
+          self.logBuildErrors(buildLogFile, target, buildcmd, err)              
+          self.buildStatus[target]["BuildError"] = "Unknown build error"
+    
     self.storeBuildStatus()
 
   ##
@@ -715,7 +754,7 @@ class QxTest:
         self.sendReport(appConf['appName'], reportFile)
         
     if "reportServerUrl" in self.testConf:
-      self.reportResults(appConf['appName'], testStartDate, reportFile)
+      self.reportResults(appConf['appName'], testStartDate, logFile)
 
 
   ##
@@ -781,7 +820,7 @@ class QxTest:
     return cmd
 
 
-  def reportResults(self, aut, start_date, report_file):
+  def reportResults(self, aut, start_date, log_file):
     import simulationLogParser
     
     if (self.sim):
@@ -795,7 +834,7 @@ class QxTest:
     from urllib import urlencode
     testRunDict = self.getTestRunDict(aut, start_date)
     
-    simulationData = simulationLogParser.parse(report_file)
+    simulationData = simulationLogParser.parse(log_file)
     testRunDict["simulations"] = simulationData
     
     testRunJson = simplejson.dumps(testRunDict)
@@ -803,6 +842,8 @@ class QxTest:
     self.log("Report data aggregated, sending request")
     postdata = urlencode({"testRun": testRunJson})  
     req = Request(self.testConf["reportServerUrl"], postdata)
+    
+    print(postdata)
     
     try:
       response = urlopen(req)
@@ -841,11 +882,15 @@ class QxTest:
       "test_hostid" : "",
       "start_date" : start_date,
       "end_date" : time.strftime(self.timeFormat),
-      "simulations": []
+      "simulations": [],
+      "dev_run" : True
     }
     
     if "hostId" in self.mailConf:
       testRun["test_hostid"] = self.mailConf["hostId"]
+    
+    if ("webtechnologies" in self.mailConf["mailTo"]):
+      testRun["dev_run"] = False
     
     return testRun
 
@@ -1150,6 +1195,7 @@ class QxTest:
     if not configFilePath or not newConfig:
       raise Exception("Missing parameter for editJobConfig!")
     
+    self.log("Editing config file " + configFilePath)
     configFile = codecs.open(configFilePath, 'r', 'utf-8')
     configJson = configFile.read()
     configFile.close()
@@ -1164,7 +1210,7 @@ class QxTest:
     print("Writing new config to file: " + configFilePath)
     configFile.write(newConfigJson)
 
-  
+    
   def mergeDict(self, oldDict, newDict):
     for key, value in newDict.iteritems():
       if not key in oldDict:
@@ -1175,6 +1221,84 @@ class QxTest:
           self.mergeDict(oldDict[key], value)
         else:
           oldDict[key] = value
+
+
+  ##
+  # Download a file and save it in a local directory.
+  #
+  # @param url {str} URL of the file to be downloaded
+  # @param dir {str} Directory to save the file in. Will be created if it 
+  # doesn't exist.
+  def download(self, url, dir):
+    import urllib
+    try:
+      webFile = urllib.urlopen(url)
+    except IOError, e:
+      self.logError(e, "Downloading file " + url)
+      return
+    
+    try:
+      if not os.path.isdir(dir):
+        os.mkdir(dir)
+    except Exception, e:
+      self.logError(e, "Creating directory " + dir)
+    
+    filename = url.split('/')[-1]
+    localDir = os.path.join(dir, filename)
+    
+    try:
+      localFile = open(localDir, 'w')
+      localFile.write(webFile.read())
+      webFile.close()
+      localFile.close()
+    except Exception, e:
+      self.logError(e, "Writing downloaded file to " + localDir)
+      return
+    
+    self.log("Downloaded file " + url + " to dir " + dir)
+    return localDir
+
+  ##
+  # Extract a ZIP-compressed archive into a given directory.   
+  #
+  # @param file {str} Path to the ZIP archive or alternatively a file-like object.
+  # @param dir {str} Directory to unpack the file into. Will be created if it 
+  # doesn't exist.
+  def unzipToDir(self, file, dir):
+    import zipfile
+    try:
+      if not os.path.isdir(dir):
+        os.mkdir(dir)
+    except Exception, e:
+      self.logError(e, "Creating directory " + dir)
+      
+    zfobj = zipfile.ZipFile(file)
+    
+    # The first entry in the zip file's name list is the top qooxdoo directory
+    topDirName = zfobj.namelist()[0]
+    topDir = os.path.join(dir, topDirName)
+    
+    # If the top directory already exists, recursively delete it  
+    if os.path.isdir(topDir):
+      self.log("Deleting directory %s" %topDir)
+      for root, dirs, files in os.walk(topDir, topdown=False):
+        for name in files:
+          print(name)
+          os.remove(os.path.join(root, name))
+        for name in dirs:
+          print(name)
+          os.rmdir(os.path.join(root, name))
+
+    # Write the zip file's contents    
+    for name in zfobj.namelist():
+      if name.endswith('/'):
+        os.mkdir(os.path.join(dir, name))
+      else:
+        outfile = open(os.path.join(dir, name), 'wb')
+        outfile.write(zfobj.read(name))
+        outfile.close()
+    
+    return topDir
 
 
 ##
@@ -1256,4 +1380,3 @@ def sendMultipartMail(configuration):
   mailServer.ehlo()
   mailServer.sendmail(configuration['mailFrom'], configuration['mailTo'], msg.as_string())
   mailServer.close()
-
