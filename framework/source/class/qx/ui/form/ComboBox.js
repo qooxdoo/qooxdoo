@@ -468,10 +468,98 @@ qx.Class.define("qx.ui.form.ComboBox",
      * This method only works if the widget is already created and
      * added to the document.
      *
+     * @deprecated Use public method 'getTextSelection' instead
      * @return {String|null}
      */
     getSelection : function() {
-      return this.getChildControl("textfield").getSelection();
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use public 'getTextSelection' instead!"
+      );
+
+      return this.getTextSelection();
+    },
+
+
+    /**
+     * Returns the current selection length.
+     * This method only works if the widget is already created and
+     * added to the document.
+     * 
+     * @deprecated Use public method 'getTextSelectionLength' instead
+     * @return {Integer|null}
+     */
+    getSelectionLength : function() {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use public 'getTextSelectionLength' instead!"
+      );
+      return this.getTextSelectionLength();
+    },
+
+
+    /**
+     * Set the selection to the given start and end (zero-based).
+     * If no end value is given the selection will extend to the
+     * end of the textfield's content.
+     * This method only works if the widget is already created and
+     * added to the document.
+     *
+     * @deprecated Use public method 'setTextSelection' instead
+     * @param start {Integer} start of the selection (zero-based)
+     * @param end {Integer} end of the selection
+     * @return {void}
+     */
+    setSelection : function(start, end) {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use public 'setTextSelection' instead!"
+      );
+      this.setTextSelection(start, end);
+    },
+
+
+    /**
+     * Clears the current selection.
+     * This method only works if the widget is already created and
+     * added to the document.
+     * 
+     * @deprecated Use public method 'clearTextSelection' instead
+     * @return {void}
+     */
+    clearSelection : function() {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use public 'clearTextSelection' instead!"
+      );
+      this.clearTextSelection();
+    },
+
+
+    /**
+     * Selects the whole content
+     * 
+     * @deprecated Use public method 'selectAllText' instead
+     * @return {void}
+     */
+    selectAll : function() {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use public 'selectAllText' instead!"
+      );
+      this.selectAllText();
+    },
+    
+    
+    /**
+     * Returns the current selection.
+     * This method only works if the widget is already created and
+     * added to the document.
+     *
+     * @return {String|null}
+     */
+    getTextSelection : function() {
+      return this.getChildControl("textfield").getTextSelection();
     },
 
 
@@ -482,8 +570,8 @@ qx.Class.define("qx.ui.form.ComboBox",
      *
      * @return {Integer|null}
      */
-    getSelectionLength : function() {
-      return this.getChildControl("textfield").getSelectionLength();
+    getTextSelectionLength : function() {
+      return this.getChildControl("textfield").getTextSelectionLength();
     },
 
 
@@ -498,8 +586,8 @@ qx.Class.define("qx.ui.form.ComboBox",
      * @param end {Integer} end of the selection
      * @return {void}
      */
-    setSelection : function(start, end) {
-      this.getChildControl("textfield").setSelection(start, end);
+    setTextSelection : function(start, end) {
+      this.getChildControl("textfield").setTextSelection(start, end);
     },
 
 
@@ -510,8 +598,8 @@ qx.Class.define("qx.ui.form.ComboBox",
      *
      * @return {void}
      */
-    clearSelection : function() {
-      this.getChildControl("textfield").clearSelection();
+    clearTextSelection : function() {
+      this.getChildControl("textfield").clearTextSelection();
     },
 
 
@@ -520,8 +608,8 @@ qx.Class.define("qx.ui.form.ComboBox",
      *
      * @return {void}
      */
-    selectAll : function() {
-      this.getChildControl("textfield").selectAll();
+    selectAllText : function() {
+      this.getChildControl("textfield").selectAllText();
     }
   }
 });
