@@ -551,6 +551,7 @@ qx.Class.define("qx.legacy.html.Location",
 
         // We need to subtract the scroll position of all
         // parent containers (bug #186229).
+        var screenX;
         var sum = 0;
         var p = el.parentNode;
 
@@ -560,7 +561,15 @@ qx.Class.define("qx.legacy.html.Location",
           p = p.parentNode;
         }
 
-        return el.ownerDocument.getBoxObjectFor(el).screenX - sum;
+        // for Firefox 3.6+
+        // See Bug #2232
+        if (window.mozInnerScreenX) {
+          screenX = window.mozInnerScreenX;
+        } else {
+          screenX = el.ownerDocument.getBoxObjectFor(el).screenX;
+        }
+        
+        return screenX - sum;
       },
 
       "default" : function(el) {
@@ -583,6 +592,7 @@ qx.Class.define("qx.legacy.html.Location",
       {
         // We need to subtract the scroll position of all
         // parent containers (bug #186229).
+        var screenY;
         var sum = 0;
         var p = el.parentNode;
 
@@ -592,7 +602,15 @@ qx.Class.define("qx.legacy.html.Location",
           p = p.parentNode;
         }
 
-        return el.ownerDocument.getBoxObjectFor(el).screenY - sum;
+        // for Firefox 3.6+
+        // See Bug #2232
+        if (window.mozInnerScreenY) {
+          screenY = window.mozInnerScreenY;
+        } else {
+          screenY = el.ownerDocument.getBoxObjectFor(el).screenY;
+        }
+        
+        return screenY - sum;
       },
 
       "default" : function(el) {
