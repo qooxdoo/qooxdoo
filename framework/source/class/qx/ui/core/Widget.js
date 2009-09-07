@@ -992,6 +992,9 @@ qx.Class.define("qx.ui.core.Widget",
         var insets = this.getInsets();
         var innerWidth = width - insets.left - insets.right;
         var innerHeight = height - insets.top - insets.bottom;
+        // ensure that the width and height never get negative
+        innerWidth = innerWidth < 0 ? 0 : innerWidth;
+        innerHeight = innerHeight < 0 ? 0 : innerHeight;
       }
 
       if (this.__updateInsets)
