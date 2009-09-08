@@ -485,7 +485,7 @@ qx.Class.define("playground.Application",
         this.code = this.textarea.getValue();
       }
 
-      this.code = 'this.info("' + this.tr("Starting application") + 
+      this.code = 'this.info("' + this.tr("Starting application") +
         ' ...");\n' + this.code +
         'this.info("' + this.tr("Successfully started") + '.");\n';
 

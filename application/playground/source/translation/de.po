@@ -27,67 +27,66 @@ msgstr "%1 (geändert)"
 msgid "Starting application"
 msgstr "Starte Anwendung"
 
-#: playground/Application.js:491
+#: playground/Application.js:490
 msgid "Successfully started"
 msgstr "Anwendung gestartet"
 
-#: playground/Application.js:511
+#: playground/Application.js:510
 msgid "Unfortunately, an unrecoverable internal error was caused by your code. This may prevent the playground application to run properly.||Please copy your code, restart the playground and paste your code.||"
 msgstr "Leider ist bei der Ausführung Ihres Codes ein Fehler aufgetreten, der nicht abgefangen werden konnte. Die Playground-Anwendung muss neu gestartet werden.||Bitte kopieren Sie Ihren Quelltext in die Zwischenablage,|und fügen Sie diesen nach einem Neustart des Playgrounds wieder ein.||"
 
-#: playground/Application.js:575
+#: playground/Application.js:572
 msgid "You changed the code of the current sample.|Click OK to discard your changes."
 msgstr "Der Quelltext des aktuellen Beispiels wurde verändert.|Bitte wählen Sie OK, um die Änderungen zu verwerfen."
 
-#: playground/Application.js:745 playground/Application.js:855
+#: playground/Application.js:742 playground/Application.js:852
 msgid "Log"
 msgstr "Log"
 
-#: playground/Application.js:798
+#: playground/Application.js:795
 msgid "Playground"
 msgstr "Playground"
 
-#: playground/Application.js:801
+#: playground/Application.js:798
 msgid "qooxdoo %1"
 msgstr "qooxdoo %1"
 
-#: playground/Application.js:825
+#: playground/Application.js:822
 msgid "Run"
 msgstr "Ausführen"
 
-#: playground/Application.js:829
+#: playground/Application.js:826
 msgid "Run the source code"
 msgstr "Den Quelltext ausführen"
 
-#: playground/Application.js:832
+#: playground/Application.js:829
 msgid "Samples"
 msgstr "Beispiele"
 
-#: playground/Application.js:835
+#: playground/Application.js:832
 msgid "Select a sample"
 msgstr "Wählen Sie ein Beispiel aus"
 
-#: playground/Application.js:838
+#: playground/Application.js:835
 msgid "Syntax Highlighting"
 msgstr "Syntax Highlighting"
 
-#: playground/Application.js:858
+#: playground/Application.js:855
 msgid "Show log output"
 msgstr "Logausgaben anzeigen"
 
-#: playground/Application.js:861
+#: playground/Application.js:858
 msgid "API Viewer"
 msgstr "API Viewer"
 
-#: playground/Application.js:864
+#: playground/Application.js:861
 msgid "Open the qooxdoo API Viewer"
 msgstr "Öffnet den API-Viewer"
 
-#: playground/Application.js:867
+#: playground/Application.js:864
 msgid "Manual"
 msgstr "Handbuch"
 
-#: playground/Application.js:870
+#: playground/Application.js:867
 msgid "Open the qooxdoo Manual"
 msgstr "Öffnet das Handbuch"
-
