@@ -44,7 +44,7 @@ qx.Class.define("testrunner.test.DemoTest",
     /**
      * Here are some more advanced tests
      */
-    testAdvanced: function () 
+    testAdvanced: function ()
     {
       var a = 3;
       var b = a;

@@ -53,7 +53,7 @@ qx.Class.define("testrunner.runner.Application",
       // Initialize the viewer
       this.viewer = new testrunner.runner.TestRunner;
 
-      this.getRoot().add(this.viewer, {edge:0});      
+      this.getRoot().add(this.viewer, {edge:0});
 
       // Load data file
       qx.event.Timer.once(this.__load, this, 0);

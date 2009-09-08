@@ -64,18 +64,18 @@ qx.Class.define("testrunner.runner.TestRunner",
     if (history.getState()) {
       this.__setCurrentTestArray(history.getState());
     }
-    // then look for a "testclass" URI parameter    
+    // then look for a "testclass" URI parameter
     else if (params.indexOf("testclass=") > 0 ) {
       var uri = params.substr(params.indexOf("testclass=") + 10);
       this.__setCurrentTestArray(uri);
       this.nameSpace = uri;
     }
     // finally check for the cookie
-    else {            
+    else {
       var cookieSelection = qx.bom.Cookie.get("selectedTest");
       if (cookieSelection !== null) {
         this.__setCurrentTestArray(cookieSelection);
-      }  
+      }
     }
 
     var layout = new qx.ui.layout.VBox().set({
@@ -122,7 +122,7 @@ qx.Class.define("testrunner.runner.TestRunner",
 
     left.setUserData("pane", "left");
     left.addListener("resize", this.__onPaneResize);
-    
+
     this.left = left;
     this.mainsplit.add(left, 0);
 
@@ -177,19 +177,19 @@ qx.Class.define("testrunner.runner.TestRunner",
       init  : 0,
       apply : "_applyQueCnt"
     },
-    
+
     stopped :
     {
       check : "Boolean",
       init  : false
     },
-    
+
     logLevel :
     {
       check : ["debug", "info", "warn", "error"],
       init  : "debug"
     },
-    
+
     currentTest :
     {
       check : "Array",
@@ -206,21 +206,21 @@ qx.Class.define("testrunner.runner.TestRunner",
 
   statics :
   {
-    TREEICONS : 
+    TREEICONS :
     {
       "package" : "testrunner/image/package18_grey.gif",
       "class" : "testrunner/image/class18_grey.gif",
       "test" : "testrunner/image/method_public18_grey.gif"
     },
-    
-    TREEICONSOK : 
+
+    TREEICONSOK :
     {
       "package" : "testrunner/image/package18.gif",
       "class" : "testrunner/image/class18.gif",
       "test" : "testrunner/image/method_public18.gif"
     },
-    
-    TREEICONSERROR : 
+
+    TREEICONSERROR :
     {
       "package" : "testrunner/image/package_warning18.gif",
       "class" : "testrunner/image/class_warning18.gif",
@@ -262,7 +262,7 @@ qx.Class.define("testrunner.runner.TestRunner",
      * Progress bar instance.
      */
     __progress : null,
-    
+
     /** This one is called by Application.js
      */
     load : function() {
@@ -302,11 +302,11 @@ qx.Class.define("testrunner.runner.TestRunner",
       toolbar.add(part1);
 
       // -- run button
-      this.runbutton = new qx.ui.toolbar.Button(this.tr('<b>Run&nbsp;Tests!</b>'), "icon/22/actions/media-playback-start.png");    
+      this.runbutton = new qx.ui.toolbar.Button(this.tr('<b>Run&nbsp;Tests!</b>'), "icon/22/actions/media-playback-start.png");
       this.runbutton.setTextColor("#36a618");
       this.runbutton.setRich(true);
       part1.add(this.runbutton);
-      
+
       this.stopbutton = new qx.ui.toolbar.Button(this.tr('<b>Stop&nbsp;Tests</b>'), "icon/22/actions/media-playback-stop.png");
       this.stopbutton.setTextColor("#ff0000");
       this.stopbutton.setRich(true);
@@ -369,28 +369,28 @@ qx.Class.define("testrunner.runner.TestRunner",
       // -- log level menu
       this.levelbox = new qx.ui.toolbar.MenuButton(this.tr("Log Level"), "icon/22/categories/system.png");
       var levelMenu = new qx.ui.menu.Menu;
-      
+
       var debugButton = new qx.ui.menu.Button("Debug", "icon/22/categories/system.png");
       debugButton.addListener("execute", function(e){
         this.setLogLevel("debug");
         this.levelbox.setIcon(e.getTarget().getIcon());
       }, this);
       levelMenu.add(debugButton);
-      
+
       var infoButton = new qx.ui.menu.Button("Information", "icon/22/status/dialog-information.png");
       infoButton.addListener("execute", function(e){
-        this.setLogLevel("info");        
+        this.setLogLevel("info");
         this.levelbox.setIcon(e.getTarget().getIcon());
       }, this);
       levelMenu.add(infoButton);
-      
+
       var warnButton = new qx.ui.menu.Button("Warning", "icon/22/status/dialog-warning.png");
       warnButton.addListener("execute", function(e){
         this.setLogLevel("warn");
         this.levelbox.setIcon(e.getTarget().getIcon());
       }, this);
       levelMenu.add(warnButton);
-      
+
       var errorButton = new qx.ui.menu.Button("Error", "icon/22/status/dialog-error.png");
       errorButton.addListener("execute", function(e){
         this.setLogLevel("error");
@@ -399,7 +399,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       levelMenu.add(errorButton);
 
       this.levelbox.setMenu(levelMenu);
-      
+
       part3.add(this.levelbox);
 
       // -- stack trace toggle
@@ -581,7 +581,7 @@ qx.Class.define("testrunner.runner.TestRunner",
         decorator : null,
         selectionMode : "single"
       });
-      
+
       this.tree = tree;
       this.widgets["treeview.full"] = tree;
 
@@ -780,10 +780,10 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       if (parseInt(this.widgets["progresspane.succ_cnt"].getValue()) > 0 ||
           parseInt(this.widgets["progresspane.fail_cnt"].getValue()) > 0) {
-        this.__scrollToResult();      
+        this.__scrollToResult();
       }
 
-      // store selected test in cookie 
+      // store selected test in cookie
       qx.bom.Cookie.set("selectedTest", this.tests.selected);
     },  // treeGetSelection
 
@@ -1005,10 +1005,10 @@ qx.Class.define("testrunner.runner.TestRunner",
           //that.__history.addToHistory(test.getFullName().replace(":", "."));
         },
         that);
-				
-				testResult.addListener("wait", function(e)
+
+        testResult.addListener("wait", function(e)
         {
-          var test = e.getData();          
+          var test = e.getData();
           that.currentTestData.setState("wait");
           that.appender(this.tr("Test '") + test.getFullName() + this.tr("' waiting."));
         },
@@ -1068,9 +1068,9 @@ qx.Class.define("testrunner.runner.TestRunner",
             tstCurr++;
             if (!qx.bom.client.Engine.MSHTML) {
               that.__markTree(e.getData().getFullName(), "success");
-            }            
+            }
           }
-          
+
           if (!this.getStopped()) {
             qx.event.Timer.once(runtest, this, 0);
           } else {
@@ -1254,10 +1254,10 @@ qx.Class.define("testrunner.runner.TestRunner",
     __ehIframeOnLoad : function(e)
     {
       if (!this.__loadAttempts) {
-        this.__loadAttempts = 0; 
-      }      
+        this.__loadAttempts = 0;
+      }
       this.__loadAttempts++;
-      
+
       var iframe = this.iframe;
 
       this.frameWindow = iframe.getWindow();
@@ -1267,24 +1267,24 @@ qx.Class.define("testrunner.runner.TestRunner",
         this.__loadTimer.stop();
         this.__loadTimer = null;
       }
-      
+
       if (this.__loadAttempts <= 300) {
         // Repeat until testrunner in iframe is loaded
         if (!this.frameWindow.testrunner) {
-          //this.debug("no testrunner" + this.frameWindow);        
+          //this.debug("no testrunner" + this.frameWindow);
           this.__loadTimer = qx.event.Timer.once(this.__ehIframeOnLoad, this, 100);
           return;
         }
-        
+
         this.loader = this.frameWindow.testrunner.TestLoader.getInstance();
         // Avoid errors in slow browsers
-        
+
         if (!this.loader) {
           //this.debug("no loader");
           this.__loadTimer = qx.event.Timer.once(this.__ehIframeOnLoad, this, 100);
           return;
         }
-        
+
         if (!this.loader.getSuite()) {
           //this.debug("no test suite");
           this.__loadTimer = qx.event.Timer.once(this.__ehIframeOnLoad, this, 100);
@@ -1297,7 +1297,7 @@ qx.Class.define("testrunner.runner.TestRunner",
         this.widgets["statuspane.systeminfo"].setValue(this.tr("Invalid test file selected!"));
         return;
       }
-      
+
       //this.warn("loaded!!!!!");
 
       var testRep = this.loader.getTestDescriptions();
@@ -1342,12 +1342,12 @@ qx.Class.define("testrunner.runner.TestRunner",
     /**
      * Iterate over the (model) tree, searching for a specific test
      *
-     * @param testName {String} The full name of a test, as returned by 
+     * @param testName {String} The full name of a test, as returned by
      * {@link qx.dev.unit.TestFunction#getFullName()}
-     * @param status {String} The test's final status, one of "success", 
+     * @param status {String} The test's final status, one of "success",
      * "failure", "error"
      * @return {void}
-     */    
+     */
     __markTree : function(testName, status)
     {
       testName = testName.replace(/\:/, ".");
@@ -1358,7 +1358,7 @@ qx.Class.define("testrunner.runner.TestRunner",
         nodePath.shift();
         var nodeName = qx.lang.Array.clone(nodePath);
         nodeName.push(curr.label);
-        
+
         if (nodeName.join('.') == testName) {
 
           var widgetNode = curr.widgetLinkFull;
@@ -1382,9 +1382,9 @@ qx.Class.define("testrunner.runner.TestRunner",
             }
 
             markParentRec(widgetNode, curr);
-            
+
           }
-          
+
         }
       }
     },
@@ -1393,9 +1393,9 @@ qx.Class.define("testrunner.runner.TestRunner",
      * Set the icon for a given (widget) tree node according to the node's type
      * and the corresponding test's status.
      *
-     * @param node {qx.ui.tree.AbstractTreeItem} The tree node to work with 
-     * @param type {String} The node's type, one of "package", "class", "test" 
-     * @param status {String} The test's final status, one of "success", 
+     * @param node {qx.ui.tree.AbstractTreeItem} The tree node to work with
+     * @param type {String} The node's type, one of "package", "class", "test"
+     * @param status {String} The test's final status, one of "success",
      * "failure", "error"
      * @return {void}
      */
@@ -1412,7 +1412,7 @@ qx.Class.define("testrunner.runner.TestRunner",
 
     /**
      * Scroll the test result pane to display the currently selected test's
-     * entry. 
+     * entry.
      *
      * @return {void}
      */
@@ -1426,7 +1426,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       var resultPane = this.f1.getContentElement().getDomElement();
       var resultDivs = resultPane.childNodes;
       for (var i=0; i<resultDivs.length; i++) {
-        if (resultDivs[i].firstChild.firstChild.nodeValue == fullname) {          
+        if (resultDivs[i].firstChild.firstChild.nodeValue == fullname) {
           var dist = qx.bom.element.Location.getRelative(resultDivs[i], resultDivs[0]);
           this.f1.getContentElement().scrollToY(dist.top);
         }
@@ -1526,7 +1526,7 @@ qx.Class.define("testrunner.runner.TestRunner",
         logger.clear();
 
         // Unregister again, so that the logger can flush again the next time the tab is clicked.
-        logger.unregister(this.logappender);        
+        logger.unregister(this.logappender);
       }
     },
 
