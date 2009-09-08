@@ -92,7 +92,7 @@ qx.Class.define("qx.event.handler.ElementResize",
   members :
   {
     __elements : null,
-
+    __manager : null,
     __timer : null,
 
 
