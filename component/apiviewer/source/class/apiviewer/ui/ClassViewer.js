@@ -566,7 +566,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
     __enableSection : function(itemNode, itemName)
     {
        var uiModel = apiviewer.UiModel.getInstance();
-       
+
       // Check for property
       if(itemNode.isFromProperty && itemNode.isFromProperty()) {
         uiModel.setExpandProperties(true);

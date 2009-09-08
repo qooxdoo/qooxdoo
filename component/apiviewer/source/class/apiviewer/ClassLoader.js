@@ -103,7 +103,7 @@ qx.Class.define("apiviewer.ClassLoader",
         this.load(classesToLoad[i].getFullName(), true, function(cls)
         {
           loadedClasses += 1;
-          
+
           if (loadedClasses == classesToLoad.length) {
             this.__runCallback(apiviewer.dao.Class.getClassByName(classes[0].getFullName()), callback, self);
           }
@@ -112,7 +112,7 @@ qx.Class.define("apiviewer.ClassLoader",
       }
       if (classesToLoad.length == 0) {
         this.__runCallback(classes[0], callback, self);
-      }      
+      }
     },
 
 
