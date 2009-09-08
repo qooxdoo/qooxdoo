@@ -106,10 +106,10 @@ qx.Class.define("feedreader.view.PreferenceWindow",
       {
         var availableLocales = localeManager.getAvailableLocales().sort().join(", ");
         var usedLocales = qx.lang.Object.getKeys(languages).sort().join(", ");
-        
+
         if(availableLocales !== usedLocales)
         {
-          this.warn("Mismatch of locales: \navailable: " + availableLocales + 
+          this.warn("Mismatch of locales: \navailable: " + availableLocales +
             "\nused     : " + usedLocales);
         }
       }

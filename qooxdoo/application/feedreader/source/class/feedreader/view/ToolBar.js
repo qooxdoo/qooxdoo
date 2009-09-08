@@ -105,32 +105,32 @@ qx.Class.define("feedreader.view.ToolBar",
     aboutBtn.setToolTipText("(" + aboutCmd.toString() + ")");
     infoPart.add(aboutBtn);
   },
-  
-  
-  members : 
+
+
+  members :
   {
     // private members
     __removeBtn : null,
-    
+
     /**
-     * Return the button which removed the feeds. This is neede to enable / 
+     * Return the button which removed the feeds. This is neede to enable /
      * disable the button from the main application.
-     * 
+     *
      * @return {qx.ui.toolbar.Button}
      */
     getRemoveButton: function() {
       return this.__removeBtn;
     }
   },
-  
-  
-  
+
+
+
   /*
    *****************************************************************************
       DESTRUCTOR
    *****************************************************************************
    */
-  
+
   destruct : function() {
     this._disposeObjects("__removeBtn");
   }
