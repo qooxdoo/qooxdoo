@@ -764,12 +764,12 @@ qx.Class.define("qx.io.remote.Request",
      * Add a request header to the request.
      *
      * Example: request.setRequestHeader("Content-Type", "text/html")
-     * 
+     *
      * Please note: Some browsers, such as Safari 3 and 4, will capitalize
-     * header field names. This is in accordance with RFC 2616[1], which states 
+     * header field names. This is in accordance with RFC 2616[1], which states
      * that HTTP 1.1 header names are case-insensitive, so your server backend
      * should be case-agnostic when dealing with request headers.
-     * 
+     *
      * [1]{@link http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.2}
      *
      * @param vId {String} The identifier to use for this added header

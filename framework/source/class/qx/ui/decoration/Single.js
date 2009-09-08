@@ -271,8 +271,8 @@ qx.Class.define("qx.ui.decoration.Single",
   members :
   {
     __markup : null,
-   
-   
+
+
     // overridden
     _getDefaultInsets : function()
     {
@@ -283,13 +283,13 @@ qx.Class.define("qx.ui.decoration.Single",
         left : this.getWidthLeft()
       };
     },
-    
-    
+
+
     // overridden
     _isInitialized: function() {
-      return !!this.__markup;      
+      return !!this.__markup;
     },
-       
+
 
     /*
     ---------------------------------------------------------------------------
@@ -343,7 +343,7 @@ qx.Class.define("qx.ui.decoration.Single",
       styles += "position:absolute;top:0;left:0;";
 
       var html = this._generateBackgroundMarkup(styles);
-      
+
       return this.__markup = html;
     },
 

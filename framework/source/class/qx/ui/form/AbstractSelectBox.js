@@ -33,7 +33,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
   ],
   implement : [
     qx.ui.form.IForm
-  ],  
+  ],
   type : "abstract",
 
 
@@ -56,7 +56,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
     // Register listeners
     this.addListener("keypress", this._onKeyPress);
     this.addListener("blur", this.close, this);
-    
+
     // register mouse wheel listener
     var root = qx.core.Init.getApplication().getRoot();
     root.addListener("mousewheel", this._onMousewheel, this, true);
@@ -113,9 +113,9 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
   events :
   {
-    /** 
-      * Fired everytime the selection has been modified and this way the value 
-      * 
+    /**
+      * Fired everytime the selection has been modified and this way the value
+      *
       * @deprecated
       */
     "changeValue" : "qx.event.type.Data"
@@ -275,23 +275,23 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
         this.getChildControl("list").handleKeyPress(e);
       }
     },
-    
+
     /**
      * Close the pop-up if the mousewheel event isn't on the pup-up window.
-     * 
+     *
      * @param e {qx.event.type.Mouse} Mousewheel event.
      */
     _onMousewheel : function(e)
     {
       var target = e.getTarget();
       var popup = this.getChildControl("popup");
-      
+
       if (qx.ui.core.Widget.contains(popup, target)) {
         return;
       }
-      
+
       this.close();
-      
+
       // needed for ComboBox widget inside an inline application
       e.preventDefault();
     },
@@ -335,7 +335,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
       throw new Error("Abstract method: _onPopupChangeVisibility()");
     }
   },
-  
+
   /*
   *****************************************************************************
      DESTRUCTOR

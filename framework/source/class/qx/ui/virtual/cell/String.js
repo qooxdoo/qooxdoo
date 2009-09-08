@@ -21,13 +21,13 @@
 /**
  * EXPERIMENTAL!
  */
-qx.Class.define("qx.ui.virtual.cell.String", 
+qx.Class.define("qx.ui.virtual.cell.String",
 {
   extend : qx.ui.virtual.cell.Cell,
 
   construct : function()
   {
-    this.base(arguments);    
+    this.base(arguments);
   },
 
 
@@ -60,7 +60,7 @@ qx.Class.define("qx.ui.virtual.cell.String",
     ---------------------------------------------------------------------------
       IMPLEMENT CELL API
     ---------------------------------------------------------------------------
-    */    
+    */
 
     getContent : function(value, states) {
       return value ? qx.bom.String.escape(value) : "";

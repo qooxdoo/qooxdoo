@@ -49,7 +49,7 @@ qx.Class.define("qx.event.handler.Application",
 
     this.__domReady = false;
     this.__loaded = false;
-    
+
     // Initialize observers
     this._initObserver();
 
@@ -142,12 +142,12 @@ qx.Class.define("qx.event.handler.Application",
     unregisterEvent : function(target, type, capture) {
       // Nothing needs to be done here
     },
-    
+
     __isReady : null,
     __domReady : null,
     __loaded : null,
     __isUnloaded : null,
-    
+
 
 
 
@@ -166,7 +166,7 @@ qx.Class.define("qx.event.handler.Application",
     __fireReady : function()
     {
       var clazz = qx.event.handler.Application;
-      
+
       // Wrapper qxloader needed to be compatible with old generator
       if (!this.__isReady && this.__domReady && clazz.__scriptLoaded)
       {
@@ -176,11 +176,11 @@ qx.Class.define("qx.event.handler.Application",
         qx.event.Registration.fireEvent(this._window, "ready");
       }
     },
-    
-    
+
+
     /**
      * Whether the application is ready.
-     * 
+     *
      * @return {Boolean} ready status
      */
     isApplicationReady : function()

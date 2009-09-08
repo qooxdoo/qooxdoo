@@ -19,44 +19,44 @@
 
 /**
  * EXPERIMENTAL!
- * 
+ *
  * The CellSpanManager manages cells, which span several rows or columns.
- * 
+ *
  * It provides functionality to compute, which spanning cells are visible
  * in a given view port and how they have to be placed.
  */
 qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
 {
   extend : qx.core.Object,
-  
+
   /**
-   * @param rowConfig {qx.ui.virtual.core.Axis} The row configuration of the pane 
+   * @param rowConfig {qx.ui.virtual.core.Axis} The row configuration of the pane
    *    in which the cells will be rendered
-   * @param columnConfig {qx.ui.virtual.core.Axis} The column configuration of the pane 
+   * @param columnConfig {qx.ui.virtual.core.Axis} The column configuration of the pane
    *    in which the cells will be rendered
    */
   construct : function(rowConfig, columnConfig)
   {
-    this.base(arguments);  
-    
-    if (qx.core.Variant.isSet("qx.debug", "on")) 
+    this.base(arguments);
+
+    if (qx.core.Variant.isSet("qx.debug", "on"))
     {
       this.assertInstance(rowConfig, qx.ui.virtual.core.Axis);
       this.assertInstance(columnConfig, qx.ui.virtual.core.Axis);
-    }    
-    
+    }
+
     this._cells = {};
     this._invalidateSortCache();
     this._invalidatePositionCache();
-    
+
     rowConfig.addListener("change", this._onRowConfigChange, this);
     columnConfig.addListener("change", this._onColumnConfigChange, this);
-    
+
     this._rowConfig = rowConfig;
-    this._columnConfig = columnConfig;    
+    this._columnConfig = columnConfig;
   },
-  
-  
+
+
   /*
   *****************************************************************************
      MEMBERS
@@ -64,10 +64,10 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
   */
 
   members :
-  {    
+  {
     /**
      * Add a spanning cell to the manager.
-     * 
+     *
      * @param id {String} Unique id for the cell definition. This id is required
      *    for removing the cell from the manager
      * @param row {PositiveInteger} The cell's row
@@ -86,11 +86,11 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
       }
       this._invalidateSortCache();
     },
-     
-     
+
+
     /**
      * Remove a cell from the manager
-     * 
+     *
      * @param id {String} The id of the cell to remove
      */
     removeCell : function(id)
@@ -98,19 +98,19 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
       delete(this._cells[id]);
       this._invalidateSortCache();
     },
-         
-     
+
+
     /**
      * Invalidate the sort cache
      */
     _invalidateSortCache : function() {
       this._sorted = {};
     },
-     
-     
+
+
     /**
      * Get the cell array sorted by the given key (ascending)
-     * 
+     *
      * @param key {String} The sort key. One of <code>firstRow</code>,
      *     <code>lastRow</code>, <code>firstColumn</code> or <code>lastColumn</code>
      * @return {Map[]} sorted array of cell descriptions
@@ -125,16 +125,16 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
         return a[key] < b[key] ? -1 : 1;
       });
       return sorted;
-    },     
-     
-    
+    },
+
+
     /**
      * Finds all cells with a sort key within the given range.
-     * 
+     *
      * Complexity: O(log n)
-     * 
+     *
      * @param key {String} The key to search for
-     * @param min {Integer} minimum value 
+     * @param min {Integer} minimum value
      * @param max {Integer} maximum value (inclusive)
      * @return {Map} Map, which will contain the search results
      */
@@ -144,15 +144,15 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
       if (cells.length == 0) {
         return {};
       }
-       
+
       var start = 0;
-      var end = cells.length-1;            
-      
+      var end = cells.length-1;
+
       // find first cell, which is >= "min"
-      while (true) 
+      while (true)
       {
         var pivot = start + ((end - start) >> 1);
-        
+
         var cell = cells[pivot];
         if (
           cell[key] >= min &&
@@ -161,32 +161,32 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
           // the start cell was found
           break;
         }
-        
+
         if (cell[key] >= min) {
           end = pivot - 1;
         } else {
-          start = pivot + 1; 
+          start = pivot + 1;
         }
         if (start > end) {
           // nothing found
           return {};
         }
-      }       
-       
+      }
+
       var result = {};
       var cell = cells[pivot];
       while (cell && cell[key] >= min && cell[key] <= max)
       {
         result[cell.id] = cell;
         cell = cells[pivot++];
-      }     
+      }
       return result;
     },
-     
-       
+
+
     /**
      * Find all cells, which are visible in the given grid window.
-     * 
+     *
      * @param firstRow {PositiveInteger} first visible row
      * @param firstColumn {PositiveInteger} first visible column
      * @param rowCount {PositiveInteger} number of rows in the window
@@ -195,10 +195,10 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
      *    contains the keys <code>firstRow</code>, <code>lastRow</code>,
      *    <code>firstColumn</code> or <code>lastColumn</code>
      */
-    findCellsInWindow : function(firstRow, firstColumn, rowCount, columnCount) 
+    findCellsInWindow : function(firstRow, firstColumn, rowCount, columnCount)
     {
       var verticalInWindow = {};
-      
+
       if (rowCount > 0)
       {
         var lastRow = firstRow + rowCount - 1;
@@ -210,7 +210,7 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
       }
 
       var horizontalInWindow = {};
-      
+
       if (columnCount > 0)
       {
         var lastColumn = firstColumn + columnCount - 1;
@@ -220,11 +220,11 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
             this._findCellsInRange("lastColumn", firstColumn, lastColumn)
         );
       }
-       
+
       return this.__intersectionAsArray(horizontalInWindow, verticalInWindow);
-    },  
-    
-    
+    },
+
+
     __intersectionAsArray : function(setA, setB)
     {
       var intersection = [];
@@ -234,49 +234,49 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
           intersection.push(setB[key]);
         }
       }
-      return intersection;      
+      return intersection;
     },
-    
+
 
     /**
      * Event handler for row configuration changes
-     * 
+     *
      * @param e {qx.event.type.Event} the event object
      */
     _onRowConfigChange : function(e) {
       this._rowPos = [];
-    },    
-    
-    
+    },
+
+
     /**
      * Event handler for column configuration changes
-     * 
+     *
      * @param e {qx.event.type.Event} the event object
      */
     _onColumnConfigChange : function(e) {
       this._columnPos = [];
     },
 
-    
+
     /**
      * Invalidates the row/column position cache
-     */    
+     */
     _invalidatePositionCache : function()
     {
       this._rowPos = [];
       this._columnPos = [];
     },
-    
-    
+
+
     /**
      * Get the pixel start position of the given row
-     * 
+     *
      * @param row {Integer} The row index
      * @return {Integer} The pixel start position of the given row
      */
     _getRowPosition : function(row)
     {
-      var pos = this._rowPos[row]; 
+      var pos = this._rowPos[row];
       if (pos !== undefined) {
         return pos;
       }
@@ -284,33 +284,33 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
       pos = this._rowPos[row] = this._rowConfig.getItemPosition(row);
       return pos;
     },
-    
-    
+
+
     /**
      * Get the pixel start position of the given column
-     * 
+     *
      * @param column {Integer} The column index
      * @return {Integer} The pixel start position of the given column
-     */    
+     */
     _getColumnPosition : function(column)
     {
-      var pos = this._columnPos[column]; 
+      var pos = this._columnPos[column];
       if (pos !== undefined) {
         return pos;
       }
-      
+
       pos = this._columnPos[column] = this._columnConfig.getItemPosition(column);
       return pos;
-    },    
-    
-    
+    },
+
+
     /**
      * Get the bounds of a single cell
-     * 
-     * @param cell {Map} the cell description as returned by 
+     *
+     * @param cell {Map} the cell description as returned by
      *    {@link #findCellsInWindow} to get the bounds for
      * @param firstVisibleRow {Map} The pane's first visible row
-     * @param firstVisibleColumn {Map} The pane's first visible column 
+     * @param firstVisibleColumn {Map} The pane's first visible column
      */
     _getSingleCellBounds : function(cell, firstVisibleRow, firstVisibleColumn)
     {
@@ -320,40 +320,40 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
         width: 0,
         height: 0
       }
-     
-      bounds.height = 
-        this._getRowPosition(cell.lastRow) + 
+
+      bounds.height =
+        this._getRowPosition(cell.lastRow) +
         this._rowConfig.getItemSize(cell.lastRow) -
         this._getRowPosition(cell.firstRow);
-      
-      bounds.top = 
+
+      bounds.top =
         this._getRowPosition(cell.firstRow) -
         this._getRowPosition(firstVisibleRow);
-      
-      bounds.width = 
-        this._getColumnPosition(cell.lastColumn) + 
+
+      bounds.width =
+        this._getColumnPosition(cell.lastColumn) +
         this._columnConfig.getItemSize(cell.lastColumn) -
         this._getColumnPosition(cell.firstColumn);
-      
-      bounds.left = 
+
+      bounds.left =
         this._getColumnPosition(cell.firstColumn) -
         this._getColumnPosition(firstVisibleColumn);
-      
+
       return bounds;
     },
-    
-    
+
+
     /**
      * Get the bounds of a list of cells as returned by {@link findCellsInWindow}
-     * 
+     *
      * @param cells {Map[]} Array of cell descriptions
      * @param firstVisibleRow {Map} The pane's first visible row
      * @param firstVisibleColumn {Map} The pane's first visible column
-     * @return {Map[]} Array, which contains a bounds map for each cell. 
+     * @return {Map[]} Array, which contains a bounds map for each cell.
      */
     getCellBounds : function(cells, firstVisibleRow, firstVisibleColumn)
     {
-      var bounds = [];      
+      var bounds = [];
       for (var i=0, l=cells.length; i<l; i++)
       {
         bounds.push(this._getSingleCellBounds(
@@ -362,12 +362,12 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
       }
       return bounds;
     },
-    
-    
+
+
     /**
      * Compute a bitmap, which marks for each visible cell, whether the cell
      * is covered by a spanning cell.
-     * 
+     *
      * @param cells {Map[]} Array of cell descriptions as returned by
      *     {@link findCellsInWindow}.
      * @param firstRow {PositiveInteger} first visible row
@@ -376,7 +376,7 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
      * @param rowCount {PositiveInteger} number of rows in the window
      * @param columnCount {PositiveInteger} number of columns in the window
      * @return {Map[][]} Two dimensional array, which contains a <code>1</code>
-     *    for each visible cell, which is covered by a spanned cell. 
+     *    for each visible cell, which is covered by a spanned cell.
      */
     computeCellSpanMap : function(cells, firstRow, firstColumn, rowCount, columnCount)
     {
@@ -386,24 +386,24 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
         return map;
       }
       var lastRow = firstRow + rowCount - 1;
-       
+
       for (var i=firstRow; i<= lastRow; i++) {
         map[i] = [];
       }
-      
+
       if (columnCount <= 0) {
         return map;
       }
       var lastColumn = firstColumn + columnCount - 1;
-      
+
       for (var i=0, l=cells.length; i<l; i++)
       {
         var cell = cells[i];
-        
+
         var rowStartIndex = Math.max(firstRow, cell.firstRow);
         var rowEndIndex = Math.min(lastRow, cell.lastRow);
         var row;
-        
+
         for (var rowIndex=rowStartIndex; rowIndex <= rowEndIndex; rowIndex++)
         {
           row = map[rowIndex];
@@ -416,20 +416,20 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
           }
         }
       }
-      
+
       return map;
     }
   },
-  
-  
+
+
   destruct : function()
   {
     this._rowConfig.removeListener("change", this._onRowConfigChange, this);
     this._columnConfig.removeListener("change", this._onColumnConfigChange, this);
-    
+
     this._disposeFields(
       "_cells", "_sorted", "_rowPos", "_columnPos",
       "_rowConfig", "_columnConfig"
-    );    
+    );
   }
 });

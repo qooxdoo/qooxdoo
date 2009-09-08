@@ -28,12 +28,12 @@ qx.Class.define("qx.test.util.DeferredCall",
       var fail = function() {
         throw new Error("fail");
       };
-      
+
       var onError = function() { this.resume(function() {}); };
-      
-      var deferredCall = new qx.util.DeferredCall(fail, this);      
+
+      var deferredCall = new qx.util.DeferredCall(fail, this);
       qx.event.GlobalError.setErrorHandler(onError, this);
-      
+
       deferredCall.schedule();
       this.wait();
     }

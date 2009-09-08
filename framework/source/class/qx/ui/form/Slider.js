@@ -54,8 +54,8 @@ qx.Class.define("qx.ui.form.Slider",
 {
   extend : qx.ui.core.Widget,
   implement : [
-    qx.ui.form.IFormElement, 
-    qx.ui.form.IForm, 
+    qx.ui.form.IFormElement,
+    qx.ui.form.IForm,
     qx.ui.form.INumberForm,
     qx.ui.form.IRange
   ],
@@ -234,7 +234,7 @@ qx.Class.define("qx.ui.form.Slider",
 
     // overridden
     /**
-     * @lint ignoreReferenceField(_forwardStates) 
+     * @lint ignoreReferenceField(_forwardStates)
      */
     _forwardStates : {
       invalid : true
@@ -903,7 +903,7 @@ qx.Class.define("qx.ui.form.Slider",
     // property apply
     _applyValue : function(value, old) {
       if (value != null) {
-        this._updateKnobPosition();        
+        this._updateKnobPosition();
       } else {
         this.resetValue();
       }
@@ -929,6 +929,6 @@ qx.Class.define("qx.ui.form.Slider",
       }
 
       this._updateKnobPosition();
-    }    
+    }
   }
 });

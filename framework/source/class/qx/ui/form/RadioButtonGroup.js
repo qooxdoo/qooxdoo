@@ -21,14 +21,14 @@
  * can be selected. Selection another item will deselect the previously selected
  * item. For that, it uses the {@link qx.ui.form.RadioGroup} object.
  *
- * This class is used to create radio groups of {@link qx.ui.form.RadioButton} 
+ * This class is used to create radio groups of {@link qx.ui.form.RadioButton}
  * instances.
- * 
- * This widget takes care of the layouting of the added items. If you want to 
- * take full control of the layouting and just use the selection behavior, 
+ *
+ * This widget takes care of the layouting of the added items. If you want to
+ * take full control of the layouting and just use the selection behavior,
  * take a look at the {@link qx.ui.form.RadioGroup} object for a loose coupling.
  */
-qx.Class.define("qx.ui.form.RadioButtonGroup", 
+qx.Class.define("qx.ui.form.RadioButtonGroup",
 {
   extend : qx.ui.core.Widget,
   include : [qx.ui.core.MLayoutHandling, qx.ui.form.MModelSelection],
@@ -38,7 +38,7 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
     qx.ui.form.IModelSelection
   ],
 
-  
+
   /**
    * @param layout {qx.ui.layout.Abstract} The new layout or
    *     <code>null</code> to reset the layout.
@@ -46,28 +46,28 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
   construct : function(layout)
   {
     this.base(arguments);
-    
+
     // if no layout is given, use the default layout (VBox)
     if (layout == null) {
       this.setLayout(new qx.ui.layout.VBox(4));
     } else {
       this.setLayout(layout);
     }
-    
+
     // create the radio group
     this.__radioGroup = new qx.ui.form.RadioGroup();
-    
+
     // attach the listener
     this.__radioGroup.addListener("changeSelection", function(e) {
       this.fireDataEvent("changeSelection", e.getData(), e.getOldData());
     }, this);
   },
-  
-  
+
+
   properties :
-  {    
+  {
     /**
-     * Flag signaling if the group at all is valid. All children will have the 
+     * Flag signaling if the group at all is valid. All children will have the
      * same state.
      */
     valid : {
@@ -76,7 +76,7 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
       apply : "_applyValid",
       event : "changeValid"
     },
-        
+
     /**
      * Flag signaling if the group is required.
      */
@@ -85,7 +85,7 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
       init : false,
       event : "changeRequired"
     },
-    
+
     /**
      * Message which is shown in an invalid tooltip.
      */
@@ -95,23 +95,23 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
       event : "changeInvalidMessage",
       apply : "_applyInvalidMessage"
     }
-  },  
+  },
 
 
   events :
   {
-    /** 
+    /**
      * Fires after the selection was modified
      */
     "changeSelection" : "qx.event.type.Data"
-  },  
+  },
 
 
   members :
   {
     __radioGroup : null,
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       APPLY ROUTINES
@@ -124,33 +124,33 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
         children[i].setInvalidMessage(value);
       }
     },
-    
-    
+
+
     // property apply
     _applyValid: function(value, old) {
-      var children = this._getChildren();      
+      var children = this._getChildren();
       for (var i = 0; i < children.length; i++) {
         children[i].setValid(value);
       }
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       REGISTRY
     ---------------------------------------------------------------------------
     */
-        
+
     /**
      * The internaly used radio group instance will be returned.
-     * 
+     *
      * @return {qx.ui.form.RadioGroup} Returns the used RadioGroup instance.
      */
     getRadioGroup : function() {
       return this.__radioGroup;
     },
-    
-    
+
+
     /**
      * Returns the children list
      *
@@ -159,12 +159,12 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
     getChildren : function() {
       return this._getChildren();
     },
-    
-    
+
+
     /**
      * Adds a new child widget.
      *
-     * The supported keys of the layout options map depend on the layout 
+     * The supported keys of the layout options map depend on the layout
      * used to position the widget. The options are documented in the class
      * documentation of each layout manager {@link qx.ui.layout}.
      *
@@ -174,9 +174,9 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
     add : function(child, options) {
       this.__radioGroup.add(child);
       this._add(child, options);
-    },    
-    
-    
+    },
+
+
     /**
      * Remove the given child widget.
      *
@@ -186,8 +186,8 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
       this.__radioGroup.remove(child);
       this._remove(child);
     },
-    
-    
+
+
     /**
      * Remove all children.
      */
@@ -197,18 +197,18 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
       for (var i = 0; i < radioItems.length; i++) {
         this.__radioGroup.removeAll(radioItems[i]);
       }
-      
+
       this._removeAll();
     },
-    
-    
-    
+
+
+
     /*
     ---------------------------------------------------------------------------
       SELECTION
     ---------------------------------------------------------------------------
-    */    
-    
+    */
+
     /**
      * Returns an array of currently selected items.
      *
@@ -217,8 +217,8 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
     getSelection : function() {
       return this.__radioGroup.getSelection();
     },
-    
-    
+
+
     /**
      * Replaces current selection with the given items.
      *
@@ -228,16 +228,16 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
     setSelection : function(items) {
       return this.__radioGroup.setSelection(items);
     },
-    
-    
+
+
     /**
      * Clears the whole selection at once.
      */
     resetSelection : function() {
       return this.__radioGroup.resetSelection();
     },
-    
-    
+
+
     /**
      * Detects whether the given item is currently selected.
      *
@@ -248,8 +248,8 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
     isSelected : function(item) {
       return this.__radioGroup.isSelected(item);
     },
-    
-    
+
+
     /**
      * Whether the selection is empty.
      *
@@ -258,15 +258,15 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
     isSelectionEmpty : function() {
       return this.__radioGroup.isSelectionEmpty();
     },
-    
-    
+
+
     /**
      * Returns all elements which are selectable.
-     * 
+     *
      * @return {qx.ui.core.Widget[]} The contained items.
      */
     getSelectables: function() {
       return this.__radioGroup.getSelectables();
-    }       
+    }
   }
 });

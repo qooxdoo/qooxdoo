@@ -57,15 +57,15 @@ qx.Class.define("qx.ui.core.ColumnData",
 
     /**
      * Get the column's flex value
-     * 
+     *
      * @return {Integer} The column's flex value
      */
     getFlex : function()
     {
       return this.getLayoutProperties().flex || 0;
     },
-    
-    
+
+
     /**
      * Set the column width. The column width can be one of the following
      * values:

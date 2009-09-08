@@ -65,7 +65,7 @@ qx.Class.define("qx.legacy.application.Gui",
     {
       // empty
     },
-    
+
     getRoot : function()
     {
       if (!this.__root) {
@@ -75,7 +75,7 @@ qx.Class.define("qx.legacy.application.Gui",
     }
 
   },
-  
+
   destruct : function() {
     this._disposeObjects("__root");
   }

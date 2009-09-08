@@ -19,7 +19,7 @@
 
 /**
  * A helper class for accessing the property system directly.
- * 
+ *
  * This class is rather to be used internally. For all regular usage of the
  * property system the default API should be sufficient.
  */
@@ -29,15 +29,15 @@ qx.Class.define("qx.util.PropertyUtil",
   {
     /**
      * Get the property map of the given class
-     * 
+     *
      * @param clazz {Class} a qooxdoo class
      * @return {Map} The properties map as defined in {@link qx.Class.define}.
      */
     getProperties : function(clazz) {
       return clazz.$$properties;
     },
-    
-  
+
+
     /*
     -------------------------------------------------------------------------
       USER VALUES
@@ -46,7 +46,7 @@ qx.Class.define("qx.util.PropertyUtil",
 
     /**
      * Returns the user value of the given property
-     * 
+     *
      * @param object {Object} The object to access
      * @param propertyName {String} The name of the property
      * @return {var} The user value
@@ -54,10 +54,10 @@ qx.Class.define("qx.util.PropertyUtil",
     getUserValue : function(object, propertyName) {
       return object["$$user_" + propertyName];
     },
-    
+
     /**
     * Sets the user value of the given property
-    * 
+    *
     * @param object {Object} The object to access
     * @param propertyName {String} The name of the property
     * @param value {var} The value to set
@@ -69,7 +69,7 @@ qx.Class.define("qx.util.PropertyUtil",
 
     /**
     * Deletes the user value of the given property
-    * 
+    *
     * @param object {Object} The object to access
     * @param propertyName {String} The name of the property
     * @return {void}
@@ -77,8 +77,8 @@ qx.Class.define("qx.util.PropertyUtil",
     deleteUserValue : function(object, propertyName) {
       delete(object["$$user_" + propertyName]);
     },
-    
-    
+
+
     /*
     -------------------------------------------------------------------------
       INIT VALUES
@@ -87,7 +87,7 @@ qx.Class.define("qx.util.PropertyUtil",
 
     /**
      * Returns the init value of the given property
-     * 
+     *
      * @param object {Object} The object to access
      * @param propertyName {String} The name of the property
      * @return {var} The init value
@@ -95,10 +95,10 @@ qx.Class.define("qx.util.PropertyUtil",
     getInitValue : function(object, propertyName) {
       return object["$$init_" + propertyName];
     },
-    
+
     /**
     * Sets the init value of the given property
-    * 
+    *
     * @param object {Object} The object to access
     * @param propertyName {String} The name of the property
     * @param value {var} The value to set
@@ -106,11 +106,11 @@ qx.Class.define("qx.util.PropertyUtil",
     */
     setInitValue : function(object, propertyName, value) {
       object["$$init_" + propertyName] = value;
-    },  
-    
+    },
+
     /**
     * Deletes the init value of the given property
-    * 
+    *
     * @param object {Object} The object to access
     * @param propertyName {String} The name of the property
     * @return {void}
@@ -118,8 +118,8 @@ qx.Class.define("qx.util.PropertyUtil",
     deleteInitValue : function(object, propertyName) {
       delete(object["$$init_" + propertyName]);
     },
-    
-    
+
+
     /*
     -------------------------------------------------------------------------
       THEME VALUES
@@ -128,7 +128,7 @@ qx.Class.define("qx.util.PropertyUtil",
 
     /**
      * Returns the theme value of the given property
-     * 
+     *
      * @param object {Object} The object to access
      * @param propertyName {String} The name of the property
      * @return {var} The theme value
@@ -136,10 +136,10 @@ qx.Class.define("qx.util.PropertyUtil",
     getThemeValue : function(object, propertyName) {
       return object["$$theme_" + propertyName];
     },
-    
+
     /**
     * Sets the theme value of the given property
-    * 
+    *
     * @param object {Object} The object to access
     * @param propertyName {String} The name of the property
     * @param value {var} The value to set
@@ -148,10 +148,10 @@ qx.Class.define("qx.util.PropertyUtil",
     setThemeValue : function(object, propertyName, value) {
       object["$$theme_" + propertyName] = value;
     },
-    
+
     /**
     * Deletes the theme value of the given property
-    * 
+    *
     * @param object {Object} The object to access
     * @param propertyName {String} The name of the property
     * @return {void}
@@ -160,38 +160,38 @@ qx.Class.define("qx.util.PropertyUtil",
       delete(object["$$theme_" + propertyName]);
     },
 
-    
+
     /*
     -------------------------------------------------------------------------
       THEMED PROPERTY
     -------------------------------------------------------------------------
     */
-  
+
     /**
      * Sets a themed property
-     * 
+     *
      * @param object {Object} The object to access
      * @param propertyName {String} The name of the property
     * @param value {var} The value to set
      * @return {void}
      */
-    setThemed : function(object, propertyName, value) 
+    setThemed : function(object, propertyName, value)
     {
       var styler = qx.core.Property.$$method.setThemed;
       object[styler[propertyName]](value);
     },
-    
+
     /**
     * Resets a themed property
-    * 
+    *
     * @param object {Object} The object to access
     * @param propertyName {String} The name of the property
     * @return {void}
     */
-    resetThemed : function(object, propertyName) 
+    resetThemed : function(object, propertyName)
     {
       var unstyler = qx.core.Property.$$method.resetThemed;
       object[unstyler[propertyName]]();
-    }    
+    }
   }
 });

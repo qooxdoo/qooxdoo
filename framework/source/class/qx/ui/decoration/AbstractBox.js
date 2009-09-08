@@ -20,7 +20,7 @@
 
 /**
  * Abstract base class for the HBox and VBox decorators.
- * 
+ *
  * This decorator uses three images, which are positioned in a vertical/horizontal
  * line. The first and last image always keep their original size. The center
  * image is stretched.
@@ -117,24 +117,24 @@ qx.Class.define("qx.ui.decoration.AbstractBox",
         left : 0
       };
     },
-    
-    
+
+
     // overridden
     _isInitialized: function() {
-      return !!this.__markup;      
+      return !!this.__markup;
     },
-    
-    
+
+
     /**
      * Helper to set the orientation.
-     * 
+     *
      * @param orientation {String} horizontal or vertical
      */
     _setOrientation : function(orientation) {
       this._isHorizontal = orientation == "horizontal";
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       INTERFACE IMPLEMENTATION
@@ -169,7 +169,7 @@ qx.Class.define("qx.ui.decoration.AbstractBox",
       {
         html.push(Decoration.create(images.t, "no-repeat", { top: 0, left: 0 }));
         html.push(Decoration.create(images.c, "repeat-y", { top: edges.top + "px", left: edges.left + "px" }));
-        html.push(Decoration.create(images.b, "no-repeat", { bottom: 0, left:0 }));      
+        html.push(Decoration.create(images.b, "no-repeat", { bottom: 0, left:0 }));
       }
 
       // Outer frame
@@ -187,18 +187,18 @@ qx.Class.define("qx.ui.decoration.AbstractBox",
       element.style.height = height + "px";
 
       // Compute inner sizes
-      var edges = this.__edges;      
-      
+      var edges = this.__edges;
+
       if (this._isHorizontal)
       {
         var innerWidth = width - edges.left - edges.right;
         element.childNodes[1].style.width = innerWidth + "px";
       }
       else
-      {        
+      {
         var innerHeight = height - edges.top - edges.bottom;
         element.childNodes[1].style.height = innerHeight + "px";
-      }      
+      }
     },
 
 
@@ -207,14 +207,14 @@ qx.Class.define("qx.ui.decoration.AbstractBox",
       // not implemented
     },
 
-    
+
     /*
     ---------------------------------------------------------------------------
       PROPERTY APPLY ROUTINES
     ---------------------------------------------------------------------------
     */
 
-    
+
     // property apply
     _applyBaseImage : function(value, old)
     {

@@ -471,7 +471,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
         if (!(child instanceof qx.ui.core.Widget)) {
           continue;
         }
-        
+
         if (!this.isFocusRoot(child) && child.isEnabled() && child.isVisible())
         {
           if (child.isTabable() && this.__compareTabOrder(widget, child) < 0) {

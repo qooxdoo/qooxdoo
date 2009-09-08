@@ -231,7 +231,7 @@ qx.Class.define("qx.ui.layout.Atom",
           var shrinkTargetWidth = Math.max(hint.minWidth, Math.min(remainingWidth, hint.maxWidth));
           remainingWidth -= shrinkTargetWidth;
         }
-        
+
         if (center && remainingWidth > 0) {
           left = Math.round(remainingWidth / 2);
         } else {

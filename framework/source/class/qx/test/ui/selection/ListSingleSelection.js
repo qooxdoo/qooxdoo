@@ -28,7 +28,7 @@ qx.Class.define("qx.test.ui.selection.ListSingleSelection",
       var length = 10;
       this._notInSelection = [];
       this._mode = "single";
-      
+
       this._widget = new qx.ui.form.List().set(
       {
         selectionMode: this._mode,
@@ -36,22 +36,22 @@ qx.Class.define("qx.test.ui.selection.ListSingleSelection",
         height : 400
       });
       this.getRoot().add(this._widget);
-      
+
       for (var i = 0; i < length; i++) {
         var item = new qx.ui.form.ListItem("ListItem" + i);
         this._widget.add(item);
-        
+
         if (i == 5) {
-          this.assertIdentical(0, this._widget.getSelection().length, 
+          this.assertIdentical(0, this._widget.getSelection().length,
             "Couldn't setup test, because selection isn't empty");
-          
+
           this._widget.setSelection([item]);
           this._selection = [item];
         } else {
           this._notInSelection.push(item);
         }
-      }   
-      
+      }
+
       this.flush();
     },
 
@@ -64,8 +64,8 @@ qx.Class.define("qx.test.ui.selection.ListSingleSelection",
       this._notInSelection = null;
       this.flush();
     },
-    
-    _getChildren : function() 
+
+    _getChildren : function()
     {
       if (this._widget != null) {
         return this._widget.getChildren();
@@ -73,7 +73,7 @@ qx.Class.define("qx.test.ui.selection.ListSingleSelection",
         return [];
       }
     },
-    
+
     _createTestElement : function(name) {
       return new qx.ui.form.ListItem(name);
     }

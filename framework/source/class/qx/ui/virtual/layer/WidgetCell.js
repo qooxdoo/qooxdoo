@@ -21,7 +21,7 @@
 
 /**
  * EXPERIMENTAL!
- * 
+ *
  * The WidgetCell layer renders each cell with a qooxdoo widget. The concrete
  * widget instance for each cell is provided by a cell provider.
  */
@@ -33,7 +33,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
     qx.ui.core.MChildrenHandling
   ],
 
-           
+
   /**
    * @param widgetCellProvider {qx.ui.virtual.core.IWidgetCellProvider} This
    *    class manages the life cycle of the cell widgets.
@@ -45,16 +45,16 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
 
     if (qx.core.Variant.isSet("qx.debug", "on")) {
       this.assertInterface(
-        widgetCellProvider, 
+        widgetCellProvider,
         qx.ui.virtual.core.IWidgetCellProvider
       );
     }
-    
+
     this._cellProvider = widgetCellProvider;
     this.__spacerPool = [];
   },
-  
-  
+
+
   /*
    *****************************************************************************
       PROPERTIES
@@ -70,79 +70,79 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
        init: false
      }
    },
-   
-  
+
+
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
- 
+
   members :
-  {    
+  {
      /**
      * Returns the widget used to render the given cell. May return null if the
      * cell isn’t rendered currently rendered.
-     * 
+     *
      * @param row {Integer} The cell's row index
      * @param column {Integer} The cell's column index
      * @return {qx.ui.core.LayoutItem|null} the widget used to render the given
-     *    cell or <code>null</code> 
+     *    cell or <code>null</code>
      */
      getRenderedCellWidget : function(row, column)
      {
        var columnCount = this.getColumnSizes().length;
        var rowCount = this.getRowSizes().length;
-       
-       var firstRow = this.getFirstRow(); 
-       var firstColumn = this.getFirstColumn(); 
-       
+
+       var firstRow = this.getFirstRow();
+       var firstColumn = this.getFirstColumn();
+
        if (
          row < firstRow ||
-         row >= firstRow + rowCount || 
+         row >= firstRow + rowCount ||
          column < firstColumn ||
          column >= firstColumn + columnCount
        ) {
          return null;
        }
-       
-       var childIndex = (column - firstColumn) + (row - firstRow) * columnCount;         
+
+       var childIndex = (column - firstColumn) + (row - firstRow) * columnCount;
        var widget = this._getChildren()[childIndex];
-       
+
        if (widget.getUserData("cell.empty")) {
          return null;
        } else {
          return widget;
        }
      },
-     
-     
+
+
      __spacerPool : null,
-    
+
     /**
      * Get the spacer widget, for empty cells
-     * 
+     *
      * @return {qx.ui.core.Spacer} The spacer widget.
      */
     _getSpacer : function()
     {
       var spacer = this.__spacerPool.pop();
-      if (!spacer) 
+      if (!spacer)
       {
         spacer = new qx.ui.core.Spacer();
         spacer.setUserData("cell.empty", 1);
       }
       return spacer;
     },
-    
-    
+
+
     // overridden
     _fullUpdate : function(firstRow, firstColumn, rowSizes, columnSizes)
     {
       var cellProvider = this._cellProvider;
-    
+
       var children = this._getChildren();
-      for (var i=0; i<children.length; i++) 
+      for (var i=0; i<children.length; i++)
       {
         var child = children[i];
         if (child.getUserData("cell.empty")) {
@@ -163,7 +163,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
         {
           var row = firstRow + y;
           var column = firstColumn + x;
-                
+
           var item = cellProvider.getCellWidget(row, column) || this._getSpacer();
           item.setUserBounds(left, top, columnSizes[x], rowSizes[y]);
           item.setUserData("cell.row", row);
@@ -174,14 +174,14 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
         }
         top += rowSizes[y];
         left = 0;
-      }          
+      }
     },
-    
-    
+
+
     _updateLayerWindow : function(
-      firstRow, firstColumn, 
+      firstRow, firstColumn,
       rowSizes, columnSizes
-    ) 
+    )
     {
       // compute overlap of old and new window
       //
@@ -191,30 +191,30 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
       //      +--##  |
       //         +---+
       //
-      
+
       var lastRow = firstRow + rowSizes.length - 1;
       var lastColumn = firstColumn + columnSizes.length - 1;
-      
+
       var overlap = {
         firstRow: Math.max(firstRow, this.getFirstRow()),
         lastRow: Math.min(lastRow, this._lastRow),
         firstColumn: Math.max(firstColumn, this.getFirstColumn()),
         lastColumn: Math.min(lastColumn, this._lastColumn)
       }
-      
+
       this._lastColumn = lastColumn;
       this._lastRow = lastRow;
-      
+
       if (
-        overlap.firstRow > overlap.lastRow || 
+        overlap.firstRow > overlap.lastRow ||
         overlap.firstColumn > overlap.lastColumn
       ) {
         return this._fullUpdate(
-          firstRow, firstColumn, 
-          rowSizes, columnSizes            
+          firstRow, firstColumn,
+          rowSizes, columnSizes
         );
-      }           
-      
+      }
+
       // collect the widgets to move
       var children = this._getChildren();
       var lineLength = this.getColumnSizes().length;
@@ -230,7 +230,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
             row <= overlap.lastRow &&
             column >= overlap.firstColumn &&
             column <= overlap.lastColumn
-          ) 
+          )
           {
             var x = column - this.getFirstColumn();
             var y = row - this.getFirstRow();
@@ -240,14 +240,14 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
           }
         }
       }
-      
+
       var cellProvider = this._cellProvider;
-      
+
       // pool widgets
       var children = this._getChildren();
       for (var i=0; i<children.length; i++)
-      {        
-        if (!widgetsToMoveIndexes[i]) 
+      {
+        if (!widgetsToMoveIndexes[i])
         {
           var child = children[i];
           if (child.getUserData("cell.empty")) {
@@ -269,32 +269,32 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
         {
           var row = firstRow + y;
           var column = firstColumn + x;
-                
-          var item = 
-            widgetsToMove[row][column] || 
+
+          var item =
+            widgetsToMove[row][column] ||
             cellProvider.getCellWidget(row, column) ||
             this._getSpacer();
-          
+
           item.setUserBounds(left, top, columnSizes[x], rowSizes[y]);
           item.setUserData("cell.row", row);
-          item.setUserData("cell.column", column);          
+          item.setUserData("cell.column", column);
           this._add(item);
 
           left += columnSizes[x];
         }
         top += rowSizes[y];
         left = 0;
-      }     
+      }
     }
   },
-  
+
   destruct : function()
-  {   
+  {
     var children = this._getChildren();
     for (var i=0; i<children.length; i++) {
       children[i].dispose();
     }
-    
+
     this._disposeFields("_cellProvider", "__spacerPool");
   }
 });

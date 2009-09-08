@@ -114,16 +114,16 @@ qx.Class.define("qx.Theme",
 
       for (var i=0, a=config.patch, l=a.length; i<l; i++) {
         this.patch(theme, a[i]);
-      }      
+      }
     },
 
     /**
      * Normalize an object to an array
-     * 
-     * @param objectOrArray {Object|Array} Either an object that is to be 
+     *
+     * @param objectOrArray {Object|Array} Either an object that is to be
      *   normalized to an array, or an array, which is just passed through
-     * 
-     * @return {Array} Either an array that has the original object as its 
+     *
+     * @return {Array} Either an array that has the original object as its
      *   single item, or the original array itself
      */
     __normalizeArray : function(objectOrArray)
@@ -131,18 +131,18 @@ qx.Class.define("qx.Theme",
       if (!objectOrArray) {
         return [];
       }
-        
+
       if (qx.lang.Type.isArray(objectOrArray)) {
         return objectOrArray;
       } else {
         return [objectOrArray];
       }
     },
-    
-    
+
+
     /**
      * Initialize resource inheritance
-     * 
+     *
      * @deprecated 'resources' will be replaced by 'aliases'
      * @param theme {Map} The theme
      * @param config {Map} config structure
@@ -157,24 +157,24 @@ qx.Class.define("qx.Theme",
           qx.log.Logger.warn(
             "The configuration key 'resource' in the " + aliasKey + " theme" +
             " '" + theme.name + "' is deprecated. Please replace " +
-            "'resource: \"" + config.resource + "\"' with " + 
-            "'aliases : { " + aliasKey + ": \"" + config.resource + "\"}'" 
+            "'resource: \"" + config.resource + "\"' with " +
+            "'aliases : { " + aliasKey + ": \"" + config.resource + "\"}'"
           );
           qx.log.Logger.trace();
         }
       }
-      
+
       if (config.resource) {
         theme.resource = config.resource;
       } else if (config.extend && config.extend.resource) {
         theme.resource = config.extend.resource;
       }
     },
-    
-    
+
+
     /**
      * Initialize alias inheritance
-     * 
+     *
      * @param theme {Map} The theme
      * @param config {Map} config structure
      */
@@ -184,11 +184,11 @@ qx.Class.define("qx.Theme",
       if (config.extend && config.extend.aliases) {
         qx.lang.Object.mergeWith(aliases, config.extend.aliases, false);
       }
-      
+
       theme.aliases = aliases;
     },
-    
-    
+
+
     /**
      * Return a map of all known themes
      *
@@ -497,10 +497,10 @@ qx.Class.define("qx.Theme",
 
 
     /**
-     * Include all keys of the given mixin theme into the theme. If the 
+     * Include all keys of the given mixin theme into the theme. If the
      * mixin includes any keys that are already available in the
-     * class, they will be silently ignored. Use the {@link #patch} method 
-     * if you need to overwrite keys in the current class. 
+     * class, they will be silently ignored. Use the {@link #patch} method
+     * if you need to overwrite keys in the current class.
      *
      * @param theme {Theme} An existing theme which should be modified by including the mixin theme.
      * @param mixinTheme {Theme} The theme to be included.

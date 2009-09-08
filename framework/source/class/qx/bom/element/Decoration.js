@@ -43,14 +43,14 @@ qx.Class.define("qx.bom.element.Decoration",
      * We enable this for IE7 as well because of issues reported by Maria
      * Siebert and others in combination with the opacity filter applied
      * to e.g. disabled icons. Thanks Maria.
-     * 
+     *
      * The situation for IE8 is that running in "IE8 Standards Mode" IE8 has a
-     * runtime performance issue. The updates are compared to IE7 (and IE8 in 
-     * "IE7 Standards Mode" as well) really slow. The cause for this is the 
-     * dynamic adding/removing of the IMG elements which are part of the 
+     * runtime performance issue. The updates are compared to IE7 (and IE8 in
+     * "IE7 Standards Mode" as well) really slow. The cause for this is the
+     * dynamic adding/removing of the IMG elements which are part of the
      * decorator. Using the alpha image loader does change this DOM structure
      * to only use DIV elements which do not have a negative performance impact.
-     * See Bug #2185 for details.   
+     * See Bug #2185 for details.
      */
     __enableAlphaFix : qx.core.Variant.isSet("qx.client", "mshtml") &&
       qx.bom.client.Engine.VERSION < 9,
@@ -211,7 +211,7 @@ qx.Class.define("qx.bom.element.Decoration",
       var width = ResourceManager.getImageWidth(source) || ImageLoader.getWidth(source);
       var height = ResourceManager.getImageHeight(source) || ImageLoader.getHeight(source);
       var format = ResourceManager.getImageFormat(source) || ImageLoader.getFormat(source);
-      
+
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (source != null && format == null)
@@ -421,11 +421,11 @@ qx.Class.define("qx.bom.element.Decoration",
             if (height != null && style.height == null) {
               style.height = height + "px";
             }
-            
+
             // Reset the AlphaImageLoader filter if applied
             // This prevents IE from setting BOTH CSS filter AND backgroundImage
             // This is only a fallback if the image is not recognized as PNG
-            // If it's a Alpha-PNG file it *may* result in display problems 
+            // If it's a Alpha-PNG file it *may* result in display problems
             if (style.filter) {
               style.filter = "";
             }

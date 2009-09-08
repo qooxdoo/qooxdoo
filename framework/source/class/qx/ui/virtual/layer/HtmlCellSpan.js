@@ -19,32 +19,32 @@
 
 /**
  * EXPERIMENTAL!
- * 
+ *
  * An extended HtmlCell layer, which adds the possibility to specify row and
- * column spans for specific cells. 
+ * column spans for specific cells.
  */
 qx.Class.define("qx.ui.virtual.layer.HtmlCellSpan",
 {
   extend : qx.ui.virtual.layer.HtmlCell,
-  
-  
+
+
   /**
    * @param htmlCellProvider {qx.ui.virtual.core.IHtmlCellProvider} This class
    *    provides the HTML markup for each cell.
-   * @param rowConfig {qx.ui.virtual.core.Axis} The row configuration of the pane 
+   * @param rowConfig {qx.ui.virtual.core.Axis} The row configuration of the pane
    *    in which the cells will be rendered
    * @param columnConfig {qx.ui.virtual.core.Axis} The column configuration of
    *    the pane in which the cells will be rendered
-   */  
+   */
   construct : function(htmlCellProvider, rowConfig, columnConfig)
   {
-    this.base(arguments, htmlCellProvider);      
+    this.base(arguments, htmlCellProvider);
     this._spanManager = new qx.ui.virtual.layer.CellSpanManager(
       rowConfig, columnConfig
     );
   },
 
-  
+
   /*
   *****************************************************************************
      MEMBERS
@@ -55,7 +55,7 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCellSpan",
   {
     /**
      * Set the row and column span for a specific cell
-     * 
+     *
      * @param row {PositiveInteger} The cell's row
      * @param column {PositiveInteger} The cell's column
      * @param rowSpan {PositiveInteger} The number of rows the cells spans
@@ -65,14 +65,14 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCellSpan",
     {
       var id = row + "x" + column;
       this._spanManager.removeCell(id);
-      if (rowSpan > 1 || columnSpan > 1) {        
+      if (rowSpan > 1 || columnSpan > 1) {
         this._spanManager.addCell(id, row, column, rowSpan, columnSpan);
       }
       qx.ui.core.queue.Widget.add(this);
     },
-    
-    
-    __renderCell : function(htmlArr, row, column, left, top, width, height) 
+
+
+    __renderCell : function(htmlArr, row, column, left, top, width, height)
     {
       var cellProperties = this._cellProvider.getCellProperties(row, column);
       var insets = cellProperties.insets || [0, 0];
@@ -87,30 +87,30 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCellSpan",
         "class='", cellProperties.classes || "", "' ",
         cellProperties.attributes || "", ">",
         cellProperties.content || "",
-        "</div>"                     
-      );      
+        "</div>"
+      );
     },
-    
-    
+
+
     // overridden
     _fullUpdate : function(firstRow, firstColumn, rowSizes, columnSizes)
     {
       var html = [];
-      
+
       var cells = this._spanManager.findCellsInWindow(
-        firstRow, firstColumn, 
+        firstRow, firstColumn,
         rowSizes.length, columnSizes.length
       );
-      
+
       if (cells.length > 0)
       {
         var bounds = this._spanManager.getCellBounds(cells, firstRow, firstColumn);
         var spanMap = this._spanManager.computeCellSpanMap(
           cells,
-          firstRow, firstColumn, 
+          firstRow, firstColumn,
           rowSizes.length, columnSizes.length
         );
-        
+
         // render spanning cells
         for (var i=0, l=cells.length; i<l; i++)
         {
@@ -122,7 +122,7 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCellSpan",
             cellBounds.left, cellBounds.top,
             cellBounds.width, cellBounds.height
           );
-        }         
+        }
       }
       else
       {
@@ -132,7 +132,7 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCellSpan",
           spanMap[firstRow+i] = [];
         }
       }
-      
+
       // render non spanning cells
       var left = 0;
       var top = 0;
@@ -142,11 +142,11 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCellSpan",
       {
         var left = 0;
         var column = firstColumn;
-        var height = rowSizes[x] 
+        var height = rowSizes[x]
         for(var y=0; y<columnSizes.length; y++)
-        {          
+        {
           var width = columnSizes[y];
-          
+
           if (!spanMap[row][column])
           {
             this.__renderCell(
@@ -158,16 +158,16 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCellSpan",
           }
 
           column++;
-          left += width;          
+          left += width;
         }
         top += height;
         row++;
-      }            
-      
-      this.getContentElement().setAttribute("html", html.join(""));        
+      }
+
+      this.getContentElement().setAttribute("html", html.join(""));
     }
   },
-  
+
   /*
   *****************************************************************************
      DESTRUCTOR

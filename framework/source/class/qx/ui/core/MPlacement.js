@@ -67,7 +67,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
       init : "bottom-left",
       themeable : true
     },
-    
+
     /**
      * Whether the widget should be placed relative to an other widget or to
      * the mouse cursor.

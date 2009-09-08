@@ -30,7 +30,7 @@ qx.Class.define("qx.ui.decoration.Beveled",
 {
   extend : qx.ui.decoration.Abstract,
   include : [qx.ui.decoration.MBackgroundImage],
-  
+
 
   /*
   *****************************************************************************
@@ -137,11 +137,11 @@ qx.Class.define("qx.ui.decoration.Beveled",
         left : 2
       };
     },
-    
-    
+
+
     // overridden
     _isInitialized: function() {
-      return !!this.__markup;      
+      return !!this.__markup;
     },
 
 
@@ -294,9 +294,9 @@ qx.Class.define("qx.ui.decoration.Beveled",
       element.childNodes[3].style.backgroundColor = Color.resolve(bgcolor) || "";
     }
   },
-  
-  
-  
+
+
+
   /*
    *****************************************************************************
       DESTRUCTOR

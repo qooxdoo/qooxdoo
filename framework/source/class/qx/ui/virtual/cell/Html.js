@@ -21,7 +21,7 @@
 /**
  * EXPERIMENTAL!
  */
-qx.Class.define("qx.ui.virtual.cell.Html", 
+qx.Class.define("qx.ui.virtual.cell.Html",
 {
   extend : qx.ui.virtual.cell.Cell,
 
@@ -52,12 +52,12 @@ qx.Class.define("qx.ui.virtual.cell.Html",
 
   members :
   {
-    
+
     /*
     ---------------------------------------------------------------------------
       IMPLEMENT CELL API
     ---------------------------------------------------------------------------
-    */    
+    */
 
     getContent : function(value, states) {
       return value;

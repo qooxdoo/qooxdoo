@@ -19,12 +19,12 @@
 
 /**
  * Wrapper for a part as defined in the config file. This class knows about all
- * packages the part depends on and provides functionality to load the part. 
+ * packages the part depends on and provides functionality to load the part.
  */
 qx.Class.define("qx.io2.part.Part",
 {
   extend : qx.core.Object,
-  
+
   /**
    * @param name {String} Name of the part as defined in the config file at
    *    compile time.
@@ -33,34 +33,34 @@ qx.Class.define("qx.io2.part.Part",
   construct : function(name, packages)
   {
     this.base(arguments);
-  
+
     this.__name = name;
     this.__readyState = "complete";
     this.__packages = packages;
-    
-    for (var i=0; i<packages.length; i++) 
+
+    for (var i=0; i<packages.length; i++)
     {
-      if (packages[i].getReadyState() !== "complete") 
+      if (packages[i].getReadyState() !== "complete")
       {
         this.__readyState = "initialized";
         break;
       }
     }
   },
-  
-  
-  events : 
+
+
+  events :
   {
     /** This event is fired after the part has been loaded successfully. */
     "load" : "qx.event.type.Event"
   },
-  
-  
+
+
   members :
   {
-    
+
     __readyState : null,
-    
+
     /**
      * Get the ready state of the part. The value is one of
      * <ul>
@@ -71,27 +71,27 @@ qx.Class.define("qx.io2.part.Part",
      * <li><b>loading</b>: The part is still loading.</li>
      * <li><b>complete</b>: The part has been loaded successfully</li>
      * </li>
-     * 
+     *
      * @return {String} The ready state.
      */
     getReadyState : function() {
       return this.__readyState;
     },
-    
+
     __name : null,
-    
+
     /**
      * The part name as defined in the config file
-     * 
+     *
      * @return {String} The part name
      */
     getName : function() {
       return this.__name;
     },
-    
+
     __packages : null,
-    
-    
+
+
     /**
      * Loads the part asynchronously. The callback is called after the part and
      * its dependencies are fully loaded. If the part is already loaded the
@@ -99,7 +99,7 @@ qx.Class.define("qx.io2.part.Part",
      *
      * @param callback {Function} Function to execute on completion
      * @param self {Object?window} Context to execute the given function in
-     */    
+     */
     load : function(callback, self)
     {
       if (this.__readyState == "complete")
@@ -108,7 +108,7 @@ qx.Class.define("qx.io2.part.Part",
           callback.call(self);
         }
         return;
-      } 
+      }
       else if (this.__readyState == "loading")
       {
         if (callback) {
@@ -116,18 +116,18 @@ qx.Class.define("qx.io2.part.Part",
         }
         return;
       }
-      
+
       if (callback) {
         this.addListenerOnce("load", callback, self);
       }
-      
+
       this.__readyState == "loading";
 
       var onLoad = function() {
         this.load();
       }
-      
-      for (var i=0; i<this.__packages.length; i++) 
+
+      for (var i=0; i<this.__packages.length; i++)
       {
         var pkg = this.__packages[i];
         switch (pkg.getReadyState())
@@ -136,14 +136,14 @@ qx.Class.define("qx.io2.part.Part",
             pkg.addListenerOnce("load", onLoad, this);
             pkg.load();
             return;
-          
+
           case "loading":
             pkg.addListenerOnce("load", onLoad, this);
             return;
-          
+
           case "complete":
             break;
-          
+
           default:
             throw new Error("Invalid case!")
         }
@@ -153,8 +153,8 @@ qx.Class.define("qx.io2.part.Part",
       this.fireEvent("load");
     }
   },
-  
-  
+
+
   /*
    *****************************************************************************
       DESTRUCTOR

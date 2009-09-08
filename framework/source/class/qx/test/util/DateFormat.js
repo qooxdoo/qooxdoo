@@ -65,17 +65,17 @@ qx.Class.define("qx.test.util.DateFormat",
       var parsedDate = dateFmt.parse(dateStr);
       this.assertEquals(date.getTime(), parsedDate.getTime());
     },
-    
-    
+
+
     testTimeZone : function()
     {
       var date = new qx.test.util.DateMock({timezoneOffset: -60});
-      
+
       var formatStr = "z";
       var dateFmt = new qx.util.format.DateFormat(formatStr, "de_DE");
-      
+
       this.assertEquals("GMT+1:00", dateFmt.format(date));
-      
+
       var date = new qx.test.util.DateMock({timezoneOffset: 60});
       this.assertEquals("GMT-1:00", dateFmt.format(date));
 
@@ -83,14 +83,14 @@ qx.Class.define("qx.test.util.DateFormat",
       this.assertEquals("GMT+1:30", dateFmt.format(date));
 
       var date = new qx.test.util.DateMock({timezoneOffset: 90});
-      this.assertEquals("GMT-1:30", dateFmt.format(date));    
+      this.assertEquals("GMT-1:30", dateFmt.format(date));
     },
-    
-    
+
+
     testLocalizedDates : function()
     {
       var date = new Date(2006, 2, 14);
-      
+
       var formatStr = qx.locale.Date.getDateFormat("medium", "fr_FR");
       var dateFmt = new qx.util.format.DateFormat(formatStr, "fr_FR");
       dateStr = dateFmt.format(date);

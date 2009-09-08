@@ -59,8 +59,8 @@ qx.Interface.define("qx.ui.form.INumberForm",
     setValue : function(value) {
       return arguments.length == 1;
     },
-    
-    
+
+
     /**
      * Resets the element's value to its initial value.
      */

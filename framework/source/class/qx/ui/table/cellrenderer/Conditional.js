@@ -358,7 +358,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Conditional",
       return styleString.join("");
     }
   },
-  
+
   /*
   *****************************************************************************
      DESTRUCTOR

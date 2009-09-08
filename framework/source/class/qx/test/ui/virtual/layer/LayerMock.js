@@ -20,14 +20,14 @@
 qx.Class.define("qx.test.ui.virtual.layer.LayerMock",
 {
   extend : qx.ui.virtual.layer.Abstract,
-  
-  construct : function() 
+
+  construct : function()
   {
     this.base(arguments);
-    
+
     this.calls = [];
   },
-  
+
   /*
   *****************************************************************************
      MEMBERS
@@ -36,54 +36,54 @@ qx.Class.define("qx.test.ui.virtual.layer.LayerMock",
 
   members :
   {
-    updateLayerData : function() 
+    updateLayerData : function()
     {
       this.calls.push(["updateLayerData", qx.lang.Array.fromArguments(arguments)]);
-      this.base(arguments);      
+      this.base(arguments);
     },
-    
+
 
     _updateLayerData : function() {
-      this.calls.push(["_updateLayerData", qx.lang.Array.fromArguments(arguments)]);          
+      this.calls.push(["_updateLayerData", qx.lang.Array.fromArguments(arguments)]);
     },
 
-    
+
     fullUpdate : function(
-      firstRow, firstColumn,  
+      firstRow, firstColumn,
       rowSizes, columnSizes
     )
-    {    
+    {
       this.calls.push(["fullUpdate", qx.lang.Array.fromArguments(arguments)]);
       this.base(
-        arguments, firstRow, firstColumn, 
+        arguments, firstRow, firstColumn,
         rowSizes, columnSizes
       );
     },
 
-    
+
     _fullUpdate : function(firstRow, firstColumn, rowSizes, columnSizes) {
       this.calls.push(["_fullUpdate", qx.lang.Array.fromArguments(arguments)]);
-    },    
-    
-    
+    },
+
+
     updateLayerWindow : function(
-      firstRow, firstColumn,  
-      rowSizes, columnSizes  
-    ) 
+      firstRow, firstColumn,
+      rowSizes, columnSizes
+    )
     {
       this.calls.push(["updateLayerWindow", qx.lang.Array.fromArguments(arguments)]);
       this.base(
-        arguments, firstRow, firstColumn, 
+        arguments, firstRow, firstColumn,
         rowSizes, columnSizes
-      );      
+      );
     },
-    
-    
+
+
     _updateLayerWindow : function(
-      firstRow, firstColumn,  
-      rowSizes, columnSizes  
+      firstRow, firstColumn,
+      rowSizes, columnSizes
     ) {
       this.calls.push(["_updateLayerWindow", qx.lang.Array.fromArguments(arguments)]);
-    }    
+    }
   }
 });

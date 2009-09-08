@@ -22,22 +22,22 @@
  * interface.
  * @deprecated
  */
-qx.Mixin.define("qx.ui.form.MFormElement", 
-{  
+qx.Mixin.define("qx.ui.form.MFormElement",
+{
   events : {
-    /** 
-     * Change event for the replacement name property. 
-     * 
+    /**
+     * Change event for the replacement name property.
+     *
      * @deprecated
      */
     "changeName" : "qx.event.type.Data"
   },
-  
+
   members :
   {
     __name : null,
-    
-    
+
+
     /**
      * Sets the name of the widget.
      * @param name {var} The value of the property.
@@ -45,40 +45,40 @@ qx.Mixin.define("qx.ui.form.MFormElement",
      */
     setName: function(name) {
       qx.log.Logger.deprecatedMethodWarning(arguments.callee);
-      
+
       // check
       if (name != null && !qx.lang.Type.isString(name)) {
         throw new Error("Please use strings for the name property.");
         return;
       }
-      
+
       var oldName = this.__name;
       this.__name = name;
       this.fireDataEvent(qx.event.type.Data, name, oldName);
     },
-  
-  
+
+
     /**
      * Returns the name of the widget.
      * @return {var} The value of the property.
      * @deprecated
-     */  
+     */
     getName: function() {
       qx.log.Logger.deprecatedMethodWarning(arguments.callee);
       return this.__name;
     },
-    
-    
+
+
     /**
      * Resets the name of the widget.
      * @deprecated
-     */    
+     */
     resetName: function() {
       qx.log.Logger.deprecatedMethodWarning(arguments.callee);
-      
+
       var oldName = this.__name;
       this.__name = null;
-      this.fireDataEvent(qx.event.type.Data, null, oldName); 
+      this.fireDataEvent(qx.event.type.Data, null, oldName);
     }
   }
 });

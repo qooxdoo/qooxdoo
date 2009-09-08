@@ -26,8 +26,8 @@ qx.Class.define("qx.test.util.Json",
     testStringifyJson : function() {
       this.assertEquals('{"test":123}', qx.util.Json.stringify({ test : 123 }, false));
     },
-    
-    
+
+
     testStringifyDate : function()
     {
       var data = {
@@ -35,8 +35,8 @@ qx.Class.define("qx.test.util.Json",
       }
       this.assertEquals('{"start":new Date(Date.UTC(1970,0,1,0,0,0,0))}', qx.util.Json.stringify(data, false));
     },
-    
-    
+
+
     testCustomDateSerializer : function()
     {
       var start = new Date(0);
@@ -45,9 +45,9 @@ qx.Class.define("qx.test.util.Json",
       }
       this.assertEquals('0', qx.util.Json.stringify(start, false));
     },
-    
-    
-    testToJson : function() 
+
+
+    testToJson : function()
     {
       var custom = {
         toJSON : function(key) {

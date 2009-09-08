@@ -29,13 +29,13 @@ qx.Mixin.define("qx.legacy.application.MMouseCapturePatch",
   {
     // interface implementation
     canDispatchEvent : function(target, event, type)
-    {      
+    {
       return (
-        this.__captureElement && 
-        this.__captureEvents[type] && 
+        this.__captureElement &&
+        this.__captureEvents[type] &&
         event.classname &&
         event.classname.indexOf("qx.legacy") == -1
       );
-    }    
+    }
   }
 });

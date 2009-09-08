@@ -21,59 +21,59 @@
 /**
  * EXPERIMENTAL!
  *
- * Objects, which are used as delegates for a data binding store may 
- * implement any of the methods described in this interface. The delegate does 
- * not need implement all of the methods of this interface. If a method is not 
- * implemented the store provides a default implementation.  
- * 
+ * Objects, which are used as delegates for a data binding store may
+ * implement any of the methods described in this interface. The delegate does
+ * not need implement all of the methods of this interface. If a method is not
+ * implemented the store provides a default implementation.
+ *
  * Note: This interface is meant to document the delegate but should not be
- * listed in the <code>implement</code> key of a class unless all methods are 
+ * listed in the <code>implement</code> key of a class unless all methods are
  * really implemented.
  */
 qx.Interface.define("qx.data.store.IStoreDelegate",
 {
   members :
-  {    
+  {
     /**
      * Determinates the user defined class for the given properties string.
      * This class could contain additional methods but needs to have the
      * properties with the given names. Also every property needs to have a
      * change event.
-     * 
-     * If this method is implemented, you have to add the superclass and mixins 
-     * yourself to the returned class. This means that the methods 
-     * {@link #getModelSuperClass} and {@link #getModelMixins} will not be 
+     *
+     * If this method is implemented, you have to add the superclass and mixins
+     * yourself to the returned class. This means that the methods
+     * {@link #getModelSuperClass} and {@link #getModelMixins} will not be
      * called for the corresponding class.
-     * 
-     * @param properties {String} A sorted order of propertynames  
+     *
+     * @param properties {String} A sorted order of propertynames
      *   separated by ".
-     * @return {Class|null} Returns the class containing the properties 
+     * @return {Class|null} Returns the class containing the properties
      *   corresponding to the given hash of the properties. If <code>null</code>
      *   will be returned, the store will create a class.
      */
     getModelClass : function(properties) {},
-    
-    
+
+
     /**
      * Returns the class which the created model class uses as superclass.
-     * 
-     * @param properties {String} A sorted order of propertynames  
+     *
+     * @param properties {String} A sorted order of propertynames
      *   separated by ".
-     * @return {Class|null} Returns the class which should be used as superclass 
+     * @return {Class|null} Returns the class which should be used as superclass
      *   corresponding to the given hash of the properties. If <code>null</code>
      *   will be returned, {@link qx.core.Object} will be used as superclass.
      */
     getModelSuperClass : function(properties) {},
-    
-    
+
+
     /**
-     * Returns the mixins which should be included to the class, created by the 
+     * Returns the mixins which should be included to the class, created by the
      * store and identified by the given properties string.
-     * 
-     * @param properties {String} A sorted order of propertynames  
+     *
+     * @param properties {String} A sorted order of propertynames
      *   separated by ".
-     * @return {Array|Mixin|null} Returns an array of mixins or a single mixin which 
-     *   will be included into the given class identified by the properties 
+     * @return {Array|Mixin|null} Returns an array of mixins or a single mixin which
+     *   will be included into the given class identified by the properties
      *   given in the parameter. If <code>null</code> will be returned, no mixin
      *   will be included.
      */

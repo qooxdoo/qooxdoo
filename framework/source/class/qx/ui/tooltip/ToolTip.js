@@ -20,7 +20,7 @@
 ************************************************************************ */
 
 /**
- * A Tooltip provides additional information for widgets when the user hovers 
+ * A Tooltip provides additional information for widgets when the user hovers
  * over a widget.
  */
 qx.Class.define("qx.ui.tooltip.ToolTip",
@@ -102,9 +102,9 @@ qx.Class.define("qx.ui.tooltip.ToolTip",
       apply : "_applyLabel"
     },
 
-    /** 
+    /**
      * Any URI String supported by qx.ui.basic.Image to display an icon in
-     * ToolTips's atom. 
+     * ToolTips's atom.
      */
     icon :
     {
@@ -115,8 +115,8 @@ qx.Class.define("qx.ui.tooltip.ToolTip",
     },
 
     /**
-     * Switches between rich HTML and text content. The text mode 
-     * (<code>false</code>) supports advanced features like ellipsis when the 
+     * Switches between rich HTML and text content. The text mode
+     * (<code>false</code>) supports advanced features like ellipsis when the
      * available space is not enough. HTML mode (<code>true</code>) supports
      * multi-line content and all the markup features of HTML content.
      */
@@ -126,7 +126,7 @@ qx.Class.define("qx.ui.tooltip.ToolTip",
       init : false,
       apply : "_applyRich"
     },
-    
+
     /** Widget that opened the tooltip */
     opener :
     {

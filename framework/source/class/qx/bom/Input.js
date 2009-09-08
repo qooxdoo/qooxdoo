@@ -15,11 +15,11 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
-     
+
    ======================================================================
 
    This class contains code based on the following work:
-     
+
    * jQuery
      http://jquery.com
      Version 1.3.1
@@ -28,7 +28,7 @@
        2009 John Resig
 
      License:
-       MIT: http://www.opensource.org/licenses/mit-license.php        
+       MIT: http://www.opensource.org/licenses/mit-license.php
 
 ************************************************************************ */
 
@@ -134,9 +134,9 @@ qx.Class.define("qx.bom.Input",
       var Type = qx.lang.Type;
 
       if (typeof value === "number") {
-        value += "";  
+        value += "";
       }
-      
+
       if ((type === "checkbox" || type === "radio"))
       {
         if (Type.isArray(value)) {
@@ -145,22 +145,22 @@ qx.Class.define("qx.bom.Input",
           element.checked = element.value == value;
         }
       }
-      else if (tag === "select") 
+      else if (tag === "select")
       {
         var isArray = Type.isArray(value);
         var options = element.options;
         var subel, subval;
-        
-        for (var i=0, l=options.length; i<l; i++) 
+
+        for (var i=0, l=options.length; i<l; i++)
         {
           subel = options[i];
           subval = subel.getAttribute("value");
           if (subval == null) {
             subval = subel.text;
           }
-          
+
           subel.selected = isArray ?
-             Array.contains(value, subval) : value == subval;			    
+             Array.contains(value, subval) : value == subval;
         }
 
         if (isArray && value.length == 0) {
@@ -174,11 +174,11 @@ qx.Class.define("qx.bom.Input",
         // event handler to filter events.
         element.__inValueSet = true;
         element.value = value;
-        element.__inValueSet = null;			  
+        element.__inValueSet = null;
       }
       else
       {
-        element.value = value;      
+        element.value = value;
       }
     },
 
@@ -195,23 +195,23 @@ qx.Class.define("qx.bom.Input",
      * @param element {Element} DOM element to query
      * @return {String|Array} The value of the given element
      */
-    getValue : function(element) 
+    getValue : function(element)
     {
       var tag = element.nodeName.toLowerCase();
-      
+
       if (tag === "option") {
-        return (element.attributes.value || {}).specified ? element.value : element.text;  
+        return (element.attributes.value || {}).specified ? element.value : element.text;
       }
-      
-      if (tag === "select") 
+
+      if (tag === "select")
       {
         var index = element.selectedIndex;
-  
+
         // Nothing was selected
         if (index < 0) {
           return null;
         }
-          
+
         var values = [];
         var options = element.options;
         var one = element.type == "select-one";
@@ -219,25 +219,25 @@ qx.Class.define("qx.bom.Input",
         var value;
 
         // Loop through all the selected options
-        for (var i=one ? index : 0, max=one ? index+1 : options.length; i<max; i++) 
+        for (var i=one ? index : 0, max=one ? index+1 : options.length; i<max; i++)
         {
           var option = options[i];
-  
+
           if (option.selected)
           {
             // Get the specifc value for the option
             value = clazz.getValue(option);
-  
+
             // We don't need an array for one selects
             if (one) {
               return value;
             }
-  
+
             // Multi-Selects return an array
             values.push(value);
           }
         }
-        
+
         return values;
       }
       else

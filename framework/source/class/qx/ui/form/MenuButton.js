@@ -188,7 +188,7 @@ qx.Class.define("qx.ui.form.MenuButton",
     _onMouseUp : function(e)
     {
       // call base for firing the execute event
-      this.base(arguments, e);      
+      this.base(arguments, e);
 
       // Just stop propagation to stop menu manager
       // from getting the event

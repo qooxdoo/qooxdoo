@@ -278,7 +278,7 @@ qx.Class.define("qx.event.Timer",
 
     /**
      * timer callback
-     * 
+     *
      * @signature function()
      */
     _oninterval : qx.event.GlobalError.observeMethod(function()

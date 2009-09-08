@@ -20,39 +20,39 @@
 
 /**
  * EXPERIMENTAL!
- * 
+ *
  * Cell selection manager
  */
 qx.Class.define("qx.ui.virtual.selection.CellRectangle",
 {
   extend : qx.ui.virtual.selection.Abstract,
-   
-   
+
+
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
- 
+
   members :
-  {  
+  {
     /**
-     * Returns the number of all items in the pane. This number may contain 
+     * Returns the number of all items in the pane. This number may contain
      * unselectable items as well.
-     * 
+     *
      * @return {Integer} number of items
      */
     _getItemCount : function() {
       return this._pane.getRowConfig().getItemCount() * this._pane.getColumnConfig().getItemCount();
     },
-  
-  
+
+
     /*
     ---------------------------------------------------------------------------
       IMPLEMENT ABSTRACT METHODS
     ---------------------------------------------------------------------------
-    */  
-    
+    */
+
     // overridden
     _getSelectableFromMouseEvent : function(event)
     {
@@ -60,23 +60,23 @@ qx.Class.define("qx.ui.virtual.selection.CellRectangle",
         event.getDocumentLeft(),
         event.getDocumentTop()
       );
-        
+
       if (!cell) {
         return null;
       }
-      
+
       return this._isSelectable(cell) ? cell : null;
-    },        
-    
-    
+    },
+
+
     // overridden
-    getSelectables : function() 
+    getSelectables : function()
     {
       var selectables = [];
-      
+
       var rowCount = this._pane.getRowConfig().getItemCount();
       var columnCount = this._pane.getColumnConfig().getItemCount();
-      
+
       for (var row=0; row<rowCount; row++)
       {
         for (var column=0; column<columnCount; column++)
@@ -87,7 +87,7 @@ qx.Class.define("qx.ui.virtual.selection.CellRectangle",
           }
           if (this._isSelectable(cell)) {
             selectables.push(cell);
-          }                  
+          }
         }
       }
 
@@ -100,12 +100,12 @@ qx.Class.define("qx.ui.virtual.selection.CellRectangle",
     {
       //console.log("selecte range", item1, item2);
       var selectables = [];
-      
+
       var minRow = Math.min(item1.row, item2.row);
       var maxRow = Math.max(item1.row, item2.row);
       var minColumn = Math.min(item1.column, item2.column);
       var maxColumn = Math.max(item1.column, item2.column);
-      
+
       for (var row=minRow; row<=maxRow; row++)
       {
         for (var column=minColumn; column<=maxColumn; column++)
@@ -116,19 +116,19 @@ qx.Class.define("qx.ui.virtual.selection.CellRectangle",
           }
           if (this._isSelectable(cell)) {
             selectables.push(cell);
-          }                  
+          }
         }
-      }      
-      return selectables;      
+      }
+      return selectables;
     },
 
 
     // overridden
-    _getFirstSelectable : function() 
+    _getFirstSelectable : function()
     {
       var rowCount = this._pane.getRowConfig().getItemCount();
       var columnCount = this._pane.getColumnConfig().getItemCount();
-      
+
       for (var row=0; row<rowCount; row++)
       {
         for (var column=0; column<columnCount; column++)
@@ -139,20 +139,20 @@ qx.Class.define("qx.ui.virtual.selection.CellRectangle",
           }
           if (this._isSelectable(cell)) {
             return cell
-          }                  
+          }
         }
       }
-      
+
       return null;
     },
 
 
     // overridden
-    _getLastSelectable : function() 
+    _getLastSelectable : function()
     {
       var rowCount = this._pane.getRowConfig().getItemCount();
       var columnCount = this._pane.getColumnConfig().getItemCount();
-      
+
       for (var column=columnCount-1; column>=0; column--)
       {
         for (var row=rowCount-1; row>=0; row--)
@@ -163,63 +163,63 @@ qx.Class.define("qx.ui.virtual.selection.CellRectangle",
           }
           if (this._isSelectable(cell)) {
             return cell
-          }                  
+          }
         }
       }
-      
-      return null;      
+
+      return null;
     },
 
 
     // overridden
-    _getRelatedSelectable : function(item, relation) 
+    _getRelatedSelectable : function(item, relation)
     {
       var cell = {
         row: item.row,
         column: item.column
       };
-      
+
       switch(relation)
       {
         case "above":
-          for (var row=item.row-1; row>=0; row--) 
+          for (var row=item.row-1; row>=0; row--)
           {
             cell.row = row;
             if (this._isSelectable(cell)) {
               return cell;
-            }        
+            }
           }
           break;
-      
+
         case "under":
           var rowCount = this._pane.getRowConfig().getItemCount();
-          for (var row=item.row+1; row<rowCount; row++) 
+          for (var row=item.row+1; row<rowCount; row++)
           {
             cell.row = row;
             if (this._isSelectable(cell)) {
               return cell;
-            }        
+            }
           }
           break;
-      
-        case "left":   
-          for (var column=item.column-1; column>=0; column--) 
+
+        case "left":
+          for (var column=item.column-1; column>=0; column--)
           {
             cell.column = column;
             if (this._isSelectable(cell)) {
               return cell;
-            }        
+            }
           }
           break;
-      
+
         case "right":
           var columnCount = this._pane.getColumnConfig().getItemCount();
-          for (var column=item.column+1; column<columnCount; column++) 
+          for (var column=item.column+1; column<columnCount; column++)
           {
             cell.column = column;
             if (this._isSelectable(cell)) {
               return cell;
-            }        
+            }
           }
           break;
       }
@@ -228,36 +228,36 @@ qx.Class.define("qx.ui.virtual.selection.CellRectangle",
 
 
     // overridden
-    _getPage : function(lead, up) 
+    _getPage : function(lead, up)
     {
       if (up) {
         return this._getFirstSelectable();
       } else {
         return this._getLastSelectable();
       }
-    },   
-    
-    
+    },
+
+
     // overridden
     _selectableToHashCode : function(item) {
       return item.column + "x" + item.row;
     },
-    
-    
+
+
     // overridden
     _scrollItemIntoView : function(item) {
       this._pane.scrollCellIntoView(item.column, item.row);
-    },   
+    },
 
-    
+
     // overridden
-    _getSelectableLocationX : function(item) 
+    _getSelectableLocationX : function(item)
     {
       var columnConfig = this._pane.getColumnConfig();
-      
+
       var itemLeft = columnConfig.getItemPosition(item.column);
       var itemRight = itemLeft + columnConfig.getItemSize(item.column) - 1;
-      
+
       return {
         left: itemLeft,
         right: itemRight
@@ -266,13 +266,13 @@ qx.Class.define("qx.ui.virtual.selection.CellRectangle",
 
 
     // overridden
-    _getSelectableLocationY : function(item) 
+    _getSelectableLocationY : function(item)
     {
       var rowConfig = this._pane.getRowConfig();
-      
+
       var itemTop = rowConfig.getItemPosition(item.row);
       var itemBottom = itemTop + rowConfig.getItemSize(item.row) - 1;
-      
+
       return {
         top: itemTop,
         bottom: itemBottom

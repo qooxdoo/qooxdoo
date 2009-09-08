@@ -106,7 +106,7 @@ qx.Class.define("qx.ui.form.Button",
      */
     "changeValue" : "qx.event.type.Data"
   },
-  
+
 
 
   /*
@@ -145,7 +145,7 @@ qx.Class.define("qx.ui.form.Button",
   {
     // overridden
     /**
-     * @lint ignoreReferenceField(_forwardStates) 
+     * @lint ignoreReferenceField(_forwardStates)
      */
     _forwardStates :
     {
@@ -154,8 +154,8 @@ qx.Class.define("qx.ui.form.Button",
       pressed : true,
       disabled : true
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       USER API
@@ -368,8 +368,8 @@ qx.Class.define("qx.ui.form.Button",
           }
       }
     },
-    
-    
+
+
 
 
     /*
@@ -378,59 +378,59 @@ qx.Class.define("qx.ui.form.Button",
     ---------------------------------------------------------------------------
     */
     __value : null,
-    
-    
+
+
     /**
-     * Old set method for the value property. 
-     * 
+     * Old set method for the value property.
+     *
      * @param value {String} The value of the label.
      * @deprecated
      */
     setValue: function(value)
     {
       qx.log.Logger.deprecatedMethodWarning(arguments.callee);
-      
+
       var oldValue = this.__value;
       this.__value = value;
       this.fireDataEvent("changeValue", value, oldValue);
     },
-    
-    
+
+
     /**
      * Old get method for the value property.
-     * 
+     *
      * @deprecated
-     */    
+     */
     getValue: function()
     {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee);      
-      
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee);
+
       return this.__value;
     },
-    
-    
+
+
     /**
-     * Old reset method for the value property. 
-     * 
+     * Old reset method for the value property.
+     *
      * @deprecated
-     */    
+     */
     resetValue: function()
     {
       qx.log.Logger.deprecatedMethodWarning(arguments.callee);
 
       this.__value = null;
     },
-    
-    
+
+
     // overridden
     addListener: function(type, listener, self, capture)
     {
       if (type == "changeValue" && this.classname == "qx.ui.form.Button") {
         qx.log.Logger.deprecatedEventWarning(
-          arguments.callee, 
+          arguments.callee,
           "changeValue",
           "The value property will be removed."
-        );        
+        );
       }
       return this.base(arguments, type, listener, self, capture);
     }

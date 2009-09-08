@@ -21,10 +21,10 @@ qx.Class.define("qx.test.ui.Focus",
 {
   extend : qx.test.ui.LayoutTestCase,
 
-  
+
   members :
   {
-    getContainer : function() 
+    getContainer : function()
     {
       if (!this._container)
       {
@@ -36,128 +36,128 @@ qx.Class.define("qx.test.ui.Focus",
       }
       return this._container;
     },
-    
-    
-    setUp : function() 
-    {     
+
+
+    setUp : function()
+    {
       this.flush();
-      
+
       this.ref = new qx.ui.form.TextField();
       this.addReferenceInput();
       this.ref.focus();
       this.flush();
 
-      this.ref.addListener("blur", this.onRefBlur, this);       
-     
+      this.ref.addListener("blur", this.onRefBlur, this);
+
       this.ref_blur_called = false;
       this.target_focus_called = false;
       this.target_blur_called = false;
-      
+
       this.flush();
-      
+
       this.input = new qx.ui.form.TextField();
-      this.input.addListener("focus", this.onInputFocus, this); 
-      this.input.addListener("blur", this.onInputBlur, this); 
+      this.input.addListener("focus", this.onInputFocus, this);
+      this.input.addListener("blur", this.onInputBlur, this);
     },
-    
-    
-    tearDown : function() 
+
+
+    tearDown : function()
     {
       if (this.input) {
         this.input.destroy();
       }
-      
+
       if (this.ref) {
         this.ref.destroy();
       }
 
-      if (this._container) 
+      if (this._container)
       {
         this._container.destroy();
         this._container = null;
       }
       this.flush();
     },
-    
-    
+
+
     addInput : function() {
       this.getContainer().add(this.input, {row: 2, column: 0})
     },
-    
-    
+
+
     addReferenceInput : function() {
       this.getContainer().add(this.ref, {row: 1, column: 0, colSpan: 2});
     },
-    
-    
+
+
     onRefBlur : function()
     {
       this.ref_blur_called = true;
     },
-    
-    
-    onInputFocus : function() 
+
+
+    onInputFocus : function()
     {
       this.target_focus_called = true;
     },
-    
-    
-    onInputBlur : function() 
+
+
+    onInputBlur : function()
     {
       this.target_blur_called = true;
     },
 
-    
-    testNotInsertedBeforeFlush : function() 
+
+    testNotInsertedBeforeFlush : function()
     {
       this.input.focus();
       this.flush();
-      
+
       this.assertFalse(this.ref_blur_called);
       this.assertFalse(this.target_focus_called);
       this.assertFalse(this.target_blur_called);
 
       this.addInput();
     },
-    
-    
-    testExcludedBeforeFlush : function() 
+
+
+    testExcludedBeforeFlush : function()
     {
       this.addInput();
       this.input.exclude();
       this.input.focus();
       this.flush();
-      
+
       this.assertFalse(this.ref_blur_called);
       this.assertFalse(this.target_focus_called);
       this.assertFalse(this.target_blur_called);
-      
+
       this.input.show();
     },
-    
-    
-    testHiddenBeforeFlush : function() 
+
+
+    testHiddenBeforeFlush : function()
     {
       this.addInput();
       this.input.hide();
       this.input.focus();
       this.flush();
-      
+
       this.assertFalse(this.ref_blur_called);
       this.assertFalse(this.target_focus_called);
       this.assertFalse(this.target_blur_called);
-      
+
       this.input.show();
     },
-    
-    
-    testNotInsertedAfterFlush : function() 
+
+
+    testNotInsertedAfterFlush : function()
     {
       this.addInput();
       this.flush();
       this.input.getLayoutParent().remove(this.input);
       this.flush();
-      
+
       this.input.focus();
       this.flush();
 
@@ -167,177 +167,177 @@ qx.Class.define("qx.test.ui.Focus",
 
       this.addInput();
     },
-    
-    
-    testExcludedAfterFlush : function() 
+
+
+    testExcludedAfterFlush : function()
     {
       this.addInput();
       this.flush();
       this.input.getLayoutParent().remove(this.input);
       this.flush();
-      
+
       this.addInput();
       this.input.exclude();
       this.input.focus();
       this.flush();
-      
+
       this.assertFalse(this.ref_blur_called);
       this.assertFalse(this.target_focus_called);
       this.assertFalse(this.target_blur_called);
-      
+
       this.input.show();
     },
-    
-    
-    testHiddenAfterFlush : function() 
+
+
+    testHiddenAfterFlush : function()
     {
       this.addInput();
       this.flush();
       this.input.getLayoutParent().remove(this.input);
       this.flush();
-      
+
       this.addInput();
       this.input.hide();
       this.input.focus();
       this.flush();
-      
+
       this.assertFalse(this.ref_blur_called);
       this.assertFalse(this.target_focus_called);
       this.assertFalse(this.target_blur_called);
-      
+
       this.input.show();
     },
-    
+
 
      testInsertedBeforeFlush : function()
      {
        this.addInput();
        this.input.focus();
        this.flush();
-       
+
        this.assertTrue(this.ref_blur_called, "reference must be blured");
        this.assertTrue(this.target_focus_called, "target must be focued");
-       this.assertFalse(this.target_blur_called, "target must not be blured");      
+       this.assertFalse(this.target_blur_called, "target must not be blured");
      },
-    
-    
+
+
     testFocusRemoveBeforeFlush : function()
     {
       this.addInput();
       this.input.focus();
       this.flush();
-      
+
       this.input.getLayoutParent().remove(this.input);
       this.flush();
-      
+
       this.assertTrue(this.ref_blur_called);
       this.assertTrue(this.target_focus_called);
       this.assertTrue(this.target_blur_called);
-      
+
       this.addInput();
     },
-    
-    
+
+
     testFocusExcludeBeforeFlush : function()
     {
       this.addInput();
       this.input.focus();
       this.flush();
-      
+
       this.input.exclude();
       this.flush();
-      
+
       this.assertTrue(this.ref_blur_called);
       this.assertTrue(this.target_focus_called);
       this.assertTrue(this.target_blur_called);
-      
+
       this.input.show();
     },
-    
-    
+
+
     testFocusHideBeforeFlush : function()
     {
       this.addInput();
       this.input.focus();
       this.flush();
-      
+
       this.input.hide();
       this.flush();
-      
+
       this.assertTrue(this.ref_blur_called);
       this.assertTrue(this.target_focus_called);
       this.assertTrue(this.target_blur_called);
-      
+
       this.input.show();
-    },    
-    
-    
+    },
+
+
     testInsertedAfterFlush : function()
     {
       this.addInput();
       this.flush();
       this.input.focus();
       this.flush();
-      
+
       this.assertTrue(this.ref_blur_called);
       this.assertTrue(this.target_focus_called);
-      this.assertFalse(this.target_blur_called);      
+      this.assertFalse(this.target_blur_called);
     },
-    
-    
+
+
     testFocusRemoveAfterFlush : function()
     {
       this.addInput();
       this.input.focus();
       this.flush();
-      
+
       this.input.getLayoutParent().remove(this.input);
       this.flush();
-      
+
       this.assertTrue(this.ref_blur_called);
       this.assertTrue(this.target_focus_called);
       this.assertTrue(this.target_blur_called);
-      
+
       this.addInput();
     },
-    
-    
+
+
     testFocusExcludeAfterFlush : function()
     {
       this.addInput();
       this.flush();
       this.input.focus();
       this.flush();
-      
+
       this.input.exclude();
       this.flush();
-      
+
       this.assertTrue(this.ref_blur_called);
       this.assertTrue(this.target_focus_called);
       this.assertTrue(this.target_blur_called);
-      
+
       this.input.show();
     },
-    
-    
+
+
     testFocusHideAfterFlush : function()
     {
       this.addInput();
       this.flush();
       this.input.focus();
       this.flush();
-      
+
       this.input.hide();
       this.flush();
-      
+
       this.assertTrue(this.ref_blur_called, "reference must be blured");
       this.assertTrue(this.target_focus_called, "target must be focused");
       this.assertTrue(this.target_blur_called, "target must be blured");
-      
+
       this.input.show();
-    }    
+    }
   },
-  
+
   destruct : function() {
     this._disposeFields("ref", "input")
   }

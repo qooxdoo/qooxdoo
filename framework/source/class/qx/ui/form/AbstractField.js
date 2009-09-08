@@ -274,7 +274,7 @@ qx.Class.define("qx.ui.form.AbstractField",
     {
       this.base(arguments, value, old);
 
-      this.getContentElement().setEnabled(value);        
+      this.getContentElement().setEnabled(value);
 
       if (value) {
         this._showPlaceholder();
@@ -512,7 +512,7 @@ qx.Class.define("qx.ui.form.AbstractField",
      * Returns the current selection.
      * This method only works if the widget is already created and
      * added to the document.
-     * 
+     *
      * @deprecated Use public method 'getTextSelection' instead
      * @return {String|null}
      */
@@ -539,7 +539,7 @@ qx.Class.define("qx.ui.form.AbstractField",
         arguments.callee,
         "Use public 'getTextSelectionLength' instead!"
       );
-      
+
       return this.getTextSelectionLength();
     },
 
@@ -550,7 +550,7 @@ qx.Class.define("qx.ui.form.AbstractField",
      * end of the textfield's content.
      * This method only works if the widget is already created and
      * added to the document.
-     * 
+     *
      * @deprecated Use public method 'setTextSelection' instead
      * @param start {Integer} start of the selection (zero-based)
      * @param end {Integer} end of the selection
@@ -586,7 +586,7 @@ qx.Class.define("qx.ui.form.AbstractField",
 
     /**
      * Selects the whole content
-     * 
+     *
      * @deprecated Use public method 'selectAllText' instead
      * @return {void}
      */
@@ -595,11 +595,11 @@ qx.Class.define("qx.ui.form.AbstractField",
         arguments.callee,
         "Use public 'selectAllText' instead!"
       );
-      
+
       this.selectAllText();
     },
-    
-    
+
+
     /**
      * Returns the current selection.
      * This method only works if the widget is already created and

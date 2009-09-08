@@ -93,7 +93,7 @@ qx.Class.define("qx.legacy.ui.tree.SelectionManager",
      *
      * @return {var} TODOC
      */
-    _getLast : function() 
+    _getLast : function()
     {
       var items = this.getItems();
       return items[items.length-1];

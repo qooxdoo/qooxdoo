@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.performance.HtmlTableCellNaive", 
+qx.Class.define("qx.test.ui.virtual.performance.HtmlTableCellNaive",
 {
   extend : qx.test.ui.virtual.performance.AbstractLayerTest,
   type : "abstract", // disabled
@@ -27,7 +27,7 @@ qx.Class.define("qx.test.ui.virtual.performance.HtmlTableCellNaive",
     getLayer : function() {
       return new qx.test.ui.virtual.performance.layer.HtmlTableCellNaive(this);
     },
-    
+
 
     getCellHtml : function(row, column, left, top, width, height)
     {
@@ -43,11 +43,11 @@ qx.Class.define("qx.test.ui.virtual.performance.HtmlTableCellNaive",
         row,
         " / ",
         column,
-        "</td>"                  
+        "</td>"
       ];
       return html.join("");
-    }    
-    
+    }
+
   }
 
 });

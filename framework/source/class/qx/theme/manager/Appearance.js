@@ -98,7 +98,7 @@ qx.Class.define("qx.theme.manager.Appearance",
       this.__aliasMap = {};
       this.__styleCache = {};
     },
-    
+
 
     /*
     ---------------------------------------------------------------------------
@@ -149,7 +149,7 @@ qx.Class.define("qx.theme.manager.Appearance",
         if (defaultId != null) {
           return this.__resolveId(defaultId, theme);
         }
-        
+
         return null;
       }
       else if (typeof entry === "string")
@@ -221,7 +221,7 @@ qx.Class.define("qx.theme.manager.Appearance",
           if (!states[state]) {
             continue;
           }
-          
+
           if (bits[state] == null) {
             bits[state] = 1<<entry.$$length++;
           }

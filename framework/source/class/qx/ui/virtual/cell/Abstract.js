@@ -25,7 +25,7 @@
  * EXPERIMENTAL!
  */
 
-qx.Class.define("qx.ui.virtual.cell.Abstract", 
+qx.Class.define("qx.ui.virtual.cell.Abstract",
 {
   type : "abstract",
   extend : qx.core.Object,
@@ -34,7 +34,7 @@ qx.Class.define("qx.ui.virtual.cell.Abstract",
   construct : function()
   {
     this.base(arguments);
-    
+
     // initialize stylesheet
     qx.ui.virtual.cell.CellStylesheet.getInstance();
   },

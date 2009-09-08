@@ -50,7 +50,7 @@ qx.Class.define("qx.ui.tree.SelectionManager",
 
 
     // overridden
-    _getSelectableFromMouseEvent : function(event) 
+    _getSelectableFromMouseEvent : function(event)
     {
       return this._getWidget().getTreeItem(event.getTarget());
     },
@@ -61,11 +61,11 @@ qx.Class.define("qx.ui.tree.SelectionManager",
     {
       var widget = this._getWidget();
       var result = [];
-      
+
       if (widget.getRoot() != null)
       {
         var items = widget.getRoot().getItems(true, false, widget.getHideRoot());
-        
+
         for (var i = 0; i < items.length; i++)
         {
           if (this._isSelectable(items[i])) {
@@ -73,7 +73,7 @@ qx.Class.define("qx.ui.tree.SelectionManager",
           }
         }
       }
-      
+
       return result;
     },
 
@@ -148,15 +148,15 @@ qx.Class.define("qx.ui.tree.SelectionManager",
           }
           break;
       }
-      
+
       if (!related) {
         return null;
       }
-      
+
       if (this._isSelectable(related)) {
         return related;
       } else {
-        return this._getRelatedSelectable(related, relation); 
+        return this._getRelatedSelectable(related, relation);
       }
     }
   }

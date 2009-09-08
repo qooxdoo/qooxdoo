@@ -43,7 +43,7 @@ qx.Class.define("qx.core.Object",
 {
   extend : Object,
   include : [qx.data.MBinding],
-  
+
 
 
   /*
@@ -233,7 +233,7 @@ qx.Class.define("qx.core.Object",
     /**
      * Sets multiple properties at once by using a property list or
      * sets one property and its value by the first and second argument.
-     * As a fallback, if no generated property setter could be found, a 
+     * As a fallback, if no generated property setter could be found, a
      * handwritten setter will be searched and invoked if available.
      *
      * @param data {Map | String} a map of property values. The key is the name of the property.
@@ -254,14 +254,14 @@ qx.Class.define("qx.core.Object",
             this["set" + qx.lang.String.firstUp(data)](value);
             return;
           }
-          
+
           if (qx.core.Variant.isSet("qx.debug", "on"))
-          {                      
+          {
             this.error("No such property: " + data);
             return this;
           }
         }
-        
+
 
         return this[setter[data]](value);
       }
@@ -278,7 +278,7 @@ qx.Class.define("qx.core.Object",
             }
 
             if (qx.core.Variant.isSet("qx.debug", "on"))
-            {                      
+            {
               this.error("No such property: " + prop);
               return this;
             }
@@ -293,7 +293,7 @@ qx.Class.define("qx.core.Object",
 
 
     /**
-     * Returns the value of the given property. If no generated getter could be 
+     * Returns the value of the given property. If no generated getter could be
      * found, a fallback tries to access a handwritten getter.
      *
      * @param prop {String} Name of the property.
@@ -310,9 +310,9 @@ qx.Class.define("qx.core.Object",
         if (this["get" + qx.lang.String.firstUp(prop)] != undefined) {
           return this["get" + qx.lang.String.firstUp(prop)]();
         }
-                    
+
         if (qx.core.Variant.isSet("qx.debug", "on"))
-        {                      
+        {
           this.error("No such property: " + prop);
           return this;
         }
@@ -341,9 +341,9 @@ qx.Class.define("qx.core.Object",
           this["reset" + qx.lang.String.firstUp(prop)]();
           return;
         }
-          
+
         if (qx.core.Variant.isSet("qx.debug", "on"))
-        {                      
+        {
           this.error("No such property: " + prop);
           return this;
         }
@@ -384,7 +384,7 @@ qx.Class.define("qx.core.Object",
       if (!this.$$disposed) {
         return this.__Registration.addListener(this, type, listener, self, capture);
       }
-      
+
       return null;
     },
 
@@ -429,7 +429,7 @@ qx.Class.define("qx.core.Object",
       if (!this.$$disposed) {
         return this.__Registration.removeListener(this, type, listener, self, capture);
       }
-      
+
       return false;
     },
 
@@ -441,7 +441,7 @@ qx.Class.define("qx.core.Object",
      * @param id {String} The id returned by {@link #addListener}
      * @return {Boolean} Whether the event was removed successfully (was existend)
      */
-    removeListenerById : function(id) 
+    removeListenerById : function(id)
     {
       if (!this.$$disposed) {
         return this.__Registration.removeListenerById(this, id);
@@ -594,7 +594,7 @@ qx.Class.define("qx.core.Object",
       if (!this.__userData) {
         return null;
       }
-      var data = this.__userData[key]; 
+      var data = this.__userData[key];
       return data === undefined ? null : data;
     },
 
@@ -742,13 +742,13 @@ qx.Class.define("qx.core.Object",
         // Jump up to next super class
         clazz = clazz.superclass;
       }
-      
+
       // remove all property references
       var properties = qx.Class.getProperties(this.constructor);
       for (var i = 0, l = properties.length; i < l; i++) {
         delete this["$$user_" + properties[i]];
       }
-      
+
       // Additional checks
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {

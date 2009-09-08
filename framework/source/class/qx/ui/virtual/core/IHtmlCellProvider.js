@@ -19,7 +19,7 @@
 
 /**
  * EXPERIMENTAL!
- * 
+ *
  * A HTML cell provider provides the {@link qx.ui.virtual.layer.HtmlCell}
  * with HTML fragments to render the cells.
  */
@@ -37,10 +37,10 @@ qx.Interface.define("qx.ui.virtual.core.IHtmlCellProvider",
      * <li>insets (Array): insets (padding + border) of the cell as
      * two-dimensional array.</li>
      * </ul>
-     * 
+     *
      * @param row {Integer} The cell's row index
      * @param column {Integer} The cell's column index
-     * 
+     *
      * @return {Map} Cell properties (see above.)
      */
     getCellProperties : function(row, column) { }

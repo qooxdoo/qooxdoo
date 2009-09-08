@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * Form interface for all form widgets which have boolean as their primary 
+ * Form interface for all form widgets which have boolean as their primary
  * data type like a checkbox.
  */
 qx.Interface.define("qx.ui.form.IBooleanForm",
@@ -59,8 +59,8 @@ qx.Interface.define("qx.ui.form.IBooleanForm",
     setValue : function(value) {
       return arguments.length == 1;
     },
-    
-    
+
+
     /**
      * Resets the element's value to its initial value.
      */

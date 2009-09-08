@@ -90,7 +90,7 @@ qx.Class.define("qx.test.type.BaseString",
       var s = new qx.type.BaseString("Juhu");
       this.assertEquals("u", s.substring(2, 1));
     },
-    
+
 
     testSearchString : function()
     {
@@ -121,7 +121,7 @@ qx.Class.define("qx.test.type.BaseString",
       var s = new qx.type.BaseString("");
       this.assertEquals("", s.toString());
     },
-    
+
 
     testExtend : function()
     {

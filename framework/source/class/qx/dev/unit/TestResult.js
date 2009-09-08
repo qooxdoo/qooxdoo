@@ -38,37 +38,37 @@ qx.Class.define("qx.dev.unit.TestResult",
   {
     /**
      * Fired before the test is started
-     * 
+     *
      * Event data: The test {@link qx.dev.unit.TestFunction}
      */
     startTest : "qx.event.type.Data",
 
     /** Fired after the test has finished
-     * 
+     *
      * Event data: The test {@link qx.dev.unit.TestFunction}
      */
     endTest   : "qx.event.type.Data",
 
-    /** 
+    /**
      * Fired if the test raised an {@link qx.core.AssertionError}
-     *  
+     *
      * Event data: The test {@link qx.dev.unit.TestFunction}
      */
     error     : "qx.event.type.Data",
 
-    /** 
+    /**
      * Fired if the test failed with a different exception
-     * 
+     *
      * Event data: The test {@link qx.dev.unit.TestFunction}
      */
     failure   : "qx.event.type.Data",
-    
-		/** 
-		 * Fired if an asynchronous test sets a timeout 
-		 * 
-		 * Event data: The test {@link qx.dev.unit.TestFunction}
-		 */
-		wait   : "qx.event.type.Data"
+
+    /**
+     * Fired if an asynchronous test sets a timeout
+     *
+     * Event data: The test {@link qx.dev.unit.TestFunction}
+     */
+    wait   : "qx.event.type.Data"
   },
 
 
@@ -112,15 +112,15 @@ qx.Class.define("qx.dev.unit.TestResult",
      *
      * @param test {TestSuite|TestFunction} The test
      * @param testFunction {Function} The test function
-     * @param self {Object?} The context in which to run the test function 
+     * @param self {Object?} The context in which to run the test function
      */
     run : function(test, testFunction, self)
     {
       this.fireDataEvent("startTest", test);
-			
-			if(!this.__timeout) {
-				this.__timeout = {};
-			}
+
+      if(!this.__timeout) {
+        this.__timeout = {};
+      }
       if (this.__timeout[test.getFullName()]) {
         this.__timeout[test.getFullName()].stop();
         delete this.__timeout[test.getFullName()];
@@ -137,36 +137,36 @@ qx.Class.define("qx.dev.unit.TestResult",
             /* Any exceptions here are likely caused by setUp having failed
                previously, so we'll ignore them. */
           }
-          var qxEx = new qx.type.BaseError("Error setting up test: " + ex.name, ex.message);                    
+          var qxEx = new qx.type.BaseError("Error setting up test: " + ex.name, ex.message);
           this.__createError("error", qxEx, test);
           return;
         }
       }
 
       try {
-				if (self) {
-					testFunction.call(self);
-				}
-				else {
-					testFunction();
-				}
+        if (self) {
+          testFunction.call(self);
+        }
+        else {
+          testFunction();
+        }
       }
       catch(ex)
       {
-				var error = true;
+        var error = true;
         if (ex instanceof qx.dev.unit.AsyncWrapper)
-				{
+        {
           if (ex.getDelay()) {
-						var that = this;
-						var defaultTimeoutFunction = function() {
-						  throw new qx.core.AssertionError(
-							  "Asynchronous Test Error",
-								"Timeout reached before resume() was called."
-						  );
-						}
-						var timeoutFunc = (ex.getDeferredFunction() ? ex.getDeferredFunction() : defaultTimeoutFunction);
+            var that = this;
+            var defaultTimeoutFunction = function() {
+              throw new qx.core.AssertionError(
+                "Asynchronous Test Error",
+                "Timeout reached before resume() was called."
+              );
+            }
+            var timeoutFunc = (ex.getDeferredFunction() ? ex.getDeferredFunction() : defaultTimeoutFunction);
             this.__timeout[test.getFullName()] = qx.event.Timer.once(function() {
-							 this.run(test, timeoutFunc);
+               this.run(test, timeoutFunc);
             }, that, ex.getDelay());
             this.fireDataEvent("wait", test);
           }
@@ -208,7 +208,7 @@ qx.Class.define("qx.dev.unit.TestResult",
       this.fireDataEvent("endTest", test);
     }
   },
-  
+
   destruct : function() {
     this._disposeFields("__timeout");
   }

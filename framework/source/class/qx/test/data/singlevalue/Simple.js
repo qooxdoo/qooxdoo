@@ -79,7 +79,7 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         var a = this.__a;
-        var b = this.__b;        
+        var b = this.__b;
 
         // only in source version
         if (qx.core.Variant.isSet("qx.debug", "on")) {
@@ -132,7 +132,7 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
       qx.data.SingleValueBinding.bind(s, "value", this.__b, "appearance");
       s.setValue(13.5);
       this.assertEquals("13.5", this.__b.getAppearance(), "Float --> String does not work!");
-      
+
       s.destroy();
     },
 
@@ -321,12 +321,12 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
       var bindings = this.__a.getBindings();
       this.assertEquals(0, bindings.length, "Still bindings there?");
     },
-    
-    
+
+
     testDebugListenerMessages: function() {
       // enable debugging
       qx.data.SingleValueBinding.DEBUG_ON = true;
-      
+
       // just do some bindings and invoke the changes
       qx.data.SingleValueBinding.bind(this.__a, "appearance", this.__b, "appearance");
       this.__a.setAppearance("affe");
@@ -336,25 +336,25 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
       affe.setAppearance("Jonny");
       qx.data.SingleValueBinding.bind(affe, "appearance", this.__b, "appearance");
       this.assertEquals("Jonny", this.__b.getAppearance(), "String binding does not work!");
-      affe.destroy();      
+      affe.destroy();
     },
-    
-    
+
+
     testFallback: function() {
       // change + "name" binding
       this.__a.bind("value", this.__b, "value");
 
       this.__a.setValue("affe");
       this.assertEquals(this.__a.getValue(), this.__b.getValue(), "change event binding is not working.");
-      
+
       // event binding
       this.__a.bind("changeZIndex", this.__b, "zIndex");
-      
+
       this.__a.setZIndex(123);
-      this.assertEquals(this.__a.getZIndex(), this.__b.getZIndex(), "Event binding is not working.");            
+      this.assertEquals(this.__a.getZIndex(), this.__b.getZIndex(), "Event binding is not working.");
     },
-    
-    
+
+
     testNullWithConverter: function() {
       // create a test class
       qx.Class.define("qx.Test", {
@@ -370,8 +370,8 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
         }
       });
       var t = new qx.Test();
-      
-      // define the converter 
+
+      // define the converter
       var options = {
         converter : function(data) {
           if (data == null) {
@@ -380,23 +380,23 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
           return data + "";
         }
       };
-      
+
       // starting point
       this.__a.setZIndex(null);
       this.__a.bind("zIndex", t, "a", options);
       this.assertEquals("affe", t.getA(), "Converter will not be executed.");
-      
+
       this.__a.setZIndex(10);
       this.assertEquals(this.__a.getZIndex() + "", t.getA(), "Wrong start binding.");
-      
+
       // set the zIndex to null
       this.__a.setZIndex(null);
       this.assertEquals("affe", t.getA(), "Converter will not be executed.");
 
       t.dispose();
     },
-    
-    
+
+
     testCallbacksOnInitialSet: function() {
       // create a test class
       qx.Class.define("qx.Target",
@@ -410,13 +410,13 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
             validate: qx.util.Validate.string()
           }
         }
-      });      
+      });
       var target = new qx.Target();
-      
+
       // some test flags
       var ok = false;
       var fail = false;
-      
+
       // callback methods
       var that = this;
       var options = {
@@ -430,43 +430,43 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
           fail = true;
         }
       };
-      
+
       // set a valid initial value
       this.__a.setValue("affe");
       this.__a.bind("value", target, "value", options);
-      
+
       this.assertEquals("affe", target.getValue(), "Binding not set anyway!");
       this.assertTrue(ok, "onUpdate not called.");
       this.assertFalse(fail, "onSetFail called?!");
-      
-      
+
+
       // reset the checks
       this.__a.removeAllBindings();
       ok = false;
       fail = false;
-      
+
       // set an invalid initial value
       this.__a.setZIndex(10);
-      this.__a.bind("zIndex", target, "value", options);      
-      
+      this.__a.bind("zIndex", target, "value", options);
+
       this.assertTrue(fail, "onSetFail not called.");
       this.assertFalse(ok, "onUpdate called?!");
     },
-    
-    
-    testConversionClass : function() 
+
+
+    testConversionClass : function()
     {
       qx.Class.define("qx.test.TwoProperties", {
         extend : qx.core.Object,
-        properties : 
+        properties :
         {
           a : { event : "changeA", nullable : true },
           b : { event : "changeB", nullable : true }
         }
       });
-      
+
       var o = new qx.test.TwoProperties();
-      
+
       // number to string
       var id = qx.data.SingleValueBinding.bind(
         o, "a", o, "b", qx.data.Conversion.TOSTRINGOPTIONS
@@ -474,15 +474,15 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
       o.setA(10);
       this.assertEquals("10", o.getB(), "Number -> String");
       qx.data.SingleValueBinding.removeBindingFromObject(o, id);
-      
+
       // boolean to string
       var id = qx.data.SingleValueBinding.bind(
         o, "a", o, "b", qx.data.Conversion.TOSTRINGOPTIONS
       );
       o.setA(true);
       this.assertEquals("true", o.getB(), "Boolean -> String");
-      qx.data.SingleValueBinding.removeBindingFromObject(o, id);    
-      
+      qx.data.SingleValueBinding.removeBindingFromObject(o, id);
+
       // date to string
       var id = qx.data.SingleValueBinding.bind(
         o, "a", o, "b", qx.data.Conversion.TOSTRINGOPTIONS
@@ -490,7 +490,7 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
       o.setA(new Date());
       this.assertTrue(qx.lang.Type.isString(o.getB()), "Date -> String");
       qx.data.SingleValueBinding.removeBindingFromObject(o, id);
-      
+
       // string to number
       var id = qx.data.SingleValueBinding.bind(
         o, "a", o, "b", qx.data.Conversion.TONUMBEROPTIONS
@@ -498,22 +498,22 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
       o.setA("123");
       this.assertEquals(123, o.getB(), "String -> Number");
       qx.data.SingleValueBinding.removeBindingFromObject(o, id);
-      
+
       // string to boolean
       var id = qx.data.SingleValueBinding.bind(
         o, "a", o, "b", qx.data.Conversion.TOBOOLEANOPTIONS
       );
       o.setA("123");
       this.assertEquals(true, o.getB(), "String -> Boolean");
-      qx.data.SingleValueBinding.removeBindingFromObject(o, id);      
-      
+      qx.data.SingleValueBinding.removeBindingFromObject(o, id);
+
       // number to boolean
       var id = qx.data.SingleValueBinding.bind(
         o, "a", o, "b", qx.data.Conversion.TOBOOLEANOPTIONS
       );
       o.setA(0);
       this.assertEquals(false, o.getB(), "Number -> Boolean");
-      qx.data.SingleValueBinding.removeBindingFromObject(o, id);      
+      qx.data.SingleValueBinding.removeBindingFromObject(o, id);
     }
   }
 });

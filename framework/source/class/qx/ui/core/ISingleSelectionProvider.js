@@ -18,7 +18,7 @@
 ************************************************************************ */
 /**
  * Defines the callback for the single selection manager.
- * 
+ *
  * @internal
  */
 qx.Interface.define("qx.ui.core.ISingleSelectionProvider",
@@ -33,14 +33,14 @@ qx.Interface.define("qx.ui.core.ISingleSelectionProvider",
   {
     /**
      * Returns the elements which are part of the selection.
-     * 
+     *
      * @return {qx.ui.core.Widget[]} The widgets for the selection.
      */
     getItems: function() {},
-    
+
     /**
      * Returns whether the given item is selectable.
-     * 
+     *
      * @param item {qx.ui.core.Widget} The item to be checked
      * @return {Boolean} Whether the given item is selectable
      */

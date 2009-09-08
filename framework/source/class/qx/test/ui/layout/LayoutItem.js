@@ -24,7 +24,7 @@ qx.Class.define("qx.test.ui.layout.LayoutItem",
   construct : function(width, height)
   {
     this.base(arguments);
-    
+
     if (width !== undefined) {
       this.setWidth(width);
     }
@@ -32,11 +32,11 @@ qx.Class.define("qx.test.ui.layout.LayoutItem",
     if (height !== undefined) {
       this.setHeight(height);
     }
-    
+
     this.bounds = {};
   },
-  
-  
+
+
   properties :
   {
     visibility :
@@ -47,53 +47,53 @@ qx.Class.define("qx.test.ui.layout.LayoutItem",
       event : "changeVisibility"
     }
   },
-  
+
   members :
   {
     bounds : null,
 
     __layout : null,
     __children : null,
-    
+
     renderLayout : function(left, top, width, height)
-    {      
+    {
       var changes = this.base(arguments, left, top, width, height);
-      
+
       if (!changes) {
         return;
       }
-      
+
       this.bounds = {
         left: left,
         top: top,
         width: width,
         height: height
       }
-      
+
       if (changes.size || changes.local || changes.margin)
       {
         if (this.__layout && this.getLayoutChildren().length > 0) {
           this.__layout.renderLayout(width, height);
         }
       }
-      
+
       return changes;
     },
 
-    
+
     setLayout : function(layout)
     {
       layout.connectToWidget(this);
       qx.ui.core.queue.Layout.add(this);
       this.__layout = layout;
     },
-    
-    
+
+
     _getLayout : function() {
       return this.__layout;
     },
-    
-    
+
+
     // overridden
     invalidateLayoutCache : function()
     {
@@ -103,8 +103,8 @@ qx.Class.define("qx.test.ui.layout.LayoutItem",
         this.__layout.invalidateLayoutCache();
       }
     },
-      
-    
+
+
     invalidateLayoutChildren : function()
     {
       var layout = this.__layout;
@@ -114,8 +114,8 @@ qx.Class.define("qx.test.ui.layout.LayoutItem",
 
       qx.ui.core.queue.Layout.add(this);
     },
-    
-    
+
+
     // property apply
     _applyVisibility : function(value, old)
     {
@@ -128,8 +128,8 @@ qx.Class.define("qx.test.ui.layout.LayoutItem",
       // Update visibility cache
       qx.ui.core.queue.Visibility.add(this);
     },
-    
-    
+
+
     _getContentHint : function()
     {
       if (this.__layout && this.getLayoutChildren().length > 0) {
@@ -138,8 +138,8 @@ qx.Class.define("qx.test.ui.layout.LayoutItem",
         return { width: 0, height: 0};
       }
     },
-    
-    
+
+
     // overridden
     _computeSizeHint : function()
     {
@@ -204,9 +204,9 @@ qx.Class.define("qx.test.ui.layout.LayoutItem",
         minHeight : minHeight,
         maxHeight : maxHeight
       };
-    },    
-    
-    
+    },
+
+
     add : function(child, options)
     {
       if (!this.__children) {
@@ -214,26 +214,26 @@ qx.Class.define("qx.test.ui.layout.LayoutItem",
       }
       this.__children.push(child);
       this.__layout.invalidateChildrenCache();
-      
+
       if (options) {
         child.setLayoutProperties(options);
       } else {
         this.updateLayoutProperties();
       }
-      
+
       child.setLayoutParent(this);
       qx.ui.core.queue.Layout.add(this);
     },
-    
-    
+
+
     remove : function(child)
     {
       if (!this.__children) {
         this.__children = [];
       }
-      
+
       qx.lang.Array.remove(this.__children, child);
-      
+
       // Clear parent connection
       child.setLayoutParent(null);
 
@@ -243,16 +243,16 @@ qx.Class.define("qx.test.ui.layout.LayoutItem",
       }
 
       // Add to layout queue
-      qx.ui.core.queue.Layout.add(this);      
+      qx.ui.core.queue.Layout.add(this);
     },
-    
-    
+
+
     getLayoutChildren : function()
     {
       var children = this.__children || [];
       var layoutChildren = [];
-      
-      for (var i=0; i<children.length; i++) 
+
+      for (var i=0; i<children.length; i++)
       {
         var child = children[i];
         if (child.getVisibility() !== "excluded") {
@@ -261,11 +261,11 @@ qx.Class.define("qx.test.ui.layout.LayoutItem",
       }
       return layoutChildren;
     },
-    
-    
+
+
     checkAppearanceNeeds : function() {},
-    
-    
+
+
     // copied from qx.ui.core.Widget
     addChildrenToQueue : function(queue)
     {
@@ -284,7 +284,7 @@ qx.Class.define("qx.test.ui.layout.LayoutItem",
       }
     }
   },
-  
+
   destruct : function() {
     this._disposeFields("bounds", "__layout", "__children");
   }

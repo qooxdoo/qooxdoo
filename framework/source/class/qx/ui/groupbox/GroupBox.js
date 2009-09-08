@@ -110,14 +110,14 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
   {
     // overridden
     /**
-     * @lint ignoreReferenceField(_forwardStates) 
+     * @lint ignoreReferenceField(_forwardStates)
      */
     _forwardStates :
     {
       invalid : true
     },
-    
-    
+
+
     // overridden
     _createChildControlImpl : function(id)
     {

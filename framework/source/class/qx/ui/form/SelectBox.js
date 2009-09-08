@@ -28,7 +28,7 @@ qx.Class.define("qx.ui.form.SelectBox",
 {
   extend : qx.ui.form.AbstractSelectBox,
   implement : [
-    qx.ui.form.IFormElement, 
+    qx.ui.form.IFormElement,
     qx.ui.core.ISingleSelection,
     qx.ui.form.IModelSelection
   ],
@@ -41,7 +41,7 @@ qx.Class.define("qx.ui.form.SelectBox",
   *****************************************************************************
   */
 
-  
+
   construct : function()
   {
     this.base(arguments);
@@ -66,24 +66,24 @@ qx.Class.define("qx.ui.form.SelectBox",
   *****************************************************************************
   */
 
-  
+
   events :
   {
-    /** 
+    /**
      * Fires after the selection was modified
      * @deprecated Use 'changeSelection' instead!
      */
     "changeSelected" : "qx.event.type.Data"
   },
 
-  
+
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
 
-  
+
   properties :
   {
     // overridden
@@ -101,7 +101,7 @@ qx.Class.define("qx.ui.form.SelectBox",
   *****************************************************************************
   */
 
-  
+
   members :
   {
     /** {qx.ui.form.ListItem} instance */
@@ -114,7 +114,7 @@ qx.Class.define("qx.ui.form.SelectBox",
     ---------------------------------------------------------------------------
     */
 
-    
+
     // overridden
     _createChildControlImpl : function(id)
     {
@@ -148,7 +148,7 @@ qx.Class.define("qx.ui.form.SelectBox",
 
     // overridden
     /**
-     * @lint ignoreReferenceField(_forwardStates) 
+     * @lint ignoreReferenceField(_forwardStates)
      */
     _forwardStates : {
       focused : true
@@ -161,10 +161,10 @@ qx.Class.define("qx.ui.form.SelectBox",
     ---------------------------------------------------------------------------
     */
 
-    
+
     /**
      * Select the item in the list.
-     * 
+     *
      * @deprecated Use 'setSelection' instead!
      * @param item {qx.ui.form.ListItem} Item to select.
      */
@@ -174,10 +174,10 @@ qx.Class.define("qx.ui.form.SelectBox",
         arguments.callee,
         "Use 'setSelection' instead!"
       );
-      
+
       this.setSelection([item]);
     },
-    
+
     /**
      * Returns the selected item in the list.
      *
@@ -190,7 +190,7 @@ qx.Class.define("qx.ui.form.SelectBox",
         arguments.callee,
         "Use 'getSelection' instead!"
       );
-      
+
       var item = this.getSelection()[0];
       if (item) {
         return item
@@ -198,10 +198,10 @@ qx.Class.define("qx.ui.form.SelectBox",
         return null;
       }
     },
-    
+
     /**
      * Reset the current selection.
-     * 
+     *
      * @deprecated Use 'resetSelection' instead!
      */
     resetSelected : function()
@@ -210,7 +210,7 @@ qx.Class.define("qx.ui.form.SelectBox",
         arguments.callee,
         "Use 'resetSelection' instead!"
       );
-      
+
       this.resetSelection();
     },
 
@@ -221,7 +221,7 @@ qx.Class.define("qx.ui.form.SelectBox",
     ---------------------------------------------------------------------------
     */
 
-    
+
     /**
      * Trys to select an item of the list by using the given string to find one.
      * @param value {String} The value to set
@@ -230,7 +230,7 @@ qx.Class.define("qx.ui.form.SelectBox",
     setValue : function(value) {
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee, "Please use setModelSelection instead."
-      );      
+      );
       this.getChildControl("list").setValue(value);
     },
 
@@ -239,12 +239,12 @@ qx.Class.define("qx.ui.form.SelectBox",
      * @return {String|null} Returns the value of the current selected item
      *   of the list.
      * @deprecated
-     */    
+     */
     getValue : function()
     {
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee, "Please use getModelSelection instead."
-      );      
+      );
       var item = this.getSelection()[0];
       return item ? item.getFormValue() : null;
     },
@@ -252,8 +252,8 @@ qx.Class.define("qx.ui.form.SelectBox",
     /**
     * Resets the value to the default
     * @deprecated
-    */    
-    resetValue : function() 
+    */
+    resetValue : function()
     {
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee, "Please use resetSelection instead."
@@ -264,37 +264,37 @@ qx.Class.define("qx.ui.form.SelectBox",
         list.setValue(children[0].getFormValue() || null);
       }
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       HELPER METHODS FOR SELECTION API
     ---------------------------------------------------------------------------
     */
 
-    
+
     /**
      * Returns the list items for the selection.
-     * 
+     *
      * @return {qx.ui.form.ListItem[]} List itmes to select.
      */
     _getItems : function() {
       return this.getChildrenContainer().getChildren();
     },
-    
+
     /**
      * Returns if the selection could be empty or not.
-     * 
-     * @return {Boolean} <code>true</code> If selection could be empty, 
+     *
+     * @return {Boolean} <code>true</code> If selection could be empty,
      *    <code>false</code> otherwise.
      */
     _isAllowEmptySelection: function() {
       return !this.getChildrenContainer().getSelectionMode() === "one";
     },
-    
+
     /**
      * Event handler for <code>changeSelection</code>.
-     * 
+     *
      * @param e {qx.event.type.Data} Data event.
      */
     __onChangeSelection : function(e)
@@ -305,14 +305,14 @@ qx.Class.define("qx.ui.form.SelectBox",
       if (list.getSelection()[0] != listItem) {
         list.setSelection([listItem]);
       }
-      
+
       var atom = this.getChildControl("atom");
 
       var label = listItem ? listItem.getLabel() : "";
       // check for translation
       if (label && label.translate) {
         label = label.translate();
-      }      
+      }
       label == null ? atom.resetLabel() : atom.setLabel(label);
 
       var icon = listItem ? listItem.getIcon() : "";
@@ -323,29 +323,29 @@ qx.Class.define("qx.ui.form.SelectBox",
       if (this.hasListener("changeValue")) {
         this.fireDataEvent("changeValue", list.getValue());
       }
-      
+
       /*
        * TODO remove this if the methods and event for old selection API
-       * doesn't exist. 
-       * 
+       * doesn't exist.
+       *
        * Methods: 'getSelected', 'setSelected', 'resetSelected'
        * Event: 'changeSelected'
-       */ 
+       */
       if (this.hasListener("changeSelected")) {
         var newValue = e.getData()[0];
         var oldValue = e.getOldData()[0];
         this.fireDataEvent("changeSelected", newValue, oldValue);
       }
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       EVENT LISTENERS
     ---------------------------------------------------------------------------
     */
 
-    
+
     /**
      * Listener method for "mouseover" event
      * <ul>
@@ -535,24 +535,24 @@ qx.Class.define("qx.ui.form.SelectBox",
         }
       }
     },
-    
+
     // overridden
     addListener : function(type, listener, self, capture)
     {
       /*
-       * TODO this method must be removed if the old selection API doesn't exist. 
-       * 
+       * TODO this method must be removed if the old selection API doesn't exist.
+       *
        * Methods: 'getSelected', 'setSelected', 'resetSelected'
        * Event: 'changeSelected'
-       */ 
-      
+       */
+
       if (type === "changeSelected") {
         qx.log.Logger.deprecatedEventWarning(
         arguments.callee,
         "changeSelected",
         "Use 'changeSelection' instead!");
       }
-      
+
       return this.base(arguments, type, listener, self, capture);
     }
   },
@@ -564,7 +564,7 @@ qx.Class.define("qx.ui.form.SelectBox",
   *****************************************************************************
   */
 
-  
+
   destruct : function() {
     this._disposeFields("__preSelectedItem");
   }

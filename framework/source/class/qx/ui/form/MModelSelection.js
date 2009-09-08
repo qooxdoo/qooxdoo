@@ -22,17 +22,17 @@
  * {@link qx.ui.core.ISingleSelection} interface and the selectables implement
  * the {@link qx.ui.form.IModel} interface.
  */
-qx.Mixin.define("qx.ui.form.MModelSelection", 
+qx.Mixin.define("qx.ui.form.MModelSelection",
 {
   members :
   {
     /**
      * Returns always an array of the models of the selected items. If no
-     * item is selected or no model is given, the array will be empty. 
-     * 
+     * item is selected or no model is given, the array will be empty.
+     *
      * @return {var} An array of the models of the selected items.
      */
-    getModelSelection : function() 
+    getModelSelection : function()
     {
       var selection = this.getSelection();
       var models = [];
@@ -44,26 +44,26 @@ qx.Mixin.define("qx.ui.form.MModelSelection",
       }
       return models;
     },
-    
-    
+
+
     /**
      * Takes the given models in the array and searches for the corresponding
      * selecables. If an selectable does have that model attached, it will be
      * selected.
-     * 
+     *
      * *Attention:* This method can have a time complexity of O(n^2)!
-     * 
-     * @param modelSelection {Array} An array of models, which should be 
+     *
+     * @param modelSelection {Array} An array of models, which should be
      *   selected.
      */
-    setModelSelection : function(modelSelection) 
+    setModelSelection : function(modelSelection)
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         this.assertArray(modelSelection, "Please use an array as parameter.");
       }
       var selectables = this.getSelectables();
       var itemSelection = [];
-      
+
       for (var i = 0; i < modelSelection.length; i++) {
         var model = modelSelection[i];
         for (var j = 0; j < selectables.length; j++) {
@@ -74,7 +74,7 @@ qx.Mixin.define("qx.ui.form.MModelSelection",
           }
         }
       }
-     
+
       this.setSelection(itemSelection);
     }
   }

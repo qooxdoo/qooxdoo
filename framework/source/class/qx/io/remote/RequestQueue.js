@@ -131,27 +131,27 @@ qx.Class.define("qx.io.remote.RequestQueue",
     ---------------------------------------------------------------------------
     */
 
-    
+
     /**
      * Get the queued requests
-     * 
+     *
      * @return {Request[} The queued requests
      */
     getRequestQueue : function() {
       return this.__queue;
-    },    
-    
-    
+    },
+
+
     /**
      * Get the active queued requests
-     * 
+     *
      * @return {Request[} The active queued requests
      */
     getActiveQueue : function() {
       return this.__active;
-    },    
-    
-    
+    },
+
+
     /**
      * Generates debug output
      */
@@ -286,14 +286,14 @@ qx.Class.define("qx.io.remote.RequestQueue",
           this.debug("ActiveCount: " + this.__activeCount);
         }
       }
-      
+
       e.getTarget().getRequest()._onsending(e.clone());
     },
-    
-    
+
+
     /**
      * Listens for the "receiving" event of the transport object and delegate
-     * the event to the current request object. 
+     * the event to the current request object.
      *
      * @param e {qx.event.type.Event} event object
      * @return {void}
@@ -323,7 +323,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
           }
         }
       }
-      
+
       // delegate the event to the handler method of the request depending
       // on the current type of the event ( completed|aborted|timeout|failed )
       var request = e.getTarget().getRequest();
@@ -331,7 +331,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
       if (request[requestHandler]) {
         request[requestHandler](e.clone());
       }
-      
+
       this._remove(e.getTarget());
     },
 

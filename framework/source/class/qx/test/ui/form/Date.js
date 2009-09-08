@@ -25,44 +25,44 @@ qx.Class.define("qx.test.ui.form.Date",
     __test: function(widget) {
       // check if the interface is implemented
       this.assertTrue(qx.Class.hasInterface(widget.constructor, qx.ui.form.IDateForm), "Interface is not implemented.");
-      
+
       // check for the init value
       this.assertNull(widget.getValue(), "Wrong init value set.");
-      
+
       // just check if the method is available
       widget.resetValue();
-      
+
       // check the getter and setter
       var date = new Date(1981, 1, 10);
       widget.setValue(date);
       this.assertEquals(date.toString(), widget.getValue().toString(), "Set or get does not work.");
-      
+
       var date2 = new Date(2009, 4, 1);
       this.assertEventFired(widget, "changeValue", function() {
         widget.setValue(date2);
       }, function(e) {
         // do nothing
-      }, "Event is wrong!");     
-      
+      }, "Event is wrong!");
+
       // test for null values
-      widget.setValue(null);  
-      
-      widget.destroy();           
+      widget.setValue(null);
+
+      widget.destroy();
     },
-    
+
     testDateField: function() {
-     this.__test(new qx.ui.form.DateField()); 
+     this.__test(new qx.ui.form.DateField());
     },
-    
+
     testDateChooser: function() {
-     this.__test(new qx.ui.control.DateChooser()); 
+     this.__test(new qx.ui.control.DateChooser());
     },
-    
+
     testDateFieldIsEmpty: function() {
       var field = new qx.ui.form.DateField();
-      
+
       this.assertTrue(field.isEmpty(), "DateField should be empty on initialization.");
     }
-    
+
   }
 });

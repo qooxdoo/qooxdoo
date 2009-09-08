@@ -78,7 +78,7 @@ qx.Class.define("qx.html.Flash",
      */
     createFlash : function()
     {
-      this.__flash = qx.bom.Flash.create(this.getDomElement(), this.getAttributes(), 
+      this.__flash = qx.bom.Flash.create(this.getDomElement(), this.getAttributes(),
                                          this.__variables, this.__params);
     },
 
@@ -92,7 +92,7 @@ qx.Class.define("qx.html.Flash",
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         qx.core.Assert.assertString(value, "Invalid attribute 'value'.");
       }
-      
+
       if (this.__flash) {
         throw new Error("The source cannot be modified after initial creation");
       }
@@ -110,7 +110,7 @@ qx.Class.define("qx.html.Flash",
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         qx.core.Assert.assertString(value, "Invalid attribute 'value'.");
       }
-      
+
       if (this.__flash) {
         throw new Error("The id cannot be modified after initial creation");
       }
@@ -120,14 +120,14 @@ qx.Class.define("qx.html.Flash",
 
     /**
      * Returns the <code>FlashVars</code> for the Flash movie.
-     * 
+     *
      * @return {Map} Map with key/value pairs for passing
      *    <code>FlashVars</code>}
      */
     getVariables : function() {
       return this.__variables;
     },
-    
+
     /**
      * Set the <code>FlashVars</code> to pass variables to the Flash movie.
      *
@@ -139,7 +139,7 @@ qx.Class.define("qx.html.Flash",
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         qx.core.Assert.assertMap(value, "Invalid attribute 'value'.");
       }
-      
+
       if (this.__flash) {
         throw new Error("The variables cannot be modified after initial creation");
       }
@@ -149,7 +149,7 @@ qx.Class.define("qx.html.Flash",
 
     /**
      * Returns the attributes for the Flash DOM element.
-     * 
+     *
      * @return {Map} Attributes for the DOM element.
      */
     getAttributes : function () {
@@ -158,7 +158,7 @@ qx.Class.define("qx.html.Flash",
 
     /**
      * Set an attribute for the Flash DOM element.
-     * 
+     *
      * @param key {String} Key name.
      * @param value {String|Boolean|null} Value or <code>null</code> to remove attribute.
      */
@@ -166,14 +166,14 @@ qx.Class.define("qx.html.Flash",
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         qx.core.Assert.assertString(key, "Invalid attribute 'key'.");
-        
+
         if (arguments.length > 1 && value !== null) {
           if (!qx.lang.Type.isBoolean(value) && !qx.lang.Type.isString(value)) {
             throw new Error("Invalid attribute 'value' expected String, Boolean or null.");
           }
         }
       }
-      
+
       if (this.__flash) {
         throw new Error("The attributes cannot be modified after initial creation");
       }
@@ -187,13 +187,13 @@ qx.Class.define("qx.html.Flash",
 
     /**
      * Returns the params for the Flash DOM element.
-     * 
+     *
      * @return {Map} Map with key/value pairs for the Flash DOM element.
      */
     getParams : function() {
       return this.__params;
     },
-    
+
     /**
      * Set the param for the Flash DOM element, also called attribute.
      *
@@ -204,14 +204,14 @@ qx.Class.define("qx.html.Flash",
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         qx.core.Assert.assertString(key, "Invalid attribute 'key'.");
-        
+
         if (arguments.length > 1 && value !== null) {
           if (!qx.lang.Type.isBoolean(value) && !qx.lang.Type.isString(value)) {
             throw new Error("Invalid attribute 'value' expected String, Boolean or null.");
           }
         }
       }
-      
+
       if (this.__flash) {
         throw new Error("The params cannot be modified after initial creation");
       }

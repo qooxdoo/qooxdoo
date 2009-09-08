@@ -20,20 +20,20 @@
 qx.Class.define("qx.test.ui.core.Appearance",
 {
   extend : qx.test.ui.LayoutTestCase,
-  
+
   members :
   {
-    setUp : function() 
+    setUp : function()
     {
       qx.theme.manager.Appearance.getInstance().setTheme(qx.test.ui.core.Theme);
     },
-    
-    tearDown : function() 
+
+    tearDown : function()
     {
       qx.theme.manager.Appearance.getInstance().setTheme(qx.theme.modern.Appearance);
     },
-    
-    testDefault : function() 
+
+    testDefault : function()
     {
       var a = new qx.test.ui.core.Test();
       a.setAppearance("test");
@@ -45,9 +45,9 @@ qx.Class.define("qx.test.ui.core.Appearance",
       this.assertEquals("blue", a.getChildControl("text").getBackgroundColor());
       a.destroy();
     },
-    
-    
-    testFallback : function() 
+
+
+    testFallback : function()
     {
       var a = new qx.test.ui.core.Test();
       a.setAppearance("test2");
@@ -59,9 +59,9 @@ qx.Class.define("qx.test.ui.core.Appearance",
       this.assertEquals("green", a.getChildControl("text").getBackgroundColor());
       a.destroy();
     },
-    
-    
-    testChange : function() 
+
+
+    testChange : function()
     {
       var a = new qx.test.ui.core.Test();
       a.setAppearance("test2");
@@ -71,7 +71,7 @@ qx.Class.define("qx.test.ui.core.Appearance",
 
       this.assertEquals("yellow", a.getBackgroundColor());
       this.assertEquals("green", a.getChildControl("text").getBackgroundColor());
-      
+
       a.setAppearance("test");
       this.flush();
 
@@ -79,7 +79,7 @@ qx.Class.define("qx.test.ui.core.Appearance",
       this.assertEquals("blue", a.getChildControl("text").getBackgroundColor());
       a.destroy();
     }
-    
+
   }
 });
 
@@ -94,7 +94,7 @@ qx.Theme.define("qx.test.ui.core.Theme", {
         };
       }
     },
-    
+
     "test/text" : {
       style : function(states)
       {
@@ -103,16 +103,16 @@ qx.Theme.define("qx.test.ui.core.Theme", {
         };
       }
     },
-    
+
     "textfield" : {
       style : function(states)
       {
         return {
           backgroundColor : "green"
         };
-      }      
+      }
     },
-    
+
     "test2" : {
       style : function(states)
       {
@@ -136,7 +136,7 @@ qx.Class.define("qx.test.ui.core.Test", {
       if (id == "text") {
         var control = new qx.ui.form.TextField("affe");
         this._add(control)
-        return control;      
+        return control;
       }
       return this.base(arguments, id);
     }

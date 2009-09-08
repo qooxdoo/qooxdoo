@@ -26,9 +26,9 @@ qx.Class.define("qx.test.ui.Destroy",
     $$clazz : null,
     $$args : null
   },
-  
+
   members :
-  {    
+  {
     assertLayoutDispose : function(clazz, args, layoutArgsArr)
     {
       this.assertDestroy(function()
@@ -37,7 +37,7 @@ qx.Class.define("qx.test.ui.Destroy",
         for (var i=0; i<args.length; i++) {
           argStr.push("qx.test.ui.Destroy.$$args[" + i + "]");
         }
-        
+
         qx.test.ui.Destroy.$$clazz = clazz;
         qx.test.ui.Destroy.$$args = args;
         var str = "new qx.test.ui.Destroy.$$clazz(" + argStr.join(", ") + ");"

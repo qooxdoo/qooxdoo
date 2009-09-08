@@ -72,7 +72,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
 
     /** Fired when the "Cancel" button is clicked. */
     "dialogcancel" : "qx.event.type.Event",
-    
+
     /** Fired when the value changes */
     "changeValue" : "qx.event.type.Data"
   },
@@ -196,10 +196,10 @@ qx.Class.define("qx.ui.control.ColorSelector",
 
     // internal boolean flag to signal, that the value is set to null
     __nullValue : true,
-    
+
     // internal mutex to prevent the changeValue event to be fired too often
     __preventChangeValueEvent : false,
-    
+
 
     // overridden
     _createChildControlImpl : function(id)
@@ -450,11 +450,11 @@ qx.Class.define("qx.ui.control.ColorSelector",
 
 
     /**
-     * The value of the ColorSelector is a string containing the HEX value of 
-     * the currently selected color. Take a look at 
-     * {@link qx.util.ColorUtil.stringToRgb} to see what kind of input the 
+     * The value of the ColorSelector is a string containing the HEX value of
+     * the currently selected color. Take a look at
+     * {@link qx.util.ColorUtil.stringToRgb} to see what kind of input the
      * method can handle.
-     * 
+     *
      * @param value {String} The value of a color.
      */
     setValue: function(value) {
@@ -474,12 +474,12 @@ qx.Class.define("qx.ui.control.ColorSelector",
       this.__preventChangeValueEvent = false;
       this.setBlue(rgb[2]);
     },
-    
-    
+
+
     /**
      * Returns the currently selected color.
-     * 
-     * @return {String | null} The HEX value of the color of if not color 
+     *
+     * @return {String | null} The HEX value of the color of if not color
      *   is set, null.
      */
     getValue: function() {
@@ -487,7 +487,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
         [this.getRed(), this.getGreen(), this.getBlue()]
       );
     },
-    
+
     /**
      * Resets the color to null.
      */
@@ -497,17 +497,17 @@ qx.Class.define("qx.ui.control.ColorSelector",
       this.setRed(255);
       this.setGreen(255);
       this.__preventChangeValueEvent = false;
-      this.setBlue(255);      
+      this.setBlue(255);
     },
-    
-    
+
+
     /**
      * Helper for firing the changeValue event and checking for the mutex.
      */
     __fireChangeValueEvent: function() {
       if (!this.__preventChangeValueEvent) {
         this.__nullValue = false;
-        this.fireDataEvent("changeValue", this.getValue());        
+        this.fireDataEvent("changeValue", this.getValue());
       }
     },
 
@@ -542,7 +542,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
           this._setHueFromRgb();
       }
 
-      this._setPreviewFromRgb();      
+      this._setPreviewFromRgb();
       this.__fireChangeValueEvent();
 
       if (this.__updateContext === "redModifier") {
@@ -607,7 +607,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
       }
 
       this._setPreviewFromRgb();
-      this.__fireChangeValueEvent();   
+      this.__fireChangeValueEvent();
 
       if (this.__updateContext === "blueModifier") {
         this.__updateContext = null;
@@ -1085,7 +1085,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
     _setHexFromRgb : function() {
       var value = qx.util.ColorUtil.rgbToHexString(
         [this.getRed(),this.getGreen(),this.getBlue()]
-      );  
+      );
       this.getChildControl("hex-field").setValue(value);
     },
 

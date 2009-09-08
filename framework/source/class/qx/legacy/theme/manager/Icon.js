@@ -73,18 +73,18 @@ qx.Class.define("qx.legacy.theme.manager.Icon",
     {
       var value = this.getIconTheme();
       var aliasManager = qx.legacy.util.AliasManager.getInstance();
-      
+
       if (value) {
         aliasManager.add("icon", value.resource);
       } else {
         aliasManager.remove("icon");
       }
-  
+
       if (value)
       {
         for (var alias in value.aliases) {
           aliasManager.add(alias, value.aliases[alias]);
-        }        
+        }
       }
     }
   }

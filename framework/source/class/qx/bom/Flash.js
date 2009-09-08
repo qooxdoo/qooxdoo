@@ -83,10 +83,10 @@ qx.Class.define("qx.bom.Flash",
      * It is possible to add these parameters as supported by Flash movies:
      * http://kb.adobe.com/selfservice/viewContent.do?externalId=tn_12701
      *
-     * @TODO: don't use the seperate argument "variables" to set flashvars, this belongs 
+     * @TODO: don't use the seperate argument "variables" to set flashvars, this belongs
      *        to the "params" argument.
      * @TODO: remove deprication warning after next major version was build
-     * 
+     *
      * @param element {Element} Parent DOM element node to add flash movie
      * @param attributes {Map} attributes for the object tag like id or mayscript
      * @param variables {Map?null} Flash variable data (these are available in the movie later)
@@ -98,7 +98,7 @@ qx.Class.define("qx.bom.Flash",
     {
       if (typeof attributes === "string")
       {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee,
           "Please only use the following arguments for this method: qx.bom.Flash.create(element, attributes, variables, params, win)");
 
         attributes = {

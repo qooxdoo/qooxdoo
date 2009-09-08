@@ -27,7 +27,7 @@ qx.Class.define("qx.test.bom.Selector",
     {
       var Element = qx.bom.Element;
       var Attribute = qx.bom.element.Attribute;
-    
+
       for (var i=0; i<250; i++)
       {
         var el = Element.create("ul", {
@@ -35,13 +35,13 @@ qx.Class.define("qx.test.bom.Selector",
           "html": "<li>one</li><li>two</li><li>three</li>",
           "id": "setid"+ i
         });
-        
+
         document.body.appendChild(el);
       }
-    
+
       this.assertEquals(250, qx.bom.Selector.query("ul.fromcode", document.body).length);
       this.assertEquals(750, qx.bom.Selector.query("ul > li").length);
-      
+
       document.body.innerHTML = "";
     }
   }

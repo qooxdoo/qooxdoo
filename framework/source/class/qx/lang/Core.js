@@ -25,7 +25,7 @@
  * (particularly JavaScript 1.6).
  *
  * The methods defined in this class contain implementations of methods, which
- * are not supported by all browsers. If a method is supported it points to 
+ * are not supported by all browsers. If a method is supported it points to
  * the native implementation, otherwise it contains an emulation function.
  *
  * For reference:
@@ -48,7 +48,7 @@
  */
 qx.Bootstrap.define("qx.lang.Core",
 {
-  statics : 
+  statics :
   {
     /**
      * Some browsers (e.g. Internet Explorer) do not support to stringify
@@ -65,14 +65,14 @@ qx.Bootstrap.define("qx.lang.Core",
       ) ? "emulated" : "native",
       {
         "native" : Error.prototype.toString,
-        
+
         "emulated" : function() {
           return this.message;
         }
       }
     ),
-      
-    
+
+
     /**
      * Returns the first index at which a given element can be found in the array,
      * or <code>-1</code> if it is not present. It compares <code>searchElement</code> to elements of the Array
@@ -94,7 +94,7 @@ qx.Bootstrap.define("qx.lang.Core",
     arrayIndexOf : qx.lang.Object.select(Array.prototype.indexOf ? "native" :"emulated",
     {
       "native" : Array.prototype.indexOf,
-      
+
       "emulated" : function(searchElement, fromIndex)
       {
         if (fromIndex == null) {
@@ -102,19 +102,19 @@ qx.Bootstrap.define("qx.lang.Core",
         } else if (fromIndex < 0) {
           fromIndex = Math.max(0, this.length + fromIndex);
         }
-  
+
         for (var i=fromIndex; i<this.length; i++)
         {
           if (this[i] === searchElement) {
             return i;
           }
         }
-  
+
         return -1;
       }
     }),
-    
-    
+
+
     /**
      * Returns the last index at which a given element can be found in the array, or <code>-1</code>
      * if it is not present. The array is searched backwards, starting at <code>fromIndex</code>.
@@ -138,7 +138,7 @@ qx.Bootstrap.define("qx.lang.Core",
     arrayLastIndexOf : qx.lang.Object.select(Array.prototype.lastIndexOf ? "native" :"emulated",
     {
       "native" : Array.prototype.lastIndexOf,
-      
+
       "emulated" : function(searchElement, fromIndex)
       {
         if (fromIndex == null) {
@@ -146,19 +146,19 @@ qx.Bootstrap.define("qx.lang.Core",
         } else if (fromIndex < 0) {
           fromIndex = Math.max(0, this.length + fromIndex);
         }
-  
+
         for (var i=fromIndex; i>=0; i--)
         {
           if (this[i] === searchElement) {
             return i;
           }
         }
-  
+
         return -1;
       }
     }),
-    
-    
+
+
     /**
      * Executes a provided function once per array element.
      *
@@ -194,7 +194,7 @@ qx.Bootstrap.define("qx.lang.Core",
     arrayForEach : qx.lang.Object.select(Array.prototype.forEach ? "native" :"emulated",
     {
       "native" : Array.prototype.forEach,
-      
+
       "emulated" : function(callback, obj)
       {
         var l = this.length;
@@ -207,8 +207,8 @@ qx.Bootstrap.define("qx.lang.Core",
         }
       }
     }),
-    
-    
+
+
     /**
      * Creates a new array with all elements that pass the test implemented by the provided
      * function.
@@ -248,28 +248,28 @@ qx.Bootstrap.define("qx.lang.Core",
     arrayFilter : qx.lang.Object.select(Array.prototype.filter ? "native" :"emulated",
     {
       "native" : Array.prototype.filter,
-      
+
       "emulated" : function(callback, obj)
       {
         var res = [];
-  
+
         var l = this.length;
         for (var i=0; i<l; i++)
         {
           var value = this[i];
-          if (value !== undefined) 
+          if (value !== undefined)
           {
             if (callback.call(obj || window, value, i, this)) {
               res.push(this[i]);
             }
           }
         }
-  
+
         return res;
       }
     }),
-    
-    
+
+
     /**
      * Creates a new array with the results of calling a provided function on every element in this array.
      *
@@ -304,11 +304,11 @@ qx.Bootstrap.define("qx.lang.Core",
     arrayMap : qx.lang.Object.select(Array.prototype.map ? "native" :"emulated",
     {
       "native" : Array.prototype.map,
-      
+
       "emulated" : function(callback, obj)
       {
         var res = [];
-        
+
         var l = this.length;
         for (var i=0; i<l; i++)
         {
@@ -317,12 +317,12 @@ qx.Bootstrap.define("qx.lang.Core",
             res[i] = callback.call(obj || window, value, i, this);
           }
         }
-  
+
         return res;
       }
     }),
-    
-    
+
+
     /**
      * Tests whether some element in the array passes the test implemented by the provided function.
      *
@@ -359,26 +359,26 @@ qx.Bootstrap.define("qx.lang.Core",
     arraySome : qx.lang.Object.select(Array.prototype.some ? "native" :"emulated",
     {
       "native" : Array.prototype.some,
-      
+
       "emulated" : function(callback, obj)
       {
         var l = this.length;
         for (var i=0; i<l; i++)
         {
           var value = this[i];
-          if (value !== undefined) 
+          if (value !== undefined)
           {
             if (callback.call(obj || window, value, i, this)) {
               return true;
             }
           }
         }
-  
+
         return false;
       }
     }),
-    
-    
+
+
     /**
      * Tests whether all elements in the array pass the test implemented by the provided function.
      *
@@ -415,26 +415,26 @@ qx.Bootstrap.define("qx.lang.Core",
     arrayEvery : qx.lang.Object.select(Array.prototype.every ? "native" :"emulated",
     {
       "native" : Array.prototype.every,
-      
+
       "emulated" : function(callback, obj)
       {
         var l = this.length;
         for (var i=0; i<l; i++)
         {
           var value = this[i];
-          if (value !== undefined) 
+          if (value !== undefined)
           {
             if (!callback.call(obj || window, value, i, this)) {
               return false;
             }
           }
         }
-  
+
         return true;
       }
     }),
-    
-    
+
+
     /**
      * Surrounds the string with double quotes and escapes all double quotes
      * and backslashes within the string.
@@ -449,7 +449,7 @@ qx.Bootstrap.define("qx.lang.Core",
     stringQuote : qx.lang.Object.select(String.prototype.quote ? "native" :"emulated",
     {
       "native" : String.prototype.quote,
-      
+
       "emulated" : function() {
         return '"' + this.replace(/\\/g, "\\\\").replace(/\"/g, "\\\"") + '"';
       }

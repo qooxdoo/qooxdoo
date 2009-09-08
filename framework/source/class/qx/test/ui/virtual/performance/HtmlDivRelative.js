@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.performance.HtmlDivRelative", 
+qx.Class.define("qx.test.ui.virtual.performance.HtmlDivRelative",
 {
   extend : qx.test.ui.virtual.performance.AbstractLayerTest,
   type : "abstract", // disabled
@@ -26,7 +26,7 @@ qx.Class.define("qx.test.ui.virtual.performance.HtmlDivRelative",
   {
     getLayer : function() {
       return new qx.test.ui.virtual.performance.layer.HtmlDivRelative();
-    }    
+    }
   }
 
 });

@@ -25,15 +25,15 @@
 qx.Interface.define("qx.ui.core.IMultiSelection",
 {
   extend: qx.ui.core.ISingleSelection,
-  
-  
+
+
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
 
-  
+
   members :
   {
     /**
@@ -42,7 +42,7 @@ qx.Interface.define("qx.ui.core.IMultiSelection",
     selectAll : function() {
       return true;
     },
-    
+
     /**
      * Adds the given item to the existing selection.
      *
@@ -52,11 +52,11 @@ qx.Interface.define("qx.ui.core.IMultiSelection",
     addToSelection : function(item) {
       return arguments.length == 1;
     },
-    
+
     /**
      * Removes the given item from the selection.
      *
-     * Use {@link qx.ui.core.ISingleSelection#resetSelection} when you 
+     * Use {@link qx.ui.core.ISingleSelection#resetSelection} when you
      * want to clear the whole selection at once.
      *
      * @param item {qx.ui.core.Widget} Any valid item

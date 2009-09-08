@@ -25,9 +25,9 @@
  * * Firefox using an installed FireBug.
  * * Safari using newer features of Web Inspector.
  * * Internet Explorer 8.
- * 
+ *
  * Currently unsupported browsers:
- * * Opera using the <code>postError</code> (disabled due to missing 
+ * * Opera using the <code>postError</code> (disabled due to missing
  *     functionality in opera as of version 9.6).
  */
 qx.Bootstrap.define("qx.log.appender.Native",
@@ -55,10 +55,10 @@ qx.Bootstrap.define("qx.log.appender.Native",
           console[entry.level].call(console, qx.log.appender.Util.toText(entry));
         }
       },
-      
+
       "mshtml" : function(entry)
       {
-        if (window.console) 
+        if (window.console)
         {
           var level = entry.level;
           if (level == "debug") {
@@ -69,7 +69,7 @@ qx.Bootstrap.define("qx.log.appender.Native",
           var args = qx.log.appender.Util.toText(entry);
           console[level](args);
         }
-      },      
+      },
 
       "webkit" : function(entry)
       {
@@ -88,7 +88,7 @@ qx.Bootstrap.define("qx.log.appender.Native",
 
       "opera" : function(entry)
       {
-        // Opera's debugging as of 9.6 is not really useful, so currently 
+        // Opera's debugging as of 9.6 is not really useful, so currently
         // qooxdoo's own console makes more sense
 
         /*
@@ -109,12 +109,12 @@ qx.Bootstrap.define("qx.log.appender.Native",
   *****************************************************************************
   */
 
-  defer : function(statics) 
+  defer : function(statics)
   {
     if (window.console && window.console.clear) {
       console.clear();
     }
-    
+
     qx.log.Logger.register(statics);
   }
 });

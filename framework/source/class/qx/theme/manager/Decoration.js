@@ -157,7 +157,7 @@ qx.Class.define("qx.theme.manager.Decoration",
     _applyTheme : function(value, old)
     {
       var aliasManager = qx.util.AliasManager.getInstance();
-      
+
       // @deprecated
       if (value) {
         aliasManager.add("decoration", value.resource);
@@ -171,14 +171,14 @@ qx.Class.define("qx.theme.manager.Decoration",
           aliasManager.remove(alias);
         }
       }
-      
+
       if (value)
       {
         for (var alias in value.aliases) {
           aliasManager.add(alias, value.aliases[alias]);
-        }        
+        }
       }
-      
+
       if (!value) {
         this.__dynamic = {};
       }

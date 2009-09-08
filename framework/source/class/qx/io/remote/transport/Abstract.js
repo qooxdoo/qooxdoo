@@ -35,10 +35,10 @@ qx.Class.define("qx.io.remote.transport.Abstract",
   *****************************************************************************
   */
 
-  construct : function() 
+  construct : function()
   {
     this.base(arguments);
-    
+
     this.setRequestHeaders({});
     this.setParameters({});
     this.setFormFields({});

@@ -21,13 +21,13 @@
 /**
  * EXPERIMENTAL!
  */
-qx.Class.define("qx.ui.virtual.cell.Number", 
+qx.Class.define("qx.ui.virtual.cell.Number",
 {
   extend : qx.ui.virtual.cell.Cell,
 
   construct : function(numberFormat)
   {
-    this.base(arguments);    
+    this.base(arguments);
 
     if (numberFormat) {
       this.setNumberFormat(numberFormat);
@@ -56,7 +56,7 @@ qx.Class.define("qx.ui.virtual.cell.Number",
     }
   },
 
-  
+
   /*
   *****************************************************************************
      MEMBERS
@@ -69,7 +69,7 @@ qx.Class.define("qx.ui.virtual.cell.Number",
     ---------------------------------------------------------------------------
       IMPLEMENT CELL API
     ---------------------------------------------------------------------------
-    */    
+    */
 
     getContent : function(value, states) {
       return value !== null ? this.getNumberFormat().format(value) : "";

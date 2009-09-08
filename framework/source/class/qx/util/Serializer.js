@@ -19,57 +19,57 @@
 
 /**
  * <h3>EXPERIMENTAL</h3>
- * 
+ *
  * This is a util class resposnible for serializing qooxdoo objects.
  */
-qx.Class.define("qx.util.Serializer", 
+qx.Class.define("qx.util.Serializer",
 {
   statics :
   {
-    
+
     /**
-     * Serializes the properties of the given qooxdoo object. To get the 
-     * serialization working, every property needs has to have a string 
-     * representation because the value od the property will be concated to the 
+     * Serializes the properties of the given qooxdoo object. To get the
+     * serialization working, every property needs has to have a string
+     * representation because the value od the property will be concated to the
      * serialized string.
-     * 
+     *
      * @param object {qx.core.Object} Any qooxdoo object
      * @param qxSerializer {Function} Function used for serializing qooxdoo
-     *   objects stored in the propertys of the object. Check for the type of 
-     *   classes <ou want to serialize and return the serialized value. In all 
+     *   objects stored in the propertys of the object. Check for the type of
+     *   classes <ou want to serialize and return the serialized value. In all
      *   other cases, just return nothing.
      * @return {String} The serialized object.
      */
     toUriParameter : function(object, qxSerializer) {
       var result = "";
       var properties = qx.util.PropertyUtil.getProperties(object.constructor);
-      
+
       for (var name in properties) {
         var value = object["get" + qx.lang.String.firstUp(name)]();
-        
+
         // handle arrays
         if (qx.lang.Type.isArray(value)) {
           for (var i = 0; i < value.length; i++) {
-            result += this.__toUriParameter(name, value[i], qxSerializer);            
+            result += this.__toUriParameter(name, value[i], qxSerializer);
           };
         } else {
-          result += this.__toUriParameter(name, value, qxSerializer);          
+          result += this.__toUriParameter(name, value, qxSerializer);
         }
       }
       return result.substring(0, result.length - 1);
     },
-    
-    
+
+
     /**
-     * Helper method for {@link #toUriParameter}. Check for qooxdoo objects 
+     * Helper method for {@link #toUriParameter}. Check for qooxdoo objects
      * and returns the serialized name value pair for the given parameter.
-     * 
+     *
      * @param name {String} The name of the value
      * @param value {var} The value itself
      * @param qxSerializer {Function} The serializer for qooxdoo objects.
      * @return {String} The serialized name value pair.
      */
-    __toUriParameter : function(name, value, qxSerializer) 
+    __toUriParameter : function(name, value, qxSerializer)
     {
       if (value instanceof qx.core.Object && qxSerializer != null) {
         var encValue = encodeURIComponent(qxSerializer(value));
@@ -81,15 +81,15 @@ qx.Class.define("qx.util.Serializer",
       }
       return encodeURIComponent(name) + "=" + encValue + "&";
     },
-    
-    
+
+
     /**
      * Serializes the properties of the given qooxdoo object into a json object.
-     * 
+     *
      * @param object {qx.core.Object} Any qooxdoo object
      * @param qxSerializer {Function} Function used for serializing qooxdoo
-     *   objects stored in the propertys of the object. Check for the type of 
-     *   classes <ou want to serialize and return the serialized value. In all 
+     *   objects stored in the propertys of the object. Check for the type of
+     *   classes <ou want to serialize and return the serialized value. In all
      *   other cases, just return nothing.
      * @return {String} The serialized object.
      */
@@ -107,9 +107,9 @@ qx.Class.define("qx.util.Serializer",
         }
         if (result != "[") {
           result = result.substring(0, result.length - 1);
-        }        
+        }
         return result + "]";
-                
+
       // other arrays
       } else if (qx.lang.Type.isArray(object)) {
         result += "[";
@@ -118,10 +118,10 @@ qx.Class.define("qx.util.Serializer",
         }
         if (result != "[") {
           result = result.substring(0, result.length - 1);
-        }        
+        }
         return result + "]";
-        
-      // qooxdoo object  
+
+      // qooxdoo object
       } else if (object instanceof qx.core.Object) {
         if (qxSerializer != null) {
           var returnValue = qxSerializer(object);
@@ -145,10 +145,10 @@ qx.Class.define("qx.util.Serializer",
           result = result.substring(0, result.length - 1);
         }
         return result + "}";
-        
+
       // strings
       } else if (qx.lang.Type.isString(object)) {
-        // escape 
+        // escape
         object = object.replace(/([\\])/g, '\\\\');
         object = object.replace(/(["])/g, '\\"');
         object = object.replace(/([\r])/g, '\\r');
@@ -156,13 +156,13 @@ qx.Class.define("qx.util.Serializer",
         object = object.replace(/([\n])/g, '\\n');
         object = object.replace(/([\t])/g, '\\t');
         object = object.replace(/([\b])/g, '\\b');
-                                                        
+
         return '"' + object + '"';
-        
+
       // Date and RegExp
       } else if (
 
-        qx.lang.Type.isDate(object) || 
+        qx.lang.Type.isDate(object) ||
         qx.lang.Type.isRegExp(object)
       ) {
         return '"' + object + '"';
@@ -170,6 +170,6 @@ qx.Class.define("qx.util.Serializer",
       // all other stuff
       return object + "";
     }
-    
+
   }
 });

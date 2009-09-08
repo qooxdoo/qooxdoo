@@ -35,12 +35,12 @@ qx.Bootstrap.define("qx.lang.Object",
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         qx.core.Assert.assertMap(map, "Invalid argument 'map'");
       }
-      
-      for (var key in map) 
+
+      for (var key in map)
       {
         if (map.hasOwnProperty(key)) {
           delete map[key];
-        }  
+        }
       }
     },
 
@@ -54,26 +54,26 @@ qx.Bootstrap.define("qx.lang.Object",
      */
     isEmpty : qx.core.Variant.select("qx.client",
     {
-      "gecko" : function(map) 
+      "gecko" : function(map)
       {
         if (qx.core.Variant.isSet("qx.debug", "on")) {
           qx.core.Assert.assertMap(map, "Invalid argument 'map'");
         }
         return map.__count__ === 0;
       },
-      
-      "default" : function(map) 
+
+      "default" : function(map)
       {
         if (qx.core.Variant.isSet("qx.debug", "on")) {
           qx.core.Assert.assertMap(map, "Invalid argument 'map'");
         }
-        
+
         for (var key in map) {
           return false;
         }
-        
+
         return true;
-      }    
+      }
     }),
 
 
@@ -89,35 +89,35 @@ qx.Bootstrap.define("qx.lang.Object",
     {
       "gecko" : function(map, minLength)
       {
-        if (qx.core.Variant.isSet("qx.debug", "on")) 
+        if (qx.core.Variant.isSet("qx.debug", "on"))
         {
           qx.core.Assert.assertMap(map, "Invalid argument 'map'");
           qx.core.Assert.assertInteger(minLength, "Invalid argument 'minLength'");
         }
         return map.__count__ >= minLength;
       },
-      
+
       "default" : function(map, minLength)
       {
-        if (qx.core.Variant.isSet("qx.debug", "on")) 
+        if (qx.core.Variant.isSet("qx.debug", "on"))
         {
           qx.core.Assert.assertMap(map, "Invalid argument 'map'");
           qx.core.Assert.assertInteger(minLength, "Invalid argument 'minLength'");
         }
-  
+
         if (minLength <= 0) {
           return true;
         }
-        
+
         var length = 0;
-  
+
         for (var key in map)
         {
           if ((++length) >= minLength) {
             return true;
           }
         }
-  
+
         return false;
       }
     }),
@@ -132,26 +132,26 @@ qx.Bootstrap.define("qx.lang.Object",
      */
     getLength : qx.core.Variant.select("qx.client",
     {
-      "gecko" : function(map) 
+      "gecko" : function(map)
       {
         if (qx.core.Variant.isSet("qx.debug", "on")) {
           qx.core.Assert.assertMap(map, "Invalid argument 'map'");
         }
         return map.__count__;
       },
-      
+
       "default" : function(map)
       {
         if (qx.core.Variant.isSet("qx.debug", "on")) {
           qx.core.Assert.assertMap(map, "Invalid argument 'map'");
         }
-        
+
         var length = 0;
-  
+
         for (var key in map) {
           length++;
         }
-  
+
         return length;
       }
     }),
@@ -222,7 +222,7 @@ qx.Bootstrap.define("qx.lang.Object",
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         qx.core.Assert.assertMap(map, "Invalid argument 'map'");
       }
-      
+
       var keys = qx.lang.Object.getKeys(map);
       if (keys.length == 0) {
         return "";
@@ -243,10 +243,10 @@ qx.Bootstrap.define("qx.lang.Object",
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         qx.core.Assert.assertMap(map, "Invalid argument 'map'");
       }
-       
+
       var arr = [];
       var keys = this.getKeys(map);
-      
+
       for (var i=0, l=keys.length; i<l; i++) {
         arr.push(map[keys[i]]);
       }
@@ -271,8 +271,8 @@ qx.Bootstrap.define("qx.lang.Object",
         // TODO: temp. commented out, due to unresolved dependencies
         //qx.core.Assert.assertMap(target, "Invalid argument 'target'");
         //qx.core.Assert.assertMap(source, "Invalid argument 'source'");
-      }      
-      
+      }
+
       if (overwrite === undefined) {
         overwrite = true;
       }
@@ -296,14 +296,14 @@ qx.Bootstrap.define("qx.lang.Object",
      * @param source {Object} object to be merged
      * @return {Object} target with merged values from source
      */
-    carefullyMergeWith : function(target, source) 
+    carefullyMergeWith : function(target, source)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         qx.core.Assert.assertMap(target, "Invalid argument 'target'");
         qx.core.Assert.assertMap(source, "Invalid argument 'source'");
-      } 
-       
+      }
+
       return qx.lang.Object.mergeWith(target, source, false);
     },
 
@@ -319,8 +319,8 @@ qx.Bootstrap.define("qx.lang.Object",
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         qx.core.Assert.assertMap(target, "Invalid argument 'target'");
-      } 
-       
+      }
+
       var len = arguments.length;
 
       for (var i=1; i<len; i++) {
@@ -348,7 +348,7 @@ qx.Bootstrap.define("qx.lang.Object",
       return qx.lang.Object.clone(source);
     },
 
-    
+
     /**
      * Return a copy of an Object
      *
@@ -359,8 +359,8 @@ qx.Bootstrap.define("qx.lang.Object",
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         qx.core.Assert.assertMap(source, "Invalid argument 'source'");
-      } 
-       
+      }
+
       var clone = {};
 
       for (var key in source) {
@@ -385,7 +385,7 @@ qx.Bootstrap.define("qx.lang.Object",
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         qx.core.Assert.assertMap(map, "Invalid argument 'map'");
       }
-       
+
       var result = {};
 
       for (var key in map) {
@@ -410,7 +410,7 @@ qx.Bootstrap.define("qx.lang.Object",
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         qx.core.Assert.assertMap(map, "Invalid argument 'map'");
       }
-       
+
       for (var key in map)
       {
         if (map.hasOwnProperty(key) && map[key] === value) {
@@ -434,7 +434,7 @@ qx.Bootstrap.define("qx.lang.Object",
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         qx.core.Assert.assertMap(map, "Invalid argument 'map'");
       }
-      
+
       return this.getKeyFromValue(map, value) !== null;
     },
 
@@ -470,7 +470,7 @@ qx.Bootstrap.define("qx.lang.Object",
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         qx.core.Assert.assertArray(array, "Invalid argument 'array'");
       }
-      
+
       var obj = {};
 
       for (var i=0, l=array.length; i<l; i++)

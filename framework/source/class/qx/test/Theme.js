@@ -23,12 +23,12 @@ qx.Class.define("qx.test.Theme",
 
   members :
   {
-    tearDown : function() 
+    tearDown : function()
     {
       qx.test.Theme.themes = null;
       qx.theme.manager.Decoration.getInstance().setTheme(null);
     },
-    
+
     testExtendTheme : function()
     {
       qx.Theme.define("qx.test.Theme.themes.A", {
@@ -39,18 +39,18 @@ qx.Class.define("qx.test.Theme",
           }
         }
       });
-      
+
       qx.Theme.define("qx.test.Theme.themes.B", {
         extend : qx.test.Theme.themes.A,
         decorations : {}
       });
-      
+
       var decorationManager = qx.theme.manager.Decoration.getInstance();
       decorationManager.setTheme(qx.test.Theme.themes.B);
       this.assertInstance(decorationManager.resolve("basic"), qx.ui.decoration.Uniform);
     },
-    
-    
+
+
     testIncludeTheme : function()
     {
       qx.Theme.define("qx.test.Theme.themes.A", {
@@ -61,18 +61,18 @@ qx.Class.define("qx.test.Theme",
           }
         }
       });
-      
+
       qx.Theme.define("qx.test.Theme.themes.B", {
         include : qx.test.Theme.themes.A,
         decorations : {}
       });
-      
+
       var decorationManager = qx.theme.manager.Decoration.getInstance();
       decorationManager.setTheme(qx.test.Theme.themes.B);
       this.assertInstance(decorationManager.resolve("basic"), qx.ui.decoration.Uniform);
-    },    
-    
-    
+    },
+
+
     testPatchTheme : function()
     {
       qx.Theme.define("qx.test.Theme.themes.A", {
@@ -83,7 +83,7 @@ qx.Class.define("qx.test.Theme",
           }
         }
       });
-      
+
       qx.Theme.define("qx.test.Theme.themes.B", {
         patch : qx.test.Theme.themes.A,
         decorations : {
@@ -93,13 +93,13 @@ qx.Class.define("qx.test.Theme",
           }
         }
       });
-      
+
       var decorationManager = qx.theme.manager.Decoration.getInstance();
       decorationManager.setTheme(qx.test.Theme.themes.B);
       this.assertInstance(decorationManager.resolve("basic"), qx.ui.decoration.Uniform);
     },
-    
-    
+
+
     testIncludeThemeWithIncludes : function()
     {
       qx.Theme.define("qx.test.Theme.themes.A", {
@@ -110,23 +110,23 @@ qx.Class.define("qx.test.Theme",
           }
         }
       });
-      
+
       qx.Theme.define("qx.test.Theme.themes.B", {
         include : [qx.test.Theme.themes.A],
         decorations : {}
       });
-      
+
       qx.Theme.define("qx.test.Theme.themes.C", {
         include : [qx.test.Theme.themes.B],
         decorations : {}
       });
-      
+
       var decorationManager = qx.theme.manager.Decoration.getInstance();
       decorationManager.setTheme(qx.test.Theme.themes.C);
       this.assertInstance(decorationManager.resolve("basic"), qx.ui.decoration.Uniform);
     },
-    
-    
+
+
     testDoubleExtend : function()
     {
       qx.Theme.define("qx.test.Theme.themes.A", {
@@ -137,23 +137,23 @@ qx.Class.define("qx.test.Theme",
           }
         }
       });
-      
+
       qx.Theme.define("qx.test.Theme.themes.B", {
         extend : qx.test.Theme.themes.A,
         decorations : {}
       });
-      
+
       qx.Theme.define("qx.test.Theme.themes.C", {
         extend : qx.test.Theme.themes.B,
         decorations : {}
       });
-      
+
       var decorationManager = qx.theme.manager.Decoration.getInstance();
       decorationManager.setTheme(qx.test.Theme.themes.C);
       this.assertInstance(decorationManager.resolve("basic"), qx.ui.decoration.Uniform);
     },
-    
-    
+
+
     testExtendThemeWithIncludes : function()
     {
       qx.Theme.define("qx.test.Theme.themes.A", {
@@ -164,17 +164,17 @@ qx.Class.define("qx.test.Theme",
           }
         }
       });
-      
+
       qx.Theme.define("qx.test.Theme.themes.B", {
         include : [qx.test.Theme.themes.A],
         decorations : {}
       });
-      
+
       qx.Theme.define("qx.test.Theme.themes.C", {
         extend : qx.test.Theme.themes.B,
         decorations : {}
       });
-      
+
       var decorationManager = qx.theme.manager.Decoration.getInstance();
       decorationManager.setTheme(qx.test.Theme.themes.C);
       this.assertInstance(decorationManager.resolve("basic"), qx.ui.decoration.Uniform);

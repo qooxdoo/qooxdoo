@@ -80,10 +80,10 @@ qx.Class.define("qx.dev.unit.TestFunction",
       check : "String",
       init  : ""
     },
-    
+
     /** The test class */
-    testClass : 
-    { 
+    testClass :
+    {
       check : "qx.dev.unit.TestCase",
       init : null
     }
@@ -99,14 +99,14 @@ qx.Class.define("qx.dev.unit.TestFunction",
 
   members :
   {
-    
+
     /**
      * Runs the test and logs the test result to a {@link TestResult} instance,
      *
      * @param testResult {TestResult} The class used to log the test result.
      */
-    run : function(testResult) 
-		{
+    run : function(testResult)
+    {
       var inst = this.getTestClass();
       var method = this.getName();
       var testFunc = this;
@@ -121,24 +121,24 @@ qx.Class.define("qx.dev.unit.TestFunction",
           throw ex;
         }
       });
-      
+
     },
-    
+
     /**
      * Call the test class' <code>setUp</code> method.
      */
-    setUp : function() 
+    setUp : function()
     {
       var inst = this.getTestClass();
       if (qx.lang.Type.isFunction(inst.setUp)) {
         inst.setUp();
       }
     },
-    
+
     /**
      * Call the test class' <code>tearDown</code> method.
-     */    
-    tearDown : function() 
+     */
+    tearDown : function()
     {
       var inst = this.getTestClass();
       if (qx.lang.Type.isFunction(inst.tearDown)) {

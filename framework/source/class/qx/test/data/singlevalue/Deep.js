@@ -49,7 +49,7 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
           init : new qx.data.Array(["one", "two", "three"]),
           event: "changeArray"
         },
-        
+
         lab : {
           event: "changeLable"
         }
@@ -262,64 +262,64 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
       qx.data.SingleValueBinding.removeAllBindings();
 
     },
-    
-    
+
+
     testArrayDeep: function() {
       this.__a.setArray(new qx.data.Array([this.__b1]));
       this.__b1.setChild(this.__b2);
       this.__b2.setChild(this.__b1);
-      
+
       qx.data.SingleValueBinding.bind(this.__a, "array[0].child.name", this.__label, "value");
-      
+
       this.assertEquals("b2", this.__label.getValue(), "Deep binding does not work.");
-      
+
       this.__a.getArray().pop();
       this.assertNull(this.__label.getValue(), "Deep binding does not work.");
-      
+
       this.__a.getArray().push(this.__b2);
-      this.assertEquals("b1", this.__label.getValue(), "Deep binding does not work.");      
-      
+      this.assertEquals("b1", this.__label.getValue(), "Deep binding does not work.");
+
       this.__b1.setName("B1");
-      this.assertEquals("B1", this.__label.getValue(), "Deep binding does not work.");      
+      this.assertEquals("B1", this.__label.getValue(), "Deep binding does not work.");
     },
-    
-    
+
+
     testDeepTarget: function() {
       qx.data.SingleValueBinding.bind(this.__a, "name", this.__b1, "lab.content");
-      
-      this.assertEquals("a", this.__b1.getLab().getContent(), "Deep binding on the target does not work.");            
+
+      this.assertEquals("a", this.__b1.getLab().getContent(), "Deep binding on the target does not work.");
     },
-    
+
     testDeepTarget2: function() {
       this.__b2.setChild(this.__b1);
       qx.data.SingleValueBinding.bind(this.__a, "name", this.__b2, "child.lab.content");
-      
-      this.assertEquals("a", this.__b1.getLab().getContent(), "Deep binding on the target does not work.");            
+
+      this.assertEquals("a", this.__b1.getLab().getContent(), "Deep binding on the target does not work.");
     },
-    
+
     testDeepTargetNull: function() {
       qx.data.SingleValueBinding.bind(this.__a, "name", this.__b2, "child.lab.content");
-      
-      this.assertEquals("", this.__b1.getLab().getContent(), "Deep binding on the target does not work.");            
+
+      this.assertEquals("", this.__b1.getLab().getContent(), "Deep binding on the target does not work.");
     },
-    
+
     testDeepTargetArray: function() {
       this.__a.setArray(new qx.data.Array([this.__b1]));
-      
+
       qx.data.SingleValueBinding.bind(this.__a, "name", this.__a, "array[0].lab.content");
-      
-      this.assertEquals("a", this.__b1.getLab().getContent(), "Deep binding on the target does not work.");            
+
+      this.assertEquals("a", this.__b1.getLab().getContent(), "Deep binding on the target does not work.");
     },
-    
+
     testDeepTargetArrayLast: function() {
       this.__a.setArray(new qx.data.Array([this.__b1]));
-      
+
       qx.data.SingleValueBinding.bind(this.__a, "name", this.__a, "array[last].lab.content");
-      
-      this.assertEquals("a", this.__b1.getLab().getContent(), "Deep binding on the target does not work.");            
+
+      this.assertEquals("a", this.__b1.getLab().getContent(), "Deep binding on the target does not work.");
     },
-    
-    
+
+
     testBug1947: function() {
       qx.Class.define("qx.demo.Kid",
       {
@@ -347,7 +347,7 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
 
         properties :
         {
-          name : 
+          name :
           {
             check : "String",
             event : "changeName",
@@ -378,10 +378,10 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
       label.setDecorator("main");
 
       ctrl.bind("selection[0].Kid.Name", label, "value");
-      
+
       ctrl.getSelection().push(parentA);
     },
-    
+
     testBug1988: function() {
       qx.Class.define("qx.demo.Kid",
       {
@@ -449,7 +449,7 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
       list.addToSelection(list.getChildren()[0]);
       // check the label
       this.assertEquals("kidA", label.getContent(), "Wrong name in the label.");
-      
+
       // select the second label
       list.addToSelection(list.getChildren()[1]);
       this.assertNull(label.getContent(), "Label has not been reseted.");

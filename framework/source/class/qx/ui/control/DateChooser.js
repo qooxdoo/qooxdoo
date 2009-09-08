@@ -46,14 +46,14 @@ qx.Class.define("qx.ui.control.DateChooser",
 {
   extend : qx.ui.core.Widget,
   include : [
-    qx.ui.core.MExecutable, 
+    qx.ui.core.MExecutable,
     qx.ui.form.MForm,
     qx.ui.form.MFormElement
   ],
   // deprecated IFormElement
   implement : [
-    qx.ui.form.IFormElement, 
-    qx.ui.form.IExecutable, 
+    qx.ui.form.IFormElement,
+    qx.ui.form.IExecutable,
     qx.ui.form.IForm,
     qx.ui.form.IDateForm
   ],
@@ -125,11 +125,11 @@ qx.Class.define("qx.ui.control.DateChooser",
 
   events :
   {
-    /** 
-     * Fired when the value was modified 
-     * 
+    /**
+     * Fired when the value was modified
+     *
      * Event data: The value as a JavaScript date.
-     * 
+     *
      * @deprecated
      */
     changeDate : "qx.event.type.Data"
@@ -184,9 +184,9 @@ qx.Class.define("qx.ui.control.DateChooser",
       nullable : true,
       event : "changeShownYear"
     },
-    
+
     /** The date value of the widget. */
-    value : 
+    value :
     {
       check : "Date",
       init : null,
@@ -214,7 +214,7 @@ qx.Class.define("qx.ui.control.DateChooser",
 
     // overridden
     /**
-     * @lint ignoreReferenceField(_forwardStates) 
+     * @lint ignoreReferenceField(_forwardStates)
      */
     _forwardStates :
     {
@@ -747,8 +747,8 @@ qx.Class.define("qx.ui.control.DateChooser",
       weekDayFormat.dispose();
       weekFormat.dispose();
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       DEPRECATED STUFF
@@ -763,11 +763,11 @@ qx.Class.define("qx.ui.control.DateChooser",
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee, "Please use setValue instead."
       );
-      
+
       this.setValue(value);
     },
-    
-    
+
+
     /**
      * Returns the date. {@see #value}
      * @deprecated
@@ -776,11 +776,11 @@ qx.Class.define("qx.ui.control.DateChooser",
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee, "Please use getValue instead."
       );
-      
+
       return this.getValue();
     },
-    
-    
+
+
     /**
      * Resets the date. {@see #value}
      * @deprecated
@@ -789,11 +789,11 @@ qx.Class.define("qx.ui.control.DateChooser",
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee, "Please use resetValue instead."
       );
-      
+
       this.resetValue();
     },
-    
-    
+
+
     /**
      * Initializes the date. {@see #value}
      * @deprecated
@@ -802,9 +802,9 @@ qx.Class.define("qx.ui.control.DateChooser",
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee, "Please use initValue instead."
       );
-      
+
       this.initValue();
-    }             
+    }
   },
 
 

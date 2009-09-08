@@ -59,9 +59,9 @@ qx.Class.define("qx.ui.table.pane.Pane",
   */
 
 
-  events : 
-  { 
-    /** 
+  events :
+  {
+    /**
      * Whether the current view port of the pane has not loaded data.
      * The data object of the event indicates if the table pane has to reload
      * data or not. Can be used to give the user feedback of the loading state
@@ -152,7 +152,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
       this.updateContent(true);
     },
 
-    
+
     // overridden
     _getContentHint : function()
     {
@@ -161,9 +161,9 @@ qx.Class.define("qx.ui.table.pane.Pane",
       return {
         width: this.getPaneScroller().getTablePaneModel().getTotalWidth(),
         height: 400
-      }   
+      }
     },
-    
+
 
     /**
      * Returns the TablePaneScroller this pane belongs to.
@@ -522,7 +522,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
         cellInfo.selected = selected;
         cellInfo.focusedRow = focusedRow;
         cellInfo.rowData = tableModel.getRowData(row);
-        
+
         if (!cellInfo.rowData) {
           paneReloadsData = true;
         }

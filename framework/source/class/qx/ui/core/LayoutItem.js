@@ -583,7 +583,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
       // Support grow
       if (!this.getAllowGrowX()) {
         hint.maxWidth = Math.min(hint.maxWidth, hint.width);
-      } 
+      }
       if (hint.width > hint.maxWidth) {
         hint.width = hint.maxWidth;
       }
@@ -662,7 +662,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
       return null;
     },
 
-    
+
     /**
      * Get the widget's layout manager.
      *
@@ -671,7 +671,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     _getLayout : function() {
       return null;
     },
-    
+
 
     // property apply
     _applyMargin : function()
@@ -911,7 +911,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
       if (this.$$parent === parent) {
         return;
       }
-      
+
       this.$$parent = parent || null;
       qx.ui.core.queue.Visibility.add(this);
     },

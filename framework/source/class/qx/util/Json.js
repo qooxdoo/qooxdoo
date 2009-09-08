@@ -57,7 +57,7 @@ qx.Class.define("qx.util.Json",
   statics :
   {
     __nativeDateToJSON : null,
-  
+
     /** indent string for JSON pretty printing */
     BEAUTIFYING_INDENT : "  ",
 
@@ -91,7 +91,7 @@ qx.Class.define("qx.util.Json",
      * Converts the incoming value from Boolean to String.
      *
      * @param incoming {Boolean} The incoming value
-     * @param key {String} The key under which the value is stored     
+     * @param key {String} The key under which the value is stored
      * @return {String} value converted to a JSON string
      */
     __convertBoolean : function(incoming, key) {
@@ -103,7 +103,7 @@ qx.Class.define("qx.util.Json",
      * Converts the incoming value from Number to String.
      *
      * @param incoming {Number} The incoming value
-     * @param key {String} The key under which the value is stored     
+     * @param key {String} The key under which the value is stored
      * @return {String} value converted to a JSON string
      */
     __convertNumber : function(incoming, key) {
@@ -115,7 +115,7 @@ qx.Class.define("qx.util.Json",
      * Converts the incoming value from String to JSON String.
      *
      * @param incoming {String} The incoming value
-     * @param key {String} The key under which the value is stored     
+     * @param key {String} The key under which the value is stored
      * @return {String} value converted to a JSON string
      */
     __convertString : function(incoming, key)
@@ -167,7 +167,7 @@ qx.Class.define("qx.util.Json",
      * Converts the incoming value from Array to String.
      *
      * @param incoming {Array} The incoming value
-     * @param key {String} The key under which the value is stored     
+     * @param key {String} The key under which the value is stored
      * @return {String} value converted to a JSON string
      */
     __convertArray : function(incoming, key)
@@ -280,7 +280,7 @@ qx.Class.define("qx.util.Json",
      * sent to it by the client.
      *
      * @param incoming {Date} incoming value
-     * @param key {String} The key under which the value is stored     
+     * @param key {String} The key under which the value is stored
      * @return {String} value converted to a JSON string
      */
     __convertDate : function(incoming, key)
@@ -294,7 +294,7 @@ qx.Class.define("qx.util.Json",
      * Converts the incoming value from Map to String.
      *
      * @param incoming {Map} The incoming value
-     * @param key {String} The key under which the value is stored     
+     * @param key {String} The key under which the value is stored
      * @return {String} value converted to a JSON string
      */
     __convertMap : function(incoming, key)
@@ -352,7 +352,7 @@ qx.Class.define("qx.util.Json",
      * Converts the incoming value from Object to String.
      *
      * @param incoming {Object} The incoming value
-     * @param key {String} The key under which the value is stored     
+     * @param key {String} The key under which the value is stored
      * @return {String} value converted to a JSON string
      */
     __convertObject : function(incoming, key)
@@ -382,7 +382,7 @@ qx.Class.define("qx.util.Json",
      * Converts the incoming value from undefined to String.
      *
      * @param incoming {undefined} The incoming value
-     * @param key {String} The key under which the value is stored     
+     * @param key {String} The key under which the value is stored
      * @return {String} value converted to a JSON string
      */
     __convertUndefined : function(incoming, key)
@@ -395,7 +395,7 @@ qx.Class.define("qx.util.Json",
 
     /**
      * Converts any value to JSON
-     * 
+     *
      * @param incoming {var} The incoming value
      * @param key {String} The key under which the value is stored
      * @return {String} value converted to a JSON string
@@ -403,8 +403,8 @@ qx.Class.define("qx.util.Json",
     __convert : function(incoming, key) {
       return this[this.__map[typeof incoming]](incoming, key);
     },
-    
-    
+
+
     /**
      * Stringify a JavaScript value, producing a JSON text.
      *
@@ -456,7 +456,7 @@ qx.Class.define("qx.util.Json",
         throw new Error("Could not evaluate JSON string: " + ex.message);
       }
     },
-    
+
 
     /**
      * Parse a JSON text, producing a JavaScript value.
@@ -487,9 +487,9 @@ qx.Class.define("qx.util.Json",
     "qx.jsonEncodeUndefined" : true,
     "qx.jsonDebugging"       : false
   },
-  
-  
+
+
   defer : function(statics) {
     statics.__nativeDateToJSON = Date.prototype.toJSON;
-  }   
+  }
 });

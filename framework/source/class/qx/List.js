@@ -15,15 +15,15 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Fabian Jakobs (fjakobs)
-     
+
    ======================================================================
 
    This class uses ideas and code snipplets presented at
    <http://webreflection.blogspot.com/2008/05/habemus-array-unlocked-length-in-ie8.html>
-   
+
    Author:
        Andrea Giammarchi
-       
+
    License:
        MIT: http://www.opensource.org/licenses/mit-license.php
 
@@ -81,8 +81,8 @@ qx.Bootstrap.define("qx.List",
       // Validate incoming data
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         this.__validateConfig(name, config);
-      }   
-      
+      }
+
       function clazz(length)
       {
         if (arguments.length == 1 && typeof(length) == "number")
@@ -99,18 +99,18 @@ qx.Bootstrap.define("qx.List",
           this.push.apply(this, arguments);
         }
       }
-      
+
       var Array = function() {};
       Array.prototype = [];
-      
-      clazz.prototype = new Array();      
-      
+
+      clazz.prototype = new Array();
+
       var proto = clazz.prototype;
-      
+
       // In IE don't inherit Array but use an empty object as prototype
       // and copy the methods from Array
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
-      {        
+      {
         clazz.prototype = {
           $$isArray: true
         };
@@ -125,13 +125,13 @@ qx.Bootstrap.define("qx.List",
           proto[methodName] = window.Array.prototype[methodName];
         }
       }
-      
+
       proto.length = 0;
       proto.constructor = clazz;
-      
+
       proto.toString = proto.join;
-      proto.toLocaleString = this.__toLocaleString; 
-      clazz.prototype.concat = this.__concat;    
+      proto.toLocaleString = this.__toLocaleString;
+      clazz.prototype.concat = this.__concat;
 
       // Create namespace
       var basename = qx.Bootstrap.createNamespace(name, clazz, false);
@@ -141,10 +141,10 @@ qx.Bootstrap.define("qx.List",
       clazz.classname = name;
       proto.classname = name;
       proto.basename = clazz.basename = basename;
-      
+
       // Modify toString on clazz
       clazz.toString = this.genericToString;
-      
+
       // Attach statics
       var statics = config.statics;
       if (statics)
@@ -173,7 +173,7 @@ qx.Bootstrap.define("qx.List",
       // Store class reference in global class registry
       this.$$registry[name] = clazz;
     },
-    
+
 
     /**
      * This method will be attached to all lists to return
@@ -185,8 +185,8 @@ qx.Bootstrap.define("qx.List",
     genericToString : function() {
       return "[List " + this.classname + "]";
     },
-    
-    
+
+
     /**
      * Reimplementation of the concat method
      */
@@ -195,15 +195,15 @@ qx.Bootstrap.define("qx.List",
       var copy = this.slice(0, this.length);
       return copy.concat.apply(copy, arguments);
     },
-    
-    
+
+
     /**
      * Reimplement toLocaleString method
      */
     __toLocaleString : function() {
       return this.slice(0).toLocaleString();
     },
-    
+
 
     /** Stores all defined classes */
     $$registry : qx.Bootstrap.$$registry,

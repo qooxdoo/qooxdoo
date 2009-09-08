@@ -21,46 +21,46 @@
 
 /**
  * EXPERIMENTAL!
- * 
+ *
  * An extended WidgetCell layer, which adds the possibility to specify row and
- * column spans for specific cells. 
+ * column spans for specific cells.
  */
 qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
 {
   extend : qx.ui.virtual.layer.Abstract,
-  
+
   include : [
     qx.ui.core.MChildrenHandling
   ],
-  
-  
+
+
   /**
   * @param widgetCellProvider {qx.ui.virtual.core.IWidgetCellProvider} This
    *    class manages the life cycle of the cell widgets.
-   * @param rowConfig {qx.ui.virtual.core.Axis} The row configuration of the pane 
+   * @param rowConfig {qx.ui.virtual.core.Axis} The row configuration of the pane
    *    in which the cells will be rendered
-   * @param columnConfig {qx.ui.virtual.core.Axis} The column configuration of the pane 
+   * @param columnConfig {qx.ui.virtual.core.Axis} The column configuration of the pane
    *    in which the cells will be rendered
-   */    
+   */
   construct : function(widgetCellProvider, rowConfig, columnConfig)
   {
     this.base(arguments);
     this.setZIndex(2);
-    
+
     this._spanManager = new qx.ui.virtual.layer.CellSpanManager(rowConfig, columnConfig);
     this._cellProvider = widgetCellProvider;
     this.__spacerPool = [];
-    
+
     this._cellLayer = new qx.ui.virtual.layer.WidgetCell(
       this.__getCellProviderForNonSpanningCells()
     )
     this._cellLayer.setZIndex(0);
-    
+
     this._setLayout(new qx.ui.layout.Grow());
     this._add(this._cellLayer);
   },
-  
-  
+
+
   /*
   *****************************************************************************
      PROPERTIES
@@ -74,26 +74,26 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
     {
       refine: true,
       init: false
-    }    
-  },  
-  
-   
+    }
+  },
+
+
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
- 
+
   members :
-  {    
+  {
     /**
      * Returns the widget used to render the given cell. May return null if the
      * cell isn’t rendered currently rendered.
-     * 
+     *
      * @param row {Integer} The cell's row index
      * @param column {Integer} The cell's column index
      * @return {qx.ui.core.LayoutItem|null} the widget used to render the given
-     *    cell or <code>null</code> 
+     *    cell or <code>null</code>
      */
      getRenderedCellWidget : function(row, column)
      {
@@ -107,7 +107,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
            if (child == this._cellLayer) {
              continue;
            }
-           
+
            var cell = {
              row: child.getUserData("cell.row"),
              column : child.getUserData("cell.column"),
@@ -124,16 +124,16 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
          }
          return null;
        }
-       
+
        return widget;
-     },    
-    
-     
+     },
+
+
     __spacerPool : null,
-    
+
     /**
      * Set the row and column span for a specific cell
-     * 
+     *
      * @param row {PositiveInteger} The cell's row
      * @param column {PositiveInteger} The cell's column
      * @param rowSpan {PositiveInteger} The number of rows the cells spans
@@ -143,20 +143,20 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
     {
       var id = row + "x" + column;
       this._spanManager.removeCell(id);
-      if (rowSpan > 1 || columnSpan > 1) {        
+      if (rowSpan > 1 || columnSpan > 1) {
         this._spanManager.addCell(id, row, column, rowSpan, columnSpan);
       }
       qx.ui.core.queue.Widget.add(this);
     },
-    
-    
+
+
     __getCellProviderForNonSpanningCells : function()
     {
       var self = this;
       var cellProvider = this._cellProvider;
       var spacerPool = this.__spacerPool;
-      
-      var nonSpanningCellProvider = 
+
+      var nonSpanningCellProvider =
       {
         getCellWidget : function(row, column)
         {
@@ -167,7 +167,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
           else
           {
             var widget = spacerPool.pop();
-            if (!widget) 
+            if (!widget)
             {
               widget = new qx.ui.core.Spacer();
               widget.setUserData("cell.spanning", 1);
@@ -175,7 +175,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
           }
           return widget;
         },
-          
+
         poolCellWidget : function(widget)
         {
           if (widget.getUserData("cell.spanning")) {
@@ -183,36 +183,36 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
           } else {
             cellProvider.poolCellWidget(widget);
           }
-        }      
+        }
       }
-      
+
       return nonSpanningCellProvider;
     },
-    
+
 
     /**
      * Updates the fields <code>_cells</code>, <code>_bounds</code> and
      * <code>_spanMap</code> according to the given grid window.
-     * 
+     *
      * @param firstRow {PositiveInteger} first visible row
      * @param firstColumn {PositiveInteger} first visible column
      */
     __updateCellSpanData : function(firstRow, firstColumn, rowCount, columnCount)
     {
       this._cells = this._spanManager.findCellsInWindow(
-        firstRow, firstColumn, 
+        firstRow, firstColumn,
         rowCount, columnCount
-      );      
-      
+      );
+
       if (this._cells.length > 0)
       {
         this._bounds = this._spanManager.getCellBounds(
-          this._cells, 
+          this._cells,
           firstRow, firstColumn
         );
         this._spanMap = this._spanManager.computeCellSpanMap(
           this._cells,
-          firstRow, firstColumn, 
+          firstRow, firstColumn,
           rowCount, columnCount
         );
       }
@@ -224,13 +224,13 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
         for (var i=0; i<rowCount; i++) {
           this._spanMap[firstRow + i] = [];
         }
-      }      
+      }
     },
-    
-    
+
+
     /**
-     * Updates the widget in spanned cells. 
-     * 
+     * Updates the widget in spanned cells.
+     *
      * Note: The method {@link #__updateCellSpanData} must be called before
      * this method is called:
      */
@@ -245,7 +245,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
         {
           this._cellProvider.poolCellWidget(child);
           this._remove(child);
-        }        
+        }
       }
 
       for (var i=0, l=this._cells.length; i<l; i++)
@@ -253,7 +253,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
         var cell = this._cells[i];
         var cellBounds = this._bounds[i];
         var cellWidget = this._cellProvider.getCellWidget(cell.firstRow, cell.firstColumn);
-        if (cellWidget) 
+        if (cellWidget)
         {
           cellWidget.setUserBounds(
             cellBounds.left, cellBounds.top,
@@ -267,8 +267,8 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
         }
       }
     },
-    
-    
+
+
     // overridden
     _fullUpdate : function(firstRow, firstColumn, rowSizes, columnSizes)
     {
@@ -277,30 +277,30 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
         rowSizes.length, columnSizes.length
       );
       this.__updateCellSpanWidgets();
-      this._cellLayer.fullUpdate(firstRow, firstColumn, rowSizes, columnSizes);            
+      this._cellLayer.fullUpdate(firstRow, firstColumn, rowSizes, columnSizes);
     },
-    
-    
+
+
     // overridden
-    _updateLayerWindow : function(firstRow, firstColumn, rowSizes, columnSizes) 
+    _updateLayerWindow : function(firstRow, firstColumn, rowSizes, columnSizes)
     {
       this.__updateCellSpanData(
         firstRow, firstColumn,
         rowSizes.length, columnSizes.length
       );
       this.__updateCellSpanWidgets();
-      this._cellLayer.updateLayerWindow(firstRow, firstColumn, rowSizes, columnSizes);            
-    }                 
+      this._cellLayer.updateLayerWindow(firstRow, firstColumn, rowSizes, columnSizes);
+    }
   },
-  
-  
+
+
   destruct : function()
-  {   
+  {
     var children = this._getChildren();
     for (var i=0; i<children.length; i++) {
       children[i].dispose();
     }
-    
+
     this._disposeObjects("_spanManager", "_cellLayer");
     this._disposeFields("_cellProvider", "__spacerPool", "_cells", "_bounds",
       "_spanMap");

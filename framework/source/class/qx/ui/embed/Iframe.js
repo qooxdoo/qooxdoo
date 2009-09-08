@@ -82,8 +82,8 @@ qx.Class.define("qx.ui.embed.Iframe",
       refine : true,
       init : "iframe"
     },
-    
-    
+
+
     /**
      * Whether to show the frame's native context menu.
      *
@@ -95,22 +95,22 @@ qx.Class.define("qx.ui.embed.Iframe",
       refine: true,
       init : false
     },
-   
-   
+
+
     /**
      * If the user presses F1 in IE by default the onhelp event is fired and
      * IE’s help window is opened. Setting this property to <code>false</code>
      * prevents this behavior.
      *
      * Note: This only works if the iframe source is served from the same domain
-     * as the main application.     
+     * as the main application.
      */
     nativeHelp :
     {
       check : "Boolean",
       init : false,
       apply : "_applyNativeHelp"
-    }    
+    }
   },
 
 
@@ -150,12 +150,12 @@ qx.Class.define("qx.ui.embed.Iframe",
       iframe.addListener("load", this._onIframeLoad, this);
       return iframe;
     },
-    
-    
+
+
     // overridden
     _getIframeElement : function() {
       return this.getContentElement();
-    }, 
+    },
 
 
     /**
@@ -193,7 +193,7 @@ qx.Class.define("qx.ui.embed.Iframe",
     {
       this._applyNativeContextMenu(this.getNativeContextMenu(), null);
       this._applyNativeHelp(this.getNativeHelp(), null);
-      
+
       this.fireNonBubblingEvent("load");
     },
 
@@ -238,19 +238,19 @@ qx.Class.define("qx.ui.embed.Iframe",
       if (value !== false && old !== false) {
         return;
       }
-      
+
       var doc = this.getDocument();
       if (!doc) {
         return;
       }
-      
-      try {        
+
+      try {
         var documentElement = doc.documentElement
       } catch(e) {
         // this may fail due to security restrictions
         return;
       }
-      
+
       if (old === false)
       {
         qx.event.Registration.removeListener(
@@ -258,17 +258,17 @@ qx.Class.define("qx.ui.embed.Iframe",
           this._onNativeContextMenu, this, true
         );
       }
-      
-      if (value === false) 
+
+      if (value === false)
       {
         qx.event.Registration.addListener(
-          documentElement, "contextmenu", 
+          documentElement, "contextmenu",
           this._onNativeContextMenu, this, true
         );
-      }      
+      }
     },
-    
-    
+
+
     /**
      * Stops the <code>contextmenu</code> event from showing the native context menu
      *
@@ -277,8 +277,8 @@ qx.Class.define("qx.ui.embed.Iframe",
     _onNativeContextMenu : function(e) {
       e.preventDefault();
     },
-   
-   
+
+
     // property apply
     _applyNativeHelp : qx.core.Variant.select("qx.client",
     {
@@ -288,13 +288,13 @@ qx.Class.define("qx.ui.embed.Iframe",
         if (!document) {
           return;
         }
-        
+
         try
         {
           if (old === false) {
             qx.bom.Event.removeNativeListener(document, "help", qx.lang.Function.returnFalse);
           }
-         
+
           if (value === false) {
             qx.bom.Event.addNativeListener(document, "help", qx.lang.Function.returnFalse);
           }
@@ -302,7 +302,7 @@ qx.Class.define("qx.ui.embed.Iframe",
           // this may fail due to security restrictions
         };
       },
-     
+
       "default" : function() {}
     })
   },

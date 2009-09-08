@@ -98,9 +98,9 @@ qx.Class.define("qx.html.Element",
 
     /** {Array} List of post actions for elements. The key is the action name. The value the {@link qx.html.Element}. */
     _actions : [],
-    
-    
-    /**	{Map} List of all selections. */
+
+
+    /**  {Map} List of all selections. */
     __selection : {},
 
 
@@ -168,7 +168,7 @@ qx.Class.define("qx.html.Element",
         }
       }
 
-      
+
       // blur elements, which will be removed
       var focusHandler = this.__getFocusHandler();
       var focusedDomElement = focusHandler.getFocus();
@@ -181,7 +181,7 @@ qx.Class.define("qx.html.Element",
       if (activeDomElement && this.__willBecomeInvisible(activeDomElement)) {
         qx.bom.Element.deactivate(activeDomElement);
       }
-      
+
       // release capture for elements, which will be removed
       var captureDomElement = this.__getCaptureElement();
       if (captureDomElement && this.__willBecomeInvisible(captureDomElement)) {
@@ -369,13 +369,13 @@ qx.Class.define("qx.html.Element",
         qx.bom.Element[action.type](element);
       }
       this._actions = [];
-      
+
       // Process selection
-      for (var hc in this.__selection) 
+      for (var hc in this.__selection)
       {
         var selection = this.__selection[hc];
         var elem = selection.element.__element;
-        if (elem) 
+        if (elem)
         {
           qx.bom.Selection.set(elem, selection.start, selection.end);
           delete this.__selection[hc];
@@ -385,11 +385,11 @@ qx.Class.define("qx.html.Element",
       // Fire appear/disappear events
       qx.event.handler.Appear.refresh();
     },
-    
-    
+
+
     /**
      * Get the focus handler
-     * 
+     *
      * @return {qx.event.handler.Focus} The focus handler
      */
     __getFocusHandler : function()
@@ -401,11 +401,11 @@ qx.Class.define("qx.html.Element",
       }
       return this.__focusHandler;
     },
-    
-    
+
+
     /**
      * Get the mouse capture element
-     * 
+     *
      * @return {Element} The mouse capture DOM element
      */
     __getCaptureElement : function()
@@ -417,11 +417,11 @@ qx.Class.define("qx.html.Element",
       }
       return this.__mouseCapture.getCaptureElement();
     },
-    
-    
+
+
     /**
      * Whether the given DOM element will become invisible after the flush
-     * 
+     *
      * @param domElement {Element} The DOM element to check
      * @return {Boolean} Whether the element will become invisible
      */
@@ -482,7 +482,7 @@ qx.Class.define("qx.html.Element",
 
     __children : null,
     __modifiedChildren : null,
-    
+
     __parent : null,
 
     /**
@@ -909,8 +909,8 @@ qx.Class.define("qx.html.Element",
 
       return false;
     },
-    
-    
+
+
     /**
      * Internal helper for all children addition needs
      *
@@ -1486,16 +1486,16 @@ qx.Class.define("qx.html.Element",
 
       return false;
     },
-    
-    
+
+
     /**
-     * Set whether the element is selectable. It uses the qooxdoo attribute 
+     * Set whether the element is selectable. It uses the qooxdoo attribute
      * qxSelectable with the values 'on' or 'off'.
      * In webkit, a special css property will be used (-webkit-user-select).
-     * 
+     *
      * @param value {Boolean} True, if the element should be selectable.
      */
-    setSelectable : function(value) 
+    setSelectable : function(value)
     {
       // Apply qooxdoo attribute
       this.setAttribute("qxSelectable", value ? "on" : "off");
@@ -1504,7 +1504,7 @@ qx.Class.define("qx.html.Element",
       // CSS userSelect the right way.
       if (qx.core.Variant.isSet("qx.client", "webkit")) {
         this.setStyle("userSelect", value ? "normal" : "none");
-      }      
+      }
     },
 
 
@@ -1846,7 +1846,7 @@ qx.Class.define("qx.html.Element",
      *
      * If the underlaying DOM element is not yet created, this methods returns
      * a null value.
-     * 
+     *
      * @deprecated Use public method 'getTextSelection' instead
      * @return {String|null}
      */
@@ -1856,7 +1856,7 @@ qx.Class.define("qx.html.Element",
         arguments.callee,
         "Use public 'getTextSelection' instead!"
       );
-      
+
       return this.getTextSelection();
     },
 
@@ -1876,7 +1876,7 @@ qx.Class.define("qx.html.Element",
         arguments.callee,
         "Use public 'getTextSelectionLength' instead!"
       );
-      
+
       return this.getTextSelectionLength();
     },
 
@@ -1886,7 +1886,7 @@ qx.Class.define("qx.html.Element",
      * If no end value is passed the selection will extend to the end.
      *
      * This method only works if the underlying DOM element is already created.
-     * 
+     *
      * @deprecated Use public method 'setTextSelection' instead
      * @param start {Integer} start of the selection (zero based)
      * @param end {Integer} end of the selection
@@ -1898,7 +1898,7 @@ qx.Class.define("qx.html.Element",
         arguments.callee,
         "Use public 'setTextSelection' instead!"
       );
-      
+
       this.setTextSelection(start, end);
     },
 
@@ -1907,7 +1907,7 @@ qx.Class.define("qx.html.Element",
      * Clears the selection of the element.
      *
      * This method only works if the underlying DOM element is already created.
-     * 
+     *
      * @deprecated Use public method 'clearTextSelection' instead
      * @return {void}
      */
@@ -1917,11 +1917,11 @@ qx.Class.define("qx.html.Element",
         arguments.callee,
         "Use public 'clearTextSelection' instead!"
       );
-      
+
       this.clearTextSelection();
     },
-    
-    
+
+
     /**
      * Get the selection of the element.
      *
@@ -1974,10 +1974,10 @@ qx.Class.define("qx.html.Element",
     {
       var el = this.__element;
       if (el) {
-        qx.bom.Selection.set(el, start, end);        
+        qx.bom.Selection.set(el, start, end);
         return;
       }
-      
+
       // if element not created, save the selection for flushing
       qx.html.Element.__selection[this.toHashCode()] = {
         element : this,
@@ -2455,11 +2455,11 @@ qx.Class.define("qx.html.Element",
 
         this.assertString(type, msg + "Invalid event type.");
         this.assertFunction(listener, msg + "Invalid callback function");
-        
+
         if (self !== undefined) {
           this.assertObject(self, "Invalid context for callback.")
         }
-        
+
         if (capture !== undefined) {
           this.assertBoolean(capture, "Invalid capture falg.");
         }
@@ -2476,11 +2476,11 @@ qx.Class.define("qx.html.Element",
       if (capture == null) {
         capture = false;
       }
-        
+
       var unique = qx.event.Manager.getNextUniqueId();
       var id = type + (capture ? "|capture|" : "|bubble|") + unique;
-      
-      this.__eventValues[id] = 
+
+      this.__eventValues[id] =
       {
         type : type,
         listener : listener,
@@ -2515,17 +2515,17 @@ qx.Class.define("qx.html.Element",
 
         this.assertString(type, msg + "Invalid event type.");
         this.assertFunction(listener, msg + "Invalid callback function");
-        
+
         if (self !== undefined) {
           this.assertObject(self, "Invalid context for callback.")
         }
-        
+
         if (capture !== undefined) {
           this.assertBoolean(capture, "Invalid capture flag.");
         }
       }
 
-      if (this.__element) 
+      if (this.__element)
       {
         qx.event.Registration.removeListener(this.__element, type, listener, self, capture);
       }
@@ -2533,17 +2533,17 @@ qx.Class.define("qx.html.Element",
       {
         var values = this.__eventValues;
         var entry;
-        
+
         if (capture == null) {
           capture = false;
         }
-        
-        for (var key in values) 
+
+        for (var key in values)
         {
           entry = values[key];
-          
+
           // Optimized for performance: Testing references first
-          if (entry.listener === listener && entry.self === self && entry.capture === capture && entry.type === type) 
+          if (entry.listener === listener && entry.self === self && entry.capture === capture && entry.type === type)
           {
             delete values[key];
             break;
@@ -2564,16 +2564,16 @@ qx.Class.define("qx.html.Element",
      */
     removeListenerById : function(id)
     {
-      if (this.$$disposed) {      
+      if (this.$$disposed) {
         return null;
       }
-      
+
       if (this.__element) {
         qx.event.Registration.removeListenerById(this.__element, id);
       } else {
         delete this.__eventValues[id];
       }
-      
+
       return this;
     },
 
@@ -2588,7 +2588,7 @@ qx.Class.define("qx.html.Element",
      */
     hasListener : function(type, capture)
     {
-      if (this.$$disposed) {      
+      if (this.$$disposed) {
         return false;
       }
 
@@ -2598,21 +2598,21 @@ qx.Class.define("qx.html.Element",
 
       var values = this.__eventValues;
       var entry;
-      
+
       if (capture == null) {
         capture = false;
       }
-      
-      for (var key in values) 
+
+      for (var key in values)
       {
         entry = values[key];
-        
+
         // Optimized for performance: Testing fast types first
         if (entry.capture === capture && entry.type === type) {
           return true;
         }
       }
-      
+
       return false;
     }
   },

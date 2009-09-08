@@ -19,33 +19,33 @@
 /**
  * <h3>EXPERIMENTAL!</h3>
  *
- * This interface defines the necessary features a form rendere should have. 
+ * This interface defines the necessary features a form rendere should have.
  * Keep in mind that all renderes has to be widgets.
  */
-qx.Interface.define("qx.ui.form.renderer.IFormRenderer", 
+qx.Interface.define("qx.ui.form.renderer.IFormRenderer",
 {
   members :
   {
     /**
-     * Add a group of form items with the corresponding names. The names should 
+     * Add a group of form items with the corresponding names. The names should
      * be displayed as hint for the user what to do with the form item.
-     * The title is optional and can be used as grouping for the given form 
+     * The title is optional and can be used as grouping for the given form
      * items.
-     * 
+     *
      * @param items {qx.ui.core.Widget[]} An array of form items to render.
      * @param names {String[]} An array of names for the form items.
      * @param title {String?} A title of the group you are adding.
      */
     addItems : function(items, names, title) {},
-    
-    
+
+
     /**
      * Adds a button the form renderer.
-     * 
-     * @param button {qx.ui.form.Button} A button which should be added to 
+     *
+     * @param button {qx.ui.form.Button} A button which should be added to
      *   the form.
      */
     addButton : function(button) {}
-    
+
   }
 });

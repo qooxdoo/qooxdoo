@@ -71,7 +71,7 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
   *****************************************************************************
   */
 
-  
+
   properties :
   {
     /**
@@ -120,7 +120,7 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
   *****************************************************************************
   */
 
-  
+
   members :
   {
     /** {qx.ui.core.selection.Abstract} The selection manager */
@@ -133,7 +133,7 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
     ---------------------------------------------------------------------------
     */
 
-    
+
     /**
      * Selects all items of the managed object.
      */
@@ -173,7 +173,7 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
       );
       this.setSelection([item]);
     },
-    
+
     /**
      * Detects whether the given item is currently selected.
      *
@@ -183,10 +183,10 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
      */
     isSelected : function(item) {
       if (!qx.ui.core.Widget.contains(this, item)) {
-        throw new Error("Could not test if " + item + 
+        throw new Error("Could not test if " + item +
           " is selected, because it is not a child element!");
       }
-      
+
       return this.__manager.isItemSelected(item);
     },
 
@@ -201,10 +201,10 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
      */
     addToSelection : function(item) {
       if (!qx.ui.core.Widget.contains(this, item)) {
-        throw new Error("Could not add + " + item + 
+        throw new Error("Could not add + " + item +
           " to selection, because it is not a child element!");
       }
-      
+
       this.__manager.addItem(item);
     },
 
@@ -219,10 +219,10 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
      */
     removeFromSelection : function(item) {
       if (!qx.ui.core.Widget.contains(this, item)) {
-        throw new Error("Could not remove " + item + 
+        throw new Error("Could not remove " + item +
           " from selection, because it is not a child element!");
       }
-      
+
       this.__manager.removeItem(item);
     },
 
@@ -259,7 +259,7 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
     resetSelection : function() {
       this.__manager.clearSelection();
     },
-    
+
     /**
      * Replaces current selection with the given items
      *
@@ -279,24 +279,24 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
      *
      * @param items {qx.ui.core.Widget[]} Items to select.
      * @throws an exception if one of the items is not a child element and if
-     *    the mode is set to <code>single</code> or <code>one</code> and 
-     *    the items contains more than one item. 
+     *    the mode is set to <code>single</code> or <code>one</code> and
+     *    the items contains more than one item.
      */
     setSelection : function(items) {
       for (var i = 0; i < items.length; i++) {
         if (!qx.ui.core.Widget.contains(this, items[i])) {
-          throw new Error("Could not select " + items[i] + 
+          throw new Error("Could not select " + items[i] +
             ", because it is not a child element!");
         }
       }
-      
+
       if (items.length === 0) {
         this.resetSelection();
       } else {
         this.__manager.replaceSelection(items);
       }
     },
-    
+
     /**
      * Get the selected item. This method does only work in <code>single</code>
      * selection mode.
@@ -310,14 +310,14 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
         "Use 'getSelection' instead!"
       );
       var result = this.getSelection();
-      
+
       if (result.length > 0) {
         return result[0];
       } else {
         return null;
       }
     },
-    
+
     /**
      * Get the selected item.
      *
@@ -330,7 +330,7 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
         "Use 'getSelection' instead!"
       );
       var result = this.getSelection();
-      
+
       if (result.length > 0) {
         return result[0];
       } else {
@@ -368,8 +368,8 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
 
     /**
      * Returns the last selection context.
-     * 
-     * @return {String | null} One of <code>click</code>, <code>quick</code>, 
+     *
+     * @return {String | null} One of <code>click</code>, <code>quick</code>,
      *    <code>drag</code> or <code>key</code> or <code>null</code>.
      */
     getSelectionContext : function() {
@@ -388,13 +388,13 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
 
     /**
      * Returns all elements which are selectable.
-     * 
+     *
      * @return {qx.ui.core.Widget[]} The contained items.
      */
     getSelectables: function() {
       return this.__manager.getSelectables();
     },
-    
+
     /**
      * Invert the selection. Select the non selected and deselect the selected.
      */
@@ -409,7 +409,7 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
     ---------------------------------------------------------------------------
     */
 
-    
+
     // property apply
     _applySelectionMode : function(value, old) {
       this.__manager.setMode(value);
@@ -432,7 +432,7 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
     ---------------------------------------------------------------------------
     */
 
-    
+
     /**
      * Event listener for <code>changeSelection</code> event on selection manager.
      *
@@ -450,7 +450,7 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
   *****************************************************************************
   */
 
-  
+
   destruct : function() {
     this._disposeObjects("__manager");
   }

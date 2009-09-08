@@ -25,7 +25,7 @@
 qx.Class.define("qx.ui.groupbox.CheckGroupBox",
 {
   extend : qx.ui.groupbox.GroupBox,
-  include : [qx.ui.form.MFormElement],  
+  include : [qx.ui.form.MFormElement],
   implement : [qx.ui.form.IExecutable, qx.ui.form.IBooleanForm],
 
   properties :
@@ -49,9 +49,9 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
 
     /** Fired when the included checkbox changed its value */
     "changeValue" : "qx.event.type.Data",
-    
+
     /** Fired if the {@link #execute} method is invoked.*/
-    "execute" : "qx.event.type.Event"    
+    "execute" : "qx.event.type.Event"
   },
 
   members :
@@ -91,17 +91,17 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
       EVENT LISTENERS
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Event listener for execute event of checkbox.
-     * 
+     *
      * @param e {qx.event.type.Event} Event which holds the current status
      */
     _onExecute: function(e) {
       this.fireEvent("execute");
     },
-    
-    
+
+
     /**
      * Event listener for change event of checkbox
      *
@@ -115,7 +115,7 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
 
       // Fire event to the outside
       this.fireDataEvent("changeChecked", checked); // TODO deprecated
-      this.fireDataEvent("changeValue", checked, e.getOldData());      
+      this.fireDataEvent("changeValue", checked, e.getOldData());
     },
 
 
@@ -123,7 +123,7 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
      * Event listener for changeName event of checkbox
      *
      * @param e {qx.event.type.Data} Data event which holds the current status
-     * 
+     *
      * @deprecated
      */
     _onRadioChangeName : function(e)
@@ -138,27 +138,27 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
       REDIRECTIONS TO LEGEND (CHECKBOX COMPATIBILITY MODE)
     ---------------------------------------------------------------------------
     */
-    
+
     // interface implementation
     execute: function() {
       this.getChildControl("legend").execute();
     },
 
 
-    // interface implementation    
+    // interface implementation
     setCommand : function(command) {
       this.getChildControl("legend").setCommand(command);
     },
-    
-    
-    // interface implementation    
+
+
+    // interface implementation
     getCommand : function() {
       return this.getChildControl("legend").getCommand();
     },
 
 
     /**
-     * The value of the groupbox. 
+     * The value of the groupbox.
      *
      * @return {Boolean} <code>true</code> when enabled.
      */
@@ -177,14 +177,14 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
       if (qx.lang.Type.isString(value)) {
         qx.log.Logger.deprecatedMethodWarning(
           arguments.callee, "Please use boolean values instead."
-        );        
+        );
         return;
       }
-      
+
       this.getChildControl("legend").setValue(value);
     },
-    
-    
+
+
     /**
      * Resets the value.
      */
@@ -202,7 +202,7 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee, "Please use the value property instead."
       );
-      
+
       return this.getValue();
     },
 
@@ -218,7 +218,7 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee, "Please use the value property instead."
       );
-      
+
       this.setValue(value);
     }
   }

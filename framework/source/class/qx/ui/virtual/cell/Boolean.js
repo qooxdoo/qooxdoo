@@ -50,11 +50,11 @@ qx.Class.define("qx.ui.virtual.cell.Boolean",
       refine : true,
       init : "cell-boolean"
     },
-    
+
     /**
     * The icon used to indicate the true state
     */
-   iconTrue : 
+   iconTrue :
    {
      check : "String",
      themeable : true,
@@ -64,12 +64,12 @@ qx.Class.define("qx.ui.virtual.cell.Boolean",
    /**
    * The icon used to indicate the false state
    */
-   iconFalse : 
+   iconFalse :
    {
      check : "String",
      themeable : true,
      apply : "_applyIconFalse"
-   }    
+   }
   },
 
 
@@ -86,19 +86,19 @@ qx.Class.define("qx.ui.virtual.cell.Boolean",
     __imageFalse : null,
     __aliasManager : null,
 
-    
+
     // property apply
     _applyIconTrue : function(value) {
       this.__imageTrue = this.__aliasManager.resolve(value);
     },
-    
-    
+
+
     // property apply
-    _applyIconFalse : function(value) {      
+    _applyIconFalse : function(value) {
       this.__imageFalse = this.__aliasManager.resolve(value);
     },
-    
-    
+
+
     // overridden
     _identifyImage : function(value) {
       return value == true ? this.__imageTrue : this.__imageFalse;

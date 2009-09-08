@@ -20,15 +20,15 @@
  * Can be included for implementing {@link qx.ui.form.IModel}. It only contains
  * a nullable property named 'model' with a 'changeModel' event.
  */
-qx.Mixin.define("qx.ui.form.MModelProperty", 
+qx.Mixin.define("qx.ui.form.MModelProperty",
 {
-  properties : 
+  properties :
   {
     /**
-     * Model property for storing additional information for the including 
-     * object. It can act as value property on form items for example. 
+     * Model property for storing additional information for the including
+     * object. It can act as value property on form items for example.
      */
-    model : 
+    model :
     {
       nullable: true,
       event: "changeModel"

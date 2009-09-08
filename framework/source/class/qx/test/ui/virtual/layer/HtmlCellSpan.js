@@ -23,52 +23,52 @@ qx.Class.define("qx.test.ui.virtual.layer.HtmlCellSpan",
   extend : qx.test.ui.virtual.layer.LayerTestCase,
 
   members :
-  { 
+  {
     tearDown : function() {
       this.base(arguments);
       this.__cellRenderer.dispose();
     },
-    
-    _createLayer : function() 
+
+    _createLayer : function()
     {
       this.__cellRenderer = new qx.ui.virtual.cell.Cell();
-      
+
       var rowConfig = new qx.ui.virtual.core.Axis(10, 100);
       var columnConfig = new qx.ui.virtual.core.Axis(20, 100);
-      
+
       return new qx.ui.virtual.layer.HtmlCellSpan(
         this,
         rowConfig,
         columnConfig
       );
     },
-    
-    
+
+
     getCellProperties : function(row, column) {
       return this.__cellRenderer.getCellProperties(row + " / " + column, {});
     },
-    
-    
-    _assertCells : function(firstRow, firstColumn, rowCount, columnCount, msg) 
+
+
+    _assertCells : function(firstRow, firstColumn, rowCount, columnCount, msg)
     {
       var children = this.layer.getContentElement().getDomElement().childNodes;
-      
+
       this.assertEquals(rowCount * columnCount, children.length);
-      
+
       for (var y=0; y<rowCount; y++)
       {
         for (var x=0; x<columnCount; x++)
         {
           var row = firstRow + y;
           var column = firstColumn + x;
-          
+
           var cellEl = children[y*columnCount + x];
           this.assertEquals(row + " / " + column, cellEl.innerHTML);
         }
       }
     }
   },
-  
+
   destruct : function()
   {
     this._disposeFields("__cellRenderer");

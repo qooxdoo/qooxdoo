@@ -105,7 +105,7 @@ qx.Class.define("qx.ui.form.DateField",
      * date field. It will also select the date in the calender popup.
      *
      * @param date {Date} The date to set.
-     * 
+     *
      * @deprecated
      */
     setDate : function(date)
@@ -113,7 +113,7 @@ qx.Class.define("qx.ui.form.DateField",
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee, "Please use the setValue instead."
       );
-      
+
       this.setValue(date);
     },
 
@@ -123,7 +123,7 @@ qx.Class.define("qx.ui.form.DateField",
      * If the given text could not be parsed, <code>null</code> will be returned.
      *
      * @return {Date} The currently set date.
-     * 
+     *
      * @deprecated
      */
     getDate : function()
@@ -131,7 +131,7 @@ qx.Class.define("qx.ui.form.DateField",
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee, "Please use the getValue instead."
       );
-      
+
       return this.getValue();
     },
 
@@ -147,7 +147,7 @@ qx.Class.define("qx.ui.form.DateField",
       if (qx.lang.Type.isString(value))
       {
         qx.log.Logger.deprecatedMethodWarning(
-          arguments.callee, "Wrong data type detected. setValue is " + 
+          arguments.callee, "Wrong data type detected. setValue is " +
           "used with Dates now."
         );
         return;
@@ -184,7 +184,7 @@ qx.Class.define("qx.ui.form.DateField",
 
 
     /**
-     * Resets the DateField. The textfield will be empty and the datechooser 
+     * Resets the DateField. The textfield will be empty and the datechooser
      * will also have no selection.
      */
     resetValue: function()
@@ -195,7 +195,7 @@ qx.Class.define("qx.ui.form.DateField",
 
       // set the date in the datechooser
       var dateChooser = this.getChildControl("list");
-      dateChooser.setValue(null);      
+      dateChooser.setValue(null);
     },
 
 
@@ -358,16 +358,16 @@ qx.Class.define("qx.ui.form.DateField",
       // Fire event
       this.fireDataEvent("changeValue", this.getValue());
     },
-    
-    
+
+
     /**
      * Checks if the textfield of the DateField is empty.
-     * 
+     *
      * @return {Boolean} True, if the textfield of the DateField is empty.
      */
     isEmpty: function() {
       var value = this.getChildControl("textfield").getValue();
       return value == null || value == "";
-    }    
+    }
   }
 });

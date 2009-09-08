@@ -54,7 +54,7 @@ qx.Class.define("qx.test.ui.LocaleSwitch",
     });
   },
 
-  
+
 
   members :
   {
@@ -62,8 +62,8 @@ qx.Class.define("qx.test.ui.LocaleSwitch",
       this.manager.setLocale("en_QX");
     },
 
-    
-    testCommandInMenuButton : function() 
+
+    testCommandInMenuButton : function()
     {
       var command = new qx.event.Command("Control-A");
       var menuButton = new qx.ui.menu.Button("Juhu", null, command);
@@ -76,8 +76,8 @@ qx.Class.define("qx.test.ui.LocaleSwitch",
       menuButton.destroy();
       command.dispose();
     },
-    
-    
+
+
     testLabel : function()
     {
       var manager = qx.locale.Manager.getInstance();
@@ -102,7 +102,7 @@ qx.Class.define("qx.test.ui.LocaleSwitch",
       this.assertEquals("test two", label.getValue());
 
       this.getRoot().remove(label);
-      
+
       label.dispose();
     }
   }

@@ -31,43 +31,43 @@ qx.Bootstrap.define("qx.log.appender.RingBuffer",
    */
   construct : function(maxMessages)
   {
-    this.__history = [];    
+    this.__history = [];
     this.setMaxMessages(maxMessages || 50);
   },
 
-  
+
   members :
   {
     __nextIndexToStoreTo : 0,
     __history : null,
     __maxMessages : 50,
-    
-    
+
+
     /**
      * Set the maximum number of messages to hold. If null the number of
      * messages is not limited.
-     * 
+     *
      * Warning: Changing this property will clear the events logged so far.
-     * 
+     *
      * @param maxMessages {Integer} the maximum number of messages to hold
-     */    
+     */
     setMaxMessages : function(maxMessages)
     {
       this.__maxMessages = maxMessages;
       this.clearHistory();
     },
-    
-    
+
+
     /**
      * Get the maximum number of messages to hold
-     * 
+     *
      * @return {Integer} the maximum number of messages
      */
     getMaxMessages : function() {
       return this.__maxMessages;
     },
-    
-    
+
+
     /**
      * Processes a single log entry
      *
@@ -89,26 +89,26 @@ qx.Bootstrap.define("qx.log.appender.RingBuffer",
         }
       }
     },
-    
-    
+
+
     /**
      * Returns all stored log events
      *
      * @return {array} array of stored log events
-     */      
+     */
     getAllLogEvents : function() {
-      return this.retrieveLogEvents(this.getMaxMessages()); 
+      return this.retrieveLogEvents(this.getMaxMessages());
     },
-    
-    
+
+
     /**
      * Returns log events which have been logged previously.
      *
      * @param count {Integer} The number of events to retrieve. If there are
      *    more events than the given count, the oldest ones will not be returned.
      * @return {array} array of stored log events
-     */    
-    retrieveLogEvents : function(count) 
+     */
+    retrieveLogEvents : function(count)
     {
       if (count > this.__history.length) {
         count = this.__history.length;
@@ -133,10 +133,10 @@ qx.Bootstrap.define("qx.log.appender.RingBuffer",
         result = this.__history.slice(startIndex, this.__history.length).concat(this.__history.slice(0, indexOfYoungestElementInHistory + 1));
       }
 
-      return result;      
+      return result;
     },
-    
-    
+
+
     /**
      * Clears the log history
      */

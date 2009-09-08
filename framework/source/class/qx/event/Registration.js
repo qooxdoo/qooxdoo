@@ -59,25 +59,25 @@ qx.Bootstrap.define("qx.event.Registration",
      */
     getManager : function(target)
     {
-      if (target == null) 
+      if (target == null)
       {
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
           qx.log.Logger.error("qx.event.Registration.getManager(null) was called!");
           qx.log.Logger.trace(this);
         }
-          
+
         target = window;
       }
-      else if (target.nodeType) 
+      else if (target.nodeType)
       {
         target = qx.dom.Node.getWindow(target);
       }
-      else if (!qx.dom.Node.isWindow(target)) 
+      else if (!qx.dom.Node.isWindow(target))
       {
         target = window;
       }
-      
+
       var hash = target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
       var manager = this.__managers[hash];
 
@@ -188,12 +188,12 @@ qx.Bootstrap.define("qx.event.Registration",
       return this.getManager(target).hasListener(target, type, capture);
     },
 
-    
+
     /**
      * Returns a serialized array of all events attached on the given target.
      *
      * @param target {Object} Any valid event target
-     * @return {Map[]} Array of maps where everyone contains the keys: 
+     * @return {Map[]} Array of maps where everyone contains the keys:
      *   <code>handler</code>, <code>self</code>, <code>type</code> and <code>capture</code>.
      */
     serializeListeners : function(target) {

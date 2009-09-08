@@ -72,9 +72,9 @@ qx.Class.define("qx.ui.tooltip.Manager",
       nullable : true,
       apply : "_applyCurrent"
     },
-    
+
     /** Flag that enabled the tooltips shown by invalid form fields. */
-    showInvalidTooltips : 
+    showInvalidTooltips :
     {
       check : "Boolean",
       init : true
@@ -98,12 +98,12 @@ qx.Class.define("qx.ui.tooltip.Manager",
     __sharedToolTip: null,
     __sharedErrorToolTip: null,
 
-    
+
     /**
-     * Get the shared tooltip, which is used to display the 
-     * {@link qx.ui.core.Widget#toolTipText} and 
+     * Get the shared tooltip, which is used to display the
+     * {@link qx.ui.core.Widget#toolTipText} and
      * {@link qx.ui.core.Widget#toolTipIcon} properties of widgets.
-     * 
+     *
      * @return {qx.ui.tooltip.ToolTip} The shared tooltip
      */
     __getSharedTooltip : function()
@@ -116,13 +116,13 @@ qx.Class.define("qx.ui.tooltip.Manager",
       }
       return this.__sharedToolTip;
     },
-    
-    
+
+
     /**
-     * Get the shared tooltip, which is used to display the 
-     * {@link qx.ui.core.Widget#toolTipText} and 
+     * Get the shared tooltip, which is used to display the
+     * {@link qx.ui.core.Widget#toolTipText} and
      * {@link qx.ui.core.Widget#toolTipIcon} properties of widgets.
-     * 
+     *
      * @return {qx.ui.tooltip.ToolTip} The shared tooltip
      */
     __getSharedErrorTooltip : function()
@@ -135,8 +135,8 @@ qx.Class.define("qx.ui.tooltip.Manager",
         this.__sharedErrorToolTip.syncAppearance();
       }
       return this.__sharedErrorToolTip;
-    },    
-    
+    },
+
 
     /*
     ---------------------------------------------------------------------------
@@ -204,11 +204,11 @@ qx.Class.define("qx.ui.tooltip.Manager",
         this.__hideTimer.startWith(current.getHideTimeout());
 
         if (current.getPlaceMethod() == "widget") {
-          current.placeToWidget(current.getOpener());          
+          current.placeToWidget(current.getOpener());
         } else {
-          current.placeToPoint(this.__mousePosition);        
+          current.placeToPoint(this.__mousePosition);
         }
-        
+
         current.show();
       }
 
@@ -279,18 +279,18 @@ qx.Class.define("qx.ui.tooltip.Manager",
         var tooltipText = target.getToolTipText() || null;
         var tooltipIcon = target.getToolTipIcon() || null;
         if (qx.Class.hasInterface(target.constructor, qx.ui.form.IForm) && !target.isValid()) {
-          var invalidMessage = target.getInvalidMessage();          
+          var invalidMessage = target.getInvalidMessage();
         }
-        
+
         if (tooltip || tooltipText || tooltipIcon || invalidMessage) {
           break;
         }
 
         target = target.getLayoutParent();
       }
-      
+
       if (!target) {
-        return;  
+        return;
       }
 
       // Set Property
@@ -302,14 +302,14 @@ qx.Class.define("qx.ui.tooltip.Manager",
         }
         var tooltip = this.__getSharedErrorTooltip().set({
           label: invalidMessage
-        });      
-      } 
+        });
+      }
       else if (!tooltip)
       {
         var tooltip = this.__getSharedTooltip().set({
           label: tooltipText,
           icon: tooltipIcon
-        }); 
+        });
       }
       this.setCurrent(tooltip);
       tooltip.setOpener(target);

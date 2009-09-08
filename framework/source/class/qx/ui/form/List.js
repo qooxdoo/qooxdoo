@@ -29,14 +29,14 @@ qx.Class.define("qx.ui.form.List",
 {
   extend : qx.ui.core.AbstractScrollArea,
   implement : [
-    qx.ui.form.IFormElement, 
+    qx.ui.form.IFormElement,
     qx.ui.core.IMultiSelection,
     qx.ui.form.IForm,
     qx.ui.form.IModelSelection
   ],
   // deprecated : MFormElement
   include : [
-    qx.ui.core.MRemoteChildrenHandling, 
+    qx.ui.core.MRemoteChildrenHandling,
     qx.ui.core.MMultiSelectionHandling,
     qx.ui.form.MFormElement,
     qx.ui.form.MForm,
@@ -92,7 +92,7 @@ qx.Class.define("qx.ui.form.List",
   *****************************************************************************
   */
 
-  
+
   events :
   {
     /**
@@ -112,7 +112,7 @@ qx.Class.define("qx.ui.form.List",
     /**
      * Fired on every modification of the selection which also means that the
      * value has been modified.
-     * 
+     *
      * @deprecated
      */
     changeValue : "qx.event.type.Data"
@@ -124,7 +124,7 @@ qx.Class.define("qx.ui.form.List",
      PROPERTIES
   *****************************************************************************
   */
-  
+
 
   properties :
   {
@@ -176,7 +176,7 @@ qx.Class.define("qx.ui.form.List",
   *****************************************************************************
   */
 
-  
+
   members :
   {
     __pressedString : null,
@@ -195,7 +195,7 @@ qx.Class.define("qx.ui.form.List",
     ---------------------------------------------------------------------------
     */
 
-    
+
     // overridden
     getChildrenContainer : function() {
       return this.__content;
@@ -226,13 +226,13 @@ qx.Class.define("qx.ui.form.List",
     ---------------------------------------------------------------------------
     */
 
-    
+
     /**
      * Returns the stringified value of the list. This is a comma
      * separated string with all the values (or labels as fallback).
      *
      * @return {String} Value of the list
-     * 
+     *
      * @deprecated
      */
     getValue : function()
@@ -240,7 +240,7 @@ qx.Class.define("qx.ui.form.List",
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee, "Please use getModelSelection instead."
       );
-      
+
       var selected = this.getSelection();
       var result = [];
       var value;
@@ -266,7 +266,7 @@ qx.Class.define("qx.ui.form.List",
      * as fallback) of the list items.
      *
      * @param value {String} Comma separated list
-     * 
+     *
      * @deprecated
      */
     setValue : function(value)
@@ -274,8 +274,8 @@ qx.Class.define("qx.ui.form.List",
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee, "Please use setModelSelection instead."
       );
-      
-      // only split the value in multi selection mode 
+
+      // only split the value in multi selection mode
       // (a , could be in the value as well)
       var splitted = [value];
       if (this.getSelectionMode() === "multi" ) {
@@ -293,7 +293,7 @@ qx.Class.define("qx.ui.form.List",
           result.push(item);
         }
       }
-      
+
 
       // Replace current selection
       this.setSelection(result);
@@ -306,7 +306,7 @@ qx.Class.define("qx.ui.form.List",
     ---------------------------------------------------------------------------
     */
 
-    
+
     /**
      * Used to route external <code>keypress</code> events to the list
      * handling (in fact the manager of the list)
@@ -327,7 +327,7 @@ qx.Class.define("qx.ui.form.List",
     ---------------------------------------------------------------------------
     */
 
-    
+
     // property apply
     _applyOrientation : function(value, old)
     {
@@ -357,7 +357,7 @@ qx.Class.define("qx.ui.form.List",
     ---------------------------------------------------------------------------
     */
 
-    
+
     /**
      * Event listener for <code>keypress</code> events.
      *
@@ -399,7 +399,7 @@ qx.Class.define("qx.ui.form.List",
     ---------------------------------------------------------------------------
     */
 
-    
+
     /**
      * Handles the inline find - if enabled
      *
@@ -494,7 +494,7 @@ qx.Class.define("qx.ui.form.List",
         item = items[i];
 
         if (
-          (item.getLabel() != null) && 
+          (item.getLabel() != null) &&
           (item.getLabel().toLowerCase() == search)
         ) {
           return item;
@@ -503,17 +503,17 @@ qx.Class.define("qx.ui.form.List",
 
       return null;
     },
-    
-    
+
+
     // deprecated
     // overridden
     addListener: function(type, listener, self, capture) {
       if (type == "changeValue") {
         qx.log.Logger.deprecatedEventWarning(
-          arguments.callee, 
+          arguments.callee,
           "changeValue",
           "Please use the changeSelection event instead."
-        );        
+        );
       }
       return this.base(arguments, type, listener, self, capture);
     }

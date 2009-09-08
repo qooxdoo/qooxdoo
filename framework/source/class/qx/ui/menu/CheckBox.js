@@ -29,7 +29,7 @@ qx.Class.define("qx.ui.menu.CheckBox",
   extend : qx.ui.menu.AbstractButton,
   include : [qx.ui.form.MFormElement],
   implement : [
-    qx.ui.form.IFormElement, 
+    qx.ui.form.IFormElement,
     qx.ui.form.IBooleanForm
   ],
 
@@ -55,7 +55,7 @@ qx.Class.define("qx.ui.menu.CheckBox",
       if (label.translate) {
         this.setLabel(label.translate());
       } else {
-        this.setLabel(label);        
+        this.setLabel(label);
       }
     }
 
@@ -78,9 +78,9 @@ qx.Class.define("qx.ui.menu.CheckBox",
      */
     "changeChecked" : "qx.event.type.Data"
   },
-  
-  
-  
+
+
+
 
   /*
   *****************************************************************************
@@ -142,17 +142,17 @@ qx.Class.define("qx.ui.menu.CheckBox",
     _onKeyPress : function(e) {
       this.toggleValue();
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       DEPRECATED STUFF
     ---------------------------------------------------------------------------
     */
     /**
-     * Old set method for the checked property. Please use the value 
+     * Old set method for the checked property. Please use the value
      * property instead.
-     * 
+     *
      * @param value {String} The value of the label.
      * @deprecated
      */
@@ -160,62 +160,62 @@ qx.Class.define("qx.ui.menu.CheckBox",
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee, "Please use the value property instead."
       );
-      
+
       this.setValue(value);
     },
-    
-    
+
+
     /**
-     * Old is method for the checked property. Please use the value property 
+     * Old is method for the checked property. Please use the value property
      * instead.
-     * 
+     *
      * @deprecated
      */
     isChecked: function() {
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee, "Please use the value property instead."
       );
-      
-      return this.getValue();      
+
+      return this.getValue();
     },
-    
-    
+
+
     /**
-     * Old toggle method for the checked property. Please use the value property 
+     * Old toggle method for the checked property. Please use the value property
      * instead.
-     * 
+     *
      * @deprecated
      */
     toggleChecked: function() {
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee, "Please use the value property instead."
       );
-      
+
       this.setValue(!this.getValue());
     },
-    
-    
+
+
     /**
-     * Old get method for the checked property. Please use the value 
+     * Old get method for the checked property. Please use the value
      * property instead.
-     * 
+     *
      * @deprecated
-     */    
+     */
     getChecked: function() {
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee, "Please use the value property instead."
-      );      
-      
+      );
+
       return this.getValue();
     },
-    
-    
+
+
     /**
-     * Old reset method for the checked property. Please use the value 
+     * Old reset method for the checked property. Please use the value
      * property instead.
-     * 
+     *
      * @deprecated
-     */    
+     */
     resetChecked: function() {
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee, "Please use the value property instead."
@@ -223,21 +223,21 @@ qx.Class.define("qx.ui.menu.CheckBox",
 
       this.resetValue();
     },
-    
-    
+
+
     // overridden
     addListener: function(type, listener, self, capture) {
       if (type == "changeChecked") {
         qx.log.Logger.deprecatedEventWarning(
-          arguments.callee, 
+          arguments.callee,
           "changeChecked",
           "Please use the changeValue event instead."
-        );        
+        );
       }
       return this.base(arguments, type, listener, self, capture);
     },
-    
-    
+
+
     // TODO can be removed when the check of the value property is set to Boolean
     /**
      * Toggles the state of the button.
@@ -249,11 +249,11 @@ qx.Class.define("qx.ui.menu.CheckBox",
     // TODO can be removed when the check of the value property is set to Boolean
     /**
      * Returns if the value is true
-     * 
+     *
      * @return {Boolean} True, if the button is checked.
-     */    
+     */
     isValue: function() {
       return this.getValue();
-    }    
+    }
   }
 });

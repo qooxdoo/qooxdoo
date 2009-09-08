@@ -189,7 +189,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
     __am : null,
     __tm : null,
     __rm : null,
-    
+
     // overridden
     _getCellStyle : function(cellInfo)
     {

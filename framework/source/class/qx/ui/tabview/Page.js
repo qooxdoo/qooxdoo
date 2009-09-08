@@ -19,7 +19,7 @@
 ************************************************************************ */
 
 /**
- * A page is the way to add content to a {@link TabView}. Each page gets a 
+ * A page is the way to add content to a {@link TabView}. Each page gets a
  * button to switch to the page. Only one page is visible at a time.
  */
 qx.Class.define("qx.ui.tabview.Page",
@@ -133,7 +133,7 @@ qx.Class.define("qx.ui.tabview.Page",
 
     // overridden
     /**
-     * @lint ignoreReferenceField(_forwardStates) 
+     * @lint ignoreReferenceField(_forwardStates)
      */
     _forwardStates :
     {
@@ -196,7 +196,7 @@ qx.Class.define("qx.ui.tabview.Page",
           control = new qx.ui.tabview.TabButton;
           control.setAllowGrowX(true);
           control.setAllowGrowY(true);
-          
+
           control.setUserData("page", this);
           control.addListener("close", this._onButtonClose, this);
 

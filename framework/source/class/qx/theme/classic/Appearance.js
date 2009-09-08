@@ -117,7 +117,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     },
 
     "tooltip/atom" : "atom",
-    
+
     "tooltip-error" :
     {
       include : "tooltip",
@@ -130,12 +130,12 @@ qx.Theme.define("qx.theme.classic.Appearance",
           hideTimeout: 10000,
           decorator: "tooltip-error",
           font: "bold",
-          backgroundColor: "tooltip-invalid"          
+          backgroundColor: "tooltip-invalid"
         };
       }
     },
-    
-    "tooltip-error/atom" : "atom",    
+
+    "tooltip-error/atom" : "atom",
 
     "iframe" :
     {
@@ -298,8 +298,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
           backgroundColor = "background-disabled";
         } else {
           backgroundColor = "white";
-        }        
-        
+        }
+
         return {
           decorator       : states.focused ? "focused-inset" : "inset",
           backgroundColor : backgroundColor
@@ -338,11 +338,11 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         var backgroundColor;
-        
+
         var focused = !!states.focused;
         var invalid = !!states.invalid;
         var disabled = !!states.disabled;
-        
+
         if (invalid && !disabled) {
           backgroundColor = "background-invalid";
         } else if (focused && !invalid && !disabled) {
@@ -352,7 +352,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         } else {
           backgroundColor = "background-field";
         }
-        
+
         var textColor;
         if (states.disabled) {
           textColor = "text-disabled";
@@ -360,8 +360,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
           textColor = "text-placeholder";
         } else {
           textColor = undefined;
-        }        
-                
+        }
+
         return {
           decorator       : states.focused ? "focused-inset" : "inset",
           padding         : [ 2, 3 ],
@@ -401,8 +401,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
         } else {
           icon = "checkbox";
         }
-        
-        var invalid = states.invalid && !states.disabled ? "-invalid" : "";        
+
+        var invalid = states.invalid && !states.disabled ? "-invalid" : "";
 
         return {
           icon: "decoration/form/" + icon + invalid + ".png",
@@ -441,7 +441,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           icon = "radiobutton";
         }
 
-        var invalid = states.invalid && !states.disabled ? "-invalid" : "";        
+        var invalid = states.invalid && !states.disabled ? "-invalid" : "";
 
         return {
           icon: "decoration/form/" + icon + invalid + ".png",
@@ -1112,7 +1112,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         var backgroundColor;
-        
+
         if (states.disabled) {
           backgroundColor = "background-disabled";
         } else if (states.invalid) {
@@ -1122,7 +1122,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         } else {
           backgroundColor = "background-field";
         }
-        
+
         return {
           backgroundColor :  backgroundColor,
           decorator : states.focused ? "focused-inset" : "inset"
@@ -1601,7 +1601,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "selectbox" :
     {
       include: "button-frame",
-      
+
       style : function(states)
       {
         var background = "button";
@@ -1614,13 +1614,13 @@ qx.Theme.define("qx.theme.classic.Appearance",
         } else if (!states.abandoned && !states.hovered && states.checked) {
           background = "button-checked";
         }
-        
+
         return {
           backgroundColor : background
         };
-      }      
-    }, 
-    
+      }
+    },
+
     "selectbox/atom" : "atom",
     "selectbox/popup" : "popup",
     "selectbox/list" : "list",
@@ -1794,7 +1794,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         var backgroundColor;
-        
+
         if (states.disabled) {
           backgroundColor = "background-disabled";
         } else if (states.invalid) {
@@ -1804,7 +1804,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         } else {
           backgroundColor = "background-field";
         }
-        
+
         return {
           decorator       : states.focused ? "focused-inset" : "inset",
           textColor       : states.disabled ? "text-disabled" : undefined,
