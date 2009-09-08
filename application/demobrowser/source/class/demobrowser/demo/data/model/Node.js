@@ -16,13 +16,13 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("demobrowser.demo.data.model.Node", 
+qx.Class.define("demobrowser.demo.data.model.Node",
 {
   extend : qx.core.Object,
-  
+
   construct : function() {
     this.base(arguments);
-    
+
     this.setChildren(new qx.data.Array());
   },
 
@@ -31,52 +31,52 @@ qx.Class.define("demobrowser.demo.data.model.Node",
       check: "qx.data.Array",
       event: "changeChildren"
     },
-    
+
     child : {
       check : "demobrowser.demo.data.model.Node",
       event : "changeChild",
       nullable : true
     },
-    
+
     names : {
       check : "qx.data.Array",
       event : "changeNames",
       init : new qx.data.Array("Homer", "Marge")
     },
-    
+
     name : {
       check: "String",
       init: "AFFE",
       event: "changeName"
     },
-    
+
     name2 : {
       check: "String",
       event: "changeName2"
     },
-    
+
     number : {
       init:  10,
       validate: "__validateNumber"
     },
-    
+
     color : {
       event: "changeColor",
       nullable: true
     }
   },
-  
+
   members: {
     __validateNumber: function(value) {
       // check if its a number
       if(!isNaN(parseFloat(value))) {
         return;
-      } 
+      }
       throw new qx.core.ValidationError("Validation Error: " + value
-        + "is no number (parseFloat says so!).");        
+        + "is no number (parseFloat says so!).");
     },
-    
-    
+
+
     toString: function(indent) {
       if (indent == undefined) {
         indent = 0;
@@ -87,10 +87,10 @@ qx.Class.define("demobrowser.demo.data.model.Node",
       }
       returnString += this.getName();
       for (var i = 0; i < this.getChildren().length; i++) {
-        returnString += "\n" + this.getChildren().getItem(i).toString(indent + 1); 
+        returnString += "\n" + this.getChildren().getItem(i).toString(indent + 1);
       }
       return returnString;
     }
   }
-  
+
 });

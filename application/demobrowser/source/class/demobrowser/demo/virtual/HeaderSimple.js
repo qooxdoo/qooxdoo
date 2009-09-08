@@ -22,7 +22,7 @@ qx.Class.define("demobrowser.demo.virtual.HeaderSimple",
   extend : qx.application.Standalone,
 
   /*
-  * 
+  *
   *****************************************************************************
      MEMBERS
   *****************************************************************************
@@ -31,18 +31,18 @@ qx.Class.define("demobrowser.demo.virtual.HeaderSimple",
   members :
   {
     /**
-     * This method contains the initial application code and gets called 
+     * This method contains the initial application code and gets called
      * during startup of the application
      */
     main : function()
     {
       // Call super class
       this.base(arguments);
-      
+
       var layout = new qx.ui.layout.HBox(2);
       var container = new qx.ui.container.Composite(layout);
       var doc = this.getRoot();
-      
+
       doc.add(container, {left: 10, top : 20});
 
 

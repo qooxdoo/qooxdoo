@@ -16,7 +16,7 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("demobrowser.demo.data.TreeController", 
+qx.Class.define("demobrowser.demo.data.TreeController",
 {
   extend : qx.application.Standalone,
 
@@ -25,7 +25,7 @@ qx.Class.define("demobrowser.demo.data.TreeController",
     main: function()
     {
       this.base(arguments);
-      
+
       // create the data
       var nodes = [];
       for (var i = 0; i < 50; i++) {
@@ -38,35 +38,35 @@ qx.Class.define("demobrowser.demo.data.TreeController",
           nodes[parseInt(Math.random() * i)].getChildren().push(nodes[i]);
         }
       }
-            
+
       // create the tree
       var tree = new qx.ui.tree.Tree();
       tree.setSelectionMode("multi");
       this.getRoot().add(tree, {left: 10, top: 100});
       tree.setWidth(250);
       tree.setHeight(300);
-      
+
       // bind the widget to the data with the controller
       var treeController = new qx.data.controller.Tree(nodes[0], tree, "children", "name");
-      
+
       // open the root node
       tree.getRoot().setOpen(true);
-      
-      
+
+
       // create a list for the selection
       var list = new qx.ui.form.List();
       list.setHeight(300);
       this.getRoot().add(list, {left: 270, top: 100});
-      
+
       // bind the list to the selection of the tree
       new qx.data.controller.List(treeController.getSelection(), list, "name2");
-      
-      
-      
-      
+
+
+
+
       /* ***********************************************
        * Controlls: Do only work on the data array
-       * ********************************************* */  
+       * ********************************************* */
 
       var addItemButton = new qx.ui.form.Button("Add an item to root");
       addItemButton.setWidth(180);
@@ -74,17 +74,17 @@ qx.Class.define("demobrowser.demo.data.TreeController",
       addItemButton.addListener("execute", function() {
         var node = new demobrowser.demo.data.model.Node();
         node.setName("Item " + tree.getItems(true).length);
-        node.setName2("Thing " + tree.getItems(true).length);        
+        node.setName2("Thing " + tree.getItems(true).length);
         nodes[0].getChildren().push(node);
       }, this);
-      
+
       var removeItemButton = new qx.ui.form.Button("Remove an item from root");
       removeItemButton.setWidth(180);
       this.getRoot().add(removeItemButton, {left: 390, top: 135});
       removeItemButton.addListener("execute", function() {
         nodes[0].getChildren().pop();
       }, this);
-      
+
       var changeNameButton = new qx.ui.form.Button("Change the label binding");
       changeNameButton.setWidth(180);
       this.getRoot().add(changeNameButton, {left: 390, top: 170});
@@ -113,7 +113,7 @@ qx.Class.define("demobrowser.demo.data.TreeController",
 
        /* ***********************************************
         * DESCRIPTIONS
-        * ********************************************* */  
+        * ********************************************* */
        // treeDescription
        var treeDescription = new qx.ui.basic.Label();
        treeDescription.setRich(true);
@@ -125,8 +125,8 @@ qx.Class.define("demobrowser.demo.data.TreeController",
          + "'Thing i'."
        );
        this.getRoot().add(treeDescription, {left: 20, top: 10});
-       
-       
+
+
        // List Selection description
        var selectionListDescription = new qx.ui.basic.Label();
        selectionListDescription.setRich(true);
@@ -135,7 +135,7 @@ qx.Class.define("demobrowser.demo.data.TreeController",
          "<b>Selected Items</b><br/>"
          + "A list containing the selected items of the tree."
        );
-       this.getRoot().add(selectionListDescription, {left: 270, top: 10});            
+       this.getRoot().add(selectionListDescription, {left: 270, top: 10});
     }
   }
 });

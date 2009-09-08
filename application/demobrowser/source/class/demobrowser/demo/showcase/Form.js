@@ -43,7 +43,7 @@ qx.Class.define("demobrowser.demo.showcase.Form",
       textGroupBox.setLayout(new qx.ui.layout.Grid(8, 8));
       textGroupBox.setWidth(290);
       this.getRoot().add(textGroupBox, {left: 20, top: 10});
-       
+
       // text field
       var textField = new qx.ui.form.TextField();
       textField.setPlaceholder("placeholder");
@@ -76,7 +76,7 @@ qx.Class.define("demobrowser.demo.showcase.Form",
       textGroupBox.add(label, {row: 3, column: 0});
       textGroupBox.add(comboBox, {row: 3, column: 1});
       this.createItems(comboBox);
-      
+
       // date field
       var dateField = new qx.ui.form.DateField();
       dateField.setPlaceholder("dd.mm.YYYY");
@@ -84,9 +84,9 @@ qx.Class.define("demobrowser.demo.showcase.Form",
       label.setBuddy(dateField);
       textGroupBox.add(label, {row: 4, column: 0});
       textGroupBox.add(dateField, {row: 4, column: 1});
-      
-    
-    
+
+
+
       /** **************************************
        * SELECTION
        * **************************************/
@@ -95,7 +95,7 @@ qx.Class.define("demobrowser.demo.showcase.Form",
       selectionGroupBox.setLayout(new qx.ui.layout.Grid(8, 8));
       selectionGroupBox.setWidth(290);
       this.getRoot().add(selectionGroupBox, {left: 20, top: 250});
-      
+
       // select box
       var selectBox = new qx.ui.form.SelectBox();
       label = new qx.ui.basic.Label("SelectBox:");
@@ -113,17 +113,17 @@ qx.Class.define("demobrowser.demo.showcase.Form",
       selectionGroupBox.add(label, {row: 1, column: 0});
       selectionGroupBox.add(list, {row: 1, column: 1});
       this.createItems(list);
-      
+
       // radio button group
       var radioButtonGroup = new qx.ui.form.RadioButtonGroup();
       radioButtonGroup.add(new qx.ui.form.RadioButton("RadioButton 1"));
       radioButtonGroup.add(new qx.ui.form.RadioButton("RadioButton 2"));
-      radioButtonGroup.add(new qx.ui.form.RadioButton("RadioButton 3"));            
+      radioButtonGroup.add(new qx.ui.form.RadioButton("RadioButton 3"));
       label = new qx.ui.basic.Label("RadioButtonGroup:");
       label.setBuddy(radioButtonGroup);
       selectionGroupBox.add(label, {row: 2, column: 0});
       selectionGroupBox.add(radioButtonGroup, {row: 2, column: 1});
-      
+
 
 
 
@@ -178,9 +178,9 @@ qx.Class.define("demobrowser.demo.showcase.Form",
         var tempValue = parseInt(repeatButton.getLabel()) + 1;
         repeatButton.setLabel(tempValue.toString());
       });
-      
-      
-    
+
+
+
       /** **************************************
        * BOOLEAN INPUT
        * **************************************/
@@ -201,9 +201,9 @@ qx.Class.define("demobrowser.demo.showcase.Form",
       var radioButton = new qx.ui.form.RadioButton("RadioButton");
       booleanGroupBox.add(new qx.ui.basic.Label("RadioButtons:"), {row: 1, column: 0});
       booleanGroupBox.add(radioButton, {row: 1, column: 1});
-      
-      
-          
+
+
+
       /** **************************************
        * NUMBER INPUT
        * **************************************/
@@ -211,7 +211,7 @@ qx.Class.define("demobrowser.demo.showcase.Form",
       var numberGroupBox = new qx.ui.groupbox.GroupBox("Number");
       numberGroupBox.setLayout(new qx.ui.layout.Grid(8, 8));
       numberGroupBox.setWidth(210);
-      this.getRoot().add(numberGroupBox, {left: 330, top: 310});           
+      this.getRoot().add(numberGroupBox, {left: 330, top: 310});
 
       // spinner
       var spinner = new qx.ui.form.Spinner(0, 50, 100);
@@ -226,7 +226,7 @@ qx.Class.define("demobrowser.demo.showcase.Form",
       label = new qx.ui.basic.Label("Slider:");
       label.setBuddy(slider);
       numberGroupBox.add(label, {row: 1, column: 0});
-      numberGroupBox.add(slider, {row: 1, column: 1});      
+      numberGroupBox.add(slider, {row: 1, column: 1});
     },
 
 

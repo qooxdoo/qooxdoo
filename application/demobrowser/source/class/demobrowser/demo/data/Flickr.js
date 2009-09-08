@@ -16,7 +16,7 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("demobrowser.demo.data.Flickr", 
+qx.Class.define("demobrowser.demo.data.Flickr",
 {
   extend : qx.application.Standalone,
 
@@ -25,10 +25,10 @@ qx.Class.define("demobrowser.demo.data.Flickr",
     main: function()
     {
       this.base(arguments);
-      
+
       // fetch some data from Flickr
       var store = new demobrowser.demo.data.store.Flickr("qooxdoo");
-          
+
 
       /* ***********************************************
        * CONTROLS
@@ -42,19 +42,19 @@ qx.Class.define("demobrowser.demo.data.Flickr",
       }, this);
       search.addListener("keydown", function(e) {
         if (e.getKeyIdentifier() == "Enter") {
-          store.searchForTag(search.getValue());          
+          store.searchForTag(search.getValue());
         }
       }, this);
-      
-      
+
+
       /* ***********************************************
        * STATUS
        * ********************************************* */
       var status = new qx.ui.basic.Label("loading");
       this.getRoot().add(status, {left: 210, top: 52});
       store.bind("state", status, "value");
-      
-      
+
+
       /* ***********************************************
        * LIST OF PHOTOS
        * ********************************************* */
@@ -63,28 +63,28 @@ qx.Class.define("demobrowser.demo.data.Flickr",
       list.setHeight(110);
       list.setOrientation("horizontal");
       this.getRoot().add(list, {left: 30, right: 30, top: 80});
-      
+
       var controller = new qx.data.controller.List(null, list);
       controller.setLabelPath("title");
-      
+
       controller.setDelegate({configureItem : function(item) {
         item.setShow("icon");
       }});
-      
+
       var iconOptions = {converter : function(data, model) {
         return ("http://farm" + model.getFarm() + ".static.flickr.com/" + model.getServer() + "/"
          + data + "_" + model.getSecret() + "_s.jpg");
       }};
       controller.setIconOptions(iconOptions);
       controller.setIconPath("id");
-      
+
       store.bind("model.photos.photo", controller, "model");
-      
-      
-      
+
+
+
       /* ***********************************************
        * DETAIL VIEW
-       * ********************************************* */  
+       * ********************************************* */
       var image = new qx.ui.basic.Image();
       this.getRoot().add(image, {left: 30, top: 200});
       var detailOptions = {converter : function(data) {
@@ -94,19 +94,19 @@ qx.Class.define("demobrowser.demo.data.Flickr",
         }
         return "";
       }};
-      controller.bind("selection[0]", image, "source", detailOptions);  
-      
-      
+      controller.bind("selection[0]", image, "source", detailOptions);
+
+
       /* ***********************************************
        * HEADLINE
-       * ********************************************* */  
+       * ********************************************* */
       var headline = new qx.ui.basic.Label();
       headline.setRich(true);
       headline.setWidth(260);
       headline.setValue(
         "<span style='font-size: 20px'>Flickr</span>"
       );
-      this.getRoot().add(headline, {left: 10, top: 10});      
+      this.getRoot().add(headline, {left: 10, top: 10});
     }
   }
 });
@@ -133,7 +133,7 @@ qx.Class.define("demobrowser.demo.data.Flickr",
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("demobrowser.demo.data.store.Flickr", 
+qx.Class.define("demobrowser.demo.data.store.Flickr",
 {
   extend : qx.data.store.Json,
 
@@ -150,20 +150,20 @@ qx.Class.define("demobrowser.demo.data.store.Flickr",
     jsonFlickrApi = function(data) {
       demobrowser.demo.data.store.Flickr.RESULT = data;
     }
-    
+
     var url = "http://api.flickr.com/services/rest/?tags=" + tag;
     this.base(arguments, url);
   },
-  
+
   members :
   {
-    
+
     searchForTag: function(tag) {
       if (tag != "") {
-        this.setUrl("http://api.flickr.com/services/rest/?tags=" + tag);        
+        this.setUrl("http://api.flickr.com/services/rest/?tags=" + tag);
       }
     },
-    
+
     _createRequest: function(url) {
       var loader = new qx.io2.ScriptLoader();
       this.setState("receiving");
@@ -172,22 +172,22 @@ qx.Class.define("demobrowser.demo.data.store.Flickr",
         this.__loaded();
       }, this);
     },
-    
-    
+
+
     __loaded: function() {
       this.setState("completed");
       var data = demobrowser.demo.data.store.Flickr.RESULT;
-      
+
       if (data == undefined) {
         this.setState("failed");
         return;
       }
-      
+
       // create the class
       this._marshaler.toClass(data);
       // set the initial data
       this.setModel(this._marshaler.toModel(data));
-              
+
       // fire complete event
       this.fireDataEvent("loaded", this.getModel());
     }

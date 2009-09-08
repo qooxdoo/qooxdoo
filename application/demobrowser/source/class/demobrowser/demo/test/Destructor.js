@@ -101,7 +101,7 @@ qx.Class.define("demobrowser.demo.test.Destructor",
       }
     }
   },
-  
+
   /*
    *****************************************************************************
       DESTRUCT

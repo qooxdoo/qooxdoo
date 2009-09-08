@@ -40,17 +40,17 @@ qx.Class.define("demobrowser.demo.widget.Menu",
     __cutCommand : null,
     __copyCommand : null,
     __pasteCommand : null,
-    
+
     main: function()
     {
       this.base(arguments);
-      
+
       var scroller = new qx.ui.container.Scroll();
 
       var container = new qx.ui.container.Composite(new qx.ui.layout.Canvas);
       container.setPadding(20);
       container.setAllowStretchX(false);
-      
+
       scroller.add(container);
       this.getRoot().add(scroller, {edge : 0});
 
@@ -616,7 +616,7 @@ qx.Class.define("demobrowser.demo.widget.Menu",
       return menu;
     }
   },
-  
+
   /*
    *****************************************************************************
       DESTRUCT

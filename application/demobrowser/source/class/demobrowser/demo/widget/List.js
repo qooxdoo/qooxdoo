@@ -36,7 +36,7 @@ qx.Class.define("demobrowser.demo.widget.List",
     main: function()
     {
       this.base(arguments);
-      
+
       // scroll container
       var scroller = new qx.ui.container.Scroll();
       var container = new qx.ui.container.Composite(new qx.ui.layout.Basic());
@@ -60,7 +60,7 @@ qx.Class.define("demobrowser.demo.widget.List",
       {
         item = new qx.ui.form.ListItem("Item No " + i, "icon/" + ((i % 4) ? "16" : "48") + "/places/folder.png");
         configList.add(item);
-        
+
         !(i % 9) && (item.setEnabled(false));
 
         // Pre-Select "Item No 20"
@@ -185,7 +185,7 @@ qx.Class.define("demobrowser.demo.widget.List",
       {
         item = new qx.ui.form.ListItem("Item No " + i, "icon/16/places/folder.png");
         oneList.add(item);
-        
+
         // Pre-Select "Item No 16"
         if (i==16) {
           oneList.setSelection([item]);

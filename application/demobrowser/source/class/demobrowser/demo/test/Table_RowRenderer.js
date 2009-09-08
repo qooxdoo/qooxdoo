@@ -112,7 +112,7 @@ qx.Class.define("demobrowser.demo.test.Table_RowRenderer",
       return div;
     }
   },
-  
+
   /*
    *****************************************************************************
       DESTRUCT

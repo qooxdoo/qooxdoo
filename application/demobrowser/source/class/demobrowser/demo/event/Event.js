@@ -136,7 +136,7 @@ qx.Class.define("demobrowser.demo.event.Event",
       this._log([e.getType() + " 2: " + e]);
     }
   },
-  
+
   /*
    *****************************************************************************
       DESTRUCT

@@ -108,7 +108,7 @@ qx.Class.define("demobrowser.demo.test.ChildrenHandling",
       return button;
     }
   },
-  
+
   /*
    *****************************************************************************
       DESTRUCT

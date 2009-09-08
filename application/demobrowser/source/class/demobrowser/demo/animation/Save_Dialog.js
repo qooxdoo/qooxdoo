@@ -27,7 +27,7 @@ qx.Class.define("demobrowser.demo.animation.Save_Dialog",
     __dialog : null,
     __hideEffect : null,
     __container : null,
-    
+
     __prepareEffects : function()
     {
 
@@ -173,7 +173,7 @@ qx.Class.define("demobrowser.demo.animation.Save_Dialog",
 
     }
   },
-  
+
   /*
    *****************************************************************************
       DESTRUCTOR

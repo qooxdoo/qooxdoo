@@ -175,7 +175,7 @@ qx.Class.define("demobrowser.demo.widget.Tree",
       {
         var enable = e.getData();
         tree.setDragSelection(enable);
-        
+
         if (!btnMultiSelect.getValue()) {
           btnMultiSelect.setValue(true);
         }

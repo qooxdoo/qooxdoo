@@ -36,7 +36,7 @@ qx.Class.define("demobrowser.demo.widget.Tree_Columns",
     main: function()
     {
       this.base(arguments);
-      
+
       var scroller = new qx.ui.container.Scroll();
       var container = new qx.ui.container.Composite(new qx.ui.layout.Basic());
       container.setAllowGrowX(false);

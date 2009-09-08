@@ -49,10 +49,10 @@ qx.Class.define("demobrowser.demo.layout.Flow",
       this.base(arguments);
 
       this._createGalleryWindow(20, 20);
-      this._createLineBreakWindow(160, 50);      
+      this._createLineBreakWindow(160, 50);
     },
 
-    
+
     _createGalleryWindow : function(left, top)
     {
       var win = new qx.ui.window.Window("Flow Layout").set({
@@ -60,15 +60,15 @@ qx.Class.define("demobrowser.demo.layout.Flow",
         width: 200
       });
       win.setLayout(new qx.ui.layout.Grow());
-      
+
       var scroller = new qx.ui.container.Scroll();
       win.add(scroller);
-      
+
       var container = new qx.ui.container.Composite(new qx.ui.layout.Flow()).set({
-        allowShrinkY: false       
+        allowShrinkY: false
       });
       scroller.add(container);
-      
+
       for (var i=0; i<30; i++)
       {
         container.add(new qx.ui.basic.Atom("item #" + (i+1), "icon/48/devices/computer.png").set({
@@ -77,12 +77,12 @@ qx.Class.define("demobrowser.demo.layout.Flow",
           padding: 5
         }));
       }
-      
+
       win.moveTo(left, top);
       win.open();
     },
-    
-    
+
+
     _createLineBreakWindow : function(left, top)
     {
       var fl = new qx.ui.layout.Flow();
@@ -95,8 +95,8 @@ qx.Class.define("demobrowser.demo.layout.Flow",
         height: 200,
         layout: fl
       });
-      
-    
+
+
       var icon = "icon/48/devices/computer.png";
 
       var button1 = new qx.ui.form.Button("1. First Button", icon);

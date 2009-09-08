@@ -16,7 +16,7 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("demobrowser.demo.data.ModelDebugging", 
+qx.Class.define("demobrowser.demo.data.ModelDebugging",
 {
   extend : qx.application.Standalone,
 
@@ -25,10 +25,10 @@ qx.Class.define("demobrowser.demo.data.ModelDebugging",
     main: function()
     {
       this.base(arguments);
-      
+
       // fetch some data from Twitter
       var store = new demobrowser.demo.data.store.Twitter("wittemann");
-      
+
       // create an html embed to view the model
       var embed = new qx.ui.embed.Html();
       embed.setBackgroundColor("white");
@@ -37,7 +37,7 @@ qx.Class.define("demobrowser.demo.data.ModelDebugging",
       embed.setHeight(200);
       embed.setOverflow("auto", "auto");
       this.getRoot().add(embed, {left: 10, top: 80});
-      
+
       // after the data has been loaded
       store.addListener("loaded", function() {
         var model = store.getModel();
@@ -46,16 +46,16 @@ qx.Class.define("demobrowser.demo.data.ModelDebugging",
         // display the model in an html embed
         embed.setHtml(qx.dev.Debug.debugProperties(model, 10, true));
       }, this);
-      
-      
-            
+
+
+
 
 
 
 
       /* ***********************************************
        * DESCRIPTIONS
-       * ********************************************* */  
+       * ********************************************* */
       // List Selection sync description
       var description = new qx.ui.basic.Label();
       description.setRich(true);
@@ -66,7 +66,7 @@ qx.Class.define("demobrowser.demo.data.ModelDebugging",
         + "objects with properties. To see the properties, you can use the "
         + "debugModel function in qx.dev.Debug."
       );
-      this.getRoot().add(description, {left: 10, top: 10});        
+      this.getRoot().add(description, {left: 10, top: 10});
     }
   }
 });
@@ -93,7 +93,7 @@ qx.Class.define("demobrowser.demo.data.ModelDebugging",
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("demobrowser.demo.data.store.Twitter", 
+qx.Class.define("demobrowser.demo.data.store.Twitter",
 {
   extend : qx.data.store.Json,
 
@@ -108,7 +108,7 @@ qx.Class.define("demobrowser.demo.data.store.Twitter",
     var url = "http://twitter.com/statuses/user_timeline/" + user + ".json";
     this.base(arguments, url);
   },
-  
+
   members :
   {
     _createRequest: function(url) {
@@ -118,21 +118,21 @@ qx.Class.define("demobrowser.demo.data.store.Twitter",
         this.__loaded();
       }, this);
     },
-    
-    
+
+
     __loaded: function() {
       var data = demobrowser.demo.data.store.Twitter.__result;
-      
+
       if (data == undefined) {
         this.setState("failed");
         return;
       }
-      
+
       // create the class
       this._marshaler.toClass(data);
       // set the initial data
       this.setModel(this._marshaler.toModel(data));
-              
+
       // fire complete event
       this.fireDataEvent("loaded", this.getModel());
     }

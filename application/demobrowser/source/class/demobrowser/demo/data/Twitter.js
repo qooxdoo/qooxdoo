@@ -16,7 +16,7 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("demobrowser.demo.data.Twitter", 
+qx.Class.define("demobrowser.demo.data.Twitter",
 {
   extend : qx.application.Standalone,
 
@@ -25,12 +25,12 @@ qx.Class.define("demobrowser.demo.data.Twitter",
     main: function()
     {
       this.base(arguments);
-      
+
       // create and add the list
-      var list = new qx.ui.form.List();      
+      var list = new qx.ui.form.List();
       this.getRoot().add(list, {left: 10, top: 85});
       list.setWidth(300);
-      
+
       // create the controller
       var controller = new qx.data.controller.List(null, list);
       // set the delegate
@@ -38,21 +38,21 @@ qx.Class.define("demobrowser.demo.data.Twitter",
 
       // set the name for the label property
       controller.setLabelPath("text");
-      
+
       // set the name for the icon property
       if (!qx.core.Variant.isSet("qx.client", "mshtml")) {
-        controller.setIconPath("user.profile_image_url");        
+        controller.setIconPath("user.profile_image_url");
       }
 
 
       // fetch some data from Twitter
       var store = new demobrowser.demo.data.store.Twitter("wittemann");
-      
+
       // connect the store and the controller
       store.bind("model", controller, "model");
-      
-      
-      
+
+
+
       /* ***********************************************
        * CONTROLS
        * ********************************************* */
@@ -80,10 +80,10 @@ qx.Class.define("demobrowser.demo.data.Twitter",
            userButton.execute();
          }
        }, this);
-       
-       
-    
-       
+
+
+
+
       /* ***********************************************
        * DETAIL VIEW
        * ********************************************* */
@@ -92,14 +92,14 @@ qx.Class.define("demobrowser.demo.data.Twitter",
       this.getRoot().add(detailsBox, {left: 320, top: 60});
       detailsBox.setWidth(300);
       detailsBox.setHeight(220);
-      
+
       detailsBox.setLayout(new qx.ui.layout.Grid(0, 5));
-      
+
       detailsBox.add(new qx.ui.basic.Label("Name: "), {row: 0, column: 0});
       detailsBox.add(new qx.ui.basic.Label("Location: "), {row: 1, column: 0});
       detailsBox.add(new qx.ui.basic.Label("Message: "), {row: 2, column: 0});
       detailsBox.add(new qx.ui.basic.Label("Postet with: "), {row: 3, column: 0});
-      
+
       var name = new qx.ui.basic.Label();
       detailsBox.add(name, {row: 0, column: 1});
       var location = new qx.ui.basic.Label();
@@ -111,7 +111,7 @@ qx.Class.define("demobrowser.demo.data.Twitter",
       var posted = new qx.ui.basic.Label();
       posted.setRich(true);
       detailsBox.add(posted, {row: 3, column: 1});
-      
+
       // create the controller for the detail view
       var detailsController = new qx.data.controller.Object();
       detailsController.addTarget(name, "value", "user.name");
@@ -119,45 +119,45 @@ qx.Class.define("demobrowser.demo.data.Twitter",
       detailsController.addTarget(message, "value", "text");
       detailsController.addTarget(posted, "value", "source");
       if (!qx.core.Variant.isSet("qx.client", "mshtml")) {
-        detailsBox.add(new qx.ui.basic.Label("Avatar: "), {row: 4, column: 0});   
+        detailsBox.add(new qx.ui.basic.Label("Avatar: "), {row: 4, column: 0});
         var avatar = new qx.ui.basic.Image();
-        detailsBox.add(avatar, {row: 4, column: 1});      
+        detailsBox.add(avatar, {row: 4, column: 1});
         detailsController.addTarget(avatar, "source", "user.profile_image_url");
       }
       // connect the selected model item of the list to the detail view
       controller.bind("selection[0]", detailsController, "model");
-      
-      
-      
-      
+
+
+
+
 
       /* ***********************************************
        * HEADLINE
-       * ********************************************* */  
+       * ********************************************* */
       var headline = new qx.ui.basic.Label();
       headline.setRich(true);
       headline.setWidth(260);
       headline.setValue(
         "<span style='font-size: 20px'>Twitter</span>"
       );
-      this.getRoot().add(headline, {left: 10, top: 10});   
-      
-      
+      this.getRoot().add(headline, {left: 10, top: 10});
+
+
       var tweetThis = new qx.ui.basic.Label();
       tweetThis.setRich(true);
       tweetThis.setWidth(260);
       tweetThis.setValue(
-        "<span style='font-size: 13px'>" + 
+        "<span style='font-size: 13px'>" +
         "<a target='_blank' href='http://twitter.com/home?status=Check%20out%20the%20%23qooxdoo%20twitter%20demo%20at%20http://bit.ly/Mc4Of'>Tweet This</a></span>"
       );
-      this.getRoot().add(tweetThis, {left: 10, top: 290});        
+      this.getRoot().add(tweetThis, {left: 10, top: 290});
     },
-    
-    
+
+
     configureItem: function(item) {
       item.setRich(true);
       item.getChildControl("icon").setWidth(50);
-      item.getChildControl("icon").setHeight(50);      
+      item.getChildControl("icon").setHeight(50);
       item.getChildControl("icon").setScale(true);
     }
   }
@@ -187,7 +187,7 @@ qx.Class.define("demobrowser.demo.data.Twitter",
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("demobrowser.demo.data.store.Twitter", 
+qx.Class.define("demobrowser.demo.data.store.Twitter",
 {
   extend : qx.data.store.Json,
 
@@ -202,7 +202,7 @@ qx.Class.define("demobrowser.demo.data.store.Twitter",
     var url = "http://twitter.com/statuses/user_timeline/" + user + ".json";
     this.base(arguments, url);
   },
-  
+
   members :
   {
     _createRequest: function(url) {
@@ -212,21 +212,21 @@ qx.Class.define("demobrowser.demo.data.store.Twitter",
         this.__loaded();
       }, this);
     },
-    
-    
+
+
     __loaded: function() {
       var data = demobrowser.demo.data.store.Twitter.__result;
-      
+
       if (data == undefined) {
         this.setState("failed");
         return;
       }
-      
+
       // create the class
       this._marshaler.toClass(data);
       // set the initial data
       this.setModel(this._marshaler.toModel(data));
-              
+
       // fire complete event
       this.fireDataEvent("loaded", this.getModel());
     }

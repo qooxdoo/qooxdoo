@@ -31,27 +31,27 @@ qx.Class.define("demobrowser.demo.widget.Flash",
   members :
   {
     __window : null,
-    
+
     main: function()
     {
       this.base(arguments);
 
       var tabView = new qx.ui.tabview.TabView();
       tabView.setContentPadding([8,8,8,8]);
-      
+
       var doc = this.getRoot();
       doc.add(tabView, {edge: 0});
-      
+
       var page1 = new qx.ui.tabview.Page("Simple demo with FlashVars");
       page1.setLayout(new qx.ui.layout.Canvas());
       page1.add(this.createFlashDemo1(), {edge: 0});
       tabView.add(page1);
-      
+
       var page2 = new qx.ui.tabview.Page("Two way communication (ActionScript <-> JavaScript)");
       page2.setLayout(new qx.ui.layout.Canvas());
       page2.add(this.createFlashDemo2(), {edge: 0});
       tabView.add(page2);
-      
+
       this.__window = this.createWindow();
       doc.add(this.__window, {top: 20, left: 20});
     },
@@ -64,76 +64,76 @@ qx.Class.define("demobrowser.demo.widget.Flash",
         height: 200,
         contentPadding: [0,0,0,0]
       });
-      
+
       win.setLayout(new qx.ui.layout.Canvas());
       win.add(
         new qx.ui.embed.Flash("demobrowser/demo/flash/FlashVersion.swf"),
         {edge: 0}
       );
-            
+
       return win;
     },
-    
-    
+
+
     /*
     ***************************************************************************
       SOURCE FOR FLASH DEMO 1
     ***************************************************************************
     */
-    
-    
+
+
     createFlashDemo1 : function ()
     {
       var container = new qx.ui.container.Composite(
         new qx.ui.layout.VBox(4)
       );
-      
+
       var variables = {
         flashVarText: "this is passed in via FlashVars"
       };
-      
+
       var flash = new qx.ui.embed.Flash("demobrowser/demo/flash/fo_tester.swf").set({
         scale: "noscale",
         variables : variables,
         backgroundColor : "#FF6600"
       });
       container.add(flash, {flex: 1});
-     
+
       var button = new qx.ui.form.Button("Show Flash Player version");
       button.addListener("execute", function()
       {
         this.__window.open();
       }, this);
       container.add(button);
-            
+
       return container;
     },
-    
-    
+
+
     /*
     ***************************************************************************
       SOURCE FOR FLASH DEMO 2
     ***************************************************************************
     */
-    
-    
+
+
     __flash : null,
-      
+
     __messageFromFlash : null,
-    
+
     __messageToFlash : null,
-    
+
     __sendButton : null,
-    
+
     createFlashDemo2 : function()
     {
       //Set for call back
       this.self(arguments).setCallBackInstance(this);
-      
+
       var container = new qx.ui.container.Composite(
         new qx.ui.layout.HBox(8)
       );
-      
+
       /*
        * Qooxdoo
        */
@@ -141,7 +141,7 @@ qx.Class.define("demobrowser.demo.widget.Flash",
         new qx.ui.layout.VBox(4)
       );
       container.add(qooxdooContainer, {flex: 1});
-      
+
       qooxdooContainer.add(new qx.ui.basic.Label("<b>qooxdoo:</b>").set({
         rich: true
       }));
@@ -149,24 +149,24 @@ qx.Class.define("demobrowser.demo.widget.Flash",
       this.__messageFromFlash = new qx.ui.form.TextArea("No message.");
       this.__messageFromFlash.setEnabled(false);
       qooxdooContainer.add(this.__messageFromFlash, {flex: 1});
-      
+
       qooxdooContainer.add(new qx.ui.basic.Label("Message to Flash:"));
       this.__messageToFlash = new qx.ui.form.TextArea("qooxdoo is the best!");
       qooxdooContainer.add(this.__messageToFlash, {flex: 1});
-      
+
       var buttonBar = new qx.ui.container.Composite(
         new qx.ui.layout.HBox(0, "right")
       );
-      
+
       this.__sendButton = new qx.ui.form.Button("Send to Flash");
       this.__sendButton.setEnabled(false);
       this.__sendButton.addListener("execute", function(e) {
         this.__flash.getFlashElement().sendMessage(this.__messageToFlash.getValue());
       }, this);
-      
-      buttonBar.add(this.__sendButton); 
+
+      buttonBar.add(this.__sendButton);
       qooxdooContainer.add(buttonBar);
-      
+
       /*
        * Flash
        */
@@ -174,41 +174,41 @@ qx.Class.define("demobrowser.demo.widget.Flash",
         new qx.ui.layout.VBox(4)
       );
       container.add(flashConteiner, {flex: 1});
-      
+
       flashConteiner.add(new qx.ui.basic.Label("Flash:").set({
         rich: true
       }));
-      
+
       this.__flash = new qx.ui.embed.Flash("demobrowser/demo/flash/TestFlash.swf");
       this.__flash.setVariables({
         init : "demobrowser.demo.widget.Flash.flashReady"
       });
       flashConteiner.add(this.__flash, {flex: 1});
-      
+
       return container;
     },
-    
+
     sendMessage : function(message)
-    { 
-      this.__messageFromFlash.setValue(message);  
+    {
+      this.__messageFromFlash.setValue(message);
     },
-    
+
     initFlash : function()
     {
       if (this.__flash.getFlashElement().setup)
       {
         this.__flash.getFlashElement().setup("demobrowser.demo.widget.Flash.sendMessage");
         this.__sendButton.setEnabled(true);
-      } 
+      }
       else
       {
-        alert("Couldn't connect to Flash Player! Please make sure that:\n" 
+        alert("Couldn't connect to Flash Player! Please make sure that:\n"
           + "1) no pop-up or advertising blocker is activated.\n"
           + "2) this html page is not loaded from the file system, but a webserver.");
       }
     }
   },
-  
+
   /*
   *****************************************************************************
       SOURCE FOR FLASH DEMO 2
@@ -217,23 +217,23 @@ qx.Class.define("demobrowser.demo.widget.Flash",
   statics :
   {
     __callBackInstance : null,
-    
+
     setCallBackInstance : function(callBackInstance)
     {
       demobrowser.demo.widget.Flash.__callBackInstance = callBackInstance;
     },
-    
-    sendMessage : function(message) 
+
+    sendMessage : function(message)
     {
       demobrowser.demo.widget.Flash.__callBackInstance.sendMessage(message);
     },
-    
+
     flashReady : function()
     {
       demobrowser.demo.widget.Flash.__callBackInstance.initFlash();
     }
   },
-  
+
   /*
    *****************************************************************************
       DESTRUCT

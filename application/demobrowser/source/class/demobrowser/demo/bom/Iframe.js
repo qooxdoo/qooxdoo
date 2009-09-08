@@ -44,7 +44,7 @@ qx.Class.define("demobrowser.demo.bom.Iframe",
        * get rendered again after inserting the iframe.
        * So we just change a small piece of content on this page:
        */
-      document.getElementById("dummy").innerHTML = "";        
+      document.getElementById("dummy").innerHTML = "";
     }
   }
 });

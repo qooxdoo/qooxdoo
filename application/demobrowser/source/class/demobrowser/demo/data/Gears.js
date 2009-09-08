@@ -16,7 +16,7 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("demobrowser.demo.data.Gears", 
+qx.Class.define("demobrowser.demo.data.Gears",
 {
   extend : qx.application.Standalone,
 
@@ -25,47 +25,47 @@ qx.Class.define("demobrowser.demo.data.Gears",
     main: function()
     {
       this.base(arguments);
-      
+
       var personBox = new qx.ui.groupbox.GroupBox("Person");
       this.getRoot().add(personBox, {left: 10, top: 50});
-      
+
       personBox.setLayout(new qx.ui.layout.Grid(0, 3));
-      
+
       personBox.add(new qx.ui.basic.Label("First Name: "), {row: 0, column: 0});
       personBox.add(new qx.ui.basic.Label("LastName: "), {row: 1, column: 0});
       personBox.add(new qx.ui.basic.Label("Age: "), {row: 2, column: 0});
-      
+
       var firstName = new qx.ui.form.TextField();
       personBox.add(firstName, {row: 0, column: 1});
       var lastName = new qx.ui.form.TextField();
-      personBox.add(lastName, {row: 1, column: 1});     
+      personBox.add(lastName, {row: 1, column: 1});
       var age = new qx.ui.form.Spinner(0, 0, 1000);
       personBox.add(age, {row: 2, column: 1});
 
-      
+
       // create the controller for the detail view
       var controller = new qx.data.controller.Object();
       controller.addTarget(firstName, "value", "firstname", true);
       controller.addTarget(lastName, "value", "lastname", true);
       controller.addTarget(age, "value", "age", true);
-      
+
       var store = new demobrowser.demo.data.store.Gears();
-      
+
       // connect the selected model item of the list to the detail view
-      store.bind("model", controller, "model");      
-      
+      store.bind("model", controller, "model");
+
 
       /* ***********************************************
        * HEADLINE
-       * ********************************************* */  
+       * ********************************************* */
       var headline = new qx.ui.basic.Label();
       headline.setRich(true);
       headline.setWidth(260);
       headline.setValue(
         "<span style='font-size: 20px'>google Gears</span>"
       );
-      this.getRoot().add(headline, {left: 10, top: 10});   
-            
+      this.getRoot().add(headline, {left: 10, top: 10});
+
     }
   }
 });
@@ -91,7 +91,7 @@ qx.Class.define("demobrowser.demo.data.Gears",
 
    Authors:
      * Martin Wittemann (martinwittemann)
-     
+
      ======================================================================
 
      This class contains code based on the following work:
@@ -132,9 +132,9 @@ qx.Class.define("demobrowser.demo.data.Gears",
 
 ************************************************************************ */
 /**
- * @lint ignoreUndefined(google, GearsFactory) 
+ * @lint ignoreUndefined(google, GearsFactory)
  */
-qx.Class.define("demobrowser.demo.data.store.Gears", 
+qx.Class.define("demobrowser.demo.data.store.Gears",
 {
   extend : qx.data.store.Json,
 
@@ -145,9 +145,9 @@ qx.Class.define("demobrowser.demo.data.store.Gears",
   construct : function()
   {
     this.base(arguments);
-    
+
     this.initGears();
-    
+
     // Make sure we have Gears. If not, tell the user.
     if (!window.google || !google.gears) {
       if (confirm("This demo requires Gears to be installed. Install now?")) {
@@ -157,7 +157,7 @@ qx.Class.define("demobrowser.demo.data.store.Gears",
       }
       return;
     }
-    
+
     this.__db = this.initDB();
     this.__load();
   },
@@ -170,20 +170,20 @@ qx.Class.define("demobrowser.demo.data.store.Gears",
       this._marshaler.toClass(data, true);
       // set the initial data
       this.setModel(this._marshaler.toModel(data));
-      
-      this.getModel().addListener("changeBubble", this.__modelChanged, this);    
-              
+
+      this.getModel().addListener("changeBubble", this.__modelChanged, this);
+
       // fire complete event
-      this.fireDataEvent("loaded", this.getModel());      
+      this.fireDataEvent("loaded", this.getModel());
     },
-    
-    
+
+
     __modelChanged: function(ev) {
       var model = this.getModel();
       this.update(model.getFirstname(), model.getLastname(), model.getAge());
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
        GEARS INTEGRATION
@@ -198,18 +198,18 @@ qx.Class.define("demobrowser.demo.data.store.Gears",
       // Insert the new person.
       this.__db.execute('insert into Persons values (?, ?, ?)', [firstname, lastname, age]);
     },
-    
-    
+
+
     getPerson: function() {
       var person = {};
       person.firstname = "";
       person.lastname = "";
       person.age = 0;
-      
+
       if (!google.gears.factory || !this.__db) {
         return person;
       }
-      
+
       // Get the person entry
       var rs = this.__db.execute('select * from Persons');
       if (rs.isValidRow()) {
@@ -221,8 +221,8 @@ qx.Class.define("demobrowser.demo.data.store.Gears",
 
       return person;
     },
-    
-    
+
+
     initDB: function() {
       if (window.google && google.gears) {
         try {
@@ -238,11 +238,11 @@ qx.Class.define("demobrowser.demo.data.store.Gears",
           this.error('Could not create database: ' + ex.message);
         }
       }
-      
-      return db;   
+
+      return db;
     },
-    
-    
+
+
     initGears: function() {
       // We are already defined. Hooray!
       if (window.google && google.gears) {
@@ -295,8 +295,8 @@ qx.Class.define("demobrowser.demo.data.store.Gears",
       if (!google.gears) {
         google.gears = {factory: factory};
       }
-    }    
-    
+    }
+
   }
 });
 

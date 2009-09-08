@@ -25,7 +25,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.data.JsonToTree", 
+qx.Class.define("demobrowser.demo.data.JsonToTree",
 {
   extend : qx.application.Standalone,
 
@@ -34,42 +34,42 @@ qx.Class.define("demobrowser.demo.data.JsonToTree",
     main: function()
     {
       this.base(arguments);
-      
+
       // create and add the tree
-      var tree = new qx.ui.tree.Tree();      
+      var tree = new qx.ui.tree.Tree();
       this.getRoot().add(tree, {left: 10, top: 80});
       tree.setWidth(200);
       tree.setHeight(300);
-      
+
       // create the controller
       var controller = new qx.data.controller.Tree(null, tree, "kids", "name");
 
       // create the data store
       var url = "json/tree.json";
       var store = new qx.data.store.Json(url);
-      
+
       // create the status label
       var status = new qx.ui.basic.Label("Loading...");
-      this.getRoot().add(status, {left: 220, top: 80});   
-      
+      this.getRoot().add(status, {left: 220, top: 80});
+
       // connect the store and the controller
-      store.bind("model", controller, "model");      
-  
+      store.bind("model", controller, "model");
+
       // bind the status label
       store.bind("state", status, "value");
-    
+
       // show the data in the list when loaded
       store.addListener("loaded", function(ev) {
         tree.getRoot().setOpen(true);
       }, this);
-      
-      
-      
+
+
+
 
 
       /* ***********************************************
        * DESCRIPTIONS
-       * ********************************************* */  
+       * ********************************************* */
       var description = new qx.ui.basic.Label();
       description.setRich(true);
       description.setWidth(260);
@@ -78,8 +78,8 @@ qx.Class.define("demobrowser.demo.data.JsonToTree",
         + "Loading the json file <a href='" + url +"' target='_blank'>"
         + "tree.json</a> and bind the items to the tree widget."
       );
-      this.getRoot().add(description, {left: 10, top: 10});   
-            
+      this.getRoot().add(description, {left: 10, top: 10});
+
     }
   }
 });

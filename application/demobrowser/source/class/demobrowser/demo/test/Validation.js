@@ -165,13 +165,13 @@ qx.Class.define("demobrowser.demo.test.Validation",
       }
 
 
-      
-      
-      
-      
+
+
+
+
       /* ***********************************************
        * DESCRIPTIONS
-       * ********************************************* */  
+       * ********************************************* */
       // Event binding description
       var description = new qx.ui.basic.Label();
       description.setRich(true);
@@ -183,7 +183,7 @@ qx.Class.define("demobrowser.demo.test.Validation",
         + "- age: Age is validated to be a number.<br/>"
         + "- gender: Gender is validated to be either male or female."
       );
-      this.getRoot().add(description, {left: 280, top: 10});      
+      this.getRoot().add(description, {left: 280, top: 10});
 
     }
   }

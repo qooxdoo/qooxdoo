@@ -166,7 +166,7 @@ qx.Class.define("demobrowser.demo.table.Table_Selection",
       return bar;
     }
   },
-  
+
   /*
    *****************************************************************************
       DESTRUCT

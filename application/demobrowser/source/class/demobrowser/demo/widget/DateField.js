@@ -31,7 +31,7 @@ qx.Class.define("demobrowser.demo.widget.DateField",
     {
       this.base(arguments);
 
-      /* Set locale to english to avoid language mix if browser locale is 
+      /* Set locale to english to avoid language mix if browser locale is
        * non-english. */
       qx.locale.Manager.getInstance().setLocale("en");
 
@@ -108,7 +108,7 @@ qx.Class.define("demobrowser.demo.widget.DateField",
 
       var dateLabel = new qx.ui.basic.Label();
       this.getRoot().add(dateLabel, {left: 410, top: 88});
-      
+
       var getDateButton = new qx.ui.form.Button("Get date");
       getDateButton.setWidth(120);
       this.getRoot().add(getDateButton, {left: 410, top: 60});

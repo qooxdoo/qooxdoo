@@ -32,7 +32,7 @@
 qx.Class.define("demobrowser.demo.virtual.DemoLayer",
 {
   extend : qx.ui.virtual.layer.WidgetCell,
-  
+
   construct : function()
   {
     this.base(arguments, this);
@@ -40,27 +40,27 @@ qx.Class.define("demobrowser.demo.virtual.DemoLayer",
       atom : [],
       checkbox : []
     };
-    
+
     this.__rowData = [];
   },
-  
+
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
- 
+
   members :
   {
     _pool : null,
     _rowData : null,
-    
+
     getCellData : function(row, column)
     {
       if (!this.__rowData[row]) {
         this.__rowData[row] = [];
       }
-      if (!this.__rowData[row][column]) 
+      if (!this.__rowData[row][column])
       {
         this.__rowData[row][column] = {
           label: this.__generateName(),
@@ -69,10 +69,10 @@ qx.Class.define("demobrowser.demo.virtual.DemoLayer",
       }
       return this.__rowData[row][column];
     },
-    
-    
+
+
     getCellWidget : function(row, column)
-    {  
+    {
       var widget;
 
       if (column % 2 == 0)
@@ -94,7 +94,7 @@ qx.Class.define("demobrowser.demo.virtual.DemoLayer",
         widget = this._pool.checkbox.pop();
         if (!widget)
         {
-          widget = new qx.ui.form.CheckBox();        
+          widget = new qx.ui.form.CheckBox();
           widget.addListener("changeValue", function(){
             this.setLabel(this.getLabel() == "foobar!" ? widget.getUserData("row") + " / " + widget.getUserData("column") : "foobar!");
           }, widget);
@@ -102,16 +102,16 @@ qx.Class.define("demobrowser.demo.virtual.DemoLayer",
         widget.set({
           value : row % 2 == 0,
           label : row + " / " + column
-        });        
+        });
       }
 
       widget.setUserData("row", row);
       widget.setUserData("column", column);
-      
+
       return widget;
     },
 
-    
+
     poolCellWidget: function(widget) {
       if (widget.classname == "qx.ui.basic.Atom") {
         this._pool.atom.push(widget)
@@ -129,7 +129,7 @@ qx.Class.define("demobrowser.demo.virtual.DemoLayer",
       }
       return name;
     },
-    
+
     __getIcon : function()
     {
       var prefix = "icon/";
@@ -151,7 +151,7 @@ qx.Class.define("demobrowser.demo.virtual.DemoLayer",
       return (prefix + 16 + "/" + suffix + iconImages[imageId]);
     }
   },
-  
+
   /*
    *****************************************************************************
       DESTRUCT

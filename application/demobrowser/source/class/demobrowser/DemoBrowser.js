@@ -168,7 +168,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       init :"current"
     }
   },
-  
+
 
   /*
   *****************************************************************************
@@ -285,7 +285,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this._runbutton.addListener("execute", this.runSample, this);
       this._runbutton.setToolTipText("Run the selected demo(s)");
       this._navPart.add(this._runbutton);
-      
+
       // -- stop button
       this._stopbutton = new qx.ui.toolbar.Button(this.tr("Stop"),
           "icon/22/actions/media-playback-stop.png");
@@ -412,24 +412,24 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     __makeLogView : function()
     {
-      var logBox = new qx.ui.layout.VBox(0, "middle", "main");      
-      logBox.setAlignX("right");  
-          
-      var logContainer = new qx.ui.container.Composite(logBox);      
+      var logBox = new qx.ui.layout.VBox(0, "middle", "main");
+      logBox.setAlignX("right");
+
+      var logContainer = new qx.ui.container.Composite(logBox);
       var deco = new qx.ui.decoration.Background().set({
         backgroundColor : "background-medium"
-      });      
+      });
       logContainer.setDecorator(deco);
-      
+
       var clearBtn = new qx.ui.form.Button(this.tr("Clear log"), "icon/22/actions/edit-clear.png");
       clearBtn.setAllowGrowX(false);
       clearBtn.setMargin(5);
       clearBtn.addListener("execute", function() {
         this.logappender.clear();
       }, this);
-      
-      logContainer.add(clearBtn, {flex : 0});      
-      
+
+      logContainer.add(clearBtn, {flex : 0});
+
       this.f2 = new qx.ui.embed.Html();
       this.f2.setOverflow("auto", "auto");
       this.f2.setFont("monospace");
@@ -533,13 +533,13 @@ qx.Class.define("demobrowser.DemoBrowser",
       var _sampleToTreeNodeMap = this._sampleToTreeNodeMap;
       var _initialSection = null;
       var _initialNode = null;
-      
+
       // check for autorun parameter
       var autorun = /\?autorun=true/.test(location.href);
-      
+
       // set a section to open initially
-      var state = this._history.getState();            
-      
+      var state = this._history.getState();
+
       var section =  state.match(/([^~]+)~/);
       if (section) {
         // demo preselected, e.g. #bom~Clip.html
@@ -548,20 +548,20 @@ qx.Class.define("demobrowser.DemoBrowser",
         var category = state.match(/([^~][\w]*)/);
         if (category) {
           // category preselected, e.g. #widget
-          _initialSection = category[1];          
+          _initialSection = category[1];
           if (autorun) {
             this.setPlayDemos("category");
-          }          
-        } 
+          }
+        }
         else {
           // nothing preselected
-          _initialSection = "animation";          
+          _initialSection = "animation";
           if (autorun) {
             this.setPlayDemos("all");
           }
-          
+
         }
-      }                  
+      }
 
       // use tree struct
       /**
@@ -648,16 +648,16 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       this._runbutton.setVisibility("excluded");
       this._stopbutton.setVisibility("visible");
-      
+
       if (this.tests.selected != "") {
         var file = this.tests.selected.replace(".", "/");
         this.setCurrentSample(file);
       } else {
         this.playNext();
-      }      
+      }
     },
-    
-    
+
+
     /**
      * event handler for the Stop Test button - stops execution
      *
@@ -748,22 +748,22 @@ qx.Class.define("demobrowser.DemoBrowser",
         }
 
         document.title = title;
-      }            
-      
+      }
+
       // Play the next sample after five seconds
       if (this.getPlayDemos() != "current") {
         if (!pagename) {
           this.playNext();
         } else {
-          var self = this;          
+          var self = this;
           qx.event.Timer.once(this.playNext, self, 5000);
-        }        
+        }
       } else {
         // Remove stop button, display run button
         this._stopbutton.setVisibility("excluded");
         this._runbutton.setVisibility("visible");
       }
-      
+
     },
 
 
@@ -950,7 +950,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       {
         if (currSamp.getUserData('modelLink').getPrevSibling()) {
           var otherSamp = currSamp.getUserData('modelLink').getPrevSibling().widgetLinkFull;
-          
+
           if (otherSamp) {
             this.tree.setSelection([otherSamp]);
             this.runSample();
@@ -965,7 +965,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      *
      * @param e {Event} TODOC
      * @return {void}
-     * 
+     *
      * @lint ignoreUndefined(getChildren)
      */
     playNext : function(e)
@@ -991,7 +991,7 @@ qx.Class.define("demobrowser.DemoBrowser",
                 var nextFolder = tree.getNextSiblingOf(currSamp);
                 nextFolder.setOpen(true);
 
-                var otherSamp = nextFolder.getChildren()[0];                
+                var otherSamp = nextFolder.getChildren()[0];
               } catch (ex) {
                 this.debug(ex)
               }
@@ -1005,7 +1005,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         {
           this.tree.setSelection([otherSamp]);
           this.runSample();
-        } else {          
+        } else {
           // Remove stop button, display run button
           this._stopbutton.setVisibility("excluded");
           this._runbutton.setVisibility("visible");
@@ -1047,7 +1047,7 @@ qx.Class.define("demobrowser.DemoBrowser",
             var s1 = qx.dev.Tokenizer.javaScriptToHtml(currBlock.get());
             bsrc.add('<div class="script">', s1, '</div>');
             currBlock.clear(); // start new block
-            currBlock.add(lines[i], '\n');  
+            currBlock.add(lines[i], '\n');
           }
           else // no border line
           {
@@ -1071,7 +1071,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       // for later extensions (cf. Flanagan(5th), 703)
       function matchfunc (vargs)
       {
-        var s = new qx.util.StringBuilder(arguments[1], 
+        var s = new qx.util.StringBuilder(arguments[1],
           '<span class="html-tag-name">', arguments[2], '</span>');
         var curr;
         var endT = false;

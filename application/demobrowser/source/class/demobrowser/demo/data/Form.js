@@ -20,7 +20,7 @@
 /**
  * @lint ignoreDeprecated(alert)
  */
-qx.Class.define("demobrowser.demo.data.Form", 
+qx.Class.define("demobrowser.demo.data.Form",
 {
   extend : qx.application.Standalone,
 
@@ -29,9 +29,9 @@ qx.Class.define("demobrowser.demo.data.Form",
     main: function()
     {
       this.base(arguments);
-      
+
       // create the UI ///////////////////
-      
+
       // groupbox
       var groupBox = new qx.ui.groupbox.GroupBox("Registration");
       groupBox.setWidth(200);
@@ -47,11 +47,11 @@ qx.Class.define("demobrowser.demo.data.Form",
 
       var nameTextfield = new qx.ui.form.TextField();
       groupBox.add(nameTextfield, {row: 0, column: 1});
-      
+
       // gender
       var genderLabel = new qx.ui.basic.Label("Gender:");
       groupBox.add(genderLabel, {row: 1, column: 0});
-      
+
       var genderSelectBox = new qx.ui.form.SelectBox();
       var dummyItem = new qx.ui.form.ListItem("-please select-");
       genderSelectBox.add(dummyItem);
@@ -60,37 +60,37 @@ qx.Class.define("demobrowser.demo.data.Form",
       var femaleItem = new qx.ui.form.ListItem("female");
       genderSelectBox.add(femaleItem);
       groupBox.add(genderSelectBox, {row: 1, column: 1});
-      
+
       // ok
       var okLabel = new qx.ui.basic.Label("Ok:");
       groupBox.add(okLabel, {row: 2, column: 0});
-      
+
       var okCheckBox = new qx.ui.form.CheckBox();
       groupBox.add(okCheckBox, {row: 2, column: 1});
-      
+
       // serialize button
       var sendButton = new qx.ui.form.Button("Send");
       groupBox.add(sendButton, {row: 3, column: 0});
       ////////////////////////////////////
-      
-      
+
+
       // binding /////////////////////////
-      
+
       // create a model
       var modelSkeleton = {name: null, gender: null, ok: 0, hidden: "x"};
       var model = qx.data.marshal.Json.createModel(modelSkeleton);
-      
+
       // create the controller
       var controller = new qx.data.controller.Object(model);
 
       // connect the name
       controller.addTarget(nameTextfield, "value", "name", true);
-      
+
       // connect the select box
       controller.addTarget(
         genderSelectBox, "selection", "gender", true //, genderModel2Selection, genderSelection2Model
-      );      
-      
+      );
+
       // connect the checkbox (boolean to int conversion)
       var okModel2CheckBox = {converter: function(data) {
         return data === 1;
@@ -105,15 +105,15 @@ qx.Class.define("demobrowser.demo.data.Form",
 
 
       // validation //////////////////////
-      
+
       // mark the fields as required
       nameTextfield.setRequired(true);
       okCheckBox.setRequired(true);
-      
+
       // create the manager
       var manager = new qx.ui.form.validation.Manager();
       manager.add(nameTextfield, qx.util.Validate.required);
-      manager.add(okCheckBox);     
+      manager.add(okCheckBox);
 
       // validate the select box
       manager.setValidator(function(formItems) {
@@ -121,16 +121,16 @@ qx.Class.define("demobrowser.demo.data.Form",
         genderSelectBox.setValid(validGender);
         return validGender;
       });
-      ////////////////////////////////////            
+      ////////////////////////////////////
 
 
 
       // serialization ///////////////////
-      
+
       // serializer for qooxdoo objects
       var qxSerializer = function(object) {
         if (object instanceof qx.ui.form.ListItem) {
-          return object.getLabel();          
+          return object.getLabel();
         }
       }
 
@@ -141,8 +141,8 @@ qx.Class.define("demobrowser.demo.data.Form",
         }
       }, this);
       ////////////////////////////////////
-      
-  
+
+
     }
   }
 });

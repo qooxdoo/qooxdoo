@@ -74,7 +74,7 @@ members :
    });
 
    var animMove;
-   
+
    myElement.addListenerOnce("appear", function(){
      animMove = new qx.fx.effect.core.Highlight(myElement.getContentElement().getDomElement());
      animMove.set({
