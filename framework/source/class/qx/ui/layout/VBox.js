@@ -27,37 +27,35 @@
  * *Features*
  *
  * * Minimum and maximum dimensions
- * * Priorized growing/shrinking (flex)
+ * * Prioritized growing/shrinking (flex)
  * * Margins (with vertical collapsing)
  * * Auto sizing (ignoring percent values)
- * * Percent heights (not size hint relevant)
- * * Alignment (Children property {@link qx.ui.core.LayoutItem#alignY} is ignored)
+ * * Percent heights (not relevant for size hint)
+ * * Alignment (child property {@link qx.ui.core.LayoutItem#alignY} is ignored)
  * * Vertical spacing (collapsed with margins)
- * * Reversed children layout (starting from last to first)
+ * * Reversed children layout (from last to first)
  * * Horizontal children stretching (respecting size hints)
  *
  * *Item Properties*
  *
  * <ul>
- * <li><strong>flex</strong> <em>(Integer)</em>: Indicates the flexibility
- *   of the item, which indicates
- *   how an item's container distributes remaining empty space among
- *   its children. Flexible elements grow and shrink to fit their given
- *   space. Elements with larger flex values will be made larger than
- *   elements with lower flex values, at the ratio determined by the
- *   two elements. The actual value is not relevant unless there are
- *   other flexible elements within the same container. Once the
- *   default sizes of elements in a box are calculated, the remaining
- *   space in the box is divided among the flexible elements, according
- *   to their flex ratios. Specifying a flex value of 0 has the same
- *   effect as leaving the flex attribute out entirely.
+ * <li><strong>flex</strong> <em>(Integer)</em>: The flexibility of a layout item determines how the container
+ *   distributes remaining empty space among its children. If items are made 
+ *   flexible, they can grow or shrink accordingly. Their relative flex values
+ *   determine how the items are being resized, i.e. the larger the flex ratio 
+ *   of two items, the larger the resizing of the first item compared to the
+ *   second.
+ *   
+ *   If there is only one flex item in a layout container, its actual flex 
+ *   value is not relevant. To disallow items to become flexible, set the
+ *   flex value to zero.
  * </li>
- * <li><strong>height</strong> <em>(String)</em>: Defines a percent
- *   height for the item. The percent height,
- *   when specified, is used instead of the height defined by the size hint.
- *   The minimum and maximum height still takes care of the elements limitations.
- *   It has no influence on the layout's size hint. Percents are mainly useful for
- *   widgets which are sized by the outer hierarchy.
+ * <li><strong>height</strong> <em>(String)</em>: Allows to define a percent
+ *   height for the item. The height in percent, if specified, is used instead 
+ *   of the height defined by the size hint. The minimum and maximum height still 
+ *   takes care of the element's limits. It has no influence on the layout's 
+ *   size hint. Percent values are mostly useful for widgets which are sized by 
+ *   the outer hierarchy.
  * </li>
  * </ul>
  *
@@ -78,14 +76,9 @@
  *
  * *External Documentation*
  *
- * <a href='http://qooxdoo.org/documentation/0.8/layout/Box'>
- * Extended documentation</a> and links to demos of this layout in the qooxdoo wiki.
- *
- * *Copyright Notes*
- *
- * Description of flex property by "Mozilla":http://developer.mozilla.org/en/docs/XUL:Attribute:flex
- * licensed under the
- * "CC Attribution-Sharealike License":http://creativecommons.org/licenses/by-sa/2.5/.
+ * See <a href='http://qooxdoo.org/documentation/0.8/layout/Box'>extended documentation</a> 
+ * and links to demos for this layout.
+ * 
  */
 qx.Class.define("qx.ui.layout.VBox",
 {
