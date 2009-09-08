@@ -196,8 +196,8 @@ qx.Class.define("testrunner.runner.ProgressBar",
           (quot.length != 2) ||
           (isNaN(quot[0] = parseInt(quot[0]))) ||
           (isNaN(quot[1] = parseInt(quot[1]))) ||
-          (quot[0] <= 0) || 
-          (quot[1] <= 0) || 
+          (quot[0] <= 0) ||
+          (quot[1] <= 0) ||
           (quot[0] > quot[1])
         ) {
           throw new Error(paramError);
