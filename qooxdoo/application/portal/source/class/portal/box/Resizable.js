@@ -26,10 +26,10 @@ qx.Class.define("portal.box.Resizable",
 {
   extend : qx.core.Object,
 
-  
+
   /**
    * Constructor method
-   * 
+   *
    * @param box {portal.box.Box} box instance to decorate
    * @param options {Map} Map to pass optional settings
    */
@@ -46,8 +46,8 @@ qx.Class.define("portal.box.Resizable",
 
     this.__capturingPhase = false;
     this.__capturedElement = null;
-    
-    this.__mouseMoveData = { 
+
+    this.__mouseMoveData = {
         orientation : null,
         lastCoord   : { left : null, top  : null }
     };
@@ -72,8 +72,8 @@ qx.Class.define("portal.box.Resizable",
 
     this.__prepare();
   },
-  
-  
+
+
   /* ******************************************************
    *    MEMBERS
    * ******************************************************/
@@ -84,14 +84,14 @@ qx.Class.define("portal.box.Resizable",
 
     /** Hash to store the data of the mouse move events */
     __mouseMoveData : null,
-    
+
     __box : null,
     __element : null,
     __handles : null,
     __options : null,
     __capturingPhase : false,
     __capturedElement : null,
-    
+
 
     /**
      * Return the box
@@ -106,7 +106,7 @@ qx.Class.define("portal.box.Resizable",
     /**
      * Decorate the box element with resizing handles
      *
-     * @return {void} 
+     * @return {void}
      */
     __prepare : function()
     {
@@ -156,7 +156,7 @@ qx.Class.define("portal.box.Resizable",
      * Helper to style the resizing handles
      *
      * @param orientation {String} Orientation of the handle
-     * @return {void} 
+     * @return {void}
      */
     __styleHandle : function(orientation)
     {
@@ -174,7 +174,7 @@ qx.Class.define("portal.box.Resizable",
      * Add the event listener to the handle (specified by "orientation")
      *
      * @param orientation {String} orientation of the handle
-     * @return {void} 
+     * @return {void}
      */
     __addListener : function(orientation)
     {
@@ -195,7 +195,7 @@ qx.Class.define("portal.box.Resizable",
      * Listener method for "mouseDown" events
      *
      * @param e {qx.event.type.Mouse} mouse event object
-     * @return {void} 
+     * @return {void}
      */
     __mouseOverListener : function(e)
     {
@@ -209,7 +209,7 @@ qx.Class.define("portal.box.Resizable",
      * Listener method for "mouseOut" events
      *
      * @param e {qx.event.type.Mouse} mouse event object
-     * @return {void} 
+     * @return {void}
      */
     __mouseOutListener : function(e)
     {
@@ -226,7 +226,7 @@ qx.Class.define("portal.box.Resizable",
      * Listener method for "mouseDown" events
      *
      * @param e {qx.event.type.Mouse} mouse event object
-     * @return {void} 
+     * @return {void}
      */
     __mouseDownListener : function(e)
     {
@@ -255,7 +255,7 @@ qx.Class.define("portal.box.Resizable",
      * Listener method for "mouseUp" events
      *
      * @param e {qx.event.type.Mouse} mouse event object
-     * @return {void} 
+     * @return {void}
      */
     __mouseUpListener : function(e)
     {
@@ -291,7 +291,7 @@ qx.Class.define("portal.box.Resizable",
      * Listener method for "mouseMove" event
      *
      * @param e {qx.event.type.Mouse} mouse event object
-     * @return {void} 
+     * @return {void}
      */
     __mouseMoveListener : function(e)
     {
@@ -320,7 +320,7 @@ qx.Class.define("portal.box.Resizable",
         // resize the box
         this.__resize(mouseCoord, this.__mouseMoveData.lastCoord);
 
-        // after resizing update the coordinates 
+        // after resizing update the coordinates
         this.__mouseMoveData.lastCoord.left = e.getDocumentLeft();
         this.__mouseMoveData.lastCoord.top = e.getDocumentTop();
       }
@@ -336,7 +336,7 @@ qx.Class.define("portal.box.Resizable",
      *
      * @param mouseCoord {Map} Map with the left and top coords of the mouse move event
      * @param lastMouseCoord {Map} Map with the left and top coords of the last position of the container
-     * @return {void} 
+     * @return {void}
      */
     __resize : function(mouseCoord, lastMouseCoord)
     {
@@ -354,8 +354,8 @@ qx.Class.define("portal.box.Resizable",
         {
           var elementWidth = this.__element.clientWidth;
 
-          var newWidth = (elementWidth + mouseDiff) - 
-                         (this.__elementProperties['paddingLeft'] + this.__elementProperties['paddingRight']); 
+          var newWidth = (elementWidth + mouseDiff) -
+                         (this.__elementProperties['paddingLeft'] + this.__elementProperties['paddingRight']);
 
           if ((this.__options.minWidth == null || newWidth > this.__options.minWidth) && (this.__options.maxWidth == null || newWidth <= this.__options.maxWidth))
           {
@@ -386,30 +386,30 @@ qx.Class.define("portal.box.Resizable",
         if (mouseDiff !== 0)
         {
           var elementHeight = this.__element.clientHeight;
-        
-          var newHeight = (elementHeight + mouseDiff) - 
+
+          var newHeight = (elementHeight + mouseDiff) -
                           (this.__elementProperties['paddingTop'] + this.__elementProperties['paddingBottom']);
-          
+
           if ((this.__options.minHeight == null || newHeight > this.__options.minHeight) && (this.__options.maxHeight == null || newHeight <= this.__options.maxHeight)) {
             qx.bom.element.Style.set(this.__element, "height", newHeight + "px");
           }
         }
       }
-    }   
+    }
   },
-  
-  
+
+
   /* ******************************************************
    *    DESTRUCT
    * ******************************************************/
-  destruct : function() 
+  destruct : function()
   {
     if (this.__options.autoHide)
     {
       qx.event.Registration.removeListener(this.__box.getElement(), "mouseover", this.__mouseOverListener, this);
       qx.event.Registration.removeListener(this.__box.getElement(), "mouseout", this.__mouseOutListener, this);
     }
-    
+
     this._disposeFields("__box", "__options", "__element", "__handles", "__capturedElement", "___elementProperties");
   }
 });

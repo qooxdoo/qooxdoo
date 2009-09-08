@@ -34,7 +34,7 @@ qx.Class.define("portal.box.Util",
      * Brings the given element to the front.
      *
      * @param element {Element} Element to manipulate
-     * @return {void} 
+     * @return {void}
      */
     bringToFront : function(element)
     {
@@ -49,12 +49,12 @@ qx.Class.define("portal.box.Util",
      * Sends the given element to the back.
      *
      * @param element {Element} Element to manipulate.
-     * @return {void} 
+     * @return {void}
      */
     sendToBack : function(element)
     {
       var zIndex = this.getStyleProperty(element, "zIndex");
-      
+
       qx.bom.element.Style.set(element, "zIndex", zIndex - portal.box.Util.__zIndexOffset);
     },
 
@@ -69,7 +69,7 @@ qx.Class.define("portal.box.Util",
      */
     getStyleProperty : function(element, property, asInteger) {
       var styleProperty = qx.bom.element.Style.get(element, property);
-      
+
       return asInteger ? parseInt(styleProperty) : styleProperty;
     },
 
@@ -92,6 +92,6 @@ qx.Class.define("portal.box.Util",
       }
 
       return { width : width, height : height };
-    }    
+    }
   }
 });
