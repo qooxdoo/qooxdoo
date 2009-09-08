@@ -25,11 +25,10 @@
      http://groups.google.com/group/sizzlejs
      http://github.com/jeresig/sizzle/tree
 
-     Snapshot from April 1, 2009
- 			 commit  b6c492a33e9687e7793384bdb67f05bf3d57309d
-			 tree    4b89dde27810e343fb7943c68806737b3239af68
-			 parent  67551ef3a99ea683ec10f8f543c2fa6be9346c34   
-
+     Snapshot from July 23, 2009
+       commit  ee45e59cdbdae1b60971a620ce5d15487ac1f9bf
+       tree    5ba840431c2909e0e7b84737212a126468e853ae
+       parent  3a163323c6391eb9c36dedfd39eac6026894ec09
      Copyright:
        (c) 2009, The Dojo Foundation
 
@@ -40,35 +39,35 @@
 
      Copyright (c) 2009 John Resig
 
-     Permission is hereby granted, free of charge, to any person 
-     obtaining a copy of this software and associated documentation files 
-     (the "Software"), to deal in the Software without restriction, 
-     including without limitation the rights to use, copy, modify, merge, 
-     publish, distribute, sublicense, and/or sell copies of the Software, 
-     and to permit persons to whom the Software is furnished to do so, 
+     Permission is hereby granted, free of charge, to any person
+     obtaining a copy of this software and associated documentation files
+     (the "Software"), to deal in the Software without restriction,
+     including without limitation the rights to use, copy, modify, merge,
+     publish, distribute, sublicense, and/or sell copies of the Software,
+     and to permit persons to whom the Software is furnished to do so,
      subject to the following conditions:
 
-     The above copyright notice and this permission notice shall be 
+     The above copyright notice and this permission notice shall be
      included in all copies or substantial portions of the Software.
 
-     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
-     EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
-     MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND 
-     NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT 
-     HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
-     WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
-     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+     EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+     MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+     NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+     HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+     WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
      DEALINGS IN THE SOFTWARE.
 
 ************************************************************************ */
 
 /**
- * The selector engine supports virtually all CSS 3 Selectors – this 
- * even includes some parts that are infrequently implemented such as 
- * escaped selectors (<code>.foo\\+bar</code>), Unicode selectors, and results 
- * returned in document order. There are a few notable exceptions to 
+ * The selector engine supports virtually all CSS 3 Selectors – this
+ * even includes some parts that are infrequently implemented such as
+ * escaped selectors (<code>.foo\\+bar</code>), Unicode selectors, and results
+ * returned in document order. There are a few notable exceptions to
  * the CSS 3 selector support:
- * 
+ *
  * * <code>:root</code>
  * * <code>:target</code>
  * * <code>:nth-last-child</code>
@@ -78,50 +77,50 @@
  * * <code>:last-of-type</code>
  * * <code>:only-of-type</code>
  * * <code>:lang()</code>
- * 
- * In addition to the CSS 3 Selectors the engine supports the following 
+ *
+ * In addition to the CSS 3 Selectors the engine supports the following
  * additional selectors or conventions.
- * 
+ *
  * *Changes*
- * 
+ *
  * * <code>:not(a.b)</code>: Supports non-simple selectors in :not() (most browsers only support :not(a), for example).
  * * <code>:not(div > p)</code>: Supports full selectors in :not().
  * * <code>:not(div, p)</code>: Supports multiple selectors in :not().
  * * <code>[NAME=VALUE]</code>: Doesn’t require quotes around the specified value in an attribute selector.
- * 
+ *
  * *Additions*
- * 
+ *
  * * <code>[NAME!=VALUE]</code>: Finds all elements whose NAME attribute doesn’t match the specified value. Is equivalent to doing :not([NAME=VALUE]).
  * * <code>:contains(TEXT)</code>: Finds all elements whose textual context contains the word ‘TEXT’ (case sensitive).
  * * <code>:header</code>: Finds all elements that are a header element (h1, h2, h3, h4, h5, h6).
  * * <code>:parent</code>: Finds all elements that contains another element.
- * 
+ *
  * *Positional Selector Additions*
- * 
+ *
  * * <code>:first</code>/</code>:last</code>: Finds the first or last matching element on the page. (e.g. “div:first” would find the first div on the page, in document order)
  * * <code>:even</code>/<code>:odd</code>: Finds every other element on the page (counting begins at 0, so :even would match the first element).
  * * <code>:eq</code>/<code>:nth</code>: Finds the Nth element on the page (e.g. :eq(5) finds the 6th element on the page).
  * * <code>:lt</code>/<code>:gt</code>: Finds all elements at positions less than or greater than the specified positions.
- * 
+ *
  * *Form Selector Additions*
- * 
+ *
  * * <code>:input</code>: Finds all input elements (includes textareas, selects, and buttons).
  * * <code>:text</code>, <code>:checkbox</code>, <code>:file</code>, <code>:password</code>, <code>:submit</code>, <code>:image</code>, <code>:reset</code>, <code>:button</code>: Finds the input element with the specified input type (<code>:button</code> also finds button elements).
  *
  * Based on Sizzle by John Resig, see also:
- * 
+ *
  * * http://sizzlejs.com/
- * 
+ *
  * For further usage details, also have a look at the Wiki page under:
- * 
+ *
  * * http://wiki.github.com/jeresig/sizzle
  */
-qx.Bootstrap.define("qx.bom.Selector", 
+qx.Bootstrap.define("qx.bom.Selector",
 {
   statics :
   {
     /**
-     * Queries the document for the given selector. Supports all CSS3 selectors 
+     * Queries the document for the given selector. Supports all CSS3 selectors
      * plus some extensions as mentioned in the class description.
      *
      * @signature function(selector, context)
@@ -130,8 +129,8 @@ qx.Bootstrap.define("qx.bom.Selector",
      * @return {Array} Matching elements
      */
     query : null,
-    
-    /** 
+
+    /**
      * Returns an reduced array which only contains the elements from the given
      * array which matches the given selector
      *
@@ -146,7 +145,7 @@ qx.Bootstrap.define("qx.bom.Selector",
 
 
 /**
- * Below is the original Sizzle code. Snapshot date is mentioned in the head of 
+ * Below is the original Sizzle code. Snapshot date is mentioned in the head of
  * this file.
  */
 (function(){
@@ -477,7 +476,7 @@ var Expr = Sizzle.selectors = {
     "": function(checkSet, part, isXML){
       var doneName = done++, checkFn = dirCheck;
 
-      if ( !part.match(/\W/) ) {
+      if ( !/\W/.test(part) ) {
         var nodeCheck = part = isXML ? part : part.toUpperCase();
         checkFn = dirNodeCheck;
       }
@@ -487,7 +486,7 @@ var Expr = Sizzle.selectors = {
     "~": function(checkSet, part, isXML){
       var doneName = done++, checkFn = dirCheck;
 
-      if ( typeof part === "string" && !part.match(/\W/) ) {
+      if ( typeof part === "string" && !/\W/.test(part) ) {
         var nodeCheck = part = isXML ? part : part.toUpperCase();
         checkFn = dirNodeCheck;
       }
@@ -580,7 +579,7 @@ var Expr = Sizzle.selectors = {
     PSEUDO: function(match, curLoop, inplace, result, not){
       if ( match[1] === "not" ) {
         // If we're dealing with a complex expression, or a simple one
-        if ( match[3].match(chunker).length > 1 || /^\w/.test(match[3]) ) {
+        if ( chunker.exec(match[3]).length > 1 || /^\w/.test(match[3]) ) {
           match[3] = Sizzle(match[3], null, null, curLoop);
         } else {
           var ret = Sizzle.filter(match[3], curLoop, inplace, true ^ not);
@@ -696,7 +695,7 @@ var Expr = Sizzle.selectors = {
       } else if ( name === "not" ) {
         var not = match[3];
 
-        for ( var i = 0, l = not.length; i < l; i++ ) {
+        for ( i = 0, l = not.length; i < l; i++ ) {
           if ( not[i] === elem ) {
             return false;
           }
@@ -710,13 +709,13 @@ var Expr = Sizzle.selectors = {
       switch (type) {
         case 'only':
         case 'first':
-          while (node = node.previousSibling)  {
+          while ( (node = node.previousSibling) )  {
             if ( node.nodeType === 1 ) return false;
           }
           if ( type == 'first') return true;
           node = elem;
         case 'last':
-          while (node = node.nextSibling)  {
+          while ( (node = node.nextSibling) )  {
             if ( node.nodeType === 1 ) return false;
           }
           return true;
@@ -736,7 +735,7 @@ var Expr = Sizzle.selectors = {
               if ( node.nodeType === 1 ) {
                 node.nodeIndex = ++count;
               }
-            } 
+            }
             parent.sizcache = doneName;
           }
 
@@ -806,7 +805,7 @@ for ( var type in Expr.match ) {
 }
 
 var makeArray = function(array, results) {
-  array = Array.prototype.slice.call( array );
+  array = Array.prototype.slice.call( array, 0 );
 
   if ( results ) {
     results.push.apply( results, array );
@@ -819,7 +818,7 @@ var makeArray = function(array, results) {
 // Perform a simple check to determine if the browser is capable of
 // converting a NodeList to an array using builtin methods.
 try {
-  Array.prototype.slice.call( document.documentElement.childNodes );
+  Array.prototype.slice.call( document.documentElement.childNodes, 0 );
 
 // Provide a fallback method if it does not work
 } catch(e){
@@ -906,6 +905,7 @@ if ( document.documentElement.compareDocumentPosition ) {
   }
 
   root.removeChild( form );
+  root = form = null; // release memory in IE
 })();
 
 (function(){
@@ -946,6 +946,8 @@ if ( document.documentElement.compareDocumentPosition ) {
       return elem.getAttribute("href", 2);
     };
   }
+
+  div = null; // release memory in IE
 })();
 
 if ( document.querySelectorAll ) (function(){
@@ -975,6 +977,8 @@ if ( document.querySelectorAll ) (function(){
   for ( var prop in oldSizzle ) {
     Sizzle[ prop ] = oldSizzle[ prop ];
   }
+
+  div = null; // release memory in IE
 })();
 
 if ( document.getElementsByClassName && document.documentElement.getElementsByClassName ) (function(){
@@ -997,6 +1001,8 @@ if ( document.getElementsByClassName && document.documentElement.getElementsByCl
       return context.getElementsByClassName(match[1]);
     }
   };
+
+  div = null; // release memory in IE
 })();
 
 function dirNodeCheck( dir, cur, doneName, checkSet, nodeCheck, isXML ) {
@@ -1117,8 +1123,8 @@ var posProcess = function(selector, context){
 
 var Selector = qx.bom.Selector;
 
-Selector.query = function(selector, context) { 
-  return Sizzle(selector, context); 
+Selector.query = function(selector, context) {
+  return Sizzle(selector, context);
 };
 
 Selector.matches = function(selector, set) {
