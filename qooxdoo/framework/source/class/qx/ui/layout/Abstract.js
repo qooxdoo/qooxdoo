@@ -212,6 +212,15 @@ qx.Class.define("qx.ui.layout.Abstract",
       this.invalidateChildrenCache();
     },
 
+    /**
+     * Return the widget that is this layout is responsible for.
+     *
+     * @return {qx.ui.core.Widget} The widget connected to this layout.
+     */
+    _getWidget : function()
+    {
+      return this.__widget;
+    },
 
     /**
      * Indicate that the layout has layout changed and propagate this information
