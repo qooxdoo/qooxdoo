@@ -16,7 +16,7 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("feedreader.model.FeedFolder", 
+qx.Class.define("feedreader.model.FeedFolder",
 {
   extend : qx.core.Object,
 
@@ -24,12 +24,12 @@ qx.Class.define("feedreader.model.FeedFolder",
   construct : function(title)
   {
     this.base(arguments);
-    
+
     this.setTitle(title);
     this.setFeeds(new qx.data.Array());
   },
 
-  properties : 
+  properties :
   {
     /** Title / Name of the item */
     title :
@@ -38,8 +38,8 @@ qx.Class.define("feedreader.model.FeedFolder",
       event : "changeTitle",
       init: "Folder"
     },
-    
-    
+
+
     /** The feed category */
     category :
     {
@@ -47,25 +47,25 @@ qx.Class.define("feedreader.model.FeedFolder",
       init : "",
       event : "dataModified"
     },
-        
-    
+
+
     /** Array of feeds. This could contain another feed folder or a feed. */
-    feeds : 
+    feeds :
     {
       check : "qx.data.Array",
       event: "changeFeeds"
     },
-    
-    
+
+
     /** Array of articles. This is needed for the data binding. */
-    articles : 
+    articles :
     {
       check : "qx.data.Array",
       event : "changeArticles",
       init: new qx.data.Array()
     },
-        
-        
+
+
     /** The loading state of the folder. Needed for data binding. */
     state :
     {
@@ -73,6 +73,6 @@ qx.Class.define("feedreader.model.FeedFolder",
       init : "null",
       event : "stateModified",
       apply: "_applyState"
-    }    
+    }
   }
 });

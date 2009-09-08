@@ -50,10 +50,10 @@ qx.Class.define("feedreader.io.FeedLoader",
         this.load(staticFeeds.getItem(i));
       }
       // user feeds
-      var userFeeds = feedFolder.getFeeds().getItem(1).getFeeds();      
+      var userFeeds = feedFolder.getFeeds().getItem(1).getFeeds();
       for (i = 0; i < userFeeds.length; i++) {
         this.load(userFeeds.getItem(i));
-      }   
+      }
     },
 
 

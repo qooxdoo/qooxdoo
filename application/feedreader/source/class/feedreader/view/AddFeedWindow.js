@@ -124,7 +124,7 @@ qx.Class.define("feedreader.view.AddFeedWindow",
      * Handles button clicks on 'Add' button
      *
      * @param e {qx.event.type.Event} Execute event
-     * 
+     *
      * @lint ignoreDeprecated(alert)
      */
     _addFeed : function(e)
