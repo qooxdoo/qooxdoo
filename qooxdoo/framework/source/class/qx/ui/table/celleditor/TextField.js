@@ -87,7 +87,7 @@ qx.Class.define("qx.ui.table.celleditor.TextField",
       cellEditor.setValue("" + cellInfo.value);
 
       cellEditor.addListener("appear", function() {
-        cellEditor.selectAll();
+        cellEditor.selectAllText();
       });
 
       return cellEditor;

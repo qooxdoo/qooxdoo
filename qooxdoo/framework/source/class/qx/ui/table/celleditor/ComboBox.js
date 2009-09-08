@@ -122,7 +122,7 @@ qx.Class.define("qx.ui.table.celleditor.ComboBox",
       cellEditor.setValue("" + value);
 
       cellEditor.addListener("appear", function() {
-        cellEditor.selectAll();
+        cellEditor.selectAllText();
       });
 
       return cellEditor;
