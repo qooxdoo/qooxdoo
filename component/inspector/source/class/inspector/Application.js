@@ -30,14 +30,14 @@ qx.Class.define("inspector.Application",
 {
   extend : qx.application.Standalone,
 
-  construct : function() 
+  construct : function()
   {
     this.base(arguments);
-    
-    qx.bom.Stylesheet.includeFile("inspector/css/domview.css");        
+
+    qx.bom.Stylesheet.includeFile("inspector/css/domview.css");
     qx.bom.Stylesheet.includeFile("inspector/css/consoleview.css");
     qx.bom.Stylesheet.includeFile("inspector/css/sourceview.css");
-    qx.bom.Stylesheet.includeFile("inspector/css/propertylisthtml.css");    
+    qx.bom.Stylesheet.includeFile("inspector/css/propertylisthtml.css");
   },
 
   /*
@@ -49,7 +49,7 @@ qx.Class.define("inspector.Application",
   members :
   {
     __checkCount : null,
-   
+
     /*
      * Toolbar
      */
@@ -70,7 +70,7 @@ qx.Class.define("inspector.Application",
     _widgetsWindow : null,
     _consoleWindow : null,
     _propertyWindow : null,
-    
+
     /*
      * Inspector
      */
@@ -79,11 +79,11 @@ qx.Class.define("inspector.Application",
     _loading : null,
     _selector : null,
     _loadedWindow : null,
-    
+
     /**
-     * This method contains the initial application code and gets called 
+     * This method contains the initial application code and gets called
      * during startup of the application
-     * 
+     *
      * @lint ignoreUndefined(qxinspector)
      */
     main : function()
@@ -99,21 +99,21 @@ qx.Class.define("inspector.Application",
         // support additional cross-browser console. Press F7 to toggle visibility
         qx.log.appender.Console;
       }
-      
+
       this._container = new qx.ui.container.Composite(new qx.ui.layout.VBox());
       this.getRoot().add(this._container, {edge : 0});
-      
+
       this.__createToolbar();
-            
+
       // create the iFrame
       this._iFrame = new qx.ui.embed.Iframe("..");
       this._iFrame.setDecorator(null);
       this._container.add(this._iFrame, {flex : 1});
-      
+
       this._iFrame.addListener("load", this.__onLoad, this);
-      
-      this._loading = true;      
-      
+
+      this._loading = true;
+
       // get the url out of a cookie
       var cookieUrl = qx.bom.Cookie.get("url");
       if (cookieUrl == undefined || cookieUrl == "")
@@ -121,84 +121,84 @@ qx.Class.define("inspector.Application",
         //cookieUrl = "Please enter an url here!";
         cookieUrl = "..";
       }
-      
-      if (window.qxinspector != undefined && qxinspector.local) 
+
+      if (window.qxinspector != undefined && qxinspector.local)
       {
         this._urlTextField.setVisibility("hidden");
-        this._urlTextField.setValue("index.html");  
+        this._urlTextField.setValue("index.html");
       }
       else
       {
-        this._urlTextField.setValue(cookieUrl);     
+        this._urlTextField.setValue(cookieUrl);
       }
     },
-    
+
     __onLoad : function() {
       this.__checkCount = 0;
       this.__initInspector();
-      
-      if (window.qxinspector == undefined) 
+
+      if (window.qxinspector == undefined)
       {
         try {
           this._urlTextField.setValue(this._iFrame.getWindow().location.pathname);
         } catch (ex) {}
       }
-      
+
       // save the url in a cookie
       qx.bom.Cookie.set("url", this._iFrame.getSource(), 7);
     },
-    
-    __initInspector : function() 
+
+    __initInspector : function()
     {
       this._toolbar.setEnabled(true);
       this._loadedWindow = this._iFrame.getContentElement().getWindow();
-        
+
       // check if the app is loaded correctly
       if (!this.__checkWorking()) {
         return;
       }
-        
+
       // check for the selector
       if (!this._selector) {
         this._selector = new inspector.components.Selector(this._loadedWindow);
       } else {
-        this._selector.setJSWindow(this._loadedWindow);        
+        this._selector.setJSWindow(this._loadedWindow);
       }
-        
+
       // select the root app
       this._selector.addListener("changeSelection", this._changeSelection, this);
       this._selector.setSelection(this._loadedWindow.qx.core.Init.getApplication());
-    
+
       this._loading = false;
-        
+
       this.__checkForReload();
-        
+
       // select the root of the new app
       this.select(this._loadedWindow.qx.core.Init.getApplication().getRoot());
-        
+
       // check for the cookies
-      this.__checkCookies();        
+      this.__checkCookies();
     },
-    
+
     /*
     -------------------------------------------------------------------------
       Initialize helper
     -------------------------------------------------------------------------
-    */   
-    
+    */
+
     __checkForReload: function() {
       // check if the objects window is open
       if (this._objectsWindow != null && this._objectsWindow.isVisible()) {
         this._objectsWindow.load(this._loadedWindow);
       }
-      
+
       // check if the widgets window is open
       if (this._widgetsWindow != null && this._widgetsWindow.isVisible()) {
         this._widgetsWindow.load(this._loadedWindow);
       }
     },
-    
-    
+
+
     __checkCookieFor: function(winRef, button, name) {
       // if the open cookie is set
       var cookie = qx.bom.Cookie.get(name + "Open");
@@ -210,7 +210,7 @@ qx.Class.define("inspector.Application",
         var left = parseInt(qx.bom.Cookie.get(name + "Left"));
         if (!isNaN(top) && !isNaN(left)) {
           this[winRef].moveTo(left, top);
-        }      
+        }
         // check the size
         var width = parseInt(qx.bom.Cookie.get(name + "Width"));
         var height =   parseInt(qx.bom.Cookie.get(name + "Height"));
@@ -220,10 +220,10 @@ qx.Class.define("inspector.Application",
         if (!isNaN(width)) {
           this[winRef].setWidth(width);
         }
-      }      
+      }
     },
-    
-    
+
+
     __checkCookies: function() {
       // check the objects window
       this.__checkCookieFor("_objectsWindow", this._objectsButton, "objects");
@@ -232,15 +232,15 @@ qx.Class.define("inspector.Application",
       // check the console window
       this.__checkCookieFor("_consoleWindow", this._consoleButton, "console");
       // check the property window
-      this.__checkCookieFor("_propertyWindow", this._propertyButton, "property");      
+      this.__checkCookieFor("_propertyWindow", this._propertyButton, "property");
     },
-    
-       
+
+
     __checkWorking: function() {
       // try to access the javascript objects in the iframe
       try {
         this.__checkCount++;
-        
+
         // also break if its undefined
         if (this.__checkCount > 20) {
           throw new Error("qooxdoo not found!");
@@ -248,7 +248,7 @@ qx.Class.define("inspector.Application",
         try {
           // try to get the root element of the application
           this._loadedWindow.qx.core.Init.getApplication().getRoot();
-        
+
           // reset the enabled properties of the toolbar stuf
           this._selectedWidgetLabel.resetEnabled();
           this._urlTextField.resetEnabled();
@@ -273,20 +273,20 @@ qx.Class.define("inspector.Application",
         return false;
       }
     },
-    
-    
+
+
     /*
     -------------------------------------------------------------------------
       Create helper
     -------------------------------------------------------------------------
-    */    
+    */
     __createToolbar: function() {
       // create the toolbar itself
       this._toolbar = new qx.ui.toolbar.ToolBar();
       this._toolbar.setDecorator("myToolbar");
-      this._toolbar._getLayout().setAlignY("middle");      
+      this._toolbar._getLayout().setAlignY("middle");
       this._container.add(this._toolbar);
-      
+
       // create the headline label
       var inspectorLabel = new qx.ui.basic.Label("qooxdoo Inspector");
       inspectorLabel.setPaddingLeft(10);
@@ -297,46 +297,46 @@ qx.Class.define("inspector.Application",
       inspectorLabel.setFont(font);
       this._toolbar.add(inspectorLabel);
       this._toolbar.setEnabled(false);
-      
+
       // add a separator
       this._toolbar.add(new qx.ui.toolbar.Separator());
-        
+
       // Objects window
       this.__createWindow(
-        "_objectsButton", "Objects", "_objectsWindow", 
-        inspector.objects.ObjectsWindow, "objects", 
+        "_objectsButton", "Objects", "_objectsWindow",
+        inspector.objects.ObjectsWindow, "objects",
         function() {
           if (this._loadedWindow != null) {
             this._objectsWindow.load(this._loadedWindow);
-          }          
+          }
         }
       );
       // Widgets window
       this.__createWindow(
-        "_widgetsButton", "Widgets", "_widgetsWindow", 
-        inspector.widgets.WidgetsWindow, "widgets", 
+        "_widgetsButton", "Widgets", "_widgetsWindow",
+        inspector.widgets.WidgetsWindow, "widgets",
         function() {
-          this._widgetsWindow.load();       
+          this._widgetsWindow.load();
         }
-      ); 
-      
+      );
+
       // Property Window
       this.__createWindow(
-        "_propertyButton", "Properties", "_propertyWindow", 
-        inspector.property.PropertyWindow, "property", 
+        "_propertyButton", "Properties", "_propertyWindow",
+        inspector.property.PropertyWindow, "property",
         function() {
           this._propertyWindow.select(this._selector.getSelection());
         }
       );
-      
+
       // Console window
       this.__createWindow(
-        "_consoleButton", "Console", "_consoleWindow", 
-        inspector.console.ConsoleWindow, "console", 
+        "_consoleButton", "Console", "_consoleWindow",
+        inspector.console.ConsoleWindow, "console",
         function() {
         }
-      );      
-      
+      );
+
       // add the third separator
       this._toolbar.add(new qx.ui.toolbar.Separator());
 
@@ -349,15 +349,15 @@ qx.Class.define("inspector.Application",
         } else {
           this._selector.end();
         }
-      }, this);      
-      
+      }, this);
+
       // add the second separator
 //      this._toolbar.add(new qx.ui.toolbar.Separator());
 
       // Lable showing the selected widget
       this._selectedWidgetLabel = new qx.ui.basic.Label();
       this._selectedWidgetLabel.setRich(true);
-      this._toolbar.add(this._selectedWidgetLabel);            
+      this._toolbar.add(this._selectedWidgetLabel);
 
       // add a spacer to seperate the url
       this._toolbar.addSpacer();
@@ -367,26 +367,26 @@ qx.Class.define("inspector.Application",
       this._urlTextField.setMarginRight(5);
       this._urlTextField.setWidth(300);
       this._toolbar.add(this._urlTextField);
-      this._urlTextField.addListener("changeValue", this._reloadIframe, this);  
-      
+      this._urlTextField.addListener("changeValue", this._reloadIframe, this);
+
       // reload button
       this._reloadButton = new qx.ui.toolbar.Button(null, "icon/16/actions/view-refresh.png");
       this._toolbar.add(this._reloadButton);
       this._reloadButton.addListener("execute", this._reloadIframe, this);
     },
-    
-    
+
+
     _reloadIframe: function() {
       this._toolbar.setEnabled(false);
       this._loading = true;
       if (this._iFrame.getSource() != this._urlTextField.getValue()) {
-        this._iFrame.setSource(this._urlTextField.getValue());      
+        this._iFrame.setSource(this._urlTextField.getValue());
       } else {
         this._iFrame.reload();
       }
     },
-    
-    
+
+
     __createWindow: function(buttonRef, buttonName, winRef, winClass, name, loadFunc) {
       this[buttonRef] = new qx.ui.toolbar.CheckBox(buttonName);
       this._toolbar.add(this[buttonRef]);
@@ -396,11 +396,11 @@ qx.Class.define("inspector.Application",
           // create and add an instance
           this[winRef] = new winClass();
           this.getRoot().add(this[winRef]);
-          
+
           this[winRef].setInitSizeAndPosition();
-          
+
           // add the listeners to the window
-          this.__addWindowListener(this[winRef], this[buttonRef], name);         
+          this.__addWindowListener(this[winRef], this[buttonRef], name);
         }
         // open the window
         e.getData() ? this[winRef].open() : this[winRef].close();
@@ -409,12 +409,12 @@ qx.Class.define("inspector.Application",
         loadFunc.call(this)
 
         wasOpen = true;
-        
+
         // store the open status in a cookie
         qx.bom.Cookie.set(name + "Open", e.getData(), 7);
-      }, this);      
+      }, this);
     },
-    
+
 
     __addWindowListener: function(win, button, name) {
       // add a close listener
@@ -424,32 +424,32 @@ qx.Class.define("inspector.Application",
       // add a move listener
       win.addListener("move", function(e) {
         qx.bom.Cookie.set(name + "Left", e.getData().left, 7);
-        qx.bom.Cookie.set(name + "Top", e.getData().top, 7);            
+        qx.bom.Cookie.set(name + "Top", e.getData().top, 7);
       }, this);
       // add a resize listener
       win.addListener("resize", function(e) {
         qx.bom.Cookie.set(name + "Width", e.getData().width, 7);
         qx.bom.Cookie.set(name + "Height", e.getData().height, 7);
-      }, this);      
+      }, this);
     },
-        
-    
+
+
     /*
     -------------------------------------------------------------------------
       Selection functions
     -------------------------------------------------------------------------
-    */    
+    */
     _changeSelection: function(e) {
       this._inspectButton.setValue(false);
       this.select(e.getData(), this._selector);
     },
-    
-    
+
+
     getSelectedObject : function() {
       return this._selector.getSelection();
     },
-    
-     
+
+
     setWidgetByHash : function(hash, initiator) {
       // check the initiator
       if (initiator == "console") {
@@ -460,73 +460,73 @@ qx.Class.define("inspector.Application",
       var object = this._loadedWindow.qx.core.ObjectRegistry.fromHashCode(hash);
       this.select(object, initiator);
     },
-    
+
 
     inspectObjectByDomSelecet: function(index, key) {
       if (this._consoleWindow != null) {
           this._consoleWindow.inspectObjectByDomSelecet(index, key);
       }
     },
-    
-    
+
+
     inspectObjectByInternalId: function(id) {
       // if the console exists
       if (this._consoleWindow != null) {
         // tell the consol to do the rest
         this._consoleWindow.inspectObjectByInternalId(id);
       }
-    },    
-    
-    
-    select: function(object, initiator) { 
+    },
+
+
+    select: function(object, initiator) {
       // if its currently loaiding, do nothing
       if (this._loading || !object) {
         return;
-      }     
+      }
       // show the selected widget in the inspector bar
       this._selectedWidgetLabel.setValue(" : <tt>" + object.toString() + "</tt>");
-      
+
       if (initiator != this._selector) {
         if (object !== this._selector.getSelection()) {
-          this._selector.setSelection(object);                  
+          this._selector.setSelection(object);
         }
       }
-      
+
       if (this._objectsWindow != null && initiator != this._objectsWindow) {
         if (object != this._objectsWindow.getSelection()) {
-          this._objectsWindow.select(object, true);          
+          this._objectsWindow.select(object, true);
         }
       }
-      
+
       if (this._widgetsWindow != null && initiator != this._widgetsWindow) {
         if (object != this._widgetsWindow.getSelection()) {
-          this._widgetsWindow.select(object, true);                  
+          this._widgetsWindow.select(object, true);
         }
-      }      
-      
+      }
+
       if (this._propertyWindow != null && initiator != this._propertyWindow) {
-        if (object != this._propertyWindow.getSelection() && 
+        if (object != this._propertyWindow.getSelection() &&
             this._propertyWindow.getMode() != "minimized") {
-          this._propertyWindow.select(object, true);                  
+          this._propertyWindow.select(object, true);
         }
-      } 
-      
+      }
+
       this._selector.highlightFor(object, 1000);
     },
-    
-   
+
+
     /*
     -------------------------------------------------------------------------
       Internal stuff
     -------------------------------------------------------------------------
-    */    
+    */
     getIframeWindowObject : function() {
       return this._loadedWindow;
     },
-    
-    
+
+
     getExcludes: function() {
       return this._selector.getAddedWidgets();
-    } 
+    }
   }
 });

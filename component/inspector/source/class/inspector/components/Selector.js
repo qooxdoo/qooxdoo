@@ -16,7 +16,7 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("inspector.components.Selector", 
+qx.Class.define("inspector.components.Selector",
 {
   extend : qx.core.Object,
 
@@ -26,66 +26,66 @@ qx.Class.define("inspector.components.Selector",
     this.base(arguments);
     this.setJSWindow(iFrameWindow);
   },
-  
-  
+
+
   properties : {
-    
+
     selection : {
       event: "changeSelection",
       nullable: true
     }
-    
+
   },
 
   members :
   {
-    
+
     setJSWindow : function(win) {
       this._iFrameWindow = win;
       this._addedWidgets = [];
-      this._root = this._iFrameWindow.qx.core.Init.getApplication().getRoot();        
+      this._root = this._iFrameWindow.qx.core.Init.getApplication().getRoot();
 
       this._createCatchClickLayer();
-      this._createHighlightStuff();        
-      
+      this._createHighlightStuff();
+
       this.setSelection(null);
     },
-    
-    
+
+
     getAddedWidgets: function() {
       return this._addedWidgets;
     },
-    
-    
+
+
     start: function() {
       this._catchClickLayer.show();
     },
-    
+
     end: function() {
       this._catchClickLayer.hide();
     },
-    
-    
+
+
     highlightFor: function(object, msec) {
       // if its an application object
       if (object.classname == "qx.ui.root.Application") {
         return;
       }
       this._highlight(object);
-      
+
       // check for an old time
       if (this._highlightTimerId != null) {
         window.clearTimeout(this._highlightTimerId);
       }
-      
+
       var self = this;
       self._highlightTimerId = window.setTimeout(function() {
         self._highlightOverlay.hide();
         self._highlightTimerId = null;
-      }, msec);      
+      }, msec);
     },
-    
-    
+
+
     _createCatchClickLayer: function() {
       // initialize the layer to catch the clicks
       this._catchClickLayer = new this._iFrameWindow.qx.ui.core.Widget();
@@ -108,7 +108,7 @@ qx.Class.define("inspector.components.Selector",
           this._root, xPosition, yPosition
         );
         // hide the highlight
-        this._highlightOverlay.hide();        
+        this._highlightOverlay.hide();
         // select the widget with the given id in the tree
         this.setSelection(clickedElement);
       }, this);
@@ -126,8 +126,8 @@ qx.Class.define("inspector.components.Selector",
         this._highlight(object);
       }, this);
     },
-    
-    
+
+
     _createHighlightStuff: function() {
       // create the border used to highlight the widgets
       this._highlightDecorator = new this._iFrameWindow.qx.ui.decoration.Single(2, "solid", "red");
@@ -140,9 +140,9 @@ qx.Class.define("inspector.components.Selector",
       this._highlightOverlay.setZIndex(1e6 - 2);
       this._highlightOverlay.hide();
       this._root.add(this._highlightOverlay);
-    },    
-    
-    
+    },
+
+
     _searchWidget: function(widget, x, y) {
       var returnWidget = widget;
       // visit all children
@@ -180,8 +180,8 @@ qx.Class.define("inspector.components.Selector",
       }
       return returnWidget;
     },
-    
-    
+
+
     _getCoordinates: function(element) {
       // return null if no element is given
       if (element == null) {
@@ -194,8 +194,8 @@ qx.Class.define("inspector.components.Selector",
       returnObject.bottom = qx.bom.element.Location.getBottom(element);
       return returnObject;
     },
-    
-    
+
+
     _highlight: function(object) {
       var element = null;
       if (object.getContainerElement && object.getContainerElement().getDomElement) {
@@ -219,7 +219,7 @@ qx.Class.define("inspector.components.Selector",
       // set the values to the selected object
       this._highlightOverlay.renderLayout(left, top, right - left, bottom - top);
       this._highlightOverlay.show();
-    }    
-    
+    }
+
   }
 });

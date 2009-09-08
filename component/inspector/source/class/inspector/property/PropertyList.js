@@ -27,13 +27,13 @@
 /**
  * The class is a implementation of the abstract {@link inspector.propertyEditor.PropertyList}
  * class.
- * 
+ *
  * It implements all functions and makes the displayed properties accessible to the user.
- * This includes an easy to use interface for all types of properties like boolean, colors 
+ * This includes an easy to use interface for all types of properties like boolean, colors
  * or strings
  */
 qx.Class.define("inspector.property.PropertyList", {
-  
+
   extend : inspector.property.AbstractPropertyList,
 
   /*
@@ -54,10 +54,10 @@ qx.Class.define("inspector.property.PropertyList", {
     this._comboBoxPopups = [];
     // create the color popup
     this._createColorPopup();
-    
+
     var arrow = new qx.ui.basic.Image("icon/16/actions/go-next.png");
     arrow.setPaddingLeft(8);
-    
+
     this._arrow = {arrow : arrow, container : null, row : null};
   },
 
@@ -75,17 +75,17 @@ qx.Class.define("inspector.property.PropertyList", {
     */
     // to store the currently displayed properties
     _propertyRows: null,
-    
-    // reference to all combobox popups 
+
+    // reference to all combobox popups
     _comboBoxPopups: null,
-    
+
     // color picker stuff
     _colorPopup: null,
     _colorFields: null,
     _currentColorProperty: null,
-    
+
     _arrow : null,
-    
+
     /*
     *********************************
        PUBLIC
@@ -100,21 +100,21 @@ qx.Class.define("inspector.property.PropertyList", {
         this._reloadPropertyListFull();
       }
     },
-    
-    
+
+
     /**
-     * Updates the given property. 
+     * Updates the given property.
      * @param key {String} The name of the property.
      * @param classname {String} The classname of the properties class.
      */
     update: function(key, classname) {
       this._setPropertyValueFull(key, classname);
     },
-    
-    
+
+
     /**
-     * This function hides or shows the inherited properties of the current 
-     * displayed object. 
+     * This function hides or shows the inherited properties of the current
+     * displayed object.
      */
     switchInheritedStatus: function() {
       var children = this.getChildren();
@@ -132,37 +132,37 @@ qx.Class.define("inspector.property.PropertyList", {
             children[i].setVisibility("excluded");
           }
         }
-      }  
+      }
     },
-    
+
     /**
      * Returns a boolean weather the given property is in the current view or not.
      * @param key {String} The name of the property.
      * @param classname {String} The classname of the properties class.
-     * @return {boolean} True, if the given property is in the view. 
+     * @return {boolean} True, if the given property is in the view.
      */
     containsProperty: function(key, classname) {
       return this._propertyRows[classname + "." + key] == null ? false : true;
     },
-    
+
     /*
     *********************************
        PROTECTED
     *********************************
     */
     /**
-     * This function reloads the full property list. It uses recycling to 
+     * This function reloads the full property list. It uses recycling to
      * speed up the loading process for new properties.
      * It also uses a cache for already seen classes to get more performance.
      * <br>
      * The function first of all reads all properties of the current selected
-     * widget and stores them into a separate array. The next step is to go 
+     * widget and stores them into a separate array. The next step is to go
      * backwards threw the array and check if the currently displayed properties
-     * are the same as these of the selected widget. If that is the case the 
+     * are the same as these of the selected widget. If that is the case the
      * function keeps going to the subclass of the widget. Otherwise the current
      * displayed properties which are not equivalent to the properties of the
-     * widget will be deleted and the properties of the new classes will be added. 
-     * If the new properties are not in the cache, they will be created and 
+     * widget will be deleted and the properties of the new classes will be added.
+     * If the new properties are not in the cache, they will be created and
      * added. Otherwise the old ones out of the cache will be added.
      * At the end of the creating process the function invokes the reloading
      * of the values of all properties.
@@ -172,14 +172,14 @@ qx.Class.define("inspector.property.PropertyList", {
       var replace = false;
       // variable to signal if the not needed list items are deleted
       var oldremoved = true;
-      
+
       // get the data
       var data = this._getData(this._controller.getQxObject());
       // store the data in variables
-      var groupNames = data.names;      
+      var groupNames = data.names;
       var properties = data.props;
-      var classnames = data.classes;    
-      
+      var classnames = data.classes;
+
       // if the class hierarchy is enabled
       if (!this._controller.getGroupStatus()) {
         // remove those groups which are more than in the current widget
@@ -189,8 +189,8 @@ qx.Class.define("inspector.property.PropertyList", {
       // go backwards threw the property arrays
       for(var i = properties.length - 1; i > 0 ; i--) {
         // if the class based view is enabled
-        if (!this._controller.getGroupStatus()) {            
-            var currentListChildren = this.getChildren();    
+        if (!this._controller.getGroupStatus()) {
+            var currentListChildren = this.getChildren();
             // if there are children in the list
             if (!replace && currentListChildren.length > 0) {
               // get the classname of the displayed class in the list
@@ -199,7 +199,7 @@ qx.Class.define("inspector.property.PropertyList", {
               if (x > 0) {
                 var classnameInList = currentListChildren[x].getUserData("name");
                 // if the classname is not the requested class
-                if (classnameInList != groupNames[i]) {                    
+                if (classnameInList != groupNames[i]) {
                   // mark the rest of the classes to delete
                   var deleteTo = groupNames[i + 1];
                   // mark that the rest of the classes should be replaces
@@ -216,29 +216,29 @@ qx.Class.define("inspector.property.PropertyList", {
               // mark that the classes should be replaces
               replace = true;
               // mark that nothing is there to remove
-              oldremoved = false;         
+              oldremoved = false;
             }
-        // if the group based view is enabled    
+        // if the group based view is enabled
         } else {
             // replace everything
             replace =  true;
-            // at the first time            
+            // at the first time
             if (oldremoved) {
                 this._clearList();
                 // dont remove anything else
-                oldremoved = false;                
+                oldremoved = false;
             }
         }
-        
-        // if list items should be replaced / added        
-        if (replace) {   
+
+        // if list items should be replaced / added
+        if (replace) {
           // remove the old elements
           if (oldremoved) {
-            this._removeOld(deleteTo);       
+            this._removeOld(deleteTo);
             // mark the classes as deleted
-            oldremoved = false;            
+            oldremoved = false;
           }
-          
+
           // create the atom for the group and add it
           var groupNameAtom = new qx.ui.basic.Atom("<b>" + groupNames[i] + "</b>", "inspector/images/close.png");
           groupNameAtom.setUserData("name", groupNames[i]);
@@ -254,54 +254,54 @@ qx.Class.define("inspector.property.PropertyList", {
           if (!this._controller.getGroupStatus()) {
             if (i == 1) {
               groupLayout.setUserData("inherited", false);
-              groupNameAtom.setUserData("inherited", false);            
+              groupNameAtom.setUserData("inherited", false);
             } else {
               groupLayout.setUserData("inherited", true);
-              groupNameAtom.setUserData("inherited", true);            
+              groupNameAtom.setUserData("inherited", true);
             }
           }
-          
+
           // register the handler to open and collapse the groups
           groupNameAtom.addListener("click", function(e) {
-            if(this.isVisible()) { 
+            if(this.isVisible()) {
                 this.setVisibility("excluded");
-                e.getTarget().setIcon("inspector/images/open.png");              
+                e.getTarget().setIcon("inspector/images/open.png");
             } else {
                 this.setVisibility("visible");
-                e.getTarget().setIcon("inspector/images/close.png");              
+                e.getTarget().setIcon("inspector/images/close.png");
             }
-          }, groupLayout);         
+          }, groupLayout);
 
-          // add the group of properties to the property list     
+          // add the group of properties to the property list
           this.addAfter(groupLayout, groupNameAtom);
-          
+
           // go threw all properties in the current group
           var row = 0;
           for (var key in properties[i]) {
-            // ignore the property groups  
+            // ignore the property groups
             if (properties[i][key].group == null) {
               // create and add the label for the property name
               var labelName = new qx.ui.basic.Label(key + ":");
               // save the classname as additional user data as a unique key in combination with the label
-              labelName.setUserData("classname", classnames[i][key]); 
+              labelName.setUserData("classname", classnames[i][key]);
               labelName.setUserData("key", key);
               labelName.setUserData("row", row);
-              groupLayout.add(labelName, {row: row, column: 1});              
-              
+              groupLayout.add(labelName, {row: row, column: 1});
+
               // add the item to change the value
               var propertyValue = this._getPropertyWidgetFull(properties[i][key], key, classnames[i][key]);
-              propertyValue.setUserData("classname", classnames[i][key]); 
+              propertyValue.setUserData("classname", classnames[i][key]);
               propertyValue.setUserData("key", key);
               propertyValue.setUserData("row", row);
               groupLayout.add(propertyValue, {row: row, column: 2});
-              
+
               // add the image to signal the null value
               var nullImage = new qx.ui.basic.Image("inspector/images/null.png");
-              nullImage.setUserData("classname", classnames[i][key]); 
+              nullImage.setUserData("classname", classnames[i][key]);
               nullImage.setUserData("key", key);
               nullImage.setUserData("row", row);
               groupLayout.add(nullImage, {row: row, column: 3});
-              
+
               // add the property row to the reference array
               this._propertyRows[classnames[i][key] + "." + key] = {container: groupLayout, row: row};
 
@@ -311,12 +311,12 @@ qx.Class.define("inspector.property.PropertyList", {
 
                // handle the clicks
               labelName.addListener("click", this.__onPropertyClick, this);
-              propertyValue.addListener("click", this.__onPropertyClick, this); 
-              propertyValue.addListener("activate", this.__onPropertyClick, this); 
-              nullImage.addListener("click", this.__onPropertyClick, this); 
-              
+              propertyValue.addListener("click", this.__onPropertyClick, this);
+              propertyValue.addListener("activate", this.__onPropertyClick, this);
+              nullImage.addListener("click", this.__onPropertyClick, this);
+
               row++;
-            }                
+            }
           }
         }
       }
@@ -325,42 +325,42 @@ qx.Class.define("inspector.property.PropertyList", {
       // load all values of the properties
       this._refillPropertyListFull();
     },
-    
-    
+
+
     /**
-     * Removes all groups form the list that count is higher than the 
-     * count of the classes in the current object. This function should 
-     * only be invokes if the class based view is enabled.  
+     * Removes all groups form the list that count is higher than the
+     * count of the classes in the current object. This function should
+     * only be invokes if the class based view is enabled.
      * @param classnames {String[]} The classnames array.
-     */    
+     */
     _removeUnnecessaryClasses: function(classnames) {
       // remove all classes from the list which are definitely not in the current widget
       for (;(classnames.length  - 1) * 2 < this.getChildren().length;) {
         // remove the first item (the name of the class) the list and dispose is
         var temp = this.getChildren()[0];
-        this.removeAt(0);        
+        this.removeAt(0);
         temp.dispose();
-       
+
         // get the layouts which hold the properties
         var children = this.getChildren()[0].getChildren();
         // go threw all layouts of this class
         for (var currentIndex = 0; currentIndex < children.length; currentIndex++) {
           if (children[currentIndex].classname == "qx.ui.basic.Label") {
             // generate the classname.key string
-            var classKey = children[currentIndex].getUserData("classname") + 
+            var classKey = children[currentIndex].getUserData("classname") +
               "." + children[currentIndex].getUserData("key");
             // delete the layout from the property row
-            delete this._propertyRows[classKey];                
+            delete this._propertyRows[classKey];
           }
         }
         // remove the first item in the list
-        this.removeAt(0); 
-      } 
+        this.removeAt(0);
+      }
     },
-    
-    
+
+
     /**
-     * This function removes all old classes from the list to the 
+     * This function removes all old classes from the list to the
      * given classname in the deleteTo parameter.
      * @param deleteTo {String} Classname.
      */
@@ -371,7 +371,7 @@ qx.Class.define("inspector.property.PropertyList", {
         this._clearList();
         return;
       }
-      
+
       // remove all until the marked class is reached
       while(true) {
         var child = this.getChildren()[0];
@@ -380,7 +380,7 @@ qx.Class.define("inspector.property.PropertyList", {
         // stop deleting if the class is marked not to delete
         if (removedClassName == deleteTo) {
           break;
-        } else {   
+        } else {
           // store the reference in the pool before deleting
           if (child.classname == "qx.ui.container.Composite") {
             var children = child.getChildren();
@@ -388,20 +388,20 @@ qx.Class.define("inspector.property.PropertyList", {
             for (var currentIndex = 0; currentIndex < children.length; currentIndex++) {
               if (children[currentIndex].classname == "qx.ui.basic.Label") {
                 // generate the classname.key string
-                var classKey = children[currentIndex].getUserData("classname") + 
+                var classKey = children[currentIndex].getUserData("classname") +
                                "." + children[currentIndex].getUserData("key");
                 // delete the layout from the property row
-                delete this._propertyRows[classKey];                
+                delete this._propertyRows[classKey];
               }
             }
           }
           // remove the first item in the list
           this.removeAt(0);
-        }                
+        }
       }
     },
-    
-    
+
+
     /**
      * Removes all properties in the list and caches the references in the pool.
      */
@@ -412,13 +412,13 @@ qx.Class.define("inspector.property.PropertyList", {
       // remove all in the list
       this.removeAll();
     },
-    
+
 
     /**
      * This function creates, dependent on the type of property, a new widget
-     * which represents the value of the widget in the property list e.g. 
+     * which represents the value of the widget in the property list e.g.
      * a checkbox for a boolean value.<br>
-     * The handler for changing the values of the property will also be added 
+     * The handler for changing the values of the property will also be added
      * after the creation process.
      * @param propertySet {Map} The array containing the property values.
      * @param key {String} The name of the property.
@@ -429,14 +429,14 @@ qx.Class.define("inspector.property.PropertyList", {
       var getterName = "get" + qx.lang.String.firstUp(key);
       try {
         /*
-         * Fix for IE. 
-         * 
+         * Fix for IE.
+         *
          * The "this._controller.getQxObject()[getterName]();"
          * could throw an exception, but the IE doesn't catch the exception.
-         * 
+         *
          * TODO Find a solution why IE doesn't catch this exception.
          */
-        if (getterName === "getActiveWindow") { 
+        if (getterName === "getActiveWindow") {
           throw new Error("Property activeWindow of an instance of qx.ui.root.Abstract is not (yet) ready!");
         } else {
           var value = this._controller.getQxObject()[getterName]();
@@ -444,16 +444,16 @@ qx.Class.define("inspector.property.PropertyList", {
       } catch (ex) {
         return new qx.ui.basic.Label();
       }
-      
+
       // call the function to handle the right type
       if (propertySet.check !== null) {
-        
+
         // Checkbox
         if (propertySet.check == "Boolean") {
           // create the checkbox
           var checkBox = new qx.ui.form.CheckBox();
-          
-          var checkBoxHandler = function(e) {            
+
+          var checkBoxHandler = function(e) {
             var value = this._controller.getQxObject()[getterName].call(this._controller.getQxObject());
             if (e.getData() != value) {
               // get the setter name
@@ -461,21 +461,21 @@ qx.Class.define("inspector.property.PropertyList", {
               // try to invoke the setter
               try {
                 // set the new value
-                this._controller.getQxObject()[setterName].call(this._controller.getQxObject(), e.getData());                
+                this._controller.getQxObject()[setterName].call(this._controller.getQxObject(), e.getData());
                 // reload the property view of the current column
-                this._setPropertyValueFull(key, classname, true);                
+                this._setPropertyValueFull(key, classname, true);
               } catch (ex) {
                 // alert the user if the sett could not be executed
                 alert(ex + " [" + setterName + "]");
                 checkBox.setValue(!value);
-              }    
-            }                
+              }
+            }
           };
-          
+
           // register the handler for changing the checkbox
           checkBox.addListener("changeValue", checkBoxHandler, this);
           return checkBox;
-                    
+
         // ComboBox
         } else if (propertySet.check instanceof Array) {
           var box = new qx.ui.form.ComboBox();
@@ -486,17 +486,17 @@ qx.Class.define("inspector.property.PropertyList", {
             var item = new qx.ui.form.ListItem(values[i]);
             // add the item to the combobox
             box.add(item);
-          }          
+          }
           box.addListener("changeValue", function(e) {
             // set the new value to null
-            var newValue = null;            
+            var newValue = null;
             // if the selection is not null
             if (e.getTarget().getValue() != null) {
               // get the new selected value
               var newValue = e.getTarget().getValue();
             }
             // invoke the setter only if the value has changed
-            if (newValue != value) {  
+            if (newValue != value) {
                 // get the setter name
                 var setterName = "set" + qx.lang.String.firstUp(key);
                 // try to invoke the setter
@@ -512,23 +512,23 @@ qx.Class.define("inspector.property.PropertyList", {
                   // alert the user if the set could not be executed
                   alert(ex);
                 }
-              }        
+              }
           }, this);
 
           return box;
-  
+
         // text field
-        } else if (propertySet.check == "Integer" || 
+        } else if (propertySet.check == "Integer" ||
                    propertySet.check == "String" ||
                    propertySet.check == "NonEmptyString" ||
                    propertySet.check == "Label" ||
                    propertySet.check == "Float" ||
-                   propertySet.check == "Double" || 
+                   propertySet.check == "Double" ||
                    propertySet.check == "Number") {
           // create new text field
           var textField = new qx.ui.form.TextField();
-          
-          var textFieldHandler = function(e) { 
+
+          var textFieldHandler = function(e) {
             // check which type of event triggered the function
             if (e.classname == "qx.event.type.KeySequence") {
               // do nothing if it is not the return key
@@ -555,9 +555,9 @@ qx.Class.define("inspector.property.PropertyList", {
               if (e.classname == "qx.event.type.Focus") {
                 if (newValue == "" && value == null) {
                   return;
-                }                
+                }
               }
-              // try to parse                
+              // try to parse
               if (propertySet.check == "Integer" || propertySet.check == "Number") {
                 newValue = parseFloat(newValue);
               }
@@ -570,15 +570,15 @@ qx.Class.define("inspector.property.PropertyList", {
               // alert the user if the sett could not be executed
               alert(ex);
               // set the field to the former value
-              textField.setValue(value + "");                                     
-            }            
+              textField.setValue(value + "");
+            }
           };
           // add the listener to the blur and keypress event
-          textField.addListener("blur", textFieldHandler, this);          
-          textField.addListener("keypress", textFieldHandler, this); 
+          textField.addListener("blur", textFieldHandler, this);
+          textField.addListener("keypress", textFieldHandler, this);
 
           return textField;
-            
+
         // color
         } else if (propertySet.check == "Color") {
           // create the layout which holds the color field and the choose button
@@ -586,7 +586,7 @@ qx.Class.define("inspector.property.PropertyList", {
           layout.getLayout().setAlignY("middle");
           // create the color field and set the initial color
           var colorField = new qx.ui.core.Widget();
-          colorField.setDecorator(new qx.ui.decoration.Single(1, "solid", "#969696")); 
+          colorField.setDecorator(new qx.ui.decoration.Single(1, "solid", "#969696"));
           colorField.setBackgroundColor("white");
           colorField.setHeight(20);
           colorField.setWidth(20);
@@ -596,42 +596,42 @@ qx.Class.define("inspector.property.PropertyList", {
           // save the color field in the color field array
           this._colorFields[classname + "." + key] = colorField;
           // create the button to choose the colors
-          var button = new qx.ui.form.Button("Choose Color");         
-          layout.add(button);    
-          
+          var button = new qx.ui.form.Button("Choose Color");
+          layout.add(button);
+
           // handle the execution of the button (show the color popup
           button.addListener("mousedown", function(e)
           {
             this._colorPopup.setValue(colorField.getBackgroundColor());
-            
+
             this._currentColorProperty = classname + "." + key;
-            
+
             this._colorPopup.placeToMouse(e)
             this._colorPopup.show();
-          }, this);  
+          }, this);
           button.addListener("execute", this.__onPropertyClick, this);
           button.addListener("activate", this.__onPropertyClick, this);
-                  
-          return layout;     
 
-        // widget             
+          return layout;
+
+        // widget
         } else if (propertySet.ckeck == "qx.ui.core.Widget") {
           var widgetLabel = new qx.ui.basic.Label();
-          return widgetLabel;  
-          
-        // rest            
+          return widgetLabel;
+
+        // rest
         } else {
           var unknownLabel = new qx.ui.basic.Label();
           return unknownLabel;
-        }      
-      
+        }
+
       } else {
         var unknownLabel = new qx.ui.basic.Label();
         return unknownLabel;
       }
     },
-    
-    
+
+
     /**
      * Reloads all values of the currently shown properties.
      */
@@ -644,51 +644,51 @@ qx.Class.define("inspector.property.PropertyList", {
         // set the new value for all
         this._setPropertyValueFull(key, classname);
       }
-    },    
-    
-    
+    },
+
+
     /**
      * This function sets the value of the given property.
-     * It first reads the current value of the property. If the value 
+     * It first reads the current value of the property. If the value
      * is null, the null label will be displayed.<br>
-     * The next step is to check the kind of widget which represents the value 
-     * of the property. According to the type of widget, the right value will 
+     * The next step is to check the kind of widget which represents the value
+     * of the property. According to the type of widget, the right value will
      * be set.
      * @param key {String} The name of the property.
      * @param classname {String} The classname of the properties class.
      */
-    _setPropertyValueFull: function(key, classname, keepArrow) {      
-      // get the layout containing the property 
+    _setPropertyValueFull: function(key, classname, keepArrow) {
+      // get the layout containing the property
       var iFrameWindow = qx.core.Init.getApplication().getIframeWindowObject();
       var layout = this._propertyRows[classname + "." + key].container.getLayout();
       var row = this._propertyRows[classname + "." + key].row;
-      
+
       if (!keepArrow && layout.getCellWidget(row, 0)) {
         this._arrow.container.remove(this._arrow.arrow);
         this._arrow.container = null;
         this._arrow.row = null;
       }
-      
+
       // read value
       var getterName = "get" + qx.lang.String.firstUp(key);
       try {
         /*
-         * Fix for IE. 
-         * 
+         * Fix for IE.
+         *
          * The "this._controller.getQxObject()[getterName]();"
          * could throw an exception, but the IE doesn't catch the exception.
-         * 
+         *
          * TODO Find a solution why IE doesn't catch this exception.
          */
         if (getterName === "getActiveWindow") {
           throw new Error("Property activeWindow of an instance of qx.ui.root.Abstract is not (yet) ready!");
         } else {
-          var value = this._controller.getQxObject()[getterName]();  
+          var value = this._controller.getQxObject()[getterName]();
         }
       } catch (ex) {
         layout.getCellWidget(row, 3).setVisibility("visible");
         layout.getCellWidget(row, 3).setSource("inspector/images/shell/errorIcon.png");
-        
+
         var tooltip = layout.getCellWidget(row, 3).getToolTip();
         if (!tooltip) {
           tooltip = new qx.ui.tooltip.ToolTip(ex + "", "inspector/images/shell/errorIcon.png");
@@ -697,10 +697,10 @@ qx.Class.define("inspector.property.PropertyList", {
           tooltip.setIcon("inspector/images/shell/errorIcon.png");
         }
         layout.getCellWidget(row, 3).setToolTip(tooltip);
-        
+
         return;
       }
-      
+
       // show or hide the null label
       if (value == null) {
         layout.getCellWidget(row, 3).setVisibility("visible");
@@ -708,19 +708,19 @@ qx.Class.define("inspector.property.PropertyList", {
         layout.getCellWidget(row, 3).resetToolTip();
       } else {
         layout.getCellWidget(row, 3).setVisibility("hidden");
-      }     
-      
+      }
+
       try {
         // handle the inheritance of the properties
         var parent = this._controller.getQxObject();
         while (value == "inherit") {
-          parent = parent.getLayoutParent();        
+          parent = parent.getLayoutParent();
           value = parent[getterName].call(parent);
         }
       } catch (ex) {
         layout.getCellWidget(row, 3).setVisibility("visible");
         layout.getCellWidget(row, 3).setSource("inspector/images/shell/errorIcon.png");
-        
+
         var tooltip = layout.getCellWidget(row, 3).getToolTip();
         if (!tooltip) {
           tooltip = new qx.ui.tooltip.ToolTip(ex + "", "inspector/images/shell/errorIcon.png");
@@ -731,13 +731,13 @@ qx.Class.define("inspector.property.PropertyList", {
         layout.getCellWidget(row, 3).setToolTip(tooltip);
         return;
       }
-      
+
       // check box
       if (layout.getCellWidget(row, 2).classname == "qx.ui.form.CheckBox") {
         if (value == null) {
           layout.getCellWidget(row, 2).setValue(false);
         } else {
-          layout.getCellWidget(row, 2).setValue(value);          
+          layout.getCellWidget(row, 2).setValue(value);
         }
 
       // labels
@@ -748,38 +748,38 @@ qx.Class.define("inspector.property.PropertyList", {
           // if it is an array
           if (value instanceof Array) {
             layout.getCellWidget(row, 2).setValue(value.length + " objects");
-            
-          // if it is a widget and not the client document  
-          } else if ((property.check == "qx.ui.core.Widget")&& 
+
+          // if it is a widget and not the client document
+          } else if ((property.check == "qx.ui.core.Widget")&&
               (this._controller.getQxObject() instanceof qx.application.AbstractGui)) {
-            
+
             // create the link to the widget
             layout.getCellWidget(row, 2).setValue("<u>" + value.classname + " [" + value.toHashCode() + "]</u>");
             layout.getCellWidget(row, 2).setStyleProperty("cursor", "pointer");
-           
+
             // add only a event listener the first time
             if (layout.getCellWidget(row, 2).hasListeners("click") === undefined) {
-              
+
               // register the click handler
               layout.getCellWidget(row, 2).addListener("click", function(e) {
-                
+
                 if (this._controller.getSelectedProperty() != null) {
                   // disable the selection of current selected property
-                  this._controller.getSelectedProperty().setBackgroundColor(null);                
+                  this._controller.getSelectedProperty().setBackgroundColor(null);
                 }
                 // save the new property
                 this._controller.setSelectedProperty(layout.getCellWidget(row, 1));
                 // tell the controller to go to the new widget
                 this._controller.gotoSelectedWidget();
-              }, this);            
-            }   
+              }, this);
+            }
 
-          // fonts    
+          // fonts
           } else if(property.check == "Font") {
             // set the font of the label
-            layout.getCellWidget(row, 2).setFont(value);            
+            layout.getCellWidget(row, 2).setFont(value);
             layout.getCellWidget(row, 2).setValue(value + "");
-            
+
           } else {
             layout.getCellWidget(row, 2).setValue(value + "");
           }
@@ -787,8 +787,8 @@ qx.Class.define("inspector.property.PropertyList", {
         } else {
           layout.getCellWidget(row, 2).setValue("");
         }
-        
-      // text fields  
+
+      // text fields
       } else if (layout.getCellWidget(row, 2).classname == "qx.ui.form.TextField") {
         // set the current value
         if (value != null) {
@@ -797,12 +797,12 @@ qx.Class.define("inspector.property.PropertyList", {
           layout.getCellWidget(row, 2).setValue("");
         }
 
-      // ComboBox  
+      // ComboBox
       } else if (layout.getCellWidget(row, 2).classname == "qx.ui.form.ComboBox") {
-        
+
         // get the current ComboBox
         var box = layout.getCellWidget(row, 2);
-        
+
         // it the value is null
         if (value == null) {
           // delete the selection of the combobox
@@ -814,14 +814,14 @@ qx.Class.define("inspector.property.PropertyList", {
             if (value == box.getChildren()[i].getLabel()) {
               // set the item as selected
               if (value) {
-                box.setValue(value);          
+                box.setValue(value);
               }
             }
           }
         }
-      
+
       // color
-      } else if (layout.getCellWidget(row, 2).classname == "qx.ui.container.Composite") {        
+      } else if (layout.getCellWidget(row, 2).classname == "qx.ui.container.Composite") {
         try {
           var color = iFrameWindow.qx.theme.manager.Color.getInstance().resolve(value);
           layout.getCellWidget(row, 2).getChildren()[0].setBackgroundColor(color);
@@ -829,27 +829,27 @@ qx.Class.define("inspector.property.PropertyList", {
           layout.getCellWidget(row, 2).getChildren()[0].setBackgroundColor("#FFFFFF");
         }
       }
-    },    
-    
-    
+    },
+
+
     /*
     *********************************
        CONSTRUCTOR HELPERS
     *********************************
-    */    
+    */
     /**
      * Creates the color popup which is needed to set colors.
      */
     _createColorPopup: function() {
       // create a instance of color popup
       this._colorPopup = new qx.ui.control.ColorPopup();
-      
+
       var inspactor = qx.core.Init.getApplication();
       inspactor.getRoot().add(this._colorPopup);
-      
+
       // create the object so save the color fields in the property editor
       this._colorFields = {};
-      
+
       // handler to set the selected colors
       this._colorPopup.addListener("changeValue", function(e) {
         // do not invoke the setter if the color has been changed without a property
@@ -864,24 +864,24 @@ qx.Class.define("inspector.property.PropertyList", {
             // set the selected color of the color field
             this._colorFields[this._currentColorProperty].setBackgroundColor(e.getData());
             // reload the property view of the current column
-            this._setPropertyValueFull(colorKey, colorClassname, true);          
+            this._setPropertyValueFull(colorKey, colorClassname, true);
           } catch (ex) {
             // alert the user if the sett could not be executed
             alert(ex);
-          }      
+          }
           // reset the current color property to "not selected"
-          this._currentColorProperty = null;        
+          this._currentColorProperty = null;
         }
       }, this);
     },
-    
+
     __onPropertyClick : function(e) {
       var target = e.getTarget();
-      
+
       while(target.getUserData("key") == null) {
         target = target.getLayoutParent();
       }
-      
+
       // get the currently clicked property name
       var classKey = target.getUserData("classname") + "." + target.getUserData("key");
       // reset the background color of the former selected property
@@ -890,28 +890,28 @@ qx.Class.define("inspector.property.PropertyList", {
         this._arrow.container = null;
         this._arrow.row = null;
       }
-                  
+
       // if the property is still available
       if (this._propertyRows[classKey] != undefined) {
         this._arrow.container = this._propertyRows[classKey].container
         this._arrow.row = target.getUserData("row");
         this._arrow.container.add(this._arrow.arrow, {row: this._arrow.row, column: 0});
-                    
-        this._controller.setSelectedProperty(target);                  
+
+        this._controller.setSelectedProperty(target);
       } else {
         // reset the selected property if it is no longer available
         this._controller.setSelectedProperty(null);
       }
     }
   },
-  
+
   /*
   *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
   */
   destruct : function() {
-    this._disposeFields("_propertyRows", "_comboBoxPopups", "_colorPopup", 
+    this._disposeFields("_propertyRows", "_comboBoxPopups", "_colorPopup",
                         "_colorFields", "_oldPropertyListPool");
   }
 });

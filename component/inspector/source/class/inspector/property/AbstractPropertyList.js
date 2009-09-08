@@ -19,13 +19,13 @@
 ************************************************************************ */
 /**
  * The abstract class is the base class for property lists.
- * 
- * All common methods used in the property lists are defined in 
- * this class. It also acts as interface which holds a couple of methods 
+ *
+ * All common methods used in the property lists are defined in
+ * this class. It also acts as interface which holds a couple of methods
  * needed by the controller.
  */
 qx.Class.define("inspector.property.AbstractPropertyList", {
-  
+
   extend : qx.ui.container.Composite,
   type : "abstract",
 
@@ -35,7 +35,7 @@ qx.Class.define("inspector.property.AbstractPropertyList", {
   *****************************************************************************
   */
   /**
-   * The constructors stores the reference to the controller and initializes 
+   * The constructors stores the reference to the controller and initializes
    * the basic layout of every list.
    * @param controller {inspector.propertyEditor.IPropertyListController} The needed controller.
    */
@@ -45,7 +45,7 @@ qx.Class.define("inspector.property.AbstractPropertyList", {
 
     // configure the basic layout
     this.setLayout(new qx.ui.layout.VBox(8));
-    
+
     // save the reference to the controller
     this._controller = controller;
   },
@@ -61,7 +61,7 @@ qx.Class.define("inspector.property.AbstractPropertyList", {
     *********************************
        ATTRIBUTES
     *********************************
-    */     
+    */
     _controller: null,
     _filter: null,
 
@@ -72,19 +72,19 @@ qx.Class.define("inspector.property.AbstractPropertyList", {
     *********************************
     */
     /**
-     * Interface declaration of a build function for all property lists. 
-     * This method should get the current widget from the controller und 
+     * Interface declaration of a build function for all property lists.
+     * This method should get the current widget from the controller und
      * build a new list containing the properties of this widget.
      */
     build: function() {
       // throw an exception if the method is called on the abstract class
       throw new Error("Abstract method call (build) in 'PropertyList'!");
     },
-    
-    
+
+
     /**
      * Interface declaration of a update function.
-     * This method should update the value of the given property in the current 
+     * This method should update the value of the given property in the current
      * displayed view of the properties.
      * @param key {String} The name of the property.
      * @param classname {String} The classname of the properties class.
@@ -93,11 +93,11 @@ qx.Class.define("inspector.property.AbstractPropertyList", {
       // throw an exception if the method is called on the abstract class
       throw new Error("Abstract method call (update) in 'PropertyList'!");
     },
-    
-    
+
+
     /**
      * Interface declaration of a method which should return all
-     * objects used by that view which should not appear in the 
+     * objects used by that view which should not appear in the
      * widget finder objects tree.
      * @return {qx.core.Object[]} A array of the used qooxdoo objects.
      */
@@ -105,10 +105,10 @@ qx.Class.define("inspector.property.AbstractPropertyList", {
       // throw an exception if the method is called on the abstract class
       throw new Error("Abstract method call (getComponents) in 'PropertyList'!");
     },
-    
-    
+
+
     /**
-     * Interface declaration of a method used to check for the availability of a 
+     * Interface declaration of a method used to check for the availability of a
      * property.
      * @param key {String} The name of the searched property.
      * @param classname {String} The classname of the searched properties class.
@@ -116,37 +116,37 @@ qx.Class.define("inspector.property.AbstractPropertyList", {
      */
     containsProperty: function(key, classname) {
       // throw an exception if the method is called on the abstract class
-      throw new Error("Abstract method call (containsProperty) in 'PropertyList'!");      
+      throw new Error("Abstract method call (containsProperty) in 'PropertyList'!");
     },
-    
-    
+
+
     /**
      * Interface declaration which should toggle the visibility of all
      * inherited properties.
      */
     switchInheritedStatus: function() {
       // throw an exception if the method is called on the abstract class
-      throw new Error("Abstract method call (switchInheritedStatus) in 'PropertyList'!");  
+      throw new Error("Abstract method call (switchInheritedStatus) in 'PropertyList'!");
     },
-    
-    
+
+
     /**
-     * Interface declaration which should recalculate the layout e.g. on changes of 
+     * Interface declaration which should recalculate the layout e.g. on changes of
      * the theme.
      */
     recalculateLayout: function() {
       // throw an exception if the method is called on the abstract class
-      throw new Error("Abstract method call (recalculateLayout) in 'PropertyList'!");      
+      throw new Error("Abstract method call (recalculateLayout) in 'PropertyList'!");
     },
-    
-    
+
+
     /*
     *********************************
        PROTECTED
     *********************************
     */
     /**
-     * This function walks threw all superclasses of the given object and stores 
+     * This function walks threw all superclasses of the given object and stores
      * the properties in an object.
      * @param qxObject {qx.core.Object} The object to get the data from.
      * @return {Map} An object containing tree values
@@ -157,21 +157,21 @@ qx.Class.define("inspector.property.AbstractPropertyList", {
     _getDataInherited: function(qxObject) {
       // the first superclass is the class of the selected widget
       var superclass = qxObject;
-      
+
       var iFrameWindow = qx.core.Init.getApplication().getIframeWindowObject();
-      
+
       // create new properties array to store the property of a class
       var properties = [];
       // create new classnames array to store the classnames
       var classnames = [];
       // create new groupNames array to store the names of the groups
       var groupNames = [];
-      
+
       // go threw the inheritance of the selected widget
       for (var i = 1; ; i++) {
         // store the properties and classnames in separate array
         properties[i] = iFrameWindow.qx.Class.getByName(superclass.classname).$$properties;
-        // sorte the classname in the groupnames array        
+        // sorte the classname in the groupnames array
         groupNames[i] = superclass.classname;
         // create an array for the classes for the property
         classnames[i] = [];
@@ -181,21 +181,21 @@ qx.Class.define("inspector.property.AbstractPropertyList", {
         }
         // go threw all classes to the qx.core.Object class
         if(iFrameWindow.qx.Class.getByName("qx.core.Object") == superclass) {
-          break;  
-        }       
+          break;
+        }
         // set the new class
         superclass = iFrameWindow.qx.Class.getByName(superclass.classname).superclass;
       }
       // return the data as an object
       return {names: groupNames, props: properties, classes: classnames};
     },
-   
-   
+
+
     /**
      * Uses the {@link inspector.propertEditor.PropertyList#_getDataInherited} function
-     * to get the data. Additionally filters the data using the filter 
-     * (see {@link inspector.propertEditor.IFilter}) and returns 
-     * an object similar to the object from the 
+     * to get the data. Additionally filters the data using the filter
+     * (see {@link inspector.propertEditor.IFilter}) and returns
+     * an object similar to the object from the
      * {@link inspector.propertEditor.PropertyList#_getDataInherited} method.
      * @param qxObject {Object} The qooxdoo object to get the properties from.
      * @return {Map} An object containing tree values
@@ -217,14 +217,14 @@ qx.Class.define("inspector.property.AbstractPropertyList", {
         for (var propertyName in allProperties[index]) {
           filter.sortIn(propertyName, allProperties[index][propertyName], classname);
         }
-      }     
+      }
       // return the data as an object
       return filter.getResult();
     },
-    
-    
+
+
     /**
-     * Returns the grouped or inherited in subject to the 
+     * Returns the grouped or inherited in subject to the
      * status of the grouped status in the controller.
      * @param qxObject {qx.core.Object} The object to get the properties from.
      * @return {Map} An object containing tree values
@@ -235,13 +235,13 @@ qx.Class.define("inspector.property.AbstractPropertyList", {
     _getData: function(qxObject) {
       // check for the status of the groupButton
       if (this._controller.getGroupStatus()) {
-        return this._getDataGrouped(qxObject);    
+        return this._getDataGrouped(qxObject);
       } else {
         return this._getDataInherited(qxObject);
       }
-    } 
+    }
   },
-  
+
   /*
   *****************************************************************************
      DESTRUCTOR
