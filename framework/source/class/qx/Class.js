@@ -164,7 +164,7 @@ qx.Bootstrap.define("qx.Class",
       }
 
       // Normalize type
-      if (!config.hasOwnProperty("extend") && !config.type && config.statics) {
+      if (!config.hasOwnProperty("extend") && !config.type) {
         config.type = "static";
       }
 
@@ -669,7 +669,7 @@ qx.Bootstrap.define("qx.Class",
     implementsInterface : function(obj, iface)
     {
       var clazz = obj.constructor;
-      
+
       if (this.hasInterface(clazz, iface)) {
         return true;
       }
@@ -791,7 +791,7 @@ qx.Bootstrap.define("qx.Class",
         }
 
         // Validate non-static class on the "extend" key
-        if ( (!config.type || (config.type && config.type !== "static") ) && !config.extend) {
+        if (config.type && config.type !== "static" && !config.extend) {
           throw new Error('Invalid config in class "' + name + '"! Every non-static class has to extend at least the "qx.core.Object" class.');
         }
 
@@ -968,14 +968,14 @@ qx.Bootstrap.define("qx.Class",
         if (statics)
         {
           qx.Bootstrap.setDisplayNames(statics, name);
-          
+
           var key;
 
           for (var i=0, a=qx.lang.Object.getKeys(statics), l=a.length; i<l; i++)
           {
             key = a[i];
             var staticValue = statics[key];
-           
+
             if (qx.core.Variant.isSet("qx.aspects", "on"))
             {
 
@@ -1279,7 +1279,7 @@ qx.Bootstrap.define("qx.Class",
     {
       var proto = clazz.prototype;
       var key, member;
-      
+
       qx.Bootstrap.setDisplayNames(members, clazz.classname + ".prototype");
 
       for (var i=0, a=qx.lang.Object.getKeys(members), l=a.length; i<l; i++)
