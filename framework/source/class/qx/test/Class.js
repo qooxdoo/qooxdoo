@@ -206,7 +206,7 @@ qx.Class.define("qx.test.Class",
       };
     },
     
-    
+    /* disabled acc. to state of bug #1433
     testMissingExtendKey : function()
     {            
       // missing "extend" key should cause an exception
@@ -222,7 +222,7 @@ qx.Class.define("qx.test.Class",
         }, Error, new RegExp('.*has to extend at least.*'));
       }  
     },
-
+    */
 
     testSetting : function()
     {
