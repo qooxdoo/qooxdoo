@@ -59,6 +59,10 @@ qx.Class.define("qx.data.controller.Form",
   {
     this.base(arguments);
     
+    // set up the caches
+    this.__modelBindingIds = [];
+    this.__selectableBindingIds = {};
+    
     if (model != null) {
       this.setModel(model);
     }
@@ -95,7 +99,9 @@ qx.Class.define("qx.data.controller.Form",
 
   members :
   {
-    __objectController : null,    
+    __objectController : null,
+    __modelBindingIds : null,
+    __selectableBindingIds : null,
     
     /**
      * Creates and sets a model using the {@link qx.data.marshal.Json} object.
@@ -183,14 +189,31 @@ qx.Class.define("qx.data.controller.Form",
       // connect all items
       for (var name in items) {
         var item = items[name];
+        
         // check for all selection widgets
-        if (qx.Class.hasInterface(item.constructor, qx.ui.core.ISingleSelection)) {
-          var targetProperty = "selection";
+        if (this.__isModelSelectable(item)) {
+          // set up the binding without the object controller
+          var model = this.getModel();
+          // from model to item
+          this.__modelBindingIds.push(model.bind(name, item, "modelSelection", { 
+          converter : function(data) { 
+            return [data]; 
+          }}));
+          // from item to model
+          this.__selectableBindingIds[item.toHashCode()] = 
+            item.bind("selection", model, name, { 
+              converter : function(data) { 
+                var selectedItem = data[0];
+                if (selectedItem != null) {
+                  return selectedItem.getModel();
+                }; 
+                return null;
+            }});
+          
         } else {
           // default case is the value property
-          var targetProperty = "value";
+          this.__objectController.addTarget(item, "value", name, true);
         }
-        this.__objectController.addTarget(item, targetProperty, name, true);
       }
     },
     
@@ -210,10 +233,42 @@ qx.Class.define("qx.data.controller.Form",
       // get the items
       var items = oldTarget.getItems();
       
+      var model = this.getModel();
+      // remove the binding from the model
+      for (var i = 0; i < this.__modelBindingIds.length; i++) {
+        model.removeBinding(this.__modelBindingIds[i]);
+      }
+      this.__modelBindingIds = [];      
+      
       // disconnect all items
       for (var name in items) {
-        this.__objectController.removeTarget(items[name], "value", name);
+        var item = items[name];
+        if (this.__isModelSelectable(item)) {          
+          // remove the bindings from the selectable item
+          var id = this.__selectableBindingIds[item.toHashCode()];
+          item.removeBinding(id);
+          
+        } else {
+          this.__objectController.removeTarget(item, "value", name);          
+        }
       }
+      // get rid of the old selectable binding ids
+      this.__selectableBindingIds = {};
+    },
+    
+    
+    /**
+     * Returns whether the given item implements 
+     * {@link qx.ui.core.ISingleSelection} and 
+     * {@link qx.ui.form.IModelSelection}.
+     * 
+     * @param item {qx.ui.form.IForm} The form item to check.
+     * 
+     * @return {true} true, if given item fits.
+     */
+    __isModelSelectable : function(item) {
+      return qx.Class.hasInterface(item.constructor, qx.ui.core.ISingleSelection) &&
+      qx.Class.hasInterface(item.constructor, qx.ui.form.IModelSelection);     
     }
 
   }
