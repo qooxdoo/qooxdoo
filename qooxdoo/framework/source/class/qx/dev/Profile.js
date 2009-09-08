@@ -153,6 +153,8 @@ qx.Bootstrap.define("qx.dev.Profile",
      * Measure the overhead of calling a wrapped function vs. calling an
      * unwrapped function.
      *
+     * @lint ignoreDeprecated(eval)
+     *
      * @param count {Integer} Number of iterations to measure.
      * @return {Number} Overhead of a wrapped function call in milliseconds.
      */
