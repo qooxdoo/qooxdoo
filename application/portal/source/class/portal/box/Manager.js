@@ -26,17 +26,17 @@ qx.Class.define("portal.box.Manager",
 {
   type : "singleton",
   extend : qx.core.Object,
-  
+
   construct : function()
   {
     this.base(arguments);
-    
+
     this.__members    = [];
     this.__groupBoxes = [];
     this.__boxLookup  = {};
-  },    
+  },
 
-  
+
   /* ******************************************************
    *    STATICS
    * ******************************************************/
@@ -55,8 +55,8 @@ qx.Class.define("portal.box.Manager",
     /** Fired when the manager finished his initialization */
     "loaded" : "qx.event.type.Event"
   },
-  
-  
+
+
   /* ******************************************************
    *    PROPERTIES
    * ******************************************************/
@@ -72,8 +72,8 @@ qx.Class.define("portal.box.Manager",
       apply : "_applyActiveBox"
     }
   },
-  
-  
+
+
   /* ******************************************************
    *    MEMBERS
    * ******************************************************/
@@ -82,11 +82,11 @@ qx.Class.define("portal.box.Manager",
     __members    : null,
     __groupBoxes : null,
     __boxLookup  : null,
-    
-    
+
+
     /**
      * Apply method for "activeBox" property
-     * 
+     *
      * @param value {portal.box.Box} new active box
      * @param old {portal.box.Box ? null} old active box or null
      * @return {void}
@@ -107,13 +107,13 @@ qx.Class.define("portal.box.Manager",
     /**
      * Method to start the initialisations of the manager
      *
-     * @return {void} 
+     * @return {void}
      */
     load : function()
     {
       // get the data from the global variable
       this.__init(window[portal.box.Manager.dataKeyRoot]);
-      
+
       // dispatch "loaded" event
       qx.event.Registration.fireEvent(this, "loaded");
     },
@@ -123,17 +123,17 @@ qx.Class.define("portal.box.Manager",
      * Internal init method which is used by the {@link #load} method
      *
      * @param boxData {Map} data structure of the boxes/groupBoxes
-     * @return {void} 
+     * @return {void}
      */
     __init : function(boxData)
     {
       var groupBox, groupBoxId, groupBoxBoxes, groupBoxData, newBox, boxData;
-      
+
       // information about the groupBoxes and boxes
       var groupBoxes = boxData[portal.box.Manager.dataKeyGroupBoxes];
       var boxes      = boxData[portal.box.Manager.dataKeyBoxes];
 
-      // iterate over the groupBoxes, store them in an array and create a 
+      // iterate over the groupBoxes, store them in an array and create a
       // small lookup array to quickly get the boxes of the groupBox
       for (var groupBoxId in groupBoxes)
       {
@@ -175,8 +175,8 @@ qx.Class.define("portal.box.Manager",
     getBoxes : function() {
       return this.__members;
     },
-    
-    
+
+
     /**
      * Return all groupboxes
      *
@@ -185,25 +185,25 @@ qx.Class.define("portal.box.Manager",
     getGroupBoxes : function() {
       return this.__groupBoxes;
     },
-    
-    
+
+
     /**
-     * Updates the members of groupBoxes. If a box is moved or added to a 
+     * Updates the members of groupBoxes. If a box is moved or added to a
      * groupBox the data structure has to be updated.
      *
      * @param newGroupBoxId {String} Id of the new groupBox
      * @param oldGroupBoxId {String} Id of the old groupBox
      * @param box {portal.box.Box} moved box instance
-     * @return {void} 
+     * @return {void}
      */
     updateGroupBoxMembers : function(newGroupBoxId, oldGroupBoxId, box)
     {
       // get the position of the element in the DOM
       var index = qx.dom.Hierarchy.getElementIndex(box.getElement());
-      
+
       // delete it from the lookup table
       qx.lang.Array.remove(this.__boxLookup[oldGroupBoxId], box);
-      
+
       // insert it at the new position
       qx.lang.Array.insertAt(this.__boxLookup[newGroupBoxId], box, index);
     },
@@ -232,8 +232,8 @@ qx.Class.define("portal.box.Manager",
       return null;
     }
   },
-  
-  
+
+
   /* ******************************************************
    *    DESTRUCT
    * ******************************************************/

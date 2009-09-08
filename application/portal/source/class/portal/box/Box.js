@@ -40,27 +40,27 @@ qx.Class.define("portal.box.Box",
     /* Set/initialize instance variables */
     this.__boxData = boxData;
     this.__id      = boxData.id;
-    
+
     if (element != null)
     {
       // set inital width and height
       qx.bom.element.Style.set(element, "width", boxData.width);
       qx.bom.element.Style.set(element, "height", boxData.height);
-      
+
       /* Prepare the box */
       this.__prepare(element, styles);
     }
     this.setElement(element);
     this.setGroupBoxId(groupBoxId);
-    
+
     this.__resizableComponent = null;
     this.__draggableComponent = null;
-  
+
     /* Add the resizable feature if available */
     if (boxData.resizable)
     {
       this.setResizable(true);
-      
+
       var options =
       {
         minWidth  : parseInt(boxData.minWidth),
@@ -76,15 +76,15 @@ qx.Class.define("portal.box.Box",
     /* Add the draggable feature if available */
     if (boxData.draggable)
     {
-      this.setDraggable(true);      
+      this.setDraggable(true);
       this.__draggableComponent = new portal.box.Draggable(this);
     }
-    
+
     /* add content */
     this.__addContent();
   },
-  
-  
+
+
   /* ******************************************************
    *    PROPERTIES
    * ******************************************************/
@@ -92,14 +92,14 @@ qx.Class.define("portal.box.Box",
   {
     /** DOM element of the box */
     element : { init : null },
-    
+
     /** Id of GroupBox */
     groupBoxId :
     {
       init  : null,
-      check : "String"      
+      check : "String"
     },
-    
+
     /** Active state */
     active :
     {
@@ -107,23 +107,23 @@ qx.Class.define("portal.box.Box",
       init  : false,
       apply : "_applyActive"
     },
-    
+
     /** Whether the box is resizable */
     resizable :
     {
       check : "Boolean",
       init  : false
     },
-    
+
     /** Whether the box is draggable */
     draggable :
     {
       check : "Boolean",
-      init  : false 
-    }    
+      init  : false
+    }
   },
-  
-  
+
+
   /* ******************************************************
    *    MEMBERS
    * ******************************************************/
@@ -133,11 +133,11 @@ qx.Class.define("portal.box.Box",
     __boxData : null,
     __draggableComponent : null,
     __resizableComponent : null,
-    
+
     /**
      * Apply method for the "active" property
-     * 
-     * @param value {Boolean} new value 
+     *
+     * @param value {Boolean} new value
      * @param old {Boolean} old value
      * @return {void}
      */
@@ -145,14 +145,14 @@ qx.Class.define("portal.box.Box",
     {
       if (value)
       {
-        qx.bom.element.Style.set(this.getElement(), "border", "1px solid orange");  
+        qx.bom.element.Style.set(this.getElement(), "border", "1px solid orange");
       }
       else
       {
         qx.bom.element.Style.set(this.getElement(), "border", "1px solid #444444");
       }
     },
-    
+
     /* ******************************************
      *          FOUNDATION METHODS
      * ****************************************** */
@@ -166,8 +166,8 @@ qx.Class.define("portal.box.Box",
     getId : function() {
       return this.getElement() ? this.getElement().id : null;
     },
-    
-    
+
+
     /**
      * Returns the data of the box.
      *
@@ -203,7 +203,7 @@ qx.Class.define("portal.box.Box",
      *
      * @param element {Node} element node to prepare
      * @param styles {Map} Additional style attributes to apply
-     * @return {void} 
+     * @return {void}
      */
     __prepare : function(element, styles)
     {
@@ -217,16 +217,16 @@ qx.Class.define("portal.box.Box",
       // setup
       qx.bom.element.Style.set(element, "position", "relative");
       qx.bom.element.Style.set(element, "zIndex", 0);
-      
+
       // add listeners
       qx.bom.Element.addListener(element, "click", this.__onSelect, this, true);
     },
-    
-    
+
+
     /***
      * Default content
      *
-     * @return {void} 
+     * @return {void}
      */
     __addContent : function()
     {
@@ -249,14 +249,14 @@ qx.Class.define("portal.box.Box",
      * Listener which informs the box manager about the selection
      *
      * @param e {qx.event.type.Mouse} mouse event instance
-     * @return {void} 
+     * @return {void}
      */
     __onSelect : function(e) {
       portal.box.Manager.getInstance().setActiveBox(this);
-    }    
+    }
   },
-  
-  
+
+
   /* ******************************************************
    *    DESTRUCT
    * ******************************************************/
