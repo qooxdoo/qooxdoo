@@ -209,7 +209,7 @@ qx.Class.define("qx.ui.form.ComboBox",
       var field = this.getChildControl("textfield");
 
       field.getFocusElement().focus();
-      field.selectAll();
+      field.selectAllText();
     },
 
 
