@@ -1,5 +1,5 @@
 # translation of de.po to German
-#
+# 
 # Fabian Jakobs <fabian DOT jakobs AT 1und1 DOT de>, 2008.
 msgid ""
 msgstr ""
@@ -12,78 +12,78 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: KBabel 1.11.4\n"
-"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
-#: playground/Application.js:274
+#: playground/Application.js:314
 msgid "Source Code"
 msgstr "Quelltext"
 
-#: playground/Application.js:406
+#: playground/Application.js:444
 msgid "%1 (modified)"
 msgstr "%1 (geändert)"
 
-#: playground/Application.js:445
+#: playground/Application.js:488
 msgid "Starting application '"
 msgstr "Starte Anwendung"
 
-#: playground/Application.js:448
+#: playground/Application.js:491
 msgid "Successfully started."
 msgstr "Anwendung gestartet"
 
-#: playground/Application.js:468
+#: playground/Application.js:511
 msgid "Unfortunately, an unrecoverable internal error was caused by your code.\\nThis may prevent the playground application to run properly.\\nPlease copy your code, restart the playground and paste your code.\\n\\n"
-msgstr "Leider ist bei der Ausführung Ihres Codes ein Quelltextes ein Fehler aufgetreten, der nicht abgefangen werden konnte.\\nDer Playgound muss beendet werden.\\Bitte kopiren sie IhrenQuelltest in die Zwischenablage, starten den Playground neu und fügen ihn wider ein.\\n\\n"
+msgstr "Leider ist bei der Ausführung Ihres Codes ein Fehler aufgetreten,\\nder nicht abgefangen werden konnte.\\nDie Playground-Anwendung muss neu gestartet werden.\\nBitte kopieren Sie Ihren Quelltext in die Zwischenablage,\\nund fügen Sie diesen nach einem Neustart des Playgrounds wieder ein.\\n\\n"
 
-#: playground/Application.js:678 playground/Application.js:788
+#: playground/Application.js:745 playground/Application.js:855
 msgid "Log"
 msgstr "Log"
 
-#: playground/Application.js:731
+#: playground/Application.js:798
 msgid "Playground"
 msgstr "Playground"
 
-#: playground/Application.js:734
+#: playground/Application.js:801
 msgid "qooxdoo %1"
 msgstr "qooxdoo %1"
 
-#: playground/Application.js:758
+#: playground/Application.js:825
 msgid "Run"
 msgstr "Ausführen"
 
-#: playground/Application.js:762
+#: playground/Application.js:829
 msgid "Run the source code"
 msgstr "Den Quelltext ausführen"
 
-#: playground/Application.js:765
+#: playground/Application.js:832
 msgid "Samples"
 msgstr "Beispiele"
 
-#: playground/Application.js:768
+#: playground/Application.js:835
 msgid "Select a sample"
 msgstr "Wählen Sie ein Beispiel aus"
 
-#: playground/Application.js:771
+#: playground/Application.js:838
 msgid "Syntax Highlighting"
 msgstr "Syntax Highlighting"
 
-#: playground/Application.js:791
+#: playground/Application.js:858
 msgid "Show log output"
 msgstr "Log-Fenster anzeigen"
 
-#: playground/Application.js:794
+#: playground/Application.js:861
 msgid "API Viewer"
 msgstr "API Viewer"
 
-#: playground/Application.js:797
+#: playground/Application.js:864
 msgid "Open the qooxdoo API Viewer"
 msgstr "Öffnet den API-Viewer"
 
-#: playground/Application.js:800
+#: playground/Application.js:867
 msgid "Manual"
 msgstr "Handbuch"
 
-#: playground/Application.js:803
+#: playground/Application.js:870
 msgid "Open the qooxdoo Manual"
 msgstr "Öffnet das Handbuch"
 
