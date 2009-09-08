@@ -37,18 +37,18 @@ qx.Class.define("portal.Application",
     /**
      * Application start
      *
-     * @return {void} 
+     * @return {void}
      */
     main : function()
     {
       this.base(arguments);
-      
+
       // Add log appenders
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         qx.log.appender.Native;
         qx.log.appender.Console;
-        
+
         // show the console for IE at startup in source version
         if (qx.core.Variant.isSet("qx.client", "mshtml")) {
           qx.log.appender.Console.init();

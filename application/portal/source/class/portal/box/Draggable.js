@@ -37,11 +37,11 @@ qx.Class.define("portal.box.Draggable",
     this.__element      = box.getElement();
     this.__handle       = null;
     this.__offsets = null;
-    
+
     this.__prepare();
   },
 
-  
+
   /* ******************************************************
    *    MEMBERS
    * ******************************************************/
@@ -51,7 +51,7 @@ qx.Class.define("portal.box.Draggable",
     __element : null,
     __handle : null,
     __offsets : null,
-    
+
     /**
      * Return the box
      *
@@ -60,10 +60,10 @@ qx.Class.define("portal.box.Draggable",
     getBox : function() {
       return this.__box;
     },
-    
+
     /**
      * Return the element of the box
-     * 
+     *
      * @return {Element} Element node of the box
      */
     getElement : function()
@@ -75,7 +75,7 @@ qx.Class.define("portal.box.Draggable",
     /**
      * Internal preparation (adding handle)
      *
-     * @return {void} 
+     * @return {void}
      */
     __prepare : function()
     {
@@ -87,7 +87,7 @@ qx.Class.define("portal.box.Draggable",
     /**
      * Creates the handle to drag the box around.
      *
-     * @return {void} 
+     * @return {void}
      */
     __createHandle : function()
     {
@@ -95,7 +95,7 @@ qx.Class.define("portal.box.Draggable",
 
       /* Only set the className attribute (CSS is defined seperately) */
       qx.bom.element.Class.add(this.__handle, "dragHandle");
-      
+
       qx.dom.Element.insertBegin(this.__handle, this.__element);
     },
 
@@ -103,7 +103,7 @@ qx.Class.define("portal.box.Draggable",
     /**
      * Internal method to add all needed event listener methods
      *
-     * @return {void} 
+     * @return {void}
      */
     __addListener : function()
     {
@@ -111,7 +111,7 @@ qx.Class.define("portal.box.Draggable",
       qx.bom.Element.addListener(this.__handle, "mouseover", function(e){
         qx.bom.element.Style.set(this, "cursor", "move");
       }, this.__handle);
-      
+
       qx.bom.Element.addListener(this.__handle, "dragstart", this.__onDragStart, this);
       qx.bom.Element.addListener(this.__handle, "dragend", portal.dragdrop.Manager.getInstance().stopSession, portal.dragdrop.Manager.getInstance());
       qx.bom.Element.addListener(this.__handle, "drag", this.__onDragMove, this);
@@ -121,7 +121,7 @@ qx.Class.define("portal.box.Draggable",
     /**
      * Listener method for "mousedown" events.
      * Sets the start offset for the drag and drop session
-     * 
+     *
      * @param e {qx.event.type.Mouse} mouse event instance
      * @return {void}
      */
@@ -130,7 +130,7 @@ qx.Class.define("portal.box.Draggable",
       if (e.isLeftPressed()) {
         if (qx.core.Variant.isSet("qx.client", "mshtml"))
         {
-          var top = qx.bom.element.Location.getTop(this.__element, "margin") - 
+          var top = qx.bom.element.Location.getTop(this.__element, "margin") -
                     parseInt(qx.bom.element.Style.get(this.__element, "paddingTop")) -
                     parseInt(qx.bom.element.Style.get(this.__element, "borderTopWidth"));
         }
@@ -142,12 +142,12 @@ qx.Class.define("portal.box.Draggable",
         {
           var top = qx.bom.element.Location.getTop(this.__element);
         }
-        
+
         this.__offsets = {
           left : e.getDocumentLeft() - qx.bom.element.Location.getLeft(this.__element),
           top  : e.getDocumentTop() - top
         };
-        
+
         // add "mouseup" event listener
         qx.bom.Element.addListener(document.body, "mouseup", this.__onMouseUp, this, true);
 
@@ -162,9 +162,9 @@ qx.Class.define("portal.box.Draggable",
     /**
      * Call the mouseup listener method if the cursor leaves the viewport since
      * IE won't fire a mouseup event while the cursor is outside the viewport.
-     * 
+     *
      * @return {void}
-     */    
+     */
     __monitorMouseLeaveViewport : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function()
@@ -173,14 +173,14 @@ qx.Class.define("portal.box.Draggable",
         var bound = qx.lang.Function.bind(this.__onMouseUp, that);
         document.getElementsByTagName("html")[0].onmouseleave = bound;
       },
-      "default" : function() {}  
+      "default" : function() {}
     }),
-    
-    
+
+
     /**
      * Listener method for "mouseup" events.
      * Removes the "mousemove" event listener
-     * 
+     *
      * @param e {qx.event.type.Mouse} mouse event instance
      * @return {void}
      */
@@ -190,52 +190,52 @@ qx.Class.define("portal.box.Draggable",
         e.stopPropagation();
       }
       catch (ex) {}
-      
-      if (portal.dragdrop.Manager.getInstance().isSessionActive()) 
+
+      if (portal.dragdrop.Manager.getInstance().isSessionActive())
       {
         // remove "mousemove" listener
         qx.event.Registration.removeListener(document.body, "mousemove", this.__onDragMove, this, true);
         portal.dragdrop.Manager.getInstance().stopSession();
       }
-      
+
       // remove "mouseup" event listener
-      qx.bom.Element.removeListener(document.body, "mouseup", this.__onMouseUp, this, true);  
+      qx.bom.Element.removeListener(document.body, "mouseup", this.__onMouseUp, this, true);
     },
-    
-    
+
+
     /**
      * Listener method for "dragStart" event
      *
      * @param e {qx.event.type.Drag} drag event instance
-     * @return {void} 
+     * @return {void}
      */
     __onDragStart : function(e)
     {
       // set the current box as the active one
       portal.box.Manager.getInstance().setActiveBox(this.__box);
-      
+
       // let the dragDrop manager take control
       portal.dragdrop.Manager.getInstance().startSession(this.__box);
-      
+
       // add "mousemove" listener
       qx.event.Registration.addListener(document.body, "mousemove", this.__onDragMove, this, true);
     },
-    
-    
+
+
     /**
      * Listener method for all "drag" events
-     * 
+     *
      * @param e {qx.event.type.Drag} drag event instance
      * @return {void}
      */
     __onDragMove : function(e)
     {
       e.stopPropagation();
-      
+
       // get the needed infos from the event and call the manager
       var left = e.getDocumentLeft() - this.__offsets.left;
       var top  = e.getDocumentTop() - this.__offsets.top;
-      
+
       // with this timeout everything is a little bit smoother
       qx.event.Timer.once(function()
       {
@@ -244,8 +244,8 @@ qx.Class.define("portal.box.Draggable",
       }, portal.dragdrop.Manager.getInstance(), 0);
     }
   },
-  
-  
+
+
   /* ******************************************************
    *    DESTRUCT
    * ******************************************************/
