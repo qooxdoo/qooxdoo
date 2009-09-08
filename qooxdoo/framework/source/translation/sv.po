@@ -60,13 +60,13 @@ msgstr "Sök nästa förekomst"
 msgid "Search items in list"
 msgstr "Sök artiklar i en lista"
 
-#: qx/legacy/ui/table/Table.js:1541 qx/ui/table/Table.js:1734
+#: qx/legacy/ui/table/Table.js:1541 qx/ui/table/Table.js:1752
 msgid "one row"
 msgid_plural "%1 rows"
 msgstr[0] "En rad"
 msgstr[1] "%1 rader"
 
-#: qx/legacy/ui/table/Table.js:1543 qx/ui/table/Table.js:1736
+#: qx/legacy/ui/table/Table.js:1543 qx/ui/table/Table.js:1754
 msgid "one of one row"
 msgid_plural "%1 of %2 rows"
 msgstr[0] "en av en rad"
@@ -287,20 +287,20 @@ msgid_plural "test %1 cars"
 msgstr[0] ""
 msgstr[1] ""
 
-#: qx/test/ui/LocaleSwitch.js:83 qx/test/locale/Locale.js:60
+#: qx/test/ui/LocaleSwitch.js:85 qx/test/locale/Locale.js:60
 msgid "test one"
 msgstr ""
 
-#: qx/test/ui/LocaleSwitch.js:91 qx/test/locale/Locale.js:64
+#: qx/test/ui/LocaleSwitch.js:93 qx/test/locale/Locale.js:64
 #: qx/test/locale/Locale.js:68
 msgid "test Hello %1!"
 msgstr ""
 
-#: qx/test/ui/LocaleSwitch.js:91 qx/test/locale/Locale.js:68
+#: qx/test/ui/LocaleSwitch.js:93 qx/test/locale/Locale.js:68
 msgid "test Jonny"
 msgstr ""
 
-#: qx/test/ui/LocaleSwitch.js:97
+#: qx/test/ui/LocaleSwitch.js:99
 msgid "test two"
 msgstr ""
 
@@ -328,12 +328,12 @@ msgstr "Förhandsgranska (Gammal/Ny)"
 msgid "Hex"
 msgstr "Hex"
 
-#: qx/ui/control/ColorSelector.js:372
+#: qx/ui/control/ColorSelector.js:374
 #: qx/legacy/ui/component/ColorSelector.js:465
 msgid "RGB"
 msgstr "RGB"
 
-#: qx/ui/control/ColorSelector.js:404
+#: qx/ui/control/ColorSelector.js:406
 #: qx/legacy/ui/component/ColorSelector.js:499
 msgid "HSB"
 msgstr "HSB"

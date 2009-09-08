@@ -21,7 +21,7 @@ msgstr "Fils statiques"
 msgid "User Feeds"
 msgstr "Fils de l'utilisateur"
 
-#: feedreader/Application.js:528
+#: feedreader/Application.js:530
 msgid "FeedReader (qooxdoo powered)"
 msgstr "Agrégateur de fils de syndication (fait à l'aide de qooxdoo)"
 
@@ -65,11 +65,11 @@ msgstr "Préférences"
 msgid "Language"
 msgstr "Langue"
 
-#: feedreader/view/PreferenceWindow.js:123
+#: feedreader/view/PreferenceWindow.js:137
 msgid "Cancel"
 msgstr "Annuler"
 
-#: feedreader/view/PreferenceWindow.js:126
+#: feedreader/view/PreferenceWindow.js:140
 msgid "OK"
 msgstr "OK"
 
