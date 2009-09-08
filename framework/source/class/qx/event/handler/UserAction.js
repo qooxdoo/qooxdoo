@@ -89,6 +89,9 @@ qx.Class.define("qx.event.handler.UserAction",
 
   members :
   {
+    __manager : null,
+    __window: null,
+
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLER INTERFACE
