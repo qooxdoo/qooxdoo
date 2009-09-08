@@ -112,5 +112,14 @@ function addEventHandler(node, type, handler, removeFunc) {
 }
 
 function nodeText(node) {
-  return node.innerText || node.textContent || node.nodeValue || "";
+  return node.textContent || node.innerText || node.nodeValue || "";
+}
+
+function nodeTop(node) {
+  var top = 0;
+  while (node.offsetParent) {
+    top += node.offsetTop;
+    node = node.offsetParent;
+  }
+  return top;
 }
