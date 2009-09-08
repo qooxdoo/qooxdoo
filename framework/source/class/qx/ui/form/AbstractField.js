@@ -608,7 +608,7 @@ qx.Class.define("qx.ui.form.AbstractField",
      * @return {String|null}
      */
     getTextSelection : function() {
-      return this.getContentElement().getSelection();
+      return this.getContentElement().getTextSelection();
     },
 
 
@@ -620,7 +620,7 @@ qx.Class.define("qx.ui.form.AbstractField",
      * @return {Integer|null}
      */
     getTextSelectionLength : function() {
-      return this.getContentElement().getSelectionLength();
+      return this.getContentElement().getTextSelectionLength();
     },
 
 
@@ -636,7 +636,7 @@ qx.Class.define("qx.ui.form.AbstractField",
      * @return {void}
      */
     setTextSelection : function(start, end) {
-      this.getContentElement().setSelection(start, end);
+      this.getContentElement().setTextSelection(start, end);
     },
 
 
@@ -648,7 +648,7 @@ qx.Class.define("qx.ui.form.AbstractField",
      * @return {void}
      */
     clearTextSelection : function() {
-      this.getContentElement().clearSelection();
+      this.getContentElement().clearTextSelection();
     },
 
 
