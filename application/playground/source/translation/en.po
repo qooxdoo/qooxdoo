@@ -11,74 +11,75 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: playground/Application.js:274
+#: playground/Application.js:314
 msgid "Source Code"
 msgstr ""
 
-#: playground/Application.js:406
+#: playground/Application.js:444
 msgid "%1 (modified)"
 msgstr ""
 
-#: playground/Application.js:445
+#: playground/Application.js:488
 msgid "Starting application '"
 msgstr ""
 
-#: playground/Application.js:448
+#: playground/Application.js:491
 msgid "Successfully started."
 msgstr ""
 
-#: playground/Application.js:468
+#: playground/Application.js:511
 msgid "Unfortunately, an unrecoverable internal error was caused by your code.\\nThis may prevent the playground application to run properly.\\nPlease copy your code, restart the playground and paste your code.\\n\\n"
 msgstr ""
 
-#: playground/Application.js:678 playground/Application.js:788
+#: playground/Application.js:745 playground/Application.js:855
 msgid "Log"
 msgstr ""
 
-#: playground/Application.js:731
+#: playground/Application.js:798
 msgid "Playground"
 msgstr ""
 
-#: playground/Application.js:734
+#: playground/Application.js:801
 msgid "qooxdoo %1"
 msgstr ""
 
-#: playground/Application.js:758
+#: playground/Application.js:825
 msgid "Run"
 msgstr ""
 
-#: playground/Application.js:762
+#: playground/Application.js:829
 msgid "Run the source code"
 msgstr ""
 
-#: playground/Application.js:765
+#: playground/Application.js:832
 msgid "Samples"
 msgstr ""
 
-#: playground/Application.js:768
+#: playground/Application.js:835
 msgid "Select a sample"
 msgstr ""
 
-#: playground/Application.js:771
+#: playground/Application.js:838
 msgid "Syntax Highlighting"
 msgstr ""
 
-#: playground/Application.js:791
+#: playground/Application.js:858
 msgid "Show log output"
 msgstr ""
 
-#: playground/Application.js:794
+#: playground/Application.js:861
 msgid "API Viewer"
 msgstr ""
 
-#: playground/Application.js:797
+#: playground/Application.js:864
 msgid "Open the qooxdoo API Viewer"
 msgstr ""
 
-#: playground/Application.js:800
+#: playground/Application.js:867
 msgid "Manual"
 msgstr ""
 
-#: playground/Application.js:803
+#: playground/Application.js:870
 msgid "Open the qooxdoo Manual"
 msgstr ""
+

@@ -20,7 +20,7 @@ msgstr "Statische Feeds"
 msgid "User Feeds"
 msgstr "Gebruiker Feeds"
 
-#: feedreader/Application.js:528
+#: feedreader/Application.js:530
 msgid "FeedReader (qooxdoo powered)"
 msgstr "FeedReader (qooxdoo powered)"
 
@@ -64,11 +64,11 @@ msgstr "Voorkeuren"
 msgid "Language"
 msgstr "Taal"
 
-#: feedreader/view/PreferenceWindow.js:123
+#: feedreader/view/PreferenceWindow.js:137
 msgid "Cancel"
 msgstr "Annuleren"
 
-#: feedreader/view/PreferenceWindow.js:126
+#: feedreader/view/PreferenceWindow.js:140
 msgid "OK"
 msgstr "OK"
 
