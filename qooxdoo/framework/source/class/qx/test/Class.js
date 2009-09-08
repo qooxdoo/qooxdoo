@@ -205,6 +205,23 @@ qx.Class.define("qx.test.Class",
         }, Error, new RegExp("The class .* is a singleton"));
       };
     },
+    
+    
+    testMissingExtendKey : function()
+    {            
+      // missing "extend" key should cause an exception
+      if (this.isDebugOn())
+      {
+        this.assertException(function() {
+          qx.Class.define("qx.MyClass1",
+          {
+            include : [
+              qx.ui.core.MChildrenHandling
+            ]
+          });
+        }, Error, new RegExp('.*has to extend at least.*'));
+      }  
+    },
 
 
     testSetting : function()
