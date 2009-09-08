@@ -185,10 +185,14 @@ var CodeMirror = (function(){
         this.editor.importCode(code);
       }
     },
-    selection: function() {return this.editor.selectedText();},
+    selection: function() {this.focusIfIE(); return this.editor.selectedText();},
     reindent: function() {this.editor.reindent();},
-    reindentSelection: function() {this.editor.reindentSelection(null);},
+    reindentSelection: function() {this.focusIfIE(); this.editor.reindentSelection(null);},
 
+    focusIfIE: function() {
+      // in IE, a lot of selection-related functionality only works when the frame is focused
+      if (this.win.select.ie_selection) this.focus();
+    },
     focus: function() {
       this.win.focus();
       if (this.editor.selectionSnapshot) // IE hack
@@ -216,10 +220,7 @@ var CodeMirror = (function(){
 
     setParser: function(name) {this.editor.setParser(name);},
 
-    cursorPosition: function(start) {
-      if (this.win.select.ie_selection) this.focus();
-      return this.editor.cursorPosition(start);
-    },
+    cursorPosition: function(start) {this.focusIfIE(); return this.editor.cursorPosition(start);},
     firstLine: function() {return this.editor.firstLine();},
     lastLine: function() {return this.editor.lastLine();},
     nextLine: function(line) {return this.editor.nextLine(line);},

@@ -247,30 +247,26 @@ var select = {};
           }
           if (cur) {
             try{range.moveToElementText(cur);}
-            catch(e){alert(cur + " " + cur.nodeType + " " + (cur && cur.outerHTML));}
+            catch(e){return false;}
             range.collapse(false);
           }
           else range.moveToElementText(node.parentNode);
           if (count) range.move("character", count);
         }
-        else
-        {
-          // [BUG #2676] Added try-catch as a possible hotfix
-          try {
-            range.moveToElementText(node);
-          } catch(ex) {
-            // intentionally left blank
-          }
+        else {
+          try{range.moveToElementText(node);}
+          catch(e){return false;}
         }
+        return true;
       }
 
       // Do a binary search through the container object, comparing
       // the start of each node to the selection
-      var start = 0, end = container.childNodes.length;
-      while (start != end) {
+      var start = 0, end = container.childNodes.length - 1;
+      while (start < end) {
         var middle = Math.ceil((end + start) / 2), node = container.childNodes[middle];
         if (!node) return false; // Don't ask. IE6 manages this sometimes.
-        moveToNodeStart(range2, node);
+        if (!moveToNodeStart(range2, node)) return false;
         if (range.compareEndPoints("StartToStart", range2) == 1)
           start = middle;
         else
