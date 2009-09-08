@@ -266,11 +266,13 @@ qx.Class.define("qx.test.data.controller.Form",
     },
     
     
-    testBindingSelection : function() {
+    testBindingModelSelection : function() {
       // create a select box
       var selectBox = new qx.ui.form.SelectBox();
-      var i1 = new qx.ui.form.ListItem("1");
-      var i2 = new qx.ui.form.ListItem("2");      
+      var i1 = new qx.ui.form.ListItem("a");
+      i1.setModel("1");
+      var i2 = new qx.ui.form.ListItem("b");      
+      i2.setModel("2");
       selectBox.add(i1);
       selectBox.add(i2);
       
@@ -286,13 +288,13 @@ qx.Class.define("qx.test.data.controller.Form",
       selectBox.setSelection([i1]);
       
       // check the selection
-      this.assertEquals(selectBox.getSelection()[0], model.getSb()[0]);
+      this.assertEquals(selectBox.getSelection()[0].getModel(), model.getSb());
       
       // set the model
-      model.setSb([i2]);
+      model.setSb("2");
       
       // check the selection
-      this.assertEquals(selectBox.getSelection()[0], model.getSb()[0]);      
+      this.assertEquals(selectBox.getSelection()[0].getModel(), model.getSb());      
       
       c.dispose();
       model.dispose();
@@ -343,11 +345,13 @@ qx.Class.define("qx.test.data.controller.Form",
     },
     
     
-    testModelCreationWithSelection : function() {
+    testModelCreationWithModelSelection : function() {
       // create a select box
       var selectBox = new qx.ui.form.SelectBox();
-      var i1 = new qx.ui.form.ListItem("1");
-      var i2 = new qx.ui.form.ListItem("2");      
+      var i1 = new qx.ui.form.ListItem("a");
+      i1.setModel("1");
+      var i2 = new qx.ui.form.ListItem("b");
+      i2.setModel("2");
       selectBox.add(i1);
       selectBox.add(i2);
       
@@ -362,20 +366,91 @@ qx.Class.define("qx.test.data.controller.Form",
       selectBox.setSelection([i1]);
       
       // check the selection
-      this.assertEquals(selectBox.getSelection()[0], model.getSb()[0]);
+      this.assertEquals(selectBox.getSelection()[0].getModel(), model.getSb());
       
       // set the model
-      model.setSb([i2]);
+      model.setSb("2");
       
       // check the selection
-      this.assertEquals(selectBox.getSelection()[0], model.getSb()[0]);      
+      this.assertEquals(selectBox.getSelection()[0].getModel(), model.getSb());      
       
       c.dispose();
       model.dispose();
       i2.destroy();
       i1.destroy();
       selectBox.destroy();
-    }    
+    },
+    
+    
+    testRemoveTarget : function() {
+      // create a select box
+      var selectBox = new qx.ui.form.SelectBox();
+      var i1 = new qx.ui.form.ListItem("a");
+      i1.setModel("1");
+      var i2 = new qx.ui.form.ListItem("b");      
+      i2.setModel("2");
+      selectBox.add(i1);
+      selectBox.add(i2);
+      
+      // add the selectBox to the form
+      this.__form.add(selectBox, "sb");
+      this.__form.add(this.__tf1, "tf1");
+      
+      var model = qx.data.marshal.Json.createModel({tf1: null, tf2: null, cb: null, sb: null});      
+      
+      // create the controller
+      var c = new qx.data.controller.Form(model, this.__form);
+      
+      // set the selection
+      selectBox.setSelection([i1]);
+      
+      // check the selection
+      this.assertEquals(selectBox.getSelection()[0].getModel(), model.getSb());
+      
+      // set the model
+      model.setSb("2");
+      
+      // check the selection
+      this.assertEquals(selectBox.getSelection()[0].getModel(), model.getSb());
+      
+      // check the textfield
+      this.assertEquals(this.__tf1.getValue(), model.getTf1());
+      // change the values
+      this.__tf1.setValue("11");
+      // check the binding
+      this.assertEquals(this.__tf1.getValue(), model.getTf1());
+      
+      // change the data in the model
+      model.setTf1("a");        
+      
+      // check the binding
+      this.assertEquals(this.__tf1.getValue(), model.getTf1());
+
+      // remove the target
+      c.setTarget(null);
+
+      // change the values in the model
+      model.setTf1("affe");
+      model.setSb("1");
+      
+      // check the form items
+      this.assertEquals("a", this.__tf1.getValue());
+      this.assertEquals("2", selectBox.getSelection()[0].getModel());
+      
+      // change the values in the items
+      this.__tf1.setValue("viele affen");
+      selectBox.setSelection([i1]);
+      
+      // check the model
+      this.assertEquals("affe", model.getTf1());
+      this.assertEquals("1", model.getSb());
+
+      c.dispose();
+      model.dispose();
+      i2.destroy();
+      i1.destroy();
+      selectBox.destroy();
+    }
     
   }
 });
