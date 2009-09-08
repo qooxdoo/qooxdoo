@@ -23,7 +23,7 @@
 
 qx.Class.define("apiviewer.ui.AbstractViewer",
 {
-	type : "abstract",
+  type : "abstract",
   extend : qx.ui.embed.Html,
 
   construct : function()
@@ -54,7 +54,7 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
       nullable : true,
       apply : "_applyDocNode"
     },
-    
+
     /** whether to display inherited items */
     showInherited : {
       check: "Boolean",
@@ -81,7 +81,7 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
       check: "Boolean",
       init: false,
       apply: "_updatePanels"
-    }    
+    }
   },
 
 

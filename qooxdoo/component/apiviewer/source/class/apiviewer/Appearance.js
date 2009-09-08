@@ -36,9 +36,9 @@ qx.Theme.define("apiviewer.Appearance",
           width : 240,
           decorator : "main"
         };
-      }      
+      }
     },
-    
+
     "detailviewer" :
     {
       style : function(states)
@@ -49,12 +49,12 @@ qx.Theme.define("apiviewer.Appearance",
         }
       }
     },
-    
+
     "legend" :
     {
       include : "scrollarea",
       alias : "scrollarea",
-      
+
       style : function(states)
       {
         return {

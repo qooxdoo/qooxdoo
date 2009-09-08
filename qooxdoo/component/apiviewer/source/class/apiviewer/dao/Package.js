@@ -53,7 +53,7 @@ qx.Class.define("apiviewer.dao.Package", {
     {
       return this._classes;
     },
-    
+
     getFunctions : function()
     {
       return this._functions;

@@ -1,12 +1,12 @@
-qx.Class.define("apiviewer.UiModel", 
+qx.Class.define("apiviewer.UiModel",
 {
   extend : qx.core.Object,
   type : "singleton",
-  
+
   properties :
   {
     /** whether to display inherited items */
-    showInherited : 
+    showInherited :
     {
       check: "Boolean",
       init: false,
@@ -14,7 +14,7 @@ qx.Class.define("apiviewer.UiModel",
     },
 
     /** whether to display protected items */
-    expandProperties :  
+    expandProperties :
     {
       check: "Boolean",
       init: false,
@@ -22,7 +22,7 @@ qx.Class.define("apiviewer.UiModel",
     },
 
     /** whether to display protected items */
-    showProtected :  
+    showProtected :
     {
       check: "Boolean",
       init: false,
@@ -30,7 +30,7 @@ qx.Class.define("apiviewer.UiModel",
     },
 
     /** whether to display private and internal items */
-    showPrivate : 
+    showPrivate :
     {
       check: "Boolean",
       init: false,
