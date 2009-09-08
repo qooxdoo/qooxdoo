@@ -37,7 +37,7 @@ qx.Class.define("qx.dev.unit.TestSuite",
   /**
    * @param testClassOrNamespace {var} Either a string with the name of the test
    *    class or test namespace or a reference to the test class or namespace.
-   *    All test in the given class/namespace will be aded to the suite.
+   *    All test in the given class/namespace will be added to the suite.
    */
   construct : function(testClassOrNamespace)
   {
@@ -71,7 +71,7 @@ qx.Class.define("qx.dev.unit.TestSuite",
      *
      * @param testClassOrNamespace {var} Either a string with the name of the test
      *    class or test namespace or a reference to the test class or namespace.
-     *    All test in the given class/namespace will be aded to the suite.
+     *    All test in the given class/namespace will be added to the suite.
      */
     add : function(testClassOrNamespace)
     {
@@ -96,7 +96,7 @@ qx.Class.define("qx.dev.unit.TestSuite",
         }
         else
         {
-          this.addFail("exsitsCheck", "Unknown test class '" + testClassOrNamespace + "'!");
+          this.addFail("existsCheck", "Unknown test class '" + testClassOrNamespace + "'!");
           return;
         }
       }

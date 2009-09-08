@@ -63,7 +63,7 @@ qx.Class.define("qx.dev.unit.TestClass",
 
     if (!clazz)
     {
-      this.addFail("exsitsCheck" + this.__testClassNames.length, "Unkown test class!");
+      this.addFail("existsCheck", "Unknown test class!");
       return;
     }
 
