@@ -342,7 +342,7 @@ class QxTest:
           else:
             # Start build, only log errors
             status, std, err = invokePiped(cmd)
-            if err != "":
+            if status > 0:
               self.logBuildErrors(buildLogFile, target, cmd, err)
               
               self.buildStatus[target]["BuildError"] = "Unknown build error"
@@ -391,7 +391,7 @@ class QxTest:
       #cmd += " --logfile " + buildLogFile.name
       cmd += " --out " + buildConf["stageDir"]
       status, std, err = invokePiped(cmd)
-      if err != "":
+      if status > 0:
         self.logBuildErrors(buildLogFile, target, cmd, err)
         self.buildStatus[target]["BuildError"] = err
       else:  
@@ -399,7 +399,7 @@ class QxTest:
         buildcmd = os.path.join(buildConf["stageDir"], target + "application", "generate.py")
         status, std, err = invokePiped(buildcmd + " build")
 
-        if err != "":          
+        if status > 0:          
           self.logBuildErrors(buildLogFile, target, buildcmd, err)              
           self.buildStatus[target]["BuildError"] = "Unknown build error"
     
