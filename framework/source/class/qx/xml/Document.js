@@ -44,7 +44,7 @@ qx.Bootstrap.define("qx.xml.Document",
      * @param elem {Document|Element} Any DOM Document or Element
      * @return {Boolean} Whether the document is a XML document
      */
-    isXmlDocument : function(elem) 
+    isXmlDocument : function(elem)
     {
       if (elem.nodeType === 9) {
         return elem.documentElement.nodeName !== "HTML";
@@ -54,7 +54,7 @@ qx.Bootstrap.define("qx.xml.Document",
         return false;
       }
     },
-    
+
 
     /**
      * Create an XML document.

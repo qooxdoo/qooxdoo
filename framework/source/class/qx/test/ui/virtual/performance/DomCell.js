@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.performance.DomCell", 
+qx.Class.define("qx.test.ui.virtual.performance.DomCell",
 {
   extend : qx.test.ui.virtual.performance.AbstractLayerTest,
   type : "abstract", // disabled
@@ -26,7 +26,7 @@ qx.Class.define("qx.test.ui.virtual.performance.DomCell",
   {
     getLayer : function() {
       return new qx.test.ui.virtual.performance.layer.DomCell();
-    }    
+    }
   }
 
 });

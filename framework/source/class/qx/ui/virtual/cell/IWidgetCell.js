@@ -19,7 +19,7 @@
 ************************************************************************ */
 
 /**
- * A widget cell renderer manages a pool of widgets to render cells in a 
+ * A widget cell renderer manages a pool of widgets to render cells in a
  * {@link qx.ui.virtual.layer.WidgetCell} layer.
  */
 qx.Interface.define("qx.ui.virtual.cell.IWidgetCell",
@@ -28,38 +28,38 @@ qx.Interface.define("qx.ui.virtual.cell.IWidgetCell",
   {
     /**
      * Get a widget instance to render the cell
-     * 
+     *
      * @param data {var} Data needed for the cell to render.
      * @param states {Map} The states set on the cell (e.g. <i>selected</i>,
      * <i>focused</i>, <i>editable</i>).
-     * 
+     *
      * @return {qx.ui.core.LayoutItem} The cell widget
      */
     getCellWidget : function(data, states) {},
-    
-    
+
+
     /**
      * Release the given widget instance.
-     * 
+     *
      * Either pool or dispose the widget.
-     * 
+     *
      * @param widget {qx.ui.core.LayoutItem} The cell widget to pool
      */
     pool : function(widget) {},
-    
-    
+
+
     /**
      * Update the states of the given widget.
-     * 
+     *
      * @param widget {qx.ui.core.LayoutItem} The cell widget to update
-     * @param states {Map} The cell widget's states 
+     * @param states {Map} The cell widget's states
      */
     updateStates : function(widget, states) {},
-    
-    
+
+
     /**
      * Update the data the cell widget should display
-     * 
+     *
      * @param widget {qx.ui.core.LayoutItem} The cell widget to update
      * @param data {var} The data to display
      */

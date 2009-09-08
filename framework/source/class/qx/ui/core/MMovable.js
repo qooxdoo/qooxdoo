@@ -20,7 +20,7 @@
 
 /**
  * Provides move behavior to any widget.
- * 
+ *
  * The widget using the mixing must register a widget as move handle so that
  * the mouse events needed for moving it are attached to this widget).
  * <pre class='javascript'>this._activateMoveHandle(widget);</pre>
@@ -194,16 +194,16 @@ qx.Mixin.define("qx.ui.core.MMovable",
       if (qx.Class.implementsInterface(parent, qx.ui.window.IDesktop)) {
         if (!parent.isContentBlocked()) {
           this.__blockerAdded = true;
-          
+
           this.__oldBlockerColor = parent.getBlockerColor();
           this.__oldBlockerOpacity = parent.getBlockerOpacity();
           parent.setBlockerColor(null);
           parent.setBlockerOpacity(1);
-          
+
           parent.blockContent(this.getZIndex() - 1);
         }
       }
-      
+
       this.__dragRange =
       {
         left : parentLocation.left,
@@ -281,14 +281,14 @@ qx.Mixin.define("qx.ui.core.MMovable",
       if (qx.Class.implementsInterface(parent, qx.ui.window.IDesktop)) {
         if (this.__blockerAdded) {
           parent.unblockContent();
-          
+
           parent.setBlockerColor(this.__oldBlockerColor);
           parent.setBlockerOpacity(this.__oldBlockerOpacity);
           this.__oldBlockerColor = null;
           this.__oldBlockerOpacity = 0;
         }
       }
-      
+
       // Disable capturing
       this.__moveHandle.releaseCapture();
 

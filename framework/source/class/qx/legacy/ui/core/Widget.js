@@ -1296,7 +1296,7 @@ qx.Class.define("qx.legacy.ui.core.Widget",
       themeable : true
     },
 
-    
+
     /**
      * Mapping to native style property background-repeat.
      */
@@ -1307,7 +1307,7 @@ qx.Class.define("qx.legacy.ui.core.Widget",
       apply : "_applyBackgroundRepeat",
       themeable : true
     },
-    
+
 
     /**
      * Describes how to handle content that is too large to fit inside the widget.

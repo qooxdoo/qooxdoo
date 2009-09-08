@@ -20,20 +20,20 @@
 
 /**
  * EXPERIMENTAL!
- * 
+ *
  * Represents horizontal or vertical lines.
  */
 qx.Class.define("qx.ui.virtual.layer.GridLines",
 {
   extend : qx.ui.virtual.layer.Abstract,
-  
+
   /**
    * @param orientation {String?"horizontal"} The grid line orientation.
    * @param lineColor {Color?null} The default color for grid lines
    * @param lineSize {PositiveInteger|null} The default width/height for grid
    *    lines.
    */
-  construct : function(orientation, lineColor, lineSize) 
+  construct : function(orientation, lineColor, lineSize)
   {
     this.base(arguments);
     this.setZIndex(1);
@@ -41,18 +41,18 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
     if (lineColor) {
       this.setDefaultLineColor(lineColor);
     }
-    
+
     if (lineSize !== undefined) {
       this.setDefaultLineSize(lineSize);
-    }    
-    
+    }
+
     this.__lineColors = [];
     this.__lineSizes = [];
 
     this._isHorizontal = (orientation || "horizontal") == "horizontal";
   },
-  
-  
+
+
   /*
   *****************************************************************************
      PROPERTIES
@@ -77,16 +77,16 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
       themeable : true
     }
   },
-   
-  
+
+
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
- 
+
   members :
-  {  
+  {
 
     /** Stores the colors for deviant grid lines. */
     __lineColors : null,
@@ -94,20 +94,20 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
     /** Stores the width/height for deviant grid lines. */
     __lineSizes : null,
 
-    
+
     /**
      * Whether horizontal lines are rendered
-     * 
+     *
      * @return {Boolean} Whether horizontal lines are rendered
      */
     isHorizontal : function() {
       return this._isHorizontal;
     },
-    
-    
+
+
     /**
      * Sets the color for the grid line with the given index.
-     * 
+     *
      * @param index {PositiveNumber} The index of the line.
      * @param color {Color} The color.
      */
@@ -125,10 +125,10 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
       }
     },
 
-    
+
     /**
      * Sets the width/height for the grid line with the given index.
-     * 
+     *
      * @param index {PositiveNumber} The index of the line.
      * @param size {PositiveInteger} The size.
      */
@@ -145,28 +145,28 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
         this.updateLayerData();
       }
     },
-    
-    
+
+
     __isLineRendered : function(index)
     {
       if (this._isHorizontal)
       {
         var firstColumn = this.getFirstColumn();
         var lastColumn = firstColumn + this.getColumnSizes().length - 1;
-        return index >= firstColumn && index <= lastColumn;    
+        return index >= firstColumn && index <= lastColumn;
       }
       else
       {
         var firstRow = this.getFirstRow();
         var lastRow = firstRow + this.getRowSizes().length - 1;
-        return index >= firstRow && index <= lastRow;            
+        return index >= firstRow && index <= lastRow;
       }
     },
 
-    
+
     /**
      * Returns the size of the grid line with the given index.
-     * 
+     *
      * @param index {PositiveNumber} The index of the line.
      * @return {PositiveInteger} The size.
      */
@@ -174,10 +174,10 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
       return this.__lineSizes[index] || this.getDefaultLineSize();
     },
 
-    
+
     /**
      * Returns the color of the grid line with the given index.
-     * 
+     *
      * @param index {PositiveNumber} The index of the line.
      * @return {String} The color.
      */
@@ -185,10 +185,10 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
       return this.__lineColors[index] || this.getDefaultLineColor();
     },
 
-    
+
     /**
      * Helper function to render horizontal lines.
-     * 
+     *
      * @param htmlArr {Array} An array to store the generated HTML in.
      * @param firstRow {Integer} The first visible row
      * @param rowSizes {Array} An array containing the row sizes.
@@ -209,17 +209,17 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
           "height: " + height + "px;",
           "width: 100%;",
           "top:", top - ((height > 1) ? Math.floor(height / 2) : 1), "px;",
-          "background-color:", color, 
+          "background-color:", color,
           "'>",
           "</div>"
         );
-      }  
+      }
     },
-    
-    
+
+
     /**
      * Helper function to render vertical lines.
-     * 
+     *
      * @param htmlArr {Array} The array to store the generated HTML in.
      * @param firstColumn {Integer} The first visible column
      * @param columnSizes {Array} An array containing the column sizes.
@@ -237,15 +237,15 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
         htmlArr.push(
           "<div style='",
           "position: absolute;",
-          "width: " + width + "px;",          
+          "width: " + width + "px;",
           "height: 100%;",
           "top: 0px;",
           "left:", left - ((width > 1) ? Math.floor(width / 2) : 1), "px;",
-          "background-color:", color, 
+          "background-color:", color,
           "'>",
           "</div>"
         );
-      }      
+      }
     },
 
 
@@ -260,19 +260,19 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
       }
       this.getContentElement().setAttribute("html", html.join(""));
     },
-    
-    
+
+
     // overridden
-    _updateLayerWindow : function(firstRow, firstColumn, rowSizes, columnSizes) 
+    _updateLayerWindow : function(firstRow, firstColumn, rowSizes, columnSizes)
     {
-      var rowChanged = 
+      var rowChanged =
         firstRow !== this.getFirstRow() ||
         rowSizes.length !== this.getRowSizes().length;
-      
+
       var columnChanged =
         firstColumn !== this.getFirstColumn() ||
         columnSizes.length !== this.getColumnSizes().length;
-      
+
       if (
         (this._isHorizontal && rowChanged) ||
         (!this._isHorizontal && columnChanged)
@@ -281,7 +281,7 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
       }
     }
   },
-  
+
   /*
    *****************************************************************************
       DESTRUCT

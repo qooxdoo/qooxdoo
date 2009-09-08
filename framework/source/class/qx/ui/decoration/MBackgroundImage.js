@@ -19,9 +19,9 @@
 /**
  * Mixin for supporting the background images on decorators.
  */
-qx.Mixin.define("qx.ui.decoration.MBackgroundImage", 
+qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
 {
-  properties : 
+  properties :
   {
     /** The URL of the background image */
     backgroundImage :
@@ -31,7 +31,7 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
       apply : "_applyBackground"
     },
 
-    
+
     /** How the background image should be repeated */
     backgroundRepeat :
     {
@@ -39,12 +39,12 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
       init : "repeat",
       apply : "_applyBackground"
     },
-    
-    
+
+
     /**
      * Either a string or a number, which define the vertical position
      * of the background image.
-     * 
+     *
      * If the value is an integer it is interpreted as pixel value otherwise
      * the value is taken as CSS value. CSS the values are "center", "left" and
      * "right".
@@ -52,43 +52,43 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
     backgroundPositionX :
     {
       nullable : true,
-      apply : "_applyBackground" 
+      apply : "_applyBackground"
     },
-    
-    
+
+
     /**
      * Either a string or a number, which define the horizontal position
      * of the background image.
-     * 
+     *
      * If the value is an integer it is interpreted as pixel value otherwise
      * the value is taken as CSS value. CSS the values are "center", "left" and
      * "right".
-     */    
+     */
     backgroundPositionY :
     {
       nullable : true,
       apply : "_applyBackground"
-    },    
-    
-    
+    },
+
+
     /**
      * Property group to define the background position
      */
     backgroundPosition :
     {
       group : ["backgroundPositionY", "backgroundPositionX"]
-    }        
+    }
   },
-  
-  
+
+
   members :
   {
     /**
-     * Responsible for generating the markup for the background. 
-     * This method just uses the settings in the properties and the 
+     * Responsible for generating the markup for the background.
+     * This method just uses the settings in the properties and the
      * {@link qx.ui.decoration.Util#generateBackgroundMarkup} method to generate
      *  the markup.
-     * 
+     *
      * @param styles {String} CSS styles as string
      * @return {String} The generated HTML fragment
      */
@@ -100,11 +100,11 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
         this.getBackgroundPositionX(),
         this.getBackgroundPositionY(),
         styles
-      );      
+      );
       return html;
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       PROPERTY APPLY ROUTINES
@@ -120,6 +120,6 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
           throw new Error("This decorator is already in-use. Modification is not possible anymore!");
         }
       }
-    }    
+    }
   }
 });

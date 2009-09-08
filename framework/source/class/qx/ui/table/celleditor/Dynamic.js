@@ -131,7 +131,7 @@ qx.Class.define("qx.ui.table.celleditor.Dynamic",
       return value;
     }
   },
-  
+
   /*
   *****************************************************************************
      DESTRUCTOR

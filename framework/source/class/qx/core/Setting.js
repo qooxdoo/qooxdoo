@@ -116,11 +116,11 @@ qx.Bootstrap.define("qx.core.Setting",
 
       return cache.defaultValue;
     },
-    
-    
+
+
     /**
      * Set a settings value
-     * 
+     *
      * @internal Only to be used in unit tests.
      * @param key {String} The setting name
      * @param value {var} The new setting's value
@@ -135,7 +135,7 @@ qx.Bootstrap.define("qx.core.Setting",
         this.__settings[key] = {};
       }
 
-      this.__settings[key].value = value;      
+      this.__settings[key].value = value;
     },
 
 

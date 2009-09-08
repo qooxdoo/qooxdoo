@@ -23,43 +23,43 @@ qx.Class.define("qx.test.ui.virtual.layer.HtmlCell",
   extend : qx.test.ui.virtual.layer.LayerTestCase,
 
   members :
-  { 
+  {
     tearDown : function() {
       this.base(arguments);
       this.__cellRenderer.dispose();
     },
-    
-    _createLayer : function() 
+
+    _createLayer : function()
     {
       this.__cellRenderer = new qx.ui.virtual.cell.Cell();
       return new qx.ui.virtual.layer.HtmlCell(this);
     },
-    
-    
+
+
     getCellProperties : function(row, column) {
       return this.__cellRenderer.getCellProperties(row + " / " + column, {});
     },
-    
-    _assertCells : function(firstRow, firstColumn, rowCount, columnCount, msg) 
+
+    _assertCells : function(firstRow, firstColumn, rowCount, columnCount, msg)
     {
       var children = this.layer.getContentElement().getDomElement().childNodes;
-      
+
       this.assertEquals(rowCount * columnCount, children.length);
-      
+
       for (var y=0; y<rowCount; y++)
       {
         for (var x=0; x<columnCount; x++)
         {
           var row = firstRow + y;
           var column = firstColumn + x;
-          
+
           var cellEl = children[y*columnCount + x];
           this.assertEquals(row + " / " + column, cellEl.innerHTML);
         }
       }
     }
   },
-  
+
   destruct : function()
   {
     this._disposeFields("__cellRenderer");

@@ -52,7 +52,7 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     // Contains all children
     this._children = [];
     this._childrenQueue = {};
-    
+
     // Create instanceof layout implementation
     this._layoutImpl = this._createLayoutImpl();
   },
@@ -784,7 +784,7 @@ qx.Class.define("qx.legacy.ui.core.Parent",
      * @return {Widget|null} Last child widget (null if this widget does
      *     not have any children)
      */
-    getLastChild : function() 
+    getLastChild : function()
     {
       var children = this.getChildren()
       return children[children.length-1] || null;
@@ -797,7 +797,7 @@ qx.Class.define("qx.legacy.ui.core.Parent",
      * @return {Widget|null} Last visible child widget (null if this widget does
      *     not have any visible children)
      */
-    getLastVisibleChild : function() 
+    getLastVisibleChild : function()
     {
       var children = this.getVisibleChildren()
       return children[children.length-1] || null;

@@ -162,8 +162,8 @@ qx.Class.define("qx.ui.table.model.Simple",
 
       return map;
     },
-    
-    
+
+
     /**
      * Gets the whole data as array of maps.
      *
@@ -179,7 +179,7 @@ qx.Class.define("qx.ui.table.model.Simple",
       }
 
       return data;
-    },    
+    },
 
 
     /**
@@ -547,7 +547,7 @@ qx.Class.define("qx.ui.table.model.Simple",
       this.addRows(this._mapArray2RowArr(mapArr, rememberMaps), startIndex, clearSorting);
     },
 
-    
+
     /**
      * Sets rows in the model. The rows overwrite the old rows starting at
      * <code>startIndex</code> to <code>startIndex+rowArr.length</code>.
@@ -566,7 +566,7 @@ qx.Class.define("qx.ui.table.model.Simple",
     {
       if (startIndex == null) {
         startIndex = 0;
-      } 
+      }
 
       // Prepare the rowArr so it can be used for apply
       rowArr.splice(0, 0, startIndex, rowArr.length);
@@ -587,9 +587,9 @@ qx.Class.define("qx.ui.table.model.Simple",
       if (clearSorting !== false) {
         this.clearSorting();
       }
-    },   
-    
-    
+    },
+
+
     /**
      * Set rows in the model. The rows overwrite the old rows starting at
      * <code>startIndex</code> to <code>startIndex+rowArr.length</code>.
@@ -606,9 +606,9 @@ qx.Class.define("qx.ui.table.model.Simple",
      */
     setRowsAsMapArray : function(mapArr, startIndex, rememberMaps, clearSorting) {
       this.setRows(this._mapArray2RowArr(mapArr, rememberMaps), startIndex, clearSorting);
-    },    
+    },
 
-    
+
     /**
      * Removes some rows from the model.
      *

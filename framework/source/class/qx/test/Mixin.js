@@ -30,7 +30,7 @@ qx.Class.define("qx.test.Mixin",
         statics :
         {
           data : null,
-          
+
           foo : function() {
             return "foo";
           }

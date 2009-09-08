@@ -9,7 +9,7 @@ qx.Class.define("qx.util.Permutation",
      * The first parameter is a map with array values. This function computes
      * all combinations of the array values and call the callback for each
      * combination.
-     * 
+     *
      * e.g. a value of
      * <pre class="javascript">
      *   {
@@ -32,7 +32,7 @@ qx.Class.define("qx.util.Permutation",
     permute : function(options, callback, context)
     {
       var keys = qx.lang.Object.getKeys(options);
-  
+
       // init
       var map = {};
       var indices = [];
@@ -42,16 +42,16 @@ qx.Class.define("qx.util.Permutation",
         var key = keys[i];
         map[key] = options[key][0]
       }
-  
+
       var _perm = function(index, ignore)
       {
         if (index >= keys.length) {
           return;
         }
-  
+
         var key = keys[index];
         var values = options[key];
-  
+
         for (var i=0; i<values.length; i++)
         {
           if (ignore !== i)
@@ -63,8 +63,8 @@ qx.Class.define("qx.util.Permutation",
           _perm(index+1, indices[index+1]);
         }
       }
-  
+
       _perm(0, -1);
-    }  
+    }
   }
 });

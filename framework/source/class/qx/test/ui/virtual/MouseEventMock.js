@@ -20,25 +20,25 @@
 qx.Class.define("qx.test.ui.virtual.MouseEventMock",
 {
   extend : qx.event.type.Event,
-  
+
   construct : function(type, config)
   {
     this.base(arguments);
     this.setType(type);
     this.__config = config;
   },
-  
-  members : 
+
+  members :
   {
     getDocumentLeft: function() {
       return this.__config.documentLeft || 0;
     },
-    
+
     getDocumentTop : function() {
       return this.__config.documentTop || 0;
     }
   },
-  
+
   destruct : function()
   {
     this._disposeFields("__config");

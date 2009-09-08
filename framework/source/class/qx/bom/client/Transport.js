@@ -31,28 +31,28 @@ qx.Class.define("qx.bom.client.Transport",
 
   statics :
   {
-    /** 
+    /**
      * Returns the maximum number of parallel requests the current browser
-     * supports per host addressed. 
-     * 
-     * Note that this assumes one connection can support one request at a time 
-     * only. Technically, this is not correct when pipelining is enabled (which 
-     * it currently is only for IE 8 and Opera). In this case, the number 
-     * returned will be too low, as one connection supports multiple pipelined 
-     * requests. This is acceppted for now because pipelining cannot be 
-     * detected from JavaScript and because modern browsers have enough 
-     * parallel connections already - it's unlikely an app will require more 
+     * supports per host addressed.
+     *
+     * Note that this assumes one connection can support one request at a time
+     * only. Technically, this is not correct when pipelining is enabled (which
+     * it currently is only for IE 8 and Opera). In this case, the number
+     * returned will be too low, as one connection supports multiple pipelined
+     * requests. This is acceppted for now because pipelining cannot be
+     * detected from JavaScript and because modern browsers have enough
+     * parallel connections already - it's unlikely an app will require more
      * than 4 parallel XMLHttpRequests to one server at a time.
      */
     getMaxConcurrentRequestCount: function()
     {
       var maxConcurrentRequestCount;
-      
+
       var Engine = qx.bom.client.Engine;
-      
-      // Parse version numbers. 
+
+      // Parse version numbers.
       // Maybe this stuff should be moved to qx.bom.client.Engine?
-      
+
       // Parse 3+ parts version number
       var versionParts = /([^.]*)\.([^.]*)\.([^.]*).*/.exec(Engine.FULLVERSION);
       var versionMinor;
@@ -62,44 +62,44 @@ qx.Class.define("qx.bom.client.Transport",
         // Parse 2 parts version number
         versionParts = /([^.]*)\.([^.]*).*/.exec(Engine.FULLVERSION);
         versionMinor = 0;
-      }        
+      }
       var versionMain = versionParts[1];
       var versionMajor = versionParts[2];
-      
+
       // IE 8 gives the max number of connections in a property
       // see http://msdn.microsoft.com/en-us/library/cc197013(VS.85).aspx
       if (window.maxConnectionsPerServer){
         maxConcurrentRequestCount = window.maxConnectionsPerServer;
-        
+
       } else if (Engine.OPERA){
         // Opera: 8 total
         // see http://operawiki.info/HttpProtocol
         maxConcurrentRequestCount = 8;
 
       } else if (Engine.WEBKIT) {
-        // Safari: 4 
+        // Safari: 4
         // http://www.stevesouders.com/blog/2008/03/20/roundup-on-parallel-connections/
-        
-        // TODO: Distinguish Chrome from Safari, Chrome has 6 connections 
+
+        // TODO: Distinguish Chrome from Safari, Chrome has 6 connections
         //       according to
         //      http://stackoverflow.com/questions/561046/how-many-concurrent-ajax-xmlhttprequest-requests-are-allowed-in-popular-browser
 
         maxConcurrentRequestCount = 4;
 
-      } else if (Engine.GECKO 
-                 && ( (versionMain >1) 
+      } else if (Engine.GECKO
+                 && ( (versionMain >1)
                       || ((versionMain == 1) && (versionMajor > 9))
                       || ((versionMain == 1) && (versionMajor == 9) && (versionMinor >= 1)))){
           // FF 3.5 (== Gecko 1.9.1): 6 Connections.
           // see  http://gemal.dk/blog/2008/03/18/firefox_3_beta_5_will_have_improved_connection_parallelism/
           maxConcurrentRequestCount = 6;
-               
-      } else {      
-        // Default is 2, as demanded by RFC 2616 
+
+      } else {
+        // Default is 2, as demanded by RFC 2616
         // see http://blogs.msdn.com/ie/archive/2005/04/11/407189.aspx
         maxConcurrentRequestCount = 2;
       }
-      
+
       return maxConcurrentRequestCount;
     }
   }

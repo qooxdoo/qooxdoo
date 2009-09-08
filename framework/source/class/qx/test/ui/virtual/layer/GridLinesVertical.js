@@ -27,11 +27,11 @@ qx.Class.define("qx.test.ui.virtual.layer.GridLinesVertical",
     _createLayer : function() {
       return new qx.ui.virtual.layer.GridLines("vertical");
     },
-       
-    _assertCells : function(firstRow, firstColumn, rowCount, columnCount, msg) 
+
+    _assertCells : function(firstRow, firstColumn, rowCount, columnCount, msg)
     {
       var children = this.layer.getContentElement().getDomElement().childNodes;
-      
+
       this.assertEquals(columnCount-1, children.length);
     }
   }

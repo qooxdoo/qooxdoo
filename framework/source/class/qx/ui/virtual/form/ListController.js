@@ -22,14 +22,14 @@
  */
 
 
-qx.Class.define("qx.ui.virtual.form.ListController", 
+qx.Class.define("qx.ui.virtual.form.ListController",
 {
   extend : qx.core.Object,
 
 
   construct : function(model, target)
   {
-    this.base(arguments);  
+    this.base(arguments);
 
     this.setSelection(new qx.data.Array());
 
@@ -42,10 +42,10 @@ qx.Class.define("qx.ui.virtual.form.ListController",
     }
   },
 
-  
-  properties : 
+
+  properties :
   {
-    target : 
+    target :
     {
       check : "qx.ui.virtual.form.List",
       event: "changeTarget",
@@ -54,7 +54,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
       apply: "_applyTarget"
     },
 
-    model : 
+    model :
     {
       check : "qx.data.IListData",
       event : "changeModel",
@@ -63,19 +63,19 @@ qx.Class.define("qx.ui.virtual.form.ListController",
       apply: "_applyModel"
     },
 
-    selection : 
+    selection :
     {
       check : "qx.data.IListData",
       event : "changeSelection",
       apply: "_applySelection"
     },
-    
-    
+
+
     /**
      * Delegation object, which can have one ore more functions defined by the
-     * {@link #IControllerDelegate} interface.  
+     * {@link #IControllerDelegate} interface.
      */
-    delegate : 
+    delegate :
     {
       apply: "_applyDelegate",
       event: "changeDelegate",
@@ -84,7 +84,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
     }
   },
 
-  
+
   members :
   {
     __changeLengthListenerId : null,
@@ -118,7 +118,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
     /**
      * @type member
      * @param modelItem {Object}
-     * @return {Number} 
+     * @return {Number}
      */
     _getModelRow : function(modelItem)
     {
@@ -130,7 +130,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
      * @type member
      * @return {Number} length of lookup table
      */
-    getRowCount : function() 
+    getRowCount : function()
     {
       return this.__lookupTable.length;
     },
@@ -145,7 +145,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
 
     /**
      * updates the lookup table
-     * 
+     *
      * @return {void}
      */
     update : function () {
@@ -198,7 +198,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
 
       var sorter = this._getDelegate("sorter");
 
-      if (sorter != null) 
+      if (sorter != null)
       {
         this.__lookupTable.sort(function(a, b)
         {
@@ -241,13 +241,13 @@ qx.Class.define("qx.ui.virtual.form.ListController",
 
       if (Type.isObject(delegate))
       {
-        if (Type.isString(specificMethod)) 
+        if (Type.isString(specificMethod))
         {
           return Type.isFunction(delegate[specificMethod]);
         }
-        else 
+        else
         {
-          for (var methodName in this._validDelegates) 
+          for (var methodName in this._validDelegates)
           {
             if (Type.isFunction(delegate[methodName]))
             {
@@ -292,7 +292,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
     ---------------------------------------------------------------------------
        APPLY METHODS
     ---------------------------------------------------------------------------
-    */    
+    */
 
     _applyDelegate: function(value, old)
     {
@@ -349,10 +349,10 @@ qx.Class.define("qx.ui.virtual.form.ListController",
 
         this.__changeBubbleListenerId = value.addListener(
           "changeBubble", this._onChangeBubbleModel, this
-        );  
+        );
       }
 
-      if (old != null) 
+      if (old != null)
       {
         old.removeListenerById(this.__changeLengthListenerId);
         old.removeListenerById(this.__changeListenerId);
@@ -365,7 +365,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
     },
 
 
-    _applySelection: function(value, old) 
+    _applySelection: function(value, old)
     {
       if (value != null)
       {
@@ -420,7 +420,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
     /**
      * TODOC
      */
-    _onChangeModel: function(e) 
+    _onChangeModel: function(e)
     {
       var target = this.getTarget();
       if (target != null) {
@@ -460,7 +460,7 @@ qx.Class.define("qx.ui.virtual.form.ListController",
       }
 
       var target = this.getTarget();
-      if (!target) 
+      if (!target)
       {
         this.getSelection().removaeAll();
         return;

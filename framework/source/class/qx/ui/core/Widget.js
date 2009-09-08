@@ -854,7 +854,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     /** {Map} Contains all pooled decorators for reuse */
     __decoratorPool : {},
-    
+
     /** {Map} Contains all pooled shadows for reuse */
     __shadowPool : {}
   },
@@ -1043,7 +1043,7 @@ qx.Class.define("qx.ui.core.Widget",
           var element = this.__shadowElement;
           var instance = manager.resolve(shadow);
           var insets = instance.getInsets();
-          
+
           var shadowWidth = width + insets.left + insets.right;
           var shadowHeight = height + insets.top + insets.bottom;
 
@@ -1535,14 +1535,14 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * Detects if the widget and all its parents are visible.
-     * 
+     *
      * @return {Boolean} true, if the widget is currenlty on the screen
      */
     isSeeable : function() {
       // if the element is already renderd, a check for the offsetWidth is enough
       var element = this.getContainerElement().getDomElement();
       if (element) {
-        return element.offsetWidth > 0;        
+        return element.offsetWidth > 0;
       }
       // otherwise, check the visibility of the parents
       var current = this;
@@ -1555,7 +1555,7 @@ qx.Class.define("qx.ui.core.Widget",
         }
         current = current.getLayoutParent();
       } while (current);
-      
+
       return false;
     },
 
@@ -3145,7 +3145,7 @@ qx.Class.define("qx.ui.core.Widget",
 
       // Apply qooxdoo attribute
       this.__containerElement.setSelectable(value);
-      this.__contentElement.setSelectable(value);      
+      this.__contentElement.setSelectable(value);
     },
 
 

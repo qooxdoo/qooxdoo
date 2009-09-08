@@ -142,7 +142,7 @@ qx.Class.define("qx.ui.menu.AbstractButton",
 
     // overridden
     /**
-     * @lint ignoreReferenceField(_forwardStates) 
+     * @lint ignoreReferenceField(_forwardStates)
      */
     _forwardStates : {
       selected : 1

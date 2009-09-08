@@ -164,8 +164,8 @@ qx.Theme.define("qx.theme.classic.Decoration",
         innerColor : [ "border-focused-light", "border-focused-dark-shadow", "border-focused-dark-shadow", "border-focused-light" ]
       }
     },
-    
-    "border-invalid" : 
+
+    "border-invalid" :
     {
       decorator: qx.ui.decoration.Double,
 
@@ -175,8 +175,8 @@ qx.Theme.define("qx.theme.classic.Decoration",
         innerWidth: 1,
         color : [ "border-dark-shadow", "border-light", "border-light", "border-dark-shadow" ],
         innerColor : "invalid"
-      }      
-    },    
+      }
+    },
 
 
 
@@ -236,7 +236,7 @@ qx.Theme.define("qx.theme.classic.Decoration",
         insets    : [ 0, 3, 3, 0 ]
       }
     },
-    
+
     "checkbox-invalid-shadow" :
     {
       decorator : qx.ui.decoration.Beveled,
@@ -247,7 +247,7 @@ qx.Theme.define("qx.theme.classic.Decoration",
         innerColor : "border-focused-invalid",
         insets: [0]
       }
-    },    
+    },
 
 
     /*
@@ -287,17 +287,17 @@ qx.Theme.define("qx.theme.classic.Decoration",
         color : "tooltip-text"
       }
     },
-    
-    
-    "tooltip-error" : 
+
+
+    "tooltip-error" :
     {
       decorator : qx.ui.decoration.Uniform,
 
       style : {
         width : 1,
         color : "tooltip-text"
-      }  
-    },    
+      }
+    },
 
 
 

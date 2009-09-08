@@ -18,32 +18,32 @@
 ************************************************************************ */
 /**
  * <h3>EXPERIMENTAL!</h3>
- * 
- * This class is responsible for validation in all asynchronous cases and 
+ *
+ * This class is responsible for validation in all asynchronous cases and
  * should always be used with {@link qx.ui.form.validation.Manager}.
- * 
- * 
- * It acts like a wrapper for asynchron validation functions. These 
- * validation function must be set in the constructor. The form manager will 
- * invoke the validation and the validator function will be called with two 
+ *
+ *
+ * It acts like a wrapper for asynchron validation functions. These
+ * validation function must be set in the constructor. The form manager will
+ * invoke the validation and the validator function will be called with two
  * arguments:
  * <ul>
  *  <li>asyncValidator: A reference to the corresponding validator.</li>
  *  <li>value: The value of the assigned input field.</li>
  * </ul>
- * These two parameters are needed to set the validation status of the current 
+ * These two parameters are needed to set the validation status of the current
  * validator. {@link #setValid} is responsible for doing that.
- * 
- * 
- * *Warning:* Instances of this class can only be used with one input 
+ *
+ *
+ * *Warning:* Instances of this class can only be used with one input
  * field at a time. Multi usage is not supported!
  */
-qx.Class.define("qx.ui.form.validation.AsyncValidator", 
+qx.Class.define("qx.ui.form.validation.AsyncValidator",
 {
   extend : qx.core.Object,
 
   /**
-   * @param validator {Function} The validator function, which has to be 
+   * @param validator {Function} The validator function, which has to be
    *   asynchronous.
    */
   construct : function(validator)
@@ -59,20 +59,20 @@ qx.Class.define("qx.ui.form.validation.AsyncValidator",
     __item : null,
     __manager : null,
     __usedForForm : null,
-    
+
     /**
-     * The validate function should only be called by 
+     * The validate function should only be called by
      * {@link qx.ui.form.validation.Manager}.
-     * 
+     *
      * It stores the given information and calls the validation function set in
-     * the constructor. The method is used for form fields only. Validating a 
+     * the constructor. The method is used for form fields only. Validating a
      * form itself will be invokes with {@link #validateForm}.
-     * 
+     *
      * @param item {qx.ui.core.Widget} The form item which should be validated.
      * @param value {var} The value of the form item.
-     * @param manager {qx.ui.form.validation.Manager} A reference to the form 
+     * @param manager {qx.ui.form.validation.Manager} A reference to the form
      *   manager.
-     * 
+     *
      * @internal
      */
     validate: function(item, value, manager) {
@@ -84,20 +84,20 @@ qx.Class.define("qx.ui.form.validation.AsyncValidator",
       // invoke the user set validator function
       this.__validatorFunction(this, value);
     },
-    
-    
+
+
     /**
-     * The validateForm function should only be called by 
+     * The validateForm function should only be called by
      * {@link qx.ui.form.validation.Manager}.
-     * 
+     *
      * It stores the given information and calls the validation function set in
-     * the constructor. The method is used for forms only. Validating a 
+     * the constructor. The method is used for forms only. Validating a
      * form item will be invokes with {@link #validate}.
-     * 
+     *
      * @param items {qx.ui.core.Widget[]} All form items of the form manager.
-     * @param manager {qx.ui.form.validation.Manager} A reference to the form 
+     * @param manager {qx.ui.form.validation.Manager} A reference to the form
      *   manager.
-     * 
+     *
      * @internal
      */
     validateForm : function(items, manager) {
@@ -105,12 +105,12 @@ qx.Class.define("qx.ui.form.validation.AsyncValidator",
       this.__manager = manager;
       this.__validatorFunction(items, this);
     },
-    
-    
+
+
     /**
      * This method should be called within the asynchron callback to tell the
      * validator the result of the validation.
-     * 
+     *
      * @param valid {boolean} The boolean state of the validation.
      * @param message {String?} The invalidMessage of the validation.
      */
@@ -127,7 +127,7 @@ qx.Class.define("qx.ui.form.validation.AsyncValidator",
         if (message !== undefined) {
           this.__item.setInvalidMessage(message);
         }
-        this.__manager.setItemValid(this.__item, valid);        
+        this.__manager.setItemValid(this.__item, valid);
       }
     }
   },
@@ -140,6 +140,6 @@ qx.Class.define("qx.ui.form.validation.AsyncValidator",
    */
 
   destruct : function() {
-    this._disposeFields("__manager", "__item");      
+    this._disposeFields("__manager", "__item");
   }
 });

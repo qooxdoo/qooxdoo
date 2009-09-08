@@ -19,16 +19,16 @@
 
 /**
  * The part loader knows about all generated packages and parts.
- * 
+ *
  * It contains functionality to load parts and to retrieve part instances.
  */
 qx.Class.define("qx.io2.PartLoader",
 {
   type : "singleton",
   extend : qx.core.Object,
-  
+
   construct : function()
-  {    
+  {
     this.base(arguments);
 
     this.__packages = [];
@@ -39,11 +39,11 @@ qx.Class.define("qx.io2.PartLoader",
 
     this.__parts = {};
     var parts = qx.$$loader.parts;
-    
+
     for (var name in parts)
     {
       var pkgIndexes = parts[name];
-      var packages = []; 
+      var packages = [];
       for (var i=0; i<pkgIndexes.length; i++) {
         packages.push(this.__packages[pkgIndexes[i]]);
       }
@@ -54,8 +54,8 @@ qx.Class.define("qx.io2.PartLoader",
       this.__parts[name] = part;
     }
   },
-  
-  
+
+
   events :
   {
     /**
@@ -64,8 +64,8 @@ qx.Class.define("qx.io2.PartLoader",
      */
     "partLoaded" : "qx.event.type.Data"
   },
-  
-  
+
+
   statics :
   {
     /**
@@ -77,16 +77,16 @@ qx.Class.define("qx.io2.PartLoader",
      *    config file at compile time.
      * @param callback {Function} Function to execute on completion
      * @param self {Object?window} Context to execute the given function in
-     */    
+     */
     require : function(partNames, callback, self) {
       this.getInstance().require(partNames, callback, self);
     }
   },
-  
-  
+
+
   members :
   {
-  
+
     /**
      * Loads one or more parts asynchronously. The callback is called after all
      * parts and their dependencies are fully loaded. If the parts are already
@@ -106,12 +106,12 @@ qx.Class.define("qx.io2.PartLoader",
       if (qx.lang.Type.isString(partNames)) {
         partNames = [partNames];
       }
-      
+
       var parts = [];
       for (var i=0; i<partNames.length; i++) {
         parts.push(this.getPart(partNames[i]));
       }
-      
+
       var partsLoaded = 0;
       var onLoad = function() {
         partsLoaded += 1;
@@ -119,19 +119,19 @@ qx.Class.define("qx.io2.PartLoader",
           callback.call(self)
         }
       }
-      
+
       for (var i=0; i<parts.length; i++) {
         parts[i].load(onLoad, this);
       }
     },
-    
+
     __packages : null,
-    
+
     __parts : null,
-    
+
     /**
      * Get the part instance of the part with the given name.
-     * 
+     *
      * @param name {String} Name of the part as defined in the config file at
      *    compile time.
      * @return {Part} The corresponding part instance
@@ -139,18 +139,18 @@ qx.Class.define("qx.io2.PartLoader",
     getPart : function(name)
     {
       var part = this.__parts[name];
-      
+
       if (!part) {
         throw new Error("No such part: " + name)
       }
 
       return part;
     },
-    
-    
+
+
     /**
      * Get the URI lists of all packages
-     * 
+     *
      * @return {String[][]} Array of URI lists for each package
      */
     _getUris : function()
@@ -162,21 +162,21 @@ qx.Class.define("qx.io2.PartLoader",
       }
       return uris;
     },
-    
-    
+
+
     /**
      * Decodes a list of source URIs. The function is defined in the loader
      * script.
-     * 
+     *
      * @signature function(compressedUris)
      * @param compressedUris {String[]} Array of compressed URIs
      * @return {String[]} decompressed URIs
      */
     _decodeUris : qx.$$loader.decodeUris
   },
-  
-  
-  
+
+
+
   /*
    *****************************************************************************
       DESTRUCTOR

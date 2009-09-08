@@ -24,8 +24,8 @@
 qx.Class.define("qx.io2.part.Package",
 {
   extend : qx.core.Object,
-  
-  
+
+
   /**
    * @param urls {String[]} A list of script URLs
    * @param loaded {Boolean?false} Whether the package is already loaded.
@@ -33,29 +33,29 @@ qx.Class.define("qx.io2.part.Package",
   construct : function(urls, loaded)
   {
     this.base(arguments);
-    
+
     this.__readyState = loaded ? "complete" : "initialized";
     this.__urls = urls;
   },
-  
-  
-  events : 
+
+
+  events :
   {
     /** This event is fired after the part has been loaded successfully. */
     "load" : "qx.event.type.Event"
   },
-  
-  
+
+
   members :
   {
-    
+
     __urls : null,
-    
+
     __readyState : null,
-    
+
     /**
      * Loads a list of scripts in the correct order.
-     * 
+     *
      * @param urlList {String[]} List of script urls
      * @param callback {Function} Function to execute on completion
      * @param self {Object?window} Context to execute the given function in
@@ -67,13 +67,13 @@ qx.Class.define("qx.io2.part.Package",
         callback.call(self);
         return;
       }
-      
+
       this.__readyState = "loading";
-      
+
       var urlsLoaded = 0;
       var onLoad = function(urls)
       {
-        if (urlsLoaded >= urlList.length) 
+        if (urlsLoaded >= urlList.length)
         {
           this.__readyState = "complete";
           callback.call(self);
@@ -81,7 +81,7 @@ qx.Class.define("qx.io2.part.Package",
         }
 
         var loader = new qx.io2.ScriptLoader()
-        loader.load(urls.shift(), function() 
+        loader.load(urls.shift(), function()
         {
           urlsLoaded += 1;
           loader.dispose();
@@ -89,7 +89,7 @@ qx.Class.define("qx.io2.part.Package",
           {
             // force asynchronous load
             // Safari fails with an "maximum recursion depth exceeded" error if it is
-            // called sync.      
+            // called sync.
             qx.event.Timer.once(function() {
               onLoad.call(this, urls, callback, self);
             }, this, 0);
@@ -98,11 +98,11 @@ qx.Class.define("qx.io2.part.Package",
           }
         }, this);
       }
-      
-      onLoad(qx.lang.Array.clone(urlList));      
+
+      onLoad(qx.lang.Array.clone(urlList));
     },
-    
-    
+
+
     /**
      * Get the ready state of the package. The value is one of
      * <ul>
@@ -113,14 +113,14 @@ qx.Class.define("qx.io2.part.Package",
      * <li><b>loading</b>: The package is still loading.</li>
      * <li><b>complete</b>: The package has been loaded successfully</li>
      * </li>
-     * 
+     *
      * @return {String} The ready state.
-     */    
+     */
     getReadyState : function() {
       return this.__readyState;
     },
-    
-    
+
+
     /**
      * Load the part's script URL's in the correct order. A {@link #load} event
      * if fired once all scrips are loaded.
@@ -138,9 +138,9 @@ qx.Class.define("qx.io2.part.Package",
       }, this);
     }
   },
-  
-  
-  
+
+
+
   /*
    *****************************************************************************
       DESTRUCTOR

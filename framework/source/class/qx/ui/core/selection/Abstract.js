@@ -255,7 +255,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         if (first) {
           this.addItem(first);
         }
-        
+
         // Do not fire any event in this case.
         if (first == item) {
           return;
@@ -323,7 +323,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     /**
      * Replaces current selection with given array of items.
      *
-     * Please note that in single selection scenarios it is more 
+     * Please note that in single selection scenarios it is more
      * efficient to directly use {@link #selectItem}.
      *
      * @param items {Array} Items to select
@@ -331,12 +331,12 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     replaceSelection : function(items)
     {
       var mode = this.getMode();
-      if (mode == "one" || mode === "single") 
+      if (mode == "one" || mode === "single")
       {
         if (items.length > 1)   {
           throw new Error("Could not select more than one items in mode: " + mode + "!");
         }
-        
+
         if (items.length == 1) {
           this.selectItem(items[0]);
         } else {
@@ -419,7 +419,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       return qx.lang.Object.isEmpty(this.__selection);
     },
 
-    
+
     /**
      * Invert the selection. Select the non selected and deselect the selected.
      */
@@ -432,9 +432,9 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       var selectables = this.getSelectables();
       for (var i = 0; i < selectables.length; i++)
       {
-        this._toggleInSelection(selectables[i]);  
+        this._toggleInSelection(selectables[i]);
       }
-      
+
       this._fireChange();
     },
 
@@ -542,7 +542,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * @param event {qx.event.type.Mouse} The mouse event
      * @return {Object} The resulting selectable
      */
-    _getSelectableFromMouseEvent : function(event) 
+    _getSelectableFromMouseEvent : function(event)
     {
       var target = event.getTarget();
       return this._isSelectable(target) ? target : null;
@@ -900,7 +900,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
           if (isShiftPressed)
           {
             var anchor = this._getAnchorItem();
-            if (anchor === null) 
+            if (anchor === null)
             {
               anchor = this._getFirstSelectable();
               this._setAnchorItem(anchor);
@@ -930,7 +930,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       // Drag selection
       var mode = this.getMode();
       if (
-        this.getDrag() && 
+        this.getDrag() &&
         mode !== "single" &&
         mode !== "one" &&
         !isShiftPressed &&
@@ -1172,8 +1172,8 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       // Auto select based on new scroll position and cursor
       this._autoSelect();
     },
- 
-    
+
+
     /**
      * Automatically selects items based on the mouse movement during a drag selection
      */
@@ -1191,7 +1191,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       }
       this.__lastRelX = relX;
       this.__lastRelY = relY;
-      
+
       // Cache anchor
       var anchor = this._getAnchorItem();
       var lead = anchor;
@@ -1200,12 +1200,12 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       // Process X-coordinate
       var moveX = this.__moveDirectionX;
       var nextX, locationX;
-      
+
       while (moveX !== 0)
       {
         // Find next item to process depending on current scroll direction
-        nextX = moveX > 0 ? 
-          this._getRelatedSelectable(lead, "right") : 
+        nextX = moveX > 0 ?
+          this._getRelatedSelectable(lead, "right") :
           this._getRelatedSelectable(lead, "left");
 
         // May be null (e.g. first/last item)
@@ -1215,7 +1215,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
           // Continue when the item is in the visible area
           if (
-            (moveX > 0 && locationX.left <= relX) || 
+            (moveX > 0 && locationX.left <= relX) ||
             (moveX < 0 && locationX.right >= relX)
           )
           {
@@ -1234,12 +1234,12 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       var nextY, locationY;
 
       while (moveY !== 0)
-      {        
+      {
         // Find next item to process depending on current scroll direction
-        nextY = moveY > 0 ? 
-          this._getRelatedSelectable(lead, "under") : 
+        nextY = moveY > 0 ?
+          this._getRelatedSelectable(lead, "under") :
           this._getRelatedSelectable(lead, "above");
-        
+
         // May be null (e.g. first/last item)
         if (nextY !== null)
         {
@@ -1247,7 +1247,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
           // Continue when the item is in the visible area
           if (
-            (moveY > 0 && locationY.top <= relY) || 
+            (moveY > 0 && locationY.top <= relY) ||
             (moveY < 0 && locationY.bottom >= relY)
           )
           {
@@ -1300,9 +1300,9 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     ---------------------------------------------------------------------------
     */
 
-    /** 
+    /**
      * {Map} All supported navigation keys
-     * 
+     *
      * @lint ignoreReferenceField(__navigationKeys)
      */
     __navigationKeys :
@@ -1326,7 +1326,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * @return {void}
      */
     handleKeyPress : function(event)
-    {      
+    {
       var current, next;
       var key = event.getKeyIdentifier();
       var mode = this.getMode();
@@ -1625,12 +1625,12 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     _setSelectedItem : function(item)
     {
       if (this._isSelectable(item))
-      {        
+      {
         // If already selected try to find out if this is the only item
         var current = this.__selection;
         var hash = this._selectableToHashCode(item);
 
-        if (!current[hash] || qx.lang.Object.hasMinLength(current, 2)) 
+        if (!current[hash] || qx.lang.Object.hasMinLength(current, 2))
         {
           this._clearSelection();
           this._addToSelection(item);
@@ -1713,36 +1713,36 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     },
 
 
-    /** 
+    /**
      * Replaces current selection with items from given array.
      *
      * @param items {Array} List of items to select
-     */ 
+     */
     _replaceMultiSelection : function(items)
     {
       var modified = false;
-      
+
       // Build map from hash codes and filter non-selectables
       var selectable, hash;
       var incoming = {};
-      for (var i=0, l=items.length; i<l; i++) 
+      for (var i=0, l=items.length; i<l; i++)
       {
         selectable = items[i];
         if (this._isSelectable(selectable))
         {
           hash = this._selectableToHashCode(selectable);
-          incoming[hash] = selectable;  
+          incoming[hash] = selectable;
         }
       }
-      
-      // Remember last 
+
+      // Remember last
       var last = selectable;
 
       // Clear old entries from map
       var current = this.__selection;
       for (var hash in current)
       {
-        if (incoming[hash]) 
+        if (incoming[hash])
         {
           // Reduce map to make next loop faster
           delete incoming[hash];
@@ -1752,45 +1752,45 @@ qx.Class.define("qx.ui.core.selection.Abstract",
           // update internal map
           selectable = current[hash];
           delete current[hash];
-          
+
           // apply styling
           this._styleSelectable(selectable, "selected", false);
-          
+
           // remember that the selection has been modified
           modified = true;
         }
       }
-      
+
       // Add remaining selectables to selection
-      for (var hash in incoming) 
+      for (var hash in incoming)
       {
         // update internal map
         selectable = current[hash] = incoming[hash];
-        
+
         // apply styling
         this._styleSelectable(selectable, "selected", true);
-        
+
         // remember that the selection has been modified
         modified = true;
       }
-      
+
       // Do not do anything if selection is equal to previous one
       if (!modified) {
         return false;
       }
-      
+
       // Scroll last incoming item into view
       this._scrollItemIntoView(last);
-        
+
       // Reset anchor and lead item
       this._setLeadItem(null);
-      this._setAnchorItem(null);        
+      this._setAnchorItem(null);
 
       // Finally fire change event
       this.__selectionModified = true;
       this._fireChange();
     },
-    
+
 
     /**
      * Fires the selection change event if the selection has

@@ -40,21 +40,21 @@
  *
  * <ul>
  * <li><strong>flex</strong> <em>(Integer)</em>: The flexibility of a layout item determines how the container
- *   distributes remaining empty space among its children. If items are made 
+ *   distributes remaining empty space among its children. If items are made
  *   flexible, they can grow or shrink accordingly. Their relative flex values
- *   determine how the items are being resized, i.e. the larger the flex ratio 
+ *   determine how the items are being resized, i.e. the larger the flex ratio
  *   of two items, the larger the resizing of the first item compared to the
  *   second.
- *   
- *   If there is only one flex item in a layout container, its actual flex 
+ *
+ *   If there is only one flex item in a layout container, its actual flex
  *   value is not relevant. To disallow items to become flexible, set the
  *   flex value to zero.
  * </li>
  * <li><strong>height</strong> <em>(String)</em>: Allows to define a percent
- *   height for the item. The height in percent, if specified, is used instead 
- *   of the height defined by the size hint. The minimum and maximum height still 
- *   takes care of the element's limits. It has no influence on the layout's 
- *   size hint. Percent values are mostly useful for widgets which are sized by 
+ *   height for the item. The height in percent, if specified, is used instead
+ *   of the height defined by the size hint. The minimum and maximum height still
+ *   takes care of the element's limits. It has no influence on the layout's
+ *   size hint. Percent values are mostly useful for widgets which are sized by
  *   the outer hierarchy.
  * </li>
  * </ul>
@@ -76,9 +76,9 @@
  *
  * *External Documentation*
  *
- * See <a href='http://qooxdoo.org/documentation/0.8/layout/Box'>extended documentation</a> 
+ * See <a href='http://qooxdoo.org/documentation/0.8/layout/Box'>extended documentation</a>
  * and links to demos for this layout.
- * 
+ *
  */
 qx.Class.define("qx.ui.layout.VBox",
 {
@@ -485,7 +485,7 @@ qx.Class.define("qx.ui.layout.VBox",
 
         // Detect if child is shrinkable or has percent height and update minHeight
         var flex = this.__flexs[i];
-        var percent = this.__heights[i];       
+        var percent = this.__heights[i];
         if (flex) {
           minHeight += hint.minHeight;
         } else if (percent) {
@@ -509,7 +509,7 @@ qx.Class.define("qx.ui.layout.VBox",
       }
 
       minHeight += percentMinHeight;
-      
+
       // Respect gaps
       var spacing = this.getSpacing();
       var separator = this.getSeparator();

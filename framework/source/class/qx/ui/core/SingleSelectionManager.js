@@ -19,7 +19,7 @@
 
 /**
  * Responsible for the single selection management.
- * 
+ *
  * The class manage a list of {@link qx.ui.core.Widget} which are returned from
  * {@link qx.ui.core.ISingleSelectionProvider#getItems}.
  *
@@ -29,106 +29,106 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
 {
   extend : qx.core.Object,
 
-  
+
   /*
   *****************************************************************************
      CONSTRUCTOR
   *****************************************************************************
   */
-  
-  
+
+
   /**
    * Construct the single selection manager.
-   * 
+   *
    * @param selectionProvider {qx.ui.core.ISingleSelectionProvider} The provider
    * for selection.
    */
   construct : function(selectionProvider) {
     this.base(arguments);
-    
+
     if (qx.core.Variant.isSet("qx.debug", "on")) {
-      qx.core.Assert.assertInterface(selectionProvider, 
-        qx.ui.core.ISingleSelectionProvider, 
+      qx.core.Assert.assertInterface(selectionProvider,
+        qx.ui.core.ISingleSelectionProvider,
         "Invalid selectionProvider!");
     }
-    
+
     this.__selectionProvider = selectionProvider;
-  },  
-  
-  
+  },
+
+
   /*
   *****************************************************************************
      EVENTS
   *****************************************************************************
   */
-  
-  
+
+
   events :
   {
     /** Fires after the selection was modified */
     "changeSelected" : "qx.event.type.Data"
   },
-  
-  
+
+
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
-  
-  
+
+
   properties :
   {
     /**
-     * If the value is <code>true</code> the manager allows an empty selection, 
-     * otherwise the firt selectable element returned from the 
+     * If the value is <code>true</code> the manager allows an empty selection,
+     * otherwise the firt selectable element returned from the
      * <code>qx.ui.core.ISingleSelectionProvider</code> will be selected.
      */
-    allowEmptySelection : 
+    allowEmptySelection :
     {
       check : "Boolean",
       init : true,
       apply : "__applyAllowEmptySelection"
     }
   },
-  
-  
+
+
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
-  
-  
+
+
   members :
   {
     /** {qx.ui.core.Widget} The selected widget. */
     __selected : null,
-    
-    /** {qx.ui.core.ISingleSelectionProvider} The provider for selection management */ 
+
+    /** {qx.ui.core.ISingleSelectionProvider} The provider for selection management */
     __selectionProvider : null,
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
        PUBLIC API
     ---------------------------------------------------------------------------
     */
-    
-    
+
+
     /**
      * Returns the current selected element.
-     * 
-     * @return {qx.ui.core.Widget | null} The current selected widget or 
+     *
+     * @return {qx.ui.core.Widget | null} The current selected widget or
      *    <code>null</code> if the selection is empty.
      */
     getSelected : function() {
       return this.__selected;
     },
-    
+
     /**
      * Selects the passed element.
-     * 
+     *
      * @param item {qx.ui.core.Widget} Element to select.
      * @throws Error if the element is not a child element.
      */
@@ -137,23 +137,23 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
         throw new Error("Could not select " + item +
           ", because it is not a child element!");
       }
-      
+
       this.__setSelected(item);
     },
-    
+
     /**
      * Reset the current selection. If {@link #allowEmptySelection} is set to
-     * <code>true</code> the first element will be selected. 
+     * <code>true</code> the first element will be selected.
      */
     resetSelected : function(){
       this.__setSelected(null);
     },
-    
+
     /**
      * Return <code>true</code> if the passed element is selected.
-     * 
-     * @param item {qx.ui.core.Widget} Element to check if selected. 
-     * @return {Boolean} <code>true</code> if passed element is selected, 
+     *
+     * @param item {qx.ui.core.Widget} Element to check if selected.
+     * @return {Boolean} <code>true</code> if passed element is selected,
      *    <code>false</code> otherwise.
      * @throws Error if the element is not a child element.
      */
@@ -164,27 +164,27 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
       }
       return this.__selected === item;
     },
-    
+
     /**
      * Returns <code>true</code> if selection is empty.
-     * 
-     * @return {Boolean} <code>true</code> if selection is empty, 
+     *
+     * @return {Boolean} <code>true</code> if selection is empty,
      *    <code>false</code> otherwise.
      */
     isSelectionEmpty : function() {
       return this.__selected == null;
     },
-    
+
     /**
      * Returns the selectable elements.
-     * 
+     *
      * @return {qx.ui.core.Widget[]} The selectable elements.
      */
     getSelectables : function()
     {
       var items = this.__selectionProvider.getItems();
       var result = [];
-      
+
       for (var i = 0; i < items.length; i++)
       {
         if (this.__selectionProvider.isItemSelectable(items[i])) {
@@ -193,15 +193,15 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
       }
       return result;
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
        APPLY METHODS
     ---------------------------------------------------------------------------
     */
-    
-    
+
+
     // apply method
     __applyAllowEmptySelection : function(value, old)
     {
@@ -209,53 +209,53 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
         this.__setSelected(this.__selected);
       }
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
        HELPERS
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Set selectet element.
-     * 
-     * If passes value is <code>null</code>, the selection will be reseted.  
-     * 
-     * @param item {qx.ui.core.Widget | null} element to select, or 
+     *
+     * If passes value is <code>null</code>, the selection will be reseted.
+     *
+     * @param item {qx.ui.core.Widget | null} element to select, or
      *    <code>null</code> to reset selection.
      */
     __setSelected : function(item) {
       var oldSelected = this.__selected;
       var newSelected = item;
-      
+
       if (newSelected != null && oldSelected === newSelected) {
         return;
       }
-      
+
       if (!this.isAllowEmptySelection() && newSelected == null) {
         var firstElement = this.getSelectables()[0];
-        
+
         if (firstElement) {
           newSelected = firstElement;
         }
       }
-      
+
       this.__selected = newSelected;
       this.fireDataEvent("changeSelected", newSelected, oldSelected);
     },
-    
+
     /**
      * Checks if passed element is a child element.
-     * 
+     *
      * @param item {qx.ui.core.Widget} Elemet to check if child element.
-     * @return {Boolean} <code>true</code> if element is child element, 
+     * @return {Boolean} <code>true</code> if element is child element,
      *    <code>false</code> otherwise.
      */
     __isChildElement : function(item)
     {
       var items = this.__selectionProvider.getItems();
-      
+
       for (var i = 0; i < items.length; i++)
       {
         if (items[i] === item)
@@ -266,9 +266,9 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
       return false;
     }
   },
-  
-  
-  
+
+
+
   /*
    *****************************************************************************
       DESTRUCTOR
@@ -280,7 +280,7 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
     } else {
       this._disposeFields("__selectionProvider");
     }
-    
+
     this._disposeObjects("__selected");
   }
 });

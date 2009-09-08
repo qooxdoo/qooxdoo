@@ -31,10 +31,10 @@
  *
  * The methods are executed in the context of this application, which means
  * that all features of <code>qx.core.Object</code> and similar are available.
- * 
+ *
  * ATTENTION: This class is deprecated. Better use the 'qx.application.Native'
  * instead.
- * 
+ *
  * @deprecated
  */
 qx.Class.define("qx.application.Simple",
@@ -56,14 +56,14 @@ qx.Class.define("qx.application.Simple",
     main : function()
     {
       this.base(arguments);
-      
+
       this.warn("This application type is deprecated! " +
                 "Use the 'Native' application instead.");
-      
+
       // Enable the focus handler at startup if it's available.
       // This ensures that the key event handler gets the right target for the
-      // very first key events. 
-      // Otherwise the key event handler will invoke the focus handler which 
+      // very first key events.
+      // Otherwise the key event handler will invoke the focus handler which
       // then returns the BODY element as fallback because the handler has (yet)
       // no active element.
       // See Bug #1880 for details.

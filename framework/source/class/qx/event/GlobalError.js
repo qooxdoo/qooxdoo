@@ -19,21 +19,21 @@
 
 /**
  * The GlobalError class stores a reference to a global error handler function.
- * 
+ *
  *  This function is called for each uncatched JavaScript exception. To enable
  *  global error handling the setting <code>qx.globalErrorHandling</code> bust
  *  be enabled and a error handler must be registered.
  *  Further each JavaScript "entry point" must be wrapped with a call to
- *  {@link qx.event.GlobalError#observeMethod}. 
+ *  {@link qx.event.GlobalError#observeMethod}.
  */
 qx.Bootstrap.define("qx.event.GlobalError",
 {
   statics :
-  {    
+  {
     /**
      * Set the global fallback error handler
-     * 
-     * @param callback {Function} The error handler. The first argument is the 
+     *
+     * @param callback {Function} The error handler. The first argument is the
      *    exception, which caused the error
      * @param context {Object} The "this" context of the callback function
      */
@@ -41,20 +41,20 @@ qx.Bootstrap.define("qx.event.GlobalError",
     {
       this.__callback = callback || null;
       this.__context = context || window;
-      
+
       if (qx.core.Setting.get("qx.globalErrorHandling") === "on")
       {
         if (callback && !window.onerror) {
           window.onerror = qx.lang.Function.bind(this.__onErrorWindow, this);
         }
-        
+
         if (!callback && window.onerror) {
           window.onerror = null;
         }
       }
     },
-    
-    
+
+
     /**
      * Catches all errors of the <code>window.onerror</code> handler
      * and passes an {@link qx.core.WindowError} object to the error
@@ -62,8 +62,8 @@ qx.Bootstrap.define("qx.event.GlobalError",
      *
      * @param msg {String} browser error message
      * @param uri {String} uri to errornous script
-     * @param lineNumber {Integer} line number of error 
-     */ 
+     * @param lineNumber {Integer} line number of error
+     */
     __onErrorWindow : function(msg, uri, lineNumber)
     {
       if (this.__callback)
@@ -72,12 +72,12 @@ qx.Bootstrap.define("qx.event.GlobalError",
         return true;
       }
     },
-    
-    
+
+
     /**
      * Wraps a method with error handling code. Only methods, which are called
      * directly by the browser (e.g. event handler) should be wrapped.
-     * 
+     *
      * @param method {Function} method to wrap
      * @return {Function} The function wrapped with error handling code
      */
@@ -91,7 +91,7 @@ qx.Bootstrap.define("qx.event.GlobalError",
           if (!self.__callback) {
             return method.apply(this, arguments);
           }
-          
+
           try {
             return method.apply(this, arguments);
           } catch(ex) {
@@ -104,13 +104,13 @@ qx.Bootstrap.define("qx.event.GlobalError",
         return method;
       }
     },
-    
-   
+
+
     /**
      * Delegates every given exception to the registered error handler
      *
      * @param ex {qx.core.WindowError|exception} Exception to delegate
-     */ 
+     */
     handleError : function(ex)
     {
       if (this.__callback) {
@@ -118,9 +118,9 @@ qx.Bootstrap.define("qx.event.GlobalError",
       }
     }
   },
-  
-  
-  defer : function(statics) 
+
+
+  defer : function(statics)
   {
     qx.core.Setting.define("qx.globalErrorHandling", "on");
     statics.setErrorHandler(null, null);

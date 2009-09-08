@@ -36,7 +36,7 @@
 
 /**
  * Core effect "Scale"
- * 
+ *
  * This effect scales the specified element (and its content, optionally) by given percentages.
  */
 qx.Class.define("qx.fx.effect.core.Scale",

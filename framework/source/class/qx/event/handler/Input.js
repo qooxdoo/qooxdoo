@@ -159,9 +159,9 @@ qx.Class.define("qx.event.handler.Input",
           if (elementType !== "checkbox" && elementType !== "radio") {
             qx.bom.Event.addNativeListener(target, "change", this._onChangeValueWrapper);
           }
-          
+
           this.__changeEventOnEnterFix(target, elementType);
-          
+
           target.__inputHandlerAttached = true;
         }
       },
@@ -182,22 +182,22 @@ qx.Class.define("qx.event.handler.Input",
           {
             qx.bom.Event.addNativeListener(target, "change", this._onChangeValueWrapper);
           }
-          
+
           this.__changeEventOnEnterFix(target, target.type);
         }
       }
     }),
-    
-    
+
+
     __registerInputListener : qx.core.Variant.select("qx.client",
     {
       "mshtml" : null,
-      
+
       "webkit" : function(target)
       {
         // TODO: remove listener
         var tag = target.tagName.toLowerCase();
-      
+
         // the change event is not fired while typing
         // this has been fixed in the latest nightlies
         if (qx.bom.client.Engine.VERSION < 532 && tag == "textarea") {
@@ -205,7 +205,7 @@ qx.Class.define("qx.event.handler.Input",
         }
         qx.bom.Event.addNativeListener(target, "input", this._onInputWrapper);
       },
-      
+
       "default" : function(target) {
         qx.bom.Event.addNativeListener(target, "input", this._onInputWrapper);
       }
@@ -236,7 +236,7 @@ qx.Class.define("qx.event.handler.Input",
           try {
             delete target.__inputHandlerAttached;
           } catch(ex) {
-            target.__inputHandlerAttached = null;  
+            target.__inputHandlerAttached = null;
           }
         }
       },
@@ -260,17 +260,17 @@ qx.Class.define("qx.event.handler.Input",
         }
       }
     }),
-    
-    
+
+
     __unregisterInputListener : qx.core.Variant.select("qx.client",
     {
       "mshtml" : null,
-      
+
       "webkit" : function(target)
       {
         // TODO: remove listener
         var tag = target.tagName.toLowerCase();
-      
+
         // the change event is not fired while typing
         // this has been fixed in the latest nightlies
         if (qx.bom.client.Engine.VERSION < 532 && tag == "textarea") {
@@ -278,19 +278,19 @@ qx.Class.define("qx.event.handler.Input",
         }
         qx.bom.Event.removeNativeListener(target, "input", this._onInputWrapper);
       },
-      
+
       "default" : function(target) {
         qx.bom.Event.removeNativeListener(target, "input", this._onInputWrapper);
       }
     }),
-    
-    
+
+
     /**
-     * Fix the different behavior when pressing the enter key. 
-     * 
+     * Fix the different behavior when pressing the enter key.
+     *
      * FF and Safari fire a "change" event if the user presses the enter key.
      * IE and Opera fire the event only if the focus is changed.
-     * 
+     *
      * @signature function(target, elementType)
      * @param target {Element} The event target
      * @param elementType {String} The type of element
@@ -309,7 +309,7 @@ qx.Class.define("qx.event.handler.Input",
           });
         }
       },
-      
+
       "default" : function(target, elementType) {}
     }),
 

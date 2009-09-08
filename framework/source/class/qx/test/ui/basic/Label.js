@@ -27,23 +27,23 @@ qx.Class.define("qx.test.ui.basic.Label",
     {
       var container = new qx.ui.container.Composite(new qx.ui.layout.Grow());
       this.getRoot().add(container);
-      
+
       var label = new qx.ui.basic.Label("juhu kinners juhu kinners juhu kinners juhu kinners juhu kinners juhu kinners ").set({
         rich: true
       });
       container.add(label);
-      
+
       this.flush();
       var width = label.getBounds().width;
       this.assertEquals(width, container.getBounds().width);
-      
+
       container.setWidth(10);
       this.flush();
-      
+
       container.resetWidth();
       this.flush();
-      
+
       this.assertEquals(width, label.getBounds().width);
     }
-  }  
+  }
 });

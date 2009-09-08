@@ -23,20 +23,20 @@ qx.Class.define("qx.test.List",
 
   construct : function()
   {
-    this.base(arguments);    
+    this.base(arguments);
     qx.List.define("qx.test.TestList", {});
   },
-  
-  
+
+
   members :
   {
-    
+
     __isFF2 : function() {
       return (qx.bom.client.Engine.GECKO && qx.bom.client.Engine.VERSION < 3);
     },
-        
+
     testListConstruct : function()
-    {           
+    {
       if (this.__isFF2())
       {
         qx.log.Logger.warn("This test is skipped in Firefox 2.");
@@ -45,13 +45,13 @@ qx.Class.define("qx.test.List",
 
       var list = new qx.test.TestList(10);
       this.assertEquals(10, list.length);
-    
+
       list = new qx.test.TestList(1, 2, 3);
-      this.assertArrayEquals([1, 2, 3], list);      
+      this.assertArrayEquals([1, 2, 3], list);
     },
-    
+
     testArrayLength : function()
-    {            
+    {
       if (this.__isFF2())
       {
         qx.log.Logger.warn("This test is skipped in Firefox 2.");
@@ -61,7 +61,7 @@ qx.Class.define("qx.test.List",
       var list = new qx.test.TestList(1, 2, 3);
       this.assertEquals(3, list.length);
     },
-    
+
     testClear : function()
     {
       if (this.__isFF2())
@@ -74,7 +74,7 @@ qx.Class.define("qx.test.List",
       list.length = 0;
       this.assertArrayEquals([], list)
     },
-      
+
     testArrayJoin : function()
     {
       if (this.__isFF2())
@@ -86,7 +86,7 @@ qx.Class.define("qx.test.List",
       var list = new qx.test.TestList(1, 2, 3);
       this.assertEquals("1, 2, 3", list.join(", "));
     },
-    
+
     testArrayConcat : function()
     {
       if (this.__isFF2())
@@ -96,9 +96,9 @@ qx.Class.define("qx.test.List",
       }
 
       var list = new qx.test.TestList(1, 2, 3);
-      this.assertArrayEquals([1, 2, 3, 4, 5], list.concat(4, 5));     
+      this.assertArrayEquals([1, 2, 3, 4, 5], list.concat(4, 5));
     },
-    
+
     testArrayPop : function()
     {
       if (this.__isFF2())
@@ -112,7 +112,7 @@ qx.Class.define("qx.test.List",
       this.assertEquals(3, popped);
       this.assertArrayEquals([1, 2], list);
     },
-    
+
     testArrayPush : function()
     {
       if (this.__isFF2())
@@ -130,7 +130,7 @@ qx.Class.define("qx.test.List",
       this.assertEquals(5, length);
       this.assertArrayEquals([1, 2, 3, 4, 5], list);
     },
-    
+
     testArrayReverse : function()
     {
       if (this.__isFF2())
@@ -145,7 +145,7 @@ qx.Class.define("qx.test.List",
       list.reverse();
       this.assertArrayEquals([1, 2, 3, 4, 5], list);
     },
-    
+
     testArrayShift : function()
     {
       if (this.__isFF2())
@@ -159,7 +159,7 @@ qx.Class.define("qx.test.List",
       this.assertEquals(1, shifted);
       this.assertArrayEquals([2, 3, 4, 5], list);
     },
-    
+
     testArrayUnshift : function()
     {
       if (this.__isFF2())
@@ -172,7 +172,7 @@ qx.Class.define("qx.test.List",
       var length = list.unshift(1);
       this.assertArrayEquals([1, 2, 3, 4, 5], list);
     },
-    
+
     testArraySlice : function()
     {
       if (this.__isFF2())
@@ -186,7 +186,7 @@ qx.Class.define("qx.test.List",
       this.assertArrayEquals([2, 3, 4, 5], list.slice(1));
       this.assertArrayEquals([3, 4], list.slice(2, -1));
     },
-    
+
     testArraySort : function()
     {
       if (this.__isFF2())
@@ -205,7 +205,7 @@ qx.Class.define("qx.test.List",
       });
       this.assertArrayEquals([5, 3, 1, -1], list);
     },
-    
+
     testArraySplice : function()
     {
       if (this.__isFF2())
@@ -219,7 +219,7 @@ qx.Class.define("qx.test.List",
       this.assertArrayEquals([2, 3], removed);
       this.assertArrayEquals([1, 22, 33, 4, 5], list);
     },
-    
+
     testArrayToString : function()
     {
       if (this.__isFF2())
@@ -231,7 +231,7 @@ qx.Class.define("qx.test.List",
       var list = new qx.test.TestList(1, 2, 3);
       this.assertEquals(list.join(), list.toString());
     },
-    
+
     testArrayToLocaleString : function()
     {
       if (this.__isFF2())
@@ -241,7 +241,7 @@ qx.Class.define("qx.test.List",
       }
 
       var list = new qx.test.TestList(1, 2, 3);
-      this.assertEquals([1, 2, 3].toLocaleString(), list.toLocaleString());      
+      this.assertEquals([1, 2, 3].toLocaleString(), list.toLocaleString());
     }
   }
 });

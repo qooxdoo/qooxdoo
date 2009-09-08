@@ -20,7 +20,7 @@
 
 /**
  * EXPERIMENTAL!
- * 
+ *
  * A HTML cell provider provides the {@link qx.ui.virtual.layer.HtmlCell}
  * with HTML fragments to render the cells.
  */
@@ -38,11 +38,11 @@ qx.Interface.define("qx.ui.virtual.cell.ICell",
      * <li>insets (Array): insets (padding + border) of the cell as
      * two-dimensional array.</li>
      * </ul>
-     * 
+     *
      * @param data {Var} Data needed for the cell to render.
      * @param states {Map} The states set on the cell (e.g. <i>selected</i>,
      * <i>focused</i>, <i>editable</i>).
-     * 
+     *
      * @return {Map} Cell properties (see above.)
      */
     getCellProperties : function(data, states) {}

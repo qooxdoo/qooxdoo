@@ -43,8 +43,8 @@ qx.Class.define("qx.ui.popup.Manager",
     this.__objects = {};
 
     // Register mousedown handler
-    qx.event.Registration.addListener(document.documentElement, "mousedown", 
-                                      this.__onMouseDown, this, true); 
+    qx.event.Registration.addListener(document.documentElement, "mousedown",
+                                      this.__onMouseDown, this, true);
 
     // Hide all popups on window blur
     qx.bom.Element.addListener(window, "blur", this.hideAll, this);
@@ -161,9 +161,9 @@ qx.Class.define("qx.ui.popup.Manager",
     __onMouseDown : function(e)
     {
       // Get the corresponding widget of the target since we are dealing with
-      // DOM elements here. This is necessary because we have to be aware of 
-      // Inline applications which are not covering the whole document and 
-      // therefore are not able to get all mouse events when only the 
+      // DOM elements here. This is necessary because we have to be aware of
+      // Inline applications which are not covering the whole document and
+      // therefore are not able to get all mouse events when only the
       // application root is monitored.
       var target = qx.ui.core.Widget.getWidgetByElement(e.getTarget());
 

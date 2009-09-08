@@ -127,13 +127,13 @@ qx.Class.define("qx.ui.decoration.Grid",
         left : 0
       };
     },
-    
-    
+
+
     // overridden
     _isInitialized: function() {
-      return !!this.__markup;      
+      return !!this.__markup;
     },
-    
+
 
     /*
     ---------------------------------------------------------------------------
@@ -217,7 +217,7 @@ qx.Class.define("qx.ui.decoration.Grid",
         // render effects. We use the margin to correct this here
         // as all other options conflict with styles applied by the
         // the decoration class.
-        if (qx.bom.client.Engine.VERSION < 7 || 
+        if (qx.bom.client.Engine.VERSION < 7 ||
           (qx.bom.client.Feature.QUIRKS_MODE && qx.bom.client.Engine.VERSION < 8))
         {
           if (width%2==1)

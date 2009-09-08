@@ -48,7 +48,7 @@ qx.Class.define("qx.bom.element.Background",
 
     /**
      * Computes the background position CSS value
-     * 
+     *
      * @param left {Integer|String} either an integer pixel value or a CSS
      *    string value
      * @param top {Integer|String} either an integer pixel value or a CSS
@@ -58,12 +58,12 @@ qx.Class.define("qx.bom.element.Background",
     __computePosition : function(left, top)
     {
       // Correcting buggy Firefox background-position implementation
-      // Have problems with identical values      
+      // Have problems with identical values
       var Engine = qx.bom.client.Engine;
       if (Engine.GECKO && Engine.VERSION < 1.9 && left == top && typeof left == "number") {
         top += 0.01;
-      }      
-      
+      }
+
       if (left) {
         var leftCss = (typeof left == "number") ? left + "px" : left;
       } else {
@@ -74,11 +74,11 @@ qx.Class.define("qx.bom.element.Background",
       } else {
         topCss = "0";
       }
-      
+
       return leftCss + " " + topCss;
     },
-    
-    
+
+
     /**
      * Compiles the background into a CSS compatible string.
      *
@@ -137,7 +137,7 @@ qx.Class.define("qx.bom.element.Background",
 
       var position = this.__computePosition(left, top);
       var backgroundImageUrl = qx.util.ResourceManager.getInstance().toUri(source);
-      
+
       var map = {
         backgroundPosition : position,
         backgroundImage : "url(" + backgroundImageUrl + ")"

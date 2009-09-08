@@ -119,14 +119,14 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
       }
       imageData.width = sizes.width;
       imageData.height = sizes.height;
-      
+
       return imageData;
     },
 
-    
+
     /**
      * Compute the size of the given image
-     * 
+     *
      * @param source {String} the image URL
      * @return {Map} A map containing the image's <code>width</code> and
      *    <code>height</code>
@@ -155,9 +155,9 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
       }
 
       return {width : width, height : height};
-    },    
+    },
 
-    
+
     // overridden
     _getCellClass : function(cellInfo) {
       return this.base(arguments) + " qooxdoo-table-cell-icon";

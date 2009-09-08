@@ -26,18 +26,18 @@ qx.Class.define("qx.util.ResourceManager",
 {
   extend  : qx.core.Object,
   type    : "singleton",
-  
+
   /*
-  ***************************************************************************** 
+  *****************************************************************************
      STATICS
-  ***************************************************************************** 
+  *****************************************************************************
   */
 
   statics :
   {
     /** {Map} the shared image registry */
     __registry : qx.$$resources || {},
-    
+
     /** {Map} prefix per library used in HTTPS mode for IE */
     __urlPrefix : {},
 
@@ -164,11 +164,11 @@ qx.Class.define("qx.util.ResourceManager",
       return this.getInstance().toUri(id);
     }
   },
-  
+
   /*
-  ***************************************************************************** 
+  *****************************************************************************
      MEMBERS
-  ***************************************************************************** 
+  *****************************************************************************
   */
 
   members :
@@ -285,18 +285,18 @@ qx.Class.define("qx.util.ResourceManager",
           return id;
         }
       }
-      
+
       var urlPrefix = "";
       if (qx.core.Variant.isSet("qx.client", "mshtml") &&
           qx.bom.client.Feature.SSL) {
         urlPrefix = this.self(arguments).__urlPrefix[lib];
       }
-      
+
       return urlPrefix + qx.$$libraries[lib].resourceUri + "/" + id;
     }
   },
-  
-  
+
+
   defer : function(statics)
   {
     if (qx.core.Variant.isSet("qx.client", "mshtml"))
@@ -312,7 +312,7 @@ qx.Class.define("qx.util.ResourceManager",
         for (var lib in qx.$$libraries)
         {
           var resourceUri = qx.$$libraries[lib].resourceUri;
-        
+
           // It is valid to to begin a URL with "//" so this case has to
           // be considered. If the to resolved URL begins with "//" the
           // manager prefixes it with "https:" to avoid any problems for IE
@@ -328,8 +328,8 @@ qx.Class.define("qx.util.ResourceManager",
             statics.__urlPrefix[lib] = url.substring(0, url.lastIndexOf("/"));
           } else if (resourceUri.match(/^http/) != null) {
             // Let absolute URLs pass through
-          } 
-          else 
+          }
+          else
           {
             // check for parameters with URLs as value
             var index = window.location.href.indexOf("?");
@@ -339,11 +339,11 @@ qx.Class.define("qx.util.ResourceManager",
             } else {
               href = window.location.href.substring(0, index);
             }
-            
+
             statics.__urlPrefix[lib] = href.substring(0, href.lastIndexOf("/") + 1);
           }
         }
-      } 
+      }
     }
   }
 });

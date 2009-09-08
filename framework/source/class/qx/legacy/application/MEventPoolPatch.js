@@ -34,8 +34,8 @@ qx.Mixin.define("qx.legacy.application.MEventPoolPatch",
       "qx.legacy.event.type.MouseEvent" : 1,
       "qx.legacy.event.type.KeyEvent" : 1
     },
-    
-    
+
+
     /**
      * This method places an Object in a pool of Objects of its type. Note that
      * once an instance has been pooled, there is no means to get that exact
@@ -53,8 +53,8 @@ qx.Mixin.define("qx.legacy.application.MEventPoolPatch",
       if (this.__filter[obj.classname]) {
         return;
       }
-    
+
       this.base(arguments, obj);
-    }   
+    }
   }
 });

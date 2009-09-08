@@ -37,7 +37,7 @@ qx.Class.define("qx.ui.core.EventHandler",
   construct : function()
   {
     this.base(arguments);
-    
+
     this.__manager = qx.event.Registration.getManager(window);
   },
 
@@ -161,11 +161,11 @@ qx.Class.define("qx.ui.core.EventHandler",
       var widgetTarget = qx.ui.core.Widget.getWidgetByElement(domTarget);
       var targetChanged = false;
       while (widgetTarget && widgetTarget.isAnonymous())
-      {        
+      {
         var targetChanged = true;
         widgetTarget = widgetTarget.getLayoutParent();
       }
-      
+
       // don't activate anonymous widgets!
       if (widgetTarget && targetChanged && domEvent.getType() == "activate") {
         widgetTarget.getContainerElement().activate();

@@ -45,8 +45,8 @@ qx.Class.define("qx.ui.form.RadioButton",
     qx.ui.form.MModelProperty
   ],
   implement : [
-    qx.ui.form.IRadioItem, 
-    qx.ui.form.IForm, 
+    qx.ui.form.IRadioItem,
+    qx.ui.form.IForm,
     qx.ui.form.IBooleanForm,
     qx.ui.form.IModel
   ],
@@ -92,7 +92,7 @@ qx.Class.define("qx.ui.form.RadioButton",
       nullable : true,
       apply : "_applyGroup"
     },
-    
+
     /** The value of the widget. True, if the widget is checked. */
     value :
     {
@@ -133,9 +133,9 @@ qx.Class.define("qx.ui.form.RadioButton",
      */
     "changeChecked" : "qx.event.type.Data"
   },
-  
-  
-  
+
+
+
   /*
   *****************************************************************************
      MEMBERS
@@ -160,9 +160,9 @@ qx.Class.define("qx.ui.form.RadioButton",
       if (value && this.getFocusable()) {
         this.focus();
       }
-      
+
       // @deprecated
-      this.fireDataEvent("changeChecked", value, old);      
+      this.fireDataEvent("changeChecked", value, old);
     },
 
 
@@ -230,18 +230,18 @@ qx.Class.define("qx.ui.form.RadioButton",
           break;
       }
     },
-    
-    
-    
+
+
+
     /*
     ---------------------------------------------------------------------------
       DEPRECATED STUFF
     ---------------------------------------------------------------------------
     */
     /**
-     * Old set method for the checked property. Please use the value 
+     * Old set method for the checked property. Please use the value
      * property instead.
-     * 
+     *
      * @param value {String} The value of the label.
      * @deprecated
      */
@@ -249,62 +249,62 @@ qx.Class.define("qx.ui.form.RadioButton",
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee, "Please use the value property instead."
       );
-      
+
       this.setValue(value);
     },
-    
-    
+
+
     /**
-     * Old is method for the checked property. Please use the value property 
+     * Old is method for the checked property. Please use the value property
      * instead.
-     * 
+     *
      * @deprecated
      */
     isChecked: function() {
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee, "Please use the value property instead."
       );
-      
-      return this.getValue();      
+
+      return this.getValue();
     },
-    
-    
+
+
     /**
-     * Old toggle method for the checked property. Please use the value property 
+     * Old toggle method for the checked property. Please use the value property
      * instead.
-     * 
+     *
      * @deprecated
      */
     toggleChecked: function() {
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee, "Please use the value property instead."
       );
-      
+
       this.setValue(!this.getValue());
     },
-    
-    
+
+
     /**
-     * Old get method for the checked property. Please use the value 
+     * Old get method for the checked property. Please use the value
      * property instead.
-     * 
+     *
      * @deprecated
-     */    
+     */
     getChecked: function() {
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee, "Please use the value property instead."
-      );      
-      
+      );
+
       return this.getValue();
     },
-    
-    
+
+
     /**
-     * Old reset method for the checked property. Please use the value 
+     * Old reset method for the checked property. Please use the value
      * property instead.
-     * 
+     *
      * @deprecated
-     */    
+     */
     resetChecked: function() {
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee, "Please use the value property instead."
@@ -312,18 +312,18 @@ qx.Class.define("qx.ui.form.RadioButton",
 
       this.resetValue();
     },
-    
-    
+
+
     // overridden
     addListener: function(type, listener, self, capture) {
       if (type == "changeChecked") {
         qx.log.Logger.deprecatedEventWarning(
-          arguments.callee, 
+          arguments.callee,
           "changeChecked",
           "Please use the changeValue event instead."
-        );        
+        );
       }
       return this.base(arguments, type, listener, self, capture);
-    }    
+    }
   }
 });

@@ -68,7 +68,7 @@ qx.Class.define("qx.legacy.ui.listview.SelectionManager",
      *
      * @return {var} TODOC
      */
-    getLast : function() 
+    getLast : function()
     {
       var items = this.getItems();
       return items[items.length-1];

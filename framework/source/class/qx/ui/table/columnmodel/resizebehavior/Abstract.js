@@ -134,7 +134,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
     _getAvailableWidth : function()
     {
       var tableColumnModel = this.getTableColumnModel();
-       
+
       // Get the inner width off the table
       var table = tableColumnModel.getTable();
 
@@ -145,7 +145,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
       var scrollerParentWidth = scrollerArr[0].getLayoutParent().getBounds().width;
 
       var lastScroller = scrollerArr[scrollerArr.length-1];
-      scrollerParentWidth -= lastScroller.getPaneInsetRight();  
+      scrollerParentWidth -= lastScroller.getPaneInsetRight();
 
       return scrollerParentWidth;
     }

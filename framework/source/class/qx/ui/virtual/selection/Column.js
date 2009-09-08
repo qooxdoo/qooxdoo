@@ -20,42 +20,42 @@
 
 /**
  * EXPERIMENTAL!
- * 
+ *
  * Column selection manager
  */
 qx.Class.define("qx.ui.virtual.selection.Column",
 {
   extend : qx.ui.virtual.selection.Row,
-   
-   
+
+
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
- 
+
   members :
-  {  
+  {
     /**
-     * Returns the number of all items in the pane. This number may contain 
+     * Returns the number of all items in the pane. This number may contain
      * unselectable items as well.
-     * 
+     *
      * @return {Integer} number of items
      */
     _getItemCount : function() {
       return this._pane.getColumnConfig().getItemCount();
     },
-  
-  
+
+
     /*
     ---------------------------------------------------------------------------
       IMPLEMENT ABSTRACT METHODS
     ---------------------------------------------------------------------------
-    */  
-    
+    */
+
     // overridden
     _getSelectableFromMouseEvent : function(event)
-    {           
+    {
       var cell = this._pane.getCellAtPosition(
         event.getDocumentLeft(),
         event.getDocumentTop()
@@ -64,13 +64,13 @@ qx.Class.define("qx.ui.virtual.selection.Column",
       if (!cell) {
         return null;
       }
-      
+
       return this._isSelectable(cell.column) ? cell.column : null;
-    },        
-    
+    },
+
 
     // overridden
-    _getRelatedSelectable : function(item, relation) 
+    _getRelatedSelectable : function(item, relation)
     {
       if (relation == "left")
       {
@@ -81,47 +81,47 @@ qx.Class.define("qx.ui.virtual.selection.Column",
       else if (relation == "right")
       {
         var startIndex = item+1;
-        var endIndex = this._getItemCount()-1; 
+        var endIndex = this._getItemCount()-1;
         var increment = 1;
       }
       else
       {
         return null;
       }
-      
-      for (var i=startIndex; i !== endIndex+increment; i += increment) 
+
+      for (var i=startIndex; i !== endIndex+increment; i += increment)
       {
         if (this._isSelectable(i)) {
           return i;
-        }        
+        }
       }
       return null;
     },
-  
-    
+
+
     // overridden
     _scrollItemIntoView : function(item) {
       this._pane.scrollColumnIntoView(item);
     },
-    
-    
+
+
     // overridden
-    _getSelectableLocationX : function(item) 
+    _getSelectableLocationX : function(item)
     {
       var columnConfig = this._pane.getColumnConfig();
-      
+
       var itemLeft = columnConfig.getItemPosition(item);
       var itemRight = itemLeft + columnConfig.getItemSize(item) - 1;
-      
+
       return {
         left: itemLeft,
         right: itemRight
       }
     },
-    
-    
+
+
     // overridden
-    _getSelectableLocationY : function(item) 
+    _getSelectableLocationY : function(item)
     {
       return {
         top: 0,

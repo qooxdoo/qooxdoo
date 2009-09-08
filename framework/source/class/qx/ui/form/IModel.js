@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * Each object which wants to store data representative for the real item 
+ * Each object which wants to store data representative for the real item
  * should implement this interface.
  */
 qx.Interface.define("qx.ui.form.IModel",

@@ -34,27 +34,27 @@
 qx.Class.define("qx.ui.core.Blocker",
 {
   extend : qx.core.Object,
-  
+
   /**
    * Creates a blocker for the passed widget.
-   * 
-   * @param widget {qx.ui.core.Widget} Widget which should be added the blocker 
+   *
+   * @param widget {qx.ui.core.Widget} Widget which should be added the blocker
    */
   construct: function(widget)
   {
-    this.base(arguments);    
+    this.base(arguments);
     this._widget = widget;
-    
+
     this._isPageRoot = (
       qx.Class.isDefined("qx.ui.root.Page") &&
       widget instanceof qx.ui.root.Page
     );
-    
+
     if (this._isPageRoot) {
       widget.addListener("resize", this.__onResize, this);
     }
   },
-  
+
   /*
   *****************************************************************************
      PROPERTIES
@@ -107,10 +107,10 @@ qx.Class.define("qx.ui.core.Blocker",
 
     __oldAnonymous : null,
     __anonymousCounter : 0,
-    
+
     __timer : null,
 
-    
+
     /**
      * Adjust html element size on layout resizes.
      *
@@ -134,9 +134,9 @@ qx.Class.define("qx.ui.core.Blocker",
           height: data.height
         });
       }
-    },    
-    
-    
+    },
+
+
     // property apply
     _applyColor : function(value, old)
     {
@@ -150,27 +150,27 @@ qx.Class.define("qx.ui.core.Blocker",
     {
       this.__setBlockersStyle("opacity", value);
     },
-    
+
     /**
      * Set the style to all blockers (blocker and content blocker).
-     * 
+     *
      * @param key {String} The name of the style attribute.
-     * @param value {String} The value. 
+     * @param value {String} The value.
      */
     __setBlockersStyle : function(key, value)
     {
       var blockers = [];
       this.__blocker && blockers.push(this.__blocker);
       this.__contentBlocker && blockers.push(this.__contentBlocker);
- 
+
       for (var i = 0; i < blockers.length; i++) {
         blockers[i].setStyle(key, value);
       }
     },
-    
+
     /**
      * Remember current value and make widget anonymous. This prevents
-     * "capturing events". 
+     * "capturing events".
      */
     _saveAndSetAnonymousState : function()
     {
@@ -181,8 +181,8 @@ qx.Class.define("qx.ui.core.Blocker",
         this._widget.setAnonymous(true);
       }
     },
-    
-    
+
+
     /**
      * Reset the value of the anonymous property to its previous state. Each call
      * to this method must have a matching call to {@link #_saveAndSetAnonymousState}.
@@ -194,8 +194,8 @@ qx.Class.define("qx.ui.core.Blocker",
         this._widget.setAnonymous(this.__oldAnonymous);
       }
     },
-    
-    
+
+
     /**
      * Creates the blocker element.
      *
@@ -302,7 +302,7 @@ qx.Class.define("qx.ui.core.Blocker",
       this.__isContentBlocked = true;
 
       blocker.include();
-      
+
       if (this._isPageRoot)
       {
         // to block interaction we need to cover the HTML page with a div as well.
@@ -315,7 +315,7 @@ qx.Class.define("qx.ui.core.Blocker",
           this.__timer.addListener("interval", this.__syncBlocker, this);
         }
         this.__timer.start();
-        this.__syncBlocker();      
+        this.__syncBlocker();
       }
     },
 
@@ -341,13 +341,13 @@ qx.Class.define("qx.ui.core.Blocker",
       this.__isContentBlocked = false;
 
       this._getContentBlocker().exclude();
-      
+
       if (this._isPageRoot) {
         this.__timer.stop();
       }
     },
-    
-    
+
+
     /**
      * Synchronize the size of the background blocker with the size of the
      * body element
@@ -356,7 +356,7 @@ qx.Class.define("qx.ui.core.Blocker",
     {
       var containerEl = this._widget.getContainerElement().getDomElement();
       var doc = qx.dom.Node.getDocument(containerEl);
-      
+
       this._getContentBlocker().setStyles({
         height: doc.documentElement.scrollHeight + "px",
         width: doc.documentElement.scrollWidth + "px"

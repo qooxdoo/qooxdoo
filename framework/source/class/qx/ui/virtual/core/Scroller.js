@@ -21,7 +21,7 @@
 
 /**
  * EXPERIMENTAL!
- * 
+ *
  * The Scroller wraps a {@link Pane} and provides scroll bars to interactively
  * scroll the pane's content.
  */
@@ -40,18 +40,18 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
    * @param rowCount {Integer?0} The number of rows of the virtual grid
    * @param columnCount {Integer?0} The number of columns of the virtual grid
    * @param cellHeight {Integer?10} The default cell height
-   * @param cellWidth {Integer?10} The default cell width 
-   */  
+   * @param cellWidth {Integer?10} The default cell width
+   */
   construct : function(rowCount, columnCount, cellHeight, cellWidth)
   {
     this.base(arguments);
 
     this.__pane = new qx.ui.virtual.core.Pane(rowCount, columnCount, cellHeight, cellWidth);
-    this.__pane.addListener("update", this._computeScrollbars, this);  
+    this.__pane.addListener("update", this._computeScrollbars, this);
     this.__pane.addListener("scrollX", this._onScrollPaneX, this);
     this.__pane.addListener("scrollY", this._onScrollPaneY, this);
 
-    this._add(this.__pane, {row: 0, column: 0});    
+    this._add(this.__pane, {row: 0, column: 0});
   },
 
 
@@ -76,10 +76,10 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
      {
        refine : true,
        init : null
-     }  
+     }
    },
-   
-   
+
+
   /*
   *****************************************************************************
      MEMBERS
@@ -89,23 +89,23 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
   members :
   {
     __pane : null,
-    
+
     /*
     ---------------------------------------------------------------------------
       ACCESSOR METHODS
     ---------------------------------------------------------------------------
     */
-     
+
     /**
      * Get the scroller's virtual pane
-     * 
-     * @return {Pane} The scroller's pane 
+     *
+     * @return {Pane} The scroller's pane
      */
     getPane : function() {
       return this.__pane;
     },
-     
-    
+
+
     /*
     ---------------------------------------------------------------------------
       CHILD CONTROL SUPPORT
@@ -118,7 +118,7 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
       if (id == "pane") {
         return this.__pane;
       } else {
-        return this.base(arguments, id); 
+        return this.base(arguments, id);
       }
     },
 
@@ -190,7 +190,7 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
     }
 
   },
-  
+
   /*
   *****************************************************************************
      DESTRUCTOR

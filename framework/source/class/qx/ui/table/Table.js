@@ -307,9 +307,9 @@ qx.Class.define("qx.ui.table.Table",
       refine : true,
       init : true
     },
-    
-    
-    minWidth : 
+
+
+    minWidth :
     {
       refine : true,
       init : 50
@@ -517,7 +517,7 @@ qx.Class.define("qx.ui.table.Table",
         return new qx.ui.table.columnmenu.Button();
       }
     },
-    
+
 
     /**
      * A function to instantiate a selection manager.  this allows subclasses of
@@ -1549,7 +1549,7 @@ qx.Class.define("qx.ui.table.Table",
         scrollerArr[i].onFocusChanged();
       }
     },
-    
+
 
     /**
      * Moves the focus.

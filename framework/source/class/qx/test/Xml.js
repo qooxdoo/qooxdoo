@@ -139,19 +139,19 @@ qx.Class.define("qx.test.Xml",
       var q1 = "//xhtml:em";
       var q2 = "//qx:foo";
       var q3 = "//xhtml:body";
-      
+
        // Chrome will throw an exception until Chromium bug #671 is fixed.
-       // See http://code.google.com/p/chromium/issues/detail?id=671 
+       // See http://code.google.com/p/chromium/issues/detail?id=671
       if (navigator.userAgent.indexOf('Chrome') > 0) {
         this.assertException(function () {
-          qx.xml.Element.selectSingleNode(doc, q1, nsMap);  
+          qx.xml.Element.selectSingleNode(doc, q1, nsMap);
         }, Error, "DOM Exception 14", "Namespaced XPath query worked in Chrome!");
         this.assertException(function () {
-          qx.xml.Element.selectSingleNode(doc, q2, nsMap);  
+          qx.xml.Element.selectSingleNode(doc, q2, nsMap);
         }, Error, "DOM Exception 14", "Namespaced XPath query worked in Chrome!");
       }
       // Older versions of Opera don't support XPathEvaluate.
-      // TODO: Define XPathEvaluate as a requirement for this test once the 
+      // TODO: Define XPathEvaluate as a requirement for this test once the
       // feature described in bug #1994 has been implemented.
       else if (qx.bom.client.Engine.OPERA && qx.bom.client.Engine.VERSION < 9.5) {
         return true;

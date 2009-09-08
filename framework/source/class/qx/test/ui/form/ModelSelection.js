@@ -16,82 +16,82 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.form.ModelSelection", 
+qx.Class.define("qx.test.ui.form.ModelSelection",
 {
   extend : qx.test.ui.LayoutTestCase,
 
   members :
   {
-    __testGetSingle : function(widget, children) 
+    __testGetSingle : function(widget, children)
     {
       var children = children || widget.getChildren();
-      
+
       // check the model selection
       widget.setSelection([children[0]]);
       this.assertEquals(1, widget.getModelSelection()[0]);
-      
+
       // check the model selection again
       widget.setSelection([children[2]]);
-      this.assertEquals(3, widget.getModelSelection()[0]);      
+      this.assertEquals(3, widget.getModelSelection()[0]);
     },
-    
-    __testGetMulti : function(widget, children) 
+
+    __testGetMulti : function(widget, children)
     {
       var children = children || widget.getChildren();
-      
+
       // check the model selection
       widget.setSelection([children[0]]);
       this.assertEquals(1, widget.getModelSelection()[0]);
-      
+
       // check the model selection again
       widget.setSelection([children[1], children[2]]);
       this.assertEquals(2, widget.getModelSelection()[0]);
-      this.assertEquals(3, widget.getModelSelection()[1]);      
-    },    
-    
-    __testSetSingle : function(widget, children) 
+      this.assertEquals(3, widget.getModelSelection()[1]);
+    },
+
+    __testSetSingle : function(widget, children)
     {
       var children = children || widget.getChildren();
 
       // check the set selection
       widget.setModelSelection([2]);
       this.assertEquals(children[1], widget.getSelection()[0]);
-      
+
       // check the set selection again
       widget.setModelSelection([3]);
-      this.assertEquals(children[2], widget.getSelection()[0]);      
+      this.assertEquals(children[2], widget.getSelection()[0]);
     },
-    
-    __testSetMulti : function(widget, children) 
+
+    __testSetMulti : function(widget, children)
     {
       var children = children || widget.getChildren();
-      
+
       // check the set selection
       widget.setModelSelection([2]);
       this.assertEquals(children[1], widget.getSelection()[0]);
-      
+
       // check the set selection again
       widget.setModelSelection([2, 3]);
-      this.assertEquals(children[1], widget.getSelection()[0]);      
-      this.assertEquals(children[2], widget.getSelection()[1]);            
-    },    
-    
-    
-    
-    __createSelectBox : function() 
+      this.assertEquals(children[1], widget.getSelection()[0]);
+      this.assertEquals(children[2], widget.getSelection()[1]);
+    },
+
+
+
+    __createSelectBox : function()
     {
       var box = new qx.ui.form.SelectBox();
       this.__addListItems(box);
       return box;
     },
-    
-    __createList : function() 
+
+    __createList : function()
     {
       var list = new qx.ui.form.List();
       this.__addListItems(list);
       return list;
     },
-    
+
     __addListItems : function(widget) {
       for (var i = 0; i < 3; i++) {
         var l = new qx.ui.form.ListItem("I" + (i + 1));
@@ -99,30 +99,30 @@ qx.Class.define("qx.test.ui.form.ModelSelection",
         widget.add(l);
       }
     },
-    
+
     __createRadioGroup : function() {
       var group = new qx.ui.form.RadioGroup();
       this.__addRadioButton(group);
       return group;
     },
-    
+
     __createRadioButtonGroup : function() {
       var group = new qx.ui.form.RadioButtonGroup();
       this.__addRadioButton(group);
       return group;
-    },    
-    
-    
+    },
+
+
     __addRadioButton : function(widget) {
       for (var i = 0; i < 3; i++) {
         var r = new qx.ui.form.RadioButton();
         r.setModel(i + 1);
-        widget.add(r);        
+        widget.add(r);
       }
     },
-    
-    
-    __createTree : function() 
+
+
+    __createTree : function()
     {
       var tree = new qx.ui.tree.Tree();
       var t2 = new qx.ui.tree.TreeFolder().set({model: 3});
@@ -135,9 +135,9 @@ qx.Class.define("qx.test.ui.form.ModelSelection",
       t1.setOpen(true);
       return tree;
     },
-      
-    
-    __getRidOf : function (box) 
+
+
+    __getRidOf : function (box)
     {
       var children = box.getChildren();
       for (var i = 0; i < children.length; i++) {
@@ -145,119 +145,119 @@ qx.Class.define("qx.test.ui.form.ModelSelection",
       }
       box.dispose();
     },
-    
-    
 
-    
-    testSelectBoxGetSingle : function() 
+
+
+
+    testSelectBoxGetSingle : function()
     {
       var box = this.__createSelectBox();
       this.__testGetSingle(box);
       this.__getRidOf(box);
     },
-    
-    testSelectBoxSetSingle : function() 
+
+    testSelectBoxSetSingle : function()
     {
       var box = this.__createSelectBox();
       this.__testSetSingle(box);
-      this.__getRidOf(box);      
+      this.__getRidOf(box);
     },
-    
-    
-    testListGetSingle : function() 
+
+
+    testListGetSingle : function()
     {
       var list = this.__createList();
       this.__testGetSingle(list);
       this.__getRidOf(list);
     },
-    
-    testListSetSingle : function() 
+
+    testListSetSingle : function()
     {
       var list = this.__createList();
       this.__testSetSingle(list);
-      this.__getRidOf(list);      
+      this.__getRidOf(list);
     },
-    
-    testListGetMulti : function() 
+
+    testListGetMulti : function()
     {
       var list = this.__createList();
       list.setSelectionMode("multi");
       this.__testGetMulti(list);
-      this.__getRidOf(list);      
+      this.__getRidOf(list);
     },
-    
-    testListSetMulti : function() 
+
+    testListSetMulti : function()
     {
       var list = this.__createList();
       list.setSelectionMode("multi");
       this.__testSetMulti(list);
-      this.__getRidOf(list);      
-    },    
-    
-    
-    testRadioGroupGetSingle : function() 
+      this.__getRidOf(list);
+    },
+
+
+    testRadioGroupGetSingle : function()
     {
       var group = this.__createRadioGroup();
       this.__testGetSingle(group);
       this.__getRidOf(group);
     },
-    
-    testRadioGroupSetSingle : function() 
+
+    testRadioGroupSetSingle : function()
     {
       var group = this.__createRadioGroup();
       this.__testSetSingle(group);
-      this.__getRidOf(group);      
+      this.__getRidOf(group);
     },
-    
-    testRadioButtonGroupGetSingle : function() 
+
+    testRadioButtonGroupGetSingle : function()
     {
       var group = this.__createRadioButtonGroup();
       this.__testGetSingle(group);
       this.__getRidOf(group);
     },
-    
-    testRadioButtonGroupSetSingle : function() 
+
+    testRadioButtonGroupSetSingle : function()
     {
       var group = this.__createRadioButtonGroup();
       this.__testSetSingle(group);
-      this.__getRidOf(group);      
+      this.__getRidOf(group);
     },
-    
-    testTreeGetSingle : function() 
+
+    testTreeGetSingle : function()
     {
       var widget = this.__createTree();
       var children = widget.getItems(true);
       this.__testGetSingle(widget, children);
-      widget.destroy();     
+      widget.destroy();
     },
-    
-    testTreeSetSingle : function() 
+
+    testTreeSetSingle : function()
     {
       var widget = this.__createTree();
       var children = widget.getItems(true);
       this.__testSetSingle(widget, children);
-      widget.destroy();     
+      widget.destroy();
     },
-    
-    testTreeGetMulti : function() 
+
+    testTreeGetMulti : function()
     {
       var widget = this.__createTree();
-      widget.setSelectionMode("multi");  
+      widget.setSelectionMode("multi");
       var children = widget.getItems(true);
       this.__testGetMulti(widget, children);
-      widget.destroy();    
+      widget.destroy();
     },
-    
-    testTreeSetMulti : function() 
+
+    testTreeSetMulti : function()
     {
       var widget = this.__createTree();
-      widget.setSelectionMode("multi");      
+      widget.setSelectionMode("multi");
       var children = widget.getItems(true);
       this.__testSetMulti(widget, children);
-      widget.destroy();     
-    }    
+      widget.destroy();
+    }
 
 
-    
+
   }
 });

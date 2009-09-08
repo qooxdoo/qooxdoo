@@ -241,11 +241,11 @@ qx.Class.define("qx.ui.basic.Image",
         this.__loadUnmanagedImage(el, source);
       }
     },
-    
-    
+
+
     /**
      * Use the ResourceManager to set a managed image
-     * 
+     *
      * @param el {Element} image DOM element
      * @param source {String} source path
      * @return {void}
@@ -253,7 +253,7 @@ qx.Class.define("qx.ui.basic.Image",
     __setManagedImage : function(el, source)
     {
       var ResourceManager = qx.util.ResourceManager.getInstance();
-      
+
       // Try to find a disabled image in registry
       if (!this.getEnabled())
       {
@@ -281,11 +281,11 @@ qx.Class.define("qx.ui.basic.Image",
       this.__updateContentHint(ResourceManager.getImageWidth(source),
         ResourceManager.getImageHeight(source));
     },
-    
-    
+
+
     /**
      * Use the infos of the ImageLoader to set an unmanaged image
-     * 
+     *
      * @param el {Element} image DOM element
      * @param source {String} source path
      * @return {void}
@@ -293,7 +293,7 @@ qx.Class.define("qx.ui.basic.Image",
     __setUnmanagedImage : function(el, source)
     {
       var ImageLoader = qx.io2.ImageLoader;
-      
+
       // Apply source
       el.setSource(source);
 
@@ -302,11 +302,11 @@ qx.Class.define("qx.ui.basic.Image",
       var height = ImageLoader.getHeight(source);
       this.__updateContentHint(width, height);
     },
-    
-    
+
+
     /**
      * Use the ImageLoader to load an unmanaged image
-     * 
+     *
      * @param el {Element} image DOM element
      * @param source {String} source path
      * @return {void}
@@ -314,7 +314,7 @@ qx.Class.define("qx.ui.basic.Image",
     __loadUnmanagedImage : function(el, source)
     {
       var ImageLoader = qx.io2.ImageLoader;
-      
+
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         // loading external images via HTTP/HTTPS is a common usecase

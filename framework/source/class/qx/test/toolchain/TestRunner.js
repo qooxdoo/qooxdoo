@@ -24,15 +24,15 @@ qx.Class.define("qx.test.toolchain.TestRunner",
   members :
   {
     testAsynchronous: function() {
-      
+
       qx.event.Timer.once(
         function() {
         this.resume(function() {
           // do nothing
         }, this);
-      }, this, 1000);      
+      }, this, 1000);
 
-      this.wait();      
+      this.wait();
     }
   }
 });

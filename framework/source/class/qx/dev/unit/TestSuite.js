@@ -121,7 +121,7 @@ qx.Class.define("qx.dev.unit.TestSuite",
           if (namespace.$$classtype !== "abstract") {
             this.addTestClass(namespace);
           }
-          return;          
+          return;
         }
       }
       else if (qx.lang.Type.isObject(namespace) && !(namespace instanceof Array))
@@ -235,7 +235,7 @@ qx.Class.define("qx.dev.unit.TestSuite",
       return methods;
     }
   },
-  
+
   destruct : function() {
     this._disposeArray("__tests");
   }

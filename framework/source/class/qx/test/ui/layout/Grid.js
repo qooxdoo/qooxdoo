@@ -29,7 +29,7 @@ qx.Class.define("qx.test.ui.layout.Grid",
       this._gridWidget = new qx.test.ui.layout.LayoutItem(100, 50);
       this._gridLayout = new qx.ui.layout.Grid();
       this._gridWidget.setLayout(this._gridLayout);
-      
+
       this.root = new qx.test.ui.layout.LayoutRoot();
       this.root.add(this._gridWidget);
     },
@@ -41,13 +41,13 @@ qx.Class.define("qx.test.ui.layout.Grid",
       this._gridWidget.dispose();
       this._gridLayout.dispose();
     },
-    
-    
+
+
     flush : function() {
       qx.ui.core.queue.Manager.flush();
     },
-    
-    
+
+
     assertSize : function(layoutItem, width, height)
     {
       this.flush();
@@ -72,10 +72,10 @@ qx.Class.define("qx.test.ui.layout.Grid",
     testGetCellWidget : function()
     {
       var grid = this._gridLayout;
-      
+
       this.assertNull(grid.getCellWidget(0, 0));
       this.assertNull(grid.getCellWidget(1, 1));
-      
+
       var w00 = this._getFixedWidget();
       this._gridWidget.add(w00, {row: 0, column: 0});
       this.assertEquals(w00, grid.getCellWidget(0, 0));
@@ -87,25 +87,25 @@ qx.Class.define("qx.test.ui.layout.Grid",
       this.assertEquals(w11, grid.getCellWidget(1, 1));
       this.assertNull(grid.getCellWidget(1, 0));
     },
-    
-    
+
+
     testAutoSize : function()
     {
       this._gridWidget.add(this._getFixedWidget(), {row: 0, column: 0});
       this._gridWidget.add(this._getFixedWidget(), {row: 0, column: 1});
       this._gridWidget.add(this._getFixedWidget(), {row: 1, column: 0});
       this._gridWidget.add(this._getFixedWidget(), {row: 1, column: 1});
-      
+
       this.assertSize(this._gridWidget, 400, 200);
 
       // spacing
       this._gridLayout.setSpacingY(10);
       this._gridLayout.setSpacingX(20);
-      
+
       this.assertSize(this._gridWidget, 420, 210);
     },
 
-    
+
     testAddRemove : function()
     {
       var a = this._getFixedWidget();
@@ -183,7 +183,7 @@ qx.Class.define("qx.test.ui.layout.Grid",
       b.setVisibility("excluded");
       c.setVisibility("visible");
       d.setVisibility("visible");
-      
+
       this.assertSize(this._gridWidget, 420, 110);
     },
 
@@ -211,7 +211,7 @@ qx.Class.define("qx.test.ui.layout.Grid",
       this.assertSize(d, 290, 150);
     }
   },
-  
+
   destruct : function() {
     this._disposeFields("_gridWidget", "_gridLayout");
   }

@@ -92,7 +92,7 @@ qx.Class.define("qx.ui.decoration.Uniform",
       check : "Color",
       apply : "_applyStyle"
     },
-    
+
     /** Color of the background */
     backgroundColor :
     {
@@ -127,13 +127,13 @@ qx.Class.define("qx.ui.decoration.Uniform",
         left : width
       };
     },
-    
-    
+
+
     // overridden
     _isInitialized: function() {
-      return !!this.__markup;      
+      return !!this.__markup;
     },
-    
+
 
     /*
     ---------------------------------------------------------------------------

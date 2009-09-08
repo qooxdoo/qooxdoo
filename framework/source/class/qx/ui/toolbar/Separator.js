@@ -50,8 +50,8 @@ qx.Class.define("qx.ui.toolbar.Separator",
     {
       refine : true,
       init : true
-    },    
-    
+    },
+
     // overridden
     width :
     {

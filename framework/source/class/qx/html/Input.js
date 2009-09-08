@@ -97,16 +97,16 @@ qx.Class.define("qx.html.Input",
       }
     },
 
-    
+
     /**
-     * Set the input element enabled / disabled. 
-     * Webkit needs a special treatment because the set color of the input 
-     * field changes automatically. Therefore, we use 
+     * Set the input element enabled / disabled.
+     * Webkit needs a special treatment because the set color of the input
+     * field changes automatically. Therefore, we use
      * <code>-webkit-user-modify: read-only</code> and
      * <code>-webkit-user-select: none</code>
      * for disabling the fields in webkit. All other browsers use the disabled
      * attribute.
-     * 
+     *
      * @param value {Boolean} true, if the inpout element should be enabled.
      */
     setEnabled : qx.core.Variant.select("qx.client",
@@ -114,29 +114,29 @@ qx.Class.define("qx.html.Input",
       "webkit" : function(value)
       {
         this.__enabled = value;
-        
+
         if (!value) {
           this.setStyle("userModify", "read-only");
           this.setStyle("userSelect", "none");
         } else {
           this.setStyle("userModify", null);
           this.setStyle("userSelect", this.__selectable ? null : "none");
-        }        
+        }
       },
 
-      "default" : function(value) 
+      "default" : function(value)
       {
         this.setAttribute("disabled", value===false);
       }
-    }), 
-    
-    
+    }),
+
+
     /**
-     * Set whether the element is selectable. It uses the qooxdoo attribute 
+     * Set whether the element is selectable. It uses the qooxdoo attribute
      * qxSelectable with the values 'on' or 'off'.
-     * In webkit, a special css property will be used and checks for the 
+     * In webkit, a special css property will be used and checks for the
      * enabled state.
-     * 
+     *
      * @param value {Boolean} True, if the element should be selectable.
      */
     setSelectable : qx.core.Variant.select("qx.client",
@@ -150,17 +150,17 @@ qx.Class.define("qx.html.Input",
         // Webkit, as of Safari 3.0, is the only client which supports
         // CSS userSelect the right way.
         if (qx.core.Variant.isSet("qx.client", "webkit")) {
-          var selectable = this.__enabled ? value ? null : "none" : "none";          
+          var selectable = this.__enabled ? value ? null : "none" : "none";
           this.setStyle("userSelect", selectable);
-        }      
+        }
       },
 
-      "default" : function(value) 
+      "default" : function(value)
       {
         this.setAttribute("qxSelectable", value ? "on" : "off");
       }
     }),
-    
+
 
 
     /*

@@ -25,15 +25,15 @@ qx.Class.define("qx.dev.unit.TestCase",
 {
   extend  : qx.core.Object,
   include : [qx.core.MAssert],
-  
+
   properties :
   {
-		/** The TestResult instance that runs the test */
+    /** The TestResult instance that runs the test */
     testResult :
     {
       init : null
     },
-		/** The test currently running */
+    /** The test currently running */
     testFunc :
     {
       init : null
@@ -51,27 +51,27 @@ qx.Class.define("qx.dev.unit.TestCase",
     isDebugOn : function() {
       return qx.core.Variant.isSet("qx.debug", "on") ? true : false;
     },
-		
-		/**
-		 * Instruct the test to wait. Used for asynchronous tests.
-		 * 
-		 * @param delay {Integer?5000} Amount of time in milliseconds to wait.
-		 * @param deferredFunction {Function?false} Optional function to run after
-		 * timeout has expired.		 
-		 */
+
+    /**
+     * Instruct the test to wait. Used for asynchronous tests.
+     *
+     * @param delay {Integer?5000} Amount of time in milliseconds to wait.
+     * @param deferredFunction {Function?false} Optional function to run after
+     * timeout has expired.
+     */
     wait : function(delay, deferredFunction) {
       throw new qx.dev.unit.AsyncWrapper(delay, deferredFunction);
     },
-		
-		/**
-		 * Cancel a timeout started with <code>wait()</code> and run the given 
-		 * function. Used for asynchronous tests, e.g. in a listener's callback
-		 * function.
-		 * 
-		 * @param deferredFunction {Function?false} Function to run
-		 * @param self {Object?false} reference to the ‘this’ variable inside the 
-		 * callback 
-		 */
+
+    /**
+     * Cancel a timeout started with <code>wait()</code> and run the given
+     * function. Used for asynchronous tests, e.g. in a listener's callback
+     * function.
+     *
+     * @param deferredFunction {Function?false} Function to run
+     * @param self {Object?false} reference to the ‘this’ variable inside the
+     * callback
+     */
     resume : function(deferredFunction, self) {
       this.getTestResult().run(this.getTestFunc(), deferredFunction, self);
     }

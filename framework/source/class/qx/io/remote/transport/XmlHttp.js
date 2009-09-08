@@ -126,7 +126,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      */
     getRequest : function()
     {
-      if (this.__request === null) 
+      if (this.__request === null)
       {
         this.__request = qx.io.remote.transport.XmlHttp.createRequestObject();
         this.__request.onreadystatechange = qx.lang.Function.bind(this._onreadystatechange, this);
@@ -411,7 +411,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
         if (!qx.io.remote.Exchange.wasSuccessful(this.getStatusCode(), vReadyState, this.__localRequest)) {
           // Fix for bug #2272
           // The IE doesn't set the state to 'sending' even though the send method
-          // is called. This only occurs if the server (which is called) goes 
+          // is called. This only occurs if the server (which is called) goes
           // down or a network failure occurs.
           if (this.getState() === "configured") {
             this.setState("sending");
@@ -489,12 +489,12 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      *
      * Only available at readyState 3 and 4 universally and in readyState 2
      * in Gecko.
-     * 
-     * Please note: Some servers/proxies (such as Selenium RC) will capitalize 
-     * response header names. This is in accordance with RFC 2616[1], which 
-     * states that HTTP 1.1 header names are case-insensitive, so your 
+     *
+     * Please note: Some servers/proxies (such as Selenium RC) will capitalize
+     * response header names. This is in accordance with RFC 2616[1], which
+     * states that HTTP 1.1 header names are case-insensitive, so your
      * application should be case-agnostic when dealing with response headers.
-     * 
+     *
      * [1]{@link http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.2}
      *
      * @param vLabel {String} Response header name

@@ -393,7 +393,7 @@ qx.Class.define("qx.ui.window.Window",
 
     // overridden
     /**
-     * @lint ignoreReferenceField(_forwardStates) 
+     * @lint ignoreReferenceField(_forwardStates)
      */
     _forwardStates :
     {
@@ -443,8 +443,8 @@ qx.Class.define("qx.ui.window.Window",
         case "captionbar":
           // captionbar
           var layout = new qx.ui.layout.Grid();
-          layout.setRowFlex(0, 1);      
-          layout.setColumnFlex(1, 1);  
+          layout.setRowFlex(0, 1);
+          layout.setColumnFlex(1, 1);
           control = new qx.ui.container.Composite(layout);
           this._add(control);
 
@@ -464,7 +464,7 @@ qx.Class.define("qx.ui.window.Window",
           control = new qx.ui.basic.Label(this.getCaption());
           control.setWidth(0);
           control.setAllowGrowX(true);
-          
+
           var captionBar = this.getChildControl("captionbar");
           captionBar.add(control, {row: 0, column:1});
           break;

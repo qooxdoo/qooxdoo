@@ -30,21 +30,21 @@ qx.Class.define("qx.test.ui.embed.Flash",
   statics :
   {
     isFlashReady : false,
-    
+
     flashCallback : function()
     {
       qx.test.ui.embed.Flash.isFlashReady = true;
     }
   },
-  
+
   members :
   {
     __flash : null,
-    
+
     __params : null,
-    
+
     __variables : null,
-    
+
     setUp : function()
     {
       this.__params = {
@@ -57,13 +57,13 @@ qx.Class.define("qx.test.ui.embed.Flash",
         menu : "true",
         bgcolor: "#FF0000"
       };
-      
+
       this.__variables = {
         init : "qx.test.ui.embed.Flash.flashCallback",
         flashVar1: "bli bla blub",
         flashVar2: "bulb alb ilb"
       };
-      
+
       var flash = this.__flash = new qx.ui.embed.Flash("qx/test/UnitTestFlash.swf", "flashmovie");
       flash.setVariables(this.__variables);
       flash.setScale("noscale");
@@ -71,11 +71,11 @@ qx.Class.define("qx.test.ui.embed.Flash",
       flash.setLoop(true);
       flash.setMenu(true);
       flash.setBackgroundColor("red");
-      
+
       this.getRoot().add(this.__flash, {edge: 10});
       this.flush();
     },
-    
+
     tearDown : function() {
       qx.test.ui.embed.Flash.isFlashReady = false;
       this.getRoot().removeAll();
@@ -83,40 +83,40 @@ qx.Class.define("qx.test.ui.embed.Flash",
       this.__flash = null;
       this.flush();
     },
-    
+
     testCreateFlash : function()
     {
-      var that = this;      
+      var that = this;
       this.wait(2000, function()
       {
         var flash = that.__flash.getFlashElement();
         that.assertNotNull(flash, "DOM element for Flash movie is not created!");
-        
+
         that.assertIdentical("object", flash.nodeName.toLowerCase());
-        
+
         // general object attribute tests
         that.assertIdentical("100%", flash.width);
         that.assertIdentical("100%", flash.height);
         that.assertIdentical("flashmovie", flash.id);
-        
+
         // object attribute tests for IE or other browser
         if (qx.core.Variant.isSet("qx.client", "mshtml"))
         {
           that.assertIdentical("clsid:D27CDB6E-AE6D-11cf-96B8-444553540000", flash.classid);
         }
-        else 
+        else
         {
           var index = flash.data.lastIndexOf("qx/test/UnitTestFlash.swf");
           var substring = flash.data.substring(index, flash.data.length);
-          
+
           that.assertIdentical("qx/test/UnitTestFlash.swf", substring);
           that.assertIdentical("application/x-shockwave-flash", flash.type);
         }
-        
+
         // test parmas and flashvars
         var params = that.__params;
         params.flashvars = "init=qx.test.ui.embed.Flash.flashCallback&flashVar1=bli bla blub&flashVar2=bulb alb ilb";
-        
+
         var children = flash.childNodes;
         for(var name in params)
         {
@@ -124,7 +124,7 @@ qx.Class.define("qx.test.ui.embed.Flash",
           for(var i = 0; i < children.length; i++)
           {
             that.assertIdentical("param", children[i].nodeName.toLowerCase());
-           
+
             if (children[i].name === name) {
               testSuccessful = true;
               that.assertIdentical(params[name], children[i].value);
@@ -135,7 +135,7 @@ qx.Class.define("qx.test.ui.embed.Flash",
         }
       });
     },
-    
+
     testProperties : function()
     {
       var that = this;
@@ -145,76 +145,76 @@ qx.Class.define("qx.test.ui.embed.Flash",
         {
           that.__flash.setSource("new.swf");
         }, Error, null, "Error expected by calling 'setSource'!");
-        
+
         that.assertException(function()
         {
           that.__flash.setId("newId");
         }, Error, null, "Error expected by calling 'setId'!");
-        
+
         that.assertException(function()
         {
           that.__flash.setQuality("low");
         }, Error, null, "Error expected by calling 'setQuality'!");
-        
+
         that.assertException(function()
         {
           that.__flash.setScale("excactfit");
         }, Error, null, "Error expected by calling 'setScale'!");
-        
+
         that.assertException(function()
         {
           that.__flash.setWmode("transparent");
         }, Error, null, "Error expected by calling 'setWmode'!");
-        
+
         that.assertException(function()
         {
           that.__flash.setPlay(false);
         }, Error, null, "Error expected by calling 'setPlay'!");
-        
+
         that.assertException(function()
         {
           that.__flash.setLoop(false);
         }, Error, null, "Error expected by calling 'setLoop'!");
-        
+
         that.assertException(function()
         {
           that.__flash.setMenu(false);
         }, Error, null, "Error expected by calling 'setMenu'!");
-        
+
         that.assertException(function()
         {
           that.__flash.setAllowScriptAccess("never");
         }, Error, null, "Error expected by calling 'setAllowScriptAccess'!");
-        
+
         that.assertException(function()
         {
           that.__flash.setLiveConnect(false);
         }, Error, null, "Error expected by calling 'setLiveConnect'!");
-        
+
         that.assertException(function()
         {
           that.__flash.setVariables({key: "value"});
         }, Error, null, "Error expected by calling 'setVariables'!");
-        
+
         that.assertException(function()
         {
           that.__flash.setBackgroundColor("black");
         }, Error, null, "Error expected by calling 'setBackgroundColor'!");
-      }); 
+      });
     },
-    
+
     testReloadWithExclude : function()
     {
       // TODO activate test if bug #2367 is fixed
       //this.__testReload("exclude");
     },
-    
+
     testReloadWithHide : function()
     {
       // TODO activate test if bug #2367 is fixed
       //this.__testReload("hide");
     },
-    
+
     __testReload : function(method)
     {
       // skip this test, because runs only with a webserver
@@ -223,9 +223,9 @@ qx.Class.define("qx.test.ui.embed.Flash",
           "is needed to run this test.");
         return;
       }
-      
+
       var result = 0;
-      
+
       var that = this;
       this.wait(5000, function()
       {
@@ -234,21 +234,21 @@ qx.Class.define("qx.test.ui.embed.Flash",
           that.warn("ExternalInterface not ready -> skipped test");
           return;
         }
-        
+
         var flash = that.__flash.getFlashElement();
-        
+
         if (flash.setValue) {
           flash.setValue(99);
           result = flash.getValue();
         }
-        
+
         that.assertIdentical(99, result, "Test setup error!");
-        
+
         that.__flash[method]();
         that.flush();
         that.__flash.show();
         that.flush();
-        
+
         that.wait(5000, function()
         {
           result = flash.getValue();
@@ -256,7 +256,7 @@ qx.Class.define("qx.test.ui.embed.Flash",
         });
       });
     },
-    
+
     testExternalInterface : function()
     {
       // skip this test, because runs only with a webserver
@@ -265,9 +265,9 @@ qx.Class.define("qx.test.ui.embed.Flash",
           "is needed to run this test.");
         return;
       }
-      
+
       var result = "";
-      
+
       var that = this;
       this.wait(5000, function()
       {
@@ -276,15 +276,15 @@ qx.Class.define("qx.test.ui.embed.Flash",
           that.warn("ExternalInterface not ready -> skipped test");
           return;
         }
-        
+
         var flash = that.__flash.getFlashElement();
-        
+
         if (flash.echo) {
           result = flash.echo("hello echo!");
         }
-        
+
         that.assertIdentical("hello echo!", result);
       });
-    }    
+    }
   }
 });

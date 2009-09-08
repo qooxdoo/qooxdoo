@@ -26,16 +26,16 @@ qx.Class.define("qx.test.theme.manager.Decoration",
     setUp : function() {
       this.manager = qx.theme.manager.Decoration.getInstance();
     },
-  
-    tearDown : function() 
+
+    tearDown : function()
     {
       qx.test.Theme.themes = null;
       this.manager.setTheme(null);
     },
-    
-    
+
+
     testAlias : function()
-    {      
+    {
       qx.Theme.define("qx.test.Theme.themes.A", {
         aliases : {
           decoration: "test/decoration",
@@ -43,18 +43,18 @@ qx.Class.define("qx.test.theme.manager.Decoration",
         },
         decorations : {}
       });
-      
+
       this.manager.setTheme(qx.test.Theme.themes.A);
-      
+
       // make sure the decoration alias is set
       var alias = qx.util.AliasManager.getInstance();
       this.assertEquals("test/decoration", alias.resolve("decoration"));
       this.assertEquals("test/custom", alias.resolve("custom"));
     },
-    
-    
+
+
     testAliasExtend : function()
-    {      
+    {
       qx.Theme.define("qx.test.Theme.themes.A", {
         aliases : {
           decoration: "test/decoration",
@@ -62,23 +62,23 @@ qx.Class.define("qx.test.theme.manager.Decoration",
         },
         decorations : {}
       });
-      
+
       qx.Theme.define("qx.test.Theme.themes.B", {
         extend : qx.test.Theme.themes.A,
         decorations : {}
       });
-      
+
       this.manager.setTheme(qx.test.Theme.themes.B);
-      
+
       // make sure the decoration alias is set
       var alias = qx.util.AliasManager.getInstance();
       this.assertEquals("test/decoration", alias.resolve("decoration"));
       this.assertEquals("test/custom", alias.resolve("custom"));
     },
-    
-    
+
+
     testAliasOverride : function()
-    {      
+    {
       qx.Theme.define("qx.test.Theme.themes.A", {
         aliases : {
           decoration: "test/decoration",
@@ -86,7 +86,7 @@ qx.Class.define("qx.test.theme.manager.Decoration",
         },
         decorations : {}
       });
-      
+
       qx.Theme.define("qx.test.Theme.themes.B", {
         extend : qx.test.Theme.themes.A,
         aliases : {
@@ -94,69 +94,69 @@ qx.Class.define("qx.test.theme.manager.Decoration",
         },
         decorations : {}
       });
-      
+
       this.manager.setTheme(qx.test.Theme.themes.B);
-      
+
       // make sure the decoration alias is set
       var alias = qx.util.AliasManager.getInstance();
       this.assertEquals("juhu/decoration", alias.resolve("decoration"));
       this.assertEquals("test/custom", alias.resolve("custom"));
     },
-    
-    
+
+
     testResource : function()
-    {      
+    {
       qx.Theme.define("qx.test.Theme.themes.A", {
         resource : "test/decoration",
         decorations : {}
       });
-      
+
       this.manager.setTheme(qx.test.Theme.themes.A);
-      
+
       // make sure the decoration alias is set
       var alias = qx.util.AliasManager.getInstance();
       this.assertEquals("test/decoration", alias.resolve("decoration"));
     },
-    
-    
+
+
     testResourceExtend : function()
-    {      
+    {
       qx.Theme.define("qx.test.Theme.themes.A", {
         resource : "test/decoration",
         decorations : {}
       });
-      
+
       qx.Theme.define("qx.test.Theme.themes.B", {
         extend : qx.test.Theme.themes.A,
         decorations : {}
       });
-      
+
       this.manager.setTheme(qx.test.Theme.themes.B);
-      
+
       // make sure the decoration alias is set
       var alias = qx.util.AliasManager.getInstance();
       this.assertEquals("test/decoration", alias.resolve("decoration"));
     },
-    
-    
+
+
     testResourceOverride : function()
-    {      
+    {
       qx.Theme.define("qx.test.Theme.themes.A", {
         resource : "test/decoration",
         decorations : {}
       });
-      
+
       qx.Theme.define("qx.test.Theme.themes.B", {
         extend : qx.test.Theme.themes.A,
         resource : "juhu/decoration",
         decorations : {}
       });
-      
+
       this.manager.setTheme(qx.test.Theme.themes.B);
-      
+
       // make sure the decoration alias is set
       var alias = qx.util.AliasManager.getInstance();
       this.assertEquals("juhu/decoration", alias.resolve("decoration"));
-    }     
+    }
   }
 });

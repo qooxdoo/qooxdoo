@@ -93,9 +93,9 @@ qx.Class.define("qx.Mixin",
         }
 
         // Create Interface from statics
-        var mixin = config.statics ? config.statics : {};    
+        var mixin = config.statics ? config.statics : {};
         qx.Bootstrap.setDisplayNames(mixin, name);
-        
+
         for(var key in mixin) {
           if (mixin[key] instanceof Function)
           {

@@ -27,13 +27,13 @@ qx.Class.define("qx.test.ui.virtual.layer.Column",
     _createLayer : function() {
       return new qx.ui.virtual.layer.Column("red", "green");
     },
-       
-    _assertCells : function(firstRow, firstColumn, rowCount, columnCount, msg) 
+
+    _assertCells : function(firstRow, firstColumn, rowCount, columnCount, msg)
     {
       var children = this.layer.getContentElement().getDomElement().childNodes;
-      
+
       this.assertEquals(columnCount, children.length);
-      
+
       for (var i=0; i<columnCount; i++)
       {
         var column = firstColumn + i;

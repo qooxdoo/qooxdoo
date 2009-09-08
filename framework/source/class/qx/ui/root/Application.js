@@ -102,7 +102,7 @@ qx.Class.define("qx.ui.root.Application",
           alert("The application could not be started due to a missing body tag in the HTML file!");
         }
       }
-      
+
       // Apply application layout
       var hstyle = doc.documentElement.style;
       var bstyle = doc.body.style;

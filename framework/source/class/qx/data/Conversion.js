@@ -17,28 +17,28 @@
 
 ************************************************************************ */
 /**
- * This class offers a set of default conversion methods and whole options 
+ * This class offers a set of default conversion methods and whole options
  * packs for {@link qx.data.SingleValueBinding}. The binding offers a conversion
  * itself if it can determinate which types should be used. In all other cases,
- * you can you this methods / options for the default conversion. 
+ * you can you this methods / options for the default conversion.
  */
-qx.Class.define("qx.data.Conversion", 
+qx.Class.define("qx.data.Conversion",
 {
   statics :
   {
     /**
      * Converts the given value to a string via <code> + ""</code>.
-     * 
+     *
      * @param value {var} The value to convert.
      * @return {String} The converted value.
      */
     toString : function(value) {
       return value + "";
     },
-    
-    
+
+
     /**
-     * Options for the {@link qx.data.SingleValueBinding} 
+     * Options for the {@link qx.data.SingleValueBinding}
      * containing the {@link #toString} converter.
      */
     TOSTRINGOPTIONS : { converter : null },
@@ -46,41 +46,41 @@ qx.Class.define("qx.data.Conversion",
 
     /**
      * Converts the given value to a number via <code>parseInt</code>.
-     * 
+     *
      * @param value {var} The value to convert.
      * @return {Number} The converted value.
      */
     toNumber : function(value) {
       return parseFloat(value);
     },
-    
-    
+
+
     /**
-     * Options for the {@link qx.data.SingleValueBinding} 
+     * Options for the {@link qx.data.SingleValueBinding}
      * containing the {@link #toNumber} converter.
-     */    
+     */
     TONUMBEROPTIONS : { converter : null },
-    
-    
+
+
     /**
      * Converts the given value to a number via <code>!!value</code>.
-     * 
+     *
      * @param value {var} The value to convert.
      * @return {Boolean} The converted value.
      */
     toBoolean : function(value) {
       return !!value;
     },
-    
-    
+
+
     /**
-     * Options for the {@link qx.data.SingleValueBinding} 
+     * Options for the {@link qx.data.SingleValueBinding}
      * containing the {@link #toBoolean} converter.
-     */    
+     */
     TOBOOLEANOPTIONS : { converter : null }
   },
-  
-  
+
+
   defer : function() {
     // the converter need to be set in the defer because the reference to
     // the converter function is not available during the class create

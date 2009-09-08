@@ -51,16 +51,16 @@ qx.Class.define("qx.ui.form.ComboBox",
     this._createChildControl("button");
 
     this.addListener("click", this._onClick);
-    
-    // forward the focusin and focusout events to the textfield. The textfield 
+
+    // forward the focusin and focusout events to the textfield. The textfield
     // is not focusable so the events need to be forwarded manually.
     this.addListener("focusin", function(e) {
       textField.fireNonBubblingEvent("focusin", qx.event.type.Focus);
     }, this);
-    
+
     this.addListener("focusout", function(e) {
       textField.fireNonBubblingEvent("focusout", qx.event.type.Focus);
-    }, this);   
+    }, this);
   },
 
 
@@ -92,18 +92,18 @@ qx.Class.define("qx.ui.form.ComboBox",
       },
       nullable : true
     },
-    
+
     /**
-     * String value which will be shown as a hint if the field is all of: 
-     * unset, unfocused and enabled. Set to null to not show a placeholder 
+     * String value which will be shown as a hint if the field is all of:
+     * unset, unfocused and enabled. Set to null to not show a placeholder
      * text.
      */
-    placeholder : 
+    placeholder :
     {
       check : "String",
       nullable : true,
       apply : "_applyPlaceholder"
-    }    
+    }
   },
 
 
@@ -116,16 +116,16 @@ qx.Class.define("qx.ui.form.ComboBox",
 
   events :
   {
-    /** The input event is fired on every keystroke modifying the value of the field 
-     *  
+    /** The input event is fired on every keystroke modifying the value of the field
+     *
      *  Event data: The new text value of the field.
      *
      * @deprecated
      */
     "input" : "qx.event.type.Data",
 
-    /** Whenever the value is changed this event is fired 
-     * 
+    /** Whenever the value is changed this event is fired
+     *
      *  Event data: The new text value of the field.
      */
     "changeValue" : "qx.event.type.Data"
@@ -180,7 +180,7 @@ qx.Class.define("qx.ui.form.ComboBox",
           control.addState("inner");
           this._add(control);
           break;
-          
+
         case "list":
           // Get the list from the AbstractSelectBox
           control = this.base(arguments, id)
@@ -196,7 +196,7 @@ qx.Class.define("qx.ui.form.ComboBox",
 
     // overridden
     /**
-     * @lint ignoreReferenceField(_forwardStates) 
+     * @lint ignoreReferenceField(_forwardStates)
      */
     _forwardStates : {
       focused : true
@@ -232,7 +232,7 @@ qx.Class.define("qx.ui.form.ComboBox",
     },
 
 
-    // interface implementation    
+    // interface implementation
     resetValue : function() {
       this.getChildControl("textfield").setValue(null);
     },
@@ -252,10 +252,10 @@ qx.Class.define("qx.ui.form.ComboBox",
     {
       if (type == "input") {
         qx.log.Logger.deprecatedEventWarning(
-          arguments.callee, 
+          arguments.callee,
           "input",
           "Please use the changeValue event instead."
-        );        
+        );
         if (!this.__onInputId)
         {
           var textfield = this.getChildControl("textfield");
@@ -374,7 +374,7 @@ qx.Class.define("qx.ui.form.ComboBox",
         if (value) {
           item = list.findItem(value);
         }
-        
+
         if (item) {
           list.setSelection([item]);
         } else {
@@ -422,7 +422,7 @@ qx.Class.define("qx.ui.form.ComboBox",
           list.setSelection([item]);
         } else {
           list.resetSelection();
-        }        
+        }
       } else {
         list.resetSelection();
       }
@@ -430,7 +430,7 @@ qx.Class.define("qx.ui.form.ComboBox",
       // Fire event
       this.fireDataEvent("changeValue", value, e.getOldData());
     },
-    
+
     /*
     ---------------------------------------------------------------------------
       FORMAT HANDLING
@@ -447,8 +447,8 @@ qx.Class.define("qx.ui.form.ComboBox",
     __defaultFormat : function(item)
     {
       var valueLabel = item ? item.getLabel() : "";
-      var rich = item ? item.getRich() : false; 
-      
+      var rich = item ? item.getRich() : false;
+
       if (rich) {
         valueLabel = valueLabel.replace(/<[^>]+?>/g, "");
         valueLabel = qx.bom.String.unescape(valueLabel);
@@ -485,7 +485,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * Returns the current selection length.
      * This method only works if the widget is already created and
      * added to the document.
-     * 
+     *
      * @deprecated Use public method 'getTextSelectionLength' instead
      * @return {Integer|null}
      */
@@ -523,7 +523,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * Clears the current selection.
      * This method only works if the widget is already created and
      * added to the document.
-     * 
+     *
      * @deprecated Use public method 'clearTextSelection' instead
      * @return {void}
      */
@@ -538,7 +538,7 @@ qx.Class.define("qx.ui.form.ComboBox",
 
     /**
      * Selects the whole content
-     * 
+     *
      * @deprecated Use public method 'selectAllText' instead
      * @return {void}
      */
@@ -549,8 +549,8 @@ qx.Class.define("qx.ui.form.ComboBox",
       );
       this.selectAllText();
     },
-    
-    
+
+
     /**
      * Returns the current selection.
      * This method only works if the widget is already created and

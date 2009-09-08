@@ -41,7 +41,7 @@ qx.Class.define("qx.bom.Cookie",
      * Returns the string value of a cookie.
      *
      * @param key {String} The key for the saved string value.
-     * @return {null | String} Returns the saved string value, if the cookie 
+     * @return {null | String} Returns the saved string value, if the cookie
      *    contains a value for the key, <code>null</code> otherwise.
      */
     get : function(key)
@@ -72,7 +72,7 @@ qx.Class.define("qx.bom.Cookie",
      *
      * @param key {String} The key for the string value.
      * @param value {String} The string value.
-     * @param expires {Number?null} The expires in days starting from now, 
+     * @param expires {Number?null} The expires in days starting from now,
      *    or <code>null</code> if the cookie should deleted after browser close.
      * @param path {String?null} Path value.
      * @param domain {String?null} Domain value.

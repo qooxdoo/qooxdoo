@@ -5,42 +5,42 @@ qx.Class.define("qx.ui.virtual.cell.AbstractWidget",
 {
   extend : qx.core.Object,
   implement : [qx.ui.virtual.cell.IWidgetCell],
-  
-  
+
+
   construct : function()
   {
     this.base(arguments);
-    
+
     this.__pool = [];
   },
-  
-  
+
+
   members :
   {
     __pool : null,
-    
-    
+
+
     /**
      * Creates the widget instance.
-     * 
+     *
      * @return {qx.ui.core.LayoutItem} The widget used to render a cell
      */
     _createWidget : function() {
       throw new Error("abstract method call");
     },
-    
-    
+
+
     // interface implementation
     updateData : function(widget, data) {
       throw new Error("abstract method call");
     },
-    
-    
+
+
     // interface implementation
     updateStates : function(widget, states)
     {
       var oldStates = widget.getUserData("cell.states");
-      
+
       // remove old states
       if (oldStates)
       {
@@ -52,11 +52,11 @@ qx.Class.define("qx.ui.virtual.cell.AbstractWidget",
           }
         }
       }
-      else 
+      else
       {
         oldStates = {};
       }
-      
+
       // apply new states
       if (states)
       {
@@ -67,11 +67,11 @@ qx.Class.define("qx.ui.virtual.cell.AbstractWidget",
           }
         }
       }
-      
-      widget.setUserData("cell.states", states);      
+
+      widget.setUserData("cell.states", states);
     },
-    
-    
+
+
     // interface implementation
     getCellWidget : function(data, states)
     {
@@ -80,14 +80,14 @@ qx.Class.define("qx.ui.virtual.cell.AbstractWidget",
       this.updateData(widget, data);
       return widget;
     },
-    
-    
+
+
     // interface implementation
     pool : function(widget) {
       this.__pool.push(widget);
     }
   },
-  
+
   /*
    *****************************************************************************
       DESTRUCT

@@ -123,7 +123,7 @@ qx.Class.define("qx.ui.table.celleditor.SelectBox",
       }
 
       var itemToSelect = cellEditor.getChildrenContainer().findItem("" + value);
-      
+
       if (itemToSelect) {
         cellEditor.setSelection([itemToSelect]);
       } else {
@@ -142,7 +142,7 @@ qx.Class.define("qx.ui.table.celleditor.SelectBox",
     {
       var selection = cellEditor.getSelection();
       var value = "";
-      
+
       if (selection && selection[0]) {
         value = selection[0].getUserData("row") || selection[0].getLabel();
       }

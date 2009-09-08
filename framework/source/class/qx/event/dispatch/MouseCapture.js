@@ -107,9 +107,9 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
 
     // interface implementation
     canDispatchEvent : function(target, event, type)
-    {      
+    {
       return (
-        this.__captureElement && 
+        this.__captureElement &&
         this.__captureEvents[type]
       );
     },
@@ -193,17 +193,17 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
       qx.event.Registration.fireEvent(element, "capture", qx.event.type.Event, [true, false]);
     },
 
-    
+
     /**
      * Get the element currently capturing events.
-     * 
+     *
      * @return {Element|null} The current capture element. This value may be
      *    null.
      */
     getCaptureElement : function() {
       return this.__captureElement;
     },
-    
+
 
     /**
      * Stop capturing of mouse events.

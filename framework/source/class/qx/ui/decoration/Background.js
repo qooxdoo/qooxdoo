@@ -90,11 +90,11 @@ qx.Class.define("qx.ui.decoration.Background",
         left : 0
       };
     },
-    
-    
+
+
     // overridden
     _isInitialized: function() {
-      return !!this.__markup;      
+      return !!this.__markup;
     },
 
     /*
@@ -155,9 +155,9 @@ qx.Class.define("qx.ui.decoration.Background",
       }
     }
   },
-  
-  
-  
+
+
+
   /*
    *****************************************************************************
       DESTRUCTOR

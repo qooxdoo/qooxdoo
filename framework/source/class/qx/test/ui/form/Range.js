@@ -26,30 +26,30 @@ qx.Class.define("qx.test.ui.form.Range",
       // min
       widget.setMinimum(10);
       this.assertEquals(10, widget.getMinimum(), "Set or get does not work. (min)");
-      
+
       // max
       widget.setMaximum(20);
       this.assertEquals(20, widget.getMaximum(), "Set or get does not work. (max)");
-      
+
       // singleStep
       widget.setSingleStep(2);
       this.assertEquals(2, widget.getSingleStep(), "Set or get does not work. (singleStep)");
-      
+
       // pageStep
       widget.setPageStep(11);
-      this.assertEquals(11, widget.getPageStep(), "Set or get does not work. (pageStep)");      
-      
+      this.assertEquals(11, widget.getPageStep(), "Set or get does not work. (pageStep)");
+
       // get rid of the widget
-      widget.destroy();      
+      widget.destroy();
     },
-    
+
     testSpinner: function() {
-     this.__test(new qx.ui.form.Spinner()); 
+     this.__test(new qx.ui.form.Spinner());
     },
-    
+
     testSlider: function() {
-     this.__test(new qx.ui.form.Slider()); 
-    }    
-    
+     this.__test(new qx.ui.form.Slider());
+    }
+
   }
 });

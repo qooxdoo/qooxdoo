@@ -142,7 +142,7 @@ qx.Class.define("qx.ui.container.Scroll",
      * @return {Object[]} The child array
      */
     getChildren : function() {
-      return this.getChildControl("pane").getChildren();      
+      return this.getChildControl("pane").getChildren();
     },
 
 

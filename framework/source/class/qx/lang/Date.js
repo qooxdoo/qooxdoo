@@ -14,11 +14,11 @@
 
    Authors:
      * Sebastian Werner (wpbasti)
-     
+
    ======================================================================
 
    This class contains code based on the following work:
-     
+
    * jQuery
      http://jquery.com
      Version 1.3.1
@@ -27,7 +27,7 @@
        2009 John Resig
 
      License:
-       MIT: http://www.opensource.org/licenses/mit-license.php         
+       MIT: http://www.opensource.org/licenses/mit-license.php
 
 ************************************************************************ */
 
@@ -40,7 +40,7 @@ qx.Bootstrap.define("qx.lang.Date",
 {
   statics :
   {
-    /** 
+    /**
      * Returns the current time
      *
      * @return {Integer} Time in ms from 1970.

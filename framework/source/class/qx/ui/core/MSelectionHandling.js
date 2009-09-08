@@ -21,13 +21,13 @@
 /**
  * This mixin links all methods to manage the selection from the
  * internal selection manager to the widget.
- * 
+ *
  * @deprecated Use 'qx.ui.core.MMultiSelectionHandling' instead!
  */
 qx.Mixin.define("qx.ui.core.MSelectionHandling",
 {
   include : qx.ui.core.MMultiSelectionHandling,
-  
+
   /*
   *****************************************************************************
      CONSTRUCTOR

@@ -40,21 +40,21 @@
  *
  * <ul>
  * <li><strong>flex</strong> <em>(Integer)</em>: The flexibility of a layout item determines how the container
- *   distributes remaining empty space among its children. If items are made 
+ *   distributes remaining empty space among its children. If items are made
  *   flexible, they can grow or shrink accordingly. Their relative flex values
- *   determine how the items are being resized, i.e. the larger the flex ratio 
+ *   determine how the items are being resized, i.e. the larger the flex ratio
  *   of two items, the larger the resizing of the first item compared to the
  *   second.
- *   
- *   If there is only one flex item in a layout container, its actual flex 
+ *
+ *   If there is only one flex item in a layout container, its actual flex
  *   value is not relevant. To disallow items to become flexible, set the
  *   flex value to zero.
  * </li>
  * <li><strong>width</strong> <em>(String)</em>: Allows to define a percent
- *   width for the item. The width in percent, if specified, is used instead 
- *   of the width defined by the size hint. The minimum and maximum width still 
- *   takes care of the element's limits. It has no influence on the layout's 
- *   size hint. Percent values are mostly useful for widgets which are sized by 
+ *   width for the item. The width in percent, if specified, is used instead
+ *   of the width defined by the size hint. The minimum and maximum width still
+ *   takes care of the element's limits. It has no influence on the layout's
+ *   size hint. Percent values are mostly useful for widgets which are sized by
  *   the outer hierarchy.
  * </li>
  * </ul>
@@ -76,9 +76,9 @@
  *
  * *External Documentation*
  *
- * See <a href='http://qooxdoo.org/documentation/0.8/layout/Box'>extended documentation</a> 
+ * See <a href='http://qooxdoo.org/documentation/0.8/layout/Box'>extended documentation</a>
  * and links to demos for this layout.
- * 
+ *
  */
 qx.Class.define("qx.ui.layout.HBox",
 {
@@ -485,7 +485,7 @@ qx.Class.define("qx.ui.layout.HBox",
 
         // Detect if child is shrinkable or has percent width and update minWidth
         var flex = this.__flexs[i];
-        var percent = this.__widths[i];       
+        var percent = this.__widths[i];
         if (flex) {
           minWidth += hint.minWidth;
         } else if (percent) {
@@ -493,7 +493,7 @@ qx.Class.define("qx.ui.layout.HBox",
         } else {
           minWidth += hint.width;
         }
-        
+
         // Build vertical margin sum
         margin = child.getMarginTop() + child.getMarginBottom();
 
@@ -507,9 +507,9 @@ qx.Class.define("qx.ui.layout.HBox",
           minHeight = hint.minHeight + margin;
         }
       }
-      
+
       minWidth += percentMinWidth;
-      
+
       // Respect gaps
       var spacing = this.getSpacing();
       var separator = this.getSeparator();

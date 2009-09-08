@@ -28,38 +28,38 @@ qx.Class.define("qx.test.util.ResourceManager",
       var ResourceManager = qx.util.ResourceManager.getInstance();
       this.assertTrue(ResourceManager.has("qx/static/blank.gif"));
     },
-    
+
     testGetData : function() {
       var resourceData = [ 1, 1, "gif", "qx" ];
       var ResourceManager = qx.util.ResourceManager.getInstance();
       this.assertArrayEquals(ResourceManager.getData("qx/static/blank.gif"),
                         resourceData, "Resource data not identical");
     },
-    
+
     testGetImageWidth : function()
     {
       var ResourceManager = qx.util.ResourceManager.getInstance();
       this.assertEquals(ResourceManager.getImageWidth("qx/static/blank.gif"), 1);
     },
-    
+
     testGetImageHeight : function()
     {
       var ResourceManager = qx.util.ResourceManager.getInstance();
       this.assertEquals(ResourceManager.getImageWidth("qx/static/blank.gif"), 1);
     },
-    
+
     testGetImageFormat : function()
     {
       var ResourceManager = qx.util.ResourceManager.getInstance();
       this.assertEquals(ResourceManager.getImageFormat("qx/static/blank.gif"), "gif");
     },
-    
+
     testIsClippedImage : function()
     {
       var ResourceManager = qx.util.ResourceManager.getInstance();
       this.assertFalse(ResourceManager.isClippedImage("qx/static/blank.gif"));
     },
-    
+
     testToUri : function()
     {
       var ResourceManager = qx.util.ResourceManager.getInstance();

@@ -257,21 +257,21 @@ qx.Class.define("qx.dev.Debug",
           );
       }
     },
-    
-    
+
+
     /**
      * Returns a string representing the given model. The string will include
-     * all model objects to a given recursive depth. 
+     * all model objects to a given recursive depth.
      *
      * @param model {qx.core.Object} The model object.
      * @param maxLevel {Number ? 10} The amount of max recursive depth.
-     * @param html {Boolean ? false} If the returned string should have \n\r as 
+     * @param html {Boolean ? false} If the returned string should have \n\r as
      *   newline of <br>.
-     * @param indent {Number ? 1} The indentation level. 
+     * @param indent {Number ? 1} The indentation level.
      *   (Needed for the recursion)
-     * 
+     *
      * @return {String} A string representation of the given model.
-     */    
+     */
     debugProperties: function(model, maxLevel, html, indent) {
       // set the default max depth of the recursion
       if (maxLevel == null) {
@@ -280,41 +280,41 @@ qx.Class.define("qx.dev.Debug",
       // set the default startin indent
       if (indent == null) {
         indent = 1;
-      }      
-      
+      }
+
       var newLine = "";
       html ? newLine = "<br>" : newLine = "\r\n";
-      
+
       var message = "";
-            
+
       if (
-        qx.lang.Type.isNumber(model) 
-        || qx.lang.Type.isString(model) 
-        || qx.lang.Type.isBoolean(model) 
-        || model == null        
+        qx.lang.Type.isNumber(model)
+        || qx.lang.Type.isString(model)
+        || qx.lang.Type.isBoolean(model)
+        || model == null
         || maxLevel <= 0
-      ) {        
+      ) {
         return model;
-        
+
       } else if (qx.Class.hasInterface(model.constructor, qx.data.IListData)) {
         // go threw the data structure
         for (var i = 0; i < model.length; i++) {
           // print out the indentation
           for (var j = 0; j < indent; j++) {
             message += "-"
-          }          
+          }
           message += "index(" + i + "): "
             + this.debugProperties(model.getItem(i), maxLevel - 1, html, indent + 1)
             + newLine;
         }
         return message + newLine;
-        
+
       } else if (model.constructor != null) {
         // go threw all properties
         var properties = model.constructor.$$properties;
         for (var key in properties) {
           message += newLine;
-          // print out the indentation          
+          // print out the indentation
           for (var j = 0; j < indent; j++) {
             message += "-"
           }
@@ -323,8 +323,8 @@ qx.Class.define("qx.dev.Debug",
           );
         }
         return message;
-      }    
-      return "";  
+      }
+      return "";
     }
   }
 });

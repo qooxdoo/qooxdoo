@@ -486,8 +486,8 @@ qx.Class.define("qx.test.Interface",
       });
 
     },
-    
-    
+
+
     testGeneratedIsMethods: function() {
       qx.Interface.define("qx.IIs",
       {
@@ -496,11 +496,11 @@ qx.Class.define("qx.test.Interface",
           isProp : function() {}
         }
       });
-      
+
       qx.Class.define("qx.Is", {
         extend : qx.core.Object,
         implement : qx.IIs,
-        
+
         properties : {
           prop : {
             check : "Boolean",
@@ -508,8 +508,8 @@ qx.Class.define("qx.test.Interface",
           }
         }
       });
-      
-      
+
+
     }
   }
 });

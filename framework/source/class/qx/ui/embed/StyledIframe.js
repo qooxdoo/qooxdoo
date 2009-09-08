@@ -20,11 +20,11 @@
 /**
  * Container widget for internal frames (iframes) with qooxdoo scroll bar and
  * size hint support.
- * 
+ *
  * An iframe can display any HTML page inside the widget. Note that custom
  * scroll bars do only work if the iframe's source points to the same domain
  * as the application.
- * 
+ *
  *
  * *Example*
  *
@@ -45,21 +45,21 @@
 qx.Class.define("qx.ui.embed.StyledIframe",
 {
   extend : qx.ui.embed.AbstractIframe,
-  
+
   construct : function(source)
   {
     this.base(arguments, source);
-    
+
     // Create 'fixed' grid layout
     var grid = new qx.ui.layout.Grid();
     grid.setColumnFlex(0, 1);
     grid.setRowFlex(0, 1);
-    this._setLayout(grid);    
-    
+    this._setLayout(grid);
+
     this._showChildControl("iframe");
   },
-  
-  
+
+
   properties :
   {
     // overridden
@@ -68,7 +68,7 @@ qx.Class.define("qx.ui.embed.StyledIframe",
       refine : true,
       init : "scrollarea"
     },
-    
+
     /**
      * The policy, when the horizontal scrollbar should be shown.
      * <ul>
@@ -108,22 +108,22 @@ qx.Class.define("qx.ui.embed.StyledIframe",
      */
     scrollbar : {
       group : [ "scrollbarX", "scrollbarY" ]
-    }    
+    }
   },
-  
-  
+
+
   members :
   {
     __iframeSize : null,
     __iframeObserverId : null,
-    
-    
+
+
     // overridden
     _getIframeElement : function() {
       return this.getChildControl("iframe").getContentElement();
-    }, 
-    
-    
+    },
+
+
     // overridden
     _createChildControlImpl : function(id)
     {
@@ -134,7 +134,7 @@ qx.Class.define("qx.ui.embed.StyledIframe",
         case "iframe":
           control = new qx.ui.embed.Iframe(this.getSource());
           control.addListener("load", this._onIframeLoad, this);
-          control.addListener("resize", this._onIframeResize, this);          
+          control.addListener("resize", this._onIframeResize, this);
           this._add(control, {row: 0, column: 0});
           break;
 
@@ -173,39 +173,39 @@ qx.Class.define("qx.ui.embed.StyledIframe",
 
       return control || this.base(arguments, id);
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       EVENT LISTENERS
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Event handler for the iframe's load event
      */
     _onIframeLoad : function()
     {
       this._disableScollbars();
-      
+
       var body = this._getIframeElement().getBody();
       if (body) {
         this._startIframeObserver();
         this._addWheelListener();
       }
-      
+
       this.fireEvent("load");
     },
-        
-        
+
+
     /**
      * Event handler for resize event of the iframe widget.
      */
     _onIframeResize : function() {
       this._updateScrollbars();
-    },   
+    },
 
-    
+
     /**
      * Hide all scrollbars and stop observing the iframe document
      */
@@ -214,11 +214,11 @@ qx.Class.define("qx.ui.embed.StyledIframe",
       this._excludeChildControl("scrollbar-x");
       this._excludeChildControl("scrollbar-y");
       this._excludeChildControl("corner");
-      
+
       this._stopIframeObserver();
     },
-    
-    
+
+
     /**
      * Attach mouse wheel listener to the iframe
      */
@@ -232,11 +232,11 @@ qx.Class.define("qx.ui.embed.StyledIframe",
         this._disableScollbars();
       }
     },
-    
-    
+
+
     /**
      * Mouse wheel event handler
-     * 
+     *
      * @param e {qx.event.type.Mouse} Mouse event
      */
     _onMouseWheel : function(e)
@@ -249,10 +249,10 @@ qx.Class.define("qx.ui.embed.StyledIframe",
       var scrollbar = this.getChildControl("scrollbar-y", true);
       scrollbar.scrollBySteps(e.getWheelDelta());
 
-      e.stop();      
+      e.stop();
     },
-    
-    
+
+
     /**
      * Start observing size changes of the iframe document
      */
@@ -261,28 +261,28 @@ qx.Class.define("qx.ui.embed.StyledIframe",
       if (this.__iframeObserverId) {
         this._stopIframeObserver();
       }
-      
+
       var idle = qx.event.Idle.getInstance();
       this.__iframeObserverId = idle.addListener("interval", this._onIframeObserverInterval, this);
     },
 
-    
+
     /**
      * Stop observing size changes of the iframe document
      */
-    _stopIframeObserver : function() 
+    _stopIframeObserver : function()
     {
       this.__iframeSize = null;
-      
+
       if (!this.__iframeObserverId) {
         return;
       }
-      
+
       var idle = qx.event.Idle.getInstance();
       idle.removeListenerById(this.__iframeObserverId);
     },
-    
-    
+
+
     /**
      * Event handler, which is called periodically to update the scroll bars
      */
@@ -294,7 +294,7 @@ qx.Class.define("qx.ui.embed.StyledIframe",
         this._disableScollbars();
         return;
       }
-      
+
       if (
         this.__iframeSize &&
         iframeSize.width == this.__iframeSize.width &&
@@ -302,15 +302,15 @@ qx.Class.define("qx.ui.embed.StyledIframe",
       ) {
         return;
       }
-      
+
       this.__iframeSize = iframeSize;
-      this._preventIframeScrolling();      
-      this._updateScrollbars();    
+      this._preventIframeScrolling();
+      this._updateScrollbars();
     },
-    
-    
+
+
     /**
-     * Try to hide native scrollbars in the iframe 
+     * Try to hide native scrollbars in the iframe
      */
     _preventIframeScrolling : function()
     {
@@ -322,8 +322,8 @@ qx.Class.define("qx.ui.embed.StyledIframe",
         this._disableScollbars();
       }
     },
-    
-    
+
+
     /**
      * Recompute scrollbar visibility and positions based on the iframe's
      * document size
@@ -333,17 +333,17 @@ qx.Class.define("qx.ui.embed.StyledIframe",
       var iframeSize = this.__iframeSize;
       var paneSize = this.getChildControl("iframe").getBounds();
       var innerSize = this.getInnerSize();
-      
+
       if (!iframeSize || !innerSize || !innerSize) {
         return;
       }
-      
+
       var showX = false;
       var showY = false;
-      
+
       var scrollbarX = this.getScrollbarX();
       var scrollbarY = this.getScrollbarY();
-      
+
       if (scrollbarX === "auto" && scrollbarY === "auto")
       {
         // Check if the container is big enough to show
@@ -379,8 +379,8 @@ qx.Class.define("qx.ui.embed.StyledIframe",
         if (iframeSize.height > (showX ? paneSize.height : innerSize.height) && scrollbarY === "auto") {
           showY = true;
         }
-      }      
-      
+      }
+
       this._configureScrollbar(
         "scrollbar-x", showX,
         innerSize.width, iframeSize.width
@@ -389,14 +389,14 @@ qx.Class.define("qx.ui.embed.StyledIframe",
         "scrollbar-y", showY,
         innerSize.height, iframeSize.height
       );
-      
+
       this._updateCornerWidget();
     },
-    
-    
+
+
     /**
      * Compute the size of the iframe body
-     * 
+     *
      * @return {Object|null} A map with the body size or <code>null</code>.
      */
     _getIframeSize : function()
@@ -413,10 +413,10 @@ qx.Class.define("qx.ui.embed.StyledIframe",
       catch (e)
       {
         return null;
-      }       
+      }
     },
-    
-    
+
+
     /**
      * Update visibility of the corner widget based on the visibility of the
      * scrollbars
@@ -432,14 +432,14 @@ qx.Class.define("qx.ui.embed.StyledIframe",
         this._excludeChildControl("corner");
       }
     },
-    
-    
+
+
     /**
      * Configures the given scollbar
-     * 
+     *
      * @param scrollbarId {String} child control id of the scrollbar to
      *   configure
-     * @param show {Boolean} whether the scrollbar should be visible   
+     * @param show {Boolean} whether the scrollbar should be visible
      * @param containerSize {Integer} size of the container widget
      * @param contentSize {Integer} size of the iframe's document
      */
@@ -450,7 +450,7 @@ qx.Class.define("qx.ui.embed.StyledIframe",
         this._excludeChildControl(scrollbarId);
         return;
       }
-      
+
       var bar = this._showChildControl(scrollbarId);
       if (containerSize >= contentSize)
       {
@@ -472,8 +472,8 @@ qx.Class.define("qx.ui.embed.StyledIframe",
         });
       }
     },
-    
-    
+
+
     /**
      * Event handler for the scroll event of the horizontal scrollbar
      *
@@ -492,13 +492,13 @@ qx.Class.define("qx.ui.embed.StyledIframe",
     _onScrollBarY : function(e) {
       this.scrollToY(e.getData());
     },
-    
-    
+
+
     /**
      * Scrolls the iframe's content to the given left coordinate
      *
      * @param x {Integer} The vertical position to scroll to.
-     */    
+     */
     scrollToX : function(x)
     {
       try
@@ -509,13 +509,13 @@ qx.Class.define("qx.ui.embed.StyledIframe",
         this._disableScollbars();
       }
     },
-    
-    
+
+
     /**
      * Scrolls the iframe's content to the given top coordinate
      *
      * @param y {Integer} The horizontal position to scroll to.
-     */    
+     */
     scrollToY : function(y)
     {
       try
@@ -524,11 +524,11 @@ qx.Class.define("qx.ui.embed.StyledIframe",
         win.scroll(qx.bom.Viewport.getScrollLeft(win), y);
       } catch (e) {
         this._disableScollbars();
-      }      
-    }    
+      }
+    }
   },
-  
-  
+
+
   destruct : function()
   {
     this._stopIframeObserver();

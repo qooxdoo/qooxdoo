@@ -50,7 +50,7 @@ qx.Bootstrap.define("qx.event.Manager",
     if (win.qx !== qx)
     {
       var self = this;
-      qx.bom.Event.addNativeListener(win, "unload", qx.event.GlobalError.observeMethod(function() 
+      qx.bom.Event.addNativeListener(win, "unload", qx.event.GlobalError.observeMethod(function()
       {
         qx.bom.Event.removeNativeListener(win, "unload", arguments.callee);
         self.dispose();
@@ -80,8 +80,8 @@ qx.Bootstrap.define("qx.event.Manager",
   {
     /** {Integer} Last used ID for an event */
     __lastUnique : 0,
-    
-    
+
+
     /**
      * Returns a unique ID which may be used in combination with a target and
      * a type to identify an event entry.
@@ -90,7 +90,7 @@ qx.Bootstrap.define("qx.event.Manager",
      */
     getNextUniqueId : function() {
       return (this.__lastUnique++).toString(36);
-    }    
+    }
   },
 
 
@@ -107,12 +107,12 @@ qx.Bootstrap.define("qx.event.Manager",
     __listeners : null,
     __dispatchers : null,
     __disposeWrapper : null,
-    
+
     __handlers : null,
     __handlerCache : null,
     __window : null,
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       HELPERS
@@ -201,13 +201,13 @@ qx.Bootstrap.define("qx.event.Manager",
 
       return entryList ? entryList.concat() : null;
     },
-    
-    
+
+
     /**
      * Returns a serialized array of all events attached on the given target.
      *
      * @param target {Object} Any valid event target
-     * @return {Map[]} Array of maps where everyone contains the keys: 
+     * @return {Map[]} Array of maps where everyone contains the keys:
      *   <code>handler</code>, <code>self</code>, <code>type</code> and <code>capture</code>.
      */
     serializeListeners : function(target)
@@ -219,14 +219,14 @@ qx.Bootstrap.define("qx.event.Manager",
       if (targetMap)
       {
         var indexOf, type, capture, entryList, entry;
-        for (var entryKey in targetMap) 
+        for (var entryKey in targetMap)
         {
           indexOf = entryKey.indexOf("|");
           type = entryKey.substring(0, indexOf);
-          capture = entryKey.charAt(indexOf+1) == "c";          
+          capture = entryKey.charAt(indexOf+1) == "c";
           entryList = targetMap[entryKey];
-          
-          for (var i=0, l=entryList.length; i<l; i++) 
+
+          for (var i=0, l=entryList.length; i<l; i++)
           {
             entry = entryList[i];
             result.push(
@@ -239,12 +239,12 @@ qx.Bootstrap.define("qx.event.Manager",
           }
         }
       }
-      
+
       return result;
     },
 
-    
-    /** 
+
+    /**
      * This method might be used to temporarly remove all events
      * directly attached to the given target. This do not work
      * have any effect on bubbling events normally.
@@ -265,15 +265,15 @@ qx.Bootstrap.define("qx.event.Manager",
       if (targetMap)
       {
         var indexOf, type, capture, entryList;
-        for (var entryKey in targetMap) 
+        for (var entryKey in targetMap)
         {
           indexOf = entryKey.indexOf("|");
           type = entryKey.substring(0, indexOf);
           capture = entryKey.charCodeAt(indexOf+1) === 99; // checking for character "c".
-          entryList = targetMap[entryKey];          
-          
+          entryList = targetMap[entryKey];
+
           if (enable) {
-            this.__registerAtHandler(target, type, capture);  
+            this.__registerAtHandler(target, type, capture);
           } else {
             this.__unregisterAtHandler(target, type, capture);
           }
@@ -323,10 +323,10 @@ qx.Bootstrap.define("qx.event.Manager",
      * all existing data structures.
      *
      * Works with a map of data. Each entry in this map should be a
-     * map again with the keys <code>type</code>, <code>listener</code>, 
+     * map again with the keys <code>type</code>, <code>listener</code>,
      * <code>self</code>, <code>capture</code> and an optional <code>unique</code>.
      *
-     * The values are identical to the parameters of {@link #addListener}. 
+     * The values are identical to the parameters of {@link #addListener}.
      * For details please have a look there.
      *
      * @param target {Object} Any valid event target
@@ -374,7 +374,7 @@ qx.Bootstrap.define("qx.event.Manager",
         });
       }
     },
-    
+
 
     /**
      * Add an event listener to any valid target. The event listener is passed an
@@ -403,7 +403,7 @@ qx.Bootstrap.define("qx.event.Manager",
         qx.core.Assert.assertObject(target, msg + "Invalid Target.");
         qx.core.Assert.assertString(type, msg + "Invalid event type.");
         qx.core.Assert.assertFunction(listener, msg + "Invalid callback function");
-        
+
         if (capture !== undefined) {
           qx.core.Assert.assertBoolean(capture, "Invalid capture flag.");
         }
@@ -432,13 +432,13 @@ qx.Bootstrap.define("qx.event.Manager",
 
       // Append listener to list
       var unique = (qx.event.Manager.__lastUnique++).toString(36);
-      var entry = 
+      var entry =
       {
         handler : listener,
         context : self,
         unique : unique
       };
-      
+
       entryList.push(entry);
 
       return entryKey + "|" + unique;
@@ -551,7 +551,7 @@ qx.Bootstrap.define("qx.event.Manager",
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         qx.log.Logger.warn(
           this,
-          "There is no event handler for the event '" + type + 
+          "There is no event handler for the event '" + type +
           "' on target '" + target.classname + "'!"
         );
       }
@@ -581,11 +581,11 @@ qx.Bootstrap.define("qx.event.Manager",
         qx.core.Assert.assertObject(target, msg + "Invalid Target.");
         qx.core.Assert.assertString(type, msg + "Invalid event type.");
         qx.core.Assert.assertFunction(listener, msg + "Invalid callback function");
-        
+
         if (self !== undefined) {
           qx.core.Assert.assertObject(self, "Invalid context for callback.")
         }
-        
+
         if (capture !== undefined) {
           qx.core.Assert.assertBoolean(capture, "Invalid capture falg.");
         }
@@ -642,13 +642,13 @@ qx.Bootstrap.define("qx.event.Manager",
 
         qx.core.Assert.assertObject(target, msg + "Invalid Target.");
         qx.core.Assert.assertString(id, msg + "Invalid id type.");
-      }  
-      
+      }
+
       var split = id.split("|");
       var type = split[0];
       var capture = split[1].charCodeAt(0) == 99; // detect leading "c"
       var unique = split[2];
-      
+
       var targetKey = target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
       var targetMap = this.__listeners[targetKey];
 
@@ -662,13 +662,13 @@ qx.Bootstrap.define("qx.event.Manager",
       if (!entryList) {
         return false;
       }
-      
+
       var entry;
-      for (var i=0, l=entryList.length; i<l; i++) 
+      for (var i=0, l=entryList.length; i<l; i++)
       {
         entry = entryList[i];
-        
-        if (entry.unique === unique) 
+
+        if (entry.unique === unique)
         {
           qx.lang.Array.removeAt(entryList, i);
 
@@ -676,10 +676,10 @@ qx.Bootstrap.define("qx.event.Manager",
             this.__unregisterAtHandler(target, type, capture);
           }
 
-          return true;          
+          return true;
         }
       }
-      
+
       return false;
     },
 
@@ -743,8 +743,8 @@ qx.Bootstrap.define("qx.event.Manager",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         qx.log.Logger.warn(
-          this, 
-          "There is no event handler for the event '" + type + 
+          this,
+          "There is no event handler for the event '" + type +
           "' on target '" + target.classname + "'!"
         );
       }
@@ -833,18 +833,18 @@ qx.Bootstrap.define("qx.event.Manager",
       return !preventDefault;
     },
 
-    
+
     /**
      * Dispose the event manager
      */
-    dispose : function() 
+    dispose : function()
     {
       // Remove from manager list
       qx.event.Registration.removeManager(this);
-      
+
       qx.util.DisposeUtil.disposeMap(this, "__handlers");
       qx.util.DisposeUtil.disposeMap(this, "__dispatchers");
-      
+
       // Dispose data fields
       this.__listeners = this.__window = this.__disposeWrapper = this.__handlerCache = null;
     }

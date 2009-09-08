@@ -64,13 +64,13 @@ qx.Bootstrap.define("qx.bom.client.Feature",
 
     /** {Boolean} Flag to detect if the client supports XPATH queries */
     XPATH : false,
-    
+
     /** {Boolean} Flag to detect if is an AIR client */
     AIR : false,
-    
+
     /** {Boolean} Flag to detect if is a Gears client */
     GEARS : false,
-    
+
     /** {Boolean} Flag to detect if the client runs in SSL mode */
     SSL : false,
 
@@ -96,7 +96,7 @@ qx.Bootstrap.define("qx.bom.client.Feature",
       this.GEARS = !!(window.google && window.google.gears);
 
       this.XPATH = !!document.evaluate;
-      
+
       this.SSL = window.location.protocol === "https:";
     }
   },

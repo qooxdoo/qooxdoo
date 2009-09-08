@@ -50,13 +50,13 @@ qx.Class.define("qx.ui.table.cellrenderer.Boolean",
      PROPERTIES
    *****************************************************************************
    */
-  
+
   properties :
   {
     /**
      * The icon used to indicate the true state
      */
-    iconTrue : 
+    iconTrue :
     {
       check : "String",
       init : "decoration/table/boolean-true.png",
@@ -66,15 +66,15 @@ qx.Class.define("qx.ui.table.cellrenderer.Boolean",
     /**
     * The icon used to indicate the false state
     */
-    iconFalse : 
+    iconFalse :
     {
       check : "String",
       init : "decoration/table/boolean-false.png",
       apply : "_applyIconFalse"
     }
   },
-  
-  
+
+
   /*
   *****************************************************************************
      MEMBERS
@@ -86,20 +86,20 @@ qx.Class.define("qx.ui.table.cellrenderer.Boolean",
     __iconUrlTrue : null,
     __iconUrlFalse : false,
     __aliasManager : null,
-    
-    
+
+
     // property apply
     _applyIconTrue : function(value) {
       this.__iconUrlTrue = this.__aliasManager.resolve(value);
     },
-    
-    
+
+
     // property apply
     _applyIconFalse : function(value) {
       this.__iconUrlFalse = this.__aliasManager.resolve(value);
     },
 
-    
+
     // overridden
     _insetY : 5,
 
@@ -136,7 +136,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Boolean",
       return imageHints;
     }
   },
-  
+
   /*
   *****************************************************************************
      DESTRUCTOR

@@ -14,11 +14,11 @@
 
    Authors:
      * Sebastian Werner (wpbasti)
-     
+
    ======================================================================
 
    This class contains code based on the following work:
-     
+
    * jQuery
      http://jquery.com
      Version 1.3.1
@@ -27,7 +27,7 @@
        2009 John Resig
 
      License:
-       MIT: http://www.opensource.org/licenses/mit-license.php        
+       MIT: http://www.opensource.org/licenses/mit-license.php
 
 ************************************************************************ */
 
@@ -58,8 +58,8 @@ qx.Class.define("qx.bom.Html",
       return tag.match(/^(abbr|br|col|img|input|link|meta|param|hr|area|embed)$/i) ?
         all : front + "></" + tag + ">";
     },
-    
-    
+
+
     /** {Map} Contains wrap fragments for specific HTML matches */
     __convertMap :
     {
@@ -69,13 +69,13 @@ qx.Class.define("qx.bom.Html",
       tr : [ 2, "<table><tbody>", "</tbody></table>" ],
       td : [ 3, "<table><tbody><tr>", "</tr></tbody></table>" ],
       col : [ 2, "<table><tbody></tbody><colgroup>", "</colgroup></table>" ],
-      def : qx.core.Variant.select("qx.client", 
+      def : qx.core.Variant.select("qx.client",
       {
         "mshtml" : [ 1, "div<div>", "</div>" ],
         "default" : null
       })
     },
-    
+
 
     /**
      * Translates a HTML string into an array of elements.
@@ -87,10 +87,10 @@ qx.Class.define("qx.bom.Html",
     __convertHtmlString : function(html, context)
     {
       var div = context.createElement("div");
-      
+
       // Fix "XHTML"-style tags in all browsers
-      // Replaces tags which are not allowed to be directly closed like 
-      // <code>div</code> or <code>p</code>. They are patched to use an 
+      // Replaces tags which are not allowed to be directly closed like
+      // <code>div</code> or <code>p</code>. They are patched to use an
       // open and close tag instead e.g. <p> => <p></p>
       html = html.replace(/(<(\w+)[^>]*?)\/>/g, this.__fixNonDirectlyClosableHelper);
 
@@ -99,7 +99,7 @@ qx.Class.define("qx.bom.Html",
 
       // Auto-wrap content into required DOM structure
       var wrap, map = this.__convertMap;
-      if (!tags.indexOf("<opt")) { 
+      if (!tags.indexOf("<opt")) {
         wrap = map.opt;
       } else if (!tags.indexOf("<leg")) {
         wrap = map.leg;
@@ -114,13 +114,13 @@ qx.Class.define("qx.bom.Html",
       } else {
         wrap = map.def;
       }
-      
+
       // Omit string concat when no wrapping is needed
       if (wrap)
       {
         // Go to html and back, then peel off extra wrappers
         div.innerHTML = wrap[1] + html + wrap[2];
-  
+
         // Move to the right depth
         var depth = wrap[0];
         while (depth--) {
@@ -131,21 +131,21 @@ qx.Class.define("qx.bom.Html",
       {
         div.innerHTML = html;
       }
-      
+
       // Fix IE specific bugs
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
         // Remove IE's autoinserted <tbody> from table fragments
         // String was a <table>, *may* have spurious <tbody>
         var hasBody = /<tbody/i.test(html);
-        
+
         // String was a bare <thead> or <tfoot>
-        var tbody = !tags.indexOf("<table") && !hasBody ? 
-          div.firstChild && div.firstChild.childNodes : 
-          wrap[1] == "<table>" && !hasBody ? div.childNodes : 
+        var tbody = !tags.indexOf("<table") && !hasBody ?
+          div.firstChild && div.firstChild.childNodes :
+          wrap[1] == "<table>" && !hasBody ? div.childNodes :
           [];
 
-        for (var j=tbody.length-1; j>=0 ; --j) 
+        for (var j=tbody.length-1; j>=0 ; --j)
         {
           if (tbody[j].tagName.toLowerCase() === "tbody" && !tbody[j].childNodes.length) {
             tbody[j].parentNode.removeChild(tbody[j]);
@@ -158,10 +158,10 @@ qx.Class.define("qx.bom.Html",
         }
       }
 
-      return qx.lang.Array.fromCollection(div.childNodes); 
+      return qx.lang.Array.fromCollection(div.childNodes);
     },
-    
-    
+
+
     /**
      * Cleans-up the given HTML and append it to a fragment
      *
@@ -176,37 +176,37 @@ qx.Class.define("qx.bom.Html",
      * @param fragment {Element?null} Document fragment to appends elements to
      * @return {Element[]} Array of elements (when a fragment is given it only contains script elements)
      */
-    clean: function(objs, context, fragment) 
+    clean: function(objs, context, fragment)
     {
       context = context || document;
-  
+
       // !context.createElement fails in IE with an error but returns typeof 'object'
       if (typeof context.createElement === "undefined") {
         context = context.ownerDocument || context[0] && context[0].ownerDocument || document;
       }
-  
+
       // Fast-Path:
       // If a single string is passed in and it's a single tag
       // just do a createElement and skip the rest
-      if (!fragment && objs.length === 1 && typeof objs[0] === "string") 
+      if (!fragment && objs.length === 1 && typeof objs[0] === "string")
       {
         var match = /^<(\w+)\s*\/?>$/.exec(objs[0]);
         if (match) {
           return [context.createElement(match[1])];
         }
       }
-  
+
       // Interate through items in incoming array
       var obj, ret=[];
       for (var i=0, l=objs.length; i<l; i++)
       {
         obj = objs[i];
-  
+
         // Convert HTML string into DOM nodes
         if (typeof obj === "string") {
           obj = this.__convertHtmlString(obj, context);
         }
-        
+
         // Append or merge depending on type
         if (obj.nodeType) {
           ret.push(obj);
@@ -216,42 +216,42 @@ qx.Class.define("qx.bom.Html",
           ret.push.apply(ret, obj);
         }
       }
-  
+
       // Append to fragment and filter out scripts... or...
-      if (fragment) 
+      if (fragment)
       {
         var scripts=[], LArray=qx.lang.Array, elem, temp;
-        for (var i=0; ret[i]; i++) 
+        for (var i=0; ret[i]; i++)
         {
           elem = ret[i];
-          
-          if (elem.nodeType == 1 && elem.tagName.toLowerCase() === "script" && (!elem.type || elem.type.toLowerCase() === "text/javascript")) 
+
+          if (elem.nodeType == 1 && elem.tagName.toLowerCase() === "script" && (!elem.type || elem.type.toLowerCase() === "text/javascript"))
           {
             // Trying to remove the element from DOM
             if (elem.parentNode) {
               elem.parentNode.removeChild(ret[i]);
             }
-            
+
             // Store in script list
             scripts.push(elem);
-          } 
+          }
           else
           {
-            if (elem.nodeType === 1) 
+            if (elem.nodeType === 1)
             {
               // Recursively search for scripts and append them to the list of elements to process
               temp = LArray.fromCollection(elem.getElementsByTagName("script"));
               ret.splice.apply(ret, [i+1, 0].concat(temp));
             }
-              
+
             // Finally append element to fragment
             fragment.appendChild(elem);
           }
         }
-        
+
         return scripts;
       }
-  
+
       // Otherwise return the array of all elements
       return ret;
     }

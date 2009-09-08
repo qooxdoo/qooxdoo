@@ -226,7 +226,7 @@ qx.Mixin.define("qx.core.MAssert",
       qx.core.Assert.assertEventFired(obj, event, invokeFunc, listener, msg);
     },
 
-    
+
     /**
      * Assert that an event is not fired.
      *
@@ -238,8 +238,8 @@ qx.Mixin.define("qx.core.MAssert",
      */
     assertEventNotFired : function(obj, event, invokeFunc, msg) {
       qx.core.Assert.assertEventNotFired(obj, event, invokeFunc, msg);
-    },   
-    
+    },
+
 
     /**
      * Asserts that the callback raises a matching exception.
@@ -426,8 +426,8 @@ qx.Mixin.define("qx.core.MAssert",
     assertRegExp : function(value, msg) {
        qx.core.Assert.assertRegExp(value, msg);
     },
-   
-   
+
+
     /**
      * Assert that the value has the given type using the <code>typeof</code>
      * operator. Because the type is not always what it is supposed to be it is

@@ -247,7 +247,7 @@ qx.Class.define("qx.util.format.DateFormat",
       if (date == null) {
         return null;
       }
-      
+
       var DateFormat = qx.util.format.DateFormat;
       var locale = this.__locale;
 
@@ -259,7 +259,7 @@ qx.Class.define("qx.util.format.DateFormat",
       var minutes = date.getMinutes();
       var seconds = date.getSeconds();
       var ms = date.getMilliseconds();
-      
+
       var timezoneOffset = date.getTimezoneOffset();
       var timezoneSign = timezoneOffset > 0 ? 1 : -1;
       var timezoneHours = Math.floor(Math.abs(timezoneOffset) / 60);
@@ -290,7 +290,7 @@ qx.Class.define("qx.util.format.DateFormat",
               // TODO: G - Era designator (e.g. AD). Problem: Not covered by JScript Date class
               // TODO: W - Week in month (e.g. 2)
               // TODO: F - Day of week in month (e.g.   2). Problem: What is this?
-            case 'y': // Year 
+            case 'y': // Year
             case 'Y': // Year (which must be 4 digits)
               if (wildcardSize == 2) {
                 replacement = this.__fillNumber(fullYear % 100, 2);
@@ -322,7 +322,7 @@ qx.Class.define("qx.util.format.DateFormat",
               }
 
               break;
-              
+
             case 'c': // Stand-alone local day in week
               if (wildcardSize == 2) {
                 replacement = qx.locale.Date.getDayName("narrow", dayOfWeek, locale, "stand-alone");
@@ -332,7 +332,7 @@ qx.Class.define("qx.util.format.DateFormat",
                 replacement = qx.locale.Date.getDayName("wide", dayOfWeek, locale, "stand-alone");
               }
 
-              break;  
+              break;
 
             case 'M': // Month
               if (wildcardSize == 1 || wildcardSize == 2) {
@@ -355,7 +355,7 @@ qx.Class.define("qx.util.format.DateFormat",
               }
 
               break;
-            
+
             case 'a': // am/pm marker
               // NOTE: 0:00 is am, 12:00 is pm
               replacement = (hours < 12) ? qx.locale.Date.getAmMarker(locale) : qx.locale.Date.getPmMarker(locale);
@@ -392,8 +392,8 @@ qx.Class.define("qx.util.format.DateFormat",
             case 'z': // Time zone
               if (wildcardSize == 1)
               {
-                replacement = 
-                  "GMT" + 
+                replacement =
+                  "GMT" +
                   ((timezoneSign > 0) ? "-" : "+") +
                   this.__fillNumber(Math.abs(timezoneHours)) +
                   ":" + this.__fillNumber(timezoneMinutes, 2);
@@ -410,9 +410,9 @@ qx.Class.define("qx.util.format.DateFormat",
               break;
 
             case 'Z': // RFC 822 time zone
-              replacement = 
-                ((timezoneSign > 0) ? "-" : "+") + 
-                this.__fillNumber(Math.abs(timezoneHours), 2) + 
+              replacement =
+                ((timezoneSign > 0) ? "-" : "+") +
+                this.__fillNumber(Math.abs(timezoneHours), 2) +
                 this.__fillNumber(timezoneMinutes, 2);
               break;
           }
@@ -869,7 +869,7 @@ qx.Class.define("qx.util.format.DateFormat",
         regex       : "(\\d\\d\\d\\d)",
         manipulator : yearManipulator
       });
-      
+
       this.__parseRules.push(
       {
         pattern     : "yyyy", //Year (2 or 4 digits)

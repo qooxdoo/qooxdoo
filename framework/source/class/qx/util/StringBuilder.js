@@ -35,9 +35,9 @@
 qx.Class.define("qx.util.StringBuilder",
 {
   extend : qx.type.BaseArray,
-  
-  
-  
+
+
+
   /*
   *****************************************************************************
     MEMBERS
@@ -84,8 +84,8 @@ qx.Class.define("qx.util.StringBuilder",
     isEmpty : function() {
       return this.length === 0;
     },
-    
-    
+
+
     /**
      * Returns the size of the strings
      *

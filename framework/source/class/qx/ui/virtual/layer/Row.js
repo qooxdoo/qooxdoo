@@ -20,14 +20,14 @@
 
 /**
  * EXPERIMENTAL!
- * 
- * The Row layer renders row background colors. 
+ *
+ * The Row layer renders row background colors.
  */
 qx.Class.define("qx.ui.virtual.layer.Row",
 {
   extend : qx.ui.virtual.layer.AbstractBackground,
 
-  
+
   /*
   *****************************************************************************
      PROPERTIES
@@ -43,33 +43,33 @@ qx.Class.define("qx.ui.virtual.layer.Row",
       init : "row-layer"
     }
   },
-  
-  
+
+
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
- 
+
   members :
   {
     // overridden
     _fullUpdate : function(firstRow, firstColumn, rowSizes, columnSizes)
     {
       var html = [];
-      
+
       var width = qx.lang.Array.sum(columnSizes);
-      var decorations = [];      
-      
+      var decorations = [];
+
       var top = 0;
       var row = firstRow;
       var childIndex = 0;
-      
+
       for (var y=0; y<rowSizes.length; y++)
       {
         var decorator = this.getDecorator(row);
         if (decorator)
-        {          
+        {
           decorations.push({
             childIndex: childIndex,
             decorator: decorator,
@@ -85,7 +85,7 @@ qx.Class.define("qx.ui.virtual.layer.Row",
             "'>",
             decorator.getMarkup(),
             "</div>"
-          );  
+          );
           childIndex++
         }
         else
@@ -100,26 +100,26 @@ qx.Class.define("qx.ui.virtual.layer.Row",
               "top:", top, "px;",
               "height:", rowSizes[y], "px;",
               "width:", width, "px;",
-              "background-color:", color, 
+              "background-color:", color,
               "'>",
               "</div>"
             );
             childIndex++
           }
-        }        
-        
+        }
+
         top += rowSizes[y];
         row += 1;
       }
-      
-      var el = this.getContentElement().getDomElement();            
-      // hide element before changing the child nodes to avoid 
+
+      var el = this.getContentElement().getDomElement();
+      // hide element before changing the child nodes to avoid
       // premature reflow calculations
       el.style.display = "none";
       el.innerHTML = html.join("");
-      
+
       // set size of decorated rows
-      for (var i=0, l=decorations.length; i<l; i++) 
+      for (var i=0, l=decorations.length; i<l; i++)
       {
         var deco = decorations[i];
         deco.decorator.resize(
@@ -127,51 +127,51 @@ qx.Class.define("qx.ui.virtual.layer.Row",
           deco.width,
           deco.height
         );
-      }      
+      }
       el.style.display = "block";
       this._width = width;
     },
-    
-    
+
+
     // overridden
     _updateLayerWindow : function(firstRow, firstColumn, rowSizes, columnSizes)
-    {      
+    {
       if (
         firstRow !== this.getFirstRow() ||
-        rowSizes.length !== this.getRowSizes().length || 
+        rowSizes.length !== this.getRowSizes().length ||
         this._width < qx.lang.Array.sum(columnSizes)
       ) {
         this._fullUpdate(firstRow, firstColumn, rowSizes, columnSizes);
       }
     },
-        
-    
+
+
     // overridden
-    setColor : function(index, color) 
+    setColor : function(index, color)
     {
       this.base(arguments, index, color);
-      
-      if (this.__isRowRendered(index)) {        
-        this.updateLayerData();
-      }
-    },
-    
-    
-    // overridden
-    setDecorator : function(index, decorator) 
-    {
-      this.base(arguments, index, decorator);     
+
       if (this.__isRowRendered(index)) {
         this.updateLayerData();
       }
     },
-    
-    
+
+
+    // overridden
+    setDecorator : function(index, decorator)
+    {
+      this.base(arguments, index, decorator);
+      if (this.__isRowRendered(index)) {
+        this.updateLayerData();
+      }
+    },
+
+
     __isRowRendered : function(index)
     {
       var firstRow = this.getFirstRow();
       var lastRow = firstRow + this.getRowSizes().length - 1;
-      return index >= firstRow && index <= lastRow;    
+      return index >= firstRow && index <= lastRow;
     }
   }
 });

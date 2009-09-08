@@ -203,7 +203,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
       splitter.getChildControl("knob").removeState(old);
       splitter.getChildControl("knob").addState(value);
       slider.removeState(old);
-      slider.addState(value);      
+      slider.addState(value);
     },
 
 
@@ -558,7 +558,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
      {
        var splitter = this.getChildControl("splitter");
        var root = this.getApplicationRoot();
-   
+
        // Whether the cursor is near enough to the splitter
        if (this.__activeDragSession || this._isNear())
        {
@@ -630,14 +630,14 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
     /**
      * Determines whether this is an active drag session
-     * 
+     *
      * @return {Boolean} True if active drag session, otherwise false.
      */
     _isActiveDragSession : function() {
       return this.__activeDragSession;
     }
   },
-  
+
   /*
    *****************************************************************************
       DESTRUCT

@@ -21,7 +21,7 @@
 qx.Class.define("qx.test.ui.virtual.layer.LayerSimple",
 {
   extend : qx.ui.virtual.layer.Abstract,
-  
+
 
   /*
   *****************************************************************************
@@ -44,11 +44,11 @@ qx.Class.define("qx.test.ui.virtual.layer.LayerSimple",
         "'>",
         content,
         "</div>"
-      ].join("");   
+      ].join("");
     },
 
     _fullUpdate : function(
-      firstRow, firstColumn, 
+      firstRow, firstColumn,
       rowSizes, columnSizes
     )
     {
@@ -61,11 +61,11 @@ qx.Class.define("qx.test.ui.virtual.layer.LayerSimple",
       {
         var left = 0;
         var col = firstColumn;
-        var height = rowSizes[x] 
+        var height = rowSizes[x]
         for(var y=0; y<columnSizes.length; y++)
         {
           var width = columnSizes[y];
-          
+
           html[html.length] = this.getCellHtml(
             row, col,
             left, top,
@@ -73,12 +73,12 @@ qx.Class.define("qx.test.ui.virtual.layer.LayerSimple",
           );
 
           col++;
-          left += width;          
+          left += width;
         }
         top += height;
         row++;
       }
-      
+
       this.getContentElement().setAttribute("html", html.join(""));
     }
   }

@@ -20,25 +20,25 @@
 
 /**
  * An extended array class which adds a lot of often used
- * convenience methods to the regular array like <code>remove</code> or 
+ * convenience methods to the regular array like <code>remove</code> or
  * <code>contains</code>.
  */
 qx.Class.define("qx.type.Array",
 {
   extend : qx.type.BaseArray,
-  
+
   members :
   {
-    /** 
-     * Returns a clone of the array. Primitive values are copied. 
+    /**
+     * Returns a clone of the array. Primitive values are copied.
      * Others are referenced.
      *
      * @return {Array} Cloned array instance
      * @signature function()
      */
     clone : qx.type.BaseArray.prototype.concat,
-    
-    
+
+
     /**
      * Insert an element at a given position
      *
@@ -111,13 +111,13 @@ qx.Class.define("qx.type.Array",
      *
      * @return {Array} empty array
      */
-    removeAll : function() 
+    removeAll : function()
     {
       this.length = 0;
       return this;
     },
-    
-    
+
+
     /**
      * Append the elements of the given array
      *
@@ -127,7 +127,7 @@ qx.Class.define("qx.type.Array",
      */
     append : function(arr)
     {
-      // this check is important because Opera throws an uncatchable error if 
+      // this check is important because Opera throws an uncatchable error if
       // apply is called without an arr as second argument.
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         qx.core.Assert.assertArray(arr, "The parameter must be an array.");
@@ -163,6 +163,6 @@ qx.Class.define("qx.type.Array",
      */
     contains : function(obj) {
       return this.indexOf(obj) !== -1;
-    }      
+    }
   }
 });

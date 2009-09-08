@@ -568,7 +568,7 @@ qx.Class.define("qx.legacy.html.Location",
         } else {
           screenX = el.ownerDocument.getBoxObjectFor(el).screenX;
         }
-        
+
         return screenX - sum;
       },
 
@@ -609,7 +609,7 @@ qx.Class.define("qx.legacy.html.Location",
         } else {
           screenY = el.ownerDocument.getBoxObjectFor(el).screenY;
         }
-        
+
         return screenY - sum;
       },
 

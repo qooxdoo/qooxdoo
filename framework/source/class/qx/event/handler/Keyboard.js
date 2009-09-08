@@ -317,7 +317,7 @@ qx.Class.define("qx.event.handler.Keyboard",
       Event.removeNativeListener(this.__root, "keyup", this.__onKeyUpDownWrapper);
       Event.removeNativeListener(this.__root, "keydown", this.__onKeyUpDownWrapper);
       Event.removeNativeListener(this.__root, "keypress", this.__onKeyPressWrapper);
-      
+
       for (var key in (this.__inputListeners || {}))
       {
         var listener = this.__inputListeners[key];
@@ -453,19 +453,19 @@ qx.Class.define("qx.event.handler.Keyboard",
       }
     })),
 
-    
+
     /**
      * some keys like "up", "down", "pageup", "pagedown" do not bubble a
      * "keypress" event in Firefox. To work around this bug we attach keypress
      * listeners directly to the input events.
-     * 
+     *
      * https://bugzilla.mozilla.org/show_bug.cgi?id=467513
-     * 
+     *
      * @signature function(target, type, keyCode)
      * @param target {Element} The event target
      * @param type {String} The event type
      * @param keyCode {Integer} the key code
-     */    
+     */
     __firefoxInputFix : qx.core.Variant.select("qx.client",
     {
       "gecko" : function(target, type, keyCode)
@@ -476,7 +476,7 @@ qx.Class.define("qx.event.handler.Keyboard",
           target.type == "text" &&
           target.tagName.toLowerCase() === "input" &&
           target.getAttribute("autoComplete") !== "off"
-        ) 
+        )
         {
           if (!this.__inputListeners) {
             this.__inputListeners = {};
@@ -488,7 +488,7 @@ qx.Class.define("qx.event.handler.Keyboard",
           var self = this;
           this.__inputListeners[hash] = {
             target: target,
-            callback : function(domEvent) 
+            callback : function(domEvent)
             {
               qx.bom.Event.stopPropagation(domEvent);
               self.__onKeyPress(domEvent);
@@ -498,11 +498,11 @@ qx.Class.define("qx.event.handler.Keyboard",
           qx.bom.Event.addNativeListener(target, "keypress", listener);
         }
       },
-      
+
       "default" : null
     }),
 
-    
+
     /**
      * Low level key press handler
      *

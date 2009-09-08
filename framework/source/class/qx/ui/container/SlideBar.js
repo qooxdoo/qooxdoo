@@ -188,7 +188,7 @@ qx.Class.define("qx.ui.container.SlideBar",
 
     // overridden
     /**
-     * @lint ignoreReferenceField(_forwardStates) 
+     * @lint ignoreReferenceField(_forwardStates)
      */
     _forwardStates :
     {
@@ -257,17 +257,17 @@ qx.Class.define("qx.ui.container.SlideBar",
       // the states correctly.
       if (old == "vertical")
       {
-        buttonForward.removeState("vertical");  
-        buttonBackward.removeState("vertical");  
-        buttonForward.addState("horizontal");  
-        buttonBackward.addState("horizontal");  
+        buttonForward.removeState("vertical");
+        buttonBackward.removeState("vertical");
+        buttonForward.addState("horizontal");
+        buttonBackward.addState("horizontal");
       }
       else if (old == "horizontal")
       {
-        buttonForward.removeState("horizontal");  
-        buttonBackward.removeState("horizontal");  
-        buttonForward.addState("vertical");  
-        buttonBackward.addState("vertical");  
+        buttonForward.removeState("horizontal");
+        buttonBackward.removeState("horizontal");
+        buttonForward.addState("vertical");
+        buttonBackward.addState("vertical");
       }
 
 
