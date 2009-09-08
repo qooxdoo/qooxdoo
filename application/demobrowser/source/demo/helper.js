@@ -2,11 +2,22 @@
 {
   var jsFileURL;
   var jsSourceURL;
-  
+
   /*
-  	parseUri 1.2.1
-  	(c) 2007 Steven Levithan <stevenlevithan.com>
-  	MIT License
+     This class contains code based on the following work:
+
+     * parseUri
+       http://blog.stevenlevithan.com/archives/parseuri
+       Version  1.2.1
+
+       Copyright:
+         (c) 2007, Steven Levithan <http://stevenlevithan.com>
+
+       License:
+         MIT: http://www.opensource.org/licenses/mit-license.php
+
+       Authors:
+         * Steven Levithan
   */
 
   function parseUri (str) {
