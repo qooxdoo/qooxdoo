@@ -349,7 +349,7 @@ qx.Class.define("qx.ui.form.AbstractField",
     {
       this.base(arguments);
 
-      this.selectAll();
+      this.selectAllText();
     },
 
     /**

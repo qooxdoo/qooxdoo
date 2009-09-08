@@ -329,7 +329,7 @@ qx.Class.define("qx.ui.form.Spinner",
       var field = this.getChildControl("textfield");
 
       field.getFocusElement().focus();
-      field.selectAll();
+      field.selectAllText();
     },
 
 
