@@ -57,9 +57,9 @@ qx.Class.define("playground.Application",
 
     // Container for the sample codes
     __sampleContainer : null,
-    
+
     __runSample : null,
-    
+
     __history : null,
 
 
@@ -76,7 +76,7 @@ qx.Class.define("playground.Application",
 
       this.__widgets = {};
       this.__sampleContainer = {};
-      
+
       var self = this;
 
       var doc = this.getRoot();
@@ -127,11 +127,11 @@ qx.Class.define("playground.Application",
       var playRootEl = this.dummy.getContainerElement().getDomElement();
       this.__playRoot = new qx.ui.root.Inline(playRootEl);
       this.__playRoot._setLayout(new qx.ui.layout.Canvas());
-      
+
       this.__playRoot.getLayoutParent = function() { return self.playarea; };
-      this.playarea.getChildren = this.playarea._getChildren = 
+      this.playarea.getChildren = this.playarea._getChildren =
         function() { return [self.__playRoot]; };
-      
+
       this.playarea.addListener("resize", function(e)
       {
         var data = e.getData();
@@ -182,8 +182,8 @@ qx.Class.define("playground.Application",
         this.currentSample = state;
         this.updatePlayground(this.__playRoot);
         var title = state;
-        this.playAreaCaption.setValue(this.__decodeSampleId(title));        
-        
+        this.playAreaCaption.setValue(this.__decodeSampleId(title));
+
       // if there is a state given
       } else if (state != "") {
         var data = qx.util.Json.parse(state);
@@ -192,7 +192,7 @@ qx.Class.define("playground.Application",
         this.textarea.setValue(code);
         this.__widgets["toolbar.runButton"].execute();
         var title = "Custom Code"
-      
+
       } else {
         state = qx.lang.Object.getKeys(this.__sampleContainer)[0];
         this.currentSample = state;
@@ -227,7 +227,7 @@ qx.Class.define("playground.Application",
               this.textarea.setValue(code);
             }
           }
-          this.__widgets["toolbar.runButton"].execute();          
+          this.__widgets["toolbar.runButton"].execute();
         }
       }, this);
 
@@ -468,7 +468,7 @@ qx.Class.define("playground.Application",
       // While this is ok for many simple scenarios, it cannot account for
       // application code that generates temporary objects without adding them
       // to the application (as widgets for instance). There is no real
-      // solution for such a multi-application scenario that is playground 
+      // solution for such a multi-application scenario that is playground
       // specific.
       var ch = root.getChildren();
       var i = ch.length;
@@ -589,7 +589,7 @@ qx.Class.define("playground.Application",
       } else {
         this.textarea.setValue(currentSource);
       }
-  
+
       this.__history.addToHistory(this.currentSample, this.__updateTitle(label));
     },
 
@@ -605,7 +605,7 @@ qx.Class.define("playground.Application",
       this.__widgets["toolbar.runButton"].addListener("execute", function()
       {
         this.updatePlayground(root);
-        
+
         if (this.currentSample != "" && this.editor != undefined) {
           this.__isSourceCodeChanged();
         }
@@ -615,10 +615,10 @@ qx.Class.define("playground.Application",
         } else {
           var code = this.textarea.getValue();
         }
-        
+
         var userCode = this.showSyntaxHighlighting ?
                        this.editor.getCode() :
-                       this.textarea.getValue();        
+                       this.textarea.getValue();
         if (escape(userCode) != escape(this.__sampleContainer[this.currentSample]).replace(/%0D/g, "")) {
           this.__history.addToHistory('{"code": ' + '"' + encodeURIComponent(code) + '"}');
         }
