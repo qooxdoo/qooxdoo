@@ -171,7 +171,7 @@ qx.Class.define("qx.bom.Iframe",
         // it is better to use 'replace' than 'src'-attribute, since 'replace' 
         // does not interfere with the history (which is taken care of by the 
         // history manager), but there has to be a loaded document
-        if (this.getWindow(iframe))
+        if (this.getWindow(iframe) && qx.dom.Hierarchy.isRendered(iframe))
         {
           /*
             Some gecko users might have an exception here:
