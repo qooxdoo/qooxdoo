@@ -29,7 +29,7 @@
  * be changed after the framework is loaded, but not before. Most of the
  * time this restriction is not problematic. Many stuff is just then
  * interesting when the application main gets processed. But there are
- * exceptions like things which must be configured at loadtime and not
+ * exceptions like things which must be configured at load-time and not
  * after that.
  *
  * *What are settings?*
@@ -50,9 +50,6 @@
  *
  * This list shows you some of your possibilities.
  *
- * Also take a look at the documentation at:
- * http://qooxdoo.org/documentation/user_manual/settings
- *
  * *Usage*
  *
  * A setting generally should only store simple primitive types
@@ -61,7 +58,7 @@
  * settings is to "compile" them into the application code. This is easily
  * possible using the corresponding flags of the qooxdoo build system.
  *
- * At initialisation of this class all settings defined in the global
+ * At initialization of this class all settings defined in the global
  * map <code>qxsettings</code> are imported. This map can also created
  * by hand and should be defined before loading qooxdoo. After the import
  * the settings system deletes the map.
