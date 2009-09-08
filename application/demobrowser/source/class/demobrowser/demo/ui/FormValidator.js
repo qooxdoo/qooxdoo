@@ -19,46 +19,46 @@
 /**
  * @lint ignoreDeprecated(alert)
  */
-qx.Class.define("demobrowser.demo.ui.FormValidator", 
+qx.Class.define("demobrowser.demo.ui.FormValidator",
 {
   extend : qx.application.Standalone,
 
   members :
   {
-    main : function() 
+    main : function()
     {
       this.base(arguments);
-      
+
       // create a field for a usernamen
       var username = new qx.ui.form.TextField();
       username.setPlaceholder("username");
       username.setWidth(150);
       username.setRequired(true);
       this.getRoot().add(username, {left: 20, top: 70});
-      
+
       // create a textfield for the email address
       var email = new qx.ui.form.TextField();
       email.setPlaceholder("email address");
-      email.setWidth(150);      
+      email.setWidth(150);
       this.getRoot().add(email, {left: 20, top: 100});
-      
+
       // cerate two textfields for a password
       var password1 = new qx.ui.form.TextField();
       password1.setPlaceholder("password");
-      password1.setWidth(150);      
+      password1.setWidth(150);
       this.getRoot().add(password1, {left: 20, top: 130});
-      
+
       var password2 = new qx.ui.form.TextField();
       password2.setPlaceholder("password");
-      password2.setWidth(150);      
+      password2.setWidth(150);
       this.getRoot().add(password2, {left: 20, top: 160});
-      
+
       // create a checkbox
       var accepted = new qx.ui.form.CheckBox("Accept");
       accepted.setRequired(true);
       this.getRoot().add(accepted, {left: 20, top: 190});
-      
-      
+
+
       // create the form manager
       var manager = new qx.ui.form.validation.Manager();
       // create a validator function
@@ -69,7 +69,7 @@ qx.Class.define("demobrowser.demo.ui.FormValidator",
         }
         return valid;
       };
-      
+
       // create a async validator function
       var userNameValidator = new qx.ui.form.validation.AsyncValidator(
         function(validator, value) {
@@ -83,7 +83,7 @@ qx.Class.define("demobrowser.demo.ui.FormValidator",
           }, 1000);
         }
       );
-      
+
       // add the username with a async validator
       manager.add(username, userNameValidator);
       // add the email with a predefined email validator
@@ -93,7 +93,7 @@ qx.Class.define("demobrowser.demo.ui.FormValidator",
       manager.add(password2, passwordLengthValidator);
       // add the checkbox (required flag is set)
       manager.add(accepted);
-      
+
       // add a validator to the manager itself (passwords mut be equal)
       manager.setValidator(function(items) {
         var valid = password1.getValue() == password2.getValue();
@@ -112,7 +112,7 @@ qx.Class.define("demobrowser.demo.ui.FormValidator",
       send.addListener("execute", function() {
         // configure the send button
         send.setEnabled(false);
-        send.setLabel("Validating...");        
+        send.setLabel("Validating...");
         // return type can not be used because of async validation
         manager.validate()
       }, this);
@@ -130,26 +130,26 @@ qx.Class.define("demobrowser.demo.ui.FormValidator",
           alert(manager.getInvalidMessages().join("\n"));
         }
       }, this);
-      
-      
-      
-      
-      
-      
-      
+
+
+
+
+
+
+
       /* ***********************************************
        * DESCRIPTIONS
-       * ********************************************* */  
+       * ********************************************* */
       // List Selection sync description
       var notEmptyDescription = new qx.ui.basic.Label();
       notEmptyDescription.setRich(true);
       notEmptyDescription.setWidth(320);
       notEmptyDescription.setValue(
         "<b>Client side form validation</b><br/>"
-        + "All fields are required. Some by a custom validator, some by a " 
+        + "All fields are required. Some by a custom validator, some by a "
         + "predefined validator and some by the required flag."
       );
-      this.getRoot().add(notEmptyDescription, {left: 20, top: 10});      
+      this.getRoot().add(notEmptyDescription, {left: 20, top: 10});
     }
   }
 });

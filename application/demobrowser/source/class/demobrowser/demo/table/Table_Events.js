@@ -174,7 +174,7 @@ qx.Class.define("demobrowser.demo.table.Table_Events",
       return menu;
     }
   },
-  
+
   /*
    *****************************************************************************
       DESTRUCT

@@ -189,11 +189,11 @@ qx.Class.define("demobrowser.demo.widget.Window",
         resizable.bind("value", win, "resizable" + qx.lang.String.firstUp(edge));
         resize.add(resizable);
       }
-      
+
       var move = new qx.ui.groupbox.GroupBox("Moveable");
       move.setLayout(new qx.ui.layout.VBox(4));
       box.add(move, {flex:1});
-      
+
       var movable = new qx.ui.form.CheckBox("Movable");
       movable.setValue(true);
       movable.addListener("changeValue", function(e) {

@@ -40,7 +40,7 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Roster",
     var controller = new demobrowser.demo.virtual.messenger.Controller(null, this);
     this.bind("model", controller, "model");
     this.setSelection(controller.getSelection());
-    
+
     // configure row colors
     this.rowLayer = this.getChildControl("row-layer");
     this.rowLayer.set({
@@ -48,14 +48,14 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Roster",
       colorOdd: "rgb(238, 243, 255)"
     });
     this.getPane().addLayer(this.rowLayer);
-    
+
     var prefetch = new qx.ui.virtual.behavior.Prefetch(
       this,
       0, 0, 0, 0,
       600, 800, 600, 800
     ).set({
       interval: 500
-    });    
+    });
   },
 
 
@@ -73,14 +73,14 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Roster",
       check : "qx.data.Array",
       nullable : true
     },
-    
+
     selection :
     {
       event : "changeSelection"
     }
   },
-  
-  
+
+
   members :
   {
     styleGroup : function(row)
@@ -89,11 +89,11 @@ qx.Class.define("demobrowser.demo.virtual.messenger.Roster",
       this.getPane().getRowConfig().setItemSize(row, 15);
       this.rowLayer.setColor(row, groupColor);
     },
-    
+
     unstyleGroup : function(row)
     {
       this.getPane().getRowConfig().setItemSize(row, null);
       this.rowLayer.setColor(row, null);
-    }    
-  }  
+    }
+  }
 });

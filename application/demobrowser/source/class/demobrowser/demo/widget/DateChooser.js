@@ -32,7 +32,7 @@ qx.Class.define("demobrowser.demo.widget.DateChooser",
     {
       this.base(arguments);
 
-      /* Set locale to english to avoid language mix if browser locale is 
+      /* Set locale to english to avoid language mix if browser locale is
        * non-english. */
       qx.locale.Manager.getInstance().setLocale("en");
 
@@ -51,11 +51,11 @@ qx.Class.define("demobrowser.demo.widget.DateChooser",
       containerTop.add(containerRight)
       container.add(containerTop);
       this.getRoot().add(container, { left : 20, top: 20});
-      
+
       // Date chooser
       var chooser = new qx.ui.control.DateChooser();
       containerTop.addBefore(chooser, containerRight);
-      
+
       // date label
       var label = new qx.ui.basic.Label("select a date");
       container.add(label);

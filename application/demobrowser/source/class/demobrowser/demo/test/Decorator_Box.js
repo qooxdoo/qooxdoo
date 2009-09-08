@@ -36,7 +36,7 @@ qx.Class.define("demobrowser.demo.test.Decorator_Box",
       var win = new qx.ui.window.Window("HBox/VBox Decorator Demo");
       win.setLayout(new qx.ui.layout.Canvas());
       win.open();
-      
+
       var decorator = new qx.ui.decoration.HBox("demobrowser/demo/theme/tag-hor.png");
       var widget = new qx.ui.core.Widget().set({
         decorator: decorator,

@@ -25,8 +25,8 @@ qx.Class.define("demobrowser.demo.virtual.messenger.GroupCell",
   {
     changeOpen : "qx.event.type.Data"
   },
-  
-  
+
+
   members :
   {
     _createWidget : function()
@@ -42,9 +42,9 @@ qx.Class.define("demobrowser.demo.virtual.messenger.GroupCell",
       }, this);
       return widget;
     },
-    
-    
-    updateData : function(widget, data) 
+
+
+    updateData : function(widget, data)
     {
       widget.setLabel(data.getName() + " (" + data.getItemCount() + ")");
       if (data.isOpen()) {
@@ -52,6 +52,6 @@ qx.Class.define("demobrowser.demo.virtual.messenger.GroupCell",
       } else {
         widget.setIcon("decoration/arrows/right-invert.png");
       }
-    }    
+    }
   }
 });

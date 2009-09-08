@@ -123,7 +123,7 @@ qx.Class.define("demobrowser.demo.event.Event_Iframe",
       this.debug(e.getType() + " 2: " + e);
     }
   },
-  
+
   /*
    *****************************************************************************
       DESTRUCT

@@ -93,7 +93,7 @@ qx.Class.define("demobrowser.demo.widget.CheckBox",
       }
     }
   },
-  
+
   /*
    *****************************************************************************
       DESTRUCT

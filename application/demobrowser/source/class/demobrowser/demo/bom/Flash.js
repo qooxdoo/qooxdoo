@@ -42,19 +42,19 @@ qx.Class.define("demobrowser.demo.bom.Flash",
       qx.bom.element.Style.set(domElement, "right", "20px");
       qx.bom.element.Style.set(domElement, "left", "20px");
       document.body.appendChild(domElement);
-      
+
       var movieUri = qx.util.ResourceManager.getInstance().toUri("demobrowser/demo/flash/fo_tester.swf");
-      
+
       var variables = {
         flashVarText: "this is passed in via FlashVars"
       };
-      
+
       var params = {
         bgcolor: "#FF6600",
         scale: "noscale",
         wmode: "opaque"
       };
-      
+
       qx.bom.Flash.create(domElement, { movie : movieUri, id : "movie" }, variables, params);
     }
   }

@@ -58,7 +58,7 @@ qx.Class.define("demobrowser.demo.virtual.CellEvents",
         height : 300,
         html : "",
         decorator : "main"
-      });      
+      });
 
       this.getRoot().add(scroller, {left : 20, top : 10});
       this.getRoot().add(this.logger, {left : 450, top : 10});
@@ -82,13 +82,13 @@ qx.Class.define("demobrowser.demo.virtual.CellEvents",
       var msg = '<p style="color:red;">You double clicked cell ' + e.getRow() + ' / ' + e.getColumn() + '</p>';
       this.__fillLog(msg);
     },
-    
+
     __fillLog : function(msg) {
       this.logger.setHtml(this.logger.getHtml() + msg)
     }
 
   },
-  
+
   /*
    *****************************************************************************
       DESTRUCT

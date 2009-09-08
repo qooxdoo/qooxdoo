@@ -39,7 +39,7 @@ qx.Class.define("demobrowser.demo.virtual.ListComplex",
   members :
   {
     /**
-     * This method contains the initial application code and gets called 
+     * This method contains the initial application code and gets called
      * during startup of the application
      */
     main : function()
@@ -55,18 +55,18 @@ qx.Class.define("demobrowser.demo.virtual.ListComplex",
       {
         scroller.getPane().getRowConfig().setItemSize(i, 50 + Math.round(Math.random() * 40));
         scroller.getPane().getColumnConfig().setItemSize(i, 50 + Math.round(Math.random() * 80));
-      }      
-      
+      }
+
       this.getRoot().add(scroller, {left : 20, top : 10});
       scroller.getPane().addLayer(new qx.ui.virtual.layer.Row("white", "rgb(238, 243, 255)"));
       scroller.getPane().addLayer(new qx.ui.virtual.layer.GridLines("horizontal"));
       scroller.getPane().addLayer(new demobrowser.demo.virtual.DemoLayer);
-      
+
       var prefetch = new qx.ui.virtual.behavior.Prefetch(
         scroller,
         500, 600, 1000, 1200,
         0, 0, 0, 0
-      );           
+      );
     }
   }
 });

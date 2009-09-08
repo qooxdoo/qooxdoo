@@ -26,7 +26,7 @@ qx.Class.define("demobrowser.demo.animation.Login",
     __effect : null,
     __container : null,
     __okButton : null,
-    
+
     checkInput : function()
     {
       this.__effect.start();
@@ -106,7 +106,7 @@ qx.Class.define("demobrowser.demo.animation.Login",
 
     }
   },
-  
+
   /*
    *****************************************************************************
       DESTRUCTOR

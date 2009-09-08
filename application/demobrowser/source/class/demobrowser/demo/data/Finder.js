@@ -23,7 +23,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.data.Finder", 
+qx.Class.define("demobrowser.demo.data.Finder",
 {
   extend : qx.application.Standalone,
 
@@ -32,7 +32,7 @@ qx.Class.define("demobrowser.demo.data.Finder",
     main: function()
     {
       this.base(arguments);
-      
+
       // create and configure a window
       var win = new qx.ui.window.Window("Finder");
       win.setLayout(new qx.ui.layout.HBox());
@@ -40,15 +40,15 @@ qx.Class.define("demobrowser.demo.data.Finder",
       win.setShowMaximize(false);
       win.setShowMinimize(false);
       win.setShowClose(false);
-      // open the window          
+      // open the window
       win.open();
-      
+
       // create and add the lists
       var list1 = new qx.ui.form.List();
       win.add(list1);
       var list2 = new qx.ui.form.List();
       win.add(list2);
-      var list3 = new qx.ui.form.List();            
+      var list3 = new qx.ui.form.List();
       win.add(list3);
 
 
@@ -63,8 +63,8 @@ qx.Class.define("demobrowser.demo.data.Finder",
 
       // create the data store
       var url = "json/finder.json";
-      var store = new qx.data.store.Json(url); 
-      
+      var store = new qx.data.store.Json(url);
+
       // connect the store and the first controller
       store.bind("model.files", controller1, "model");
       // connect the rest of the controllers

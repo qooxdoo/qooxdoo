@@ -32,9 +32,9 @@ qx.Class.define("demobrowser.demo.test.io2_HttpRequest",
       el.value = "Loading...";
 
       var req = new qx.io2.HttpRequest;
-      
+
       req.setUrl("io2_HttpRequest.html");
-      
+
       req.addListener("change", function(e)
       {
         var state = e.getData();
@@ -43,23 +43,23 @@ qx.Class.define("demobrowser.demo.test.io2_HttpRequest",
           el.value = this.getResponseText();
         }
       });
-      
+
       req.addListener("load", function() {
         qx.log.Logger.debug("Event: load");
       });
-      
+
       req.addListener("error", function() {
         qx.log.Logger.debug("Event: error");
       });
-      
+
       req.addListener("timeout", function() {
         qx.log.Logger.debug("Event: timeout");
       });
-      
+
       req.addListener("abort", function() {
         qx.log.Logger.debug("Event: abort");
       });
-      
+
       req.send();
     }
   }

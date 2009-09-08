@@ -32,7 +32,7 @@ qx.Class.define("demobrowser.demo.virtual.ListBinding",
   members :
   {
     /**
-     * This method contains the initial application code and gets called 
+     * This method contains the initial application code and gets called
      * during startup of the application
      */
     main : function()
@@ -43,14 +43,14 @@ qx.Class.define("demobrowser.demo.virtual.ListBinding",
       // create a list
       var list = new qx.ui.virtual.form.List();
       this.getRoot().add(list, {left: 10, top: 10});
-      
+
       // build up the data
       var model = [];
       for (var i = 0; i < 10000; i++) {
         model.push("Affe " + i);
       }
       model = new qx.data.Array(model);
-      
+
       // define a controller for the binding
       var controller = new qx.ui.virtual.form.ListController(model, list);
       controller.setDelegate({
@@ -59,33 +59,33 @@ qx.Class.define("demobrowser.demo.virtual.ListBinding",
           parseInt(model[model.length - 1]) % 2 ? inFilter = false : inFilter = true;
           return inFilter;
         },
-        
+
         sorter : function(modelA, modelB) {
           return modelA > modelB;
         }
       });
-      
-      // create a list for the selection    
+
+      // create a list for the selection
       var selectedList = new qx.ui.virtual.form.List().set({
         useWidgetCells : true
       });
       this.getRoot().add(selectedList, {left: 500, top: 10});
-      
+
       // create a controller for the selection
       var selectedController = new qx.ui.virtual.form.ListController(
         controller.getSelection(), selectedList
       );
-      
-      
+
+
       var buddyList = new qx.ui.virtual.form.List().set({
         useWidgetCells : true,
         cellRenderer : new demobrowser.demo.virtual.messenger.BuddyCell(),
         rowHeight : 28
       });
-      
+
       var buddyModel = demobrowser.demo.virtual.messenger.BuddyModel.createBuddies(200);
       var buddyController = new qx.ui.virtual.form.ListController(buddyModel, buddyList);
-      
+
       this.getRoot().add(buddyList, {left: 10, top: 320});
     }
   }

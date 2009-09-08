@@ -18,40 +18,40 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.virtual.list.List", 
+qx.Class.define("demobrowser.demo.virtual.list.List",
 {
   extend : qx.ui.virtual.core.Scroller,
-  
+
   implement : [
     qx.ui.virtual.core.IWidgetCellProvider,
     qx.ui.form.IFormElement
   ],
 
-  
+
   construct : function()
   {
     this.base(arguments, 0, 1, this.getItemHeight(), 10);
-    
+
     this.__widgetLayer = new qx.ui.virtual.layer.WidgetCell(this);
-    this.getPane().addLayer(this.__widgetLayer)    
+    this.getPane().addLayer(this.__widgetLayer)
     this.getPane().addListener("resize", this._onResize, this);
-    
+
     this.__items = [];
     this.__pool = [];
-    
+
     this.__selectionManager = new qx.ui.virtual.selection.Row(this.getPane());
     this.__selectionManager.addListener("changeSelection", this._onChangeSelection, this);
     this.__selectionManager.attachMouseEvents();
     this.__selectionManager.attachKeyEvents(this);
     this.__selectionManager.attachListEvents(this);
-    
+
     var prefetch = new qx.ui.virtual.behavior.Prefetch(
       this,
       0, 0, 0, 0,
       400, 600, 400, 600
     ).set({
       interval: 500
-    });  
+    });
   },
 
 
@@ -84,10 +84,10 @@ qx.Class.define("demobrowser.demo.virtual.list.List",
      * value has been modified.
      */
     changeValue : "qx.event.type.Data",
-    
-    
+
+
     /** Fires after the selection was modified */
-    changeSelection : "qx.event.type.Data"    
+    changeSelection : "qx.event.type.Data"
   },
 
 
@@ -140,8 +140,8 @@ qx.Class.define("demobrowser.demo.virtual.list.List",
       nullable : true,
       event : "changeName"
     },
-    
-    
+
+
     itemHeight :
     {
       init : 24,
@@ -149,8 +149,8 @@ qx.Class.define("demobrowser.demo.virtual.list.List",
       check : "Number",
       apply : "_applyItemHeight"
     },
-    
-    
+
+
     /**
      * The selection mode to use.
      *
@@ -189,7 +189,7 @@ qx.Class.define("demobrowser.demo.virtual.list.List",
       check : "Boolean",
       init : false,
       apply : "_applyQuickSelection"
-    }    
+    }
   },
 
 
@@ -203,15 +203,15 @@ qx.Class.define("demobrowser.demo.virtual.list.List",
     syncWidget : function() {
       this.update();
     },
-    
-    
+
+
     update : function()
     {
       var rowConfig = this.getPane().getRowConfig();
       rowConfig.setItemCount(this.__items.length);
-      
+
       rowConfig.resetItemSizes();
-      for(var i=0; i<this.__items.length; i++) 
+      for(var i=0; i<this.__items.length; i++)
       {
         var height = this.__items[i].getHeight();
         if (height !== null) {
@@ -219,48 +219,48 @@ qx.Class.define("demobrowser.demo.virtual.list.List",
         }
       }
     },
-    
-    
-    updateSelection : function() 
+
+
+    updateSelection : function()
     {
       var widgets = this.__widgetLayer.getChildren();
       for (var i=0; i<widgets.length; i++)
       {
         var widget = widgets[i];
         var row = widget.getUserData("row");
-        
+
         if (this.__selectionManager.isItemSelected(row)) {
           widget.addState("selected");
         } else {
           widget.removeState("selected");
-        }        
+        }
       }
     },
-    
-        
+
+
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLER
     ---------------------------------------------------------------------------
-    */    
-    
+    */
+
     _onResize : function(e)
     {
       this.getPane().getColumnConfig().setItemSize(0, e.getData().width);
       qx.ui.core.queue.Widget.add(this);
     },
-    
+
     _onChangeItemHeight : function(e) {
       qx.ui.core.queue.Widget.add(this);
     },
 
-    _onChangeSelection : function(e) 
+    _onChangeSelection : function(e)
     {
       this.updateSelection();
       this.fireDataEvent("changeSelection", this.__rowsToItems(e.getData()));
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       CELL PROVIDER API
@@ -274,23 +274,23 @@ qx.Class.define("demobrowser.demo.virtual.list.List",
       if (!data) {
         return null;
       }
-      
+
       var widget = this.__pool.pop() || new qx.ui.form.ListItem();
       widget.set({
         label : data.getLabel(),
         icon : data.getIcon()
       });
-      
+
       if (this.__selectionManager.isItemSelected(row)) {
         widget.addState("selected");
       } else {
         widget.removeState("selected");
       }
       widget.setUserData("row", row);
-      
+
       return widget;
     },
-    
+
     // interface implementation
     poolCellWidget : function(widget) {
       this.__pool.push(widget);
@@ -357,7 +357,7 @@ qx.Class.define("demobrowser.demo.virtual.list.List",
       this.setSelection(result);
     },
 
-    
+
     /*
     ---------------------------------------------------------------------------
       CHILDREN HANDLING
@@ -391,16 +391,16 @@ qx.Class.define("demobrowser.demo.virtual.list.List",
       child.addListener("changeHeight", this._onChangeItemHeight, this);
       qx.ui.core.queue.Widget.add(this);
     },
-    
-    
+
+
     _removeHelper : function(child)
     {
       this.fireDataEvent("removeItem", child);
       child.removeListener("changeHeight", this._onChangeItemHeight, this);
       qx.ui.core.queue.Widget.add(this);
     },
-    
-    
+
+
     /**
      * Adds a new child widget.
      *
@@ -534,15 +534,15 @@ qx.Class.define("demobrowser.demo.virtual.list.List",
       this.__items.splice(index, 1);
       this._removeHelper(child);
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       SELECTION HANDLING
     ---------------------------------------------------------------------------
-    */    
-    
-    __itemToRow : function(item) 
+    */
+
+    __itemToRow : function(item)
     {
       var row = this.__items.indexOf(item);
       if (row < 0) {
@@ -551,15 +551,15 @@ qx.Class.define("demobrowser.demo.virtual.list.List",
         return row;
       }
     },
-    
-    
+
+
     __rowToItem : function(row)
     {
-      var item = this.__items[row];      
+      var item = this.__items[row];
       return item;
     },
-    
-    
+
+
     __itemsToRows : function(items)
     {
       var rows = [];
@@ -568,8 +568,8 @@ qx.Class.define("demobrowser.demo.virtual.list.List",
       }
       return rows;
     },
-    
-    
+
+
     __rowsToItems : function(rows)
     {
       var items = [];
@@ -578,8 +578,8 @@ qx.Class.define("demobrowser.demo.virtual.list.List",
       }
       return items;
     },
-    
-    
+
+
     /**
      * Selects all items of the managed object.
      */
@@ -587,7 +587,7 @@ qx.Class.define("demobrowser.demo.virtual.list.List",
       this.__selectionManager.selectAll();
     },
 
-    
+
     /**
      * Selects the given item. Replaces current selection
      * completely with the new item.
@@ -599,7 +599,7 @@ qx.Class.define("demobrowser.demo.virtual.list.List",
       this.__selectionManager.selectItem(this.__itemToRow(item));
     },
 
-    
+
     /**
      * Detects whether the given item is currently selected.
      *
@@ -648,11 +648,11 @@ qx.Class.define("demobrowser.demo.virtual.list.List",
      */
     selectRange : function(begin, end) {
       this.__selectionManager.selectItemRange(
-        this.__itemToRow(begin), 
+        this.__itemToRow(begin),
         this.__itemToRow(end)
       );
     },
-    
+
 
     /**
      * Clears the whole selection at once.
@@ -663,7 +663,7 @@ qx.Class.define("demobrowser.demo.virtual.list.List",
       this.__selectionManager.clearSelection();
     },
 
-    
+
     /**
      * Replaces current selection with the given items.
      *
@@ -673,8 +673,8 @@ qx.Class.define("demobrowser.demo.virtual.list.List",
     setSelection : function(items) {
       this.__selectionManager.replaceSelection(this.__itemsToRows(items));
     },
-    
-    
+
+
     /**
      * Get the selected item. This method does only work in <code>single</code>
      * selection mode.
@@ -685,8 +685,8 @@ qx.Class.define("demobrowser.demo.virtual.list.List",
     getSelectedItem : function() {
       return this.__items[this.getSelected()];
     },
-    
-    
+
+
     /**
      * Get the selected item.
      *
@@ -740,14 +740,14 @@ qx.Class.define("demobrowser.demo.virtual.list.List",
 
     /**
      * Returns all elements which are selectable.
-     * 
+     *
      * @return {LayoutItem[]} The contained items.
      */
     getSelectables: function() {
       return this.__rowsToItems(this.__selectionManager.getSelectables());
     },
-    
-    
+
+
     // property apply
     _applySelectionMode : function(value, old) {
       this.__selectionManager.setMode(value);
@@ -763,6 +763,6 @@ qx.Class.define("demobrowser.demo.virtual.list.List",
     // property apply
     _applyQuickSelection : function(value, old) {
       this.__selectionManager.setQuick(value);
-    }    
+    }
   }
 });

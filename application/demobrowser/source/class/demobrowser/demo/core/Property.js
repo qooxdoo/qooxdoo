@@ -27,12 +27,12 @@ qx.Class.define("demobrowser.demo.core.Property",
     testInit : { init : 1 },
     testThemeNullable : { themeable : true, nullable : true },
     testThemeInit : { themeable : true, init : "black" },
-    
+
     paddingTop : {nullable:true},
     paddingRight : {nullable:true},
     paddingBottom : {nullable:true},
     paddingLeft : {nullable:true},
-    
+
     testGroup : {
       group : ["paddingTop","paddingRight","paddingBottom","paddingLeft"]
     }
@@ -43,34 +43,34 @@ qx.Class.define("demobrowser.demo.core.Property",
     main: function()
     {
       this.base(arguments);
-      
+
       this.debug("Test 1: Nullable");
       this.setTestNullable("foo");
       this.resetTestNullable();
-      
+
       this.debug("Test 2: Init Value");
       this.setTestInit(999);
       this.resetTestInit();
-      
-      this.debug("Test 3: Themed + Nullable");      
+
+      this.debug("Test 3: Themed + Nullable");
       this.setTestThemeNullable("blue");
       this.resetTestThemeNullable();
       this.setThemedTestThemeNullable("yellow");
       this.setTestThemeNullable("red");
       this.resetThemedTestThemeNullable();
       this.resetTestThemeNullable();
-      
-      this.debug("Test 4: Themed + Init Value");      
+
+      this.debug("Test 4: Themed + Init Value");
       this.setTestThemeInit("blue");
       this.resetTestThemeInit();
-      
+
       this.debug("Test 5: Runtime Value");
       this.setRuntimeTestNullable("runtime");
       this.resetRuntimeTestNullable();
-      
+
       this.debug("Test 6: Groups");
       this.setTestGroup(1,2,3,4);
-      
+
       return;
       this.debug("Test 6: Inheritable");
       var parent = new Child;
@@ -82,10 +82,10 @@ qx.Class.define("demobrowser.demo.core.Property",
 
       parent.add(outer1);
       outer2.add(inner1);
-      outer2.add(inner2);      
+      outer2.add(inner2);
       parent.add(outer2);
       parent.add(outer3);
-      
+
       /*
       parent
         - outer1
@@ -93,9 +93,9 @@ qx.Class.define("demobrowser.demo.core.Property",
           - inner1
           - inner2
         - outer3
-      */ 
-      
-      this.debug(" - make parent black");      
+      */
+
+      this.debug(" - make parent black");
       parent.setTestInheritable("black");
       this.debug(" - make outer2 red");
       outer2.setTestInheritable("red");
@@ -132,30 +132,30 @@ qx.Class.define("Child",
     this.base(arguments);
     this.__children = [];
   },
-  
-  properties : 
+
+  properties :
   {
-    testInheritable : 
-    { 
-      inheritable : true, 
+    testInheritable :
+    {
+      inheritable : true,
       init : "blue",
       themeable : true,
       apply : "_applyTestInheritable"
-    }    
+    }
   },
-  
-  members : 
+
+  members :
   {
     _applyTestInheritable : function(value) {
-      //this.debug("Value: " + value);  
+      //this.debug("Value: " + value);
     },
-    
+
     _getChildren : function() {
       return this.__children;
     },
-    
+
     add : function(item) {
       this.__children.push(item);
-    }    
+    }
   }
 });

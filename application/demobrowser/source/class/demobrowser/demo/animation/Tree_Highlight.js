@@ -296,7 +296,7 @@ qx.Class.define("demobrowser.demo.animation.Tree_Highlight",
       var current = this._tree.getSelection()[0];
       if (current != null) {
         var mode = this.mgrShowRootOpen.getSelection()[0].getUserData("mode");
-        current.setOpenSymbolMode(mode);        
+        current.setOpenSymbolMode(mode);
       }
     },
 
@@ -351,7 +351,7 @@ qx.Class.define("demobrowser.demo.animation.Tree_Highlight",
       this.btnMoveToParent.setEnabled(level > 0);
     }
   },
-  
+
   /*
    *****************************************************************************
       DESTRUCTOR

@@ -76,7 +76,7 @@ qx.Class.define("demobrowser.demo.widget.TextField",
 
       var btnLiveUpdate = new qx.ui.form.Button("Toggle live update");
       btnLiveUpdate.addListener("execute", function() {
-        input1.toggleLiveUpdate()   
+        input1.toggleLiveUpdate()
       });
       controls.add(btnLiveUpdate);
 

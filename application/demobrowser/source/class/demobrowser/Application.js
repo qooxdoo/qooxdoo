@@ -32,13 +32,13 @@ qx.Class.define("demobrowser.Application",
 {
   extend : qx.application.Standalone,
 
-  construct : function() 
+  construct : function()
   {
     this.base(arguments);
-    
+
     // Include CSS files
     qx.bom.Stylesheet.includeFile("demobrowser/css/style.css");
-    qx.bom.Stylesheet.includeFile("demobrowser/css/sourceview.css");    
+    qx.bom.Stylesheet.includeFile("demobrowser/css/sourceview.css");
   },
 
 

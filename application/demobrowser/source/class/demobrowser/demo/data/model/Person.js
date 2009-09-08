@@ -16,7 +16,7 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("demobrowser.demo.data.model.Person", 
+qx.Class.define("demobrowser.demo.data.model.Person",
 {
   extend : qx.core.Object,
 
@@ -26,24 +26,24 @@ qx.Class.define("demobrowser.demo.data.model.Person",
       event : "changeName",
       nullable : true
     },
-    
+
     emote : {
       check : "String",
       event : "changeEmote"
     },
-    
+
     online : {
       check : "Boolean",
       event : "changeOnline",
       init : true
     }
   },
-  
-  
+
+
   members : {
     toString: function() {
       return "Person: " + this.getName();
     }
   }
-  
+
 });

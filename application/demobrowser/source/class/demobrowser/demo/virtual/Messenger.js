@@ -40,7 +40,7 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
     __addUserDialog : null,
     messenger : null,
     __tfUsername : null,
-    
+
     main : function()
     {
       this.base(arguments);
@@ -60,25 +60,25 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
 
       win.moveTo(250, 20);
       win.open();
-      
+
       this.messenger = new demobrowser.demo.virtual.messenger.Roster();
       var model = demobrowser.demo.virtual.messenger.BuddyModel.createBuddies(200);
       this.messenger.setModel(model);
-      
-      win.add(this.createToolbar());      
+
+      win.add(this.createToolbar());
       win.add(this.messenger, {flex: 1});
-           
+
       doc.add(this.createDetailsView(), {left: 20, top: 20});
     },
 
-    
+
     createToolbar : function()
     {
       var toolbar = new qx.ui.toolbar.ToolBar();
-      
+
       var part = new qx.ui.toolbar.Part();
       toolbar.add(part);
-      
+
       var addButton = new qx.ui.toolbar.Button(
         "", "demobrowser/demo/icons/imicons/user_add.png"
       ).set({
@@ -86,8 +86,8 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
       });
       addButton.addListener("execute", this.showAddContactWindow, this);
       part.add(addButton);
-      
-      
+
+
       var delButton = new qx.ui.toolbar.Button(
         "", "demobrowser/demo/icons/imicons/user_delete.png"
       ).set({
@@ -99,7 +99,7 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
           return !!value;
         }
       });
-      
+
       delButton.addListener("execute", function() {
         this.messenger.getModel().remove(this.messenger.getSelection().getItem(0));
       }, this);
@@ -107,28 +107,28 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
 
       return part;
     },
-    
-    
+
+
     createDetailsView : function()
     {
       var controller = new qx.data.controller.Object();
       this.messenger.bind("selection[0]", controller, "model");
-      
+
       var box = new qx.ui.groupbox.GroupBox("Contact Details");
       var grid = new qx.ui.layout.Grid(5, 5);
       grid.setColumnAlign(0, "right", "middle");
       box.setLayout(grid);
-      
+
       box.add(new qx.ui.basic.Label("Name: "), {row: 0, column: 0});
       var inpName = new qx.ui.form.TextField();
       controller.addTarget(inpName, "value", "name", true);
       box.add(inpName, {row: 0, column:1});
-      
+
       box.add(new qx.ui.basic.Label("Group: "), {row: 1, column: 0});
       var inpGroup = new qx.ui.form.TextField();
       controller.addTarget(inpGroup, "value", "group", true);
       box.add(inpGroup, {row: 1, column:1});
-      
+
       box.add(new qx.ui.basic.Label("Status: "), {row: 2, column: 0});
       var inpStatus = new qx.ui.form.SelectBox();
       inpStatus.add(new qx.ui.form.ListItem("online"));
@@ -146,11 +146,11 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
       });
       controller.addTarget(inpAvatar, "source", "avatar");
       box.add(inpAvatar, {row: 3, column: 1});
-      
+
       return box;
     },
-    
-    
+
+
     showAddContactWindow: function()
     {
       if (this.__addUserDialog == null)
@@ -174,8 +174,8 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
         var tfGroup = new qx.ui.form.ComboBox("New Group");
         tfGroup.add(new qx.ui.form.ListItem("qooxdoo"));
         tfGroup.add(new qx.ui.form.ListItem("Friends"));
-        
-        var lblGroup = new qx.ui.basic.Label("Group:");        
+
+        var lblGroup = new qx.ui.basic.Label("Group:");
         var btnAdd = new qx.ui.form.Button("Add");
         var btnCancel = new qx.ui.form.Button("Cancel");
 
@@ -187,7 +187,7 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
         win.addListener("appear", tfUsername.focus, tfUsername);
 
         btnCancel.addListener("execute", win.close, win);
-        
+
         var addContact = function()
         {
           var buddy = new demobrowser.demo.virtual.messenger.BuddyModel();
@@ -197,10 +197,10 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
           this.messenger.getSelection().setItem(0, buddy);
           win.close();
         }
-        
+
         btnAdd.addListener("execute", addContact, this);
         win.addListener("keypress", function(e) {
-          var key = e.getKeyIdentifier(); 
+          var key = e.getKeyIdentifier();
           if (key == "Enter") {
             addContact.call(this);
           } else if (key == "Escape") {

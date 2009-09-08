@@ -70,14 +70,14 @@ qx.Class.define("demobrowser.demo.test.Table_CellRenderer",
       qx.util.AliasManager.getInstance().add("decoration", "qx/decoration/Modern");
       qx.util.AliasManager.getInstance().add("icon", "qx/icon/Tango");
     },
-    
-    
+
+
     __renderCell : function(containerElement, top, width, cellRenderer, cellData)
     {
       var html = ["<div style='position:absolute;height:20px;width:", width, "px;top:",top, "px'>"];
       cellRenderer.createDataCellHtml(cellData, html);
       html.push("</div>");
-      containerElement.innerHTML += html.join("");      
+      containerElement.innerHTML += html.join("");
     },
 
 
@@ -127,7 +127,7 @@ qx.Class.define("demobrowser.demo.test.Table_CellRenderer",
         top += height;
       }, this);
 
-      
+
       renderer.setIconFalse("icon/16/emotes/face-sad.png");
       renderer.setIconTrue("icon/16/emotes/face-smile.png");
       qx.util.Permutation.permute(cellDataOptions, function(cellData)
@@ -464,7 +464,7 @@ qx.Class.define("demobrowser.demo.test.Table_CellRenderer",
       }, this);
     }
   },
-  
+
   /*
    *****************************************************************************
       DESTRUCT

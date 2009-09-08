@@ -22,7 +22,7 @@
 #asset(qx/icon/${qx.icontheme}/32/apps/office-address-book.png)
 
 ************************************************************************ */
-qx.Class.define("demobrowser.demo.test.UIDeclaration", 
+qx.Class.define("demobrowser.demo.test.UIDeclaration",
 {
   extend : qx.application.Standalone,
 
@@ -33,7 +33,7 @@ qx.Class.define("demobrowser.demo.test.UIDeclaration",
       this.base(arguments);
 
       // create a definition for a form
-      var formDef = 
+      var formDef =
       {
        clazz: qx.ui.form.Form,
        children:
@@ -85,10 +85,10 @@ qx.Class.define("demobrowser.demo.test.UIDeclaration",
            {
              clazz: qx.ui.form.DateField
            }
-         },      
+         },
          ////////////
          // BUTTONS
-         ////////////     
+         ////////////
          {
            type: "Button",
            widget:
@@ -107,21 +107,21 @@ qx.Class.define("demobrowser.demo.test.UIDeclaration",
          }
        ]
       };
-      
 
-      
+
+
       // create a definition for a window
-      var winDef = 
+      var winDef =
       {
         clazz : qx.ui.window.Window,
-        layout : 
+        layout :
         {
           clazz : qx.ui.layout.VBox,
           spacing : 10
         },
         layoutProperties :
         {
-          left : 20, 
+          left : 20,
           top : 20
         },
         showStatusbar : true,
@@ -129,7 +129,7 @@ qx.Class.define("demobrowser.demo.test.UIDeclaration",
         caption : "First Window",
         icon : "icon/16/apps/office-calendar.png",
         id : "win",
-        listeners : 
+        listeners :
         [
           {
             event : "move",
@@ -144,7 +144,7 @@ qx.Class.define("demobrowser.demo.test.UIDeclaration",
             }
           }
         ],
-        children : 
+        children :
         [
           {
             clazz : qx.ui.basic.Atom,
@@ -155,17 +155,17 @@ qx.Class.define("demobrowser.demo.test.UIDeclaration",
           {
             clazz : qx.ui.tabview.TabView,
             layoutProperties : {flex:1},
-            children : 
+            children :
             [
               {
                 clazz : qx.ui.tabview.Page,
                 label : "Page 1",
                 layoutProperties : {flex:1},
-                layout : 
+                layout :
                 {
                   clazz : qx.ui.layout.Canvas
                 },
-                children : 
+                children :
                 [
                   formDef
                 ]
@@ -178,33 +178,33 @@ qx.Class.define("demobrowser.demo.test.UIDeclaration",
               {
                 clazz : qx.ui.tabview.Page,
                 label : "Page 3",
-                layoutProperties : {flex:1}                
-              }              
+                layoutProperties : {flex:1}
+              }
             ]
           }
         ]
       };
-      
-    
+
+
       // parse the windows definition
       this.addFromDefinition(winDef);
-      
+
       // open the created window accessed via id
       this.win.open();
     },
-    
-    
-    addFromDefinition : function(definition) 
+
+
+    addFromDefinition : function(definition)
     {
       var root = this.getRoot();
       this.__addItem(root, definition);
     },
-    
-    
-    __addItem : function(root, definition) 
+
+
+    __addItem : function(root, definition)
     {
       var widget = new definition.clazz();
-      
+
       // set the widget properties
       var properties = qx.lang.Object.clone(definition);
       delete properties.clazz;
@@ -213,12 +213,12 @@ qx.Class.define("demobrowser.demo.test.UIDeclaration",
       delete properties.id;
       delete properties.listeners;
       widget.set(properties);
-      
+
       // create the id reference
       if (definition.id != null) {
         this[definition.id] = widget;
       }
-      
+
       // set the layout
       if (definition.layout != null) {
         var layout = new definition.layout.clazz();
@@ -228,9 +228,9 @@ qx.Class.define("demobrowser.demo.test.UIDeclaration",
         layout.set(properties);
         widget.setLayout(layout);
       }
-      
+
       // handle the children
-      var children = definition.children;      
+      var children = definition.children;
       if (children != null) {
         for (var i = 0; i < children.length; i++) {
           if (widget instanceof qx.ui.form.Form) {
@@ -238,16 +238,16 @@ qx.Class.define("demobrowser.demo.test.UIDeclaration",
           } else {
             this.__addItem(widget, children[i]);
           }
-        }        
+        }
       }
-      
+
       // add the widget
       if (widget instanceof qx.ui.form.Form) {
         root.add(widget.createView());
       } else {
         root.add(widget, definition.layoutProperties);
       }
-      
+
       // add the listener
       if (definition.listeners) {
         for (var i = 0; i < definition.listeners.length; i++) {
@@ -256,29 +256,29 @@ qx.Class.define("demobrowser.demo.test.UIDeclaration",
         }
       }
     },
-    
-    
-    __addFormItem : function(root, definition) 
+
+
+    __addFormItem : function(root, definition)
     {
       // check the group header first
       if (definition.type === "Header") {
         root.addGroupHeader(definition.label)
         return;
       }
-      
+
       // go threw the definition
       var widget = new definition.widget.clazz();
       // set the widget properties
       var properties = qx.lang.Object.clone(definition.widget);
       delete properties.clazz;
       widget.set(properties);
-      
+
       if (definition.type === "Item") {
         root.add(widget, definition.label, definition.validator, definition.name);
       } else if (definition.type === "Button") {
         root.addButton(widget);
       }
-    }    
+    }
   }
 });
 

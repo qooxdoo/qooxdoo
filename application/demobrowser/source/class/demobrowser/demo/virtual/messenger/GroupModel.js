@@ -22,16 +22,16 @@ qx.Class.define("demobrowser.demo.virtual.messenger.GroupModel",
 {
   extend : qx.core.Object,
 
-  
+
   construct : function(name)
   {
     this.base(arguments);
-    
+
     if (name !== undefined) {
       this.setName(name);
     }
   },
-  
+
   /*
   *****************************************************************************
      PROPERTIES
@@ -46,40 +46,40 @@ qx.Class.define("demobrowser.demo.virtual.messenger.GroupModel",
       event : "changeName",
       check : "String"
     },
-    
+
     row :
     {
       event : "changeRow",
       check : "Integer",
       apply : "_applyRow"
     },
-    
+
     open :
     {
       check : "Boolean",
       init : true,
       event : "changeOpen"
     },
-    
-    itemCount : 
+
+    itemCount :
     {
       check : "Integer",
       init : 0,
       event : "changeItemCount"
     }
   },
-  
-  
-  members : 
+
+
+  members :
   {
     __oldRow : null,
-    
-    
+
+
     _applyRow : function(value, old) {
       this.__oldRow = old
     },
-    
-    
+
+
     getOldRow : function() {
       return this.__oldRow;
     }

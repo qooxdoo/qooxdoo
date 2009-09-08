@@ -29,16 +29,16 @@ qx.Class.define("demobrowser.demo.bom.Client",
 
       var output = new qx.util.StringBuilder();
       output.add("<table border='0'>");
-      
+
       var classes = [
-        qx.bom.client.Engine, 
+        qx.bom.client.Engine,
         qx.bom.client.System,
         qx.bom.client.Platform,
         qx.bom.client.Feature,
         qx.bom.client.Locale,
-        qx.bom.client.Flash        
+        qx.bom.client.Flash
       ];
-      
+
       for (var i = 0; i < classes.length; i++)
       {
         output.add("<tr><td colspan='2'><b>", classes[i].classname, "</b></td></tr>");
@@ -51,23 +51,23 @@ qx.Class.define("demobrowser.demo.bom.Client",
         }
         output.add("<tr><td colspan='2'>&nbsp;</td></tr>");
       }
-      
+
       var multimedia = qx.bom.client.Multimedia;
       var plugins = [
-        "quicktime", 
-        "wmv", 
-        "divx", 
+        "quicktime",
+        "wmv",
+        "divx",
         "silverlight"
       ];
 
       output.add("<tr><td colspan='2'><b>", multimedia.classname, "</b></td></tr>");
       for (var i = 0; i < plugins.length; i++)
-      { 
+      {
         output.add("<tr><td>", plugins[i], "</td><td>",
               multimedia.has(plugins[i]), "</td></tr>");
       }
       output.add("</table>");
-      
+
       var isle = document.getElementById("output");
       isle.innerHTML = output.get();
     }

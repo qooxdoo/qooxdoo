@@ -25,13 +25,13 @@ qx.Class.define("demobrowser.demo.virtual.RowHeader",
   construct : function(name)
   {
     this.base(arguments);
-    
+
     this.setDecorator("main");
-    
+
     var label = new qx.ui.basic.Label(name);
     this._setLayout(new qx.ui.layout.HBox);
     this._add(label);
-    
+
     this.addListener("mousedown", this._onMouseDown);
     this.addListener("mouseup", this._onMouseUp);
     this.addListener("mousemove", this._onMouseMove);
@@ -64,7 +64,7 @@ qx.Class.define("demobrowser.demo.virtual.RowHeader",
     {
       // var splitter = this.getChildControl("splitter");
       // var root = this.getApplicationRoot();
-      // 
+      //
       // // Whether the cursor is near enough to the splitter
       // if (this.__activeDragSession || this.__isNear())
       // {
@@ -99,13 +99,13 @@ qx.Class.define("demobrowser.demo.virtual.RowHeader",
       // var mouse = this.__lastMouseX;
       // var size = bounds.width;
       // var pos = location.left;
-      // 
+      //
       // if (size < min)
       // {
       //   pos -= Math.floor((min - size) / 2);
       //   size = min;
       // }
-      // 
+      //
       // if (mouse < pos || mouse > (pos + size)) {
       //   return false;
       // }
@@ -133,7 +133,7 @@ qx.Class.define("demobrowser.demo.virtual.RowHeader",
 
 
 
-    
+
     /*
     ---------------------------------------------------------------------------
       MOUSE LISTENERS
@@ -183,7 +183,7 @@ qx.Class.define("demobrowser.demo.virtual.RowHeader",
 
         var offsetX = location.left + bounds.width - this.__initialMouseX;
 //        var offsetY = this.__lastMouseY - this.__initialMouseY;
-        
+
 
 
         this.setWidth(bounds.width + offsetX);
@@ -233,7 +233,7 @@ qx.Class.define("demobrowser.demo.virtual.RowHeader",
       this.__updateCursor();
     }
 
-    
+
   },
 
   /*

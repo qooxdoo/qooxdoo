@@ -32,7 +32,7 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
   {
     __list : null,
     __currentListItem : null,
-    
+
     main: function()
     {
       this.base(arguments);
@@ -44,7 +44,7 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
 
 
       var scroller = new qx.ui.container.Scroll();
-      
+
       var box = new qx.ui.layout.Basic();
       var container = new qx.ui.container.Composite(box).set({
         allowStretchY : false,
@@ -246,14 +246,14 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
       both.addListener("drag", function(e)
       {
         var orig = e.getOriginalTarget();
-        
+
         // store the current listitem - if the user drops on the indicator
-        // we can use this item instead of calculating the position of the 
+        // we can use this item instead of calculating the position of the
         // indicator
         if (orig instanceof qx.ui.form.ListItem) {
-          qx.core.Init.getApplication().__currentListItem = orig;          
+          qx.core.Init.getApplication().__currentListItem = orig;
         }
-        
+
         if (!qx.ui.core.Widget.contains(this, orig) && orig != indicator) {
           return;
         }
@@ -275,17 +275,17 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
       both.addListener("drop", function(e) {
         this.__reorderList(e.getOriginalTarget());
       }, this);
-      
+
       indicator.addListener("drop", function(e) {
         this.__reorderList(this.__currentListItem);
       }, this);
     },
-    
-    
+
+
     __reorderList : function(listItem)
     {
       var sel = this.__list.getSortedSelection();
-      
+
       for (var i=0, l=sel.length; i<l; i++)
       {
         this.__list.addBefore(sel[i], listItem);
@@ -295,7 +295,7 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
       }
     }
   },
-  
+
   /*
    *****************************************************************************
       DESTRUCT

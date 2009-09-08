@@ -32,7 +32,7 @@ qx.Class.define("demobrowser.demo.widget.SelectBox",
     main: function()
     {
       this.base(arguments);
-      
+
       var scroller = new qx.ui.container.Scroll();
 
       var box = new qx.ui.container.Composite(new qx.ui.layout.HBox(50));

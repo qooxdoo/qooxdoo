@@ -49,39 +49,39 @@ qx.Class.define("demobrowser.demo.virtual.Cells",
 
       var layout = new qx.ui.layout.HBox(5);
       this.topContainer = new qx.ui.container.Composite(layout);
-      
+
       this.runTest("testStringCell");
       this.runTest("testNumberCell");
       this.runTest("testDateCell");
       this.runTest("testHtmlCell");
       this.runTest("testImageCell");
-      this.runTest("testBooleanCell"); 
+      this.runTest("testBooleanCell");
       this.runTest("testBooleanCellCustomImage");
 
       this.getRoot().add(this.topContainer, {edge : 5});
     },
 
-    
+
     runTest : function(testName)
     {
       this.setUp();
       this[testName]();
       //this.tearDown();
     },
-    
-    
+
+
     setUp : function()
     {
       this.container = new qx.ui.container.Composite(new qx.ui.layout.VBox(2));
       this.topContainer.add(this.container);
     },
-    
-    
+
+
     tearDown : function() {
       this.container.destroy();
     },
-    
-    
+
+
     testStringCell : function()
     {
       var cellData = {
@@ -94,10 +94,10 @@ qx.Class.define("demobrowser.demo.virtual.Cells",
       {
         var cell = this.__renderCell(stringCell, cellData.value, cellData.states);
         this.container.add(cell);
-      }, this);      
+      }, this);
     },
-    
-    
+
+
     testNumberCell : function()
     {
       var cellData = {
@@ -121,10 +121,10 @@ qx.Class.define("demobrowser.demo.virtual.Cells",
         }
         var cell = this.__renderCell(cellRenderer, cellData.value, cellData.states);
         this.container.add(cell);
-      }, this);      
+      }, this);
     },
-    
-    
+
+
     testDateCell : function()
     {
       var cellData = {
@@ -136,7 +136,7 @@ qx.Class.define("demobrowser.demo.virtual.Cells",
         states : [{}, {selected: 1}]
       }
       var cellRenderer = new qx.ui.virtual.cell.Date();
-      
+
       qx.util.Permutation.permute(cellData, function(cellData)
       {
         if (cellData.format) {
@@ -146,9 +146,9 @@ qx.Class.define("demobrowser.demo.virtual.Cells",
         }
         var cell = this.__renderCell(cellRenderer, cellData.value, cellData.states);
         this.container.add(cell);
-      }, this);      
+      }, this);
     },
-    
+
 
     testHtmlCell : function()
     {
@@ -162,7 +162,7 @@ qx.Class.define("demobrowser.demo.virtual.Cells",
       {
         var cell = this.__renderCell(cellRenderer, cellData.value, cellData.states);
         this.container.add(cell);
-      }, this);      
+      }, this);
     },
 
 
@@ -188,9 +188,9 @@ qx.Class.define("demobrowser.demo.virtual.Cells",
       {
         var cell = this.__renderCell(cellRenderer, cellData.value, cellData.states);
         this.container.add(cell);
-      }, this);      
+      }, this);
     },
-    
+
 
     testBooleanCell : function()
     {
@@ -204,10 +204,10 @@ qx.Class.define("demobrowser.demo.virtual.Cells",
       {
         var cell = this.__renderCell(cellRenderer, cellData.value, cellData.states);
         this.container.add(cell);
-      }, this);      
-    },    
-    
-    
+      }, this);
+    },
+
+
     testBooleanCellCustomImage : function()
     {
       var cellData = {
@@ -222,9 +222,9 @@ qx.Class.define("demobrowser.demo.virtual.Cells",
       {
         var cell = this.__renderCell(cellRenderer, cellData.value, cellData.states);
         this.container.add(cell);
-      }, this);            
+      }, this);
     },
-    
+
 
     __renderCell : function(cell, value, states)
     {
@@ -238,10 +238,10 @@ qx.Class.define("demobrowser.demo.virtual.Cells",
       });
       var cellProperties = cell.getCellProperties(value, states);
       var insets = cellProperties.insets;
-      
+
       var html = [
         "<div ",
-        "style='", 
+        "style='",
         this._getCellSizeStyle(width, height, insets[0], insets[1]),
         cellProperties.style, "' ",
         "class='", cellProperties.classes, "' ",
@@ -249,12 +249,12 @@ qx.Class.define("demobrowser.demo.virtual.Cells",
         cellProperties.content,
         "</div>"
       ].join("");
-      
+
       embed.setHtml(html);
       return embed;
     },
-    
-    
+
+
     _getCellSizeStyle : function(width, height, insetX, insetY)
     {
       var style = "";
@@ -263,10 +263,10 @@ qx.Class.define("demobrowser.demo.virtual.Cells",
         width -= insetX;
         height -= insetY;
       }
-      
+
       style += "width:" +  width + "px;";
       style += "height:" + height + "px;";
-      
+
       return style;
     }
   }

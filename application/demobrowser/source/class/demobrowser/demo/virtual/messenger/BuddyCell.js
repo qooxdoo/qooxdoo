@@ -27,16 +27,16 @@ qx.Class.define("demobrowser.demo.virtual.messenger.BuddyCell",
     _createWidget : function() {
       return new demobrowser.demo.virtual.messenger.Buddy();
     },
-    
-    
+
+
     updateData : function(widget, data)
     {
       widget.label.setValue(data.getName());
       widget.icon.setSource(data.getAvatar());
       widget.statusIcon.setSource("demobrowser/demo/icons/imicons/status_" + data.getStatus() + ".png");
-    },  
-    
-    
+    },
+
+
     updateStates : function(widget, states)
     {
       if (states.selected)

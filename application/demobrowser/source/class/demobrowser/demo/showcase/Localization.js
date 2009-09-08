@@ -40,7 +40,7 @@ qx.Class.define("demobrowser.demo.showcase.Localization",
   members :
   {
     /**
-     * This method contains the initial application code and gets called 
+     * This method contains the initial application code and gets called
      * during startup of the application
      */
     main : function()
@@ -81,7 +81,7 @@ qx.Class.define("demobrowser.demo.showcase.Localization",
 
       var select = new qx.ui.form.SelectBox();
       var defaultListItem = null;
-      
+
       for (var i=0; i<locales.length; i++) {
         var listItem =new qx.ui.form.ListItem(locales[i]);
         select.add(listItem);
@@ -89,7 +89,7 @@ qx.Class.define("demobrowser.demo.showcase.Localization",
           defaultListItem = listItem;
         }
       }
-      
+
       select.addListener("changeSelection", function(e)
       {
         var locale = e.getData()[0].getLabel();
@@ -97,7 +97,7 @@ qx.Class.define("demobrowser.demo.showcase.Localization",
       });
 
       if (defaultListItem) {
-      	select.setSelection([defaultListItem]);  
+        select.setSelection([defaultListItem]);
       }
 
       controls.add(select, {row:0,column:1});

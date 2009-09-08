@@ -34,7 +34,7 @@ qx.Class.define("demobrowser.demo.widget.MenuBar",
     main: function()
     {
       this.base(arguments);
-      
+
       var scroller = new qx.ui.container.Scroll();
 
       var container = new qx.ui.container.Composite(new qx.ui.layout.Canvas);
@@ -394,7 +394,7 @@ qx.Class.define("demobrowser.demo.widget.MenuBar",
       return menu;
     }
   },
-  
+
   /*
    *****************************************************************************
       DESTRUCT

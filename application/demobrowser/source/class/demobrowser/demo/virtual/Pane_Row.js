@@ -47,19 +47,19 @@ qx.Class.define("demobrowser.demo.virtual.Pane_Row",
       layout.setColumnFlex(0, 1);
       layout.setColumnFlex(1, 1);
       layout.setColumnFlex(2, 1);
-      
+
       var container = new qx.ui.container.Composite(layout);
-      this.getRoot().add(container, {edge: 0});      
-      
+      this.getRoot().add(container, {edge: 0});
+
       container.add(new qx.ui.basic.Label("Even/Odd Colors").set({
         font: "bold",
         decorator: "table-scroller-header",
         padding: 3,
         allowGrowX: true
-      }), {row: 0, column: 0});      
+      }), {row: 0, column: 0});
       var scroller = new qx.ui.virtual.core.Scroller(100, 10000, 60, 100);
       scroller.getPane().addLayer(new qx.ui.virtual.layer.Row("white", "#EEE"));
-      container.add(scroller, {row: 1, column: 0});   
+      container.add(scroller, {row: 1, column: 0});
 
       container.add(new qx.ui.basic.Label("Custom Colors").set({
         font: "bold",
@@ -73,8 +73,8 @@ qx.Class.define("demobrowser.demo.virtual.Pane_Row",
         rowLayer.setColor(i, qx.util.ColorUtil.randomColor());
       }
       scroller.getPane().addLayer(rowLayer);
-      container.add(scroller, {row: 1, column: 1});   
-      
+      container.add(scroller, {row: 1, column: 1});
+
       container.add(new qx.ui.basic.Label("Even/Odd & Custom Colors").set({
         font: "bold",
         decorator: "table-scroller-header",
@@ -90,7 +90,7 @@ qx.Class.define("demobrowser.demo.virtual.Pane_Row",
         }
       }
       scroller.getPane().addLayer(rowLayer);
-      container.add(scroller, {row: 1, column: 2});   
+      container.add(scroller, {row: 1, column: 2});
     }
   }
 });

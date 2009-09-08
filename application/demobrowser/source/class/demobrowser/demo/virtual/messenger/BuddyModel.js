@@ -25,7 +25,7 @@ qx.Class.define("demobrowser.demo.virtual.messenger.BuddyModel",
 {
   extend : qx.core.Object,
   include : qx.data.marshal.MEventBubbling,
-  
+
 
   /*
   *****************************************************************************
@@ -43,7 +43,7 @@ qx.Class.define("demobrowser.demo.virtual.messenger.BuddyModel",
       check : "String",
       apply : "_applyEventPropagation"
     },
-  
+
     avatar :
     {
       init : "icon/22/emotes/face-smile.png",
@@ -51,7 +51,7 @@ qx.Class.define("demobrowser.demo.virtual.messenger.BuddyModel",
       check : "String",
       apply : "_applyEventPropagation"
     },
-  
+
     status :
     {
       init : "offline",
@@ -59,7 +59,7 @@ qx.Class.define("demobrowser.demo.virtual.messenger.BuddyModel",
       check : ["away", "busy", "online", "offline"],
       apply : "_applyEventPropagation"
     },
-    
+
     group :
     {
       init : "Friends",
@@ -68,8 +68,8 @@ qx.Class.define("demobrowser.demo.virtual.messenger.BuddyModel",
       apply : "_applyEventPropagation"
     }
   },
-  
-  
+
+
   statics :
   {
     createBuddies : function(amount)
@@ -120,7 +120,7 @@ qx.Class.define("demobrowser.demo.virtual.messenger.BuddyModel",
       for (var i=0; i<users.length; i++) {
         users[i].group = "qooxdoo";
       };
-      
+
       // Fill with dummy users:
       for (var i=users.length; i<amount; i++) {
         users[i] = {
@@ -130,7 +130,7 @@ qx.Class.define("demobrowser.demo.virtual.messenger.BuddyModel",
           group : "Friends"
         };
       }
-      
+
       var model = [];
       for (var i=0; i<users.length; i++)
       {
@@ -143,11 +143,11 @@ qx.Class.define("demobrowser.demo.virtual.messenger.BuddyModel",
 
         model.push(buddyModel);
       }
-      
-      return new qx.data.Array(model);      
-    },    
-    
-      
+
+      return new qx.data.Array(model);
+    },
+
+
     getRandomBuddy : function()
     {
       var icons = [
@@ -156,15 +156,15 @@ qx.Class.define("demobrowser.demo.virtual.messenger.BuddyModel",
       ];
       return "icon/22/emotes/face-" + icons[Math.floor(Math.random() * icons.length)] + ".png";
     },
-  
-    
+
+
     getRandomStatus : function()
     {
       var icons = [
         "away", "busy", "online", "offline"
       ];
       return icons[Math.floor(Math.random() * icons.length)];
-    }    
+    }
   }
-  
+
 });

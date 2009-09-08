@@ -13,7 +13,7 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Alexander Back (aback) 
+     * Alexander Back (aback)
 
 ************************************************************************ */
 
@@ -26,35 +26,35 @@ qx.Class.define("demobrowser.demo.bom.Blocker",
     main : function()
     {
       this.base(arguments);
-      
+
       var input = qx.bom.Input.create("button", { value: "Block Document for 5s" });
       qx.bom.element.Style.setStyles(input, { position: "absolute",
                                               left: "100px",
                                               top: "100px" });
-                                              
+
       var blocker = new qx.bom.Blocker;
       blocker.setBlockerOpacity(0.5);
-      
+
       qx.event.Registration.addListener(input, "click", function(e){
         blocker.setBlockerColor("red");
-  
+
         blocker.block();
-  
+
         qx.event.Timer.once(function(e){
          blocker.unblock();
         }, window, 5000);
       });
-      
+
       qx.dom.Element.insertEnd(input, document.body);
-      
-      
-      
-      
+
+
+
+
       var input2 = qx.bom.Input.create("button", { value: "Block Element for 5s" });
       qx.bom.element.Style.setStyles(input2, { position: "absolute",
                                               left: "300px",
                                               top: "100px" });
-                                              
+
       var elementToBlock = qx.bom.Element.create("div");
       qx.bom.element.Style.setStyles(elementToBlock, { position: "absolute",
                                                        left: "300px",
@@ -64,15 +64,15 @@ qx.Class.define("demobrowser.demo.bom.Blocker",
                                                        backgroundColor: "orange",
                                                        zIndex: 500 });
       qx.dom.Element.insertBegin(elementToBlock, document.body);
-      
+
       qx.event.Registration.addListener(input2, "click", function(e){
         blocker.block(elementToBlock);
-  
+
         qx.event.Timer.once(function(e){
          blocker.unblock();
         }, window, 5000);
       });
-      
+
       qx.dom.Element.insertEnd(input2, document.body);
     }
   }

@@ -123,7 +123,7 @@ qx.Class.define("demobrowser.demo.table.Table_Filtered_Model",
       return bar;
     }
   },
-  
+
   /*
    *****************************************************************************
       DESTRUCT

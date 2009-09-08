@@ -37,7 +37,7 @@ qx.Class.define("demobrowser.demo.test.Destructor_Flash",
       this.base(arguments);
 
       this.__data = [];
-      
+
       // Init timer
       var timer = new qx.event.Timer(5000);
       timer.addListener("interval", this.runTest, this);
@@ -88,7 +88,7 @@ qx.Class.define("demobrowser.demo.test.Destructor_Flash",
         data.length = 0;
     }
   },
-  
+
   /*
   *****************************************************************************
      DESTRUCTOR
