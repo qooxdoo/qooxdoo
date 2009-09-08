@@ -485,10 +485,9 @@ qx.Class.define("playground.Application",
         this.code = this.textarea.getValue();
       }
 
-      this.code = 'this.info("' + this.tr("Starting application '") +
-        this.__decodeSampleId(this.currentSample) + '\' ...");\n' +
-        this.code +
-        'this.info("' + this.tr("Successfully started.") + '");\n';
+      this.code = 'this.info("' + this.tr("Starting application") + 
+        ' ...");\n' + this.code +
+        'this.info("' + this.tr("Successfully started") + '.");\n';
 
       try
       {
@@ -508,9 +507,7 @@ qx.Class.define("playground.Application",
       {
         var exc = ex;
         alert(
-          this.tr("Unfortunately, an unrecoverable internal error was caused by your code.\n" +
-          "This may prevent the playground application to run properly.\n" +
-          "Please copy your code, restart the playground and paste your code.\n\n") +
+          this.tr("Unfortunately, an unrecoverable internal error was caused by your code. This may prevent the playground application to run properly.||Please copy your code, restart the playground and paste your code.||").replace(/\|/g, "\n") +
           exc
         );
       }
@@ -572,7 +569,7 @@ qx.Class.define("playground.Application",
 
       if (escape(userCode) != escape(this.__sampleContainer[this.currentSample]).replace(/%0D/g, ""))
       {
-        if (!confirm(this.tr("You changed the code of the current sample.\nClick OK to discard your changes."))) {
+        if (!confirm(this.tr("You changed the code of the current sample.|Click OK to discard your changes.").replace(/\|/g, "\n"))) {
           return ;
         }
       }
