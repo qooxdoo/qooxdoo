@@ -430,7 +430,7 @@ qx.Class.define("demobrowser.demo.animation.Showcase",
     }
 
   },
-  
+
   /*
    *****************************************************************************
       DESTRUCTOR

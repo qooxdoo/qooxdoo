@@ -31,7 +31,7 @@ qx.Class.define("demobrowser.demo.ui.Label_Reflow",
     {
       this.base(arguments);
       //this.getRoot().setPadding(20);
-      
+
       var scroller = new qx.ui.container.Scroll();
 
       var layout = new qx.ui.layout.Grid();

@@ -564,7 +564,7 @@ qx.Class.define("demobrowser.demo.showcase.Calculator",
       }, this);
     }
   },
-  
+
   /*
    *****************************************************************************
       DESTRUCT

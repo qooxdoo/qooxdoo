@@ -25,7 +25,7 @@ qx.Class.define("demobrowser.demo.bom.Cookie",
   {
     COOKIE_KEY : "TextFieldContent"
   },
-  
+
   members :
   {
     main: function()
@@ -34,31 +34,31 @@ qx.Class.define("demobrowser.demo.bom.Cookie",
 
       var container = new qx.ui.container.Composite(new qx.ui.layout.HBox(8));
       this.getRoot().add(container, {left: 20, top: 20});
-      
+
       var textField = new qx.ui.form.TextField();
       container.add(textField);
-      
+
       var saveButton = new qx.ui.form.Button("Save");
       container.add(saveButton);
-      saveButton.addListener("execute", function(e) 
+      saveButton.addListener("execute", function(e)
       {
         if (textField.getValue() != "") {
           qx.bom.Cookie.set(demobrowser.demo.bom.Cookie.COOKIE_KEY, textField.getValue());
           textField.setValue("");
         }
       }, this);
-      
+
       var restoreButton = new qx.ui.form.Button("Restore");
       container.add(restoreButton);
-      restoreButton.addListener("execute", function(e) 
+      restoreButton.addListener("execute", function(e)
       {
         var restoredValue = qx.bom.Cookie.get(demobrowser.demo.bom.Cookie.COOKIE_KEY);
-        textField.setValue(restoredValue != null ? restoredValue : "");    
+        textField.setValue(restoredValue != null ? restoredValue : "");
       }, this);
-      
+
       var deleteButton = new qx.ui.form.Button("Delete");
       container.add(deleteButton);
-      deleteButton.addListener("execute", function(e) 
+      deleteButton.addListener("execute", function(e)
       {
         qx.bom.Cookie.del(demobrowser.demo.bom.Cookie.COOKIE_KEY);
         textField.setValue("");

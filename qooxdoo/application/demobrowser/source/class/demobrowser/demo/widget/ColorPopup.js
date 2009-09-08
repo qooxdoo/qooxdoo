@@ -40,7 +40,7 @@ qx.Class.define("demobrowser.demo.widget.ColorPopup",
 
       var doc = this.getRoot();
 
-      /* Set locale to english to avoid language mix if browser locale is 
+      /* Set locale to english to avoid language mix if browser locale is
        * non-english. */
       qx.locale.Manager.getInstance().setLocale("en");
 

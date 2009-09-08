@@ -16,7 +16,7 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("demobrowser.demo.data.filter.SearchAsYouTypeFilter", 
+qx.Class.define("demobrowser.demo.data.filter.SearchAsYouTypeFilter",
 {
   extend : qx.core.Object,
 
@@ -26,20 +26,20 @@ qx.Class.define("demobrowser.demo.data.filter.SearchAsYouTypeFilter",
     this.base(arguments);
     // store the controller
     this.__controller = controller;
-    
-    // apply the filter funtion on creation time because the 'this' context 
+
+    // apply the filter funtion on creation time because the 'this' context
     // needs to be bound to the function
     this.filter = qx.lang.Function.bind(function(data) {
       return data.search(this.getSearchString()) != -1;
     }, this);
-    
+
     // storage for the timer id
-    this.__timerId = null;    
+    this.__timerId = null;
   },
-  
-  
+
+
   properties : {
-    
+
     searchString : {
       check : "String",
       apply: "_applySearchString",
@@ -52,7 +52,7 @@ qx.Class.define("demobrowser.demo.data.filter.SearchAsYouTypeFilter",
   {
     __timerId: null,
     __controller: null,
-    
+
     _applySearchString : function(value, old) {
       // get the timer instance
       var timer = qx.util.TimerManager.getInstance();
@@ -66,12 +66,12 @@ qx.Class.define("demobrowser.demo.data.filter.SearchAsYouTypeFilter",
       this.__timerId = timer.start(function() {
         this.__controller.update();
         this.__timerId = null;
-      }, 0, this, null, 200);      
+      }, 0, this, null, 200);
     },
-    
+
     filter: null
   },
-  
+
   /*
    *****************************************************************************
       DESTRUCT

@@ -46,17 +46,17 @@ qx.Class.define("demobrowser.demo.virtual.Table",
       this.getRoot().add(scroller, {edge: 20});
       scroller.getPane().addLayer(new qx.ui.virtual.layer.Row("white", "#EEE"));
       scroller.getPane().addLayer(new qx.ui.virtual.layer.GridLines("horizontal"));
-      scroller.getPane().addLayer(new qx.ui.virtual.layer.GridLines("vertical"));      
+      scroller.getPane().addLayer(new qx.ui.virtual.layer.GridLines("vertical"));
       scroller.getPane().addLayer(new qx.ui.virtual.layer.HtmlCell(this));
-      
+
       this.__cellRenderer = new qx.ui.virtual.cell.Cell();
     },
-    
+
     getCellProperties : function(row, column) {
       return this.__cellRenderer.getCellProperties(row + " / " + column);
-    }  
+    }
   },
-  
+
   /*
    *****************************************************************************
       DESTRUCT

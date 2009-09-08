@@ -27,7 +27,7 @@ qx.Class.define("demobrowser.demo.ui.Opacity",
     main: function()
     {
       this.base(arguments);
-      
+
       var scroller = new qx.ui.container.Scroll();
 
       var layout = new qx.ui.layout.HBox();

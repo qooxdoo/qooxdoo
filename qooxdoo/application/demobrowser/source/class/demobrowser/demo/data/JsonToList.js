@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.data.JsonToList", 
+qx.Class.define("demobrowser.demo.data.JsonToList",
 {
   extend : qx.application.Standalone,
 
@@ -33,11 +33,11 @@ qx.Class.define("demobrowser.demo.data.JsonToList",
     main: function()
     {
       this.base(arguments);
-      
+
       // create and add the list
-      var list = new qx.ui.form.List();      
+      var list = new qx.ui.form.List();
       this.getRoot().add(list, {left: 10, top: 80});
-      
+
       // create the controller
       var controller = new qx.data.controller.List(null, list);
       // set the name for the label property
@@ -52,24 +52,24 @@ qx.Class.define("demobrowser.demo.data.JsonToList",
       // create the data store
       var url = "json/list.json";
       var store = new qx.data.store.Json(url);
-      
+
       // create the status label
       var status = new qx.ui.basic.Label("Loading...");
-      this.getRoot().add(status, {left: 120, top: 80});   
-      
+      this.getRoot().add(status, {left: 120, top: 80});
+
       // connect the store and the controller
       store.bind("model.items", controller, "model");
-  
+
       // bind the status label
-      store.bind("state", status, "value");  
-      
-      
-      
+      store.bind("state", status, "value");
+
+
+
 
 
       /* ***********************************************
        * DESCRIPTIONS
-       * ********************************************* */  
+       * ********************************************* */
       var description = new qx.ui.basic.Label();
       description.setRich(true);
       description.setWidth(260);
@@ -79,8 +79,8 @@ qx.Class.define("demobrowser.demo.data.JsonToList",
         + "list.json</a> and bind the items to the list widget. The icons "
         + " will be created by a converter which converts the type to an icon url."
       );
-      this.getRoot().add(description, {left: 10, top: 10});   
-            
+      this.getRoot().add(description, {left: 10, top: 10});
+
     }
   }
 });

@@ -39,7 +39,7 @@ qx.Class.define("demobrowser.demo.showcase.Translation",
   members :
   {
     /**
-     * This method contains the initial application code and gets called 
+     * This method contains the initial application code and gets called
      * during startup of the application
      */
     main : function()
@@ -69,7 +69,7 @@ qx.Class.define("demobrowser.demo.showcase.Translation",
 
       var select = new qx.ui.form.SelectBox();
       var defaultListItem = null;
-      
+
       for (var i=0; i<locales.length; i++) {
         var listItem =new qx.ui.form.ListItem(locales[i]);
         select.add(listItem);
@@ -77,7 +77,7 @@ qx.Class.define("demobrowser.demo.showcase.Translation",
           defaultListItem = listItem;
         }
       }
-      
+
       select.addListener("changeSelection", function(e)
       {
         var locale = e.getData()[0].getLabel();
@@ -85,7 +85,7 @@ qx.Class.define("demobrowser.demo.showcase.Translation",
       });
 
       if (defaultListItem) {
-      	select.setSelection([defaultListItem]);  
+        select.setSelection([defaultListItem]);
       }
 
       container.add(select, {row:0,column:1});
@@ -137,7 +137,7 @@ qx.Class.define("demobrowser.demo.showcase.Translation",
       //this.trc("Can contains a soft drink", "One can");   // add a comment for the tranlator
       //this.trn("One can", "%1 canns", 2, "Many");  // plural form necessary later
       //this.trn("One can", "%1 cans", 2, "Many");  // plural form necessary later
-      this.marktr("One can"); 
+      this.marktr("One can");
 
 
 

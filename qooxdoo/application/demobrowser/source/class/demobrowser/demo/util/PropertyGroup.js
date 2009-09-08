@@ -267,13 +267,13 @@ qx.Class.define("demobrowser.demo.util.PropertyGroup",
         else
         {
           var value = null;
-          
+
           if (this._properties[property].type == "enum") {
             value = this._properties[property].formItem.getSelection()[0].getUserData("value");
           } else {
             value = this._properties[property].formItem.getValue();
           }
-          
+
           this._setProperty(widget, property, value);
           this._properties[property].formItem.setEnabled(true);
         }

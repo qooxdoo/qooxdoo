@@ -25,10 +25,10 @@ qx.Class.define("demobrowser.demo.data.SingleValueBinding",
   {
     main: function()
     {
-      this.base(arguments);      
-      
+      this.base(arguments);
+
       /* Event binding */
-      
+
       // create the headline label
       this.getRoot().add(new qx.ui.basic.Label("Event binding"), {top: 10, left: 10});
       // source textfield
@@ -40,12 +40,12 @@ qx.Class.define("demobrowser.demo.data.SingleValueBinding",
       this.getRoot().add(labelSimple, {top: 32, left: 120});
       // bind the input event of the textfield to the label content
       textFieldSimple.bind("changeValue", labelSimple, "value");
-      
-      
-      
-      
+
+
+
+
       /* With default conversion */
-      
+
       // create the headline label
       this.getRoot().add(new qx.ui.basic.Label("With default conversion"), {top: 60, left: 10});
       // create the source slider
@@ -57,13 +57,13 @@ qx.Class.define("demobrowser.demo.data.SingleValueBinding",
       this.getRoot().add(labelConvert, {top: 80, left: 120});
       // bind the slider value to the label content
       sliderConvert.bind("value", labelConvert, "value");
-      
-      
-      
-      
-      
+
+
+
+
+
       /* With self defined conversion */
-      
+
       // create the headline label
       this.getRoot().add(new qx.ui.basic.Label("With own conversion"), {top: 110, left: 10});
       // create the source slider
@@ -82,17 +82,17 @@ qx.Class.define("demobrowser.demo.data.SingleValueBinding",
         }
       }};
       // bind the slider value to the label content
-      sliderSelfConvert.bind("value", labelSelfConvert, "value", options);   
-      
-      
+      sliderSelfConvert.bind("value", labelSelfConvert, "value", options);
 
-      
-        
+
+
+
+
       /* Array and deep binding */
-      
+
       // create the headlinelabel
       this.getRoot().add(new qx.ui.basic.Label("Array binding"), {top: 180, left: 10});
-      
+
       // build the object structure
       var rootNode = new demobrowser.demo.data.model.Node();
       var node1 = new demobrowser.demo.data.model.Node();
@@ -106,7 +106,7 @@ qx.Class.define("demobrowser.demo.data.SingleValueBinding",
       reverseButton.addListener("execute", function() {
         rootNode.getChild().getNames().reverse();
       }, this);
-      
+
       // swap child between node1 and node2 button and handler
       var changeChildButton = new qx.ui.form.Button("Toggle child");
       this.getRoot().add(changeChildButton, {top: 200, left: 80});
@@ -114,27 +114,27 @@ qx.Class.define("demobrowser.demo.data.SingleValueBinding",
         if (rootNode.getChild () == node1) {
           rootNode.setChild(node2);
         } else {
-          rootNode.setChild(node1);          
+          rootNode.setChild(node1);
         }
       }, this);
-      
+
       // target labels
       this.getRoot().add(new qx.ui.basic.Label("First:"), {left: 10, top: 235});
-      this.getRoot().add(new qx.ui.basic.Label("Last:"), {left: 60, top: 235});      
+      this.getRoot().add(new qx.ui.basic.Label("Last:"), {left: 60, top: 235});
       var labelArrayFirst = new qx.ui.basic.Label();
-      this.getRoot().add(labelArrayFirst, {top: 250, left: 10});      
+      this.getRoot().add(labelArrayFirst, {top: 250, left: 10});
       var labelArrayLast = new qx.ui.basic.Label();
       this.getRoot().add(labelArrayLast, {top: 250, left: 60});
-      
+
       // bind the target lables
       rootNode.bind("child.names[0]", labelArrayFirst, "value");  // first
       rootNode.bind("child.names[last]", labelArrayLast, "value");
-      
-      
-      
-      
+
+
+
+
       /* Validation binding */
-      
+
       // create the headline label
       this.getRoot().add(new qx.ui.basic.Label("With validation"), {top: 310, left: 10});
       // create the source slider
@@ -150,26 +150,26 @@ qx.Class.define("demobrowser.demo.data.SingleValueBinding",
         onUpdate : function() {
           labelValidation.setValue("");
           validationTextField.setValid(true);
-        }, 
+        },
         onSetFail : function(e) {
           labelValidation.setValue("No number!");
           validationTextField.setValid(false);
         }
       };
       // bind the slider value to the label content
-      validationTextField.bind("changeValue", rootNode, "number", options);      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+      validationTextField.bind("changeValue", rootNode, "number", options);
+
+
+
+
+
+
+
+
+
       /* ***********************************************
        * DESCRIPTIONS
-       * ********************************************* */  
+       * ********************************************* */
       // Event binding description
       var eventDescription = new qx.ui.basic.Label();
       eventDescription.setRich(true);
@@ -180,7 +180,7 @@ qx.Class.define("demobrowser.demo.data.SingleValueBinding",
         + " the label."
       );
       this.getRoot().add(eventDescription, {left: 250, top: 10});
-     
+
       // Default conversion binding description
       var defaultDescription = new qx.ui.basic.Label();
       defaultDescription.setRich(true);
@@ -190,34 +190,34 @@ qx.Class.define("demobrowser.demo.data.SingleValueBinding",
         + "Binding a number value (slider value) to a labels string (content)."
         + " The default conversion will handle the type conversion."
       );
-      this.getRoot().add(defaultDescription, {left: 250, top: 60});      
-      
+      this.getRoot().add(defaultDescription, {left: 250, top: 60});
+
       // Own conversion binding description
       var ownDescription = new qx.ui.basic.Label();
       ownDescription.setRich(true);
       ownDescription.setWidth(350);
       ownDescription.setValue(
         "<b>Description</b><br/>"
-        + "Binding a slider value to a labels text but conversion the number " 
+        + "Binding a slider value to a labels text but conversion the number "
         + "with a self written converter to a string only saying it its "
         + " above or below 50."
       );
-      this.getRoot().add(ownDescription, {left: 250, top: 110});      
-       
+      this.getRoot().add(ownDescription, {left: 250, top: 110});
+
       // Description for the array and deep binding
       var deepDescription = new qx.ui.basic.Label();
       deepDescription.setRich(true);
       deepDescription.setWidth(350);
       deepDescription.setValue(
         "<b>Description</b><br/>"
-        + "Binding of node elements containing a node as child and an array " 
-        + "of names.<br/>The reverse button reverses the current selected child " 
+        + "Binding of node elements containing a node as child and an array "
+        + "of names.<br/>The reverse button reverses the current selected child "
         + "names array.<br/>Toggle child will change the child of the root node "
         + "from a node containing ['Homer', 'Marge'] as names to a node "
         + "containing ['Bart', 'Lisa'] as names."
       );
       this.getRoot().add(deepDescription, {left: 250, top: 180});
-      
+
       // Description for the validation binding
       var validationDescription = new qx.ui.basic.Label();
       validationDescription.setRich(true);
@@ -230,7 +230,7 @@ qx.Class.define("demobrowser.demo.data.SingleValueBinding",
       );
       this.getRoot().add(validationDescription, {left: 250, top: 310});
 
-      
+
     }
   }
 });

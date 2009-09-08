@@ -118,7 +118,7 @@ qx.Class.define("demobrowser.demo.test.ScrollContainer_EdgeCaseWidth",
       });
       return box;
     },
-    
+
     __scrollContainer : null
   }
 });

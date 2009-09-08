@@ -60,10 +60,10 @@ qx.Class.define("demobrowser.demo.legacy.EmbedFuture_Dialog",
     {
       var dialog = new qx.ui.window.Window("Brave new world!");
       dialog.moveTo(100, 100);
-      
+
       dialog.setLayout(new qx.ui.layout.Grow());
       dialog.add(new qx.ui.basic.Label("Brave new world!").set({
-        font: qx.bom.Font.fromConfig({ 
+        font: qx.bom.Font.fromConfig({
           size: 100,
           bold: true
         })

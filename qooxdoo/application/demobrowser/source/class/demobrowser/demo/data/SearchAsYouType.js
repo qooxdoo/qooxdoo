@@ -16,22 +16,22 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("demobrowser.demo.data.SearchAsYouType", 
+qx.Class.define("demobrowser.demo.data.SearchAsYouType",
 {
   extend : qx.application.Standalone,
 
   members :
-  {    
+  {
     main: function()
     {
       this.base(arguments);
-      
+
       // create some stuff for the list items
       var names = [
-        "Bart", "Lisa", "Homer", "Marge", "Moe", 
+        "Bart", "Lisa", "Homer", "Marge", "Moe",
         "Smithers", "Nelson", "Flanders", "Maggy", "Skinner"
       ];
-      
+
       // create the data
       var rawData = [];
       for (var i = 0; i < 60; i++) {
@@ -44,7 +44,7 @@ qx.Class.define("demobrowser.demo.data.SearchAsYouType",
       var textfield = new qx.ui.form.TextField();
       textfield.setLiveUpdate(true);
       this.getRoot().add(textfield, {top: 70, left: 10});
-      
+
       // create the list
       var list = new qx.ui.form.List();
 
@@ -56,10 +56,10 @@ qx.Class.define("demobrowser.demo.data.SearchAsYouType",
 
       // create the filter
       var filterObj = new demobrowser.demo.data.filter.SearchAsYouTypeFilter(controller);
-      
+
       // set the filter
       controller.setDelegate(filterObj);
-      
+
       // make every input in the textfield update the controller
       textfield.bind("changeValue", filterObj, "searchString");
 
@@ -69,7 +69,7 @@ qx.Class.define("demobrowser.demo.data.SearchAsYouType",
 
       /* ***********************************************
        * DESCRIPTIONS
-       * ********************************************* */  
+       * ********************************************* */
       // List Selection sync description
       var description = new qx.ui.basic.Label();
       description.setRich(true);
@@ -78,7 +78,7 @@ qx.Class.define("demobrowser.demo.data.SearchAsYouType",
         "<b>Search As You Type List</b><br/>"
         + "Type a name and the list will show only the fitting results."
       );
-      this.getRoot().add(description, {left: 20, top: 10});         
+      this.getRoot().add(description, {left: 20, top: 10});
     }
   }
 });

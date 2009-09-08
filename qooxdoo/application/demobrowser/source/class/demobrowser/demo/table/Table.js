@@ -198,7 +198,7 @@ qx.Class.define("demobrowser.demo.table.Table",
       return bar;
     }
   },
-  
+
   /*
    *****************************************************************************
       DESTRUCT

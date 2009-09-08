@@ -26,7 +26,7 @@ qx.Class.define("demobrowser.demo.ui.Placement",
   members :
   {
     __positions : null,
-    
+
     main: function()
     {
       this.base(arguments);
@@ -35,7 +35,7 @@ qx.Class.define("demobrowser.demo.ui.Placement",
 
       this.__positions = ["bottom-left", "bottom-right", "top-left",
         "top-right", "right-top", "right-bottom", "left-top", "left-bottom"];
-      
+
       // Corners
       root.add(this.createTestField("bottom-left"), { left: 20, top: 20 });
       root.add(this.createTestField("bottom-right"), { right: 20, top: 20 });
@@ -61,12 +61,12 @@ qx.Class.define("demobrowser.demo.ui.Placement",
 
       var selectBox = new qx.ui.form.SelectBox;
       var itemToSelect = null;
-      
+
       for (var i = 0; i < this.__positions.length; i++)
       {
         var item = new qx.ui.form.ListItem(this.__positions[i]);
         selectBox.add(item);
-        
+
         if (this.__positions[i] == init) {
           itemToSelect = item;
         }
@@ -123,7 +123,7 @@ qx.Class.define("demobrowser.demo.ui.Placement",
       return composite;
     }
   },
-  
+
   destruct : function() {
     this._disposeFields("__positions");
   }

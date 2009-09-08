@@ -187,7 +187,7 @@ qx.Class.define("demobrowser.demo.test.Table_CellEditor",
       }, this);
     }
   },
-  
+
   destruct : function() {
     this._disposeObjects("_container");
   }

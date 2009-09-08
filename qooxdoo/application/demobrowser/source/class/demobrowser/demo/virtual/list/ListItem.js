@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.virtual.list.ListItem", 
+qx.Class.define("demobrowser.demo.virtual.list.ListItem",
 {
   extend : qx.core.Object,
 
@@ -38,7 +38,7 @@ qx.Class.define("demobrowser.demo.virtual.list.ListItem",
     if (icon != null) {
       this.setIcon(icon);
     }
-    
+
     if (value != null) {
       this.setValue(value);
     }
@@ -73,13 +73,13 @@ qx.Class.define("demobrowser.demo.virtual.list.ListItem",
       dispose : true,
       check : "String"
     },
-    
+
     /** Any URI String supported by qx.ui.basic.Image to display a icon */
     icon :
     {
       check : "String",
       nullable : true
-    },    
+    },
 
     /** The assigned qx.ui.form.RadioGroup which handles the switching between registered buttons */
     manager :
@@ -96,7 +96,7 @@ qx.Class.define("demobrowser.demo.virtual.list.ListItem",
       nullable : true,
       event : "changeValue"
     },
-    
+
     /** The item's width. */
     width :
     {
@@ -105,7 +105,7 @@ qx.Class.define("demobrowser.demo.virtual.list.ListItem",
       event : "changeWidth",
       init : null
     },
-    
+
     /** The item's height. */
     height :
     {
@@ -113,7 +113,7 @@ qx.Class.define("demobrowser.demo.virtual.list.ListItem",
       nullable : true,
       event : "changeHeight",
       init : null
-    } 
+    }
   },
 
   members :
@@ -158,6 +158,6 @@ qx.Class.define("demobrowser.demo.virtual.list.ListItem",
 
       return value;
     }
-    
+
   }
 });

@@ -135,7 +135,7 @@ qx.Class.define("demobrowser.demo.table.Table_Resize_Columns",
       return bar;
     }
   },
-  
+
   /*
    *****************************************************************************
       DESTRUCT

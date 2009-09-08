@@ -29,15 +29,15 @@
 qx.Class.define("demobrowser.demo.virtual.messenger.Buddy",
 {
   extend : qx.ui.core.Widget,
-  
+
   construct : function()
   {
     this.base(arguments);
-    
+
     this.set({
       padding : [0, 3]
     });
-    
+
     this._setLayout(new qx.ui.layout.HBox(3).set({
       alignY : "middle"
     }));

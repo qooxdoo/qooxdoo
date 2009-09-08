@@ -44,7 +44,7 @@ qx.Class.define("demobrowser.demo.widget.RadioButtonGroup",
       radioButtonGroupHBox.setLayout(new qx.ui.layout.HBox(5));
       this.addButtons(radioButtonGroupHBox, ["female", "male"]);
       this.getRoot().add(radioButtonGroupHBox, {left: 100, top: 70});
-      
+
       // using Grid
       var labelGrid = new qx.ui.basic.Label("<strong>Grid:</strong>");
       labelGrid.setRich(true);
@@ -55,15 +55,15 @@ qx.Class.define("demobrowser.demo.widget.RadioButtonGroup",
       radioButtonGroupGrid.add(new qx.ui.form.RadioButton("1,0"), {row: 1, column: 0});
       radioButtonGroupGrid.add(new qx.ui.form.RadioButton("1,1"), {row: 1, column: 1});
       radioButtonGroupGrid.add(new qx.ui.form.RadioButton("1,2"), {row: 1, column: 2});
-      radioButtonGroupGrid.add(new qx.ui.form.RadioButton("2,1"), {row: 2, column: 1});                        
-      this.getRoot().add(radioButtonGroupGrid, {left: 100, top: 100});    
+      radioButtonGroupGrid.add(new qx.ui.form.RadioButton("2,1"), {row: 2, column: 1});
+      this.getRoot().add(radioButtonGroupGrid, {left: 100, top: 100});
     },
-    
-    
-    addButtons : function(group, names) 
+
+
+    addButtons : function(group, names)
     {
       for (var i = 0; i < names.length; i++) {
-        group.add(new qx.ui.form.RadioButton(names[i]));  
+        group.add(new qx.ui.form.RadioButton(names[i]));
       }
     }
   }

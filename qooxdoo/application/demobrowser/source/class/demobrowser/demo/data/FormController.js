@@ -20,7 +20,7 @@
 /**
  * @lint ignoreDeprecated(alert)
  */
-qx.Class.define("demobrowser.demo.data.FormController", 
+qx.Class.define("demobrowser.demo.data.FormController",
 {
   extend : qx.application.Standalone,
 
@@ -29,14 +29,14 @@ qx.Class.define("demobrowser.demo.data.FormController",
     main: function()
     {
       this.base(arguments);
-      
+
       // create the UI ///////////////////
-      
+
       // groupbox
       var groupBox = new qx.ui.groupbox.GroupBox("Simple Form");
       groupBox.setLayout(new qx.ui.layout.Canvas());
       this.getRoot().add(groupBox, {left: 10, top: 10});
-      
+
       // form
       var form = new qx.ui.form.Form();
 
@@ -47,9 +47,9 @@ qx.Class.define("demobrowser.demo.data.FormController",
       form.add(nameTextfield, "First Name", null, "firstName");
       form.add(new qx.ui.form.TextField(), "Last Name", null, "lastName");
       form.add(new qx.ui.form.TextField(), "Company");
-      form.add(new qx.ui.form.TextField(), "Email");    
+      form.add(new qx.ui.form.TextField(), "Email");
       form.add(new qx.ui.form.DateField(), "Date");
-      
+
       // buttons
       var saveButton = new qx.ui.form.Button("Save");
       saveButton.setWidth(70);
@@ -57,17 +57,17 @@ qx.Class.define("demobrowser.demo.data.FormController",
       var cancelButton = new qx.ui.form.Button("Cancel");
       cancelButton.setWidth(70);
       form.addButton(cancelButton);
-      
+
       // create the view
       groupBox.add(form.createView());
       ////////////////////////////////////
-      
-      
+
+
       // binding /////////////////////////
       var controller = new qx.data.controller.Form(null, form);
       var model = controller.createModel();
-      ////////////////////////////////////        
-      
+      ////////////////////////////////////
+
 
       // serialization and reset /////////
       saveButton.addListener("execute", function() {

@@ -26,7 +26,7 @@ qx.Class.define("demobrowser.demo.test.SelectBox_EdgeCases",
     main: function()
     {
       this.base(arguments);
-      
+
       var scroller = new qx.ui.container.Scroll();
       this.container = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
       this.container.setAllowStretchX(false);
@@ -89,7 +89,7 @@ qx.Class.define("demobrowser.demo.test.SelectBox_EdgeCases",
       this.container.add(selectBox5, {left: 200, top: 40});
     }
   },
-  
+
   /*
    *****************************************************************************
       DESTRUCT

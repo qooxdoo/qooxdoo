@@ -28,7 +28,7 @@ qx.Class.define("demobrowser.demo.widget.SplitPane",
     main: function()
     {
       this.base(arguments);
-      
+
       // Create a scroll container and an outer container
       var scroller = new qx.ui.container.Scroll();
       var outerContainer = new qx.ui.container.Composite(new qx.ui.layout.Basic());
@@ -83,7 +83,7 @@ qx.Class.define("demobrowser.demo.widget.SplitPane",
       // Add the second container. Flex = 1 means that this child should consume all available space.
       pane.add(container2, 1);
 
-      // Add the pane to the outer container.      
+      // Add the pane to the outer container.
       outerContainer.add(pane, {left:20, top:40});
 
       // Finally add the scroll container to the root widget.
@@ -200,7 +200,7 @@ qx.Class.define("demobrowser.demo.widget.SplitPane",
     }
 
   },
-  
+
   /*
    *****************************************************************************
       DESTRUCT
