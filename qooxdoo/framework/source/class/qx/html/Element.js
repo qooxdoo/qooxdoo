@@ -1899,7 +1899,7 @@ qx.Class.define("qx.html.Element",
         "Use public 'setTextSelection' instead!"
       );
       
-      this.setTextSelection();
+      this.setTextSelection(start, end);
     },
 
 
