@@ -72,11 +72,11 @@ qx.Class.define("feedreader.view.List",
     this.__stack.add(this.__listLoadImage);
   },
 
-  
-  properties : 
+
+  properties :
   {
     /** Determinates if the loading image should be shown */
-    loading : 
+    loading :
     {
       check : "Boolean",
       init: false,
@@ -97,21 +97,21 @@ qx.Class.define("feedreader.view.List",
     __stack : null,
     __list : null,
     __listLoadImage : null,
-    
-    
+
+
     // property apply
     _applyLoading: function(value, old) {
       if (value) {
-        this.__stack.setSelection([this.__listLoadImage]);        
+        this.__stack.setSelection([this.__listLoadImage]);
       } else {
-        this.__stack.setSelection([this.__list]);        
+        this.__stack.setSelection([this.__list]);
       }
     },
-    
-    
+
+
     /**
      * Returns the list widget used in the list view of the feedreader.
-     * 
+     *
      * @return {qx.ui.form.List} The used List.
      */
     getList: function() {

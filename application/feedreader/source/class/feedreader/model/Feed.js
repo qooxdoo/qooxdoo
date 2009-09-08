@@ -64,21 +64,21 @@ qx.Class.define("feedreader.model.Feed",
   properties :
   {
     /** The articles in an array */
-    articles : 
+    articles :
     {
       check : "qx.data.Array",
       event : "changeArticles"
     },
-    
-    
+
+
     /** The currently selected article */
-    selectedArticle : 
+    selectedArticle :
     {
       check : "feedreader.model.Article",
       nullable: true
     },
-    
-    
+
+
     /** The feed URL */
     url :
     {

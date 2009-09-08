@@ -46,9 +46,9 @@ qx.Class.define("feedreader.Application",
     // private memebers
     __treeController : null,
     __listController : null,
-    
+
     __commands : null,
-    
+
     __treeView : null,
     __header : null,
     __toolBarView : null,
@@ -58,12 +58,12 @@ qx.Class.define("feedreader.Application",
     __prefWindow : null,
     __articleView : null,
     __addFeedWindow : null,
-        
+
     __feedFolder : null,
     __userFeedFolder : null,
     __staticFeedFolder: null,
-    
-        
+
+
     /*
     ---------------------------------------------------------------------------
       APPLICATION METHODS
@@ -77,7 +77,7 @@ qx.Class.define("feedreader.Application",
     main : function()
     {
       this.base(arguments);
-      
+
       // Add log appenders
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -88,24 +88,24 @@ qx.Class.define("feedreader.Application",
       qx.io2.PartLoader.getInstance().addListener("partLoaded", function(e) {
         this.debug("part loaded: " + e.getData().getName());
       }, this);
-      
+
       // Initialize commands
       this._initializeCommands();
 
       // Create application layout
       this._createLayout();
-      
+
       // Initialize the model
-      this._initializeModel();    
-      
+      this._initializeModel();
+
       // Initialize the bindings
-      this._setUpBinding(); 
-      
+      this._setUpBinding();
+
       // set up the default view of the tree
       this.__treeView.getRoot().setOpen(true);
       this.__treeView.getRoot().getChildren()[0].setOpen(true);
       this.__treeView.getRoot().getChildren()[1].setOpen(true);
-      this.__treeView.setHideRoot(true);      
+      this.__treeView.setHideRoot(true);
     },
 
 
@@ -117,7 +117,7 @@ qx.Class.define("feedreader.Application",
       this.base(arguments);
       this.reload();
     },
-    
+
 
     /*
     ---------------------------------------------------------------------------
@@ -132,16 +132,16 @@ qx.Class.define("feedreader.Application",
     {
       // create the root folder
       this.__feedFolder = new feedreader.model.FeedFolder("Feeds");
-      
+
       // Add static feeds
-      this.__staticFeedFolder = 
+      this.__staticFeedFolder =
         new feedreader.model.FeedFolder(this.tr("Static Feeds"));
       this.__feedFolder.getFeeds().push(this.__staticFeedFolder);
       this.__staticFeedFolder.getFeeds().push(
         new feedreader.model.Feed(
           "qooxdoo News", "http://feeds2.feedburner.com/qooxdoo/news/content", "static"
         )
-      );      
+      );
       this.__staticFeedFolder.getFeeds().push(
         new feedreader.model.Feed(
           "JScript Team Blog", "http://blogs.msdn.com/jscript/rss.xml", "static"
@@ -164,7 +164,7 @@ qx.Class.define("feedreader.Application",
       );
 
       // Add user feeds
-      this.__userFeedFolder = 
+      this.__userFeedFolder =
         new feedreader.model.FeedFolder(this.tr("User Feeds"));
       this.__feedFolder.getFeeds().push(this.__userFeedFolder);
       this.__userFeedFolder.getFeeds().push(
@@ -186,7 +186,7 @@ qx.Class.define("feedreader.Application",
         new feedreader.model.Feed(
           "Opera Desktop Blog", "http://my.opera.com/desktopteam/xml/rss/blog/", "user"
         )
-      );      
+      );
     },
 
 
@@ -198,12 +198,12 @@ qx.Class.define("feedreader.Application",
       BINDING RELATED
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Set up the bindings and controller.
      */
     _setUpBinding : function() {
-      
+
       // bind the tree //
       // create the options used to store the converter for the icon
       var iconOptions = {converter: this._state2iconConverter};
@@ -216,15 +216,15 @@ qx.Class.define("feedreader.Application",
         this.__feedFolder, this.__treeView, "feeds", "title"
       );
       // set the options for the icon binding
-      this.__treeController.setIconOptions(iconOptions);      
+      this.__treeController.setIconOptions(iconOptions);
       // set the property for the icon binding
       this.__treeController.setIconPath("state");
-      
+
       // bind the list //
       // create the controller which binds ths list
       // 1. Parameter: The model (null because is bound in the next line)
       // 2. Parameter: The view (the list widget)
-      // 3. Parameter: name of the model property to show as label in the list      
+      // 3. Parameter: name of the model property to show as label in the list
       this.__listController = new qx.data.controller.List(
         null, this.__listView.getList(), "title"
       );
@@ -232,11 +232,11 @@ qx.Class.define("feedreader.Application",
       this.__treeController.bind(
         "selection[0].articles", this.__listController, "model"
       );
-      
+
       // bind the article //
       // bind the first selection of the list to the article view
-      this.__listController.bind("selection[0]", this.__articleView, "article"); 
-      
+      this.__listController.bind("selection[0]", this.__articleView, "article");
+
       // register a handler for the change of the list selection
       this.__listController.getSelection().addListener(
         "change" , this._listControllerChange, this
@@ -244,35 +244,35 @@ qx.Class.define("feedreader.Application",
       // register a handler for the change of the trr selection
       this.__treeController.getSelection().addListener(
         "change", this._treeControllerChange, this
-      ); 
-      
+      );
+
       // binding for showing the loading image in the list
       var options = {converter: this._state2loadingConverter};
       this.__treeController.bind(
         "selection[0].state", this.__listView, "loading", options
       );
-      
+
       // bind the enabled property of the remove feed button
       options = {converter: this._category2enabledConverter};
       this.__treeController.bind(
         "selection[0].category", this.__toolBarView.getRemoveButton(), "enabled", options
-      );      
-      
+      );
+
     },
-    
-    
+
+
     /**
-     * Converts the category to a boolean for the enabled status of the remove 
+     * Converts the category to a boolean for the enabled status of the remove
      * button.
      */
     _category2enabledConverter : function(data) {
       if (data == "user") {
         return true;
       }
-      return false;   
+      return false;
     },
-    
-    
+
+
     /**
      * Converter function which converts the state of a feed to a icon url.
      */
@@ -287,10 +287,10 @@ qx.Class.define("feedreader.Application",
       }
       return null;
     },
-    
-    
+
+
     /**
-     * Converter function which converts the state of a feed to a loading 
+     * Converter function which converts the state of a feed to a loading
      * indicator in the list view.
      */
     _state2loadingConverter : function(data) {
@@ -299,8 +299,8 @@ qx.Class.define("feedreader.Application",
       }
       return false;
     },
-    
-    
+
+
     /**
      * Event handler for a change of the selection of the list.
      */
@@ -311,11 +311,11 @@ qx.Class.define("feedreader.Application",
       var article = this.__listController.getSelection().getItem(0);
       // set the selected article
       if (article != undefined) {
-        feed.setSelectedArticle(article);          
+        feed.setSelectedArticle(article);
       }
     },
-    
-    
+
+
     /**
      * Event handler for a change of the selection of the tree.
      */
@@ -330,8 +330,8 @@ qx.Class.define("feedreader.Application",
       // if a feed is selected and its not an folder and an article was selected
       // and if the article belongs to the current feed
       if (
-        feed != null && 
-        feed.classname == "feedreader.model.Feed" && 
+        feed != null &&
+        feed.classname == "feedreader.model.Feed" &&
         feed.getSelectedArticle() != null &&
         feed.getArticles().contains(feed.getSelectedArticle())
       ) {
@@ -340,9 +340,9 @@ qx.Class.define("feedreader.Application",
         this.__listView.getList().scrollToY(0);
       }
     },
-    
-    
-    
+
+
+
 
     /*
     ---------------------------------------------------------------------------
@@ -482,7 +482,7 @@ qx.Class.define("feedreader.Application",
         for (var i = 0; i < userFeeds.length; i++) {
           if (feed === userFeeds.getItem(i)) {
             userFeeds.splice(i, 1);
-            return;            
+            return;
           }
         }
       }
@@ -514,7 +514,7 @@ qx.Class.define("feedreader.Application",
           this.getRoot().add(this.__prefWindow);
           this.showPreferences();
         }
-  
+
         // open the window
         this.__prefWindow.center();
         this.__prefWindow.open();
@@ -545,7 +545,7 @@ qx.Class.define("feedreader.Application",
           this.__addFeedWindow = new feedreader.view.AddFeedWindow(this);
           this.getRoot().add(this.__addFeedWindow);
         }
-  
+
         // open the window
         this.__addFeedWindow.center();
         this.__addFeedWindow.open();
