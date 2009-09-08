@@ -390,12 +390,14 @@ class QxTest:
       cmd += " --name " + target + "application" 
       #cmd += " --logfile " + buildLogFile.name
       cmd += " --out " + buildConf["stageDir"]
+      self.log("Building %s skeleton." %target)
       status, std, err = invokePiped(cmd)
       if status > 0:
         self.logBuildErrors(buildLogFile, target, cmd, err)
         self.buildStatus[target]["BuildError"] = err
       else:  
         # generate the application
+        self.log("Generating %s application." %target)
         buildcmd = os.path.join(buildConf["stageDir"], target + "application", "generate.py")
         status, std, err = invokePiped(buildcmd + " build")
 
@@ -616,7 +618,10 @@ class QxTest:
           if logFormatted:
             self.sendReport(appConf['appName'], reportFile)
           else:
-            self.log("No report HTML to send.")        
+            self.log("No report HTML to send.")
+          
+          if "reportServerUrl" in self.testConf:
+            self.reportResults(appConf['appName'], testStartDate, dummyLogFile)        
 
         return    
     
