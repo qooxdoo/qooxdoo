@@ -321,7 +321,7 @@ class Lint:
                 if not use.definition:
                     if self.isBadGlobal(use.name) and self._shouldPrintDeprecatedWarning(use.node, use.name):
                         self.log(use.node, "Use of deprecated global identifier '%s'" % use.name)
-                    elif not self.isGoodGlobal(use.name) and self._shouldPrintUndefinedWarning(use.node, use.name):
+                    elif not self.isBadGlobal(use.name) and not self.isGoodGlobal(use.name) and self._shouldPrintUndefinedWarning(use.node, use.name):
                         self.log(use.node, "Use of undefined or global identifier '%s'" % use.name)
 
                 elif use.definition.scope == globalScope and self._shouldPrintUndefinedWarning(use.node, use.name):
