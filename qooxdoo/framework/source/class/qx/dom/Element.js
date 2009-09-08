@@ -69,19 +69,19 @@ qx.Class.define("qx.dom.Element",
 
       return false;
     },
-    
-    
+
+
     /**
      * Returns the parent element of the given element.
-     * 
+     *
      * @param element {Element} Element to find the parent for
      * @return {Element} The parent element
      */
     getParentElement : function(element) {
       return element.parentNode;
     },
-    
-    
+
+
     /**
      * Checks if the <code>element</code> is in the DOM, but note that
      * the method is very expensive!
@@ -96,7 +96,7 @@ qx.Class.define("qx.dom.Element",
       if (!win) {
         win = window;
       }
-      
+
       var domElements = win.document.getElementsByTagName(element.nodeName);
 
       for (var i=0, l=domElements.length; i<l; i++)

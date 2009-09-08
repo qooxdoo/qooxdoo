@@ -116,7 +116,7 @@ qx.Mixin.define("qx.ui.window.MDesktop",
         this.setActiveWindow(e.getTarget());
       } else if (this.getActiveWindow() == e.getTarget()) {
         this.setActiveWindow(null);
-      }      
+      }
     },
 
 
@@ -125,7 +125,7 @@ qx.Mixin.define("qx.ui.window.MDesktop",
     {
       this.getWindowManager().changeActiveWindow(value, old);
       if (value) {
-      	value.setActive(true);
+        value.setActive(true);
       }
       if (old) {
         old.resetActive();

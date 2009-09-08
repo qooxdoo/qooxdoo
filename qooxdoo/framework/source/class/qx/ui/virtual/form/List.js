@@ -22,7 +22,7 @@
  */
 
 
-qx.Class.define("qx.ui.virtual.form.List", 
+qx.Class.define("qx.ui.virtual.form.List",
 {
   extend : qx.ui.virtual.core.Scroller,
 
@@ -33,15 +33,15 @@ qx.Class.define("qx.ui.virtual.form.List",
     this._useHtmlCells = useHtmlCells;
 
     qx.ui.core.queue.Widget.add(this);
-    
-    this.getPane().addListener("resize", this._onResize, this); 
-    this._initSelectionManager();  
-    
+
+    this.getPane().addListener("resize", this._onResize, this);
+    this._initSelectionManager();
+
     this.initRowHeight();
     this.initDelegate();
   },
 
-  
+
   properties :
   {
     appearance :
@@ -49,7 +49,7 @@ qx.Class.define("qx.ui.virtual.form.List",
       refine : true,
       init : "virtual-list"
     },
-    
+
     rowCount :
     {
       check : "Integer",
@@ -57,7 +57,7 @@ qx.Class.define("qx.ui.virtual.form.List",
       init : 0,
       apply : "_applyRowCount"
     },
-    
+
     rowHeight :
     {
       check : "Integer",
@@ -66,7 +66,7 @@ qx.Class.define("qx.ui.virtual.form.List",
       apply : "_applyRowHeight",
       themeable : true
     },
-    
+
     showGridLines :
     {
       check : "Boolean",
@@ -75,7 +75,7 @@ qx.Class.define("qx.ui.virtual.form.List",
       apply : "_changeShowGridLines",
       themeable : true
     },
-    
+
     useWidgetCells :
     {
       check : "Boolean",
@@ -83,7 +83,7 @@ qx.Class.define("qx.ui.virtual.form.List",
       apply : "_applyUseWidgetCells",
       themeable : true
     },
-    
+
     cellRenderer :
     {
       event : "changeCellRenderer",
@@ -91,7 +91,7 @@ qx.Class.define("qx.ui.virtual.form.List",
       themeable : true
     },
 
-    delegate : 
+    delegate :
     {
       check : "Object",
       event: "changeDelegate",
@@ -101,7 +101,7 @@ qx.Class.define("qx.ui.virtual.form.List",
     }
   },
 
-  
+
   members :
   {
     __defaultCellRenderer : null,
@@ -112,74 +112,74 @@ qx.Class.define("qx.ui.virtual.form.List",
     _initWidgetLayer : function()
     {
       var self = this;
-      var widgetCellDelegate = 
+      var widgetCellDelegate =
       {
         getCellWidget : function(row, column)
-        {     
+        {
           var data = self._getCellData(row);
 
           if (!data) {
             return null;
           }
-                     
+
           var states = {};
           if (self.__manager.isItemSelected(row)) {
             states.selected = true;
           }
-          
-          var cell = self._getCellRenderer(row);      
+
+          var cell = self._getCellRenderer(row);
           var widget = cell.getCellWidget(data, states);
           widget.setUserData("cell.row", row);
           widget.setUserData("cell.renderer", cell);
 
           return widget;
         },
-        
-        
+
+
         poolCellWidget : function(widget)
         {
           var cellRenderer = widget.getUserData("cell.renderer");
           cellRenderer.pool(widget);
-        }           
+        }
       };
-      
+
       this._showChildControl("row-layer");
       this.__cellLayer = new qx.ui.virtual.layer.WidgetCell(widgetCellDelegate);
-      this.getPane().addLayer(this.__cellLayer); 
-      
+      this.getPane().addLayer(this.__cellLayer);
+
       if (!this.__defaultCellRenderer) {
         this.setCellRenderer(qx.ui.virtual.form.ListItemCell.getInstance());
       }
     },
-    
-    
-    _initHtmlLayer : function() 
+
+
+    _initHtmlLayer : function()
     {
       var self = this;
-      var htmlLayerDelegate = 
+      var htmlLayerDelegate =
       {
         getCellProperties : function(row, column)
         {
           var states = {};
           if (self.__manager.isItemSelected(row)) {
             states.selected = true;
-          }      
+          }
           return self._getCellRenderer(row).getCellProperties(
             self._getCellData(row), states
           );
-        } 
+        }
       };
-      
+
       this._showChildControl("row-layer");
       this.__cellLayer = new qx.ui.virtual.layer.HtmlCell(htmlLayerDelegate);
-      this.getPane().addLayer(this.__cellLayer);   
+      this.getPane().addLayer(this.__cellLayer);
 
       if (!this.__defaultCellRenderer) {
         this.setCellRenderer(new qx.ui.virtual.cell.Cell());
       }
     },
-    
-    
+
+
     _initSelectionManager : function()
     {
       var self = this;
@@ -190,16 +190,16 @@ qx.Class.define("qx.ui.virtual.form.List",
             self._delegate.isRowSelectable(item) :
             true;
         },
-        styleSelectable : function(item, type, wasAdded) 
+        styleSelectable : function(item, type, wasAdded)
         {
-          if (self.__useWidgetCells) {  
+          if (self.__useWidgetCells) {
             self._styleWidgetSelectable(item, type, wasAdded);
           } else {
             self._styleHtmlSelectable(item, type, wasAdded);
           }
-        }        
+        }
       }
-      
+
       this.__manager = new qx.ui.virtual.selection.Row(
         this.getPane(), selectionDelegate
       );
@@ -207,12 +207,12 @@ qx.Class.define("qx.ui.virtual.form.List",
       this.__manager.attachKeyEvents(this);
     },
 
-    
+
     getSelectionManager : function() {
       return this.__manager;
     },
-    
-    
+
+
     // overridden
     _createChildControlImpl : function(id)
     {
@@ -224,17 +224,17 @@ qx.Class.define("qx.ui.virtual.form.List",
           control = new qx.ui.virtual.layer.Row(null, null);
           this.getPane().addLayer(control);
           break;
-          
+
         case "grid-lines" :
           control = new qx.ui.virtual.layer.GridLines("horizontal");
           this.getPane().addLayer(control);
           break;
-          
-      }  
+
+      }
       return control || this.base(arguments, id);
     },
-    
-    
+
+
     update : function()
     {
       if (this.__cellLayer) {
@@ -246,13 +246,13 @@ qx.Class.define("qx.ui.virtual.form.List",
     _applyRowCount : function(value, old) {
       this.getPane().getRowConfig().setItemCount(value);
     },
-    
-    
+
+
     _applyRowHeight : function(value, old) {
       this.getPane().getRowConfig().setDefaultItemSize(value);
     },
-    
-    
+
+
     _changeShowGridLines : function(value, old)
     {
       if (value) {
@@ -261,17 +261,17 @@ qx.Class.define("qx.ui.virtual.form.List",
         this._excludeChildControl("grid-lines");
       }
     },
-    
-    
+
+
     _applyDelegate : function(value, old) {
       this._delegate = value || {};
     },
-    
-    
-    _applyUseWidgetCells : function(value, old) 
+
+
+    _applyUseWidgetCells : function(value, old)
     {
 
-      if (this.__useWidgetCells !== null) 
+      if (this.__useWidgetCells !== null)
       {
         throw new Error(
           "The property 'useWidgetCells' cannot be set after the list has " +
@@ -279,36 +279,36 @@ qx.Class.define("qx.ui.virtual.form.List",
         );
       }
     },
-    
-    
+
+
     _applyCellRenderer : function(value, old)
     {
       this.__defaultCellRenderer = value;
-      if (this.__cellLayer) {       
+      if (this.__cellLayer) {
         this.__cellLayer.fullUpdate();
       }
     },
-    
-    
+
+
     _getCellData : function(row) {
       return this._delegate.getCellData ? this._delegate.getCellData(row) : null;
     },
-    
-    
+
+
     _getCellRenderer : function(row)
     {
       return this._delegate.getCellRenderer ?
-        this._delegate.getCellRenderer(row) : 
+        this._delegate.getCellRenderer(row) :
         this.__defaultCellRenderer;
     },
-    
+
 
     _styleHtmlSelectable : function(item, type, wasAdded)
     {
       if (type !== "selected") {
         return;
       }
-      var rowLayer = this.getChildControl("row-layer"); 
+      var rowLayer = this.getChildControl("row-layer");
       if (wasAdded) {
         rowLayer.setDecorator(item, "selected");
       } else {
@@ -316,9 +316,9 @@ qx.Class.define("qx.ui.virtual.form.List",
       }
       this.__cellLayer.updateLayerData();
     },
-    
-    
-    _styleWidgetSelectable : function(item, type, wasAdded) 
+
+
+    _styleWidgetSelectable : function(item, type, wasAdded)
     {
       if (type !== "selected") {
         return;
@@ -329,7 +329,7 @@ qx.Class.define("qx.ui.virtual.form.List",
       {
         var widget = widgets[i];
         var cellRow = widget.getUserData("cell.row");
-        
+
         if (item !== cellRow) {
           continue;
         }
@@ -337,26 +337,26 @@ qx.Class.define("qx.ui.virtual.form.List",
         if (this.getPane().isUpdatePending()) {
           continue;
         }
-        
+
         var cell = this._getCellRenderer(item);
-          
+
         if (wasAdded) {
           cell.updateStates(widget, {selected: 1});
         } else {
-          cell.updateStates(widget, {});  
-        }        
+          cell.updateStates(widget, {});
+        }
       }
-    },      
-    
+    },
+
 
     syncWidget : function()
     {
       if (this.__useWidgetCells !== null) {
         return;
       }
-      
+
       this.__useWidgetCells = this.getUseWidgetCells();
-      
+
       if (this.__useWidgetCells) {
         this._initWidgetLayer();
       } else {
@@ -364,7 +364,7 @@ qx.Class.define("qx.ui.virtual.form.List",
       }
     },
 
-    
+
     _onResize : function(e) {
       this.getPane().getColumnConfig().setItemSize(0, e.getData().width);
     }

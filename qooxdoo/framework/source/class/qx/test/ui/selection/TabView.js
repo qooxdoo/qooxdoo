@@ -24,28 +24,28 @@ qx.Class.define("qx.test.ui.selection.TabView",
   members :
   {
     __radioButtons : null,
-    
+
     setUp : function()
     {
       var length = 10;
       this._notInSelection = [];
       this._mode = "one";
-      
+
       this._widget = new qx.ui.tabview.TabView();
       this.getRoot().add(this._widget);
-      
+
       for (var i = 0; i < length; i++) {
         var item = new qx.ui.tabview.Page("Page" + i);
         this._widget.add(item);
-        
+
         if (i == 5) {
           this._widget.setSelection([item]);
           this._selection = [item];
         } else {
           this._notInSelection.push(item);
         }
-      } 
-      
+      }
+
       this.flush();
     },
 
@@ -58,8 +58,8 @@ qx.Class.define("qx.test.ui.selection.TabView",
       this._notInSelection = null;
       this.flush();
     },
-    
-    _getChildren : function() 
+
+    _getChildren : function()
     {
       if (this._widget != null) {
         return this._widget.getChildren();
@@ -67,11 +67,11 @@ qx.Class.define("qx.test.ui.selection.TabView",
         return [];
       }
     },
-    
+
     _createTestElement : function(name) {
       return new qx.ui.tabview.Page(name);
     },
-    
+
     _setNotSelectable : function(item, i)
     {
       item.setEnabled(false);

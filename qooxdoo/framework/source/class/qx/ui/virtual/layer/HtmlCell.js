@@ -21,31 +21,31 @@
 
 /**
  * EXPERIMENTAL!
- * 
+ *
  * The HtmlCell layer renders each cell with custom HTML markup. The concrete
  * markup for each cell is provided by a cell provider.
  */
 qx.Class.define("qx.ui.virtual.layer.HtmlCell",
 {
   extend : qx.ui.virtual.layer.Abstract,
-  
-  
+
+
   /**
    * @param htmlCellProvider {qx.ui.virtual.core.IHtmlCellProvider} This class
    *    provides the HTML markup for each cell.
    */
   construct : function(htmlCellProvider)
   {
-    this.base(arguments); 
+    this.base(arguments);
     this.setZIndex(2);
-    
+
     if (qx.core.Variant.isSet("qx.debug", "on")) {
       this.assertInterface(htmlCellProvider, qx.ui.virtual.core.IHtmlCellProvider);
     }
     this._cellProvider = htmlCellProvider;
   },
-  
-  
+
+
   /*
   *****************************************************************************
      MEMBERS
@@ -80,7 +80,7 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCell",
 
       return style;
     },
-    
+
 
     // overridden
     _fullUpdate : function(firstRow, firstColumn, rowSizes, columnSizes)
@@ -94,7 +94,7 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCell",
       {
         var left = 0;
         var column = firstColumn;
-        var height = rowSizes[y] 
+        var height = rowSizes[y]
         for(var x=0; x<columnSizes.length; x++)
         {
           var width = columnSizes[x];
@@ -111,20 +111,20 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCell",
             "class='", cellProperties.classes || "", "' ",
             cellProperties.attributes || "", ">",
             cellProperties.content || "",
-            "</div>"                     
+            "</div>"
           );
 
           column++;
-          left += width;          
+          left += width;
         }
         top += height;
         row++;
       }
-      
+
       this.getContentElement().setAttribute("html", html.join(""));
     }
   },
-  
+
   /*
   *****************************************************************************
      DESTRUCTOR

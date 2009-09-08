@@ -24,31 +24,31 @@ qx.Class.define("qx.test.ui.selection.RadioGroup",
   members :
   {
     __radioButtons : null,
-    
+
     setUp : function()
     {
       var length = 10;
       this._mode = "one";
       this.__radioButtons = [];
       this._notInSelection = [];
-      
+
       this._widget = new qx.ui.form.RadioGroup();
       var root = this.getRoot();
-      
+
       for (var i = 0; i < length; i++) {
         var item = new qx.ui.form.RadioButton("RadioButton" + i);
         root.add(item, {top: 20*i});
         this._widget.add(item);
         this.__radioButtons.push(item);
-        
+
         if (i == 5) {
           this._widget.setSelection([item]);
           this._selection = [item];
         } else {
           this._notInSelection.push(item);
         }
-      } 
-      
+      }
+
       this.flush();
     },
 
@@ -64,8 +64,8 @@ qx.Class.define("qx.test.ui.selection.RadioGroup",
       this._notInSelection = null;
       this.flush();
     },
-    
-    _getChildren : function() 
+
+    _getChildren : function()
     {
       if (this._widget != null) {
         return this._widget.getItems();
@@ -73,64 +73,64 @@ qx.Class.define("qx.test.ui.selection.RadioGroup",
         return [];
       }
     },
-    
+
     _createTestElement : function(name) {
       return new qx.ui.form.RadioButton(name);
     },
-    
+
     testAllowEmptySelection : function() {
       this._mode = "";
       this._widget.setAllowEmptySelection(true);
       this.testResetSelection();
-      
+
       this._widget.setAllowEmptySelection(false);
-      
+
       var result = this._widget.getSelection();
-      this._assertArrayEquals([this._widget.getSelectables()[0]], result, 
+      this._assertArrayEquals([this._widget.getSelectables()[0]], result,
         "The result of 'getSelection' method is wrong!");
     },
-    
+
     testAdd : function() {
       var widget = new qx.ui.form.RadioGroup();
       var item = new qx.ui.form.RadioButton("RadioButton");
       widget.add(item);
-      
+
       var result = widget.getSelection();
-      this._assertArrayEquals([widget.getSelectables()[0]], result, 
+      this._assertArrayEquals([widget.getSelectables()[0]], result,
         "The result of 'getSelection' method is wrong!");
-      
+
       widget.dispose();
       item.destroy();
     },
-    
+
     testAddWithAllowEmptySelection : function() {
       var widget = new qx.ui.form.RadioGroup();
       widget.setAllowEmptySelection(true);
-      
+
       var item = new qx.ui.form.RadioButton("RadioButton");
       widget.add(item);
-      
+
       var result = widget.getSelection();
-      this.assertEquals(0, result.length, 
+      this.assertEquals(0, result.length,
         "The result of 'getSelection' method is wrong!");
-      
+
       widget.dispose();
       item.destroy();
     },
-    
-    
+
+
     testSetGroup: function() {
       var radioButton1 = new qx.ui.form.RadioButton();
       var radioButton2 = new qx.ui.form.RadioButton();
-      
+
       var radioGroup = new qx.ui.form.RadioGroup();
-      
+
       radioButton1.setGroup(radioGroup);
       radioButton2.setGroup(radioGroup);
-      
+
       this.assertEquals(radioButton1, radioGroup.getItems()[0], "First button not in the group.");
       this.assertEquals(radioButton2, radioGroup.getItems()[1], "Second button not in the group.");
-      
+
       radioGroup.dispose();
       radioButton2.dispose();
       radioButton1.dispose();

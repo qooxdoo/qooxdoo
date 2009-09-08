@@ -21,12 +21,12 @@
 qx.Class.define("qx.test.ui.virtual.performance.layer.HtmlTableCssCell",
 {
   extend : qx.ui.virtual.layer.Abstract,
-  
+
   construct : function(htmlCellProvider)
   {
-    this.base(arguments);  
+    this.base(arguments);
     this._cellProvider = htmlCellProvider;
-  
+
     var clazz = qx.test.ui.virtual.performance.layer.HtmlTableCssCell;
     if (!clazz.__style)
     {
@@ -59,11 +59,11 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.HtmlTableCssCell",
 
       clazz.__style = qx.bom.Stylesheet.createElement(stylesheet);
     }
-  
-  
+
+
   },
-  
-  
+
+
   /*
   *****************************************************************************
      MEMBERS
@@ -100,7 +100,7 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.HtmlTableCssCell",
         for(var y=0; y<columnSizes.length; y++)
         {
           var width = columnSizes[y];
-          
+
           html.push(
             this._cellProvider.getCellHtml(
               row, column,
@@ -110,14 +110,14 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.HtmlTableCssCell",
           );
 
           column++;
-          left += width;          
+          left += width;
         }
         html.push("</tr>");
         top += height;
         row++;
       }
       html.push("</table>");
-      
+
       this.getContentElement().setAttribute("html", html.join(""));
     }
   }

@@ -24,7 +24,7 @@
  * out of room on the current line of elements, a new line is started, cleared
  * below the tallest child of the preceeding line -- a bit like using 'float'
  * in CSS, except that a new line wraps all the way back to the left.
- * 
+ *
  * *Features*
  *
  * <ul>
@@ -37,7 +37,7 @@
  * <li> Height for width calculations </li>
  * <li> Auto-sizing </li>
  * </ul>
- * 
+ *
  * *Item Properties*
  *
  * <ul>
@@ -45,46 +45,46 @@
  *   a forced line break will happen after this child widget.
  * </li>
  * </ul>
- * 
+ *
  * *Example*
  *
  * Here is a little example of how to use the Flow layout.
  *
  * <pre class="javascript">
  *  var flowlayout = new qx.ui.layout.Flow();
- *  
- *	flowlayout.setAlignX( "center" );	// Align children to the X axis of the container (left|center|right)
  *
- *	var container = new qx.ui.container.Composite(flowlayout);
- *	this.getRoot().add(container, {edge: 0});
+ *  flowlayout.setAlignX( "center" );  // Align children to the X axis of the container (left|center|right)
  *
- *	var button1 = new qx.ui.form.Button("1. First Button", "flowlayout/test.png");
- *	container.add(button1);
+ *  var container = new qx.ui.container.Composite(flowlayout);
+ *  this.getRoot().add(container, {edge: 0});
  *
- *	var button2 = new qx.ui.form.Button("2. Second longer Button...", "flowlayout/test.png");
- *	// Have this child create a break in the current Line (next child will always start a new Line)
- *	container.add(button2, {lineBreak: true});
+ *  var button1 = new qx.ui.form.Button("1. First Button", "flowlayout/test.png");
+ *  container.add(button1);
  *
- *	var button3 = new qx.ui.form.Button("3rd really, really, really long Button", "flowlayout/test.png");
- *	button3.setHeight(100);  // tall button
- *	container.add(button3);
+ *  var button2 = new qx.ui.form.Button("2. Second longer Button...", "flowlayout/test.png");
+ *  // Have this child create a break in the current Line (next child will always start a new Line)
+ *  container.add(button2, {lineBreak: true});
  *
- *	var button4 = new qx.ui.form.Button("Number 4", "flowlayout/test.png");
- *	button4.setAlignY("bottom");
- *	container.add(button4);
+ *  var button3 = new qx.ui.form.Button("3rd really, really, really long Button", "flowlayout/test.png");
+ *  button3.setHeight(100);  // tall button
+ *  container.add(button3);
  *
- *	var button5 = new qx.ui.form.Button("20px Margins around the great big 5th button!");
- *	button5.setHeight(100);  // tall button
- *	button5.setMargin(20);
- *	container.add(button5, {lineBreak: true});		// Line break after this button.
+ *  var button4 = new qx.ui.form.Button("Number 4", "flowlayout/test.png");
+ *  button4.setAlignY("bottom");
+ *  container.add(button4);
  *
- *	var button6 = new qx.ui.form.Button("Number 6", "flowlayout/test.png");
- *	button6.setAlignY("middle");	// Align this child to the vertical center of this line.
- *	container.add(button6);
+ *  var button5 = new qx.ui.form.Button("20px Margins around the great big 5th button!");
+ *  button5.setHeight(100);  // tall button
+ *  button5.setMargin(20);
+ *  container.add(button5, {lineBreak: true});    // Line break after this button.
  *
- *	var button7 = new qx.ui.form.Button("7th a wide, short button", "flowlayout/test.png");
- *	button7.setMaxHeight(20);  // short button
- *	container.add(button7);
+ *  var button6 = new qx.ui.form.Button("Number 6", "flowlayout/test.png");
+ *  button6.setAlignY("middle");  // Align this child to the vertical center of this line.
+ *  container.add(button6);
+ *
+ *  var button7 = new qx.ui.form.Button("7th a wide, short button", "flowlayout/test.png");
+ *  button7.setMaxHeight(20);  // short button
+ *  container.add(button7);
  * </pre>
  *
  * *External Documentation*
@@ -120,7 +120,7 @@ qx.Class.define("qx.ui.layout.Flow",
     if (spacingY) {
       this.setSpacingY(spacingY);
     }
-    
+
     if (alignX) {
       this.setAlignX(alignX);
     }
@@ -143,9 +143,9 @@ qx.Class.define("qx.ui.layout.Flow",
      */
     alignX :
     {
-	    check : [ "left", "center", "right" ],
-	    init : "left",
-	    apply : "_applyLayoutChange"
+      check : [ "left", "center", "right" ],
+      init : "left",
+      apply : "_applyLayoutChange"
     },
 
     /**
@@ -154,17 +154,17 @@ qx.Class.define("qx.ui.layout.Flow",
      */
     alignY :
     {
-	    check : [ "top", "middle", "bottom"],
-	    init : "top",
-	    apply : "_applyLayoutChange"
+      check : [ "top", "middle", "bottom"],
+      init : "top",
+      apply : "_applyLayoutChange"
     },
 
     /** Horizontal spacing between two children */
     spacingX :
     {
-	    check : "Integer",
-	    init : 0,
-	    apply : "_applyLayoutChange"
+      check : "Integer",
+      init : 0,
+      apply : "_applyLayoutChange"
     },
 
     /**
@@ -184,7 +184,7 @@ qx.Class.define("qx.ui.layout.Flow",
       init : false,
       apply : "_applyLayoutChange"
     }
-    
+
   },
 
 
@@ -213,14 +213,14 @@ qx.Class.define("qx.ui.layout.Flow",
       "off" : null
     }),
 
-    
+
     /**
      * The FlowLayout tries to add as many Children as possible to the current 'Line'
      * and when it sees that the next Child won't fit, it starts on a new Line, continuing
      * until all the Children have been added.
      * To enable alignX "left", "center", "right" renderLayout has to calculate the positions
      * of all a Line's children before it draws them.
-     * 
+     *
      * @param availWidth {Integer} Final width available for the content (in pixel)
      * @param availHeight {Integer} Final height available for the content (in pixel)
      * @return {void}
@@ -232,25 +232,25 @@ qx.Class.define("qx.ui.layout.Flow",
       if (this.getReversed()) {
         children = children.concat().reverse();
       }
-      
+
       var lineCalculator = new qx.ui.layout.LineSizeIterator(
         children,
         this.getSpacingX()
       );
-      
+
       var lineTop = 0;
       while (lineCalculator.hasMoreLines())
       {
-        var line = lineCalculator.computeNextLine(availWidth);     
+        var line = lineCalculator.computeNextLine(availWidth);
         this.__renderLine(line, lineTop, availWidth);
         lineTop += line.height + this.getSpacingY();
       }
     },
 
-    
+
     /**
      * Render a line in the flow layout
-     * 
+     *
      * @param line {Map} A line configuration as returned by
      *    {@link LineSizeIterator#computeNextLine}.
      * @param lineTop {Integer} The line's top position
@@ -260,75 +260,75 @@ qx.Class.define("qx.ui.layout.Flow",
     {
       var util = qx.ui.layout.Util;
 
-      var left = 0;             
+      var left = 0;
       if (this.getAlignX() != "left") {
         left = availWidth - line.width;
         if (this.getAlignX() == "center") {
           left = Math.round(left / 2);
         }
-      }  
-  
+      }
+
       for (var i=0; i<line.children.length; i++)
       {
         var child = line.children[i];
         var size = child.getSizeHint();
         var marginTop = child.getMarginTop();
         var marginBottom = child.getMarginBottom();
-    
+
         var top = util.computeVerticalAlignOffset(
           child.getAlignY() || this.getAlignY(),
-          marginTop + size.height + marginBottom, 
-          line.height, 
+          marginTop + size.height + marginBottom,
+          line.height,
           marginTop, marginBottom
         );
-  
+
         child.renderLayout(
-          left + line.gapsBefore[i], 
-          lineTop + top, 
-          size.width, 
+          left + line.gapsBefore[i],
+          lineTop + top,
+          size.width,
           size.height
         );
-  
+
         left += line.gapsBefore[i] + size.width;
       }
     },
-      
-  	
-  	// overridden
-  	_computeSizeHint : function() {
+
+
+    // overridden
+    _computeSizeHint : function() {
       return this.__computeSize(Infinity);
-  	},
-	
-  	
-  	// overridden
+    },
+
+
+    // overridden
     hasHeightForWidth : function() {
       return true;
     },
-  	
-    
+
+
     // overridden
     getHeightForWidth : function(width) {
       return this.__computeSize(width).height;
-  	},
-  	
-  	
-  	/**
-  	 * Compute the preferred size optionally constrained by the available width
-  	 * 
-  	 * @param availWidth {Integer} The available width
-  	 * @return {Map} Map containing the preferred height and width of the layout
-  	 */
-  	__computeSize : function(availWidth)
-  	{
+    },
+
+
+    /**
+     * Compute the preferred size optionally constrained by the available width
+     *
+     * @param availWidth {Integer} The available width
+     * @return {Map} Map containing the preferred height and width of the layout
+     */
+    __computeSize : function(availWidth)
+    {
       var lineCalculator = new qx.ui.layout.LineSizeIterator(
         this._getLayoutChildren(),
         this.getSpacingX()
       );
-      
+
       var height = 0;
       var width = 0;
       var lineCount = 0;
-      
+
       while (lineCalculator.hasMoreLines())
       {
         var line = lineCalculator.computeNextLine(availWidth);
@@ -336,11 +336,11 @@ qx.Class.define("qx.ui.layout.Flow",
         width = Math.max(width, line.width);
         height += line.height;
       }
-      
+
       return {
         width : width,
         height : height + this.getSpacingY() * (lineCount-1)
-      };  	  
-  	}
+      };
+    }
   }
 });

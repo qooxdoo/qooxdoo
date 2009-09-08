@@ -41,10 +41,10 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
       width : null,
       height : null
     },
-    
+
     /** {Array} Known image types */
     __knownImageTypesRegExp : /\.(png|gif|jpg|jpeg|bmp)\b/i,
-    
+
 
     /**
      * Whether the given image has previously been loaded using the
@@ -101,8 +101,8 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
         return null;
       }
     },
-    
-        
+
+
     /**
      * Returns the size of a previously loaded image
      *
@@ -224,7 +224,7 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
         entry.loaded = true;
         entry.width = this.__getWidth(element);
         entry.height = this.__getHeight(element);
-        
+
         // try to determine the image format
         var result = this.__knownImageTypesRegExp.exec(source);
         if (result != null)

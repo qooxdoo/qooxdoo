@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.performance.AbstractLayerTest", 
+qx.Class.define("qx.test.ui.virtual.performance.AbstractLayerTest",
 {
   extend : qx.test.ui.LayoutTestCase,
   type : "abstract",
@@ -35,7 +35,7 @@ qx.Class.define("qx.test.ui.virtual.performance.AbstractLayerTest",
   members :
   {
     ITERATIONS : 2, // was 24
-    
+
     setUp : function()
     {
       this.layer = this.getLayer().set({
@@ -45,19 +45,19 @@ qx.Class.define("qx.test.ui.virtual.performance.AbstractLayerTest",
 
       this.getRoot().add(this.layer);
       this.flush();
-      
+
       this.rowSizes = [];
       for (var i=0; i<this.rowCount; i++) {
         this.rowSizes.push(this.rowHeight);
-      }      
-      
-      this.colSizes = [];      
+      }
+
+      this.colSizes = [];
       for (var i=0; i<this.colCount; i++) {
         this.colSizes.push(this.colWidth);
-      }      
+      }
     },
 
-    
+
     tearDown : function()
     {
       this.layer.destroy();
@@ -70,65 +70,65 @@ qx.Class.define("qx.test.ui.virtual.performance.AbstractLayerTest",
       throw new Error("Abstract method call (getLayer) in 'AbstractLayerTest'!");
     },
 
-    
-    testFullUpdateSameWindow : function() 
+
+    testFullUpdateSameWindow : function()
     {
       this.profile("fullUpdate (same window)", function()
       {
         this.layer.fullUpdate(0, 0, this.rowSizes, this.colSizes);
       }, this, this.ITERATIONS);
     },
-    
-    
-    testFullUpdateScrollDown : function() 
+
+
+    testFullUpdateScrollDown : function()
     {
       var startRow = 0;
-      
+
       this.profile("fullUpdate (scroll)", function()
       {
         this.layer.fullUpdate(startRow, 0, this.rowSizes, this.colSizes);
         startRow ++;
       }, this, this.ITERATIONS);
-    },    
-    
-    
-    testUpdateLayerWindowScrollDown : function() 
+    },
+
+
+    testUpdateLayerWindowScrollDown : function()
     {
       var startRow = 0;
-      
+
       this.profile("scroll down 10 lines", function()
       {
         this.layer.updateLayerWindow(startRow, 0, this.rowSizes, this.colSizes);
         startRow += 10;
       }, this, this.ITERATIONS);
     },
-    
-    
-    testUpdateLayerWindowScrollRight : function() 
+
+
+    testUpdateLayerWindowScrollRight : function()
     {
       var startCol = 0;
-      
+
       this.profile("scroll right 10 columns", function()
       {
         this.layer.updateLayerWindow(0, startCol, this.rowSizes, this.colSizes);
         startCol += 10;
       }, this, this.ITERATIONS);
-    }, 
-    
-    
-      
-    testUpdateLayerData : function() 
+    },
+
+
+
+    testUpdateLayerData : function()
     {
       this.layer.fullUpdate(0, 0, this.rowSizes, this.colSizes);
       this.flush();
-      
+
       this.profile("update layer data", function()
       {
         this.layer.updateLayerData();
       }, this, this.ITERATIONS);
-    },    
-    
-    
+    },
+
+
     profile : function(name, fcn, context, count)
     {
       if (window.console && window.console.profile) console.profile(name + "; " + this.classname);
@@ -137,18 +137,18 @@ qx.Class.define("qx.test.ui.virtual.performance.AbstractLayerTest",
       for (var i=0,l=count; i<l; i++)
       {
         var start = new Date();
-        
-        fcn.call(context);  
+
+        fcn.call(context);
         this.flush();
-        
-        var duration = new Date() - start;        
+
+        var duration = new Date() - start;
         times.push(duration);
       }
       times.sort(function(a, b) { return a < b ? -1 : 1});
       var avg = Math.round(qx.lang.Array.sum(times.slice(1, -1)) / (times.length-2))
       //this.warn(";" + name + "; avg(" + avg + "ms); " + times.join("ms; ") + "ms;");
       this.warn(";" + name + ";avg:" + avg + ";" + times.join(";"));
-      
+
       if (window.console && window.console.profile) console.profileEnd(name + " " + this.classname);
     }
   }

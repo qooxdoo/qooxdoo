@@ -20,31 +20,31 @@
 qx.Class.define("qx.test.util.DateMock",
 {
   extend : qx.core.Object,
-  
+
   construct : function(dateMap)
   {
     this.base(arguments);
     this.__date = dateMap;
   },
-  
+
   members :
   {
     getFullYear : function() {
       return this.__date.fullYear;
     },
-    
+
     getMonth : function() {
       return this.__date.month;
     },
-    
+
     getDate : function() {
       return this.__date.date;
     },
-    
+
     getDay : function() {
       return this.__date.day;
     },
-    
+
     getHours : function() {
       return this.__date.hours;
     },
@@ -52,17 +52,17 @@ qx.Class.define("qx.test.util.DateMock",
     getSeconds : function() {
       return this.__date.seconds;
     },
-    
+
     getMinutes : function() {
       return this.__date.minutes;
     },
-    
+
     getMilliseconds : function() {
       return this.__date.milliseconds;
     },
-    
+
     getTimezoneOffset : function() {
       return this.__date.timezoneOffset;
-    }   
+    }
   }
 });

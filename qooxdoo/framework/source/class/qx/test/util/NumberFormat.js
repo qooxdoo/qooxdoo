@@ -109,9 +109,9 @@ qx.Class.define("qx.test.util.NumberFormat",
       var nf = new qx.util.format.NumberFormat();
       nf.setMinimumFractionDigits(0);
       nf.setMaximumFractionDigits(2);
-      
+
       var numberStr = "0.5";
-      
+
       this.assertException(
         function() {
           nf.parse(numberStr);
@@ -123,17 +123,17 @@ qx.Class.define("qx.test.util.NumberFormat",
 
       qx.locale.Manager.getInstance().setLocale("en_US");
 
-      this.assertEquals(0.5, nf.parse("0.5"), 
+      this.assertEquals(0.5, nf.parse("0.5"),
         "parsing failed after locale change");
     },
-    
+
     testNumberFormatChange : function()
     {
       var nf = new qx.util.format.NumberFormat();
       nf.setPostfix(" %");
-      
+
       var numberStr = "5 Percent";
-      
+
       this.assertException(
         function() {
           nf.parse(numberStr);
@@ -142,7 +142,7 @@ qx.Class.define("qx.test.util.NumberFormat",
         "does not match the number format",
         "testing if parsing fails on string '" + numberStr + "'"
       );
-      
+
       nf.setPostfix(" Percent");
       this.assertEquals(5, nf.parse(numberStr),
         "parsing failed after number format change");

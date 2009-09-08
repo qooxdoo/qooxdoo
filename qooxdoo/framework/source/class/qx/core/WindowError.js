@@ -42,7 +42,7 @@ qx.Class.define("qx.core.WindowError",
   construct : function(failMessage, uri, lineNumber)
   {
     Error.call(this, failMessage);
-    
+
     this.__failMessage = failMessage;
     this.__uri = uri || "";
     this.__lineNumber = lineNumber === undefined ? -1 : lineNumber;
@@ -61,8 +61,8 @@ qx.Class.define("qx.core.WindowError",
     __failMessage : null,
     __uri : null,
     __lineNumber : null,
-    
-    
+
+
     /**
      * Returns the error message.
      *
@@ -71,23 +71,23 @@ qx.Class.define("qx.core.WindowError",
     toString : function() {
       return this.__failMessage;
     },
-    
-    
+
+
     /**
      * Get the URI where error was raised
-     * 
+     *
      * @return {String} URI where error was raised
      */
     getUri : function() {
       return this.__uri;
     },
-    
-    
+
+
     /**
      * Get the line number where the error was raised
-     * 
+     *
      * @return {Integer} The line number where the error was raised
-     */    
+     */
     getLineNumber : function() {
       return this.__lineNumber;
     }

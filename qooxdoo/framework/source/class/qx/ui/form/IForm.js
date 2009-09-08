@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * Form interface for all form widgets. It includes the API for enabled, 
+ * Form interface for all form widgets. It includes the API for enabled,
  * required and valid states.
  */
 qx.Interface.define("qx.ui.form.IForm",
@@ -33,17 +33,17 @@ qx.Interface.define("qx.ui.form.IForm",
   {
     /** Fired when the enabled state was modified */
     "changeEnabled" : "qx.event.type.Data",
-    
+
     /** Fired when the valid state was modified */
     "changeValid" : "qx.event.type.Data",
-    
+
     /** Fired when the invalidMessage was modified */
     "changeInvalidMessage" : "qx.event.type.Data",
-    
+
     /** Fired when the required was modified */
-    "changeRequired" : "qx.event.type.Data"           
-  },  
-  
+    "changeRequired" : "qx.event.type.Data"
+  },
+
 
   /*
   *****************************************************************************
@@ -61,22 +61,22 @@ qx.Interface.define("qx.ui.form.IForm",
 
     /**
      * Set the enabled state of the widget.
-     * 
+     *
      * @param enabled {Boolean} The enabled state.
      */
     setEnabled : function(enabled) {
       return arguments.length == 1;
     },
 
-    
+
     /**
      * Return the current set enabled state.
-     * 
+     *
      * @return {Boolean} If the widget is enabled.
      */
     getEnabled : function() {},
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       REQUIRED PROPERTY
@@ -85,22 +85,22 @@ qx.Interface.define("qx.ui.form.IForm",
 
     /**
      * Sets the required state of a widget.
-     * 
+     *
      * @param required {Boolean} A flag signaling if the widget is required.
      */
     setRequired : function(required) {
       return arguments.length == 1;
     },
 
-    
+
     /**
      * Return the current required state of the widget.
-     * 
+     *
      * @return {Boolean} True, if the widget is required.
      */
     getRequired : function() {},
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       VALID PROPERTY
@@ -109,22 +109,22 @@ qx.Interface.define("qx.ui.form.IForm",
 
     /**
      * Sets the valid state of the widget.
-     * 
+     *
      * @param valid {Boolean} The valid state of the widget.
      */
     setValid : function(valid) {
       return arguments.length == 1;
     },
 
-    
+
     /**
      * Returns the valid state of the widget.
-     * 
+     *
      * @return {Boolean} If the state of the widget is valid.
      */
     getValid : function() {},
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       INVALIDMESSAGE PROPERTY
@@ -133,20 +133,20 @@ qx.Interface.define("qx.ui.form.IForm",
 
     /**
      * Sets the invalid message of the widget.
-     * 
+     *
      * @param message {String} The invalid message.
      */
     setInvalidMessage : function(message) {
       return arguments.length == 1;
     },
 
-    
+
     /**
      * Returns the invalid message of the widget.
-     * 
+     *
      * @return {String} The current set message.
      */
     getInvalidMessage : function() {}
-    
+
   }
 });

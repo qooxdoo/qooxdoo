@@ -20,8 +20,8 @@
 qx.Class.define("qx.test.ui.virtual.performance.layer.HtmlDivRelative",
 {
   extend : qx.ui.virtual.layer.Abstract,
-  
-  
+
+
   /*
   *****************************************************************************
      MEMBERS
@@ -31,7 +31,7 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.HtmlDivRelative",
   members :
   {
     _fullUpdate : function(
-      firstRow, firstColumn, 
+      firstRow, firstColumn,
       rowSizes, columnSizes
     )
     {
@@ -56,14 +56,14 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.HtmlDivRelative",
             "'>",
             content,
             "</div>"
-          ); 
+          );
           col++;
-          left += columnSizes[y];          
+          left += columnSizes[y];
         }
         top += rowSizes[x];
         row++;
       }
-      
+
       this.getContentElement().setAttribute("html", html.join(""));
     }
   }

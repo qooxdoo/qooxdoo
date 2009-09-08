@@ -21,14 +21,14 @@
 qx.Class.define("qx.test.ui.virtual.performance.layer.HtmlTableCell",
 {
   extend : qx.ui.virtual.layer.Abstract,
-  
+
   construct : function(htmlCellProvider)
   {
-    this.base(arguments);  
+    this.base(arguments);
     this._cellProvider = htmlCellProvider;
   },
-  
-  
+
+
   /*
   *****************************************************************************
      MEMBERS
@@ -65,7 +65,7 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.HtmlTableCell",
         for(var y=0; y<columnSizes.length; y++)
         {
           var width = columnSizes[y];
-          
+
           html.push(
             this._cellProvider.getCellHtml(
               row, column,
@@ -75,14 +75,14 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.HtmlTableCell",
           );
 
           column++;
-          left += width;          
+          left += width;
         }
         html.push("</tr>");
         top += height;
         row++;
       }
       html.push("</table>");
-      
+
       this.getContentElement().setAttribute("html", html.join(""));
     }
   }

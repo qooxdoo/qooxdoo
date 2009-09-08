@@ -39,11 +39,11 @@ qx.Class.define("qx.ui.tabview.TabButton",
 
     var layout = new qx.ui.layout.Grid(2, 0);
     layout.setRowAlign(0, "left", "middle");
-    layout.setColumnAlign(0, "right", "middle");  
+    layout.setColumnAlign(0, "right", "middle");
 
     this._getLayout().dispose();
     this._setLayout(layout);
-    
+
     this.initShowCloseButton();
   },
 
@@ -58,7 +58,7 @@ qx.Class.define("qx.ui.tabview.TabButton",
   {
     /**
      * Fired by {@link qx.ui.tabview.Page} if the close button is clicked.
-     * 
+     *
      * Event data: The tab button.
      */
     "close" : "qx.event.type.Data"
@@ -155,13 +155,13 @@ qx.Class.define("qx.ui.tabview.TabButton",
       }
 
     },
-    
+
 
     // overridden
     _createChildControlImpl : function(id)
     {
       var control;
-      
+
       switch(id) {
         case "label":
           var control = new qx.ui.basic.Label(this.getLabel());
@@ -169,7 +169,7 @@ qx.Class.define("qx.ui.tabview.TabButton",
           this._add(control, {row: 0, column: 2});
           this._getLayout().setColumnFlex(2, 1);
           break;
-          
+
         case "icon":
           control = new qx.ui.basic.Image(this.getIcon());
           control.setAnonymous(true);
@@ -185,7 +185,7 @@ qx.Class.define("qx.ui.tabview.TabButton",
             control.exclude();
           }
 
-          break;                    
+          break;
       }
 
       return control || this.base(arguments, id);

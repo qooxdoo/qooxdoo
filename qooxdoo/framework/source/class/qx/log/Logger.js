@@ -265,8 +265,8 @@ qx.Bootstrap.define("qx.log.Logger",
         this.trace();
       }
     },
-    
-    
+
+
     /**
      * Prints a event deprecation warning and a stack trace if the setting
      * <code>qx.debug</code> is set to <code>on</code>.
@@ -288,7 +288,7 @@ qx.Bootstrap.define("qx.log.Logger",
       }
     },
 
-    
+
     /**
      * Prints a mixin deprecation warning and a stack trace if the setting
      * <code>qx.debug</code> is set to <code>on</code>.
@@ -309,7 +309,7 @@ qx.Bootstrap.define("qx.log.Logger",
       }
     },
 
-    
+
     /**
      * Deletes the current buffer. Does not influence message handling of the
      * connected appenders.
@@ -376,7 +376,7 @@ qx.Bootstrap.define("qx.log.Logger",
         level: level,
         items: items,
         // store window to allow cross frame logging
-        win: window 
+        win: window
       };
 
       // Add relation fields
@@ -390,7 +390,7 @@ qx.Bootstrap.define("qx.log.Logger",
       }
 
       this.__buffer.process(entry);
-      
+
       // Send to appenders
       var appender = this.__appender;
       for (var id in appender) {
@@ -517,7 +517,7 @@ qx.Bootstrap.define("qx.log.Logger",
           trace = qx.dev.StackTrace.getStackTraceFromError(value);
           text = value.toString();
           break;
-          
+
         case "array":
           if (deep)
           {

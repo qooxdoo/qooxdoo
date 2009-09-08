@@ -40,22 +40,22 @@ qx.Interface.define("qx.ui.form.IRange",
 
     /**
      * Set the minimum value of the range.
-     * 
+     *
      * @param min {Number} The minimum.
      */
     setMinimum : function(min) {
       return arguments.length == 1;
     },
 
-    
+
     /**
      * Return the current set minimum of the range.
-     * 
+     *
      * @return {Number} The current set minimum.
      */
     getMinimum : function() {},
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       MAXIMUM PROPERTY
@@ -64,22 +64,22 @@ qx.Interface.define("qx.ui.form.IRange",
 
     /**
      * Set the maximum value of the range.
-     * 
+     *
      * @param max {Number} The maximum.
      */
     setMaximum : function(max) {
       return arguments.length == 1;
     },
 
-    
+
     /**
      * Return the current set maximum of the range.
-     * 
+     *
      * @return {Number} The current set maximum.
      */
     getMaximum : function() {},
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       SINGLESTEP PROPERTY
@@ -88,22 +88,22 @@ qx.Interface.define("qx.ui.form.IRange",
 
     /**
      * Sets the value for single steps in the range.
-     * 
+     *
      * @param step {Number} The value of the step.
      */
     setSingleStep : function(step) {
       return arguments.length == 1;
     },
 
-    
+
     /**
      * Returns the value which will be stepped in a single step in the range.
-     * 
+     *
      * @return {Number} The current value for single steps.
      */
     getSingleStep : function() {},
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       PAGESTEP PROPERTY
@@ -112,17 +112,17 @@ qx.Interface.define("qx.ui.form.IRange",
 
     /**
      * Sets the value for page steps in the range.
-     * 
+     *
      * @param step {Number} The value of the step.
      */
     setPageStep : function(step) {
       return arguments.length == 1;
     },
 
-    
+
     /**
      * Returns the value which will be stepped in a page step in the range.
-     * 
+     *
      * @return {Number} The current value for page steps.
      */
     getPageStep : function() {}

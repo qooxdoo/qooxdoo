@@ -19,32 +19,32 @@
 
 /**
  * The blocker element is used to block interaction with the application.
- * 
+ *
  * It is usually transparent or semi-transparent and blocks all events from
  * the underlying elements.
  */
 qx.Class.define("qx.html.Blocker",
 {
   extend : qx.html.Element,
-  
+
   /**
-   * @param backgroundColor {Color?null} the blocker's background color. This 
+   * @param backgroundColor {Color?null} the blocker's background color. This
    *    color can be themed and will be resolved by the blocker.
    * @param opacity {Number?0} The blocker's opacity
    */
-  construct : function(backgroundColor, opacity) 
+  construct : function(backgroundColor, opacity)
   {
     this.base(arguments);
-    
-    var backgroundColor = backgroundColor ? 
-        qx.theme.manager.Color.getInstance().resolve(backgroundColor) : null; 
-    
+
+    var backgroundColor = backgroundColor ?
+        qx.theme.manager.Color.getInstance().resolve(backgroundColor) : null;
+
     this.setStyles({
       position: "absolute",
       width: "100%",
       height: "100%",
       opacity : opacity || 0,
-      backgroundColor : backgroundColor 
+      backgroundColor : backgroundColor
     });
 
     // IE needs some extra love here to convince it to block events.
@@ -54,6 +54,6 @@ qx.Class.define("qx.html.Blocker",
         backgroundImage: "url(" + qx.util.ResourceManager.toUri("qx/static/blank.gif") + ")",
         backgroundRepeat: "repeat"
       });
-    }    
+    }
   }
 });

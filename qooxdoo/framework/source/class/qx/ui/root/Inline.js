@@ -94,7 +94,7 @@ qx.Class.define("qx.ui.root.Inline",
 
     // Directly schedule layout for root element
     qx.ui.core.queue.Layout.add(this);
-    
+
     // Register as root
     qx.ui.core.FocusHandler.getInstance().connectTo(this);
   },
@@ -186,7 +186,7 @@ qx.Class.define("qx.ui.root.Inline",
       } else {
         hint = {};
       }
-      
+
       var Dimension = qx.bom.element.Dimension;
 
       if (dynX)

@@ -178,13 +178,13 @@ qx.Class.define("qx.ui.decoration.Double",
         left : this.getWidthLeft() + this.getInnerWidthLeft()
       };
     },
-    
-    
+
+
     // overridden
     _isInitialized: function() {
-      return !!this.__ownMarkup;      
+      return !!this.__ownMarkup;
     },
-    
+
 
     /*
     ---------------------------------------------------------------------------

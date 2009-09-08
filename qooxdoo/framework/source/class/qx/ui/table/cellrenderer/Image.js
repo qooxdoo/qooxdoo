@@ -85,7 +85,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Image",
       return imageHints;
     }
   },
-  
+
   /*
   *****************************************************************************
      DESTRUCTOR

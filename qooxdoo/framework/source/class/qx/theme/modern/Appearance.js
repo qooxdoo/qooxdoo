@@ -297,7 +297,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         } else {
           icon = "checkbox";
         }
-        
+
         var invalid = states.invalid && !states.disabled ? "-invalid" : "";
 
         return {
@@ -335,7 +335,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         } else {
           icon = "radiobutton";
         }
-        
+
         var invalid = states.invalid && !states.disabled ? "-invalid" : "";
 
         return {
@@ -350,11 +350,11 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         var decorator;
-        
+
         var focused = !!states.focused;
         var invalid = !!states.invalid;
         var disabled = !!states.disabled;
-        
+
         if (focused && invalid && !disabled) {
           decorator = "input-focused-invalid";
         } else if (focused && !invalid && !disabled) {
@@ -366,7 +366,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         } else {
           decorator = "input";
         }
-        
+
         var textColor;
         if (states.disabled) {
           textColor = "text-disabled";
@@ -410,11 +410,11 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         var decorator;
-        
+
         var focused = !!states.focused;
         var invalid = !!states.invalid;
         var disabled = !!states.disabled;
-        
+
         if (focused && invalid && !disabled) {
           decorator = "input-focused-invalid";
         } else if (focused && !invalid && !disabled) {
@@ -425,8 +425,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator = "border-invalid";
         } else {
           decorator = "input";
-        }       
-        
+        }
+
         return {
           decorator : decorator
         };
@@ -608,7 +608,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "scrollarea" : 
+    "scrollarea" :
     {
       style : function(states)
       {
@@ -621,7 +621,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-    
+
     "scrollarea/corner" :
     {
       style : function(states)
@@ -680,11 +680,11 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         var decorator = states.horizontal ? "scrollbar-slider-horizontal" :
                                             "scrollbar-slider-vertical";
-        
+
         if (states.disabled) {
           decorator += "-disabled"
         }
-         
+
         return {
           decorator : decorator,
           minHeight : states.horizontal ? undefined : 14,
@@ -750,11 +750,11 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         var decorator;
-        
+
         var focused = !!states.focused;
         var invalid = !!states.invalid;
         var disabled = !!states.disabled;
-        
+
         if (focused && invalid && !disabled) {
           decorator = "input-focused-invalid";
         } else if (focused && !invalid && !disabled) {
@@ -765,8 +765,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator = "border-invalid";
         } else {
           decorator = "input";
-        }        
-        
+        }
+
         return {
           decorator : decorator
         }
@@ -781,7 +781,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           decorator : states.disabled ? "scrollbar-slider-horizontal-disabled" :
-                                        "scrollbar-slider-horizontal", 
+                                        "scrollbar-slider-horizontal",
           shadow: undefined,
           height : 14,
           width : 14
@@ -806,11 +806,11 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         var decorator;
-        
+
         var focused = !!states.focused;
         var invalid = !!states.invalid;
         var disabled = !!states.disabled;
-        
+
         if (focused && invalid && !disabled) {
           decorator = "input-focused-invalid";
         } else if (focused && !invalid && !disabled) {
@@ -822,7 +822,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         } else {
           decorator = "input";
         }
-                
+
         return {
           backgroundColor : "background-light",
           decorator : decorator
@@ -1516,7 +1516,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-    
+
     "tooltip-error/atom" : "atom",
 
     /*
@@ -1777,7 +1777,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       include : "button-frame",
 
       style : function(states)
-      {    
+      {
         return {
           padding : [ 2, 8 ]
         };
@@ -1794,7 +1794,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "selectbox/arrow" :
     {
       include : "image",
-      
+
       style : function(states)
       {
         return {
@@ -1819,11 +1819,11 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         var decorator;
-        
+
         var focused = !!states.focused;
         var invalid = !!states.invalid;
         var disabled = !!states.disabled;
-        
+
         if (focused && invalid && !disabled) {
           decorator = "input-focused-invalid";
         } else if (focused && !invalid && !disabled) {
@@ -1835,7 +1835,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         } else {
           decorator = "input";
         }
-                
+
         return {
           padding : 2,
           decorator : decorator,
@@ -1901,7 +1901,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          textColor: states.disabled ? "text-disabled" : undefined,          
+          textColor: states.disabled ? "text-disabled" : undefined,
           marginTop : 2
         };
       }
@@ -1963,11 +1963,11 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         var decorator;
-        
+
         var focused = !!states.focused;
         var invalid = !!states.invalid;
         var disabled = !!states.disabled;
-        
+
         if (focused && invalid && !disabled) {
           decorator = "input-focused-invalid";
         } else if (focused && !invalid && !disabled) {
@@ -1979,7 +1979,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         } else {
           decorator = "input";
         }
-                
+
         return {
           decorator : decorator
         };
@@ -2652,7 +2652,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "virtual-list" : "list",
     "virtual-list/row-layer" : "row-layer",
 
-    "row-layer" : 
+    "row-layer" :
     {
       style : function(states)
       {
@@ -2662,7 +2662,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         }
       }
     },
-    
+
     "column-layer" : "widget",
 
     "cell" :
@@ -2689,7 +2689,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
     "cell-image" : "cell",
-    "cell-boolean" : 
+    "cell-boolean" :
     {
       include : "cell",
       style : function(states)

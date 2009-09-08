@@ -19,10 +19,10 @@
    ======================================================================
 
      This class uses documentation of the native String methods from the MDC
-     documentation of Mozilla. 
+     documentation of Mozilla.
 
      License:
-       CC Attribution-Sharealike License: 
+       CC Attribution-Sharealike License:
        http://creativecommons.org/licenses/by-sa/2.5/
 
 ************************************************************************ */
@@ -43,7 +43,7 @@ qx.Class.define("qx.type.BaseString",
   construct : function(txt)
   {
     var txt = txt || "";
-    
+
     // no base call needed
 
     this.__txt = txt;
@@ -59,26 +59,26 @@ qx.Class.define("qx.type.BaseString",
 
     /**
      * Returns a string representing the specified object.
-     * 
+     *
      * The valueOf method of String returns the primitive value of a String
      * object as a string data type.
      * This method is usually called internally by JavaScript and not
      * explicitly in code.
-     * 
+     *
      * @signature function()
      * @return {String} A new string containing the string value.
      */
     toString : function() {
       return this.__txt;
     },
-    
-  
+
+
     /**
      *  Returns the specified character from a string.
-     * 
-     * Characters in a string are indexed from left to right. The index of the 
-     * first character is 0, and the index of the last character in a string 
-     * called stringName is stringName.length - 1. If the index you supply is 
+     *
+     * Characters in a string are indexed from left to right. The index of the
+     * first character is 0, and the index of the last character in a string
+     * called stringName is stringName.length - 1. If the index you supply is
      * out of range, JavaScript returns an empty string.
      *
      * @signature function(index)
@@ -90,12 +90,12 @@ qx.Class.define("qx.type.BaseString",
 
      /**
       * Returns the primitive value of a String object.
-      * 
+      *
       * The valueOf method of String returns the primitive value of a String
       * object as a string data type.
       * This method is usually called internally by JavaScript and not
       * explicitly in code.
-      * 
+      *
       * @signature function()
       * @return {String} A new string containing the primitive value.
       */
@@ -125,14 +125,14 @@ qx.Class.define("qx.type.BaseString",
 
 
     /**
-     * Returns the index within the calling String object of the first 
-     * occurrence of the specified value, starting the search at fromIndex, 
+     * Returns the index within the calling String object of the first
+     * occurrence of the specified value, starting the search at fromIndex,
      * returns -1 if the value is not found.
      *
      * @signature function(index, offset)
      * @param index {String} A string representing the value to search for.
      * @param offset {Integer?0} The location within the calling string to start
-     *   the search from. It can be any integer between 0 and the length of the 
+     *   the search from. It can be any integer between 0 and the length of the
      *   string. The default value is 0.
      * @return {Integer} The index or -1.
      */
@@ -141,13 +141,13 @@ qx.Class.define("qx.type.BaseString",
 
     /**
      * Returns the index within the calling String object of the last occurrence
-     * of the specified value, or -1 if not found. The calling string is 
+     * of the specified value, or -1 if not found. The calling string is
      * searched backward, starting at fromIndex.
-     * 
+     *
      * @signature function(index, offset)
      * @param index {String} A string representing the value to search for.
      * @param offset {Integer?0} The location within the calling string to start
-     *   the search from, indexed from left to right. It can be any integer 
+     *   the search from, indexed from left to right. It can be any integer
      *   between 0 and the length of the string. The default value is the length
      *    of the string.
      * @return {Integer} The index or -1.
@@ -155,13 +155,13 @@ qx.Class.define("qx.type.BaseString",
     lastIndexOf : null,
 
     /**
-     * Used to retrieve the matches when matching a string against a regular 
+     * Used to retrieve the matches when matching a string against a regular
      * expression.
-     * 
-     * If the regular expression does not include the g flag, returns the same 
-     * result as regexp.exec(string). If the regular expression includes the g 
+     *
+     * If the regular expression does not include the g flag, returns the same
+     * result as regexp.exec(string). If the regular expression includes the g
      * flag, the method returns an Array containing all matches.
-     * 
+     *
      * @signature function(regexp)
      * @param regexp {Object} A regular expression object. If a non-RegExp object
      *  obj is passed, it is implicitly converted to a RegExp by using
@@ -176,8 +176,8 @@ qx.Class.define("qx.type.BaseString",
      * matched substring with a new substring.
      *
      * @signature function(regexp, aFunction)
-     * @param regexp {Object} A RegExp object. The match is replaced by the 
-     *   return value of parameter #2. Or a String that is to be replaced by 
+     * @param regexp {Object} A RegExp object. The match is replaced by the
+     *   return value of parameter #2. Or a String that is to be replaced by
      *   newSubStr.
      * @param aFunction {Function} A function to be invoked to create the new
      *   substring (to put in place of the substring received from parameter
@@ -190,10 +190,10 @@ qx.Class.define("qx.type.BaseString",
     /**
      * Executes the search for a match between a regular expression and this
      * String object.
-     * 
+     *
      * If successful, search returns the index of the regular expression inside
      * the string. Otherwise, it returns -1.
-     * 
+     *
      * @signature function(regexp)
      * @param regexp {Object} A regular expression object. If a non-RegExp object
      *  obj is passed, it is implicitly converted to a RegExp by using
@@ -202,15 +202,15 @@ qx.Class.define("qx.type.BaseString",
      *   matches.
      */
     search : null,
-    
+
     /**
      * Extracts a section of a string and returns a new string.
-     * 
+     *
      * Slice extracts the text from one string and returns a new string. Changes
      * to the text in one string do not affect the other string.
-     * As a negative index, endSlice indicates an offset from the end of the 
+     * As a negative index, endSlice indicates an offset from the end of the
      * string.
-     * 
+     *
      * @signature function(beginslice, endSlice)
      * @param beginslice {Integer} The zero-based index at which to begin
      *   extraction.
@@ -223,18 +223,18 @@ qx.Class.define("qx.type.BaseString",
     /**
      * Splits a String object into an array of strings by separating the string
      * into substrings.
-     * 
+     *
      * When found, separator is removed from the string and the substrings are
      * returned in an array. If separator is omitted, the array contains one
      * element consisting of the entire string.
-     * 
+     *
      * If separator is a regular expression that contains capturing parentheses,
      * then each time separator is matched the results (including any undefined
      * results) of the capturing parentheses are spliced into the output array.
      * However, not all browsers support this capability.
-     * 
+     *
      * Note: When the string is empty, split returns an array containing one
-     * 
+     *
      * @signature function(separator, limit)
      * @param separator {String?null} Specifies the character to use for
      *   separating the string. The separator is treated as a string or a regular
@@ -249,15 +249,15 @@ qx.Class.define("qx.type.BaseString",
    /**
     * Returns the characters in a string beginning at the specified location
     * through the specified number of characters.
-    * 
-    * Start is a character index. The index of the first character is 0, and the 
+    *
+    * Start is a character index. The index of the first character is 0, and the
     * index of the last character is 1 less than the length of the string. substr
     *  begins extracting characters at start and collects length characters
     * (unless it reaches the end of the string first, in which case it will
     * return fewer).
     * If start is positive and is greater than or equal to the length of the
     * string, substr returns an empty string.
-    * 
+    *
     * @signature function(start, length)
     * @param start {Integer} Location at which to begin extracting characters
     *   (an integer between 0 and one less than the length of the string).
@@ -268,7 +268,7 @@ qx.Class.define("qx.type.BaseString",
 
     /**
      * Returns a subset of a String object.
-     * 
+     *
      * substring extracts characters from indexA up to but not including indexB.
      * In particular:
      * If indexA equals indexB, substring returns an empty string.
@@ -278,9 +278,9 @@ qx.Class.define("qx.type.BaseString",
      * 0.
      * If either argument is greater than stringName.length, it is treated as if
      * it were stringName.length.
-     * If indexA is larger than indexB, then the effect of substring is as if 
+     * If indexA is larger than indexB, then the effect of substring is as if
      * the two arguments were swapped; for example, str.substring(1, 0) == str.substring(0, 1).
-     * 
+     *
      * @signature function(indexA, indexB)
      * @param indexA {Integer} An integer between 0 and one less than the
      *   length of the string.
@@ -294,7 +294,7 @@ qx.Class.define("qx.type.BaseString",
      * Returns the calling string value converted to lowercase.
      * The toLowerCase method returns the value of the string converted to
      * lowercase. toLowerCase does not affect the value of the string itself.
-     * 
+     *
      * @signature function()
      * @return {String} The new string.
      */
@@ -304,7 +304,7 @@ qx.Class.define("qx.type.BaseString",
      * Returns the calling string value converted to uppercase.
      * The toUpperCase method returns the value of the string converted to
      * uppercase. toUpperCase does not affect the value of the string itself.
-     * 
+     *
      * @signature function()
      * @return {String} The new string.
      */
@@ -324,10 +324,10 @@ qx.Class.define("qx.type.BaseString",
    /**
     * The characters within a string are converted to lower case while
     * respecting the current locale.
-    * 
+    *
     * The toLowerCase method returns the value of the string converted to
     * lowercase. toLowerCase does not affect the value of the string itself.
-    * 
+    *
     * @signature function()
     * @return {String} The new string.
     */
@@ -338,7 +338,7 @@ qx.Class.define("qx.type.BaseString",
     * respecting the current locale.
     * The toUpperCase method returns the value of the string converted to
     * uppercase. toUpperCase does not affect the value of the string itself.
-    * 
+    *
     * @signature function()
     * @return {String} The new string.
     */
@@ -389,14 +389,14 @@ qx.Class.define("qx.type.BaseString",
        'toLocaleLowerCase',
        'toLocaleUpperCase'
      ];
-     
+
 
 
      members.valueOf = members.toString;
      for (var i=0, l=mappedFunctions.length; i<l; i++) {
        members[mappedFunctions[i]] = String.prototype[mappedFunctions[i]];
      }
-     
+
    }
 
 });

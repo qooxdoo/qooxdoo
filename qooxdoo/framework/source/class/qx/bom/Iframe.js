@@ -144,12 +144,12 @@ qx.Class.define("qx.bom.Iframe",
      */
     getBody : function(iframe)
     {
-      try 
+      try
       {
         var doc = this.getDocument(iframe);
         return doc ? doc.getElementsByTagName("body")[0] : null;
       }
-      catch(ex) 
+      catch(ex)
       {
         return null
       }
@@ -168,8 +168,8 @@ qx.Class.define("qx.bom.Iframe",
       try
       {
         // the guru says ...
-        // it is better to use 'replace' than 'src'-attribute, since 'replace' 
-        // does not interfere with the history (which is taken care of by the 
+        // it is better to use 'replace' than 'src'-attribute, since 'replace'
+        // does not interfere with the history (which is taken care of by the
         // history manager), but there has to be a loaded document
         if (this.getWindow(iframe) && qx.dom.Hierarchy.isRendered(iframe))
         {
@@ -180,9 +180,9 @@ qx.Class.define("qx.bom.Iframe",
           */
           try
           {
-            // Webkit on Mac can't set the source when the iframe is still 
+            // Webkit on Mac can't set the source when the iframe is still
             // loading its current page
-            if (qx.core.Variant.isSet("qx.client", "webkit") && 
+            if (qx.core.Variant.isSet("qx.client", "webkit") &&
                 qx.bom.client.Platform.MAC)
             {
               var contentWindow = this.getContentWindow();

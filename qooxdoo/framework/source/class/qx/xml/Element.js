@@ -24,12 +24,12 @@
  *
  * http://msdn.microsoft.com/library/default.asp?url=/library/en-us/xmlsdk/html/81f3de54-3b79-46dc-8e01-73ca2d94cdb5.asp
  * http://developer.mozilla.org/en/docs/Parsing_and_serializing_XML
- * 
+ *
  * Please note that nodes selected using the <code>selectSingleNode()</code> and
- * <code>selectNodes()</code> methods remain in their document context so 
- * <code>qx.xml.Element.selectNodes(foo, "//bar");</code> 
- * will search the entire document for any nodes named "bar", not just the 
- * <code>foo</code> node.  
+ * <code>selectNodes()</code> methods remain in their document context so
+ * <code>qx.xml.Element.selectNodes(foo, "//bar");</code>
+ * will search the entire document for any nodes named "bar", not just the
+ * <code>foo</code> node.
  */
 qx.Class.define("qx.xml.Element",
 {
@@ -58,12 +58,12 @@ qx.Class.define("qx.xml.Element",
     /**
      * Selects the first XmlNode that matches the XPath expression.
      *
-     * <p>Note: XPath queries containing namespace prefixes won't work in 
-     * Chromium-based browsers until Chromium bug #671[1] is fixed. Opera 
+     * <p>Note: XPath queries containing namespace prefixes won't work in
+     * Chromium-based browsers until Chromium bug #671[1] is fixed. Opera
      * versions < 9.52 do not seem to support namespaces in XPath queries at
      * all.</p>
-     * 
-     * [1]http://code.google.com/p/chromium/issues/detail?id=671     
+     *
+     * [1]http://code.google.com/p/chromium/issues/detail?id=671
      *
      * @param element {Element | Document} root element for the search
      * @param query {String} XPath query
@@ -103,7 +103,7 @@ qx.Class.define("qx.xml.Element",
         var xpe = this.__xpe;
 
         var resolver;
-        
+
         if(namespaces) {
           resolver = function(prefix){
             return namespaces[prefix] || null;
@@ -125,16 +125,16 @@ qx.Class.define("qx.xml.Element",
     /**
      * Selects a list of nodes matching the XPath expression.
      *
-     * <p>Note: XPath queries containing namespace prefixes won't work in 
-     * Chromium-based browsers until Chromium bug #671[1] is fixed. Opera 
+     * <p>Note: XPath queries containing namespace prefixes won't work in
+     * Chromium-based browsers until Chromium bug #671[1] is fixed. Opera
      * versions < 9.52 do not seem to support namespaces in XPath queries at
      * all.</p>
-     * 
+     *
      * [1]http://code.google.com/p/chromium/issues/detail?id=671
      *
      * @param element {Element | Document} root element for the search
      * @param query {String} XPath query
-     * @param namespaces {Map} optional map of prefixes and their namespace URIs 
+     * @param namespaces {Map} optional map of prefixes and their namespace URIs
      * @return {Element[]} List of matching elements
      * @signature function(element, query, namespaces)
      */
@@ -170,7 +170,7 @@ qx.Class.define("qx.xml.Element",
         }
 
         var resolver;
-        
+
         if(namespaces) {
           resolver = function(prefix){
             return namespaces[prefix] || null;

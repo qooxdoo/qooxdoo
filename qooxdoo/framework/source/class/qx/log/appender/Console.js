@@ -219,19 +219,19 @@ qx.Class.define("qx.log.appender.Console",
       }
     },
 
-    
+
     /**
      * Shows the console.
-     * 
+     *
      * @return {void}
      */
-    show : function() 
+    show : function()
     {
       if (!this.__main) {
         this.init();
       } else {
         this.__main.style.display = "block";
-        this.__log.scrollTop = this.__log.scrollHeight;        
+        this.__log.scrollTop = this.__log.scrollHeight;
       }
     },
 

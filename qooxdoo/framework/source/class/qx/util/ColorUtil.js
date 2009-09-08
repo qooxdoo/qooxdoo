@@ -371,7 +371,7 @@ qx.Class.define("qx.util.ColorUtil",
       var red = parseInt(RegExp.$1, 10);
       var green = parseInt(RegExp.$2, 10);
       var blue = parseInt(RegExp.$3, 10);
-    
+
       return [red, green, blue];
     },
 

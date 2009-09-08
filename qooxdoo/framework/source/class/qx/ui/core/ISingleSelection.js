@@ -30,7 +30,7 @@ qx.Interface.define("qx.ui.core.ISingleSelection",
   *****************************************************************************
   */
 
-  
+
   events :
   {
     /** Fires after the selection was modified */
@@ -44,7 +44,7 @@ qx.Interface.define("qx.ui.core.ISingleSelection",
   *****************************************************************************
   */
 
-  
+
   members :
   {
     /**
@@ -55,7 +55,7 @@ qx.Interface.define("qx.ui.core.ISingleSelection",
     getSelection : function() {
       return true;
     },
-    
+
     /**
      * Replaces current selection with the given items.
      *
@@ -65,14 +65,14 @@ qx.Interface.define("qx.ui.core.ISingleSelection",
     setSelection : function(items) {
       return arguments.length == 1;
     },
-    
+
     /**
      * Clears the whole selection at once.
      */
     resetSelection : function() {
       return true;
     },
-    
+
     /**
      * Detects whether the given item is currently selected.
      *
@@ -83,7 +83,7 @@ qx.Interface.define("qx.ui.core.ISingleSelection",
     isSelected : function(item) {
       return arguments.length == 1;
     },
-    
+
     /**
      * Whether the selection is empty.
      *
@@ -92,10 +92,10 @@ qx.Interface.define("qx.ui.core.ISingleSelection",
     isSelectionEmpty : function() {
       return true;
     },
-    
+
     /**
      * Returns all elements which are selectable.
-     * 
+     *
      * @return {qx.ui.core.Widget[]} The contained items.
      */
     getSelectables: function() {

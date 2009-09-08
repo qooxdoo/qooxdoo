@@ -99,7 +99,7 @@ qx.Class.define("qx.ui.menubar.Button",
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee, "Please use 'getMenuBar' to access the connected menubar widget"
       );
-    
+
       var parent = this;
       while (parent)
       {
@@ -112,8 +112,8 @@ qx.Class.define("qx.ui.menubar.Button",
 
       return null;
     },
-    
-    
+
+
     /**
      * Inspects the parent chain to find the MenuBar
      *
@@ -124,7 +124,7 @@ qx.Class.define("qx.ui.menubar.Button",
       var parent = this;
       while (parent)
       {
-        /* this method is also used by toolbar.MenuButton, so we need to check 
+        /* this method is also used by toolbar.MenuButton, so we need to check
            for a ToolBar instance. */
         if (parent instanceof qx.ui.toolbar.ToolBar) {
           return parent;

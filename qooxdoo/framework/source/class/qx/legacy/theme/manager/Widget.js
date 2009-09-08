@@ -72,7 +72,7 @@ qx.Class.define("qx.legacy.theme.manager.Widget",
     {
       var value = this.getWidgetTheme();
       var aliasManager = qx.legacy.util.AliasManager.getInstance();
-      
+
       if (value) {
         aliasManager.add("widget", value.resource);
       } else {
@@ -83,7 +83,7 @@ qx.Class.define("qx.legacy.theme.manager.Widget",
       {
         for (var alias in value.aliases) {
           aliasManager.add(alias, value.aliases[alias]);
-        }        
+        }
       }
     }
   }

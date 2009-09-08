@@ -28,8 +28,8 @@
 qx.Class.define("qx.io2.ScriptLoader",
 {
   extend : qx.core.Object,
-  
-    
+
+
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -39,7 +39,7 @@ qx.Class.define("qx.io2.ScriptLoader",
   construct : function()
   {
     this.base(arguments);
-    
+
     this.__oneventWrapped = qx.lang.Function.bind(this.__onevent, this);
     this.__elem = document.createElement("script");
   },
@@ -57,16 +57,16 @@ qx.Class.define("qx.io2.ScriptLoader",
   {
     /** {Boolean} Whether the request is running */
     __running : null,
-    
+
     /** {Function} Callback method to execute */
     __callback : null,
-    
+
     /** {Object} Context to execute the callback in */
     __context : null,
-    
+
     /** {Function} This function is a wrapper for the DOM listener */
     __oneventWrapped : null,
-    
+
     /** {Element} Stores the DOM element of the script tag */
     __elem : null,
 
@@ -190,16 +190,16 @@ qx.Class.define("qx.io2.ScriptLoader",
       }
     }))
   },
-  
-  
-  
-  
+
+
+
+
   /*
   *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
   */
-    
+
   destruct : function() {
     this._disposeFields("__elem", "__oneventWrapped", "__callback", "__context");
   }

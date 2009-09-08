@@ -138,7 +138,7 @@ qx.Class.define("qx.legacy.ui.embed.Future",
      *
      * @param width {Integer} new width
      */
-    _setPaneWidth : function(width) 
+    _setPaneWidth : function(width)
     {
        if (this._root) {
          this._root.setWidth(width);
@@ -151,7 +151,7 @@ qx.Class.define("qx.legacy.ui.embed.Future",
      *
      * @param height {Integer} new height
      */
-    _setPaneHeight : function(height) 
+    _setPaneHeight : function(height)
     {
        if (this._root) {
          this._root.setHeight(height);

@@ -86,25 +86,25 @@ qx.Class.define("qx.test.lang.Function",
       this.assertEquals(context, this);
       this.assertEquals(5, result);
     },
-    
-    
+
+
     testBindWithDisposedContext : function()
     {
       if (!this.isDebugOn()) {
         return;
-      }  
-      
+      }
+
       var obj = new qx.core.Object();
       obj.dispose();
       var callback = function() {};
-      
-      var bound = qx.lang.Function.bind(callback, obj);      
+
+      var bound = qx.lang.Function.bind(callback, obj);
       this.assertException(function() {
         bound()
       }, qx.core.AssertionError);
     },
-    
-    
+
+
     testBindWithUndefinedArguments : function()
     {
       var undef;
@@ -114,49 +114,49 @@ qx.Class.define("qx.test.lang.Function",
       var bound = qx.lang.Function.bind(callback, this, undef, true);
       bound();
     },
-    
-    
+
+
     testCreateDelayGlobalError : function()
     {
       var fail = function() {
         throw new Error("fail");
       };
-      
+
       var onError = function() { this.resume(function() {}); };
       qx.event.GlobalError.setErrorHandler(onError, this);
-      
+
       var delayed = qx.lang.Function.create(fail, {
         self: this,
         delay: 20
       });
-      
+
       delayed();
       this.wait(100);
     },
-    
-    
+
+
     testGetName : function()
     {
       qx.Class.define("qx.test.Name",
       {
         extend : qx.core.Object,
         construct : function() {},
-        
+
         properties : {
           prop : {}
         },
-        
+
         statics : {
           foo : function() {}
         },
-        
+
         members : {
           bar : function() {}
         },
-        
+
         destruct : function() {}
       });
-      
+
       var name = new qx.test.Name();
       this.assertEquals("qx.test.Name.constructor()", qx.lang.Function.getName(qx.test.Name));
       this.assertEquals("qx.test.Name.destruct()", qx.lang.Function.getName(qx.test.Name.$$destructor));
@@ -170,13 +170,13 @@ qx.Class.define("qx.test.lang.Function",
       this.assertEquals("qx.test.Name.prototype.bar()", qx.lang.Function.getName(name.bar));
 
       this.assertEquals("anonymous()", qx.lang.Function.getName(function() {}));
-            
+
       function named() {};
       // the variable optimizer renames the "named" function. Only perform this
       // test if variable optimization is off.
       if (named.toString().indexOf("named") !== -1) {
         this.assertEquals("named()", qx.lang.Function.getName(named));
       }
-    }    
+    }
   }
 });

@@ -76,12 +76,12 @@ qx.Class.define("qx.test.lang.String",
 
       this.assert(error);
     },
-    
-    
+
+
     testStartsWith : function()
     {
       var String = qx.lang.String;
-      
+
       this.assertTrue(String.startsWith("123", "1"));
       this.assertTrue(String.startsWith("123", "123"));
       this.assertTrue(String.startsWith("1231", "1"));
@@ -137,14 +137,14 @@ qx.Class.define("qx.test.lang.String",
 
       this.assertEquals('"bread" & "butter"', qx.xml.String.unescape("&quot;bread&quot; &amp; &quot;butter&quot;"));
     },
-    
+
     testClean: function()
     {
       var str = "  a  b\tc\rd\fe\vf\n\ng\nh\ri ";
       var cleanStr = "a b c d e f g h i";
-      // IE sees \v as "v"      
+      // IE sees \v as "v"
       if (qx.bom.client.Engine.MSHTML) {
-        cleanStr = "a b c d evf g h i";  
+        cleanStr = "a b c d evf g h i";
       }
       this.assertEquals(cleanStr, qx.lang.String.clean(str));
     }

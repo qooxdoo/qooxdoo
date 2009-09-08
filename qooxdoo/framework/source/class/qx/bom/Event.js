@@ -177,8 +177,8 @@ qx.Bootstrap.define("qx.bom.Event",
 
       e.cancelBubble = true;
     },
-    
-    
+
+
     /**
      * Fires a synthetic native event on the given element.
      *
@@ -199,7 +199,7 @@ qx.Bootstrap.define("qx.bom.Event",
       {
         var evt = document.createEvent("HTMLEvents");
         evt.initEvent(type, true, true);
-        
+
         return !target.dispatchEvent(evt);
       }
     }

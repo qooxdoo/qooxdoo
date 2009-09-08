@@ -18,19 +18,19 @@
 
 ************************************************************************ */
 /**
- * This class acts as abstract class for all decorators. It offers the 
- * properties for the insets handling. Every decorator has to define its own 
- * default insets by implementing the template method 
+ * This class acts as abstract class for all decorators. It offers the
+ * properties for the insets handling. Every decorator has to define its own
+ * default insets by implementing the template method
  * (http://en.wikipedia.org/wiki/Template_Method) <code>_getDefaultInsets</code>
- * . Another template method called <code>_isInitialized</code> should return 
+ * . Another template method called <code>_isInitialized</code> should return
  * weather the decorator is initialized of not.
  */
-qx.Class.define("qx.ui.decoration.Abstract", 
+qx.Class.define("qx.ui.decoration.Abstract",
 {
   extend: qx.core.Object,
-  implement : [qx.ui.decoration.IDecorator],  
+  implement : [qx.ui.decoration.IDecorator],
   type: "abstract",
-  
+
   properties :
   {
     /** Width of the left inset (keep this margin to the outer box) */
@@ -72,15 +72,15 @@ qx.Class.define("qx.ui.decoration.Abstract",
       mode  : "shorthand"
     }
   },
-  
-  
-  members : 
+
+
+  members :
   {
     __insets : null,
-    
-    
+
+
     /**
-     * Abstract method. Should return a map contraining the default insets of 
+     * Abstract method. Should return a map contraining the default insets of
      * the decorator. This could look like this:
      * <pre>
      * return {
@@ -95,8 +95,8 @@ qx.Class.define("qx.ui.decoration.Abstract",
     _getDefaultInsets : function() {
       throw new Error("Abstract method called.");
     },
-    
-    
+
+
     /**
      * Abstract method. Should return an boolean value if the decorator is
      * already initialized or not.
@@ -113,7 +113,7 @@ qx.Class.define("qx.ui.decoration.Abstract",
     _resetInsets: function() {
       this.__insets = null;
     },
-    
+
 
     // interface implementation
     getInsets : function()
@@ -132,8 +132,8 @@ qx.Class.define("qx.ui.decoration.Abstract",
         top : this.getInsetTop() == null ? defaults.top : this.getInsetTop()
       };
     },
-    
-    
+
+
     // property apply
     _applyInsets : function()
     {

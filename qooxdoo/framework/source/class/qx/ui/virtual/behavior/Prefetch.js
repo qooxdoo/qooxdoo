@@ -38,16 +38,16 @@ qx.Class.define("qx.ui.virtual.behavior.Prefetch",
   )
   {
     this.base(arguments);
-    
+
     this.setPrefetchX(minLeft, maxLeft, minRight, maxRight);
     this.setPrefetchY(minAbove, maxAbove, minBelow, maxBelow);
-    
+
     this.__timer = new qx.event.Timer(this.getInterval());
     this.__timer.addListener("interval", this._onInterval, this);
-    
+
     if (scroller) {
       this.setScroller(scroller);
-    }    
+    }
   },
 
 
@@ -66,7 +66,7 @@ qx.Class.define("qx.ui.virtual.behavior.Prefetch",
        init : null,
        apply : "_applyScroller"
      },
-     
+
      interval :
      {
        check : "Integer",
@@ -74,8 +74,8 @@ qx.Class.define("qx.ui.virtual.behavior.Prefetch",
        apply : "_applyInterval"
      }
    },
-   
-   
+
+
   /*
   *****************************************************************************
      MEMBERS
@@ -94,13 +94,13 @@ qx.Class.define("qx.ui.virtual.behavior.Prefetch",
      setPrefetchX : function(minLeft, maxLeft, minRight, maxRight) {
        this.__prefetchX = [minLeft, maxLeft, minRight, maxRight];
      },
-     
-     
+
+
      setPrefetchY : function(minAbove, maxAbove, minBelow, maxBelow) {
        this.__prefetchY = [minAbove, maxAbove, minBelow, maxBelow];
      },
-     
-     
+
+
      _onInterval : function()
      {
        var px = this.__prefetchX;
@@ -111,14 +111,14 @@ qx.Class.define("qx.ui.virtual.behavior.Prefetch",
        }
 
        var py = this.__prefetchY;
-       if (py[1] && py[3]) 
+       if (py[1] && py[3])
        {
          this.getScroller().getPane().prefetchY(py[0], py[1], py[2], py[3]);
          qx.ui.core.queue.Manager.flush();
        }
      },
-     
-     
+
+
     _applyScroller : function(value, old)
     {
       if (old)
@@ -128,12 +128,12 @@ qx.Class.define("qx.ui.virtual.behavior.Prefetch",
         }
         if (this.__onScrollYId) {
           old.getChildControl("scrollbar-y").removeListenerById(this.__onScrollYId);
-        }        
+        }
       }
-      
+
       if (value)
       {
-        if (!value.getContainerElement().getDomElement()) 
+        if (!value.getContainerElement().getDomElement())
         {
           this.__timer.stop();
           value.addListenerOnce("appear", this.__timer.start, this.__timer);
@@ -142,8 +142,8 @@ qx.Class.define("qx.ui.virtual.behavior.Prefetch",
         {
           this.__timer.restart();
         }
-        
-//        if (value.hasChildControl("scrollbar-x")) 
+
+//        if (value.hasChildControl("scrollbar-x"))
 //        {
           this.__onScrollXId = value.getChildControl("scrollbar-x").addListener(
             "scroll",
@@ -151,7 +151,7 @@ qx.Class.define("qx.ui.virtual.behavior.Prefetch",
             this.__timer
           );
 //        }
-//        if (value.hasChildControl("scrollbar-y")) 
+//        if (value.hasChildControl("scrollbar-y"))
 //        {
           this.__onScrollYId = value.getChildControl("scrollbar-y").addListener(
             "scroll",
@@ -159,20 +159,20 @@ qx.Class.define("qx.ui.virtual.behavior.Prefetch",
             this.__timer
           );
 //        }
-        
+
       }
       else
       {
         this.__timer.stop();
       }
     },
-   
-    
+
+
     _applyInterval : function(value, old) {
       this.__timer.setInterval(value);
     }
   },
-  
+
   /*
    *****************************************************************************
       DESTRUCT

@@ -20,8 +20,8 @@
 qx.Class.define("qx.test.log.Util",
 {
   extend : qx.dev.unit.TestCase,
-  
-  members : 
+
+  members :
   {
     testToTextWithObject : function()
     {
@@ -36,15 +36,15 @@ qx.Class.define("qx.test.log.Util",
         win: window,
         object: obj.$$hash
       };
-      
+
       var text = qx.log.appender.Util.toText(entry);
       this.assertEquals(
         "000900 qx.core.Object[" + obj.$$hash + "]:",
         text
       )
     },
-    
-    
+
+
     testToTextWithClass : function()
     {
       var time = new Date(1000);
@@ -57,13 +57,13 @@ qx.Class.define("qx.test.log.Util",
         win: window,
         clazz: qx.core.Object
       };
-      
+
       var text = qx.log.appender.Util.toText(entry);
       this.assertEquals(
         "000900 qx.core.Object:",
         text
       )
     }
-    
+
   }
 })

@@ -20,7 +20,7 @@
 qx.Class.define("qx.test.ui.virtual.performance.layer.DomCell",
 {
   extend : qx.ui.virtual.layer.Abstract,
-  
+
   /*
   *****************************************************************************
      MEMBERS
@@ -33,17 +33,17 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.DomCell",
     {
       var el = this.getContainerElement().getDomElement();
       el.innerHTML = "";
-      
+
       var Style = qx.bom.element.Style;
       var Attribute = qx.bom.element.Attribute;
-        
+
       var left = 0;
       var top = 0;
       var row = firstRow;
       var col = firstColumn;
-      
+
       var fragment = document.createDocumentFragment();
-      
+
       for (var x=0; x<rowSizes.length; x++)
       {
         var left = 0;
@@ -59,7 +59,7 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.DomCell",
             "width:", columnSizes[y], "px;",
             "height:", rowSizes[x], "px;"
           ].join(""));
-          
+
           Attribute.set(cell, "text", content);
           left += columnSizes[y];
           fragment.appendChild(cell);
@@ -67,7 +67,7 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.DomCell",
         top += rowSizes[x];
         row++;
       }
-      
+
       el.appendChild(fragment);
     }
   }

@@ -20,13 +20,13 @@
 qx.Class.define("qx.test.ui.virtual.performance.layer.DomPoolCell",
 {
   extend : qx.ui.virtual.layer.Abstract,
-  
-  construct : function() 
+
+  construct : function()
   {
     this.base(arguments);
     this._nodePool = [];
   },
-  
+
   /*
   *****************************************************************************
      MEMBERS
@@ -36,9 +36,9 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.DomPoolCell",
   members :
   {
     _nodePool: null,
-  
+
     _fullUpdate : function(
-      firstRow, firstColumn,  
+      firstRow, firstColumn,
       rowSizes, columnSizes
     )
     {
@@ -51,10 +51,10 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.DomPoolCell",
       var childNodes = el.childNodes;
       var i=0;
       el.innerHTML = "";
-      
+
       var Style = qx.bom.element.Style;
       var Attribute = qx.bom.element.Attribute;
-        
+
       var left = 0;
       var top = 0;
       var row = firstRow;
@@ -66,12 +66,12 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.DomPoolCell",
         for(var y=0; y<columnSizes.length; y++)
         {
           var content = col + " / " + row;
-          
+
           var cell = childNodes[i++];
           if (!cell) {
             var cell = document.createElement("div");
             var doAppend = true;
-          }          
+          }
 
           Style.setCss(cell, [
             "position:absolute;",
@@ -83,7 +83,7 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.DomPoolCell",
 
           Attribute.set(cell, "text", content);
           left += columnSizes[y];
-          
+
           if (doAppend) {
             el.appendChild(cell);
           }
@@ -91,7 +91,7 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.DomPoolCell",
         top += rowSizes[x];
         row++;
       }
-      
+
       for (var j=i; j<childNodes.length; i++) {
         el.removeChild(childNodes[i]);
       }

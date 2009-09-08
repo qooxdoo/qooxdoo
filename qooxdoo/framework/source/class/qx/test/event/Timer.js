@@ -28,12 +28,12 @@ qx.Class.define("qx.test.event.Timer",
       var fail = function() {
         throw new Error("fail");
       };
-      
+
       var onError = function() { this.resume(function() {}); };
       qx.event.GlobalError.setErrorHandler(onError, this);
-      
+
       qx.event.Timer.once(fail, this, 0);
       this.wait(100);
-    }    
+    }
   }
 });

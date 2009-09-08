@@ -20,11 +20,11 @@
 /**
  * Mixin handling the valid and required properties for the form widgets.
  */
-qx.Mixin.define("qx.ui.form.MForm", 
+qx.Mixin.define("qx.ui.form.MForm",
 {
-  
+
   properties : {
-    
+
     /**
      * Flag signaling if a widget is valid. If a widget is invalid, an invalid
      * state will be set.
@@ -35,8 +35,8 @@ qx.Mixin.define("qx.ui.form.MForm",
       apply : "_applyValid",
       event : "changeValid"
     },
-    
-    
+
+
     /**
      * Flag signaling if a widget is required.
      */
@@ -45,8 +45,8 @@ qx.Mixin.define("qx.ui.form.MForm",
       init : false,
       event : "changeRequired"
     },
-    
-    
+
+
     /**
      * Message which is shown in an invalid tooltip.
      */
@@ -56,8 +56,8 @@ qx.Mixin.define("qx.ui.form.MForm",
       event : "changeInvalidMessage"
     }
   },
-  
-  members : {  
+
+  members : {
     // apply method
     _applyValid: function(value, old) {
       value ? this.removeState("invalid") : this.addState("invalid");

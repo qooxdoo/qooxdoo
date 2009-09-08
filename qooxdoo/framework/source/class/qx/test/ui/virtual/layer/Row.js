@@ -27,13 +27,13 @@ qx.Class.define("qx.test.ui.virtual.layer.Row",
     _createLayer : function() {
       return new qx.ui.virtual.layer.Row("red", "green");
     },
-       
-    _assertCells : function(firstRow, firstColumn, rowCount, columnCount, msg) 
+
+    _assertCells : function(firstRow, firstColumn, rowCount, columnCount, msg)
     {
       var children = this.layer.getContentElement().getDomElement().childNodes;
-      
+
       this.assertEquals(rowCount, children.length);
-      
+
       for (var i=0; i<rowCount; i++)
       {
         var row = firstRow + i;

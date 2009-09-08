@@ -147,19 +147,19 @@ qx.Class.define("qx.log.appender.Util",
 
       return map[ch] || "?";
     },
-    
-    
+
+
     /**
      * Converts a single log entry to plain text
      *
      * @param entry {Map} The entry to process
      * @return {String} the formatted log entry
-     */    
+     */
     toText : function(entry) {
       return this.toTextArray(entry).join(" ");
     },
-    
-    
+
+
     /**
      * Converts a single log entry to an array of plain text
      *
@@ -210,6 +210,6 @@ qx.Class.define("qx.log.appender.Util",
       }
 
       return output;
-    }    
+    }
   }
 })

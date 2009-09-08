@@ -27,28 +27,28 @@ qx.Class.define("qx.test.lang.Object",
       this.assertNotUndefined(qx.lang.Object);
     },
 
-    
+
     testEmpty : function()
     {
       var object = {a: 1};
       qx.lang.Object.empty(object);
       this.assertTrue(qx.lang.Object.isEmpty(object));
-      
+
       var object = {};
       qx.lang.Object.empty(object);
       this.assertTrue(qx.lang.Object.isEmpty(object));
     },
 
-    
-    testIsEmpty : function() 
+
+    testIsEmpty : function()
     {
       this.assertEquals(true, qx.lang.Object.isEmpty({}));
       this.assertEquals(false, qx.lang.Object.isEmpty({a:undefined}));
       this.assertEquals(false, qx.lang.Object.isEmpty({a:null}));
       this.assertEquals(false, qx.lang.Object.isEmpty({a:1}));
     },
-    
-    
+
+
     testHasMinLength : function()
     {
       var object = {};
@@ -58,13 +58,13 @@ qx.Class.define("qx.test.lang.Object",
       var object = {a: 1};
       this.assertTrue(qx.lang.Object.hasMinLength(object, 1));
       this.assertFalse(qx.lang.Object.hasMinLength(object, 2));
-      
+
       var object = {a:undefined, b: null, c: 1};
       this.assertTrue(qx.lang.Object.hasMinLength(object, 3));
-      this.assertFalse(qx.lang.Object.hasMinLength(object, 4));      
+      this.assertFalse(qx.lang.Object.hasMinLength(object, 4));
     },
-    
-    
+
+
     testGetLength : function()
     {
       var object = {};
@@ -72,12 +72,12 @@ qx.Class.define("qx.test.lang.Object",
 
       var object = {a: 1};
       this.assertEquals(1, qx.lang.Object.getLength(object));
-      
+
       var object = {a:undefined, b: null, c: 1};
       this.assertEquals(3, qx.lang.Object.getLength(object));
-    },    
-    
-    
+    },
+
+
     testGetKeys : function()
     {
       var object = {
@@ -89,13 +89,13 @@ qx.Class.define("qx.test.lang.Object",
         ["a", "b", "c"].sort(),
         qx.lang.Object.getKeys(object).sort()
       );
-      
+
       var object = {}
       this.assertArrayEquals(
         [],
         qx.lang.Object.getKeys(object)
       );
-      
+
       var object = {
         "isPrototypeOf": 1,
         "hasOwnProperty": 1,
@@ -114,9 +114,9 @@ qx.Class.define("qx.test.lang.Object",
         qx.lang.Object.getKeys(object).sort()
       );
     },
-    
-    
-    testGetKeysAsString : function() 
+
+
+    testGetKeysAsString : function()
     {
       var object = {
         a: undefined,
@@ -127,13 +127,13 @@ qx.Class.define("qx.test.lang.Object",
         '"a", "b", "c"',
         qx.lang.Object.getKeysAsString(object)
       );
-      
+
       var object = {}
       this.assertEquals(
         '',
         qx.lang.Object.getKeysAsString(object)
       );
-      
+
       var object = {
         "isPrototypeOf": 1,
         "hasOwnProperty": 1,
@@ -146,8 +146,8 @@ qx.Class.define("qx.test.lang.Object",
         qx.lang.Object.getKeysAsString(object)
       );
     },
-    
-    
+
+
     testGetValues : function()
     {
       var object = {
@@ -159,13 +159,13 @@ qx.Class.define("qx.test.lang.Object",
         [undefined, null, 1].sort(),
         qx.lang.Object.getValues(object).sort()
       );
-      
+
       var object = {}
       this.assertArrayEquals(
         [],
         qx.lang.Object.getValues(object)
       );
-      
+
       var object = {
         "isPrototypeOf": 1,
         "hasOwnProperty": 2,
@@ -178,28 +178,28 @@ qx.Class.define("qx.test.lang.Object",
         qx.lang.Object.getValues(object).sort()
       );
     },
-    
-    
+
+
     testMergeWith : function() {
       this.warn("needs test!");
     },
-    
-    
+
+
     testCarefullyMergeWith : function() {
       this.warn("needs test!");
     },
-    
-    
+
+
     testMerge : function() {
       this.warn("needs test!");
     },
-    
-    
+
+
     testClone : function() {
       this.warn("needs test!");
     },
 
-    
+
     testInvert : function()
     {
       this.assertNotUndefined(qx.lang.Object.invert);
@@ -221,22 +221,22 @@ qx.Class.define("qx.test.lang.Object",
     testGetKeyFromValue : function() {
       this.warn("needs test!");
     },
-    
-    
+
+
     testContains : function() {
       this.warn("needs test!");
     },
-    
-    
+
+
     testSelect : function() {
       this.warn("needs test!");
     },
-    
-    
+
+
     testFromArray : function() {
       this.warn("needs test!");
     },
-    
+
     /**
      * Some behavior, which must be consistent in all browsers for some
      * assertions to work.

@@ -173,13 +173,13 @@ qx.Class.define("qx.bom.element.Location",
         // Start with the offset
         var left = body.offsetLeft;
         var top = body.offsetTop;
-        
+
         // only for safari < version 4.0
         if (qx.bom.client.Engine.VERSION < 530.17)
         {
           left += this.__num(body, "borderLeftWidth");
           top += this.__num(body, "borderTopWidth");
-        }        
+        }
 
         return {
           left : left,
@@ -487,8 +487,8 @@ qx.Class.define("qx.bom.element.Location",
         bottom : bottom
       };
     },
-    
-    
+
+
     /**
      * Get the location of the body element relative to the document.
      * @param body {Element} The body element.
@@ -501,8 +501,8 @@ qx.Class.define("qx.bom.element.Location",
         var left = body.offsetLeft + this.__num(body, "marginLeft");
         return {left: left, top: top};
       },
-      
-      "mshtml" : function(body) 
+
+      "mshtml" : function(body)
       {
         var top = body.offsetTop;
         var left = body.offsetLeft;
@@ -513,21 +513,21 @@ qx.Class.define("qx.bom.element.Location",
           left += this.__num(body, "marginLeft");
         }
 
-        return {left: left, top: top};        
+        return {left: left, top: top};
       },
-      
+
       "gecko" : function(body)
       {
-        var top = 
-          body.offsetTop + 
+        var top =
+          body.offsetTop +
           this.__num(body, "marginTop") +
           this.__num(body, "borderLeftWidth");
-          
-        var left = 
-          body.offsetLeft + 
-          this.__num(body, "marginLeft") + 
+
+        var left =
+          body.offsetLeft +
+          this.__num(body, "marginLeft") +
           this.__num(body, "borderTopWidth");
-        
+
         return {left: left, top: top};
       }
     }),
@@ -616,35 +616,35 @@ qx.Class.define("qx.bom.element.Location",
         bottom : loc1.bottom - loc2.bottom
       };
     },
-    
-    
+
+
     /**
      * Returns the distance between the given element to its offset parent.
      *
      * @param elem {Element} DOM element to query
      * @return {Map} Returns a map with <code>left</code> and <code>top</code>
      *   which contains the distance of the elements from each other.
-     */    
+     */
     getPosition: function(elem) {
       return this.getRelative(elem, this.getOffsetParent(elem));
-    },    
-    
-    
-    /** 
+    },
+
+
+    /**
      * Detects the offset parent of the given element
      *
      * @param element {Element} Element to query for offset parent
      * @return {Element} Detected offset parent
      */
-    getOffsetParent : function(element) 
+    getOffsetParent : function(element)
     {
       var offsetParent = element.offsetParent || document.body;
       var Style = qx.bom.element.Style;
-      
+
       while (offsetParent && (!/^body|html$/i.test(offsetParent.tagName) && Style.get(offsetParent, "position") === "static")) {
         offsetParent = offsetParent.offsetParent;
       }
-        
+
       return offsetParent;
     }
   }

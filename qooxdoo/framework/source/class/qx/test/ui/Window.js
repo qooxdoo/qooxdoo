@@ -23,13 +23,13 @@ qx.Class.define("qx.test.ui.Window",
   members :
   {
     _win : null,
-    
+
     setUp : function()
     {
       this.base(arguments);
-      
+
       this._win = [];
-      
+
       for (var i = 0; i < 5; i++) {
         var win = new qx.ui.window.Window("My Window " + i);
         this._win.push(win);
@@ -41,45 +41,45 @@ qx.Class.define("qx.test.ui.Window",
     tearDown : function()
     {
       this.base(arguments);
-      
+
       this._disposeArray("_win");
     },
-    
-    testActiveWindowBeforeWindowOpened : function() 
+
+    testActiveWindowBeforeWindowOpened : function()
     {
       this.assertNull(this.getRoot().getActiveWindow());
     },
-    
+
     testActiveWindowAfterWindowOpened : function()
     {
       this._win[0].open();
       this.flush();
-      
+
       this.assertIdentical(this._win[0], this.getRoot().getActiveWindow());
     },
-    
+
     testActiveWindowAfterWindowClosed : function()
     {
       this._win[0].open();
       this.flush();
-      
+
       this._win[0].close();
       this.flush();
-      
+
       this.assertNull(this.getRoot().getActiveWindow());
     },
-    
+
     testActiveWindowAfterAllWindowsOpened : function()
     {
       for (var i = 0; i < this._win.length; i++) {
         this._win[i].open();
       }
       this.flush();
-      
+
       this.assertIdentical(this._win[this._win.length - 1],
         this.getRoot().getActiveWindow());
     },
-    
+
     testActiveWindowAfterRemovingOpenedWindow : function()
     {
       this._win[0].open();
@@ -87,20 +87,20 @@ qx.Class.define("qx.test.ui.Window",
 
       this.getRoot().remove(this._win[0]);
       this.flush();
-      
+
       this.assertNull(this.getRoot().getActiveWindow());
     },
-    
+
     testActiveWindowAfterRemovingAllWindows : function()
     {
        for (var i = 0; i < this._win.length; i++) {
         this._win[i].open();
       }
       this.flush();
-      
+
       this.getRoot().removeAll();
       this.flush();
-      
+
       this.assertNull(this.getRoot().getActiveWindow());
     }
   }

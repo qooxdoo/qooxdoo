@@ -58,9 +58,9 @@ qx.Bootstrap.define("qx.lang.Function",
          arguments.callee, "Use qx.lang.Type.isFunction() instead!"
        );
        return qx.lang.Type.isFunction(obj);
-     },    
-    
-    
+     },
+
+
     /**
      * Extract the caller of a function from the arguments variable.
      * This will not work in Opera.
@@ -86,7 +86,7 @@ qx.Bootstrap.define("qx.lang.Function",
       if (fcn.displayName) {
         return fcn.displayName;
       }
-      
+
       if (fcn.$$original || fcn.wrapper || fcn.classname) {
         return fcn.classname + ".constructor()";
       }
@@ -136,7 +136,7 @@ qx.Bootstrap.define("qx.lang.Function",
       if (fcnReResult && fcnReResult.length >= 1 && fcnReResult[1]) {
         return fcnReResult[1] + "()";
       }
-      
+
       return 'anonymous()';
     },
 
@@ -163,8 +163,8 @@ qx.Bootstrap.define("qx.lang.Function",
      * empty function
      */
     empty : function() {},
-    
-    
+
+
     /**
      * Simply return true.
      *
@@ -255,17 +255,17 @@ qx.Bootstrap.define("qx.lang.Function",
 
       return function(event)
       {
-        if (qx.core.Variant.isSet("qx.debug", "on")) 
+        if (qx.core.Variant.isSet("qx.debug", "on"))
         {
-          if (options.self instanceof qx.core.Object) 
+          if (options.self instanceof qx.core.Object)
           {
             qx.core.Assert.assertFalse(
-              options.self.isDisposed(), 
+              options.self.isDisposed(),
               "Trying to call a bound function with a disposed object as context."
             );
           }
         }
-        
+
         // Convert (and copy) incoming arguments
         var args = qx.lang.Array.fromArguments(arguments);
 

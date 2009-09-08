@@ -27,7 +27,7 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
   extend : qx.ui.groupbox.GroupBox,
   include : [qx.ui.form.MFormElement],
   implement : [
-    qx.ui.form.IRadioItem, 
+    qx.ui.form.IRadioItem,
     qx.ui.form.IExecutable,
     qx.ui.form.IBooleanForm
   ],
@@ -70,9 +70,9 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
 
     /** Fired when the included radiobutton changed its value */
     "changeValue" : "qx.event.type.Data",
-    
+
     /** Fired if the {@link #execute} method is invoked.*/
-    "execute" : "qx.event.type.Event"    
+    "execute" : "qx.event.type.Event"
   },
 
 
@@ -122,16 +122,16 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
       EVENT LISTENERS
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Event listener for execute event of checkbox.
-     * 
+     *
      * @param e {qx.event.type.Event} Event which holds the current status
      */
     _onExecute: function(e) {
       this.fireEvent("execute");
     },
-    
+
 
     /**
      * Event listener for changeValue event of radio button
@@ -147,7 +147,7 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
 
       // Fire event to the outside
       this.fireDataEvent("changeChecked", checked);   // TODO derecated
-      this.fireDataEvent("changeValue", checked, e.getOldData());            
+      this.fireDataEvent("changeValue", checked, e.getOldData());
     },
 
 
@@ -155,7 +155,7 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
      * Event listener for changeName event of radio button
      *
      * @param e {qx.event.type.Data} Data event which holds the current status
-     * 
+     *
      * @derecated
      */
     _onRadioChangeName : function(e)
@@ -171,25 +171,25 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
       REDIRECTIONS TO LEGEND (FOR RADIO GROUP SUPPORT)
     ---------------------------------------------------------------------------
     */
-    
+
     // interface implementation
     execute: function() {
       this.getChildControl("legend").execute();
     },
 
 
-    // interface implementation    
+    // interface implementation
     setCommand : function(command) {
       this.getChildControl("legend").setCommand(command);
     },
-    
-    
-    // interface implementation    
+
+
+    // interface implementation
     getCommand : function() {
       return this.getChildControl("legend").getCommand();
     },
-    
-    
+
+
     /**
      * Returns the radio group
      *
@@ -234,20 +234,20 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
       if (qx.lang.Type.isString(value)) {
         qx.log.Logger.deprecatedMethodWarning(
           arguments.callee, "Please use boolean values instead."
-        );        
+        );
         return;
       }
-      
+
       this.getChildControl("legend").setValue(value);
     },
-    
-    
+
+
     /**
      * Resets the value.
      */
     resetValue: function() {
       this.getChildControl("legend").resetValue();
-    },    
+    },
 
 
     /**
@@ -259,7 +259,7 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee, "Please use the value property instead."
       );
-      
+
       return this.getValue();
     },
 
@@ -275,7 +275,7 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee, "Please use the value property instead."
       );
-      
+
       this.setValue(value);
     },
 

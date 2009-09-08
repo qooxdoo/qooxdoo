@@ -24,16 +24,16 @@ qx.Class.define("qx.test.ui.selection.Stack",
   members :
   {
     __radioButtons : null,
-    
+
     setUp : function()
     {
       var length = 10;
       this._notInSelection = [];
       this._mode = "";
-      
+
       var colors = [
         {background: "blue", textColor: "white"},
-        {background: "red", textColor: "black"}, 
+        {background: "red", textColor: "black"},
         {background: "green", textColor: "black"},
         {background: "yellow", textColor: "black"},
         {background: "brown", textColor: "white"},
@@ -43,22 +43,22 @@ qx.Class.define("qx.test.ui.selection.Stack",
         {background: "black", textColor: "white"},
         {background: "white", textColor: "black"}
       ];
-      
+
       this._widget = new qx.ui.container.Stack();
       this.getRoot().add(this._widget);
-      
+
       for (var i = 0; i < length; i++) {
         var item = this.__createItem("Page" + i, colors[i]);
         this._widget.add(item);
-        
+
         if (i == 5) {
           this._widget.setSelection([item]);
           this._selection = [item];
         } else {
           this._notInSelection.push(item);
         }
-      } 
-      
+      }
+
       this.flush();
     },
 
@@ -71,8 +71,8 @@ qx.Class.define("qx.test.ui.selection.Stack",
       this._notInSelection = null;
       this.flush();
     },
-    
-    _getChildren : function() 
+
+    _getChildren : function()
     {
       if (this._widget != null) {
         return this._widget.getChildren();
@@ -80,12 +80,12 @@ qx.Class.define("qx.test.ui.selection.Stack",
         return [];
       }
     },
-    
+
     _createTestElement : function(name) {
       return new qx.ui.tabview.Page(name);
     },
-    
-    __createItem : function(name, colors) 
+
+    __createItem : function(name, colors)
     {
       var item = new qx.ui.basic.Label(name).set({
         width: 300,
@@ -98,7 +98,7 @@ qx.Class.define("qx.test.ui.selection.Stack",
       });
       return item;
     },
-    
+
     _setNotSelectable : function(item, i)
     {
       item.setEnabled(false);

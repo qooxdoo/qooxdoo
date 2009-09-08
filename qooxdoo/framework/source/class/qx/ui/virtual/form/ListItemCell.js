@@ -27,10 +27,10 @@ qx.Class.define("qx.ui.virtual.form.ListItemCell",
     _createWidget : function() {
       return new qx.ui.form.ListItem();
     },
-    
-    
+
+
     updateData : function(widget, data) {
       widget.setLabel(data);
-    }  
+    }
   }
 });

@@ -72,9 +72,9 @@ qx.Class.define("qx.bom.Label",
 
     /**
      * Creates the measure element
-     * 
+     *
      * @param html {Boolean?false} Whether HTML markup should be used.
-     * @return {Element} The measure element 
+     * @return {Element} The measure element
      */
     __createMeasureElement : function(html)
     {
@@ -87,7 +87,7 @@ qx.Class.define("qx.bom.Label",
       style.position = "absolute";
       style.overflow = "visible";
 
-      if (html) 
+      if (html)
       {
         style.whiteSpace = "normal";
       }
@@ -98,13 +98,13 @@ qx.Class.define("qx.bom.Label",
         if (qx.core.Variant.isSet("qx.client", "gecko"))
         {
           var inner = document.createElementNS("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul", "label");
-          
+
           // Force style inheritance for font styles to omit usage of
           // CSS "label" selector, See bug #1349 for details.
           for (var key in this.__styles) {
             inner.style[key] = "inherit";
           }
-          
+
           el.appendChild(inner);
         }
       }
@@ -174,7 +174,7 @@ qx.Class.define("qx.bom.Label",
       }
 
 
-      if (html) 
+      if (html)
       {
         var el = win.document.createElement("div");
         el.useHtml = true;
@@ -206,7 +206,7 @@ qx.Class.define("qx.bom.Label",
         var el = win.document.createElement("div");
         qx.bom.element.Style.setStyles(el, this.__getStyles(html));
       }
-      
+
       if (content) {
         this.setContent(el, content);
       }
@@ -294,14 +294,14 @@ qx.Class.define("qx.bom.Label",
       } else {
         qx.bom.element.Attribute.set(element, "text", text);
       }
-      
+
       return this.__measureSize(element, styles);
     },
-    
-    
+
+
     /**
      * Measure the size of the given element
-     * 
+     *
      * @param element {Element} The element to measure
      * @param styles {Map?null} Optional styles to apply
      * @return {Map} A map with preferred <code>width</code> and <code>height</code>.

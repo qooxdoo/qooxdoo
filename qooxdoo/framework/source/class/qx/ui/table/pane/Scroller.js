@@ -333,30 +333,30 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
 
     /**
-     * The right inset of the pane. The right inset is the maximum of the 
+     * The right inset of the pane. The right inset is the maximum of the
      * top right widget width and the scrollbar width (if visible).
-     * 
+     *
      * @retuen {Integer} The right inset of the pane
      */
     getPaneInsetRight : function()
     {
       var topRight = this.getTopRightWidget();
-      var topRightWidth = 
+      var topRightWidth =
         topRight && topRight.isVisible() && topRight.getBounds() ?
           topRight.getBounds().width :
           0;
-      
-      var scrollBarWidth = this.getVerticalScrollBarVisible() ? 
+
+      var scrollBarWidth = this.getVerticalScrollBarVisible() ?
         this.getVerticalScrollBarWidth() :
         0;
-  
-      return Math.max(topRightWidth, scrollBarWidth);     
+
+      return Math.max(topRightWidth, scrollBarWidth);
     },
-    
-    
+
+
     /**
      * Set the pane's width
-     * 
+     *
      * @param width {Integer} The pane's width
      */
     setPaneWidth : function(width)
@@ -366,8 +366,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       }
       this.setWidth(width);
     },
-    
-    
+
+
     // overridden
     _createChildControlImpl : function(id)
     {

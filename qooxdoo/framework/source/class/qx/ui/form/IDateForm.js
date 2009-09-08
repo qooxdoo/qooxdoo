@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * Form interface for all form widgets which have date as their primary 
+ * Form interface for all form widgets which have date as their primary
  * data type like datechooser's.
  */
 qx.Interface.define("qx.ui.form.IDateForm",
@@ -59,8 +59,8 @@ qx.Interface.define("qx.ui.form.IDateForm",
     setValue : function(value) {
       return arguments.length == 1;
     },
-    
-    
+
+
     /**
      * Resets the element's value to its initial value.
      */

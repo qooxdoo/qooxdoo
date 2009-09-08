@@ -28,7 +28,7 @@ qx.Class.define("qx.test.ui.selection.TreeSingleSelection",
       var length = 10;
       this._notInSelection = [];
       this._mode = "single";
-      
+
       this._widget = new qx.ui.tree.Tree().set(
       {
         selectionMode: this._mode,
@@ -36,29 +36,29 @@ qx.Class.define("qx.test.ui.selection.TreeSingleSelection",
         height : 400
       });
       this.getRoot().add(this._widget);
-      
+
       var root = new qx.ui.tree.TreeFolder("Root");
       root.setOpen(true);
       this._widget.setRoot(root);
-      
+
       for (var i = 0; i < length; i++) {
         var folder = new qx.ui.tree.TreeFolder("Folder" + i);
         folder.setOpen(true);
         var file = new qx.ui.tree.TreeFile("File" + i);
         folder.add(file);
         root.add(folder);
-        
+
         if (i == 5) {
-          this.assertIdentical(0, this._widget.getSelection().length, 
+          this.assertIdentical(0, this._widget.getSelection().length,
             "Couldn't setup test, because selection isn't empty");
-          
+
           this._widget.setSelection([file]);
           this._selection = [file];
         } else {
           this._notInSelection.push(file);
         }
-      }   
-      
+      }
+
       this.flush();
     },
 
@@ -71,8 +71,8 @@ qx.Class.define("qx.test.ui.selection.TreeSingleSelection",
       this._notInSelection = null;
       this.flush();
     },
-    
-    _getChildren : function() 
+
+    _getChildren : function()
     {
       if (this._widget != null) {
         return this._widget.getItems();
@@ -80,7 +80,7 @@ qx.Class.define("qx.test.ui.selection.TreeSingleSelection",
         return [];
       }
     },
-    
+
     _createTestElement : function(name) {
       return new qx.ui.tree.TreeFile(name);
     }

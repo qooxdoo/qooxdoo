@@ -82,9 +82,9 @@ qx.Class.define("qx.dom.Node",
      * @param node {Node|Document|Window} the node which should be tested
      * @return {Document|null} The document of the given DOM node
      */
-    getDocument : function(node) 
+    getDocument : function(node)
     {
-      return node.nodeType === this.DOCUMENT ? node : // is document already 
+      return node.nodeType === this.DOCUMENT ? node : // is document already
         node.ownerDocument || // is DOM node
         node.document; // is window
     },
@@ -99,13 +99,13 @@ qx.Class.define("qx.dom.Node",
      */
     getWindow : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(node) 
+      "mshtml" : function(node)
       {
         // is a window already
         if (node.nodeType == null) {
           return node;
         }
-        
+
         // jump to document
         if (node.nodeType !== this.DOCUMENT) {
           node = node.ownerDocument;
@@ -115,18 +115,18 @@ qx.Class.define("qx.dom.Node",
         return node.parentWindow;
       },
 
-      "default" : function(node) 
+      "default" : function(node)
       {
         // is a window already
         if (node.nodeType == null) {
           return node;
         }
-                
+
         // jump to document
         if (node.nodeType !== this.DOCUMENT) {
           node = node.ownerDocument;
         }
-        
+
         // jump to window
         return node.defaultView;
       }
@@ -171,7 +171,7 @@ qx.Class.define("qx.dom.Node",
       TYPE TESTS
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Whether the given object is a DOM node
      *
@@ -181,7 +181,7 @@ qx.Class.define("qx.dom.Node",
     isNode : function(node) {
       return !!(node && node.nodeType != null);
     },
-    
+
 
     /**
      * Whether the given object is a DOM element node

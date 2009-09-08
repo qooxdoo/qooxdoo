@@ -27,7 +27,7 @@ qx.Class.define("qx.test.ui.layout.LayoutRoot",
     this.setLayout(new qx.ui.layout.Basic());
     qx.ui.core.queue.Visibility.add(this);
   },
-  
+
   members :
   {
     isRootWidget : function() {

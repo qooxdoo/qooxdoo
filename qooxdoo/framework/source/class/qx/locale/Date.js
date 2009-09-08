@@ -94,7 +94,7 @@ qx.Class.define("qx.locale.Date",
      * @param day {Integer} day number. 0=sunday, 1=monday, ...
      * @param locale {String} optional locale to be used
      * @param context {String} (default: "format") intended context.
-     *       Possible values: "format", "stand-alone" 
+     *       Possible values: "format", "stand-alone"
      * @return {String} localized day name
      */
     getDayName : function(length, day, locale, context)
@@ -123,13 +123,13 @@ qx.Class.define("qx.locale.Date",
      *       Possible values: "abbreviated", "narrow", "wide"
      * @param locale {String} optional locale to be used
      * @param context {String} (default: "format") intended context.
-     *       Possible values: "format", "stand-alone" 
+     *       Possible values: "format", "stand-alone"
      * @return {String[]} array of localized month names starting with january.
      */
     getMonthNames : function(length, locale, context)
     {
       var context = context ? context : "format";
-      
+
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         qx.core.Assert.assertInArray(length, ["abbreviated", "narrow", "wide"]);
         qx.core.Assert.assertInArray(context, ["format", "stand-alone"]);
@@ -155,7 +155,7 @@ qx.Class.define("qx.locale.Date",
      * @param month {Integer} index of the month. 0=january, 1=february, ...
      * @param locale {String} optional locale to be used
      * @param context {String} (default: "format") intended context.
-     *       Possible values: "format", "stand-alone"      
+     *       Possible values: "format", "stand-alone"
      * @return {String} localized month name
      */
     getMonthName : function(length, month, locale, context)
@@ -164,7 +164,7 @@ qx.Class.define("qx.locale.Date",
 
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         qx.core.Assert.assertInArray(length, ["abbreviated", "narrow", "wide"]);
-        qx.core.Assert.assertInArray(context, ["format", "stand-alone"]);        
+        qx.core.Assert.assertInArray(context, ["format", "stand-alone"]);
       }
 
       var key = "cldr_month_" + context + "_" + length + "_" + (month + 1);

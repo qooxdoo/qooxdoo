@@ -19,14 +19,14 @@
 
 /**
  * This mixin links all methods to manage the single selection.
- * 
+ *
  * The class which includes the mixin has to implements two methods:
- * 
+ *
  * <ul>
  * <li><code>_getItems</code>, this method has to return a <code>Array</code>
  *    of <code>qx.ui.core.Widget</code> that should be managed from the manager.
  * </li>
- * <li><code>_isAllowEmptySelection</code>, this method has to return a 
+ * <li><code>_isAllowEmptySelection</code>, this method has to return a
  *    <code>Boolean</code> value for allowing empty selection or not.
  * </li>
  * </ul>
@@ -52,7 +52,7 @@ qx.Mixin.define("qx.ui.core.MSingleSelectionHandling",
   *****************************************************************************
   */
 
-  
+
   members :
   {
     /** {qx.ui.core.SingleSelectionManager} the single selection manager */
@@ -72,23 +72,23 @@ qx.Mixin.define("qx.ui.core.MSingleSelectionHandling",
      */
     getSelection : function() {
       var selected = this.__getManager().getSelected();
-      
+
       if (selected) {
         return [selected];
       } else {
         return [];
       }
     },
-    
+
     /**
      * Replaces current selection with the given items.
      *
      * @param items {qx.ui.core.Widget[]} Items to select.
-     * @throws an exception if one of the items is not a child element and if 
-     *    items contains more than one elements. 
+     * @throws an exception if one of the items is not a child element and if
+     *    items contains more than one elements.
      */
     setSelection : function(items) {
-      switch(items.length) 
+      switch(items.length)
       {
         case 0:
           this.resetSelection();
@@ -101,14 +101,14 @@ qx.Mixin.define("qx.ui.core.MSingleSelectionHandling",
             " array contains " + items.length + " items!");
       }
     },
-    
+
     /**
      * Clears the whole selection at once.
      */
     resetSelection : function() {
       this.__getManager().resetSelected();
     },
-    
+
     /**
      * Detects whether the given item is currently selected.
      *
@@ -119,7 +119,7 @@ qx.Mixin.define("qx.ui.core.MSingleSelectionHandling",
     isSelected : function(item) {
       return this.__getManager().isSelected(item);
     },
-    
+
     /**
      * Whether the selection is empty.
      *
@@ -128,26 +128,26 @@ qx.Mixin.define("qx.ui.core.MSingleSelectionHandling",
     isSelectionEmpty : function() {
       return this.__getManager().isSelectionEmpty();
     },
-    
+
     /**
      * Returns all elements which are selectable.
-     * 
+     *
      * @return {qx.ui.core.Widget[]} The contained items.
      */
     getSelectables: function() {
       return this.__getManager().getSelectables();
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLER
     ---------------------------------------------------------------------------
     */
 
-    
+
     /**
-     * Event listener for <code>changeSelected</code> event on single 
+     * Event listener for <code>changeSelected</code> event on single
      * selection manager.
      *
      * @param e {qx.event.type.Data} Data event.
@@ -155,17 +155,17 @@ qx.Mixin.define("qx.ui.core.MSingleSelectionHandling",
     _onChangeSelected : function(e) {
       var newValue = e.getData();
       var oldVlaue = e.getOldData();
-      
+
       newValue == null ? newValue = [] : newValue = [newValue];
       oldVlaue == null ? oldVlaue = [] : oldVlaue = [oldVlaue];
-      
+
       this.fireDataEvent("changeSelection", newValue, oldVlaue);
     },
-    
+
     /**
-     * Return the selection manager if it is already exists, otherwise creats 
+     * Return the selection manager if it is already exists, otherwise creats
      * the manager.
-     * 
+     *
      * @return {qx.ui.core.SingleSelectionManager} Single selection manager.
      */
     __getManager : function()
@@ -178,7 +178,7 @@ qx.Mixin.define("qx.ui.core.MSingleSelectionHandling",
           getItems : function() {
             return that._getItems();
           },
-          
+
           isItemSelectable : function(item) {
             if (that._isItemSelectable) {
               return that._isItemSelectable(item);
@@ -190,19 +190,19 @@ qx.Mixin.define("qx.ui.core.MSingleSelectionHandling",
         this.__manager.addListener("changeSelected", this._onChangeSelected, this);
       }
       this.__manager.setAllowEmptySelection(this._isAllowEmptySelection());
-      
+
       return this.__manager;
     }
   },
 
-  
+
   /*
   *****************************************************************************
      CONSTRUCTOR
   *****************************************************************************
   */
 
-  
+
   destruct : function() {
     this._disposeObjects("__manager");
   }

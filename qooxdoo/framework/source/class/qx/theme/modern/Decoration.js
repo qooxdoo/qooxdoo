@@ -86,8 +86,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
         baseImage : "decoration/groupbox/groupbox.png"
       }
     },
-    
-    "border-invalid" : 
+
+    "border-invalid" :
     {
       decorator : qx.ui.decoration.Beveled,
 
@@ -98,7 +98,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         innerOpacity : 0.5,
         backgroundImage : "decoration/form/input.png",
         backgroundRepeat : "repeat-x",
-        backgroundColor : "background-light"       
+        backgroundColor : "background-light"
       }
     },
 
@@ -138,27 +138,27 @@ qx.Theme.define("qx.theme.modern.Decoration",
       TOOLTIP
     ---------------------------------------------------------------------------
     */
-    
-    "tooltip-error" : 
+
+    "tooltip-error" :
     {
       decorator : qx.ui.decoration.Grid,
 
       style : {
         baseImage : "decoration/form/tooltip-error.png",
         insets    : [ 2, 5, 5, 2 ]
-      }  
+      }
     },
-    
-    
-    "tooltip-error-arrow" : 
+
+
+    "tooltip-error-arrow" :
     {
       decorator: qx.ui.decoration.Background,
-      
+
       style: {
         backgroundImage: "decoration/form/tooltip-error-arrow.png",
         backgroundPositionY: "center",
         backgroundRepeat: "no-repeat",
-        insets: [0, 0, 0, 10]        
+        insets: [0, 0, 0, 10]
       }
     },
 
@@ -233,7 +233,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         innerOpacity : 0.5
       }
     },
-    
+
     "scrollbar-slider-horizontal-disabled" :
     {
       decorator : qx.ui.decoration.Beveled,
@@ -259,7 +259,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         innerOpacity : 0.5
       }
     },
-    
+
     "scrollbar-slider-vertical-disabled" :
     {
       decorator : qx.ui.decoration.Beveled,
@@ -379,7 +379,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       CHECKBOX
     ---------------------------------------------------------------------------
     */
-    
+
     "checkbox-invalid-shadow" :
     {
       decorator : qx.ui.decoration.Beveled,
@@ -391,9 +391,9 @@ qx.Theme.define("qx.theme.modern.Decoration",
         insets: [0]
       }
     },
-    
-        
-    
+
+
+
     /*
     ---------------------------------------------------------------------------
       TEXT FIELD
@@ -428,7 +428,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         backgroundColor : "background-light"
       }
     },
-    
+
     "input-focused-invalid" :
     {
       decorator : qx.ui.decoration.Beveled,
@@ -442,8 +442,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
         backgroundColor : "background-light",
         insets: [2]
       }
-    },    
-    
+    },
+
 
     "input-disabled" :
     {

@@ -36,7 +36,7 @@ qx.Bootstrap.define("qx.core.Assert",
   statics :
   {
     __logError : true,
-    
+
     /**
      * Assert that the condition evaluates to <code>true</code>. An
      * {@link AssertionError} is thrown if otherwise.
@@ -68,17 +68,17 @@ qx.Bootstrap.define("qx.core.Assert",
       }
     },
 
-    
+
     /**
      * Convert an unknown value to a string to display in error messages
-     * 
+     *
      * @param value {var} any value
      * @return {String} a string representation of the value
      */
-    __toString : function(value) 
+    __toString : function(value)
     {
       var stringValue;
-      
+
       if (value === null)
       {
         stringValue = "null";
@@ -97,7 +97,7 @@ qx.Bootstrap.define("qx.core.Assert",
       }
       return stringValue;
     },
-    
+
 
     /**
      * Assert that the condition evaluates to <code>true</code>.
@@ -158,7 +158,7 @@ qx.Bootstrap.define("qx.core.Assert",
       this.__assert(
         expected == found,
         msg || "",
-        "Expected '" + this.__toString(expected) + 
+        "Expected '" + this.__toString(expected) +
         "' but found '" + this.__toString(found) + "'!"
       );
     },
@@ -355,14 +355,14 @@ qx.Bootstrap.define("qx.core.Assert",
     assertEventFired : function(obj, event, invokeFunc, listenerFunc, msg)
     {
       var called = false;
-      var listener = function(e) 
+      var listener = function(e)
       {
         if (listenerFunc) {
           listenerFunc.call(obj, e);
         }
         called = true;
       };
-      
+
       var id = obj.addListener(event, listener, obj);
 
       invokeFunc.call();
@@ -370,8 +370,8 @@ qx.Bootstrap.define("qx.core.Assert",
 
       obj.removeListenerById(id);
     },
-    
-    
+
+
     /**
      * Assert that an event is not fired.
      *
@@ -393,7 +393,7 @@ qx.Bootstrap.define("qx.core.Assert",
       this.__assert(called === false, msg || "", "Event (" + event + ") was fired.");
 
       obj.removeListenerById(id);
-    },    
+    },
 
 
     /**
@@ -420,7 +420,7 @@ qx.Bootstrap.define("qx.core.Assert",
       } finally {
         this.__logError = true;
       }
-      
+
       if (error == null) {
         this.__assert(false, msg || "", "The function did not raise an exception!");
       }
@@ -653,7 +653,7 @@ qx.Bootstrap.define("qx.core.Assert",
     assertArray : function(value, msg)
     {
       this.__assert(
-        qx.lang.Type.isArray(value),        
+        qx.lang.Type.isArray(value),
         msg || "",
         "Expected value to be an array but found " + this.__toString(value) + "!"
       );
@@ -675,8 +675,8 @@ qx.Bootstrap.define("qx.core.Assert",
         "Expected value to be a map but found " + this.__toString(value) + "!"
       );
     },
-    
-    
+
+
     /**
     * Assert that the value is a regular expression.
     *
@@ -706,7 +706,7 @@ qx.Bootstrap.define("qx.core.Assert",
     assertType : function(value, type, msg)
     {
       this.assertString(type, "Invalid argument 'type'");
-      
+
       this.__assert(
         typeof(value) === type,
         msg || "",
@@ -803,7 +803,7 @@ qx.Bootstrap.define("qx.core.Assert",
         qx.dom.Node.isElement(value),
         msg || "",
         qx.lang.String.format(
-          "Expected value to be a DOM element but found  '%1'!", 
+          "Expected value to be a DOM element but found  '%1'!",
           [this.__toString(value)]
         )
       );
@@ -816,7 +816,7 @@ qx.Bootstrap.define("qx.core.Assert",
      * @param value {var} Value to check
      * @param msg {String} Message to be shown if the assertion fails.
      */
-    assertQxObject : function(value, msg) 
+    assertQxObject : function(value, msg)
     {
       this.__assert(
         value instanceof qx.core.Object,
@@ -832,7 +832,7 @@ qx.Bootstrap.define("qx.core.Assert",
      * @param value {var} Value to check
      * @param msg {String} Message to be shown if the assertion fails.
      */
-    assertQxWidget : function(value, msg) 
+    assertQxWidget : function(value, msg)
     {
       this.__assert(
         value instanceof qx.ui.core.Widget,

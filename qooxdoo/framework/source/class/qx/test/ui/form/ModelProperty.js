@@ -16,32 +16,32 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.form.ModelProperty", 
+qx.Class.define("qx.test.ui.form.ModelProperty",
 {
   extend : qx.test.ui.LayoutTestCase,
 
   members :
   {
-    __test : function(widget) 
+    __test : function(widget)
     {
       // check for the interface
       this.assertTrue(qx.Class.hasInterface(widget.constructor, qx.ui.form.IModel), "Interface not implemented");
-      
+
       // test the init value (null)
       this.assertNull(widget.getModel());
 
       // set a string
       widget.setModel("affe");
       this.assertEquals("affe", widget.getModel());
-      
+
       // set a number (check that no check is implemented)
       widget.setModel(123);
       this.assertEquals(123, widget.getModel());
-      
+
       // test the reset
       widget.resetModel();
       this.assertNull(widget.getModel());
-      
+
       // check the event
       var self = this;
       this.assertEventFired(widget, "changeModel", function() {
@@ -50,7 +50,7 @@ qx.Class.define("qx.test.ui.form.ModelProperty",
         self.assertEquals(true, e.getData());
         self.assertEquals(null, e.getOldData());
       }, "Event is wrong!");
-      
+
       // check the event again with data in the event
       var self = this;
       this.assertEventFired(widget, "changeModel", function() {
@@ -59,32 +59,32 @@ qx.Class.define("qx.test.ui.form.ModelProperty",
         self.assertEquals("abc", e.getData());
         self.assertEquals(true, e.getOldData());
       }, "Event is wrong!");
-      
+
       widget.dispose();
     },
-    
-    
-    testListItem : function() 
+
+
+    testListItem : function()
     {
       this.__test(new qx.ui.form.ListItem());
     },
-    
-    testRadioButton : function() 
+
+    testRadioButton : function()
     {
       this.__test(new qx.ui.form.RadioButton());
     },
-    
-    testCheckBox : function() 
+
+    testCheckBox : function()
     {
       this.__test(new qx.ui.form.CheckBox());
     },
-    
-    testTreeFolder : function() 
+
+    testTreeFolder : function()
     {
       this.__test(new qx.ui.tree.TreeFolder());
     },
-    
-    testTreeFile : function() 
+
+    testTreeFile : function()
     {
       this.__test(new qx.ui.tree.TreeFile());
     }

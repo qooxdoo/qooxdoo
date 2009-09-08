@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * Form interface for all form widgets which are executable in some way. This 
+ * Form interface for all form widgets which are executable in some way. This
  * could be a button for example.
  */
 qx.Interface.define("qx.ui.form.IExecutable",
@@ -32,7 +32,7 @@ qx.Interface.define("qx.ui.form.IExecutable",
   events :
   {
     /**
-     * Fired when the widget is executed. Sets the "data" property of the 
+     * Fired when the widget is executed. Sets the "data" property of the
      * event to the object that issued the command.
      */
     "execute" : "qx.event.type.Data"
@@ -56,22 +56,22 @@ qx.Interface.define("qx.ui.form.IExecutable",
 
     /**
      * Set the command of this executable.
-     * 
+     *
      * @param command {qx.event.Command} The command.
      */
     setCommand : function(command) {
       return arguments.length == 1;
     },
 
-    
+
     /**
      * Return the current set command of this executable.
-     * 
+     *
      * @return {qx.event.Command} The current set command.
      */
     getCommand : function() {},
-    
-    
+
+
     /**
      * Fire the "execute" event on the command.
      */

@@ -178,7 +178,7 @@ qx.Class.define("qx.ui.menu.Layout",
       return this.__columnSizes || null;
     }
   },
-  
+
   /*
    *****************************************************************************
       DESTRUCT

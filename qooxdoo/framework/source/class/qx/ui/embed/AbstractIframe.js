@@ -27,20 +27,20 @@
 qx.Class.define("qx.ui.embed.AbstractIframe",
 {
   extend : qx.ui.core.Widget,
-  
+
   /**
    * @param source {String} URL which should initally set.
-   */  
+   */
   construct : function(source)
   {
     this.base(arguments);
-    
+
     if (source) {
       this.setSource(source);
     }
   },
-  
-  
+
+
   events:
   {
     /**
@@ -48,8 +48,8 @@ qx.Class.define("qx.ui.embed.AbstractIframe",
      */
     "load" : "qx.event.type.Event"
   },
-  
-  
+
+
   properties :
   {
     /**
@@ -72,33 +72,33 @@ qx.Class.define("qx.ui.embed.AbstractIframe",
       apply : "_applyFrameName"
     }
   },
-  
-  
+
+
   members :
   {
     /**
      * Get the Element wrapper for the iframe
-     * 
+     *
      * @return {qx.html.Iframe} the iframe element wrapper
      */
     _getIframeElement : function() {
       throw new Error("Abstract method call");
     },
-    
-    
+
+
     // property apply
     _applySource : function(value, old) {
       this._getIframeElement().setSource(value);
     },
 
-    
+
     // property apply
     _applyFrameName : function(value, old) {
       this._getIframeElement().setAttribute("name", value);
     },
-    
-    
-    
+
+
+
     /**
      * Get the DOM window object of an iframe.
      *
@@ -145,6 +145,6 @@ qx.Class.define("qx.ui.embed.AbstractIframe",
      */
     reload : function() {
       this._getIframeElement().reload();
-    }    
+    }
   }
 })

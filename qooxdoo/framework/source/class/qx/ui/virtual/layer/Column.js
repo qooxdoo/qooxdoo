@@ -20,14 +20,14 @@
 
 /**
  * EXPERIMENTAL!
- * 
- * The Row layer renders row background colors. 
+ *
+ * The Row layer renders row background colors.
  */
 qx.Class.define("qx.ui.virtual.layer.Column",
 {
   extend : qx.ui.virtual.layer.AbstractBackground,
 
-  
+
   /*
   *****************************************************************************
      PROPERTIES
@@ -43,19 +43,19 @@ qx.Class.define("qx.ui.virtual.layer.Column",
       init : "column-layer"
     }
   },
-  
-  
+
+
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
- 
+
   members :
   {
     // overridden
     _fullUpdate : function(
-      firstRow, firstColumn, 
+      firstRow, firstColumn,
       rowSizes, columnSizes
     )
     {
@@ -63,24 +63,24 @@ qx.Class.define("qx.ui.virtual.layer.Column",
 
       var height = qx.lang.Array.sum(rowSizes);
       var decorations = [];
-      
+
       var left = 0;
       var column = firstColumn;
       var childIndex = 0;
-      
+
       for (var x=0; x<columnSizes.length; x++)
       {
-        
+
         var decorator = this.getDecorator(column);
         if (decorator)
-        {          
+        {
           decorations.push({
             childIndex: childIndex,
             decorator: decorator,
             width: columnSizes[x],
             height: height
           });
-          
+
           html.push(
             "<div style='",
             "position: absolute;",
@@ -89,7 +89,7 @@ qx.Class.define("qx.ui.virtual.layer.Column",
             "'>",
             decorator.getMarkup(),
             "</div>"
-          ); 
+          );
           childIndex++;
         }
         else
@@ -104,26 +104,26 @@ qx.Class.define("qx.ui.virtual.layer.Column",
               "left:", left, "px;",
               "width:", columnSizes[x], "px;",
               "height:", height, "px;",
-              "background-color:", color, 
+              "background-color:", color,
               "'>",
               "</div>"
             );
             childIndex++
           }
         }
-        
+
         left += columnSizes[x];
-        column += 1;        
+        column += 1;
       }
-      
+
       var el = this.getContentElement().getDomElement();
-      // hide element before changing the child nodes to avoid 
+      // hide element before changing the child nodes to avoid
       // premature reflow calculations
       el.style.display = "none";
       el.innerHTML = html.join("");
 
       // set size of decorated columns
-      for (var i=0, l=decorations.length; i<l; i++) 
+      for (var i=0, l=decorations.length; i<l; i++)
       {
         var deco = decorations[i];
         deco.decorator.resize(
@@ -133,10 +133,10 @@ qx.Class.define("qx.ui.virtual.layer.Column",
         );
       }
       el.style.display = "block";
-      
+
       this._height = height;
     },
-    
+
     updateLayerWindow : function(firstRow, firstColumn, rowSizes, columnSizes)
     {
       if (
@@ -145,18 +145,18 @@ qx.Class.define("qx.ui.virtual.layer.Column",
         this._height < qx.lang.Array.sum(rowSizes)
       ) {
         this._fullUpdate(
-          firstRow, firstColumn, 
-          rowSizes, columnSizes            
+          firstRow, firstColumn,
+          rowSizes, columnSizes
         );
       }
     },
-       
+
 
     // overridden
-    setColor : function(index, color) 
+    setColor : function(index, color)
     {
-      this.base(arguments, index, color);   
-      
+      this.base(arguments, index, color);
+
       var firstColumn = this.getFirstColumn();
       var lastColumn = firstColumn + this.getColumnSizes().length - 1;
       if (index >= firstColumn && index <= lastColumn) {

@@ -16,30 +16,30 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.core.Widget", 
+qx.Class.define("qx.test.ui.core.Widget",
 {
   extend : qx.test.ui.LayoutTestCase,
 
   members :
   {
-    testIsSeeableDepth0AfterFlush : function() 
+    testIsSeeableDepth0AfterFlush : function()
     {
       var w = new qx.ui.core.Widget();
       this.getRoot().add(w);
       this.flush();
-      
+
       this.assertTrue(w.isSeeable());
-      
+
       w.hide();
       this.flush();
-      
+
       this.assertFalse(w.isSeeable());
-      
+
       w.destroy();
     },
-    
-    
-    testIsSeeableDepth1AfterFlush : function() 
+
+
+    testIsSeeableDepth1AfterFlush : function()
     {
       var c = new qx.ui.container.Composite();
       var l = new qx.ui.layout.Canvas();
@@ -48,64 +48,64 @@ qx.Class.define("qx.test.ui.core.Widget",
       var w = new qx.ui.core.Widget();
       c.add(w);
       this.flush();
-      
+
       this.assertTrue(w.isSeeable());
-      
+
       c.hide();
       this.flush();
-      
+
       this.assertFalse(w.isSeeable());
-      
+
       l.dispose();
-      w.destroy();      
+      w.destroy();
       c.destroy();
     },
-    
-    
-    testIsSeeableDepth2AfterFlush : function() 
+
+
+    testIsSeeableDepth2AfterFlush : function()
     {
       var cc = new qx.ui.container.Composite();
       var ll = new qx.ui.layout.Canvas();
       cc.setLayout(ll);
       this.getRoot().add(cc);
-      
+
       var c = new qx.ui.container.Composite();
       var l = new qx.ui.layout.Canvas();
       c.setLayout(l);
       cc.add(c);
-      
+
       var w = new qx.ui.core.Widget();
       c.add(w);
       this.flush();
-      
+
       this.assertTrue(w.isSeeable());
-      
+
       cc.hide();
       this.flush();
-      
+
       this.assertFalse(w.isSeeable());
-      
+
       ll.dispose();
       cc.destroy();
       l.dispose();
-      w.destroy();      
+      w.destroy();
       c.destroy();
     },
-    
-    
+
+
     testIsSeeableDepth0 : function() {
       var w = new qx.ui.core.Widget();
       this.getRoot().add(w);
-      
-      this.assertTrue(w.isSeeable());
-      w.hide();      
-      this.assertFalse(w.isSeeable());
-      
-      w.destroy();      
-    },
-    
 
-    testIsSeeableDepth1 : function() 
+      this.assertTrue(w.isSeeable());
+      w.hide();
+      this.assertFalse(w.isSeeable());
+
+      w.destroy();
+    },
+
+
+    testIsSeeableDepth1 : function()
     {
       var c = new qx.ui.container.Composite();
       var l = new qx.ui.layout.Canvas();
@@ -113,66 +113,66 @@ qx.Class.define("qx.test.ui.core.Widget",
       this.getRoot().add(c);
       var w = new qx.ui.core.Widget();
       c.add(w);
-      
+
       this.assertTrue(w.isSeeable());
       c.hide();
       this.assertFalse(w.isSeeable());
-      
+
       l.dispose();
-      w.destroy();      
+      w.destroy();
       c.destroy();
-    },    
-    
-    
-    testIsSeeableDepth2 : function() 
+    },
+
+
+    testIsSeeableDepth2 : function()
     {
       var cc = new qx.ui.container.Composite();
       var ll = new qx.ui.layout.Canvas();
       cc.setLayout(ll);
       this.getRoot().add(cc);
-      
+
       var c = new qx.ui.container.Composite();
       var l = new qx.ui.layout.Canvas();
       c.setLayout(l);
       cc.add(c);
-      
+
       var w = new qx.ui.core.Widget();
       c.add(w);
-      
+
       this.assertTrue(w.isSeeable());
       cc.hide();
       this.assertFalse(w.isSeeable());
-      
+
       ll.dispose();
       cc.destroy();
       l.dispose();
-      w.destroy();      
+      w.destroy();
       c.destroy();
     },
-    
-    testIsSeeableDepth0AfterFlushExclude : function() 
+
+    testIsSeeableDepth0AfterFlushExclude : function()
     {
       var w = new qx.ui.core.Widget();
       this.getRoot().add(w);
       this.flush();
-      
+
       this.assertTrue(w.isSeeable());
-      
+
       w.exclude();
       this.flush();
-      
+
       this.assertFalse(w.isSeeable());
-      
+
       w.destroy();
     },
-    
-    
-    testIsSeeableNotInRoot : function() 
+
+
+    testIsSeeableNotInRoot : function()
     {
       var w = new qx.ui.core.Widget();
-      this.assertFalse(w.isSeeable());    
+      this.assertFalse(w.isSeeable());
       w.destroy();
     }
-    
+
   }
 });

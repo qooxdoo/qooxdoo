@@ -31,7 +31,7 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
     $$clazz : null,
     $$args : null
   },
-  
+
   members :
   {
     setUp : function() {
@@ -65,11 +65,11 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
       return cls._root;
     },
 
-    
+
     flush : function() {
       qx.ui.core.queue.Manager.flush();
     },
-    
+
 
     assertDestroy : function(fcn, context, msg)
     {
@@ -161,7 +161,7 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
         for (var i=0; i<args.length; i++) {
           argStr.push("qx.test.ui.LayoutTestCase.$$args" + "[" + i + "]");
         }
-        
+
         qx.test.ui.LayoutTestCase.$$clazz = clazz;
         qx.test.ui.LayoutTestCase.$$args = args;
         var str = "new qx.test.ui.LayoutTestCase.$$clazz" + "(" + argStr.join(", ") + ");";
@@ -267,8 +267,8 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
         this.assertEquals(value, widgetStyle, msg);
       }
     },
-    
-    
+
+
     clickOn: function(widget) {
       widget.fireEvent("click", qx.event.type.Mouse, [{}, widget, widget, false, true]);
     }

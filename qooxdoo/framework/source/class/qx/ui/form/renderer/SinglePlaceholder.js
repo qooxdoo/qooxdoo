@@ -22,7 +22,7 @@
  * Rendere using the placeholder property of {@link qx.ui.form.AbstractField}
  * to visualize the name.
  */
-qx.Class.define("qx.ui.form.renderer.SinglePlaceholder", 
+qx.Class.define("qx.ui.form.renderer.SinglePlaceholder",
 {
   extend : qx.ui.form.renderer.Single,
   implement : qx.ui.form.renderer.IFormRenderer,
@@ -44,7 +44,7 @@ qx.Class.define("qx.ui.form.renderer.SinglePlaceholder",
         );
         this._row++;
       }
-      
+
       // add the items
       for (var i = 0; i < items.length; i++) {
         if (items[i].setPlaceholder === undefined) {

@@ -105,15 +105,15 @@ qx.Bootstrap.define("qx.lang.String",
      * qx.lang.String.clean(" i      like     cookies      \n\n");
      * </code>
      *
-     * Returns "i like cookies" 
-     * 
+     * Returns "i like cookies"
+     *
      * @param str {String} the string to clean up
      * @return Cleaned up string
      */
     clean: function(str){
       return this.trim(str.replace(/\s+/g, ' '));
     },
-  
+
 
     /**
      * removes white space from the left side of a string
@@ -286,8 +286,8 @@ qx.Bootstrap.define("qx.lang.String",
     stripTags : function(str) {
       return str.replace(/<\/?[^>]+>/gi, "");
     },
-    
-    
+
+
     /**
      * Strips the String of its <script> tags and anything in between them.
      *
@@ -303,11 +303,11 @@ qx.Bootstrap.define("qx.lang.String",
         scripts += arguments[1] + '\n';
         return "";
       });
-      
+
       if (exec === true) {
         qx.lang.Function.globalEval(scripts);
       }
-      
+
       return text;
     }
   }

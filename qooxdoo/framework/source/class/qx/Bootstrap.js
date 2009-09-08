@@ -38,7 +38,7 @@ if (!window.qx) {
  * This is needed for the API browser etc. to let them detect me
  */
 qx.Bootstrap = {
-    
+
   genericToString : function() {
     return "[Class " + this.classname + "]";
   },
@@ -65,13 +65,13 @@ qx.Bootstrap = {
     return part;
   },
 
-  
+
   setDisplayName : function(fcn, classname, name)
   {
     fcn.displayName = classname + "." + name + "()";
   },
-  
-  
+
+
   setDisplayNames : function(functionMap, classname)
   {
     for (var name in functionMap)
@@ -82,8 +82,8 @@ qx.Bootstrap = {
       }
     }
   },
-  
-  
+
+
   define : function(name, config)
   {
     if (!config) {
@@ -98,7 +98,7 @@ qx.Bootstrap = {
     if (config.members)
     {
       qx.Bootstrap.setDisplayNames(config.members, name + ".prototype");
-      
+
       clazz = config.construct || new Function;
       var statics = config.statics;
       for (var key in statics) {
@@ -197,24 +197,24 @@ qx.Bootstrap.define("qx.Bootstrap",
 
     /**
      * Sets the display name of the given function
-     * 
+     *
      * @signature (fcn, classname, name)
      * @param fcn {Function} the function to set the display name for
      * @param classname {String} the name of the class the function is defined in
      * @param name {String} the function name
      */
     setDisplayName : qx.Bootstrap.setDisplayName,
-    
-    
+
+
     /**
      * Set the names of alls functions defined in the given map
-     * 
+     *
      * @signaure function(functionMap, classname)
      * @param functionMap {Object} a map with functions as values
      * @classname {String} the name of the class, the functions are defined in
      */
     setDisplayNames : qx.Bootstrap.setDisplayNames,
-    
+
     /**
      * This method will be attached to all classes to return
      * a nice identifier for them.

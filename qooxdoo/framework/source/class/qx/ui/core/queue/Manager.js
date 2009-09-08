@@ -115,17 +115,17 @@ qx.Class.define("qx.ui.core.queue.Manager",
           delete jobs.layout;
           qx.ui.core.queue.Layout.flush();
         }
-        
+
         // Omit element as long as possible
         if (jobs.widget || jobs.visibility || jobs.appearance || jobs.layout) {
           continue;
         }
-        
+
         if (jobs.element)
         {
           delete jobs.element;
           qx.html.Element.flush();
-        }                
+        }
       }
 
       qx.ui.core.queue.Manager.__scheduled = false;

@@ -64,10 +64,10 @@ qx.Bootstrap.define("qx.bom.client.Engine",
 
     /** {Boolean} Flag to detect if the client engine version is assumed */
     UNKNOWN_VERSION: false,
-    
-    /** 
+
+    /**
      * {Integer|null} Flag to detect the document mode from the Internet Explorer 8
-     * 
+     *
      * <code>null</code> The document mode is not supported.
      * <code>5</code> Microsoft Internet Explorer 5 mode (also known as "quirks mode").
      * <code>7</code> Internet Explorer 7 Standards mode.
@@ -90,7 +90,7 @@ qx.Bootstrap.define("qx.bom.client.Engine",
       var unknownEngine = false;
       var unknownVersion = false;
 
-      if (window.opera && 
+      if (window.opera &&
           Object.prototype.toString.call(window.opera) == "[object Opera]")
       {
         engine = "opera";
@@ -99,7 +99,7 @@ qx.Bootstrap.define("qx.bom.client.Engine",
         // Opera has a special versioning scheme, where the second part is combined
         // e.g. 8.54 which should be handled like 8.5.4 to be compatible to the
         // common versioning system used by other browsers
-        if (/Opera[\s\/]([0-9]+)\.([0-9])([0-9]*)/.test(agent)) 
+        if (/Opera[\s\/]([0-9]+)\.([0-9])([0-9]*)/.test(agent))
         {
           version = RegExp.$1 + "." + RegExp.$2;
           if (RegExp.$3 != "") {
@@ -155,10 +155,10 @@ qx.Bootstrap.define("qx.bom.client.Engine",
         if (document.documentMode) {
           this.DOCUMENT_MODE = document.documentMode;
         }
-        
+
         // If the IE8 is running in the compatibility mode, the MSIE value
         // is set to IE7, but we need the correct verion. The only way is to
-        // compare the trident version. 
+        // compare the trident version.
         if (version < 8 && /Trident\/([^\);]+)(\)|;)/.test(agent)) {
           if (RegExp.$1 === "4.0") {
             version = "8.0";

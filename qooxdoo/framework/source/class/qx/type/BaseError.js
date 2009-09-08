@@ -67,11 +67,11 @@ qx.Class.define("qx.type.BaseError",
      MEMBERS
   *****************************************************************************
   */
-  
+
   members :
   {
     __comment : null,
-    
+
     /** {String} Fail message provided by the assertion */
     message : null,
 

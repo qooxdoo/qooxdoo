@@ -519,7 +519,7 @@ qx.Class.define("qx.ui.form.Spinner",
         upButton.setEnabled(false);
         downButton.setEnabled(false);
       }
-      else 
+      else
       {
         if (this.getWrap())
         {
@@ -535,7 +535,7 @@ qx.Class.define("qx.ui.form.Spinner",
           } else {
             upButton.setEnabled(false);
           }
-          
+
           // check min value
           if (value !== null && value > this.getMinimum()) {
             downButton.setEnabled(true);
@@ -801,8 +801,8 @@ qx.Class.define("qx.ui.form.Spinner",
     gotoValue : function(value) {
       return this.setValue(Math.min(this.getMaximum(), Math.max(this.getMinimum(), value)));
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       DEPRECATED OLD PROPERTY METHODS

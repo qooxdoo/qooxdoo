@@ -112,8 +112,8 @@ qx.Class.define("qx.event.message.Bus",
   members :
   {
     __subscriptions : null,
-    
-    
+
+
     /**
      * gets the hash map of message subscriptions
      *

@@ -67,14 +67,14 @@ qx.Class.define("qx.ui.menu.ButtonLayout",
       var menu = children[0].getLayoutParent().getLayoutParent();
       var columns = menu.getColumnSizes();
       var spacing = menu.getSpacingX();
-      
+
       // stretch label column
       var neededWidth = qx.lang.Array.sum(columns) + spacing * (columns.length - 1);
       if (neededWidth < availWidth) {
         columns[1] += availWidth - neededWidth;
       }
-      
-      
+
+
       var left=0, top=0;
       var Util = qx.ui.layout.Util;
 
@@ -101,8 +101,8 @@ qx.Class.define("qx.ui.menu.ButtonLayout",
       var children = this._getLayoutChildren();
       var neededHeight = 0;
       var neededWidth = 0;
-      
-      for (var i=0, l=children.length; i<l; i++) 
+
+      for (var i=0, l=children.length; i<l; i++)
       {
         var hint = children[i].getSizeHint();
         neededWidth += hint.width;

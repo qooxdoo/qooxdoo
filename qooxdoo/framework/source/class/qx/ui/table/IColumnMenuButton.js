@@ -42,7 +42,7 @@ qx.Interface.define("qx.ui.table.IColumnMenuButton",
      *     <dt>menu</dt>
      *     <dd>
      *       Instantiate a menu which will appear when the column visibility
-     *       button is pressed. No options are provided in this case. 
+     *       button is pressed. No options are provided in this case.
      *     </dd>
      *     <dt>menu-button</dt>
      *     <dd>
@@ -79,7 +79,7 @@ qx.Interface.define("qx.ui.table.IColumnMenuButton",
     {
       return true;
     },
-    
+
     /**
      * Empty the menu of all items, in preparation for building a new column
      * visibility menu.

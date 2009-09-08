@@ -44,7 +44,7 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
     */
 
     // overridden
-    _isSelectable : function(item) 
+    _isSelectable : function(item)
     {
       return (
         item.isEnabled() && item.isVisible() &&

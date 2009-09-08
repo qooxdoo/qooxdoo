@@ -25,11 +25,11 @@ qx.Class.define("qx.ui.virtual.cell.CellStylesheet",
 {
   extend : qx.core.Object,
   type : "singleton",
-  
+
   construct : function()
   {
     this.base(arguments);
-  
+
     var stylesheet =
       ".qx-cell {" +
       qx.bom.element.Style.compile(
@@ -47,12 +47,12 @@ qx.Class.define("qx.ui.virtual.cell.CellStylesheet",
     }
 
     this.__stylesheet = qx.bom.Stylesheet.createElement(stylesheet);
-    
+
     this.__classes = {};
     this.__styles = {}
   },
-  
-  members : 
+
+  members :
   {
     __stylesheet : null,
     __classes : null,
@@ -61,13 +61,13 @@ qx.Class.define("qx.ui.virtual.cell.CellStylesheet",
     getStylesheet : function() {
       return this.__stylesheet;
     },
-    
-    
+
+
     getCssClass : function(key) {
       return this.__classes[key];
     },
-    
-    
+
+
     computeClassForStyles : function(key, styleString)
     {
       var cssClass = this.__styles[styleString];
@@ -79,24 +79,24 @@ qx.Class.define("qx.ui.virtual.cell.CellStylesheet",
         this.__styles[styleString] = cssClass;
       }
 
-      this.__classes[key] = cssClass;      
+      this.__classes[key] = cssClass;
       return cssClass;
     },
-    
-    
+
+
     /**
      * Get the next unique CSS class name
-     * 
-     * @return {String} The next unique CSS class name 
+     *
+     * @return {String} The next unique CSS class name
      */
     __getNextClassname : function() {
-      return "qx-cell-" + this.toHashCode() + "-" + (this.__classCounter++);    
+      return "qx-cell-" + this.toHashCode() + "-" + (this.__classCounter++);
     },
-    __classCounter : 0   
+    __classCounter : 0
   },
-  
-  
+
+
   destruct : function() {
-    this._disposeFields("__stylesheet", "__classes", "__styles"); 
+    this._disposeFields("__stylesheet", "__classes", "__styles");
   }
 });

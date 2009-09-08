@@ -416,7 +416,7 @@ qx.Class.define("qx.ui.basic.Label",
 
     /**
      * Locale change event handler
-     * 
+     *
      * @signature function(e)
      * @param e {Event} the change event
      */
@@ -464,7 +464,7 @@ qx.Class.define("qx.ui.basic.Label",
      * @param value {String} The value of the label.
      * @deprecated
      */
-    setContent: function(value) 
+    setContent: function(value)
     {
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee, "Please use the value property instead."
@@ -480,7 +480,7 @@ qx.Class.define("qx.ui.basic.Label",
      *
      * @deprecated
      */
-    getContent: function() 
+    getContent: function()
     {
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee, "Please use the value property instead."
@@ -496,7 +496,7 @@ qx.Class.define("qx.ui.basic.Label",
      *
      * @deprecated
      */
-    resetContent: function() 
+    resetContent: function()
     {
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee, "Please use the value property instead."

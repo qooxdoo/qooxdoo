@@ -106,11 +106,11 @@ qx.Class.define("qx.ui.menu.Button",
      *
      * @param e {qx.event.type.Data} Property change event
      */
-    _onChangeCommand : function(e) 
+    _onChangeCommand : function(e)
     {
       var command = e.getData();
 
-      if (qx.core.Variant.isSet("qx.dynlocale", "on")) 
+      if (qx.core.Variant.isSet("qx.dynlocale", "on"))
       {
         var oldCommand = e.getOldData();
         if (!oldCommand) {
@@ -123,8 +123,8 @@ qx.Class.define("qx.ui.menu.Button",
 
       this.getChildControl("shortcut").setValue(command.toString());
     },
-    
-    
+
+
     /**
      * Update command string on locale changes
      */
@@ -133,12 +133,12 @@ qx.Class.define("qx.ui.menu.Button",
       "on" : function(e) {
         var command = this.getCommand();
         if (command != null) {
-          this.getChildControl("shortcut").setValue(command.toString());          
+          this.getChildControl("shortcut").setValue(command.toString());
         }
       },
 
       "off" : null
-    }),    
+    }),
 
 
     // overridden

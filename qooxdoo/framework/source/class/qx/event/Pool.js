@@ -30,7 +30,7 @@ qx.Class.define("qx.event.Pool",
 
   // Even though this class contains almost no code it is required because the
   // legacy code needs a place to patch the event pooling behavior.
-  
+
 
   /*
   *****************************************************************************
