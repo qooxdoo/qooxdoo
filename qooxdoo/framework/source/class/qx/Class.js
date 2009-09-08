@@ -164,7 +164,7 @@ qx.Bootstrap.define("qx.Class",
       }
 
       // Normalize type
-      if (!config.hasOwnProperty("extend") && !config.type) {
+      if (!config.hasOwnProperty("extend") && !config.type && config.statics) {
         config.type = "static";
       }
 
@@ -791,7 +791,7 @@ qx.Bootstrap.define("qx.Class",
         }
 
         // Validate non-static class on the "extend" key
-        if (config.type && config.type !== "static" && !config.extend) {
+        if ( (!config.type || (config.type && config.type !== "static") ) && !config.extend) {
           throw new Error('Invalid config in class "' + name + '"! Every non-static class has to extend at least the "qx.core.Object" class.');
         }
 
