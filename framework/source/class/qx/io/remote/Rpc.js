@@ -357,6 +357,7 @@ qx.Class.define("qx.io.remote.Rpc",
     /**
      * Internal RPC call method
      *
+     * @lint ignoreDeprecated(eval)
      *
      * @param args {Array}
      *   array of arguments
