@@ -25,7 +25,7 @@ qx.Class.define("inspector.console.Appender", {
   statics :
   {
     consoleView : null,
-    
+
     /**
      * Processes a single log entry
      *
@@ -38,7 +38,7 @@ qx.Class.define("inspector.console.Appender", {
       if (this.consoleView)
       {
         var text = this.__toText(entry);
-        
+
         if (entry.level == "info") {
           this.consoleView.info(text);
         } else if (entry.level == "warn") {
@@ -50,10 +50,10 @@ qx.Class.define("inspector.console.Appender", {
         }
       }
     },
-    
+
     /**
      * Convert the log entry to a string value.
-     * 
+     *
      * @param entry {Map} The log entry.
      * @return {string} Entry as string value.
      */
@@ -113,10 +113,10 @@ qx.Class.define("inspector.console.Appender", {
 
       return output.get();
     },
-    
+
     /**
-     * Escape the string value to HTML. 
-     * 
+     * Escape the string value to HTML.
+     *
      * @param value {String} value to escape
      * @return {String} escaped Value.
      */

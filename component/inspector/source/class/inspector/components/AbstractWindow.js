@@ -20,35 +20,35 @@
 /**
  * Abstract window that contains a empty toolbar.
  */
-qx.Class.define("inspector.components.AbstractWindow", 
+qx.Class.define("inspector.components.AbstractWindow",
 {
   extend : qx.ui.window.Window,
 
   /**
    * Creates a new instance of a AbstractWindow.
-   * 
+   *
    * @param name {String} The window title.
    */
   construct : function(name)
   {
     this.base(arguments, name);
-    
+
     // Set layout
     this.setLayout(new qx.ui.layout.VBox());
     this.setWidth(300);
     this.setHeight(200);
     this.setContentPadding(0);
-    
+
     // Disaple buttons
     this.setShowMinimize(false);
-    this.setShowMaximize(false);    
-    
+    this.setShowMaximize(false);
+
     // Create toolbar
     this._toolbar = new qx.ui.toolbar.ToolBar();
     this._toolbar.setPaddingLeft(3);
     this._toolbar.setPaddingRight(3);
     this._toolbar._getLayout().setAlignY("middle");
-    this.add(this._toolbar);    
+    this.add(this._toolbar);
   },
 
   members :
@@ -57,12 +57,12 @@ qx.Class.define("inspector.components.AbstractWindow",
      * Toolbar instance.
      */
     _toolbar : null,
-    
+
     /**
      * Window instance from the Iframe.
      */
     _iFrameWindow : null,
-    
+
     /**
      * Init the size and the position from the window.
      */
