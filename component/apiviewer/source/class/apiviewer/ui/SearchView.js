@@ -214,10 +214,10 @@ qx.Class.define("apiviewer.ui.SearchView",
 
 
         sresult = this._searchIndex(search[0], search[1]);
-        
+
         this._tableModel.setColumns([ "", (sresult.length + " Result" + ((sresult.length != 1) ? "s" : "")) ]);
         this._tableModel.setData(sresult);
-        
+
         // Clear old selection
         this._table.clearSelection();
 

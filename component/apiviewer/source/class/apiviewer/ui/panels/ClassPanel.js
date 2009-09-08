@@ -118,7 +118,7 @@ qx.Class.define("apiviewer.ui.panels.ClassPanel",
       if (!this.getElement()) {
         return;
       }
-      
+
       this.setDocNode(currentClassDocNode);
 
       var classes = currentClassDocNode.getClasses();

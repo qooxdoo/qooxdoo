@@ -34,10 +34,10 @@ qx.Class.define("apiviewer.Application",
 {
   extend : qx.application.Standalone,
 
-  construct : function() 
+  construct : function()
   {
     this.base(arguments);
-    qx.bom.Stylesheet.includeFile("apiviewer/css/apiviewer.css");    
+    qx.bom.Stylesheet.includeFile("apiviewer/css/apiviewer.css");
   },
 
   /*

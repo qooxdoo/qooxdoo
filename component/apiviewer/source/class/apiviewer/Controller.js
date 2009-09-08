@@ -52,7 +52,7 @@ qx.Class.define("apiviewer.Controller",
 
     this._classLoader = new apiviewer.ClassLoader("./script");
 
-    this._detailLoader = this._widgetRegistry.getWidgetById("detail_loader");    
+    this._detailLoader = this._widgetRegistry.getWidgetById("detail_loader");
     this._packageViewer = this._widgetRegistry.getWidgetById("package_viewer");
     this.__bindViewer(this._packageViewer);
 
@@ -100,7 +100,7 @@ qx.Class.define("apiviewer.Controller",
         var start = new Date();
         var treeData = eval("(" + content + ")");
         var end = new Date();
-        
+
         if (qx.core.Variant.isSet("qx.debug", "on")) {
           this.debug("Time to eval tree data: " + (end.getTime() - start.getTime()) + "ms");
         }
@@ -144,18 +144,18 @@ qx.Class.define("apiviewer.Controller",
       this._classViewer.addListener("classLinkClicked", function(e) {
           this.__selectItem(e.getData());
       }, this);
-      
+
       this.__bindViewer(this._classViewer);
     },
-    
-    
+
+
     __bindViewer : function(viewer)
     {
       var uiModel = apiviewer.UiModel.getInstance();
       uiModel.bind("showInherited", viewer, "showInherited");
       uiModel.bind("expandProperties", viewer, "expandProperties");
       uiModel.bind("showProtected", viewer, "showProtected");
-      uiModel.bind("showPrivate", viewer, "showPrivate");      
+      uiModel.bind("showPrivate", viewer, "showPrivate");
     },
 
 
@@ -183,7 +183,7 @@ qx.Class.define("apiviewer.Controller",
     __bindToolbar : function()
     {
       var uiModel = apiviewer.UiModel.getInstance();
-      
+
       var btn_inherited = this._widgetRegistry.getWidgetById("btn_inherited");
       btn_inherited.bind("value", uiModel, "showInherited");
       uiModel.bind("showInherited", btn_inherited, "value");
