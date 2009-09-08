@@ -55,25 +55,21 @@ qx.Class.define("qx.event.type.Dom",
      */
     getModifiers : function()
     {
-      if (!this.__modifiers)
-      {
-        var mask = 0;
-        var evt = this._native;
-        if (evt.shiftKey) {
-          mask |= qx.event.type.Dom.SHIFT_MASK;
-        }
-        if (evt.ctrlKey) {
-          mask |= qx.event.type.Dom.CTRL_MASK;
-        }
-        if (evt.altKey) {
-          mask |= qx.event.type.Dom.ALT_MASK;
-        }
-        if (evt.metaKey) {
-          mask |= qx.event.type.Dom.META_MASK;
-        }
-        return mask;
+      var mask = 0;
+      var evt = this._native;
+      if (evt.shiftKey) {
+        mask |= qx.event.type.Dom.SHIFT_MASK;
       }
-      return this.__modifiers;
+      if (evt.ctrlKey) {
+        mask |= qx.event.type.Dom.CTRL_MASK;
+      }
+      if (evt.altKey) {
+        mask |= qx.event.type.Dom.ALT_MASK;
+      }
+      if (evt.metaKey) {
+        mask |= qx.event.type.Dom.META_MASK;
+      }
+      return mask;
     },
 
 
