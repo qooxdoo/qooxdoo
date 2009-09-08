@@ -217,25 +217,6 @@ var Editor = (function(){
 
   function time() {return new Date().getTime();}
 
-  // Replace all DOM nodes in the current selection with new ones.
-  // Needed to prevent issues in IE where the old DOM nodes can be
-  // pasted back into the document, still holding their old undo
-  // information.
-  function scrubPasted(container, start, start2) {
-    var end = select.selectionTopNode(container, true),
-        doc = container.ownerDocument;
-    if (start != null && start.parentNode != container) start = start2;
-    if (start === false) start = null;
-    if (start == end || !end || !container.firstChild) return;
-
-    var clear = traverseDOM(start ? start.nextSibling : container.firstChild);
-    while (end.parentNode == container) try{clear.next();}catch(e){break;}
-    forEach(clear.nodes, function(node) {
-      var newNode = node.nodeName == "BR" ? doc.createElement("BR") : makePartSpan(node.currentText, doc);
-      container.replaceChild(newNode, node);
-    });
-  }
-
   // Client interface for searching the content of the editor. Create
   // these by calling CodeMirror.getSearchCursor. To use, call
   // findNext on the resulting object -- this returns a boolean
@@ -426,23 +407,23 @@ var Editor = (function(){
 
       function cursorActivity() {self.cursorActivity(false);}
       addEventHandler(document.body, "mouseup", cursorActivity);
+      addEventHandler(document.body, "cut", cursorActivity);
+
       addEventHandler(document.body, "paste", function(event) {
         cursorActivity();
-        if (internetExplorer) {
-          var text = null;
-          try {text = window.clipboardData.getData("Text");}catch(e){}
-          if (text != null) {
-            self.replaceSelection(text);
-            event.stop();
-          }
-          else {
-            var start = select.selectionTopNode(self.container, true),
-                start2 = start && start.previousSibling;
-            setTimeout(function(){scrubPasted(self.container, start, start2);}, 0);
-          }
+        var text = null;
+        try {
+          var clipboardData = event.clipboardData || window.clipboardData;
+          if (clipboardData) text = clipboardData.getData('Text');
+        }
+        catch(e) {}
+        if (text !== null) {
+          self.replaceSelection(text);
+          event.stop();
         }
       });
-      addEventHandler(document.body, "cut", cursorActivity);
+
+      addEventHandler(document.body, "beforepaste", method(this, "reroutePasteEvent"));
 
       if (this.options.autoMatchParens)
         addEventHandler(document.body, "click", method(this, "scheduleParenBlink"));
@@ -550,7 +531,7 @@ var Editor = (function(){
             before = cur;
             break;
           }
-          var text = (cur.innerText || cur.textContent || cur.nodeValue || "");
+          var text = nodeText(cur);
           if (text.length > position) {
             before = cur.nextSibling;
             content = text.slice(0, position) + content + text.slice(position);
@@ -592,12 +573,38 @@ var Editor = (function(){
     // Replace the selection with another piece of text.
     replaceSelection: function(text) {
       this.history.commit();
+
       var start = select.cursorPos(this.container, true),
           end = select.cursorPos(this.container, false);
       if (!start || !end) return;
 
       end = this.replaceRange(start, end, text);
-      select.setCursorPos(this.container, start, end);
+      select.setCursorPos(this.container, end);
+      webkitLastLineHack(this.container);
+    },
+
+    reroutePasteEvent: function() {
+      if (this.capturingPaste || window.opera) return;
+      this.capturingPaste = true;
+      var te = parent.document.createElement("TEXTAREA");
+      te.style.position = "absolute";
+      te.style.left = "-500px";
+      te.style.width = "10px";
+      te.style.top = nodeTop(frameElement) + "px";
+      parent.document.body.appendChild(te);
+      parent.focus();
+      te.focus();
+
+      var self = this;
+      this.parent.setTimeout(function() {
+        self.capturingPaste = false;
+        self.win.focus();
+        if (self.selectionSnapshot) // IE hack
+          self.win.select.selectCoords(self.win, self.selectionSnapshot);
+        var text = te.value;
+        if (text) self.replaceSelection(text);
+        removeElement(te);
+      }, 10);
     },
 
     replaceRange: function(from, to, text) {
@@ -669,7 +676,7 @@ var Editor = (function(){
       if (this.options.autoMatchParens)
         this.scheduleParenBlink();
 
-      // The variouschecks for !altKey are there because AltGr sets both
+      // The various checks for !altKey are there because AltGr sets both
       // ctrlKey and altKey to true, and should not be recognised as
       // Control.
       if (code == 13) { // enter
@@ -740,6 +747,9 @@ var Editor = (function(){
         event.stop();
       else if (electric && electric.indexOf(event.character) != -1)
         this.parent.setTimeout(function(){self.indentAtCursor(null);}, 0);
+      else if ((event.character == "v" || event.character == "V")
+               && (event.ctrlKey || event.metaKey) && !event.altKey) // ctrl-V
+        this.reroutePasteEvent();
     },
 
     // Mark the node at the cursor dirty when a non-safe key is
@@ -1054,7 +1064,7 @@ var Editor = (function(){
 
       if (!this.options.readOnly) select.markSelection(this.win);
       var start, endTime = force ? null : time() + this.options.passTime;
-      while (time() < endTime && (start = this.getDirtyNode())) {
+      while ((time() < endTime || force) && (start = this.getDirtyNode())) {
         var result = this.highlight(start, endTime);
         if (result && result.node && result.dirty)
           this.addDirtyNode(result.node);
@@ -1148,13 +1158,15 @@ var Editor = (function(){
 
       function maybeTouch(node) {
         if (node) {
-          if (lineDirty || node.nextSibling != node.oldNextSibling)
+          var old = node.oldNextSibling;
+          if (lineDirty || old === undefined || node.nextSibling != old)
             self.history.touch(node);
           node.oldNextSibling = node.nextSibling;
         }
         else {
-          if (lineDirty || self.container.firstChild != self.container.oldFirstChild)
-            self.history.touch(node);
+          var old = self.container.oldFirstChild;
+          if (lineDirty || old === undefined || self.container.firstChild != old)
+            self.history.touch(null);
           self.container.oldFirstChild = self.container.firstChild;
         }
       }
