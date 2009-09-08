@@ -32,14 +32,14 @@ qx.Class.define("qx.test.ui.form.Field",
       this.getRoot().add(textfield);
       
       textfield.focus();      
-      textfield.selectAll();
+      textfield.selectAllText();
 
       this.flush();
 
       // test this asynchron because opera 9.x seems to cache the creation of DOM elements
       var self = this;
       this.wait(1000, function() {
-        self.assertEquals("affe", textfield.getSelection());
+        self.assertEquals("affe", textfield.getTextSelection());
         textfield.destroy();        
       });
     },
@@ -53,12 +53,12 @@ qx.Class.define("qx.test.ui.form.Field",
       textfield.focus();
       this.flush();
       
-      textfield.selectAll();      
+      textfield.selectAllText();      
 
       // test this asynchron because opera 9.x seems to cache the creation of DOM elements
       var self = this;
       this.wait(1000, function() {
-        self.assertEquals("affe", textfield.getSelection());
+        self.assertEquals("affe", textfield.getTextSelection());
         textfield.destroy();        
       });
     },
@@ -70,15 +70,15 @@ qx.Class.define("qx.test.ui.form.Field",
       this.getRoot().add(textfield);
       
       textfield.focus();      
-      textfield.selectAll();
-      textfield.clearSelection()
+      textfield.selectAllText();
+      textfield.clearTextSelection()
 
       this.flush();
       
       // test this asynchron because opera 9.x seems to cache the creation of DOM elements
       var self = this;
       this.wait(100, function() {
-        self.assertEquals("", textfield.getSelection());
+        self.assertEquals("", textfield.getTextSelection());
         textfield.destroy();        
       });
     },
@@ -95,9 +95,9 @@ qx.Class.define("qx.test.ui.form.Field",
       // test this asynchron because opera 9.x seems to cache the creation of DOM elements
       var self = this;
       this.wait(1000, function() {
-        textfield.selectAll();
-        textfield.clearSelection()
-        self.assertEquals("", textfield.getSelection());
+        textfield.selectAllText();
+        textfield.clearTextSelection()
+        self.assertEquals("", textfield.getTextSelection());
         textfield.destroy();        
       });
     }    
