@@ -101,9 +101,24 @@ qx.Class.define("qx.test.ui.LocaleSwitch",
       manager.setLocale("en_QX");
       this.assertEquals("test two", label.getValue());
 
-      this.getRoot().remove(label);
-
-      label.dispose();
+      label.destroy();
+    },
+    
+    
+    testToolTipText : function() 
+    {
+      var manager = qx.locale.Manager.getInstance();
+      
+      var widget = new qx.ui.core.Widget();
+      this.getRoot().add(widget);
+      
+      widget.setToolTipText(this.tr("test one"));
+      
+      this.assertEquals("test one", widget.getToolTipText());
+      manager.setLocale("de_QX");
+      this.assertEquals("Eins", widget.getToolTipText());
+      
+      widget.destroy();
     }
   }
 });
