@@ -70,7 +70,10 @@ qx.Class.define("demobrowser.demo.widget.List",
       };
 
       configList.addListener("changeSelection", function(e) {
-        this.debug("Value: " + e.getData()[0].getLabel());
+        var selection = e.getData();
+        if (selection[0]) {
+          this.debug("Value: " + selection[0].getLabel());
+        }
       });
 
       container.add(configList, {left: 20, top: 40});
