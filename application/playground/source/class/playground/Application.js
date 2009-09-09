@@ -485,7 +485,9 @@ qx.Class.define("playground.Application",
         this.code = this.textarea.getValue();
       }
 
+      var title = this.__decodeSampleId(this.currentSample);
       this.code = 'this.info("' + this.tr("Starting application") +
+        (title ? " '" + title + "'": "") +
         ' ...");\n' + this.code +
         'this.info("' + this.tr("Successfully started") + '.");\n';
 
@@ -558,6 +560,8 @@ qx.Class.define("playground.Application",
     /**
      * Initializes the playground with a sample.
      *
+     * @lint ignoreDeprecated(confirm)
+     *
      * @param e {Event} the current target
      * @return {void}
      */
@@ -606,7 +610,7 @@ qx.Class.define("playground.Application",
         if (this.currentSample != "" && this.editor != undefined) {
           this.__isSourceCodeChanged();
         }
-        // get the curren set code
+        // get the currently set code
         if (this.showSyntaxHighlighting) {
           var code = this.editor.getCode();
         } else {
