@@ -40,7 +40,7 @@ qx.Class.define("demobrowser.demo.widget.Iframe",
       // frame
       //----------
 
-      var frame = new qx.ui.embed.StyledIframe();
+      var frame = new qx.ui.embed.ThemedIframe();
       var d = this.getRoot();
       frame.addListener("load", function(e) {
         this.debug("Loaded: " + this.getSource());
