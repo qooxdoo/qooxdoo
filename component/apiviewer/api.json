@@ -32,7 +32,7 @@
       {
         "qx.application"  : "${APIVIEWER}.Application",
         "qx.theme"        : "${APIVIEWER}.Theme",
-        "qx.version"      : "0.8.3-pre"
+        "qx.version"      : "${QOOXDOO_VERSION}"
       },
 
       "cache" :
