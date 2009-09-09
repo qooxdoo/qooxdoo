@@ -38,7 +38,7 @@
       {
         "qx.application"   : "testrunner.runner.Application",
         "qx.theme"         : "${THEME}",
-        "qx.version"       : "0.8.3-pre",
+        "qx.version"       : "${QOOXDOO_VERSION}",
         //"qx.testPageUri"   : "html/tests.html",
         "qx.testNameSpace" : "${APPLICATION}.test",  // this is common, but not mandatory
         "testrunner.title" : "${APPLICATION}"

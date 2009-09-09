@@ -80,7 +80,7 @@
 
       "settings" :
       {
-        "qx.version" : "0.8.3-pre",
+        "qx.version" : "${QOOXDOO_VERSION}",
         "qx.application" : "${APPLICATION}.Application",
         "qx.theme" : "${THEME}"
       },
