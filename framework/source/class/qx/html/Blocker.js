@@ -51,7 +51,7 @@ qx.Class.define("qx.html.Blocker",
     if (qx.core.Variant.isSet("qx.client", "mshtml"))
     {
       this.setStyles({
-        backgroundImage: "url(" + qx.util.ResourceManager.toUri("qx/static/blank.gif") + ")",
+        backgroundImage: "url(" + qx.util.ResourceManager.getInstance().toUri("qx/static/blank.gif") + ")",
         backgroundRepeat: "repeat"
       });
     }
