@@ -20,6 +20,9 @@
 
 /**
  * This manager is used by all objects which needs ranges like qx.ui.form.Spinner, ...
+ * 
+ * @deprecated This range implementation is expected to be replaced by an  
+ *   advanced solution in a future release.
  */
 qx.Class.define("qx.util.range.Range",
 {
