@@ -94,7 +94,7 @@
     {
       "shell" :
       {
-        "command" : "rsync --checksum --compress --recursive --delete --inplace --links --safe-links --exclude .svn api/* root@qooxdoo.org:/var/www/qooxdoo/demo/0.8.3-pre/apiviewer"
+        "command" : "rsync --checksum --compress --recursive --delete --inplace --links --safe-links --exclude .svn api/* root@qooxdoo.org:/var/www/qooxdoo/demo/0.8.3/apiviewer"
       }
     },
 
@@ -102,7 +102,7 @@
     {
       "shell" :
       {
-        "command" : "rsync --checksum --compress --recursive --delete --inplace --links --safe-links --exclude .svn test/* root@qooxdoo.org:/var/www/qooxdoo/demo/0.8.3-pre/testrunner"
+        "command" : "rsync --checksum --compress --recursive --delete --inplace --links --safe-links --exclude .svn test/* root@qooxdoo.org:/var/www/qooxdoo/demo/0.8.3/testrunner"
       }
     },
 
