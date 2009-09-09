@@ -1,8 +1,0 @@
-244c244
-<             cmdline = scriptfile
----
->             cmdline = scriptfile            
-250c250
-<                 cmdline = "%s -u %s" % (interp, cmdline)
----
->                 cmdline = '%s -u "%s"' % (interp, cmdline)
