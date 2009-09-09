@@ -154,7 +154,7 @@ qx.Class.define("feedreader.Application",
       );
       this.__staticFeedFolder.getFeeds().push(
         new feedreader.model.Feed(
-          "Surfin' Safari", "http://webkit.org/blog/feed", "static"
+          "Surfin' Safari", "http://webkit.org/blog/feed/", "static"
         )
       );
       this.__staticFeedFolder.getFeeds().push(
@@ -174,12 +174,12 @@ qx.Class.define("feedreader.Application",
       );
       this.__userFeedFolder.getFeeds().push(
         new feedreader.model.Feed(
-          "A List Apart", "http://www.alistapart.com/rss.xml", "user"
+          "IEBlog", "http://blogs.msdn.com/ie/rss.xml", "user"
         )
       );
       this.__userFeedFolder.getFeeds().push(
         new feedreader.model.Feed(
-          "Apple Insider", "http://www.appleinsider.com/appleinsider.rss", "user"
+          "The Mozilla Blog", "http://blog.mozilla.com/feed/", "user"
         )
       );
       this.__userFeedFolder.getFeeds().push(
