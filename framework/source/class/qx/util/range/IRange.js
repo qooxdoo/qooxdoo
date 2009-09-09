@@ -19,6 +19,9 @@
 
 /**
  * The interface for a range manager
+ * 
+ * @deprecated This range implementation is expected to be replaced by an  
+ *   advanced solution in a future release.
  */
 qx.Interface.define("qx.util.range.IRange",
 {
