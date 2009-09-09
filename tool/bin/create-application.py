@@ -143,8 +143,8 @@ def patchSkeleton(dir, framework_dir, options):
 
     if options.type == "contribution":
         # TODO: in a final release the following "trunk" would need to be changed 
-        # to an actual version number like "0.8.2"
-        relPath = os.path.join(os.pardir, os.pardir, "qooxdoo", "trunk")
+        # to an actual version number like "0.8.3"
+        relPath = os.path.join(os.pardir, os.pardir, "qooxdoo", "0.8.3")
         relPath = re.sub(r'\\', "/", relPath)
 
     for root, dirs, files in os.walk(dir):
@@ -163,7 +163,7 @@ def patchSkeleton(dir, framework_dir, options):
                         "Namespace": options.namespace,
                         "REL_QOOXDOO_PATH": relPath,
                         "ABS_QOOXDOO_PATH": absPath,
-                        "QOOXDOO_VERSION": "0.8.3-pre",
+                        "QOOXDOO_VERSION": "0.8.3",
                         "Cache" : options.cache,
                     }).encode('utf-8')
                 )
