@@ -578,7 +578,8 @@ qx.Class.define("qx.ui.core.Widget",
     {
       check : "String",
       nullable : true,
-      event : "changeToolTipText"
+      event : "changeToolTipText",
+      apply : "_applyToolTipText"
     },
 
 
@@ -878,6 +879,7 @@ qx.Class.define("qx.ui.core.Widget",
     __shadowElement : null,
     __protectorElement : null,
     __initialAppearanceApplied : null,
+    __toolTipTextListenerId : null,
 
 
     /*
@@ -2514,6 +2516,25 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     // property apply
+    _applyToolTipText : function(value, old)
+    {
+      if (qx.core.Variant.isSet("qx.dynlocale", "on"))
+      {
+        if (this.__toolTipTextListenerId) {
+          return;
+        }
+        var manager = qx.locale.Manager.getInstance();
+        this.__toolTipTextListenerId = manager.addListener("changeLocale", 
+          function() {
+            if (value && value.translate) {
+              this.setToolTipText(value.translate());
+            }          
+          }
+        , this);
+      }
+    },
+
+    // property apply
     _applyTextColor : function(value, old) {
       // empty template
     },
@@ -4048,6 +4069,16 @@ qx.Class.define("qx.ui.core.Widget",
     // it just slows down things a bit, so do not do them.
     if (!qx.core.ObjectRegistry.inShutDown)
     {
+      if (qx.core.Variant.isSet("qx.dynlocale", "on"))
+      {
+        if (this.__toolTipTextListenerId) 
+        {
+          qx.locale.Manager.getInstance().removeListenerById(
+            this.__toolTipTextListenerId
+          );
+        }
+      }
+      
       // Remove widget pointer from DOM
       this.__containerElement.setAttribute("$$widget", null, true);
 
