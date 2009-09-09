@@ -34,7 +34,7 @@ qx.Class.define("qx.event.type.Focus",
      * @param relatedTarget {Object} Any possible event target
      * @param canBubble {Boolean?false} Whether or not the event is a bubbling event.
      *     If the event is bubbling, the bubbling can be stopped using
-     *     {@link #stopPropagation}
+     *     {@link qx.event.type.Event#stopPropagation}
      * @return {qx.event.type.Event} The initialized event instance
      */
     init : function(target, relatedTarget, canBubble)
