@@ -31,7 +31,7 @@
 
 \bgetFormValue\b=The method getFormValue on ListItems is deprecated due to the fact of the removal of the value in the form elements.
 
-\bgetValue\b=Take a special look at the value property of all form widgets. If it is used as a placeholder for a string for serialization, you cant use it like this anymore. Please use qooxdoo user data for that instead e.g. getUserData("value")
-\bsetValue\b=Take a special look at the value property of all form widgets. If it is used as a placeholder for a string for serialization, you cant use it like this anymore. Please use qooxdoo user data for that instead e.g. setUserData("value", value)
+\bgetValue\b=Take a special look at the value property of all form widgets. If it is used as a placeholder for a string for serialization, you cant use it like this anymore. Please use qooxdoo user data or the model property for that instead e.g. getUserData("value")
+\bsetValue\b=Take a special look at the value property of all form widgets. If it is used as a placeholder for a string for serialization, you cant use it like this anymore. Please use qooxdoo user data or or the model property for that instead e.g. setUserData("value", value)
 \bresetValue\b=Take a special look at the value property of all form widgets. If it is used as a placeholder for a string for serialization, you cant use it like this anymore.
 \bchangeValue\b=Take a special look at the value property of all form widgets. If it is used as a placeholder for a string for serialization, you cant use it like this anymore.
