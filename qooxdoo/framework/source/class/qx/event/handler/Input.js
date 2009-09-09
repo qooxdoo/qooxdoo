@@ -152,7 +152,7 @@ qx.Class.define("qx.event.handler.Input",
           var tag = target.tagName.toLowerCase();
           var elementType = target.type;
 
-          if (elementType === "text" || tag === "textarea" || elementType === "checkbox" || elementType === "radio") {
+          if (elementType === "text" || elementType === "password" || tag === "textarea" || elementType === "checkbox" || elementType === "radio") {
             qx.bom.Event.addNativeListener(target, "propertychange", this._onPropertyWrapper);
           }
 
@@ -225,7 +225,7 @@ qx.Class.define("qx.event.handler.Input",
           var tag = target.tagName.toLowerCase();
           var elementType = target.type;
 
-          if (elementType === "text" || tag === "textarea" || elementType === "checkbox" || elementType === "radio") {
+          if (elementType === "text" || elementType === "password" || tag === "textarea" || elementType === "checkbox" || elementType === "radio") {
             qx.bom.Event.removeNativeListener(target, "propertychange", this._onPropertyWrapper);
           }
 
@@ -300,7 +300,7 @@ qx.Class.define("qx.event.handler.Input",
     {
       "mshtml|opera" : function(target, elementType)
       {
-        if (elementType === "text")
+        if (elementType === "text" || elementType === "password")
         {
           qx.event.Registration.addListener(target, "keypress", function(e) {
             if (e.getKeyIdentifier() === "Enter") {
@@ -397,7 +397,7 @@ qx.Class.define("qx.event.handler.Input",
         var target = e.target || e.srcElement;
         var prop = e.propertyName;
 
-        if (prop === "value" && (target.type === "text" || target.tagName.toLowerCase() === "textarea"))
+        if (prop === "value" && (target.type === "text" || target.type === "password" || target.tagName.toLowerCase() === "textarea"))
         {
           if (!target.__inValueSet) {
             qx.event.Registration.fireEvent(target, "input", qx.event.type.Data, [target.value]);
