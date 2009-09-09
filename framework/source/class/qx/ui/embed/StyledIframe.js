@@ -32,17 +32,17 @@
  *
  * <pre class='javascript'>
  * var document = this.getRoot();
- * var iframe = new qx.ui.embed.StyledIframe("frame.html");
+ * var iframe = new qx.ui.embed.ThemedIframe("frame.html");
  * document.add(iframe);
  * </pre>
  *
  *
  * *External Documentation*
  *
- * <a href='http://qooxdoo.org/documentation/0.8/widget/stylediframe' target='_blank'>
+ * <a href='http://qooxdoo.org/documentation/0.8/widget/themediframe' target='_blank'>
  * Documentation of this widget in the qooxdoo wiki.</a>
  */
-qx.Class.define("qx.ui.embed.StyledIframe",
+qx.Class.define("qx.ui.embed.ThemedIframe",
 {
   extend : qx.ui.embed.AbstractIframe,
 
