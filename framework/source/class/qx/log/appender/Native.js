@@ -17,6 +17,12 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#require(qx.log.appender.Util)
+
+************************************************************************ */
+
 /**
  * Processes the incoming log entry and displays it by means of the native
  * logging capabilities of the client.
