@@ -1,1 +1,4 @@
 \bqx\.util\.ResourceManager\.(\w+)=qx.util.ResourceManager.getInstance().\1
+\\.jsonToClass\(\=.toClass(
+\\.jsonToModel\(\=.toModel(
+\\.onSetOk\(\=.onUpdate(
