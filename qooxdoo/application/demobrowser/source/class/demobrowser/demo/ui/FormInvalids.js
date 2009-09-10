@@ -120,7 +120,7 @@ qx.Class.define("demobrowser.demo.ui.FormInvalids",
         }
       }, this);
 
-      var disableButton = new qx.ui.form.ToggleButton("enabled");
+      var disableButton = new qx.ui.form.ToggleButton("disabled");
       this.getRoot().add(disableButton, {left: 330, top: 20});
 
       disableButton.addListener("changeValue", function(e) {
