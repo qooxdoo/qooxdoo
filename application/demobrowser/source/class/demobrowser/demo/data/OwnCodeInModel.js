@@ -120,14 +120,20 @@ qx.Mixin.define("demobrowser.demo.data.ItemsMixin",
     sortByType: function() {
       var dataArray = this.getItems();
       dataArray.sort(function(a, b) {
-        return a.getType() > b.getType();
+        if (a.getType() > b.getType()) {
+          return 1;
+        } else if (a.getType() < b.getType()) {
+          return -1
+        } else {
+          return 0;
+        }
       });
     },
 
     sortByName: function() {
       var dataArray = this.getItems();
       dataArray.sort(function(a, b) {
-        return a.getName() > b.getName();
+        return a.getName() > b.getName() ? 1 : -1;
       });
     }
   }
