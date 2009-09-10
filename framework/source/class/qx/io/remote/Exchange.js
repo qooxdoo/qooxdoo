@@ -705,8 +705,26 @@ qx.Class.define("qx.io.remote.Exchange",
       }
 
       // Disable future timeouts in case user handler blocks
-      if (this.getRequest()) {
-        this.getRequest().setTimeout(0);
+      this.__disableRequestTimeout();
+    },
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      PRIVATES
+    ---------------------------------------------------------------------------
+    */
+   
+    /**
+     * Disables the timer of the request to prevent that the timer is expiring
+     * even if the user handler (e.g. "completed") was already called.
+     * 
+     * @return {void}
+     */
+    __disableRequestTimeout : function() {
+      var vRequest = this.getRequest();
+      if (vRequest) {
+        vRequest.setTimeout(0);
       }
     },
 
@@ -875,6 +893,10 @@ qx.Class.define("qx.io.remote.Exchange",
             // implementation has already been disposed
             break;
           }
+
+
+          // Disable future timeouts in case user handler blocks
+          this.__disableRequestTimeout();
 
           if (this.hasListener(value))
           {
