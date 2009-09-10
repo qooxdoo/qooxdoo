@@ -58,6 +58,13 @@ qx.Mixin.define("qx.ui.form.MModelSelection",
      */
     setModelSelection : function(modelSelection)
     {
+      // check for null values
+      if (!modelSelection) 
+      {
+        this.resetSelection();
+        return;
+      }
+      
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         this.assertArray(modelSelection, "Please use an array as parameter.");
       }

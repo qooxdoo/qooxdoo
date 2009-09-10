@@ -131,11 +131,28 @@ qx.Class.define("demobrowser.demo.virtual.Messenger",
 
       box.add(new qx.ui.basic.Label("Status: "), {row: 2, column: 0});
       var inpStatus = new qx.ui.form.SelectBox();
-      inpStatus.add(new qx.ui.form.ListItem("online"));
-      inpStatus.add(new qx.ui.form.ListItem("away"));
-      inpStatus.add(new qx.ui.form.ListItem("busy"));
-      inpStatus.add(new qx.ui.form.ListItem("offline"));
-      controller.addTarget(inpStatus, "value", "status", true);
+      inpStatus.add(new qx.ui.form.ListItem("online").set({model: "online"}));
+      inpStatus.add(new qx.ui.form.ListItem("away").set({model: "away"}));
+      inpStatus.add(new qx.ui.form.ListItem("busy").set({model: "busy"}));
+      inpStatus.add(new qx.ui.form.ListItem("offline").set({model: "offline"}));
+//      controller.addTarget(inpStatus, "value", "status", true);
+
+      this.messenger.bind(
+        "selection[0].status", inpStatus, 
+        "modelSelection",
+        {
+          converter: function(data) {
+            return [data]
+          } 
+        }
+      );      
+
+      inpStatus.bind("selection", this.messenger, "selection[0].status", {
+        converter : function(data) {
+          return data[0].getModel();
+        }
+      });
+
       box.add(inpStatus, {row: 2, column:1});
 
       box.add(new qx.ui.basic.Label("Avatar: ").set({
