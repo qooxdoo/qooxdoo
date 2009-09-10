@@ -149,11 +149,6 @@ qx.Class.define("feedreader.Application",
       );
       this.__staticFeedFolder.getFeeds().push(
         new feedreader.model.Feed(
-          "Daring Fireball", "http://daringfireball.net/index.xml", "static"
-        )
-      );
-      this.__staticFeedFolder.getFeeds().push(
-        new feedreader.model.Feed(
           "Surfin' Safari", "http://webkit.org/blog/feed/", "static"
         )
       );
