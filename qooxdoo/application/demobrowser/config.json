@@ -41,7 +41,8 @@
     "source-script",
     "test",
     "test-source",
-    "translation"
+    "translation",
+    "migration"
   ],
 
   "let" :
