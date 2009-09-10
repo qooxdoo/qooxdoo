@@ -51,7 +51,7 @@ members :
    };
 
 
-   var combo = new qx.ui.form.ComboBox;
+   var selectBox = new qx.ui.form.SelectBox();
    var btnShow = new qx.ui.form.Button("Show it!");
    var lblName = new qx.ui.basic.Label("Name");
    var lblDesc = new qx.ui.basic.Label("Description");
@@ -60,11 +60,11 @@ members :
    var spDuration = new qx.ui.form.Spinner;
 
    for (var transition in transitionData) {
-     combo.add(new qx.ui.form.ListItem(transition));
+     selectBox.add(new qx.ui.form.ListItem(transition));
    }
 
-   combo.addListener("changeValue", function(e) {
-     lblDesc.setValue(transitionData[lblDesc.setValue(e.getData())]);
+   selectBox.addListener("changeSelection", function(e) {
+     lblDesc.setValue(transitionData[lblDesc.setValue(e.getData()[0].getLabel())]);
    });
 
    spDuration.set({
@@ -90,7 +90,7 @@ members :
    spDuration.setNumberFormat(nf);
 
    btnShow.addListener("execute", function(){
-     var transition = combo.getValue();
+     var transition = selectBox.getSelection()[0].getLabel();
      animMove.set({
        transition : transition,
        duration : spDuration.getValue()
@@ -102,7 +102,7 @@ members :
    doc.add(lblName, {left : 25, top : 50});
    doc.add(lblDesc, {left : 25, top : 75});
    doc.add(lblDur, {left : 25, top : 25});
-   doc.add(combo, {left : 90, top : 50});
+   doc.add(selectBox, {left : 90, top : 50});
    doc.add(lblDesc, {left : 90, top : 75});
    doc.add(spDuration, {left : 90, top : 25});
    doc.add(btnShow, {left : 23, top : 100});
