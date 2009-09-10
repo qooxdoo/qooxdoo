@@ -67,6 +67,7 @@ qx.Class.define("qx.ui.form.renderer.Single",
         var label = this._createLabel(names[i], items[i]);
         this._add(label, {row: this._row, column: 0});
         var item = items[i];
+        label.setBuddy(item);
         this._add(item, {row: this._row, column: 1});
         this._row++;
       }

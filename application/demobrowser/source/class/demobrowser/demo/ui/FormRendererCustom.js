@@ -54,6 +54,7 @@ qx.Class.define("demobrowser.demo.ui.FormRendererCustom",
               var label = this._createLabel(names[i], items[i]);
               this._add(label, {row: row, column: this.__column});
               var item = items[i];
+              label.setBuddy(item);
               if (item instanceof qx.ui.form.RadioGroup) {
                 item = this._createWidgetForRadioGroup(item);
               }
