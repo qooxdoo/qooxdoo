@@ -49,9 +49,9 @@ qx.Class.define("demobrowser.demo.widget.ColorPopup",
       mypop.setValue("#23F3C1");
 
       var mybtn = new qx.ui.form.Button("Open Popup");
-      mybtn.addListener("mousedown", function(e)
+      mybtn.addListener("execute", function(e)
       {
-        mypop.placeToMouse(e)
+        mypop.placeToWidget(mybtn);
         mypop.show();
       });
 
