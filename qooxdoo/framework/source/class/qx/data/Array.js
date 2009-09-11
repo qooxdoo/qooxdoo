@@ -520,8 +520,24 @@ qx.Class.define("qx.data.Array",
       for (var i = 0; i < this.__array.length; i++) {
         this._applyEventPropagation(null, this.__array[i], i);
       }
+      
+      // store the old data
+      var oldLength = this.getLength();
+      var items = this.__array.concat();
+      
+      // change the length
       this.__array.length = 0;
       this.__updateLength();
+      
+      // fire the change event
+      this.fireDataEvent("change",
+        {
+          start: 0,
+          end: oldLength - 1,
+          type: "remove",
+          items: items
+        }, null
+      );      
     },
 
 

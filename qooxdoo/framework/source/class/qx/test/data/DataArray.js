@@ -304,7 +304,21 @@ qx.Class.define("qx.test.data.DataArray",
         self.__a.removeAll();
       }, function(e) {
         this.assertEquals(0, self.__a.getLength(), "length not 0");
-      }, "Change event not fired!");      
+      }, "Change event not fired!");  
+      
+      
+      this.__a.push("a");
+      this.__a.push("b");      
+      
+      this.assertEventFired(self.__a, "change", function () {
+        self.__a.removeAll();
+      }, function(e) {
+        self.assertEquals(0, e.getData().start, "Wrong start index in the event.");
+        self.assertEquals(1, e.getData().end, "Wrong end index in the event.");
+        self.assertEquals("remove", e.getData().type, "Wrong type in the event.");
+        self.assertEquals("a", e.getData().items[0]);
+        self.assertEquals("b", e.getData().items[1]);
+      }, "Change event not fired!");    
 
       this.assertEquals(0, this.__a.length, "RemoveAll does not work.");
     },
