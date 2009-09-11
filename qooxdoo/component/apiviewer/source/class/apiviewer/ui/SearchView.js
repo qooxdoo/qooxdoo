@@ -82,7 +82,8 @@ qx.Class.define("apiviewer.ui.SearchView",
 
       // Search form - input field
       this.sinput = new qx.ui.form.TextField().set({
-        allowGrowY: true
+        allowGrowY: true,
+        placeholder : "Search..."
       });
 
       // Search form - submit button
