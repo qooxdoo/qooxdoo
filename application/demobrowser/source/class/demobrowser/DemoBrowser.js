@@ -87,7 +87,24 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     this.add(mainsplit, {flex : 1});
 
-    mainsplit.add(this.__makeTree(), 0);
+    // tree side
+    var leftComposite = new qx.ui.container.Composite();
+    leftComposite.setLayout(new qx.ui.layout.VBox(3));
+    leftComposite.setBackgroundColor("background-splitpane");
+    mainsplit.add(leftComposite, 0);
+    
+    // search
+    var searchTextField = new qx.ui.form.TextField();
+    searchTextField.setLiveUpdate(true);
+    searchTextField.setPlaceholder("Search...");
+    searchTextField.addListener("changeValue", function(e) {
+      this.filter(e.getData());
+    }, this);    
+    leftComposite.add(searchTextField);
+    
+    this.__tree = this.__makeTree();
+    leftComposite.add(this.__tree, {flex: 1});
+        
     mainsplit.add(infosplit, 1);
 
     var demoView = this.__makeDemoView();
@@ -186,6 +203,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     __currentTheme : null,
     __logSync : null,
     __logDone : null,
+    __tree : null,
 
     __makeCommands : function()
     {
@@ -804,6 +822,28 @@ qx.Class.define("demobrowser.DemoBrowser",
     // ------------------------------------------------------------------------
     //   MISC HELPERS
     // ------------------------------------------------------------------------
+
+    /**
+     * This method filters the folders in the tree.
+     * @param term {String} The search term.
+     */
+    filter : function(term) 
+    {
+      var searchRegExp = new RegExp("^.*" + term + ".*", "ig");
+      var items = this.__tree.getRoot().getItems(true, true);
+      for (var i = 0; i < items.length; i++) {
+        var folder = items[i];
+        var parent = folder.getParent();
+        if (!folder.getLabel().search(searchRegExp) || !parent.getLabel().search(searchRegExp)) {
+          folder.show();
+          folder.getParent().setOpen(true);
+          folder.getParent().show();
+        } else {
+          folder.exclude();
+        }
+      }      
+    },
+
 
     /**
      * This method re-gets (through XHR) the HTML page of the current demo.  The page is
