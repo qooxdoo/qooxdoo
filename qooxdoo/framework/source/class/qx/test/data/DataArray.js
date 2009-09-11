@@ -298,7 +298,13 @@ qx.Class.define("qx.test.data.DataArray",
 
 
     testRemoveAll: function() {
-      this.__a.removeAll();
+
+      var self = this;
+      this.assertEventFired(self.__a, "changeLength", function () {
+        self.__a.removeAll();
+      }, function(e) {
+        this.assertEquals(0, self.__a.getLength(), "length not 0");
+      }, "Change event not fired!");      
 
       this.assertEquals(0, this.__a.length, "RemoveAll does not work.");
     },
