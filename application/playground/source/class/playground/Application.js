@@ -16,6 +16,7 @@
      * Andreas Ecker (ecker)
      * Yuecel Beser (ybeser)
      * Jonathan Weiß (jonathan_rass)
+     * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
 
@@ -219,15 +220,16 @@ qx.Class.define("playground.Application",
           var data = qx.util.Json.parse(state);
           var code = decodeURIComponent(data.code);
           if (this.showSyntaxHighlighting) {
-            if (state != this.editor.getCode()) {
+            if (code != this.editor.getCode()) {
               this.editor.setCode(code);
+              this.__widgets["toolbar.runButton"].execute();              
             }
           } else {
-            if (state != this.textarea.getValue()) {
+            if (code != this.textarea.getValue()) {
               this.textarea.setValue(code);
+              this.__widgets["toolbar.runButton"].execute();              
             }
           }
-          this.__widgets["toolbar.runButton"].execute();
         }
       }, this);
 
