@@ -303,7 +303,7 @@ qx.Class.define("qx.test.data.DataArray",
       this.assertEventFired(self.__a, "changeLength", function () {
         self.__a.removeAll();
       }, function(e) {
-        this.assertEquals(0, self.__a.getLength(), "length not 0");
+        self.assertEquals(0, self.__a.getLength(), "length not 0");
       }, "Change event not fired!");  
       
       
