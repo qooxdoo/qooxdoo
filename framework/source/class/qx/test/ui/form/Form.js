@@ -92,7 +92,7 @@ qx.Class.define("qx.test.ui.form.Form",
           self.resume(function() {
             this.__testInvalidBorder(widget);
           }, self);
-        }, 0);
+        }, 100);
         this.wait();
       }
 
