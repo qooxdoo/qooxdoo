@@ -893,7 +893,7 @@ class QxTest:
     testRun = {
       "aut_name" : aut,
       "aut_host" : self.autConf["autHost"], 
-      "aut_qxpath" : self.autConf["autQxPath"],
+      "aut_qxpath" : "",
       "aut_path" : self.autConf["autPath" + aut],
       "test_host" : test_host,
       "test_hostos" : self.os,
@@ -903,6 +903,9 @@ class QxTest:
       "simulations": [],
       "dev_run" : True
     }
+    
+    if "autQxPath" in self.autConf:
+      testRun["aut_qxpath"] = self.autConf["autQxPath"]
     
     if "hostId" in self.mailConf:
       testRun["test_hostid"] = self.mailConf["hostId"]
