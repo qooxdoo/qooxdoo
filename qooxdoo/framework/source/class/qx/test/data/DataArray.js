@@ -480,6 +480,43 @@ qx.Class.define("qx.test.data.DataArray",
         self.assertEquals(4, e.getData().items[0], "Wrong item in the event.");
       }, "Change event not fired!");
       a.dispose();
+    },
+    
+    
+    testForEach : function() 
+    {
+      var self = this;
+      var i = 0;
+      var thisContext = {};
+      var handlerCalled = false;
+      
+      var forEachHandler = function(item) {
+        handlerCalled = true;
+        // check for the context
+        self.assertEquals(this, thisContext);
+        // check the tree items        
+        if (i == 0) {
+          i++;
+          self.assertEquals("one", item);
+          return;
+        } else if (i == 1) {
+          i++
+          self.assertEquals("two", item);
+          return;
+        } else if (i == 2) {
+          i++;
+          self.assertEquals("three", item);
+          return;
+        }
+        // something went wrong!
+        throw new Error("Wrong call in the handler.");
+      }
+      
+      // invoke the forEach
+      this.__a.forEach(forEachHandler, thisContext);
+      
+      // check if the handlers has been called
+      this.assertTrue(handlerCalled);
     }
   }
 });

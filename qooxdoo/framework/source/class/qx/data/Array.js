@@ -664,6 +664,21 @@ qx.Class.define("qx.data.Array",
 
       return result === undefined ? null : result;
     },
+    
+    
+    /**
+     * Invokes the given function for every item in the array.
+     * 
+     * @param callback {Function} The function which will be call for every 
+     *   item in the array.
+     * @param context {var} The context in which the callback will be invoked.
+     */
+    forEach : function(callback, context) 
+    {
+      for (var i = 0; i < this.__array.length; i++) {
+        callback.call(context, this.__array[i]);
+      }
+    },
 
 
     /*
