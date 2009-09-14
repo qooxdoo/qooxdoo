@@ -829,7 +829,7 @@ class QxTest:
 
 
   def reportResults(self, aut, start_date, log_file):
-    import simulationLogParser
+    from simulationLogParser import SimulationLogParser
     
     if (self.sim):
       self.log("SIMULATION: Getting report data for " + aut)
@@ -842,7 +842,9 @@ class QxTest:
     from urllib import urlencode
     testRunDict = self.getTestRunDict(aut, start_date)
     
-    simulationData = simulationLogParser.parse(log_file)
+    slp = SimulationLogParser(log_file)
+    simulationData = slp.getSimulationData()
+    #simulationData = simulationLogParser.parse(log_file)
     testRunDict["simulations"] = simulationData
     
     testRunJson = simplejson.dumps(testRunDict)
@@ -850,8 +852,6 @@ class QxTest:
     self.log("Report data aggregated, sending request")
     postdata = urlencode({"testRun": testRunJson})  
     req = Request(self.testConf["reportServerUrl"], postdata)
-    
-    print(postdata)
     
     try:
       response = urlopen(req)
