@@ -436,22 +436,36 @@ qx.Class.define("qx.util.Json",
 
     /**
      * Parse a JSON text, producing a JavaScript value.
-     * It returns false if there is a syntax error.
+     * It triggers an exception if there is a syntax error.
      *
      * @lint ignoreDeprecated(eval)
      *
      * @param text {String} JSON string
-     * @return {Object} Returns the object
+     * @param validate {Boolean ? true} <code>true</code> if the passed JSON string 
+     *    should be validated, <code>false</code> otherwise.
+     * @return {Object|null} Returns the object
      * @throws an error if the text could not be parsed or evaluated
      */
-    parse : function(text)
+    parse : function(text, validate)
     {
-      if (/[^,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t]/.test(text.replace(/"(\\.|[^"\\])*"/g, ""))) {
-        throw new Error("Could not parse JSON string!");
+      // Set default value if validate is not defined
+      if (validate === undefined) {
+        validate = true;
       }
 
+      if (qx.core.Setting.get("qx.jsonDebugging")) {
+        qx.log.Logger.debug(this, "JSON response: " + text);
+      }
+      
+      if (validate) {
+        if (/[^,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t]/.test(text.replace(/"(\\.|[^"\\])*"/g, ""))) {
+          throw new Error("Could not parse JSON string!");
+        }
+      }
+      
       try {
-        return eval("(" + text + ")");
+        var result = (text && text.length > 0) ? eval('(' + text + ')') : null;
+        return result;
       } catch(ex) {
         throw new Error("Could not evaluate JSON string: " + ex.message);
       }
@@ -462,22 +476,20 @@ qx.Class.define("qx.util.Json",
      * Parse a JSON text, producing a JavaScript value.
      * It triggers an exception if there is a syntax error.
      *
-     * @lint ignoreDeprecated(eval)
+     * @deprecated Use 'qx.util.Json.parse' instead!
      *
      * @param text {String} JSON string
-     * @return {var} evaluated JSON string.
+     * @return {Object} evaluated JSON string.
+     * @throws an error if the text could not be parsed or evaluated
      */
     parseQx : function(text)
     {
-      /* Convert the result text into a result primitive or object */
-
-      if (qx.core.Setting.get("qx.jsonDebugging")) {
-        qx.log.Logger.debug(this, "JSON response: " + text);
-      }
-
-      var obj = (text && text.length > 0) ? eval('(' + text + ')') : null;
-
-      return obj;
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "Use 'parse' instead!"
+      );
+      
+      return qx.util.Json.parse(text, false);
     }
   },
 
