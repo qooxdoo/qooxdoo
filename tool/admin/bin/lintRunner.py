@@ -37,7 +37,7 @@ filter_errors = ["Use of deprecated global identifier", "Multiply declared ident
 filter_classes = []
 
 mailConf = {
-  'mailFrom'        : 'qxlint@1und1.de',
+  'mailFrom'        : 'testing@qooxdoo.org',
   'smtpHost'        : 'smtp.1und1.de',
   'smtpPort'        : 587
 }
