@@ -399,7 +399,10 @@ class QxTest:
         # generate the application
         self.log("Generating %s application." %target)
         buildcmd = os.path.join(buildConf["stageDir"], target + "application", "generate.py")
-        status, std, err = invokePiped(buildcmd + " build")
+        if target == "bom":
+          status, std, err = invokePiped(buildcmd + " build")
+        else:
+          status, std, err = invokePiped(buildcmd + " build,source-all")
 
         if status > 0:          
           self.logBuildErrors(buildLogFile, target, buildcmd, err)              
