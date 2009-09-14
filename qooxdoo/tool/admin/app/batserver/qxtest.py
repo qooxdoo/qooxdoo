@@ -839,7 +839,15 @@ class QxTest:
     else:
       self.log("Getting report data for " + aut)
     
-    import simplejson
+    try:
+      import json
+    except ImportError, e:
+      try:
+        import simplejson as json
+      except ImportError, e:
+        print("ERROR: Unable to import JSON module: " + repr(e))
+        return 
+    
     from urllib2 import *
     from urllib import urlencode
     testRunDict = self.getTestRunDict(aut, start_date)
@@ -849,7 +857,7 @@ class QxTest:
     #simulationData = simulationLogParser.parse(log_file)
     testRunDict["simulations"] = simulationData
     
-    testRunJson = simplejson.dumps(testRunDict)
+    testRunJson = json.dumps(testRunDict)
     
     self.log("Report data aggregated, sending request")
     postdata = urlencode({"testRun": testRunJson})  
