@@ -546,7 +546,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
           }
 
           try {
-            return vText && vText.length > 0 ? qx.util.Json.parseQx(vText) : null;
+            return vText && vText.length > 0 ? qx.util.Json.parse(vText, false) : null;
           } catch(ex) {
             return this.error("Could not execute json: (" + vText + ")", ex);
           }
