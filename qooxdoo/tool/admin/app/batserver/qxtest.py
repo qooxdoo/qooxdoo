@@ -90,6 +90,8 @@ class QxTest:
       self.sim = testConf['simulateTest']
 
     self.os = self.getOperatingSystem()
+    if self.os == "Darwin":
+      self.os = "Mac OS X"
 
     import socket
     socket.setdefaulttimeout(10)
@@ -215,7 +217,7 @@ class QxTest:
     if self.os == "Linux":      
       invokeExternal("pkill -f selenium-server")
       return
-    if self.os == "Darwin":
+    if self.os == "Mac OS X":
       invokeExternal("pkill selenium-server")
     else:
       invokeExternal(self.testConf['killSelenium'])
@@ -1063,9 +1065,9 @@ class QxTest:
     time.sleep(3)
     
     if procName:
-      if self.os == "Linux" or self.os == "Darwin":
+      if self.os == "Linux" or self.os == "Mac OS X":
         if (self.sim):
-          self.log("SIMULATION: Killing Linux browser process: " + procName)
+          self.log("SIMULATION: Killing *nix browser process: " + procName)
         else:  
           self.log("Killing Linux browser process: " + procName)      
           invokeExternal("pkill " + procName)
