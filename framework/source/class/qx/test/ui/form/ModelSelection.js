@@ -28,11 +28,11 @@ qx.Class.define("qx.test.ui.form.ModelSelection",
 
       // check the model selection
       widget.setSelection([children[0]]);
-      this.assertEquals(1, widget.getModelSelection()[0]);
+      this.assertEquals(1, widget.getModelSelection().getItem(0));
 
       // check the model selection again
       widget.setSelection([children[2]]);
-      this.assertEquals(3, widget.getModelSelection()[0]);
+      this.assertEquals(3, widget.getModelSelection().getItem(0));
     },
 
     __testGetMulti : function(widget, children)
@@ -41,12 +41,12 @@ qx.Class.define("qx.test.ui.form.ModelSelection",
 
       // check the model selection
       widget.setSelection([children[0]]);
-      this.assertEquals(1, widget.getModelSelection()[0]);
+      this.assertEquals(1, widget.getModelSelection().getItem(0));
 
       // check the model selection again
       widget.setSelection([children[1], children[2]]);
-      this.assertEquals(2, widget.getModelSelection()[0]);
-      this.assertEquals(3, widget.getModelSelection()[1]);
+      this.assertEquals(2, widget.getModelSelection().getItem(0));
+      this.assertEquals(3, widget.getModelSelection().getItem(1));
     },
 
     __testSetSingle : function(widget, children)

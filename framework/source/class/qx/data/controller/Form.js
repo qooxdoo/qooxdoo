@@ -59,10 +59,6 @@ qx.Class.define("qx.data.controller.Form",
   {
     this.base(arguments);
 
-    // set up the caches
-    this.__modelBindingIds = [];
-    this.__selectableBindingIds = {};
-
     if (model != null) {
       this.setModel(model);
     }
@@ -100,8 +96,7 @@ qx.Class.define("qx.data.controller.Form",
   members :
   {
     __objectController : null,
-    __modelBindingIds : null,
-    __selectableBindingIds : null,
+
 
     /**
      * Creates and sets a model using the {@link qx.data.marshal.Json} object.
@@ -192,24 +187,7 @@ qx.Class.define("qx.data.controller.Form",
 
         // check for all selection widgets
         if (this.__isModelSelectable(item)) {
-          // set up the binding without the object controller
-          var model = this.getModel();
-          // from model to item
-          this.__modelBindingIds.push(model.bind(name, item, "modelSelection", {
-          converter : function(data) {
-            return [data];
-          }}));
-          // from item to model
-          this.__selectableBindingIds[item.toHashCode()] =
-            item.bind("selection", model, name, {
-              converter : function(data) {
-                var selectedItem = data[0];
-                if (selectedItem != null) {
-                  return selectedItem.getModel();
-                };
-                return null;
-            }});
-
+          this.__objectController.addTarget(item, "modelSelection[0]", name, true);
         } else {
           // default case is the value property
           this.__objectController.addTarget(item, "value", name, true);
@@ -233,27 +211,11 @@ qx.Class.define("qx.data.controller.Form",
       // get the items
       var items = oldTarget.getItems();
 
-      var model = this.getModel();
-      // remove the binding from the model
-      for (var i = 0; i < this.__modelBindingIds.length; i++) {
-        model.removeBinding(this.__modelBindingIds[i]);
-      }
-      this.__modelBindingIds = [];
-
       // disconnect all items
       for (var name in items) {
         var item = items[name];
-        if (this.__isModelSelectable(item)) {
-          // remove the bindings from the selectable item
-          var id = this.__selectableBindingIds[item.toHashCode()];
-          item.removeBinding(id);
-
-        } else {
-          this.__objectController.removeTarget(item, "value", name);
-        }
+        this.__objectController.removeTarget(item, "value", name);
       }
-      // get rid of the old selectable binding ids
-      this.__selectableBindingIds = {};
     },
 
 
