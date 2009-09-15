@@ -221,7 +221,6 @@ qx.Class.define("qx.data.controller.List",
      * uses an additional parameter which changes the filter result.
      */
     update: function() {
-      this.__buildUpLookupTable();
       this.__changeModelLength();
       this.__renewBindings();
 
