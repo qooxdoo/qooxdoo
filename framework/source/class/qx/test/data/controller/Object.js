@@ -387,13 +387,13 @@ qx.Class.define("qx.test.data.controller.Object",
 
       this.__controller.addTarget(selectbox, "modelSelection[0]", "zIndex", true);
       
-      // model --> selectbox
-      this.__model.setZIndex(3);
-      this.assertEquals(3, selectbox.getSelection()[0].getModel());
-      
       // selectbox --> model
       selectbox.setSelection([selectbox.getSelectables()[6]]);
       this.assertEquals(6, this.__model.getZIndex());
+      
+      // model --> selectbox
+      this.__model.setZIndex(3);
+      this.assertEquals(3, selectbox.getSelection()[0].getModel());
       
       selectbox.dispose();
     }

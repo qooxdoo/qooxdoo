@@ -27,10 +27,10 @@ qx.Mixin.define("qx.ui.form.MModelSelection",
   
   construct : function() {   
     // create the selection array 
-    this.__selection = new qx.data.Array();
+    this.__modelSelection = new qx.data.Array();
     
     // listen to the changes
-    this.__selection.addListener("change", this.__onModelSelectionArrayChange, this);
+    this.__modelSelection.addListener("change", this.__onModelSelectionArrayChange, this);
     this.addListener("changeSelection", this.__onModelSelectionChange, this);
   },
   
@@ -48,7 +48,7 @@ qx.Mixin.define("qx.ui.form.MModelSelection",
   members :
   {    
     
-    __selection : null,
+    __modelSelection : null,
     __inSelectionChange : false,
         
     
@@ -56,16 +56,14 @@ qx.Mixin.define("qx.ui.form.MModelSelection",
      * Handler for the selection change of the including class e.g. SelectBox, 
      * List, ...
      * It sets the new modelSelection via {@link #setModelSelection}.
-     * 
-     * @param e {qx.eventy.type.Data} The change event of the selection.
      */
-    __onModelSelectionChange : function(e) {
+    __onModelSelectionChange : function() {
       if (this.__inSelectionChange) {
         return;
       }      
-      var data = e.getData();
+      var data = this.getSelection();
 
-      // add the first two parameter
+      // create the array with the modes inside
       var modelSelection = [];
       for (var i = 0; i < data.length; i++) {
         var model = data[i].getModel();
@@ -86,7 +84,7 @@ qx.Mixin.define("qx.ui.form.MModelSelection",
       var selectables = this.getSelectables();
       var itemSelection = [];
 
-      var modelSelection = this.__selection.toArray();
+      var modelSelection = this.__modelSelection.toArray();
       for (var i = 0; i < modelSelection.length; i++) {
         var model = modelSelection[i];
         for (var j = 0; j < selectables.length; j++) {
@@ -96,10 +94,16 @@ qx.Mixin.define("qx.ui.form.MModelSelection",
             break;
           }
         }
-      }      
-
+      }
       this.setSelection(itemSelection);
       this.__inSelectionChange = false;
+      
+      // check if the setting has worked
+      var currentSelection = this.getSelection();
+      if (!qx.lang.Array.equals(currentSelection, itemSelection)) {
+        // if not, set the actual selection
+        this.__onModelSelectionChange();
+      }      
     },
 
     
@@ -111,7 +115,7 @@ qx.Mixin.define("qx.ui.form.MModelSelection",
      */
     getModelSelection : function()
     {
-      return this.__selection;
+      return this.__modelSelection;
     },
 
 
@@ -130,7 +134,7 @@ qx.Mixin.define("qx.ui.form.MModelSelection",
       // check for null values
       if (!modelSelection) 
       {
-        this.__selection.removeAll();
+        this.__modelSelection.removeAll();
         return;
       }
       
@@ -139,10 +143,10 @@ qx.Mixin.define("qx.ui.form.MModelSelection",
       }
             
       // add the first two parameter
-      modelSelection.unshift(this.__selection.getLength()); // remove index
+      modelSelection.unshift(this.__modelSelection.getLength()); // remove index
       modelSelection.unshift(0);  // start index
-          
-      this.__selection.splice.apply(this.__selection, modelSelection);
+
+      this.__modelSelection.splice.apply(this.__modelSelection, modelSelection);
     }
   }
 });
