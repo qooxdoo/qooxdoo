@@ -293,7 +293,10 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
       if (items.length === 0) {
         this.resetSelection();
       } else {
-        this.__manager.replaceSelection(items);
+        var currentSelection = this.getSelection();
+        if (!qx.lang.Array.equals(currentSelection, items)) {
+          this.__manager.replaceSelection(items);          
+        }
       }
     },
 
