@@ -214,7 +214,12 @@ qx.Class.define("qx.data.controller.Form",
       // disconnect all items
       for (var name in items) {
         var item = items[name];
-        this.__objectController.removeTarget(item, "value", name);
+        if (this.__isModelSelectable(item)) {
+          this.__objectController.removeTarget(item, "modelSelection[0]", name);          
+        } else {
+          this.__objectController.removeTarget(item, "value", name);          
+        }
+
       }
     },
 
