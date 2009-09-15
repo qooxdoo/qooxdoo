@@ -24,25 +24,94 @@
  */
 qx.Mixin.define("qx.ui.form.MModelSelection",
 {
-  members :
+  
+  construct : function() {   
+    // create the selection array 
+    this.__selection = new qx.data.Array();
+    
+    // listen to the changes
+    this.__selection.addListener("change", this.__onModelSelectionArrayChange, this);
+    this.addListener("changeSelection", this.__onModelSelectionChange, this);
+  },
+  
+  
+  events : 
   {
+    /**
+     * Pseudo event. It will never be fired becasue the array itself can not 
+     * be changed. But the event description is needed for the data binding.
+     */ 
+    changeModelSelection : "qx.event.type.Data"
+  },
+  
+  
+  members :
+  {    
+    
+    __selection : null,
+    __inSelectionChange : false,
+        
+    
+    /**
+     * Handler for the selection change of the including class e.g. SelectBox, 
+     * List, ...
+     * It sets the new modelSelection via {@link #setModelSelection}.
+     * 
+     * @param e {qx.eventy.type.Data} The change event of the selection.
+     */
+    __onModelSelectionChange : function(e) {
+      if (this.__inSelectionChange) {
+        return;
+      }      
+      var data = e.getData();
+
+      // add the first two parameter
+      var modelSelection = [];
+      for (var i = 0; i < data.length; i++) {
+        var model = data[i].getModel();
+        if (model != null) {
+          modelSelection.push(model);          
+        }
+      };
+          
+      this.setModelSelection(modelSelection);
+    },
+       
+    
+    /**
+     * Listener for the change of the internal model selection data array.
+     */
+    __onModelSelectionArrayChange : function() {
+      this.__inSelectionChange = true;
+      var selectables = this.getSelectables();
+      var itemSelection = [];
+
+      var modelSelection = this.__selection.toArray();
+      for (var i = 0; i < modelSelection.length; i++) {
+        var model = modelSelection[i];
+        for (var j = 0; j < selectables.length; j++) {
+          var selectable = selectables[j];
+          if (model === selectable.getModel()) {
+            itemSelection.push(selectable);
+            break;
+          }
+        }
+      }      
+
+      this.setSelection(itemSelection);
+      this.__inSelectionChange = false;
+    },
+
+    
     /**
      * Returns always an array of the models of the selected items. If no
      * item is selected or no model is given, the array will be empty.
      *
-     * @return {var} An array of the models of the selected items.
+     * @return {qx.data.Array} An array of the models of the selected items.
      */
     getModelSelection : function()
     {
-      var selection = this.getSelection();
-      var models = [];
-      for (var i = 0; i < selection.length; i++) {
-        var model = selection[i].getModel();
-        if (model != null) {
-          models.push(model);
-        }
-      }
-      return models;
+      return this.__selection;
     },
 
 
@@ -61,28 +130,19 @@ qx.Mixin.define("qx.ui.form.MModelSelection",
       // check for null values
       if (!modelSelection) 
       {
-        this.resetSelection();
+        this.__selection.removeAll();
         return;
       }
       
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         this.assertArray(modelSelection, "Please use an array as parameter.");
       }
-      var selectables = this.getSelectables();
-      var itemSelection = [];
-
-      for (var i = 0; i < modelSelection.length; i++) {
-        var model = modelSelection[i];
-        for (var j = 0; j < selectables.length; j++) {
-          var selectable = selectables[j];
-          if (model === selectable.getModel()) {
-            itemSelection.push(selectable);
-            break;
-          }
-        }
-      }
-
-      this.setSelection(itemSelection);
+            
+      // add the first two parameter
+      modelSelection.unshift(this.__selection.getLength()); // remove index
+      modelSelection.unshift(0);  // start index
+          
+      this.__selection.splice.apply(this.__selection, modelSelection);
     }
   }
 });

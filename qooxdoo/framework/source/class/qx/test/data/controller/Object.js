@@ -376,6 +376,26 @@ qx.Class.define("qx.test.data.controller.Object",
 
       // test for the binding
       this.assertEquals("10", this.__label1.getValue(), "Binding does not work!");
+    },
+    
+    
+    testTargetArrayBi : function() {
+      var selectbox = new qx.ui.form.SelectBox();
+      for (var i = 0; i < 10; i++) {
+        selectbox.add(new qx.ui.form.ListItem("item " + i).set({model: i})); 
+      }
+
+      this.__controller.addTarget(selectbox, "modelSelection[0]", "zIndex", true);
+      
+      // model --> selectbox
+      this.__model.setZIndex(3);
+      this.assertEquals(3, selectbox.getSelection()[0].getModel());
+      
+      // selectbox --> model
+      selectbox.setSelection([selectbox.getSelectables()[6]]);
+      this.assertEquals(6, this.__model.getZIndex());
+      
+      selectbox.dispose();
     }
 
   }
