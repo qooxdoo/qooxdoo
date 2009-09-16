@@ -635,13 +635,8 @@ qx.Class.define("qx.data.controller.List",
       }
 
       // update the reference to the model
-      var itemModel = this.getModel().getItem(this.__lookup(index));
-      targetObject.setModel(itemModel || null);
-
-      // update the selection
-      if (this.getSelection() != null) {
-        this._updateSelection();
-      }
+      var itemModel = this.getModel().getItem(index);
+      targetObject.setModel(itemModel == undefined ? null : itemModel);
     },
 
 
@@ -775,12 +770,8 @@ qx.Class.define("qx.data.controller.List",
     _setFilter: function(value, old) {
       // update the filter if it has been removed
       if ((value == null || value.filter == null) && 
-          (old != null && old.filter != null)) 
-      {        
-        // renew the index lookup table
-        this.__buildUpLookupTable();
-        // check for the new length
-        this.__changeModelLength();        
+          (old != null && old.filter != null)) {        
+        this.__removeFilter();
       }
       
       // check if it is necessary to do anything
@@ -834,6 +825,25 @@ qx.Class.define("qx.data.controller.List",
       
       this._endSelectionModification();
       this._updateSelection();
+    },
+    
+    
+    /**
+     * Theis helper is repsonsible for removing the filter and setting the 
+     * controller to a valid state without a filtering.
+     */
+    __removeFilter : function() 
+    {
+      // renew the index lookup table
+      this.__buildUpLookupTable();
+      // check for the new length
+      this.__changeModelLength();     
+      // renew the bindings
+      this.__renewBindings();
+
+      // need a asynchron selection update because the bindings have to be
+      // executed to update the selection probably (using the widget queue)
+      qx.ui.core.queue.Widget.add(this);          
     },
 
 
