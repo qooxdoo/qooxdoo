@@ -34,6 +34,17 @@ SKELETON_DIR  = unicode(os.path.normpath(os.path.join(FRAMEWORK_DIR, "component"
 APP_TYPES     = [x for x in os.listdir(SKELETON_DIR) if not re.match(r'^\.',x)]
 
 R_ILLEGAL_NS_CHAR = re.compile(r'(?u)[^\.\w]')  # allow unicode, but disallow $
+QOOXDOO_VERSION   = ''  # will be filled later
+
+
+def getQxVersion():
+    global QOOXDOO_VERSION
+    versionFile = os.path.join(FRAMEWORK_DIR, "version.txt")
+    version = codecs.open(versionFile,"r", "utf-8").read()
+    version = version.strip()
+    QOOXDOO_VERSION = version
+    return
+
 
 
 def createApplication(options):
@@ -144,7 +155,7 @@ def patchSkeleton(dir, framework_dir, options):
     if options.type == "contribution":
         # TODO: in a final release the following "trunk" would need to be changed 
         # to an actual version number like "0.8.3"
-        relPath = os.path.join(os.pardir, os.pardir, "qooxdoo", "0.8.3")
+        relPath = os.path.join(os.pardir, os.pardir, "qooxdoo", QOOXDOO_VERSION)
         relPath = re.sub(r'\\', "/", relPath)
 
     for root, dirs, files in os.walk(dir):
@@ -163,7 +174,7 @@ def patchSkeleton(dir, framework_dir, options):
                         "Namespace": options.namespace,
                         "REL_QOOXDOO_PATH": relPath,
                         "ABS_QOOXDOO_PATH": absPath,
-                        "QOOXDOO_VERSION": "0.8.3",
+                        "QOOXDOO_VERSION": QOOXDOO_VERSION,
                         "Cache" : options.cache,
                     }).encode('utf-8')
                 )
@@ -283,6 +294,7 @@ Example: For creating a regular GUI application \'myapp\' you could execute:
         console.log("WARNING: Converted illegal characters in namespace (from %s to %s)" % (options.namespace, convertedNamespace))
         options.namespace = convertedNamespace
 
+    getQxVersion()
     createApplication(options)
 
     console.log("DONE")
