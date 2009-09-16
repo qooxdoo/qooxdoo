@@ -113,7 +113,7 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
         }
         this.assertNotUndefined(
           regCopy[key],
-          msg + ": The object '" + obj + "' has not been disposed!"
+          msg + ": The object '" + obj.classname + "' has not been disposed!"
         );
       }
 
