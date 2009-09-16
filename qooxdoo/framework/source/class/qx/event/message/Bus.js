@@ -271,14 +271,7 @@ qx.Class.define("qx.event.message.Bus",
           // use of wildcard
           if (pos == 1 || key.substr(0, pos) == msgName.substr(0, pos))
           {
-            for (var i=0; i<sub[key].length; i++)
-            {
-              var subscriber = sub[key][i].subscriber;
-              var context = sub[key][i].context;
-
-              // call message monitor subscriber
-              subscriber.call(context, msg);
-            }
+            this.__callSubscribers(sub[key], msg);
           }
         }
         else
@@ -286,17 +279,42 @@ qx.Class.define("qx.event.message.Bus",
           // exact match
           if (key == msgName)
           {
-            for (var i=0; i<sub[msgName].length; i++)
-            {
-              var subscriber = sub[msgName][i].subscriber;
-              var context = sub[msgName][i].context;
-
-              // call message monitor subscriber
-              subscriber.call(context, msg);
-            }
-
+            this.__callSubscribers(sub[msgName], msg);            
             return true;
           }
+        }
+      }
+    },
+    
+    /**
+     * Calls the subscribers with the given message.
+     * 
+     * @param subscribers {Map} subscribers to call 
+     * @param msg {qx.event.message.Message} message for subscribers
+     */
+    __callSubscribers : function(subscribers, msg)
+    {
+      for (var i=0; i<subscribers.length; i++)
+      {
+        var subscriber = subscribers[i].subscriber;
+        var context = subscribers[i].context;
+
+        // call message monitor subscriber
+        if (context && context.isDisposed)
+        {
+          if (context.isDisposed())
+          {
+            subscribers.splice(i, 1);
+            i--;
+          }
+          else 
+          {
+            subscriber.call(context, msg);
+          }
+        }
+        else
+        {
+          subscriber.call(context, msg);
         }
       }
     }
