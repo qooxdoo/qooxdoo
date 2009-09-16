@@ -66,7 +66,9 @@ qx.Mixin.define("qx.ui.form.MModelSelection",
       // create the array with the modes inside
       var modelSelection = [];
       for (var i = 0; i < data.length; i++) {
-        var model = data[i].getModel();
+        var item = data[i];
+        // fallback if getModel is not implemented
+        var model = item.getModel ? item.getModel() : null;
         if (model != null) {
           modelSelection.push(model);          
         }
@@ -89,7 +91,9 @@ qx.Mixin.define("qx.ui.form.MModelSelection",
         var model = modelSelection[i];
         for (var j = 0; j < selectables.length; j++) {
           var selectable = selectables[j];
-          if (model === selectable.getModel()) {
+          // fallback if getModel is not implemented
+          var selectableModel = selectable.getModel ? selectable.getModel() : null;
+          if (model === selectableModel) {
             itemSelection.push(selectable);
             break;
           }
