@@ -150,7 +150,12 @@ qx.Mixin.define("qx.ui.form.MModelSelection",
       modelSelection.unshift(this.__modelSelection.getLength()); // remove index
       modelSelection.unshift(0);  // start index
 
-      this.__modelSelection.splice.apply(this.__modelSelection, modelSelection);
+      var returnArray = this.__modelSelection.splice.apply(this.__modelSelection, modelSelection);
+      returnArray.dispose();
     }
+  },
+  
+  destruct : function() {
+    this._disposeObjects("__modelSelection");
   }
 });
