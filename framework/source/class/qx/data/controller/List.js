@@ -402,6 +402,11 @@ qx.Class.define("qx.data.controller.List",
       // need a asynchron selection update because the bindings have to be
       // executed to update the selection probably (using the widget queue)
       qx.ui.core.queue.Widget.add(this);
+
+      // update on filtered lists... (bindings need to be renewed)
+      if (this.__lookupTable.length != this.getModel().getLength()) {
+        this.update();
+      }
     },
 
 
@@ -448,6 +453,19 @@ qx.Class.define("qx.data.controller.List",
           this.__removeItem();
         }
       }
+    },
+    
+    
+    /**
+     * Helper method which removes and adds the change listener of the 
+     * controller to the model. This is sometimes necessary to ensure that the
+     * listener of the controller ist executed as last listener of the chain.
+     */
+    __moveChangeListenerAtTheEnd : function() {
+      var model = this.getModel();
+      model.removeListenerById(this.__changeModelListenerId);
+      this.__changeModelListenerId =
+        model.addListener("change", this.__changeModel, this);      
     },
 
 
@@ -662,6 +680,10 @@ qx.Class.define("qx.data.controller.List",
         // add the new binding
         this._bindListItem(items[i], this.__lookup(i));
       }
+      
+      // move the controllers change handlder for the model to the end of the 
+      // listeners queue
+      this.__moveChangeListenerAtTheEnd();
     },
 
 
@@ -792,7 +814,11 @@ qx.Class.define("qx.data.controller.List",
       for (var i = 0; i < listItems.length; i++) {
         this._bindListItem(listItems[i], this.__lookup(i));
       }
-
+      
+      // move the controllers change handlder for the model to the end of the 
+      // listeners queue
+      this.__moveChangeListenerAtTheEnd();
+      
       this._endSelectionModification();
       this._updateSelection();
     },

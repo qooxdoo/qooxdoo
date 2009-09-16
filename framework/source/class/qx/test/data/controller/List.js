@@ -542,6 +542,35 @@ qx.Class.define("qx.test.data.controller.List",
     },
 
 
+    testFilterReverseModel: function() {
+      this.__setUpString();
+
+      var delegate = {};
+      delegate.filter = function(data) {
+        return data == "a" || data == "b" || data == "c";
+      };
+
+      this.__controller.setDelegate(delegate);
+      
+      // check for the right length
+      this.assertEquals(3, this.__list.getChildren().length, "Some list items created.");
+      // check the labels
+      this.assertEquals("a", this.__list.getChildren()[0].getLabel(), "Binding is wrong!");
+      this.assertEquals("b", this.__list.getChildren()[1].getLabel(), "Binding is wrong!");      
+      this.assertEquals("c", this.__list.getChildren()[2].getLabel(), "Binding is wrong!");
+      
+      // reverse the order of the model
+      this.__model.reverse();
+      
+      // check for the right length
+      this.assertEquals(3, this.__list.getChildren().length, "Some list items created.");
+      // check the labels
+      this.assertEquals("c", this.__list.getChildren()[0].getLabel(), "Binding is wrong!");
+      this.assertEquals("b", this.__list.getChildren()[1].getLabel(), "Binding is wrong!");      
+      this.assertEquals("a", this.__list.getChildren()[2].getLabel(), "Binding is wrong!");      
+    },    
+    
+    
     testFilterChangeTarget: function() {
       this.__setUpString();
 
