@@ -94,7 +94,7 @@ qx.Class.define("qx.event.message.Bus",
      */
     dispatch : function(msg)
     {
-      return this.getInstance().dispatch.apply(this,arguments);
+      return this.getInstance().dispatch.apply(this.getInstance(), arguments);
     }
   },
 
@@ -285,6 +285,7 @@ qx.Class.define("qx.event.message.Bus",
         }
       }
     },
+    
     
     /**
      * Call subscribers with passed message.
