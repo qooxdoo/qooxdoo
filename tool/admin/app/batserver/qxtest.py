@@ -821,7 +821,7 @@ class QxTest:
     else:
       cmd += " testBrowser='" + self.browserConf[browser] + "'"
 
-    cmd += " browserId='" + browser + "'"
+    cmd += " browserId=\"" + browser + "\""
 
     if options:
       for opt in options:
