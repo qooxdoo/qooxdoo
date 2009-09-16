@@ -324,6 +324,30 @@ qx.Class.define("qx.test.data.controller.List",
       // test the selection
       this.assertEquals(this.__model.getItem(0), this.__list.getSelection()[0].getLabel(), "Change the selection array does not work.");
     },
+    
+    
+    testSelectionArrayReverse: function() {
+      this.__setUpString();
+
+      // set the selection in the array
+      this.__controller.getSelection().push(this.__model.getItem(0));
+
+      // test the selection
+      this.assertEquals(this.__model.getItem(0), this.__list.getSelection()[0].getLabel(), "Change the selection array does not work.");
+      
+      // reverse the model
+      this.__model.reverse();
+      
+      // test the selection (the selection is async in that case)
+      var self = this;
+      this.wait(100, function() {
+        self.assertEquals(
+          self.__model.getItem(self.__model.getLength() - 1),
+          self.__list.getSelection()[0].getLabel(),
+          "Can not handle reverse."
+        );
+      });      
+    },
 
 
     testSelectionAfterDelete: function() {
@@ -344,8 +368,12 @@ qx.Class.define("qx.test.data.controller.List",
 
       // check if the selected item in the list is "b"
       this.assertTrue(this.__controller.getSelection().contains("b"), "Selection array wrong!");
-
-      this.assertEquals("b", this.__list.getSelection()[0].getLabel(), "Remove from selection does not work!");
+      
+      // selection updates work with the widget pool and can be async
+      var self = this;
+      this.wait(100, function() {
+        self.assertEquals("b", self.__list.getSelection()[0].getLabel(), "Remove from selection does not work!");        
+      });
     },
 
 
