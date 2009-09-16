@@ -568,6 +568,37 @@ qx.Class.define("qx.test.data.controller.List",
       this.assertEquals("c", this.__list.getChildren()[0].getLabel(), "Binding is wrong!");
       this.assertEquals("b", this.__list.getChildren()[1].getLabel(), "Binding is wrong!");      
       this.assertEquals("a", this.__list.getChildren()[2].getLabel(), "Binding is wrong!");      
+    },
+    
+    
+    testFilterRemove: function() {
+      this.__setUpString();
+
+      var delegate = {};
+      delegate.filter = function(data) {
+        return data == "a" || data == "b" || data == "c";
+      };
+
+      this.__controller.setDelegate(delegate);
+      
+      // check for the right length
+      this.assertEquals(3, this.__list.getChildren().length, "Some list items created.");
+      // check the labels
+      this.assertEquals("a", this.__list.getChildren()[0].getLabel(), "Binding is wrong!");
+      this.assertEquals("b", this.__list.getChildren()[1].getLabel(), "Binding is wrong!");      
+      this.assertEquals("c", this.__list.getChildren()[2].getLabel(), "Binding is wrong!");
+      
+      // remove the filter
+      this.__controller.setDelegate(null);
+      
+      // check for the right length
+      this.assertEquals(5, this.__list.getChildren().length, "Some list items created.");
+      // check the labels
+      this.assertEquals("a", this.__list.getChildren()[0].getLabel(), "Binding is wrong!");
+      this.assertEquals("b", this.__list.getChildren()[1].getLabel(), "Binding is wrong!");      
+      this.assertEquals("c", this.__list.getChildren()[2].getLabel(), "Binding is wrong!");      
+      this.assertEquals("d", this.__list.getChildren()[3].getLabel(), "Binding is wrong!");      
+      this.assertEquals("e", this.__list.getChildren()[4].getLabel(), "Binding is wrong!");                  
     },    
     
     

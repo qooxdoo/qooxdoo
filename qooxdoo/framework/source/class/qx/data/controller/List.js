@@ -773,6 +773,17 @@ qx.Class.define("qx.data.controller.List",
      * @param old {Function|null} The old filter function.
      */
     _setFilter: function(value, old) {
+      // update the filter if it has been removed
+      if ((value == null || value.filter == null) && 
+          (old != null && old.filter != null)) 
+      {        
+        // renew the index lookup table
+        this.__buildUpLookupTable();
+        // check for the new length
+        this.__changeModelLength();        
+      }
+      
+      // check if it is necessary to do anything
       if (
         this.getTarget() == null ||
         this.getModel() == null ||
@@ -781,6 +792,8 @@ qx.Class.define("qx.data.controller.List",
       ) {
         return;
       }
+      // if yes, continue
+      
       this._startSelectionModification();
 
       // remove all bindings
