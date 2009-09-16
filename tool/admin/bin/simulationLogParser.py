@@ -171,7 +171,7 @@ class SimulationLogParser:
   def getBrowser(self, agent):
     import re
     browser = False
-    regFF = re.compile('.*(Firefox)\/([\d\.]*)')
+    regFF = re.compile('.*(Firefox|Namoroka)\/([\d\.]*)')
     match = regFF.match(agent)
     if (match):
       browser = match.group(1) + " " + match.group(2)
