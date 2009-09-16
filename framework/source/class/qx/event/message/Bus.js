@@ -287,7 +287,7 @@ qx.Class.define("qx.event.message.Bus",
     },
     
     /**
-     * Calls the subscribers with the given message.
+     * Call subscribers with passed message.
      * 
      * @param subscribers {Map} subscribers to call 
      * @param msg {qx.event.message.Message} message for subscribers
