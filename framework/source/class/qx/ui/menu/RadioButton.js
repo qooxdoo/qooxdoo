@@ -26,8 +26,8 @@
 qx.Class.define("qx.ui.menu.RadioButton",
 {
   extend : qx.ui.menu.AbstractButton,
-  include : [qx.ui.form.MFormElement],
-  implement : [qx.ui.form.IRadioItem, qx.ui.form.IBooleanForm],
+  include : [qx.ui.form.MFormElement, qx.ui.form.MModelProperty],
+  implement : [qx.ui.form.IRadioItem, qx.ui.form.IBooleanForm, qx.ui.form.IModel],
 
 
 

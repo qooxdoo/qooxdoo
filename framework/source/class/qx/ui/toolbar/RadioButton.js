@@ -27,9 +27,8 @@
 qx.Class.define("qx.ui.toolbar.RadioButton",
 {
   extend : qx.ui.toolbar.CheckBox,
-  implement : qx.ui.form.IRadioItem,
-
-
+  include : [qx.ui.form.MModelProperty],
+  implement : [qx.ui.form.IModel, qx.ui.form.IRadioItem],
 
 
   /*
