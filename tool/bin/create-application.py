@@ -172,6 +172,7 @@ def patchSkeleton(dir, framework_dir, options):
                     config.substitute({
                         "Name": options.name,
                         "Namespace": options.namespace,
+                        "NamespacePath" : (options.namespace).replace('.', '/'),
                         "REL_QOOXDOO_PATH": relPath,
                         "ABS_QOOXDOO_PATH": absPath,
                         "QOOXDOO_VERSION": QOOXDOO_VERSION,
