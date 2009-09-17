@@ -617,6 +617,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           else
           {
             t = new qx.ui.tree.TreeFile(that.polish(currNode.label));
+            t.setUserData("tags", currNode.tags);            
             var fullName = currNode.pwd().slice(1).join("/") + "/" + currNode.label;
             _sampleToTreeNodeMap[fullName] = t;
           }
@@ -831,10 +832,26 @@ qx.Class.define("demobrowser.DemoBrowser",
     {
       var searchRegExp = new RegExp("^.*" + term + ".*", "ig");
       var items = this.__tree.getRoot().getItems(true, true);
+      
       for (var i = 0; i < items.length; i++) {
         var folder = items[i];
         var parent = folder.getParent();
-        if (!folder.getLabel().search(searchRegExp) || !parent.getLabel().search(searchRegExp)) {
+        
+        // check for the tags
+        var tags = folder.getUserData("tags");
+        var inTags = false;
+        if (tags != null) {
+          for (var j = 0; j < tags.length; j++) {
+            inTags = !!tags[j].match(searchRegExp);
+            if (inTags) {
+              break;
+            }
+          };          
+        }
+
+        if (inTags || !folder.getLabel().search(searchRegExp) ||
+            !parent.getLabel().search(searchRegExp))
+        {
           folder.show();
           folder.getParent().setOpen(true);
           folder.getParent().show();

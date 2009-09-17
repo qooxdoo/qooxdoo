@@ -156,6 +156,7 @@ qx.Class.define("demobrowser.TreeDataHandler",
       for (var j=0; j<struct.tests.length; j++)
       {
         node = new demobrowser.Tree(struct.tests[j].name);
+        node.tags = struct.tests[j].tags;
         node.type = "test";  // tests are leaf nodes
         node.desc = struct.tests[j].desc;
         tree.add(node);
