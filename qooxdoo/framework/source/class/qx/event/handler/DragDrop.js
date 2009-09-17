@@ -215,7 +215,7 @@ qx.Class.define("qx.event.handler.DragDrop",
       }
 
       if (!this.__cache[type]) {
-        throw new Error("Please use a dragrequest listener to the drag target to fill the manager with data!");
+        throw new Error("Please use a droprequest listener to the drag source to fill the manager with data!");
       }
 
       return this.__cache[type] || null;
