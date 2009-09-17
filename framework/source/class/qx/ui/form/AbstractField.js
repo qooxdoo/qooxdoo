@@ -473,7 +473,7 @@ qx.Class.define("qx.ui.form.AbstractField",
     /**
      * Returns the current value of the textfield.
      *
-     * @return {String} The current value
+     * @return {String|null} The current value
      */
     getValue : function() {
       var showingPlaceholder = this.hasState("showingPlaceholder");
