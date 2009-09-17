@@ -16,6 +16,11 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+/* ************************************************************************
+
+#tag databinding
+
+************************************************************************ */
 qx.Class.define("demobrowser.demo.data.ExtendedTree",
 {
   extend : qx.application.Standalone,
