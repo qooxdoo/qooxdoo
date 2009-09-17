@@ -463,9 +463,14 @@ qx.Class.define("qx.data.controller.List",
      */
     __moveChangeListenerAtTheEnd : function() {
       var model = this.getModel();
-      model.removeListenerById(this.__changeModelListenerId);
-      this.__changeModelListenerId =
-        model.addListener("change", this.__changeModel, this);      
+      // it can be that the bindings has been resetted without the model so 
+      // maybe there is no model in some scenarios
+      if (model != null) {
+        model.removeListenerById(this.__changeModelListenerId);
+        this.__changeModelListenerId =
+          model.addListener("change", this.__changeModel, this);        
+      }
+
     },
 
 
