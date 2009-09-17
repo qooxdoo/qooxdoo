@@ -90,7 +90,8 @@ class SimulationLogParser:
     import re
     simulationsList = []
     
-    agentre = re.compile('(?s).*<p>User agent: (.*?)</p>')  
+    agentre = re.compile('(?s).*<p>User agent: (.*?)</p>')
+    platre = re.compile('(?s).*<p>Platform: (.*?)</p>')
     datere = re.compile('from (.*)</h1>')
     errorre = re.compile('with warnings or errors: (\d*?)</p>')
     durationre = re.compile('<p>Test run finished in: (.*)</p>')
@@ -98,6 +99,7 @@ class SimulationLogParser:
     for k in sorted(logs.iterkeys()):    
       simulationDict = {
         "browser" : "Unknown",
+        "platform" : "Unknown",
         "selenium_version" : "Unknown",
         "failed" : True,
         "start_date" : "1970-01-01_00-00-00",
@@ -108,9 +110,13 @@ class SimulationLogParser:
       
       entry = "".join(logs[k])
   
-      agent = agentre.search(entry)    
+      agent = agentre.search(entry)
       if (agent):
         simulationDict["browser"] = self.getBrowser(agent.group(1))
+        
+      platma = platre.search(entry)
+      if (platma):
+        simulationDict["platform"] = platma.group(1)
   
       duration = durationre.search(entry)
       if (duration):
@@ -144,12 +150,12 @@ class SimulationLogParser:
   def getLogentryList(self, logEntries):
     logentryList = []  
     for entry in logEntries:
-      if 'level-' in entry or "testResult failure" in entry:
+      if 'level-' in entry or "testResult" in entry:
         entryDict = {
           "level" : "info",
           "message" : entry
         }
-        if "level-error" in entry or "testResult failure" in entry:
+        if "level-error" in entry or "testResult failure" in entry or "testResult error" in entry:
           entryDict["level"] = "error"
         elif "level-warn" in entry:
           entryDict["level"] = "warn"

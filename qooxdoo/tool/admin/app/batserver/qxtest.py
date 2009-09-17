@@ -857,6 +857,12 @@ class QxTest:
     #simulationData = simulationLogParser.parse(log_file)
     testRunDict["simulations"] = simulationData
     
+    try:
+      if simulationData[0]["platform"] != "Unknown":
+        testRunDict["test_hostos"] = simulationData[0]["platform"]
+    except Exception:
+      pass
+    
     testRunJson = json.dumps(testRunDict)
     
     self.log("Report data aggregated, sending request")
