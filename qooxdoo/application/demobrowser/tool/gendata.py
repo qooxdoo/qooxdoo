@@ -26,6 +26,22 @@ def fileCheck(fname):
     fileH.close()
 
     return selected
+    
+    
+# get the tags from the javascript source file
+def getTagsFromJsFile(fname):
+    fileH = open(fname,"rU")
+
+    tags = [] 
+    for line in fileH:
+        reg = re.compile('^#tag (.*)');
+        match = reg.search(line);
+        if match:
+          if match.group(1):
+            tags.append(match.group(1));
+    fileH.close()
+
+    return tags    
  
                                                                                  
 def main(dist, scan):
@@ -61,7 +77,12 @@ def main(dist, scan):
       if not fileCheck(htmlfile):
         print "  - Skipping HTML file: %s" % (htmlfile,)
         continue
-
+        
+      # get the tags
+      jsitem = item[0:item.find("html")] + "js"
+      jsfile = os.path.join(scan, "..", "class", "demobrowser", "demo", category, jsitem)
+      tags = getTagsFromJsFile(jsfile);
+      
       title = item[:item.find(".")]
 
       if "_" in title:
@@ -86,7 +107,7 @@ def main(dist, scan):
       if not firstItem:
         res += ",\n"
 
-      res += '{\"nr\":"%s",\"title\":"%s",\"name\":"%s"}' % (nr, title, item)
+      res += '{\"nr\":"%s",\"title\":"%s",\"name\":"%s", \"tags\":%s}' % (nr, title, item, repr(tags))
       lastbasename = basename
       firstItem = False
 
