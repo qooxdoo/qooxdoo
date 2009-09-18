@@ -143,6 +143,70 @@ qx.Class.define("qx.test.ui.form.Resetter",
       radiobutton.dispose();
       textarea.dispose();
       slider.dispose();
+    },
+    
+    
+    testRedefine : function() 
+    {
+      // set the initla values
+      this.__username.setValue("A");
+      this.__password1.setValue("B");
+      this.__password2.setValue("C");
+      // add the fields to the form manager
+      this.__resetter.add(this.__username);
+      this.__resetter.add(this.__password1);
+      this.__resetter.add(this.__password2);
+      // change the values of the fields
+      this.__username.setValue("a");
+      this.__password1.setValue("b");
+      this.__password2.setValue("c");
+      // redefine the manager
+      this.__resetter.redefine();
+      // change the values of the fields
+      this.__username.setValue("aa");
+      this.__password1.setValue("bb");
+      this.__password2.setValue("cc");
+
+      // reset the manager
+      this.__resetter.reset();
+
+      // check if the initial values are reset
+      this.assertEquals("a", this.__username.getValue());
+      this.assertEquals("b", this.__password1.getValue());
+      this.assertEquals("c", this.__password2.getValue());      
+    },
+    
+    
+    testRefineSelection : function() 
+    {
+      var box = new qx.ui.form.SelectBox();
+      var item1 = new qx.ui.form.ListItem("1");
+      var item2 = new qx.ui.form.ListItem("2");
+
+      box.add(item1);
+      box.add(item2);
+      box.setSelection([item2]);
+
+      // add the box to the manager
+      this.__resetter.add(box);
+      // change the selection
+      box.setSelection([item1]);
+      // check the new selection
+      this.assertEquals(item1, box.getSelection()[0]);
+  
+      // redefine the manager
+      this.__resetter.redefine();
+      // change the selection
+      box.setSelection([item2]);
+      // reset the manager
+      this.__resetter.reset();
+
+      // check if the selection has been reseted
+      this.assertEquals(item1, box.getSelection()[0]);
+
+      item2.dispose();
+      item1.dispose();
+      box.dispose();      
     }
 
   }

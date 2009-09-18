@@ -339,6 +339,14 @@ qx.Class.define("qx.test.ui.form.FormManager",
       this.assertEquals(items.TF3, tf3);
 
       tf3.destroy();
+    },
+    
+    
+    testRedefineResetter : function() 
+    {
+      // just call the method and check if its not throwing an error
+      // all other stuff is tested in the resetter unit tests
+      this.__form.redefineResetter();
     }
 
   }
