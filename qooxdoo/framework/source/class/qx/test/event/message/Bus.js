@@ -54,20 +54,21 @@ qx.Class.define("qx.test.event.message.Bus",
       var bus = qx.event.message.Bus;
       var calls = 0;
       
+      var that = this;
       bus.subscribe("*", function(message) {
         calls++;
-        this.assertEquals("MyMessage", message.getName());
-        this.assertEquals(10, message.getData());
+        that.assertEquals("MyMessage", message.getName());
+        that.assertEquals(10, message.getData());
       }, this.__subscriberOne);
       
       bus.subscribe("MyMessage2", function(message) {
-        this.assertFalse(true, "Wrong subscriber called!");
+        that.assertFalse(true, "Wrong subscriber called!");
       }, this.__subscriberTwo);
       
       bus.subscribe("MyMessage", function(message) {
         calls++;
-        this.assertEquals("MyMessage", message.getName());
-        this.assertEquals(10, message.getData());
+        that.assertEquals("MyMessage", message.getName());
+        that.assertEquals(10, message.getData());
       }, this.__subscriberThree);
       
       bus.dispatch("MyMessage", 10);
@@ -79,21 +80,22 @@ qx.Class.define("qx.test.event.message.Bus",
       var bus = qx.event.message.Bus;
       var calls = 0;
       
+      var that = this;
       bus.subscribe("*", function(message) {
         calls++;
-        this.assertEquals("MyMessage", message.getName());
-        this.assertEquals(10, message.getData());
+        that.assertEquals("MyMessage", message.getName());
+        that.assertEquals(10, message.getData());
       }, this.__subscriberOne);
       
       this.__subscriberTwo.dispose();      
       bus.subscribe("MyMessage", function(message) {
-        this.assertFalse(true, "Wrong subscriber called!");
+        that.assertFalse(true, "Wrong subscriber called!");
       }, this.__subscriberTwo);
       
       bus.subscribe("MyMessage", function(message) {
         calls++;
-        this.assertEquals("MyMessage", message.getName());
-        this.assertEquals(10, message.getData());
+        that.assertEquals("MyMessage", message.getName());
+        that.assertEquals(10, message.getData());
       }, this.__subscriberThree);
       
       bus.dispatch("MyMessage", 10);
