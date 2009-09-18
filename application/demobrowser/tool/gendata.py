@@ -34,7 +34,7 @@ def getTagsFromJsFile(fname):
 
     tags = [] 
     for line in fileH:
-        reg = re.compile('^#tag (.*)');
+        reg = re.compile('^#tag\((.*)\)');
         match = reg.search(line);
         if match:
           if match.group(1):

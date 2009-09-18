@@ -20,7 +20,8 @@
 /* ************************************************************************
 
 #asset(demobrowser/demo/data/persons.json)
-#tag databinding
+#tag(databinding)
+#tag(list controller)
 
 ************************************************************************ */
 

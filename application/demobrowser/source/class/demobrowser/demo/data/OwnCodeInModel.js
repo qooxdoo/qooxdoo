@@ -21,7 +21,10 @@
 
 #asset(demobrowser/demo/data/list.json)
 #asset(qx/icon/${qx.icontheme}/16/mimetypes/*)
-#tag databinding
+#tag(databinding)
+#tag(list controller)
+#tag(store)
+#tag(delegate)
 
 ************************************************************************ */
 
@@ -34,8 +37,6 @@ qx.Class.define("demobrowser.demo.data.OwnCodeInModel",
     main: function()
     {
       this.base(arguments);
-
-
 
       // create and add the list
       var list = new qx.ui.form.List();
