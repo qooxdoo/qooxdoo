@@ -78,6 +78,25 @@ qx.Class.define("qx.ui.form.Resetter",
         }
       }
     },
+    
+    
+    /**
+     * Takes the current values of all added items and uses these values as 
+     * init values for resetting.
+     */
+    redefine: function() {
+      // go threw all added items
+      for (var i = 0; i < this.__items.length; i++) {
+        var item = this.__items[i].item;
+        if (this.__supportsValue(item)) {
+          var init = item.getValue();
+        } else if (this.__supportsSingleSelection(item)) {
+          var init = item.getSelection();
+        }
+        // set the new init value for the item
+        this.__items[i].init = init;
+      }
+    },
 
 
     /**

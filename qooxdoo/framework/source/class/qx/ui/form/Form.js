@@ -130,7 +130,7 @@ qx.Class.define("qx.ui.form.Form",
 
     /*
     ---------------------------------------------------------------------------
-       RESET
+       RESET SUPPORT
     ---------------------------------------------------------------------------
     */
 
@@ -140,6 +140,16 @@ qx.Class.define("qx.ui.form.Form",
     reset : function() {
       this.__resetter.reset();
       this.__validationManager.reset();
+    },
+    
+    
+    /**
+     * Redefines the values used for resetting. It calls 
+     * {@link qx.ui.form.Resetter#redefine} to get that.
+     */
+    redefineResetter : function() 
+    {
+      this.__resetter.redefine();
     },
 
 
