@@ -285,6 +285,29 @@ qx.Class.define("qx.locale.Manager",
 
 
     /**
+     * Add a localization to the localization manager
+     *
+     * @param localeCode {String} locale code of the translation like de, de_AT, en, en_GB, fr, ...
+     * @param translationMap {Map} mapping of locale keys to the target locale
+     * @return {void}
+     */
+    addLocale : function(localeCode, translationMap)
+    {
+      var catalog = this.__locales;
+      if (catalog[localeCode])
+      {
+        for (var key in translationMap) {
+          catalog[localeCode][key] = translationMap[key];
+        }
+      }
+      else
+      {
+        catalog[localeCode] = translationMap;
+      }
+    },
+ 
+
+    /**
      * Translate a message using the current locale and apply format string to the arguments.
      *
      * @param messageId {String} message id (may contain format strings)

@@ -2,7 +2,8 @@
     {
       "let" :
       {
-        "LOCALES" : ["en", "en_US", "de", "de_DE", "fr", "fr_FR"] 
+        "APPLICATION" : "demobrowser.demo",
+        "LOCALES" : ["en", "en_US", "de", "de_DE", "fr", "fr_FR"]
       },
       
       "library" :
