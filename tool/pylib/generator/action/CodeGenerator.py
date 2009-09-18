@@ -49,21 +49,12 @@ class CodeGenerator(object):
 
 
 
-    def runCompiled(self, script, treeCompiler):
-
-        def getAppName(memo={}):
-            if not 'appname' in memo:
-                appname = self._job.get("let/APPLICATION")
-                if not appname:
-                    raise RuntimeError, "Need an application name in config (key let/APPLICATION)"
-                else:
-                    memo['appname'] = appname
-            return memo['appname']
+    def runCompiled(self, script, treeCompiler, version="build"):
 
         def getOutputFile():
             filePath = compConf.get("paths/file")
             if not filePath:
-                filePath = os.path.join("build", "script", getAppName() + ".js")
+                filePath = os.path.join("build", "script", self.getAppName() + ".js")
             return filePath
 
         def getFileUri(scriptUri):
@@ -92,6 +83,13 @@ class CodeGenerator(object):
             resourceUri = Path.posifyPath(resourceUri)
 
             globalCodes = self.generateGlobalCodes(libs, translationMaps, settings, variants, format, resourceUri, scriptUri)
+            if not self._job.get("packages/i18n-with-boot", True):
+                globalCodes = self.writeI18NFiles(globalCodes, script)
+                # remove I18N info from globalCodes, so they don't go into the loader
+                globalCodes["Translations"] = {}
+                globalCodes["Locales"]      = {}
+            else:
+                globalCodes["I18N"]         = {}  # make a fake entry
 
             filesPackages = packagesOfFiles(fileUri, packages)
             bootBlocks.append(self.generateBootCode(parts, filesPackages, boot, variants, settings, bootPackage, globalCodes, "build", format))
@@ -102,26 +100,6 @@ class CodeGenerator(object):
                 bootContent = "".join(bootBlocks)
 
             return bootContent
-
-        def writePackages(compiledPackages, startId=0):
-            for packageId, content in enumerate(compiledPackages):
-                writePackage(content, startId + packageId)
-            return
-
-        def writePackage(content, packageId=""):
-            # Construct file name
-            resolvedFilePath = self._resolveFileName(filePath, variants, settings, packageId)
-
-            # Save result file
-            filetool.save(resolvedFilePath, content)
-
-            if compConf.get("paths/gzip"):
-                filetool.gzip(resolvedFilePath, content)
-
-            self._console.debug("Done: %s" % self._computeContentSize(content))
-            self._console.debug("")
-
-            return
 
         # ----------------------------------------------------------------------
 
@@ -142,11 +120,12 @@ class CodeGenerator(object):
         # Read in base file name
         fileRelPath = getOutputFile()
         filePath    = self._config.absPath(fileRelPath)
+        script.baseScriptPath = filePath
 
         # Read in uri prefixes
         scriptUri = compConf.get('uris/script', 'script')
         scriptUri = Path.posifyPath(scriptUri)
-        fileUri = getFileUri(scriptUri)
+        fileUri   = getFileUri(scriptUri)
 
         # Read in compiler options
         optimize = compConf.get("code/optimize", [])
@@ -154,9 +133,11 @@ class CodeGenerator(object):
 
         # Whether the code should be formatted
         format = compConf.get("code/format", False)
+        script.scriptCompress = compConf.get("code/gzip", False)
 
         # Read in settings
         settings = self.getSettings()
+        script.settings = settings
 
         # Get translation maps
         locales = compConf.get("code/locales", [])
@@ -189,12 +170,12 @@ class CodeGenerator(object):
 
         if self._job.get("packages/loader-with-boot", True):
             content = generateBootScript(compiledPackages[0])
-            writePackage(content)
-            writePackages(compiledPackages[1:], 1)
+            self.writePackage(content, script)
+            self.writePackages(compiledPackages[1:], script, 1)
         else:
             content = generateBootScript()
-            writePackage(content)
-            writePackages(compiledPackages)
+            self.writePackage(content, script)
+            self.writePackages(compiledPackages, script)
 
         return
 
@@ -221,15 +202,18 @@ class CodeGenerator(object):
         #if variants:
         #    filePath = self._makeVariantsName(filePath, variants)
         filePath = self._config.absPath(filePath)
+        script.baseScriptPath = filePath
 
         # Whether the code should be formatted
         format = self._job.get("compile-source/format", False)
+        script.scriptCompress = self._job.get("compile-source/gzip", False)
 
         # The place where the app HTML ("index.html") lives
         self.approot = self._config.absPath(self._job.get("compile-source/root", ""))
 
         # Read in settings
         settings = self.getSettings()
+        script.settings = settings
 
         # Get resource list
         libs = self._job.get("library", [])
@@ -241,6 +225,13 @@ class CodeGenerator(object):
         # Add data from settings, variants and packages
         sourceBlocks = []
         globalCodes = self.generateGlobalCodes(libs, translationMaps, settings, variants, format)
+        if not self._job.get("packages/i18n-with-boot", True):
+            globalCodes = self.writeI18NFiles(globalCodes, script)
+            # remove I18N info from globalCodes, so they don't go into the loader
+            globalCodes["Translations"] = {}
+            globalCodes["Locales"]      = {}
+        else:
+            globalCodes["I18N"]         = {}  # make a fake entry
         #sourceBlocks.append(self.generateSourcePackageCode(parts, packages, boot, globalCodes, format))
         sourceBlocks.append(self.generateBootCode(parts, packages, boot, variants={}, settings={}, bootCode=None, globalCodes=globalCodes, format=format))
 
@@ -419,20 +410,20 @@ class CodeGenerator(object):
 
         globalCodes  = {}
 
-        globalCodes["Settings"] = simplejson.dumps(settings, ensure_ascii=False)
+        globalCodes["Settings"]    = settings
 
         variantInfo = self.generateVariantsCode(variants)
-        globalCodes["Variants"] = simplejson.dumps(variantInfo,ensure_ascii=False)
+        globalCodes["Variants"]    = variantInfo
 
         mapInfo = self.generateLibInfoCode(libs,format, resourceUri, scriptUri)
-        globalCodes["Libinfo"] = simplejson.dumps(mapInfo,ensure_ascii=False)
+        globalCodes["Libinfo"]     = mapInfo
 
         mapInfo = self.generateResourceInfoCode(settings, libs, format)
-        globalCodes["Resources"] = simplejson.dumps(mapInfo,ensure_ascii=False)
+        globalCodes["Resources"]    = mapInfo
 
         locData = mergeTranslationMaps(translationMaps)
-        globalCodes["Translations"] = simplejson.dumps(locData[0],ensure_ascii=False) # 0: .po data
-        globalCodes["Locales"]      = simplejson.dumps(locData[1],ensure_ascii=False) # 1: cldr data
+        globalCodes["Translations"] = locData[0] # 0: .po data
+        globalCodes["Locales"]      = locData[1] # 1: cldr data
 
         return globalCodes
 
@@ -707,7 +698,8 @@ class CodeGenerator(object):
 
                     if version == "build":
                         # TODO: gosh, the next is an ugly hack!
-                        namespace= self._resourceHandler._genobj._namespaces[0]  # all name spaces point to the same paths in the libinfo struct, so any of them will do
+                        #namespace  = self._resourceHandler._genobj._namespaces[0]  # all name spaces point to the same paths in the libinfo struct, so any of them will do
+                        namespace  = self.getAppName()  # all name spaces point to the same paths in the libinfo struct, so any of them will do
                         relpath    = OsPath(fileId)
                     else:
                         namespace  = self._classes[fileId]["namespace"]
@@ -717,9 +709,7 @@ class CodeGenerator(object):
                     packageUris.append("%s:%s" % (namespace, shortUri.encodedValue()))
                 allUris.append(packageUris)
 
-            uriData = simplejson.dumps(allUris, ensure_ascii=False)
-
-            return uriData
+            return allUris
 
         def loadTemplate(bootCode):
             if bootCode:
@@ -737,6 +727,14 @@ class CodeGenerator(object):
 
         result = ""
         vals   = {}
+        # fix uris in globalCodes['I18N']['uris']
+        if 'uris' in globalCodes['I18N']:
+            for code in globalCodes['I18N']['uris']:
+                globalCodes['I18N']['uris'][code] = packageUrisToJS([[globalCodes['I18N']['uris'][code]]], "build")[0][0]
+        # stringify data in globalCodes
+        for entry in globalCodes:
+            globalCodes[entry] = simplejson.dumps(globalCodes[entry], ensure_ascii=False)
+
         vals.update(globalCodes)
         vals["Boot"] = '"%s"' % boot
         vals["BootPart"] = bootCode
@@ -746,6 +744,7 @@ class CodeGenerator(object):
 
         # Translate URI data to JavaScript
         vals["Uris"] = packageUrisToJS(packages, version)
+        vals["Uris"] = simplejson.dumps(vals["Uris"], ensure_ascii=False)
         
         # Locate and load loader basic script
         template = loadTemplate(bootCode)
@@ -754,6 +753,70 @@ class CodeGenerator(object):
         result = fillTemplate(vals, template)
 
         return result
+
+    def writePackages(self, compiledPackages, script, startId=0):
+        for packageId, content in enumerate(compiledPackages):
+            self.writePackage(content, script, startId + packageId)
+        return
+
+    def writePackage(self, content, script, packageId=""):
+        # Construct file name
+        resolvedFilePath = self._resolveFileName(script.baseScriptPath, script.variants, script.settings, packageId)
+
+        # Save result file
+        filetool.save(resolvedFilePath, content)
+
+        if script.scriptCompress:
+            filetool.gzip(resolvedFilePath, content)
+
+        self._console.debug("Done: %s" % self._computeContentSize(content))
+        self._console.debug("")
+
+        return resolvedFilePath
+
+    ##
+    # write 'Translations' and 'Locales' info out in dedicated files, so 
+    # they don't blow up the loader; collect both translations and locales
+    # info into a separate file for each locale code (e.g. 'en');
+    # add URI information for the created files to globalCodes
+    def writeI18NFiles(self, globalCodes, script):
+
+        if 'I18N' not in globalCodes.keys():
+            globalCodes['I18N'] = {}
+        if 'uris' not in globalCodes['I18N']:
+            globalCodes['I18N']['uris'] = {}
+
+        # for each locale code, collect mappings
+        transKeys  = globalCodes['Translations'].keys()
+        localeKeys = globalCodes['Locales'].keys()
+        for localeCode in set(transKeys + localeKeys):
+            data = {}
+            data[localeCode] = { 'Translations': {}, 'Locales': {} }  # we want to have the locale code in the data
+            if localeCode in transKeys:
+                data[localeCode]['Translations'] = globalCodes['Translations'][localeCode]
+            if localeCode in localeKeys:
+                data[localeCode]['Locales']      = globalCodes['Locales'][localeCode]
+
+            # write to file
+            dataS = simplejson.dumps(data, ensure_ascii=False)
+            fPath = self.writePackage(dataS, script, packageId=localeCode)
+            # add uri info to globalCodes
+            #globalCodes['I18N']['uris'][localeCode] = Path.getCommonPrefix(fPath, )[1]
+            globalCodes['I18N']['uris'][localeCode] = os.path.basename(fPath)
+
+        return globalCodes
+
+
+    def getAppName(self, memo={}):
+        if not 'appname' in memo:
+            appname = self._job.get("let/APPLICATION")
+            if not appname:
+                raise RuntimeError, "Need an application name in config (key let/APPLICATION)"
+            else:
+                memo['appname'] = appname
+        return memo['appname']
+
+
 
 
 # Helper class for string.Template, to overwrite the placeholder introducing delimiter
