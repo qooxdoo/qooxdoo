@@ -106,8 +106,7 @@ qx.Class.define("qx.util.ColorUtil",
       transparent : [ -1, -1, -1 ],
       magenta     : [ 255, 0, 255 ],   // alias for fuchsia
       orange      : [ 255, 165, 0 ],
-      brown       : [ 165, 42, 42 ],
-      grey        : [ 128, 128, 128 ]  // alias for gray
+      brown       : [ 165, 42, 42 ]
     },
 
 
