@@ -20,7 +20,9 @@
 /* ************************************************************************
 
 #asset(qx/icon/${qx.icontheme}/16/emotes/*)
-#tag databinding
+#tag(databinding)
+#tag(list controller)
+#tag(delegate)
 
 ************************************************************************ */
 

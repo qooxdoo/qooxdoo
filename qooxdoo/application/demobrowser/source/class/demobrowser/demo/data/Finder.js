@@ -20,7 +20,9 @@
 /* ************************************************************************
 
 #asset(demobrowser/demo/data/finder.json)
-#tag databinding
+#tag(databinding)
+#tag(list controller)
+
 
 ************************************************************************ */
 
