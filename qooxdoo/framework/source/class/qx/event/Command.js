@@ -192,7 +192,7 @@ qx.Class.define("qx.event.Command",
         {
           var msg = "Whitespaces are not allowed within shortcuts";
           this.error(msg);
-          throw msg;
+          throw new Errpr(msg);
         }
 
         this.__modifier = { "Control" : false,
