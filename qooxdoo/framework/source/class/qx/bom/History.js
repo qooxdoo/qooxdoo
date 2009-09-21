@@ -277,7 +277,8 @@ qx.Class.define("qx.bom.History",
      *
      * @param state {String} new state of the history
      */
-    __onHistoryLoad : function(state) {
+    __onHistoryLoad : function(state) 
+    {
       this.__state = state;
       this.fireDataEvent("request", state);
       if (this.__titles[state] != null) {
