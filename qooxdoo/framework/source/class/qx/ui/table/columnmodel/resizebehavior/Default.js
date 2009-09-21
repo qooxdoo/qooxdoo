@@ -355,31 +355,18 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
 
     
     /**
-<<<<<<< HEAD
      * Computes the width of all flexible children.
-=======
-     * Computes the width of all flexible children (based loosely on the
-     * method of the same name in HorizontalBoxLayoutImpl).
-     *
-     * @param event {qx.event.type.Event}
-     *   The event object.
->>>>>>> [BUG #2196 NEW]: Table: Resizing columns does not work correctly 
-http://bugzilla.qooxdoo.org/show_bug.cgi?id=2196
      *
      * @return {void}
      */
     _computeColumnsFlexWidth : function()
     {
       this.__deferredComputeColumnsFlexWidth.cancel();
-<<<<<<< HEAD
       var width = this._getAvailableWidth();
-      
+
       if (width === null) {
         return;
       }
-=======
->>>>>>> [BUG #2196 NEW]: Table: Resizing columns does not work correctly 
-http://bugzilla.qooxdoo.org/show_bug.cgi?id=2196
       
       var tableColumnModel = this.getTableColumnModel();      
       var visibleColumns = tableColumnModel.getVisibleColumns();
@@ -401,11 +388,6 @@ http://bugzilla.qooxdoo.org/show_bug.cgi?id=2196
       this.__clearLayoutCaches();
       
       // Use a horizontal box layout to determine the available width.
-<<<<<<< HEAD
-=======
-      var width = this._getAvailableWidth();
->>>>>>> [BUG #2196 NEW]: Table: Resizing columns does not work correctly 
-http://bugzilla.qooxdoo.org/show_bug.cgi?id=2196
       this.__layout.renderLayout(width, 100);
 
       // Now that we've calculated the width, set it.
@@ -591,12 +573,7 @@ http://bugzilla.qooxdoo.org/show_bug.cgi?id=2196
 
   destruct : function()
   {
-<<<<<<< HEAD
     this._disposeFields("__resizeColumnData", "__layoutChildren");
-=======
-    this._disposeFields("__resizeColumnData");
->>>>>>> [BUG #2196 NEW]: Table: Resizing columns does not work correctly 
-http://bugzilla.qooxdoo.org/show_bug.cgi?id=2196
     this._disposeObjects("__layout", "__deferredComputeColumnsFlexWidth");
   }
 });
