@@ -25,7 +25,7 @@
  * widgets. It is possible to use the same Command in a MenuButton and
  * ToolBarButton for example.
  */
-qx.Class.define("qx.event.Command",
+qx.Class.define("qx.bom.Shortcut",
 {
   extend : qx.core.Object,
 
@@ -192,7 +192,7 @@ qx.Class.define("qx.event.Command",
         {
           var msg = "Whitespaces are not allowed within shortcuts";
           this.error(msg);
-          throw new Errpr(msg);
+          throw new Error(msg);
         }
 
         this.__modifier = { "Control" : false,

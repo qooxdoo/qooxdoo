@@ -57,7 +57,7 @@ qx.Interface.define("qx.ui.form.IExecutable",
     /**
      * Set the command of this executable.
      *
-     * @param command {qx.event.Command} The command.
+     * @param command {qx.ui.core.Command} The command.
      */
     setCommand : function(command) {
       return arguments.length == 1;
@@ -67,7 +67,7 @@ qx.Interface.define("qx.ui.form.IExecutable",
     /**
      * Return the current set command of this executable.
      *
-     * @return {qx.event.Command} The current set command.
+     * @return {qx.ui.core.Command} The current set command.
      */
     getCommand : function() {},
 

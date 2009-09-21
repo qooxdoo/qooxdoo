@@ -40,7 +40,7 @@ qx.Class.define("qx.ui.form.SplitButton",
    * @param label {String} Label to use
    * @param icon {String?null} Icon to use
    * @param menu {qx.ui.menu.Menu} Connect to menu instance
-   * @param command {qx.event.Command} Command instance to connect with
+   * @param command {qx.ui.core.Command} Command instance to connect with
    */
   construct : function(label, icon, menu, command)
   {
