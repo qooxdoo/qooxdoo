@@ -364,16 +364,8 @@ qx.Class.define("qx.bom.element.Style",
         }
       }
 
-      try {
-        // apply style
-        element.style[name] = value !== null ? value : "";
-      } catch(ex) {
-        if (qx.core.Variant.isSet("qx.debug", "on"))
-        {
-          qx.log.Logger.error("Error on setting style '" + name + "' with value '" +
-            value + "'. Error message: " + ex.message);
-        }
-      }
+      // apply style
+      element.style[name] = value !== null ? value : "";
     },
 
 
