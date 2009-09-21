@@ -381,10 +381,8 @@ qx.Class.define("qx.ui.control.ColorPopup",
     /**
      * Listener of execute event on the "cancel" button.
      * Hides the ColorPopup and resets it's color value.
-     *
-     * @param e {qx.event.Command} Incoming event object
      */
-    _onAutomaticBtnExecute : function(e)
+    _onAutomaticBtnExecute : function()
     {
       this.setValue(null);
       this.hide();
@@ -394,10 +392,8 @@ qx.Class.define("qx.ui.control.ColorPopup",
     /**
      * Listener of execute event on the "Open ColorSelector" button.
      * Opens a ColorSelector widget and hides the ColorPopup.
-     *
-     * @param e {qx.event.Command} Incoming event object
      */
-    _onSelectorButtonExecute : function(e)
+    _onSelectorButtonExecute : function()
     {
       this._createColorSelector();
 
@@ -425,10 +421,8 @@ qx.Class.define("qx.ui.control.ColorPopup",
     /**
      * Listener of execute event on the "OK" button.
      * Hides the ColorPopup and sets it's color value to the selected color.
-     *
-     * @param e {qx.event.Command} Incoming event object
      */
-    _onColorSelectorOk : function(e)
+    _onColorSelectorOk : function()
     {
       var sel = this.__colorSelector;
       this.setValue(qx.util.ColorUtil.rgbToRgbString([sel.getRed(), sel.getGreen(), sel.getBlue()]));
@@ -439,10 +433,8 @@ qx.Class.define("qx.ui.control.ColorPopup",
     /**
      * Listener of execute event on the "Cancel" button.
      * Hides the ColorPopup.
-     *
-     * @param e {qx.event.Command} Incoming event object
      */
-    _onColorSelectorCancel : function(e) {
+    _onColorSelectorCancel : function() {
       this.__colorSelectorWindow.close();
     },
 

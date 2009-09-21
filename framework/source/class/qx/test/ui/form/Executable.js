@@ -26,7 +26,7 @@ qx.Class.define("qx.test.ui.form.Executable",
       // check if the interface is implemented
       this.assertTrue(qx.Class.hasInterface(widget.constructor, qx.ui.form.IExecutable), "Interface is not implemented.");
 
-      var command = new qx.event.Command();
+      var command = new qx.ui.core.Command();
 
       // check if the setter works
       widget.setCommand(command);
