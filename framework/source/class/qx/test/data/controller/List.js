@@ -841,6 +841,27 @@ qx.Class.define("qx.test.data.controller.List",
       this.flush();
       selList.dispose();
       selController.dispose();
+    },
+    
+    
+    testGetVisibleModels : function() 
+    {
+      this.__setUpString();
+
+      var delegate = {};
+      delegate.filter = function(data) {
+        return data == "b" || data == "c" || data == "d";
+      };
+
+      this.__controller.setDelegate(delegate);
+
+      var visibleModels = this.__controller.getVisibleModels();
+      
+      this.assertEquals(visibleModels.classname, "qx.data.Array");
+      this.assertEquals(3, visibleModels.getLength());
+      this.assertEquals("b", visibleModels.getItem(0));
+      this.assertEquals("c", visibleModels.getItem(1));
+      this.assertEquals("d", visibleModels.getItem(2));            
     }
   }
 });
