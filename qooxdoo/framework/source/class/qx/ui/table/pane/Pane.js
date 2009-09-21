@@ -205,13 +205,11 @@ qx.Class.define("qx.ui.table.pane.Pane",
         // Update the focused row background
         if (row != oldRow && !massUpdate)
         {
-          if (row !== null && oldRow !== null)
-          {
-            // NOTE: Only the old and the new row need update
+          if (oldRow !== null) {
             this.updateContent(false, null, oldRow, true);
+          }
+          if (row !== null) {
             this.updateContent(false, null, row, true);
-          } else {
-            this.updateContent();
           }
         }
       }
