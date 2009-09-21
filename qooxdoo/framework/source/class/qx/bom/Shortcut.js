@@ -20,10 +20,7 @@
 ************************************************************************ */
 
 /**
- * Commands can be used to globally define keyboard shortcuts. They could
- * also be used to assign a execution of a command sequence to multiple
- * widgets. It is possible to use the same Command in a MenuButton and
- * ToolBarButton for example.
+ * Shortcuts can be used to globally define keyboard shortcuts.
  */
 qx.Class.define("qx.bom.Shortcut",
 {
@@ -138,7 +135,7 @@ qx.Class.define("qx.bom.Shortcut",
     */
 
     /**
-     * Fire the "execute" event on this command.
+     * Fire the "execute" event on this shortcut.
      *
      * @param target {Object} Object which issued the execute event
      */
@@ -154,7 +151,7 @@ qx.Class.define("qx.bom.Shortcut",
      */
     __onKeyPress : function(event)
     {
-      if (this.getEnabled() && this.matchesKeyEvent(event))
+      if (this.getEnabled() && this.__matchesKeyEvent(event))
       {
         this.execute(event.getTarget());
         event.preventDefault();
@@ -234,7 +231,7 @@ qx.Class.define("qx.bom.Shortcut",
               break;
 
             case "Unidentified":
-              var msg = "Not a valid key name for a command: " + a[i];
+              var msg = "Not a valid key name for a shortcut: " + a[i];
               this.error(msg);
               throw msg;
 
@@ -264,12 +261,29 @@ qx.Class.define("qx.bom.Shortcut",
     */
 
     /**
-     * Checks whether the given key event matches the command's shortcut
+     * Checks whether the given key event matches the shortcuts's shortcut
      *
+     * @deprecated for 0.9
      * @param e {qx.event.type.KeySequence} the key event object
-     * @return {Boolean} whether the commands shortcut matches the key event
+     * @return {Boolean} whether the shortcuts shortcut matches the key event
      */
-    matchesKeyEvent : function(e)
+    matchesKeyEvent : function(e) {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "This message will be made private."
+      );
+      return this.__matchesKeyEvent(e);
+    },
+
+
+    /**
+     * Checks whether the given key event matches the shortcut's shortcut
+     *
+     * @deprecated for 0.9
+     * @param e {qx.event.type.KeySequence} the key event object
+     * @return {Boolean} whether the shortcuts shortcut matches the key event
+     */
+    __matchesKeyEvent : function(e)
     {
       var key = this.__key;
 
@@ -300,8 +314,6 @@ qx.Class.define("qx.bom.Shortcut",
 
       return false;
     },
-
-
 
 
     /*
@@ -376,7 +388,7 @@ qx.Class.define("qx.bom.Shortcut",
     */
 
     /**
-     * Returns the shortcut as string using the currently selected locale
+     * Returns the shortcut as string using the currently selected locale.
      *
      * @return {String} shortcut
      */
