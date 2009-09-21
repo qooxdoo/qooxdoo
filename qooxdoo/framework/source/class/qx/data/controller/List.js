@@ -537,6 +537,28 @@ qx.Class.define("qx.data.controller.List",
       oldItem.destroy();
       this._endSelectionModification();
     },
+    
+    
+    /**
+     * Returns all models currently visible by the list. This method is only
+     * useful if you use the filter via the {@link #delegate}.
+     * 
+     * @return {qx.data.Array} A new data array containiner all the models 
+     *   which representation items are currently visible.
+     */
+    getVisibleModels : function() 
+    {
+      var visibleModels = [];
+      var target = this.getTarget();
+      if (target != null) {
+        var items = target.getChildren();
+        for (var i = 0; i < items.length; i++) {
+          visibleModels.push(items[i].getModel());
+        };        
+      }
+
+      return new qx.data.Array(visibleModels);
+    },
 
 
     /*
