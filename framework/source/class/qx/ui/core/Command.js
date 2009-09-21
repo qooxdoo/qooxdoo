@@ -16,11 +16,24 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+/**
+ * Commands can be used to globally define keyboard shortcuts. They could
+ * also be used to assign a execution of a command sequence to multiple
+ * widgets. It is possible to use the same Command in a MenuButton and
+ * ToolBarButton for example.
+ */
 qx.Class.define("qx.ui.core.Command", 
 {
   extend : qx.core.Object,
 
 
+  /**
+   * @param shortcut {String} Shortcuts can be composed of optional modifier
+   *    keys Control, Alt, Shift, Meta and a non modifier key.
+   *    If no non modifier key is specified, the second paramater is evaluated.
+   *    The key must be separated by a <code>+</code> or <code>-</code> character.
+   *    Examples: Alt+F1, Control+C, Control+Alt+Delete
+   */
   construct : function(shortcut)
   {
     this.base(arguments);
@@ -66,22 +79,34 @@ qx.Class.define("qx.ui.core.Command",
   {
     _shortcut : null,
     
+    // property apply
     _applyEnabled : function(value) {
       this._shortcut.setEnabled(value);
     },
     
     
+    // property apply
     _applyShortcut : function(value) {
       this._shortcut.setShortcut(value);
     },
     
     
+    /**
+     * Fire the "execute" event on this command.
+     *
+     * @param target {Object} Object which issued the execute event
+     */    
     execute : function(target) 
     {
       this.fireDataEvent("execute", target);
     },
     
     
+    /**
+     * Returns the used shortcut as string using the currently selected locale.
+     *
+     * @return {String} shortcut
+     */
     toString : function() 
     {
       return this._shortcut.toString();
