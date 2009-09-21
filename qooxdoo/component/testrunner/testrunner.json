@@ -140,6 +140,7 @@
         [
           "index.html",
           "index-source.html",
+          "index-inline.html",
           "html"
         ],
 

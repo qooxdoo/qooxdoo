@@ -158,6 +158,19 @@
       ]
     },
 
+
+    "test-inline" :
+    {
+      "let" : {
+        "TESTS_SCRIPT" : "tests-inline.js"
+      },
+      
+      "extend" : ["test"],
+      
+      "include" : ["testrunner.TestLoaderInline", "${TEST_INCLUDE}", "${QXTHEME}"]
+    },
+
+
     "test-source" :
     {
       "desc"    : "create a test runner app for unit tests (source version) of the current library",
