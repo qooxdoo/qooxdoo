@@ -2246,6 +2246,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
+          minWidth: 13,
           paddingLeft : 2,
           paddingRight : 2,
           paddingBottom : states.hovered ? 0 : 2,
