@@ -131,7 +131,7 @@ qx.Mixin.define("qx.ui.core.MExecutable",
           ids[property] = value.bind(property, this, property);
           // reapply the former value
           if (selfPropertyValue) {
-            this.set(property, selfPropertyValue)
+            this.set(property, selfPropertyValue);
           }
         }
       }
