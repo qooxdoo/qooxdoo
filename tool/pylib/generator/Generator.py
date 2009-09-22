@@ -316,8 +316,12 @@ class Generator(object):
             # Resolve regexps
             self._console.indent()
             self._console.debug("Expanding expressions...")
-            smartExclude = self._expandRegExps(smartExclude)
-            explicitExclude = self._expandRegExps(explicitExclude)
+            try:
+                smartExclude = self._expandRegExps(smartExclude)
+                explicitExclude = self._expandRegExps(explicitExclude)
+            except RuntimeError:
+                self._console.error("Invalid exclude block: %s" % excludeCfg)
+                raise            
             self._console.outdent()
 
             return smartExclude, explicitExclude
@@ -341,8 +345,12 @@ class Generator(object):
 
                 # Resolve regexps
                 self._console.debug("Expanding expressions...")
-                smartInclude = self._expandRegExps(smartInclude)
-                explicitInclude = self._expandRegExps(explicitInclude)
+                try:
+                    smartInclude = self._expandRegExps(smartInclude)
+                    explicitInclude = self._expandRegExps(explicitInclude)
+                except RuntimeError:
+                    self._console.error("Invalid include block: %s" % includeCfg)
+                    raise
 
             elif self._job.get("packages"):
                 # Special part include handling
@@ -368,16 +376,22 @@ class Generator(object):
             if len(variantSets) < 2:  # only log when more than 1 set
                 return
             variantStr = simplejson.dumps(variants,ensure_ascii=False)
-            self._console.head("Processing variant set %s/%s (%s)" % (variantSetNum+1, len(variantSets), variantStr))
+            self._console.head("Processing variant set %s/%s" % (variantSetNum+1, len(variantSets)))
 
             # Debug variant combination
-            self._console.debug("Switched variants:")
-            self._console.indent()
+            hasVariants = False
             for key in variants:
                 if len(variantData[key]) > 1:
-                    self._console.debug("%s = %s" % (key, variants[key]))
-            self._console.outdent()
-
+                    hasVariants = True
+                    
+            if hasVariants:
+                self._console.info("Switched variants:")
+                self._console.indent()
+                for key in variants:
+                    if len(variantData[key]) > 1:
+                        self._console.info("%s = %s" % (key, variants[key]))
+                self._console.outdent()
+            
             return
 
 
