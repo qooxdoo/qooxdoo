@@ -1953,6 +1953,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "menu-button/arrow" :
     {
+      include : "image",
+
       style : function(states)
       {
         return {
