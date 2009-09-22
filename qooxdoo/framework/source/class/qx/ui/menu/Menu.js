@@ -339,6 +339,24 @@ qx.Class.define("qx.ui.menu.Menu",
     },
 
 
+    /**
+     * Return all selectable menu itmes.
+     * 
+     * @return {qx.ui.core.Widget[]} selectable widgets
+     */
+    getSelectables : function() {
+      var result = [];
+      var children = this.getChildren();
+      
+      for (var i = 0; i < children.length; i++)
+      {
+        if (children[i].isEnabled()) {
+          result.push(children[i]);
+        }
+      }
+      
+      return result;
+    },
 
 
     /*
