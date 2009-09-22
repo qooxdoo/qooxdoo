@@ -121,7 +121,8 @@ qx.Class.define("qx.ui.menu.Button",
         }
       }
 
-      this.getChildControl("shortcut").setValue(command.toString());
+      var cmdString = command != null ? command.toString() : "";
+      this.getChildControl("shortcut").setValue(cmdString);
     },
 
 
