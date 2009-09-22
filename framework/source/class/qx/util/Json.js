@@ -476,7 +476,7 @@ qx.Class.define("qx.util.Json",
      * Parse a JSON text, producing a JavaScript value.
      * It triggers an exception if there is a syntax error.
      *
-     * @deprecated Use 'qx.util.Json.parse' instead!
+     * @deprecated Use 'qx.util.Json.parse' instead! (for 0.9)
      *
      * @param text {String} JSON string
      * @return {Object} evaluated JSON string.
