@@ -361,9 +361,9 @@ qx.Class.define("qx.util.ColorUtil",
     },
 
    /**
-    * Detects if a string is a valid RGBA string
+    * Converts a regexp object match of a rgba string to an RGB array.
     *
-    * @return {Boolean} true when the incoming value is a valid RGBA string
+    * @return {Array} an array with red, green, blue
     */
     __rgbaStringToRgb : function()
     {
