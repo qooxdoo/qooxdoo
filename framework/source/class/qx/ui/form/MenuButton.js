@@ -131,7 +131,7 @@ qx.Class.define("qx.ui.form.MenuButton",
         // Select first item
         if (selectFirst)
         {
-          var first = menu.getChildren()[0];
+          var first = menu.getSelectables()[0];
           if (first) {
             menu.setSelectedButton(first);
           }
