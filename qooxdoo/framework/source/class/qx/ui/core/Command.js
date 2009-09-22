@@ -65,12 +65,59 @@ qx.Class.define("qx.ui.core.Command",
     },
 
 
-    /** The command shortcut */
+    /** The command shortcut as a string */
     shortcut :
     {
       check : "String",
       apply : "_applyShortcut",
       nullable : true
+    },
+    
+    
+    /** The label, which will be set in all connected widgets (if available) */
+    label : 
+    {
+      check : "String",
+      nullable : true,
+      event : "changeLabel"
+    },
+    
+    
+    /** The icon, which will be set in all connected widgets (if available) */
+    icon : 
+    {
+      check : "String",
+      nullable : true,
+      event : "changeIcon"
+    },
+    
+    
+    /** 
+     * The tooltip text, which will be set in all connected 
+     * widgets (if available)
+     */
+    toolTipText : 
+    {
+      check : "String",
+      nullable : true,
+      event : "changeToolTipText"
+    },
+    
+    
+    /** The value of the connected widgets */
+    value : 
+    {
+      nullable : true,
+      event : "changeValue"      
+    },
+    
+    
+    /** The menu, which will be set in all connected widgets (if available) */
+    menu :
+    {
+      check : "qx.ui.menu.Menu",
+      nullable : true,      
+      event : "changeMenu"
     }
   },
 

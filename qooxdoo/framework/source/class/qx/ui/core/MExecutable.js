@@ -15,6 +15,7 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Fabian Jakobs (fjakobs)
+     * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
 
@@ -24,6 +25,13 @@
  */
 qx.Mixin.define("qx.ui.core.MExecutable",
 {
+  
+  construct : function()
+  {
+    this.__executableBindingIds = {};
+  },
+  
+  
   /*
   *****************************************************************************
      EVENTS
@@ -69,9 +77,22 @@ qx.Mixin.define("qx.ui.core.MExecutable",
 
   members :
   {
+    __executableBindingIds : null,
+    
+    // set of properties, which will by synced from the command to the including widget 
+    _bindableProperties : 
+    [
+      "enabled",
+      "label",
+      "icon",
+      "toolTipText",
+      "value",
+      "menu"
+    ],
+    
+    
     /**
      * Initiate the execute action.
-     *
      */
     execute : function()
     {
@@ -88,30 +109,32 @@ qx.Mixin.define("qx.ui.core.MExecutable",
     // property apply
     _applyCommand : function(value, old)
     {
-      if (old) {
-        old.removeListener("changeEnabled", this._onChangeEnabledCommand, this);
-      }
-
-      if (value)
-      {
-        value.addListener("changeEnabled", this._onChangeEnabledCommand, this);
-
-        if (this.getEnabled() === false) {
-          value.setEnabled(false);
-        } else if (value.getEnabled() === false) {
-          this.setEnabled(false);
+      var ids = this.__executableBindingIds;
+      for (var i = 0; i < this._bindableProperties.length; i++) {
+        var property = this._bindableProperties[i];
+        
+        // remove the old binding
+        if (old != null && ids[property] != null) 
+        {
+          old.removeBinding(ids[property]);
+          ids[property] = null;
+        }
+        
+        // add the new binding
+        if (value != null && qx.Class.hasProperty(this.constructor, property)) {
+          // handle the init value (dont sync the initial null)
+          var cmdPropertyValue = value.get(property);
+          if (cmdPropertyValue == null) {
+            var selfPropertyValue = this.get(property)
+          }
+          // set up the binding
+          ids[property] = value.bind(property, this, property);
+          // reapply the former value
+          if (selfPropertyValue) {
+            this.set(property, selfPropertyValue)
+          }
         }
       }
-    },
-
-
-    /**
-     * Event Listener. Listen for enabled changes in the associated command
-     *
-     * @param e {qx.event.type.Data} The change event
-     */
-    _onChangeEnabledCommand : function(e) {
-      this.setEnabled(e.getData());
     }
   }
 });
