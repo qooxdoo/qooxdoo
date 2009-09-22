@@ -376,7 +376,12 @@ qx.Class.define("portal.dragdrop.Manager",
     __checkInsert : function(downwards, top, activeBoxElement, nextBox)
     {
       var nextBoxTop    = qx.bom.element.Location.getTop(nextBox);
-      var nextBoxHeight = qx.bom.element.Dimension.getClientHeight(nextBox);
+      
+      var nextBoxPaddingTop = parseInt(qx.bom.element.Style.get(nextBox, "paddingTop"));
+      var nextBoxPaddingBottom = parseInt(qx.bom.element.Style.get(nextBox, "paddingBottom"));
+      var nextBoxHeight = qx.bom.element.Dimension.getContentHeight(nextBox) +
+                          nextBoxPaddingBottom + nextBoxPaddingTop;
+      
       var sibling;
 
       if (downwards) {
