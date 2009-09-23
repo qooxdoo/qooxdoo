@@ -27,6 +27,7 @@
     //"publish-test",
     //"source",
     "test",
+    "test-inline",
     //"test-copy-files",
     "test-source",
     "translation"
@@ -118,6 +119,16 @@
     "test" :
     {
       "run" : ["appconf::test", "test-copy-files"],
+
+      "let" :
+      {
+        "LOCALES" : ["de", "de_DE", "en", "en_GB"]
+      }
+    },
+    
+    "test-inline" :
+    {
+      "run" : ["appconf::test-inline", "test-copy-files"],
 
       "let" :
       {
