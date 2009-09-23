@@ -131,19 +131,19 @@ class Locale:
         pot = self.getPotFile(classList)
         pot.sort()
 
-        allfiles = self._translation[namespace]
+        allLocales = self._translation[namespace]
         if localesList == None:
-            filenames = allfiles.keys()
+            filenames = allLocales.keys()
         else:
             filenames = localesList
             for name in filenames:
-                if name not in allfiles:
+                if name not in allLocales:
                     path = os.path.join(translationDir, name + ".po")
                     f    = open(path, 'w')  # create stanza file
                     pof  = self.createPoFile()
                     f.write(str(pof))
                     f.close()
-                    allfiles[name] = LibraryPath.translationEntry(name, path, namespace)
+                    allLocales[name] = LibraryPath.translationEntry(name, path, namespace)
 
         self._console.info("Updating %d translations..." % len(filenames))
         self._console.indent()
@@ -151,7 +151,7 @@ class Locale:
         for name in filenames:
             self._console.debug("Processing: %s" % name)
 
-            entry = allfiles[name]
+            entry = allLocales[name]
             po = polib.pofile(entry["path"])
             po.merge(pot)
             po.sort()
