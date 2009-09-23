@@ -120,6 +120,11 @@ qx.Class.define("qx.data.controller.Form",
     {
       this.__bindingOptions[name] = [model2target, target2model];
       
+      // return if not both, model and target are given
+      if (this.getModel() == null || this.getTarget() == null) {
+        return;
+      }
+      
       // renew the affected binding
       var item = this.getTarget().getItems()[name];
       var targetProperty = 
