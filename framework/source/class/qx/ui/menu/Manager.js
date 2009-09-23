@@ -679,8 +679,19 @@ qx.Class.define("qx.ui.menu.Manager",
           return;
         }
 
-        var prevButton = index == 0 ? buttons[buttons.length-1] : buttons[index-1];
-        if (prevButton != menuOpener) {
+        // Get previous button, fallback to end if first arrived
+        var prevButton = null;
+        var length =  buttons.length;
+        for (var i = 1; i <= length; i++) 
+        {
+          var button = buttons[(index - i + length) % length];
+          if(button.isEnabled()) {
+            prevButton = button;
+            break;
+          }
+        }
+
+        if (prevButton && prevButton != menuOpener) {
           prevButton.open(true);
         }
       }
@@ -775,13 +786,19 @@ qx.Class.define("qx.ui.menu.Manager",
           return;
         }
 
-        // Try next button, fallback to first
-        var nextButton = buttons[index+1];
-        if (!nextButton) {
-          nextButton = buttons[0];
+        // Get next button, fallback to first if end arrived
+        var nextButton = null;
+        var length =  buttons.length;
+        for (var i = 1; i <= length; i++) 
+        {
+          var button = buttons[(index + i) % length];
+          if(button.isEnabled()) {
+            nextButton = button;
+            break;
+          }
         }
 
-        if (nextButton != menuOpener) {
+        if (nextButton && nextButton != menuOpener) {
           nextButton.open(true);
         }
       }
