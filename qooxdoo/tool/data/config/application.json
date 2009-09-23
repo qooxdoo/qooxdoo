@@ -171,6 +171,18 @@
     },
 
 
+    "test-native" :
+    {
+      "let" : {
+        "TESTS_SCRIPT" : "tests-native.js"
+      },
+      
+      "extend" : ["test"],
+      
+      "include" : ["testrunner.TestLoaderNative", "${TEST_INCLUDE}", "${QXTHEME}"]
+    },
+
+
     "test-source" :
     {
       "desc"    : "create a test runner app for unit tests (source version) of the current library",
