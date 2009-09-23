@@ -137,23 +137,52 @@ qx.Mixin.define("qx.ui.core.MBlocker",
       this.__blocker.unblockContent();
     },
 
+    
     /**
      * Get/create the content blocker element
+     * 
+     * @deprecated Use 'getBlocker().getContentBlockerElement()' instead. (for 0.9)
      *
      * @return {qx.html.Element} The blocker element
      */
-    _getContentBlocker : function() {
-      return this.__blocker._getContentBlocker();
+    _getContentBlocker : function()
+    {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, 
+        "Use 'getBlocker().getContentBlockerElement()' instead."
+      );
+      
+      return this.__blocker.getContentBlockerElement();
     },
-
+    
+    
     /**
      * Get/create the blocker element
+     * 
+     * @deprecated Use 'getBlocker().getBlockerElement()' instead. (for 0.9)
      *
      * @return {qx.html.Element} The blocker element
      */
-    _getBlocker : function() {
-      return this.__blocker._getBlocker();
+    _getBlocker : function()
+    {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, 
+        "Use 'getBlocker().getBlockerElement()' instead."
+      );
+      
+      return this.__blocker.getBlockerElement();
     },
+    
+    
+    /**
+     * Get the blocker
+     * 
+     * @return {qx.ui.core.Blocker} The blocker
+     */
+    getBlocker : function() {
+      return this.__blocker;
+    },
+    
 
     /**
      * Reset the value of the anonymous property to its previous state. Each call

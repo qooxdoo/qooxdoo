@@ -53,6 +53,9 @@ qx.Class.define("qx.ui.core.Blocker",
     if (this._isPageRoot) {
       widget.addListener("resize", this.__onResize, this);
     }
+    
+    this.__activeElements = [];
+    this.__focusElements = [];
   },
 
   /*
@@ -105,6 +108,9 @@ qx.Class.define("qx.ui.core.Blocker",
     __contentBlocker : null,
     __isContentBlocked : null,
 
+    __activeElements  : null,
+    __focusElements   : null,
+    
     __oldAnonymous : null,
     __anonymousCounter : 0,
 
@@ -122,14 +128,14 @@ qx.Class.define("qx.ui.core.Blocker",
 
       if (this.isContentBlocked())
       {
-        this._getContentBlocker().setStyles({
+        this.getContentBlockerElement().setStyles({
           width: data.width,
           height: data.height
         });
       }
       if (this.isBlocked())
       {
-        this._getBlocker().setStyles({
+        this.getBlockerElement().setStyles({
           width: data.width,
           height: data.height
         });
@@ -151,6 +157,7 @@ qx.Class.define("qx.ui.core.Blocker",
       this.__setBlockersStyle("opacity", value);
     },
 
+    
     /**
      * Set the style to all blockers (blocker and content blocker).
      *
@@ -168,6 +175,7 @@ qx.Class.define("qx.ui.core.Blocker",
       }
     },
 
+    
     /**
      * Remember current value and make widget anonymous. This prevents
      * "capturing events".
@@ -194,6 +202,52 @@ qx.Class.define("qx.ui.core.Blocker",
         this._widget.setAnonymous(this.__oldAnonymous);
       }
     },
+    
+    
+    /**
+     * @return {void}
+     */
+    _backupActiveWidget : function()
+    {
+      var focusHandler = qx.event.Registration.getManager(window).getHandler(qx.event.handler.Focus);
+
+      this.__activeElements.push(focusHandler.getActive());
+      this.__focusElements.push(focusHandler.getFocus());
+
+      this._widget.focus();
+    },
+
+
+    /**
+     * @return {void}
+     */
+    _restoreActiveWidget : function()
+    {
+      var activeElementsLength = this.__activeElements.length;
+      if (activeElementsLength > 0)
+      {
+        var widget = this.__activeElements[activeElementsLength - 1];
+
+        if (widget) {
+          qx.bom.Element.activate(widget);
+        }
+
+        this.__activeElements.pop();
+      }
+
+      var focusElementsLength = this.__focusElements.length;
+
+      if (focusElementsLength > 0)
+      {
+        var widget = this.__focusElements[focusElementsLength - 1];
+
+        if (widget) {
+          qx.bom.Element.focus(this.__focusElements[focusElementsLength - 1]);
+        }
+
+        this.__focusElements.pop();
+      }
+    },
 
 
     /**
@@ -208,10 +262,25 @@ qx.Class.define("qx.ui.core.Blocker",
 
     /**
      * Get/create the blocker element
+     * 
+     * @deprecated Use 'getBlockerElement' instead. (for 0.9)
      *
      * @return {qx.html.Element} The blocker element
      */
     _getBlocker : function()
+    {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Use 'getBlockerElement' instead.");
+      
+      return this.getBlockerElement();
+    },
+
+
+    /**
+     * Get/create the blocker element
+     *
+     * @return {qx.html.Element} The blocker element
+     */
+    getBlockerElement : function()
     {
       if (!this.__blocker)
       {
@@ -237,7 +306,8 @@ qx.Class.define("qx.ui.core.Blocker",
 
       // overlay the blocker widget
       // this prevents bubbling events
-      this._getBlocker().include();
+      this.getBlockerElement().include();
+      this._backupActiveWidget();
 
       this._saveAndSetAnonymousState();
     },
@@ -264,16 +334,33 @@ qx.Class.define("qx.ui.core.Blocker",
       this.__isBlocked = false;
 
       this._restoreAnonymousState();
-      this._getBlocker().exclude();
+      this._restoreActiveWidget();
+      
+      this.getBlockerElement().exclude();
     },
 
 
     /**
      * Get/create the content blocker element
+     * 
+     * @deprecated Use 'getContentBlockerElement' instead. (for 0.9)
+     *
+     * @return {qx.html.Element} The content blocker element
+     */
+    _getContentBlocker : function()
+    {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Use 'getContentBlockerElement' instead.");
+      
+      return this.getContentBlockerElement();
+    },
+    
+    
+    /**
+     * Get/create the content blocker element
      *
      * @return {qx.html.Element} The blocker element
      */
-    _getContentBlocker : function()
+    getContentBlockerElement : function()
     {
       if (!this.__contentBlocker)
       {
@@ -282,7 +369,7 @@ qx.Class.define("qx.ui.core.Blocker",
         this.__contentBlocker.exclude();
       }
       return this.__contentBlocker;
-    },
+    },    
 
 
     /**
@@ -293,7 +380,7 @@ qx.Class.define("qx.ui.core.Blocker",
      */
     blockContent : function(zIndex)
     {
-      var blocker = this._getContentBlocker();
+      var blocker = this.getContentBlockerElement();
       blocker.setStyle("zIndex", zIndex);
 
       if (this.__isContentBlocked) {
@@ -340,7 +427,7 @@ qx.Class.define("qx.ui.core.Blocker",
       }
       this.__isContentBlocked = false;
 
-      this._getContentBlocker().exclude();
+      this.getContentBlockerElement().exclude();
 
       if (this._isPageRoot) {
         this.__timer.stop();
@@ -357,7 +444,7 @@ qx.Class.define("qx.ui.core.Blocker",
       var containerEl = this._widget.getContainerElement().getDomElement();
       var doc = qx.dom.Node.getDocument(containerEl);
 
-      this._getContentBlocker().setStyles({
+      this.getContentBlockerElement().setStyles({
         height: doc.documentElement.scrollHeight + "px",
         width: doc.documentElement.scrollWidth + "px"
       });
@@ -379,6 +466,6 @@ qx.Class.define("qx.ui.core.Blocker",
       this._widget.removeListener("resize", this.__onResize, this);
     }
     this._disposeObjects("__contentBlocker", "__blocker", "__timer");
-    this._disposeFields("__oldAnonymous");
+    this._disposeFields("__oldAnonymous", "__activeElements", "__focusElements");
   }
 });
