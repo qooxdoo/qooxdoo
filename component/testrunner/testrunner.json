@@ -141,6 +141,7 @@
           "index.html",
           "index-source.html",
           "index-inline.html",
+          "index-native.html",
           "html"
         ],
 
