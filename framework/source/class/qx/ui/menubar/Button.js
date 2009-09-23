@@ -176,6 +176,17 @@ qx.Class.define("qx.ui.menubar.Button",
       }
     },
 
+    // overridden
+    _onMouseUp : function(e)
+    {
+      this.base(arguments, e);
+
+      // Set state 'pressed' to visualize that the menu is open.
+      var menu = this.getMenu();
+      if (menu && menu.isVisible() && !this.hasState("pressed")) {
+        this.addState("pressed");
+      }
+    },
 
     /**
      * Event listener for mouseover event
