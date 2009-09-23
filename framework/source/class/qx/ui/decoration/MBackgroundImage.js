@@ -61,8 +61,8 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
      * of the background image.
      *
      * If the value is an integer it is interpreted as pixel value otherwise
-     * the value is taken as CSS value. CSS the values are "center", "left" and
-     * "right".
+     * the value is taken as CSS value. CSS the values are "top", "middle" and
+     * "bottom".
      */
     backgroundPositionY :
     {
