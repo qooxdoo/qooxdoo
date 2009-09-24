@@ -241,7 +241,10 @@ qx.Class.define("qx.ui.embed.ThemedIframe",
      */
     _onMouseWheel : function(e)
     {
-      var showY = this._isChildControlVisible("scrollbar-y");
+      var showY = 
+        this._isChildControlVisible("scrollbar-y") &&
+        this.getChildControl("scrollbar-y").isEnabled();
+      
       if (!showY) {
         return;
       }
@@ -457,7 +460,7 @@ qx.Class.define("qx.ui.embed.ThemedIframe",
         bar.set({
           position: 0,
           maximum: contentSize,
-          knobFactor: 0,
+          knobFactor: 1,
           enabled: false
         });
       }
