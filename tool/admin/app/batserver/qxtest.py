@@ -812,8 +812,15 @@ class QxTest:
 
     if 'autQxPath' in self.autConf:
       cmd += self.autConf['autQxPath']
-
-    cmd += self.autConf['autPath' + aut]
+    
+    # Encode any URL parameters
+    autPathList = self.autConf['autPath' + aut].split("?")
+    if len(autPathList) == 1:
+      cmd += autPathList[0]
+    else:
+      import urllib
+      cmd += autPathList[0] + "%3F" + urllib.quote(autPathList[1])
+    
     cmd += " simulatorSvn=" + self.testConf['simulatorSvn']
 
     if (self.os == "Windows"):
