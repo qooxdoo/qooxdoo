@@ -109,6 +109,31 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
 
   members :
   {
+    __allowMenuOpenHover : false,
+    
+    /**
+     * Indicate if a menu could be opend on haver or not.
+     * 
+     * @internal
+     * @param value {Boolean} <code>true</code> if a menu could be opend, 
+     *    <code>false</code> otherwise. 
+     */
+    _setAllowMenuOpenHover : function(value) {
+      this.__allowMenuOpenHover = value
+    },
+    
+    /**
+     * Return if a menu could be opend on haver or not.
+     * 
+     * @internal
+     * @return {Boolean} <code>true</code> if a menu could be opend, 
+     *    <code>false</code> otherwise. 
+     */
+    _isAllowMenuOpenHover : function () {
+      return this.__allowMenuOpenHover;
+    },
+    
+    
     /*
     ---------------------------------------------------------------------------
       PROPERTY APPLY ROUTINES
