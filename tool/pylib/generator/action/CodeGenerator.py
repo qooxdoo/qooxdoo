@@ -677,7 +677,7 @@ class CodeGenerator(object):
             # return as string
 
             # <parts> is already a suitable map; just serialize it
-            partData = simplejson.dumps(parts, ensure_ascii=False, separators=(',', ':'))
+            partData = simplejson.dumps(parts, ensure_ascii=False, separators=(',', ':'), sort_keys=True)
 
             return partData
 
@@ -733,7 +733,7 @@ class CodeGenerator(object):
                 globalCodes['I18N']['uris'][code] = packageUrisToJS([[globalCodes['I18N']['uris'][code]]], "build")[0][0]
         # stringify data in globalCodes
         for entry in globalCodes:
-            globalCodes[entry] = simplejson.dumps(globalCodes[entry], ensure_ascii=False)
+            globalCodes[entry] = simplejson.dumps(globalCodes[entry], ensure_ascii=False, separators=(',',':'), sort_keys=True)
 
         vals.update(globalCodes)
         vals["Boot"] = '"%s"' % boot
@@ -744,7 +744,7 @@ class CodeGenerator(object):
 
         # Translate URI data to JavaScript
         vals["Uris"] = packageUrisToJS(packages, version)
-        vals["Uris"] = simplejson.dumps(vals["Uris"], ensure_ascii=False)
+        vals["Uris"] = simplejson.dumps(vals["Uris"], ensure_ascii=False, separators=(',',':'), sort_keys=True)
         
         # Locate and load loader basic script
         template = loadTemplate(bootCode)
@@ -798,7 +798,7 @@ class CodeGenerator(object):
                 data[localeCode]['Locales']      = globalCodes['Locales'][localeCode]
 
             # write to file
-            dataS = simplejson.dumps(data, ensure_ascii=False)
+            dataS = simplejson.dumps(data, ensure_ascii=False, separators=(',',':'), sort_keys=True)
             fPath = self.writePackage(dataS, script, packageId=localeCode)
             # add uri info to globalCodes
             #globalCodes['I18N']['uris'][localeCode] = Path.getCommonPrefix(fPath, )[1]

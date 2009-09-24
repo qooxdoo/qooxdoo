@@ -1186,7 +1186,7 @@ class Generator(object):
             bname += '.meta'
             meta_fname = os.path.join(os.path.dirname(image), bname)
             self._console.debug("writing meta file %s" % meta_fname)
-            filetool.save(meta_fname, simplejson.dumps(config, ensure_ascii=False))
+            filetool.save(meta_fname, simplejson.dumps(config, ensure_ascii=False, sort_keys=True))
             self._console.outdent()
             
         self._console.outdent()
