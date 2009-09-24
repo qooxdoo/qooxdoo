@@ -73,14 +73,35 @@ qx.Class.define("qx.test.bom.Element",
 
     testFocus : function()
     {
-      qx.bom.Element.focus(this._el);
-      this.warn("needs better test!");
+      qx.event.Registration.addListener(this._el, "focus", function() {
+        this.resume(function() {
+          this.info("Element focused.");
+        }, this);
+      },this);
+      
+      var self = this;
+      window.setTimeout(function(){
+        qx.bom.Element.focus(self._el);
+      }, 100);      
+      
+      this.wait();
     },
 
     testBlur : function()
     {
-      qx.bom.Element.blur(this._el);
-      this.warn("needs better test!");
+      qx.event.Registration.addListener(this._el, "blur", function() {
+        this.resume(function() {
+          this.info("Element blurred.");
+        }, this);
+      },this);
+      
+      var self = this;
+      window.setTimeout(function(){
+        qx.bom.Element.focus(self._el);
+        qx.bom.Element.blur(self._el);
+      }, 100);      
+      
+      this.wait();
     },
 
     testActivate : function()
