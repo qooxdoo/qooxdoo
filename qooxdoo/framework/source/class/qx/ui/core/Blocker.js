@@ -205,7 +205,7 @@ qx.Class.define("qx.ui.core.Blocker",
     
     
     /**
-     * @return {void}
+     * Backup the current active and focused widget.
      */
     _backupActiveWidget : function()
     {
@@ -219,7 +219,7 @@ qx.Class.define("qx.ui.core.Blocker",
 
 
     /**
-     * @return {void}
+     * Restore the current active and focused widget.
      */
     _restoreActiveWidget : function()
     {
