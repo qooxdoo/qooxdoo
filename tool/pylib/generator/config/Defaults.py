@@ -30,6 +30,6 @@ def getQooxdooVersion():
 class Defaults(object):
 
     let = {
-        "TMPDIR"          : tempfile.gettempdir(),
-        "QOOXDOO_VERSION" : getQooxdooVersion()
+        u"TMPDIR"          : tempfile.gettempdir(),
+        u"QOOXDOO_VERSION" : getQooxdooVersion()
     }
