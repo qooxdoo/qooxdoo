@@ -470,7 +470,7 @@ qx.Class.define("qx.Theme",
         // Validate include
         if (config.include) {
           for (var i=0,l=config.include.length; i<l; i++) {
-            if (typeof(config.include[i] == "undefined") ||  config.include[i].$$type !== "Theme") {
+            if (typeof(config.include[i]) == "undefined" || config.include[i].$$type !== "Theme") {
               throw new Error('Invalid include in theme "' + name + '": ' + config.include[i]);   
             }
           }
@@ -479,7 +479,7 @@ qx.Class.define("qx.Theme",
         // Validate patch
         if (config.patch) {
           for (var i=0,l=config.patch.length; i<l; i++) {
-            if (typeof(config.patch[i] == "undefined") ||  config.patch[i].$$type !== "Theme") {
+            if (typeof(config.patch[i])  == "undefined" || config.patch[i].$$type !== "Theme") {
               throw new Error('Invalid patch in theme "' + name + '": ' + config.patch[i]);   
             }
           }
