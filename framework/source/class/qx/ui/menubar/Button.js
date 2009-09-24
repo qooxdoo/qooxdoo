@@ -136,8 +136,14 @@ qx.Class.define("qx.ui.menubar.Button",
       return null;
     },
 
-
-
+    
+    // overridden
+    open : function(selectFirst) {
+      this.base(arguments, selectFirst);
+      
+      var menubar = this.getMenuBar();
+      menubar._setAllowMenuOpenHover(true);
+    },
 
 
     /*
@@ -172,6 +178,7 @@ qx.Class.define("qx.ui.menubar.Button",
         // Sync with open menu property
         if (menubar && menubar.getOpenMenu() == menu) {
           menubar.resetOpenMenu();
+          menubar._setAllowMenuOpenHover(false);
         }
       }
     },
@@ -202,15 +209,19 @@ qx.Class.define("qx.ui.menubar.Button",
       if (this.getMenu())
       {
         var menubar = this.getMenuBar();
-        var open = menubar.getOpenMenu();
 
-        if (open && open != this.getMenu())
+        if (menubar._isAllowMenuOpenHover())
         {
           // Hide all open menus
           qx.ui.menu.Manager.getInstance().hideAll();
 
+          // Set it again, because hideAll remove it.
+          menubar._setAllowMenuOpenHover(true);
+          
           // Then show the attached menu
-          this.open();
+          if (this.isEnabled()) {
+            this.open();
+          }
         }
       }
     }
