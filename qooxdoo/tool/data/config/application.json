@@ -58,21 +58,14 @@
     {
       "desc"   : "create api doc for the current library",
 
-      "extend" : ["apiconf::build"],
+      "extend" : ["libraries", "apiconf::build"],
 
       "let"    :
       {
         "APIVIEWER_ROOT" : "${QOOXDOO_PATH}/component/apiviewer",
         "BUILD_PATH"     : "${ROOT}/api",
         "API_INCLUDE"    : ["qx.*", "${APPLICATION}.*"]
-      },
-
-      "library":
-      [
-        {
-          "manifest"     : "${ROOT}/Manifest.json"
-        }
-      ]
+      }
     },
 
     "inspector":
