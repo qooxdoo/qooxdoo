@@ -291,7 +291,7 @@ class ApiLoader:
         index = { "__types__" : types,
                   "__fullNames__" : fullNames,
                   "__index__" : indexs }
-        asString = simplejson.dumps(index, separators=(',',':')) # compact encoding
+        asString = simplejson.dumps(index, separators=(',',':'), sort_keys=True) # compact encoding
 
         return asString
 
