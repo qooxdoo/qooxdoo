@@ -99,20 +99,20 @@ qx.Class.define("qx.ui.core.queue.Manager",
           // No else blocks here because each flush can influence the following flushes!
           if (jobs.widget)
           {
-            qx.ui.core.queue.Widget.flush();
             delete jobs.widget;
+            qx.ui.core.queue.Widget.flush();
           }
   
           if (jobs.visibility)
           {
-            qx.ui.core.queue.Visibility.flush();
             delete jobs.visibility;
+            qx.ui.core.queue.Visibility.flush();
           }
   
           if (jobs.appearance)
           {
-            qx.ui.core.queue.Appearance.flush();
             delete jobs.appearance;
+            qx.ui.core.queue.Appearance.flush();
           }
   
           // Defer layout as long as possible
@@ -122,8 +122,8 @@ qx.Class.define("qx.ui.core.queue.Manager",
   
           if (jobs.layout)
           {
-            qx.ui.core.queue.Layout.flush();
             delete jobs.layout;
+            qx.ui.core.queue.Layout.flush();
           }
   
           // Defer element as long as possible
@@ -133,8 +133,8 @@ qx.Class.define("qx.ui.core.queue.Manager",
   
           if (jobs.element)
           {
-            qx.html.Element.flush();
             delete jobs.element;
+            qx.html.Element.flush();
           }
         }
       }, function() {
