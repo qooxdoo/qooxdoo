@@ -50,6 +50,10 @@ qx.Class.define("qx.locale.Key",
       }
 
       var key = "key_" + size + "_" + keyIdentifier;
+      // Controll is alsways named control on a mac and not Steuerung in german e.g.
+      if (qx.bom.client.Platform.MAC && keyIdentifier == "Control") {
+        key += "_Mac";
+      }
       var localizedKey = qx.locale.Manager.getInstance().translate(key, [], locale);
 
       if (localizedKey == key) {
@@ -79,6 +83,7 @@ qx.Class.define("qx.locale.Key",
     keyNames[Manager.marktr("key_short_Enter")] = "Enter";
     keyNames[Manager.marktr("key_short_Shift")] = "Shift";
     keyNames[Manager.marktr("key_short_Control")] = "Ctrl";
+    keyNames[Manager.marktr("key_short_Control_Mac")] = "Ctrl";
     keyNames[Manager.marktr("key_short_Alt")] = "Alt";
     keyNames[Manager.marktr("key_short_CapsLock")] = "Caps";
     keyNames[Manager.marktr("key_short_Meta")] = "Meta";
@@ -107,6 +112,7 @@ qx.Class.define("qx.locale.Key",
     keyNames[Manager.marktr("key_full_Enter")] = "Enter";
     keyNames[Manager.marktr("key_full_Shift")] = "Shift";
     keyNames[Manager.marktr("key_full_Control")] = "Control";
+    keyNames[Manager.marktr("key_full_Control_Mac")] = "Control";
     keyNames[Manager.marktr("key_full_Alt")] = "Alt";
     keyNames[Manager.marktr("key_full_CapsLock")] = "CapsLock";
     keyNames[Manager.marktr("key_full_Meta")] = "Meta";
