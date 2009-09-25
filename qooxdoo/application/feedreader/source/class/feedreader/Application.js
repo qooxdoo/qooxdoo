@@ -407,19 +407,19 @@ qx.Class.define("feedreader.Application",
     {
       var commands = {};
 
-      commands.reload = new qx.event.Command("Control+R");
+      commands.reload = new qx.ui.core.Command("Control+R");
       commands.reload.addListener("execute", this.reload, this);
 
-      commands.about = new qx.event.Command("F1");
+      commands.about = new qx.ui.core.Command("F1");
       commands.about.addListener("execute", this.showAbout, this);
 
-      commands.preferences = new qx.event.Command("Control+P");
+      commands.preferences = new qx.ui.core.Command("Control+P");
       commands.preferences.addListener("execute", this.showPreferences, this);
 
-      commands.addFeed = new qx.event.Command("Control+A");
+      commands.addFeed = new qx.ui.core.Command("Control+A");
       commands.addFeed.addListener("execute", this.showAddFeed, this);
 
-      commands.removeFeed = new qx.event.Command("Control+D");
+      commands.removeFeed = new qx.ui.core.Command("Control+D");
       commands.removeFeed.addListener("execute", this.removeFeed, this);
 
       this.__commands = commands;
@@ -430,7 +430,7 @@ qx.Class.define("feedreader.Application",
      * Get the command with the given command id
      *
      * @param commandId {String} the command's command id
-     * @return {qx.event.Command} The command
+     * @return {qx.ui.core.Command} The command
      */
     getCommand : function(commandId) {
       return this.__commands[commandId];
