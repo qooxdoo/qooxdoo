@@ -162,17 +162,17 @@ class Locale:
 
 
 
-    def generatePackageData(self, content, variants, locales):
+    def generatePackageData(self, classList, variants, locales):
         # Generate POT file to filter PO files
         self._console.debug("Compiling filter...")
-        pot = self.getPotFile(content, variants)
+        pot = self.getPotFile(classList, variants)
 
         if len(pot) == 0:
             return {}
 
         # Find all influenced namespaces
         namespaces = {}
-        for classId in content:
+        for classId in classList:
             ns = self._classes[classId]["namespace"]
             namespaces[ns] = True
 
