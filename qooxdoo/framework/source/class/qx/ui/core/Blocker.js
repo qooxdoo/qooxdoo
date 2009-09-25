@@ -214,7 +214,9 @@ qx.Class.define("qx.ui.core.Blocker",
       this.__activeElements.push(focusHandler.getActive());
       this.__focusElements.push(focusHandler.getFocus());
 
-      this._widget.focus();
+      if (this._widget.isFocusable()) {
+        this._widget.focus();
+      }
     },
 
 
