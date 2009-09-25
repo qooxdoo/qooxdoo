@@ -126,15 +126,15 @@ qx.Class.define("demobrowser.demo.showcase.Localization",
       controls.add(chooser,{row:3,column:0,colSpan:2});
 
       // Commands
-      var undo_cmd = new qx.event.Command("Ctrl+Z");
-      var redo_cmd = new qx.event.Command("Ctrl+Y");
-      var cut_cmd = new qx.event.Command("Ctrl+X");
-      var copy_cmd = new qx.event.Command("Ctrl+C");
-      var paste_cmd = new qx.event.Command("Ctrl+V");
-      var delete_cmd = new qx.event.Command("Del");
-      var select_all_cmd = new qx.event.Command("Ctrl+A");
-      var search_cmd = new qx.event.Command("Ctrl+F");
-      var search_again_cmd = new qx.event.Command("F3");
+      var undo_cmd = new qx.ui.core.Command("Ctrl+Z");
+      var redo_cmd = new qx.ui.core.Command("Ctrl+Y");
+      var cut_cmd = new qx.ui.core.Command("Ctrl+X");
+      var copy_cmd = new qx.ui.core.Command("Ctrl+C");
+      var paste_cmd = new qx.ui.core.Command("Ctrl+V");
+      var delete_cmd = new qx.ui.core.Command("Del");
+      var select_all_cmd = new qx.ui.core.Command("Ctrl+A");
+      var search_cmd = new qx.ui.core.Command("Ctrl+F");
+      var search_again_cmd = new qx.ui.core.Command("F3");
 
       var m1 = new qx.ui.menu.Menu;
       m1.add(new qx.ui.menu.Button(this.tr("Undo"), null, undo_cmd));
