@@ -50,7 +50,7 @@ qx.Class.define("qx.locale.Key",
       }
 
       var key = "key_" + size + "_" + keyIdentifier;
-      // Controll is alsways named control on a mac and not Steuerung in german e.g.
+      // Control is alsways named control on a mac and not Strg in German e.g.
       if (qx.bom.client.Platform.MAC && keyIdentifier == "Control") {
         key += "_Mac";
       }
