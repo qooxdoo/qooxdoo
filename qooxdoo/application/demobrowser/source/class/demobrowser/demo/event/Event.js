@@ -46,12 +46,12 @@ qx.Class.define("demobrowser.demo.event.Event",
 
       qx.event.Registration.addListener(window, "resize", this._onResize, this);
 
-      var cmd = new qx.event.Command("Shift-Meta-F1");
+      var cmd = new qx.ui.core.Command("Shift-Meta-F1");
       cmd.addListener("execute", function() {
         this.debug(cmd.toString());
       }, this);
 
-      var cmd2 = new qx.event.Command("Ctrl-A");
+      var cmd2 = new qx.ui.core.Command("Ctrl-A");
       cmd2.addListener("execute", function() {
         this.debug(cmd2.toString());
       }, this);

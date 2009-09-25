@@ -415,7 +415,7 @@ qx.Class.define("playground.Application",
      */
     __createCommands : function()
     {
-      this.__runSample = new qx.event.Command("Control+Y");
+      this.__runSample = new qx.ui.core.Command("Control+Y");
 
       this.__runSample.addListener("execute", function() {
         this.updatePlayground(this.__playRoot);
