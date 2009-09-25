@@ -302,6 +302,11 @@ qx.Class.define("qx.event.handler.Application",
           // Fire user event
           qx.event.Registration.fireEvent(this._window, "shutdown");
         }
+        catch (e) 
+        {
+          // IE doesn't execute the "finally" block if no "catch" block is present
+          throw e;
+        }
         finally
         {
           // Execute registry shutdown

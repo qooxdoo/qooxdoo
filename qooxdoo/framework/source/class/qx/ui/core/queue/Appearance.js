@@ -87,7 +87,7 @@ qx.Class.define("qx.ui.core.queue.Appearance",
 
       for (var hash in queue)
       {
-        // Order is important to allow the same widget to be requeued directly
+        // Order is important to allow the same widget to be re-queued directly
         obj = queue[hash];
         delete queue[hash];
 

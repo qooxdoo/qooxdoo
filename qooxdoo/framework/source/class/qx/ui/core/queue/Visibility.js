@@ -151,15 +151,18 @@ qx.Class.define("qx.ui.core.queue.Visibility",
       // Finally recompute
       for (var hash in queue)
       {
+        var widget = queue[hash];
+        delete queue[hash];
+        
         // Only update when not already updated by another widget
         if (data[hash] == null) {
-          this.__computeVisible(queue[hash]);
+          this.__computeVisible(widget);
         }
 
         // Check for updates required to the appearance.
         // Hint: Invisible widgets are ignored inside appearance flush
         if (data[hash] && data[hash] != oldData[hash]) {
-          queue[hash].checkAppearanceNeeds();
+          widget.checkAppearanceNeeds();
         }
       }
 
