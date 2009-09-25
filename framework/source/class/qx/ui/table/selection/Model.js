@@ -411,6 +411,11 @@ qx.Class.define("qx.ui.table.selection.Model",
               }
             }
           }
+          catch (e) 
+          {
+            // IE doesn't execute the "finally" block if no "catch" block is present
+            throw e;
+          }          
           finally
           {
             this.setBatchMode(false);
