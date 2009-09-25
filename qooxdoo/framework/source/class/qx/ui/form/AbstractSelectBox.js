@@ -55,7 +55,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
     // Register listeners
     this.addListener("keypress", this._onKeyPress);
-    this.addListener("blur", this.close, this);
+    this.addListener("blur", this._onBlur, this);
 
     // register mouse wheel listener
     var root = qx.core.Init.getApplication().getRoot();
@@ -245,6 +245,17 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
       EVENT LISTENERS
     ---------------------------------------------------------------------------
     */
+
+    /**
+     * Handler for the blur event of the current widget.
+     * 
+     * @param e {qx.event.type.Focus} The blur event.
+     */
+    _onBlur : function(e)
+    {
+      this.close();
+    },
+
 
     /**
      * Reacts on special keys and forwards other key events to the list widget.
