@@ -625,7 +625,7 @@ qx.Class.define("qx.data.controller.List",
 
       // build up the path for the binding
       var bindPath = "model[" + index + "]";
-      if (sourcePath != null) {
+      if (sourcePath != null && sourcePath != "") {
         bindPath += "." + sourcePath;
       }
       // create the binding

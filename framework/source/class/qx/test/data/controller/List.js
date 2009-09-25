@@ -862,6 +862,19 @@ qx.Class.define("qx.test.data.controller.List",
       this.assertEquals("b", visibleModels.getItem(0));
       this.assertEquals("c", visibleModels.getItem(1));
       this.assertEquals("d", visibleModels.getItem(2));            
+    },
+    
+    
+    testBindIconWithStringArray : function() 
+    {
+      this.__setUpString();
+      this.__controller.setIconPath("");
+      
+      // check the binding
+      for (var i = 0; i < this.__data.length; i++) {
+        var icon = this.__list.getChildren()[i].getIcon();
+        this.assertEquals(this.__data[i], icon, "Binding " + i + " is wrong!");
+      }      
     }
   }
 });
