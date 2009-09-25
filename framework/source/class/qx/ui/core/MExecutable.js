@@ -24,14 +24,7 @@
  * buttons or menu entries.
  */
 qx.Mixin.define("qx.ui.core.MExecutable",
-{
-  
-  construct : function()
-  {
-    this.__executableBindingIds = {};
-  },
-  
-  
+{  
   /*
   *****************************************************************************
      EVENTS
@@ -110,6 +103,9 @@ qx.Mixin.define("qx.ui.core.MExecutable",
     _applyCommand : function(value, old)
     {
       var ids = this.__executableBindingIds;
+      if (ids == null) {
+        this.__executableBindingIds = ids = {};
+      }
       for (var i = 0; i < this._bindableProperties.length; i++) {
         var property = this._bindableProperties[i];
         
