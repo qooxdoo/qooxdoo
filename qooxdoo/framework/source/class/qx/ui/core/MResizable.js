@@ -390,9 +390,6 @@ qx.Mixin.define("qx.ui.core.MResizable",
       // Add resize state
       this.addState("resize");
 
-      // Enable capturing
-      this.capture();
-
       // Store mouse coordinates
       this.__resizeLeft = e.getDocumentLeft();
       this.__resizeTop = e.getDocumentTop();
@@ -412,6 +409,9 @@ qx.Mixin.define("qx.ui.core.MResizable",
       if (this.getUseResizeFrame()) {
         this.__showResizeFrame();
       }
+
+      // Enable capturing
+      this.capture();
 
       // Stop event
       e.stop();
