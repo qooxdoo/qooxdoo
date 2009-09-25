@@ -451,12 +451,6 @@ class CodeGenerator(object):
             self._console.debug("Package: %s" % pos)
             self._console.indent()
 
-            # wpbasti: TODO: This code includes localization in every package. Bad idea.
-            # This needs further work
-
-            # Another thing: Why not generate both structures in different js-objects
-            # It's totally easy in JS to build a wrapper.
-            # [thron7] means: generate different data structs for locales and translations
             pac_dat = self._locale.generatePackageData(classes, variants, locales) # .po data
             loc_dat = self._locale.getLocalizationData(locales)  # cldr data
             packageTranslation.append((pac_dat,loc_dat))
