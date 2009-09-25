@@ -40,8 +40,8 @@ qx.Class.define("playground.EditorContainer",
     // is set to 100. This makes possible to resize the splitpanes
     this.addListener("addChildWidget", function()
     {
-      this._getContentBlocker().setStyles({ "zIndex" : 100 });
-      this._getBlocker().setStyles({ "zIndex" : 100 });
+      this.getBlocker().getContentBlockerElement().setStyles({ "zIndex" : 100 });
+      this.getBlocker().getBlockerElement().setStyles({ "zIndex" : 100 });
     });
 
     var layout = new qx.ui.layout.VBox();
