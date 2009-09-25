@@ -69,7 +69,7 @@ qx.Mixin.define("qx.ui.form.MModelSelection",
         var item = data[i];
         // fallback if getModel is not implemented
         var model = item.getModel ? item.getModel() : null;
-        if (model != null) {
+        if (model !== null) {
           modelSelection.push(model);          
         }
       };
