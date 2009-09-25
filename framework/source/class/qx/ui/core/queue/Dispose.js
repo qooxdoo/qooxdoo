@@ -64,8 +64,9 @@ qx.Class.define("qx.ui.core.queue.Dispose",
       var queue = this.__queue;
       for (var hash in queue)
       {
+        var widget = queue[hash];
         delete queue[hash];
-        queue[hash].dispose();
+        widget.dispose();
       }
 
       // Empty check
