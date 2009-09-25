@@ -427,7 +427,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
     __onResizeMouseUp : function(e)
     {
       // Check for active resize
-      if (!this.__resizeActive) {
+      if (!this.hasState("resize")) {
         return;
       }
 
