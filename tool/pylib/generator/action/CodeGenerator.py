@@ -793,7 +793,7 @@ class CodeGenerator(object):
 
             # write to file
             dataS = simplejson.dumps(data, ensure_ascii=False, separators=(',',':'), sort_keys=True)
-            dataS = dataS.replace(r'\\', '\\')  # undo damage done by simplejson to raw strings with escapes \\ -> \
+            dataS = dataS.replace('\\\\\\', '\\').replace(r'\\', '\\')  # undo damage done by simplejson to raw strings with escapes \\ -> \
             fPath = self.writePackage(dataS, script, packageId=localeCode)
             # add uri info to globalCodes
             #globalCodes['I18N']['uris'][localeCode] = Path.getCommonPrefix(fPath, )[1]
