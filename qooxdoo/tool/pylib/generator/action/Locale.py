@@ -117,6 +117,15 @@ class Locale:
 
 
     def updateTranslations(self, namespace, translationDir, localesList=None):
+
+        def parsePOEntryStrings(poset):
+            for poentry in poset:
+                poentry.msgid        = self.parseAsUnicodeString(poentry.msgid)
+                poentry.msgid_plural = self.parseAsUnicodeString(poentry.msgid_plural)
+                if poentry.msgstr_plural:
+                    for pos in poentry.msgstr_plural:
+                        poentry.msgstr_plural[pos] = self.parseAsUnicodeString(poentry.msgstr_plural[pos])
+
         self._console.info("Updating namespace: %s" % namespace)
         self._console.indent()
         
@@ -129,30 +138,32 @@ class Locale:
                     
         self._console.debug("Compiling filter...")
         pot = self.getPotFile(classList)
+        parsePOEntryStrings(pot)  # translate all strings in the POEntries into internal strings
         pot.sort()
 
         allLocales = self._translation[namespace]
         if localesList == None:
-            filenames = allLocales.keys()
+            selectedLocales = allLocales.keys()
         else:
-            filenames = localesList
-            for name in filenames:
-                if name not in allLocales:
-                    path = os.path.join(translationDir, name + ".po")
+            selectedLocales = localesList
+            for locale in selectedLocales:
+                if locale not in allLocales:
+                    path = os.path.join(translationDir, locale + ".po")
                     f    = open(path, 'w')  # create stanza file
                     pof  = self.createPoFile()
                     f.write(str(pof))
                     f.close()
-                    allLocales[name] = LibraryPath.translationEntry(name, path, namespace)
+                    allLocales[locale] = LibraryPath.translationEntry(locale, path, namespace)
 
-        self._console.info("Updating %d translations..." % len(filenames))
+        self._console.info("Updating %d translations..." % len(selectedLocales))
         self._console.indent()
 
-        for name in filenames:
-            self._console.debug("Processing: %s" % name)
+        for locale in selectedLocales:
+            self._console.debug("Processing: %s" % locale)
 
-            entry = allLocales[name]
+            entry = allLocales[locale]
             po = polib.pofile(entry["path"])
+            parsePOEntryStrings(po)  # translate all strings in the POEntries into internal strings
             po.merge(pot)
             po.sort()
             po.save(entry["path"])
@@ -176,26 +187,26 @@ class Locale:
             ns = self._classes[classId]["namespace"]
             namespaces[ns] = True
 
-        # Create a map of locale => files
-        data = {}
+        # Create a map of locale => [files]
+        PoFiles = {}
         for namespace in namespaces:
             files = self._translation[namespace]
 
-            for entry in locales:
-                if files.has_key(entry):
-                    if not data.has_key(entry):
-                        data[entry] = []
+            for locale in locales:
+                if files.has_key(locale):
+                    if not PoFiles.has_key(locale):
+                        PoFiles[locale] = []
 
-                    data[entry].append(files[entry]["path"])
+                    PoFiles[locale].append(files[locale]["path"])
 
         # Load po files
         blocks = {}
-        for entry in data:
-            self._console.debug("Processing translation: %s" % entry)
+        for locale in PoFiles:
+            self._console.debug("Processing translation: %s" % locale)
             self._console.indent()
 
             result = {}
-            for path in data[entry]:
+            for path in PoFiles[locale]:
                 self._console.debug("Reading file: %s" % path)
 
                 po = polib.pofile(path)
@@ -205,7 +216,7 @@ class Locale:
                 result.update(self.entriesToDict(translated))
 
             self._console.debug("Formatting %s entries" % len(result))
-            blocks[entry] = result
+            blocks[locale] = result
             self._console.outdent()
 
         return blocks
@@ -257,6 +268,13 @@ class Locale:
         return po
 
 
+    def parseAsUnicodeString(self, s):
+        n = s
+        if n.find('\\') > -1:
+            #n = eval('u"' + s + '"')  # evaluate \escapes
+            n = eval(repr(s))  # evaluate \escapes
+        return n
+
 
     def getPackageStrings(self, content, variants):
         """ combines data from multiple classes into one map """
@@ -269,7 +287,7 @@ class Locale:
             translation = self.getTranslation(classId, variants)
 
             for source in translation:
-                msgid = source["id"]
+                msgid = self.parseAsUnicodeString(source["id"])  # parse raw data as string, to translate \escapes
 
                 if result.has_key(msgid):
                     target = result[msgid]
@@ -279,7 +297,7 @@ class Locale:
                     }
 
                     if source.has_key("plural"):
-                        target["plural"] = source["plural"]
+                        target["plural"] = self.parseAsUnicodeString(source["plural"])
 
                     if source.has_key("hint"):
                         target["hint"] = source["hint"]
