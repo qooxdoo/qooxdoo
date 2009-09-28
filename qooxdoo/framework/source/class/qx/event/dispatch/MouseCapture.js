@@ -152,6 +152,9 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * @lint ignoreReferenceField(__captureEvents) 
+     */
     __captureEvents :
     {
       "mouseup": 1,

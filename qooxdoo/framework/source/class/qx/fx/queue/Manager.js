@@ -39,10 +39,14 @@
  */
 qx.Class.define("qx.fx.queue.Manager",
 {
-
   extend : qx.core.Object,
-
   type : "singleton",
+  
+  construct : function() 
+  {
+    this.base(arguments);
+    this.__instances = {};
+  },
 
   /*
   *****************************************************************************
@@ -52,8 +56,6 @@ qx.Class.define("qx.fx.queue.Manager",
 
   members :
   {
-    __instances : {},
-
     /**
      * Returns existing queue by name or creates a new queue object and returns it.
      * @param queueName {String} Name of queue.
@@ -72,8 +74,7 @@ qx.Class.define("qx.fx.queue.Manager",
      * Returns existing default queue or creates a new queue object and returns it.
      * @return {Class} The queue object.
      */
-    getDefaultQueue : function()
-    {
+    getDefaultQueue : function() {
       return this.getQueue("__default");
     }
 
@@ -86,8 +87,7 @@ qx.Class.define("qx.fx.queue.Manager",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
+  destruct : function() {
     this._disposeMap("__instances");
   }
 });
