@@ -72,7 +72,12 @@ qx.Mixin.define("qx.ui.core.MExecutable",
   {
     __executableBindingIds : null,
     
-    // set of properties, which will by synced from the command to the including widget 
+    /**
+     * {Map} Set of properties, which will by synced from the command to the
+     *    including widget
+     *    
+     * @lint ignoreReferenceField(_bindableProperties)
+     */ 
     _bindableProperties : 
     [
       "enabled",

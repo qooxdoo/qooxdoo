@@ -95,6 +95,8 @@ qx.Class.define("qx.ui.virtual.form.ListController",
     __changeSelectionLengthModelListenerId : null,
 
     __lookupTable : null,
+    
+    /** @lint ignoreReferenceField(_validDelegates) */
     _validDelegates : ["sorter", "filter"],
 
     /*

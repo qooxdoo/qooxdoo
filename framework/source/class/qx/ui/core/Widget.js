@@ -1782,7 +1782,9 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * {Array} Placeholder for children list in empty widgets.
-     * Mainly to keep instance number low.
+     *     Mainly to keep instance number low.
+     *     
+     * @lint ignoreReferenceField(__emptyChildren)
      */
     __emptyChildren : [],
 

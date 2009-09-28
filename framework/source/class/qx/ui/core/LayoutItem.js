@@ -772,7 +772,11 @@ qx.Class.define("qx.ui.core.LayoutItem",
     ---------------------------------------------------------------------------
     */
 
-    /** {Map} Empty storage pool */
+    /**
+     * {Map} Empty storage pool
+     * 
+     * @lint ignoreReferenceField(__emptyProperties)
+     */
     __emptyProperties : {},
 
 

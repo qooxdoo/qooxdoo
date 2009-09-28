@@ -633,7 +633,11 @@ qx.Class.define("qx.event.handler.Keyboard",
     ---------------------------------------------------------------------------
     */
 
-    /** maps the charcodes of special printable keys to key identifiers */
+    /** 
+     * {Map} maps the charcodes of special printable keys to key identifiers
+     * 
+     * @lint ignoreReferenceField(_specialCharCodeMap)
+     */
     _specialCharCodeMap :
     {
       8  : "Backspace",   // The Backspace (Back) key.
@@ -645,8 +649,13 @@ qx.Class.define("qx.event.handler.Keyboard",
       27 : "Escape",      // The Escape (Esc) key.
       32 : "Space"        // The Space (Spacebar) key.
     },
+    
 
-    /** maps the keycodes of non printable keys to key identifiers */
+    /** 
+     * {Map} maps the keycodes of non printable keys to key identifiers 
+     *
+     * @lint ignoreReferenceField(_keyCodeToIdentifierMap)
+     */
     _keyCodeToIdentifierMap :
     {
        16 : "Shift",        // The Shift key.
@@ -690,7 +699,12 @@ qx.Class.define("qx.event.handler.Keyboard",
        93 : "Apps"          // The Application key (Windows Context Menu)
     },
 
-    /** maps the keycodes of the numpad keys to the right charcodes */
+    
+    /** 
+     * {Map} maps the keycodes of the numpad keys to the right charcodes 
+     *
+     * @lint ignoreReferenceField(_numpadToCharCode)
+     */
     _numpadToCharCode :
     {
        96 : "0".charCodeAt(0),

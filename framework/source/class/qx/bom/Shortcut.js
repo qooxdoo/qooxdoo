@@ -322,6 +322,9 @@ qx.Class.define("qx.bom.Shortcut",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * @lint ignoreReferenceField(__oldKeyNameToKeyIdentifierMap)
+     */
     __oldKeyNameToKeyIdentifierMap :
     {
       // all other keys are converted by converting the first letter to uppercase
