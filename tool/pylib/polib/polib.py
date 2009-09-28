@@ -190,11 +190,11 @@ def escape(st):
     >>> escape('\\t and \\n and \\r and " and \\\\')
     '\\\\t and \\\\n and \\\\r and \\\\" and \\\\\\\\'
     """
-    st = st.replace('\\', r'\\')
+    #st = st.replace('\\', r'\\')
     st = st.replace('\t', r'\t')
     st = st.replace('\r', r'\r')
     st = st.replace('\n', r'\n')
-    st = st.replace('\"', r'\"')
+    #st = st.replace('\"', r'\"')
     return st
 
 # }}}
@@ -209,11 +209,11 @@ def unescape(st):
     >>> unescape('\\\\t and \\\\n and \\\\r and \\\\" and \\\\\\\\')
     '\\t and \\n and \\r and " and \\\\'
     """
-    st = st.replace(r'\"', '"')
+    #st = st.replace(r'\"', '"')
     st = st.replace(r'\n', '\n')
     st = st.replace(r'\r', '\r')
     st = st.replace(r'\t', '\t')
-    st = st.replace(r'\\', '\\')
+    #st = st.replace(r'\\', '\\')
     return st
 
 # }}}

@@ -126,6 +126,11 @@ class Locale:
                     for pos in poentry.msgstr_plural:
                         poentry.msgstr_plural[pos] = self.parseAsUnicodeString(poentry.msgstr_plural[pos])
 
+        def unescapeMsgIds(poset):
+            for poentry in poset:
+                if poentry.msgid.find(r'\\') > -1:
+                    poentry.msgid = self.recoverBackslashEscapes(poentry.msgid)
+
         self._console.info("Updating namespace: %s" % namespace)
         self._console.indent()
         
@@ -138,7 +143,6 @@ class Locale:
                     
         self._console.debug("Compiling filter...")
         pot = self.getPotFile(classList)
-        parsePOEntryStrings(pot)  # translate all strings in the POEntries into internal strings
         pot.sort()
 
         allLocales = self._translation[namespace]
@@ -163,15 +167,21 @@ class Locale:
 
             entry = allLocales[locale]
             po = polib.pofile(entry["path"])
-            parsePOEntryStrings(po)  # translate all strings in the POEntries into internal strings
             po.merge(pot)
             po.sort()
-            po.save(entry["path"])
+            #po.save(entry["path"])
+            poString = str(po)
+            #poString = self.recoverBackslashEscapes(poString)
+            filetool.save(entry["path"], poString)
 
         self._console.outdent()
         self._console.outdent()
 
 
+
+    def recoverBackslashEscapes(self, s):
+        # collapse \\ to \
+        return s.replace(r'\\', '\\')
 
     def generatePackageData(self, classList, variants, locales):
         # Generate POT file to filter PO files
@@ -271,8 +281,12 @@ class Locale:
     def parseAsUnicodeString(self, s):
         n = s
         if n.find('\\') > -1:
-            #n = eval('u"' + s + '"')  # evaluate \escapes
-            n = eval(repr(s))  # evaluate \escapes
+            if n.find('"') > -1:
+                qmark = "'"
+            else:
+                qmark = '"'
+            #n = eval(repr(s))  # evaluate \escapes; -- doesn't work
+            n = eval('u' + qmark + s + qmark)  # evaluate \escapes
         return n
 
 
@@ -287,7 +301,8 @@ class Locale:
             translation = self.getTranslation(classId, variants)
 
             for source in translation:
-                msgid = self.parseAsUnicodeString(source["id"])  # parse raw data as string, to translate \escapes
+                #msgid = self.parseAsUnicodeString(source["id"])  # parse raw data as string, to translate \escapes
+                msgid = source["id"]
 
                 if result.has_key(msgid):
                     target = result[msgid]
