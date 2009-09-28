@@ -1,22 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-################################################################################
 #
-#  polib - library to parse and manage gettext catalogs 
-#
-#  http://code.google.com/p/polib/
-#
-#  Copyright:
-#    2006-2007 David JEAN LOUIS
-#
-#  License:
-#    MIT: http://www.opensource.org/licenses/mit-license.php
-#    See the LICENSE.txt file for details.
-#
-#  Authors:
-#    * David JEAN LOUIS
-#
-################################################################################
+# License: MIT (see LICENSE file provided)
 # vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4:
 
 """
@@ -49,7 +34,7 @@ new files/entries.
 """
 
 __author__    = 'David JEAN LOUIS <izimobil@gmail.com>'
-__version__   = '0.4.1'
+__version__   = '0.4.2'
 __all__       = ['pofile', 'POFile', 'POEntry', 'mofile', 'MOFile', 'MOEntry',
                  'detect_encoding', 'escape', 'unescape']
 
@@ -399,7 +384,19 @@ class _BaseFile(list):
         for e in entries:
             # For each string, we need size and file offset.  Each string is
             # NUL terminated; the NUL does not count into the size.
-            offsets.append((len(ids), len(e.msgid), len(strs), len(e.msgstr)))
+            msgid = e.msgid
+            if e.msgid_plural:
+                msgid = msgid + '\0' + e.msgid_plural
+                indexes = e.msgstr_plural.keys()
+                indexes.sort()
+                msgstr = []
+                for index in indexes:
+                    msgstr.append(e.msgstr_plural[index])
+                msgstr = '\0'.join(msgstr)
+            else:
+                msgstr = e.msgstr
+
+            offsets.append((len(ids), len(msgid), len(strs), len(msgstr)))
             ids  += e.msgid  + '\0'
             strs += e.msgstr + '\0'
         # The header is 7 32-bit unsigned integers.
