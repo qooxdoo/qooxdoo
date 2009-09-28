@@ -660,18 +660,19 @@ qx.Class.define("qx.ui.table.Table",
 
       case "column-button":
         control = this.getNewColumnMenu()();
-        control.set(
-          {
-            focusable : false
-          });
+        control.set({
+          focusable : false
+        });
 
         // Create the initial menu too
         var menu = control.factory("menu", { table : this });
 
         // Add a listener to initialize the column menu when it becomes visible
-        menu.addListener("appear",
-                         this._initColumnMenu,
-                         this);
+        menu.addListener(
+          "appear",
+          this._initColumnMenu,
+          this
+        );
 
         break;
       }
