@@ -115,6 +115,9 @@ qx.Class.define("qx.ui.core.Blocker",
     __anonymousCounter : 0,
 
     __timer : null,
+    
+    _isPageRoot : false,
+    _widget : null,
 
 
     /**
@@ -468,6 +471,6 @@ qx.Class.define("qx.ui.core.Blocker",
       this._widget.removeListener("resize", this.__onResize, this);
     }
     this._disposeObjects("__contentBlocker", "__blocker", "__timer");
-    this._disposeFields("__oldAnonymous", "__activeElements", "__focusElements");
+    this._disposeFields("__oldAnonymous", "__activeElements", "__focusElements", "_widget");
   }
 });
