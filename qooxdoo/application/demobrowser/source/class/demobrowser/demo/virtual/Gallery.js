@@ -158,8 +158,8 @@ qx.Class.define("demo.AbstractGallery",
       for (var i=0; i<count; i++)
       {
         var icon = "icon/32/places/" + iconImages[Math.floor(Math.random() * iconImages.length)];
-        resolved = aliasManager.resolve(icon);
-        url = resourceManager.toUri(resolved);
+        var resolved = aliasManager.resolve(icon);
+        var url = resourceManager.toUri(resolved);
 
         items[i] = {
           label: "Icon #" + (i+1),
