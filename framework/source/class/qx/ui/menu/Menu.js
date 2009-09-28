@@ -500,6 +500,8 @@ qx.Class.define("qx.ui.menu.Menu",
         var subMenu = target.getMenu && target.getMenu();
         if (subMenu)
         {
+          subMenu.setOpener(target);
+          
           // Finally schedule for opening
           mgr.scheduleOpen(subMenu);
 
