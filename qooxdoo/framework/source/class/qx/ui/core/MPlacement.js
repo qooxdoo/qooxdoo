@@ -149,7 +149,6 @@ qx.Mixin.define("qx.ui.core.MPlacement",
   members :
   {
 
-    __resizePlacement : null,
     __updater : null,
 
     /**
@@ -370,18 +369,10 @@ qx.Mixin.define("qx.ui.core.MPlacement",
       var size = this.getBounds();
       if (size == null)
       {
-        if (!this.__resizePlacement) {
-          this.addListener("resize", this.__place);
-        }
-
-        this.__resizePlacement = coords;
+        this.addListenerOnce("resize", function() {
+          this.__place(coords);
+        }, this);
         return;
-      }
-      else if (this.__resizePlacement)
-      {
-        coords = this.__resizePlacement;
-        delete this.__resizePlacement;
-        this.removeListener("resize", this.__place);
       }
 
       var area = this.getLayoutParent().getBounds();
