@@ -230,6 +230,10 @@ qx.Class.define("qx.ui.form.Form",
      * @param rendererClass {Class} The renderer to check.
      */
     __checkRenderer : function(rendererClass) {
+      // check for an instance
+      if (rendererClass instanceof qx.core.Object) {
+        throw new Error("Please use a class reference and not an object.");
+      }
       // check for the right interface
       if (qx.core.Variant.compilerIsSet("qx.debug", "on")) {
         var rendererInterface = qx.ui.form.renderer.IFormRenderer;
