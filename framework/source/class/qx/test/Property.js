@@ -130,8 +130,12 @@ qx.Class.define("qx.test.Property",
       var chh2 = new qx.test.Layout;
       var chh3 = new qx.test.Layout;
 
-      pa.add(ch1, ch2, ch3);
-      ch2.add(chh1, chh2, chh3);
+      pa.add(ch1)
+      pa.add(ch2);
+      pa.add(ch3);
+      ch2.add(chh1);
+      ch2.add(chh2);
+      ch2.add(chh3);
 
       // Simple: Only inheritance, no local values
       this.assertTrue(pa.setEnabled_(true), "a1");
@@ -178,7 +182,7 @@ qx.Class.define("qx.test.Property",
       this.assertIdentical(ch2.getEnabled_(), null, "d3");
       this.assertIdentical(ch3.getEnabled_(), null, "d4");
 
-      ch1.setParent(pa);
+      pa.add(ch1);
 
       this.assertTrue(pa.setEnabled_(true), "a1");  // ch1 gets enabled_, too
       this.assertFalse(ch3.setEnabled_(false), "a2");
@@ -188,8 +192,8 @@ qx.Class.define("qx.test.Property",
       this.assertIdentical(ch2.getEnabled_(), null, "b3");
       this.assertFalse(ch3.getEnabled_(), "b4");
 
-      ch2.setParent(pa);  // make ch2 enabled_ through inheritance
-      ch3.setParent(pa);  // keep ch2 disabled, user value has higher priority
+      pa.add(ch2);  // make ch2 enabled_ through inheritance
+      pa.add(ch3);  // keep ch2 disabled, user value has higher priority
 
       this.assertTrue(pa.getEnabled_(), "c1");
       this.assertTrue(ch1.getEnabled_(), "c2");
@@ -429,7 +433,7 @@ qx.Class.define("qx.test.PropertyHelper",
 
 qx.Class.define("qx.test.Layout",
 {
-  extend : qx.ui.core.Widget,
+  extend : qx.ui.container.Composite,
 
   properties :
   {
