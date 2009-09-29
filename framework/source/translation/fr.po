@@ -12,66 +12,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: qx/legacy/ui/component/ColorPopup.js:159 qx/ui/control/ColorPopup.js:138
-msgid "Automatic"
-msgstr "Automatique"
-
-#: qx/legacy/ui/component/ColorPopup.js:257 qx/ui/control/ColorPopup.js:146
-msgid "Open ColorSelector"
-msgstr "Ouvrir le sélecteur de couleurs"
-
-#: qx/legacy/ui/component/ColorPopup.js:277 qx/ui/control/ColorPopup.js:233
-msgid "Color Selector"
-msgstr "Sélecteur de couleurs"
-
-#: qx/legacy/ui/component/ColorSelector.js:225 qx/ui/control/ColorPopup.js:176
-msgid "Cancel"
-msgstr "Annuler"
-
-#: qx/legacy/ui/component/ColorSelector.js:226 qx/ui/control/ColorPopup.js:171
-msgid "OK"
-msgstr "OK"
-
-#: qx/legacy/ui/component/DateChooserButton.js:61
-msgid "Choose a date"
-msgstr "Choisissez une date"
-
-#: qx/legacy/ui/form/ComboBoxEx.js:269
-msgid "Description"
-msgstr "Description"
-
-#: qx/legacy/ui/form/ComboBoxEx.js:269
-msgid "ID"
-msgstr "ID"
-
-#: qx/legacy/ui/form/ComboBoxEx.js:929
-msgid "Search"
-msgstr "Recherche"
-
-#: qx/legacy/ui/form/ComboBoxEx.js:1042
-msgid "Case sensitive"
-msgstr "Sensible à la casse"
-
-#: qx/legacy/ui/form/ComboBoxEx.js:1084
-msgid "Search next occurrence"
-msgstr "Rechercher le prochaine résultat"
-
-#: qx/legacy/ui/form/ComboBoxEx.js:1128
-msgid "Search items in list"
-msgstr "Recherchez les éléments dans une liste"
-
-#: qx/legacy/ui/table/Table.js:1541 qx/ui/table/Table.js:1752
-msgid "one row"
-msgid_plural "%1 rows"
-msgstr[0] "une ligne"
-msgstr[1] "%1 lignes"
-
-#: qx/legacy/ui/table/Table.js:1543 qx/ui/table/Table.js:1754
-msgid "one of one row"
-msgid_plural "%1 of %2 rows"
-msgstr[0] "ligne une de une"
-msgstr[1] "ligne %1 de %2"
-
 #: qx/locale/Key.js:80
 msgid "key_short_Backspace"
 msgstr "Effacement Arrière"
@@ -313,57 +253,103 @@ msgstr ""
 msgid "test two"
 msgstr ""
 
+#: qx/ui/control/ColorPopup.js:138
+msgid "Automatic"
+msgstr "Automatique"
+
+#: qx/ui/control/ColorPopup.js:146
+msgid "Open ColorSelector"
+msgstr "Ouvrir le sélecteur de couleurs"
+
+#: qx/ui/control/ColorPopup.js:171
+msgid "OK"
+msgstr "OK"
+
+#: qx/ui/control/ColorPopup.js:176
+msgid "Cancel"
+msgstr "Annuler"
+
+#: qx/ui/control/ColorPopup.js:233
+msgid "Color Selector"
+msgstr "Sélecteur de couleurs"
+
 #: qx/ui/control/ColorSelector.js:232
 msgid "Visual"
 msgstr ""
 
 #: qx/ui/control/ColorSelector.js:292
-#: qx/legacy/ui/component/ColorSelector.js:335
 msgid "Presets"
 msgstr "Pré-réglages"
 
 #: qx/ui/control/ColorSelector.js:323
-#: qx/legacy/ui/component/ColorSelector.js:385
 msgid "Details"
 msgstr "Détails"
 
-#: qx/ui/control/ColorSelector.js:334 qx/legacy/ui/component/ColorPopup.js:225
-#: qx/legacy/ui/component/ColorSelector.js:403 qx/ui/control/ColorPopup.js:153
+#: qx/ui/control/ColorSelector.js:334 qx/ui/control/ColorPopup.js:153
 msgid "Preview (Old/New)"
 msgstr "Aperçu (Ancien/Nouveau)"
 
 #: qx/ui/control/ColorSelector.js:352
-#: qx/legacy/ui/component/ColorSelector.js:437
 msgid "Hex"
 msgstr "Hex"
 
 #: qx/ui/control/ColorSelector.js:374
-#: qx/legacy/ui/component/ColorSelector.js:465
 msgid "RGB"
 msgstr "RVB"
 
 #: qx/ui/control/ColorSelector.js:406
-#: qx/legacy/ui/component/ColorSelector.js:499
 msgid "HSB"
 msgstr "TSV"
 
-#: qx/ui/control/DateChooser.js:253 qx/legacy/ui/component/DateChooser.js:85
+#: qx/ui/control/DateChooser.js:227
 msgid "Last year"
 msgstr "Année dernière"
 
-#: qx/ui/control/DateChooser.js:265 qx/legacy/ui/component/DateChooser.js:92
+#: qx/ui/control/DateChooser.js:239
 msgid "Last month"
 msgstr "Mois dernier"
 
-#: qx/ui/control/DateChooser.js:277 qx/legacy/ui/component/DateChooser.js:98
+#: qx/ui/control/DateChooser.js:251
 msgid "Next month"
 msgstr "Mois prochain"
 
-#: qx/ui/control/DateChooser.js:289 qx/legacy/ui/component/DateChooser.js:104
+#: qx/ui/control/DateChooser.js:263
 msgid "Next year"
 msgstr "Année prochaine"
 
+#: qx/ui/table/Table.js:1753
+msgid "one row"
+msgid_plural "%1 rows"
+msgstr[0] "une ligne"
+msgstr[1] "%1 lignes"
+
+#: qx/ui/table/Table.js:1755
+msgid "one of one row"
+msgid_plural "%1 of %2 rows"
+msgstr[0] "ligne une de une"
+msgstr[1] "ligne %1 de %2"
+
 #: qx/ui/table/columnmodel/Resize.js:214
-#: qx/legacy/ui/table/columnmodel/Resize.js:203
 msgid "Reset column widths"
 msgstr "Réinitialiser la largeur des colonnes"
+
+#~ msgid "Choose a date"
+#~ msgstr "Choisissez une date"
+
+#~ msgid "Case sensitive"
+#~ msgstr "Sensible à la casse"
+
+#~ msgid "Search next occurrence"
+#~ msgstr "Rechercher le prochaine résultat"
+
+#~ msgid "Search items in list"
+#~ msgstr "Recherchez les éléments dans une liste"
+
+#~ msgid "Description"
+#~ msgstr "Description"
+
+#~ msgid "ID"
+#~ msgstr "ID"
+
+#~ msgid "Search"
+#~ msgstr "Recherche"
