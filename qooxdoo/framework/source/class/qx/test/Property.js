@@ -429,7 +429,7 @@ qx.Class.define("qx.test.PropertyHelper",
 
 qx.Class.define("qx.test.Layout",
 {
-  extend : qx.legacy.ui.core.Parent,
+  extend : qx.ui.core.Widget,
 
   properties :
   {

@@ -63,11 +63,6 @@
     "qx.theme" :
     {
       "default" : "qx.theme.Modern"
-    },
-    
-    "qx.legacy.theme" :
-    {
-      "default" : "qx.legacy.theme.ClassicRoyale"
     }
   }
 }
