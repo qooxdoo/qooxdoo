@@ -772,33 +772,26 @@ qx.Class.define("qx.io.remote.Rpc",
      */
     refreshSession : function(handler)
     {
-      if (this.getCrossDomain())
+      if (qx.core.ServerSettings &&
+          qx.core.ServerSettings.serverPathSuffix)
       {
-        if (qx.core.ServerSettings &&
-            qx.core.ServerSettings.serverPathSuffix)
-        {
-          var timeDiff =
-            (new Date()).getTime() - qx.core.ServerSettings.lastSessionRefresh;
+        var timeDiff =
+          (new Date()).getTime() - qx.core.ServerSettings.lastSessionRefresh;
 
-          if (timeDiff / 1000 >
-              (qx.core.ServerSettings.sessionTimeoutInSeconds - 30))
-          {
-            // this.info("refreshing session");
-            this._callInternal([ handler ], 1, true);
-          }
-          else
-          {
-            handler(true); // session refresh was OK (in this case: not needed)
-          }
+        if (timeDiff / 1000 >
+            (qx.core.ServerSettings.sessionTimeoutInSeconds - 30))
+        {
+          // this.info("refreshing session");
+          this._callInternal([ handler ], 1, true);
         }
         else
         {
-          handler(false); // no refresh possible, but would be necessary
+          handler(true); // session refresh was OK (in this case: not needed)
         }
       }
       else
       {
-        handler(true); // session refresh was OK (in this case: not needed)
+        handler(false); // no refresh possible, but would be necessary
       }
     },
 
