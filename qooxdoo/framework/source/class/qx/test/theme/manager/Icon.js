@@ -101,62 +101,6 @@ qx.Class.define("qx.test.theme.manager.Icon",
       var alias = qx.util.AliasManager.getInstance();
       this.assertEquals("juhu/icon", alias.resolve("icon"));
       this.assertEquals("test/custom", alias.resolve("custom"));
-    },
-
-
-    testResource : function()
-    {
-      qx.Theme.define("qx.test.Theme.themes.A", {
-        resource : "test/icon",
-        icons : {}
-      });
-
-      this.manager.setTheme(qx.test.Theme.themes.A);
-
-      // make sure the icon alias is set
-      var alias = qx.util.AliasManager.getInstance();
-      this.assertEquals("test/icon", alias.resolve("icon"));
-    },
-
-
-    testResourceExtend : function()
-    {
-      qx.Theme.define("qx.test.Theme.themes.A", {
-        resource : "test/icon",
-        icons : {}
-      });
-
-      qx.Theme.define("qx.test.Theme.themes.B", {
-        extend : qx.test.Theme.themes.A,
-        icons : {}
-      });
-
-      this.manager.setTheme(qx.test.Theme.themes.B);
-
-      // make sure the icon alias is set
-      var alias = qx.util.AliasManager.getInstance();
-      this.assertEquals("test/icon", alias.resolve("icon"));
-    },
-
-
-    testResourceOverride : function()
-    {
-      qx.Theme.define("qx.test.Theme.themes.A", {
-        resource : "test/icon",
-        icons : {}
-      });
-
-      qx.Theme.define("qx.test.Theme.themes.B", {
-        extend : qx.test.Theme.themes.A,
-        resource : "juhu/icon",
-        icons : {}
-      });
-
-      this.manager.setTheme(qx.test.Theme.themes.B);
-
-      // make sure the icon alias is set
-      var alias = qx.util.AliasManager.getInstance();
-      this.assertEquals("juhu/icon", alias.resolve("icon"));
     }
   }
 });
