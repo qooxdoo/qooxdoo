@@ -34,7 +34,7 @@
     "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}",
     //"QXTHEME"      : "${Namespace}.theme.modern.Theme",
     "QXTHEME"      : "qx.theme.Modern",
-    "API_EXCLUDE"  : ["qx.legacy.*", "qx.test.*", "${Namespace}.demo.*"],
+    "API_EXCLUDE"  : ["qx.test.*", "${Namespace}.demo.*"],
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${Cache}",
     "ROOT"         : "."
