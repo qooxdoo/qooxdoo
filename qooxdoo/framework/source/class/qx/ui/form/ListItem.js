@@ -37,19 +37,16 @@ qx.Class.define("qx.ui.form.ListItem",
   */
 
   /**
-   * The value property is deprecated so is the value parameter in the
-   * constructor.
-   *
    * @param label {String} Label to use
    * @param icon {String?null} Icon to use
-   * @param value {String?null} The items string value (DEPRECATED)
+   * @param model {String?null} The items value
    */
-  construct : function(label, icon, value)
+  construct : function(label, icon, model)
   {
     this.base(arguments, label, icon);
 
-    if (value != null) {
-      this.setValue(value);
+    if (model != null) {
+      this.setModel(model);
     }
   },
 
@@ -65,13 +62,7 @@ qx.Class.define("qx.ui.form.ListItem",
   events:
   {
     /** (Fired by {@link qx.ui.form.List}) */
-    "action" : "qx.event.type.Event",
-
-    /**
-     * Old change event for the value property.
-     * @deprecated
-     */
-    "changeValue" : "qx.event.type.Data"
+    "action" : "qx.event.type.Event"
   },
 
 
@@ -89,97 +80,6 @@ qx.Class.define("qx.ui.form.ListItem",
     {
       refine : true,
       init : "listitem"
-    }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
-  members :
-  {
-    /*
-    ---------------------------------------------------------------------------
-      SEARCH VALUE
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Returns the searchable value of the list item.
-     *
-     * This is normally the real value with a fallback to the label like in HTML
-     * select boxes.
-     *
-     * @deprecated
-     */
-    getFormValue : function()
-    {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee,
-        "The value is deprecated. Please use model instead."
-      );
-
-      var value = this.getValue();
-      if (value == null) {
-        value = this.getLabel();
-      }
-
-      return value;
-    },
-
-
-    // deprecated
-    __value : null,
-
-
-    /**
-     * Sets the value of the ListItem.
-     * @param value {String} The sting value of the listitem.
-     * @deprecated
-     */
-    setValue: function(value) {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee,
-        "The value is deprecated. Please use model instead."
-      );
-
-      var oldValue = this.__value;
-      this.__value = value;
-      this.fireDataEvent("changeValue", value, oldValue);
-    },
-
-
-    /**
-     * Returns the set value.
-     * @return {String|null} The set value.
-     * @deprecated
-     */
-    getValue: function() {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee,
-        "The value is deprecated. Please use model instead."
-      );
-
-      return this.__value;
-    },
-
-
-    /**
-     * Resets the value of the listitem.
-     * @deprecated
-     */
-    resetValue: function() {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee,
-        "The value is deprecated. Please use model instead."
-      );
-
-      this.setValue(null);
     }
   }
 });

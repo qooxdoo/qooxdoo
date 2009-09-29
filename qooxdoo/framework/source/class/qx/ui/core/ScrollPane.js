@@ -165,20 +165,6 @@ qx.Class.define("qx.ui.core.ScrollPane",
 
 
     /**
-     * Returns the current content.
-     *
-     * @deprecated
-     * @return {qx.ui.core.Widget|null} The current layout content
-     */
-    getChild : function() {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee, "Please use getChildren instead."
-      );
-      return this._getChildren()[0] || null;
-    },
-
-
-    /**
      * Returns an array containing the current content.
      *
      * @return {Object[]} The content array

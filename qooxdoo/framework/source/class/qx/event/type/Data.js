@@ -103,42 +103,6 @@ qx.Class.define("qx.event.type.Data",
      */
     getOldData : function() {
       return this.__old;
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DEPRECATED METHODS
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * The new data of the event sending this change event.
-     * The return data type is the same as the event data type.
-     *
-     * @deprecated
-     * @return {var} The new data of the event
-     */
-    getValue : function()
-    {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Better use 'getData'");
-      return this.__data;
-    },
-
-
-    /**
-     * The old data of the event sending this change event.
-     * The return data type is the same as the event data type.
-     *
-     * @deprecated
-     * @return {var} The old data of the event
-     */
-    getOldValue : function()
-    {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Better use 'getOldData'");
-      return this.__old;
     }
   },
 

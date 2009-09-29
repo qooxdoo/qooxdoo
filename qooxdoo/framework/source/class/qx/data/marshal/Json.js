@@ -71,36 +71,6 @@ qx.Class.define("qx.data.marshal.Json",
   {
     __delegate : null,
 
-    /**
-     * Please use {@link #toClass} instead.
-     * @deprecated
-     *
-     * @param data {Object} The object for which classes should be created.
-     * @param includeBubbleEvents {Boolean} Whether the model should support
-     *   the bubbling of change events or not.
-     */
-    jsonToClass : function(data, includeBubbleEvents) {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee, "Please use toClass instead."
-      );
-      this.toClass(data, includeBubbleEvents);
-    },
-
-
-    /**
-     * Please use {@link #toModel} instead.
-     * @deprecated
-     *
-     * @param data {Object} The object for which classes should be created.
-     * @return {qx.core.Object} The created model
-     */
-    jsonToModel : function(data) {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee, "Please use toModel instead."
-      );
-      this.toModel(data);
-    },
-
 
     /**
      * Converts a given object into a hash which will be used to identify the

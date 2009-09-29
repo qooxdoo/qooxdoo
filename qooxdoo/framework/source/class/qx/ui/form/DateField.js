@@ -21,7 +21,7 @@
  * A *date field* is like a combo box with the date as popup. As button to
  * open the calendar a calendar icon is shown at the right to the textfield.
  *
- * To be conform with all form widgets, the {@link qx.ui.form.IFormElement} interface
+ * To be conform with all form widgets, the {@link qx.ui.form.IForm} interface
  * is implemented.
  *
  * The following example creates a date field and sets the current
@@ -100,41 +100,6 @@ qx.Class.define("qx.ui.form.DateField",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * This method sets the date corresponding to the {@link dateFormat} to the
-     * date field. It will also select the date in the calender popup.
-     *
-     * @param date {Date} The date to set.
-     *
-     * @deprecated
-     */
-    setDate : function(date)
-    {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee, "Please use the setValue instead."
-      );
-
-      this.setValue(date);
-    },
-
-
-    /**
-     * Returns the current set date corresponding to the {@link dateFormat}.
-     * If the given text could not be parsed, <code>null</code> will be returned.
-     *
-     * @return {Date} The currently set date.
-     *
-     * @deprecated
-     */
-    getDate : function()
-    {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee, "Please use the getValue instead."
-      );
-
-      return this.getValue();
-    },
-
 
     /**
     * This method sets the date corresponding to the {@link dateFormat} to the
@@ -144,15 +109,6 @@ qx.Class.define("qx.ui.form.DateField",
      */
     setValue : function(value)
     {
-      if (qx.lang.Type.isString(value))
-      {
-        qx.log.Logger.deprecatedMethodWarning(
-          arguments.callee, "Wrong data type detected. setValue is " +
-          "used with Dates now."
-        );
-        return;
-      }
-
       // set the date to the textfield
       var textField = this.getChildControl("textfield");
       textField.setValue(this.getDateFormat().format(value));

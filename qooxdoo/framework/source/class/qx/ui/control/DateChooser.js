@@ -23,7 +23,7 @@
  * month. It includes a column for the calendar week and shows one month. Selecting
  * a date is as easy as clicking on it.
  *
- * To be conform with all form widgets, the {@link qx.ui.form.IFormElement} interface
+ * To be conform with all form widgets, the {@link qx.ui.form.IForm} interface
  * is implemented.
  *
  * The following example creates and adds a date chooser to the root element.
@@ -47,12 +47,9 @@ qx.Class.define("qx.ui.control.DateChooser",
   extend : qx.ui.core.Widget,
   include : [
     qx.ui.core.MExecutable,
-    qx.ui.form.MForm,
-    qx.ui.form.MFormElement
+    qx.ui.form.MForm
   ],
-  // deprecated IFormElement
   implement : [
-    qx.ui.form.IFormElement,
     qx.ui.form.IExecutable,
     qx.ui.form.IForm,
     qx.ui.form.IDateForm
@@ -113,29 +110,6 @@ qx.Class.define("qx.ui.control.DateChooser",
      */
     MONTH_YEAR_FORMAT : qx.locale.Date.getDateTimeFormat("yyyyMMMM", "MMMM yyyy")
   },
-
-
-
-
-  /*
-  *****************************************************************************
-     EVENTS
-  *****************************************************************************
-  */
-
-  events :
-  {
-    /**
-     * Fired when the value was modified
-     *
-     * Event data: The value as a JavaScript date.
-     *
-     * @deprecated
-     */
-    changeDate : "qx.event.type.Data"
-  },
-
-
 
 
   /*
@@ -387,9 +361,6 @@ qx.Class.define("qx.ui.control.DateChooser",
     // apply methods
     _applyValue : function(value, old)
     {
-      // fire the changeValue event
-      this.fireDataEvent("changeDate", value); // deprecated
-
       if ((value != null) && (this.getShownMonth() != value.getMonth() || this.getShownYear() != value.getFullYear()))
       {
         // The new date is in another month -> Show that month
@@ -746,64 +717,6 @@ qx.Class.define("qx.ui.control.DateChooser",
       monthYearFormat.dispose();
       weekDayFormat.dispose();
       weekFormat.dispose();
-    },
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DEPRECATED STUFF
-    ---------------------------------------------------------------------------
-    */
-    /**
-     * Sets the date. {@see #value}
-     * @param value {Date} The new date.
-     * @deprecated
-     */
-    setDate: function(value) {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee, "Please use setValue instead."
-      );
-
-      this.setValue(value);
-    },
-
-
-    /**
-     * Returns the date. {@see #value}
-     * @deprecated
-     */
-    getDate: function() {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee, "Please use getValue instead."
-      );
-
-      return this.getValue();
-    },
-
-
-    /**
-     * Resets the date. {@see #value}
-     * @deprecated
-     */
-    resetDate: function() {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee, "Please use resetValue instead."
-      );
-
-      this.resetValue();
-    },
-
-
-    /**
-     * Initializes the date. {@see #value}
-     * @deprecated
-     */
-    initDate: function() {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee, "Please use initValue instead."
-      );
-
-      this.initValue();
     }
   },
 

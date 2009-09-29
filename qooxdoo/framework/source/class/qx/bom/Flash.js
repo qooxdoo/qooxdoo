@@ -96,21 +96,6 @@ qx.Class.define("qx.bom.Flash",
      */
     create : function(element, attributes, variables, params, win)
     {
-      if (typeof attributes === "string")
-      {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee,
-          "Please only use the following arguments for this method: qx.bom.Flash.create(element, attributes, variables, params, win)");
-
-        attributes = {
-          id    : arguments[2],
-          movie : arguments[1]
-        };
-
-        variables = arguments[3];
-        params = arguments[4];
-        win = arguments[5];
-      }
-
       if (!win) {
         win = window;
       }

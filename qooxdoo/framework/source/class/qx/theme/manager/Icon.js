@@ -63,13 +63,6 @@ qx.Class.define("qx.theme.manager.Icon",
     {
       var aliasManager = qx.util.AliasManager.getInstance();
 
-      // @deprecated
-      if (value) {
-        aliasManager.add("icon", value.resource);
-      } else {
-        aliasManager.remove("icon");
-      }
-
       if (old)
       {
         for (var alias in old.aliases) {
