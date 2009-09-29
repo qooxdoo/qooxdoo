@@ -31,7 +31,6 @@
       ],
       "exclude" :
       [
-        "qx.legacy.*",
         "qx.test.*",
         "qx.dev.unit.*"
       ],
@@ -56,7 +55,6 @@
       ],
       "exclude" :
       [
-        "qx.legacy.*",
         "qx.test.*",
         "qx.dev.unit.*"
       ],
