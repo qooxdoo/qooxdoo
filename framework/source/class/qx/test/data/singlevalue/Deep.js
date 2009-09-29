@@ -285,20 +285,20 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
 
 
     testDeepTarget: function() {
-      qx.data.SingleValueBinding.bind(this.__a, "name", this.__b1, "lab.content");
+      qx.data.SingleValueBinding.bind(this.__a, "name", this.__b1, "lab.value");
 
       this.assertEquals("a", this.__b1.getLab().getValue(), "Deep binding on the target does not work.");
     },
 
     testDeepTarget2: function() {
       this.__b2.setChild(this.__b1);
-      qx.data.SingleValueBinding.bind(this.__a, "name", this.__b2, "child.lab.content");
+      qx.data.SingleValueBinding.bind(this.__a, "name", this.__b2, "child.lab.value");
 
       this.assertEquals("a", this.__b1.getLab().getValue(), "Deep binding on the target does not work.");
     },
 
     testDeepTargetNull: function() {
-      qx.data.SingleValueBinding.bind(this.__a, "name", this.__b2, "child.lab.content");
+      qx.data.SingleValueBinding.bind(this.__a, "name", this.__b2, "child.lab.value");
 
       this.assertEquals("", this.__b1.getLab().getValue(), "Deep binding on the target does not work.");
     },
@@ -306,7 +306,7 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
     testDeepTargetArray: function() {
       this.__a.setArray(new qx.data.Array([this.__b1]));
 
-      qx.data.SingleValueBinding.bind(this.__a, "name", this.__a, "array[0].lab.content");
+      qx.data.SingleValueBinding.bind(this.__a, "name", this.__a, "array[0].lab.value");
 
       this.assertEquals("a", this.__b1.getLab().getValue(), "Deep binding on the target does not work.");
     },
@@ -314,7 +314,7 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
     testDeepTargetArrayLast: function() {
       this.__a.setArray(new qx.data.Array([this.__b1]));
 
-      qx.data.SingleValueBinding.bind(this.__a, "name", this.__a, "array[last].lab.content");
+      qx.data.SingleValueBinding.bind(this.__a, "name", this.__a, "array[last].lab.value");
 
       this.assertEquals("a", this.__b1.getLab().getValue(), "Deep binding on the target does not work.");
     },
