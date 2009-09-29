@@ -303,11 +303,24 @@ qx.Class.define("qx.ui.decoration.Grid",
     },
     
     
+    /**
+     * Resolve the url of the given image
+     * 
+     * @param image {String} base image URL
+     * @return {String} the resolved image URL
+     */
     _resolveImageUrl : function(image) {
       return qx.util.AliasManager.getInstance().resolve(image);
     },
   
     
+    /**
+     * Returns the sizes of the "top" and "bottom" heights and the "left" and
+     * "right" widths of the grid.
+     * 
+     * @param images {Map} Map of image URLs
+     * @return {Map} the edge sizes
+     */
     _computeEdgeSizes : function(images) 
     {
       var ResourceManager = qx.util.ResourceManager.getInstance();
