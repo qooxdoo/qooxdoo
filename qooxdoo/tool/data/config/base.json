@@ -128,7 +128,6 @@
       ],
       "exclude" :
       [
-        "qx.legacy.*",
         "qx.test.*"
       ],
       /*

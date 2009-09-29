@@ -39,7 +39,7 @@ buildconf = {
    'stage_dir'    : '/var/www/qx',
    'logfile'      : 'bat_build.log',
    # change the next entry, to e.g. include a release candidate 'tags/release_0_8'
-   'targets'       : ['trunk','branches/legacy_0_7_x'],
+   'targets'       : ['trunk'],
    'download_dir' : '/var/www/downloads',
    'doCleanup'    : False,
    'checkInterval': 10, # 10min - beware of time it takes for a build before re-check
@@ -212,7 +212,6 @@ def date():
     return
 
 #rc = build_packet('tags/release_0_7',0)
-#rc = build_packet('branches/legacy_0_7_x',0)
 #rc = build_packet('trunc',0)
 def build_packet(target,revision,generate):
     if not options.noSvnUpdate:
