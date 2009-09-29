@@ -20,7 +20,6 @@
     "fix",
     "images",
     "lint",
-    "lint-legacy",
     "lint-test",
     //"publish-api",
     //"publish-framework",
@@ -38,7 +37,7 @@
   {
     "APPLICATION"  : "qx",
     "QOOXDOO_PATH" : "..",
-    "API_EXCLUDE"  : ["qx.legacy.*", "qx.test.*"],
+    "API_EXCLUDE"  : ["qx.test.*"],
     "TEST_INCLUDE" : "qx.test.*",
     "LOCALES"      : [ "de", "en", "es", "fr", "it", "nl", "sv" ],
     "CACHE"        : "${TMPDIR}/cache"
@@ -64,7 +63,7 @@
       "cache"  : { "compile" : "${CACHE}" },
 
       "include": ["qx.*"],
-      "exclude": ["=qx.legacy.*", "=qx.test.*"],
+      "exclude": ["=qx.test.*"],
 
       "variants" :
       {
@@ -185,19 +184,13 @@
     "lint" :
     {
       "extend" : ["appconf::lint"],
-      "exclude": ["=qx.legacy.*", "=qx.test.*"]
+      "exclude": ["=qx.test.*"]
     },
 
     "lint-test" :
     {
       "extend" : ["appconf::lint"],
       "include": ["=qx.test.*"]
-    },
-
-    "lint-legacy" :
-    {
-      "extend" : ["appconf::lint"],
-      "include": ["=qx.legacy.*"]
     },
 
     "translation" :

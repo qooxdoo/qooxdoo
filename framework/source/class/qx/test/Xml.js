@@ -188,7 +188,7 @@ qx.Class.define("qx.test.Xml",
         };
       }
 
-      var req = new qx.io.remote.Request(qx.util.ResourceManager.getInstance().toUri("qx/data/qooxdoo-blog.xml"), qx.legacy.util.Http.METHOD_GET, qx.legacy.util.Mime.XML);
+      var req = new qx.io.remote.Request(qx.util.ResourceManager.getInstance().toUri("qx/data/qooxdoo-blog.xml"), "get", "text/xml");
       req.setAsynchronous(false);
       var failed = "";
       var xmlDocument;
