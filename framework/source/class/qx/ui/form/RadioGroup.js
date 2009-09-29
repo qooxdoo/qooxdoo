@@ -36,14 +36,12 @@ qx.Class.define("qx.ui.form.RadioGroup",
 {
   extend : qx.core.Object,
   implement : [
-    qx.ui.form.IFormElement,
     qx.ui.core.ISingleSelection,
     qx.ui.form.IForm,
     qx.ui.form.IModelSelection
   ],
   include : [
     qx.ui.core.MSingleSelectionHandling,
-    qx.ui.form.MFormElement,
     qx.ui.form.MModelSelection
   ],
 
@@ -149,30 +147,6 @@ qx.Class.define("qx.ui.form.RadioGroup",
 
   /*
   *****************************************************************************
-     EVENTS
-  *****************************************************************************
-  */
-
-  events :
-  {
-    /**
-     * Fired when the value was modified (after selection change)
-     *
-     * Event data: The new value. As defined in {@link qx.ui.menu.RadioButton#value}
-     * @deprecated
-     */
-    "changeValue" : "qx.event.type.Data",
-
-    /**
-     * Fires after the selection was modified
-     * @deprecated Use 'changeSelection' instead!
-     */
-    "changeSelected" : "qx.event.type.Data"
-  },
-
-
-  /*
-  *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
@@ -198,69 +172,6 @@ qx.Class.define("qx.ui.form.RadioGroup",
      */
     getItems : function() {
       return this.__items;
-    },
-
-
-    /**
-     * Set the checked state of a given item.
-     *
-     * @deprecated Use 'setSelection' instead!
-     * @param item {qx.ui.form.IRadioItem} The item to select.
-     */
-    select : function(item) {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee,
-        "Use 'setSelection' instead!"
-      );
-
-      this.setSelection([item]);
-    },
-
-
-    /**
-     * Select the radio item, with the given value.
-     *
-     * @param value {String} Value of the radio item to select.
-     *
-     * @deprecated
-     */
-    setValue : function(value)
-    {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee, "Please use setModelSelection instead."
-      );
-
-      var items = this.__items;
-      var item;
-
-      for (var i=0, l=items.length; i<l; i++)
-      {
-        item = items[i];
-
-        if (item.getValue() == value)
-        {
-          this.setSelection([item]);
-          break;
-        }
-      }
-    },
-
-    /**
-     * Get the value of the selected radio item
-     *
-     * @return {String | null} The value of the selected radio item. Returns
-     *     <code>null</code> if no item is selected.
-     *
-     * @deprecated
-     */
-    getValue : function()
-    {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee, "Please use getModelSelection instead."
-      );
-
-      var selected = this.getSelection()[0];
-      return selected ? selected.getValue() : null;
     },
 
 
@@ -376,66 +287,6 @@ qx.Class.define("qx.ui.form.RadioGroup",
 
     /*
     ---------------------------------------------------------------------------
-      OLD SELECTION PROPERTY METHODS
-    ---------------------------------------------------------------------------
-    */
-
-
-    /**
-     * Select the item in the list.
-     *
-     * @deprecated Use 'setSelection' instead!
-     * @param item {qx.ui.form.IRadioItem} Item to select.
-     */
-    setSelected : function(item)
-    {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee,
-        "Use 'setSelection' instead!"
-      );
-
-      this.setSelection([item]);
-    },
-
-    /**
-     * Returns the selected item in the list.
-     *
-     * @deprecated Use 'getSelection' instead!
-     * @return {qx.ui.form.IRadioItem} Selected item.
-     */
-    getSelected : function()
-    {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee,
-        "Use 'getSelection' instead!"
-      );
-
-      var item = this.getSelection()[0];
-      if (item) {
-        return item
-      } else {
-        return null;
-      }
-    },
-
-    /**
-     * Reset the current selection.
-     *
-     * @deprecated Use 'resetSelection' instead!
-     */
-    resetSelected : function()
-    {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee,
-        "Use 'resetSelection' instead!"
-      );
-
-      this.resetSelection();
-    },
-
-
-    /*
-    ---------------------------------------------------------------------------
       APPLY ROUTINES
     ---------------------------------------------------------------------------
     */
@@ -477,29 +328,6 @@ qx.Class.define("qx.ui.form.RadioGroup",
       if (!value && this.isSelectionEmpty()) {
         this.resetSelection();
       }
-    },
-
-    /**
-     * Return the value from the item.
-     *
-     * @param item {qx.ui.form.IRadioItem} The item.
-     * @return {String|null} Value from the item.
-     *
-     * @deprecated
-     */
-    __getValue : function(item)
-    {
-      var value = null;
-
-      if (item)
-      {
-        value = item.getValue();
-        if (value == null) {
-          value = item.getLabel();
-        }
-      }
-
-      return value;
     },
 
 
@@ -617,49 +445,6 @@ qx.Class.define("qx.ui.form.RadioGroup",
       if (value) {
         value.setValue(true);
       }
-
-      // Fire value change event
-      var oldValue = this.__getValue(old);
-      var newValue = this.__getValue(value);
-      this.fireDataEvent("changeValue", newValue, oldValue);
-
-      /*
-       * TODO remove this if the methods and event for old selection API
-       * doesn't exist.
-       *
-       * Methods: 'getSelected', 'setSelected', 'resetSelected'
-       * Event: 'changeSelected'
-       */
-      if (this.hasListener("changeSelected")) {
-        this.fireDataEvent("changeSelected", value, old);
-      }
-    },
-
-    // overridden
-    addListener : function(type, listener, self, capture)
-    {
-      /*
-       * TODO this method must be removed if the old selection API doesn't exist.
-       *
-       * Methods: 'getSelected', 'setSelected', 'resetSelected'
-       * Event: 'changeSelected'
-       */
-
-      if (type === "changeSelected") {
-        qx.log.Logger.deprecatedEventWarning(
-        arguments.callee,
-        "changeSelected",
-        "Use 'changeSelection' instead!");
-      }
-
-      if (type === "changeValue") {
-        qx.log.Logger.deprecatedEventWarning(
-        arguments.callee,
-        "changeValue",
-        "Use 'changeSelection' instead!");
-      }
-
-      return this.base(arguments, type, listener, self, capture);
     }
   },
 

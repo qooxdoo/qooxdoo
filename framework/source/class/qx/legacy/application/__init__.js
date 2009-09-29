@@ -1,4 +1,0 @@
-/**
- * qx.legacy.application package
- *
- */

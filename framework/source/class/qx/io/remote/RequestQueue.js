@@ -79,7 +79,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
     },
 
     /**
-     * @deprecated
+     * The maximum number of total requests.
      */
     maxTotalRequests :
     {

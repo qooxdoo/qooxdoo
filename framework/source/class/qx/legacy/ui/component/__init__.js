@@ -1,3 +1,0 @@
-/**
- * Complex compound widgets.
- */

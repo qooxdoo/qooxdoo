@@ -158,13 +158,6 @@ qx.Class.define("qx.theme.manager.Decoration",
     {
       var aliasManager = qx.util.AliasManager.getInstance();
 
-      // @deprecated
-      if (value) {
-        aliasManager.add("decoration", value.resource);
-      } else {
-        aliasManager.remove("decoration");
-      }
-
       if (old)
       {
         for (var alias in old.aliases) {

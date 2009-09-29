@@ -48,24 +48,6 @@ qx.Bootstrap.define("qx.lang.Array",
   statics :
   {
     /**
-     * Returns whether the given object is an array
-     *
-     * @deprecated Use qx.lang.Type.isArray() instead
-     *
-     * @param obj {Object} Any object
-     * @return {Boolean} whether the given object is an array
-     */
-    isArray: function(obj)
-    {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee, "Use qx.lang.Type.isArray() instead!"
-      );
-
-      return qx.lang.Type.isArray(obj);
-    },
-
-
-    /**
      * Converts array like constructions like the <code>argument</code> object,
      * node collections like the ones returned by <code>getElementsByTagName</code>
      * or extended array objects like <code>qx.type.BaseArray</code> to an
@@ -204,67 +186,11 @@ qx.Bootstrap.define("qx.lang.Array",
     /**
      * Return a copy of the given array
      *
-     * @deprecated Use clone() instead
-     *
-     * @param arr {Array} the array to copy
-     * @return {Array} copy of the array
-     */
-    copy : function(arr) {
-
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee, "Use 'clone()' instead!"
-      );
-
-      return qx.lang.Array.clone(arr);
-    },
-
-
-    /**
-     * Return a copy of the given array
-     *
      * @param arr {Array} the array to copy
      * @return {Array} copy of the array
      */
     clone : function(arr) {
       return arr.concat();
-    },
-
-
-    /**
-     * Return the last element of an array.
-     *
-     * @deprecated For performance reasons it is recommended to omit the
-     *   function call and instead use <code>arr[arr.length - 1]</code>
-     *
-     * @param arr {Array} the array
-     * @return {var} the last element of the array
-     */
-    getLast : function(arr) {
-
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee, "Use the native Array access instead: arr[arr.length - 1]"
-      );
-
-      return arr[arr.length - 1];
-    },
-
-
-    /**
-     * Return the first element of an array.
-     *
-     * @deprecated For performance reasons it is recommended to omit the
-     *   function call and instead use <code>arr[0]</code>
-     *
-     * @param arr {Array} the array
-     * @return {var} the first element of the array
-     */
-    getFirst : function(arr) {
-
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee, "Use the native Array access instead: arr[0]"
-      );
-
-      return arr[0];
     },
 
 

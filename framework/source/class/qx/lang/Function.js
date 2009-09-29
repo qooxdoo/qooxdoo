@@ -46,22 +46,6 @@ qx.Bootstrap.define("qx.lang.Function",
   statics :
   {
     /**
-     * Returns whether the given object is a function
-     *
-     * @deprecated Use qx.lang.Type.isArray() instead
-     * @param obj {Object} Any object
-     * @return {Boolean} whether the given object is a function
-     */
-    isFunction: function(obj)
-    {
-       qx.log.Logger.deprecatedMethodWarning(
-         arguments.callee, "Use qx.lang.Type.isFunction() instead!"
-       );
-       return qx.lang.Type.isFunction(obj);
-     },
-
-
-    /**
      * Extract the caller of a function from the arguments variable.
      * This will not work in Opera.
      *

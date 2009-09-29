@@ -29,16 +29,13 @@ qx.Class.define("qx.ui.form.List",
 {
   extend : qx.ui.core.AbstractScrollArea,
   implement : [
-    qx.ui.form.IFormElement,
     qx.ui.core.IMultiSelection,
     qx.ui.form.IForm,
     qx.ui.form.IModelSelection
   ],
-  // deprecated : MFormElement
   include : [
     qx.ui.core.MRemoteChildrenHandling,
     qx.ui.core.MMultiSelectionHandling,
-    qx.ui.form.MFormElement,
     qx.ui.form.MForm,
     qx.ui.form.MModelSelection
   ],
@@ -107,15 +104,7 @@ qx.Class.define("qx.ui.form.List",
      * The {@link qx.event.type.Data#getData} method of the event returns the
      * removed item.
      */
-    removeItem : "qx.event.type.Data",
-
-    /**
-     * Fired on every modification of the selection which also means that the
-     * value has been modified.
-     *
-     * @deprecated
-     */
-    changeValue : "qx.event.type.Data"
+    removeItem : "qx.event.type.Data"
   },
 
 
@@ -217,86 +206,6 @@ qx.Class.define("qx.ui.form.List",
      */
     _onRemoveChild : function(e) {
       this.fireDataEvent("removeItem", e.getData());
-    },
-
-
-    /*
-    ---------------------------------------------------------------------------
-      FORM ELEMENT API
-    ---------------------------------------------------------------------------
-    */
-
-
-    /**
-     * Returns the stringified value of the list. This is a comma
-     * separated string with all the values (or labels as fallback).
-     *
-     * @return {String} Value of the list
-     *
-     * @deprecated
-     */
-    getValue : function()
-    {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee, "Please use getModelSelection instead."
-      );
-
-      var selected = this.getSelection();
-      var result = [];
-      var value;
-
-      for (var i=0, l=selected.length; i<l; i++)
-      {
-        // Try value first
-        value = selected[i].getValue();
-
-        // Fallback to label
-        if (value == null) {
-          value = selected[i].getLabel();
-        }
-
-        result.push(value);
-      }
-
-      return result.join(",");
-    },
-
-    /**
-     * Applied new selection from a comma separated list of values (labels
-     * as fallback) of the list items.
-     *
-     * @param value {String} Comma separated list
-     *
-     * @deprecated
-     */
-    setValue : function(value)
-    {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee, "Please use setModelSelection instead."
-      );
-
-      // only split the value in multi selection mode
-      // (a , could be in the value as well)
-      var splitted = [value];
-      if (this.getSelectionMode() === "multi" ) {
-        // Clear current selection
-        splitted = value.split(",");
-      }
-
-      // Building result list
-      var result = [];
-      var item;
-      for (var i=0, l=splitted.length; i<l; i++)
-      {
-        item = this.findItem(splitted[i]);
-        if (item) {
-          result.push(item);
-        }
-      }
-
-
-      // Replace current selection
-      this.setSelection(result);
     },
 
 
@@ -502,20 +411,6 @@ qx.Class.define("qx.ui.form.List",
       }
 
       return null;
-    },
-
-
-    // deprecated
-    // overridden
-    addListener: function(type, listener, self, capture) {
-      if (type == "changeValue") {
-        qx.log.Logger.deprecatedEventWarning(
-          arguments.callee,
-          "changeValue",
-          "Please use the changeSelection event instead."
-        );
-      }
-      return this.base(arguments, type, listener, self, capture);
     }
   },
 

@@ -85,27 +85,9 @@ qx.Class.define("qx.ui.container.Stack",
 
   /*
   *****************************************************************************
-     EVENTS
-  *****************************************************************************
-  */
-
-
-  events :
-  {
-    /**
-     * Fires after the selection was modified
-     * @deprecated Use 'changeSelection' instead!
-     */
-    "change" : "qx.event.type.Data"
-  },
-
-
-  /*
-  *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
-
 
   properties :
   {
@@ -151,66 +133,6 @@ qx.Class.define("qx.ui.container.Stack",
           }
         }
       }
-    },
-
-
-    /*
-    ---------------------------------------------------------------------------
-      OLD SELECTION PROPERTY METHODS
-    ---------------------------------------------------------------------------
-    */
-
-
-    /**
-     * Select the given widget.
-     *
-     * @deprecated Use 'setSelection' instead!
-     * @param item {qx.ui.core.Widget} Widget to select.
-     */
-    setSelected : function(item)
-    {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee,
-        "Use 'setSelection' instead!"
-      );
-
-      this.setSelection([item]);
-    },
-
-    /**
-     * Returns the selected widget.
-     *
-     * @deprecated Use 'getSelection' instead!
-     * @return {qx.ui.core.Widget} Selected widget.
-     */
-    getSelected : function()
-    {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee,
-        "Use 'getSelection' instead!"
-      );
-
-      var item = this.getSelection()[0];
-      if (item) {
-        return item
-      } else {
-        return null;
-      }
-    },
-
-    /**
-     * Reset the current selection.
-     *
-     * @deprecated Use 'resetSelection' instead!
-     */
-    resetSelected : function()
-    {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee,
-        "Use 'resetSelection' instead!"
-      );
-
-      this.resetSelection();
     },
 
 
@@ -273,37 +195,6 @@ qx.Class.define("qx.ui.container.Stack",
       if (value) {
         value.show();
       }
-
-      /*
-       * TODO remove this if the methods and event for old selection API
-       * doesn't exist.
-       *
-       * Methods: 'getSelected', 'setSelected', 'resetSelected'
-       * Event: 'change'
-       */
-      if (this.hasListener("change")) {
-        this.fireDataEvent("change", value, old);
-      }
-    },
-
-    // overridden
-    addListener : function(type, listener, self, capture)
-    {
-      /*
-       * TODO this method must be removed if the old selection API doesn't exist.
-       *
-       * Methods: 'getSelected', 'setSelected', 'resetSelected'
-       * Event: 'change'
-       */
-
-      if (type === "change") {
-        qx.log.Logger.deprecatedEventWarning(
-        arguments.callee,
-        "change",
-        "Use 'changeSelection' instead!");
-      }
-
-      return this.base(arguments, type, listener, self, capture);
     },
 
 

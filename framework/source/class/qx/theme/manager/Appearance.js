@@ -54,17 +54,6 @@ qx.Class.define("qx.theme.manager.Appearance",
 
   properties :
   {
-    /** currently used appearance theme
-     * Deprecated - use the property {@link #theme} instead.
-     * @deprecated
-     */
-    appearanceTheme :
-    {
-      check : "Theme",
-      nullable : true,
-      event : "changeAppearanceTheme"
-    },
-
     /** currently used appearance theme */
     theme :
     {

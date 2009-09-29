@@ -54,14 +54,12 @@ qx.Class.define("qx.ui.form.Spinner",
 {
   extend : qx.ui.core.Widget,
   implement : [
-    qx.ui.form.IFormElement,
     qx.ui.form.INumberForm,
     qx.ui.form.IRange,
     qx.ui.form.IForm
   ],
   include : [
     qx.ui.core.MContentPadding,
-    qx.ui.form.MFormElement,
     qx.ui.form.MForm
   ],
 
@@ -800,104 +798,6 @@ qx.Class.define("qx.ui.form.Spinner",
      */
     gotoValue : function(value) {
       return this.setValue(Math.min(this.getMaximum(), Math.max(this.getMinimum(), value)));
-    },
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DEPRECATED OLD PROPERTY METHODS
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Set the minimum of the slider.
-     * Please use the minimum property instead.
-     * @param min {Number} The new minimum.
-     * @deprecated
-     */
-    setMin: function(min) {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use the minimum property instead.");
-      this.setMinimum(min);
-    },
-
-
-    /**
-     * Get the minimum of the slider.
-     * Please use the minimum property instead.
-     * @return {Number} The current set minimum.
-     * @deprecated
-     */
-    getMin: function() {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use the minimum property instead.");
-      return this.getMinimum();
-    },
-
-
-    /**
-     * Reset the minimum of the slider.
-     * Please use the minimum property instead.
-     * @deprecated
-     */
-    resetMin: function() {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use the minimum property instead.");
-      this.resetMinimum();
-    },
-
-
-    /**
-     * Init the minimum of the slider.
-     * Please use the minimum property instead.
-     * @deprecated
-     */
-    initMin: function() {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use the minimum property instead.");
-      this.initMinimum();
-    },
-
-
-    /**
-     * Set the maximum of the slider.
-     * Please use the maximum property instead.
-     * @param max {Number} The new maximum.
-     * @deprecated
-     */
-    setMax: function(max) {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use the maximum property instead.");
-      this.setMaximum(max);
-    },
-
-
-    /**
-     * Get the maximum of the slider.
-     * Please use the maximum property instead.
-     * @return {Number} The current set maximum.
-     * @deprecated
-     */
-    getMax: function() {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use the maximum property instead.");
-      return this.getMaximum();
-    },
-
-
-    /**
-     * Reset the maximum of the slider.
-     * Please use the maximum property instead.
-     * @deprecated
-     */
-    resetMax: function() {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use the maximum property instead.");
-      this.resetMaximum();
-    },
-
-
-    /**
-     * Init the maximum of the slider.
-     * Please use the maximum property instead.
-     * @deprecated
-     */
-    initMaxi: function() {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use the maximum property instead.");
-      this.initMaximum();
     }
   },
 

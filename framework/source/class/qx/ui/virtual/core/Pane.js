@@ -185,19 +185,6 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     */
 
     /**
-     * Returns the layer container
-     *
-     * @deprecated
-     * @return {qx.ui.core.Widget} The layer container
-     */
-    getChild : function() {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee, "Please use getChildren instead."
-      );
-      return this.__layerContainer;
-    },
-
-    /**
      * Returns an array containing the layer container
      *
      * @return {Object[]} The layer container array

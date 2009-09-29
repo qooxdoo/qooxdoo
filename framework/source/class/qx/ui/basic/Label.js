@@ -86,23 +86,6 @@ qx.Class.define("qx.ui.basic.Label",
   },
 
 
-
-
-  /*
-  *****************************************************************************
-     EVENTS
-  *****************************************************************************
-  */
-  events : {
-    /**
-     * The old content change event. Please use the value property instead.
-     * @deprecated
-     */
-    "changeContent" : "qx.event.type.Data"
-  },
-
-
-
   /*
   *****************************************************************************
      PROPERTIES
@@ -451,78 +434,7 @@ qx.Class.define("qx.ui.basic.Label",
       qx.ui.core.queue.Layout.add(this);
 
       this.fireDataEvent("changeContent", value, old);
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DEPRECATED STUFF
-    ---------------------------------------------------------------------------
-    */
-    /**
-     * Old set method for the content property. Please use the value
-     * property instead.
-     *
-     * @param value {String} The value of the label.
-     * @deprecated
-     */
-    setContent: function(value)
-    {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee, "Please use the value property instead."
-      );
-
-      this.setValue(value);
-    },
-
-
-    /**
-     * Old get method for the content property. Please use the value
-     * property instead.
-     *
-     * @deprecated
-     */
-    getContent: function()
-    {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee, "Please use the value property instead."
-      );
-
-      return this.getValue();
-    },
-
-
-    /**
-     * Old reset method for the content property. Please use the value
-     * property instead.
-     *
-     * @deprecated
-     */
-    resetContent: function()
-    {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee, "Please use the value property instead."
-      );
-
-      this.resetValue();
-    },
-
-
-    // overridden
-    addListener: function(type, listener, self, capture) {
-      if (type == "changeContent") {
-        qx.log.Logger.deprecatedEventWarning(
-          arguments.callee,
-          "changeContent",
-          "Please use the changeValue event instead."
-        );
-      }
-      return this.base(arguments, type, listener, self, capture);
     }
-
-
   },
 
 

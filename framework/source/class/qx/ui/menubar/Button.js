@@ -89,32 +89,6 @@ qx.Class.define("qx.ui.menubar.Button",
     */
 
     /**
-     * Inspects the parent chain to find a ToolBar instance.
-     *
-     * @return {qx.ui.toolbar.ToolBar} Toolbar instance or <code>null</code>.
-     * @deprecated
-     */
-    getToolBar : function()
-    {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee, "Please use 'getMenuBar' to access the connected menubar widget"
-      );
-
-      var parent = this;
-      while (parent)
-      {
-        if (parent instanceof qx.ui.toolbar.ToolBar) {
-          return parent;
-        }
-
-        parent = parent.getLayoutParent();
-      }
-
-      return null;
-    },
-
-
-    /**
      * Inspects the parent chain to find the MenuBar
      *
      * @return {qx.ui.menubar.MenuBar} MenuBar instance or <code>null</code>.

@@ -543,22 +543,6 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
 
 
     /**
-     * Set the attributes used to indicate the cell that has the focus.
-     *
-     * @deprecated
-     *   This method no longer does anything and will be removed in 0.9
-     *
-     * @param attributes {Map} attributes used to indicate the cell that has the focus
-     * @return {void}
-     */
-    setCellFocusAttributes : function(attributes)
-    {
-       qx.log.Logger.deprecatedMethodWarning(arguments.callee,
-           "This method no longer does anything and will be removed in 0.9");
-    },
-
-
-    /**
      * Obtain the entire hierarchy of labels from the root down to the
      * specified node.
      *

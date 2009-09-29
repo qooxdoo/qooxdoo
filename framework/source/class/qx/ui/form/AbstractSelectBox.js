@@ -28,7 +28,6 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
   extend  : qx.ui.core.Widget,
   include : [
     qx.ui.core.MRemoteChildrenHandling,
-    qx.ui.form.MFormElement,
     qx.ui.form.MForm
   ],
   implement : [
@@ -100,25 +99,6 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
       nullable: true,
       init : 200
     }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     EVENTS
-  *****************************************************************************
-  */
-
-  events :
-  {
-    /**
-      * Fired everytime the selection has been modified and this way the value
-      *
-      * @deprecated
-      */
-    "changeValue" : "qx.event.type.Data"
   },
 
 

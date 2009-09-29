@@ -2901,20 +2901,6 @@ qx.Class.define("qx.ui.core.Widget",
         }
 
         // Apply new data
-        // TODO: Compat mode to 0.8 final, remove this warning with 0.8.2
-        // @deprecated
-        if (qx.core.Variant.isSet("qx.debug", "on"))
-        {
-          for (var prop in newData)
-          {
-            if (newData[prop] === "undefined")
-            {
-              this.warn("Old undefined value. Please use the identifier undefined instead of the string value.");
-              newData[prop] = undefined;
-            }
-          }
-        }
-
         for (var prop in newData) {
           newData[prop] === undefined ? this[unstyler[prop]]() : this[styler[prop]](newData[prop]);
         }
@@ -3575,23 +3561,6 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Whether the given ID is assigned to a child control.
      *
-     * @deprecated Use public 'hasChildControl' instead!
-     * @param id {String} ID of the child control
-     * @return {Boolean} <code>true</code> when the child control is registered.
-     */
-    _hasChildControl : function(id)
-    {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee,
-        "Use public 'hasChildControl' instead!"
-      );
-      return this.hasChildControl(id);
-    },
-
-
-    /**
-     * Whether the given ID is assigned to a child control.
-     *
      * @param id {String} ID of the child control
      * @return {Boolean} <code>true</code> when the child control is registered.
      */
@@ -3616,26 +3585,6 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _getCreatedChildControls : function() {
       return this.__childControls;
-    },
-
-
-    /**
-     * Returns the child control from the given ID. Returns
-     * <code>null</code> when the child control is unknown.
-     *
-     * @deprecated Use public 'getChildControl' instead!
-     * @param id {String} ID of the child control
-     * @param notcreate {Boolean?false} Whether the child control
-     *    should not be created dynamically if not yet available.
-     * @return {qx.ui.core.Widget} Child control
-     */
-    _getChildControl : function(id, notcreate)
-    {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee,
-        "Use public 'getChildControl' instead!"
-      );
-      return this.getChildControl(id, notcreate);
     },
 
 

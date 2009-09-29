@@ -25,7 +25,6 @@
 qx.Class.define("qx.ui.groupbox.RadioGroupBox",
 {
   extend : qx.ui.groupbox.GroupBox,
-  include : [qx.ui.form.MFormElement],
   implement : [
     qx.ui.form.IRadioItem,
     qx.ui.form.IExecutable,
@@ -61,13 +60,6 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
 
   events :
   {
-    /**
-     * Fired when the included checkbox changed its status.
-     *
-     * @deprecated
-     */
-    "changeChecked" : "qx.event.type.Data",
-
     /** Fired when the included radiobutton changed its value */
     "changeValue" : "qx.event.type.Data",
 
@@ -102,7 +94,6 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
           control = new qx.ui.form.RadioButton;
           control.setValue(true);
           control.addListener("changeValue", this._onRadioChangeValue, this);
-          control.addListener("changeName", this._onRadioChangeName, this); // TODO deprecated
           control.addListener("resize", this._repositionFrame, this);
           control.addListener("execute", this._onExecute, this);
 
@@ -229,15 +220,7 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
      *
      * @param value {Boolean} <code>true</code> when enabled.
      */
-    setValue : function(value)
-    {
-      if (qx.lang.Type.isString(value)) {
-        qx.log.Logger.deprecatedMethodWarning(
-          arguments.callee, "Please use boolean values instead."
-        );
-        return;
-      }
-
+    setValue : function(value) {
       this.getChildControl("legend").setValue(value);
     },
 
@@ -247,36 +230,6 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
      */
     resetValue: function() {
       this.getChildControl("legend").resetValue();
-    },
-
-
-    /**
-     * Whether the groupbox is enabled
-     *
-     * @return {Boolean} <code>true</code> when enabled
-     */
-    getChecked : function() {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee, "Please use the value property instead."
-      );
-
-      return this.getValue();
-    },
-
-
-    /**
-     * Configures whether the groupbox should be enabled
-     *
-     * @param value {String} whether the groupbox should be checked
-     * @return {Boolean} the incoming value
-     */
-    setChecked : function(value)
-    {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee, "Please use the value property instead."
-      );
-
-      this.setValue(value);
     },
 
 

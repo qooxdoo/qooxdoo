@@ -80,12 +80,6 @@ qx.Class.define("qx.ui.tabview.TabView",
 
   events :
   {
-    /**
-     * Fires after the selection was modified
-     * @deprecated Use 'changeSelection' instead!
-     */
-    "changeSelected" : "qx.event.type.Data",
-
     /** Fires after the selection was modified */
     "changeSelection" : "qx.event.type.Data"
   },
@@ -380,66 +374,6 @@ qx.Class.define("qx.ui.tabview.TabView",
 
     /*
     ---------------------------------------------------------------------------
-      OLD SELECTION PROPERTY METHODS
-    ---------------------------------------------------------------------------
-    */
-
-
-    /**
-     * Select the page in the list.
-     *
-     * @deprecated Use 'setSelection' instead!
-     * @param item {qx.ui.tabview.Page} page to select.
-     */
-    setSelected : function(item)
-    {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee,
-        "Use 'setSelection' instead!"
-      );
-
-      this.setSelection([item]);
-    },
-
-    /**
-     * Returns the selected page in the list.
-     *
-     * @deprecated Use 'getSelection' instead!
-     * @return {qx.ui.tabview.Page} Selected page.
-     */
-    getSelected : function()
-    {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee,
-        "Use 'getSelection' instead!"
-      );
-
-      var item = this.getSelection()[0];
-      if (item) {
-        return item
-      } else {
-        return null;
-      }
-    },
-
-    /**
-     * Reset the current selection.
-     *
-     * @deprecated Use 'resetSelection' instead!
-     */
-    resetSelected : function()
-    {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee,
-        "Use 'resetSelection' instead!"
-      );
-
-      this.resetSelection();
-    },
-
-
-    /*
-    ---------------------------------------------------------------------------
       SELECTION API
     ---------------------------------------------------------------------------
     */
@@ -567,26 +501,6 @@ qx.Class.define("qx.ui.tabview.TabView",
           qx.event.type.Event, [false, true])) {
         e.preventDefault();
       }
-    },
-
-    // overridden
-    addListener : function(type, listener, self, capture)
-    {
-      /*
-       * TODO this method must be removed if the old selection API doesn't exist.
-       *
-       * Methods: 'getSelected', 'setSelected', 'resetSelected'
-       * Event: 'changeSelected'
-       */
-
-      if (type === "changeSelected") {
-        qx.log.Logger.deprecatedEventWarning(
-        arguments.callee,
-        "changeSelected",
-        "Use 'changeSelection' instead!");
-      }
-
-      return this.base(arguments, type, listener, self, capture);
     },
 
 

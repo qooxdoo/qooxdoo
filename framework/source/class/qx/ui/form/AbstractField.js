@@ -31,12 +31,10 @@ qx.Class.define("qx.ui.form.AbstractField",
 {
   extend : qx.ui.core.Widget,
   implement : [
-    qx.ui.form.IFormElement,
     qx.ui.form.IStringForm,
     qx.ui.form.IForm
   ],
   include : [
-    qx.ui.form.MFormElement,
     qx.ui.form.MForm
   ],
   type : "abstract",
@@ -507,97 +505,6 @@ qx.Class.define("qx.ui.form.AbstractField",
       TEXTFIELD SELECTION API
     ---------------------------------------------------------------------------
     */
-
-    /**
-     * Returns the current selection.
-     * This method only works if the widget is already created and
-     * added to the document.
-     *
-     * @deprecated Use public method 'getTextSelection' instead
-     * @return {String|null}
-     */
-    getSelection : function() {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee,
-        "Use public 'getTextSelection' instead!"
-      );
-
-      return this.getTextSelection();
-    },
-
-
-    /**
-     * Returns the current selection length.
-     * This method only works if the widget is already created and
-     * added to the document.
-     *
-     * @deprecated Use public method 'getTextSelectionLength' instead
-     * @return {Integer|null}
-     */
-    getSelectionLength : function() {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee,
-        "Use public 'getTextSelectionLength' instead!"
-      );
-
-      return this.getTextSelectionLength();
-    },
-
-
-    /**
-     * Set the selection to the given start and end (zero-based).
-     * If no end value is given the selection will extend to the
-     * end of the textfield's content.
-     * This method only works if the widget is already created and
-     * added to the document.
-     *
-     * @deprecated Use public method 'setTextSelection' instead
-     * @param start {Integer} start of the selection (zero-based)
-     * @param end {Integer} end of the selection
-     * @return {void}
-     */
-    setSelection : function(start, end) {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee,
-        "Use public 'setTextSelection' instead!"
-      );
-
-      this.setTextSelection(start, end);
-    },
-
-
-    /**
-     * Clears the current selection.
-     * This method only works if the widget is already created and
-     * added to the document.
-     *
-     * @deprecated Use public method 'clearTextSelection' instead
-     * @return {void}
-     */
-    clearSelection : function() {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee,
-        "Use public 'clearTextSelection' instead!"
-      );
-
-      this.clearTextSelection();
-    },
-
-
-    /**
-     * Selects the whole content
-     *
-     * @deprecated Use public method 'selectAllText' instead
-     * @return {void}
-     */
-    selectAll : function() {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee,
-        "Use public 'selectAllText' instead!"
-      );
-
-      this.selectAllText();
-    },
 
 
     /**

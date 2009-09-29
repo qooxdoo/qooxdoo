@@ -26,7 +26,7 @@
 qx.Class.define("qx.ui.menu.RadioButton",
 {
   extend : qx.ui.menu.AbstractButton,
-  include : [qx.ui.form.MFormElement, qx.ui.form.MModelProperty],
+  include : [qx.ui.form.MModelProperty],
   implement : [qx.ui.form.IRadioItem, qx.ui.form.IBooleanForm, qx.ui.form.IModel],
 
 
@@ -57,23 +57,6 @@ qx.Class.define("qx.ui.menu.RadioButton",
 
 
 
-
-  /*
-  *****************************************************************************
-     EVENTS
-  *****************************************************************************
-  */
-  events : {
-    /**
-     * The old checked change event. Please use the value property instead.
-     * @deprecated
-     */
-    "changeChecked" : "qx.event.type.Data"
-  },
-
-
-
-
   /*
   *****************************************************************************
      PROPERTIES
@@ -92,8 +75,7 @@ qx.Class.define("qx.ui.menu.RadioButton",
     /** The value of the widget. True, if the widget is checked. */
     value :
     {
-      // TODO change the check to Boolean after the deprecation has been removed
-      check : "function(value) {return qx.lang.Type.isString(value) || qx.lang.Type.isBoolean(value)}",
+      check : "Boolean",
       nullable : true,
       event : "changeValue",
       apply : "_applyValue",
@@ -122,19 +104,8 @@ qx.Class.define("qx.ui.menu.RadioButton",
   members :
   {
     // property apply
-    _applyValue : function(value, old)
-    {
-      if (qx.lang.Type.isString(value)) {
-        qx.log.Logger.deprecatedMethodWarning(
-          arguments.callee, "Please use boolean values instead."
-        );
-        return;
-      }
-
+    _applyValue : function(value, old) {
       value ? this.addState("checked") : this.removeState("checked");
-
-      // @deprecated
-      this.fireDataEvent("changeChecked", value, old);
     },
 
 
@@ -163,121 +134,6 @@ qx.Class.define("qx.ui.menu.RadioButton",
     // overridden
     _onKeyPress : function(e) {
       this.setValue(true);
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DEPRECATED STUFF
-    ---------------------------------------------------------------------------
-    */
-    /**
-     * Old set method for the checked property. Please use the value
-     * property instead.
-     *
-     * @param value {String} The value of the label.
-     * @deprecated
-     */
-    setChecked: function(value) {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee, "Please use the value property instead."
-      );
-
-      this.setValue(value);
-    },
-
-
-    /**
-     * Old is method for the checked property. Please use the value property
-     * instead.
-     *
-     * @deprecated
-     */
-    isChecked: function() {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee, "Please use the value property instead."
-      );
-
-      return this.getValue();
-    },
-
-
-    /**
-     * Old toggle method for the checked property. Please use the value property
-     * instead.
-     *
-     * @deprecated
-     */
-    toggleChecked: function() {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee, "Please use the value property instead."
-      );
-
-      this.setValue(!this.getValue());
-    },
-
-
-    /**
-     * Old get method for the checked property. Please use the value
-     * property instead.
-     *
-     * @deprecated
-     */
-    getChecked: function() {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee, "Please use the value property instead."
-      );
-
-      return this.getValue();
-    },
-
-
-    /**
-     * Old reset method for the checked property. Please use the value
-     * property instead.
-     *
-     * @deprecated
-     */
-    resetChecked: function() {
-      qx.log.Logger.deprecatedMethodWarning(
-        arguments.callee, "Please use the value property instead."
-      );
-
-      this.resetValue();
-    },
-
-
-    // overridden
-    addListener: function(type, listener, self, capture) {
-      if (type == "changeChecked") {
-        qx.log.Logger.deprecatedEventWarning(
-          arguments.callee,
-          "changeChecked",
-          "Please use the changeValue event instead."
-        );
-      }
-      return this.base(arguments, type, listener, self, capture);
-    },
-
-
-    // TODO can be removed when the check of the value property is set to Boolean
-    /**
-     * Toggles the state of the button.
-     */
-    toggleValue: function() {
-      this.setValue(!this.getValue());
-    },
-
-    // TODO can be removed when the check of the value property is set to Boolean
-    /**
-     * Returns if the value is true
-     *
-     * @return {Boolean} True, if the button is checked.
-     */
-    isValue: function() {
-      return this.getValue();
     }
   }
 });
