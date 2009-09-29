@@ -145,8 +145,8 @@ qx.Class.define("qx.ui.core.queue.Manager",
       {
         if (jobs.dispose)
         {
-          qx.ui.core.queue.Dispose.flush();
           delete jobs.dispose;
+          qx.ui.core.queue.Dispose.flush();
         }
       }, function() {
         // Clear flag
