@@ -274,13 +274,9 @@ qx.Class.define("qx.ui.decoration.Grid",
         }
       }
 
-      var ResourceManager = qx.util.ResourceManager.getInstance();
-
       if (value)
       {
-        var Alias = qx.util.AliasManager.getInstance();
-
-        var base = Alias.resolve(value);
+        var base = this._resolveImageUrl(value);
         var split = /(.*)(\.[a-z]+)$/.exec(base);
         var prefix = split[1];
         var ext = split[2];
@@ -302,14 +298,26 @@ qx.Class.define("qx.ui.decoration.Grid",
         };
 
         // Store edges
-        this.__edges =
-        {
-          top : ResourceManager.getImageHeight(images.t),
-          bottom : ResourceManager.getImageHeight(images.b),
-          left : ResourceManager.getImageWidth(images.l),
-          right : ResourceManager.getImageWidth(images.r)
-        };
+        this.__edges = this._computeEdgeSizes(images);
       }
+    },
+    
+    
+    _resolveImageUrl : function(image) {
+      return qx.util.AliasManager.getInstance().resolve(image);
+    },
+  
+    
+    _computeEdgeSizes : function(images) 
+    {
+      var ResourceManager = qx.util.ResourceManager.getInstance();
+      
+      return {
+        top : ResourceManager.getImageHeight(images.t),
+        bottom : ResourceManager.getImageHeight(images.b),
+        left : ResourceManager.getImageWidth(images.l),
+        right : ResourceManager.getImageWidth(images.r)
+      };
     }
   },
 
