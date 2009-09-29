@@ -41,7 +41,7 @@ qx.Class.define("qx.test.ui.LocaleSwitch",
       "test Jonny": "test Jonny",
       "test One car": "test One car",
       "test %1 cars": "test %1 cars",
-      "key_short_Control": "Ctrl"
+      "key_short_Shift": "Shift"
     });
     manager.addTranslation("de_QX", {
       "test one": "Eins",
@@ -50,7 +50,7 @@ qx.Class.define("qx.test.ui.LocaleSwitch",
       "test Jonny": "Jonathan",
       "test One car": "Ein Auto",
       "test %1 cars": "%1 Autos",
-      "key_short_Control": "Strg"
+      "key_short_Shift": "Umschalt"
     });
   },
 
@@ -65,14 +65,14 @@ qx.Class.define("qx.test.ui.LocaleSwitch",
 
     testCommandInMenuButton : function()
     {
-      var command = new qx.ui.core.Command("Control-A");
+      var command = new qx.ui.core.Command("Shift-A");
       var menuButton = new qx.ui.menu.Button("Juhu", null, command);
-      this.assertEquals("Ctrl+A", command.toString());
-      this.assertEquals("Ctrl+A", menuButton.getChildControl("shortcut").getValue());
+      this.assertEquals("Shift+A", command.toString());
+      this.assertEquals("Shift+A", menuButton.getChildControl("shortcut").getValue());
 
       this.manager.setLocale("de_QX");
-      this.assertEquals("Strg+A", command.toString());
-      this.assertEquals("Strg+A", menuButton.getChildControl("shortcut").getValue());
+      this.assertEquals("Umschalt+A", command.toString());
+      this.assertEquals("Umschalt+A", menuButton.getChildControl("shortcut").getValue());
       menuButton.destroy();
       command.dispose();
     },
