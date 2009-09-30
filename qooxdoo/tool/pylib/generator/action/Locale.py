@@ -38,18 +38,18 @@ class Locale:
 
 
 
-    def getLocalizationData(self, locales):
+    def getLocalizationData(self, targetLocales):
         self._console.debug("Generating localization data...")
         self._console.indent()
 
         data = {}
         root = os.path.join(filetool.root(), os.pardir, "data", "cldr", "main")
 
-        newlocales = locales
-        for locale in locales:
+        newlocales = targetLocales
+        for locale in targetLocales:
             if len(locale) > 2 and locale[2] == "_":
               topLevelLocale = locale[0:2]
-              if not topLevelLocale in locales:
+              if not topLevelLocale in targetLocales:
                 self._console.warn("Base locale %s not specified, trying to add it." % topLevelLocale)
                 newlocales[:0] = [topLevelLocale]
 
@@ -74,12 +74,12 @@ class Locale:
 
 
 
-    def getTranslationData(self, locales, namespace):
+    def getTranslationData(self, targetLocales, namespace):
         self._console.debug("Generating translation data for namespace %s..." % namespace)
         self._console.indent()
 
         data = []
-        for entry in locales:
+        for entry in targetLocales:
             self._console.debug("Processing locale: %s" % entry)
             # TODO
 
@@ -185,7 +185,7 @@ class Locale:
         # collapse \\ to \
         return s.replace(r'\\', '\\')
 
-    def generatePackageData(self, classList, variants, locales):
+    def generatePackageData(self, classList, variants, targetLocales):
         # Generate POT file to filter PO files
         self._console.debug("Compiling filter...")
         pot = self.getPotFile(classList, variants)
@@ -194,22 +194,21 @@ class Locale:
             return {}
 
         # Find all influenced namespaces
-        namespaces = {}
+        libnames = {}
         for classId in classList:
             ns = self._classes[classId]["namespace"]
-            namespaces[ns] = True
+            libnames[ns] = True
 
-        # Create a map of locale => [files]
+        # Create a map of locale => [pofiles]
         PoFiles = {}
-        for namespace in namespaces:
-            files = self._translation[namespace]
+        for libname in libnames:
+            liblocales = self._translation[libname]  # {"en": <translationEntry>, ...}
 
-            for locale in locales:
-                if files.has_key(locale):
-                    if not PoFiles.has_key(locale):
+            for locale in targetLocales:
+                if locale in liblocales:
+                    if not locale in PoFiles:
                         PoFiles[locale] = []
-
-                    PoFiles[locale].append(files[locale]["path"])
+                    PoFiles[locale].append(liblocales[locale]["path"]) # collect all .po files for a given locale
 
         # Load po files
         blocks = {}
