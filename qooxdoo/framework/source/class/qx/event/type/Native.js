@@ -58,6 +58,7 @@ qx.Class.define("qx.event.type.Native",
       }
 
       this._native = nativeEvent;
+      this._returnValue = null;
 
       return this;
     },
