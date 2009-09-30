@@ -508,6 +508,8 @@ class Config:
                 raise RuntimeError, "No such job: \"%s\"" % job
             else:
                 jobObj = self.getJob(job)
+                console.debug("job '%s'" % jobObj.name)
+                console.indent()
                 if jobObj.hasFeature('library'):
                     newlib = []
                     seen   = []
@@ -551,6 +553,8 @@ class Config:
 
                     jobObj.setFeature('library', newlib)
 
+                console.outdent()
+
         console.outdent()
 
 
@@ -593,21 +597,26 @@ class Config:
 
     def _download_contrib(self, libs, contrib, contribCache):
 
-        self._console.info("Downloading contrib: %s" % contrib)
+        self._console.debug("Checking network-based contrib: %s" % contrib)
         self._console.indent()
 
         dloader = ContribLoader()
-        dloader.download(contrib, contribCache)
+        (updatedP, revNo) = dloader.download(contrib, contribCache)
 
-        self._console.info("done")
+        if updatedP:
+            self._console.info("downloaded contrib: %s" % contrib)
+        else:
+            self._console.debug("using cached version")
         self._console.outdent()
         return
+
 
     def getConfigDir(self):
         if self._fname:
             return os.path.dirname(self._fname)
         else:
             return None
+
 
     def absPath(self, path):
         'Take a path relative to config file location, and return it absolute'
