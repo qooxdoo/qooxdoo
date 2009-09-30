@@ -464,7 +464,7 @@ class Generator(object):
 
         # create tool chain instances
         self._treeLoader     = TreeLoader(self._classes, self._cache, self._console)
-        self._locale         = Locale(self._classes, self._translations, self._cache, self._console, self._treeLoader)
+        self._locale         = Locale(self._context, self._classes, self._translations, self._cache, self._console, self._treeLoader)
         self._depLoader      = DependencyLoader(self._classes, self._cache, self._console, self._treeLoader, require, use, context)
         self._resourceHandler= ResourceHandler(self)
         self._codeGenerator  = CodeGenerator(self._cache, self._console, self._config, self._job, self._settings, self._locale, self._resourceHandler, self._classes)
