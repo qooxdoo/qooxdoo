@@ -28,7 +28,8 @@ from misc import cldr, util, filetool, util
 from generator.code.LibraryPath import LibraryPath
 
 class Locale:
-    def __init__(self, classes, translation, cache, console, treeLoader):
+    def __init__(self, context, classes, translation, cache, console, treeLoader):
+        self._context = context
         self._classes = classes
         self._translation = translation
         self._cache = cache
@@ -97,9 +98,10 @@ class Locale:
             pot.append(obj)
 
             # convert to polib style
-            obj.occurrences = []
-            for location in strings[msgid]["occurrences"]:
-                obj.occurrences.append((re.sub(r'\\', "/", location["file"]), location["line"]))
+            if self._context["jobconf"].get("translate/poentry-with-occurrences", True):
+                obj.occurrences = []
+                for location in strings[msgid]["occurrences"]:
+                    obj.occurrences.append((re.sub(r'\\', "/", location["file"]), location["line"]))
 
             # adding a hint/comment if available
             if "hint" in strings[msgid]:
