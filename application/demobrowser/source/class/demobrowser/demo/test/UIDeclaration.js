@@ -243,7 +243,7 @@ qx.Class.define("demobrowser.demo.test.UIDeclaration",
 
       // add the widget
       if (widget instanceof qx.ui.form.Form) {
-        root.add(widget.createView());
+        root.add(new qx.ui.form.renderer.Single(widget));
       } else {
         root.add(widget, definition.layoutProperties);
       }

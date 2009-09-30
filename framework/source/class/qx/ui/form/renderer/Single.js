@@ -24,17 +24,17 @@
  */
 qx.Class.define("qx.ui.form.renderer.Single",
 {
-  extend : qx.ui.core.Widget,
-  implement : qx.ui.form.renderer.IFormRenderer,
+  extend : qx.ui.form.renderer.AbstractRenderer,
 
-  construct : function()
+
+  construct : function(form)
   {
-    this.base(arguments);
-
     var layout = new qx.ui.layout.Grid();
     layout.setSpacing(6);
     layout.setColumnAlign(0, "right", "top");
     this._setLayout(layout);
+    
+    this.base(arguments, form);    
   },
 
 

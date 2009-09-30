@@ -134,7 +134,7 @@ qx.Class.define("demobrowser.demo.ui.FormRendererCustom",
       form.addButton(resetButton);
 
       // create the form and add it to the document
-      var formView = form.createView(demobrowser.form.CustomRenderer);
+      var formView = new demobrowser.form.CustomRenderer(form);
       this.getRoot().add(formView, {left: 10, top: 10});
     }
   }
