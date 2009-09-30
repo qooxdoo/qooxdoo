@@ -27,12 +27,14 @@ qx.Class.define("qx.test.ui.form.FormManager",
 
     // create the test renderer
     qx.Class.define("qx.test.DummyFormRenderer", {
-      extend : qx.core.Object,
+      extend : qx.ui.form.renderer.AbstractRenderer,
       implement : qx.ui.form.renderer.IFormRenderer,
 
-      construct : function() {
+      construct : function(form) {
         this.groups = [];
         this.buttons = [];
+        
+        this.base(arguments, form);
       },
 
       properties : {
@@ -82,7 +84,7 @@ qx.Class.define("qx.test.ui.form.FormManager",
       this.__form.add(this.__tf2, "TF2");
 
       // get the view
-      var view = this.__form.createView(qx.test.DummyFormRenderer);
+      var view = new qx.test.DummyFormRenderer(this.__form);
 
       // check the items
       this.assertEquals(view.groups[0].items[0], this.__tf1);
@@ -92,17 +94,7 @@ qx.Class.define("qx.test.ui.form.FormManager",
       this.assertEquals(view.groups[0].names[0], "TF1");
       this.assertEquals(view.groups[0].names[1], "TF2");
     },
-
-
-    testWrongRenderer : function() {
-      // add a form item so the view contains something
-      this.__form.add(this.__tf1, "TF1");
-      var self = this;
-      this.assertException(function() {
-        self.__form.createView(qx.core.Object);
-      }, Error, null);
-    },
-
+    
 
     testAddTwoWithValidator : function() {
       // add the widgets
@@ -137,7 +129,7 @@ qx.Class.define("qx.test.ui.form.FormManager",
       this.__form.add(this.__tf2, "TF2");
 
       // get the view
-      var view = this.__form.createView(qx.test.DummyFormRenderer);
+      var view = new qx.test.DummyFormRenderer(this.__form);
 
       // check the items
       this.assertEquals(view.groups[0].items[0], this.__tf1);
@@ -159,7 +151,7 @@ qx.Class.define("qx.test.ui.form.FormManager",
       this.__form.add(this.__tf2, "TF2");
 
       // get the view
-      var view = this.__form.createView(qx.test.DummyFormRenderer);
+      var view = new qx.test.DummyFormRenderer(this.__form);
 
       // check the items
       this.assertEquals(view.groups[0].items[0], this.__tf1);
@@ -174,6 +166,7 @@ qx.Class.define("qx.test.ui.form.FormManager",
       this.assertEquals("affee", view.groups[1].title);
     },
 
+
     testAddTwoButtons : function() {
       var b1 = new qx.ui.form.Button();
       var b2 = new qx.ui.form.RepeatButton();
@@ -182,7 +175,7 @@ qx.Class.define("qx.test.ui.form.FormManager",
       this.__form.addButton(b2);
 
       // get the view
-      var view = this.__form.createView(qx.test.DummyFormRenderer);
+      var view = new qx.test.DummyFormRenderer(this.__form);
 
       // check the buttons
       this.assertEquals(b1, view.buttons[0]);
@@ -191,6 +184,7 @@ qx.Class.define("qx.test.ui.form.FormManager",
       b2.dispose();
       b1.dispose();
     },
+
 
     testAddTwoWithButtons : function() {
       var b1 = new qx.ui.form.Button();
@@ -203,7 +197,7 @@ qx.Class.define("qx.test.ui.form.FormManager",
       this.__form.addButton(b2);
 
       // get the view
-      var view = this.__form.createView(qx.test.DummyFormRenderer);
+      var view = new qx.test.DummyFormRenderer(this.__form);
 
       // check the items
       this.assertEquals(view.groups[0].items[0], this.__tf1);
@@ -217,24 +211,6 @@ qx.Class.define("qx.test.ui.form.FormManager",
       this.assertEquals(b1, view.buttons[0]);
       this.assertEquals(b2, view.buttons[1]);
 
-      b2.dispose();
-      b1.dispose();
-    },
-
-    testDefaultRenderer : function() {
-      var b1 = new qx.ui.form.Button();
-      var b2 = new qx.ui.form.RepeatButton();
-
-      // add the widgets
-      this.__form.add(this.__tf1, "TF1");
-      this.__form.addButton(b1);
-      this.__form.add(this.__tf2, "TF2");
-      this.__form.addButton(b2);
-
-      // get the view
-      var view = this.__form.createView();
-
-      view.destroy();
       b2.dispose();
       b1.dispose();
     },
@@ -283,9 +259,6 @@ qx.Class.define("qx.test.ui.form.FormManager",
       for (var i = 0; i < widgets.length; i++) {
         this.__form.add(widgets[i], "name" + i);
       }
-
-      // create a test renderer (default)
-      this.__form.createView();
 
       // reset
       this.__form.reset();
@@ -347,6 +320,52 @@ qx.Class.define("qx.test.ui.form.FormManager",
       // just call the method and check if its not throwing an error
       // all other stuff is tested in the resetter unit tests
       this.__form.redefineResetter();
+    },
+    
+    
+    testSingleRenderer : function() 
+    {
+      var b1 = new qx.ui.form.Button();
+
+      // add the widgets
+      this.__form.addGroupHeader("header");
+      this.__form.add(this.__tf1, "TF1");
+      this.__form.addButton(b1);
+
+      // just check if the rendere is created without an error
+      new qx.ui.form.renderer.Single(this.__form);
+
+      b1.dispose();      
+    },
+    
+    testSinglePlaceholderRenderer : function() 
+    {
+      var b1 = new qx.ui.form.Button();
+
+      // add the widgets
+      this.__form.addGroupHeader("header");
+      this.__form.add(this.__tf1, "TF1");
+      this.__form.addButton(b1);
+
+      // just check if the rendere is created without an error
+      new qx.ui.form.renderer.SinglePlaceholder(this.__form);
+
+      b1.dispose();      
+    },
+    
+    testDoubleRenderer : function() 
+    {
+      var b1 = new qx.ui.form.Button();
+
+      // add the widgets
+      this.__form.addGroupHeader("header");
+      this.__form.add(this.__tf1, "TF1");
+      this.__form.addButton(b1);
+
+      // just check if the rendere is created without an error
+      new qx.ui.form.renderer.Double(this.__form);
+
+      b1.dispose();      
     }
 
   }

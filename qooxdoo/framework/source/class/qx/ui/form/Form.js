@@ -183,9 +183,35 @@ qx.Class.define("qx.ui.form.Form",
 
     /*
     ---------------------------------------------------------------------------
-       RENDERER
+       RENDERER SUPPORT
     ---------------------------------------------------------------------------
     */
+
+    /**
+     * Accessor mehtod for the renderer which returns all added items in a
+     * array containing a map of all items:
+     * {title: title, items: [], labels: [], names: []}
+     * 
+     * @return {Array} An array contining all necessary data for the renderer.
+     * @internal
+     */
+    getGroups : function() 
+    {
+      return this.__groups;
+    },
+    
+    
+    /**
+     * Accessor mehtod for the renderer which returns all added buttons in an
+     * array.
+     * @return {Array} An array containing all added buttons.
+     * @internal
+     */
+    getButtons : function() 
+    {
+      return this.__buttons;
+    },
+
 
     /**
      * Takes all the added form items, group headers and buttons and gives them
@@ -195,54 +221,18 @@ qx.Class.define("qx.ui.form.Form",
      * @param rendererClass {Class?} The class of the renderer which should be
      *   used. If no rendere is given, the default renderer
      *   ({@link qx.ui.form.renderer.Single}) will be used.
-     *
      * @return {qx.ui.form.renderer.IFormRenderer} Instance of the renderer.
+     * 
+     * @deprecated Create the renderer and add the form as constructor 
+     *   parameter instead.
      */
     createView : function(rendererClass) {
-      if (rendererClass == null) {
-        rendererClass = qx.ui.form.renderer.Single;
-      } else {
-        // check if the renderer class is valid
-        this.__checkRenderer(rendererClass);
-      }
-
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee,
+        "This message will removed. Use new rendererClass(form) instead."
+      );      
       // create the renderer
-      var renderer = new rendererClass();
-      // add the groups
-      for (var i = 0; i < this.__groups.length; i++) {
-        var group = this.__groups[i];
-        renderer.addItems(group.items, group.labels, group.title);
-      }
-      // add the buttons
-      for (var i = 0; i < this.__buttons.length; i++) {
-        renderer.addButton(this.__buttons[i]);
-      }
-
-      return renderer;
-    },
-
-
-    /**
-     * Checks if the given rendere implements the
-     * {@link qx.ui.form.renderer.IFormRenderer} interface. If the given class
-     * is not a valid renderer, an exception will be thrown.
-     *
-     * @param rendererClass {Class} The renderer to check.
-     */
-    __checkRenderer : function(rendererClass) {
-      // check for an instance
-      if (rendererClass instanceof qx.core.Object) {
-        throw new Error("Please use a class reference and not an object.");
-      }
-      // check for the right interface
-      if (qx.core.Variant.compilerIsSet("qx.debug", "on")) {
-        var rendererInterface = qx.ui.form.renderer.IFormRenderer;
-        if (!qx.Class.hasInterface(rendererClass, rendererInterface)) {
-          throw new Error(
-            rendererClass + " need to implement " + rendererInterface
-          );
-        }
-      }
+      return new rendererClass(this);
     },
 
 

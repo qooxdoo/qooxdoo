@@ -75,7 +75,7 @@ qx.Class.define("demobrowser.demo.ui.FormRenderer",
       form.addButton(resetButton);
 
       // create the form and add it to the document
-      this.getRoot().add(form.createView(), {left: 10, top: 10});
+      this.getRoot().add(new qx.ui.form.renderer.Single(form), {left: 10, top: 10});
     }
   }
 });

@@ -27,12 +27,6 @@ qx.Class.define("qx.ui.form.renderer.SinglePlaceholder",
   extend : qx.ui.form.renderer.Single,
   implement : qx.ui.form.renderer.IFormRenderer,
 
-
-  construct : function()
-  {
-    this.base(arguments);
-  },
-
   members :
   {
     // overridden

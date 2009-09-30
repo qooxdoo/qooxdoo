@@ -68,7 +68,7 @@ qx.Class.define("demobrowser.demo.ui.FormRendererPlaceholder",
       form.addButton(resetButton);
 
       // create the form and add it to the document
-      var formView = form.createView(qx.ui.form.renderer.SinglePlaceholder);
+      var formView = new qx.ui.form.renderer.SinglePlaceholder(form);
       this.getRoot().add(formView, {left: 10, top: 10});
     }
   }
