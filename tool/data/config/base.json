@@ -237,7 +237,7 @@
     {
       "desc"    : "create .po files for current library",
 
-      "extend" : ["common"],
+      "extend" : ["scan-local-lib"],
 
       "translate" :
       {
