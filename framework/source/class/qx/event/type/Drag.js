@@ -50,7 +50,7 @@ qx.Class.define("qx.event.type.Drag",
      */
     init : function(cancelable, originalEvent)
     {
-      this.base(arguments, false, cancelable);
+      this.base(arguments, true, cancelable);
 
       if (originalEvent)
       {
