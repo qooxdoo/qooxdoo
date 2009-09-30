@@ -728,6 +728,8 @@ class CodeGenerator(object):
         # stringify data in globalCodes
         for entry in globalCodes:
             globalCodes[entry] = simplejson.dumps(globalCodes[entry], ensure_ascii=False, separators=(',',':'), sort_keys=True)
+            # undo damage done by simplejson to raw strings with escapes \\ -> \
+            globalCodes[entry] = globalCodes[entry].replace('\\\\\\', '\\').replace(r'\\', '\\')  # " gets tripple escaped, therefore the first .replace()
 
         vals.update(globalCodes)
         vals["Boot"] = '"%s"' % boot
