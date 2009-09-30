@@ -31,6 +31,7 @@ class ContribLoader(object):
         pass
 
     def getRevision(self, contrib):
+        # returns: (updatedFromInternet?, currentRevision)
         rev_url = "http://qooxdoo-contrib.svn.sourceforge.net/viewvc/qooxdoo-contrib/trunk/qooxdoo-contrib/%s/" % contrib
         data = urllib.urlopen(rev_url)
         for line in data:
@@ -47,15 +48,15 @@ class ContribLoader(object):
             try:
                 externalRevision = self.getRevision(contrib)
             except IOError:
-                print >> sys.stderr, "Could not connect to the internet. Will use cached contributions."
-                return
+                print >> sys.stderr, "Could not connect to the internet."
+                return (False, -1)
 
         # get local revision nr
         revisionFile = os.path.join(contrib_cache.replace("\ ", " "), contrib, "revision.txt")
         if os.path.exists(revisionFile):
             rev = open(revisionFile).readline()
             if rev == externalRevision: # we're up-to-date
-                return
+                return (False, rev)
             else: # clear for download
                 shutil.rmtree(os.path.dirname(revisionFile))
 
@@ -65,6 +66,6 @@ class ContribLoader(object):
 
         # store new revision nr
         open(revisionFile, "w").write(externalRevision)
-        return
+        return (True, externalRevision)
 
 
