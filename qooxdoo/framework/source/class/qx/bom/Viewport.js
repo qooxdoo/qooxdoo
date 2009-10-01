@@ -88,7 +88,7 @@ qx.Class.define("qx.bom.Viewport",
      * differs from the behavior of all other browsers - but this is exactly what we want to have
      * in this case.
      *
-     * Opera as of 9.21 only works well using <code>body.clientWidth</code>.
+     * Opera less then 9.50 only works well using <code>body.clientWidth</code>.
      *
      * Verified to correctly work with:
      *
@@ -104,11 +104,25 @@ qx.Class.define("qx.bom.Viewport",
     getWidth : qx.core.Variant.select("qx.client",
     {
       "opera" : function(win) {
-        return (win||window).document.body.clientWidth;
+        if (qx.bom.client.Engine.VERSION < 9.5) {
+          return (win||window).document.body.clientWidth;
+        } 
+        else
+        {
+          var doc = (win||window).document;
+          return doc.compatMode === "CSS1Compat" ? doc.documentElement.clientWidth : doc.body.clientWidth;
+        }
       },
 
       "webkit" : function(win) {
-        return (win||window).innerWidth;
+        if (qx.bom.client.Engine.VERSION < 523.15) { // Version < 3.0.4
+          return (win||window).innerWidth;
+        }
+        else
+        {
+          var doc = (win||window).document;
+          return doc.compatMode === "CSS1Compat" ? doc.documentElement.clientWidth : doc.body.clientWidth;
+        }
       },
 
       "default" : function(win)
@@ -135,7 +149,7 @@ qx.Class.define("qx.bom.Viewport",
      * differs from the behavior of all other browsers - but this is exactly what we want to have
      * in this case.
      *
-     * Opera as of 9.21 only works well using <code>body.clientHeight</code>.
+     * Opera less then 9.50 only works well using <code>body.clientHeight</code>.
      *
      * Verified to correctly work with:
      *
@@ -151,11 +165,24 @@ qx.Class.define("qx.bom.Viewport",
     getHeight : qx.core.Variant.select("qx.client",
     {
       "opera" : function(win) {
-        return (win||window).document.body.clientHeight;
+        if (qx.bom.client.Engine.VERSION < 9.5) {
+          return (win||window).document.body.clientHeight;
+        } 
+        else
+        {
+          var doc = (win||window).document;
+          return doc.compatMode === "CSS1Compat" ? doc.documentElement.clientHeight : doc.body.clientHeight;
+        }
       },
 
       "webkit" : function(win) {
-        return (win||window).innerHeight;
+        if (qx.bom.client.Engine.VERSION < 523.15) { // Version < 3.0.4
+          return (win||window).innerHeight;
+        }
+        else {
+          var doc = (win||window).document;
+          return doc.compatMode === "CSS1Compat" ? doc.documentElement.clientHeight : doc.body.clientHeight;
+        }
       },
 
       "default" : function(win)
