@@ -92,7 +92,8 @@ class CodeGenerator(object):
                 globalCodes["I18N"]         = {}  # make a fake entry
 
             filesPackages = packagesOfFiles(fileUri, packages)
-            bootBlocks.append(self.generateBootCode(parts, filesPackages, boot, variants, settings, bootPackage, globalCodes, "build", format))
+            plugCodeFile = self._job.get("compile-dist/code/decode-uris-plug", False)
+            bootBlocks.append(self.generateBootCode(parts, filesPackages, boot, variants, settings, bootPackage, globalCodes, "build", plugCodeFile, format))
 
             if format:
                 bootContent = "\n\n".join(bootBlocks)
@@ -233,7 +234,8 @@ class CodeGenerator(object):
         else:
             globalCodes["I18N"]         = {}  # make a fake entry
         #sourceBlocks.append(self.generateSourcePackageCode(parts, packages, boot, globalCodes, format))
-        sourceBlocks.append(self.generateBootCode(parts, packages, boot, variants={}, settings={}, bootCode=None, globalCodes=globalCodes, format=format))
+        plugCodeFile = self._job.get("compile-source/decode-uris-plug", False)
+        sourceBlocks.append(self.generateBootCode(parts, packages, boot, variants={}, settings={}, bootCode=None, globalCodes=globalCodes, decodeUrisFile=plugCodeFile, format=format))
 
         # TODO: Do we really need this optimization here. Could this be solved
         # with less resources just through directly generating "good" code?
@@ -663,7 +665,7 @@ class CodeGenerator(object):
         return resdata
 
 
-    def generateBootCode(self, parts, packages, boot, variants, settings, bootCode, globalCodes, version="source", format=False):
+    def generateBootCode(self, parts, packages, boot, variants, settings, bootCode, globalCodes, version="source", decodeUrisFile=None, format=False):
         # returns the Javascript code for the initial ("boot") script as a string 
 
         def partsMap(parts):
@@ -741,6 +743,12 @@ class CodeGenerator(object):
         # Translate URI data to JavaScript
         vals["Uris"] = packageUrisToJS(packages, version)
         vals["Uris"] = simplejson.dumps(vals["Uris"], ensure_ascii=False, separators=(',',':'), sort_keys=True)
+
+        # Script hook for qx.$$loader.decodeUris() function
+        vals["DecodeUrisPlug"] = ""
+        if decodeUrisFile:
+            plugCode = filetool.read(decodeUrisFile)  # let it bomb if file can't be read
+            vals["DecodeUrisPlug"] = plugCode.strip()
         
         # Locate and load loader basic script
         template = loadTemplate(bootCode)
