@@ -95,11 +95,8 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
      */
     getFormat : function(source)
     {
-      if (source != null && this.__data[source]) {
-        return this.__data[source] || null;
-      } else {
-        return null;
-      }
+      var entry = this.__data[source];
+      return entry ? entry.format : null;
     },
 
 
@@ -111,7 +108,8 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
      *    the dimensions are given as nullxnull pixel.
      */
     getSize : function(source) {
-      return this.__data[source] || this.__defaultSize;
+      var entry = this.__data[source];
+      return entry ? { width: entry.width, height: entry.height } : this.__defaultSize;
     },
 
 
