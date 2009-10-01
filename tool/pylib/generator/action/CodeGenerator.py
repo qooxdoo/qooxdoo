@@ -747,7 +747,7 @@ class CodeGenerator(object):
         # Script hook for qx.$$loader.decodeUris() function
         vals["DecodeUrisPlug"] = ""
         if decodeUrisFile:
-            plugCode = filetool.read(decodeUrisFile)  # let it bomb if file can't be read
+            plugCode = filetool.read(self._config.absPath(decodeUrisFile))  # let it bomb if file can't be read
             vals["DecodeUrisPlug"] = plugCode.strip()
         
         # Locate and load loader basic script
