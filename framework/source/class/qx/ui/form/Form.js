@@ -230,7 +230,10 @@ qx.Class.define("qx.ui.form.Form",
       qx.log.Logger.deprecatedMethodWarning(
         arguments.callee,
         "This message will removed. Use new rendererClass(form) instead."
-      );      
+      );
+      if (rendererClass == null) {
+        rendererClass = qx.ui.form.renderer.Single;
+      }
       // create the renderer
       return new rendererClass(this);
     },
