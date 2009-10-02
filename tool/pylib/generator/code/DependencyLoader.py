@@ -572,7 +572,6 @@ class DependencyLoader:
         # print "Read from cache: %s" % fileId
         
         deps = self._cache.readmulti(cacheId, filePath)
-        if fileId=="qx.List": deps = None
         if deps != None:
             return deps
 
