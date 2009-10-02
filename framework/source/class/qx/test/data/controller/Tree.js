@@ -827,6 +827,63 @@ qx.Class.define("qx.test.data.controller.Tree",
 
       // test if its the proper node
       this.assertEquals("new", this.__tree.getRoot().getChildren()[0].getChildren()[0].getLabel());
+    },
+    
+    
+    testInheritedChildren : function() 
+    {
+      qx.Class.define("qx.test.MyTreeNode", {
+        extend : qx.test.TreeNode
+      });
+      
+      // init (copy of setUp)
+      this.__tree = new qx.ui.tree.Tree();
+
+      // create a model
+      //        this.__model
+      //        /    |      \
+      // this.__a  this.__b  this.__c
+      this.__model = new qx.test.MyTreeNode();
+
+      this.__a = new qx.test.MyTreeNode();
+      this.__a.set({
+        name: "a",
+        name2: "a2",
+        icon: "icon a",
+        icon2: "icon a2",
+        color: "red"
+      });
+
+      this.__b = new qx.test.MyTreeNode();
+      this.__b.set({
+       name: "b",
+       name2: "b2",
+       icon: "icon b",
+       icon2: "icon b2",
+       color: "blue"
+      });
+
+      this.__c = new qx.test.MyTreeNode();
+      this.__c.set({
+        name: "c",
+        name2: "c2",
+        icon: "icon c",
+        icon2: "icon c2",
+        color: "white"
+      });
+
+      this.__model.getChildren().push(this.__a, this.__b, this.__c);
+      this.__model.getAltChildren().push(this.__c, this.__b, this.__a);
+
+      // create the controller
+      this.__controller = new qx.data.controller.Tree(this.__model, this.__tree, "children", "name");      
+      
+      // check the initial Labels
+      this.assertEquals("root", this.__tree.getRoot().getLabel(), "Root node has a wrong name");
+      this.assertEquals("a", this.__tree.getRoot().getChildren()[0].getLabel(), "First node has a wrong name");
+      this.assertEquals("b", this.__tree.getRoot().getChildren()[1].getLabel(), "Second node has a wrong name");
+      this.assertEquals("c", this.__tree.getRoot().getChildren()[2].getLabel(), "Third node has a wrong name");
+      
     }
 
   }
