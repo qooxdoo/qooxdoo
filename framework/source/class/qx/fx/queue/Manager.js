@@ -56,6 +56,8 @@ qx.Class.define("qx.fx.queue.Manager",
 
   members :
   {
+    __instances : null, 
+    
     /**
      * Returns existing queue by name or creates a new queue object and returns it.
      * @param queueName {String} Name of queue.
