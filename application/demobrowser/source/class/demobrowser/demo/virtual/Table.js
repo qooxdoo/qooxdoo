@@ -31,6 +31,8 @@ qx.Class.define("demobrowser.demo.virtual.Table",
 
   members :
   {
+    __cellRenderer : null,
+    
     main : function()
     {
       // Call super class

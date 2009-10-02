@@ -198,7 +198,7 @@ qx.Class.define("demobrowser.demo.virtual.list.List",
     __items : null,
     __pool : null,
     __selectionManager : null,
-
+    __widgetLayer : null,
 
     syncWidget : function() {
       this.update();

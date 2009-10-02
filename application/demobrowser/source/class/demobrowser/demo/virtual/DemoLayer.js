@@ -53,7 +53,7 @@ qx.Class.define("demobrowser.demo.virtual.DemoLayer",
   members :
   {
     _pool : null,
-    _rowData : null,
+    __rowData : null,
 
     getCellData : function(row, column)
     {

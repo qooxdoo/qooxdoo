@@ -51,9 +51,8 @@ qx.Class.define("demobrowser.demo.virtual.RowHeader",
     __lastMouseX : null,
     __lastMouseY : null,
     __activeDragSession : null,
-
-
-
+    __initialMouseX : null,
+    __initialMouseY : null,
 
 
     /**

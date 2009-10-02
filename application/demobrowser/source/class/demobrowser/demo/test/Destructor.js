@@ -24,19 +24,20 @@ qx.Class.define("demobrowser.demo.test.Destructor",
 
   members :
   {
-    __data : [],
-
+    __data : null,
+    __round : 0,
+    __timer : null,
+    
     main : function()
     {
       // Call super class
       this.base(arguments);
 
+      this.__data = [];
+      
       // Test labels
       // this.currentTest = this.testLabels;
       this.currentTest = this.testWindows;
-
-      // Init rounds
-      this.__round = 0;
 
       // Init timer
       this.__timer = new qx.event.Timer(1000);
