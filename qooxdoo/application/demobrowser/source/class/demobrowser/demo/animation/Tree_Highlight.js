@@ -332,12 +332,9 @@ qx.Class.define("demobrowser.demo.animation.Tree_Highlight",
         return;
       }
 
-      var parent = current.getParent();
       var level = current.getLevel();
       var isTopLevel = level == -1;
       var isFolder = current instanceof qx.ui.tree.TreeFolder;
-      var isLastItem = this._tree.getNextSiblingOf(current) == null;
-      var isFirstItem = this._tree.getPreviousSiblingOf(current) == null;
 
       this.btnAddFolder.setEnabled(isFolder);
       this.btnAddFile.setEnabled(isFolder);

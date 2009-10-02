@@ -77,7 +77,7 @@ qx.Class.define("demobrowser.demo.table.Table_Filtered_Model",
     createControls : function()
     {
       var bar = new qx.ui.toolbar.ToolBar();
-      var button, part, checkBox;
+      var part;
 
       part = new qx.ui.toolbar.Part();
       bar.add(part);

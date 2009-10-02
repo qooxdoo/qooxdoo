@@ -143,10 +143,7 @@ qx.Class.define("demobrowser.demo.virtual.DemoLayer",
         "user-desktop.png"
       ];
 
-      var sizes = [16, 22, 32, 48, 64, 128];
-
       var imageId = Math.floor(Math.random()*4);
-      var size = Math.floor(Math.random()*5);
 
       return (prefix + 16 + "/" + suffix + iconImages[imageId]);
     }

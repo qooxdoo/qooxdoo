@@ -16,7 +16,6 @@
      * Jonathan Weiß (jonathan_rass)
 
 ************************************************************************ */
-var e;
 qx.Class.define("demobrowser.demo.animation.Save_Dialog",
 {
   extend : qx.application.Standalone,

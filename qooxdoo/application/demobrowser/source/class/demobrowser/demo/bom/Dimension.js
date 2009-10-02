@@ -28,8 +28,6 @@ qx.Class.define("demobrowser.demo.bom.Dimension",
     {
       this.base(arguments);
 
-      var Overflow = qx.bom.element.Overflow;
-
       for (var i=1; i<1000; i++)
       {
         var el = document.getElementById("block" + i);

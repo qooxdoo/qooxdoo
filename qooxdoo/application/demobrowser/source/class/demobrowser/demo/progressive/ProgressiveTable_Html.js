@@ -11,7 +11,6 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveTable_Html",
     {
       this.base(arguments);
 
-      var nextId = 0;
       var createRow = function(html, height)
       {
         var ret =

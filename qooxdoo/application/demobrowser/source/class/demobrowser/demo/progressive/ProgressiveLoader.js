@@ -39,7 +39,6 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveLoader",
 
       // Instantiate a data model and populate it.
       var dataModel = new qx.ui.progressive.model.Default();
-      var rowData = [ ];
 
       // Instantiate a Function Caller
       var functionCaller =
