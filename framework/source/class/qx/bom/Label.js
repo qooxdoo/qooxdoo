@@ -346,7 +346,9 @@ qx.Class.define("qx.bom.Label",
      * Old set method for the label's content. Please use the setValue method 
      * instead.
      *
-     * @param value {String} The label's content.
+     * @param element {Element} DOM element to modify.
+     * @param value {String} Content to insert.
+     * @return {void}
      * @deprecated
      */
     setContent: function(element, value)
@@ -363,6 +365,8 @@ qx.Class.define("qx.bom.Label",
      * Old get method for the label's content. Please use the getValue method
      * instead.
      *
+     * @param element {Element} DOM element to query.
+     * @return {String} Content stored in the element.
      * @deprecated
      */
     getContent: function(element)
