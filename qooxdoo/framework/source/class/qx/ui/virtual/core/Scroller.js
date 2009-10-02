@@ -27,7 +27,7 @@
  */
 qx.Class.define("qx.ui.virtual.core.Scroller",
 {
-  extend : qx.ui.core.AbstractScrollArea,
+  extend : qx.ui.core.scroll.AbstractScrollArea,
 
 
   /*

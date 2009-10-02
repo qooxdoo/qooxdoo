@@ -1,1 +1,5 @@
 \bqx\.event\.Command\.(\w+)=qx.ui.core.Command\1
+\bqx\.ui\.core\.AbstractScrollArea\b=qx.ui.core.scroll.AbstractScrollArea
+\bqx\.ui\.core\.ScrollBar\b=qx.ui.core.scroll.ScrollBar
+\bqx\.ui\.core\.ScrollPane\b=qx.ui.core.scroll.ScrollPane
+\bqx\.ui\.core\.ScrollSlider\b=qx.ui.core.scroll.ScrollSlider

@@ -178,7 +178,7 @@ qx.Class.define("qx.ui.container.SlideBar",
           break;
 
         case "scrollpane":
-          control = new qx.ui.core.ScrollPane();
+          control = new qx.ui.core.scroll.ScrollPane();
           control.addListener("update", this._onResize, this);
           break;
       }

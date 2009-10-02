@@ -651,6 +651,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
+        if (states["native"]) {
+          return {};
+        }
+        
         return {
           width     : states.horizontal ? undefined : 16,
           height    : states.horizontal ? 16 : undefined,

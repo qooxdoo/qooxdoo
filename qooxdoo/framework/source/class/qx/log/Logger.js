@@ -257,9 +257,9 @@ qx.Bootstrap.define("qx.log.Logger",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        var className = clazz.self ? clazz.self.classname : "unknown";
+        var className = clazz.classname || "unknown";
         this.warn(
-          "The method class '"+className+"' is deprecated: " +
+          "The class '"+className+"' is deprecated: " +
           (msg || "Please consult the API documentation of this class for alternatives.")
         );
         this.trace();
