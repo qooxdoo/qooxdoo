@@ -208,7 +208,7 @@ qx.Class.define("qx.bom.Label",
       }
 
       if (content) {
-        this.setContent(el, content);
+        this.setValue(el, content);
       }
 
       return el;
@@ -225,7 +225,7 @@ qx.Class.define("qx.bom.Label",
      * @param value {String} Content to insert.
      * @return {void}
      */
-    setContent : function(element, value)
+    setValue : function(element, value)
     {
       value = value || "";
 
@@ -245,7 +245,7 @@ qx.Class.define("qx.bom.Label",
      * @param element {Element} DOM element to query.
      * @return {String} Content stored in the element.
      */
-    getContent : function(element)
+    getValue : function(element)
     {
       if (element.useHtml) {
         return element.innerHTML;
@@ -334,6 +334,44 @@ qx.Class.define("qx.bom.Label",
         }
       }
       return size;
+    },
+        
+    
+    /*
+    ---------------------------------------------------------------------------
+      DEPRECATED STUFF
+    ---------------------------------------------------------------------------
+    */
+    /**
+     * Old set method for the label's content. Please use the setValue method 
+     * instead.
+     *
+     * @param value {String} The label's content.
+     * @deprecated
+     */
+    setContent: function(element, value)
+    {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Please use the setValue() method instead."
+      );
+
+      this.setValue(element, value);
+    },
+
+
+    /**
+     * Old get method for the label's content. Please use the getValue method
+     * instead.
+     *
+     * @deprecated
+     */
+    getContent: function(element)
+    {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Please use the getValue() method instead."
+      );
+
+      return this.getValue(element);
     }
   }
 });

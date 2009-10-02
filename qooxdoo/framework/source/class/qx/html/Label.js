@@ -54,10 +54,10 @@ qx.Class.define("qx.html.Label",
     {
       this.base(arguments, name, value);
 
-      if (name == "content")
+      if (name == "value")
       {
         var element = this.getDomElement();
-        qx.bom.Label.setContent(element, value);
+        qx.bom.Label.setValue(element, value);
       }
     },
 
@@ -115,12 +115,12 @@ qx.Class.define("qx.html.Label",
     /**
      * Sets the HTML/text content depending on the content mode.
      *
-     * @param value {Boolean} Whether the HTML mode should be used.
+     * @param value {String} The content to be used.
      * @return {qx.html.Label} This instance for for chaining support.
      */
-    setContent : function(value)
+    setValue : function(value)
     {
-      this._setProperty("content", value);
+      this._setProperty("value", value);
       return this;
     },
 
@@ -130,8 +130,47 @@ qx.Class.define("qx.html.Label",
      *
      * @return {String} The labels's content
      */
-    getContent : function() {
-      return this._getProperty("content");
+    getValue : function() {
+      return this._getProperty("value");
+    },
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      DEPRECATED STUFF
+    ---------------------------------------------------------------------------
+    */
+   
+    /**
+     * Old method to set the HTML/text content. Use setValue() instead.
+     * 
+     * @param value {String} The content to be used.
+     * @return {qx.html.Label} This instance for for chaining support.
+     * @deprecated
+     */
+    setContent: function(value)
+    {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Please use the setValue() method instead."
+      );
+
+      return this.setValue(value);
+    },
+    
+    
+    /**
+     * Old method to get the current content. Use getValue() instead.
+     * 
+     * @return {String} The labels's content
+     * @deprecated
+     */
+    getContent: function()
+    {
+      qx.log.Logger.deprecatedMethodWarning(
+        arguments.callee, "Please use the getValue() method instead."
+      );
+
+      return this.getValue();
     }
   }
 });
