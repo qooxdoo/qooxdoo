@@ -11,7 +11,6 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveTable_Conditional",
     {
       this.base(arguments);
 
-      var nextId = 0;
       var createRandomRows = function(rowCount)
         {
         var rowData = [ ];

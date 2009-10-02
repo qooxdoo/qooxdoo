@@ -70,7 +70,6 @@ qx.Class.define("demobrowser.demo.bom.Location_StandardMode",
       }
       else
       {
-        var clazz = qx.bom.element.Location;
         moveable.style.width = (location.right - location.left - num(moveable, "borderLeftWidth") - num(moveable, "borderRightWidth")) + "px";
         moveable.style.height = (location.bottom - location.top - num(moveable, "borderTopWidth") - num(moveable, "borderBottomWidth")) + "px";
       }

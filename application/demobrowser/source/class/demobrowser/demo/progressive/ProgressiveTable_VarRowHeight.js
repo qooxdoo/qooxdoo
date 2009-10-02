@@ -110,7 +110,6 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveTable_VarRowHeight",
 
     doLoad : function()
     {
-      var nextId = 0;
       var _this = this;
       var createRow = function(imageNum, text)
       {

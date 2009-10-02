@@ -197,8 +197,6 @@ qx.Class.define("demobrowser.demo.util.PropertyEditor",
         return this._editorGroups[name];
       }
 
-      var widget;
-
       switch(name)
       {
         case "wlpe_qx.ui.layout.HBox":
@@ -254,8 +252,6 @@ qx.Class.define("demobrowser.demo.util.PropertyEditor",
       if (this._editorGroups[name]) {
         return this._editorGroups[name];
       }
-
-      var widget;
 
       switch(name)
       {

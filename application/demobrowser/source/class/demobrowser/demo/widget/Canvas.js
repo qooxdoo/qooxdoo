@@ -94,8 +94,6 @@ qx.Class.define("demobrowser.demo.widget.Canvas",
     draw : function(e)
     {
       var data = e.getData();
-      var width = data.width;
-      var height = data.height;
       var ctx = data.context;
 
       ctx.fillStyle = "rgb(200,0,0)";

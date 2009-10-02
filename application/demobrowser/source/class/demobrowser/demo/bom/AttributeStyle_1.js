@@ -28,7 +28,6 @@ qx.Class.define("demobrowser.demo.bom.AttributeStyle_1",
     {
       this.base(arguments);
 
-      var util = qx.bom.element.Visibility;
       var attrib = qx.bom.element.Attribute;
       var style = qx.bom.element.Style;
       var opac = qx.bom.element.Opacity;

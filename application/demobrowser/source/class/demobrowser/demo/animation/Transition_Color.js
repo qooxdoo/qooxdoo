@@ -83,8 +83,6 @@ members :
      });
    }, this);
 
-   var moveBack = false;
-
    var nf = new qx.util.format.NumberFormat();
    nf.setMaximumFractionDigits(2);
    spDuration.setNumberFormat(nf);

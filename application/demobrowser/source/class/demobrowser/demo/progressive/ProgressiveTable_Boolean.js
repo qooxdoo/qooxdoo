@@ -14,10 +14,7 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveTable_Boolean",
       var nextId = 0;
       var createRandomRows = function(rowCount) {
         var rowData = [];
-        var now = new Date().getTime();
-        var dateRange = 400 * 24 * 60 * 60 * 1000; // 400 days
         for (var row = 0; row < rowCount; row++) {
-          var date = new Date(now + Math.random() * dateRange - dateRange / 2);
           rowData.push(
                        {
                          renderer : "row",
