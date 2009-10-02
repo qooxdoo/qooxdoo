@@ -23,6 +23,7 @@ qx.Class.define("demobrowser.demo.test.TimerManager",
 
   members :
   {
+    __textarea : null,
 
     startTimers : function()
     {
