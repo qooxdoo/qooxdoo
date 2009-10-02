@@ -157,6 +157,7 @@ class PartBuilder(object):
             self._console.debug("Part #%s depends on %s classes" % (part.name, len(partClasses)))
             part.deps = partClasses
 
+        self._console.outdent()
         return parts
 
 

@@ -182,6 +182,7 @@ class CodeGenerator(object):
 
 
     def runSource(self, script, libs, classes):
+
         if not self._job.get("compile-source/file"):
             return
 
@@ -257,6 +258,8 @@ class CodeGenerator(object):
         self._console.outdent()
         self._console.debug("Done: %s" % self._computeContentSize(sourceContent))
         self._console.outdent()
+
+        return
 
 
     def runPrettyPrinting(self, classes, treeLoader):
@@ -445,7 +448,7 @@ class CodeGenerator(object):
         if "C" not in locales:
             locales.append("C")
 
-        self._console.info("Processing translation for %s locales..." % len(locales))
+        self._console.info("Processing translations for %s locales..." % len(locales))
         self._console.indent()
 
         packageTranslation = []
