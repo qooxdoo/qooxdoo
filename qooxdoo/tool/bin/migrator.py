@@ -57,7 +57,8 @@ MIGRATION_ORDER = [
     "0.8-rc1",
     "0.8",
     "0.8.1",
-    "0.8.2"
+    "0.8.2",
+    "0.8.3"
 ]
 
 
@@ -75,15 +76,15 @@ QXHEAD = {
     "classDefine" : re.compile('qx.(Bootstrap|List|Class|Locale|Mixin|Interface|Theme).define\s*\(\s*["\']([\.a-zA-Z0-9_]+)["\']?', re.M),
 
     # Loader hints
-    "module" : re.compile("^#module\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
-    "require" : re.compile("^#require\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
-    "use" : re.compile("^#use\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
-    "optional" : re.compile("^#optional\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
-    "ignore" : re.compile("^#ignore\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
+    "module"   : re.compile(r"^\s*#module\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
+    "require"  : re.compile(r"^\s*#require\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
+    "use"      : re.compile(r"^\s*#use\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
+    "optional" : re.compile(r"^\s*#optional\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
+    "ignore"   : re.compile(r"^\s*#ignore\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
 
     # Resource hints
-    "resource" : re.compile("^#resource\(\s*([a-zA-Z0-9]+?)\.([a-zA-Z0-9]+?):(.*?)\s*\)", re.M),
-    "embed" : re.compile("^#embed\(\s*([a-zA-Z0-9]+?)\.([a-zA-Z0-9]+?)/(.+?)\s*\)", re.M)
+    "resource" : re.compile(r"^\s*#resource\(\s*([a-zA-Z0-9]+?)\.([a-zA-Z0-9]+?):(.*?)\s*\)", re.M),
+    "embed"    : re.compile(r"^\s*#embed\(\s*([a-zA-Z0-9]+?)\.([a-zA-Z0-9]+?)/(.+?)\s*\)", re.M)
 }
 
 
