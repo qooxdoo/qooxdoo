@@ -38,6 +38,31 @@ qx.Class.define("qx.util.PropertyUtil",
     },
 
 
+    /**
+     * Get the property map of the given class including the properties of all 
+     * superclasses!
+     * 
+     * @param clazz {Class} a qooxdoo class
+     * @return {Map} The properties map as defined in {@link qx.Class.define}.
+     */
+    getAllProperties : function(clazz) 
+    {
+      
+      var properties = {};
+      var superclass = clazz;
+      // go threw the class hierarchy
+      while (superclass != qx.core.Object) {
+        var currentProperties = this.getProperties(superclass);
+        for (var property in currentProperties) {
+          properties[property] = currentProperties[property];
+        }
+        superclass = superclass.superclass;
+      }
+      return properties;
+    },
+
+
+
     /*
     -------------------------------------------------------------------------
       USER VALUES
