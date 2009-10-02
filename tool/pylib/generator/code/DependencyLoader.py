@@ -876,11 +876,11 @@ class DependencyLoader:
     ######################################################################
 
     HEAD = {
-        "require"  : re.compile("^#require\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
-        "use"      : re.compile("^#use\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
-        "optional" : re.compile("^#optional\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
-        "ignore"   : re.compile("^#ignore\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
-        "asset"    : re.compile("^#asset\(\s*([^)]+?)\s*\)", re.M)
+        "require"  : re.compile(r"^\s*#require\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
+        "use"      : re.compile(r"^\s*#use\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
+        "optional" : re.compile(r"^\s*#optional\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
+        "ignore"   : re.compile(r"^\s*#ignore\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
+        "asset"    : re.compile(r"^\s*#asset\(\s*([^)]+?)\s*\)", re.M)
     }
 
 
