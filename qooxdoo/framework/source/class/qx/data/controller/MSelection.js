@@ -136,37 +136,26 @@ qx.Mixin.define("qx.data.controller.MSelection",
         return;
       }
 
-      if (this.__targetSupportsMultiSelection()) {
-        // get the selection of the target
-        var targetSelection = this.getTarget().getSelection();
-      } else if (this.__targetSupportsSingleSelection()) {
-        // get the selection of the target as an array
-        var targetSelection = this.getTarget().getSelection();
+      // get both selections
+      var targetSelection = this.getTarget().getSelection();
+      var selection = this.getSelection();
+      // if the selection is not empty
+      if (targetSelection.length > 0) {
+        // remove all items without firing an event
+        selection.toArray().splice(0, this.getSelection().getLength());        
+      } else {
+        // remove all with firing an event
+        selection.splice(0, this.getSelection().getLength());        
       }
 
       // go through the target selection
       for (var i = 0; i < targetSelection.length; i++) {
         // get the fitting item
         var item = targetSelection[i].getModel();
-        if (!this.getSelection().contains(item)) {
-          this.getSelection().splice(this.getSelection().length, 0, item);
-        }
-      }
-
-      // get all items selected in the list
-      var targetSelectionItems = [];
-      for (var i = 0; i < targetSelection.length; i++) {
-        targetSelectionItems[i] = targetSelection[i].getModel();
-      }
-
-      // go through the controller selection
-      for (var i = this.getSelection().length - 1; i >= 0; i--) {
-        // if the item in the controller selection is not selected in the list
-        if (!qx.lang.Array.contains(
-          targetSelectionItems, this.getSelection().getItem(i)
-        )) {
-          // remove the current element
-          this.getSelection().splice(i, 1);
+        if (i + 1 == targetSelection.length) {
+          selection.push(item);          
+        } else {
+          selection.toArray().push(item);          
         }
       }
 
@@ -218,16 +207,20 @@ qx.Mixin.define("qx.data.controller.MSelection",
       // if its a multi selection target
       if (this.__targetSupportsMultiSelection()) {
 
-        // remove the old selection
-        this.getTarget().resetSelection();
+        var targetSelection = [];
         // go through the selection array
         for (var i = 0; i < this.getSelection().length; i++) {
-          // select each item
-          this.__selectItem(this.getSelection().getItem(i));
+          // store each item
+          var model = this.getSelection().getItem(i);
+          var selectable = this.__getSelectableForModel(model);
+          if (selectable != null) {
+            targetSelection.push(selectable);            
+          }
         }
+        this.getTarget().setSelection(targetSelection);
 
         // get the selection of the target
-        var targetSelection = this.getTarget().getSelection();
+        targetSelection = this.getTarget().getSelection();
         // get all items selected in the list
         var targetSelectionItems = [];
         for (var i = 0; i < targetSelection.length; i++) {
@@ -285,23 +278,40 @@ qx.Mixin.define("qx.data.controller.MSelection",
      * @param item {qx.core.Object} A model element.
      */
     __selectItem: function(item) {
+      var selectable = this.__getSelectableForModel(item);
+      // if no selectable could be found, just return
+      if (selectable == null) {
+        return;
+      }
+      // if the target is multi selection able
+      if (this.__targetSupportsMultiSelection()) {
+        // select the item in the target
+        this.getTarget().addToSelection(selectable);
+      // if the target is single selection able
+      } else if (this.__targetSupportsSingleSelection()) {
+        this.getTarget().setSelection([selectable]);
+      }
+    },
+    
+    
+    /**
+     * Returns the list item storing the given model in its model property.
+     * 
+     * @param model {var} The representing model of a selectable.
+     */
+    __getSelectableForModel : function(model) 
+    {
       // get all list items
       var children = this.getTarget().getSelectables();
 
       // go through all children and search for the child to select
       for (var i = 0; i < children.length; i++) {
-        if (children[i].getModel() == item) {
-          // if the target is multi selection able
-          if (this.__targetSupportsMultiSelection()) {
-            // select the item in the target
-            this.getTarget().addToSelection(children[i]);
-          // if the target is single selection able
-          } else if (this.__targetSupportsSingleSelection()) {
-            this.getTarget().setSelection([children[i]]);
-          }
-          return;
+        if (children[i].getModel() == model) {
+          return children[i];
         }
       }
+      // if no selectable was found
+      return null;
     },
 
 

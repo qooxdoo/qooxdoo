@@ -40,7 +40,7 @@ qx.Class.define("qx.test.data.controller.List",
       this.__controller = null;
       this.__model = null;
       this.__data = null;
-      this.__list.dispose();
+      this.__list.destroy();
     },
 
     __setUpString: function(attribute) {
@@ -875,6 +875,49 @@ qx.Class.define("qx.test.data.controller.List",
         var icon = this.__list.getChildren()[i].getIcon();
         this.assertEquals(this.__data[i], icon, "Binding " + i + " is wrong!");
       }      
+    },
+    
+    
+    testScrollBySelection : function() 
+    {
+      this.__setUpString();
+      // set a smal hight (list hast to scroll)
+      this.__list.setHeight(40);
+      this.getRoot().add(this.__list);
+      var selectables = this.__list.getSelectables();
+      
+      // select the first item
+      this.__list.setSelection([selectables[0]]);
+      // scroll a bit down (scrollY is 40)
+      this.__list.scrollByY(40);
+      
+      // select the current visible item
+      this.__list.setSelection([selectables[2]]);
+      
+      // check that it has not been scrolled
+      this.assertEquals(40, this.__list.getScrollY());
+    },
+    
+    
+    testScrollBySelectionMulti : function() 
+    {
+      this.__setUpString();
+      // set a smal hight (list hast to scroll)
+      this.__list.setHeight(40);
+      this.__list.setSelectionMode("multi");
+      this.getRoot().add(this.__list);
+      var selectables = this.__list.getSelectables();
+      
+      // select the first item
+      this.__list.setSelection([selectables[0]]);
+      // scroll a bit down (scrollY is 40)
+      this.__list.scrollByY(40);
+      
+      // select the current visible item
+      this.__list.addToSelection(selectables[2]);
+      
+      // check that it has not been scrolled
+      this.assertEquals(40, this.__list.getScrollY());      
     }
   }
 });
