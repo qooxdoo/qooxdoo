@@ -69,8 +69,6 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Selections",
 
       dataModel.setData();
 
-      var newItem = 1;
-
       var commandFrame = new qx.ui.groupbox.GroupBox("Control");
       commandFrame.setLayout(new qx.ui.layout.VBox(2));
 
@@ -95,10 +93,10 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Selections",
 
       // We want to be notified if the selection changes
       o.addListener(
-        "changeValue",
-        function()
+        "changeSelection",
+        function(e)
         {
-          switch(this.getValue())
+          switch(e.getData()[0].getLabel())
           {
           case "No Selection":
             tree.setSelectionMode(
