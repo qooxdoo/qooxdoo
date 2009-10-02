@@ -58,7 +58,7 @@
  */
 qx.Class.define("qx.ui.container.Scroll",
 {
-  extend : qx.ui.core.AbstractScrollArea,
+  extend : qx.ui.core.scroll.AbstractScrollArea,
   include : [qx.ui.core.MContentPadding],
 
 

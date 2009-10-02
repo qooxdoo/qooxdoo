@@ -19,20 +19,20 @@
 ************************************************************************ */
 
 /**
- * Minimal modified version of the {@link qx.ui.form.Slider} to be
- * used by {@link qx.ui.core.ScrollBar}.
+ * This class has been moved to {@link qx.ui.core.scroll.ScrollSlider} 
+ * 
+ * @deprecated This class has been moved to qx.ui.core.scroll.ScrollSlider
  */
 qx.Class.define("qx.ui.core.ScrollSlider",
 {
-  extend : qx.ui.form.Slider,
+  extend : qx.ui.core.scroll.ScrollSlider,
 
-  // overridden
   construct : function(orientation)
   {
     this.base(arguments, orientation);
-
-    // Remove mousewheel/keypress events
-    this.removeListener("keypress", this._onKeyPress);
-    this.removeListener("mousewheel", this._onMouseWheel);
+    qx.log.Logger.deprecatedClassWarning(
+      qx.ui.core.ScrollSlider,
+      "This class has been moved to qx.ui.core.scroll.ScrollSlider"
+    );
   }
 });

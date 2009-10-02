@@ -209,7 +209,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
       }
 
       var tree = treeItem.getLayoutParent() ? treeItem.getLayoutParent().getLayoutParent() : 0;
-      if (tree && tree instanceof qx.ui.core.ScrollPane) {
+      if (tree && tree instanceof qx.ui.core.scroll.ScrollPane) {
         return tree.getLayoutParent();
       }
       return null;

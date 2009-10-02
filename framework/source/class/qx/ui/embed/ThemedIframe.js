@@ -140,7 +140,7 @@ qx.Class.define("qx.ui.embed.ThemedIframe",
 
 
         case "scrollbar-x":
-          control = new qx.ui.core.ScrollBar("horizontal");
+          control = new qx.ui.core.scroll.ScrollBar("horizontal");
           control.setMinWidth(0);
 
           control.exclude();
@@ -151,7 +151,7 @@ qx.Class.define("qx.ui.embed.ThemedIframe",
 
 
         case "scrollbar-y":
-          control = new qx.ui.core.ScrollBar("vertical");
+          control = new qx.ui.core.scroll.ScrollBar("vertical");
           control.setMinHeight(0);
 
           control.exclude();

@@ -40,7 +40,7 @@ qx.Class.define("demobrowser.demo.widget.ScrollBar",
       container.add(label, {row: 0, column: 0});
 
 
-      var vScrollBar = new qx.ui.core.ScrollBar("vertical").set({
+      var vScrollBar = new qx.ui.core.scroll.ScrollBar("vertical").set({
         height: 200,
         maximum: 500
       });
@@ -50,7 +50,7 @@ qx.Class.define("demobrowser.demo.widget.ScrollBar",
       container.add(vScrollBar, {row: 0, column: 1});
 
 
-      var hScrollBar = new qx.ui.core.ScrollBar("horizontal").set({
+      var hScrollBar = new qx.ui.core.scroll.NativeScrollBar("horizontal").set({
         width: 300,
         maximum: 500
       });

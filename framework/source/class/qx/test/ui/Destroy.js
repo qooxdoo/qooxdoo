@@ -177,9 +177,10 @@ qx.Class.define("qx.test.ui.Destroy",
     testCore : function()
     {
       var forms = [
-        [qx.ui.core.ScrollBar, []],
-        [qx.ui.core.ScrollPane, []],
-        [qx.ui.core.ScrollSlider, []],
+        [qx.ui.core.scroll.ScrollBar, []],
+        [qx.ui.core.scroll.NativeScrollBar, []],
+        [qx.ui.core.scroll.ScrollPane, []],
+        [qx.ui.core.scroll.ScrollSlider, []],
         [qx.ui.core.Widget, []]
       ];
       for (var i=0; i<forms.length; i++) {
