@@ -476,7 +476,7 @@ class Generator(object):
         variantData = getVariants()  # e.g. {'qx.debug':['on','off'], 'qx.aspects':['on','off']}
         variantSets = util.computeCombinations(variantData) # e.g. [{'qx.debug':'on','qx.aspects':'on'},...]
         # get a class list with an initial variant set
-        classList = computeClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, variantSets[0], checkDeps=True)
+        classList = computeClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, variantSets[0], verifyDeps=True)
         
         # process job triggers
         if classdepTriggers:
