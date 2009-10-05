@@ -316,12 +316,24 @@ class Generator(object):
             # Resolve regexps
             self._console.indent()
             self._console.debug("Expanding expressions...")
-            try:
-                smartExclude = self._expandRegExps(smartExclude)
-                explicitExclude = self._expandRegExps(explicitExclude)
-            except RuntimeError:
-                self._console.error("Invalid exclude block: %s" % excludeCfg)
-                raise            
+            nsmartExclude = []
+            for entry in smartExclude:
+                try:
+                    expanded = self._expandRegExp(entry)
+                    nsmartExclude.extend(expanded)
+                except RuntimeError:
+                    self._console.warn("! Skipping unresolvable exclude entry: \"%s\"" % entry)
+            smartExclude = nsmartExclude
+
+            nexplicitExclude = []
+            for entry in explicitExclude:
+                try:
+                    expanded = self._expandRegExp(entry)
+                    nexplicitExclude.extend(expanded)
+                except RuntimeError:
+                    self._console.warn("! Skipping unresolvable exclude entry: \"%s\"" % entry)
+            explicitExclude = nexplicitExclude
+
             self._console.outdent()
 
             return smartExclude, explicitExclude
@@ -1303,27 +1315,26 @@ class Generator(object):
 
     def _expandRegExps(self, entries, container=None):
         result = []
+        for entry in entries:
+            expanded = self._expandRegExp(entry, container)
+            result.extend(expanded)
+        return result
+
+    def _expandRegExp(self, entry, container=None):
         if not container:
             container = self._classes
+        result = []
 
-        for entry in entries:
-            # Fast path: Try if a matching class could directly be found
-            if entry in container:
-                result.append(entry)
-
-            else:
-                regexp = textutil.toRegExp(entry)
-                expanded = []
-
-                for classId in container:
-                    if regexp.search(classId):
-                        if not classId in expanded:
-                            expanded.append(classId)
-
-                if len(expanded) == 0:
-                    raise RuntimeError, "Expression gives no results. Malformed entry: %s" % entry
-
-                result.extend(expanded)
+        # Fast path: Try if a matching class could directly be found
+        if entry in container:
+            result.append(entry)
+        else:
+            regexp   = textutil.toRegExp(entry)
+            for classId in container:
+                if regexp.search(classId) and classId not in result:
+                    result.append(classId)
+            if len(result) == 0:
+                raise RuntimeError, "Expression gives no results. Malformed entry: %s" % entry
 
         return result
 
