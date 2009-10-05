@@ -220,11 +220,18 @@ qx.Class.define("qx.ui.layout.Grid",
 
         // validate arguments
         if (row == null || column == null) {
-          throw new Error("The layout properties 'row' and 'column' must be defined!");
+          throw new Error(
+            "The layout properties 'row' and 'column' of the child widget '" +
+            child + "' must be defined!"
+          );
         }
 
         if (grid[row] && grid[row][column]) {
-          throw new Error("There is already a widget in this cell (" + row + ", " + column + ")");
+          throw new Error(
+            "Cannot add widget '" + child + "'!. " + 
+            "There is already a widget '" + grid[row][column] + 
+            "' in this cell (" + row + ", " + column + ")"
+          );
         }
 
         for (var x=column; x<column+props.colSpan; x++)
