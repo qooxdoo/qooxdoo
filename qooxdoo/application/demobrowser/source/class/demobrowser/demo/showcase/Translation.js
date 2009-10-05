@@ -143,7 +143,7 @@ qx.Class.define("demobrowser.demo.showcase.Translation",
 
       return;
 
-      grid.setColumnFlex(0, 1);
+      /*grid.setColumnFlex(0, 1);
       grid.setColumnFlex(1, 1);
       grid.setRowFlex(3, 1);
       grid.setColumnAlign(0, "right", "middle");
@@ -329,7 +329,7 @@ qx.Class.define("demobrowser.demo.showcase.Translation",
 
       // update info box
       qx.locale.Manager.getInstance().addListener("changeLocale", this.updateLocaleInformation, this);
-      this.updateLocaleInformation();
+      this.updateLocaleInformation();*/
 /*
       return main;
       //*/
