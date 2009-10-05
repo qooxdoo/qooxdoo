@@ -867,22 +867,13 @@ qx.Class.define("qx.test.html.Element",
       el.setAttribute("value", "vanillebaer");
       this._doc.add(el);
       
-      // Webkit based browsers need a timeout here to set the selection correctly
-      qx.event.Timer.once(function() {
-        var self = this;
-        this.resume(function() {
-          
-          qx.bom.Selection.set(el.getDomElement(), 0, 4);
-          qx.html.Element.flush();
-          
-          this.assertEquals(el.getTextSelection(), "vani");
-        }, self);
-
-        el.clearTextSelection();
-        qx.html.Element.flush();
-      }, this, 1000);
+      qx.html.Element.flush();
       
-      this.wait();
+      qx.bom.Selection.set(el.getDomElement(), 0, 4);
+      this.assertEquals(el.getTextSelection(), "vani");
+
+      el.clearTextSelection();
+      qx.html.Element.flush();
     },
 
 
@@ -892,27 +883,16 @@ qx.Class.define("qx.test.html.Element",
       el.setAttribute("value", "vanillebaer");
       this._doc.add(el);
 
-      // Webkit based browsers need a timeout here to set the selection correctly            
-      qx.event.Timer.once(function() {
-        var self = this;
-        this.resume(function() {
-          
-          qx.bom.Selection.set(el.getDomElement(), 0, 4);
-          qx.html.Element.flush();
-          
-          this.assertEquals(el.getTextSelection(), "vani");
-          
-          el.setTextSelection(2, 5);
-          qx.html.Element.flush();
-    
-          this.assertEquals(el.getTextSelection(), "nil");
-        }, self);
-
-        el.clearTextSelection();
-        qx.html.Element.flush();
-      }, this, 1000);
+      qx.html.Element.flush();
       
-      this.wait();
+      qx.bom.Selection.set(el.getDomElement(), 0, 4);
+      this.assertEquals(el.getTextSelection(), "vani");
+          
+      el.setTextSelection(2, 5);
+      this.assertEquals(el.getTextSelection(), "nil");
+
+      el.clearTextSelection();
+      qx.html.Element.flush();
     },
 
     testClearTextSelection : function()
@@ -921,28 +901,16 @@ qx.Class.define("qx.test.html.Element",
       el.setAttribute("value", "vanillebaer");
       this._doc.add(el);
       
-      // Webkit based browsers need a timeout here to set the selection correctly
-      qx.event.Timer.once(function()
-      {
-        var self = this;
-        this.resume(function()
-        {
-          qx.html.Element.flush();
-          qx.bom.Selection.set(el.getDomElement(), 0, 2);
-          
-          this.assertEquals(el.getTextSelection(), "va");
-          
-          el.clearTextSelection();
-          qx.html.Element.flush();
+      qx.html.Element.flush();
 
-          this.assertEquals(el.getTextSelection(), "");
-        }, self);
-
-        el.clearTextSelection();
-        qx.html.Element.flush();
-      }, this, 1000);
-      
-      this.wait();
+      qx.bom.Selection.set(el.getDomElement(), 0, 2);
+      this.assertEquals(el.getTextSelection(), "va");
+          
+      el.clearTextSelection();
+      this.assertEquals(el.getTextSelection(), "");
+  
+      el.clearTextSelection();
+      qx.html.Element.flush();
     },
 
     testSelectAllText : function()
@@ -951,23 +919,13 @@ qx.Class.define("qx.test.html.Element",
       el.setAttribute("value", "vanillebaer");
       this._doc.add(el);
       
-      // Webkit based browsers need a timeout here to set the selection correctly
-      qx.event.Timer.once(function()
-      {
-        var self = this;
-        this.resume(function()
-        {
-          qx.bom.Selection.set(el.getDomElement(), 0);
-          qx.html.Element.flush();
-          
-          this.assertEquals(el.getTextSelection(), "vanillebaer");
-        }, self);
-
-        el.clearTextSelection();
-        qx.html.Element.flush();
-      }, this, 1000);
+      qx.html.Element.flush();
       
-      this.wait();
+      qx.bom.Selection.set(el.getDomElement(), 0);
+      this.assertEquals(el.getTextSelection(), "vanillebaer");
+        
+      el.clearTextSelection();
+      qx.html.Element.flush();
     }
   }
 });

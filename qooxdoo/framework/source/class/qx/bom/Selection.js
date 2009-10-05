@@ -262,14 +262,14 @@ qx.Class.define("qx.bom.Selection",
         if (qx.dom.Node.isElement(node) && (nodeName == "input" || nodeName == "textarea"))
         {
           // if "end" is not given set it to the end
-          if (end === undefined)
-          {
+          if (end === undefined) {
             end = node.value.length;
           }
 
           // check boundaries
           if (start >= 0 && start <= node.value.length && end >= 0 && end <= node.value.length)
           {
+            node.focus();
             node.select();
             node.setSelectionRange(start, end);
             return true;
