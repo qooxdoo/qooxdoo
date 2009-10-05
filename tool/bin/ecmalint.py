@@ -66,7 +66,7 @@ class Lint:
         for node in treeutil.nodeIterator(self.tree, "loop"):
             block = treeutil.selectNode(node, "statement/block")
             if not block:
-                self.log(node, "The statement of loops and conditions must be enclosed by a block in braces '{}'")
+                self.log(node, "The statement of loops and conditions should be enclosed by a block in braces '{}'")
 
 
     def checkMaps(self):
