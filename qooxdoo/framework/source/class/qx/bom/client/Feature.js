@@ -82,8 +82,8 @@ qx.Bootstrap.define("qx.bom.client.Feature",
      */
     __init : function()
     {
-      this.STANDARD_MODE = document.compatMode === "CSS1Compat";
-      this.QUIRKS_MODE = !this.STANDARD_MODE;
+      this.QUIRKS_MODE = this.__isQuirksMode();
+      this.STANDARD_MODE = !this.QUIRKS_MODE;
 
       this.CONTENT_BOX = !qx.bom.client.Engine.MSHTML || this.STANDARD_MODE;
       this.BORDER_BOX = !this.CONTENT_BOX;
@@ -98,6 +98,21 @@ qx.Bootstrap.define("qx.bom.client.Feature",
       this.XPATH = !!document.evaluate;
 
       this.SSL = window.location.protocol === "https:";
+    },
+    
+    
+    /**
+     * Whether the document is in quirks mode (e.g. non XHTML, HTML4 Strict or missing doctype)
+     *
+     * @return {Boolean} true when containing document is in quirks mode
+     */
+    __isQuirksMode : function()
+    {
+      if(qx.bom.client.Engine.MSHTML && qx.bom.client.Engine.VERSION >= 8) {
+        return qx.bom.client.Engine.DOCUMENT_MODE === 5;
+      } else {
+        return document.compatMode !== "CSS1Compat";
+      }
     }
   },
 
