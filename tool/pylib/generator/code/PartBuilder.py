@@ -146,7 +146,7 @@ class PartBuilder(object):
                 continue
 
             # Finally resolve the dependencies
-            partClasses = self._depLoader.resolveDependencies(part.deps, partExcludes, variants)
+            partClasses = self._depLoader.classlistFromInclude(part.deps, partExcludes, variants)
 
             # Remove all unknown classes
             for classId in partClasses[:]:  # need to work on a copy because of changes in the loop
