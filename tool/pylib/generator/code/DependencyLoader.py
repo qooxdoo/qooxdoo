@@ -59,7 +59,7 @@ class DependencyLoader:
         self._use = use
 
 
-    def getClassList(self, include, block, explicitInclude, explicitExclude, variants):
+    def getClassList(self, include, block, explicitInclude, explicitExclude, variants, verifyDeps=False):
 
         def resolveDepsSmartCludes():
             # Resolve intelli include/exclude depdendencies
@@ -70,7 +70,7 @@ class DependencyLoader:
 
                 result = []
             else:
-                result = self.resolveDependencies(include, block, variants)
+                result = self.resolveDependencies(include, block, variants, verifyDeps)
 
             return result
 
@@ -113,7 +113,7 @@ class DependencyLoader:
 
 
 
-    def resolveDependencies(self, include, block, variants):
+    def resolveDependencies(self, include, block, variants, verifyDeps=False):
 
         def resolveDependenciesRecurser(item, block, variants, result):
             # support blocking
@@ -127,12 +127,10 @@ class DependencyLoader:
             # add self
             result.append(item)
 
-            # reading dependencies
-            #try:
-            if True:
-                deps = self.getCombinedDeps(item, variants)
-            #except NameError, detail:
-            #    raise NameError("Could not resolve dependencies of class: %s\n%s" % (item, detail))
+            # reading dependencies:
+            deps = self.getCombinedDeps(item, variants)
+            if verifyDeps:
+                self._checkDepsAreKnown(deps, item)
 
             # process lists
             try:
@@ -147,11 +145,12 @@ class DependencyLoader:
             except NameError, detail:
                 raise NameError("Could not resolve dependencies of class: %s \n%s" % (item, detail))
 
-            if deps['undef']:
-                self._console.indent()
-                for id in deps['undef']:
-                    self._console.warn("! Unknown class referenced: %s (in: %s)" % (id, item))
-                self._console.outdent()
+            # TODO: superseded by checkDepsAreKnown()
+            #if deps['undef']:
+            #    self._console.indent()
+            #    for id in deps['undef']:
+            #        self._console.warn("! Unknown class referenced: %s (in: %s)" % (id, item))
+            #    self._console.outdent()
 
             return
 
@@ -512,19 +511,21 @@ class DependencyLoader:
         loadFinal.extend(static["load"])
         runFinal.extend(static["run"])
 
-        # add dynamic dependencies
+        # add config dependencies
         if self._require.has_key(fileId):
             loadFinal.extend(self._require[fileId])
 
         if self._use.has_key(fileId):
             runFinal.extend(self._use[fileId])
 
-        # return dict
-        return {
+        # result dict
+        deps = {
             "load" : loadFinal,
             "run"  : runFinal,
             'undef' : static['undef']
         }
+
+        return deps
 
 
 
@@ -561,6 +562,63 @@ class DependencyLoader:
 
             return loadtimeDeps, runtimeDeps, undefDeps
 
+        def buildShallowDeps():
+            # Notes:
+            # load time = before class = require
+            # runtime = after class = use
+
+            load = []
+            run = []
+
+            self._console.debug("Gathering dependencies: %s" % fileId)
+            self._console.indent()
+
+            # Read meta data
+            meta         = self.getMeta(fileId)
+            metaLoad     = meta.get("loadtimeDeps", [])
+            metaRun      = meta.get("runtimeDeps" , [])
+            metaOptional = meta.get("optionalDeps", [])
+            metaIgnore   = meta.get("ignoreDeps"  , [])
+
+            # Process meta data
+            load.extend(metaLoad)
+            run.extend(metaRun)
+
+            # Read content data
+            (autoLoad, autoRun, autoWarn) = analyzeClassDeps(fileId, variants)
+            
+            # Process content data
+            if not "auto-require" in metaIgnore:
+                for item in autoLoad:
+                    if item in metaOptional:
+                        pass
+                    elif item in load:
+                        self._console.warn("%s: #require(%s) is auto-detected" % (fileId, item))
+                    else:
+                        load.append(item)
+
+            if not "auto-use" in metaIgnore:
+                for item in autoRun:
+                    if item in metaOptional:
+                        pass
+                    elif item in load:
+                        pass
+                    elif item in run:
+                        self._console.warn("%s: #use(%s) is auto-detected" % (fileId, item))
+                    else:
+                        run.append(item)
+
+            self._console.outdent()
+
+            # Build data structure
+            deps = {
+                "load" : load,
+                "run"  : run,
+                'undef' : autoWarn
+            }
+
+            return deps
+
         # -----------------------------------------------------------------
 
         if not self._classes.has_key(fileId):
@@ -572,68 +630,35 @@ class DependencyLoader:
         # print "Read from cache: %s" % fileId
         
         deps = self._cache.readmulti(cacheId, filePath)
-        if deps != None:
-            return deps
-
-        # Notes:
-        # load time = before class = require
-        # runtime = after class = use
-
-        load = []
-        run = []
-
-        self._console.debug("Gathering dependencies: %s" % fileId)
-        self._console.indent()
-
-        # Read meta data
-        meta         = self.getMeta(fileId)
-        metaLoad     = meta.get("loadtimeDeps", [])
-        metaRun      = meta.get("runtimeDeps" , [])
-        metaOptional = meta.get("optionalDeps", [])
-        metaIgnore   = meta.get("ignoreDeps"  , [])
-
-        # Process meta data
-        load.extend(metaLoad)
-        run.extend(metaRun)
-
-        # Read content data
-        (autoLoad, autoRun, autoWarn) = analyzeClassDeps(fileId, variants)
+        if deps == None:
+            deps = buildShallowDeps()
+            self._cache.writemulti(cacheId, deps)
         
-        # Process content data
-        if not "auto-require" in metaIgnore:
-            for item in autoLoad:
-                if item in metaOptional:
-                    pass
-                elif item in load:
-                    self._console.warn("%s: #require(%s) is auto-detected" % (fileId, item))
-                else:
-                    load.append(item)
-
-        if not "auto-use" in metaIgnore:
-            for item in autoRun:
-                if item in metaOptional:
-                    pass
-                elif item in load:
-                    pass
-                elif item in run:
-                    self._console.warn("%s: #use(%s) is auto-detected" % (fileId, item))
-                else:
-                    run.append(item)
-
-        self._console.outdent()
-
-        # Build data structure
-        deps = {
-            "load" : load,
-            "run"  : run,
-            'undef' : autoWarn
-        }
-        
-        self._cache.writemulti(cacheId, deps)
+        #deps = self._traverseDependencies(deps)
         return deps
 
 
+    def _checkDepsAreKnown(self, deps, currentClassName):
+        # check the shallow deps are known classes
+        for classId in deps["load"] + deps["run"] + deps["undef"]:
+            if not self._isKnownClass(classId):
+                self._console.warn("! Unknown class referenced: %s (in: %s)" % (classId, currentClassName))
+        return 
+
+    def _isKnownClass(self, classId):
+        # check whether classId can be considered a known class
+        if classId in lang.BUILTIN + ["clazz"]:
+            return True
+        elif classId in self._classes:
+            return True
+        elif re.match(r'this\b', classId):
+            return True
+        return False
+
+
     def _analyzeClassDepsNode(self, fileId, node, loadtime, runtime, warn, inFunction, variants):
+        # analyze a class AST for dependencies (compiler hints not treated here)
+        # does not follow dependencies to other classes (ie. it's a "shallow" analysis)!
         # the "variants" param is only to support getMethodDeps()!
 
         def isScopedVar(idString, node, fileId):
