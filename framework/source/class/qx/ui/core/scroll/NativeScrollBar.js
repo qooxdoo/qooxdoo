@@ -314,8 +314,6 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
      * 
      * @param e {qx.event.type.Event} the event
      */
-    _onScroll : function(e) 
-    {
     _stopPropagation : function(e) {
       e.stopPropagation();
     }
