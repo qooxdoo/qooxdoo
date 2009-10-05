@@ -59,6 +59,9 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
     this.addState("native");
     
     this.getContainerElement().addListener("scroll", this._onScroll, this);
+    this.addListener("mousedown", this._stopPropagation, this);
+    this.addListener("mouseup", this._stopPropagation, this);
+    this.addListener("mousemove", this._stopPropagation, this);
     
     // Configure orientation
     if (orientation != null) {
@@ -76,14 +79,6 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
     {
       refine : true,
       init : "scrollbar"
-    },
-    
-    
-    // overridden
-    anonymous :
-    {
-      refine : true,
-      init : true
     },
 
 
@@ -311,6 +306,18 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
       var container = this.getContainerElement();      
       var position = this.__isHorizontal ? container.getScrollX() : container.getScrollY(); 
       this.setPosition(position);
+    },
+    
+    
+    /**
+     * Stops propagation on the given even
+     * 
+     * @param e {qx.event.type.Event} the event
+     */
+    _onScroll : function(e) 
+    {
+    _stopPropagation : function(e) {
+      e.stopPropagation();
     }
   }
 });
