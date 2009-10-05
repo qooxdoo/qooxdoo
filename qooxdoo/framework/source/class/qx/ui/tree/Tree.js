@@ -308,10 +308,14 @@ qx.Class.define("qx.ui.tree.Tree",
      * @param treeItem {AbstractTreeItem} The tree item to get the item before
      * @param invisible {Boolean?true} Whether invisible/closed tree items
      *     should be returned as well.
+     * @param stayInSameNestLevel {Boolean?false} if true, only the same nest level
+     *                                            will be searched
+     *                                             
+     *                            
      * @return {AbstractTreeItem?null} The item before the given item. May be
      *     <code>null</code> if the item is the first item.
      */
-    getPreviousSiblingOf : function(treeItem, invisible)
+    getPreviousSiblingOf : function(treeItem, invisible, stayInSameNestLevel)
     {
       var parent = treeItem.getParent();
       if (!parent) {
@@ -339,7 +343,7 @@ qx.Class.define("qx.ui.tree.Tree",
       if (index > 0)
       {
         var folder = parentChildren[index-1];
-        while ((invisible !== false || folder.isOpen()) && folder.hasChildren())
+        while ((invisible !== false || folder.isOpen()) && !(stayInSameNestLevel == true) && folder.hasChildren())
         {
           var children = folder.getChildren();
           folder = children[children.length-1];
