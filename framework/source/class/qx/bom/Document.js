@@ -75,12 +75,25 @@ qx.Class.define("qx.bom.Document",
     /**
      * Whether the document is in quirks mode (e.g. non XHTML, HTML4 Strict or missing doctype)
      *
+     * @signature function(win)
      * @param win {Window?window} The window to query
      * @return {Boolean} true when containing document is in quirks mode
      */
-    isQuirksMode : function(win) {
-      return (win||window).document.compatMode !== "CSS1Compat";
-    },
+    isQuirksMode : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function(win)
+      {
+        if(qx.bom.client.Engine.VERSION >= 8) {
+          return qx.bom.client.Engine.DOCUMENT_MODE === 5;
+        } else {
+          return (win||window).document.compatMode !== "CSS1Compat";
+        }
+      },
+
+      "default" : function(win) {
+        return (win||window).document.compatMode !== "CSS1Compat";
+      }
+    }),
 
 
     /**
@@ -90,7 +103,7 @@ qx.Class.define("qx.bom.Document",
      * @return {Boolean} true when containing document is in standard mode
      */
     isStandardMode : function(win) {
-      return (win||window).document.compatMode === "CSS1Compat";
+      return !this.isQuirksMode(win);
     },
 
 
@@ -124,7 +137,7 @@ qx.Class.define("qx.bom.Document",
     {
       var doc = (win||window).document;
       var view = qx.bom.Viewport.getWidth(win);
-      var scroll = doc.compatMode === "CSS1Compat" ? doc.documentElement.scrollWidth : doc.body.scrollWidth;
+      var scroll = this.isStandardMode(win) ? doc.documentElement.scrollWidth : doc.body.scrollWidth;
       return Math.max(scroll, view);
     },
 
@@ -159,7 +172,7 @@ qx.Class.define("qx.bom.Document",
     {
       var doc = (win||window).document;
       var view = qx.bom.Viewport.getHeight(win);
-      var scroll = doc.compatMode === "CSS1Compat" ? doc.documentElement.scrollHeight : doc.body.scrollHeight;
+      var scroll = this.isStandardMode(win) ? doc.documentElement.scrollHeight : doc.body.scrollHeight;
       return Math.max(scroll, view);
     }
   }

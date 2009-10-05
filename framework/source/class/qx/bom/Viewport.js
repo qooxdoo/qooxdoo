@@ -110,7 +110,7 @@ qx.Class.define("qx.bom.Viewport",
         else
         {
           var doc = (win||window).document;
-          return doc.compatMode === "CSS1Compat" ? doc.documentElement.clientWidth : doc.body.clientWidth;
+          return qx.bom.Document.isStandardMode(win) ? doc.documentElement.clientWidth : doc.body.clientWidth;
         }
       },
 
@@ -121,14 +121,14 @@ qx.Class.define("qx.bom.Viewport",
         else
         {
           var doc = (win||window).document;
-          return doc.compatMode === "CSS1Compat" ? doc.documentElement.clientWidth : doc.body.clientWidth;
+          return qx.bom.Document.isStandardMode(win) ? doc.documentElement.clientWidth : doc.body.clientWidth;
         }
       },
 
       "default" : function(win)
       {
         var doc = (win||window).document;
-        return doc.compatMode === "CSS1Compat" ? doc.documentElement.clientWidth : doc.body.clientWidth;
+        return qx.bom.Document.isStandardMode(win) ? doc.documentElement.clientWidth : doc.body.clientWidth;
       }
     }),
 
@@ -171,7 +171,7 @@ qx.Class.define("qx.bom.Viewport",
         else
         {
           var doc = (win||window).document;
-          return doc.compatMode === "CSS1Compat" ? doc.documentElement.clientHeight : doc.body.clientHeight;
+          return qx.bom.Document.isStandardMode(win) ? doc.documentElement.clientHeight : doc.body.clientHeight;
         }
       },
 
@@ -181,14 +181,14 @@ qx.Class.define("qx.bom.Viewport",
         }
         else {
           var doc = (win||window).document;
-          return doc.compatMode === "CSS1Compat" ? doc.documentElement.clientHeight : doc.body.clientHeight;
+          return qx.bom.Document.isStandardMode(win) ? doc.documentElement.clientHeight : doc.body.clientHeight;
         }
       },
 
       "default" : function(win)
       {
         var doc = (win||window).document;
-        return doc.compatMode === "CSS1Compat" ? doc.documentElement.clientHeight : doc.body.clientHeight;
+        return qx.bom.Document.isStandardMode(win) ? doc.documentElement.clientHeight : doc.body.clientHeight;
       }
     }),
 
