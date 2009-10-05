@@ -50,7 +50,7 @@ qx.Class.define("qx.io.remote.Exchange",
   */
 
   /**
-   * Contructor method.
+   * Constructor method.
    *
    * @param vRequest {qx.io.remote.Request} request object
    */
