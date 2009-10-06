@@ -96,16 +96,16 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
   statics :
   {
 
-    /** {int} the default width of a column in pixels. */
+    /** {Integer} the default width of a column in pixels. */
     DEFAULT_WIDTH           : 100,
 
-    /** {DefaultDataCellRenderer} the default header cell renderer. */
+    /** {qx.ui.table.headerrenderer.Default} the default header cell renderer. */
     DEFAULT_HEADER_RENDERER : qx.ui.table.headerrenderer.Default,
 
-    /** {DefaultDataCellRenderer} the default data cell renderer. */
+    /** {qx.ui.table.cellrenderer.Default} the default data cell renderer. */
     DEFAULT_DATA_RENDERER   : qx.ui.table.cellrenderer.Default,
 
-    /** {TextFieldCellEditorFactory} the default editor factory. */
+    /** {qx.ui.table.celleditor.TextField} the default editor factory. */
     DEFAULT_EDITOR_FACTORY  : qx.ui.table.celleditor.TextField
   },
 
@@ -260,7 +260,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * Sets the data renderer of a column.
      *
      * @param col {Integer} the model index of the column.
-     * @param renderer {DataCellRenderer} the new data renderer the column should get.
+     * @param renderer {qx.ui.table.ICellRenderer} the new data renderer the column should get.
      * @return {void}
      */
     setDataCellRenderer : function(col, renderer)
@@ -278,7 +278,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * Returns the data renderer of a column.
      *
      * @param col {Integer} the model index of the column.
-     * @return {DataCellRenderer} the data renderer of the column.
+     * @return {qx.ui.table.ICellRenderer} the data renderer of the column.
      */
     getDataCellRenderer : function(col) {
       return this.__columnDataArr[col].dataRenderer;
@@ -289,7 +289,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * Sets the cell editor factory of a column.
      *
      * @param col {Integer} the model index of the column.
-     * @param factory {CellEditorFactory} the new cell editor factory the column should get.
+     * @param factory {qx.ui.table.ICellEditorFactory} the new cell editor factory the column should get.
      * @return {void}
      */
     setCellEditorFactory : function(col, factory)
@@ -307,7 +307,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * Returns the cell editor factory of a column.
      *
      * @param col {Integer} the model index of the column.
-     * @return {CellEditorFactory} the cell editor factory of the column.
+     * @return {qx.ui.table.ICellEditorFactory} the cell editor factory of the column.
      */
     getCellEditorFactory : function(col) {
       return this.__columnDataArr[col].editorFactory;
@@ -322,7 +322,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * visX (the visible x position of the column, int). visX is missing for
      * hidden columns.
      *
-     * @return {var} the "column to x postion" map.
+     * @return {Map} the "column to x postion" map.
      */
     _getColToXPosMap : function()
     {
@@ -428,7 +428,6 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * @param col {Integer} the model index of the column.
      * @param visible {Boolean} whether the column should be visible.
      * @return {void}
-     * @throws TODOC
      */
     setColumnVisible : function(col, visible)
     {
@@ -499,7 +498,6 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * @param fromOverXPos {Integer} the overall x postion of the column to move.
      * @param toOverXPos {Integer} the overall x postion of where the column should be
      *      moved to.
-     * @return {void}
      */
     moveColumn : function(fromOverXPos, toOverXPos)
     {
