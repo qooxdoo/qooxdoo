@@ -146,7 +146,7 @@ qx.Class.define("qx.dev.Pollution",
       {
         if (objectName == "window")
         {
-          ign = ign.slice();
+          ign = ign.slice(0);
 
           for (var frameIndex=0; frameIndex<window.length; frameIndex++) {
             ign.push("" + frameIndex);
