@@ -353,7 +353,7 @@ qx.Class.define("qx.ui.table.model.Filtered",
 
       dispatchEvent = (dispatchEvent != null ? dispatchEvent : true);
       if (!this.__applyingFilters) {
-        this.__fullArr = rowArr.slice();
+        this.__fullArr = rowArr.slice(0);
         this.__applyingFilters = true;
       }
 
