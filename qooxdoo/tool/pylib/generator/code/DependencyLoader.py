@@ -57,6 +57,7 @@ _memo1_ = {}  # for memoizing getScript()
 GlobalSymbolsRegPatts = []
 for symb in lang.GLOBALS + QXGLOBALS:
     GlobalSymbolsRegPatts.append(re.compile(r'^%s\b' % symb))
+GlobalSymbolsCombinedPatt = re.compile('|'.join(r'^%s\b' % x for x in lang.GLOBALS + QXGLOBALS))
 
 
 class DependencyLoader:
@@ -464,6 +465,8 @@ class DependencyLoader:
             #for bi in lang.GLOBALS + ['clazz', 'qx', r'qx\.\$\$\w+$']:  # GLOBALS contains 'this' and 'arguments'
             #for bi in lang.GLOBALS + QXGLOBALS:  # GLOBALS contains 'this' and 'arguments'
             #    if re.search(r'^%s\b' % bi, assembled):
+            #if GlobalSymbolsCombinedPatt.search(assembled):
+            #    return False
             for patt in GlobalSymbolsRegPatts:
                 if patt.search(assembled):
                     return False
