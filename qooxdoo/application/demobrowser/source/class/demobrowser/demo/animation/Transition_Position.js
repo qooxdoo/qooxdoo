@@ -75,7 +75,7 @@ qx.Class.define("demobrowser.demo.animation.Transition_Position",
       var moveBack = false;
 
       myElement.addListenerOnce("appear", function(){
-        animMove = new qx.fx.effect.core.Move(myElement.getContentElement().getDomElement());
+        animMove = new qx.fx.effect.core.Move(myElement.getContainerElement().getDomElement());
         animMove.set({
           x : 600,
           y : 300,
