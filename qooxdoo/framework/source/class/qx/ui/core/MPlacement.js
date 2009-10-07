@@ -72,7 +72,8 @@ qx.Mixin.define("qx.ui.core.MPlacement",
      * Whether the widget should be placed relative to an other widget or to
      * the mouse cursor.
      */
-    placeMethod : {
+    placeMethod :
+    {
       check : ["widget", "mouse"],
       init : "mouse",
       themeable: true
@@ -86,8 +87,8 @@ qx.Mixin.define("qx.ui.core.MPlacement",
     },
 
     /**
-     * Whether the widget should be positioned in the most
-     * optimal way e.g. try to keep it visible.
+     * Whether the widget should be positioned in an
+     * optimal way i.e. try to keep it visible.
      */
     smart :
     {

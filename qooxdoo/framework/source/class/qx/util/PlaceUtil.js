@@ -14,12 +14,15 @@
 
    Authors:
      * Sebastian Werner (wpbasti)
+     * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
 
 /**
  * Contains methods to compute a position for any object which should
  * be positioned to any other object.
+ * 
+ * @deprecated Please use {@link qx.util.placement.Placement}
  */
 qx.Class.define("qx.util.PlaceUtil",
 {
@@ -28,6 +31,8 @@ qx.Class.define("qx.util.PlaceUtil",
     /**
      * DOM and widget independent method to compute the location
      * of a object to make it relative to any other object.
+     * 
+     * @deprecated Please use {@link qx.util.placement.Placement#compute}
      *
      * @param size {Map} With the keys <code>width</code> and <code>height</code>
      *   of the object to align
@@ -50,143 +55,28 @@ qx.Class.define("qx.util.PlaceUtil",
      */
     compute : function(size, area, target, position, smart, offsets)
     {
-      var left = 0;
-      var top = 0;
-      var fixedRatingX, fixedRatingY;
-
-      // Split position string
-      var splitted = position.split("-");
-      var edge = splitted[0];
-      var align = splitted[1];
-
-      // Compute offsets
-      var offsetLeft=0, offsetTop=0, offsetRight=0, offsetBottom=0;
-      if (offsets)
+      if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        offsetLeft += offsets.left || 0;
-        offsetTop += offsets.top || 0;
-        offsetRight += offsets.right || 0;
-        offsetBottom += offsets.bottom || 0;
+        qx.log.Logger.deprecatedMethodWarning(
+          arguments.callee,
+          "Please use 'qx.util.placement.Placement.compute'"
+        );
       }
-
-      // Process edge part
-      switch(edge)
-      {
-        case "left":
-          left = target.left - size.width - offsetLeft;
-          break;
-
-        case "top":
-          top = target.top - size.height - offsetTop;
-          break;
-
-        case "right":
-          left = target.right + offsetRight;
-          break;
-
-        case "bottom":
-          top = target.bottom + offsetBottom;
-          break;
-      }
-
-      // Process align part
-      switch(align)
-      {
-        case "left":
-          left = target.left;
-          break;
-
-        case "top":
-          top = target.top;
-          break;
-
-        case "right":
-          left = target.right - size.width;
-          break;
-
-        case "bottom":
-          top = target.bottom - size.height;
-          break;
-      }
-
-      if (smart === false)
-      {
-        return {
-          left : left,
-          top : top
-        };
-      }
-      else
-      {
-        var ratingX = Math.min(left, area.width-left-size.width);
-        if (ratingX < 0)
-        {
-          var fixedLeft = left;
-
-          if (left < 0)
-          {
-            if (edge == "left") {
-              fixedLeft = target.right + offsetRight;
-            } else if (align == "right") {
-              fixedLeft = target.left;
-            }
-          }
-          else
-          {
-            if (edge == "right") {
-              fixedLeft = target.left - size.width - offsetLeft;
-            } else if (align == "left") {
-              fixedLeft = target.right - size.width;
-            }
-          }
-
-          // Review fixed rating result
-          fixedRatingX = Math.min(fixedLeft, area.width-fixedLeft-size.width);
-          if (fixedRatingX > ratingX)
-          {
-            left = fixedLeft;
-            ratingX = fixedRatingX;
-          }
-        }
-
-        var ratingY = Math.min(top, area.height-top-size.height);
-        if (ratingY < 0)
-        {
-          var fixedTop = top;
-
-          if (top < 0)
-          {
-            if (edge == "top") {
-              fixedTop = target.bottom + offsetBottom;
-            } else if (align == "bottom") {
-              fixedTop = target.top;
-            }
-          }
-          else
-          {
-            if (edge == "bottom") {
-              fixedTop = target.top - size.height - offsetTop;
-            } else if (align == "top") {
-              fixedTop = target.bottom - size.height;
-            }
-          }
-
-          // Review fixed rating result
-          fixedRatingY = Math.min(fixedTop, area.height-fixedTop-size.height);
-          if (fixedRatingY > ratingY)
-          {
-            top = fixedTop;
-            ratingY = fixedRatingY;
-          }
-        }
-
-        return {
-          left : left,
-          top : top,
-          ratingX : ratingX,
-          ratingY : ratingY
-        }
-      }
+  
+      var mode = smart ? "keep-align" : "direct"
+      var offsets = offsets || this.__defaultOffsets;
+           
+      return qx.util.placement.Placement.compute(
+        size, area, target, offsets,
+        position, mode, mode
+      );
+    },
+    
+    __defaultOffsets : {
+      left: 0,
+      top: 0,
+      bottom: 0,
+      right: 0
     }
   }
 });
