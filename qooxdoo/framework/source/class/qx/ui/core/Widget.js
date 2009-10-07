@@ -3251,6 +3251,9 @@ qx.Class.define("qx.ui.core.Widget",
 
       // Do not show native menu
       e.preventDefault();
+      
+      // don't open any other contextmenus
+      e.stopPropagation();
     },
 
     /**

@@ -213,7 +213,7 @@ qx.Class.define("qx.util.placement.Placement",
         this.__getPositionX()
       );
 
-      var axisY = this.getAxisX() || this.__defaultAxis;
+      var axisY = this.getAxisY() || this.__defaultAxis;
       var top = axisY.computeStart(
         size.height,
         {start: target.top, end: target.bottom},

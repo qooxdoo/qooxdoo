@@ -24,12 +24,6 @@
  */
 qx.Mixin.define("qx.ui.core.MPlacement",
 {
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
   properties :
   {
     /**
@@ -89,11 +83,29 @@ qx.Mixin.define("qx.ui.core.MPlacement",
     /**
      * Whether the widget should be positioned in an
      * optimal way i.e. try to keep it visible.
+     * 
+     * @deprecated Use the {@link #placementModeX} and {@link #placementModeY}
+     *   properties instead.
      */
     smart :
     {
       check : "Boolean",
       init : true,
+      themeable : true,
+      apply : "_applySmart"
+    },
+    
+    placementModeX :
+    {
+      check : ["direct", "keep-align", "best-fit"],
+      init : "keep-align",
+      themeable : true
+    },
+    
+    placementModeY :
+    {
+      check : ["direct", "keep-align", "best-fit"],
+      init : "keep-align",
       themeable : true
     },
 
@@ -139,22 +151,33 @@ qx.Mixin.define("qx.ui.core.MPlacement",
   },
 
 
-
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
   members :
   {
-
     __updater : null,
+    
+    
+    // property apply
+    _applySmart : function(value, old)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        qx.log.Logger.deprecatedMethodWarning(
+          arguments.callee,
+          "The property 'smart' is deprecated. Please us the properties " +
+          "'placementModeX' and 'placementModeY' instead."
+        );
+      }
+      var mode = value ? "keep-align" : "direct";
+      this.set({
+        placementModeX: mode,
+        placementModeY: mode
+      });
+    },
+    
 
     /**
      * Returns the location data like {qx.bom.element.Location#get} does,
-     * but does not rely on DOM elements coordinatess to be rendered. Instead,
+     * but does not rely on DOM elements coordinates to be rendered. Instead,
      * this method works with the available layout data available in the moment
      * when it is executed.
      * This works best when called in some type of <code>resize</code> or
@@ -376,18 +399,23 @@ qx.Mixin.define("qx.ui.core.MPlacement",
         return;
       }
 
-      var area = this.getLayoutParent().getBounds();
-      var position = this.getPosition();
-      var smart = this.getSmart();
-      var offsets =
-      {
+      var offsets = {
         left : this.getOffsetLeft(),
         top : this.getOffsetTop(),
         right : this.getOffsetRight(),
         bottom : this.getOffsetBottom()
       }
 
-      var result = qx.util.PlaceUtil.compute(size, area, coords, position, smart, offsets);
+      var result = qx.util.placement.Placement.compute(
+        size, 
+        this.getLayoutParent().getBounds(), 
+        coords, 
+        offsets, 
+        this.getPosition(),
+        this.getPlacementModeX(),
+        this.getPlacementModeY()
+      );
+      
       this.moveTo(result.left, result.top);
     }
   }

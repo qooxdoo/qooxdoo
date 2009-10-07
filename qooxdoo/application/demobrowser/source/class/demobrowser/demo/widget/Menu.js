@@ -60,9 +60,28 @@ qx.Class.define("demobrowser.demo.widget.Menu",
       container.add(this.getSplitButton(), {left: 150, top: 20});
       container.add(this.getMenuBar(), {left: 20, top: 100});
       container.add(this.getList(), {left: 20, top: 200});
+      
+      this.getRoot().setContextMenu(this.getRootContextMenu());
     },
 
 
+    getRootContextMenu : function()
+    {
+      var menu = new qx.ui.menu.Menu();
+      
+      var sub = new qx.ui.menu.Menu();
+      for (var i=0; i<20; i++) {
+        sub.add(new qx.ui.menu.Button("item " + (i+1)));
+      }
+      menu.add(new qx.ui.menu.Button("sub menu", null, null, sub));
+
+      for (var i=0; i<7; i++) {
+        menu.add(new qx.ui.menu.Button("item " + (i+1)));
+      }
+      
+      return menu;
+    },
+    
     debugRadio : function(e) {
       this.debug("Change selection: " + e.getData()[0].getLabel());
     },

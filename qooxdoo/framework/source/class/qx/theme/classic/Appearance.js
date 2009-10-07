@@ -1866,7 +1866,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
           spacingY : 1,
           iconColumnWidth : 16,
           arrowColumnWidth : 4,
-          padding : 1
+          padding : 1,
+          placementModeY : states.submenu || states.contextmenu ? "best-fit" : "keep-align"
         };
 
         if (states.submenu)

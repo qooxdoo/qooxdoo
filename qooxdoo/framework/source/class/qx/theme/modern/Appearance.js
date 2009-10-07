@@ -2050,11 +2050,12 @@ qx.Theme.define("qx.theme.modern.Appearance",
           spacingX : 6,
           spacingY : 1,
           iconColumnWidth : 16,
-          arrowColumnWidth : 4
+          arrowColumnWidth : 4,
+          placementModeY : states.submenu || states.contextmenu ? "best-fit" : "keep-align"
         };
 
         if (states.submenu)
-        {
+        {          
           result.position = "right-top";
           result.offset = [-2, -3];
         }
