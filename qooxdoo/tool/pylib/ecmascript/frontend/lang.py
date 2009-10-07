@@ -43,6 +43,7 @@ BUILTIN = [
           "Number",
           "Object",
           "Option",
+          "Range",
           "RegExp",
           "String",
           "window",
@@ -50,7 +51,7 @@ BUILTIN = [
           "XMLSerializer",
           "XPathEvaluator",
           "XPathResult",
-          "Range"
+          "XSLTProcessor",
           ]
 
 GLOBALS = BUILTIN + [
@@ -63,6 +64,9 @@ GLOBALS = BUILTIN + [
           # IE
           "event", "offscreenBuffering", "clipboardData", "clientInformation",
           "external", "screenTop", "screenLeft",
+          
+          # Webkit
+          "WebkitCSSMatrix",
   
           # window
           'addEventListener', '__firebug__', 'location', 'netscape',
