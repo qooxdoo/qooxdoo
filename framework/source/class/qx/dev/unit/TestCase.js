@@ -68,12 +68,17 @@ qx.Class.define("qx.dev.unit.TestCase",
      * function. Used for asynchronous tests, e.g. in a listener's callback
      * function.
      *
-     * @param deferredFunction {Function?false} Function to run
-     * @param self {Object?false} reference to the ‘this’ variable inside the
-     * callback
+     * @param deferredFunction {Function?} Function to run
+     * @param self {Object?} reference to the ‘this’ variable inside the
+     * callback. By default the test instance is used.
      */
-    resume : function(deferredFunction, self) {
-      this.getTestResult().run(this.getTestFunc(), deferredFunction, self);
+    resume : function(deferredFunction, self) 
+    {
+      this.getTestResult().run(
+        this.getTestFunc(),
+        deferredFunction || qx.lang.Function.empty,
+        self || this
+      );
     }
   }
 });

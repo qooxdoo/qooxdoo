@@ -121,15 +121,19 @@ qx.Class.define("qx.dev.unit.TestResult",
       if(!this.__timeout) {
         this.__timeout = {};
       }
-      if (this.__timeout[test.getFullName()]) {
+      
+      if (this.__timeout[test.getFullName()])
+      {
         this.__timeout[test.getFullName()].stop();
         delete this.__timeout[test.getFullName()];
       }
-      else {
+      else
+      {
         try {
           test.setUp();
         }
-        catch(ex) {
+        catch(ex)
+        {
           try {
             test.tearDown();
           }
@@ -144,12 +148,7 @@ qx.Class.define("qx.dev.unit.TestResult",
       }
 
       try {
-        if (self) {
-          testFunction.call(self);
-        }
-        else {
-          testFunction();
-        }
+        testFunction.call(self || window);
       }
       catch(ex)
       {
@@ -180,7 +179,8 @@ qx.Class.define("qx.dev.unit.TestResult",
         }
       }
 
-      if (!error) {
+      if (!error)
+      {
         test.tearDown();
         this.fireDataEvent("endTest", test);
       }

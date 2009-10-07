@@ -29,8 +29,13 @@ qx.Class.define("qx.test.io2.ScriptLoader",
   {
     testLoadError : function()
     {
+      // Opera will fire no event at all
+      if (qx.bom.client.Engine.OPERA) {
+        return;
+      }
+      
       var loader = new qx.io2.ScriptLoader();
-      loader.load("http://localhost/foo.js", function(status)
+      loader.load("http://qooxdoo.org/foo.js", function(status)
       {
         this.resume(function()
         {
