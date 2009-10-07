@@ -44,6 +44,19 @@ from misc import filetool, util
 from misc.ExtMap import ExtMap
 import graph
 
+QXGLOBALS = [
+    "qx$",
+    "clazz",
+    "qxvariants",
+    "qxsettings",
+    r"qx\.\$\$",    # qx.$$domReady, qx.$$libraries, ...
+    ]
+
+_memo1_ = {}  # for memoizing getScript()
+
+GlobalSymbolsRegPatts = []
+for symb in lang.GLOBALS + QXGLOBALS:
+    GlobalSymbolsRegPatts.append(re.compile(r'^%s\b' % symb))
 
 
 class DependencyLoader:
@@ -242,6 +255,8 @@ class DependencyLoader:
 
             tree = self._treeLoader.getTree(fileId, variants)
             self._analyzeClassDepsNode(fileId, tree, loadtimeDeps, runtimeDeps, undefDeps, False, variants)
+            #import cProfile
+            #cProfile.runctx("self._analyzeClassDepsNode(fileId, tree, loadtimeDeps, runtimeDeps, undefDeps, False, variants)", globals(), locals(), "/home/thron7/tmp/_analyzeDeps.profile")
 
             ## this should be for *source* version only!
             #if "qx.core.Variant" in loadtimeDepsNV and "qx.core.Variant" not in loadtimeDeps:
@@ -345,46 +360,96 @@ class DependencyLoader:
         return False
 
     
-    def _isScopedVar(self, idString, node, fileId):
+    def _isScopedVar(self, idStr, node, fileId):
 
-        def findScopeNodeAndRoot(node):
+        def findScopeNode(node):
             node1 = node
             sNode = None
-            rNode = None
-            while True:
-                if not sNode and node1.type in ["function", "catch"]:
+            while not sNode:
+                if node1.type in ["function", "catch"]:
                     sNode = node1
                 if node1.hasParent():
                     node1 = node1.parent
-                else:  # we're at the root
-                    if not sNode:
-                        sNode = node1
-                    rNode = node1
-                    break
-            return sNode, rNode
+                else:
+                    break # we're at the root
+            if not sNode:
+                sNode = node1 # use root node
+            return sNode
+
+        def findRoot(node):
+            rnode = node
+            while rnode.hasParent():
+                rnode = rnode.parent
+            return rnode
+
+        def getScript(node, fileId):
+            # TODO: checking the root nodes is a fix, as they sometimes differ (prob. caching)
+            rootNode = findRoot(node)
+            #if fileId in _memo1_:
+            if fileId in _memo1_ and _memo1_[fileId].root == rootNode:
+                script = _memo1_[fileId]
+            else:
+                #rootNode = findRoot(node)
+                script = Script(rootNode, fileId)
+                _memo1_[fileId] = script
+            return script
+
+        def getLeadingId(idStr):
+            leadingId = idStr
+            dotIdx = idStr.find('.')
+            if dotIdx > -1:
+                leadingId = idStr[:dotIdx]
+            return leadingId
 
         # check composite id a.b.c, check only first part
-        dotIdx = idString.find('.')
-        if dotIdx > -1:
-            idString = idString[:dotIdx]
-        scopeNode, rootNode  = findScopeNodeAndRoot(node)  # find the node of the enclosing scope (function - catch - global)
-        script = Script(rootNode, fileId)
-        if scopeNode == rootNode:
+        idString = getLeadingId(idStr)
+        script   = getScript(node, fileId)
+
+        scopeNode = findScopeNode(node)  # find the node of the enclosing scope (function - catch - global)
+        if scopeNode == script.root:
             fcnScope = script.getGlobalScope()
         else:
-            fcnScope = script.getScope(scopeNode)
-        varDef = script.getVariableDefinition(idString, fcnScope)
+            fcnScope  = script.getScope(scopeNode)
+        #assert fcnScope != None, "idString: '%s', idStr: '%s', fileId: '%s'" % (idString, idStr, fileId)
+        # TODO: remove try-catch
+        try:
+            varDef = script.getVariableDefinition(idString, fcnScope)
+        except Exception:
+            import pydb; pydb.debugger()
         if varDef:
             return True
         return False
 
 
-    def _isInterestingReference(assembled, node, fileId):
+    def _splitQxClass(self, assembled):
+        # this supersedes reduceAssembled(), improving the return value
+        className = classAttribute = ''
+        if assembled in self._classes:
+            className = assembled
+        elif "." in assembled:
+            for entryId in self._classes:
+                if assembled.startswith(entryId) and re.match(r'%s\b' % entryId, assembled):
+                    if len(entryId) > len(className): # take the longest match
+                        className      = entryId
+                        classAttribute = assembled[ len(entryId) +1 :]  # skip entryId + '.'
+        return className, classAttribute
+
+
+    def _isInterestingReference(self, assembled, node, fileId):
 
         def checkNodeContext(node):
-            context = ''
+            context = 'interesting' # every context is interesting, mybe we get more specific
+            #context = ''
+
+            # filter out the occurrences like 'c' in a.b().c
+            myFirst = node.getFirstChild(mandatory=False, ignoreComments=True)
+            if not treeutil.checkFirstChainChild(myFirst): # see if myFirst is the first identifier in a chain
+                context = ''
+            # filter out ... = position (lvals) - Nope! (qx.ui.form.ListItem.prototype.setValue = function(..){...};)
+            #elif (node.hasParentContext("assignment/left")):
+            #    context = ''
             # check name in 'new ...' position
-            if (node.hasParentContext("instantiation/*/*/operand")):
+            elif (node.hasParentContext("instantiation/*/*/operand")):
                 context = 'new'
             # check name in call position
             elif (node.hasParentContext("call/operand")):
@@ -396,8 +461,11 @@ class DependencyLoader:
 
         def isInterestingIdentifier(assembled):
             # skip built-in classes (Error, document, RegExp, ...)
-            for bi in lang.BUILTIN + ['clazz', 'this']:
-                if re.search(r'^%s\b' % bi, assembled):
+            #for bi in lang.GLOBALS + ['clazz', 'qx', r'qx\.\$\$\w+$']:  # GLOBALS contains 'this' and 'arguments'
+            #for bi in lang.GLOBALS + QXGLOBALS:  # GLOBALS contains 'this' and 'arguments'
+            #    if re.search(r'^%s\b' % bi, assembled):
+            for patt in GlobalSymbolsRegPatts:
+                if patt.search(assembled):
                     return False
             # skip scoped vars - expensive, therefore last test
             if self._isScopedVar(assembled, node, fileId):
@@ -406,7 +474,13 @@ class DependencyLoader:
                 return True
 
         def attemptSplitIdentifier(context, assembled):
-            className = classMethod = ''
+            # try qooxdoo classes first
+            className, classAttribute = self._splitQxClass(assembled)
+            if className:
+                return className, classAttribute
+            
+            className, classAttribute = assembled, ''
+            # now handle non-qooxdoo classes
             if context == 'new':
                 className = assembled
             elif context == 'extend':
@@ -415,16 +489,17 @@ class DependencyLoader:
                 lastDotIdx = assembled.rfind('.')
                 if lastDotIdx > -1:
                     className   = assembled[:lastDotIdx]
-                    classMethod = assembled[lastDotIdx + 1:]
+                    classAttribute = assembled[lastDotIdx + 1:]
                 else:
                     className = assembled
 
-            return className, classMethod
+            return className, classAttribute
 
+        # ---------------------------------------------------------------------
         context = nameBase = nameExtension = ''
         context = checkNodeContext(node)
-        if context: # one of 'new', 'call' or 'extend'
-            if isInterestingIdentifier(assembled):
+        if context: 
+            if isInterestingIdentifier(assembled): # filter local or build-in names
                 nameBase, nameExtension = attemptSplitIdentifier(context, assembled)
 
         return context, nameBase, nameExtension
@@ -443,6 +518,7 @@ class DependencyLoader:
             return deferNode
 
         def reduceAssembled(assembled, node):
+            # try to deduce a qooxdoo class from <assembled>
             assembledId = ''
             if assembled in self._classes:
                 assembledId = assembled
@@ -554,14 +630,28 @@ class DependencyLoader:
             # try to reduce to a class name
             assembledId = reduceAssembled(assembled, node)
 
-            #(context, nameBase, nameAttribute) = self._isInterestingReference(assembled, node, fileId)
+            (context, className, classAttribute) = self._isInterestingReference(assembled, node, fileId)
+            # postcond: 
+            # - if className != '' it is an interesting reference
+            # - might be a known qooxdoo class, or an unknown class (use 'className in self._classes')
+            # - if assembled contained ".", classAttribute will contain approx. non-class part
 
-            if assembledId:
-                if assembledId in self._classes and assembledId != fileId:
-                    addId(assembledId, runtime, loadtime)
-            else:
-                if isUnknownClass(assembled, node, fileId):
-                    warn.append(assembled)
+            #if assembledId:
+            #    if assembledId in self._classes and assembledId != fileId:
+            #        #print "-- adding: %s" % assembledId
+            #        #print "-- nameba: %s" % className
+            #        #if not className: import pydb; pydb.debugger()
+            #        addId(assembledId, runtime, loadtime)
+            #else:
+            #    if isUnknownClass(assembled, node, fileId):
+            #        #print "-- warning: %s" % assembled
+            #        #print "-- namebas: %s" % className
+            #        warn.append(assembled)
+
+            if className:
+                if className != fileId: # not checking for self._classes here!
+                    #print "-- adding: %s (%s:%s)" % (className, treeutil.getFileFromSyntaxItem(node), node.get('line',False))
+                    addId(className, runtime, loadtime)
 
             # an attempt to fix static initializers (bug#1455)
             if not inFunction and followCallDeps(assembledId):

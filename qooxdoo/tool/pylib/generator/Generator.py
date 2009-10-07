@@ -159,10 +159,10 @@ class Generator(object):
           }
 
 
-        def computeClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, variants, verifyDeps=False):
+        def computeClassList(includeWithDeps, excludeWithDeps, includeNoDeps, excludeNoDeps, variants, verifyDeps=False):
             self._console.info("Resolving dependencies...")
             self._console.indent()
-            classList = self._depLoader.getClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, variants, verifyDeps)
+            classList = self._depLoader.getClassList(includeWithDeps, excludeWithDeps, includeNoDeps, excludeNoDeps, variants, verifyDeps)
             self._console.outdent()
 
             return classList
@@ -245,12 +245,12 @@ class Generator(object):
 
 
 
-        def partsConfigFromClassList(smartExclude, script):
+        def partsConfigFromClassList(excludeWithDeps, script):
 
             classList  = script.classes
             variants   = script.variants
 
-            def evalPackagesConfig(smartExclude, classList, variants):
+            def evalPackagesConfig(excludeWithDeps, classList, variants):
                 
                 # Reading configuration
                 partsCfg = self._job.get("packages/parts", {})
@@ -262,7 +262,7 @@ class Generator(object):
                     partIncludes[partId] = self._expandRegExps(partsCfg[partId]['include'])
 
                 # Computing packages
-                boot, partPackages, packageClasses = self._partBuilder.getPackages(partIncludes, smartExclude, self._context, script)
+                boot, partPackages, packageClasses = self._partBuilder.getPackages(partIncludes, excludeWithDeps, self._context, script)
 
                 return boot, partPackages, packageClasses
 
@@ -272,7 +272,7 @@ class Generator(object):
                 (boot,
                 partPackages,           # partPackages[partId]=[0,1,3]
                 packageClasses          # packageClasses[0]=['qx.Class','qx.bom.Stylesheet',...]
-                )              = evalPackagesConfig(smartExclude, classList, variants)
+                )              = evalPackagesConfig(excludeWithDeps, classList, variants)
             else:
                 # Emulate configuration
                 boot           = "boot"
@@ -302,11 +302,11 @@ class Generator(object):
 
             # Splitting lists
             self._console.debug("Preparing exclude configuration...")
-            smartExclude, explicitExclude = self._splitIncludeExcludeList(excludeCfg)
+            excludeWithDeps, excludeNoDeps = self._splitIncludeExcludeList(excludeCfg)
 
             # Configuration feedback
             self._console.indent()
-            self._console.debug("Excluding %s items smart, %s items explicit" % (len(smartExclude), len(explicitExclude)))
+            self._console.debug("Excluding %s items smart, %s items explicit" % (len(excludeWithDeps), len(excludeNoDeps)))
 
             if len(excludeCfg) > 0:
                 self._console.warn("Excludes may break code!")
@@ -316,27 +316,27 @@ class Generator(object):
             # Resolve regexps
             self._console.indent()
             self._console.debug("Expanding expressions...")
-            nsmartExclude = []
-            for entry in smartExclude:
+            nexcludeWithDeps = []
+            for entry in excludeWithDeps:
                 try:
                     expanded = self._expandRegExp(entry)
-                    nsmartExclude.extend(expanded)
+                    nexcludeWithDeps.extend(expanded)
                 except RuntimeError:
                     self._console.warn("! Skipping unresolvable exclude entry: \"%s\"" % entry)
-            smartExclude = nsmartExclude
+            excludeWithDeps = nexcludeWithDeps
 
-            nexplicitExclude = []
-            for entry in explicitExclude:
+            nexcludeNoDeps = []
+            for entry in excludeNoDeps:
                 try:
                     expanded = self._expandRegExp(entry)
-                    nexplicitExclude.extend(expanded)
+                    nexcludeNoDeps.extend(expanded)
                 except RuntimeError:
                     self._console.warn("! Skipping unresolvable exclude entry: \"%s\"" % entry)
-            explicitExclude = nexplicitExclude
+            excludeNoDeps = nexcludeNoDeps
 
             self._console.outdent()
 
-            return smartExclude, explicitExclude
+            return excludeWithDeps, excludeNoDeps
 
 
 
@@ -345,21 +345,21 @@ class Generator(object):
 
             # Splitting lists
             self._console.debug("Preparing include configuration...")
-            smartInclude, explicitInclude = self._splitIncludeExcludeList(includeCfg)
+            includeWithDeps, includeNoDeps = self._splitIncludeExcludeList(includeCfg)
             self._console.indent()
 
-            if len(smartInclude) > 0 or len(explicitInclude) > 0:
+            if len(includeWithDeps) > 0 or len(includeNoDeps) > 0:
                 # Configuration feedback
-                self._console.debug("Including %s items smart, %s items explicit" % (len(smartInclude), len(explicitInclude)))
+                self._console.debug("Including %s items smart, %s items explicit" % (len(includeWithDeps), len(includeNoDeps)))
 
-                if len(explicitInclude) > 0:
+                if len(includeNoDeps) > 0:
                     self._console.warn("Explicit included classes may not work")
 
                 # Resolve regexps
                 self._console.debug("Expanding expressions...")
                 try:
-                    smartInclude = self._expandRegExps(smartInclude)
-                    explicitInclude = self._expandRegExps(explicitInclude)
+                    includeWithDeps = self._expandRegExps(includeWithDeps)
+                    includeNoDeps = self._expandRegExps(includeNoDeps)
                 except RuntimeError:
                     self._console.error("Invalid include block: %s" % includeCfg)
                     raise
@@ -368,20 +368,20 @@ class Generator(object):
                 # Special part include handling
                 self._console.info("Including part classes...")
                 partsCfg = partsCfg = self._job.get("packages/parts", {})
-                smartInclude = []
+                includeWithDeps = []
                 for partId in partsCfg:
-                    smartInclude.extend(partsCfg[partId])
+                    includeWithDeps.extend(partsCfg[partId])
 
                 # Configuration feedback
-                self._console.debug("Including %s items smart, %s items explicit" % (len(smartInclude), len(explicitInclude)))
+                self._console.debug("Including %s items smart, %s items explicit" % (len(includeWithDeps), len(includeNoDeps)))
 
                 # Resolve regexps
                 self._console.debug("Expanding expressions...")
-                smartInclude = self._expandRegExps(smartInclude)
+                includeWithDeps = self._expandRegExps(includeWithDeps)
 
             self._console.outdent()
 
-            return smartInclude, explicitInclude
+            return includeWithDeps, includeNoDeps
 
 
         def printVariantInfo(variantSetNum, variants, variantSets, variantData):
@@ -482,13 +482,13 @@ class Generator(object):
         self._codeGenerator  = CodeGenerator(self._cache, self._console, self._config, self._job, self._settings, self._locale, self._resourceHandler, self._classes)
 
         # Preprocess include/exclude lists
-        smartInclude, explicitInclude = getIncludes(self._job.get("include", []))
-        smartExclude, explicitExclude = getExcludes(self._job.get("exclude", []))
+        includeWithDeps, includeNoDeps = getIncludes(self._job.get("include", []))
+        excludeWithDeps, excludeNoDeps = getExcludes(self._job.get("exclude", []))
         # Processing all combinations of variants
         variantData = getVariants()  # e.g. {'qx.debug':['on','off'], 'qx.aspects':['on','off']}
         variantSets = util.computeCombinations(variantData) # e.g. [{'qx.debug':'on','qx.aspects':'on'},...]
         # get a class list with an initial variant set
-        classList = computeClassList(smartInclude, smartExclude, explicitInclude, explicitExclude, variantSets[0], verifyDeps=True)
+        classList = computeClassList(includeWithDeps, excludeWithDeps, includeNoDeps, excludeNoDeps, variantSets[0], verifyDeps=True)
         
         # process job triggers
         if classdepTriggers:
@@ -538,15 +538,15 @@ class Generator(object):
             script.variants = variants
 
             # get current class list
-            self._classList = computeClassList(smartInclude, smartExclude, explicitInclude, 
-                                               explicitExclude, variants)
+            self._classList = computeClassList(includeWithDeps, excludeWithDeps, includeNoDeps, 
+                                               excludeNoDeps, variants)
             script.classes  = self._classList
 
             # get parts config
             (script.boot,
             script.parts,            # script.parts['boot']=[0,1,3]
             script.packages          # script.packages[0]=['qx.Class','qx.bom.Stylesheet',...]
-            )               = partsConfigFromClassList(smartExclude, script)
+            )               = partsConfigFromClassList(excludeWithDeps, script)
 
             # Execute real tasks
             self._codeGenerator.runSource  (script, self._libs, self._classes)

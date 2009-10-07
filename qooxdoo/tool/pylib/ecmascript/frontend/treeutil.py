@@ -570,3 +570,55 @@ def getClassMap(classNode):
                 classMap[child.get("key")] = keyvalue
 
     return classMap
+
+# ------------------------------------------------------------------------------
+# Support for chained identifier expressions, like a.b().c[0].d()
+#
+# TODO: this currently duplicates code from ecmascript.frontend.Scope
+# ------------------------------------------------------------------------------
+
+ChainTypes = set([
+    "identifier",
+    "accessor",
+    "left", "right",
+    "call", "operand",
+    "variable",
+    ])
+
+def findChainRoot(node):
+    # find the root node for a chained expression like a.b().c()[0].d()
+    current = node
+
+    while current.hasParent() and current.parent.type in ChainTypes:
+        current = current.parent
+
+    return current  # this must be the chain root
+
+def findLeftmostChainIdentifier(node):
+    # find the leftmost child, assumed to be an identifier
+    child = node
+
+    while child.hasChildren():
+        c = child.getFirstChild(mandatory=False, ignoreComments=True)
+        if c:
+            child = c
+        else:
+            break
+    #assert child.type == "identifier"
+
+    return child
+
+def checkFirstChainChild(node):
+    # check if the given identifier is the first in a chained expression "a.b.c().d[]"
+    chainRoot = findChainRoot(node)
+    leftmostIdentifier = findLeftmostChainIdentifier(chainRoot)
+
+    # compare to current node
+    if leftmostIdentifier == node:
+        return True
+    else:
+        return False
+
+
+
+
