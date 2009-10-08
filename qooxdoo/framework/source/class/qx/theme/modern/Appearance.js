@@ -2063,6 +2063,49 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return result;
       }
     },
+    
+    "menu/slidebar" : "menu-slidebar",
+    
+    "menu-slidebar" : "widget",
+    
+    "menu-slidebar-button" : 
+    {
+      style : function(states)
+      {
+        var active = states.pressed || states.hovered;
+        return {
+          decorator : active  ? "selected" : undefined,
+          padding : 7,
+          center : true
+        };
+      }
+    },
+    
+    "menu-slidebar/button-backward" :
+    {
+      include : "menu-slidebar-button",
+      
+      style : function(states)
+      {
+        var active = states.pressed || states.hovered;
+        return {
+          icon : active ? "decoration/arrows/up-invert.png" : "decoration/arrows/up.png"
+        };
+      }
+    },
+
+    "menu-slidebar/button-forward" :
+    {
+      include : "menu-slidebar-button",
+      
+      style : function(states)
+      {
+        var active = states.pressed || states.hovered;
+        return {
+          icon : active ? "decoration/arrows/down-invert.png" : "decoration/arrows/down.png"
+        };
+      }
+    },
 
     "menu-separator" :
     {

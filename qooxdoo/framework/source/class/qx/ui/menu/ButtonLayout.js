@@ -64,7 +64,8 @@ qx.Class.define("qx.ui.menu.ButtonLayout",
         columnChildren[column] = child;
       }
 
-      var menu = children[0].getLayoutParent().getLayoutParent();
+      var menu = this.__getMenu(children[0]);
+      
       var columns = menu.getColumnSizes();
       var spacing = menu.getSpacingX();
 
@@ -94,6 +95,15 @@ qx.Class.define("qx.ui.menu.ButtonLayout",
       }
     },
 
+    
+    __getMenu : function(widget)
+    {
+      while (!(widget instanceof qx.ui.menu.Menu)) {
+        widget = widget.getLayoutParent();
+      }
+      return widget;
+    },
+    
 
     // overridden
     _computeSizeHint : function()

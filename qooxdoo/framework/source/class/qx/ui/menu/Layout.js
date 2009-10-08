@@ -154,9 +154,12 @@ qx.Class.define("qx.ui.menu.Layout",
         columnSizes[3] = this.getArrowColumnWidth();
       }
 
+      var height = this.base(arguments).height;
+      
       // Build hint
       return {
-        height : this.base(arguments).height,
+        minHeight: height,
+        height : height,
         width : qx.lang.Array.sum(columnSizes) + maxInset + spacing
       };
     },

@@ -89,6 +89,7 @@ qx.Class.define("qx.ui.container.SlideBar",
       this.initOrientation();
     }
 
+    this.addListener("mousewheel", this._onMouseWheel, this);
   },
 
 
@@ -115,6 +116,14 @@ qx.Class.define("qx.ui.container.SlideBar",
       check : ["horizontal", "vertical"],
       init : "horizontal",
       apply : "_applyOrientation"
+    },
+    
+    /** The number of pixels to scroll if the buttons are pressed */
+    scrollStep : 
+    {
+      check : "Integer",
+      init : 15,
+      themeable : true
     }
   },
 
@@ -301,6 +310,20 @@ qx.Class.define("qx.ui.container.SlideBar",
     */
 
     /**
+     * Scolls pane on mousewheel events
+     * 
+     * @param e {qx.event.type.Mouse} the mouse event
+     */
+    _onMouseWheel : function(e)
+    {
+      this.scrollBy(e.getWheelDelta() * this.getScrollStep());
+
+      // Stop bubbling and native event
+      e.stop();
+    },
+    
+    
+    /**
      * Listener for resize event. This event is fired after the
      * first flush of the element which leads to another queuing
      * when the changes modify the visibility of the scroll buttons.
@@ -332,7 +355,7 @@ qx.Class.define("qx.ui.container.SlideBar",
      * @return {void}
      */
     _onExecuteBackward : function() {
-      this.scrollBy(-20);
+      this.scrollBy(-this.getScrollStep());
     },
 
 
@@ -342,7 +365,7 @@ qx.Class.define("qx.ui.container.SlideBar",
      * @return {void}
      */
     _onExecuteForward : function() {
-      this.scrollBy(20);
+      this.scrollBy(this.getScrollStep());
     },
 
 

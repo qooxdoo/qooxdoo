@@ -1884,6 +1884,49 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
+    "menu/slidebar" : "menu-slidebar",
+    
+    "menu-slidebar" : "widget",
+    
+    "menu-slidebar-button" : 
+    {
+      style : function(states)
+      {
+        var active = states.pressed || states.hovered;
+        return {
+          backgroundColor : active  ? "background-selected" : undefined,
+          padding : 6,
+          center : true
+        };
+      }
+    },
+    
+    "menu-slidebar/button-backward" :
+    {
+      include : "menu-slidebar-button",
+      
+      style : function(states)
+      {
+        var active = states.pressed || states.hovered;
+        return {
+          icon : active ? "decoration/arrows/up-invert.gif" : "decoration/arrows/up.gif"
+        };
+      }
+    },
+    
+    "menu-slidebar/button-forward" :
+    {
+      include : "menu-slidebar-button",
+      
+      style : function(states)
+      {
+        var active = states.pressed || states.hovered;
+        return {
+          icon : active ? "decoration/arrows/down-invert.gif" : "decoration/arrows/down.gif"
+        };
+      }
+    },
+    
     "menu-separator" :
     {
       style : function(states)
