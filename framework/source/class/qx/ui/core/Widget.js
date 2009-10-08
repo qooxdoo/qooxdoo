@@ -3247,16 +3247,13 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _onContextMenuOpen : function(e)
     {
-      var menu = this.getContextMenu();
-      menu.placeToMouse(e);
-      menu.show();
+      this.getContextMenu().openAtMouse(e);
 
       // Do not show native menu
-      e.preventDefault();
-      
       // don't open any other contextmenus
-      e.stopPropagation();
+      e.stop();
     },
+    
 
     /**
      * Event listener for <code>beforeContextmenuOpen</code> event

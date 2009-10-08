@@ -409,6 +409,35 @@ qx.Mixin.define("qx.ui.core.MPlacement",
     
     
     /**
+     * Get the size of the object to place. The callback will be called with
+     * the size as first argument. This methods works asynchronously.
+     * 
+     * The size of the object to place is the size of the widget. If a widget
+     * including this mixin needs a different size it can implement the method
+     * <code>_computePlacementSize</code>, which returns the size.
+     * 
+     *  @param callback {Function} This function will be called with the size as
+     *    first argument
+     */
+    __getPlacementSize : function(callback)
+    {
+      if (this._computePlacementSize) {
+        var size = this._computePlacementSize();
+      } else {
+        var size = this.getBounds();
+      }
+      if (size == null)
+      {
+        this.addListenerOnce("resize", function() {
+          this.__getPlacementSize(callback);
+        }, this);
+      } else {
+        callback.call(this, size);
+      }
+    },
+    
+    
+    /**
      * Internal method to read specific this properties and
      * apply the results to the this afterwards.
      *
@@ -418,26 +447,20 @@ qx.Mixin.define("qx.ui.core.MPlacement",
      */
     __place : function(coords)
     {
-      var size = this.getBounds();
-      if (size == null)
+      this.__getPlacementSize(function(size)
       {
-        this.addListenerOnce("resize", function() {
-          this.__place(coords);
-        }, this);
-        return;
-      }
-
-      var result = qx.util.placement.Placement.compute(
-        size, 
-        this.getLayoutParent().getBounds(), 
-        coords, 
-        this._getPlacementOffsets(), 
-        this.getPosition(),
-        this.getPlacementModeX(),
-        this.getPlacementModeY()
-      );
-      
-      this.moveTo(result.left, result.top);
+        var result = qx.util.placement.Placement.compute(
+          size, 
+          this.getLayoutParent().getBounds(), 
+          coords, 
+          this._getPlacementOffsets(), 
+          this.getPosition(),
+          this.getPlacementModeX(),
+          this.getPlacementModeY()
+        );
+        
+        this.moveTo(result.left, result.top);
+      });
     }
   }
 });

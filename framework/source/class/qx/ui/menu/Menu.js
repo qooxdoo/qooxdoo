@@ -29,15 +29,12 @@
 qx.Class.define("qx.ui.menu.Menu",
 {
   extend : qx.ui.core.Widget,
-  include : [ qx.ui.core.MPlacement, qx.ui.core.MChildrenHandling ],
+  
+  include : [ 
+    qx.ui.core.MPlacement, 
+    qx.ui.core.MChildrenHandling
+  ],
 
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
 
   construct : function()
   {
@@ -47,28 +44,26 @@ qx.Class.define("qx.ui.menu.Menu",
     this._setLayout(new qx.ui.menu.Layout);
 
     // Automatically add to application's root
-    this.getApplicationRoot().add(this);
+    var root = this.getApplicationRoot();
+    root.add(this);
 
     // Register mouse listeners
     this.addListener("mouseover", this._onMouseOver);
     this.addListener("mouseout", this._onMouseOut);
+    
+    // add resize listener
+    this.addListener("resize", this._onResize, this);
+    root.addListener("resize", this._onResize, this);
 
     // Initialize properties
     this.initVisibility();
     this.initKeepFocus();
     this.initKeepActive();
 
-    this._blocker = new qx.ui.core.Blocker(this.getApplicationRoot());
+    this._blocker = new qx.ui.core.Blocker(root);
   },
 
 
-
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
 
   properties :
   {
@@ -163,7 +158,7 @@ qx.Class.define("qx.ui.menu.Menu",
       apply : "_applyArrowColumnWidth"
     },
 
-   /**
+    /**
      * Color of the blocker
      */
     blockerColor :
@@ -302,14 +297,27 @@ qx.Class.define("qx.ui.menu.Menu",
     {
       if (this.getOpener() != null)
       {
-        this.__placeToOpener();
-        this._updateSlidebar();
+        this.placeToWidget(this.getOpener());
+        this.__updateSlideBar();
         this.show();
+        
+        this._placementTarget = this.getOpener();
       } else {
         this.warn("The menu instance needs a configured 'opener' widget!");
       }
     },
 
+    
+    openAtMouse : function(e)
+    {
+      this.placeToMouse(e);
+      this.__updateSlideBar();
+      this.show();
+      
+      this._placementTarget = e;
+    },
+    
+    
     /**
      * Convenience method to add a separator to the menu
      */
@@ -485,6 +493,9 @@ qx.Class.define("qx.ui.menu.Menu",
             control.add(children[i]);
           }
           
+          this.removeListener("resize", this._onResize, this);
+          control.getChildrenContainer().addListener("resize", this._onResize, this);
+          
           this.add(control);
           
         break;
@@ -525,31 +536,11 @@ qx.Class.define("qx.ui.menu.Menu",
     
     
     /**
-     * Place the menu relative to its opener
+     * Computes the size of the menu. This method is used by the 
+     * {@link qx.ui.core.MPlacement} mixin.
      */
-    __placeToOpener : function()
-    {
-      var size = this._getMenuBounds();
-      
-      if (size == null)
-      {
-        this.addListenerOnce("resize", this.__placeToOpener, this);
-        return;
-      }
-      
-      var opener = this.getOpener(); 
-
-      var result = qx.util.placement.Placement.compute(
-        size, 
-        this.getLayoutParent().getBounds(), 
-        opener.getContainerLocation() || this.getLayoutLocation(opener), 
-        this._getPlacementOffsets(), 
-        this.getPosition(),
-        this.getPlacementModeX(),
-        this.getPlacementModeY()
-      );
-      
-      this.moveTo(result.left, result.top);  
+    _computePlacementSize : function() {
+      return this._getMenuBounds();
     },
     
     
@@ -557,12 +548,12 @@ qx.Class.define("qx.ui.menu.Menu",
      * Updates the visibility of the slidebar based on the menu's current size 
      * and position.
      */
-    _updateSlidebar : function()
+    __updateSlideBar : function()
     {
       var menuBounds = this._getMenuBounds();
       if (!menuBounds)
       {
-        this.addListenerOnce("resize", this._updateSlidebar, this)
+        this.addListenerOnce("resize", this.__updateSlideBar, this)
         return;
       }
       
@@ -625,10 +616,28 @@ qx.Class.define("qx.ui.menu.Menu",
     
     /*
     ---------------------------------------------------------------------------
-      MOUSE EVENT HANDLING
+      EVENT HANDLING
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Update position if the menu or the root is resized
+     */
+    _onResize : function()
+    {
+      if (this.isVisible()) 
+      {
+        var target = this._placementTarget;
+        if (target instanceof qx.ui.core.Widget) {
+          this.placeToWidget(target);
+        } else {
+          this.placeToMouse(target);  
+        }
+        this.__updateSlideBar();
+      }
+    },
+    
+    
     /**
      * Event listener for mouseover event.
      *
@@ -732,6 +741,7 @@ qx.Class.define("qx.ui.menu.Menu",
       qx.ui.menu.Manager.getInstance().remove(this);
     }
 
+    this.getApplicationRoot().removeListener("resize", this._onResize, this);
     this._disposeObjects("_blocker");
   }
 });

@@ -82,20 +82,6 @@ qx.Class.define("qx.ui.table.columnmenu.Button",
       {
         entries[0].destroy();
       }
-    },
-    
-        
-    // overridden
-    open : function(selectFirst)
-    {
-      // override open() to force liveupdate on the opened menu. This is
-      // necessary because the table will popolate the menu after it has been
-      // opened
-      var menu = this.getMenu();
-      menu.placeToWidget(this, true);
-      menu.show();
-    }
-    
-    
+    }    
   }
 });
