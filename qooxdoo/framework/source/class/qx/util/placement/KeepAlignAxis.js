@@ -32,6 +32,7 @@ qx.Class.define("qx.util.placement.KeepAlignAxis",
     computeStart : function(size, target, offsets, areaSize, position)
     {
       var start = this._moveToEdgeAndAlign(size, target, offsets, position);
+      var range1End, range2Start;
       
       if (this._isInRange(start, size, areaSize)) {
         return start;
