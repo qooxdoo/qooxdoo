@@ -58,8 +58,7 @@ qx.Class.define("qx.ui.menu.Menu",
     this.initKeepFocus();
     this.initKeepActive();
 
-    var root = qx.core.Init.getApplication().getRoot();
-    this._blocker = new qx.ui.core.Blocker(root);
+    this._blocker = new qx.ui.core.Blocker(this.getApplicationRoot());
   },
 
 
@@ -176,7 +175,6 @@ qx.Class.define("qx.ui.menu.Menu",
       themeable: true
     },
 
-
     /**
      * Opacity of the blocker
      */
@@ -245,7 +243,7 @@ qx.Class.define("qx.ui.menu.Menu",
       apply : "_applyCloseInterval"
     },
 
-    /** Blocks the Bachground if value is <code>true<code> */
+    /** Blocks the background if value is <code>true<code> */
     blockBackground :
     {
       check : "Boolean",
@@ -269,7 +267,7 @@ qx.Class.define("qx.ui.menu.Menu",
 
     /** {qx.ui.core.Blocker} blocker for background blocking */
     _blocker : null,
-
+    
     /*
     ---------------------------------------------------------------------------
       PUBLIC API
@@ -277,35 +275,25 @@ qx.Class.define("qx.ui.menu.Menu",
     */
 
     // overridden
-    show : function()
+    _applyVisibility : function(value, old)
     {
       this.base(arguments);
 
-      if (this.getBlockBackground()) {
-        var zIndex = this.getZIndex();
-        this._blocker.blockContent(zIndex - 1);
+      if (value === "visible")
+      {
+        if (this.getBlockBackground()) {
+          var zIndex = this.getZIndex();
+          this._blocker.blockContent(zIndex - 1);
+        }
+      } 
+      else 
+      {
+        if (this._blocker.isContentBlocked()) {
+          this._blocker.unblockContent();
+        }
       }
     },
-
-    // overridden
-    hide : function()
-    {
-      this.base(arguments);
-
-      if (this._blocker.isContentBlocked()) {
-        this._blocker.unblockContent();
-      }
-    },
-
-    // overridden
-    exclude : function()
-    {
-      this.base(arguments);
-
-      if (this._blocker.isContentBlocked()) {
-        this._blocker.unblockContent();
-      }
-    },
+    
 
     /**
      * Opens the menu and configures the opener
@@ -314,7 +302,8 @@ qx.Class.define("qx.ui.menu.Menu",
     {
       if (this.getOpener() != null)
       {
-        this.placeToWidget(this.getOpener());
+        this.__placeToOpener();
+        this._updateSlidebar();
         this.show();
       } else {
         this.warn("The menu instance needs a configured 'opener' widget!");
@@ -335,7 +324,7 @@ qx.Class.define("qx.ui.menu.Menu",
      * @return {Array} List of all column widths
      */
     getColumnSizes : function() {
-      return this._getLayout().getColumnSizes();
+      return this._getMenuLayout().getColumnSizes();
     },
 
 
@@ -367,25 +356,25 @@ qx.Class.define("qx.ui.menu.Menu",
 
     // property apply
     _applyIconColumnWidth : function(value, old) {
-      this._getLayout().setIconColumnWidth(value);
+      this._getMenuLayout().setIconColumnWidth(value);
     },
 
 
     // property apply
     _applyArrowColumnWidth : function(value, old) {
-      this._getLayout().setArrowColumnWidth(value);
+      this._getMenuLayout().setArrowColumnWidth(value);
     },
 
 
     // property apply
     _applySpacingX : function(value, old) {
-      this._getLayout().setColumnSpacing(value);
+      this._getMenuLayout().setColumnSpacing(value);
     },
 
 
     // property apply
     _applySpacingY : function(value, old) {
-      this._getLayout().setSpacing(value);
+      this._getMenuLayout().setSpacing(value);
     },
 
 
@@ -470,6 +459,138 @@ qx.Class.define("qx.ui.menu.Menu",
       this._blocker.setOpacity(value);
     },
 
+    
+    /*
+    ---------------------------------------------------------------------------
+    SCROLLING SUPPORT
+    ---------------------------------------------------------------------------
+    */
+    
+    _createChildControlImpl : function(id)
+    {
+      var control;
+    
+      switch(id)
+      {
+        case "slidebar":
+          var control = new qx.ui.menu.MenuSlideBar();
+          
+          var layout = this._getLayout();
+          this._setLayout(new qx.ui.layout.Grow());
+          control.setLayout(layout);
+          
+          var children = qx.lang.Array.clone(this.getChildren());
+          for (var i=0; i<children.length; i++) {
+            control.add(children[i]);
+          }
+          
+          this.add(control);
+          
+        break;
+      }
+      
+      return control || this.base(arguments, id);
+    },
+         
+    
+    _getMenuLayout : function()
+    {
+      if (this.hasChildControl("slidebar")) {
+        return this.getChildControl("slidebar").getChildrenContainer().getLayout();
+      } else {
+        return this._getLayout();
+      }
+    },
+
+    
+    _getMenuBounds : function()
+    {
+      if (this.hasChildControl("slidebar")) {
+        return this.getChildControl("slidebar").getChildrenContainer().getBounds();
+      } else {
+        return this.getBounds();
+      }
+    },
+    
+    
+    __placeToOpener : function()
+    {
+      var size = this._getMenuBounds();
+      
+      if (size == null)
+      {
+        this.addListenerOnce("resize", this.__placeToOpener, this);
+        return;
+      }
+      
+      var offsets = {
+        left : this.getOffsetLeft(),
+        top : this.getOffsetTop(),
+        right : this.getOffsetRight(),
+        bottom : this.getOffsetBottom()
+      }
+      
+      var opener = this.getOpener(); 
+
+      var result = qx.util.placement.Placement.compute(
+        size, 
+        this.getLayoutParent().getBounds(), 
+        opener.getContainerLocation() || this.getLayoutLocation(opener), 
+        offsets, 
+        this.getPosition(),
+        this.getPlacementModeX(),
+        this.getPlacementModeY()
+      );
+      
+      this.moveTo(result.left, result.top);  
+    },
+    
+    
+    _updateSlidebar : function()
+    {
+      var menuBounds = this._getMenuBounds();
+      if (!menuBounds)
+      {
+        this.addListenerOnce("resize", this._updateSlidebar, this)
+        return;
+      }
+      
+      var menuHeight = menuBounds.height;
+      var rootHeight = this.getLayoutParent().getBounds().height;
+      var top = this.getLayoutProperties().top;
+      
+      if (top < 0)
+      {
+        this._assertSlideBar(function() {
+          this.setHeight(menuBounds.height + top);
+          this.moveTo(menuBounds.left, 0);
+        }, this);
+      }
+      else if (top + menuBounds.height > rootHeight) 
+      {
+        this._assertSlideBar(function() {
+          this.setHeight(rootHeight - top);
+        }, this);
+      }
+      else
+      {
+        this.setHeight(null);
+      }
+    },
+    
+    
+    _assertSlideBar : function(callback, context)
+    {
+      if (this.hasChildControl("slidebar")) {
+        return callback.call(context);
+      }
+      qx.event.Timer.once(function() {
+        this.getChildControl("slidebar");
+        callback.call(context);
+      }, this)
+    },
+    
+    
     /*
     ---------------------------------------------------------------------------
       MOUSE EVENT HANDLING
