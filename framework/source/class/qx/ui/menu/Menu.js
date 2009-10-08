@@ -55,12 +55,12 @@ qx.Class.define("qx.ui.menu.Menu",
     this.addListener("resize", this._onResize, this);
     root.addListener("resize", this._onResize, this);
 
+    this._blocker = new qx.ui.core.Blocker(root);
+
     // Initialize properties
     this.initVisibility();
     this.initKeepFocus();
     this.initKeepActive();
-
-    this._blocker = new qx.ui.core.Blocker(root);
   },
 
 
@@ -269,27 +269,6 @@ qx.Class.define("qx.ui.menu.Menu",
     ---------------------------------------------------------------------------
     */
 
-    // overridden
-    _applyVisibility : function(value, old)
-    {
-      this.base(arguments);
-
-      if (value === "visible")
-      {
-        if (this.getBlockBackground()) {
-          var zIndex = this.getZIndex();
-          this._blocker.blockContent(zIndex - 1);
-        }
-      } 
-      else 
-      {
-        if (this._blocker.isContentBlocked()) {
-          this._blocker.unblockContent();
-        }
-      }
-    },
-    
-
     /**
      * Opens the menu and configures the opener
      */
@@ -399,13 +378,9 @@ qx.Class.define("qx.ui.menu.Menu",
         mgr.add(this);
 
         // Mark opened in parent menu
-        var opener = this.getOpener();
-        if (opener)
-        {
-          var parentMenu = opener.getLayoutParent();
-          if (parentMenu && parentMenu instanceof qx.ui.menu.Menu) {
-            parentMenu.setOpenedButton(opener);
-          }
+        var parentMenu = this.getParentMenu();
+        if (parentMenu) {
+          parentMenu.setOpenedButton(this.getOpener());
         }
       }
       else if (old === "visible")
@@ -414,19 +389,58 @@ qx.Class.define("qx.ui.menu.Menu",
         mgr.remove(this);
 
         // Unmark opened in parent menu
-        var opener = this.getOpener();
-        if (opener)
-        {
-          var parentMenu = opener.getLayoutParent();
-          if (parentMenu && parentMenu instanceof qx.ui.menu.Menu && parentMenu.getOpenedButton() == opener) {
-            parentMenu.resetOpenedButton();
-          }
+        var parentMenu = this.getParentMenu();
+        if (parentMenu && parentMenu.getOpenedButton() == this.getOpener()) {
+          parentMenu.resetOpenedButton();
         }
 
         // Clear properties
         this.resetOpenedButton();
         this.resetSelectedButton();
       }
+      
+      this.__updateBlockerVisibility();
+    },
+    
+    
+    /**
+     * Updates the blocker's visibility
+     */
+    __updateBlockerVisibility : function()
+    {
+      if (this.isVisible())
+      {
+        if (this.getBlockBackground()) {
+          var zIndex = this.getZIndex();
+          this._blocker.blockContent(zIndex - 1);
+        }
+      } 
+      else 
+      {
+        if (this._blocker.isContentBlocked()) {
+          this._blocker.unblockContent();
+        }
+      }      
+    },
+    
+    
+    /**
+     * Get the parent menu. Returns <code>null</code> if the menu doesn't have a
+     * parent menu.
+     * 
+     * @return {Menu|null} The parent menu.
+     */
+    getParentMenu : function()
+    {
+      var widget = this.getOpener();
+      if (!widget || !(widget instanceof qx.ui.menu.AbstractButton)) {
+        return null;
+      }
+      
+      while (widget && !(widget instanceof qx.ui.menu.Menu)) {
+        widget = widget.getLayoutParent();
+      }
+      return widget;     
     },
 
 
