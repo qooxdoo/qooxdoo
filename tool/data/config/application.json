@@ -133,7 +133,7 @@
     {
       "desc"    : "create a test runner app for unit tests of the current library",
 
-      "extend" : ["testrunner::build"],
+      "extend" : ["libraries", "testrunner::build"],
 
       "let" :
       {
@@ -141,14 +141,7 @@
         "TEST_INCLUDE"    : "${APPLICATION}.test.*",
         "QXTHEME"         : "qx.theme.Modern",
         "BUILD_PATH"      : "${ROOT}/test"
-      },
-
-      "library" :
-      [
-        {
-          "manifest" : "${ROOT}/Manifest.json"
-        }
-      ]
+      }
     },
 
 
@@ -180,7 +173,7 @@
     {
       "desc"    : "create a test runner app for unit tests (source version) of the current library",
 
-      "extend" : ["testrunner::build-with-tests-source"],
+      "extend" : ["libraries", "testrunner::build-with-tests-source"],
 
       "let" :
       {
@@ -188,14 +181,7 @@
         "TEST_INCLUDE"    : "${APPLICATION}.test.*",
         "QXTHEME"         : "qx.theme.Modern",
         "BUILD_PATH"      : "${ROOT}/test"
-      },
-
-      "library" :
-      [
-        {
-          "manifest" : "${ROOT}/Manifest.json"
-        }
-      ]
+      }
     }
   }
 }
