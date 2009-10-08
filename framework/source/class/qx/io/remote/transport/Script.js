@@ -23,10 +23,6 @@
 ************************************************************************ */
 
 /**
- #ignore(qx.io.remote.ScriptTransport)
- */
-
-/**
  * Transports requests to a server using dynamic script tags.
  *
  * This class should not be used directly by client programmers.
@@ -418,9 +414,6 @@ qx.Class.define("qx.io.remote.transport.Script",
     // basic registration to qx.io.remote.Exchange
     // the real availability check (activeX stuff and so on) follows at the first real request
     qx.io.remote.Exchange.registerType(qx.io.remote.transport.Script, "qx.io.remote.transport.Script");
-
-    // Alias (compatibility to 0.7 qooxdoo)
-    qx.io.remote.ScriptTransport = statics;
   },
 
 
