@@ -18,6 +18,10 @@
 
 ************************************************************************ */
 
+/**
+ #ignore(timer)
+ */
+
 qx.Class.define("demobrowser.demo.test.Destructor",
 {
   extend : qx.application.Standalone,
