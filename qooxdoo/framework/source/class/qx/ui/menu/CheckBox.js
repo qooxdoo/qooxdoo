@@ -115,6 +115,7 @@ qx.Class.define("qx.ui.menu.CheckBox",
       if (e.isLeftPressed()) {
         this.toggleValue();
       }
+      qx.ui.menu.Manager.getInstance().hideAll();
     },
 
 
