@@ -695,7 +695,7 @@ var Expr = Sizzle.selectors = {
       } else if ( name === "not" ) {
         var not = match[3];
 
-        for ( i = 0, l = not.length; i < l; i++ ) {
+        for ( var i = 0, l = not.length; i < l; i++ ) {
           if ( not[i] === elem ) {
             return false;
           }
