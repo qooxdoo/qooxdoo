@@ -315,6 +315,21 @@ qx.Class.define("qx.ui.table.Table",
       init : 50
     },
 
+    /**
+     * Whether the widget contains content which may be selected by the user.
+     * 
+     * If the value set to <code>true</code> the native browser selection can 
+     * be used for text selection. But it is normally useful for 
+     * forms fields, longer texts/documents, editors, etc.
+     * 
+     * Note: This has no effect on Table!
+     */
+    selectable :
+    {
+      refine : true,
+      init : false
+    },
+
 
     /** The selection model. */
     selectionModel :
