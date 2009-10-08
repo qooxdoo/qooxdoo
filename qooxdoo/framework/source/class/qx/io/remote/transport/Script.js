@@ -23,6 +23,10 @@
 ************************************************************************ */
 
 /**
+ #ignore(qx.io.remote.ScriptTransport)
+ */
+
+/**
  * Transports requests to a server using dynamic script tags.
  *
  * This class should not be used directly by client programmers.
