@@ -279,7 +279,6 @@ qx.Class.define("qx.ui.form.RadioGroup",
       if (item.getValue()) {
         this.setSelection([item]);
       } else if (this.getSelection()[0] == item) {
-        // TODO is this needed with the new selection manager?
         this.resetSelection();
       }
     },
