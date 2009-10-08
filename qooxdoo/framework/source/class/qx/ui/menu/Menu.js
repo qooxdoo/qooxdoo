@@ -466,6 +466,7 @@ qx.Class.define("qx.ui.menu.Menu",
     ---------------------------------------------------------------------------
     */
     
+    // overridden
     _createChildControlImpl : function(id)
     {
       var control;
@@ -493,6 +494,11 @@ qx.Class.define("qx.ui.menu.Menu",
     },
          
     
+    /**
+     * Get the menu layout manager
+     * 
+     * @return {Layout} The menu layout manager
+     */
     _getMenuLayout : function()
     {
       if (this.hasChildControl("slidebar")) {
@@ -503,6 +509,11 @@ qx.Class.define("qx.ui.menu.Menu",
     },
 
     
+    /**
+     * Get the menu bounds
+     * 
+     * @return {Map} The menu bounds
+     */
     _getMenuBounds : function()
     {
       if (this.hasChildControl("slidebar")) {
@@ -513,6 +524,9 @@ qx.Class.define("qx.ui.menu.Menu",
     },
     
     
+    /**
+     * Place the menu relative to its opener
+     */
     __placeToOpener : function()
     {
       var size = this._getMenuBounds();
@@ -523,20 +537,13 @@ qx.Class.define("qx.ui.menu.Menu",
         return;
       }
       
-      var offsets = {
-        left : this.getOffsetLeft(),
-        top : this.getOffsetTop(),
-        right : this.getOffsetRight(),
-        bottom : this.getOffsetBottom()
-      }
-      
       var opener = this.getOpener(); 
 
       var result = qx.util.placement.Placement.compute(
         size, 
         this.getLayoutParent().getBounds(), 
         opener.getContainerLocation() || this.getLayoutLocation(opener), 
-        offsets, 
+        this._getPlacementOffsets(), 
         this.getPosition(),
         this.getPlacementModeX(),
         this.getPlacementModeY()
@@ -546,6 +553,10 @@ qx.Class.define("qx.ui.menu.Menu",
     },
     
     
+    /**
+     * Updates the visibility of the slidebar based on the menu's current size 
+     * and position.
+     */
     _updateSlidebar : function()
     {
       var menuBounds = this._getMenuBounds();
@@ -558,19 +569,23 @@ qx.Class.define("qx.ui.menu.Menu",
       var menuHeight = menuBounds.height;
       var rootHeight = this.getLayoutParent().getBounds().height;
       var top = this.getLayoutProperties().top;
+      var left = this.getLayoutProperties().left;
       
+      // Adding the slidebar must be deferred because this call can happen
+      // during the layout flush, which make it impossible to move existing
+      // layout to the slidebar
       if (top < 0)
       {
         this._assertSlideBar(function() {
           this.setHeight(menuBounds.height + top);
-          this.moveTo(menuBounds.left, 0);
-        }, this);
+          this.moveTo(left, 0);
+        });
       }
       else if (top + menuBounds.height > rootHeight) 
       {
         this._assertSlideBar(function() {
           this.setHeight(rootHeight - top);
-        }, this);
+        });
       }
       else
       {
@@ -579,15 +594,32 @@ qx.Class.define("qx.ui.menu.Menu",
     },
     
     
-    _assertSlideBar : function(callback, context)
+    /**
+     * Schedules the addition of the slidebar and calls the given callback
+     * after the slidebar has been added.
+     * 
+     * @param callback {Function} the callback to call
+     */
+    _assertSlideBar : function(callback)
     {
       if (this.hasChildControl("slidebar")) {
-        return callback.call(context);
+        return callback.call(this);
       }
-      qx.event.Timer.once(function() {
-        this.getChildControl("slidebar");
-        callback.call(context);
-      }, this)
+      
+      this.__onAfterSlideBarAdd = callback;
+      qx.ui.core.queue.Widget.add(this);
+    },
+    
+    
+    // overridden
+    syncWidget : function()
+    {
+      this.getChildControl("slidebar");
+      if (this.__onAfterSlideBarAdd)
+      {
+        this.__onAfterSlideBarAdd.call(this);
+        delete this.__onAfterSlideBarAdd;
+      }
     },
     
     

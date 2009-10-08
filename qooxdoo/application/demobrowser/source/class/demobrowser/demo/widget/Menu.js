@@ -71,16 +71,19 @@ qx.Class.define("demobrowser.demo.widget.Menu",
       
       var sub = new qx.ui.menu.Menu();
       for (var i=0; i<20; i++) {
-        sub.add(new qx.ui.menu.Button("item " + (i+1)));
+        sub.add(new qx.ui.menu.Button("Folder " + (i+1)));
       }
-      menu.add(new qx.ui.menu.Button("sub menu", null, null, sub));
+      menu.add(new qx.ui.menu.Button("move to", null, null, sub));
 
+      menu.add(new qx.ui.menu.Separator());
+      
       for (var i=0; i<7; i++) {
-        menu.add(new qx.ui.menu.Button("item " + (i+1)));
+        menu.add(new qx.ui.menu.Button("command " + (i+1)));
       }
       
       return menu;
     },
+    
     
     debugRadio : function(e) {
       this.debug("Change selection: " + e.getData()[0].getLabel());
