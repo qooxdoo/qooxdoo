@@ -465,11 +465,11 @@ class DependencyLoader:
             #for bi in lang.GLOBALS + ['clazz', 'qx', r'qx\.\$\$\w+$']:  # GLOBALS contains 'this' and 'arguments'
             #for bi in lang.GLOBALS + QXGLOBALS:  # GLOBALS contains 'this' and 'arguments'
             #    if re.search(r'^%s\b' % bi, assembled):
-            #if GlobalSymbolsCombinedPatt.search(assembled):
-            #    return False
-            for patt in GlobalSymbolsRegPatts:
-                if patt.search(assembled):
-                    return False
+            if GlobalSymbolsCombinedPatt.search(assembled):
+                return False
+            #for patt in GlobalSymbolsRegPatts:
+            #    if patt.search(assembled):
+            #        return False
             # skip scoped vars - expensive, therefore last test
             if self._isScopedVar(assembled, node, fileId):
                 return False
