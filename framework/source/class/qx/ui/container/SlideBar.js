@@ -189,6 +189,8 @@ qx.Class.define("qx.ui.container.SlideBar",
         case "scrollpane":
           control = new qx.ui.core.scroll.ScrollPane();
           control.addListener("update", this._onResize, this);
+          control.addListener("scrollX", this._onScroll, this);
+          control.addListener("scrollY", this._onScroll, this);
           break;
       }
 
@@ -245,10 +247,8 @@ qx.Class.define("qx.ui.container.SlideBar",
         pane.scrollToY(value);
       }
     },
-
-
-
-
+    
+    
     /*
     ---------------------------------------------------------------------------
       PROPERTY APPLY ROUTINES
@@ -324,6 +324,14 @@ qx.Class.define("qx.ui.container.SlideBar",
     
     
     /**
+     * Update arrow enabled state after scrolling
+     */
+    _onScroll : function() {
+      this._updateArrowsEnabled();
+    },
+    
+    
+    /**
      * Listener for resize event. This event is fired after the
      * first flush of the element which leads to another queuing
      * when the changes modify the visibility of the scroll buttons.
@@ -345,9 +353,14 @@ qx.Class.define("qx.ui.container.SlideBar",
         contentSize.width > innerSize.width :
         contentSize.height > innerSize.height;
 
-      overflow ? this._showArrows() : this._hideArrows();
+      if (overflow) {
+        this._showArrows()
+        this._updateArrowsEnabled();
+      } else {
+        this._hideArrows();
+      }
     },
-
+    
 
     /**
      * Scroll handler for left scrolling
@@ -380,7 +393,8 @@ qx.Class.define("qx.ui.container.SlideBar",
           this.scrollBy(this.getChildControl("scrollpane").getScrollX());
         },
         this,
-        50);
+        50
+      );
     },
 
 
@@ -390,6 +404,29 @@ qx.Class.define("qx.ui.container.SlideBar",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Update arrow enabled state
+     */
+    _updateArrowsEnabled : function()
+    {
+      var pane = this.getChildControl("scrollpane");
+      
+      if (this.getOrientation() === "horizontal")
+      {
+        var position = pane.getScrollX();
+        var max = pane.getScrollMaxX();
+      }
+      else
+      {
+        var position = pane.getScrollY();
+        var max = pane.getScrollMaxY();
+      }
+      
+      this.getChildControl("button-backward").setEnabled(position > 0);
+      this.getChildControl("button-forward").setEnabled(position < max);
+    },
+
+    
     /**
      * Show the arrows (Called from resize event)
      *

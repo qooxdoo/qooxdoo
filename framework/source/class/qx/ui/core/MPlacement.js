@@ -95,6 +95,12 @@ qx.Mixin.define("qx.ui.core.MPlacement",
       apply : "_applySmart"
     },
     
+    /**
+     * Selects the algorithm to place the widget horizontally. <code>direct</code>
+     * uses {@link qx.util.placement.DirectAxis}, <code>keep-align</code>
+     * uses {@link qx.util.placement.KeepAlignAxis} and <code>best-fit</code>
+     * uses {@link qx.util.placement.BestFitAxis}. 
+     */
     placementModeX :
     {
       check : ["direct", "keep-align", "best-fit"],
@@ -102,6 +108,12 @@ qx.Mixin.define("qx.ui.core.MPlacement",
       themeable : true
     },
     
+    /**
+     * Selects the algorithm to place the widget vertically. <code>direct</code>
+     * uses {@link qx.util.placement.DirectAxis}, <code>keep-align</code>
+     * uses {@link qx.util.placement.KeepAlignAxis} and <code>best-fit</code>
+     * uses {@link qx.util.placement.BestFitAxis}.
+     */
     placementModeY :
     {
       check : ["direct", "keep-align", "best-fit"],
@@ -381,6 +393,22 @@ qx.Mixin.define("qx.ui.core.MPlacement",
 
 
     /**
+     * Returns the placement offsets as a map
+     * 
+     * @return {Map} The placement offsets
+     */
+    _getPlacementOffsets : function()
+    {
+      return {
+        left : this.getOffsetLeft(),
+        top : this.getOffsetTop(),
+        right : this.getOffsetRight(),
+        bottom : this.getOffsetBottom()
+      }
+    },
+    
+    
+    /**
      * Internal method to read specific this properties and
      * apply the results to the this afterwards.
      *
@@ -399,18 +427,11 @@ qx.Mixin.define("qx.ui.core.MPlacement",
         return;
       }
 
-      var offsets = {
-        left : this.getOffsetLeft(),
-        top : this.getOffsetTop(),
-        right : this.getOffsetRight(),
-        bottom : this.getOffsetBottom()
-      }
-
       var result = qx.util.placement.Placement.compute(
         size, 
         this.getLayoutParent().getBounds(), 
         coords, 
-        offsets, 
+        this._getPlacementOffsets(), 
         this.getPosition(),
         this.getPlacementModeX(),
         this.getPlacementModeY()
