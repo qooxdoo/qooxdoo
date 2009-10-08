@@ -149,11 +149,13 @@ qx.Class.define("qx.ui.menu.Button",
       {
         this.execute();
 
-        // stop menu from closing
+        // don't close menus if the button is a sub menu button
         if (this.getMenu()) {
-          e.stopPropagation();
+          return;
         }
       }
+      
+      qx.ui.menu.Manager.getInstance().hideAll();
     },
 
 

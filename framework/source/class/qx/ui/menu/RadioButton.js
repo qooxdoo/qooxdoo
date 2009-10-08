@@ -128,6 +128,7 @@ qx.Class.define("qx.ui.menu.RadioButton",
       if (e.isLeftPressed()) {
         this.setValue(true);
       }
+      qx.ui.menu.Manager.getInstance().hideAll();
     },
 
 

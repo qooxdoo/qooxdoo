@@ -53,10 +53,6 @@ qx.Class.define("qx.ui.menu.Manager",
 
     // React on mousedown/mouseup events
     root.addListener("mousedown", this._onMouseDown, this, true);
-    root.addListener("mouseup", this._onMouseUp, this);
-
-    // support for inline applications
-    Registration.addListener(window.document.documentElement, "mouseup", this._onMouseUp, this);
 
     // React on keypress events
     Registration.addListener(el, "keydown", this._onKeyUpDown, this, true);
@@ -434,45 +430,6 @@ qx.Class.define("qx.ui.menu.Manager",
         this.hideAll();
       }
     },
-
-
-    /**
-     * Event handler for mouseup events
-     *
-     * @param e {qx.event.type.Mouse} mouseup event
-     */
-    _onMouseUp : function(e)
-    {
-      var target = e.getTarget();
-      var widget;
-
-      if (target instanceof qx.ui.core.Widget) {
-        widget = target;
-      }
-      else {
-        widget = qx.ui.core.Widget.getWidgetByElement(target);
-      }
-
-      // All mouseups not exactly clicking on the menu hide all currently
-      // open menus.
-      // Separators for example are anonymous. This way the
-      // target is the menu. It is a wanted behavior that clicks on
-      // separators are ignored completely.
-      // Do not hide the menu if the target widget is a disabled menu button
-      if (!(widget instanceof qx.ui.menu.Menu)) {
-
-        widget = this._getMenuButton(widget);
-        if (widget != null &&
-            widget instanceof qx.ui.menu.AbstractButton && !widget.isEnabled()) {
-          return;
-        }
-
-        this.hideAll();
-      }
-    },
-
-
-
 
 
     /*
@@ -873,8 +830,6 @@ qx.Class.define("qx.ui.menu.Manager",
 
     // React on mousedown/mouseup events
     root.removeListener("mousedown", this._onMouseDown, this, true);
-    root.removeListener("mouseup", this._onMouseUp, this);
-    Registration.removeListener(window.document.documentElement, "mouseup", this._onMouseUp, this);
 
     // React on keypress events
     Registration.removeListener(el, "keydown", this._onKeyUpDown, this, true);
