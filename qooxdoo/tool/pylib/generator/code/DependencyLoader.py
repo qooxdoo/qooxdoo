@@ -148,16 +148,19 @@ class DependencyLoader:
             deps["warn"] = unknownDeps
             if verifyDeps:
                 for classId in unknownDeps:
-                    self._console.warn("! Unknown class referenced: %s (in: %s)" % (classId, item))
+                    if classId not in deps["ignore"]:
+                        self._console.warn("! Unknown class referenced: %s (in: %s)" % (classId, item))
 
             # process lists
             try:
+              skipList = deps["warn"] + deps["ignore"]
+
               for subitem in deps["load"]:
-                  if not subitem in result and not subitem in excludeWithDeps and not subitem in deps["warn"]:
+                  if not subitem in result and not subitem in excludeWithDeps and not subitem in skipList:
                       classlistFromClassRecursive(subitem, excludeWithDeps, variants, result)
 
               for subitem in deps["run"]:
-                  if not subitem in result and not subitem in excludeWithDeps and not subitem in deps["warn"]:
+                  if not subitem in result and not subitem in excludeWithDeps and not subitem in skipList:
                       classlistFromClassRecursive(subitem, excludeWithDeps, variants, result)
 
             except NameError, detail:
@@ -223,6 +226,7 @@ class DependencyLoader:
         deps = {
             "load" : loadFinal,
             "run"  : runFinal,
+            "ignore" : static['ignore'],
             'undef' : static['undef']
         }
 
@@ -270,8 +274,9 @@ class DependencyLoader:
             # load time = before class = require
             # runtime = after class = use
 
-            load = []
-            run = []
+            load   = []
+            run    = []
+            ignore = []
 
             self._console.debug("Gathering dependencies: %s" % fileId)
             self._console.indent()
@@ -286,6 +291,7 @@ class DependencyLoader:
             # Process meta data
             load.extend(metaLoad)
             run.extend(metaRun)
+            ignore.extend(metaIgnore)
 
             # Read content data
             (autoLoad, autoRun, autoWarn) = analyzeClassDeps(fileId, variants)
@@ -315,9 +321,10 @@ class DependencyLoader:
 
             # Build data structure
             deps = {
-                "load" : load,
-                "run"  : run,
-                'undef' : autoWarn
+                "load"   : load,
+                "run"    : run,
+                "ignore" : ignore,
+                'undef'  : autoWarn
             }
 
             return deps
@@ -391,6 +398,8 @@ class DependencyLoader:
                 script = _memo1_[fileId]
             else:
                 #rootNode = findRoot(node)
+                #if fileId in _memo1_ and _memo1_[fileId].root != rootNode:
+                    #print "-- re-calculating scopes for: %s" % fileId
                 script = Script(rootNode, fileId)
                 _memo1_[fileId] = script
             return script
@@ -1170,5 +1179,4 @@ class DependencyLoader:
                 continue
 
         return result
-
 
