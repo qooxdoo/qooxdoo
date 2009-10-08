@@ -1372,10 +1372,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           // including the default context menu even if the default context
           // menu is allowed to be displayed normally. There's no need to
           // actually show an empty menu, though.
-          if (menu.getChildren().length > 0)
-          {
-            menu.placeToMouse(e);
-            menu.show();
+          if (menu.getChildren().length > 0) {
+            menu.openAtMouse(e);
           }
           else
           {
