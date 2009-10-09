@@ -70,7 +70,7 @@ qx.Class.define("feedreader.io.FeedLoader",
 
       // Redirect request through proxy (required for cross-domain loading)
       // The proxy also translates the data from XML to JSON
-      proxy = "http://resources.qooxdoo.org/proxy.php?mode=jsonp&proxy=" + encodeURIComponent(feed.getUrl());
+      proxy = "http://resources.qooxdoo.org/proxy_1.php?mode=jsonp&proxy=" + encodeURIComponent(feed.getUrl());
 
       // Create request object
       req = new qx.io.remote.Request(proxy, "GET", "text/plain");
