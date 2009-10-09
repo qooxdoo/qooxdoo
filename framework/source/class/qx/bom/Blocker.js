@@ -282,9 +282,11 @@ qx.Class.define("qx.bom.Blocker",
       }
       else
       {
+        styles.left = qx.bom.element.Location.getLeft(this.__blockedElement) + "px";
+        styles.top = qx.bom.element.Location.getTop(this.__blockedElement) + "px";
         styles.position = "absolute";
-        styles.width = "100%";
-        styles.height = "100%";
+        styles.width = qx.bom.element.Dimension.getWidth(this.__blockedElement) + "px";
+        styles.height = qx.bom.element.Dimension.getHeight(this.__blockedElement) + "px";
       }
 
       return styles;
@@ -308,10 +310,11 @@ qx.Class.define("qx.bom.Blocker",
       qx.bom.element.Style.setStyles(this.__blockerElement, styles);
       qx.dom.Element.insertBegin(this.__blockerElement, target);
 
-      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      {
         styles.zIndex = this.getBlockerZIndex() - 1;
         qx.bom.element.Style.setStyles(this.__iframeElement, styles);
-        qx.dom.Element.insertBegin(this.__iframeElement, target);
+        qx.dom.Element.insertEnd(this.__iframeElement, document.body);
       }
     },
 
