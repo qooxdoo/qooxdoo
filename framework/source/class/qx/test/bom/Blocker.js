@@ -42,7 +42,9 @@ qx.Class.define("qx.test.bom.Blocker",
     },
 
 
-    tearDown : function() {
+    tearDown : function()
+    {
+      this.__blocker.unblock();
       this.__blocker.dispose();
     },
 
@@ -59,7 +61,7 @@ qx.Class.define("qx.test.bom.Blocker",
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
         var childElements = qx.dom.Hierarchy.getChildElements(document.body);
-        var blockerIframeElement = childElements[0];
+        var blockerIframeElement = childElements[childElements.length - 1];
 
         this.assertNotNull(blockerIframeElement, "Blocker iframe element not inserted");
         this.assertEquals(qx.bom.Document.getWidth(), qx.bom.element.Dimension.getWidth(blockerIframeElement));
@@ -116,7 +118,7 @@ qx.Class.define("qx.test.bom.Blocker",
           {
             var childElements = qx.dom.Hierarchy.getChildElements(self.__blockedElement);
             var blockerIframeElement = childElements[0];
-            self.assertEquals(qx.bom.element.Style.get(self.__blockedElement, "zIndex") - 2, qx.bom.element.Style.get(blockerIframeElement, "zIndex"));
+            self.assertEquals(qx.bom.element.Style.get(self.__blockedElement, "zIndex") - 1, qx.bom.element.Style.get(blockerIframeElement, "zIndex"));
           }
 
           self.__blocker.unblock();
@@ -159,19 +161,17 @@ qx.Class.define("qx.test.bom.Blocker",
 
     testDoubleBlocking : function()
     {
-      var before = qx.dom.Hierarchy.getChildElements(this.__blockedElement);
+      var before = qx.dom.Hierarchy.getDescendants(document.body);
 
       this.__blocker.block(this.__blockedElement);
       this.__blocker.block(this.__blockedElement);
 
-      var after = qx.dom.Hierarchy.getChildElements(this.__blockedElement);
-
-      this.assertEquals(before.length, 0);
+      var after = qx.dom.Hierarchy.getDescendants(document.body);
 
       if (qx.core.Variant.isSet("qx.client", "mshtml")) {
-        this.assertEquals(after.length, 2);
+        this.assertEquals(after.length, before.length + 2);
       } else {
-        this.assertEquals(after.length, 1);
+        this.assertEquals(after.length, before.length + 1);
       }
 
       this.__blocker.unblock();
