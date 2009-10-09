@@ -282,8 +282,6 @@ qx.Class.define("qx.bom.Blocker",
       }
       else
       {
-        styles.left = qx.bom.element.Location.getLeft(this.__blockedElement) + "px";
-        styles.top = qx.bom.element.Location.getTop(this.__blockedElement) + "px";
         styles.position = "absolute";
         styles.width = qx.bom.element.Dimension.getWidth(this.__blockedElement) + "px";
         styles.height = qx.bom.element.Dimension.getHeight(this.__blockedElement) + "px";
@@ -313,6 +311,9 @@ qx.Class.define("qx.bom.Blocker",
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
         styles.zIndex = this.getBlockerZIndex() - 1;
+        styles.left = qx.bom.element.Location.getLeft(target) + "px";
+        styles.top = qx.bom.element.Location.getTop(target) + "px";
+
         qx.bom.element.Style.setStyles(this.__iframeElement, styles);
         qx.dom.Element.insertEnd(this.__iframeElement, document.body);
       }
