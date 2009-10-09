@@ -81,7 +81,7 @@
  * </pre>
  * and the string you return as the response might look like this:
  * <pre>
- * 'qx.io.remote.ScriptTransport._requestFinished(10, "Thank you for asking");'
+ * 'qx.io.remote.transport.Script._requestFinished(10, "Thank you for asking");'
  * </pre>
  *
  *
