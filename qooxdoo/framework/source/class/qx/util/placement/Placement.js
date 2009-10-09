@@ -161,6 +161,8 @@ qx.Class.define("qx.util.placement.Placement",
   
   members :
   {
+    __defaultAxis : null,
+
     /**
      * DOM and widget independent method to compute the location
      * of a object to make it relative to any other object.

@@ -259,6 +259,7 @@ qx.Class.define("qx.ui.menu.Menu",
   {
 
     __scheduledOpen : null,
+    __onAfterSlideBarAdd : null,
 
     /** {qx.ui.core.Blocker} blocker for background blocking */
     _blocker : null,
@@ -286,7 +287,12 @@ qx.Class.define("qx.ui.menu.Menu",
       }
     },
 
-    
+    /**
+     * Opens the menu at the mouse cursor position
+     * 
+     * @param e {qx.event.type.Mouse}  Mouse event to align to
+     * @return {void}
+     */
     openAtMouse : function(e)
     {
       this.placeToMouse(e);
@@ -316,7 +322,7 @@ qx.Class.define("qx.ui.menu.Menu",
 
 
     /**
-     * Return all selectable menu itmes.
+     * Return all selectable menu items.
      * 
      * @return {qx.ui.core.Widget[]} selectable widgets
      */
@@ -571,7 +577,6 @@ qx.Class.define("qx.ui.menu.Menu",
         return;
       }
       
-      var menuHeight = menuBounds.height;
       var rootHeight = this.getLayoutParent().getBounds().height;
       var top = this.getLayoutProperties().top;
       var left = this.getLayoutProperties().left;
