@@ -53,6 +53,7 @@ QXGLOBALS = [
     ]
 
 _memo1_ = {}  # for memoizing getScript()
+_memo2_ = [None, None]
 
 GlobalSymbolsRegPatts = []
 for symb in lang.GLOBALS + QXGLOBALS:
@@ -390,18 +391,24 @@ class DependencyLoader:
                 rnode = rnode.parent
             return rnode
 
-        def getScript(node, fileId):
+        def getScript(node, fileId, ):
             # TODO: checking the root nodes is a fix, as they sometimes differ (prob. caching)
             rootNode = findRoot(node)
             #if fileId in _memo1_:
-            if fileId in _memo1_ and _memo1_[fileId].root == rootNode:
-                script = _memo1_[fileId]
+            #if fileId in _memo1_ and _memo1_[fileId].root == rootNode:
+            #    script = _memo1_[fileId]
+            #if _memo2_[0] == fileId: # replace with '_memo2_[0] == rootNode', to make it more robust, but slightly less performant
+            if _memo2_[0] == rootNode:
+                #print "-- re-using scopes for: %s" % fileId
+                script = _memo2_[1]
             else:
                 #rootNode = findRoot(node)
                 #if fileId in _memo1_ and _memo1_[fileId].root != rootNode:
-                    #print "-- re-calculating scopes for: %s" % fileId
+                #print "-- re-calculating scopes for: %s" % fileId
                 script = Script(rootNode, fileId)
-                _memo1_[fileId] = script
+                #_memo1_[fileId] = script
+                #_memo2_[0], _memo2_[1] = fileId, script
+                _memo2_[0], _memo2_[1] = rootNode, script
             return script
 
         def getLeadingId(idStr):
