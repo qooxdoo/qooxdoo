@@ -421,14 +421,17 @@ qx.Mixin.define("qx.ui.core.MPlacement",
      */
     __getPlacementSize : function(callback)
     {
+      var size = null;
+      
       if (this._computePlacementSize) {
         var size = this._computePlacementSize();
-      } else {
+      } else if (this.isVisible()) {
         var size = this.getBounds();
       }
+      
       if (size == null)
       {
-        this.addListenerOnce("resize", function() {
+        this.addListenerOnce("appear", function() {
           this.__getPlacementSize(callback);
         }, this);
       } else {
