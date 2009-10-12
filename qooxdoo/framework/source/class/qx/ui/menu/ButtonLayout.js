@@ -96,6 +96,12 @@ qx.Class.define("qx.ui.menu.ButtonLayout",
     },
 
     
+    /**
+     * Get the widget's menu
+     * 
+     * @param widget {qx.ui.core.Widget} the widget to get the menu for
+     * @return {qx.ui.menu.Menu} the menu
+     */
     __getMenu : function(widget)
     {
       while (!(widget instanceof qx.ui.menu.Menu)) {

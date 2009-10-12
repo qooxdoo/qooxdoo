@@ -1892,11 +1892,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       style : function(states)
       {
-        var active = states.pressed || states.hovered;
         return {
-          backgroundColor : active  ? "background-selected" : undefined,
-          padding : 6,
-          center : true
+          backgroundColor : states.hovered  ? "background-selected" : undefined,
+          padding : 6
         };
       }
     },
@@ -1907,9 +1905,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       
       style : function(states)
       {
-        var active = states.pressed || states.hovered;
         return {
-          icon : active ? "decoration/arrows/up-invert.gif" : "decoration/arrows/up.gif"
+          icon : states.hovered ? "decoration/arrows/up-invert.gif" : "decoration/arrows/up.gif"
         };
       }
     },
@@ -1920,9 +1917,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       
       style : function(states)
       {
-        var active = states.pressed || states.hovered;
         return {
-          icon : active ? "decoration/arrows/down-invert.gif" : "decoration/arrows/down.gif"
+          icon : states.hovered ? "decoration/arrows/down-invert.gif" : "decoration/arrows/down.gif"
         };
       }
     },

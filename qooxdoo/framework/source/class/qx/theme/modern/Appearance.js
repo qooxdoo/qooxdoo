@@ -2072,11 +2072,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
-        var active = states.pressed || states.hovered;
         return {
-          decorator : active  ? "selected" : undefined,
-          padding : 7,
-          center : true
+          decorator : states.hovered  ? "selected" : undefined,
+          padding : 7
         };
       }
     },
@@ -2087,9 +2085,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       
       style : function(states)
       {
-        var active = states.pressed || states.hovered;
         return {
-          icon : active ? "decoration/arrows/up-invert.png" : "decoration/arrows/up.png"
+          icon : states.hovered ? "decoration/arrows/up-invert.png" : "decoration/arrows/up.png"
         };
       }
     },
@@ -2100,9 +2097,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       
       style : function(states)
       {
-        var active = states.pressed || states.hovered;
         return {
-          icon : active ? "decoration/arrows/down-invert.png" : "decoration/arrows/down.png"
+          icon : states.hovered ? "decoration/arrows/down-invert.png" : "decoration/arrows/down.png"
         };
       }
     },
