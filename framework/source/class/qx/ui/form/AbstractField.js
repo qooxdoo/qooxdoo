@@ -61,11 +61,7 @@ qx.Class.define("qx.ui.form.AbstractField",
     this.getContentElement().addListener("change", this._onChangeContent, this);
 
     // assign the placeholder text after the appearance has been applied
-    this.addListener("syncAppearance", function(e) {
-      if (this.hasState("showingPlaceholder")) {
-        this.getContentElement().setValue(this.getPlaceholder());
-      }
-    }, this);
+    this.addListener("syncAppearance", this._syncPlaceholder, this);
   },
 
 
@@ -585,13 +581,20 @@ qx.Class.define("qx.ui.form.AbstractField",
       var placeholder = this.getPlaceholder();
       if (
         placeholder != null &&
-        !this.hasState("focused") &&
         fieldValue == "" &&
+        !this.hasState("focused") &&
         !this.hasState("disabled")
       )
       {
-        this.addState("showingPlaceholder");
-        // the placeholder will be set as soon as the appearance is applied
+        if (this.hasState("showingPlaceholder"))
+        {
+          this._syncPlaceholder();
+        }
+        else
+        {
+          // the placeholder will be set as soon as the appearance is applied
+          this.addState("showingPlaceholder");
+        }
       }
     },
 
@@ -604,6 +607,17 @@ qx.Class.define("qx.ui.form.AbstractField",
       if (this.hasState("showingPlaceholder")) {
         this.getContentElement().setValue("");
         this.removeState("showingPlaceholder");
+      }
+    },
+
+
+    /**
+     * @return {void}
+     */
+    _syncPlaceholder : function ()
+    {
+      if (this.hasState("showingPlaceholder")) {
+        this.getContentElement().setValue(this.getPlaceholder());
       }
     },
 
