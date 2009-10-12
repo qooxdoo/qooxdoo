@@ -151,6 +151,16 @@ qx.Class.define("qx.event.type.Event",
 
 
 
+    /**
+     * Stops event from all further processing. Execute this when the
+     * current handler should have "exclusive rights" to the event
+     * and no further reaction by anyone else should happen.
+     */
+    stop : function()
+    {
+      this.stopPropagation();
+      this.preventDefault();
+    },
 
 
     /**
