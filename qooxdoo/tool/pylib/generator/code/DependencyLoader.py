@@ -45,7 +45,6 @@ from misc.ExtMap import ExtMap
 import graph
 
 QXGLOBALS = [
-    "qx$",
     "clazz",
     "qxvariants",
     "qxsettings",
