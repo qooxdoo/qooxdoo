@@ -21,6 +21,10 @@
 ************************************************************************ */
 
 /**
+ #ignore(apiviewer.dao)
+ */
+
+/**
  * A util class for handling the documentation tree.
  */
 qx.Class.define("apiviewer.TreeUtil",
