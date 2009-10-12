@@ -339,6 +339,7 @@ qx.Class.define("qx.ui.layout.Grid",
     {
       this.setSpacingY(spacing);
       this.setSpacingX(spacing);
+      return this;
     },
 
 
