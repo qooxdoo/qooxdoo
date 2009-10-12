@@ -148,7 +148,7 @@ def root():
     return root
 
 
-def find(rootpath, pattern=None):
+def find(rootpath, pattern=None, includedirs=False):
     dirwalker = os.walk(rootpath)
     alwaysSkip = re.compile(r'(?:\.svn)',re.I)
 
@@ -162,7 +162,11 @@ def find(rootpath, pattern=None):
             i += 1
 
         ## go through files
-        for filename in filelist:
+        if includedirs: 
+            checklist = dirlist + filelist
+        else:
+            checklist = filelist
+        for filename in checklist:
             if re.search(alwaysSkip, filename):
                 continue
             if (pattern and not re.search(pattern, filename)):
@@ -180,7 +184,7 @@ def findYoungest(rootpath, pattern=None):
     youngest = rootpath
     ymodified= lastModified(rootpath)
 
-    for path in find(rootpath, pattern):
+    for path in find(rootpath, pattern, includedirs=True):
         m = lastModified(path)
         if m > ymodified:
             ymodified = m
