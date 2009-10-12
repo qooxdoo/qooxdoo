@@ -479,15 +479,6 @@ qx.Class.define("qx.ui.tabview.TabView",
       var old = e.getOldData();
 
       this.fireDataEvent("changeSelection", value, old);
-
-      /*
-       * TODO remove this if the methods and event for old selection API
-       * doesn't exist.
-       *
-       * Methods: 'getSelected', 'setSelected', 'resetSelected'
-       * Event: 'changeSelected'
-       */
-      this.fireDataEvent("changeSelected", value[0], old[0]);
     },
 
     /**
