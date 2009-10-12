@@ -43,6 +43,7 @@ class PartBuilder(object):
     def getPackages(self, partIncludes, smartExclude, jobContext, script):
         # Get config settings
         jobConfig                 = jobContext["jobconf"]
+        self._jobconf             = jobConfig
         minPackageSize            = jobConfig.get("packages/sizes/min-package", 0)
         minPackageSizeForUnshared = jobConfig.get("packages/sizes/min-package-unshared", None)
         partsCfg                  = jobConfig.get("packages/parts", {})
@@ -329,9 +330,10 @@ class PartBuilder(object):
         def getCollapseGroupsOrdered(parts, packages):
             # returns dict of parts grouped by collapse index
             # { 0 : set('boot'), 1 : set(part1, part2), 2 : ... }
-            collapseGroups = {}
+            collapseGroups    = {}
             # boot part is always collapse index 0
-            collapseGroups[0] = set((parts['boot'],))
+            boot              = self._jobconf.get("packages/init", "boot")
+            collapseGroups[0] = set((parts[boot],))
 
             for partname in parts:
                 part = parts[partname]
