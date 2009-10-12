@@ -299,8 +299,27 @@ qx.Class.define("qx.ui.menu.Menu",
       this.__updateSlideBar();
       this.show();
       
-      this._placementTarget = e;
+      this._placementTarget = {
+        left: e.getDocumentLeft(),
+        top: e.getDocumentTop()
+      };
     },
+    
+    
+    /**
+     * Opens the menu in relation to the given point
+     *
+     * @param point {Map} Coordinate of any point with the keys <code>left</code>
+     *   and <code>top</code>.
+     */
+    openAtPoint : function(point)
+    {
+      this.placeToPoint(point);
+      this.__updateSlideBar();
+      this.show();
+      
+      this._placementTarget = point;
+    },    
     
     
     /**
@@ -650,10 +669,14 @@ qx.Class.define("qx.ui.menu.Menu",
       if (this.isVisible()) 
       {
         var target = this._placementTarget;
-        if (target instanceof qx.ui.core.Widget) {
+        if (!target) {
+          return
+        } else if (target instanceof qx.ui.core.Widget) {
           this.placeToWidget(target);
+        } else if (target.top !== undefined) {
+          this.placeToPoint(target);  
         } else {
-          this.placeToMouse(target);  
+          throw new Error("Unknown target: " + target);
         }
         this.__updateSlideBar();
       }
