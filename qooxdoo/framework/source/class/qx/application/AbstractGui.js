@@ -61,9 +61,12 @@ qx.Class.define("qx.application.AbstractGui",
 
     /**
      * Returns the application's root widget. The root widgets can act as container
-     * for popups and is configured with a {@link qx.ui.layout.Basic} layout.
-     * The root has the same add method as the basic layout
-     * ({@link qx.ui.layout.Basic#add}.
+     * for popups. It is configured with a {@link qx.ui.layout.Basic} (if the
+     * application is an inline application) layout or a {@link qx.ui.layout.Canvas}
+     * (if the application is a standalone application) layout .
+     * 
+     * The root has the same add method as the configured layout
+     * ({@link qx.ui.layout.Basic#add} or {@link qx.ui.layout.Canvas#add}).
      *
      * @return {qx.ui.core.Widget} The application's root widget.
      */
