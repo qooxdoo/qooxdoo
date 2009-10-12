@@ -16,6 +16,7 @@
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
      * Martin Wittemann (martinwittemann)
+     * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
 
@@ -33,14 +34,6 @@ qx.Class.define("qx.ui.form.RepeatButton",
   extend : qx.ui.form.Button,
 
 
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
   /**
    * @param label {String} Label to use
    * @param icon {String?null} Icon to use
@@ -50,18 +43,10 @@ qx.Class.define("qx.ui.form.RepeatButton",
     this.base(arguments, label, icon);
 
     // create the timer and add the listener
-    this.__timer = new qx.event.Timer(this.getInterval());
+    this.__timer = new qx.event.AcceleratingTimer();
     this.__timer.addListener("interval", this._onInterval, this);
   },
 
-
-
-
-  /*
-  *****************************************************************************
-     EVENTS
-  *****************************************************************************
-  */
 
   events :
   {
@@ -82,14 +67,6 @@ qx.Class.define("qx.ui.form.RepeatButton",
     "release" : "qx.event.type.Event"
   },
 
-
-
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
 
   properties :
   {
@@ -130,17 +107,8 @@ qx.Class.define("qx.ui.form.RepeatButton",
   },
 
 
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
   members :
   {
-    __currentInterval : null,
     __executed : null,
     __timer : null,
 
@@ -190,7 +158,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
       // only if the button is pressed
       if (this.hasState("pressed"))
       {
-        // if the button hast not been executed
+        // if the button has not been executed
         if (!this.__executed) {
           this.execute();
         }
@@ -203,9 +171,6 @@ qx.Class.define("qx.ui.form.RepeatButton",
       // stop the repeat timer and therefore the execution
       this.__stopInternalTimer();
     },
-
-
-
 
 
     /*
@@ -229,9 +194,6 @@ qx.Class.define("qx.ui.form.RepeatButton",
         this.__stopInternalTimer();
       }
     },
-
-
-
 
 
     /*
@@ -290,7 +252,6 @@ qx.Class.define("qx.ui.form.RepeatButton",
         this.removeState("pressed");
         this.addState("abandoned");
         this.__timer.stop();
-        this.__currentInterval = this.getInterval();
       }
     },
 
@@ -415,27 +376,9 @@ qx.Class.define("qx.ui.form.RepeatButton",
      */
     _onInterval : function(e)
     {
-      this.__timer.stop();
-
-      // if the current interval is not set
-      if (this.__currentInterval == null)
-      {
-        // set the current interval to the given interval
-        this.__currentInterval = this.getInterval();
-      }
-
-      // reduce the current interval
-      this.__currentInterval = (Math.max(this.getMinTimer(), this.__currentInterval - this.getTimerDecrease()));
-
-      // restart the timer
-      this.__timer.restartWith(this.__currentInterval);
-
-      // fire the execute event
       this.__executed = true;
       this.fireEvent("execute");
     },
-
-
 
 
     /*
@@ -456,8 +399,12 @@ qx.Class.define("qx.ui.form.RepeatButton",
 
       this.__executed = false;
 
-      this.__timer.setInterval(this.getFirstInterval());
-      this.__timer.start();
+      this.__timer.set({
+        interval: this.getInterval(),
+        firstInterval: this.getFirstInterval(),
+        minimum: this.getMinTimer(),
+        decrease: this.getTimerDecrease()
+      }).start();
 
       this.removeState("abandoned");
       this.addState("pressed");
@@ -474,8 +421,6 @@ qx.Class.define("qx.ui.form.RepeatButton",
       this.fireEvent("release");
 
       this.__timer.stop();
-
-      this.__currentInterval = null;
 
       this.removeState("abandoned");
       this.removeState("pressed");
