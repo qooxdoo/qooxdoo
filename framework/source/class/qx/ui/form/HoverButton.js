@@ -18,15 +18,52 @@
 ************************************************************************ */
 
 /**
+ * The HoverButton is an {@link qx.ui.basic.Atom}, which fires repeatedly
+ * execute events while the mouse is over the widget.
  * 
+ * The rate at which the execute event is fired accelerates is the mouse keeps
+ * inside of the widget. The initial delay and the interval time can be set using
+ * the properties {@link #firstInterval} and {@link #interval}. The 
+ * {@link execute} events will be fired in a shorter amount of time if the mouse
+ * remains over the widget, until the min {@link #minTimer} is reached.
+ * The {@link #timerDecrease} property sets the amount of milliseconds which will
+ * decreased after every firing.
+ * 
+ * *Example*
+ *
+ * Here is a little example of how to use the widget.
+ *
+ * <pre class='javascript'>
+ *   var button = new qx.ui.form.HoverButton("Hello World");
+ *
+ *   button.addListener("execute", function(e) {
+ *     alert("Button is hovered");
+ *   }, this);
+ *
+ *   this.getRoot.add(button);
+ * </pre>
+ *
+ * This example creates a button with the label "Hello World" and attaches an
+ * event listener to the {@link #execute} event.
+ *
+ * *External Documentation*
+ *
+ * <a href='http://qooxdoo.org/documentation/0.8/widget/hoverbutton' target='_blank'>
+ * Documentation of this widget in the qooxdoo wiki.</a>
  */
-qx.Class.define("qx.ui.menu.SliderButton",
+qx.Class.define("qx.ui.form.HoverButton",
 {
   extend : qx.ui.basic.Atom,
+  include : [qx.ui.core.MExecutable],
+  implement : [qx.ui.form.IExecutable],
 
-  construct : function()
+  /**
+   * @param label {String} Label to use
+   * @param icon {String?null} Icon to use
+   */
+  construct : function(label, icon)
   {
-    this.base(arguments);
+    this.base(arguments, label, icon);
     
     this.addListener("mouseover", this._onMouseOver, this);
     this.addListener("mouseout", this._onMouseOut, this);
@@ -34,23 +71,18 @@ qx.Class.define("qx.ui.menu.SliderButton",
     this.__timer = new qx.event.AcceleratingTimer();
     this.__timer.addListener("interval", this._onInterval, this);
   },
-
-
-  events :
-  {
-    "execute" : "qx.event.type.Event"
-  },
   
   
   properties :
-  {
+  {   
     // overridden
     appearance :
     {
       refine : true,
-      init : "menu-slider-button"
+      init : "hover-button"
     },
     
+    /*
     // overridden
     show : 
     {
@@ -63,6 +95,7 @@ qx.Class.define("qx.ui.menu.SliderButton",
       refine : true,
       init : true
     },
+    */
     
     /**
      * Interval used after the first run of the timer. Usually a smaller value
@@ -106,6 +139,11 @@ qx.Class.define("qx.ui.menu.SliderButton",
     __timer : null,
     
     
+    /**
+     * Start timer on mouse over
+     * 
+     * @param e {qx.event.type.Mouse} The mouse event
+     */
     _onMouseOver : function(e)
     {
       if (!this.isEnabled() || e.getTarget() !== this) {
@@ -123,6 +161,11 @@ qx.Class.define("qx.ui.menu.SliderButton",
     },
     
     
+    /**
+     * Stop timer on mouse out
+     * 
+     * @param e {qx.event.type.Mouse} The mouse event
+     */
     _onMouseOut : function(e)
     {
       this.__timer.stop();
@@ -134,11 +177,14 @@ qx.Class.define("qx.ui.menu.SliderButton",
     },
     
     
+    /**
+     * Fire execute event on timer interval event
+     */
     _onInterval : function()
     {
       if (this.isEnabled())
       {
-        this.fireEvent("execute");
+        this.execute();
       } else {
         this.__timer.stop();
       }

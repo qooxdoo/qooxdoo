@@ -17,6 +17,17 @@
 
 ************************************************************************ */
 
+/**
+ * Timer, which accelerates after each interval. The initial delay and the
+ * interval time can be set using the properties {@link #firstInterval}
+ * and {@link #interval}. The {@link interval} events will be fired with 
+ * decreasing interval times while the timer is running, until the {@link #minimum}
+ * is reached. The {@link #decrease} property sets the amount of milliseconds
+ * which will decreased after every firing.
+ * 
+ * This class is e.g. used in the {@link qx.ui.form.RepeadButton} and
+ * {@link qx.ui.form.HoverButton} widgets.
+ */
 qx.Class.define("qx.event.AcceleratingTimer",
 {
   extend : qx.core.Object,
@@ -80,6 +91,9 @@ qx.Class.define("qx.event.AcceleratingTimer",
   {
     __currentInterval : null,
 
+    /**
+     * Reset and start the timer. 
+     */
     start : function()
     {
       this.__timer.setInterval(this.getFirstInterval());
@@ -87,6 +101,9 @@ qx.Class.define("qx.event.AcceleratingTimer",
     },
     
     
+    /**
+     * Stop the timer
+     */
     stop : function() 
     {
       this.__timer.stop();
@@ -94,6 +111,9 @@ qx.Class.define("qx.event.AcceleratingTimer",
     },
     
     
+    /**
+     * Interval event handler
+     */
     _onInterval : function()
     {
       this.__timer.stop();
@@ -113,6 +133,7 @@ qx.Class.define("qx.event.AcceleratingTimer",
       this.fireEvent("interval");
     }    
   },
+  
   
   destruct : function() {
     this._disposeObjects("__timer");

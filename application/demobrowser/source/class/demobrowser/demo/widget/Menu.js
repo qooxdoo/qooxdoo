@@ -70,7 +70,7 @@ qx.Class.define("demobrowser.demo.widget.Menu",
       var menu = new qx.ui.menu.Menu();
       
       var sub = new qx.ui.menu.Menu();
-      for (var i=0; i<20; i++) {
+      for (var i=0; i<30; i++) {
         sub.add(new qx.ui.menu.Button("Folder " + (i+1)));
       }
       menu.add(new qx.ui.menu.Button("move to", null, null, sub));

@@ -1,3 +1,27 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2009 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Fabian Jakobs (fjakobs)
+
+************************************************************************ */
+
+/**
+ * The MenuSlideBar is used to scroll menus if they don't fit on the screen.
+ * 
+ * @internal
+ */
 qx.Class.define("qx.ui.menu.MenuSlideBar",
 {
   extend : qx.ui.container.SlideBar,
@@ -26,13 +50,13 @@ qx.Class.define("qx.ui.menu.MenuSlideBar",
       switch(id)
       {
         case "button-forward":
-          control = new qx.ui.menu.SliderButton();
+          control = new qx.ui.form.HoverButton();
           control.addListener("execute", this._onExecuteForward, this);
           this._addAt(control, 2);
           break;
 
         case "button-backward":
-          control = new qx.ui.menu.SliderButton();
+          control = new qx.ui.form.HoverButton();
           control.addListener("execute", this._onExecuteBackward, this);
           this._addAt(control, 0);
           break;
