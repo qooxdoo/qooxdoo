@@ -152,6 +152,94 @@
       ]
     },
 
+    "source-hybrid" :
+    {
+      "desc"    : "create a hybrid source version (application as source, framework compiled)",
+
+      "run" :
+      [
+        "source-hybrid-framework",
+        "source-hybrid-application"
+      ]
+    },
+
+    "source-hybrid-framework" :
+    {
+      "desc"    : "compile a framework all-classes package",
+
+      "library" :
+      [
+        {
+          "manifest" : "${QOOXDOO_PATH}/framework/Manifest.json"
+        }
+      ],
+
+      "cache"  : { "compile" : "${CACHE}" },
+
+      "include": ["qx.*"],
+      "exclude": ["=qx.test.*"],
+
+      "variants" :
+      {
+        "qx.debug" : ["on"],
+        "qx.aspects" : ["off"]
+      },
+
+      "compile-dist" :
+      {
+        "paths" :
+        {
+          "file" : "${ROOT}/source/script/qx.js"
+        },
+        "code"  :
+        {
+          "format"   : "on",
+          "optimize" : []
+        }
+      },
+      
+      "packages":
+      {
+        "parts" :
+        {
+          "all" :
+          {
+            "include" : ["qx.*"]
+          }
+        },
+        "init" : "all",
+        "loader-with-boot" : false
+      }
+    },
+
+    "source-hybrid-application" :
+    {
+      "desc"     : "create a source version of the application only",
+
+      "extend"   : ["common"],
+      
+      "=library"  :
+      [
+        {
+          "manifest" : "${ROOT}/Manifest.json"
+        }
+      ],
+
+      "=include" :
+      [
+        "=${APPLICATION}.*"
+      ],
+
+      //"exclude": ["=qx.*"],
+
+      "compile-source" :
+      {
+        "file" : "${ROOT}/source/script/${APPLICATION}.js",
+        "locales" : "${LOCALES}",
+        "root" : "source"
+      }
+    },
+
     // -- build jobs ---------------------------------------------------
 
     "build-script" :
