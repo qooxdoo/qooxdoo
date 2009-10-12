@@ -93,7 +93,7 @@ qx.Class.define("qx.test.util.DateFormat",
 
       var formatStr = qx.locale.Date.getDateFormat("medium", "fr_FR");
       var dateFmt = new qx.util.format.DateFormat(formatStr, "fr_FR");
-      dateStr = dateFmt.format(date);
+      var dateStr = dateFmt.format(date);
 
       var parsedDate = dateFmt.parse(dateStr);
       this.assertEquals(date.getTime(), parsedDate.getTime());
