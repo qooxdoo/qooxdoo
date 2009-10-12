@@ -287,11 +287,11 @@ qx.Class.define("qx.ui.menu.Menu",
       }
     },
 
+
     /**
      * Opens the menu at the mouse cursor position
      * 
      * @param e {qx.event.type.Mouse}  Mouse event to align to
-     * @return {void}
      */
     openAtMouse : function(e)
     {
@@ -506,7 +506,10 @@ qx.Class.define("qx.ui.menu.Menu",
           
           var layout = this._getLayout();
           this._setLayout(new qx.ui.layout.Grow());
+          
+          var slidebarLayout = control.getLayout();
           control.setLayout(layout);
+          slidebarLayout.dispose();
           
           var children = qx.lang.Array.clone(this.getChildren());
           for (var i=0; i<children.length; i++) {

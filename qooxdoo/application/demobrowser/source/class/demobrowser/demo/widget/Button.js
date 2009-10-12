@@ -42,48 +42,79 @@ qx.Class.define("demobrowser.demo.widget.Button",
 
       var container = new qx.ui.container.Composite(box);
       container.setPadding(20);
-
       this.getRoot().add(container, {left:0,top:0});
 
-
-      // Two normal buttons
+      this.addNormalButtons(container);
+      this.addToggleButton(container);
+      this.addRepeatButton(container);
+      this.addHoverButton(container);
+    },
+    
+    
+    addNormalButtons : function(container)
+    {
       var btn1 = new qx.ui.form.Button("Button A", "icon/22/apps/media-video-player.png");
       container.add(btn1);
 
       var btn2 = new qx.ui.form.Button("Button B", "icon/22/apps/internet-mail.png");
       btn2.setEnabled(false);
       container.add(btn2);
-
-
-
-      // Toggle Button
-      var btn3 = new qx.ui.form.ToggleButton("Toggle Button", "icon/22/apps/internet-web-browser.png");
-      btn3.focus();
-      container.add(btn3);
-
-      btn3.addListener("changeValue", function(e) {
+    },
+    
+    
+    addToggleButton : function(container)
+    {
+      var button = new qx.ui.form.ToggleButton("Toggle Button", "icon/22/apps/internet-web-browser.png");
+      button.focus();
+      container.add(button);
+  
+      button.addListener("changeValue", function(e) {
         this.debug("Checked: " + e.getData());
       }, this);
+    },
 
-
-
-      // Repeat Button
-      var img1 = "icon/22/actions/list-add.png";
-      var btnRepeat = new qx.ui.form.RepeatButton(null, img1);
-      container.add(btnRepeat);
+    
+    addRepeatButton : function(container)
+    {
+      var button = new qx.ui.form.RepeatButton(null, "icon/22/actions/list-add.png");
+      container.add(button);
 
       // Label
-      var l1 = new qx.ui.basic.Label("0");
-      l1.setDecorator("main");
-      l1.setPadding(2, 4);
-      l1.setBackgroundColor("white");
-      container.add(l1);
+      var label = new qx.ui.basic.Label("0");
+      label.setDecorator("main");
+      label.setPadding(2, 4);
+      label.setBackgroundColor("white");
+      container.add(label);
 
       // Listener
-      btnRepeat.addListener("execute", function()
+      button.addListener("execute", function()
       {
-        var tempValue = parseInt(l1.getValue()) + 1;
-        l1.setValue(tempValue.toString());
+        var tempValue = parseInt(label.getValue()) + 1;
+        label.setValue(tempValue.toString());
+      });
+    },
+    
+    
+    addHoverButton : function(container)
+    {
+      var button = new qx.ui.form.HoverButton("Hover").set({
+        padding: 10,
+        backgroundColor: "#AAA"
+      });
+      container.add(button);
+      
+      // Label
+      var label = new qx.ui.basic.Label("0");
+      label.setDecorator("main");
+      label.setPadding(2, 4);
+      label.setBackgroundColor("white");
+      container.add(label);
+      
+      // Listener
+      button.addListener("execute", function()
+      {
+        var tempValue = parseInt(label.getValue()) + 1;
+        label.setValue(tempValue.toString());
       });
     }
   }

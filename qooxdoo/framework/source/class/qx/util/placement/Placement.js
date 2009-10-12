@@ -70,6 +70,7 @@ qx.Class.define("qx.util.placement.Placement",
   statics :
   {
     __instance : null,
+    __defaultAxis : null,
     
     /**
      * DOM and widget independent method to compute the location

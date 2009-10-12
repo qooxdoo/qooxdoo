@@ -28,6 +28,24 @@
  * amount of time if the mouse button is hold, until the min {@link #minTimer}
  * is reached. The {@link #timerDecrease} property sets the amount of milliseconds
  * which will decreased after every firing.
+ * 
+ * <pre class='javascript'>
+ *   var button = new qx.ui.form.RepeatButton("Hello World");
+ *
+ *   button.addListener("execute", function(e) {
+ *     alert("Button is executed");
+ *   }, this);
+ *
+ *   this.getRoot.add(button);
+ * </pre>
+ *
+ * This example creates a button with the label "Hello World" and attaches an
+ * event listener to the {@link #execute} event.
+ *
+ * *External Documentation*
+ *
+ * <a href='http://qooxdoo.org/documentation/0.8/widget/repeatbutton' target='_blank'>
+ * Documentation of this widget in the qooxdoo wiki.</a>
  */
 qx.Class.define("qx.ui.form.RepeatButton",
 {

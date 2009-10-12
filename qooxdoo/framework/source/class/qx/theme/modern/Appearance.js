@@ -241,6 +241,20 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
+    
+    "hover-button" :
+    {
+      alias : "atom",
+      include : "atom",
+      
+      style : function(states)
+      {
+        return {
+          decorator : states.hovered ? "selected" : undefined,
+          textColor : states.hovered ? "text-selected" : undefined
+        }
+      }
+    },
 
     "splitbutton" : {},
     "splitbutton/button" : "button",
@@ -2074,7 +2088,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           decorator : states.hovered  ? "selected" : undefined,
-          padding : 7
+          padding : 7,
+          center : true
         };
       }
     },
