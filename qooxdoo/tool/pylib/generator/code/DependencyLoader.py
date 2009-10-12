@@ -72,6 +72,17 @@ class DependencyLoader:
         self._treeLoader = treeLoader
         self._require = require
         self._use = use
+        self._defaultIgnore = self._nameSpacePatts(self._jobconf) # adding name spaces; this is first step into #2904
+
+
+    def _nameSpacePatts(self, jobconf):
+        libs = jobconf.get("library", [])
+        nsPatts = []
+        for lib in libs:
+            ns = lib["namespace"]
+            nsPatts.append(r'%s' % ns)
+
+        return nsPatts
 
 
     def getClassList(self, includeWithDeps, excludeWithDeps, includeNoDeps, excludeNoDeps, variants, verifyDeps=False):
@@ -277,7 +288,7 @@ class DependencyLoader:
 
             load   = []
             run    = []
-            ignore = []
+            ignore = self._defaultIgnore
 
             self._console.debug("Gathering dependencies: %s" % fileId)
             self._console.indent()
