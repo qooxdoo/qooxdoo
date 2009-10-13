@@ -72,7 +72,7 @@ GLOBALS = BUILTIN + [
           'addEventListener', '__firebug__', 'location', 'netscape',
           'XPCNativeWrapper', 'Components', 'parent', 'top', 'scrollbars',
           'name', 'scrollX', 'scrollY', 'scrollTo', 'scrollBy', 'getSelection',
-          'scrollByLines', 'scrollByPages', 'sizeToContent', 'dump',
+          'JSON', 'scrollByLines', 'scrollByPages', 'sizeToContent', 'dump',
           'setTimeout', 'setInterval', 'clearTimeout', 'clearInterval',
           'setResizable', 'captureEvents', 'releaseEvents', 'routeEvent',
           'enableExternalCapture', 'disableExternalCapture', 'prompt', 'open',
