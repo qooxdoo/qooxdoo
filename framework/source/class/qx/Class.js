@@ -1209,7 +1209,7 @@ qx.Bootstrap.define("qx.Class",
         }
 
         if (!has && config.refine) {
-          throw new Error("Could not refine non-existent property: " + name + "!");
+          throw new Error("Could not refine non-existent property: '" + name + "' of class: '" + clazz.classname + "'!");
         }
 
         if (has && !patch) {
