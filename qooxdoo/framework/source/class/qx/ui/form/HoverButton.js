@@ -81,22 +81,7 @@ qx.Class.define("qx.ui.form.HoverButton",
       refine : true,
       init : "hover-button"
     },
-    
-    /*
-    // overridden
-    show : 
-    {
-      refine : true,
-      init : "icon" 
-    },
-    
-    // overridden
-    center : {
-      refine : true,
-      init : true
-    },
-    */
-    
+
     /**
      * Interval used after the first run of the timer. Usually a smaller value
      * than the "firstInterval" property value to get a faster reaction.

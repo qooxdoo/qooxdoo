@@ -74,8 +74,6 @@ qx.Class.define("qx.ui.basic.Atom",
     if (icon != null) {
       this.setIcon(icon);
     }
-    
-    this.initCenter();
   },
 
 
