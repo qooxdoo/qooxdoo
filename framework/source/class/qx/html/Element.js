@@ -636,7 +636,7 @@ qx.Class.define("qx.html.Element",
       var ObjectRegistry = qx.core.ObjectRegistry;
 
       var dataChildren = this.__children;
-      var dataLength = dataChildren.length
+      var dataLength = dataChildren.length;
       var dataChild;
       var dataEl;
 
