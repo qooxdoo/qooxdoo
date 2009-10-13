@@ -70,7 +70,6 @@ qx.Class.define("qx.ui.virtual.form.ListController",
       apply: "_applySelection"
     },
 
-
     /**
      * Delegation object, which can have one ore more functions defined by the
      * {@link #IControllerDelegate} interface.
@@ -150,8 +149,10 @@ qx.Class.define("qx.ui.virtual.form.ListController",
      *
      * @return {void}
      */
-    update : function () {
+    update : function ()
+    {
       this.__buildUpLookupTable();
+      this._syncViewSelectionToModel();
     },
 
 
