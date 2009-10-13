@@ -16,6 +16,7 @@
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
      * Jonathan Weiß (jonathan_rass)
+     * Christian Schmidt (Chris_schmidt)
 
 ************************************************************************ */
 
@@ -39,6 +40,22 @@ qx.Class.define("qx.bom.Iframe",
   statics :
   {
     /**
+     * {Map} Default attributes for creation {@link #create}.
+     */
+    DEFAULT_ATTRIBUTES : 
+    {
+      onload : "qx.event.handler.Iframe.onevent(this)",
+      frameBorder: "0",
+      frameSpacing: "0",
+      marginWidth: "0",
+      marginHeight: "0",
+      hspace: "0",
+      vspace: "0",
+      border: "0",
+      allowTransparency: "true"
+    },
+    
+    /**
      * Creates an DOM element.
      *
      * Attributes may be given directly with this call. This is critical
@@ -52,19 +69,14 @@ qx.Class.define("qx.bom.Iframe",
     {
       // Work on a copy to not modify given attributes map
       var attributes = attributes ? qx.lang.Object.clone(attributes) : {};
-      attributes.onload = "qx.event.handler.Iframe.onevent(this)";
-
-      attributes.frameBorder = "0";
-      attributes.frameSpacing = "0";
-
-      attributes.marginWidth = "0";
-      attributes.marginHeight = "0";
-
-      attributes.hspace = "0";
-      attributes.vspace = "0";
-
-      attributes.border = "0";
-      attributes.allowTransparency = "true";
+      var initValues = qx.bom.Iframe.DEFAULT_ATTRIBUTES;
+            
+      for (var key in initValues)
+      {
+        if (attributes[key] == null) {
+          attributes[key] = initValues[key];
+        }
+      }
 
       return qx.bom.Element.create("iframe", attributes, win);
     },
