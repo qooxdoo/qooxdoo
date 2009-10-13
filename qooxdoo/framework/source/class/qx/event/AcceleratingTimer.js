@@ -89,6 +89,7 @@ qx.Class.define("qx.event.AcceleratingTimer",
 
   members :
   {
+    __timer : null,
     __currentInterval : null,
 
     /**
