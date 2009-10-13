@@ -144,8 +144,10 @@ body{font-family:Arial,sans-serif}h1{font-size:18px}h1,h2,h3,td,p{padding:8px}h1
         # Only log the last "Last demo loaded" line for Demobrowser runs.
         if "Last loaded demo: " in line and lineIndex < ( len(logs[k])  - 1 ):
           if not "Last loaded demo: " in logs[k][lineIndex + 1 ]:
+            line = unicode(line, errors='replace')
             html.write('  ' + line)
         else:
+          line = unicode(line, errors='replace')
           html.write('  ' + line)
       html.write('</div>')
   
