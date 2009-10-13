@@ -32,6 +32,7 @@ from generator.runtime.InterruptRegistry import InterruptRegistry
 ## when working on string handling in other parts of the generator
 reload(sys)
 sys.setdefaultencoding('utf-8')
+sys.setrecursionlimit(1500)  # due to bug#2922; maybe this can be removed later
 
 interruptRegistry = InterruptRegistry()
 
