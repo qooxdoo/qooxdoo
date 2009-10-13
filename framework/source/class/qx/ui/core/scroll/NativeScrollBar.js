@@ -58,10 +58,12 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
 
     this.addState("native");
     
-    this.getContainerElement().addListener("scroll", this._onScroll, this);
+    this.getContentElement().addListener("scroll", this._onScroll, this);
     this.addListener("mousedown", this._stopPropagation, this);
     this.addListener("mouseup", this._stopPropagation, this);
     this.addListener("mousemove", this._stopPropagation, this);
+    
+    this.getContentElement().add(this._getScrollPaneElement());
     
     // Configure orientation
     if (orientation != null) {
@@ -132,6 +134,15 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
   members :
   {
     __isHorizontal : null,
+    __scrollPaneElement : null,
+    
+    _getScrollPaneElement : function()
+    {
+      if (!this.__scrollPaneElement) {
+        this.__scrollPaneElement = new qx.html.Element();
+      }
+      return this.__scrollPaneElement;
+    },
     
     /*
     ---------------------------------------------------------------------------
@@ -139,6 +150,7 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
     ---------------------------------------------------------------------------
     */
     
+    // overridden
     renderLayout : function(left, top, width, height)
     {
       var changes = this.base(arguments, left, top, width, height);
@@ -147,7 +159,8 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
       return changes;
     },
       
-      
+    
+    // overridden
     _getContentHint : function()
     {
       var scrollbarWidth = qx.bom.element.Overflow.getScrollbarWidth();
@@ -162,30 +175,7 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
     },
     
     
-    _applyDecorator : function(value)
-    {
-      if (value) {
-        this.setDecorator(null);
-      }
-    },
-
-    
-    _applyShadow : function(value)
-    {
-      if (value) {
-        this.setShadow(null);
-      }
-    },
-    
-    
-    _applyPadding : function(value, old, name) 
-    {
-      if (value) {
-        this["set" + qx.lang.String.firstUp(name)](0);
-      }
-    },
-    
-    
+    // overridden
     _applyEnabled : function(value, old)
     {
       this.base(arguments, value, old);
@@ -229,7 +219,7 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
         this.replaceState("horizontal", "vertical");
       }
       
-      this.getContainerElement().setStyles({
+      this.getContentElement().setStyles({
         overflowX: isHorizontal ? "scroll" : "hidden",
         overflowY: isHorizontal ? "hidden" : "scroll"
       });
@@ -238,7 +228,7 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
       qx.ui.core.queue.Layout.add(this);
     },
 
-
+    
     /**
      * Update the scroll bar according to its current size, max value and
      * enabled state. 
@@ -258,9 +248,24 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
         var innerSize = this.getMaximum() + containerSize;
       } else {
         innerSize = 0;
+      }     
+      
+      // Scrollbars don't work properly in IE if the element with overflow has
+      // excatly the size of the scrollbar. Thus we move the element one pixel
+      // out of the view and increase the size by one.
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      {
+        var bounds = this.getBounds();
+        var scrollbarWidth = qx.bom.element.Overflow.getScrollbarWidth();
+        this.getContentElement().setStyles({
+          left: isHorizontal ? "0" : "-1px",
+          top: isHorizontal ? "-1px" : "0",
+          width: (isHorizontal ? bounds.width : bounds.width + 1) + "px", 
+          height: (isHorizontal ? bounds.height + 1 : bounds.height) + "px" 
+        });
       }
       
-      this.getContentElement().setStyles({
+      this._getScrollPaneElement().setStyles({
         left: 0,
         top: 0,
         width: (isHorizontal ? innerSize : 1) + "px", 
@@ -274,7 +279,7 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
     // interface implementation
     scrollTo : function(position)
     {
-      var container = this.getContainerElement();      
+      var container = this.getContentElement();      
       
       if (this.__isHorizontal) {
         container.scrollToX(position)
@@ -305,7 +310,7 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
      */
     _onScroll : function(e) 
     {
-      var container = this.getContainerElement();      
+      var container = this.getContentElement();      
       var position = this.__isHorizontal ? container.getScrollX() : container.getScrollY(); 
       this.setPosition(position);
     },
@@ -319,5 +324,10 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
     _stopPropagation : function(e) {
       e.stopPropagation();
     }
+  },
+  
+  
+  destruct : function() {
+    this._disposeObjects("__scrollPaneElement");
   }
 });
