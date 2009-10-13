@@ -25,7 +25,7 @@ import simplejson
 from generator.action.ImageInfo import ImageInfo, ImgInfoFmt
 from generator.config.Lang import Lang
 from ecmascript import compiler
-from misc import filetool, Path
+from misc import filetool, json, Path
 from misc.ExtMap import ExtMap
 from misc.Path import OsPath, Uri
         
@@ -676,7 +676,7 @@ class CodeGenerator(object):
             # return as string
 
             # <parts> is already a suitable map; just serialize it
-            partData = simplejson.dumps(parts, ensure_ascii=False, separators=(',', ':'), sort_keys=True)
+            partData = json.dumpsCode(parts)
 
             return partData
 
@@ -732,7 +732,7 @@ class CodeGenerator(object):
                 globalCodes['I18N']['uris'][code] = packageUrisToJS([[globalCodes['I18N']['uris'][code]]], "build")[0][0]
         # stringify data in globalCodes
         for entry in globalCodes:
-            globalCodes[entry] = simplejson.dumps(globalCodes[entry], ensure_ascii=False, separators=(',',':'), sort_keys=True)
+            globalCodes[entry] = json.dumpsCode(globalCodes[entry])
             # undo damage done by simplejson to raw strings with escapes \\ -> \
             globalCodes[entry] = globalCodes[entry].replace('\\\\\\', '\\').replace(r'\\', '\\')  # " gets tripple escaped, therefore the first .replace()
 
@@ -745,7 +745,7 @@ class CodeGenerator(object):
 
         # Translate URI data to JavaScript
         vals["Uris"] = packageUrisToJS(packages, version)
-        vals["Uris"] = simplejson.dumps(vals["Uris"], ensure_ascii=False, separators=(',',':'), sort_keys=True)
+        vals["Uris"] = json.dumpsCode(vals["Uris"])
 
         # Script hook for qx.$$loader.decodeUris() function
         vals["DecodeUrisPlug"] = ""
@@ -805,7 +805,7 @@ class CodeGenerator(object):
                 data[localeCode]['Locales']      = globalCodes['Locales'][localeCode]
 
             # write to file
-            dataS = simplejson.dumps(data, ensure_ascii=False, separators=(',',':'), sort_keys=True)
+            dataS = json.dumpsCode(data)
             dataS = dataS.replace('\\\\\\', '\\').replace(r'\\', '\\')  # undo damage done by simplejson to raw strings with escapes \\ -> \
             fPath = self.writePackage(dataS, script, packageId=localeCode)
             # add uri info to globalCodes
