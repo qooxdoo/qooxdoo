@@ -156,20 +156,22 @@ class DependencyLoader:
             # reading dependencies:
             deps = self.getCombinedDeps(item, variants)
             deps["warn"] = self._checkDepsAreKnown(deps,)
+            deps_all = deps["run"] + deps["load"]
             if verifyDeps:
                 for classId in deps["warn"]:
                     if classId not in deps["ignore"]:
-                        self._console.warn("! Unknown class referenced: %s (in: %s)" % (classId, item))
+                        #import pydb; pydb.debugger()
+                        self._console.warn("! Unknown class referenced: %s (%s:%s)" % (classId, item, [x[1] for x in deps_all if x[0]==classId][0]))
 
             # process lists
             try:
               skipList = deps["warn"] + deps["ignore"]
 
-              for subitem in deps["load"]:
+              for subitem in (x[0] for x in deps["load"]):
                   if not subitem in result and not subitem in excludeWithDeps and not subitem in skipList:
                       classlistFromClassRecursive(subitem, excludeWithDeps, variants, result)
 
-              for subitem in deps["run"]:
+              for subitem in (x[0] for x in deps["run"]):
                   if not subitem in result and not subitem in excludeWithDeps and not subitem in skipList:
                       classlistFromClassRecursive(subitem, excludeWithDeps, variants, result)
 
@@ -226,11 +228,11 @@ class DependencyLoader:
         runFinal.extend(static["run"])
 
         # add config dependencies
-        if self._require.has_key(fileId):
-            loadFinal.extend(self._require[fileId])
+        if fileId in self._require:
+            loadFinal.extend(((x,-1) for x in self._require[fileId]))
 
-        if self._use.has_key(fileId):
-            runFinal.extend(self._use[fileId])
+        if fileId in self._use:
+            runFinal.extend(((x,-1) for x in self._use[fileId]))
 
         # result dict
         deps = {
@@ -299,9 +301,9 @@ class DependencyLoader:
             metaIgnore   = meta.get("ignoreDeps"  , [])
 
             # Process meta data
-            load.extend(metaLoad)
-            run.extend(metaRun)
-            ignore.extend(metaIgnore)
+            load.extend((x,-1) for x in metaLoad)
+            run.extend((x,-1) for x in metaRun)
+            ignore.extend(x for x in metaIgnore)
 
             # Read content data
             (autoLoad, autoRun, autoWarn) = analyzeClassDeps(fileId, variants)
@@ -361,7 +363,7 @@ class DependencyLoader:
     def _checkDepsAreKnown(self, deps,):
         # check the shallow deps are known classes
         new_warn = []
-        for classId in deps["load"] + deps["run"] + deps["undef"]:
+        for classId in (x[0] for x in deps["load"] + deps["run"] + deps["undef"]):
             if not self._isKnownClass(classId):
                 new_warn.append(classId)
         return new_warn
@@ -605,14 +607,14 @@ class DependencyLoader:
 
             return False
         
-        def addId(assembledId, runtime, loadtime):
+        def addId(assembledId, runtime, loadtime, lineno):
             if inFunction:
                 target = runtime
             else:
                 target = loadtime
 
-            if not assembledId in target:
-                target.append(assembledId)
+            if not assembledId in (x[0] for x in target):
+                target.append((assembledId, lineno))
 
             if (not inFunction and  # only for loadtime items
                 self._jobconf.get("dependencies/follow-static-initializers", False) and
@@ -679,7 +681,7 @@ class DependencyLoader:
             if className:
                 if className != fileId: # not checking for self._classes here!
                     #print "-- adding: %s (%s:%s)" % (className, treeutil.getFileFromSyntaxItem(node), node.get('line',False))
-                    addId(className, runtime, loadtime)
+                    addId(className, runtime, loadtime, node.get('line', "undef"))
 
             # an attempt to fix static initializers (bug#1455)
             if not inFunction and followCallDeps(assembledId):
