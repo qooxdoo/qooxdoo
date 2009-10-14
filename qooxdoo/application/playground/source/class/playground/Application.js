@@ -24,6 +24,7 @@
 
 #asset(qx/icon/${qx.icontheme}/*)
 #asset(playground/*)
+#ignore(CodeMirror)
 
 ************************************************************************ */
 
