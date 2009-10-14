@@ -155,10 +155,9 @@ class DependencyLoader:
 
             # reading dependencies:
             deps = self.getCombinedDeps(item, variants)
-            unknownDeps = self._checkDepsAreKnown(deps,)
-            deps["warn"] = unknownDeps
+            deps["warn"] = self._checkDepsAreKnown(deps,)
             if verifyDeps:
-                for classId in unknownDeps:
+                for classId in deps["warn"]:
                     if classId not in deps["ignore"]:
                         self._console.warn("! Unknown class referenced: %s (in: %s)" % (classId, item))
 
@@ -1082,11 +1081,11 @@ class DependencyLoader:
     ######################################################################
 
     HEAD = {
-        "require"  : re.compile(r"^\s*#require\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
-        "use"      : re.compile(r"^\s*#use\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
-        "optional" : re.compile(r"^\s*#optional\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
-        "ignore"   : re.compile(r"^\s*#ignore\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
-        "asset"    : re.compile(r"^\s*#asset\(\s*([^)]+?)\s*\)", re.M)
+        "require"  : re.compile(r"^\s* \#require  \(\s* (%s+)     \s*\)" % lang.IDENTIFIER_CHARS, re.M|re.X),
+        "use"      : re.compile(r"^\s* \#use      \(\s* (%s+)     \s*\)" % lang.IDENTIFIER_CHARS, re.M|re.X),
+        "optional" : re.compile(r"^\s* \#optional \(\s* (%s+)     \s*\)" % lang.IDENTIFIER_CHARS, re.M|re.X),
+        "ignore"   : re.compile(r"^\s* \#ignore   \(\s* (%s+)     \s*\)" % lang.IDENTIFIER_CHARS, re.M|re.X),
+        "asset"    : re.compile(r"^\s* \#asset    \(\s* ([^)]+?)  \s*\)"                        , re.M|re.X)
     }
 
 
