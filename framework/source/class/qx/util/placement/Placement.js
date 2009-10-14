@@ -70,8 +70,7 @@ qx.Class.define("qx.util.placement.Placement",
   statics :
   {
     __instance : null,
-    __defaultAxis : null,
-    
+
     /**
      * DOM and widget independent method to compute the location
      * of a object to make it relative to any other object.
@@ -204,10 +203,10 @@ qx.Class.define("qx.util.placement.Placement",
         this.assertNumber(offsets.top, "offsets.top");
         this.assertNumber(offsets.right, "offsets.right");
         this.assertNumber(offsets.bottom, "offsets.bottom");
-        this.assertNumber(offsets.left, "offsets.left");        
+        this.assertNumber(offsets.left, "offsets.left");
       }
     
-      var axisX = this.getAxisX() || this.__defaultAxis;      
+      var axisX = this.getAxisX() || this.__defaultAxis;
       var left = axisX.computeStart(
         size.width,
         {start: target.left, end: target.right},
@@ -274,5 +273,11 @@ qx.Class.define("qx.util.placement.Placement",
         return "align-end";
       }
     }    
+  },
+
+
+  destruct : function()
+  {
+    this._disposeObjects('__defaultAxis');
   }
 });
