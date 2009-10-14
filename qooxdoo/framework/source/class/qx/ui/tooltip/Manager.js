@@ -293,6 +293,10 @@ qx.Class.define("qx.ui.tooltip.Manager",
         return;
       }
 
+      if (target.isBlockToolTip()) {
+        return;
+      }
+
       // Set Property
       if (invalidMessage && target.getEnabled())
       {

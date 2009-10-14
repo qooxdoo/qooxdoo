@@ -589,12 +589,21 @@ qx.Class.define("qx.ui.core.Widget",
     * {@link #toolTipText} and the icon, the {@link #tooltip} property has to be
     * used.
     */
-   toolTipIcon :
-   {
-     check : "String",
-     nullable : true,
-     event : "changeToolTipText"
-   },
+    toolTipIcon :
+    {
+      check : "String",
+      nullable : true,
+      event : "changeToolTipText"
+    },
+
+    /**
+     * Controls if a tooltip should shown or not.
+     */
+    blockToolTip :
+    {
+      check : "Boolean",
+      init : false      
+    },
 
 
     /*
