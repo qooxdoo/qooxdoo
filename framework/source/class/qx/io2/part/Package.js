@@ -50,7 +50,6 @@ qx.Class.define("qx.io2.part.Package",
   {
 
     __urls : null,
-
     __readyState : null,
 
     /**
@@ -130,7 +129,9 @@ qx.Class.define("qx.io2.part.Package",
       if (this.__readyState !== "initialized") {
         return;
       }
-      this.__readyState == "loading";
+
+      this.__readyState = "loading";
+
       this.__loadScriptList(this.__urls, function()
       {
         this.__readyState = "complete";
