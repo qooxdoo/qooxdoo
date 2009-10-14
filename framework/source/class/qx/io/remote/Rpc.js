@@ -78,6 +78,15 @@
  * You may also find the server writer's guide helpful:
  *   http://qooxdoo.org/documentation/Rpc_server_writer_guide
  */
+ 
+ /**
+  #ignore(qx.core.ServerSettings)
+  #ignore(qx.core.ServerSettings.serverPathSuffix)
+  #ignore(qx.core.ServerSettings.serverPathPrefix)
+  #ignore(qx.core.ServerSettings.lastSessionRefresh)
+  #ignore(qx.core.ServerSettings.sessionTimeoutInSeconds)
+  */
+  
 qx.Class.define("qx.io.remote.Rpc",
 {
   extend : qx.core.Object,
