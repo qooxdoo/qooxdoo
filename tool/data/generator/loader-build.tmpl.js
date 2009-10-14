@@ -41,9 +41,8 @@ qx.$$loader = {
     return uris;
   }
 };  
+})();
 
 %{BootPart}
 
 if (window.qx && qx.event && qx.event.handler && qx.event.handler.Application) qx.event.handler.Application.onScriptLoaded();
-
-})();
