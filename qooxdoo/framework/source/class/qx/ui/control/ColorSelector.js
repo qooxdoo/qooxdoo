@@ -457,15 +457,21 @@ qx.Class.define("qx.ui.control.ColorSelector",
      *
      * @param value {String} The value of a color.
      */
-    setValue: function(value) {
+    setValue: function(value)
+    {
       var rgb;
-      if (value == null) {
+
+      if (value == null)
+      {
         this.__nullValue = true;
         rgb = [255, 255, 255];
-      } else {
+      }
+      else
+      {
         rgb = qx.util.ColorUtil.stringToRgb(value);
         this.__nullValue = false;
       }
+
       // block the first tow events
       this.__preventChangeValueEvent = true;
       this.setRed(rgb[0]);
@@ -482,7 +488,8 @@ qx.Class.define("qx.ui.control.ColorSelector",
      * @return {String | null} The HEX value of the color of if not color
      *   is set, null.
      */
-    getValue: function() {
+    getValue: function()
+    {
       return this.__nullValue ? null : "#" + qx.util.ColorUtil.rgbToHexString(
         [this.getRed(), this.getGreen(), this.getBlue()]
       );
@@ -491,7 +498,8 @@ qx.Class.define("qx.ui.control.ColorSelector",
     /**
      * Resets the color to null.
      */
-    resetValue: function() {
+    resetValue: function()
+    {
       this.__nullValue = true;
       this.__preventChangeValueEvent = true;
       this.setRed(255);
@@ -504,8 +512,10 @@ qx.Class.define("qx.ui.control.ColorSelector",
     /**
      * Helper for firing the changeValue event and checking for the mutex.
      */
-    __fireChangeValueEvent: function() {
-      if (!this.__preventChangeValueEvent) {
+    __fireChangeValueEvent: function()
+    {
+      if (!this.__preventChangeValueEvent)
+      {
         this.__nullValue = false;
         this.fireDataEvent("changeValue", this.getValue());
       }
@@ -1064,7 +1074,8 @@ qx.Class.define("qx.ui.control.ColorSelector",
         return;
       }
 
-      try {
+      try
+      {
         var hexField = this.getChildControl("hex-field");
         var rgb = qx.util.ColorUtil.hexStringToRgb("#" + hexField.getValue());
       } catch(ex) {
@@ -1082,7 +1093,8 @@ qx.Class.define("qx.ui.control.ColorSelector",
     /**
      * Sets hexfield value to it's corresponding red, green and blue value.
      */
-    _setHexFromRgb : function() {
+    _setHexFromRgb : function()
+    {
       var value = qx.util.ColorUtil.rgbToHexString(
         [this.getRed(),this.getGreen(),this.getBlue()]
       );
@@ -1223,7 +1235,8 @@ qx.Class.define("qx.ui.control.ColorSelector",
      *
      * @param e {qx.event.type.Data} Incoming event object
      */
-    _onAppear : function(e) {
+    _onAppear : function(e)
+    {
       var color = qx.util.ColorUtil.rgbToRgbString([this.getRed(),
       this.getGreen(), this.getBlue()]);
 
