@@ -156,10 +156,11 @@ class DependencyLoader:
             # reading dependencies:
             deps = self.getCombinedDeps(item, variants)
             deps["warn"] = self._checkDepsAreKnown(deps,)
+            ignore_names = [x.name for x in deps["ignore"]]
             if verifyDeps:
-                for classId in deps["warn"]:
-                    if classId not in deps["ignore"]:
-                        self._console.warn("! Unknown class referenced: %s (in: %s)" % (classId, item))
+                for dep in deps["warn"]:
+                    if dep.name not in ignore_names:
+                        self._console.warn("! Unknown class referenced: %s (%s:%s)" % (dep.name, item, dep.line))
 
             # process lists
             try:
@@ -167,11 +168,11 @@ class DependencyLoader:
 
               for subitem in deps["load"]:
                   if not subitem in result and not subitem in excludeWithDeps and not subitem in skipList:
-                      classlistFromClassRecursive(subitem, excludeWithDeps, variants, result)
+                      classlistFromClassRecursive(subitem.name, excludeWithDeps, variants, result)
 
               for subitem in deps["run"]:
                   if not subitem in result and not subitem in excludeWithDeps and not subitem in skipList:
-                      classlistFromClassRecursive(subitem, excludeWithDeps, variants, result)
+                      classlistFromClassRecursive(subitem.name, excludeWithDeps, variants, result)
 
             except NameError, detail:
                 raise NameError("Could not resolve dependencies of class: %s \n%s" % (item, detail))
@@ -227,10 +228,10 @@ class DependencyLoader:
 
         # add config dependencies
         if self._require.has_key(fileId):
-            loadFinal.extend(self._require[fileId])
+            loadFinal.extend(DependencyItem(x, -1) for x in self._require[fileId])
 
         if self._use.has_key(fileId):
-            runFinal.extend(self._use[fileId])
+            runFinal.extend(DependencyItem(x,-1) for x in self._use[fileId])
 
         # result dict
         deps = {
@@ -286,7 +287,7 @@ class DependencyLoader:
 
             load   = []
             run    = []
-            ignore = self._defaultIgnore
+            ignore = [DependencyItem(x,-1) for x in self._defaultIgnore]
 
             self._console.debug("Gathering dependencies: %s" % fileId)
             self._console.indent()
@@ -299,33 +300,35 @@ class DependencyLoader:
             metaIgnore   = meta.get("ignoreDeps"  , [])
 
             # Process meta data
-            load.extend(metaLoad)
-            run.extend(metaRun)
-            ignore.extend(metaIgnore)
+            load.extend(DependencyItem(x,-1) for x in metaLoad)
+            run.extend(DependencyItem(x,-1) for x in metaRun)
+            ignore.extend(DependencyItem(x,-1) for x in metaIgnore)
 
             # Read content data
             (autoLoad, autoRun, autoWarn) = analyzeClassDeps(fileId, variants)
             
             # Process content data
             if not "auto-require" in metaIgnore:
-                for item in autoLoad:
+                for dep in autoLoad:
+                    item = dep.name
                     if item in metaOptional:
                         pass
-                    elif item in load:
+                    elif item in (x.name for x in load):
                         self._console.warn("%s: #require(%s) is auto-detected" % (fileId, item))
                     else:
-                        load.append(item)
+                        load.append(dep)
 
             if not "auto-use" in metaIgnore:
-                for item in autoRun:
+                for dep in autoRun:
+                    item = dep.name
                     if item in metaOptional:
                         pass
-                    elif item in load:
+                    elif item in (x.name for x in load):
                         pass
-                    elif item in run:
+                    elif item in (x.name for x in run):
                         self._console.warn("%s: #use(%s) is auto-detected" % (fileId, item))
                     else:
-                        run.append(item)
+                        run.append(dep)
 
             self._console.outdent()
 
@@ -361,9 +364,9 @@ class DependencyLoader:
     def _checkDepsAreKnown(self, deps,):
         # check the shallow deps are known classes
         new_warn = []
-        for classId in deps["load"] + deps["run"] + deps["undef"]:
-            if not self._isKnownClass(classId):
-                new_warn.append(classId)
+        for dep in deps["load"] + deps["run"] + deps["undef"]:
+            if not self._isKnownClass(dep.name):
+                new_warn.append(dep)
         return new_warn
 
 
@@ -605,14 +608,14 @@ class DependencyLoader:
 
             return False
         
-        def addId(assembledId, runtime, loadtime):
+        def addId(assembledId, runtime, loadtime, lineno):
             if inFunction:
                 target = runtime
             else:
                 target = loadtime
 
-            if not assembledId in target:
-                target.append(assembledId)
+            if not assembledId in (x.name for x in target):
+                target.append(DependencyItem(assembledId, lineno))
 
             if (not inFunction and  # only for loadtime items
                 self._jobconf.get("dependencies/follow-static-initializers", False) and
@@ -679,7 +682,7 @@ class DependencyLoader:
             if className:
                 if className != fileId: # not checking for self._classes here!
                     #print "-- adding: %s (%s:%s)" % (className, treeutil.getFileFromSyntaxItem(node), node.get('line',False))
-                    addId(className, runtime, loadtime)
+                    addId(className, runtime, loadtime, node.get('line', -1))
 
             # an attempt to fix static initializers (bug#1455)
             if not inFunction and followCallDeps(assembledId):
@@ -1015,7 +1018,8 @@ class DependencyLoader:
                 path.append(classId)
 
             # process loadtime requirements
-            for item in deps["load"]:
+            for dep in deps["load"]:
+                item = dep.name
                 if item in available and not item in result:
                     if item in path:
                         other = self.getCombinedDeps(item, variants)
@@ -1196,3 +1200,9 @@ class DependencyLoader:
 
         return result
 
+
+class DependencyItem(object):
+    __slots__ = ('name', 'line')
+    def __init__(self, name, line):
+        self.name = name
+        self.line = line
