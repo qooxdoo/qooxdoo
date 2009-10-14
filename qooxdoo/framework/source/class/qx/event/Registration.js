@@ -284,7 +284,7 @@ qx.Bootstrap.define("qx.event.Registration",
           throw new Error("Create event of type " + type + " with undefined class. Please use null to explicit fallback to default event type!");
         }
 
-        var msg = "Could not fire event '" + type + "' on target '" + target.classname +"': ";
+        var msg = "Could not fire event '" + type + "' on target '" + (target ? target.classname : "undefined") +"': ";
 
         qx.core.Assert.assertNotUndefined(target, msg + "Invalid event target.")
         qx.core.Assert.assertNotNull(target, msg + "Invalid event target.")
