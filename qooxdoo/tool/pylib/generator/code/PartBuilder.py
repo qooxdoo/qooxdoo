@@ -78,16 +78,19 @@ class PartBuilder(object):
         # Post process results
         resultParts = self._getFinalPartData(script)
 
-        resultClasses = self._getFinalClassList(script)
+        #resultClasses = self._getFinalClassList(script)
+        script = self._getFinalClassList1(script)
         #resultClasses = util.dictToList(resultClasses) # turn map into list, easier for upstream methods
 
         script.parts    = resultParts
-        script.packages = resultClasses
+        #script.packages = resultClasses
+        script.packages1 = script.packages  # retain the object array here, as script.packages gets overwritten in caller
 
         # Return
         # {Map}   resultParts[partId] = [packageId1, packageId2]
         # {Array} resultClasses[packageId] = [class1, class2]
-        return boot, resultParts, resultClasses
+        #return boot, resultParts, resultClasses
+        return resultParts, script
 
 
     ##
@@ -489,6 +492,20 @@ class PartBuilder(object):
             resultClasses.append(self._depLoader.sortClasses(packages[pkgId].classes, variants))
 
         return resultClasses
+
+
+
+    def _getFinalClassList1(self, script):
+        packages   = script.packages
+        variants   = script.variants
+        packageIds = self._sortPackages(packages.keys(), packages)
+
+        for pkgId in packageIds:
+            packages[pkgId].classes = self._depLoader.sortClasses(packages[pkgId].classes, variants)
+
+        script.packageIdsSorted = packageIds
+
+        return script
 
 
 

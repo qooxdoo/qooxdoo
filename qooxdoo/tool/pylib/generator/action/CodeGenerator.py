@@ -76,7 +76,6 @@ class CodeGenerator(object):
                 return npackages
 
             self._console.info("Generating boot script...")
-            bootBlocks = []
 
             # For resource list
             resourceUri = compConf.get('uris/resource', 'resource')
@@ -93,14 +92,20 @@ class CodeGenerator(object):
 
             filesPackages = packagesOfFiles(fileUri, packages)
             plugCodeFile = self._job.get("compile-dist/code/decode-uris-plug", False)
-            bootBlocks.append(self.generateBootCode(parts, filesPackages, boot, variants, settings, bootPackage, globalCodes, "build", plugCodeFile, format))
+            bootContent = self.generateBootCode(parts, filesPackages, boot, script, variants, settings, bootPackage, globalCodes, "build", plugCodeFile, format)
 
-            if format:
-                bootContent = "\n\n".join(bootBlocks)
-            else:
-                bootContent = "".join(bootBlocks)
+            #codeBlocks.append( loaderCode(loaderTemplate) )
+            #codeBlocks.append( globalCodes(globalsTemplate) )  # these is global data, formerly populated by translations, resources etc.
+            #codeBlocks.append( bootPackage(script) )  # this contains resources etc. for the boot classes
 
             return bootContent
+
+
+        def getCompiledPackages(script):
+            cpacks = []
+            for pkgId in script.packageIdsSorted:
+                cpacks.append(script.packages1[pkgId].packageCode())
+            return cpacks
 
         # ----------------------------------------------------------------------
 
@@ -169,14 +174,18 @@ class CodeGenerator(object):
         if not len(compiledPackages):
             raise RuntimeError("No valid boot package generated.")
 
+        #compiledPackages_1 = getCompiledPackages(script)
+
         if self._job.get("packages/loader-with-boot", True):
             content = generateBootScript(compiledPackages[0])
             self.writePackage(content, script)
             self.writePackages(compiledPackages[1:], script, 1)
+            #self.writePackages(compiledPackages_1[1:], script, 1)
         else:
             content = generateBootScript()
             self.writePackage(content, script)
             self.writePackages(compiledPackages, script)
+            #self.writePackages(compiledPackages_1, script)
 
         return
 
@@ -198,6 +207,9 @@ class CodeGenerator(object):
         self._classList = classList
         self._libs      = libs
         self._classes   = classes
+
+        # construct old-style packages array
+        packagesArray = script.packagesArraySorted()
 
         # Read in base file name
         filePath = self._job.get("compile-source/file")
@@ -222,10 +234,9 @@ class CodeGenerator(object):
 
         # Get translation maps
         locales = self._job.get("compile-source/locales", [])
-        translationMaps = self.getTranslationMaps(packages, variants, locales)
+        translationMaps = self.getTranslationMaps(packagesArray, variants, locales)
 
         # Add data from settings, variants and packages
-        sourceBlocks = []
         globalCodes = self.generateGlobalCodes(libs, translationMaps, settings, variants, format)
         if not self._job.get("packages/i18n-with-boot", True):
             globalCodes = self.writeI18NFiles(globalCodes, script)
@@ -236,15 +247,8 @@ class CodeGenerator(object):
             globalCodes["I18N"]         = {}  # make a fake entry
         #sourceBlocks.append(self.generateSourcePackageCode(parts, packages, boot, globalCodes, format))
         plugCodeFile = self._job.get("compile-source/decode-uris-plug", False)
-        sourceBlocks.append(self.generateBootCode(parts, packages, boot, variants={}, settings={}, bootCode=None, globalCodes=globalCodes, decodeUrisFile=plugCodeFile, format=format))
-
-        # TODO: Do we really need this optimization here. Could this be solved
-        # with less resources just through directly generating "good" code?
         self._console.info("Generating boot loader...")
-        if format:
-            sourceContent = "\n\n".join(sourceBlocks)
-        else:
-            sourceContent = "".join(sourceBlocks)
+        sourceContent = self.generateBootCode(parts, packagesArray, boot, script, variants={}, settings={}, bootCode=None, globalCodes=globalCodes, decodeUrisFile=plugCodeFile, format=format)
 
         # Construct file name
         resolvedFilePath = self._resolveFileName(filePath, variants, settings)
@@ -668,7 +672,7 @@ class CodeGenerator(object):
         return resdata
 
 
-    def generateBootCode(self, parts, packages, boot, variants, settings, bootCode, globalCodes, version="source", decodeUrisFile=None, format=False):
+    def generateBootCode(self, parts, packages, boot, script, variants, settings, bootCode, globalCodes, version="source", decodeUrisFile=None, format=False):
         # returns the Javascript code for the initial ("boot") script as a string 
 
         def partsMap(parts):
