@@ -16,6 +16,11 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+
+/**
+#ignore(inspector.$$inspector)
+*/
+
 qx.Class.define("inspector.console.ConsoleView",
 {
   extend : qx.ui.core.Widget,
