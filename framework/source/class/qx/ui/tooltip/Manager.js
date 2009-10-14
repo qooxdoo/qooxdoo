@@ -408,7 +408,7 @@ qx.Class.define("qx.ui.tooltip.Manager",
     qx.event.Registration.removeListener(document.body, "mouseover", this.__onMouseOverRoot, this, true);
 
     // Dispose timers
-    this._disposeObjects("__showTimer", "__hideTimer");
+    this._disposeObjects("__showTimer", "__hideTimer", "__sharedToolTip");
     this._disposeFields("__mousePosition");
   }
 });
