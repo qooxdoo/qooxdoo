@@ -45,14 +45,14 @@ qx.Class.define("qx.bom.Iframe",
     DEFAULT_ATTRIBUTES : 
     {
       onload : "qx.event.handler.Iframe.onevent(this)",
-      frameBorder: "0",
-      frameSpacing: "0",
-      marginWidth: "0",
-      marginHeight: "0",
-      hspace: "0",
-      vspace: "0",
-      border: "0",
-      allowTransparency: "true"
+      frameBorder: 0,
+      frameSpacing: 0,
+      marginWidth: 0,
+      marginHeight: 0,
+      hspace: 0,
+      vspace: 0,
+      border: 0,
+      allowTransparency: true
     },
     
     /**

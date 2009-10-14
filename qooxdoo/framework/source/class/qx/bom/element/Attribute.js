@@ -124,7 +124,8 @@ qx.Class.define("qx.bom.element.Attribute",
         multiple : 1,
         selected : 1,
         noresize : 1,
-        defer    : 1
+        defer    : 1,
+        allowTransparency : 1
       },
 
       // Interpreted as property (element.property)
