@@ -48,7 +48,7 @@ class Package(object):
     #   +-------------+
     #
 
-    def packageAsString(self):
+    def packageCode(self):
         def getDataString():
             data  = {}
             return json.dumpsCode(data)  # TODO
