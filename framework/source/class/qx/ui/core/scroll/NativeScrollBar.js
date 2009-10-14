@@ -63,6 +63,10 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
     this.addListener("mouseup", this._stopPropagation, this);
     this.addListener("mousemove", this._stopPropagation, this);
     
+    if (qx.core.Variant.isSet("qx.client", "opera")) {
+      this.addListener("appear", this._onAppear, this);
+    }
+    
     this.getContentElement().add(this._getScrollPaneElement());
     
     // Configure orientation
@@ -256,7 +260,6 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
         var bounds = this.getBounds();
-        var scrollbarWidth = qx.bom.element.Overflow.getScrollbarWidth();
         this.getContentElement().setStyles({
           left: isHorizontal ? "0" : "-1px",
           top: isHorizontal ? "-1px" : "0",
@@ -313,6 +316,16 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
       var container = this.getContentElement();      
       var position = this.__isHorizontal ? container.getScrollX() : container.getScrollY(); 
       this.setPosition(position);
+    },
+
+    /**
+     * Listener for appear.
+     * Scrolls to the correct position to fix a rendering bug in Opera.
+     *
+     * @param e {qx.event.type.Data} Incoming event object
+     */
+    _onAppear : function(e) {
+      this.scrollTo(this.getPosition());
     },
     
     
