@@ -37,6 +37,7 @@ from generator.code.TreeCompiler     import TreeCompiler
 from generator.code.LibraryPath      import LibraryPath
 from generator.code.ResourceHandler  import ResourceHandler
 from generator.code.Script           import Script
+from generator.code.Package          import Package
 from generator.action.CodeGenerator  import CodeGenerator
 from generator.action.ImageInfo      import ImgInfoFmt
 from generator.action.ImageClipping  import ImageClipping
@@ -262,9 +263,12 @@ class Generator(object):
                     partIncludes[partId] = self._expandRegExps(partsCfg[partId]['include'])
 
                 # Computing packages
-                boot, partPackages, packageClasses = self._partBuilder.getPackages(partIncludes, excludeWithDeps, self._context, script)
+                #boot, partPackages, packageClasses = self._partBuilder.getPackages(partIncludes, excludeWithDeps, self._context, script)
+                partPackages, _ = self._partBuilder.getPackages(partIncludes, excludeWithDeps, self._context, script)
+                packageClasses = script.packagesArraySorted()
 
-                return boot, partPackages, packageClasses
+                #return boot, partPackages, packageClasses
+                return script.boot, script.parts, packageClasses
 
 
             # Check for package configuration
@@ -278,6 +282,11 @@ class Generator(object):
                 boot           = "boot"
                 partPackages   = { "boot" : [0] }
                 packageClasses = [classList]
+                # patch script object
+                script.packageIdsSorted = [0]
+                packageObj  = Package(0)
+                packageObj.classes = classList
+                script.packages1 = {0: packageObj}
 
             return boot, partPackages, packageClasses
 

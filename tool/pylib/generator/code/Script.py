@@ -25,11 +25,23 @@
 ##
 
 class Script(object):
+
     def __init__(self, ):
         self.classes    = []   # classes making up the application / library
         self.variants   = []
         self.parts      = {}   # parts defined by the configuration (if any)
         self.packages   = {}   # .js files for this application / library
         self.boot       = None
+        self.packageIdsSorted = []  # the keys of self.packages sorted in load order
+
+    ##
+    # return old-style array of array in self.packageIdsSorted order
+    def packagesArraySorted(self):
+        assert self.packageIdsSorted
+        assert self.packages1
+        packageClasses = []
+        for pkgId in self.packageIdsSorted:
+            packageClasses.append(self.packages1[pkgId].classes)
+        return packageClasses
 
 
