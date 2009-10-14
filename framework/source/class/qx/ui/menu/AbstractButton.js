@@ -60,6 +60,13 @@ qx.Class.define("qx.ui.menu.AbstractButton",
 
   properties :
   {
+    // overridden
+    blockToolTip :
+    {
+      refine : true,
+      init : true
+    },
+
     /** The label text of the button */
     label :
     {
