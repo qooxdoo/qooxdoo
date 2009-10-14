@@ -289,7 +289,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
         }
       }
 
-      e.getTarget().getRequest()._onsending(e.clone());
+      e.getTarget().getRequest()._onsending(e);
     },
 
 
@@ -301,7 +301,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
      * @return {void}
      */
     _onreceiving : function(e) {
-      e.getTarget().getRequest()._onreceiving(e.clone());
+      e.getTarget().getRequest()._onreceiving(e);
     },
 
 
@@ -331,7 +331,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
       var request = e.getTarget().getRequest();
       var requestHandler = "_on" + e.getType();
       if (request[requestHandler]) {
-        request[requestHandler](e.clone());
+        request[requestHandler](e);
       }
 
       this._remove(e.getTarget());
