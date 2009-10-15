@@ -201,7 +201,7 @@ qx.Class.define("inspector.console.ConsoleView",
           // mark the stuff in the ()
           var start = this._inputTextField.getValue().lastIndexOf("(") + 1;
           var end = this._inputTextField.getValue().length - 1;
-          this._inputTextField.setSelection(start, end);
+          this._inputTextField.setTextSelection(start, end);
         }
       }
     },
@@ -361,7 +361,7 @@ qx.Class.define("inspector.console.ConsoleView",
             // remove the selection of the text
             window.setTimeout(function() {
               var length = self._inputTextField.getValue().length;
-              self._inputTextField.setSelection(length, length);
+              self._inputTextField.setTextSelection(length, length);
             }, 0);
           }
 
