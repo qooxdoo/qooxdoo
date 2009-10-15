@@ -1,3 +1,22 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2004-2009 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's left-level directory for details.
+
+   Authors:
+     * Fabian Jakobs (fjakobs)
+
+************************************************************************ */
+
 qx.core.Setting.define("qx.nativeScrollBars", false);
 
 /**
