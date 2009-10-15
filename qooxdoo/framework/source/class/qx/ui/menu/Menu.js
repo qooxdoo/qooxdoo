@@ -787,6 +787,7 @@ qx.Class.define("qx.ui.menu.Menu",
     }
 
     this.getApplicationRoot().removeListener("resize", this._onResize, this);
+    this._disposeFields("_placementTarget");
     this._disposeObjects("_blocker");
   }
 });
