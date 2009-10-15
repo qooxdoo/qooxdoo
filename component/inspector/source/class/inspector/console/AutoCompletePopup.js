@@ -164,47 +164,7 @@ qx.Class.define("inspector.console.AutoCompletePopup", {
       // get the object reference
       var object = null;
       try {
-        // run it and store the result in the global ans value
-        var iFrameWindow = qx.core.Init.getApplication().getIframeWindowObject();
-        if (qx.core.Variant.isSet("qx.client", "webkit|mshtml|gecko")) {
-          if (qx.core.Variant.isSet("qx.client", "mshtml") ||
-              qx.core.Variant.isSet("qx.client", "webkit")) {
-            objectRef = objectRef.replace(/^(\s*var\s+)(.*)$/, "$2");
-          }
-
-          var returnCode = "";
-          // Fix for webkit version > nightly
-          if (qx.core.Variant.isSet("qx.client", "webkit") &&
-              qx.bom.client.Engine.FULLVERSION >= 528) {
-            returnCode = "return eval('" + objectRef + "');"
-          } else {
-            returnCode = "return eval.call(window, '" + objectRef + "');"
-          }
-
-          iFrameWindow.qx.lang.Function.globalEval([
-            "window.top.inspector.$$inspector = function()",
-            "{",
-            "  try {",
-            returnCode,
-            "  } catch (ex) {",
-            "    return ex;",
-            "  }",
-            "};"].join("")
-          );
-          object = inspector.$$inspector.call(qx.core.Init.getApplication().getSelectedObject());
-        } else if (qx.core.Variant.isSet("qx.client", "opera")) {
-          object = (function(objectRef) {
-              return iFrameWindow.eval(objectRef);
-            }).call(qx.core.Init.getApplication().getSelectedObject(), objectRef);
-        }
-
-        // if ans is defined
-        if (object != null)
-        {
-          if (object instanceof iFrameWindow.Error) {
-            throw object;
-          }
-        }
+        object = inspector.console.Util.evalOnIframe(objectRef);
       } catch (ex) {
         this.hide();
         return;
