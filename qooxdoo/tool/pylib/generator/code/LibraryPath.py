@@ -67,7 +67,7 @@ class LibraryPath:
         return d
 
     _codeExpr = re.compile('qx.(Bootstrap|List|Class|Mixin|Interface|Theme).define\s*\(\s*["\'](%s)["\']?' % lang.IDENTIFIER_REGEXP, re.M)
-    _ignoredDirectories = [".svn", "CVS"]
+    _ignoredDirectories = re.compile(r'%s' % '|'.join(filetool.VERSIONCONTROL_DIR_PATTS), re.I)
     _docFilename = "__init__.js"
 
 
@@ -116,7 +116,7 @@ class LibraryPath:
         files = os.listdir(path)
 
         for entry in files:
-            if entry.startswith(".") or entry in self._ignoredDirectories:
+            if entry.startswith(".") or self._ignoredDirectories.match(entry):
                 continue
 
             full = os.path.join(path, entry)
@@ -154,8 +154,8 @@ class LibraryPath:
         # Iterate...
         for root, dirs, files in os.walk(path):
             # Filter ignored directories
-            for ignoredDir in self._ignoredDirectories:
-                if ignoredDir in dirs:
+            for ignoredDir in dirs:
+                if self._ignoredDirectories.match(ignoredDir):
                     dirs.remove(ignoredDir)
 
             # Searching for files
@@ -247,8 +247,8 @@ class LibraryPath:
         # Iterate...
         for root, dirs, files in os.walk(path):
             # Filter ignored directories
-            for ignoredDir in self._ignoredDirectories:
-                if ignoredDir in dirs:
+            for ignoredDir in dirs:
+                if self._ignoredDirectories.match(ignoredDir):
                     dirs.remove(ignoredDir)
 
             # Searching for files

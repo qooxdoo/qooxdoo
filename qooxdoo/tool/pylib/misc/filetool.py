@@ -22,6 +22,8 @@ import os, codecs, cPickle, sys, re, time
 import gzip as sys_gzip
 import textutil
 
+VERSIONCONTROL_DIR_PATTS = (r'^\.svn$', r'^_svn$', r'^CVS$')
+
 if sys.platform == "win32":
     import msvcrt
 else:
@@ -149,8 +151,11 @@ def root():
 
 
 def find(rootpath, pattern=None, includedirs=False):
-    dirwalker = os.walk(rootpath)
-    alwaysSkip = re.compile(r'(?:\.svn)',re.I)
+    dirwalker   = os.walk(rootpath)
+    findPattern = None
+    if pattern:
+        findPattern = re.compile(pattern)
+    alwaysSkip  = re.compile(r'%s' % '|'.join(VERSIONCONTROL_DIR_PATTS),re.I)
 
     for (path, dirlist, filelist) in dirwalker:
         # correct dirlist (only with 'while' you can change it in place)
@@ -169,7 +174,7 @@ def find(rootpath, pattern=None, includedirs=False):
         for filename in checklist:
             if re.search(alwaysSkip, filename):
                 continue
-            if (pattern and not re.search(pattern, filename)):
+            if (findPattern and not re.search(findPattern, filename)):
                 continue
 
             yield os.path.join(path,filename)
@@ -223,3 +228,10 @@ def unlock(path):
     if lockfile and os.path.exists(lockfile):
         #print "xxx releasing file lock on: %r" % path
         os.unlink(lockfile)
+
+
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        raise RuntimeError, "Usage: %s <dirpath>" % sys.argv[0]
+    for entry in find(*sys.argv[1:]):
+        print entry
