@@ -155,14 +155,11 @@ qx.Class.define("inspector.console.AutoCompletePopup", {
       var searchTerm = objectRef.substring(objectRef.lastIndexOf(".") + 1);
       // if there is no dot in the textfield
       if (objectRef == searchTerm) {
-        // hide the popup
-        this.hide();
-        // stop further processing
-        return;
-      } else {
-        // cut of the stuff after the last dot
-        objectRef = objectRef.substring(0, objectRef.lastIndexOf("."));
-      }
+        objectRef = "window." + objectRef;
+      } 
+
+      // cut of the stuff after the last dot
+      objectRef = objectRef.substring(0, objectRef.lastIndexOf("."));
 
       // get the object reference
       var object = null;
@@ -209,8 +206,6 @@ qx.Class.define("inspector.console.AutoCompletePopup", {
           }
         }
       } catch (ex) {
-        // print out the exception
-        this.error(ex);
         this.hide();
         return;
       }
