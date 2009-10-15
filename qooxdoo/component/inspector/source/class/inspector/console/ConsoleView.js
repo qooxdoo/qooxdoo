@@ -14,13 +14,9 @@
 
    Authors:
      * Martin Wittemann (martinwittemann)
+     * Christian Schmidt (chris_schmidt)
 
 ************************************************************************ */
-
-/**
-#ignore(inspector.$$inspector)
-*/
-
 qx.Class.define("inspector.console.ConsoleView",
 {
   extend : qx.ui.core.Widget,
@@ -97,16 +93,6 @@ qx.Class.define("inspector.console.ConsoleView",
 
   members :
   {
-
-    setAns: function(ans) {
-      this._ans = ans;
-    },
-
-    getAns: function() {
-      return this._ans;
-    },
-
-
     clear: function() {
       this._content.setHtml("");
     },
@@ -211,63 +197,17 @@ qx.Class.define("inspector.console.ConsoleView",
     _process: function(text) {
       // add the text to the embedded
       this._printText(this._console.escapeHtml(text));
-      // try to run the code
+
       try {
-        // run it and store the result in the global ans value
-        var iFrameWindow = qx.core.Init.getApplication().getIframeWindowObject();
-        if (qx.core.Variant.isSet("qx.client", "webkit|mshtml|gecko")) {
-          if (qx.core.Variant.isSet("qx.client", "mshtml") ||
-              qx.core.Variant.isSet("qx.client", "webkit")) {
-            text = text.replace(/^(\s*var\s+)(.*)$/, "$2");
-          }
+        var object = inspector.console.Util.evalOnIframe(text);
 
-          var returnCode = "";
-          // Fix for webkit version > nightly
-          if (qx.core.Variant.isSet("qx.client", "webkit") &&
-              qx.bom.client.Engine.FULLVERSION >= 528) {
-            returnCode = "return eval('" + text + "');"
-          } else {
-            returnCode = "return eval.call(window, '" + text + "');"
-          }
-
-          iFrameWindow.qx.lang.Function.globalEval([
-            "window.top.inspector.$$inspector = function()",
-            "{",
-            "  try {",
-            returnCode,
-            "  } catch (ex) {",
-            "    return ex;",
-            "  }",
-            "};"].join("")
-          );
-          this.setAns(
-            inspector.$$inspector.call(qx.core.Init.getApplication().getSelectedObject())
-          );
-        } else if (qx.core.Variant.isSet("qx.client", "opera")) {
-          this.setAns(
-            (function(text) {
-              return iFrameWindow.eval(text);
-            }).call(qx.core.Init.getApplication().getSelectedObject(), text)
-          );
-        }
-
-        // if ans is defined
-        var ans = this.getAns();
-        if (ans != null)
+        if (object != null)
         {
-          if (ans instanceof iFrameWindow.Error) {
-            throw ans;
-          }
-
-          // store the object in the local reference folder
-          this._objectFolder[this._objectFolderIndex] = {name: text, object: ans};
-          // print put the return value
-          this._printReturnValue(ans);
-          // invoke the addition to the index after the objects has been printed to the screen
+          this._objectFolder[this._objectFolderIndex] = {name: text, object: object};
+          this._printReturnValue(object);
           this._objectFolderIndex++;
         }
       } catch (ex) {
-        // print out the exception
         this.error(ex);
       }
     },
