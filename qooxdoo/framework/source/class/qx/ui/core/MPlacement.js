@@ -465,5 +465,13 @@ qx.Mixin.define("qx.ui.core.MPlacement",
         this.moveTo(result.left, result.top);
       });
     }
+  },
+  
+  
+  destruct : function()
+  {
+    if (this.__updater) {
+      qx.event.Idle.getInstance().removeListener("interval", this.__updater);
+    }
   }
 });

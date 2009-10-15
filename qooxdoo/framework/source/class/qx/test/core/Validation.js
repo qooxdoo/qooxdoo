@@ -102,7 +102,7 @@ qx.Class.define("qx.test.core.Validation",
       var model = this.__model;
       // test for some fals imputs
       this.assertException(function() {model.setNumber("test")}, qx.core.ValidationError, null, "A String is no number.");
-      this.assertException(function() {model.setNumber(new Date())}, qx.core.ValidationErrornull, null, "A Date is no number.");
+      this.assertException(function() {model.setNumber(new Date())}, qx.core.ValidationError, null, "A Date is no number.");
       this.assertException(function() {model.setNumber(this)}, qx.core.ValidationError, null, "this is no number.");
 
       // test an positive integer
