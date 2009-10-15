@@ -149,6 +149,7 @@ qx.Class.define("inspector.console.AutoCompletePopup", {
       // select the first entry
       this._table.getSelectionModel().setSelectionInterval(0, 0);
       this._table.setFocusedCell(0, 0, true);
+      this._tableModel.setData([]);
 
       // try to get the part after the last dot
       var searchTerm = objectRef.substring(objectRef.lastIndexOf(".") + 1);
@@ -164,11 +165,58 @@ qx.Class.define("inspector.console.AutoCompletePopup", {
       }
 
       // get the object reference
-      var object = (function(text, ans){return iFrameWindow.eval(text)}).call(qx.core.Init.getApplication().getSelectedObject(), objectRef, this._controller.getAns());
+      var object = null;
+      try {
+        // run it and store the result in the global ans value
+        var iFrameWindow = qx.core.Init.getApplication().getIframeWindowObject();
+        if (qx.core.Variant.isSet("qx.client", "webkit|mshtml|gecko")) {
+          if (qx.core.Variant.isSet("qx.client", "mshtml") ||
+              qx.core.Variant.isSet("qx.client", "webkit")) {
+            objectRef = objectRef.replace(/^(\s*var\s+)(.*)$/, "$2");
+          }
 
+          var returnCode = "";
+          // Fix for webkit version > nightly
+          if (qx.core.Variant.isSet("qx.client", "webkit") &&
+              qx.bom.client.Engine.FULLVERSION >= 528) {
+            returnCode = "return eval('" + objectRef + "');"
+          } else {
+            returnCode = "return eval.call(window, '" + objectRef + "');"
+          }
 
+          iFrameWindow.qx.lang.Function.globalEval([
+            "window.top.inspector.$$inspector = function()",
+            "{",
+            "  try {",
+            returnCode,
+            "  } catch (ex) {",
+            "    return ex;",
+            "  }",
+            "};"].join("")
+          );
+          object = inspector.$$inspector.call(qx.core.Init.getApplication().getSelectedObject());
+        } else if (qx.core.Variant.isSet("qx.client", "opera")) {
+          object = (function(objectRef) {
+              return iFrameWindow.eval(objectRef);
+            }).call(qx.core.Init.getApplication().getSelectedObject(), objectRef);
+        }
+
+        // if ans is defined
+        if (object != null)
+        {
+          if (object instanceof iFrameWindow.Error) {
+            throw object;
+          }
+        }
+      } catch (ex) {
+        // print out the exception
+        this.error(ex);
+        this.hide();
+        return;
+      }
+      
       // check if it has returned an object
-      if (!(object instanceof iFrameWindow.Object) ) {
+      if (!(object instanceof iFrameWindow.Object) && !object == iFrameWindow.window) {
         // hide the popup
         this.hide();
         // stop further processing
@@ -191,48 +239,50 @@ qx.Class.define("inspector.console.AutoCompletePopup", {
 
       // go threw everything in the object
       for (var name in object) {
-        // apply the search term
-        if (regExp.test(name)) {
-          // check for the scope of the property / method
-          if (name.substring(0,2) ==  "__") {
-              var scope = "private";
-            } else if (name.substring(0,1) == "_") {
-              var scope = "protected";
-            } else {
-              var scope = "public";
-            }
-
-          // if it is a function
-          if (object[name] instanceof iFrameWindow.Function) {
-            // add the opening bracket for the function arguments
-            var functionString = name + "(";
-            // go threw all expected arguments
-            for (var j = 0; j < object[name].length; j++) {
-              // if it is the last argument
-              if (j == object[name].length - 1) {
-                // add a character beginning by a,b,c,d,...
-                functionString += unescape("%" + (61 + j));
+        try {
+          // apply the search term
+          if (regExp.test(name)) {
+            // check for the scope of the property / method
+            if (name.substring(0,2) ==  "__") {
+                var scope = "private";
+              } else if (name.substring(0,1) == "_") {
+                var scope = "protected";
               } else {
-                // add a character beginning by a,b,c,d,... and a trailing comma
-                functionString += unescape("%" + (61 + j) + ", ");
+                var scope = "public";
               }
+  
+            // if it is a function
+            if (object[name] instanceof iFrameWindow.Function) {
+              // add the opening bracket for the function arguments
+              var functionString = name + "(";
+              // go threw all expected arguments
+              for (var j = 0; j < object[name].length; j++) {
+                // if it is the last argument
+                if (j == object[name].length - 1) {
+                  // add a character beginning by a,b,c,d,...
+                  functionString += unescape("%" + (61 + j));
+                } else {
+                  // add a character beginning by a,b,c,d,... and a trailing comma
+                  functionString += unescape("%" + (61 + j) + ", ");
+                }
+              }
+              // add the ending bracket for the function arguments
+              functionString += ")";
+  
+              // create the image uri
+              var image = "inspector/images/autocomplete/method_" + scope + "18.gif";
+              // add the function string to the data
+              data.push([image, functionString]);
+  
+            // if it is no function
+            } else {
+              // create the image uri
+              var image = "inspector/images/autocomplete/property_" + scope + "18.gif";
+              // add the name of the attribute to the data
+              data.push([image, name]);
             }
-            // add the ending bracket for the function arguments
-            functionString += ")";
-
-            // create the image uri
-            var image = "inspector/images/autocomplete/method_" + scope + "18.gif";
-            // add the function string to the data
-            data.push([image, functionString]);
-
-          // if it is no function
-          } else {
-            // create the image uri
-            var image = "inspector/images/autocomplete/property_" + scope + "18.gif";
-            // add the name of the attribute to the data
-            data.push([image, name]);
           }
-        }
+        } catch(ex) {}
       }
 
       if (data.length < 1) {
