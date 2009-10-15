@@ -448,7 +448,7 @@ qx.Bootstrap.define("qx.core.Assert",
         msg || "",
         "The value '" + this.__toString(value) +
         "' must have any of the values defined in the array '"
-        + array.join(", ") + "'"
+        + this.__toString(array) + "'"
       );
     },
 
