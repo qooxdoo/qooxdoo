@@ -538,5 +538,11 @@ qx.Class.define("qx.ui.virtual.form.ListController",
       return this._getRowData(row) || "";
     }
 
+  },
+
+
+  destruct : function()
+  {
+    this._disposeFields("__lookupTable");
   }
 });
