@@ -306,7 +306,7 @@ qx.Class.define("qx.bom.Blocker",
       }
 
       qx.bom.element.Style.setStyles(this.__blockerElement, styles);
-      qx.dom.Element.insertBegin(this.__blockerElement, target);
+      qx.dom.Element.insertEnd(this.__blockerElement, target);
 
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
