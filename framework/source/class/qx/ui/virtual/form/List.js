@@ -368,5 +368,12 @@ qx.Class.define("qx.ui.virtual.form.List",
     _onResize : function(e) {
       this.getPane().getColumnConfig().setItemSize(0, e.getData().width);
     }
+  },
+  
+  
+  destruct : function()
+  {
+    this._disposeFields("_delegate"):
+    this._disposeObjects("__manager");
   }
 });
