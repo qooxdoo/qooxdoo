@@ -65,20 +65,29 @@ def _getCommonPrefixS(p1, p2):  # String-based
     # check whether the commonality did not end in a dir boundary
     if (k==-1): # there is no commonality
         pass
-    elif (((k+1 < len_p1)  # we're not at the end of p1
-         and (p1[k] != os.sep))  # the last common char was not a '/'
-         and (k+1 < len_p2)): 
-        # calculate backwards to the last encountered os.sep or the beginning of the string
-        #print ">>> searching backward"
-        j = p1.rfind(os.sep,0,k)
-        if j >-1:
-            k = j 
-        else: # there is no os.sep in the commen prefix so use start of string
-            k = j  # this complies with the suffix "[k+1:]" slice later
+    elif (p1[k] != os.sep):  # the last common char was not a '/'
+        # need longer path for later test
+        if len_p1 > len_p2: longer = p1
+        else              : longer = p2
+
+        # check for cases where a prefix ending seemingly 'in between' is ok
+        if (p1 == p2):                   # they're identical (redunant here, but for clarity)
+            pass                            # that's ok
+        elif (k+1 in (len_p1,len_p2)     # one ends at k
+            and longer[k+1] == os.sep):  # and the longer continues with '/'
+            pass                            # that's ok
+        else:
+            # Then: we have to step backwards to find the last os.sep
+            # calculate backwards to the last encountered os.sep or the beginning of the string
+            #print ">>> searching backward"
+            j = p1.rfind(os.sep,0,k)
+            if j >-1:
+                k = j 
+            else: # there is no os.sep in the commen prefix so use start of string
+                k = j  # this complies with the suffix "[k+1:]" slice later
     # assert: 'k' points to dir boundary (os.sep or EOS)
 
     # assign results
-    #print ">>> k+1: ", k+1
     pre  = p1[0:k+1]
     sfx1 = p1[k+1:]
     sfx2 = p2[k+1:]
@@ -165,7 +174,27 @@ def _getCommonPrefixA(pa1, pa2):
         else:
             return pre, sfx1, sfx2
 
-    return getCommonPrefixRec([], pa1, pa2)
+    def getCommonPrefixIter(_, pa1, pa2):
+        prefix  = []
+        sfx1    = []
+        sfx2    = []
+        if pa1 == [] or pa2 == []:
+            return prefix, pa1, pa2
+        len_pa1 = len(pa1)
+        len_pa2 = len(pa2)
+        for i in range(min(len_pa1, len_pa2)):
+            if pa1[i] == pa2[i]:
+                prefix.append(pa1[i])
+            else:
+                break
+        if len_pa1 >= i+1:
+            sfx1 = pa1[i+1:]
+        if len_pa2 >= i+1:
+            sfx2 = pa2[i+1:]
+        return prefix, sfx1, sfx2
+
+    #return getCommonPrefixRec([], pa1, pa2)
+    return getCommonPrefixIter([], pa1, pa2)
 
 
 def getCommonPrefixA(p1, p2):  # Array-based
@@ -173,6 +202,10 @@ def getCommonPrefixA(p1, p2):  # Array-based
        ("a", "b.1/c", "b.2/d") and not ("a/b.", "1/c", "2/d")'''
     
     if (len(p1) == 0 or len(p2) == 0): return "",p1,p2
+    # don't compare a mix of absolute and relative paths
+    if ((p1[0]==os.sep and p2[0]!=os.sep) or
+        (p1[0]!=os.sep and ps2[0]==os.sep)):
+        return "",p1,p2
     pa1 = p1.split(os.sep)
     pa2 = p2.split(os.sep)
     prea, sfx1a, sfx2a = _getCommonPrefixA(pa1, pa2)
@@ -232,58 +265,59 @@ def rel_from_to(fromdir, todir, commonroot=None):
 def _testCP():
     'test getCommonPrefix()'
     tests = [
-        (('', ''), ('','','')),
-        (('a', ''), ('','a','')),
-        (('/a', ''), ('','/a','')),
-        (('', 'a'), ('','','a')),
-        (('', '/a'), ('','','/a')),
-        (('/a', 'e/f/g'), ('','/a','e/f/g')),
-        (('/a/b/c', '/a/b/c/d/e'), ('/a/b/c','','d/e')),
-        (('/a/b/c', '/a/b/c/d/'), ('/a/b/c','','d')),
-        (('/a/b/c', '/a/b/c/d'), ('/a/b/c','','d')),
-        (('/a/b/c', '/a/b/c/'), ('/a/b/c','','')),
-        (('/a/b/c', '/a/b/c'), ('/a/b/c','','')),
-        (('/a/b/c', '/a/b/'), ('/a/b','c','')),
-        (('/a/b/c', '/a/b'), ('/a/b','c','')),
-        (('/a/b/c', '/a/'), ('/a','b/c','')),
-        (('/a/b/c', '/a'), ('/a','b/c','')),
-        (('/a/b/c', '/'), ('/','a/b/c','')),
-        (('/a/b/x.1/c', '/a/b/x.2/c'),   ('/a/b','x.1/c','x.2/c')),
-        (('x.1/a/b/c', 'x.2/a/b/c/d'), ('','x.1/a/b/c','x.2/a/b/c/d')),
-        (('a/b/./c', 'a/b/c/d'), ('a/b/c','','d')),
-        (('a/b/c', 'a/b/c/././d'), ('a/b/c','','d')),
-        (('a/b/../c', 'a/c/d'), ('a/c','','d')),
-        (('a/b/c', 'a/b/c/../d'), ('a/b','c','d')),
-        (('../../../a/b/c', '../../a/b/c/d'), ('../..','../a/b/c','a/b/c/d')),
-        (('../../../a/b/c', '../../x/y/../z/../../../a/b/c/d'), ('../../../a/b/c','','d')),
+        (('', ''), ('','','')),                                                             # #1
+        (('a', ''), ('','a','')),                                                           # #2
+        (('/a', ''), ('','/a','')),                                                         # #3
+        (('', 'a'), ('','','a')),                                                           # #4
+        (('', '/a'), ('','','/a')),                                                         # #5
+        (('/a', 'e/f/g'), ('','/a','e/f/g')),                                               # #6
+        (('/a/b/c', '/a/b/c/d/e'), ('/a/b/c','','d/e')),                                    # #7
+        (('/a/b/c', '/a/b/c/d/'), ('/a/b/c','','d')),                                       # #8
+        (('/a/b/c', '/a/b/c/d'), ('/a/b/c','','d')),                                        # #9
+        (('/a/b/c', '/a/b/c/'), ('/a/b/c','','')),                                          # #10
+        (('/a/b/c', '/a/b/c'), ('/a/b/c','','')),                                           # #11
+        (('/a/b/c', '/a/b/'), ('/a/b','c','')),                                             # #12
+        (('/a/b/c', '/a/b'), ('/a/b','c','')),                                              # #13
+        (('/a/b/c', '/a/'), ('/a','b/c','')),                                               # #14
+        (('/a/b/c', '/a'), ('/a','b/c','')),                                                # #15
+        (('/a/b/c', '/'), ('/','a/b/c','')),                                                # #16
+        (('/a/b/x.1/c', '/a/b/x.2/c'),   ('/a/b','x.1/c','x.2/c')),                         # #17
+        (('x.1/a/b/c', 'x.2/a/b/c/d'), ('','x.1/a/b/c','x.2/a/b/c/d')),                     # #18
+        (('/a/b/x1', '/a/b/x1y'),   ('/a/b','x1','x1y')),                                   # #19
+        (('a/b/./c', 'a/b/c/d'), ('a/b/c','','d')),                                         # #20
+        (('a/b/c', 'a/b/c/././d'), ('a/b/c','','d')),                                       # #21
+        (('a/b/../c', 'a/c/d'), ('a/c','','d')),                                            # #22
+        (('a/b/c', 'a/b/c/../d'), ('a/b','c','d')),                                         # #23
+        (('../../../a/b/c', '../../a/b/c/d'), ('../..','../a/b/c','a/b/c/d')),              # #24
+        (('../../../a/b/c', '../../x/y/../z/../../../a/b/c/d'), ('../../../a/b/c','','d')), # #25
     ]
 
-    for t in tests:
+    for idx, t in enumerate(tests):
         x = getCommonPrefix(*t[0])
-        assert x == t[1], "%r != %r" % (x, t[1])
+        assert x == t[1], "#%d: %r !=> %r" % (idx+1, t[0], x)
 
 
 def _testCS():
     'test getCommonSuffix()'
     tests = [
-        (('', ''), ('','','')),
-        (('a', ''), ('a','','')),
-        (('/a', ''), ('/a','','')),
-        (('', 'a'), ('','a','')),
-        (('', '/a'), ('','/a','')),
-        (('/a', 'e/f/g'), ('/a','e/f/g','')),
-        (('a/b/c','a/b/c'), ('','','a/b/c')),
-        (('/a/b/c','/a/b/c'), ('','','/a/b/c')),
-        (('x/y/a/b/c','/a/b/c'), ('x/y','/','a/b/c')),
-        (('/y/a/b/c','/a/b/c'), ('/y','/','a/b/c')),
-        (('y/a/b/c','/a/b/c'), ('y','/','a/b/c')),
-        (('/a/b/c','/a/b/c'), ('','','/a/b/c')),
-        (('a/b/c','/a/b/c'), ('','/','a/b/c')),
-        (('/b/c','/a/b/c'), ('/','/a','b/c')),
-        (('b/c','/a/b/c'), ('','/a','b/c')),
-        (('/c','/a/b/c'), ('/','/a/b','c')),
-        (('c','/a/b/c'), ('','/a/b','c')),
-        (('','/a/b/c'), ('','/a/b/c','')),
+        (('', ''), ('','','')),                                                             # #1
+        (('a', ''), ('a','','')),                                                           # #2
+        (('/a', ''), ('/a','','')),                                                         # #3
+        (('', 'a'), ('','a','')),                                                           # #4
+        (('', '/a'), ('','/a','')),                                                         # #5
+        (('/a', 'e/f/g'), ('/a','e/f/g','')),                                               # #6
+        (('a/b/c','a/b/c'), ('','','a/b/c')),                                               # #7
+        (('/a/b/c','/a/b/c'), ('','','/a/b/c')),                                            # #8
+        (('x/y/a/b/c','/a/b/c'), ('x/y','/','a/b/c')),                                      # #9
+        (('/y/a/b/c','/a/b/c'), ('/y','/','a/b/c')),                                        # #10
+        (('y/a/b/c','/a/b/c'), ('y','/','a/b/c')),                                          # #11
+        (('/a/b/c','/a/b/c'), ('','','/a/b/c')),                                            # #12
+        (('a/b/c','/a/b/c'), ('','/','a/b/c')),                                             # #13
+        (('/b/c','/a/b/c'), ('/','/a','b/c')),                                              # #14
+        (('b/c','/a/b/c'), ('','/a','b/c')),                                                # #15
+        (('/c','/a/b/c'), ('/','/a/b','c')),                                                # #16
+        (('c','/a/b/c'), ('','/a/b','c')),                                                  # #17
+        (('','/a/b/c'), ('','/a/b/c','')),                                                  # #18
     ]
 
     for t in tests:
