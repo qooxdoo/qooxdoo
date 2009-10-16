@@ -145,11 +145,11 @@ qx.Class.define("qx.ui.virtual.layer.Abstract",
       {
         this._updateLayerWindow.apply(this, this.__arguments);
       }
-      else if (this.__jobs.updateLayerData)
+      else if (this.__jobs.updateLayerData  && this.__rowSizes)
       {
         this._updateLayerData();
       }
-
+      
       if (this.__jobs.fullUpdate || this.__jobs.updateLayerWindow)
       {
         var args = this.__arguments;
@@ -158,6 +158,7 @@ qx.Class.define("qx.ui.virtual.layer.Abstract",
         this.__rowSizes = args[2];
         this.__columnSizes = args[3];
       }
+
       this.__jobs = {};
     },
 
