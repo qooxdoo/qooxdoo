@@ -75,6 +75,8 @@ qx.Class.define("qx.ui.core.scroll.ScrollBar",
     } else {
       this.initOrientation();
     }
+
+    this.addListener("resize", this._onResize, this);
   },
 
 
@@ -184,6 +186,8 @@ qx.Class.define("qx.ui.core.scroll.ScrollBar",
 
   members :
   {
+    __offset : 5,
+    
     // overridden
     _createChildControlImpl : function(id)
     {
@@ -384,6 +388,49 @@ qx.Class.define("qx.ui.core.scroll.ScrollBar",
      */
     _onChangeSliderValue : function(e) {
       this.setPosition(e.getData());
+    },
+
+    /**
+     * Hide the knob of the slider if the slidebar is too small or show it
+     * otherwise.
+     *
+     * @param e {qx.event.type.Data} event object
+     */
+    _onResize : function(e)
+    {
+      var barBounds = this.getBounds();
+      var b1Bounds = this.getChildControl("button-begin").getBounds();
+      var b2Bounds = this.getChildControl("button-end").getBounds();
+      var knob = this.getChildControl("slider").getChildControl("knob");
+      var knboBounds = knob.getBounds();
+      var hideKnob = false;
+
+      if (this.getOrientation() == "vertical")
+      {
+        if (
+          (barBounds.height - b1Bounds.height - b2Bounds.height) <
+          (knboBounds.height + this.__offset)
+        ) {
+          hideKnob = true;
+        }
+      }
+      else
+      {
+        if (
+          (barBounds.width - b1Bounds.width - b2Bounds.width) <
+          (knboBounds.width + this.__offset)
+        ) {
+          hideKnob = true;
+        }
+      }
+
+      if (hideKnob) {
+        knob.exclude();
+      } else {
+        knob.show();
+      }
+
     }
+
   }
 });
