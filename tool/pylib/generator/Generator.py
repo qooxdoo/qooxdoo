@@ -686,11 +686,11 @@ class Generator(object):
                 for classId in sorted(package):
                     classDeps = self._depLoader.getDeps(classId, variants)
                     if classDeps["load"]:
-                        for depId in classDeps["load"]:
-                            yield (packageId, classId, depId, 'load')
+                        for dep in classDeps["load"]:
+                            yield (packageId, classId, dep.name, 'load')
                     if classDeps["run"]:
-                        for depId in classDeps["run"]:
-                            yield (packageId, classId, depId, 'run')
+                        for dep in classDeps["run"]:
+                            yield (packageId, classId, dep.name, 'run')
             return
 
         def depsToJsonFile(classDepsIter, depsLogConf):
@@ -929,10 +929,10 @@ class Generator(object):
                     for otherClassId in package:
                         otherClassDeps = self._depLoader.getDeps(otherClassId, variants)
 
-                        if classId in otherClassDeps["load"]:
+                        if classId in (x.name for x in otherClassDeps["load"]):
                             self._console.info("Used by: %s (load)" % otherClassId)
 
-                        if classId in otherClassDeps["run"]:
+                        if classId in (x.name for x in otherClassDeps["run"]):
                             self._console.info("Used by: %s (run)" % otherClassId)
 
                     self._console.outdent()
