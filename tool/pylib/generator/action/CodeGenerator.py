@@ -235,9 +235,7 @@ class CodeGenerator(object):
         # Get translation maps
         locales = self._job.get("compile-source/locales", [])
         #import cProfile
-        #translationMaps = None
-        #cProfile.runctx("translationMaps = self.getTranslationMaps(packagesArray, variants, locales)", globals(), locals(), "/home/thron7/tmp/translation.profile")
-        #import pydb; pydb.debugger()
+        #cProfile.runctx("translationMaps = self.getTranslationMaps(packagesArray, variants, locales)", globals(), locals(), "/home/thron7/tmp/translation.profile2")
         translationMaps = self.getTranslationMaps(packagesArray, variants, locales)
 
         # Add data from settings, variants and packages
@@ -459,19 +457,19 @@ class CodeGenerator(object):
         self._console.info("Processing translations for %s locales..." % len(locales))
         self._console.indent()
 
-        packageTranslation = []
+        packageTranslations = []
         for pos, classes in enumerate(packages):
             self._console.debug("Package: %s" % pos)
             self._console.indent()
 
             pac_dat = self._locale.getTranslationData_1(classes, variants, locales) # .po data
             loc_dat = self._locale.getLocalizationData(locales)  # cldr data
-            packageTranslation.append((pac_dat,loc_dat))
+            packageTranslations.append((pac_dat,loc_dat))
 
             self._console.outdent()
 
         self._console.outdent()
-        return packageTranslation
+        return packageTranslations
 
 
     def generateLibInfoCode(self, libs, format, forceResourceUri=None, forceScriptUri=None):
