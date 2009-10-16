@@ -289,7 +289,12 @@ qx.Class.define("inspector.property.PropertyList", {
               groupLayout.add(labelName, {row: row, column: 1});
 
               // add the item to change the value
-              var propertyValue = this._getPropertyWidgetFull(properties[i][key], key, classnames[i][key]);
+              var propertyValue = null;
+              try {
+                propertyValue = this._getPropertyWidgetFull(properties[i][key], key, classnames[i][key]);
+              } catch(ex) {
+                propertyValue = new qx.ui.basic.Label("");
+              }
               propertyValue.setUserData("classname", classnames[i][key]);
               propertyValue.setUserData("key", key);
               propertyValue.setUserData("row", row);
@@ -638,11 +643,13 @@ qx.Class.define("inspector.property.PropertyList", {
     _refillPropertyListFull: function() {
       // go threw all stored property columns
       for (var index in this._propertyRows) {
-        // get the key and the classname
-        var key = index.substr(index.lastIndexOf(".") + 1);
-        var classname = index.substring(0, index.lastIndexOf("."));
-        // set the new value for all
-        this._setPropertyValueFull(key, classname);
+        try {
+          // get the key and the classname
+          var key = index.substr(index.lastIndexOf(".") + 1);
+          var classname = index.substring(0, index.lastIndexOf("."));
+          // set the new value for all
+          this._setPropertyValueFull(key, classname);
+        } catch(ex) {}        
       }
     },
 
