@@ -23,8 +23,7 @@ qx.Class.define("demobrowser.demo.virtual.list.List",
   extend : qx.ui.virtual.core.Scroller,
 
   implement : [
-    qx.ui.virtual.core.IWidgetCellProvider,
-    qx.ui.form.IFormElement
+    qx.ui.virtual.core.IWidgetCellProvider
   ],
 
 
