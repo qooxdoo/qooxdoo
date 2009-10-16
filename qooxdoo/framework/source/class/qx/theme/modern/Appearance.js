@@ -630,8 +630,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
           // since the scroll container disregards the min size of the scrollbars
           // we have to set the min size of the scroll area to ensure that the
           // scrollbars always have a usable size.
-          minWidth : 64,
-          minHeight : 64
+          minWidth : 50,
+          minHeight : 50
         };
       }
     },
