@@ -191,6 +191,18 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
       if (this.__captureElement) {
         this.releaseCapture();
       }
+      
+      // turn on native mouse capturing if the browser supports it
+      this.nativeSetCapture(element);
+      if (this.hasNativeCapture)
+      {
+        var self = this;
+        qx.bom.Event.addNativeListener(element, "losecapture", function()
+        {
+          qx.bom.Event.removeNativeListener(element, "losecapture", arguments.callee);
+          self.releaseCapture();
+        });
+      }
 
       this.__captureElement = element;
       qx.event.Registration.fireEvent(element, "capture", qx.event.type.Event, [true, false]);
@@ -218,10 +230,49 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
       if (!element) {
         return;
       }
+      
+      // turn off native mouse capturing if the browser supports it
+      this.nativeReleaseCapture(element);
 
       this.__captureElement = null;
       qx.event.Registration.fireEvent(element, "losecapture", qx.event.type.Event, [true, false]);
-    }
+    },
+    
+    
+    /** Whether the browser has native mouse capture support */
+    hasNativeCapture : qx.bom.client.Engine.MSHTML,
+    
+    
+    /**
+     * If the browser supports native mouse capturing, sets the mouse capture to
+     * the object that belongs to the current document.
+     * 
+     * @signature function(element)
+     */
+    nativeSetCapture : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function(element) {
+        element.setCapture();
+      },
+      
+      "default" : qx.lang.Function.empty
+    }),
+    
+    
+    /**
+     * If the browser supports native mouse capturing, removes mouse capture 
+     * from the object in the current document. 
+     * 
+     * @signature function(element)
+     */
+    nativeReleaseCapture : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function(element) {
+        element.releaseCapture();
+      },
+      
+      "default" : qx.lang.Function.empty
+    })
   },
 
 

@@ -55,7 +55,7 @@ qx.Class.define("qx.event.handler.Mouse",
     // Define shorthands
     this.__manager = manager;
     this.__window = manager.getWindow();
-    this.__root = this.__window.document.documentElement;
+    this.__root = this.__window.document;
 
     // Initialize observers
     this._initButtonObserver();
