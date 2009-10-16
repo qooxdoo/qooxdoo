@@ -234,6 +234,10 @@ class CodeGenerator(object):
 
         # Get translation maps
         locales = self._job.get("compile-source/locales", [])
+        #import cProfile
+        #translationMaps = None
+        #cProfile.runctx("translationMaps = self.getTranslationMaps(packagesArray, variants, locales)", globals(), locals(), "/home/thron7/tmp/translation.profile")
+        #import pydb; pydb.debugger()
         translationMaps = self.getTranslationMaps(packagesArray, variants, locales)
 
         # Add data from settings, variants and packages
@@ -460,7 +464,7 @@ class CodeGenerator(object):
             self._console.debug("Package: %s" % pos)
             self._console.indent()
 
-            pac_dat = self._locale.generatePackageData(classes, variants, locales) # .po data
+            pac_dat = self._locale.getTranslationData_1(classes, variants, locales) # .po data
             loc_dat = self._locale.getLocalizationData(locales)  # cldr data
             packageTranslation.append((pac_dat,loc_dat))
 
