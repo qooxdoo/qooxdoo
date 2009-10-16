@@ -89,6 +89,18 @@ qx.Class.define("qx.bom.Document",
           return (win||window).document.compatMode !== "CSS1Compat";
         }
       },
+      
+      "webkit" : function(win)
+      {
+        if (document.compatMode === undefined)
+        { 
+          var el = (win||window).document.createElement("div");
+          el.style.cssText = "position:absolute;width:0;height:0;width:1";
+          return el.style.width === "1px" ? true : false;  
+        } else {
+          return (win||window).document.compatMode !== "CSS1Compat";
+        }
+      },
 
       "default" : function(win) {
         return (win||window).document.compatMode !== "CSS1Compat";
