@@ -1762,7 +1762,7 @@ qx.Class.define("qx.ui.table.Table",
 
         var text;
 
-        if (rowCount > 0)
+        if (rowCount >= 0)
         {
           if (selectedRowCount == 0) {
             text = this.trn("one row", "%1 rows", rowCount, rowCount);
