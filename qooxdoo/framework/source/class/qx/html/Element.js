@@ -1833,7 +1833,37 @@ qx.Class.define("qx.html.Element",
     },
 
 
+    /**
+     * Disables browser-native scrolling
+     */
+    disableScrolling : function()
+    {
+      this.enableScrolling();
+      this.scrollToX(0);
+      this.scrollToY(0);
+      this.addListener("scroll", this.__onScroll, this);
+    },
 
+    
+    /**
+     * Re-enables browser-native scrolling
+     */
+    enableScrolling : function() {
+      this.removeListener("scroll", this.__onScroll, this);
+    },
+    
+    
+    /**
+     * Handler for the scroll-event
+     *
+     * @param e {qx.event.type.Native} scroll-event
+     */ 
+    __onScroll : function(e)
+    {
+      this.__element.scrollTop = 0;
+      this.__element.scrollLeft = 0;
+    },
+    
 
     /*
     ---------------------------------------------------------------------------
