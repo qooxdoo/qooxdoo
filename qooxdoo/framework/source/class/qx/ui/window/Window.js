@@ -594,8 +594,6 @@ qx.Class.define("qx.ui.window.Window",
     /**
      * Closes the current window instance.
      * Technically calls the {@link qx.ui.core.Widget#hide} method.
-     *
-     * @return {void}
      */
     close : function()
     {
@@ -609,8 +607,6 @@ qx.Class.define("qx.ui.window.Window",
 
     /**
      * Opens the window.
-     *
-     * @return {void}
      */
     open : function()
     {
@@ -662,8 +658,6 @@ qx.Class.define("qx.ui.window.Window",
 
     /**
      * Maximize the window.
-     *
-     * @return {void}
      */
     maximize : function()
     {
@@ -710,8 +704,6 @@ qx.Class.define("qx.ui.window.Window",
 
     /**
      * Minimized the window.
-     *
-     * @return {void}
      */
     minimize : function()
     {
@@ -725,8 +717,6 @@ qx.Class.define("qx.ui.window.Window",
 
     /**
      * Restore the window, if it is maximized.
-     *
-     * @return {void}
      */
     restore : function()
     {
@@ -889,7 +879,6 @@ qx.Class.define("qx.ui.window.Window",
      * Stops every event
      *
      * @param e {qx.event.type.Event} any event
-     * @return {void}
      */
     _onWindowEventStop : function(e) {
       e.stopPropagation();
@@ -900,7 +889,6 @@ qx.Class.define("qx.ui.window.Window",
      * Focuses the window instance.
      *
      * @param e {qx.event.type.Mouse} mouse down event
-     * @return {void}
      */
     _onWindowMouseDown : function(e) {
       this.setActive(true);
@@ -912,7 +900,6 @@ qx.Class.define("qx.ui.window.Window",
      * currently focused widget is not a child of the window)
      *
      * @param e {qx.event.type.Focus} focus event
-     * @return {void}
      */
     _onWindowFocusOut : function(e) {
       // only needed for non-modal windows
@@ -935,7 +922,6 @@ qx.Class.define("qx.ui.window.Window",
      * maximized.
      *
      * @param e {qx.event.type.Mouse} double click event
-     * @return {void}
      */
     _onCaptionMouseDblClick : function(e)
     {
@@ -958,7 +944,6 @@ qx.Class.define("qx.ui.window.Window",
      * stops the further propagation of the event (calling {@link qx.event.type.Event#stopPropagation}).
      *
      * @param e {qx.event.type.Mouse} mouse click event
-     * @return {void}
      */
     _onMinimizeButtonClick : function(e)
     {
@@ -972,7 +957,6 @@ qx.Class.define("qx.ui.window.Window",
      * stops the further propagation of the event (calling {@link qx.event.type.Event#stopPropagation}).
      *
      * @param e {qx.event.type.Mouse} mouse click event
-     * @return {void}
      */
     _onRestoreButtonClick : function(e)
     {
@@ -986,7 +970,6 @@ qx.Class.define("qx.ui.window.Window",
      * stops the further propagation of the event (calling {@link qx.event.type.Event#stopPropagation}).
      *
      * @param e {qx.event.type.Mouse} mouse click event
-     * @return {void}
      */
     _onMaximizeButtonClick : function(e)
     {
@@ -1000,7 +983,6 @@ qx.Class.define("qx.ui.window.Window",
      * stops the further propagation of the event (calling {@link qx.event.type.Event#stopPropagation}).
      *
      * @param e {qx.event.type.Mouse} mouse click event
-     * @return {void}
      */
     _onCloseButtonClick : function(e)
     {
