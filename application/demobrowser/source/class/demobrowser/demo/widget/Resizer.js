@@ -43,7 +43,9 @@ qx.Class.define("demobrowser.demo.widget.Resizer",
         width: 100,
         height: 200,
         minWidth: 50,
-        minHeight: 100
+        minHeight: 100,
+        maxHeight: 400,
+        maxWidth: 500
       });
 
       for (var i = 0; i < 100; i++) {
