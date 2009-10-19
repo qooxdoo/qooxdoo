@@ -246,7 +246,7 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
-     * Fired is the widget becomes the capturing widget by a call to {@link #capture}.
+     * Fired if the widget becomes the capturing widget by a call to {@link #capture}.
      */
     capture : "qx.event.type.Event",
 
