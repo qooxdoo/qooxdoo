@@ -110,6 +110,17 @@ qx.Class.define("qx.bom.Shortcut",
       check : "String",
       apply : "_applyShortcut",
       nullable : true
+    },
+    
+    
+    /**
+     * Whether the execute event should be fired repeatedly if the user keep
+     * the keys pressed.
+     */
+    autoRepeat :
+    {
+      check : "Boolean",
+      init : false
     }
   },
 
@@ -145,17 +156,35 @@ qx.Class.define("qx.bom.Shortcut",
 
 
     /**
+     * Key down event handler.
+     *
+     * @param event {qx.event.type.KeySequence} The key event object
+     */
+    __onKeyDown : function(event)
+    {
+      if (this.getEnabled() && this.__matchesKeyEvent(event))
+      {
+        if (!this.isAutoRepeat()) {
+          this.execute(event.getTarget());
+        }
+        event.stop();
+      }
+    },
+    
+    
+    /**
      * Key press event handler.
      *
      * @param event {qx.event.type.KeySequence} The key event object
      */
     __onKeyPress : function(event)
     {
-      if (this.getEnabled() && this.__matchesKeyEvent(event))
+      if (this.getEnabled() && this.__matchesKeyEvent(event)) 
       {
-        this.execute(event.getTarget());
-        event.preventDefault();
-        event.stopPropagation();
+        if (this.isAutoRepeat()) {
+          this.execute(event.getTarget());
+        }
+        event.stop();
       }
     },
 
@@ -172,9 +201,11 @@ qx.Class.define("qx.bom.Shortcut",
     _applyEnabled : function(value, old)
     {
       if (value) {
-        qx.event.Registration.addListener(document.documentElement, "keydown", this.__onKeyPress, this);
+        qx.event.Registration.addListener(document.documentElement, "keydown", this.__onKeyDown, this);
+        qx.event.Registration.addListener(document.documentElement, "keypress", this.__onKeyPress, this);
       } else {
-        qx.event.Registration.removeListener(document.documentElement, "keydown", this.__onKeyPress, this);
+        qx.event.Registration.removeListener(document.documentElement, "keydown", this.__onKeyDown, this);
+        qx.event.Registration.removeListener(document.documentElement, "keypress", this.__onKeyPress, this);
       }
     },
 
