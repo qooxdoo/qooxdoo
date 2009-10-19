@@ -1348,26 +1348,6 @@ class Generator(object):
         return result
 
 
-
-    # wpbasti: TODO: Clean up compiler. Maybe split-off pretty-printing. These hard-hacked options, the pure
-    # need of them is bad. Maybe options could be stored easier in a json-like config map instead of command line
-    # args. This needs a rework of the compiler which is not that easy.
-    def _optimizeJavaScript(self, code):
-        restree = treegenerator.createSyntaxTree(tokenizer.parseStream(code))
-        variableoptimizer.search(restree)
-
-        # Emulate options
-        parser = optparse.OptionParser()
-        parser.add_option("--p1", action="store_true", dest="prettyPrint", default=False)
-        parser.add_option("--p2", action="store_true", dest="prettypIndentString", default="  ")
-        parser.add_option("--p3", action="store_true", dest="prettypCommentsInlinePadding", default="  ")
-        parser.add_option("--p4", action="store_true", dest="prettypCommentsTrailingCommentCols", default="")
-
-        (options, args) = parser.parse_args([])
-
-        return compiler.compile(restree, options)
-
-
     # wpbasti: Does robocopy really help us here? Is it modified largely. Does this only mean modifications
     # for qooxdoo or code improvements as well? Do we need to give them back to the community of robocopy?
     def _copyResources(self, srcPath, targPath):
