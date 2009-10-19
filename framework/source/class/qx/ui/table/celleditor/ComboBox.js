@@ -28,24 +28,6 @@ qx.Class.define("qx.ui.table.celleditor.ComboBox",
   implement : qx.ui.table.ICellEditorFactory,
 
 
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function() {
-    this.base(arguments);
-  },
-
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
   properties :
   {
     /**
@@ -70,17 +52,9 @@ qx.Class.define("qx.ui.table.celleditor.ComboBox",
 
   },
 
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
 
   members :
   {
-
-    __done : null,
-
     // interface implementation
     createCellEditor : function(cellInfo)
     {
@@ -99,7 +73,7 @@ qx.Class.define("qx.ui.table.celleditor.ComboBox",
       }
 
       // replace null values
-      if ( value === null ) {
+      if (value === null || value === undefined) {
         value = "";
       }
 
@@ -136,10 +110,8 @@ qx.Class.define("qx.ui.table.celleditor.ComboBox",
 
       // validation function will be called with new and old value
       var validationFunc = this.getValidationFunction();
-      if ( ! this.__done && validationFunc )
-      {
+      if (validationFunc) {
          value = validationFunc( value, cellEditor.originalValue );
-         this.__done = true;
       }
 
       if (typeof cellEditor.originalValue == "number") {

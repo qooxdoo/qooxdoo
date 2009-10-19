@@ -24,93 +24,16 @@
  */
 qx.Class.define("qx.ui.table.celleditor.PasswordField",
 {
-  extend : qx.core.Object,
-  implement : qx.ui.table.ICellEditorFactory,
+  extend : qx.ui.table.celleditor.AbstractField,
 
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function() {
-    this.base(arguments);
-  },
-
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
-
-    /**
-     * function that validates the result
-     * the function will be called with the new value and the old value and is
-     * supposed to return the value that is set as the table value.
-     **/
-    validationFunction :
-    {
-      check : "Function",
-      nullable : true,
-      init : null
-    }
-
-  },
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
 
   members :
   {
-    __done : null,
-
-
-    // interface implementation
-    createCellEditor : function(cellInfo)
+    _createEditor : function()
     {
       var cellEditor = new qx.ui.form.PasswordField();
       cellEditor.setAppearance("table-editor-textfield");
-
-      cellEditor.originalValue = cellInfo.value;
-      if ( cellInfo.value === null ) {
-        cellInfo.value = "";
-      }
-      cellEditor.setValue("" + cellInfo.value);
-
-      cellEditor.addListener("appear", function() {
-        cellEditor.selectAllText();
-      });
-
       return cellEditor;
-    },
-
-    // interface implementation
-    getCellEditorValue : function(cellEditor)
-    {
-      var value = cellEditor.getValue();
-
-      // validation function will be called with new and old value
-      var validationFunc = this.getValidationFunction();
-      if ( ! this.__done && validationFunc )
-      {
-         value = validationFunc( value, cellEditor.originalValue );
-         this.__done = true;
-      }
-
-      if (typeof cellEditor.originalValue == "number") {
-        value = parseFloat(value);
-      }
-
-      return value;
     }
   }
 });
