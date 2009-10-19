@@ -137,5 +137,10 @@ qx.Mixin.define("qx.ui.core.MExecutable",
         }
       }
     }
+  },
+  
+  
+  destruct : function() {
+    this._disposeFields("__executableBindingIds");
   }
 });
