@@ -16,6 +16,7 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
+
 /**
  * The radio container handles a collection of items from which only one item
  * can be selected. Selection another item will deselect the previously selected
@@ -268,5 +269,11 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
     getSelectables: function() {
       return this.__radioGroup.getSelectables();
     }
+  },
+  
+  
+  destruct : function()
+  {
+    this._disposeObjects("__radioGroup");
   }
 });
