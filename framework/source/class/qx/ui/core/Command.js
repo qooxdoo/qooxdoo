@@ -158,5 +158,11 @@ qx.Class.define("qx.ui.core.Command",
     {
       return this._shortcut.toString();
     }
+  },
+  
+  
+  destruct : function()
+  {
+    this._disposeObjects("_shortcut");
   }
 });
