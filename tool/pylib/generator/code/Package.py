@@ -56,7 +56,7 @@ class Package(object):
         def getClassesString():
             result = u''
             for clazz in self.classes:
-                result += clazz.getCompiled()  # TODO
+                result += clazz.compiled()  # TODO
             return result
 
         def getHash(buffer):
