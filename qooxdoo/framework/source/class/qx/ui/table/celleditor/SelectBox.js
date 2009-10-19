@@ -28,24 +28,6 @@ qx.Class.define("qx.ui.table.celleditor.SelectBox",
   implement : qx.ui.table.ICellEditorFactory,
 
 
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function() {
-    this.base(arguments);
-  },
-
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
   properties :
   {
     /**
@@ -70,17 +52,9 @@ qx.Class.define("qx.ui.table.celleditor.SelectBox",
 
   },
 
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
 
   members :
   {
-    __done : null,
-
-
     // interface implementation
     createCellEditor : function(cellInfo)
     {
@@ -149,10 +123,8 @@ qx.Class.define("qx.ui.table.celleditor.SelectBox",
 
       // validation function will be called with new and old value
       var validationFunc = this.getValidationFunction();
-      if ( ! this.__done && validationFunc )
-      {
+      if (validationFunc ) {
          value = validationFunc( value, cellEditor.originalValue );
-         this.__done = true;
       }
 
       if (typeof cellEditor.originalValue == "number") {
