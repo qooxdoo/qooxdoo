@@ -69,11 +69,27 @@ qx.Class.define("qx.event.type.Native",
     {
       var clone = this.base(arguments, embryo);
 
-      clone._native = this._native;
+      var nativeClone = {};
+      clone._native = this._cloneNativeEvent(this._native, nativeClone);
+      
       clone._returnValue = this._returnValue;
 
       return clone;
     },
+    
+
+    /**
+     * Clone the native browser event
+     * 
+     * @param nativeEvent {Event} The native browser event
+     * @param clone {Object} The initialized clone.
+     * @return {Object} The cloned event 
+     */
+    _cloneNativeEvent : function(nativeEvent, clone)
+    {
+      clone.preventDefault = qx.lang.Function.empty;
+      return clone;
+    },    
 
 
     /**

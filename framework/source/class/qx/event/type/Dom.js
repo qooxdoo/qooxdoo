@@ -46,6 +46,20 @@ qx.Class.define("qx.event.type.Dom",
 
   members :
   {
+    // overridden
+    _cloneNativeEvent : function(nativeEvent, clone)
+    {
+      var clone = this.base(arguments, nativeEvent, clone);
+      
+      clone.shiftKey = nativeEvent.shiftKey;
+      clone.ctrlKey = nativeEvent.ctrlKey;
+      clone.altKey = nativeEvent.altKey;
+      clone.metaKey = nativeEvent.metaKey;
+      
+      return clone;
+    },
+    
+    
     /**
      * Return in a bit map, which modifier keys are pressed. The constants
      * {@link #SHIFT_MASK}, {@link #CTRL_MASK}, {@link #ALT_MASK} and
