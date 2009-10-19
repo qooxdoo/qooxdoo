@@ -374,6 +374,20 @@ qx.Class.define("qx.test.ui.Destroy",
         widget.destroy();
       }, this, "Dispose tree");
     },
+    
+    
+    testRadioGroup : function()
+    {
+      this.assertDestroy(function()
+      {
+        var group = new qx.ui.form.RadioGroup(
+          new qx.ui.form.RadioButton("one"),
+          new qx.ui.form.RadioButton("two")
+        );
+        
+        group.dispose();
+      });
+    },
 
 
     testTreeVirtual : function()
