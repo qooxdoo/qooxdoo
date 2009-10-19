@@ -16,6 +16,7 @@
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
      * Fabian Jakobs (fjakobs)
+     * Christian Schmidt (chris_schmidt)
 
 ************************************************************************ */
 
@@ -717,16 +718,20 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /**
-     * Restore the window, if it is maximized.
+     * Restore the window, if it is maximized or minimized.
      */
     restore : function()
     {
-      if (!this.isMaximized()) {
+      if (this.getMode() === "normal") {
         return;
       }
 
       if (this.fireNonBubblingEvent("beforeRestore", qx.event.type.Event, [false, true]))
       {
+        if (!this.isVisible()) {
+          this.open();
+        }
+
         // Restore old properties
         var left = this.__restoredLeft;
         var top = this.__restoredTop;
