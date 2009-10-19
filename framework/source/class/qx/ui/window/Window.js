@@ -669,14 +669,14 @@ qx.Class.define("qx.ui.window.Window",
       // First check if the parent uses a canvas layout
       // Otherwise maximize() is not possible
       var parent = this.getLayoutParent();
-      if (!parent) {
-        return;
-      }
-
-      if (parent.supportsMaximize())
+      if (parent != null && parent.supportsMaximize())
       {
         if (this.fireNonBubblingEvent("beforeMaximize", qx.event.type.Event, [false, true]))
         {
+          if (!this.isVisible()) {
+            this.open();
+          }
+          
           // store current dimension and location
           var props = this.getLayoutProperties();
           this.__restoredLeft = props.left === undefined ? 0 : props.left;
@@ -709,6 +709,7 @@ qx.Class.define("qx.ui.window.Window",
     {
       if (this.fireNonBubblingEvent("beforeMinimize", qx.event.type.Event, [false, true]))
       {
+        this.removeState("maximized");
         this.hide();
         this.fireEvent("minimize");
       }
