@@ -352,9 +352,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
      */
     _onMouseMove : function(e)
     {
-      // Update mouse position
-      this.__lastMouseX = e.getDocumentLeft();
-      this.__lastMouseY = e.getDocumentTop();
+      this._setLastMousePosition(e.getDocumentLeft(), e.getDocumentTop());
 
       // Check if slider is already being dragged
       if (this.__activeDragSession)
@@ -386,11 +384,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
      */
     _onMouseOut : function(e)
     {
-      // Force mouse positions to -1
-      this.__lastMouseX = -1;
-      this.__lastMouseY = -1;
-
-      // Update cursor
+      this._setLastMousePosition(-1, -1);
       this.__updateCursor();
     },
 
@@ -635,7 +629,20 @@ qx.Class.define("qx.ui.splitpane.Pane",
      */
     _isActiveDragSession : function() {
       return this.__activeDragSession;
-    }
+    },
+
+
+    /**
+     * Sets the last mouse position.
+     * 
+     * @param x {Integer} the x position of the mouse cursor.
+     * @param y {Integer} the y position of the mouse cursor.
+     */
+     _setLastMousePosition : function(x, y)
+     {
+       this.__lastMouseX = x;
+       this.__lastMouseY = y;
+     }
   },
 
   /*
