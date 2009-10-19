@@ -388,6 +388,19 @@ qx.Class.define("qx.test.ui.Destroy",
         group.dispose();
       });
     },
+    
+    
+    testRadioButtonGroup : function()
+    {
+      this.assertDestroy(function()
+      {
+        var group = new qx.ui.form.RadioButtonGroup(new qx.ui.layout.HBox());
+        group.add(new qx.ui.form.RadioButton("one"));
+        group.add(new qx.ui.form.RadioButton("two"));
+        
+        group.destroy();
+      });
+    },
 
 
     testTreeVirtual : function()
