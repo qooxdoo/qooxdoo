@@ -73,6 +73,21 @@ qx.Class.define("qx.ui.form.SelectBox",
     {
       refine : true,
       init : "selectbox"
+    },
+    
+    /**
+     * Switches between rich HTML and text content. The text mode 
+     * (<code>false</code>) supports advanced features like ellipsis when the 
+     * available space is not enough. HTML mode (<code>true</code>) supports 
+     * multi-line content and all the markup features of HTML content. Note!
+     * This sets only the SelectBox to rich and not the items from the list.
+     */
+    rich :
+    {
+      check : "Boolean",
+      init : false,
+      event : "changeRich",
+      apply : "_applyRich"
     }
   },
 
@@ -88,6 +103,16 @@ qx.Class.define("qx.ui.form.SelectBox",
   {
     /** {qx.ui.form.ListItem} instance */
     __preSelectedItem : null,
+
+
+    // property apply
+    _applyRich : function(value, old)
+    {
+      var atom = this.getChildControl("atom", true);
+      if (atom) {
+        atom.setRich(value);
+      }
+    },
 
 
     /*
@@ -113,6 +138,7 @@ qx.Class.define("qx.ui.form.SelectBox",
           control = new qx.ui.basic.Atom(" ");
           control.setCenter(false);
           control.setAnonymous(true);
+          control.setRich(this.getRich());
 
           this._add(control, {flex:1});
           break;
