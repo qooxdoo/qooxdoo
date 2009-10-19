@@ -598,6 +598,10 @@ qx.Class.define("qx.ui.window.Window",
      */
     close : function()
     {
+      if (!this.isVisible()) {
+        return;
+      }
+
       if (this.fireNonBubblingEvent("beforeClose", qx.event.type.Event, [false, true]))
       {
         this.hide();
@@ -708,6 +712,10 @@ qx.Class.define("qx.ui.window.Window",
      */
     minimize : function()
     {
+      if (!this.isVisible()) {
+        return;
+      }
+
       if (this.fireNonBubblingEvent("beforeMinimize", qx.event.type.Event, [false, true]))
       {
         this.removeState("maximized");
