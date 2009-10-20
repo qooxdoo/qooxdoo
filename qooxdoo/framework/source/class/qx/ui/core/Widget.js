@@ -865,10 +865,10 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /** {Map} Contains all pooled decorators for reuse */
-    __decoratorPool : {},
+    __decoratorPool : new qx.ui.core.DecoratorFactory(),
 
     /** {Map} Contains all pooled shadows for reuse */
-    __shadowPool : {}
+    __shadowPool : new qx.ui.core.DecoratorFactory()
   },
 
 
@@ -1036,15 +1036,8 @@ qx.Class.define("qx.ui.core.Widget",
 
       if (changes.size || this.__updateInsets)
       {
-        var manager = qx.theme.manager.Decoration.getInstance();
-
-        var decorator = this.getDecorator();
-        if (decorator)
-        {
-          var element = this.__decoratorElement;
-          var instance = manager.resolve(decorator);
-
-          instance.resize(element.getDomElement(), width, height);
+        if (this.getDecorator()) {
+          this.__decoratorElement.resize(width, height);
         }
       }
 
@@ -1053,14 +1046,12 @@ qx.Class.define("qx.ui.core.Widget",
         var shadow = this.getShadow();
         if (shadow)
         {
-          var element = this.__shadowElement;
-          var instance = manager.resolve(shadow);
-          var insets = instance.getInsets();
+          var insets = this.__shadowElement.getInsets();
 
           var shadowWidth = width + insets.left + insets.right;
           var shadowHeight = height + insets.top + insets.bottom;
 
-          instance.resize(element.getDomElement(), shadowWidth, shadowHeight);
+          this.__shadowElement.resize(shadowWidth, shadowHeight);
         }
       }
 
@@ -1118,16 +1109,7 @@ qx.Class.define("qx.ui.core.Widget",
       for (var i=0, l=reg.length; i<l; i++)
       {
         elem = reg[i];
-        separator = elem.$$separator;
-
-        // Pool instance
-        if (!pool[separator]) {
-          pool[separator] = [elem];
-        } else {
-          pool[separator].push(elem);
-        }
-
-        // Remove from content
+        pool.poolDecorator(elem);
         content.remove(elem);
       }
 
@@ -1139,33 +1121,12 @@ qx.Class.define("qx.ui.core.Widget",
     // overridden
     renderSeparator : function(separator, bounds)
     {
-      var pool = qx.ui.core.Widget.__decoratorPool;
-      var mgr = qx.theme.manager.Decoration.getInstance();
-
-      if (typeof separator == "object")
-      {
-        var id = separator.toHashCode();
-        var instance = separator;
-      }
-      else
-      {
-        var id = separator;
-        var instance = mgr.resolve(separator);
-      }
-
-      // Instance management
-      var list = pool[separator];
-      if (list && list.length > 0) {
-        var elem = list.pop();
-      } else {
-        var elem = this.__createDecoratorElement(instance);
-      }
-
       // Insert
+      var elem = qx.ui.core.Widget.__decoratorPool.getDecoratorElement(separator);
       this.__contentElement.add(elem);
 
       // Resize
-      instance.resize(elem.getDomElement(), bounds.width, bounds.height);
+      elem.resize(bounds.width, bounds.height);
 
       // Move
       var style = elem.getDomElement().style;
@@ -1178,9 +1139,6 @@ qx.Class.define("qx.ui.core.Widget",
       } else {
         this.__separators.push(elem);
       }
-
-      // Remember separator used
-      elem.$$separator = id;
     },
 
 
@@ -1393,12 +1351,9 @@ qx.Class.define("qx.ui.core.Widget",
       var right = this.getPaddingRight();
       var bottom = this.getPaddingBottom();
       var left = this.getPaddingLeft();
-      var decorator = this.getDecorator();
-      if (decorator)
+      if (this.getDecorator())
       {
-        var manager = qx.theme.manager.Decoration.getInstance();
-        var instance = manager.resolve(decorator);
-        var inset = instance.getInsets();
+        var inset = this.__decoratorElement.getInsets();
 
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
@@ -2275,112 +2230,42 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
-    /**
-     * Creates an element which may be used for a
-     * decoration render to fill.
-     *
-     * @param decorator {qx.ui.decoration.IDecorator} Any instance implementing the decorator interface
-     * @return {qx.html.Element} The element to be used for decorations/shadows
-     */
-    __createDecoratorElement : function(decorator)
-    {
-      var element = new qx.html.Element;
-      element.setStyles({
-        position: "absolute",
-        top: 0,
-        left: 0
-      });
-
-      if (qx.core.Variant.isSet("qx.debug", "on")) {
-        element.setAttribute("qxType", "decorator");
-      }
-
-      element.useMarkup(decorator.getMarkup());
-
-      return element;
-    },
-
-
     // property apply
     _applyDecorator : function(value, old)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (value && typeof value === "object") {
+          if (qx.ui.core.Widget.DEBUG) {
+            this.warn("Decorator instances may increase memory usage and processing time. Often it is better to lay them out to a theme file. Hash code of decorator object: " + value);
+          }
+        }
+      }
+
       var pool = qx.ui.core.Widget.__decoratorPool;
-      var mgr = qx.theme.manager.Decoration.getInstance();
       var container = this.__containerElement;
-      var elem = this.__decoratorElement;
 
       // Create protector
       if (!this.__protectorElement) {
         this._createProtectorElement();
       }
 
-      // Support for decorator objects and identifiers
-      var oldId;
-      if (old)
-      {
-        if (typeof old === "object")
-        {
-          oldId = old.toHashCode();
-        }
-        else
-        {
-          oldId = old;
-          old = mgr.resolve(old);
-        }
-      }
-
-      var valueId;
-      if (value)
-      {
-        if (typeof value === "object")
-        {
-          valueId = value.toHashCode();
-
-          if (qx.core.Variant.isSet("qx.debug", "on"))
-          {
-            if (qx.ui.core.Widget.DEBUG) {
-              this.warn("Decorator instances may increase memory usage and processing time. Often it is better to lay them out to a theme file. Hash code of decorator object: " + value);
-            }
-          }
-        }
-        else
-        {
-          valueId = value;
-          value = mgr.resolve(value);
-        }
-      }
-
       // Process old value
       if (old)
       {
-        // Dynamically created needed pool
-        if (!pool[oldId]) {
-          pool[oldId] = [];
-        }
-
-        // Remove from container
-        container.remove(elem);
-
-        // Add to pool
-        pool[oldId].push(elem);
+        container.remove(this.__decoratorElement);
+        pool.poolDecorator(this.__decoratorElement);
       }
 
       // Process new value
       if (value)
       {
-        // Reuse or create element
-        if (pool[valueId] && pool[valueId].length > 0) {
-          elem = pool[valueId].pop();
-        }
-        else
-        {
-          elem = this.__createDecoratorElement(value);
-          elem.setStyle("zIndex", 5);
-        }
+        var elem = pool.getDecoratorElement(value);
+        elem.setStyle("zIndex", 5);
 
         // Tint decorator
         var bgcolor = this.getBackgroundColor();
-        value.tint(elem.getDomElement(), bgcolor);
+        elem.tint(bgcolor);
 
         // Add to container
         container.add(elem);
@@ -2414,14 +2299,13 @@ qx.Class.define("qx.ui.core.Widget",
         var bounds = this.getBounds();
         if (bounds)
         {
-          mgr.resolve(value).resize(elem.getDomElement(), bounds.width, bounds.height);
+          elem.resize(bounds.width, bounds.height);
 
           // Update protector element
           this.__protectorElement.setStyles({
             width : bounds.width + "px",
             height : bounds.height + "px"
           });
-
         }
       }
     },
@@ -2431,63 +2315,19 @@ qx.Class.define("qx.ui.core.Widget",
     _applyShadow : function(value, old)
     {
       var pool = qx.ui.core.Widget.__shadowPool;
-      var mgr = qx.theme.manager.Decoration.getInstance();
       var container = this.__containerElement;
-
-      // Support for decorator objects and identifiers
-      var oldId;
-      if (old)
-      {
-        if (typeof old === "object")
-        {
-          oldId = old.toHashCode();
-        }
-        else
-        {
-          oldId = old;
-          old = mgr.resolve(old);
-        }
-      }
-
-      var valueId;
-      if (value)
-      {
-        if (typeof value === "object")
-        {
-          valueId = value.toHashCode();
-        }
-        else
-        {
-          valueId = value;
-          value = mgr.resolve(value);
-        }
-      }
 
       // Clear old value
       if (old)
       {
-        // Dynamically created needed pool
-        if (!pool[oldId]) {
-          pool[oldId] = [];
-        }
-
-        // Remove from container
         container.remove(this.__shadowElement);
-
-        // Add to pool
-        pool[oldId].push(this.__shadowElement);
+        pool.poolDecorator(this.__shadowElement);
       }
 
       // Apply new value
       if (value)
       {
-        // Reuse or create element
-        var elem;
-        if (pool[valueId] && pool[valueId].length > 0) {
-          elem = pool[valueId].pop();
-        } else {
-          elem = this.__createDecoratorElement(value);
-        }
+        var elem = pool.getDecoratorElement(value);
 
         // Add to container
         container.add(elem);
@@ -2496,7 +2336,7 @@ qx.Class.define("qx.ui.core.Widget",
         this.__shadowElement = elem;
 
         // Move out of container by top/left inset
-        var insets = value.getInsets();
+        var insets = elem.getInsets();
         elem.setStyles({
           left: (-insets.left) + "px",
           top: (-insets.top) + "px"
@@ -2509,10 +2349,10 @@ qx.Class.define("qx.ui.core.Widget",
           var shadowWidth = bounds.width + insets.left + insets.right;
           var shadowHeight = bounds.height + insets.top + insets.bottom;
 
-          value.resize(elem.getDomElement(), shadowWidth, shadowHeight);
+          elem.resize(shadowWidth, shadowHeight);
         }
 
-        value.tint(elem.getDomElement(), null);
+        elem.tint(null);
       }
       else
       {
@@ -2615,21 +2455,13 @@ qx.Class.define("qx.ui.core.Widget",
     // property apply
     _applyBackgroundColor : function(value, old)
     {
-      var decorator = this.getDecorator();
       var color = this.getBackgroundColor();
       var container = this.__containerElement;
 
-      if (decorator)
+      if (this.getDecorator())
       {
         // Apply to decoration element
-        var elem = this.__decoratorElement;
-        if (elem)
-        {
-          var instance = qx.theme.manager.Decoration.getInstance().resolve(decorator);
-          instance.tint(this.__decoratorElement.getDomElement(), color);
-        }
-
-        // Remove from container
+        this.__decoratorElement.tint(color);
         container.setStyle("backgroundColor", null);
       }
       else
