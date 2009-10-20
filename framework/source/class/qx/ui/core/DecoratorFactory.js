@@ -25,14 +25,12 @@ qx.Class.define("qx.ui.core.DecoratorFactory",
   {
     this.base(arguments);
     this.__pool = {};
-    
-    this.__manager = qx.theme.manager.Decoration.getInstance();
-  }
+  },
+  
   
   members :
   {
     __pool : null, 
-    __manager : null,
   
     
     getDecoratorElement : function(decorator)
@@ -40,7 +38,7 @@ qx.Class.define("qx.ui.core.DecoratorFactory",
       if (qx.lang.Type.isString(decorator))
       {
         var id = decorator;
-        var decoratorInstance = this.__manager.resolve(decorator);
+        var decoratorInstance = qx.theme.manager.Decoration.getInstance().resolve(decorator);
       }
       else
       {
@@ -49,21 +47,20 @@ qx.Class.define("qx.ui.core.DecoratorFactory",
       }
       
       var pool = this.__pool;
-      if (pool[id].length > 0) {
+      if (pool[id] && pool[id].length > 0) {
+//        console.log("hit!")
         return pool[id].pop();
       } else {
-        return this._createDecoratorElement(decoratorInstance);
+//        console.log("miss!")
+        var element = this._createDecoratorElement(decoratorInstance, id);
+        return element;
       }
     },
     
     
-    poolDecorator : function(decoratorElement, decorator)
+    poolDecorator : function(decoratorElement)
     {
-      if (qx.lang.Type.isString(decorator)) {
-        var id = decorator;
-      } else {
-        var id = decorator.toHashCode();
-      }
+      var id = decoratorElement.getId();
       
       var pool = this.__pool;
       if (!pool[id]) {
@@ -80,29 +77,20 @@ qx.Class.define("qx.ui.core.DecoratorFactory",
      * @param decorator {qx.ui.decoration.IDecorator} Any instance implementing the decorator interface
      * @return {qx.html.Element} The element to be used for decorations/shadows
      */
-    _createDecoratorElement : function(decorator)
+    _createDecoratorElement : function(decorator, id)
     {
-      var element = new qx.html.Element;
-      element.setStyles({
-        position: "absolute",
-        top: 0,
-        left: 0
-      });
+      var element = new qx.html.Decorator(decorator, id);
 
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         element.setAttribute("qxType", "decorator");
       }
-
-      element.useMarkup(decorator.getMarkup());
 
       return element;
     }
   },
 
   
-  destruct : function()
-  {
+  destruct : function() {
     this._disposeObjects("__pool");
-    this._disposeFields("__manager");
   }
 });
