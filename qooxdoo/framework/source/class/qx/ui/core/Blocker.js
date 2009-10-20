@@ -394,7 +394,6 @@ qx.Class.define("qx.ui.core.Blocker",
       this.__isContentBlocked = true;
 
       blocker.include();
-      this._saveAndSetAnonymousState();
 
       if (this._isPageRoot)
       {
@@ -433,7 +432,6 @@ qx.Class.define("qx.ui.core.Blocker",
       }
       this.__isContentBlocked = false;
 
-      this._restoreAnonymousState();
       this.getContentBlockerElement().exclude();
 
       if (this._isPageRoot) {
