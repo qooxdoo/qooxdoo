@@ -246,6 +246,18 @@ qx.Class.define("qx.ui.basic.Label",
     // overridden
     _applySelectable : function(value)
     {
+
+      // This is needed until text-overflow:ellipsis is implemented in Gecko.
+      // https://bugzilla.mozilla.org/show_bug.cgi?id=312156
+      if (qx.core.Variant.isSet("qx.client", "gecko"))
+      {
+        if (value && !this.isRich())
+        {
+          this.warn("Only rich labels are selectable in browsers with Gecko engine!");
+          return;
+        }
+      }
+
       this.base(arguments, value);
 
       /*
