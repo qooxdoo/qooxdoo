@@ -92,9 +92,9 @@ class Config:
         jsonstr = self._stripComments(jsonstr)
         try:
             data = simplejson.loads(jsonstr)
-        except ValueError:
-            print "Invalid JSON content: %s" % fname
-            raise
+        except ValueError, e:
+            e.args = (e.message + "\nFile: %s" % fname,)
+            raise e
             
         obj.close()
 
