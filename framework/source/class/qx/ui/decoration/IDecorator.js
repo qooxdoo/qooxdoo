@@ -46,7 +46,7 @@ qx.Interface.define("qx.ui.decoration.IDecorator",
     getMarkup : function() {},
 
     /**
-     * Resizes the element respecing the configured borders
+     * Resizes the element respecting the configured borders
      * to the given width and height. Should automatically
      * respect the box model of the client to correctly
      * compute the dimensions.
