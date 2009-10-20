@@ -3887,11 +3887,28 @@ qx.Class.define("qx.ui.core.Widget",
       qx.ui.core.queue.Widget.remove(this);
     }
 
+    // pool decorators if not in global shutdown
+    if (!qx.core.ObjectRegistry.inShutDown)
+    {
+      var clazz = qx.ui.core.Widget;
+
+      this.clearSeparators();
+      this.__decoratorPool.poolDecorator(this.__decoratorElement);
+      this.__shadowPool.poolDecorator(this.__shadowElement);
+      this._disposeFields("__decoratorElement", "__shadowElement", "__separators");
+    }
+    else
+    {
+      this._disposeArray("__separators");
+      this._disposeObjects(
+        "__decoratorElement",
+        "__shadowElement"
+      );
+    }
+    
     // Clear children array
     this._disposeArray("__widgetChildren");
 
-    // Clear separator elements
-    this._disposeArray("__separators");
 
     // Cleanup map of appearance states
     this._disposeFields(
