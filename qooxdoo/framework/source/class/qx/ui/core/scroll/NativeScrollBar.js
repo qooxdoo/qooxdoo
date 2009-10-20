@@ -109,7 +109,7 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
     // interface implementation
     position :
     {
-      check : "qx.lang.Type.isNumber(value)&&value>=0&&value<=this.getMaximum()",
+      check : "Number",
       init : 0,
       apply : "_applyPosition",
       event : "scroll"
@@ -200,8 +200,15 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
 
 
     // property apply
-    _applyPosition : function(value) {
-      this.scrollTo(value);
+    _applyPosition : function(value) 
+    {
+      var content = this.getContentElement();      
+      
+      if (this.__isHorizontal) {
+        content.scrollToX(value)
+      } else {
+        content.scrollToY(value);
+      }
     },
 
 
@@ -280,15 +287,8 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
     
     
     // interface implementation
-    scrollTo : function(position)
-    {
-      var container = this.getContentElement();      
-      
-      if (this.__isHorizontal) {
-        container.scrollToX(position)
-      } else {
-        container.scrollToY(position);
-      }
+    scrollTo : function(position) {
+      this.setPosition(position);
     },
 
 
@@ -318,6 +318,7 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
       this.setPosition(position);
     },
 
+    
     /**
      * Listener for appear.
      * Scrolls to the correct position to fix a rendering bug in Opera.

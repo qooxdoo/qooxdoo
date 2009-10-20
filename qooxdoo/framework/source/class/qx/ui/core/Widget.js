@@ -1549,10 +1549,11 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Detects if the widget and all its parents are visible.
      *
-     * @return {Boolean} true, if the widget is currenlty on the screen
+     * @return {Boolean} true, if the widget is currently on the screen
      */
-    isSeeable : function() {
-      // if the element is already renderd, a check for the offsetWidth is enough
+    isSeeable : function() 
+    {
+      // if the element is already rendered, a check for the offsetWidth is enough
       var element = this.getContainerElement().getDomElement();
       if (element) {
         return element.offsetWidth > 0;
