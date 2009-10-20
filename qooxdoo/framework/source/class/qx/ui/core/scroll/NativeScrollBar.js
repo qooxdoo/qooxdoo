@@ -140,6 +140,11 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
     __isHorizontal : null,
     __scrollPaneElement : null,
     
+    /**
+     * Get the scroll pane html element.
+     * 
+     * @return {qx.html.Element} The element
+     */
     _getScrollPaneElement : function()
     {
       if (!this.__scrollPaneElement) {
