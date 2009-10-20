@@ -1036,15 +1036,14 @@ qx.Class.define("qx.ui.core.Widget",
 
       if (changes.size || this.__updateInsets)
       {
-        if (this.getDecorator()) {
+        if (this.__decoratorElement) {
           this.__decoratorElement.resize(width, height);
         }
       }
 
       if (changes.size)
       {
-        var shadow = this.getShadow();
-        if (shadow)
+        if (this.__shadowElement)
         {
           var insets = this.__shadowElement.getInsets();
 
@@ -1351,7 +1350,7 @@ qx.Class.define("qx.ui.core.Widget",
       var right = this.getPaddingRight();
       var bottom = this.getPaddingBottom();
       var left = this.getPaddingLeft();
-      if (this.getDecorator())
+      if (this.__decoratorElement)
       {
         var inset = this.__decoratorElement.getInsets();
 
@@ -2260,7 +2259,7 @@ qx.Class.define("qx.ui.core.Widget",
       // Process new value
       if (value)
       {
-        var elem = pool.getDecoratorElement(value);
+        this.__decoratorElement = elem = pool.getDecoratorElement(value);
         elem.setStyle("zIndex", 5);
 
         // Tint decorator
@@ -2269,9 +2268,6 @@ qx.Class.define("qx.ui.core.Widget",
 
         // Add to container
         container.add(elem);
-
-        // Register element
-        this.__decoratorElement = elem;
       }
       else
       {
@@ -2327,13 +2323,10 @@ qx.Class.define("qx.ui.core.Widget",
       // Apply new value
       if (value)
       {
-        var elem = pool.getDecoratorElement(value);
+        this.__shadowElement = elem = pool.getDecoratorElement(value);
 
         // Add to container
         container.add(elem);
-
-        // Register element
-        this.__shadowElement = elem;
 
         // Move out of container by top/left inset
         var insets = elem.getInsets();
@@ -2458,7 +2451,7 @@ qx.Class.define("qx.ui.core.Widget",
       var color = this.getBackgroundColor();
       var container = this.__containerElement;
 
-      if (this.getDecorator())
+      if (this.__decoratorElement)
       {
         // Apply to decoration element
         this.__decoratorElement.tint(color);
@@ -3893,8 +3886,8 @@ qx.Class.define("qx.ui.core.Widget",
       var clazz = qx.ui.core.Widget;
 
       this.clearSeparators();
-      this.__decoratorPool.poolDecorator(this.__decoratorElement);
-      this.__shadowPool.poolDecorator(this.__shadowElement);
+      clazz.__decoratorPool.poolDecorator(this.__decoratorElement);
+      clazz.__shadowPool.poolDecorator(this.__shadowElement);
       this._disposeFields("__decoratorElement", "__shadowElement", "__separators");
     }
     else
@@ -3921,8 +3914,6 @@ qx.Class.define("qx.ui.core.Widget",
       "__layoutManager",
       "__containerElement",
       "__contentElement",
-      "__decoratorElement",
-      "__shadowElement",
       "__protectorElement"
     );
   }

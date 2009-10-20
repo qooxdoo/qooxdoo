@@ -36,8 +36,8 @@ qx.Class.define("qx.ui.core.DecoratorFactory",
   
   statics :
   {
-    MAX_SIZE: 5,
-    NO_POOL_ID: "$$nopool$$"
+    MAX_SIZE: 15,
+    __NO_POOL_ID: "$$nopool$$"
   },
   
   
@@ -63,7 +63,7 @@ qx.Class.define("qx.ui.core.DecoratorFactory",
       }
       else
       {
-        var id = clazz.NO_POOL_ID;
+        var id = clazz.__NO_POOL_ID;
         decoratorInstance = decorator;
       }
       
@@ -90,7 +90,7 @@ qx.Class.define("qx.ui.core.DecoratorFactory",
       
       var clazz = qx.ui.core.DecoratorFactory;
       var id = decoratorElement.getId();
-      if (id == clazz.NO_POOL_ID)
+      if (id == clazz.__NO_POOL_ID)
       {
         decoratorElement.dispose();
         return;
@@ -127,7 +127,30 @@ qx.Class.define("qx.ui.core.DecoratorFactory",
       }
 
       return element;
-    }
+    },
+    
+    
+    toString : qx.core.Variant.select("qx.debug",
+    { 
+      "on" : function()
+      {
+        var keys = 0;
+        var elements = 0;
+        
+        for (var key in this.__pool) {
+          keys += 1;
+          elements += this.__pool[key].length;
+        }
+        return [
+          "qx.ui.core.DecoratorFactory[", this.$$hash, "] ",
+          "keys: ", keys, ", elements: ", elements
+        ].join("");
+      },
+      
+      "off" : function() {
+        return this.base(arguments);
+      }
+    })
   },
 
   
