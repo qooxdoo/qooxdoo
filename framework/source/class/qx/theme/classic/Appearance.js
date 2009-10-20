@@ -1059,8 +1059,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
           height    : 14,
           width     : 14,
 
-          minHeight : states.horizontal ? undefined : 14,
-          minWidth  : states.horizontal ? 14 : undefined
+          minHeight : states.horizontal ? undefined : 9,
+          minWidth  : states.horizontal ? 9 : undefined
         };
       }
     },
