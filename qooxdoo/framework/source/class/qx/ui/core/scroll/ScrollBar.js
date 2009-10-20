@@ -66,7 +66,7 @@ qx.Class.define("qx.ui.core.scroll.ScrollBar",
 
     // Create child controls
     this._createChildControl("button-begin");
-    this._createChildControl("slider");
+    this._createChildControl("slider").addListener("resize", this._onResizeSlider, this);
     this._createChildControl("button-end");
 
     // Configure orientation
@@ -76,7 +76,6 @@ qx.Class.define("qx.ui.core.scroll.ScrollBar",
       this.initOrientation();
     }
 
-    this.addListener("resize", this._onResize, this);
   },
 
 
@@ -186,7 +185,7 @@ qx.Class.define("qx.ui.core.scroll.ScrollBar",
 
   members :
   {
-    __offset : 5,
+    __offset : 2,
     
     // overridden
     _createChildControlImpl : function(id)
@@ -396,30 +395,23 @@ qx.Class.define("qx.ui.core.scroll.ScrollBar",
      *
      * @param e {qx.event.type.Data} event object
      */
-    _onResize : function(e)
+    _onResizeSlider : function(e)
     {
-      var barBounds = this.getBounds();
-      var b1Bounds = this.getChildControl("button-begin").getBounds();
-      var b2Bounds = this.getChildControl("button-end").getBounds();
       var knob = this.getChildControl("slider").getChildControl("knob");
-      var knboBounds = knob.getBounds();
+      var knobHint = knob.getSizeHint();
       var hideKnob = false;
+      var sliderSize = this.getChildControl("slider").getInnerSize();
+      console.log(e.getData(), this.getOrientation(), "resize ", sliderSize, knobHint)
 
       if (this.getOrientation() == "vertical")
       {
-        if (
-          (barBounds.height - b1Bounds.height - b2Bounds.height) <
-          (knboBounds.height + this.__offset)
-        ) {
+        if (sliderSize.height  < knobHint.minHeight + this.__offset) {
           hideKnob = true;
         }
       }
       else
       {
-        if (
-          (barBounds.width - b1Bounds.width - b2Bounds.width) <
-          (knboBounds.width + this.__offset)
-        ) {
+        if (sliderSize.width  < knobHint.minWidth + this.__offset) {
           hideKnob = true;
         }
       }

@@ -705,8 +705,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
         return {
           decorator : decorator,
-          minHeight : states.horizontal ? undefined : 14,
-          minWidth  : states.horizontal ? 14 : undefined
+          minHeight : states.horizontal ? undefined : 9,
+          minWidth  : states.horizontal ? 9 : undefined
         };
       }
     },
