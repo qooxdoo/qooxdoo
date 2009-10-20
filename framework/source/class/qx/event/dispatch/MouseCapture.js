@@ -247,6 +247,7 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
      * If the browser supports native mouse capturing, sets the mouse capture to
      * the object that belongs to the current document.
      * 
+     * @param element {Element} The capture DOM element
      * @signature function(element)
      */
     nativeSetCapture : qx.core.Variant.select("qx.client",
@@ -263,6 +264,7 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
      * If the browser supports native mouse capturing, removes mouse capture 
      * from the object in the current document. 
      * 
+     * @param element {Element} The DOM element to release the capture for
      * @signature function(element)
      */
     nativeReleaseCapture : qx.core.Variant.select("qx.client",
