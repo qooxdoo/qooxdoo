@@ -78,8 +78,8 @@ qx.Class.define("qx.util.DisposeUtil",
         obj[name] = null;
       }
     },
-
-
+    
+    
     /**
      * Disposes all members of the given array and deletes
      * the field which refers to the array afterwards.
@@ -164,6 +164,22 @@ qx.Class.define("qx.util.DisposeUtil",
 
       // Finally remove field
       obj[field] = null;
+    },
+    
+    /**
+     * Disposes a given object when another object is disposed
+     * 
+     * @param disposeMe {Object} Object to dispose when other object is disposed
+     * @param trigger {Object} Other object 
+     * 
+     */
+    disposeTriggeredBy : function(disposeMe, trigger)
+    {
+      var triggerDispose = trigger.dispose;
+      trigger.dispose = function(){ 
+        triggerDispose.call(trigger);
+        disposeMe.dispose();
+      }
     }
   }
 });
