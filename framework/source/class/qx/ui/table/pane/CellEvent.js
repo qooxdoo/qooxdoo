@@ -74,22 +74,36 @@ qx.Class.define("qx.ui.table.pane.CellEvent",
       * @param row {Integer?null} The cell's row index
       * @param column {Integer?null} The cell's column index
       */
-     init : function(scroller, me, row, column)
-     {
-       me.clone(this);
-       this.setBubbles(false);
+    init : function(scroller, me, row, column)
+    {
+      me.clone(this);
+      this.setBubbles(false);
 
-       if (row != null) {
-         this.setRow(row);
-       } else {
-         this.setRow(scroller._getRowForPagePos(this.getDocumentLeft(), this.getDocumentTop()));
-       }
+      if (row != null) {
+        this.setRow(row);
+      } else {
+        this.setRow(scroller._getRowForPagePos(this.getDocumentLeft(), this.getDocumentTop()));
+      }
 
-       if (column != null) {
-         this.setColumn(column);
-       } else {
-         this.setColumn(scroller._getColumnForPageX(this.getDocumentLeft()));
-       }
-     }
+      if (column != null) {
+        this.setColumn(column);
+      } else {
+        this.setColumn(scroller._getColumnForPageX(this.getDocumentLeft()));
+      }
+    },
+     
+     
+    // overridden
+    clone : function(embryo)
+    {
+      var clone = this.base(arguments, embryo);
+  
+      clone.set({
+        row: this.getRow(),
+        column: this.getColumn()
+      });
+        
+      return clone;
+    }
   }
 });
