@@ -108,5 +108,10 @@ qx.Class.define("qx.html.Decorator",
     getInsets : function() {
       return this.__decorator.getInsets();
     }
+  },
+  
+  
+  destruct : function() {
+    this._disposeFields("__decorator");
   }
 });
