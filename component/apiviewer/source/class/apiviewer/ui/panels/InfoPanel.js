@@ -224,11 +224,11 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
           // NOTE: The onclick-handler must be added by HTML code. If it
           //       is added using the DOM element then the href is followed.
           var fullItemName = className + (itemName ? itemName : "");
-
+          var style = qx.bom.client.Engine.WEBKIT ? "margin-left:18px;": "";
           var linkHtml = new qx.util.StringBuilder(
             '<span style="white-space: nowrap;">',
             (typeof iconCode != "undefined" ? iconCode : ""),
-            '<a href="' + window.location.protocol, '//',
+            '<a style="' + style + '" href="' + window.location.protocol, '//',
             window.location.host,
             window.location.pathname, '#', fullItemName,
             '" onclick="', 'apiviewer.ui.ClassViewer.instance._onSelectItem(\'',
