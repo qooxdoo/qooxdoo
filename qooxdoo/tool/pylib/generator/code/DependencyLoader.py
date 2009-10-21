@@ -271,8 +271,6 @@ class DependencyLoader:
 
             tree = self._treeLoader.getTree(fileId, variants)
             self._analyzeClassDepsNode(fileId, tree, loadtimeDeps, runtimeDeps, undefDeps, False, variants)
-            #import cProfile
-            #cProfile.runctx("self._analyzeClassDepsNode(fileId, tree, loadtimeDeps, runtimeDeps, undefDeps, False, variants)", globals(), locals(), "/home/thron7/tmp/_analyzeDeps.profile")
 
             ## this should be for *source* version only!
             #if "qx.core.Variant" in loadtimeDepsNV and "qx.core.Variant" not in loadtimeDeps:
