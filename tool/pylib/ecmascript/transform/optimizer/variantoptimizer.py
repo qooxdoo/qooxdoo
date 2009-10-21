@@ -24,8 +24,7 @@ from ecmascript.frontend.treeutil import *
 
 global verbose
 
-def log(level, msg, node=None):
-    global verbose
+def makeLogMessage(level, msg, node=None):
     global file
     str = "%s: %s" % (level, msg);
     if node != None:
@@ -33,6 +32,11 @@ def log(level, msg, node=None):
             str += " (%s:%s)" % (file, node.get("line", False))
         else:
             str += " (Line %s)" % node.get("line", False)
+    return str
+
+def log(level, msg, node=None):
+    global verbose
+    str = makeLogMessage(level, msg, node)
     if verbose:
         print "      - " + str
     else:
@@ -109,8 +113,7 @@ def processVariantSelect(callNode, variantMap):
             if default != None:
                 callNode.parent.replaceChild(callNode, default)
             else:
-                log("Error", "No default case found (%s:%s)!" % (variantGroup, fullKey), callNode)
-                sys.exit(1)
+                raise RuntimeError(makeLogMessage("Error", "Variantoptimizer: No default case found for (%s:%s) at" % (variantGroup, fullKey), callNode))
         return True
 
     log("Warning", "The second parameter of qx.core.Variant.select must be a map or a string literal. Ignoring this occurrence.", secondParam)
