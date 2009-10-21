@@ -948,14 +948,16 @@ qx.Class.define("qx.ui.core.Widget",
         return;
       }
 
+      var container = this.getContainerElement();
+
       if (this.$$parent && !this.$$parent.$$disposed) {
-        this.$$parent.getContentElement().remove(this.__containerElement);
+        this.$$parent.getContentElement().remove(container);
       }
 
       this.$$parent = parent || null;
 
       if (parent && !parent.$$disposed) {
-        this.$$parent.getContentElement().add(this.__containerElement);
+        this.$$parent.getContentElement().add(container);
       }
 
       // Update inheritable properties
@@ -981,8 +983,8 @@ qx.Class.define("qx.ui.core.Widget",
         return;
       }
 
-      var container = this.__containerElement;
-      var content = this.__contentElement;
+      var container = this.getContainerElement();
+      var content = this.getContentElement();
       var inner = changes.size || this.__updateInsets;
       var pixel = "px";
 
@@ -1102,7 +1104,7 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       var pool = qx.ui.core.Widget.__decoratorPool;
-      var content = this.__contentElement;
+      var content = this.getContentElement();
       var elem;
 
       for (var i=0, l=reg.length; i<l; i++)
@@ -1122,7 +1124,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       // Insert
       var elem = qx.ui.core.Widget.__decoratorPool.getDecoratorElement(separator);
-      this.__contentElement.add(elem);
+      this.getContentElement().add(elem);
 
       // Resize
       elem.resize(bounds.width, bounds.height);
@@ -2136,7 +2138,7 @@ qx.Class.define("qx.ui.core.Widget",
      * {@link #losecapture} event is fired.
      */
     capture : function() {
-      this.__containerElement.capture();
+      this.getContainerElement().capture();
     },
 
 
@@ -2144,7 +2146,7 @@ qx.Class.define("qx.ui.core.Widget",
      * Disables mouse capture mode enabled by {@link #capture}.
      */
     releaseCapture : function() {
-      this.__containerElement.releaseCapture();
+      this.getContainerElement().releaseCapture();
     },
 
 
@@ -2225,7 +2227,7 @@ qx.Class.define("qx.ui.core.Widget",
         });
       }
 
-      this.__containerElement.add(protect);
+      this.getContainerElement().add(protect);
     },
 
 
@@ -2242,7 +2244,7 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       var pool = qx.ui.core.Widget.__decoratorPool;
-      var container = this.__containerElement;
+      var container = this.getContainerElement();
 
       // Create protector
       if (!this.__protectorElement) {
@@ -2311,7 +2313,7 @@ qx.Class.define("qx.ui.core.Widget",
     _applyShadow : function(value, old)
     {
       var pool = qx.ui.core.Widget.__shadowPool;
-      var container = this.__containerElement;
+      var container = this.getContainerElement();
 
       // Clear old value
       if (old)
@@ -2389,17 +2391,19 @@ qx.Class.define("qx.ui.core.Widget",
 
     // property apply
     _applyZIndex : function(value, old) {
-      this.__containerElement.setStyle("zIndex", value == null ? 0 : value);
+      this.getContainerElement().setStyle("zIndex", value == null ? 0 : value);
     },
 
 
     // property apply
     _applyVisibility : function(value, old)
     {
+      var container = this.getContainerElement();
+
       if (value === "visible") {
-        this.__containerElement.show();
+        container.show();
       } else {
-        this.__containerElement.hide();
+        container.hide();
       }
 
       // only force a layout update if visibility change from/to "exclude"
@@ -2416,17 +2420,17 @@ qx.Class.define("qx.ui.core.Widget",
     // property apply
     _applyOpacity : function(value, old)
     {
-      this.__containerElement.setStyle("opacity", value == 1 ? null : value);
+      this.getContainerElement().setStyle("opacity", value == 1 ? null : value);
 
       // Fix for AlphaImageLoader - see Bug #1894 for details
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
         //Do not apply this fix on images - see Bug #2748
-        if (!qx.Class.isSubClassOf(this.__contentElement.constructor, qx.html.Image))
+        if (!qx.Class.isSubClassOf(this.getContentElement().constructor, qx.html.Image))
         {
           // 0.99 is necessary since 1.0 is ignored and not being applied
           var contentElementOpacity = (value == 1 || value == null) ? null : 0.99;
-          this.__contentElement.setStyle("opacity", contentElementOpacity);
+          this.getContentElement().setStyle("opacity", contentElementOpacity);
         }
       }
     },
@@ -2441,7 +2445,7 @@ qx.Class.define("qx.ui.core.Widget",
 
       // In Opera the cursor must be set directly.
       // http://bugzilla.qooxdoo.org/show_bug.cgi?id=1729
-      this.__containerElement.setStyle("cursor", value, qx.bom.client.Engine.OPERA);
+      this.getContainerElement().setStyle("cursor", value, qx.bom.client.Engine.OPERA);
     },
 
 
@@ -2449,7 +2453,7 @@ qx.Class.define("qx.ui.core.Widget",
     _applyBackgroundColor : function(value, old)
     {
       var color = this.getBackgroundColor();
-      var container = this.__containerElement;
+      var container = this.getContainerElement();
 
       if (this.__decoratorElement)
       {
@@ -2901,7 +2905,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @return {qx.html.Element} The html element to focus.
      */
     getFocusElement : function() {
-      return this.__containerElement;
+      return this.getContainerElement();
     },
 
 
@@ -2990,8 +2994,8 @@ qx.Class.define("qx.ui.core.Widget",
       this._applyCursor(this.getCursor());
 
       // Apply qooxdoo attribute
-      this.__containerElement.setSelectable(value);
-      this.__contentElement.setSelectable(value);
+      this.getContainerElement().setSelectable(value);
+      this.getContentElement().setSelectable(value);
     },
 
 
@@ -3153,7 +3157,7 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       // Sync DOM attribute
-      this.__containerElement.setAttribute("qxDraggable", value ? "on" : null);
+      this.getContainerElement().setAttribute("qxDraggable", value ? "on" : null);
     },
 
 
@@ -3161,7 +3165,7 @@ qx.Class.define("qx.ui.core.Widget",
     _applyDroppable : function(value, old)
     {
       // Sync DOM attribute
-      this.__containerElement.setAttribute("qxDroppable", value ? "on" : null);
+      this.getContainerElement().setAttribute("qxDroppable", value ? "on" : null);
     },
 
 
@@ -3294,7 +3298,7 @@ qx.Class.define("qx.ui.core.Widget",
      *   directly when possible
      */
     scrollChildIntoViewX : function(child, align, direct) {
-      this.__contentElement.scrollChildIntoViewX(child.getContainerElement(), align, direct);
+      this.getContentElement().scrollChildIntoViewX(child.getContainerElement(), align, direct);
     },
 
 
@@ -3310,7 +3314,7 @@ qx.Class.define("qx.ui.core.Widget",
      *   directly when possible
      */
     scrollChildIntoViewY : function(child, align, direct) {
-      this.__contentElement.scrollChildIntoViewY(child.getContainerElement(), align, direct);
+      this.getContentElement().scrollChildIntoViewY(child.getContainerElement(), align, direct);
     },
 
 
@@ -3359,7 +3363,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @return {void}
      */
     activate : function() {
-      this.__containerElement.activate();
+      this.getContainerElement().activate();
     },
 
 
@@ -3369,7 +3373,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @return {void}
      */
     deactivate : function() {
-      this.__containerElement.deactivate();
+      this.getContainerElement().deactivate();
     },
 
 
@@ -3868,7 +3872,7 @@ qx.Class.define("qx.ui.core.Widget",
       }
       
       // Remove widget pointer from DOM
-      this.__containerElement.setAttribute("$$widget", null, true);
+      this.getContainerElement().setAttribute("$$widget", null, true);
 
       // Clean up all child controls
       this._disposeChildControls();

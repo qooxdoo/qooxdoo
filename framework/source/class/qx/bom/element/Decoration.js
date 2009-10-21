@@ -436,6 +436,23 @@ qx.Class.define("qx.bom.element.Decoration",
           }
         }
       }
-    }
+    },
+
+
+    /**
+     * For IE browsers the alpha image loader might be necessary. This accessor
+     * method provides an API for high-level classes to check if the alpha image
+     * loader is enabled.
+     */
+    isAlphaImageLoaderEnabled : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function() {
+        return qx.bom.element.Decoration.__enableAlphaFix;
+      },
+      
+      "default" : function() {
+        return false;
+      }
+    })
   }
 });
