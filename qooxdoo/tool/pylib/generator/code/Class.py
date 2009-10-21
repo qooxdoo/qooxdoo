@@ -35,7 +35,15 @@ class Class(object):
         self.scopes     = None # an ecmascript.frontend.Script instance
         self.translations = {} # map of translatable strings in this class
 
+    def _getAst(self):
+        ast = None
+        return ast
+
+    ast = property(_getAst)
+
     def compiled(variants):
         compiled = u''
+        tree = self.optimize(self.ast)
+        compiled =compiler.compile(tree)
         return compiled
 
