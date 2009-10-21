@@ -1103,7 +1103,7 @@ qx.Class.define("qx.ui.core.Widget",
 
       var pool = qx.ui.core.Widget.__decoratorPool;
       var content = this.__contentElement;
-      var separator, elem;
+      var elem;
 
       for (var i=0, l=reg.length; i<l; i++)
       {
@@ -2259,7 +2259,7 @@ qx.Class.define("qx.ui.core.Widget",
       // Process new value
       if (value)
       {
-        this.__decoratorElement = elem = pool.getDecoratorElement(value);
+        var elem = this.__decoratorElement = pool.getDecoratorElement(value);
         elem.setStyle("zIndex", 5);
 
         // Tint decorator
@@ -2323,7 +2323,7 @@ qx.Class.define("qx.ui.core.Widget",
       // Apply new value
       if (value)
       {
-        this.__shadowElement = elem = pool.getDecoratorElement(value);
+        var elem = this.__shadowElement = pool.getDecoratorElement(value);
 
         // Add to container
         container.add(elem);
