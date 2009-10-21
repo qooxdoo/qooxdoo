@@ -171,13 +171,13 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       var style;
 
       if(qx.bom.client.Engine.WEBKIT) {
-        html = '<span style="display:inline;padding-right:18px;position:relative;top:-2px;left:-30px;width:' + width + 'px;height:' + height + 'px' + ((styleAttributes == null) ? '' : (';' + styleAttributes)) + '">';
+        html = '<span style="display:inline;position:relative;top:-2px;width:' + width + 'px;height:' + height + 'px' + ((styleAttributes == null) ? '' : (';' + styleAttributes)) + '">';
       } else {
         html = '<span style="display:inline-block;display:inline;padding-right:18px;position:relative;top:-2px;left:0;width:' + width + 'px;height:' + height + 'px' + ((styleAttributes == null) ? '' : (';' + styleAttributes)) + '">';
       }
 
       if(qx.bom.client.Engine.WEBKIT) {
-        style = "position:absolute;top:0px;left:0px;margin-left:18px;padding-right:18px;";
+        style = "position:absolute;top:0px;left:0px;padding-right:18px;";
       } else if(qx.bom.client.Engine.OPERA) {
         style = "margin-right:-18px;";
       }else{
@@ -198,7 +198,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       html += '</span>';
 
       return html;
-      }
+    }
 
   },
 
