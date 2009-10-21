@@ -171,7 +171,7 @@ if __name__ == '__main__':
         print
         print "Keyboard interrupt!"
         interruptCleanup()
-        sys.exit(1)
+        sys.exit(2)
 
     except Exception, e:
         if hasattr(options, "stacktrace") and options.stacktrace:
@@ -181,4 +181,4 @@ if __name__ == '__main__':
                 print >> sys.stderr, e
             else:
                 print >> sys.stderr, "Terminating on terminal exception (%r)" % e
-            sys.exit(2)
+            sys.exit(1)
