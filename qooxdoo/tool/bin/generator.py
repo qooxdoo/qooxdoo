@@ -55,6 +55,7 @@ def listJobs(console, jobs, config):
 
 
 def main():
+    global options
     parser = optparse.OptionParser(option_class=ExtendAction)
 
     usage_str = '''%prog [options] job,...
@@ -73,6 +74,7 @@ Arguments:
     parser.add_option("-q", "--quiet", action="store_true", dest="quiet", default=False, help="quiet output mode (extra quiet)")
     parser.add_option("-v", "--verbose", action="store_true", dest="verbose", default=False, help="verbose output mode (extra verbose)")
     parser.add_option("-l", "--logfile", dest="logfile", metavar="FILENAME", default=None, type="string", help="log file")
+    parser.add_option("-s", "--stacktrace", action="store_true", dest="stacktrace", default=False, help="enable stack traces on fatal exceptions")
     
     # wpbasti: TODO: Add option to insert arbitrary number of macros values
     # Could also be an good replacement for the four in the following listed options
@@ -84,7 +86,6 @@ Arguments:
     #parser.add_option("--use", action="extend", dest="use", metavar="CLASS1:CLASS2", type="string", default=[], help="Special runtime class dependencies")
 
     (options, args) = parser.parse_args(sys.argv[1:])
-
 
     if not args:
         parser.print_help()
@@ -162,6 +163,7 @@ Arguments:
 
 
 if __name__ == '__main__':
+    options = None
     try:
         main()
 
@@ -170,3 +172,13 @@ if __name__ == '__main__':
         print "Keyboard interrupt!"
         interruptCleanup()
         sys.exit(1)
+
+    except Exception, e:
+        if hasattr(options, "stacktrace") and options.stacktrace:
+            raise
+        else:
+            if str(e): # there's something to print
+                print >> sys.stderr, e
+            else:
+                print >> sys.stderr, "Terminating on terminal exception (%r)" % e
+            sys.exit(2)
