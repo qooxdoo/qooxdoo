@@ -347,7 +347,7 @@ class Lint:
         
         lintAttribs = [x for x in comments if x["category"] == "lint"]
         
-        unused_re = re.compile("<p>\s*%s\s*\(\s*((?:\w+)\s*(?:,\s*(?:\w+)\s*)*)\)" % docCommand)
+        unused_re = re.compile("<p>\s*%s\s*\(\s*((?:[\w\$]+)\s*(?:,\s*(?:[\w\$]+)\s*)*)\)" % docCommand)
         for attrib in lintAttribs:
             match = unused_re.match(attrib["text"])
             if match:
