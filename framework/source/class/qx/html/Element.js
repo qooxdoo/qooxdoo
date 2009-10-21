@@ -1853,6 +1853,8 @@ qx.Class.define("qx.html.Element",
     },
     
     
+    __inScroll : null,
+    
     /**
      * Handler for the scroll-event
      *
@@ -1860,8 +1862,13 @@ qx.Class.define("qx.html.Element",
      */ 
     __onScroll : function(e)
     {
-      this.__element.scrollTop = 0;
-      this.__element.scrollLeft = 0;
+      if (!this.__inScroll)
+      {
+        this.__inScroll = true;
+        this.__element.scrollTop = 0;
+        this.__element.scrollLeft = 0;
+        delete this.__inScroll;
+      }
     },
     
 
