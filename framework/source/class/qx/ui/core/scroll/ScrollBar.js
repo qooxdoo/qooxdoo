@@ -401,7 +401,6 @@ qx.Class.define("qx.ui.core.scroll.ScrollBar",
       var knobHint = knob.getSizeHint();
       var hideKnob = false;
       var sliderSize = this.getChildControl("slider").getInnerSize();
-      console.log(e.getData(), this.getOrientation(), "resize ", sliderSize, knobHint)
 
       if (this.getOrientation() == "vertical")
       {
@@ -421,8 +420,6 @@ qx.Class.define("qx.ui.core.scroll.ScrollBar",
       } else {
         knob.show();
       }
-
     }
-
   }
 });
