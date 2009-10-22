@@ -34,17 +34,8 @@
  */
 qx.Class.define("qx.event.dispatch.MouseCapture",
 {
-  extend : qx.core.Object,
-  implement : qx.event.IEventDispatcher,
-
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
+  extend : qx.event.dispatch.AbstractBubbling,
+  
 
   /**
    * Create a new instance
@@ -53,9 +44,7 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
    */
   construct : function(manager)
   {
-    this.base(arguments);
-
-    this.__manager = manager;
+    this.base(arguments, manager);
     this.__window = manager.getWindow();
 
     manager.addListener(this.__window, "blur", this.releaseCapture, this);
@@ -64,17 +53,6 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
   },
 
 
-
-
-
-
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
   statics :
   {
     /** {Integer} Priority of this dispatcher */
@@ -82,30 +60,25 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
   },
 
 
-
-
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
   members:
   {
-
     __captureElement : null,
-    __manager : null,
     __window : null,
 
+    
+    // overridden
+    _getParent : function(target) {
+      return target.parentNode;
+    },
+    
+    
     /*
     ---------------------------------------------------------------------------
       EVENT DISPATCHER INTERFACE
     ---------------------------------------------------------------------------
     */
 
-    // interface implementation
+    // overridden
     canDispatchEvent : function(target, event, type)
     {
       return (
@@ -115,7 +88,7 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
     },
 
 
-    // interface implementation
+    // overridden
     dispatchEvent : function(target, event, type)
     {
       // Conforming to the MS implementation a mouse click will stop mouse
@@ -128,22 +101,8 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
         return;
       }
 
-      var listeners = this.__manager.getListeners(this.__captureElement, type, false);
-
-      if (listeners)
-      {
-        event.setCurrentTarget(this.__captureElement);
-        event.setEventPhase(qx.event.type.Event.AT_TARGET);
-
-        for (var i=0, l=listeners.length; i<l; i++)
-        {
-          var context = listeners[i].context || event.getCurrentTarget();
-          listeners[i].handler.call(context, event);
-        }
-      }
+      this.base(arguments, this.__captureElement, event, type);
     },
-
-
 
 
     /*
@@ -165,10 +124,6 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
       "mouseout": 1,
       "mouseover": 1
     },
-
-
-
-
 
 
     /*
@@ -278,26 +233,10 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
   },
 
 
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
   destruct : function() {
-    this._disposeFields("__captureElement", "__manager", "__window");
+    this._disposeFields("__captureElement", "__window");
   },
 
-
-
-
-
-  /*
-  *****************************************************************************
-     DEFER
-  *****************************************************************************
-  */
 
   defer : function(statics) {
     qx.event.Registration.addDispatcher(statics);

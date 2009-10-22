@@ -26,16 +26,6 @@ qx.Class.define("qx.event.dispatch.DomBubbling",
   extend : qx.event.dispatch.AbstractBubbling,
 
 
-
-
-
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
   statics :
   {
     /** {Integer} Priority of this dispatcher */
@@ -43,37 +33,13 @@ qx.Class.define("qx.event.dispatch.DomBubbling",
   },
 
 
-
-
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
   members :
   {
-    /*
-    ---------------------------------------------------------------------------
-      EVENT DISPATCHER HELPER
-    ---------------------------------------------------------------------------
-    */
-
     // overridden
     _getParent : function(target) {
       return target.parentNode;
     },
 
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      EVENT DISPATCHER INTERFACE
-    ---------------------------------------------------------------------------
-    */
 
     // interface implementation
     canDispatchEvent : function(target, event, type) {
@@ -81,13 +47,6 @@ qx.Class.define("qx.event.dispatch.DomBubbling",
     }
   },
 
-
-
-  /*
-  *****************************************************************************
-     DEFER
-  *****************************************************************************
-  */
 
   defer : function(statics) {
     qx.event.Registration.addDispatcher(statics);
