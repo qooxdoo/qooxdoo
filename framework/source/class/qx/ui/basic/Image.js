@@ -582,6 +582,6 @@ qx.Class.define("qx.ui.basic.Image",
   */
 
   destruct : function() {
-    this._disposeObjects("__contentElements");
+    this._disposeMap("__contentElements");
   }
 });
