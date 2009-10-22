@@ -159,6 +159,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
           var className = hit[2];
           var itemName = hit[3];
           var label = hit[6];
+          var style = "";
 
           // Make the item name absolute
           if (className == null || className.length == 0)
@@ -216,6 +217,13 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
               {
                 var iconUrl = apiviewer.TreeUtil.getIconUrl(itemNode);
                 var iconCode = apiviewer.ui.ClassViewer.createImageHtml(iconUrl);
+
+                if (qx.core.Variant.isSet("qx.client", "webkit"))
+                {
+                  if(iconCode.indexOf("overlay_") !== -1) {
+                    style = "margin-left:18px;";              
+                  }
+                }
               }
             }
           }
@@ -224,7 +232,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
           // NOTE: The onclick-handler must be added by HTML code. If it
           //       is added using the DOM element then the href is followed.
           var fullItemName = className + (itemName ? itemName : "");
-          var style = qx.bom.client.Engine.WEBKIT ? "margin-left:18px;": "";
+
           var linkHtml = new qx.util.StringBuilder(
             '<span style="white-space: nowrap;">',
             (typeof iconCode != "undefined" ? iconCode : ""),
