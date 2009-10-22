@@ -882,7 +882,37 @@ qx.Class.define("qx.ui.table.model.Remote",
     // overridden
     isSortAscending : function() {
       return this.__sortAscending;
+    },
+
+    /**
+     * Sets the sorted column without sorting the data.
+     * Use this method, if you want to mark the column as the sorted column,
+     * (e.g. for appearance reason), but the sorting of the data will be done 
+     * in another step.
+     *
+     * @param sortColumnIndex {Integer} the column, which shall be marked as the sorted column.
+     * @return {void}
+     */
+    setSortColumnIndexWithoutSortingData : function(sortColumnIndex)
+    {
+      this.__sortColumnIndex = sortColumnIndex;
+    },
+
+    /**
+     * Sets the direction of the sorting without sorting the data.
+     * Use this method, if you want to set the direction of sorting, (e.g
+     * for appearance reason), but the sorting of the data will be done in 
+     * another step.
+     *
+     * @param sortAscending {boolean} whether the sorting direction is ascending
+     *        (true) or not (false).
+     * @return {void}
+     */
+    setSortAscendingWithoutSortingData : function (sortAscending)
+    {
+      this.__sortAscending = sortAscending;
     }
+
   },
 
   destruct : function()
