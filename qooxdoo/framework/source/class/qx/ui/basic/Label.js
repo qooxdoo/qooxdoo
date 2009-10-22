@@ -253,7 +253,9 @@ qx.Class.define("qx.ui.basic.Label",
       {
         if (value && !this.isRich())
         {
-          this.warn("Only rich labels are selectable in browsers with Gecko engine!");
+          if (qx.core.Variant.isSet("qx.debug", "on")) {
+            this.warn("Only rich labels are selectable in browsers with Gecko engine!");
+          }
           return;
         }
       }
