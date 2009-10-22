@@ -70,8 +70,24 @@ class CodeGenerator(object):
                 # npackages = [['script/gui-0.js'], ['script/gui-1.js'],...]
                 npackages = []
                 file = os.path.basename(fileUri)
+                if self._job.get("packages/loader-with-boot", True):
+                    totalLen = len(packages)
+                else:
+                    totalLen = len(packages) + 1
+                for packageId, packageFileName in enumerate(self.packagesFileNames(file, totalLen, classPackagesOnly=True)):
+                    npackages.append((packageFileName,))
+                return npackages
+
+            def packagesOfFiles1(fileUri, packages):
+                # returns list of lists, each containing destination file name of the corresp. part
+                # npackages = [['script/gui-0.js'], ['script/gui-1.js'],...]
+                npackages = []
+                file = os.path.basename(fileUri)
                 for packageId in range(len(packages)):
-                    packageFileName = self._resolveFileName(file, variants, settings, packageId)
+                    suffix = packageId -1
+                    if suffix < 0:
+                        suffix = ""
+                    packageFileName = self._resolveFileName(file, variants, settings, suffix)
                     npackages.append((packageFileName,))
                 return npackages
 
@@ -120,38 +136,41 @@ class CodeGenerator(object):
 
         self._treeCompiler = treeCompiler
         self._classList    = classList
+        self._variants     = variants
 
         compConf = ExtMap(self._job.get("compile-dist"))
 
-        # Read in base file name
+        # - Evaluate job config ---------------------
+        # read in base file name
         fileRelPath = getOutputFile()
         filePath    = self._config.absPath(fileRelPath)
         script.baseScriptPath = filePath
 
-        # Read in uri prefixes
+        # read in uri prefixes
         scriptUri = compConf.get('uris/script', 'script')
         scriptUri = Path.posifyPath(scriptUri)
         fileUri   = getFileUri(scriptUri)
 
-        # Read in compiler options
+        # read in compiler options
         optimize = compConf.get("code/optimize", [])
         self._treeCompiler.setOptimize(optimize)
 
-        # Whether the code should be formatted
+        # whether the code should be formatted
         format = compConf.get("code/format", False)
         script.scriptCompress = compConf.get("code/gzip", False)
 
-        # Read in settings
+        # read in settings
         settings = self.getSettings()
         script.settings = settings
 
-        # Get translation maps
+        # read libraries
+        libs = self._job.get("library", [])
+
+        # get translation maps
         locales = compConf.get("code/locales", [])
         translationMaps = self.getTranslationMaps(packages, variants, locales)
 
-        libs = self._job.get("library", [])
-
-        # Generating packages
+        # - Generating packages ---------------------
         self._console.info("Generating packages...")
         self._console.indent()
 
@@ -162,30 +181,56 @@ class CodeGenerator(object):
             self._console.indent()
 
             # Compile file content
-            compiledContent = self._treeCompiler.compileClasses(classes, variants, optimize, format)
+            pkgCode = self._treeCompiler.compileClasses(classes, variants, optimize, format)
+            #pkgData = getPackageData()
+            #hash    = getHash(pkgData + pkgCode)
+            #compiledContent = ("qx.$$packageData[%s]=" % hash) + pkgData + pkgCode
+            compiledContent = pkgCode
             compiledPackages.append(compiledContent)
 
             self._console.debug("Done: %s" % self._computeContentSize(compiledContent))
             self._console.outdent()
 
-        self._console.outdent()
-
-        # Generating boot script
         if not len(compiledPackages):
             raise RuntimeError("No valid boot package generated.")
 
-        #compiledPackages_1 = getCompiledPackages(script)
+        self._console.outdent()
 
-        if self._job.get("packages/loader-with-boot", True):
-            content = generateBootScript(compiledPackages[0])
-            self.writePackage(content, script)
-            self.writePackages(compiledPackages[1:], script, 1)
-            #self.writePackages(compiledPackages_1[1:], script, 1)
-        else:
-            content = generateBootScript()
-            self.writePackage(content, script)
-            self.writePackages(compiledPackages, script)
-            #self.writePackages(compiledPackages_1, script)
+        def prodOutput():
+            if self._job.get("packages/loader-with-boot", True):
+                content = generateBootScript(compiledPackages[0])
+                self.writePackage(content, script)
+                self.writePackages(compiledPackages[1:], script, 1)
+                #self.writePackages(compiledPackages_1[1:], script, 1)
+            else:
+                content = generateBootScript()
+                self.writePackage(content, script)
+                self.writePackages(compiledPackages, script)
+                #self.writePackages(compiledPackages_1, script)
+            return
+
+        def prodOutput1():
+            #globalCodes = getGlobalCodes()
+            #loaderCode  = getLoaderCode()
+            #loader = globalCodes + loaderCode
+
+            outputPackages = []
+
+            if self._job.get("packages/loader-with-boot", True):
+                outputPackages.append( generateBootScript(compiledPackages[0]) )
+            else:
+                outputPackages.append( generateBootScript() )
+                outputPackages.append( compiledPackages[0] )
+
+            # copy rest over
+            for p in compiledPackages[1:]:
+                outputPackages.append(p)
+
+            self.writePackages(outputPackages, script)
+            return
+
+        #prodOutput()
+        prodOutput1()
 
         return
 
@@ -767,9 +812,36 @@ class CodeGenerator(object):
 
         return result
 
+    def packagesFileNames(self, basename, packagesLen, classPackagesOnly=False):
+        loader_with_boot = self._job.get("packages/loader-with-boot", True)
+        for packageId in range(packagesLen):
+            suffix = packageId -1
+            if suffix < 0:
+                suffix = ""  # this is the loader package
+                if (not loader_with_boot and classPackagesOnly):  # skip the loader package
+                    continue
+            packageFileName = self._resolveFileName(basename, self._variants, self._settings, suffix)
+            yield packageFileName
+
     def writePackages(self, compiledPackages, script, startId=0):
+        for content, resolvedFilePath in zip(compiledPackages, self.packagesFileNames(script.baseScriptPath, len(compiledPackages))):
+            # Save result file
+            filetool.save(resolvedFilePath, content)
+
+            if script.scriptCompress:
+                filetool.gzip(resolvedFilePath, content)
+
+            self._console.debug("Done: %s" % self._computeContentSize(content))
+            self._console.debug("")
+
+        return
+
+    def writePackages1(self, compiledPackages, script, startId=0):
         for packageId, content in enumerate(compiledPackages):
-            self.writePackage(content, script, startId + packageId)
+            suffix = startId + packageId -1
+            if suffix < 0:
+                suffix = ""   # creating ["", 0, 1, 2, ...]
+            self.writePackage(content, script, suffix)
         return
 
     def writePackage(self, content, script, packageId=""):
