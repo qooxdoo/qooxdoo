@@ -19,7 +19,7 @@
 #
 ################################################################################
 
-import re, os, sys, types
+import re, os, sys, types, glob
 
 from generator.runtime.ShellCmd import ShellCmd
 
@@ -40,7 +40,9 @@ class ActionLib(object):
             self._console.info(item)
             for file in cleanMap[item]:
                 file = self._config.absPath(file) 
-                # safety first
-                if os.path.splitdrive(file)[1] == os.sep:
-                    raise RuntimeError, "!!! I'm not going to delete '/' recursively !!!"
-                self._shellCmd.rm_rf(file)
+                # resolve file globs
+                for entry in glob.glob(file):
+                    # safety first
+                    if os.path.splitdrive(entry)[1] == os.sep:
+                        raise RuntimeError, "!!! I'm not going to delete '/' recursively !!!"
+                    self._shellCmd.rm_rf(entry)
