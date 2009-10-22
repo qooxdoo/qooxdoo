@@ -25,7 +25,7 @@
 
 import os, sys, re, types, codecs
 
-class Class(object):
+class SourceFile(object):
 
     def __init__(self, id):
         self.name       = id   # qooxdoo name of class, classId
