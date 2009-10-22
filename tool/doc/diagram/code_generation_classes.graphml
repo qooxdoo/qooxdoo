@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns/graphml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:y="http://www.yworks.com/xml/graphml" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns/graphml http://www.yworks.com/xml/schema/graphml/1.0/ygraphml.xsd">
+  <key for="node" id="d0" yfiles.type="nodegraphics"/>
+  <key attr.name="description" attr.type="string" for="node" id="d1"/>
+  <key for="edge" id="d2" yfiles.type="edgegraphics"/>
+  <key attr.name="description" attr.type="string" for="edge" id="d3"/>
+  <key for="graphml" id="d4" yfiles.type="resources"/>
+  <graph edgedefault="directed" id="G" parse.edges="0" parse.nodes="4" parse.order="free">
+    <node id="n0">
+      <data key="d0">
+        <y:UMLClassNode>
+          <y:Geometry height="212.0" width="198.0" x="36.5" y="27.0"/>
+          <y:Fill color="#FFCC00" transparent="false"/>
+          <y:BorderStyle color="#000000" type="line" width="1.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="79.63232421875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="155.25830078125" x="21.370849609375" y="3.0">Script
+{generator.code.Script}
+
+Represents a compile
+output (app, library)</y:NodeLabel>
+          <y:UML clipContent="true" constraint="" omitDetails="false" stereotype="" use3DEffect="true">
+            <y:AttributeLabel>classes     : [Class]
+parts         : [Part]
+packages  : [Package]
+variants    : [variant]
+boot          : Package
+packageIdsSorted: [0,1,2,...]
+</y:AttributeLabel>
+            <y:MethodLabel></y:MethodLabel>
+          </y:UML>
+        </y:UMLClassNode>
+      </data>
+      <data key="d1">UMLClass</data>
+    </node>
+    <node id="n1">
+      <data key="d0">
+        <y:UMLClassNode>
+          <y:Geometry height="212.0" width="198.0" x="276.5" y="229.0"/>
+          <y:Fill color="#FFCC00" transparent="false"/>
+          <y:BorderStyle color="#000000" type="line" width="1.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="79.63232421875" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="147.57763671875" x="25.211181640625" y="3.0">Part
+{generator.code.Part}
+
+Represents a compile
+part</y:NodeLabel>
+          <y:UML clipContent="true" constraint="" omitDetails="false" stereotype="" use3DEffect="true">
+            <y:AttributeLabel>name           : String
+bit_mask     : Integer
+initial_deps : [classPatt]
+deps             : [Class]
+packages     : [Package]
+</y:AttributeLabel>
+            <y:MethodLabel></y:MethodLabel>
+          </y:UML>
+        </y:UMLClassNode>
+      </data>
+      <data key="d1">UMLClass</data>
+    </node>
+    <node id="n2">
+      <data key="d0">
+        <y:UMLClassNode>
+          <y:Geometry height="212.0" width="198.0" x="52.5" y="516.0"/>
+          <y:Fill color="#FFCC00" transparent="false"/>
+          <y:BorderStyle color="#000000" type="line" width="1.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="79.63232421875" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="155.25830078125" x="21.370849609375" y="3.0">Script
+{generator.code.Script}
+
+Represents a compile
+output (app, library)</y:NodeLabel>
+          <y:UML clipContent="true" constraint="" omitDetails="false" stereotype="" use3DEffect="true">
+            <y:AttributeLabel>classes     : [SourceFile]
+parts         : [Part]
+packages  : [Package]
+variants    : [variant]
+boot          : Package
+packageIdsSorted: [0,1,2,...]
+</y:AttributeLabel>
+            <y:MethodLabel></y:MethodLabel>
+          </y:UML>
+        </y:UMLClassNode>
+      </data>
+      <data key="d1">UMLClass</data>
+    </node>
+    <node id="n3">
+      <data key="d0">
+        <y:UMLClassNode>
+          <y:Geometry height="212.0" width="198.0" x="6.5" y="467.0"/>
+          <y:Fill color="#FFCC00" transparent="false"/>
+          <y:BorderStyle color="#000000" type="line" width="1.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="79.63232421875" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="155.25830078125" x="21.370849609375" y="3.0">Script
+{generator.code.Script}
+
+Represents a compile
+output (app, library)</y:NodeLabel>
+          <y:UML clipContent="true" constraint="" omitDetails="false" stereotype="" use3DEffect="true">
+            <y:AttributeLabel>classes     : [SourceFile]
+parts         : [Part]
+packages  : [Package]
+variants    : [variant]
+boot          : Package
+packageIdsSorted: [0,1,2,...]
+</y:AttributeLabel>
+            <y:MethodLabel></y:MethodLabel>
+          </y:UML>
+        </y:UMLClassNode>
+      </data>
+      <data key="d1">UMLClass</data>
+    </node>
+  </graph>
+  <data key="d4">
+    <y:Resources/>
+  </data>
+</graphml>
