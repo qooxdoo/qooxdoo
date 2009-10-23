@@ -30,7 +30,6 @@ qx.Class.define("qx.ui.table.celleditor.AbstractField",
 
   properties :
   {
-
     /**
      * function that validates the result
      * the function will be called with the new value and the old value and is
@@ -47,6 +46,11 @@ qx.Class.define("qx.ui.table.celleditor.AbstractField",
 
   members :
   {
+    /**
+     * Factory to create the editor widget
+     * 
+     * @return {qx.ui.core.Widget} The editor widget
+     */
     _createEditor : function() {
       throw new Error("Abstract method call!");
     },

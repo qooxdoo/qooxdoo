@@ -612,7 +612,7 @@ qx.Class.define("qx.ui.form.AbstractField",
 
 
     /**
-     * @return {void}
+     * Updates the placeholder text with the DOM
      */
     _syncPlaceholder : function ()
     {

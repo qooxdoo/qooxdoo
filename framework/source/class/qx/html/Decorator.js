@@ -91,7 +91,7 @@ qx.Class.define("qx.html.Decorator",
      * or fallback to the background color defined
      * by the decoration itself.
      *
-     * @param bgcolor {Color} The color to apply or <code>null</code>
+     * @param color {Color|null} The color to apply or <code>null</code>
      */
     tint : function(color) {
       this.__decorator.tint(this.getDomElement(), color);

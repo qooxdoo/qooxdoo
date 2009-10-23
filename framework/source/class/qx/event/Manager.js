@@ -39,6 +39,7 @@ qx.Bootstrap.define("qx.event.Manager",
    * Creates a new instance of the event handler.
    *
    * @param win {Window} The DOM window this manager handles the events for
+   * @param registration {qx.event.Registration} The event registration to use
    */
   construct : function(win, registration)
   {
