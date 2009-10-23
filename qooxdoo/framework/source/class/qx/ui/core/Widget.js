@@ -1959,7 +1959,7 @@ qx.Class.define("qx.ui.core.Widget",
     _remove : function(child)
     {
       if (!this.__widgetChildren) {
-        return;
+        throw new Error("This widget has no children!");
       }
 
       qx.lang.Array.remove(this.__widgetChildren, child);
@@ -2098,10 +2098,12 @@ qx.Class.define("qx.ui.core.Widget",
      */
     __removeHelper : function(child)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
         this.assertNotUndefined(child);
-        this.assertIdentical(child.getLayoutParent(), this, "Remove Error: " + child + " is not a child of this widget!");
+      }
+
+      if (child.getLayoutParent() !== this) {
+        throw new Error("Remove Error: " + child + " is not a child of this widget!");
       }
 
       // Clear parent connection
