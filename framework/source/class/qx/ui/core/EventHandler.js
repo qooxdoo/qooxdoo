@@ -233,7 +233,7 @@ qx.Class.define("qx.ui.core.EventHandler",
 
       // Ignore most events in the disabled state.
       var type = domEvent.getType();
-      if (!(currentWidget.isEnabled() || this.__ignoreDisabled[type])) {
+      if (currentWidget || !(currentWidget.isEnabled() || this.__ignoreDisabled[type])) {
         return;
       }
 
