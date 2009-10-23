@@ -325,13 +325,7 @@ qx.Class.define("qx.ui.embed.Flash",
     _applyLiveConnect : function(value, old) {
       this.__flashParamHelper("swLiveConnect", value);
     },
-
-    // overridden
-    _applyBackgroundColor : function(value, old) {
-      value = this.__convertToHexString(value);
-      this.__flashParamHelper("bgcolor", value);
-    },
-
+    
     /*
     ---------------------------------------------------------------------------
      HELPER METHODS
@@ -349,22 +343,6 @@ qx.Class.define("qx.ui.embed.Flash",
     {
       this.getContentElement().setParam(key, value);
       qx.ui.core.queue.Layout.add(this);
-    },
-
-    /**
-     * Convert the <code>Color</code> to a hex string like <code>#ABCDEF</code>.
-     *
-     * @param color {Color} Color to convert.
-     * @return {String} Hex string starting with <code>#</code>.
-     */
-    __convertToHexString : function(color)
-    {
-      if (!color) {
-        return color;
-      }
-
-      var rgb = qx.util.ColorUtil.stringToRgb(color);
-      return "#" + qx.util.ColorUtil.rgbToHexString(rgb);
     }
   }
 });
