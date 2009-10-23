@@ -71,7 +71,7 @@ qx.Class.define("qx.ui.virtual.layer.Column",
       for (var x=0; x<columnSizes.length; x++)
       {
 
-        var decorator = this.getDecorator(column);
+        var decorator = this.getBackground(column);
         if (decorator)
         {
           decorations.push({

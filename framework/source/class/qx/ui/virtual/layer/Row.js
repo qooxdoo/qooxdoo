@@ -67,7 +67,7 @@ qx.Class.define("qx.ui.virtual.layer.Row",
 
       for (var y=0; y<rowSizes.length; y++)
       {
-        var decorator = this.getDecorator(row);
+        var decorator = this.getBackground(row);
         if (decorator)
         {
           decorations.push({
@@ -158,7 +158,7 @@ qx.Class.define("qx.ui.virtual.layer.Row",
 
 
     // overridden
-    setDecorator : function(index, decorator)
+    setBackground : function(index, decorator)
     {
       this.base(arguments, index, decorator);
       if (this.__isRowRendered(index)) {
