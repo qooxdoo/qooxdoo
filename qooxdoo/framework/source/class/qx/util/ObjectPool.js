@@ -175,7 +175,6 @@ qx.Class.define("qx.util.ObjectPool",
       var size = this.getSize() || Infinity;
       if (pool.length > size)
       {
-        this.warn("Cannot pool " + obj + " because the pool is already full.");
         obj.dispose();
         return;
       }
