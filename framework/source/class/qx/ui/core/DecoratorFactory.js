@@ -69,11 +69,12 @@ qx.Class.define("qx.ui.core.DecoratorFactory",
       
       var pool = this.__pool;
       if (pool[id] && pool[id].length > 0) {
-        return pool[id].pop();
+        var element = pool[id].pop();
       } else {
         var element = this._createDecoratorElement(decoratorInstance, id);
-        return element;
       }
+      element.$$pooled = false;
+      return element;
     },
     
     
@@ -84,7 +85,7 @@ qx.Class.define("qx.ui.core.DecoratorFactory",
      */
     poolDecorator : function(decoratorElement)
     {
-      if (!decoratorElement) {
+      if (!decoratorElement || decoratorElement.$$pooled) {
         return;
       }
       
@@ -104,6 +105,7 @@ qx.Class.define("qx.ui.core.DecoratorFactory",
       if (pool[id].length > clazz.MAX_SIZE) {
         decoratorElement.dispose();
       } else {
+        decoratorElement.$$pooled = true;
         pool[id].push(decoratorElement);
       }
     },
