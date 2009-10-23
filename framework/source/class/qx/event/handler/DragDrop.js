@@ -211,7 +211,7 @@ qx.Class.define("qx.event.handler.DragDrop",
       if (!this.__cache[type])
       {
         this.__currentType = type;
-        this.__fireEvent("droprequest", this.__dragTarget, false);
+        this.__fireEvent("droprequest", this.__dragTarget, this.__dropTarget, false);
       }
 
       if (!this.__cache[type]) {
@@ -312,7 +312,7 @@ qx.Class.define("qx.event.handler.DragDrop",
       if (current != this.__currentAction)
       {
         this.__currentAction = current;
-        this.__fireEvent("dragchange", this.__dragTarget, false);
+        this.__fireEvent("dragchange", this.__dragTarget, this.__dropTarget, false);
       }
     },
 
@@ -326,18 +326,13 @@ qx.Class.define("qx.event.handler.DragDrop",
      * @param cancelable {Boolean} Whether the event is cancelable
      * @param original {qx.event.type.Mouse} Original mouse event
      */
-    __fireEvent : function(type, target, cancelable, original)
+    __fireEvent : function(type, target, relatedTarget, cancelable, original)
     {
       var Registration = qx.event.Registration;
       var dragEvent = Registration.createEvent(type, qx.event.type.Drag, [ cancelable, original ]);
 
-      if (this.__dragTarget !== this.__dropTarget)
-      {
-        if (target == this.__dragTarget) {
-          dragEvent.setRelatedTarget(this.__dropTarget);
-        } else {
-          dragEvent.setRelatedTarget(this.__dragTarget);
-        }
+      if (target !== relatedTarget) {
+        dragEvent.setRelatedTarget(relatedTarget);
       }
 
       return Registration.dispatchEvent(target, dragEvent);
@@ -425,7 +420,7 @@ qx.Class.define("qx.event.handler.DragDrop",
         this.__manager.removeListener(this.__root, "keyup", this._onKeyUp, this, true);
 
         // Fire dragend event
-        this.__fireEvent("dragend", this.__dragTarget, false);
+        this.__fireEvent("dragend", this.__dragTarget, this.__dropTarget, false);
 
         // Clear flag
         this.__sessionActive = false;
@@ -549,7 +544,7 @@ qx.Class.define("qx.event.handler.DragDrop",
     {
       // Fire drop event in success case
       if (this.__validDrop) {
-        this.__fireEvent("drop", this.__dropTarget, false, e);
+        this.__fireEvent("drop", this.__dropTarget, this.__dragTarget, false, e);
       }
 
       // Stop event
@@ -573,7 +568,7 @@ qx.Class.define("qx.event.handler.DragDrop",
       if (this.__sessionActive)
       {
         // Fire specialized move event
-        if (!this.__fireEvent("drag", this.__dragTarget, true, e)) {
+        if (!this.__fireEvent("drag", this.__dragTarget, this.__dropTarget, true, e)) {
           this.__clearSession();
         }
       }
@@ -581,7 +576,7 @@ qx.Class.define("qx.event.handler.DragDrop",
       {
         if (Math.abs(e.getDocumentLeft()-this.__startLeft) > 3 || Math.abs(e.getDocumentTop()-this.__startTop) > 3)
         {
-          if (this.__fireEvent("dragstart", this.__dragTarget, true, e))
+          if (this.__fireEvent("dragstart", this.__dragTarget, this.__dropTarget, true, e))
           {
             // Flag session as active
             this.__sessionActive = true;
@@ -602,7 +597,7 @@ qx.Class.define("qx.event.handler.DragDrop",
           else
           {
             // Fire dragend event
-            this.__fireEvent("dragend", this.__dragTarget, false);
+            this.__fireEvent("dragend", this.__dragTarget, this.__dropTarget, false);
 
             // Clean up
             this.__clearInit();
@@ -624,7 +619,7 @@ qx.Class.define("qx.event.handler.DragDrop",
 
       if (dropable && dropable != this.__dropTarget)
       {
-        this.__validDrop = this.__fireEvent("dragover", dropable, true, e);
+        this.__validDrop = this.__fireEvent("dragover", dropable, this.__dropTarget, true, e);
         this.__dropTarget = dropable;
 
         this.__detectAction();
@@ -639,12 +634,12 @@ qx.Class.define("qx.event.handler.DragDrop",
      */
     _onMouseOut : function(e)
     {
-      var target = e.getTarget();
-      var dropable = this.__findDroppable(target);
+      var dropable = this.__findDroppable(e.getTarget());
+      var newDropable = this.__findDroppable(e.getRelatedTarget());
 
-      if (dropable && dropable == this.__dropTarget)
+      if (dropable && dropable !== newDropable && dropable == this.__dropTarget)
       {
-        this.__fireEvent("dragleave", this.__dropTarget, false, e);
+        this.__fireEvent("dragleave", this.__dropTarget, newDropable, false, e);
         this.__dropTarget = null;
         this.__validDrop = false;
 
