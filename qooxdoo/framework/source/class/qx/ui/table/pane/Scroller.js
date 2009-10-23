@@ -919,11 +919,13 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         // We are currently resizing -> Update the position
         this.__handleResizeColumn(pageX);
         useResizeCursor = true;
+        e.stopPropagation();
       }
       else if (this.__moveColumn != null)
       {
         // We are moving a column
         this.__handleMoveColumn(pageX);
+        e.stopPropagation();
       }
       else
       {

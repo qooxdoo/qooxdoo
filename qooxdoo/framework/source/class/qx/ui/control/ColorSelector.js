@@ -796,6 +796,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
       // Update if captured currently (through previous mousedown)
       if (this.__capture === "brightness-handle") {
         this._setBrightnessOnFieldEvent(e);
+        e.stopPropagation();
       }
     },
 
@@ -886,8 +887,10 @@ qx.Class.define("qx.ui.control.ColorSelector",
     {
 
       // Update if captured currently (through previous mousedown)
-      if (this.__capture === "hue-saturation-handle") {
+      if (this.__capture === "hue-saturation-handle") 
+      {
         this._setHueSaturationOnFieldEvent(e);
+        e.stopPropagation();
       }
     },
 
