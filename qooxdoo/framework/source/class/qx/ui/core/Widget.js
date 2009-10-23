@@ -820,24 +820,17 @@ qx.Class.define("qx.ui.core.Widget",
      */
     getWidgetByElement : function(element)
     {
-      // In Firefox 2 the related target of mouse events is sometimes an
-      // anonymous div inside of text area, which raise an exception if
-      // the parent node is read. This is why the try/catch block is needed.
-      try
+      while(element)
       {
-        while(element)
-        {
-          var widgetKey = element.$$widget;
+        var widgetKey = element.$$widget;
 
-          // dereference "weak" reference to the widget.
-          if (widgetKey != null) {
-            return qx.core.ObjectRegistry.fromHashCode(widgetKey);
-          }
-
-          element = element.parentNode;
+        // dereference "weak" reference to the widget.
+        if (widgetKey != null) {
+          return qx.core.ObjectRegistry.fromHashCode(widgetKey);
         }
-      } catch(ex) {}
 
+        element = element.parentNode;
+      }
       return null;
     },
 
