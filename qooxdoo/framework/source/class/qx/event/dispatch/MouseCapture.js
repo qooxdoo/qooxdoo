@@ -204,11 +204,11 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
         return;
       }
       
-      // turn off native mouse capturing if the browser supports it
-      this.nativeReleaseCapture(element);
-
       this.__captureElement = null;
       this.__registration.fireEvent(element, "losecapture", qx.event.type.Event, [true, false]);
+
+      // turn off native mouse capturing if the browser supports it
+      this.nativeReleaseCapture(element);
     },
     
     

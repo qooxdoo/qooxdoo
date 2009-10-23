@@ -23,7 +23,8 @@ qx.Class.define("qx.test.event.dispatch.TestingWindow",
 
   events :
   {
-    "unload" : "qx.event.type.Event"
+    "unload" : "qx.event.type.Event",
+    "onunload" : "qx.event.type.Event"
   },
   
   
@@ -31,6 +32,10 @@ qx.Class.define("qx.test.event.dispatch.TestingWindow",
   {
     addEventListener : function(type, callback, capture) {
       return this.addListener(type, callback, this, capture);
+    },
+    
+    attachEvent : function(type, callback) {
+      return this.addListener(type, callback);
     }
   }
 });
