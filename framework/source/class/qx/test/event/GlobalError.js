@@ -171,12 +171,12 @@ qx.Class.define("qx.test.event.GlobalError",
           if (qx.core.Variant.isSet("qx.client", "opera|webkit")) {
             this.warn("window.onerror is not supported by Opera and Webkit");
           } else {
-            this.fail("window.onerror should be supported!");
+            this.fail("window.onerror should be supported! Note: this test fails in IE if the debugger is active!");
           }
         }, self);
-      }, 50);
+      }, 100);
 
-      this.wait(100);
+      this.wait(500);
     }
 
     // timer setTimeout/setInterval - OK
