@@ -59,8 +59,6 @@ qx.Class.define("qx.test.ui.ChildrenHandling",
       var c2 = new qx.ui.core.Widget();
       var c3 = new qx.ui.core.Widget();
 
-      var w1 = new qx.ui.core.Widget();
-
       var children = [c1, c2, c3];
       this._setChildren(parent, children);
 
@@ -76,16 +74,25 @@ qx.Class.define("qx.test.ui.ChildrenHandling",
       this.assertArrayEquals([c1, c2], parent.getChildren(), "remove last");
       this._setChildren(parent, children);
 
-      parent.remove(w1);
-      this.assertArrayEquals([c1, c2, c3], parent.getChildren(), "remove non child");
-      this._setChildren(parent, children);
-
       c1.destroy();
       c2.destroy();
       c3.destroy();
-      w1.destroy();
       parent.destroy();
     },
+    
+    
+    testRemoveNonChild : function()
+    {
+      var parent = new qx.ui.container.Composite(new qx.ui.layout.Basic());
+      var w1 = new qx.ui.core.Widget();
+
+      this.assertException(function() {
+        parent.remove(w1);
+      });
+
+      w1.destroy();
+      parent.destroy();
+    },    
 
 
     testRemoveAt : function()
