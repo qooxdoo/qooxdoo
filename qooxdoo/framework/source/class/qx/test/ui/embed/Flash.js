@@ -54,8 +54,7 @@ qx.Class.define("qx.test.ui.embed.Flash",
         swLiveConnect : "true",
         play : "true",
         loop : "true",
-        menu : "true",
-        bgcolor: "#FF0000"
+        menu : "true"
       };
 
       this.__variables = {
@@ -70,7 +69,6 @@ qx.Class.define("qx.test.ui.embed.Flash",
       flash.setPlay(true);
       flash.setLoop(true);
       flash.setMenu(true);
-      flash.setBackgroundColor("red");
 
       this.getRoot().add(this.__flash, {edge: 10});
       this.flush();
@@ -195,11 +193,6 @@ qx.Class.define("qx.test.ui.embed.Flash",
         {
           that.__flash.setVariables({key: "value"});
         }, Error, null, "Error expected by calling 'setVariables'!");
-
-        that.assertException(function()
-        {
-          that.__flash.setBackgroundColor("black");
-        }, Error, null, "Error expected by calling 'setBackgroundColor'!");
       });
     },
 
@@ -219,7 +212,7 @@ qx.Class.define("qx.test.ui.embed.Flash",
     {
       // skip this test, because runs only with a webserver
       if (location.protocol != "http:") {
-        this.warn("Sciped test 'testReload', because a webserver " +
+        this.warn("Skipped test 'testReload', because a webserver " +
           "is needed to run this test.");
         return;
       }
@@ -261,7 +254,7 @@ qx.Class.define("qx.test.ui.embed.Flash",
     {
       // skip this test, because runs only with a webserver
       if (location.protocol != "http:") {
-        this.warn("Sciped test 'testExternalInterface', because a webserver " +
+        this.warn("Skipped test 'testExternalInterface', because a webserver " +
           "is needed to run this test.");
         return;
       }
