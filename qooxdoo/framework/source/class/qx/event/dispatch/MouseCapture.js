@@ -223,7 +223,7 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
      * 
      * @param element {Element} The capture DOM element
      * @param containerCapture {Boolean?true} If true all events originating in 
-     *   the container are captured. IF false events originating in the container
+     *   the container are captured. If false events originating in the container
      *   are not captured.
      * @signature function(element, containerCapture)
      */

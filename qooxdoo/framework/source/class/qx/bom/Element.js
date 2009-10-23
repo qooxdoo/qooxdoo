@@ -276,10 +276,12 @@ qx.Class.define("qx.bom.Element",
      * Captures the given element
      *
      * @param element {Element} DOM element to capture
-     * @return {void}
+     * @param containerCapture {Boolean?true} If true all events originating in 
+     *   the container are captured. If false events originating in the container
+     *   are not captured.
      */
-    capture : function(element) {
-      qx.event.Registration.getManager(element).getDispatcher(qx.event.dispatch.MouseCapture).activateCapture(element);
+    capture : function(element, containerCapture) {
+      qx.event.Registration.getManager(element).getDispatcher(qx.event.dispatch.MouseCapture).activateCapture(element, containerCapture);
     },
 
 

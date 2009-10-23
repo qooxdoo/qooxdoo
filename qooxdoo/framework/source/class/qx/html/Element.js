@@ -366,7 +366,9 @@ qx.Class.define("qx.html.Element",
         if (!element || !activityEndActions[action.type] && !action.element.__willBeSeeable()) {
           continue;
         }
-        qx.bom.Element[action.type](element);
+        var args = action.args;
+        args.unshift(element);
+        qx.bom.Element[action.type].apply(qx.bom.Element, args);
       }
       this._actions = [];
 
@@ -1974,15 +1976,17 @@ qx.Class.define("qx.html.Element",
      * underlying DOM element is not yet created.
      *
      * @param action {String} action to queue
+     * @param args {Array} optional list of arguments for the action
      * @return {void}
      */
-    __performAction : function(action)
+    __performAction : function(action, args)
     {
       var actions = qx.html.Element._actions;
 
       actions.push({
         type: action,
-        element: this
+        element: this,
+        args: args || []
       });
       qx.html.Element._scheduleFlush("element");
     },
@@ -2033,9 +2037,13 @@ qx.Class.define("qx.html.Element",
 
     /**
      * Captures all mouse events to this element
+     * 
+     * @param containerCapture {Boolean?true} If true all events originating in 
+     *   the container are captured. If false events originating in the container
+     *   are not captured.
      */
-    capture : function() {
-      this.__performAction("capture");
+    capture : function(containerCapture) {
+      this.__performAction("capture", [containerCapture !== false]);
     },
 
 

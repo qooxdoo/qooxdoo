@@ -2136,9 +2136,13 @@ qx.Class.define("qx.ui.core.Widget",
      * mouse button is clicked. If the widgets becomes the capturing widget the
      * {@link #capture} event is fired. Once it looses capture mode the
      * {@link #losecapture} event is fired.
+     * 
+     * @param containerCapture {Boolean?true} If true all events originating in 
+     *   the container are captured. If false events originating in the container
+     *   are not captured.
      */
-    capture : function() {
-      this.getContainerElement().capture();
+    capture : function(containerCapture) {
+      this.getContainerElement().capture(containerCapture);
     },
 
 
