@@ -40,10 +40,11 @@ qx.Bootstrap.define("qx.event.Manager",
    *
    * @param win {Window} The DOM window this manager handles the events for
    */
-  construct : function(win)
+  construct : function(win, registration)
   {
     // Assign window object
     this.__window = win;
+    this.__registration = registration;
 
     // Register to the page unload event.
     // Only for iframes and other secondary documents.
@@ -162,7 +163,7 @@ qx.Bootstrap.define("qx.event.Manager",
         return dispatcher;
       }
 
-      return this.__dispatchers[clazz.classname] = new clazz(this);
+      return this.__dispatchers[clazz.classname] = new clazz(this, this.__registration);
     },
 
 
@@ -489,7 +490,7 @@ qx.Bootstrap.define("qx.event.Manager",
       }
 
 
-      var classes = qx.event.Registration.getHandlers();
+      var classes = this.__registration.getHandlers();
       var IEventHandler = qx.event.IEventHandler;
       var clazz, instance, supportedTypes, targetCheck;
 
@@ -799,7 +800,7 @@ qx.Bootstrap.define("qx.event.Manager",
       }
 
       // Interation data
-      var classes = qx.event.Registration.getDispatchers();
+      var classes = this.__registration.getDispatchers();
       var instance;
 
       // Loop through the dispatchers
@@ -840,13 +841,14 @@ qx.Bootstrap.define("qx.event.Manager",
     dispose : function()
     {
       // Remove from manager list
-      qx.event.Registration.removeManager(this);
+      this.__registration.removeManager(this);
 
       qx.util.DisposeUtil.disposeMap(this, "__handlers");
       qx.util.DisposeUtil.disposeMap(this, "__dispatchers");
 
       // Dispose data fields
-      this.__listeners = this.__window = this.__disposeWrapper = this.__handlerCache = null;
+      this.__listeners = this.__window = this.__disposeWrapper = null;
+      this.__registration = this.__handlerCache = null;
     }
   }
 });

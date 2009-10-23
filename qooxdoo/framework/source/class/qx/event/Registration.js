@@ -83,7 +83,7 @@ qx.Bootstrap.define("qx.event.Registration",
 
       if (!manager)
       {
-        manager = new qx.event.Manager(target);
+        manager = new qx.event.Manager(target, this);
         this.__managers[hash] = manager;
       }
 

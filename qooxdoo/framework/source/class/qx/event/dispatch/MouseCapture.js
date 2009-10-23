@@ -42,10 +42,11 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
    *
    * @param manager {qx.event.Manager} Event manager for the window to use
    */
-  construct : function(manager)
+  construct : function(manager, registration)
   {
     this.base(arguments, manager);
     this.__window = manager.getWindow();
+    this.__registration = registration;
 
     manager.addListener(this.__window, "blur", this.releaseCapture, this);
     manager.addListener(this.__window, "focus", this.releaseCapture, this);
@@ -63,6 +64,7 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
   members:
   {
     __captureElement : null,
+    __containerCapture : true,
     __window : null,
 
     
@@ -100,8 +102,15 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
         this.releaseCapture();
         return;
       }
+      
+      if (
+        this.__containerCapture || 
+        !qx.dom.Hierarchy.contains(this.__captureElement, target)
+      ) {
+        target = this.__captureElement;
+      }
 
-      this.base(arguments, this.__captureElement, event, type);
+      this.base(arguments, target, event, type);
     },
 
 
@@ -136,19 +145,28 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
      * Set the given element as target for event
      *
      * @param element {Element} The element which should capture the mouse events.
+     * @param containerCapture {Boolean?true} If true all events originating in 
+     *   the container are captured. IF false events originating in the container
+     *   are not captured. 
      */
-    activateCapture : function(element)
+    activateCapture : function(element, containerCapture)
     {
-      if (this.__captureElement === element) {
+      var containerCapture = containerCapture !== false;
+      
+      if (
+        this.__captureElement === element &&
+        this.__containerCapture == containerCapture
+      ) {
         return;
       }
 
+      
       if (this.__captureElement) {
         this.releaseCapture();
       }
       
       // turn on native mouse capturing if the browser supports it
-      this.nativeSetCapture(element);
+      this.nativeSetCapture(element, containerCapture);
       if (this.hasNativeCapture)
       {
         var self = this;
@@ -159,8 +177,9 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
         });
       }
 
+      this.__containerCapture = containerCapture;
       this.__captureElement = element;
-      qx.event.Registration.fireEvent(element, "capture", qx.event.type.Event, [true, false]);
+      this.__registration.fireEvent(element, "capture", qx.event.type.Event, [true, false]);
     },
 
 
@@ -190,7 +209,7 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
       this.nativeReleaseCapture(element);
 
       this.__captureElement = null;
-      qx.event.Registration.fireEvent(element, "losecapture", qx.event.type.Event, [true, false]);
+      this.__registration.fireEvent(element, "losecapture", qx.event.type.Event, [true, false]);
     },
     
     
@@ -203,12 +222,15 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
      * the object that belongs to the current document.
      * 
      * @param element {Element} The capture DOM element
-     * @signature function(element)
+     * @param containerCapture {Boolean?true} If true all events originating in 
+     *   the container are captured. IF false events originating in the container
+     *   are not captured.
+     * @signature function(element, containerCapture)
      */
     nativeSetCapture : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(element) {
-        element.setCapture();
+      "mshtml" : function(element, containerCapture) {
+        element.setCapture(containerCapture !== false);
       },
       
       "default" : qx.lang.Function.empty
@@ -234,7 +256,7 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
 
 
   destruct : function() {
-    this._disposeFields("__captureElement", "__window");
+    this._disposeFields("__captureElement", "__window", "__registration");
   },
 
 
