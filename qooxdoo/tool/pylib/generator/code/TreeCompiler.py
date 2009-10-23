@@ -37,13 +37,16 @@ class TreeCompiler:
         self._jobconf = context.get('jobconf')
         self._treeLoader = treeLoader
         self._optimize   = []
+        #self._privatesCacheId = "privates-%s" % self._context['config']._fname  # use path to main config file for context
+        self._privatesCacheId = "privates"  # use a site-wide privates db
 
         self._loadFiles()
 
 
     def _loadFiles(self):
         #cacheId = "privates-%s" % self._context['config']._fname  # use path to main config file for context
-        cacheId = "privates"  # use a side-wide privates db
+        #cacheId = "privates"  # use a side-wide privates db
+        cacheId  = self._privatesCacheId
         privates = self._cache.read(cacheId)
         if privates != None:
             self._console.info("Loaded %s private fields" % len(privates))
@@ -63,7 +66,8 @@ class TreeCompiler:
 
 
     def _storePrivateFields(self):
-        cacheId = "privates-%s" % self._context['config']._fname  # use path to main config file for context
+        #cacheId = "privates-%s" % self._context['config']._fname  # use path to main config file for context
+        cacheId  = self._privatesCacheId
         self._cache.write(cacheId, privateoptimizer.get())
 
 
@@ -238,7 +242,8 @@ class TreeCompiler:
         m['variants'] = " ".join(varis)
         # cache
         m['cache'] = "-c " + self._cache._path
-        m['privateskey'] = "--privateskey " + '"privates-' + self._context['config']._fname + '"'
+        #m['privateskey'] = "--privateskey " + '"privates-' + self._context['config']._fname + '"'
+        m['privateskey'] = "--privateskey " + '"' + self._privatesCacheId + '"'
 
         cmd = "%(compilePath)s %(optimizations)s %(variants)s %(cache)s %(privateskey)s %(filePath)s" % m
         return cmd
