@@ -38,9 +38,8 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
   
 
   /**
-   * Create a new instance
-   *
    * @param manager {qx.event.Manager} Event manager for the window to use
+   * @param registration {qx.event.Registration} The event registration to use
    */
   construct : function(manager, registration)
   {
