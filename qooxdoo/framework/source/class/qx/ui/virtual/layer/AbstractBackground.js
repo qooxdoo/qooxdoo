@@ -178,7 +178,7 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
      * @param decorator {Decorator|null} the decorator to set. A value of
      *    <code>null</code> will reset the decorator.
      */
-    setDecorator : function(index, decorator)
+    setBackground : function(index, decorator)
     {
       if (decorator) {
         this.__decorators[index] = qx.theme.manager.Decoration.getInstance().resolve(decorator);
@@ -195,7 +195,7 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
      * @param index {Integer} The index to get the decorator for.
      * @return {Decorator} The decorator at the given index
      */
-    getDecorator : function(index) {
+    getBackground : function(index) {
       return this.__decorators[index];
     }
   },

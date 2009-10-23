@@ -310,9 +310,9 @@ qx.Class.define("qx.ui.virtual.form.List",
       }
       var rowLayer = this.getChildControl("row-layer");
       if (wasAdded) {
-        rowLayer.setDecorator(item, "selected");
+        rowLayer.setBackground(item, "selected");
       } else {
-        rowLayer.setDecorator(item, null);
+        rowLayer.setBackground(item, null);
       }
       this.__cellLayer.updateLayerData();
     },
