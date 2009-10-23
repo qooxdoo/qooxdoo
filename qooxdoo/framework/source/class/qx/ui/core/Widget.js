@@ -3887,10 +3887,21 @@ qx.Class.define("qx.ui.core.Widget",
     if (!qx.core.ObjectRegistry.inShutDown)
     {
       var clazz = qx.ui.core.Widget;
+      var container = this.getContainerElement();
+      
+      if (this.__decoratorElement)
+      {
+        container.remove(this.__decoratorElement);
+        clazz.__decoratorPool.poolDecorator(this.__decoratorElement);
+      }
 
+      if (this.__shadowElement)
+      {
+        container.remove(this.__shadowElement);
+        clazz.__decoratorPool.poolDecorator(this.__shadowElement);
+      }
+      
       this.clearSeparators();
-      this.setDecorator(null);
-      this.setShadow(null);
       this._disposeFields("__decoratorElement", "__shadowElement", "__separators");
     }
     else
