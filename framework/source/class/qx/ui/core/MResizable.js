@@ -411,6 +411,8 @@ qx.Mixin.define("qx.ui.core.MResizable",
 
       // Disable capturing
       this.releaseCapture();
+      
+      e.stopPropagation();
     },
 
 
@@ -476,7 +478,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
         }
 
         // Full stop for event
-        e.stop();
+        e.stopPropagation();
       }
       else if (!this.hasState("maximized"))
       {

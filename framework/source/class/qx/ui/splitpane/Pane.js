@@ -430,7 +430,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
 
     /**
-     * Helper function for Opera to add an "active" state if the mouse if on
+     * Helper function for Opera to add an "active" state if the mouse is on
      * the splitter.
      *
      */
@@ -446,8 +446,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
     */
 
     /**
-     * Updates widgets' sizes bases on slider position.
-     *
+     * Updates widgets' sizes based on the slider position.
      */
     _finalizeSizes : function()
     {
@@ -645,11 +644,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
      }
   },
 
-  /*
-   *****************************************************************************
-      DESTRUCT
-   *****************************************************************************
-   */
 
   destruct : function()
   {
