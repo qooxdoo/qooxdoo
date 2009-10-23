@@ -1409,7 +1409,7 @@ qx.Bootstrap.define("qx.Class",
     /**
      * Include all features of the mixin into the given class (recursive).
      *
-     * @param clazz {Class} A class previously defined where the mixin should be attached.
+     * @param clazz {Class} The class where the mixin should be attached.
      * @param mixin {Mixin} Include all features of this mixin
      * @param patch {Boolean} Overwrite existing fields, functions and properties
      */
@@ -1422,9 +1422,7 @@ qx.Bootstrap.define("qx.Class",
         }
       }
 
-      if (this.hasMixin(clazz, mixin))
-      {
-        qx.log.Logger.warn('Mixin "' + mixin.name + '" is already included into Class "' + clazz.classname + '" by class: ' + this.getByMixin(clazz, mixin).classname + '!');
+      if (this.hasMixin(clazz, mixin)) {
         return;
       }
 
@@ -1441,7 +1439,7 @@ qx.Bootstrap.define("qx.Class",
           this.__addEvents(clazz, entry.$$events, patch);
         }
 
-        // Attach properties (Properties are already readonly themselve, no patch handling needed)
+        // Attach properties (Properties are already readonly themselves, no patch handling needed)
         if (entry.$$properties) {
           this.__addProperties(clazz, entry.$$properties, patch);
         }
