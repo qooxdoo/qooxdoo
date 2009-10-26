@@ -502,25 +502,28 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
     moveColumn : function(fromOverXPos, toOverXPos)
     {
       this.__internalChange = true;
+      try{
 
-      var col = this.__overallColumnArr[fromOverXPos];
-      var visible = this.isColumnVisible(col);
-
-      if (visible) {
-        this.setColumnVisible(col, false);
+        var col = this.__overallColumnArr[fromOverXPos];
+        var visible = this.isColumnVisible(col);
+  
+        if (visible) {
+          this.setColumnVisible(col, false);
+        }
+  
+        this.__overallColumnArr.splice(fromOverXPos, 1);
+        this.__overallColumnArr.splice(toOverXPos, 0, col);
+  
+        // Invalidate the __colToXPosMap
+        this.__colToXPosMap = null;
+  
+        if (visible) {
+          this.setColumnVisible(col, true);
+        }
+  
+      } finally {
+        this.__internalChange = false;
       }
-
-      this.__overallColumnArr.splice(fromOverXPos, 1);
-      this.__overallColumnArr.splice(toOverXPos, 0, col);
-
-      // Invalidate the __colToXPosMap
-      this.__colToXPosMap = null;
-
-      if (visible) {
-        this.setColumnVisible(col, true);
-      }
-
-      this.__internalChange = false;
 
       // Inform the listeners
       var data =
@@ -531,6 +534,63 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
       };
 
       this.fireDataEvent("orderChanged", data);
+    },
+
+    
+    /**
+     * Reorders all columns to new overall positions. Will fire one "orderChanged" event
+     * without data afterwards
+     *
+     * @param newPosition {int[]} Array mapping the index of a column in table model to its wanted overall
+     *                            position on screen (both zero based). If the table models holds 
+     *                            col0, col1, col2 and col3 and you give [1,3,2,0], the new column order 
+     *                            will be col3, col0, col2, col1
+     */
+    setColumnsOrder : function(newPositions)
+    {
+      if (newPositions.length == this.__overallColumnArr.length)
+      {
+        this.__internalChange = true;
+        
+        try {
+          
+          // Go through each column an switch visible ones to invisible. Reason is unknown,
+          // this just mimicks the behaviour of moveColumn. Possibly useful because setting
+          // a column visible later updates a map with its screen coords.
+          var isVisible = new Array(newPositions.length);
+          for (var colIdx = 0; colIdx < this.__overallColumnArr.length; colIdx++){
+            var visible = this.isColumnVisible(colIdx);
+            isVisible[colIdx] = visible; //Remember, as this relies on this.__colToXPosMap which is cleared below
+            if (visible){
+              this.setColumnVisible(colIdx, false);
+            }
+          }
+
+          // Store new position values 
+          this.__overallColumnArr = qx.lang.Array.clone(newPositions);
+    
+          // Invalidate the __colToXPosMap
+          this.__colToXPosMap = null;
+          
+          // Go through each column an switch invisible ones back to visible
+          for (var colIdx = 0; colIdx < this.__overallColumnArr.length; colIdx++){
+            if (isVisible[colIdx]) {
+              this.setColumnVisible(colIdx, true);
+            }
+          }
+        } finally {
+          this.__internalChange = false;
+        }
+        
+        // Inform the listeners. Do not add data as all known listeners in qooxdoo
+        // only take this event to mean "total repaint necesscary". Fabian will look
+        // after deprecating the data part of the orderChanged - event
+        this.fireEvent("orderChanged");
+        
+      } else {
+        throw new Error("setColumnsOrder: Invalid number of column positions given, expected " 
+                        + this.__overallColumnArr.length + ", got " + newPositions.length);
+      }
     }
   },
 
