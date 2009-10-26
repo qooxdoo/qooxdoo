@@ -151,7 +151,9 @@ qx.Class.define("qx.io2.ScriptLoader",
       delete this.__running;
 
       // Execute user callback
-      this.__callback.call(this.__context, status);
+      if (this.__callback) {
+        this.__callback.call(this.__context, status);
+      }
     },
 
 
