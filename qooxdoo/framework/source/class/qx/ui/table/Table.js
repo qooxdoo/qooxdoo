@@ -1444,7 +1444,7 @@ qx.Class.define("qx.ui.table.Table",
 
     /**
      * Gets the TablePaneScroller at a certain x position in the page. If there is
-     * no TablePaneScroller at this postion, null is returned.
+     * no TablePaneScroller at this position, null is returned.
      *
      * @param pageX {Integer} the position in the page to check (in pixels).
      * @return {qx.ui.table.pane.Scroller} the TablePaneScroller or null.
