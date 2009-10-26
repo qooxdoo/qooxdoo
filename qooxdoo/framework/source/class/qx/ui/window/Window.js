@@ -718,6 +718,11 @@ qx.Class.define("qx.ui.window.Window",
 
       if (this.fireNonBubblingEvent("beforeMinimize", qx.event.type.Event, [false, true]))
       {
+        // store current dimension and location
+        var props = this.getLayoutProperties();
+        this.__restoredLeft = props.left === undefined ? 0 : props.left;
+        this.__restoredTop = props.top === undefined ? 0 : props.top;
+
         this.removeState("maximized");
         this.hide();
         this.fireEvent("minimize");
@@ -726,7 +731,8 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /**
-     * Restore the window, if it is maximized or minimized.
+     * Restore the window to <code>"normal"</code>, if it is 
+     * <code>"maximized"</code> or <code>"minimized"</code>.
      */
     restore : function()
     {
