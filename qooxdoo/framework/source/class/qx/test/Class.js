@@ -50,31 +50,14 @@ qx.Class.define("qx.test.Class",
 
         members :
         {
-          /**
-           * TODOC
-           *
-           * @return {string} TODOC
-           */
           startEngine : function() {
             return "start";
           },
 
-
-          /**
-           * TODOC
-           *
-           * @return {string} TODOC
-           */
           stopEngine : function() {
             return "stop";
           },
 
-
-          /**
-           * TODOC
-           *
-           * @return {var} TODOC
-           */
           getName : function() {
             return this._name;
           }
@@ -96,37 +79,26 @@ qx.Class.define("qx.test.Class",
 
         members :
         {
-          /**
-           * TODOC
-           *
-           * @return {var} TODOC
-           */
           startEngine : function()
           {
             var ret = this.base(arguments);
             return "brrr " + ret;
           },
 
-
-          /**
-           * TODOC
-           *
-           * @return {var} TODOC
-           */
           stopEngine : function()
           {
             var ret = arguments.callee.base.call();
             return "brrr " + ret;
           },
 
-
-          /**
-           * TODOC
-           *
-           * @return {var} TODOC
-           */
           getWheels : function() {
             return this.self(arguments).WHEELS;
+          },
+          
+          getMaxSpeed : function()
+          {
+            // call base in non overridden method
+            this.base(arguments);
           }
         },
 
@@ -138,6 +110,10 @@ qx.Class.define("qx.test.Class",
       this.assertEquals("brrr start", bmw.startEngine());
       this.assertEquals("brrr stop", bmw.stopEngine());
       this.assertEquals(4, bmw.getWheels());
+      
+      this.assertException(function() {
+        bmw.getMaxSpeed();
+      }, qx.core.AssertionError);
     },
 
 

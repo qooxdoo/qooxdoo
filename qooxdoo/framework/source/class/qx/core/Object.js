@@ -122,6 +122,14 @@ qx.Class.define("qx.core.Object",
      */
     base : function(args, varags)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        this.assertFunction(
+          args.callee.base,
+          "Cannot call super class. Method is not derived: " + qx.lang.Function.getName(args.callee)
+        );
+      }
+      
       if (arguments.length === 1) {
         return args.callee.base.call(this);
       } else {
