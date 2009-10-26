@@ -79,7 +79,7 @@ qx.Class.define("qx.test.bom.Blocker",
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
         var childElements = qx.dom.Hierarchy.getChildElements(document.body);
-        var blockerIframeElement = childElements[0];
+        var blockerIframeElement = childElements[childElements.length - 1];
       }
 
       this.__blocker.unblock();
@@ -116,9 +116,9 @@ qx.Class.define("qx.test.bom.Blocker",
 
           if (qx.core.Variant.isSet("qx.client", "mshtml"))
           {
-            var childElements = qx.dom.Hierarchy.getChildElements(self.__blockedElement);
-            var blockerIframeElement = childElements[0];
-            self.assertEquals(qx.bom.element.Style.get(self.__blockedElement, "zIndex") - 1, qx.bom.element.Style.get(blockerIframeElement, "zIndex"));
+            var childElements = qx.dom.Hierarchy.getChildElements(document.body);
+            var blockerIframeElement = childElements[childElements.length - 1];
+            self.assertEquals(qx.bom.element.Style.get(self.__blockedElement, "zIndex") - 2, qx.bom.element.Style.get(blockerIframeElement, "zIndex"));
           }
 
           self.__blocker.unblock();
