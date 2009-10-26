@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * A model that contains all meta data about columns, such as width, renderers,
+ * A model that contains all meta data about columns, such as width, renderer,
  * visibility and order.
  *
  * @see qx.ui.table.ITableModel
