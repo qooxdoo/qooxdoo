@@ -111,9 +111,12 @@ qx.Class.define("qx.test.Class",
       this.assertEquals("brrr stop", bmw.stopEngine());
       this.assertEquals(4, bmw.getWheels());
       
-      this.assertException(function() {
-        bmw.getMaxSpeed();
-      }, qx.core.AssertionError);
+      if (this.isDebugOn())
+      {
+        this.assertException(function() {
+          bmw.getMaxSpeed();
+        }, qx.core.AssertionError);
+      }
     },
 
 

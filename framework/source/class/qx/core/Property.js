@@ -1329,7 +1329,7 @@ qx.Class.define("qx.core.Property",
       }
       else if (hasCallback)
       {
-        // Properties which are not inheritable have no possiblity to get
+        // Properties which are not inheritable have no possibility to get
         // undefined at this position. (Hint: set(), setRuntime() and setThemed() only allow non undefined values)
         if (variant !== "set" && variant !== "setRuntime" && variant !== "setThemed") {
           code.push('if(computed===undefined)computed=null;');
