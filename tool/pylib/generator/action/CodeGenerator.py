@@ -157,7 +157,7 @@ class CodeGenerator(object):
 
         # whether the code should be formatted
         format = compConf.get("code/format", False)
-        script.scriptCompress = compConf.get("code/gzip", False)
+        script.scriptCompress = compConf.get("paths/gzip", False)
 
         # read in settings
         settings = self.getSettings()
