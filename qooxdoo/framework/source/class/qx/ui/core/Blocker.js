@@ -112,6 +112,8 @@ qx.Class.define("qx.ui.core.Blocker",
     __focusElements   : null,
     
     __oldAnonymous : null,
+    
+    // @deprecated
     __anonymousCounter : 0,
 
     __timer : null,
@@ -183,10 +185,13 @@ qx.Class.define("qx.ui.core.Blocker",
      * Remember current value and make widget anonymous. This prevents
      * "capturing events".
      * 
-     * @deprecated
+     * @deprecated 'It is not needed anymore.'
      */
     _saveAndSetAnonymousState : function()
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee,
+        "This method is not needed anymore.");
+
       this.__anonymousCounter += 1;
       if (this.__anonymousCounter == 1)
       {
@@ -200,10 +205,13 @@ qx.Class.define("qx.ui.core.Blocker",
      * Reset the value of the anonymous property to its previous state. Each call
      * to this method must have a matching call to {@link #_saveAndSetAnonymousState}.
      * 
-     * @deprected
+     * @deprected 'It is not needed anymore.'
      */
     _restoreAnonymousState : function()
     {
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee,
+        "This method is not needed anymore.");
+
       this.__anonymousCounter -= 1;
       if (this.__anonymousCounter == 0) {
         this._widget.setAnonymous(this.__oldAnonymous);
