@@ -182,6 +182,8 @@ qx.Class.define("qx.ui.core.Blocker",
     /**
      * Remember current value and make widget anonymous. This prevents
      * "capturing events".
+     * 
+     * @deprecated
      */
     _saveAndSetAnonymousState : function()
     {
@@ -197,6 +199,8 @@ qx.Class.define("qx.ui.core.Blocker",
     /**
      * Reset the value of the anonymous property to its previous state. Each call
      * to this method must have a matching call to {@link #_saveAndSetAnonymousState}.
+     * 
+     * @deprected
      */
     _restoreAnonymousState : function()
     {
@@ -309,12 +313,14 @@ qx.Class.define("qx.ui.core.Blocker",
       }
       this.__isBlocked = true;
 
-      // overlay the blocker widget
-      // this prevents bubbling events
-      this.getBlockerElement().include();
       this._backupActiveWidget();
 
-      this._saveAndSetAnonymousState();
+      var blocker = this.getBlockerElement();
+      blocker.include();
+      blocker.activate();
+      blocker.addListener("keypress", this.__stopEvent, this);
+      blocker.addListener("keydown", this.__stopEvent, this); 
+      blocker.addListener("keyup", this.__stopEvent, this);
     },
 
 
@@ -338,10 +344,13 @@ qx.Class.define("qx.ui.core.Blocker",
       }
       this.__isBlocked = false;
 
-      this._restoreAnonymousState();
       this._restoreActiveWidget();
-      
-      this.getBlockerElement().exclude();
+
+      var blocker = this.getBlockerElement();
+      blocker.removeListener("keypress", this.__stopEvent, this);
+      blocker.removeListener("keydown", this.__stopEvent, this); 
+      blocker.removeListener("keyup", this.__stopEvent, this);
+      blocker.exclude();
     },
 
 
@@ -453,6 +462,15 @@ qx.Class.define("qx.ui.core.Blocker",
         height: doc.documentElement.scrollHeight + "px",
         width: doc.documentElement.scrollWidth + "px"
       });
+    },
+    
+    /**
+     * Stops the passed event.
+     * 
+     * @param e {qx.event.type.KeySequence} event to stop.
+     */
+    __stopEvent : function(e) {
+      e.stop();
     }
   },
 
