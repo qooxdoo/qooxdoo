@@ -107,11 +107,11 @@ qx.Class.define("feedreader.io.FeedParser",
 
         var article = new feedreader.model.Article();
         article.set({
-          title : entry.title || null,
-          author : "",
+          title : entry.title || "",
+          author : null,
           date : date,
-          content : entry.description || null,
-          link : entry.link || null
+          content : entry.description || "",
+          link : entry.link || ""
         });
         articles.push(article)
       }
@@ -155,12 +155,17 @@ qx.Class.define("feedreader.io.FeedParser",
 
         var article = new feedreader.model.Article();
         article.set({
-          title : entry.title || entry.summary || null,
+          title : entry.title || entry.summary || "",
           author : entry.author ? entry.author.name || null : null,
           date : date,
-          content : entry.content || entry.summary || null,
-          link : entry.link["@attributes"] ? entry.link["@attributes"].href || null : null
+          content : entry.content || entry.summary || ""
         });
+
+        if(qx.lang.Type.isArray(entry.link)) {
+          article.setLink(entry.link[0]["@attributes"] ? entry.link[0]["@attributes"].href || "" : "");
+        } else {
+          article.setLink(entry.link["@attributes"] ? entry.link["@attributes"].href || "" : "");
+        }
 
         articles.push(article);
       }
