@@ -67,14 +67,15 @@ qx.Class.define("qx.test.io2.ScriptLoader",
     
     testLoadWithoutCallback : function()
     {
-      delete window.SCRIPT_LOADED;
+      window.SCRIPT_LOADED = false;
       
       var url = qx.util.ResourceManager.getInstance().toUri("qx/test/script.js");
       this.loader.load(url);
       
       var pollTimer = new qx.event.Timer(20);
       var start = new Date();
-      pollTimer.addListener("interval", function() {
+      pollTimer.addListener("interval", function() 
+      {
         if (window.SCRIPT_LOADED) 
         {
           pollTimer.stop();
