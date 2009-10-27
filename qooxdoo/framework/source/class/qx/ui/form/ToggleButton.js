@@ -225,6 +225,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
         this.removeState("abandoned");
       } else if (this.hasState("pressed")) {
         this.setValue(!this.getValue());
+        this.execute();
       }
 
       this.removeState("pressed");
@@ -274,6 +275,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
         case "Space":
           this.removeState("abandoned");
           this.setValue(!this.getValue());
+          this.execute();
 
           this.removeState("pressed");
           e.stopPropagation();
