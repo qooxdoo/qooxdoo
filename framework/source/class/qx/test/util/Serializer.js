@@ -236,6 +236,22 @@ qx.Class.define("qx.test.util.Serializer",
       this.assertEquals(this.__model.getData1(), model.getData1());
       this.assertEquals(this.__model.getData2()[0], model.getData2().getItem(0));
       this.assertEquals(this.__model.getData3(), model.getData3());
+    },
+    
+    testJsonLateObjectSet : function() 
+    {
+      var data = {
+        foo : "foo",
+        bar : "bar",
+        goo : {}
+      };
+
+      var model = qx.data.marshal.Json.createModel(data);
+      model.setGoo({mi:"moo",la:"lili"});
+      
+      this.assertEquals('{"foo":"foo","bar":"bar","goo":{"mi":"moo","la":"lili"}}', qx.util.Serializer.toJson(model));
+      
+      model.dispose();
     }
 
   }
