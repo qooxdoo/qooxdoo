@@ -146,6 +146,18 @@ qx.Class.define("qx.util.Serializer",
         }
         return result + "}";
 
+      // javascript objects
+      } else if (qx.lang.Type.isObject(object)) {
+        result += "{";
+        for (var key in object) {
+          result += '"' + key + '":' + 
+                    qx.util.Serializer.toJson(object[key], qxSerializer) + ",";
+        }
+        if (result != "{") {
+          result = result.substring(0, result.length - 1);
+        }        
+        return result + "}";
+
       // strings
       } else if (qx.lang.Type.isString(object)) {
         // escape
@@ -161,7 +173,6 @@ qx.Class.define("qx.util.Serializer",
 
       // Date and RegExp
       } else if (
-
         qx.lang.Type.isDate(object) ||
         qx.lang.Type.isRegExp(object)
       ) {
