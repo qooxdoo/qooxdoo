@@ -169,6 +169,7 @@ qx.Class.define("playground.Application",
 
     /**
      * Back button and bookmark support
+     * @lint ignoreDeprecated(alert)
      */
     __initBookmarkSupport : function()
     {
@@ -191,7 +192,7 @@ qx.Class.define("playground.Application",
 
       // if there is a state given
       } else if (state != "") {
-        var title = "Custom Code";
+        var title = this.tr("Custom Code");
         this.currentSample = "";
         
         try {
@@ -199,11 +200,11 @@ qx.Class.define("playground.Application",
           var code = decodeURIComponent(data.code);
           this.textarea.setValue(code);
         } catch (e) {
-          title = "Unreadable Custom Code";
+          title = this.tr("Unreadable Custom Code");
           var errorMessage = "Unable to read the URL parameter.";
           if (qx.bom.client.Engine.MSHTML) {
-            errorMessage += "\nYour browser has a length restriction of the " + 
-                            "URL parameter which could have caused the problem.";
+            errorMessage += this.tr(" Your browser has a length restriction of the " + 
+                            "URL parameter which could have caused the problem.");
           }
           alert(errorMessage);
         }
@@ -616,6 +617,7 @@ qx.Class.define("playground.Application",
     /**
      * Attach listener to run the current source code
      *
+     * @lint ignoreDeprecated(confirm)
      * @param root {var} the root of the play area
      * @return {void}
      */
@@ -638,7 +640,7 @@ qx.Class.define("playground.Application",
         if (escape(code) != escape(this.__sampleContainer[this.currentSample]).replace(/%0D/g, "")) {
           var codeJson = '{"code": ' + '"' + encodeURIComponent(code) + '"}';
           if (qx.bom.client.Engine.MSHTML && codeJson.length > 1300) {
-            if (!this.__ignoreSaveFaults && confirm("Could not save your code in the url because it is too much code. Do you want to ignore it?")) {
+            if (!this.__ignoreSaveFaults && confirm(this.tr("Could not save your code in the url because it is too much code. Do you want to ignore it?"))) {
               this.__ignoreSaveFaults = true;
             };
             return;
