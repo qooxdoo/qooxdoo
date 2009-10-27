@@ -63,6 +63,9 @@ qx.Class.define("playground.Application",
     __runSample : null,
 
     __history : null,
+    
+    // flag used for the warning for IE
+    __ignoreSaveFaults : false,
 
 
     /**
@@ -188,12 +191,23 @@ qx.Class.define("playground.Application",
 
       // if there is a state given
       } else if (state != "") {
-        var data = qx.util.Json.parse(state);
-        var code = decodeURIComponent(data.code);
+        var title = "Custom Code";
         this.currentSample = "";
-        this.textarea.setValue(code);
-        this.__widgets["toolbar.runButton"].execute();
-        var title = "Custom Code"
+        
+        try {
+          var data = qx.util.Json.parse(state);
+          var code = decodeURIComponent(data.code);
+          this.textarea.setValue(code);
+        } catch (e) {
+          title = "Unreadable Custom Code";
+          var errorMessage = "Unable to read the URL parameter.";
+          if (qx.bom.client.Engine.MSHTML) {
+            errorMessage += "\nYour browser has a length restriction of the " + 
+                            "URL parameter which could have caused the problem.";
+          }
+          alert(errorMessage);
+        }
+        this.__widgets["toolbar.runButton"].execute();        
 
       } else {
         state = qx.lang.Object.getKeys(this.__sampleContainer)[0];
@@ -237,6 +251,7 @@ qx.Class.define("playground.Application",
       qx.event.Timer.once(function() {
         this.__history.addToHistory(state,
             this.__updateTitle(this.__decodeSampleId(title)));
+        this.playAreaCaption.setValue(this.__decodeSampleId(title));
       }, this, 0);
     },
 
@@ -491,7 +506,7 @@ qx.Class.define("playground.Application",
       var title = this.__decodeSampleId(this.currentSample);
       this.code = 'this.info("' + this.tr("Starting application") +
         (title ? " '" + title + "'": "") +
-        ' ...");\n' + this.code +
+        ' ...");\n' + this.code || "" +
         'this.info("' + this.tr("Successfully started") + '.");\n';
 
       try
@@ -620,11 +635,15 @@ qx.Class.define("playground.Application",
           var code = this.textarea.getValue();
         }
 
-        var userCode = this.showSyntaxHighlighting ?
-                       this.editor.getCode() :
-                       this.textarea.getValue();
-        if (escape(userCode) != escape(this.__sampleContainer[this.currentSample]).replace(/%0D/g, "")) {
-          this.__history.addToHistory('{"code": ' + '"' + encodeURIComponent(code) + '"}');
+        if (escape(code) != escape(this.__sampleContainer[this.currentSample]).replace(/%0D/g, "")) {
+          var codeJson = '{"code": ' + '"' + encodeURIComponent(code) + '"}';
+          if (qx.bom.client.Engine.MSHTML && codeJson.length > 1300) {
+            if (!this.__ignoreSaveFaults && confirm("Could not save your code in the url because it is too much code. Do you want to ignore it?")) {
+              this.__ignoreSaveFaults = true;
+            };
+            return;
+          }
+          this.__history.addToHistory(codeJson);
         }
       },
       this);
@@ -707,7 +726,7 @@ qx.Class.define("playground.Application",
         this.editor.frame.style.visibility = "hidden";
 
         this.showSyntaxHighlighting = false;
-}
+      }
    },
 
 
