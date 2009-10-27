@@ -495,35 +495,31 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
     /**
      * Moves a column.
      *
-     * @param fromOverXPos {Integer} the overall x postion of the column to move.
-     * @param toOverXPos {Integer} the overall x postion of where the column should be
+     * @param fromOverXPos {Integer} the overall x position of the column to move.
+     * @param toOverXPos {Integer} the overall x position of where the column should be
      *      moved to.
      */
     moveColumn : function(fromOverXPos, toOverXPos)
     {
       this.__internalChange = true;
-      try{
 
-        var col = this.__overallColumnArr[fromOverXPos];
-        var visible = this.isColumnVisible(col);
-  
-        if (visible) {
-          this.setColumnVisible(col, false);
-        }
-  
-        this.__overallColumnArr.splice(fromOverXPos, 1);
-        this.__overallColumnArr.splice(toOverXPos, 0, col);
-  
-        // Invalidate the __colToXPosMap
-        this.__colToXPosMap = null;
-  
-        if (visible) {
-          this.setColumnVisible(col, true);
-        }
-  
-      } finally {
-        this.__internalChange = false;
+      var col = this.__overallColumnArr[fromOverXPos];
+      var visible = this.isColumnVisible(col);
+
+      if (visible) {
+        this.setColumnVisible(col, false);
       }
+
+      this.__overallColumnArr.splice(fromOverXPos, 1);
+      this.__overallColumnArr.splice(toOverXPos, 0, col);
+
+      // Invalidate the __colToXPosMap
+      this.__colToXPosMap = null;
+
+      if (visible) {
+        this.setColumnVisible(col, true);
+      }
+      this.__internalChange = false;
 
       // Inform the listeners
       var data =
@@ -552,35 +548,32 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
       {
         this.__internalChange = true;
         
-        try {
-          
-          // Go through each column an switch visible ones to invisible. Reason is unknown,
-          // this just mimicks the behaviour of moveColumn. Possibly useful because setting
-          // a column visible later updates a map with its screen coords.
-          var isVisible = new Array(newPositions.length);
-          for (var colIdx = 0; colIdx < this.__overallColumnArr.length; colIdx++){
-            var visible = this.isColumnVisible(colIdx);
-            isVisible[colIdx] = visible; //Remember, as this relies on this.__colToXPosMap which is cleared below
-            if (visible){
-              this.setColumnVisible(colIdx, false);
-            }
+        // Go through each column an switch visible ones to invisible. Reason is unknown,
+        // this just mimicks the behaviour of moveColumn. Possibly useful because setting
+        // a column visible later updates a map with its screen coords.
+        var isVisible = new Array(newPositions.length);
+        for (var colIdx = 0; colIdx < this.__overallColumnArr.length; colIdx++)
+        {
+          var visible = this.isColumnVisible(colIdx);
+          isVisible[colIdx] = visible; //Remember, as this relies on this.__colToXPosMap which is cleared below
+          if (visible){
+            this.setColumnVisible(colIdx, false);
           }
-
-          // Store new position values 
-          this.__overallColumnArr = qx.lang.Array.clone(newPositions);
-    
-          // Invalidate the __colToXPosMap
-          this.__colToXPosMap = null;
-          
-          // Go through each column an switch invisible ones back to visible
-          for (var colIdx = 0; colIdx < this.__overallColumnArr.length; colIdx++){
-            if (isVisible[colIdx]) {
-              this.setColumnVisible(colIdx, true);
-            }
-          }
-        } finally {
-          this.__internalChange = false;
         }
+
+        // Store new position values 
+        this.__overallColumnArr = qx.lang.Array.clone(newPositions);
+  
+        // Invalidate the __colToXPosMap
+        this.__colToXPosMap = null;
+        
+        // Go through each column an switch invisible ones back to visible
+        for (var colIdx = 0; colIdx < this.__overallColumnArr.length; colIdx++){
+          if (isVisible[colIdx]) {
+            this.setColumnVisible(colIdx, true);
+          }
+        }
+        this.__internalChange = false;
         
         // Inform the listeners. Do not add data as all known listeners in qooxdoo
         // only take this event to mean "total repaint necesscary". Fabian will look
