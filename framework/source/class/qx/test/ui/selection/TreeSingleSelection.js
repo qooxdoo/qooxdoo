@@ -83,6 +83,43 @@ qx.Class.define("qx.test.ui.selection.TreeSingleSelection",
 
     _createTestElement : function(name) {
       return new qx.ui.tree.TreeFile(name);
+    },
+    
+    
+    testFolderOpen : function() 
+    {
+      var tree = new qx.ui.tree.Tree();
+      this.getRoot().add(tree);
+
+      var root = new qx.ui.tree.TreeFolder("root");
+      tree.setRoot(root);
+
+      var f1 = new qx.ui.tree.TreeFolder("f1");
+      var f2 = new qx.ui.tree.TreeFolder("f2");
+
+      root.add(f1);
+      f1.add(f2);
+
+      // select the first folder
+      tree.setSelection([f1]);
+
+      // check if the root is opened
+      this.assertTrue(root.getOpen());
+      
+      // close the root
+      root.setOpen(false);
+      
+      // select the second folder
+      tree.setSelection([f2]);
+      
+      // check if the root and f1 is open
+      this.assertTrue(root.getOpen());
+      this.assertTrue(f1.getOpen());      
+      
+      f1.destroy();
+      f2.destroy();
+      root.destroy();
+      tree.destroy();
     }
   }
 });
