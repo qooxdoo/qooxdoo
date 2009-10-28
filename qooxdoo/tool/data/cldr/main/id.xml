@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.6/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.66 $"/>
-		<generation date="$Date: 2008/05/28 15:49:32 $"/>
+		<version number="$Revision: 1.77 $"/>
+		<generation date="$Date: 2009/06/15 03:46:23 $"/>
 		<language type="id"/>
 	</identity>
 	<localeDisplayNames>
@@ -994,17 +994,17 @@
 				<dateFormats>
 					<dateFormatLength type="full">
 						<dateFormat>
-							<pattern draft="unconfirmed">EEEE dd MMMM yyyy</pattern>
+							<pattern>EEEE, dd MMMM yyyy</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="long">
 						<dateFormat>
-							<pattern draft="contributed">dd MMMM yyyy</pattern>
+							<pattern>d MMMM yyyy</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="medium">
 						<dateFormat>
-							<pattern draft="contributed">dd MMM yyyy</pattern>
+							<pattern>d MMM yyyy</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="short">
@@ -1016,38 +1016,33 @@
 				<timeFormats>
 					<timeFormatLength type="full">
 						<timeFormat>
-							<pattern draft="unconfirmed">H:mm:ss v</pattern>
+							<pattern draft="unconfirmed">H:mm:ss zzzz</pattern>
 						</timeFormat>
 					</timeFormatLength>
 					<timeFormatLength type="long">
 						<timeFormat>
-							<pattern draft="unconfirmed">H:mm:ss z</pattern>
+							<pattern>HH:mm:ss z</pattern>
 						</timeFormat>
 					</timeFormatLength>
 					<timeFormatLength type="medium">
 						<timeFormat>
-							<pattern draft="unconfirmed">H:mm:ss</pattern>
+							<pattern>HH:mm:ss</pattern>
 						</timeFormat>
 					</timeFormatLength>
 					<timeFormatLength type="short">
 						<timeFormat>
-							<pattern draft="unconfirmed">H:mm</pattern>
+							<pattern>HH:mm</pattern>
 						</timeFormat>
 					</timeFormatLength>
 				</timeFormats>
 				<dateTimeFormats>
-					<dateTimeFormatLength>
-						<dateTimeFormat>
-							<pattern draft="unconfirmed">{1} {0}</pattern>
-						</dateTimeFormat>
-					</dateTimeFormatLength>
 					<availableFormats>
-						<dateFormatItem id="MMMMdd" draft="unconfirmed">dd MMMM</dateFormatItem>
 						<dateFormatItem id="MMdd" draft="unconfirmed">dd/MM</dateFormatItem>
+						<dateFormatItem id="MMMMdd" draft="unconfirmed">dd MMMM</dateFormatItem>
 						<dateFormatItem id="mmss" draft="unconfirmed">mm:ss</dateFormatItem>
 						<dateFormatItem id="yyMM" draft="unconfirmed">MM/yy</dateFormatItem>
 						<dateFormatItem id="yyQ" draft="unconfirmed">Q yy</dateFormatItem>
-						<dateFormatItem id="yyyyMMMM" draft="unconfirmed">MMMM yyyy</dateFormatItem>
+						<dateFormatItem id="yyyyMMMM" draft="unconfirmed">MMMM y</dateFormatItem>
 					</availableFormats>
 				</dateTimeFormats>
 			</calendar>
@@ -1205,7 +1200,6 @@
 			</currency>
 			<currency type="IDR">
 				<displayName draft="provisional">Rupiah Indonesia</displayName>
-				<symbol>Rp</symbol>
 			</currency>
 			<currency type="ILS">
 				<displayName draft="provisional">Shekel Israel</displayName>
@@ -1308,6 +1302,36 @@
 			</currency>
 		</currencies>
 	</numbers>
+	<units>
+		<unit type="day">
+			<unitPattern count="other">{0} hari</unitPattern>
+			<unitPattern count="other" alt="short">{0} hr</unitPattern>
+		</unit>
+		<unit type="hour">
+			<unitPattern count="other">{0} jam</unitPattern>
+			<unitPattern count="other" alt="short">{0} jam</unitPattern>
+		</unit>
+		<unit type="minute">
+			<unitPattern count="other">{0} menit</unitPattern>
+			<unitPattern count="other" alt="short">{0} mnt</unitPattern>
+		</unit>
+		<unit type="month">
+			<unitPattern count="other">{0} bulan</unitPattern>
+			<unitPattern count="other" alt="short">{0} bln</unitPattern>
+		</unit>
+		<unit type="second">
+			<unitPattern count="other">{0} detik</unitPattern>
+			<unitPattern count="other" alt="short">{0} dtk</unitPattern>
+		</unit>
+		<unit type="week">
+			<unitPattern count="other">{0} minggu</unitPattern>
+			<unitPattern count="other" alt="short">{0} mggu</unitPattern>
+		</unit>
+		<unit type="year">
+			<unitPattern count="other">{0} tahun</unitPattern>
+			<unitPattern count="other" alt="short">{0} thn</unitPattern>
+		</unit>
+	</units>
 	<posix>
 		<messages>
 			<yesstr draft="unconfirmed">ya:y</yesstr>
@@ -1315,16 +1339,4 @@
 		</messages>
 	</posix>
 </ldml>
-<!-- Old Comments. See root.xml for more info.
-URL: http://oss.software.ibm.com/cvs/icu/icu/source/data/locales/id.txt?only_with_tag=final-update-LDML
 
-Significant contributions from Mohammad DAMT
-Currency display names
-        el  { "Yunani" } //  Modern (1453-)
-The range qaa-qtz is reserved for local use.
-        vo  { "Volap\u00FCk" }   // Yes the iso-639 standard uses the umlaut in the English name
-       "Latn",  // ISO 15924 Name 
-AmPmMarkers{}
-Eras{}
-localPatternChars{}
--->
