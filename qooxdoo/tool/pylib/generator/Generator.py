@@ -1356,7 +1356,7 @@ class Generator(object):
         generator = self
         generator._console.debug("_copyResource: %s => %s" % (srcPath, targPath))
         copier = robocopy.PyRobocopier(generator._console)
-        copier.parse_args(['-c', '-s', '-x', '.svn', srcPath, targPath])
+        copier.parse_args(['-f', '-c', '-s', '-x', '.svn', srcPath, targPath])
         copier.do_work()
 
 
